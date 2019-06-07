@@ -1,0 +1,185 @@
+Model
+**
+** This is comment
+**
+    Parameters
+        *HEADING
+        *DESIGN VARIABLES
+        *PHYSICAL CONSTANTS
+        *VALUES AT INFINITY
+        *SUBMODEL
+            *DSLOAD
+
+    Mesh
+        *NODE
+        *NSET
+        *ELEMENT
+            *USER ELEMENT
+        *ELSET
+        *SURFACE
+        *GAP
+
+    Properties
+        *NODAL THICKNESS
+        *NORMAL
+        *MASS
+        *SPRING
+        *DASHPOT
+        *MATERIAL
+            *CONDUCTIVITY
+            *CREEP
+            *CYCLIC HARDENING
+            *DAMPING
+            *DEFORMATION PLASTICITY
+            *DENSITY
+            *DEPVAR
+            *ELASTIC
+            *ELECTRICAL CONDUCTIVITY
+            *EXPANSION
+            *FLUID CONSTANTS
+            *HYPERELASTIC
+            *HYPERFOAM
+            *MAGNETIC PERMEABILITY
+            *PLASTIC
+            *SPECIFIC GAS CONSTANT
+            *SPECIFIC HEAT
+            *USER MATERIAL
+
+        Section
+            *BEAM SECTION
+                -ELSET, required
+                -MATERIAL, required
+                -SECTION, required: RECT, CIRC, PIPE, BOX
+                -ORIENTATION
+                -OFFSET1
+                -OFFSET2
+                -NODAL THICKNESS
+            *FLUID SECTION
+            *MEMBRANE SECTION
+            *SHELL SECTION
+            *SOLID SECTION
+            *PRE-TENSION SECTION
+
+    *ORIENTATION
+    *TRANSFORM
+    *TRANSFORMF
+    *AMPLITUDE
+        -NAME, required
+        -TIME, optional: TOTAL TIME
+        -USER, optional
+        -SHIFTX, optional
+        -SHIFTY, optional
+    *BOUNDARY
+        -OP, optional
+        -AMPLITUDE, optional
+        -TIME DELAY, optional
+        -LOAD CASE, optional
+        -USER, optional
+        -MASS FLOW, optional
+        -FIXED, optional
+        -SUBMODEL, optional
+        -STEP, optional
+        -DATA SET, optional
+    *INCLUDE
+    *INITIAL CONDITIONS
+    *TIME POINTS
+
+    Constraints
+        *EQUATION
+        *MPC
+        *NETWORK MPC
+        *RIGID BODY
+        *COUPLING
+        *DISTRIBUTING
+        *DISTRIBUTING COUPLING
+        *KINEMATIC
+        *TIE
+        *CYCLIC SYMMETRY MODEL
+
+    Interactions
+        *CONTACT PAIR
+        *CLEARANCE
+        *SURFACE INTERACTION
+            *SURFACE BEHAVIOR
+                *FRICTION
+                *GAP CONDUCTANCE
+                *CONTACT DAMPING
+                *GAP HEAT GENERATION
+
+    *STEP
+        Analysis type
+            *NO ANALYSIS
+            *BUCKLE
+            *CFD
+            *COUPLED TEMPERATURE-DISPLACEMENT
+            *DYNAMIC
+            *ELECTROMAGNETICS
+            *FREQUENCY
+                *SELECT CYCLIC SYMMETRY MODES
+            *COMPLEX FREQUENCY
+            *GREEN
+            *HEAT TRANSFER
+                *VIEWFACTOR
+            *MODAL DYNAMIC
+                *BASE MOTION
+                    -DOF, required
+                    -AMPLITUDE, required
+                    -TYPE, optional: ACCELERATION, DISPLACEMENT
+            *SENSITIVITY
+                *CONSTRAINT
+                *OBJECTIVE
+                    *FILTER
+            *STATIC
+                *TEMPERATURE
+            *STEADY STATE DYNAMICS
+                *BASE MOTION
+                    -DOF, required
+                    -AMPLITUDE, required
+                    -TYPE, optional: ACCELERATION, DISPLACEMENT
+            *SUBSTRUCTURE GENERATE
+                *SUBSTRUCTURE MATRIX OUTPUT
+                *RETAINED NODAL DOFS
+            *UNCOUPLED TEMPERATURE-DISPLACEMENT
+            *VISCO
+
+        Field Output
+            *EL FILE
+            *EL PRINT
+            *NODE FILE
+            *NODE OUTPUT
+            *NODE PRINT
+            *CONTACT FILE
+            *CONTACT OUTPUT
+            *CONTACT PRINT
+            *ELEMENT OUTPUT
+            *SECTION PRINT
+
+        Load & BC
+            *BOUNDARY
+            *BOUNDARYF
+            *MASS FLOW
+            *CLOAD
+            *DLOAD
+            *CFLUX
+            *DFLUX
+            *RADIATE
+            *FILM
+            *MODAL DAMPING
+
+        Change
+            *INITIAL STRAIN INCREASE
+            *CHANGE FRICTION
+                *FRICTION
+            *CHANGE MATERIAL
+            *CHANGE PLASTIC
+            *CHANGE SURFACE BEHAVIOR
+            *CHANGE SOLID SECTION
+            *MODEL CHANGE
+
+        *CONTROLS
+        *EQUATION, REMOVE
+        *EQUATION, REMOVE ALL
+        *INCLUDE
+        *REFINE MESH
+        *RESTART
+        *END STEP
