@@ -7,16 +7,45 @@ Distributed under GNU General Public License, version 2.
 
 # CalculiX CAE
 
-GUI/pre-processor for CalculiX. Is based on CalculiX 2.15 keywords hierarchy. Written on Python3. Implements PyQT5 and VTK.
+GUI/pre-processor for CalculiX CrunchiX. Very simple, lightweight, free and open source.
+
+Is based on CalculiX 2.15 keywords hierarchy. Written in Python3. Implements PyQt5 and VTK.
 
 <br/><br/>
 
 
 
-# Install QT designer
+# Info for contributors
+
+Install QT designer
 
     sudo apt-get install qttools5-dev-tools
 
-Good examples for gitting started on VTK with Python:
+Good examples for getting started with VTK in Python:
 
     https://lorensen.github.io/VTKExamples/site/Python/
+
+<br/><br/>
+
+
+
+# TODO
+
+DistanceBetweenPoints:  
+https://lorensen.github.io/VTKExamples/site/Python/SimpleOperations/DistanceBetweenPoints/
+
+Import mesh from FRD, VTK, VTU:  
+https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/  
+https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/
+
+Axes:  
+https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/Axes/  
+https://lorensen.github.io/VTKExamples/site/Python/Visualization/DisplayCoordinateAxes/
+
+Screenshot:  
+https://lorensen.github.io/VTKExamples/site/Python/Utilities/Screenshot/
+
+Text actor for displaying model info:  
+https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/TextActor/
+
+Camera: perspective mode, parallel mode

@@ -9,81 +9,17 @@
     Reads nodes coordinates, elements composition, node and element sets, surfaces.
     Calculates elements cendroid coordinates.
     Generates triangles or quadrangles list to use with matplotlib.
-    'project_field_on_centroids' method interpolates node field to elements centroids.
+    Interpolates node field to elements centroids.
 """
+
 
 import numpy as np
 import matplotlib.tri as tri
+import logging
+
 
 # Mesh object, contains methods for .inp-file parsing
 class Mesh:
-
-    # All mesh nodes with coordinates
-    """
-        1: ( 0.0, -1742.5, 0.0),
-        2: (74.8, -1663.7, 0.0),
-        ...
-    """
-    nodes = {}
-
-    # All mesh elements composition
-    """
-        1: (1, 2),
-        2: (3, 4),
-        ...
-        11: (21, 22, 23),
-        12: (24, 25, 26),
-        ...
-    """
-    elements = {}
-    
-    # Element types
-    """
-        1: 'type1',
-        2: 'type2',
-        ...
-    """
-    types = {}
-
-    # Coordinates of all elements centroids
-    """
-        1: ( 0.0, -1742.5, 0.0),
-        2: (74.8, -1663.7, 0.0),
-        ...
-    """
-    centroids = {}
-    
-    # Node sets
-    """
-        'nset1': [1, 2, 3, 4],
-        'nset2': [5, 6, 7, 8],
-        ...
-    """
-    nsets = {}
-
-    # Element sets
-    """
-        'eset1': [1, 2, 3, 4],
-        'eset2': [5, 6, 7, 8],
-        ...
-    """
-    esets = {}
-
-    # Surface names
-    """
-        'surf1', 'surf2', 'surf3', 
-    """
-    surfaces = ()
-
-    # Additional mesh variables
-    cx = []; cy = [] # centroid coordinates as numpy array
-    nx = []; ny = [] # nodes coordinates as numpy array
-    triangles = () # triangles list to use with matplotlib
-    quadrangles = [] # quadrangles to use with matplotlib
-
-    # Some parameters
-    initialized = False
-
 
     # Parse nodes with coordinates
     # *NODE keyword
@@ -99,6 +35,7 @@ class Mesh:
                     i += 1
                 return
 
+
     # Parse node sets
     # *NSET keyword
     def get_nsets(self, lines):
@@ -112,6 +49,7 @@ class Mesh:
                         if len(n.strip()):
                             self.nsets[name] += (int(n), )
                     i += 1
+
 
     # Parse elements composition and calculate centroid
     # *ELEMENT keyword
@@ -141,6 +79,7 @@ class Mesh:
                     self.centroids[num] = (x, y, z) # centroid coordinates 3D
                     i += 1
 
+
     # Parse element sets
     # *ELSET keyword
     def get_esets(self, lines):
@@ -157,6 +96,7 @@ class Mesh:
                             pass
                     i += 1
 
+
     # Parse surfaces
     # *SURFACE keyword
     def get_surfaces(self, lines):
@@ -164,6 +104,7 @@ class Mesh:
             if line.startswith('*SURFACE'):
                 name = line.upper().split('NAME=')[1].split(',')[0]
                 self.surfaces += (name, )
+
 
     # Set additional variables
     def set_additional_vars(self):
@@ -194,8 +135,76 @@ class Mesh:
                 else:
                     self.quadrangles = [quad]
 
+
     # Initialization
     def __init__(self, inp_file):
+
+        # All mesh nodes with coordinates
+        """
+            1: ( 0.0, -1742.5, 0.0),
+            2: (74.8, -1663.7, 0.0),
+            ...
+        """
+        self.nodes = {}
+
+        # All mesh elements composition
+        """
+            1: (1, 2),
+            2: (3, 4),
+            ...
+            11: (21, 22, 23),
+            12: (24, 25, 26),
+            ...
+        """
+        self.elements = {}
+        
+        # Element types
+        """
+            1: 'type1',
+            2: 'type2',
+            ...
+        """
+        self.types = {}
+
+        # Coordinates of all elements centroids
+        """
+            1: ( 0.0, -1742.5, 0.0),
+            2: (74.8, -1663.7, 0.0),
+            ...
+        """
+        self.centroids = {}
+        
+        # Node sets
+        """
+            'nset1': [1, 2, 3, 4],
+            'nset2': [5, 6, 7, 8],
+            ...
+        """
+        self.nsets = {}
+
+        # Element sets
+        """
+            'eset1': [1, 2, 3, 4],
+            'eset2': [5, 6, 7, 8],
+            ...
+        """
+        self.esets = {}
+
+        # Surface names
+        """
+            'surf1', 'surf2', 'surf3', 
+        """
+        self.surfaces = ()
+
+        # Additional mesh variables
+        self.cx = []; self.cy = [] # centroid coordinates as numpy array
+        self.nx = []; self.ny = [] # nodes coordinates as numpy array
+        self.triangles = () # triangles list to use with matplotlib
+        self.quadrangles = [] # quadrangles to use with matplotlib
+
+        # Some parameters
+        self.initialized = False
+
         # Open and read all the .inp-file
         lines = []
         with open(inp_file, 'r') as f:
@@ -207,12 +216,12 @@ class Mesh:
         self.get_elements(lines) # parse elements
         self.get_esets(lines) # parse node sets
         self.get_surfaces(lines) # parse surfaces
-        print('Total:')
-        print('\t{0} nodes'.format(len(self.nodes)))
-        print('\t{0} elements'.format(len(self.elements)))
-        print('\t{0} centroids'.format(len(self.centroids)))
-        print('\t{0} nsets'.format(len(self.nsets)))
-        print('\t{0} esets'.format(len(self.esets)))
+        logging.info('Total:')
+        logging.info('\t{0} nodes'.format(len(self.nodes)))
+        logging.info('\t{0} elements'.format(len(self.elements)))
+        logging.info('\t{0} centroids'.format(len(self.centroids)))
+        logging.info('\t{0} nsets'.format(len(self.nsets)))
+        logging.info('\t{0} esets'.format(len(self.esets)))
         self.set_additional_vars()
         self.initialized = True
 
@@ -231,6 +240,7 @@ class Mesh:
         res = [x if type(x)==np.float64 else np.float64(0) for x in res] # zero values outside field triangles
         res = res / max(res) * max(field_values) # diminish interpolation error
         return res
+
 
     # Convert Calculix element type to VTK
     @staticmethod

@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>ccx_icon.png</normaloff>ccx_icon.png</iconset>
+    <normaloff>icons/ccx_icon.png</normaloff>icons/ccx_icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -42,48 +42,49 @@
     </property>
     <item>
      <widget class="QSplitter" name="splitter_2">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
       <widget class="QSplitter" name="splitter">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
-         <verstretch>10</verstretch>
+         <verstretch>7</verstretch>
         </sizepolicy>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="QTreeWidget" name="tree_widget">
+       <widget class="QTreeView" name="tree_view">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>1</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>0</height>
-         </size>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
         </property>
-        <property name="headerHidden">
-         <bool>true</bool>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
         </property>
-        <column>
-         <property name="text">
-          <string notr="true">1</string>
-         </property>
-        </column>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectItems</enum>
+        </property>
+        <property name="allColumnsShowFocus">
+         <bool>false</bool>
+        </property>
+        <property name="expandsOnDoubleClick">
+         <bool>false</bool>
+        </property>
+        <attribute name="headerVisible">
+         <bool>false</bool>
+        </attribute>
        </widget>
        <widget class="QFrame" name="frame_widget">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>3</horstretch>
+          <horstretch>2</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
@@ -98,8 +99,8 @@
           <rect>
            <x>29</x>
            <y>29</y>
-           <width>551</width>
-           <height>401</height>
+           <width>91</width>
+           <height>141</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="vl">
@@ -144,13 +145,40 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionImportInpMesh"/>
+    <addaction name="actionImportMeshFromInp"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <action name="actionImportInpMesh">
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionResetCamera"/>
+  </widget>
+  <action name="actionImportMeshFromInp">
    <property name="text">
     <string>Import .inp mesh</string>
+   </property>
+  </action>
+  <action name="actionResetCamera">
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/focus.svg</normaloff>icons/focus.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Reset camera</string>
    </property>
   </action>
  </widget>
