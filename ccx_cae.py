@@ -122,15 +122,23 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
         self.frame_widget.setLayout(self.vl)
 
         # Tune camera
-        camera = self.renderer.GetActiveCamera()
-        x, y, z = ugrid.GetCenter()
-        if abs(x) > 1e+5: x = 0
-        if abs(y) > 1e+5: y = 0
-        if abs(z) > 1e+5: z = 0
-        coords = (x,y,z)
-        logging.info('Setting center to ' + str(coords))
-        camera.SetFocalPoint(coords) # model's center
-        # TODO problems with ugrid GetCenter
+        # camera = self.renderer.GetActiveCamera()
+        # (x,y,z) = ugrid.GetCenter()
+        # if abs(x) > 1e+5: x = 0
+        # if abs(y) > 1e+5: y = 0
+        # if abs(z) > 1e+5: z = 0
+        # camera.SetFocalPoint(x,y,z) # model's center
+        # logging.info('Setting focal point to ' + str((x,y,z)))
+        # logging.info('Data bounds are ' + str(ugrid.GetBounds()))
+        # logging.info('Camera\'s position is ' + str(camera.GetPosition()))
+        # logging.info('Camera\'s ViewUp is ' + str(camera.GetViewUp()))
+        # logging.info('Camera\'s distance is ' + str(camera.GetDistance()))
+        # logging.info('Camera\'s Roll is ' + str(camera.GetRoll()))
+        # logging.info('Camera\'s ViewAngle is ' + str(camera.GetViewAngle()))
+        # logging.info('Camera\'s ParallelScale is ' + str(camera.GetParallelScale()))
+        # logging.info('Camera\'s ClippingRange is ' + str(camera.GetClippingRange()))
+        # logging.info('Camera\'s WindowCenter is ' + str(camera.GetWindowCenter()))
+        # logging.info('Camera\'s orientation is ' + str(camera.GetOrientation())) # TODO camera is rotated
 
         # Render mesh
         self.renderer.ResetCamera() # automatically set up the camera based on the visible actors
@@ -193,13 +201,13 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
             mesh = Mesh(file_name) # parse mesh
             points = vtk.vtkPoints()
             for n in mesh.nodes.keys(): # create VTK points from mesh nodes
-                points.InsertPoint(n, mesh.nodes[n])
+                points.InsertPoint(n-1, mesh.nodes[n]) # node numbers should start from 0!
             ugrid = vtk.vtkUnstructuredGrid() # create empty grid in VTK
             ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
             ugrid.SetPoints(points) # insert all points to the grid
             for e in mesh.elements.keys():
                 vtk_element_type = Mesh.convert_elem_type(mesh.types[e])
-                node_numbers = mesh.elements[e] # list of nodes in the element
+                node_numbers = [n-1 for n in mesh.elements[e]] # list of nodes in the element: node numbers should start from 0!
                 ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
 
             logging.info('Successfully loaded ' + file_name + '.')
@@ -246,6 +254,7 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
             ugrid.InsertNextCell(vtk.VTK_HEXAHEDRON, 8, element)
             return ugrid
     """
+
 
 if __name__ == '__main__':
 

@@ -33,6 +33,7 @@ class Mesh:
                     for coord in a[1:]:
                         self.nodes[num] += (float(coord.strip()), ) # add coordinate to tuple
                     i += 1
+                    # logging.info('Node ' + str(num) + ': ' + str(self.nodes[num]))
                 return
 
 
