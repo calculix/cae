@@ -138,7 +138,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>31</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -147,7 +147,15 @@
     </property>
     <addaction name="actionImportMeshFromInp"/>
    </widget>
+   <widget class="QMenu" name="menuSelect">
+    <property name="title">
+     <string>Select</string>
+    </property>
+    <addaction name="actionSelectNodes"/>
+    <addaction name="actionSelectElements"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuSelect"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
@@ -165,20 +173,30 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionResetCamera"/>
+   <addaction name="actionCameraFitView"/>
   </widget>
   <action name="actionImportMeshFromInp">
    <property name="text">
     <string>Import .inp mesh</string>
    </property>
   </action>
-  <action name="actionResetCamera">
+  <action name="actionCameraFitView">
    <property name="icon">
     <iconset>
-     <normaloff>icons/focus.svg</normaloff>icons/focus.svg</iconset>
+     <normaloff>icons/camera_fit_view.svg</normaloff>icons/camera_fit_view.svg</iconset>
    </property>
    <property name="text">
     <string>Reset camera</string>
+   </property>
+  </action>
+  <action name="actionSelectNodes">
+   <property name="text">
+    <string>Nodes</string>
+   </property>
+  </action>
+  <action name="actionSelectElements">
+   <property name="text">
+    <string>Elements</string>
    </property>
   </action>
  </widget>

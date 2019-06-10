@@ -19,7 +19,7 @@ Is based on CalculiX 2.15 keywords hierarchy. Written in Python3. Implements PyQ
 
 Install QT designer
 
-    sudo apt-get install qttools5-dev-tools
+    sudo apt install qttools5-dev-tools
 
 Good examples for getting started with VTK in Python:
 
