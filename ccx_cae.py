@@ -10,11 +10,12 @@
 """
 
 
-import sys, os, vtk, logging, argparse, math
+import sys, os, vtk, argparse, logging
 from PyQt5 import QtWidgets, uic, QtGui
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from INPParser import Mesh
-from ccx_style import MouseInteractorHighLightActor
+from ccx_select_style import *
+from ccx_dom import *
 
 
 # Read the form with GUI
@@ -34,9 +35,8 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         # Configure logging
-        logging.info = self.log_widget.append
-        logging.error = self.log_widget.append
-        logging.info('Window created.')
+        logging.info = self.logging_info
+        logging.error = self.logging_error
 
         # Create VTK widget
         self.createVTKWidget()
@@ -48,7 +48,7 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
         parser = argparse.ArgumentParser()
         parser.add_argument("--mesh", "-mesh",
                             help="Mesh .inp file",
-                            type=str, default='ccx_mesh_baffle.inp')
+                            type=str, default='mesh_baffle.inp')
         args = parser.parse_args()
 
         # Creates VTK widget with default ugrid, adds it to the form
@@ -60,6 +60,7 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionCameraFitView.triggered.connect(self.cameraFitView)
         self.actionSelectNodes.triggered.connect(self.selectNodes)
         self.actionSelectElements.triggered.connect(self.selectElements)
+        self.actionClearSelection.triggered.connect(self.clearSelection)
 
 
     # Create VTK widget and draw some object: called once during startup
@@ -94,23 +95,19 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
         self.renderer.SetBackground(1, 1, 1)
 
         # Tune camera
-        self.camera = self.renderer.GetActiveCamera()
-        # (x,y,z) = ugrid.GetCenter()
-        # if abs(x) > 1e+5: x = 0
-        # if abs(y) > 1e+5: y = 0
-        # if abs(z) > 1e+5: z = 0
-        # self.camera.SetFocalPoint(x,y,z) # model's center
-        # logging.info('Setting focal point to ' + str((x,y,z)))
-        # logging.info('Data bounds are ' + str(ugrid.GetBounds()))
-        logging.info('Camera\'s position is ' + str(self.camera.GetPosition()))
-        logging.info('Camera\'s ViewUp is ' + str(self.camera.GetViewUp()))
-        logging.info('Camera\'s distance is ' + str(self.camera.GetDistance()))
-        logging.info('Camera\'s Roll is ' + str(self.camera.GetRoll()))
-        logging.info('Camera\'s ViewAngle is ' + str(self.camera.GetViewAngle()))
-        logging.info('Camera\'s ParallelScale is ' + str(self.camera.GetParallelScale()))
-        logging.info('Camera\'s ClippingRange is ' + str(self.camera.GetClippingRange()))
-        logging.info('Camera\'s WindowCenter is ' + str(self.camera.GetWindowCenter()))
-        logging.info('Camera\'s orientation is ' + str(self.camera.GetOrientation())) # TODO camera is rotated
+        """
+            self.camera = self.renderer.GetActiveCamera()
+            self.logging_info('Camera\'s focal point is ' + str(self.camera.GetFocalPoint()))
+            self.logging_info('Camera\'s position is ' + str(self.camera.GetPosition()))
+            self.logging_info('Camera\'s ViewUp is ' + str(self.camera.GetViewUp()))
+            self.logging_info('Camera\'s distance is ' + str(self.camera.GetDistance()))
+            self.logging_info('Camera\'s Roll is ' + str(self.camera.GetRoll()))
+            self.logging_info('Camera\'s ViewAngle is ' + str(self.camera.GetViewAngle()))
+            self.logging_info('Camera\'s ParallelScale is ' + str(self.camera.GetParallelScale()))
+            self.logging_info('Camera\'s ClippingRange is ' + str(self.camera.GetClippingRange()))
+            self.logging_info('Camera\'s WindowCenter is ' + str(self.camera.GetWindowCenter()))
+            self.logging_info('Camera\'s orientation is ' + str(self.camera.GetOrientation())) # TODO camera is rotated
+        """
 
         # Add orientation axes
         self.axes = vtk.vtkAxesActor()
@@ -139,38 +136,47 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
         self.interactor.Start()
 
 
+    # Logging functions
+    def logging_info(self, msg):
+        self.log_widget.append('<span style=\'color:Black;\'>' + msg + '</span>')
+        self.log_widget.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+    def logging_error(self, msg):
+        self.log_widget.append('<span style=\'color:Red;\'>' + msg + '</span>')
+        self.log_widget.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+
+
     # Read CalculiX keywords hierarchy
     def readObjectModel(self):
-        self.model = QtGui.QStandardItemModel()
-        tree_dict = {}
         try:
-            with open('ccx_dom.txt', 'r') as f:
-                lines = f.readlines() # read the whole file
-                for line in lines: # iterate over keywords
+            dom = ccx_dom()
+            # self.model = QtGui.QStandardItemModel()
+            # tree_dict = {}
+            # with open('ccx_dom.txt', 'r') as f:
+            #     lines = f.readlines() # read the whole file
+            #     for line in lines: # iterate over keywords
 
-                    # Skip comments and empty lines
-                    if line.strip() == '': continue 
-                    if line.strip().startswith('**'): continue
-                    if line.strip().startswith('-'): continue
+            #         # Skip comments and empty lines
+            #         if line.strip() == '': continue 
+            #         if line.strip().startswith('**'): continue
+            #         if line.strip().startswith('-'): continue
 
-                    level = 0
-                    keyword = line.rstrip() # cut '\n'
-                    while keyword.startswith('    '):
-                        level += 1
-                        keyword = keyword[4:]
+            #         level = 0
+            #         keyword = line.rstrip() # cut '\n'
+            #         while keyword.startswith('\t'):
+            #             level += 1
+            #             keyword = keyword[1:]
 
-                    if level == 0:
-                        tree_dict[0] = self.model.invisibleRootItem()
-                    else:
-                        tree_dict[level] = QtGui.QStandardItem(line.strip())
-                        tree_dict[level-1].setChild(tree_dict[level-1].rowCount(), tree_dict[level])
+            #         if level == 0:
+            #             tree_dict[0] = self.model.invisibleRootItem()
+            #         else:
+            #             tree_dict[level] = QtGui.QStandardItem(line.strip())
+            #             tree_dict[level-1].setChild(tree_dict[level-1].rowCount(), tree_dict[level])
 
-                self.tree_view.setModel(self.model)
-                self.tree_view.expandAll()
-            logging.info('CalculiX object model generated.')
+            #     self.tree_view.setModel(self.model)
+            #     self.tree_view.expandAll()
+            self.logging_info('CalculiX object model generated.')
         except:
-            logging.error('<span style=\'color: Red\'>Error reading keywords hierarchy!</span>')
-        self.log_widget.ensureCursorVisible() # scroll text to the end
+            self.logging_error('Can\'t generate keywords hierarchy!')
 
 
     # Import mesh and display it in the VTK widget
@@ -179,7 +185,7 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
             file_name = QtWidgets.QFileDialog.getOpenFileName(self,\
                 'Import .inp mesh', '', 'Input files (*.inp);;All Files (*)')[0]
 
-        logging.info('Loading ' + file_name + '.')
+        self.logging_info('Loading ' + file_name + '.')
 
         if file_name:
             # Parse mesh and transfer it to VTK
@@ -198,8 +204,7 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
             self.mapper.SetInputData(self.ugrid) # ugrid is our mesh data
             self.cameraFitView() # reset camera
 
-            logging.info('Rendering OK.')
-            self.log_widget.ensureCursorVisible() # scroll text to the end
+            self.logging_info('Rendering OK.')
 
 
     # Automatically set up the camera
@@ -213,91 +218,30 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
     def treeViewDoubleClicked(self, index):
         item = index.model().itemFromIndex(index)
         if item.text().startswith('*'):
-            logging.info(item.text())
-            self.log_widget.ensureCursorVisible() # scroll text to the end
+            self.logging_info(item.text())
 
 
-    # Menu Select -> Nodes
+    # Menu Select->Nodes
     def selectNodes(self):
-        point_picker = vtk.vtkPointPicker()
-        self.interactor.SetPicker(point_picker)
-        point_picker.AddObserver("StartPickEvent", self.pickPoint)
-        point_picker.AddObserver("PickEvent", self.pickPoint)
-        point_picker.AddObserver("EndPickEvent", self.pickPoint)
+        self.clearSelection() # clear selection before new call
+        style = ccx_select_nodes_style(self.renderer, self.window, self.log_widget)
+        self.interactor.SetInteractorStyle(style)
 
 
-    def pickPoint(self, object, event):
-        node_id = object.GetPointId()
-        logging.info('Node ' + str(node_id))
-
-        points = vtk.vtkPoints()
-        points.InsertPoint(0, object.GetMapperPosition())
-
-        vertex = vtk.vtkVertex()
-        vertex.GetPointIds().SetId(0, 0)
-
-        vertices = vtk.vtkCellArray()
-        vertices.InsertNextCell(vertex)
-
-        polydata = vtk.vtkPolyData()
-        polydata.SetPoints(points)
-        polydata.SetVerts(vertices)
-
-        selected_mapper = vtk.vtkPolyDataMapper()
-        selected_mapper.SetInputData(polydata)
-
-        actor = vtk.vtkActor()
-        actor.SetMapper(selected_mapper)
-        actor.GetProperty().SetPointSize(10)
-        actor.GetProperty().SetColor(1.0, 0.0, 0.0)
-
-        self.renderer.AddActor(actor)
-        self.window.Render()
-
-
-    # Menu Select -> Elements
+    # Menu Select->Elements
     def selectElements(self):
-        cell_picker = vtk.vtkCellPicker()
-        self.interactor.SetPicker(cell_picker)
-        cell_picker.AddObserver("PickEvent", self.pickCell)
+        self.clearSelection() # clear selection before new call
+        style = ccx_select_elements_style(self.renderer, self.window, self.ugrid, self.log_widget)
+        self.interactor.SetInteractorStyle(style)
 
 
-    def pickCell(self, object, event):
-        cell_id = object.GetCellId() # object is cell_picker
-        logging.info('Element ' + str(cell_id))
-
-        ids_to_hightlight = [cell_id, ]
-        ids = vtk.vtkIdTypeArray() 
-        ids.SetNumberOfComponents(1) 
-        ids.Allocate(len(ids_to_hightlight)) 
-        for i in ids_to_hightlight: 
-            ids.InsertNextValue(i)
-
-        selection_node = vtk.vtkSelectionNode() 
-        selection_node.SetFieldType(vtk.vtkSelectionNode.CELL) # CELL POINT VERTEX
-        selection_node.SetContentType(vtk.vtkSelectionNode.INDICES)
-        selection_node.SetSelectionList(ids)
-
-        selection = vtk.vtkSelection() 
-        selection.AddNode(selection_node) 
-
-        extract_selection = vtk.vtkExtractSelection() 
-        extract_selection.SetInputData(0, self.ugrid) 
-        extract_selection.SetInputData(1, selection) 
-        extract_selection.Update() 
-
-        grid_selected = vtk.vtkUnstructuredGrid() 
-        grid_selected.ShallowCopy(extract_selection.GetOutput()) 
-
-        selected_mapper = vtk.vtkDataSetMapper()
-        selected_mapper.SetInputData(grid_selected) 
-
-        actor = vtk.vtkActor()
-        actor.SetMapper(selected_mapper)
-        actor.GetProperty().SetColor(1.0, 0.0, 0.0)
-
-        self.renderer.AddActor(actor)
+    # Menu Select->Clear selection
+    def clearSelection(self):
+        self.renderer.RemoveAllViewProps()
+        self.renderer.AddActor(self.actor)
         self.window.Render()
+
+        self.logging_info('Clear selection.')
 
 
     """
@@ -334,5 +278,5 @@ if __name__ == '__main__':
 
     app = QtWidgets.QApplication(sys.argv)
     window = ccx_cae()
-    window.showMaximized() # or it could be window.show()
+    window.show() # window.showMaximized() or window.show()
     sys.exit(app.exec_())

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1280</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons/ccx_icon.png</normaloff>icons/ccx_icon.png</iconset>
+    <normaloff>icon.png</normaloff>icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -137,8 +137,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>26</height>
+     <width>1280</width>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -153,6 +153,7 @@
     </property>
     <addaction name="actionSelectNodes"/>
     <addaction name="actionSelectElements"/>
+    <addaction name="actionClearSelection"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSelect"/>
@@ -183,10 +184,10 @@
   <action name="actionCameraFitView">
    <property name="icon">
     <iconset>
-     <normaloff>icons/camera_fit_view.svg</normaloff>icons/camera_fit_view.svg</iconset>
+     <normaloff>icon_cameraFitView.svg</normaloff>icon_cameraFitView.svg</iconset>
    </property>
    <property name="text">
-    <string>Reset camera</string>
+    <string>Fit view</string>
    </property>
   </action>
   <action name="actionSelectNodes">
@@ -197,6 +198,15 @@
   <action name="actionSelectElements">
    <property name="text">
     <string>Elements</string>
+   </property>
+  </action>
+  <action name="actionClearSelection">
+   <property name="icon">
+    <iconset>
+     <normaloff>icon_clearSelection.png</normaloff>icon_clearSelection.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clear selection</string>
    </property>
   </action>
  </widget>
