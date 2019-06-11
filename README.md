@@ -7,21 +7,23 @@ Distributed under GNU General Public License, version 2.
 
 # CalculiX CAE
 
-GUI/pre-processor for CalculiX CrunchiX. Very simple, lightweight, free and open source.
+GUI/pre-processor for CalculiX CrunchiX. Very simple, lightweight, free and open source. It is implied that you have already created geometry and generated mesh in some other software like Salome-platform.
 
-Is based on CalculiX 2.15 keywords hierarchy. Written in Python3. Implements PyQt5 and VTK.
+Program is based on CalculiX 2.15 keywords hierarchy. Written in Python3. Implements PyQt5 and VTK.
 
 <br/><br/>
 
 
 
-# Info for contributors
+# Info for developers
 
-Install QT designer
+To contribute first install vtk, PyQt5 and QT designer:
 
+    pip3 install vtk
+    pip3 install PyQt5
     sudo apt install qttools5-dev-tools
 
-Good examples for getting started with VTK in Python:
+Some examples for getting started with VTK in Python:
 
     https://lorensen.github.io/VTKExamples/site/Python/
 

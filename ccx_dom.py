@@ -81,6 +81,7 @@ class keyword:
         self.arguments = [] # list of keyword's arguments
         self.items = [] # list of groups and keywords
         self.level = level # needed for padding in printAll()
+        self.active = False # if there is no such keyword in the model
     
     def addItem(self, item):
         self.items.append(item)
