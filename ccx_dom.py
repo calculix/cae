@@ -4,7 +4,6 @@
     © Ihor Mirzov, UJV Rez, June 2019.
     Distributed under GNU General Public License, version 2.
 
-    CalculiX CAE
     Data object model based on CalculiX keywords hierarchy.
     Keywords with all arguments are read from ccx_dom.txt.
 """
@@ -120,26 +119,26 @@ class argument:
             self.required = True
 
         self.values = [] # list of strings
-
+        left_part = line
         if ':' in line:
             # arguments : values
-            line, right_part = line.split(':')
+            left_part, right_part = line.split(':')
 
             # Define argument's values
             if ',' in right_part:
                 # if few values are present
-                self.values = [v.strip() for v in right_part.split(',')]
+                self.values = [v for v in right_part.split('|')]
             else:
                 # one value only
-                self.values = [right_part.strip()]
+                self.values = [right_part]
 
         # Define argument's name
-        if ',' in line:
+        if ',' in left_part:
             # if 'required' or 'optional' is present
-            self.name = line.split(',')[0].strip()
+            self.name = left_part.split(',')[0]
         else:
             # argument name only
-            self.name = line.strip()
+            self.name = left_part
 
 
     def printAll(self):
@@ -147,13 +146,13 @@ class argument:
         string += '-' + self.name
 
         if self.required:
-            string += ', required'
+            string += ',required'
 
         amount_of_values = len(self.values)
         if amount_of_values:
-            string += ': '
+            string += ':'
             for i in range(amount_of_values-1):
-                string += self.values[i] + ', '
+                string += self.values[i] + ','
             string += self.values[amount_of_values-1]
         
         print(string)

@@ -16,6 +16,7 @@ from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from INPParser import Mesh
 from ccx_select_style import *
 from ccx_dom import *
+import ccx_dialog
 
 
 # Read the form with GUI
@@ -211,9 +212,18 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
     def treeViewDoubleClicked(self, index):
         item = self.tree_view.model().itemFromIndex(index)
         if item.text().startswith('*'):
-            # TODO create dialog window
             item.data().printAll()
             # self.logging_info(item.text())
+
+            # TODO dialog window with iten edit
+
+            # Staring Functions for Execution
+            dinput = ['LastName','Country','Age']
+            # Call the UI and get the inputs
+            dialog = ccx_dialog.Dialog(dinput)
+            if dialog.exec_() == ccx_dialog.Dialog.Accepted:
+                name, item, value = dialog.get_output()
+                print(name, item, value)
 
 
     # Menu Select->Nodes
