@@ -42,6 +42,7 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
         self.createVTKWidget()
 
         # Read CalculiX object model
+        self.dom = None
         self.readObjectModel()
 
         # Default start model could be chosen with command line parameter
@@ -148,35 +149,27 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
     # Read CalculiX keywords hierarchy
     def readObjectModel(self):
         try:
-            dom = ccx_dom()
-            # self.model = QtGui.QStandardItemModel()
-            # tree_dict = {}
-            # with open('ccx_dom.txt', 'r') as f:
-            #     lines = f.readlines() # read the whole file
-            #     for line in lines: # iterate over keywords
-
-            #         # Skip comments and empty lines
-            #         if line.strip() == '': continue 
-            #         if line.strip().startswith('**'): continue
-            #         if line.strip().startswith('-'): continue
-
-            #         level = 0
-            #         keyword = line.rstrip() # cut '\n'
-            #         while keyword.startswith('\t'):
-            #             level += 1
-            #             keyword = keyword[1:]
-
-            #         if level == 0:
-            #             tree_dict[0] = self.model.invisibleRootItem()
-            #         else:
-            #             tree_dict[level] = QtGui.QStandardItem(line.strip())
-            #             tree_dict[level-1].setChild(tree_dict[level-1].rowCount(), tree_dict[level])
-
-            #     self.tree_view.setModel(self.model)
-            #     self.tree_view.expandAll()
+            self.dom = ccx_dom() # generate DOM based on keywords hierarchy from ccx_dom.txt
+            self.model = QtGui.QStandardItemModel()
+            parent = self.model.invisibleRootItem() # top element in QTreeView
+            self.addToTree(parent, self.dom.root.items) # pass root - group 'Model'
+            self.tree_view.setModel(self.model)
+            self.tree_view.expandAll()
             self.logging_info('CalculiX object model generated.')
         except:
             self.logging_error('Can\'t generate keywords hierarchy!')
+    def addToTree(self, parent, children):
+        """
+            parent is QtGui.QStandardItem
+            children are items of ccx_dom object
+        """
+        for item in children:
+            # print('\t'*level + item.name)
+            if ('keyword' in item.item_type) or ('group' in item.item_type):
+                tree_element = QtGui.QStandardItem(item.name)
+                tree_element.setData(item)
+                parent.appendRow(tree_element)
+                self.addToTree(tree_element, item.items)
 
 
     # Import mesh and display it in the VTK widget
@@ -216,9 +209,11 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # Double click on tree_view item: create keyword in DOM
     def treeViewDoubleClicked(self, index):
-        item = index.model().itemFromIndex(index)
+        item = self.tree_view.model().itemFromIndex(index)
         if item.text().startswith('*'):
-            self.logging_info(item.text())
+            # TODO create dialog window
+            item.data().printAll()
+            # self.logging_info(item.text())
 
 
     # Menu Select->Nodes

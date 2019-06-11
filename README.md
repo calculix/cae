@@ -38,14 +38,12 @@ Import mesh from FRD, VTK, VTU:
 https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/  
 https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/
 
-Axes:  
-https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/Axes/  
-https://lorensen.github.io/VTKExamples/site/Python/Visualization/DisplayCoordinateAxes/
-
 Screenshot:  
 https://lorensen.github.io/VTKExamples/site/Python/Utilities/Screenshot/
 
 Text actor for displaying model info:  
 https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/TextActor/
 
-Camera: perspective mode, parallel mode
+Camera: perspective mode, parallel mode, projections, reset (rotate to initial position + fitView)
+
+Fill ccx_dom.txt with all the keywords arguments and values from the manual
