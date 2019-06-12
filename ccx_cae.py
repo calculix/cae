@@ -13,17 +13,10 @@
 import sys, os, vtk, argparse, logging
 from PyQt5 import QtWidgets, uic, QtGui
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
-from INPParser import Mesh
-from ccx_select_style import *
-from ccx_dom import *
-import ccx_dialog
+import INPParser, ccx_dom, ccx_dialog, ccx_select_style
 
 
-# Read the form with GUI
-Ui_MainWindow = uic.loadUiType('ccx_form.ui')[0]
-
-
-class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
+class CAE(QtWidgets.QMainWindow):
 
     # Create main window
     def __init__(self):
@@ -32,8 +25,7 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
         QtWidgets.QMainWindow.__init__(self)
 
         # Load form
-        Ui_MainWindow.__init__(self)
-        self.setupUi(self)
+        uic.loadUi('ccx_cae.ui', self)
 
         # Configure logging
         logging.info = self.logging_info
@@ -42,8 +34,7 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
         # Create VTK widget
         self.createVTKWidget()
 
-        # Read CalculiX object model
-        self.dom = None
+        # Read CalculiX object model - refer to ccx_dom.py
         self.readObjectModel()
 
         # Default start model could be chosen with command line parameter
@@ -150,19 +141,19 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
     # Read CalculiX keywords hierarchy
     def readObjectModel(self):
         try:
-            self.dom = ccx_dom() # generate DOM based on keywords hierarchy from ccx_dom.txt
+            dom = ccx_dom.DOM() # generate DOM based on keywords hierarchy from ccx_dom.txt
             self.model = QtGui.QStandardItemModel()
             parent = self.model.invisibleRootItem() # top element in QTreeView
-            self.addToTree(parent, self.dom.root.items) # pass root - group 'Model'
+            self.addToTree(parent, dom.root.items) # pass root - group 'Model'
             self.tree_view.setModel(self.model)
-            self.tree_view.expandAll()
+            # self.tree_view.expandAll() # it looks better when collapsed
             self.logging_info('CalculiX object model generated.')
         except:
             self.logging_error('Can\'t generate keywords hierarchy!')
     def addToTree(self, parent, children):
         """
             parent is QtGui.QStandardItem
-            children are items of ccx_dom object
+            children are items of ccx_dom.DOM object
         """
         for item in children:
             # print('\t'*level + item.name)
@@ -183,7 +174,7 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if file_name:
             # Parse mesh and transfer it to VTK
-            mesh = Mesh(file_name) # parse mesh
+            mesh = INPParser.Mesh(file_name) # parse mesh
             points = vtk.vtkPoints()
             for n in mesh.nodes.keys(): # create VTK points from mesh nodes
                 points.InsertPoint(n-1, mesh.nodes[n]) # node numbers should start from 0!
@@ -191,7 +182,7 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
             self.ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
             self.ugrid.SetPoints(points) # insert all points to the grid
             for e in mesh.elements.keys():
-                vtk_element_type = Mesh.convert_elem_type(mesh.types[e])
+                vtk_element_type = INPParser.Mesh.convert_elem_type(mesh.types[e])
                 node_numbers = [n-1 for n in mesh.elements[e]] # list of nodes in the element: node numbers should start from 0!
                 self.ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
 
@@ -208,35 +199,26 @@ class ccx_cae(QtWidgets.QMainWindow, Ui_MainWindow):
         self.window.Render()
 
 
-    # Double click on tree_view item: create keyword in DOM
+    # Double click on tree_view item: edit the keyword via dialog
     def treeViewDoubleClicked(self, index):
-        item = self.tree_view.model().itemFromIndex(index)
-        if item.text().startswith('*'):
-            item.data().printAll()
-            # self.logging_info(item.text())
-
-            # TODO dialog window with iten edit
-
-            # Staring Functions for Execution
-            dinput = ['LastName','Country','Age']
-            # Call the UI and get the inputs
-            dialog = ccx_dialog.Dialog(dinput)
-            if dialog.exec_() == ccx_dialog.Dialog.Accepted:
-                name, item, value = dialog.get_output()
-                print(name, item, value)
+        item = self.tree_view.model().itemFromIndex(index) # ccx_dom.group or ccx_dom.keyword
+        if item.text().startswith('*'): # only double clicking on ccx_dom.keyword creates dialog, not on ccx_dom.group
+            dialog = ccx_dialog.Dialog(item.data()) # create dialog window and and pass ccx_dom.keyword object
+            if dialog.exec_() == ccx_dialog.Dialog.Accepted: # if user pressed 'OK'
+                print(dialog.onOk()) # show the generated piece of .inp code for the CalculiX input file
 
 
     # Menu Select->Nodes
     def selectNodes(self):
         self.clearSelection() # clear selection before new call
-        style = ccx_select_nodes_style(self.renderer, self.window, self.log_widget)
+        style = ccx_select_style.nodes(self.renderer, self.window, self.log_widget)
         self.interactor.SetInteractorStyle(style)
 
 
     # Menu Select->Elements
     def selectElements(self):
         self.clearSelection() # clear selection before new call
-        style = ccx_select_elements_style(self.renderer, self.window, self.ugrid, self.log_widget)
+        style = ccx_select_style.elements(self.renderer, self.window, self.ugrid, self.log_widget)
         self.interactor.SetInteractorStyle(style)
 
 
@@ -282,6 +264,6 @@ if __name__ == '__main__':
     os.system('py3clean .')
 
     app = QtWidgets.QApplication(sys.argv)
-    window = ccx_cae()
+    window = CAE()
     window.show() # window.showMaximized() or window.show()
     sys.exit(app.exec_())

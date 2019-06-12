@@ -15,7 +15,7 @@ from PyQt5 import QtGui
 # TODO second click to deselect
 
 
-class ccx_select_nodes_style(vtk.vtkInteractorStyleTrackballCamera):
+class nodes(vtk.vtkInteractorStyleTrackballCamera):
 
 
     def __init__(self, renderer, window, log_widget):
@@ -63,7 +63,7 @@ class ccx_select_nodes_style(vtk.vtkInteractorStyleTrackballCamera):
         self.OnLeftButtonDown()
 
 
-class ccx_select_elements_style(vtk.vtkInteractorStyleTrackballCamera):
+class elements(vtk.vtkInteractorStyleTrackballCamera):
 
 
     def __init__(self, renderer, window, ugrid, log_widget):

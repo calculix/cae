@@ -10,7 +10,7 @@
 
 
 # CalculiX keywords hierarchy - data object model
-class ccx_dom:
+class DOM:
 
     # Read CalculiX keywords hierarchy
     def __init__(self):
@@ -65,35 +65,33 @@ class group:
     def printAll(self):
         string = '\t' * self.level
         string += self.name
-        print(string)
+        # print(string)
         for item in self.items:
-            item.printAll()
+            string += item.printAll()
+        return string
 
 
 # *AMPLITUDE, *BOUNDARY, *STEP etc.
 class keyword:
 
     item_type = 'keyword' # needed to distinguish from 'group'
+    # TODO activate keyword after dialog edition
 
     def __init__(self, line, level):
         self.name = line.strip()
-        self.arguments = [] # list of keyword's arguments
-        self.items = [] # list of groups and keywords
+        self.items = [] # list of groups, keywords and arguments
         self.level = level # needed for padding in printAll()
-        self.active = False # if there is no such keyword in the model
     
     def addItem(self, item):
         self.items.append(item)
-    
-    def addArgument(self, argument):
-        self.arguments.append(argument)
 
     def printAll(self):
-        string = '\t' * self.level
-        string += self.name
-        print(string)
+        string = self.name + '\n'
         for item in self.items:
-            item.printAll()
+            if item.item_type != 'argument':
+                continue
+            string += item.printAll()
+        return string
 
 
 # Keyword's argument
@@ -125,7 +123,7 @@ class argument:
             left_part, right_part = line.split(':')
 
             # Define argument's values
-            if ',' in right_part:
+            if '|' in right_part:
                 # if few values are present
                 self.values = [v for v in right_part.split('|')]
             else:
@@ -134,7 +132,9 @@ class argument:
 
         # Define argument's name
         if ',' in left_part:
-            # if 'required' or 'optional' is present
+            # TODO improve to parse '|'
+            
+            # if 'required' is present
             self.name = left_part.split(',')[0]
         else:
             # argument name only
@@ -142,8 +142,7 @@ class argument:
 
 
     def printAll(self):
-        string = '\t' * self.level
-        string += '-' + self.name
+        string = '-' + self.name
 
         if self.required:
             string += ',required'
@@ -152,11 +151,7 @@ class argument:
         if amount_of_values:
             string += ':'
             for i in range(amount_of_values-1):
-                string += self.values[i] + ','
+                string += self.values[i] + '|'
             string += self.values[amount_of_values-1]
-        
-        print(string)
 
-
-if __name__ == '__main__':
-    ccx_dom()
+        return string + '\n'
