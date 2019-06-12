@@ -34,8 +34,13 @@ class CAE(QtWidgets.QMainWindow):
         # Create VTK widget
         self.createVTKWidget()
 
-        # Read CalculiX object model - refer to ccx_dom.py
-        self.readObjectModel()
+        # Generate CalculiX DOM based on keywords hierarchy from ccx_dom.txt
+        try:
+            self.dom = ccx_dom.DOM()
+            self.logging_info('CalculiX object model generated.')
+            self.generateTreeView()
+        except:
+            self.logging_error('Can\'t generate keywords hierarchy!')
 
         # Default start model could be chosen with command line parameter
         parser = argparse.ArgumentParser()
@@ -48,7 +53,7 @@ class CAE(QtWidgets.QMainWindow):
         self.importMeshFromInp(args.mesh)
 
         # Actions
-        self.tree_view.doubleClicked.connect(self.treeViewDoubleClicked)
+        self.treeView.doubleClicked.connect(self.treeViewDoubleClicked)
         self.actionImportMeshFromInp.triggered.connect(self.importMeshFromInp)
         self.actionCameraFitView.triggered.connect(self.cameraFitView)
         self.actionSelectNodes.triggered.connect(self.selectNodes)
@@ -61,7 +66,7 @@ class CAE(QtWidgets.QMainWindow):
         # Create VTK widget
         self.vtk_widget = QVTKRenderWindowInteractor()
         self.vl.addWidget(self.vtk_widget)
-        self.frame_widget.setLayout(self.vl) # apply layout: it will expand vtk_widget to the frame size
+        self.frame.setLayout(self.vl) # apply layout: it will expand vtk_widget to the frame size
 
         # Create the graphics structure
         self.renderer = vtk.vtkRenderer() # renderer renders into the window
@@ -131,37 +136,43 @@ class CAE(QtWidgets.QMainWindow):
 
     # Logging functions
     def logging_info(self, msg):
-        self.log_widget.append('<span style=\'color:Black;\'>' + msg + '</span>')
-        self.log_widget.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+        self.textEdit.append('<p style=\'color:Black; margin:0px;\'>' + msg + '</p>')
+        self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
     def logging_error(self, msg):
-        self.log_widget.append('<span style=\'color:Red;\'>' + msg + '</span>')
-        self.log_widget.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+        self.textEdit.append('<p style=\'color:Red; margin:0px;\'>ERROR! ' + msg + '</p>')
+        self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
 
 
-    # Read CalculiX keywords hierarchy
-    def readObjectModel(self):
-        try:
-            dom = ccx_dom.DOM() # generate DOM based on keywords hierarchy from ccx_dom.txt
-            self.model = QtGui.QStandardItemModel()
-            parent = self.model.invisibleRootItem() # top element in QTreeView
-            self.addToTree(parent, dom.root.items) # pass root - group 'Model'
-            self.tree_view.setModel(self.model)
-            # self.tree_view.expandAll() # it looks better when collapsed
-            self.logging_info('CalculiX object model generated.')
-        except:
-            self.logging_error('Can\'t generate keywords hierarchy!')
+    # Recursively generate treeView widget items based on DOM
+    def generateTreeView(self):
+        self.model = QtGui.QStandardItemModel()
+        parent = self.model.invisibleRootItem() # top element in QTreeView
+        self.addToTree(parent, self.dom.root.items) # pass root - group 'Model'
+        self.treeView.setModel(self.model)
+        self.treeView.expandAll() # expanded looks better
     def addToTree(self, parent, children):
         """
             parent is QtGui.QStandardItem
             children are items of ccx_dom.DOM object
         """
         for item in children:
-            # print('\t'*level + item.name)
-            if ('keyword' in item.item_type) or ('group' in item.item_type):
+            if (item.item_type == 'keyword') or (item.item_type == 'group'):
                 tree_element = QtGui.QStandardItem(item.name)
                 tree_element.setData(item)
                 parent.appendRow(tree_element)
-                self.addToTree(tree_element, item.items)
+
+                # Draw keyword's children for its implementation
+                for i in range(len(item.implementations)):
+                    impl = item.implementations[i] # keyword implementation object
+                    e = QtGui.QStandardItem(impl.name)
+                    e.setData(impl)
+                    tree_element.setText(item.name + ' (' + str(len(item.implementations)) + ')')
+                    tree_element.appendRow(e)
+                    self.addToTree(e, item.items)
+
+                # Do not draw keyword's children if it doesn't have implementations
+                if item.item_type == 'group':
+                    self.addToTree(tree_element, item.items)
 
 
     # Import mesh and display it in the VTK widget
@@ -199,26 +210,44 @@ class CAE(QtWidgets.QMainWindow):
         self.window.Render()
 
 
-    # Double click on tree_view item: edit the keyword via dialog
+    # Double click on treeView item: edit the keyword via dialog
     def treeViewDoubleClicked(self, index):
-        item = self.tree_view.model().itemFromIndex(index) # ccx_dom.group or ccx_dom.keyword
-        if item.text().startswith('*'): # only double clicking on ccx_dom.keyword creates dialog, not on ccx_dom.group
-            dialog = ccx_dialog.Dialog(item.data()) # create dialog window and and pass ccx_dom.keyword object
+        item = self.treeView.model().itemFromIndex(index) # treeView item, we obtain it from 'index'
+        item = item.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation 
+
+        # Only double clicking on ccx_dom.keyword creates dialog, not on ccx_dom.group
+        if item.item_type == 'keyword':
+            dialog = ccx_dialog.Dialog(item) # create dialog window and and pass ccx_dom.keyword object
             if dialog.exec_() == ccx_dialog.Dialog.Accepted: # if user pressed 'OK'
-                print(dialog.onOk()) # show the generated piece of .inp code for the CalculiX input file
+
+                # The generated piece of .inp code for the CalculiX input file
+                INP_code = dialog.onOk()
+                for line in INP_code.split('\n'):
+                    self.logging_info(line) # show it
+
+                # Create implementation object
+                ccx_dom.implementation(item, INP_code)
+
+                # Update treeView widget
+                self.generateTreeView()
+
+        # Click on keyword's implementation: show piece of INP_code
+        elif item.item_type == 'implementation':
+            for line in item.INP_code.split('\n'):
+                self.logging_info(line) # show it
 
 
     # Menu Select->Nodes
     def selectNodes(self):
         self.clearSelection() # clear selection before new call
-        style = ccx_select_style.nodes(self.renderer, self.window, self.log_widget)
+        style = ccx_select_style.nodes(self.renderer, self.window, self.textEdit)
         self.interactor.SetInteractorStyle(style)
 
 
     # Menu Select->Elements
     def selectElements(self):
         self.clearSelection() # clear selection before new call
-        style = ccx_select_style.elements(self.renderer, self.window, self.ugrid, self.log_widget)
+        style = ccx_select_style.elements(self.renderer, self.window, self.ugrid, self.textEdit)
         self.interactor.SetInteractorStyle(style)
 
 

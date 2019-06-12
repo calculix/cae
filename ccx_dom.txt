@@ -2,13 +2,14 @@
 ** Empty lines are ignored. No spaces after punctuation symbols.
 ** Padding with exactly 1 tab is mandatory - it defines hierarchy.
 ** 
-** CalculiX keywords start with '*'.
+** CalculiX keywords start with '*'. If keyword ends with ',from_new_line'
+** it means that all arguments should and will be written from a new line.
 ** 
 ** Parameters start with '-'. ** Parameter values go after ':' and are separated by '|'.
 ** Usually parameter ends with '='. Parameters without '=' in the end are just keys.
 ** Plus '+' means parameters go together. '|' means parameters are mutually exclusive.
 ** No 'required' flag means that parameter is optional.
-** If parameter starts with '\n' it means it'll be written with a new line.
+** Argument's default value should come first!
 **
 Model
 	Parameters
@@ -167,10 +168,10 @@ Model
 
 	Constraints
 		*EQUATION
-		*MPC
-			-\nPLANE
-			-\nSTRAIGHT
-			-\nBEAM
+		*MPC,from_new_line
+			-PLANE
+			-STRAIGHT
+			-BEAM
 		*NETWORK MPC
 		*RIGID BODY
 			-NSET=|ELSET=,required
@@ -222,7 +223,7 @@ Model
 
 	*STEP
 		-PERTURBATION
-		-NLGEOM=:YES|NO
+		-NLGEOM
 		-INC=
 		-INCF=
 		-THERMAL NETWORK
@@ -311,13 +312,13 @@ Model
 					-THICKNESS
 					-FIXGROWTH
 					-FIXSHRINKAGE
-				*OBJECTIVE
-					-\nDISPLACEMENT
-					-\nEIGENFREQUENCY
-					-\nGREEN
-					-\nMASS
-					-\nSHAPEENERGY
-					-\nSTRESS
+				*OBJECTIVE,from_new_line
+					-DISPLACEMENT
+					-EIGENFREQUENCY
+					-GREEN
+					-MASS
+					-SHAPEENERGY
+					-STRESS
 					*FILTER
 						-TYPE=:LINEAR|QUADRATIC|CUBIC
 						-BOUNDARY WEIGHTING=:YES|NO
@@ -504,8 +505,8 @@ Model
 		*CONTROLS
 			-PARAMETERS=:TIME INCREMENTATION|FIELD|LINE SEARCH|NETWORK|CFD|CONTACT
 			-RESET
-		*EQUATION,REMOVE
-		*EQUATION,REMOVE ALL
+		*EQUATION
+			-REMOVE|REMOVE ALL
 		*INCLUDE
 			-INPUT,required
 		*REFINE MESH

@@ -18,10 +18,10 @@ from PyQt5 import QtGui
 class nodes(vtk.vtkInteractorStyleTrackballCamera):
 
 
-    def __init__(self, renderer, window, log_widget):
+    def __init__(self, renderer, window, textEdit):
         self.renderer = renderer
         self.window = window
-        self.log_widget = log_widget
+        self.textEdit = textEdit
         self.AddObserver('LeftButtonPressEvent', self.leftButtonPressEvent)
 
 
@@ -34,7 +34,7 @@ class nodes(vtk.vtkInteractorStyleTrackballCamera):
         node_id = picker.GetPointId()
         if node_id > 0:
             logging.info('Node ' + str(node_id))
-            self.log_widget.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+            self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
 
             points = vtk.vtkPoints()
             points.InsertPoint(0, picker.GetMapperPosition())
@@ -66,11 +66,11 @@ class nodes(vtk.vtkInteractorStyleTrackballCamera):
 class elements(vtk.vtkInteractorStyleTrackballCamera):
 
 
-    def __init__(self, renderer, window, ugrid, log_widget):
+    def __init__(self, renderer, window, ugrid, textEdit):
         self.renderer = renderer
         self.window = window
         self.ugrid = ugrid
-        self.log_widget = log_widget
+        self.textEdit = textEdit
         self.AddObserver('LeftButtonPressEvent', self.leftButtonPressEvent)
 
 
@@ -82,7 +82,7 @@ class elements(vtk.vtkInteractorStyleTrackballCamera):
         cell_id = picker.GetCellId() # object is picker
         if cell_id > 0:
             logging.info('Element ' + str(cell_id))
-            self.log_widget.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+            self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
 
             ids_to_hightlight = [cell_id, ]
             ids = vtk.vtkIdTypeArray() 
@@ -131,18 +131,18 @@ class elements(vtk.vtkInteractorStyleTrackballCamera):
 
         def leftButtonPressEvent(self, obj, event):
             logging.info('Left button pressed')
-            self.log_widget.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+            self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
             self.OnLeftButtonDown()
 
 
         def middle_button_press_event(self, obj, event):
             logging.info('Middle button pressed')
-            self.log_widget.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+            self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
             self.OnMiddleButtonDown()
 
 
         def rightButtonPressEvent(self, obj, event):
             logging.info('Right button pressed')
-            self.log_widget.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+            self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
             self.OnRightButtonDown()
 """

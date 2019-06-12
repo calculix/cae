@@ -5,7 +5,8 @@
     Distributed under GNU General Public License, version 2.
 
     Dialog window to edit CalculiX keyword
-    Called from CAE via double click on keyword in the tree_view
+    Called from CAE via double click on keyword in the treeView
+    Actually, here we define a keyword's implementation: its name and INP_code
 """
 
 
@@ -35,27 +36,25 @@ class Dialog(QtWidgets.QDialog):
                 argument_values_widget = QtWidgets.QComboBox()
                 argument_values_widget.addItems(argument.values)
 
-                # Assign event to update text_edit widget
+                # Assign event to update textEdit widget
                 argument_values_widget.currentIndexChanged.connect(self.onChange)
 
                 # QComboBox doesn't expand by default
                 sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
                 sizePolicy.setHorizontalStretch(1) # expand horizontally
                 argument_values_widget.setSizePolicy(sizePolicy)
-
             elif '=' in argument.name:
                 # Values to be entered
                 argument_values_widget = QtWidgets.QLineEdit()
 
-                # Assign event to update text_edit widget
+                # Assign event to update textEdit widget
                 argument_values_widget.textChanged.connect(self.onChange)
-
             else:
                 # Flag to be checked
                 argument_values_widget = QtWidgets.QCheckBox()
                 argument.name += ' ' # shift checkbox a little bit for nice view
 
-                # Assign event to update text_edit widget
+                # Assign event to update textEdit widget
                 argument_values_widget.clicked.connect(self.onChange)
 
             # Mark required argument
@@ -67,8 +66,16 @@ class Dialog(QtWidgets.QDialog):
                 index += 1 # first time
 
             # Argument's name
-            argument_name_widget = QtWidgets.QLabel()
-            argument_name_widget.setText(argument.name)
+            if '|' in argument.name:
+                # Mutually exclusive arguments
+                argument_name_widget = QtWidgets.QComboBox()
+                argument_name_widget.addItems(argument.name.split('|'))
+
+                # Assign event to update textEdit widget
+                argument_name_widget.currentIndexChanged.connect(self.onChange)
+            else:
+                argument_name_widget = QtWidgets.QLabel()
+                argument_name_widget.setText(argument.name)
 
             # Keep name and values in horizontal layout
             horizontal_layout = QtWidgets.QHBoxLayout()
@@ -80,12 +87,15 @@ class Dialog(QtWidgets.QDialog):
             self.vertical_layout.insertLayout(index, horizontal_layout) # add widgets to dialog window
             index += 1 # second time
 
+        # Fill textEdit widget with default keyword's configuration
+        self.onChange(None)
+
         # Actions
-        self.button_box.accepted.connect(self.onOk)
-        self.button_box.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.onReset)
+        self.buttonBox.accepted.connect(self.onOk)
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.onReset)
 
 
-    # Update piece of .inp code in the text_edit widget
+    # Update piece of INP-code in the textEdit widget
     def onChange(self, event):
         arguments = {} # name:value
         string = self.keyword.name
@@ -123,20 +133,23 @@ class Dialog(QtWidgets.QDialog):
                             arguments[name.strip()] = value
                     j += 1
 
-        # Generate text for text_edit widget
+        # Generate text for textEdit widget
         for name, value in arguments.items():
-            string += ', ' + name + value
+            if self.keyword.from_new_line:
+                string += '\n' + name + value # argument goes from new line
+            else:
+                string += ', ' + name + value # argument goes inline
 
-        self.text_edit.setText(string)
+        self.textEdit.setText(string)
         # print(string)
 
 
-    # Reset text_edit widget to initial state
+    # Reset textEdit widget to initial state
     def onReset(self):
-        self.text_edit.setText('')
+        self.textEdit.setText(self.keyword.name)
 
 
     # Return piece of created code for the .inp-file
     def onOk(self):
         super(Dialog, self).accept()
-        return self.text_edit.toPlainText().strip()
+        return self.textEdit.toPlainText().strip()

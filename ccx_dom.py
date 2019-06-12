@@ -5,7 +5,8 @@
     Distributed under GNU General Public License, version 2.
 
     Data object model based on CalculiX keywords hierarchy.
-    Keywords with all arguments are read from ccx_dom.txt.
+    Keywords with all arguments are parsed from ccx_dom.txt.
+    Parser supposts mutually exclusive parameters for keywords.
 """
 
 
@@ -15,7 +16,7 @@ class DOM:
     # Read CalculiX keywords hierarchy
     def __init__(self):
 
-        # Top level element in tree
+        # Last parent for given padding level
         parent_items = {}
 
         # Analyze keywords hierarchy
@@ -53,6 +54,7 @@ class DOM:
 class group:
 
     item_type = 'group' # needed to distinguish from 'keyword'
+    implementations = [] # will always be empty
 
     def __init__(self, line, level):
         self.name = line.strip()
@@ -75,18 +77,28 @@ class group:
 class keyword:
 
     item_type = 'keyword' # needed to distinguish from 'group'
-    # TODO activate keyword after dialog edition
 
     def __init__(self, line, level):
-        self.name = line.strip()
+        line = line.strip()
+
+        # Start all arguments from the next line?
+        self.from_new_line = False # marks that argument should be printed from the new line
+        if line.endswith(',from_new_line'):
+            self.from_new_line = True # yes
+            line = line.split(',')[0]
+
+        self.name = line
         self.items = [] # list of groups, keywords and arguments
         self.level = level # needed for padding in printAll()
-    
+        self.implementations = [] # list of INP_codes generated via keyword dialog
+
     def addItem(self, item):
         self.items.append(item)
 
     def printAll(self):
         string = self.name + '\n'
+        for impl in self.implementations:
+            string += impl.name + '\n'
         for item in self.items:
             if item.item_type != 'argument':
                 continue
@@ -98,17 +110,17 @@ class keyword:
 class argument:
 
     """
-        name        - argument's name
-        required    - required or optional
-        values      - list of possible values
+        name            - argument's name
+        required        - required or optional
+        values          - list of possible values
+        level           - padding level in ccx_dom.txt
     """
-    items = []
+    items = [] # do not remember why, but it's needed
     item_type = 'argument' # needed to distinguish from 'group' and 'keyword'
 
     def __init__(self, line, level):
-        
-        self.level = level # needed for padding in printAll()
 
+        self.level = level # needed for padding in printAll()
         line = line[1:] # cut hyphen
 
         # Required or optional
@@ -130,15 +142,12 @@ class argument:
                 # one value only
                 self.values = [right_part]
 
+        # If 'required' is present - cut it
+        if left_part.endswith(',required'):
+            left_part = left_part[:-9]
+
         # Define argument's name
-        if ',' in left_part:
-            # TODO improve to parse '|'
-            
-            # if 'required' is present
-            self.name = left_part.split(',')[0]
-        else:
-            # argument name only
-            self.name = left_part
+        self.name = left_part
 
 
     def printAll(self):
@@ -155,3 +164,15 @@ class argument:
             string += self.values[amount_of_values-1]
 
         return string + '\n'
+
+
+# Keyword implementation - a piece of INP-code for CalculiX input file
+class implementation:
+
+    item_type = 'implementation' # needed to distinguish from 'group' and 'keyword'
+
+    def __init__(self, keyword, INP_code):
+        # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
+        self.name = keyword.name[1:]+'-'+str(len(keyword.implementations)+1)
+        self.INP_code = INP_code # INP-code string for current implementation
+        keyword.implementations.append(self)

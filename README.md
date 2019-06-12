@@ -33,12 +33,23 @@ Some examples for getting started with VTK in Python:
 
 # TODO
 
-DistanceBetweenPoints:  
-https://lorensen.github.io/VTKExamples/site/Python/SimpleOperations/DistanceBetweenPoints/
+treeView context menu: Show/Hide empty containers, Expand/Collapse all.
+
+Delete implementation from treeView. Edit implementation.
+
+Get all mutually exclusive arguments from the manual - now they are supported.
+
+Styles with icons for treeView elements.
+
+Parse INP-file into DOM during mesh import. Model import with all keywords.
+
 
 Import mesh from FRD, VTK, VTU:  
 https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/  
 https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/
+
+DistanceBetweenPoints:  
+https://lorensen.github.io/VTKExamples/site/Python/SimpleOperations/DistanceBetweenPoints/
 
 Screenshot:  
 https://lorensen.github.io/VTKExamples/site/Python/Utilities/Screenshot/
@@ -47,5 +58,3 @@ Text actor for displaying model info:
 https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/TextActor/
 
 Camera: perspective mode, parallel mode, projections, reset (rotate to initial position + fitView)
-
-Fill ccx_dom.txt with all the keywords arguments and values from the manual
