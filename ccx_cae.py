@@ -12,7 +12,7 @@
 
 import sys, os, argparse, vtk
 from PyQt5 import QtWidgets, uic
-import ccx_mesh, ccx_dom, ccx_tree, ccx_log, ccx_vtk
+import ccx_mesh, ccx_dom, ccx_tree, ccx_log, ccx_vtk, ccx_inp
 
 
 class CAE(QtWidgets.QMainWindow):
@@ -42,15 +42,15 @@ class CAE(QtWidgets.QMainWindow):
         parser = argparse.ArgumentParser()
         parser.add_argument("--mesh", "-mesh",
                             help="Mesh .inp file",
-                            type=str, default='mesh_baffle.inp')
+                            type=str, default='test.inp')
         args = parser.parse_args()
 
         # Creates VTK widget with default ugrid, adds it to the form
-        self.importMeshFromInp(args.mesh)
+        self.importINP(args.mesh)
 
         # Actions
         self.treeView.doubleClicked.connect(self.tree.doubleClicked) # call method from ccx_tree.py
-        self.actionImportMeshFromInp.triggered.connect(self.importMeshFromInp)
+        self.actionImportINP.triggered.connect(self.importINP)
         self.actionCameraFitView.triggered.connect(self.VTK.cameraFitView)
         self.actionSelectNodes.triggered.connect(self.VTK.selectNodes)
         self.actionSelectElements.triggered.connect(self.VTK.selectElements)
@@ -58,7 +58,8 @@ class CAE(QtWidgets.QMainWindow):
 
 
     # Import mesh and display it in the VTK widget
-    def importMeshFromInp(self, file_name=None):
+    def importINP(self, file_name=None):
+
         if not file_name:
             file_name = QtWidgets.QFileDialog.getOpenFileName(self,\
                 'Import .inp mesh', '', 'Input files (*.inp);;All Files (*)')[0]
@@ -66,24 +67,31 @@ class CAE(QtWidgets.QMainWindow):
         self.logger.info('Loading ' + file_name + '.')
 
         if file_name:
+            # Parse model from INP
+            with open(file_name, 'r') as f:
+                INP_code = f.readlines()
+                model = ccx_inp.Parse(self.tree.DOM, self.textEdit, INP_code)
+
             # Parse mesh and transfer it to VTK
             mesh = ccx_mesh.Parse(file_name, self.textEdit) # parse mesh, textEdit passed for logging
+            try:
+                points = vtk.vtkPoints()
+                for n in mesh.nodes.keys(): # create VTK points from mesh nodes
+                    points.InsertPoint(n-1, mesh.nodes[n]) # node numbers should start from 0!
+                self.ugrid = vtk.vtkUnstructuredGrid() # create empty grid in VTK
+                self.ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
+                self.ugrid.SetPoints(points) # insert all points to the grid
+                for e in mesh.elements.keys():
+                    vtk_element_type = ccx_mesh.Parse.convert_elem_type(mesh.types[e])
+                    node_numbers = [n-1 for n in mesh.elements[e]] # list of nodes in the element: node numbers should start from 0!
+                    self.ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
 
-            points = vtk.vtkPoints()
-            for n in mesh.nodes.keys(): # create VTK points from mesh nodes
-                points.InsertPoint(n-1, mesh.nodes[n]) # node numbers should start from 0!
-            self.ugrid = vtk.vtkUnstructuredGrid() # create empty grid in VTK
-            self.ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
-            self.ugrid.SetPoints(points) # insert all points to the grid
-            for e in mesh.elements.keys():
-                vtk_element_type = ccx_mesh.Parse.convert_elem_type(mesh.types[e])
-                node_numbers = [n-1 for n in mesh.elements[e]] # list of nodes in the element: node numbers should start from 0!
-                self.ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
+                self.VTK.mapper.SetInputData(self.ugrid) # ugrid is our mesh data
+                self.VTK.cameraFitView() # reset camera
 
-            self.VTK.mapper.SetInputData(self.ugrid) # ugrid is our mesh data
-            self.VTK.cameraFitView() # reset camera
-
-            self.logger.info('Rendering OK.')
+                self.logger.info('Rendering OK.')
+            except:
+                self.logger.error('Can\'t render INP mesh.')
 
 
 if __name__ == '__main__':

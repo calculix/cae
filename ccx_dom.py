@@ -37,8 +37,6 @@ class DOM:
                 # Define item for current padding level
                 if line.startswith('*'):
                     item = keyword(line, level)
-                elif line.startswith(','):
-                    item = argument(line, level)
                 elif line.endswith('__group'):
                     item = group(line, level)
 
@@ -80,7 +78,12 @@ class keyword:
     item_type = 'keyword' # needed to distinguish from 'group'
 
     def __init__(self, line, level):
-        line = line.strip()
+
+        # '__' added after '=' for better code highlighting in vscode
+        if line.endswith('__'):
+            line = line[:-2]
+
+        self.items = [] # list of groups, keywords and arguments
 
         # Start all arguments from the next line?
         self.from_new_line = False # marks that argument should be printed from the new line
@@ -88,8 +91,14 @@ class keyword:
             self.from_new_line = True # yes
             line = line.replace('__newline', '')
 
-        self.name = line
-        self.items = [] # list of groups, keywords and arguments
+        if not ',' in line:
+            self.name = line
+        else:
+            lines = line.split(',')
+            self.name = lines[0]
+            for arg in lines[1:]:
+                self.items.append(argument(arg, level))
+
         self.level = level # needed for padding in printAll()
         self.implementations = [] # list of INP_codes generated via keyword dialog
 
@@ -119,10 +128,7 @@ class argument:
     items = [] # do not remember why, but it's needed
     item_type = 'argument' # needed to distinguish from 'group' and 'keyword'
 
-    def __init__(self, line, level):
-
-        self.level = level # needed for padding in printAll()
-        line = line[1:] # cut comma
+    def __init__(self, line, keyword):
 
         # Required or optional
         self.required = False

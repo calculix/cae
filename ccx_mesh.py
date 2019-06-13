@@ -50,22 +50,25 @@ class Parse:
     def get_elements(self, lines):
         for i in range(len(lines)):
             if lines[i].startswith('*ELEMENT'):
-                # etype = lines[i].split('=')[1].split(',')[0] # element type
                 etype = lines[i].upper().split('TYPE=')[1].split(',')[0] # element type
                 while i+1<len(lines) and not lines[i+1].startswith('*'): # there will be no comments
-                    a = lines[i+1].split(', ')
-                    num = int(a[0]) # element number
+                    # Element nodes could be splitted into 2 lines
+                    if lines[i+1].endswith(','):
+                        a = (lines[i+1] + lines[i+2]).split(',')
+                        i += 1
+                    else:
+                        a = lines[i+1].split(',')
+                    num = int(a[0].strip()) # element number
                     self.types[num] = etype # save element type
                     self.elements[num] = () # tuple with element nodes
-                    # TODO element nodes could be splitted into few lines
                     for n in a[1:]:
-                        self.elements[num] += (int(n), ) # add node to tuple
+                        self.elements[num] += (int(n.strip()), ) # add node to tuple
                     x=0; y=0; z=0
                     for n in a[1:]: # iterate over element's node numbers
-                        x += self.nodes[int(n)][0] # sum up x-coordinates of all nodes of the element
-                        y += self.nodes[int(n)][1] # sum up y-coordinates of all nodes of the element
+                        x += self.nodes[int(n.strip())][0] # sum up x-coordinates of all nodes of the element
+                        y += self.nodes[int(n.strip())][1] # sum up y-coordinates of all nodes of the element
                         try: # 3D case
-                            z += self.nodes[int(n)][2] # sum up z-coordinates of all nodes of the element
+                            z += self.nodes[int(n.strip())][2] # sum up z-coordinates of all nodes of the element
                         except:
                             pass
                     amount = len(a[1:]) # amount of nodes in element
@@ -169,17 +172,36 @@ class Parse:
             for i, line in enumerate(f):
                 if not '**' in line: # skip comments
                     lines.append(line.strip().upper())
-        self.get_nodes(lines) # parse nodes
-        self.get_nsets(lines) # parse node sets
-        self.get_elements(lines) # parse elements
-        self.get_esets(lines) # parse node sets
-        self.get_surfaces(lines) # parse surfaces
-        self.logger.info('Total:')
-        self.logger.info('\t{0} nodes'.format(len(self.nodes)))
-        self.logger.info('\t{0} elements'.format(len(self.elements)))
-        self.logger.info('\t{0} centroids'.format(len(self.centroids)))
-        self.logger.info('\t{0} nsets'.format(len(self.nsets)))
-        self.logger.info('\t{0} esets'.format(len(self.esets)))
+        try:
+            self.get_nodes(lines) # parse nodes
+            self.logger.info('{0} nodes'.format(len(self.nodes)))
+        except:
+            self.logger.error('Can\'t parse nodes')
+
+        try:
+            self.get_nsets(lines) # parse node sets
+            self.logger.info('{0} nsets'.format(len(self.nsets)))
+        except:
+            self.logger.error('Can\'t parse nsets')
+
+        try:
+            self.get_elements(lines) # parse elements
+            self.logger.info('{0} elements'.format(len(self.elements)))
+        except:
+            self.logger.error('Can\'t parse elements')
+
+        try:
+            self.get_esets(lines) # parse node sets
+            self.logger.info('{0} esets'.format(len(self.esets)))
+        except:
+            self.logger.error('Can\'t parse esets')
+
+        try:
+            self.get_surfaces(lines) # parse surfaces
+            self.logger.info('{0} surfaces'.format(len(self.surfaces)))
+        except:
+            self.logger.error('Can\'t parse surfaces')
+
 
 
     # Convert Calculix element type to VTK

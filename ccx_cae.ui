@@ -141,14 +141,14 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>31</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionImportMeshFromInp"/>
+    <addaction name="actionImportINP"/>
    </widget>
    <widget class="QMenu" name="menuSelect">
     <property name="title">
@@ -179,9 +179,9 @@
    </attribute>
    <addaction name="actionCameraFitView"/>
   </widget>
-  <action name="actionImportMeshFromInp">
+  <action name="actionImportINP">
    <property name="text">
-    <string>Import .inp mesh</string>
+    <string>Import INP file</string>
    </property>
   </action>
   <action name="actionCameraFitView">

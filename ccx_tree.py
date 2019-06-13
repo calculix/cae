@@ -20,11 +20,11 @@ class tree:
         self.logger = ccx_log.logger(textEdit)
 
         # Generate CalculiX DOM based on keywords hierarchy from ccx_dom.txt
-        # try:
-        self.DOM = ccx_dom.DOM() # DOM is generated once per session
-        self.logger.info('CalculiX object model generated.')
-        # except:
-        #     self.logger.error('Can\'t generate keywords hierarchy!')
+        try:
+            self.DOM = ccx_dom.DOM() # DOM is generated once per session during start
+            self.logger.info('CalculiX object model generated.')
+        except:
+            self.logger.error('Can\'t generate keywords hierarchy!')
 
         # Needed for 'doubleClicked' method
         self.treeView = treeView
