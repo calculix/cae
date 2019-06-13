@@ -11,8 +11,8 @@
 ** No 'required' flag means that parameter is optional.
 ** Argument's default value should come first!
 **
-Model
-	Parameters
+Model__group
+	Parameters__group
 		*HEADING
 		*DESIGN VARIABLES
 			,TYPE__required=COORDINATE|ORIENTATION
@@ -29,7 +29,7 @@ Model
 				,SUBMODEL__required
 				,STEP__required=
 
-	Mesh
+	Mesh__group
 		*NODE
 			,NSET=
 		*NSET
@@ -51,7 +51,7 @@ Model
 		*GAP
 			,ELSET__required=
 
-	Properties
+	Properties__group
 		*NODAL THICKNESS
 		*NORMAL
 		*MASS
@@ -97,7 +97,7 @@ Model
 				,CONSTANTS__required=
 				,TYPE=MECHANICAL|THERMAL
 
-		Section
+		Section__group
 			*BEAM SECTION
 				,ELSET__required=
 				,MATERIAL__required=
@@ -167,7 +167,7 @@ Model
 		,TIME=TOTAL TIME
 		,GENERATE
 
-	Constraints
+	Constraints__group
 		*EQUATION
 		*MPC__newline
 			,PLANE|STRAIGHT|BEAM
@@ -197,7 +197,7 @@ Model
 			,ELSET
 			,CHECK=YES|NO
 
-	Interactions
+	Interactions__group
 		*CONTACT PAIR
 			,INTERACTION__required
 			,TYPE__required=NODE TO SURFACE|SURFACE TO SURFACE
@@ -228,7 +228,7 @@ Model
 		,THERMAL NETWORK
 		,AMPLITUDE=RAMP|STEP
 
-		Analysis type
+		Analysis type__group
 			*NO ANALYSIS
 			*BUCKLE
 				,SOLVER__required=SPOOLES|PARDISO|SGI|TAUCS
@@ -371,7 +371,7 @@ Model
 				,TOTAL TIME AT START
 				,CETOL=
 
-		Field Output
+		Field Output__group
 			*EL FILE
 				,FREQUENCY|FREQUENCYF|TIME POINTS=
 				,GLOBAL=YES|NO
@@ -423,7 +423,7 @@ Model
 				,SOM
 				,SOAREA
 
-		Load & BC
+		Load & BC__group
 			*BOUNDARY
 				,OP
 				,AMPLITUDE
@@ -484,7 +484,7 @@ Model
 			*MODAL DAMPING
 				,RAYLEIGH|MODAL=DIRECT
 
-		Change
+		Change__group
 			*INITIAL STRAIN INCREASE
 			*CHANGE FRICTION
 				,INTERACTION__required

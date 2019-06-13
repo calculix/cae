@@ -39,7 +39,7 @@ class DOM:
                     item = keyword(line, level)
                 elif line.startswith(','):
                     item = argument(line, level)
-                else:
+                elif line.endswith('__group'):
                     item = group(line, level)
 
                 # Update parent item
@@ -57,7 +57,8 @@ class group:
     implementations = [] # will always be empty
 
     def __init__(self, line, level):
-        self.name = line.strip()
+        line = line.strip().replace('__group', '')
+        self.name = line
         self.items = [] # list of groups and keywords
         self.level = level # needed for padding in printAll()
 
