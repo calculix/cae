@@ -37,7 +37,7 @@ class DOM:
                 # Define item for current padding level
                 if line.startswith('*'):
                     item = keyword(line, level)
-                elif line.startswith('-'):
+                elif line.startswith(','):
                     item = argument(line, level)
                 else:
                     item = group(line, level)
@@ -83,9 +83,9 @@ class keyword:
 
         # Start all arguments from the next line?
         self.from_new_line = False # marks that argument should be printed from the new line
-        if line.endswith(',from_new_line'):
+        if '__newline' in line:
             self.from_new_line = True # yes
-            line = line.split(',')[0]
+            line = line.replace('__newline', '')
 
         self.name = line
         self.items = [] # list of groups, keywords and arguments
@@ -121,44 +121,46 @@ class argument:
     def __init__(self, line, level):
 
         self.level = level # needed for padding in printAll()
-        line = line[1:] # cut hyphen
+        line = line[1:] # cut comma
 
         # Required or optional
         self.required = False
-        if 'required' in line:
+        if '__required' in line:
             self.required = True
 
         self.values = [] # list of strings
         left_part = line
-        if ':' in line:
+        if '=' in line:
             # arguments : values
-            left_part, right_part = line.split(':')
+            left_part, right_part = line.split('=')
+            left_part = left_part + '='
 
             # Define argument's values
+            # TODO add '+' splitter for arguments that always go together
             if '|' in right_part:
                 # if few values are present
                 self.values = [v for v in right_part.split('|')]
-            else:
+            elif len(right_part):
                 # one value only
                 self.values = [right_part]
 
-        # If 'required' is present - cut it
-        if left_part.endswith(',required'):
-            left_part = left_part[:-9]
+        # If '__required' is present - remove it
+        if '__required' in left_part:
+            left_part = left_part.replace('__required', '')
 
         # Define argument's name
         self.name = left_part
 
 
     def printAll(self):
-        string = '-' + self.name
+        string = ',' + self.name
 
         if self.required:
-            string += ',required'
+            string += '__required'
 
         amount_of_values = len(self.values)
         if amount_of_values:
-            string += ':'
+            # string += ':'
             for i in range(amount_of_values-1):
                 string += self.values[i] + '|'
             string += self.values[amount_of_values-1]
@@ -174,5 +176,13 @@ class implementation:
     def __init__(self, keyword, INP_code):
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
         self.name = keyword.name[1:]+'-'+str(len(keyword.implementations)+1)
-        self.INP_code = INP_code # INP-code string for current implementation
+        self.INP_code = INP_code # INP-code for current implementation - list of strings
         keyword.implementations.append(self)
+
+
+# Parses whole the input file or INP-code pieces from keyword's implementation
+class Parse:
+
+    def __init__(self, INP_code):
+        for line in INP_code:
+            pass

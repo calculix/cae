@@ -20,11 +20,11 @@ class tree:
         self.logger = ccx_log.logger(textEdit)
 
         # Generate CalculiX DOM based on keywords hierarchy from ccx_dom.txt
-        try:
-            self.DOM = ccx_dom.DOM() # DOM is generated once per session
-            self.logger.info('CalculiX object model generated.')
-        except:
-            self.logger.error('Can\'t generate keywords hierarchy!')
+        # try:
+        self.DOM = ccx_dom.DOM() # DOM is generated once per session
+        self.logger.info('CalculiX object model generated.')
+        # except:
+        #     self.logger.error('Can\'t generate keywords hierarchy!')
 
         # Needed for 'doubleClicked' method
         self.treeView = treeView
@@ -79,8 +79,8 @@ class tree:
             if dialog.exec_() == ccx_dialog.Dialog.Accepted: # if user pressed 'OK'
 
                 # The generated piece of .inp code for the CalculiX input file
-                INP_code = dialog.onOk()
-                for line in INP_code.split('\n'):
+                INP_code = dialog.onOk() # list of strings
+                for line in INP_code:
                     self.logger.info(line) # show it
 
                 # Create implementation object
@@ -91,5 +91,5 @@ class tree:
 
         # Click on keyword's implementation: show piece of INP_code
         elif item.item_type == 'implementation':
-            for line in item.INP_code.split('\n'):
+            for line in item.INP_code:
                 self.logger.info(line) # show it

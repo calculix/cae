@@ -152,4 +152,4 @@ class Dialog(QtWidgets.QDialog):
     # Return piece of created code for the .inp-file
     def onOk(self):
         super(Dialog, self).accept()
-        return self.textEdit.toPlainText().strip()
+        return self.textEdit.toPlainText().strip().split('\n')

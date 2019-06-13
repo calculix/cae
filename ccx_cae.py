@@ -12,7 +12,7 @@
 
 import sys, os, argparse, vtk
 from PyQt5 import QtWidgets, uic
-import ccx_inp, ccx_dom, ccx_tree, ccx_log, ccx_vtk
+import ccx_mesh, ccx_dom, ccx_tree, ccx_log, ccx_vtk
 
 
 class CAE(QtWidgets.QMainWindow):
@@ -67,7 +67,7 @@ class CAE(QtWidgets.QMainWindow):
 
         if file_name:
             # Parse mesh and transfer it to VTK
-            mesh = ccx_inp.Mesh(file_name, self.textEdit) # parse mesh, textEdit passed for logging
+            mesh = ccx_mesh.Parse(file_name, self.textEdit) # parse mesh, textEdit passed for logging
 
             points = vtk.vtkPoints()
             for n in mesh.nodes.keys(): # create VTK points from mesh nodes
@@ -76,7 +76,7 @@ class CAE(QtWidgets.QMainWindow):
             self.ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
             self.ugrid.SetPoints(points) # insert all points to the grid
             for e in mesh.elements.keys():
-                vtk_element_type = ccx_inp.Mesh.convert_elem_type(mesh.types[e])
+                vtk_element_type = ccx_mesh.Parse.convert_elem_type(mesh.types[e])
                 node_numbers = [n-1 for n in mesh.elements[e]] # list of nodes in the element: node numbers should start from 0!
                 self.ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
 

@@ -12,8 +12,7 @@
 import ccx_log
 
 
-# Mesh object, contains methods for .inp-file parsing
-class Mesh:
+class Parse:
 
     # Parse nodes with coordinates
     # *NODE keyword

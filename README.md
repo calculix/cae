@@ -33,9 +33,9 @@ Some examples for getting started with VTK in Python:
 
 # TODO
 
-treeView context menu: Show/Hide empty containers, Expand/Collapse all.
+treeView context menu: Show/Hide empty containers, Expand/Collapse all, Delete implementation
 
-Delete implementation from treeView. Edit implementation.
+treeView: Edit implementation on DoubleClick.
 
 Get all mutually exclusive arguments from the manual - now they are supported.
 
