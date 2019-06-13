@@ -46,13 +46,14 @@ class Parse:
     # Search each keyword in lines (INP file or piece of INP code)
     def search(self, item): # item is a keyword object
         keyword = item.name
-        print(keyword)
         INP_code = [] # must be list of strings
 
         for i in range(len(self.lines)):
             if self.lines[i].startswith(keyword):
                 while i+1<len(self.lines) and not self.lines[i+1].startswith('*'): # there will be no comments
+                    print(keyword)
                     INP_code.append(self.lines[i+1])
+                    i += 1
 
                 # Create implementation object
                 ccx_dom.implementation(item, INP_code)
