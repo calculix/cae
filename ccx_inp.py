@@ -4,18 +4,12 @@
     © Ihor Mirzov, UJV Rez, May 2019.  
     Distributed under GNU General Public License, version 2.
 
-    Parses finite element mesh in the Abaqus, Gmsh or CalculiX .inp-file.
-    Tested on 2D quadrilateral and triangular first order elements.
+    Parses finite element mesh from the CalculiX .inp-file.
     Reads nodes coordinates, elements composition, node and element sets, surfaces.
-    Calculates elements cendroid coordinates.
-    Generates triangles or quadrangles list to use with matplotlib.
-    Interpolates node field to elements centroids.
 """
 
 
-import numpy as np
-import matplotlib.tri as tri
-import logging
+import ccx_log
 
 
 # Mesh object, contains methods for .inp-file parsing
@@ -33,7 +27,7 @@ class Mesh:
                     for coord in a[1:]:
                         self.nodes[num] += (float(coord.strip()), ) # add coordinate to tuple
                     i += 1
-                    # logging.info('Node ' + str(num) + ': ' + str(self.nodes[num]))
+                    # self.logger.info('Node ' + str(num) + ': ' + str(self.nodes[num]))
                 return
 
 
@@ -107,38 +101,11 @@ class Mesh:
                 self.surfaces += (name, )
 
 
-    # Set additional variables
-    def set_additional_vars(self):
-        self.cx = np.array( [v[0] for k,v in sorted(self.centroids.items())] ) # centroids x-coords sorted by element number
-        self.cy = np.array( [v[1] for k,v in sorted(self.centroids.items())] ) # centroids y-coords sorted by element number
-        self.nx = np.array( [v[0] for k,v in sorted(self.nodes.items())] ) # list of x-coords sorted by node number
-        self.ny = np.array( [v[1] for k,v in sorted(self.nodes.items())] ) # list of y-coords sorted by node number
-        first_node_num = list(self.nodes.keys())[0]
-        for elem, nodes in sorted(self.elements.items()): # tuples of node numbers sorted by element number
-            if len(nodes)==3:
-                # Triangles consist of nodes indexes (not
-                # numbers), so we may subtract first_node_num
-                self.triangles += ((
-                                    nodes[0] - first_node_num,
-                                    nodes[1] - first_node_num,
-                                    nodes[2] - first_node_num), )
-            if len(nodes)==4:
-                quad = [] # one quadrangle - array of node coordinates couples
-                for n in nodes:
-                    x = self.nodes[n][0]; y = self.nodes[n][1]
-                    coords = np.array([[x, y]]) # coords of one node of the quadrangle
-                    if len(quad):
-                        quad = np.append(quad, coords, axis=0)
-                    else:
-                        quad = coords
-                if len(self.quadrangles):
-                    self.quadrangles = np.append(self.quadrangles, [quad], axis=0)
-                else:
-                    self.quadrangles = [quad]
-
-
     # Initialization
-    def __init__(self, inp_file):
+    def __init__(self, inp_file, textEdit):
+
+        # Configure logging
+        self.logger = ccx_log.logger(textEdit)
 
         # All mesh nodes with coordinates
         """
@@ -197,15 +164,6 @@ class Mesh:
         """
         self.surfaces = ()
 
-        # Additional mesh variables
-        self.cx = []; self.cy = [] # centroid coordinates as numpy array
-        self.nx = []; self.ny = [] # nodes coordinates as numpy array
-        self.triangles = () # triangles list to use with matplotlib
-        self.quadrangles = [] # quadrangles to use with matplotlib
-
-        # Some parameters
-        self.initialized = False
-
         # Open and read all the .inp-file
         lines = []
         with open(inp_file, 'r') as f:
@@ -217,30 +175,12 @@ class Mesh:
         self.get_elements(lines) # parse elements
         self.get_esets(lines) # parse node sets
         self.get_surfaces(lines) # parse surfaces
-        logging.info('Total:')
-        logging.info('\t{0} nodes'.format(len(self.nodes)))
-        logging.info('\t{0} elements'.format(len(self.elements)))
-        logging.info('\t{0} centroids'.format(len(self.centroids)))
-        logging.info('\t{0} nsets'.format(len(self.nsets)))
-        logging.info('\t{0} esets'.format(len(self.esets)))
-        self.set_additional_vars()
-        self.initialized = True
-
-
-    # Project field on mesh centroids
-    def project_field_on_centroids(self, fx, fy, field_values):
-        """
-            fx - column with x-coordinates of field points
-            fy - column with y-coordinates of field points
-            field_values - column with field values in points (fx, fy)
-            fx, fy, field_values should be the same length
-        """
-        triang = tri.Triangulation(fx, fy) # Delaunay triangulation from field points
-        interp = tri.LinearTriInterpolator(triang, field_values) # interpolation object
-        res = interp(self.cx, self.cy) # perform linear interpolation on centroids
-        res = [x if type(x)==np.float64 else np.float64(0) for x in res] # zero values outside field triangles
-        res = res / max(res) * max(field_values) # diminish interpolation error
-        return res
+        self.logger.info('Total:')
+        self.logger.info('\t{0} nodes'.format(len(self.nodes)))
+        self.logger.info('\t{0} elements'.format(len(self.elements)))
+        self.logger.info('\t{0} centroids'.format(len(self.centroids)))
+        self.logger.info('\t{0} nsets'.format(len(self.nsets)))
+        self.logger.info('\t{0} esets'.format(len(self.esets)))
 
 
     # Convert Calculix element type to VTK

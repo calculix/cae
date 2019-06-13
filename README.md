@@ -43,6 +43,8 @@ Styles with icons for treeView elements.
 
 Parse INP-file into DOM during mesh import. Model import with all keywords.
 
+Show PDF documentation for each keyword's dialog.
+
 
 Import mesh from FRD, VTK, VTU:  
 https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/  

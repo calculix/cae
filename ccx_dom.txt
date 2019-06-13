@@ -169,9 +169,7 @@ Model
 	Constraints
 		*EQUATION
 		*MPC,from_new_line
-			-PLANE
-			-STRAIGHT
-			-BEAM
+			-PLANE|STRAIGHT|BEAM
 		*NETWORK MPC
 		*RIGID BODY
 			-NSET=|ELSET=,required

@@ -8,8 +8,7 @@
     https://vtk.org/Wiki/VTK/Examples/Python/Interaction/MouseEventsObserver
 """
 
-import vtk, logging
-from PyQt5 import QtGui
+import vtk, ccx_log
 
 
 # TODO second click to deselect
@@ -19,9 +18,13 @@ class nodes(vtk.vtkInteractorStyleTrackballCamera):
 
 
     def __init__(self, renderer, window, textEdit):
+
+        # Configure logging
+        self.textEdit = textEdit
+        self.logger = ccx_log.logger(self.textEdit)
+
         self.renderer = renderer
         self.window = window
-        self.textEdit = textEdit
         self.AddObserver('LeftButtonPressEvent', self.leftButtonPressEvent)
 
 
@@ -33,8 +36,7 @@ class nodes(vtk.vtkInteractorStyleTrackballCamera):
 
         node_id = picker.GetPointId()
         if node_id > 0:
-            logging.info('Node ' + str(node_id))
-            self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+            self.logger.info('Node ' + str(node_id))
 
             points = vtk.vtkPoints()
             points.InsertPoint(0, picker.GetMapperPosition())
@@ -66,11 +68,15 @@ class nodes(vtk.vtkInteractorStyleTrackballCamera):
 class elements(vtk.vtkInteractorStyleTrackballCamera):
 
 
-    def __init__(self, renderer, window, ugrid, textEdit):
+    def __init__(self, renderer, window, textEdit):
+
+        # Configure logging
+        self.textEdit = textEdit
+        self.logger = ccx_log.logger(self.textEdit)
+
         self.renderer = renderer
         self.window = window
-        self.ugrid = ugrid
-        self.textEdit = textEdit
+        # self.ugrid = ugrid
         self.AddObserver('LeftButtonPressEvent', self.leftButtonPressEvent)
 
 
@@ -81,8 +87,7 @@ class elements(vtk.vtkInteractorStyleTrackballCamera):
 
         cell_id = picker.GetCellId() # object is picker
         if cell_id > 0:
-            logging.info('Element ' + str(cell_id))
-            self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+            self.logger.info('Element ' + str(cell_id))
 
             ids_to_hightlight = [cell_id, ]
             ids = vtk.vtkIdTypeArray() 
@@ -100,8 +105,10 @@ class elements(vtk.vtkInteractorStyleTrackballCamera):
             selection.AddNode(selection_node) 
 
             extract_selection = vtk.vtkExtractSelection() 
-            extract_selection.SetInputData(0, self.ugrid) 
-            extract_selection.SetInputData(1, selection) 
+            extract_selection.PreserveTopologyOn()
+            # extract_selection.SetInputData(0, self.ugrid) # TODO somehow plot original ugrid
+            extract_selection.SetInputData(0, selection)
+            # extract_selection.SetInputData(1, selection)
             extract_selection.Update() 
 
             grid_selected = vtk.vtkUnstructuredGrid() 
@@ -130,19 +137,16 @@ class elements(vtk.vtkInteractorStyleTrackballCamera):
 
 
         def leftButtonPressEvent(self, obj, event):
-            logging.info('Left button pressed')
-            self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+            self.logger.info('Left button pressed')
             self.OnLeftButtonDown()
 
 
         def middle_button_press_event(self, obj, event):
-            logging.info('Middle button pressed')
-            self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+            self.logger.info('Middle button pressed')
             self.OnMiddleButtonDown()
 
 
         def rightButtonPressEvent(self, obj, event):
-            logging.info('Right button pressed')
-            self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+            self.logger.info('Right button pressed')
             self.OnRightButtonDown()
 """
