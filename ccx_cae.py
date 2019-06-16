@@ -11,7 +11,7 @@
 
 
 import sys, os, argparse, vtk
-from PyQt5 import QtWidgets, uic
+from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import ccx_mesh, ccx_dom, ccx_tree, ccx_log, ccx_vtk, ccx_inp
 
 
@@ -34,9 +34,8 @@ class CAE(QtWidgets.QMainWindow):
         self.vl.addWidget(self.VTK.widget) # add vtk_widget to the form
         self.frame.setLayout(self.vl) # apply layout: it will expand vtk_widget to the frame size
 
-        # Generate treeView items
+        # Generate empty CalculiX model and treeView items
         self.tree = ccx_tree.tree(self.treeView, self.textEdit)
-        self.logger.info('TreeView generated.')
 
         # Default start model could be chosen with command line parameter
         parser = argparse.ArgumentParser()
@@ -49,7 +48,6 @@ class CAE(QtWidgets.QMainWindow):
         self.importINP(args.mesh)
 
         # Actions
-        self.treeView.doubleClicked.connect(self.tree.doubleClicked) # call method from ccx_tree.py
         self.actionImportINP.triggered.connect(self.importINP)
         self.actionCameraFitView.triggered.connect(self.VTK.cameraFitView)
         self.actionSelectNodes.triggered.connect(self.VTK.selectNodes)
@@ -67,10 +65,16 @@ class CAE(QtWidgets.QMainWindow):
         self.logger.info('Loading ' + file_name + '.')
 
         if file_name:
-            # Parse model from INP
+            # Generate empty CalculiX model (DOM) and treeView items
+            self.tree = ccx_tree.tree(self.treeView, self.textEdit)
+
+            # Parse model from INP - it will modify DOM
             with open(file_name, 'r') as f:
                 INP_code = f.readlines()
                 model = ccx_inp.Parse(self.tree.DOM, self.textEdit, INP_code)
+
+            # Regenerate treeView items to account for modifications in DOM
+            self.tree.generateTreeView()
 
             # Parse mesh and transfer it to VTK
             mesh = ccx_mesh.Parse(file_name, self.textEdit) # parse mesh, textEdit passed for logging

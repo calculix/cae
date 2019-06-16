@@ -35,8 +35,9 @@ class Parse:
         self.parse(DOM.root)
 
 
+    # Parse each keyword in DOM
     def parse(self, parent):
-        for item in parent.items:
+        for item in parent.items: # for each keyword from DOM
             if (item.item_type == 'group') or (item.item_type == 'keyword'):
                 if item.item_type == 'keyword':
                     self.search(item)
@@ -45,16 +46,17 @@ class Parse:
 
     # Search each keyword in lines (INP file or piece of INP code)
     def search(self, item): # item is a keyword object
-        keyword = item.name
-        INP_code = [] # must be list of strings
 
         for i in range(len(self.lines)):
-            if self.lines[i].startswith(keyword):
+            # TODO distinguish 'NODE' and 'NODE PRINT'
+            if self.lines[i].startswith(item.name): # if starts with keyword
+
+                INP_code = [self.lines[i]] # must be list of strings
+
                 while i+1<len(self.lines) and not self.lines[i+1].startswith('*'): # there will be no comments
-                    print(keyword)
                     INP_code.append(self.lines[i+1])
                     i += 1
 
                 # Create implementation object
-                ccx_dom.implementation(item, INP_code)
-
+                impl = ccx_dom.implementation(item, INP_code)
+                # impl.show()

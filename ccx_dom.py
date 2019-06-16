@@ -10,42 +10,52 @@
 """
 
 
+import ccx_log
+
+
 # CalculiX keywords hierarchy - data object model
 class DOM:
 
     # Read CalculiX keywords hierarchy
-    def __init__(self):
+    def __init__(self, textEdit):
 
-        # Last parent for given padding level
-        parent_items = {}
+        # Configure logging
+        self.logger = ccx_log.logger(textEdit)
 
-        # Analyze keywords hierarchy
-        with open('ccx_dom.txt', 'r') as f:
-            for line in f.readlines(): # read the whole file and iterate over line
+        try:
+            # Last parent for given padding level
+            parent_items = {}
 
-                # Skip comments and empty lines
-                if line.strip() == '': continue 
-                if line.strip().startswith('**'): continue
+            # Analyze keywords hierarchy
+            with open('ccx_dom.txt', 'r') as f:
+                for line in f.readlines(): # read the whole file and iterate over line
 
-                # Define padding level
-                level = 0 # level of current item = amount of tabs
-                line = line.rstrip() # cut '\n'
-                while line.startswith('\t'):
-                    level += 1
-                    line = line[1:] # cut 1 tab
+                    # Skip comments and empty lines
+                    if line.strip() == '': continue 
+                    if line.strip().startswith('**'): continue
 
-                # Define item for current padding level
-                if line.startswith('*'):
-                    item = keyword(line, level)
-                elif line.endswith('__group'):
-                    item = group(line, level)
+                    # Define padding level
+                    level = 0 # level of current item = amount of tabs
+                    line = line.rstrip() # cut '\n'
+                    while line.startswith('\t'):
+                        level += 1
+                        line = line[1:] # cut 1 tab
 
-                # Update parent item
-                parent_items[level] = item
-                if level > 0:
-                    parent_items[level-1].addItem(item)
+                    # Define item for current padding level
+                    if line.startswith('*'):
+                        item = keyword(line, level)
+                    elif line.endswith('__group'):
+                        item = group(line, level)
 
-        self.root = parent_items[0] # group 'Model'
+                    # Update parent item
+                    parent_items[level] = item
+                    if level > 0:
+                        parent_items[level-1].addItem(item)
+
+            self.root = parent_items[0] # group 'Model'
+            self.logger.info('CalculiX object model generated.')
+        except:
+            self.logger.error('Can\'t generate keywords hierarchy!')
 
 
 # Group of keywords, like 'Properties', 'Constraints', etc.
@@ -181,15 +191,20 @@ class implementation:
     item_type = 'implementation' # needed to distinguish from 'group' and 'keyword'
 
     def __init__(self, keyword, INP_code):
+        self.keyword = keyword
+
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
-        self.name = keyword.name[1:]+'-'+str(len(keyword.implementations)+1)
+        self.name = self.keyword.name[1:] + '-' + str(len(self.keyword.implementations) + 1)
         self.INP_code = INP_code # INP-code for current implementation - list of strings
-        keyword.implementations.append(self)
+        self.keyword.implementations.append(self)
 
 
-# Parses whole the input file or INP-code pieces from keyword's implementation
-class Parse:
+    # Remove keyword's implementation
+    def remove(self):
+        self.keyword.implementations.remove(self)
 
-    def __init__(self, INP_code):
-        for line in INP_code:
-            pass
+
+    # Print implementation's INP_code
+    def show(self):
+        for line in self.INP_code:
+            print(line)

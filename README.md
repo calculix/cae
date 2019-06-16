@@ -1,4 +1,4 @@
-© Ihor Mirzov, UJV Rez, June 2019.  
+© Ihor Mirzov, July 2019.  
 Distributed under GNU General Public License, version 2.
 
 <br/><br/>
@@ -33,15 +33,15 @@ Some examples for getting started with VTK in Python:
 
 # TODO
 
-treeView context menu: Show/Hide empty containers, Expand/Collapse all, Delete implementation
+Parse INP-file into DOM during mesh import. Model import with all keywords.
 
 treeView: Edit implementation on DoubleClick.
+
+Move importINP to ccx_inp.py.
 
 Get all mutually exclusive arguments from the manual - now they are supported.
 
 Styles with icons for treeView elements.
-
-Parse INP-file into DOM during mesh import. Model import with all keywords.
 
 Show PDF documentation for each keyword's dialog.
 
