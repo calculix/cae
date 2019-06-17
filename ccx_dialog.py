@@ -5,7 +5,7 @@
     Distributed under GNU General Public License, version 2.
 
     Dialog window to edit CalculiX keyword
-    Called from CAE via double click on keyword in the treeView
+    Called via double click on keyword in the treeView
     Actually, here we define a keyword's implementation: its name and INP_code
 """
 
@@ -15,8 +15,12 @@ from PyQt5 import QtWidgets, uic, QtCore
 
 class Dialog(QtWidgets.QDialog):
 
-    def __init__(self, keyword): # here 'keyword' is ccx_dom.keyword object
-        self.keyword = keyword # needed to pass to other functions
+    def __init__(self, item):
+        # if item.item_type == 'keyword':
+        self.keyword = item # needed to pass to other functions
+        # if item.item_type == 'implementation':
+        #     self.keyword = item.keyword # needed to pass to other functions
+            # TODO Parse INP_code and fill keyword's fields
 
         # Create dialog window
         super(Dialog, self).__init__()
@@ -26,7 +30,7 @@ class Dialog(QtWidgets.QDialog):
 
         # For each keyword's argument create name and value widgets
         index = 0 # row number for vertical layout
-        for argument in keyword.items:
+        for argument in self.keyword.items:
             if argument.item_type != 'argument':
                 continue
 

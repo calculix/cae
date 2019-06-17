@@ -16,6 +16,12 @@ import ccx_log
 # CalculiX keywords hierarchy - data object model
 class DOM:
 
+    """
+        logger
+        parent_items
+        root
+    """
+
     # Read CalculiX keywords hierarchy
     def __init__(self, textEdit):
 
@@ -27,7 +33,7 @@ class DOM:
             parent_items = {}
 
             # Analyze keywords hierarchy
-            with open('ccx_dom.txt', 'r') as f:
+            with open('ccx_dom.inp', 'r') as f:
                 for line in f.readlines(): # read the whole file and iterate over line
 
                     # Skip comments and empty lines
@@ -61,6 +67,14 @@ class DOM:
 # Group of keywords, like 'Properties', 'Constraints', etc.
 class group:
 
+    """
+        item_type
+        implementations - not used
+        name
+        items
+        level
+    """
+
     item_type = 'group' # needed to distinguish from 'keyword'
     implementations = [] # will always be empty
 
@@ -84,6 +98,15 @@ class group:
 
 # *AMPLITUDE, *BOUNDARY, *STEP etc.
 class keyword:
+
+    """
+        item_type
+        items
+        from_new_line
+        name
+        level
+        implementations
+    """
 
     item_type = 'keyword' # needed to distinguish from 'group'
 
@@ -135,6 +158,7 @@ class argument:
         values          - list of possible values
         level           - padding level in ccx_dom.txt
     """
+
     items = [] # do not remember why, but it's needed
     item_type = 'argument' # needed to distinguish from 'group' and 'keyword'
 
@@ -187,11 +211,18 @@ class argument:
 
 # Keyword implementation - a piece of INP-code for CalculiX input file
 class implementation:
+    """
+        keyword
+        name
+        INP_code
+        items # inherited from keyword
+    """
 
     item_type = 'implementation' # needed to distinguish from 'group' and 'keyword'
 
     def __init__(self, keyword, INP_code):
         self.keyword = keyword
+        self.items = keyword.items
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
         self.name = self.keyword.name[1:] + '-' + str(len(self.keyword.implementations) + 1)

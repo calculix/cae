@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icon.png</normaloff>icon.png</iconset>
+    <normaloff>icons/logo.png</normaloff>icons/logo.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -190,7 +190,7 @@
   <action name="actionCameraFitView">
    <property name="icon">
     <iconset>
-     <normaloff>icon_cameraFitView.svg</normaloff>icon_cameraFitView.svg</iconset>
+     <normaloff>icons/fit_view.png</normaloff>icons/fit_view.png</iconset>
    </property>
    <property name="text">
     <string>Fit view</string>
@@ -209,7 +209,7 @@
   <action name="actionClearSelection">
    <property name="icon">
     <iconset>
-     <normaloff>icon_clearSelection.png</normaloff>icon_clearSelection.png</iconset>
+     <normaloff>icons/clear_selection.png</normaloff>icons/clear_selection.png</iconset>
    </property>
    <property name="text">
     <string>Clear selection</string>

@@ -29,7 +29,7 @@ class tree:
         self.expanded = False # start with collapsed tree items
 
         # Hide / show tree keywords without implementations 
-        self.show_empty = False # start with show all tree items
+        self.show_empty = True # start with show all tree items
 
         # Now generate treeView items
         self.generateTreeView()
@@ -59,31 +59,49 @@ class tree:
     def addToTree(self, parent, children):
         """
             parent is QtGui.QStandardItem
-            children are items of ccx_dom.DOM object
+            children are items of ccx_dom.DOM group or keyword
         """
         for item in children:
 
             if item.item_type == 'group':
-                tree_element = QtGui.QStandardItem(item.name)
-                tree_element.setData(item)
-                parent.appendRow(tree_element)
-                self.addToTree(tree_element, item.items)
+                if len(item.items):
+                    # TODO Interactions are always shown
+
+                    tree_element = QtGui.QStandardItem(item.name)
+                    tree_element.setData(item)
+
+                    # Add icon to each group in tree
+                    icon_name = item.name.replace('*', '') + '.png'
+                    icon = QtGui.QIcon('./icons/' + icon_name.lower())
+                    tree_element.setIcon(icon)
+
+                    parent.appendRow(tree_element)
+                    self.addToTree(tree_element, item.items)
 
             if item.item_type == 'keyword':
                 if self.show_empty or len(item.implementations):
                     tree_element = QtGui.QStandardItem(item.name)
                     tree_element.setData(item)
+
+                    # Add icon to each keyword in tree
+                    icon_name = item.name.replace('*', '') + '.png'
+                    icon = QtGui.QIcon('./icons/' + icon_name.lower())
+                    tree_element.setIcon(icon)
+
                     parent.appendRow(tree_element)
-                    self.addToTree(tree_element, item.items)
+                    if not len(item.implementations):
+                        self.addToTree(tree_element, item.items)
 
                 # Draw keyword's children for its implementation
                 for i in range(len(item.implementations)):
                     impl = item.implementations[i] # keyword implementation object
                     e = QtGui.QStandardItem(impl.name)
                     e.setData(impl)
+
                     tree_element.setText(item.name + ' (' + str(len(item.implementations)) + ')')
                     tree_element.appendRow(e)
                     self.addToTree(e, item.items)
+
 
 
     # Double click on treeView item: edit the keyword via dialog
@@ -91,8 +109,10 @@ class tree:
         item = self.treeView.model().itemFromIndex(index) # treeView item obtained from 'index'
         item = item.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation 
 
-        # Only double clicking on ccx_dom.keyword creates dialog, not on ccx_dom.group
-        if item.item_type == 'keyword':
+        # Double click on ccx_dom.group doesn't create dialog
+        if item.item_type == 'keyword' or\
+            item.item_type == 'implementation':
+
             dialog = ccx_dialog.Dialog(item) # create dialog window and and pass ccx_dom.keyword object
             if dialog.exec_() == ccx_dialog.Dialog.Accepted: # if user pressed 'OK'
 
@@ -107,8 +127,7 @@ class tree:
                 # Update treeView widget
                 self.generateTreeView()
 
-        # Click on keyword's implementation: show piece of INP_code
-        elif item.item_type == 'implementation':
+            # Click on keyword's implementation: show piece of INP_code
             for line in item.INP_code:
                 self.logger.info(line) # show it
 

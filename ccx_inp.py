@@ -57,6 +57,8 @@ class Parse:
                     INP_code.append(self.lines[i+1])
                     i += 1
 
+                # TODO parse item's (keyword's) arguments
+
                 # Create implementation object
                 impl = ccx_dom.implementation(item, INP_code)
                 # impl.show()

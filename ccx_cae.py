@@ -41,7 +41,7 @@ class CAE(QtWidgets.QMainWindow):
         parser = argparse.ArgumentParser()
         parser.add_argument("--mesh", "-mesh",
                             help="Mesh .inp file",
-                            type=str, default='test.inp')
+                            type=str, default='mesh_test.inp')
         args = parser.parse_args()
 
         # Creates VTK widget with default ugrid, adds it to the form
@@ -71,7 +71,7 @@ class CAE(QtWidgets.QMainWindow):
             # Parse model from INP - it will modify DOM
             with open(file_name, 'r') as f:
                 INP_code = f.readlines()
-                model = ccx_inp.Parse(self.tree.DOM, self.textEdit, INP_code)
+                ccx_inp.Parse(self.tree.DOM, self.textEdit, INP_code)
 
             # Regenerate treeView items to account for modifications in DOM
             self.tree.generateTreeView()
