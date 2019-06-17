@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, UJV Rez, June 2019.
+    © Ihor Mirzov, June 2019.
     Distributed under GNU General Public License, version 2.
 
     Methods to work with main window's treeView widget.
