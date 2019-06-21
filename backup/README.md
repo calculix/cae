@@ -33,9 +33,9 @@ Some examples for getting started with VTK in Python:
 
 # TODO
 
-Parse INP-file into DOM during mesh import. Model import with all keywords.
+Show final INP_code
 
-treeView: Edit implementation on DoubleClick.
+Remember collapsed/expanded state for each treeView item - keep it after tree regeneration.
 
 Move importINP to ccx_inp.py.
 
@@ -47,7 +47,13 @@ Show PDF documentation for each keyword's dialog.
 
 Save display options.
 
-Python code (*PYTHON keyword) in INP_code for step repetition and other kind of model generation 
+Comments code
+
+Python code (*PYTHON keyword) in INP_code for step repetition and other kind of model generation.
+
+Parse keyword's arguments and pass them to Dialog
+
+
 
 
 Import mesh from FRD, VTK, VTU:  

@@ -16,11 +16,6 @@ from PyQt5 import QtWidgets, uic, QtCore
 class Dialog(QtWidgets.QDialog):
 
     def __init__(self, item):
-        # if item.item_type == 'keyword':
-        self.keyword = item # needed to pass to other functions
-        # if item.item_type == 'implementation':
-        #     self.keyword = item.keyword # needed to pass to other functions
-            # TODO Parse INP_code and fill keyword's fields
 
         # Create dialog window
         super(Dialog, self).__init__()
@@ -28,71 +23,84 @@ class Dialog(QtWidgets.QDialog):
         # Load basic form
         uic.loadUi('ccx_dialog.ui', self)
 
-        # For each keyword's argument create name and value widgets
-        index = 0 # row number for vertical layout
-        for argument in self.keyword.items:
-            if argument.item_type != 'argument':
-                continue
+        # Draw full form for keyword's arguments
+        if item.item_type == 'keyword':
+            self.setWindowTitle('New ' + item.name)
+            self.keyword = item # needed to pass to other functions
 
-            # Argument's values
-            if len(argument.values):
-                # Predefined values to be chosen
-                argument_values_widget = QtWidgets.QComboBox()
-                argument_values_widget.addItems(argument.values)
+            # For each keyword's argument create name and value widgets
+            index = 0 # row number for vertical layout
+            for argument in self.keyword.items:
+                if argument.item_type != 'argument':
+                    continue
 
-                # Assign event to update textEdit widget
-                argument_values_widget.currentIndexChanged.connect(self.onChange)
+                # Argument's values
+                if len(argument.values):
+                    # Predefined values to be chosen
+                    argument_values_widget = QtWidgets.QComboBox()
+                    argument_values_widget.addItems(argument.values)
 
-                # QComboBox doesn't expand by default
-                sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
-                sizePolicy.setHorizontalStretch(1) # expand horizontally
-                argument_values_widget.setSizePolicy(sizePolicy)
-            elif '=' in argument.name:
-                # Values to be entered
-                argument_values_widget = QtWidgets.QLineEdit()
+                    # Assign event to update textEdit widget
+                    argument_values_widget.currentIndexChanged.connect(self.onChange)
 
-                # Assign event to update textEdit widget
-                argument_values_widget.textChanged.connect(self.onChange)
-            else:
-                # Flag to be checked
-                argument_values_widget = QtWidgets.QCheckBox()
-                argument.name += ' ' # shift checkbox a little bit for nice view
+                    # QComboBox doesn't expand by default
+                    sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+                    sizePolicy.setHorizontalStretch(1) # expand horizontally
+                    argument_values_widget.setSizePolicy(sizePolicy)
+                elif '=' in argument.name:
+                    # Values to be entered
+                    argument_values_widget = QtWidgets.QLineEdit()
 
-                # Assign event to update textEdit widget
-                argument_values_widget.clicked.connect(self.onChange)
+                    # Assign event to update textEdit widget
+                    argument_values_widget.textChanged.connect(self.onChange)
+                else:
+                    # Flag to be checked
+                    argument_values_widget = QtWidgets.QCheckBox()
+                    argument.name += ' ' # shift checkbox a little bit for nice view
 
-            # Mark required argument
-            if argument.required:
-                argument_required_widget = QtWidgets.QLabel()
-                argument_required_widget.setText('Required:')
-                argument_required_widget.setStyleSheet('color:Red;')
-                self.vertical_layout.insertWidget(index, argument_required_widget)
-                index += 1 # first time
+                    # Assign event to update textEdit widget
+                    argument_values_widget.clicked.connect(self.onChange)
 
-            # Argument's name
-            if '|' in argument.name:
-                # Mutually exclusive arguments
-                argument_name_widget = QtWidgets.QComboBox()
-                argument_name_widget.addItems(argument.name.split('|'))
+                # Mark required argument
+                if argument.required:
+                    argument_required_widget = QtWidgets.QLabel()
+                    argument_required_widget.setText('Required:')
+                    argument_required_widget.setStyleSheet('color:Red;')
+                    self.vertical_layout.insertWidget(index, argument_required_widget)
+                    index += 1 # first time
 
-                # Assign event to update textEdit widget
-                argument_name_widget.currentIndexChanged.connect(self.onChange)
-            else:
-                argument_name_widget = QtWidgets.QLabel()
-                argument_name_widget.setText(argument.name)
+                # Argument's name
+                if '|' in argument.name:
+                    # Mutually exclusive arguments
+                    argument_name_widget = QtWidgets.QComboBox()
+                    argument_name_widget.addItems(argument.name.split('|'))
 
-            # Keep name and values in horizontal layout
-            horizontal_layout = QtWidgets.QHBoxLayout()
-            horizontal_layout.setContentsMargins(0, 0, 0, 20) # bottom margin
-            horizontal_layout.addWidget(argument_name_widget)
-            horizontal_layout.addWidget(argument_values_widget)
-            horizontal_layout.setAlignment(QtCore.Qt.AlignLeft)
+                    # Assign event to update textEdit widget
+                    argument_name_widget.currentIndexChanged.connect(self.onChange)
+                else:
+                    argument_name_widget = QtWidgets.QLabel()
+                    argument_name_widget.setText(argument.name)
 
-            self.vertical_layout.insertLayout(index, horizontal_layout) # add widgets to dialog window
-            index += 1 # second time
+                # Keep name and values in horizontal layout
+                horizontal_layout = QtWidgets.QHBoxLayout()
+                horizontal_layout.setContentsMargins(0, 0, 0, 20) # bottom margin
+                horizontal_layout.addWidget(argument_name_widget)
+                horizontal_layout.addWidget(argument_values_widget)
+                horizontal_layout.setAlignment(QtCore.Qt.AlignLeft)
 
-        # Fill textEdit widget with default keyword's configuration
-        self.onChange(None)
+                self.vertical_layout.insertLayout(index, horizontal_layout) # add widgets to dialog window
+                index += 1 # second time
+
+            # Fill textEdit widget with default keyword's configuration
+            self.onChange(None)
+
+        # For implementation draw only textEdit
+        if item.item_type == 'implementation':
+            self.setWindowTitle('Edit ' + item.name)
+            self.keyword = item.keyword # needed to pass to other functions
+            for line in item.INP_code:
+                self.textEdit.append(line)
+            # TODO Parse INP_code and fill keyword's fields
 
         # Actions
         self.buttonBox.accepted.connect(self.onOk)

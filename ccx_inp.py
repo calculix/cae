@@ -14,51 +14,64 @@ import ccx_log, ccx_dom
 class Parse:
 
     """
-        DOM         -   data object model, generated once per session during start.
+        DOM     -   data object model, generated once per session during start.
 
-        lines    -   is a multiline text = list of strings, could be just contents of the whole
-                        INP file or piece of INP code, passed from some keyword's implementation.
+        INP_doc -   multiline text = list of strings, could be contents of the whole INP
+                    file or piece of INP code, passed from some keyword's implementation.
     """
 
-    def __init__(self, DOM, textEdit, lines):
+    def __init__(self, DOM, textEdit, INP_doc):
 
         # Configure logging
         self.logger = ccx_log.logger(textEdit)
 
-        # Make lines available for all methods of the class + clear lines
-        self.lines = []
-        for line in lines:
-            line = line.strip() # clear line
-            if not(line.startswith('**')): # remove comments
-                self.lines.append(line)
+        # Make INP_doc available for all methods of the class + clear each line
+        self.INP_doc = INP_doc
+        # self.INP_doc = []
+        # for line in INP_doc:
+        #     line = line.strip() # clear line
+        #     if not(line.startswith('**')): # remove comments
+        #         self.INP_doc.append(line)
 
-        self.parse(DOM.root)
-
-
-    # Parse each keyword in DOM
-    def parse(self, parent):
-        for item in parent.items: # for each keyword from DOM
-            if (item.item_type == 'group') or (item.item_type == 'keyword'):
-                if item.item_type == 'keyword':
-                    self.search(item)
-                self.parse(item)
+        # Start recursive DOM iterator
+        self.iterator(DOM.root)
 
 
-    # Search each keyword in lines (INP file or piece of INP code)
-    def search(self, item): # item is a keyword object
+    # Recursively iterate over DOM items, call parser for each keyword
+    def iterator(self, parent):
+        for item in parent.items: # for each group/keyword from DOM
+            if (item.item_type == 'group'):
+                self.iterator(item) # continue call iterator until dig to keyword
+            if item.item_type == 'keyword':
+                self.parser(item) # parse keyword
+                self.iterator(item) # and dig to child keywords
 
-        for i in range(len(self.lines)):
-            # TODO distinguish 'NODE' and 'NODE PRINT'
-            if self.lines[i].startswith(item.name): # if starts with keyword
 
-                INP_code = [self.lines[i]] # must be list of strings
+    # Search CalculiX'es keywords in the INP_doc lines
+    def parser(self, item): # item is a keyword object
 
-                while i+1<len(self.lines) and not self.lines[i+1].startswith('*'): # there will be no comments
-                    INP_code.append(self.lines[i+1])
+        for i in range(len(self.INP_doc)):
+            line = self.INP_doc[i].rstrip() # cut '\n'
+
+            # Skip comments
+            if line.lstrip().startswith('**'):
+                continue
+
+            # Distinguish 'NODE' and 'NODE PRINT'
+            if ',' in line:
+                keyword_name = line.split(',')[0]
+            else:
+                keyword_name = line
+
+            # If we found a keyword in the INP_doc
+            if keyword_name.strip() == item.name:
+                INP_code = [line] # must be list of strings
+
+                while i+1<len(self.INP_doc)\
+                    and not self.INP_doc[i+1].lstrip().startswith('*'): # there will be no comments
+
+                    INP_code.append(self.INP_doc[i+1].rstrip()) # cut '\n'
                     i += 1
-
-                # TODO parse item's (keyword's) arguments
 
                 # Create implementation object
                 impl = ccx_dom.implementation(item, INP_code)
-                # impl.show()

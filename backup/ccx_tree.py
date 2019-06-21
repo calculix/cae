@@ -29,7 +29,7 @@ class tree:
         self.expanded = False # start with collapsed tree items
 
         # Hide / show tree keywords without implementations 
-        self.show_empty = True # start with show all tree items
+        self.show_empty = False # start with show all tree items
 
         # Now generate treeView items
         self.generateTreeView()
@@ -64,9 +64,15 @@ class tree:
         for item in children:
 
             if item.item_type == 'group':
-                if len(item.items):
-                    # TODO Interactions are always shown
 
+                # Check if there are keywords with implementations
+                is_empty = True
+                for keyword in item.items:
+                    if len(keyword.implementations):
+                        is_empty = False
+                        break
+
+                if not is_empty:
                     tree_element = QtGui.QStandardItem(item.name)
                     tree_element.setData(item)
 
@@ -103,17 +109,19 @@ class tree:
                     self.addToTree(e, item.items)
 
 
-
     # Double click on treeView item: edit the keyword via dialog
     def doubleClicked(self, index):
         item = self.treeView.model().itemFromIndex(index) # treeView item obtained from 'index'
         item = item.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation 
 
         # Double click on ccx_dom.group doesn't create dialog
-        if item.item_type == 'keyword' or\
-            item.item_type == 'implementation':
+        if item.item_type == 'keyword' \
+            or item.item_type == 'implementation':
 
-            dialog = ccx_dialog.Dialog(item) # create dialog window and and pass ccx_dom.keyword object
+            # Create dialog window and pass item
+            dialog = ccx_dialog.Dialog(item)
+
+            # Get response from dialog window
             if dialog.exec_() == ccx_dialog.Dialog.Accepted: # if user pressed 'OK'
 
                 # The generated piece of .inp code for the CalculiX input file
@@ -121,15 +129,18 @@ class tree:
                 for line in INP_code:
                     self.logger.info(line) # show it
 
-                # Create implementation object
-                ccx_dom.implementation(item, INP_code)
+                # Create implementation object for keyword
+                if item.item_type == 'keyword':
+                    ccx_dom.implementation(item, INP_code)
+
+                # Replace implementation object with a new one
+                elif item.item_type == 'implementation':
+                    keyword = item.keyword
+                    item.remove()
+                    ccx_dom.implementation(keyword, INP_code)
 
                 # Update treeView widget
                 self.generateTreeView()
-
-            # Click on keyword's implementation: show piece of INP_code
-            for line in item.INP_code:
-                self.logger.info(line) # show it
 
 
     # Context menu for right click

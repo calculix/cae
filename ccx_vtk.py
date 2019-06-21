@@ -43,7 +43,7 @@ class VTK:
         # The actor is a grouping mechanism
         self.actor = vtk.vtkActor()
         self.actor.SetMapper(self.mapper)
-        self.actor.GetProperty().SetColor(0.2, 0.6, 0.8)
+        self.actor.GetProperty().SetColor(0.25, 0.60, 0.25) # mesh color
 
         # Add the actors to the renderer, set the background
         self.renderer.AddActor(self.actor)
@@ -92,6 +92,10 @@ class VTK:
         CAE.actionViewWireframe.triggered.connect(self.actionViewWireframe)
         CAE.actionViewSurface.triggered.connect(self.actionViewSurface)
         CAE.actionViewSurfaceWithEdges.triggered.connect(self.actionViewSurfaceWithEdges)
+
+        # Apply some action functions by default
+        self.actionViewParallel()
+        self.actionViewSurfaceWithEdges()
 
 
     def actionViewParallel(self):
@@ -154,7 +158,7 @@ class VTK:
 
     def actionViewIso(self):
         camera = self.renderer.GetActiveCamera() # get camera
-        camera.SetPosition(1, 1, 1) # camera's positions
+        camera.SetPosition(3, 2, 1) # camera's positions
         camera.SetViewUp(0, 1, 0) # which axis will be set as vertical
         camera.SetFocalPoint(0, 0, 0) # set focal foint to center
         self.renderer.ResetCamera() # fit view
