@@ -49,14 +49,15 @@ class CAE(QtWidgets.QMainWindow):
 
         # Actions # TODO rename function to action name
         self.actionImportINP.triggered.connect(self.importINP)
+        self.actionWriteINP.triggered.connect(self.writeINP)
 
 
     # Import mesh and display it in the VTK widget
-    def importINP(self, file_name=None): # TODO move it to ccx_inp
+    def importINP(self, file_name=None):
 
         if not file_name:
             file_name = QtWidgets.QFileDialog.getOpenFileName(self,\
-                'Import .inp mesh', '', 'Input files (*.inp);;All Files (*)')[0]
+                'Import INP file', '', 'Input files (*.inp);;All Files (*)')[0]
 
         self.logger.info('Loading ' + file_name + '.')
 
@@ -66,8 +67,8 @@ class CAE(QtWidgets.QMainWindow):
 
             # Parse model from INP - it will modify DOM
             with open(file_name, 'r') as f:
-                INP_code = f.readlines()
-                ccx_inp.Parse(self.tree.DOM, self.textEdit, INP_code)
+                INP_doc = f.readlines()
+                ccx_inp.Parse(self.tree.DOM, self.textEdit, INP_doc)
 
             # Regenerate treeView items to account for modifications in DOM
             self.tree.generateTreeView()
@@ -93,6 +94,34 @@ class CAE(QtWidgets.QMainWindow):
                 self.logger.info('Rendering OK.')
             except:
                 self.logger.error('Can\'t render INP mesh.')
+
+
+    # Write input file for CalculiX
+    def writeINP(self):
+
+        file_name = QtWidgets.QFileDialog.getSaveFileName(self,\
+            'Write INP file', '', 'Input files (*.inp);;All Files (*)')[0]
+
+        if file_name:
+            with open(file_name, 'w') as self.f:
+                # Start recursive DOM iterator
+                self.iterator(self.tree.DOM.root)
+
+            self.logger.info('Input written!')
+
+
+    # Recursively iterate over DOM items, write INP_code for each implementation
+    def iterator(self, parent):
+        for item in parent.items: # for each group/keyword from DOM
+
+            if item.item_type == 'argument':
+                continue
+
+            if item.item_type == 'implementation':
+                for line in item.INP_code:
+                    self.f.write(line + '\n')
+            else:
+                self.iterator(item) # continue call iterator until dig to implementation
 
 
 if __name__ == '__main__':

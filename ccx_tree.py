@@ -29,7 +29,7 @@ class tree:
         self.expanded = False # start with collapsed tree items
 
         # Hide / show tree keywords without implementations 
-        self.show_empty = False # start with show all tree items
+        self.show_empty = True # start with show all tree items
 
         # Now generate treeView items
         self.generateTreeView()
@@ -40,79 +40,52 @@ class tree:
 
 
     # Recursively generate treeView widget items based on DOM
-    def generateTreeView(self):
+    def generateTreeView(self): # TODO move it to __init__
         self.model = QtGui.QStandardItemModel()
-        parent = self.model.invisibleRootItem() # top element in QTreeView
-        self.addToTree(parent, self.DOM.root.items) # pass root - group 'Model'
+        branch = self.model.invisibleRootItem() # top element in QTreeView
+        self.addToTree(branch, self.DOM.root.items) # pass root groups
         self.treeView.setModel(self.model)
+        # self.model.clear()
 
-        # Keep expanded/collapsed state
-        if self.expanded:
-            self.treeView.expandAll()
-        else:
-            self.treeView.collapseAll()
-
-        # self.logger.info('TreeView generated.')
+        with open('DOM.txt', 'w') as f:
+            self.DOM.root.writeAll(f)
 
 
     # Used with generateTreeView() - implements recursion
-    def addToTree(self, parent, children):
-        """
-            parent is QtGui.QStandardItem
-            children are items of ccx_dom.DOM group or keyword
-        """
-        for item in children:
+    def addToTree(self, branch, items):
 
-            if item.item_type == 'group':
+        for item in items:
 
-                # Check if there are keywords with implementations
-                is_empty = True
-                for keyword in item.items:
-                    if len(keyword.implementations):
-                        is_empty = False
-                        break
+            # Add to the tree only needed item_types
+            if item.item_type not in ['group', 'keyword', 'implementation']:
+                continue
 
-                if not is_empty:
-                    tree_element = QtGui.QStandardItem(item.name)
-                    tree_element.setData(item)
+            # Check if there are keywords with implementations
+            if self.show_empty \
+                    or item.countImplementations() \
+                    or item.item_type == 'implementation':
 
-                    # Add icon to each group in tree
-                    icon_name = item.name.replace('*', '') + '.png'
-                    icon = QtGui.QIcon('./icons/' + icon_name.lower())
-                    tree_element.setIcon(icon)
+                tree_element = QtGui.QStandardItem(item.name)
+                tree_element.setData(item)
+                branch.appendRow(tree_element)
 
-                    parent.appendRow(tree_element)
+                # Add icon to each keyword in tree
+                icon_name = item.name.replace('*', '') + '.png'
+                icon = QtGui.QIcon('./icons/' + icon_name.lower())
+                tree_element.setIcon(icon)
+
+                # Organize recursion
+                impls = item.getImplementations()
+                if len(impls):
+                    self.addToTree(tree_element, impls)
+                else:
                     self.addToTree(tree_element, item.items)
-
-            if item.item_type == 'keyword':
-                if self.show_empty or len(item.implementations):
-                    tree_element = QtGui.QStandardItem(item.name)
-                    tree_element.setData(item)
-
-                    # Add icon to each keyword in tree
-                    icon_name = item.name.replace('*', '') + '.png'
-                    icon = QtGui.QIcon('./icons/' + icon_name.lower())
-                    tree_element.setIcon(icon)
-
-                    parent.appendRow(tree_element)
-                    if not len(item.implementations):
-                        self.addToTree(tree_element, item.items)
-
-                # Draw keyword's children for its implementation
-                for i in range(len(item.implementations)):
-                    impl = item.implementations[i] # keyword implementation object
-                    e = QtGui.QStandardItem(impl.name)
-                    e.setData(impl)
-
-                    tree_element.setText(item.name + ' (' + str(len(item.implementations)) + ')')
-                    tree_element.appendRow(e)
-                    self.addToTree(e, item.items)
 
 
     # Double click on treeView item: edit the keyword via dialog
     def doubleClicked(self, index):
-        item = self.treeView.model().itemFromIndex(index) # treeView item obtained from 'index'
-        item = item.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation 
+        tree_element = self.treeView.model().itemFromIndex(index) # treeView item obtained from 'index'
+        item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation 
 
         # Double click on ccx_dom.group doesn't create dialog
         if item.item_type == 'keyword' \
@@ -126,8 +99,8 @@ class tree:
 
                 # The generated piece of .inp code for the CalculiX input file
                 INP_code = dialog.onOk() # list of strings
-                for line in INP_code:
-                    self.logger.info(line) # show it
+                # for line in INP_code:
+                #     self.logger.info(line) # show it
 
                 # Create implementation object for keyword
                 if item.item_type == 'keyword':
@@ -135,9 +108,10 @@ class tree:
 
                 # Replace implementation object with a new one
                 elif item.item_type == 'implementation':
-                    keyword = item.keyword
-                    item.remove()
-                    ccx_dom.implementation(keyword, INP_code)
+                    keyword = tree_element.parent().data() # parent keyword for implementation
+                    keyword.items.remove(item) # remove implementation from keyword's items
+                    ccx_dom.implementation(keyword, INP_code, name=item.name)
+                    del item
 
                 # Update treeView widget
                 self.generateTreeView()
@@ -187,11 +161,13 @@ class tree:
     # Delete keyword's implementation from DOM
     def actionDeleteImplementation(self, item):
         index = self.treeView.selectedIndexes()[0] # selected item index
-        item = self.treeView.model().itemFromIndex(index) # treeView item obtained from 'index'
-        item = item.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation 
+        tree_element = self.treeView.model().itemFromIndex(index) # treeView item obtained from 'index'
+        item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation 
 
         if item.item_type == 'implementation':
-            item.remove()
+            keyword = tree_element.parent().data() # parent keyword for implementation
+            keyword.items.remove(item) # remove implementation from keyword's items
+            del item
 
             # Update treeView items
             self.generateTreeView()

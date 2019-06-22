@@ -33,8 +33,6 @@ Some examples for getting started with VTK in Python:
 
 # TODO
 
-Show final INP_code
-
 Remember collapsed/expanded state for each treeView item - keep it after tree regeneration.
 
 Move importINP to ccx_inp.py.

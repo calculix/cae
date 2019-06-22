@@ -193,6 +193,9 @@ class VTK:
 
     def actionViewSurfaceWithEdges(self):
         self.actor.GetProperty().EdgeVisibilityOn()
+        # meshFreeSurfaceFilter = vtk.vtkDataSetSurfaceFilter() 
+        # meshFreeSurfaceFilter.SetInputData(self.mesh) 
+        # meshFreeSurfaceFilter.Update()
         self.actor.GetProperty().SetRepresentationToSurface()
         self.window.Render() # render updated view
 

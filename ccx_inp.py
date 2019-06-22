@@ -27,11 +27,6 @@ class Parse:
 
         # Make INP_doc available for all methods of the class + clear each line
         self.INP_doc = INP_doc
-        # self.INP_doc = []
-        # for line in INP_doc:
-        #     line = line.strip() # clear line
-        #     if not(line.startswith('**')): # remove comments
-        #         self.INP_doc.append(line)
 
         # Start recursive DOM iterator
         self.iterator(DOM.root)
@@ -42,13 +37,19 @@ class Parse:
         for item in parent.items: # for each group/keyword from DOM
             if (item.item_type == 'group'):
                 self.iterator(item) # continue call iterator until dig to keyword
-            if item.item_type == 'keyword':
-                self.parser(item) # parse keyword
-                self.iterator(item) # and dig to child keywords
+            if item.item_type == 'keyword' or\
+                item.item_type == 'implementation':
+                impl = self.parser(item) # parse keyword
+                if impl:
+                    self.iterator(impl) # and dig to child keywords
+                else:
+                    self.iterator(item) # and dig to child keywords
 
 
     # Search CalculiX'es keywords in the INP_doc lines
     def parser(self, item): # item is a keyword object
+
+        # TODO !delete parsed lines!
 
         for i in range(len(self.INP_doc)):
             line = self.INP_doc[i].rstrip() # cut '\n'
@@ -64,7 +65,7 @@ class Parse:
                 keyword_name = line
 
             # If we found a keyword in the INP_doc
-            if keyword_name.strip() == item.name:
+            if keyword_name.strip().lower() == item.name.lower():
                 INP_code = [line] # must be list of strings
 
                 while i+1<len(self.INP_doc)\
@@ -74,4 +75,6 @@ class Parse:
                     i += 1
 
                 # Create implementation object
-                impl = ccx_dom.implementation(item, INP_code)
+                return ccx_dom.implementation(item, INP_code) # return implementation object
+
+        return None # if no implementation was created

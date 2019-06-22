@@ -10,16 +10,18 @@
 """
 
 
-import ccx_log
+import ccx_log, copy
+
+# TODO enumerations for item_type
 
 
 # CalculiX keywords hierarchy - data object model
 class DOM:
 
     """
-        logger
-        parent_items
-        root
+        logger          -   simply logger from ccx_log
+        parent_items    -   last parent for given padding level
+        root            -   group 'ROOT' from ccx_dom.inp
     """
 
     # Read CalculiX keywords hierarchy
@@ -49,14 +51,15 @@ class DOM:
 
                     # Define item for current padding level
                     if line.startswith('*'):
-                        item = keyword(line, level)
+                        item = keyword(line)
                     elif line.endswith('__group'):
-                        item = group(line, level)
+                        item = group(line)
 
                     # Update parent item
                     parent_items[level] = item
                     if level > 0:
-                        parent_items[level-1].addItem(item)
+                        parent_items[level-1].addItem(item) # for example, add keyword to group
+                        item.setParent(parent_items[level-1]) # set item's parent
 
             self.root = parent_items[0] # group 'Model'
             self.logger.info('CalculiX object model generated.')
@@ -64,59 +67,126 @@ class DOM:
             self.logger.error('Can\'t generate keywords hierarchy!')
 
 
+# Needed for inheritance by further classes
+class item:
+
+    item_type = ''      # item's type: group/keyword/argument/implementation
+    name = ''           # name of item, string
+    items = []          # list of children
+    parent = None       # item's parent item
+
+
+    # Recursive function to count keyword implementations in item's descendants
+    def countImplementations(self):
+        if self.item_type == 'argument':
+            return 0
+
+        counter = 0
+        for i in self.items:
+            if i.item_type == 'implementation':
+                counter += 1
+            else:
+                counter += i.countImplementations()
+        return counter
+
+
+    # Get list of keywords implementations
+    def getImplementations(self):
+        imps = []
+        for item in self.items:
+            if item.item_type == 'implementation':
+                imps.append(item)
+        return imps
+
+
+    # Add child item to 'items' list
+    def addItem(self, item):
+        self.items.append(item)
+
+
+    # Get list of items - non implementations
+    def getItems(self):
+        imps = []
+        for item in self.items:
+            if item.item_type != 'implementation':
+                imps.append(item)
+        return imps
+
+
+    # Set item's parent
+    def setParent(self, item):
+        self.parent = item
+
+
+    # Get item's parent
+    def getParent(self):
+        return self.parent
+
+    """
+        def getPath(self, path=None, parent=None):
+            if not path:
+                path = [self.name]
+
+            if not parent:
+                parent = self.getParent()
+
+            if parent:
+                path.append(parent.name)
+                print(str(path))
+                self.getPath(path, parent)
+
+            return path
+    """
+
+    # Print all the branch DOM elements starting from current item
+    def writeAll(self, f, level=0):
+
+        # How many implementations has group or keyword
+        has = ''
+        counter = self.countImplementations()
+        if counter:
+            has = ' ' + str(counter)
+
+        # Name of parent for current item
+        parent = ''
+        if self.parent:
+            parent = ' parent=' + self.parent.name
+
+        # path = ' '# + str(self.getPath())
+
+        expanded = ' expanded ' + str(self.expanded)
+
+        # String to write to file for debug purposes
+        string = '\t'*level + self.name + has + expanded
+        f.write(string + '\n')
+
+        # Organize recursion
+        for item in self.items:
+            if item.item_type != 'argument':
+                item.writeAll(f, level+1)
+
+
 # Group of keywords, like 'Properties', 'Constraints', etc.
-class group:
+class group(item):
 
-    """
-        item_type
-        implementations - not used
-        name
-        items
-        level
-    """
-
-    item_type = 'group' # needed to distinguish from 'keyword'
-    implementations = [] # will always be empty
-
-    def __init__(self, line, level):
+    def __init__(self, line):
+        self.item_type = 'group'
         line = line.strip().replace('__group', '')
         self.name = line
         self.items = [] # list of groups and keywords
-        self.level = level # needed for padding in printAll()
-
-    def addItem(self, item):
-        self.items.append(item)
-    
-    def printAll(self):
-        string = '\t' * self.level
-        string += self.name
-        # print(string)
-        for item in self.items:
-            string += item.printAll()
-        return string
 
 
 # *AMPLITUDE, *BOUNDARY, *STEP etc.
-class keyword:
+class keyword(item):
 
-    """
-        item_type
-        items
-        from_new_line
-        name
-        level
-        implementations
-    """
-
-    item_type = 'keyword' # needed to distinguish from 'group'
-
-    def __init__(self, line, level):
+    def __init__(self, line):
+        self.item_type = 'keyword'
 
         # '__' added after '=' for better code highlighting in vscode
         if line.endswith('__'):
             line = line[:-2]
 
-        self.items = [] # list of groups, keywords and arguments
+        self.items = [] # list of arguments
 
         # Start all arguments from the next line?
         self.from_new_line = False # marks that argument should be printed from the new line
@@ -124,52 +194,31 @@ class keyword:
             self.from_new_line = True # yes
             line = line.replace('__newline', '')
 
+        # Define name
         if not ',' in line:
             self.name = line
         else:
             lines = line.split(',')
             self.name = lines[0]
             for arg in lines[1:]:
-                self.items.append(argument(arg, level))
+                self.items.append(argument(arg))
 
-        self.level = level # needed for padding in printAll()
-        self.implementations = [] # list of INP_codes generated via keyword dialog
-
-    def addItem(self, item):
-        self.items.append(item)
-
-    def printAll(self):
-        string = self.name + '\n'
-        for impl in self.implementations:
-            string += impl.name + '\n'
-        for item in self.items:
-            if item.item_type != 'argument':
-                continue
-            string += item.printAll()
-        return string
+        # self.path = [] # TODO path to current keyword in the DOM hierarchy
 
 
 # Keyword's argument
-class argument:
+class argument(item):
 
-    """
-        name            - argument's name
-        required        - required or optional
-        values          - list of possible values
-        level           - padding level in ccx_dom.txt
-    """
+    def __init__(self, line):
 
-    items = [] # do not remember why, but it's needed
-    item_type = 'argument' # needed to distinguish from 'group' and 'keyword'
-
-    def __init__(self, line, keyword):
+        self.item_type = 'argument' # needed to distinguish from 'group' and 'keyword'
 
         # Required or optional
         self.required = False
         if '__required' in line:
             self.required = True
 
-        self.values = [] # list of strings
+        self.items = [] # list of strings
         left_part = line
         if '=' in line:
             # arguments : values
@@ -180,10 +229,10 @@ class argument:
             # TODO add '+' splitter for arguments that always go together
             if '|' in right_part:
                 # if few values are present
-                self.values = [v for v in right_part.split('|')]
+                self.items = [v for v in right_part.split('|')]
             elif len(right_part):
                 # one value only
-                self.values = [right_part]
+                self.items = [right_part]
 
         # If '__required' is present - remove it
         if '__required' in left_part:
@@ -193,49 +242,20 @@ class argument:
         self.name = left_part
 
 
-    def printAll(self):
-        string = ',' + self.name
-
-        if self.required:
-            string += '__required'
-
-        amount_of_values = len(self.values)
-        if amount_of_values:
-            # string += ':'
-            for i in range(amount_of_values-1):
-                string += self.values[i] + '|'
-            string += self.values[amount_of_values-1]
-
-        return string + '\n'
-
-
 # Keyword implementation - a piece of INP-code for CalculiX input file
-class implementation:
-    """
-        keyword
-        name
-        INP_code
-        items # inherited from keyword
-    """
+class implementation(item):
 
-    item_type = 'implementation' # needed to distinguish from 'group' and 'keyword'
-
-    def __init__(self, keyword, INP_code):
-        self.keyword = keyword
-        self.items = keyword.items
+    def __init__(self, keyword, INP_code, name=None):
+        self.item_type = 'implementation'
+        self.items = copy.deepcopy(keyword.getItems())
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
-        self.name = self.keyword.name[1:] + '-' + str(len(self.keyword.implementations) + 1)
+        if name:
+            self.name = name # it will be used in edit Dialog
+            index = int(name.split('-')[1]) - 1
+        else:
+            index = len(keyword.getImplementations())
+            self.name = keyword.name[1:] + '-' + str(index + 1)
+
         self.INP_code = INP_code # INP-code for current implementation - list of strings
-        self.keyword.implementations.append(self)
-
-
-    # Remove keyword's implementation
-    def remove(self):
-        self.keyword.implementations.remove(self)
-
-
-    # Print implementation's INP_code
-    def show(self):
-        for line in self.INP_code:
-            print(line)
+        keyword.items.insert(index, self) # append implementation to keyword's items

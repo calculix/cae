@@ -152,6 +152,7 @@
      <string>File</string>
     </property>
     <addaction name="actionImportINP"/>
+    <addaction name="actionWriteINP"/>
    </widget>
    <widget class="QMenu" name="menuSelect">
     <property name="enabled">
@@ -382,6 +383,15 @@
    </property>
    <property name="toolTip">
     <string>Surface View With Edges</string>
+   </property>
+  </action>
+  <action name="actionWriteINP">
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/writeINP.png</normaloff>icons/writeINP.png</iconset>
+   </property>
+   <property name="text">
+    <string>Write INP file</string>
    </property>
   </action>
  </widget>

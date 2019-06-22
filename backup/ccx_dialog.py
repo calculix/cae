@@ -23,7 +23,7 @@ class Dialog(QtWidgets.QDialog):
         # Load basic form
         uic.loadUi('ccx_dialog.ui', self)
 
-        # Draw full form for keyword's arguments
+        # NEW IMPLEMENTATION: Draw full form for keyword's arguments
         if item.item_type == 'keyword':
             self.setWindowTitle('New ' + item.name)
             self.keyword = item # needed to pass to other functions
@@ -35,10 +35,10 @@ class Dialog(QtWidgets.QDialog):
                     continue
 
                 # Argument's values
-                if len(argument.values):
+                if len(argument.items):
                     # Predefined values to be chosen
                     argument_values_widget = QtWidgets.QComboBox()
-                    argument_values_widget.addItems(argument.values)
+                    argument_values_widget.addItems(argument.items)
 
                     # Assign event to update textEdit widget
                     argument_values_widget.currentIndexChanged.connect(self.onChange)
@@ -94,13 +94,11 @@ class Dialog(QtWidgets.QDialog):
             # Fill textEdit widget with default keyword's configuration
             self.onChange(None)
 
-        # For implementation draw only textEdit
+        # EDIT IMPLEMENTATION: For implementation draw only textEdit
         if item.item_type == 'implementation':
             self.setWindowTitle('Edit ' + item.name)
-            self.keyword = item.keyword # needed to pass to other functions
             for line in item.INP_code:
                 self.textEdit.append(line)
-            # TODO Parse INP_code and fill keyword's fields
 
         # Actions
         self.buttonBox.accepted.connect(self.onOk)
@@ -158,7 +156,7 @@ class Dialog(QtWidgets.QDialog):
 
     # Reset textEdit widget to initial state
     def onReset(self):
-        self.textEdit.setText(self.keyword.name)
+        self.textEdit.setText('')
 
 
     # Return piece of created code for the .inp-file
