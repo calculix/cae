@@ -11,6 +11,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 import ccx_dialog, ccx_dom, ccx_log
 
+# TODO menu 'Edit Implementation' on rightClick
 
 class tree:
 
@@ -32,23 +33,35 @@ class tree:
         self.show_empty = True # start with show all tree items
 
         # Now generate treeView items
+        self.model = QtGui.QStandardItemModel()
         self.generateTreeView()
 
         # Actions
         self.treeView.doubleClicked.connect(self.doubleClicked)
         self.treeView.customContextMenuRequested.connect(self.rightClicked)
+        self.treeView.expanded.connect(self.treeViewExpanded)
+        self.treeView.collapsed.connect(self.treeViewCollapsed)
 
 
     # Recursively generate treeView widget items based on DOM
-    def generateTreeView(self): # TODO move it to __init__
-        self.model = QtGui.QStandardItemModel()
+    def generateTreeView(self, tree_path=None):
+        self.model.clear() # remove all items and data
         branch = self.model.invisibleRootItem() # top element in QTreeView
         self.addToTree(branch, self.DOM.root.items) # pass root groups
         self.treeView.setModel(self.model)
-        # self.model.clear()
 
-        with open('DOM.txt', 'w') as f:
-            self.DOM.root.writeAll(f)
+        # if tree_path:
+            # print(tree_path)
+            # index = self.model.index(sum(tree_path), 0)
+            # index = self.model.index(tree_path[0], 0)
+            # tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
+            # item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation
+            # print(item.name)
+            # self.treeView.scrollTo(index, QtWidgets.QAbstractItemView.PositionAtCenter)
+
+        # Check DOM - for debug purposes
+        # with open('DOM.txt', 'w') as f:
+        #     self.DOM.root.writeAll(f)
 
 
     # Used with generateTreeView() - implements recursion
@@ -69,6 +82,11 @@ class tree:
                 tree_element.setData(item)
                 branch.appendRow(tree_element)
 
+                if item.expanded:
+                    self.treeView.expand(tree_element.index())
+                else:
+                    self.treeView.collapse(tree_element.index())
+
                 # Add icon to each keyword in tree
                 icon_name = item.name.replace('*', '') + '.png'
                 icon = QtGui.QIcon('./icons/' + icon_name.lower())
@@ -84,8 +102,8 @@ class tree:
 
     # Double click on treeView item: edit the keyword via dialog
     def doubleClicked(self, index):
-        tree_element = self.treeView.model().itemFromIndex(index) # treeView item obtained from 'index'
-        item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation 
+        tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
+        item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation
 
         # Double click on ccx_dom.group doesn't create dialog
         if item.item_type == 'keyword' \
@@ -99,22 +117,24 @@ class tree:
 
                 # The generated piece of .inp code for the CalculiX input file
                 INP_code = dialog.onOk() # list of strings
-                # for line in INP_code:
-                #     self.logger.info(line) # show it
 
                 # Create implementation object for keyword
                 if item.item_type == 'keyword':
-                    ccx_dom.implementation(item, INP_code)
+                    impl = ccx_dom.implementation(item, INP_code)
+                    impl_element = QtGui.QStandardItem(impl.name)
+                    impl_element.setData(impl)
+                    tree_element.appendRow(impl_element)
 
                 # Replace implementation object with a new one
                 elif item.item_type == 'implementation':
-                    keyword = tree_element.parent().data() # parent keyword for implementation
+                    # Remove old one
+                    parent = tree_element.parent() # parent treeView item
+                    keyword = parent.data() # parent keyword for implementation
                     keyword.items.remove(item) # remove implementation from keyword's items
-                    ccx_dom.implementation(keyword, INP_code, name=item.name)
-                    del item
 
-                # Update treeView widget
-                self.generateTreeView()
+                    # Add new one
+                    impl = ccx_dom.implementation(keyword, INP_code, name=item.name)
+                    tree_element.setData(impl)
 
 
     # Context menu for right click
@@ -127,12 +147,12 @@ class tree:
 
         action_expand_collapse = QtWidgets.QAction('Expand/Collapse all', self.treeView)
         self.myMenu.addAction(action_expand_collapse)
-        action_expand_collapse.triggered.connect(self.actionExpandCollapse)
+        action_expand_collapse.triggered.connect(self.actionExpandCollapseAll)
 
         try: # catch out of index
             index = self.treeView.selectedIndexes()[0] # selected item index
-            item = self.treeView.model().itemFromIndex(index) # treeView item obtained from 'index'
-            item = item.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation 
+            item = self.model.itemFromIndex(index) # treeView item obtained from 'index'
+            item = item.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation
             if item.item_type == 'implementation':
                 action_delete_implementation = QtWidgets.QAction('Delete', self.treeView)
                 self.myMenu.addAction(action_delete_implementation)
@@ -150,7 +170,7 @@ class tree:
 
 
     # Expand or collapsea all treeView items
-    def actionExpandCollapse(self):
+    def actionExpandCollapseAll(self):
         if self.expanded:
             self.treeView.collapseAll()
         else:
@@ -161,13 +181,22 @@ class tree:
     # Delete keyword's implementation from DOM
     def actionDeleteImplementation(self, item):
         index = self.treeView.selectedIndexes()[0] # selected item index
-        tree_element = self.treeView.model().itemFromIndex(index) # treeView item obtained from 'index'
-        item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation 
+        tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
+        item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation
 
         if item.item_type == 'implementation':
-            keyword = tree_element.parent().data() # parent keyword for implementation
+            parent = tree_element.parent() # parent treeVire item
+            keyword = parent.data() # parent keyword for implementation
             keyword.items.remove(item) # remove implementation from keyword's items
-            del item
+            parent.removeRow(tree_element.row()) # remove row in treeView
 
-            # Update treeView items
-            self.generateTreeView()
+
+    # Change DOM item's 'expanded' variable when user interacts with treeView
+    def treeViewExpanded(self, index):
+        tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
+        item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation
+        item.expanded = True
+    def treeViewCollapsed(self, index):
+        tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
+        item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation
+        item.expanded = False

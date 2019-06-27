@@ -4,9 +4,8 @@
     © Ihor Mirzov, June 2019.
     Distributed under GNU General Public License, version 2.
 
-    Methods to work with VTK widget
+    Methods to work with VTK widget.
 """
-
 
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 import vtk, ccx_select_style, ccx_log
@@ -56,7 +55,7 @@ class VTK:
         self.axes.SetYAxisLabelText('Y')
         self.axes.SetZAxisLabelText('Z')
         self.axes.SetTotalLength(1.0, 1.0, 1.0)
-        self.axes.SetCylinderRadius(0.5 * self.axes.GetCylinderRadius())
+        self.axes.SetCylinderRadius(1.0 * self.axes.GetCylinderRadius())
         tprop = vtk.vtkTextProperty()
         tprop.SetColor(0, 0, 0) # font color
         self.axes.GetXAxisCaptionActor2D().SetCaptionTextProperty(tprop)
@@ -97,6 +96,8 @@ class VTK:
         self.actionViewParallel()
         self.actionViewSurfaceWithEdges()
 
+
+    # View toolbar
 
     def actionViewParallel(self):
         camera = self.renderer.GetActiveCamera() # get camera
@@ -200,29 +201,22 @@ class VTK:
         self.window.Render() # render updated view
 
 
-    # Menu Select->Nodes
-    # TODO Should be active after mesh import
+    # Menu Select
+
     def actionSelectionNodes(self):
         self.actionSelectionClear() # clear selection before new call
         style = ccx_select_style.nodes(self.renderer, self.window, self.textEdit)
         self.interactor.SetInteractorStyle(style)
 
-
-    # Menu Select->Elements
-    # TODO Should be active after mesh import
     def actionSelectionElements(self):
         self.actionSelectionClear() # clear selection before new call
         style = ccx_select_style.elements(self.renderer, self.window, self.textEdit)
         self.interactor.SetInteractorStyle(style)
 
-
-    # Menu Select->Clear selection
-    # TODO Should be active after mesh import
     def actionSelectionClear(self):
         self.renderer.RemoveAllViewProps()
         self.renderer.AddActor(self.actor)
         self.window.Render()
-
         self.logger.info('Clear selection.')
 
 

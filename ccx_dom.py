@@ -74,6 +74,7 @@ class item:
     name = ''           # name of item, string
     items = []          # list of children
     parent = None       # item's parent item
+    expanded = True     # flag for treeView
 
 
     # Recursive function to count keyword implementations in item's descendants
@@ -154,10 +155,8 @@ class item:
 
         # path = ' '# + str(self.getPath())
 
-        expanded = ' expanded ' + str(self.expanded)
-
         # String to write to file for debug purposes
-        string = '\t'*level + self.name + has + expanded
+        string = '\t'*level + self.name + has
         f.write(string + '\n')
 
         # Organize recursion

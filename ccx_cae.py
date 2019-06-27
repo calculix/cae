@@ -47,7 +47,7 @@ class CAE(QtWidgets.QMainWindow):
         # Creates default ugrid, adds it to the VTK mapper
         self.importINP(args.mesh)
 
-        # Actions # TODO rename function to action name
+        # Actions
         self.actionImportINP.triggered.connect(self.importINP)
         self.actionWriteINP.triggered.connect(self.writeINP)
 
@@ -120,8 +120,8 @@ class CAE(QtWidgets.QMainWindow):
             if item.item_type == 'implementation':
                 for line in item.INP_code:
                     self.f.write(line + '\n')
-            else:
-                self.iterator(item) # continue call iterator until dig to implementation
+
+            self.iterator(item) # continue call iterator until dig to implementation
 
 
 if __name__ == '__main__':
