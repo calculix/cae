@@ -11,7 +11,7 @@
 
 
 import sys, os, argparse, vtk
-from PyQt5 import QtWidgets, uic, QtCore, QtGui
+from PyQt5 import QtWidgets, uic, QtCore, QtGui, Qt
 import ccx_mesh, ccx_dom, ccx_tree, ccx_log, ccx_vtk, ccx_inp
 
 
@@ -34,8 +34,11 @@ class CAE(QtWidgets.QMainWindow):
         self.vl.addWidget(self.VTK.widget) # add vtk_widget to the form
         self.frame.setLayout(self.vl) # apply layout: it will expand vtk_widget to the frame size
 
+        # Generate CalculiX DOM based on keywords hierarchy from ccx_dom.txt
+        DOM = ccx_dom.DOM(self.textEdit) # empty DOM w/o implementations
+
         # Generate empty CalculiX model and treeView items
-        self.tree = ccx_tree.tree(self.treeView, self.textEdit)
+        self.tree = ccx_tree.tree(self.treeView, DOM)
 
         # Default start model could be chosen with command line parameter
         parser = argparse.ArgumentParser()
@@ -50,8 +53,16 @@ class CAE(QtWidgets.QMainWindow):
         # Actions
         self.actionImportINP.triggered.connect(self.importINP)
         self.actionWriteINP.triggered.connect(self.writeINP)
+        self.treeView.keyPressEvent = self.keyPressEvent
 
 
+    # Delete keyword's implementation in the treeView by pressing 'Delete' button
+    def keyPressEvent(self, e):
+        if e.key() == QtCore.Qt.Key_Delete:
+            self.tree.actionDeleteImplementation()
+
+
+    # Menu File -> Import INP file
     # Import mesh and display it in the VTK widget
     def importINP(self, file_name=None):
 
@@ -62,13 +73,16 @@ class CAE(QtWidgets.QMainWindow):
         self.logger.info('Loading ' + file_name + '.')
 
         if file_name:
-            # Generate empty CalculiX model (DOM) and treeView items
-            self.tree = ccx_tree.tree(self.treeView, self.textEdit)
+            # Generate CalculiX DOM based on keywords hierarchy from ccx_dom.txt
+            DOM = ccx_dom.DOM(self.textEdit)
 
             # Parse model from INP - it will modify DOM
             with open(file_name, 'r') as f:
                 INP_doc = f.readlines()
-                ccx_inp.Parse(self.tree.DOM, self.textEdit, INP_doc)
+                ccx_inp.Parse(DOM, self.textEdit, INP_doc) # enrich DOM with parsed objects
+
+            # Update DOM in ccx_tree class
+            self.tree.DOM = DOM
 
             # Regenerate treeView items to account for modifications in DOM
             self.tree.generateTreeView()
@@ -96,6 +110,7 @@ class CAE(QtWidgets.QMainWindow):
                 self.logger.error('Can\'t render INP mesh.')
 
 
+    # Menu File -> Write INP file
     # Write input file for CalculiX
     def writeINP(self):
 

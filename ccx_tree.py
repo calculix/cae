@@ -11,23 +11,15 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 import ccx_dialog, ccx_dom, ccx_log
 
-# TODO menu 'Edit Implementation' on rightClick
 
 class tree:
 
-    def __init__(self, treeView, textEdit):
+    def __init__(self, treeView, DOM):
 
-        # Configure logging
-        self.logger = ccx_log.logger(textEdit)
-
-        # Generate CalculiX DOM based on keywords hierarchy from ccx_dom.txt
-        self.DOM = ccx_dom.DOM(textEdit) # DOM is generated once per session during start
+        self.DOM = DOM
 
         # Make treeView available for other methods
         self.treeView = treeView
-
-        # Expanded / collapsed flag - used in other methods
-        self.expanded = False # start with collapsed tree items
 
         # Hide / show tree keywords without implementations 
         self.show_empty = True # start with show all tree items
@@ -44,24 +36,11 @@ class tree:
 
 
     # Recursively generate treeView widget items based on DOM
-    def generateTreeView(self, tree_path=None):
+    def generateTreeView(self):
         self.model.clear() # remove all items and data
         branch = self.model.invisibleRootItem() # top element in QTreeView
         self.addToTree(branch, self.DOM.root.items) # pass root groups
         self.treeView.setModel(self.model)
-
-        # if tree_path:
-            # print(tree_path)
-            # index = self.model.index(sum(tree_path), 0)
-            # index = self.model.index(tree_path[0], 0)
-            # tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
-            # item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation
-            # print(item.name)
-            # self.treeView.scrollTo(index, QtWidgets.QAbstractItemView.PositionAtCenter)
-
-        # Check DOM - for debug purposes
-        # with open('DOM.txt', 'w') as f:
-        #     self.DOM.root.writeAll(f)
 
 
     # Used with generateTreeView() - implements recursion
@@ -101,13 +80,13 @@ class tree:
 
 
     # Double click on treeView item: edit the keyword via dialog
-    def doubleClicked(self, index):
+    def doubleClicked(self):
+        index = self.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation
 
         # Double click on ccx_dom.group doesn't create dialog
-        if item.item_type == 'keyword' \
-            or item.item_type == 'implementation':
+        if item.item_type == 'keyword' or item.item_type == 'implementation':
 
             # Create dialog window and pass item
             dialog = ccx_dialog.Dialog(item)
@@ -141,24 +120,50 @@ class tree:
     def rightClicked(self):
         self.myMenu = QtWidgets.QMenu('Menu', self.treeView)
 
-        action_show_hide = QtWidgets.QAction('Show/Hide empty containers', self.treeView)
-        self.myMenu.addAction(action_show_hide)
-        action_show_hide.triggered.connect(self.actionShowHide)
-
-        action_expand_collapse = QtWidgets.QAction('Expand/Collapse all', self.treeView)
-        self.myMenu.addAction(action_expand_collapse)
-        action_expand_collapse.triggered.connect(self.actionExpandCollapseAll)
-
         try: # catch out of index
             index = self.treeView.selectedIndexes()[0] # selected item index
             item = self.model.itemFromIndex(index) # treeView item obtained from 'index'
             item = item.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation
             if item.item_type == 'implementation':
+
+                # 'Edit' action
+                action_edit_implementation = QtWidgets.QAction('Edit', self.treeView)
+                self.myMenu.addAction(action_edit_implementation)
+                action_edit_implementation.triggered.connect(self.doubleClicked)
+
+                # 'Delete' action
                 action_delete_implementation = QtWidgets.QAction('Delete', self.treeView)
                 self.myMenu.addAction(action_delete_implementation)
                 action_delete_implementation.triggered.connect(self.actionDeleteImplementation)
+
+            if item.item_type == 'keyword':
+
+                # 'Create' action
+                action_create_implementation = QtWidgets.QAction('Create', self.treeView)
+                self.myMenu.addAction(action_create_implementation)
+                action_create_implementation.triggered.connect(self.doubleClicked)
+
+            # Add splitter
+            self.myMenu.addSeparator()
+
         except:
             pass
+
+        if self.show_empty:
+            title = 'Hide empty containers'
+        else:
+            title = 'Show empty containers'
+        action_show_hide = QtWidgets.QAction(title, self.treeView)
+        self.myMenu.addAction(action_show_hide)
+        action_show_hide.triggered.connect(self.actionShowHide)
+
+        action_expand_collapse = QtWidgets.QAction('Collapse all', self.treeView)
+        self.myMenu.addAction(action_expand_collapse)
+        action_expand_collapse.triggered.connect(self.actionCollapseAll)
+
+        action_expand_collapse = QtWidgets.QAction('Expand all', self.treeView)
+        self.myMenu.addAction(action_expand_collapse)
+        action_expand_collapse.triggered.connect(self.actionExpandAll)
 
         self.myMenu.exec_(QtGui.QCursor.pos())
 
@@ -169,26 +174,53 @@ class tree:
         self.generateTreeView()
 
 
-    # Expand or collapsea all treeView items
-    def actionExpandCollapseAll(self):
-        if self.expanded:
-            self.treeView.collapseAll()
-        else:
-            self.treeView.expandAll()
-        self.expanded = not(self.expanded)
+    # Expand or collapse all treeView items
+    def actionCollapseAll(self):
+        self.treeView.collapseAll()
+    def actionExpandAll(self):
+        self.treeView.expandAll()
 
 
     # Delete keyword's implementation from DOM
-    def actionDeleteImplementation(self, item):
+    def actionDeleteImplementation(self):
         index = self.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is ccx_dom.group, ccx_dom.keyword or ccx_dom.implementation
 
         if item.item_type == 'implementation':
-            parent = tree_element.parent() # parent treeVire item
-            keyword = parent.data() # parent keyword for implementation
-            keyword.items.remove(item) # remove implementation from keyword's items
-            parent.removeRow(tree_element.row()) # remove row in treeView
+
+            # Confirmation dialog to delete implementation
+            answer = QtWidgets.QMessageBox.question(None,
+                item.name, 'OK to delete ' + item.name + '?',
+                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                QtWidgets.QMessageBox.Yes)
+
+            # If confirmed
+            if answer == QtWidgets.QMessageBox.Yes:
+
+                parent = tree_element.parent() # parent treeView item
+                keyword = parent.data() # parent keyword for implementation
+                keyword.items.remove(item) # remove implementation from keyword's items
+                parent.removeRow(tree_element.row()) # remove row in treeView
+
+                # Hide empty branch from tree
+                def hideParent(branch):
+
+                    # To hide current item/brunch it should be empty 'keyword' or 'group'
+                    if not self.show_empty \
+                        and not branch.hasChildren() \
+                        and branch.data().item_type != 'implementation':
+
+                        # Hide current item/brunch from tree via calling parent.removeRow
+                        parent = branch.parent()
+                        if not parent:
+                            parent = self.model.invisibleRootItem()
+                        parent.removeRow(branch.row())
+
+                        if parent != self.model.invisibleRootItem():
+                            hideParent(parent)
+
+                hideParent(parent)
 
 
     # Change DOM item's 'expanded' variable when user interacts with treeView
