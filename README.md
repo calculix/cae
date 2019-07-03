@@ -33,10 +33,6 @@ Some examples for getting started with VTK in Python:
 
 # TODO
 
-Remember collapsed/expanded state for each treeView item - keep it after tree regeneration.
-
-Move importINP to ccx_inp.py.
-
 Get all mutually exclusive arguments from the manual - now they are supported.
 
 Styles for treeView elements.

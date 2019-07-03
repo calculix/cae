@@ -15,11 +15,9 @@ class VTK:
 
 
     # Create empty VTK widget: called once during startup
-    def __init__(self, CAE, textEdit):
-
-        # Configure logging
-        self.textEdit = textEdit
-        self.logger = ccx_log.logger(self.textEdit)
+    def __init__(self, CAE):
+        self.textEdit = CAE.textEdit
+        self.logger = CAE.logger
 
         # Create the graphics structure
         self.widget = QVTKRenderWindowInteractor()

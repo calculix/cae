@@ -11,9 +11,11 @@
 
 
 from PyQt5 import QtWidgets, uic, QtCore
+from ccx_dom import item_type
 
 
 class Dialog(QtWidgets.QDialog):
+
 
     def __init__(self, item):
 
@@ -24,14 +26,14 @@ class Dialog(QtWidgets.QDialog):
         uic.loadUi('ccx_dialog.ui', self)
 
         # NEW IMPLEMENTATION: Draw full form for keyword's arguments
-        if item.item_type == 'keyword':
+        if item.item_type == item_type.KEYWORD:
             self.setWindowTitle('New ' + item.name)
             self.keyword = item # needed to pass to other functions
 
             # For each keyword's argument create name and value widgets
             index = 0 # row number for vertical layout
             for argument in self.keyword.items:
-                if argument.item_type != 'argument':
+                if argument.item_type != item_type.ARGUMENT:
                     continue
 
                 # Argument's values
@@ -95,7 +97,7 @@ class Dialog(QtWidgets.QDialog):
             self.onChange(None)
 
         # EDIT IMPLEMENTATION: For implementation draw only textEdit
-        if item.item_type == 'implementation':
+        if item.item_type == item_type.IMPLEMENTATION:
             self.setWindowTitle('Edit ' + item.name)
             for line in item.INP_code:
                 self.textEdit.append(line)

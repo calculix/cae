@@ -14,9 +14,9 @@ from PyQt5 import QtGui
 class logger:
 
 
-    def __init__(self, textEdit):
+    def __init__(self, CAE):
         # Here we shall output logs
-        self.textEdit = textEdit
+        self.textEdit = CAE.textEdit
 
 
     def info(self, msg):

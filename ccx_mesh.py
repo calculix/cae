@@ -104,10 +104,10 @@ class Parse:
 
 
     # Initialization
-    def __init__(self, inp_file, textEdit):
+    def __init__(self, inp_file, CAE):
 
         # Configure logging
-        self.logger = ccx_log.logger(textEdit)
+        self.logger = CAE.logger
 
         # All mesh nodes with coordinates
         """
@@ -203,7 +203,6 @@ class Parse:
             self.logger.error('Can\'t parse surfaces')
 
 
-
     # Convert Calculix element type to VTK
     @staticmethod
     def convert_elem_type(frd_elem_type):
@@ -216,7 +215,7 @@ class Parse:
 
              _________________________________________________________________
             |                               |                                 |
-            | №№      CalculiX type         |   №№        VTK type            |
+            | №№      CalculiX type         |  №№         VTK type            |
             |_______________________________|_________________________________|
             |    |          |               |      |                          |
             |  1 | C3D8     |  8 node brick | = 12 | VTK_HEXAHEDRON           |
@@ -318,7 +317,7 @@ class Parse:
             10: 23,
             11:  3,
             12: 21,
-        }
+            }
         frd2vtk_txt = {
                 'C3D8':12,
                 'F3D8':12,
@@ -379,7 +378,7 @@ class Parse:
              'SPRING1':1,
              'DCOUP3D':1,
                 'MASS':1,
-        }
+            }
         if frd_elem_type in frd2vtk_num:
             return frd2vtk_num[frd_elem_type]
         else:

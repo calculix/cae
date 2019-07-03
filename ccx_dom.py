@@ -11,8 +11,7 @@
 
 
 import ccx_log, copy
-
-# TODO enumerations for item_type
+from enum import Enum
 
 
 # CalculiX keywords hierarchy - data object model
@@ -22,13 +21,13 @@ class DOM:
         logger          -   simply logger from ccx_log
         parent_items    -   last parent for given padding level
         root            -   group 'ROOT' from ccx_dom.inp
+        pathes          -   all possible keywords nesting variants
     """
 
-    # Read CalculiX keywords hierarchy
-    def __init__(self, textEdit):
 
-        # Configure logging
-        self.logger = ccx_log.logger(textEdit)
+    # Read CalculiX keywords hierarchy
+    def __init__(self, CAE):
+        self.logger = CAE.logger
 
         try:
             # Last parent for given padding level
@@ -62,9 +61,67 @@ class DOM:
                         item.setParent(parent_items[level-1]) # set item's parent
 
             self.root = parent_items[0] # group 'Model'
+
+            # All possible keywords nesting variants - needed for parsing INP_doc
+            self.pathes = []
+            self.buildPathes(self.root)
+            self.pathes.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
+
             self.logger.info('CalculiX object model generated.')
         except:
             self.logger.error('Can\'t generate keywords hierarchy!')
+
+
+    # Recursively builds all possible pathes to nested keywords in DOM
+    def buildPathes(self, parent, path=None):
+        if not path:
+            path = []
+        for item in parent.items:
+            if (item.item_type != item_type.ARGUMENT):
+                self.buildPathes(item, path + [item])
+        if len(path):
+            if path not in self.pathes:
+                self.pathes.append(path)
+
+
+    # Get nesting path for each of the parsed INP_doc keyword
+    def getPath(self, keyword_chain):
+        for path in self.pathes:
+
+            # Compare last words
+            if path[-1].name.lower() != keyword_chain[-1]:
+                continue
+
+            matches = 0
+            minimum_j = 0
+            for i in range(1, len(path)+1):
+                for j in range(1, len(keyword_chain)+1):
+                    if path[-i].name.lower() == keyword_chain[-j]:
+                        matches += 1
+                        minimum_j = len(keyword_chain)-j
+                        continue
+
+            # If we found all words from path in keyword_chain = if needed path is found
+            if matches >= self.keyword_counter(path):
+                del keyword_chain[:minimum_j]
+                return path
+
+
+    # Count keywords in path
+    def keyword_counter(self, path):
+        keyword_counter = 0
+        for item in path:
+            if item.name.startswith('*'):
+                keyword_counter += 1
+        return keyword_counter
+
+
+# Enums for 'item_type' variable
+class item_type(Enum):
+    GROUP = 0
+    KEYWORD = 1
+    ARGUMENT = 2
+    IMPLEMENTATION = 3
 
 
 # Needed for inheritance by further classes
@@ -79,12 +136,12 @@ class item:
 
     # Recursive function to count keyword implementations in item's descendants
     def countImplementations(self):
-        if self.item_type == 'argument':
+        if self.item_type == item_type.ARGUMENT:
             return 0
 
         counter = 0
         for i in self.items:
-            if i.item_type == 'implementation':
+            if i.item_type == item_type.IMPLEMENTATION:
                 counter += 1
             else:
                 counter += i.countImplementations()
@@ -95,7 +152,7 @@ class item:
     def getImplementations(self):
         imps = []
         for item in self.items:
-            if item.item_type == 'implementation':
+            if item.item_type == item_type.IMPLEMENTATION:
                 imps.append(item)
         return imps
 
@@ -109,7 +166,8 @@ class item:
     def getItems(self):
         imps = []
         for item in self.items:
-            if item.item_type != 'implementation':
+            if item.item_type == item_type.GROUP or \
+                item.item_type == item_type.KEYWORD:
                 imps.append(item)
         return imps
 
@@ -123,21 +181,6 @@ class item:
     def getParent(self):
         return self.parent
 
-    """
-        def getPath(self, path=None, parent=None):
-            if not path:
-                path = [self.name]
-
-            if not parent:
-                parent = self.getParent()
-
-            if parent:
-                path.append(parent.name)
-                print(str(path))
-                self.getPath(path, parent)
-
-            return path
-    """
 
     # Print all the branch DOM elements starting from current item
     def writeAll(self, f, level=0):
@@ -153,23 +196,28 @@ class item:
         if self.parent:
             parent = ' parent=' + self.parent.name
 
-        # path = ' '# + str(self.getPath())
-
         # String to write to file for debug purposes
         string = '\t'*level + self.name + has
         f.write(string + '\n')
 
         # Organize recursion
         for item in self.items:
-            if item.item_type != 'argument':
+            if item.item_type != item_type.ARGUMENT:
                 item.writeAll(f, level+1)
+
+
+    # Search item by name among children
+    def getItemByName(self, name):
+        for item in self.items:
+            if item.name == name:
+                return item
 
 
 # Group of keywords, like 'Properties', 'Constraints', etc.
 class group(item):
 
     def __init__(self, line):
-        self.item_type = 'group'
+        self.item_type = item_type.GROUP
         line = line.strip().replace('__group', '')
         self.name = line
         self.items = [] # list of groups and keywords
@@ -179,7 +227,7 @@ class group(item):
 class keyword(item):
 
     def __init__(self, line):
-        self.item_type = 'keyword'
+        self.item_type = item_type.KEYWORD
 
         # '__' added after '=' for better code highlighting in vscode
         if line.endswith('__'):
@@ -202,15 +250,13 @@ class keyword(item):
             for arg in lines[1:]:
                 self.items.append(argument(arg))
 
-        # self.path = [] # TODO path to current keyword in the DOM hierarchy
-
 
 # Keyword's argument
 class argument(item):
 
     def __init__(self, line):
 
-        self.item_type = 'argument' # needed to distinguish from 'group' and 'keyword'
+        self.item_type = item_type.ARGUMENT
 
         # Required or optional
         self.required = False
@@ -245,7 +291,7 @@ class argument(item):
 class implementation(item):
 
     def __init__(self, keyword, INP_code, name=None):
-        self.item_type = 'implementation'
+        self.item_type = item_type.IMPLEMENTATION
         self.items = copy.deepcopy(keyword.getItems())
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
