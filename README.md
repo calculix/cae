@@ -33,15 +33,19 @@ Some examples for getting started with VTK in Python:
 
 # TODO
 
+Problem with mesh parsing - it's not seen in VTK
+Visualize all sets, surfaces, BC's and loads in VTK
+Update VTK after importINP and implementation edit 
+
+Comments code
+
+Show PDF documentation for each keyword's dialog.
+
 Get all mutually exclusive arguments from the manual - now they are supported.
 
 Styles for treeView elements.
 
-Show PDF documentation for each keyword's dialog.
-
 Save display options.
-
-Comments code
 
 Python code (*PYTHON keyword) in INP_code for step repetition and other kind of model generation.
 
@@ -62,5 +66,3 @@ https://lorensen.github.io/VTKExamples/site/Python/Utilities/Screenshot/
 
 Text actor for displaying model info:  
 https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/TextActor/
-
-Camera: perspective mode, parallel mode, projections, reset (rotate to initial position + fitView)

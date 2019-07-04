@@ -9,9 +9,6 @@
 """
 
 
-import ccx_log
-
-
 class Parse:
 
     # Parse nodes with coordinates
@@ -26,7 +23,7 @@ class Parse:
                     for coord in a[1:]:
                         self.nodes[num] += (float(coord.strip()), ) # add coordinate to tuple
                     i += 1
-                    # self.logger.info('Node ' + str(num) + ': ' + str(self.nodes[num]))
+                    # self.CAE.logger.info('Node ' + str(num) + ': ' + str(self.nodes[num]))
                 return
 
 
@@ -106,8 +103,7 @@ class Parse:
     # Initialization
     def __init__(self, inp_file, CAE):
 
-        # Configure logging
-        self.logger = CAE.logger
+        self.CAE = CAE
 
         # All mesh nodes with coordinates
         """
@@ -174,33 +170,33 @@ class Parse:
                     lines.append(line.strip().upper())
         try:
             self.get_nodes(lines) # parse nodes
-            self.logger.info('{0} nodes'.format(len(self.nodes)))
+            self.CAE.logger.info('{0} nodes'.format(len(self.nodes)))
         except:
-            self.logger.error('Can\'t parse nodes')
+            self.CAE.logger.error('Can\'t parse nodes')
 
         try:
             self.get_nsets(lines) # parse node sets
-            self.logger.info('{0} nsets'.format(len(self.nsets)))
+            self.CAE.logger.info('{0} nsets'.format(len(self.nsets)))
         except:
-            self.logger.error('Can\'t parse nsets')
+            self.CAE.logger.error('Can\'t parse nsets')
 
         try:
             self.get_elements(lines) # parse elements
-            self.logger.info('{0} elements'.format(len(self.elements)))
+            self.CAE.logger.info('{0} elements'.format(len(self.elements)))
         except:
-            self.logger.error('Can\'t parse elements')
+            self.CAE.logger.error('Can\'t parse elements')
 
         try:
             self.get_esets(lines) # parse node sets
-            self.logger.info('{0} esets'.format(len(self.esets)))
+            self.CAE.logger.info('{0} esets'.format(len(self.esets)))
         except:
-            self.logger.error('Can\'t parse esets')
+            self.CAE.logger.error('Can\'t parse esets')
 
         try:
             self.get_surfaces(lines) # parse surfaces
-            self.logger.info('{0} surfaces'.format(len(self.surfaces)))
+            self.CAE.logger.info('{0} surfaces'.format(len(self.surfaces)))
         except:
-            self.logger.error('Can\'t parse surfaces')
+            self.CAE.logger.error('Can\'t parse surfaces')
 
 
     # Convert Calculix element type to VTK

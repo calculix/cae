@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, June 2019.
+    © Ihor Mirzov, July 2019.
     Distributed under GNU General Public License, version 2.
 
     Data object model based on CalculiX keywords hierarchy.
@@ -10,7 +10,7 @@
 """
 
 
-import ccx_log, copy
+import copy
 from enum import Enum
 
 
@@ -18,7 +18,6 @@ from enum import Enum
 class DOM:
 
     """
-        logger          -   simply logger from ccx_log
         parent_items    -   last parent for given padding level
         root            -   group 'ROOT' from ccx_dom.inp
         pathes          -   all possible keywords nesting variants
@@ -27,7 +26,7 @@ class DOM:
 
     # Read CalculiX keywords hierarchy
     def __init__(self, CAE):
-        self.logger = CAE.logger
+        self.CAE = CAE
 
         try:
             # Last parent for given padding level
@@ -67,9 +66,9 @@ class DOM:
             self.buildPathes(self.root)
             self.pathes.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
 
-            self.logger.info('CalculiX object model generated.')
+            self.CAE.logger.info('CalculiX object model generated.')
         except:
-            self.logger.error('Can\'t generate keywords hierarchy!')
+            self.CAE.logger.error('Can\'t generate keywords hierarchy!')
 
 
     # Recursively builds all possible pathes to nested keywords in DOM

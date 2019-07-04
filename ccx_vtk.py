@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, June 2019.
+    © Ihor Mirzov, July 2019.
     Distributed under GNU General Public License, version 2.
 
     Methods to work with VTK widget.
 """
 
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
-import vtk, ccx_select_style, ccx_log
+import vtk, ccx_select_style
 
 
 class VTK:
@@ -16,8 +16,8 @@ class VTK:
 
     # Create empty VTK widget: called once during startup
     def __init__(self, CAE):
-        self.textEdit = CAE.textEdit
-        self.logger = CAE.logger
+
+        self.CAE = CAE
 
         # Create the graphics structure
         self.widget = QVTKRenderWindowInteractor()
@@ -170,16 +170,16 @@ class VTK:
         self.window.Render() # render updated view
 
         # Some logs for debugging
-        # self.logger.info('Camera\'s focal point is ' + str(camera.GetFocalPoint()))
-        # self.logger.info('Camera\'s position is ' + str(camera.GetPosition()))
-        # self.logger.info('Camera\'s ViewUp is ' + str(camera.GetViewUp()))
-        # self.logger.info('Camera\'s distance is ' + str(camera.GetDistance()))
-        # self.logger.info('Camera\'s Roll is ' + str(camera.GetRoll()))
-        # self.logger.info('Camera\'s ViewAngle is ' + str(camera.GetViewAngle()))
-        # self.logger.info('Camera\'s ParallelScale is ' + str(camera.GetParallelScale()))
-        # self.logger.info('Camera\'s ClippingRange is ' + str(camera.GetClippingRange()))
-        # self.logger.info('Camera\'s WindowCenter is ' + str(camera.GetWindowCenter()))
-        # self.logger.info('Camera\'s orientation is ' + str(camera.GetOrientation()))
+        # self.CAE.logger.info('Camera\'s focal point is ' + str(camera.GetFocalPoint()))
+        # self.CAE.logger.info('Camera\'s position is ' + str(camera.GetPosition()))
+        # self.CAE.logger.info('Camera\'s ViewUp is ' + str(camera.GetViewUp()))
+        # self.CAE.logger.info('Camera\'s distance is ' + str(camera.GetDistance()))
+        # self.CAE.logger.info('Camera\'s Roll is ' + str(camera.GetRoll()))
+        # self.CAE.logger.info('Camera\'s ViewAngle is ' + str(camera.GetViewAngle()))
+        # self.CAE.logger.info('Camera\'s ParallelScale is ' + str(camera.GetParallelScale()))
+        # self.CAE.logger.info('Camera\'s ClippingRange is ' + str(camera.GetClippingRange()))
+        # self.CAE.logger.info('Camera\'s WindowCenter is ' + str(camera.GetWindowCenter()))
+        # self.CAE.logger.info('Camera\'s orientation is ' + str(camera.GetOrientation()))
 
     def actionViewWireframe(self):
         self.actor.GetProperty().SetRepresentationToWireframe()
@@ -203,19 +203,19 @@ class VTK:
 
     def actionSelectionNodes(self):
         self.actionSelectionClear() # clear selection before new call
-        style = ccx_select_style.nodes(self.renderer, self.window, self.textEdit)
+        style = ccx_select_style.nodes(self.renderer, self.window, self.CAE.textEdit)
         self.interactor.SetInteractorStyle(style)
 
     def actionSelectionElements(self):
         self.actionSelectionClear() # clear selection before new call
-        style = ccx_select_style.elements(self.renderer, self.window, self.textEdit)
+        style = ccx_select_style.elements(self.renderer, self.window, self.CAE.textEdit)
         self.interactor.SetInteractorStyle(style)
 
     def actionSelectionClear(self):
         self.renderer.RemoveAllViewProps()
         self.renderer.AddActor(self.actor)
         self.window.Render()
-        self.logger.info('Clear selection.')
+        self.CAE.logger.info('Clear selection.')
 
 
     """
