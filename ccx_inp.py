@@ -20,6 +20,10 @@ class inp:
     def __init__(self, CAE):
         self.CAE = CAE
 
+        # Actions
+        self.CAE.actionImportINP.triggered.connect(self.importINP)
+        self.CAE.actionExportINP.triggered.connect(self.exportINP)
+
 
     # Menu File -> Import INP file
     # Import mesh and display it in the VTK widget
@@ -29,9 +33,9 @@ class inp:
             file_name = QtWidgets.QFileDialog.getOpenFileName(None, \
                 'Import INP file', '', 'Input files (*.inp);;All Files (*)')[0]
 
-        self.CAE.logger.info('Loading ' + file_name + '.')
-
         if file_name:
+            self.CAE.logger.info('Loading ' + file_name + '.')
+
             # Generate CalculiX DOM based on keywords hierarchy from ccx_dom.txt
             self.CAE.DOM = ccx_dom.DOM(self.CAE)
 
@@ -49,25 +53,27 @@ class inp:
 
             # Parse mesh and transfer it to VTK
             mesh = ccx_mesh.Parse(file_name, self.CAE) # parse mesh, textEdit passed for logging
-            try:
-                points = vtk.vtkPoints()
-                for n in mesh.nodes.keys(): # create VTK points from mesh nodes
-                    points.InsertPoint(n-1, mesh.nodes[n]) # node numbers should start from 0!
+            # try:
+            points = vtk.vtkPoints()
+            for n in mesh.nodes.keys(): # create VTK points from mesh nodes
+                points.InsertPoint(n-1, mesh.nodes[n]) # node numbers should start from 0!
 
-                ugrid = vtk.vtkUnstructuredGrid() # create empty grid in VTK
-                ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
-                ugrid.SetPoints(points) # insert all points to the grid
+            ugrid = vtk.vtkUnstructuredGrid() # create empty grid in VTK
+            ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
+            ugrid.SetPoints(points) # insert all points to the grid
 
-                for e in mesh.elements.keys():
-                    vtk_element_type = ccx_mesh.Parse.convert_elem_type(mesh.types[e])
-                    node_numbers = [n-1 for n in mesh.elements[e]] # list of nodes in the element: node numbers should start from 0!
-                    ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
+            for e in mesh.elements.keys():
+                ccx_element_type = mesh.types[e]
+                vtk_element_type = ccx_mesh.Parse.convert_elem_type(ccx_element_type)
+                node_numbers = [n-1 for n in mesh.elements[e]] # list of nodes in the element: node numbers should start from 0!
+                ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
+                # print(ccx_element_type, 'to', vtk_element_type, ':', e, node_numbers)
 
-                self.CAE.VTK.mapper.SetInputData(ugrid) # ugrid is our mesh data
-                self.CAE.VTK.actionViewIso() # iso view after import
-                self.CAE.logger.info('Rendering OK.')
-            except:
-                self.CAE.logger.error('Can\'t render INP mesh.')
+            self.CAE.VTK.mapper.SetInputData(ugrid) # ugrid is our mesh data
+            self.CAE.VTK.actionViewIso() # iso view after import
+            self.CAE.logger.info('Rendering OK.')
+            # except:
+            #     self.CAE.logger.error('Can\'t render INP mesh.')
     def parser(self, INP_doc):
         keyword_chain = []
         impl_counter = {}
@@ -122,11 +128,13 @@ class inp:
                     else:
                         impl = item
 
+
                 # Count implementation
                 if path_as_string in impl_counter:
                     impl_counter[path_as_string] += 1
                 else:
                     impl_counter[path_as_string] = 1
+                # print(path_as_string)
 
 
     # Menu File -> Write INP file

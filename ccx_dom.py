@@ -85,6 +85,14 @@ class DOM:
 
     # Get nesting path for each of the parsed INP_doc keyword
     def getPath(self, keyword_chain):
+
+        # Modify keyword_chain to remove duplicated words in the end
+        if len(keyword_chain) > 1 and \
+            keyword_chain[-1] == keyword_chain[-2]:
+            del keyword_chain[-2]
+        # print(keyword_chain)
+
+        # Now compare keyword_chain with all self.pathes
         for path in self.pathes:
 
             # Compare last words
@@ -102,6 +110,7 @@ class DOM:
 
             # If we found all words from path in keyword_chain = if needed path is found
             if matches >= self.keyword_counter(path):
+                # print([item.name for item in path], '\n')
                 del keyword_chain[:minimum_j]
                 return path
 

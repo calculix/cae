@@ -46,7 +46,7 @@ class CAE(QtWidgets.QMainWindow):
         parser = argparse.ArgumentParser()
         parser.add_argument("--mesh", "-mesh",
                             help="Mesh .inp file",
-                            type=str, default='./examples/acou1.inp')
+                            type=str, default='./examples/beamft.inp')
         args = parser.parse_args()
 
         # Import default ugrid
@@ -54,8 +54,6 @@ class CAE(QtWidgets.QMainWindow):
         self.inp.importINP(args.mesh)
 
         # Actions
-        self.actionImportINP.triggered.connect(self.inp.importINP)
-        self.actionExportINP.triggered.connect(self.inp.exportINP)
         self.treeView.keyPressEvent = self.keyPressEvent
 
 

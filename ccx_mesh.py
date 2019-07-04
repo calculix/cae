@@ -56,7 +56,7 @@ class Parse:
                     else:
                         a = lines[i+1].split(',')
                     num = int(a[0].strip()) # element number
-                    self.types[num] = etype # save element type
+                    self.types[num] = etype.strip() # save element type
                     self.elements[num] = () # tuple with element nodes
                     for n in a[1:]:
                         self.elements[num] += (int(n.strip()), ) # add node to tuple
