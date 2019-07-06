@@ -18,7 +18,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icon.png</normaloff>icon.png</iconset>
+    <normaloff>icons/logo.png</normaloff>icons/logo.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="vertical_layout">
    <property name="spacing">

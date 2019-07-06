@@ -10,8 +10,8 @@
 """
 
 
-from PyQt5 import QtWidgets, uic, QtCore
-import ccx_dom
+from PyQt5 import QtWidgets, uic, QtCore, QtWebEngineWidgets
+import os, subprocess, ccx_dom
 
 
 class Dialog(QtWidgets.QDialog):
@@ -25,7 +25,7 @@ class Dialog(QtWidgets.QDialog):
         # Load basic form
         uic.loadUi('ccx_dialog.ui', self)
 
-        # NEW IMPLEMENTATION: Draw full form for keyword's arguments
+        # New implementation: draw full form for keyword's arguments
         if item.item_type == ccx_dom.item_type.KEYWORD:
             self.setWindowTitle('New ' + item.name)
             self.keyword = item # needed to pass to other functions
@@ -96,11 +96,14 @@ class Dialog(QtWidgets.QDialog):
             # Fill textEdit widget with default keyword's configuration
             self.onChange(None)
 
-        # EDIT IMPLEMENTATION: For implementation draw only textEdit
+        # Edit implementation: draw only textEdit
         if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
             self.setWindowTitle('Edit ' + item.name)
             for line in item.INP_code:
                 self.textEdit.append(line)
+
+        # Show help with piece of PDF manual
+        # self.showDoc(item)
 
         # Actions
         self.buttonBox.accepted.connect(self.onOk)
@@ -165,3 +168,45 @@ class Dialog(QtWidgets.QDialog):
     def onOk(self):
         super(Dialog, self).accept()
         return self.textEdit.toPlainText().strip().split('\n')
+
+
+    # Load PDF help into QWebEngineView
+    def showDoc(self, item):
+
+        # Get keyword name
+        if item.item_type == ccx_dom.item_type.KEYWORD:
+            keyword_name = item.name[1:] # cut star
+        if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+            keyword_name = item.parent.name[1:] # cut star
+
+        # Open and read manual 'ccx.tex'
+        with open('./doc/ccx.tex', 'r') as f:
+            lines = f.readlines()
+
+        # Gather lines from current keyword section
+        tex = ''
+        for i in range(len(lines)):
+            if lines[i].lstrip().startswith('\\subsection{\\label{') and \
+                lines[i].rstrip().endswith(keyword_name.upper() + '}'):
+
+                tex += lines[i] # with '\n'
+
+                while i+1 < len(lines) and \
+                    not lines[i+1].lstrip().startswith('\\subsection{\\label{'):
+                    tex += lines[i+1] # with '\n'
+                    i += 1
+                break
+
+        subprocess.call(['pdflatex',
+                        '-no-file-line-error',
+                        '-interaction=nonstopmode',
+                        '-jobname=' + keyword_name.lower() + '.pdf',
+                        '-output-directory=./doc',
+                        tex])
+
+        # script = os.path.realpath(__file__)
+        # folder = os.path.dirname(script)
+        # PDFJS = 'file://' + folder + '/doc/pdfjs-2.0.943-dist/web/viewer.html'
+        # PDF = 'file://' + folder + '/doc/ccx_2.15.pdf'
+
+        # self.doc.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (PDFJS, PDF)))

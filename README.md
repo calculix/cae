@@ -21,7 +21,9 @@ To contribute first install vtk, PyQt5 and QT designer:
 
     pip3 install vtk
     pip3 install PyQt5
+    pip3 install PyQtWebEngine --user
     sudo apt install qttools5-dev-tools
+    <!-- sudo apt install texlive-latex-base -->
 
 Some examples for getting started with VTK in Python:
 
@@ -33,7 +35,6 @@ Some examples for getting started with VTK in Python:
 
 # TODO
 
-Problem with mesh parsing - it's not seen in VTK
 Visualize all sets, surfaces, BC's and loads in VTK
 Update VTK after importINP and implementation edit 
 

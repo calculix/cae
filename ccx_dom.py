@@ -301,6 +301,7 @@ class implementation(item):
     def __init__(self, keyword, INP_code, name=None):
         self.item_type = item_type.IMPLEMENTATION
         self.items = copy.deepcopy(keyword.getItems())
+        self.parent = keyword
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
         if name:

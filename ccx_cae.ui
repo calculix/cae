@@ -151,8 +151,8 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionImportINP"/>
-    <addaction name="actionExportINP"/>
+    <addaction name="actionFileImportINP"/>
+    <addaction name="actionFileExportINP"/>
    </widget>
    <widget class="QMenu" name="menuSelect">
     <property name="enabled">
@@ -198,10 +198,10 @@
    <addaction name="actionViewSurface"/>
    <addaction name="actionViewSurfaceWithEdges"/>
   </widget>
-  <action name="actionImportINP">
+  <action name="actionFileImportINP">
    <property name="icon">
     <iconset>
-     <normaloff>icons/importINP.png</normaloff>icons/importINP.png</iconset>
+     <normaloff>icons/file_importINP.png</normaloff>icons/file_importINP.png</iconset>
    </property>
    <property name="text">
     <string>Import INP file</string>
@@ -235,7 +235,7 @@
   <action name="actionSelectionClear">
    <property name="icon">
     <iconset>
-     <normaloff>icons/clear_selection.png</normaloff>icons/clear_selection.png</iconset>
+     <normaloff>icons/selection_clear.png</normaloff>icons/selection_clear.png</iconset>
    </property>
    <property name="text">
     <string>Clear selection</string>
@@ -385,10 +385,10 @@
     <string>Surface View With Edges</string>
    </property>
   </action>
-  <action name="actionExportINP">
+  <action name="actionFileExportINP">
    <property name="icon">
     <iconset>
-     <normaloff>icons/exportINP.png</normaloff>icons/exportINP.png</iconset>
+     <normaloff>icons/file_exportINP.png</normaloff>icons/file_exportINP.png</iconset>
    </property>
    <property name="text">
     <string>Export INP file</string>

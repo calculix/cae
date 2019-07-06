@@ -19,7 +19,7 @@ class tree:
         self.CAE = CAE
 
         # Hide / show tree keywords without implementations 
-        self.show_empty = False # start with show all tree items
+        self.show_empty = True # start with show all tree items
 
         # Now generate treeView items
         self.model = QtGui.QStandardItemModel()
@@ -94,14 +94,14 @@ class tree:
             dialog = ccx_dialog.Dialog(item)
 
             # Get response from dialog window
-            if dialog.exec_() == ccx_dialog.Dialog.Accepted: # if user pressed 'OK'
+            if dialog.exec() == ccx_dialog.Dialog.Accepted: # if user pressed 'OK'
 
                 # The generated piece of .inp code for the CalculiX input file
                 INP_code = dialog.onOk() # list of strings
 
                 # Create implementation object for keyword
                 if item.item_type == ccx_dom.item_type.KEYWORD:
-                    impl = implementation(item, INP_code)
+                    impl = ccx_dom.implementation(item, INP_code)
                     impl_element = QtGui.QStandardItem(impl.name)
                     impl_element.setData(impl)
                     tree_element.appendRow(impl_element)
@@ -126,7 +126,7 @@ class tree:
             index = self.CAE.treeView.selectedIndexes()[0] # selected item index
             item = self.model.itemFromIndex(index) # treeView item obtained from 'index'
             item = item.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
-            if item.item_type == item_type.IMPLEMENTATION:
+            if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
 
                 # 'Edit' action
                 action_edit_implementation = QtWidgets.QAction('Edit', self.CAE.treeView)
@@ -138,7 +138,7 @@ class tree:
                 self.myMenu.addAction(action_delete_implementation)
                 action_delete_implementation.triggered.connect(self.actionDeleteImplementation)
 
-            if item.item_type == item_type.KEYWORD:
+            if item.item_type == ccx_dom.item_type.KEYWORD:
 
                 # 'Create' action
                 action_create_implementation = QtWidgets.QAction('Create', self.CAE.treeView)
