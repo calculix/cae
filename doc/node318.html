@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*STEP</TITLE>
+<META NAME="description" CONTENT="*STEP">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node319.html">
+<LINK REL="previous" HREF="node317.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node319.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5144"
+  HREF="node319.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5140"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5134"
+  HREF="node317.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5142"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5145"
+  HREF="node319.html">*SUBMODEL</A>
+<B> Up:</B> <A NAME="tex2html5141"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5135"
+  HREF="node317.html">*STEADY STATE DYNAMICS</A>
+ &nbsp; <B>  <A NAME="tex2html5143"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008110000000000000000"></A><A NAME="step"></A>
+<BR>
+*STEP
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This card describes the start of a new STEP. PERTURBATION, NLGEOM, INC, INCF,
+THERMAL NETWORK and AMPLITUDE are the optional parameters. 
+
+<P>
+The parameter PERTURBATION is allowed for *FREQUENCY, *BUCKLE, *GREEN and *STATIC steps
+only (for *STATIC steps it only makes sense for submodel frequency
+calculations with preload, else a genuine nonlinear geometric calculation with
+NLGEOM is recommended). If it is specified, the last *STATIC step is taken as reference state
+and used to calculate the stiffness matrix. This means the inclusion of
+previous deformations (large deformation stiffness) and the inclusion of
+previous loads as preloads (stress stiffness), taking the temperatures into
+account to determine the material properties. The active loads (mechanical and thermal) are those specified in the perturbation step. At the end of the step the perturbation load is reset to zero.
+
+<P>
+The loading active in a non-perturbative step is the accumulation of the loading in all previous steps since but not including the last perturbation step (or, if none has occurred, since the start of the calculation), unless OP=NEW has been specified since.
+
+<P>
+If NLGEOM is specified, the calculation takes geometrically nonlinear effects
+into account. To this end a nonlinear strain tensor is used (Lagrangian strain
+for hyperelastic materials, Eulerian strain for deformation plasticity and the
+deviatoric elastic left Cauchy-Green tensor for incremental plasticity), the
+step is divided into increments and a Newton iteration is performed within
+each increment (notice that iterations are also performed for other kinds of
+nonlinearity, such as material nonlinearity or contact conditions). Although the internally used stresses are the Piola stresses
+of the second kind, they are transformed into Cauchy (true) stresses before
+being printed. NLGEOM is only taken into account if the procedure card (such
+as *STATIC, *DYNAMIC, *COUPLED TEMPERATURE-DISPLACEMENT) allows for it (the
+*FREQUENCY card, for example, does not directly allow for it). Once the NLGEOM
+parameter has been selected, it remains active in all subsequent static
+calculations. With NLGEOM=NO the inclusion of geometrically nonlinear effects
+can be turned off. It stays active in subsequent steps as well, unless NLGEOM
+was specified again. To check whether geometric nonlinearity was taken into
+account in a specific step, look for the message ``Nonlinear geometric effects
+are taken into account'' in the output.
+
+<P>
+The step size
+and the increment size can be specified underneath the procedure card. The maximum
+number of increments in the step (for automatic incrementation) can be
+specified by using the parameter INC (default is 100) for thermomechanical
+calculations and INCF (default is 10000) for 3D fluid calculations. In coupled
+fluid-structure calculations INC applies to the thermomechanical part of the
+computations and INCF to the 3D fluid part.
+
+<P>
+The option THERMAL NETWORK allows the user to perform fast thermal
+calculations despite the use of specific network elements (e.g. gas pipers,
+labyrinths etc), which are characterized by a TYPE description on the
+<A HREF="node264.html#fluidsection">*FLUID SECTION</A> card. In general, the use of specific
+network elements triggers the alternating solution of the network and the
+structure, leading to longer computational times. In thermal calculations with
+only generic network elements (no TYPE specified on the *FLUID SECTION cards),
+the temperatures in the network are solved simulaneously with the
+temperatures on the structural side (which is much faster than the alternating
+way). Now, sometimes the user would like to use
+specific elements, despite the fact that only temperatures have to be
+calculated, e.g. in order to determine the heat transfer coefficients based on
+flow characteristics such as Prandl and Reynolds number (this requires the use
+of the user film routine film.f). Specifying THERMAL NETWORK on the FIRST
+*STEP card in the input deck takes care that in such a case the simulaneous
+solving procedure is used instead of the alternating one.
+
+<P>
+Finally, the parameter AMPLITUDE can be used to define whether the loading in
+this step should be ramped (AMPLITUDE=RAMP) or stepped (AMPLITUDE=STEP). With
+this option the default for the procedure can be overwritten. For example, the
+default for a *STATIC step is RAMP. By specifying AMPLITUDE=STEP the loading
+in the static step is applied completely at the beginning of the step. Note,
+however, that amplitudes on 
+the individual loading cards (such as *CLOAD, *BOUNDARY....) take precedence.
+
+<P><P>
+<BR>
+
+<P>
+First and only line:
+
+<UL>
+<LI>*STEP
+</LI>
+<LI>Enter any needed parameters and their values
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*STEP,INC=1000,INCF=20000,TURBULENCE MODEL=SST
+</PRE>
+
+<P>
+starts a step and increases the maximum number of thermomechanical increments
+to complete the step to 1000. The maximum number of 3D fluid increments is set
+to 20000 and for the turbulence model the SST model was chosen.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamnlp.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5144"
+  HREF="node319.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5140"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5134"
+  HREF="node317.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5142"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5145"
+  HREF="node319.html">*SUBMODEL</A>
+<B> Up:</B> <A NAME="tex2html5141"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5135"
+  HREF="node317.html">*STEADY STATE DYNAMICS</A>
+ &nbsp; <B>  <A NAME="tex2html5143"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,5 @@
+<html><head><link rel="stylesheet" type="text/css" href="/media/ihor/WORK/Calculix/ccx_cae/doc/style.css"></head><body><H2><BR>*CHANGE FRICTION</H2><P>Keyword type: step<P>With this option one can redefine the contact friction value within astep. There is one required parameter INTERACTION, denoting the name of the*SURFACE INTERACTION the friction of which onewould like to change. This card must be followed by a*FRICTION card to become effective.<P><P><BR><P>First and only line:<UL><LI>*CHANGE FRICTION</LI><LI>enter the required parameter INTERACTION and its parameter.</LI></UL><P><PRE>
+Example:
+
+*CHANGE FRICTION,INTERACTION=IN1
+</PRE><P>indicates that the friction value of surface interaction IN1 is to be changedto the value underneath the following *FRICTION card.<P><P><P><BR>Example files: friction2 <P></body></html>

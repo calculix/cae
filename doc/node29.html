@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Incompatible mode eight-node brick element (C3D8I)</TITLE>
+<META NAME="description" CONTENT="Incompatible mode eight-node brick element (C3D8I)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node30.html">
+<LINK REL="previous" HREF="node28.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node30.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1443"
+  HREF="node30.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1439"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1433"
+  HREF="node28.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1441"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1444"
+  HREF="node30.html">Twenty-node brick element (C3D20)</A>
+<B> Up:</B> <A NAME="tex2html1440"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1434"
+  HREF="node28.html">C3D8R</A>
+ &nbsp; <B>  <A NAME="tex2html1442"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00072300000000000000">
+Incompatible mode eight-node brick element (C3D8I)</A>
+</H3>
+
+<P>
+The incompatible mode eight-node brick element is an improved version of the
+C3D8-element. In particular, shear locking is removed and volumetric locking
+is much reduced. This is obtained by supplementing the standard shape
+functions with so-called bubble functions, which have a zero value at all
+nodes and nonzero values in between. In CalculiX, the version detailed in
+[<A
+ HREF="node448.html#Taylor">77</A>] has been implemented. The C3D8I element should be used in all
+instances in which linear elements are subject to bending. Although the
+quality of the C3D8I element is far better than the C3D8 element, the best
+results are usually obtained with quadratic elements (C3D20 and
+C3D20R). The C3D8I element is not very good when subjected to torsion. Since
+the B31 element is expanded into a C3D8I element this also applies to the B31 element.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

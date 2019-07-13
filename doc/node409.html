@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>mafillsm</TITLE>
+<META NAME="description" CONTENT="mafillsm">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node410.html">
+<LINK REL="previous" HREF="node408.html">
+<LINK REL="up" HREF="node408.html">
+<LINK REL="next" HREF="node410.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6380"
+  HREF="node410.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6376"
+  HREF="node408.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6370"
+  HREF="node408.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6378"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6381"
+  HREF="node410.html">results</A>
+<B> Up:</B> <A NAME="tex2html6377"
+  HREF="node408.html">Major routines</A>
+<B> Previous:</B> <A NAME="tex2html6371"
+  HREF="node408.html">Major routines</A>
+ &nbsp; <B>  <A NAME="tex2html6379"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000117100000000000000">
+mafillsm</A>
+</H3>
+
+<P>
+In this routine the different matrices are constructed. What has to be set up is summarized
+in the logicals mass, stiffness, buckling, rhsi and stiffonly. For instance,
+if the mass matrix must be calculated, mass=true, else mass=false. Notice that
+mass and stiffonly are defined as vectors of length 2. The first entry applies
+to mechanical calculations, the second entry to thermal calculations. If
+mass(1)=true the mass matrix for mechanical calculations or the mechanical
+part of coupled temperature-displacement calculations is determined and
+similarly, if mass(2)=true the specific heat matrix for thermal calculations
+or the thermal part of coupled temperature-displacement calculations is
+determined. This distinction is necessary to account for differences between
+mechanical and thermal calculations. It suffices to calculate the mass matrix
+in mechanical calculations only once, whereas the outspoken dependence of the
+specific heat on temperature requires the calculation of the specific heat
+matrix in each iteration. In what follows the mechanical stiffness matrix and
+thermal conductivity matrix will be simply called the stiffness matrix, the
+mechanical mass matrix and thermal heat capacity matrix will be called the
+mass matrix.
+
+<P>
+The routine
+consists of two major loops over all elements. The first loop constructs the
+mechanical part of the matrices, if applicable, the second loop constructs the
+thermal part, if applicable. Each loop runs over all elements, thereby
+collecting the element stiffness matrix  and/or mass matrix from routine e_c3d and e_c3d_th for
+mechanical and thermal calculations, respectively, and inserting them into the
+global stiffness matrix and/or mass matrix, taking into account any linear multiple point
+constraints. The right-hand side matrices are also constructed from the
+element right-hand sides and any point loading. 
+
+<P>
+To compose the element stiffness matrices the material
+stiffness matrices (<!-- MATH
+ $d \boldsymbol{\sigma} / d \boldsymbol{\epsilon}$
+ -->
+<B><IMG
+ WIDTH="134" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1960.png"
+ ALT="$ d \boldsymbol{\sigma} / d \boldsymbol{\epsilon}$"></B>) in the integration
+points of the elements are needed. These are recovered from storage from the
+last call to subroutine results.f. For the mass matrices the density and/or
+specific heat in the integration points is needed. These quantities are
+obtained by interpolation in the appropriate temperature range. No other
+material data need to be interpolated.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6380"
+  HREF="node410.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6376"
+  HREF="node408.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6370"
+  HREF="node408.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6378"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6381"
+  HREF="node410.html">results</A>
+<B> Up:</B> <A NAME="tex2html6377"
+  HREF="node408.html">Major routines</A>
+<B> Previous:</B> <A NAME="tex2html6371"
+  HREF="node408.html">Major routines</A>
+ &nbsp; <B>  <A NAME="tex2html6379"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

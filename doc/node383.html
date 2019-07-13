@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Mechanical body loads</TITLE>
+<META NAME="description" CONTENT="Mechanical body loads">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node384.html">
+<LINK REL="previous" HREF="node382.html">
+<LINK REL="up" HREF="node378.html">
+<LINK REL="next" HREF="node384.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6056"
+  HREF="node384.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6052"
+  HREF="node378.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6046"
+  HREF="node382.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6054"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6057"
+  HREF="node384.html">Sets</A>
+<B> Up:</B> <A NAME="tex2html6053"
+  HREF="node378.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6047"
+  HREF="node382.html">Facial distributed loads</A>
+ &nbsp; <B>  <A NAME="tex2html6055"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000112500000000000000">
+Mechanical body loads</A>
+</H3>
+
+<P>
+The field architecture discussed here applies to centrifugal loads and gravity
+loads. Consequently, it is used for the *DLOAD card with the following labels:
+
+<P>
+
+<UL>
+<LI>CENTRIF: centrifugal load
+</LI>
+<LI>GRAV: gravity load with known gravity vector
+</LI>
+<LI>NEWTON: generalized gravity
+</LI>
+</UL>
+
+<P>
+The two-dimensional integer field ibody contains three columns and as many
+rows as there are body loads. Its first column contains a code identifying the
+kind of load:
+
+<P>
+
+<UL>
+<LI>1 = centrifugal load
+</LI>
+<LI>2 = gravity load with known gravity vector
+</LI>
+<LI>3 = generalized gravity
+</LI>
+</UL>
+
+<P>
+Its second column contains the number of the amplitude to be applied, if
+any. The third column contains the load case. This is only important for
+steady state dynamics calculations with harmonic loading. The default values
+is 1 and means that the loading is real (in-phase); if the value is 2 the
+loading is imaginary (out-of-phase). The element number or element set, for which the load is defined is
+stored in the one-dimensional character field cbody. It contains as many
+entries as there are body loads. The nominal value of the body load is stored
+in the first column of field xbody. This is a two-dimensional field containing
+7 columns and as many rows as there are body loads. The second to fourth
+column is used to store a point on the centrifugal axis for centrifugal loads
+and the normalized gravity vector for gravity loading. If the gravity vector
+is not known and has to be determined by the mass distribution in the
+structure (also called generalized gravity) columns two to seven remain
+undefined. This also applies to columns five to seven for non-generalized
+gravity loading. For centrifugal loading columns five to seven of field xbody
+contain a normalized vector on the centrifugal axis. 
+
+<P>
+Based on the actual time the actual body load is
+calculated from the nominal value and the amplitude, if any. It is stored in
+the first column of field xbodyact. Columns two to seven of xbodyact are
+identical to the corresponding columns of xbody.
+
+<P>
+The body loads are not stored in the order in which they are defined in the
+input deck. Rather, they are ordered in alphabetical order according to the
+element number or element set name they apply to. An element number is
+interpreted as a character.
+
+<P>
+As an example, assume the following body loads:
+
+<P>
+<PRE>
+*DLOAD
+Eall,CENTRIF,1.E8,0.,0.,0.,1.,0.,0.
+8,GRAV,9810.,0.,0.,-1.
+E1,NEWTON
+</PRE>
+
+<P>
+then the loading fields will look like:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\text{ibody}=\begin{bmatrix} 2 & 0 & 1\\3 & 0 & 1 \\1 & 0 & 1 \end{bmatrix},
+\text{cbody}=\begin{Bmatrix} 8 \\\text{E1} \\\text{Eall} \end{Bmatrix},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER">ibody<IMG
+ WIDTH="65" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1892.png"
+ ALT="$\displaystyle =\begin{bmatrix}2 &amp; 0 &amp; 1\\ 3 &amp; 0 &amp; 1 \\ 1 &amp; 0 &amp; 1 \end{bmatrix},$">&nbsp; &nbsp;cbody<IMG
+ WIDTH="105" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1893.png"
+ ALT="$\displaystyle =\begin{Bmatrix}8 \\ \text{E1} \\ \text{Eall} \end{Bmatrix},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(518)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\text{xbody}=\begin{bmatrix} 9810. & 0. & 0. & -1. & 0.  & 0.  & 0.  \\0.  & 0.  & 0.  & 0.  & 0.  & 0.  & 0.  \\
+1.E8 & 0. & 0. & 0. & 1. & 0. & 0.  \end{bmatrix}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER">xbody<IMG
+ WIDTH="84" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1894.png"
+ ALT="$\displaystyle =\begin{bmatrix}9810. &amp; 0. &amp; 0. &amp; -1. &amp; 0. &amp; 0. &amp; 0. \\ 0. &amp; 0. &amp; 0. &amp; 0. &amp; 0. &amp; 0. &amp; 0. \\ 1.E8 &amp; 0. &amp; 0. &amp; 0. &amp; 1. &amp; 0. &amp; 0. \end{bmatrix}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(519)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6056"
+  HREF="node384.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6052"
+  HREF="node378.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6046"
+  HREF="node382.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6054"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6057"
+  HREF="node384.html">Sets</A>
+<B> Up:</B> <A NAME="tex2html6053"
+  HREF="node378.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6047"
+  HREF="node382.html">Facial distributed loads</A>
+ &nbsp; <B>  <A NAME="tex2html6055"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

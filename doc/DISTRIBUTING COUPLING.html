@@ -1,0 +1,41 @@
+<html><head><link rel="stylesheet" type="text/css" href="/media/ihor/WORK/Calculix/ccx_cae/doc/style.css"></head><body><H2><BR>*DISTRIBUTING COUPLING</H2><P>Keyword type: model definition<P>This option is used to apply translational loading (force or displacement) on a set of nodesin a global sense (for rotations and/or moments the reader is referred to themean rotation MPC, Section 8.7.1). There is one required parameter: ELSET. With theparameter ELSET an element set is referred to, which should contain exacty oneelement of type DCOUP3D. This type of element contains only one node, which istaken as the reference node of the distributing coupling. This node should not be used elsewhere in the model. Inparticular, it should not belong to any element. The coordinates of this nodeare immaterial. The distributing coupling forces or the distributing couplingdisplacements should be applied to the reference node with a *CLOAD card or a  *BOUNDARY card,respectively. <P>Underneath the keyword card the user can enter the nodes on which the load isto be distributed, together with a weight. Internally, for each coordinate direction a multiple point constraint is generated between these nodes withthe weights as coefficients. The last term in the equation is the referencenode with as coefficient the negative of the sum of all weights. The morenodes are contained in the distributing coupling condition the longer theequation. This leads to a large, fully populated submatrix in the system ofequations leading to long solution times. Therefore, it is recommended not toinclude more than maybe 50 nodes in a distributing coupling condition.<P>The first node underneath the keyword card is taken as dependent node n theMPC. Therefore, this node should not be repeated in any other MPC or at thefirst location in any other distributing coupling definition. It can be usedas independent node in another distributing coupling (all but the firstposition), though, although certainlimitations exist due to the mechanism by which the MPC's are substituted intoeach other. Basically, not all dependent nodes in distributing couplingsshould be used as independent nodes as well. For example:<P><PRE>
+*DISTRIBUTING COUPLING,ELSET=E1
+LOAD,1.
+*DISTRIBUTING COUPLING,ELSET=E2
+LOAD2,1.
+*NSET,NSET=LOAD
+5,6,7,8,22,25,28,31,100
+*NSET,NSET=LOAD2
+8,28,100,31
+</PRE><P>will work while<P><PRE>
+*DISTRIBUTING COUPLING,ELSET=E1
+LOAD,1.
+*DISTRIBUTING COUPLING,ELSET=E2
+LOAD2,1.
+*NSET,NSET=LOAD
+5,6,7,8,22,25,28,31,100
+*NSET,NSET=LOAD2
+8,28,100,31,5
+</PRE><P>will not work because the dependent nodes 5 and 8 are used as independentnodes as well in EACH of the distributing coupling definitions. An errormessage will result in the form:<P><PRE>
+*ERROR in cascade: zero coefficient on the
+       dependent side of an equation
+       dependent node: 5
+</PRE><P><P><P><BR><P>First line:<UL><LI>*DISTRIBUTING COUPLING</LI><LI>Enter the ELSET parameter and its value</LI></UL><P>Following line:<UL><LI>Node number or node set</LI><LI>Weight</LI></UL><P>Repeat this line if needed.<P><PRE>
+Example:
+
+*DISTRIBUTING COUPLING,ELSET=E1
+3,1.
+100,1.
+51,1.
+428,1.
+*ELSET,ELSET=E1
+823
+*ELEMENT,TYPE=DCOUP3D
+823,4000
+</PRE><P>defines a distributing coupling between the nodes 3, 100, 51 and 428, eachwith weight 1. The reference node is node 4000. A point force of 10 indirection 1 can be applied to this distributing coupling by the cards:<P><PRE>
+*CLOAD
+4000,1,10.
+</PRE><P>while a displacement of 0.5 is obtained with<P><PRE>
+*BOUNDARY
+4000,1,1,0.5
+</PRE><P><P><P><BR>Example files: distcoup.<P></body></html>

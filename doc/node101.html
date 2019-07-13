@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Fluid Section Types: Liquids</TITLE>
+<META NAME="description" CONTENT="Fluid Section Types: Liquids">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node112.html">
+<LINK REL="previous" HREF="node76.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node102.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2328"
+  HREF="node102.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2324"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2318"
+  HREF="node100.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2326"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2329"
+  HREF="node102.html">Pipe, Manning</A>
+<B> Up:</B> <A NAME="tex2html2325"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html2319"
+  HREF="node100.html">Network User Element</A>
+ &nbsp; <B>  <A NAME="tex2html2327"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00075000000000000000"></A><A NAME="fluidsectiontypesliquids"></A>
+<BR>
+Fluid Section Types: Liquids
+</H2>
+
+<P>
+A network element is characterized by a type of fluid section. It has to be
+specified on the <A HREF="node264.html#fluidsection">*FLUID SECTION</A> card unless the
+analysis is a pure thermomechanical calculation.
+
+<P>
+Typical material properties needed for a liquid network are the density <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$">
+(temperature dependent, cf. the <A HREF="node241.html#density">*DENSITY</A> card), the
+heat capacity  <IMG
+ WIDTH="82" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img636.png"
+ ALT="$ c=c_p=c_v$"> and the dynamic viscosity <IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"> (both
+temperature dependent and to be specified with the <A HREF="node263.html#fluidconstants">FLUID
+  CONSTANTS</A> card). 
+
+<P>
+A special case is the purely thermal liquid network. This applies if:
+
+<UL>
+<LI>no TYPE is specified on any *FLUID SECTION card or
+</LI>
+<LI>the parameter THERMAL NETWORK is used on the *STEP card or
+</LI>
+<LI>all mass flow is given and either all pressures or given or none.
+</LI>
+</UL>
+In that case only <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"> is needed.
+
+<P>
+For liquids the orifice (only
+for <IMG
+ WIDTH="52" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img404.png"
+ ALT="$ C_d=1$">), restrictor, 
+branch, and vortex fluid section types of gases can be used by specifying the
+parameter LIQUID on the *FLUID SECTION card. In addition, the following
+types are available as well (the coefficients for the head
+losses are taken from [<A
+ HREF="node448.html#Berlamont1">10</A>], unless specified otherwise):
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2330"
+  HREF="node102.html">Pipe, Manning</A>
+<LI><A NAME="tex2html2331"
+  HREF="node103.html">Pipe, White-Colebrook</A>
+<LI><A NAME="tex2html2332"
+  HREF="node104.html">Pipe, Sudden Enlargement</A>
+<LI><A NAME="tex2html2333"
+  HREF="node105.html">Pipe, Sudden Contraction</A>
+<LI><A NAME="tex2html2334"
+  HREF="node106.html">Pipe, Entrance</A>
+<LI><A NAME="tex2html2335"
+  HREF="node107.html">Pipe, Diaphragm</A>
+<LI><A NAME="tex2html2336"
+  HREF="node108.html">Pipe, Bend</A>
+<LI><A NAME="tex2html2337"
+  HREF="node109.html">Pipe, Gate Valve</A>
+<LI><A NAME="tex2html2338"
+  HREF="node110.html">Pump</A>
+<LI><A NAME="tex2html2339"
+  HREF="node111.html">In/Out</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2328"
+  HREF="node102.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2324"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2318"
+  HREF="node100.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2326"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2329"
+  HREF="node102.html">Pipe, Manning</A>
+<B> Up:</B> <A NAME="tex2html2325"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html2319"
+  HREF="node100.html">Network User Element</A>
+ &nbsp; <B>  <A NAME="tex2html2327"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

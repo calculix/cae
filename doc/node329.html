@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*TRANSFORMF</TITLE>
+<META NAME="description" CONTENT="*TRANSFORMF">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node330.html">
+<LINK REL="previous" HREF="node328.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node330.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5276"
+  HREF="node330.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5272"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5266"
+  HREF="node328.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5274"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5277"
+  HREF="node330.html">*UNCOUPLED TEMPERATURE-DISPLACEMENT</A>
+<B> Up:</B> <A NAME="tex2html5273"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5267"
+  HREF="node328.html">*TRANSFORM</A>
+ &nbsp; <B>  <A NAME="tex2html5275"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008121000000000000000"></A><A NAME="transformf"></A>
+<BR>
+*TRANSFORMF
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option may be used to specify a local axis system X'-Y'-Z' to be used for
+defining SPC's in CFD-calculations. For now, rectangular and cylindrical systems can be defined, triggered by the parameter TYPE=R (default) and TYPE=C. 
+
+<P>
+A rectangular system is defined by specifying a point a on the local X' axis and a point b belonging to the X'-Y' plane but not on the X' axis. A right hand system is assumed (Figure <A HREF="node328.html#rectsystem2">154</A>).
+
+<P>
+When using a cylindrical system two points a and b on the axis must be given. The X' axis is in radial direction, the Z' axis in axial direction from point a to point b, and Y' is in tangential direction such that X'-Y'-Z' is a right hand system (Figure <A HREF="node328.html#cylsystem2">155</A>). 
+
+<P>
+The difference with the *TRANSFORM card is that for CFD-calculations the SPC's
+are applied to element faces instead of nodes. The parameter SURFACE,
+specifying the surface for which the transformation applies, is
+required. Notice that this surface must be face-based.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*TRANSFORM
+</LI>
+<LI>Enter the required parameter SURFACE, and the optional parameter TYPE if needed.
+</LI>
+</UL>
+Second line:
+
+<UL>
+<LI>X-coordinate of point a.
+</LI>
+<LI>Y-coordinate of point a.
+</LI>
+<LI>Z-coordinate of point a.
+</LI>
+<LI>X-coordinate of point b.
+</LI>
+<LI>Y-coordinate of point b.
+</LI>
+<LI>Z-coordinate of point b.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*TRANSFORMF,SURFACE=ABC,TYPE=C
+0.,0.,0.,1.,0.,0.
+</PRE>
+
+<P>
+assigns a new cylindrical coordinate system to the faces belonging to surface
+ABC. The cylindrical axis is the global x-axis.
+
+<P>
+
+<P><P>
+<BR>
+Example files: .
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5276"
+  HREF="node330.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5272"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5266"
+  HREF="node328.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5274"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5277"
+  HREF="node330.html">*UNCOUPLED TEMPERATURE-DISPLACEMENT</A>
+<B> Up:</B> <A NAME="tex2html5273"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5267"
+  HREF="node328.html">*TRANSFORM</A>
+ &nbsp; <B>  <A NAME="tex2html5275"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

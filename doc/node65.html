@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Two-node 3-dimensional dashpot (DASHPOTA)</TITLE>
+<META NAME="description" CONTENT="Two-node 3-dimensional dashpot (DASHPOTA)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node66.html">
+<LINK REL="previous" HREF="node64.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node66.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1875"
+  HREF="node66.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1871"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1865"
+  HREF="node64.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1873"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1876"
+  HREF="node66.html">One-node 3-dimensional spring (SPRING1)</A>
+<B> Up:</B> <A NAME="tex2html1872"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1866"
+  HREF="node64.html">Two-node unidirectional gap element</A>
+ &nbsp; <B>  <A NAME="tex2html1874"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000723900000000000000">
+Two-node 3-dimensional dashpot (DASHPOTA)</A>
+</H3>
+
+<P>
+The dashpot element is defined between two nodes (Figure
+<A HREF="#dashpotf">82</A>). The force in node 2 amounts to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{F_2}=-c \left[(\boldsymbol{v_2}-\boldsymbol{v_1}) \cdot
+\frac{(\boldsymbol{x_2}-\boldsymbol{x_1})}{L} \right] \frac{(\boldsymbol{x_2}-\boldsymbol{x_1})}{L}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="309" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img285.png"
+ ALT="$\displaystyle \boldsymbol{F_2}=-c \left[(\boldsymbol{v_2}-\boldsymbol{v_1}) \cd...
+..._2}-\boldsymbol{x_1})}{L} \right] \frac{(\boldsymbol{x_2}-\boldsymbol{x_1})}{L}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(10)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where c is the dashpot coefficient, <!-- MATH
+ $\boldsymbol{v}$
+ -->
+<IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img286.png"
+ ALT="$ \boldsymbol{v}$"> is the velocity vector,
+<!-- MATH
+ $\boldsymbol{x}$
+ -->
+<IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img287.png"
+ ALT="$ \boldsymbol{x}$"> is the actual location of the nodes and <IMG
+ WIDTH="15" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img288.png"
+ ALT="$ L$"> is the
+actual distance between them. Notice that <!-- MATH
+ $\boldsymbol{F_1} =
+-\boldsymbol{F_2}$
+ -->
+<IMG
+ WIDTH="76" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img289.png"
+ ALT="$ \boldsymbol{F_1} =
+-\boldsymbol{F_2}$">. Right now, only
+linear dashpots are allowed, i.e. the dashpot coefficient is constant
+(i.e. it does not depend on the relative velocity. However, it can depend on
+the temperature).
+ It is defined using the
+<A HREF="node239.html#dashpot">*DASHPOT</A> keyword card. 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="dashpotf"></A><A NAME="11847"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 82:</STRONG>
+Definition of a DASHPOTA element</CAPTION>
+<TR><TD><IMG
+ WIDTH="226" HEIGHT="63" BORDER="0"
+ SRC="img290.png"
+ ALT="\begin{figure}\epsfig{file=dashpot.eps,width=5cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The two-node three-dimensional dashpot element is considered as a genuine
+three-dimensional element. Consequently, if it is connected to a 2D element
+with special restraints on the third direction (plane stress, plane strain or
+axisymmetric elements) the user has to take care that the third dimension does
+not induce rigid body motions in the dashpot nodes.
+
+<P>
+The dashpot element can only be used in linear dynamic calculations
+characterized by the <A HREF="node285.html#modaldynamic">*MODAL DYNAMIC</A> keyword card.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1875"
+  HREF="node66.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1871"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1865"
+  HREF="node64.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1873"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1876"
+  HREF="node66.html">One-node 3-dimensional spring (SPRING1)</A>
+<B> Up:</B> <A NAME="tex2html1872"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1866"
+  HREF="node64.html">Two-node unidirectional gap element</A>
+ &nbsp; <B>  <A NAME="tex2html1874"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

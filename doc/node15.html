@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Transient laminar incompressible Couette problem</TITLE>
+<META NAME="description" CONTENT="Transient laminar incompressible Couette problem">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node16.html">
+<LINK REL="previous" HREF="node14.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node16.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1052"
+  HREF="node16.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1048"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1042"
+  HREF="node14.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1050"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1053"
+  HREF="node16.html">Stationary laminar inviscid compressible</A>
+<B> Up:</B> <A NAME="tex2html1049"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1043"
+  HREF="node14.html">Lid-driven cavity</A>
+ &nbsp; <B>  <A NAME="tex2html1051"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00069000000000000000">
+Transient laminar incompressible Couette problem</A>
+</H2>
+
+<P>
+Another well-known problem is the incompressible laminar flow between two
+parallel plates. At time zero both plates are at rest, whereas at positive
+times one of the plates is moved parallel to the other plate with a velocity
+of 1. The analytical solution can be found in [<A
+ HREF="node448.html#Schlichting">67</A>] in the form
+of a series expansion containing the complementary error function erfc. In the
+steady state regime the velocity profile is linear across the space in between
+the plates. The velocity profiles at different times are shown in Figure
+<A HREF="#couette1">31</A> and compared with the analytical solution for a unity distance
+between the plates and a kinematic viscosity <IMG
+ WIDTH="43" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img145.png"
+ ALT="$ \nu=1$">. The input deck for the
+CalculiX results can be found in the test suite (couette1.inp). A time
+increment of 0.00012376 was chosen to obtain good results. It is yet unclear,
+how to calculate the increment needed to obtain correct predictions. The only
+feasible procedure right now is to try increasingly small increments unless
+the results do not change any more. The figure
+shows good agreement between the numerical and analytical values, indicating
+that the time integration in the CFD-implementation in CalculiX is
+correct. The small deviations at small times are due to the rather coarse mesh.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="couette1"></A><A NAME="11773"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 31:</STRONG>
+Velocity across the space in between the plates for different times</CAPTION>
+<TR><TD></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1052"
+  HREF="node16.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1048"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1042"
+  HREF="node14.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1050"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1053"
+  HREF="node16.html">Stationary laminar inviscid compressible</A>
+<B> Up:</B> <A NAME="tex2html1049"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1043"
+  HREF="node14.html">Lid-driven cavity</A>
+ &nbsp; <B>  <A NAME="tex2html1051"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

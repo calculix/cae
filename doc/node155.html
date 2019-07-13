@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>The Cailletaud single crystal creep model.</TITLE>
+<META NAME="description" CONTENT="The Cailletaud single crystal creep model.">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node156.html">
+<LINK REL="previous" HREF="node154.html">
+<LINK REL="up" HREF="node143.html">
+<LINK REL="next" HREF="node156.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3028"
+  HREF="node156.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3024"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3018"
+  HREF="node154.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3026"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3029"
+  HREF="node156.html">Elastic anisotropy with isotropic</A>
+<B> Up:</B> <A NAME="tex2html3025"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3019"
+  HREF="node154.html">The Cailletaud single crystal</A>
+ &nbsp; <B>  <A NAME="tex2html3027"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000781200000000000000">
+The Cailletaud single crystal creep model.</A>
+</H3>
+
+<P>
+This is the Cailletaud single crystal model reduced to the creep case,
+i.e. the yield surface is reduced to zero.
+
+<P>
+The material
+definition consists of a *MATERIAL card defining the name of
+the material. This name HAS TO START WITH ''SINGLE_CRYSTAL_CREEP'' but can be
+up to 80 characters long. Thus, the last 60 characters can be freely
+chosen by the user. Within the material definition a <A HREF="node332.html#usermaterial">*USER
+MATERIAL</A> card has to be used satisfying:
+
+<P>
+First line:
+
+<UL>
+<LI>*USER MATERIAL
+</LI>
+<LI>Enter the CONSTANTS parameter and its value, i.e. 7.
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<P>
+
+<P><P>
+<BR>
+
+<UL>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1082.png"
+ ALT="$ C_{1111}$">.
+</LI>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1083.png"
+ ALT="$ C_{1122}$">.
+</LI>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1084.png"
+ ALT="$ C_{1212}$">.
+</LI>
+<LI><IMG
+ WIDTH="28" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1087.png"
+ ALT="$ K^\beta$"> (octaeder slip system).
+</LI>
+<LI><IMG
+ WIDTH="23" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1056.png"
+ ALT="$ n^\beta$"> (octaeder slip system).
+</LI>
+<LI><IMG
+ WIDTH="28" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1087.png"
+ ALT="$ K^\beta$"> (cubic slip system).
+</LI>
+<LI><IMG
+ WIDTH="23" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1056.png"
+ ALT="$ n^\beta$"> (cubic slip system).
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+
+<P>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+The crystal principal axes are assumed to coincide with the global
+coordinate system. If this is not the case, use an
+<A HREF="node298.html#orientation">*ORIENTATION</A> card to define a local system.
+
+<P>
+For this model, there are 24 internal state variables: 
+
+<UL>
+<LI>the plastic strain tensor <!-- MATH
+ $\epsilon^p$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1094.png"
+ ALT="$ \epsilon^p$"></B> (6)
+</LI>
+<LI>the accumulated absolute value of the slip rate <!-- MATH
+ $\int_0^t
+\dot{\gamma^\beta} dt$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1097.png"
+ ALT="$ \int_0^t
+\dot{\gamma^\beta} dt$"> (18)
+</LI>
+</UL>
+
+<P>
+These variables are accessible through the <A HREF="node256.html#elprint">*EL
+PRINT</A> (.dat file) and <A HREF="node255.html#elfile">*EL FILE</A> (.frd file)
+keywords in exactly this order (label SDV). The
+<A HREF="node242.html#depvar">*DEPVAR</A> card must be included in the material
+definition with a value of 24.
+
+<P>
+<PRE>
+Example:
+
+*MATERIAL,NAME=SINGLE_CRYSTAL
+*USER MATERIAL,CONSTANTS=21
+135468.,68655.,201207.,1550.,3.89,980.,3.89,400.
+*DEPVAR
+24
+</PRE>
+
+<P>
+defines a single crystal with elastic constants
+<!-- MATH
+ $\{135468.,68655.,201207.\}$
+ -->
+<IMG
+ WIDTH="183" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1098.png"
+ ALT="$ \{135468.,68655.,201207.\}$">, octaeder parameters <!-- MATH
+ $\{1550.,3.89\}$
+ -->
+<IMG
+ WIDTH="92" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1101.png"
+ ALT="$ \{1550.,3.89\}$"> and cubic
+parameters <!-- MATH
+ $\{980.,3.89\}$
+ -->
+<IMG
+ WIDTH="84" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1102.png"
+ ALT="$ \{980.,3.89\}$"> for a temperature of 400.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3028"
+  HREF="node156.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3024"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3018"
+  HREF="node154.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3026"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3029"
+  HREF="node156.html">Elastic anisotropy with isotropic</A>
+<B> Up:</B> <A NAME="tex2html3025"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3019"
+  HREF="node154.html">The Cailletaud single crystal</A>
+ &nbsp; <B>  <A NAME="tex2html3027"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Restrictor, User</TITLE>
+<META NAME="description" CONTENT="Restrictor, User">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node92.html">
+<LINK REL="previous" HREF="node90.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node92.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2210"
+  HREF="node92.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2206"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2200"
+  HREF="node90.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2208"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2211"
+  HREF="node92.html">Branch, Joint</A>
+<B> Up:</B> <A NAME="tex2html2207"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2201"
+  HREF="node90.html">Restrictor, Exit</A>
+ &nbsp; <B>  <A NAME="tex2html2209"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000741500000000000000">
+Restrictor, User</A>
+</H3>
+
+<P>
+Properties: adiabatic, not isentropic, directional, inlet based restrictor if
+<IMG
+ WIDTH="64" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img550.png"
+ ALT="$ A_1 &lt; A_2$"> and outlet based restrictor if <IMG
+ WIDTH="64" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img551.png"
+ ALT="$ A_2 &lt; A_1$">.
+
+<P>
+A user-defined restrictor is described by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=RESTRICTOR
+USER card):
+
+<P>
+
+<UL>
+<LI>upstream cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img511.png"
+ ALT="$ A_1$">.
+</LI>
+<LI>downstream cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img539.png"
+ ALT="$ A_2$">.
+</LI>
+<LI>hydraulic diameter <IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img540.png"
+ ALT="$ D_h$"> defined by <IMG
+ WIDTH="87" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img541.png"
+ ALT="$ D_h=4 A/P$"> where <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$"> is the area
+  of the smallest cross section and <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img542.png"
+ ALT="$ P$"> is the
+  perimeter of the smallest cross section. 
+</LI>
+<LI>loss coefficient <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$">.
+</LI>
+<LI>oil mass flow in the restrictor (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>not used (internally: oil material number)
+</LI>
+</UL>
+
+<P>
+By specifying the parameter LIQUID on the *FLUID SECTION card the loss is
+calculated for liquids. In the absence of this parameter, compressible losses
+are calculated. 
+
+<P>
+
+<P><P>
+<BR>
+Example files: restrictor, restrictor-oil.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

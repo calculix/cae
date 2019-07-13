@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Fluid Section Types: Open Channels</TITLE>
+<META NAME="description" CONTENT="Fluid Section Types: Open Channels">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node126.html">
+<LINK REL="previous" HREF="node101.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node113.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2468"
+  HREF="node113.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2464"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2458"
+  HREF="node111.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2466"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2469"
+  HREF="node113.html">Straight Channel</A>
+<B> Up:</B> <A NAME="tex2html2465"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html2459"
+  HREF="node111.html">In/Out</A>
+ &nbsp; <B>  <A NAME="tex2html2467"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00076000000000000000"></A><A NAME="fluidsectiontypeschannels"></A>
+<BR>
+Fluid Section Types: Open
+  Channels
+</H2>
+
+<P>
+A network element is characterized by a type of fluid section. It has to be
+specified on the <A HREF="node264.html#fluidsection">*FLUID SECTION</A> card unless the analysis is a pure
+thermomechanical calculation (no calculation of pressure, mass flow or fluid
+depth). For an open channel network the boundary conditions for each branch
+are located upstream (frontwater flow) or downstream (backwater flow). These
+boundary conditions are made up of special elements, such as a sluice gate or
+a weir. Nearly all of these elements actually consist of pairs of elements,
+which reference each other. For instance, adjacent and downstream of the
+sluice gate element a sluice opening element has to be defined. The upstream
+element of such a pair has an additional degree of freedom attached to its
+middle node to accommodate the location of any hydraulic jump which might occur
+in the downstream channel branch. Therefore, all elements downstream of a pair
+of such boundary elements have to reference the upstream element of the
+pair. In our example, this is the sluice gate element. The friction in all
+elements is modeled by the White-Colebrook law, unless the parameter MANNING
+is specified on the *FLUID SECTION card. For details on these laws the reader
+is referred to Section <A HREF="node177.html#channels">6.9.18</A>. 
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2470"
+  HREF="node113.html">Straight Channel</A>
+<LI><A NAME="tex2html2471"
+  HREF="node114.html">Sluice Gate</A>
+<LI><A NAME="tex2html2472"
+  HREF="node115.html">Sluice Opening</A>
+<LI><A NAME="tex2html2473"
+  HREF="node116.html">Weir Crest</A>
+<LI><A NAME="tex2html2474"
+  HREF="node117.html">Weir slope</A>
+<LI><A NAME="tex2html2475"
+  HREF="node118.html">Discontinuous Slope</A>
+<LI><A NAME="tex2html2476"
+  HREF="node119.html">Discontinuous Opening</A>
+<LI><A NAME="tex2html2477"
+  HREF="node120.html">Reservoir</A>
+<LI><A NAME="tex2html2478"
+  HREF="node121.html">Contraction</A>
+<LI><A NAME="tex2html2479"
+  HREF="node122.html">Enlargement</A>
+<LI><A NAME="tex2html2480"
+  HREF="node123.html">Drop</A>
+<LI><A NAME="tex2html2481"
+  HREF="node124.html">Step</A>
+<LI><A NAME="tex2html2482"
+  HREF="node125.html">In/Out</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2468"
+  HREF="node113.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2464"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2458"
+  HREF="node111.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2466"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2469"
+  HREF="node113.html">Straight Channel</A>
+<B> Up:</B> <A NAME="tex2html2465"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html2459"
+  HREF="node111.html">In/Out</A>
+ &nbsp; <B>  <A NAME="tex2html2467"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Discontinuous Slope</TITLE>
+<META NAME="description" CONTENT="Discontinuous Slope">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node119.html">
+<LINK REL="previous" HREF="node117.html">
+<LINK REL="up" HREF="node112.html">
+<LINK REL="next" HREF="node119.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2553"
+  HREF="node119.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2549"
+  HREF="node112.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2543"
+  HREF="node117.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2551"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2554"
+  HREF="node119.html">Discontinuous Opening</A>
+<B> Up:</B> <A NAME="tex2html2550"
+  HREF="node112.html">Fluid Section Types: Open</A>
+<B> Previous:</B> <A NAME="tex2html2544"
+  HREF="node117.html">Weir slope</A>
+ &nbsp; <B>  <A NAME="tex2html2552"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00076600000000000000">
+Discontinuous Slope</A>
+</H3>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="discontslope"></A><A NAME="12050"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 125:</STRONG>
+Geometry of a discontinuous slope</CAPTION>
+<TR><TD><IMG
+ WIDTH="449" HEIGHT="326" BORDER="0"
+ SRC="img695.png"
+ ALT="\begin{figure}\epsfig{file=Discontslope.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The discontinuous slope is the upstream element of a pair of boundary elements
+simulating a change in slope. The corresponding downstream element is the
+discontinuous opening.
+Both are illustrated in Figure <A HREF="#discontslope">125</A>. The following constants have to be specified on the
+line beneath the *FLUID SECTION,TYPE=CHANNEL DISCONTINUOUS SLOPE card:
+
+<P>
+
+<UL>
+<LI>the width <IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img310.png"
+ ALT="$ b$">
+</LI>
+<LI><!-- MATH
+ $S_0 = \sin (\phi_1)$
+ -->
+<IMG
+ WIDTH="91" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img696.png"
+ ALT="$ S_0 = \sin (\phi_1)$"> (Figure <A HREF="#discontslope">125</A>; if <IMG
+ WIDTH="63" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img681.png"
+ ALT="$ S_0&lt;-1$"> the slope is calculated from the
+  coordinates of the end nodes belonging to the element)
+</LI>
+<LI>the length <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img697.png"
+ ALT="$ L_1$"> (Figure <A HREF="#discontslope">125</A>; if <IMG
+ WIDTH="52" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img698.png"
+ ALT="$ L_1 \le 0$"> the length is calculated from the
+  coordinates of the end nodes belonging to the element)
+</LI>
+<LI>the trapezoid angle <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img178.png"
+ ALT="$ \theta$">
+</LI>
+<LI>the grain diameter <IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img448.png"
+ ALT="$ k_s$"> for the White-Colebrook law or the Manning
+  constant <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$"> for the Manning law (in the latter case the user has to specify
+  the parameter MANNING on the *FLUID SECTION card)
+</LI>
+<LI>the number of the upstream reference element
+</LI>
+<LI>not used
+</LI>
+<LI>the number of the downstream discontinuous opening element
+</LI>
+<LI>not used
+</LI>
+</UL>
+
+<P>
+The length <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img697.png"
+ ALT="$ L_1$"> is typically small compared to the length of the adjacent
+channel branches.
+
+<P>
+Notice that a discontinuous slope element generally has upstream channel elements attached
+to it. Therefore, it is always mandatory to specify an upstream reference element.
+
+<P>
+
+<P><P>
+<BR>
+Example files: channel6.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2553"
+  HREF="node119.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2549"
+  HREF="node112.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2543"
+  HREF="node117.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2551"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2554"
+  HREF="node119.html">Discontinuous Opening</A>
+<B> Up:</B> <A NAME="tex2html2550"
+  HREF="node112.html">Fluid Section Types: Open</A>
+<B> Previous:</B> <A NAME="tex2html2544"
+  HREF="node117.html">Weir slope</A>
+ &nbsp; <B>  <A NAME="tex2html2552"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

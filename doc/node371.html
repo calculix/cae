@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Network element</TITLE>
+<META NAME="description" CONTENT="Network element">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node370.html">
+<LINK REL="up" HREF="node370.html">
+<LINK REL="next" HREF="node372.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5831"
+  HREF="node372.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5827"
+  HREF="node370.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5823"
+  HREF="node370.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5829"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5832"
+  HREF="node372.html">Programming rules.</A>
+<B> Up:</B> <A NAME="tex2html5828"
+  HREF="node370.html">User-defined elements</A>
+<B> Previous:</B> <A NAME="tex2html5824"
+  HREF="node370.html">User-defined elements</A>
+ &nbsp; <B>  <A NAME="tex2html5830"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00098100000000000000">
+Network element</A>
+</H3>
+
+<P>
+Details on how a user network element can be defined are described in Section
+<A HREF="node100.html#networkuserelement">6.4.24</A>. Here, the structure of the network element subroutine is
+described in detail. The routine is called for each element of the appropriate
+user type. For the list of variables transferred into the routine the user is
+referred to the skeleton file user_network_element_p0.f and example file user_network_element_p1.f.
+
+<P>
+A user network element is described by an equation expressing the relationship
+between the total pressure at the end nodes, the total temperature at the end
+nodes and the mass flow through the element:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+f({p_t}_1,{p_t}_2,{T_t}_1,{T_t}_2,\dot{m})=0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="183" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1859.png"
+ ALT="$\displaystyle f({p_t}_1,{p_t}_2,{T_t}_1,{T_t}_2,\dot{m})=0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(511)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Not all these variables have to be present. In order to specify the relevant
+variables the fields nodef and idirf and the scalar numf are used. In nodef the relevant nodes
+numbers are stored, in idirf the direction: total temperature=0, mass flow=1
+and total pressure=2. If the element was defined by the nodes 50, 108 and 3338
+(node1, nodem and node2) and only the total pressures and mass flow occur in
+the equation nodef and idir could look like:
+
+<P>
+
+<UL>
+<LI>nodef(1)=50, idirf(1)=2
+</LI>
+<LI>nodef(2)=108, idirf(2)=1
+</LI>
+<LI>nodef(3)=3338, idirf(3)=2
+</LI>
+</UL>
+
+<P>
+numf is the number of variables, here numf=3.
+
+<P>
+The structure of the user subroutine is governed by the variable iflag. 
+
+<P>
+If iflag=0 the variable identity should be returned expressing whether the
+element routine is needed at all (identity=.false. if the routine is
+needed). For instance, if all variables have been defined using boundary
+conditions the routine is not relevant.
+
+<P>
+If iflag=1 the user should return the mass flow based on the knowledge of all
+other variables.
+
+<P>
+If iflag=2 the actual value of f and the derivative of f w.r.t. all active
+degrees of freedom (expressed by fields nodef and idirf) should be calculated
+and returned.
+
+<P>
+Finally, if iflag=3 fields are calculated for output in the jobname.net file.
+
+<P>
+At the end of the file an adjustment is made for axisymmetric
+structures. Axisymmetric elements in CalculiX are expanded into a
+3-dimensional sector of 360<B><IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$"></B>/iaxial. Therefore, the mass flow, which is
+usually provided in the network element routine for 360<B><IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$"></B>, has to be
+adjusted appropriately. The same applies to the derivative of the governing
+element equation w.r.t. the mass flow.
+
+<P>
+For a user-defined network element two additional routines have to be
+completed:
+
+<P>
+
+<UL>
+<LI>calcgeomelemnet.f. In this routine the cross section of the element is
+  defined. This is only needed for pipe-like elements (label starting with
+  UP), for which the total and static temperatures differ.
+</LI>
+<LI>calcheatnet.f. In this routine the heat generated within the element can
+  be defined, if any. If nonzero, this heat is inserted into the downstream
+  node of the element.
+</LI>
+</UL>
+
+<P>
+For details on these subroutines, the user is referred to the comments at the
+start of these routines.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5831"
+  HREF="node372.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5827"
+  HREF="node370.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5823"
+  HREF="node370.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5829"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5832"
+  HREF="node372.html">Programming rules.</A>
+<B> Up:</B> <A NAME="tex2html5828"
+  HREF="node370.html">User-defined elements</A>
+<B> Previous:</B> <A NAME="tex2html5824"
+  HREF="node370.html">User-defined elements</A>
+ &nbsp; <B>  <A NAME="tex2html5830"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

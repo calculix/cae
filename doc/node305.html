@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*RESTART</TITLE>
+<META NAME="description" CONTENT="*RESTART">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node306.html">
+<LINK REL="previous" HREF="node304.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node306.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4988"
+  HREF="node306.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4984"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4978"
+  HREF="node304.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4986"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4989"
+  HREF="node306.html">*RETAINED NODAL DOFS</A>
+<B> Up:</B> <A NAME="tex2html4985"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4979"
+  HREF="node304.html">*REFINE MESH</A>
+ &nbsp; <B>  <A NAME="tex2html4987"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000897000000000000000"></A><A NAME="restart"></A>
+<BR>
+*RESTART
+</H2>
+
+<P>
+Keyword type: prestep (*RESTART,READ), step (*RESTART,WRITE)
+
+<P>
+Sometimes you wish to continue a previous run without having to redo
+the complete calculation. This is where the *RESTART keyword comes
+in. It can be used to store results for a later restart, or to
+continue a previous calculation. 
+
+<P>
+There is one required parameter specifying whether you want to read
+previous results (READ) or store the results of the present
+calculation for future restarts (WRITE). This parameter must follow
+immediately after the *RESTART keyword card.
+
+<P>
+If you specify READ, you can
+indicate with the parameter STEP which step of the previous run is to
+be read. The results will be read from the binary file
+``jobname.rin'' which should have been generated in a previous
+run. If the STEP parameter is absent the last step stored in the restart file
+is taken. A restart file can contain any number of steps and anything
+which is allowed within a step. For instance, one can define new loads
+based on sets generated in previous runs. If present, the *RESTART,READ line
+must be the first non-comment line in the input deck.
+
+<P>
+If you specify WRITE, you can
+specify the frequency (parameter FREQUENCY) at which results are
+stored. A frequency of two means that the results of every second step will be
+stored. Default is one. The results will be stored in binary format in
+file ``jobname.rout''. Any existing file with this name will be
+deleted prior to the first writing operation. The restart file is being
+written starting with the step in which the *RESTART card appears and is being
+continued up to the step in which the *RESTART card is reused, if any. A reuse
+of the *RESTART card can be useful in case the user does not want any further
+steps to be stored in the restart file (FREQUENCY=0), or in case he/she wants to
+change the write frequency. 
+
+<P>
+In order to prevent the restart file to be come too big, the user can specify
+the parameter OVERLAY for the *RESTART,WRITE combination. In that case every
+new step being written to the restart file will delete all previous
+information. So only the last step written to file will be available for any
+subsequent reuse by a *RESTART,READ command.
+
+<P>
+For a subsequent restart job with name
+``jobname_new.inp'' the ``jobname.rout'' file must be renamed into
+``jobname_new.rin''. The *RESTART,WRITE combination must be used within a
+*STEP definition
+
+<P><P>
+<BR>
+
+<P>
+First and only line:
+
+<UL>
+<LI>*RESTART
+</LI>
+<LI>Enter any needed parameters and their values
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*RESTART,READ,STEP=2
+</PRE>
+
+<P>
+will read the results of step two in the previous calculation.
+
+<P>
+<PRE>
+Example:
+
+*RESTART,WRITE,FREQUENCY=3
+</PRE>
+
+<P>
+will write the results every third step.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamread, beamwrite, beamread2, beamwrite2.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4988"
+  HREF="node306.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4984"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4978"
+  HREF="node304.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4986"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4989"
+  HREF="node306.html">*RETAINED NODAL DOFS</A>
+<B> Up:</B> <A NAME="tex2html4985"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4979"
+  HREF="node304.html">*REFINE MESH</A>
+ &nbsp; <B>  <A NAME="tex2html4987"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

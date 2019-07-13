@@ -11,7 +11,7 @@
 
 
 from PyQt5 import QtWidgets, uic, QtCore, QtWebEngineWidgets
-import os, subprocess, ccx_dom
+import os, re, ccx_dom
 
 
 class Dialog(QtWidgets.QDialog):
@@ -25,14 +25,16 @@ class Dialog(QtWidgets.QDialog):
         # Load basic form
         uic.loadUi('ccx_dialog.ui', self)
 
+        self.widgets = [] # list of created widgets
+        self.item = item # needed to pass to other functions
+
         # New implementation: draw full form for keyword's arguments
-        if item.item_type == ccx_dom.item_type.KEYWORD:
-            self.setWindowTitle('New ' + item.name)
-            self.keyword = item # needed to pass to other functions
+        if self.item.item_type == ccx_dom.item_type.KEYWORD:
+            self.setWindowTitle('New ' + self.item.name)
 
             # For each keyword's argument create name and value widgets
             index = 0 # row number for vertical layout
-            for argument in self.keyword.items:
+            for argument in self.item.items:
                 if argument.item_type != ccx_dom.item_type.ARGUMENT:
                     continue
 
@@ -90,20 +92,25 @@ class Dialog(QtWidgets.QDialog):
                 horizontal_layout.addWidget(argument_values_widget)
                 horizontal_layout.setAlignment(QtCore.Qt.AlignLeft)
 
-                self.vertical_layout.insertLayout(index, horizontal_layout) # add widgets to dialog window
+                # Save name and values for processing in self.onChange()
+                self.widgets.append(argument_name_widget)
+                self.widgets.append(argument_values_widget)
+
+                # Add widgets to dialog window
+                self.vertical_layout.insertLayout(index, horizontal_layout)
                 index += 1 # second time
 
             # Fill textEdit widget with default keyword's configuration
             self.onChange(None)
 
         # Edit implementation: draw only textEdit
-        if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
-            self.setWindowTitle('Edit ' + item.name)
-            for line in item.INP_code:
+        if self.item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+            self.setWindowTitle('Edit ' + self.item.name)
+            for line in self.item.INP_code:
                 self.textEdit.append(line)
 
-        # Show help with piece of PDF manual
-        # self.showDoc(item)
+        # Show help with html-page from official manual
+        self.showDoc(item)
 
         # Actions
         self.buttonBox.accepted.connect(self.onOk)
@@ -113,55 +120,61 @@ class Dialog(QtWidgets.QDialog):
     # Update piece of INP-code in the textEdit widget
     def onChange(self, event):
         arguments = {} # name:value
-        string = self.keyword.name
-        j = 0
-        for i, widget in enumerate(self.children()):
-            if i>3: # skip widgets created manually in ccx_dialog.ui
+        for i, widget in enumerate(self.widgets):
+            # print(i, widget.__class__.__name__, text)
 
-                # Get text from widget: argument's name and value
-                text = '' # clear text from prev. iteration
-                if widget.__class__.__name__ == 'QLabel':
-                    text = widget.text()
-                elif widget.__class__.__name__ == 'QLineEdit':
-                    text = widget.text()
-                elif widget.__class__.__name__ == 'QComboBox':
-                    text = widget.currentText()
-                elif widget.__class__.__name__ == 'QCheckBox':
-                    if widget.isChecked():
-                        text = 'QCheckBox'
+            # Get text from widget: argument's name and value
+            text = '' # clear text from prev. iteration
+            if widget.__class__.__name__ == 'QLabel':
+                text = widget.text()
+            elif widget.__class__.__name__ == 'QLineEdit':
+                text = widget.text()
+            elif widget.__class__.__name__ == 'QComboBox':
+                text = widget.currentText()
+            elif widget.__class__.__name__ == 'QCheckBox':
+                if widget.isChecked():
+                    text = 'QCheckBox'
 
-                # print(i, j, widget.__class__.__name__, text)
+            value = '' # clear value from prev. iteration
+            if not 'Required' in text:
+                if (i % 2) == 0:
+                    # Argument's name
+                    name = text # name is always present
+                else:
+                    # Argument's value
+                    value = text
 
-                value = '' # clear value from prev. iteration
-                if not 'Required' in text:
-                    if (j % 2) == 0:
-                        # Argument's name
-                        name = text # name is always present
-                    else:
-                        # Argument's value
-                        value = text
-
-                        # flag goes without value, only flag name
-                        if len(value.strip()):
-                            if value == 'QCheckBox':
-                                value = ''
-                            arguments[name.strip()] = value
-                    j += 1
+                    # Flag goes without value, only flag name
+                    if len(value.strip()):
+                        if value == 'QCheckBox':
+                            value = ''
+                        arguments[name.strip()] = value
 
         # Generate text for textEdit widget
-        for name, value in arguments.items():
-            if self.keyword.from_new_line:
-                string += '\n' + name + value # argument goes from new line
-            else:
-                string += ', ' + name + value # argument goes inline
+        if self.item.item_type == ccx_dom.item_type.KEYWORD:
+            string = self.item.name
+            for name, value in arguments.items():
+                if self.item.from_new_line:
+                    string += '\n' + name + value # argument goes from new line
+                else:
+                    string += ', ' + name + value # argument goes inline
+        if self.item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+            string = self.item.parent.name
 
         self.textEdit.setText(string)
-        # print(string)
 
 
     # Reset textEdit widget to initial state
     def onReset(self):
-        self.textEdit.setText('')
+        for i, widget in enumerate(self.widgets):
+            if (i % 2) == 1: # iterate over values not labels
+                if widget.__class__.__name__ == 'QLineEdit':
+                    widget.setText('') # empty is default
+                elif widget.__class__.__name__ == 'QComboBox':
+                    widget.setCurrentIndex(0) # this row is default
+                elif widget.__class__.__name__ == 'QCheckBox':
+                    widget.setChecked(False) # uncheck is default
+        self.onChange(None)
 
 
     # Return piece of created code for the .inp-file
@@ -179,34 +192,47 @@ class Dialog(QtWidgets.QDialog):
         if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
             keyword_name = item.parent.name[1:] # cut star
 
-        # Open and read manual 'ccx.tex'
-        with open('./doc/ccx.tex', 'r') as f:
-            lines = f.readlines()
+        script = os.path.realpath(__file__)
+        folder = os.path.dirname(script) + '/doc/'
 
-        # Gather lines from current keyword section
-        tex = ''
-        for i in range(len(lines)):
-            if lines[i].lstrip().startswith('\\subsection{\\label{') and \
-                lines[i].rstrip().endswith(keyword_name.upper() + '}'):
+        # Generate html file if it wasn't created previously
+        if not os.path.isfile(folder + keyword_name + '.html'):
 
-                tex += lines[i] # with '\n'
+            # Open 'ccx.html' and find link to keyword's page
+            href = 'ccx.html'
+            with open(folder + href, 'r') as f:
+                for line in f.readlines():
+                    match = re.search('node\d{3}\.html.{3}' + keyword_name, line) # regex to match href
+                    try:
+                        href = match.group(0)[:12]
+                        break
+                    except:
+                        pass
 
-                while i+1 < len(lines) and \
-                    not lines[i+1].lstrip().startswith('\\subsection{\\label{'):
-                    tex += lines[i+1] # with '\n'
-                    i += 1
-                break
+            # Read html of the keyword's page
+            html = '<html><head><link rel="stylesheet" type="text/css" href="' + folder + 'style.css"></head><body>'
+            with open(folder + href, 'r') as f:
+                append = False
+                cut_breakline = True
+                for line in f.readlines():
+                    if '<!--End of Navigation Panel-->' in line:
+                        append = True
+                        continue
+                    if '<HR>' in  line:
+                        break
+                    if '<PRE>' in line:
+                        cut_breakline = False
+                    if '</PRE>' in line:
+                        cut_breakline = True
+                    if append:
+                        if cut_breakline:
+                            line = line[:-1] # cut '\n'
+                        html += line
+            html += '</body></html>'
+            html = re.sub('<A.+?\">', '', html) # '?' makes it not greedy
+            html = html.replace('</A>', '')
+            with open(folder + keyword_name + '.html', 'w') as f:
+                f.write(html)
 
-        subprocess.call(['pdflatex',
-                        '-no-file-line-error',
-                        '-interaction=nonstopmode',
-                        '-jobname=' + keyword_name.lower() + '.pdf',
-                        '-output-directory=./doc',
-                        tex])
-
-        # script = os.path.realpath(__file__)
-        # folder = os.path.dirname(script)
-        # PDFJS = 'file://' + folder + '/doc/pdfjs-2.0.943-dist/web/viewer.html'
-        # PDF = 'file://' + folder + '/doc/ccx_2.15.pdf'
-
-        # self.doc.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (PDFJS, PDF)))
+        # Load help document
+        self.doc.load(QtCore.QUrl('file://' + folder + keyword_name + '.html'))

@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Calling shared libraries</TITLE>
+<META NAME="description" CONTENT="Calling shared libraries">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node362.html">
+<LINK REL="previous" HREF="node360.html">
+<LINK REL="up" HREF="node359.html">
+<LINK REL="next" HREF="node362.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5715"
+  HREF="node362.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5711"
+  HREF="node359.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5705"
+  HREF="node360.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5713"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5716"
+  HREF="node362.html">Limitations</A>
+<B> Up:</B> <A NAME="tex2html5712"
+  HREF="node359.html">ABAQUS umat routines</A>
+<B> Previous:</B> <A NAME="tex2html5706"
+  HREF="node360.html">Calling mechanical behaviours defined</A>
+ &nbsp; <B>  <A NAME="tex2html5714"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00095220000000000000">
+Calling shared libraries</A>
+</H4>
+
+<P>
+Calling shared libraries is triggered by putting the @ character in
+front material name. The material name is then decomposed into three
+parts, separated by the _ character:
+- The name of the interface (ABAQUS or ABAQUSNL).
+- The base name of the library (see below).
+- The name of the function implementing the behavior.
+
+<P>
+For instance, if we want to call a small strain behavior in a linear
+analysis, implemented by the ``CHABOCHE'' function in the
+``libABAQUSBEHAVIOURS.so'' shared library<A NAME="tex2html178"
+  HREF="footnode.html#foot10183"><SUP>4</SUP></A>, one would declare the
+following material name:
+<DIV ALIGN="CENTER">
+ABAQUS_ABAQUSBEHAVIOURS_CHABOCHE
+
+</DIV>
+
+<P>
+Here, the library name has been stripped from system-specific
+convention (the leading lib and the .so extension). <EM>The base name
+  of the library and the name of the function must be
+  upper-cased</EM>. This is due to the way CalculiX interprets the input
+file.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

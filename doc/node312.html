@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*SOLID SECTION</TITLE>
+<META NAME="description" CONTENT="*SOLID SECTION">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node313.html">
+<LINK REL="previous" HREF="node311.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node313.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5072"
+  HREF="node313.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5068"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5062"
+  HREF="node311.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5070"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5073"
+  HREF="node313.html">*SPECIFIC GAS CONSTANT</A>
+<B> Up:</B> <A NAME="tex2html5069"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5063"
+  HREF="node311.html">*SHELL SECTION</A>
+ &nbsp; <B>  <A NAME="tex2html5071"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008104000000000000000"></A><A NAME="solidsection"></A>
+<BR>
+*SOLID SECTION
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option is used to assign material properties to 3D, plane
+stress, plane strain, axisymmetric  and truss element sets. The parameters
+ELSET and MATERIAL are required, the parameter ORIENTATION is
+optional. The parameter ELSET defines the element set to which the
+material specified by the parameter MATERIAL applies. The parameter
+ORIENTATION allows to assign local axes to the element set. If
+activated, the material properties are applied to the local axis. This
+is only relevant for non isotropic material behavior. For plane stress
+and plane strain elements the thickness can be specified on the second
+line. Default is 1.
+
+<P>
+For structures in which axisymmetric elements (type CAX*) are present any
+thickness defined on the present card applies to 360<B><IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$"></B>.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*SOLID SECTION
+</LI>
+<LI>Enter any needed parameters.
+</LI>
+</UL>
+
+<P>
+Second line (only relevant for plane stress, plane strain and
+truss elements; can be omitted for axisymmetric and 3D elements):
+
+<UL>
+<LI>thickness for plane stress and plane strain elements, cross-sectional
+  area for truss elements.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*SOLID SECTION,MATERIAL=EL,ELSET=Eall,ORIENTATION=OR1
+</PRE>
+
+<P>
+assigns material EL with orientation OR1 to all elements in (element) set Eall.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beampo2, planestress.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5072"
+  HREF="node313.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5068"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5062"
+  HREF="node311.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5070"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5073"
+  HREF="node313.html">*SPECIFIC GAS CONSTANT</A>
+<B> Up:</B> <A NAME="tex2html5069"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5063"
+  HREF="node311.html">*SHELL SECTION</A>
+ &nbsp; <B>  <A NAME="tex2html5071"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

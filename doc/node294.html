@@ -1,0 +1,279 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*NODE PRINT</TITLE>
+<META NAME="description" CONTENT="*NODE PRINT">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node295.html">
+<LINK REL="previous" HREF="node293.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node295.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4856"
+  HREF="node295.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4852"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4846"
+  HREF="node293.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4854"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4857"
+  HREF="node295.html">*NORMAL</A>
+<B> Up:</B> <A NAME="tex2html4853"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4847"
+  HREF="node293.html">*NODE OUTPUT</A>
+ &nbsp; <B>  <A NAME="tex2html4855"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000886000000000000000"></A><A NAME="nodeprint"></A>
+<BR>
+*NODE PRINT
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option is used to print selected nodal variables in file
+jobname.dat. The following variables can be
+selected:
+
+<P>
+
+<UL>
+<LI>Displacements (key=U)
+</LI>
+<LI>Structural temperatures and total temperatures in networks (key=NT or TS; both are equivalent)
+</LI>
+<LI>Static temperatures in 3D fluids (key=TSF)
+</LI>
+<LI>Total temperatures in 3D fluids (key=TTF)
+</LI>
+<LI>Pressures in networks (key=PN). These are the total pressures for gases,
+  static pressures for liquids and liquid depth for channels. The fluid
+  section types dictate the kind of network.
+</LI>
+<LI>Static pressures in 3D fluids (key=PSF)
+</LI>
+<LI>Total pressures in 3D fluids (key=PTF)
+</LI>
+<LI>Mach numbers in compressible 3D fluids (key=MACH)
+</LI>
+<LI>Pressure coefficients in compressible 3D fluids (key=CP)
+</LI>
+<LI>Velocities in 3D fluids (key=VF)
+</LI>
+<LI>Mass flows in networks (key=MF)
+</LI>
+<LI>External forces (key=RF) (only static forces;
+  dynamic forces, such as those caused by dashpots, are not included)
+</LI>
+<LI>External concentrated heat sources (key=RFL)
+</LI>
+</UL>
+
+<P>
+The external forces are the sum of
+the reaction forces, concentrated loads (*CLOAD) and distributed loads
+(*DLOAD) in the node at stake. Only in the absence of concentrated loads in
+the node and distributed loads in any element to which the node belongs, the
+external forces reduce to the reaction forces. Forces induced by multiple
+point constraints are not calculated. Since single point constraints defined
+in transformed coordinates are converted into multiple point constraints in
+the global rectangular system, the force in a node in which a SPC is defined
+in local coordinates are not correctly delivered upon using the RF key in
+combination with the *NODE PRINT keyword card.
+
+<P>
+There are six parameters,
+FREQUENCY, FREQUENCYF, NSET, TOTALS, GLOBAL and TIME POINTS. The parameter NSET is
+required, defining the set of nodes for which the displacements should be
+printed. If this card is omitted, no values are printed. Several *NODE PRINT
+cards can be used within one and the same step.
+
+<P>
+The parameters FREQUENCY and TIME POINTS are mutually exclusive. 
+
+<P>
+The parameter FREQUENCY is optional, and applies to
+nonlinear calculations where a step can consist of several
+increments. Default is FREQUENCY=1, which indicates that the results
+of all increments will be stored. FREQUENCY=N with N an integer
+indicates that the results of every Nth increment will be stored. The
+final results of a step are always stored. If you only want the final
+results, choose N very big. 
+The value of N applies to 
+<A HREF="node299.html#output">*OUTPUT</A>,<A HREF="node254.html#elementoutput">*ELEMENT OUTPUT</A>, 
+<A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="node256.html#elprint">*ELPRINT</A>, 
+<A HREF="node293.html#nodeoutput">*NODE OUTPUT</A>,
+<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="#nodeprint">*NODE PRINT</A>,
+<A HREF="node308.html#sectionprint">*SECTION PRINT</A>,<A HREF="node229.html#contactoutput">*CONTACT OUTPUT</A>,
+<A HREF="node228.html#contactfile">*CONTACT FILE</A> and <A HREF="node231.html#contactprint">*CONTACT PRINT</A>. 
+If the FREQUENCY parameter is used
+for more than one of these keywords with conflicting values of N, the
+last value applies to all. A frequency parameter stays active across several steps
+until it is overwritten by another FREQUENCY value or the TIME POINTS parameter.
+
+<P>
+The 3D fluid analogue of FREQUENCY is FREQUENCYF. In coupled calculations
+FREQUENCY applies to the thermomechanical output, FREQUENCYF to the 3D fluid output.
+
+<P>
+The parameter TOTALS only applies to external forces. If
+TOTALS=YES the sum of the external forces for the whole node set is
+printed in addition to their value for each node in the set
+separately. If TOTALS=ONLY is selected the sum is printed but the
+individual nodal contributions are not. If TOTALS=NO (default) the
+individual contributions are printed, but their sum is not. Notice that the
+sum is always written in the global rectangular system, irrespective of the
+value of the GLOBAL parameter.
+
+<P>
+With the optional parameter GLOBAL you tell the program whether you would like the
+results in the global rectangular coordinate system or in the local nodal
+system. If an <A HREF="node328.html#transform">*TRANSFORM</A> card is applied to the node at stake, this card defines
+the local system. If no *TRANSFORM card is applied to the
+element, the local system coincides with the global rectangular
+system. Default value for the GLOBAL parameter is GLOBAL=NO,
+which means that the results are stored in the local system. If you prefer the
+results in the global system, specify GLOBAL=YES.  If the results are stored in
+the local system the character 'L' is listed at the end of the line.
+
+<P>
+With the parameter TIME POINTS a time point sequence can be referenced,
+defined by a 
+<A HREF="node327.html#timepoints">*TIME POINTS</A> keyword. In that case, output will be
+provided for all time points of the sequence within the step and additionally at the end of
+the step. No other output will be stored and the FREQUENCY parameter is not
+taken into account. Within a step only one time point sequence can be active. If more than
+one is specified, the last one defined on any of the keyword cards
+<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="#nodeprint">*NODE
+  PRINT</A>, <A HREF="node256.html#elprint">*EL PRINT</A> or <A HREF="node308.html#sectionprint">*FACE
+  PRINT</A> will be active. The TIME
+POINTS option should not be used together with the DIRECT option on the
+procedure card. The TIME POINTS parameters stays active across several steps
+until it is replaced by another TIME POINTS value or the FREQUENCY parameter.
+
+<P>
+The first occurrence of an *NODE PRINT keyword card within a step wipes
+out all previous nodal variable selections for print output. If no
+*NODE PRINT card is used within a step the selections of the previous
+step apply, if any.
+
+<P>
+Notice that some of the keys apply to specific domains. For instance, PS and V
+can only be used for 3D fluids, PT and MF only for networks. Furthermore, PT
+only makes sense for the vertex nodes of the network elements, whereas MF only
+applies to the middle nodes of network elements. It is the responsibility of
+the user to make sure that the sets (s)he specifies contain the right
+nodes. For nodes not matching the key the printed values are meaningless.
+ If the model contains axisymmetric elements the mass flow applies to a
+segment of <B><IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img260.png"
+ ALT="$ 2^\circ$"></B>. So for the total flow this value has to be multiplied by
+180. 
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*NODE PRINT
+</LI>
+<LI>Enter the parameter NSET and its value.
+</LI>
+</UL>
+Second line:
+
+<UL>
+<LI>Identifying keys for the variables to be printed, separated by commas.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*NODE PRINT,NSET=N1
+RF
+</PRE>
+
+<P>
+requests the storage of the reaction forces in the nodes belonging to (node) set N1 in the .dat file.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beampkin, beamrb.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4856"
+  HREF="node295.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4852"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4846"
+  HREF="node293.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4854"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4857"
+  HREF="node295.html">*NORMAL</A>
+<B> Up:</B> <A NAME="tex2html4853"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4847"
+  HREF="node293.html">*NODE OUTPUT</A>
+ &nbsp; <B>  <A NAME="tex2html4855"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

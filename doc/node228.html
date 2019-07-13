@@ -1,0 +1,296 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*CONTACT FILE</TITLE>
+<META NAME="description" CONTENT="*CONTACT FILE">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node229.html">
+<LINK REL="previous" HREF="node227.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node229.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4064"
+  HREF="node229.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4060"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4054"
+  HREF="node227.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4062"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4065"
+  HREF="node229.html">*CONTACT OUTPUT</A>
+<B> Up:</B> <A NAME="tex2html4061"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4055"
+  HREF="node227.html">*CONTACT DAMPING</A>
+ &nbsp; <B>  <A NAME="tex2html4063"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000820000000000000000"></A><A NAME="contactfile"></A>
+<BR>
+*CONTACT FILE
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option is used to print selected nodal contact variables in file jobname.frd for
+subsequent viewing by CalculiX GraphiX. The following variables can be
+selected (the label is square
+brackets [] is the one used in the .frd file; for frequency calculations with
+cyclic symmetry both a real and an imaginary part may be stored, in all other cases only the
+real part is stored):
+
+<P>
+
+<UL>
+<LI>CDIS [CONTACT(real), CONTACTI(imaginary)]: Relative contact
+  displacements (for node-to-face contact in frequency calculations with
+  cyclic symmetry only for the base sector)
+</LI>
+<LI>CSTR [CONTACT(real), CONTACTI(imaginary)]: Contact stresses (for node-to-face contact in frequency calculations with
+  cyclic symmetry only for the base sector)
+</LI>
+<LI>CELS [CELS]: Contact energy
+</LI>
+<LI>PCON [PCONTAC; submenu: O=opening, SL=slip, P=pressure, SH=shear stress]: Magnitude and phase of the relative contact
+  displacements and contact stresses in a frequency calculation with cyclic
+  symmetry. PCON can only be requested for face-to-face penalty contact.
+</LI>
+</UL>
+
+<P>
+Since contact is modeled by nonlinear springs the contact energy corresponds
+to the spring energy. All variables are stored at the slave nodes.
+
+<P>
+The relative contact displacements constitute a vector with three
+components. The first component is the clearance, i.e. the distance between
+the slave node and the master surface. Only negative values are stored; they
+correspond to a penetration of the slave node into the master
+surface. Positive values (i.e. a proper clearance) are set to zero. The second
+and third component represent the projection of the relative displacement
+between the two contact surfaces onto the master surface. To this end two
+local tangential unit
+vectors are defined on the master surface; the first is the normalized
+projection of a vector along the global x-axis on the master surface. If the
+global x-axis is nearly orthogonal to the master surface, the projection of a
+vector along the global z-axis is taken. The
+second is the vector product of a vector locally normal to the master surface
+with the first tangential unit vector. Now, the components of the projection
+of the relative displacement between the two contact surfaces onto the master
+surface with respect to the first and the second unit tangential vector are
+the second and third component of CDIS, respectively. They are only calculated
+if a friction coefficient has been defined underneath <A HREF="node266.html#friction">*FRICTION</A>.
+
+<P>
+In the same way the contact stresses constitute a vector, the first component
+of which is the contact pressure, while the second and third component are the
+components of the shear stress vector exerted by the slave surface on the
+master surface with respect to the first and second unit tangential vector, respectively.
+
+<P>
+The selected variables are stored for the complete model, but are only nonzero
+in the slave nodes of contact definitions.
+
+<P>
+The first occurrence of a *CONTACT FILE keyword card within a step wipes
+out all previous nodal contact variable selections for file output. If no
+*CONTACT FILE card is used within a step the selections of the previous
+step apply. If there is no previous step, no nodal contact variables will be stored.
+
+<P>
+There are four optional parameters: FREQUENCY, TIME
+POINTS, LAST ITERATIONS and CONTACT ELEMENTS. The parameters FREQUENCY and
+TIME POINTS are mutually exclusive. 
+
+<P>
+FREQUENCY applies to
+nonlinear calculations where a step can consist of several
+increments. Default is FREQUENCY=1, which indicates that the results
+of all increments will be stored. FREQUENCY=N with N an integer
+indicates that the results of every Nth increment will be stored. The
+final results of a step are always stored. If you only want the final
+results, choose N very big. 
+The value of N applies to
+<A HREF="node299.html#output">*OUTPUT</A>,<A HREF="node254.html#elementoutput">*ELEMENT OUTPUT</A>, 
+<A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="node256.html#elprint">*ELPRINT</A>, 
+<A HREF="node293.html#nodeoutput">*NODE OUTPUT</A>,
+<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node294.html#nodeprint">*NODE PRINT</A>,
+<A HREF="node308.html#sectionprint">*SECTION PRINT</A>, <A HREF="node229.html#contactoutput">*CONTACT OUTPUT</A>,
+<A HREF="#contactfile">*CONTACT FILE</A> and <A HREF="node231.html#contactprint">*CONTACT PRINT</A>. 
+If the FREQUENCY parameter is used
+for more than one of these keywords with conflicting values of N, the
+last value applies to all. A frequency parameter stays active across several steps
+until it is overwritten by another FREQUENCY value or the TIME POINTS parameter.
+
+<P>
+With the parameter TIME POINTS a time point sequence can be referenced,
+defined by a 
+<A HREF="node327.html#timepoints">*TIME POINTS</A> keyword. In that case, output will be
+provided for all time points of the sequence within the step and additionally at the end of
+the step. No other output will be stored and the FREQUENCY parameter is not
+taken into account. Within a step only one time point sequence can be active. 
+If more than
+one is specified, the last one defined on any of the keyword cards
+<A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="node256.html#elprint">*ELPRINT</A>, 
+<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node294.html#nodeprint">*NODE PRINT</A>,
+<A HREF="node308.html#sectionprint">*SECTION PRINT</A>, <A HREF="#contactfile">*CONTACT FILE</A> and 
+<A HREF="node231.html#contactprint">*CONTACT PRINT</A> will be active. 
+The TIME
+POINTS option should not be used together with the DIRECT option on the
+procedure card.  The TIME POINTS parameters stays active across several steps
+until it is replaced by another TIME POINTS value or the FREQUENCY parameter.
+
+<P>
+The parameter LAST ITERATIONS leads to the storage of the
+displacements in all iterations
+of the last increment in a file with name ResultsForLastIterations.frd (can be opened with CalculiX GraphiX). This is
+useful for debugging purposes in case of divergence. No such file is created if
+this parameter is absent. 
+
+<P>
+Finally, the parameter CONTACT ELEMENTS  stores the contact elements which have
+been generated in each iteration in a file with the name
+jobname.cel. When
+opening the frd file with CalculiX GraphiX these files can be read with the
+command ``read jobname.cel inp'' and visualized by
+plotting the elements in the sets
+contactelements_st<B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>_in<B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$"></B>_at<B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img783.png"
+ ALT="$ \gamma$"></B>_it<B><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img784.png"
+ ALT="$ \delta$"></B>, where <B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>
+is the step number, <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$"></B> the increment number, <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img783.png"
+ ALT="$ \gamma$"></B> the attempt number
+and <B><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img784.png"
+ ALT="$ \delta$"></B> the iteration number.
+
+<P>
+Notice that CDIS and CSTR results are stored together, i.e. specifying CDIS
+will automatically store CSTR too and vice versa.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*CONTACT FILE
+</LI>
+<LI>Enter any needed parameters and their values.
+</LI>
+</UL>
+Second line:
+
+<UL>
+<LI>Identifying keys for the variables to be printed, separated by commas.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*CONTACT FILE,TIME POINTS=T1
+CDIS,CSTR
+</PRE>
+
+<P>
+requests the storage of the relative contact displacements and contact
+stresses in the .frd
+file for all time
+points defined by the T1 time points sequence.
+
+<P>
+
+<P><P>
+<BR>
+Example files: cubef2f2.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4064"
+  HREF="node229.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4060"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4054"
+  HREF="node227.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4062"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4065"
+  HREF="node229.html">*CONTACT OUTPUT</A>
+<B> Up:</B> <A NAME="tex2html4061"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4055"
+  HREF="node227.html">*CONTACT DAMPING</A>
+ &nbsp; <B>  <A NAME="tex2html4063"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*PRE-TENSION SECTION</TITLE>
+<META NAME="description" CONTENT="*PRE-TENSION SECTION">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node303.html">
+<LINK REL="previous" HREF="node301.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node303.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4952"
+  HREF="node303.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4948"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4942"
+  HREF="node301.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4950"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4953"
+  HREF="node303.html">*RADIATE</A>
+<B> Up:</B> <A NAME="tex2html4949"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4943"
+  HREF="node301.html">*PLASTIC</A>
+ &nbsp; <B>  <A NAME="tex2html4951"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000894000000000000000"></A><A NAME="pretensionsection"></A>
+<BR>
+*PRE-TENSION SECTION
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option is used to define a pre-tension in a bolt or similar
+structure. There are three parameters: SURFACE, ELEMENT and NODE. The
+parameter NODE is required as well as one of the parameters SURFACE and
+ELEMENT. The latter two parameters are mutually exclusive.
+
+<P>
+With the parameter SURFACE
+an element face surface can be defined on which the pre-tension acts. This
+is usually a cross section of the bolt. This option is used for volumetric
+elements. Alternatively, the bolt can be modeled with just one linear beam
+element (type B31). In that case the parameter ELEMENT is required pointing to
+the number of the beam element. 
+
+<P>
+The parameter NODE is used to define a
+reference node. This node should not be used elsewhere in the model. In
+particular, it should not belong to any element. The coordinates of this node
+are immaterial. The first degree of freedom of this node is used to define a
+pre-tension force with <A HREF="node223.html#cload">*CLOAD</A> or a differential displacement
+with <A HREF="node209.html#boundary">*BOUNDARY</A>. The force and the displacements are
+applied in the direction of a vector, which is the normal to the surface if
+the SURFACE parameter is used and the axis of the beam element if the ELEMENT
+parameter is used. 
+This vector can be defined underneath the *PRE-TENSION SECTION keyword. If the vector is
+specified away from the elements whose faces belong to the surface (volumetric
+case) or in the direction going from node 1 to node 2 in the element
+definition (for the beam element), a positive
+force or positive displacements correspond to tension in the underlying
+structure. If no such vector is defined by the user, it is calculated
+automatically as the mean of the normals away from the elements whose faces belong to the surface
+(volumetric case) or as the vector extending from node 1 to node 2 (beam case).
+
+<P>
+Notice that in the volumetric case the surface must be defined by element
+faces, it cannot be defined by nodes. Furthermore, the user should make sure
+that 
+
+<P>
+
+<UL>
+<LI>the surface does not contain edges or vertices of elements which do not
+have a face in common with the surface. Transgression of this rule will lead
+to unrealistic stress concentrations.
+</LI>
+<LI>the surface is not adjacent to quadratic elements the faces of which
+  belong to a contact surface. 
+</LI>
+</UL>
+
+<P>
+Internally, the nodes belonging to the element face surface are copied and a
+linear multiple point constraint is generated between the nodes expressing
+that the mean force is the force specified by the user (or similarly, the mean
+differential displacement is the one specified by the user). Therefore, if the
+user visualizes the results with CalculiX GraphiX, a gap will be noticed at
+the location of the pre-tension section.
+
+<P>
+For beam elements a linear multiple point constraint is created between the
+nodes belonging to the beam element. The beam element itself is
+deleted,i.e. it will not show up in the frd-file. Therefore, no other boundary
+conditions or loads can be applied to such elements. Their only reason of
+existence is to create an easy means in which the user can define a
+pretension. To this end the nodes of the beam element (e.g. representing a
+bolt) should be connected by linear equations or a *DISTRIBUTING COUPLING card
+to nodes of the structures to be held together.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*PRE-TENSION SECTION
+</LI>
+<LI>Enter the NODE and the SURFACE or ELEMENT parameter and their values
+</LI>
+</UL>
+
+<P>
+Following line (optional):
+
+<UL>
+<LI>First component in global coordinates of the normal on the surface
+</LI>
+<LI>Second component in global coordinates of the normal on the surface
+</LI>
+<LI>Third component in global coordinates of the normal on the surface
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*PRE-TENSION SECTION,SURFACE=SURF1,NODE=234
+1.,0.,0.
+</PRE>
+
+<P>
+defines a pre-tension section consisting of the surface with the name SURF1
+and reference node 234. The normal on the surface is defined as the positive
+global x-direction.
+
+<P>
+
+<P><P>
+<BR>
+Example files: pret1, pret2, pret3.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4952"
+  HREF="node303.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4948"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4942"
+  HREF="node301.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4950"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4953"
+  HREF="node303.html">*RADIATE</A>
+<B> Up:</B> <A NAME="tex2html4949"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4943"
+  HREF="node301.html">*PLASTIC</A>
+ &nbsp; <B>  <A NAME="tex2html4951"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

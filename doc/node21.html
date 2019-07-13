@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Wrinkling of a thin sheet</TITLE>
+<META NAME="description" CONTENT="Wrinkling of a thin sheet">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node22.html">
+<LINK REL="previous" HREF="node20.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node22.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1124"
+  HREF="node22.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1120"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1114"
+  HREF="node20.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1122"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1125"
+  HREF="node22.html">Optimization of a simply</A>
+<B> Up:</B> <A NAME="tex2html1121"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1115"
+  HREF="node20.html">Reinforced concrete cantilever beam</A>
+ &nbsp; <B>  <A NAME="tex2html1123"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000615000000000000000">
+Wrinkling of a thin sheet</A>
+</H2>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="leifer1"></A><A NAME="11794"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 45:</STRONG>
+Maximum principal stress in the deformed sheet</CAPTION>
+<TR><TD><IMG
+ WIDTH="452" HEIGHT="388" BORDER="0"
+ SRC="img212.png"
+ ALT="\begin{figure}\epsfig{file=leifer1.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The input decks for this problem can be found in the test suite as leifer1.inp
+and leifer2.inp. It was first devised by J. Leifer in 2003. The structure is a
+thin square sheet with an edge length of 229 mm and a thickness of 0.0762
+mm. It is fixed on one side and moved parallel to this side on the opposite
+side by 1 mm. Young's modulus and Poisson's coefficient are 3790 MPa and 0.38,
+respectively. Experimental evidence points to the creation of wrinkles due to
+this shear deformation.
+
+<P>
+Here, two approaches are described to simulate this experiment. In both cases
+the sheet is simulated using quadratic shell elements. In the first simulation
+(leifer1) the material is considered as a linear elastic isotropic material, and
+wrinkling occurs due to natural buckling processes in the
+sheet. To enhance this buckling, the coordinates in the direction
+perpendicular to the sheet (this is the z-direction in our simulation) are
+slightly perturbed in a aleatoric way (look at the coordinates in the input
+deck to verify this). Furthermore, the simulation is performed in a dynamic
+procedure starting with very small time steps. Figure <A HREF="#leifer1">45</A> shows the
+maximum principal stress in the deformed sheet (the edge at x=0 was
+fixed, the edge at x=229 was moved 1 mm in negative y-direction). One nicely notices the
+wrinkles. A look at the smallest principal stress shows that there are
+virtually no pressure stresses in the sheet: they were removed by buckling. A
+disadvantage of this kind of simulation is the very long computational time
+(336 increments for a step time of 1!). 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="leifer2"></A><A NAME="11795"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 46:</STRONG>
+Shear stress in the isotropic simulation</CAPTION>
+<TR><TD><IMG
+ WIDTH="271" HEIGHT="233" BORDER="0"
+ SRC="img213.png"
+ ALT="\begin{figure}\epsfig{file=leifer2.eps,width=6cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="leifer3"></A><A NAME="11796"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 47:</STRONG>
+Shear stress in the tension-only simulation</CAPTION>
+<TR><TD><IMG
+ WIDTH="271" HEIGHT="233" BORDER="0"
+ SRC="img214.png"
+ ALT="\begin{figure}\epsfig{file=leifer3.eps,width=6cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="leifer5"></A><A NAME="11797"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 48:</STRONG>
+Minimum principal strain in the tension-only simulation</CAPTION>
+<TR><TD><IMG
+ WIDTH="271" HEIGHT="233" BORDER="0"
+ SRC="img215.png"
+ ALT="\begin{figure}\epsfig{file=leifer5.eps,width=6cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The absence of pressure stress points to a second way of obtaining the correct
+stress distribution: instead of simulating the material as isotropic, one can
+use a tension-only material model (leifer2). This has the advantage that convergence is
+much faster (small computational times). Figures <A HREF="#leifer2">46</A> and <A HREF="#leifer3">47</A> compare the shear
+stress of both simulations: they match quite nicely (the shear stress
+distribution in an isotropic simulation without wrinkling is totally
+different). The same applies to the other stress components. The use of a
+tension-only material, however, does not lead to out-of-plane
+deformations. Here, wrinkling can only be derived indirectly by looking at the
+smallest principal strain (Figure <A HREF="#leifer5">48</A>). The large negative values
+point to the existence of wrinkles.  
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1124"
+  HREF="node22.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1120"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1114"
+  HREF="node20.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1122"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1125"
+  HREF="node22.html">Optimization of a simply</A>
+<B> Up:</B> <A NAME="tex2html1121"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1115"
+  HREF="node20.html">Reinforced concrete cantilever beam</A>
+ &nbsp; <B>  <A NAME="tex2html1123"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

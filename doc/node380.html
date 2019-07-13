@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Homogeneous linear equations</TITLE>
+<META NAME="description" CONTENT="Homogeneous linear equations">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node381.html">
+<LINK REL="previous" HREF="node379.html">
+<LINK REL="up" HREF="node378.html">
+<LINK REL="next" HREF="node381.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6020"
+  HREF="node381.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6016"
+  HREF="node378.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6010"
+  HREF="node379.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6018"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6021"
+  HREF="node381.html">Concentrated loads</A>
+<B> Up:</B> <A NAME="tex2html6017"
+  HREF="node378.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6011"
+  HREF="node379.html">SPC's</A>
+ &nbsp; <B>  <A NAME="tex2html6019"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000112200000000000000">
+Homogeneous linear equations</A>
+</H3>
+
+<P>
+Homogeneous linear equations are of the form
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+a_1 u_{i_1} + a_2 u_{i_2} + \ldots + a_n u_{i_n}=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="65" HEIGHT="94" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1877.png"
+ ALT="$\displaystyle a_1 u_{i_1} + a_2 u_{i_2} + \ldots + a_n u_{i_n}=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(514)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The variable <B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$"></B> can be an arbitrary integer, i.e. the linear equation can
+contain arbitrarily many terms. To store these equations (also called MPC's) the one-dimensional
+field ipompc and the two-dimensional field nodempc, which contains three
+columns, are used. For MPC i, row i in field ipompc contains
+the row in field nodempc where the definition of MPC i starts: if
+<!-- MATH
+ $ipompc(i)=j$
+ -->
+<B><IMG
+ WIDTH="227" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1878.png"
+ ALT="$ ipompc(i)=j$"></B> then the degree of freedom of the first term of the MPC
+corresponds to direction <!-- MATH
+ $nodempc(j,2)$
+ -->
+<B><IMG
+ WIDTH="101" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1879.png"
+ ALT="$ nodempc(j,2)$"></B> in node <!-- MATH
+ $nodempc(j,1)$
+ -->
+<B><IMG
+ WIDTH="100" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1880.png"
+ ALT="$ nodempc(j,1)$"></B>. The
+coefficient of this term is stored in <!-- MATH
+ $coefmpc(j)$
+ -->
+<B><IMG
+ WIDTH="100" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1881.png"
+ ALT="$ coefmpc(j)$"></B>. The value of
+<!-- MATH
+ $nodempc(j,3)$
+ -->
+<B><IMG
+ WIDTH="85" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1882.png"
+ ALT="$ nodempc(j,3)$"></B> is the row in field nodempc with the information of the next
+term in the MPC. This continues until <!-- MATH
+ $nodempc(k,3)=0$
+ -->
+<B><IMG
+ WIDTH="100" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1883.png"
+ ALT="$ nodempc(k,3)=0$"></B> which means that the
+term in row k of field nodempc is the last term of MPC i. 
+
+<P>
+For example, consider the following MPC:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+5. u_1(10) + 3. u_1(147) + 4.5 u_3(58)=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="132" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1884.png"
+ ALT="$\displaystyle 5. u_1(10) + 3. u_1(147) + 4.5 u_3(58)=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(515)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="264" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1885.png"
+ ALT="$ u_1(10)$"></B> stands for the displacement in global x-direction of node
+number 10, similar for the other terms. Assume this MPC is equation number
+<B><IMG
+ WIDTH="10" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img798.png"
+ ALT="$ i$"></B>. Then, the storage of this equation
+could look like in  Figure <A HREF="#MPCconstraint">157</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="MPCconstraint"></A><A NAME="12801"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 157:</STRONG>
+Example of the storage of a linear equation</CAPTION>
+<TR><TD><IMG
+ WIDTH="51" HEIGHT="34" BORDER="0"
+ SRC="img1886.png"
+ ALT="\begin{figure}\epsfig{file=MPCconstraint.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The first term in a MPC is special in that it is considered to be the
+dependent term. In the finite element calculations the degree of freedom
+corresponding to such a dependent term is written as a function of the other
+terms and is removed from the system of equations. Therefore, no other
+constraint can be applied to the DOF of a dependent term. The DOF's of the
+dependent terms of MPC's are catalogued in a similar way as those
+corresponding to SPC's. To this end, a one-dimensional field ikmpc is used
+containing the dependent degrees of freedom in numerical order, and a
+one-dimensional field ilmpc containing the corresponding MPC number. The
+meaning of these fields is completely analogous to ikboun and ilboun and the
+reader is referred to the previous section for details.
+
+<P>
+In addition, MPC's are labeled. The label of MPC i is stored in
+<B><IMG
+ WIDTH="451" HEIGHT="307" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1887.png"
+ ALT="$ labmpc(i)$"></B>. This is a one-dimensional field consisting of character words of
+length 20 (in FORTRAN: character*20). The label is used to characterize the
+kind of MPC. Right now, the following kinds are used:
+
+<P>
+
+<UL>
+<LI>CYCLIC: denotes a cyclic symmetry constraint
+</LI>
+<LI>MEANROT: denotes a mean rotation constraint
+</LI>
+<LI>PLANE: denotes a plane constraint
+</LI>
+<LI>PRETENSION: pretension SPC expressing the pretension condition
+</LI>
+<LI>RIGID: denotes a rigid body constraint
+</LI>
+<LI>STRAIGHT: denotes a straight constraint
+</LI>
+<LI>SUBCYCLIC: denotes a linear MPC some terms of which are part of a cyclic
+  symmetry constraint
+</LI>
+<LI>THERMALPRET: thermal boundary condition in the newly created nodes
+in a pretension section; this is necessary for purely mechanical calculations.
+</LI>
+</UL>
+
+<P>
+The MEANROT, PLANE and STRAIGHT MPC's are selected
+by the <A HREF="node287.html#mpc">*MPC</A> keyword card, a RIGID MPC is triggered by the
+<A HREF="node307.html#rigidbody">*RIGID BODY</A> keyword card, and a CYCLIC MPC by the
+<A HREF="node237.html#cyclicsymmetrymodel">*CYCLIC SYMMETRY MODEL</A> card. A SUBCYCLIC MPC
+is not triggered explicitly by the user, it is determined internally in the
+program. 
+
+<P>
+Notice that non-homogeneous MPC's can be reduced to homogeneous ones by
+introducing a new degree of freedom (introduce a new fictitious node) and
+assigning the inhomogeneous term to it by means of a SPC. Nonlinear MPC's can
+be transformed in linear MPC's by linearizing them [<A
+ HREF="node448.html#Dhondt">18</A>]. In CalculiX
+this is currently done for PLANE MPC's, STRAIGHT MPC's, USER MPC's and RIGID
+BODY definitions. Notice that SPC's in local coordinates reduce to linear MPC's.
+
+<P>
+Finally,  there is the variable icascade. It is meant to check whether the MPC's
+changed since the last iteration. This can occur if nonlinear MPC's apply
+(e.g. a coefficient is at times zero and at other times not zero) or under
+contact conditions. This is not covered yet. Up to now, icascade is assumed to
+take the value zero, i.e. the MPC's are not supposed to change from iteration
+to iteration. (to be continued)
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6020"
+  HREF="node381.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6016"
+  HREF="node378.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6010"
+  HREF="node379.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6018"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6021"
+  HREF="node381.html">Concentrated loads</A>
+<B> Up:</B> <A NAME="tex2html6017"
+  HREF="node378.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6011"
+  HREF="node379.html">SPC's</A>
+ &nbsp; <B>  <A NAME="tex2html6019"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*NETWORK MPC</TITLE>
+<META NAME="description" CONTENT="*NETWORK MPC">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node289.html">
+<LINK REL="previous" HREF="node287.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node289.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4784"
+  HREF="node289.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4780"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4774"
+  HREF="node287.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4782"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4785"
+  HREF="node289.html">*NO ANALYSIS</A>
+<B> Up:</B> <A NAME="tex2html4781"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4775"
+  HREF="node287.html">*MPC</A>
+ &nbsp; <B>  <A NAME="tex2html4783"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000880000000000000000"></A><A NAME="networkmpc"></A>
+<BR>
+*NETWORK MPC
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+With this option, an equation between variables in a network (total
+temperature and total pressure at the end nodes of a network element, mass
+flow in the middle node) can be created. The corresponding degrees of freedom
+are:
+
+<P>
+
+<UL>
+<LI>total temperature: 0
+</LI>
+<LI>mass flow: 1
+</LI>
+<LI>total pressure: 2
+</LI>
+</UL>
+
+<P>
+The use of *NETWORK MPC requires the coding of subroutines networkmpc_lhs.f
+and networkmpc_rhs.f by the user. In these routines the user defines the MPC
+(linear or nonlinear)
+using the information entered underneath *NETWORK MPC. The syntax is identical
+to <A HREF="node259.html#equation">*EQUATION</A> except for an additional parameter TYPE
+  specifying the type of MPC. Using this type the user can distinguish between
+  different kinds of MPC in the networkmpc_lhs.f and networkmpc_rhs.f subroutines.
+
+<P>
+For instance, suppose the user wants to define a network MPC of the form:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+f:=a p_{t} (node_1) + b p_t^2 (node_2)=0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="237" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1805.png"
+ ALT="$\displaystyle f:=a p_{t} (node_1) + b p_t^2 (node_2)=0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(494)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+specifying that the total pressure in node 1 should be (-b/a) times the square
+of the total
+pressure in node 2. There are 2 degrees of freedom involved: dof 2 in node 1
+and dof 2 in node 2. Underneath *NETWORK MPC the user defines the
+coefficients and degrees of freedom of the terms involved:
+
+<P>
+<PRE>
+*NETWORK MPC,TYPE=QUADRATIC
+2
+node1,2,a,node2,2,b
+</PRE>
+
+<P>
+All this information including the type of the MPC is transferred to the
+networkmpc_lhs.f and networkmpc_rhs.f subroutines. In networkmpc_rhs.f the
+user has to code the calculation of -f, in networkmpc_lhs.f the calculation
+of the derivative of f w.r.t. each degree of freedom occurring in the
+MPC. This has been done for TYPE=QUADRATIC and the reader is referred to the source code and
+example networkmpc.inp for further details.  
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4784"
+  HREF="node289.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4780"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4774"
+  HREF="node287.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4782"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4785"
+  HREF="node289.html">*NO ANALYSIS</A>
+<B> Up:</B> <A NAME="tex2html4781"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4775"
+  HREF="node287.html">*MPC</A>
+ &nbsp; <B>  <A NAME="tex2html4783"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

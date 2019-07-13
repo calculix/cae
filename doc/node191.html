@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Facial distributed loading</TITLE>
+<META NAME="description" CONTENT="Facial distributed loading">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node192.html">
+<LINK REL="previous" HREF="node190.html">
+<LINK REL="up" HREF="node189.html">
+<LINK REL="next" HREF="node192.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3493"
+  HREF="node192.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3489"
+  HREF="node189.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3483"
+  HREF="node190.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3491"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3494"
+  HREF="node192.html">Centrifugal distributed loading</A>
+<B> Up:</B> <A NAME="tex2html3490"
+  HREF="node189.html">Loading</A>
+<B> Previous:</B> <A NAME="tex2html3484"
+  HREF="node190.html">Point loads</A>
+ &nbsp; <B>  <A NAME="tex2html3492"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000711200000000000000"></A><A NAME="fdloading"></A>
+<BR>
+Facial distributed loading
+</H3>
+
+<P>
+Distributed loading is triggered by the <A HREF="node247.html#dload">*DLOAD</A>
+card. Facial distributed loads are entered as pressure loads on the
+element faces, which are for that purpose numbered according to
+Figures <A HREF="#hexface">144</A>, <A HREF="#tetface">145</A> and <A HREF="#wedface">146</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="hexface"></A><A NAME="12601"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 144:</STRONG>
+Face numbering for hexahedral elements</CAPTION>
+<TR><TD><IMG
+ WIDTH="406" HEIGHT="363" BORDER="0"
+ SRC="img1568.png"
+ ALT="\begin{figure}\epsfig{file=HexFace.eps,width=9cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<DIV ALIGN="CENTER"><A NAME="tetface"></A><A NAME="12602"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 145:</STRONG>
+Face numbering for tetrahedral elements</CAPTION>
+<TR><TD><IMG
+ WIDTH="360" HEIGHT="378" BORDER="0"
+ SRC="img1569.png"
+ ALT="\begin{figure}\epsfig{file=TetFace.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<DIV ALIGN="CENTER"><A NAME="wedface"></A><A NAME="12603"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 146:</STRONG>
+Face numbering for wedge elements</CAPTION>
+<TR><TD><IMG
+ WIDTH="360" HEIGHT="304" BORDER="0"
+ SRC="img1570.png"
+ ALT="\begin{figure}\epsfig{file=WedFace.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Thus, for hexahedral elements the faces are numbered as follows:
+
+<UL>
+<LI>Face 1: 1-2-3-4
+</LI>
+<LI>Face 2: 5-8-7-6
+</LI>
+<LI>Face 3: 1-5-6-2
+</LI>
+<LI>Face 4: 2-6-7-3
+</LI>
+<LI>Face 5: 3-7-8-4
+</LI>
+<LI>Face 6: 4-8-5-1
+</LI>
+</UL>
+for tetrahedral elements:
+
+<UL>
+<LI>Face 1: 1-2-3
+</LI>
+<LI>Face 2: 1-4-2
+</LI>
+<LI>Face 3: 2-4-3
+</LI>
+<LI>Face 4: 3-4-1
+</LI>
+</UL>
+for wedge elements:
+
+<UL>
+<LI>Face 1: 1-2-3
+</LI>
+<LI>Face 2: 4-5-6
+</LI>
+<LI>Face 3: 1-2-5-4
+</LI>
+<LI>Face 4: 2-3-6-5
+</LI>
+<LI>Face 5: 3-1-4-6
+</LI>
+</UL>
+for quadrilateral plane stress, plane strain and axisymmetric elements:
+
+<UL>
+<LI>Face 1: 1-2
+</LI>
+<LI>Face 2: 2-3
+</LI>
+<LI>Face 3: 3-4
+</LI>
+<LI>Face 4: 4-1
+</LI>
+</UL>
+for triangular plane stress, plane strain and axisymmetric elements:
+
+<UL>
+<LI>Face 1: 1-2
+</LI>
+<LI>Face 2: 2-3
+</LI>
+<LI>Face 3: 3-1
+</LI>
+</UL>
+for beam elements:
+
+<UL>
+<LI>Face 1: pressure in 1-direction
+</LI>
+<LI>Face 2: pressure in 2-direction
+</LI>
+</UL>
+For shell elements no face number is needed since there is only one kind of loading:
+pressure in the direction of the normal on the shell. 
+
+<P>
+Applying a pressure to a face for which a pressure was specified in a
+previous step replaces this pressure. The parameter OP=NEW on the
+*DLOAD card removes all previous distributed loads. It only takes
+effect for the first *DLOAD card in a step. A buckling step always removes all previous loads.
+
+<P>
+In a large deformation analysis the pressure is applied to the deformed face of the element. Thus, if you pull a rod with a constant pressure, the total force will decrease due to the decrease of the cross-sectional area of the rod. This effect may or may not be intended. If not, the pressure can be replaced by nodal forces. Figures <A HREF="#hexpres">147</A> and <A HREF="#tetpres">148</A> show the equivalent forces for a unit pressure applied to a face of a C3D20(R) and C3D10 element. Notice that the force is zero (C3D10) or has the opposite sign (C3D20(R)) for quadratic elements. For the linear C3D8(R) elements, the force takes the value 1/4 in each node of the face.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="hexpres"></A><A NAME="12604"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 147:</STRONG>
+Equivalent nodal forces for a face of a C3D20(R) element</CAPTION>
+<TR><TD><IMG
+ WIDTH="450" HEIGHT="247" BORDER="0"
+ SRC="img1571.png"
+ ALT="\begin{figure}\epsfig{file=HexPres.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<DIV ALIGN="CENTER"><A NAME="tetpres"></A><A NAME="12605"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 148:</STRONG>
+Equivalent nodal forces for a face of a C3D10 element</CAPTION>
+<TR><TD><IMG
+ WIDTH="450" HEIGHT="282" BORDER="0"
+ SRC="img1572.png"
+ ALT="\begin{figure}\epsfig{file=TetPres.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3493"
+  HREF="node192.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3489"
+  HREF="node189.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3483"
+  HREF="node190.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3491"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3494"
+  HREF="node192.html">Centrifugal distributed loading</A>
+<B> Up:</B> <A NAME="tex2html3490"
+  HREF="node189.html">Loading</A>
+<B> Previous:</B> <A NAME="tex2html3484"
+  HREF="node190.html">Point loads</A>
+ &nbsp; <B>  <A NAME="tex2html3492"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*TEMPERATURE</TITLE>
+<META NAME="description" CONTENT="*TEMPERATURE">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node326.html">
+<LINK REL="previous" HREF="node324.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node326.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5228"
+  HREF="node326.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5224"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5218"
+  HREF="node324.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5226"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5229"
+  HREF="node326.html">*TIE</A>
+<B> Up:</B> <A NAME="tex2html5225"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5219"
+  HREF="node324.html">*SURFACE INTERACTION</A>
+ &nbsp; <B>  <A NAME="tex2html5227"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008117000000000000000"></A><A NAME="temperature"></A>
+<BR>
+*TEMPERATURE
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option is used to define temperatures and, for shell and beam
+elements, temperature gradients within a purely mechanical *STEP definition.
+*TEMPERATURE should not be used within a pure thermal or combined
+thermomechanical analysis. In these types of analysis the 
+<A HREF="node209.html#boundary">*BOUNDARY</A> card for degree of freedom 11 should be used instead.  
+
+<P>
+Optional parameter are OP, AMPLITUDE, TIME DELAY, USER, SUBMODEL, STEP and DATA SET. OP can take the value NEW or
+MOD. OP=MOD is default and implies that thermal load in different
+nodes is accumulated over all steps starting from the last
+perturbation step. Specifying the temperature for a node for which a
+temperature was defined in a previous step replaces this last
+value. OP=NEW implies that the temperatures are reinitialised to the
+initial values. If multiple *TEMPERATURE cards are present in a step
+this parameter takes effect for the first *TEMPERATURE card only.
+
+<P>
+For shell elements a temperature gradient can be defined in addition
+to a temperature. The temperature applies to nodes in the reference
+surface, the gradient acts in normal direction. For beam elements two
+gradients can be defined: one in 1-direction and one in
+2-direction. Default for the gradients is zero. 
+
+<P>
+The AMPLITUDE parameter allows for the specification of an amplitude
+by which the temperature is
+scaled (mainly used for dynamic calculations). Thus, in that case the
+values entered on the *TEMPERATURE card are interpreted as reference
+values to be multiplied with the (time dependent) amplitude value to
+obtain the actual value. At the end of the step the reference value is
+replaced by the actual value at that time, for use in subsequent
+steps.
+
+<P>
+The TIME DELAY parameter modifies the AMPLITUDE parameter. As such, TIME DELAY
+must be preceded by an AMPLITUDE name. TIME DELAY is a time shift by which the
+AMPLITUDE definition it refers to is moved in positive time direction. For
+instance, a TIME DELAY of 10 means that for time t the amplitude is taken
+which applies to time t-10. The TIME DELAY parameter must only appear once on
+one and the same keyword card.
+
+<P>
+If the USER parameter is selected the temperature values are determined by
+calling the user subroutine <A HREF="node350.html#usertemperature">utemp.f</A>, which
+must be provided by the user. This applies to all nodes listed
+beneath the *TEMPERATURE keyword. Any temperature values specified behind the
+nodal numbers are not taken into account. If the USER parameter is selected,
+the AMPLITUDE parameter has no effect and should not be used.
+
+<P>
+The SUBMODEL parameter is used to specify that the nodes underneath the
+*TEMPERATURE card should get their temperature values by interpolation from a
+global model. Each of these nodes must be listed underneath exactly one nodal
+<A HREF="node319.html#submodel">*SUBMODEL</A> card. The SUBMODEL parameter automatically
+requires the use of the STEP or DATA SET parameter.
+
+<P>
+In case the global
+calculation was a *STATIC calculation the STEP parameter specifies the step in the global model
+which will be used for the interpolation. If results for more than one
+increment within the step are stored, the last increment is taken. 
+
+<P>
+In case the global calculation was a *FREQUENCY calculation the DATA SET parameter
+specifies the mode in the global model which will be used for the
+interpolation. It is the number preceding the string MODAL in the .frd-file
+and it corresponds to the dataset number if viewing the .frd-file with
+CalculiX GraphiX. Notice that the global frequency calculation is not allowed
+to contain preloading nor cyclic symmetry.
+
+<P>
+If the SUBMODEL card is
+used no temperature values need be specified. The SUBMODEL parameter and the AMPLITUDE parameter
+are mutually exclusive.  
+
+<P>
+Temperature gradients are not influenced by the AMPLITUDE parameter.
+
+<P>
+If more than one *TEMPERATURE card occurs in an input deck, the following
+rules apply: if a *TEMPERATURE is applied to the same node as in a previous
+application then the previous value and previous amplitude are replaced.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*TEMPERATURE
+</LI>
+<LI>enter any parameters, if needed.
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Node number or node set label.
+</LI>
+<LI>Temperature value at the node.
+</LI>
+<LI>Temperature gradient in normal direction (shells) or in
+2-direction (beams).
+</LI>
+<LI>Temperature gradient in 1-direction (beams).
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*TEMPERATURE
+N1,293.
+300,473.
+301,473.
+302,473.
+</PRE>
+
+<P>
+assigns a temperature T=293 to all nodes in (node) set N1, and T=473 to nodes 300, 301 and 302.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beam8t, beam20t, beamnlt, beamt4.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5228"
+  HREF="node326.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5224"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5218"
+  HREF="node324.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5226"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5229"
+  HREF="node326.html">*TIE</A>
+<B> Up:</B> <A NAME="tex2html5225"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5219"
+  HREF="node324.html">*SURFACE INTERACTION</A>
+ &nbsp; <B>  <A NAME="tex2html5227"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

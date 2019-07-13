@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*FRICTION</TITLE>
+<META NAME="description" CONTENT="*FRICTION">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node267.html">
+<LINK REL="previous" HREF="node265.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node267.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4520"
+  HREF="node267.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4516"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4510"
+  HREF="node265.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4518"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4521"
+  HREF="node267.html">*GAP</A>
+<B> Up:</B> <A NAME="tex2html4517"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4511"
+  HREF="node265.html">*FREQUENCY</A>
+ &nbsp; <B>  <A NAME="tex2html4519"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000858000000000000000"></A><A NAME="friction"></A>
+<BR>
+*FRICTION
+</H2>
+
+<P>
+Keyword type: model definition, surface interaction and step
+
+<P>
+With this option the friction behavior of a surface interaction can be
+defined. The friction behavior is optional for contact analyses. There are no parameters. 
+
+<P>
+The frictional behavior defines the relationship between the shear stress in
+the contact area and the relative tangential displacement between the slave and the
+master surface. It is characterized by a linear range with tangent <B><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B>
+(stick slope) for small relative
+displacements (stick) followed by a horizontal upper bound (slip) given by <B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1722.png"
+ ALT="$ \mu
+p$"></B>, where <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"></B> is the friction coefficient and <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$"></B> the local pressure (Figure
+<A HREF="node135.html#contact_fric">133</A>). <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"></B> is dimensionless and usually takes values between
+0.1 and 0.5, <B><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B> has the dimension of force per volume and should be
+chosen to be about 100 times smaller than the spring constant. If no value for
+<B><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B> is specified a default is taken equal to the first elastic constant
+of the first encountered material in the input deck divided by 2.
+
+<P>
+For face-to-face penalty contact with PRESSURE-OVERCLOSURE=TIED the value of
+the friction coefficient is irrelevant.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*FRICTION
+</LI>
+</UL>
+
+<P>
+Following line for all types of analysis except modal dynamics:
+
+<UL>
+<LI><B><IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1723.png"
+ ALT="$ \mu (&gt;0)$"></B>.
+</LI>
+<LI><!-- MATH
+ $\lambda (>0)$
+ -->
+<B><IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1724.png"
+ ALT="$ \lambda (&gt;0)$"></B>.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*FRICTION
+0.2,5000.
+</PRE>
+
+<P>
+defines a friction coefficient of 0.2 and a stick slope of 5000.
+
+<P>
+
+<P><P>
+<BR>
+Example files: friction1, friction2.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4520"
+  HREF="node267.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4516"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4510"
+  HREF="node265.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4518"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4521"
+  HREF="node267.html">*GAP</A>
+<B> Up:</B> <A NAME="tex2html4517"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4511"
+  HREF="node265.html">*FREQUENCY</A>
+ &nbsp; <B>  <A NAME="tex2html4519"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

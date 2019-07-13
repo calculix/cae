@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*DISTRIBUTING COUPLING</TITLE>
+<META NAME="description" CONTENT="*DISTRIBUTING COUPLING">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node247.html">
+<LINK REL="previous" HREF="node245.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node247.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4280"
+  HREF="node247.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4276"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4270"
+  HREF="node245.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4278"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4281"
+  HREF="node247.html">*DLOAD</A>
+<B> Up:</B> <A NAME="tex2html4277"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4271"
+  HREF="node245.html">*DISTRIBUTING</A>
+ &nbsp; <B>  <A NAME="tex2html4279"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000838000000000000000"></A><A NAME="distributingcoupling"></A>
+<BR>
+*DISTRIBUTING COUPLING
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option is used to apply translational loading (force or displacement) on a set of nodes
+in a global sense (for rotations and/or moments the reader is referred to the
+mean rotation MPC, Section <A HREF="node367.html#meanrotationmpc">8.7.1</A>). There is one required parameter: ELSET. With the
+parameter ELSET an element set is referred to, which should contain exacty one
+element of type DCOUP3D. This type of element contains only one node, which is
+taken as the reference node of the distributing coupling.
+ This node should not be used elsewhere in the model. In
+particular, it should not belong to any element. The coordinates of this node
+are immaterial. The distributing coupling forces or the distributing coupling
+displacements should be applied to the reference node 
+with a <A HREF="node223.html#cload">*CLOAD</A> card or a  <A HREF="node209.html#boundary">*BOUNDARY</A> card,
+respectively. 
+
+<P>
+Underneath the keyword card the user can enter the nodes on which the load is
+to be distributed, together with a weight. 
+Internally, for each coordinate direction a multiple point constraint is generated between these nodes with
+the weights as coefficients. The last term in the equation is the reference
+node with as coefficient the negative of the sum of all weights. The more
+nodes are contained in the distributing coupling condition the longer the
+equation. This leads to a large, fully populated submatrix in the system of
+equations leading to long solution times. Therefore, it is recommended not to
+include more than maybe 50 nodes in a distributing coupling condition.
+
+<P>
+The first node underneath the keyword card is taken as dependent node n the
+MPC. Therefore, this node should not be repeated in any other MPC or at the
+first location in any other distributing coupling definition. It can be used
+as independent node in another distributing coupling (all but the first
+position), though, although certain
+limitations exist due to the mechanism by which the MPC's are substituted into
+each other. Basically, not all dependent nodes in distributing couplings
+should be used as independent nodes as well. For example:
+
+<P>
+<PRE>
+*DISTRIBUTING COUPLING,ELSET=E1
+LOAD,1.
+*DISTRIBUTING COUPLING,ELSET=E2
+LOAD2,1.
+*NSET,NSET=LOAD
+5,6,7,8,22,25,28,31,100
+*NSET,NSET=LOAD2
+8,28,100,31
+</PRE>
+
+<P>
+will work while
+
+<P>
+<PRE>
+*DISTRIBUTING COUPLING,ELSET=E1
+LOAD,1.
+*DISTRIBUTING COUPLING,ELSET=E2
+LOAD2,1.
+*NSET,NSET=LOAD
+5,6,7,8,22,25,28,31,100
+*NSET,NSET=LOAD2
+8,28,100,31,5
+</PRE>
+
+<P>
+will not work because the dependent nodes 5 and 8 are used as independent
+nodes as well in EACH of the distributing coupling definitions. An error
+message will result in the form:
+
+<P>
+<PRE>
+*ERROR in cascade: zero coefficient on the
+       dependent side of an equation
+       dependent node: 5
+</PRE>
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*DISTRIBUTING COUPLING
+</LI>
+<LI>Enter the ELSET parameter and its value
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Node number or node set
+</LI>
+<LI>Weight
+</LI>
+</UL>
+
+<P>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*DISTRIBUTING COUPLING,ELSET=E1
+3,1.
+100,1.
+51,1.
+428,1.
+*ELSET,ELSET=E1
+823
+*ELEMENT,TYPE=DCOUP3D
+823,4000
+</PRE>
+
+<P>
+defines a distributing coupling between the nodes 3, 100, 51 and 428, each
+with weight 1. The reference node is node 4000. A point force of 10 in
+direction 1 can be applied to this distributing coupling by the cards:
+
+<P>
+<PRE>
+*CLOAD
+4000,1,10.
+</PRE>
+
+<P>
+while a displacement of 0.5 is obtained with
+
+<P>
+<PRE>
+*BOUNDARY
+4000,1,1,0.5
+</PRE>
+
+<P>
+
+<P><P>
+<BR>
+Example files: distcoup.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4280"
+  HREF="node247.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4276"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4270"
+  HREF="node245.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4278"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4281"
+  HREF="node247.html">*DLOAD</A>
+<B> Up:</B> <A NAME="tex2html4277"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4271"
+  HREF="node245.html">*DISTRIBUTING</A>
+ &nbsp; <B>  <A NAME="tex2html4279"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

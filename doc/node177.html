@@ -1,0 +1,459 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Turbulent Flow in Open Channels </TITLE>
+<META NAME="description" CONTENT="Turbulent Flow in Open Channels ">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node178.html">
+<LINK REL="previous" HREF="node176.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node178.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3313"
+  HREF="node178.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3309"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3303"
+  HREF="node176.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3311"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3314"
+  HREF="node178.html">Three-dimensional Navier-Stokes Calculations</A>
+<B> Up:</B> <A NAME="tex2html3310"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3304"
+  HREF="node176.html">Hydraulic Networks</A>
+ &nbsp; <B>  <A NAME="tex2html3312"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000791800000000000000"></A><A NAME="channels"></A>
+<BR>
+Turbulent Flow in Open Channels 
+</H3>
+
+<P>
+The turbulent flow in open channels can be approximated by one-dimensional
+network calculations. For the theoretical background the reader is referred to
+[<A
+ HREF="node448.html#Chanson">16</A>] and expecially [<A
+ HREF="node448.html#Berlamont2">11</A>] (in Dutch). The governing
+equation is the Bresse equation, which is a special form of the Bernoulli equation:
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="channelsection"></A><A NAME="12457"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 139:</STRONG>
+Channel geometry</CAPTION>
+<TR><TD><IMG
+ WIDTH="542" HEIGHT="241" BORDER="0"
+ SRC="img679.png"
+ ALT="\begin{figure}\epsfig{file=channelsection.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{dh}{ds}=\frac{S_0 - S_f + \frac{1}{g} \frac{Q^2}{A^3} \frac {\partial
+    A}{\partial s}}{\sqrt{1 - S_0^2} - \frac{Q^2 B}{g A^3}},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="180" HEIGHT="70" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1296.png"
+ ALT="$\displaystyle \frac{dh}{ds}=\frac{S_0 - S_f + \frac{1}{g} \frac{Q^2}{A^3} \frac {\partial A}{\partial s}}{\sqrt{1 - S_0^2} - \frac{Q^2 B}{g A^3}},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(363)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where  (Figure <A HREF="#channelsection">139</A>) h is the water depth (measured perpendicular to the channel floor), s is the
+length along the bottom, <!-- MATH
+ $S_0= \sin(\phi)$
+ -->
+<B><IMG
+ WIDTH="84" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1297.png"
+ ALT="$ S_0= \sin(\phi)$"></B>, where <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1213.png"
+ ALT="$ \phi$"></B> is the angle the
+channel floor makes with a horizontal line,  <B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1298.png"
+ ALT="$ S_f$"></B> is a friction term, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img675.png"
+ ALT="$ g$"></B> is
+the earth acceleration, <B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img676.png"
+ ALT="$ Q$"></B> is the volumetric flow (mass flow divided by the
+fluid density), <B><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$"></B> is the area of the cross section <!-- MATH
+ $\frac {\partial
+A}{\partial s}$
+ -->
+<B><IMG
+ WIDTH="25" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1299.png"
+ ALT="$ \frac {\partial
+A}{\partial s}$"></B> is the change of the
+cross section with <B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img946.png"
+ ALT="$ s$"></B> keeping <B><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img672.png"
+ ALT="$ h$"></B> fixed and <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1300.png"
+ ALT="$ B$"></B> is the width of
+the channel at the fluid surface. The assumptions used to derive the Bresse
+equation are:
+
+<P>
+
+<OL>
+<LI>steady-state flow
+</LI>
+<LI>each cross section is hydrostatic
+</LI>
+<LI>the velocity is constant across each cross section
+</LI>
+<LI>the velocity vector is perpendicular to each cross section.
+</LI>
+</OL>
+
+<P>
+For <B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1298.png"
+ ALT="$ S_f$"></B> several formulas have been
+proposed. In CalculiX the White-Colebrook and the Manning formula are
+implemented. The White-Colebrook formula reads
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+S_f=\frac{f}{8g} \frac{Q^2 P}{A^3},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="104" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1301.png"
+ ALT="$\displaystyle S_f=\frac{f}{8g} \frac{Q^2 P}{A^3},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(364)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img484.png"
+ ALT="$ f$"></B> is the friction coefficient determined by Equation
+<A HREF="node103.html#whitecolebrook">126</A>, and <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img542.png"
+ ALT="$ P$"></B> is the wetted circumference of the cross
+section. The Manning form reads
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+S_f=\frac{n^2 Q^2 P^{4/3}}{A^{10/3}}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="116" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1302.png"
+ ALT="$\displaystyle S_f=\frac{n^2 Q^2 P^{4/3}}{A^{10/3}}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(365)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$"></B> is the Manning coefficient, which has to be determined
+experimentally. 
+
+<P>
+In CalculiX the channel cross section has to be trapezoidal (Figure <A HREF="#channelsection">139</A>). For this geometry
+the following
+relations apply:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+A=h(b+h \tan\theta),
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="135" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1303.png"
+ ALT="$\displaystyle A=h(b+h \tan\theta),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(366)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+P=b+\frac{2h}{\cos\theta}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="100" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1304.png"
+ ALT="$\displaystyle P=b+\frac{2h}{\cos\theta}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(367)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+B=b+2h \tan\theta.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="123" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1305.png"
+ ALT="$\displaystyle B=b+2h \tan\theta.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(368)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Within an element the floor width <B><IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img310.png"
+ ALT="$ b$"></B> is allowed to change in a linear
+way. All other geometry parameters are invariable. Consequently:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial A}{\partial s} = h \frac{\partial b}{\partial s}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="85" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1306.png"
+ ALT="$\displaystyle \frac{\partial A}{\partial s} = h \frac{\partial b}{\partial s}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(369)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The elements used in CalculiX for one-dimensional channel networks are regular network elements, in which the
+unknowns are the fluid depth and the temperature at the end nodes and the mass
+flow in the middle nodes. The equations at our disposal are the Bresse
+equation in the middle nodes (conservation of momentum), and the mass and
+energy conservation (Equations <A HREF="node176.html#massconservation">357</A> and
+<A HREF="node176.html#energyconservation">361</A>, respectively) at the end nodes.
+
+<P>
+Channel flow can be supercritical or subcritical. For supercritical flow the
+velocity exceeds the propagation speed <B><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1172.png"
+ ALT="$ c$"></B> of a wave, which satisfies <!-- MATH
+ $c=\sqrt{g
+h}$
+ -->
+<B><IMG
+ WIDTH="63" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1307.png"
+ ALT="$ c=\sqrt{g
+h}$"></B>. Defining the Froude number by <B><IMG
+ WIDTH="72" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1308.png"
+ ALT="$ Fr=U/c$"></B>, where U is the velocity of the
+fluid, supercritical flow corresponds to <B><IMG
+ WIDTH="54" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1309.png"
+ ALT="$ Fr&gt;1$"></B>. Supercritical flow is
+controlled by upstream boundary conditions. If the flow is subcritical
+(<B><IMG
+ WIDTH="54" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1310.png"
+ ALT="$ Fr&lt;1$"></B>) it is controlled by downstream boundary conditions. In a subcritical
+flow disturbances propagate upstream and downstream, in a supercritical flow
+they propagation downstream only. A transition from supercritical to
+subcritical flow is called a hydraulic jump, a transition from subcritical to
+supercritical flow is a fall. At a jump the following equation is satisfied
+[<A
+ HREF="node448.html#Chanson">16</A>] (conservation of momentum):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+A_2 \dot{m}^2 + \rho^2 g \sqrt{1 - S_0^2} A_1^2 A_2 {y_G}_1 =
+A_1 \dot{m}^2 + \rho^2 g \sqrt{1 - S_0^2} A_2^2 A_1 {y_G}_2,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="446" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1311.png"
+ ALT="$\displaystyle A_2 \dot{m}^2 + \rho^2 g \sqrt{1 - S_0^2} A_1^2 A_2 {y_G}_1 = A_1 \dot{m}^2 + \rho^2 g \sqrt{1 - S_0^2} A_2^2 A_1 {y_G}_2,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(370)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="50" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1312.png"
+ ALT="$ A_1, A_2$"></B> are the cross sections before and after the jump, 
+<B><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1313.png"
+ ALT="$ {y_G}_1$"></B> and <B><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1314.png"
+ ALT="$ {y_G}_2$"></B> are the centers of gravity of these sections, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> is
+the fluid density and <B><IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img391.png"
+ ALT="$ \dot{m}$"></B> is the mass flow. A fall can only occur at discontinuities in the
+channel geometry, e.g. at a discontinuous increase of the channel floor
+slope <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img689.png"
+ ALT="$ S_0$"></B>. Available boundary conditions are the sluice gate, the weir and
+the infinite reservoir. They are described in Section
+<A HREF="node112.html#fluidsectiontypeschannels">6.6</A>.
+
+<P>
+Output variables are the mass flow (key MF on the <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> or <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card), the fluid depth (key PN -- network pressure -- on the <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> card and DEPT on the <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card) and the total temperature
+(key NT  on the <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> card and TT on the  <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card).  These are the primary variables in the
+network. Internally, in network nodes,
+components one to three of the structural displacement field are used for the
+mass flow, the fluid depth and the critical depth, respectively. So their
+output can also be obtained by requesting
+U on the *NODE PRINT card. This is the only way to get the
+critical depth in the .dat file. In the .frd file the critical depth can be
+obtained by selecting HCRI on the <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card. Notice that for liquids the total temperature virtually coincides
+with the static temperature (cf. previous section; recall that the wave speed in a channel
+with water depth 1 m is <B><IMG
+ WIDTH="34" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1315.png"
+ ALT="$ \sqrt{10}$"></B> m/s). If a jump occurs in the network,
+this is reported on the screen listing the element in which the jump takes
+place and its relative location within the element.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3313"
+  HREF="node178.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3309"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3303"
+  HREF="node176.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3311"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3314"
+  HREF="node178.html">Three-dimensional Navier-Stokes Calculations</A>
+<B> Up:</B> <A NAME="tex2html3310"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3304"
+  HREF="node176.html">Hydraulic Networks</A>
+ &nbsp; <B>  <A NAME="tex2html3312"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

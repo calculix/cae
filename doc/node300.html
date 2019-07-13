@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*PHYSICAL CONSTANTS</TITLE>
+<META NAME="description" CONTENT="*PHYSICAL CONSTANTS">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node301.html">
+<LINK REL="previous" HREF="node299.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node301.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4928"
+  HREF="node301.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4924"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4918"
+  HREF="node299.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4926"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4929"
+  HREF="node301.html">*PLASTIC</A>
+<B> Up:</B> <A NAME="tex2html4925"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4919"
+  HREF="node299.html">*OUTPUT</A>
+ &nbsp; <B>  <A NAME="tex2html4927"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000892000000000000000"></A><A NAME="physicalconstants"></A>
+<BR>
+*PHYSICAL CONSTANTS
+</H2> 
+
+<P>
+Keyword type: model definition
+
+<P>
+This keyword is used to define the Stefan-Boltzmann constant,
+absolute zero temperature and the universal gravitational constant in the user's
+units. For 3D fluid calculations only absolute
+zero temperature is needed, for radiation type boundary conditions both
+absolute zero temperature and the Stefan-Boltzmann constant must be defined. They are defined by the two parameters ABSOLUTE ZERO
+and STEFAN BOLTZMANN. The universal gravitational constant is required for general
+gravitational loading, e.g. for the calculation of orbits and is defined by
+the parameter NEWTON GRAVITATION.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*PHYSICAL CONSTANTS
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*PHYSICAL CONSTANTS, ABSOLUTE ZERO=0, STEFAN BOLTZMANN=5.669E-8
+</PRE>
+
+<P>
+for time in s, length in m, mass in kg and temperature in K (unit of the
+Stefan-Boltzmann constant: <!-- MATH
+ $\text{W} \text{m}^{-2} \text{K}^{-4}$
+ -->
+<B>W&nbsp; &nbsp;m<IMG
+ WIDTH="22" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1810.png"
+ ALT="$ ^{-2}$">&nbsp; &nbsp;K<IMG
+ WIDTH="22" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1811.png"
+ ALT="$ ^{-4}$"></B>.
+
+<P>
+<PRE>
+Example:
+
+*PHYSICAL CONSTANTS, NEWTON GRAVITY=6.67E-11
+</PRE>
+
+<P>
+for time in s, length in m, mass in kg and temperature in K (unit of the
+universal gravitational constant: <!-- MATH
+ $\text{N} \text{m}^2 \text{kg}^{-2}$
+ -->
+<B>N&nbsp; &nbsp;m<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ ^2$">&nbsp; &nbsp;kg<IMG
+ WIDTH="22" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1810.png"
+ ALT="$ ^{-2}$"></B>).
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamhtbf, oneel20cf, cubenewt.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -157,7 +157,7 @@ class VTK:
 
     def actionViewIso(self):
         camera = self.renderer.GetActiveCamera() # get camera
-        camera.SetPosition(3, 2, 1) # camera's positions
+        camera.SetPosition(1.3, 1.0, 1.3) # camera's positions
         camera.SetViewUp(0, 1, 0) # which axis will be set as vertical
         camera.SetFocalPoint(0, 0, 0) # set focal foint to center
         self.renderer.ResetCamera() # fit view
@@ -215,8 +215,81 @@ class VTK:
         self.renderer.RemoveAllViewProps()
         self.renderer.AddActor(self.actor)
         self.window.Render()
-        self.CAE.logger.info('Clear selection.')
+        # self.CAE.logger.info('Clear selection.')
 
+
+    # Highlight node sets, element sets and surfaces
+
+    def highlight(self, _set, field_type):
+        # Get our mesh
+        ugrid = vtk.vtkUnstructuredGrid()
+        ugrid.ShallowCopy(self.mapper.GetInput())
+
+        # From _set get IDs of the selected items
+        IDs = vtk.vtkIdTypeArray()
+        IDs.SetNumberOfComponents(1)
+        for i in _set:
+            IDs.InsertNextValue(i-1) # in VTK nodes start from 0
+
+        selectionNode = vtk.vtkSelectionNode()
+        selectionNode.SetFieldType(field_type) # select nodes/cells by index
+        selectionNode.SetContentType(vtk.vtkSelectionNode.INDICES)
+        selectionNode.SetSelectionList(IDs)
+
+        selection = vtk.vtkSelection()
+        selection.AddNode(selectionNode)
+
+        extractSelection = vtk.vtkExtractSelection()
+        extractSelection.SetInputData(0, ugrid)
+        extractSelection.SetInputData(1, selection)
+        extractSelection.Update()
+
+        # Construct new mesh from selected nodes/cells
+        selected = vtk.vtkUnstructuredGrid()
+        selected.ShallowCopy(extractSelection.GetOutput())
+
+        selectedMapper = vtk.vtkDataSetMapper()
+        selectedMapper.SetInputData(selected)
+
+        selectedActor = vtk.vtkActor()
+        selectedActor.SetMapper(selectedMapper)
+        selectedActor.GetProperty().SetColor(1.0, 0.6, 0.0) # color of selected nodes/cells
+        selectedActor.GetProperty().SetPointSize(7) # size of selected nodes (if any)
+
+        self.renderer.AddActor(selectedActor)
+        self.window.Render() # update window
+
+    def highlightSURFACE(self, _set):
+        # Get our mesh
+        ugrid = vtk.vtkUnstructuredGrid()
+        ugrid.ShallowCopy(self.mapper.GetInput())
+
+        # From _set get IDs of the selected items
+        types = []
+        faces = vtk.vtkCellArray()
+        points = vtk.vtkPoints() # all points of the ugrid
+        for cell, F in _set:
+            cell = ugrid.GetCell(int(cell) - 1)
+            F = cell.GetFace(int(F[1:]) - 1)
+            pp = cell.GetPoints()
+            for i in range(pp.GetNumberOfPoints()):
+                points.InsertNextPoint(pp.GetPoint(i))
+            types.append(F.GetCellType())
+            faces.InsertNextCell(F)
+
+        # Construct new mesh from selected nodes/cells
+        selected = vtk.vtkUnstructuredGrid()
+        selected.SetPoints(points)
+        selected.SetCells(types, faces)
+
+        selectedMapper = vtk.vtkDataSetMapper()
+        selectedMapper.SetInputData(selected)
+        selectedActor = vtk.vtkActor()
+        selectedActor.SetMapper(selectedMapper)
+        selectedActor.GetProperty().SetColor(1.0, 0.6, 0.0) # mesh color
+
+        self.renderer.AddActor(selectedActor)
+        self.window.Render() # update window
 
     """
         # Default ugrid show on application load

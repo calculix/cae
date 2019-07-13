@@ -1,0 +1,257 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Complex frequency analysis</TITLE>
+<META NAME="description" CONTENT="Complex frequency analysis">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node163.html">
+<LINK REL="previous" HREF="node161.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node163.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3133"
+  HREF="node163.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3129"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3123"
+  HREF="node161.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3131"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3134"
+  HREF="node163.html">Buckling analysis</A>
+<B> Up:</B> <A NAME="tex2html3130"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3124"
+  HREF="node161.html">Frequency analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3132"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00079300000000000000"></A><A NAME="complexfrequencyanalysis"></A>
+<BR>
+Complex frequency analysis
+</H3>
+
+<P>
+This procedure is used to calculate the eigenvalues and eigenmodes taking the
+Coriolis forces into account. The latter forces apply as soon as one performs
+calculations in a rotating frame of reference. Therefore, using the
+<A HREF="node247.html#dload">*DLOAD</A> card to define a centrifugal speed in a
+<A HREF="node265.html#frequency">*FREQUENCY</A> step automatically triggers Coriolis
+forces. However, in a lot of applications the Coriolis forces are quite small
+and can be neglected. They may be important for very flexible rotating
+structures such as thin disks mounted on long rotating axes (rotor dynamics). 
+
+<P>
+The presence of Coriolis forces changes the governing equation into
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\begin{bmatrix} M \end{bmatrix} \begin{Bmatrix} \ddot{U} \end{Bmatrix}
++ \begin{bmatrix} C \end{bmatrix} \begin{Bmatrix} \dot{U} \end{Bmatrix}
++ \begin{bmatrix} K \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix} =
+\begin{Bmatrix} 0 \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="277" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1155.png"
+ ALT="$\displaystyle \begin{bmatrix}M \end{bmatrix} \begin{Bmatrix}\ddot{U} \end{Bmatr...
+...K \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix} = \begin{Bmatrix}0 \end{Bmatrix}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(303)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+In a <A HREF="node265.html#frequency">*FREQUENCY</A> analysis the term with the Coriolis
+matrix <!-- MATH
+ $\begin{bmatrix} C \end{bmatrix}$
+ -->
+<B><IMG
+ WIDTH="30" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1156.png"
+ ALT="$ \begin{bmatrix}C \end{bmatrix}$"></B> is lacking. Now, the solution to the
+above equation is assumed to be a linear combination of the eigenmodes without
+Coriolis:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\begin{Bmatrix} U(t) \end{Bmatrix} = \sum_i b_i \begin{Bmatrix} U_i
+\end{Bmatrix} e^{i \omega t}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="183" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1157.png"
+ ALT="$\displaystyle \begin{Bmatrix}U(t) \end{Bmatrix} = \sum_i b_i \begin{Bmatrix}U_i \end{Bmatrix} e^{i \omega t}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(304)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Substituting this assumption into the governing equation and premultiplying
+the equation with <!-- MATH
+ $\begin{Bmatrix} U_j \end{Bmatrix}^T$
+ -->
+<B><IMG
+ WIDTH="51" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1158.png"
+ ALT="$ \begin{Bmatrix}U_j \end{Bmatrix}^T$"></B> leads to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\sum_i b_i \begin{Bmatrix} U_j \end{Bmatrix}^T \begin{bmatrix} C \end{bmatrix}
+\begin{Bmatrix} U_i \end{Bmatrix} = \left[ \frac{\omega_j^2-\omega^2}{i
+    \omega} \right] b_j.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="276" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1159.png"
+ ALT="$\displaystyle \sum_i b_i \begin{Bmatrix}U_j \end{Bmatrix}^T \begin{bmatrix}C \e...
+...ix}U_i \end{Bmatrix} = \left[ \frac{\omega_j^2-\omega^2}{i \omega} \right] b_j.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(305)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Writing this equation for each value of <B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1160.png"
+ ALT="$ j$"></B> yields an eigenvalue problem of
+the form
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\omega^2 \begin{Bmatrix} b \end{Bmatrix} - i \omega \begin{bmatrix}
+  C^* \end{bmatrix} \begin{Bmatrix} b \end{Bmatrix} - \begin{bmatrix}
+  Diag(\omega_j^2) \end{bmatrix} \begin{Bmatrix} b \end{Bmatrix}
+= \begin{Bmatrix} 0 \end{Bmatrix}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="331" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1161.png"
+ ALT="$\displaystyle \omega^2 \begin{Bmatrix}b \end{Bmatrix} - i \omega \begin{bmatrix...
+... \end{bmatrix} \begin{Bmatrix}b \end{Bmatrix} = \begin{Bmatrix}0 \end{Bmatrix}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(306)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+This is a nonlinear eigenvalue problem which can be solved by a Newton-Raphson
+procedure. Starting values for the procedure are the eigenvalues of the
+*FREQUENCY step and some values in between. In rare cases an eigenvalue is
+missed (most often the last eigenvalue requested). 
+
+<P>
+One can prove that the eigenvalues are real, the eigenmodes, however, are
+usually complex. Therefore, instead of requesting U underneath the
+<A HREF="node292.html#nodefile">*NODE FILE</A> card yielding the real and imaginary part of
+the displacements it is rather instructive to request PU leading to the size
+and phase. With the latter information the mode can be properly visualized in
+CalculiX GraphiX. 
+
+<P>
+Finally, notice that no <A HREF="node247.html#dload">*DLOAD</A> card of type CORIO is needed
+in CalculiX. A loading of type CENTRIF in a preceding
+<A HREF="node316.html#static">*STATIC</A> step is sufficient. The usual procedure is indeed:
+
+<P>
+
+<OL>
+<LI>a *STATIC step to define the centrifugal force and calculate the
+  deformation and stresses (may contain NLGEOM, but does not have to).
+</LI>
+<LI>a *FREQUENCY step with PERTURBATION to calculate the eigenfrequencies
+  and eigenmodes taking the centrifugal forces, stress stiffness and
+  deformation stiffness into account. The *FREQUENCY card must include the
+  parameter STORAGE=YES.
+</LI>
+<LI>a *COMPLEX FREQUENCY,CORIOLIS step to include the Coriolis forces.
+</LI>
+</OL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3133"
+  HREF="node163.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3129"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3123"
+  HREF="node161.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3131"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3134"
+  HREF="node163.html">Buckling analysis</A>
+<B> Up:</B> <A NAME="tex2html3130"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3124"
+  HREF="node161.html">Frequency analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3132"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

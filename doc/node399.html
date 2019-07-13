@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>De-cascading the MPC's</TITLE>
+<META NAME="description" CONTENT="De-cascading the MPC's">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node400.html">
+<LINK REL="previous" HREF="node398.html">
+<LINK REL="up" HREF="node397.html">
+<LINK REL="next" HREF="node400.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6256"
+  HREF="node400.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6252"
+  HREF="node397.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6246"
+  HREF="node398.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6254"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6257"
+  HREF="node400.html">Determining the matrix structure.</A>
+<B> Up:</B> <A NAME="tex2html6253"
+  HREF="node397.html">Determining the matrix structure</A>
+<B> Previous:</B> <A NAME="tex2html6247"
+  HREF="node398.html">Matching the SPC's</A>
+ &nbsp; <B>  <A NAME="tex2html6255"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000115200000000000000">
+De-cascading the MPC's</A>
+</H3>
+
+<P>
+Multiple point constraints can depend on each other. For instance:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+5. u_1(10)+8. u_1(23)+ 2.3 u_2(12)=0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="48" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1935.png"
+ ALT="$\displaystyle 5. u_1(10)+8. u_1(23)+ 2.3 u_2(12)=0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(525)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+u_1(23)-3. u_1(2)+ 4. u_1(90)=0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="251" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1936.png"
+ ALT="$\displaystyle u_1(23)-3. u_1(2)+ 4. u_1(90)=0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(526)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The first equation depends on the second, since <B><IMG
+ WIDTH="223" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1937.png"
+ ALT="$ u_1(23)$"></B> belongs to the
+independent terms of the first equation, but it is the dependent term in the
+second (the first term in a MPC is the dependent term and is removed from the
+global system, the other terms are independent terms). Since the dependent
+terms are removed, it is necessary to expand (``de-cascade'', since the
+equations are ``cascaded'' like falls) the first equation by substituting the
+second in the first, yielding:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+5. u_1(10)+24. u_1(2) - 32. u_1(90) + 2.3 u_2(12)=0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1938.png"
+ ALT="$\displaystyle 5. u_1(10)+24. u_1(2) - 32. u_1(90) + 2.3 u_2(12)=0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(527)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+This is done in subroutine cascade.c at least if the MPC's which depend on
+each other are linear. Then, the corresponding terms are expanded and the
+MPC's are replaced by their expanded form, if applicable. 
+
+<P>
+However, the expansion is not done if any of the MPC's which depend on each
+other is nonlinear. For nonlinear MPC's the coefficients of the MPC are not
+really known at the stage in which cascade.c is called. Indeed, in most cases
+the coefficients depend on the solution, which is not known yet: an iterative
+procedure results. Therefore, in a nonlinear MPC terms can vanish during the
+solution procedure (zero coefficients) thereby changing the dependencies
+between the MPC's. Thus, the dependencies must be determined in each iteration
+anew and subroutine cascade.c is called from within the iterative procedure in
+subroutine nonlingeo.c. This will be discussed later.
+
+<P>
+In cascade.c there are two procedures to de-cascade the MPC's. The first one
+(which is the only one productive right now) is heuristic and iteratively expands the MPC's
+until no dependencies are left. This procedure worked very well thus far, but
+lacks a theoretical convergence proof. The second procedure, which is assured
+to work, is based on linear equation solving and uses SPOOLES. The dependent
+terms are collected on the left hand side, the independent ones on the right
+hand side and the sets of equations resulting from setting one independent
+term to 1 and the others to 0 are subsequently solved: the system of equations
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\begin{bmatrix} A \end{bmatrix} \begin{Bmatrix} U_d \end{Bmatrix} =
+\begin{bmatrix} B \end{bmatrix} \begin{Bmatrix} U_i \end{Bmatrix} 
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="336" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1939.png"
+ ALT="$\displaystyle \begin{bmatrix}A \end{bmatrix} \begin{Bmatrix}U_d \end{Bmatrix} = \begin{bmatrix}B \end{bmatrix} \begin{Bmatrix}U_i \end{Bmatrix}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(528)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+is solved to yield
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\begin{Bmatrix} U_d \end{Bmatrix} = \begin{bmatrix} A \end{bmatrix} ^{-1}
+\begin{bmatrix} B \end{bmatrix} \begin{Bmatrix} U_i \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="154" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1940.png"
+ ALT="$\displaystyle \begin{Bmatrix}U_d \end{Bmatrix} = \begin{bmatrix}A \end{bmatrix} ^{-1} \begin{bmatrix}B \end{bmatrix} \begin{Bmatrix}U_i \end{Bmatrix}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(529)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+in which <!-- MATH
+ $\begin{bmatrix} U_d \end{bmatrix}$
+ -->
+<B><IMG
+ WIDTH="171" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1941.png"
+ ALT="$ \begin{bmatrix}U_d \end{bmatrix}$"></B> are the dependent terms and
+<!-- MATH
+ $\begin{bmatrix} U_i \end{bmatrix}$
+ -->
+<B><IMG
+ WIDTH="36" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1942.png"
+ ALT="$ \begin{bmatrix}U_i \end{bmatrix}$"></B> the independent terms. However, in
+practice the MPC's do not heavily depend on each other, and the SPOOLES
+procedure has proven to be much slower than the heuristic procedure.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6256"
+  HREF="node400.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6252"
+  HREF="node397.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6246"
+  HREF="node398.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6254"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6257"
+  HREF="node400.html">Determining the matrix structure.</A>
+<B> Up:</B> <A NAME="tex2html6253"
+  HREF="node397.html">Determining the matrix structure</A>
+<B> Previous:</B> <A NAME="tex2html6247"
+  HREF="node398.html">Matching the SPC's</A>
+ &nbsp; <B>  <A NAME="tex2html6255"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

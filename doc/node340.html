@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Initial internal variables (sdvini.f)</TITLE>
+<META NAME="description" CONTENT="Initial internal variables (sdvini.f)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node341.html">
+<LINK REL="previous" HREF="node339.html">
+<LINK REL="up" HREF="node339.html">
+<LINK REL="next" HREF="node341.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5443"
+  HREF="node341.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5439"
+  HREF="node339.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5433"
+  HREF="node339.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5441"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5444"
+  HREF="node341.html">Initial stress field (sigini.f)</A>
+<B> Up:</B> <A NAME="tex2html5440"
+  HREF="node339.html">User-defined initial conditions</A>
+<B> Previous:</B> <A NAME="tex2html5434"
+  HREF="node339.html">User-defined initial conditions</A>
+ &nbsp; <B>  <A NAME="tex2html5442"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00093100000000000000"></A><A NAME="usersdvini"></A>
+<BR>
+Initial internal variables (sdvini.f)
+</H3>
+
+<P>
+This subroutine is used for user-defined internal variables, characterized
+by the parameter USER on the <A HREF="node276.html#initialconditions">*INITIAL CONDITIONS,TYPE=SOLUTION</A> card. The header and variable description is as
+follows:
+
+<P>
+<PRE>
+      subroutine sdvini(statev,coords,nstatv,ncrds,noel,npt,
+     &amp;  layer,kspt)
+!
+!     user subroutine sdvini
+!
+!
+!     INPUT:
+!
+!     coords(1..3)       global coordinates of the integration point
+!     nstatv             number of internal variables (must be
+!                        defined by the user with the *DEPVAR card)
+!     ncrds              number of coordinates
+!     noel               element number
+!     npt                integration point number
+!     layer              not used
+!     kspt               not used
+!
+!     OUTPUT:
+!
+!     statev(1..nstatv)  initial value of the internal state
+!                        variables
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

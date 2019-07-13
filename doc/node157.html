@@ -1,0 +1,294 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Elastic anisotropy with isotropic creep defined by a creep user subroutine.</TITLE>
+<META NAME="description" CONTENT="Elastic anisotropy with isotropic creep defined by a creep user subroutine.">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node158.html">
+<LINK REL="previous" HREF="node156.html">
+<LINK REL="up" HREF="node143.html">
+<LINK REL="next" HREF="node158.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3052"
+  HREF="node158.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3048"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3042"
+  HREF="node156.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3050"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3053"
+  HREF="node158.html">User materials</A>
+<B> Up:</B> <A NAME="tex2html3049"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3043"
+  HREF="node156.html">Elastic anisotropy with isotropic</A>
+ &nbsp; <B>  <A NAME="tex2html3051"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000781400000000000000">
+Elastic anisotropy with isotropic creep defined by a creep
+  user subroutine.</A>
+</H3>
+
+<P>
+This material model is similar to the previous one, except that 
+
+<P>
+
+<UL>
+<LI>no plasticity is assumed (yield surface coincides with the origine)
+</LI>
+<LI>the creep model is to be provided by a creep user subroutine
+</LI>
+</UL>
+
+<P>
+In the present implementation orthotropic elastic behavior is
+assumed. Consequently, for each temperature 9
+constants need to be defined: the elastic constants <B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1082.png"
+ ALT="$ C_{1111}$"></B>,
+<B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1083.png"
+ ALT="$ C_{1122}$"></B>, <B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1126.png"
+ ALT="$ C_{2222}$"></B>,<B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1127.png"
+ ALT="$ C_{1133}$"></B>,
+<B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1128.png"
+ ALT="$ C_{2233}$"></B>, <B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1129.png"
+ ALT="$ C_{3333}$"></B>,<B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1084.png"
+ ALT="$ C_{1212}$"></B>,
+<B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1130.png"
+ ALT="$ C_{1313}$"></B> and  <B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1131.png"
+ ALT="$ C_{2323}$"></B>. 
+
+<P>
+The material
+definition consists of a *MATERIAL card defining the name of
+the material. This name HAS TO START WITH ''ANISO_CREEP'' but can be
+up to 80 characters long. Thus, the last 69 characters can be freely
+chosen by the user. Within the material definition a <A HREF="node332.html#usermaterial">*USER
+MATERIAL</A> card has to be used satisfying:
+
+<P>
+First line:
+
+<UL>
+<LI>*USER MATERIAL
+</LI>
+<LI>Enter the CONSTANTS parameter and its value, i.e. 9.
+</LI>
+</UL>
+
+<P>
+Following lines, in sets of 2:
+
+<P>
+
+<P><P>
+<BR>
+First line of set:
+
+<UL>
+<LI><B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1082.png"
+ ALT="$ C_{1111}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1083.png"
+ ALT="$ C_{1122}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1126.png"
+ ALT="$ C_{2222}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1127.png"
+ ALT="$ C_{1133}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1128.png"
+ ALT="$ C_{2233}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1129.png"
+ ALT="$ C_{3333}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1084.png"
+ ALT="$ C_{1212}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1130.png"
+ ALT="$ C_{1313}$"></B>.
+</LI>
+</UL>
+Second line of set:
+
+<UL>
+<LI><B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1131.png"
+ ALT="$ C_{2323}$"></B>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+
+<P>
+Repeat this set if needed to define complete temperature dependence.
+
+<P>
+The principal axes of the material are assumed to coincide with the global
+coordinate system. If this is not the case, use an
+<A HREF="node298.html#orientation">*ORIENTATION</A> card to define a local system.
+
+<P>
+For this model, there are 7 internal state variables (recall that CalculiX
+does not make a distinction between plastic strain and creep strain: the field
+<!-- MATH
+ ${\epsilon^p}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1135.png"
+ ALT="$ {\epsilon^p}$"></B> contains the sum of both): 
+
+<UL>
+<LI>the equivalent plastic strain <!-- MATH
+ ${\epsilon}^{peq}$
+ -->
+<B><IMG
+ WIDTH="31" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1113.png"
+ ALT="$ {\epsilon}^{peq}$"></B> (1)
+</LI>
+<LI>the plastic strain tensor <!-- MATH
+ ${\epsilon^p}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1135.png"
+ ALT="$ {\epsilon^p}$"></B> (6) 
+</LI>
+</UL>
+
+<P>
+These variables are accessible through the <A HREF="node256.html#elprint">*EL
+PRINT</A> (.dat file) and <A HREF="node255.html#elfile">*EL FILE</A> (.frd file)
+keywords in exactly this order (label SDV). The
+<A HREF="node242.html#depvar">*DEPVAR</A> card must be included in the material
+definition with a value of 7.
+
+<P>
+The creep subroutine has to be provided by the user (cf. Section
+<A HREF="node337.html#creepf">8.1</A>). Since the material is anisotropic the input to the creep
+routine is the equivalent deviatoric creep strain, the output is the von Mises
+stress and the derivative of the equivalent deviatoric creep strain increment
+w.r.t. the von Mises stress.
+
+<P>
+<PRE>
+Example:
+
+*MATERIAL,NAME=ANISO_CREEP
+*USER MATERIAL,CONSTANTS=9
+500000.,157200.,500000.,157200.,157200.,500000.,126200.,126200.,
+126200.
+*DEPVAR
+7
+</PRE>
+
+<P>
+defines a single crystal with elastic constants
+500000., 157200., 500000., 157200., 157200., 500000., 126200., 126200. and
+126200.. The creep law has to be provide by the user in the form of a creep.f subroutine.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3052"
+  HREF="node158.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3048"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3042"
+  HREF="node156.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3050"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3053"
+  HREF="node158.html">User materials</A>
+<B> Up:</B> <A NAME="tex2html3049"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3043"
+  HREF="node156.html">Elastic anisotropy with isotropic</A>
+ &nbsp; <B>  <A NAME="tex2html3051"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

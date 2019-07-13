@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>newnodes.f</TITLE>
+<META NAME="description" CONTENT="newnodes.f">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node440.html">
+<LINK REL="previous" HREF="node438.html">
+<LINK REL="up" HREF="node427.html">
+<LINK REL="next" HREF="node440.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6781"
+  HREF="node440.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6777"
+  HREF="node427.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6771"
+  HREF="node438.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6779"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6782"
+  HREF="node440.html">cavityext.f</A>
+<B> Up:</B> <A NAME="tex2html6778"
+  HREF="node427.html">Mesh refining procedure</A>
+<B> Previous:</B> <A NAME="tex2html6772"
+  HREF="node438.html">edgedivide.f</A>
+ &nbsp; <B>  <A NAME="tex2html6780"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00011115120000000000000">
+newnodes.f</A>
+</H4>
+
+<P>
+This routine contains a loop over all edges. For each edge i which is to be
+divided into two sub-edges the following actions are taken:
+
+<P>
+
+<UL>
+<LI>determine the coordinates of the new node on the edge and store them in
+  a consecutively arranged field conewnodes(1..3,*) with the total number of new nodes
+  stored in the scalar nnewnodes. Let us assume that edge i is the j-th edge
+  to be subdivided, then the coordinates are stored in conewnodes(1..3,j)
+</LI>
+<LI>determine a base element to which the edge belongs (an arbitrary element
+  of the shell of the edge) and store the number in ibasenewnodes(j)
+</LI>
+<LI>store the edge number on which the nodes lies (i.e. here i) in field
+  iedgnewnodes(*), i.e. iedgnewnodes(j)=i. 
+</LI>
+<LI>determine the value of the h-field in the new node by interpolation
+  within the unrefined mesh and store it in hnewnodes(j)
+</LI>
+</UL>
+
+<P>
+After leaving newnodes a random contribution is added to the coordinates of
+each new node while moving them towards the center of gravity of their base
+element (=perturbation of the nodal position from a surface position to a
+subsurface position). This ensures that each new node lies within a tetrahedral element and
+not on its faces or edges. This facilitates the insertion of the new nodes in
+the existing mesh and is particularly important for the newly created external
+surface nodes. Indeed, the insertion procedure explained in [<A
+ HREF="node448.html#George">24</A>] works
+only for nodes not lying on the external surface. The insertion of the new nodes is done one by one after
+reordering them in an aleatoric way.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6781"
+  HREF="node440.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6777"
+  HREF="node427.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6771"
+  HREF="node438.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6779"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6782"
+  HREF="node440.html">cavityext.f</A>
+<B> Up:</B> <A NAME="tex2html6778"
+  HREF="node427.html">Mesh refining procedure</A>
+<B> Previous:</B> <A NAME="tex2html6772"
+  HREF="node438.html">edgedivide.f</A>
+ &nbsp; <B>  <A NAME="tex2html6780"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

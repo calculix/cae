@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Fiber reinforced materials.</TITLE>
+<META NAME="description" CONTENT="Fiber reinforced materials.">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node154.html">
+<LINK REL="previous" HREF="node152.html">
+<LINK REL="up" HREF="node143.html">
+<LINK REL="next" HREF="node154.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3004"
+  HREF="node154.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3000"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2994"
+  HREF="node152.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3002"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3005"
+  HREF="node154.html">The Cailletaud single crystal</A>
+<B> Up:</B> <A NAME="tex2html3001"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2995"
+  HREF="node152.html">Tension-only and compression-only materials.</A>
+ &nbsp; <B>  <A NAME="tex2html3003"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000781000000000000000">
+Fiber reinforced materials.</A>
+</H3>
+
+<P>
+This is a model which was conceived by G. Holzapfel et al. [<A
+ HREF="node448.html#Holzapfel">30</A>]
+to model arterial walls. It is an anisotropic hyperelastic model,
+consisting of an isotropic neo-Hooke potential for the base material,
+complemented by exponential strenghtening terms in fiber
+direction. The mathematical form of the potential satisfies:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+U=C_{10}(\bar{I}_1-3)+\frac{1}{D_1}(J-1)^2+\sum_{i=1}^{n}
+\frac{k_{1i}}{2k_{2i}} \left[ e^{k_{2i}\langle \bar{J}_{4i}-1 \rangle ^2}-1 \right]
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="416" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1031.png"
+ ALT="$\displaystyle U=C_{10}(\bar{I}_1-3)+\frac{1}{D_1}(J-1)^2+\sum_{i=1}^{n} \frac{k_{1i}}{2k_{2i}} \left[ e^{k_{2i}\langle \bar{J}_{4i}-1 \rangle ^2}-1 \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(269)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where  <!-- MATH
+ $\langle x \rangle=0$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1032.png"
+ ALT="$ \langle x \rangle=0$"> for <IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1033.png"
+ ALT="$ x &lt; 0$"> and <!-- MATH
+ $\langle x \rangle=x$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1034.png"
+ ALT="$ \langle x \rangle=x$">
+for <IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1035.png"
+ ALT="$ x \ge 0$">. Thus, the fibers do not take up any force under
+compression. Although the material was originally defined for
+arteries, it is expected to work well for other fiber reinforced
+materials too, such as reinforced nylon. The material model
+implemented thus far can cope with up to 4 different fibers. The material
+definition consists of a *MATERIAL card defining the name of
+the material. This name HAS TO START WITH ''ELASTIC_FIBER'' but can be
+up to 80 characters long. Thus, the last 67 characters can be freely
+chosen by the user. Within the material definition a <A HREF="node332.html#usermaterial">*USER
+MATERIAL</A> card has to be used satisfying:
+
+<P>
+First line:
+
+<UL>
+<LI>*USER MATERIAL
+</LI>
+<LI>Enter the CONSTANTS parameter and its value. The value of this
+parameter is 2+4n, where n is the number of fiber directions.
+</LI>
+</UL>
+
+<P>
+Following line if one fiber direction is selected:
+
+<UL>
+<LI><IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1036.png"
+ ALT="$ C_{10}$">.
+</LI>
+<LI><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1037.png"
+ ALT="$ D_{1}$">.
+</LI>
+<LI><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1038.png"
+ ALT="$ n_{x1}$">: x-direction cosine of fiber direction.
+</LI>
+<LI><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1039.png"
+ ALT="$ n_{y1}$">: y-direction cosine of fiber direction.
+</LI>
+<LI><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1040.png"
+ ALT="$ k_{11}$">.
+</LI>
+<LI><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1041.png"
+ ALT="$ k_{21}$">.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature
+dependence. The z-direction cosine of the fiber direction is
+determined from the x- and y-direction cosine since the direction norm is
+one. If a local axis system is defined for an element consisting of
+this material (with <A HREF="node298.html#orientation">*ORIENTATION</A>)the direction cosines are defined in the local system.
+
+<P>
+If more than one fiber direction is selected (up to a maximum of four), the four
+entries characterizing fiber direction 1 are repeated for the
+subsequent directions. Per line no more than eight entries are
+allowed. If more are
+needed, continue on the next line.
+
+<P>
+<PRE>
+Example:
+
+*MATERIAL,NAME=ELASTIC_FIBER
+*USER MATERIAL,CONSTANTS=18
+1.92505,0.026,0.,0.7071,2.3632,0.8393,0,-0.7071,
+2.3632,0.8393,0.7071,0.,2.3632,0.8393,-0.7071,0.,
+2.3632,0.8393
+</PRE>
+
+<P>
+defines an elastic fiber materials with four different fiber
+directions (0,0.7071,0.7071), (0,-0.7071,0.7071), (0.7071,0.,0.7071)
+and (-0.7071,0.,0.7071). The constants are <!-- MATH
+ $C_{10}=1.92505,~ D_{1}=0.026$
+ -->
+<IMG
+ WIDTH="193" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1042.png"
+ ALT="$ C_{10}=1.92505,~ D_{1}=0.026$"> and <!-- MATH
+ $k_{1i}=2.3632,~ k_{2i}=0.8393~ \forall~ i~ \in~ \lbrace
+1,2,3,4 \rbrace$
+ -->
+<IMG
+ WIDTH="312" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1043.png"
+ ALT="$ k_{1i}=2.3632,~ k_{2i}=0.8393~ \forall~ i~ \in~ \lbrace
+1,2,3,4 \rbrace$">.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3004"
+  HREF="node154.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3000"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2994"
+  HREF="node152.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3002"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3005"
+  HREF="node154.html">The Cailletaud single crystal</A>
+<B> Up:</B> <A NAME="tex2html3001"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2995"
+  HREF="node152.html">Tension-only and compression-only materials.</A>
+ &nbsp; <B>  <A NAME="tex2html3003"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

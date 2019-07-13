@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Reading the step input data</TITLE>
+<META NAME="description" CONTENT="Reading the step input data">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node386.html">
+<LINK REL="previous" HREF="node374.html">
+<LINK REL="up" HREF="node373.html">
+<LINK REL="next" HREF="node379.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5989"
+  HREF="node379.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5985"
+  HREF="node373.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5979"
+  HREF="node377.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5987"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5990"
+  HREF="node379.html">SPC's</A>
+<B> Up:</B> <A NAME="tex2html5986"
+  HREF="node373.html">Program structure.</A>
+<B> Previous:</B> <A NAME="tex2html5980"
+  HREF="node377.html">allocate</A>
+ &nbsp; <B>  <A NAME="tex2html5988"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000112000000000000000">
+Reading the step input data</A>
+</H2>
+
+<P>
+For each step the input data are read in subroutine calinput.f. For the first
+step this also includes the prestep data. The order in which the data is read
+was explained in the previous section (fields ipoinp and inp). 
+
+<P>
+For each keyword card there is a subroutine, most of them are just the keyword
+with the letter 's' appended. For instance, *STEP is read in subroutine
+steps.f, *MATERIAL in materials.f. Some obey the plural building in English:
+*FREQUENCY is read in frequencies.f. Some are abbreviated: *CYCLIC SYMMETRY
+MODEL is read in cycsymmods.f. Treating more than 60 keyword cards accounts in
+this way for roughly one fourth of all subroutines.
+
+<P>
+At this point it may be useful to talk about a couple of important structures
+in the code. 
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html5991"
+  HREF="node379.html">SPC's</A>
+<LI><A NAME="tex2html5992"
+  HREF="node380.html">Homogeneous linear equations</A>
+<LI><A NAME="tex2html5993"
+  HREF="node381.html">Concentrated loads</A>
+<LI><A NAME="tex2html5994"
+  HREF="node382.html">Facial distributed loads</A>
+<LI><A NAME="tex2html5995"
+  HREF="node383.html">Mechanical body loads</A>
+<LI><A NAME="tex2html5996"
+  HREF="node384.html">Sets</A>
+<LI><A NAME="tex2html5997"
+  HREF="node385.html">Material description</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

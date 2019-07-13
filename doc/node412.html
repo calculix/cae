@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>The variables and the equations</TITLE>
+<META NAME="description" CONTENT="The variables and the equations">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node413.html">
+<LINK REL="previous" HREF="node411.html">
+<LINK REL="up" HREF="node411.html">
+<LINK REL="next" HREF="node413.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6419"
+  HREF="node413.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6415"
+  HREF="node411.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6409"
+  HREF="node411.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6417"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6420"
+  HREF="node413.html">Determining the basic characteristics</A>
+<B> Up:</B> <A NAME="tex2html6416"
+  HREF="node411.html">Aerodynamic and hydraulic networks</A>
+<B> Previous:</B> <A NAME="tex2html6410"
+  HREF="node411.html">Aerodynamic and hydraulic networks</A>
+ &nbsp; <B>  <A NAME="tex2html6418"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000118100000000000000">
+The variables and the equations</A>
+</H3>
+
+<P>
+In Sections <A HREF="node175.html#aeronetworks">6.9.16</A> and <A HREF="node176.html#hydronetworks">6.9.17</A> the governing equations
+for aerodynamic and hydraulic networks were derived. It was shown that the
+basic variables for aerodynamic networks are the total temperature, the total
+pressure and the mass flow. In addition, one geometric parameter may be
+defined per element as additional unknown. This option has to be coded in the
+program in order to be active. Right now, this option only exists for the gate
+valve. All other variables can be calculated based on
+these three quantities. This is actually not a unique choice but seems to be
+best suited for our purposes. For hydraulic networks these reduce to the
+pressure, temperature and mass flow. This is completely different from the
+structural unknowns, which are taken to be the temperature and the
+displacements. Therefore, the degrees of freedom 0 to 3 which are used for
+structural calculations are redefined for networks according to Table&nbsp;(<A HREF="#t8">21</A>) 
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="12820"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 21:</STRONG>
+Variables in fluid nodes.</CAPTION>
+<TR><TD ALIGN="CENTER">DOF</TD>
+<TD ALIGN="CENTER">corner node</TD>
+<TD ALIGN="CENTER">midside node</TD>
+</TR>
+<TR><TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">total temperature</TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">-</TD>
+<TD ALIGN="CENTER">mass flow</TD>
+</TR>
+<TR><TD ALIGN="CENTER">2</TD>
+<TD ALIGN="CENTER">total pressure</TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">3</TD>
+<TD ALIGN="CENTER">static temperature</TD>
+<TD ALIGN="CENTER">geometry</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+A distinction is being made between corner nodes and midside nodes of fluid
+elements. Remember that network elements consist of two corner nodes and one middle
+node (Section <A HREF="node63.html#tnfe">6.2.37</A>). The mass flow is not necessarily uniquely
+determined at the corner nodes, since more than two branches can come
+together. Therefore, it is logical to define the mass flow as unknown in the
+middle of a network element. The same applies to the geometric parameter, if
+applicable.  Similarly, the total temperature or total pressure
+may not be known within the element, since the exact location of
+discontinuities (such as enlargements or orifices) is not necessarily
+known. Consequently, it is advantageous to define the total temperature and
+total pressure as unknowns in the corner nodes. The static temperature is not a
+basic variable. Once the total temperature, mass flow and total pressure are
+known, the static temperature can be calculated. It is a derived quantity.
+
+<P>
+Similar to field nactdof for structural applications a field nactdog is
+introduced for network applications. It can be viewed as a matrix with 4 rows
+and as many columns as there are nodes in the model (including structural
+nodes; this is done to avoid additional pointing work between the local gas
+node number and the global node number). It indicates whether a specific
+degree of freedom in a gas node is active: if the entry is nonzero (actually
+positive; contrary to nactdof nactdof does not take negative values) it is
+active, else it is inactive (which means that the value is known or not
+applicable because the node is a structural node). The degrees of freedom
+correspond to the first three rows of Table&nbsp;<A HREF="#t8">21</A> and are repeated in
+Table&nbsp;<A HREF="#t9">22</A> for clarity. Here too, only the first three rows are
+relevant. 
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="12821"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 22:</STRONG>
+Degrees of freedom in fluid nodes (field nactdog).</CAPTION>
+<TR><TD ALIGN="CENTER">DOF</TD>
+<TD ALIGN="CENTER">corner node</TD>
+<TD ALIGN="CENTER">midside node</TD>
+</TR>
+<TR><TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">total temperature</TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">-</TD>
+<TD ALIGN="CENTER">mass flow</TD>
+</TR>
+<TR><TD ALIGN="CENTER">2</TD>
+<TD ALIGN="CENTER">total pressure</TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">3</TD>
+<TD ALIGN="CENTER">-</TD>
+<TD ALIGN="CENTER">geometry</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+Consequently, if nactdog(2,328) is nonzero, it means that the total pressure
+in node 328 is an unknown in the system. Actually, the nonzero value
+represents the number of the degree of freedom attached to the total pressure
+in node 328. The number of the degree of freedom corresponds with the column
+number in the resulting set of equations. 
+What nactdog is for the degrees of freedom is nacteq for the equations. It is
+a field of the same size of nactdog but now a nonzero entry indicates that a
+specific conservation equation applies to the node, cf. Table&nbsp;<A HREF="#t10">23</A>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="12822"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 23:</STRONG>
+Conservation equations in fluid nodes (field nacteq).</CAPTION>
+<TR><TD ALIGN="CENTER">DOF</TD>
+<TD ALIGN="CENTER">corner node</TD>
+<TD ALIGN="CENTER">midside node</TD>
+</TR>
+<TR><TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">energy</TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">mass</TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">2</TD>
+<TD ALIGN="CENTER">-</TD>
+<TD ALIGN="CENTER">momentum</TD>
+</TR>
+<TR><TD ALIGN="CENTER">3</TD>
+<TD ALIGN="CENTER">if <B><IMG
+ WIDTH="542" HEIGHT="342" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1963.png"
+ ALT="$ &gt;$"></B> 0: independent node of isothermal</TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">element the node belongs to;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+If nacteq(1,8002) is nonzero, it means that the conservation of mass equation
+has to be formulated for node 8002. The nonzero value is actually the row
+number of this equation in the set of equations. If the value is zero, the
+equation does not apply, e.g. because the mass flow in all adjacent elements
+is known. The last row in field nacteq (at least for corner nodes) is used to
+account for isothermal conditions. These only apply to gas pipes of type GAS
+PIPE ISOTHERMAL and exit restrictors preceded by an isothermal gas pipe
+element. An isothermal element introduces an extra equation specifying that the
+static temperature in the two corner nodes of the pipe is equal. This can be
+transformed into a nonlinear equation in which the total temperature in one
+node (the dependent node) is written as a function of the total temperature in
+the other node and the other variables (total pressure in the nodes, mass
+flow). To account for this extra equation, the conservation of energy is not
+expressed for the dependent node (indeed, one can argue that, in order for the
+static temperatures to be equal an unknown amount of heat has to be introduced
+in the dependent node. So if nacteq(3,8002)=<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$"></B> is nonzero it means that node 8002
+is the dependent node in an isothermal relation linking the static nodal
+temperature to the one of node <B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$"></B>.
+
+<P>
+Field ineighe(i),i=1,...,ntg is used to determine the static temperature in an
+end node. If it is zero, node i is a mid-node. If it is equal to -1, the node
+is a chamber, for which the static temperature equals the total
+temperature. If it is positive, its value is the element number of a gas pipe
+element or restrictor element, but not equal to a restrictor wall orifice, for
+which the static temperature is different from the total temperature. The mass
+flow of the referred element is used to calculate the static temperature from
+the total temperature.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6419"
+  HREF="node413.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6415"
+  HREF="node411.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6409"
+  HREF="node411.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6417"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6420"
+  HREF="node413.html">Determining the basic characteristics</A>
+<B> Up:</B> <A NAME="tex2html6416"
+  HREF="node411.html">Aerodynamic and hydraulic networks</A>
+<B> Previous:</B> <A NAME="tex2html6410"
+  HREF="node411.html">Aerodynamic and hydraulic networks</A>
+ &nbsp; <B>  <A NAME="tex2html6418"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

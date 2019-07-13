@@ -1,0 +1,366 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Introduction of a new mechanical behaviour by modifying the sources</TITLE>
+<META NAME="description" CONTENT="Introduction of a new mechanical behaviour by modifying the sources">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node358.html">
+<LINK REL="previous" HREF="node356.html">
+<LINK REL="up" HREF="node356.html">
+<LINK REL="next" HREF="node358.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5666"
+  HREF="node358.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5662"
+  HREF="node356.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5656"
+  HREF="node356.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5664"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5667"
+  HREF="node358.html">Calling mechanical behaviours defined</A>
+<B> Up:</B> <A NAME="tex2html5663"
+  HREF="node356.html">The CalculiX interface</A>
+<B> Previous:</B> <A NAME="tex2html5657"
+  HREF="node356.html">The CalculiX interface</A>
+ &nbsp; <B>  <A NAME="tex2html5665"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00095110000000000000">
+Introduction of a new mechanical behaviour by modifying the
+  sources</A>
+</H4>
+
+<P>
+This is an extremely important and powerful interface, allowing the
+user to define his/her own mechanical material behavior. The 
+subroutine ``umat_main.f'' is a driver
+subroutine, calling user-defined routines similar to ``umat_user.f'',
+depending on the kind of material present in the model. To create a
+new material law, a ``umat_user.f'' routine must be written and an
+appropriate call must be inserted in routine ``umat_main.f''.
+
+<P>
+For instance, assume you want to write a material user routine for a
+Drucker-Prager material model. Let us call this routine
+umat_drucker_prager.f. To write the routine, you can use the umat_user.f
+routine as a template. The header of this routine shows you the fields which
+you have at your disposal.
+
+<P>
+When you finished writing the routine you have to make it available for
+selection in routine umat_main.f. The selection is done based
+on the material name. Let us take DRUCKER-PRAGER for the material name,
+i.e. if the user wants to select this model with a *USER MATERIAL card, he has
+to use a name for his material starting with DRUCKER-PRAGER. Material names
+in CalculiX can be 80 characters long, so the remaining 66 characters after
+DRUCKER-PRAGER can be used to distinguish between several Drucker-Prager
+materials used within one and the same input deck, e.g. the user could use
+DRUCKER-PRAGER1 and DRUCKER-PRAGER2 if he has two different Drucker-Prager
+materials in his model. Using the block
+
+<P>
+<PRE>
+      elseif(amat(1:4).eq.'USER') then
+!
+         amatloc(1:76)=amat(5:80)
+         amatloc(77:80)='    '
+         call umat_user(amatloc,iel,iint,kode,elconloc,emec,emec0,
+     &amp;        beta,xikl,vij,xkl,vj,ithermal,t1l,dtime,time,ttime,
+     &amp;        icmd,ielas,mi(1),nstate_,xstateini,xstate,stre,stiff,
+     &amp;        iorien,pgauss,orab,pnewdt,ipkon)
+</PRE>
+
+<P>
+as template we arrive at:
+
+<P>
+<PRE>
+      elseif(amat(1:14).eq.'DRUCKER-PRAGER') then
+!
+         amatloc(1:66)=amat(15:80)
+         amatloc(67:80)='    '
+         call umat_drucker-prager(amatloc,iel,iint,kode,elconloc,emec,
+     &amp;        emec0,beta,xikl,vij,xkl,vj,ithermal,t1l,dtime,time,ttime,
+     &amp;        icmd,ielas,mi(1),nstate_,xstateini,xstate,stre,stiff,
+     &amp;        iorien,pgauss,orab,pnewdt,ipkon)
+</PRE>
+
+<P>
+which has to be inserted in routine umat_main.f. Notice that the DRUCKER-PRAGER
+part is removed from the material name before entering the subroutine, i.e. if
+the user has named his material DRUCKER-PRAGER1 only 1 will be transferred to
+the user subroutine.
+
+<P>
+After storing umat_main.f and umat_drucker_prager.f,
+umat_drucker_prager.f has to be added to the FORTRAN routines in
+Makefile.inc and CalculiX has to be recompiled, i.e. a new executable has to
+be generated.
+
+<P>
+After this, the Drucker-Prager material routine is at the disposal of the
+user. To select it, he has to use the *USER MATERIAL card and start the name of
+this material with DRUCKER-PRAGER. Furthermore, he has to know how many
+constants he has to define for this material (should be in the documentation
+of the material model) and how many internal variables there are (to be
+inserted underneath the *DEPVAR card; should also be in the documentation of
+the material model). If our Drucker-Prager material is characterized by 4
+constants and 2 internal variables (this is out-of-the-blue) the input should
+look like:
+
+<P>
+<PRE>
+*MATERIAL,NAME=DRUCKER-PRAGEREXAMPLE
+*USER MATERIAL,CONSTANTS=4
+constant1,constant2,constant3,constant4
+*DEPVAR
+2
+</PRE>
+
+<P>
+The header and input/output variables of the umat_user routine are as follows:
+
+<P>
+<PRE>
+      subroutine umat_user(amat,iel,iint,kode,elconloc,emec,emec0,
+     &amp;        beta,xokl,voj,xkl,vj,ithermal,t1l,dtime,time,ttime,
+     &amp;        icmd,ielas,mi,nstate_,xstateini,xstate,stre,stiff,
+     &amp;        iorien,pgauss,orab,pnewdt,ipkon)
+!
+!     calculates stiffness and stresses for a user defined material
+!     law
+!
+!     icmd=3: calcutates stress at mechanical strain
+!     else: calculates stress at mechanical strain and the stiffness
+!           matrix
+!
+!     INPUT:
+!
+!     amat               material name
+!     iel                element number
+!     iint               integration point number
+!
+!     kode               material type (-100-#of constants entered
+!                        under *USER MATERIAL): can be used for materials
+!                        with varying number of constants
+!
+!     elconloc(21)       user defined constants defined by the keyword
+!                        card *USER MATERIAL (max. 21, actual # =
+!                        -kode-100), interpolated for the
+!                        actual temperature t1l
+!
+!     emec(6)            Lagrange mechanical strain tensor (component order:
+!                        11,22,33,12,13,23) at the end of the increment
+!                        (thermal strains are subtracted)
+!     emec0(6)           Lagrange mechanical strain tensor at the start of the
+!                        increment (thermal strains are subtracted)
+!     beta(6)            residual stress tensor (the stress entered under
+!                        the keyword *INITIAL CONDITIONS,TYPE=STRESS)
+!
+!     xokl(3,3)          deformation gradient at the start of the increment
+!     voj                Jacobian at the start of the increment
+!     xkl(3,3)           deformation gradient at the end of the increment
+!     vj                 Jacobian at the end of the increment
+!
+!     ithermal           0: no thermal effects are taken into account
+!                        &gt;0: thermal effects are taken into account (triggered
+!                        by the keyword *INITIAL CONDITIONS,TYPE=TEMPERATURE)
+!     t1l                temperature at the end of the increment
+!     dtime              time length of the increment
+!     time               step time at the end of the current increment
+!     ttime              total time at the start of the current step
+!
+!     icmd               not equal to 3: calculate stress and stiffness
+!                        3: calculate only stress
+!     ielas              0: no elastic iteration: irreversible effects
+!                        are allowed
+!                        1: elastic iteration, i.e. no irreversible
+!                           deformation allowed
+!
+!     mi(1)              max. # of integration points per element in the
+!                        model
+!     nstate_            max. # of state variables in the model
+!
+!     xstateini(nstate_,mi(1),# of elements)
+!                        state variables at the start of the increment
+!     xstate(nstate_,mi(1),# of elements)
+!                        state variables at the end of the increment
+!
+!     stre(6)            Piola-Kirchhoff stress of the second kind
+!                        at the start of the increment
+!
+!     iorien             number of the local coordinate axis system
+!                        in the integration point at stake (takes the value
+!                        0 if no local system applies)
+!     pgauss(3)          global coordinates of the integration point
+!     orab(7,*)          description of all local coordinate systems.
+!                        If a local coordinate system applies the global 
+!                        tensors can be obtained by premultiplying the local
+!                        tensors with skl(3,3). skl is  determined by calling
+!                        the subroutine transformatrix: 
+!                        call transformatrix(orab(1,iorien),pgauss,skl)
+!
+!
+!     OUTPUT:
+!
+!     xstate(nstate_,mi(1),# of elements)
+!                        updated state variables at the end of the increment
+!     stre(6)            Piola-Kirchhoff stress of the second kind at the
+!                        end of the increment
+!     stiff(21):         consistent tangent stiffness matrix in the material
+!                        frame of reference at the end of the increment. In
+!                        other words: the derivative of the PK2 stress with
+!                        respect to the Lagrangian strain tensor. The matrix
+!                        is supposed to be symmetric, only the upper half is
+!                        to be given in the same order as for a fully
+!                        anisotropic elastic material (*ELASTIC,TYPE=ANISO).
+!                        Notice that the matrix is an integral part of the 
+!                        fourth order material tensor, i.e. the Voigt notation
+!                        is not used.
+!     pnewdt             to be specified by the user if the material
+!                        routine is unable to return the stiffness matrix
+!                        and/or the stress due to divergence within the
+!                        routine. pnewdt is the factor by which the time
+!                        increment is to be multiplied in the next
+!                        trial and should exceed zero but be less than 1.
+!                        Default is -1 indicating that the user routine
+!                        has converged.
+!     ipkon(*)           ipkon(iel) points towards the position in field
+!                        kon prior to the first node of the element's
+!                        topology. If ipkon(iel) is smaller than 0, the 
+!                        element is not used.
+</PRE>
+
+<P>
+The parameter ielas indicates whether irreversible effects should be
+taken into account. Forced displacements can lead to huge strains in
+the first iteration. Therefore, convergence in quasistatic
+calculations is often enhanced if the first iteration is completely
+linear, i.e. material and geometric nonlinearities are turned
+off. The parameter ielas is the appropriate flag.
+
+<P>
+Two extra routines are at the user's disposal for conversion 
+purposes. ``str2mat.f'' can be used to convert Lagrangian strain into 
+Eulerian strain, Cauchy stress into PK2 stress, or Kirchhoff stress 
+into PK2 stress. The header and a short description are as follows:
+
+<P>
+<PRE>
+      subroutine str2mat(str,ckl,vj,cauchy)
+!
+!     converts the stress in spatial coordinates into material coordinates 
+!     or the strain in material coordinates into spatial coordinates. 
+!
+!     INPUT:
+!
+!     str(6):     Cauchy stress, Kirchhoff stress or Lagrange strain
+!                 component order: 11,22,33,12,13,23
+!     ckl(3,3):   the inverse deformation gradient
+!     vj:         Jakobian determinant
+!     cauchy:     logical variable
+!                 if true: str contains the Cauchy stress
+!                 if false: str contains the Kirchhoff stress or
+!                           Lagrange strain
+!
+!     OUTPUT:
+!
+!     str(6):     Piola-Kirchhoff stress of the second kind (PK2) or
+!                 Euler strain
+!
+</PRE>
+
+<P>
+The second routine, ``stiff2mat.f'' converts the tangent stiffness matrix from spatial coordinates into material coordinates. 
+
+<P>
+<PRE>
+      subroutine stiff2mat(elas,ckl,vj,cauchy)
+!
+!     converts an element stiffness matrix in spatial coordinates into
+!     an element stiffness matrix in material coordinates. 
+!
+!     INPUT:
+!
+!     elas(21):   stiffness constants in the spatial description, i.e.
+!                 the derivative of the Cauchy stress or the Kirchhoff
+!                 stress with respect to the Eulerian strain
+!     ckl(3,3):   inverse deformation gradient
+!     vj:         Jacobian determinant
+!     cauchy:     logical variable
+!                 if true: elas is written in terms of Cauchy stress
+!                 if false: elas is written in terms of Kirchhoff stress
+!
+!     OUTPUT:
+!
+!     elas(21):   stiffness constants in the material description,i.e.
+!                 the derivative of the second Piola-Kirchhoff stress (PK2)
+!                 with respect to the Lagrangian strain
+!
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5666"
+  HREF="node358.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5662"
+  HREF="node356.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5656"
+  HREF="node356.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5664"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5667"
+  HREF="node358.html">Calling mechanical behaviours defined</A>
+<B> Up:</B> <A NAME="tex2html5663"
+  HREF="node356.html">The CalculiX interface</A>
+<B> Previous:</B> <A NAME="tex2html5657"
+  HREF="node356.html">The CalculiX interface</A>
+ &nbsp; <B>  <A NAME="tex2html5665"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

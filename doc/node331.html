@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*USER ELEMENT</TITLE>
+<META NAME="description" CONTENT="*USER ELEMENT">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node332.html">
+<LINK REL="previous" HREF="node330.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node332.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5300"
+  HREF="node332.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5296"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5290"
+  HREF="node330.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5298"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5301"
+  HREF="node332.html">*USER MATERIAL</A>
+<B> Up:</B> <A NAME="tex2html5297"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5291"
+  HREF="node330.html">*UNCOUPLED TEMPERATURE-DISPLACEMENT</A>
+ &nbsp; <B>  <A NAME="tex2html5299"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008123000000000000000"></A><A NAME="userelement"></A>
+<BR>
+*USER ELEMENT
+</H2>
+
+<P>
+With this option the user can define a user element, i.e. an element created
+by the user and not available by default in CalculiX. The following parameters
+are required: TYPE, INTEGRATION POINTS, MAXDOF and NODES.
+
+<P>
+The TYPE must begin with the letter U and is to be followed by a strictly
+positive integer not exceeding 9999. It is used in an
+<A HREF="node253.html#element">*ELEMENT</A> card to assign this type to specific elements.
+
+<P>
+INTEGRATION POINTS defines the number of integration points used in the
+numerical integration of this element type (maximum 256). It is used for allocation
+purposes. E.g stresses and strains are usually calculated at the integration
+points.
+
+<P>
+The parameter MAXDOF declares the maximum degree of freedom associated with
+nodes belonging to this element type (maximum 256). Translational degrees of freedom
+correspond to degrees of freedom 1,2 and 3 rotational degrees of freedom to
+4,5 and 6. For instance, shell are beam elements
+usually contain rotational degrees of freedom, so
+MAXDOF=6. For volumetric elements MAXDOF is usually 3.
+
+<P>
+Finally, the parameter NODES specifies the number of nodes associated with
+this element type (maximum 256).
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*USER MATERIAL
+</LI>
+<LI>Enter the parameters and their value
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*USER ELEMENT,TYPE=U1,INTEGRATION POINTS=0,MAXDOF=6,NODES=2
+</PRE>
+
+<P>
+defines a user element of type U1 with no integration points (i.e. analytical
+integration), a maximum degree of freedom of 6 and 2 nodes.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5300"
+  HREF="node332.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5296"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5290"
+  HREF="node330.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5298"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5301"
+  HREF="node332.html">*USER MATERIAL</A>
+<B> Up:</B> <A NAME="tex2html5297"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5291"
+  HREF="node330.html">*UNCOUPLED TEMPERATURE-DISPLACEMENT</A>
+ &nbsp; <B>  <A NAME="tex2html5299"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

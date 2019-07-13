@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Restrictor, Contraction</TITLE>
+<META NAME="description" CONTENT="Restrictor, Contraction">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node87.html">
+<LINK REL="previous" HREF="node85.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node87.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2150"
+  HREF="node87.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2146"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2140"
+  HREF="node85.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2148"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2151"
+  HREF="node87.html">Restrictor, Bend</A>
+<B> Up:</B> <A NAME="tex2html2147"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2141"
+  HREF="node85.html">Restrictor, Enlargement</A>
+ &nbsp; <B>  <A NAME="tex2html2149"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000741000000000000000">
+Restrictor, Contraction</A>
+</H3>
+
+<P>
+Properties: adiabatic, not isentropic, directional, outlet based restrictor
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="suddencontraction"></A><A NAME="11964"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 98:</STRONG>
+Geometry of a contraction</CAPTION>
+<TR><TD><IMG
+ WIDTH="495" HEIGHT="256" BORDER="0"
+ SRC="img545.png"
+ ALT="\begin{figure}\epsfig{file=Sudden_contraction.eps,width=11cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The geometry of a contraction is shown in Figure <A HREF="#suddencontraction">98</A>.
+It is described by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=RESTRICTOR
+CONTRACTION card):
+
+<P>
+
+<UL>
+<LI>full cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img511.png"
+ ALT="$ A_1$">.
+</LI>
+<LI>reduced cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img539.png"
+ ALT="$ A_2$">.
+</LI>
+<LI>hydraulic diameter <IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img540.png"
+ ALT="$ D_h$"> of the reduced cross section defined by <IMG
+ WIDTH="87" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img541.png"
+ ALT="$ D_h=4 A/P$"> where <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img542.png"
+ ALT="$ P$"> is the
+  perimeter of the cross section. 
+</LI>
+<LI>chamfer length <IMG
+ WIDTH="15" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img288.png"
+ ALT="$ L$">.
+</LI>
+<LI>chamfer angle <IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"> (<IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$">).
+</LI>
+<LI>oil mass flow in the restrictor (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>not used (internally: oil material number)
+</LI>
+</UL>
+
+<P>
+The loss coefficient for a contraction is taken from [<A
+ HREF="node448.html#Idelchik">33</A>].
+
+<P>
+By specifying the parameter LIQUID on the *FLUID SECTION card the loss is
+calculated for liquids. In the absence of this parameter, compressible losses
+are calculated. 
+
+<P>
+
+<P><P>
+<BR>
+Example files: piperestrictor, restrictor, restrictor-oil.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2150"
+  HREF="node87.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2146"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2140"
+  HREF="node85.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2148"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2151"
+  HREF="node87.html">Restrictor, Bend</A>
+<B> Up:</B> <A NAME="tex2html2147"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2141"
+  HREF="node85.html">Restrictor, Enlargement</A>
+ &nbsp; <B>  <A NAME="tex2html2149"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

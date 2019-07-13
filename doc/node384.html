@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Sets</TITLE>
+<META NAME="description" CONTENT="Sets">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node385.html">
+<LINK REL="previous" HREF="node383.html">
+<LINK REL="up" HREF="node378.html">
+<LINK REL="next" HREF="node385.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6068"
+  HREF="node385.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6064"
+  HREF="node378.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6058"
+  HREF="node383.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6066"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6069"
+  HREF="node385.html">Material description</A>
+<B> Up:</B> <A NAME="tex2html6065"
+  HREF="node378.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6059"
+  HREF="node383.html">Mechanical body loads</A>
+ &nbsp; <B>  <A NAME="tex2html6067"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000112600000000000000">
+Sets</A>
+</H3>
+
+<P>
+A set is used to group nodes or elements. In the future, it will also be used
+to define surface based on nodes and surfaces based on element faces. A set i
+is 
+characterized by its name set(i) and two pointers istartset(i) and iendset(i)
+pointing to entries in the one-dimensional field ialset. The name set(i)
+consists of at most 81 characters, the first eighty of which can be defined by
+the user. After the last user-defined character the character 'N' is appended for a node set and 'E' for an element
+set. For surfaces, which are internally treated as sets, these characters are 'S' for nodal surfaces and 'T' for
+element facial surfaces. The extra character allows the user to choose
+identical names for node and elements sets and/or surfaces. The nodes or elements a set
+consists of are stored in field ialset between row istartset(i) and row
+iendset(i). If the parameter GENERATE was not used in the set definition, the
+entries in ialset are simply the node or element numbers. If GENERATE is used,
+e.g. 
+
+<P>
+<PRE>
+*NSET,NSET=N1,GENERATE
+20,24
+</PRE>
+
+<P>
+the start number, the end number and increment preceded by a minus sign are
+stored, in that order. Accordingly, for the above example:
+20,24,-1. Consequently, a negative number in field ialset always points to an
+increment to be used between the two preceding entries.
+For example, if the only two sets are defined by:
+
+<P>
+<PRE>
+*NSET,NSET=N1,GENERATE
+20,24
+*NSET,NSET=N1
+383,402,883
+*ELSET,ELSET=N1,GENERATE
+3,8
+</PRE>
+
+<P>
+the fields set, istartset, iendset and ialset read:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\text{set}=\begin{Bmatrix} N1N \\N1E \end{Bmatrix},
+\text{istartset}=\begin{Bmatrix} 1 \\7  \end{Bmatrix},
+\text{iendset}=\begin{Bmatrix} 6 \\9  \end{Bmatrix},
+\text{ialset}=\begin{Bmatrix} 20 \\24 \\-1 \\383 \\402 \\883 \\3 \\8 \\-1 \end{Bmatrix}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER">set<IMG
+ WIDTH="268" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1895.png"
+ ALT="$\displaystyle =\begin{Bmatrix}N1N \\ N1E \end{Bmatrix},$">&nbsp; &nbsp;istartset<IMG
+ WIDTH="89" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1896.png"
+ ALT="$\displaystyle =\begin{Bmatrix}1 \\ 7 \end{Bmatrix},$">&nbsp; &nbsp;iendset<IMG
+ WIDTH="60" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1897.png"
+ ALT="$\displaystyle =\begin{Bmatrix}6 \\ 9 \end{Bmatrix},$">&nbsp; &nbsp;ialset<IMG
+ WIDTH="60" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1898.png"
+ ALT="$\displaystyle =\begin{Bmatrix}20 \\ 24 \\ -1 \\ 383 \\ 402 \\ 883 \\ 3 \\ 8 \\ -1 \end{Bmatrix}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(520)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6068"
+  HREF="node385.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6064"
+  HREF="node378.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6058"
+  HREF="node383.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6066"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6069"
+  HREF="node385.html">Material description</A>
+<B> Up:</B> <A NAME="tex2html6065"
+  HREF="node378.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6059"
+  HREF="node383.html">Mechanical body loads</A>
+ &nbsp; <B>  <A NAME="tex2html6067"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>C3D20R</TITLE>
+<META NAME="description" CONTENT="C3D20R">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node32.html">
+<LINK REL="previous" HREF="node30.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node32.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1467"
+  HREF="node32.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1463"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1457"
+  HREF="node30.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1465"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1468"
+  HREF="node32.html">Four-node tetrahedral element (C3D4</A>
+<B> Up:</B> <A NAME="tex2html1464"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1458"
+  HREF="node30.html">Twenty-node brick element (C3D20)</A>
+ &nbsp; <B>  <A NAME="tex2html1466"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00072500000000000000">
+Twenty-node brick element with reduced integration (C3D20R)</A>
+</H3>
+The C3D20R element is a general purpose quadratic brick element, with reduced integration (2x2x2 integration points). The shape functions can be found in [<A
+ HREF="node448.html#Lapidus">40</A>]. The node numbering follows the convention of Figure <A HREF="node30.html#twentynode">64</A> and the integration scheme is shown in Figure <A HREF="node27.html#int8">62</A>.
+
+<P>
+The element behaves very well and is an excellent general purpose element (if you are setting off for a long journey and you are allowed to take only one element type with you, that's the one to take). It also performs well for isochoric material behavior and in bending and rarely exhibits hourglassing despite the reduced integration (hourglassing generally occurs when not enough integration points are used for numerical integration and spurious modes pop up resulting in crazy displacement fields but correct stress fields). The reduced integration points are so-called superconvergent points of the element [<A
+ HREF="node448.html#Barlow">7</A>]. Just two caveats:
+
+<UL>
+<LI>the integration points are about one quarter of the typical element size away from the boundary of the element, and the extrapolation of integration point values to the nodes is trilinear. Thus, high stress concentrations at the surface of a structure might not be captured if the mesh is too coarse.
+</LI>
+<LI>all quadratic elements cause problems in node-to-face contact
+  calculations, because the nodal forces in the vertex nodes equivalent to
+  constant pressure on an element side (section
+  <A HREF="node191.html#fdloading"><A HREF="node191.html#fdloading"><tex2html_cr_mark></A></A>) are zero or have the opposite sign of
+  those in the midside nodes. This problem seems to be solved if face-to-face
+  contact is used.
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1467"
+  HREF="node32.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1463"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1457"
+  HREF="node30.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1465"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1468"
+  HREF="node32.html">Four-node tetrahedral element (C3D4</A>
+<B> Up:</B> <A NAME="tex2html1464"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1458"
+  HREF="node30.html">Twenty-node brick element (C3D20)</A>
+ &nbsp; <B>  <A NAME="tex2html1466"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

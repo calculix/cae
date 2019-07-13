@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Hydrodynamic lubrication</TITLE>
+<META NAME="description" CONTENT="Hydrodynamic lubrication">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node171.html">
+<LINK REL="previous" HREF="node169.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node171.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3229"
+  HREF="node171.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3225"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3219"
+  HREF="node169.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3227"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3230"
+  HREF="node171.html">Irrotational incompressible inviscid flow</A>
+<B> Up:</B> <A NAME="tex2html3226"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3220"
+  HREF="node169.html">Shallow water motion</A>
+ &nbsp; <B>  <A NAME="tex2html3228"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000791100000000000000">
+Hydrodynamic lubrication</A>
+</H3>
+
+<P>
+In hydrodynamic lubrication a thin oil film constitutes the interface between
+a static part and a part rotating at high speed in all kinds of bearings. A
+quantity of major interest to engineers is the load bearing capacity of the
+film, expressed by the pressure. Integrating the hydrodynamic equations over
+the width of the thin film leads to the following equation [<A
+ HREF="node448.html#Hamrock">26</A>]:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="lubri"></A><!-- MATH
+ \begin{equation}
+\nabla \cdot (- \frac{ h^3 \overline{ \rho }}{12 \mu_v} \boldsymbol{ I} \cdot
+\nabla{p}) = - \left( \frac{ \boldsymbol{ v}_b+\boldsymbol{ v}_a}{2}\right)
+\cdot \nabla (h \overline{ \rho }) - \frac{ \partial (h \overline{
+    \rho})}{\partial t} - \dot{ m}_{\Omega },
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="414" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1203.png"
+ ALT="$\displaystyle \nabla \cdot (- \frac{ h^3 \overline{ \rho }}{12 \mu_v} \boldsymb...
+...ho }) - \frac{ \partial (h \overline{ \rho})}{\partial t} - \dot{ m}_{\Omega },$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(316)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+where <B><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img672.png"
+ ALT="$ h$"></B> is the film thickness, <!-- MATH
+ $\overline{ \rho }$
+ -->
+<B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1204.png"
+ ALT="$ \overline{ \rho }$"></B> is the mean density
+across the thickness, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$"></B> is the pressure, <B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1205.png"
+ ALT="$ \mu_v$"></B> is the dynamic viscosity of
+the fluid, <!-- MATH
+ $\boldsymbol{ v}_a$
+ -->
+<B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1206.png"
+ ALT="$ \boldsymbol{ v}_a$"></B> is the velocity on one side of the film,
+<!-- MATH
+ $\boldsymbol{ v}_b$
+ -->
+<B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1207.png"
+ ALT="$ \boldsymbol{ v}_b$"></B> is the velocity at the other side of the film and <!-- MATH
+ $\dot{
+m}_{\Omega}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1208.png"
+ ALT="$ \dot{
+m}_{\Omega}$"></B> is the resulting volumetric flux (volume per second and per unit
+of area) leaving the film through the porous walls (positive if leaving the
+fluid). This term is zero if the walls are not porous.
+
+<P>
+For practical calculations the density and thickness of the film is assumed to
+be known, the pressure is the unknown. By comparison with the heat equation, the correspondence in Table
+&nbsp;(<A HREF="#t3">11</A>) arises. <!-- MATH
+ $\overline{ \boldsymbol{ v}}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1201.png"
+ ALT="$ \overline{ \boldsymbol{ v}}$"></B> is the mean velocity over
+the film, <!-- MATH
+ $\overline{ v}_n$
+ -->
+<B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1202.png"
+ ALT="$ \overline{ v}_n$"></B> its component orthogonal to the boundary. Since
+the governing equation is the result of an integration across the film
+thickness, it is again two-dimensional and applies in the present form to a
+plane film. Furthermore, observe that it is a steady state equation (the time
+change of the density on the right hand side is assumed known) and as such it
+is a Poisson equation. Here too, just like for the shallow water equation, the
+heat transfer equivalent of a
+spatially varying layer thickness is a spatially varying conductivity coefficient.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="12421"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 11:</STRONG>
+Correspondence between the heat equation and the dynamic lubrication equation.</CAPTION>
+<TR><TD ALIGN="CENTER">heat quantity</TD>
+<TD ALIGN="CENTER">dynamic lubrication quantity</TD>
+</TR>
+<TR><TD ALIGN="CENTER">T</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\boldsymbol{ q}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img717.png"
+ ALT="$ \boldsymbol{q}$"></B></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\overline{ \rho} h \overline{ \boldsymbol{ v}}$
+ -->
+<B><IMG
+ WIDTH="32" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1209.png"
+ ALT="$ \overline{ \rho} h \overline{ \boldsymbol{ v}} $"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1187.png"
+ ALT="$ q_n$"></B></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\overline{ \rho} h \overline{ v}_n$
+ -->
+<B><IMG
+ WIDTH="39" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1210.png"
+ ALT="$ \overline{ \rho} h \overline{ v}_n$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\boldsymbol{ \kappa }$
+ -->
+<B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1171.png"
+ ALT="$ \boldsymbol{\kappa}$"></B></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{ h^3 \overline{ \rho}}{12 \mu _v} \boldsymbol{ I}$
+ -->
+<B><IMG
+ WIDTH="45" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1211.png"
+ ALT="$ \frac{ h^3 \overline{ \rho}}{12 \mu _v} \boldsymbol{ I}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1189.png"
+ ALT="$ \rho h$"></B></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $- \left( \frac{ \boldsymbol{ v}_b+\boldsymbol{ v}_a}{2}\right)
+\cdot \nabla (h \overline{ \rho }) - \frac{ \partial (h \overline{
+\rho})}{\partial t} - \dot{ m}_{\Omega }$
+ -->
+<B><IMG
+ WIDTH="228" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1212.png"
+ ALT="$ - \left( \frac{ \boldsymbol{ v}_b+\boldsymbol{ v}_a}{2}\right)
+\cdot \nabla (h...
+...rho }) - \frac{ \partial (h \overline{
+\rho})}{\partial t} - \dot{ m}_{\Omega }$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1191.png"
+ ALT="$ \rho c$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1199.png"
+ ALT="$ -$"></B></TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR> 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3229"
+  HREF="node171.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3225"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3219"
+  HREF="node169.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3227"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3230"
+  HREF="node171.html">Irrotational incompressible inviscid flow</A>
+<B> Up:</B> <A NAME="tex2html3226"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3220"
+  HREF="node169.html">Shallow water motion</A>
+ &nbsp; <B>  <A NAME="tex2html3228"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

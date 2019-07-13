@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*GAP HEAT GENERATION</TITLE>
+<META NAME="description" CONTENT="*GAP HEAT GENERATION">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node270.html">
+<LINK REL="previous" HREF="node268.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node270.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4556"
+  HREF="node270.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4552"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4546"
+  HREF="node268.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4554"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4557"
+  HREF="node270.html">*GREEN</A>
+<B> Up:</B> <A NAME="tex2html4553"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4547"
+  HREF="node268.html">*GAP CONDUCTANCE</A>
+ &nbsp; <B>  <A NAME="tex2html4555"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000861000000000000000"></A><A NAME="gapheatgeneration"></A>
+<BR>
+*GAP HEAT GENERATION
+</H2>
+
+<P>
+Keyword type: model definition, surface interaction and step
+
+<P>
+This keyword is used to take heat generation due to frictional contact into
+account. It can only be used for face-to-face contact and is only activated in
+the presence of slip. The heat flowing into the slave surface amounts to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+W=f \eta ~ \boldsymbol{F} \cdot \boldsymbol{v},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="105" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1729.png"
+ ALT="$\displaystyle W=f \eta ~ \boldsymbol{F} \cdot \boldsymbol{v},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(475)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where f is the surface weighting factor, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"></B> the heat conversion factor,
+<!-- MATH
+ $\boldsymbol{F}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img715.png"
+ ALT="$ \boldsymbol{F}$"></B> the tangential force and <!-- MATH
+ $\boldsymbol{v}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img286.png"
+ ALT="$ \boldsymbol{v}$"></B> the differential
+velocity between master and slave surface. The heat flowing into the master
+surface correspondingly amounts to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+W=(1-f) \eta ~ \boldsymbol{F} \cdot \boldsymbol{v}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="145" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1730.png"
+ ALT="$\displaystyle W=(1-f) \eta ~ \boldsymbol{F} \cdot \boldsymbol{v}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(476)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The heat conversion factor specifies the amount of power converted into
+heat. The user specifies the heat conversion factor, the surface weighting
+factor and the differential tangential velocity (in size). If the latter is
+set to a number smaller than zero, the differential velocity is calculated
+internally from the velocity of the adjacent surfaces. The ability for the
+user to specify the differential velocity is useful in axisymmetric structures
+for which the differential velocity is oriented in circumferential direction
+(cf. example ring3.inp).
+
+<P>
+The *GAP HEAT GENERATION keyword must be placed underneath the *SURFACE
+INTERACTION card to which it belongs. Furthermore, it can only be used in
+*COUPLED and *UNCOUPLED TEMPERATURE-DISPLACEMENT calculations. It is only used
+in face-to-face penalty contact.
+
+<P>
+There is one optional parameter USER. In the presence of this parameter the
+gap heat generation data are obtained from user subroutine fricheat.f
+(cf. Section <A HREF="node354.html#userfrictionheating">8.4.12</A>). This
+user subroutine must have been coded, compiled and linked by the user before
+calling CalculiX.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*GAP HEAT GENERATION
+</LI>
+<LI>Enter USER, if appropriate.
+</LI>
+</UL>
+
+<P>
+The next line is only needed in the absence of USER:
+
+<UL>
+<LI>heat conversion factor <!-- MATH
+ $\eta ~ (0 < \eta \le 1)$
+ -->
+<B><IMG
+ WIDTH="97" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1731.png"
+ ALT="$ \eta ~ (0 &lt; \eta \le 1)$"></B>.
+</LI>
+<LI>surface weighting factor <!-- MATH
+ $f ~ (0 \le f \le 1)$
+ -->
+<B><IMG
+ WIDTH="99" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1732.png"
+ ALT="$ f ~ (0 \le f \le 1)$"></B>.
+</LI>
+<LI>differential tangential velocity
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*GAP HEAT GENERATION
+0.7,0.3,2000.
+</PRE>
+
+<P>
+defines a heat conversion factor of 0.7, a surface weighting factor of 0.3
+(i.e. 30 <B><IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1177.png"
+ ALT="$ \%$"></B> of the heat goes into the slave surface, 70 <B><IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1177.png"
+ ALT="$ \%$"></B> into the master
+surface) and a differential tangential velocity of 2000 [L]/[T], where [L] is
+the unit of length used by the user and [T] the unit of time.
+
+<P>
+
+<P><P>
+<BR>
+Example files: ring3.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4556"
+  HREF="node270.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4552"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4546"
+  HREF="node268.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4554"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4557"
+  HREF="node270.html">*GREEN</A>
+<B> Up:</B> <A NAME="tex2html4553"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4547"
+  HREF="node268.html">*GAP CONDUCTANCE</A>
+ &nbsp; <B>  <A NAME="tex2html4555"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

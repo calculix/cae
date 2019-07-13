@@ -1,0 +1,311 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Linear elastic materials for large strains (Ciarlet model)</TITLE>
+<META NAME="description" CONTENT="Linear elastic materials for large strains (Ciarlet model)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node146.html">
+<LINK REL="previous" HREF="node144.html">
+<LINK REL="up" HREF="node143.html">
+<LINK REL="next" HREF="node146.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2908"
+  HREF="node146.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2904"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2898"
+  HREF="node144.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2906"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2909"
+  HREF="node146.html">Linear elastic materials for</A>
+<B> Up:</B> <A NAME="tex2html2905"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2899"
+  HREF="node144.html">Linear elastic materials</A>
+ &nbsp; <B>  <A NAME="tex2html2907"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00078200000000000000">
+Linear elastic materials for large strains (Ciarlet model)</A>
+</H3>
+
+<P>
+In [<A
+ HREF="node448.html#Dhondt">18</A>] it is explained that substituting the infinitesimal strains
+in the classical Hooke law by the Lagrangian strain and the stress by the
+Piola-Kirchoff stress of the second kind does not lead to a
+physically sensible material law. In particular, such a model (also called
+St-Venant-Kirchoff material) does not exhibit large stresses when compressing
+the volume of the material to nearly zero. An alternative is the following
+stored-energy function developed by Ciarlet [<A
+ HREF="node448.html#Ciarlet">17</A>]:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\Sigma = \frac{\lambda}{4}(III_C - \ln III_C -1) + \frac{\mu }{4}(I_C - \ln
+III_C -3).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="358" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img978.png"
+ ALT="$\displaystyle \Sigma = \frac{\lambda}{4}(III_C - \ln III_C -1) + \frac{\mu }{4}(I_C - \ln III_C -3).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(252)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The stress-strain relation amounts to (<!-- MATH
+ $\boldsymbol{S}$
+ -->
+<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img979.png"
+ ALT="$ \boldsymbol{S}$"> is the Piola-Kirchoff
+stress of the second kind) :
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{S}=  \frac{\lambda}{2}(\text{det} \boldsymbol{C} -1)
+\boldsymbol{C^{-1}} + \mu (\boldsymbol{I}-\boldsymbol{C^{-1}}) ,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="57" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img980.png"
+ ALT="$\displaystyle \boldsymbol{S}= \frac{\lambda}{2}($">det<IMG
+ WIDTH="194" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img981.png"
+ ALT="$\displaystyle \boldsymbol{C} -1) \boldsymbol{C^{-1}} + \mu (\boldsymbol{I}-\boldsymbol{C^{-1}}) ,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(253)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and the derivative of <!-- MATH
+ $\boldsymbol{S}$
+ -->
+<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img979.png"
+ ALT="$ \boldsymbol{S}$"> with respect to the Green tensor
+<!-- MATH
+ $\boldsymbol{E}$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img982.png"
+ ALT="$ \boldsymbol{E}$"> reads (component notation):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{d S^{IJ} }{d E_{KL} }  = \lambda (\text{det} \boldsymbol{C})
+C^{{-1}^{KL}} C^{{-1}^{IJ}}+[2 \mu - \lambda (\text{det} \boldsymbol{C} -1)] C^{{-1}^{IK}} C^{{-1}^{LJ}}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="86" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img983.png"
+ ALT="$\displaystyle \frac{d S^{IJ} }{d E_{KL} } = \lambda ($">det<IMG
+ WIDTH="192" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img984.png"
+ ALT="$\displaystyle \boldsymbol{C}) C^{{-1}^{KL}} C^{{-1}^{IJ}}+[2 \mu - \lambda ($">det<IMG
+ WIDTH="152" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img985.png"
+ ALT="$\displaystyle \boldsymbol{C} -1)] C^{{-1}^{IK}} C^{{-1}^{LJ}}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(254)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+This model was implemented into CalculiX by Sven Ka&#223;bohm. 
+The definition consists of a *MATERIAL card defining the name of
+the material. This name HAS TO START WITH ''CIARLET_EL'' but can be
+up to 80 characters long. Thus, the last 70 characters can be freely
+chosen by the user. Within the material definition a <A HREF="node332.html#usermaterial">*USER
+MATERIAL</A> card has to be used satisfying:
+
+<P>
+First line:
+
+<UL>
+<LI>*USER MATERIAL
+</LI>
+<LI>Enter the CONSTANTS parameter and its value, i.e. 2.
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<P>
+
+<P><P>
+<BR>
+
+<UL>
+<LI><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$">.
+</LI>
+<LI><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$">.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+
+<P>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+For this model, there are no internal state variables.
+
+<P>
+<PRE>
+Example:
+
+*MATERIAL,NAME=CIARLET_EL
+*USER MATERIAL,CONSTANTS=2
+80769.23,121153.85,400.
+</PRE>
+
+<P>
+defines a single crystal with elastic constants
+ <IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$">=121153.85  and <IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$">=80769.23 for a temperature of 400. Recall
+ that
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\mu= \frac{E}{2(1+\nu)}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="96" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img986.png"
+ ALT="$\displaystyle \mu= \frac{E}{2(1+\nu)}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(255)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\lambda=\frac{\nu E}{(1+\nu)(1-2 \nu)},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="149" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img987.png"
+ ALT="$\displaystyle \lambda=\frac{\nu E}{(1+\nu)(1-2 \nu)},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(256)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where E is Young's modulus and <IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="$ \nu$"> is Poisson's coefficient.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2908"
+  HREF="node146.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2904"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2898"
+  HREF="node144.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2906"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2909"
+  HREF="node146.html">Linear elastic materials for</A>
+<B> Up:</B> <A NAME="tex2html2905"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2899"
+  HREF="node144.html">Linear elastic materials</A>
+ &nbsp; <B>  <A NAME="tex2html2907"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,1056 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Normal contact stiffness </TITLE>
+<META NAME="description" CONTENT="Normal contact stiffness ">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node137.html">
+<LINK REL="previous" HREF="node135.html">
+<LINK REL="up" HREF="node134.html">
+<LINK REL="next" HREF="node137.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2787"
+  HREF="node137.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2783"
+  HREF="node134.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2777"
+  HREF="node135.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2785"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2788"
+  HREF="node137.html">Tangent contact stiffness</A>
+<B> Up:</B> <A NAME="tex2html2784"
+  HREF="node134.html">Node-to-Face Penalty Contact</A>
+<B> Previous:</B> <A NAME="tex2html2778"
+  HREF="node135.html">General considerations</A>
+ &nbsp; <B>  <A NAME="tex2html2786"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00077520000000000000"></A><A NAME="normalc"></A>
+<BR>
+Normal contact stiffness 
+</H4>
+
+<P>
+A node-to-face contact element consists of a slave node connected to a master
+face (cf. Figure <A HREF="node135.html#n2f">130</A>). Therefore, it consists of <IMG
+ WIDTH="53" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img786.png"
+ ALT="$ 1+n_m$"> nodes, where <IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img787.png"
+ ALT="$ n_m$"> is the number of
+nodes belonging to the master face. The stiffness matrix of a finite element
+is the derivative of the internal forces in each of the nodes w.r.t. the
+displacements of each of the nodes. Therefore, we need to determine the
+internal force in the nodes.
+
+<P>
+Denoting the position of the slave node by <!-- MATH
+ $\boldsymbol{p}$
+ -->
+<IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img788.png"
+ ALT="$ \boldsymbol{p}$"> and the position
+of the projection onto the master face by <!-- MATH
+ $\boldsymbol{q}$
+ -->
+<IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img717.png"
+ ALT="$ \boldsymbol{q}$">, the vector
+connecting both satisfies:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eq27"></A><!-- MATH
+ \begin{equation}
+\boldsymbol{r}= \boldsymbol{p}- \boldsymbol{q}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="77" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img789.png"
+ ALT="$\displaystyle \boldsymbol{r}= \boldsymbol{p}- \boldsymbol{q}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(161)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>    
+
+<P>
+The clearance <IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img58.png"
+ ALT="$ r$"> at this position can be described by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+r=\boldsymbol{r} \cdot \boldsymbol{n}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="65" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img790.png"
+ ALT="$\displaystyle r=\boldsymbol{r} \cdot \boldsymbol{n}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(162)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+where <!-- MATH
+ $\boldsymbol{n}$
+ -->
+<IMG
+ WIDTH="16" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img280.png"
+ ALT="$ \boldsymbol{n}$"> is the local normal on the master
+face. Denoting the nodes belonging to the master face by
+<!-- MATH
+ $\boldsymbol{q_i},i=1,n_m$
+ -->
+<IMG
+ WIDTH="90" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img791.png"
+ ALT="$ \boldsymbol{q_i},i=1,n_m$"> and the local coordinates within the face by <IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$ \xi$">
+and <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$">, one can write:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eq29"></A><!-- MATH
+ \begin{equation}
+\boldsymbol{q}= \sum _j \varphi _j(\xi ,\eta ) \boldsymbol{q_j},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="134" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img792.png"
+ ALT="$\displaystyle \boldsymbol{q}= \sum _j \varphi _j(\xi ,\eta ) \boldsymbol{q_j},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(163)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="defm"></A><!-- MATH
+ \begin{equation}
+\boldsymbol{m} = \frac{\partial \boldsymbol{q} }{\partial \xi } \times
+\frac{\partial \boldsymbol{q} }{\partial \eta }
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="106" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img793.png"
+ ALT="$\displaystyle \boldsymbol{m} = \frac{\partial \boldsymbol{q} }{\partial \xi } \times \frac{\partial \boldsymbol{q} }{\partial \eta }$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(164)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>   
+
+<P>
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{n} = \frac{\boldsymbol{m} }{\| \boldsymbol{m} \|}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="78" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img794.png"
+ ALT="$\displaystyle \boldsymbol{n} = \frac{\boldsymbol{m} }{\Vert \boldsymbol{m} \Vert}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(165)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<!-- MATH
+ $\boldsymbol{m}$
+ -->
+<IMG
+ WIDTH="21" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img795.png"
+ ALT="$ \boldsymbol{m}$"> is the Jacobian vector on the surface. The internal
+force on node <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$"> is now given by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="forcn2f"></A><!-- MATH
+ \begin{equation}
+\boldsymbol{F_p}= -f(r) \boldsymbol{n} a_p,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="118" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img796.png"
+ ALT="$\displaystyle \boldsymbol{F_p}= -f(r) \boldsymbol{n} a_p,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(166)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img484.png"
+ ALT="$ f$"> is the pressure versus clearance function selected by the
+user and
+<IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img797.png"
+ ALT="$ a_p$"> is the slave area for which node <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$"> is representative. If the slave
+node belongs to <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img604.png"
+ ALT="$ N$"> contact slave faces <IMG
+ WIDTH="10" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img798.png"
+ ALT="$ i$"> with area <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img708.png"
+ ALT="$ A_i$">, this area may be calculated as:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+a_p=\sum _{i=1} ^N  A_i/{n_s}_i.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="118" HEIGHT="66" ALIGN="MIDDLE" BORDER="0"
+ SRC="img799.png"
+ ALT="$\displaystyle a_p=\sum _{i=1} ^N A_i/{n_s}_i.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(167)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>     
+
+<P>
+The minus sign in Equation (<A HREF="#forcn2f">166</A>) stems from the fact that the
+internal force is minus the external force (the external force is the force
+the master face exerts on the slave node). Replacing the normal in  Equation
+(<A HREF="#forcn2f">166</A>) by the Jacobian vector devided by its norm and taking the
+derivative w.r.t. <!-- MATH
+ $\boldsymbol{ u_i}$
+ -->
+<IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img720.png"
+ ALT="$ \boldsymbol{u_i}$">, where <IMG
+ WIDTH="10" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img798.png"
+ ALT="$ i$"> can be the slave node or any node belonging
+to the master face one obtains:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{1}{a_p} \frac{\partial \boldsymbol{F_p} }{\partial \boldsymbol{u_i} } = - \frac{\boldsymbol{m} }{\|
+  \boldsymbol{m}\| } \otimes \frac{\partial f}{\partial r} \left [
+  \frac{\partial }{\partial \boldsymbol{u_i} } \left ( \frac{\boldsymbol{m} }{\|
+  \boldsymbol{m}\| } \cdot \boldsymbol{r} \right) \right] - \frac{f}{\|
+  \boldsymbol{m}\|} \frac{\partial \boldsymbol{m} }{\partial \boldsymbol{u_i} } + \frac{f}{\|
+  \boldsymbol{m}\|^2} \boldsymbol{m} \otimes  \frac{\partial \| \boldsymbol{m}
+  \|}{\partial \boldsymbol{u_i} }.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="535" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img800.png"
+ ALT="$\displaystyle \frac{1}{a_p} \frac{\partial \boldsymbol{F_p} }{\partial \boldsym...
+...\otimes \frac{\partial \Vert \boldsymbol{m} \Vert}{\partial \boldsymbol{u_i} }.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(168)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+Since
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial }{\partial \boldsymbol{u_i} } \left ( \frac{\boldsymbol{m} }{\|
+  \boldsymbol{m}\| } \cdot \boldsymbol{r} \right) = \frac{1}{\| \boldsymbol{m}
+  \|} \;  \boldsymbol{r} \cdot \frac{\partial \boldsymbol{m} }{\partial
+  \boldsymbol{u_i} } - \frac{r}{\| \boldsymbol{m}
+  \|} \frac{\partial \| \boldsymbol{m}
+  \|}{\partial \boldsymbol{u_i} } + \frac{\boldsymbol{m} }{\|
+  \boldsymbol{m}\| } \cdot \frac{\partial \boldsymbol{r} }{\partial
+  \boldsymbol{u_i} } ,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="432" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img801.png"
+ ALT="$\displaystyle \frac{\partial }{\partial \boldsymbol{u_i} } \left ( \frac{\bolds...
+...l{m}\Vert } \cdot \frac{\partial \boldsymbol{r} }{\partial \boldsymbol{u_i} } ,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(169)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+the above equation can be rewritten as
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="73" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img802.png"
+ ALT="$\displaystyle \frac{1}{a_p} \frac{\partial \boldsymbol{F_p} }{\partial \boldsymbol{u_i} } =$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="366" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img803.png"
+ ALT="$\displaystyle - \left( \frac{\partial f}{\partial r } \frac{1}{\Vert \boldsymbo...
+...\frac{\partial \Vert \boldsymbol{m} \Vert }{\partial \boldsymbol{u_i} } \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="205" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img804.png"
+ ALT="$\displaystyle + \frac{f}{\Vert \boldsymbol{m} \Vert } \left[ \boldsymbol{n} \ot...
+...{u_i} } - \frac{\partial \boldsymbol{m} }{\partial \boldsymbol{u_i} } \right] .$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+<A NAME="eq69">(170)</A></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Consequently, the derivatives which are left to be determined are
+<!-- MATH
+ $\partial \boldsymbol{m}/\partial \boldsymbol{u_i}$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img805.png"
+ ALT="$ \partial \boldsymbol{m}/\partial \boldsymbol{u_i}$">, <!-- MATH
+ $\partial \boldsymbol{r}/
+\partial \boldsymbol{u_i}$
+ -->
+<IMG
+ WIDTH="57" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img806.png"
+ ALT="$ \partial \boldsymbol{r}/
+\partial \boldsymbol{u_i}$"> and <!-- MATH
+ $\partial \| \boldsymbol{m} \| / \partial
+\boldsymbol{u_i}$
+ -->
+<IMG
+ WIDTH="80" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img807.png"
+ ALT="$ \partial \Vert \boldsymbol{m} \Vert / \partial
+\boldsymbol{u_i}$">.
+
+<P>
+The derivative of <!-- MATH
+ $\boldsymbol{m}$
+ -->
+<IMG
+ WIDTH="21" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img795.png"
+ ALT="$ \boldsymbol{m}$"> is obtained by considering Equation
+(<A HREF="#defm">164</A>), which can also be written as:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{m}= \sum_j \sum_k \frac{\partial \varphi _j}{\partial \xi }
+\frac{\partial \varphi_k}{\partial \eta } [ \boldsymbol{q_j} \times
+\boldsymbol{q_k}].
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="221" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img808.png"
+ ALT="$\displaystyle \boldsymbol{m}= \sum_j \sum_k \frac{\partial \varphi _j}{\partial...
+...partial \varphi_k}{\partial \eta } [ \boldsymbol{q_j} \times \boldsymbol{q_k}].$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(171)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Derivation yields (notice that <IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$ \xi$"> and <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"> are a function of
+<!-- MATH
+ $\boldsymbol{u_i}$
+ -->
+<IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img720.png"
+ ALT="$ \boldsymbol{u_i}$">, and that <!-- MATH
+ ${\partial \boldsymbol{q_i} }/{\partial
+\boldsymbol{u_j} }= \delta_{ij}\boldsymbol{I}$
+ -->
+<IMG
+ WIDTH="113" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img809.png"
+ ALT="$ {\partial \boldsymbol{q_i} }/{\partial
+\boldsymbol{u_j} }= \delta_{ij}\boldsymbol{I}$">)  :
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="51" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img810.png"
+ ALT="$\displaystyle \frac{\partial \boldsymbol{m} }{\partial \boldsymbol{u_i} } =$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="242" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img811.png"
+ ALT="$\displaystyle \left [ \frac{\partial^2 \boldsymbol{q} }{\partial \xi^2} \times ...
+...partial \eta } \right] \otimes \frac{\partial \xi }{\partial \boldsymbol{u_i} }$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img331.png"
+ ALT="$\displaystyle +$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="242" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img812.png"
+ ALT="$\displaystyle \left[ \frac{\partial \boldsymbol{q} }{\partial \xi } \times \fra...
+...partial \eta} \right] \otimes \frac{\partial \eta }{\partial \boldsymbol{u_i} }$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img331.png"
+ ALT="$\displaystyle +$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="400" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
+ SRC="img813.png"
+ ALT="$\displaystyle \sum_{j=1}^{n_m} \sum_{k=1}^{n_m} \left[ \frac{\partial \varphi_j...
+...right] (\boldsymbol{I} \times \boldsymbol{q_k}) \delta_{ij}, \:\:\: i=1,..n_m;p$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(172)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The derivatives <!-- MATH
+ ${\partial \xi }/{\partial \boldsymbol{u_i} }$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img814.png"
+ ALT="$ {\partial \xi }/{\partial \boldsymbol{u_i} }$"> and
+<!-- MATH
+ ${\partial \eta }/{\partial \boldsymbol{u_i} }$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img815.png"
+ ALT="$ {\partial \eta }/{\partial \boldsymbol{u_i} }$"> on the right hand side are
+unknown and will be determined later on. They represent the change of <IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$ \xi$"> and <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"> whenever any of the <!-- MATH
+ $\boldsymbol{u_i}$
+ -->
+<IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img720.png"
+ ALT="$ \boldsymbol{u_i}$"> is changed, k being the
+slave node or any of the nodes belonging to the master face. Recall that the
+value of <IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$ \xi$"> and <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"> is obtained by orthogonal projection of the slave
+node on the master face. 
+
+<P>
+Combining Equations (<A HREF="#eq27">161</A>) and (<A HREF="#eq29">163</A>) to obtain <!-- MATH
+ $\boldsymbol{r}$
+ -->
+<IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img816.png"
+ ALT="$ \boldsymbol{r}$">,
+the derivative w.r.t. <!-- MATH
+ $\boldsymbol{u_i}$
+ -->
+<IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img720.png"
+ ALT="$ \boldsymbol{u_i}$"> can be written as:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial \boldsymbol{r} }{\partial \boldsymbol{u_i} }= \delta _{ip}
+\boldsymbol{I}  - \left[
+  \frac{\partial \boldsymbol{q} }{\partial \xi  } \otimes \frac{\partial \xi
+  }{\partial \boldsymbol{u_i} } + \frac{\partial \boldsymbol{q} }{\partial
+    \eta } \otimes \frac{\partial \eta }{\partial \boldsymbol{u_i} } +
+  \varphi_i (1 - \delta _{ip}) \boldsymbol{I}  \right],
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="394" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img817.png"
+ ALT="$\displaystyle \frac{\partial \boldsymbol{r} }{\partial \boldsymbol{u_i} }= \del...
+...rtial \boldsymbol{u_i} } + \varphi_i (1 - \delta _{ip}) \boldsymbol{I} \right],$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(173)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>        
+
+<P>
+where <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$"> represents the slave node.
+
+<P>
+Finally, the derivative of the norm of a vector can be written as a function
+of the derivative of the vector itself:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial \| \boldsymbol{m} \| }{\partial \boldsymbol{u_i} } = \frac{\boldsymbol{m}
+}{\| \boldsymbol{m} \|} \cdot \frac{\partial \boldsymbol{m} }{\partial
+  \boldsymbol{u_i} }.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="153" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img818.png"
+ ALT="$\displaystyle \frac{\partial \Vert \boldsymbol{m} \Vert }{\partial \boldsymbol{...
+...ol{m} \Vert} \cdot \frac{\partial \boldsymbol{m} }{\partial \boldsymbol{u_i} }.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(174)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The only derivatives left to determine are the derivatives of <IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$ \xi$"> and <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"> w.r.t. <!-- MATH
+ $\boldsymbol{u_i}$
+ -->
+<IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img720.png"
+ ALT="$ \boldsymbol{u_i}$">. Requiring that <!-- MATH
+ $\boldsymbol{q}$
+ -->
+<IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img717.png"
+ ALT="$ \boldsymbol{q}$"> is the orthogonal
+projection of <!-- MATH
+ $\boldsymbol{p}$
+ -->
+<IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img788.png"
+ ALT="$ \boldsymbol{p}$"> onto the master face is equivalent to
+expressing that the connecting vector <!-- MATH
+ $\boldsymbol{r}$
+ -->
+<IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img816.png"
+ ALT="$ \boldsymbol{r}$"> is orthogonal to the
+vectors <!-- MATH
+ $\partial \boldsymbol{q}/ \partial \xi$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img819.png"
+ ALT="$ \partial \boldsymbol{q}/ \partial \xi $"> and <!-- MATH
+ $\partial
+\boldsymbol{q}/ \partial \eta$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img820.png"
+ ALT="$ \partial
+\boldsymbol{q}/ \partial \eta $">, which are tangent to the master surface.
+
+<P>
+Now,
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{r}  \perp \frac{\boldsymbol{\partial q} }{\partial \xi }
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="59" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img821.png"
+ ALT="$\displaystyle \boldsymbol{r} \perp \frac{\boldsymbol{\partial q} }{\partial \xi }$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(175)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+can be rewritten as
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{r} \cdot \frac{\partial \boldsymbol{q} }{\partial \xi } =0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="76" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img822.png"
+ ALT="$\displaystyle \boldsymbol{r} \cdot \frac{\partial \boldsymbol{q} }{\partial \xi } =0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(176)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+or
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\left [\boldsymbol{p} - \sum_i \varphi_i (\xi ,\eta ) \boldsymbol{q_i} \right ] \cdot \left[
+  \sum_i \frac{\partial \varphi_i}{\partial \xi } \boldsymbol{q_i} \right]=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="276" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img823.png"
+ ALT="$\displaystyle \left [\boldsymbol{p} - \sum_i \varphi_i (\xi ,\eta ) \boldsymbol...
+...ft[ \sum_i \frac{\partial \varphi_i}{\partial \xi } \boldsymbol{q_i} \right]=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(177)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Differentation of the above expression leads to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="347" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img824.png"
+ ALT="$\displaystyle \left[ d \boldsymbol{p} - \sum_i \left( \frac{\partial \varphi_i}...
+...ta + \varphi_i d \boldsymbol{q_i} \right) \right] \cdot \boldsymbol{q_{\xi }} +$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="349" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img825.png"
+ ALT="$\displaystyle \boldsymbol{r} \cdot \left[ \sum_i \left( \frac{\partial^2 \varph...
+...\frac{\partial \varphi_i}{\partial \xi } d \boldsymbol{ q_i} \right) \right] =0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(178)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\boldsymbol{q_{\xi }}$
+ -->
+<IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img826.png"
+ ALT="$ \boldsymbol{q_{\xi }}$"> is the derivative of <!-- MATH
+ $\boldsymbol{q}$
+ -->
+<IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img717.png"
+ ALT="$ \boldsymbol{q}$">
+w.r.t. <IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$ \xi$">. The above equation is equivalent to:  
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="263" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img827.png"
+ ALT="$\displaystyle ( d \boldsymbol{p} - \boldsymbol{q}_{\xi } d \xi - \boldsymbol{q}...
+... } d \eta - \sum_i \varphi_i d \boldsymbol{q_i} ) \cdot \boldsymbol{q}_{\xi } +$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="265" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img828.png"
+ ALT="$\displaystyle \boldsymbol{r} \cdot ( \boldsymbol{q}_{\xi \xi} d \xi + \boldsymb...
+...\eta + \sum_i \frac{\partial \varphi_i}{\partial \xi } d \boldsymbol{q_i} )=0 .$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(179)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>      
+
+<P>
+One finally arrives at:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="337" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img829.png"
+ ALT="$\displaystyle ( - \boldsymbol{q}_{\xi} \cdot \boldsymbol{q}_{\xi } + \boldsymbo...
+...boldsymbol{q}_{\xi} + \boldsymbol{r} \cdot \boldsymbol{q}_{\xi \eta }) d \eta =$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="260" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img830.png"
+ ALT="$\displaystyle - \boldsymbol{q}_{\xi} \cdot d \boldsymbol{p} + \sum_i \left[ ( \...
+...tial \varphi_i}{\partial \xi } \boldsymbol{r}) \cdot d \boldsymbol{q_i} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(180)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and similarly for the tangent in <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$">-direction:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="340" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img831.png"
+ ALT="$\displaystyle ( - \boldsymbol{q}_{\xi} \cdot \boldsymbol{q}_{\eta } + \boldsymb...
+...ldsymbol{q}_{\eta} + \boldsymbol{r} \cdot \boldsymbol{q}_{\eta \eta }) d \eta =$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="262" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img832.png"
+ ALT="$\displaystyle - \boldsymbol{q}_{\eta} \cdot d \boldsymbol{p} + \sum_i \left[ ( ...
+...ial \varphi_i}{\partial \eta } \boldsymbol{r}) \cdot d \boldsymbol{q_i} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(181)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+From this <!-- MATH
+ $\partial \xi / \partial \boldsymbol{q_i}$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img833.png"
+ ALT="$ \partial \xi / \partial \boldsymbol{q_i}$">, <!-- MATH
+ $\partial \xi / \partial
+\boldsymbol{p}$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img834.png"
+ ALT="$ \partial \xi / \partial
+\boldsymbol{p}$"> and so on can be determined. Indeed, suppose that all
+<!-- MATH
+ $d \boldsymbol{q_i}, i=1,..,n_m =\boldsymbol{0}$
+ -->
+<IMG
+ WIDTH="144" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img835.png"
+ ALT="$ d \boldsymbol{q_i}, i=1,..,n_m =\boldsymbol{0} $"> and  <!-- MATH
+ $dp_y=dp_z=0$
+ -->
+<IMG
+ WIDTH="102" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img836.png"
+ ALT="$ dp_y=dp_z=0$">. Then, the
+right hand side of the above equations reduces to <!-- MATH
+ $-\boldsymbol{q_{\xi}}_x
+dp_x$
+ -->
+<IMG
+ WIDTH="65" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img837.png"
+ ALT="$ -\boldsymbol{q_{\xi}}_x
+dp_x$"> and <!-- MATH
+ $-\boldsymbol{q_{\eta}}_x
+dp_x$
+ -->
+<IMG
+ WIDTH="67" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img838.png"
+ ALT="$ -\boldsymbol{q_{\eta}}_x
+dp_x$"> and one ends up with two equations in the two unknowns <!-- MATH
+ $\partial \xi
+/ \partial p_x$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img839.png"
+ ALT="$ \partial \xi
+/ \partial p_x$"> and <!-- MATH
+ $\partial \eta / \partial p_x$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img840.png"
+ ALT="$ \partial \eta / \partial p_x$">. Once <!-- MATH
+ $\partial \xi
+/ \partial \boldsymbol{p}$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img834.png"
+ ALT="$ \partial \xi / \partial
+\boldsymbol{p}$"> is determined one automatically obtains  <!-- MATH
+ $\partial \xi
+/ \partial \boldsymbol{u_p}$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img841.png"
+ ALT="$ \partial \xi
+/ \partial \boldsymbol{u_p}$"> since
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial \xi }{\partial \boldsymbol{p} } = \frac{\partial \xi }{\partial
+  \boldsymbol{u_p} },
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="85" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img842.png"
+ ALT="$\displaystyle \frac{\partial \xi }{\partial \boldsymbol{p} } = \frac{\partial \xi }{\partial \boldsymbol{u_p} },$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(182)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and similarly for the other derivatives. This concludes the derivation of
+<!-- MATH
+ $\partial \boldsymbol{F}_p / \partial \boldsymbol{u_i}$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img843.png"
+ ALT="$ \partial \boldsymbol{F}_p / \partial \boldsymbol{u_i}$">.  
+
+<P>
+Since
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{F_j}= - \varphi_j (\xi, \eta ) \boldsymbol{F_p},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="133" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img844.png"
+ ALT="$\displaystyle \boldsymbol{F_j}= - \varphi_j (\xi, \eta ) \boldsymbol{F_p},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(183)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+one obtains:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eq83"></A><!-- MATH
+ \begin{equation}
+\frac{\partial \boldsymbol{F_j} }{\partial \boldsymbol{u_i} } = -
+\boldsymbol{F_p} \otimes \left[ \frac{\partial \varphi_j}{\partial \xi } \frac{\partial \xi }{\partial
+  \boldsymbol{u_i} } + \frac{\partial \varphi_j}{\partial \eta }
+\frac{\partial \eta }{\partial \boldsymbol{u_i} } \right] - \varphi_j \frac{\partial
+  \boldsymbol{F_p} }{\partial \boldsymbol{u_i} }
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="334" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img845.png"
+ ALT="$\displaystyle \frac{\partial \boldsymbol{F_j} }{\partial \boldsymbol{u_i} } = -...
+...ight] - \varphi_j \frac{\partial \boldsymbol{F_p} }{\partial \boldsymbol{u_i} }$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(184)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+for the derivatives of the forces in the master nodes.       
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2787"
+  HREF="node137.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2783"
+  HREF="node134.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2777"
+  HREF="node135.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2785"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2788"
+  HREF="node137.html">Tangent contact stiffness</A>
+<B> Up:</B> <A NAME="tex2html2784"
+  HREF="node134.html">Node-to-Face Penalty Contact</A>
+<B> Previous:</B> <A NAME="tex2html2778"
+  HREF="node135.html">General considerations</A>
+ &nbsp; <B>  <A NAME="tex2html2786"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

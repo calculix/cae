@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*RIGID BODY</TITLE>
+<META NAME="description" CONTENT="*RIGID BODY">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node308.html">
+<LINK REL="previous" HREF="node306.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node308.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5012"
+  HREF="node308.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5008"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5002"
+  HREF="node306.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5010"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5013"
+  HREF="node308.html">*SECTION PRINT</A>
+<B> Up:</B> <A NAME="tex2html5009"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5003"
+  HREF="node306.html">*RETAINED NODAL DOFS</A>
+ &nbsp; <B>  <A NAME="tex2html5011"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000899000000000000000"></A><A NAME="rigidbody"></A>
+<BR>
+*RIGID BODY
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+With this card a rigid body can be defined consisting of nodes
+or elements. Optional parameters are
+REF NODE and ROT NODE. 
+
+<P>
+One of the parameters NSET or ELSET is required. Use NSET to define a
+rigid body consisting of the nodes belonging to a node set and ELSET
+for a rigid body
+consisting of the elements belonging to an element set. In the latter case, the rigid body
+really consists of the nodes belonging to the elements. The parameters
+NSET and ELSET are mutually exclusive. The rigid body
+definition ensures that the distance between any pair of nodes
+belonging to the body does not change during deformation. This
+means that the degrees of freedom are reduced to six: three
+translational and three rotational degrees of freedom. Thus, the motion is reduced
+to a translation of a reference node and a rotation about that node.
+
+<P>
+The reference node can be specified by the parameter REF NODE and
+should have been assigned coordinates using the <A HREF="node291.html#node">*NODE</A>
+card. The reference node can belong to the rigid body, but does not
+necessarily have to. Notice, however, that if the reference node belongs to
+the rigid body any forces requested by specifying RF on a *NODE PRINT card
+will not be correct. 
+
+<P>
+For the rotational degrees of freedom a dummy rotational node is used
+whose translational degrees of freedom are interpreted as the
+rotations about the reference node. Thus, the first degree of freedom
+is used as the rotation about the x-axis of the rigid body, the second
+as the the rotation about the y-axis and the third as the rotation
+about the z-axis. The
+rotational node can be defined explicitly using the parameter ROT
+NODE. In that case, this node must be been assigned coordinates (their value
+is irrelevant) and
+should not belong to any element of the structure.
+
+<P>
+In the absence of any of the parameters REF NODE or ROT NODE, extra
+nodes are generated internally assuming their tasks. The position of the
+default REF NODE is the origin. However, defining
+the nodes explicitly can be useful if a rotation about a specific
+point is to be defined (using <A HREF="node209.html#boundary">*BOUNDARY</A> or
+<A HREF="node223.html#cload">*CLOAD</A>), or if rigid body values (displacements or
+forces) are to be printed using <A HREF="node294.html#nodeprint">*NODE
+PRINT</A>. Notice that a force defined in a rotational node
+has the meaning of a moment. 
+
+<P>
+Internally, a rigid body is enforced by using nonlinear multiple point
+constraints (MPC).
+
+<P>
+If the participating nodes in a rigid body definition lie on a
+straight line, the rigid body rotation about the line is not defined
+and an error will occur. To remove the rotational degree of freedom,
+specify that the rotation about the axis is zero. If <!-- MATH
+ $\mathbf{a}$
+ -->
+<B><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1814.png"
+ ALT="$ \mathbf{a}$"></B> is a
+unit normal on the axis and <!-- MATH
+ $\mathbf{u}_R$
+ -->
+<B><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1815.png"
+ ALT="$ \mathbf{u}_R$"></B> is the displacement of the
+ROT NODE, this results in a linear MPC of the form <!-- MATH
+ $\mathbf{a}.\mathbf{u}_R
+=0$
+ -->
+<B><IMG
+ WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1816.png"
+ ALT="$ \mathbf{a}.\mathbf{u}_R
+=0$"></B> to be specified by the user by means of a
+<A HREF="node259.html#equation">*EQUATION</A>  card.
+
+<P><P>
+<BR>
+
+<P>
+First and only line:
+
+<UL>
+<LI>*RIGID BODY
+</LI>
+<LI>Enter any needed parameters and their values
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*RIGID BODY,NSET=rigid1,REF NODE=100,ROT NODE=101
+</PRE>
+
+<P>
+defines a rigid body consisting of the nodes belonging to node set
+rigid1 with reference node 100 and rotational node 101.
+
+<P>
+Using
+
+<P>
+<PRE>
+*CLOAD
+101,3,0.1
+</PRE>
+
+<P>
+in the same input deck (see <A HREF="node223.html#cload">*CLOAD</A>) defines a moment about the z-axis of 0.1 acting on the rigid body.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamrb.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5012"
+  HREF="node308.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5008"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5002"
+  HREF="node306.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5010"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5013"
+  HREF="node308.html">*SECTION PRINT</A>
+<B> Up:</B> <A NAME="tex2html5009"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5003"
+  HREF="node306.html">*RETAINED NODAL DOFS</A>
+ &nbsp; <B>  <A NAME="tex2html5011"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

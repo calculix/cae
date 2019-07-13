@@ -95,7 +95,9 @@ class Parse:
     # *SURFACE keyword
     def get_surfaces(self, lines):
         for line in lines:
-            if line.startswith('*SURFACE'):
+            if line.startswith('*SURFACE') and \
+                    not '*SURFACE INTERACTION' in line and \
+                    not '*SURFACE BEHAVIOR' in line:
                 name = line.upper().split('NAME=')[1].split(',')[0]
                 self.surfaces += (name, )
 

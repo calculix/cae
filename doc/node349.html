@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Heat radiation (radiate.f)</TITLE>
+<META NAME="description" CONTENT="Heat radiation (radiate.f)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node350.html">
+<LINK REL="previous" HREF="node348.html">
+<LINK REL="up" HREF="node342.html">
+<LINK REL="next" HREF="node350.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5561"
+  HREF="node350.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5557"
+  HREF="node342.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5551"
+  HREF="node348.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5559"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5562"
+  HREF="node350.html">Temperature (utemp.f)</A>
+<B> Up:</B> <A NAME="tex2html5558"
+  HREF="node342.html">User-defined loading</A>
+<B> Previous:</B> <A NAME="tex2html5552"
+  HREF="node348.html">Boundary conditions(uboun.f)</A>
+ &nbsp; <B>  <A NAME="tex2html5560"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00094700000000000000"></A><A NAME="userradiate"></A>
+<BR>
+Heat radiation (radiate.f)
+</H3>
+
+<P>
+This subroutine is used for nonuniform radiation heat flux, characterized by
+distributed load labels of the form RxNUy, cf
+<A HREF="node303.html#radiate">*RADIATE</A>. The load label can be up to 20 characters long. In
+particular, y can be used to distinguish different nonuniform radiation
+patterns. The header and variable description is as
+follows:
+
+<P>
+<PRE>
+!
+      subroutine radiate(e,sink,temp,kstep,kinc,time,noel,npt,
+     &amp;  coords,jltyp,field,nfield,loadtype,node,area,vold,mi,
+     &amp;  iemchange)
+!
+!     user subroutine radiate
+!
+!
+!     INPUT:
+!
+!     sink               present sink temperature
+!     temp               current temperature value
+!     kstep              step number
+!     kinc               increment number
+!     time(1)            current step time
+!     time(2)            current total time
+!     noel               element number
+!     npt                integration point number
+!     coords(1..3)       global coordinates of the integration point
+!     jltyp              loading face kode:
+!                        11 = face 1 
+!                        12 = face 2 
+!                        13 = face 3 
+!                        14 = face 4 
+!                        15 = face 5 
+!                        16 = face 6
+!     field              currently not used
+!     nfield             currently not used (value = 1)
+!     loadtype           load type label
+!     node               currently not used
+!     area               area covered by the integration point
+!     vold(0..4,1..nk)   solution field in all nodes
+!                        0: temperature
+!                        1: displacement in global x-direction
+!                        2: displacement in global y-direction
+!                        3: displacement in global z-direction
+!                        4: static pressure
+!     mi(1)              max # of integration points per element (max
+!                        over all elements)
+!     mi(2)              max degree of freedomm per node (max over all
+!                        nodes) in fields like v(0:mi(2))...
+!
+!     OUTPUT:
+!
+!     e(1)               magnitude of the emissivity
+!     e(2)               not used; please do NOT assign any value
+!     sink               sink temperature (need not be defined
+!                        for cavity radiation)
+!     iemchange          = 1 if the emissivity is changed during
+!                        a step, else zero.
+!
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

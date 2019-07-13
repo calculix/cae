@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*DEFORMATION PLASTICITY</TITLE>
+<META NAME="description" CONTENT="*DEFORMATION PLASTICITY">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node241.html">
+<LINK REL="previous" HREF="node239.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node241.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4208"
+  HREF="node241.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4204"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4198"
+  HREF="node239.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4206"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4209"
+  HREF="node241.html">*DENSITY</A>
+<B> Up:</B> <A NAME="tex2html4205"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4199"
+  HREF="node239.html">*DASHPOT</A>
+ &nbsp; <B>  <A NAME="tex2html4207"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000832000000000000000"></A><A NAME="deformationplasticity"></A>
+<BR>
+*DEFORMATION PLASTICITY
+</H2>
+
+<P>
+Keyword type: model definition, material
+
+<P>
+This option defines the elasto-plastic behavior of a material by means of the generalized Ramberg-Osgood law. The one-dimensional model takes the form:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+E\epsilon=\sigma + \alpha \left( \frac {\left| \sigma \right| }{\sigma_0} \right)^{n-1}\sigma
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="170" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1661.png"
+ ALT="$\displaystyle E\epsilon=\sigma + \alpha \left( \frac {\left\vert \sigma \right\vert }{\sigma_0} \right)^{n-1}\sigma$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(470)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <B><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></B> is the logarithmic strain and <B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1010.png"
+ ALT="$ \sigma$"></B> the Cauchy stress. In the present implementation, the Eulerian strain is used, which is very similar to the logarithmic strain (about 1.3 % difference dat 20 % engineering strain). All coefficients may be temperature dependent.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*DEFORMATION PLASTICITY
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Young's modulus (E).
+</LI>
+<LI>Poisson's ratio (<B><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="$ \nu$"></B>).
+</LI>
+<LI>Yield stress (<B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1662.png"
+ ALT="$ \sigma_0$"></B>)
+</LI>
+<LI>Exponent (n).
+</LI>
+<LI>Yield offset (<B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>).
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+<PRE>
+Example:
+
+*DEFORMATION PLASTICITY
+210000.,.3,800.,12.,0.4
+</PRE>
+
+<P>
+defines a Ramberg-Osgood law. No temperature dependence is introduced.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beampl.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,352 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*HYPERFOAM</TITLE>
+<META NAME="description" CONTENT="*HYPERFOAM">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node275.html">
+<LINK REL="previous" HREF="node273.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node275.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4616"
+  HREF="node275.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4612"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4606"
+  HREF="node273.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4614"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4617"
+  HREF="node275.html">*INCLUDE</A>
+<B> Up:</B> <A NAME="tex2html4613"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4607"
+  HREF="node273.html">*HYPERELASTIC</A>
+ &nbsp; <B>  <A NAME="tex2html4615"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000866000000000000000"></A><A NAME="hyperfoam"></A>
+<BR>
+*HYPERFOAM
+</H2>
+
+<P>
+Keyword type: model definition, material
+
+<P>
+This option is used to define a hyperfoam material. There is one optional parameters, N. N determines the order of the strain energy potential. Default is N=1. All constants may be temperature dependent.
+
+<P>
+The hyperfoam strain energy potential takes the form
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+U=\sum_{i=1}^{N} \frac{2 \mu_i}{\alpha_i^2} \left[ \lambda_1^{\alpha_i}+\lambda_2^{\alpha_i}+\lambda_3^{\alpha_i}-3+\frac{1}{\beta_i}(J^{-\alpha_i \beta_i}-1) \right]
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="371" HEIGHT="66" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1788.png"
+ ALT="$\displaystyle U=\sum_{i=1}^{N} \frac{2 \mu_i}{\alpha_i^2} \left[ \lambda_1^{\al...
+...ha_i}+\lambda_3^{\alpha_i}-3+\frac{1}{\beta_i}(J^{-\alpha_i \beta_i}-1) \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(489)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1760.png"
+ ALT="$ \lambda_1$"></B>, <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1761.png"
+ ALT="$ \lambda_2$"></B> and <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1762.png"
+ ALT="$ \lambda_3$"></B> are the principal
+stretches. The parameters <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1789.png"
+ ALT="$ \beta_i$"></B> are related to the Poisson coefficients
+<B><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1790.png"
+ ALT="$ \nu_i$"></B> by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\beta_i=\frac{ \nu_i}{1 -2 \nu_i}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="92" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1791.png"
+ ALT="$\displaystyle \beta_i=\frac{ \nu_i}{1 -2 \nu_i}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(490)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\nu_i= \frac{ \beta_i}{1+2 \beta_i}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="97" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1792.png"
+ ALT="$\displaystyle \nu_i= \frac{ \beta_i}{1+2 \beta_i}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(491)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*HYPERFOAM
+</LI>
+<LI>Enter parameters and their values, if needed
+</LI>
+</UL>
+
+<P>
+Following line for N=1:
+
+<UL>
+<LI><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1773.png"
+ ALT="$ \mu_{1}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{1}$
+ -->
+<B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1774.png"
+ ALT="$ \alpha_{1}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1793.png"
+ ALT="$ \nu_{1}$"></B>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+Following line for N=2:
+
+<UL>
+<LI><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1773.png"
+ ALT="$ \mu_{1}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{1}$
+ -->
+<B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1774.png"
+ ALT="$ \alpha_{1}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1775.png"
+ ALT="$ \mu_{2}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{2}$
+ -->
+<B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1776.png"
+ ALT="$ \alpha_{2}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1793.png"
+ ALT="$ \nu_{1}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1794.png"
+ ALT="$ \nu_{2}$"></B>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+Following lines, in a pair, for N=3:
+First line of pair:
+
+<UL>
+<LI><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1773.png"
+ ALT="$ \mu_{1}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{1}$
+ -->
+<B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1774.png"
+ ALT="$ \alpha_{1}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1775.png"
+ ALT="$ \mu_{2}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{2}$
+ -->
+<B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1776.png"
+ ALT="$ \alpha_{2}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1778.png"
+ ALT="$ \mu_{3}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{3}$
+ -->
+<B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1779.png"
+ ALT="$ \alpha_{3}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1793.png"
+ ALT="$ \nu_{1}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1794.png"
+ ALT="$ \nu_{2}$"></B>.
+</LI>
+</UL>
+Second line of pair:
+
+<UL>
+<LI><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1795.png"
+ ALT="$ \nu_{3}$"></B>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this pair if needed to define complete temperature dependence.
+
+<P>
+<PRE>
+Example:
+
+*HYPERFOAM,N=2
+0.164861,8.88413,2.302e-5,-4.81798,0.,0.
+</PRE>
+
+<P>
+defines a hyperfoam material with two terms in the series.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamhf.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4616"
+  HREF="node275.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4612"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4606"
+  HREF="node273.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4614"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4617"
+  HREF="node275.html">*INCLUDE</A>
+<B> Up:</B> <A NAME="tex2html4613"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4607"
+  HREF="node273.html">*HYPERELASTIC</A>
+ &nbsp; <B>  <A NAME="tex2html4615"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

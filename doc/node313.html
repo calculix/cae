@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*SPECIFIC GAS CONSTANT</TITLE>
+<META NAME="description" CONTENT="*SPECIFIC GAS CONSTANT">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node314.html">
+<LINK REL="previous" HREF="node312.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node314.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5084"
+  HREF="node314.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5080"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5074"
+  HREF="node312.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5082"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5085"
+  HREF="node314.html">*SPECIFIC HEAT</A>
+<B> Up:</B> <A NAME="tex2html5081"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5075"
+  HREF="node312.html">*SOLID SECTION</A>
+ &nbsp; <B>  <A NAME="tex2html5083"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008105000000000000000"></A><A NAME="specificgasconstant"></A>
+<BR>
+*SPECIFIC GAS CONSTANT
+</H2>
+
+<P>
+Keyword type: model definition, material
+
+<P>
+With this option the specific gas constant of a material can be defined. The
+specific gas constant is required for a calculation in which a gas dynamic
+network is included. The specific gas constant <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img306.png"
+ ALT="$ R$"></B> is defined as 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+R=\mathcal{R}/M
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="76" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1817.png"
+ ALT="$\displaystyle R=\mathcal{R}/M$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(497)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\mathcal{R}= 8314 \; \text{J}/(\text{kmol}\;\text{K})$
+ -->
+<B><IMG
+ WIDTH="75" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1818.png"
+ ALT="$ \mathcal{R}= 8314 \;$">&nbsp; &nbsp;J<IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1819.png"
+ ALT="$ /($">kmol<IMG
+ WIDTH="9" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1820.png"
+ ALT="$ \;$">K<IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1821.png"
+ ALT="$ )$"></B> is the universal gas constant 
+and <B><IMG
+ WIDTH="22" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img464.png"
+ ALT="$ M$"></B> is the molecular weight of the material. The specific gas constant is
+temperature independent.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*SPECIFIC GAS CONSTANT
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Specific gas constant.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*SPECIFIC GAS CONSTANT
+287.
+</PRE>
+
+<P>
+defines a specific gas constant with a value of 287. This value is appropriate
+for air if Joule is chosen for the unit of energy, kg as unit of mass and K as
+unit of temperature, i.e. <!-- MATH
+ $R = 287 \; \text{J}/(\text{kg}\;\text{K})$
+ -->
+<B><IMG
+ WIDTH="66" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1822.png"
+ ALT="$ R = 287 \;$">&nbsp; &nbsp;J<IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1819.png"
+ ALT="$ /($">kg<IMG
+ WIDTH="9" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1820.png"
+ ALT="$ \;$">K<IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1821.png"
+ ALT="$ )$"></B>.
+
+<P>
+
+<P><P>
+<BR>
+Example files: linearnet, branch1, branch2.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

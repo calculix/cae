@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*OUTPUT</TITLE>
+<META NAME="description" CONTENT="*OUTPUT">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node300.html">
+<LINK REL="previous" HREF="node298.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node300.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4916"
+  HREF="node300.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4912"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4906"
+  HREF="node298.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4914"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4917"
+  HREF="node300.html">*PHYSICAL CONSTANTS</A>
+<B> Up:</B> <A NAME="tex2html4913"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4907"
+  HREF="node298.html">*ORIENTATION</A>
+ &nbsp; <B>  <A NAME="tex2html4915"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000891000000000000000"></A><A NAME="output"></A>
+<BR>
+*OUTPUT
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This keyword is provided for compatibility with ABAQUS. The only parameters
+are FREQUENCY and FREQUENCYF. They are optional. 
+
+<P>
+The parameter FREQUENCY applies to
+nonlinear calculations where a step can consist of several
+increments. Default is FREQUENCY=1, which indicates that the results
+of all increments will be stored. FREQUENCY=N with N an integer
+indicates that the results of every Nth increment will be stored. The
+final results of a step are always stored. If you only want the final
+results, choose N very big. 
+The value of N applies to 
+<A HREF="#output">*OUTPUT</A>,<A HREF="node254.html#elementoutput">*ELEMENT OUTPUT</A>, 
+<A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="node256.html#elprint">*ELPRINT</A>, 
+<A HREF="node293.html#nodeoutput">*NODE OUTPUT</A>,
+<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node294.html#nodeprint">*NODE PRINT</A>,
+<A HREF="node308.html#sectionprint">*SECTION PRINT</A>,<A HREF="node229.html#contactoutput">*CONTACT OUTPUT</A>,
+<A HREF="node228.html#contactfile">*CONTACT FILE</A> and <A HREF="node231.html#contactprint">*CONTACT PRINT</A>. 
+If the FREQUENCY parameter is used
+for more than one of these keywords with conflicting values of N, the
+last value applies to all. A frequency parameter stays active across several steps
+until it is overwritten by another FREQUENCY value or the TIME POINTS parameter.
+
+<P>
+The 3D fluid analogue of FREQUENCY is FREQUENCYF. In coupled calculations
+FREQUENCY applies to the thermomechanical output, FREQUENCYF to the 3D fluid output.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4916"
+  HREF="node300.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4912"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4906"
+  HREF="node298.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4914"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4917"
+  HREF="node300.html">*PHYSICAL CONSTANTS</A>
+<B> Up:</B> <A NAME="tex2html4913"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4907"
+  HREF="node298.html">*ORIENTATION</A>
+ &nbsp; <B>  <A NAME="tex2html4915"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

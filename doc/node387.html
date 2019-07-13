@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Cataloguing the elements belonging to a given node</TITLE>
+<META NAME="description" CONTENT="Cataloguing the elements belonging to a given node">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node388.html">
+<LINK REL="previous" HREF="node386.html">
+<LINK REL="up" HREF="node386.html">
+<LINK REL="next" HREF="node388.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6111"
+  HREF="node388.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6107"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6101"
+  HREF="node386.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6109"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6112"
+  HREF="node388.html">Calculating the normals in</A>
+<B> Up:</B> <A NAME="tex2html6108"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6102"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+ &nbsp; <B>  <A NAME="tex2html6110"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000113100000000000000">
+Cataloguing the elements belonging to a given node</A>
+</H3>
+
+<P>
+A node can belong to several elements of different types. The structure to
+store this dependence consists of two fields: a one-dimensional field iponoel
+and a two-dimensional field inoel. For node i the value j1=iponoel(i) points
+to row j1 in field inoel containing in its first column the number k1 of an
+element to which
+node i belongs, in its second column the local number l1 which node i assumes in the
+topology of the element and in its third column the row number j2 in field
+inoel where another element to which node i belongs is listed. If no further
+element exists, this entry is zero (Figure <A HREF="#iponoel">158</A>).
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="iponoel"></A><A NAME="12802"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 158:</STRONG>
+Structures to store all elements to which a given node
+belongs</CAPTION>
+<TR><TD><IMG
+ WIDTH="290" HEIGHT="76" BORDER="0"
+ SRC="img1901.png"
+ ALT="\begin{figure}\epsfig{file=iponoel.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Notice that this structure allows the node to belong to totally different
+element types, e.g. a beam element, a shell element and a plane stress
+element.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6111"
+  HREF="node388.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6107"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6101"
+  HREF="node386.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6109"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6112"
+  HREF="node388.html">Calculating the normals in</A>
+<B> Up:</B> <A NAME="tex2html6108"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6102"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+ &nbsp; <B>  <A NAME="tex2html6110"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

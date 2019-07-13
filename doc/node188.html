@@ -1,0 +1,411 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Implicit dynamics</TITLE>
+<META NAME="description" CONTENT="Implicit dynamics">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node187.html">
+<LINK REL="up" HREF="node183.html">
+<LINK REL="next" HREF="node189.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3446"
+  HREF="node189.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3442"
+  HREF="node183.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3438"
+  HREF="node187.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3444"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3447"
+  HREF="node189.html">Loading</A>
+<B> Up:</B> <A NAME="tex2html3443"
+  HREF="node183.html">Convergence criteria</A>
+<B> Previous:</B> <A NAME="tex2html3439"
+  HREF="node187.html">Network iterations</A>
+ &nbsp; <B>  <A NAME="tex2html3445"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000710500000000000000">
+Implicit dynamics</A>
+</H3>
+
+<P>
+In CalculiX, implicit dynamics is implemented using the <B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>-method
+[<A
+ HREF="node448.html#Dhondt">18</A>]. The method is unconditionally stable and second order
+accurate. The parameter <!-- MATH
+ $\alpha \in [-1/3,0]$
+ -->
+<B><IMG
+ WIDTH="94" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1551.png"
+ ALT="$ \alpha \in [-1/3,0]$"></B> represents high frequency
+damping. The lower the value, the more high frequency dissipation is
+introduced. This is frequently desired in order to reduce noice. However, it
+also leads to energy loss. 
+
+<P>
+An analysis has shown that the usual static convergence criteria have to be
+supplemented by energy criteria in order to obtain good results. To this end,
+the relative energy balance is used defined by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\hat{r}_e=\frac{\Delta \mathcal{E}(t_n) + \Delta \mathcal{K}(t_n) + \Delta
+  \mathcal{E}_c(t_n) - \left .
+  W_{\text{ext}} \right | _{t_0}^{t_n} - \left . W_{\text{damp}} \right | _{t_0}^{t_n} }{\max_{t \in [t_0,t_n]} ( | \Delta
+  \mathcal{E}(t)|, | \mathcal{K}(t)|, | W_{\text{ext}}(t)|)},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="402" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1552.png"
+ ALT="$\displaystyle \hat{r}_e=\frac{\Delta \mathcal{E}(t_n) + \Delta \mathcal{K}(t_n)...
+...\mathcal{E}(t)\vert, \vert \mathcal{K}(t)\vert, \vert W_{\text{ext}}(t)\vert)},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(456)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where
+
+<P>
+
+<UL>
+<LI><B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1553.png"
+ ALT="$ t_0$"></B> is the time at the beginning of the present step
+</LI>
+<LI><B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img847.png"
+ ALT="$ t_n$"></B> is the actual step time
+</LI>
+<LI><B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1476.png"
+ ALT="$ \Delta$"></B> denotes the difference of a quantity between the actual time
+  and the time at the beginning of the step
+</LI>
+<LI><!-- MATH
+ $\mathcal{E}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1554.png"
+ ALT="$ \mathcal{E}$"></B> is the internal energy 
+</LI>
+<LI><!-- MATH
+ $\mathcal{K}$
+ -->
+<B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1555.png"
+ ALT="$ \mathcal{K}$"></B> is the kinetic energy
+</LI>
+<LI><!-- MATH
+ $\mathcal{E}_c$
+ -->
+<B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1556.png"
+ ALT="$ \mathcal{E}_c$"></B> is the contact spring energy
+</LI>
+<LI><!-- MATH
+ $\left . W_{\text{ext}} \right | _{t_0}^{t_n}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1557.png"
+ ALT="$ \left . W_{\text{ext}} \right \vert _{t_0}^{t_n}$"></B> is the external work done since
+the start of the present step
+</LI>
+<LI><!-- MATH
+ $\left . W_{\text{damp}} \right | _{t_0}^{t_n}$
+ -->
+<B><IMG
+ WIDTH="71" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1558.png"
+ ALT="$ \left . W_{\text{damp}} \right \vert _{t_0}^{t_n}$"></B> is the work done by
+  damping since the start of the present step (always negative)
+</LI>
+<LI>in the denominator the choice of the kinetic energy versus the CHANGE of the internal
+  energy is on purpose.
+</LI>
+</UL>
+
+<P>
+At the start of the step the relative energy balance is zero. During the step it
+usually decreases (becomes negative) and increases in size. Limiting the
+relative energy decay at the end of the step to <B><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></B>, during the step the following
+minimum energy decay function is proposed:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\hat{r}_e^{\text{min}}  =  -\frac{\epsilon}{2} (1 + \sqrt{\theta}),
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="145" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1559.png"
+ ALT="$\displaystyle \hat{r}_e^{\text{min}} = -\frac{\epsilon}{2} (1 + \sqrt{\theta}),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(457)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img178.png"
+ ALT="$ \theta$"></B> is the relative step time, <!-- MATH
+ $0 \le \theta \le 1$
+ -->
+<B><IMG
+ WIDTH="71" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1560.png"
+ ALT="$ 0 \le \theta \le 1$"></B>. The
+following algorithm is now used:
+
+<P>
+If 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\hat{r}_e  \le  -\frac{\epsilon}{2} (1 + \sqrt{\theta}),
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="129" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1561.png"
+ ALT="$\displaystyle \hat{r}_e \le -\frac{\epsilon}{2} (1 + \sqrt{\theta}),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(458)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+the increment size is decreased. Else if
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\hat{r}_e  \le  -0.9 \frac{\epsilon}{2} (1 + \sqrt{\theta}),
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="150" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1562.png"
+ ALT="$\displaystyle \hat{r}_e \le -0.9 \frac{\epsilon}{2} (1 + \sqrt{\theta}),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(459)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+the increment size is kept. Else it is increased.
+
+<P>
+In dynamic calculations contact is frequently an important issue. As soon as
+more than one body is modeled they may and generally will come into
+contact. In CalculiX penalty contact is implemented by the use of springs,
+either in a node-to-face version or in a face-to-face version. A detailed
+analysis of contact phenomena in dynamic calculations [<A
+ HREF="node448.html#Pacher">61</A>] has revealed that there
+are three instances at which energy may be lost: at the time of impact, during
+persistent contact and at the time of rebound.
+
+<P>
+At the time of impact a relative energy decrease has been observed, whereas at
+the time of rebound a relative energy increase occurs. The reason for this is
+the finite time increment during which impact or rebound takes place. During
+closed contact the contact forces do not perform any work (they are equal and
+opposite and are subject to a common motion). However, in the increment during
+which impact or rebound occurs, they do perform work in the part of the
+increment during which the gap is not closed. The more precise the time of
+impact coincides with the beginning or end of an increment, the smaller the
+error. Therefore, the following convergence criteria are prososed:
+
+<P>
+At impact the relative energy decrease (after impact minus before impact) should not exceed 0.008, i.e.
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\left . \Delta \hat{r}_{\text{rel}} \right | _{\text{before impact}}
+^{\text{after impact}} \ge -0.008,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="198" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1563.png"
+ ALT="$\displaystyle \left . \Delta \hat{r}_{\text{rel}} \right \vert _{\text{before impact}} ^{\text{after impact}} \ge -0.008,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(460)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+else the increment size is decreased by a factor of 4. 
+
+<P>
+At rebound the relative energy increase between the time of rebound and the
+time of impact should not exceed 0.0025, i.e.
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\left . \Delta \hat{r}_{\text{rel}} \right | _{\text{impact}} ^{\text{rebound}} \le -0.0025,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="175" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1564.png"
+ ALT="$\displaystyle \left . \Delta \hat{r}_{\text{rel}} \right \vert _{\text{impact}} ^{\text{rebound}} \le -0.0025,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(461)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+else the increment size is decreased by a factor of 2. 
+
+<P>
+In between impact and rebound (persistent contact) both the impact criterion
+as well as the rebound criterion has to be satisfied. Furthermore it has been
+observed that during contact frequently vibrations are generated corresponding
+to the eigenfrequency of the contact springs. Due to the high frequency
+damping characteristics of the <B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>-method this contributes additionally
+to a decay of the relative energy. To avoid this, the time increment should
+ideally exceed the period of these oscillations substantionally,
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{10 T_e}{T_{\text{step}}} \le d \theta \le \frac{100 T_e}{T_{\text{step}}}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="144" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1565.png"
+ ALT="$\displaystyle \frac{10 T_e}{T_{\text{step}}} \le d \theta \le \frac{100 T_e}{T_{\text{step}}}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(462)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+is aimed at, where <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1566.png"
+ ALT="$ T_e$"></B> is the period of the oscillations, <!-- MATH
+ $T_{\text{step}}$
+ -->
+<B><IMG
+ WIDTH="37" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1567.png"
+ ALT="$ T_{\text{step}}$"></B>
+  is the duration of the step and <B><IMG
+ WIDTH="21" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1497.png"
+ ALT="$ d \theta$"></B> is the relative increment size. 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3446"
+  HREF="node189.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3442"
+  HREF="node183.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3438"
+  HREF="node187.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3444"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3447"
+  HREF="node189.html">Loading</A>
+<B> Up:</B> <A NAME="tex2html3443"
+  HREF="node183.html">Convergence criteria</A>
+<B> Previous:</B> <A NAME="tex2html3439"
+  HREF="node187.html">Network iterations</A>
+ &nbsp; <B>  <A NAME="tex2html3445"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

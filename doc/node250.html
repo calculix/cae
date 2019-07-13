@@ -1,0 +1,464 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*ELASTIC</TITLE>
+<META NAME="description" CONTENT="*ELASTIC">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node251.html">
+<LINK REL="previous" HREF="node249.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node251.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4328"
+  HREF="node251.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4324"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4318"
+  HREF="node249.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4326"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4329"
+  HREF="node251.html">*ELECTRICAL CONDUCTIVITY</A>
+<B> Up:</B> <A NAME="tex2html4325"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4319"
+  HREF="node249.html">*DYNAMIC</A>
+ &nbsp; <B>  <A NAME="tex2html4327"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000842000000000000000"></A><A NAME="elastic"></A>
+<BR>
+*ELASTIC
+</H2>
+
+<P>
+Keyword type: model definition, material
+
+<P>
+This option is used to define the elastic properties of a material. There is
+one optional parameter TYPE. Default is TYPE=ISO, other values are TYPE=ORTHO
+and TYPE=ENGINEERING CONSTANTS for orthotropic materials and TYPE=ANISO for anisotropic materials. All constants may be temperature dependent.
+For orthotropic and fully anisotropic materials, the coefficients <B><IMG
+ WIDTH="53" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1668.png"
+ ALT="$ D_{IJKL}$"></B> satisfy the equation:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+S_{IJ}=D_{IJKL} E_{KL},\;\;\;\;\;I,J,K,L=1..3
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="270" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1669.png"
+ ALT="$\displaystyle S_{IJ}=D_{IJKL} E_{KL},\;\;\;\;\;I,J,K,L=1..3$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(471)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1670.png"
+ ALT="$ S_{IJ}$"></B> is the second Piola-Kirchhoff stress and <B><IMG
+ WIDTH="37" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1671.png"
+ ALT="$ E_{KL}$"></B> is the
+Lagrange deformation tensor (nine terms on the right hand side for each equation). For linear calculations, these reduce to the
+generic stress and strain tensors.
+
+<P>
+An isotropic material can be defined as an anisotropic material by defining
+<!-- MATH
+ $D_{1111}=D_{2222}=D_{3333}=\lambda+2 \mu$
+ -->
+<B><IMG
+ WIDTH="232" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1672.png"
+ ALT="$ D_{1111}=D_{2222}=D_{3333}=\lambda+2 \mu$"></B>,
+<!-- MATH
+ $D_{1122}=D_{1133}=D_{2233}=\lambda$
+ -->
+<B><IMG
+ WIDTH="195" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1673.png"
+ ALT="$ D_{1122}=D_{1133}=D_{2233}=\lambda$"></B> and
+<!-- MATH
+ $D_{1212}=D_{1313}=D_{2323}=\mu$
+ -->
+<B><IMG
+ WIDTH="196" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1674.png"
+ ALT="$ D_{1212}=D_{1313}=D_{2323}=\mu$"></B>, where <B><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B> and <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"></B> are the Lam&#233;
+constants [<A
+ HREF="node448.html#Dhondt">18</A>]. 
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*ELASTIC
+</LI>
+<LI>Enter the TYPE parameter and its value, if needed
+</LI>
+</UL>
+
+<P>
+Following line for TYPE=ISO:
+
+<UL>
+<LI>Young's modulus.
+</LI>
+<LI>Poisson's ratio.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+
+<P><P>
+<BR>
+Following lines, in a pair, for TYPE=ORTHO:
+First line of pair:
+
+<UL>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1675.png"
+ ALT="$ D_{1111}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1676.png"
+ ALT="$ D_{1122}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1677.png"
+ ALT="$ D_{2222}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1678.png"
+ ALT="$ D_{1133}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$ D_{2233}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1680.png"
+ ALT="$ D_{3333}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1681.png"
+ ALT="$ D_{1212}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1682.png"
+ ALT="$ D_{1313}$"></B>.
+</LI>
+</UL>
+Second line of pair:
+
+<UL>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1683.png"
+ ALT="$ D_{2323}$"></B>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this pair if needed to define complete temperature dependence.
+
+<P>
+
+<P><P>
+<BR>
+Following lines, in a pair, for TYPE=ENGINEERING CONSTANTS:
+First line of pair:
+
+<UL>
+<LI><B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img515.png"
+ ALT="$ E_1$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img517.png"
+ ALT="$ E_2$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1684.png"
+ ALT="$ E_3$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1685.png"
+ ALT="$ \nu_{12}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1686.png"
+ ALT="$ \nu_{13}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1687.png"
+ ALT="$ \nu_{23}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1688.png"
+ ALT="$ G_{12}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="31" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1689.png"
+ ALT="$ G_{13}$"></B>.
+</LI>
+</UL>
+Second line of pair:
+
+<UL>
+<LI><B><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1690.png"
+ ALT="$ G_{23}$"></B>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this pair if needed to define complete temperature dependence.
+
+<P>
+
+<P><P>
+<BR>
+Following lines, in sets of 3, for TYPE=ANISO:
+First line of set:
+
+<UL>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1675.png"
+ ALT="$ D_{1111}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1676.png"
+ ALT="$ D_{1122}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1677.png"
+ ALT="$ D_{2222}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1678.png"
+ ALT="$ D_{1133}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$ D_{2233}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1680.png"
+ ALT="$ D_{3333}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1691.png"
+ ALT="$ D_{1112}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1692.png"
+ ALT="$ D_{2212}$"></B>.
+</LI>
+</UL>
+Second line of set:
+
+<UL>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1693.png"
+ ALT="$ D_{3312}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1681.png"
+ ALT="$ D_{1212}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1694.png"
+ ALT="$ D_{1113}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1695.png"
+ ALT="$ D_{2213}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1696.png"
+ ALT="$ D_{3313}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1697.png"
+ ALT="$ D_{1213}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1682.png"
+ ALT="$ D_{1313}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1698.png"
+ ALT="$ D_{1123}$"></B>.
+</LI>
+</UL>
+Third line of set:
+
+<UL>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1699.png"
+ ALT="$ D_{2223}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1700.png"
+ ALT="$ D_{3323}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1701.png"
+ ALT="$ D_{1223}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1702.png"
+ ALT="$ D_{1323}$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1683.png"
+ ALT="$ D_{2323}$"></B>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this set if needed to define complete temperature dependence.
+
+<P>
+<PRE>
+Example:
+
+*ELASTIC,TYPE=ORTHO
+500000.,157200.,400000.,157200.,157200.,300000.,126200.,126200.,
+126200.,294.
+</PRE>
+
+<P>
+defines an orthotropic material for temperature T=294. Since the definition includes values for only one temperature, they are valid for all temperatures.
+
+<P>
+
+<P><P>
+<BR>
+Example files: aniso, beampo1.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4328"
+  HREF="node251.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4324"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4318"
+  HREF="node249.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4326"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4329"
+  HREF="node251.html">*ELECTRICAL CONDUCTIVITY</A>
+<B> Up:</B> <A NAME="tex2html4325"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4319"
+  HREF="node249.html">*DYNAMIC</A>
+ &nbsp; <B>  <A NAME="tex2html4327"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

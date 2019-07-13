@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*GAP</TITLE>
+<META NAME="description" CONTENT="*GAP">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node268.html">
+<LINK REL="previous" HREF="node266.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node268.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4532"
+  HREF="node268.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4528"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4522"
+  HREF="node266.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4530"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4533"
+  HREF="node268.html">*GAP CONDUCTANCE</A>
+<B> Up:</B> <A NAME="tex2html4529"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4523"
+  HREF="node266.html">*FRICTION</A>
+ &nbsp; <B>  <A NAME="tex2html4531"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000859000000000000000"></A><A NAME="gap"></A>
+<BR>
+*GAP
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option is used to define a gap geometry. The parameter
+ELSET is required and defines the set of gap elements to which the geometry
+definition applies. Right now, all gap elements must be of the GAPUNI type and
+can be defined by an <A HREF="node253.html#element">*ELEMENT</A> card. The gap geometry is
+defined by its clearance <B><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img279.png"
+ ALT="$ d$"></B> and direction <!-- MATH
+ $\boldsymbol{n}$
+ -->
+<B><IMG
+ WIDTH="16" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img280.png"
+ ALT="$ \boldsymbol{n}$"></B> (a vector of
+length 1). Let the
+displacement vector of the first node of a GAPUNI element be <!-- MATH
+ $\boldsymbol{u_1}$
+ -->
+<B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img281.png"
+ ALT="$ \boldsymbol{u_1}$"></B> and
+the displacement vector of the second node <!-- MATH
+ $\boldsymbol{u_2}$
+ -->
+<B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img282.png"
+ ALT="$ \boldsymbol{u_2}$"></B>. Then, the gap
+condition is defined by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+d+\boldsymbol{n} \cdot (\boldsymbol{u_2} -\boldsymbol{u_1}) \ge 0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="158" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img283.png"
+ ALT="$\displaystyle d+\boldsymbol{n} \cdot (\boldsymbol{u_2} -\boldsymbol{u_1}) \ge 0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(474)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+The gap condition is internally simulated by a nonlinear spring of the type
+used in node-to-face contact with a linear pressure-overclosure curve,
+cf. Figure <A HREF="node135.html#contact_lin">132</A> in which the pressure is to be replaced by the
+force. The defaults for the spring stiffness (in units of force/displacement) and the tensile
+force at <B><IMG
+ WIDTH="33" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1725.png"
+ ALT="$ - \infty$"></B> are <B><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1726.png"
+ ALT="$ 10^{12}$"></B> and <B><IMG
+ WIDTH="38" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img779.png"
+ ALT="$ 10^{-3}$"></B>, respectively. They can be
+changed by the user.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*GAP
+</LI>
+<LI>Enter the ELSET parameter and its value.
+</LI>
+</UL>
+
+<P>
+Second line :
+
+<UL>
+<LI>gap clearance
+</LI>
+<LI>first component of the normalized gap direction
+</LI>
+<LI>second component of the normalized gap direction
+</LI>
+<LI>third component of the normalized gap direction
+</LI>
+<LI>not used
+</LI>
+<LI>spring stiffness (default <B><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1726.png"
+ ALT="$ 10^{12}$"></B> [force]/[length])
+</LI>
+<LI>tensile force at <B><IMG
+ WIDTH="33" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1725.png"
+ ALT="$ - \infty$"></B> (default <B><IMG
+ WIDTH="38" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img779.png"
+ ALT="$ 10^{-3}$"></B> [force]).
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*GAP,ELSET=E1
+0.5,0.,1.,0.
+</PRE>
+
+<P>
+defines a clearance of 0.5 and the global y-axis as gap direction for all gap
+elements contained in element set E1.
+
+<P>
+
+<P><P>
+<BR>
+Example files: gap.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4532"
+  HREF="node268.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4528"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4522"
+  HREF="node266.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4530"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4533"
+  HREF="node268.html">*GAP CONDUCTANCE</A>
+<B> Up:</B> <A NAME="tex2html4529"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4523"
+  HREF="node266.html">*FRICTION</A>
+ &nbsp; <B>  <A NAME="tex2html4531"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

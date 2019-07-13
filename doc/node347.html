@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Heat convection (film.f)</TITLE>
+<META NAME="description" CONTENT="Heat convection (film.f)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node348.html">
+<LINK REL="previous" HREF="node346.html">
+<LINK REL="up" HREF="node342.html">
+<LINK REL="next" HREF="node348.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5537"
+  HREF="node348.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5533"
+  HREF="node342.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5527"
+  HREF="node346.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5535"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5538"
+  HREF="node348.html">Boundary conditions(uboun.f)</A>
+<B> Up:</B> <A NAME="tex2html5534"
+  HREF="node342.html">User-defined loading</A>
+<B> Previous:</B> <A NAME="tex2html5528"
+  HREF="node346.html">Distribruted load (dload.f)</A>
+ &nbsp; <B>  <A NAME="tex2html5536"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00094500000000000000"></A><A NAME="userfilm"></A>
+<BR>
+Heat convection (film.f)
+</H3>
+
+<P>
+This subroutine is used for nonuniform convective heat flux, characterized by
+distributed load labels of the form FxNUy, cf
+<A HREF="node261.html#film">*FILM</A>. The load label can be up to 20 characters long. In
+particular, y can be used to distinguish different nonuniform film
+patterns. The header and variable description is as
+follows:
+
+<P>
+<PRE>
+      subroutine film(h,sink,temp,kstep,kinc,time,noel,npt,
+     &amp;  coords,jltyp,field,nfield,loadtype,node,area,vold,mi,
+     &amp;  ipkon,kon,lakon,iponoel,inoel,ielprop,prop,ielmat,
+     &amp;  shcon,nshcon,rhcon,nrhcon,ntmat_,cocon,ncocon)
+!
+!     user subroutine film
+!
+!
+!     INPUT:
+!
+!     sink               most recent sink temperature
+!     temp               current temperature value
+!     kstep              step number
+!     kinc               increment number
+!     time(1)            current step time
+!     time(2)            current total time
+!     noel               element number
+!     npt                integration point number
+!     coords(1..3)       global coordinates of the integration point
+!     jltyp              loading face kode:
+!                        11 = face 1 
+!                        12 = face 2 
+!                        13 = face 3 
+!                        14 = face 4 
+!                        15 = face 5 
+!                        16 = face 6
+!     field              currently not used
+!     nfield             currently not used (value = 1)
+!     loadtype           load type label
+!     node               network node (only for forced convection)
+!     area               area covered by the integration point
+!     vold(0..4,1..nk)   solution field in all nodes; 
+!                        for structural nodes:
+!                        0: temperature
+!                        1: displacement in global x-direction
+!                        2: displacement in global y-direction
+!                        3: displacement in global z-direction
+!                        4: static pressure
+!                        for network nodes
+!                        0: total temperature (at end nodes)
+!                           = static temperature for liquids
+!                        1: mass flow (at middle nodes)
+!                        2: total pressure (at end nodes)
+!                           = static pressure for liquids
+!                        3: static temperature (at end nodes; only for gas)
+!     mi(1)              max # of integration points per element (max
+!                        over all elements)
+!     mi(2)              max degree of freedom per node (max over all
+!                        nodes) in fields like v(0:mi(2))...
+!     ipkon(i)           points to the location in field kon preceding
+!                        the topology of element i
+!     kon(*)             contains the topology of all elements. The
+!                        topology of element i starts at kon(ipkon(i)+1)
+!                        and continues until all nodes are covered. The
+!                        number of nodes depends on the element label
+!     lakon(i)           contains the label of element i
+!     iponoel(i)         the network elements to which node i belongs
+!                        are stored in inoel(1,iponoel(i)),
+!                        inoel(1,inoel(2,iponoel(i)))...... until
+!                        inoel(2,inoel(2,inoel(2......)=0
+!     inoel(1..2,*)      field containing the network elements
+!     ielprop(i)         points to the location in field prop preceding
+!                        the properties of element i
+!     prop(*)            contains the properties of all network elements. The
+!                        properties of element i start at prop(ielprop(i)+1)
+!                        and continues until all properties are covered. The
+!                        appropriate amount of properties depends on the
+!                        element label. The kind of properties, their
+!                        number and their order corresponds
+!                        to the description in the user's manual,
+!                        cf. the sections "Fluid Section Types"
+!     ielmat(i)          contains the material number for element i
+!     shcon(0,j,i)       temperature at temperature point j of material i
+!     shcon(1,j,i)       specific heat at constant pressure at the
+!                        temperature point j of material i
+!     shcon(2,j,i)       dynamic viscosity at the temperature point j of
+!                        material i
+!     shcon(3,1,i)       specific gas constant of material i
+!     nshcon(i)          number of temperature data points for the specific
+!                        heat of material i
+!     rhcon(0,j,i)       temperature at density temperature point j of 
+!                        material i
+!     rhcon(1,j,i)       density at the density temperature point j of
+!                        material i
+!     nrhcon(i)          number of temperature data points for the density
+!                        of material i
+!     ntmat_             maximum number of temperature data points for 
+!                        any material property for any material
+!     ncocon(1,i)        number of conductivity constants for material i
+!     ncocon(2,i)        number of temperature data points for the 
+!                        conductivity coefficients of material i
+!     cocon(0,j,i)       temperature at conductivity temperature point
+!                        j of material i
+!     cocon(k,j,i)       conductivity coefficient k at conductivity
+!                        temperature point j of material i
+!
+!     OUTPUT:
+!
+!     h(1)               magnitude of the film coefficient
+!     h(2)               not used; please do NOT assign any value
+!     sink               (updated) sink temperature (need not be
+!                        defined for forced convection)
+!     ntmat_             maximum number of temperature data points for 
+!                        any material property for any material
+!     ncocon(1,i)        number of conductivity constants for material i
+!     ncocon(2,i)        number of temperature data points for the 
+!                        conductivity coefficients of material i
+!     cocon(0,j,i)       temperature at conductivity temperature point
+!                        j of material i
+!     cocon(k,j,i)       conductivity coefficient k at conductivity
+!                        temperature point j of material i
+!
+!     OUTPUT:
+!
+!     h(1)               magnitude of the film coefficient
+!     h(2)               not used; please do NOT assign any value
+!     sink               (updated) sink temperature (need not be
+!                        defined for forced convection)
+!     heatnod            extra heat flow going to the network node
+!                        (zero if not specified)
+!     heatfac            extra heat flow going to the structural face
+!                        (zero if not specified)
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

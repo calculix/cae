@@ -1,0 +1,288 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Buckling calculations</TITLE>
+<META NAME="description" CONTENT="Buckling calculations">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node406.html">
+<LINK REL="previous" HREF="node404.html">
+<LINK REL="up" HREF="node401.html">
+<LINK REL="next" HREF="node406.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6332"
+  HREF="node406.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6328"
+  HREF="node401.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6322"
+  HREF="node404.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6330"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6333"
+  HREF="node406.html">Modal dynamic calculations</A>
+<B> Up:</B> <A NAME="tex2html6329"
+  HREF="node401.html">Filling and solving the</A>
+<B> Previous:</B> <A NAME="tex2html6323"
+  HREF="node404.html">Frequency calculations</A>
+ &nbsp; <B>  <A NAME="tex2html6331"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000116400000000000000">
+Buckling calculations</A>
+</H3>
+
+<P>
+To calculate buckling loads routine arpackbu.c is called. The following steps
+are needed in a buckling calculation:
+
+<P>
+
+<UL>
+<LI>calculation of the stresses due to the buckling load. This implies
+  setting up the equation system in mafillsm.f, solving the system with SPOOLES
+  and determining the stresses in results.f
+</LI>
+<LI>setting up the buckling eigenvalue system consisting of the stiffness
+  matrix <!-- MATH
+ $\begin{bmatrix} K \end{bmatrix}$
+ -->
+<B><IMG
+ WIDTH="43" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1949.png"
+ ALT="$ \begin{bmatrix}K \end{bmatrix}$"></B> of the previous static step
+  (including large deformation stiffness and stress stiffness) and the stress
+  stiffness matrix  <!-- MATH
+ $\begin{bmatrix} KG \end{bmatrix}$
+ -->
+<B><IMG
+ WIDTH="32" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1950.png"
+ ALT="$ \begin{bmatrix}KG \end{bmatrix}$"></B> of the buckling load [<A
+ HREF="node448.html#Dhondt">18</A>].
+</LI>
+<LI>loop with starting value for <B><IMG
+ WIDTH="45" HEIGHT="35" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1951.png"
+ ALT="$ \sigma=1$"></B>
+
+<UL>
+<LI>LU decomposition of <!-- MATH
+ $\begin{bmatrix} K - \sigma KG \end{bmatrix}$
+ -->
+<B><IMG
+ WIDTH="43" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1952.png"
+ ALT="$ \begin{bmatrix}K - \sigma KG \end{bmatrix}$"></B>
+</LI>
+<LI>iterative calculation of the buckling factor with ARPACK
+</LI>
+<LI>determination of the buckling mode
+</LI>
+<LI>if <!-- MATH
+ $5 \sigma < \text{buckling factor} < 50000 \sigma$
+ -->
+<B><IMG
+ WIDTH="89" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1953.png"
+ ALT="$ 5 \sigma &lt;$">&nbsp; &nbsp;buckling factor<IMG
+ WIDTH="39" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1954.png"
+ ALT="$ &lt; 50000 \sigma$"></B> exit loop, else set
+  <!-- MATH
+ $\sigma= \text{buckling factor}/500$
+ -->
+<B><IMG
+ WIDTH="71" HEIGHT="30" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1955.png"
+ ALT="$ \sigma=$">&nbsp; &nbsp;buckling factor<IMG
+ WIDTH="31" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1956.png"
+ ALT="$ /500$"></B> and cycle
+</LI>
+</UL>
+</LI>
+<LI>determine the stresses and any other derived fields
+</LI>
+</UL>
+
+<P>
+The buckling mode in ARPACK (Mode 4, cf [<A
+ HREF="node448.html#Lehoucq">42</A>]) is used to solve a system of the form
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\begin{bmatrix} K \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix} = \lambda
+\begin{bmatrix} KG \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="36" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1957.png"
+ ALT="$\displaystyle \begin{bmatrix}K \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix} = \lambda \begin{bmatrix}KG \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(533)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\begin{bmatrix} K \end{bmatrix}$
+ -->
+<B><IMG
+ WIDTH="43" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1949.png"
+ ALT="$ \begin{bmatrix}K \end{bmatrix}$"></B> is symmetric and positive definite and 
+<!-- MATH
+ $\begin{bmatrix} KG \end{bmatrix}$
+ -->
+<B><IMG
+ WIDTH="32" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1950.png"
+ ALT="$ \begin{bmatrix}KG \end{bmatrix}$"></B> is symmetric but indefinite. The iterative
+procedure to find the eigenvalues requires routines to solve
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eq4"></A><!-- MATH
+ \begin{equation}
+\begin{bmatrix} K - \sigma KG \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix} =
+\begin{Bmatrix} X_1 \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="174" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1958.png"
+ ALT="$\displaystyle \begin{bmatrix}K - \sigma KG \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix} = \begin{Bmatrix}X_1 \end{Bmatrix}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(534)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and to calculate
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eq5"></A><!-- MATH
+ \begin{equation}
+\begin{Bmatrix} Y \end{Bmatrix} =
+\begin{bmatrix} K \end{bmatrix} \begin{Bmatrix} X_2 \end{Bmatrix}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="183" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1959.png"
+ ALT="$\displaystyle \begin{Bmatrix}Y \end{Bmatrix} = \begin{bmatrix}K \end{bmatrix} \begin{Bmatrix}X_2 \end{Bmatrix}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(535)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Similar to the frequency calculations, the LU decomposition (SPOOLES) to solve
+Equation (<A HREF="#eq4">534</A>) is performed before the loop determining the buckling
+factor, since the left hand side of the equation does not vary. The matrix
+multiplication in Equation (<A HREF="#eq5">535</A>) is taken care of by routine op.f.
+
+<P>
+A major difference with the frequency calculations is that an additional
+iteration loop is necessary to guarantee that the value of the buckling
+factor is right. Indeed, experience has shown that the value of <B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1010.png"
+ ALT="$ \sigma$"></B> matters
+here and that the inequality <!-- MATH
+ $5 \sigma < \text{buckling factor} < 50000 \sigma$
+ -->
+<B><IMG
+ WIDTH="89" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1953.png"
+ ALT="$ 5 \sigma &lt;$">&nbsp; &nbsp;buckling factor<IMG
+ WIDTH="39" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1954.png"
+ ALT="$ &lt; 50000 \sigma$"></B>
+should be satisfied. If it is not, the whole procedure starting with the LU
+decomposition is repeated with a new value of <!-- MATH
+ $\sigma=\text{buckling
+factor}/500$
+ -->
+<B><IMG
+ WIDTH="71" HEIGHT="30" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1955.png"
+ ALT="$ \sigma=$">buckling
+factor<IMG
+ WIDTH="31" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1956.png"
+ ALT="$ /500$"></B>. If necessary, up to four such iterations are allowed. 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6332"
+  HREF="node406.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6328"
+  HREF="node401.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6322"
+  HREF="node404.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6330"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6333"
+  HREF="node406.html">Modal dynamic calculations</A>
+<B> Up:</B> <A NAME="tex2html6329"
+  HREF="node401.html">Filling and solving the</A>
+<B> Previous:</B> <A NAME="tex2html6323"
+  HREF="node404.html">Frequency calculations</A>
+ &nbsp; <B>  <A NAME="tex2html6331"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

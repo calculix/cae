@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Beam Section Types</TITLE>
+<META NAME="description" CONTENT="Beam Section Types">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node76.html">
+<LINK REL="previous" HREF="node26.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node73.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1957"
+  HREF="node73.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1953"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1947"
+  HREF="node71.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1955"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1958"
+  HREF="node73.html">Pipe</A>
+<B> Up:</B> <A NAME="tex2html1954"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html1948"
+  HREF="node71.html">User Element (Uxxxx)</A>
+ &nbsp; <B>  <A NAME="tex2html1956"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00073000000000000000"></A><A NAME="beamsectiontypes"></A>
+<BR>
+Beam Section Types
+</H2>
+
+<P>
+A beam element is characterized by its cross section. This cross section is
+defined by a <A HREF="node208.html#beamsection">*BEAM SECTION</A> card. All beam sections
+which are not rectangular (including square) or elliptical (including
+circular) are considered as ``beam general sections'' and are internally expanded into a rectangular
+cross section (C3D20R-type element) and the actual section of the beam is simulated by an
+appropriate integration point scheme. A section type is characterized by a
+finite number of parameters, which must be entered immediately underneath the
+*BEAM SECTION card. A new section type can be added by
+changing the following routines:
+
+<P>
+
+<UL>
+<LI>allocation.f (define the new section underneath the *BEAMSECTION
+  if-statement)
+</LI>
+<LI>calinput.f (define the new section underneath the *BEAMSECTION if-statement)
+</LI>
+<LI>beamgeneralsections.f (here, the one-letter abbreviation for the section
+  has to be added. For instance, the pipe section is characterized by
+  'P'. Furthermore, the programmer must define the number of parameters needed
+  to characterize the section).
+</LI>
+<LI>beamintscheme.f (here, the integration point scheme has to be defined)
+</LI>
+<LI>beamextscheme.f (here, the extrapolation of the integration point
+  variables such as stresses or strains to the nodes of the expanded C3D20R
+  element).
+</LI>
+</UL>
+
+<P>
+Right now, the following section types are available:
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1959"
+  HREF="node73.html">Pipe</A>
+<LI><A NAME="tex2html1960"
+  HREF="node74.html">Box</A>
+<LI><A NAME="tex2html1961"
+  HREF="node75.html">General</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1957"
+  HREF="node73.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1953"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1947"
+  HREF="node71.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1955"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1958"
+  HREF="node73.html">Pipe</A>
+<B> Up:</B> <A NAME="tex2html1954"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html1948"
+  HREF="node71.html">User Element (Uxxxx)</A>
+ &nbsp; <B>  <A NAME="tex2html1956"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

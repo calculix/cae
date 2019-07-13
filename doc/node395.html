@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Integrating the stresses in beams to obtain the section forces</TITLE>
+<META NAME="description" CONTENT="Integrating the stresses in beams to obtain the section forces">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node394.html">
+<LINK REL="up" HREF="node386.html">
+<LINK REL="next" HREF="node396.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6205"
+  HREF="node396.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6201"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6197"
+  HREF="node394.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6203"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6206"
+  HREF="node396.html">Contact</A>
+<B> Up:</B> <A NAME="tex2html6202"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6198"
+  HREF="node394.html">Applying concentrated forces to</A>
+ &nbsp; <B>  <A NAME="tex2html6204"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000113900000000000000">
+Integrating the stresses in beams to obtain the section forces</A>
+</H3>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="c1dsection"></A><A NAME="12806"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 162:</STRONG>
+Expansion of a beam element</CAPTION>
+<TR><TD><IMG
+ WIDTH="268" HEIGHT="102" BORDER="0"
+ SRC="img1908.png"
+ ALT="\begin{figure}\epsfig{file=C1Dsection.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In beam elements the section forces can be requested at the end nodes. To this
+end the stresses in the expanded faces at the end nodes are integrated. How
+this is done can be explained by looking at Figure <A HREF="#c1dsection">162</A>.
+
+<P>
+The stresses in the expanded element are at first determined in the integration
+points (e.g. the Gauss-Kronrod points, cf. Figure <A HREF="node59.html#gausskronrod">80</A>). Then,
+they are expanded to the nodes of the element. Consequently, the stresses are
+available at all 20 nodes of the element in Figure  <A HREF="#c1dsection">162</A>. In order
+to obtain the section force the following local coordinate systems are
+introduced:
+
+<P>
+
+<UL>
+<LI>The local element <!-- MATH
+ $\xi-\eta-\zeta$
+ -->
+<B><IMG
+ WIDTH="540" HEIGHT="487" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1909.png"
+ ALT="$ \xi-\eta-\zeta$"></B>-system. <B><IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$ \xi$"></B> is along the axis of
+  the beam (from the first node of the element to the last node), <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"></B> is along the user-defined 1-direction of the beam, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"></B>
+  corresponds to the minus 2-direction. The 2-direction is defined such that
+  <B><IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$ \xi$"></B>-1-2 corresponds to a positive axis system.
+</LI>
+<LI>On the positive face of the beam element (the face corresponding to the
+  last end node of the beam definition, i.e. <B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img665.png"
+ ALT="$ \xi=1$"></B>) the positive direction
+  for the section forces, which is denoted by I, II and III in Figure
+  <A HREF="#c1dsection">162</A> corresponds to the element 1-direction, 2-direction and <B><IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$ \xi$"></B>.
+</LI>
+<LI>On the negative face of the beam element the positive direction for the
+  section forces, denoted by I, II and III points in the other direction of
+  the corresponding axes on the positive face (action=reaction).
+</LI>
+<LI>The local node numbering within the positive face is labeled by 1 to 8
+  in small circles and corresponds to a local coordinate system <!-- MATH
+ $\xi_l,\eta_l$
+ -->
+<B><IMG
+ WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1910.png"
+ ALT="$ \xi_l,\eta_l$"></B>
+  = <!-- MATH
+ $\zeta,-\eta$
+ -->
+<B><IMG
+ WIDTH="36" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1911.png"
+ ALT="$ \zeta,-\eta$"></B>
+  coinciding with the system I-II.
+</LI>
+<LI>The local node numbering within the negative face is also labeled by 1
+  to 8 in small circles and corresponds to a local coordinate system
+  <!-- MATH
+ $\xi_l,\eta_l$
+ -->
+<B><IMG
+ WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1910.png"
+ ALT="$ \xi_l,\eta_l$"></B> = -I,II = <!-- MATH
+ $\zeta,\eta$
+ -->
+<B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1912.png"
+ ALT="$ \zeta,\eta$"></B>.
+</LI>
+</UL>
+
+<P>
+The system I-II-III in the faces denotes the positive direction of the section
+forces. The location of the integration points in the corresponding
+<!-- MATH
+ $\xi_l,\eta_l$
+ -->
+<B><IMG
+ WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1910.png"
+ ALT="$ \xi_l,\eta_l$"></B> system is obtained from the local element coordinate system
+<!-- MATH
+ $\xi-\eta-\zeta$
+ -->
+<B><IMG
+ WIDTH="540" HEIGHT="487" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1909.png"
+ ALT="$ \xi-\eta-\zeta$"></B> through the above face-dependent relationships.
+
+<P>
+In order to get the section forces the stresses are calculated in the
+integration points of the positive and negative face by interpolation from the
+stresses at the nodes belonging to the respective face. The integration point
+scheme depends on the beam section. 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6205"
+  HREF="node396.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6201"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6197"
+  HREF="node394.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6203"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6206"
+  HREF="node396.html">Contact</A>
+<B> Up:</B> <A NAME="tex2html6202"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6198"
+  HREF="node394.html">Applying concentrated forces to</A>
+ &nbsp; <B>  <A NAME="tex2html6204"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

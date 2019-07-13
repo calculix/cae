@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Substructure Generation </TITLE>
+<META NAME="description" CONTENT="Substructure Generation ">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node180.html">
+<LINK REL="previous" HREF="node178.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node180.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3337"
+  HREF="node180.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3333"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3327"
+  HREF="node178.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3335"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3338"
+  HREF="node180.html">Electromagnetism</A>
+<B> Up:</B> <A NAME="tex2html3334"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3328"
+  HREF="node178.html">Three-dimensional Navier-Stokes Calculations</A>
+ &nbsp; <B>  <A NAME="tex2html3336"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000792000000000000000"></A><A NAME="substructure"></A>
+<BR>
+Substructure Generation 
+</H3>
+
+<P>
+This procedure can be used to create the stiffness matrix of a substructure
+(sometimes also called a superelement) and store it in a file. A substructure
+consists of selected degrees of freedom of a model. It can be used in a
+subsequent linear analysis (this option is not available in CalculiX). In such an analysis,
+only the selected degrees of freedom are addressable, e.g. to apply loads or
+boundary conditions. The other degrees of freedom have been removed, thereby
+substantially reducing the size of the stiffness matrix. The retained degrees
+of freedom kind of constitute a new element (which explains the term
+superelement). 
+
+<P>
+The substructure generation is triggered by the procedure card
+<A HREF="node320.html#substructuregenerate">*SUBSTRUCTURE GENERATE</A>. The degrees of freedom
+which should be retained can be defined by using the <A HREF="node306.html#retainednodaldofs">*RETAINED NODAL
+  DOFS</A> card. No transformation is allowed, consequently,
+the degrees of freedom apply to the global Carthesian system. Finally, the
+storage of the stiffness matrix is governed by the <A HREF="node321.html#substructurematrixoutput">*SUBSTRUCTURE
+  MATRIX OUTPUT</A> card, specifying the name of the
+file without extension. The extension .mtx is default. 
+
+<P>
+The output in the .mtx file constitutes the input one needs to use the
+superelement in ABAQUS. It consists of:
+
+<P>
+
+<UL>
+<LI>a *USER ELEMENT card specifying the number of degrees of freedom involved in the
+  substructure (misleadingly defined as ``nodes''). 
+</LI>
+<LI>a list of the nodes. Each node is listed as many times as the number of
+  its degrees of freedom in the substructure.
+</LI>
+<LI>for each retained degree of freedom its global direction. The format for
+  the first degree of freedom of the substructure is just the global
+  direction. For the subsequent degrees of freedom it consists of the number
+  of the degree of freedom followed by the global direction
+</LI>
+<LI>a *MATRIX,TYPE=STIFFNESS card followed by the upper triangle (including
+  the diagonal) of the stiffness matrix, column by column, and comma
+  separated.
+</LI>
+</UL>
+
+<P>
+Since substructures cannot be used in CalculiX, the generation of the
+substructure stiffness matrix is meant to be used by other programs.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3337"
+  HREF="node180.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3333"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3327"
+  HREF="node178.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3335"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3338"
+  HREF="node180.html">Electromagnetism</A>
+<B> Up:</B> <A NAME="tex2html3334"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3328"
+  HREF="node178.html">Three-dimensional Navier-Stokes Calculations</A>
+ &nbsp; <B>  <A NAME="tex2html3336"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

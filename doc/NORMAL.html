@@ -1,0 +1,6 @@
+<html><head><link rel="stylesheet" type="text/css" href="/media/ihor/WORK/Calculix/ccx_cae/doc/style.css"></head><body><H2><BR>*NORMAL</H2><P>Keyword type: model definition<P>With this option a normal can be defined for a (node,element)pair. This only makes sense for shell elements and beam elements. Forbeam elements the normal direction is the local 2-direction. If nonormal is specified in a node it is calculated on basis of the local geometry.If the normal defined by the user has not unit length, it will benormalized. There are no parameters for this keyword card.<P><P><BR><P>First line:<UL><LI>*NORMAL</LI></UL><P><UL><LI>Element number</LI><LI>Node number</LI><LI>Global x-coordinate of the normal</LI><LI>Global y-coordinate of the normal</LI><LI>Global z-coordinate of the normal</LI></UL><P><PRE>
+Example:
+
+*NORMAL
+5,18,0.707,0.,0.707
+</PRE><P>Defines a normal with components (0.707,0.,0.707) in node 18 ofelement 5. <P><P><P><BR>Example files: shellnor.<P></body></html>

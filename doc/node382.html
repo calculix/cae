@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Facial distributed loads</TITLE>
+<META NAME="description" CONTENT="Facial distributed loads">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node383.html">
+<LINK REL="previous" HREF="node381.html">
+<LINK REL="up" HREF="node378.html">
+<LINK REL="next" HREF="node383.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6044"
+  HREF="node383.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6040"
+  HREF="node378.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6034"
+  HREF="node381.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6042"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6045"
+  HREF="node383.html">Mechanical body loads</A>
+<B> Up:</B> <A NAME="tex2html6041"
+  HREF="node378.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6035"
+  HREF="node381.html">Concentrated loads</A>
+ &nbsp; <B>  <A NAME="tex2html6043"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000112400000000000000">
+Facial distributed loads</A>
+</H3>
+
+<P>
+The field architecture discussed here applies to loads on element faces and
+heat sources per unit of mass. Consequently, it is used for the following keyword
+cards:
+
+<P>
+
+<UL>
+<LI>*DFLUX: S and BF load labels
+</LI>
+<LI>*DLOAD: P load labels
+</LI>
+<LI>*FILM: F load labels
+</LI>
+<LI>*RADIATE: R load labels
+</LI>
+<LI>*TRANSFORMF: T load labels. This label only applies to CFD-calculations,
+  for which transformations are applied to element faces (and not to nodes as
+  for others types of calculations).
+</LI>
+</UL>
+
+<P>
+It does not apply to gravity and centrifugal loads. These are treated
+separately. 
+
+<P>
+The two-dimensional integer field nelemload contains two columns and as many
+rows as there are distributed loads. Its first column contains the element
+number the load applies to. Its second column is only used for forced
+convection in which case it contains the fluid node number the element exchanges
+heat with. The load label is stored in the one-dimensional field sideload
+(maximum 20 characters per label). The two-dimensional field xload contains
+two columns and again as many rows as there are distributed loads. For *DFLUX
+and *DLOAD the first column contains the nominal loading value, the second
+column is not used. For *FILM and *RADIATE loads the first column contains the
+nominal film coefficient and the emissivity, respectively, and the second
+column contains the sink temperature. For forced convection, cavity radiation
+and non uniform loads some of the above variables are calculated during the
+program execution and the predefined values in the input deck are not
+used. The nominal loading values can be changed by defining an amplitude. The
+number of the amplitude (in the order of the input deck) is stored in the
+one-dimensional field iamload. Based on the actual time the actual load is
+calculated from the nominal value and the amplitude, if any. It is stored in
+the one-dimensional field xloadact.
+
+<P>
+In the subroutine calinput.f, the distributed loads are ordered according to
+the element number they apply to. Accordingly, the first load definition in
+the input deck does not necessarily correspond to the first row in fields
+nelemload, xload, iamload, xloadact and sideload.
+
+<P>
+As an example, assume the following distributed loads:
+
+<P>
+<PRE>
+*DLOAD
+10,P3,8.3
+*FILM
+6,F4,273.,10.
+12,F4FC,20,5.
+</PRE>
+
+<P>
+then the loading fields will look like:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\text{nelemload}=\begin{bmatrix} 6 & 0 \\10 & 0 \\12 & 20 \end{bmatrix},
+\text{xload}=\begin{bmatrix} 10. & 273. \\8.3 & 0. \\5. & 0.  \end{bmatrix}. 
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER">nelemload<IMG
+ WIDTH="71" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1888.png"
+ ALT="$\displaystyle =\begin{bmatrix}6 &amp; 0 \\ 10 &amp; 0 \\ 12 &amp; 20 \end{bmatrix},$">&nbsp; &nbsp;xload<IMG
+ WIDTH="97" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1889.png"
+ ALT="$\displaystyle =\begin{bmatrix}10. &amp; 273. \\ 8.3 &amp; 0. \\ 5. &amp; 0. \end{bmatrix}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(516)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\text{sideload}=\begin{Bmatrix} F4 \\P3 \\F4FC \end{Bmatrix},
+\text{iamload}=\begin{Bmatrix} 0 \\0 \\0 \end{Bmatrix}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER">sideload<IMG
+ WIDTH="114" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1890.png"
+ ALT="$\displaystyle =\begin{Bmatrix}F4 \\ P3 \\ F4FC \end{Bmatrix},$">&nbsp; &nbsp;iamload<IMG
+ WIDTH="102" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1891.png"
+ ALT="$\displaystyle =\begin{Bmatrix}0 \\ 0 \\ 0 \end{Bmatrix}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(517)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6044"
+  HREF="node383.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6040"
+  HREF="node378.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6034"
+  HREF="node381.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6042"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6045"
+  HREF="node383.html">Mechanical body loads</A>
+<B> Up:</B> <A NAME="tex2html6041"
+  HREF="node378.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6035"
+  HREF="node381.html">Concentrated loads</A>
+ &nbsp; <B>  <A NAME="tex2html6043"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

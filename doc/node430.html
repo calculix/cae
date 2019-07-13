@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>determineextern.f</TITLE>
+<META NAME="description" CONTENT="determineextern.f">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node431.html">
+<LINK REL="previous" HREF="node429.html">
+<LINK REL="up" HREF="node427.html">
+<LINK REL="next" HREF="node431.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6673"
+  HREF="node431.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6669"
+  HREF="node427.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6663"
+  HREF="node429.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6671"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6674"
+  HREF="node431.html">midexternaledges.f</A>
+<B> Up:</B> <A NAME="tex2html6670"
+  HREF="node427.html">Mesh refining procedure</A>
+<B> Previous:</B> <A NAME="tex2html6664"
+  HREF="node429.html">catedges.f</A>
+ &nbsp; <B>  <A NAME="tex2html6672"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION0001111530000000000000">
+determineextern.f</A>
+</H4>
+
+<P>
+Next, the external nodes, edges and faces are identified.
+
+<P>
+A face is external if it belongs to only one element. If face is is external
+iexternfa(i) is set to 1, else it is 0.
+
+<P>
+All nodes in an external face are external. For these nodes iexternnode is set
+to 1, else it is 0.
+
+<P>
+All edges in an external face are external. The value for these edges in
+iexternedg is at
+first set to 1, else it is 0.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

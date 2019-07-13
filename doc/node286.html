@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*MODEL CHANGE</TITLE>
+<META NAME="description" CONTENT="*MODEL CHANGE">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node287.html">
+<LINK REL="previous" HREF="node285.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node287.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4760"
+  HREF="node287.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4756"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4750"
+  HREF="node285.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4758"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4761"
+  HREF="node287.html">*MPC</A>
+<B> Up:</B> <A NAME="tex2html4757"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4751"
+  HREF="node285.html">*MODAL DYNAMIC</A>
+ &nbsp; <B>  <A NAME="tex2html4759"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000878000000000000000"></A><A NAME="modelchange"></A>
+<BR>
+*MODEL CHANGE
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+With this option one can activate or deactivate elements and contact
+pairs. 
+
+<P>
+One can deactivate or activate any element which has been defined in the model
+section of the input deck. Before the first step all elements are by default
+activated. There is one required parameter TYPE=ELEMENT and there are two
+mutually exclusive parameters ADD and REMOVE. The ADD parameter can be
+complemented by the modifiers STRAIN FREE or WITH STRAIN (ADD=STRAIN FREE and
+ADD=WITH STRAIN, respectivily). If ADD=STRAIN FREE is selected the strains at
+the time of adding the element, if any, are modified by artificial initial
+strains such that the resulting stress tensor is zero. In that sense the
+elements are stress free rather than strain free. With ADD=WITH STRAIN the
+strains at the time of activation are not modified. Default is STRAIN FREE.
+
+<P>
+To activate or deactivate contact between two
+surfaces, contact must have been defined between these surfaces using a
+<A HREF="node230.html#contactpair">*CONTACT PAIR</A> card before the first step. By default
+all contact pairs are activated before the first step. There is one
+required parameter TYPE=CONTACT PAIR and there are two mutually exclusive
+parameters ADD and REMOVE.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*MODEL CHANGE
+</LI>
+<LI>enter the required parameter TYPE=CONTACT PAIR or TYPE=ELEMENT and one of the mutually
+  exclusive parameters ADD and REMOVE.
+</LI>
+</UL>
+
+<P>
+Following line for TYPE=ELEMENT:
+
+<UL>
+<LI>List of elements and/or sets of elements to be activated or deactivated
+  (maximum 16 entries per line).
+</LI>
+</UL>
+Repeat this line if needed
+
+<P>
+Following line for TYPE=CONTACT PAIR:
+
+<UL>
+<LI>Name of the slave surface (can be nodal or element face based).
+</LI>
+<LI>Name of the master surface (must be based on element faces).
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*MODEL CHANGE,TYPE=CONTACT PAIR,REMOVE
+dep,ind
+</PRE>
+
+<P>
+deactivates contact between the surfaces dep and ind.
+
+<P>
+
+<P><P>
+<BR>
+Example files: modelchel,modelchel2
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4760"
+  HREF="node287.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4756"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4750"
+  HREF="node285.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4758"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4761"
+  HREF="node287.html">*MPC</A>
+<B> Up:</B> <A NAME="tex2html4757"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4751"
+  HREF="node285.html">*MODAL DYNAMIC</A>
+ &nbsp; <B>  <A NAME="tex2html4759"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

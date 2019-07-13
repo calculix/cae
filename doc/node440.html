@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>cavityext.f</TITLE>
+<META NAME="description" CONTENT="cavityext.f">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node441.html">
+<LINK REL="previous" HREF="node439.html">
+<LINK REL="up" HREF="node427.html">
+<LINK REL="next" HREF="node441.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6793"
+  HREF="node441.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6789"
+  HREF="node427.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6783"
+  HREF="node439.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6791"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6794"
+  HREF="node441.html">START OF THE REFINEMENT</A>
+<B> Up:</B> <A NAME="tex2html6790"
+  HREF="node427.html">Mesh refining procedure</A>
+<B> Previous:</B> <A NAME="tex2html6784"
+  HREF="node439.html">newnodes.f</A>
+ &nbsp; <B>  <A NAME="tex2html6792"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00011115130000000000000">
+cavityext.f</A>
+</H4>
+
+<P>
+The insertion of each node is performed in cavityext in the following way:
+
+<P>
+
+<UL>
+<LI>determine the cavity for the new node
+
+<UL>
+<LI>start from the base element
+</LI>
+<LI>add elements one by one through adjacency; only element whose
+  circumcircle enclose the new node are taken into account
+</LI>
+<LI>check for nodes within the cavity; if any, remove the element to which
+  they belong from the cavity
+</LI>
+<LI>restore the unperturbed coordinates of the new node
+</LI>
+<LI>connect the new node with each of the faces bordering the cavity and
+  check the quality of the ensueing element. If 
+
+<UL>
+<LI>the volume is not extremely small AND
+</LI>
+<LI>at least one height (a tetrahedral element has 4 heights) which is
+  very small compared to the desired element size at the new node's position
+  AND
+</LI>
+<LI>the face bordering the cavity is external,
+</LI>
+</UL>
+
+<P>
+then the cavity element bordering this face is removed, provided it is not the
+base element.
+
+<P>
+</LI>
+<LI>revert to the perturbed coordinates of the new node
+</LI>
+<LI>check that the cavity is convex in the sense that each cavity face is
+  visible from the new node, else the element bordering the face is removed
+  from the cavity
+</LI>
+<LI>restore the unperturbed coordinates
+</LI>
+</UL>
+</LI>
+<LI>remove the cavity elements
+</LI>
+<LI>create new elements connecting the new node with each of the cavity
+  faces provided the resulting volume is not extremely small. If it is, no
+  element is created and the sign of the face is inverted thus marking the
+  zero volume elements
+</LI>
+<LI>if any element has a very small volume or at least one very small height
+  the original mesh of the cavity is restored
+</LI>
+<LI>since elements have been deleted and created the base element numbers of
+  the nodes still te be inserted may not be correct any more: perform a check
+  on these nodes and correct the base element numbers if necessary.
+</LI>
+<LI>label the newly generated faces and edges as external or not. Sub-edges
+  of the edge on which the new node was inserted inherit the label from field
+  iexternaledg
+</LI>
+<LI>for negative cavity faces:
+
+<UL>
+<LI>loop over all their edges and check whether they are still needed
+  (i.e. still belong to another face)
+</LI>
+<LI>remove the face
+</LI>
+</UL>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6793"
+  HREF="node441.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6789"
+  HREF="node427.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6783"
+  HREF="node439.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6791"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6794"
+  HREF="node441.html">START OF THE REFINEMENT</A>
+<B> Up:</B> <A NAME="tex2html6790"
+  HREF="node427.html">Mesh refining procedure</A>
+<B> Previous:</B> <A NAME="tex2html6784"
+  HREF="node439.html">newnodes.f</A>
+ &nbsp; <B>  <A NAME="tex2html6792"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

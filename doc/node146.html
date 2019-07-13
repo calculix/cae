@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Linear elastic materials for rotation-insensitive small strains</TITLE>
+<META NAME="description" CONTENT="Linear elastic materials for rotation-insensitive small strains">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node147.html">
+<LINK REL="previous" HREF="node145.html">
+<LINK REL="up" HREF="node143.html">
+<LINK REL="next" HREF="node147.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2920"
+  HREF="node147.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2916"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2910"
+  HREF="node145.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2918"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2921"
+  HREF="node147.html">Ideal gas for quasi-static</A>
+<B> Up:</B> <A NAME="tex2html2917"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2911"
+  HREF="node145.html">Linear elastic materials for</A>
+ &nbsp; <B>  <A NAME="tex2html2919"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00078300000000000000">
+Linear elastic materials for rotation-insensitive small
+  strains</A>
+</H3>
+
+<P>
+This is a material formulation for very special applications. Small strains
+(i.e. linearized strains) are large rotation sensitive, i.e. they become
+nonzero if you apply a large rigid body rotation to a structure (cf
+[<A
+ HREF="node448.html#Dhondt">18</A>]).
+
+<P>
+The Lagrange strain tensor satisfies:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+2 \boldmath {E}={\boldmath {F}}^T{\boldmath {F}}-\boldmath {I},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="126" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img988.png"
+ ALT="$\displaystyle 2 \boldmath {E}={\boldmath {F}}^T{\boldmath {F}}-\boldmath {I},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(257)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+which can also be written as:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+2 \boldmath {E}={(\boldmath {F}-\boldmath {I})}^T + {(\boldmath {F}-\boldmath {I})}+{(\boldmath {F}-\boldmath {I})}^T{(\boldmath {F}-\boldmath {I})}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="361" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img989.png"
+ ALT="$\displaystyle 2 \boldmath {E}={(\boldmath {F}-\boldmath {I})}^T + {(\boldmath {...
+...oldmath {I})}+{(\boldmath {F}-\boldmath {I})}^T{(\boldmath {F}-\boldmath {I})}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(258)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<!-- MATH
+ $\boldmath {F}$
+ -->
+<IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img990.png"
+ ALT="$ \boldmath {F}$"> is the deformation gradient and the expressions in parentheses
+are the gradient of the displacements. Linearizing, only the first two terms on
+the right hand side of the above equation are kept. This linearization,
+however, is not large-rotation insensitive. In order to create a
+rotation-insensitive linear strain, the deformation gradient is replaced by
+the right hand stretch tensor <!-- MATH
+ $\boldmath {U}$
+ -->
+<IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img991.png"
+ ALT="$ \boldmath {U}$"> (recall that
+<!-- MATH
+ $\boldmath {F}=\boldmath {R}\boldmath {U}$
+ -->
+<IMG
+ WIDTH="63" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img992.png"
+ ALT="$ \boldmath {F}=\boldmath {R}\boldmath {U}$">, where <!-- MATH
+ $\boldmath {R}$
+ -->
+<IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img993.png"
+ ALT="$ \boldmath {R}$"> is the rotation tensor):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+2 \boldmath {E}={(\boldmath {U}-\boldmath {I})}^T + {(\boldmath {U}-\boldmath {I})}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="211" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img994.png"
+ ALT="$\displaystyle 2 \boldmath {E}={(\boldmath {U}-\boldmath {I})}^T + {(\boldmath {U}-\boldmath {I})}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(259)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+This strain is, although linear, large rotation insensitive. Now, what is this
+good for? In some applications (e.g. in linear elastic fracture mechanics) you
+need linear strains exhibiting the appropriate stress and strain
+singularities (e.g. at the crack tip). However, you would still like to include
+appications with large rotations. The above formulation takes care of exactly
+these requirements.
+
+<P>
+In order to apply this formulation in CalculiX, the user has to specify the
+parameter NLGEOM on the *STEP card. In those elements, in which
+rotation-insensitive linear strains should be used, the user has to replace
+the linear elastic isotropic material he/she would usually apply by the user
+material coded in routine umat_undo_nlgeom_lin_iso_el.f. To that end the
+user gives a new name to the material starting with
+UNDO_NLGEOM_LIN_ISO_EL. The constants of this user material are the
+Young's modulus and Poisson's coefficient of the original material. Suppose
+the original material formulation was:
+
+<P>
+<PRE>
+*MATERIAL,NAME=EL
+*ELASTIC
+210000.,.3
+</PRE>
+
+<P>
+Then, the new material is defined by:
+
+<P>
+<PRE>
+*MATERIAL,NAME=UNDO_NLGEOM_LIN_ISO_ELx
+*USER MATERIAL,CONSTANTS=2
+210000.,.3
+</PRE>
+
+<P>
+where x can be whatever character string preferred by the user, minimum 0
+characters, maximum 58 characters long. Only linear elastic isotropic
+materials are allowed so far.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2920"
+  HREF="node147.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2916"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2910"
+  HREF="node145.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2918"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2921"
+  HREF="node147.html">Ideal gas for quasi-static</A>
+<B> Up:</B> <A NAME="tex2html2917"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2911"
+  HREF="node145.html">Linear elastic materials for</A>
+ &nbsp; <B>  <A NAME="tex2html2919"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

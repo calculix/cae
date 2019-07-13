@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Discontinuous Opening</TITLE>
+<META NAME="description" CONTENT="Discontinuous Opening">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node120.html">
+<LINK REL="previous" HREF="node118.html">
+<LINK REL="up" HREF="node112.html">
+<LINK REL="next" HREF="node120.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2565"
+  HREF="node120.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2561"
+  HREF="node112.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2555"
+  HREF="node118.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2563"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2566"
+  HREF="node120.html">Reservoir</A>
+<B> Up:</B> <A NAME="tex2html2562"
+  HREF="node112.html">Fluid Section Types: Open</A>
+<B> Previous:</B> <A NAME="tex2html2556"
+  HREF="node118.html">Discontinuous Slope</A>
+ &nbsp; <B>  <A NAME="tex2html2564"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00076700000000000000">
+Discontinuous Opening</A>
+</H3>
+
+<P>
+The discontinuous opening is the downstream element of the boundary element pair defining
+a change in channel slope.   The following constants have to be specified on the
+line beneath the *FLUID SECTION,TYPE=CHANNEL DISCONTINUOUS OPENING card:
+
+<P>
+
+<UL>
+<LI>the width <IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img310.png"
+ ALT="$ b$">
+</LI>
+<LI><!-- MATH
+ $S_0 = \sin (\phi_2)$
+ -->
+<IMG
+ WIDTH="91" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img699.png"
+ ALT="$ S_0 = \sin (\phi_2)$"> (Figure <A HREF="node118.html#discontslope">125</A>; if <IMG
+ WIDTH="63" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img681.png"
+ ALT="$ S_0&lt;-1$"> the slope is calculated from the
+  coordinates of the end nodes belonging to the element)
+</LI>
+<LI>the length <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img700.png"
+ ALT="$ L_2$"> (Figure <A HREF="node118.html#discontslope">125</A>; if <IMG
+ WIDTH="52" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$ L_2 \le 0$"> the length is calculated from the
+  coordinates of the end nodes belonging to the element)
+</LI>
+<LI>the trapezoid angle <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img178.png"
+ ALT="$ \theta$">
+</LI>
+<LI>the grain diameter <IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img448.png"
+ ALT="$ k_s$"> for the White-Colebrook law or the Manning
+  constant <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$"> for the Manning law (in the latter case the user has to specify
+  the parameter MANNING on the *FLUID SECTION card)
+</LI>
+<LI>the number of the upstream discontinuous slope element.
+</LI>
+</UL>
+
+<P>
+The length <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img700.png"
+ ALT="$ L_2$"> is typically small compared to the length of the adjacent
+channel branches.
+
+<P>
+
+<P><P>
+<BR>
+Example files: channel6.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

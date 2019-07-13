@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Pipe, Diaphragm</TITLE>
+<META NAME="description" CONTENT="Pipe, Diaphragm">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node108.html">
+<LINK REL="previous" HREF="node106.html">
+<LINK REL="up" HREF="node101.html">
+<LINK REL="next" HREF="node108.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2410"
+  HREF="node108.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2406"
+  HREF="node101.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2400"
+  HREF="node106.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2408"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2411"
+  HREF="node108.html">Pipe, Bend</A>
+<B> Up:</B> <A NAME="tex2html2407"
+  HREF="node101.html">Fluid Section Types: Liquids</A>
+<B> Previous:</B> <A NAME="tex2html2401"
+  HREF="node106.html">Pipe, Entrance</A>
+ &nbsp; <B>  <A NAME="tex2html2409"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00075600000000000000">
+Pipe, Diaphragm</A>
+</H3>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="diaphragm"></A><A NAME="12035"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 118:</STRONG>
+Diaphragm</CAPTION>
+<TR><TD><IMG
+ WIDTH="281" HEIGHT="161" BORDER="0"
+ SRC="img658.png"
+ ALT="\begin{figure}\epsfig{file=Diaphragm.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+A diaphragm (Figure <A HREF="#diaphragm">118</A>) is characterized by head
+losses <!-- MATH
+ $\Delta_1^2 F$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img637.png"
+ ALT="$ \Delta_1^2 F$"> of the form:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\Delta_1^2 F = \zeta \frac{\dot{m}^2}{2 g \rho^2 A^2 },
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="126" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img655.png"
+ ALT="$\displaystyle \Delta_1^2 F = \zeta \frac{\dot{m}^2}{2 g \rho^2 A^2 },$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(132)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"> is a head loss coefficient depending on the ratio <IMG
+ WIDTH="43" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img656.png"
+ ALT="$ A_0/A$">,
+<IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img391.png"
+ ALT="$ \dot{m}$"> is the mass flow, g is the gravity acceleration and <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"> is the
+liquid density. <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ A_0$"> and <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$"> are the cross section of the diaphragm and of
+the pipe, respectively. Values for <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"> can be found in file ``liquidpipe.f''.   
+
+<P>
+The following constants have to be specified on the
+ line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=PIPE DIAPHRAGM card:
+
+<P>
+
+<UL>
+<LI><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$">
+</LI>
+<LI><!-- MATH
+ $A_0 \;\;\;(\le A)$
+ -->
+<IMG
+ WIDTH="78" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img657.png"
+ ALT="$ A_0 \;\;\;(\le A)$">
+</LI>
+</UL>
+
+<P>
+The gravity acceleration must be specified by a gravity type
+<A HREF="node247.html#dload">*DLOAD</A> card defined for the elements at stake. The material
+characteristic <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"> can be defined by a
+<A HREF="node241.html#density">*DENSITY</A>
+card. 
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

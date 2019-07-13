@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>midexternaledges.f</TITLE>
+<META NAME="description" CONTENT="midexternaledges.f">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node432.html">
+<LINK REL="previous" HREF="node430.html">
+<LINK REL="up" HREF="node427.html">
+<LINK REL="next" HREF="node432.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6685"
+  HREF="node432.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6681"
+  HREF="node427.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6675"
+  HREF="node430.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6683"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6686"
+  HREF="node432.html">midexternalfaces.f</A>
+<B> Up:</B> <A NAME="tex2html6682"
+  HREF="node427.html">Mesh refining procedure</A>
+<B> Previous:</B> <A NAME="tex2html6676"
+  HREF="node430.html">determineextern.f</A>
+ &nbsp; <B>  <A NAME="tex2html6684"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION0001111540000000000000">
+midexternaledges.f</A>
+</H4>
+
+<P>
+Nodes generated on external edges of the unrefined mesh are after the
+refinement projected onto the unrefined external edges (in projectnodes.f). These edges may be
+quadratic. In routine midexternaledges.f the external edges are stored in
+consecutive order (no gaps in the numbering) in field iedgext(1..3,*). The
+second entry is the middle node, if any, else this entry takes the value
+0. Now, for those edges i for which iexternedg(i)=1 at the start of the
+routine (i.e. the external edges) iexternedg(i) is changed to j, where j is
+the number of the external edge in field iedgext.
+
+<P>
+Field iexternedg is dynamic, i.e. it is changed during the mesh refinement. If
+an edge i is remeshed in two new sub-edges (due to the insertion of a node) and
+if this edge is external, the value of iexternedg(i) is inherited by the
+sub-edges it is split into.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

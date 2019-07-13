@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>How to perform CalculiX calculations in parallel </TITLE>
+<META NAME="description" CONTENT="How to perform CalculiX calculations in parallel ">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node4.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="up" HREF="ccx.html">
+<LINK REL="next" HREF="node4.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html891"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html887"
+  HREF="ccx.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html881"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html889"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html892"
+  HREF="node4.html">Units</A>
+<B> Up:</B> <A NAME="tex2html888"
+  HREF="ccx.html">CalculiX CrunchiX USER'S MANUAL</A>
+<B> Previous:</B> <A NAME="tex2html882"
+  HREF="node2.html">Introduction.</A>
+ &nbsp; <B>  <A NAME="tex2html890"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00030000000000000000"></A><A NAME="parallel"></A>
+<BR>
+How to perform CalculiX calculations in parallel 
+</H1>
+
+<P>
+Nowadays most computers have one socket with several cores, allowing for the calculations to be
+performed in a parallel way. In CalculiX one can 
+
+<P>
+
+<UL>
+<LI>create the element stiffness matrices in parallel. No special compilation flag is needed. At execution
+  time the environment variable OMP_NUM_THREADS or the environment variable CCX_NPROC_STIFFNESS must be set to the number of cores,
+  default is 1. If both are set, CCX_NPROC_STIFFNESS takes
+  precedence. The maximum number of cores is detected automatically by CalculiX
+  by using
+  the sysconf(_SC_NPROCESSORS_CONF) function. It can be overriden by the
+  user by means of environment variable NUMBER_OF_CPUS.
+
+<P>
+Notice that older GNU-compiler versions (e.g. gcc 4.2.1) may have problems with this
+  parallellization due to the size of the fields to be allocated within each
+  thread (e.g. s(100,100) in routine e_3d.f). This should not be a problem
+  with the actual compiler version.
+
+<P>
+</LI>
+<LI>solve the system of equations with the multithreaded version of
+  SPOOLES. To this end
+
+<P>
+
+<UL>
+<LI>the MT-version of SPOOLES must have been compiled. For further
+  information on this topic please consult the SPOOLES documentation
+</LI>
+<LI>CalculiX CrunchiX must have been compiled with the USE_MT flag activated
+  in the Makefile, please consult the README.INSTALL file.
+</LI>
+<LI>at execution time the environment variable OMP_NUM_THREADS must have been set to the number of
+  cores you want to use. In Linux this can be done by ``export OMP_NUM_THREADS=n'' on
+  the command line, where n is the number of cores. Default is
+  1. Alternatively, you can set the number of cores using the environment
+  variable CCX_NPROC_EQUATION_SOLVER. If both are set, the latter takes
+  precedence. 
+</LI>
+</UL> 
+
+<P>
+</LI>
+<LI>solve the system of equations with the multithreaded version of
+  PARDISO. PARDISO is proprietary. Look at the PARDISO documentation how to link the
+  multithreaded version. At execution
+  time the environment variable OMP_NUM_THREADS must be set to the number of cores,
+  default is 1.
+
+<P>
+</LI>
+<LI>create material tangent matrices and calculate the stresses at the
+  integration points in parallel. No special compilation flag is needed. At execution
+  time the environment variable OMP_NUM_THREADS or the environment variable CCX_NPROC_RESULTS must be set to the number of cores,
+  default is 1. If both are set, CCX_NPROC_RESULTS takes
+  precedence. The maximum number of cores is detected automatically by CalculiX
+  by using
+  the sysconf(_SC_NPROCESSORS_CONF) function. It can be overriden by the
+  user by means of environment variable NUMBER_OF_CPUS. Notice that if a
+  material user subroutine (Sections <A HREF="node355.html#user">8.5</A> and <A HREF="node365.html#thuser">8.6</A>) is used, certain rules have to be complied with in
+  order to allow parallelization. These include (this list is possibly not exhaustive):
+
+<UL>
+<LI>no save statements
+</LI>
+<LI>no data statements
+</LI>
+<LI>avoid logical variables
+</LI>
+<LI>no write statements
+</LI>
+</UL>
+
+<P>
+</LI>
+<LI>calculate the viewfactors for thermal radiation computations in parallel. No special compilation flag is needed. At execution
+  time the environment variable OMP_NUM_THREADS or the environment variable CCX_NPROC_VIEWFACTOR must be set to the number of cores,
+  default is 1. If both are set, CCX_NPROC_VIEWFACTOR takes precedence. The maximum number of cores is detected automatically by CalculiX by using
+  the sysconf(_SC_NPROCESSORS_CONF) function. It can be overriden by the
+  user by means of environment variable NUMBER_OF_CPUS.
+
+<P>
+</LI>
+<LI>perform several operations in CFD calculations (computational fluid
+  dynamics) in parallel. No special compilation flag is needed. At execution
+  time the environment variable OMP_NUM_THREADS or the environment variable CCX_NPROC_CFD must be set to the number of cores,
+  default is 1. If both are set, CCX_NPROC_CFD takes precedence. The maximum number of cores is detected automatically by CalculiX by using
+  the sysconf(_SC_NPROCESSORS_CONF) function. It can be overriden by the
+  user by means of environment variable NUMBER_OF_CPUS.
+
+<P>
+</LI>
+<LI>Calculate the magnetic intensity by use of the Biot-Savart law in parallel. No special compilation flag is needed. At execution
+  time the environment variable OMP_NUM_THREADS or the environment variable CCX_NPROC_BIOTSAVART must be set to the number of cores,
+  default is 1. If both are set, CCX_NPROC_BIOTSAVART takes precedence. The maximum number of cores is detected automatically by CalculiX by using
+  the sysconf(_SC_NPROCESSORS_CONF) function. It can be overriden by the
+  user by means of environment variable NUMBER_OF_CPUS.
+
+<P>
+</LI>
+<LI>Perform several vector and matrix operations needed by the SLATEC
+  iterative solvers or by ARPACK in parallel. To this end the user must have
+  defined the environment variable OMP_NUM_THREADS, and used the openmp
+  FORTRAN flag in the Makefile. The parallellization is done in FORTRAN
+  routines using openmp. The corresponding lines start with ``c$omp''. If the
+  openmp flag is not used, these lines are interpreted by the compiler as comment lines and no
+  parallellization takes place. Notice that this parallellization only pays
+  off for rather big systems, let's say 300,000 degrees of freedom for
+  CFD-calculations or 1,000,000 degrees of freedom for mechanical frequency calculations.
+
+<P>
+</LI>
+</UL>
+
+<P>
+Examples:
+
+<UL>
+<LI>For some reason the function sysconf does not work on your computer
+  system and leads to a segmentation fault. You can prevent using the function
+  by defining the maximum number of cores explicitly using the NUMBER_OF_CPUS
+  environment variable
+</LI>
+<LI>You want to perform a thermomechanical calculation, but you are using a
+  user defined material subroutine (Sections <A HREF="node355.html#user">8.5</A> and <A HREF="node365.html#thuser">8.6</A>) which is not suitable for
+  parallelization. You can make maximum use of parallelization (e.g. for the
+  calculation of viewfactors) by setting the
+  variable OMP_NUM_THREADS to the maximum number of cores on your system, and
+  prevent parallelization of the material tangent and stress calculation step by setting
+  CCX_NPROC_RESULTS to 1.
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html891"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html887"
+  HREF="ccx.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html881"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html889"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html892"
+  HREF="node4.html">Units</A>
+<B> Up:</B> <A NAME="tex2html888"
+  HREF="ccx.html">CalculiX CrunchiX USER'S MANUAL</A>
+<B> Previous:</B> <A NAME="tex2html882"
+  HREF="node2.html">Introduction.</A>
+ &nbsp; <B>  <A NAME="tex2html890"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

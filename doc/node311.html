@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*SHELL SECTION</TITLE>
+<META NAME="description" CONTENT="*SHELL SECTION">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node312.html">
+<LINK REL="previous" HREF="node310.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node312.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5060"
+  HREF="node312.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5056"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5050"
+  HREF="node310.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5058"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5061"
+  HREF="node312.html">*SOLID SECTION</A>
+<B> Up:</B> <A NAME="tex2html5057"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5051"
+  HREF="node310.html">*SENSITIVITY</A>
+ &nbsp; <B>  <A NAME="tex2html5059"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008103000000000000000"></A><A NAME="shellsection"></A>
+<BR>
+*SHELL SECTION
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option is used to assign material properties to shell element
+sets. The parameter ELSET is required, one of the mutually exclusive
+parameters MATERIAL and COMPOSITE is required too, whereas the parameters
+ORIENTATION, NODAL THICKNESS, OFFSET are optional. The parameter
+ELSET defines the shell element set to which the material specified by
+the parameter MATERIAL applies. The parameter ORIENTATION allows to
+assign local axes to the element set. If activated, the material
+properties are applied to the local axis. This is only relevant for
+non isotropic material behavior. The parameter NODAL THICKNESS
+indicates that the thickness for ALL nodes in the element set are defined
+with an extra <A HREF="node290.html#nodalthickness">*NODAL THICKNESS</A> card and that
+any thicknesses defined on the *SHELL SECTION card are
+irrelevant. The OFFSET parameter indicates where the
+mid-surface of the shell should be in relation to the reference surface
+defined by the surface representation given by the user. The unit of
+the offset is the thickness of the shell. Thus, OFFSET=0 means that
+the reference surface is the mid-surface of the shell,
+OFFSET=0.5 means that the reference surface is the top surface of the
+shell. The offset can take any real value.
+Finally, the COMPOSITE parameter is used to define a composite material. It
+can only be used for S8R and S6 elements. A composite material consists of an integer
+number of layers made up of different materials with possibly different
+orientations. For a composite material the material is specified on the lines
+beneath the *SHELL SECTION card for each layer separately. The orientation for
+each layer can be defined in the same way. If none is specified, the
+orientation defined by the ORIENTATION parameter will be taken, if any.
+
+<P>
+For structures in which axisymmetric elements (type CAX*) are present any
+thickness defined on the present card applies to 360<B><IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$"></B>.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*SHELL SECTION
+</LI>
+<LI>Enter any needed parameters.
+</LI>
+</UL>
+
+<P>
+Second line if the parameter COMPOSITE is not used (only read if the first line does not contain NODAL THICKNESS):
+
+<UL>
+<LI>thickness
+</LI>
+</UL>
+
+<P>
+Second line if the parameter COMPOSITE is used (NODAL THICKNESS is not allowed):
+
+<UL>
+<LI>thickness (required)
+</LI>
+<LI>not used
+</LI>
+<LI>name of the material to be used for this layer (required)
+</LI>
+<LI>name of the orientation to be used for this layer (optional)
+</LI>
+</UL>
+
+<P>
+Repeat this line as often as needed to define all layers.
+
+<P>
+<PRE>
+Example:
+
+*SHELL SECTION,MATERIAL=EL,ELSET=Eall,ORIENTATION=OR1,OFFSET=-0.5
+3.
+</PRE>
+
+<P>
+assigns material EL with orientation OR1 to all elements in (element)
+set Eall. The reference surface is the bottom surface of the shell and
+the shell thickness is 3 length units.
+
+<P>
+
+<P><P>
+<BR>
+Example files: shell1, shell2, shellbeam.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5060"
+  HREF="node312.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5056"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5050"
+  HREF="node310.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5058"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5061"
+  HREF="node312.html">*SOLID SECTION</A>
+<B> Up:</B> <A NAME="tex2html5057"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5051"
+  HREF="node310.html">*SENSITIVITY</A>
+ &nbsp; <B>  <A NAME="tex2html5059"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

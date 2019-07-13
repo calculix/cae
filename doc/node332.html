@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*USER MATERIAL</TITLE>
+<META NAME="description" CONTENT="*USER MATERIAL">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node333.html">
+<LINK REL="previous" HREF="node331.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node333.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5312"
+  HREF="node333.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5308"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5302"
+  HREF="node331.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5310"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5313"
+  HREF="node333.html">*VALUES AT INFINITY</A>
+<B> Up:</B> <A NAME="tex2html5309"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5303"
+  HREF="node331.html">*USER ELEMENT</A>
+ &nbsp; <B>  <A NAME="tex2html5311"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008124000000000000000"></A><A NAME="usermaterial"></A>
+<BR>
+*USER MATERIAL
+</H2>
+
+<P>
+Keyword type: model definition, material
+
+<P>
+This option is used to define the properties of a user-defined material. For a
+ user-defined material a material subroutine has to be provided, see Sections
+ <A HREF="node355.html#user">8.5</A> and <A HREF="node365.html#thuser">8.6</A>. There
+is one required parameter CONSTANTS and one optional parameter TYPE. 
+
+<P>
+The value of CONSTANTS indicates how
+many material constants are to be defined for this type of material.
+
+<P>
+The parameter TYPE can take the value MECHANICAL or THERMAL. If
+TYPE=MECHANICAL the user routine characterizes the mechanical behavior of the
+material, i.e. the stress-strain behavior. This property is only important for
+mechanical or coupled temperature-displacement calculations. If TYPE=THERMAL
+the user routine defines the thermal behavior of the material, i.e. the heat
+flux versus temperature gradient behavior. This is only used in thermal or
+coupled temperature-displacement calculations. Default is TYPE=MECHANICAL.
+
+<P>
+The material is identified by means of the NAME parameter on the *MATERIAL card.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*USER MATERIAL
+</LI>
+<LI>Enter the CONSTANTS parameter and its value
+</LI>
+</UL>
+
+<P>
+Give on the following int(CONSTANTS/8)+1 lines the constants followed by the
+temperature value for which they are valid, 8 values per line. The value of
+the temperature can be left blank, however, if CONSTANTS is a multiple of 8 a
+value for the temperature is mandatory (if only one set of material constants
+is given the value of this temperature is irrelevant).
+Repeat the set of constants if values for more than one temperature are given.
+
+<P>
+<PRE>
+Example:
+
+*USER MATERIAL,CONSTANTS=8
+500000.,157200.,400000.,157200.,157200.,300000.,126200.,126200.,
+294.
+300000.,57200.,300000.,57200.,57200.,200000.,26200.,26200.,
+394.
+</PRE>
+
+<P>
+defines a user-defined material with eight constants for two different temperatures, 294 and 394.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamu.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5312"
+  HREF="node333.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5308"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5302"
+  HREF="node331.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5310"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5313"
+  HREF="node333.html">*VALUES AT INFINITY</A>
+<B> Up:</B> <A NAME="tex2html5309"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5303"
+  HREF="node331.html">*USER ELEMENT</A>
+ &nbsp; <B>  <A NAME="tex2html5311"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

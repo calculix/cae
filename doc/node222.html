@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*CLEARANCE</TITLE>
+<META NAME="description" CONTENT="*CLEARANCE">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node223.html">
+<LINK REL="previous" HREF="node221.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node223.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3992"
+  HREF="node223.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3988"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3982"
+  HREF="node221.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3990"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3993"
+  HREF="node223.html">*CLOAD</A>
+<B> Up:</B> <A NAME="tex2html3989"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3983"
+  HREF="node221.html">*CHANGE SOLID SECTION</A>
+ &nbsp; <B>  <A NAME="tex2html3991"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000814000000000000000"></A><A NAME="clearance"></A>
+<BR>
+*CLEARANCE
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+With this option a clearance can be defined between the slave and master
+surface of a contact pair. It only applies to face-to-face contact. If this option is active, the actual clearance or
+overlapping based on the distance between the integration point on the slave
+surface and its orthogonal projection on the master surface is overwritten by
+the value specified here. There are three required parameters: MASTER, SLAVE and
+VALUE. With MASTER one specifies the master surface, with SLAVE the slave
+surface and with VALUE the value of the clearance. Only one value per contact
+pair is allowed.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First and only line:
+
+<UL>
+<LI>*CLEARANCE
+</LI>
+<LI>enter the required parameters and their values.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*CLEARANCE,MASTER=SURF1,SLAVE=SURF2,VALUE=0.1
+</PRE>
+
+<P>
+indicates that the clearance between master surface SURF1 and slave surface
+SURF2 should be 0.1 length units. SURF1 and SURF2 must be used on one and the
+same <A HREF="node230.html#contactpair">*CONTACT PAIR</A> card.
+
+<P>
+
+<P><P>
+<BR>
+Example files: 
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*DASHPOT</TITLE>
+<META NAME="description" CONTENT="*DASHPOT">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node240.html">
+<LINK REL="previous" HREF="node238.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node240.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4196"
+  HREF="node240.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4192"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4186"
+  HREF="node238.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4194"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4197"
+  HREF="node240.html">*DEFORMATION PLASTICITY</A>
+<B> Up:</B> <A NAME="tex2html4193"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4187"
+  HREF="node238.html">*DAMPING</A>
+ &nbsp; <B>  <A NAME="tex2html4195"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000831000000000000000"></A><A NAME="dashpot"></A>
+<BR>
+*DASHPOT
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+With this option the force-velocity relationship can be defined for dashpot
+elements. Dashpot elements only make sense for dynamic calculations
+(<A HREF="node249.html#dynamic">*DYNAMIC</A>, <A HREF="node285.html#modaldynamic">*MODAL DYNAMIC</A> and
+<A HREF="node317.html#steadystatedynamics">*STEADY STATE DYNAMICS</A>). There is one required parameter ELSET. With this parameter the element set is referred to for which the
+dashpot behavior is defined. This element set should contain dashpot elements
+of type DASHPOTA only.
+
+<P>
+The dashpot constant can depend on frequency and temperature. Frequency dependence only makes sense for
+<A HREF="node317.html#steadystatedynamics">*STEADY STATE DYNAMICS</A> calculations. 
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*DASHPOT
+</LI>
+<LI>Enter the parameter ELSET and its value
+</LI>
+</UL>
+
+<P>
+Second line: enter a blank line
+
+<P>
+For each temperature a set of lines can be entered. First line in the first set:
+
+<UL>
+<LI>Dashpot constant.
+</LI>
+<LI>Frequency (only for steady state dynamics calculations, else blank).
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Use as many lines in the first set as needed to define the complete frequency
+dependence of the dashpot constant (if applicable) for this temperature.
+Use as many sets as needed to define complete temperature dependence.
+
+<P>
+<PRE>
+Example:
+
+*DASHPOT,ELSET=Eall
+1.e-5
+</PRE>
+
+<P>
+defines a dashpot constant with value <B><IMG
+ WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1620.png"
+ ALT="$ 10^{-5}$"></B> for all elements in element
+set Eall and all temperatures.
+
+<P>
+<PRE>
+Example:
+
+*DASHPOT,ELSET=Eall
+1.e-5,1000.,273.
+1.e-6,2000.,273.
+1.e-4,,373.
+</PRE>
+
+<P>
+defines a dashpot constant with value <B><IMG
+ WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1620.png"
+ ALT="$ 10^{-5}$"></B> at a frequency of <B><IMG
+ WIDTH="36" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1656.png"
+ ALT="$ 1000$"></B> and
+with value <B><IMG
+ WIDTH="38" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1657.png"
+ ALT="$ 10^{-6}$"></B> at a frequency of <B><IMG
+ WIDTH="36" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1658.png"
+ ALT="$ 2000$"></B>, both at a temperature of
+<B><IMG
+ WIDTH="28" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1659.png"
+ ALT="$ 273$"></B>. At a temperature of <B><IMG
+ WIDTH="28" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1660.png"
+ ALT="$ 373$"></B> the dashpot constant is frequency independent
+and takes the value  <B><IMG
+ WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1592.png"
+ ALT="$ 10^{-4}$"></B>. These constants apply to all dashpot elements
+in set Eall.
+
+<P>
+
+<P><P>
+<BR>
+Example files: dashpot1, dashpot2, dashpot3.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4196"
+  HREF="node240.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4192"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4186"
+  HREF="node238.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4194"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4197"
+  HREF="node240.html">*DEFORMATION PLASTICITY</A>
+<B> Up:</B> <A NAME="tex2html4193"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4187"
+  HREF="node238.html">*DAMPING</A>
+ &nbsp; <B>  <A NAME="tex2html4195"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

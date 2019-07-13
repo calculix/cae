@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*REFINE MESH</TITLE>
+<META NAME="description" CONTENT="*REFINE MESH">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node305.html">
+<LINK REL="previous" HREF="node303.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node305.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4976"
+  HREF="node305.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4972"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4966"
+  HREF="node303.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4974"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4977"
+  HREF="node305.html">*RESTART</A>
+<B> Up:</B> <A NAME="tex2html4973"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4967"
+  HREF="node303.html">*RADIATE</A>
+ &nbsp; <B>  <A NAME="tex2html4975"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000896000000000000000"></A><A NAME="refinemesh"></A>
+<BR>
+*REFINE MESH
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+With this keyword the part of the input mesh consisting of C3D4 and C3D10
+elements is refined according to certain criteria and stored in file
+jobname.fin. All other element types in the input mesh are not
+considered. Subsequently, the user can replace the tetrahedral elements in his
+input deck by the newly generated elements and restart a calculation in order
+to get a more accurate results. This has to be done manually.
+
+<P>
+For the refinement the available criteria are the size of the displacements
+(label U), the velocity (label V), the stress (label S), the total strain
+(label E), the mechanical strain (label ME), the equivalent plastic strain
+(label PEEQ), the energy density (label ENER), the heat flux (label HFL), the
+gradient based error estimator (label ERR) or a user-defined function (user
+subroutine ucalculateh.f). The size is defined as the absolute value if it
+concerns a scalar quantity and the norm if it concerns a vector or tensor.
+
+<P>
+With the parameter LIMIT the user defines a positive value above which
+refinement is requested. For instance, if the limit is 50. and the value of
+the selected criterion is 200. a refinement by a factor of 4 is aimed at. The
+refinement is done iteratively (3 times), and each iteration induces a
+maximum refinement by a factor of 2.
+
+<P>
+If the tetrahedral mesh in the input deck contains at least one quadratic
+element, the refined mesh contains C3D10 elements only, else it is a pure C3D4 mesh.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*REFINE MESH.
+</LI>
+<LI>enter the required parameter LIMIT and its value
+</LI>
+</UL>
+
+<P>
+Second line:
+
+<UL>
+<LI>the label of the selected criterion.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*REFINE MESH,LIMIT=50.
+S
+</PRE>
+
+<P>
+requests a refinement based on the size of the stress and a limit of 50.
+
+<P>
+
+<P><P>
+<BR>
+Example files: circ10p.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4976"
+  HREF="node305.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4972"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4966"
+  HREF="node303.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4974"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4977"
+  HREF="node305.html">*RESTART</A>
+<B> Up:</B> <A NAME="tex2html4973"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4967"
+  HREF="node303.html">*RADIATE</A>
+ &nbsp; <B>  <A NAME="tex2html4975"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

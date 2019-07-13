@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Filling and solving the set of equations, storing the results</TITLE>
+<META NAME="description" CONTENT="Filling and solving the set of equations, storing the results">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node408.html">
+<LINK REL="previous" HREF="node397.html">
+<LINK REL="up" HREF="node373.html">
+<LINK REL="next" HREF="node402.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6278"
+  HREF="node402.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6274"
+  HREF="node373.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6268"
+  HREF="node400.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6276"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6279"
+  HREF="node402.html">Linear static analysis</A>
+<B> Up:</B> <A NAME="tex2html6275"
+  HREF="node373.html">Program structure.</A>
+<B> Previous:</B> <A NAME="tex2html6269"
+  HREF="node400.html">Determining the matrix structure.</A>
+ &nbsp; <B>  <A NAME="tex2html6277"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000116000000000000000">
+Filling and solving the set of equations, storing the results</A>
+</H2>
+
+<P>
+In this section a distinction is made between the types of analysis and the
+solver used:
+
+<P>
+
+<UL>
+<LI>for linear static calculations with SPOOLES or the iterative solver the
+  appropriate routine is prespooles.c
+</LI>
+<LI>for nonlinear static or dynamic calculations (which implies the use of SPOOLES or
+  the iterative solver) routine nonlingeo.c is called. This includes all
+  thermal calculations.
+</LI>
+<LI>for frequency analysis without cyclic symmetry routine arpack.c is
+  called.
+</LI>
+<LI>for a frequency analysis with cyclic symmetry conditions the appropriate
+  routine is arpackcs.c
+</LI>
+<LI>for a buckling analysis arpackbu.c is called
+</LI>
+<LI>for linear dynamic calculations (i.e. modal dynamic analysis)
+  the routine is dyna.c
+</LI>
+<LI>finally, for steady state dynamics calculations the routine is steadystate.c
+</LI>
+</UL>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html6280"
+  HREF="node402.html">Linear static analysis</A>
+<LI><A NAME="tex2html6281"
+  HREF="node403.html">Nonlinear calculations</A>
+<LI><A NAME="tex2html6282"
+  HREF="node404.html">Frequency calculations</A>
+<LI><A NAME="tex2html6283"
+  HREF="node405.html">Buckling calculations</A>
+<LI><A NAME="tex2html6284"
+  HREF="node406.html">Modal dynamic calculations</A>
+<LI><A NAME="tex2html6285"
+  HREF="node407.html">Steady state dynamics calculations</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

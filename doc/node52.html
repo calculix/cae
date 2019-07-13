@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Eight-node plane strain element (CPE8 and CPE8R)</TITLE>
+<META NAME="description" CONTENT="Eight-node plane strain element (CPE8 and CPE8R)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node53.html">
+<LINK REL="previous" HREF="node51.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node53.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1719"
+  HREF="node53.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1715"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1709"
+  HREF="node51.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1717"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1720"
+  HREF="node53.html">Three-node axisymmetric element (CAX3)</A>
+<B> Up:</B> <A NAME="tex2html1716"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1710"
+  HREF="node51.html">Six-node plane strain element</A>
+ &nbsp; <B>  <A NAME="tex2html1718"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000722600000000000000">
+Eight-node plane strain element (CPE8 and CPE8R)</A>
+</H3>
+
+<P>
+The eight node plane strain element is a general purpose plane strain
+element. It is actually a special case of plane stress element: the
+treatise of Section <A HREF="node48.html#planestresssection">6.2.22</A>  also applies here. In addition we
+have:
+
+<P>
+
+<UL>
+<LI>The displacement in z-direction of all nodes (not only the
+mid-nodes)  is zero. This
+condition is introduced in the form of MPC's, expressing that the
+displacement in z-direction of nodes not in the midplane is identical
+to the displacement of the corresponding nodes in the midplane. 
+</LI>
+<LI>Different thicknesses do not make sense: one thickness
+applicable to all plane strain elements suffices.
+</LI>
+</UL>
+
+<P>
+Plane strain elements are used to model a slice of a very long
+structure, e.g. of a dam.
+
+<P>
+If a plane strain element is connected to a structure consisting of 3D
+elements the motion of this structure in the out-of-plane direction
+(z-direction) is not restricted by its connection to the 2D elements. The
+user has to take care that any rigid body motion of the structure involving
+the z-direction is taken care of, if appropriate. This particularly applies to
+any springs connected to plane strain elements. 
+
+<P>
+Notice that structures containing plane strain elements should be defined in the
+global x-y plane, i.e. z=0 for all nodes.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1719"
+  HREF="node53.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1715"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1709"
+  HREF="node51.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1717"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1720"
+  HREF="node53.html">Three-node axisymmetric element (CAX3)</A>
+<B> Up:</B> <A NAME="tex2html1716"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1710"
+  HREF="node51.html">Six-node plane strain element</A>
+ &nbsp; <B>  <A NAME="tex2html1718"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Limitations</TITLE>
+<META NAME="description" CONTENT="Limitations">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node363.html">
+<LINK REL="up" HREF="node359.html">
+<LINK REL="next" HREF="node365.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5749"
+  HREF="node365.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5745"
+  HREF="node359.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5741"
+  HREF="node363.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5747"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5750"
+  HREF="node365.html">User-defined thermal material laws.</A>
+<B> Up:</B> <A NAME="tex2html5746"
+  HREF="node359.html">ABAQUS umat routines</A>
+<B> Previous:</B> <A NAME="tex2html5742"
+  HREF="node363.html">Calling shared libraries</A>
+ &nbsp; <B>  <A NAME="tex2html5748"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00095250000000000000">
+Limitations</A>
+</H4>
+
+<P>
+sse, spd, scd, rpl, ddsddt, drplde, drpldt, predef, dpred, drot, pnewdt, celent, layer, kspt.
+If you need these fields, contact ``dhondt@t-online.de''. Furthermore, the
+following fields have a different meaning:
+
+<P>
+
+<UL>
+<LI>in the linear version:
+
+<UL>
+<LI>stran:
+
+<UL>
+<LI>in CalculiX: Lagrangian strain tensor
+</LI>
+<LI>in ABAQUS: logarithmic strain tensor
+</LI>
+</UL>
+</LI>
+<LI>dstran:
+
+<UL>
+<LI>in CalculiX: Lagrangian strain increment tensor
+</LI>
+<LI>in ABAQUS: logarithmic strain increment tensor
+</LI>
+</UL>
+</LI>
+<LI>temp:
+
+<UL>
+<LI>in CalculiX: temperature at the end of the increment
+</LI>
+<LI>in ABAQUS: temperature at the start of the increment
+</LI>
+</UL>
+</LI>
+<LI>dtemp:
+
+<UL>
+<LI>in CalculiX: zero
+</LI>
+<LI>in ABAQUS: temperature increment
+</LI>
+</UL>
+</LI>
+</UL>
+</LI>
+<LI>in the nonlinear version:
+
+<UL>
+<LI>temp:
+
+<UL>
+<LI>in CalculiX: temperature at the end of the increment
+</LI>
+<LI>in ABAQUS: temperature at the start of the increment
+</LI>
+</UL>
+</LI>
+<LI>dtemp:
+
+<UL>
+<LI>in CalculiX: zero
+</LI>
+<LI>in ABAQUS: temperature increment
+</LI>
+</UL>
+</LI>
+</UL>
+</LI>
+</UL>
+
+<P>
+Notice that CalculiX uses double precision. Furthermore, it is good practice
+to use ``implicit none'' instead of ``implicit real*8(a-h,o-z)''. Therefore it
+is advised to use ``implicit none'' in your ABAQUS routine and to declare all
+reals with ``real*8''.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5749"
+  HREF="node365.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5745"
+  HREF="node359.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5741"
+  HREF="node363.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5747"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5750"
+  HREF="node365.html">User-defined thermal material laws.</A>
+<B> Up:</B> <A NAME="tex2html5746"
+  HREF="node359.html">ABAQUS umat routines</A>
+<B> Previous:</B> <A NAME="tex2html5742"
+  HREF="node363.html">Calling shared libraries</A>
+ &nbsp; <B>  <A NAME="tex2html5748"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

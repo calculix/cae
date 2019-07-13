@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>cavity.f</TITLE>
+<META NAME="description" CONTENT="cavity.f">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node444.html">
+<LINK REL="previous" HREF="node442.html">
+<LINK REL="up" HREF="node427.html">
+<LINK REL="next" HREF="node444.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6829"
+  HREF="node444.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6825"
+  HREF="node427.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6819"
+  HREF="node442.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6827"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6830"
+  HREF="node444.html">END OF MAJOR LOOP.</A>
+<B> Up:</B> <A NAME="tex2html6826"
+  HREF="node427.html">Mesh refining procedure</A>
+<B> Previous:</B> <A NAME="tex2html6820"
+  HREF="node442.html">.</A>
+ &nbsp; <B>  <A NAME="tex2html6828"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00011115160000000000000">
+cavity.f</A>
+</H4>
+
+<P>
+It is done in the following way:
+
+<P>
+
+<UL>
+<LI>determine the cavity for the new node
+
+<UL>
+<LI>start from the base element
+</LI>
+<LI>add elements one by one through adjacency; only element whose
+  circumcircle enclose the new node are taken into account
+</LI>
+<LI>check for nodes within the cavity; if any, remove the element to which
+  they belong from the cavity
+</LI>
+<LI>check that the cavity is convex in the sense that each cavity face is
+  visible from the new node, else the element bordering the face is removed
+  from the cavity
+</LI>
+</UL>
+</LI>
+<LI>remove the cavity elements
+</LI>
+<LI>create new elements connecting the new node with each of the cavity
+  faces
+</LI>
+<LI>if any element has a very small volume or at least one very small height
+  the original mesh of the cavity is restored
+</LI>
+<LI>since elements have been deleted and created the base element numbers of
+  the nodes still te be inserted may not be correct any more: perform a check
+  on these nodes and correct the base element numbers if necessary.
+</LI>
+</UL>
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Heat transfer</TITLE>
+<META NAME="description" CONTENT="Heat transfer">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node168.html">
+<LINK REL="previous" HREF="node166.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node168.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3193"
+  HREF="node168.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3189"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3183"
+  HREF="node166.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3191"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3194"
+  HREF="node168.html">Acoustics</A>
+<B> Up:</B> <A NAME="tex2html3190"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3184"
+  HREF="node166.html">Direct integration dynamic analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3192"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00079800000000000000">
+Heat transfer</A>
+</H3>
+
+<P>
+In a heat transfer analysis, triggered by the <A HREF="node272.html#heattransfer">*HEAT
+  TRANSFER</A>  procedure card, the temperature is the independent degree of
+freedom. In essence, the energy equation is solved subject to temperature and
+flux boundary conditions ([<A
+ HREF="node448.html#Dhondt">18</A>]). For steady-state calculations it
+leads to a Laplace-type equation.
+
+<P>
+The governing equation for heat transfer reads
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\nabla \cdot (- \boldsymbol{\kappa} \cdot \nabla{T}) + \rho c \dot{T} = \rho h
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="186" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1170.png"
+ ALT="$\displaystyle \nabla \cdot (- \boldsymbol{\kappa} \cdot \nabla{T}) + \rho c \dot{T} = \rho h$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(307)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\boldsymbol{\kappa}$
+ -->
+<B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1171.png"
+ ALT="$ \boldsymbol{\kappa}$"></B> contains the conduction coefficients, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> is the
+density, <B><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img672.png"
+ ALT="$ h$"></B> the heat generation per unit of mass and <B><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1172.png"
+ ALT="$ c$"></B> is the specific
+heat.
+
+<P>
+The temperature can be defined using the <A HREF="node209.html#boundary">*BOUNDARY</A> card
+using degree of freedom 11. Flux type boundary conditions can consist of any
+combination of the following:
+
+<P>
+
+<OL>
+<LI>Concentrated flux, applied to nodes, using the <A HREF="node216.html#cflux">*CFLUX</A>
+  card (degree of freedom 11)
+</LI>
+<LI>Distributed flux, applied to surfaces or volumes, using the
+  <A HREF="node244.html#dflux">*DFLUX</A> card
+</LI>
+<LI>Convective flux defined by a <A HREF="node261.html#film">*FILM</A> card. It satisfies
+  the equation
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+q = h(T-T_0)
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="102" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1173.png"
+ ALT="$\displaystyle q = h(T-T_0)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(308)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img318.png"
+ ALT="$ q$"></B> is the a flux normal to the surface, <B><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img672.png"
+ ALT="$ h$"></B> is the film coefficient, <B><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img342.png"
+ ALT="$ T$"></B> is
+the body temperature and <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1174.png"
+ ALT="$ T_0$"></B> is the environment temperature (also called
+sink temperature). CalculiX can also be used for forced convection
+calculations, in which the sink temperature is an unknown too. This applied to
+all kinds of surfaces cooled by fluids or gases.
+
+<P>
+</LI>
+<LI>Radiative flux defined by a <A HREF="node303.html#radiate">*RADIATE</A> card. The
+  equation reads
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+q = \epsilon (\theta^4-\theta_0^4)
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="102" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1175.png"
+ ALT="$\displaystyle q = \epsilon (\theta^4-\theta_0^4)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(309)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img318.png"
+ ALT="$ q$"></B> is a flux normal to the surface, <B><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></B> is the emissivity,
+<B><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img178.png"
+ ALT="$ \theta$"></B> is the absolute body temperature (Kelvin) and <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1176.png"
+ ALT="$ \theta_0$"></B> is the
+absolute environment temperature (also called sink temperature). The
+emissivity takes values between 0 and 1. A zero value applied to a body with
+no absorption nor emission and 100 <B><IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1177.png"
+ ALT="$ \%$"></B> reflection. A value of 1 applies to a
+black body. The radiation is assumed to be diffuse (independent of the
+direction of emission) and gray (independent of the emitted wave
+length). CalculiX can also be used for cavity radiation, simulating the
+radiation interaction of several surfaces. In that case, the viewfactors are
+calculated, see also [<A
+ HREF="node448.html#Incropera">34</A>] for the fundamentals of heat transfer
+and [<A
+ HREF="node448.html#Ashdown">6</A>] for the calculation of viewfactors.
+
+<P>
+The calculation of viewfactors involves the solution of a four-fold
+integral. By using analytical formulas derived by Lambert this integral can be
+reduced to a two-fold integral. This is applied in CalculiX right now: the
+interacting surfaces are triangulated and the viewfactor between two triangles
+is calculated by taking a one-point integration for the base triangle (in the
+center of gravity) and the analytical formula for the integration over the
+other triangles covering a hemisphere about the base triangle. One can switch
+to a more accurate integration over the base triangle by increasing the
+variable ``factor'' in subroutine radmatrix, look at the comments in that
+subroutine. This, however, will increase the computational time.
+
+<P>
+</LI>
+</OL>
+
+<P>
+For a heat transfer analysis the conductivity coefficients of the material are
+needed (using the <A HREF="node225.html#conductivity">*CONDUCTIVITY</A> card) and for
+transient calculations the heat capacity (using the 
+<A HREF="node314.html#specificheat">*SPECIFIC HEAT</A> card). Furthermore, for radiation boundary conditions
+the <A HREF="node300.html#physicalconstants">*PHYSICAL CONSTANTS</A> card is needed,
+specifying absolute zero in the user's temperature scale and the Boltzmann
+constant. 
+
+<P>
+Notice that a phase transition can be modeled by a local sharp maximum of the
+specific heat. The energy <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img450.png"
+ ALT="$ U$"></B> per unit of mass needed to complete the phase
+transition satisfies
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+U = \int_{T_0}^{T_1} C dT,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="107" HEIGHT="59" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1178.png"
+ ALT="$\displaystyle U = \int_{T_0}^{T_1} C dT,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(310)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img694.png"
+ ALT="$ C$"></B> is the specific heat and <B><IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1179.png"
+ ALT="$ [T_0,T_1]$"></B> is the temperature interval
+within which the phase transition takes place.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3193"
+  HREF="node168.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3189"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3183"
+  HREF="node166.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3191"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3194"
+  HREF="node168.html">Acoustics</A>
+<B> Up:</B> <A NAME="tex2html3190"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3184"
+  HREF="node166.html">Direct integration dynamic analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3192"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Edge fields</TITLE>
+<META NAME="description" CONTENT="Edge fields">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node425.html">
+<LINK REL="previous" HREF="node423.html">
+<LINK REL="up" HREF="node422.html">
+<LINK REL="next" HREF="node425.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6585"
+  HREF="node425.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6581"
+  HREF="node422.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6575"
+  HREF="node423.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6583"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6586"
+  HREF="node425.html">Face fields</A>
+<B> Up:</B> <A NAME="tex2html6582"
+  HREF="node422.html">Mesh refinement</A>
+<B> Previous:</B> <A NAME="tex2html6576"
+  HREF="node423.html">Nodal fields</A>
+ &nbsp; <B>  <A NAME="tex2html6584"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION0001111200000000000000">
+Edge fields</A>
+</H3>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="iedg"></A><A NAME="12848"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 181:</STRONG>
+Node per edge relationship</CAPTION>
+<TR><TD><IMG
+ WIDTH="443" HEIGHT="356" BORDER="0"
+ SRC="img2010.png"
+ ALT="\begin{figure}\epsfig{file=iedg.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+During the mesh refinement no middle nodes are considered. Consequently, edges
+only contain two nodes. They are numbered according to their storage in field
+iedg(1..3,*) (Figure <A HREF="#iedg">181</A>). In this field entry iedg(1,i) contains the
+first node of edge i and iedg(2,i) contains the second node, such that
+iedg(1,i) <B><IMG
+ WIDTH="70" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1865.png"
+ ALT="$ &lt;$"></B> iedg(2,i). For a node j ipoed(j) points to an edge in field
+iedg for which j is the smallest node number. If there is more than one such
+edge iedg(3,i) points to the next entry in iedg containing an edge for which j
+is again the smallest node number. If no more such edge exists the value of
+iedg(3,..)=0. This is a construct similar to field ieln. An actual free entry
+in field iedg is pointed to by ifreeed, and for any free line k iedg(3,k)
+points to a next free line.
+
+<P>
+Fields containing a similar number of lines as iedg are d(*) containing the
+length of the edges, n(*) containing the number of new nodes to be inserted
+on the edge for the mesh refinement (can only take the value 0 or 1 in each
+iteration depending on whether a node is to be inserted), r(*) containing the
+bias for the node insertion (if any) and iedgmid(*) containing the number of
+the midnode on the edge. The latter field is only introduced at the end of the
+mesh refinement (in projectnodes.f) and only if quadratic tetrahedral elements are
+requested. Finally, there is the field iexternedg(*) which takes the value:
+
+<P>
+
+<UL>
+<LI>-1 if the edge is external but is not part of an edge of the unrefined
+  mesh
+</LI>
+<LI>0 if the edge is not external
+</LI>
+<LI>i <B><IMG
+ WIDTH="542" HEIGHT="342" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1963.png"
+ ALT="$ &gt;$"></B> 0 if the edge is external and part of an external edge i of the
+  unrefined mesh. This edge i is described by its nodes <B><IMG
+ WIDTH="444" HEIGHT="317" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2011.png"
+ ALT="$ n_1$"></B>, <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2012.png"
+ ALT="$ n_2$"></B> (middle
+  node, if any, else 0) and <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2013.png"
+ ALT="$ n_3$"></B>
+  which are stored in field iedgext(1..3,i). Field iedgext is a static field
+  (i.e. it does not change during refinement) since it describes the unrefined
+  mesh. Entries iedgeextfa(1..2,i) are the two external faces to which
+  external edge i belongs. Data on these external faces,
+  e.g. j=iedgeextfa(1,i) is stored in ifacext(1..6,j) and
+  ifacexted(1..3,j). These fields are discussed in the face field
+  section. Finally, isharp(i) indicates whether an external edge is
+  sharp. Whether an external edge is sharp is decided on at the end of the
+  refinement at the time of the node projection. An external edge is sharp if
+
+<UL>
+<LI>it is used as parent edge for at least one newly generated edge during
+  mesh refinement AND
+</LI>
+<LI>the normals on the adjacent external faces have an angle of less than
+  about 0.05<B><IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$"></B>.
+</LI>
+</UL>
+Fields iedgeextfa, ifacext, ifacexted and isharp are static, the contents of
+field isharp, however, is modified at the end of the refinement in routine
+projectnodes.f. All of these fields are needed for the projection
+  of the newly generated nodes after mesh refinement.
+</LI>
+</UL>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="ieled"></A><A NAME="12849"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 182:</STRONG>
+Element per edge relationship</CAPTION>
+<TR><TD><IMG
+ WIDTH="23" HEIGHT="31" BORDER="0"
+ SRC="img2014.png"
+ ALT="\begin{figure}\epsfig{file=ieled.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The last fields ipoeled(i) and ieled(2,*) point to the elements to which edge
+i belongs in the same way the element per node relationship is stored in
+ipoeln(*) and ieln(2,*), Figure <A HREF="#ieled">182</A>.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6585"
+  HREF="node425.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6581"
+  HREF="node422.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6575"
+  HREF="node423.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6583"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6586"
+  HREF="node425.html">Face fields</A>
+<B> Up:</B> <A NAME="tex2html6582"
+  HREF="node422.html">Mesh refinement</A>
+<B> Previous:</B> <A NAME="tex2html6576"
+  HREF="node423.html">Nodal fields</A>
+ &nbsp; <B>  <A NAME="tex2html6584"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

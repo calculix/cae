@@ -1,0 +1,504 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Aerodynamic Networks</TITLE>
+<META NAME="description" CONTENT="Aerodynamic Networks">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node176.html">
+<LINK REL="previous" HREF="node174.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node176.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3289"
+  HREF="node176.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3285"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3279"
+  HREF="node174.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3287"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3290"
+  HREF="node176.html">Hydraulic Networks</A>
+<B> Up:</B> <A NAME="tex2html3286"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3280"
+  HREF="node174.html">Diffusion mass transfer in</A>
+ &nbsp; <B>  <A NAME="tex2html3288"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000791600000000000000"></A><A NAME="aeronetworks"></A>
+<BR>
+Aerodynamic Networks
+</H3>
+
+<P>
+Aerodynamic networks are made of a concatenation of network elements filled with
+a compressible medium which can be considered as an ideal gas. An ideal gas
+satisfies 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+p=\rho R T,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="69" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1272.png"
+ ALT="$\displaystyle p=\rho R T,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(347)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where p is the pressure, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> is the density, <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img306.png"
+ ALT="$ R$"></B> is the specific gas
+constant and <B><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img342.png"
+ ALT="$ T$"></B> is the absolute temperature. A network element (see
+section <A HREF="node59.html#B32">6.2.33</A>) consists of three nodes: in the corner nodes
+the temperature and pressure are the unknowns, in the midside node the mass
+flow is unknown. The corner nodes play the role of crossing points in the
+network, whereas the midside nodes represent the flow within one element. To determine these unknowns, three types of equations are
+available: conservation of mass and conservation of energy in the corner nodes
+and conservation of momentum in the midside node. Right now, only stationary
+flow is considered.
+
+<P>
+The stationary form of the conservation of mass for compressible fluids is
+expressed by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\mathbf{\nabla} \cdot ( \rho \mathbf{v}) = 0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="89" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1273.png"
+ ALT="$\displaystyle \mathbf{\nabla} \cdot ( \rho \mathbf{v}) = 0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(348)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where  <!-- MATH
+ $\mathbf{v}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1274.png"
+ ALT="$ \mathbf{v}$"></B> the velocity vector. Integration
+over all elements connected to corner node i yields:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\sum_{j \in \text{in}} \dot{m}_{ij} = \sum_{j \in \text{out}} \dot{m}_{ij},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="144" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1275.png"
+ ALT="$\displaystyle \sum_{j \in \text{in}} \dot{m}_{ij} = \sum_{j \in \text{out}} \dot{m}_{ij},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(349)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\dot{m}_{ij}$
+ -->
+<B><IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1276.png"
+ ALT="$ \dot{m}_{ij}$"></B> is the mass flow from node i to node j or vice versa. In
+the above equation  <!-- MATH
+ $\dot{m}_{ij}$
+ -->
+<B><IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1276.png"
+ ALT="$ \dot{m}_{ij}$"></B> is always positive.
+
+<P>
+The conservation of momentum or element equations are specific for each type
+of fluid section attributed to the element and are discussed in Section
+<A HREF="node76.html#fluidsectiontypesgases">6.4</A>  on fluid
+sections. For an element with corner nodes i,j it is generally of the form
+<!-- MATH
+ $f({p_{t_i}}, {T_{t_i}}, \dot{m}_{ij},{p_{t_j}})=0$
+ -->
+<B><IMG
+ WIDTH="160" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1277.png"
+ ALT="$ f({p_{t_i}}, {T_{t_i}}, \dot{m}_{ij},{p_{t_j}})=0$"></B> (for positive <!-- MATH
+ $\dot{m}_{ij}$
+ -->
+<B><IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1276.png"
+ ALT="$ \dot{m}_{ij}$"></B>, where p is
+the total pressure and <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img351.png"
+ ALT="$ T_t$"></B> is the total temperature), although more
+complex relationships exist. Notice in particular that the temperature pops up
+in this equation (this is not the case for hydraulic networks).
+
+<P>
+The conservation of energy for an ideal gas in stationary form requires ([<A
+ HREF="node448.html#Greitzer">25</A>], see
+also Equation (<A HREF="node76.html#eneqfinal">25</A>)):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\mathbf{\nabla} \cdot (\rho h_t \mathbf{v}) = - \mathbf{\nabla} \cdot
+\mathbf{q} + \rho h^{\theta} + \rho \mathbf{f} \cdot \mathbf{v},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="247" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1278.png"
+ ALT="$\displaystyle \mathbf{\nabla} \cdot (\rho h_t \mathbf{v}) = - \mathbf{\nabla} \cdot \mathbf{q} + \rho h^{\theta} + \rho \mathbf{f} \cdot \mathbf{v},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(350)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\mathbf{q}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1279.png"
+ ALT="$ \mathbf{q}$"></B> is the external heat flux, <!-- MATH
+ $h^{\theta}$
+ -->
+<B><IMG
+ WIDTH="21" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1280.png"
+ ALT="$ h^{\theta}$"></B> is the body flux per
+unit of mass and <!-- MATH
+ $\mathbf{f}$
+ -->
+<B><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1281.png"
+ ALT="$ \mathbf{f}$"></B> is the body force per unit of mass. <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img514.png"
+ ALT="$ h_t$"></B> is
+the total enthalpy satisfying:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+h_t = c_p T + \frac{\mathbf{v} \cdot \mathbf{v}}{2},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="125" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1282.png"
+ ALT="$\displaystyle h_t = c_p T + \frac{\mathbf{v} \cdot \mathbf{v}}{2},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(351)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"></B> is the specific heat at constant pressure and <B><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img342.png"
+ ALT="$ T$"></B> is the
+absolute temperature (in Kelvin). This latter formula only applies if <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"></B> is
+considered to be independent of the temperature. This is largely true for a
+lot of industrial applications. In this connection the reader be reminded of
+the definition of total temperature and total pressure (also called stagnation
+temperature and stagnation pressure, respectively):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+T_t =  T + \frac{\mathbf{v} \cdot \mathbf{v}}{2 c_p},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="111" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1283.png"
+ ALT="$\displaystyle T_t = T + \frac{\mathbf{v} \cdot \mathbf{v}}{2 c_p},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(352)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{p_t}{p} = \left( \frac{T_t}{T} \right) ^
+     {\frac{\kappa}{\kappa-1}},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="118" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img360.png"
+ ALT="$\displaystyle \frac{p_t}{p}= \left(\frac{T_t}{T} \right) ^{\frac{\kappa}{\kappa-1}},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(353)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\kappa = c_p/c_v$
+ -->
+<B><IMG
+ WIDTH="71" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1284.png"
+ ALT="$ \kappa = c_p/c_v$"></B>. <B><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img342.png"
+ ALT="$ T$"></B> and <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$"></B> are also called the static
+temperature and static pressure, respectively.
+
+<P>
+If the corner nodes of the elements are
+considered to be large chambers, the velocity <!-- MATH
+ $\mathbf{v}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1274.png"
+ ALT="$ \mathbf{v}$"></B> is zero. In that
+case, the total quantities reduce to the static ones, and integration of the energy equation over all elements belonging to end
+node <B><IMG
+ WIDTH="10" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img798.png"
+ ALT="$ i$"></B> yields [<A
+ HREF="node448.html#Dhondt">18</A>]:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+c_p (T_i) \sum_{j \in \text{in}} T_j \dot{m}_{ij} - c_p (T_i)
+T_i \sum_{j \in \text{out}}  \dot{m}_{ij} + \overline{h}(T_i,
+T) (T - T_i) + m_i h_i^{\theta}=0,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="477" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1285.png"
+ ALT="$\displaystyle c_p (T_i) \sum_{j \in \text{in}} T_j \dot{m}_{ij} - c_p (T_i) T_i...
+...\text{out}} \dot{m}_{ij} + \overline{h}(T_i, T) (T - T_i) + m_i h_i^{\theta}=0,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(354)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\overline{h}(T_i,T)$
+ -->
+<B><IMG
+ WIDTH="59" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1286.png"
+ ALT="$ \overline{h}(T_i,T)$"></B> is the convection coefficient with the
+walls. Notice that, although this is not really correct, a slight temperature
+dependence of <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"></B> is provided for. If one assumes that all flow entering a
+node must also leave it and taking for both the <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"></B> value corresponding to
+the mean temperature value of the entering flow, one arrives at:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\sum_{j \in \text{in}}  c_p (T_m) (T_j-T_i) \dot{m}_{ij} + \overline{h}(T_i,
+T) (T - T_i) + m_i h_i^{\theta}=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="389" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1287.png"
+ ALT="$\displaystyle \sum_{j \in \text{in}} c_p (T_m) (T_j-T_i) \dot{m}_{ij} + \overline{h}(T_i, T) (T - T_i) + m_i h_i^{\theta}=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(355)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $T_m=(T_i+T_j)/2$
+ -->
+<B><IMG
+ WIDTH="125" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1288.png"
+ ALT="$ T_m=(T_i+T_j)/2$"></B>. 
+
+<P>
+The calculation of aerodynamic networks is triggered by the <A HREF="node272.html#heattransfer">*HEAT
+  TRANSFER</A> keyword card. Indeed, such a network frequently
+ produces convective boundary conditions for solid mechanics heat transfer
+ calculations. However, network calculations can also be performed on their
+  own.
+
+<P>
+A particularly delicate issue in networks is the number of boundary
+conditions which is necessary to get a unique solution. To avoid ending up
+with more or less equations than unknowns, the following rules
+should be obeyed: 
+
+<P>
+
+<UL>
+<LI>The pressure and temperature should be known in those nodes where mass
+flow is entering the network. Since it is not always clear whether at a
+specific location mass flow is entering or leaving, it is advisable (though
+not necessary) to
+prescribe the pressure and temperature at all external connections, i.e in the
+nodes connected to dummy network elements. 
+</LI>
+<LI>A node where the pressure is prescribed should be connected to a dummy
+  network element. For instance, if you have a closed circuit add an extra dummy
+  network element to the node in which you prescribe the pressure.
+</LI>
+</UL> 
+
+<P>
+Output variables are the mass flow (key MF on the <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> or <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card), the total pressure (key PN -- network pressure -- on the <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> card and PT on the <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card) and the total temperature
+(key NT on the <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> card and TT on the <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card).   Notice that the labels for the *NODE PRINT keyword
+are more generic in nature, for the *NODE FILE keyword they are more
+specific. These are the primary variables in the network. In addition, the user can also request the static temperature (key
+TS on the <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card).  Internally, in
+network nodes,
+components one to three of the structural displacement field are used for the
+mass flow, the total pressure and the static temperature, respectively. So their output can
+also be obtained by requesting
+U on the *NODE PRINT card.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3289"
+  HREF="node176.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3285"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3279"
+  HREF="node174.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3287"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3290"
+  HREF="node176.html">Hydraulic Networks</A>
+<B> Up:</B> <A NAME="tex2html3286"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3280"
+  HREF="node174.html">Diffusion mass transfer in</A>
+ &nbsp; <B>  <A NAME="tex2html3288"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

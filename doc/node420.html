@@ -1,0 +1,717 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Processing the sensitivity</TITLE>
+<META NAME="description" CONTENT="Processing the sensitivity">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node421.html">
+<LINK REL="previous" HREF="node419.html">
+<LINK REL="up" HREF="node418.html">
+<LINK REL="next" HREF="node421.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6516"
+  HREF="node421.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6512"
+  HREF="node418.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6506"
+  HREF="node419.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6514"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6517"
+  HREF="node421.html">Postprocessing the sensitivity</A>
+<B> Up:</B> <A NAME="tex2html6513"
+  HREF="node418.html">Sensitivity Analysis</A>
+<B> Previous:</B> <A NAME="tex2html6507"
+  HREF="node419.html">Preprocessing the sensitivity</A>
+ &nbsp; <B>  <A NAME="tex2html6515"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION0001110200000000000000">
+Processing the sensitivity</A>
+</H3>
+
+<P>
+The sensitivity is calculated in routines results_se.c, mafillsmmain_se.c and
+objectivemain_se.c.
+
+<P>
+In routine results_se.c <!-- MATH
+ $\frac{\partial F_{\text{int}}}{\partial s}$
+ -->
+<B><IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1972.png"
+ ALT="$ \frac{\partial F_{\text{int}}}{\partial s}$"></B> is
+determined. For geometrically nonlinear calculations (parameter NLGEOM on the
+<A HREF="node318.html#step">*STEP</A> card) the unperturbed displacements leading to the internal force
+correspond to the displacements at the end of the previous static step, if
+any, augmented by the actual prescribed displacements. For linear geometric
+calculations the unperturbed displacements correspond to zero augmented by the
+actual prescribed displacements. Indeed, nonzero prescribed displacements lead
+to internal forces in linear calculations. Therefore, the term <!-- MATH
+ $\frac{\partial
+F}{\partial s}$
+ -->
+<B><IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1973.png"
+ ALT="$ \frac{\partial
+F}{\partial s}$"></B> in Equation (<A HREF="node181.html#displacementeq">435</A>) can be replaced by
+<!-- MATH
+ $\frac{\partial F_{\text{ext}}}{\partial s}-\frac{\partial F_{\text{int}}}{\partial
+s}$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1974.png"
+ ALT="$ \frac{\partial F_{\text{ext}}}{\partial s}-\frac{\partial F_{\text{int}}}{\partial
+s}$"></B> for linear calculations, noting that only nonzero initial displacement
+  boundary conditions lead to internal forces (and not any previous
+  displacements). The second reason why results_se.c has to be called for
+  linear calculations too is that the material tangent <!-- MATH
+ $\frac{\partial
+S}{\partial E}$
+ -->
+<B><IMG
+ WIDTH="92" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1975.png"
+ ALT="$ \frac{\partial
+S}{\partial E}$"></B> at each integration point, which is needed in
+  mafillsmmain_se.c for the set up of the stiffness matrix, is also determined in
+  results_se.c.
+
+<P>
+Routine objectivemain_se.c calculates the derivative of the external forces
+and of the stiffness matrix (and similar matrices):
+
+<P>
+
+<UL>
+<LI>For static nonlinear geometric calculations 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial F_{\text{ext}}}{\partial s}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="26" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1976.png"
+ ALT="$\displaystyle \frac{\partial F_{\text{ext}}}{\partial s}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(536)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+is calculated.
+
+<P>
+</LI>
+<LI>For static linear calculations
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial F_{\text{ext}}}{\partial s}-\frac{\partial K}{\partial s}  \cdot U
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="46" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1977.png"
+ ALT="$\displaystyle \frac{\partial F_{\text{ext}}}{\partial s}-\frac{\partial K}{\partial s} \cdot U$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(537)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+is determined.
+
+<P>
+</LI>
+<LI>For frequency and Green calculations
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+-\frac{\partial (K- \sigma M)}{\partial s}  \cdot U
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="117" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1978.png"
+ ALT="$\displaystyle -\frac{\partial (K- \sigma M)}{\partial s} \cdot U$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(538)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+is calculated, where <B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1010.png"
+ ALT="$ \sigma$"></B> is an appropriately defined scalar.
+
+<P>
+</LI>
+</UL>
+
+<P>
+Out of computational efficiency the latter terms are calculated at the element
+level and assembled into a global matrix thereupon.
+
+<P>
+The last major routine, objectivemain_se.c assembles the previous information
+to obtain the final sensitivity. For the orientation as design variable these
+sensitivities are immediately stored in the .dat or the .frd file. The
+sensitivity for the geometry (normal directions of nodes on the external
+surface) as design variable, however, is kept for further
+postprocessing in sensitivity.c. 
+
+<P>
+For the objective <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1438.png"
+ ALT="$ G$"></B> the total sensitivity
+<!-- MATH
+ $\frac{\partial G(s,U(s))}{\partial s}$
+ -->
+<B><IMG
+ WIDTH="127" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1979.png"
+ ALT="$ \frac{\partial G(s,U(s))}{\partial s}$"></B> is written as <!-- MATH
+ $\frac{\partial G}{\partial s} + \frac{\partial G}{\partial U}$
+ -->
+<B><IMG
+ WIDTH="71" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1980.png"
+ ALT="$ \frac{\partial G}{\partial s} + \frac{\partial G}{\partial U}$"></B>.  The routine is split according to the
+objective function:
+
+<P>
+
+<UL>
+<LI>The MASS objective function does not depend on the displacements,
+  i.e. the deformation of a body does not change its mass. So only the first
+  term in the above equation is needed. This term examines how the change of
+  the design variables directly changes the mass. For the orientation as
+  design variable the mass does not change at all. For coordinates as design
+  variables, however, <!-- MATH
+ $\frac{\partial G}{\partial s}$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1458.png"
+ ALT="$ \frac{\partial G}{\partial s}$"></B> is appropriately
+  calculated. This is done by determining <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1438.png"
+ ALT="$ G$"></B> for the unperturbed geometry and
+  for the geometry in which one of the design variables (the geometric change
+  in normal direction in a node on the external surface) is changed by a small
+  amount (finite difference approximation). The routine in which this is done
+  is objective_mass_dx.f.
+
+<P>
+In general, the objective function does not have to apply to the total
+structure, e.g. one can define the mass of part of the structure as design
+variable. In that case all other elements are deactivated. This is done in
+routine actideacti.f. This applies to all objective functions, for which only
+part of the structure is included.
+
+<P>
+</LI>
+<LI>For the SHAPE ENERGY as objective function a distinction has to be made
+  whether the calculation is geometrically linear or nonlinear. For a linear
+  geometric calculation Equation (<A HREF="node181.html#sensitivityeq">436</A>) reduces to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{DG}{Ds}=\frac{\partial G}{\partial s} + U \left(  \frac{\partial F}{\partial
+    s}-\frac{\partial K}{\partial s}  \cdot U \right).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="66" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1981.png"
+ ALT="$\displaystyle \frac{DG}{Ds}=\frac{\partial G}{\partial s} + U \left( \frac{\partial F}{\partial s}-\frac{\partial K}{\partial s} \cdot U \right).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(539)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The first term on the right hand side is calculated in a similar way as for
+the MASS in routine objective_shapeener_dx.f. The term in brackets on the
+right hand side was already determined in results_se.f and
+mafillsmmain_se.f. Premultiplying it with the displacements from the previous
+static step and adding the first term yields the sensitivities (objective_shapeener_tot.f).
+
+<P>
+For a nonlinear geometric calculation  Equation (<A HREF="node181.html#sensitivityeq">436</A>) reduces
+to: 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{DG}{Ds}=\frac{\partial G}{\partial s} + F_{\text{int}}^T K^{-1} \left(  \frac{\partial F_{\text{ext}}}{\partial
+    s}-\frac{\partial F_{\text{int}}}{\partial
+    s} \right).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="243" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1982.png"
+ ALT="$\displaystyle \frac{DG}{Ds}=\frac{\partial G}{\partial s} + F_{\text{int}}^T K^...
+...F_{\text{ext}}}{\partial s}-\frac{\partial F_{\text{int}}}{\partial s} \right).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(540)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Now, <!-- MATH
+ $Y \equiv F_{\text{int}}^T K^{-1}$
+ -->
+<B><IMG
+ WIDTH="292" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1983.png"
+ ALT="$ Y \equiv F_{\text{int}}^T K^{-1}$"></B> is calculated by solving the set of
+equations <!-- MATH
+ $K Y = F_{\text{int}}$
+ -->
+<B><IMG
+ WIDTH="96" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1984.png"
+ ALT="$ K Y = F_{\text{int}}$"></B>. The remaining operations are similar to the
+linear case.
+
+<P>
+</LI>
+<LI>For the EIGENFREQUENCY as objective function the sensitivity reduces to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial \lambda_i}{\partial s}  = U_i^T \cdot \left( \frac{\partial
+    K}{\partial s} - \lambda_i \frac{\partial M}{\partial s} \right) \cdot U_i.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="235" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1456.png"
+ ALT="$\displaystyle \frac{\partial \lambda_i}{\partial s} = U_i^T \cdot \left( \frac{...
+...ial K}{\partial s} - \lambda_i \frac{\partial M}{\partial s} \right) \cdot U_i.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(541)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The part starting with the brackets on the right hand side has been determined
+in mafillsmmain_se.f. Consequently,the sensitivity of the eigenfrequencies
+only requires the premultiplication with the eigenmodes. This is done in
+objective_freq.f and objective_freq_cs.f (cyclic symmetry).
+
+<P>
+For the sensitivity of the eigenmodes (only calculated for the orientation as
+design variable) the relevant equation is Equation (<A HREF="node181.html#sensfreq2">440</A>), which
+can also be written as:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+(K - \lambda_i M) \frac{\partial U_i}{\partial s} = F_i.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="79" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1985.png"
+ ALT="$\displaystyle (K - \lambda_i M) \frac{\partial U_i}{\partial s} = F_i.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(542)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Assuming the sensitivity to be a linear combination of the eigenmodes:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial U_i}{\partial s} = \sum_j c_j U_j,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="153" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1986.png"
+ ALT="$\displaystyle \frac{\partial U_i}{\partial s} = \sum_j c_j U_j,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(543)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+leads to the following expressions for <B><IMG
+ WIDTH="116" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1987.png"
+ ALT="$ c_j$"></B>:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+c_j=\frac{U_j^T F_i}{\lambda_j - \lambda_i}, i \ne j
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1988.png"
+ ALT="$\displaystyle c_j=\frac{U_j^T F_i}{\lambda_j - \lambda_i}, i \ne j$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(544)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and <B><IMG
+ WIDTH="134" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1989.png"
+ ALT="$ c_i=0$"></B>. The latter equation results from the differentiation of the mass
+normalization condition <!-- MATH
+ $U_i^T M U_i=1$
+ -->
+<B><IMG
+ WIDTH="46" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1990.png"
+ ALT="$ U_i^T M U_i=1$"></B>. The determination of 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+F_i= - \left( \frac{\partial
+    K}{\partial s} - \lambda_i \frac{\partial M}{\partial s} - \frac{\partial
+    \lambda_i}{\partial s} M \right) \cdot U_i
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="90" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1991.png"
+ ALT="$\displaystyle F_i= - \left( \frac{\partial K}{\partial s} - \lambda_i \frac{\partial M}{\partial s} - \frac{\partial \lambda_i}{\partial s} M \right) \cdot U_i$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(545)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+is straightforward and is based on the expression calculated in
+mafillsmmain_se.f and the sensitivity of the eigenfrequencies.
+
+<P>
+</LI>
+<LI>For the sensitivity of the Green functions (only calculated for the
+orientation as design variables) the relevant equation reads:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+(K - \omega_0^2 M) \frac{\partial U_i}{\partial s} = \frac{\partial
+    K}{\partial s}  \cdot U_i.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="264" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1992.png"
+ ALT="$\displaystyle (K - \omega_0^2 M) \frac{\partial U_i}{\partial s} = \frac{\partial K}{\partial s} \cdot U_i.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(546)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and requires the solution of a system of equations for each design
+variable. The system matrix, however, does not change, so the LU-decomposition
+of the matrix has only to be done once.
+
+<P>
+For the orientation as design variable the frequency sensitivities are stored
+in the .dat file, whereas the sensitivities of the eigenmodes and/or Green
+functions are stored in the .frd file (frd_sen.c, called from objectivemain_se.c). For the geometry as design
+variable only the frequency sensitivities are determined. They are not stored
+in objectivemain_se.c since they may need further postprocessing in sensitivity.c. 
+
+<P>
+</LI>
+<LI>The DISPLACEMENT objective function is differently defined for orientation design
+  variables than for geometric design variables. The processing, however, is
+  similar. The relevant equation is
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial U}{\partial s} = K^{-1} \left(  \frac{\partial F_{\text{ext}}}{\partial
+    s}-\frac{\partial F_{\text{int}}}{\partial
+    s} \right),
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="217" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1442.png"
+ ALT="$\displaystyle \frac{\partial U}{\partial s} = K^{-1} \left( \frac{\partial F_{\text{ext}}}{\partial s}-\frac{\partial F_{\text{int}}}{\partial s} \right),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(547)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+for geometrically nonlinear calculations and 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial U}{\partial s} = K^{-1} \left(  \frac{\partial F}{\partial
+    s}-\frac{\partial K}{\partial s}  \cdot U \right)
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="196" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1993.png"
+ ALT="$\displaystyle \frac{\partial U}{\partial s} = K^{-1} \left( \frac{\partial F}{\partial s}-\frac{\partial K}{\partial s} \cdot U \right)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(548)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+for geometrically linear calculations. In both cases the term in brackets on
+the right hand side (let us call it <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1437.png"
+ ALT="$ F$"></B>) has been calculated
+before. Therefore, the complete right hand side is determined by solving <B><IMG
+ WIDTH="206" HEIGHT="54" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1994.png"
+ ALT="$ K Y
+= F$"></B> for each design variable. Since the matrix of the system does not depend
+on the design variable, it has only to be LU-decomposed once. 
+
+<P>
+For orientation design variables the result is transferred from the degrees of
+freedom to the (node,direction) representation in resultsnoddir.f and stored
+in the .frd file in frd_sen.c. For geometrical design variables the result is
+processed in objective_disp_dx.f. This is due to the fact that the
+displacement geometric function for geometrical design variables is defined as
+the square root of the sum of the square of the displacements in all design
+nodes. After leaving objective_disp_dx the result is kept for further
+postprocessing. 
+
+<P>
+</LI>
+<LI>Results for the STRESS as objective are immediately based on the
+  displacement sensitivities. Indeed, one can write:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+S=f(U(s),s),
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="66" HEIGHT="14" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1995.png"
+ ALT="$\displaystyle S=f(U(s),s),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(549)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+i.e. the stress S is a direct function of the design variables and an indirect
+function through the displacements. Indeed, the stress is the result of the
+``multiplication'' of the material contants with the derivative of the
+displacements with respect to the geometry. Therefore, the indirect dependence
+through the displacements is clear. For geometrical design variables the
+direct dependence follow from ``WITH RESPECT TO THE GEOMETRY'' in the previous
+sentence, for the orientation design variables it follows from ``THE MATERIAL
+CONSTANTS''. Therefore, the sensitivity of the stress can be written as:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial S}{\partial s} \approx \frac{S(U(s+\Delta s),s+\Delta
+  s)-S(U(s),s)}{\Delta s},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="110" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1996.png"
+ ALT="$\displaystyle \frac{\partial S}{\partial s} \approx \frac{S(U(s+\Delta s),s+\Delta s)-S(U(s),s)}{\Delta s},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(550)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $U(s+\Delta s)$
+ -->
+<B><IMG
+ WIDTH="298" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1997.png"
+ ALT="$ U(s+\Delta s)$"></B> is approximated by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+U(s+\Delta s) \approx U(s) + \frac{\partial{U}}{\partial{s}} \Delta s.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="77" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1998.png"
+ ALT="$\displaystyle U(s+\Delta s) \approx U(s) + \frac{\partial{U}}{\partial{s}} \Delta s.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(551)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+So the stress sensitivities generally require the knowledge of the
+displacement sensitivities. For orientation design variables the above
+operations require the routines resultsnoddir.f and resultsstr.c (and their
+subroutines). The results (i.e. the sensitivity of the von Mises stress at all
+nodes w.r.t. a change in an anisotropic orientation) are stored in the
+frd-file. 
+
+<P>
+For geometrical design variables stress_sen.c and its
+subroutines are needed. The evaluation of the Kreisselmeier-Steinhauser
+function based on the von Mises Stress is done in subroutine
+objective_stress_dx.f. These results are kept for further postprocessing.
+
+<P>
+</LI>
+<LI>The THICKNESS objective can only be used as a constraint to another
+  objective function. For a LE constraint the sensitivity is 1 if the actual
+  thickness exceeds the reference thickness, else it is 0. For a GE constraint
+  the sensitivity is 1 if the actual thickness is less than the reference
+  thickness, else is is 0.
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6516"
+  HREF="node421.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6512"
+  HREF="node418.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6506"
+  HREF="node419.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6514"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6517"
+  HREF="node421.html">Postprocessing the sensitivity</A>
+<B> Up:</B> <A NAME="tex2html6513"
+  HREF="node418.html">Sensitivity Analysis</A>
+<B> Previous:</B> <A NAME="tex2html6507"
+  HREF="node419.html">Preprocessing the sensitivity</A>
+ &nbsp; <B>  <A NAME="tex2html6515"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

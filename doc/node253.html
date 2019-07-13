@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*ELEMENT</TITLE>
+<META NAME="description" CONTENT="*ELEMENT">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node254.html">
+<LINK REL="previous" HREF="node252.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node254.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4364"
+  HREF="node254.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4360"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4354"
+  HREF="node252.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4362"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4365"
+  HREF="node254.html">*ELEMENT OUTPUT</A>
+<B> Up:</B> <A NAME="tex2html4361"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4355"
+  HREF="node252.html">*ELECTROMAGNETICS</A>
+ &nbsp; <B>  <A NAME="tex2html4363"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000845000000000000000"></A><A NAME="element"></A>
+<BR>
+*ELEMENT
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+With this option elements are defined. There is one required
+parameter, TYPE and one optional parameter, ELSET. The parameter TYPE
+defines the kind of element which is being defined. The following
+types can be selected:
+
+<P>
+
+<UL>
+<LI>General 3D solids
+
+<UL>
+<LI>C3D4 (4-node linear tetrahedral element)
+</LI>
+<LI>C3D6 (6-node linear triangular prism element)
+</LI>
+<LI>C3D8 (3D 8-node linear isoparametric element)
+</LI>
+<LI>C3D8R (the C3D8 element with reduced integration)
+</LI>
+<LI>C3D10 (10-node quadratic tetrahedral element)
+</LI>
+<LI>C3D15 (15-node quadratic triangular prism element)
+</LI>
+<LI>C3D20 (3D 20-node quadratic isoparametric element)
+</LI>
+<LI>C3D20R (the C3D20 element with reduced integration)
+</LI>
+</UL>
+</LI>
+<LI>``ABAQUS'' 3D solids for heat transfer (names are provided for compatibility)
+
+<UL>
+<LI>DC3D4: identical to C3D4
+</LI>
+<LI>DC3D6: identical to C3D6
+</LI>
+<LI>DC3D8: identical to C3D8
+</LI>
+<LI>DC3D10: identical to C3D10
+</LI>
+<LI>DC3D15: identical to C3D15
+</LI>
+<LI>DC3D20: identical to C3D20
+</LI>
+</UL>
+</LI>
+<LI>Shell elements
+
+<UL>
+<LI>S6 (6-node triangular shell element)
+</LI>
+<LI>S8 (8-node quadratic shell element)
+</LI>
+<LI>S8R (the S8 element with reduced integration)
+</LI>
+</UL>
+</LI>
+<LI>Plane stress elements
+
+<UL>
+<LI>CPS6 (6-node triangular plane stress element)
+</LI>
+<LI>CPS8 (8-node quadratic plane stress element)
+</LI>
+<LI>CPS8R (the CPS8 element with reduced integration)
+</LI>
+</UL>
+</LI>
+<LI>Plane strain elements
+
+<UL>
+<LI>CPE6 (6-node triangular plane strain element)
+</LI>
+<LI>CPE8 (8-node quadratic plane strain element)
+</LI>
+<LI>CPE8R (the CPS8 element with reduced integration)
+</LI>
+</UL>
+</LI>
+<LI>Axisymmetric elements
+
+<UL>
+<LI>CAX6 (6-node triangular axisymmetric element)
+</LI>
+<LI>CAX8 (8-node quadratic axisymmetric element)
+</LI>
+<LI>CAX8R (the CAX8 element with reduced integration)
+</LI>
+</UL>
+</LI>
+<LI>Beam elements
+
+<UL>
+<LI>B32 (3-node beam element)
+</LI>
+<LI>B32R (the B32 element with reduced integration)
+</LI>
+</UL>
+</LI>
+<LI>Special elements
+
+<UL>
+<LI>D (3-node network element)
+</LI>
+<LI>GAPUNI (2-node unidirectional gap element)
+</LI>
+</UL>
+</LI>
+</UL>
+
+<P>
+Notice that the S8, S8R, CPS8, CPS8R, CPE8, CPE8R, CAX8, CAX8R, B32
+and B32R element are internally expanded into 20-node brick
+elements. Please have a look at Section <A HREF="node26.html#elements">6.2</A> for details and decision criteria which element to take. The element choice determines to a large extent the quality of the results. Do not take element choice lightheartedly! The parameter ELSET is used to assign the elements to an element set. If the set already exists, the elements are ADDED to the set.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*ELEMENT
+</LI>
+<LI>Enter any needed parameters and their values.
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Element number.
+</LI>
+<LI>Node numbers forming the element. The order of nodes around the element is given in section 2.1. Use continuation lines for elements having more than 15 nodes (maximum 16 entries per line).
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*ELEMENT,ELSET=Eall,TYPE=C3D20R
+1,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,
+16,17,18,19,20
+</PRE>
+
+<P>
+defines one 20-node element with reduced integration and stores it in set Eall.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beam8p, beam10p, beam20p.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4364"
+  HREF="node254.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4360"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4354"
+  HREF="node252.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4362"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4365"
+  HREF="node254.html">*ELEMENT OUTPUT</A>
+<B> Up:</B> <A NAME="tex2html4361"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4355"
+  HREF="node252.html">*ELECTROMAGNETICS</A>
+ &nbsp; <B>  <A NAME="tex2html4363"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Modal dynamic analysis</TITLE>
+<META NAME="description" CONTENT="Modal dynamic analysis">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node165.html">
+<LINK REL="previous" HREF="node163.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node165.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3157"
+  HREF="node165.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3153"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3147"
+  HREF="node163.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3155"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3158"
+  HREF="node165.html">Steady state dynamics</A>
+<B> Up:</B> <A NAME="tex2html3154"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3148"
+  HREF="node163.html">Buckling analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3156"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00079500000000000000">
+Modal dynamic analysis</A>
+</H3>
+
+<P>
+In a modal dynamic analysis, triggered by the <A HREF="node285.html#modaldynamic">*MODAL
+  DYNAMIC</A> key word, the response of the structure to dynamic
+loading is assumed to be a linear combination of the lowest eigenmodes. These
+eigenmodes are recovered from a file "problem.eig", where "problem" stands for
+the name of the structure. These eigenmodes must have been determined in a
+previous step (STORAGE=YES on the *FREQUENCY card or on the *HEAT
+  TRANSFER,FREQUENCY card), either in the same input deck, or in an input deck run
+previously. If, in the latter case, the eigenmode analysis exhibited cyclic
+symmetry (i.e. if the *SELECT CYCLIC SYMMETRY MODES card was used) make sure
+to use the CYCLIC SYMMETRY parameter 
+on the *MODAL DYNAMIC card. The dynamic loading can be defined as a piecewise linear function
+by means of the <A HREF="node206.html#amplitude">*AMPLITUDE</A> key word. 
+
+<P>
+The displacement
+boundary conditions in a modal dynamic analysis should match zero boundary
+  conditions in the same nodes and same directions in the step used for the
+  determination of the eigenmodes. This corresponds to what is called base
+  motion in ABAQUS. A typical application for nonzero boundary conditions is
+  the base motion of a building due to an earthquake. Notice that in a modal
+  dynamic 
+  analysis with base motion non-homogeneous multiple point constraints are not
+  allowed. This applies in particular to single point constraints (boundary
+  conditions) in a non-global coordinate system, such as a cylindrical
+  coordinate system (defined by a
+  <A HREF="node328.html#transform">*TRANSFORM</A> card). Indeed, boundary conditions in a
+  local coordinate system are internally transformed into non-homogeneous
+  multiple point constraints. Consequently, in a modal dynamic analysis
+  boundary conditions must be defined in the global Cartesian coordinate
+  system. 
+
+<P>
+Temperature loading or residual stresses are not allowed. If such loading
+  arises, the direct integration dynamics procedure should be used.
+
+<P>
+Nonzero displacement boundary conditions in a modal dynamic analysis require
+the calculation of the first and second order time derivatives (velocity and
+acceleration) of the temporarily static solution induced by
+them. Indeed, based on the nonzero displacement boundary conditions (without
+any other loading) at time <B><IMG
+ WIDTH="10" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img431.png"
+ ALT="$ t$"></B> a static solution can be determined for that
+time (that's
+why the stiffness matrix is included in the .eig file). If the nonzero
+displacement boundary conditions change with time, so will the induced static
+solution. Now, the solution to the dynamic problem is assumed to be the sum of
+this temporarily static solution and a linear combination of the lowest
+eigenmodes. To determine the first and second order time derivatives of
+the induced static solution, second order accurate finite difference schemes are
+used based on the solution at times <!-- MATH
+ $t-\Delta t$
+ -->
+<B><IMG
+ WIDTH="49" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1162.png"
+ ALT="$ t-\Delta t$"></B>, <B><IMG
+ WIDTH="10" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img431.png"
+ ALT="$ t$"></B> and <!-- MATH
+ $t+ \Delta t$
+ -->
+<B><IMG
+ WIDTH="49" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1163.png"
+ ALT="$ t+ \Delta t$"></B>, where
+<B><IMG
+ WIDTH="23" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1164.png"
+ ALT="$ \Delta t$"></B> is the time increment in the modal dynamic step. At the start of a
+modal dynamic analysis step the nonzero boundary conditions at the end of the
+previous step are assumed to have reached steady state (velocity and
+acceleration are zero). Nonzero displacement boundary conditions can by
+applied by use of the <A HREF="node209.html#boundary">*BOUNDARY</A> card or the <A HREF="node207.html#basemotion">*BASE
+  MOTION</A> card.
+
+<P>
+Damping can be included by means of the <A HREF="node284.html#modaldamping">*MODAL DAMPING</A>
+key card. The damping models provided in CalculiX are direct damping and
+Rayleigh damping. If direct damping is selected the viscous damping factor
+<B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"></B> can be defined for each mode separately. Rayleigh damping,
+assumes the damping matrix to be a linear combination of the problem's
+stiffness matrix and mass matrix. In both cases the problem is split according to its
+eigenmodes, and leads to ordinary differential equations. The results are
+exact for piecewise linear loading, apart from the inaccuracy due to the
+finite number of eigenmodes.
+
+<P>
+A modal dynamic analysis can also be performed for a cyclic symmetric
+structure. To this end, the eigenmodes must have been determined for all
+relevant modal diameters. For a cyclic modal dynamic analysis there are two
+limitations:
+
+<P>
+
+<OL>
+<LI>Nonzero boundary conditions are not allowed.
+</LI>
+<LI>The displacements and velocities at the start of a step must be zero.
+</LI>
+</OL>
+
+<P>
+Special caution has to be applied if 1D and 2D elements are used. Since
+these elements are internally expanded into 3D elements, the application of
+boundary conditions and point forces to nodes requires the creation of
+multiple point constraints linking the original nodes to their expanded
+counterparts. These MPC's change the structure of the stiffness and mass
+matrix. However, the stiffness and mass matrix is stored in the .eig file in the *FREQUENCY
+step preceding the *MODAL DYNAMIC step. This is necessary, since the mass
+matrix is needed for the treatment of the initial conditions ([<A
+ HREF="node448.html#Dhondt">18</A>])
+and the stiffness matrix for taking nonzero boundary conditions into
+account. Summarizing, the *MODAL DYNAMIC step should not introduce point loads
+or nonzero boundary conditions in nodes in which no point force or boundary
+condition was defined in the *FREQUENCY step. The value of the point force and
+boundary conditions in the *FREQUENCY step can be set to zero. An example for
+the application of point forces to shells is given in shellf.inp of the test
+example set.
+
+<P>
+Special effort was undertaken to increase the computational speed for modal
+dynamic calculations. This is especially important if contact is used, since
+contact convergence can require very small time steps. If time is an issue for
+you, please take into account the following rules:
+
+<P>
+
+<UL>
+<LI>Time varying loads slow down the execution.
+</LI>
+<LI>Loads applied in many elements slow down execution. Together with the
+  previous rule this means that e.g. a constantly changing centrifugal load is
+  very detrimental to the performance of the calculation.
+</LI>
+<LI>Nonzero displacements, centrifugal loads and gravity loads involve
+  load changes in the complete mesh and slow down execution.
+</LI>
+<LI>Point loads act very local and are good for the performance.
+</LI>
+<LI>Use the parameter NSET on the *NODE FILE and *EL FILE card to limit output to a small set of nodes in order
+  to accelerate the execution. 
+</LI>
+<LI>Requesting element variables in the frd output slows down execution. So
+  does requesting nodal forces, since these are derived from the stresses in
+  the integration points. Limiting output to displacements (U) is very
+  beneficial.
+</LI>
+<LI>Using the user subroutine cload.f (Section <A HREF="node344.html#usercload">8.4.2</A>) slows down the execution, since this
+  routine provides the user with the forces in the nodes at stake.
+</LI>
+</UL>
+
+<P>
+Summarizing, maximal speed will be obtained by applying a constant point load
+(Heaviside step function) in one node
+and requesting the displacements only in that node.  
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3157"
+  HREF="node165.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3153"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3147"
+  HREF="node163.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3155"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3158"
+  HREF="node165.html">Steady state dynamics</A>
+<B> Up:</B> <A NAME="tex2html3154"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3148"
+  HREF="node163.html">Buckling analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3156"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

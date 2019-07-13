@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>User Element (Uxxxx)</TITLE>
+<META NAME="description" CONTENT="User Element (Uxxxx)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node70.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node72.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1945"
+  HREF="node72.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1941"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1937"
+  HREF="node70.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1943"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1946"
+  HREF="node72.html">Beam Section Types</A>
+<B> Up:</B> <A NAME="tex2html1942"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1938"
+  HREF="node70.html">One-node mass element (MASS)</A>
+ &nbsp; <B>  <A NAME="tex2html1944"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000724500000000000000">
+User Element (Uxxxx)</A>
+</H3>
+
+<P>
+The user can define his/her own elements. In order to do so he/she has to:
+
+<P>
+
+<UL>
+<LI>Give a name to the element. The name has to start with ``U'' followed by
+  maximal 4 characters. Any character from the ASCII character set can be
+  taken, but please note that lower case characters are converted into upper
+  case by CalculiX. Consequently, ``Ubeam'' and ``UBEam'' are the same
+  name. This reduces the character set from 256 to 230 characters.
+</LI>
+<LI>specify the number of integration points within the element (maximum 256), the number
+  of nodes belonging to the element (maximum 256) and the number of degrees of freedom in
+  each node (maximum 256) by using the <A HREF="node331.html#userelement">*USER ELEMENT</A> keyword card.
+</LI>
+<LI>write a FORTRAN subroutine resultsmech_uxxxx.f calculating the secondary
+  variables (usually strains, stresses, internal forces) from the primary
+  variables (= the solution of the equation system, usually displacements,
+  rotations....). Add a call to this routine in resultsmech_u.f
+</LI>
+<LI>write a FORTRAN subroutine e_c3d_uxxxx.f calculating the element stiffness
+  matrix and the element external force vector (and possibly the element mass
+  matrix). Add a call to this routine in e_c3d_u.f
+</LI>
+<LI>write a FORTRAN subroutine extrapolate_uxxxx.f calculating the value of
+  the secondary variables (usually strains, stresses..) at the nodes based on
+  their values at the integration points within the element. Add a call to
+  this routine in extrapolate_u.f
+</LI>
+</UL>
+
+<P>
+An example for a 3D Timoshenko beam element (for static linear elastic
+calculations and small deformations) according to [<A
+ HREF="node448.html#Yunhua">81</A>] is
+implemented as element ``U1'' in CalculiX. It is used in example userbeam.inp
+in the test suite. The reader is referred to files resultsmech_u1.f,
+e_c3d_u1.f and extrapolate_u1.f for details on how a user elements is coded.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1945"
+  HREF="node72.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1941"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1937"
+  HREF="node70.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1943"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1946"
+  HREF="node72.html">Beam Section Types</A>
+<B> Up:</B> <A NAME="tex2html1942"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1938"
+  HREF="node70.html">One-node mass element (MASS)</A>
+ &nbsp; <B>  <A NAME="tex2html1944"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

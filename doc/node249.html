@@ -1,0 +1,287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*DYNAMIC</TITLE>
+<META NAME="description" CONTENT="*DYNAMIC">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node250.html">
+<LINK REL="previous" HREF="node248.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node250.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4316"
+  HREF="node250.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4312"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4306"
+  HREF="node248.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4314"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4317"
+  HREF="node250.html">*ELASTIC</A>
+<B> Up:</B> <A NAME="tex2html4313"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4307"
+  HREF="node248.html">*DSLOAD</A>
+ &nbsp; <B>  <A NAME="tex2html4315"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000841000000000000000"></A><A NAME="dynamic"></A>
+<BR>
+*DYNAMIC
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This procedure is used to calculate the response of a structure subject to
+dynamic loading using a direct integration procedure of the equations of
+motion.  This card is also correct for transient incompressible flow calculations without heat transfer.
+
+<P>
+There are four optional
+parameters: DIRECT, ALPHA, EXPLICIT and SOLVER. The parameter DIRECT specifies
+that the user-defined initial time increment should not be changed. In case of
+no convergence with this increment size, the calculation stops with an error
+message. If this parameter is not set, the program will adapt the increment
+size depending on the rate of convergence. The parameter ALPHA takes an
+argument between -1/3 and 0. It controls the dissipation of the high frequency
+response: lower numbers lead to increased numerical damping
+([<A
+ HREF="node448.html#Miranda">54</A>]). The default value is -0.05. 
+
+<P>
+The parameter EXPLICIT can take the following values:
+
+<P>
+
+<UL>
+<LI>0: implicit structural computation, semi-implicit fluid computation
+</LI>
+<LI>1: implicit structural computation, explicit fluid computation
+</LI>
+<LI>2: explicit structural computation, semi-implicit fluid computation
+</LI>
+<LI>3: explicit structural computation, explicit fluid computation
+</LI>
+</UL>
+
+<P>
+If the value is lacking, 3 is assumed. If the parameter is lacking altogether,
+a zero value is assumed.
+
+<P>
+The last parameter SOLVER determines the
+package used to solve the ensuing system of equations. The following solvers
+can be selected:
+
+<P>
+
+<UL>
+<LI>the SGI solver
+</LI>
+<LI>PARDISO
+</LI>
+<LI>SPOOLES [<A
+ HREF="node448.html#Ashcraft1">3</A>,<A
+ HREF="node448.html#Ashcraft2">4</A>]. 
+</LI>
+<LI>TAUCS 
+</LI>
+<LI>the iterative solver by Rank and Ruecker [<A
+ HREF="node448.html#Rank">65</A>], which is based on
+  the algorithms by Schwarz [<A
+ HREF="node448.html#Schwarz">69</A>]. 
+</LI>
+</UL>
+
+<P>
+Default is the first solver which has been installed of the following list:
+SGI, PARDISO, SPOOLES and TAUCS. If none is installed, the default is the iterative solver, which comes with the CalculiX
+package.
+
+<P>
+The SGI solver should by now be considered as outdated. SPOOLES is very fast, but has no
+out-of-core capability: the size of systems you can solve is limited by your
+RAM memory. With 2GB of RAM you can solve up to 250,000 equations. TAUCS is
+also good, but my experience is limited to the <B><IMG
+ WIDTH="36" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1577.png"
+ ALT="$ LL^T$"></B> decomposition, which
+only applies to positive definite systems. It has an out-of-core capability
+and also offers a <B><IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1578.png"
+ ALT="$ LU$"></B> decomposition, however, I was not able to run either of
+them so far. Next comes the iterative solver. If SOLVER=ITERATIVE SCALING is
+selected, the pre-conditioning is limited to a scaling of the diagonal terms,
+SOLVER=ITERATIVE CHOLESKY triggers Incomplete Cholesky
+pre-conditioning. Cholesky pre-conditioning leads to a better convergence and
+maybe to shorter execution times, however, it requires additional storage
+roughly corresponding to the non-zeros in the matrix. If you are short of
+memory, diagonal scaling might be your last resort. The iterative methods
+perform well for truly three-dimensional structures. For instance,
+calculations for a hemisphere were about nine times faster with the ITERATIVE
+SCALING solver, and three times faster with the ITERATIVE CHOLESKY solver than
+with SPOOLES. For two-dimensional structures such as plates or shells, the
+performance might break down drastically and convergence often requires the
+use of Cholesky pre-conditioning. SPOOLES (and any of the other direct solvers)
+performs well in most situations with emphasis on slender structures but
+requires much more storage than the iterative solver. PARDISO is the Intel proprietary solver and is to my knowledge
+presently the fastest.
+
+<P>
+In a dynamic step, loads are by default applied by their full strength at the
+start of the step. Other loading
+patterns can be defined by an <A HREF="node206.html#amplitude">*AMPLITUDE</A> card.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*DYNAMIC
+</LI>
+<LI>enter any parameters and their values, if needed.
+</LI>
+</UL>
+Second line:
+
+<UL>
+<LI>Initial time increment. This value will be modified due to automatic incrementation, unless the parameter DIRECT was specified.
+</LI>
+<LI>Time period of the step.
+</LI>
+<LI>Minimum time increment allowed. Only active if DIRECT is not specified. Default is the initial time increment or 1.e-5 times the time period of the step, whichever is smaller.
+</LI>
+<LI>Maximum time increment allowed. Only active if DIRECT is not specified. Default is 1.e+30.
+</LI>
+<LI>Initial time increment for CFD applications (default 1.e-2)
+</LI>
+</UL>
+
+<P>
+<PRE>
+Examples:
+
+*DYNAMIC,DIRECT,EXPLICIT
+1.E-7,1.E-5
+</PRE>
+
+<P>
+defines an explicit dynamic procedure with fixed time increment <B><IMG
+ WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1664.png"
+ ALT="$ 10^{-7}$"></B> for a step of length <B><IMG
+ WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1620.png"
+ ALT="$ 10^{-5}$"></B>.
+
+<P>
+<PRE>
+*DYNAMIC,ALPHA=-0.3,SOLVER=ITERATIVE CHOLESKY
+1.E-7,1.E-5,1.E-9,1.E-6
+</PRE>
+
+<P>
+defines an implicit dynamic procedure with variable increment size. The numerical damping was increased (<!-- MATH
+ $\alpha = -0.3$
+ -->
+<B><IMG
+ WIDTH="69" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$ \alpha = -0.3$"></B> instead of the default <!-- MATH
+ $\alpha = -0.05$
+ -->
+<B><IMG
+ WIDTH="77" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1666.png"
+ ALT="$ \alpha = -0.05$"></B>, and the iterative solver with Cholesky pre-conditioning was selected. The starting increment has a size <B><IMG
+ WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1664.png"
+ ALT="$ 10^{-7}$"></B>, the subsequent increments should not have a size smaller than <B><IMG
+ WIDTH="38" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1667.png"
+ ALT="$ 10^{-9}$"></B> or bigger than <B><IMG
+ WIDTH="38" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1657.png"
+ ALT="$ 10^{-6}$"></B>. The step size is <B><IMG
+ WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1620.png"
+ ALT="$ 10^{-5}$"></B>.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamnldy, beamnldye, beamnldyp, beamnldype.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4316"
+  HREF="node250.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4312"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4306"
+  HREF="node248.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4314"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4317"
+  HREF="node250.html">*ELASTIC</A>
+<B> Up:</B> <A NAME="tex2html4313"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4307"
+  HREF="node248.html">*DSLOAD</A>
+ &nbsp; <B>  <A NAME="tex2html4315"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

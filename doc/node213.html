@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*BOUNDARYF</TITLE>
+<META NAME="description" CONTENT="*BOUNDARYF">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node214.html">
+<LINK REL="previous" HREF="node209.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node214.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3884"
+  HREF="node214.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3880"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3874"
+  HREF="node212.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3882"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3885"
+  HREF="node214.html">*BUCKLE</A>
+<B> Up:</B> <A NAME="tex2html3881"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3875"
+  HREF="node212.html">Submodel</A>
+ &nbsp; <B>  <A NAME="tex2html3883"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00085000000000000000"></A><A NAME="boundaryf"></A>
+<BR>
+*BOUNDARYF
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option is used to prescribe boundary conditions for 3D-fluids
+calculations. This includes static temperature, velocity and static pressure.
+
+<P>
+The following degrees of freedom are being used:
+
+<P>
+
+<UL>
+<LI>1: velocity in the local x-direction
+</LI>
+<LI>2: velocity in the local y-direction
+</LI>
+<LI>3: velocity in the local z-direction
+</LI>
+<LI>8: static pressure
+</LI>
+<LI>11: static temperature
+</LI>
+</UL>
+
+<P>
+If no
+<A HREF="node328.html#transform">*TRANSFORM</A> card applied to the node at stake, the local
+directions coincide with the global ones.
+
+<P>
+Optional parameters are AMPLITUDE, TIME DELAY, and USER. Their meaning is the same as for the *BOUNDARY card.
+
+<P>
+The main differences with the *BOUNDARY card are:
+
+<P>
+
+<UL>
+<LI>the *BOUNDARYF card can only be used within a step
+</LI>
+<LI>for fluids the boundary
+conditions are applied to element faces and not to nodes. The face labels are
+exactly the same as for the <A HREF="node322.html#surface">*SURFACE</A> card.
+</LI>
+</UL>
+
+<P>
+In order to apply a fluid boundary condition to a surface the element set label
+underneath may be replaced by a surface name. In that case the
+face type label takes the value ``S'' without any number following.
+
+<P>
+Thus, the cards run like:
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*BOUNDARYF
+</LI>
+<LI>Enter any needed parameters and their value.
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Element number or element set label
+</LI>
+<LI>Local face label of the element
+</LI>
+<LI>First degree of freedom constrained
+</LI>
+<LI>Last degree of freedom constrained. This field may be left blank if only one degree of freedom is constrained.
+</LI>
+<LI>Actual magnitude of the prescribed displacement (default is zero)
+</LI>
+</UL>
+Repeat this line if needed. For the local face numbering the reader is referred to the
+<A HREF="node247.html#dload">*DLOAD</A> card.
+
+<P>
+<PRE>
+Example:
+
+*BOUNDARYF
+22,S3,2,2,.1
+</PRE>
+
+<P>
+assigns to degree of freedom two of local face 3 of element 22 the value
+0.1. If no transformation applies this degree of freedom corresponds to the
+velocity in global y-direction.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3884"
+  HREF="node214.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3880"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3874"
+  HREF="node212.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3882"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3885"
+  HREF="node214.html">*BUCKLE</A>
+<B> Up:</B> <A NAME="tex2html3881"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3875"
+  HREF="node212.html">Submodel</A>
+ &nbsp; <B>  <A NAME="tex2html3883"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

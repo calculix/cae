@@ -1,0 +1,279 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Seepage under a dam</TITLE>
+<META NAME="description" CONTENT="Seepage under a dam">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node12.html">
+<LINK REL="previous" HREF="node10.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node12.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1004"
+  HREF="node12.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1000"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html994"
+  HREF="node10.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1002"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1005"
+  HREF="node12.html">Capacitance of a cylindrical</A>
+<B> Up:</B> <A NAME="tex2html1001"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html995"
+  HREF="node10.html">Thermal calculation of a</A>
+ &nbsp; <B>  <A NAME="tex2html1003"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00065000000000000000">
+Seepage under a dam</A>
+</H2>
+
+<P>
+In this section, groundwater flow under a dam is analyzed. The geometry of the
+dam is depicted in Figure <A HREF="#damgeo">20</A> and is taken from exercise 30 in
+Chapter 1 of [<A
+ HREF="node448.html#Harr">27</A>]. All length measurements are in feet (0.3048 m). The
+water level upstream of the dam is 20 feet high, on the downstream side it is
+5 feet high. The soil underneath the dam is anisotropic. Upstream the
+permeability  is
+characterized by <!-- MATH
+ $k_1= 4 k_2 = 10^{-2} \text{cm}/\text{s}$
+ -->
+<IMG
+ WIDTH="119" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$ k_1= 4 k_2 = 10^{-2}$">&nbsp; &nbsp;cm<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$ /$">s, downstream we have
+<!-- MATH
+ $25 k_3 = 100 k_4  =  10^{-2} \text{cm}/\text{s}$
+ -->
+<IMG
+ WIDTH="151" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img121.png"
+ ALT="$ 25 k_3 = 100 k_4 = 10^{-2}$">&nbsp; &nbsp;cm<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$ /$">s. Our primary interest is the
+hydraulic gradient, i.e. <IMG
+ WIDTH="27" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img122.png"
+ ALT="$ \nabla h$"> since this is a measure whether or
+not piping will occur. Piping means that the soil is being carried away by the
+groundwater flow (usually at the downstream side) and constitutes an instable
+condition. As a rule of thumb, piping will occur if the hydraulic gradient is
+about unity.
+
+<P>
+From Section <A HREF="node173.html#stationarygroundwaterflow">6.9.14</A> we know that the equations
+governing stationary groundwater flow are the same as the heat equations. The
+equivalent quantity of the total head is the temperature and of the velocity
+it is the heat flow. For the finite element analysis SI units were taken, so
+feet was converted into meter. Furthermore, a vertical impermeable wall was
+assumed far upstream and far downstream (actually, 30 m upstream from the
+middle point of the dam and 30 m downstream).
+
+<P>
+Now, the boundary conditions are:
+
+<P>
+
+<OL>
+<LI>the dam, the left and right vertical boundaries upstream and downstream, and
+the horizontal limit at the bottom are impermeable. This means that the
+water velocity perpendicular to these boundaries is zero, or, equivalently,
+the heat flux.
+</LI>
+<LI>taking the reference for the z-coordinate in the definition of total head at
+the bottom of the dam (see Equation <A HREF="node173.html#deftotalhead">330</A> for the definition of
+total head), and assuming that the atmospheric pressure <IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$ p_0$"> is
+zero, the total head upstream is 28 feet and downstream it is 13 feet. In the
+thermal equivalent this corresponds to temperature boundary conditions.
+</LI>
+</OL>
+
+<P>
+The input deck is summarized in Figure <A HREF="#daminp">21</A>. The complete deck is part
+of the example problems. The problem is really two-dimensional and
+consequently qu8 elements were used for the mesh generation within CalculiX
+GraphiX. To obtain a higher resolution immediately adjacent to the dam a bias
+was used (the mesh can be seen in Figure <A HREF="#dam1">22</A>). 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="damgeo"></A><A NAME="11762"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 20:</STRONG>
+Geometry of the dam</CAPTION>
+<TR><TD><IMG
+ WIDTH="494" HEIGHT="307" BORDER="0"
+ SRC="img124.png"
+ ALT="\begin{figure}\epsfig{file=dam.eps,width=11cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="daminp"></A><A NAME="11763"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 21:</STRONG>
+Input deck of the dam problem</CAPTION>
+<TR><TD><IMG
+ WIDTH="382" HEIGHT="551" BORDER="0"
+ SRC="img125.png"
+ ALT="\begin{figure}\epsfig{file=daminp.ps,width=11cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="dam1"></A><A NAME="11764"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 22:</STRONG>
+Total head</CAPTION>
+<TR><TD><IMG
+ WIDTH="452" HEIGHT="393" BORDER="0"
+ SRC="img126.png"
+ ALT="\begin{figure}\epsfig{file=dam1.ps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="dam2"></A><A NAME="11765"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 23:</STRONG>
+Discharge velocity in y-direction</CAPTION>
+<TR><TD><IMG
+ WIDTH="452" HEIGHT="393" BORDER="0"
+ SRC="img127.png"
+ ALT="\begin{figure}\epsfig{file=dam2.ps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+At the start of the deck the nodes are defined and the topology of the
+elements. The qu8 element type in CalculiX GraphiX is by default translated
+by the send command into a S8 (shell) element in CalculiX CrunchiX. However, a plane element is
+here more appropriate. Since the calculation at stake is thermal and not
+mechanical, it is really immaterial whether one takes plane strain (CPE8) or
+plane stress (CPS8) elements. With the *ELSET keyword the element sets for the
+two different kinds of soil are defined. The nodes on which the constant total
+head is to be applied are defined by *NSET cards. The permeability of the soil
+corresponds to the heat conduction coefficient in a thermal analysis. Notice
+that the permeability is defined to be orthotropic, using the
+*CONDUCTIVITY,TYPE=ORTHO card. The values beneath this card are the
+permeability in x, y and z-direction (SI units: m/s). The value for the
+z-direction is actually immaterial, since no gradient is expected in that
+direction. The *SOLID SECTION card is used to assign the
+materials to the appropriate soil regions. The *INITIAL CONDITIONS card is not
+really needed, since the calculation is stationary, however, CalculiX CrunchiX
+formally needs it in a heat transfer calculation.
+
+<P>
+Within the step a *HEAT TRANSFER, STEADY STATE calculation is selected without
+any additional time step information. This means that the defaults for the step
+length (1) and initial increment size (1) will be taken. With the *BOUNDARY
+cards the total head upstream and downstream is defined (11 is the temperature
+degree of freedom). Finally, the *NODE
+PRINT, *NODE FILE and *EL FILE cards are used to define the output: NT is the
+temperature, or, equivalently, the total head (Figure <A HREF="#dam1">22</A>) , and HFL is the heat flux, or,
+equivalently, the groundwater flow velocity (y-component in Figure <A HREF="#dam2">23</A>). 
+
+<P>
+Since the permeability upstream is high, the total head gradient is small. The
+converse is true downstream. The flow velocity is especially important
+downstream. There it reaches values up to <!-- MATH
+ $2.25 \times 10^{-4}$
+ -->
+<IMG
+ WIDTH="85" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img128.png"
+ ALT="$ 2.25 \times 10^{-4}$"> m/s (the red
+spot in Figure <A HREF="#dam2">23</A>), which
+corresponds to a hydraulic gradient of about 0.56, since the permeability in
+y-direction downstream is <!-- MATH
+ $4 \times 10^{-4}$
+ -->
+<IMG
+ WIDTH="65" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img129.png"
+ ALT="$ 4 \times 10^{-4}$"> m/s. This is smaller than 1, so
+no piping will occur. Notice that the velocity is naturally highest
+immediately next to the dam.
+
+<P>
+This example shows how seepage problems can be solved by using the heat
+transfer capabilities in CalculiX GraphiX. The same applies to any other
+phenomenon governed by a Laplace-type equation. 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1004"
+  HREF="node12.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1000"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html994"
+  HREF="node10.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1002"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1005"
+  HREF="node12.html">Capacitance of a cylindrical</A>
+<B> Up:</B> <A NAME="tex2html1001"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html995"
+  HREF="node10.html">Thermal calculation of a</A>
+ &nbsp; <B>  <A NAME="tex2html1003"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*AMPLITUDE</TITLE>
+<META NAME="description" CONTENT="*AMPLITUDE">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node207.html">
+<LINK REL="previous" HREF="node205.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node207.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3799"
+  HREF="node207.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3795"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3789"
+  HREF="node205.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3797"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3800"
+  HREF="node207.html">*BASE MOTION</A>
+<B> Up:</B> <A NAME="tex2html3796"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3790"
+  HREF="node205.html">Input deck format</A>
+ &nbsp; <B>  <A NAME="tex2html3798"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00081000000000000000"></A><A NAME="amplitude"></A>
+<BR>
+*AMPLITUDE
+</H2>
+
+<P>
+Keyword type: step or model definition
+
+<P>
+This option may be used to specify an amplitude history versus
+time. The amplitude history should be given in pairs, each pair
+consisting of a value of the reference time and the corresponding value of the
+amplitude or by user subroutine <A HREF="node351.html#useramplitude">uamplitude.f</A>. 
+
+<P>
+There are four optional parameters TIME, USER, SHIFTX and SHIFTY and one required parameter NAME.If
+the parameter TIME=TOTAL TIME is used the reference time is the total
+time since the start of the calculation, else it is the local step
+time. Use as many pairs as needed, maximum four per line. 
+
+<P>
+The parameter USER indicates that the amplitude history versus time was implemented in
+user subroutine uamplitude.f. No pair data is required. 
+
+<P>
+With the parameters SHIFTX and SHIFTY the reference time and the amplitude of
+the (time,amplitude) pairs can be shifted by a fixed amount.
+
+<P>
+The parameter NAME,
+specifying a name for the amplitude so that it can be used in loading
+definitions (*BOUNDARY, *CLOAD, *DLOAD and *TEMPERATURE) is required (maximum
+80 characters).
+
+<P>
+In each step, the local step time starts at zero. Its upper limit is
+given by the time period of the step. This time period is specified on
+the *STATIC, *DYNAMIC or *MODAL DYNAMIC keyword card. The default step
+time period is 1. 
+
+<P>
+In *STEADY STATE DYNAMICS steps the time is replaced by frequency, i.e. the
+*AMPLITUDE is interpreted as amplitude versus frequency (in cycles/time). 
+
+<P>
+The total time is the time accumulated until the beginning of the actual step augmented
+by the local step time. In *STEADY STATE DYNAMICS procedures total time
+coincides with frequency (in cycles/time).
+
+<P>
+The loading values specified in the loading definitions (*BOUNDARY, *CLOAD,
+*DLOAD and *TEMPERATURE) are reference values. If an amplitude is selected in
+a loading definition, the actual load value is obtained by multiplying the
+reference value with the amplitude for the actual (local step or total)
+time. If no amplitude is specified, the actual load value depends on the
+procedure: for a *STATIC procedure, ramp loading is assumed connecting the
+load value at the end of the previous step (0 if there was none) to the
+reference value at the end of the present step in a linear way. For *DYNAMIC
+and *MODAL DYNAMIC procedures, step loading is assumed, i.e. the actual load
+equals the reference load for all time instances within the step. Reference
+loads which are not changed in a new step remain active, their amplitude
+description, however, becomes void, unless the TIME=TOTAL TIME parameter is
+activated. Beware that at the end of a step, all reference values for which an
+amplitude was specified are replaced by their actual values at that time.
+
+<P>
+Notice that no different amplitude definitions are allowed on
+different degrees of freedom in one and the same node if a non-global
+coordinate system applied to that node. For instance, if you define a
+cylindrical coordinate system for a node, the amplitude for a force in radial
+direction has to be the same as for the tangential and axial direction.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*AMPLITUDE
+</LI>
+<LI>Enter the required parameter.
+</LI>
+</UL>
+
+<P>
+Following line, using as many entries as needed (unless the parameter USER was
+selected):
+
+<UL>
+<LI>Time.
+</LI>
+<LI>Amplitude.
+</LI>
+<LI>Time.
+</LI>
+<LI>Amplitude.
+</LI>
+<LI>Time.
+</LI>
+<LI>Amplitude.
+</LI>
+<LI>Time.
+</LI>
+<LI>Amplitude.
+</LI>
+</UL>
+Repeat this line if more than eight entries (four data points) are needed.
+
+<P>
+<PRE>
+Example:
+
+*AMPLITUDE,NAME=A1
+0.,0.,10.,1.
+</PRE>
+
+<P>
+defines an amplitude function with name A1 taking the value 0. at
+t=0. and the value 1. at t=10. The time used is the local step time.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamdy1, beamnldy.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3799"
+  HREF="node207.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3795"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3789"
+  HREF="node205.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3797"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3800"
+  HREF="node207.html">*BASE MOTION</A>
+<B> Up:</B> <A NAME="tex2html3796"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3790"
+  HREF="node205.html">Input deck format</A>
+ &nbsp; <B>  <A NAME="tex2html3798"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

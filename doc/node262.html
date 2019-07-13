@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*FILTER</TITLE>
+<META NAME="description" CONTENT="*FILTER">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node263.html">
+<LINK REL="previous" HREF="node261.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node263.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4472"
+  HREF="node263.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4468"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4462"
+  HREF="node261.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4470"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4473"
+  HREF="node263.html">*FLUID CONSTANTS</A>
+<B> Up:</B> <A NAME="tex2html4469"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4463"
+  HREF="node261.html">*FILM</A>
+ &nbsp; <B>  <A NAME="tex2html4471"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000854000000000000000"></A><A NAME="filter"></A>
+<BR>
+*FILTER
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+With *FILTER the sensitivities can be modified to obtain a more smooth
+result. 
+
+<P>
+There are four optional parameters: TYPE, BOUNDARY WEIGHTING, EDGE PRESERVATION and
+DIRECTION WEIGHTING.
+
+<P>
+The filter itself is a monotonically decreasing function within a sphere at
+the node at stake taking the value 1 at the center of the sphere and 0 at its
+boundary. The TYPE of filter can be LINEAR, QUADRATIC or CUBIC. If no TYPE is
+specified, no filtering will be active.
+
+<P>
+With BOUNDARY WEIGHTING=YES the sensitivities near the boundary between the design
+space and the nodes not belonging to the design space are gradually decreased
+to zero. The distance across which this happens can be specified by the
+user. Default is no boundary weighting. If the BOUNDARY WEIGHTING parameter is
+active but no boundary weighting distance is given (or zero) the filter radius
+is taken is boundary weighting distance.
+
+<P>
+The EDGE PRESERVATION=YES parameter indicates that sharp corners at the boundary
+of the design space should be kept. This means that for the calculation of the
+normal on the design space, only the faces internal to the design space are
+used. Default is no edge preservation.
+
+<P>
+Finally, DIRECTION WEIGHTING=YES indicates that the values within the filter
+radius should be weighted with the scalar product of the local normal with the
+normal at the center of the filter.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*FILTER and any appropriate parameters.
+</LI>
+</UL>
+
+<P>
+Second line (only necessary if TYPE and/or BOUNDARY WEIGHTING was selected):
+
+<UL>
+<LI>the filter radius
+</LI>
+<LI>the boundary weighting distance
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*FILTER
+3.
+</PRE>
+
+<P>
+defines a filter radius of 3 length units. Boundary weighting, edge
+preservation and direction weighting are not active.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beam_sens_freq_coord1.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4472"
+  HREF="node263.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4468"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4462"
+  HREF="node261.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4470"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4473"
+  HREF="node263.html">*FLUID CONSTANTS</A>
+<B> Up:</B> <A NAME="tex2html4469"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4463"
+  HREF="node261.html">*FILM</A>
+ &nbsp; <B>  <A NAME="tex2html4471"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,502 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Output variables</TITLE>
+<META NAME="description" CONTENT="Output variables">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node201.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node205.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3645"
+  HREF="node205.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3641"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3637"
+  HREF="node203.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3643"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3646"
+  HREF="node205.html">Input deck format</A>
+<B> Up:</B> <A NAME="tex2html3642"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html3638"
+  HREF="node203.html">Gradient error estimator</A>
+ &nbsp; <B>  <A NAME="tex2html3644"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000713000000000000000">
+Output variables</A>
+</H2>
+
+<P>
+Output is provided with the commands <A HREF="node292.html#nodefile">*NODE FILE</A> and
+<A HREF="node255.html#elfile">*EL FILE</A> in the .frd file (ASCII), with the commands <A HREF="node293.html#nodeoutput">*NODE OUTPUT</A> and
+<A HREF="node254.html#elementoutput">*ELEMENT OUTPUT</A> in the .frd file (binary) and with the commands <A HREF="node294.html#nodeprint">*NODE PRINT</A> and
+<A HREF="node256.html#elprint">*EL PRINT</A> in the .dat file (ASCII). Binary .frd files are
+much shorter and can be faster read by CalculiX GraphiX. Nodal
+variables (selected by the *NODE FILE, *NODE OUTPUT and *NODE PRINT keywords) are always
+stored at the nodes. Element variables (selected by the *EL FILE, *ELEMENT
+OUTPUT and
+*ELEMENT PRINT keywords) are stored at the
+integration points in the .dat file and at the nodes in the .frd file. Notice
+that element variables are more accurate at the integration points. The values
+at the nodes are extrapolated values and consequently less accurate. For
+example, the von Mises stress and the equivalent plastic strain at the
+integration points have to lie on
+the stress-strain curve defined by the user underneath the
+<A HREF="node301.html#plastic">*PLASTIC</A> card, the extrapolated values at the nodes do not
+have to.
+
+<P>
+In fluid networks interpolation is used to calculate the nodal values at nodes
+in which they are not defined. Indeed, due to the structure of a network element
+the total temperature, the static temperature and the total pressure are
+determined at the end nodes, whereas the mass flow is calculated at the middle
+nodes. Therefore, to guarantee a continuous representation in the .frd file
+the values of the total temperature, the static temperature and the total
+pressure at the middle nodes are interpolated from their end node values and
+the end node values of the mass flow are determined from the neighboring
+mid-node values. This is not done for .dat file values (missing values are in
+that case zero).
+
+<P>
+A major different between the FILE and PRINT requests is that the PRINT
+requests HAVE TO be accompanied by a set name. Consequently, the output can be
+limited to a few nodes or elements. The output in the .frd file can but does
+not have to be restricted to subsets. If no node set is selected by using the
+NSET parameter (both for nodal and element values, since output in the .frd
+file is always at the nodes) output is for the complete model. 
+
+<P>
+The following output variables are available:
+
+<P>
+<A NAME="7578"></A><A NAME="12610"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table:</STRONG>
+(continued)
+<BR>
+<STRONG>Table 18:</STRONG>
+List of output variables.
+</CAPTION>
+<TR><TD ALIGN="CENTER">variable</TD>
+<TD ALIGN="CENTER">meaning</TD>
+<TD ALIGN="CENTER">type</TD>
+<TD ALIGN="CENTER">.frd file</TD>
+<TD ALIGN="CENTER">.dat file</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">U</TD>
+<TD ALIGN="CENTER">displacement</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">PU</TD>
+<TD ALIGN="CENTER">magnitude and phase</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">of displacement</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">MAXU</TD>
+<TD ALIGN="CENTER">worst displacement</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">orthogonal to a given vector</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">in cyclic symmetric</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">frequency calculations</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">NT</TD>
+<TD ALIGN="CENTER">structural temperature</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">total temperature in a network</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">PNT</TD>
+<TD ALIGN="CENTER">magnitude and phase</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">of temperature</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">TT</TD>
+<TD ALIGN="CENTER">total temperature in a gas network</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">TS</TD>
+<TD ALIGN="CENTER">static temperature in a network</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">TTF</TD>
+<TD ALIGN="CENTER">total temperature in a 3D fluid</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">TSF</TD>
+<TD ALIGN="CENTER">static temperature in a 3D fluid</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">RF</TD>
+<TD ALIGN="CENTER">total force</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">RFL</TD>
+<TD ALIGN="CENTER">total flux</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">PT</TD>
+<TD ALIGN="CENTER">total pressure in a gas network</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">PS</TD>
+<TD ALIGN="CENTER">static pressure in a liquid network</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">PN</TD>
+<TD ALIGN="CENTER">network pressure (generic term for any of the above)</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">PTF</TD>
+<TD ALIGN="CENTER">total pressure in a 3D fluid</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">PSF</TD>
+<TD ALIGN="CENTER">static pressure in a 3D fluid</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">CP</TD>
+<TD ALIGN="CENTER">pressure coefficient in a compressible 3D fluid</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">DEPT</TD>
+<TD ALIGN="CENTER">fluid depth in a channel network</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">HCRI</TD>
+<TD ALIGN="CENTER">critical depth in a channel network</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">MF</TD>
+<TD ALIGN="CENTER">mass flow in a network</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">V</TD>
+<TD ALIGN="CENTER">velocity of a structure</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">VF</TD>
+<TD ALIGN="CENTER">velocity in a 3D fluid</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">MACH</TD>
+<TD ALIGN="CENTER">Mach number in a compressible 3D fluid</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">S</TD>
+<TD ALIGN="CENTER">Cauchy stress (structure)</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">SF</TD>
+<TD ALIGN="CENTER">total stress (3D fluid)</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">SVF</TD>
+<TD ALIGN="CENTER">viscous stress (3D fluid)</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">ZZS</TD>
+<TD ALIGN="CENTER">Zienkiewicz-Zhu stress</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">PHS</TD>
+<TD ALIGN="CENTER">magnitude and phase</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">of stress</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">MAXS</TD>
+<TD ALIGN="CENTER">worst principal stress</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">in cyclic symmetric</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">frequency calculations</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">HFL</TD>
+<TD ALIGN="CENTER">heat flux in a structure</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">HFLF</TD>
+<TD ALIGN="CENTER">heat flux in a 3D fluid</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">E</TD>
+<TD ALIGN="CENTER">Lagrange strain</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">MAXE</TD>
+<TD ALIGN="CENTER">worst principal strain</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">in cyclic symmetric</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">frequency calculations</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">PEEQ</TD>
+<TD ALIGN="CENTER">equivalent plastic strain</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">ENER</TD>
+<TD ALIGN="CENTER">internal energy density</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">SDV</TD>
+<TD ALIGN="CENTER">internal variables</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">ELSE</TD>
+<TD ALIGN="CENTER">internal energy</TD>
+<TD ALIGN="CENTER">element</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">ELKE</TD>
+<TD ALIGN="CENTER">kinetic energy</TD>
+<TD ALIGN="CENTER">element</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">EVOL</TD>
+<TD ALIGN="CENTER">volume</TD>
+<TD ALIGN="CENTER">element</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">DRAG</TD>
+<TD ALIGN="CENTER">stress on surface</TD>
+<TD ALIGN="CENTER">surface</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">FLUX</TD>
+<TD ALIGN="CENTER">flux through surface</TD>
+<TD ALIGN="CENTER">surface</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">x</TD>
+</TR>
+<TR><TD ALIGN="CENTER">POT</TD>
+<TD ALIGN="CENTER">electric potential</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">ECD</TD>
+<TD ALIGN="CENTER">electric current density</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">EMFE</TD>
+<TD ALIGN="CENTER">electric field</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">EMFB</TD>
+<TD ALIGN="CENTER">magnetic field</TD>
+<TD ALIGN="CENTER">int.point</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">SEN</TD>
+<TD ALIGN="CENTER">sensitivity</TD>
+<TD ALIGN="CENTER">nodal</TD>
+<TD ALIGN="CENTER">x</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3645"
+  HREF="node205.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3641"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3637"
+  HREF="node203.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3643"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3646"
+  HREF="node205.html">Input deck format</A>
+<B> Up:</B> <A NAME="tex2html3642"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html3638"
+  HREF="node203.html">Gradient error estimator</A>
+ &nbsp; <B>  <A NAME="tex2html3644"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

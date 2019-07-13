@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>User subroutines.</TITLE>
+<META NAME="description" CONTENT="User subroutines.">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node372.html">
+<LINK REL="previous" HREF="node205.html">
+<LINK REL="up" HREF="ccx.html">
+<LINK REL="next" HREF="node337.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5358"
+  HREF="node337.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5354"
+  HREF="ccx.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5348"
+  HREF="node335.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5356"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5359"
+  HREF="node337.html">Creep (creep.f)</A>
+<B> Up:</B> <A NAME="tex2html5355"
+  HREF="ccx.html">CalculiX CrunchiX USER'S MANUAL</A>
+<B> Previous:</B> <A NAME="tex2html5349"
+  HREF="node335.html">*VISCO</A>
+ &nbsp; <B>  <A NAME="tex2html5357"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00090000000000000000">
+User subroutines.</A>
+</H1>
+
+<P>
+Although the present software is protected by the GNU General Public
+License, and the user should always get the source code, it is
+sometimes more practical to get a nicely described user interface to
+plug in your own routines, instead of having to analyze the whole
+program. Therefore, for specific tasks well-defined interfaces are put
+at the disposal of the user. These interfaces are basically FORTRAN
+subroutines containing a subroutine header, a description of the input and
+output variables and declaration statements for these variables. The body of
+the routine has to be written by the user.
+
+<P>
+To use a user subroutine, replace the dummy routine in the CalculiX
+distribution by yours (e.g. dflux.f from the distribution by the dflux.f you
+wrote yourself) and recompile.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html5360"
+  HREF="node337.html">Creep (creep.f) </A>
+<LI><A NAME="tex2html5361"
+  HREF="node338.html">Hardening (uhardening.f)</A>
+<LI><A NAME="tex2html5362"
+  HREF="node339.html">User-defined initial conditions</A>
+<UL>
+<LI><A NAME="tex2html5363"
+  HREF="node340.html">Initial internal variables (sdvini.f)</A>
+<LI><A NAME="tex2html5364"
+  HREF="node341.html">Initial stress field (sigini.f)</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html5365"
+  HREF="node342.html">User-defined loading</A>
+<UL>
+<LI><A NAME="tex2html5366"
+  HREF="node343.html">Concentrated flux (cflux.f)</A>
+<LI><A NAME="tex2html5367"
+  HREF="node344.html">Concentrated load (cload.f)</A>
+<LI><A NAME="tex2html5368"
+  HREF="node345.html">Distributed flux (dflux.f)</A>
+<LI><A NAME="tex2html5369"
+  HREF="node346.html">Distribruted load (dload.f)</A>
+<LI><A NAME="tex2html5370"
+  HREF="node347.html">Heat convection (film.f)</A>
+<LI><A NAME="tex2html5371"
+  HREF="node348.html">Boundary conditions(uboun.f)</A>
+<LI><A NAME="tex2html5372"
+  HREF="node349.html">Heat radiation (radiate.f)</A>
+<LI><A NAME="tex2html5373"
+  HREF="node350.html">Temperature (utemp.f)</A>
+<LI><A NAME="tex2html5374"
+  HREF="node351.html">Amplitude (uamplitude.f)</A>
+<LI><A NAME="tex2html5375"
+  HREF="node352.html">Face loading (ufaceload.f)</A>
+<LI><A NAME="tex2html5376"
+  HREF="node353.html">Gap conductance (gapcon.f)</A>
+<LI><A NAME="tex2html5377"
+  HREF="node354.html">Gap heat generation (fricheat.f)</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html5378"
+  HREF="node355.html">User-defined mechanical material laws.</A>
+<UL>
+<LI><A NAME="tex2html5379"
+  HREF="node356.html">The CalculiX interface</A>
+<UL>
+<LI><A NAME="tex2html5380"
+  HREF="node357.html">Introduction of a new mechanical behaviour by modifying the
+  sources</A>
+<LI><A NAME="tex2html5381"
+  HREF="node358.html">Calling mechanical behaviours defined shared libraries</A>
+</UL>
+<LI><A NAME="tex2html5382"
+  HREF="node359.html">ABAQUS umat routines</A>
+<UL>
+<LI><A NAME="tex2html5383"
+  HREF="node360.html">Calling mechanical behaviours defined shared libraries</A>
+<LI><A NAME="tex2html5384"
+  HREF="node361.html">Calling shared libraries</A>
+<LI><A NAME="tex2html5385"
+  HREF="node362.html">Limitations</A>
+<LI><A NAME="tex2html5386"
+  HREF="node363.html">Calling shared libraries</A>
+<LI><A NAME="tex2html5387"
+  HREF="node364.html">Limitations</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html5388"
+  HREF="node365.html">User-defined thermal material laws.</A>
+<LI><A NAME="tex2html5389"
+  HREF="node366.html">User-defined nonlinear equations </A>
+<UL>
+<LI><A NAME="tex2html5390"
+  HREF="node367.html">Mean rotation MPC.</A>
+<LI><A NAME="tex2html5391"
+  HREF="node368.html">Maximum distance MPC.</A>
+<LI><A NAME="tex2html5392"
+  HREF="node369.html">Network MPC.</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html5393"
+  HREF="node370.html">User-defined elements</A>
+<UL>
+<LI><A NAME="tex2html5394"
+  HREF="node371.html">Network element</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*CYCLIC SYMMETRY MODEL</TITLE>
+<META NAME="description" CONTENT="*CYCLIC SYMMETRY MODEL">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node238.html">
+<LINK REL="previous" HREF="node236.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node238.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4172"
+  HREF="node238.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4168"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4162"
+  HREF="node236.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4170"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4173"
+  HREF="node238.html">*DAMPING</A>
+<B> Up:</B> <A NAME="tex2html4169"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4163"
+  HREF="node236.html">*CYCLIC HARDENING</A>
+ &nbsp; <B>  <A NAME="tex2html4171"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000829000000000000000"></A><A NAME="cyclicsymmetrymodel"></A>
+<BR>
+*CYCLIC SYMMETRY MODEL
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This keyword is used to define 
+
+<P>
+
+<UL>
+<LI>the number of sectors and the axis of symmetry
+in a cyclic symmetric structure for use in a cyclic symmetry calculation
+(structural or 3D-fluid).
+</LI>
+<LI>the translational vector between the master and slave surface for cylic
+  periodic 3D-fluid calculations.
+</LI>
+</UL>
+
+<P>
+It
+must be preceded by two *SURFACE cards defining the nodes belonging to the
+left and right boundary of the sector and a *TIE card linking those surfaces. The axis of symmetry is defined by two points a and b, defined in global Cartesian coordinates.
+
+<P>
+For structural calculations there are five parameters, N, NGRAPH, TIE, ELSET and CHECK. The parameter N,
+specifying the number of sectors, is required, TIE is required if more than
+one cyclic symmetry tie is defined.
+
+<P>
+The parameter NGRAPH is optional and indicates for how many sectors the
+solutions should be stored in .frd format. Setting NGRAPH=N for N sectors
+stores the solution for the complete structure for subsequent plotting
+purposes. Default is NGRAPH=1.  The
+rotational direction for the multiplication of the datum sector is from the
+dependent surface (slave) to the independent surface (master).
+
+<P>
+The parameter TIE specifies the name of the tie constraint to which the cyclic symmetry
+model definition applies. It need not be specified if only one *TIE card has
+been defined.
+
+<P>
+The element set specified by ELSET specifies the elements to which the
+parameter NGRAPH should be applied. Default if only one *TIE card was used is
+the complete model. 
+
+<P>
+The last parameter, CHECK, specifies whether CalculiX should compare the
+sector angle based on its geometry with its value based on N. If the deviation
+exceeds 0.01 radians the program issues an error message and stops. If CHECK=NO is
+specified, the check is not performed, else it is. If the user wants to find
+eigenmodes with fractional nodal diameters, i.e. vibrations for which the
+phase shift is smaller than the sector angle, a value of N has to be specified
+which exceeds the number of sectors in the model. In that case the check
+should be turned off.
+
+<P>
+Several *CYCLIC SYMMETRY MODEL cards within one input deck defining several
+cyclic symmetries within one and the same model are allowed. This, however,
+always is an approximation, since several cyclic symmetries within one model
+cannot really exist. Good results are only feasible if the values of N for the
+different *CYCLIC SYMMETRY MODEL cards do not deviate substantially.
+
+<P>
+The *CYCLIC SYMMETRY MODEL card triggers the creation of cyclic symmetry
+multiple point constraints between the slave and master side. If the nodes do
+not match on a one-to-one basis a slave node is connected to a master face. To
+this end the master side is triangulated. The resulting triangulation is
+stored in file TriMasterCyclicSymmetryModel.frd and can be viewed with
+CalculiX GraphiX. 
+
+<P>
+For 3D-fluid calculations there are two parameters, N and TIE. The parameter
+N, specifying the number of sectors, is required for calculations with a
+rotational cyclic symmetry (FLUID CYCLIC parameter on the *TIEtie
+card). The parameter TIE is required for both calculations with rotational
+cyclic symmetry and translational cylic symmetry (FLUID PERIODIC parameter on
+the *TIE card). For 3D-fluid calculations the slave and master surface must
+consist of matching faces.
+
+<P>
+
+<P><P>
+<BR>
+First line for all but fluid periodic calculations:
+
+<UL>
+<LI>*CYCLIC SYMMETRY MODEL
+</LI>
+<LI>Enter the required parameters N and TIE (the latter only if more than
+  one cyclic symmetry tie is defined) and their value.
+</LI>
+</UL>
+
+<P>
+Second line for all but fluid periodic calculations:
+
+<UL>
+<LI>X-coordinate of point a.
+</LI>
+<LI>Y-coordinate of point a.
+</LI>
+<LI>Z-coordinate of point a.
+</LI>
+<LI>X-coordinate of point b.
+</LI>
+<LI>Y-coordinate of point b.
+</LI>
+<LI>Z-coordinate of point b.
+</LI>
+</UL>
+
+<P>
+
+<P><P>
+<BR>
+First line for fluid periodic calculations:
+
+<UL>
+<LI>*CYCLIC SYMMETRY MODEL
+</LI>
+<LI>Enter the required parameter TIE and its value.
+</LI>
+</UL>
+
+<P>
+Second line for fluid periodic calculations:
+
+<UL>
+<LI>X-coordinate of a vector pointing from the slave to the master surface.
+</LI>
+<LI>Y-coordinate of a vector pointing from the slave to the master surface.
+</LI>
+<LI>Z-coordinate of a vector pointing from the slave to the master surface.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*CYCLIC SYMMETRY MODEL, N=12, NGRAPH=3
+0.,0.,0.,1.,0.,0.
+</PRE>
+
+<P><P>
+<BR>
+
+<P>
+defines a cyclic symmetric structure consisting of <B><IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1641.png"
+ ALT="$ 30^\circ$"></B> sectors and axis of symmetry through the points (0.,0.,0.) and (1.,0.,0.). The solution will be stored for three connected sectors (<B><IMG
+ WIDTH="36" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1642.png"
+ ALT="$ 120^\circ$"></B>).
+
+<P>
+
+<P><P>
+<BR>
+Example files: segment, fullseg, couette1per, couettecyl4.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4172"
+  HREF="node238.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4168"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4162"
+  HREF="node236.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4170"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4173"
+  HREF="node238.html">*DAMPING</A>
+<B> Up:</B> <A NAME="tex2html4169"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4163"
+  HREF="node236.html">*CYCLIC HARDENING</A>
+ &nbsp; <B>  <A NAME="tex2html4171"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

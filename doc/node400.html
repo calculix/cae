@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Determining the matrix structure.</TITLE>
+<META NAME="description" CONTENT="Determining the matrix structure.">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node399.html">
+<LINK REL="up" HREF="node397.html">
+<LINK REL="next" HREF="node401.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6266"
+  HREF="node401.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6262"
+  HREF="node397.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6258"
+  HREF="node399.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6264"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6267"
+  HREF="node401.html">Filling and solving the</A>
+<B> Up:</B> <A NAME="tex2html6263"
+  HREF="node397.html">Determining the matrix structure</A>
+<B> Previous:</B> <A NAME="tex2html6259"
+  HREF="node399.html">De-cascading the MPC's</A>
+ &nbsp; <B>  <A NAME="tex2html6265"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000115300000000000000">
+Determining the matrix structure.</A>
+</H3>
+
+<P>
+This important task is performed in mastruct.c for structures not exhibiting
+cyclic symmetry 
+and mastructcs.c for cyclic symmetric structures. Let us focus on matruct.c.
+
+<P>
+The active degrees of freedom are stored in a two-dimensional field
+nactdof. It has as many rows as there are nodes in the model and four columns
+since each node  
+has one temperature degree of freedom and three translational degrees. Because
+the 1-d and 2-d elements are expanded into 3-d elements in routine ``gen3delem.f''
+there is no need for rotational degrees of freedom. In C this field is mapped
+into a one-dimensional field starting with the degrees of freedom of node 1,
+then those of node 2, and so on. At first, all entries in nactdof are
+deactivated (set to zero). Then they are (de)activated according to the
+following algorithm:
+
+<P>
+
+<UL>
+<LI>In a mechanical or a thermomechanical analysis the translational degrees
+  of freedom of all nodes belonging to elements are activated.
+</LI>
+<LI>In a thermal or a thermomechanical analysis the temperature degree of
+  freedom of all nodes belonging to elements are activated.
+</LI>
+<LI>All degrees of freedom belonging to MPC's are activated (dependent and independent)
+</LI>
+<LI>The degrees of freedom corresponding to SPC's are deactivated by setting
+  them to -2*i (i.e. a negative number) where i is the number of the SPC.
+</LI>
+<LI>The degrees of freedom corresponding to the dependent side of MPC's are
+  deactivated by setting them to -(2*i-1) (i.e. a negative number) where i is the number of the MPC.
+</LI>
+</UL>
+
+<P>
+Then, the active degrees of freedom are numbered (positive numbers). Subsequently, the structure
+of the matrix is determined on basis of the topology of the elements and the
+multiple point constraints.
+
+<P>
+For SPOOLES, ARPACK and the iterative methods the storage scheme is
+ limited to the nonzero SUBdiagonal positions of the matrix
+only. The scheme is as it is because of historical reasons, and I do not think
+there is any reason not to use another scheme, such as a SUPERdiagonal
+storage. The storage is described as follows:
+
+<P>
+
+<UL>
+<LI>the field irow contains the row numbers of the
+  SUBdiagonal nonzero's, column per column.
+</LI>
+<LI>icol(i) contains the number of SUBdiagonal nonzero's in column i.
+</LI>
+<LI>jq(i) contains the location in field irow of the first SUBdiagonal
+  nonzero in column i
+</LI>
+</UL>
+
+<P>
+All three fields are one-dimensional, the size of irow corresponds
+with the number of nonzero SUBdiagonal entries in the matrix, the size of icol
+and jq is the number of active degrees of freedom. The diagonal entries of the
+matrix stored separately and consequently no storage information for these
+items is needed. 
+
+<P>
+The thermal entries, if any, are stored after the mechanical entries, if
+any. The number of mechanical entries is neq[0] (C-notation), the total number
+of entries (mechanical and thermal) is neq[1]. In the same way the number of
+nonzero mechanical SUBdiagonal entries is nzs[0], the total number of
+SUBdiagonal entries is nzs[1]. In thermomechanical applications the mechanical
+and thermal sub-matrices are assumed to be distinct, i.e. there is no
+connection in the stiffness matrix between the mechanical and the thermal
+degrees of freedom. Therefore, the mechanical and thermal degrees of freedom
+occupy two distinct areas in the storage field irow.
+
+<P>
+File mastructcs calculates the storage for cyclic symmetric structures. These
+are characterized by the double amount of degrees of freedom, since cyclic
+symmetry results in a complex system which is reduced to a real system twice
+the size. The cyclic symmetry equations are linear equations with complex
+coefficients and require a separate treatment. The fields used for the
+storage, however, are the 
+same. 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6266"
+  HREF="node401.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6262"
+  HREF="node397.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6258"
+  HREF="node399.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6264"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6267"
+  HREF="node401.html">Filling and solving the</A>
+<B> Up:</B> <A NAME="tex2html6263"
+  HREF="node397.html">Determining the matrix structure</A>
+<B> Previous:</B> <A NAME="tex2html6259"
+  HREF="node399.html">De-cascading the MPC's</A>
+ &nbsp; <B>  <A NAME="tex2html6265"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

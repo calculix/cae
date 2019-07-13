@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>General considerations</TITLE>
+<META NAME="description" CONTENT="General considerations">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node140.html">
+<LINK REL="previous" HREF="node138.html">
+<LINK REL="up" HREF="node138.html">
+<LINK REL="next" HREF="node140.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2823"
+  HREF="node140.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2819"
+  HREF="node138.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2813"
+  HREF="node138.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2821"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2824"
+  HREF="node140.html">Weak formulation</A>
+<B> Up:</B> <A NAME="tex2html2820"
+  HREF="node138.html">Face-to-Face Penalty Contact</A>
+<B> Previous:</B> <A NAME="tex2html2814"
+  HREF="node138.html">Face-to-Face Penalty Contact</A>
+ &nbsp; <B>  <A NAME="tex2html2822"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00077610000000000000">
+General considerations</A>
+</H4>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="f2f"></A><A NAME="12263"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 135:</STRONG>
+Creation of a face-to-face penalty contact element</CAPTION>
+<TR><TD><IMG
+ WIDTH="271" HEIGHT="274" BORDER="0"
+ SRC="img927.png"
+ ALT="\begin{figure}\begin{center}
+\epsfig{file=f2f.eps,width=6cm}\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="f2fint"></A><A NAME="12264"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 136:</STRONG>
+Integration points resulting from the cutting of one
+  master face (big square) with several slave faces (small, slanted squares)</CAPTION>
+<TR><TD><IMG
+ WIDTH="272" HEIGHT="271" BORDER="0"
+ SRC="img928.png"
+ ALT="\begin{figure}\begin{center}
+\epsfig{file=f2fint.eps,width=6cm}\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In the face-to-face penalty contact formulation the spring element which was
+described in the previous section is now applied between an integration point
+of a slave face and a master face (spring in Figure <A HREF="#f2f">135</A>). The contact
+force at the integration point is subsequently transferred to the nodes of the
+slave face. This results in contact spring elements connecting a slave face
+with a master face (full lines in Figure <A HREF="#f2f">135</A>). 
+The integration points in the slave faces are not the ordinary Gauss
+points. Instead, the master and slave mesh are put on top of each other, the
+common areas, which are polygons (sides of quadratic elements are approximated
+by piecewise linear lines), are identified and triangulated. For each triangle
+a 7-node scheme is used (Figure <A HREF="#f2fint">136</A>). This can result to up to 100 or more
+integration points within one slave face. It usually leads to a very smooth
+pressure distribution. Furthermore, it is now irrelevant which side is defined
+as master and which as slave.
+In the present formulation the following approximations are used:
+
+<P>
+
+<UL>
+<LI>the linear pressure-overclosure relationship is truly bilinear,
+  i.e. zero for positive clearance and linear for penetration (and not quasi
+  bilinear as for node-to-face penalty). The value of <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$"> is zero.
+</LI>
+<LI>the matching between the slave faces and master faces, the calculation
+  of the resulting integration points and the local normals on the master
+  surface is done once at the start of each increment. This information is not changed while
+  iterating within an increment. The same applies to the calculation of the
+  area for which the slave integration point is representative.
+</LI>
+<LI>whether a contact element is active or not is determined in each
+  iteration anew. A contact element is active if the penetration is positive.
+</LI>
+</UL>
+
+<P>
+Due to the freezing of the match between the slave and master surface within
+each increment, large deformations of the structure may require small
+increments.
+
+<P>
+The contact definition in the input deck is similar to the node-to-face penalty contact except for:
+
+<P>
+
+<UL>
+<LI>The contact surfaces (both slave and master) must be face-based.
+</LI>
+<LI>On the <A HREF="node230.html#contactpair">*CONTACT PAIR</A> card the parameter
+  TYPE=SURFACE TO SURFACE must be specified.
+</LI>
+<LI>The SMALL SLIDING parameter on the *CONTACT PAIR card is not allowed.
+</LI>
+<LI>The *SURFACE BEHAVIOR card for a linear pressure-overclosure
+  relationship needs only one parameter: the spring
+  constant. 
+</LI>
+<LI>The *FRICTION card is needed to specify the friction coefficient and the
+  stick slope.
+</LI>
+</UL>
+
+<P>
+In addition, a new pressure-overclosure relationship is introduced with the
+name TIED. It can be used to tie surfaces and usually leads to a significantly
+smoother stress distribution than the MPC's generated by the *TIE option. For
+the TIED pressure-overclosure relation only two parameters are used: the
+spring stiffness <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"> (<IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img929.png"
+ ALT="$ &gt;0$">, required), and the stick slope <IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"> (<IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img929.png"
+ ALT="$ &gt;0$">,
+optional). The friction coefficient is irrelevant.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2823"
+  HREF="node140.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2819"
+  HREF="node138.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2813"
+  HREF="node138.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2821"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2824"
+  HREF="node140.html">Weak formulation</A>
+<B> Up:</B> <A NAME="tex2html2820"
+  HREF="node138.html">Face-to-Face Penalty Contact</A>
+<B> Previous:</B> <A NAME="tex2html2814"
+  HREF="node138.html">Face-to-Face Penalty Contact</A>
+ &nbsp; <B>  <A NAME="tex2html2822"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

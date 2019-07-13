@@ -1,0 +1,294 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*BOUNDARY</TITLE>
+<META NAME="description" CONTENT="*BOUNDARY">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node213.html">
+<LINK REL="previous" HREF="node208.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node210.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3835"
+  HREF="node210.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3831"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3825"
+  HREF="node208.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3833"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3836"
+  HREF="node210.html">Homogeneous Conditions</A>
+<B> Up:</B> <A NAME="tex2html3832"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3826"
+  HREF="node208.html">*BEAM SECTION</A>
+ &nbsp; <B>  <A NAME="tex2html3834"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00084000000000000000"></A><A NAME="boundary"></A>
+<BR>
+*BOUNDARY
+</H2>
+
+<P>
+Keyword type: step or model definition
+
+<P>
+This option is used to prescribe boundary conditions. This includes:
+
+<P>
+
+<UL>
+<LI>temperature, displacements and rotations for structures
+</LI>
+<LI>total temperature, mass flow and total pressure for gas networks
+</LI>
+<LI>temperature, mass flow and static pressure for liquid networks
+</LI>
+<LI>temperature, mass flow and fluid depth for channels
+</LI>
+</UL>
+
+<P>
+For liquids and structures the total and static temperature virtually
+coincide, therefore both are represented by the term temperature.
+
+<P>
+The following degrees of freedom are being used:
+
+<P>
+
+<UL>
+<LI>for structures:
+
+<UL>
+<LI>1: translation in the local x-direction
+</LI>
+<LI>2: translation in the local y-direction
+</LI>
+<LI>3: translation in the local z-direction
+</LI>
+<LI>4: rotation about the local x-axis (only for nodes belonging to beams or shells)
+</LI>
+<LI>5: rotation about the local y-axis (only for nodes belonging to beams or shells)
+</LI>
+<LI>6: rotation about the local z-axis (only for nodes belonging to beams or shells)
+</LI>
+<LI>11: temperature
+</LI>
+</UL>
+</LI>
+<LI>for gas networks:
+
+<UL>
+<LI>1: mass flow
+</LI>
+<LI>2: total pressure
+</LI>
+<LI>11: total temperature
+</LI>
+</UL>
+</LI>
+<LI>for liquid networks:
+
+<UL>
+<LI>1: mass flow
+</LI>
+<LI>2: static pressure
+</LI>
+<LI>11: temperature
+</LI>
+</UL>
+</LI>
+<LI>for liquid channels:
+
+<UL>
+<LI>1: mass flow
+</LI>
+<LI>2: fluid depth
+</LI>
+<LI>11: temperature
+</LI>
+</UL>
+</LI>
+</UL>
+
+<P>
+If no
+<A HREF="node328.html#transform">*TRANSFORM</A> card applied to the node at stake, the local
+directions coincide with the global ones. Notice that a *TRANSFORM card is not
+allowed for nodes in which boundary conditions are applied to rotations.
+
+<P>
+Optional parameters are OP, AMPLITUDE, TIME DELAY, LOAD CASE, USER, MASS FLOW,
+FIXED, SUBMODEL, STEP and DATA SET. OP can take the value NEW or
+MOD. OP=MOD is default and implies that previously prescribed
+displacements remain active in subsequent steps. Specifying a
+displacement in the same node and direction for which a displacement
+was defined in a previous step replaces this  value. OP=NEW implies
+that previously prescribed displacements are removed. If multiple
+*BOUNDARY cards are present in a step this parameter takes effect for the first *BOUNDARY card only. 
+
+<P>
+The AMPLITUDE parameter allows for the specification of an amplitude by which the boundary values are scaled (mainly used for nonlinear static and dynamic calculations). This only makes sense for nonzero boundary values. Thus, in that case the values entered on the *BOUNDARY card are interpreted as reference values to be multiplied with the (time dependent) amplitude value to obtain the actual value. At the end of the step the reference value is replaced by the actual value at that time. In subsequent
+steps this value is kept constant unless it is explicitly redefined or the
+amplitude is defined using TIME=TOTAL TIME in which case the amplitude keeps
+its validity.
+
+<P>
+The TIME DELAY parameter modifies the AMPLITUDE parameter. As such, TIME DELAY
+must be preceded by an AMPLITUDE name. TIME DELAY is a time shift by which the
+AMPLITUDE definition it refers to is moved in positive time direction. For
+instance, a TIME DELAY of 10 means that for time t the amplitude is taken
+which applies to time t-10. The TIME DELAY parameter must only appear once on
+one and the same keyword card.
+
+<P>
+The LOAD CASE parameter is only active in <A HREF="node317.html#steadystatedynamics">*STEADY STATE
+DYNAMICS</A> calculations. LOAD CASE = 1 means that the
+loading is real or in-phase.  LOAD CASE = 2 indicates that the load is
+imaginary or equivalently phase-shifted by <B><IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img570.png"
+ ALT="$ 90 ^\circ$"></B>. Default is LOAD CASE =
+1.
+
+<P>
+If the USER parameter is selected the boundary values are determined by
+calling the user subroutine <A HREF="node348.html#userboundary">uboun.f</A>, which
+must be provided by the user. This applies to all nodes listed
+beneath the *BOUNDARY keyword. Any boundary values specified behind the
+degrees of freedom are not taken into account. If the USER parameter is selected,
+the AMPLITUDE parameter has no effect and should not be used.
+
+<P>
+The MASS FLOW parameter specifies that the *BOUNDARY keyword is used
+to define mass flow rates in convective problems. A mass flow rate can only be
+applied to the first degree of freedom of the midside node of network elements. 
+
+<P>
+Next, the FIXED parameter freezes the deformation from the previous step,
+or, if there is no previous step, sets it to zero.
+
+<P>
+Finally, the SUBMODEL parameter specifies that the displacements in the nodes
+listed underneath will be obtained by interpolation from a global model. To
+this end these nodes have to be part of a
+<A HREF="node319.html#submodel">*SUBMODEL</A>,TYPE=NODE card. On the latter card the result
+file (frd file) of the global model is defined. The use of the SUBMODEL
+parameter requires the STEP or the DATA SET parameter. 
+
+<P>
+In case the global
+calculation was a *STATIC calculation the STEP parameter specifies the step in the global model
+which will be used for the interpolation. If results for more than one
+increment within the step are stored, the last increment is taken. 
+
+<P>
+In case the global calculation was a *FREQUENCY calculation the DATA SET parameter
+specifies the mode in the global model which will be used for the
+interpolation. It is the number preceding the string MODAL in the .frd-file
+and it corresponds to the dataset number if viewing the .frd-file with
+CalculiX GraphiX.  Notice that the global frequency calculation is not allowed
+to contain preloading nor cyclic symmetry.
+
+<P>
+Notice that the displacements
+interpolated from
+the global model are not transformed, no matter what coordinate system is
+applied to the nodes in the submodel. Consequently, if the displacements of the global model
+are stored in a local coordinate system, this local system also applies to the
+submodel nodes in which these displacements are interpolated. So
+the submodel nodes in which the displacements of the global model are
+interpolated, inherit the coordinate system in which the displacements of the
+global model were stored. The SUBMODEL parameter and the AMPLITUDE parameter
+are mutually exclusive.
+
+<P>
+If more than one *BOUNDARY card occurs in the input deck, the following rule
+applies: if the *BOUNDARY is applied to the same node AND in the same
+direction as in a previous application then the previous value and previous
+amplitude are replaced.
+
+<P>
+A distinction is made whether the conditions are homogeneous (fixed
+conditions),  inhomogeneous (prescribed displacements) or of the submodel type.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html3837"
+  HREF="node210.html">Homogeneous Conditions</A>
+<LI><A NAME="tex2html3838"
+  HREF="node211.html">Inhomogeneous Conditions</A>
+<LI><A NAME="tex2html3839"
+  HREF="node212.html">Submodel</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3835"
+  HREF="node210.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3831"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3825"
+  HREF="node208.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3833"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3836"
+  HREF="node210.html">Homogeneous Conditions</A>
+<B> Up:</B> <A NAME="tex2html3832"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3826"
+  HREF="node208.html">*BEAM SECTION</A>
+ &nbsp; <B>  <A NAME="tex2html3834"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

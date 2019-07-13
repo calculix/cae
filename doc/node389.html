@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Expanding the 1D and 2D elements</TITLE>
+<META NAME="description" CONTENT="Expanding the 1D and 2D elements">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node390.html">
+<LINK REL="previous" HREF="node388.html">
+<LINK REL="up" HREF="node386.html">
+<LINK REL="next" HREF="node390.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6135"
+  HREF="node390.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6131"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6125"
+  HREF="node388.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6133"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6136"
+  HREF="node390.html">Connecting 1D and 2D</A>
+<B> Up:</B> <A NAME="tex2html6132"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6126"
+  HREF="node388.html">Calculating the normals in</A>
+ &nbsp; <B>  <A NAME="tex2html6134"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000113300000000000000">
+Expanding the 1D and 2D elements</A>
+</H3>
+
+<P>
+The 1D elements are expanded in subroutine ``gen3dfrom1d.f'', the 2D elements in
+``gen3dfrom2d.f''. 
+
+<P>
+Expanding the 1D elements involves changing the topology of the element from
+a 3-node 1D element to a 20-node 3D element using the expanded nodes stored
+in field knor.  Notice that the old node
+numbers are not used, so at this stage conditions applied to the old node
+numbers are not yet transferred to the new nodes. To calculate the position of the new nodes the unit vectors 1
+and 2, stored in xnor, are used together with the information defined by
+<A HREF="node208.html#beamsection">*BEAM SECTION</A> on the dimensions and the form of the
+cross section. Both rectangular and elliptical cross sections are allowed.
+
+<P>
+Expanding the 2D elements requires the thickening of the elements using the
+expanded node numbers stored in knor and the normals stored in xnor. The
+element numbers remain, only the topology changes. Notice that the old node
+numbers are not used, so at this stage conditions applied to the old node
+numbers are not yet transferred to the new nodes. Plane strain, plane stress
+and axisymmetric elements require some additional care: these are special
+elements taking into account specific geometrical configurations. Remember
+that 8-node 2D elements are expanded into one layer of 20-node brick elements
+and 6-node 2D elements into one layer of 15-node brick elements. Plane
+strain, plane stress and axisymmetric elements are defined in one plane,
+traditionally the x-y plane. Now, for the expansion into 3D this plane is
+assumed to correspond to z=0. It is the middle plane of the expansion. The
+elements are expanded half in positive z-direction, half in negative
+z-direction. Let us call the expanded nodes in positive z-direction the
+positive-z nodes, the ones in the plane z=0 the zero-z nodes and the rest the
+negative-z nodes. For plane strain the positive-z and negative-z nodes exhibit
+exactly the same displacements as the zero-z nodes. These conditions are
+expressed in the form of multiple point constraints, and are also generated in
+subroutine ``gen3dfrom2d.f''. These MPC's greatly reduce the size of the ensuing
+matrix system. For plane stress elements the positive-z nodes and the
+negative-z nodes have the same displacements in x- and y-direction as the
+zero-z nodes. For axisymmetric elements the positive-z nodes and the
+negative-z nodes have the same displacements as the zero-z nodes for all
+directions in cylindrical coordinates. Finally, for plane strain, plane stress
+and axisymmetric elements the displacement in z for the zero-z nodes is zero.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6135"
+  HREF="node390.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6131"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6125"
+  HREF="node388.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6133"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6136"
+  HREF="node390.html">Connecting 1D and 2D</A>
+<B> Up:</B> <A NAME="tex2html6132"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6126"
+  HREF="node388.html">Calculating the normals in</A>
+ &nbsp; <B>  <A NAME="tex2html6134"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

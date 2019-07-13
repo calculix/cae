@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>results</TITLE>
+<META NAME="description" CONTENT="results">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node409.html">
+<LINK REL="up" HREF="node408.html">
+<LINK REL="next" HREF="node411.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6390"
+  HREF="node411.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6386"
+  HREF="node408.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6382"
+  HREF="node409.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6388"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6391"
+  HREF="node411.html">Aerodynamic and hydraulic networks</A>
+<B> Up:</B> <A NAME="tex2html6387"
+  HREF="node408.html">Major routines</A>
+<B> Previous:</B> <A NAME="tex2html6383"
+  HREF="node409.html">mafillsm</A>
+ &nbsp; <B>  <A NAME="tex2html6389"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000117200000000000000">
+results</A>
+</H3>
+
+<P>
+In subroutine results.f the dependent quantities in the finite element
+calculation, such as the displacements, stress, the internal forces, the
+temperatures  and the heat flux, are
+determined from the independent quantities, i.e. the solution vector of the
+equation system. There are several
+modes in which results.f can be called, depending on the value of the variable
+iout:
+
+<P>
+
+<UL>
+<LI>iout=-1: the displacements and temperatures are assumed to be known and
+  used to calculate strains, stresses...., no result output
+</LI>
+<LI>iout=0: the displacements and temperatures are calculated from the
+  system solution and subsequently used to calculate strains, stresses..., no
+  result output
+</LI>
+<LI>iout=1: the displacements and temperatures are calculated from the
+  system solution and subsequently used to calculate strains, stresses...,
+  result output is requested (.dat or .frd file)
+</LI>
+<LI>iout=2: the displacements and temperatures are assumed to be known and
+  used to calculate strains, stresses...., result output is requested (.dat or
+  .frd file)
+</LI>
+</UL>
+
+<P>
+Calculating the displacements and/or temperatures from the result vector only
+involves the use of the relationship between the location in the solution
+vector and the physical degrees of freedom in the nodes (field nactdof),
+together with SPC and MPC information. 
+
+<P>
+To obtain derived quantities such as stresses and heat flux a loop over all
+element integration points is performed. This is first done for mechanical
+quantities, then for heat transfer quantities.
+
+<P>
+In the mechanical loop the strain is determined from the displacements. For
+linear geometric calculations this is the infinitesimal strain, else it is the
+Lagrangian strain tensor [<A
+ HREF="node448.html#Dhondt">18</A>]. For certain materials (e.g. the user
+defined materials) the deformation gradient is also determined. Then,
+materialdata_me.f is called, where the material
+data are obtained for the integration point and actual temperature (such as
+Young's modulus, thermal strain etc.). A subsequent call to mechmodel.f
+determines the
+local material gradient (<!-- MATH
+ $d \boldsymbol{\sigma} / d \boldsymbol{\epsilon}$
+ -->
+<B><IMG
+ WIDTH="134" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1960.png"
+ ALT="$ d \boldsymbol{\sigma} / d \boldsymbol{\epsilon}$"></B>)
+and the stress. From this the internal forces can be calculated.
+
+<P>
+The heat transfer loop is very similar: after calculation of the thermal
+gradient, the material data are interpolated in materialdata_th.f, the heat
+flux and tangent conductivity matrix (<!-- MATH
+ $d \boldsymbol{q} / d
+\boldsymbol{\Delta  \theta}$
+ -->
+<B><IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1961.png"
+ ALT="$ d \boldsymbol{q} / d
+\boldsymbol{\Delta \theta}$"></B>) are determined in thermmodel.f and the
+concentrated internal heat vector is calculated.
+
+<P>
+The tangent material matrices determined in mechmodel.f and thermmodel.f are
+stored for further use in the construction of the element stiffness matrices
+(cf. mafillsm.f). An overview of the subroutine structure to calculate the
+stress and tangent material matrices and any related quantities is shown in
+Figure <A HREF="#organi2">173</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="organi2"></A><A NAME="12819"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 173:</STRONG>
+Flow diagram for subroutine results</CAPTION>
+<TR><TD><IMG
+ WIDTH="65" HEIGHT="34" BORDER="0"
+ SRC="img1962.png"
+ ALT="\begin{figure}\epsfig{file=Organi2.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Notice that the stresses and heat flux determined so far was calculated in the
+integration points. In the last part of results.f these values are
+extrapolated to the nodes, if requested by the user. 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6390"
+  HREF="node411.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6386"
+  HREF="node408.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6382"
+  HREF="node409.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6388"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6391"
+  HREF="node411.html">Aerodynamic and hydraulic networks</A>
+<B> Up:</B> <A NAME="tex2html6387"
+  HREF="node408.html">Major routines</A>
+<B> Previous:</B> <A NAME="tex2html6383"
+  HREF="node409.html">mafillsm</A>
+ &nbsp; <B>  <A NAME="tex2html6389"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

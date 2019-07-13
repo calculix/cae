@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Static analysis</TITLE>
+<META NAME="description" CONTENT="Static analysis">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node161.html">
+<LINK REL="previous" HREF="node159.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node161.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3109"
+  HREF="node161.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3105"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3099"
+  HREF="node159.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3107"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3110"
+  HREF="node161.html">Frequency analysis</A>
+<B> Up:</B> <A NAME="tex2html3106"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3100"
+  HREF="node159.html">Types of analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3108"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00079100000000000000">
+Static analysis</A>
+</H3>
+
+<P>
+In a static analysis the time dimension is not involved. The loading is assumed to be applied in a quasi-static way, i.e. so slow that inertia effects can be neglected. A static analysis is defined by the key word <A HREF="node316.html#static">*STATIC</A>. A static step can be geometrically linear or nonlinear. In both cases a Lagrangian point of view is taken and all variables are specified in the material frame of reference [<A
+ HREF="node448.html#Eringen">20</A>]. Thus, the stress used internally in CalculiX is the second Piola-Kirchhoff tensor acting on the undeformed surfaces. 
+
+<P>
+For geometrically linear calculations the infinitesimal strains are taken (linearized version of the Lagrangian strain tensor), and the loads do not interfere with each other. Thus, the deformation due to two different loads is the sum of the deformation due to each of them. For linear calculations the difference between the Cauchy and Piola-Kirchhoff stresses is negligible.
+
+<P>
+For geometrically nonlinear calculations, the full Lagrangian strain 
+tensor is used. A geometrically nonlinear calculation is triggered by 
+the parameter NLGEOM on the *STEP card. The step is usually divided into increments, and the user is supposed to provide an initial increment length and the total step length on the <A HREF="node316.html#static">*STATIC</A> card. The increment length can be fixed (parameter DIRECT on the <A HREF="node316.html#static">*STATIC</A> card) or automatic. In case of automatic incrementation, the increment length is automatically adjusted according to the convergence characteristics of the problem. In each increment, the program iterates till convergence is reached, or a new attempt is made with a smaller increment size. In each iteration the geometrically linear stiffness matrix is augmented with an initial displacement stiffness due to the deformation in the last iteration and with an initial stress stiffness due to the last iteration's stresses [<A
+ HREF="node448.html#Zienkiewicz">84</A>]. For the output on file the second Piola-Kirchhoff stress is converted into the Cauchy or true stress, since this is the stress which is really acting on the structure.
+
+<P>
+Special provisions are made for cyclic symmetric structures. A cyclic symmetric structure is characterized by N identical sectors, see Figure <A HREF="node161.html#cycsym">137</A> and the discussion in next section. Static calculations for such structures under cyclic symmetric loading lead to cyclic symmetric displacements. Such calculations can be reduced to the consideration of just one sector, the so-called datum sector, subject to cyclic symmetry conditions, i.e. the right boundary of the sector exhibits the same displacements as the left boundary, in cylindrical coordinates (NOT in rectangular coordinates!). The application of these boundary conditions is greatly simplified by the use of the keyword cards <A HREF="node322.html#surface">*SURFACE</A>, <A HREF="node326.html#tie">*TIE</A> and  <A HREF="node237.html#cyclicsymmetrymodel">*CYCLIC SYMMETRY MODEL</A>, defining the nodes on left and right boundary and the sector size. Then, the appropriate multiple point constraints are generated automatically. This can also be used for a static preload step prior to a perturbative frequency analysis.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3109"
+  HREF="node161.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3105"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3099"
+  HREF="node159.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3107"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3110"
+  HREF="node161.html">Frequency analysis</A>
+<B> Up:</B> <A NAME="tex2html3106"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3100"
+  HREF="node159.html">Types of analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3108"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

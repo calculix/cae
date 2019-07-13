@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*DAMPING</TITLE>
+<META NAME="description" CONTENT="*DAMPING">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node239.html">
+<LINK REL="previous" HREF="node237.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node239.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4184"
+  HREF="node239.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4180"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4174"
+  HREF="node237.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4182"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4185"
+  HREF="node239.html">*DASHPOT</A>
+<B> Up:</B> <A NAME="tex2html4181"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4175"
+  HREF="node237.html">*CYCLIC SYMMETRY MODEL</A>
+ &nbsp; <B>  <A NAME="tex2html4183"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000830000000000000000"></A><A NAME="damping"></A>
+<BR>
+*DAMPING
+</H2>
+
+<P>
+Keyword type: model definition, if structural damping: material
+
+<P>
+This card is used to define Rayleigh damping for implicit dynamic calculations
+(<A HREF="node249.html#dynamic">*DYNAMIC</A>) and structural damping for steady state dynamics
+calculations (<A HREF="node317.html#steadystatedynamics">*STEADY STATE DYNAMICS</A>). 
+
+<P>
+For Rayleigh damping there are two required parameters: ALPHA and
+BETA.
+
+<P>
+Rayleigh damping is applied in a
+global way, i.e. the damping matrix <!-- MATH
+ $\left [ C \right ]$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1643.png"
+ ALT="$ \left [ C \right ]$"></B> is taken to be a linear combination of the
+stiffness matrix <!-- MATH
+ $\left [ K \right ]$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1644.png"
+ ALT="$ \left [ K \right ]$"></B> and the mass matrix <!-- MATH
+ $\left [ M \right ]$
+ -->
+<B><IMG
+ WIDTH="31" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1645.png"
+ ALT="$ \left [ M \right ]$"></B>:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\left [ C \right ] = \alpha \left [ M \right ]
++ \beta \left [ K \right ].
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="148" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1646.png"
+ ALT="$\displaystyle \left [ C \right ] = \alpha \left [ M \right ] + \beta \left [ K \right ].$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(467)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The damping force satisfies:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\lbrace F \rbrace = \left [ C \right ] \lbrace v \rbrace,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="107" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1647.png"
+ ALT="$\displaystyle \lbrace F \rbrace = \left [ C \right ] \lbrace v \rbrace,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(468)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\lbrace v \rbrace$
+ -->
+<B><IMG
+ WIDTH="29" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1648.png"
+ ALT="$ \lbrace v \rbrace$"></B> is the velocity vector. For Rayleigh damping only one *DAMPING card can be used in the input deck. It
+applies to the whole model.
+
+<P>
+For structural damping the damping is a material characteristic. Each material
+can have its own damping value. There is one required parameter STRUCTURAL,
+defining the value <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"></B> of the damping. For structural damping the element
+damping force is displacement dependent and satisfies: 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\lbrace F \rbrace_e = i \zeta_e \left [ K \right ]_e \lbrace x \rbrace_e,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="152" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1649.png"
+ ALT="$\displaystyle \lbrace F \rbrace_e = i \zeta_e \left [ K \right ]_e \lbrace x \rbrace_e,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(469)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $i=\sqrt{-1}$
+ -->
+<B><IMG
+ WIDTH="65" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1650.png"
+ ALT="$ i=\sqrt{-1}$"></B>, <B><IMG
+ WIDTH="35" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1651.png"
+ ALT="$ [K]_e$"></B> is the element stiffness matrix, and <!-- MATH
+ $\lbrace x
+\rbrace_e$
+ -->
+<B><IMG
+ WIDTH="36" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1652.png"
+ ALT="$ \lbrace x
+\rbrace_e$"></B> is the element displacement vector. <B><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1653.png"
+ ALT="$ \zeta_e$"></B> is the structural
+damping value for the material of element <B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1467.png"
+ ALT="$ e$"></B> (default is zero). The global
+damping force is assembled from the element damping forces. 
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*DAMPING
+</LI>
+<LI>Enter ALPHA and BETA and their values for Rayleigh damping or STRUCTURAL
+  and its value for structural damping.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*DAMPING,ALPHA=5000.,BETA=2.e-3
+</PRE>
+
+<P>
+indicates that a damping matrix is created by multiplying the mass matrix with
+<B><IMG
+ WIDTH="41" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1654.png"
+ ALT="$ 5000.$"></B> and adding it to the stiffness matrix multiplied by <!-- MATH
+ $2 \cdot 10^{-4}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1655.png"
+ ALT="$ 2 \cdot 10^{-4}$"></B>
+
+<P>
+<PRE>
+Example:
+
+*DAMPING,STRUCTURAL=0.03
+</PRE>
+
+<P>
+defines a structural damping value of 0.03 (3 <B><IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1177.png"
+ ALT="$ \%$"></B>). This card must be part of
+a material description.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamimpdy1, beamimpdy2.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4184"
+  HREF="node239.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4180"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4174"
+  HREF="node237.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4182"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4185"
+  HREF="node239.html">*DASHPOT</A>
+<B> Up:</B> <A NAME="tex2html4181"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4175"
+  HREF="node237.html">*CYCLIC SYMMETRY MODEL</A>
+ &nbsp; <B>  <A NAME="tex2html4183"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

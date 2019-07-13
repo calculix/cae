@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*BEAM SECTION</TITLE>
+<META NAME="description" CONTENT="*BEAM SECTION">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node209.html">
+<LINK REL="previous" HREF="node207.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node209.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3823"
+  HREF="node209.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3819"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3813"
+  HREF="node207.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3821"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3824"
+  HREF="node209.html">*BOUNDARY</A>
+<B> Up:</B> <A NAME="tex2html3820"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3814"
+  HREF="node207.html">*BASE MOTION</A>
+ &nbsp; <B>  <A NAME="tex2html3822"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00083000000000000000"></A><A NAME="beamsection"></A>
+<BR>
+*BEAM SECTION
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option is used to assign material properties to beam element
+sets. The parameters ELSET, MATERIAL and SECTION are required, the parameters
+ORIENTATION, OFFSET1, OFFSET2 and NODAL THICKNESS are optional. The parameter
+ELSET defines the shell element set to which the material specified by
+the parameter MATERIAL applies. The parameter ORIENTATION allows to
+assign local axes to the element set. If activated, the material
+properties are applied to the local axis. This is only relevant for
+non isotropic material behavior. 
+
+<P>
+The parameter SECTION defines the
+cross section of the beam and takes the value RECT for a
+rectangular cross section, CIRC for an elliptical cross section, PIPE for a pipe cross
+section and BOX for a box cross section. A
+rectangular cross section is defined by its thickness in two
+perpendicular directions, an elliptical cross section is defined by
+the length of its principal axes. These directions are defined by
+specifying direction 1 on the third line of the present keyword card. A pipe cross section is defined by its outer radius (first parameter) and its thickness
+(second parameter). A box cross section is defined by the parameters
+<B><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img309.png"
+ ALT="$ a$"></B>,<B><IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img310.png"
+ ALT="$ b$"></B>,<B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img311.png"
+ ALT="$ t_1$"></B>,<B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img312.png"
+ ALT="$ t_2$"></B>,<B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$ t_3$"></B> and <B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img314.png"
+ ALT="$ t_4$"></B> (cf. Figure <A HREF="node74.html#box">84</A>, <B><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img309.png"
+ ALT="$ a$"></B> is in the local
+1-direction, <B><IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img310.png"
+ ALT="$ b$"></B> is in the local 2-direction (perpendicular to the local 1-direction), <B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img311.png"
+ ALT="$ t_1$"></B> is the thickness in the positive local 1-direction and so on).
+
+<P>
+Notice that, internally, PIPE and BOX cross sections are expanded into beams with a
+rectangular cross section (this is also the way in which the beam is stored in
+the .frd-file and is 
+visualized in the postprocessor. The actual cross section is taken into account by
+appropriate placement of the integration points). This rectangular cross
+section is the smallest section completely covering the PIPE or BOX section. For instance, for a pipe section the expanded section is square with
+side length equal to the outer diameter. For the expansion the local
+direction 1 and 2 are used, therefore, special care should be taken to define
+direction 1 on the second line underneath the *BEAM SECTION
+card. The default for direction 1 is (0,0,-1).
+
+<P>
+The OFFSET1 and OFFSET2 parameters
+indicate where the axis of the beam is in relation to the reference line
+defined by the line representation given by the user. The index 1 and
+2 refer to the local axes of the beam which are perpendicular to the
+local tangent. To use the offset parameters direction the local
+directions must be defined. This is done by defining local direction 1
+on the third line of the present keyword card. The unit of
+the offset is the thickness of the beam in the direction of the
+offset. Thus, OFFSET1=0 means that in 1-direction
+the reference line is the axis of the shell,
+OFFSET2=0.5 means that in 2-direction the reference line is the top
+surface of the beam. The offset can take any real value and allows to
+construct beam of nearly arbitrary cross section and the definition of
+composite beams.
+
+<P>
+The parameter NODAL THICKNESS
+indicates that the thickness for ALL nodes in the element set are defined
+with an extra <A HREF="node290.html#nodalthickness">*NODAL THICKNESS</A> card and that
+any thicknesses defined on the *BEAM SECTION card are
+irrelevant.
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*BEAM SECTION
+</LI>
+<LI>Enter any needed parameters.
+</LI>
+</UL>
+
+<P>
+Second line:
+
+<UL>
+<LI>thickness in 1-direction
+</LI>
+<LI>thickness in 2-direction
+</LI>
+</UL>
+
+<P>
+Third line:
+
+<UL>
+<LI>global x-coordinate of a unit vector in 1-direction (default:0)
+</LI>
+<LI>global y-coordinate of a unit vector in 1-direction (default:0)
+</LI>
+<LI>global z-coordinate of a unit vector in 1-direction (default:-1)
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*BEAM SECTION,MATERIAL=EL,ELSET=Eall,OFFSET1=-0.5,SECTION=RECT
+3.,1.
+1.,0.,0.
+</PRE>
+
+<P>
+assigns material EL to all elements in (element)
+set Eall. The reference line is in 1-direction on the back surface, in
+2-direction on the central surface. The thickness in 1-direction is 3
+unit lengths,
+in 2-direction 1 unit length. The 1-direction is the global x-axis.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamcom, beammix, shellbeam, swing, simplebeampipe1,simplebeampipe2,simplebeampipe3,simplebeampipe4.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3823"
+  HREF="node209.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3819"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3813"
+  HREF="node207.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3821"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3824"
+  HREF="node209.html">*BOUNDARY</A>
+<B> Up:</B> <A NAME="tex2html3820"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3814"
+  HREF="node207.html">*BASE MOTION</A>
+ &nbsp; <B>  <A NAME="tex2html3822"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

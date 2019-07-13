@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Frequency calculation of a beam loaded by compressive forces</TITLE>
+<META NAME="description" CONTENT="Frequency calculation of a beam loaded by compressive forces">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node9.html">
+<LINK REL="previous" HREF="node7.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node9.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html968"
+  HREF="node9.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html964"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html958"
+  HREF="node7.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html966"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html969"
+  HREF="node9.html">Frequency calculation of a</A>
+<B> Up:</B> <A NAME="tex2html965"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html959"
+  HREF="node7.html">Cantilever beam</A>
+ &nbsp; <B>  <A NAME="tex2html967"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00062000000000000000">
+Frequency calculation of a beam loaded by compressive forces</A>
+</H2>
+
+<P>
+Let us consider the beam from the previous section and determine its
+eigenfrequencies and eigenmodes. To obtain different frequencies for the
+lateral directions the cross section is changed from 1x1 to 1x1.5. Its length
+is kept (8 length units). The input deck is very similar to the one in the
+previous section, Figure <A HREF="#freqinputdeck">8</A>. The full deck is part of the
+test example suite (beamf2.inp). 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="freqinputdeck"></A><A NAME="11749"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 8:</STRONG>
+Frequency input deck</CAPTION>
+<TR><TD><IMG
+ WIDTH="511" HEIGHT="575" BORDER="0"
+ SRC="img90.png"
+ ALT="\begin{figure}\epsfig{file=FreqInputDeck.ps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The only significant differences relate to the steps. In the first step the
+preload is applied in the form of compressive forces at the end of the
+beam. In each node belonging to set LAST a compressive force is applied with
+a value of -48.155 in the positive z-direction, or, which is equivalent, with
+magnitude 48.155 in the negative z-direction. The second step is a frequency
+step. By using the parameter PERTURBATION on the *STEP keyword card the user
+specifies that the deformation and stress from the previous static step
+should be taken into account in the subsequent frequency calculation. The
+*FREQUENCY card and the line underneath indicate that this is a modal analysis
+step and that the 10 lowest eigenfrequencies are to be determined. They are
+automatically stored in the .dat file. Table
+<A HREF="#tabfreq">2</A> shows these eigenfrequencies for the beam without and with
+preload together with a comparison with ABAQUS (the input deck for the modal
+analysis without preload is stored in file beamf.inp of the test example suite). One notices that due to the
+preload the eigenfrequencies drop. This is especially outspoken for the
+lower frequencies. As a matter of fact, the lowest bending eigenfrequency is
+so low that buckling will occur. Indeed, one way of determining the buckling
+load is by increasing the compressive load up to the point that the lowest
+eigenfrequency is zero. For the present example this means that the buckling
+load is 21 x 48.155 = 1011.3 force units (the factor 21 stems from the fact
+that the same load is applied in 21 nodes). An alternative way of determining
+the buckling load is to use the <A HREF="node214.html#buckle">*BUCKLE</A> keyword card. This
+is illustrated for the same beam geometry in file beamb.inp of the test suite.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="11750"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 2:</STRONG>
+Frequencies without and with preload (cycles/s).</CAPTION>
+<TR><TD ALIGN="CENTER" COLSPAN=2>without preload</TD>
+<TD ALIGN="CENTER" COLSPAN=2>with preload</TD>
+</TR>
+<TR><TD ALIGN="CENTER">CalculiX</TD>
+<TD ALIGN="CENTER">ABAQUS</TD>
+<TD ALIGN="CENTER">CalculiX</TD>
+<TD ALIGN="CENTER">ABAQUS</TD>
+</TR>
+<TR><TD ALIGN="CENTER">13,096.</TD>
+<TD ALIGN="CENTER">13,096.</TD>
+<TD ALIGN="CENTER">705.</TD>
+<TD ALIGN="CENTER">1,780.</TD>
+</TR>
+<TR><TD ALIGN="CENTER">19,320.</TD>
+<TD ALIGN="CENTER">19,319.</TD>
+<TD ALIGN="CENTER">14,614.</TD>
+<TD ALIGN="CENTER">14,822.</TD>
+</TR>
+<TR><TD ALIGN="CENTER">76,840.</TD>
+<TD ALIGN="CENTER">76,834.</TD>
+<TD ALIGN="CENTER">69,731.</TD>
+<TD ALIGN="CENTER">70,411.</TD>
+</TR>
+<TR><TD ALIGN="CENTER">86,955.</TD>
+<TD ALIGN="CENTER">86,954.</TD>
+<TD ALIGN="CENTER">86,544.</TD>
+<TD ALIGN="CENTER">86,870.</TD>
+</TR>
+<TR><TD ALIGN="CENTER">105,964.</TD>
+<TD ALIGN="CENTER">105,956.</TD>
+<TD ALIGN="CENTER">101,291.</TD>
+<TD ALIGN="CENTER">102,148.</TD>
+</TR>
+<TR><TD ALIGN="CENTER">162,999.</TD>
+<TD ALIGN="CENTER">162,998.</TD>
+<TD ALIGN="CENTER">162,209.</TD>
+<TD ALIGN="CENTER">163,668.</TD>
+</TR>
+<TR><TD ALIGN="CENTER">197,645.</TD>
+<TD ALIGN="CENTER">197,540.</TD>
+<TD ALIGN="CENTER">191,581.</TD>
+<TD ALIGN="CENTER">193,065.</TD>
+</TR>
+<TR><TD ALIGN="CENTER">256,161.</TD>
+<TD ALIGN="CENTER">256,029.</TD>
+<TD ALIGN="CENTER">251,858.</TD>
+<TD ALIGN="CENTER">253,603.</TD>
+</TR>
+<TR><TD ALIGN="CENTER">261,140.</TD>
+<TD ALIGN="CENTER">261,086.</TD>
+<TD ALIGN="CENTER">259,905.</TD>
+<TD ALIGN="CENTER">260,837.</TD>
+</TR>
+<TR><TD ALIGN="CENTER">351,862.</TD>
+<TD ALIGN="CENTER">351,197.</TD>
+<TD ALIGN="CENTER">345,729.</TD>
+<TD ALIGN="CENTER">347,688.</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+Figures <A HREF="#beam8">9</A> and <A HREF="#beam9">10</A> show the deformation of the second bending mode across the
+minor axis of inertia and deformation of the first torsion mode.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="beam8"></A><A NAME="11751"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 9:</STRONG>
+Second bending mode across the minor axis of inertia</CAPTION>
+<TR><TD><IMG
+ WIDTH="407" HEIGHT="359" BORDER="0"
+ SRC="img91.png"
+ ALT="\begin{figure}\epsfig{file=Beam8.ps,width=9cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="beam9"></A><A NAME="11752"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 10:</STRONG>
+First torsion mode</CAPTION>
+<TR><TD><IMG
+ WIDTH="407" HEIGHT="350" BORDER="0"
+ SRC="img92.png"
+ ALT="\begin{figure}\epsfig{file=Beam9.ps,width=9cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html968"
+  HREF="node9.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html964"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html958"
+  HREF="node7.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html966"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html969"
+  HREF="node9.html">Frequency calculation of a</A>
+<B> Up:</B> <A NAME="tex2html965"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html959"
+  HREF="node7.html">Cantilever beam</A>
+ &nbsp; <B>  <A NAME="tex2html967"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

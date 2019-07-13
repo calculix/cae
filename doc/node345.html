@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Distributed flux (dflux.f)</TITLE>
+<META NAME="description" CONTENT="Distributed flux (dflux.f)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node346.html">
+<LINK REL="previous" HREF="node344.html">
+<LINK REL="up" HREF="node342.html">
+<LINK REL="next" HREF="node346.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5513"
+  HREF="node346.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5509"
+  HREF="node342.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5503"
+  HREF="node344.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5511"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5514"
+  HREF="node346.html">Distribruted load (dload.f)</A>
+<B> Up:</B> <A NAME="tex2html5510"
+  HREF="node342.html">User-defined loading</A>
+<B> Previous:</B> <A NAME="tex2html5504"
+  HREF="node344.html">Concentrated load (cload.f)</A>
+ &nbsp; <B>  <A NAME="tex2html5512"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00094300000000000000"></A><A NAME="userdflux"></A>
+<BR>
+Distributed flux (dflux.f)
+</H3>
+
+<P>
+This subroutine is used for nonuniform heat flux, characterized by
+distributed load labels of the form SxNUy, cf
+<A HREF="node244.html#dflux">*DFLUX</A>. The load label can be up to 20 characters long. In
+particular, y can be used to distinguish different nonuniform flux
+patterns. The header and variable description is as
+follows:
+
+<P>
+<PRE>
+      subroutine dflux(flux,sol,kstep,kinc,time,noel,npt,coords,
+     &amp;     jltyp,temp,press,loadtype,area,vold,co,lakonl,konl,
+     &amp;     ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,iscale,mi)
+!
+!     user subroutine dflux
+!
+!
+!     INPUT:
+!
+!     sol                current temperature value
+!     kstep              step number
+!     kinc               increment number
+!     time(1)            current step time
+!     time(2)            current total time
+!     noel               element number
+!     npt                integration point number
+!     coords(1..3)       global coordinates of the integration point
+!     jltyp              loading face kode:
+!                        1  = body flux
+!                        11 = face 1 
+!                        12 = face 2 
+!                        13 = face 3 
+!                        14 = face 4 
+!                        15 = face 5 
+!                        16 = face 6
+!     temp               currently not used
+!     press              currently not used
+!     loadtype           load type label
+!     area               for surface flux: area covered by the
+!                            integration point
+!                        for body flux: volume covered by the
+!                            integration point
+!     vold(0..4,1..nk)   solution field in all nodes
+!                        0: temperature
+!                        1: displacement in global x-direction
+!                        2: displacement in global y-direction
+!                        3: displacement in global z-direction
+!                        4: static pressure
+!     co(3,1..nk)        coordinates of all nodes
+!                        1: coordinate in global x-direction
+!                        2: coordinate in global y-direction
+!                        3: coordinate in global z-direction
+!     lakonl             element label
+!     konl(1..20)        nodes belonging to the element
+!     ipompc(1..nmpc))   ipompc(i) points to the first term of
+!                        MPC i in field nodempc
+!     nodempc(1,*)       node number of a MPC term
+!     nodempc(2,*)       coordinate direction of a MPC term
+!     nodempc(3,*)       if not 0: points towards the next term
+!                                  of the MPC in field nodempc
+!                        if 0: MPC definition is finished
+!     coefmpc(*)         coefficient of a MPC term
+!     nmpc               number of MPC's
+!     ikmpc(1..nmpc)     ordered global degrees of freedom of the MPC's
+!                        the global degree of freedom is
+!                        8*(node-1)+direction of the dependent term of
+!                        the MPC (direction = 0: temperature;
+!                        1-3: displacements; 4: static pressure;
+!                        5-7: rotations)
+!     ilmpc(1..nmpc)     ilmpc(i) is the MPC number corresponding
+!                        to the reference number in ikmpc(i)   
+!     mi(1)              max # of integration points per element (max
+!                        over all elements)
+!     mi(2)              max degree of freedomm per node (max over all
+!                        nodes) in fields like v(0:mi(2))...
+!
+!     OUTPUT:
+!
+!     flux(1)            magnitude of the flux
+!     flux(2)            not used; please do NOT assign any value
+!     iscale             determines whether the flux has to be
+!                        scaled for increments smaller than the 
+!                        step time in static calculations
+!                        0: no scaling
+!                        1: scaling (default)
+!
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*DISTRIBUTING</TITLE>
+<META NAME="description" CONTENT="*DISTRIBUTING">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node246.html">
+<LINK REL="previous" HREF="node244.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node246.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4268"
+  HREF="node246.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4264"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4258"
+  HREF="node244.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4266"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4269"
+  HREF="node246.html">*DISTRIBUTING COUPLING</A>
+<B> Up:</B> <A NAME="tex2html4265"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4259"
+  HREF="node244.html">*DFLUX</A>
+ &nbsp; <B>  <A NAME="tex2html4267"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000837000000000000000"></A><A NAME="distributing"></A>
+<BR>
+*DISTRIBUTING
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+With this keyword distributing constraints can be established between the nodes
+belonging to an element surface and a reference node. A distributing
+constraint specifies that a force or a moment in the reference node is
+distributed among the nodes belonging to the element surface. The weights are
+calculated from the area within the surface the reference node corresponds with.
+
+<P>
+The *DISTRIBUTING card must be immediately preceded by a <A HREF="node234.html#coupling">*COUPLING</A>
+keyword card, specifying the reference node and the element surface. If no ORIENTATION was specified on the *COUPLING card, the
+degrees of freedom apply to the global rectangular system, if an ORIENTATION
+was used, they apply to the local system. For a *DISTRIBUTING constraint the
+local system cannot be cylindrical.
+
+<P>
+The degrees of freedom to which the distributing constraint should apply, have
+to be specified underneath the *DISTRIBUTING card. They should belong to the
+range 1 to 6. Degrees of freedom 1 to 3 correspond to translations along the
+local axes, if any, else the global axes are taken. Degrees of freedom 4 to 6
+correspond to rotations about the local axes (4 about the local x-axis and so
+on), if any, else the global axes are taken. No matter what the user
+specifies, the translations are always distributed (degree of freedom 1 to
+3). Consequently, the only freedom the user has is to decide whether any
+additional rotational degrees of freedom should be distributed.
+
+<P>
+The degrees of freedom in the reference node can be constrained by a
+<A HREF="node209.html#boundary">*BOUNDARY</A> card, or a corresponding force/moment can be
+applied by a <A HREF="node223.html#cload">*CLOAD</A> card. The displacements in the reference
+node can be obtained by selecting U on the <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> card. The rotation about the reference node cannot be
+printed. In order to obtain the force and/or moment in the reference node the
+user should use <A HREF="node308.html#sectionprint">*SECTION PRINT</A> to obtain the global
+force and moment on the selected surface.
+
+<P>
+A *DISTRIBUTING coupling is usually selected in order to distribute a force or moment
+area-weighted among the nodes of a surface. In case of a bending moment or
+torque the rotation takes place about the center of gravity of the
+surface. Nodes close to the center of gravity usually deteriorate the
+convergence.
+
+<P>
+In CalculiX, the *DISTRIBUTING contraint is linear, i.e. the coefficients of
+the constraint are not updated during the calculation.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*DISTRIBUTING
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>first degree of freedom (only 1 to 6 allowed)
+</LI>
+<LI>last degree of freedom (only 1 to 6 allowed); if left blank the last
+  degree of freedom coincides with the first degree of freedom.
+</LI>
+</UL>
+Repeat this line if needed to constrain other degrees of freedom.
+
+<P>
+<PRE>
+Example:
+
+*ORIENTATION,NAME=OR1,SYSTEM=RECTANGULAR
+0.,1.,0.,0.,0.,1.
+*COUPLING,REF NODE=262,SURFACE=SURF,CONSTRAINT NAME=C1,ORIENTATION=OR1
+*DISTRIBUTING
+4,4
+*NSET,NSET=N1
+262
+...
+*STEP
+*STATIC
+*CLOAD
+262,4,1.
+</PRE>
+
+<P>
+specifies a moment of size 1. about the local x-axis, which happens
+to coincide with the global y-axis. 
+
+<P>
+
+<P><P>
+<BR>
+Example files: coupling7, cyl.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4268"
+  HREF="node246.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4264"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4258"
+  HREF="node244.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4266"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4269"
+  HREF="node246.html">*DISTRIBUTING COUPLING</A>
+<B> Up:</B> <A NAME="tex2html4265"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4259"
+  HREF="node244.html">*DFLUX</A>
+ &nbsp; <B>  <A NAME="tex2html4267"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

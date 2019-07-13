@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*DESIGN VARIABLES</TITLE>
+<META NAME="description" CONTENT="*DESIGN VARIABLES">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node244.html">
+<LINK REL="previous" HREF="node242.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node244.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4244"
+  HREF="node244.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4240"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4234"
+  HREF="node242.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4242"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4245"
+  HREF="node244.html">*DFLUX</A>
+<B> Up:</B> <A NAME="tex2html4241"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4235"
+  HREF="node242.html">*DEPVAR</A>
+ &nbsp; <B>  <A NAME="tex2html4243"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000835000000000000000"></A><A NAME="designvariables"></A>
+<BR>
+*DESIGN VARIABLES
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option is used to define the design variables for a sensitivity
+study. The parameter TYPE is required and can take the value COORDINATE or
+ORIENTATION. In case of COORDINATE a second line is needed to
+define the nodes whose coordinates are to be changed. These nodes should be
+part of the surface of the structure (a change in position of nodes internal
+to the structure does not change the geometry). They will be varied in a
+direction locally orthogonal to the structure (in-surface motions do not
+change the geometry). In the case of
+ORIENTATION the sensitivity of all orientations expressed by
+<A HREF="node298.html#orientation">*ORIENTATION</A> cards is calculated successively. 
+
+<P>
+This keywork card should only occur once in the input deck. If it occurs more
+than once only the first occurrence is taken into account.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*DESIGN VARIABLES
+</LI>
+<LI>Enter the TYPE parameter and its value.
+</LI>
+</UL>
+
+<P>
+Following line if TYPE=COORDINATE:
+
+<UL>
+<LI>Node set containing the design variables.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*DESIGN VARIABLES,TYPE=COORDINATE
+N1
+</PRE>
+
+<P>
+defines the set N1 as the node set containing the design variables.
+
+<P>
+
+<P><P>
+<BR>
+Example files: sensitivity_I.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4244"
+  HREF="node244.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4240"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4234"
+  HREF="node242.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4242"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4245"
+  HREF="node244.html">*DFLUX</A>
+<B> Up:</B> <A NAME="tex2html4241"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4235"
+  HREF="node242.html">*DEPVAR</A>
+ &nbsp; <B>  <A NAME="tex2html4243"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

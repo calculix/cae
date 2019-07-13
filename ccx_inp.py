@@ -28,14 +28,15 @@ class inp:
     # Menu File -> Import INP file
     # Import mesh and display it in the VTK widget
     def importINP(self, file_name=None):
-        print('importINP')
-
         if not file_name:
             file_name = QtWidgets.QFileDialog.getOpenFileName(None, \
                 'Import INP file', '', 'Input files (*.inp);;All Files (*)')[0]
 
         if file_name:
             self.CAE.logger.info('Loading ' + file_name + '.')
+
+            # Clear selection before import new model
+            self.CAE.VTK.actionSelectionClear()
 
             # Generate CalculiX DOM based on keywords hierarchy from ccx_dom.txt
             self.CAE.DOM = ccx_dom.DOM(self.CAE)
@@ -45,9 +46,6 @@ class inp:
                 INP_doc = f.readlines()
                 # Parse CalculiX'es keywords in the INP_doc lines
                 self.parser(INP_doc) # enrich DOM with parsed objects
-
-            # Update DOM in ccx_tree class
-            # self.CAE.tree.DOM = self.CAE.DOM
 
             # Regenerate treeView items to account for modifications in DOM
             self.CAE.tree.generateTreeView()

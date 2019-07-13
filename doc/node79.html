@@ -1,0 +1,272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Preswirl Nozzle</TITLE>
+<META NAME="description" CONTENT="Preswirl Nozzle">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node80.html">
+<LINK REL="previous" HREF="node78.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node80.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2066"
+  HREF="node80.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2062"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2056"
+  HREF="node78.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2064"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2067"
+  HREF="node80.html">Straight and Stepped Labyrinth</A>
+<B> Up:</B> <A NAME="tex2html2063"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2057"
+  HREF="node78.html">Bleed Tapping</A>
+ &nbsp; <B>  <A NAME="tex2html2065"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00074300000000000000">
+Preswirl Nozzle</A>
+</H3>
+
+<P>
+A preswirl nozzle is a special kind of static orifice (Figure
+<A HREF="#preswirlnozzle">88</A>), used to impart a tangential velocity to gas before it
+enters a rotating device. That way, the loss due to the difference in
+circumferential velocity between the air entering the rotating device and the
+rotating device itself can be decreased. In the Figure <!-- MATH
+ $\boldsymbol{v}_{rot}$
+ -->
+<IMG
+ WIDTH="32" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img416.png"
+ ALT="$ \boldsymbol{v}_{rot}$"> is the
+rotational velocity of the orifice the preswirl nozzle is serving, <!-- MATH
+ $\boldsymbol{v}_{abs}$
+ -->
+<IMG
+ WIDTH="33" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img417.png"
+ ALT="$ \boldsymbol{v}_{abs}$">
+is the absolute velocity of the air leaving the preswirl nozzle and <!-- MATH
+ $\boldsymbol{v}_{rel}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img418.png"
+ ALT="$ \boldsymbol{v}_{rel}$">
+is its velocity as seen by an observer rotating with the orifice (the
+so-called relative velocity). The velocity entering the calculation of the discharge
+coefficient of the rotating orifice is the tangential component <IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img406.png"
+ ALT="$ v$"> of the
+velocity of the rotating device as seen by the air leaving the preswirl nozzle
+(which is <!-- MATH
+ $-\boldsymbol{v}_{rel}$
+ -->
+<IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img419.png"
+ ALT="$ -\boldsymbol{v}_{rel}$">). This velocity can be modified by a
+multiplicative factor <IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img420.png"
+ ALT="$ k_\phi$">.
+
+<P>
+The geometry of a preswirl nozzle
+can be quite complicated and the discharge coefficient should be ideally
+determined by experiments on the actual device. The basic equations are the same
+as for the orifice.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="preswirlnozzle"></A><A NAME="11887"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 88:</STRONG>
+Geometry of the preswirl nozzle fluid section
+  and the orifice it serves</CAPTION>
+<TR><TD><IMG
+ WIDTH="496" HEIGHT="166" BORDER="0"
+ SRC="img421.png"
+ ALT="\begin{figure}\epsfig{file=Preswirlnozzle.eps,width=11cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The discharge coefficients provided by CalculiX are merely a rough estimate and
+are based on [<A
+ HREF="node448.html#Kutz">39</A>]. For this purpose the preswirl nozzle must be described
+by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=PRESWIRL NOZZLE card):
+
+<P>
+
+<UL>
+<LI>the cross section <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$">.
+</LI>
+<LI><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img178.png"
+ ALT="$ \theta$"> (Figure <A HREF="#preswirlnozzle">88</A>) in <IMG
+ WIDTH="12" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img137.png"
+ ALT="$ ^o$">.
+</LI>
+<LI><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img420.png"
+ ALT="$ k_\phi$">.
+</LI>
+<LI>the number of a curve (0 for the predefined curve).
+</LI>
+<LI>not used (internally: circumferential velocity at the outlet)
+</LI>
+</UL>
+
+<P>
+The angle at the exit of the nozzle is used to determine the circumferential
+velocity of the gas leaving the nozzle. This is stored for use in the (rotating)
+device following the nozzle. The curve number can be used to distinguish
+between several measured curves. Right now, only one curve is coded (number =
+0 to select this curve).  More specific
+curves can be implemented by the user, the appropriate routine to do so is
+cd_preswirlnozzle.f. Alternatively, the user can enter an own curve in the input
+deck listing <IMG
+ WIDTH="57" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img410.png"
+ ALT="$ Y=C_d$"> versus <!-- MATH
+ $X=p_{s_2}/p_{t_1}$
+ -->
+<IMG
+ WIDTH="89" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img422.png"
+ ALT="$ X=p_{s_2}/p_{t_1}$">. In
+that case the input reads
+
+<P>
+
+<UL>
+<LI>the cross section <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$">.
+</LI>
+<LI><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img178.png"
+ ALT="$ \theta$"> (Figure <A HREF="#preswirlnozzle">88</A>) in <IMG
+ WIDTH="12" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img137.png"
+ ALT="$ ^o$">.
+</LI>
+<LI><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img420.png"
+ ALT="$ k_\phi$">.
+</LI>
+<LI>not used.
+</LI>
+<LI>not used (internally: circumferential velocity at the outlet).
+</LI>
+<LI>not used (internally: number of pairs).
+</LI>
+<LI><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$ X_1$">.
+</LI>
+<LI><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$ Y_1$">.
+</LI>
+<LI><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img414.png"
+ ALT="$ X_2$">.
+</LI>
+<LI><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img415.png"
+ ALT="$ Y_2$">.
+</LI>
+<LI>.. (maximum 16 entries per line; maximum 17 pairs in total)
+</LI>
+</UL>
+
+<P>
+
+<P><P>
+<BR>
+Example files: moehring, vortex1, vortex2, vortex3.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2066"
+  HREF="node80.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2062"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2056"
+  HREF="node78.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2064"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2067"
+  HREF="node80.html">Straight and Stepped Labyrinth</A>
+<B> Up:</B> <A NAME="tex2html2063"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2057"
+  HREF="node78.html">Bleed Tapping</A>
+ &nbsp; <B>  <A NAME="tex2html2065"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

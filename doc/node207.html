@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*BASE MOTION</TITLE>
+<META NAME="description" CONTENT="*BASE MOTION">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node208.html">
+<LINK REL="previous" HREF="node206.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node208.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3811"
+  HREF="node208.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3807"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3801"
+  HREF="node206.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3809"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3812"
+  HREF="node208.html">*BEAM SECTION</A>
+<B> Up:</B> <A NAME="tex2html3808"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3802"
+  HREF="node206.html">*AMPLITUDE</A>
+ &nbsp; <B>  <A NAME="tex2html3810"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00082000000000000000"></A><A NAME="basemotion"></A>
+<BR>
+*BASE MOTION
+</H2>
+
+<P>
+Keyword type: step 
+
+<P>
+This option is used to prescribe nonzero displacements and/or accelerations in
+<A HREF="node285.html#modaldynamic">*MODAL DYNAMIC</A> and <A HREF="node317.html#steadystatedynamics">*STEADY STATE
+  DYNAMICS</A> calculations. The parameters DOF and
+AMPLITUDE are required, the parameter TYPE is optional.
+
+<P>
+The prescribed boundary condition applies to the degree of freedom DOF in all
+nodes in which a homogeneous <A HREF="node209.html#boundary">*BOUNDARY</A> condition has been defined for this
+degree of freedom. If using *BASE MOTION it is good practice to define these
+*BOUNDARY conditions BEFORE the step in which *BASE MOTION is used, else the
+effect may be unpredictable. The parameter DOF can only take the values in the
+range from 1 to 3. With the parameter AMPLITUDE the user specifies the
+amplitude defining the value
+of the boundary condition. This amplitude must have been defined using the
+<A HREF="node206.html#amplitude">*AMPLITUDE</A> card. 
+
+<P>
+The TYPE parameter can take the string DISPLACEMENT or ACCELERATION. Default
+is ACCELERATION. Acceleration boundary conditions can only be used for
+harmonic steady state dynamics calculations, displacements can be used for any
+modal dynamic or steady state dynamic calculation. Since only three degrees of
+freedom are at the user's disposal, defining more than three *base motion
+cards does not make sense.
+
+<P>
+The *BASE MOTION card is more restrictive than the *BOUNDARY card in the sense
+that the same amplitude applies to a specific degree of freedom in all nodes
+in which a homogeneous boundary condition for exactly this degree of freedom has been defined. It is, however,
+less restrictive in the sense that for steady state dynamics calculations also
+accelerations can be applied.
+
+<P><P>
+<BR>
+
+<P>
+First line and only line:
+
+<UL>
+<LI>*BASE MOTION
+</LI>
+<LI>Enter any needed parameters and their value.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*BASE MOTION,DOF=2,AMPLITUDE=A1
+</PRE>
+
+<P>
+specifies a base motion with amplitude A1 for the second degree of freedom for
+all nodes in which a homogeneous boundary condition was defined for precisely
+this degree of freedom.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamdy10bm.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3811"
+  HREF="node208.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3807"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3801"
+  HREF="node206.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3809"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3812"
+  HREF="node208.html">*BEAM SECTION</A>
+<B> Up:</B> <A NAME="tex2html3808"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3802"
+  HREF="node206.html">*AMPLITUDE</A>
+ &nbsp; <B>  <A NAME="tex2html3810"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,778 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*CONTROLS</TITLE>
+<META NAME="description" CONTENT="*CONTROLS">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node233.html">
+<LINK REL="previous" HREF="node231.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node233.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4112"
+  HREF="node233.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4108"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4102"
+  HREF="node231.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4110"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4113"
+  HREF="node233.html">*COUPLED TEMPERATURE-DISPLACEMENT</A>
+<B> Up:</B> <A NAME="tex2html4109"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4103"
+  HREF="node231.html">*CONTACT PRINT</A>
+ &nbsp; <B>  <A NAME="tex2html4111"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000824000000000000000"></A><A NAME="controls"></A>
+<BR>
+*CONTROLS
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option is used to change the iteration control parameters. It
+should only be used by those users who know what they are doing and
+are expert in the field. A detailed description of the convergence criteria is
+given in Section <A HREF="node183.html#convcrit">6.10</A>. There are two, mutually exclusive
+parameter: PARAMETERS and 
+RESET. The RESET parameter resets the control parameters to their
+defaults. The parameter PARAMETERS is used to change the
+defaults. It can take the value TIME INCREMENTATION, FIELD, LINE SEARCH,
+NETWORK, CFD or CONTACT. If the TIME INCREMENTATION value is
+selected, the number of iterations before certain actions are taken
+(e.g. the number of divergent iterations before the increment is
+reattempted) can be changed and effect of these actions (e.g. the
+increment size is divided by two). The FIELD parameter can be used to
+change the convergence criteria themselves. 
+
+<P>
+LINE SEARCH
+can be used to change the line search parameters (only for face-to-face
+penalty contact). The line search parameter scales the correction to the
+solution calculated by the Newton-Raphson algorithm such that the residual
+force is orthogonal to the correction. This requires the solution of a
+nonlinear equation, and consequently an iterative procedure. In CalculiX this
+procedure is approximated by a linear connection between:
+
+<UL>
+<LI>the scalar product of the residual force from the last iteration with
+  the solution correction in the present iteration (corresponds to a line
+  search parameter of zero) and
+</LI>
+<LI>the scalar product of the residual force in the present iteration with
+  the solution correction in the present iteration (corresponds to a line
+  search parameter of one).
+</LI>
+</UL>
+For details of the line seach algorithm the reader is referred to [<A
+ HREF="node448.html#Zienkiewicz">84</A>].
+
+<P>
+With the NETWORK parameter the convergence criteria for network
+iterations can be changed. The parameters <B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1528.png"
+ ALT="$ c_{1t}$"></B>, <B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1529.png"
+ ALT="$ c_{1f}$"></B> and <B><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1530.png"
+ ALT="$ c_{1p}$"></B>
+express the fraction of the mean energy balance, mass balance and element
+balance terms the energy balance residual, the mass balance residual and the
+element balance residual is not allowed to exceed, respectively. The parameters  <B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1539.png"
+ ALT="$ c_{2t}$"></B>,
+<B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1540.png"
+ ALT="$ c_{2f}$"></B>, <B><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1541.png"
+ ALT="$ c_{2p}$"></B> and <B><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1542.png"
+ ALT="$ c_{2a}$"></B> is the fraction of the change in temperature,
+mass flow, pressure and geometry since the beginning of the increment the 
+temperature, mass flow, pressure and geometry change in the actual network
+iteration is not allowed to exceed, respectively.
+
+<P>
+With the CFD parameter the maximum number of iterations in certain
+fluid loops can be influenced. A fluid calculation within CalculiX is
+triggered at the start of a new mechanical increment. This increment is
+subdivided into fluid increments based on the physical fluid properties. For
+each fluid increment iterations are performed. In steady state calculations
+only one iteration is performed, since no time-accurate solution is
+needed. In transient calculations iterations are performed until convergence
+of the fluid increment or until the maximum allowed number of iterations is
+reached. This is the first parameter <B><IMG
+ WIDTH="27" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1593.png"
+ ALT="$ iitt$"></B> (``transient''). In fluid
+calculations the unknowns in the equation systems are the quantities
+(velocity..) at the element centers. The values at the face centers and the
+gradients are calculated based on these element center quantities. In case the
+mesh is not orthogonal, iterations have to be performed. The number of these
+iterations is expressed by <B><IMG
+ WIDTH="29" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1594.png"
+ ALT="$ iitg$"></B> (``geometry'') and <B><IMG
+ WIDTH="29" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1595.png"
+ ALT="$ iitp$"></B> (taking
+non-orthogonality into account in the pressure correction equation,
+``pressure''). This is the second and third parameter. For a perfectly
+rectangular grid these values can be set to zero.
+
+<P>
+Finally, the CONTACT parameter is used to change defaults in the face-to-face
+penalty contact
+convergence algorithm (cf. Section <A HREF="node185.html#contactconvergence">6.10.2</A>). This relates to
+
+<UL>
+<LI>the maximum relative difference in number of contact elements to allow for
+convergence (delcon). The corresponding absolute difference, which may not be
+exceeded is defined as the number of contact elements in the previous
+iteration times delcon.
+</LI>
+<LI>the fraction of contact elements which is removed in an
+aleatoric way before repeting an increment in case of a local mimimum in the
+solution (alea)
+</LI>
+<LI>the integer factor by which the normal spring stiffness (in
+case of linear pressure-overclosure) and stick slope are reduced in case of
+divergence or too slow convergence (kscalemax)
+</LI>
+<LI>the maximum number of iterions per
+increment (itf2f). 
+</LI>
+</UL>
+
+<P>
+First line:
+
+<UL>
+<LI>*CONTROLS
+</LI>
+<LI>Enter the PARAMETERS parameter and its value, or the RESET parameter.
+</LI>
+</UL>
+
+<P>
+There are no subsequent lines if the parameter RESET is selected.
+
+<P>
+Following lines if PARAMETERS=TIME INCREMENTATION is selected:
+
+<P>
+Second line:
+
+<UL>
+<LI><B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1515.png"
+ ALT="$ I_0$"></B> iteration after which a check is made whether the
+residuals increase in two consecutive iterations (default: 4). If so,
+the increment is reattempted with <B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1596.png"
+ ALT="$ D_f$"></B> times its size.
+</LI>
+<LI><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1516.png"
+ ALT="$ I_R$"></B> iteration after which a logarithmic convergence check is
+performed in each iteration (default: 8). If more than <B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1512.png"
+ ALT="$ I_C$"></B>
+iterations are needed, the increment is reattempted with <B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1597.png"
+ ALT="$ D_C$"></B> its size.
+</LI>
+<LI><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1598.png"
+ ALT="$ I_P$"></B> iteration after which the residual tolerance <!-- MATH
+ $R^\alpha_p$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1599.png"
+ ALT="$ R^\alpha_p$"></B> is used
+instead of <!-- MATH
+ $R^\alpha_n$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1600.png"
+ ALT="$ R^\alpha_n$"></B> (default: 9).
+</LI>
+<LI><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1512.png"
+ ALT="$ I_C$"></B> maximum number of iterations allowed (default: 16).
+</LI>
+<LI><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1601.png"
+ ALT="$ I_L$"></B> number of iterations after which the size of the
+subsequent increment will be reduced (default: 10).
+</LI>
+<LI><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1602.png"
+ ALT="$ I_G$"></B> maximum number of iterations allowed in two consecutive
+increments for the size of the next increment to be increased
+(default: 4).
+</LI>
+<LI><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1603.png"
+ ALT="$ I_S$"></B> Currently not used.
+</LI>
+<LI><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1604.png"
+ ALT="$ I_A$"></B> Maximum number of cutbacks per increment (default: 5). A
+cutback is a reattempted increment.
+</LI>
+<LI><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1605.png"
+ ALT="$ I_J$"></B> Currently not used.
+</LI>
+<LI><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1606.png"
+ ALT="$ I_T$"></B> Currently not used.
+</LI>
+</UL>
+
+<P>
+Third line:
+
+<UL>
+<LI><B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1596.png"
+ ALT="$ D_f$"></B> Cutback factor if the solution seems to diverge(default: 0.25).
+</LI>
+<LI><B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1597.png"
+ ALT="$ D_C$"></B> Cutback factor if the logarithmic extrapolation predicts
+too many iterations (default: 0.5).
+</LI>
+<LI><B><IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1607.png"
+ ALT="$ D_B$"></B> Cutback factor for the next increment if more than <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1601.png"
+ ALT="$ I_L$"></B>
+iterations were needed in the current increment (default: 0.75).
+</LI>
+<LI><B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1608.png"
+ ALT="$ D_A$"></B> Cutback factor if the temperature change in two subsequent
+  increments exceeds DELTMX (default: 0.85).
+</LI>
+<LI><B><IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1609.png"
+ ALT="$ D_S$"></B> Currently not used.
+</LI>
+<LI><B><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1610.png"
+ ALT="$ D_H$"></B> Currently not used.
+</LI>
+<LI><B><IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1611.png"
+ ALT="$ D_D$"></B> Factor by which the next increment will be increased if
+less than <B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1602.png"
+ ALT="$ I_G$"></B> iterations are needed in two consecutive increments (default: 1.5).
+</LI>
+<LI><B><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1612.png"
+ ALT="$ W_G$"></B> Currently not used.
+</LI>
+</UL>
+
+<P>
+Following line if PARAMETERS=FIELD is selected:
+
+<P>
+Second line:
+
+<UL>
+<LI><!-- MATH
+ $R^{\alpha}_n$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1613.png"
+ ALT="$ R^{\alpha}_n$"></B> Convergence criterion for the ratio of the largest
+residual to the average force  (default: 0.005). The average force is
+defined as the average over all increments in the present step of the
+instantaneous force. The instantaneous force in an increment is
+defined as the mean of the absolute value of the nodal force
+components within all elements.
+</LI>
+<LI><!-- MATH
+ $C^{\alpha}_n$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1614.png"
+ ALT="$ C^{\alpha}_n$"></B> Convergence criterion for the ratio of the largest
+solution correction to the largest incremental solution value (default: 0.01).
+</LI>
+<LI><!-- MATH
+ $q^{\alpha}_0$
+ -->
+<B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1615.png"
+ ALT="$ q^{\alpha}_0$"></B> Initial value at the start of a new step of the
+time average force (default:
+ the time average force from the previous steps or 0.01 for the first step).
+</LI>
+<LI><!-- MATH
+ $q^{\alpha}_u$
+ -->
+<B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1616.png"
+ ALT="$ q^{\alpha}_u$"></B> user-defined average force. If defined, the
+calculation of the average force is replaced by this value.
+</LI>
+<LI><!-- MATH
+ $R^{\alpha}_p$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1617.png"
+ ALT="$ R^{\alpha}_p$"></B> Alternative residual convergence criterion to be
+used after <B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1598.png"
+ ALT="$ I_P$"></B> iterations instead of <!-- MATH
+ $R^\alpha_n$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1600.png"
+ ALT="$ R^\alpha_n$"></B> (default: 0.02).
+</LI>
+<LI><!-- MATH
+ $\epsilon^{\alpha}$
+ -->
+<B><IMG
+ WIDTH="20" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1618.png"
+ ALT="$ \epsilon^{\alpha}$"></B> Criterion for zero flux relative to
+<!-- MATH
+ $q^{\alpha}$
+ -->
+<B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1619.png"
+ ALT="$ q^{\alpha}$"></B> (default: <B><IMG
+ WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1620.png"
+ ALT="$ 10^{-5}$"></B>).
+</LI>
+<LI><!-- MATH
+ $C^{\alpha}_{\epsilon}$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1621.png"
+ ALT="$ C^{\alpha}_{\epsilon}$"></B> Convergence criterion for the ratio of the
+largest solution correction to the largest incremental solution value
+in case of zero flux (default: <B><IMG
+ WIDTH="38" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img779.png"
+ ALT="$ 10^{-3}$"></B>).
+</LI>
+<LI><!-- MATH
+ $R^{\alpha}_l$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1622.png"
+ ALT="$ R^{\alpha}_l$"></B> Convergence criterion for the ratio of the largest
+residual to the average force for convergence in a single iteration (default: <B><IMG
+ WIDTH="38" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1623.png"
+ ALT="$ 10^{-8}$"></B>).
+</LI>
+</UL>
+
+<P>
+Following line if PARAMETERS=LINE SEARCH is selected:
+
+<P>
+Second line:
+
+<UL>
+<LI>not used.
+</LI>
+<LI><!-- MATH
+ $s^{ls}_{max}$
+ -->
+<B><IMG
+ WIDTH="38" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1624.png"
+ ALT="$ s^{ls}_{max}$"></B> Maximum value of the line search parameter (default: 1.01).
+</LI>
+<LI><!-- MATH
+ $s^{ls}_{min}$
+ -->
+<B><IMG
+ WIDTH="36" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1625.png"
+ ALT="$ s^{ls}_{min}$"></B> Minimum value of the line search parameter (default: 0.25).
+</LI>
+<LI>not used.
+</LI>
+<LI>not used.
+</LI>
+</UL>
+
+<P>
+Following line if PARAMETERS=NETWORK is selected:
+
+<P>
+Second line:
+
+<UL>
+<LI><B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1528.png"
+ ALT="$ c_{1t}$"></B> (default: <!-- MATH
+ $5 \cdot 10^{-7}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1626.png"
+ ALT="$ 5 \cdot 10^{-7}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1529.png"
+ ALT="$ c_{1f}$"></B> (default: <!-- MATH
+ $5 \cdot 10^{-7}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1626.png"
+ ALT="$ 5 \cdot 10^{-7}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1530.png"
+ ALT="$ c_{1p}$"></B> (default: <!-- MATH
+ $5 \cdot 10^{-7}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1626.png"
+ ALT="$ 5 \cdot 10^{-7}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1539.png"
+ ALT="$ c_{2t}$"></B> (default: <!-- MATH
+ $5 \cdot 10^{-7}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1626.png"
+ ALT="$ 5 \cdot 10^{-7}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1540.png"
+ ALT="$ c_{2f}$"></B> (default: <!-- MATH
+ $5 \cdot 10^{-7}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1626.png"
+ ALT="$ 5 \cdot 10^{-7}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1541.png"
+ ALT="$ c_{2p}$"></B> (default: <!-- MATH
+ $5 \cdot 10^{-7}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1626.png"
+ ALT="$ 5 \cdot 10^{-7}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1542.png"
+ ALT="$ c_{2a}$"></B> (default: <!-- MATH
+ $5 \cdot 10^{-7}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1626.png"
+ ALT="$ 5 \cdot 10^{-7}$"></B>).
+</LI>
+</UL>
+
+<P>
+Third line:
+
+<UL>
+<LI><B><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1533.png"
+ ALT="$ a_{1t}$"></B> (default: <B><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1536.png"
+ ALT="$ 10^{20}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1534.png"
+ ALT="$ a_{1f}$"></B> (default: <B><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1536.png"
+ ALT="$ 10^{20}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1535.png"
+ ALT="$ a_{1p}$"></B> (default: <B><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1536.png"
+ ALT="$ 10^{20}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1545.png"
+ ALT="$ a_{2t}$"></B> (default: <B><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1536.png"
+ ALT="$ 10^{20}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1546.png"
+ ALT="$ a_{2f}$"></B> (default: <B><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1536.png"
+ ALT="$ 10^{20}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1547.png"
+ ALT="$ a_{2p}$"></B> (default: <B><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1536.png"
+ ALT="$ 10^{20}$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="33" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1627.png"
+ ALT="$ a_{2ac}$"></B> (default: <B><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1536.png"
+ ALT="$ 10^{20}$"></B>).
+</LI>
+</UL>
+
+<P>
+Following line if PARAMETERS=CFD is selected:
+
+<P>
+Second line:
+
+<UL>
+<LI><B><IMG
+ WIDTH="27" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1593.png"
+ ALT="$ iitt$"></B> (default: <B><IMG
+ WIDTH="20" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1628.png"
+ ALT="$ 20$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="29" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1594.png"
+ ALT="$ iitg$"></B> (default: <B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1200.png"
+ ALT="$ 1$"></B>).
+</LI>
+<LI><B><IMG
+ WIDTH="29" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1595.png"
+ ALT="$ iitp$"></B> (default: <B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1200.png"
+ ALT="$ 1$"></B>).
+</LI>
+</UL>
+
+<P>
+Following line if PARAMETERS=CONTACT is selected:
+
+<P>
+Second line:
+
+<UL>
+<LI>delcon (<B><IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1629.png"
+ ALT="$ \ge 0$"></B>; default: <B><IMG
+ WIDTH="41" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1630.png"
+ ALT="$ 0.001$"></B>).
+</LI>
+<LI>alea (<B><IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1631.png"
+ ALT="$ 0 \le$"></B> alea <B><IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1632.png"
+ ALT="$ \le 1$"></B>; default: <B><IMG
+ WIDTH="25" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1633.png"
+ ALT="$ 0.1$"></B>).
+</LI>
+<LI>kscalemax (<B><IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1634.png"
+ ALT="$ \ge 1$"></B>, integer; default: <B><IMG
+ WIDTH="28" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1587.png"
+ ALT="$ 100$"></B>).
+</LI>
+<LI>itf2f (<B><IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1634.png"
+ ALT="$ \ge 1$"></B>, integer; default: <B><IMG
+ WIDTH="20" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1635.png"
+ ALT="$ 60$"></B>).
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*CONTROLS,PARAMETERS=FIELD
+1.e30,1.e30,0.01,,0.02,1.e-5,1.e-3,1.e-8
+</PRE>
+
+<P>
+leads to convergence in just one iteration since nearly any residuals
+are accepted for convergence (<!-- MATH
+ $R^{\alpha}_n=10^{30}$
+ -->
+<B><IMG
+ WIDTH="76" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1636.png"
+ ALT="$ R^{\alpha}_n=10^{30}$"></B> and
+<!-- MATH
+ $C^{\alpha}_n=10^{30}$
+ -->
+<B><IMG
+ WIDTH="77" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1637.png"
+ ALT="$ C^{\alpha}_n=10^{30}$"></B>. 
+
+<P>
+
+<P><P>
+<BR>
+Example files: beammrco.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4112"
+  HREF="node233.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4108"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4102"
+  HREF="node231.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4110"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4113"
+  HREF="node233.html">*COUPLED TEMPERATURE-DISPLACEMENT</A>
+<B> Up:</B> <A NAME="tex2html4109"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4103"
+  HREF="node231.html">*CONTACT PRINT</A>
+ &nbsp; <B>  <A NAME="tex2html4111"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

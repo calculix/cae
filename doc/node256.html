@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*EL PRINT</TITLE>
+<META NAME="description" CONTENT="*EL PRINT">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node257.html">
+<LINK REL="previous" HREF="node255.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node257.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4400"
+  HREF="node257.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4396"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4390"
+  HREF="node255.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4398"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4401"
+  HREF="node257.html">*ELSET</A>
+<B> Up:</B> <A NAME="tex2html4397"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4391"
+  HREF="node255.html">*EL FILE</A>
+ &nbsp; <B>  <A NAME="tex2html4399"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000848000000000000000"></A><A NAME="elprint"></A>
+<BR>
+*EL PRINT
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option is used to print selected element variables in an ASCII
+file with the name jobname.dat. Some of the element variables are
+printed in the integration points, some are whole element variables.
+The following  variables can be selected:
+
+<UL>
+<LI>Integration point variables
+
+<P>
+
+<UL>
+<LI>true (Cauchy) stress in structures (key=S). 
+</LI>
+<LI>viscous stress in CFD calculations (key=SVF). 
+</LI>
+<LI>strain (key=E). This is the total Lagrangian strain for (hyper)elastic
+materials and incremental plasticity and the total Eulerian strain for deformation plasticity.
+</LI>
+<LI>strain (key=ME). This is the mechanical Lagrangian strain for (hyper)elastic
+materials and incremental plasticity and the mechanical Eulerian strain for
+deformation plasticity (mechanical strain = total strain - thermal strain).
+</LI>
+<LI>equivalent plastic strain (key=PEEQ)
+</LI>
+<LI>equivalent creep strain (key=CEEQ; is converted internally into PEEQ
+  since the viscoplastic theory does not distinguish between the two;
+  consequently, the user will find PEEQ in the dat file, not CEEQ)
+</LI>
+<LI>the energy density (key=ENER)
+</LI>
+<LI>the internal state variables (key=SDV)
+</LI>
+<LI>heat flux (key=HFL). This also applies to CFD-calculations involving
+  heat transfer.
+</LI>
+</UL>
+
+<P>
+</LI>
+<LI>Whole element variables
+
+<P>
+
+<UL>
+<LI>the internal energy (key=ELSE)
+</LI>
+<LI>the kinetic energy (key=ELKE)
+</LI>
+<LI>the volume (key=EVOL)
+</LI>
+<LI>the heating power (key=EBHE)
+</LI>
+</UL>
+
+<P>
+</LI>
+</UL>
+
+<P>
+The keys ENER and ELSE trigger the calculation of the internal
+energy. If they are
+absent no internal energy is calculated. Since in nonlinear
+calculations the internal energy at any time depends on the
+accumulated energy at all previous times, the selection of ENER and/or
+ELSE in
+nonlinear calculations (geometric or material nonlinearities) must
+be made in the first step.
+
+<P>
+There are six parameters, ELSET, FREQUENCY, FREQUENCYF, TOTALS, GLOBAL and TIME POINTS. The parameter ELSET is required, defining the set of elements for which these stresses should be printed. If this card is omitted, no values are printed. Several *EL PRINT cards can be used within one and the same step.
+
+<P>
+The parameters FREQUENCY and TIME POINTS are mutually exclusive. 
+
+<P>
+The FREQUENCY parameter is optional and applies to
+nonlinear calculations where a step can consist of several
+increments. Default is FREQUENCY=1, which indicates that the results
+of all increments will be stored. FREQUENCY=N with N an integer
+indicates that the results of every Nth increment will be stored. The
+final results of a step are always stored. If you only want the final
+results, choose N very big. 
+The value of N applies to 
+<A HREF="node299.html#output">*OUTPUT</A>,<A HREF="node254.html#elementoutput">*ELEMENT OUTPUT</A>, 
+<A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="#elprint">*ELPRINT</A>, 
+<A HREF="node293.html#nodeoutput">*NODE OUTPUT</A>,
+<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node294.html#nodeprint">*NODE PRINT</A>,
+<A HREF="node308.html#sectionprint">*SECTION PRINT</A>,<A HREF="node229.html#contactoutput">*CONTACT OUTPUT</A>,
+<A HREF="node228.html#contactfile">*CONTACT FILE</A> and <A HREF="node231.html#contactprint">*CONTACT PRINT</A>. 
+If the FREQUENCY parameter is used
+for more than one of these keywords with conflicting values of N, the
+last value applies to all. A frequency parameter stays active across several steps
+until it is overwritten by another FREQUENCY value or the TIME POINTS parameter.
+
+<P>
+The 3D fluid analogue of FREQUENCY is FREQUENCYF. In coupled calculations
+FREQUENCY applies to the thermomechanical output, FREQUENCYF to the 3D fluid output.
+
+<P>
+The optional parameter TOTALS only applies to whole element variables. If
+TOTALS=YES the sum of the variables for the whole element set is
+printed in addition to their value for each element in the set
+separately. If TOTALS=ONLY is selected the sum is printed but the
+individual element contributions are not. If TOTALS=NO (default) the
+individual contributions are printed, but their sum is not.
+
+<P>
+With the parameter GLOBAL (optional) you tell the program whether you would like the
+results in the global rectangular coordinate system or in the local element
+system. If an <A HREF="node298.html#orientation">*ORIENTATION</A> card is applied to the element at stake, this card defines
+the local system. If no *ORIENTATION card is applied to the
+element, the local system coincides with the global rectangular
+system. Default value for the GLOBAL parameter is GLOBAL=NO,
+which means that the results are stored in the local system. If you prefer the
+results in the global system, specify GLOBAL=YES. If the results are stored in
+the local system the first 10 characters of the name of the applicable
+orientation are listed at the end of the line.
+
+<P>
+With the parameter TIME POINTS a time point sequence can be referenced,
+defined by a 
+<A HREF="node327.html#timepoints">*TIME POINTS</A> keyword. In that case, output will be
+provided for all time points of the sequence within the step and additionally at the end of
+the step. No other output will be stored and the FREQUENCY parameter is not
+taken into account. Within a step only one time point sequence can be active. If more than
+one is specified, the last one defined on any of the keyword cards
+<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A>,  <A HREF="#elprint">*EL PRINT</A> or <A HREF="node308.html#sectionprint">*SECTION PRINT</A> will be active. The TIME
+POINTS option should not be used together with the DIRECT option on the
+procedure card.  The TIME POINTS parameters stays active across several steps
+until it is replaced by another TIME POINTS value or the FREQUENCY parameter.
+
+<P>
+The first occurrence of an *EL FILE keyword card within a step wipes
+out all previous element variable selections for print output. If no
+*EL FILE card is used within a step the selections of the previous
+step apply, if any.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*EL PRINT
+</LI>
+<LI>Enter the parameter ELSET and its value.
+</LI>
+</UL>
+Second line:
+
+<UL>
+<LI>Identifying keys for the variables to be printed, separated by commas.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*EL PRINT,ELSET=Copper
+E
+</PRE>
+
+<P>
+requests to store the strains at the integration points in the elements of set Copper in the .dat file.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beampt, beamrb, beamt4.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4400"
+  HREF="node257.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4396"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4390"
+  HREF="node255.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4398"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4401"
+  HREF="node257.html">*ELSET</A>
+<B> Up:</B> <A NAME="tex2html4397"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4391"
+  HREF="node255.html">*EL FILE</A>
+ &nbsp; <B>  <A NAME="tex2html4399"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

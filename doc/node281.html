@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*MASS FLOW</TITLE>
+<META NAME="description" CONTENT="*MASS FLOW">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node282.html">
+<LINK REL="previous" HREF="node280.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node282.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4700"
+  HREF="node282.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4696"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4690"
+  HREF="node280.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4698"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4701"
+  HREF="node282.html">*MATERIAL</A>
+<B> Up:</B> <A NAME="tex2html4697"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4691"
+  HREF="node280.html">*MASS</A>
+ &nbsp; <B>  <A NAME="tex2html4699"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000873000000000000000"></A><A NAME="massflow"></A>
+<BR>
+*MASS FLOW
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option allows the specification of a mass flow through a face in 3-D Navier-Stokes calculations. 
+
+<P>
+In order to specify which face the flow is entering or leaving the
+faces are numbered. The numbering depends on the element type.
+
+<P>
+For hexahedral elements the faces are numbered as follows (numbers are
+node numbers):
+
+<UL>
+<LI>Face 1: 1-2-3-4
+</LI>
+<LI>Face 2: 5-8-7-6
+</LI>
+<LI>Face 3: 1-5-6-2
+</LI>
+<LI>Face 4: 2-6-7-3
+</LI>
+<LI>Face 5: 3-7-8-4
+</LI>
+<LI>Face 6: 4-8-5-1
+</LI>
+</UL>
+
+<P>
+for tetrahedral elements:
+
+<UL>
+<LI>Face 1: 1-2-3
+</LI>
+<LI>Face 2: 1-4-2
+</LI>
+<LI>Face 3: 2-4-3
+</LI>
+<LI>Face 4: 3-4-1
+</LI>
+</UL>
+
+<P>
+for wedge elements:
+
+<UL>
+<LI>Face 1: 1-2-3
+</LI>
+<LI>Face 2: 4-5-6
+</LI>
+<LI>Face 3: 1-2-5-4
+</LI>
+<LI>Face 4: 2-3-6-5
+</LI>
+<LI>Face 5: 3-1-4-6
+</LI>
+</UL>
+
+<P>
+The mass flow is entered as a uniform flow with flow
+type label Mx where x is the number of the face. Right now, only zero mass
+flow is allowed, i.e. no flow is entering or leaving the domain. There are no
+parameters for this keyword card.
+
+<P>
+In order to apply a mass flow to a surface the element set label
+underneath may be replaced by a surface name. In that case the
+mass flow type label takes the value ``M'' without any number following.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*MASS FLOW
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Element number or element set label.
+</LI>
+<LI>Mass flow type label.
+</LI>
+<LI>Zero.
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*MASS FLOW
+20,M2
+</PRE>
+
+<P>
+assigns a zero mass flow to face 2 of element 20.
+
+<P>
+
+<P><P>
+<BR>
+Example files: bumpsubfine (large fluid examples).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4700"
+  HREF="node282.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4696"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4690"
+  HREF="node280.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4698"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4701"
+  HREF="node282.html">*MATERIAL</A>
+<B> Up:</B> <A NAME="tex2html4697"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4691"
+  HREF="node280.html">*MASS</A>
+ &nbsp; <B>  <A NAME="tex2html4699"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

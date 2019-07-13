@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*CONTACT PAIR</TITLE>
+<META NAME="description" CONTENT="*CONTACT PAIR">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node231.html">
+<LINK REL="previous" HREF="node229.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node231.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4088"
+  HREF="node231.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4084"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4078"
+  HREF="node229.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4086"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4089"
+  HREF="node231.html">*CONTACT PRINT</A>
+<B> Up:</B> <A NAME="tex2html4085"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4079"
+  HREF="node229.html">*CONTACT OUTPUT</A>
+ &nbsp; <B>  <A NAME="tex2html4087"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000822000000000000000"></A><A NAME="contactpair"></A>
+<BR>
+*CONTACT PAIR
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option is used to express that two surfaces can make contact. There are
+two required parameters: INTERACTION and TYPE, and two optional
+parameters: SMALL SLIDING and ADJUST. The dependent surface is called the slave surface,
+the independent surface is the master surface. 
+Surfaces are defined using the <A HREF="node322.html#surface">*SURFACE</A> keyword card. The dependent
+surface can be defined as a nodal surface (option TYPE=NODE on the *SURFACE
+keyword) or as an element face surface (default for the *SURFACE card),
+whereas the independent surface has to be defined as an element face
+surface. If you are using quadratic elements, or if you select face-to-face
+contact, however,
+the slave surface has to be defined based on element faces and not on nodes.
+
+<P>
+If the master surface is made up of edges of axisymmetric elements make sure
+that none of the edges contains nodes on the axis of symmetry. Indeed, such
+edges are expanded into collapsed quadrilaterals the normals on which cannot
+be determined in the usual way.  
+
+<P>
+The INTERACTION parameter takes the name of the surface interaction (keyword
+<A HREF="node324.html#surfaceinteraction">*SURFACE INTERACTION</A>) which applies to the
+contact pair. The surface interaction defines the nature of the contact
+(hard versus soft contact..)
+
+<P>
+The TYPE parameter can take the value NODE TO SURFACE or SURFACE TO
+SURFACE. NODE TO SURFACE triggers node-to-face penalty contact, SURFACE TO
+SURFACE face-to-face penalty contact. Notice that although several *CONTACT
+PAIR cards can be used within one and the same input deck, all must be of the
+same type. It is not allowed to mix NODE TO SURFACE and SURFACE TO SURFACE
+penalty contact within one and the same input deck.
+
+<P>
+The SMALL SLIDING parameter only applies to node-to-face penalty contact. If it is not active, the
+contact is large sliding. This means that the pairing between the nodes
+belonging to the dependent surface and faces of the independent surface is
+performed anew in every iteration. If the SMALL SLIDING parameter is active,
+the pairing is done once at the start of every increment and kept during the
+complete increment. SMALL SLIDING usually converges better than LARGE SLIDING, since
+changes in the pairing can deteriorate the convergence rate.
+
+<P>
+The ADJUST parameter allows the user to move selected slave nodes at
+the start of the calculation (i.e. at the start of the first step) such that they make contact with the master
+surface. This is a change of coordinates, i.e. the geometry of the structure
+at the start of the calculation is changed. This can be helpful if due to
+inaccuracies in the modeling a slave node which should lie on the master
+surface at the start of the calculation actually does not. Especially in
+static calculations this can lead to a failure to detect contact in the first
+increment and large displacements (i.e. acceleration due to a failure to
+establish equilibrium). These large displacements may jeopardize convergence in
+any subsequent iteration. The ADJUST parameter can be used with a node set as
+argument or with a nonnegative real number. If a node set is selected, all
+nodes in the set are adjusted at the start of the calculation. If a real
+number is specified, all nodes for which the clearance is smaller or equal to
+this number are adjusted. Penetration is interpreted as a negative clearance
+and consequently all penetrating nodes are always adjusted, no matter how
+small the adjustment size (which must be nonnegative). Notice that large
+adjustments can lead to deteriorated element quality. The adjustments are done
+along a vector through the slave node and locally orthogonal to the master surface.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*CONTACT PAIR
+</LI>
+<LI>enter the required parameter INTERACTION and any optional parameters.
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Name of the slave surface (can be nodal or element face based).
+</LI>
+<LI>Name of the master surface (must be based on element faces).
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*CONTACT PAIR,INTERACTION=IN1,ADJUST=0.01
+dep,ind
+</PRE>
+
+<P>
+defines a contact pair consisting of the surface dep as dependent
+surface and the element face surface ind as independent surface. The name of
+the surface interaction is IN1. All slave nodes for which the clearance is
+smaller than or equal to 0.01 will be moved onto the master surface.
+
+<P>
+
+<P><P>
+<BR>
+Example files: contact1, contact2.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4088"
+  HREF="node231.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4084"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4078"
+  HREF="node229.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4086"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4089"
+  HREF="node231.html">*CONTACT PRINT</A>
+<B> Up:</B> <A NAME="tex2html4085"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4079"
+  HREF="node229.html">*CONTACT OUTPUT</A>
+ &nbsp; <B>  <A NAME="tex2html4087"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

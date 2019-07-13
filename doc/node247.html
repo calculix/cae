@@ -1,0 +1,536 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*DLOAD</TITLE>
+<META NAME="description" CONTENT="*DLOAD">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node248.html">
+<LINK REL="previous" HREF="node246.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node248.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4292"
+  HREF="node248.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4288"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4282"
+  HREF="node246.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4290"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4293"
+  HREF="node248.html">*DSLOAD</A>
+<B> Up:</B> <A NAME="tex2html4289"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4283"
+  HREF="node246.html">*DISTRIBUTING COUPLING</A>
+ &nbsp; <B>  <A NAME="tex2html4291"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000839000000000000000"></A><A NAME="dload"></A>
+<BR>
+*DLOAD
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option allows the specification of distributed loads. These include
+constant pressure loading on element faces, edge loading on shells and mass loading (load per unit
+mass) either by gravity forces or by centrifugal forces. 
+
+<P>
+For surface loading the faces of the elements are numbered as follows (for the
+node numbering of the elements see Section 3.1):
+
+<P>
+for hexahedral elements:
+
+<P>
+
+<UL>
+<LI>face 1: 1-2-3-4
+</LI>
+<LI>face 2: 5-8-7-6
+</LI>
+<LI>face 3: 1-5-6-2
+</LI>
+<LI>face 4: 2-6-7-3
+</LI>
+<LI>face 5: 3-7-8-4
+</LI>
+<LI>face 6: 4-8-5-1
+</LI>
+</UL>
+
+<P>
+for tetrahedral elements:
+
+<UL>
+<LI>Face 1: 1-2-3
+</LI>
+<LI>Face 2: 1-4-2
+</LI>
+<LI>Face 3: 2-4-3
+</LI>
+<LI>Face 4: 3-4-1
+</LI>
+</UL>
+
+<P>
+for wedge elements:
+
+<UL>
+<LI>Face 1: 1-2-3
+</LI>
+<LI>Face 2: 4-5-6
+</LI>
+<LI>Face 3: 1-2-5-4
+</LI>
+<LI>Face 4: 2-3-6-5
+</LI>
+<LI>Face 5: 3-1-4-6
+</LI>
+</UL>
+for quadrilateral plane stress, plane strain and axisymmetric elements:
+
+<UL>
+<LI>Face 1: 1-2
+</LI>
+<LI>Face 2: 2-3
+</LI>
+<LI>Face 3: 3-4
+</LI>
+<LI>Face 4: 4-1
+</LI>
+</UL>
+
+<P>
+for triangular plane stress, plane strain and axisymmetric elements:
+
+<UL>
+<LI>Face 1: 1-2
+</LI>
+<LI>Face 2: 2-3
+</LI>
+<LI>Face 3: 3-1
+</LI>
+</UL>
+
+<P>
+for beam elements:
+
+<UL>
+<LI>Face 1: pressure in 1-direction
+</LI>
+<LI>Face 2: pressure in 2-direction
+</LI>
+</UL>
+
+<P>
+For shell elements no face number is needed since there is only one kind of loading:
+pressure in the direction of the normal on the shell. 
+
+<P>
+The surface loading is entered as a uniform pressure with distributed
+load type label Px where x is the number of the face. Thus, for
+pressure loading the magnitude of the load is positive, for tension
+loading it is negative. For nonuniform pressure the label takes the
+form PxNUy, and the user subroutine <A HREF="node346.html#userdload">dload.f</A> must be provided. The label can be up to 20 characters long. In
+particular, y can be used to distinguish different nonuniform loading
+patterns (maximum 16 characters). A typical
+example of a nonuniform loading is the hydrostatic pressure. Another option is to assign the pressure of a fluid node to an element
+side. In that case the label takes the form PxNP, where NP stands for network
+pressure. The fluid node must be an corner node of a network element. Instead of a
+concrete pressure value the user must provide the fluid node number.
+
+<P>
+Edge loading is only provided for shell elements. Its units are force per unit
+length. The label is EDNORx where x can take a value between one and three for
+triangular shells and between one and four for quadrilateral shells. This type
+of loading is locally orthogonal to the edge. Internally, it is replaced by a
+pressure load, since shell elements in CalculiX are expanded into volumetric elements. The
+numbering is as follows:
+
+<P>
+for triangular shell elements:
+
+<UL>
+<LI>Edge 1: 1-2
+</LI>
+<LI>Edge 2: 2-3
+</LI>
+<LI>Edge 3: 3-1
+</LI>
+</UL>
+
+<P>
+for quadrilateral shell elements:
+
+<UL>
+<LI>Edge 1: 1-2
+</LI>
+<LI>Edge 2: 2-3
+</LI>
+<LI>Edge 3: 3-4
+</LI>
+<LI>Edge 4: 4-1
+</LI>
+</UL>
+
+<P>
+For centrifugal loading (label CENTRIF) the rotational speed square (<B><IMG
+ WIDTH="22" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1573.png"
+ ALT="$ \omega^2$"></B>) and two
+points on the rotation axis are required, for gravity loading with known
+gravity vector (label GRAV) the size and direction of the gravity vector are to be
+given. Whereas more than one centrifugal load for one and the same set is not
+allowed, several gravity loads can be defined, provided the direction of the
+load varies. If the gravity vector is not known it can be calculated based on the
+momentaneous mass distribution of the system (label NEWTON). This requires the
+value of the Newton gravity constant by means of a <A HREF="node300.html#physicalconstants">*PHYSICAL
+  CONSTANTS</A> card.
+
+<P>
+The limit of one centrifugal load per set does not apply to linear dynamic
+(<A HREF="node285.html#modaldynamic">*MODAL DYNAMIC</A>) and steady state (<A HREF="node317.html#steadystatedynamics">*STEADY
+  STATE DYNAMICS</A>) calculations. Here, the limit is two. In this way a
+rotating eccentricity can be modeled. Prerequisite for the centrifugal loads to
+be interpreted as distinct is the choice of distinct rotation axes.
+
+<P>
+Optional parameters are OP, AMPLITUDE, TIME DELAY, LOAD CASE and SECTOR. OP takes the value NEW or
+MOD. OP=MOD is default. For surface loads it 
+implies that the loads on different faces are kept from the previous step. Specifying a
+distributed load on a face for which such a load was defined in a
+previous step replaces this value, if a load was defined on the same face
+within the same step it is added. OP=NEW implies that all previous
+surface loading is removed. For mass loading the effect is similar. If multiple *DLOAD cards are present in a
+step this parameter takes effect for the first *DLOAD card only. 
+
+<P>
+The AMPLITUDE parameter allows for the specification of an amplitude
+by which the force values are scaled (mainly used for dynamic
+calculations). Thus, in that case the values entered on the *DLOAD
+card are interpreted as reference values to be multiplied with the
+(time dependent) amplitude value to obtain the actual value. At the
+end of the step the reference value is replaced by the actual value at
+that time. In subsequent
+steps this value is kept constant unless it is explicitly redefined or the
+amplitude is defined using TIME=TOTAL TIME in which case the amplitude keeps
+its validity. For nonuniform loading the
+AMPLITUDE parameter has no effect.
+
+<P>
+The TIME DELAY parameter modifies the AMPLITUDE parameter. As such, TIME DELAY
+must be preceded by an AMPLITUDE name. TIME DELAY is a time shift by which the
+AMPLITUDE definition it refers to is moved in positive time direction. For
+instance, a TIME DELAY of 10 means that for time t the amplitude is taken
+which applies to time t-10. The TIME DELAY parameter must only appear once on
+one and the same keyword card.
+
+<P>
+The LOAD CASE parameter is only active in <A HREF="node317.html#steadystatedynamics">*STEADY STATE
+ DYNAMICS</A> calculations with harmonic loading. LOAD CASE = 1 means that the
+ loading is real or in-phase.  LOAD CASE = 2 indicates that the load is
+ imaginary or equivalently phase-shifted by <B><IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img570.png"
+ ALT="$ 90 ^\circ$"></B>. Default is LOAD CASE =
+ 1. 
+
+<P>
+The SECTOR parameter can only be used in <A HREF="node285.html#modaldynamic">*MODAL
+DYNAMIC</A> and <A HREF="node317.html#steadystatedynamics">*STEADY STATE
+DYNAMICS</A> calculations with cyclic symmetry. The datum
+sector (the sector which is modeled) is sector 1. The other sectors are
+numbered in increasing order in the rotational direction going from the slave
+surface to the master surface as specified by the <A HREF="node326.html#tie">*TIE</A>
+card. Consequently, the SECTOR parameters allows to apply a distributed load to any
+element face in any sector.
+
+<P>
+Notice that in case an element set is used on any line following *DLOAD this
+set should not contain elements from more than one of the following groups:
+{plane stress, plane strain, axisymmetric elements}, {beams, trusses},
+{shells, membranes}, {volumetric elements}.
+
+<P>
+If more than one *DLOAD card occurs within the input deck, or a *DLOAD and at
+least one
+*DSLOAD card, the following rules apply:
+
+<P>
+If a *DLOAD or *DSLOAD with label P1 up to P6 or EDNOR1 up to EDNOR4 or BF is
+applied to an element for which a *DLOAD or *DSLOAD with the SAME label was
+already applied before, then
+
+<UL>
+<LI>if the previous application was in the same step the load value is
+  added, else it is replaced
+</LI>
+<LI>the new amplitude (including none) overwrites the previous amplitude
+</LI>
+</UL>
+
+<P>
+If a *DLOAD with label CENTRIF is applied to the same set AND with the same 
+rotation axis as in a previous application, then
+
+<UL>
+<LI>If the prevous application was in the same step, the CENTRIF value is 
+added, else it is replaced
+</LI>
+<LI>the new amplitude (including none) overwrites the previous amplitude
+</LI>
+</UL>
+
+<P>
+If a *DLOAD with label GRAV is applied to the same set AND with the same 
+gravity direction vector as in a previous application, then
+
+<UL>
+<LI>If the prevous application was in the same step, the GRAV value is 
+added, else it is replaced
+</LI>
+<LI>the new amplitude (including none) overwrites the previous amplitude
+</LI>
+</UL>
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*DLOAD
+</LI>
+<LI>Enter any needed parameters and their value
+</LI>
+</UL>
+
+<P>
+Following line for surface loading:
+
+<UL>
+<LI>Element number or element set label.
+</LI>
+<LI>Distributed load type label.
+</LI>
+<LI>Actual magnitude of the load (for Px type labels) or fluid node number (for PxNU type labels)
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*DLOAD,AMPLITUDE=A1
+Se1,P3,10.
+</PRE>
+
+<P>
+assigns a pressure loading with magnitude 10. times the amplitude curve of amplitude A1 to face number three of all elements belonging to set Se1.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamd.
+
+<P>
+
+<P><P>
+<BR>
+Following line for centrifugal loading:
+
+<UL>
+<LI>Element number or element set label.
+</LI>
+<LI>CENTRIF
+</LI>
+<LI>rotational speed square (<B><IMG
+ WIDTH="22" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1573.png"
+ ALT="$ \omega^2$"></B>)
+</LI>
+<LI>Coordinate 1 of a point on the rotation axis
+</LI>
+<LI>Coordinate 2 of a point on the rotation axis
+</LI>
+<LI>Coordinate 3 of a point on the rotation axis
+</LI>
+<LI>Component 1 of the normalized direction of the rotation axis
+</LI>
+<LI>Component 2 of the normalized direction of the rotation axis
+</LI>
+<LI>Component 3 of the normalized direction of the rotation axis
+</LI>
+</UL>
+Repeat this line if needed. 
+
+<P>
+<PRE>
+Example:
+
+*DLOAD
+Eall,CENTRIF,100000.,0.,0.,0.,1.,0.,0.
+</PRE>
+
+<P>
+
+<P><P>
+<BR>
+Example files: achtelc, disk2.
+
+<P>
+assigns centrifugal loading with <!-- MATH
+ $\omega^2=100000.$
+ -->
+<B><IMG
+ WIDTH="96" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1663.png"
+ ALT="$ \omega^2=100000.$"></B> about an axis
+through the point (0.,0.,0.) and with direction (1.,0.,0.) to all elements. 
+
+<P>
+
+<P><P>
+<BR>
+Following line for gravity loading with known gravity vector:
+
+<UL>
+<LI>Element number or element set label.
+</LI>
+<LI>GRAV
+</LI>
+<LI>Actual magnitude of the gravity vector.
+</LI>
+<LI>Coordinate 1 of the normalized gravity vector
+</LI>
+<LI>Coordinate 2 of the normalized gravity vector
+</LI>
+<LI>Coordinate 3 of the normalized gravity vector
+</LI>
+</UL>
+Repeat this line if needed. Here "gravity" really stands for any acceleration vector. 
+
+<P>
+<PRE>
+Example:
+
+*DLOAD
+Eall,GRAV,9810.,0.,0.,-1.
+</PRE>
+
+<P>
+assigns gravity loading in the negative z-direction with magnitude 9810. to all elements.
+
+<P>
+
+<P><P>
+<BR>
+Example files: achtelg, cube2.
+
+<P>
+
+<P><P>
+<BR>
+Following line for gravity loading based on the momentaneous mass distribution:
+
+<UL>
+<LI>Element number or element set label.
+</LI>
+<LI>NEWTON
+</LI>
+</UL>
+Repeat this line if needed. Only elements loaded by a NEWTON type loading are
+taken into account for the gravity calculation.
+
+<P>
+<PRE>
+Example:
+
+*DLOAD
+Eall,NEWTON
+</PRE>
+
+<P>
+triggers the calculation of gravity forces due to all mass belonging to the
+element of element set Eall.
+
+<P>
+
+<P><P>
+<BR>
+Example files: cubenewt.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4292"
+  HREF="node248.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4288"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4282"
+  HREF="node246.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4290"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4293"
+  HREF="node248.html">*DSLOAD</A>
+<B> Up:</B> <A NAME="tex2html4289"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4283"
+  HREF="node246.html">*DISTRIBUTING COUPLING</A>
+ &nbsp; <B>  <A NAME="tex2html4291"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Cantilever beam</TITLE>
+<META NAME="description" CONTENT="Cantilever beam">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node8.html">
+<LINK REL="previous" HREF="node6.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node8.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html956"
+  HREF="node8.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html952"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html946"
+  HREF="node6.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html954"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html957"
+  HREF="node8.html">Frequency calculation of a</A>
+<B> Up:</B> <A NAME="tex2html953"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html947"
+  HREF="node6.html">Simple example problems</A>
+ &nbsp; <B>  <A NAME="tex2html955"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00061000000000000000">
+Cantilever beam</A>
+</H2>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="beam1"></A><A NAME="11742"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 1:</STRONG>
+Geometry and boundary conditions of the beam problem</CAPTION>
+<TR><TD><IMG
+ WIDTH="451" HEIGHT="154" BORDER="0"
+ SRC="img80.png"
+ ALT="\begin{figure}\epsfig{file=Beam1.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="beam2"></A><A NAME="11743"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2:</STRONG>
+Mesh for the beam</CAPTION>
+<TR><TD><IMG
+ WIDTH="454" HEIGHT="414" BORDER="0"
+ SRC="img81.png"
+ ALT="\begin{figure}\epsfig{file=Beam2.ps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In this section, a cantilever beam loaded by point forces at its free end is
+analyzed. 
+
+<P>
+The geometry, loading and boundary conditions of the cantilever beam are shown in Figure
+<A HREF="#beam1">1</A>. The size of the beam is 1x1x8 <IMG
+ WIDTH="26" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img82.png"
+ ALT="$ m^3$">, the loading consists of a
+point force of <!-- MATH
+ $9 \times 10^6$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img83.png"
+ ALT="$ 9 \times 10^6$"> N and the beam is completely fixed (in all directions) on the left end. Let us take 1 m and 1 MN as units of length and force, respectively. Assume that the beam geometry was generated and meshed with CalculiX GraphiX (cgx) resulting in the mesh in Figure <A HREF="#beam2">2</A>. For reasons of clarity, only element labels are displayed.
+
+<P>
+A CalculiX input deck basically consists of a model definition section describing the geometry and boundary conditions of the problem and one or more steps (Figure <A HREF="#beam3">3</A>) defining the loads.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="beam3"></A><A NAME="11744"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3:</STRONG>
+Structure of a CalculiX input deck</CAPTION>
+<TR><TD><IMG
+ WIDTH="360" HEIGHT="844" BORDER="0"
+ SRC="img84.png"
+ ALT="\begin{figure}\epsfig{file=Beam3.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The model definition section starts at the beginning of the file and ends at the occurrence of the first *STEP card. All input is preceded by keyword cards, which all start with an asterisk (*), indicating the kind of data which follows. *STEP is such a keyword card. Most keyword cards are either model definition cards (i.e. they can only occur before the first *STEP card) or step cards (i.e. they can only occur between *STEP and *END STEP cards). A few can be both.
+
+<P>
+In our example (Figure <A HREF="#beam4">4</A>), the first keyword card is *HEADING, followed by a short description of the problem. This has no effect on the output and only serves for identification. Then, the coordinates are given as triplets preceded by the *NODE keyword. Notice that data on the same line are separated by commas and must not exceed a record length of 132 columns. A keyword card can be repeated as often as needed. For instance, each node could have been preceded by its own *NODE keyword card.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="beam4"></A><A NAME="11745"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 4:</STRONG>
+Beam input deck</CAPTION>
+<TR><TD><IMG
+ WIDTH="511" HEIGHT="585" BORDER="0"
+ SRC="img85.png"
+ ALT="\begin{figure}\epsfig{file=BeamInputDeck.ps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="beam5"></A><A NAME="11746"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 5:</STRONG>
+Deformation of the beam</CAPTION>
+<TR><TD><IMG
+ WIDTH="407" HEIGHT="349" BORDER="0"
+ SRC="img86.png"
+ ALT="\begin{figure}\epsfig{file=Beam5.ps,width=9cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Next, the topology is defined by use of the keyword card *ELEMENT. Defining the topology means listing for each element its type, which nodes belong to the element and in what order. The element type is a parameter on the keyword card. In the beam case 20-node brick elements with reduced integration have been used, abbreviated as C3D20R. In addition, by adding ELSET=Eall, all elements following the *ELEMENT card are stored in set Eall. This set will be later referred to in the material definition. Now, each element is listed followed by the 20 node numbers defining it. With *NODE and *ELEMENT, the core of the geometry description is finished. Remaining model definition items are geometric boundary conditions and the material description.
+
+<P>
+The only geometric boundary condition in the beam problem is the fixation at z=0. To this end, the nodes at z=0 are collected and stored in node set FIX defined by the keyword card *NSET. The nodes belonging to the set follow on the lines underneath the keyword card. By means of the card *BOUNDARY, the nodes belonging to set FIX are subsequently fixed in 1, 2 and 3-direction, corresponding to x,y and z. The three *BOUNDARY statements in Figure <A HREF="#beam4">4</A> can actually be grouped yielding:
+
+<P>
+<PRE>
+*BOUNDARY
+FIX,1
+FIX,2
+FIX,3
+</PRE>
+
+<P>
+or even shorter:
+
+<P>
+<PRE>
+*BOUNDARY
+FIX,1,3
+</PRE>
+
+<P>
+meaning that degrees of freedom 1 through 3 are to be fixed (i.e. set to zero).
+
+<P>
+The next section in the input deck is the material description. This section is special since the cards describing one and the same material must be grouped together, although the section itself can occur anywhere before the first *STEP card. A material section is always started by a *MATERIAL card defining the name of the material by means of the parameter NAME. Depending on the kind of material several keyword cards can follow. Here, the material is linear elastic, characterized by a Young's modulus of 210,000.0 <IMG
+ WIDTH="64" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="$ MN/{m^2}$"> and a Poisson coefficient of 0.3 (steel). These properties are stored beneath the *ELASTIC keyword card, which here concludes the material definition. Next, the material is assigned to the element set Eall by means of the keyword card *SOLID SECTION.
+
+<P>
+Finally, the last card in the model definition section defines a node set LOAD which will be needed to define the load. The card starting with two asterisks in between the model definition section and the first step section is a comment line. A comment line can be introduced at any place. It is completely ignored by CalculiX and serves for input deck clarity only.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="beam6"></A><A NAME="11747"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 6:</STRONG>
+Axial normal stresses in the beam</CAPTION>
+<TR><TD><IMG
+ WIDTH="409" HEIGHT="372" BORDER="0"
+ SRC="img88.png"
+ ALT="\begin{figure}\epsfig{file=Beam6.ps,width=9cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In the present problem, only one step is needed. A step always starts with a
+*STEP card and concludes with a *END STEP card. The keyword card *STATIC
+defines the procedure. The *STATIC card indicates that the load is applied in
+a quasi-static way, i.e. so slow that mass inertia does not play a role. Other
+procedures are *FREQUENCY, *BUCKLE, *MODAL DYNAMIC, *STEADY STATE DYNAMICS and
+*DYNAMIC. Next, the concentrated load is applied (keyword *CLOAD) to node set LOAD. The forces act in y-direction and their magnitude is 1, yielding a total load of 9.
+
+<P>
+Finally, the printing and file storage cards allow for user-directed output generation. The print cards (*NODE PRINT and *EL PRINT) lead to an ASCII file with extension .dat. If they are not selected, no .dat file is generated. The *NODE PRINT and *EL PRINT cards must be followed by the node and element sets for which output is required, respectively. Element information is stored at the integration points. 
+
+<P>
+The *NODE FILE and *EL FILE cards, on the other hand, govern the output written to an ASCII file with extension .frd. The results in this file can be viewed with CalculiX GraphiX (cgx). Quantities selected by the *NODE FILE and *EL FILE cards are always stored for the complete model. Element quantities are extrapolated to the nodes, and all contributions in the same node are averaged. Selection of fields for the *NODE PRINT, *EL PRINT, *NODE FILE and *EL FILE cards is made by character codes: for instance, U are the displacements and S are the (Cauchy) stresses. 
+
+<P>
+The input deck is concluded with an *END STEP card. 
+
+<P>
+The output files for the beam problem consist of file beam.dat and beam.frd. The beam.dat file contains the displacements for set Nall and the stresses in the integration points for set Eall. The file beam.frd contains the displacements and extrapolated stresses in all nodes. It is the input for the visualization program CalculiX GraphiX (cgx). An impression of the capabilities of cgx can be obtained by looking at Figures <A HREF="#beam5">5</A>, <A HREF="#beam6">6</A> and <A HREF="#beam7">7</A>. 
+
+<P>
+Figure <A HREF="#beam5">5</A> shows the deformation of the beam under the prevailing loads. As expected, the beam bends due to the lateral force at its end. Figure <A HREF="#beam6">6</A> shows the normal stress in axial direction. Due to the bending moment one obtains a nearly linear distribution across the height of the beam. Finally, Figure <A HREF="#beam7">7</A> shows the Von Mises stress in the beam.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="beam7"></A><A NAME="11748"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 7:</STRONG>
+Von Mises stresses in the beam</CAPTION>
+<TR><TD><IMG
+ WIDTH="409" HEIGHT="372" BORDER="0"
+ SRC="img89.png"
+ ALT="\begin{figure}\epsfig{file=Beam7.ps,width=9cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html956"
+  HREF="node8.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html952"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html946"
+  HREF="node6.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html954"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html957"
+  HREF="node8.html">Frequency calculation of a</A>
+<B> Up:</B> <A NAME="tex2html953"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html947"
+  HREF="node6.html">Simple example problems</A>
+ &nbsp; <B>  <A NAME="tex2html955"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

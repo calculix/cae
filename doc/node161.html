@@ -1,0 +1,329 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Frequency analysis</TITLE>
+<META NAME="description" CONTENT="Frequency analysis">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node162.html">
+<LINK REL="previous" HREF="node160.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node162.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3121"
+  HREF="node162.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3117"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3111"
+  HREF="node160.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3119"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3122"
+  HREF="node162.html">Complex frequency analysis</A>
+<B> Up:</B> <A NAME="tex2html3118"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3112"
+  HREF="node160.html">Static analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3120"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00079200000000000000">
+Frequency analysis</A>
+</H3>
+
+<P>
+In a frequency analysis the lowest eigenfrequencies and eigenmodes of the structure are calculated. In CalculiX, the mass matrix is not lumped, and thus a generalized eigenvalue problem has to be solved. The theory can be found in any textbook on vibrations or on finite elements, e.g. [<A
+ HREF="node448.html#Zienkiewicz">84</A>]. A crucial point in the present implementation is that, instead of looking for the smallest eigenfrequencies of the generalized eigenvalue problem, the largest eigenvalues of the inverse problem are determined. For large problems this results in execution times cut by about a factor of 100 (!). The inversion is performed by calling the linear equation solver SPOOLES. A frequency step is triggered by the key word <A HREF="node265.html#frequency">*FREQUENCY</A> and  can be perturbative or not.
+
+<P>
+If the perturbation parameter is not activated on the <A HREF="node318.html#step">*STEP</A> card, the frequency analysis is performed on the unloaded structure, constrained by the homogeneous SPC's and MPC's. Any steps preceding the frequency step do not have any influence on the results.
+
+<P>
+If the perturbation parameter is activated, the stiffness matrix is augmented by contributions resulting from the displacements and stresses at the end of the last non-perturbative static step, if any, and the material parameters are based on the temperature at the end of that step. Thus, the effect of the centrifugal force on the frequencies in a turbine blade can be analyzed by first performing a static calculation with these loads, and selecting the perturbation parameter on the <A HREF="node318.html#step">*STEP</A> card in the subsequent frequency step. The loading at the end of a perturbation step is reset to zero.
+
+<P>
+If the input deck is stored in the file ``problem.inp'', where
+``problem'' stands for any name, the eigenfrequencies are stored in
+the ``problem.dat'' file (notice that the format of the storage depends on the
+symmetry of the stiffness matrix; a nonsymmetric stiffness matrix results
+e.g. from contact friction and can lead to complex eigenvalues). Furthermore, if the parameter STORAGE is set to yes
+(STORAGE=YES) on the *FREQUENCY card the eigenfrequencies,
+eigenmodes, stiffness matrix and mass matrix are stored in binary form in a "problem.eig" file for further use (e.g. in a linear dynamic step).
+
+<P>
+All output of the eigenmodes is normalized by means of the mass
+matrix, i.e. the generalized mass is one. The eigenvalue of the generalized
+eigenvalue problem is actually the square of the eigenfrequency. The
+eigenvalue is guaranteed to be real (the stiffness and mass matrices are
+symmetric; the only exception to this is if contact friction is included,
+which can lead to complex eigenfrequencies), but it is positive only for positive definite stiffness
+matrices. Due to preloading the stiffness matrix is not necessarily positive
+definite. This can lead to purely imaginary eigenfrequencies which physically
+mean that the structure buckles.
+
+<P>
+Apart from the eigenfrequencies the total effective mass and total effective
+modal mass for all rigid body modes are also calculated and stored in the
+.dat-file. There are six rigid body modes, three translations and three
+rotations. Let us call any of these <B><IMG
+ WIDTH="33" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1143.png"
+ ALT="$ \{R\}$"></B>. It is a vector corresponding to a
+unit rigid body mode, e.g. a unit translation in the global x-direction. The
+participation factors <B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1144.png"
+ ALT="$ P_i$"></B> are calculated by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+P_i = \{U_i\}^T [M] \{R\}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="142" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1145.png"
+ ALT="$\displaystyle P_i = \{U_i\}^T [M] \{R\}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(300)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+They reflect the degree of participation of each mode in the selected rigid
+body motion. Recall that the modes are mass-normalized, consequently the unit
+of the mode is <!-- MATH
+ $1/\sqrt{\text{mass}}$
+ -->
+<B><IMG
+ WIDTH="67" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1146.png"
+ ALT="$ 1/\sqrt{\text{mass}}$"></B>, the unit of the rigid body motion is
+length. The effective modal mass is defined by <B><IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1147.png"
+ ALT="$ P_i^2$"></B>, the total effective
+modal mass by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\sum_i P_i^2
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="50" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1148.png"
+ ALT="$\displaystyle \sum_i P_i^2$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(301)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+(unit: mass <!-- MATH
+ $\cdot \text{length}^2$
+ -->
+<B><IMG
+ WIDTH="9" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1149.png"
+ ALT="$ \cdot$">&nbsp; &nbsp;length<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ ^2$"></B>). The total effective mass is the size of the rigid motion, i.e. it is the
+internal product of the rigid motion with itself:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\{R\}^T [M] \{R\}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="101" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1150.png"
+ ALT="$\displaystyle \{R\}^T [M] \{R\}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(302)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+If one would calculate infinitely many modes the total effective modal mass
+should be equal to the total effective mass. Since only a finite number of
+modes are calculated the total effective modal mass will be less. By comparing
+the total effective modal mass with the total effective mass one gains an
+impression whether enough modes were calculated to perform good modal dynamics
+calculation (at least for the rigid motions). 
+
+<P>
+A special kind of frequency calculations is a cyclic symmetry calculation for which the keyword cards <A HREF="node322.html#surface">*SURFACE</A>, <A HREF="node326.html#tie">*TIE</A>, <A HREF="node237.html#cyclicsymmetrymodel">*CYCLIC SYMMETRY MODEL</A> and <A HREF="node309.html#selectcyclicsymmetrymodes">*SELECT CYCLIC SYMMETRY MODES</A> are available. This kind of calculation applies to structures consisting of identical sectors ordered in a cyclic way such as in Figure <A HREF="#cycsym">137</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="cycsym"></A><A NAME="12409"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 137:</STRONG>
+Cyclic symmetry structure consisting of four identical sectors</CAPTION>
+<TR><TD><IMG
+ WIDTH="456" HEIGHT="456" BORDER="0"
+ SRC="img1151.png"
+ ALT="\begin{figure}\epsfig{file=Cycsym.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+For such structures it is sufficient to model just one sector (also called datum sector) to obtain the eigenfrequencies and eigenmodes of the whole structure. The displacement values on the left and right boundary (or surfaces) of the datum sector are phase shifted. The shift depends on how many waves are looked for along the circumference of the structure. Figure <A HREF="#noddiam2">138</A> shows an eigenmode for a full disk exhibiting two complete waves along the circumference. This corresponds to four zero-crossings of the waves and a nodal diameter of two. This nodal diameter (also called cyclic symmetry mode number) can be considered as the number of waves, or also as the number of diameters in the structure along which the displacements are zero.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="noddiam2"></A><A NAME="12410"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 138:</STRONG>
+Eigenmode for a full disk with a nodal diameter of two</CAPTION>
+<TR><TD><IMG
+ WIDTH="454" HEIGHT="399" BORDER="0"
+ SRC="img1152.png"
+ ALT="\begin{figure}\epsfig{file=Noddiam2.ps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The lowest nodal diameter is zero and corresponds to a solution which is
+identical on the left and right boundary of the datum sector. For a structure
+consisting of N sectors, the highest feasible nodal diameter is N/2 for N even
+and (N-1)/2 for N odd. The nodal diameter is selected by the user on the
+<A HREF="node309.html#selectcyclicsymmetrymodes">*SELECT CYCLIC SYMMETRY MODES</A> card. On
+the <A HREF="node237.html#cyclicsymmetrymodel">*CYCLIC SYMMETRY MODEL</A> card, the number of base
+sectors fitting in <!-- MATH
+ $360^{\circ}$
+ -->
+<B><IMG
+ WIDTH="36" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1153.png"
+ ALT="$ 360^{\circ}$"></B> is to be provided. On the same card the user
+also indicates the number of sectors for which the solution is to be stored in
+the .frd file. In this way, the solution can be plotted for the whole
+structure, although the calculation was done for only one sector. The
+rotational direction for the multiplication of the datum sector is from the
+dependent surface (slave) to the independent surface (master).
+
+<P>
+Mathematically the left and right boundary of the datum sector are coupled by
+MPC's with complex coefficients. This leads to a complex generalized
+eigenvalue problem with a Hermitian stiffness matrix, which can be reduced to
+a real eigenvalue problem the matrices of which are twice the size as those in
+the original problem.
+
+<P>
+The phase shift between left and right boundary of the datum sector is given
+by <B><IMG
+ WIDTH="59" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1154.png"
+ ALT="$ 2 \pi N/M$"></B>, where N is the nodal diameter and M is the number of base
+sectors in <!-- MATH
+ $360^{\circ}$
+ -->
+<B><IMG
+ WIDTH="36" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1153.png"
+ ALT="$ 360^{\circ}$"></B>. Whereas N has to be an integer, CalculiX allows M to
+be a real number. In this way the user may enter a fictitious value for M,
+leading to arbitrary phase shifts between the left and right boundary of the
+datum sector (for advanced applications).
+
+<P>
+For models containing the axis of cyclic symmetry (e.g. a full disk), the
+nodes on the symmetry axis are treated differently depending on whether the
+nodal diameter is 0, 1 or exceeds 1. For nodal diameter 0, these nodes are
+fixed in a plane perpendicular to the cyclic symmetry axis, for nodal diameter
+1 they cannot move along the cyclic symmetry axis and for higher nodal
+diameters they cannot move at all. For these kind of structures calculations
+for nodal diameters 0 or 1 must be performed in separate steps.
+
+<P>
+Adjacent structures with datum sectors which differ in size can be calculated
+by tying them together with the *TIE,MULTISTAGE keyword. This works well if
+the size difference of the datum sectors is not too large. This is illustrated
+by file multistage.inp in the test examples.
+
+<P>
+Finally one word of caution on frequency calculations with axisymmetric
+elements. Right now, you will only get the eigenmodes corresponding to a nodal
+diameter of 0, i.e. all axisymmetric modes. If you would like to calculate
+asymmetric modes, please model a segment with volumetric elements and
+perform a cyclic symmetry analysis.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3121"
+  HREF="node162.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3117"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3111"
+  HREF="node160.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3119"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3122"
+  HREF="node162.html">Complex frequency analysis</A>
+<B> Up:</B> <A NAME="tex2html3118"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3112"
+  HREF="node160.html">Static analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3120"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

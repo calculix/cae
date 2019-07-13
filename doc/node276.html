@@ -1,0 +1,353 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*INITIAL CONDITIONS</TITLE>
+<META NAME="description" CONTENT="*INITIAL CONDITIONS">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node277.html">
+<LINK REL="previous" HREF="node275.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node277.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4640"
+  HREF="node277.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4636"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4630"
+  HREF="node275.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4638"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4641"
+  HREF="node277.html">*INITIAL STRAIN INCREASE</A>
+<B> Up:</B> <A NAME="tex2html4637"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4631"
+  HREF="node275.html">*INCLUDE</A>
+ &nbsp; <B>  <A NAME="tex2html4639"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000868000000000000000"></A><A NAME="initialconditions"></A>
+<BR>
+*INITIAL CONDITIONS
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option is used to define initial temperatures, initial velocities,
+initial stresses and initial plastic strains. There
+are two parameters: TYPE and USER. The parameter TYPE is required. It can take
+the following values:
+
+<P>
+
+<UL>
+<LI>TYPE=DISPLACEMENT: initial displacements
+</LI>
+<LI>TYPE=FLUID VELOCITY: initial fluid velocities for 3D fluid calculations
+</LI>
+<LI>TYPE=MASS FLOW: initial mass flow for networks
+</LI>
+<LI>TYPE=PLASTIC STRAIN: initial inelastic strains
+</LI>
+<LI>TYPE=PRESSURE: initial static fluid pressures for 3D fluid calculations
+</LI>
+<LI>TYPE=SOLUTION: initial internal variables
+</LI>
+<LI>TYPE=STRESS: initial stresses
+</LI>
+<LI>TYPE=TEMPERATURE: initial temperatures for structural, network or 3D
+  fluid calculations
+</LI>
+<LI>TYPE=TOTAL PRESSURE: initial total pressures for network calculations
+</LI>
+<LI>TYPE=VELOCITY: initial structural velocities (for dynamic calculations)
+</LI>
+</UL>
+
+<P>
+For shell elements TYPE=TEMPERATURE can be used to define an initial temperature
+gradient in addition
+to an initial temperature. The temperature applies to nodes in the reference
+surface, the gradient acts in normal direction. For beam elements two
+gradients can be defined: one in 1-direction and one in
+2-direction. Default for the gradients is zero.
+
+<P>
+The plastic strain components defined with this option are subtracted from the
+strain components computed from the displacement field. If thermal strains are
+relevant they are additionally subtracted. The resulting strain is used to
+compute the stress and tangent stiffness matrix using the appropriate
+constitutive equations.  
+
+<P>
+The parameter USER can only be used if TYPE=STRESS or TYPE=SOLUTION is specified. In that case,
+the user must define the initial stresses or internal variables by user routine
+<A HREF="node341.html#usersigini">sigini.f</A> or <A HREF="node340.html#usersdvini">sdvini.f</A>,
+respectively. 
+
+<P>
+Please note that vector and tensor quantities have to be provided in the
+GLOBAL (rectangular) coordinate system, no matter whether an *ORIENTATION card
+or *TRANSFORM card applies to the corresponding element or node, respectively.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*INITIAL CONDITIONS
+</LI>
+<LI>Enter any needed parameters and their values.
+</LI>
+</UL>
+
+<P>
+
+<P><P>
+<BR>
+Following line for TYPE=DISPLACEMENT:
+
+<UL>
+<LI>Node number or node set label.
+</LI>
+<LI>Degree of freedom in the GLOBAL coordinate system.
+</LI>
+<LI>Magnitude of the displacement.
+</LI>
+</UL>
+
+<P>
+
+<P><P>
+<BR>
+Following line for TYPE=PLASTIC STRAIN:
+
+<UL>
+<LI>Element number.
+</LI>
+<LI>Integration point number.
+</LI>
+<LI>Value of first plastic strain component (xx) in the GLOBAL coordinate
+  system x-y-z.
+</LI>
+<LI>Value of second plastic strain component (yy) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of third plastic strain component (zz) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of fourth plastic strain component (xy) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of fifth plastic strain component (xz) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of sixth plastic strain component (yz) in the GLOBAL coordinate system x-y-z.
+</LI>
+</UL>
+Repeat this line if needed. The strain components should be given as Lagrange
+strain components for nonlinear calculations and linearized strain components
+for linear computations. 
+
+<P>
+
+<P><P>
+<BR>
+Following line for TYPE=PRESSURE, TYPE=TOTAL PRESSURE or TYPE=MASS FLOW:
+
+<UL>
+<LI>Node number or node set label.
+</LI>
+<LI>Static pressure, total pressure or mass flow value at the node.
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+
+<P><P>
+<BR>
+Following line for TYPE=SOLUTION if USER is not specified:
+
+<UL>
+<LI>Element number.
+</LI>
+<LI>Integration point number.
+</LI>
+<LI>Value of first internal variable.
+</LI>
+<LI>Value of second internal variable.
+</LI>
+<LI>Etc.
+</LI>
+</UL>
+Repeat this line if needed. Each line should contain exactly 8 entries
+(including the element and integration point number in the first line), except
+for the last line, which can contain less. For instance, if the number of
+internal variables is 11, the first line contains 6 and the second 5. If you
+have 20 internal variables, the first line contains 6, the second 8 and the
+third 6. The number of internal variables must be specified
+by using the <A HREF="node242.html#depvar">*DEPVAR</A> card. 
+
+<P>
+
+<P><P>
+<BR>
+There is no line following the first one for TYPE=SOLUTION,USER.
+
+<P>
+
+<P><P>
+<BR>
+Following line for TYPE=STRESS if USER is not specified:
+
+<UL>
+<LI>Element number.
+</LI>
+<LI>Integration point number.
+</LI>
+<LI>Value of first stress component (xx) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of second stress component (yy) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of third stress component (zz) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of fourth stress component (xy) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of fifth stress component (xz) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of sixth stress component (yz) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Etc.
+</LI>
+</UL>
+Repeat this line if needed. The stress components should be given in the form
+of second Piola-Kirchhoff stresses. 
+
+<P>
+There is no line following the first one for TYPE=STRESS,USER.
+
+<P>
+
+<P><P>
+<BR>
+Following line for TYPE=TEMPERATURE:
+
+<UL>
+<LI>Node number or node set label.
+</LI>
+<LI>Initial temperature value at the node.
+</LI>
+<LI>Initial temperature gradient in normal direction (shells) or in
+2-direction (beams).
+</LI>
+<LI>Initial temperature gradient in 1-direction (beams).
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+
+<P><P>
+<BR>
+Following line for TYPE=VELOCITY or TYPE=FLUID VELOCITY:
+
+<UL>
+<LI>Node number or node set label.
+</LI>
+<LI>Degree of freedom in the GLOBAL coordinate system.
+</LI>
+<LI>Magnitude of the velocity.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Examples:
+
+*INITIAL CONDITIONS,TYPE=TEMPERATURE
+Nall,273.
+</PRE>
+
+<P>
+assigns the initial temperature T=273. to all nodes in (node) file Nall.
+
+<P>
+<PRE>
+*INITIAL CONDITIONS,TYPE=VELOCITY
+18,2,3.15
+</PRE>
+
+<P>
+assigns the initial velocity 3.15 to degree of freedom 2 of node 18.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beam20t, beamnlt, beamt3, resstress1, resstress2, resstress3, inistrain.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4640"
+  HREF="node277.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4636"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4630"
+  HREF="node275.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4638"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4641"
+  HREF="node277.html">*INITIAL STRAIN INCREASE</A>
+<B> Up:</B> <A NAME="tex2html4637"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4631"
+  HREF="node275.html">*INCLUDE</A>
+ &nbsp; <B>  <A NAME="tex2html4639"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

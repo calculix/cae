@@ -1,0 +1,418 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Hydraulic Networks </TITLE>
+<META NAME="description" CONTENT="Hydraulic Networks ">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node177.html">
+<LINK REL="previous" HREF="node175.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node177.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3301"
+  HREF="node177.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3297"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3291"
+  HREF="node175.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3299"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3302"
+  HREF="node177.html">Turbulent Flow in Open</A>
+<B> Up:</B> <A NAME="tex2html3298"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3292"
+  HREF="node175.html">Aerodynamic Networks</A>
+ &nbsp; <B>  <A NAME="tex2html3300"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000791700000000000000"></A><A NAME="hydronetworks"></A>
+<BR>
+Hydraulic Networks 
+</H3>
+
+<P>
+Hydraulic networks are made of a concatenation of network elements (see
+section <A HREF="node59.html#B32">6.2.33</A>) filled with an incompressible medium. A network element consists of three nodes: in the corner nodes
+the temperature and pressure are the unknowns, in the midside node the mass
+flow is unknown. The corner nodes play the role of crossing points in the
+network, whereas the midside nodes represent the flow within one element. To determine these unknowns, three types of equations are
+available: conservation of mass and conservation of energy in the corner nodes
+and conservation of momentum in the midside node. Right now, only stationary
+flow is considered.
+
+<P>
+The stationary form of the conservation of mass for incompressible fluids is
+expressed by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\mathbf{\nabla} \cdot \mathbf{v} = 0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1289.png"
+ ALT="$\displaystyle \mathbf{\nabla} \cdot \mathbf{v} = 0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(356)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> is the density and <!-- MATH
+ $\mathbf{v}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1274.png"
+ ALT="$ \mathbf{v}$"></B> the velocity vector. Integration
+over all elements connected to an corner node yields:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="massconservation"></A><!-- MATH
+ \begin{equation}
+\sum_{j \in \text{in}} \dot{m}_{ij} = \sum_{j \in \text{out}} \dot{m}_{ij},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="144" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1275.png"
+ ALT="$\displaystyle \sum_{j \in \text{in}} \dot{m}_{ij} = \sum_{j \in \text{out}} \dot{m}_{ij},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(357)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\dot{m}_{ij}$
+ -->
+<B><IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1276.png"
+ ALT="$ \dot{m}_{ij}$"></B> is the mass flow from node i to node j or vice versa. In
+the above equation  <!-- MATH
+ $\dot{m}_{ij}$
+ -->
+<B><IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1276.png"
+ ALT="$ \dot{m}_{ij}$"></B> is always positive.
+
+<P>
+The conservation of momentum reduces to the Bernoulli equation. It is obtained
+by projecting the general momentum equation on a flow line within an element
+with corner nodes i and j and reads:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="momentumconservation"></A><!-- MATH
+ \begin{equation}
+z_i + \frac{p_i}{\rho g} + \frac{\dot{m}_{ij}^2}{2 \rho^2 A_i^2 g} =
+z_j + \frac{p_j}{\rho g} + \frac{\dot{m}_{ij}^2}{2 \rho^2 A_j^2 g} + \Delta
+F_i^j.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="336" HEIGHT="59" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1290.png"
+ ALT="$\displaystyle z_i + \frac{p_i}{\rho g} + \frac{\dot{m}_{ij}^2}{2 \rho^2 A_i^2 g...
+... + \frac{p_j}{\rho g} + \frac{\dot{m}_{ij}^2}{2 \rho^2 A_j^2 g} + \Delta F_i^j.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(358)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Here, <B><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img674.png"
+ ALT="$ z$"></B> is the height of the node, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$"></B> the pressure, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> the density, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img675.png"
+ ALT="$ g$"></B>
+the gravity acceleration, <B><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$"></B> the cross section in the node and <!-- MATH
+ $\Delta F_i^j$
+ -->
+<B><IMG
+ WIDTH="37" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1291.png"
+ ALT="$ \Delta F_i^j$"></B>
+is the head loss across the element. The head loss is positive  if the flow
+runs from i to j, else it is negative (or has to be written on the other side
+of the equation). The head losses for different types of fluid sections are
+described in Section <A HREF="node101.html#fluidsectiontypesliquids">6.5</A>.
+
+<P>
+Notice that the height of the node is important, therefore, for hydraulic
+networks the gravity vector must be defined for each element using a
+<A HREF="node247.html#dload">*DLOAD</A> card.
+
+<P>
+The conservation of energy in stationary form requires ([<A
+ HREF="node448.html#Dhondt">18</A>]):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+c_p \mathbf{\nabla} \cdot (\rho T \mathbf{v}) = - \mathbf{\nabla} \cdot
+\mathbf{q} + \rho h^{\theta},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="202" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1292.png"
+ ALT="$\displaystyle c_p \mathbf{\nabla} \cdot (\rho T \mathbf{v}) = - \mathbf{\nabla} \cdot \mathbf{q} + \rho h^{\theta},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(359)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\mathbf{q}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1279.png"
+ ALT="$ \mathbf{q}$"></B> is the external heat flux, <!-- MATH
+ $h^{\theta}$
+ -->
+<B><IMG
+ WIDTH="21" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1280.png"
+ ALT="$ h^{\theta}$"></B> is the body flux per
+unit of mass, <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"></B> is the specific heat at constant pressure (which, for a
+fluid, is also the specific heat at constant specific volume, i.e. <B><IMG
+ WIDTH="54" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1293.png"
+ ALT="$ c_p=c_v$"></B> [<A
+ HREF="node448.html#Greitzer">25</A>]) and <B><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img342.png"
+ ALT="$ T$"></B> is the
+absolute temperature (in Kelvin). Integration of the energy equation over all elements belonging to end
+node <B><IMG
+ WIDTH="10" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img798.png"
+ ALT="$ i$"></B> yields:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+c_p (T_i) \sum_{j \in \text{in}} T_j \dot{m}_{ij} - c_p (T_i)
+T_i \sum_{j \in \text{out}}  \dot{m}_{ij} + \overline{h}(T_i,
+T) (T - T_i) + m_i h_i^{\theta}=0,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="477" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1285.png"
+ ALT="$\displaystyle c_p (T_i) \sum_{j \in \text{in}} T_j \dot{m}_{ij} - c_p (T_i) T_i...
+...\text{out}} \dot{m}_{ij} + \overline{h}(T_i, T) (T - T_i) + m_i h_i^{\theta}=0,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(360)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\overline{h}(T_i,T)$
+ -->
+<B><IMG
+ WIDTH="59" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1286.png"
+ ALT="$ \overline{h}(T_i,T)$"></B> is the convection coefficient with the
+walls.  If one assumes that all flow entering a
+node must also leave it and taking for both the <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"></B> value corresponding to
+the mean temperature value of the entering flow, one arrives at:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="energyconservation"></A><!-- MATH
+ \begin{equation}
+\sum_{j \in \text{in}}  c_p (T_m) (T_j-T_i) \dot{m}_{ij} + \overline{h}(T_i,
+T) (T - T_i) + m_i h_i^{\theta}=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="389" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1287.png"
+ ALT="$\displaystyle \sum_{j \in \text{in}} c_p (T_m) (T_j-T_i) \dot{m}_{ij} + \overline{h}(T_i, T) (T - T_i) + m_i h_i^{\theta}=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(361)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $T_m=(T_i+T_j)/2$
+ -->
+<B><IMG
+ WIDTH="125" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1288.png"
+ ALT="$ T_m=(T_i+T_j)/2$"></B>. 
+
+<P>
+The calculation of hydraulic networks is triggered by the <A HREF="node272.html#heattransfer">*HEAT
+  TRANSFER</A> keyword card. Indeed, such a network frequently
+ produces convective boundary conditions for solid mechanics heat transfer
+ calculations. However, network calculations can also be performed on their
+  own, i.e. it is allowed to do *HEAT TRANSFER calculations without any solid
+  elements. 
+
+<P>
+To determine appropriate boundary conditions for a hydraulic network the same rules
+apply as for aerodynamic networks.
+
+<P>
+Output variables are the mass flow (key MF on the <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> or <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card), the static pressure (key PN -- network pressure -- on the <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> card and PS on the <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card) and the total temperature
+(key NT on the <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> card and TT on the <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card).  Notice that the labels for the *NODE PRINT keyword
+are more generic in nature, for the *NODE FILE keyword they are more
+specific. These are the primary variables in the network.  Internally, in
+network nodes,
+components one to two of the structural displacement field are used for the
+mass flow and the static pressure, respectively. So their output can
+also be obtained by requesting
+U on the *NODE PRINT or *NODE FILE card. 
+
+<P>
+Notice that for liquids the total
+temperature virtually coincides with the static temperature. Indeed, since
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+T_t-T = v^2/(2c_p),
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="134" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1294.png"
+ ALT="$\displaystyle T_t-T = v^2/(2c_p),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(362)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+the difference between total and static temperature for a fluid velocity of 5
+m/s and <B><IMG
+ WIDTH="72" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1295.png"
+ ALT="$ c_p=4218$"></B> J/(kg.K) (water) amounts to 0.0030 K. This is different
+from the gases since typical gas velocities are much higher (speed of sound
+is 340 m/s) and <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"></B> for gases is usually lower.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3301"
+  HREF="node177.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3297"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3291"
+  HREF="node175.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3299"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3302"
+  HREF="node177.html">Turbulent Flow in Open</A>
+<B> Up:</B> <A NAME="tex2html3298"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3292"
+  HREF="node175.html">Aerodynamic Networks</A>
+ &nbsp; <B>  <A NAME="tex2html3300"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

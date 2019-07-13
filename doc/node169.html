@@ -1,0 +1,283 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Shallow water motion</TITLE>
+<META NAME="description" CONTENT="Shallow water motion">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node170.html">
+<LINK REL="previous" HREF="node168.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node170.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3217"
+  HREF="node170.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3213"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3207"
+  HREF="node168.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3215"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3218"
+  HREF="node170.html">Hydrodynamic lubrication</A>
+<B> Up:</B> <A NAME="tex2html3214"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3208"
+  HREF="node168.html">Acoustics</A>
+ &nbsp; <B>  <A NAME="tex2html3216"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000791000000000000000">
+Shallow water motion</A>
+</H3>
+
+<P>
+For incompressible fluids integration of the governing equations over the
+fluid depth and subsequent linearization leads to the following equation:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="shallow"></A><!-- MATH
+ \begin{equation}
+\nabla \cdot (-  gH\boldsymbol{I} \cdot \nabla{\eta}) +  \ddot{\eta} = 0,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="181" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1194.png"
+ ALT="$\displaystyle \nabla \cdot (- gH\boldsymbol{I} \cdot \nabla{\eta}) + \ddot{\eta} = 0,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(315)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+where <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img675.png"
+ ALT="$ g$"></B> is the earth acceleration, H is the fluid depth measured from a
+reference level, <!-- MATH
+ $\boldsymbol{I}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1181.png"
+ ALT="$ \boldsymbol{ I}$"></B> is the unit tensor and <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"></B> is the fluid height with respect to the
+reference level. Usually the fluid level at rest is taken as reference
+level. The derivation of the equation is described in [<A
+ HREF="node448.html#Zienkiewicz">84</A>]. The
+following assumptions are made:
+
+<P>
+
+<UL>
+<LI>no viscosity
+</LI>
+<LI>no Coriolis forces
+</LI>
+<LI>no convective acceleration
+</LI>
+<LI><!-- MATH
+ $H+\eta \approx H$
+ -->
+<B><IMG
+ WIDTH="83" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1195.png"
+ ALT="$ H+\eta \approx H$"></B>
+</LI>
+</UL>
+
+<P>
+Due to the integration process the above equation is two-dimensional,
+i.e. only the surface of the fluid has to be meshed. 
+By comparison with the heat equation, the correspondence in Table
+&nbsp;(<A HREF="#t2">10</A>) arises. Therefore, shallow water motion can be simulated using the
+<A HREF="node272.html#heattransfer">*HEAT TRANSFER</A> procedure.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="12413"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 10:</STRONG>
+Correspondence between the heat equation and the shallow water equation.</CAPTION>
+<TR><TD ALIGN="CENTER">heat quantity</TD>
+<TD ALIGN="CENTER">shallow water quantity</TD>
+</TR>
+<TR><TD ALIGN="CENTER">T</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\boldsymbol{ q}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img717.png"
+ ALT="$ \boldsymbol{q}$"></B></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{ \partial }{\partial t} (H \overline{
+  \boldsymbol{ v}})$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1196.png"
+ ALT="$ \frac{ \partial }{\partial t} (H \overline{
+\boldsymbol{ v}})$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1187.png"
+ ALT="$ q_n$"></B></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $H \frac{ \partial }{\partial t} ( \overline{
+  { v}}_n)$
+ -->
+<B><IMG
+ WIDTH="64" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1197.png"
+ ALT="$ H \frac{ \partial }{\partial t} ( \overline{
+{ v}}_n)$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\boldsymbol{ \kappa }$
+ -->
+<B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1171.png"
+ ALT="$ \boldsymbol{\kappa}$"></B></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $H g \boldsymbol{ I}$
+ -->
+<B><IMG
+ WIDTH="37" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1198.png"
+ ALT="$ H g \boldsymbol{ I}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1189.png"
+ ALT="$ \rho h$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1199.png"
+ ALT="$ -$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1191.png"
+ ALT="$ \rho c$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1200.png"
+ ALT="$ 1$"></B></TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>   
+
+<P>
+The quantity <!-- MATH
+ $\overline{ \boldsymbol{ v}}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1201.png"
+ ALT="$ \overline{ \boldsymbol{ v}}$"></B> is the average velocity over the
+depth and <!-- MATH
+ $\overline{ v}_n$
+ -->
+<B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1202.png"
+ ALT="$ \overline{ v}_n$"></B> is its component orthogonal to the boundary of the
+domain. Due to the averaging the equations hold for small depths only (shallow
+water approximation). Notice that the equivalence of the heat conduction
+coefficient is proportional to the depth, which is a geometric quantity. For a
+different depth a different conduction coefficient must be defined.
+
+<P>
+There is no real two-dimensional element in CalculiX. Therefore, the
+two-dimensional Helmholtz equation has to be simulated by expanding the
+two-dimensional fluid surface to a three-dimensional layer with constant width
+and applying the boundary conditions in such a way that no variation occurs
+over the width. 
+
+<P>
+Notice that, similar to the acoustic equations, the shallow water equations
+are of the Helmholtz type leading to a hyperbolic system. For instationary
+applications eigenmodes can be calculated and a modal analysis performed.     
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3217"
+  HREF="node170.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3213"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3207"
+  HREF="node168.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3215"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3218"
+  HREF="node170.html">Hydrodynamic lubrication</A>
+<B> Up:</B> <A NAME="tex2html3214"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3208"
+  HREF="node168.html">Acoustics</A>
+ &nbsp; <B>  <A NAME="tex2html3216"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

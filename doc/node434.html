@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>first loop: calculateh.f</TITLE>
+<META NAME="description" CONTENT="first loop: calculateh.f">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node435.html">
+<LINK REL="previous" HREF="node433.html">
+<LINK REL="up" HREF="node427.html">
+<LINK REL="next" HREF="node435.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6721"
+  HREF="node435.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6717"
+  HREF="node427.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6711"
+  HREF="node433.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6719"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6722"
+  HREF="node435.html">first loop: getlocalresults.f</A>
+<B> Up:</B> <A NAME="tex2html6718"
+  HREF="node427.html">Mesh refining procedure</A>
+<B> Previous:</B> <A NAME="tex2html6712"
+  HREF="node433.html">START OF MAJOR LOOP</A>
+ &nbsp; <B>  <A NAME="tex2html6720"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION0001111570000000000000">
+first loop: calculateh.f</A>
+</H4>
+
+<P>
+The first time the loop is run, the tetrahedral mesh is still the unrefined
+mesh. The following actions are performed in calculateh.f:
+
+<P>
+
+<UL>
+<LI>determine the length of each edge and store it in field d(*)
+</LI>
+<LI>determine for each node the mean length of the edges to which it
+  belongs. Multiply this value with the limit value specified by the user and
+  divide it by the actual value of the user-defined criterion. Store the
+  resulting value in field h(*). For instance, if the user has selected the
+  stress criterion, the limit value is 50. and the actual stress value in the
+  node is 200., then an average edge length in the node of 0.1 will lead to a
+  value of 0.025 in this node, i.e. the desired edge length is locally 0.025.
+</LI>
+<LI>determine the minimum value of d(*) across the complete mesh and store
+  it in <B><IMG
+ WIDTH="445" HEIGHT="453" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2018.png"
+ ALT="$ d_{min}$"></B>.
+</LI>
+</UL>
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

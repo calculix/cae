@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Golden rules</TITLE>
+<META NAME="description" CONTENT="Golden rules">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node6.html">
+<LINK REL="previous" HREF="node4.html">
+<LINK REL="up" HREF="ccx.html">
+<LINK REL="next" HREF="node6.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html915"
+  HREF="node6.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html911"
+  HREF="ccx.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html905"
+  HREF="node4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html913"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html916"
+  HREF="node6.html">Simple example problems</A>
+<B> Up:</B> <A NAME="tex2html912"
+  HREF="ccx.html">CalculiX CrunchiX USER'S MANUAL</A>
+<B> Previous:</B> <A NAME="tex2html906"
+  HREF="node4.html">Units</A>
+ &nbsp; <B>  <A NAME="tex2html914"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00050000000000000000">
+Golden rules</A>
+</H1>
+
+<P>
+Applying the finite element method to real-life problems is not always a piece
+of cake. Especially achieving convergence for nonlinear applications (large
+deformation, nonlinear material behavior, contact) can be quite
+tricky. However, adhering to a couple of simple rules can make life a lot
+easier. According to my experience, the following guidelines are quite
+helpful:
+
+<P>
+
+<OL>
+<LI>Check the quality of your mesh in CalculiX GraphiX or by using any other
+  good preprocessor.
+
+<P>
+</LI>
+<LI>If you are dealing with a nonlinear problem, RUN A LINEARIZED VERSION FIRST: eliminate large deformations (drop NLGEOM), use a linear elastic
+  material and drop all other nonlinearities such as contact. If the linear
+  version doesn't run, the nonlinear problem won't run either. The linear
+  version allows you to check easily whether the boundary conditions are
+  correct (no unrestrained rigid body modes), the loading is the one you meant
+  to apply etc. Furthermore, you get a feeling what the solution should look
+  like.
+
+<P>
+</LI>
+<LI>USE QUADRATIC ELEMENTS (C3D10, C3D15, C3D20(R), S8, CPE8, CPS8, CAX8,
+  B32). The standard shape functions for quadratic elements are very
+  good. Most finite element programs use these standard functions. For linear
+  elements this is not the case: linear elements exhibit all kind of weird behavior such
+  as shear locking and volumetric locking. Therefore, most finite element
+  programs modify the standard shape functions for linear elements to
+  alleviate these problems. However, there is no standard way of doing this,
+  so each vendor has created his own modifications without necessarily
+  publishing them. This leads to a larger variation in the results if you use
+  linear elements. Since CalculiX uses the standard shape functions for linear
+  elements too, the results must be considered with care.
+
+<P>
+</LI>
+<LI>If you are using shell elements or beam elements,
+  use the option OUTPUT=3D on the *NODE FILE card in CalculiX (which is default). That way you
+  get the expanded form of these elements in the .frd file. You can easily
+  verify whether the thicknesses you specified are correct. Furthermore, you
+  get the 3D stress distribution. It is the basis for the 1D/2D stress
+  distribution and the internal beam forces. If the former is incorrect, so
+  will the latter be.
+
+<P>
+</LI>
+<LI>If you include contact in your calculations and you are using quadratic
+  elements, use the face-to-face penalty contact method. In general, for
+  contact between faces the face-to-face penalty method will converge
+  much better than the node-to-face method. The type of contact has to be
+  declared on the <A HREF="node230.html#contactpair">*CONTACT PAIR</A> card.
+
+<P>
+</LI>
+<LI>if you do not have enough space to run a problem, check the
+  numbering. The memory needed to run a problem depends on the largest node
+  and element numbers (the computational time, though, does not). So if you
+  notice large gaps in the numbering, get rid of them and you will need less
+  memory. In some problems you can save memory by choosing an iterative
+  solution method. The iterative scaling method
+  (cf. <A HREF="node316.html#static">*STATIC</A>) needs less memory than the iterative
+  Cholesky method, the latter needs less memory than SPOOLES or PARDISO.
+</LI>
+</OL>
+
+<P>
+If you experience problems you can:
+
+<P>
+
+<OL>
+<LI>look at the screen output. In particular, the convergence information
+  for nonlinear calculations may indicate the source of your problem.
+
+<P>
+</LI>
+<LI>look at the .sta file. This file contains information on the number of
+  iterations needed in each increment to obtain convergence
+
+<P>
+</LI>
+<LI>look at the .cvg file. This file is a synopsis of the screen output: it
+  gives you a very fast overview of the number of contact elements, the
+  residual force and the largest change in solution in each iteration (no
+  matter whether convergent or not).
+
+<P>
+</LI>
+<LI>use the ``last iterations'' option on the <A HREF="node292.html#nodefile">*NODE FILE</A>
+  or similar card. This generates a file with the name
+  ResultsForLastIterations.frd with the deformation (for mechanical
+  calculations) and the temperature (for thermal calculations) for all
+  non-converged iterations starting after the last convergent increment.
+
+<P>
+</LI>
+<LI>if you have contact definitions in your input deck you may use the
+  ``contact elements'' option on the <A HREF="node292.html#nodefile">*NODE FILE</A>
+  or similar card. This generates a file with the name jobname.cel
+  with all contact elements in all iterations of the increment in which this
+  option is active. By reading this file in CalculiX GraphiX you can visualize
+  all contact elements in each iteration and maybe find the source of your
+  problems. 
+
+<P>
+</LI>
+<LI>if you experience a segmentation fault, you may set the environment
+  variable CCX_LOG_ALLOC to 1 by typing ``export CCX_LOG_ALLOC=1'' in a
+  terminal window. Running CalculiX you will get information on which fields
+  are allocated, reallocated or freed at which line in the code (default is
+  0).
+
+<P>
+</LI>
+<LI>this is for experts: if you experience problems with dependencies
+  between different equations you can print the SPC's at the beginning of each
+  step by removing the comment in front of the call to writeboun in ccx_2.15.c
+  and recompile, and you can print the MPC's each time they are set up by
+  decommenting the loop in which writempc is called at the beginning of
+  cascade.c and recompile.
+</LI>
+</OL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html915"
+  HREF="node6.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html911"
+  HREF="ccx.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html905"
+  HREF="node4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html913"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html916"
+  HREF="node6.html">Simple example problems</A>
+<B> Up:</B> <A NAME="tex2html912"
+  HREF="ccx.html">CalculiX CrunchiX USER'S MANUAL</A>
+<B> Previous:</B> <A NAME="tex2html906"
+  HREF="node4.html">Units</A>
+ &nbsp; <B>  <A NAME="tex2html914"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,390 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Box</TITLE>
+<META NAME="description" CONTENT="Box">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node75.html">
+<LINK REL="previous" HREF="node73.html">
+<LINK REL="up" HREF="node72.html">
+<LINK REL="next" HREF="node75.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1984"
+  HREF="node75.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1980"
+  HREF="node72.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1974"
+  HREF="node73.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1982"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1985"
+  HREF="node75.html">General</A>
+<B> Up:</B> <A NAME="tex2html1981"
+  HREF="node72.html">Beam Section Types</A>
+<B> Previous:</B> <A NAME="tex2html1975"
+  HREF="node73.html">Pipe</A>
+ &nbsp; <B>  <A NAME="tex2html1983"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00073200000000000000">
+Box</A>
+</H3>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="box"></A><A NAME="11850"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 84:</STRONG>
+Geometry of the box</CAPTION>
+<TR><TD><IMG
+ WIDTH="542" HEIGHT="283" BORDER="0"
+ SRC="img308.png"
+ ALT="\begin{figure}\epsfig{file=boxsection.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The Box section (contributed by O. Bernhardi) is simulated using a 'parent' beam element of type B32R.
+
+<P>
+The outer cross sections are defined by <IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img309.png"
+ ALT="$ a$"> and <IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img310.png"
+ ALT="$ b$">, the wall thicknesses are <IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img311.png"
+ ALT="$ t_1$">, 
+<IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img312.png"
+ ALT="$ t_2$">, <IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$ t_3$"> and <IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img314.png"
+ ALT="$ t_4$"> and are to be given by the user (Figure <A HREF="#box">84</A>). 
+
+<P>
+The cross-section integration is done using Simpson's method with 
+5 integration points for each of the four wall segments. Line integration is performed; 
+therefore, the stress gradient through an individual wall is neglected. Each wall 
+segment can be assigned its own wall thickness. 
+
+<P>
+The integration in the beam's longitudinal direction <IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$ \xi$"> is done using the usual Gauss
+integration method with two stations; therefore, the element has a total of 32 integration 
+points.
+
+<P>
+From the figure, we define, for example, the local coordinates of the first integration 
+point
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\xi_1=-\frac{1}{\sqrt{3}}; \hspace{1cm} \eta_1=1-\frac{t_4}{b};
+\hspace{1cm}\zeta_1=1-\frac{t_1}{a}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="342" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img316.png"
+ ALT="$\displaystyle \xi_1=-\frac{1}{\sqrt{3}}; \hspace{1cm} \eta_1=1-\frac{t_4}{b}; \hspace{1cm}\zeta_1=1-\frac{t_1}{a}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(15)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The other three corner points are defined correspondingly. The remaining points are evenly 
+distributed along the center lines of the wall segments. The length <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$"> and <IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img318.png"
+ ALT="$ q$"> of the line 
+segments, as given w.r.t. the element intrinsic coordinates <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"> and <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$">, 
+can now be calculated as 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+p=2-\frac{t_1}{a} - \frac{t_3}{a}; \hspace{1cm}q=2-\frac{t_2}{b} - \frac{t_4}{b};
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="280" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img321.png"
+ ALT="$\displaystyle p=2-\frac{t_1}{a} - \frac{t_3}{a}; \hspace{1cm}q=2-\frac{t_2}{b} - \frac{t_4}{b};$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(16)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+An integral of a function <!-- MATH
+ $f(\eta, \zeta$
+ -->
+<IMG
+ WIDTH="44" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img322.png"
+ ALT="$ f(\eta, \zeta$">), over the area <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img323.png"
+ ALT="$ \Omega$"> of the 
+hollow cross section and evaluated w.r.t the natural coordinates 
+<IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$">, <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$">, can be approximated by four line integrals, as long as the 
+line segments <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img324.png"
+ ALT="$ \Gamma_1$">, <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img325.png"
+ ALT="$ \Gamma_2$">, <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img326.png"
+ ALT="$ \Gamma_3$"> and <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img327.png"
+ ALT="$ \Gamma_4$"> are narrow enough: 
+
+<P>
+<BR>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray}
+\intop_{\Omega} f(\eta, \zeta)  d\Omega \;&\approx& \nonumber \\
+\frac{2t_1}{a} \intop f\left(\eta(\Gamma_1), \zeta\right) d\Gamma_1 \;&+& \;
+\frac{2t_2}{b} \intop f\left(\eta, \zeta(\Gamma_2)\right) d\Gamma_2 \;+ \;
+\nonumber \\
+\frac{2t_3}{a} \intop f\left(\eta(\Gamma_3), \zeta\right) d\Gamma_3 \;&+& \;
+\frac{2t_4}{b} \intop f\left(\eta),\zeta(\Gamma_4)\right) d\Gamma_4
+\end{eqnarray}
+ -->
+<TABLE CELLPADDING="0" ALIGN="CENTER" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="93" HEIGHT="59" ALIGN="MIDDLE" BORDER="0"
+ SRC="img328.png"
+ ALT="$\displaystyle \intop_{\Omega} f(\eta, \zeta) d\Omega \;$"></TD>
+<TD WIDTH="10" ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img329.png"
+ ALT="$\displaystyle \approx$"></TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="160" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img330.png"
+ ALT="$\displaystyle \frac{2t_1}{a} \intop f\left(\eta(\Gamma_1), \zeta\right) d\Gamma_1 \;$"></TD>
+<TD WIDTH="10" ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img331.png"
+ ALT="$\displaystyle +$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="182" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img332.png"
+ ALT="$\displaystyle \;
+\frac{2t_2}{b} \intop f\left(\eta, \zeta(\Gamma_2)\right) d\Gamma_2 \;+ \;$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="161" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img333.png"
+ ALT="$\displaystyle \frac{2t_3}{a} \intop f\left(\eta(\Gamma_3), \zeta\right) d\Gamma_3 \;$"></TD>
+<TD WIDTH="10" ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img331.png"
+ ALT="$\displaystyle +$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="167" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img334.png"
+ ALT="$\displaystyle \;
+\frac{2t_4}{b} \intop f\left(\eta),\zeta(\Gamma_4)\right) d\Gamma_4$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(17)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL">
+
+<P>
+According to Simpson's rule, the integration points are spaced evenly along each segment. 
+For the integration weights we get, for example, in case of the first wall segment
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+w_k = \{1,4,2,4,1\}\frac{q}{12}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="149" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
+ SRC="img335.png"
+ ALT="$\displaystyle w_k = \{1,4,2,4,1\}\frac{q}{12}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(18)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Therefore, we get, for example, for corner Point 1
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+w_1=\frac{1}{6} \frac{t_1}{a} q + \frac{1}{6} \frac{t_4}{b} p
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="136" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img336.png"
+ ALT="$\displaystyle w_1=\frac{1}{6} \frac{t_1}{a} q + \frac{1}{6} \frac{t_4}{b} p$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(19)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and for Point 2
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+w_2=\frac{4}{6} \frac{t_1}{a} q
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="80" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img337.png"
+ ALT="$\displaystyle w_2=\frac{4}{6} \frac{t_1}{a} q$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(20)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The resulting element data (stresses and strains) are extrapolated from the eight corner 
+integration points (points 1,5,9 and 13) from the two Gauss integration stations using the 
+shape functions of the linear 8-node hexahedral element. 
+
+<P><P>
+<BR>
+
+<P>
+<B>Remarks</B>
+
+<P>
+
+<UL>
+<LI>The wall thickness are assumed to be small compared to the outer cross section dimensions. 
+</LI>
+<LI>The bending stiffnesses of the individual wall segments about their own neutral axes are
+completely neglected due to the line integral approach.
+</LI>
+<LI>Torsion stiffness is governed to a large extent by warping of the cross section which 
+in turn can only be modelled to a limited extent by this type of element.
+</LI>
+<LI>Modelling of U or C profiles is also possible by setting one of the wall thicknesses 
+to zero. Modelling L sections  however, by setting the wall thickness of two segments to zero, 
+will probably cause spurious modes. 
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1984"
+  HREF="node75.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1980"
+  HREF="node72.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1974"
+  HREF="node73.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1982"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1985"
+  HREF="node75.html">General</A>
+<B> Up:</B> <A NAME="tex2html1981"
+  HREF="node72.html">Beam Section Types</A>
+<B> Previous:</B> <A NAME="tex2html1975"
+  HREF="node73.html">Pipe</A>
+ &nbsp; <B>  <A NAME="tex2html1983"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

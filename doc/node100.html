@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Network User Element</TITLE>
+<META NAME="description" CONTENT="Network User Element">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node99.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node101.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2316"
+  HREF="node101.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2312"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2308"
+  HREF="node99.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2314"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2317"
+  HREF="node101.html">Fluid Section Types: Liquids</A>
+<B> Up:</B> <A NAME="tex2html2313"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2309"
+  HREF="node99.html">Mass Flow Percent</A>
+ &nbsp; <B>  <A NAME="tex2html2315"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000742400000000000000"></A><A NAME="networkuserelement"></A>
+<BR>
+Network User Element
+</H3>
+
+<P>
+The user can define and code his/her own gas network element. The process of
+doing so requires the following steps:
+
+<P>
+
+<UL>
+<LI>decide whether the element should be pipe-like (i.e. the total
+  temperature and static temperature at the end nodes differ) or
+  chamber-connecting-like (i.e. the element connects large chambers and the
+  total and static temperatures at the end nodes are equal).
+</LI>
+<LI>choose a type name. For a pipe-like element the name has to start with
+  ``UP'' followed by 5 characters to be choosen freely by the user (UPxxxxx). For a
+  chamber-connecting-like element it has to start with ``U'', followed by a
+  character unequal to ``P'' and followed by 5 characters to be choosen freely
+  by the user (Uyxxxxx, y unequal to ``P'').
+</LI>
+<LI>decide on the number of constants to describe the element. This number
+  has to be specified on the <A HREF="node264.html#fluidsection">*FLUID SECTION</A> card with
+  the CONSTANTS parameter. 
+</LI>
+<LI>add an entry in the if-construct in subroutine
+  user_network_element.f. Notice that the type labels in the input deck (just as everything
+  else, except file names) are converted into upper case when being read by CalculiX.
+</LI>
+<LI>write an appropriate user network element subroutine,
+  e.g. user_network_element_pxxxxx.f or
+  user_network_element_yxxxxx.f. Details can be found in Section
+  <A HREF="node370.html#userdefinedelements">8.8</A>. This routine describes how the total pressure at
+  the end nodes,the total temperature at the end nodes and the mass flow
+  through the element are linked.
+</LI>
+<LI>add an entry in the if-construct in subroutine calcgeomelemnet.f (marked
+  by START insert and END insert). This
+  routine is used to determine the cross section area of the element (is used
+  to calculate the static temperature from the total temperature).
+</LI>
+<LI>add an entry in the if-construct in subroutine calcheatnet.f (marked by
+  START insert and END insert). This routine is used to calculate the heat
+  generation e.g. due to centrifugal forces.
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2316"
+  HREF="node101.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2312"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2308"
+  HREF="node99.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2314"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2317"
+  HREF="node101.html">Fluid Section Types: Liquids</A>
+<B> Up:</B> <A NAME="tex2html2313"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2309"
+  HREF="node99.html">Mass Flow Percent</A>
+ &nbsp; <B>  <A NAME="tex2html2315"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*VISCO</TITLE>
+<META NAME="description" CONTENT="*VISCO">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node334.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node336.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5346"
+  HREF="node336.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5342"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5338"
+  HREF="node334.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5344"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5347"
+  HREF="node336.html">User subroutines.</A>
+<B> Up:</B> <A NAME="tex2html5343"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5339"
+  HREF="node334.html">*VIEWFACTOR</A>
+ &nbsp; <B>  <A NAME="tex2html5345"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008127000000000000000"></A><A NAME="visco"></A>
+<BR>
+*VISCO
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This procedure is used to perform a static analysis for materials with viscous
+behavior. The syntax is identical to the <A HREF="node316.html#static">*STATIC</A>
+syntax, except for the extra parameter CETOL. This parameter is required and
+defines the maximum difference in viscous strain within a time
+increment based on the viscous strain rate at the start and the end of the increment. To get an idea of its size one can divide the stress increase one
+would typically allow within a time increment by the E-modulus.
+
+<P>
+Although the specification of the CETOL parameter is mandatory, it is only
+used so far for materials for which the elastic behavior is linear and isotropic.
+
+<P>
+Notice that the default way of applying loads in a *VISCO step is step
+loading, i.e. the loading is fully applied at the start of the step. This is
+different from a *STATIC step, in which the loading is ramped. Using a *VISCO
+step only makes sense if at least one materials exhibits viscous behavior.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

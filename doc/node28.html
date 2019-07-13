@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>C3D8R</TITLE>
+<META NAME="description" CONTENT="C3D8R">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node29.html">
+<LINK REL="previous" HREF="node27.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node29.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1431"
+  HREF="node29.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1427"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1421"
+  HREF="node27.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1429"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1432"
+  HREF="node29.html">Incompatible mode eight-node brick</A>
+<B> Up:</B> <A NAME="tex2html1428"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1422"
+  HREF="node27.html">Eight-node brick element (C3D8</A>
+ &nbsp; <B>  <A NAME="tex2html1430"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00072200000000000000">
+Eight-node brick element with reduced integration (C3D8R)</A>
+</H3>
+
+<P>
+The C3D8R element is a general purpose linear brick element, with reduced integration (1 integration point). The shape functions are the same as for the C3D8 element and can be found in [<A
+ HREF="node448.html#Lapidus">40</A>]. The node numbering follows the convention of Figure <A HREF="node27.html#eightnode">61</A> and the integration point is shown in Fig <A HREF="#int1">63</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="int1"></A><A NAME="11814"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 63:</STRONG>
+1x1x1 integration point scheme in hexahedral elements</CAPTION>
+<TR><TD><IMG
+ WIDTH="361" HEIGHT="342" BORDER="0"
+ SRC="img241.png"
+ ALT="\begin{figure}\epsfig{file=Int1.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Due to the reduced integration, the locking phenomena observed in the C3D8 element do not show. However, the element exhibits other shortcomings:
+
+<UL>
+<LI>The element tends to be not stiff enough in bending.
+</LI>
+<LI>Stresses, strains.. are most accurate in the integration points. The integration point of the C3D8R element is located in the middle of the element. Thus, small elements are required to capture a stress concentration at the boundary of a structure.
+</LI>
+<LI>There are 12 spurious zero energy modes leading to massive hourglassing:
+  this means that the correct solution is superposed by arbitrarily large
+  displacements corresponding to the zero energy modes. Thus, the
+  displacements are completely wrong. Since the zero energy modes do no lead
+  to any stresses, the stress field is still correct. In practice, the C3D8R
+  element is not very useful without hourglass control. Starting with version
+  2.3 hourglass control is automatically activated for this element (using the
+  theory in [<A
+ HREF="node448.html#Flanagan">23</A>]), thus
+  alleviating this issue.
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1431"
+  HREF="node29.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1427"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1421"
+  HREF="node27.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1429"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1432"
+  HREF="node29.html">Incompatible mode eight-node brick</A>
+<B> Up:</B> <A NAME="tex2html1428"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1422"
+  HREF="node27.html">Eight-node brick element (C3D8</A>
+ &nbsp; <B>  <A NAME="tex2html1430"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

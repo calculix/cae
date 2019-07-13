@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*CFLUX</TITLE>
+<META NAME="description" CONTENT="*CFLUX">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node217.html">
+<LINK REL="previous" HREF="node215.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node217.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3920"
+  HREF="node217.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3916"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3910"
+  HREF="node215.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3918"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3921"
+  HREF="node217.html">*CHANGE FRICTION</A>
+<B> Up:</B> <A NAME="tex2html3917"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3911"
+  HREF="node215.html">*CFD</A>
+ &nbsp; <B>  <A NAME="tex2html3919"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00088000000000000000"></A><A NAME="cflux"></A>
+<BR>
+*CFLUX
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option allows concentrated heat fluxes to be applied to any node in
+the model which is not fixed by a single or multiple point
+constraint. Optional parameters are OP, AMPLITUDE, TIME DELAY, USER and ADD. OP can take the
+value NEW or MOD. OP=MOD is default and implies that the concentrated
+fluxes applied to different nodes in previous steps are kept. Specifying a flux in a node for which a
+flux was defined in a previous step replaces this  value. A flux specified in
+a node for which a flux was already defined within the same step is added to
+this value. OP=NEW
+implies that all concentrated fluxes applied in previous steps are removed. If
+multiple *CFLUX cards are present in a step this parameter takes effect for the first *CFLUX card only. 
+
+<P>
+The AMPLITUDE parameter allows for the specification of an amplitude by which
+the flux values are scaled (mainly used for nonlinear static and dynamic
+calculations). Thus, in that case the values entered on the *CFLUX card are
+interpreted as reference values to be multiplied with the (time dependent)
+amplitude value to obtain the actual value. At the end of the step the
+reference value is replaced by the actual value at that time. In subsequent
+steps this value is kept constant unless it is explicitly redefined or the
+amplitude is defined using TIME=TOTAL TIME in which case the amplitude keeps
+its validity. 
+
+<P>
+The TIME DELAY parameter modifies the AMPLITUDE parameter. As such, TIME DELAY
+must be preceded by an AMPLITUDE name. TIME DELAY is a time shift by which the
+AMPLITUDE definition it refers to is moved in positive time direction. For
+instance, a TIME DELAY of 10 means that for time t the amplitude is taken
+which applies to time t-10. The TIME DELAY parameter must only appear once on
+one and the same keyword card.
+
+<P>
+If the USER parameter is selected the concentrated flux values are determined by
+calling the user subroutine <A HREF="node343.html#usercflux">cflux.f</A>, which
+must be provided by the user. This applies to all nodes listed
+beneath the *CFLUX keyword. Any flux values specified following the
+temperature degree of freedom are not taken into account. If the USER parameter is selected,
+the AMPLITUDE parameter has no effect and should not be used. 
+
+<P>
+Finally, the ADD parameter allows the user to specify that the flux should be
+added to previously defined fluxes in the same node, irrespective whether
+these fluxes were defined in the present step or in a previous step.
+
+<P>
+The use of the *CFLUX card makes sense for heat transfer calculations
+or coupled thermo-mechanical calculations only. Heat fluxes are
+applied to degree of freedom 11.
+
+<P>
+If more than one *CFLUX card occurs within the input deck the following rules apply:
+
+<P>
+If a *CFLUX card is applied to the same node AND in the same direction as in a
+previous application, then
+
+<UL>
+<LI>if the previous application was in the same step the *CFLUX value is
+  added, else it is replaced
+</LI>
+<LI>the new amplitude (including none) overwrites the previous amplitude
+</LI>
+</UL>
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*CFLUX
+</LI>
+<LI>Enter any needed parameters and their value.
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Node number or node set label.
+</LI>
+<LI>Degree of freedom (11).
+</LI>
+<LI>Magnitude of the flux
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*CFLUX,OP=NEW,AMPLITUDE=A1
+10,11,15.
+</PRE>
+
+<P>
+removes all previous concentrated heat fluxes and applies a flux with
+magnitude 15. and amplitude A1 for degree of freedom 11 (this is the
+temperature
+degree of freedom) of node 10.
+
+<P>
+
+<P><P>
+<BR>
+Example files: oneel20cf.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3920"
+  HREF="node217.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3916"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3910"
+  HREF="node215.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3918"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3921"
+  HREF="node217.html">*CHANGE FRICTION</A>
+<B> Up:</B> <A NAME="tex2html3917"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3911"
+  HREF="node215.html">*CFD</A>
+ &nbsp; <B>  <A NAME="tex2html3919"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

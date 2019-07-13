@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Capacitance of a cylindrical capacitor</TITLE>
+<META NAME="description" CONTENT="Capacitance of a cylindrical capacitor">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node13.html">
+<LINK REL="previous" HREF="node11.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node13.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1016"
+  HREF="node13.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1012"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1006"
+  HREF="node11.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1014"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1017"
+  HREF="node13.html">Hydraulic pipe system</A>
+<B> Up:</B> <A NAME="tex2html1013"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1007"
+  HREF="node11.html">Seepage under a dam</A>
+ &nbsp; <B>  <A NAME="tex2html1015"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00066000000000000000">
+Capacitance of a cylindrical capacitor</A>
+</H2>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="capacitor"></A><A NAME="11766"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 24:</STRONG>
+Heat flux in the capacitor's thermal analogy</CAPTION>
+<TR><TD><IMG
+ WIDTH="407" HEIGHT="349" BORDER="0"
+ SRC="img130.png"
+ ALT="\begin{figure}\begin{center}
+\epsfig{file=capacitor.ps,width=9cm}\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In this section the capacitance of a cylindrical capacitor is calculated with
+inner radius 1 m, outer radius 2 m and length 10 m. The capacitor is filled
+with air, its permittivity is <!-- MATH
+ $\epsilon_0=8.8542 \times 10^{-12} ~
+\text{C}^2/\text{Nm}^2$
+ -->
+<IMG
+ WIDTH="148" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img131.png"
+ ALT="$ \epsilon_0=8.8542 \times 10^{-12} ~$">&nbsp; &nbsp;C<IMG
+ WIDTH="20" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$ ^2/$">Nm<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ ^2$">. An extract of the input deck, which is part of the
+test example suite, is shown below:
+
+<P>
+<PRE>
+*NODE, NSET=Nall
+...
+*ELEMENT, TYPE=C3D20, ELSET=Eall
+...
+*NSET,NSET=Nin 
+1, 
+2, 
+...
+*NSET,NSET=Nout 
+57, 
+58, 
+...
+*SURFACE,NAME=S1,TYPE=ELEMENT
+6,S3
+1,S3
+*MATERIAL,NAME=EL
+*CONDUCTIVITY
+8.8541878176e-12
+*SOLID SECTION,ELSET=Eall,MATERIAL=EL
+*STEP
+*HEAT TRANSFER,STEADY STATE
+*BOUNDARY
+Nin,11,11,2.
+Nout,11,11,1.
+*EL FILE
+HFL
+*SECTION PRINT,SURFACE=S1
+FLUX
+*END STEP
+</PRE>
+
+<P>
+As explained in Section <A HREF="node172.html#electrostatics">6.9.13</A> the capacitance can be
+calculated by determining the total heat flux through one of the capacitor's
+surfaces due to a unit temperature difference between the surfaces. The material in between the
+surfaces of the capacitor is assigned a conductivity equal to its
+permittivity. Here, only one degree of the capacitor has been modeled. In
+axial direction the mesh is very coarse, since no variation of the temperature is expected. Figure
+<A HREF="#capacitor">24</A> shows that the heat flux at the inner radius is <!-- MATH
+ $1.27 \times
+10^{-11}$
+ -->
+<IMG
+ WIDTH="92" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img132.png"
+ ALT="$ 1.27 \times
+10^{-11} $"> W/m<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ ^2$"> . This corresponds to a total heat flow of <!-- MATH
+ $7.98 \time
+10^{-10}$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img133.png"
+ ALT="$ 7.98 \time
+10^{-10} $"> W. The analytical formula for the capacitor yields <!-- MATH
+ $2 \pi \epsilon_0
+/ \ln (2) = 8.0261 \time 10^{-10}$
+ -->
+<IMG
+ WIDTH="169" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img134.png"
+ ALT="$ 2 \pi \epsilon_0
+/ \ln (2) = 8.0261 \time 10^{-10}$"> C/V. 
+
+<P>
+The total flux through the inner surface S1 is also stored in the .dat file because of
+the <A HREF="node308.html#sectionprint">*SECTION PRINT</A> keyword card in the input deck. It
+amounts to <!-- MATH
+ $-2.217 \times 10^{-12}$
+ -->
+<IMG
+ WIDTH="112" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img135.png"
+ ALT="$ -2.217 \times 10^{-12}$"> W. This value is negative, because the
+flux is entering the space in between the capacitor's surfaces. Since only one
+degree was modeled, this value has to be multiplied by 360 and yields the same
+value as above.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1016"
+  HREF="node13.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1012"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1006"
+  HREF="node11.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1014"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1017"
+  HREF="node13.html">Hydraulic pipe system</A>
+<B> Up:</B> <A NAME="tex2html1013"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1007"
+  HREF="node11.html">Seepage under a dam</A>
+ &nbsp; <B>  <A NAME="tex2html1015"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

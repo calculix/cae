@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*COMPLEX FREQUENCY</TITLE>
+<META NAME="description" CONTENT="*COMPLEX FREQUENCY">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node225.html">
+<LINK REL="previous" HREF="node223.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node225.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4016"
+  HREF="node225.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4012"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4006"
+  HREF="node223.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4014"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4017"
+  HREF="node225.html">*CONDUCTIVITY</A>
+<B> Up:</B> <A NAME="tex2html4013"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4007"
+  HREF="node223.html">*CLOAD</A>
+ &nbsp; <B>  <A NAME="tex2html4015"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000816000000000000000"></A><A NAME="complexfrequency"></A>
+<BR>
+*COMPLEX FREQUENCY
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This procedure card is used to determine frequencies taking into account
+Coriolis forces (cf. Section <A HREF="node162.html#complexfrequencyanalysis">6.9.3</A>). It must be
+preceded by a <A HREF="node265.html#frequency">*FREQUENCY</A> step in which the eigenvalues
+and eigenmodes are calculated without Coriolis (do not forget to use the
+option STORAGE=YES in the frequency step, ensuring that the eigenmodes and
+eigenvalues are stored in a .eig file). The frequency step does not have to be
+in the same input deck. There is one required parameter CORIOLIS.
+
+<P>
+Finally, the number of
+eigenfrequencies requested should not exceed the corresponding number in the
+frequency step.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*COMPLEX FREQUENCY
+</LI>
+<LI>use the required parameter CORIOLIS
+</LI>
+</UL>
+Second line:
+
+<UL>
+<LI>Number of eigenfrequencies desired.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*COMPLEX FREQUENCY,CORIOLIS
+10
+</PRE>
+
+<P>
+requests the calculation of the 10 lowest eigenfrequencies and corresponding eigenmodes. 
+
+<P>
+
+<P><P>
+<BR>
+Example files: rotor.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

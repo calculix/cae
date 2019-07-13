@@ -46,7 +46,7 @@ class CAE(QtWidgets.QMainWindow):
         parser = argparse.ArgumentParser()
         parser.add_argument("--mesh", "-mesh",
                             help="Mesh .inp file",
-                            type=str, default='')
+                            type=str, default='mesh_hex.inp')
         args = parser.parse_args()
         self.inp = ccx_inp.inp(self) # must be called to define actions
         if len(args.mesh): # import default ugrid

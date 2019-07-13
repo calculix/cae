@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Gradient error estimator</TITLE>
+<META NAME="description" CONTENT="Gradient error estimator">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node202.html">
+<LINK REL="up" HREF="node201.html">
+<LINK REL="next" HREF="node204.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3635"
+  HREF="node204.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3631"
+  HREF="node201.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3627"
+  HREF="node202.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3633"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3636"
+  HREF="node204.html">Output variables</A>
+<B> Up:</B> <A NAME="tex2html3632"
+  HREF="node201.html">Error estimators</A>
+<B> Previous:</B> <A NAME="tex2html3628"
+  HREF="node202.html">Zienkiewicz-Zhu error estimator</A>
+ &nbsp; <B>  <A NAME="tex2html3634"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000712200000000000000">
+Gradient error estimator</A>
+</H3>
+
+<P>
+A different error estimator is based on the difference between the maximum and
+minimum of an elementwise-selected principal stress at the integration points in the
+elements belonging to one and the same node . It is
+triggered by selecting ERR underneath the <A HREF="node255.html#elfile">*EL FILE</A> keyword
+card.
+
+<P>
+The elementwise-selected principal stress is either the smallest or the
+largest principal stress (first or third). It is the largest principal stress
+if the maximum over all integration points in the element of the absolute
+value of the largest principal stress is larger than the maximum over all
+integration points in the element of the absolute value of the smallest
+principal stress. Else, it is the smallest principal stress.
+
+<P>
+A node usually belongs to several elements. The stresses are available (and
+most accurate) at the
+integration points of these elements. If the largest difference between the elementwise-selected
+principal stress at all integration points within an element is small, the
+stresses vary little across the element and the element size is deemed
+adequate to yield an accurate stress prediction. From the absolute value of
+the largest difference a relative element value is calculated. The relative
+element value is the absolute value divided by the absolute value of the largest elementwise-selected
+principal stress within the element.
+
+<P>
+To obtain the relative value at the nodes the maximum is taken of the relative element
+value across all elements
+belonging to the node. In a strict sense this is not an error estimator, it is
+just a measure for the variation of the elementwise-selected principal stress across all elements belonging
+to the node. 
+
+<P>
+By applying this concept to a large number of examples for which the stress
+error was known a heuristic relationship was deduced. It allows for a given
+element type to determine the error in the elementwise-selected principal stress in a node
+(called STR in the frd file; it is
+obtained by selecting ERR underneath the *EL FILE or *ELEMENT OUTPUT card) from the
+relative measure just defined (describing the relative change of the elementwise-selected
+principal stress in the adjacent elements). If a node belongs to several
+element types the worst value is taken. The STR-value is in %.
+
+<P>
+For heat transfer a similar error estimator was coded for the heat flux.  It is
+triggered by selecting HER underneath the <A HREF="node255.html#elfile">*EL FILE</A> keyword
+card. It represents the variation of the size of the heat flux vector across
+all elements belonging to one and the same node. For thermal problems too 
+heuristic relationships connecting the largest temperature gradient in the
+adjacent element to a node and the temperature error in the node have been
+established. The temperature error is called TEM in the frd file and is in
+%. It is obtained by selecting HER underneath the *EL FILE or *ELEMENT OUTPUT card.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3635"
+  HREF="node204.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3631"
+  HREF="node201.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3627"
+  HREF="node202.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3633"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3636"
+  HREF="node204.html">Output variables</A>
+<B> Up:</B> <A NAME="tex2html3632"
+  HREF="node201.html">Error estimators</A>
+<B> Previous:</B> <A NAME="tex2html3628"
+  HREF="node202.html">Zienkiewicz-Zhu error estimator</A>
+ &nbsp; <B>  <A NAME="tex2html3634"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

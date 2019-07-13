@@ -1,0 +1,265 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Eight-node axisymmetric element (CAX8 and CAX8R)</TITLE>
+<META NAME="description" CONTENT="Eight-node axisymmetric element (CAX8 and CAX8R)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node57.html">
+<LINK REL="previous" HREF="node55.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node57.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1767"
+  HREF="node57.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1763"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1757"
+  HREF="node55.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1765"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1768"
+  HREF="node57.html">Two-node 2D beam element</A>
+<B> Up:</B> <A NAME="tex2html1764"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1758"
+  HREF="node55.html">Six-node axisymmetric element (CAX6)</A>
+ &nbsp; <B>  <A NAME="tex2html1766"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000723000000000000000">
+Eight-node axisymmetric element (CAX8 and CAX8R)</A>
+</H3>
+
+<P>
+This is a general purpose quadratic axisymmetric element. Just as the
+shell, plane stress and plane strain element it is internally expanded
+into a C3D20 or C3D20R element according to Figure <A HREF="node40.html#2dexpansion">73</A>
+and the node numbering of Figure <A HREF="node40.html#c2d8">72</A> applies. 
+
+<P>
+For axisymmetric elements the coordinates of the nodes correspond to
+the radial direction (first coordinate) and the axial direction
+(second or y-coordinate). The axisymmetric structure is expanded by
+rotation about the second coordinate axis, half clockwise and half
+counterclockwise. The radial direction 
+corresponds to the x-axis in the 3D expansion, the axial direction
+with the y-axis. The x-y plane cuts the expanded structure in
+half. The z-axis is perpendicular to the x-y plane such that a
+right-hand-side axis system is obtained.
+
+<P>
+The same rules apply as for the plane strain elements, except that
+in-plane conditions in a plane strain construction now correspond to
+radial plane conditions in the axisymmetric structure. Expressed in
+another way, the z-direction in plane strain now corresponds to the
+circumferential direction in a cylindrical coordinate system with the
+y-axis as defining axis. Notice that nodes on the x-axis are not automatically
+fixed in radial direction. The user has to take care of this by using the
+<A HREF="node209.html#boundary">*BOUNDARY</A> card
+
+<P>
+Compared to plane strain elements, the following conditions apply:
+
+<P>
+
+<UL>
+<LI>The expansion angle is fixed, its size is <IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img260.png"
+ ALT="$ 2^\circ$">. The value on the
+  line beneath the
+  <A HREF="node312.html#solidsection">*SOLID SECTION</A> keyword, if any, has no effect.
+</LI>
+<LI>The displacements in cylindrical coordinates of all nodes not in
+the defining plane are identical to the displacements of the
+corresponding nodes in the defining plane. This is formulated using MPC's.
+</LI>
+<LI>Forces act in radial planes. They have to be defined for the complete
+  circumference, i.e. if you apply a force in a node, you first have to sum all forces
+  at that location along the circumference and then apply this sum to the node.
+</LI>
+<LI>Concentrated heat fluxes act in radial planes. They have to be defined
+  for the complete circumference.
+</LI>
+<LI>Mass flow rates act in radial planes. They have to be defined
+  for the complete circumference.
+</LI>
+<LI>For distributed loading Figure <A HREF="node48.html#quadface">75</A> applies.
+</LI>
+</UL>
+
+<P>
+A special application is the combination of axisymmetric elements with plane
+stress elements to model quasi-axisymmetric structures. Consider a circular
+disk with holes along the circumference, Figure <A HREF="#diskwithholes">76</A>. Assume that the holes take up <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img261.png"
+ ALT="$ k \%$">
+of the circumferential width, i.e. if the center of the holes is located at a
+radius <IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img58.png"
+ ALT="$ r$">, the holes occupy <!-- MATH
+ $2\pi r k/100$
+ -->
+<IMG
+ WIDTH="70" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img262.png"
+ ALT="$ 2\pi r k/100 $">. Then, the structure is reduced to a
+two-dimensional model by simulating the holes by plane stress elements with
+width <!-- MATH
+ $2\pi r(100-k)/100$
+ -->
+<IMG
+ WIDTH="126" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img263.png"
+ ALT="$ 2\pi r(100-k)/100 $"> and everything else by axisymmetric elements. More
+sophisticated models can be devised (e.g. taking the volume of the holes into
+account instead of the width at their center, or adjusting the material
+properties as well [<A
+ HREF="node448.html#Koehl">36</A>]). The point here is that due to the expansion into
+three-dimensional elements a couple of extra guidelines have to be followed:
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="diskwithholes"></A><A NAME="11837"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 76:</STRONG>
+Disk with holes</CAPTION>
+<TR><TD><IMG
+ WIDTH="361" HEIGHT="362" BORDER="0"
+ SRC="img264.png"
+ ALT="\begin{figure}\epsfig{file=diskwithholes.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<UL>
+<LI>expanded plane stress and axisymmetric elements must have a small
+  thickness to yield good results: in the case of plane stress elements this
+  is because a large
+  thickness does not agree with the plane stress assumption, in the case of axisymmetric
+  elements because large angles yield bad results since the expansion creates
+  only one layer of elements. CalculiX uses an expansion angle of <IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img260.png"
+ ALT="$ 2^\circ$">,
+  which amounts to <IMG
+ WIDTH="38" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img265.png"
+ ALT="$ \pi/90$"> radians.
+Consequently,  only <!-- MATH
+ $100/180 \%$
+ -->
+<IMG
+ WIDTH="73" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img266.png"
+ ALT="$ 100/180 \%$"> of the disk
+  is modeled and the thickness of the plane stress elements is
+  <!-- MATH
+ $(100-k) \pi r/9000$
+ -->
+<IMG
+ WIDTH="126" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img267.png"
+ ALT="$ (100-k) \pi r/9000 $">. This is done automatically within CalculiX. On the
+  *SOLID SECTION card the user
+  must specify the thickness of the plane stress elements for <IMG
+ WIDTH="36" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img268.png"
+ ALT="$ 360^\circ$">,
+  i.e. <!-- MATH
+ $2\pi r(100-k)/100$
+ -->
+<IMG
+ WIDTH="126" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img263.png"
+ ALT="$ 2\pi r(100-k)/100 $">.
+</LI>
+<LI>the point forces on the axisymmetric elements are to be given for the
+  complete circumference, as usual for axisymmetric elements.
+</LI>
+<LI>the point forces on the plane stress elements act on the
+  complete circumference.
+</LI>
+<LI>distributed loads are not affected, since they act on areas and/or volumes.
+</LI>
+</UL>
+
+<P>
+If an axisymmetric element is connected to a structure consisting of 3D
+elements the motion of this structure in the circumferential direction
+is not restricted by its connection to the 2D elements. The
+user has to take care that any rigid body motion of the structure involving
+the circumferential direction is taken care of, if appropriate. This particularly applies to
+any springs connected to axisymmetric elements. 
+
+<P>
+Notice that structures containing axisymmetric elements should be defined in the
+global x-y plane, i.e. z=0 for all nodes.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1767"
+  HREF="node57.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1763"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1757"
+  HREF="node55.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1765"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1768"
+  HREF="node57.html">Two-node 2D beam element</A>
+<B> Up:</B> <A NAME="tex2html1764"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1758"
+  HREF="node55.html">Six-node axisymmetric element (CAX6)</A>
+ &nbsp; <B>  <A NAME="tex2html1766"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

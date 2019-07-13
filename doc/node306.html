@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*RETAINED NODAL DOFS</TITLE>
+<META NAME="description" CONTENT="*RETAINED NODAL DOFS">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node307.html">
+<LINK REL="previous" HREF="node305.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node307.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5000"
+  HREF="node307.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4996"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4990"
+  HREF="node305.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4998"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5001"
+  HREF="node307.html">*RIGID BODY</A>
+<B> Up:</B> <A NAME="tex2html4997"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4991"
+  HREF="node305.html">*RESTART</A>
+ &nbsp; <B>  <A NAME="tex2html4999"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000898000000000000000"></A><A NAME="retainednodaldofs"></A>
+<BR>
+*RETAINED NODAL DOFS
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option is used to prescribe the nodal degrees of freedom which are kept
+in a <A HREF="node320.html#substructuregenerate">*SUBSTRUCTURE GENERATE</A> analysis. It
+cannot be used in any other sort of analysis.
+
+<P>
+There is one optional parameter: SORTED=NO. It is not possible to request a
+sorting of the degrees of freedom entered. The entries in the substructure
+stiffness matrix are in the order introduced by the user.
+
+<P>
+No transformation is allowed. Consequently, the global Carthesian system applies.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*RETAINED NODAL DOFS
+</LI>
+<LI>Enter the parameter SORTED=NO (optional).
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Node number or node set label
+</LI>
+<LI>First degree of freedom retained
+</LI>
+<LI>Last degree of freedom retained. This field may be left blank if only one degree of freedom is retained.
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*RETAINED NODAL DOFS
+73,1,3
+</PRE>
+
+<P>
+retains the degrees of freedom one through three (global) of node 73.
+
+<P>
+
+<P><P>
+<BR>
+Example files: substructure.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

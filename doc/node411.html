@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Aerodynamic and hydraulic networks</TITLE>
+<META NAME="description" CONTENT="Aerodynamic and hydraulic networks">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node417.html">
+<LINK REL="previous" HREF="node408.html">
+<LINK REL="up" HREF="node373.html">
+<LINK REL="next" HREF="node412.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6402"
+  HREF="node412.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6398"
+  HREF="node373.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6392"
+  HREF="node410.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6400"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6403"
+  HREF="node412.html">The variables and the</A>
+<B> Up:</B> <A NAME="tex2html6399"
+  HREF="node373.html">Program structure.</A>
+<B> Previous:</B> <A NAME="tex2html6393"
+  HREF="node410.html">results</A>
+ &nbsp; <B>  <A NAME="tex2html6401"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000118000000000000000">
+Aerodynamic and hydraulic networks</A>
+</H2>
+
+<P>
+Aerodynamic and hydraulic networks are solved separately from the structural
+equation system. This is because networks generally lead to small sets of
+equations (at most a couple of thousand equations) which are inherently
+asymmetric. If solved together with the structural system, the small network
+contribution would lead to a complete asymmetric matrix and increase the
+computational time significantly. Moreover, especially aerodynamic networks
+are very nonlinear and require more iterations than structural
+nonlinearities. Consequently, the small network contribution would also lead
+to a lot more iterations. Therefore, the matrices of networks are set up and
+solved on their own taking the structural solution from the previous
+structural iteration as boundary condition. In a similar way, the network
+solution acts as boundary condition for the next structural iteration.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html6404"
+  HREF="node412.html">The variables and the equations</A>
+<LI><A NAME="tex2html6405"
+  HREF="node413.html">Determining the basic characteristics of the network</A>
+<LI><A NAME="tex2html6406"
+  HREF="node414.html">Initializing the unknowns</A>
+<LI><A NAME="tex2html6407"
+  HREF="node415.html">Calculating the residual and setting up the equation system</A>
+<LI><A NAME="tex2html6408"
+  HREF="node416.html">Convergence criteria</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

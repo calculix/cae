@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Determining the basic characteristics of the network</TITLE>
+<META NAME="description" CONTENT="Determining the basic characteristics of the network">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node414.html">
+<LINK REL="previous" HREF="node412.html">
+<LINK REL="up" HREF="node411.html">
+<LINK REL="next" HREF="node414.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6431"
+  HREF="node414.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6427"
+  HREF="node411.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6421"
+  HREF="node412.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6429"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6432"
+  HREF="node414.html">Initializing the unknowns</A>
+<B> Up:</B> <A NAME="tex2html6428"
+  HREF="node411.html">Aerodynamic and hydraulic networks</A>
+<B> Previous:</B> <A NAME="tex2html6422"
+  HREF="node412.html">The variables and the</A>
+ &nbsp; <B>  <A NAME="tex2html6430"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000118200000000000000">
+Determining the basic characteristics of the network</A>
+</H3>
+
+<P>
+In subroutine envtemp.f the basic properties of the network are determined. It
+is called at the start of nonlingeo.c. At first the gas nodes are identified
+and sorted. A node is a gas node if any of the following conditions is
+satisfied:
+
+<P>
+
+<UL>
+<LI>it is used as environment node of a forced convection <A HREF="node261.html#film">*FILM</A> boundary
+  condition. The temperature in such a node is an unknown. This also implies
+  that a midside node of a network element cannot be used as environment node in
+  a *FILM condition.
+</LI>
+<LI>it is used as environment node of a forced convection *DLOAD boundary
+  condition. The total pressure in such a node is unknown (the static pressure
+  may be more applicable for gas networks, this has not been implemented yet).
+</LI>
+<LI>it belongs to a network element. If it is an corner node the total
+  temperature and the total pressure are unknowns, if it is a midside node the
+  mass flow is unknown and the geometry may be unknown too.
+</LI>
+</UL>
+
+<P>
+In that way also the field nactdog is filled (with the value 1 for an unknown
+variable, 0 else). Next, the known boundary values
+(<A HREF="node209.html#boundary">*BOUNDARY</A> cards) are subtracted, and the unknown DOFs are
+numbered consecutively yielding the final form for nactdog. Notice that the
+global number of gas node i is itg(i). Since field its is ordered in an
+ascending order, subroutine nident.f can be used to find the local gas node
+number for a given global number. In the remaining test ``gas node i'' refers
+to the local number whereas ``node i'' refers to a global number.
+
+<P>
+In a loop over all network elements the necessary equations are determined. In a
+given corner node the conservation of mass equation is formulated if the mass
+flow in at least one of the adjacent network elements is unknown. The
+conservation of energy is written if the temperature in the corner node is
+unknown. Finally, conservation of momentum equation (also called element
+equation) is formulated for a midside node of a network element if not all
+quantities in the element equation are known. This latter check is performed
+in the subroutine flux.f (characterized by iflag=0). It contains on its own subroutines for several
+fluid section types, e.g. subroutine orifice.f for the fluid section of type
+ORIFICE. The number of unknowns relevant for the network element depends on its
+section type. After having identified all necessary equations in field nacteq
+they are numbered and the number of equations is compared with the number of
+unknowns. They must be equal in order to have a unique solution.
+
+<P>
+Next, multiple point constraints among network nodes are taken into
+account. They are defined using the *EQUATION keyword card. It is not allowed
+to use network nodes and non-network nodes in one and the same equation.
+
+<P>
+Finally, dependent
+and independent nodes are determined for each isothermal element and the
+appropriate entries in field nacteq (third row, cf. previous section) are
+defined. If at the stage of the matrix filling an corner node is a dependent node
+of an isothermal element the conservation of energy equation in that node is
+replaced by an equation that the static temperature in the dependent and
+independent node are equal. Fields ipogn and ign are deleted after leaving
+envtemp.f 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6431"
+  HREF="node414.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6427"
+  HREF="node411.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6421"
+  HREF="node412.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6429"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6432"
+  HREF="node414.html">Initializing the unknowns</A>
+<B> Up:</B> <A NAME="tex2html6428"
+  HREF="node411.html">Aerodynamic and hydraulic networks</A>
+<B> Previous:</B> <A NAME="tex2html6422"
+  HREF="node412.html">The variables and the</A>
+ &nbsp; <B>  <A NAME="tex2html6430"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

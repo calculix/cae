@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>General</TITLE>
+<META NAME="description" CONTENT="General">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node74.html">
+<LINK REL="up" HREF="node72.html">
+<LINK REL="next" HREF="node76.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1994"
+  HREF="node76.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1990"
+  HREF="node72.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1986"
+  HREF="node74.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1992"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1995"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Up:</B> <A NAME="tex2html1991"
+  HREF="node72.html">Beam Section Types</A>
+<B> Previous:</B> <A NAME="tex2html1987"
+  HREF="node74.html">Box</A>
+ &nbsp; <B>  <A NAME="tex2html1993"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00073300000000000000">
+General</A>
+</H3>
+
+<P>
+The general section can only be used for user element type U1 and is defined
+by the following properties (to be given by the user in that order):
+
+<P>
+
+<UL>
+<LI>cross section area A
+</LI>
+<LI>moment of inertia <IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img338.png"
+ ALT="$ I_{11}$">
+</LI>
+<LI>moment of inertia <IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img339.png"
+ ALT="$ I_{12}$">
+</LI>
+<LI>moment of inertia <IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img340.png"
+ ALT="$ I_{22}$">
+</LI>
+<LI>Timoshenko shear coefficient <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img341.png"
+ ALT="$ k$">
+</LI>
+</UL>
+
+<P>
+Furthermore, the specification of the 1-direction (cf. third line in the
+<A HREF="node208.html#beamsection">*BEAM SECTION</A> definition) is REQUIRED for this type of
+section. Internally, the properties are stored in the prop-array in the
+following order:
+
+<P>
+
+<UL>
+<LI>cross section area A
+</LI>
+<LI>moment of inertia <IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img338.png"
+ ALT="$ I_{11}$">
+</LI>
+<LI>moment of inertia <IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img339.png"
+ ALT="$ I_{12}$">
+</LI>
+<LI>moment of inertia <IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img340.png"
+ ALT="$ I_{22}$">
+</LI>
+<LI>Timoshenko shear coefficient <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img341.png"
+ ALT="$ k$">
+</LI>
+<LI>global x-coordinate of a unit vector in 1-direction
+</LI>
+<LI>global y-coordinate of a unit vector in 1-direction
+</LI>
+<LI>global z-coordinate of a unit vector in 1-direction
+</LI>
+<LI>offset1
+</LI>
+<LI>offset2
+</LI>
+</UL>
+
+<P>
+In the present implementation of the U1-type element  <IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img339.png"
+ ALT="$ I_{12}$">, offset1 and
+offset2 have to be zero.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

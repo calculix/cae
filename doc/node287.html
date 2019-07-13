@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*MPC</TITLE>
+<META NAME="description" CONTENT="*MPC">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node288.html">
+<LINK REL="previous" HREF="node286.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node288.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4772"
+  HREF="node288.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4768"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4762"
+  HREF="node286.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4770"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4773"
+  HREF="node288.html">*NETWORK MPC</A>
+<B> Up:</B> <A NAME="tex2html4769"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4763"
+  HREF="node286.html">*MODEL CHANGE</A>
+ &nbsp; <B>  <A NAME="tex2html4771"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000879000000000000000"></A><A NAME="mpc"></A>
+<BR>
+*MPC
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+With this keyword card a multiple point constraint is defined, usually
+a nonlinear one. Right now, four different MPC's can be selected.
+
+<P>
+
+<UL>
+<LI>A plane MPC (name PLANE). This MPC specifies that all nodes
+listed within this MPC card should stay in a plane. The first three
+nodes are the defining nodes and should not lie on a line. For all
+subsequent nodes a nonlinear MPC is generated expressing that they
+stay within the plane. Notice that the plane can move during
+deformation, depending on the motion of the defining nodes.
+
+<P>
+</LI>
+<LI>A straight line MPC (name STRAIGHT). This MPC expresses that all
+nodes listed within this MPC card should stay on a straight line. The
+first two nodes are the defining nodes and should not coincide. For
+all subsequent nodes two nonlinear MPC's are generated expressing that
+they stay on the straight line. Notice that the straight line can move
+during deformation, depending on the motion of its defining nodes.
+
+<P>
+</LI>
+<LI>A beam MPC (name BEAM). This MPC involves exactly two nodes the distance between
+  which is kept constant during the calculation.
+
+<P>
+</LI>
+<LI>A user MPC (name to be defined by the user). With this option
+the user can define new nonlinear MPC's. Examples are given in Section
+<A HREF="node366.html#usermpc">8.7</A>, e.g. the mean rotation MPC.
+</LI>
+</UL>
+
+<P>
+A *MPC card automatically triggers the NLGEOM parameter, i.e. a geometrically
+nonlinear calculation is performed, except if the MPC is a mean rotation MPC.
+
+<P>
+There are no parameters for this keyword card.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*MPC
+</LI>
+</UL>
+
+<P>
+Second line:
+
+<UL>
+<LI>MPC name
+</LI>
+<LI>list of nodes participating in the MPC: maximum 15 entries. Zero
+entries are discarded.
+</LI>
+</UL>
+
+<P>
+Following lines (as many as needed):
+
+<UL>
+<LI>list of nodes participating in the MPC: maximum 16 entries. Zero
+entries are discarded.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*MPC
+PLANE,3,8,15,39,14
+</PRE>
+
+<P>
+specifies that nodes 3, 8, 15, 39 and 14 should stay in a plane. The
+plane is defined by nodes 3, 8 and 15. They should not be co-linear. 
+
+<P>
+
+<P><P>
+<BR>
+Example files: beammr, beamplane, beamstraight.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4772"
+  HREF="node288.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4768"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4762"
+  HREF="node286.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4770"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4773"
+  HREF="node288.html">*NETWORK MPC</A>
+<B> Up:</B> <A NAME="tex2html4769"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4763"
+  HREF="node286.html">*MODEL CHANGE</A>
+ &nbsp; <B>  <A NAME="tex2html4771"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

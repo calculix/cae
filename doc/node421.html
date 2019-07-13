@@ -1,0 +1,338 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Postprocessing the sensitivity</TITLE>
+<META NAME="description" CONTENT="Postprocessing the sensitivity">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node420.html">
+<LINK REL="up" HREF="node418.html">
+<LINK REL="next" HREF="node422.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6526"
+  HREF="node422.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6522"
+  HREF="node418.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6518"
+  HREF="node420.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6524"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6527"
+  HREF="node422.html">Mesh refinement</A>
+<B> Up:</B> <A NAME="tex2html6523"
+  HREF="node418.html">Sensitivity Analysis</A>
+<B> Previous:</B> <A NAME="tex2html6519"
+  HREF="node420.html">Processing the sensitivity</A>
+ &nbsp; <B>  <A NAME="tex2html6525"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION0001110300000000000000">
+Postprocessing the sensitivity</A>
+</H3>
+
+<P>
+Postprocessing is only done for geometrical design variables. The
+postprocessing procedure is coded in sensitivity.c and consists of the
+following steps:
+
+<P>
+
+<UL>
+<LI>Changing from a shape function smeared sensitivity representation to
+  local sensitivities.
+</LI>
+<LI>For quadratic elements: interpolating the sensitivities at the middle
+  nodes to the vertex nodes
+</LI>
+<LI>Filtering the sensitivities
+</LI>
+<LI>Creating a transition region from the design node region to its
+  complement
+</LI>
+<LI>Modifying the sensitivities due to constraint conditions
+</LI>
+</UL>
+
+<P>
+Now the steps are treated in more detail:
+
+<P>
+
+<UL>
+<LI>The sensitivity for geometric design variables is calculated by moving each
+design variable an infinitesimal distance in a direction normal to the
+external surface. Through the shape functions this motion extends across an
+area consisting of all external faces to which the design node belongs. The
+sensitivity is localized through division by the integral of the shape
+functions taking the value 1 at the node at stake (distributesens.f).
+</LI>
+<LI>For quadratic faces frequently a checkerboard pattern arises for the
+sensitivities. For this type of elements it has proven advantageous to disregard the sensitivities
+calculated at the vertex nodes. They are replaced by an interpolation of the
+values at the midnodes of all external design faces (quadraticsens.f).
+</LI>
+<LI>Filtering the sensitivities boils down to a local smoothing. The sensitivity
+values at a given node are thereby replaced by a weighted sum of the
+sensitivities of the nodes within a sphere with a user-defined radius. The
+weighting function is 1 at the node at stake and decreases radially in a
+user-defined way to zero at the edge of the sphere. The available filter
+functions are linear, quadratic and cubic. If the parameter DIRECTION
+WEIGHTING is active on the <A HREF="node262.html#filter">*FILTER</A> card the sensitivity
+values at a node i are replaced by a weighted sum of the sensitivities at the nodes j within
+the sphere multiplied by the scalar product of the normal vector at j and the
+normal vector at i. 
+</LI>
+<LI>If the parameter BOUNDARY WEIGHTING=YES is selected on the *FILTER card
+  the sensitities are linearly decreased to zero at the edge of the design
+  domain. This edge is defined by all nodes which are not design variables but
+  belong to external faces which contain at least one design variable. If a
+  design node lies within a user-defined boundary weighting distance from this
+  edge a linear reduction proportional to the actual distance is applied. This
+  assures a smooth transition of the sensitivities to zero at the edge of the
+  design domain.
+</LI>
+<LI>Constraints are taken into account by projecting the unconstrained
+  sensitivities on the complement of the subspace consisting of the active constraints. Suppose
+  the domain is n-dimensional (n design variables) and the subspace has the
+  dimension m (m constraints). Then the sensitivities of the constraints can
+  be arranged as basis vectors in a nxm matrix. The projection p of a vector b
+  on the subspace satisfies the orthogonality condition:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+N^T (b-p)=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="201" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1999.png"
+ ALT="$\displaystyle N^T (b-p)=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(552)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Since p belongs to the subspace it can be written as a linear combination of
+the basis vectors <B><IMG
+ WIDTH="109" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2000.png"
+ ALT="$ p=Nx$"></B>, where <B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img668.png"
+ ALT="$ x$"></B> is a mx1 vector of
+coefficients. Consequently:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+N^T N x = N^T b,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="57" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2001.png"
+ ALT="$\displaystyle N^T N x = N^T b,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(553)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+from which x can be solved yielding:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+p=N(N^T N)^{-1} N^T b.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="110" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2002.png"
+ ALT="$\displaystyle p=N(N^T N)^{-1} N^T b.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(554)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The complement of the projection vector is <!-- MATH
+ $I-N(N^T N)^{-1} N^T$
+ -->
+<B><IMG
+ WIDTH="153" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2003.png"
+ ALT="$ I-N(N^T N)^{-1} N^T$"></B>. Denoting
+<!-- MATH
+ $A=(N^T N)^{-1}$
+ -->
+<B><IMG
+ WIDTH="140" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2004.png"
+ ALT="$ A=(N^T N)^{-1}$"></B>, the constrained sensitivies <B><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1172.png"
+ ALT="$ c$"></B> are obtained from the
+unconstrained sensitivities <B><IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img310.png"
+ ALT="$ b$"></B> by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+c=(I-NAN^T) b,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="106" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2005.png"
+ ALT="$\displaystyle c=(I-NAN^T) b,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(555)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+or, in component notation:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+c_i=b_i-\sum_k w_{ik},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="135" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2006.png"
+ ALT="$\displaystyle c_i=b_i-\sum_k w_{ik},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(556)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+w_{ik}=\left( \sum_j N_{ij} A_{j \underline{k}} \right) \left( \sum_l (N^T)_{\underline{k}l} b_l
+\right)
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="123" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2007.png"
+ ALT="$\displaystyle w_{ik}=\left( \sum_j N_{ij} A_{j \underline{k}} \right) \left( \sum_l (N^T)_{\underline{k}l} b_l \right)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(557)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+(no summation over k in the last equation).
+
+<P>
+Active constraints are constraints which
+
+<UL>
+<LI>are fulfulled AND
+</LI>
+<LI>for which the Lagrange multiplier points to the non-feasible part of the
+  space
+</LI>
+</UL>
+
+<P>
+To this end the algorithm starts with all constraints which are fulfilled an
+removes the constraints one-by-one for which the Lagrange multiplier points
+to the feasible part of the space.
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6526"
+  HREF="node422.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6522"
+  HREF="node418.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6518"
+  HREF="node420.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6524"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6527"
+  HREF="node422.html">Mesh refinement</A>
+<B> Up:</B> <A NAME="tex2html6523"
+  HREF="node418.html">Sensitivity Analysis</A>
+<B> Previous:</B> <A NAME="tex2html6519"
+  HREF="node420.html">Processing the sensitivity</A>
+ &nbsp; <B>  <A NAME="tex2html6525"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

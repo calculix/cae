@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>cattet.f</TITLE>
+<META NAME="description" CONTENT="cattet.f">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node429.html">
+<LINK REL="previous" HREF="node427.html">
+<LINK REL="up" HREF="node427.html">
+<LINK REL="next" HREF="node429.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6649"
+  HREF="node429.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6645"
+  HREF="node427.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6639"
+  HREF="node427.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6647"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6650"
+  HREF="node429.html">catedges.f</A>
+<B> Up:</B> <A NAME="tex2html6646"
+  HREF="node427.html">Mesh refining procedure</A>
+<B> Previous:</B> <A NAME="tex2html6640"
+  HREF="node427.html">Mesh refining procedure</A>
+ &nbsp; <B>  <A NAME="tex2html6648"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION0001111510000000000000">
+cattet.f</A>
+</H4>
+
+<P>
+In this routine the unrefined tetrahedral mesh is catalogued. It consists of
+the folowing tasks:
+
+<P>
+
+<UL>
+<LI>initialize kontet (take non-tet elements into account, close the
+gaps in the tet numbering)
+</LI>
+<LI>determine the nodes/tet relationship (kontet)
+</LI>
+<LI>calculate the circumscribed spheres of the tets (bc)
+</LI>
+<LI>calculate the center of gravity of the tets (cg)
+</LI>
+<LI>determine the tets/node relationship (ieln)
+</LI>
+<LI>catalogue the faces in ifac: nodes/face relationship
+</LI>
+<LI>determine the face equations (planfa)
+</LI>
+<LI>determine the faces/tet (ifatet)
+</LI>
+<LI>determine the tets/face (itetfa)
+</LI>
+</UL>
+
+<P>
+Notice that the tetrahedral elements are stored as if all of them were linear,
+ie. C3D4-elements. The only quadratic information of the unrefined mesh is
+stored in fields iedgext and ifacext, to be discussed below.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

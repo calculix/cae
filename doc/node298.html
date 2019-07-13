@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*ORIENTATION</TITLE>
+<META NAME="description" CONTENT="*ORIENTATION">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node299.html">
+<LINK REL="previous" HREF="node297.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node299.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4904"
+  HREF="node299.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4900"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4894"
+  HREF="node297.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4902"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4905"
+  HREF="node299.html">*OUTPUT</A>
+<B> Up:</B> <A NAME="tex2html4901"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4895"
+  HREF="node297.html">*OBJECTIVE</A>
+ &nbsp; <B>  <A NAME="tex2html4903"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000890000000000000000"></A><A NAME="orientation"></A>
+<BR>
+*ORIENTATION
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option may be used to specify a local axis system X'-Y'-Z' to be used for defining material properties. For now, rectangular and cylindrical systems can be defined, triggered by the parameter SYSTEM=RECTANGULAR (default) and SYSTEM=CYLINDRICAL. 
+
+<P>
+A rectangular system is defined by specifying a point a on the local X' axis and a point b belonging to the X'-Y' plane but not on the X' axis. A right hand system is assumed (Figure <A HREF="#rectsystem1">152</A>).
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="rectsystem1"></A><A NAME="12706"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 152:</STRONG>
+Definition of a rectangular coordinate system</CAPTION>
+<TR><TD><IMG
+ WIDTH="453" HEIGHT="350" BORDER="0"
+ SRC="img1808.png"
+ ALT="\begin{figure}\epsfig{file=Rect.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+When using a cylindrical system two points a and b on the axis must be given. The X' axis is in radial direction, the Z' axis in axial direction from point a to point b, and Y' is in tangential direction such that X'-Y'-Z' is a right hand system (Figure <A HREF="#cylsystem1">153</A>). 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="cylsystem1"></A><A NAME="12707"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 153:</STRONG>
+Definition of a cylindrical coordinate system</CAPTION>
+<TR><TD><IMG
+ WIDTH="453" HEIGHT="318" BORDER="0"
+ SRC="img1809.png"
+ ALT="\begin{figure}\epsfig{file=Cyl.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The parameter NAME, specifying a name for the orientation so that it can be
+used in an element property definition (e.g. *SOLID SECTION) is required
+(maximum 80 characters).
+
+<P>
+Notice that a shell ALWAYS induces a local element coordinate system,
+independent of whether an *ORIENTATION applies or not. For details the user is
+referred to Section <A HREF="node40.html#S8">6.2.14</A>.
+
+<P>
+For rectangular systems an additional rotation about one of the local axes can
+be specified on the second line underneath the *ORIENTATION card.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*ORIENTATION
+</LI>
+<LI>Enter the required parameter NAME, and the optional parameter SYSTEM if needed.
+</LI>
+</UL>
+Second line:
+
+<UL>
+<LI>X-coordinate of point a.
+</LI>
+<LI>Y-coordinate of point a.
+</LI>
+<LI>Z-coordinate of point a.
+</LI>
+<LI>X-coordinate of point b.
+</LI>
+<LI>Y-coordinate of point b.
+</LI>
+<LI>Z-coordinate of point b.
+</LI>
+</UL>
+Third line (optional for local rectangular systems)
+
+<UL>
+<LI>local axis about which an additional rotation is to be performed
+</LI>
+<LI>angle of rotation in degrees.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*ORIENTATION,NAME=OR1,SYSTEM=CYLINDRICAL
+0.,0.,0.,1.,0.,0.
+</PRE>
+
+<P>
+defines a cylindrical coordinate system with name OR1 and axis through the points (0.,0.,0.) and (1.,0.,0.). Thus, the x-axis in the global coordinate system is the axial direction in the cylindrical system.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beampo2.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4904"
+  HREF="node299.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4900"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4894"
+  HREF="node297.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4902"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4905"
+  HREF="node299.html">*OUTPUT</A>
+<B> Up:</B> <A NAME="tex2html4901"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4895"
+  HREF="node297.html">*OBJECTIVE</A>
+ &nbsp; <B>  <A NAME="tex2html4903"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

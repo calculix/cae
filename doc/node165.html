@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Steady state dynamics</TITLE>
+<META NAME="description" CONTENT="Steady state dynamics">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node166.html">
+<LINK REL="previous" HREF="node164.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node166.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3169"
+  HREF="node166.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3165"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3159"
+  HREF="node164.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3167"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3170"
+  HREF="node166.html">Direct integration dynamic analysis</A>
+<B> Up:</B> <A NAME="tex2html3166"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3160"
+  HREF="node164.html">Modal dynamic analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3168"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00079600000000000000">
+Steady state dynamics</A>
+</H3>
+
+<P>
+In a steady state dynamics analysis, triggered by the <A HREF="node317.html#steadystatedynamics">*STEADY STATE
+  DYNAMICS</A> key word, the response of the structure to
+  dynamic harmonic
+loading is assumed to be a linear combination of the lowest eigenmodes. This
+  is very similar to the modal dynamics procedure, except that the load is
+  harmonic in nature and that only the steady state response is of interest. The
+eigenmodes are recovered from a file "problem.eig", where "problem" stands for
+the name of the structure. These eigenmodes must have been determined in a
+previous step (STORAGE=YES on the *FREQUENCY card or on the *HEAT
+  TRANSFER,FREQUENCY card), either in the same input deck, or in an input deck run
+previously. The dynamic harmonic loading is defined by its amplitude using the
+  usual keyword cards such as <A HREF="node223.html#cload">*CLOAD</A> and a frequency interval
+  specified underneath the *STEADY STATE DYNAMICS card. The load amplitudes
+  can be modified
+by means of a <A HREF="node206.html#amplitude">*AMPLITUDE</A> key word, which is interpreted
+  as load factor versus frequency (instead of versus time). The displacement
+boundary conditions in a modal dynamic analysis should match zero boundary
+  conditions in the same nodes and same directions in the step used for the
+  determination of the eigenmodes. They can be defined using
+  <A HREF="node209.html#boundary">*BOUNDARY</A> cards or <A HREF="node207.html#basemotion">*BASE MOTION</A>
+  cards. The latter can also be used to define an acceleration.
+ Temperature loading or residual stresses are not allowed. If such loading
+  arises, the direct integration dynamics procedure should be used.
+
+<P>
+One can define loading which is shifted by <B><IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img570.png"
+ ALT="$ 90 ^\circ$"></B> by using the parameter
+LOAD CASE = 2 on the loading cards (e.g. <A HREF="node223.html#cload">*CLOAD</A>).
+
+<P>
+The frequency range is specified by its lower and upper bound. The number of data
+points within this range <B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$"></B> can also be defined by the user. If
+no eigenvalues occur within the specified range, this is the total number of
+data points taken, i.e. including the lower frequency bound and the
+upper frequency bound. If one or more eigenvalues fall within the specified range, <B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1165.png"
+ ALT="$ n-2$"></B>
+points are taken in between the lower frequency bound and the lowest eigenfrequency
+in the range, <B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1165.png"
+ ALT="$ n-2$"></B> between any subsequent eigenfrequencies in the range and
+<B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1165.png"
+ ALT="$ n-2$"></B> points in between the highest eigenfrequency in the range and upper
+frequency bound. In addition, the eigenfrequencies are also included in the
+data points. Consequently, if <B><IMG
+ WIDTH="18" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img177.png"
+ ALT="$ m$"></B> eigenfrequencies belong to the specified
+range, <!-- MATH
+ $(m+1)(n-2)+m+2=nm-m+n$
+ -->
+<B><IMG
+ WIDTH="276" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1166.png"
+ ALT="$ (m+1)(n-2)+m+2=nm-m+n$"></B> data points are taken. They are equally spaced
+in between the fixed points (lower frequency bound, upper frequency bound and
+eigenfrequencies) if the user specifies a bias equal to 1. If a different bias
+is specified, the data points are concentrated about the fixed points.
+
+<P>
+Damping can be included by means of the <A HREF="node284.html#modaldamping">*MODAL DAMPING</A> key card. The damping model provided in CalculiX is the Rayleigh damping, which assumes the damping matrix to be a linear combination of the problem's stiffness matrix and mass matrix. This splits the problem according to its eigenmodes, and leads to ordinary differential equations. The results are exact for piecewise linear loading, apart from the inaccuracy due to the finite number of eigenmodes.
+For nonharmonic loading, triggered by the parameter HARMONIC=NO on the *STEADY
+STATE DYNAMICS card, the loading across one period is not harmonic and has
+to be specified in the time domain. To this end the user can specify the
+starting time and the final time of one period and describe the loading within
+this period with *AMPLITUDE cards. Default is the interval <B><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1167.png"
+ ALT="$ [0.,1.]$"></B> and step
+loading. Notice that for nonharmonic loading the *AMPLITUDE cards describe
+amplitude versus TIME. Internally, the nonharmonic loading is expanded into a
+Fourier series. The user can specify the number of terms which should be used
+for this expansion, default is 20. The remaining input is the same as for harmonic loading, i.e. the
+user specifies a frequency range, the number of data points within this range
+and the bias. The comments above for harmonic loading also apply here, except
+that, since the loading is defined in the time domain, the LOAD CASE parameter
+does not make sense here, i.e. LOAD CASE = 1 by default. 
+
+<P>
+A steady state dynamic analysis can also be performed for a cyclic symmetric
+structure. To this end, the eigenmodes must have been determined for all
+relevant modal diameters. For a cyclic steady state dynamic analysis there are three
+limitations:
+
+<P>
+
+<OL>
+<LI>Nonzero boundary conditions are not allowed.
+</LI>
+<LI>The displacements and velocities at the start of a step must be zero.
+</LI>
+<LI>Dashpot elements are not allowed.
+</LI>
+</OL>
+
+<P>
+The output of a steady state dynamics calculation is complex, i.e. it consists
+of a real and an imaginary part. Consequently, if the user saves the
+displacements to file, there will be two entries: first the real part of the
+displacement, then the imaginary part. This also applies to all other output
+variables such as temperature or stress. For the displacements, the
+temperatures and the stresses the user can request that these variables are stored as magnitude
+and phase (in that order) by selecting beneath the <A HREF="node292.html#nodefile">*NODE
+  FILE</A> card PU, PNT and PHS
+instead of U, NT and S respectively. This does not apply to the *NODE PRINT card. 
+
+<P>
+Special caution has to be applied if 1D and 2D elements are used. Since
+these elements are internally expanded into 3D elements, the application of
+boundary conditions and point forces to nodes requires the creation of
+multiple point constraints linking the original nodes to their expanded
+counterparts. These MPC's change the structure of the stiffness and mass
+matrix. However, the stiffness and mass matrix is stored in the .eig file in the *FREQUENCY
+step preceding the *STEADY STATE DYNAMICS step. This is necessary, since the mass
+matrix is needed for the treatment of the initial conditions ([<A
+ HREF="node448.html#Dhondt">18</A>])
+and the stiffness matrix for taking nonzero boundary conditions into
+account. Summarizing, the *STEADY STATE DYNAMICS step should not introduce point loads
+or nonzero boundary conditions in nodes in which no point force or boundary
+condition was defined in the *FREQUENCY step. The value of the point force and
+boundary conditions in the *FREQUENCY step can be set to zero. An example for
+the application of point forces to shells is given in shellf.inp of the test
+example set.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3169"
+  HREF="node166.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3165"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3159"
+  HREF="node164.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3167"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3170"
+  HREF="node166.html">Direct integration dynamic analysis</A>
+<B> Up:</B> <A NAME="tex2html3166"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3160"
+  HREF="node164.html">Modal dynamic analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3168"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*CREEP</TITLE>
+<META NAME="description" CONTENT="*CREEP">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node236.html">
+<LINK REL="previous" HREF="node234.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node236.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4148"
+  HREF="node236.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4144"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4138"
+  HREF="node234.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4146"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4149"
+  HREF="node236.html">*CYCLIC HARDENING</A>
+<B> Up:</B> <A NAME="tex2html4145"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4139"
+  HREF="node234.html">*COUPLING</A>
+ &nbsp; <B>  <A NAME="tex2html4147"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000827000000000000000"></A><A NAME="creep"></A>
+<BR>
+*CREEP
+</H2>
+
+<P>
+Keyword type: model definition, material
+
+<P>
+This option is used to define the creep properties of a viscoplastic material. There is one optional parameter LAW. Default is LAW=NORTON, the only other value is LAW=USER for a user-defined creep law. The Norton law satisfies:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\dot{\epsilon} = A \sigma^n t^m
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="80" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1639.png"
+ ALT="$\displaystyle \dot{\epsilon} = A \sigma^n t^m$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(466)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></B> is the equivalent creep strain, <B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1010.png"
+ ALT="$ \sigma$"></B> is the true
+Von Mises stress an t is the total time. For LAW=USER the creep law must be
+defined in user subroutine creep.f (cf. Section <A HREF="node337.html#creepf">8.1</A>).
+
+<P>
+All constants may be temperature dependent. The card should be
+preceded by a <A HREF="node250.html#elastic">*ELASTIC</A> card within the same
+material definition, defining the elastic properties of the
+material. If for LAW=NORTON the temperature data points under the
+*CREEP card are not the same as those under the *ELASTIC card, the
+creep data are interpolated at the *ELASTIC temperature data points.
+If a *PLASTIC card is defined within the same material definition, it
+should be placed after the *ELASTIC and before the *CREEP card. If no
+*PLASTIC card is found, a zero yield surface without any hardening is
+assumed.
+
+<P>
+If the elastic data is isotropic, the large strain viscoplastic theory
+treated in [<A
+ HREF="node448.html#Simo3">73</A>] and [<A
+ HREF="node448.html#Simo4">74</A>] is applied. If the elastic
+data is orthotropic, the infinitesimal strain model discussed in
+Section <A HREF="node156.html#s533">6.8.13</A> is used. If a *PLASTIC card is used for an
+orthotropic material, the LAW=USER option is not available.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*CREEP
+</LI>
+<LI>Enter the LAW parameter and its value, if needed
+</LI>
+</UL>
+
+<P>
+Following lines are only needed for LAW=NORTON (default):
+First line:
+
+<UL>
+<LI>A.
+</LI>
+<LI>n.
+</LI>
+<LI>m.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Use as many lines as needed to define the complete temperature dependence.
+
+<P>
+<PRE>
+Example:
+
+*CREEP
+1.E-10,5.,0.,100.
+2.E-10,5.,0.,200.
+</PRE>
+
+<P>
+defines a creep law with A=<B><IMG
+ WIDTH="44" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img778.png"
+ ALT="$ 10^{-10}$"></B>, n=5 and m=0 for T(temperature)=100. and A=<!-- MATH
+ $2 \cdot 10^{-10}$
+ -->
+<B><IMG
+ WIDTH="63" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1640.png"
+ ALT="$ 2 \cdot 10^{-10}$"></B> and n=5 for T(temperature)=200.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamcr.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4148"
+  HREF="node236.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4144"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4138"
+  HREF="node234.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4146"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4149"
+  HREF="node236.html">*CYCLIC HARDENING</A>
+<B> Up:</B> <A NAME="tex2html4145"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4139"
+  HREF="node234.html">*COUPLING</A>
+ &nbsp; <B>  <A NAME="tex2html4147"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

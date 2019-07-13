@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*ELSET</TITLE>
+<META NAME="description" CONTENT="*ELSET">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node258.html">
+<LINK REL="previous" HREF="node256.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node258.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4412"
+  HREF="node258.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4408"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4402"
+  HREF="node256.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4410"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4413"
+  HREF="node258.html">*END STEP</A>
+<B> Up:</B> <A NAME="tex2html4409"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4403"
+  HREF="node256.html">*EL PRINT</A>
+ &nbsp; <B>  <A NAME="tex2html4411"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000849000000000000000"></A><A NAME="elset"></A>
+<BR>
+*ELSET
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option is used to assign elements to an element set. The
+parameter ELSET containing the name of the set is required (maximum 80 characters), whereas
+the parameter GENERATE (without value) is optional. If present,
+element ranges can be expressed by their initial value, their final
+value, and an increment. If a set with the same name already exists,
+it is reopened and complemented. The name of a set is case insensitive. Internally,
+it is modified into upper case and a 'E' is appended to denote it as
+element set.
+
+<P>
+The following names are reserved (i.e. cannot be used by the user for other
+purposes than those for which they are reserved):
+
+<UL>
+<LI>FLUIDBLOCK: for block CFD-calculations
+</LI>
+</UL>
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*ELSET
+</LI>
+<LI>Enter any needed parameters and their values.
+</LI>
+</UL>
+
+<P>
+Following line if the GENERATE parameter is omitted:
+
+<UL>
+<LI>List of elements and/or sets of elements previously defined to be assigned to this element set (maximum 16 entries per line).
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+Following line if the GENERATE parameter is included:
+
+<UL>
+<LI>First element in set.
+</LI>
+<LI>Last element in set.
+</LI>
+<LI>Increment in element numbers between elements in the set. Default is 1.
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*ELSET,ELSET=E1,GENERATE
+20,25
+*ELSET,ELSET=E2
+E1,50,51
+</PRE>
+
+<P>
+assigns the elements with numbers 20, 21, 22, 23, 24 and 25 to element
+set E1 and the elements with numbers 20, 21, 22, 23, 24, 25 (= set
+E1), 50 and 51 to element set E2.
+
+<P>
+
+<P><P>
+<BR>
+Example files: segment, beampo1, beampset.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4412"
+  HREF="node258.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4408"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4402"
+  HREF="node256.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4410"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4413"
+  HREF="node258.html">*END STEP</A>
+<B> Up:</B> <A NAME="tex2html4409"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4403"
+  HREF="node256.html">*EL PRINT</A>
+ &nbsp; <B>  <A NAME="tex2html4411"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

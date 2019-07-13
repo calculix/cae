@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Calling mechanical behaviours defined shared libraries</TITLE>
+<META NAME="description" CONTENT="Calling mechanical behaviours defined shared libraries">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node357.html">
+<LINK REL="up" HREF="node356.html">
+<LINK REL="next" HREF="node359.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5676"
+  HREF="node359.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5672"
+  HREF="node356.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5668"
+  HREF="node357.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5674"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5677"
+  HREF="node359.html">ABAQUS umat routines</A>
+<B> Up:</B> <A NAME="tex2html5673"
+  HREF="node356.html">The CalculiX interface</A>
+<B> Previous:</B> <A NAME="tex2html5669"
+  HREF="node357.html">Introduction of a new</A>
+ &nbsp; <B>  <A NAME="tex2html5675"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00095120000000000000">
+Calling mechanical behaviours defined shared libraries</A>
+</H4>
+
+<P>
+Calling shared libraries is triggered by putting the <TT>@</TT>
+character in front material name. The material name is then decomposed
+into two parts, separated by the <TT>_</TT> character:
+
+<UL>
+<LI>The base name of the library (see below).
+</LI>
+<LI>The name of the function implementing the behavior. If the
+  function's name is ommitted, the ``umat_'' function name is used.
+</LI>
+</UL>
+
+<P>
+For instance, if we want to call a small strain behavior in a linear
+analysis, implemented by the ``CHABOCHE'' function in the
+``libCALCULIXBEHAVIOURS.so'' shared library<A NAME="tex2html176"
+  HREF="footnode.html#foot10162"><SUP>2</SUP></A>, one would declare the
+following material name:
+<DIV ALIGN="CENTER">
+@CALCULIXBEHAVIOURS_CHABOCHE
+
+</DIV>
+
+<P>
+Here, the library name has been stripped from system-specific
+convention (the leading lib and the .so extension). <EM>The base name
+  of the library and the name of the function must be
+  upper-cased</EM>. This is due to the way CalculiX interprets the input
+file.
+
+<P>
+To distinguish two materials using the same external behaviour, one
+may add a unique identifier at the end of the material name. This
+identifier starts with the <TT>@</TT> character.  For example, one may
+use the material names <TT>@CALCULIXBEHAVIOURS_CHABOCHE@1</TT>
+and <TT>@CALCULIXBEHAVIOURS_CHABOCHE@2</TT> to create to
+distinct materials (with distinct material properties) which will call
+the same external behaviour.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5676"
+  HREF="node359.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5672"
+  HREF="node356.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5668"
+  HREF="node357.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5674"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5677"
+  HREF="node359.html">ABAQUS umat routines</A>
+<B> Up:</B> <A NAME="tex2html5673"
+  HREF="node356.html">The CalculiX interface</A>
+<B> Previous:</B> <A NAME="tex2html5669"
+  HREF="node357.html">Introduction of a new</A>
+ &nbsp; <B>  <A NAME="tex2html5675"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,419 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*EL FILE</TITLE>
+<META NAME="description" CONTENT="*EL FILE">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node256.html">
+<LINK REL="previous" HREF="node254.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node256.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4388"
+  HREF="node256.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4384"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4378"
+  HREF="node254.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4386"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4389"
+  HREF="node256.html">*EL PRINT</A>
+<B> Up:</B> <A NAME="tex2html4385"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4379"
+  HREF="node254.html">*ELEMENT OUTPUT</A>
+ &nbsp; <B>  <A NAME="tex2html4387"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000847000000000000000"></A><A NAME="elfile"></A>
+<BR>
+*EL FILE
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option is used to save selected element variables averaged at the nodal
+points in a frd file (extension .frd) for subsequent viewing by CalculiX
+GraphiX. The following element variables can be selected (the label is square
+brackets [] is the one used in the .frd file; for frequency calculations with
+cyclic symmetry both a real and an imaginary part may be stored, in all other cases only the
+real part is stored):
+
+<UL>
+<LI>CEEQ [PE]: equivalent creep strain (is converted internally into PEEQ
+  since the viscoplastic theory does not distinguish between the two;
+  consequently, the user will find PEEQ in the frd file, not CEEQ)
+</LI>
+<LI>E [TOSTRAIN (real),TOSTRAII (imaginary)]: strain. This is the total Lagrangian strain for (hyper)elastic
+materials and incremental plasticity and the total Eulerian strain for deformation plasticity.
+</LI>
+<LI>ECD [CURR]: electrical current density. This only applies to electromagnetic calculations.
+</LI>
+<LI>ENER [ENER]: the energy density.
+</LI>
+<LI>ERR [ERROR (real), ERRORI (imaginary)]: error estimator for structural calculations (cf. Section <A HREF="node201.html#errorestimators">6.12</A>). Notice that ERR and ZZS
+  are mutually exclusive.
+</LI>
+<LI>HER [HERROR (real), HERRORI (imaginary)]: error estimator for heat transfer calculations(cf. Section
+  <A HREF="node201.html#errorestimators">6.12</A>). 
+</LI>
+<LI>HFL [FLUX]: heat flux in structures. 
+</LI>
+<LI>HFLF [FLUX]: heat flux in CFD-calculations. 
+</LI>
+<LI>MAXE [MSTRAIN]: maximum of the absolute value of the worst principal strain at all times for
+  <A HREF="node265.html#frequency">*FREQUENCY</A> calculations with cyclic symmetry. It is
+  stored for nodes belonging to the node set with name STRAINDOMAIN. This node
+  set must have been defined by the user with the <A HREF="node296.html#nset">*NSET</A> command. The worst principal strain is the maximum of the
+  absolute value of the principal strains times its original sign.
+</LI>
+<LI>MAXS [MSTRESS]: maximum of the absolute value of the worst principal stress at all times for
+  <A HREF="node265.html#frequency">*FREQUENCY</A> calculations with cyclic symmetry. It is
+  stored for nodes belonging to the node set with name STRESSDOMAIN. This node
+  set must have been defined by the user with the <A HREF="node296.html#nset">*NSET</A> command. The worst principal stress is the maximum of the
+  absolute value of the principal stresses times its original sign.
+</LI>
+<LI>ME [MESTRAIN (real), MESTRAII (imaginary)]: strain. This is the mechanical  Lagrangian strain for (hyper)elastic
+materials and incremental plasticity and the mechanical Eulerian strain for
+deformation plasticity (mechanical strain = total strain - thermal strain).
+</LI>
+<LI>PEEQ [PE]: equivalent plastic strain.
+</LI>
+<LI>PHS [PSTRESS]: stress: magnitude and phase (only for <A HREF="node317.html#steadystatedynamics">*STEADY
+  STATE DYNAMICS</A> calculations and
+<A HREF="node265.html#frequency">*FREQUENCY</A> calculations with cyclic symmetry).
+</LI>
+<LI>S [STRESS (real), STRESSI (imaginary)]: true (Cauchy) stress in structures. For beam elements this tensor is replaced
+  by the section forces if SECTION FORCES is selected. Selection of S
+  automatically triggers output of the error estimator ERR, unless NOE is
+  selected after S (either immediately following S, or with some other output
+  requests in between, irrespective whether these output requests are on the
+  same keyword card or on different keyword cards).
+</LI>
+<LI>SF [STRESS]: total stress in CFD-calculations. 
+</LI>
+<LI>SVF [VSTRES]: viscous stress in CFD-calculations. 
+</LI>
+<LI>SDV [SDV]: the internal state variables.
+</LI>
+<LI>ZZS [ZZSTR (real), ZZSTRI (imaginary)]: Zienkiewicz-Zhu improved stress  [<A
+ HREF="node448.html#Zienkiewiczzhu1">86</A>],
+  [<A
+ HREF="node448.html#Zienkiewiczzhu2">87</A>](cf. Section <A HREF="node201.html#errorestimators">6.12</A>). Notice that ZZS
+  and ERR are mutually exclusive.
+</LI>
+</UL>
+
+<P>
+The selected variables are stored for the complete model. Due to the averaging process jumps at
+material interfaces are smeared out unless you model the materials on
+both sides of the interface independently and connect the coinciding
+nodes with MPC's.
+
+<P>
+For frequency calculations with cyclic symmetry the eigenmodes are generated
+in pairs (different by a phase shift of 90 degrees). Only the first one of
+each pair is stored in the frd file. If S is selected (the stresses) two
+load cases are stored in the frd file: a loadcase labeled STRESS
+containing the real part of the stresses and a loadcase labeled STRESSI
+containing the imaginary part of the stresses. For all other variables only
+the real part is stored.
+
+<P>
+The key ENER triggers the calculation of the internal energy. If it is
+absent no internal energy is calculated. Since in nonlinear
+calculations the internal energy at any time depends on the
+accumulated energy at all previous times, the selection of ENER in
+nonlinear calculations (geometric or material nonlinearities) must
+be made in the first step.
+
+<P>
+The first occurrence of an *EL FILE keyword card within a step wipes
+out all previous element variable selections for file output. If no
+*EL FILE card is used within a step the selections of the previous
+step apply. If there is no previous step, no element variables will be stored.
+
+<P>
+There are nine optional parameters: FREQUENCY, FREQUENCYF, GLOBAL, OUTPUT,
+SECTION FORCES, TIME POINTS, NSET, LAST ITERATIONS and CONTACT ELEMENTS. The parameters FREQUENCY and TIME POINTS are mutually exclusive. 
+
+<P>
+FREQUENCY applies to
+nonlinear calculations where a step can consist of several
+increments. Default is FREQUENCY=1, which indicates that the results
+of all increments will be stored. FREQUENCY=N with N an integer
+indicates that the results of every Nth increment will be stored. The
+final results of a step are always stored. If you only want the final
+results, choose N very big. 
+The value of N applies to 
+<A HREF="node299.html#output">*OUTPUT</A>,<A HREF="node254.html#elementoutput">*ELEMENT OUTPUT</A>, 
+<A HREF="#elfile">*EL FILE</A>, <A HREF="node256.html#elprint">*ELPRINT</A>, 
+<A HREF="node293.html#nodeoutput">*NODE OUTPUT</A>,
+<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node294.html#nodeprint">*NODE PRINT</A>,
+<A HREF="node308.html#sectionprint">*SECTION PRINT</A> ,<A HREF="node229.html#contactoutput">*CONTACT OUTPUT</A>,
+<A HREF="node228.html#contactfile">*CONTACT FILE</A> and <A HREF="node231.html#contactprint">*CONTACT PRINT</A>. 
+If the FREQUENCY parameter is used
+for more than one of these keywords with conflicting values of N, the
+last value applies to all. A frequency parameter stays active across several steps
+until it is overwritten by another FREQUENCY value or the TIME POINTS
+parameter.
+
+<P>
+The 3D fluid analogue of FREQUENCY is FREQUENCYF. In coupled calculations
+FREQUENCY applies to the thermomechanical output, FREQUENCYF to the 3D fluid output.
+
+<P>
+With the parameter GLOBAL you tell the program whether you would like the
+results in the global rectangular coordinate system or in the local element
+system. If an <A HREF="node298.html#orientation">*ORIENTATION</A> card is applied to the element at stake, this card defines
+the local system. If no *ORIENTATION card is applied to the
+element, the local system coincides with the global rectangular
+system. Default value for the GLOBAL parameter is GLOBAL=YES,
+which means that the results are stored in the global system. If you prefer the
+results in the local system, specify GLOBAL=NO.
+
+<P>
+The parameter OUTPUT can take the value 2D or 3D. This has only
+effect for 1d and 2d elements such as beams, shells, plane stress, plane
+strain and axisymmetric elements AND provided it is used in the first step. If
+OUTPUT=3D, the 1d and 2d elements are stored in their expanded three-dimensional
+form. In particular, the user has the advantage to see his/her 1d/2d elements
+with their real thickness dimensions. However, the node numbers are new and do
+not relate to the node numbers in the input deck. Once selected, this
+parameter is active in the complete calculation. If OUTPUT=2D the fields in the expanded elements are averaged to obtain
+the values in the nodes of the original 1d and 2d elements. In particular,
+averaging removes the bending stresses in beams and
+shells. Therefore, default for beams
+and shells is OUTPUT=3D, for plane stress, plane strain and axisymmetric
+elements it is OUTPUT=2D. If OUTPUT=3D is selected, the parameter NSET is deactivated.
+
+<P>
+The selection of SECTION FORCES makes sense for beam elements
+only. Furthermore, SECTION FORCES and OUTPUT=3D are mutually exclusive (if
+both are used the last prevails). If
+selected, the stresses in the beam nodes are replaced by the section
+forces. They are calculated in a local coordinate system consisting of the
+1-direction <!-- MATH
+ $\mathbf{n_1}$
+ -->
+<B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img272.png"
+ ALT="$ \mathbf{n_1}$"></B>, the 2-direction <!-- MATH
+ $\mathbf{n_2}$
+ -->
+<B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img273.png"
+ ALT="$ \mathbf{n_2}$"></B> and 3-direction or
+tangential direction <!-- MATH
+ $\mathbf{t}$
+ -->
+<B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img271.png"
+ ALT="$ \mathbf{t}$"></B> (Figure <A HREF="node59.html#c1d">78</A>). Accordingly, the stress components now have
+the following meaning:
+
+<P>
+
+<UL>
+<LI>xx: Shear force in 1-direction 
+</LI>
+<LI>yy: Shear force in 2-direction
+</LI>
+<LI>zz: Normal force
+</LI>
+<LI>xy: Torque
+</LI>
+<LI>xz: Bending moment about the 2-direction
+</LI>
+<LI>yz: Bending moment about the 1-direction
+</LI>
+</UL>
+
+<P>
+For all elements except the beam elements the parameter SECTION FORCES has no
+effect. If SECTION FORCES is not selected the stress tensor is averaged across
+the beam section. 
+
+<P>
+With the parameter TIME POINTS a time point sequence can be referenced,
+defined by a 
+<A HREF="node327.html#timepoints">*TIME POINTS</A> keyword. In that case, output will be
+provided for all time points of the sequence within the step and additionally at the end of
+the step. No other output will be stored and the FREQUENCY parameter is not
+taken into account. Within a step only one time point sequence can be active. If more than
+one is specified, the last one defined on any of the keyword cards
+<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="#elfile">*EL FILE</A>, <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> or <A HREF="node256.html#elprint">*EL PRINT</A> will be active. The TIME
+POINTS option should not be used together with the DIRECT option on the
+procedure card.  The TIME POINTS parameters stays active across several steps
+until it is replaced by another TIME POINTS value or the FREQUENCY parameter.
+
+<P>
+The specification of a node set with the parameter NSET limits the output to
+the nodes contained in the set. Remember that the frd file is node based, so
+element results are also stored at the nodes after extrapolation from the
+integration points. For cyclic symmetric structures the usage of the
+parameter NGRAPH on the <A HREF="node237.html#cyclicsymmetrymodel">*CYCLIC SYMMETRY MODEL</A>
+card leads to output of the results not only for the node set specified by the
+user (which naturally belongs to the base sector) but also for all
+corresponding nodes of the sectors generated by the NGRAPH parameter.  Notice
+that for cyclic symmetric structures in modal dynamic and steady state
+dynamics calculations the use of NSET is mandatory. In that case the stresses
+will only be correct at those nodes belonging to elements for which ALL nodal
+displacements were requested (e.g. by a *NODE FILE card).
+
+<P>
+The parameter LAST ITERATIONS leads to the storage of the
+displacements in all iterations
+of the last increment in a file with name ResultsForLastIterations.frd (can be opened with CalculiX GraphiX). This is
+useful for debugging purposes in case of divergence. No such file is created if
+this parameter is absent. 
+
+<P>
+Finally, the parameter CONTACT ELEMENTS  stores the contact elements which have
+been generated in each iteration in a file with the name
+jobname.cel. When
+opening the frd file with CalculiX GraphiX these files can be read with the
+command ``read jobname.cel inp'' and visualized by
+plotting the elements in the sets
+contactelements_st<B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>_in<B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$"></B>_at<B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img783.png"
+ ALT="$ \gamma$"></B>_it<B><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img784.png"
+ ALT="$ \delta$"></B>, where <B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>
+is the step number, <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$"></B> the increment number, <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img783.png"
+ ALT="$ \gamma$"></B> the attempt number
+and <B><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img784.png"
+ ALT="$ \delta$"></B> the iteration number.
+
+<P>
+Starting with version 2.14 of CalculiX the selection of ``S'' (stress)
+automatically triggers the output the stress error estimator ``ERR'' as
+well. This can only be avoided by selecting NOE in a position
+after S (either immediately following S, or with some other output
+requests in between, irrespective whether these output requests are on the same keyword card or on different keyword cards).
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*EL FILE
+</LI>
+<LI>Enter any needed parameters and their values.
+</LI>
+</UL>
+Second line:
+
+<UL>
+<LI>Identifying keys for the variables to be printed, separated by commas.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*EL FILE
+S,PEEQ
+</PRE>
+
+<P>
+requests that the (Cauchy) stresses and the equivalent plastic strain is stored in .frd format for subsequent viewing with CalculiX GraphiX.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamt, fullseg, segment1, segdyn.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4388"
+  HREF="node256.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4384"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4378"
+  HREF="node254.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4386"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4389"
+  HREF="node256.html">*EL PRINT</A>
+<B> Up:</B> <A NAME="tex2html4385"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4379"
+  HREF="node254.html">*ELEMENT OUTPUT</A>
+ &nbsp; <B>  <A NAME="tex2html4387"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

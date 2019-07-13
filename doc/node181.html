@@ -1,0 +1,646 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Sensitivity </TITLE>
+<META NAME="description" CONTENT="Sensitivity ">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node182.html">
+<LINK REL="previous" HREF="node180.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node182.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3361"
+  HREF="node182.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3357"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3351"
+  HREF="node180.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3359"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3362"
+  HREF="node182.html">Green functions</A>
+<B> Up:</B> <A NAME="tex2html3358"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3352"
+  HREF="node180.html">Electromagnetism</A>
+ &nbsp; <B>  <A NAME="tex2html3360"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000792200000000000000"></A><A NAME="sectionsensitivity"></A>
+<BR>
+Sensitivity 
+</H3>
+
+<P>
+A sensitivity analysis calculates how a variable G (called the objective
+function) changes with some other variables s (called the design variables),
+i.e. DG/Ds. 
+
+<P>
+If s are the coordinates of some nodes, then the objective function usually
+takes the form <B><IMG
+ WIDTH="76" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1436.png"
+ ALT="$ G(s,U(s))$"></B>, i.e. it is a direct function of the coordinates
+and it is a direct function of the displacements, which are again a function
+of the coordinates. One can write (vector- and matrix-denoting parentheses
+have been omitted; it is assumed that the reader knows that <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img450.png"
+ ALT="$ U$"></B> and <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1437.png"
+ ALT="$ F$"></B> are
+vectors, <B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B> and <B><IMG
+ WIDTH="22" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img464.png"
+ ALT="$ M$"></B> are matrices and that <B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img946.png"
+ ALT="$ s$"></B> and <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1438.png"
+ ALT="$ G$"></B> are potentially vectors):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{DG}{Ds}=\frac{\partial G}{\partial s} + \frac{\partial G}{\partial U} \frac{\partial U}{\partial s}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="157" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1439.png"
+ ALT="$\displaystyle \frac{DG}{Ds}=\frac{\partial G}{\partial s} + \frac{\partial G}{\partial U} \frac{\partial U}{\partial s}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(430)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The governing equation for static (linear and nonlinear) calculations is
+<!-- MATH
+ $F_{\text{int}}(s,U(s))=F_{\text{ext}}(s,U(s))$
+ -->
+<B><IMG
+ WIDTH="199" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1440.png"
+ ALT="$ F_{\text{int}}(s,U(s))=F_{\text{ext}}(s,U(s))$"></B>, which leads to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial F_{\text{int}}}{\partial s} + \frac{\partial F_{\text{int}}}{\partial U} \frac{\partial U}{\partial s}=\frac{\partial F_{\text{ext}}}{\partial s} + \frac{\partial F_{\text{ext}}}{\partial U} \frac{\partial U}{\partial s}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="282" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1441.png"
+ ALT="$\displaystyle \frac{\partial F_{\text{int}}}{\partial s} + \frac{\partial F_{\t...
+... s} + \frac{\partial F_{\text{ext}}}{\partial U} \frac{\partial U}{\partial s}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(431)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+or
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial U}{\partial s} = K^{-1} \left(  \frac{\partial F_{\text{ext}}}{\partial
+    s}-\frac{\partial F_{\text{int}}}{\partial
+    s} \right),
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="217" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1442.png"
+ ALT="$\displaystyle \frac{\partial U}{\partial s} = K^{-1} \left( \frac{\partial F_{\text{ext}}}{\partial s}-\frac{\partial F_{\text{int}}}{\partial s} \right),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(432)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+K=\frac{\partial F_{\text{int}}}{\partial
+    U}-\frac{\partial F_{\text{ext}}}{\partial
+    U}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="145" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1443.png"
+ ALT="$\displaystyle K=\frac{\partial F_{\text{int}}}{\partial U}-\frac{\partial F_{\text{ext}}}{\partial U}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(433)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Since for linear applications <!-- MATH
+ $F_{\text{int}}(s,U(s))=K(s) \cdot U$
+ -->
+<B><IMG
+ WIDTH="170" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1444.png"
+ ALT="$ F_{\text{int}}(s,U(s))=K(s) \cdot U$"></B>
+and <!-- MATH
+ $F_{\text{ext}}(s,U(s))=F(s)$
+ -->
+<B><IMG
+ WIDTH="146" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1445.png"
+ ALT="$ F_{\text{ext}}(s,U(s))=F(s)$"></B>, the above
+equations reduce in that case to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial K}{\partial s}  \cdot U + K \cdot \frac{\partial U}{\partial s}=\frac{\partial F}{\partial s},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="179" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1446.png"
+ ALT="$\displaystyle \frac{\partial K}{\partial s} \cdot U + K \cdot \frac{\partial U}{\partial s}=\frac{\partial F}{\partial s},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(434)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+or
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="displacementeq"></A><!-- MATH
+ \begin{equation}
+\frac{\partial U}{\partial s} = K^{-1} \left(  \frac{\partial F}{\partial
+    s}-\frac{\partial K}{\partial s}  \cdot U \right).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="213" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1447.png"
+ ALT="$\displaystyle \frac{\partial U}{\partial s} = K^{-1} \left( \frac{\partial F}{\partial s}-\frac{\partial K}{\partial s} \cdot U \right).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(435)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Consequently one arives at the equation:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="sensitivityeq"></A><!-- MATH
+ \begin{equation}
+\frac{DG}{Ds}=\frac{\partial G}{\partial s} + \frac{\partial G}{\partial U} K^{-1} \left(  \frac{\partial F}{\partial
+    s}-\frac{\partial K}{\partial s}  \cdot U \right).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="288" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1448.png"
+ ALT="$\displaystyle \frac{DG}{Ds}=\frac{\partial G}{\partial s} + \frac{\partial G}{\...
+...t( \frac{\partial F}{\partial s}-\frac{\partial K}{\partial s} \cdot U \right).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(436)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+For the speed-up of the calculations it is important to perform the
+calculation of the term <!-- MATH
+ $\frac{\partial K}{\partial s}  \cdot U$
+ -->
+<B><IMG
+ WIDTH="51" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1449.png"
+ ALT="$ \frac{\partial K}{\partial s} \cdot U$"></B> on element
+level and to calculate the term <!-- MATH
+ $\frac{\partial G}{\partial U} K^{-1}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1450.png"
+ ALT="$ \frac{\partial G}{\partial U} K^{-1}$"></B> before
+multiplying with the last term in brackets. Furhermore,  <!-- MATH
+ $\frac{\partial
+G}{\partial U} K^{-1}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1450.png"
+ ALT="$ \frac{\partial G}{\partial U} K^{-1}$"></B> should be calculated by solving an equation system
+and not by inverting <B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B>.
+
+<P>
+For special objective functions this relationship is further simplified:
+
+<UL>
+<LI>if <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1438.png"
+ ALT="$ G$"></B> is the mass <!-- MATH
+ $\frac{\partial G}{\partial U}=0$
+ -->
+<B><IMG
+ WIDTH="55" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1451.png"
+ ALT="$ \frac{\partial G}{\partial U}=0$"></B>.
+</LI>
+<LI>if <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1438.png"
+ ALT="$ G$"></B> is the shape energy  <!-- MATH
+ $\frac{\partial G}{\partial U} K^{-1}=U$
+ -->
+<B><IMG
+ WIDTH="91" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1452.png"
+ ALT="$ \frac{\partial G}{\partial U} K^{-1}=U$"></B>.
+</LI>
+<LI>if <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1438.png"
+ ALT="$ G$"></B> are the displacements Equation (<A HREF="#displacementeq">435</A>) applies
+  directly
+</LI>
+</UL>
+
+<P>
+For eigenfrequencies as objective function one starts from the eigenvalue
+equation:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+K \cdot U_i = \lambda_i M \cdot U_i,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="132" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1453.png"
+ ALT="$\displaystyle K \cdot U_i = \lambda_i M \cdot U_i,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(437)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+from which one gets:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial \lambda_i}{\partial s} M \cdot U_i = (K - \lambda_i M) \cdot
+\frac{\partial U_i}{\partial s} + \left( \frac{\partial
+    K}{\partial s} - \lambda_i \frac{\partial M}{\partial s} \right) \cdot U_i.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="384" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1454.png"
+ ALT="$\displaystyle \frac{\partial \lambda_i}{\partial s} M \cdot U_i = (K - \lambda_...
+...ial K}{\partial s} - \lambda_i \frac{\partial M}{\partial s} \right) \cdot U_i.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(438)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Premultiplying with <B><IMG
+ WIDTH="27" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1455.png"
+ ALT="$ U_i^T$"></B> and taking the eigenvalue equation and the normalization of the eigenvectors
+w.r.t. <B><IMG
+ WIDTH="22" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img464.png"
+ ALT="$ M$"></B> into account leads to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="sensfreq1"></A><!-- MATH
+ \begin{equation}
+\frac{\partial \lambda_i}{\partial s}  = U_i^T \cdot \left( \frac{\partial
+    K}{\partial s} - \lambda_i \frac{\partial M}{\partial s} \right) \cdot U_i.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="235" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1456.png"
+ ALT="$\displaystyle \frac{\partial \lambda_i}{\partial s} = U_i^T \cdot \left( \frac{...
+...ial K}{\partial s} - \lambda_i \frac{\partial M}{\partial s} \right) \cdot U_i.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(439)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Notice
+that this is the sensitivity of the eigenvalues, not of the eigenfrequencies
+(which are the square roots of the eigenvalues). This is exactly how it is
+implemented in CalculiX: you get in the output the sensitivity of the
+eigenvalues. 
+
+<P>
+Subsequently, one
+can derive the eigenvalue equation to obtain the derivatives of the
+eigenvectors:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="sensfreq2"></A><!-- MATH
+ \begin{equation}
+(K - \lambda_i M) \frac{\partial U_i}{\partial s} = - \left( \frac{\partial
+    K}{\partial s} - \lambda_i \frac{\partial M}{\partial s} - \frac{\partial \lambda_i}{\partial s} M \right) \cdot U_i.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="360" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1457.png"
+ ALT="$\displaystyle (K - \lambda_i M) \frac{\partial U_i}{\partial s} = - \left( \fra...
+...ial M}{\partial s} - \frac{\partial \lambda_i}{\partial s} M \right) \cdot U_i.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(440)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+If s is the orientation in some or all of the elements, the term
+<!-- MATH
+ $\frac{\partial G}{\partial s}$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1458.png"
+ ALT="$ \frac{\partial G}{\partial s}$"></B> is in addition zero in the above equations.
+
+<P>
+In CalculiX, G is defined with the keyword <A HREF="node297.html#objective">*OBJECTIVE</A>, s
+is defined with the keyword <A HREF="node243.html#designvariables">DESIGNVARIABLES</A> and a
+sensitivity analysis is introduced with the procedure card
+<A HREF="node310.html#sensitivity">*SENSITIVITY</A>. 
+
+<P>
+If the parameter NLGEOM is not used on the *SENSITIVITY card, the calculation
+of <!-- MATH
+ $\frac{\partial K}{\partial s}$
+ -->
+<B><IMG
+ WIDTH="27" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1459.png"
+ ALT="$ \frac{\partial K}{\partial s}$"></B> does not contain the large deformation and
+stress stiffness, else it does. Similarly, without NLGEOM  <!-- MATH
+ $\frac{\partial
+G}{\partial s}$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1458.png"
+ ALT="$ \frac{\partial G}{\partial s}$"></B> is calculated based on the linear strains, else the
+quadratic terms are taken into account.
+
+<P>
+If the objective function is the mass,
+the shapeenergy or the displacements a <A HREF="node316.html#static">*STATIC</A> step
+must
+have been performed. The displacements <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img450.png"
+ ALT="$ U$"></B> and the stiffness matrix <B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B> from
+this step are taken for <B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B> and <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img450.png"
+ ALT="$ U$"></B> in 
+Equation (<A HREF="#sensitivityeq">436</A>) (in the presence of a subsequent sensitivity
+step <B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B> is stored automatically in a file with the name jobname.stm). If the static step was calculated with NLGEOM,
+so should the sensitivity step in order to be consistent. So the procedure
+cards should run like:
+
+<P>
+<PRE>
+*STEP
+*STATIC
+...
+*STEP
+*SENSITIVITY
+...
+</PRE>
+
+<P>
+or
+
+<P>
+<PRE>
+*STEP,NLGEOM
+*STATIC
+...
+*STEP,NLGEOM
+*SENSITIVITY
+...
+</PRE>
+
+<P>
+If the objective functions are the eigenfrequencies (which include the
+eigenmodes),  a  <A HREF="node265.html#frequency">*FREQUENCY</A> step must have been
+performed with STORAGE=YES. This frequency step may be a perturbation step, in which case it is
+preceded by a static step. The displacements <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img450.png"
+ ALT="$ U$"></B>, the stiffness matrix <B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B> and
+the mass matrix <B><IMG
+ WIDTH="22" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img464.png"
+ ALT="$ M$"></B> for equations (<A HREF="#sensfreq1">439</A>) and (<A HREF="#sensfreq2">440</A>) are
+taken from the frequency step. If the frequency step is performed as a
+perturbation step, the sensitivity step should be performed with NLGEOM, else
+it is not necessary. So the procedure cards should run like:
+
+<P>
+<PRE>
+*STEP
+*FREQUENCY,STORAGE=YES
+...
+*STEP
+*SENSITIVITY
+...
+</PRE>
+
+<P>
+or
+
+<P>
+<PRE>
+*STEP
+*STATIC
+...
+*STEP,PERTURBATION
+*FREQUENCY,STORAGE=YES
+...
+*STEP,NLGEOM
+*SENSITIVITY
+...
+</PRE>
+
+<P>
+or
+
+<P>
+<PRE>
+*STEP,NLGEOM
+*STATIC
+...
+*STEP,PERTURBATION
+*FREQUENCY,STORAGE=YES
+...
+*STEP,NLGEOM
+*SENSITIVITY
+...
+</PRE>
+
+<P>
+(a perturbation frequency step only makes sense with a preceding static step).
+
+<P>
+The output of a sensitivity calculation is stored as follows (frd-output only
+if the SEN output request was specified underneath a *NODE FILE card):
+
+<P>
+For TYPE=COORDINATE design variables the results of the target functions MASS,
+SHAPE ENERGY, EIGENFREQUENCY and DISPLACEMENT (i.e. the sum of the squares of
+the displacements in all objective nodes) are stored in the .frd-file and can
+be visualized using CalculiX GraphiX.
+
+<P>
+For TYPE=ORIENTATION design variables the eigenfrequency sensitivity is stored
+in the .dat file whereas the displacement sensitivity (i.e. the derivative of
+the displacements in all nodes w.r.t. the orientation) is stored in the
+.frd-file. The order of the design variables is listed in the .dat-file. All
+orientations defined by *ORIENTATION cards are varied, each orientation is
+defined by 3 independent variables. So for n *ORIENTATION cards there are 3n
+design variables. The sensitivity of the mass w.r.t. the orientation is zero.
+
+<P>
+Finally, it is important to know that a sensitivity analysis in CalculiX only
+works for true 3D-elements (no shells, beams, plane stress, etc...).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3361"
+  HREF="node182.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3357"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3351"
+  HREF="node180.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3359"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3362"
+  HREF="node182.html">Green functions</A>
+<B> Up:</B> <A NAME="tex2html3358"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3352"
+  HREF="node180.html">Electromagnetism</A>
+ &nbsp; <B>  <A NAME="tex2html3360"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

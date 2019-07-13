@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Pipe, Manning</TITLE>
+<META NAME="description" CONTENT="Pipe, Manning">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node103.html">
+<LINK REL="previous" HREF="node101.html">
+<LINK REL="up" HREF="node101.html">
+<LINK REL="next" HREF="node103.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2350"
+  HREF="node103.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2346"
+  HREF="node101.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2340"
+  HREF="node101.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2348"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2351"
+  HREF="node103.html">Pipe, White-Colebrook</A>
+<B> Up:</B> <A NAME="tex2html2347"
+  HREF="node101.html">Fluid Section Types: Liquids</A>
+<B> Previous:</B> <A NAME="tex2html2341"
+  HREF="node101.html">Fluid Section Types: Liquids</A>
+ &nbsp; <B>  <A NAME="tex2html2349"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00075100000000000000">
+Pipe, Manning</A>
+</H3>
+
+<P>
+This is a straight pipe with constant section and head losses <!-- MATH
+ $\Delta_1^2 F$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img637.png"
+ ALT="$ \Delta_1^2 F$"> defined by the
+Manning formula:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\Delta_1^2 F = \frac{n^2 \dot{m}^2 L}{\rho^2 A^2 \mathcal{R}^{4/3}},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="135" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img638.png"
+ ALT="$\displaystyle \Delta_1^2 F = \frac{n^2 \dot{m}^2 L}{\rho^2 A^2 \mathcal{R}^{4/3}},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(124)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where n is the Manning coefficient (unit: <!-- MATH
+ $\text{time}  /
+\text{length}^{1/3}$
+ -->
+time<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$ /$">&nbsp; &nbsp;length<IMG
+ WIDTH="25" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img639.png"
+ ALT="$ ^{1/3}$">), <IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img391.png"
+ ALT="$ \dot{m}$"> is the mass flux, L is the length of the
+pipe, <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"> is the liquid density, A is the cross section of the pipe
+and <!-- MATH
+ $\mathcal{R}$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img640.png"
+ ALT="$ \mathcal{R}$"> is the hydraulic radius defined by the area of the cross
+section divided by its circumference (for a circle the hydraulic radius is one
+fourth of the diameter). The following constants have to be specified on the
+ line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=PIPE MANNING card:
+
+<P>
+
+<UL>
+<LI>area of the cross section
+</LI>
+<LI>hydraulic radius of the cross section (area/perimeter)
+</LI>
+<LI>Manning coefficient <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$">
+</LI>
+</UL>
+
+<P>
+The length of the pipe is determined from the coordinates of its end
+nodes. Typical values for <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$"> are <!-- MATH
+ $n=0.013   \text{s}/\text{m}^{1/3}$
+ -->
+<IMG
+ WIDTH="72" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img641.png"
+ ALT="$ n=0.013$">&nbsp; &nbsp;s<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$ /$">m<IMG
+ WIDTH="25" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img639.png"
+ ALT="$ ^{1/3}$"> for steel
+pipes and <!-- MATH
+ $n=0.015  \text{s}/\text{m}^{1/3}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img642.png"
+ ALT="$ n=0.015$">&nbsp; &nbsp;s<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$ /$">m<IMG
+ WIDTH="25" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img639.png"
+ ALT="$ ^{1/3}$"> for smooth concrete pipes (these
+values are for water. Notice that, since the dynamic viscosity does not show
+up explicitly in the Manning formula, <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$"> may be a function of the viscosity).
+
+<P>
+By specifying the addition FLEXIBLE in the type label the user can create a
+flexible pipe. In that case the user specifies two nodes, the distance between
+them being the radius of the pipe. These nodes have to be
+genuine structural nodes and should not belong to the fluid network. The distance is calculated from the
+location of the nodes at the start of the calculation modified by any
+displacements affecting the nodes. Consequently, the use of the
+<A HREF="node233.html#coupledtemperaturedisplacement">*COUPLED TEMPERATURE-DISPLACEMENT</A>
+keyword allows for a coupling of the deformation of the pipe wall with the
+flow in the pipe. 
+The following constants have to be specified on the
+ line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=PIPE MANNING
+ FLEXIBLE card:
+
+<P>
+
+<UL>
+<LI>node number 1
+</LI>
+<LI>node number 2
+</LI>
+<LI>Manning coefficient <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$">
+</LI>
+</UL>
+
+<P>
+
+<P><P>
+<BR>
+Example files: artery1, artery2, centheat1, centheat2, pipe, piperestrictor.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2350"
+  HREF="node103.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2346"
+  HREF="node101.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2340"
+  HREF="node101.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2348"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2351"
+  HREF="node103.html">Pipe, White-Colebrook</A>
+<B> Up:</B> <A NAME="tex2html2347"
+  HREF="node101.html">Fluid Section Types: Liquids</A>
+<B> Previous:</B> <A NAME="tex2html2341"
+  HREF="node101.html">Fluid Section Types: Liquids</A>
+ &nbsp; <B>  <A NAME="tex2html2349"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

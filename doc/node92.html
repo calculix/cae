@@ -1,0 +1,352 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Branch, Joint</TITLE>
+<META NAME="description" CONTENT="Branch, Joint">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node93.html">
+<LINK REL="previous" HREF="node91.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node93.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2222"
+  HREF="node93.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2218"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2212"
+  HREF="node91.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2220"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2223"
+  HREF="node93.html">Branch, Split</A>
+<B> Up:</B> <A NAME="tex2html2219"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2213"
+  HREF="node91.html">Restrictor, User</A>
+ &nbsp; <B>  <A NAME="tex2html2221"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000741600000000000000">
+Branch, Joint</A>
+</H3>
+
+<P>
+Properties: adiabatic, not isentropic, directional, inlet based restrictor
+
+<P>
+In a joint the flow from two gas pipes is united and redirected
+through a third pipe. So in principal three network elements of type GAS PIPE
+have one node in common in a joint. The fluid  elements of type BRANCH JOINT represent the
+extra energy loss due to the merging of the flows and have to be inserted on
+the incoming branches of the joint. This is represented schematically in
+Figure <A HREF="#schematicjoint">101</A>. The filled circles represent end nodes of the fluid
+elements, the others are the midside nodes. For a joint to work properly the
+flow direction must be as indicated in Figure <A HREF="#schematicjoint">101</A>. If the
+solution of the equation system indicates that this is not the case
+appropriate measures must be taken. For instance, if the solution reveals that
+there is one inward flow and two outward flows, branch split elements must be selected.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="schematicjoint"></A><A NAME="11967"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 101:</STRONG>
+Element selection for a joint</CAPTION>
+<TR><TD><IMG
+ WIDTH="359" HEIGHT="326" BORDER="0"
+ SRC="img552.png"
+ ALT="\begin{figure}\epsfig{file=Schematicjoint.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Several types of geometry are available.
+
+<P>
+A branch joint of type GE [<A
+ HREF="node448.html#Vazsonyi">78</A>], Figure <A HREF="#jointge">102</A>, is quite general and allows
+arbitrary cross sections and angles (within reasonable limits). It
+is characterized by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=BRANCH JOINT
+GE card):
+
+<P>
+
+<UL>
+<LI>label of the gas pipe element defined as branch 0.
+</LI>
+<LI>label of the gas pipe element defined as branch 1.
+</LI>
+<LI>label of the gas pipe element defined as branch 2.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ A_0$"> of branch 0.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img511.png"
+ ALT="$ A_1$"> of branch 1.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img539.png"
+ ALT="$ A_2$"> of branch 2.
+</LI>
+<LI>angle <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img554.png"
+ ALT="$ \alpha_1$"> (<IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$">).
+</LI>
+<LI>angle <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img555.png"
+ ALT="$ \alpha_2$"> (<IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$">).
+</LI>
+<LI>oil mass flow in branch 1 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>oil mass flow in branch 2 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>not used (internally: oil material number)
+</LI>
+</UL>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="jointge"></A><A NAME="11968"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 102:</STRONG>
+Geometry of a joint fluid section type GE</CAPTION>
+<TR><TD><IMG
+ WIDTH="360" HEIGHT="280" BORDER="0"
+ SRC="img556.png"
+ ALT="\begin{figure}\epsfig{file=Joint_ge.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+A branch joint of type Idelchik1, Figure <A HREF="#jointidel1">103</A>, can be used if one of the incoming branches
+is continued in a straight way and does not change its cross section [<A
+ HREF="node448.html#Idelchik">33</A>]. It
+is characterized by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=BRANCH JOINT
+IDELCHIK1 card):
+
+<P>
+
+<UL>
+<LI>label of the gas pipe element defined as branch 0.
+</LI>
+<LI>label of the gas pipe element defined as branch 1.
+</LI>
+<LI>label of the gas pipe element defined as branch 2.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ A_0$"> of branch 0.
+</LI>
+<LI>cross section <IMG
+ WIDTH="64" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img557.png"
+ ALT="$ A_1=A_0$"> of branch 0.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img539.png"
+ ALT="$ A_2$"> of branch 2.
+</LI>
+<LI>angle <!-- MATH
+ $\alpha_1=0^\circ$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img558.png"
+ ALT="$ \alpha_1=0^\circ$">.
+</LI>
+<LI>angle <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img555.png"
+ ALT="$ \alpha_2$"> (<IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$">).
+</LI>
+<LI>oil mass flow in branch 1 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>oil mass flow in branch 2 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>not used (internally: oil material number)
+</LI>
+</UL>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="jointidel1"></A><A NAME="11969"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 103:</STRONG>
+Geometry of a joint fluid section type Idelchik 1</CAPTION>
+<TR><TD><IMG
+ WIDTH="360" HEIGHT="185" BORDER="0"
+ SRC="img559.png"
+ ALT="\begin{figure}\epsfig{file=Joint_idel_1.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+A branch joint of type Idelchik2, Figure <A HREF="#jointidel2">104</A>, can be used if one of the incoming branches
+is continued in a straight way but may change its cross section [<A
+ HREF="node448.html#Idelchik">33</A>]. It
+is characterized by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=BRANCH JOINT
+IDELCHIK2 card):
+
+<P>
+
+<UL>
+<LI>label of the gas pipe element defined as branch 0.
+</LI>
+<LI>label of the gas pipe element defined as branch 1.
+</LI>
+<LI>label of the gas pipe element defined as branch 2.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ A_0$"> of branch 0.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img511.png"
+ ALT="$ A_1$"> of branch 1.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img539.png"
+ ALT="$ A_2$"> of branch 2.
+</LI>
+<LI>angle <!-- MATH
+ $\alpha_1=0^\circ$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img558.png"
+ ALT="$ \alpha_1=0^\circ$">.
+</LI>
+<LI>angle <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img555.png"
+ ALT="$ \alpha_2$"> (<IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$">).
+</LI>
+<LI>oil mass flow in branch 1 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>oil mass flow in branch 2 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>not used (internally: oil material number)
+</LI>
+</UL>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="jointidel2"></A><A NAME="11970"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 104:</STRONG>
+Geometry of a joint fluid section type Idelchik 2</CAPTION>
+<TR><TD><IMG
+ WIDTH="360" HEIGHT="222" BORDER="0"
+ SRC="img560.png"
+ ALT="\begin{figure}\epsfig{file=Joint_idel_2.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+By specifying the parameter LIQUID on the *FLUID SECTION card the loss is
+calculated for liquids. In the absence of this parameter, compressible losses
+are calculated. 
+
+<P>
+
+<P><P>
+<BR>
+Example files: branchjoint1, branchjoint2, branchjoint3, branchjoint4.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2222"
+  HREF="node93.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2218"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2212"
+  HREF="node91.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2220"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2223"
+  HREF="node93.html">Branch, Split</A>
+<B> Up:</B> <A NAME="tex2html2219"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2213"
+  HREF="node91.html">Restrictor, User</A>
+ &nbsp; <B>  <A NAME="tex2html2221"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

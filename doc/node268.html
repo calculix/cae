@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*GAP CONDUCTANCE</TITLE>
+<META NAME="description" CONTENT="*GAP CONDUCTANCE">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node269.html">
+<LINK REL="previous" HREF="node267.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node269.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4544"
+  HREF="node269.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4540"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4534"
+  HREF="node267.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4542"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4545"
+  HREF="node269.html">*GAP HEAT GENERATION</A>
+<B> Up:</B> <A NAME="tex2html4541"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4535"
+  HREF="node267.html">*GAP</A>
+ &nbsp; <B>  <A NAME="tex2html4543"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000860000000000000000"></A><A NAME="gapconductance"></A>
+<BR>
+*GAP CONDUCTANCE
+</H2>
+
+<P>
+Keyword type: model definition, surface interaction
+
+<P>
+This option allows for the definition of the conductance across a contact
+pair. The conductance is the ratio of the heat flow across the contact
+location and the temperature difference between the corresponding slave and
+master surface (unit: [energy]/([time]*[area]*[temperature])). The gap conductance is a property of the nonlinear contact
+spring elements generated during contact. This means that heat flow will only
+take place at those slave nodes, at which a contact spring element was
+generated. Whether or not a contact spring element is generated depends on the
+pressure-overclosure relationship on the <A HREF="node323.html#surfacebehavior">*SURFACE
+  BEHAVIOR</A> card. 
+
+<P>
+
+<UL>
+<LI>for node-to-face contact:
+
+<UL>
+<LI>if the pressure-overclosure relationship is linear or tabular a contact spring
+  element is generated if the gap clearance does not exceed <!-- MATH
+ $c_0
+\sqrt{A}$
+ -->
+<B><IMG
+ WIDTH="44" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1727.png"
+ ALT="$ c_0
+\sqrt{A}$"></B>, where A is the representative area at the slave node, or
+  <B><IMG
+ WIDTH="44" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img778.png"
+ ALT="$ 10^{-10}$"></B> if this area is zero (can happen for 2-dimensional
+  elements). Default for <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$"></B> is <B><IMG
+ WIDTH="38" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img779.png"
+ ALT="$ 10^{-3}$"></B>, its value can be changed for a
+  linear pressure-overclosure relationship.
+</LI>
+<LI>if the pressure-overclosure relationship is exponential a contact spring
+  area is generated if the gap clearance does not exceed <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$"></B> (cf. *SURFACE
+  BEHAVIOR).
+</LI>
+</UL>
+</LI>
+<LI>for face-to-face contact: 
+
+<UL>
+<LI>if the pressure-overclosure relationship is tied a contact spring
+  element is generated no matter the size of the clearance
+</LI>
+<LI>else a contact spring element is generated if the clearance is non-positive.
+</LI>
+</UL>
+</LI>
+</UL>
+
+<P>
+The conductance coefficient can be defined as a function of the contact
+pressure and the mean temperature of slave and master surface. Alternatively,
+the conductance can be coded by the user in the user subroutine gapcon.f, cf
+Section <A HREF="node353.html#usergapconductance">8.4.11</A>. In
+the latter case the option USER must be used on the *GAP CONDUCTANCE card.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*GAP CONDUCTANCE
+</LI>
+<LI>Enter the parameter USER if appropriate
+</LI>
+</UL>
+
+<P>
+Following sets of lines define the conductance coefficients in the absence of
+the USER parameter:
+First line in the first set:
+
+<UL>
+<LI>Conductance.
+</LI>
+<LI>Contact pressure.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Use as many lines in the first set as needed to define the conductance versus pressure curve for this temperature.
+
+<P>
+Use as many sets as needed to define complete temperature dependence.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+<PRE>
+Example:
+
+*GAP CONDUCTANCE
+100.,,273.
+</PRE>
+
+<P>
+defines a conductance coefficient with value <B><IMG
+ WIDTH="33" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1728.png"
+ ALT="$ 100.$"></B> for all contact pressures and all temperatures.
+
+<P>
+
+<P><P>
+<BR>
+Example files: .
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4544"
+  HREF="node269.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4540"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4534"
+  HREF="node267.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4542"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4545"
+  HREF="node269.html">*GAP HEAT GENERATION</A>
+<B> Up:</B> <A NAME="tex2html4541"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4535"
+  HREF="node267.html">*GAP</A>
+ &nbsp; <B>  <A NAME="tex2html4543"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

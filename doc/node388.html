@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Calculating the normals in the nodes</TITLE>
+<META NAME="description" CONTENT="Calculating the normals in the nodes">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node389.html">
+<LINK REL="previous" HREF="node387.html">
+<LINK REL="up" HREF="node386.html">
+<LINK REL="next" HREF="node389.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6123"
+  HREF="node389.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6119"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6113"
+  HREF="node387.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6121"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6124"
+  HREF="node389.html">Expanding the 1D and</A>
+<B> Up:</B> <A NAME="tex2html6120"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6114"
+  HREF="node387.html">Cataloguing the elements belonging</A>
+ &nbsp; <B>  <A NAME="tex2html6122"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000113200000000000000">
+Calculating the normals in the nodes</A>
+</H3>
+
+<P>
+The calculation of the normals (subroutine ``gen3dnor.f'') in the nodes is performed using a rather
+complicated algorithm explained in Sections <A HREF="node40.html#S8">6.2.14</A> and <A HREF="node59.html#B32">6.2.33</A>. In a node
+several normals can exist, think for instance of a node on the fold of a roof. Each normal
+is used to perform an expansion, i.e. in a node with two normals two
+expansions are performed which partially overlap (Figure
+<A HREF="node40.html#shell">74</A>). Theoretically, as many expansions can be needed as there are
+elements to which the node belongs to. Therefore, to store the expansions and
+the normals a structure is used similar to the field kon to store the topology of
+the elements.
+
+<P>
+The field kon is a one-dimensional field containing the topology of all
+elements, one after the other. The entry ipkon(i) points to the location in
+field kon just
+before the start of the topology of element i, i.e. the first node of element i is
+located at position ipkon(i)+1 in field kon, the last node at position
+ipkon(i)+numnod, where numnod is the number of nodes of the element, e.g. 20
+ for a 20-node element. Thus, local position m of element j corresponds to
+ global node number kon(ipkon(j)+m). Now, a similar structure is used for the
+ normals and nodes of the expansions since these variables are linked to a
+ local position within an element rather than to a global node number. To this
+ end the two-dimensional field iponor and one-dimensional fields xnor and knor
+ are used. 
+
+<P>
+The entry iponor(1,ipkon(j)+m) points to the location of the normal at local
+position m of element j within field xnor, i.e. the three components of the
+normal are stored in xnor(iponor(1,ipkon(j)+m)+1),
+xnor(iponor(1,ipkon(j)+m)+2) and xnor(iponor(1,ipkon(j)+m)+3). In the same way
+the entry iponor(2,ipkon(j)+m) points to the location of the new nodes of the
+expansion at local position m of element j within field knor, i.e. the three
+new node numbers are stored at knor(iponor(2,ipkon(j)+m)+n), n=1,2,3. The order of
+the node numbers is illustrated in Figure <A HREF="node40.html#2dexpansion">73</A>. This applies to
+the expansion of two-dimensional elements. For the expansion of beam elements
+xnor contains six entries: three entries for unit vector 1 and three entries
+for unit vector 2 (Figure <A HREF="node59.html#c1d3">77</A>), i.e.
+xnor(iponor(1,ipkon(j)+m)+1),...,xnor(iponor(1,ipkon(j)+m)+6). Since the
+expansion of a beam element leads to 8 extra nodes (Figure <A HREF="node59.html#c1d">78</A>)
+8 entries are provided in field knor. The field xnor is initialized with the
+values from keyword card <A HREF="node295.html#normal">*NORMAL</A>. 
+
+<P>
+The procedure runs as follows: for a node i all 2D elements to which the
+node belongs are determined. Then, the normals on these elements are
+determined using the procedure explained in Section <A HREF="node40.html#S8">6.2.14</A> starting with the
+normals predefined by a *NORMAL keyword card. Notice that extra normals are
+also defined at thickness discontinuities, offset discontinuities or element
+type changes (e.g. a plane stress element adjacent to a shell
+element). Therefore, this step is more about how many different expansions are
+needed rather than different normals:
+if, for instance the thickness of a flat plate changes discontinuously, two
+different expansions are needed at the discontinuity nodes although the normal
+does not change. Next, all beam elements to which
+node i belongs are determined and normals are determined in a similar way. For
+each normal appropriate nodes are generate for the expansion (three for 2D
+elements, eight for 1D elements). If overall only one normal suffices, no
+knot exists and no rigid body needs to be defined, unless the rotational
+degrees of freedom in the node are constrained or moments applied. If more than one normal
+ensues or the rotational degrees of freedom are addressed by the user in any way, a rigid body is generated. In a rigid body definition all expansion
+nodes of shells and beam participate, for plane stress, plane strain or
+axisymmetric elements only the midside nodes take part.
+
+<P>
+Caution is due to the fact that the entries in the fields kon and iponor do
+not correspond to the same nodes any more after leaving gen3delem.f. This is
+because the original element topology of the elements is shifted in field kon
+to allow the storage of the expanded topology. For instance, suppose that
+element i is a S8 element. Upon entering gen3delem.f the topology of this
+element is stored in entries (kon(ipkon(i)+j,j=1,8) and soon afterwards the pointers to the
+expanded nodes and normals are stored in (ipkon(ipkon(i)+j,j=1,8). However,
+upon leaving gen3delem.f the original topology is shifted to
+(kon(ipkon(i)+20+j,j=1,8) (a S8 element is expanded into a 20-node element) and the expanded topology is stored in
+(kon(ipkon(i)+j),j=1,20). Field iponor, however, is not changed.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6123"
+  HREF="node389.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6119"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6113"
+  HREF="node387.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6121"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6124"
+  HREF="node389.html">Expanding the 1D and</A>
+<B> Up:</B> <A NAME="tex2html6120"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6114"
+  HREF="node387.html">Cataloguing the elements belonging</A>
+ &nbsp; <B>  <A NAME="tex2html6122"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

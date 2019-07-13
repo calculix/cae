@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*DSLOAD</TITLE>
+<META NAME="description" CONTENT="*DSLOAD">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node249.html">
+<LINK REL="previous" HREF="node247.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node249.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4304"
+  HREF="node249.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4300"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4294"
+  HREF="node247.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4302"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4305"
+  HREF="node249.html">*DYNAMIC</A>
+<B> Up:</B> <A NAME="tex2html4301"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4295"
+  HREF="node247.html">*DLOAD</A>
+ &nbsp; <B>  <A NAME="tex2html4303"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000840000000000000000"></A><A NAME="dsload"></A>
+<BR>
+*DSLOAD
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option allows for (a) the specification of section stresses on the boundary of
+submodels, cf. the <A HREF="node319.html#submodel">*SUBMODEL</A> card and (b) the application of a
+pressure on a facial surface. 
+
+<P>
+For submodels there are two required
+parameters: SUBMODEL and either STEP or DATA SET. Underneath the *DSLOAD card faces are listed
+for which a section stress will be calculated by interpolation from the global
+model. To this end these faces have to be part of a *SUBMODEL card,
+TYPE=SURFACE. The latter card also lists the name of the global model results
+file.  
+
+<P>
+In case the global
+calculation was a *STATIC calculation the STEP parameter specifies the step in the global model
+which will be used for the interpolation. If results for more than one
+increment within the step are stored, the last increment is taken. 
+
+<P>
+In case the global calculation was a *FREQUENCY calculation the DATA SET parameter
+specifies the mode in the global model which will be used for the
+interpolation. It is the number preceding the string MODAL in the .frd-file
+and it corresponds to the dataset number if viewing the .frd-file with
+CalculiX GraphiX.  Notice that the global frequency calculation is not allowed
+to contain preloading nor cyclic symmetry.
+
+<P>
+The distributed load type label convention is the same as for the
+<A HREF="node247.html#dload">*DLOAD</A> card. Notice that 
+
+<P>
+
+<UL>
+<LI>the section stresses are applied at
+once at the start of the step, no matter the kind of procedure the user has
+selected. For instance, the loads in a <A HREF="node316.html#static">*STATIC</A> procedure are
+usually ramped during the step. This is not the case of the section stresses.
+</LI>
+<LI>the section stresses are interpolated from the stress values at the
+  nodes of the global model. These latter stresses have been extrapolated in
+  the global model calculation from the stresses at the integration
+  points. Therefore, the section stresses are not particular accurate and
+  generally the global equilibrium of the submodel will not be well fulfilled,
+  resulting in stress concentrations near the nodes which are fixed in the
+  submodel. Therefore, the use of section stresses is not recommended. A
+  better procedure is the application of nodal forces
+  (<A HREF="node223.html#cload">*CLOAD</A>) at the intersection. These nodal forces may be
+  obtained by performing a preliminary submodel calculation with displacement
+  boundary conditions and requesting nodal force output.
+</LI>
+</UL>
+
+<P>
+For the application of a pressure on a facial surface there is one optional
+parameter AMPLITUDE specifying the name of the amplitude by which the pressure
+is to be multiplied (cf. <A HREF="node206.html#amplitude">*AMPLITUDE</A>). The load label for
+pressure is P.
+
+<P>
+If more than one *DSLOAD card occurs in the input deck, or a *DLOAD and at
+least one 
+*DSLOAD card, the rules explained underneath the keyword *DLOAD also apply here.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*DSLOAD
+</LI>
+<LI>For submodels: enter the parameter SUBMODEL (no argument) and STEP with its argument
+</LI>
+</UL>
+
+<P>
+Following line for surface loading on submodels:
+
+<UL>
+<LI>Element number or element set label.
+</LI>
+<LI>Distributed load type label.
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+Following line for pressure application on a surface:
+
+<UL>
+<LI>Surface name.
+</LI>
+<LI>Load label (the only available right now is P for pressure)
+</LI>
+<LI>Pressure.
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*DSLOAD,SUBMODEL,STEP=4
+Se1,P3
+</PRE>
+
+<P>
+specifies hat on face 3 of all elements belonging to set Se1 the section
+stress is to be determined by interpolation from step 4 in the global model.
+
+<P>
+
+<P><P>
+<BR>
+Example files: .
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4304"
+  HREF="node249.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4300"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4294"
+  HREF="node247.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4302"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4305"
+  HREF="node249.html">*DYNAMIC</A>
+<B> Up:</B> <A NAME="tex2html4301"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4295"
+  HREF="node247.html">*DLOAD</A>
+ &nbsp; <B>  <A NAME="tex2html4303"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

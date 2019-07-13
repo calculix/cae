@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*VIEWFACTOR</TITLE>
+<META NAME="description" CONTENT="*VIEWFACTOR">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node335.html">
+<LINK REL="previous" HREF="node333.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node335.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5336"
+  HREF="node335.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5332"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5326"
+  HREF="node333.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5334"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5337"
+  HREF="node335.html">*VISCO</A>
+<B> Up:</B> <A NAME="tex2html5333"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5327"
+  HREF="node333.html">*VALUES AT INFINITY</A>
+ &nbsp; <B>  <A NAME="tex2html5335"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008126000000000000000"></A><A NAME="viewfactor"></A>
+<BR>
+*VIEWFACTOR
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+Sometimes you wish to reuse the viewfactors calculated in a previous run, or
+store the present viewfactors to file for future use. This
+can be done using the keyword card *VIEWFACTOR. 
+
+<P>
+There are six optional parameters: READ, WRITE, WRITE ONLY, NO CHANGE, INPUT
+and OUTPUT. READ/NO CHANGE and WRITE/WRITE ONLY are mutually exclusive,
+i.e. if you specify READ you cannot specify WRITE or WRITE ONLY and so
+on. These parameters are used to specify whether you want to read
+previous viewfactors (READ/NO CHANGE) or store the viewfactors of the present
+calculation for future runs (WRITE and WRITE ONLY). For reading there is an optional
+parameter INPUT, for writing there is an optional parameter OUTPUT. 
+
+<P>
+If you specify READ or NO CHANGE, the results will be read from the binary file
+``jobname.vwf'' (which should have been generated in a previous
+run) unless you use the parameter INPUT. In the latter case you can
+specify any filename (maximum 126 characters) containing the viewfactors. If
+the filename contains blanks, it must be delimited by double quotes and the
+filename should not exceed 124 characters. The geometry of the faces exchanging radiation must be exactly the same
+as in the actual run. Notice that the parameter INPUT must be preceded by the
+READ or NO CHANGE parameter. The parameter NO CHANGE has the same effect as
+the READ parameter except that it additionally specifies that the
+viewfactors did not change compared with the previous step. If this parameter
+is selected the LU decomposition of the radiation matrix is not repeated and a
+lot of computational time can be saved. This parameter can obviously not be
+used in the first step of the calculation.
+
+<P>
+In thermal calculations (keyword <A HREF="node272.html#heattransfer">*HEAT TRANSFER</A>) the
+viewfactors are calculated at the start of each step since the user can change
+the radiation boundary conditions in each step. If the viewfactors are not
+read from file, i.e. if there is no *VIEWFACTOR,READ or *VIEWFACTOR,NO CHANGE card in a step they are
+calculated from scratch. In thermomechanical calculations (keyword
+<A HREF="node233.html#coupledtemperaturedisplacement">*COUPLED TEMPERATURE-DISPLACEMENT</A>)
+the viewfactors are calculated at the start of each iteration. Indeed, the
+deformation of the structure in the previous iteration can lead to a change of
+the viewfactors. However, if the user reads the viewfactors from file the recalculation of the viewfactors in each iteration
+anew is turned off. In that case it is assumed that the viewfactors do not
+change during the entire step.
+
+<P>
+If you specify WRITE or WRITE ONLY, the viewfactors will be stored in binary format in
+file ``jobname.vwf'' unless you use the parameter OUTPUT. In the latter case
+you can specify any filename (maximum 125 characters) in which the viewfactors
+are to be written. Any existing file with this name will be
+deleted prior to the writing operation.  If
+the filename contains blanks, it must be delimited by double quotes and the
+filename should not exceed 123 characters. Notice that the parameter OUTPUT must be preceded by the
+WRITE or WRITE ONLY parameter. If you specify WRITE ONLY the program stops
+after calculating and storing the viewfactors.
+
+<P>
+A *VIEWFACTOR card is only active in the step in which it occurs.
+
+<P><P>
+<BR>
+
+<P>
+First and only line:
+
+<UL>
+<LI>*VIEWFACTOR
+</LI>
+<LI>specify either READ or WRITE
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*VIEWFACTOR,WRITE
+</PRE>
+
+<P>
+will store the viewfactors calculated in that step to file.
+
+<P>
+<PRE>
+Example:
+
+*VIEWFACTOR,READ,INPUT=viewfactors.dat
+</PRE>
+
+<P>
+will read the viewfactors from file viewfactors.dat.
+
+<P>
+
+<P><P>
+<BR>
+Example files: furnace.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5336"
+  HREF="node335.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5332"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5326"
+  HREF="node333.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5334"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5337"
+  HREF="node335.html">*VISCO</A>
+<B> Up:</B> <A NAME="tex2html5333"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5327"
+  HREF="node333.html">*VALUES AT INFINITY</A>
+ &nbsp; <B>  <A NAME="tex2html5335"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

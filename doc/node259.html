@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*EQUATION</TITLE>
+<META NAME="description" CONTENT="*EQUATION">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node260.html">
+<LINK REL="previous" HREF="node258.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node260.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4436"
+  HREF="node260.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4432"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4426"
+  HREF="node258.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4434"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4437"
+  HREF="node260.html">*EXPANSION</A>
+<B> Up:</B> <A NAME="tex2html4433"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4427"
+  HREF="node258.html">*END STEP</A>
+ &nbsp; <B>  <A NAME="tex2html4435"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000851000000000000000"></A><A NAME="equation"></A>
+<BR>
+*EQUATION
+</H2>
+
+<P>
+Keyword type: model definition (no REMOVE parameter) and step (only for REMOVE)
+
+<P>
+With this option, a linear equation constraint between arbitrary displacement
+components at any nodes where these components are active can be imposed. The
+equation is assumed to be homogeneous, and all variables are to be written on
+the left hand side of the equation. The first variable is considered to be the
+dependent one, and is subsequently eliminated from the equation, i.e. the
+corresponding degree of freedom does not show up in the stiffness matrix. This
+reduces the size of the matrix. A degree of freedom in a node can only be used once as the dependent
+node in an equation or in a SPC. For CFD-applications it is important for the
+stability of the calculation that the
+coefficient of the dependent degree of freedom is as large as possible
+compared to the coefficients of the independent degrees of freedom. For
+instance, setting the radial velocity orthogonal to the z-axis to zero
+corresponds to a MPC linking the x- and y-component of the velocity. The
+component with the largest coefficient should be chosen as dependent degree of freedom.
+
+<P>
+There are two optional parameters: REMOVE and REMOVE ALL. The parameter REMOVE
+can be used to remove equations corresponding with selected dependent degrees
+of freedom. These are listed underneath the *EQUATION keyword by node number,
+first degree of freedom and last degree of freedom. This triggers the
+deletion of all equations for which the dependent degree of freedom
+corresponds to the range from the first to the last degree of freedom of
+the selected node. If the last degree of freedom was omitted, it equals the
+first degree of freedom. 
+
+<P>
+The parameter REMOVE ALL is used to remove all equations. Notice
+that the latter option removes all linear and nonlinear equations,
+irrespective whether they were defined with a *EQUATION card, a *MPC card or
+whether they were generated internally. Use of the REMOVE or the REMOVE ALL
+parameter usually makes sense only in step 2 or higher.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*EQUATION
+</LI>
+<LI>one of the optional parameters, if applicable
+</LI>
+</UL>
+
+<P>
+Following lines in the absence of the REMOVE and REMOVE ALL parameter, in a set:
+First line of set:
+
+<UL>
+<LI>Number of terms in the equation.
+</LI>
+</UL>
+
+<P>
+Following lines of set (maximum 12 entries per line):
+
+<UL>
+<LI>Node number of the first variable.
+</LI>
+<LI>Degree of freedom at above node for the first variable.
+</LI>
+<LI>Value of the coefficient of the first variable.
+</LI>
+<LI>Node number of the second variable.
+</LI>
+<LI>Degree of freedom at above node for the second variable.
+</LI>
+<LI>Value of the coefficient of the second variable.
+</LI>
+<LI>Etc..
+</LI>
+</UL>
+Continue, giving node number, degree of freedom, value of the coefficient,
+etc. Repeat the above line as often as needed if there are more than four
+terms in the *EQUATION. Specify exactly four terms per line for each
+constraint, except for the last line which may have less than four terms.
+
+<P>
+Following lines if the REMOVE parameter was selected:
+
+<UL>
+<LI>Node number or Node set label
+</LI>
+<LI>First degree of freedom
+</LI>
+<LI>Last degree of freedom (optional)
+</LI>
+</UL>
+
+<P>
+Repeat this line if needed.
+
+<P>
+If the REMOVE ALL parameter was selected no additional lines are necessary.
+
+<P>
+<PRE>
+Example:
+
+*EQUATION
+3
+3,2,2.3,28,1,4.05,17,1,-8.22
+</PRE>
+
+<P>
+defines an equation of the form <!-- MATH
+ $2.3 v_3 + 4.05 u_{28} - 8.22 u_{17} = 0$
+ -->
+<B><IMG
+ WIDTH="210" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1703.png"
+ ALT="$ 2.3 v_3 + 4.05 u_{28} - 8.22 u_{17} = 0$"></B>, where u, v and w are the displacement for degree of freedom one, two and three, respectively.
+
+<P>
+<PRE>
+Example:
+
+*EQUATION,REMOVE
+10,1,3
+</PRE>
+
+<P>
+removes all equations for which the dependent degree of freedom corresponds to
+the degrees of freedom 1, 2 or 3 of node 10.
+
+<P>
+
+<P><P>
+<BR>
+Example files: achtel2, achtel29, achtel9, achtelcas, beamnlmpc, equrem1,
+equrem2, equrem3.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4436"
+  HREF="node260.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4432"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4426"
+  HREF="node258.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4434"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4437"
+  HREF="node260.html">*EXPANSION</A>
+<B> Up:</B> <A NAME="tex2html4433"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4427"
+  HREF="node258.html">*END STEP</A>
+ &nbsp; <B>  <A NAME="tex2html4435"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

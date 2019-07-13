@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Connecting 1D and 2D elements to 3D elements</TITLE>
+<META NAME="description" CONTENT="Connecting 1D and 2D elements to 3D elements">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node391.html">
+<LINK REL="previous" HREF="node389.html">
+<LINK REL="up" HREF="node386.html">
+<LINK REL="next" HREF="node391.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6147"
+  HREF="node391.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6143"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6137"
+  HREF="node389.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6145"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6148"
+  HREF="node391.html">Applying the SPC's to</A>
+<B> Up:</B> <A NAME="tex2html6144"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6138"
+  HREF="node389.html">Expanding the 1D and</A>
+ &nbsp; <B>  <A NAME="tex2html6146"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000113400000000000000">
+Connecting 1D and 2D elements to 3D elements</A>
+</H3>
+
+<P>
+The connection of 1D and 2D elements with genuine 3D elements also requires
+special care and is performed in subroutine ``gen3dconnect.f''. Remember that the expanded elements contain new nodes only, so
+the connection between these elements and 3D elements, as defined by the user
+in the input deck, is lost. It must be reinstated by creating multiple point
+constraints. This, however, does not apply to knots. In a knot, a expandable rigid body
+is defined with the original node as translational node (recall that a knot is defined by a translational, a rotational and an expansion node). Thus, for a knot
+the connection with the 3D element is guaranteed. What follows applies to
+nodes in which no knot was defined.
+
+<P>
+For 1D beam elements the connection is expressed by the equation (see Figure
+<A HREF="#con1D">159</A> for the node numbers)
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eqcon1D"></A><!-- MATH
+ \begin{equation}
+u_1+u_2+u_3+u_4-4 u_0=0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="451" HEIGHT="414" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1902.png"
+ ALT="$\displaystyle u_1+u_2+u_3+u_4-4 u_0=0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(522)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="con1D"></A><A NAME="12803"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 159:</STRONG>
+Beam element connection</CAPTION>
+<TR><TD><IMG
+ WIDTH="203" HEIGHT="31" BORDER="0"
+ SRC="img1903.png"
+ ALT="\begin{figure}\epsfig{file=con1D.eps,width=6cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+where u stands for any displacement component (or temperature component for
+heat transfer calculations), i.e. the above equation
+actually represents 3 equations for mechanical problems, 1 for heat transfer
+problems and 4 for thermomechanical problems. Notice that only edge nodes of
+the beam element are used, therefore it can also be applied to midside nodes of
+beam elements. It expresses that the displacement in the 3D node is the mean
+of the displacement in the expanded edge nodes. 
+
+<P>
+For 2D shell elements the connection is expressed by equation (see Figure
+<A HREF="#con2Dshell">160</A> for the node numbers)
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eqcon2Dshell"></A><!-- MATH
+ \begin{equation}
+u_1+u_2-2 u_0=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="269" HEIGHT="151" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1904.png"
+ ALT="$\displaystyle u_1+u_2-2 u_0=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(523)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="con2Dshell"></A><A NAME="12804"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 160:</STRONG>
+Shell element connection</CAPTION>
+<TR><TD><IMG
+ WIDTH="136" HEIGHT="31" BORDER="0"
+ SRC="img1905.png"
+ ALT="\begin{figure}\epsfig{file=con2Dshell.eps,width=6cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The same remarks apply as for the beam element.
+
+<P>
+Finally, for plane strain, plane stress and axisymmetric elements the
+connection is made according to Figure <A HREF="#con2Dplane">161</A> and equation:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eqcon2Dplane"></A><!-- MATH
+ \begin{equation}
+u_1 - u_0=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="268" HEIGHT="161" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1906.png"
+ ALT="$\displaystyle u_1 - u_0=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(524)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="con2Dplane"></A><A NAME="12805"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 161:</STRONG>
+Plane and axisymmetric element connection</CAPTION>
+<TR><TD><IMG
+ WIDTH="92" HEIGHT="31" BORDER="0"
+ SRC="img1907.png"
+ ALT="\begin{figure}\epsfig{file=con2Dplane.eps,width=6cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Node 1 is the zero-z node of the expanded elements. Although a twenty-node
+brick element does not use zero-z nodes corresponding the the midside nodes of
+the original 2D element, they exist and are used in MPC's such as the above
+equation. The connection is finally established through the combination of the
+above MPC with the plane strain, plane stress and axisymmetric MPC's linking
+the zero-z nodes with the negative-z and positive-z nodes.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6147"
+  HREF="node391.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6143"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6137"
+  HREF="node389.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6145"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6148"
+  HREF="node391.html">Applying the SPC's to</A>
+<B> Up:</B> <A NAME="tex2html6144"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6138"
+  HREF="node389.html">Expanding the 1D and</A>
+ &nbsp; <B>  <A NAME="tex2html6146"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*FLUID CONSTANTS</TITLE>
+<META NAME="description" CONTENT="*FLUID CONSTANTS">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node264.html">
+<LINK REL="previous" HREF="node262.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node264.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4484"
+  HREF="node264.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4480"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4474"
+  HREF="node262.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4482"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4485"
+  HREF="node264.html">*FLUID SECTION</A>
+<B> Up:</B> <A NAME="tex2html4481"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4475"
+  HREF="node262.html">*FILTER</A>
+ &nbsp; <B>  <A NAME="tex2html4483"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000855000000000000000"></A><A NAME="fluidconstants"></A>
+<BR>
+*FLUID CONSTANTS
+</H2>
+
+<P>
+Keyword type: model definition, material
+
+<P>
+With this option the specific heat at constant pressure and the dynamic
+viscosity of a gas or liquid can be defined. These properties are required for
+fluid dynamic network calculations. They can
+be temperature dependent.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*FLUID CONSTANTS
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Specific heat at constant pressure.
+</LI>
+<LI>Dynamic viscosity.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+<PRE>
+Example:
+
+*FLUID CONSTANTS
+1.032E9,71.1E-13,100.
+</PRE>
+
+<P>
+defines the specific heat and dynamic viscosity for air at 100 <B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B> in a unit
+system using N, mm, s and K: <!-- MATH
+ $c_p=1.032 \times 10^9 \text{mm}^2/\text{s}^2
+\text{K}$
+ -->
+<B><IMG
+ WIDTH="119" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1718.png"
+ ALT="$ c_p=1.032 \times 10^9$">&nbsp; &nbsp;mm<IMG
+ WIDTH="20" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$ ^2/$">s<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ ^2$">&nbsp; &nbsp;K</B> and <!-- MATH
+ $\mu = 71.1 \times 10^{-13} \text{N} \text{s} / \text{mm}^2$
+ -->
+<B><IMG
+ WIDTH="122" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1719.png"
+ ALT="$ \mu = 71.1 \times 10^{-13}$">&nbsp; &nbsp;N&nbsp; &nbsp;s<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$ /$">&nbsp; &nbsp;mm<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ ^2$"></B>.
+
+<P>
+
+<P><P>
+<BR>
+Example files: linearnet, branch1, branch2.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

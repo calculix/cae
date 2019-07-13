@@ -1,0 +1,249 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Kinematic and Distributing Coupling</TITLE>
+<META NAME="description" CONTENT="Kinematic and Distributing Coupling">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node130.html">
+<LINK REL="previous" HREF="node128.html">
+<LINK REL="up" HREF="node126.html">
+<LINK REL="next" HREF="node130.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2699"
+  HREF="node130.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2695"
+  HREF="node126.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2689"
+  HREF="node128.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2697"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2700"
+  HREF="node130.html">Mathematical description of a</A>
+<B> Up:</B> <A NAME="tex2html2696"
+  HREF="node126.html">Boundary conditions</A>
+<B> Previous:</B> <A NAME="tex2html2690"
+  HREF="node128.html">Multiple point constraints (MPC)</A>
+ &nbsp; <B>  <A NAME="tex2html2698"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00077300000000000000">
+Kinematic and Distributing Coupling</A>
+</H3>
+
+<P>
+In this section the theoretical background of the keyword
+<A HREF="node234.html#coupling">*COUPLING</A> followed by <A HREF="node278.html#kinematic">*KINEMATIC</A> or
+<A HREF="node245.html#distributing">*DISTRIBUTING</A> is covered, and not the keyword
+<A HREF="node246.html#distributingcoupling">DISTRIBUTING COUPLING</A>. 
+
+<P>
+Coupling constraints generally lead to nonlinear equations. In linear
+calculations (without the parameter NLGEOM on the *STEP card) these equations
+are linearized once and solved. In nonlinear calculations, iterations are
+performed in each of which the equations are linearized at the momentary
+solution point until convergence.
+
+<P>
+Coupling constraints apply to all nodes of a surface given by the user. In a
+kinematic coupling constraint by the user specified degrees of freedom in
+these nodes follow the rigid body motion
+about a reference point (also given by the user). In CalculiX the rigid body
+equations elaborated in section 3.5 of [<A
+ HREF="node448.html#Dhondt">18</A>] are implemented. Since CalculiX does not
+have internal rotational degrees of freedom, the translational degrees of
+freedom of an extra node (rotational node) are used for that purpose,
+cf. <A HREF="node307.html#rigidbody">*RIGID BODY</A>. Therefore, in the case of kinematic
+coupling the following equations are set up:
+
+<P>
+
+<UL>
+<LI>3 equations connecting the rotational degrees of freedom of the
+  reference node to the translational degrees of freedom of an extra
+  rotational node.
+</LI>
+<LI>per node belonging to the surface at stake, for each degree of freedom
+  specified by the user (maximum 3) a rigid body equation.
+</LI>
+</UL>
+
+<P>
+This applies if no ORIENTATION was used on the *COUPLING card, i.e. the
+specified degrees of freedom apply to the global coordinate system. If an
+ORIENTATION parameter is used, the degrees of freedom apply in a local
+system. Then, the nodes belonging to the surface at stake (let us give them
+the numbers 1,2,3...) are duplicated (let us call these d1,d2,d3.....) and the
+following equations are set up:
+
+<P>
+
+<UL>
+<LI>3 equations connecting the rotational degrees of freedom of the
+  reference node to the translational degrees of freedom of an extra
+  rotational node.
+</LI>
+<LI>per duplicated node belonging to the surface at stake, a rigid body
+  equation for each translational degree of freedom (i.e. 3 per duplicated
+  node).
+</LI>
+<LI>per node an equation equating the by the user specified degrees of
+  freedom in the local system (maximum 3) to the same ones in the duplicated nodes.
+</LI>
+</UL>
+
+<P>
+For distributing coupling the area weighted mean translations (all three of
+them) and the
+rotations specified by the user are connected to the corresponding
+translations/rotations of a reference node. In order to take the weighting
+into account, all nodes belonging to the surface (let us give them the numbers
+1,2,3...) are duplicated (let us call these d1,d2,d3....). Now, the following
+equations are generated:
+
+<P>
+
+<UL>
+<LI>3 equations connecting the rotational degrees of freedom of the
+  reference node to the translational degrees of freedom of an extra
+  rotational node.
+</LI>
+<LI>for each node and for each translational degree of freedom in this node
+  an equation connecting this degree of freedom with the area-weighted
+  corresponding degree of freedom in the duplicated node. If there are n nodes
+  in the surface and the area corresponding to node i is <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img708.png"
+ ALT="$ A_i$"> then the
+  equation for the first node and the displacement <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img709.png"
+ ALT="$ u$"> in the global direction
+  <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img668.png"
+ ALT="$ x$"> would run like:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+u_1=\frac{\sum_i A_i}{n A_1} u_{d_1}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="115" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img710.png"
+ ALT="$\displaystyle u_1=\frac{\sum_i A_i}{n A_1} u_{d_1}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(142)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+</LI>
+<LI>3 equations connecting the mean translation of the duplicated nodes to the translation of the
+  refererence node, e.g. for <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img709.png"
+ ALT="$ u$">:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\sum_i u_{d_i}= n u_{\text{reference node}}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="177" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img711.png"
+ ALT="$\displaystyle \sum_i u_{d_i}= n u_{\text{reference node}}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(143)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+</LI>
+<LI>as many equations as rotational degrees of freedom specified by the user
+  linking the mean rotation of the duplicated nodes to the rotation of the
+  reference node. For these equations the user is referred to section 3.6 in
+  [<A
+ HREF="node448.html#Dhondt">18</A>].
+
+<P>
+</LI>
+</UL>
+
+<P>
+If an ORIENTATION is applied to a distributing coupling definition the mean
+rotation equations are reformulated for the local rotation axis.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2699"
+  HREF="node130.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2695"
+  HREF="node126.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2689"
+  HREF="node128.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2697"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2700"
+  HREF="node130.html">Mathematical description of a</A>
+<B> Up:</B> <A NAME="tex2html2696"
+  HREF="node126.html">Boundary conditions</A>
+<B> Previous:</B> <A NAME="tex2html2690"
+  HREF="node128.html">Multiple point constraints (MPC)</A>
+ &nbsp; <B>  <A NAME="tex2html2698"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

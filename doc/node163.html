@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Buckling analysis</TITLE>
+<META NAME="description" CONTENT="Buckling analysis">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node164.html">
+<LINK REL="previous" HREF="node162.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node164.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3145"
+  HREF="node164.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3141"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3135"
+  HREF="node162.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3143"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3146"
+  HREF="node164.html">Modal dynamic analysis</A>
+<B> Up:</B> <A NAME="tex2html3142"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3136"
+  HREF="node162.html">Complex frequency analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3144"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00079400000000000000">
+Buckling analysis</A>
+</H3>
+
+<P>
+In a linear buckling analysis the initial stiffness matrix is augmented by the initial stress matrix corresponding to the load specified in the <A HREF="node214.html#buckle">*BUCKLE</A> step, multiplied with a factor. This so-called buckling factor is determined such that the resulting matrix has zero as its lowest eigenfrequency. Ultimately, the buckling load is the buckling factor multiplied with the step load. The buckling factor(s) are always stored in the .dat file. The load specified in a <A HREF="node214.html#buckle">*BUCKLE</A> step should not contain prescribed displacements.
+
+<P>
+If the perturbation parameter is not activated on the <A HREF="node318.html#step">*STEP</A> card, the initial stiffness matrix corresponds to the stiffness matrix of the unloaded structure.
+
+<P>
+If the perturbation parameter is activated, the initial stiffness matrix includes the deformation and stress stiffness matrix corresponding to the deformation and stress at the end of the last static or dynamic step performed previous to the buckling step, if any,  and the material parameters are based on the temperature at the end of that step. In this way, the effect of previous loadings can be included in the buckling analysis. 
+
+<P>
+In a buckling step, all loading previous to the step is removed and replaced by the buckling step's loading, which is reset to zero at the end of the buckling step. Thus, to continue a static step interrupted by a buckling step, the load has to be reapplied after the buckling step. Due to the intrinsic nonlinearity of temperature loading (the material properties usually change with temperature), this type of loading is not allowed in a linear buckling step. If temperature loading is an issue, a nonlinear static or dynamic calculation should be performed instead.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3145"
+  HREF="node164.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3141"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3135"
+  HREF="node162.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3143"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3146"
+  HREF="node164.html">Modal dynamic analysis</A>
+<B> Up:</B> <A NAME="tex2html3142"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3136"
+  HREF="node162.html">Complex frequency analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3144"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

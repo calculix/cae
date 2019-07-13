@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Initializing the unknowns</TITLE>
+<META NAME="description" CONTENT="Initializing the unknowns">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node415.html">
+<LINK REL="previous" HREF="node413.html">
+<LINK REL="up" HREF="node411.html">
+<LINK REL="next" HREF="node415.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6443"
+  HREF="node415.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6439"
+  HREF="node411.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6433"
+  HREF="node413.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6441"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6444"
+  HREF="node415.html">Calculating the residual and</A>
+<B> Up:</B> <A NAME="tex2html6440"
+  HREF="node411.html">Aerodynamic and hydraulic networks</A>
+<B> Previous:</B> <A NAME="tex2html6434"
+  HREF="node413.html">Determining the basic characteristics</A>
+ &nbsp; <B>  <A NAME="tex2html6442"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000118300000000000000">
+Initializing the unknowns</A>
+</H3>
+
+<P>
+Solving the structural system and the network is done in an alternating
+way. At the start of a network loop the unknowns (mass flow, total
+temperature, total pressure) are initialized. This is especially important for
+gas networks, since the initial values are taken as starting solution. Since
+the gas equations are very nonlinear, a good initial guess may accelerate the
+Newton-Raphson convergence quite a bit (or make a convergence possible in the
+first place). 
+
+<P>
+At first an initial pressure distribution is determined. To that end the
+pressure value for nodes with a pressure boundary condition is stored in
+v (2,i), where i is the global node number. If no pressure boundary
+conditions applies, the minus the number of elements to which the node belongs is stored
+in the same field. If a node belongs to only one element, it is a boundary
+node and a fictitious initial pressure slightly smaller than the minimum
+pressure boundary condition is assigned to it. In that way, all boundary nodes
+are guaranteed to have a value assigned. The initial pressure in all other
+nodes is determined by solving for the Laplace equation in the network,
+i.e. the value in a node is the mean of the values in all surrounding
+nodes. To obtain a more realistic distribution the values are biased by an
+inverse tangent function, i.e. the values upstream decrease more slowly than
+on the downstream side of the network.
+
+<P>
+Another item taken care of at the start of initialnet.f is the determination
+of the number of gas pipe or restrictor elements the nodes belong to. If an
+end 
+node i belongs to at most 2 elements of type gas pipe or restrictor and to no
+other elements one of the global element numbers is stored in ineighe(i) and
+the static temperature is determined from the other variables using the mass
+flow in this element. If not, the node is considered to be a big chamber for
+which total and static values coincide. 
+
+<P>
+The temperature initial conditions are fixed at 293 K (only for those nodes
+for which no temperature boundary condition applies). In general, the
+temperature initial conditions are not so critical for the global convergence.
+For geometric quantities the initial value is zero. For the gate valve this is
+changed to the minimum allowable value of 0.125 (cf. liquidpipe.f).
+
+<P>
+Based on the total temperature and total pressure the mass flow in the
+elements is determined using the element equations. This is the second task to
+be accomplished by the element routines (characterized by iflag=1).
+
+<P>
+Finally, the static temperature is calculated for the nodes not identified as
+chambers based on the total pressure, total temperature and mass flow.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6443"
+  HREF="node415.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6439"
+  HREF="node411.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6433"
+  HREF="node413.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6441"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6444"
+  HREF="node415.html">Calculating the residual and</A>
+<B> Up:</B> <A NAME="tex2html6440"
+  HREF="node411.html">Aerodynamic and hydraulic networks</A>
+<B> Previous:</B> <A NAME="tex2html6434"
+  HREF="node413.html">Determining the basic characteristics</A>
+ &nbsp; <B>  <A NAME="tex2html6442"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

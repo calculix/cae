@@ -1,0 +1,376 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Hydraulic pipe system</TITLE>
+<META NAME="description" CONTENT="Hydraulic pipe system">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node14.html">
+<LINK REL="previous" HREF="node12.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node14.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1028"
+  HREF="node14.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1024"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1018"
+  HREF="node12.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1026"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1029"
+  HREF="node14.html">Lid-driven cavity</A>
+<B> Up:</B> <A NAME="tex2html1025"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1019"
+  HREF="node12.html">Capacitance of a cylindrical</A>
+ &nbsp; <B>  <A NAME="tex2html1027"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00067000000000000000">
+Hydraulic pipe system</A>
+</H2>
+
+<P>
+In CalculiX it is possible to perform steady-state hydraulic and aerodynamic network
+calculations, either as stand-alone applications, or together with mechanical
+and/or thermal calculations of the adjacent structures. Here, a stand-alone
+hydraulic network discussed in [<A
+ HREF="node448.html#Berlamont1">10</A>]  is analyzed. The input deck pipe.f can be found in the test
+suite. 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="geopipe"></A><A NAME="11767"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 25:</STRONG>
+Geometry of the hydraulic network</CAPTION>
+<TR><TD><IMG
+ WIDTH="542" HEIGHT="373" BORDER="0"
+ SRC="img136.png"
+ ALT="\begin{figure}\epsfig{file=geopipe.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The geometry of the network is shown in Figure <A HREF="#geopipe">25</A>. It is a linear
+network consisting of:
+
+<P>
+
+<UL>
+<LI>an upstream reservoir with surface level at 14.5 m
+</LI>
+<LI>an entrance with a contraction of 0.8
+</LI>
+<LI>a pipe with a length of 5 m and a diameter of 0.2 m
+</LI>
+<LI>a bend of 45 <IMG
+ WIDTH="12" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img137.png"
+ ALT="$ ^o$"> and a radius of 0.3 m
+</LI>
+<LI>a pipe with a length of 5 m and a diameter of 0.2 m
+</LI>
+<LI>a pipe with a length of 5 m and a diameter of 0.3 m
+</LI>
+<LI>a pipe with a length of 2.5 m and a diameter of 0.15 m
+</LI>
+<LI>a gate valve in E with <IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"> = 0.5
+</LI>
+<LI>a pipe with a length of 1.56 m and a diameter of 0.15 m
+</LI>
+<LI>an exit in a reservoir with surface level at 6.5 m
+</LI>
+</UL>
+
+<P>
+All pipes are characterized by a Manning friction coefficient n=0.015. The
+input deck looks like: 
+
+<P>
+<PRE>
+**
+**   Structure: pipe connecting two reservoirs.
+**   Test objective: hydraulic network.
+**
+*NODE,NSET=NALL
+2,0.,0.,14.5
+3,0.,0.,14.5
+4,0.,0.,12.325
+...
+26,14.9419,0.,6.5
+*ELEMENT,TYPE=D,ELSET=EALL
+1,0,2,3
+2,3,4,5
+...
+13,25,26,0
+*MATERIAL,NAME=WATER
+*DENSITY
+1000.
+*FLUID CONSTANTS
+4217.,1750.E-6,273.
+*ELSET,ELSET=E1
+2
+*ELSET,ELSET=E2
+3,5
+*ELSET,ELSET=E3
+4
+*ELSET,ELSET=E4
+6
+*ELSET,ELSET=E5
+7
+*ELSET,ELSET=E6
+8
+*ELSET,ELSET=E7
+9,11
+*ELSET,ELSET=E8
+10
+*ELSET,ELSET=E9
+12
+*ELSET,ELSET=E10
+1,13
+*FLUID SECTION,ELSET=E1,TYPE=PIPE ENTRANCE,MATERIAL=WATER
+0.031416,0.025133
+*FLUID SECTION,ELSET=E2,TYPE=PIPE MANNING,MATERIAL=WATER
+0.031416,0.05,0.015
+*FLUID SECTION,ELSET=E3,TYPE=PIPE BEND,MATERIAL=WATER
+0.031416,1.5,45.,0.4
+*FLUID SECTION,ELSET=E4,TYPE=PIPE ENLARGEMENT,MATERIAL=WATER
+0.031416,0.070686
+*FLUID SECTION,ELSET=E5,TYPE=PIPE MANNING,MATERIAL=WATER
+0.070686,0.075,0.015
+*FLUID SECTION,ELSET=E6,TYPE=PIPE CONTRACTION,MATERIAL=WATER
+0.070686,0.017671
+*FLUID SECTION,ELSET=E7,TYPE=PIPE MANNING,MATERIAL=WATER
+0.017671,0.0375,0.015
+*FLUID SECTION,ELSET=E8,TYPE=PIPE GATE VALVE,MATERIAL=WATER
+0.017671,0.5
+*FLUID SECTION,ELSET=E9,TYPE=PIPE ENLARGEMENT,MATERIAL=WATER
+0.017671,1.E6
+*FLUID SECTION,ELSET=E10,TYPE=PIPE INOUT,MATERIAL=WATER
+*BOUNDARY
+3,2,2,1.E5
+25,2,2,1.E5			  
+*STEP
+*HEAT TRANSFER,STEADY STATE
+*DLOAD
+EALL,GRAV,9.81,0.,0.,-1.
+*NODE PRINT,NSET=NALL
+U
+*END STEP
+</PRE>
+
+<P>
+In CalculiX linear networks are modeled by means of 3-node network elements
+(D-type elements). In the corner nodes of the element the temperature and the
+pressure are unknown. They are assigned to the degrees of freedom 0 and 2,
+respectively. In the midside node the mass flux is unknown and is assigned to
+degree of freedom 1. The properties of the network elements are defined by the
+keyword <A HREF="node264.html#fluidsection">*FLUID SECTION</A>. They are treated extensively
+in Section <A HREF="node76.html#fluidsectiontypesgases">6.4</A> (gases),
+<A HREF="node101.html#fluidsectiontypesliquids">6.5</A> (liquid pipes) and <A HREF="node112.html#fluidsectiontypeschannels">6.6</A>
+(liquid channels). For the network at stake we need:
+
+<P>
+
+<UL>
+<LI>a dummy network entrance element expressing that liquid is entering the
+  network (element 1). It is characterized by a node number 0 as first node
+</LI>
+<LI>a network element of type PIPE ENTRANCE at location A (element 2). This element also
+  takes the water depth into account. Notice that there is no special
+  reservoir element. Differences in water level can be taken into account in
+  any element type by assigning the appropriate coordinates to the corner nodes
+  of the element.
+</LI>
+<LI>a network element of type PIPE MANNING for the pipe between location A and
+  B (element 3)
+</LI>
+<LI>a network element of type PIPE BEND for the bend at location B (element 4)
+</LI>
+<LI>a network element of type PIPE MANNING for the pipe between location B and
+  C (element 5)
+</LI>
+<LI>a network element of type PIPE ENLARGEMENT for the increase of diameter at
+  location C (element 6)
+</LI>
+<LI>a network element of type PIPE MANNING for the pipe between location C and
+  D (element 7)
+</LI>
+<LI>a network element of type PIPE CONTRACTION to model the decrease in
+  diameter at location D (element 8)
+</LI>
+<LI>a network element of type PIPE MANNING for the pipe between location D and
+  E (element 9)
+</LI>
+<LI>a network element of type PIPE GATE VALVE for the valve at location E
+  (element 10)
+</LI>
+<LI>a network element of type PIPE MANNING for the pipe between location E and
+  F (element 11)
+</LI>
+<LI>a network element of type PIPE ENLARGEMENT for the exit in the
+  reservoir (element 12). Indeed, there is no special reservoir entrance element. A
+  reservoir entrance has to be modeled by a large diameter increase.
+</LI>
+<LI>a dummy network exit element expressing that liquid is leaving the
+  network (element 13)
+</LI>
+</UL>
+
+<P>
+In the input deck, all these elements are defined as D-type elements, their
+nodes 
+have the correct coordinates and by means of *FLUID SECTION cards each element
+is properly described. Notice that the dummy network entrance and exit
+elements are characterized by typeless *FLUID SECTION cards. 
+
+<P>
+For a hydraulic network the material properties reduce to the density (on the <A HREF="node241.html#density">*DENSITY</A> card), the specific heat and the dynamic
+viscosity (both on the <A HREF="node264.html#fluidsection">*FLUID SECTION</A> card). The
+specific heat is only needed if heat transfer is being modeled. Here, this is
+not the case. The dynamic viscosity of water is <!-- MATH
+ $1750 \times 10^{-6} \text{N
+s/m}^2$
+ -->
+<IMG
+ WIDTH="89" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img139.png"
+ ALT="$ 1750 \times 10^{-6}$">&nbsp; &nbsp;N
+s/m<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ ^2$"> [<A
+ HREF="node448.html#Incropera">34</A>]. The boundary conditions reduce to the atmospheric pressure in node 3 and 25, both at the
+liquid surface of the reservoir. Remember that the pressure has the degree of
+freedom 2 in the corner nodes of the network elements.  
+
+<P>
+Networks are only active in 
+<A HREF="node233.html#coupledtemperaturedisplacement">*COUPLED TEMPERATURE-DISPLACEMENT</A> or <A HREF="node272.html#heattransfer">*HEAT TRANSFER</A>
+procedures. Here, we do not take the structure into account, so a heat
+transfer analysis will do. Finally, the gravity loading has to be specified,
+this is indeed essential for hydraulic networks. Regarding the nodal output,
+remember that NT requests degree of freedom 0, whereas U requests degrees of
+freedom 1 to 3. Since we are interested in the mass flux (DOF 1 in the middle
+nodes) and the pressure (DOF 2 in the corner nodes), U is selected underneath the
+*NODE PRINT line. Officially, U are displacements, and that's the way they are
+labeled in the .dat file.
+
+<P>
+The results in the .dat file look as follows:
+
+<P>
+<PRE>
+ displacements (vx,vy,vz) for set NALL and time   1.
+
+     2  8.9592E+01  0.0000E+00  0.0000E+00
+     3  0.0000E+00  1.0000E+05  0.0000E+00
+     4  8.9592E+01  0.0000E+00  0.0000E+00
+     5  0.0000E+00  1.3386E+05  0.0000E+00
+     6  8.9592E+01  0.0000E+00  0.0000E+00
+     7  0.0000E+00  1.2900E+05  0.0000E+00
+     8  8.9592E+01  0.0000E+00  0.0000E+00
+     9  0.0000E+00  1.2859E+05  0.0000E+00
+    10  8.9592E+01  0.0000E+00  0.0000E+00
+    11  0.0000E+00  1.5841E+05  0.0000E+00
+    12  8.9592E+01  0.0000E+00  0.0000E+00
+    13  0.0000E+00  1.6040E+05  0.0000E+00
+    14  8.9592E+01  0.0000E+00  0.0000E+00
+    15  0.0000E+00  1.9453E+05  0.0000E+00
+    16  8.9592E+01  0.0000E+00  0.0000E+00
+    17  0.0000E+00  1.7755E+05  0.0000E+00
+    18  8.9592E+01  0.0000E+00  0.0000E+00
+    19  0.0000E+00  1.8361E+05  0.0000E+00
+    20  8.9592E+01  0.0000E+00  0.0000E+00
+    21  0.0000E+00  1.5794E+05  0.0000E+00
+    22  8.9592E+01  0.0000E+00  0.0000E+00
+    23  0.0000E+00  1.6172E+05  0.0000E+00
+    24  8.9592E+01  0.0000E+00  0.0000E+00
+    25  0.0000E+00  1.0000E+05  0.0000E+00
+    26  8.9592E+01  0.0000E+00  0.0000E+00
+</PRE>
+
+<P>
+The mass flux in the pipe (first DOF in the midside nodes, column 1) is constant and takes the value 89.592
+kg/s. This agrees well with the result in [<A
+ HREF="node448.html#Berlamont1">10</A>] of 89.4 l/s. Since
+not all node and element definitions are listed it is
+useful for the interpretation of the output to know that location A corresponds to node 5, location B to nodes 7-9, location C to nodes 11-13,
+location D to nodes 15-17, location E to nodes 19-21 and location F to node
+23. The second column in the result file is the pressure. It shows that the
+bend, the valve and the contraction lead to a pressure decrease, whereas the
+enlargement leads to a pressure increase (the velocity drops). 
+
+<P>
+If the structural side of the network (e.g. pipe walls) is modeled too, the
+fluid pressure can be mapped automatically onto the structural element
+faces. This is done by labels of type PxNP in the <A HREF="node247.html#dload">*DLOAD</A> card.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1028"
+  HREF="node14.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1024"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1018"
+  HREF="node12.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1026"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1029"
+  HREF="node14.html">Lid-driven cavity</A>
+<B> Up:</B> <A NAME="tex2html1025"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1019"
+  HREF="node12.html">Capacitance of a cylindrical</A>
+ &nbsp; <B>  <A NAME="tex2html1027"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

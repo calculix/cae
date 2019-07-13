@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Eight-node brick element (C3D8 and F3D8)</TITLE>
+<META NAME="description" CONTENT="Eight-node brick element (C3D8 and F3D8)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node28.html">
+<LINK REL="previous" HREF="node26.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node28.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1419"
+  HREF="node28.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1415"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1409"
+  HREF="node26.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1417"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1420"
+  HREF="node28.html">C3D8R</A>
+<B> Up:</B> <A NAME="tex2html1416"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1410"
+  HREF="node26.html">Element Types</A>
+ &nbsp; <B>  <A NAME="tex2html1418"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00072100000000000000">
+Eight-node brick element (C3D8 and F3D8)</A>
+</H3>
+
+<P>
+The C3D8 element is a general purpose linear brick element, fully integrated (2x2x2 integration points). The shape functions can be found in [<A
+ HREF="node448.html#Lapidus">40</A>]. The node numbering follows the convention of Figure <A HREF="#eightnode">61</A> and the integration points are numbered according to Figure <A HREF="#int8">62</A>. This latter information is important since element variables printed with the <A HREF="node256.html#elprint">*EL PRINT</A> keyword are given in the integration points. 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="eightnode"></A><A NAME="11812"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 61:</STRONG>
+8-node brick element</CAPTION>
+<TR><TD><IMG
+ WIDTH="450" HEIGHT="396" BORDER="0"
+ SRC="img239.png"
+ ALT="\begin{figure}\epsfig{file=C3D8.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="int8"></A><A NAME="11813"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 62:</STRONG>
+2x2x2 integration point scheme in hexahedral elements</CAPTION>
+<TR><TD><IMG
+ WIDTH="361" HEIGHT="342" BORDER="0"
+ SRC="img240.png"
+ ALT="\begin{figure}\epsfig{file=Int8.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Although the structure of the element is straightforward, it should not be used in the following situations:
+
+<UL>
+<LI>due to the full integration, the element will behave badly for isochoric material behavior, i.e. for high values of Poisson's coefficient or plastic behavior.
+</LI>
+<LI>the element tends to be too stiff in bending, e.g. for slender beams or thin plates under bending. [<A
+ HREF="node448.html#Zienkiewicz">84</A>].
+</LI>
+</UL>
+
+<P>
+The F3D8 element is the corresponding fluid element.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1419"
+  HREF="node28.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1415"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1409"
+  HREF="node26.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1417"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1420"
+  HREF="node28.html">C3D8R</A>
+<B> Up:</B> <A NAME="tex2html1416"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1410"
+  HREF="node26.html">Element Types</A>
+ &nbsp; <B>  <A NAME="tex2html1418"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

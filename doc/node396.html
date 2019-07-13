@@ -1,0 +1,833 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Contact</TITLE>
+<META NAME="description" CONTENT="Contact">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node397.html">
+<LINK REL="previous" HREF="node386.html">
+<LINK REL="up" HREF="node373.html">
+<LINK REL="next" HREF="node397.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6217"
+  HREF="node397.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6213"
+  HREF="node373.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6207"
+  HREF="node395.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6215"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6218"
+  HREF="node397.html">Determining the matrix structure</A>
+<B> Up:</B> <A NAME="tex2html6214"
+  HREF="node373.html">Program structure.</A>
+<B> Previous:</B> <A NAME="tex2html6208"
+  HREF="node395.html">Integrating the stresses in</A>
+ &nbsp; <B>  <A NAME="tex2html6216"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000114000000000000000">
+Contact</A>
+</H2>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contactedges"></A><A NAME="12807"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 163:</STRONG>
+Storage of the triangulation properties</CAPTION>
+<TR><TD><IMG
+ WIDTH="30" HEIGHT="32" BORDER="0"
+ SRC="img1913.png"
+ ALT="\begin{figure}\epsfig{file=contact_edges.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Contact is triggered by the keyword card <A HREF="node230.html#contactpair">*CONTACT
+ PAIR</A>. It defines an interaction between a nodal or element face
+slave surface and a element face 
+ master surface. The master surface is triangulated using standard
+ triangulation schemes for the different kind of faces (3-node, 4-node,
+ 6-node or 8-node). This is done in subroutines allocont.f, 
+ triangucont.f and trianeighbor.f. This triangulation is a topological one and does not depend
+ on the concrete coordinates. It is performed at the start of nonlingeo.c. The
+ resulting triangles are stored in field koncont (Figure <A HREF="#contactedges">163</A>): for triangle i the locations
+ koncont(1..3,i) contain the nodes belonging to the triangle, koncont(4,i)
+ contains the element face to which the triangle belongs. The element face is
+ characterized by a code consisting of 10*(element number)+face number. So the
+ code for face 4 of element 33 is 334. The triangles are stored in the order
+ of the contact tie constraints they belong to. For tie constraint i the
+ location of the first triangle in field koncont is given by itietri(1,i), the
+ location of the last one by itietri(2,i). 
+
+<P>
+The triangulation of the master surfaces allows for fast algorithms to
+determine the master face opposite of a given slave node. To facilitate this
+search, a field imastop is created: imastop(i,j) yields for triangle j the
+triangle opposite of node koncont(i,j). This is the neighboring triangle
+containing the edge to which node koncont(i,j) does not belong. This adjacency
+information is needed to apply the search algorithms in Section 1.7 of
+[<A
+ HREF="node448.html#George">24</A>]. To facilitate the construction of imastop (done in subroutine
+trianeighbor.f), the edges of the triangulation are catalogued by use of two
+auxiliary fields ipe(*) and ime(4,*). An edge is characterized by two nodes i
+and j, suppose <B><IMG
+ WIDTH="451" HEIGHT="814" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1914.png"
+ ALT="$ i&lt;j$"></B>. Then, if no other edge was encountered so far for which
+i was the lowest node, the present edge is stored in ime(1..4,ipe(i)), where
+ime(1,ipe(i)) contains j, ime(2,ipe(i)) contains one of the triangles to which
+the edge belongs, e.g. t1, ime(3,ipe(i)) contains the local position in
+koncont(1..3,t1) of the node belonging to t1 but not on the edge i-j and
+ime(4,ipe(i)) is a pointer to ime(1..4,ime(4,ipe(i))) containing any other edge for which i is the lowest node
+number, else it is zero. 'For node-to-face penalty contact these auxiliary fields are deleted upon leaving
+trianeighbor. For face-to-face contact they are further used in slavintmortar.f.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contactn2fipoface"></A><A NAME="12808"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 164:</STRONG>
+Storage of all faces for the determination
+  of the external faces</CAPTION>
+<TR><TD><IMG
+ WIDTH="41" HEIGHT="31" BORDER="0"
+ SRC="img1915.png"
+ ALT="\begin{figure}\epsfig{file=contact_n2f_ipoface.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+For further calculations both the slave nodes and the slave surfaces have to
+be catalogued. In case the slave surface is defined by
+nodes, the corresponding faces have to be found. To this end, all external
+faces of the structure are catalogued by fields ipoface and nodface in
+subroutine findsurface.f (Figure <A HREF="#contactn2fipoface">164</A>). Assuming
+face f1 to contain corner nodes <B><IMG
+ WIDTH="541" HEIGHT="462" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1916.png"
+ ALT="$ i&lt;j&lt;k&lt;l$"></B>, f1 is stored in
+nodface(1..5,ipoface(i)). The entries 1..5 contain: node j, node k, node l, a
+face label in the form 10*element number + local face number and a pointer to
+any other face for which i is the lowest node.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contactislavnode"></A><A NAME="12809"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 165:</STRONG>
+Storage of the slave nodes</CAPTION>
+<TR><TD><IMG
+ WIDTH="97" HEIGHT="32" BORDER="0"
+ SRC="img1917.png"
+ ALT="\begin{figure}\epsfig{file=contact_islavnode.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The slave nodes are stored in field islavnode(*) (Figure <A HREF="#contactislavnode">165</A>), tie per tie and sorted in
+increasing order for each tie separately. nslavnode(i) contains the position
+in islavnode before the first slave node of tie i. If ntie is the number of
+ties, nslavnode contains ntie+1 entries, in order to mark the end of the field
+islavnode as well. The total number of slave nodes is denoted by nslavs. For
+face-to-face contact the field clearslavnode contains the difference between
+the clearance specified by the user with the keyword card *CLEARANCE and the
+clearance calculated based on the actual coordinates. This field is zero in
+the absence of the *CLEARANCE card. The field clearini contains the clearance
+for each node belonging to the slave face at stake. This information is copied
+from field clearslavnode.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contactn2fislavsurf"></A><A NAME="12810"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 166:</STRONG>
+Storage of the slave faces (node-to-face penalty)</CAPTION>
+<TR><TD><IMG
+ WIDTH="543" HEIGHT="531" BORDER="0"
+ SRC="img1918.png"
+ ALT="\begin{figure}\begin{center}
+\epsfig{file=contact_n2f_islavsurf.eps,width=10cm}\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contactf2fislavsurf"></A><A NAME="12811"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 167:</STRONG>
+Storage of the slave faces (face-to-face penalty)</CAPTION>
+<TR><TD><IMG
+ WIDTH="451" HEIGHT="867" BORDER="0"
+ SRC="img1919.png"
+ ALT="\begin{figure}\epsfig{file=contact_f2f_islavsurf.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The slave faces are stored in islavsurf(1..2,*) (Figure
+<A HREF="#contactn2fislavsurf">166</A> and Figure <A HREF="#contactf2fislavsurf">167</A>). islavsurf(1,*) contains the
+slave faces, tie per tie (not in any way sorted), whereas islavsurf(2,*) is an
+auxiliary field not further needed for node-to-face contact. itiefac(1,i) is a pointer into field
+islavsurf marking the first face for tie i, itiefac(2,i) points to the last
+face. The total number of slave faces is ifacecount. The area of the slave
+faces is stored in a corresponding field areaslav. For face-to-face contact
+the second column of islavsurf is used as a pointer to locations in field
+pslavsurf, preceding the integration points in the face (local coordinates and
+weights). If for a given integration point in the slave face an opposite
+master face is found, the local coordinates, the label of the master face and
+the local normal to the master face are stored in field pmastsurf.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="iponoels"></A><A NAME="12812"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 168:</STRONG>
+Storage of the slave faces belonging to a given slave
+node</CAPTION>
+<TR><TD><IMG
+ WIDTH="540" HEIGHT="500" BORDER="0"
+ SRC="img1920.png"
+ ALT="\begin{figure}\epsfig{file=iponoels.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+For the purpose of calculating the area corresponding to a given slave node,
+the fields iponoels and inoels are used (Figure <A HREF="#iponoels">168</A>). For a slave node i, the value
+iponoels(i) points towards an entry inoels(1..3,iponoels(i)) containing the
+position within field islavsurf(1,*) of a face to which node i belongs and an entry inoels(2,iponoels(i))  pointing to any other
+faces to which node i belongs. Field xnoels contains the weight of the node
+within the face. This information is
+gathered in subroutine inicont.c.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contactimastnode"></A><A NAME="12813"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 169:</STRONG>
+Storage of the master nodes</CAPTION>
+<TR><TD><IMG
+ WIDTH="541" HEIGHT="570" BORDER="0"
+ SRC="img1921.png"
+ ALT="\begin{figure}\epsfig{file=contact_imastnode.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The master nodes are catalogued in field imastnode in the sane way that the
+slave nodes are stored in islavnode (Figure <A HREF="#contactimastnode">169</A>). The
+master nodes are stored tie per tie, within each tie they are sorted in
+ascending order. For tie i nmastnode(i) points towards the location in
+imastnode immediately before the master node with the smallest number within
+tie i, nmastnode(i) points towards the master node within tie i with the
+largest number. The size of imastnode is nmastnode(ntie+1), where ntie is the
+number of ties. In each iteration and/or increment the topological information
+of each master triangle is complemented by geometrical information consisting
+of the center of gravity (in field cg) and the equations of the triangle plane
+and the planes quasi-perpendicular to the triangle and containing its edges. For triangle i the coordinates of the
+center of gravity are stored in cg(1..3,i). The coefficients of the equation
+of the plane orthogonal to the triangle and containing the first edge are
+stored in straight(1..4,i). The first edge is defined as the edge through
+nodes koncont(1,i) and koncont(2,i). Similar for edge 2 (straight(5..8,i)) and
+edge 3 (straight(9..12,i)). The
+coefficients of the triangle plane are stored in straight(13..16,i). The
+geometrical information is calculated in routine updatecontpen.f. The planes
+bordering the triangles are quasi-orthogonal to the triangle in the sense that
+they are in-between the truly orthogonal planes and the planes through the
+triangle edges and orthogonal to the neighboring triangles. To this end the
+mean normals are stored in field xmastnor(3,*) (Figure <A HREF="#contactimastnode">169</A>).
+
+<P>
+Further geometrical information is the area of each slave face i, stored in
+areaslav(i), the area corresponding to slave node i, stored in springarea(1,i)
+and the penetration at the start of each step in slave node i (<B><IMG
+ WIDTH="450" HEIGHT="679" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1922.png"
+ ALT="$ &lt; 0$"></B> if any
+penetration , else 0), stored in springarea(2,i). These calculations are
+performed each time gencontelem_n2f.f or gencontelem_f2f.f is called.
+
+<P>
+Subsequently, contact spring elements are generated (routine
+gencontelem.f). To this end, each node belonging to the dependent contact
+slave surface is treated separately. To determine the master surface the node
+interacts with, a triangle belonging to the triangulation of the
+corresponding master surface are identified, such that its center of
+gravity is closest to the dependent node. Then, a triangle is identified
+by adjacency, such that the orthogonal projection of the slave node is
+contained in this triangle. If such a triangle is found, a contact spring element is generated
+consisting of the dependent node and the independent surface the triangle
+belongs to, provided the node penetrates the structure or the clearance does
+not exceed a given margin. Before checking the penetration or clearance an
+adjustment of the geometry is performed in case the user has activated the ADJUST
+parameter. If any of these conditions is not satisfied, no contact spring element is generated for this dependent
+node and the next node is treated. The sole purpose of the triangulation of the
+master surface is the fast identification of the independent face a dependent
+node interacts with. 
+
+<P>
+The stiffness matrix of the contact spring elements is calculated in
+springstiff.f, called by mafillsm.f. In order to determine the
+stiffness matrix the local coordinates of the projection of the dependent node
+onto the independent surface are needed. This is performed in attach.f. Use is
+made of a cascaded regular grid to determine the location within the
+independent surface which is closest to the dependent node. The local
+coordinates are needed to determine the shape functions and their derivatives.
+The contact force is determined in springforc.f, called by
+results.f. Here too, routine attach.f is called.
+
+<P>
+Since the geometrical information is recalculated in every iteration, large
+deformations are taken into account, unless the user has specified SMALL
+SLIDING in which case the geometry update takes place once at the start of
+each new increment.
+
+<P>
+The material properties of the contact spring, defined by means of
+the *SURFACE INTERACTION, the *SURFACE BEHAVIOR and the *FRICTION card, are stored in the same
+fields as the *MATERIAL and *ELASTIC,TYPE=ISOTROPIC card. 
+
+<P>
+The general structure of the contact algorithms for nonlinear geometric
+calculations is as follows. The contact topology is determined in
+inicont.c. This routine is called once at the start of a new step and calls
+the following routines:
+
+<P>
+
+<UL>
+<LI>allocont: determining the number of master triangles and slave entities
+  (nodes or faces, depending on whether the slave surface is nodal or facial)
+</LI>
+<LI>triangucont: triangulation of the master side
+</LI>
+<LI>trianeighbor: determining the triangle neighbors in the triangulation of
+  the master side
+</LI>
+<LI>findsurface (only for node-to-face contact): catalogueing the external faces and creating the fields
+  ipoface and nodface
+</LI>
+<LI>tiefaccont: determinnig the field islavsurf and itieface (slave nodes),
+  islavnode and nslavnode (slave faces), iponoels, xnoels and inoels (only for
+  node-to-face contact) and imastnode and nmastnode (master nodes).
+</LI>
+</UL>
+
+<P>
+For face-to-face contact the routine precontact.c is called at the start of
+each new increment. Its purpose is:
+
+<P>
+
+<UL>
+<LI>to calculate the center of gravity and the quasi-orthogonal planes to
+  the master triangles (updatecontpen.f).
+</LI>
+<LI>to calculate the clearance (if the *CLEARANCE keyword card is used)
+  and/or adjust the slave nodes (if the ADJUST parameter is used on the
+  *CONTACT PAIR card) at the start of the first step (adjustcontactnodes.f).
+</LI>
+<LI>to determine the location of the integration points in the slave faces
+  based on the matching of the slave and the master faces (slavintpoints.f).
+</LI>
+</UL>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contactn2fkon"></A><A NAME="12814"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 170:</STRONG>
+Topology of the node-to-face contact elemetns</CAPTION>
+<TR><TD><IMG
+ WIDTH="31" HEIGHT="31" BORDER="0"
+ SRC="img1923.png"
+ ALT="\begin{figure}\epsfig{file=contact_n2f_kon.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contactf2fkon"></A><A NAME="12815"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 171:</STRONG>
+Topology of the face-to-face contact elements</CAPTION>
+<TR><TD><IMG
+ WIDTH="532" HEIGHT="501" BORDER="0"
+ SRC="img1924.png"
+ ALT="\begin{figure}\epsfig{file=contact_f2f_kon.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Furthermore, for face-to-face contact the routine interpolatestate is called
+at the start of each new increment. It interpolates the state variables
+(internal variables such as the slip accumulated so far) from the integration
+points at the end of the previous increment, if any, to the new integration
+points determined in slavintpoints.f. Indeed, at the start of a new increment
+the matching between the slave and master surfaces is done anew and usually
+leads to a change in the location of the integration points.
+
+<P>
+For contact with friction there are 9 internal variables (state
+variables). They are:
+
+<P>
+
+<UL>
+<LI>1-3: the slip vector
+</LI>
+<LI>4-6: the relative displacement between slave and master surface
+</LI>
+<LI>7-9: the relative tangential displacement between slave and master
+  surface
+</LI>
+</UL>
+
+<P>
+All of them are stored in global Carthesian coordinates.
+
+<P>
+The contact.c routine is called once per iteration. This applies to
+node-to-face as well as face-to-face contact. For node-to-face contact the
+purpose of contact.c is:
+
+<P>
+
+<UL>
+<LI>to update the center of gravity and the quasi-orthogonal planes of the
+  master triangles (updatecontpen.f).
+</LI>
+<LI>to generate contact spring elements at those slave nodes for which the
+  clearance does not exceed a predefined value <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$"></B>
+  (gencontelem_n2f.f). Additionally, gencontelem_2nf performs the
+  calculation of:
+
+<UL>
+<LI>the area of all slave faces (stored in areaslav).
+</LI>
+<LI>the area corresponding to each slave node and the overlap at the start
+  of the first step (stored in springarea).
+</LI>
+</UL>
+</LI>
+</UL>
+
+<P>
+If a spring element is generated, its topology is stored in field kon in
+accordance to Figure <A HREF="#contactn2fkon">170</A>. The parameter igauss is needed to
+identify the area and overlap.
+
+<P>
+For face-to-face contact contact.c only calls routine gencontelem_f2f. At the
+start of a new increment the field pmastsurf is filled for those slave
+integration points for which an opposite master face is found. It contains the
+local coordinates of the master face, its label (10*element+local face number)
+and the local normals. Furthermore, field springarea is filled containing the
+corresponding slave area and the overlap at the start of each increment in the
+first step. Please note that pmastsurf and springarea are calculated at the
+start of an increment and kept constant for all iterations across the complete
+increment. The contact spring elements, however, are generated anew in each
+iteration based on the sign of the clearance. A contact element is generated
+only if the clearance is negative (i.e. in case of penetration). The topology
+of the spring element is stored in field kon (Figure <A HREF="#contactf2fkon">171</A>) and contains the total number of
+nodes (slave+master), the master nodes, the slave nodes, the address of the
+integration point in  pslavsurf and the address of the slave face in
+islavsurf.
+
+<P>
+Contact properties (*SURFACE BEHAVIOR, *FRICTION, *CONTACT DAMPING, *GAP HEAT
+GENERATION) are preceded by a *SURFACE INTERACTION card and are internally treated as
+material properties, i.e. the *SURFACE INTERACTION card is treated in the same
+way as a *MATERIAL card. All data are stored in the elastic field elcon,
+except for the tabular pressure-overclosure data, which are stored in the
+isotropic hardening field plicon, and the gap conductance data, which are
+stored in the kinematic hardening field plkcon. The contact properties in
+elcon are stored in the order of Table <A HREF="#contactdata">20</A> for exponential,
+linear, tabular and tied pressure-overclosure behavior.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="12816"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 20:</STRONG>
+Storage of contact data in elcon.</CAPTION>
+<TR><TD ALIGN="CENTER">entry</TD>
+<TD ALIGN="CENTER">kind</TD>
+<TD ALIGN="CENTER">exponential</TD>
+<TD ALIGN="CENTER">linear</TD>
+<TD ALIGN="CENTER">tabular</TD>
+<TD ALIGN="CENTER">tied</TD>
+</TR>
+<TR><TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">*SURFACE BEHAVIOR</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$"></B></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{\infty}$
+ -->
+<B><IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img774.png"
+ ALT="$ \sigma_{\infty}$"></B></TD>
+<TD ALIGN="CENTER">-</TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">2</TD>
+<TD ALIGN="CENTER">*SURFACE BEHAVIOR</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$ p_0$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B></TD>
+<TD ALIGN="CENTER">-</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">3</TD>
+<TD ALIGN="CENTER">*SURFACE BEHAVIOR</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1200.png"
+ ALT="$ 1$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="523" HEIGHT="464" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1925.png"
+ ALT="$ 2$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1926.png"
+ ALT="$ 3$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1927.png"
+ ALT="$ 4$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">*SURFACE BEHAVIOR</TD>
+<TD ALIGN="CENTER">-</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1928.png"
+ ALT="$ c_{0coef}$"></B></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $c_{0coef}=10^{-3}$
+ -->
+<B><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1929.png"
+ ALT="$ c_{0coef}=10^{-3}$"></B></TD>
+<TD ALIGN="CENTER">not
+used</TD>
+</TR>
+<TR><TD ALIGN="CENTER">5</TD>
+<TD ALIGN="CENTER">*CONTACT DAMPING</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1720.png"
+ ALT="$ c_d$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1720.png"
+ ALT="$ c_d$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1720.png"
+ ALT="$ c_d$"></B></TD>
+<TD ALIGN="CENTER">not
+used</TD>
+</TR>
+<TR><TD ALIGN="CENTER">6</TD>
+<TD ALIGN="CENTER">*FRICTION</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"></B></TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">7</TD>
+<TD ALIGN="CENTER">*FRICTION</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">8</TD>
+<TD ALIGN="CENTER">*CONTACT DAMPING</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="98" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1930.png"
+ ALT="$ c_t$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="98" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1930.png"
+ ALT="$ c_t$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="98" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1930.png"
+ ALT="$ c_t$"></B></TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">9</TD>
+<TD ALIGN="CENTER">*GAP HEAT GENERATION</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"></B></TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">10</TD>
+<TD ALIGN="CENTER">*GAP HEAT GENERATION</TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img484.png"
+ ALT="$ f$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img484.png"
+ ALT="$ f$"></B></TD>
+<TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img484.png"
+ ALT="$ f$"></B></TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">11</TD>
+<TD ALIGN="CENTER">*GAP HEAT GENERATION</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\|\boldsymbol{v}_{rel} \|$
+ -->
+<B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1931.png"
+ ALT="$ \Vert\boldsymbol{v}_{rel} \Vert$"></B></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\|\boldsymbol{v}_{rel} \|$
+ -->
+<B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1931.png"
+ ALT="$ \Vert\boldsymbol{v}_{rel} \Vert$"></B></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\|\boldsymbol{v}_{rel} \|$
+ -->
+<B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1931.png"
+ ALT="$ \Vert\boldsymbol{v}_{rel} \Vert$"></B></TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+The following remarks are due:
+
+<P>
+
+<UL>
+<LI>``entry'' is the index inside elcon. For instance, for linear
+  pressure-overclosure behavior elcon(2,1,i)=<B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B>, where ``1'' is the temperature
+  label (no temperature dependence for this constant) and ``i'' is the
+  internal material number.
+</LI>
+<LI><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$"></B> and <B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$ p_0$"></B> are the constants describing the exponential
+  pressure-overclosure behavior.
+</LI>
+<LI><B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B> is the normal spring stiffness;  <!-- MATH
+ $\sigma_{\infty}$
+ -->
+<B><IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img774.png"
+ ALT="$ \sigma_{\infty}$"></B> is the tensile
+  stress at infinity for a regularized linear pressure-overclosure behavior
+  (only for node-to-face contact).
+</LI>
+<LI>the third line in the table is the number of the method,
+  i.e. exponential pressure-overclosure = 1 etc. These numbers are stored as
+  reals by adding 0.5.
+</LI>
+<LI><!-- MATH
+ $c_0=c_{0coef} \sqrt{\text{slave area}}$
+ -->
+<B><IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1932.png"
+ ALT="$ c_0=c_{0coef} \sqrt{\text{slave area}}$"></B>, where <B><IMG
+ WIDTH="160" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1933.png"
+ ALT="$ c_0 &gt; 0 $"></B> is the clearance
+  below which a contact spring element is generated. For tabular
+  pressure-overclosure behavior the value of  <B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1928.png"
+ ALT="$ c_{0coef}$"></B> is fixed. <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$"></B> is
+  only used in this form for node-to-face contact. For face-to-face contact
+  <B><IMG
+ WIDTH="48" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1934.png"
+ ALT="$ c_0 = 0$"></B>.
+</LI>
+<LI><B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1720.png"
+ ALT="$ c_d$"></B> is the normal damping coefficient, <B><IMG
+ WIDTH="98" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1930.png"
+ ALT="$ c_t$"></B> is the tangent damping
+  function.
+</LI>
+<LI><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img319.png"
+ ALT="$ \eta$"></B> is the fraction of dissipated energy converted into heat, <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img484.png"
+ ALT="$ f$"></B> is
+  the surface distribution factor while  <!-- MATH
+ $\|\boldsymbol{v}_{rel} \|$
+ -->
+<B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1931.png"
+ ALT="$ \Vert\boldsymbol{v}_{rel} \Vert$"></B> is the
+  relative velocity between the parts in contact. The latter value is only
+  meant for two-dimensional axisymmetric calculations in which the relative
+  velocity between the stator and rotor is known (rotary machinery). In that
+  case, no friction should be defined.
+</LI>
+<LI>tied pressure-overclosure is only available for face-to-face contact
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6217"
+  HREF="node397.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6213"
+  HREF="node373.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6207"
+  HREF="node395.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6215"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6218"
+  HREF="node397.html">Determining the matrix structure</A>
+<B> Up:</B> <A NAME="tex2html6214"
+  HREF="node373.html">Program structure.</A>
+<B> Previous:</B> <A NAME="tex2html6208"
+  HREF="node395.html">Integrating the stresses in</A>
+ &nbsp; <B>  <A NAME="tex2html6216"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

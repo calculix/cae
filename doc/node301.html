@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*PLASTIC</TITLE>
+<META NAME="description" CONTENT="*PLASTIC">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node302.html">
+<LINK REL="previous" HREF="node300.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node302.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4940"
+  HREF="node302.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4936"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4930"
+  HREF="node300.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4938"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4941"
+  HREF="node302.html">*PRE-TENSION SECTION</A>
+<B> Up:</B> <A NAME="tex2html4937"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4931"
+  HREF="node300.html">*PHYSICAL CONSTANTS</A>
+ &nbsp; <B>  <A NAME="tex2html4939"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000893000000000000000"></A><A NAME="plastic"></A>
+<BR>
+*PLASTIC
+</H2>
+
+<P>
+Keyword type: model definition, material
+
+<P>
+This option is used to define the plastic properties of an
+incrementally plastic material. There is one optional parameter
+HARDENING. Default is HARDENING=ISOTROPIC, other values are
+HARDENING=KINEMATIC for kinematic hardening, HARDENING=COMBINED for
+combined isotropic and kinematic hardening and HARDENING=USER for user
+defined hardening curves. All constants may be temperature
+dependent. The card should be preceded by a
+<A HREF="node250.html#elastic">*ELASTIC</A> card within the same material definition,
+defining the isotropic elastic properties of the material. User
+defined hardening curves should be defined in the user subroutine
+uhardening.f
+
+<P>
+If the elastic data is isotropic, the large strain viscoplastic theory
+treated in [<A
+ HREF="node448.html#Simo3">73</A>] and [<A
+ HREF="node448.html#Simo4">74</A>] is applied. If the elastic
+data is orthotropic, the infinitesimal strain model discussed in
+Section <A HREF="node156.html#s533">6.8.13</A> is used. Accordingly, for an elastically
+orthotropic material 
+the hardening can be at most linear. Furthermore, if the temperature
+data points for the hardening curves do not correspond to the *ELASTIC
+temperature data points, they are interpolated at the latter
+points. Accordingly, for an elastically orthotropic material, it is
+advisable to define the hardening curves at the same temperatures as
+the elastic data.
+
+<P>
+For the selection of plastic output variables the reader is referred to
+Section <A HREF="node150.html#incplas">6.8.7</A>.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*PLASTIC
+</LI>
+<LI>Enter the HARDENING parameter and its value, if needed
+</LI>
+</UL>
+
+<P>
+Following sets of lines define the isotropic hardening curve for HARDENING=ISOTROPIC and the kinematic hardening curve for HARDENING=KINEMATIC or HARDENING=COMBINED:
+First line in the first set:
+
+<UL>
+<LI>Von Mises stress.
+</LI>
+<LI>Equivalent plastic strain.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Use as many lines in the first set as needed to define the complete hardening curve for this temperature.
+
+<P>
+Use as many sets as needed to define complete temperature dependence.
+
+<P>
+For the definition of the isotropic hardening curve for HARDENING=COMBINED the keyword <A HREF="node236.html#cyclichardening">*CYCLIC HARDENING</A> is used. 
+
+<P>
+<PRE>
+Example:
+
+*PLASTIC
+800.,0.,273.
+900.,0.05,273.
+1000.,0.15,273.
+700.,0.,873.
+750.,0.04,873.
+800.,0.13,873.
+</PRE>
+
+<P>
+defines two stress-strain curves: one for temperature T=273. and one for T=873. The curve at T=273 connects the points (800.,0.), (900.,0.05) and (1000.,0.15), the curve at T=873 connects (700.,0.), (750.,0.04) and (800.,0.13). Notice that the first point on the curves represents first yielding and must give the Von Mises stress for a zero equivalent plastic strain.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beampd, beampiso, beampkin, beampt.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4940"
+  HREF="node302.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4936"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4930"
+  HREF="node300.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4938"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4941"
+  HREF="node302.html">*PRE-TENSION SECTION</A>
+<B> Up:</B> <A NAME="tex2html4937"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4931"
+  HREF="node300.html">*PHYSICAL CONSTANTS</A>
+ &nbsp; <B>  <A NAME="tex2html4939"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

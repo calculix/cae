@@ -1,0 +1,351 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Preprocessing the sensitivity</TITLE>
+<META NAME="description" CONTENT="Preprocessing the sensitivity">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node420.html">
+<LINK REL="previous" HREF="node418.html">
+<LINK REL="up" HREF="node418.html">
+<LINK REL="next" HREF="node420.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6504"
+  HREF="node420.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6500"
+  HREF="node418.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6494"
+  HREF="node418.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6502"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6505"
+  HREF="node420.html">Processing the sensitivity</A>
+<B> Up:</B> <A NAME="tex2html6501"
+  HREF="node418.html">Sensitivity Analysis</A>
+<B> Previous:</B> <A NAME="tex2html6495"
+  HREF="node418.html">Sensitivity Analysis</A>
+ &nbsp; <B>  <A NAME="tex2html6503"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION0001110100000000000000">
+Preprocessing the sensitivity</A>
+</H3>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="sens0"></A><A NAME="12823"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 174:</STRONG>
+Structure of the preprocessing part</CAPTION>
+<TR><TD><IMG
+ WIDTH="99" HEIGHT="20" BORDER="0"
+ SRC="img1965.png"
+ ALT="\begin{figure}\epsfig{file=sens0.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="sens1"></A><A NAME="12824"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 175:</STRONG>
+Data structure for all elements belonging to a given node</CAPTION>
+<TR><TD><IMG
+ WIDTH="450" HEIGHT="845" BORDER="0"
+ SRC="img1966.png"
+ ALT="\begin{figure}\epsfig{file=sens1.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The Structure of the preprocessing part is shown in Figure <A HREF="#sens0">174</A>. At
+first all elements belonging to one and the same node are determined and
+stored in the data structure shown in Figure <A HREF="#sens1">175</A>. Then, the program
+flow is split according to whether the design variables are the coordinates or
+the material orientations. 
+
+<P>
+For coordinate design variables the following steps are performed:
+
+<P>
+
+<UL>
+<LI>The external faces of the structure are determined and stored in the
+  data format explained in Figure <A HREF="node396.html#contactn2fipoface">164</A> as well as in the
+  data format shown in Figure <A HREF="#sens2">176</A> (findextsurface.f)
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="sens2"></A><A NAME="12825"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 176:</STRONG>
+Data structure storing the kind of external face and the
+nodes belonging to that face</CAPTION>
+<TR><TD><IMG
+ WIDTH="450" HEIGHT="392" BORDER="0"
+ SRC="img1967.png"
+ ALT="\begin{figure}\epsfig{file=sens2.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+</LI>
+<LI>All external faces to which a given node belongs are stored in fields
+  iponoelfa and inoelfa according to the data structure shown in Figure
+  <A HREF="#sens3">177</A> (extfacepernode.f)
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="sens3"></A><A NAME="12826"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 177:</STRONG>
+Data structure for all external faces belonging to a
+  given node</CAPTION>
+<TR><TD><IMG
+ WIDTH="447" HEIGHT="397" BORDER="0"
+ SRC="img1968.png"
+ ALT="\begin{figure}\epsfig{file=sens3.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+</LI>
+<LI>The design variables (i.e. nodes) are stored in ascending order in field
+  nodedesi(*). The total number of design variables is ndesi (getdesiinfo.f)
+
+<P>
+</LI>
+<LI>All elements belonging to one and the same design variable are stored in
+  fields istartdesi and ialdesi according to the structure in Figure
+  <A HREF="#sens4">178</A> (elemperdesi.f)
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="sens4"></A><A NAME="12827"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 178:</STRONG>
+Data structure for all elements belonging to a specific
+  design variable</CAPTION>
+<TR><TD><IMG
+ WIDTH="452" HEIGHT="409" BORDER="0"
+ SRC="img1969.png"
+ ALT="\begin{figure}\epsfig{file=sens4.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+</LI>
+<LI>The calculation of the normals to the external surfaces. At the design
+  variables, this is the direction in which the nodes are moved and for which
+  the sensitivity is calculated. In each node there can be only one
+  normal. This is the mean of the normals on all external faces to which the
+  node belongs. If the EDGE PRESERVATION=YES parameter is activated on the
+  <A HREF="node262.html#filter">*FILTER</A> card only external surfaces ``internal'' to the
+  ``domain'' of design variables are taken into account for the calculation of
+  the normal. An external surface is ``internal'' to the ``domain'' of more
+  than half of its nodes are design variables (normalsonsurface_se.f).
+
+<P>
+</LI>
+<LI>The calculation of the normals to the external surfaces. Although it
+  seems to be the same task as in the previous item, it is not. The normals
+  calculated here are needed for the mesh modifications in an optimization
+  procedure. Usually the performance of a sensitivity study is not a goal
+  itself, rather it is part of an optimization loop during which the
+  sensitivities, which are nothing else than the derivative of the objective
+  w.r.t. the design variables, are recalculated in each iteration and used in
+  optimization strategies such as steepest descent or conjugate gradient. At
+  the end of each iteration the design variables are moved a small amount in
+  the normal direction (calculated in the previous item), all other nodes are
+  not moved in normal direction. This deforms the
+  mesh and may lead to bad elements. Hence the mesh has to be improved,
+  e.g. with a Laplace operator. However, the external surface of the structure
+  should not be changed during this operation. This latter requirement can be taken care of by
+  defining multiple point constraints based on the local normal(s). Indeed, now more than one normal may be needed, e.g. at sharp
+  corners which need be preserved. Therefore, the way the normals are
+  determined here (normalsforequ_se.f) is different from the way this is done
+  in normalsonsurface_se.f. The equations are stored in file jobname.equ for
+  further use in a CalculiX input deck.
+
+<P>
+</LI>
+<LI>Determination of the active nodes, i.e. the nodes belonging to elements
+  (createinum.f) and storage of the normals determined in
+  normalsonsurface_se.f in frd-format in jobname.frd (frd_sen.c).
+
+<P>
+</LI>
+<LI>Determination of the smallest distance between two nodes belonging to
+  one and the same element. Based on this distance a measure is derived
+  (actually this distance/10000.) which is used to calculate the
+  sensitivities on element-to-element basis with finite differences
+  (smalldist.f).
+
+<P>
+</LI>
+<LI>randomfieldmain.f
+
+<P>
+</LI>
+</UL>
+
+<P>
+For orientation design variables the following steps are performed:
+
+<P>
+
+<UL>
+<LI>Storage of the orientation design variables in the jobname.dat
+  file. Each local orientation leads to exacty three design variables, which
+  are the components of the rotation vector describing the orientation
+  (writedesi.f).
+
+<P>
+</LI>
+<LI>Determining all elements corresponding to a given orientation. They are
+  stored in fields ipoorel(*) and iorel(2,*) in exactly the same way as fields
+  iponoel(*) and inoel(2,*) were used to store all elements to which a given
+  node belongs, cf. Figure <A HREF="#sens1">175</A> (elemperorien.f).
+
+<P>
+</LI>
+<LI>All elements belonging to one and the same design variable are stored in
+  fields istartdesi and ialdesi according to the structure in Figure
+  <A HREF="#sens4">178</A> (elemperdesi.f). This is analogous to the case in which the
+  coordinates are the design variables.
+
+<P>
+</LI>
+</UL>
+
+<P>
+The next four routines are common to coordinate design variables as well as
+orientation design variables:
+
+<P>
+
+<UL>
+<LI>First the design variables per element are determined and stored in
+  fields istartelem(*) and ialelem(*) in exactly the same way as fields
+istartdesi(*) and ialdesi(*) were used to store the elements per design
+variable according to Figure <A HREF="#sens4">178</A> (desiperelem.f).
+
+<P>
+</LI>
+<LI>The actual external load is determined (tempload.f)
+
+<P>
+</LI>
+<LI>The matrix structure of the sensitivity matrix df is determined and stored
+  using the variables irows(*) and jqs(*). The sensitivity matrix is used to
+  store <!-- MATH
+ $\frac{\partial{F_{\text{ext}}}}{\partial s}$
+ -->
+<B><IMG
+ WIDTH="443" HEIGHT="331" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1970.png"
+ ALT="$ \frac{\partial{F_{\text{ext}}}}{\partial s}$"></B>,
+  <!-- MATH
+ $\frac{\partial{F_{\text{int}}}}{\partial s}$
+ -->
+<B><IMG
+ WIDTH="40" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1971.png"
+ ALT="$ \frac{\partial{F_{\text{int}}}}{\partial s}$"></B>, <!-- MATH
+ $\frac{\partial K}{\partial
+s} \cdot U$
+ -->
+<B><IMG
+ WIDTH="51" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1449.png"
+ ALT="$ \frac{\partial K}{\partial s} \cdot U$"></B> or a combination of these. The dimensions are neq x ns, where
+  neq is the number of independent degrees of freedom and ns is the number of
+  design variables. This matrix is very sparse, since only the degrees of
+  freedom belonging to the nodes to which the design variable belongs will be
+  nonzero. The nonzero's are stored column by column according to ascending
+  row numbers for each column. Field irows contains the
+  corresponding row numbers (size = total number of nonzero's), field jqs(i)
+  contains the location of the first entry in irows beloning to column i.
+
+<P>
+</LI>
+<LI>Each degree of freedom in field df corresponds to a specific direction
+  in a specific node. In gennactdofinv.f field nactdofinv(i) is determined
+  yielding the direction and node for a degree of freedom i in the form
+  (node-1)*mt+direction, where mt is the maximum number of directions (=mi(2),
+  cf. List of variables and their meaning) + 1.
+</LI>
+</UL>
+
+<P>
+At this point the preprocessing part is split according to whether the
+objectives are the eigenvalues or Green functions, in which case the
+eigenvalues, eigenmodes, stiffness matrix and mass matrix are read from file
+(generate in a previous <A HREF="node265.html#frequency">*FREQUENCY</A> or <A HREF="node270.html#green">*GREEN</A> step),
+or whether the objective is the mass, the stress or the shape energy, in which
+case the stiffness matrix and the matrix structure are read from file
+(generated in a previous <A HREF="node316.html#static">*STATIC</A> step).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6504"
+  HREF="node420.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6500"
+  HREF="node418.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6494"
+  HREF="node418.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6502"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6505"
+  HREF="node420.html">Processing the sensitivity</A>
+<B> Up:</B> <A NAME="tex2html6501"
+  HREF="node418.html">Sensitivity Analysis</A>
+<B> Previous:</B> <A NAME="tex2html6495"
+  HREF="node418.html">Sensitivity Analysis</A>
+ &nbsp; <B>  <A NAME="tex2html6503"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

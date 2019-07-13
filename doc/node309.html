@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*SELECT CYCLIC SYMMETRY MODES</TITLE>
+<META NAME="description" CONTENT="*SELECT CYCLIC SYMMETRY MODES">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node310.html">
+<LINK REL="previous" HREF="node308.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node310.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5036"
+  HREF="node310.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5032"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5026"
+  HREF="node308.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5034"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5037"
+  HREF="node310.html">*SENSITIVITY</A>
+<B> Up:</B> <A NAME="tex2html5033"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5027"
+  HREF="node308.html">*SECTION PRINT</A>
+ &nbsp; <B>  <A NAME="tex2html5035"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008101000000000000000"></A><A NAME="selectcyclicsymmetrymodes"></A>
+<BR>
+*SELECT CYCLIC SYMMETRY MODES
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option is used to trigger an eigenmode analysis for cyclic symmetric structures. It must be preceded by a *FREQUENCY card. There are two optional parameters NMIN, NMAX. NMIN is the lowest cyclic symmetry mode number (also called nodal diameter)to be considered (default 0), NMAX is the highest cyclic symmetry mode number (default N/2 for N even and (N+1)/2 for N odd, where N is the number of sectors on the <A HREF="node237.html#cyclicsymmetrymodel">*CYCLIC SYMMETRY MODEL</A> card. 
+
+<P>
+For models containing the axis of cyclic symmetry (e.g. a full disk), the nodes on the symmetry axis are treated differently depending on whether the cyclic symmetry mode number is 0, 1 or exceeds 1. Therefore, for such structures calculations for cyclic symmetry mode numbers 0 or 1 must be performed in separate steps with NMIN=0,NMAX=0 and NMIN=1,NMAX=1, respectively.
+
+<P><P>
+<BR>
+
+<P>
+First and only line:
+
+<UL>
+<LI>*SELECT CYCLIC SYMMETRY MODES
+</LI>
+<LI>Enter the parameters NMIN and NMAX and their values, if appropriate.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*SELECT CYCLIC SYMMETRY MODES, NMIN=2, NMAX=4
+</PRE>
+
+<P>
+triggers a cyclic symmetry calculation for mode numbers 2 up to and including 4.
+
+<P>
+
+<P><P>
+<BR>
+Example files: segment, fullseg.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5036"
+  HREF="node310.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5032"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5026"
+  HREF="node308.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5034"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5037"
+  HREF="node310.html">*SENSITIVITY</A>
+<B> Up:</B> <A NAME="tex2html5033"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5027"
+  HREF="node308.html">*SECTION PRINT</A>
+ &nbsp; <B>  <A NAME="tex2html5035"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

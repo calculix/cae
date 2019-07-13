@@ -1,0 +1,436 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Change absolute/relative system</TITLE>
+<META NAME="description" CONTENT="Change absolute/relative system">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node98.html">
+<LINK REL="previous" HREF="node96.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node98.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2282"
+  HREF="node98.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2278"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2272"
+  HREF="node96.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2280"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2283"
+  HREF="node98.html">In/Out</A>
+<B> Up:</B> <A NAME="tex2html2279"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2273"
+  HREF="node96.html">M&#246;hring</A>
+ &nbsp; <B>  <A NAME="tex2html2281"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000742100000000000000">
+Change absolute/relative system</A>
+</H3>
+
+<P>
+Sometimes it is more convenient to work in a relative system fixed to some
+rotating device, e.g. to model the flow through holes in a rotating disk. In
+order to facilitate this, two conversion elements were created: a
+relative-to-absolute element and an absolute-to-relative element. The
+transformation takes place at a given radius and the element has a physical
+length of zero. Input for this element is the circumferential velocity of the
+rotating device and the tangential gas velocity , both at the radius at which
+the transformation is to take place. The gas velocity can be specified
+explicitly, or by referring to an element immediately preceding the
+transformation location and imparting a specific swirl to the gas. 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="changeref1"></A><A NAME="12007"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 113:</STRONG>
+Vector plot of the absolute/relative velocity</CAPTION>
+<TR><TD><IMG
+ WIDTH="359" HEIGHT="238" BORDER="0"
+ SRC="img620.png"
+ ALT="\begin{figure}\epsfig{file=changeref1.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Let <!-- MATH
+ $\boldsymbol{U}$
+ -->
+<IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img621.png"
+ ALT="$ \boldsymbol{U}$"> be the circumferential velocity of the rotating device at
+the selected radius, <!-- MATH
+ $\boldsymbol{C}$
+ -->
+<IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img622.png"
+ ALT="$ \boldsymbol{C}$"> the velocity of the gas at the same
+location and <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img583.png"
+ ALT="$ C_t$"> its circumferential component (Figure <A HREF="#changeref1">113</A>). The velocity of the gas
+<!-- MATH
+ $\boldsymbol{W}$
+ -->
+<IMG
+ WIDTH="24" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img623.png"
+ ALT="$ \boldsymbol{W}$"> in
+the rotating system satisfies:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{W}=\boldsymbol{C}-\boldsymbol{U}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="98" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img624.png"
+ ALT="$\displaystyle \boldsymbol{W}=\boldsymbol{C}-\boldsymbol{U}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(114)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The total temperature in the absolute system is
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+T_t=T+\frac{C^2}{2 c_p},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="102" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img625.png"
+ ALT="$\displaystyle T_t=T+\frac{C^2}{2 c_p},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(115)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+whereas in the relative system it amounts to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+{T_t}_r=T+\frac{W^2}{2 c_p}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="111" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img626.png"
+ ALT="$\displaystyle {T_t}_r=T+\frac{W^2}{2 c_p}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(116)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Combining these equations and using the relationship between the length of
+the sides of an irregular triangle (cosine rule) one arrives at:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+{T_t}_r=T_t \left( 1 +\frac{U^2-2 U C_t}{2 c_p T_t} \right).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="204" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img627.png"
+ ALT="$\displaystyle {T_t}_r=T_t \left( 1 +\frac{U^2-2 U C_t}{2 c_p T_t} \right).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(117)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Assuming adiabatic conditions this leads for the pressure to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+{p_t}_r=p_t \left( 1 +\frac{U^2-2 U C_t}{2 c_p T_t} \right)^{\frac{\kappa}{\kappa-1}}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="226" HEIGHT="63" ALIGN="MIDDLE" BORDER="0"
+ SRC="img628.png"
+ ALT="$\displaystyle {p_t}_r=p_t \left( 1 +\frac{U^2-2 U C_t}{2 c_p T_t} \right)^{\frac{\kappa}{\kappa-1}}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(118)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Depending on the size of <IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img629.png"
+ ALT="$ 2 C_t$"> compared to the size of <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img450.png"
+ ALT="$ U$"> the relative
+total temperature will exceed the absolute total temperature or vice
+versa. This is illustrated in Figure <A HREF="#changeref2">114</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="changeref2"></A><A NAME="12009"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 114:</STRONG>
+Total temperature dependence on the circumferential
+component of the incoming flow</CAPTION>
+<TR><TD><IMG
+ WIDTH="541" HEIGHT="272" BORDER="0"
+ SRC="img630.png"
+ ALT="\begin{figure}\epsfig{file=changeref2.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Inversely, the relationships for the relative-to-absolute transformation
+amount to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+T_t={T_t}_r \left( 1 -\frac{U^2-2 U C_t}{2 c_p {T_t}_r} \right).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="204" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img631.png"
+ ALT="$\displaystyle T_t={T_t}_r \left( 1 -\frac{U^2-2 U C_t}{2 c_p {T_t}_r} \right).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(119)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+p_t= {p_t}_r \left( 1 -\frac{U^2-2 U C_t}{2 c_p {T_t}_r} \right)^{\frac{\kappa}{\kappa-1}}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="226" HEIGHT="63" ALIGN="MIDDLE" BORDER="0"
+ SRC="img632.png"
+ ALT="$\displaystyle p_t= {p_t}_r \left( 1 -\frac{U^2-2 U C_t}{2 c_p {T_t}_r} \right)^{\frac{\kappa}{\kappa-1}}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(120)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+These relationships are taken into account in the following way: the change in
+total temperature is taken care of by creating a heat inflow at the downstream
+node. For an absolute-to-relative change this heat flow amounts to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+c_p ( {T_t}_r - T_t) \dot m = \frac {U^2 - 2 U C_t}{2} \dot m.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="222" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img633.png"
+ ALT="$\displaystyle c_p ( {T_t}_r - T_t) \dot m = \frac {U^2 - 2 U C_t}{2} \dot m.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(121)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The total pressure change is taken as element equation. For an
+absolute-to-relative change it runs:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{{p_t}_{\text{out}}}{{p_t}_{\text{in}}}- \left( 1 +\frac{U^2-2 U C_t}{2 c_p {T_t}_{\text{in}}} \right)^{\frac{\kappa}{\kappa-1}}=0,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="251" HEIGHT="63" ALIGN="MIDDLE" BORDER="0"
+ SRC="img634.png"
+ ALT="$\displaystyle \frac{{p_t}_{\text{out}}}{{p_t}_{\text{in}}}- \left( 1 +\frac{U^2-2 U C_t}{2 c_p {T_t}_{\text{in}}} \right)^{\frac{\kappa}{\kappa-1}}=0,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(122)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and for a relative-to-absolute change:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{{p_t}_{\text{out}}}{ {p_t}_{\text{in}}}- \left( 1 -\frac{U^2-2 U C_t}{2 c_p {T_t}_{\text{in}}} \right)^{\frac{\kappa}{\kappa-1}}=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="251" HEIGHT="63" ALIGN="MIDDLE" BORDER="0"
+ SRC="img635.png"
+ ALT="$\displaystyle \frac{{p_t}_{\text{out}}}{ {p_t}_{\text{in}}}- \left( 1 -\frac{U^2-2 U C_t}{2 c_p {T_t}_{\text{in}}} \right)^{\frac{\kappa}{\kappa-1}}=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(123)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+For an
+absolute-to-relative element the input is as follows (to be specified in
+that order on the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>,
+TYPE=ABSOLUTE TO RELATIVE card):
+
+<P>
+
+<UL>
+<LI><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img450.png"
+ ALT="$ U$">: circumferential velocity of the rotating device at the selected radius
+</LI>
+<LI><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img583.png"
+ ALT="$ C_t$">: tangential gas velocity at the selected radius
+</LI>
+<LI><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$">: element immediately preceding the location of the transformation
+</LI>
+</UL>
+
+<P>
+<IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img583.png"
+ ALT="$ C_t$"> is taken if and only if <IMG
+ WIDTH="43" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img609.png"
+ ALT="$ n=0$">. In all other cases the exit velocity of
+the element with label <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$"> is taken.
+
+<P>
+For an
+relative-to-absolute element the input is identical except that the type of
+the element is now RELATIVE TO ABSOLUTE.
+
+<P>
+
+<P><P>
+<BR>
+Example files: moehring, vortex1, vortex2, vortex3.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2282"
+  HREF="node98.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2278"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2272"
+  HREF="node96.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2280"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2283"
+  HREF="node98.html">In/Out</A>
+<B> Up:</B> <A NAME="tex2html2279"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2273"
+  HREF="node96.html">M&#246;hring</A>
+ &nbsp; <B>  <A NAME="tex2html2281"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

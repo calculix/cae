@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Mesh refinement</TITLE>
+<META NAME="description" CONTENT="Mesh refinement">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node446.html">
+<LINK REL="previous" HREF="node418.html">
+<LINK REL="up" HREF="node373.html">
+<LINK REL="next" HREF="node423.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6538"
+  HREF="node423.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6534"
+  HREF="node373.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6528"
+  HREF="node421.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6536"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6539"
+  HREF="node423.html">Nodal fields</A>
+<B> Up:</B> <A NAME="tex2html6535"
+  HREF="node373.html">Program structure.</A>
+<B> Previous:</B> <A NAME="tex2html6529"
+  HREF="node421.html">Postprocessing the sensitivity</A>
+ &nbsp; <B>  <A NAME="tex2html6537"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0001111000000000000000">
+Mesh refinement</A>
+</H2>
+
+<P>
+The mesh refinement procedure starts from the mesh in the input deck. All
+elements which are not of type C3D4 or C3D10 are kept and their element
+numbers are not modified. All other elements are deleted and the gaps in the
+numbering between the elements which are not tetrahedral are filled from low
+to high by the newly generated tetrahedral elements. The procedure for the
+refinement is based on the book by P.-L. George and H. Borouchaki [<A
+ HREF="node448.html#George">24</A>].
+
+<P>
+The mesh refinement procedure uses a lot of mesh description fields, most of which are
+dynamically modified during the refinement. These fields are introduced first.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html6540"
+  HREF="node423.html">Nodal fields</A>
+<LI><A NAME="tex2html6541"
+  HREF="node424.html">Edge fields</A>
+<LI><A NAME="tex2html6542"
+  HREF="node425.html">Face fields</A>
+<LI><A NAME="tex2html6543"
+  HREF="node426.html">Element fields</A>
+<LI><A NAME="tex2html6544"
+  HREF="node427.html">Mesh refining procedure</A>
+<UL>
+<LI><A NAME="tex2html6545"
+  HREF="node428.html">cattet.f</A>
+<LI><A NAME="tex2html6546"
+  HREF="node429.html">catedges.f</A>
+<LI><A NAME="tex2html6547"
+  HREF="node430.html">determineextern.f</A>
+<LI><A NAME="tex2html6548"
+  HREF="node431.html">midexternaledges.f</A>
+<LI><A NAME="tex2html6549"
+  HREF="node432.html">midexternalfaces.f</A>
+<LI><A NAME="tex2html6550"
+  HREF="node433.html">START OF MAJOR LOOP</A>
+<LI><A NAME="tex2html6551"
+  HREF="node434.html">first loop: calculateh.f</A>
+<LI><A NAME="tex2html6552"
+  HREF="node435.html">first loop: getlocalresults.f</A>
+<LI><A NAME="tex2html6553"
+  HREF="node436.html">all but the first loop: calculated.f</A>
+<LI><A NAME="tex2html6554"
+  HREF="node437.html">START OF THE REFINEMENT OF THE EXTERNAL EDGES</A>
+<LI><A NAME="tex2html6555"
+  HREF="node438.html">edgedivide.f</A>
+<LI><A NAME="tex2html6556"
+  HREF="node439.html">newnodes.f</A>
+<LI><A NAME="tex2html6557"
+  HREF="node440.html">cavityext.f</A>
+<LI><A NAME="tex2html6558"
+  HREF="node441.html">START OF THE REFINEMENT OF THE INTERNAL EDGES.</A>
+<LI><A NAME="tex2html6559"
+  HREF="node442.html">.</A>
+<LI><A NAME="tex2html6560"
+  HREF="node443.html">cavity.f</A>
+<LI><A NAME="tex2html6561"
+  HREF="node444.html">END OF MAJOR LOOP.</A>
+<LI><A NAME="tex2html6562"
+  HREF="node445.html">.</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

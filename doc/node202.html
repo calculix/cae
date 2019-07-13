@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Zienkiewicz-Zhu error estimator</TITLE>
+<META NAME="description" CONTENT="Zienkiewicz-Zhu error estimator">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node203.html">
+<LINK REL="previous" HREF="node201.html">
+<LINK REL="up" HREF="node201.html">
+<LINK REL="next" HREF="node203.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3625"
+  HREF="node203.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3621"
+  HREF="node201.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3615"
+  HREF="node201.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3623"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3626"
+  HREF="node203.html">Gradient error estimator</A>
+<B> Up:</B> <A NAME="tex2html3622"
+  HREF="node201.html">Error estimators</A>
+<B> Previous:</B> <A NAME="tex2html3616"
+  HREF="node201.html">Error estimators</A>
+ &nbsp; <B>  <A NAME="tex2html3624"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000712100000000000000">
+Zienkiewicz-Zhu error estimator</A>
+</H3>
+
+<P>
+The Zienkiewicz-Zhu error estimator [<A
+ HREF="node448.html#Zienkiewiczzhu1">86</A>],
+[<A
+ HREF="node448.html#Zienkiewiczzhu2">87</A>] tries to estimate the error made by the finite element
+discretization. To do so, it calculates for each node an improved stress and
+defines the error as the difference between this stress and the one calculated
+by the standard finite element procedure.
+
+<P>
+The stress obtained in the nodes using the standard finite element procedure
+is an extrapolation of the stresses at the integration points
+[<A
+ HREF="node448.html#Dhondt">18</A>]. Indeed, the basic unknowns in mechanical calculations are the
+displacements. Differentiating the displacements yields the strains, which can
+be converted into stresses by means of the appropriate material law. Due to the
+numerical integration used to obtain the stiffness coefficients, the strains
+and stresses are most accurate at the integration points. The standard finite
+element procedure extrapolates these integration point values to the
+nodes. The way this extrapolation is done depends on the kind of element
+[<A
+ HREF="node448.html#Dhondt">18</A>]. Usually, a node belongs to more than one element. The standard
+procedure averages the stress values obtained from each element to which the
+node belongs.
+
+<P>
+To determine a more accurate stress value at the nodes, the Zienkiewicz-Zhu
+procedure starts from the stresses at the reduced integration points. This 
+applies to quadratic elements only, since only for these elements a reduced
+integration procedure exists (for element types different from C3D20R the
+ordinary integration points are taken instead) . The reduced integration points are
+superconvergent points, i.e. points at which the stress is an order
+of magnitude more accurate than in any other point within the element
+[<A
+ HREF="node448.html#Barlow">7</A>]. To improve the stress at a node an element patch is defined,
+usually consisting of all elements to which the nodes belongs. However, at
+boundaries and for tetrahedral elements this patch can contain other elements
+too. Now, a polynomial function is defined consisting of the monomials used
+for the shape function of the elements at stake. Again, to improve the
+accuracy, other monomials may be considered as well. The coefficients of the
+polynomial are defined such that the polynomial matches the stress as well as
+possible in the reduced integration points of the patch (in a least squares
+sense). Finally, an improved stress in the node is obtained by evaluating this
+polynomial. This is done for all stress components separately. For more
+details on the implementation in CalculiX the user is referred to [<A
+ HREF="node448.html#Merz">52</A>]. 
+
+<P>
+In CalculiX one can obtain the improved CalculiX-Zhu stress by selecting ZZS
+underneath the <A HREF="node255.html#elfile">*EL FILE</A> keyword card. It is available for
+tetrahedral and hexahedral elements. In a node belonging to tetrahedral,
+hexahedral and any other type of elements, only the hexahedral elements are
+used to defined the improved stress, if the node does not belong to hexahedral
+elements the tetrahedral elements are used, if any. 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3625"
+  HREF="node203.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3621"
+  HREF="node201.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3615"
+  HREF="node201.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3623"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3626"
+  HREF="node203.html">Gradient error estimator</A>
+<B> Up:</B> <A NAME="tex2html3622"
+  HREF="node201.html">Error estimators</A>
+<B> Previous:</B> <A NAME="tex2html3616"
+  HREF="node201.html">Error estimators</A>
+ &nbsp; <B>  <A NAME="tex2html3624"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

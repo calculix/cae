@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Expansion of the one-dimensional and two-dimensional elements</TITLE>
+<META NAME="description" CONTENT="Expansion of the one-dimensional and two-dimensional elements">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node396.html">
+<LINK REL="previous" HREF="node378.html">
+<LINK REL="up" HREF="node373.html">
+<LINK REL="next" HREF="node387.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6090"
+  HREF="node387.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6086"
+  HREF="node373.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6080"
+  HREF="node385.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6088"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6091"
+  HREF="node387.html">Cataloguing the elements belonging</A>
+<B> Up:</B> <A NAME="tex2html6087"
+  HREF="node373.html">Program structure.</A>
+<B> Previous:</B> <A NAME="tex2html6081"
+  HREF="node385.html">Material description</A>
+ &nbsp; <B>  <A NAME="tex2html6089"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000113000000000000000">
+Expansion of the one-dimensional and two-dimensional elements</A>
+</H2>
+
+<P>
+Typical one-dimensional elements are beams, typical
+two-dimensional elements are shells, plane stress elements, plane strain
+elements and axisymmetric elements. Their dimension in thickness direction
+(for two-dimensional elements) or orthogonal to their axis (for beam elements)
+is much smaller than in the other directions. In CalculiX these elements are
+expanded to volume elements. Only quadratic shape functions are accepted.
+
+<P>
+The expansion of the elements requires several steps:
+
+<P>
+
+<UL>
+<LI>cataloguing the elements belonging to one and the same node
+</LI>
+<LI>calculating the normals in the nodes
+</LI>
+<LI>generating the expanded volume elements
+</LI>
+<LI>taking care of the connection of 1D/2D elements with genuine 3D elements
+</LI>
+<LI>applying the SPC's to the expanded structure
+</LI>
+<LI>applying the MPC's to the expanded structure
+</LI>
+<LI>applying the temperatures and temperature gradients 
+</LI>
+<LI>applying nodal forces to the expanded structure
+</LI>
+</UL>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html6092"
+  HREF="node387.html">Cataloguing the elements belonging to a given node</A>
+<LI><A NAME="tex2html6093"
+  HREF="node388.html">Calculating the normals in the nodes</A>
+<LI><A NAME="tex2html6094"
+  HREF="node389.html">Expanding the 1D and 2D elements</A>
+<LI><A NAME="tex2html6095"
+  HREF="node390.html">Connecting 1D and 2D elements to 3D elements</A>
+<LI><A NAME="tex2html6096"
+  HREF="node391.html">Applying the SPC's to the expanded structure</A>
+<LI><A NAME="tex2html6097"
+  HREF="node392.html">Applying the MPC's to the expanded structure</A>
+<LI><A NAME="tex2html6098"
+  HREF="node393.html">Applying temperatures and temperature gradients</A>
+<LI><A NAME="tex2html6099"
+  HREF="node394.html">Applying concentrated forces to the expanded structure</A>
+<LI><A NAME="tex2html6100"
+  HREF="node395.html">Integrating the stresses in beams to obtain the section forces</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

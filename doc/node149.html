@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Deformation plasticity</TITLE>
+<META NAME="description" CONTENT="Deformation plasticity">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node150.html">
+<LINK REL="previous" HREF="node148.html">
+<LINK REL="up" HREF="node143.html">
+<LINK REL="next" HREF="node150.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2956"
+  HREF="node150.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2952"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2946"
+  HREF="node148.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2954"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2957"
+  HREF="node150.html">Incremental (visco)plasticity: multiplicative decomposition</A>
+<B> Up:</B> <A NAME="tex2html2953"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2947"
+  HREF="node148.html">Hyperelastic and hyperfoam materials</A>
+ &nbsp; <B>  <A NAME="tex2html2955"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00078600000000000000">
+Deformation plasticity</A>
+</H3>
+
+<P>
+Deformation plasticity is characterized by a one-to-one (bijective) relationship between the strain and the stress. This relationship is a three-dimensional generalization of the one-dimensional Ramberg-Osgood law frequently used for metallic materials (e.g. in the simple tension test) yielding a monotonic increasing function of the stress as a function of the strain. Therefore, deformation plasticity is very well suited to model the relation between the Cauchy (true) stress and the strain. Because tensile and compressive test results coincide well when plotting the Cauchy stress versus the logarithmic strain (soon to be defined), these quantities are generally used in the deformation plasticity law. 
+The implementation in CalculiX (keyword card <A HREF="node240.html#deformationplasticity">*DEFORMATION PLASTICITY</A>), however, uses the relationship to model the dependence of the Cauchy (true) stress on the Eulerian strain. For all practical purposes, the Eulerian strain coincides with the logarithmic strain. For a tensile test specimen, with initial length L, initial cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ A_0$">, final length <!-- MATH
+ $L+\Delta L$
+ -->
+<IMG
+ WIDTH="59" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1009.png"
+ ALT="$ L+\Delta L$"> and final cross section A, loaded by a force F, the Cauchy stress <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1010.png"
+ ALT="$ \sigma$">, the logarithmic strain <!-- MATH
+ $\epsilon_{log}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1011.png"
+ ALT="$ \epsilon_{log}$"> and the Eulerian strain <!-- MATH
+ $\epsilon_{Euler}$
+ -->
+<IMG
+ WIDTH="46" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1012.png"
+ ALT="$ \epsilon_{Euler}$"> satisfy:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\sigma=F/A=\frac{F(L+\Delta L)}{A_0 L}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="170" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1013.png"
+ ALT="$\displaystyle \sigma=F/A=\frac{F(L+\Delta L)}{A_0 L}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(263)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\epsilon_{log}=ln \left[1+\frac{\Delta L}{L} \right]
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="139" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1014.png"
+ ALT="$\displaystyle \epsilon_{log}=ln \left[1+\frac{\Delta L}{L} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(264)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\epsilon_{Euler}=\frac{\Delta L}{L}\left[1-\frac{\Delta L}{2L} \right]
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="170" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1015.png"
+ ALT="$\displaystyle \epsilon_{Euler}=\frac{\Delta L}{L}\left[1-\frac{\Delta L}{2L} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(265)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The difference between the logarithmic strain and the Eulerian strain is about 1.3 % for an Engineering strain <!-- MATH
+ $\Delta L / L=20 \%$
+ -->
+<IMG
+ WIDTH="98" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1016.png"
+ ALT="$ \Delta L / L=20 \%$">. The user should give the Ramberg-Osgood material constants directly (by plotting a Cauchy stress versus Eulerian strain curve and performing a fit).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2956"
+  HREF="node150.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2952"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2946"
+  HREF="node148.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2954"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2957"
+  HREF="node150.html">Incremental (visco)plasticity: multiplicative decomposition</A>
+<B> Up:</B> <A NAME="tex2html2953"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2947"
+  HREF="node148.html">Hyperelastic and hyperfoam materials</A>
+ &nbsp; <B>  <A NAME="tex2html2955"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

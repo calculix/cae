@@ -1,0 +1,444 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Branch, Split</TITLE>
+<META NAME="description" CONTENT="Branch, Split">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node94.html">
+<LINK REL="previous" HREF="node92.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node94.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2234"
+  HREF="node94.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2230"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2224"
+  HREF="node92.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2232"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2235"
+  HREF="node94.html">Cross, Split</A>
+<B> Up:</B> <A NAME="tex2html2231"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2225"
+  HREF="node92.html">Branch, Joint</A>
+ &nbsp; <B>  <A NAME="tex2html2233"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000741700000000000000">
+Branch, Split</A>
+</H3>
+
+<P>
+Properties: adiabatic, not isentropic, directional, inlet based restrictor
+
+<P>
+In a split the flow from a gas pipe is split and redirected
+through two other pipes. So in principal three network elements of type GAS PIPE
+have one node in common in a split. The fluid  elements of type BRANCH SPLIT represent the
+extra energy loss due to the splitting of the flow and have to be inserted in
+the outward branches of the split. This is represented schematically in
+Figure <A HREF="#schematicsplit">105</A>. The filled circles represent end nodes of the fluid
+elements, the others are the midside nodes. For a split to work properly the
+flow direction must be as indicated in Figure <A HREF="#schematicsplit">105</A>. If the
+solution of the equation system indicates that this is not the case
+appropriate measures must be taken. For instance, if the solution reveals that
+there are two inward flows and one outward flow, branch joint elements must be selected.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="schematicsplit"></A><A NAME="11971"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 105:</STRONG>
+Element selection for a split</CAPTION>
+<TR><TD><IMG
+ WIDTH="361" HEIGHT="303" BORDER="0"
+ SRC="img561.png"
+ ALT="\begin{figure}\epsfig{file=Schematicsplit.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Several types of geometry are available.
+
+<P>
+A branch split of type GE [<A
+ HREF="node448.html#Vazsonyi">78</A>], Figure <A HREF="#splitge">106</A>, is quite general and allows
+arbitrary cross sections and angles (within reasonable limits). It
+is characterized by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=BRANCH SPLIT
+GE card):
+
+<P>
+
+<UL>
+<LI>label of the gas pipe element defined as branch 0.
+</LI>
+<LI>label of the gas pipe element defined as branch 1.
+</LI>
+<LI>label of the gas pipe element defined as branch 2.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ A_0$"> of branch 0.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img511.png"
+ ALT="$ A_1$"> of branch 1.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img539.png"
+ ALT="$ A_2$"> of branch 2.
+</LI>
+<LI>angle <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img554.png"
+ ALT="$ \alpha_1$"> (<IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$">).
+</LI>
+<LI>angle <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img555.png"
+ ALT="$ \alpha_2$"> (<IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$">).
+</LI>
+<LI>oil mass flow in branch 1 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>oil mass flow in branch 2 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>not used (internally: oil material number)
+</LI>
+</UL>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="splitge"></A><A NAME="11972"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 106:</STRONG>
+Geometry of a split fluid section type GE</CAPTION>
+<TR><TD><IMG
+ WIDTH="361" HEIGHT="262" BORDER="0"
+ SRC="img562.png"
+ ALT="\begin{figure}\epsfig{file=Split_ge.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+A branch split of type Idelchik1, Figure <A HREF="#splitidel1">107</A>, can be used if the incoming branch
+is continued in a straight way and does not change its cross section [<A
+ HREF="node448.html#Idelchik">33</A>]. It
+is characterized by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=BRANCH SPLIT
+IDELCHIK1 card):
+
+<P>
+
+<UL>
+<LI>label of the gas pipe element defined as branch 0.
+</LI>
+<LI>label of the gas pipe element defined as branch 1.
+</LI>
+<LI>label of the gas pipe element defined as branch 2.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ A_0$"> of branch 0.
+</LI>
+<LI>cross section <IMG
+ WIDTH="64" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img557.png"
+ ALT="$ A_1=A_0$"> of branch 0.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img539.png"
+ ALT="$ A_2$"> of branch 2.
+</LI>
+<LI>angle <!-- MATH
+ $\alpha_1=0^\circ$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img558.png"
+ ALT="$ \alpha_1=0^\circ$">.
+</LI>
+<LI>angle <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img555.png"
+ ALT="$ \alpha_2$"> (<IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$">).
+</LI>
+<LI>hydraulic diameter <IMG
+ WIDTH="33" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img563.png"
+ ALT="$ {D_h}_0$"> of <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ A_0$">.
+</LI>
+<LI>hydraulic diameter <IMG
+ WIDTH="33" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img564.png"
+ ALT="$ {D_h}_2$"> of <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img539.png"
+ ALT="$ A_2$">.
+</LI>
+<LI>oil mass flow in branch 1 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>oil mass flow in branch 2 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$">-correction factor <IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img565.png"
+ ALT="$ k_1$"> for branch 1  (<!-- MATH
+ $\zeta_{eff} =
+k_1\zeta$
+ -->
+<IMG
+ WIDTH="78" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img566.png"
+ ALT="$ \zeta_{eff} =
+k_1\zeta$">). This allows to tune the <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"> value with experimental evidence
+  (default is 1).
+</LI>
+<LI><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$">-correction factor <IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img567.png"
+ ALT="$ k_2$"> for branch 2  (<!-- MATH
+ $\zeta_{eff} = k_2\zeta$
+ -->
+<IMG
+ WIDTH="78" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img568.png"
+ ALT="$ \zeta_{eff} = k_2\zeta$">). This allows to tune the <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"> value with experimental evidence (default is 1).
+</LI>
+<LI>not used (internally: oil material number)
+</LI>
+</UL>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="splitidel1"></A><A NAME="11973"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 107:</STRONG>
+Geometry of a split fluid section type Idelchik 1</CAPTION>
+<TR><TD><IMG
+ WIDTH="360" HEIGHT="203" BORDER="0"
+ SRC="img569.png"
+ ALT="\begin{figure}\epsfig{file=Split_idel_1.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+A branch split of type Idelchik2, Figure <A HREF="#splitidel2">108</A>, is used if the
+outward branches make an angle of <IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img570.png"
+ ALT="$ 90 ^\circ$"> with the incoming branch [<A
+ HREF="node448.html#Idelchik">33</A>]. It
+is characterized by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=BRANCH SPLIT
+IDELCHIK2 card):
+
+<P>
+
+<UL>
+<LI>label of the gas pipe element defined as branch 0.
+</LI>
+<LI>label of the gas pipe element defined as branch 1.
+</LI>
+<LI>label of the gas pipe element defined as branch 2.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ A_0$"> of branch 0.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img511.png"
+ ALT="$ A_1$"> of branch 1.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img539.png"
+ ALT="$ A_2$"> of branch 2.
+</LI>
+<LI>angle <!-- MATH
+ $\alpha_1=90^\circ$
+ -->
+<IMG
+ WIDTH="66" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img571.png"
+ ALT="$ \alpha_1=90^\circ$">.
+</LI>
+<LI>angle <!-- MATH
+ $\alpha_2=90^\circ$
+ -->
+<IMG
+ WIDTH="66" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img572.png"
+ ALT="$ \alpha_2=90^\circ$">.
+</LI>
+<LI>oil mass flow in branch 1 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>oil mass flow in branch 2 (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$">-correction factor <IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img565.png"
+ ALT="$ k_1$"> for branch 1  (<!-- MATH
+ $\zeta_{eff} =
+k_1\zeta$
+ -->
+<IMG
+ WIDTH="78" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img566.png"
+ ALT="$ \zeta_{eff} =
+k_1\zeta$">). This allows to tune the <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"> value with experimental evidence (default is 1).
+</LI>
+<LI><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$">-correction factor <IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img567.png"
+ ALT="$ k_2$"> for branch 2  (<!-- MATH
+ $\zeta_{eff} = k_2\zeta$
+ -->
+<IMG
+ WIDTH="78" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img568.png"
+ ALT="$ \zeta_{eff} = k_2\zeta$">). This allows to tune the <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"> value with experimental evidence (default is 1).
+</LI>
+<LI>not used (internally: oil material number)
+</LI>
+</UL>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="splitidel2"></A><A NAME="11974"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 108:</STRONG>
+Geometry of a split fluid section type Idelchik 2</CAPTION>
+<TR><TD><IMG
+ WIDTH="360" HEIGHT="242" BORDER="0"
+ SRC="img573.png"
+ ALT="\begin{figure}\epsfig{file=Split_idel_2.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+By specifying the parameter LIQUID on the *FLUID SECTION card the loss is
+calculated for liquids. In the absence of this parameter, compressible losses
+are calculated. 
+
+<P>
+
+<P><P>
+<BR>
+Example files: branchsplit1, branchsplit2, branchsplit3.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2234"
+  HREF="node94.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2230"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2224"
+  HREF="node92.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2232"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2235"
+  HREF="node94.html">Cross, Split</A>
+<B> Up:</B> <A NAME="tex2html2231"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2225"
+  HREF="node92.html">Branch, Joint</A>
+ &nbsp; <B>  <A NAME="tex2html2233"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

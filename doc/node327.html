@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*TIME POINTS</TITLE>
+<META NAME="description" CONTENT="*TIME POINTS">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node328.html">
+<LINK REL="previous" HREF="node326.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node328.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5252"
+  HREF="node328.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5248"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5242"
+  HREF="node326.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5250"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5253"
+  HREF="node328.html">*TRANSFORM</A>
+<B> Up:</B> <A NAME="tex2html5249"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5243"
+  HREF="node326.html">*TIE</A>
+ &nbsp; <B>  <A NAME="tex2html5251"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008119000000000000000"></A><A NAME="timepoints"></A>
+<BR>
+*TIME POINTS
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option may be used to specify a sequence of time points. If
+the parameter TIME=TOTAL TIME is used the reference time is the total
+time since the start of the calculation, else it is the local step
+time. The parameter NAME,
+specifying a name for the time point sequence so that it can be referenced by output
+definitions (<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node255.html#elfile">*EL FILE</A>,
+<A HREF="node294.html#nodeprint">*NODE PRINT</A> or <A HREF="node256.html#elprint">*EL PRINT</A>) is required (maximum
+80 characters).This option makes sense for nonlinear static, nonlinear
+dynamic, modal dynamic, heat transfer and coupled temperature-displacement
+calculations only. In all other procedures, this card is ignored.
+
+<P>
+In each step, the local step time starts at zero. Its upper limit is
+given by the time period of the step. This time period is specified on
+the <A HREF="node316.html#static">*STATIC</A>, <A HREF="node249.html#dynamic">*DYNAMIC</A>, <A HREF="node272.html#heattransfer">*HEAT TRANSFER</A> or <A HREF="node233.html#coupledtemperaturedisplacement">*COUPLED TEMPERATURE-DISPLACEMENT</A> keyword card. The default step
+time period is 1. 
+
+<P>
+The total time is the time accumulated until the beginning of the actual step augmented
+by the local step time.
+
+<P>
+GENERATE is the second optional parameter. If specified, the user can define a
+regular pattern of time points by specifying the starting time, the end time
+and the time increment. 
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*TIME POINTS
+</LI>
+<LI>Enter the required parameter NAME, and the optional parameter if needed.
+</LI>
+</UL>
+
+<P>
+Following line, using as many entries as needed, if GENERATE is not specified:
+
+<UL>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+</UL>
+Repeat this line if more than eight entries are needed.
+
+<P>
+Following line, using as many entries as needed, if GENERATE is specified:
+
+<UL>
+<LI>Starting time
+</LI>
+<LI>End time
+</LI>
+<LI>Time increment
+</LI>
+</UL>
+Repeat this line if more than one regular sequence is needed.
+
+<P>
+<PRE>
+Example:
+
+*TIME POINTS,NAME=T1
+.2,.3.,.8
+</PRE>
+
+<P>
+defines a time points sequence with name T1 consisting of times .2, .3 and .8
+time units. The time used is the local step time.
+
+<P>
+<PRE>
+Example:
+
+*TIME POINTS,NAME=T1,GENERATE
+0.,3.,1.
+</PRE>
+
+<P>
+defines a time points sequence with name T1 consisting of the time points 0.,
+1., 2., and 3. The time used is the local step time.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamnlptp
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5252"
+  HREF="node328.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5248"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5242"
+  HREF="node326.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5250"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5253"
+  HREF="node328.html">*TRANSFORM</A>
+<B> Up:</B> <A NAME="tex2html5249"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5243"
+  HREF="node326.html">*TIE</A>
+ &nbsp; <B>  <A NAME="tex2html5251"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

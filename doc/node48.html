@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Eight-node plane stress element (CPS8 and CPS8R) </TITLE>
+<META NAME="description" CONTENT="Eight-node plane stress element (CPS8 and CPS8R) ">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node49.html">
+<LINK REL="previous" HREF="node47.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node49.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1671"
+  HREF="node49.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1667"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1661"
+  HREF="node47.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1669"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1672"
+  HREF="node49.html">Three-node plane strain element</A>
+<B> Up:</B> <A NAME="tex2html1668"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1662"
+  HREF="node47.html">Six-node plane stress element</A>
+ &nbsp; <B>  <A NAME="tex2html1670"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000722200000000000000"></A><A NAME="planestresssection"></A>
+<BR>
+Eight-node plane stress element (CPS8 and CPS8R) 
+</H3>
+
+<P>
+The eight node plane stress element is a general purpose plane stress
+element. It is actually a special case of shell element: the structure
+is assumed to have a symmetry plane parallel to the x-y plane and the
+loading only acts in-plane. In general, the z-coordinates are
+zero. Just like in the case of the shell element, the plane stress
+element is expanded into a C3D20 or C3D20R element. Figures
+<A HREF="node40.html#c2d8">72</A> and <A HREF="node40.html#2dexpansion">73</A> apply. From the above
+premises the following conclusions can be drawn: 
+
+<P>
+
+<UL>
+<LI>The displacement in z-direction of the midplane is zero. This
+condition is introduced in the form of SPC's. MPC's must not be
+defined in z-direction!
+</LI>
+<LI>The displacements perpendicular to the z-direction of nodes not
+in the midplane is identical to the displacements of the corresponding
+nodes in the midplane.
+</LI>
+<LI>The normal is by default (0,0,1)
+</LI>
+<LI>The thickness can vary. It can be defined in the same way as for
+the shell element, except that the <A HREF="node312.html#solidsection">*SOLID
+SECTION</A> card is used instead of the *SHELL SECTION card.
+</LI>
+<LI>Different offsets do not make sense.
+</LI>
+<LI>Point loads are treated in a similar way as for shells.
+</LI>
+</UL>
+
+<P>
+The use of plane stress elements can also lead to knots,
+namely, if the thickness varies in a discontinuous way, or if plane
+stress elements are combined with other 1D or 2D elements such as
+axisymmetric elements. The connection with the plane stress elements,
+however, is modeled as a hinge.
+
+<P>
+Distributed loading in plane stress elements is different
+from shell distributed loading: for the plane stress element it is
+in-plane, for the shell element it is out-of-plane. Distributed
+loading in plane stress elements is defined on the
+<A HREF="node247.html#dload">*DLOAD</A> card with the labels P1 up to P4. The number
+indicates the face as defined in Figure <A HREF="#quadface">75</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="quadface"></A><A NAME="11836"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 75:</STRONG>
+Face numbering for quadrilateral elements</CAPTION>
+<TR><TD><IMG
+ WIDTH="448" HEIGHT="467" BORDER="0"
+ SRC="img259.png"
+ ALT="\begin{figure}\epsfig{file=QuadFace.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+If a plane stress element is connected to a structure consisting of 3D
+elements the motion of this structure in the out-of-plane direction
+(z-direction) is not restricted by its connection to the 2D elements. The
+user has to take care that any rigid body motion of the structure involving
+the z-direction is taken care of, if appropriate. This particularly applies to
+any springs connected to plane stress elements, look at test example spring4
+for an illustration. 
+
+<P>
+Notice that structures containing plane stress elements should be defined in the
+global x-y plane, i.e. z=0 for all nodes.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1671"
+  HREF="node49.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1667"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1661"
+  HREF="node47.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1669"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1672"
+  HREF="node49.html">Three-node plane strain element</A>
+<B> Up:</B> <A NAME="tex2html1668"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1662"
+  HREF="node47.html">Six-node plane stress element</A>
+ &nbsp; <B>  <A NAME="tex2html1670"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

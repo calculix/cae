@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*MODAL DAMPING</TITLE>
+<META NAME="description" CONTENT="*MODAL DAMPING">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node285.html">
+<LINK REL="previous" HREF="node283.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node285.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4736"
+  HREF="node285.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4732"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4726"
+  HREF="node283.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4734"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4737"
+  HREF="node285.html">*MODAL DYNAMIC</A>
+<B> Up:</B> <A NAME="tex2html4733"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4727"
+  HREF="node283.html">*MEMBRANE SECTION</A>
+ &nbsp; <B>  <A NAME="tex2html4735"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000876000000000000000"></A><A NAME="modaldamping"></A>
+<BR>
+*MODAL DAMPING
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This card is used within a step in which the *MODAL DYNAMIC or *STEADY STATE
+DYNAMICS procedure has been selected. There are two optional, mutually
+exclusive parameters: RAYLEIGH and MODAL=DIRECT (default). 
+
+<P>
+If MODAL=DIRECT is selected the user can specify the viscous damping factor
+<B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"></B> for each mode separately. This is the default. Direct damping is not
+allowed in combination with nonzero single point constraints. 
+
+<P>
+If RAYLEIGH is selected Rayleigh damping is applied in a
+global way, i.e. the damping matrix <!-- MATH
+ $\left [ C \right ]$
+ -->
+<B><IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1643.png"
+ ALT="$ \left [ C \right ]$"></B> is taken to be a linear combination of the
+stiffness matrix <!-- MATH
+ $\left [ K \right ]$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1644.png"
+ ALT="$ \left [ K \right ]$"></B> and the mass matrix <!-- MATH
+ $\left [ M \right ]$
+ -->
+<B><IMG
+ WIDTH="31" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1645.png"
+ ALT="$ \left [ M \right ]$"></B>:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\left [ C \right ] = \alpha \left [ M \right ]
++ \beta \left [ K \right ].
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="148" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1646.png"
+ ALT="$\displaystyle \left [ C \right ] = \alpha \left [ M \right ] + \beta \left [ K \right ].$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(492)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The coefficients apply to all modes. The corresponding viscous damping factor
+<B><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1799.png"
+ ALT="$ \zeta_j$"></B> for mode j amounts to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\zeta_j=\frac{\alpha}{2 \omega_j}+ \frac{\beta \omega_j}{2}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="122" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1800.png"
+ ALT="$\displaystyle \zeta_j=\frac{\alpha}{2 \omega_j}+ \frac{\beta \omega_j}{2}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(493)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Consequently, <B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B> damps the low frequencies, <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$"></B> damps the high
+frequencies.
+
+<P>
+The *MODAL DAMPING keyword can be used in any step to redefine damping values
+defined in a previous step.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*MODAL DAMPING,RAYLEIGH
+</LI>
+<LI>Enter any needed parameters and their values.
+</LI>
+</UL>
+
+<P>
+Second line if MODAL=DIRECT is selected (or, since this is default, if no
+additional parameter is entered):
+
+<UL>
+<LI>lowest mode of the range
+</LI>
+<LI>highest mode of the range (default is lowest mode of the range)
+</LI>
+<LI>viscous damping factor <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"></B> for modes between (and including) the
+  lowest and highest mode of the range 
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+Second line if RAYLEIGH is selected:
+
+<UL>
+<LI>not used (kept for compatibility reasons with ABAQUS)
+</LI>
+<LI>not used (kept for compatibility reasons with ABAQUS)
+</LI>
+<LI>Coefficient of the mass matrix <B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>.
+</LI>
+<LI>Coefficient of the stiffness matrix <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$"></B>.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*MODAL DAMPING,RAYLEIGH
+,,0.,2.e-4
+</PRE>
+
+<P>
+indicates that the damping matrix is obtained by multiplying the stiffness matrix with <!-- MATH
+ $2 \cdot 10^{-4}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1655.png"
+ ALT="$ 2 \cdot 10^{-4}$"></B>
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamdy3, beamdy4, beamdy5, beamdy6.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4736"
+  HREF="node285.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4732"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4726"
+  HREF="node283.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4734"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4737"
+  HREF="node285.html">*MODAL DYNAMIC</A>
+<B> Up:</B> <A NAME="tex2html4733"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4727"
+  HREF="node283.html">*MEMBRANE SECTION</A>
+ &nbsp; <B>  <A NAME="tex2html4735"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

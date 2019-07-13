@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>midexternalfaces.f</TITLE>
+<META NAME="description" CONTENT="midexternalfaces.f">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node433.html">
+<LINK REL="previous" HREF="node431.html">
+<LINK REL="up" HREF="node427.html">
+<LINK REL="next" HREF="node433.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6697"
+  HREF="node433.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6693"
+  HREF="node427.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6687"
+  HREF="node431.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6695"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6698"
+  HREF="node433.html">START OF MAJOR LOOP</A>
+<B> Up:</B> <A NAME="tex2html6694"
+  HREF="node427.html">Mesh refining procedure</A>
+<B> Previous:</B> <A NAME="tex2html6688"
+  HREF="node431.html">midexternaledges.f</A>
+ &nbsp; <B>  <A NAME="tex2html6696"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION0001111550000000000000">
+midexternalfaces.f</A>
+</H4>
+
+<P>
+Nodes generated on the exterior of the body and which do not belong to
+external edges of the unrefined mesh are projected onto the unrefined surface
+at the end of the remeshing routine (in projectnodes.f). To that end the
+external face information of the unrefined mesh is first copied from field
+iexternfa into iexternfaor (or for ``original''). Then, the value of 1 in
+iexternfaor(i) for the external faces i is replaced by a value j, pointing to
+the entries ifacext(1..6,j) containing the six nodes of the face (node
+numbering as in Figure <A HREF="node39.html#c2d6">70</A>. The number
+of external faces is called nexternfa (= number of lines in field
+ifacext). The combination of field iexternfaor and ifacext allows the program
+to
+
+<P>
+
+<UL>
+<LI>determine whether a face of the unrefined mesh was external
+</LI>
+<LI>what nodes are contained in this face (including the middle nodes).
+</LI>
+</UL>
+
+<P>
+The elements in the unrefined mesh adjacent to the external faces are stored
+in element set ialsete, the number of such elements is called nexternel.
+
+<P>
+At this point the preliminary work is finished and the major refinement loop
+starts. It consists of two parts: refinement of the external edges followed by
+the refinement of the internal edges.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6697"
+  HREF="node433.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6693"
+  HREF="node427.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6687"
+  HREF="node431.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6695"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6698"
+  HREF="node433.html">START OF MAJOR LOOP</A>
+<B> Up:</B> <A NAME="tex2html6694"
+  HREF="node427.html">Mesh refining procedure</A>
+<B> Previous:</B> <A NAME="tex2html6688"
+  HREF="node431.html">midexternaledges.f</A>
+ &nbsp; <B>  <A NAME="tex2html6696"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

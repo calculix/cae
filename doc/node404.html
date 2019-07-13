@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Frequency calculations</TITLE>
+<META NAME="description" CONTENT="Frequency calculations">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node405.html">
+<LINK REL="previous" HREF="node403.html">
+<LINK REL="up" HREF="node401.html">
+<LINK REL="next" HREF="node405.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6320"
+  HREF="node405.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6316"
+  HREF="node401.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6310"
+  HREF="node403.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6318"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6321"
+  HREF="node405.html">Buckling calculations</A>
+<B> Up:</B> <A NAME="tex2html6317"
+  HREF="node401.html">Filling and solving the</A>
+<B> Previous:</B> <A NAME="tex2html6311"
+  HREF="node403.html">Nonlinear calculations</A>
+ &nbsp; <B>  <A NAME="tex2html6319"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000116300000000000000">
+Frequency calculations</A>
+</H3>
+
+<P>
+Frequency calculations are performed in subroutines arpack.c for structures
+not exhibiting cyclic symmetry and arpackcs.c for cyclic symmetric
+structures. Frequency calculations involve the following steps:
+
+<P>
+
+<UL>
+<LI>filling the stiffness and mass matrix in mafillsm.f. The stiffness
+  matrix depends on the perturbation parameter: if iperturb=1 the stress
+  stiffness and large deformation stiffness of the most recent static step is
+  taken into account ([<A
+ HREF="node448.html#Dhondt">18</A>])
+</LI>
+<LI>solving the eigenvalue system using SPOOLES and ARPACK
+</LI>
+<LI>calculating the field variables in results.f, including storing in the
+  .dat file
+</LI>
+<LI>storing the results in .frd format in out.f
+</LI>
+</UL>
+
+<P>
+The eigenvalues and eigenmodes are solved in shift-invert mode. This
+corresponds to Mode 3 in ARPACK ([<A
+ HREF="node448.html#Lehoucq">42</A>]). Suppose we want to solve the
+system
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\begin{bmatrix} K \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix} = \omega^2
+\begin{bmatrix} M \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="541" HEIGHT="708" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1944.png"
+ ALT="$\displaystyle \begin{bmatrix}K \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix} = \omega^2 \begin{bmatrix}M \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(530)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+then the shift-invert mode requires algorithms for solving
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eq1"></A><!-- MATH
+ \begin{equation}
+\begin{bmatrix} K - \sigma M \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix} =
+\begin{Bmatrix} X_1 \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="172" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1945.png"
+ ALT="$\displaystyle \begin{bmatrix}K - \sigma M \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix} = \begin{Bmatrix}X_1 \end{Bmatrix}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(531)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and for
+calculating
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eq2"></A><!-- MATH
+ \begin{equation}
+\begin{Bmatrix} Y \end{Bmatrix} =
+\begin{bmatrix} M \end{bmatrix} \begin{Bmatrix} X_2 \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="173" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1946.png"
+ ALT="$\displaystyle \begin{Bmatrix}Y \end{Bmatrix} = \begin{bmatrix}M \end{bmatrix} \begin{Bmatrix}X_2 \end{Bmatrix}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(532)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where  <!-- MATH
+ $\begin{Bmatrix} X_1 \end{Bmatrix}$
+ -->
+<B><IMG
+ WIDTH="129" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1947.png"
+ ALT="$ \begin{Bmatrix}X_1 \end{Bmatrix}$"></B> and <!-- MATH
+ $\begin{Bmatrix} X_2
+\end{Bmatrix}$
+ -->
+<B><IMG
+ WIDTH="43" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1948.png"
+ ALT="$ \begin{Bmatrix}X_2
+\end{Bmatrix}$"></B> are given and <B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1010.png"
+ ALT="$ \sigma$"></B> is a parameter. In CalculiX, it is set
+to 1. These operations are used in an iterative
+procedure in order to determine the eigenvalues and the eigenmodes. For the first operation SPOOLES is used. SPOOLES solves a system by
+using a LU decomposition. This decomposition is performed before the iteration
+loop initiated by ARPACK since the left hand side of Equation (<A HREF="#eq1">531</A>) is
+always the same. Only the backwards substitution is inside the loop. The
+second operation (Equation (<A HREF="#eq2">532</A>)) is performed in routine op.f and is a
+simple matrix multiplication. Notice that this routine depends on the storage
+scheme of the matrix. 
+
+<P>
+For cyclic symmetric structures the following additional tasks must be
+performed:
+
+<P>
+
+<UL>
+<LI>Expanding the structure in case more than one segment is selected for output
+purposes (parameter NGRAPH on the 
+<A HREF="node237.html#cyclicsymmetrymodel">*CYCLIC SYMMETRY MODEL</A> keywork card). This is
+done before the mafillsm call.
+</LI>
+<LI>Calculating the results for the extra sectors based on the results for
+  the basis sector. This is performed after the call of routine results.f.
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6320"
+  HREF="node405.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6316"
+  HREF="node401.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6310"
+  HREF="node403.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6318"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6321"
+  HREF="node405.html">Buckling calculations</A>
+<B> Up:</B> <A NAME="tex2html6317"
+  HREF="node401.html">Filling and solving the</A>
+<B> Previous:</B> <A NAME="tex2html6311"
+  HREF="node403.html">Nonlinear calculations</A>
+ &nbsp; <B>  <A NAME="tex2html6319"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

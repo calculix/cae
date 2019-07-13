@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Pipe, Bend</TITLE>
+<META NAME="description" CONTENT="Pipe, Bend">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node109.html">
+<LINK REL="previous" HREF="node107.html">
+<LINK REL="up" HREF="node101.html">
+<LINK REL="next" HREF="node109.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2422"
+  HREF="node109.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2418"
+  HREF="node101.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2412"
+  HREF="node107.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2420"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2423"
+  HREF="node109.html">Pipe, Gate Valve</A>
+<B> Up:</B> <A NAME="tex2html2419"
+  HREF="node101.html">Fluid Section Types: Liquids</A>
+<B> Previous:</B> <A NAME="tex2html2413"
+  HREF="node107.html">Pipe, Diaphragm</A>
+ &nbsp; <B>  <A NAME="tex2html2421"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00075700000000000000">
+Pipe, Bend</A>
+</H3>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="bend"></A><A NAME="12037"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 119:</STRONG>
+Bend</CAPTION>
+<TR><TD><IMG
+ WIDTH="359" HEIGHT="202" BORDER="0"
+ SRC="img659.png"
+ ALT="\begin{figure}\epsfig{file=Bend.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+A bend (Figure <A HREF="#bend">119</A>) is characterized by head
+losses <!-- MATH
+ $\Delta_1^2 F$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img637.png"
+ ALT="$ \Delta_1^2 F$"> of the form:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\Delta_1^2 F = \zeta \frac{\dot{m}^2}{2 g \rho^2 A^2 },
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="126" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img655.png"
+ ALT="$\displaystyle \Delta_1^2 F = \zeta \frac{\dot{m}^2}{2 g \rho^2 A^2 },$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(133)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"> is a head loss coefficient depending on the bend angle <IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$">
+and the ratio of the bend radius to the pipe diameter <IMG
+ WIDTH="38" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img660.png"
+ ALT="$ R/D$">,
+<IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img391.png"
+ ALT="$ \dot{m}$"> is the mass flow, g is the gravity acceleration and <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"> is the
+liquid density. <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$"> is the cross section of the pipe. Values for <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$"> can be found in file ``liquidpipe.f''.  
+
+<P>
+The following constants have to be specified on the
+ line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=PIPE BEND card:
+
+<P>
+
+<UL>
+<LI><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$">
+</LI>
+<LI><!-- MATH
+ $R/D \;\;\;(\ge 1)$
+ -->
+<IMG
+ WIDTH="89" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img661.png"
+ ALT="$ R/D \;\;\;(\ge 1)$">
+</LI>
+<LI><!-- MATH
+ $\alpha \;\;\;(\text{in} \; ^\circ)$
+ -->
+<IMG
+ WIDTH="34" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img662.png"
+ ALT="$ \alpha \;\;\;($">in<IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img663.png"
+ ALT="$ \; ^\circ)$">
+</LI>
+<LI><!-- MATH
+ $\xi \;\;\;(0 \le \xi \le 1)$
+ -->
+<IMG
+ WIDTH="104" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img664.png"
+ ALT="$ \xi \;\;\;(0 \le \xi \le 1)$">
+</LI>
+</UL>
+
+<P>
+<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$ \xi$"> denotes the roughness of the pipe: <IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img255.png"
+ ALT="$ \xi=0$"> applies to an extremely
+smooth pipe surface, <IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img665.png"
+ ALT="$ \xi=1$"> to a very rough surface. The gravity acceleration must be specified by a gravity type
+<A HREF="node247.html#dload">*DLOAD</A> card defined for the elements at stake. The material
+characteristic <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"> can be defined by a
+<A HREF="node241.html#density">*DENSITY</A>
+card. 
+
+<P>
+
+<P><P>
+<BR>
+Example files: centheat1, pipe.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2422"
+  HREF="node109.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2418"
+  HREF="node101.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2412"
+  HREF="node107.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2420"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2423"
+  HREF="node109.html">Pipe, Gate Valve</A>
+<B> Up:</B> <A NAME="tex2html2419"
+  HREF="node101.html">Fluid Section Types: Liquids</A>
+<B> Previous:</B> <A NAME="tex2html2413"
+  HREF="node107.html">Pipe, Diaphragm</A>
+ &nbsp; <B>  <A NAME="tex2html2421"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

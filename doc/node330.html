@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*UNCOUPLED TEMPERATURE-DISPLACEMENT</TITLE>
+<META NAME="description" CONTENT="*UNCOUPLED TEMPERATURE-DISPLACEMENT">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node331.html">
+<LINK REL="previous" HREF="node329.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node331.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5288"
+  HREF="node331.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5284"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5278"
+  HREF="node329.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5286"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5289"
+  HREF="node331.html">*USER ELEMENT</A>
+<B> Up:</B> <A NAME="tex2html5285"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5279"
+  HREF="node329.html">*TRANSFORMF</A>
+ &nbsp; <B>  <A NAME="tex2html5287"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008122000000000000000"></A><A NAME="uncoupledtemperaturedisplacement"></A>
+<BR>
+*UNCOUPLED TEMPERATURE-DISPLACEMENT
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This procedure is used to perform an uncoupled thermomechanical analysis. For
+each increment a thermal analysis is performed first. Then, the resulting
+temperature field is used as boundary condition for a subsequent mechanical
+analysis for the same increment. Consequently, there is no feedback from the
+mechanical deformation on the temperature field within one and the same
+increment. Due to the sequential calculations the resulting systems of
+equations are smaller and faster execution times can be expected. Moreover,
+the number of iterations within the increment is determined for the thermal
+and mechanical analysis separately, whereas in a coupled thermomechanical
+analysis the worst converging type of analysis dictates the number of iterations.
+
+<P>
+There are eight optional parameters: SOLVER, DIRECT, ALPHA, STEADY STATE,
+DELTMX, EXPLICIT, TIME RESET and TOTAL TIME AT START. 
+
+<P>
+SOLVER determines the
+package used to solve the ensuing system of equations. The following solvers
+can be selected:
+
+<P>
+
+<UL>
+<LI>the SGI solver
+</LI>
+<LI>PARDISO
+</LI>
+<LI>SPOOLES [<A
+ HREF="node448.html#Ashcraft1">3</A>,<A
+ HREF="node448.html#Ashcraft2">4</A>]. 
+</LI>
+<LI>TAUCS 
+</LI>
+<LI>the iterative solver by Rank and Ruecker [<A
+ HREF="node448.html#Rank">65</A>], which is based on
+  the algorithms by Schwarz [<A
+ HREF="node448.html#Schwarz">69</A>]. 
+</LI>
+</UL>
+
+<P>
+Default is the first solver which has been installed of the following list:
+SGI, PARDISO, SPOOLES and TAUCS. If none is installed, the default is the iterative solver, which comes with the CalculiX
+package.
+
+<P>
+The SGI solver should by now be considered as outdated. SPOOLES is very fast, but has no
+out-of-core capability: the size of systems you can solve is limited by your
+RAM memory. With 2GB of RAM you can solve up to 250,000 equations. TAUCS is
+also good, but my experience is limited to the <B><IMG
+ WIDTH="36" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1577.png"
+ ALT="$ LL^T$"></B> decomposition, which
+only applies to positive definite systems. It has an out-of-core capability
+and also offers a <B><IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1578.png"
+ ALT="$ LU$"></B> decomposition, however, I was not able to run either of
+them so far. Next comes the iterative solver. If SOLVER=ITERATIVE SCALING is
+selected, the preconditioning is limited to a scaling of the diagonal terms,
+SOLVER=ITERATIVE CHOLESKY triggers Incomplete Cholesky
+preconditioning. Cholesky preconditioning leads to a better convergence and
+maybe to shorter execution times, however, it requires additional storage
+roughly corresponding to the nonzeros in the matrix. If you are short of
+memory, diagonal scaling might be your last resort. The iterative methods
+perform well for truly three-dimensional structures. For instance,
+calculations for a hemisphere were about nine times faster with the ITERATIVE
+SCALING solver, and three times faster with the ITERATIVE CHOLESKY solver than
+with SPOOLES. For two-dimensional structures such as plates or shells, the
+performance might break down drastically and convergence often requires the
+use of Cholesky preconditioning. SPOOLES (and any of the other direct solvers)
+performs well in most situations with emphasis on slender structures but
+requires much more storage than the iterative solver. PARDISO is the Intel proprietary solver and is to my knowledge
+presently the fastest.
+
+<P>
+The parameter DIRECT indicates that automatic incrementation should be
+switched off. The increments will have the fixed length specified by the user
+on the second line.
+
+<P>
+The parameter ALPHA takes an argument between -1/3 and 0. It controls the
+dissipation of the high frequency responce: lower numbers lead to increased
+numerical damping ([<A
+ HREF="node448.html#Miranda">54</A>]). The default value is -0.05.
+
+<P>
+The parameter STEADY STATE indicates that only the steady state should be
+calculated. If this parameter is absent, the calculation is assumed to be time
+dependent and a transient analysis is performed. For a transient analysis the
+specific heat of the materials involved must be provided.
+
+<P>
+The parameter DELTMX can be used to limit the temperature change in two
+subsequent increments. If the temperature change exceeds DELTMX the increment
+is restarted with a size equal to <B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1608.png"
+ ALT="$ D_A$"></B> times DELTMX divided by the
+temperature change. The default for <B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1608.png"
+ ALT="$ D_A$"></B> is 0.85, however, it can be changed
+by the <A HREF="node232.html#controls">*CONTROLS</A> keyword. DELTMX is only active in transient  calculations. Default value is <B><IMG
+ WIDTH="34" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1638.png"
+ ALT="$ 10^{30}$"></B>.
+
+<P>
+The parameter EXPLICIT is only important for fluid computations. If present,
+the fluid computation is explicit, else it is semi-implicit. Coupled structural
+computations are always implicit.
+
+<P>
+The parameter TIME RESET can be used to force the total time at the
+end of the present step to coincide with the total time at the end of the
+previous step. If there is no previous step the targeted total time is
+zero. If this parameter is absent the total time at the end of the present step is the
+total time at the end of the previous step plus the time period of the present
+step (2nd parameter underneath the *UNCOUPLED TEMPERATURE-DISPLACEMENT keyword). Consequently, if the time
+at the end of the previous step is 10. and the present time period is 1., the
+total time at the end of the present step is 11. If the TIME RESET parameter
+is used, the total time at the beginning of the present step is 9. and at the
+end of the present step it will be 10. This is sometimes useful if
+transient uncoupled temperature-displacement calculations are preceded by a stationary heat
+transfer step to reach steady state conditions at the start of the transient
+uncoupled temperature-displacement calculations. Using the TIME RESET parameter in the stationary
+step (the first step in the calculation) will lead to a zero total time at the start of the subsequent
+instationary step. 
+
+<P>
+Finally, the parameter TOTAL TIME AT START can be used to set the total time
+at the start of the step to a specific value.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*UNCOUPLED TEMPERATURE-DISPLACEMENT
+</LI>
+<LI>Enter any needed parameters and their values.
+</LI>
+</UL>
+
+<P>
+
+<UL>
+<LI>Initial time increment. This value will be modified due to automatic incrementation, unless the parameter DIRECT was specified (default 1.).
+</LI>
+<LI>Time period of the step (default 1.).
+</LI>
+<LI>Minimum time increment allowed. Only active if DIRECT is not specified. Default is the initial time increment or 1.e-5 times the time period of the step, whichever is smaller.
+</LI>
+<LI>Maximum time increment allowed. Only active if DIRECT is not specified. Default is 1.e+30.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*UNCOUPLED TEMPERATURE-DISPLACEMENT
+.1,1.
+</PRE>
+
+<P>
+defines an uncoupled thermomechanical step and selects the SPOOLES solver as linear equation solver
+in the step (default). The second line indicates that the initial time increment is .1 and the total step time is 1.
+
+<P>
+
+<P><P>
+<BR>
+Example files: thermomech2.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5288"
+  HREF="node331.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5284"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5278"
+  HREF="node329.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5286"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5289"
+  HREF="node331.html">*USER ELEMENT</A>
+<B> Up:</B> <A NAME="tex2html5285"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5279"
+  HREF="node329.html">*TRANSFORMF</A>
+ &nbsp; <B>  <A NAME="tex2html5287"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

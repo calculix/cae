@@ -1,0 +1,455 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*FILM</TITLE>
+<META NAME="description" CONTENT="*FILM">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node262.html">
+<LINK REL="previous" HREF="node260.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node262.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4460"
+  HREF="node262.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4456"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4450"
+  HREF="node260.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4458"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4461"
+  HREF="node262.html">*FILTER</A>
+<B> Up:</B> <A NAME="tex2html4457"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4451"
+  HREF="node260.html">*EXPANSION</A>
+ &nbsp; <B>  <A NAME="tex2html4459"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000853000000000000000"></A><A NAME="film"></A>
+<BR>
+*FILM
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option allows the specification of film heat transfer. This is
+convective heat transfer of a surface at temperature <B><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img342.png"
+ ALT="$ T$"></B> and with film
+coefficient <B><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img672.png"
+ ALT="$ h$"></B> to the environment at temperature <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1174.png"
+ ALT="$ T_0$"></B>. The
+environmental temperature <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1174.png"
+ ALT="$ T_0$"></B> is also called the sink
+temperature. The convective heat flux <B><IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img318.png"
+ ALT="$ q$"></B> satisfies:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+q=h(T-T_0).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="107" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1717.png"
+ ALT="$\displaystyle q=h(T-T_0).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(473)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+In order to specify which face the flux is entering or leaving the
+faces are numbered. The numbering depends on the element type.
+
+<P>
+For hexahedral elements the faces are numbered as follows (numbers are
+node numbers):
+
+<UL>
+<LI>Face 1: 1-2-3-4
+</LI>
+<LI>Face 2: 5-8-7-6
+</LI>
+<LI>Face 3: 1-5-6-2
+</LI>
+<LI>Face 4: 2-6-7-3
+</LI>
+<LI>Face 5: 3-7-8-4
+</LI>
+<LI>Face 6: 4-8-5-1
+</LI>
+</UL>
+
+<P>
+for tetrahedral elements:
+
+<UL>
+<LI>Face 1: 1-2-3
+</LI>
+<LI>Face 2: 1-4-2
+</LI>
+<LI>Face 3: 2-4-3
+</LI>
+<LI>Face 4: 3-4-1
+</LI>
+</UL>
+and for wedge elements:
+
+<P>
+
+<UL>
+<LI>Face 1: 1-2-3
+</LI>
+<LI>Face 2: 4-5-6
+</LI>
+<LI>Face 3: 1-2-5-4
+</LI>
+<LI>Face 4: 2-3-6-5
+</LI>
+<LI>Face 5: 3-1-4-6
+</LI>
+</UL>
+
+<P>
+for quadrilateral plane stress, plane strain and axisymmetric elements:
+
+<UL>
+<LI>Face 1: 1-2
+</LI>
+<LI>Face 2: 2-3
+</LI>
+<LI>Face 3: 3-4
+</LI>
+<LI>Face 4: 4-1
+</LI>
+<LI>Face N: in negative normal direction (only for plane stress)
+</LI>
+<LI>Face P: in positive normal direction (only for plane stress) 
+</LI>
+</UL>
+
+<P>
+for triangular plane stress, plane strain and axisymmetric elements:
+
+<UL>
+<LI>Face 1: 1-2
+</LI>
+<LI>Face 2: 2-3
+</LI>
+<LI>Face 3: 3-1
+</LI>
+<LI>Face N: in negative normal direction (only for plane stress)
+</LI>
+<LI>Face P: in positive normal direction (only for plane stress) 
+</LI>
+</UL>
+
+<P>
+for quadrilateral shell elements:
+
+<UL>
+<LI>Face NEG or 1: in negative normal direction
+</LI>
+<LI>Face POS or 2: in positive normal direction
+</LI>
+<LI>Face 3: 1-2
+</LI>
+<LI>Face 4: 2-3
+</LI>
+<LI>Face 5: 3-4
+</LI>
+<LI>Face 6: 4-1
+</LI>
+</UL>
+
+<P>
+for triangular shell elements:
+
+<UL>
+<LI>Face NEG or 1: in negative normal direction
+</LI>
+<LI>Face POS or 2: in positive normal direction
+</LI>
+<LI>Face 3: 1-2
+</LI>
+<LI>Face 4: 2-3
+</LI>
+<LI>Face 5: 3-1
+</LI>
+</UL>
+The labels NEG and POS can only be used for uniform, non-forced convection and are introduced
+for compatibility with ABAQUS. Notice that the labels 1 and 2 correspond to
+the brick face labels of the 3D expansion of the shell (Figure <A HREF="node40.html#2dexpansion">73</A>).
+
+<P>
+for beam elements:
+
+<UL>
+<LI>Face 1: in negative 1-direction
+</LI>
+<LI>Face 2: in positive 1-direction
+</LI>
+<LI>Face 3: in positive 2-direction
+</LI>
+<LI>Face 5: in negative 2-direction
+</LI>
+</UL>
+The beam face numbers correspond to the brick face labels of the 3D
+expansion of the beam (Figure <A HREF="node59.html#c1d">78</A>).
+
+<P>
+Film flux characterized by a uniform film coefficient is entered by
+the distributed flux 
+type label Fx where x is the number of the face, followed by the sink
+temperature and the film coefficient. If the film
+coefficient is nonuniform the label takes the form 
+FxNUy and a user subroutine <A HREF="node347.html#userfilm">film.f</A> must be provided specifying the
+value of the film coefficient and the sink temperature. The label can be up to 20 characters long. In
+particular, y can be used to distinguish different nonuniform film coefficient
+patterns (maximum 16 characters).
+
+<P>
+In case the element face is adjacent to a moving fluid the temperature of
+which is also unknown (forced convection), the distributed flux type label is
+FxFC where x is the number of the face. It is followed by the fluid node
+number it exchanges convective heat with and the film coefficient. To define a
+nonuniform film coefficient the label FxFCNUy must be used and a subroutine
+film.f defining the film coefficient be provided. The label can be up to 20 characters long. In
+particular, y can be used to distinguish different nonuniform film coefficient
+patterns (maximum 14 characters).
+
+<P>
+Optional parameters are OP, AMPLITUDE, TIME DELAY, FILM AMPLITUDE and FILM
+TIME DELAY. OP takes the value NEW or MOD. OP=MOD is default and
+implies that the film fluxes on different faces are kept over all
+steps starting from the last perturbation step. Specifying a
+film flux on a face for which such a flux was defined in a
+previous step replaces this value. OP=NEW implies that all previous
+film flux is removed. If multiple *FILM cards are present in a
+step this parameter takes effect for the first *FILM card only. 
+
+<P>
+The AMPLITUDE parameter allows for the specification of an amplitude
+by which the sink temperature is scaled (mainly used for dynamic
+calculations). Thus, in that case the sink temperature values entered on the *FILM
+card are interpreted as reference values to be multiplied with the
+(time dependent) amplitude value to obtain the actual value. At the
+end of the step the reference value is replaced by the actual value at
+that time. In subsequent
+steps this value is kept constant unless it is explicitly redefined or the
+amplitude is defined using TIME=TOTAL TIME in which case the amplitude keeps
+its validity. The AMPLITUDE parameter has no
+effect on nonuniform and forced convective fluxes.
+
+<P>
+The TIME DELAY parameter modifies the AMPLITUDE parameter. As such, TIME DELAY
+must be preceded by an AMPLITUDE name. TIME DELAY is a time shift by which the
+AMPLITUDE definition it refers to is moved in positive time direction. For
+instance, a TIME DELAY of 10 means that for time t the amplitude is taken
+which applies to time t-10. The TIME DELAY parameter must only appear once on
+one and the same keyword card.
+
+<P>
+The FILM AMPLITUDE parameter allows for the specification of an amplitude
+by which the film coefficient is scaled (mainly used for dynamic
+calculations). Thus, in that case the film coefficient values entered on the *FILM
+card are interpreted as reference values to be multiplied with the
+(time dependent) amplitude value to obtain the actual value. At the
+end of the step the reference value is replaced by the actual value at
+that time, for use in subsequent steps. The FILM AMPLITUDE parameter has no
+effect on nonuniform fluxes.
+
+<P>
+The FILM TIME DELAY parameter modifies the FILM AMPLITUDE parameter. As such,
+FILM TIME DELAY
+must be preceded by an FILM AMPLITUDE name. FILM TIME DELAY is a time shift by which the
+FILM AMPLITUDE definition it refers to is moved in positive time direction. For
+instance, a FILM TIME DELAY of 10 means that for time t the amplitude is taken
+which applies to time t-10. The FILM TIME DELAY parameter must only appear once on
+one and the same keyword card.
+
+<P>
+Notice that in case an element set is used on any line following *FILM this
+set should not contain elements from more than one of the following groups:
+{plane stress, plane strain, axisymmetric elements}, {beams, trusses},
+{shells, membranes}, {volumetric elements}.
+
+<P>
+In order to apply film conditions to a surface the element set label
+underneath may be replaced by a surface name. In that case the ``x'' in the
+flux type label takes the value zero.
+
+<P>
+If more than one *FILM card occurs in the input deck the following rules
+apply: if the *FILM is applied to the same node and the same face as in a
+previous application then the prevous value and previous amplitude (including
+film amplitude) are replaced.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*FILM
+</LI>
+<LI>Enter any needed parameters and their value
+</LI>
+</UL>
+
+<P>
+Following line for uniform, explicit film conditions:
+
+<UL>
+<LI>Element number or element set label.
+</LI>
+<LI>Film flux type label (Fx).
+</LI>
+<LI>Sink temperature.
+</LI>
+<LI>Film coefficient.
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+Following line for nonuniform, explicit film conditions:
+
+<UL>
+<LI>Element number or element set label.
+</LI>
+<LI>Film flux type label (FxNUy).
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+Following line for forced convection with uniform film conditions:
+
+<UL>
+<LI>Element number or element set label.
+</LI>
+<LI>Film flux type label (FxFC).
+</LI>
+<LI>Fluid node.
+</LI>
+<LI>Film coefficient.
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+Following line for forced convection with nonuniform film conditions:
+
+<UL>
+<LI>Element number or element set label.
+</LI>
+<LI>Film flux type label (FxFCNUy).
+</LI>
+<LI>Fluid node.
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*FILM
+20,F1,273.,.1
+</PRE>
+
+<P>
+assigns a film flux to face 1 of element 20 with a film coefficient of 0.1 and a sink
+temperature of 273.
+
+<P>
+
+<P><P>
+<BR>
+Example files: oneel20fi.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4460"
+  HREF="node262.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4456"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4450"
+  HREF="node260.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4458"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4461"
+  HREF="node262.html">*FILTER</A>
+<B> Up:</B> <A NAME="tex2html4457"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4451"
+  HREF="node260.html">*EXPANSION</A>
+ &nbsp; <B>  <A NAME="tex2html4459"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

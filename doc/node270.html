@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*GREEN</TITLE>
+<META NAME="description" CONTENT="*GREEN">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node271.html">
+<LINK REL="previous" HREF="node269.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node271.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4568"
+  HREF="node271.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4564"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4558"
+  HREF="node269.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4566"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4569"
+  HREF="node271.html">*HEADING</A>
+<B> Up:</B> <A NAME="tex2html4565"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4559"
+  HREF="node269.html">*GAP HEAT GENERATION</A>
+ &nbsp; <B>  <A NAME="tex2html4567"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000862000000000000000"></A><A NAME="green"></A>
+<BR>
+*GREEN
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This procedure is used to calculate the Green function due to unit forces at
+specific nodes in specific global directions. The Green functions are
+calculated for each unit force separately. The unit forces are defined by a
+<A HREF="node223.html#cload">*CLOAD</A> card (the force value specified by the user is
+immaterial, a unit force is taken). For details the user is referred to Section <A HREF="node182.html#greenfunctions">6.9.23</A>.
+
+<P>
+There is one optional parameter: SOLVER. It determines the
+package used to solve the ensuing system of equations. The following solvers
+can be selected:
+
+<P>
+
+<UL>
+<LI>PARDISO
+</LI>
+<LI>SPOOLES [<A
+ HREF="node448.html#Ashcraft1">3</A>,<A
+ HREF="node448.html#Ashcraft2">4</A>]. 
+</LI>
+</UL>
+
+<P>
+Default is the first solver which has been installed of the following list:
+PARDISO, SPOOLES. If none is installed, a Green function calculation is not
+possible.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*GREEN
+</LI>
+<LI>Enter SOLVER, if needed, and its value.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*GREEN,SOLVER=PARDISO
+</PRE>
+
+<P>
+defines a Green function step and selects the PARDISO solver as
+linear equation solver. For this to work, the PARDISO solver must
+have been linked with CalculiX.
+
+<P>
+
+<P><P>
+<BR>
+Example files: green1.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4568"
+  HREF="node271.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4564"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4558"
+  HREF="node269.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4566"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4569"
+  HREF="node271.html">*HEADING</A>
+<B> Up:</B> <A NAME="tex2html4565"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4559"
+  HREF="node269.html">*GAP HEAT GENERATION</A>
+ &nbsp; <B>  <A NAME="tex2html4567"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

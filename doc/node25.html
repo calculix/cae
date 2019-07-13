@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Node Types</TITLE>
+<META NAME="description" CONTENT="Node Types">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node26.html">
+<LINK REL="previous" HREF="node24.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node26.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1350"
+  HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1346"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1340"
+  HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1348"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1351"
+  HREF="node26.html">Element Types</A>
+<B> Up:</B> <A NAME="tex2html1347"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html1341"
+  HREF="node24.html">Theory</A>
+ &nbsp; <B>  <A NAME="tex2html1349"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00071000000000000000"></A><A NAME="nodes"></A>
+<BR>
+Node Types
+</H2>
+
+<P>
+There are three node types: 
+
+<P>
+
+<UL>
+<LI>1D fluid nodes. These are nodes satisfying at least one of the following
+  conditions:
+
+<P>
+
+<UL>
+<LI>nodes belonging to 1D network elements (element labels starting with D)
+</LI>
+<LI>reference nodes in <A HREF="node261.html#film">*FILM</A> cards of type
+  forced convection (label: F*FC).
+</LI>
+<LI>reference nodes in <A HREF="node247.html#dload">*DLOAD</A> cards of type nodal pressure
+  (label: P*NP).
+</LI>
+</UL>
+
+<P>
+</LI>
+<LI>3D fluid nodes. These are nodes belonging to 3D fluid elements (element
+  labels starting with F)
+
+<P>
+</LI>
+<LI>structural nodes. Any nodes not being 1D fluid nodes nor 3D fluid nodes.
+
+<P>
+</LI>
+</UL>
+
+<P>
+It is not allowed to create equations between nodes of different types.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Twenty-node brick element (C3D20)</TITLE>
+<META NAME="description" CONTENT="Twenty-node brick element (C3D20)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node31.html">
+<LINK REL="previous" HREF="node29.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node31.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1455"
+  HREF="node31.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1451"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1445"
+  HREF="node29.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1453"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1456"
+  HREF="node31.html">C3D20R</A>
+<B> Up:</B> <A NAME="tex2html1452"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1446"
+  HREF="node29.html">Incompatible mode eight-node brick</A>
+ &nbsp; <B>  <A NAME="tex2html1454"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00072400000000000000">
+Twenty-node brick element (C3D20)</A>
+</H3>
+
+<P>
+The C3D20 element is a general purpose quadratic brick element (3x3x3 integration points). The shape functions can be found in  [<A
+ HREF="node448.html#Lapidus">40</A>]. The node numbering follows the convention of Figure <A HREF="#twentynode">64</A> and the integration scheme is given in Figure <A HREF="#int27">65</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="twentynode"></A><A NAME="11815"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 64:</STRONG>
+20-node brick element</CAPTION>
+<TR><TD><IMG
+ WIDTH="451" HEIGHT="437" BORDER="0"
+ SRC="img242.png"
+ ALT="\begin{figure}\epsfig{file=C3D20.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="int27"></A><A NAME="11816"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 65:</STRONG>
+3x3x3 integration point scheme in hexahedral elements</CAPTION>
+<TR><TD><IMG
+ WIDTH="359" HEIGHT="361" BORDER="0"
+ SRC="img243.png"
+ ALT="\begin{figure}\epsfig{file=Int27.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+This is an excellent element for linear elastic calculations. Due to the location of the integration points, stress concentrations at the surface of a structure are well captured. However, for nonlinear calculations the elements exhibits the same disadvantages as the C3D8 element, albeit to a much lesser extent:
+
+<UL>
+<LI>due to the full integration, the element will behave badly for isochoric material behavior, i.e. for high values of Poisson's coefficient or plastic behavior.
+</LI>
+<LI>the element tends to be too stiff in bending, e.g. for slender beams or thin plates under bending. [<A
+ HREF="node448.html#Zienkiewicz">84</A>].
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1455"
+  HREF="node31.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1451"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1445"
+  HREF="node29.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1453"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1456"
+  HREF="node31.html">C3D20R</A>
+<B> Up:</B> <A NAME="tex2html1452"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1446"
+  HREF="node29.html">Incompatible mode eight-node brick</A>
+ &nbsp; <B>  <A NAME="tex2html1454"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

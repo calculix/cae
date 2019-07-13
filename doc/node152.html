@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Tension-only and compression-only materials.</TITLE>
+<META NAME="description" CONTENT="Tension-only and compression-only materials.">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node153.html">
+<LINK REL="previous" HREF="node151.html">
+<LINK REL="up" HREF="node143.html">
+<LINK REL="next" HREF="node153.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2992"
+  HREF="node153.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2988"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2982"
+  HREF="node151.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2990"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2993"
+  HREF="node153.html">Fiber reinforced materials.</A>
+<B> Up:</B> <A NAME="tex2html2989"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2983"
+  HREF="node151.html">Incremental (visco)plasticity: additive decomposition</A>
+ &nbsp; <B>  <A NAME="tex2html2991"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00078900000000000000">
+Tension-only and compression-only materials.</A>
+</H3>
+
+<P>
+These are material models which can be used to simulate textile behavior
+(tension-only) and concrete (compression-only). In essence, a one-dimensional
+Hooke-type relationship is established between the principal stresses and
+principal strains, thereby suppressing the compressive stress range (tension-only
+materials) or tensile stress range (compression-only materials).
+
+<P>
+The Cauchy-Green tensor can be written as a function of its eigenvalues and
+eigenvectors as follows:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\mathbf{C}=\sum_{i=1}^{3} \Lambda_i \mathbf{M^i},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="108" HEIGHT="67" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1023.png"
+ ALT="$\displaystyle \mathbf{C}=\sum_{i=1}^{3} \Lambda_i \mathbf{M^i},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(266)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\mathbf{M^i}$
+ -->
+<IMG
+ WIDTH="27" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1024.png"
+ ALT="$ \mathbf{M^i}$"> are the structural tensors satisfying
+<!-- MATH
+ $\mathbf{M^i}=\mathbf{N_i}\otimes \mathbf{N^i}$
+ -->
+<IMG
+ WIDTH="106" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1025.png"
+ ALT="$ \mathbf{M^i}=\mathbf{N_i}\otimes \mathbf{N^i}$">, <!-- MATH
+ $\mathbf{N^i}$
+ -->
+<IMG
+ WIDTH="24" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1026.png"
+ ALT="$ \mathbf{N^i}$"> being the
+principal directions [<A
+ HREF="node448.html#Dhondt">18</A>]. From this, the second Piola-Kirchhoff
+stress tensor can be defined by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\mathbf{S}=\sum_{i=1}^{3} f(\Lambda_i) \mathbf{M^i},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="126" HEIGHT="67" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1027.png"
+ ALT="$\displaystyle \mathbf{S}=\sum_{i=1}^{3} f(\Lambda_i) \mathbf{M^i},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(267)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where, for tension-only materials, 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+f(\Lambda_i) = E \left( \frac{\Lambda_i -1}{2} \right) \left[ \frac{1}{2} +
+  \frac{1}{\pi} \tan^{-1} \left( \frac{\Lambda_i -1}{2 \epsilon} \right)
+\right],
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="338" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1028.png"
+ ALT="$\displaystyle f(\Lambda_i) = E \left( \frac{\Lambda_i -1}{2} \right) \left[ \fr...
+...\frac{1}{\pi} \tan^{-1} \left( \frac{\Lambda_i -1}{2 \epsilon} \right) \right],$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(268)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1029.png"
+ ALT="$ E$"> is an elastic modulus, the term within the first parentheses is a
+Lagrange principal strain and the term within the square brackets is a
+correction term suppressing the negative stresses (pressure). It is a function tending to zero for negative strains (-0.5 being the
+smallest possible Lagrange strain), to one for large positive strains and
+switches between both in a region surrounding zero strain. The extent of this
+region is controlled by the parameter <IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$">: the smaller its value, the
+smaller the transition region (the sharper the switch). It is a monotonically
+increasing function of the strain, thus guaranteeing convergence. The correction term is
+in fact identical to the
+term used to cut off tensile stresses for penalty contact in
+Equation(<A HREF="node135.html#prescleareq">160</A>) and Figure (<A HREF="node135.html#contact_lin">132</A>). Replacing
+``overclosure'' and ``pressure'' by ``principal strain'' and ``principal
+stress'' in that figure yields the function f. Although compressive stresses
+are suppressed, they are not zero altogether. The maximum allowed compressive
+stress (in absolute value) amounts to <!-- MATH
+ $E \epsilon / \pi$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1030.png"
+ ALT="$ E \epsilon / \pi$">. Instead of chosing <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1029.png"
+ ALT="$ E$"> and <IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"> the
+user defines <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1029.png"
+ ALT="$ E$"> and the maximum allowed compressive stress, from which
+<IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"> is determined.
+
+<P>
+The material
+definition consists of a *MATERIAL card defining the name of
+the material. This name HAS TO START WITH ''TENSION_ONLY'' but can be
+up to 80 characters long. Thus, the last 68 characters can be freely
+chosen by the user. Within the material definition a <A HREF="node332.html#usermaterial">*USER
+MATERIAL</A> card has to be used satisfying:
+
+<P>
+First line:
+
+<UL>
+<LI>*USER MATERIAL
+</LI>
+<LI>Enter the CONSTANTS parameter and its value. The value of this
+parameter is 2.
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1029.png"
+ ALT="$ E$">.
+</LI>
+<LI>absolute value of the maximum allowed pressure.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature
+dependence.
+
+<P>
+For a compression-only materials the name of the material has to start with
+''COMPRESSION_ONLY'' (maximum 64 characters left to be chosen by the user)
+and the second constant is the maximum allowed tension. Examples are
+leifer2 and concretebeam in the test example suite. 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2992"
+  HREF="node153.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2988"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2982"
+  HREF="node151.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2990"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2993"
+  HREF="node153.html">Fiber reinforced materials.</A>
+<B> Up:</B> <A NAME="tex2html2989"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2983"
+  HREF="node151.html">Incremental (visco)plasticity: additive decomposition</A>
+ &nbsp; <B>  <A NAME="tex2html2991"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

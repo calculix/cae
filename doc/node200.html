@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Radiative heat flux</TITLE>
+<META NAME="description" CONTENT="Radiative heat flux">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node199.html">
+<LINK REL="up" HREF="node189.html">
+<LINK REL="next" HREF="node201.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3599"
+  HREF="node201.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3595"
+  HREF="node189.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3591"
+  HREF="node199.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3597"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3600"
+  HREF="node201.html">Error estimators</A>
+<B> Up:</B> <A NAME="tex2html3596"
+  HREF="node189.html">Loading</A>
+<B> Previous:</B> <A NAME="tex2html3592"
+  HREF="node199.html">Convective heat flux</A>
+ &nbsp; <B>  <A NAME="tex2html3598"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION0007111100000000000000">
+Radiative heat flux</A>
+</H3>
+
+<P>
+Radiative heat flux is a flux depending on the temperature of
+the body and is triggered by the
+<A HREF="node303.html#radiate">*RADIATE</A> card. No external medium is needed. If other bodies are present, an
+interaction takes place. This is called cavity radiation. Usually, it is not
+possible to model all bodies in the environment. Then, a homogeneous
+environmental body temperature can be defined. In that case, the radiative
+flux takes the form
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+q = \epsilon (\theta^4-\theta_0^4)
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="102" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1175.png"
+ ALT="$\displaystyle q = \epsilon (\theta^4-\theta_0^4)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(464)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img318.png"
+ ALT="$ q$"></B> is a flux normal to the surface, <B><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></B> is the emissivity,
+<B><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img178.png"
+ ALT="$ \theta$"></B> is the absolute body temperature (Kelvin) and <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1176.png"
+ ALT="$ \theta_0$"></B> is the
+absolute environment temperature (also called sink temperature). The
+emissivity takes values between 0 and 1. A zero value applied to a body with
+no absorption nor emission and 100 <B><IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1177.png"
+ ALT="$ \%$"></B> reflection. A value of 1 applies to a
+black body. The radiation is assumed to be diffuse (independent of the
+direction of emission) and gray (independent of the emitted wave
+length).
+
+<P>
+If other bodies are present, the radiative interaction is taken into account
+and viewfactors are calculated if the user selects the appropriate load
+label. 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3599"
+  HREF="node201.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3595"
+  HREF="node189.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3591"
+  HREF="node199.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3597"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3600"
+  HREF="node201.html">Error estimators</A>
+<B> Up:</B> <A NAME="tex2html3596"
+  HREF="node189.html">Loading</A>
+<B> Previous:</B> <A NAME="tex2html3592"
+  HREF="node199.html">Convective heat flux</A>
+ &nbsp; <B>  <A NAME="tex2html3598"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

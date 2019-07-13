@@ -1,0 +1,257 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*SECTION PRINT</TITLE>
+<META NAME="description" CONTENT="*SECTION PRINT">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node309.html">
+<LINK REL="previous" HREF="node307.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node309.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5024"
+  HREF="node309.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5020"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5014"
+  HREF="node307.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5022"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5025"
+  HREF="node309.html">*SELECT CYCLIC SYMMETRY MODES</A>
+<B> Up:</B> <A NAME="tex2html5021"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5015"
+  HREF="node307.html">*RIGID BODY</A>
+ &nbsp; <B>  <A NAME="tex2html5023"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008100000000000000000"></A><A NAME="sectionprint"></A>
+<BR>
+*SECTION PRINT
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This option is used to print selected facial variables in file
+jobname.dat. The following variables can be
+selected:
+
+<P>
+
+<UL>
+<LI>Fluid dynamic drag stresses (key=DRAG), only makes sense for 3D fluid calculations
+</LI>
+<LI>Heat flux (key=FLUX), only makes sense for heat calculations (structural
+  or CFD)
+</LI>
+<LI>Section forces, section moments and section areas(key=SOF or key=SOM or key=SOAREA), only makes
+  sense for structural calculations
+</LI>
+</UL>
+
+<P>
+The drag stresses are printed in the integration points of the faces. The
+output lists the element, the local face number, the integration point, the
+x-, y- and z- component of the surface stress vector in the global coordinate system,
+the normal component, the shear component and the global coordinates of the
+integration point. At the end of the listing the surface stress vectors are integrated to
+yield the total force on the surface.
+
+<P>
+The heat flux is also printed in the integration points of the faces. The
+output lists the element, the local face number, the integration point, the
+heat flux (positive = flux leaving the element through the surface defined by
+the parameter SURFACE)  and the global coordinates of the
+integration point. At the end of the listing the heat flux vectors are
+integrated to yield the total heat flow through the surface.
+
+<P>
+The section forces, section moments and section areas are triggered by the keys SOF,
+SOM and SOAREA. All three keys are equivalent, i.e. asking for SOF (the section forces) will
+also trigger the calculation of the section moments and the section areas. This
+implementation was selected because the extra work needed to calculate the
+moments and areas once the forces are known is neglegible. The output lists 
+
+<P>
+
+<UL>
+<LI>the components of the total surface force and moment about the origin in
+  global coordinates
+</LI>
+<LI>the coordinates of the center of gravity and the components of the mean normal
+</LI>
+<LI>the components of the moment about the center of gravity in global
+  coordinates
+</LI>
+<LI>the area, the normal force on the section (+ is tension, - is
+  compression) and the size (absolute value) of the shear force.
+</LI>
+</UL>
+
+<P>
+Notice that, for
+internal surfaces (i.e. surfaces which have elements on both sides) the sign
+of the force and the moment depends on the side the elements of which were
+selected in the definition of the <A HREF="node322.html#surface">*SURFACE</A>. Please look at
+example beamp.inp for an illustration of this.
+
+<P>
+There are four parameters,
+SURFACE, NAME, FREQUENCYF and TIME POINTS. The parameter SURFACE is
+required, defining the facial surface for which the requested items are to be
+printed. The parameter NAME is required too, defining a name for the section
+print. So far, this name is not used.
+
+<P>
+The parameters FREQUENCYF and TIME POINTS are mutually exclusive. 
+
+<P>
+The parameter FREQUENCYF is optional, and applies to
+nonlinear calculations where a step can consist of several
+increments. Default is FREQUENCYF=1, which indicates that the results
+of all increments will be stored. FREQUENCYF=N with N an integer
+indicates that the results of every Nth increment will be stored. The
+final results of a step are always stored. If you only want the final
+results, choose N very big. 
+The value of N applies to 
+<A HREF="node299.html#output">*OUTPUT</A>,<A HREF="node254.html#elementoutput">*ELEMENT OUTPUT</A>, 
+<A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="node256.html#elprint">*ELPRINT</A>, 
+<A HREF="node293.html#nodeoutput">*NODE OUTPUT</A>,
+<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node294.html#nodeprint">*NODE PRINT</A>,
+<A HREF="#sectionprint">*SECTION PRINT</A>,<A HREF="node229.html#contactoutput">*CONTACT OUTPUT</A>,
+<A HREF="node228.html#contactfile">*CONTACT FILE</A> and <A HREF="node231.html#contactprint">*CONTACT PRINT</A>. 
+If the FREQUENCYF parameter is used
+for more than one of these keywords with conflicting values of N, the
+last value applies to all. A FREQUENCYF parameter stays active across several steps
+until it is overwritten by another FREQUENCYF value or the TIME POINTS parameter.
+
+<P>
+With the parameter TIME POINTS a time point sequence can be referenced,
+defined by a 
+<A HREF="node327.html#timepoints">*TIME POINTS</A> keyword. In that case, output will be
+provided for all time points of the sequence within the step and additionally at the end of
+the step. No other output will be stored and the FREQUENCYF parameter is not
+taken into account. Within a step only one time point sequence can be active. If more than
+one is specified, the last one defined on any of the keyword cards
+<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="node294.html#nodeprint">*NODE
+  PRINT</A> or <A HREF="node256.html#elprint">*EL PRINT</A> will be active. The TIME
+POINTS option should not be used together with the DIRECT option on the
+procedure card. The TIME POINTS parameters stays active across several steps
+until it is replaced by another TIME POINTS value or the FREQUENCYF parameter.
+
+<P>
+The first occurrence of an *SECTION PRINT keyword card within a step wipes
+out all previous facial variable selections for print output. If no
+*SECTION PRINT card is used within a step the selections of the previous
+step apply, if any. 
+
+<P>
+Several *SECTION PRINT
+cards can be used within one and the same step.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*SECTION PRINT
+</LI>
+<LI>Enter the parameter SURFACE and its value.
+</LI>
+</UL>
+Second line:
+
+<UL>
+<LI>Identifying keys for the variables to be printed, separated by commas.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*SECTION PRINT,SURFACE=S1,NAME=SP1
+DRAG
+</PRE>
+
+<P>
+requests the storage of the drag stresses for the faces belonging to (facial)
+set N1 in the .dat file. The name of the section print is SP1.
+
+<P>
+
+<P><P>
+<BR>
+Example files: fluid2, beamp.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5024"
+  HREF="node309.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5020"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5014"
+  HREF="node307.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5022"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5025"
+  HREF="node309.html">*SELECT CYCLIC SYMMETRY MODES</A>
+<B> Up:</B> <A NAME="tex2html5021"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5015"
+  HREF="node307.html">*RIGID BODY</A>
+ &nbsp; <B>  <A NAME="tex2html5023"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

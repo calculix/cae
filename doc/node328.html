@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*TRANSFORM</TITLE>
+<META NAME="description" CONTENT="*TRANSFORM">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node329.html">
+<LINK REL="previous" HREF="node327.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node329.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5264"
+  HREF="node329.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5260"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5254"
+  HREF="node327.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5262"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5265"
+  HREF="node329.html">*TRANSFORMF</A>
+<B> Up:</B> <A NAME="tex2html5261"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5255"
+  HREF="node327.html">*TIME POINTS</A>
+ &nbsp; <B>  <A NAME="tex2html5263"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008120000000000000000"></A><A NAME="transform"></A>
+<BR>
+*TRANSFORM
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option may be used to specify a local axis system X'-Y'-Z' to be used for defining SPC's, MPC's and nodal forces. For now, rectangular and cylindrical systems can be defined, triggered by the parameter TYPE=R (default) and TYPE=C. 
+
+<P>
+A rectangular system is defined by specifying a point a on the local X' axis and a point b belonging to the X'-Y' plane but not on the X' axis. A right hand system is assumed (Figure <A HREF="#rectsystem2">154</A>).
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="rectsystem2"></A><A NAME="12738"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 154:</STRONG>
+Definition of a rectangular coordinate system</CAPTION>
+<TR><TD><IMG
+ WIDTH="453" HEIGHT="350" BORDER="0"
+ SRC="img1808.png"
+ ALT="\begin{figure}\epsfig{file=Rect.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+When using a cylindrical system two points a and b on the axis must be given. The X' axis is in radial direction, the Z' axis in axial direction from point a to point b, and Y' is in tangential direction such that X'-Y'-Z' is a right hand system (Figure <A HREF="#cylsystem2">155</A>). 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="cylsystem2"></A><A NAME="12739"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 155:</STRONG>
+Definition of a cylindrical coordinate system</CAPTION>
+<TR><TD><IMG
+ WIDTH="453" HEIGHT="318" BORDER="0"
+ SRC="img1809.png"
+ ALT="\begin{figure}\epsfig{file=Cyl.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The parameter NSET, specifying the node set for which the transformation applies, is required. 
+
+<P>
+If several transformations are defined for one and the same node, the
+last transformation takes effect.
+
+<P>
+Notice that a non-rectangular local coordinate system is not allowed in nodes
+which belong to plane stress, plane strain, or axisymmetric elements. If a
+local rectangular system is defined the local z-axis must coincide with the
+global z-axis (= axis orthogonal to the plane in which these elements are
+defined). 
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*TRANSFORM
+</LI>
+<LI>Enter the required parameter NSET, and the optional parameter TYPE if needed.
+</LI>
+</UL>
+Second line:
+
+<UL>
+<LI>X-coordinate of point a.
+</LI>
+<LI>Y-coordinate of point a.
+</LI>
+<LI>Z-coordinate of point a.
+</LI>
+<LI>X-coordinate of point b.
+</LI>
+<LI>Y-coordinate of point b.
+</LI>
+<LI>Z-coordinate of point b.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*TRANSFORM,NSET=No1,TYPE=R
+0.,1.,0.,0.,0.,1.
+</PRE>
+
+<P>
+assigns a new rectangular coordinate system to the nodes belonging to (node) set No1. The x- and the y-axes in the local system are the y- and z-axes in the global system.
+
+<P>
+
+<P><P>
+<BR>
+Example files: segment1, segment2, segmentf, segmentm.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5264"
+  HREF="node329.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5260"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5254"
+  HREF="node327.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5262"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5265"
+  HREF="node329.html">*TRANSFORMF</A>
+<B> Up:</B> <A NAME="tex2html5261"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5255"
+  HREF="node327.html">*TIME POINTS</A>
+ &nbsp; <B>  <A NAME="tex2html5263"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

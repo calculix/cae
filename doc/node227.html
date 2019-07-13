@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*CONTACT DAMPING</TITLE>
+<META NAME="description" CONTENT="*CONTACT DAMPING">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node228.html">
+<LINK REL="previous" HREF="node226.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node228.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4052"
+  HREF="node228.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4048"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4042"
+  HREF="node226.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4050"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4053"
+  HREF="node228.html">*CONTACT FILE</A>
+<B> Up:</B> <A NAME="tex2html4049"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4043"
+  HREF="node226.html">*CONSTRAINT</A>
+ &nbsp; <B>  <A NAME="tex2html4051"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000819000000000000000"></A><A NAME="contactdamping"></A>
+<BR>
+*CONTACT DAMPING
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+With this option a damping constant can be defined for contact
+elements. It is one of the optional cards one can use within a <A HREF="node324.html#surfaceinteraction">*SURFACE
+  INTERACTION</A> definition. 
+
+<P>
+The contact damping is applied in normal direction to the master surface of the
+contact pair. The resulting damping force is the product of the damping
+coefficient with the area times the local normal velocity difference between the master and slave
+surface. With the optional parameter
+TANGENT FRACTION the user can define what fraction of the damping
+coefficient should be used in tangential direction, default is zero. For a
+nonzero tangential damping a tangential force results from the product of the
+tangential damping constant multiplied with the area times the local tangential velocity
+difference vector.
+In CalculiX, contact damping is implemented for small deformations.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*CONTACT DAMPING
+</LI>
+<LI>enter the TANGENT FRACTION parameter if needed
+</LI>
+</UL>
+
+<P>
+Second line: 
+
+<UL>
+<LI>Damping constant.
+</LI>
+</UL>
+No temperature dependence is allowed
+
+<P>
+<PRE>
+Example:
+
+*SURFACE INTERACTION,NAME=SI1
+*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR
+1.e7
+*CONTACT DAMPING
+1.e-4
+</PRE>
+
+<P>
+defines a contact damping with value <B><IMG
+ WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1592.png"
+ ALT="$ 10^{-4}$"></B> for all contact pairs using the
+surface interaction SI1.
+
+<P>
+
+<P><P>
+<BR>
+Example files: contdamp1, contdamp2.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4052"
+  HREF="node228.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4048"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4042"
+  HREF="node226.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4050"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4053"
+  HREF="node228.html">*CONTACT FILE</A>
+<B> Up:</B> <A NAME="tex2html4049"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4043"
+  HREF="node226.html">*CONSTRAINT</A>
+ &nbsp; <B>  <A NAME="tex2html4051"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

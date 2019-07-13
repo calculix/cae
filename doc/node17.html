@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Stationary laminar viscous compressible airfoil flow</TITLE>
+<META NAME="description" CONTENT="Stationary laminar viscous compressible airfoil flow">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node18.html">
+<LINK REL="previous" HREF="node16.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node18.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1076"
+  HREF="node18.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1072"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1066"
+  HREF="node16.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1074"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1077"
+  HREF="node18.html">Channel with hydraulic jump</A>
+<B> Up:</B> <A NAME="tex2html1073"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1067"
+  HREF="node16.html">Stationary laminar inviscid compressible</A>
+ &nbsp; <B>  <A NAME="tex2html1075"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000611000000000000000">
+Stationary laminar viscous compressible airfoil flow</A>
+</H2>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="nacacp"></A><A NAME="11780"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 38:</STRONG>
+Pressure coefficient for laminar viscous flow about a
+  naca012 airfoil</CAPTION>
+<TR><TD></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="nacacf"></A><A NAME="11781"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 39:</STRONG>
+Friction coefficient for laminar viscous flow about a
+  naca012 airfoil</CAPTION>
+<TR><TD></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+A further example is the laminar viscous compressible flow about a naca012
+airfoil. Results for this problem were reported by [<A
+ HREF="node448.html#Mittal">55</A>]. The entrance
+Mach number is 0.85, the Reynolds number is 2000. Of interest is the steady
+state solution. In CalculiX this is obtained by performing a transient
+CFD-calculation up to steady state. The input deck for this example is called
+naca012_visc_mach0.85_veryfine.inp and can be found amoung the CFD test
+examples. Basing the Reynolds number on the unity chord length of the airfoil,
+an entrance unity velocity
+and a entrance unity density leads to a dynamic viscosity of <!-- MATH
+ $\mu=5 \times
+10^{-4}$
+ -->
+<IMG
+ WIDTH="96" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$ \mu=5 \times
+10^{-4}$">. Taking <IMG
+ WIDTH="48" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$ c_p=1$"> and <!-- MATH
+ $\kappa=1.4$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img163.png"
+ ALT="$ \kappa=1.4$"> leads to a specific gas constant
+<IMG
+ WIDTH="77" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img164.png"
+ ALT="$ r=0.2857$"> (all in consistent units). Use of the entrance Mach number
+determines the entrance static temperature to be <IMG
+ WIDTH="70" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img165.png"
+ ALT="$ T_s=3.46$">. Finally, the
+ideal gas law leads to a entrance static pressure of <IMG
+ WIDTH="77" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img166.png"
+ ALT="$ p_s=0.989$">. Taking the
+Prandl number to be one determines the heat conductivity <!-- MATH
+ $\lambda=5 \time
+10^{-4}$
+ -->
+<IMG
+ WIDTH="60" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img167.png"
+ ALT="$ \lambda=5 \time
+10^{-4}$">. The surface of the airfoil is assumed to be adiabatic. 
+
+<P>
+The results for the pressure and the friction coefficient at the surface of
+the airfoil are shown in Figures
+<A HREF="#nacacp">38</A> and <A HREF="#nacacf">39</A>, respecively, as a function of the shock
+smoothing coefficient. The pressure coefficient is defined by
+<!-- MATH
+ $c_p=(p-p_\infty)/(0.5 \rho_\infty v_\infty^2)$
+ -->
+<IMG
+ WIDTH="185" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$ c_p=(p-p_\infty)/(0.5 \rho_\infty v_\infty^2)$">, where p is the local static
+pressure, <IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img169.png"
+ ALT="$ p_\infty$">, <!-- MATH
+ $\rho_\infty$
+ -->
+<IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img170.png"
+ ALT="$ \rho_\infty$"> and <IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img171.png"
+ ALT="$ v_\infty$"> are the static pressure,
+density and velocity at the entrance, respectively. The friction coefficient is defined by
+<!-- MATH
+ $\tau_w/(0.5 \rho_\infty v_\infty^2)$
+ -->
+<IMG
+ WIDTH="105" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img172.png"
+ ALT="$ \tau_w/(0.5 \rho_\infty v_\infty^2)$">, where <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img173.png"
+ ALT="$ \tau_w$"> is the local shear
+stress. Both graphs agree quite well with the literature, especially if one
+takes into account that the sources cited by Mittal also vary. Notice that the mesh at
+the airfoil is very fine. Indeed, <IMG
+ WIDTH="23" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img174.png"
+ ALT="$ y^+$"> at the boundary of the first layer of
+elements adjacent to the airfoil, defined by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+y^+=\sqrt{\frac{u h}{\nu}}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="83" HEIGHT="63" ALIGN="MIDDLE" BORDER="0"
+ SRC="img175.png"
+ ALT="$\displaystyle y^+=\sqrt{\frac{u h}{\nu}}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(2)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where u is the velocity in x-direction at that position, h is the element
+height and <IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="$ \nu$"> is the kinematic viscosity, reaches the value of 0.2. In
+general,no value exceeding 1 is recommended.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1076"
+  HREF="node18.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1072"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1066"
+  HREF="node16.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1074"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1077"
+  HREF="node18.html">Channel with hydraulic jump</A>
+<B> Up:</B> <A NAME="tex2html1073"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1067"
+  HREF="node16.html">Stationary laminar inviscid compressible</A>
+ &nbsp; <B>  <A NAME="tex2html1075"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

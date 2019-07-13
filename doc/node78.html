@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Bleed Tapping</TITLE>
+<META NAME="description" CONTENT="Bleed Tapping">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node79.html">
+<LINK REL="previous" HREF="node77.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node79.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2054"
+  HREF="node79.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2050"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2044"
+  HREF="node77.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2052"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2055"
+  HREF="node79.html">Preswirl Nozzle</A>
+<B> Up:</B> <A NAME="tex2html2051"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2045"
+  HREF="node77.html">Orifice</A>
+ &nbsp; <B>  <A NAME="tex2html2053"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00074200000000000000">
+Bleed Tapping</A>
+</H3>
+
+<P>
+A bleed tapping device is a special kind of static orifice (Figure
+<A HREF="#bleedtapping">87</A>), used to divert part of the main stream flow. The geometry
+can be quite complicated and the discharge coefficient should be ideally
+determined by experiments on the actual device. The basic equations are the
+same as for the orifice, only the discharge coefficient is different.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="bleedtapping"></A><A NAME="11886"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 87:</STRONG>
+Geometry of the bleed tapping fluid section</CAPTION>
+<TR><TD><IMG
+ WIDTH="449" HEIGHT="242" BORDER="0"
+ SRC="img408.png"
+ ALT="\begin{figure}\epsfig{file=Bleedtapping.eps,width=11cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The discharge coefficients provided by CalculiX are merely a rough estimate and
+are based on [<A
+ HREF="node448.html#Kutz">39</A>]. For this purpose the bleed tapping device must be described
+by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=BLEED TAPPING card):
+
+<P>
+
+<UL>
+<LI>the cross section <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$">.
+</LI>
+<LI>the ratio of the upstream static pressure to the upstream total pressure <!-- MATH
+ $p_{s_1}/p_{t_1}$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img409.png"
+ ALT="$ p_{s_1}/p_{t_1}$">.
+</LI>
+<LI>the number of a curve.
+</LI>
+</UL>
+
+<P>
+Right now, two curves are coded: curve number 1 corresponds to a tapping
+device with lip, curve number 2 to a tapping device without lip. More specific
+curves can be implemented by the user, the appropriate routine to do so is
+cd_bleedtapping.f. Alternatively, the user can enter an own curve in the input
+deck listing <IMG
+ WIDTH="57" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img410.png"
+ ALT="$ Y=C_d$"> versus <!-- MATH
+ $X=(1-p_{s_2}/p_{t_1})/(1-p_{s_1}/p_{t_1})$
+ -->
+<IMG
+ WIDTH="225" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img411.png"
+ ALT="$ X=(1-p_{s_2}/p_{t_1})/(1-p_{s_1}/p_{t_1})$">. In
+that case the input reads
+
+<P>
+
+<UL>
+<LI>the cross section <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$">.
+</LI>
+<LI>the ratio of the upstream static pressure to the upstream total pressure <!-- MATH
+ $p_{s_1}/p_{t_1}$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img409.png"
+ ALT="$ p_{s_1}/p_{t_1}$">.
+</LI>
+<LI>not used
+</LI>
+<LI>not used (internally: number of pairs)
+</LI>
+<LI><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$ X_1$">.
+</LI>
+<LI><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$ Y_1$">.
+</LI>
+<LI><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img414.png"
+ ALT="$ X_2$">.
+</LI>
+<LI><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img415.png"
+ ALT="$ Y_2$">.
+</LI>
+<LI>.. (maximum 16 entries per line; maximum of 18 pairs in total)
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2054"
+  HREF="node79.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2050"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2044"
+  HREF="node77.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2052"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2055"
+  HREF="node79.html">Preswirl Nozzle</A>
+<B> Up:</B> <A NAME="tex2html2051"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2045"
+  HREF="node77.html">Orifice</A>
+ &nbsp; <B>  <A NAME="tex2html2053"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,327 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>SPC's</TITLE>
+<META NAME="description" CONTENT="SPC's">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node380.html">
+<LINK REL="previous" HREF="node378.html">
+<LINK REL="up" HREF="node378.html">
+<LINK REL="next" HREF="node380.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6008"
+  HREF="node380.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6004"
+  HREF="node378.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5998"
+  HREF="node378.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6006"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6009"
+  HREF="node380.html">Homogeneous linear equations</A>
+<B> Up:</B> <A NAME="tex2html6005"
+  HREF="node378.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html5999"
+  HREF="node378.html">Reading the step input</A>
+ &nbsp; <B>  <A NAME="tex2html6007"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000112100000000000000">
+SPC's</A>
+</H3>
+
+<P>
+The first one is the cataloguing algorithm for SPC's (single
+point constraints, *BOUNDARY). Let's say a boundary condition m is defined for node i in
+direction j, <!-- MATH
+ $0 \le j \le 6$
+ -->
+<B><IMG
+ WIDTH="952" HEIGHT="2334" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1862.png"
+ ALT="$ 0 \le j \le 6$"></B>, direction 0 stands for temperature, directions 1
+to 3 for translations in global x-, y- and z- direction, direction 4 stands
+for static pressure, directions 5 to 7
+stand for rotations about the global x-, y- and z-axis. Then a degree of
+freedom <!-- MATH
+ $\text{idof}=8*(i-1)+j$
+ -->
+<B>idof<IMG
+ WIDTH="70" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1863.png"
+ ALT="$ =8*(i-1)+j$"></B> is assigned to this boundary condition. Then, it is
+stored at location k in the one-dimensional field ikboun, where all previous boundary
+degrees of freedom are stored in numerical order such that
+<!-- MATH
+ $\text{ikboun}(k-1)<\text{idof}<\text{ikboun}(k+1)$
+ -->
+<B>ikboun<IMG
+ WIDTH="116" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1864.png"
+ ALT="$ (k-1)&lt;$">idof<IMG
+ WIDTH="70" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1865.png"
+ ALT="$ &lt;$">ikboun<IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1866.png"
+ ALT="$ (k+1)$"></B>. Furthermore the number of the boundary
+condition (m) is stored in ilboun: <!-- MATH
+ $\text{ilboun(k)=m}$
+ -->
+<B>ilboun(k)=m</B>, and the node of the boundary
+condition, its direction and value are stored in the one-dimensional fields
+nodeboun, ndirboun and xboun: <!-- MATH
+ $\text{nodeboun}(m)=i$
+ -->
+<B>nodeboun<IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1867.png"
+ ALT="$ (m)=i$"></B>,
+<!-- MATH
+ $\text{ndirboun}(m)=j$
+ -->
+<B>ndirboun<IMG
+ WIDTH="58" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1868.png"
+ ALT="$ (m)=j$"></B> and <!-- MATH
+ $\text{xboun}(m)=\text{value}$
+ -->
+<B>xboun<IMG
+ WIDTH="60" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1869.png"
+ ALT="$ (m)=$">value</B>. If an amplitude definition applies to
+the boundary condition, its number <B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$"></B> is stored in the one-dimensional field
+iamboun: <!-- MATH
+ $\text{iamboun}(m)=n$
+ -->
+<B>iamboun<IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1870.png"
+ ALT="$ (m)=n$"></B>.  
+
+<P>
+The SPC type is stored in the one-dimensional field typeboun. SPC's can be of
+different types, depending on whether the were defined by a genuin *BOUNDARY
+CARD, or introduced for other reasons. The field typeboun is a
+one-dimensional character*1 field. Other reasons to introduce SPC's are:
+
+<P>
+
+<UL>
+<LI>fixing of the midplane in expanded plane stress/plane strain/axisymmetric
+  elements
+</LI>
+<LI>taking care of the inhomogeneous term in nonlinear MPC's such as the
+  PLANE <A HREF="node287.html#mpc">*MPC</A>, the STRAIGHT <A HREF="node287.html#mpc">*MPC</A>, a
+  <A HREF="node307.html#rigidbody">*RIGID BODY</A> definition or USER <A HREF="node287.html#mpc">*MPC</A>. 
+</LI>
+</UL>
+
+<P>
+The corresponding type code is:
+
+<P>
+
+<UL>
+<LI>B = prescribed boundary condition
+</LI>
+<LI>M = midplane constraint (plane stress/plane strain/axisymmetric elements)
+</LI>
+<LI>P = PLANE MPC
+</LI>
+<LI>R = RIGID BODY definition
+</LI>
+<LI>S = STRAIGHT MPC
+</LI>
+<LI>U = USER MPC
+</LI>
+</UL>
+
+<P>
+The total number of boundary conditions
+is stored in variable nboun.  
+
+<P>
+Consequently, ikboun
+contains all degrees of freedom of the boundary conditions in numerical
+order, and ilboun contains the corresponding boundary condition numbers. This
+assures that one can quickly check whether a given degree of freedom was used
+in a SPC. For example, if the SPC's look like:
+
+<P>
+<PRE>
+*BOUNDARY
+8,1,1,0.
+10,1,2,0.
+7,3,3,-1.
+</PRE>
+
+<P>
+the fields look like:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\text{nodeboun}=\begin{Bmatrix} 8 \\10 \\10 \\7 \end{Bmatrix},
+\text{ndirboun}=\begin{Bmatrix} 1 \\1 \\2 \\3 \end{Bmatrix},
+\text{xboun}=\begin{Bmatrix} 0. \\0. \\0. \\-1. \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER">nodeboun<IMG
+ WIDTH="62" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1871.png"
+ ALT="$\displaystyle =\begin{Bmatrix}8 \\ 10 \\ 10 \\ 7 \end{Bmatrix},$">&nbsp; &nbsp;ndirboun<IMG
+ WIDTH="73" HEIGHT="94" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1872.png"
+ ALT="$\displaystyle =\begin{Bmatrix}1 \\ 1 \\ 2 \\ 3 \end{Bmatrix},$">&nbsp; &nbsp;xboun<IMG
+ WIDTH="65" HEIGHT="94" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1873.png"
+ ALT="$\displaystyle =\begin{Bmatrix}0. \\ 0. \\ 0. \\ -1. \end{Bmatrix}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(512)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\text{typeboun}=\begin{Bmatrix} B \\B \\B \\B \end{Bmatrix},
+\text{ikboun}=\begin{Bmatrix} 45 \\50 \\64 \\65 \end{Bmatrix}, 
+\text{ilboun}=\begin{Bmatrix} 4 \\1 \\2 \\3 \end{Bmatrix}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER">typeboun<IMG
+ WIDTH="74" HEIGHT="94" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1874.png"
+ ALT="$\displaystyle =\begin{Bmatrix}B \\ B \\ B \\ B \end{Bmatrix},$">&nbsp; &nbsp;ikboun<IMG
+ WIDTH="70" HEIGHT="94" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1875.png"
+ ALT="$\displaystyle =\begin{Bmatrix}45 \\ 50 \\ 64 \\ 65 \end{Bmatrix},$">&nbsp; &nbsp;ilboun<IMG
+ WIDTH="73" HEIGHT="94" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1876.png"
+ ALT="$\displaystyle =\begin{Bmatrix}4 \\ 1 \\ 2 \\ 3 \end{Bmatrix}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(513)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+and nboun=4.
+
+<P>
+Finally, the following one-dimensional fields are also used:
+
+<P>
+
+<UL>
+<LI>nodebounold: contains the node numbers of the SPC's at the end of
+  the last step
+</LI>
+<LI>ndirbounold: contains the directions of the SPC's at the end of the last
+  step
+</LI>
+<LI>xbounold: contains the values of the SPC's at the end of the last step,
+  or, if this is the first step, zero values.
+</LI>
+<LI>xbounact: contains the values of the SPC's at the end of the present
+  increment, or, for linear calculations, at the end of the present step. The
+  field xbounact is derived from the fields xbounold and xboun by use of the
+  present time and/or amplitude information. How this is done depends on the
+  procedure and is explained later on.
+</LI>
+<LI>xbounini: contains the values of the SPC's at the end of the last
+  increment, or, if this is the first increment in the first step,
+  zero's. This field is used for nonlinear calculations only.
+</LI>
+</UL>
+
+<P>
+Notice that among the boundary conditions SPC's are somewhat special. They are
+sometimes called geometric boundary conditions to distinguish them from the
+natural boundary conditions such as the application of a concentrated or
+distributed load. To remove a natural boundary condition, just set it to
+zero. This is not true for geometric boundary conditions: by setting a SPC to
+zero, the corresponding node is fixed in space which usually does not
+correspond to what one understands by removing the SPC, i.e. free
+unconstrained motion of the node. Therefore, to remove a SPC the option OP=NEW
+must be specified on the *BOUNDARY keyword card. This removes ALL SPC
+constraints. Then, the constraints which the user does not wish to remove must
+be redefined. Depending on the procedure (*STATIC, *DYNAMIC...), the change of
+SPC's is applied in a linear way. This means that the old SPC information must
+be kept to establish this linear change. That's why the fields nodebounold and
+ndirbounold are introduced. The relationship between the old and new SPC's is
+established in subroutine spcmatch, called from ccx_2.15.c.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6008"
+  HREF="node380.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6004"
+  HREF="node378.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5998"
+  HREF="node378.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6006"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6009"
+  HREF="node380.html">Homogeneous linear equations</A>
+<B> Up:</B> <A NAME="tex2html6005"
+  HREF="node378.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html5999"
+  HREF="node378.html">Reading the step input</A>
+ &nbsp; <B>  <A NAME="tex2html6007"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

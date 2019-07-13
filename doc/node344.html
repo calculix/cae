@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Concentrated load (cload.f)</TITLE>
+<META NAME="description" CONTENT="Concentrated load (cload.f)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node345.html">
+<LINK REL="previous" HREF="node343.html">
+<LINK REL="up" HREF="node342.html">
+<LINK REL="next" HREF="node345.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5501"
+  HREF="node345.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5497"
+  HREF="node342.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5491"
+  HREF="node343.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5499"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5502"
+  HREF="node345.html">Distributed flux (dflux.f)</A>
+<B> Up:</B> <A NAME="tex2html5498"
+  HREF="node342.html">User-defined loading</A>
+<B> Previous:</B> <A NAME="tex2html5492"
+  HREF="node343.html">Concentrated flux (cflux.f)</A>
+ &nbsp; <B>  <A NAME="tex2html5500"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00094200000000000000"></A><A NAME="usercload"></A>
+<BR>
+Concentrated load (cload.f)
+</H3>
+
+<P>
+This subroutine is used for user-defined concentrated load, characterized
+by the parameter USER on the <A HREF="node223.html#cload">*CLOAD</A> card. The header and variable description is as
+follows:
+
+<P>
+<PRE>
+      subroutine cload(xload,kstep,kinc,time,node,idof,coords,vold,
+     &amp;  mi,ntrans,trab,inotr,veold)
+!
+!     user subroutine cload
+!
+!
+!     INPUT:
+!
+!     kstep              step number
+!     kinc               increment number
+!     time(1)            current step time
+!     time(2)            current total time
+!     node               node number
+!     idof               degree of freedom
+!     coords(1..3)       global coordinates of the node
+!     vold(0..mi(2)
+!              ,1..nk)   solution field in all nodes (for modal
+!                        dynamics: in all nodes for which output
+!                        was requested or a force was applied)
+!                        0: temperature
+!                        1: displacement in global x-direction
+!                        2: displacement in global y-direction
+!                        3: displacement in global z-direction
+!                        4: static pressure
+!     mi(1)              max # of integration points per element (max
+!                        over all elements)
+!     mi(2)              max degree of freedomm per node (max over all
+!                        nodes) in fields like v(0:mi(2))...
+!     veold(0..3,1..nk)  derivative of the solution field w.r.t.
+!                        time in all nodes(for modal
+!                        dynamics: in all nodes for which output
+!                        was requested or a force was applied)
+!                        0: temperature rate
+!                        1: velocity in global x-direction
+!                        2: velocity in global y-direction
+!                        3: velocity in global z-direction
+!     ntrans             number of transform definitions
+!     trab(1..6,i)       coordinates of two points defining transform i
+!     trab(7,i)          -1: cylindrical transformation
+!                         1: rectangular transformation 
+!     inotr(1,j)         transformation number applied to node j
+!     inotr(2,j)         a SPC in a node j in which a transformation
+!                        applied corresponds to a MPC. inotr(2,j) 
+!                        contains the number of a new node generated
+!                        for the inhomogeneous part of the MPC
+!
+!     OUTPUT:
+!
+!     xload              concentrated load in direction idof of node
+!                        "node" (global coordinates)
+!
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Maximum distance MPC.</TITLE>
+<META NAME="description" CONTENT="Maximum distance MPC.">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node369.html">
+<LINK REL="previous" HREF="node367.html">
+<LINK REL="up" HREF="node366.html">
+<LINK REL="next" HREF="node369.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5800"
+  HREF="node369.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5796"
+  HREF="node366.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5790"
+  HREF="node367.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5798"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5801"
+  HREF="node369.html">Network MPC.</A>
+<B> Up:</B> <A NAME="tex2html5797"
+  HREF="node366.html">User-defined nonlinear equations</A>
+<B> Previous:</B> <A NAME="tex2html5791"
+  HREF="node367.html">Mean rotation MPC.</A>
+ &nbsp; <B>  <A NAME="tex2html5799"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00097200000000000000">
+Maximum distance MPC.</A>
+</H3>
+
+<P>
+This MPC is used to specify that the (Euclidean) distance between two nodes a and b must
+not exceed a given distance d. A fictitious node c must be defined using the
+<A HREF="node291.html#node">*NODE</A> card. The distance d should be assigned to the first coordinate
+of c, the other coordinates are arbitrary. The first DOF of c should be
+assigned a value of zero by means of a <A HREF="node209.html#boundary">*BOUNDARY</A> card. Since
+all DOFs of nodes a and b are used in the MPC, these nodes must be listed
+three times. Notice that due to this MPC discontinuities can arise.
+
+<P>
+<PRE>
+Example:
+
+*NODE
+262,7.200000,0.,0.
+*MPC
+DIST,129,129,129,10,10,10,262
+..
+*STEP
+*STATIC
+*BOUNDARY
+262,1,1,0.
+..
+*END STEP
+</PRE>
+
+<P>
+specifies a maximum distance MPC. The distance between nodes 129 and 10 is not
+allowed to exceed 7.2 units.
+
+<P>
+
+<P><P>
+<BR>
+Example file: dist.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

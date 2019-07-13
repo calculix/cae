@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Restrictor, Wall Orifice</TITLE>
+<META NAME="description" CONTENT="Restrictor, Wall Orifice">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node89.html">
+<LINK REL="previous" HREF="node87.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node89.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2174"
+  HREF="node89.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2170"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2164"
+  HREF="node87.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2172"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2175"
+  HREF="node89.html">Restrictor, Entrance</A>
+<B> Up:</B> <A NAME="tex2html2171"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2165"
+  HREF="node87.html">Restrictor, Bend</A>
+ &nbsp; <B>  <A NAME="tex2html2173"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000741200000000000000">
+Restrictor, Wall Orifice</A>
+</H3>
+
+<P>
+Properties: adiabatic, not isentropic, directional, <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$">-outlet based restrictor
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="longorificewall"></A><A NAME="11966"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 100:</STRONG>
+Geometry of a wall orifice</CAPTION>
+<TR><TD><IMG
+ WIDTH="496" HEIGHT="542" BORDER="0"
+ SRC="img549.png"
+ ALT="\begin{figure}\epsfig{file=Long_orifice_wall.eps,width=11cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The geometry of an wall orifice is shown in Figure <A HREF="#longorificewall">100</A>.
+It is described by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=RESTRICTOR
+WALL ORIFICE card):
+
+<P>
+
+<UL>
+<LI>not used (internally: set to 100,000 <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$"> as upstream section)
+</LI>
+<LI>reduced cross section <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$">.
+</LI>
+<LI>hydraulic diameter <IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img540.png"
+ ALT="$ D_h$"> defined by <IMG
+ WIDTH="87" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img541.png"
+ ALT="$ D_h=4 A/P$"> where <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img542.png"
+ ALT="$ P$"> is the
+  perimeter of the cross section. 
+</LI>
+<LI>length L
+</LI>
+<LI>oil mass flow in the restrictor (only if the OIL parameter is used to define
+  the kind of oil in the *FLUID SECTION card)
+</LI>
+<LI>not used (internally: oil material number)
+</LI>
+</UL>
+
+<P>
+The loss coefficient for a wall orifice is taken from [<A
+ HREF="node448.html#Idelchik">33</A>].
+
+<P>
+By specifying the parameter LIQUID on the *FLUID SECTION card the loss is
+calculated for liquids. In the absence of this parameter, compressible losses
+are calculated. 
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,265 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*STATIC</TITLE>
+<META NAME="description" CONTENT="*STATIC">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node317.html">
+<LINK REL="previous" HREF="node315.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node317.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5120"
+  HREF="node317.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5116"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5110"
+  HREF="node315.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5118"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5121"
+  HREF="node317.html">*STEADY STATE DYNAMICS</A>
+<B> Up:</B> <A NAME="tex2html5117"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5111"
+  HREF="node315.html">*SPRING</A>
+ &nbsp; <B>  <A NAME="tex2html5119"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008108000000000000000"></A><A NAME="static"></A>
+<BR>
+*STATIC
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+This procedure is used to perform a static analysis. The load consists of the
+sum of the load of the last *STATIC step and the load specified in the present
+step with replacement of redefined loads. This card is also correct for steady
+state incompressible flow calculations without heat transfer.
+
+<P>
+There are five optional parameters: SOLVER, DIRECT, EXPLICIT, TIME RESET and
+TOTAL TIME AT START. SOLVER determines the
+package used to solve the ensuing system of equations. The following solvers
+can be selected:
+
+<P>
+
+<UL>
+<LI>the SGI solver
+</LI>
+<LI>PARDISO
+</LI>
+<LI>SPOOLES [<A
+ HREF="node448.html#Ashcraft1">3</A>,<A
+ HREF="node448.html#Ashcraft2">4</A>]. 
+</LI>
+<LI>TAUCS 
+</LI>
+<LI>the iterative solver by Rank and Ruecker [<A
+ HREF="node448.html#Rank">65</A>], which is based on
+  the algorithms by Schwarz [<A
+ HREF="node448.html#Schwarz">69</A>]. 
+</LI>
+</UL>
+
+<P>
+Default is the first solver which has been installed of the following list:
+SGI, PARDISO, SPOOLES and TAUCS. If none is installed, the default is the iterative solver, which comes with the CalculiX
+package.
+
+<P>
+The SGI solver should by now be considered as outdated. SPOOLES is very fast, but has no
+out-of-core capability: the size of systems you can solve is limited by your
+RAM memory. With 2GB of RAM you can solve up to 250,000 equations. TAUCS is
+also good, but my experience is limited to the <B><IMG
+ WIDTH="36" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1577.png"
+ ALT="$ LL^T$"></B> decomposition, which
+only applies to positive definite systems. It has an out-of-core capability
+and also offers a <B><IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1578.png"
+ ALT="$ LU$"></B> decomposition, however, I was not able to run either of
+them so far. Next comes the iterative solver. If SOLVER=ITERATIVE SCALING is
+selected, the pre-conditioning is limited to a scaling of the diagonal terms,
+SOLVER=ITERATIVE CHOLESKY triggers Incomplete Cholesky
+pre-conditioning. Cholesky pre-conditioning leads to a better convergence and
+maybe to shorter execution times, however, it requires additional storage
+roughly corresponding to the non-zeros in the matrix. If you are short of
+memory, diagonal scaling might be your last resort. The iterative methods
+perform well for truly three-dimensional structures. For instance,
+calculations for a hemisphere were about nine times faster with the ITERATIVE
+SCALING solver, and three times faster with the ITERATIVE CHOLESKY solver than
+with SPOOLES. For two-dimensional structures such as plates or shells, the
+performance might break down drastically and convergence often requires the
+use of Cholesky pre-conditioning. SPOOLES (and any of the other direct solvers)
+performs well in most situations with emphasis on slender structures but
+requires much more storage than the iterative solver. PARDISO is the Intel proprietary solver and is to my knowledge
+presently the fastest.
+
+<P>
+The parameter DIRECT is relevant for nonlinear calculations only, and
+indicates that automatic incrementation should be switched off.
+
+<P>
+The parameter EXPLICIT is only important for fluid computations. If present,
+the fluid computation is explicit, else it is semi-implicit. Static structural
+computations are always implicit.
+
+<P>
+The parameter TIME RESET can be used to force the total time at the
+end of the present step to coincide with the total time at the end of the
+previous step. If there is no previous step the targeted total time is
+zero. If this parameter is absent the total time at the end of the present step is the
+total time at the end of the previous step plus the time period of the present
+step (2nd parameter underneath the *STATIC keyword). Consequently, if the time
+at the end of the previous step is 10. and the present time period is 1., the
+total time at the end of the present step is 11. If the TIME RESET parameter
+is used, the total time at the beginning of the present step is 9. and at the
+end of the present step it will be 10. This is sometimes useful if
+thermomechanical calculations are split into transient heat transfer steps
+followed by quasi-static static steps (this can be faster than using the
+*COUPLED TEMPERATURE-DISPLACEMENT option, which forces the same amount of
+iterations for the thermal as for the mechanical calculations and than using
+the *UNCOUPLED TEMPERATURE-DISPLACEMENT option, which forces the same amount
+of increments for the thermal as for the mechanical calculations). In CalculiX the static step needs a
+finite time period, however, the user frequently does not want the quasi-static
+step to change the time count.
+
+<P>
+Finally, the parameter TOTAL TIME AT START can be used to set the total time
+at the start of the step to a specific value.
+
+<P>
+In a static step, loads are by default applied in a linear way. Other loading
+patterns can be defined by an <A HREF="node206.html#amplitude">*AMPLITUDE</A> card.
+
+<P>
+If nonlinearities are present in the model (geometric nonlinearity or material
+nonlinearity), the solution is obtained through iteration. Since the step may
+be too large to obtain convergence, a subdivision of the step in increments is
+usually necessary. The user can define the length of the initial
+increment. This size is kept constant if the parameter DIRECT is selected,
+else it is varied by CalculiX according to the convergence properties of the
+solution. In a purely linear calculation the step size is always 1., no
+iterations are performed and, consequently, no second line underneath *STATIC
+is needed. 
+
+<P>
+Notice that any creep behavior (e.g. by using the keyword
+<A HREF="node235.html#creep">*CREEP</A>) is switched off in a *STATIC step. To include creep
+use the <A HREF="node335.html#visco">*VISCO</A> keyword. The syntax for both keywords is the same.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*STATIC
+</LI>
+<LI>Enter any needed parameters and their values.
+</LI>
+</UL>
+Second line (only relevant for nonlinear analyses; for linear analyses, the
+step length is always 1)
+
+<UL>
+<LI>Initial time increment. This value will be modified due to automatic incrementation, unless the parameter DIRECT was specified (default 1.).
+</LI>
+<LI>Time period of the step (default 1.).
+</LI>
+<LI>Minimum time increment allowed. Only active if DIRECT is not specified. Default is the initial time increment or 1.e-5 times the time period of the step, whichever is smaller.
+</LI>
+<LI>Maximum time increment allowed. Only active if DIRECT is not specified. Default is 1.e+30.
+</LI>
+<LI>Initial time increment for CFD applications (default 1.e-2)
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*STATIC,DIRECT
+.1,1.
+</PRE>
+
+<P>
+defines a static step and selects the SPOOLES solver as linear equation solver in the step (default). If the step is a linear one, the other parameters are of no importance. If the step is nonlinear, the second line indicates that the initial time increment is .1 and the total step time is 1. Furthermore, the parameter DIRECT leads to a fixed time increment. Thus, if successful, the calculation consists of 10 increments of length 0.1.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beampic, beampis.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5120"
+  HREF="node317.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5116"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5110"
+  HREF="node315.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5118"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5121"
+  HREF="node317.html">*STEADY STATE DYNAMICS</A>
+<B> Up:</B> <A NAME="tex2html5117"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5111"
+  HREF="node315.html">*SPRING</A>
+ &nbsp; <B>  <A NAME="tex2html5119"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

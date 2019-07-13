@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*CHANGE PLASTIC</TITLE>
+<META NAME="description" CONTENT="*CHANGE PLASTIC">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node220.html">
+<LINK REL="previous" HREF="node218.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node220.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3956"
+  HREF="node220.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3952"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3946"
+  HREF="node218.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3954"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3957"
+  HREF="node220.html">*CHANGE SURFACE BEHAVIOR</A>
+<B> Up:</B> <A NAME="tex2html3953"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3947"
+  HREF="node218.html">*CHANGE MATERIAL</A>
+ &nbsp; <B>  <A NAME="tex2html3955"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000811000000000000000"></A><A NAME="changeplastic"></A>
+<BR>
+*CHANGE PLASTIC
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+With this option one can redefine plastic data of an elastically isotropic
+material with explicitly defined isotropic or kinematic hardening data within a
+step. Combined hardening or user-defined hardening data are not allowed.
+
+<P>
+There is one optional parameter
+HARDENING. Default is HARDENING=ISOTROPIC, the only other value is
+HARDENING=KINEMATIC for kinematic hardening. All constants may be temperature
+dependent. 
+
+<P>
+For the selection of plastic output variables the reader is referred to
+Section <A HREF="node150.html#incplas">6.8.7</A>.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*CHANGE PLASTIC
+</LI>
+<LI>Enter the HARDENING parameter and its value, if needed
+</LI>
+</UL>
+
+<P>
+Following sets of lines define the isotropic hardening curve for HARDENING=ISOTROPIC and the kinematic hardening curve for HARDENING=KINEMATIC:
+First line in the first set:
+
+<UL>
+<LI>Von Mises stress.
+</LI>
+<LI>Equivalent plastic strain.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Use as many lines in the first set as needed to define the complete hardening curve for this temperature.
+
+<P>
+Use as many sets as needed to define complete temperature dependence. Notice
+that it is not allowed to use more plastic strain data points or temperature
+data points than the amount used for the first definition of the plastic
+behavior for this material (in the <A HREF="node301.html#plastic">*PLASTIC</A> card.
+
+<P>
+The raison d'&#234;tre for this card is its ability to switch from purely plastic
+behavior to creep behavior and vice-versa. The viscoplastic for isotropic
+materials in CalculiX is an overstress model, i.e. creep only occurs above the
+yield stress. For a lot of materials this is not realistic. It is observed in
+blades and vanes that at high temperatures creep occurs at stresses well below
+the yield stress. By using the *CHANGE PLASTIC card the yield stress can be
+lowered to zero in a creep (*VISCO) step following a inviscid (*STATIC)
+plastic deformation step. 
+
+<P>
+<PRE>
+Example:
+
+*CHANGE PLASTIC
+0.,0.
+0.,1.e10
+</PRE>
+
+<P>
+defines a material with yield stress zero.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beampiso2
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3956"
+  HREF="node220.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3952"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3946"
+  HREF="node218.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3954"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3957"
+  HREF="node220.html">*CHANGE SURFACE BEHAVIOR</A>
+<B> Up:</B> <A NAME="tex2html3953"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html3947"
+  HREF="node218.html">*CHANGE MATERIAL</A>
+ &nbsp; <B>  <A NAME="tex2html3955"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

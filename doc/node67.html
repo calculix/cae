@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Two-node 3-dimensional spring (SPRING2)</TITLE>
+<META NAME="description" CONTENT="Two-node 3-dimensional spring (SPRING2)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node68.html">
+<LINK REL="previous" HREF="node66.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node68.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1899"
+  HREF="node68.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1895"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1889"
+  HREF="node66.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1897"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1900"
+  HREF="node68.html">Two-node 3-dimensional spring (SPRINGA)</A>
+<B> Up:</B> <A NAME="tex2html1896"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1890"
+  HREF="node66.html">One-node 3-dimensional spring (SPRING1)</A>
+ &nbsp; <B>  <A NAME="tex2html1898"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000724100000000000000">
+Two-node 3-dimensional spring (SPRING2)</A>
+</H3>
+
+<P>
+This is a spring element which is attached to two nodes (Figure <A HREF="node68.html#springf">83</A>). The directions
+<!-- MATH
+ $\boldsymbol{n_1}$
+ -->
+<IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img294.png"
+ ALT="$ \boldsymbol{n_1}$"> and <!-- MATH
+ $\boldsymbol{n_2}$
+ -->
+<IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img295.png"
+ ALT="$ \boldsymbol{n_2}$"> determining the action of the spring
+have to be defined by the user
+underneath the <A HREF="node315.html#spring">*SPRING</A> keyword card by specifying the
+appropriate degrees of freedom. These degrees of freedom can be local if the
+ORIENTATION parameter is used on the *SPRING card. Usually, it does not make
+sense to take a different degree of freedom in node 1 and node2. If <!-- MATH
+ $\boldsymbol{u_1}$
+ -->
+<IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img281.png"
+ ALT="$ \boldsymbol{u_1}$"> is the
+displacement in node 1 (and similar for node 2) and <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"> is the spring
+constant, the force in node 1 is obtained by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{F_1}=K [(\boldsymbol{u_1} \cdot \boldsymbol{n_1}) \boldsymbol{n_1}
+- (\boldsymbol{u_2} \cdot \boldsymbol{n_2}) \boldsymbol{n_1}],
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="255" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img296.png"
+ ALT="$\displaystyle \boldsymbol{F_1}=K [(\boldsymbol{u_1} \cdot \boldsymbol{n_1}) \boldsymbol{n_1} - (\boldsymbol{u_2} \cdot \boldsymbol{n_2}) \boldsymbol{n_1}],$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(12)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and the force in node 2 by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{F_2}=- K [(\boldsymbol{u_1} \cdot \boldsymbol{n_1}) \boldsymbol{n_2}
+- (\boldsymbol{u_2} \cdot \boldsymbol{n_2}) \boldsymbol{n_2}].
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="267" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img297.png"
+ ALT="$\displaystyle \boldsymbol{F_2}=- K [(\boldsymbol{u_1} \cdot \boldsymbol{n_1}) \boldsymbol{n_2} - (\boldsymbol{u_2} \cdot \boldsymbol{n_2}) \boldsymbol{n_2}].$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(13)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+A nonlinear spring can be defined by specifying a piecewise linear force
+versus elongation relationship (underneath the *SPRING card).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1899"
+  HREF="node68.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1895"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1889"
+  HREF="node66.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1897"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1900"
+  HREF="node68.html">Two-node 3-dimensional spring (SPRINGA)</A>
+<B> Up:</B> <A NAME="tex2html1896"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1890"
+  HREF="node66.html">One-node 3-dimensional spring (SPRING1)</A>
+ &nbsp; <B>  <A NAME="tex2html1898"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

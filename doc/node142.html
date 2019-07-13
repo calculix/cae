@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Tangent contact stiffness</TITLE>
+<META NAME="description" CONTENT="Tangent contact stiffness">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node141.html">
+<LINK REL="up" HREF="node138.html">
+<LINK REL="next" HREF="node143.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2857"
+  HREF="node143.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2853"
+  HREF="node138.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2849"
+  HREF="node141.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2855"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2858"
+  HREF="node143.html">Materials</A>
+<B> Up:</B> <A NAME="tex2html2854"
+  HREF="node138.html">Face-to-Face Penalty Contact</A>
+<B> Previous:</B> <A NAME="tex2html2850"
+  HREF="node141.html">Normal contact stiffness</A>
+ &nbsp; <B>  <A NAME="tex2html2856"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00077640000000000000">
+Tangent contact stiffness</A>
+</H4>
+
+<P>
+Due to the assumption that the projection of the slave integration point on
+the master surface does not change during and increment, and that the local
+normal on the master surface does not change either, the equations derived in
+the section on node-to-face contact simplity to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial \boldsymbol{t} }{\partial \boldsymbol{u_p} } = (\boldsymbol{I}
+- \boldsymbol{n} \otimes \boldsymbol{n}) \cdot \frac{\partial
+    \boldsymbol{s}  }{\partial \boldsymbol{u_p} },
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="190" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img970.png"
+ ALT="$\displaystyle \frac{\partial \boldsymbol{t} }{\partial \boldsymbol{u_p} } = (\b...
+...ldsymbol{n}) \cdot \frac{\partial \boldsymbol{s} }{\partial \boldsymbol{u_p} },$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(249)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+where
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{\partial \boldsymbol{s} }{\partial \boldsymbol{u_p} }= \boldsymbol{I}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="72" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img971.png"
+ ALT="$\displaystyle \frac{\partial \boldsymbol{s} }{\partial \boldsymbol{u_p} }= \boldsymbol{I}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(250)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>  
+
+<P>
+Equation (<A HREF="node137.html#eq117">223</A>) now reduces to    
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="69" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img972.png"
+ ALT="$\displaystyle \frac{\partial \boldsymbol{t_{(\tau)}}_{n+1} }{\partial \boldsymbol{u_p}_{n+1} }$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="203" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img973.png"
+ ALT="$\displaystyle = \mu \boldsymbol{\xi }_{n+1} \otimes \left [ -\boldsymbol{n} \cd...
+...c{\partial \boldsymbol{t_{(n)}}_{n+1}}{\partial \boldsymbol{u_p}_{n+1}} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="316" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
+ SRC="img974.png"
+ ALT="$\displaystyle + \mu \frac{\Vert\boldsymbol{t_{(n)}}_{n+1} \Vert}{\Vert\boldsymb...
+...ot K_t \frac{\partial \boldsymbol{t}_{n+1} }{\partial \boldsymbol{u_p}_{n+1}. }$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(251)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>      
+
+<P>
+Be careful to distinguish <!-- MATH
+ $\boldsymbol{t_{(n)}}_{n+1}$
+ -->
+<IMG
+ WIDTH="57" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img975.png"
+ ALT="$ \boldsymbol{t_{(n)}}_{n+1}$"> and
+<!-- MATH
+ $\boldsymbol{t_{(\tau)}}_{n+1}$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img976.png"
+ ALT="$ \boldsymbol{t_{(\tau)}}_{n+1}$">, which are tractions, from
+<!-- MATH
+ $\boldsymbol{t}_{n+1}$
+ -->
+<IMG
+ WIDTH="36" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img977.png"
+ ALT="$ \boldsymbol{t}_{n+1}$">, which is a tangential differential displacement.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

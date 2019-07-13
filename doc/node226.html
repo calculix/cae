@@ -1,0 +1,265 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*CONSTRAINT</TITLE>
+<META NAME="description" CONTENT="*CONSTRAINT">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node227.html">
+<LINK REL="previous" HREF="node225.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node227.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4040"
+  HREF="node227.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4036"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4030"
+  HREF="node225.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4038"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4041"
+  HREF="node227.html">*CONTACT DAMPING</A>
+<B> Up:</B> <A NAME="tex2html4037"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4031"
+  HREF="node225.html">*CONDUCTIVITY</A>
+ &nbsp; <B>  <A NAME="tex2html4039"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000818000000000000000"></A><A NAME="constraint"></A>
+<BR>
+*CONSTRAINT
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+With *CONSTRAINT one can define constraints in a sensitivity step. It can only
+be used for design variables of type COORDINATE. Furthermore, exactly one
+objective function has to be defined within the same sensitivity step (using
+the <A HREF="node297.html#objective">*OBJECTIVE</A> keyword).
+
+<P>
+A constraint is an inequality expressing a condition on the objective
+function. The inequality can be of type ``smaller than or equal'' (LE) or
+``larger than or equal'' (GE). The reference value for the inequality is to
+be specified by a relative portion of an absolute value (the latter in the
+units used by the user). For instance, suppose the user introduces an absolute
+value of 20 and a relative value of 0.9 for a LE constraint on the mass. Than
+the mass is not allowed to exceed 0.9 <B><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img13.png"
+ ALT="$ \times$"></B> 20 = 18 mass units. If the
+absolute value is zero, the initial value is taken, e.g. for the mass this
+corresponds to the mass at the start of the calculation.
+
+<P>
+Right now, the following constraints are allowed:
+
+<P>
+
+<UL>
+<LI>DISPLACEMENT: the sum of the square of the displacements in all nodes of
+  the structure or of a subset if a node set is defined
+</LI>
+<LI>EIGENFREQUENCY: all eigenfrequencies calculated in a previous
+<A HREF="node265.html#frequency">*FREQUENCY</A> step
+</LI>
+<LI>MASS: mass of the total structure or of a subset if
+  an element set is defined
+</LI>
+<LI>SHAPEENERGY: internal energy of the total structure or of a subset if
+  an element set is defined
+</LI>
+<LI>STRESS: the maximum von Mises stress of the total structure or of a
+  subset if a node set is defined. The maximum is approximated by the
+  Kreisselmeier-Steinhauser function 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+f=\frac{1}{\rho} \ln \sum_i e^{\rho \frac{\sigma_{i}}{\bar{\sigma}}},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="126" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1589.png"
+ ALT="$\displaystyle f=\frac{1}{\rho} \ln \sum_i e^{\rho \frac{\sigma_{i}}{\bar{\sigma}}},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(465)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1590.png"
+ ALT="$ \sigma_i$"></B> is the von Mises stress in node i, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> and  <!-- MATH
+ $\bar{\sigma}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1591.png"
+ ALT="$ \bar{\sigma}$"></B>
+are user-defined parameters. The higher <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> the closer <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img484.png"
+ ALT="$ f$"></B> is to the actual
+maximum (a value of 10 is recommended; the higher this value, the sharper the
+turns in the function). <!-- MATH
+ $\bar{\sigma}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1591.png"
+ ALT="$ \bar{\sigma}$"></B> is the target stress, it
+should not be too far
+away from the actual maximum.
+</LI>
+<LI>THICKNESS: the maximum thickness across a node set w.r.t. an opposite
+  node set.
+</LI>
+<LI>FIXGROWTH: the maximum thickness increase across a node set (only LE allowed).
+</LI>
+<LI>FIXSHRINKAGE: the maximum thickness decrease across a node set (only GE allowed).
+
+<P>
+</LI>
+</UL>
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*CONSTRAINT.
+</LI>
+</UL>
+
+<P>
+Second line:
+
+<UL>
+<LI>the constraint
+</LI>
+<LI>an element or node set, if appropriate
+</LI>
+<LI>LE for ``smaller than or equal'', GE for ``larger than or equal''
+</LI>
+<LI>a relative value for the constraint, or, for the THICKNESS constraint,
+  the opposite node set
+</LI>
+<LI>an absolute value for the constraint
+</LI>
+<LI><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> for the Kreisselmeier-Steinhauser function (only for the stress as constraint)
+</LI>
+<LI><!-- MATH
+ $\bar{\sigma}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1591.png"
+ ALT="$ \bar{\sigma}$"></B> for the Kreisselmeier-Steinhauser function (only for the
+  stress as constraint)
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*CONSTRAINT.
+MASS,E1,LE,,3.
+</PRE>
+
+<P>
+specifies that the mass of element set E1 should not exceed 3 in the user's units.
+
+<P>
+
+<P><P>
+<BR>
+Example files: .
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4040"
+  HREF="node227.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4036"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4030"
+  HREF="node225.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4038"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4041"
+  HREF="node227.html">*CONTACT DAMPING</A>
+<B> Up:</B> <A NAME="tex2html4037"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4031"
+  HREF="node225.html">*CONDUCTIVITY</A>
+ &nbsp; <B>  <A NAME="tex2html4039"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

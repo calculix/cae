@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Three-node network element (D)</TITLE>
+<META NAME="description" CONTENT="Three-node network element (D)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node64.html">
+<LINK REL="previous" HREF="node62.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node64.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1851"
+  HREF="node64.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1847"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1841"
+  HREF="node62.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1849"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1852"
+  HREF="node64.html">Two-node unidirectional gap element</A>
+<B> Up:</B> <A NAME="tex2html1848"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1842"
+  HREF="node62.html">Three-node 3D truss element</A>
+ &nbsp; <B>  <A NAME="tex2html1850"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000723700000000000000"></A><A NAME="tnfe"></A>
+<BR>
+Three-node network element (D)
+</H3>
+
+<P>
+This is a general purpose network element used in forced convection
+applications. It consists of three nodes: two corner nodes and one midside node. 
+The node numbering is shown in Figure <A HREF="node59.html#c1d3">77</A>. In the corner nodes the only
+active degrees of freedom are the temperature degree of freedom (degree of
+freedom 11) and the pressure degree of freedom (degree of freedom 2). These nodes can
+be used in forced convection <A HREF="node261.html#film">*FILM</A> conditions. In the middle
+node the only active degree of freedom is degree of freedom 1, and stands for
+the mass flow rate through the element. A positive mass flow rate flows from
+local node 1 to local node 3, a negative mass flow rate in the reverse
+direction. It can be defined using a <A HREF="node209.html#boundary">*BOUNDARY</A> card for
+the first degree of freedom of the midside node of the element. Fluid material
+properties can be defined using the <A HREF="node282.html#material">*MATERIAL</A>,
+<A HREF="node263.html#fluidconstants">*FLUID CONSTANTS</A> and <A HREF="node313.html#specificgasconstant">*SPECIFIC GAS
+  CONSTANT</A> cards  and assigned by the
+<A HREF="node264.html#fluidsection">*FLUID SECTION</A> card.
+
+<P>
+network elements form fluid dynamic networks and should not share any node with any
+other type of element. Basically, analyses involving fluid dynamic networks
+belong to one of the following two types of calculations:
+
+<P>
+
+<UL>
+<LI>Pure thermomechanical calculations. In that case the mass flow in all
+  elements of the network is known and the only unknowns are the temperature
+  (in the network and the structure) and displacements (in the
+  structure). This mode is automatically activated if all mass flows are
+  specified using boundary cards. In that case, pressures in the network are
+  NOT calculated. Furthermore, the type of network element is not relevant and
+  should not be specified.
+</LI>
+<LI>Fully coupled calculations involving fluid thermodynamical calculations
+  with structural thermomechanical calculations. This mode is triggered if the
+  mass flow in at least one of the network elements is not known. It requires
+  for each network element the specification of its fluid section type. 
+</LI>
+</UL>
+
+<P>
+The available types of fluid sections are listed in subsection
+<A HREF="node76.html#fluidsectiontypesgases">6.4</A> and <A HREF="node101.html#fluidsectiontypesliquids">6.5</A>.
+
+<P>
+Notice that three-node network elements are one-dimensional and can account for two- or
+three-dimensional effects in the fluid flow only to a limited degree.
+
+<P>
+A special kind of network element is one in which one of the corner nodes is
+zero (also called a dummy network element). This type is element is used at those locations where mass flow enters
+or leaves the network. In this case the corner node which is not connected to any
+other network element gets the label zero. This node has no degrees of
+freedom. The degree of freedom 1 of the midside node corresponds to the entering or
+leaving mass flow.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1851"
+  HREF="node64.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1847"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1841"
+  HREF="node62.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1849"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1852"
+  HREF="node64.html">Two-node unidirectional gap element</A>
+<B> Up:</B> <A NAME="tex2html1848"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1842"
+  HREF="node62.html">Three-node 3D truss element</A>
+ &nbsp; <B>  <A NAME="tex2html1850"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

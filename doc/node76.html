@@ -1,0 +1,963 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Fluid Section Types: Gases</TITLE>
+<META NAME="description" CONTENT="Fluid Section Types: Gases">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node101.html">
+<LINK REL="previous" HREF="node72.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node77.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2006"
+  HREF="node77.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2002"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1996"
+  HREF="node75.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2004"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2007"
+  HREF="node77.html">Orifice</A>
+<B> Up:</B> <A NAME="tex2html2003"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html1997"
+  HREF="node75.html">General</A>
+ &nbsp; <B>  <A NAME="tex2html2005"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00074000000000000000"></A><A NAME="fluidsectiontypesgases"></A>
+<BR>
+Fluid Section Types: Gases
+</H2>
+
+<P>
+Before introducing the fluid section types for gases, a couple of fundamental
+aerodynamic equations are introduced. For details, the reader is referred to
+[<A
+ HREF="node448.html#Moran">57</A>]. 
+The thermodynamic state of a gas is usually determined by the static pressure
+<IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$">, the static temperature <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img342.png"
+ ALT="$ T$"> and the density <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$">. For an ideal gas (the
+case considered here), they are related by <!-- MATH
+ $p=\rho r T$
+ -->
+<IMG
+ WIDTH="61" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img343.png"
+ ALT="$ p=\rho r T$"> (the
+ideal gas equation), where
+<IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img58.png"
+ ALT="$ r$"> is the specific gas constant. <IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img58.png"
+ ALT="$ r$"> only depends on the material, it does
+not depend on the temperature.
+
+<P>
+The energy conservation law runs like [<A
+ HREF="node448.html#Dhondt">18</A>]:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="energyequation"></A><!-- MATH
+ \begin{equation}
+\rho \frac{D \varepsilon}{Dt} = v_{k,l}t_{kl}-pv_{k,k}-q_{k,k}+\rho h^{\theta},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="247" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img344.png"
+ ALT="$\displaystyle \rho \frac{D \varepsilon}{Dt} = v_{k,l}t_{kl}-pv_{k,k}-q_{k,k}+\rho h^{\theta},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(21)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where D denotes the total derivative. By use of the mass conservation:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="massequation"></A><!-- MATH
+ \begin{equation}
+\frac{\partial \rho}{\partial t} + (\rho v_k)_{,k}=0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="122" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img345.png"
+ ALT="$\displaystyle \frac{\partial \rho}{\partial t} + (\rho v_k)_{,k}=0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(22)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and the conservation of momentum
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="momentumequation"></A><!-- MATH
+ \begin{equation}
+\rho \left( \frac{\partial v_k}{\partial t} + v_{k,l}v_l \right) =
+t_{kl,l}-p_{,k}+\rho f_k
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="252" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img346.png"
+ ALT="$\displaystyle \rho \left( \frac{\partial v_k}{\partial t} + v_{k,l}v_l \right) = t_{kl,l}-p_{,k}+\rho f_k$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(23)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+this equation can also be written as
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{D[\rho(\varepsilon+v_kv_k/2)]}{Dt}=(v_kt_{kl})_{,l}-(pv_k)_{,k}+\rho v_k
+f_k-q_{k,k}+\rho h^{\theta},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="420" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img347.png"
+ ALT="$\displaystyle \frac{D[\rho(\varepsilon+v_kv_k/2)]}{Dt}=(v_kt_{kl})_{,l}-(pv_k)_{,k}+\rho v_k f_k-q_{k,k}+\rho h^{\theta},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(24)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+or
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eneqfinal"></A><!-- MATH
+ \begin{equation}
+\frac{D[\rho(h+v_kv_k/2)]}{Dt}=(v_kt_{kl})_{,l}+\frac{\partial p}{\partial t}+\rho v_k
+f_k-q_{k,k}+\rho h^{\theta},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="396" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img348.png"
+ ALT="$\displaystyle \frac{D[\rho(h+v_kv_k/2)]}{Dt}=(v_kt_{kl})_{,l}+\frac{\partial p}{\partial t}+\rho v_k f_k-q_{k,k}+\rho h^{\theta},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(25)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $h=\varepsilon+p/\rho$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img349.png"
+ ALT="$ h=\varepsilon+p/\rho$"> is the entalpy. For an ideal gas one can write
+<IMG
+ WIDTH="61" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img350.png"
+ ALT="$ h=c_p T$">, <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"> is the heat capacity at constant pressure. 
+
+<P>
+The total temperature <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img351.png"
+ ALT="$ T_t$"> is now defined as the temperature which is obtained by
+slowing down the fluid to zero velocity in an adiabatic way. Using the energy
+equation (<A HREF="#eneqfinal">25</A>), dropping the first term on the right hand side
+because of ideal gas conditions (no viscosity), the second term because of
+stationarity, the third term because of the absence of volumetric forces and
+the last two terms because of adiabatic conditions one obtains the relationship:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{D[\rho(c_p T +v_kv_k/2)]}{Dt}=0,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="177" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img352.png"
+ ALT="$\displaystyle \frac{D[\rho(c_p T +v_kv_k/2)]}{Dt}=0,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(26)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+along a stream line (recall that the meaning of the total derivative
+<IMG
+ WIDTH="59" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img353.png"
+ ALT="$ DX/Dt$"> is the change
+of <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img354.png"
+ ALT="$ X$"> following a particle), or
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+T_t=T+\frac{v^2}{2 c_p},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="102" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img355.png"
+ ALT="$\displaystyle T_t=T+\frac{v^2}{2 c_p},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(27)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where v is the magnitude
+of the velocity. The Mach
+number is defined by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="defmach"></A><!-- MATH
+ \begin{equation}
+M=\frac{v}{\sqrt{\kappa r T}},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="93" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
+ SRC="img356.png"
+ ALT="$\displaystyle M=\frac{v}{\sqrt{\kappa r T}},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(28)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img357.png"
+ ALT="$ \kappa$"> is the specific heat ratio and the denominator is the speed of sound. Therefore, the
+total temperature satisfies:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+T_t=T(1+\frac{\kappa-1}{2}M^2).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="161" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img358.png"
+ ALT="$\displaystyle T_t=T(1+\frac{\kappa-1}{2}M^2).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(29)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The total pressure is defined as the pressure which is attained by slowing
+down the fluid flow in an isentropic way, i.e. a reversible adiabatic way. An
+ideal gas is isentropic if <!-- MATH
+ $p^{1-\kappa}T^{\kappa}$
+ -->
+<IMG
+ WIDTH="57" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img359.png"
+ ALT="$ p^{1-\kappa}T^{\kappa}$"> is constant, which leads
+to the relationship
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{p_t}{p}= \left(\frac{T_t}{T} \right) ^{\frac{\kappa}{\kappa-1}},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="118" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img360.png"
+ ALT="$\displaystyle \frac{p_t}{p}= \left(\frac{T_t}{T} \right) ^{\frac{\kappa}{\kappa-1}},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(30)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and consequently to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+p_t=p(1+\frac{\kappa-1}{2}M^2) ^{\frac{\kappa}{\kappa-1}}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="181" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img361.png"
+ ALT="$\displaystyle p_t=p(1+\frac{\kappa-1}{2}M^2) ^{\frac{\kappa}{\kappa-1}}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(31)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Substituting the definition of mass flow <!-- MATH
+ $\dot{m}=\rho A v$
+ -->
+<IMG
+ WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img362.png"
+ ALT="$ \dot{m}=\rho A v$">, where <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$"> is the
+cross section of the fluid channel, in the definition of the Mach number (and
+using the ideal gas equation to substitute <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$">) leads
+to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+M=\frac{\dot{m}\sqrt{rT}}{A p \sqrt{\kappa}}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="97" HEIGHT="59" ALIGN="MIDDLE" BORDER="0"
+ SRC="img364.png"
+ ALT="$\displaystyle M=\frac{\dot{m}\sqrt{rT}}{A p \sqrt{\kappa}}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(32)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Expressing the pressure and temperature as a function of the total pressure
+and total temperature, respectively, finally leads to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="generalgaseqn"></A><!-- MATH
+ \begin{equation}
+\frac{\dot{m}\sqrt{rT_t}}{A p_t \sqrt{\kappa}}= M \left( 1+\frac{\kappa-1}{2}M^2
+\right) ^ {-\frac{(\kappa+1)}{2(\kappa-1)}}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="271" HEIGHT="71" ALIGN="MIDDLE" BORDER="0"
+ SRC="img365.png"
+ ALT="$\displaystyle \frac{\dot{m}\sqrt{rT_t}}{A p_t \sqrt{\kappa}}= M \left( 1+\frac{\kappa-1}{2}M^2 \right) ^ {-\frac{(\kappa+1)}{2(\kappa-1)}}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(33)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+This is the general gas equation, which applies to all types of flow for ideal
+gases. The left hand side is called the corrected flow. The right hand side exhibits a maximum for <IMG
+ WIDTH="51" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img366.png"
+ ALT="$ M=1$">, i.e. sonic
+conditions. 
+
+<P>
+It is further possible to derive general statements for isentropic flow
+through network elements. Isentropic flow is reversible adiabatic by
+definition. Due to the adiabatic conditions the total enthalpy <!-- MATH
+ $h_t=c_p T_t$
+ -->
+<IMG
+ WIDTH="70" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img367.png"
+ ALT="$ h_t=c_p T_t$">
+is constant or
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="isentropicenergy"></A><!-- MATH
+ \begin{equation}
+dh+v dv=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="100" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img368.png"
+ ALT="$\displaystyle dh+v dv=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(34)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The first law of thermodynamics (conservation of energy) specifies that
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+d \varepsilon = \delta q + \delta w,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="100" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img369.png"
+ ALT="$\displaystyle d \varepsilon = \delta q + \delta w,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(35)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+or, because of the adiabatic and reversible conditions
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+d \varepsilon = -p d \left( \frac{1}{\rho} \right).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="115" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img370.png"
+ ALT="$\displaystyle d \varepsilon = -p d \left( \frac{1}{\rho} \right).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(36)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Since the enthalpy <!-- MATH
+ $h= \varepsilon + p/\rho$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img349.png"
+ ALT="$ h=\varepsilon+p/\rho$">, one further obtains
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+dh=dp/\rho.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="80" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img371.png"
+ ALT="$\displaystyle dh=dp/\rho.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(37)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Substituting this in the equation we started from leads to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+dp=-\rho v dv.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="92" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img372.png"
+ ALT="$\displaystyle dp=-\rho v dv.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(38)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The continuity equation through a network element with cross section <IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$">,
+<IMG
+ WIDTH="50" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img373.png"
+ ALT="$ \rho v A=$"> constant can be written in the following differential form:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="massconservationpipe"></A><!-- MATH
+ \begin{equation}
+\frac{d \rho}{\rho} + \frac{d v}{v} + \frac{d A}{A}=0,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="142" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img374.png"
+ ALT="$\displaystyle \frac{d \rho}{\rho} + \frac{d v}{v} + \frac{d A}{A}=0,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(39)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+or, with the equation above
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{d \rho}{\rho} - \frac{d p}{\rho v^2} + \frac{d A}{A}=0,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="149" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img375.png"
+ ALT="$\displaystyle \frac{d \rho}{\rho} - \frac{d p}{\rho v^2} + \frac{d A}{A}=0,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(40)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+which leads to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{d A}{A}=\frac{d p}{\rho v^2}-\frac{d \rho}{\rho} =\frac{d p}{\rho v^2}
+\left( 1 - \frac{v^2}{ \left( \frac{dp}{d \rho} \right) } \right).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="270" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img376.png"
+ ALT="$\displaystyle \frac{d A}{A}=\frac{d p}{\rho v^2}-\frac{d \rho}{\rho} =\frac{d p}{\rho v^2} \left( 1 - \frac{v^2}{ \left( \frac{dp}{d \rho} \right) } \right).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(41)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Since <!-- MATH
+ $\sqrt{\frac{dp}{d \rho}}$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="48" ALIGN="MIDDLE" BORDER="0"
+ SRC="img377.png"
+ ALT="$ \sqrt{\frac{dp}{d \rho}}$"> is the speed of sound (use the
+isentropic relation <!-- MATH
+ $p \propto \rho^{\kappa}$
+ -->
+<IMG
+ WIDTH="50" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img378.png"
+ ALT="$ p \propto \rho^{\kappa}$"> and the ideal gas equation
+<!-- MATH
+ $p=\rho r T$
+ -->
+<IMG
+ WIDTH="61" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img343.png"
+ ALT="$ p=\rho r T$"> to arrive at <!-- MATH
+ $dp/d\rho = \kappa r T = c^2$
+ -->
+<IMG
+ WIDTH="130" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img379.png"
+ ALT="$ dp/d\rho = \kappa r T = c^2$">), one arives at:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\frac{d A}{A}=\frac{d p}{\rho v^2}
+( 1 - M^2 ) = -\frac{d v}{v}( 1 - M^2 ).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="264" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img380.png"
+ ALT="$\displaystyle \frac{d A}{A}=\frac{d p}{\rho v^2} ( 1 - M^2 ) = -\frac{d v}{v}( 1 - M^2 ).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(42)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Therefore, for subsonic network flow an increasing cross section leads to a
+decreasing velocity and an increasing pressure, whereas a decreasing cross
+section leads to an increasing velocity and a decreasing pressure. This is
+similar to what happens for incompressible flow in a tube. 
+
+<P>
+For supersonic flow an increasing cross section leads to an increasing
+velocity and a decreasing pressure whereas a decreasing cross section  leads
+to a decreasing velocity and an increasing pressure.
+
+<P>
+Sonic conditions can only occur if <IMG
+ WIDTH="54" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img381.png"
+ ALT="$ dA=0$">, in reality this corresponds to a
+minimum of the cross section. Therefore, if we assume that the network
+elements are characterized by a uniformly increasing or decreasing cross
+section sonic conditions can only occur at the end nodes. This is important
+information for the derivation of the specific network element equations.
+
+<P>
+Using the definition of entropy per unit mass s satisfying <!-- MATH
+ $Tds=\delta q$
+ -->
+<IMG
+ WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img382.png"
+ ALT="$ Tds=\delta q$"> and the definition
+of enthalpy the first law of thermodynamics for reversible processes runs like
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+dh=Tds+\frac{dp}{\rho}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="114" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img383.png"
+ ALT="$\displaystyle dh=Tds+\frac{dp}{\rho}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(43)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Therefore
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+ds=\frac{dh}{T}-\frac{dp}{\rho T}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="110" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img384.png"
+ ALT="$\displaystyle ds=\frac{dh}{T}-\frac{dp}{\rho T}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(44)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>.
+
+<P>
+For an ideal gas <!-- MATH
+ $dh=c_p(T)dT$
+ -->
+<IMG
+ WIDTH="101" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img385.png"
+ ALT="$ dh=c_p(T)dT$"> and <IMG
+ WIDTH="61" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img343.png"
+ ALT="$ p=\rho r T$"> and consequently
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+ds=c_p(T) \frac{dT}{T} - r \frac{dp}{p}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="150" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img386.png"
+ ALT="$\displaystyle ds=c_p(T) \frac{dT}{T} - r \frac{dp}{p}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(45)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+or
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+s_2-s_1=\int_{T_1}^{T_2} c_p(T) \frac{dT}{T} - r \ln \frac{p_2}{p_1}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="238" HEIGHT="59" ALIGN="MIDDLE" BORDER="0"
+ SRC="img387.png"
+ ALT="$\displaystyle s_2-s_1=\int_{T_1}^{T_2} c_p(T) \frac{dT}{T} - r \ln \frac{p_2}{p_1}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(46)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Since all variables in the above equation are state variables, it also applies
+to irreversible processes. If the specific heat is temperature independent one
+obtains
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="entropytemppres"></A><!-- MATH
+ \begin{equation}
+s_2-s_1=c_p \ln \frac{T_2}{T_1} - r \ln \frac{p_2}{p_1},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="196" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img388.png"
+ ALT="$\displaystyle s_2-s_1=c_p \ln \frac{T_2}{T_1} - r \ln \frac{p_2}{p_1},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(47)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+linking the entropy difference between two states to the temperature and
+pressure difference.
+
+<P>
+Typical material properties needed for a gas network are the specific gas
+constant <IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img58.png"
+ ALT="$ r$"> (<A HREF="node313.html#specificgasconstant">*SPECIFIC GAS CONSTANT</A> card), the
+heat capacity at constant pressure <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"> and the dynamic viscosity <IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"> (both
+temperature dependent and to be specified with the <A HREF="node263.html#fluidconstants">FLUID
+  CONSTANTS</A> card). 
+
+<P>
+A special case is the purely thermal gas network. This applies if:
+
+<UL>
+<LI>no TYPE is specified on any *FLUID SECTION card or
+</LI>
+<LI>the parameter THERMAL NETWORK is used on the *STEP card or
+</LI>
+<LI>all mass flow is given and either all pressures or given or none.
+</LI>
+</UL>
+In that case only <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"> is needed.
+
+<P>
+A network element is characterized by a type of fluid section. It has to be
+specified on the <A HREF="node264.html#fluidsection">*FLUID SECTION</A> card unless the
+analysis is a pure thermomechanical calculation. For gases, several types are
+available. At the start of the description of each type the main properties
+are summarized: ``adiabatic'' means that no heat is exchanged within the element;
+``isentropic'' refers to constant entropy, i.e. flow without losses; ``symmetric''
+means that the same relations apply for reversed flow; ``directional'' means that
+the flow is not allowed to be reversed.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2008"
+  HREF="node77.html">Orifice</A>
+<LI><A NAME="tex2html2009"
+  HREF="node78.html">Bleed Tapping</A>
+<LI><A NAME="tex2html2010"
+  HREF="node79.html">Preswirl Nozzle</A>
+<LI><A NAME="tex2html2011"
+  HREF="node80.html">Straight and Stepped Labyrinth</A>
+<LI><A NAME="tex2html2012"
+  HREF="node81.html">Characteristic</A>
+<LI><A NAME="tex2html2013"
+  HREF="node82.html">Carbon Seal</A>
+<LI><A NAME="tex2html2014"
+  HREF="node83.html">Gas Pipe (Fanno)</A>
+<LI><A NAME="tex2html2015"
+  HREF="node84.html">Restrictor, Long Orifice</A>
+<LI><A NAME="tex2html2016"
+  HREF="node85.html">Restrictor, Enlargement</A>
+<LI><A NAME="tex2html2017"
+  HREF="node86.html">Restrictor, Contraction</A>
+<LI><A NAME="tex2html2018"
+  HREF="node87.html">Restrictor, Bend</A>
+<LI><A NAME="tex2html2019"
+  HREF="node88.html">Restrictor, Wall Orifice</A>
+<LI><A NAME="tex2html2020"
+  HREF="node89.html">Restrictor, Entrance</A>
+<LI><A NAME="tex2html2021"
+  HREF="node90.html">Restrictor, Exit</A>
+<LI><A NAME="tex2html2022"
+  HREF="node91.html">Restrictor, User</A>
+<LI><A NAME="tex2html2023"
+  HREF="node92.html">Branch, Joint</A>
+<LI><A NAME="tex2html2024"
+  HREF="node93.html">Branch, Split</A>
+<LI><A NAME="tex2html2025"
+  HREF="node94.html">Cross, Split</A>
+<LI><A NAME="tex2html2026"
+  HREF="node95.html">Vortex</A>
+<LI><A NAME="tex2html2027"
+  HREF="node96.html">M&#246;hring</A>
+<LI><A NAME="tex2html2028"
+  HREF="node97.html">Change absolute/relative system</A>
+<LI><A NAME="tex2html2029"
+  HREF="node98.html">In/Out</A>
+<LI><A NAME="tex2html2030"
+  HREF="node99.html">Mass Flow Percent</A>
+<LI><A NAME="tex2html2031"
+  HREF="node100.html">Network User Element</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2006"
+  HREF="node77.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2002"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1996"
+  HREF="node75.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2004"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2007"
+  HREF="node77.html">Orifice</A>
+<B> Up:</B> <A NAME="tex2html2003"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html1997"
+  HREF="node75.html">General</A>
+ &nbsp; <B>  <A NAME="tex2html2005"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

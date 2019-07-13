@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Line search</TITLE>
+<META NAME="description" CONTENT="Line search">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node187.html">
+<LINK REL="previous" HREF="node185.html">
+<LINK REL="up" HREF="node183.html">
+<LINK REL="next" HREF="node187.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3424"
+  HREF="node187.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3420"
+  HREF="node183.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3414"
+  HREF="node185.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3422"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3425"
+  HREF="node187.html">Network iterations</A>
+<B> Up:</B> <A NAME="tex2html3421"
+  HREF="node183.html">Convergence criteria</A>
+<B> Previous:</B> <A NAME="tex2html3415"
+  HREF="node185.html">Contact</A>
+ &nbsp; <B>  <A NAME="tex2html3423"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000710300000000000000">
+Line search</A>
+</H3>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="linesearch"></A><A NAME="12582"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 143:</STRONG>
+Principle of the line search method</CAPTION>
+<TR><TD><IMG
+ WIDTH="449" HEIGHT="324" BORDER="0"
+ SRC="img1517.png"
+ ALT="\begin{figure}\epsfig{file=linesearch.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In the case of static calculations with face-to-face penalty contact the
+displacement increment <!-- MATH
+ $\Delta \boldsymbol{u}$
+ -->
+<B><IMG
+ WIDTH="29" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1518.png"
+ ALT="$ \Delta \boldsymbol{u}$"></B> in each iteration is scaled
+with a scalar <B><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B> in order to get better convergence. <B><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B> is
+determined such that the residual (i.e. external force minus internal force) of the scaled solution <!-- MATH
+ $\boldsymbol{u} + \lambda
+\Delta \boldsymbol{u}$
+ -->
+<B><IMG
+ WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1519.png"
+ ALT="$ \boldsymbol{u} + \lambda
+\Delta \boldsymbol{u}$"></B> is orthogonal to the displacement increment:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\Delta \boldsymbol{u} \cdot \boldsymbol{R} (\boldsymbol{u}+ \lambda \Delta
+\boldsymbol{u}) = 0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="164" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1520.png"
+ ALT="$\displaystyle \Delta \boldsymbol{u} \cdot \boldsymbol{R} (\boldsymbol{u}+ \lambda \Delta \boldsymbol{u}) = 0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(451)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Now, the residual for <B><IMG
+ WIDTH="43" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1521.png"
+ ALT="$ \lambda=0$"></B> is known from the previous increment, and
+the residual for <B><IMG
+ WIDTH="43" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img426.png"
+ ALT="$ \lambda=1$"></B> is known from the present increment. In between a
+linear relationship is assumed (cf. Figure <A HREF="#linesearch">143</A>), which yields the
+value of <B><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B> without extra calculations. With the
+<A HREF="node232.html#controls">*CONTROLS</A> card the user can specify a value for
+<!-- MATH
+ $\lambda_{\text{min}}$
+ -->
+<B><IMG
+ WIDTH="36" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1522.png"
+ ALT="$ \lambda_{\text{min}}$"></B> (default: 0.25) and <!-- MATH
+ $\lambda_{\text{max}}$
+ -->
+<B><IMG
+ WIDTH="38" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1523.png"
+ ALT="$ \lambda_{\text{max}}$"></B>(default: 1.01).
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

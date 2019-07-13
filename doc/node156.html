@@ -1,0 +1,847 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Elastic anisotropy with isotropic
+viscoplasticity.</TITLE>
+<META NAME="description" CONTENT="Elastic anisotropy with isotropic
+viscoplasticity.">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node157.html">
+<LINK REL="previous" HREF="node155.html">
+<LINK REL="up" HREF="node143.html">
+<LINK REL="next" HREF="node157.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3040"
+  HREF="node157.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3036"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3030"
+  HREF="node155.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3038"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3041"
+  HREF="node157.html">Elastic anisotropy with isotropic</A>
+<B> Up:</B> <A NAME="tex2html3037"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3031"
+  HREF="node155.html">The Cailletaud single crystal</A>
+ &nbsp; <B>  <A NAME="tex2html3039"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000781300000000000000">
+Elastic anisotropy with isotropic
+viscoplasticity.</A>
+</H3>
+
+<P>
+<A NAME="s533"></A>
+<P>
+This model describes small deformations for elastically anisotropic materials with a von
+Mises type yield surface. Often, this model is used as a compromise
+for anisotropic materials with lack of data or detailed knowledge
+about the anisotropic behavior in the viscoplastic range.
+
+<P>
+The total strain is supposed to be the sum of the elastic strain and
+the plastic strain:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\mbox{\boldmath${\epsilon}$}=\mbox{\boldmath${\epsilon^e}$}+\mbox{\boldmath${\epsilon^p}$}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1048.png"
+ ALT="$\displaystyle \mbox{\boldmath${\epsilon}$}$"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1049.png"
+ ALT="$\displaystyle =$"><IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1050.png"
+ ALT="$\displaystyle \mbox{\boldmath${\epsilon^e}$}$"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img331.png"
+ ALT="$\displaystyle +$"><IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1051.png"
+ ALT="$\displaystyle \mbox{\boldmath${\epsilon^p}$}$"><IMG
+ WIDTH="9" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1052.png"
+ ALT="$\displaystyle .$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(283)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+An isotropic hardening variable <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1053.png"
+ ALT="$ q_1$"> and a kinematic
+hardening tensor <!-- MATH
+ $\mathbf{q_2}$
+ -->
+<IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1103.png"
+ ALT="$ \mathbf{q_2}$"> are introduced representing the
+isotropic and kinematic change of the yield surface,
+respectively. The yield surface takes the form:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+f := \left\| \mbox{\boldmath {$dev({\sigma})$}} + \mathbf{q_2} \right\| +
+\sqrt{\frac{2}{3}}(q_1-r_0) = 0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="283" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1104.png"
+ ALT="$\displaystyle f := \left\Vert \mbox{\boldmath {$dev({\sigma})$}} + \mathbf{q_2} \right\Vert + \sqrt{\frac{2}{3}}(q_1-r_0) = 0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(284)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\mbox{\boldmath ${dev(\sigma)}$}$
+ -->
+<!-- MATH
+ ${dev(\sigma)}$
+ -->
+<B><IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1105.png"
+ ALT="$ {dev(\sigma)}$"></B> is the deviatoric stress tensor, and <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1106.png"
+ ALT="$ r_0$"></B> is the
+size of the elastic range at zero yield. The constitutive equations for the
+hardening variables satisfy:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+q_1 = -d_1 \alpha_1
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="85" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1107.png"
+ ALT="$\displaystyle q_1 = -d_1 \alpha_1$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(285)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\mathbf{q_2} = - \frac{2}{3} d_2 \mbox{\boldmath${\alpha_2}$}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="83" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1108.png"
+ ALT="$\displaystyle \mathbf{q_2} = - \frac{2}{3} d_2$">&nbsp; &nbsp;<IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1109.png"
+ ALT="$\displaystyle \mbox{\boldmath${\alpha_2}$}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(286)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img554.png"
+ ALT="$ \alpha_1$"></B> and <!-- MATH
+ $\mbox{\boldmath ${\alpha_2}$}$
+ -->
+<B><!-- MATH
+ ${\alpha_2}$
+ -->
+<B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1110.png"
+ ALT="$ {\alpha_2}$"></B></B> are the hardening variables
+ in strain space. It can be shown that
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\alpha_1={\epsilon}^{peq},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="74" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1111.png"
+ ALT="$\displaystyle \alpha_1={\epsilon}^{peq},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(287)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+{\alpha_2}^{eq}={\epsilon}^{peq},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="87" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1112.png"
+ ALT="$\displaystyle {\alpha_2}^{eq}={\epsilon}^{peq},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(288)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ ${\epsilon}^{peq}$
+ -->
+<B><IMG
+ WIDTH="31" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1113.png"
+ ALT="$ {\epsilon}^{peq}$"></B> is the equivalent plastic strain 
+defined by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+{\epsilon}^{peq} = \sqrt{\frac{2}{3}} \left \| \mbox{\boldmath${{\epsilon}^p}$} \right
+\|.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="121" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1114.png"
+ ALT="$\displaystyle {\epsilon}^{peq} = \sqrt{\frac{2}{3}} \left \Vert \mbox{\boldmath${{\epsilon}^p}$} \right \Vert.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(289)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and <!-- MATH
+ ${\alpha_2}^{eq}$
+ -->
+<B><IMG
+ WIDTH="35" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1115.png"
+ ALT="$ {\alpha_2}^{eq}$"></B> is the equivalent value of the tensor
+<!-- MATH
+ $\mbox{\boldmath ${\alpha_2}$}$
+ -->
+<B><!-- MATH
+ ${\alpha_2}$
+ -->
+<B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1110.png"
+ ALT="$ {\alpha_2}$"></B></B> defined in a similar way. Thus, the
+constitutive equations amount to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+q_1 = -d_1 {\epsilon}^{peq}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="94" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1116.png"
+ ALT="$\displaystyle q_1 = -d_1 {\epsilon}^{peq}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(290)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+{q_2}^{eq} = d_2 {\epsilon}^{peq},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="99" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1117.png"
+ ALT="$\displaystyle {q_2}^{eq} = d_2 {\epsilon}^{peq},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(291)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+{q_2}^{eq} = \sqrt{\frac{3}{2}} \left \| \mathbf{q_2} \right
+\|
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="117" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1118.png"
+ ALT="$\displaystyle {q_2}^{eq} = \sqrt{\frac{3}{2}} \left \Vert \mathbf{q_2} \right \Vert$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(292)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+has the meaning of an equivalent stress value or von Mises value. The
+same applies to <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1053.png"
+ ALT="$ q_1$"></B>. Consequently, the constitutive equations assume a
+linear relationship between the hardening stress and the equivalent
+plastic strain.
+
+<P>
+The constitutive equation for the stress is
+ Hooke's law:
+
+<P>
+
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\sigma=C : \epsilon^e.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="79" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1064.png"
+ ALT="$\displaystyle \sigma=C : \epsilon^e.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(293)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The evolution equations for the plastic strain and the hardening
+variables in strain space are given by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\mbox{\boldmath${\dot{\epsilon}^p}$} =
+\dot{\gamma} \mathbf{n},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1065.png"
+ ALT="$\displaystyle \mbox{\boldmath${\dot{\epsilon}^p}$}$"><IMG
+ WIDTH="45" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1119.png"
+ ALT="$\displaystyle = \dot{\gamma} \mathbf{n},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(294)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\dot{\alpha}_1 = \sqrt{\frac{2}{3}} \dot{\gamma},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="84" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1120.png"
+ ALT="$\displaystyle \dot{\alpha}_1 = \sqrt{\frac{2}{3}} \dot{\gamma},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(295)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\mbox{\boldmath${\dot{\alpha}_2}$} = \dot{\gamma} \mathbf{n},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1121.png"
+ ALT="$\displaystyle \mbox{\boldmath${\dot{\alpha}_2}$}$"><IMG
+ WIDTH="45" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1119.png"
+ ALT="$\displaystyle = \dot{\gamma} \mathbf{n},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(296)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\mathbf{n}  =
+ \frac {\mbox{\boldmath${dev(\sigma)}$} + \mathbf{q_2}}
+{\left \| \mbox{\boldmath${dev(\sigma)}$} + \mathbf{q_2} \right \| }.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="151" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1122.png"
+ ALT="$\displaystyle \mathbf{n} = \frac {\mbox{\boldmath${dev(\sigma)}$} + \mathbf{q_2}} {\left \Vert \mbox{\boldmath${dev(\sigma)}$} + \mathbf{q_2} \right \Vert }.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(297)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The variable <!-- MATH
+ $\dot{\gamma}$
+ -->
+<IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1123.png"
+ ALT="$ \dot{\gamma}$"> is the consistency coefficient known
+from the Kuhn-Tucker conditions in optimization theory
+[<A
+ HREF="node448.html#Luenberger">45</A>]. It can be proven to satisfy:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\dot{\gamma} =  \sqrt{\frac{3}{2}} \dot{\epsilon}^{peq},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="93" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1124.png"
+ ALT="$\displaystyle \dot{\gamma} = \sqrt{\frac{3}{2}} \dot{\epsilon}^{peq},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(298)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Finally, the creep rate is modeled as a power law
+function of the yield exceedance and total time t:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\dot{\epsilon^{peq}} = A \left \langle \sqrt{\frac{3}{2}} f \right
+\rangle ^ {n} t^m.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="163" HEIGHT="67" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1125.png"
+ ALT="$\displaystyle \dot{\epsilon^{peq}} = A \left \langle \sqrt{\frac{3}{2}} f \right \rangle ^ {n} t^m.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(299)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The brackets <!-- MATH
+ $\langle \rangle$
+ -->
+<IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1078.png"
+ ALT="$ \langle \rangle$"> reduce negative function values to zero
+while leaving positive values unchanged, i.e. <!-- MATH
+ $\langle x \rangle =0$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1032.png"
+ ALT="$ \langle x \rangle=0$">
+if <IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1033.png"
+ ALT="$ x &lt; 0$"> and <!-- MATH
+ $\langle x \rangle =x$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1034.png"
+ ALT="$ \langle x \rangle=x$"> if <IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1035.png"
+ ALT="$ x \ge 0$">.
+
+<P>
+In the present implementation orthotropic elastic behavior is
+assumed. Consequently, for each temperature 15
+constants need to be defined: the elastic constants <IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1082.png"
+ ALT="$ C_{1111}$">,
+<IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1083.png"
+ ALT="$ C_{1122}$">, <IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1126.png"
+ ALT="$ C_{2222}$">,<IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1127.png"
+ ALT="$ C_{1133}$">,
+<IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1128.png"
+ ALT="$ C_{2233}$">, <IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1129.png"
+ ALT="$ C_{3333}$">,<IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1084.png"
+ ALT="$ C_{1212}$">,
+<IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1130.png"
+ ALT="$ C_{1313}$">, <IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1131.png"
+ ALT="$ C_{2323}$">, and the viscoplastic constants 
+<!-- MATH
+ $r_0,d_1,d_2,A,n,m$
+ -->
+<IMG
+ WIDTH="120" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1132.png"
+ ALT="$ r_0,d_1,d_2,A,n,m$">. 
+
+<P>
+The material
+definition consists of a *MATERIAL card defining the name of
+the material. This name HAS TO START WITH ''ANISO_PLAS'' but can be
+up to 80 characters long. Thus, the last 70 characters can be freely
+chosen by the user. Within the material definition a <A HREF="node332.html#usermaterial">*USER
+MATERIAL</A> card has to be used satisfying:
+
+<P>
+First line:
+
+<UL>
+<LI>*USER MATERIAL
+</LI>
+<LI>Enter the CONSTANTS parameter and its value, i.e. 15.
+</LI>
+</UL>
+
+<P>
+Following lines, in sets of 2:
+
+<P>
+
+<P><P>
+<BR>
+First line of set:
+
+<UL>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1082.png"
+ ALT="$ C_{1111}$">.
+</LI>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1083.png"
+ ALT="$ C_{1122}$">.
+</LI>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1126.png"
+ ALT="$ C_{2222}$">.
+</LI>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1127.png"
+ ALT="$ C_{1133}$">.
+</LI>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1128.png"
+ ALT="$ C_{2233}$">.
+</LI>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1129.png"
+ ALT="$ C_{3333}$">.
+</LI>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1084.png"
+ ALT="$ C_{1212}$">.
+</LI>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1130.png"
+ ALT="$ C_{1313}$">.
+</LI>
+</UL>
+Second line of set:
+
+<UL>
+<LI><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1131.png"
+ ALT="$ C_{2323}$">.
+</LI>
+<LI><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1106.png"
+ ALT="$ r_0$">.
+</LI>
+<LI><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1133.png"
+ ALT="$ d_1$">.
+</LI>
+<LI><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1134.png"
+ ALT="$ d_2$">.
+</LI>
+<LI><IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img363.png"
+ ALT="$ A$">.
+</LI>
+<LI><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img605.png"
+ ALT="$ n$">.
+</LI>
+<LI><IMG
+ WIDTH="18" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img177.png"
+ ALT="$ m$">.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+
+<P>
+Repeat this set if needed to define complete temperature dependence.
+
+<P>
+The principal axes of the material are assumed to coincide with the global
+coordinate system. If this is not the case, use an
+<A HREF="node298.html#orientation">*ORIENTATION</A> card to define a local system.
+
+<P>
+For this model, there are 14 internal state variables: 
+
+<UL>
+<LI>the equivalent plastic strain <!-- MATH
+ ${\epsilon}^{peq}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1113.png"
+ ALT="$ {\epsilon}^{peq}$"> (1)
+</LI>
+<LI>the plastic strain tensor <!-- MATH
+ ${\epsilon^p}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1135.png"
+ ALT="$ {\epsilon^p}$"></B> (6) 
+</LI>
+<LI>the isotropic hardening variable <B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img554.png"
+ ALT="$ \alpha_1$"></B> (1)
+</LI>
+<LI>the kinematic hardening tensor <!-- MATH
+ $\mathbf{\alpha_2}$
+ -->
+<B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1136.png"
+ ALT="$ \mathbf{\alpha_2}$"></B> (6)
+</LI>
+</UL>
+
+<P>
+These variables are accessible through the <A HREF="node256.html#elprint">*EL
+PRINT</A> (.dat file) and <A HREF="node255.html#elfile">*EL FILE</A> (.frd file)
+keywords in exactly this order (label SDV). The
+<A HREF="node242.html#depvar">*DEPVAR</A> card must be included in the material
+definition with a value of 14.
+
+<P>
+<PRE>
+Example:
+
+*MATERIAL,NAME=ANISO_PLAS
+*USER MATERIAL,CONSTANTS=15
+500000.,157200.,500000.,157200.,157200.,500000.,126200.,126200.,
+126200.,0.,0.,0.,1.E-10,5,0.
+*DEPVAR
+14
+</PRE>
+
+<P>
+defines a single crystal with elastic constants
+500000., 157200., 500000., 157200., 157200., 500000., 126200., 126200.,
+126200., and viscoplastic parameters <B><IMG
+ WIDTH="52" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1137.png"
+ ALT="$ r_0=0.$"></B>, <B><IMG
+ WIDTH="53" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1138.png"
+ ALT="$ d_1=0.$"></B>, <B><IMG
+ WIDTH="54" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1139.png"
+ ALT="$ d_2=0.$"></B>,
+<!-- MATH
+ $A={10}^{-10}$
+ -->
+<B><IMG
+ WIDTH="77" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1140.png"
+ ALT="$ A={10}^{-10}$"></B>, <B><IMG
+ WIDTH="43" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1141.png"
+ ALT="$ n=5$"></B> and <B><IMG
+ WIDTH="48" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1142.png"
+ ALT="$ m=0$"></B>. Thus, the yield surface has a zero radius
+and there is no hardening. Only creep is activated.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3040"
+  HREF="node157.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3036"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3030"
+  HREF="node155.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3038"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3041"
+  HREF="node157.html">Elastic anisotropy with isotropic</A>
+<B> Up:</B> <A NAME="tex2html3037"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3031"
+  HREF="node155.html">The Cailletaud single crystal</A>
+ &nbsp; <B>  <A NAME="tex2html3039"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

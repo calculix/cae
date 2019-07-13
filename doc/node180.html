@@ -1,0 +1,2298 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Electromagnetism </TITLE>
+<META NAME="description" CONTENT="Electromagnetism ">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node181.html">
+<LINK REL="previous" HREF="node179.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node181.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3349"
+  HREF="node181.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3345"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3339"
+  HREF="node179.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3347"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3350"
+  HREF="node181.html">Sensitivity</A>
+<B> Up:</B> <A NAME="tex2html3346"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3340"
+  HREF="node179.html">Substructure Generation</A>
+ &nbsp; <B>  <A NAME="tex2html3348"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000792100000000000000"></A><A NAME="electromagnetism"></A>
+<BR>
+Electromagnetism 
+</H3>
+
+<P>
+In CalculiX, certain types of electromagnetic calculations are possible. These
+include:
+
+<P>
+
+<UL>
+<LI>electrostatic calculations: these can be performed as a special case of
+  thermal calculations, cf. Section <A HREF="node172.html#electrostatics">6.9.13</A>.
+</LI>
+<LI>magnetostatic calculations. Due to the absence of time derivatives the
+  interaction between electric and magnetic fields drops out and the magnetic
+  equations can be considered on their own.
+</LI>
+<LI>magnetic induction calculations. These are calculations without fixed
+  electric charges and in which the displacement current can be
+  neglected. The major industrial application for this type of calculation is
+  inductive heating.
+</LI>
+</UL>
+
+<P>
+In this section only the last two applications are treated. The governing
+Maxwell equations run like (the displacement current term was dropped in
+Equation (<A HREF="#maxwell4">374</A>)):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="maxwell1"></A><!-- MATH
+ \begin{equation}
+\nabla \cdot \boldsymbol{D} =  \rho
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="74" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1316.png"
+ ALT="$\displaystyle \nabla \cdot \boldsymbol{D} = \rho$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(371)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="maxwell2"></A><!-- MATH
+ \begin{equation}
+\nabla \times \boldsymbol{E} =  - \frac {\partial \boldsymbol{B}}{\partial t}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="112" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1317.png"
+ ALT="$\displaystyle \nabla \times \boldsymbol{E} = - \frac {\partial \boldsymbol{B}}{\partial t}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(372)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="maxwell3"></A><!-- MATH
+ \begin{equation}
+\nabla \cdot \boldsymbol{B} =  0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="73" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1318.png"
+ ALT="$\displaystyle \nabla \cdot \boldsymbol{B} = 0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(373)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="maxwell4"></A><!-- MATH
+ \begin{equation}
+\nabla \times \boldsymbol{H} =  \boldsymbol{j}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="84" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1319.png"
+ ALT="$\displaystyle \nabla \times \boldsymbol{H} = \boldsymbol{j}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(374)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\boldsymbol{E}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img982.png"
+ ALT="$ \boldsymbol{E}$"></B> is the electric field,  <!-- MATH
+ $\boldsymbol{D}$
+ -->
+<B><IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1232.png"
+ ALT="$ \boldsymbol{ D}$"></B> is the
+electric displacement field, <!-- MATH
+ $\boldsymbol{B}$
+ -->
+<B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1320.png"
+ ALT="$ \boldsymbol{B}$"></B> is the magnetic field,
+<!-- MATH
+ $\boldsymbol{H}$
+ -->
+<B><IMG
+ WIDTH="21" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1321.png"
+ ALT="$ \boldsymbol{H}$"></B> is the magnetic intensity, <!-- MATH
+ $\boldsymbol{j}$
+ -->
+<B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1223.png"
+ ALT="$ \boldsymbol{ j}$"></B> is the electric
+current density and <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> is the electric charge density. These fields are connected
+by the following constitutive equations:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="constitu1"></A><!-- MATH
+ \begin{equation}
+\boldsymbol{D} = \epsilon \boldsymbol{E}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="61" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1322.png"
+ ALT="$\displaystyle \boldsymbol{D} = \epsilon \boldsymbol{E}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(375)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="constitu2"></A><!-- MATH
+ \begin{equation}
+\boldsymbol{B} = \mu \boldsymbol{H}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="67" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1323.png"
+ ALT="$\displaystyle \boldsymbol{B} = \mu \boldsymbol{H}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(376)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="constitu3"></A><!-- MATH
+ \begin{equation}
+\boldsymbol{j} = \sigma \boldsymbol{E}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="62" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1324.png"
+ ALT="$\displaystyle \boldsymbol{j} = \sigma \boldsymbol{E}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(377)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Here, <B><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></B> is the permittivity, <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"></B> is the magnetic permeability and
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1010.png"
+ ALT="$ \sigma$"></B> is the electrical conductivity. For the present applications
+<B><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></B> and <!-- MATH
+ $\boldsymbol{D}$
+ -->
+<B><IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1232.png"
+ ALT="$ \boldsymbol{ D}$"></B> are not needed and Equation (<A HREF="#maxwell1">371</A>)
+can be discarded. It will be assumed that these
+relationships are linear and isotropic, the material parameters, however, can be
+temperature dependent. So no hysteresis is considered, which basically means
+that only paramagnetic and diamagnetic materials are considered. So far, no
+ferromagnetic materials are allowed.
+
+<P>
+Due to electromagnetism, an additional basic unit is needed, the Amp&#232;re (A). All
+other quantities can be written using the SI-units A, m, s, kg and K, however,
+frequently derived units are used. An overview of these units is given in Table <A HREF="#magnunits">17</A>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="12466"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 17:</STRONG>
+Frequently used units electromagnetic applications.</CAPTION>
+<TR><TD ALIGN="CENTER">symbol</TD>
+<TD ALIGN="CENTER">meaning</TD>
+<TD ALIGN="CENTER">unit</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">I</TD>
+<TD ALIGN="CENTER">current</TD>
+<TD ALIGN="CENTER">A</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\boldsymbol{E}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img982.png"
+ ALT="$ \boldsymbol{E}$"></B></TD>
+<TD ALIGN="CENTER">electric field</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\text{V}}{\text{m}} = \frac{\text{kg}.\text{m}}{\text{A}.\text{s}^3}$
+ -->
+<B><IMG
+ WIDTH="71" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1325.png"
+ ALT="$ \frac{\text{V}}{\text{m}} = \frac{\text{kg}.\text{m}}{\text{A}.\text{s}^3}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\boldsymbol{D}$
+ -->
+<B><IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1232.png"
+ ALT="$ \boldsymbol{ D}$"></B></TD>
+<TD ALIGN="CENTER">electric displacement field</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\text{C}}{\text{m}^2} = \frac{\text{A}.\text{s}}{\text{m}^2}$
+ -->
+<B><IMG
+ WIDTH="68" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1326.png"
+ ALT="$ \frac{\text{C}}{\text{m}^2} = \frac{\text{A}.\text{s}}{\text{m}^2}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\boldsymbol{B}$
+ -->
+<B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1320.png"
+ ALT="$ \boldsymbol{B}$"></B></TD>
+<TD ALIGN="CENTER">magnetic field</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ ${\text{T}} = \frac{\text{kg}}{\text{A}.\text{s}^2}$
+ -->
+<B><IMG
+ WIDTH="65" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1327.png"
+ ALT="$ {\text{T}} = \frac{\text{kg}}{\text{A}.\text{s}^2}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\boldsymbol{H}$
+ -->
+<B><IMG
+ WIDTH="21" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1321.png"
+ ALT="$ \boldsymbol{H}$"></B></TD>
+<TD ALIGN="CENTER">magnetic intensity</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\text{A}}{\text{m}}$
+ -->
+<B><IMG
+ WIDTH="19" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1328.png"
+ ALT="$ \frac{\text{A}}{\text{m}}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\boldsymbol{j}$
+ -->
+<B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1223.png"
+ ALT="$ \boldsymbol{ j}$"></B></TD>
+<TD ALIGN="CENTER">current density</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\text{A}}{\text{m}^2}$
+ -->
+<B><IMG
+ WIDTH="25" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1329.png"
+ ALT="$ \frac{\text{A}}{\text{m}^2}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><B><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></B></TD>
+<TD ALIGN="CENTER">permittivity</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\text{F}}{\text{m}} = \frac{\text{A}^2\text{s}^4}{\text{kg}\text{m}^3}$
+ -->
+<B><IMG
+ WIDTH="73" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1330.png"
+ ALT="$ \frac{\text{F}}{\text{m}} = \frac{\text{A}^2\text{s}^4}{\text{kg}\text{m}^3}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"></B></TD>
+<TD ALIGN="CENTER">magnetic permeability</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\text{kg}.\text{m}}{\text{A}^2.\text{s}^2}$
+ -->
+<B><IMG
+ WIDTH="39" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1331.png"
+ ALT="$ \frac{\text{kg}.\text{m}}{\text{A}^2.\text{s}^2}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1010.png"
+ ALT="$ \sigma$"></B></TD>
+<TD ALIGN="CENTER">electrical conductivity</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\text{S}}{\text{m}}=\frac{\text{A}^2.\text{s}^3}{\text{kg}.\text{m}^3}$
+ -->
+<B><IMG
+ WIDTH="77" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1332.png"
+ ALT="$ \frac{\text{S}}{\text{m}}=\frac{\text{A}^2.\text{s}^3}{\text{kg}.\text{m}^3}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">P</TD>
+<TD ALIGN="CENTER">magnetic scalar potential</TD>
+<TD ALIGN="CENTER">A</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER">V</TD>
+<TD ALIGN="CENTER">electric scalar potential</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\text{V} = \frac{\text{kg}.\text{m}^2}{\text{A}.\text{s}^3}$
+ -->
+<B>V<IMG
+ WIDTH="59" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1333.png"
+ ALT="$ = \frac{\text{kg}.\text{m}^2}{\text{A}.\text{s}^3}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\boldsymbol{A}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1334.png"
+ ALT="$ \boldsymbol{A}$"></B></TD>
+<TD ALIGN="CENTER">magnetic vector potential</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\text{kg}.\text{m}}{\text{A}.\text{s}^2}$
+ -->
+<B><IMG
+ WIDTH="36" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1335.png"
+ ALT="$ \frac{\text{kg}.\text{m}}{\text{A}.\text{s}^2}$"></B></TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+In what follows the references [<A
+ HREF="node448.html#Silvester">70</A>] and [<A
+ HREF="node448.html#Kuczmann">37</A>] have been
+used. In inductive heating applications the domain of interest
+consists of the objects to be heated (= workpiece), the surrounding air and the coils
+providing the current leading to the induction. It will be assumed that the
+coils can be considered seperately as a driving force without feedback from
+the system. This requires the coils to be equiped with a regulating system
+counteracting any external influence trying to modify the current as intended
+by the user. 
+
+<P>
+<DIV ALIGN="CENTER">
+</DIV>
+<DIV ALIGN="CENTER"><A NAME="em1"></A><A NAME="12496"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 140:</STRONG>
+Electromagnetic setup for simply connected bodies</CAPTION>
+<TR><TD><IMG
+ WIDTH="450" HEIGHT="282" BORDER="0"
+ SRC="img1336.png"
+ ALT="\begin{figure}\epsfig{file=em1.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+<DIV ALIGN="CENTER">
+</DIV>
+
+<P>
+Let us first try to understand what happens physically. In the simplest case
+the volume to be analyzed consists of a simply connected body surrounded by
+air, Figure <A HREF="#em1">140</A>. A body is simply connected if any fictitious closed
+loop within the body can be reduced to a point without leaving the body. For
+instance, a sphere is simply connected, a ring is not. The coil providing the
+current is located within the air. Turning on the current leads to a magnetic
+intensity field through Equation (<A HREF="#maxwell4">374</A>) and a magnetic field through
+Equation (<A HREF="#constitu2">376</A>) everywhere, in the air and in the body. If the current
+is not changing in time, this constitutes the solution to the problem.
+
+<P>
+If the current is changing in time, so is the magnetic field, and through
+Equation (<A HREF="#maxwell2">372</A>) one obtains an electric field everywhere. This electric
+field generates a current by Equation (<A HREF="#constitu3">377</A>) (called Eddy current) in any part which is
+electrically conductive, i.e. generally in the body, but not in the air. This
+current generates a magnetic intensity field by virtue of  Equation
+(<A HREF="#maxwell4">374</A>), in a direction which is opposite to the original magnetic
+intensity field. Thus, the Eddy currents oppose the generation
+of the magnetic field in the body. Practically, this means that the magnetic
+field in the body is not built up at once. Rather, it is built up gradually,
+in the same way in which the temperature in a body due to heat transfer can
+only change gradually. As a matter of fact, both phenomena are described by
+ first order differential equations in time. The Ohm-losses of the Eddy
+currents are the source of the heat generation used in industrial heat
+induction applications.
+
+<P>
+From these considerations one realizes that in the body (domain 2, cf. Figure
+<A HREF="#em1">140</A>; notice that domain 1 and 2 are interchanged compared to [<A
+ HREF="node448.html#Silvester">70</A>]) both the electric and
+the magnetic field have to be calculated, while in the air it is sufficient to consider
+the magnetic field only (domain 1). Therefore, in the air it is
+sufficient to use a scalar magnetic potential P satisfying:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="defH"></A><!-- MATH
+ \begin{equation}
+\boldsymbol{H}=\boldsymbol{T_0} - \nabla P.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="109" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1337.png"
+ ALT="$\displaystyle \boldsymbol{H}=\boldsymbol{T_0} - \nabla P.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(378)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Here, <!-- MATH
+ $\boldsymbol{T_0}$
+ -->
+<B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1338.png"
+ ALT="$ \boldsymbol{T_0}$"></B> is the magnetic intensity due to the coil
+current in infinite free space.  <!-- MATH
+ $\boldsymbol{T_0}$
+ -->
+<B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1338.png"
+ ALT="$ \boldsymbol{T_0}$"></B> can be calculated using
+the Biot-Savart relationships [<A
+ HREF="node448.html#Fitzpatrick">22</A>]. The body fields can be described
+using a vector magnetic potential <!-- MATH
+ $\boldsymbol{A}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1334.png"
+ ALT="$ \boldsymbol{A}$"></B> and a scalar electric
+potential V satisfying:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="defB"></A><!-- MATH
+ \begin{equation}
+\boldsymbol{B}= \nabla \times \boldsymbol{A},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="91" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1339.png"
+ ALT="$\displaystyle \boldsymbol{B}= \nabla \times \boldsymbol{A},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(379)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="defE"></A><!-- MATH
+ \begin{equation}
+\boldsymbol{E}= -\frac{\partial \boldsymbol{A}}{\partial t} - \nabla V.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="126" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1340.png"
+ ALT="$\displaystyle \boldsymbol{E}= -\frac{\partial \boldsymbol{A}}{\partial t} - \nabla V.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(380)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+In practice, it is convenient to set <!-- MATH
+ $V=\frac{\partial v}{\partial t}$
+ -->
+<B><IMG
+ WIDTH="57" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1341.png"
+ ALT="$ V=\frac{\partial v}{\partial t}$"></B>, leading to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{E}= -\frac{\partial \boldsymbol{A}}{\partial t} -\frac{\partial
+  \nabla v}{\partial t}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="137" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1342.png"
+ ALT="$\displaystyle \boldsymbol{E}= -\frac{\partial \boldsymbol{A}}{\partial t} -\frac{\partial \nabla v}{\partial t}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(381)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+This guarantees that the resulting matrices will be symmetric. 
+
+<P>
+<DIV ALIGN="CENTER">
+</DIV>
+<DIV ALIGN="CENTER"><A NAME="em2"></A><A NAME="12499"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 141:</STRONG>
+Electromagnetic setup for multiply connected bodies</CAPTION>
+<TR><TD><IMG
+ WIDTH="450" HEIGHT="282" BORDER="0"
+ SRC="img1343.png"
+ ALT="\begin{figure}\epsfig{file=em2.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+<DIV ALIGN="CENTER">
+</DIV>
+
+<P>
+If the body is multiply connected, the calculational domain consists of three
+domains. The body (or bodies) still consist of domain 2 governed by the
+unknowns <!-- MATH
+ $\boldsymbol{A}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1334.png"
+ ALT="$ \boldsymbol{A}$"></B> and <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1220.png"
+ ALT="$ V$"></B>. The air, however, has to split into two
+parts: one part which is such that, if added to the bodies, makes them simply
+connected. This is domain 3 and it is described by the vector magnetic
+potential  <!-- MATH
+ $\boldsymbol{A}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1334.png"
+ ALT="$ \boldsymbol{A}$"></B>. It is assumed that there are no current
+conducting coils in domain
+3. The remaining air is domain 1 described by the
+scalar magnetic potential P.
+
+<P>
+In the different domains, different equations have to be solved. In domain 1
+the electric field is not important, since there is no conductance. Therefore,
+it is sufficient to calculate the magnetic field, and only Equations
+(<A HREF="#maxwell3">373</A>) and (<A HREF="#maxwell4">374</A>) have to be satisfied. Using the ansatz in
+Equation (<A HREF="#defH">378</A>), Equation  (<A HREF="#maxwell4">374</A>) is automatically satiesfied,
+since it is satisfied by <!-- MATH
+ $\boldsymbol{T_0}$
+ -->
+<B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1338.png"
+ ALT="$ \boldsymbol{T_0}$"></B> and the curl of the gradient
+vanishes. The only equation left is  (<A HREF="#maxwell3">373</A>). One arrives at the equation
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="meq1"></A><!-- MATH
+ \begin{equation}
+\nabla \cdot \mu (\boldsymbol{T_0} - \nabla P) = 0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="148" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1344.png"
+ ALT="$\displaystyle \nabla \cdot \mu (\boldsymbol{T_0} - \nabla P) = 0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(382)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+In domain 2, Equations (<A HREF="#maxwell2">372</A>), (<A HREF="#maxwell3">373</A>) and (<A HREF="#maxwell4">374</A>) have
+to be satisfied, using the approach of Equations (<A HREF="#defB">379</A>) and
+(<A HREF="#defE">380</A>). Taking the curl of Equation (<A HREF="#defE">380</A>) yields Equation
+(<A HREF="#maxwell2">372</A>). Taking the divergence of Equation  (<A HREF="#defB">379</A>) yields Equation
+(<A HREF="#maxwell3">373</A>). Substituting Equations  (<A HREF="#defB">379</A>) and  (<A HREF="#defE">380</A>) into
+Equation  (<A HREF="#maxwell4">374</A>) leads to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="meq2"></A><!-- MATH
+ \begin{equation}
+\nabla \times \frac{1}{\mu } (\nabla \times \boldsymbol{A}) + \sigma
+\frac{\partial \boldsymbol{A} }{\partial t}  + \sigma \nabla V = 0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="254" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1345.png"
+ ALT="$\displaystyle \nabla \times \frac{1}{\mu } (\nabla \times \boldsymbol{A}) + \sigma \frac{\partial \boldsymbol{A} }{\partial t} + \sigma \nabla V = 0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(383)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+The magnetic vector potential <!-- MATH
+ $\boldsymbol{A}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1334.png"
+ ALT="$ \boldsymbol{A}$"></B> is not uniquely
+defined by Equation (<A HREF="#defB">379</A>). The divergence of <!-- MATH
+ $\boldsymbol{A}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1334.png"
+ ALT="$ \boldsymbol{A}$"></B> can still
+be freely defined. Here, we take the Coulomb gauge, which amounts to setting
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="meq3"></A><!-- MATH
+ \begin{equation}
+\nabla \cdot \boldsymbol{A}=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="77" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1346.png"
+ ALT="$\displaystyle \nabla \cdot \boldsymbol{A}=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(384)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Notice that the fulfillment of Equation  (<A HREF="#maxwell4">374</A>) automatically
+satisfies the conservation of charge, which runs in domain 2 as
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="meq5"></A><!-- MATH
+ \begin{equation}
+\nabla \cdot \boldsymbol{j} =0,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="71" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1347.png"
+ ALT="$\displaystyle \nabla \cdot \boldsymbol{j} =0,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(385)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+since there is no concentrated charge. Thus, for a simply connected body we
+arrive at the Equations (<A HREF="#meq1">382</A>) (domain 1), (<A HREF="#meq2">383</A>) (domain 2)  and
+(<A HREF="#meq3">384</A>) (domain 2). In practice,
+Equations  (<A HREF="#meq2">383</A>) and (<A HREF="#meq3">384</A>) are frequently combined to yield
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="meq4"></A><!-- MATH
+ \begin{equation}
+\nabla \times \frac{1}{\mu } (\nabla \times \boldsymbol{A}) - \nabla
+\frac{1}{\mu } \nabla \cdot \boldsymbol{A}
++ \sigma
+\frac{\partial \boldsymbol{A} }{\partial t}  + \sigma \nabla V = 0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="339" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1348.png"
+ ALT="$\displaystyle \nabla \times \frac{1}{\mu } (\nabla \times \boldsymbol{A}) - \na...
+...{A} + \sigma \frac{\partial \boldsymbol{A} }{\partial t} + \sigma \nabla V = 0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(386)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+This, however, is not any more equivalent to the solution of Equation
+(<A HREF="#maxwell4">374</A>) and consequently the satisfaction of Equation (<A HREF="#meq5">385</A>) has
+now to be requested explicitly:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="meq6"></A><!-- MATH
+ \begin{equation}
+\nabla \cdot \sigma ( \frac{\partial \boldsymbol{A} }{\partial t} + \nabla V)
+= 0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="157" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1349.png"
+ ALT="$\displaystyle \nabla \cdot \sigma ( \frac{\partial \boldsymbol{A} }{\partial t} + \nabla V) = 0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(387)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Consequently, the equations to be solved are now Equations (<A HREF="#meq4">386</A>) (domain 2),
+(<A HREF="#meq6">387</A>) (domain 2),  and  (<A HREF="#meq1">382</A>) (domain 1). 
+
+<P>
+In domain 3, only Equations (<A HREF="#maxwell3">373</A>) and (<A HREF="#maxwell4">374</A>) with
+<!-- MATH
+ $\boldsymbol{j}=0$
+ -->
+<B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1350.png"
+ ALT="$ \boldsymbol{j}=0$"></B> have to be
+satisfied (the coils are supposed to be in domain 1). Using the ansatz from
+Equation (<A HREF="#defB">379</A>), Equation  (<A HREF="#maxwell3">373</A>) is automatically satisfied
+and Equation  (<A HREF="#maxwell4">374</A>) now amounts to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\nabla \times \frac{1}{\mu } (\nabla \times \boldsymbol{A}) - \nabla
+\frac{1}{\mu } \nabla \cdot \boldsymbol{A}  = 0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="228" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1351.png"
+ ALT="$\displaystyle \nabla \times \frac{1}{\mu } (\nabla \times \boldsymbol{A}) - \nabla \frac{1}{\mu } \nabla \cdot \boldsymbol{A} = 0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(388)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+The boundary conditions on the interface amount to:
+
+<P>
+
+<UL>
+<LI>continuity of the normal component of <!-- MATH
+ $\boldsymbol{B}$
+ -->
+<B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1320.png"
+ ALT="$ \boldsymbol{B}$"></B>
+</LI>
+<LI>continuity of the tangential component of <!-- MATH
+ $\boldsymbol{H}$
+ -->
+<B><IMG
+ WIDTH="21" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1321.png"
+ ALT="$ \boldsymbol{H}$"></B>, and
+</LI>
+<LI>no current flow orthogonal to the boundary, or (<!-- MATH
+ $\boldsymbol{n_i}$
+ -->
+<B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1352.png"
+ ALT="$ \boldsymbol{n_i}$"></B> is the
+  normal on domain i, pointing away from the domain):
+</LI>
+</UL>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{B_1} \cdot \boldsymbol{n_1} + \boldsymbol{B_2} \cdot
+\boldsymbol{n_2} = 0,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="163" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1353.png"
+ ALT="$\displaystyle \boldsymbol{B_1} \cdot \boldsymbol{n_1} + \boldsymbol{B_2} \cdot \boldsymbol{n_2} = 0,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(389)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{H_1} \times \boldsymbol{n_1} + \boldsymbol{H_2} \times
+\boldsymbol{n_2} = 0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="178" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1354.png"
+ ALT="$\displaystyle \boldsymbol{H_1} \times \boldsymbol{n_1} + \boldsymbol{H_2} \times \boldsymbol{n_2} = 0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(390)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{j_2} \cdot \boldsymbol{n_2}= 0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="80" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1355.png"
+ ALT="$\displaystyle \boldsymbol{j_2} \cdot \boldsymbol{n_2}= 0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(391)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+all of which have to be satisfied on <!-- MATH
+ $\Gamma _{12}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1356.png"
+ ALT="$ \Gamma _{12}$"></B>. In terms of the magnetic
+vector potential <!-- MATH
+ $\boldsymbol{A}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1334.png"
+ ALT="$ \boldsymbol{A}$"></B>, electric scalar potential V and magnetic
+scalar potential P this amounts to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="bc1"></A><!-- MATH
+ \begin{equation}
+\mu (\boldsymbol{T_0}
+- \nabla P) \cdot \boldsymbol{n_1} + (\nabla \times \boldsymbol{A}) \cdot
+\boldsymbol{n_2}      =0,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="263" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1357.png"
+ ALT="$\displaystyle \mu (\boldsymbol{T_0} - \nabla P) \cdot \boldsymbol{n_1} + (\nabla \times \boldsymbol{A}) \cdot \boldsymbol{n_2} =0,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(392)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="bc2"></A><!-- MATH
+ \begin{equation}
+(\boldsymbol{T_0} - \nabla P) \times \boldsymbol{n_1} + \frac{1}{\mu _1} ( \nabla \times \boldsymbol{A}) \times \boldsymbol{n_2}
+ = 0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="286" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1358.png"
+ ALT="$\displaystyle (\boldsymbol{T_0} - \nabla P) \times \boldsymbol{n_1} + \frac{1}{\mu _1} ( \nabla \times \boldsymbol{A}) \times \boldsymbol{n_2} = 0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(393)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="bc3"></A><!-- MATH
+ \begin{equation}
+(\frac{\partial \boldsymbol{A} }{\partial t} + \nabla V)_2 \cdot
+\boldsymbol{n_2} = 0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="157" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1359.png"
+ ALT="$\displaystyle (\frac{\partial \boldsymbol{A} }{\partial t} + \nabla V)_2 \cdot \boldsymbol{n_2} = 0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(394)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+on <!-- MATH
+ $\Gamma_{12}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1356.png"
+ ALT="$ \Gamma _{12}$"></B>. For uniqueness, the electric potential has to be fixed in one node and the
+normal component of <!-- MATH
+ $\boldsymbol{A}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1334.png"
+ ALT="$ \boldsymbol{A}$"></B> has to vanish along <!-- MATH
+ $\Gamma_{12}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1356.png"
+ ALT="$ \Gamma _{12}$"></B> [<A
+ HREF="node448.html#Silvester">70</A>]:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{A} \cdot \boldsymbol{n_2}=0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="83" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1360.png"
+ ALT="$\displaystyle \boldsymbol{A} \cdot \boldsymbol{n_2}=0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(395)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>    
+
+<P>
+To obtain the weak formulation of the above equations they are multiplied with
+trial functions and integrated. The trial functions will be denoted by
+<!-- MATH
+ $\delta \boldsymbol{A}, \delta V$
+ -->
+<B><IMG
+ WIDTH="54" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1361.png"
+ ALT="$ \delta \boldsymbol{A}, \delta V$"></B> and <B><IMG
+ WIDTH="25" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1362.png"
+ ALT="$ \delta P$"></B>.  Starting with Equation(<A HREF="#meq4">386</A>) one obtains
+after multiplication with <!-- MATH
+ $\boldsymbol{\delta A}$
+ -->
+<B><IMG
+ WIDTH="27" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1363.png"
+ ALT="$ \boldsymbol{\delta A}$"></B> and taking the vector identies
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\nabla \cdot (\boldsymbol{a} \times \boldsymbol{b})=(\nabla \times
+\boldsymbol{a}) \cdot \boldsymbol{b} - \boldsymbol{a} \cdot (\nabla \times
+\boldsymbol{b})
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="270" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1364.png"
+ ALT="$\displaystyle \nabla \cdot (\boldsymbol{a} \times \boldsymbol{b})=(\nabla \time...
+...{a}) \cdot \boldsymbol{b} - \boldsymbol{a} \cdot (\nabla \times \boldsymbol{b})$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(396)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\nabla \cdot ( \alpha \boldsymbol{a} ) = \nabla \alpha \cdot \boldsymbol{a} +
+\alpha \nabla \cdot \boldsymbol{a}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="193" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1365.png"
+ ALT="$\displaystyle \nabla \cdot ( \alpha \boldsymbol{a} ) = \nabla \alpha \cdot \boldsymbol{a} + \alpha \nabla \cdot \boldsymbol{a}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(397)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+into account (set <!-- MATH
+ $\boldsymbol{b}= (\nabla \times \boldsymbol{A})/\mu$
+ -->
+<B><IMG
+ WIDTH="110" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1366.png"
+ ALT="$ \boldsymbol{b}= (\nabla \times \boldsymbol{A})/\mu $"></B> in the
+first vector identity):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="455" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1367.png"
+ ALT="$\displaystyle \frac{1}{\mu } (\nabla \times \delta \boldsymbol{A}) \cdot (\nabl...
+...rac{1}{\mu } (\nabla \cdot \boldsymbol{A}) \nabla \cdot (\delta \boldsymbol{A})$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="331" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1368.png"
+ ALT="$\displaystyle - \nabla \cdot [ \frac{1}{\mu } (\nabla \cdot \boldsymbol{A} ) \d...
+...igma \left( \frac{\partial \boldsymbol{A} }{\partial t} + \nabla V \right) = 0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(398)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Integrating one obtains, using Gauss' theorem (it is assumed that <B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1369.png"
+ ALT="$ \Omega_2$"></B>
+has no free boundary, i.e. no boundary not connected to <B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1370.png"
+ ALT="$ \Omega_1$"></B>):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="410" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1371.png"
+ ALT="$\displaystyle \int _{\Omega _2} \frac{1}{\mu } (\nabla \times \delta \boldsymbo...
+...\delta \boldsymbol{A} \times \nabla \boldsymbol{A}) \cdot \boldsymbol{n_2} dS +$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="374" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1372.png"
+ ALT="$\displaystyle \int _{\Omega _2} \frac{1}{\mu } ( \nabla \cdot \boldsymbol{A}) (...
+...(\nabla \cdot \boldsymbol{A}) \delta \boldsymbol{A} \cdot \boldsymbol{n_2} dS +$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="225" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1373.png"
+ ALT="$\displaystyle \int _{\Omega _2} \delta \boldsymbol{A} \cdot \sigma \left( \frac{\partial \boldsymbol{A} }{\partial t } + \nabla V \right) d \Omega =0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(399)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>   
+
+<P>
+The trial functions also have to satisfy the kinematic constraints. Therefore,
+<!-- MATH
+ $\delta \boldsymbol{A} \cdot \boldsymbol{n_2}=0$
+ -->
+<B><IMG
+ WIDTH="86" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1374.png"
+ ALT="$ \delta \boldsymbol{A} \cdot \boldsymbol{n_2}=0$"></B> and the second surface
+integral is zero.   
+
+<P>
+Applying the vector identity
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+(\boldsymbol{a} \times \boldsymbol{b}) \cdot \boldsymbol{n} = \boldsymbol{a}
+\cdot (\boldsymbol{b} \times \boldsymbol{n})
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="172" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1375.png"
+ ALT="$\displaystyle (\boldsymbol{a} \times \boldsymbol{b}) \cdot \boldsymbol{n} = \boldsymbol{a} \cdot (\boldsymbol{b} \times \boldsymbol{n})$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(400)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and the boundary condition from Equation (<A HREF="#bc2">393</A>), the integrand of the first
+surface integral can be written as:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="165" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1376.png"
+ ALT="$\displaystyle \frac{1}{\mu } ( \delta \boldsymbol{A} \times \nabla \times \boldsymbol{A} ) \cdot \boldsymbol{n_2} =$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="189" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1377.png"
+ ALT="$\displaystyle \frac{1}{\mu } \left ( \delta \boldsymbol{A} \cdot [ ( \nabla \times \boldsymbol{A}) \times \boldsymbol{n_2}] \right) =$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="182" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1378.png"
+ ALT="$\displaystyle - \delta \boldsymbol{A} \cdot \left[ ( \boldsymbol{T_0} - \nabla \boldsymbol{P}) \times \boldsymbol{n_1} \right].$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(401)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>    
+
+<P>
+Consequently, the integral now amounts to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\int _{\Gamma _{12}} \left[ - \delta \boldsymbol{A} \cdot ( \boldsymbol{T_0}
+    \times \boldsymbol{n_2} ) + \delta \boldsymbol{A} \cdot ( \nabla P \times
+    \boldsymbol{n_2}) \right] dS.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="314" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1379.png"
+ ALT="$\displaystyle \int _{\Gamma _{12}} \left[ - \delta \boldsymbol{A} \cdot ( \bold...
+...) + \delta \boldsymbol{A} \cdot ( \nabla P \times \boldsymbol{n_2}) \right] dS.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(402)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+Applying the same vector identity from above one further arrives at:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\int _{\Gamma _{12}} \left[ - \delta \boldsymbol{A} \cdot ( \boldsymbol{T_0}
+    \times \boldsymbol{n_2} ) + \boldsymbol{n_2} \cdot ( \delta \boldsymbol{A}
+    \times \nabla P) \right] dS.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="314" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1380.png"
+ ALT="$\displaystyle \int _{\Gamma _{12}} \left[ - \delta \boldsymbol{A} \cdot ( \bold...
+...) + \boldsymbol{n_2} \cdot ( \delta \boldsymbol{A} \times \nabla P) \right] dS.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(403)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Finally, using the vector identity:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{n_2} \cdot (\delta \boldsymbol{A} \times \nabla P) = P[
+\boldsymbol{n_2} \cdot ( \nabla \times \delta
+\boldsymbol{A})]-\boldsymbol{n_2} \cdot [ \nabla \times (P \delta
+\boldsymbol{A})]
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="392" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1381.png"
+ ALT="$\displaystyle \boldsymbol{n_2} \cdot (\delta \boldsymbol{A} \times \nabla P) = ...
+...ldsymbol{A})]-\boldsymbol{n_2} \cdot [ \nabla \times (P \delta \boldsymbol{A})]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(404)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+one obtains 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\int _{\Gamma _{12}} \left\{ - \delta \boldsymbol{A} \cdot ( \boldsymbol{T_0}
+    \times \boldsymbol{n_2} ) + P [ \boldsymbol{n_2} \cdot ( \nabla \times
+    \delta \boldsymbol{A})] - \boldsymbol{n_2} \cdot [ \nabla \times (P \delta
+    \boldsymbol{A}) ] \right\} dS.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="468" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1382.png"
+ ALT="$\displaystyle \int _{\Gamma _{12}} \left\{ - \delta \boldsymbol{A} \cdot ( \bol...
+...\boldsymbol{n_2} \cdot [ \nabla \times (P \delta \boldsymbol{A}) ] \right\} dS.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(405)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>       
+
+<P>
+The last integral vanishes if the surface is closed due to Stokes' Theorem.
+
+<P>
+Now the second equation, Equation (<A HREF="#meq6">387</A>), is being looked at. After
+multiplication with <B><IMG
+ WIDTH="25" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1383.png"
+ ALT="$ \delta V$"></B> it can be rewritten as:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\nabla \cdot \left[ \delta V \sigma \left( \frac{\partial \boldsymbol{A} }{\partial
+  t} + \nabla V \right) \right] - \nabla \delta V \cdot \sigma  \left( \frac{\partial \boldsymbol{A} }{\partial
+  t} + \nabla V \right) = 0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="381" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1384.png"
+ ALT="$\displaystyle \nabla \cdot \left[ \delta V \sigma \left( \frac{\partial \boldsy...
+...igma \left( \frac{\partial \boldsymbol{A} }{\partial t} + \nabla V \right) = 0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(406)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+After integration and application of Gauss' theorem one ends up with the last
+term only, due to the boundary condition from Equation (<A HREF="#bc3">394</A>).
+
+<P>
+Analogously, the third equation, Equation (<A HREF="#meq1">382</A>) leads to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\nabla \cdot ( \delta P \mu  [ \boldsymbol{T_0} - \nabla P])-\nabla \delta P
+\cdot \mu (\boldsymbol{T_0} - \mu \nabla P) =0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="336" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1385.png"
+ ALT="$\displaystyle \nabla \cdot ( \delta P \mu [ \boldsymbol{T_0} - \nabla P])-\nabla \delta P \cdot \mu (\boldsymbol{T_0} - \mu \nabla P) =0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(407)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+After integration this leads to (on external faces of <B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1370.png"
+ ALT="$ \Omega_1$"></B>, i.e. faces
+not connected to <B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1369.png"
+ ALT="$ \Omega_2$"></B> or <B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1386.png"
+ ALT="$ \Omega_3$"></B> the condition <!-- MATH
+ $\boldsymbol{B} \cdot
+\boldsymbol{n_1}=0$
+ -->
+<B><IMG
+ WIDTH="79" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1387.png"
+ ALT="$ \boldsymbol{B} \cdot
+\boldsymbol{n_1}=0$"></B> is applied)  :
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\int _{\Omega _1} \nabla \delta P \cdot \mu ( \boldsymbol{T_0} - \mu \nabla P)
+d \Omega - \int _{\Gamma _{12}} \delta P \mu ( \boldsymbol{T_0} - \nabla P]
+\cdot \boldsymbol{n_1} dS =0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="430" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1388.png"
+ ALT="$\displaystyle \int _{\Omega _1} \nabla \delta P \cdot \mu ( \boldsymbol{T_0} - ...
+...{12}} \delta P \mu ( \boldsymbol{T_0} - \nabla P] \cdot \boldsymbol{n_1} dS =0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(408)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Applying the boundary condition from Equation (<A HREF="#bc1">392</A>) leads to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\int _{\Omega _1} \nabla \delta P \cdot \mu ( \boldsymbol{T_0} - \mu \nabla P)
+d \Omega + \int _{\Gamma _{12}} \delta P (\nabla \times \boldsymbol{A}) \cdot
+\boldsymbol{n_2}   dS =0.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="405" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1389.png"
+ ALT="$\displaystyle \int _{\Omega _1} \nabla \delta P \cdot \mu ( \boldsymbol{T_0} - ...
+...ma _{12}} \delta P (\nabla \times \boldsymbol{A}) \cdot \boldsymbol{n_2} dS =0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(409)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+So one finally obtains for the governing equations :
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="391" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1390.png"
+ ALT="$\displaystyle \int _ {\Omega_2} \frac{1}{\mu } (\nabla \times \delta \boldsymbo...
+...} (\nabla \cdot \delta \boldsymbol{A} ) (\nabla \cdot \boldsymbol{A} d \Omega +$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="377" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1391.png"
+ ALT="$\displaystyle \int _{\Omega _2} (\delta \boldsymbol{A}) \cdot \sigma ( \frac{\p...
+...amma _{12}} P (\nabla \times \delta \boldsymbol{A} ) \cdot \boldsymbol{n}_2 d S$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="173" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1392.png"
+ ALT="$\displaystyle = \int _{\Gamma _{12}} \delta \boldsymbol{A} \cdot (\boldsymbol{T_0 } \times \boldsymbol{n }_2) d S$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(410)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\int _ {\Omega _2} \nabla \delta V \cdot \sigma \left ( \frac{\partial
+  \boldsymbol{A} }{\partial t} + \nabla \frac{\partial v}{\partial t}\right )d \Omega
+=0
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="246" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1393.png"
+ ALT="$\displaystyle \int _ {\Omega _2} \nabla \delta V \cdot \sigma \left ( \frac{\pa...
+...mbol{A} }{\partial t} + \nabla \frac{\partial v}{\partial t}\right )d \Omega =0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(411)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="336" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1394.png"
+ ALT="$\displaystyle - \int _{\Omega _1} \mu \nabla \delta P \cdot \nabla P d \Omega +...
+...mma _{12}} (\delta P) (\nabla \times \boldsymbol{A}) \cdot \boldsymbol{n}_2 d S$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="146" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1395.png"
+ ALT="$\displaystyle = \int _{\Omega _1} \mu \nabla \delta P \cdot \boldsymbol{T_0} d \Omega.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(412)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+Using the standard shape functions one arrives at (cf. Chapter 2 in [<A
+ HREF="node448.html#Dhondt">18</A>]):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="79" HEIGHT="66" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1396.png"
+ ALT="$\displaystyle \sum _e \sum _{i=1}^N \sum _{j=1}^N$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="284" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1397.png"
+ ALT="$\displaystyle \left\{ \left[ \int _{{V_{0e}}_2} \varphi _{i,L} \frac{1}{\mu } \varphi _{j,L} \delta _{KM} d V_e \right] \delta A_{iK} A_{jM} - \right.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="245" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1398.png"
+ ALT="$\displaystyle \left[ \int _{{V_{0e}}_2} \varphi _{i,M} \frac{1}{\mu } \varphi _{j,K} d V_e \right] \delta A_{iK} A_{jM} +$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="245" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1399.png"
+ ALT="$\displaystyle \left[ \int _{{V_{0e}}_2} \varphi _{i,K} \frac{1}{\mu } \varphi _{j,M} d V_e \right] \delta A_{iK} A_{jM} +$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="259" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1400.png"
+ ALT="$\displaystyle \left[ \int _{{V_{0e}}_2} \varphi _{i} \sigma \varphi _j dV_e \delta _{KM} \right] \delta A_{iK} \frac{D A_{jM}}{t} +$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="224" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1401.png"
+ ALT="$\displaystyle \left[ \int _{{V_{0e}}_2} \varphi _{i} \sigma \varphi _{j,K} dV_e \right] \delta A_{iK} \frac{Dv_j}{Dt} +$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="296" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1402.png"
+ ALT="$\displaystyle \left. \left[ \int _{{A_{0e}}_{12}} e_{KLM} \varphi _i \varphi _{j,L} n_{2K} dA_e \right] \delta A_{jM} P_i \right \} =$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="68" HEIGHT="66" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1403.png"
+ ALT="$\displaystyle -\sum_e \sum_{j=1}^N$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="248" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1404.png"
+ ALT="$\displaystyle \left[ \int _{{A_{0e}}_{12}} e_{KLM} \varphi _j T_{0L} n_{2K} dA_e \right] \delta A_{jM}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(413)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="79" HEIGHT="66" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1396.png"
+ ALT="$\displaystyle \sum _e \sum _{i=1}^N \sum _{j=1}^N$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="224" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1405.png"
+ ALT="$\displaystyle \left\{ \left[ \int _{{V_{0e}}_2} \varphi _{i,K} \sigma \varphi _i dV_e \right] \delta v_j \frac{DA_{iK}}{Dt} \right.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="254" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1406.png"
+ ALT="$\displaystyle \left. \left[ \int _{{V_{0e}}_2} \varphi _{i,K} \sigma \varphi _{j,K} dV_e \right] \delta v_i \frac{Dv_j}{Dt} \right \} = 0$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(414)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="79" HEIGHT="66" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1396.png"
+ ALT="$\displaystyle \sum _e \sum _{i=1}^N \sum _{j=1}^N$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="212" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1407.png"
+ ALT="$\displaystyle \left\{ \left[ \int _{{V_{0e}}_1} \varphi _{i,K} \mu \varphi _{j,K} dV_e \right] \delta P_i P_j \right.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(415)</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="280" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1408.png"
+ ALT="$\displaystyle \left. \left[ \int _{{A_{0e}}_{12}} \varphi _i e_{KLM} \varphi _{j,L} n_{2K} dA_e \right] \delta P_i A_{jM} \right \}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(416)</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="85" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1409.png"
+ ALT="$\displaystyle = - \sum_e \sum_i$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="182" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1410.png"
+ ALT="$\displaystyle \left[ \int _{{V_{0e}}_1} \mu \varphi _{i,K} T_{0K} dV_e \right] \delta P_i.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(417)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Notice that the first two equations apply to domain 2, the last one applies to
+domain 1. In domain 3 only the first equation applies, in which the time
+dependent terms are dropped.
+
+<P>
+This leads to the following matrices:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+[K_{AA}]_{e(iK)(jM)}=\int_{{(V_{0e})}_{\Omega _2}} \frac{1}{\mu }
+[\varphi_{i,L}  \varphi_{j,L} \delta_{KM} - \varphi_{i,M} \varphi_{j,K} +
+\varphi_{i,K} \varphi_{j,M}]dV_e
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="490" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1411.png"
+ ALT="$\displaystyle [K_{AA}]_{e(iK)(jM)}=\int_{{(V_{0e})}_{\Omega _2}} \frac{1}{\mu }...
+...L} \delta_{KM} - \varphi_{i,M} \varphi_{j,K} + \varphi_{i,K} \varphi_{j,M}]dV_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(418)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+[K_{AP}]_{e(jM)(i)}=\int_{{(A_{0e})}_{\Gamma  _{12}}} e_{KLM} \varphi_i
+\varphi_{j,L} n_{1K} dA_e
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="323" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1412.png"
+ ALT="$\displaystyle [K_{AP}]_{e(jM)(i)}=\int_{{(A_{0e})}_{\Gamma _{12}}} e_{KLM} \varphi_i \varphi_{j,L} n_{1K} dA_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(419)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+[K_{PA}]_{e(i)(jM)}=\int_{{(A_{0e})}_{\Gamma  _{12}}} e_{KLM} \varphi_i
+\varphi_{j,L} n_{1K} dA_e
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="323" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1413.png"
+ ALT="$\displaystyle [K_{PA}]_{e(i)(jM)}=\int_{{(A_{0e})}_{\Gamma _{12}}} e_{KLM} \varphi_i \varphi_{j,L} n_{1K} dA_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(420)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+[K_{PP}]_{e(i)(j)}=- \int_{{(V_{0e})}_{\Omega _1}} \mu \varphi_{i,K}
+\varphi_{j,K} dV_e
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="273" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1414.png"
+ ALT="$\displaystyle [K_{PP}]_{e(i)(j)}=- \int_{{(V_{0e})}_{\Omega _1}} \mu \varphi_{i,K} \varphi_{j,K} dV_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(421)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+[M_{AA}]_{e(iK)(jM)}=\int_{{(V_{0e})}_{\Omega _2}} \varphi_i  \sigma \varphi_j
+\delta_{KM} dV_e
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="287" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1415.png"
+ ALT="$\displaystyle [M_{AA}]_{e(iK)(jM)}=\int_{{(V_{0e})}_{\Omega _2}} \varphi_i \sigma \varphi_j \delta_{KM} dV_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(422)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+[M_{Av}]_{e(iK)(j)}=\int_{{(V_{0e})}_{\Omega _2}} \varphi_i \sigma \varphi_{j,K}
+\delta_{KM} dV_e
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="286" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1416.png"
+ ALT="$\displaystyle [M_{Av}]_{e(iK)(j)}=\int_{{(V_{0e})}_{\Omega _2}} \varphi_i \sigma \varphi_{j,K} \delta_{KM} dV_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(423)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+[M_{vA}]_{e(j)(iK)}=\int_{{(V_{0e})}_{\Omega _2}}  \varphi_{j,K} \sigma \varphi_i
+\delta_{KM} dV_e
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="286" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1417.png"
+ ALT="$\displaystyle [M_{vA}]_{e(j)(iK)}=\int_{{(V_{0e})}_{\Omega _2}} \varphi_{j,K} \sigma \varphi_i \delta_{KM} dV_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(424)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+[M_{vv}]_{e(i)(j)}=\int_{{(V_{0e})}_{\Omega _2}} \varphi_{i,K} \sigma  \varphi_{i,K}
+\delta_{KM} dV_e
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="286" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1418.png"
+ ALT="$\displaystyle [M_{vv}]_{e(i)(j)}=\int_{{(V_{0e})}_{\Omega _2}} \varphi_{i,K} \sigma \varphi_{i,K} \delta_{KM} dV_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(425)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="forc1"></A><!-- MATH
+ \begin{equation}
+\{F_{A}\}_{e(jM)}=- \int_{{(A_{0e})}_{\Gamma  _{12}}} e_{KLM} \varphi_j T_{0L} n_{1K}
+ dA_e
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="315" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1419.png"
+ ALT="$\displaystyle \{F_{A}\}_{e(jM)}=- \int_{{(A_{0e})}_{\Gamma _{12}}} e_{KLM} \varphi_j T_{0L} n_{1K} dA_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(426)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\{F_{P}\}_{e(i)}=- \int_{{(V_{0e})}_{\Omega _1}} \mu \varphi_{i,K}
+T_{0K} dV_e
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="248" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1420.png"
+ ALT="$\displaystyle \{F_{P}\}_{e(i)}=- \int_{{(V_{0e})}_{\Omega _1}} \mu \varphi_{i,K} T_{0K} dV_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(427)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="indmatrix"></A><A NAME="12547"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 142:</STRONG>
+Nonzero parts of the governing matrices</CAPTION>
+<TR><TD><IMG
+ WIDTH="540" HEIGHT="227" BORDER="0"
+ SRC="img1421.png"
+ ALT="\begin{figure}\epsfig{file=indmatrix.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Repeated indices imply implicit summation. The <B><IMG
+ WIDTH="28" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1422.png"
+ ALT="$ [K]$"></B> matrices are analogous to
+the conductivity matrix in heat transfer analyses, the <B><IMG
+ WIDTH="31" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1423.png"
+ ALT="$ [M]$"></B> matrices are the
+counterpart of the capacity matrix. <B><IMG
+ WIDTH="33" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1424.png"
+ ALT="$ \{F\}$"></B> represents the force. The
+resulting system consists of first order ordinary differential equations in
+time and the corresponding matrices look like in Figure <A HREF="#indmatrix">142</A>. Solution of this system yields the solution
+for <!-- MATH
+ $\boldsymbol{A}, v$
+ -->
+<B><IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1425.png"
+ ALT="$ \boldsymbol{A}, v$"></B> and <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img542.png"
+ ALT="$ P$"></B> from which the magnetic field <!-- MATH
+ $\boldsymbol{B}$
+ -->
+<B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1320.png"
+ ALT="$ \boldsymbol{B}$"></B>
+and the electric field <!-- MATH
+ $\boldsymbol{E}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img982.png"
+ ALT="$ \boldsymbol{E}$"></B> can be determined using Equations
+(<A HREF="#defB">379</A>,<A HREF="#defE">380</A>). 
+
+<P>
+The internal electromagnetic forces amount to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="68" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1426.png"
+ ALT="$\displaystyle \{F_A\}_{(iK)}$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="362" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1427.png"
+ ALT="$\displaystyle = [K_{AA}]_{e(iK)(jM)} \cdot \{A\}_{(jM)} + [K_{AP}]_{e(iK)(j)} \cdot \{P\}_{(j)}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="374" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1428.png"
+ ALT="$\displaystyle = \frac{1}{\mu } \int _{{(V_{0e})}_{\Omega _2}} [\varphi_{i,L} A_{K,L} - \varphi_{i,M} A_{M,K} + \varphi_{i,K} A_{M,M}]dV_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="238" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1429.png"
+ ALT="$\displaystyle = - \int_{{(A_{0e})}_{\Gamma _{12}}} e_{KLM} \varphi_{i,L} P n_{1M} dA_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(428)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1430.png"
+ ALT="$\displaystyle \{F\}_{(i)}$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="339" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1431.png"
+ ALT="$\displaystyle = [K_{PA}]_{e(i)(jM)} \cdot \{A\}_{(jM)} + [K_{PP}]_{e(i)(j)} \cdot \{P\}_{(j)}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="234" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1432.png"
+ ALT="$\displaystyle = \int_{{(A_{0e})}_{\Gamma _{12}}} \varphi_i e_{KLM} A_{M,L} n_{1K} dA_e$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="188" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1433.png"
+ ALT="$\displaystyle = - \int_{{(V_{0e})}_{\Omega _1}} \mu \varphi_{i,K} P_{,K} dV_e.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(429)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+They have to be in equilibrium with the external forces.
+
+<P>
+What does the above theory imply for the practical modeling? The conductor
+containing the driving current is supposed to be modeled using shell
+elements. The thickness of the shell elements can vary. The current usually
+flows near the surface (skin effect), so the modeling with shell elements is
+not really a restriction. The current and potential in the conductor is
+calculated using the heat transfer analogy. This means that potential boundary
+conditions have to be defined as temperature, current boundary conditions as
+heat flow conditions. The driving current containing conductor is completely
+separate from the mesh used to calculate the magnetic and electric
+fields. Notice that the current in the driving electromagnetic coils is not
+supposed to be changed by the electromagnetic field it generates.
+
+<P>
+The volumetric domains of interest are <!-- MATH
+ $\Omega_1 \Omega_2$
+ -->
+<B><IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1434.png"
+ ALT="$ \Omega_1 \Omega_2$"></B> and <B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1386.png"
+ ALT="$ \Omega_3$"></B>. These
+three domains represent the air, the conducting workpiece and that part of the
+air which, if filled with workpiece material, makes the workpiece simply
+connected. These three domains are to be meshed with volumetric elements. The
+meshes should not be connected, i.e., one can mesh these domains in a
+completely independent way. This also applies that one can choose the
+appropriate mesh density for each domain separately.
+
+<P>
+Based on the driving current the field <!-- MATH
+ $\boldsymbol{T_0}$
+ -->
+<B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1338.png"
+ ALT="$ \boldsymbol{T_0}$"></B> is determined in
+domain 1 with
+the Biot-Savart law. This part of the code is parallellized, since the
+Biot-Savart integration is calculationally quite expensive. Because of
+Equation (<A HREF="#forc1">426</A>)  <!-- MATH
+ $\boldsymbol{T_0}$
+ -->
+<B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1338.png"
+ ALT="$ \boldsymbol{T_0}$"></B> is also determined on the external
+faces of domain 2 and 3 which are in contact with domain 1. 
+
+<P>
+The following boundary conditions are imposed (through MPC's):
+
+<P>
+On the external faces of domain 1 which are in contact with domain 2 or domain
+3:
+
+<P>
+
+<UL>
+<LI>Calculation of  <!-- MATH
+ $\boldsymbol{A}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1334.png"
+ ALT="$ \boldsymbol{A}$"></B> based on the external facial values in
+  domain 2 and 3 (cf. the area integrals in <B><IMG
+ WIDTH="28" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1422.png"
+ ALT="$ [K]$"></B>)
+</LI>
+</UL>
+
+<P>
+On the external faces of domain 2 and 3 which are in contact with domain 1:
+
+<P>
+
+<UL>
+<LI>Calculation of <B><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img542.png"
+ ALT="$ P$"></B> based on the external facial values in domain 1. 
+</LI>
+<LI>Imposition of <!-- MATH
+ $\boldsymbol{A} \cdot \boldsymbol{n}=0$
+ -->
+<B><IMG
+ WIDTH="70" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1435.png"
+ ALT="$ \boldsymbol{A} \cdot \boldsymbol{n}=0$"></B>.
+</LI>
+</UL>
+
+<P>
+On the faces between domain 2 and 3:
+
+<P>
+
+<UL>
+<LI>Continuity of  <!-- MATH
+ $\boldsymbol{A}$
+ -->
+<B><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1334.png"
+ ALT="$ \boldsymbol{A}$"></B>
+</LI>
+</UL>
+
+<P>
+These MPC's are generated automatically within CalculiX and have not
+to be taken care of by the user. Finally, the value of V has to be fixed in at least one node of domain 2. This
+has to be done by the user with a *BOUNDARY condition on degree of freedom
+8.  
+
+<P>
+The material data to be defined include:
+
+<P>
+
+<UL>
+<LI>the electrical conductivity in the driving coils
+</LI>
+<LI>the magnetic permeability in the air
+</LI>
+<LI>the density, the thermal conductivity, the specific heat, the electrical
+  conductivity and the magnetic permeability in the workpiece.
+</LI>
+</UL>
+
+<P>
+To this end the cards <A HREF="node241.html#density">*DENSITY</A>, <A HREF="node225.html#conductivity">*CONDUCTIVITY</A>,
+<A HREF="node314.html#specificheat">*SPECIFIC HEAT</A>, <A HREF="node251.html#electricalconductivity">*ELECTRICAL CONDUCTIVITY</A>,
+<A HREF="node279.html#magneticpermeability">MAGNETIC PERMEABILITY</A> can be used. In the
+presence of thermal radiation the <A HREF="node300.html#physicalconstants">*PHYSICAL
+  CONSTANTS</A> card is also needed.
+
+<P>
+The procedure card is <A HREF="node252.html#electromagnetics">*ELECTROMAGNETICS</A>. For
+magnetostatic calculations the parameter MAGNETOSTATICS is to be used, for
+athermal electromagnetic calculations the parameter NO HEAT TRANSFER. Default
+is an electromagnetic calculation with heat transfer.
+
+<P>
+Available output variables are POT (the electric potential in the driving
+current coil) on the *NODE FILE card and ECD (electric current density in the
+driving current coil), EMFE (electric field in the workpiece) and EMFB
+(magnetic field in the air and the workpiece) on the *EL FILE card. Examples
+are induction.inp and induction2.inp.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3349"
+  HREF="node181.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3345"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3339"
+  HREF="node179.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3347"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3350"
+  HREF="node181.html">Sensitivity</A>
+<B> Up:</B> <A NAME="tex2html3346"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3340"
+  HREF="node179.html">Substructure Generation</A>
+ &nbsp; <B>  <A NAME="tex2html3348"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

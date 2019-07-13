@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*SPECIFIC HEAT</TITLE>
+<META NAME="description" CONTENT="*SPECIFIC HEAT">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node315.html">
+<LINK REL="previous" HREF="node313.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node315.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5096"
+  HREF="node315.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5092"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5086"
+  HREF="node313.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5094"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5097"
+  HREF="node315.html">*SPRING</A>
+<B> Up:</B> <A NAME="tex2html5093"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5087"
+  HREF="node313.html">*SPECIFIC GAS CONSTANT</A>
+ &nbsp; <B>  <A NAME="tex2html5095"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0008106000000000000000"></A><A NAME="specificheat"></A>
+<BR>
+*SPECIFIC HEAT
+</H2>
+
+<P>
+Keyword type: model definition, material
+
+<P>
+With this option the specific heat of a solid material can be defined. The
+specific heat is required for a transient heat transfer analysis
+(*HEAT TRANSFER or *COUPLED TEMPERATURE-DISPLACEMENT). The specific heat can
+be temperature dependent.
+
+<P>
+This option should not be used to define the specific heat of a fluid (gas or
+liquid) in an aerodynamic or fluid dynamic network. For the latter purpose the
+keyword <A HREF="node263.html#fluidconstants">*FLUID CONSTANTS</A> is available.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*SPECIFIC HEAT
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Specific heat.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+<PRE>
+Example:
+
+*SPECIFIC HEAT
+446.E6
+</PRE>
+
+<P>
+defines a specific heat with value <!-- MATH
+ $446. \times 10^{6}$
+ -->
+<B><IMG
+ WIDTH="75" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1823.png"
+ ALT="$ 446. \times 10^{6}$"></B> for all temperatures.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamth, beamhtcr.
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

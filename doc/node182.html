@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Green functions</TITLE>
+<META NAME="description" CONTENT="Green functions">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node181.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node183.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3371"
+  HREF="node183.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3367"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3363"
+  HREF="node181.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3369"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3372"
+  HREF="node183.html">Convergence criteria</A>
+<B> Up:</B> <A NAME="tex2html3368"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3364"
+  HREF="node181.html">Sensitivity</A>
+ &nbsp; <B>  <A NAME="tex2html3370"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000792300000000000000"></A><A NAME="greenfunctions"></A>
+<BR>
+Green functions
+</H3>
+
+<P>
+With the <A HREF="node270.html#green">*GREEN</A> keyword card Green functions <B><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1460.png"
+ ALT="$ X_j$"></B>
+can be calculated satisfying
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+[K-\omega_0^2 M] \cdot X_j = E_j,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="158" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1461.png"
+ ALT="$\displaystyle [K-\omega_0^2 M] \cdot X_j = E_j,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(441)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"></B> is the stiffness matrix of the structure, <B><IMG
+ WIDTH="22" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img464.png"
+ ALT="$ M$"></B> the mass matrix,
+<B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1462.png"
+ ALT="$ \omega_0$"></B> a scalar frequency and <B><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1463.png"
+ ALT="$ E_j$"></B> a unit force at degree of freedom
+<B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1160.png"
+ ALT="$ j$"></B>. The degree of freedom <B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1160.png"
+ ALT="$ j$"></B> corresponds to a specific coordinate direction
+in a specific node. For <!-- MATH
+ $\omega_0=0$
+ -->
+<B><IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1464.png"
+ ALT="$ \omega_0=0$"></B> the Green function is the static answer of a system
+to a unit force at some location in one of the global coordinate directions. Usually, these Green functions are used in
+subsequent calculations. The Green function procedure is a linear perturbation
+procedure, i.e. nonlinear behavior from a previous *STATIC step can be taken
+into account (through the appropriately modified stiffness matrix) using the PERTURBATION parameter on the *STEP card in the Green step.
+
+<P>
+The degrees of freedom in which a unit force is to be applied can be defined
+by use of the <A HREF="node223.html#cload">*CLOAD</A> card (the force value specified by the
+user is immaterial, a unit value is taken). <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1462.png"
+ ALT="$ \omega_0$"></B>
+is a parameter on the *CLOAD card.
+
+<P>
+If the input deck is stored in the file ``problem.inp'', where
+``problem'' stands for any name, the Green functions, the stiffness matrix and
+the mass matrix are stored in binary form in a "problem.eig" file for further
+use (e.g. in a sensitivity step). Furthermore, the Green functions can be
+stored in the ``problem.frd'' file, using the standard <A HREF="node292.html#nodefile">*NODE
+  FILE</A> or <A HREF="node293.html#nodeoutput">*NODE OUTPUT</A> card.
+
+<P>
+The sensitivity of the Green functions can be calculated in a subsequent
+<A HREF="node310.html#sensitivity">*SENSITIVITY</A> step in which the objective function is
+set to GREEN (cf. <A HREF="node297.html#objective">*OBJECTIVE</A>).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3371"
+  HREF="node183.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3367"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3363"
+  HREF="node181.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3369"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3372"
+  HREF="node183.html">Convergence criteria</A>
+<B> Up:</B> <A NAME="tex2html3368"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3364"
+  HREF="node181.html">Sensitivity</A>
+ &nbsp; <B>  <A NAME="tex2html3370"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

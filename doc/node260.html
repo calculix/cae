@@ -1,0 +1,287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*EXPANSION</TITLE>
+<META NAME="description" CONTENT="*EXPANSION">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node261.html">
+<LINK REL="previous" HREF="node259.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node261.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4448"
+  HREF="node261.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4444"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4438"
+  HREF="node259.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4446"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4449"
+  HREF="node261.html">*FILM</A>
+<B> Up:</B> <A NAME="tex2html4445"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4439"
+  HREF="node259.html">*EQUATION</A>
+ &nbsp; <B>  <A NAME="tex2html4447"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000852000000000000000"></A><A NAME="expansion"></A>
+<BR>
+*EXPANSION
+</H2>
+
+<P>
+Keyword type: model definition, material
+
+<P>
+This option is used to define the thermal expansion coefficients of a material. They are interpreted as total expansion coefficients with respect to a reference temperature <B><IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1704.png"
+ ALT="$ T_{ref}$"></B>, i.e. the thermal strain <!-- MATH
+ $\epsilon_{th}$
+ -->
+<B><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1705.png"
+ ALT="$ \epsilon_{th}$"></B> of a material at a final temperature T and with initial temperature <B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1706.png"
+ ALT="$ T_{0}$"></B> is determined by 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\epsilon_{th}=\alpha(T)(T-T_{ref})-\alpha(T_o)(T_o-T_{ref}),
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="293" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1707.png"
+ ALT="$\displaystyle \epsilon_{th}=\alpha(T)(T-T_{ref})-\alpha(T_o)(T_o-T_{ref}),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(472)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1708.png"
+ ALT="$ \alpha(T)$"></B> is the thermal coefficient at a temperature T. There are two optional parameters TYPE and ZERO. Default for TYPE is TYPE=ISO, other values are TYPE=ORTHO for orthotropic materials and TYPE=ANISO for anisotropic materials. All constants may be temperature dependent. The parameter ZERO is used to determine the reference temperature, default is 0.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*EXPANSION
+</LI>
+<LI>Enter the TYPE and ZERO parameters and their values, if needed
+</LI>
+</UL>
+
+<P>
+Following line for TYPE=ISO:
+
+<UL>
+<LI><B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+Following line for TYPE=ORTHO:
+
+<UL>
+<LI><!-- MATH
+ $\alpha_{11}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1709.png"
+ ALT="$ \alpha_{11}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{22}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1710.png"
+ ALT="$ \alpha_{22}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{33}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1711.png"
+ ALT="$ \alpha_{33}$"></B>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+Following line for TYPE=ANISO:
+
+<UL>
+<LI><!-- MATH
+ $\alpha_{11}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1709.png"
+ ALT="$ \alpha_{11}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{22}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1710.png"
+ ALT="$ \alpha_{22}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{33}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1711.png"
+ ALT="$ \alpha_{33}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{12}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1712.png"
+ ALT="$ \alpha_{12}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{13}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1713.png"
+ ALT="$ \alpha_{13}$"></B>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{23}$
+ -->
+<B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1714.png"
+ ALT="$ \alpha_{23}$"></B>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+<PRE>
+Example:
+
+*EXPANSION,ZERO=273.
+12.E-6,373.
+20.E-6,573.
+</PRE>
+
+<P>
+tells you that the thermal strain in a body made of this material is
+<!-- MATH
+ $100. \times 12. \times 10^{-6}=12. \times 10^{-4}$
+ -->
+<B><IMG
+ WIDTH="219" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1715.png"
+ ALT="$ 100. \times 12. \times 10^{-6}=12. \times 10^{-4}$"></B> if heated from T=273 to T=373, and <!-- MATH
+ $300 \times 20 \times 10^{-6}=60 \times 10^{-4}$
+ -->
+<B><IMG
+ WIDTH="206" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1716.png"
+ ALT="$ 300 \times 20 \times 10^{-6}=60 \times 10^{-4}$"></B> if heated from T=273 to T=573.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamt, beamt2.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4448"
+  HREF="node261.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4444"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4438"
+  HREF="node259.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4446"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4449"
+  HREF="node261.html">*FILM</A>
+<B> Up:</B> <A NAME="tex2html4445"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4439"
+  HREF="node259.html">*EQUATION</A>
+ &nbsp; <B>  <A NAME="tex2html4447"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

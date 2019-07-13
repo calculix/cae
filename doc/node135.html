@@ -1,0 +1,620 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>General considerations</TITLE>
+<META NAME="description" CONTENT="General considerations">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node136.html">
+<LINK REL="previous" HREF="node134.html">
+<LINK REL="up" HREF="node134.html">
+<LINK REL="next" HREF="node136.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2775"
+  HREF="node136.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2771"
+  HREF="node134.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2765"
+  HREF="node134.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2773"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2776"
+  HREF="node136.html">Normal contact stiffness</A>
+<B> Up:</B> <A NAME="tex2html2772"
+  HREF="node134.html">Node-to-Face Penalty Contact</A>
+<B> Previous:</B> <A NAME="tex2html2766"
+  HREF="node134.html">Node-to-Face Penalty Contact</A>
+ &nbsp; <B>  <A NAME="tex2html2774"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00077510000000000000">
+General considerations</A>
+</H4>
+
+<P>
+Contact is a strongly nonlinear kind of boundary condition, preventing bodies
+to penetrate each other. The contact definitions implemented in CalculiX are a
+node-to-face penalty method and a face-to-face penalty method, both
+based on a pairwise interaction of surfaces. They cannot be mixed in one and
+the same input deck. In the present section the node-to-face
+penalty method is explained. For details on the penalty method
+the reader is referred to [<A
+ HREF="node448.html#Wriggers">80</A>] and [<A
+ HREF="node448.html#Laursen">41</A>].
+
+<P>
+Each pair of interacting surfaces consists of a dependent surface and an
+independent surface. The dependent surface (= slave) may be defined based on nodes or
+element faces, the
+independent surface (= master) must consist of element faces (Figure
+<A HREF="#contact1">129</A>). The element faces within one independent surface must be
+such, that any edge of any face has at most one neighboring face. Usually, the
+mesh on the dependent side should be at least as fine as on the
+independent side. As many pairs can be defined as needed. A contact pair is
+defined by the keyword card <A HREF="node230.html#contactpair">*CONTACT PAIR</A>.
+
+<P>
+If the elements adjacent to the slave surface are quadratic elements
+(e.g. C3D20, C3D10 or C3D15),
+convergence may be slower. This especially applies to elements having
+quadrilateral faces in the slave surface. A uniform pressure on a quadratic
+(8-node) quadrilateral face leads to compressive forces in the midnodes and
+tensile forces in the vertex nodes [<A
+ HREF="node448.html#Dhondt">18</A>] (with weights of 1/3 and
+-1/12, respectively). The tensile forces in the corner nodes usually lead to
+divergence if this node belongs to a node-to-face contact element. Therefore,
+in CalculiX the weights are modified into 24/100 and 1/100,
+respectively. In general, node-to-face contact is not recommended for
+quadratic elements. Instead, face-to-face contact should be used.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contact1"></A><A NAME="12068"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 129:</STRONG>
+Definition of the dependent nodal surface and the
+  independent element face surface</CAPTION>
+<TR><TD><IMG
+ WIDTH="451" HEIGHT="367" BORDER="0"
+ SRC="img757.png"
+ ALT="\begin{figure}\epsfig{file=Contact1.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="n2f"></A><A NAME="12069"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 130:</STRONG>
+Creation of a node-to-face penalty contact element</CAPTION>
+<TR><TD><IMG
+ WIDTH="272" HEIGHT="268" BORDER="0"
+ SRC="img758.png"
+ ALT="\begin{figure}\begin{center}
+\epsfig{file=n2f.eps,width=6cm}\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In CalculiX, penalty contact is modeled by the generation of (non)linear spring
+elements. To this end, for each node on the dependent surface, a face on the independent surface is
+localized such that it contains the orthogonal projection of the node. If such is face is found a nonlinear spring element is generated
+consisting of the dependent node and all vertex nodes belonging to the independent
+face (Figure <A HREF="#n2f">130</A>). Depending of the kind of face the contact spring element contains 4, 5,
+7 or 9
+nodes. The properties of the spring are defined by a <A HREF="node324.html#surfaceinteraction">*SURFACE
+  INTERACTION</A> definition, whose name must be specified on
+the *CONTACT PAIR card.
+
+<P>
+The user can determine how often during the calculation the pairing of the
+dependent nodes with the independent faces takes place. If the user specifies
+the parameter SMALL SLIDING on the <A HREF="node230.html#contactpair">*CONTACT PAIR</A>
+card, the pairing is done once per increment. If this parameter is not
+selected, the pairing is checked every iteration for all iterations below 9, for
+iterations 9 and higher the contact elements are frozen to improve
+convergence. Deactivating SMALL SLIDING is useful if the sliding is
+particularly large.
+
+<P>
+The *SURFACE INTERACTION keyword card is very similar to the
+<A HREF="node282.html#material">*MATERIAL</A> card: it starts the definition of interaction properties in the same way a *MATERIAL card starts the
+definition of material properties. Whereas material properties are
+characterized by cards such as *DENSITY or *ELASTIC, interaction properties
+are denoted by the <A HREF="node323.html#surfacebehavior">*SURFACE BEHAVIOR</A> and the <A HREF="node266.html#friction">*FRICTION</A> card. All
+cards beneath a *SURFACE INTERACTION card are interpreted as belonging to the
+surface interaction definition until a keyword card is encountered which is
+not a surface interaction description card. At that point, the surface
+interaction description is considered to be finished. Consequently, an
+interaction description is a closed block in the same way as a material
+description, Figure <A HREF="node7.html#beam3">3</A>. 
+
+<P>
+The *SURFACE BEHAVIOR card defines the linear (actually quasi bilinear as
+illustrated by Figure <A HREF="#contact_lin">132</A>), exponential, or piecewice linear normal
+(i.e. locally perpendicular onto the master surface) behavior of the spring
+element. The pressure <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$"> exerted on the independent face of a contact spring
+element with exponential behavior is given by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+p=p_0 \exp(\beta d),
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="111" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img759.png"
+ ALT="$\displaystyle p=p_0 \exp(\beta d),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(158)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contact_exp"></A><A NAME="12070"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 131:</STRONG>
+Exponential pressure-overclosure relationship</CAPTION>
+<TR><TD></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contact_lin"></A><A NAME="12071"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 132:</STRONG>
+Linear pressure-overclosure relationship</CAPTION>
+<TR><TD></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+where <IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$ p_0$"> is the pressure at zero clearance, <IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$"> is a coefficient and
+<IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img279.png"
+ ALT="$ d$"> is the overclosure (penetration of the slave node into the master side; a
+negative penetration is a clearance). Instead of having to specify
+<IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$">, which lacks an immediate physical significance, the user is expected
+to specify <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$"> which is the clearance at which the pressure is 1 % of
+<IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$ p_0$">. From this <IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$"> can be calculated:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\beta=\frac{\ln 100}{c_0}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="84" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img764.png"
+ ALT="$\displaystyle \beta=\frac{\ln 100}{c_0}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(159)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The pressure curve for <IMG
+ WIDTH="49" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img765.png"
+ ALT="$ p_0 =1$"> and <IMG
+ WIDTH="60" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img766.png"
+ ALT="$ c_0=0.5$"> looks like in Figure
+<A HREF="#contact_exp">131</A>. A large value of <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$"> leads to soft contact, i.e. large
+penetrations can occur, hard contact is modeled by a small value of
+<IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$">. Hard contact leads to slower convergence than soft contact. If the
+distance of the slave node to the master surface exceeds <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$"> no contact
+spring element is generated. For exponential behavior the user has to specify
+<IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$"> and <IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$ p_0$"> underneath the *SURFACE BEHAVIOR card.
+
+<P>
+In case of a linear contact spring the pressure-overclosure relationship is
+given by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="prescleareq"></A><!-- MATH
+ \begin{equation}
+p=  K d \left[ \frac{1}{2} + \frac{1}{\pi} \tan^{-1} \left(
+    \frac{d}{\epsilon} \right) \right],
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="209" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img767.png"
+ ALT="$\displaystyle p= K d \left[ \frac{1}{2} + \frac{1}{\pi} \tan^{-1} \left( \frac{d}{\epsilon} \right) \right],$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(160)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+were <IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"> is a small number. The term in square brackets makes sure that the value of p is very
+small for <IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img768.png"
+ ALT="$ d \le 0$">. In general, a linear
+contact spring formulation will converge more easily than an exponential
+behavior. The pressure curve for <IMG
+ WIDTH="63" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img769.png"
+ ALT="$ K =10^{3}$"> and <!-- MATH
+ $\epsilon=10^{-2}$
+ -->
+<IMG
+ WIDTH="65" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img770.png"
+ ALT="$ \epsilon=10^{-2}$"> looks like in Figure
+<A HREF="#contact_lin">132</A>. A large value of <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"> leads to hard contact. To obtain good
+results <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"> should typically be 5 to 50 times the E-modulus of the adjacent
+materials. If one knows the roughness of the contact surfaces in the form of a
+peak-to-valley distance <IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img771.png"
+ ALT="$ d_{pv}$"> and the maximum pressure <IMG
+ WIDTH="39" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img772.png"
+ ALT="$ p_{max}$"> to expect,
+one might estimate the spring constant by <!-- MATH
+ $K=p_{max}/d_{pv}$
+ -->
+<IMG
+ WIDTH="105" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img773.png"
+ ALT="$ K=p_{max}/d_{pv}$">. The units of K
+are [Force]/[Length]<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img4.png"
+ ALT="$ ^3$">.
+
+<P>
+Notice that for a large negative overclosure a tension <!-- MATH
+ $\sigma_{\infty}$
+ -->
+<IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img774.png"
+ ALT="$ \sigma_{\infty}$"> results
+(for <!-- MATH
+ $d \rightarrow - \infty$
+ -->
+<IMG
+ WIDTH="66" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img775.png"
+ ALT="$ d \rightarrow - \infty$"> ), equal to <!-- MATH
+ $K \epsilon/\pi$
+ -->
+<IMG
+ WIDTH="43" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img776.png"
+ ALT="$ K \epsilon/\pi$">. The value of
+<!-- MATH
+ $\sigma_{\infty}$
+ -->
+<IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img774.png"
+ ALT="$ \sigma_{\infty}$"> has to be specified by the user. A good value is about 0.25
+% of the maximum expected stress in the model. CalculiX calculates <IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$">
+from <!-- MATH
+ $\sigma_{\infty}$
+ -->
+<IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img774.png"
+ ALT="$ \sigma_{\infty}$"> and <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$">.
+
+<P>
+For a linear contact spring the distance beyond which no contact
+spring element is generated is defined by <!-- MATH
+ $c_0 \sqrt{\text{spring area}}$
+ -->
+<IMG
+ WIDTH="109" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img777.png"
+ ALT="$ c_0 \sqrt{\text{spring area}}$"> if the
+spring area exceeds zero, and <IMG
+ WIDTH="44" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img778.png"
+ ALT="$ 10^{-10}$"> otherwise. The default for <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$"> is
+<IMG
+ WIDTH="38" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img779.png"
+ ALT="$ 10^{-3}$"> (dimensionless) but may be changed by the user. For a linear
+pressure-overclosure relationship the user has to specify <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ K$"> and
+<!-- MATH
+ $\sigma_{\infty}$
+ -->
+<IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img774.png"
+ ALT="$ \sigma_{\infty}$"> underneath the *SURFACE BEHAVIOR card. <IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$ c_0$"> is optional,
+and may be entered as the third value on the same line.
+
+<P>
+The pressure-overclosure behavior can also be defined as a piecewise linear
+function (PRESSURE-OVERCLOSURE=TABULAR). In this way the user can use
+experimental data to define the curve. For a tabular spring the distance beyond which no contact
+spring element is generated is defined by <!-- MATH
+ $10^{-3} \sqrt{\text{spring area}}$
+ -->
+<IMG
+ WIDTH="128" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img780.png"
+ ALT="$ 10^{-3} \sqrt{\text{spring area}}$"> if the
+spring area exceeds zero, and <IMG
+ WIDTH="44" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img778.png"
+ ALT="$ 10^{-10}$"> otherwise. For tabular behavior the
+user has to enter pressure-overclosure pairs, one on a line.
+
+<P>
+The normal spring force is defined as the pressure multiplied by the spring
+area. The spring area is assigned to the slave nodes and defined by 1/4
+(linear quadrilateral faces) or 1/3 (linear triangular faces) of the slave faces the slave
+node belongs to. For quadratic quadrilateral faces the weights are 24/100 for
+middle nodes and 1/100 for corner nodes. For quadratic triangular faces these
+weight are 1/3 and 0, respectively.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="contact_fric"></A><A NAME="12074"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 133:</STRONG>
+Shear stress versus relative tangential displacement</CAPTION>
+<TR><TD><IMG
+ WIDTH="539" HEIGHT="307" BORDER="0"
+ SRC="img781.png"
+ ALT="\begin{figure}\epsfig{file=Contact_fric.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The tangential spring force is defined as the shear stress multiplied by the
+spring area. The shear stress is a function of the relative displacement <!-- MATH
+ $\|
+\boldsymbol{t} \|$
+ -->
+<IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img782.png"
+ ALT="$ \Vert
+\boldsymbol{t} \Vert$">
+between the slave node and the master face. This function is shown in
+Figure <A HREF="#contact_fric">133</A>. It consists of a stick range, in which the shear
+stress is a linear function of the relative tangential displacement, and a slip
+range, for which the shear stress is a function of the local pressure
+only. User input consists of the friction coefficient <IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"> which is
+dimensionless and usually takes values between 0.1 and 0.5 and the stick slope <IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"> which has the dimension of force per unit of volume and
+should be chosen about 100 times smaller than the spring constant.
+
+<P>
+The friction can be redefined in all but the first step by the
+<A HREF="node217.html#changefriction">*CHANGE FRICTION</A> keyword card. In the same way
+contact pairs can be activated or deactivated in all but the first step by
+using the <A HREF="node286.html#modelchange">*MODEL CHANGE</A> card.
+
+<P>
+If CalculiX detects an overlap of the contacting surfaces at the start of a
+step, the overlap is completely taken into account at the start of the step for a
+dynamic calculation (*DYNAMIC or *MODAL DYNAMIC) whereas it is linearly ramped
+for a static calculation (*STATIC).
+
+<P>
+Finally a few useful rules if you experience convergence problems:
+
+<P>
+
+<UL>
+<LI>Deactivate NLGEOM (i.e. do not use NLGEOM on the *STEP card). 
+</LI>
+<LI>Try SMALL SLIDING first, and then large sliding, if applicable.
+</LI>
+<LI>Try a linear pressure-overclosure relationship first (instead of exponential), with a stiffness
+  constant about 5 to 50 times Young's modulus of the adjacent materials.
+</LI>
+<LI>Define your slave surface based on faces, not on nodes. This can be
+  especially helpful if you use quadratic elements.
+</LI>
+<LI>Make sure that the mesh density on the slave side is at least as fine as
+  on the master side, preferably finer.
+</LI>
+<LI>Deactivate friction first.
+</LI>
+</UL>
+
+<P>
+Notice that the parameter CONTACT ELEMENTS on the <A HREF="node292.html#nodefile">*NODE
+  FILE</A>, <A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="node293.html#nodeoutput">NODE OUTPUT</A>, or
+<A HREF="node254.html#elementoutput">*ELEMENT OUTPUT</A> card stores the contact elements which have
+been generated in each iteration as a set with the name
+contactelements_st<IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$">_in<IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$">_at<IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img783.png"
+ ALT="$ \gamma$">_it<IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img784.png"
+ ALT="$ \delta$"> (where <IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$">
+is the step number, <IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img762.png"
+ ALT="$ \beta$"> the increment number, <IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img783.png"
+ ALT="$ \gamma$"> the attempt number
+and <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img784.png"
+ ALT="$ \delta$"> the iteration number) in a file
+jobname.cel. When
+opening the frd file with CalculiX GraphiX this file can be read with the
+command ``read jobname.cel inp'' and visualized by
+plotting the elements in the appropriate set. These elements are the contact spring
+elements and connect the slave nodes
+with the corresponding master surfaces. In case of contact these elements will
+be very flat. Moving the parts apart (by a translation) will improve
+the visualization. Using the screen up and screen down key one can check how
+contact evolved during the calculation. Looking at where contact elements have been generated may
+help localizing the problem in case of divergence. 
+
+<P>
+The number of contact elements generated is also listed in the
+screen output for each iteration in which contact was established anew,
+i.e. for each iteration <IMG
+ WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img785.png"
+ ALT="$ \le 8$"> if the SMALL SLIDING parameter was not used on the
+<A HREF="node230.html#contactpair">*CONTACT PAIR</A> card, else only in the first iteration of
+each increment.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2775"
+  HREF="node136.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2771"
+  HREF="node134.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2765"
+  HREF="node134.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2773"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2776"
+  HREF="node136.html">Normal contact stiffness</A>
+<B> Up:</B> <A NAME="tex2html2772"
+  HREF="node134.html">Node-to-Face Penalty Contact</A>
+<B> Previous:</B> <A NAME="tex2html2766"
+  HREF="node134.html">Node-to-Face Penalty Contact</A>
+ &nbsp; <B>  <A NAME="tex2html2774"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

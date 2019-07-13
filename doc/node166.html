@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Direct integration dynamic analysis</TITLE>
+<META NAME="description" CONTENT="Direct integration dynamic analysis">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node167.html">
+<LINK REL="previous" HREF="node165.html">
+<LINK REL="up" HREF="node159.html">
+<LINK REL="next" HREF="node167.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3181"
+  HREF="node167.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3177"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3171"
+  HREF="node165.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3179"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3182"
+  HREF="node167.html">Heat transfer</A>
+<B> Up:</B> <A NAME="tex2html3178"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3172"
+  HREF="node165.html">Steady state dynamics</A>
+ &nbsp; <B>  <A NAME="tex2html3180"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00079700000000000000">
+Direct integration dynamic analysis</A>
+</H3>
+
+<P>
+In a direct integration dynamic analysis, activated by the <A HREF="node249.html#dynamic">*DYNAMIC</A> key word, the equation of motion is integrated in time using the <B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>-method developed by Hilber, Hughes and Taylor [<A
+ HREF="node448.html#Miranda">54</A>]. The parameter <B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B> lies in the interval [-1/3,0] and controls the high frequency dissipation: <B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>=0 corresponds to the classical Newmark method inducing no dissipation at all, while <B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B>=-1/3 corresponds to maximum dissipation. The user can choose between an implicit and explicit version of the algorithm. The implicit version (default) is unconditionally stable. 
+
+<P>
+In the explicit version, triggered by the parameter EXPLICIT in the *DYNAMIC keyword card, the mass matrix is lumped, and a forward integration scheme is used so that the solution can be calculated without solving a system of equations. Each iteration is much faster than with the implicit scheme. However, the explicit scheme is only conditionally stable: the maximum time step size is proportional to the time a mechanical wave needs to cross the smallest element in the mesh. For linear elements the proportionality factor is 1., for quadratic elements it is <!-- MATH
+ $1/\sqrt{6}$
+ -->
+<B><IMG
+ WIDTH="42" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1168.png"
+ ALT="$ 1/\sqrt{6}$"></B>. For elastic materials, the wave speed in a rod is <!-- MATH
+ $\sqrt{E/\rho}$
+ -->
+<B><IMG
+ WIDTH="49" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1169.png"
+ ALT="$ \sqrt{E/\rho}$"></B>, where E is Young's modulus and <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> is the material density.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3181"
+  HREF="node167.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3177"
+  HREF="node159.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3171"
+  HREF="node165.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3179"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3182"
+  HREF="node167.html">Heat transfer</A>
+<B> Up:</B> <A NAME="tex2html3178"
+  HREF="node159.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3172"
+  HREF="node165.html">Steady state dynamics</A>
+ &nbsp; <B>  <A NAME="tex2html3180"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

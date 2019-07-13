@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Characteristic</TITLE>
+<META NAME="description" CONTENT="Characteristic">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node82.html">
+<LINK REL="previous" HREF="node80.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node82.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2090"
+  HREF="node82.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2086"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2080"
+  HREF="node80.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2088"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2091"
+  HREF="node82.html">Carbon Seal</A>
+<B> Up:</B> <A NAME="tex2html2087"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2081"
+  HREF="node80.html">Straight and Stepped Labyrinth</A>
+ &nbsp; <B>  <A NAME="tex2html2089"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00074500000000000000">
+Characteristic</A>
+</H3>
+
+<P>
+Properties: adiabatic, not isentropic, symmetric 
+
+<P>
+Sometimes a network element is described by its characteristic curve,
+expressing the reduced mass flow as a function of the pressure ratio (Figure
+<A HREF="#characteristic">91</A>). This allows the user to define new elements not already available.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="characteristic"></A><A NAME="11900"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 91:</STRONG>
+Characteristic Curve</CAPTION>
+<TR><TD><IMG
+ WIDTH="496" HEIGHT="342" BORDER="0"
+ SRC="img436.png"
+ ALT="\begin{figure}\epsfig{file=Characteristic.eps,width=11cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The reduced flow is defined by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+Y=\frac{\dot{m} \sqrt{T_{t_1}}}{p_{t_1}},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="98" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img437.png"
+ ALT="$\displaystyle Y=\frac{\dot{m} \sqrt{T_{t_1}}}{p_{t_1}},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(55)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img391.png"
+ ALT="$ \dot{m}$"> is the mass flow, <IMG
+ WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img438.png"
+ ALT="$ T_{t_1}$"> is the upstream total temperature
+and <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img439.png"
+ ALT="$ p_{t_1}$"> is the upstream total pressure. Here ``upstream'' refers to the
+actual flow direction, the same applies to ``downstream''. The abscissa of the curve is defined
+by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+X=\frac{p_{t_1} -p_{t_2}}{p_{t_1}},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="107" HEIGHT="48" ALIGN="MIDDLE" BORDER="0"
+ SRC="img440.png"
+ ALT="$\displaystyle X=\frac{p_{t_1} -p_{t_2}}{p_{t_1}},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(56)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img441.png"
+ ALT="$ p_{t_2}$"> is the downstream total pressure. Notice that <!-- MATH
+ $0 \le
+X \le 1$
+ -->
+<IMG
+ WIDTH="77" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img442.png"
+ ALT="$ 0 \le
+X \le 1$">. It is advisable to define Y for the complete X-range. If not,
+constant extrapolation applies. Notice that zero and small slopes of the curve
+can lead to convergence problems. This is quite natural, since the reduced
+flow corresponds to the left hand side of Equation(<A HREF="node76.html#generalgaseqn">33</A>), apart
+from a constant. Zero
+slope implies a maximum, which corresponds to sonic flow (cf. the discussion of Equation(<A HREF="node76.html#generalgaseqn">33</A>)). In general, some sort of saturation
+will occur for values of X close to 1. 
+
+<P>
+The characteristic curve is defined  
+by the following parameters (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=CHARACTERISTIC card):
+
+<P>
+
+<UL>
+<LI>scaling factor (default: 1)
+</LI>
+<LI>not used (internally: number of pairs)
+</LI>
+<LI>not used (internally: set to zero)
+</LI>
+<LI>not used (internally: set to zero)
+</LI>
+<LI><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$ X_1$">
+</LI>
+<LI><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$ Y_1$">
+</LI>
+<LI><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img414.png"
+ ALT="$ X_2$">
+</LI>
+<LI><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img415.png"
+ ALT="$ Y_2$">
+</LI>
+</UL>
+
+<P>
+Use more cards if more than two pairs are needed (maximum 16 entries per
+line, i.e. 8 pairs). No more than 10 pairs in total are
+allowed. In between the data points
+CalculiX performs an interpolation (solid line in Figure
+<A HREF="#characteristic">91</A>). In addition, the default point (0,0) is added as first
+point of the curve.
+
+<P>
+The scaling factor (first entry) is used to scale the
+ordinate values Y.
+
+<P>
+
+<P><P>
+<BR>
+Example files: characteristic.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2090"
+  HREF="node82.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2086"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2080"
+  HREF="node80.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2088"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2091"
+  HREF="node82.html">Carbon Seal</A>
+<B> Up:</B> <A NAME="tex2html2087"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2081"
+  HREF="node80.html">Straight and Stepped Labyrinth</A>
+ &nbsp; <B>  <A NAME="tex2html2089"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

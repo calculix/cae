@@ -23,7 +23,6 @@ To contribute first install vtk, PyQt5 and QT designer:
     pip3 install PyQt5
     pip3 install PyQtWebEngine --user
     sudo apt install qttools5-dev-tools
-    <!-- sudo apt install texlive-latex-base -->
 
 Some examples for getting started with VTK in Python:
 

@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Incremental (visco)plasticity: additive decomposition</TITLE>
+<META NAME="description" CONTENT="Incremental (visco)plasticity: additive decomposition">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node152.html">
+<LINK REL="previous" HREF="node150.html">
+<LINK REL="up" HREF="node143.html">
+<LINK REL="next" HREF="node152.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2980"
+  HREF="node152.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2976"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2970"
+  HREF="node150.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2978"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2981"
+  HREF="node152.html">Tension-only and compression-only materials.</A>
+<B> Up:</B> <A NAME="tex2html2977"
+  HREF="node143.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2971"
+  HREF="node150.html">Incremental (visco)plasticity: multiplicative decomposition</A>
+ &nbsp; <B>  <A NAME="tex2html2979"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00078800000000000000"></A><A NAME="incplasa"></A>
+<BR>
+Incremental (visco)plasticity: additive decomposition
+</H3>
+
+<P>
+The implementation of incremental plasticity for linear geometrical
+calculations in CalculiX follows the algorithms in [<A
+ HREF="node448.html#Dhondt">18</A>], section
+5.3 and is based on an additive decomposition of the strain tensor into an
+elastic and a plastic part. In CalculiX, it is used in the absence of the
+NLGEOM parameter on the <A HREF="node318.html#step">*STEP</A> card. The internal variables are
+the same as for the multiplicative decomposition (cf. previous section) in
+their infinitesimal limit. It seems that the additive decomposition exhibits
+less convergence issues than the multiplicative decomposition (although this
+may also be attributable to the general nonlinear geometrical setup).
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

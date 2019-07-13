@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Modal dynamic calculations</TITLE>
+<META NAME="description" CONTENT="Modal dynamic calculations">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node407.html">
+<LINK REL="previous" HREF="node405.html">
+<LINK REL="up" HREF="node401.html">
+<LINK REL="next" HREF="node407.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6344"
+  HREF="node407.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6340"
+  HREF="node401.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6334"
+  HREF="node405.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6342"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6345"
+  HREF="node407.html">Steady state dynamics calculations</A>
+<B> Up:</B> <A NAME="tex2html6341"
+  HREF="node401.html">Filling and solving the</A>
+<B> Previous:</B> <A NAME="tex2html6335"
+  HREF="node405.html">Buckling calculations</A>
+ &nbsp; <B>  <A NAME="tex2html6343"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000116500000000000000">
+Modal dynamic calculations</A>
+</H3>
+
+<P>
+For modal dynamic calculations the response of the system is assumed to be a
+linear combination of the lowest eigenmodes. To this end, the eigenvalues and
+eigenmodes must have been calculated, either in the same run, or in a previous
+run. At the end of a frequency calculation this data, including the stiffness
+and mass
+matrix, is stored in binary form in a .eig file, provided the STORAGE=YES
+option is activated on the *FREQUENCY or *HEAT TRANSFER,FREQUENCY card. This file is read at the
+beginning of file dyna.c.
+
+<P>
+In file dyna.c the response is calculated in an explicit way, for details
+the reader is referred to [<A
+ HREF="node448.html#Dhondt">18</A>]. Modal damping is allowed in the form
+of Rayleigh damping. Within file dyna the following routines are used:
+
+<P>
+
+<UL>
+<LI>tempload, to calculate the instantaneous loading
+</LI>
+<LI>rhs, to determine the external force vector of the system
+</LI>
+<LI>results, to calculate all displacements, stresses and/or any other
+  variables selected by the user
+</LI>
+</UL>
+
+<P>
+Notice that if nonzero boundary conditions are prescribed (base loading, e.g
+for earthquake calculations) the stiffness matrix of the system is used to
+calculate the steady state response to these nonzero conditions. It serves as
+particular solution in the modal dynamic solution procedure.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6344"
+  HREF="node407.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6340"
+  HREF="node401.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6334"
+  HREF="node405.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6342"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6345"
+  HREF="node407.html">Steady state dynamics calculations</A>
+<B> Up:</B> <A NAME="tex2html6341"
+  HREF="node401.html">Filling and solving the</A>
+<B> Previous:</B> <A NAME="tex2html6335"
+  HREF="node405.html">Buckling calculations</A>
+ &nbsp; <B>  <A NAME="tex2html6343"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

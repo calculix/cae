@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Reinforced concrete cantilever beam</TITLE>
+<META NAME="description" CONTENT="Reinforced concrete cantilever beam">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node21.html">
+<LINK REL="previous" HREF="node19.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node21.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1112"
+  HREF="node21.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1108"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1102"
+  HREF="node19.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1110"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1113"
+  HREF="node21.html">Wrinkling of a thin</A>
+<B> Up:</B> <A NAME="tex2html1109"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1103"
+  HREF="node19.html">Cantilever beam using beam</A>
+ &nbsp; <B>  <A NAME="tex2html1111"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000614000000000000000">
+Reinforced concrete cantilever beam</A>
+</H2>
+
+<P>
+Purpose of this exercise is to calculate the stresses in a reinforced concrete cantilever
+beam due to its own weight. Special issues in this type of problem are the
+treatment of the structure as a composite and the presence of a
+compression-only material (the concrete). 
+
+<P>
+The input deck runs like:
+
+<P>
+<PRE>
+*NODE, NSET=Nall
+       1,1.000000000000e+01,0.000000000000e+00,0.000000000000e+00
+...
+*ELEMENT, TYPE=S8R, ELSET=Eall
+     1,      1,      2,      3,      4,      5,      6,      7,      8
+     2,      2,      9,     10,      3,     11,     12,     13,      6
+...
+** Names based on left
+*NSET,NSET=Nleft 
+49, 
+50, 
+52, 
+** Names based on right
+*NSET,NSET=Nright 
+1, 
+4, 
+8, 
+*MATERIAL,NAME=COMPRESSION_ONLY
+*USER MATERIAL,CONSTANTS=2
+  1.4e10,        1.e5
+*DENSITY
+2350.
+*MATERIAL,NAME=STEEL
+*ELASTIC
+210000.e6,.3
+*DENSITY
+7800.
+*SHELL SECTION,ELSET=Eall,COMPOSITE
+.09,,COMPRESSION_ONLY
+.01,,STEEL
+.1,,COMPRESSION_ONLY
+.1,,COMPRESSION_ONLY
+.1,,COMPRESSION_ONLY
+.1,,COMPRESSION_ONLY
+.1,,COMPRESSION_ONLY
+.1,,COMPRESSION_ONLY
+.1,,COMPRESSION_ONLY
+.1,,COMPRESSION_ONLY
+.1,,COMPRESSION_ONLY
+*BOUNDARY
+Nleft,1,6
+*STEP,NLGEOM
+*STATIC
+1.,1.
+*DLOAD
+Eall,GRAV,9.81,0.,0.,-1.
+*NODE FILE
+U
+*EL FILE
+S
+*END STEP
+</PRE>
+
+<P>
+The beam has a cross section of 1 x 1 <!-- MATH
+ $\text{m}^2$
+ -->
+m<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ ^2$"> and a length of 10 m. The
+density of concrete is 2350 <!-- MATH
+ $\text{kg}/\text{m}^3$
+ -->
+kg<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$ /$">m<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img4.png"
+ ALT="$ ^3$">, whereas the density of
+steel is 7800 <!-- MATH
+ $\text{kg}/\text{m}^3$
+ -->
+kg<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$ /$">m<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img4.png"
+ ALT="$ ^3$">. The
+Young's moduli are 14000 MPa and 210000 MPa, respectively. Steel is
+provided only on the top of the beam (tension side of the beam) at a distance
+of 9.5 cm from the upper surface. Its layer thickness is 1 cm (in reality the
+steel is placed within the concrete in the form of bars. The modeling as a
+thin layer is an approximation. One has to make sure that the complete section
+of the bars equals the section of the layer). 
+Using the composite feature
+available for shell structures significantly simplifies the input. Notice that
+this feature is not (yet) available for beam elements. Consequently the beam
+was modeled as a plate with a width of 1 m and a length of 10
+m. Underneath the *SHELL SECTION card the thickness of the layers and their
+material is listed, starting at the top of the beam. The direction (from top
+to bottom) is controlled by the direction of the normal on the shell elements
+(which is controlled by the order in which the elements' nodes are listed
+underneath the *ELEMENT card). In a composite shell there are two integration
+points across each layer. Use of the S8R element or S6 element is mandatory. In order to
+capture the location of the neutral axis several layers were used to model the
+concrete part of the section (in total 10 layers for the concrete and 1 for
+the steel). 
+
+<P>
+Concrete cannot sustain tension whereas it is largely linear elastic under
+pressure. This can be modeled with the COMPRESSION_ONLY material model. In
+CalculiX this is an example of a user material. The name of user materials has
+to start with a fixed character set, in this case ''COMPRESSION_ONLY''. The
+remaining 64 characters (a material name can be at most 80 characters long)
+can be freely chosen. In the present input deck no extra characters were
+selected. Choosing extra characters is needed if more than 1 compression-only
+material is present (in order to distinguish them). The ''COMPRESSION_ONLY''
+material is characterized by 2 constants, the first is Young's modulus, the
+second is the maximum tensile stress the user is willing to allow, in our case
+0.1 MPa (SI-units are used).
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="concretebeam1"></A><A NAME="11792"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 43:</STRONG>
+Axial stress across the height of the beam at
+  the fixed end</CAPTION>
+<TR><TD><IMG
+ WIDTH="35" HEIGHT="2" BORDER="0"
+ SRC="img210.png"
+ ALT="\begin{figure}\epsfig{file=concretebeam1.eps,width=8cm,angle=270}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="concretebeam2"></A><A NAME="11793"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 44:</STRONG>
+Axial stress across the height of the beam at
+  the fixed end</CAPTION>
+<TR><TD><IMG
+ WIDTH="452" HEIGHT="388" BORDER="0"
+ SRC="img211.png"
+ ALT="\begin{figure}\epsfig{file=concretebeam2.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Using simple beam theory ([<A
+ HREF="node448.html#Mortelmans">58</A>]) leads to a tensile stress of
+152.3 MPa in the steel and a maximum compressive stress of 7.77 MPa at
+the lower edge of the concrete. The finite element calculation (Figure
+<A HREF="#concretebeam1">43</A>) predicts 152
+MPa and 7.38 MPa, respectively, which is quite close. In CalculiX,
+the graphical output of composite structures is always expanded into three
+dimensions. In Figure <A HREF="#concretebeam2">44</A> one notices the correct dimension of
+the composite and the high tensile stresses in the thin steel layer. 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1112"
+  HREF="node21.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1108"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1102"
+  HREF="node19.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1110"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1113"
+  HREF="node21.html">Wrinkling of a thin</A>
+<B> Up:</B> <A NAME="tex2html1109"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1103"
+  HREF="node19.html">Cantilever beam using beam</A>
+ &nbsp; <B>  <A NAME="tex2html1111"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

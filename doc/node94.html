@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Cross, Split</TITLE>
+<META NAME="description" CONTENT="Cross, Split">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node95.html">
+<LINK REL="previous" HREF="node93.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node95.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2246"
+  HREF="node95.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2242"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2236"
+  HREF="node93.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2244"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2247"
+  HREF="node95.html">Vortex</A>
+<B> Up:</B> <A NAME="tex2html2243"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2237"
+  HREF="node93.html">Branch, Split</A>
+ &nbsp; <B>  <A NAME="tex2html2245"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000741800000000000000">
+Cross, Split</A>
+</H3>
+
+<P>
+Properties: adiabatic, not isentropic, directional, inlet based restrictor
+
+<P>
+This is an element, in which a gas mass flow is split into three separate
+branches.(See Fig.<A HREF="#cross">109</A>) It
+is characterized by the following constants (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=CROSS SPLIT card):
+
+<P>
+
+<UL>
+<LI>label of the element defined as branch 0.
+</LI>
+<LI>label of the element defined as branch 1.
+</LI>
+<LI>label of the element defined as branch 2.
+</LI>
+<LI>label of the element defined as branch 3.
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ A_0$"> of branch 0, whereas <IMG
+ WIDTH="64" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img557.png"
+ ALT="$ A_1=A_0$">
+</LI>
+<LI>cross section <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img539.png"
+ ALT="$ A_2$"> of branch 2, whereas <IMG
+ WIDTH="64" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img574.png"
+ ALT="$ A_3=A_2$">
+</LI>
+<LI>angle <!-- MATH
+ $\alpha_1=90^\circ$
+ -->
+<IMG
+ WIDTH="66" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img571.png"
+ ALT="$ \alpha_1=90^\circ$">.
+</LI>
+<LI>angle <!-- MATH
+ $\alpha_2=90^\circ$
+ -->
+<IMG
+ WIDTH="66" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img572.png"
+ ALT="$ \alpha_2=90^\circ$">.
+</LI>
+<LI>hydraulic diameter <!-- MATH
+ $d_{h0}=d_{h1}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img575.png"
+ ALT="$ d_{h0}=d_{h1}$">
+</LI>
+<LI>hydraulic diameter <!-- MATH
+ $d_{h2}=d_{h3}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img576.png"
+ ALT="$ d_{h2}=d_{h3}$">
+</LI>
+<LI><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$">-correction factor <IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img565.png"
+ ALT="$ k_1$"> for the main passage  (<!-- MATH
+ $\zeta_{eff} = k_1\zeta$
+ -->
+<IMG
+ WIDTH="78" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img566.png"
+ ALT="$ \zeta_{eff} =
+k_1\zeta$">)
+</LI>
+<LI><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img320.png"
+ ALT="$ \zeta$">-correction factor <IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img567.png"
+ ALT="$ k_2$"> for the branches  (<!-- MATH
+ $\zeta_{eff} = k_2\zeta$
+ -->
+<IMG
+ WIDTH="78" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img568.png"
+ ALT="$ \zeta_{eff} = k_2\zeta$">)
+</LI>
+</UL>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="cross"></A><A NAME="11975"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 109:</STRONG>
+Geometry of a flow splitting cross</CAPTION>
+<TR><TD><IMG
+ WIDTH="358" HEIGHT="219" BORDER="0"
+ SRC="img577.png"
+ ALT="\begin{figure}\epsfig{file=cross.eps,width=8cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

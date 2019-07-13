@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Two-node 3-dimensional spring (SPRINGA)</TITLE>
+<META NAME="description" CONTENT="Two-node 3-dimensional spring (SPRINGA)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node69.html">
+<LINK REL="previous" HREF="node67.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node69.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1911"
+  HREF="node69.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1907"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1901"
+  HREF="node67.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1909"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1912"
+  HREF="node69.html">One-node coupling element (DCOUP3D)</A>
+<B> Up:</B> <A NAME="tex2html1908"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1902"
+  HREF="node67.html">Two-node 3-dimensional spring (SPRING2)</A>
+ &nbsp; <B>  <A NAME="tex2html1910"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000724200000000000000">
+Two-node 3-dimensional spring (SPRINGA)</A>
+</H3>
+
+<P>
+This is a spring element defined between two nodes (Figure <A HREF="#springf">83</A>). The force needed in node 2
+to extend the spring with original length <IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img298.png"
+ ALT="$ L_0$"> to a final length <IMG
+ WIDTH="15" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img288.png"
+ ALT="$ L$"> is given
+by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{F}=k(L-L_0) \boldsymbol{n},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="124" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img299.png"
+ ALT="$\displaystyle \boldsymbol{F}=k(L-L_0) \boldsymbol{n},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(14)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where k is the spring stiffness and <!-- MATH
+ $\boldsymbol{n}$
+ -->
+<IMG
+ WIDTH="16" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img280.png"
+ ALT="$ \boldsymbol{n}$"> is a unit vector pointing
+from node 1 to node 2. The force in node 1 is <!-- MATH
+ $\boldsymbol{-F}$
+ -->
+<IMG
+ WIDTH="32" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img300.png"
+ ALT="$ \boldsymbol{-F}$">. This formula
+applies if the spring stiffness is constant. It is defined using the
+<A HREF="node315.html#spring">*SPRING</A> keyword card. Alternatively, a nonlinear spring
+ can be defined by providing a graph of the force versus the elongation. In
+calculations in which NLGEOM is active (nonlinear geometric calculations) the
+motion of nodes 1 and 2 induces a change of <!-- MATH
+ $\boldsymbol{n}$
+ -->
+<IMG
+ WIDTH="16" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img280.png"
+ ALT="$ \boldsymbol{n}$">.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="springf"></A><A NAME="11848"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 83:</STRONG>
+Definition of a SPRINGA element</CAPTION>
+<TR><TD><IMG
+ WIDTH="227" HEIGHT="56" BORDER="0"
+ SRC="img301.png"
+ ALT="\begin{figure}\epsfig{file=spring.eps,width=5cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The two-node three-dimensional spring element is considered as a genuine
+three-dimensional element. Consequently, if it is connected to a 2D element
+with special restraints on the third direction (plane stress, plane strain or
+axisymmetric elements) the user has to take care that the third dimension does
+not induce rigid body motions in the spring nodes. An example of how to
+restrain the spring is given in test example spring4. 
+
+<P>
+Note that a spring under
+compression, if not properly restrained, may change its direction by
+180<IMG
+ WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img302.png"
+ ALT="$ ^\circ$">, leading to unexpected results. Furthermore, for nonlinear
+springs, it does not make
+sense to extend the force-elongation curve to negative elongation values
+ <IMG
+ WIDTH="39" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img303.png"
+ ALT="$ \le L_0$">.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1911"
+  HREF="node69.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1907"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1901"
+  HREF="node67.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1909"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1912"
+  HREF="node69.html">One-node coupling element (DCOUP3D)</A>
+<B> Up:</B> <A NAME="tex2html1908"
+  HREF="node26.html">Element Types</A>
+<B> Previous:</B> <A NAME="tex2html1902"
+  HREF="node67.html">Two-node 3-dimensional spring (SPRING2)</A>
+ &nbsp; <B>  <A NAME="tex2html1910"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

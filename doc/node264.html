@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*FLUID SECTION</TITLE>
+<META NAME="description" CONTENT="*FLUID SECTION">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node265.html">
+<LINK REL="previous" HREF="node263.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node265.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4496"
+  HREF="node265.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4492"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4486"
+  HREF="node263.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4494"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4497"
+  HREF="node265.html">*FREQUENCY</A>
+<B> Up:</B> <A NAME="tex2html4493"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4487"
+  HREF="node263.html">*FLUID CONSTANTS</A>
+ &nbsp; <B>  <A NAME="tex2html4495"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000856000000000000000"></A><A NAME="fluidsection"></A>
+<BR>
+*FLUID SECTION
+</H2>
+
+<P>
+Keyword type: model definition
+
+<P>
+This option is used to assign material properties to network element
+sets. The parameters ELSET and MATERIAL are required, the parameters TYPE, OIL
+and CONSTANTS are
+optional. The parameter
+ELSET defines the network element set to which the material specified by
+the parameter MATERIAL applies.
+
+<P>
+The parameter TYPE is only necessary in fluid dynamic networks in which the
+pressure and/or the mass flow are unknown in at least one node. In that case,
+the type of fluid section must be selected from the list in section <A HREF="node63.html#tnfe">6.2.37</A>
+and the appropriate constants describing the section must be specified in the
+line(s) underneath the *FLUID SECTION keyword card, eight per line, except for
+the last line which can contain less. 
+
+<P>
+The parameter OIL defines the material parameters used in two-phase
+flow in gas pipes, restrictors and branches. Its argument must be the name of
+a material defined using the <A HREF="node282.html#material">*MATERIAL</A> card.
+
+<P>
+Finally, with the parameter CONSTANTS the number of parameters needed to
+describe the type of fluid section can be specified. This parameter is only
+necessary for user-defined fluid section types. They start with ``U'' and can
+only be defined for compressible network elements. For further information the
+reader is referred to Section <A HREF="node100.html#networkuserelement">6.4.24</A>.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*FLUID SECTION
+</LI>
+<LI>Enter any needed parameters.
+</LI>
+</UL>
+
+<P>
+Following line (only necessary if TYPE was used):
+
+<UL>
+<LI>First constant
+</LI>
+<LI>Second constant
+</LI>
+<LI>etc (maximum eight constants on this line)
+</LI>
+</UL>
+Repeat this line if more than eight constants are needed to describe the
+fluid section.
+
+<P>
+<PRE>
+Example:
+
+*FLUID SECTION,MATERIAL=NITROGEN,ELSET=Eall
+</PRE>
+
+<P>
+assigns material NITROGEN to all elements in (element)
+set Eall.
+
+<P>
+<PRE>
+Example:
+
+*FLUID SECTION,MATERIAL=AIR,ELSET=Eall,TYPE=ORIFICE_PK_MS
+3.14,0.1,2.,0.01,0.1
+</PRE>
+
+<P>
+assigns material AIR to all elements in set Eall. The type of fluid section is
+an orifice with the <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1720.png"
+ ALT="$ c_d$"></B> coefficient calculated following the formulas by
+Parker and Kercher [<A
+ HREF="node448.html#Parker">62</A>], modified for the influence of the rotational
+velocity by McGreehan and Schotsch [<A
+ HREF="node448.html#McGreehan">47</A>]. The area of the orifice
+is 3.14, the length is 0.1, the diameter is 2., the inlet corner radius is
+0.01 and the pipe diameter ratio is 0.1. 
+
+<P>
+
+<P><P>
+<BR>
+Example files: furnace, beamhtfc, branch1.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4496"
+  HREF="node265.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4492"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4486"
+  HREF="node263.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4494"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4497"
+  HREF="node265.html">*FREQUENCY</A>
+<B> Up:</B> <A NAME="tex2html4493"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4487"
+  HREF="node263.html">*FLUID CONSTANTS</A>
+ &nbsp; <B>  <A NAME="tex2html4495"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

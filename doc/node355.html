@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>User-defined mechanical material laws.</TITLE>
+<META NAME="description" CONTENT="User-defined mechanical material laws.">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node365.html">
+<LINK REL="previous" HREF="node342.html">
+<LINK REL="up" HREF="node336.html">
+<LINK REL="next" HREF="node356.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5631"
+  HREF="node356.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5627"
+  HREF="node336.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5621"
+  HREF="node354.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5629"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5632"
+  HREF="node356.html">The CalculiX interface</A>
+<B> Up:</B> <A NAME="tex2html5628"
+  HREF="node336.html">User subroutines.</A>
+<B> Previous:</B> <A NAME="tex2html5622"
+  HREF="node354.html">Gap heat generation (fricheat.f)</A>
+ &nbsp; <B>  <A NAME="tex2html5630"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00095000000000000000"></A><A NAME="user"></A>
+<BR>
+User-defined mechanical material laws.
+</H2>
+User-defined mechanical behavior can be implemented using three
+different interfaces:
+
+<UL>
+<LI>The  native CalculiX interface.
+</LI>
+<LI>The ABAQUS umat routines for linear materials (small strain
+  analyses).
+</LI>
+<LI>The ABAQUSNL umat routines for non linear materials (finite
+  strain analyses).
+</LI>
+</UL>
+
+<P>
+There are two ways of introducing user-defined mechanical behavior:
+
+<UL>
+<LI>Modify the CalculiX sources. This option is supported for the
+  three interfaces.
+</LI>
+<LI>Call a behavior defined in shared libraries.
+</LI>
+</UL>
+
+<P>
+Each of these approaches has its own advantages and its own
+pitfalls.
+
+<P>
+The first one is intrusive and requires a partial recompilation of
+CalculiX, which means having access to the sources and the rights to
+install the executable if it is meant to be deployed on a system-wide
+location.
+
+<P>
+The second one does not require any modification to CalculiX, is
+generally easier to set up and is very flexible. There is no intrinsic
+limitations on the number of shared libraries and functions that can
+be dynamically loaded. It is thus quite feasible to create mechanical
+behaviours databases by creating a shared library by specific
+material. Such libraries will only be loaded if needed. In such an
+approach, the mechanical behaviour is dedicated to a specific material
+and is self-contained: it has no external parameter. Shared libraries
+can be shared between co-workers by moving them on a shared folder.
+However, experience shows that using shared libraries can be confusing
+for some user as they have to update their environment variables (PATH
+on Windows or LD_LIBRARY_PATH on Unixes) for the libraries to be
+usable. Shared libraries can also be more sensible to system
+updates. A drawback of using shared libraries is that the behaviors
+must be written in C or C++ as the name of the functions implementing
+the behaviors must be upper-cased du to CalculiX internal
+conventions<A NAME="tex2html175"
+  HREF="footnode.html#foot10140"><SUP>1</SUP></A> The reason of such a restriction is detailed below. On
+way of generating such library with the appropriate naming convention
+is to use the MFront code generator:
+<DIV ALIGN="CENTER">
+http://tfel.sourceforge.net
+
+</DIV>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html5633"
+  HREF="node356.html">The CalculiX interface</A>
+<UL>
+<LI><A NAME="tex2html5634"
+  HREF="node357.html">Introduction of a new mechanical behaviour by modifying the
+  sources</A>
+<LI><A NAME="tex2html5635"
+  HREF="node358.html">Calling mechanical behaviours defined shared libraries</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html5636"
+  HREF="node359.html">ABAQUS umat routines</A>
+<UL>
+<LI><A NAME="tex2html5637"
+  HREF="node360.html">Calling mechanical behaviours defined shared libraries</A>
+<LI><A NAME="tex2html5638"
+  HREF="node361.html">Calling shared libraries</A>
+<LI><A NAME="tex2html5639"
+  HREF="node362.html">Limitations</A>
+<LI><A NAME="tex2html5640"
+  HREF="node363.html">Calling shared libraries</A>
+<LI><A NAME="tex2html5641"
+  HREF="node364.html">Limitations</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5631"
+  HREF="node356.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5627"
+  HREF="node336.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5621"
+  HREF="node354.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5629"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5632"
+  HREF="node356.html">The CalculiX interface</A>
+<B> Up:</B> <A NAME="tex2html5628"
+  HREF="node336.html">User subroutines.</A>
+<B> Previous:</B> <A NAME="tex2html5622"
+  HREF="node354.html">Gap heat generation (fricheat.f)</A>
+ &nbsp; <B>  <A NAME="tex2html5630"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>*OBJECTIVE</TITLE>
+<META NAME="description" CONTENT="*OBJECTIVE">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node298.html">
+<LINK REL="previous" HREF="node296.html">
+<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node298.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4892"
+  HREF="node298.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4888"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4882"
+  HREF="node296.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4890"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4893"
+  HREF="node298.html">*ORIENTATION</A>
+<B> Up:</B> <A NAME="tex2html4889"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4883"
+  HREF="node296.html">*NSET</A>
+ &nbsp; <B>  <A NAME="tex2html4891"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000889000000000000000"></A><A NAME="objective"></A>
+<BR>
+*OBJECTIVE
+</H2>
+
+<P>
+Keyword type: step
+
+<P>
+With *OBJECTIVE one can define the objective functions in a sensitivity
+analysis. Right now the following objectives are allowed for TYPE=COORDINATE
+design variables: 
+
+<P>
+
+<UL>
+<LI>DISPLACEMENT: the sum of the square of the displacements in all nodes of
+  the structure or of a subset if a node set is defined
+</LI>
+<LI>EIGENFREQUENCY: all eigenfrequencies calculated in a previous
+<A HREF="node265.html#frequency">*FREQUENCY</A> step
+</LI>
+<LI>MASS: mass of the total structure or of a subset if
+  an element set is defined
+</LI>
+<LI>SHAPEENERGY: internal energy of the total structure or of a subset if
+  an element set is defined
+</LI>
+<LI>STRESS: the maximum von Mises stress of the total structure or of a
+  subset if a node set is defined. The maximum is approximated by the
+  Kreisselmeier-Steinhauser function 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+f=\frac{1}{\rho} \ln \sum_i e^{\rho \frac{\sigma_{i}}{\bar{\sigma}}},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="126" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1589.png"
+ ALT="$\displaystyle f=\frac{1}{\rho} \ln \sum_i e^{\rho \frac{\sigma_{i}}{\bar{\sigma}}},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(495)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <B><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1590.png"
+ ALT="$ \sigma_i$"></B> is the von Mises stress in node i, <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> and  <!-- MATH
+ $\bar{\sigma}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1591.png"
+ ALT="$ \bar{\sigma}$"></B>
+are user-defined parameters. The higher <B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> the closer <B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img484.png"
+ ALT="$ f$"></B> is to the actual
+maximum (a value of 10 is recommended; the higher this value, the sharper the
+turns in the function). <!-- MATH
+ $\bar{\sigma}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1591.png"
+ ALT="$ \bar{\sigma}$"></B> is the target stress, it
+should not be too far
+away from the actual maximum.
+
+<P>
+</LI>
+</UL>
+
+<P>
+and for TYPE=ORIENTATION design variables:
+
+<P>
+
+<UL>
+<LI>DISPLACEMENT: the displacements in all nodes.
+</LI>
+<LI>EIGENFREQUENCY: all eigenfrequencies and eigenmodes calculated in a previous
+<A HREF="node265.html#frequency">*FREQUENCY</A> step.
+</LI>
+<LI>GREEN: the Green functions calculated in a previous <A HREF="node270.html#green">*GREEN</A> step.
+</LI>
+<LI>MASS: mass of the total structure or of a subset if
+  an element set is defined
+</LI>
+<LI>SHAPEENERGY: internal energy of the total structure or of a subset if
+  an element set is defined
+</LI>
+<LI>STRESS: the stresses in all nodes.
+</LI>
+</UL>
+
+<P>
+There are no parameters. Exactly one *OBJECTIVE keyword is required in a
+*SENSITIVITY step. This keyword has to be followed by at least one objective
+function. If a <A HREF="node226.html#constraint">*CONSTRAINT</A> card is used within the step
+exactly one objective function must be defined within the step.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*OBJECTIVE.
+</LI>
+</UL>
+
+<P>
+Second line:
+
+<UL>
+<LI>an objective function
+</LI>
+<LI>an element or node set, if appropriate
+</LI>
+<LI><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B> for the Kreisselmeier-Steinhauser function (only for the
+  coordinates as design variables and the stress as target)
+</LI>
+<LI><!-- MATH
+ $\bar{\sigma}$
+ -->
+<B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1591.png"
+ ALT="$ \bar{\sigma}$"></B> for the Kreisselmeier-Steinhauser function (only for the
+  coordinates as design variables and the stress as target)
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+The objective functions SHAPEENERGY, MASS, DISPLACEMENT and STRESS require a *STATIC
+step before the <A HREF="node310.html#sensitivity">*SENSITIVITY</A> step, the objective function EIGENFREQUENCY
+requires a *FREQUENCY step immediately preceding the *SENSITIVITY
+step and the objective function GREEN requires a *GREEN step before the
+*SENSITIVITY step. Therefore, the {SHAPEENERGY, MASS, DISPLACEMENT, STRESS} objective functions,
+ the {EIGENFREQUENCY} objective function and the  {GREEN} objective function are mutually exclusive within
+one and the same *SENSITIVITY step.
+
+<P>
+<PRE>
+Example:
+
+*OBJECTIVE
+DISPLACEMENT,N1
+</PRE>
+
+<P>
+defines the sum of the square of the displacements in set N1 to be the
+objective function.
+
+<P>
+
+<P><P>
+<BR>
+Example files: sensitivity_I.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4892"
+  HREF="node298.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4888"
+  HREF="node205.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4882"
+  HREF="node296.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4890"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4893"
+  HREF="node298.html">*ORIENTATION</A>
+<B> Up:</B> <A NAME="tex2html4889"
+  HREF="node205.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4883"
+  HREF="node296.html">*NSET</A>
+ &nbsp; <B>  <A NAME="tex2html4891"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

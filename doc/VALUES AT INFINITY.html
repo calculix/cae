@@ -1,0 +1,6 @@
+<html><head><link rel="stylesheet" type="text/css" href="/media/ihor/WORK/Calculix/ccx_cae/doc/style.css"></head><body><H2><BR>*VALUES AT INFINITY</H2> <P>Keyword type: model definition<P>This keyword is used to define values at infinity for 3D fluidcalculations. They are used to calculate the pressure coefficient <B><IMG WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0" SRC="img1829.png" ALT="$ c_P$"></B> ifrequested as output by the user (*NODE FILE) andfreestream boundary conditions for the turbulence parameters [49].<P><P><BR><P>First line:<UL><LI>*VALUES AT INFINITY</LI></UL><P>Second line:<UL><LI>Static temperature at infinity</LI><LI>Norm of the velocity vector at infinity</LI><LI>Static pressure at infinity</LI><LI>Density at infinity</LI><LI>Length of the computational domain</LI></UL><P><PRE>
+Example:
+
+*VALUES AT INFINITY
+40.,1.,11.428571,1.,40.
+</PRE><P>specifies a static temperature of 40., a velocity of 1., a static pressureof 11.428571 and a density of 1. at infinity. The size of the computational domain is 40.<P><P><P><BR>Example files: fluid1,fluid2.<P></body></html>

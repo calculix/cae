@@ -1,0 +1,574 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Weak formulation</TITLE>
+<META NAME="description" CONTENT="Weak formulation">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node141.html">
+<LINK REL="previous" HREF="node139.html">
+<LINK REL="up" HREF="node138.html">
+<LINK REL="next" HREF="node141.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2835"
+  HREF="node141.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2831"
+  HREF="node138.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2825"
+  HREF="node139.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2833"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2836"
+  HREF="node141.html">Normal contact stiffness</A>
+<B> Up:</B> <A NAME="tex2html2832"
+  HREF="node138.html">Face-to-Face Penalty Contact</A>
+<B> Previous:</B> <A NAME="tex2html2826"
+  HREF="node139.html">General considerations</A>
+ &nbsp; <B>  <A NAME="tex2html2834"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00077620000000000000">
+Weak formulation</A>
+</H4>
+
+<P>
+The contribution of the face-to-face penalty contact to the weak formulation
+corresponds to the first term on the right hand side of Equation (2.6) in
+[<A
+ HREF="node448.html#Dhondt">18</A>], written for both the slave and master side. This amounts to (in the
+material frame of reference):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\int_{A_s^0} \delta (\boldsymbol{U^S} - \boldsymbol{U^M}) \cdot
+\boldsymbol{T_{(N)}} dA,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="199" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img930.png"
+ ALT="$\displaystyle \int_{A_s^0} \delta (\boldsymbol{U^S} - \boldsymbol{U^M}) \cdot \boldsymbol{T_{(N)}} dA,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(230)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>    
+
+<P>
+or, in the spatial frame of reference:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\int_{A_s} \delta (\boldsymbol{u^s} - \boldsymbol{u^m}) \cdot
+\boldsymbol{t_{(n)}} da.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="175" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img931.png"
+ ALT="$\displaystyle \int_{A_s} \delta (\boldsymbol{u^s} - \boldsymbol{u^m}) \cdot \boldsymbol{t_{(n)}} da.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(231)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>    
+
+<P>
+Making a Taylor expansion for <!-- MATH
+ $\boldsymbol{t_{(n)}}$
+ -->
+<IMG
+ WIDTH="32" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img932.png"
+ ALT="$ \boldsymbol{t_{(n)}}$">, which is a function of
+<!-- MATH
+ $\boldsymbol{u_s} - \boldsymbol{u^m}$
+ -->
+<IMG
+ WIDTH="67" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img933.png"
+ ALT="$ \boldsymbol{u_s} - \boldsymbol{u^m}$"> and keeping the linear term only (the constant term vanishes since zero
+differential displacements leads to zero traction) one obtains:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eqb"></A><!-- MATH
+ \begin{equation}
+\int_{A_s} \delta (\boldsymbol{u^s} - \boldsymbol{u^m}) \cdot  \frac{\partial
+  \boldsymbol{t_{(n)}}}{\partial  \boldsymbol{u^s} } \cdot
+(\boldsymbol{u^s} - \boldsymbol{u^m}) da.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="275" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img934.png"
+ ALT="$\displaystyle \int_{A_s} \delta (\boldsymbol{u^s} - \boldsymbol{u^m}) \cdot \fr...
+...}}}{\partial \boldsymbol{u^s} } \cdot (\boldsymbol{u^s} - \boldsymbol{u^m}) da.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(232)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+Notice that the integral is over the slave faces. The corresponding positions
+on the master side are obtained by local orthogonal projection. The displacements within a face on the slave side can be written as a linear
+combination of the displacements of the nodes belonging to the face (<IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img935.png"
+ ALT="$ n_s$"> is
+the number of nodes belonging to the slave face):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{u^s} = \sum _i^{n_s} \varphi_i \boldsymbol{u_i^s},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="108" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
+ SRC="img936.png"
+ ALT="$\displaystyle \boldsymbol{u^s} = \sum _i^{n_s} \varphi_i \boldsymbol{u_i^s},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(233)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and similarly for the displacements on the master side (<IMG
+ WIDTH="26" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img937.png"
+ ALT="$ n_m^l$"> is
+the number of nodes belonging to the master face <IMG
+ WIDTH="23" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img938.png"
+ ALT="$ m^l$">):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\boldsymbol{u^{m^l}} = \sum _j^{n_m^l} \psi_j^l \boldsymbol{u_j^{m^l}}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="132" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img939.png"
+ ALT="$\displaystyle \boldsymbol{u^{m^l}} = \sum _j^{n_m^l} \psi_j^l \boldsymbol{u_j^{m^l}}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(234)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Substituting the above expressions in Equation
+(<A HREF="#eqb">232</A>) one obtains:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="284" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
+ SRC="img940.png"
+ ALT="$\displaystyle \sum_{s} \sum_{i=1}^{n_s} \sum_{j=1}^{n_s} \delta \boldsymbol{u_i...
+...}}}{\partial \boldsymbol{u^s} } \varphi _j da \right ] \cdot \boldsymbol{u_j^s}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img941.png"
+ ALT="$\displaystyle -$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="323" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img942.png"
+ ALT="$\displaystyle \sum_{s} \sum_l \sum_{i=1}^{n_s} \sum_{j=1}^{n_m} \delta \boldsym...
+...{\partial \boldsymbol{u^s} } \psi _j^l da \right ] \cdot \boldsymbol{u_j^{m^l}}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img941.png"
+ ALT="$\displaystyle -$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="323" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img943.png"
+ ALT="$\displaystyle \sum_{s} \sum_l \sum_{i=1}^{n_m} \sum_{j=1}^{n_s} \delta \boldsym...
+...}}}{\partial \boldsymbol{u^s} } \varphi _j da \right ] \cdot \boldsymbol{u_j^s}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img331.png"
+ ALT="$\displaystyle +$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="338" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img944.png"
+ ALT="$\displaystyle \sum_{s} \sum_l \sum_{i=1}^{n_m} \sum_{j=1}^{n_m} \delta \boldsym...
+...\partial \boldsymbol{u^s} } \psi _j^l da \right ] \cdot \boldsymbol{u_j^{m^l}}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(235)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where ``<IMG
+ WIDTH="23" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img945.png"
+ ALT="$ A_s^l$">'' is the part of the slave face <IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img946.png"
+ ALT="$ s$">, the orthogonal
+projection of which is contained in the master face <IMG
+ WIDTH="23" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img938.png"
+ ALT="$ m^l$">. This leads to the following stiffness contributions (notice the
+change in sign, since the weak term has to be transferred to the left hand
+side of Equation (2.6) in [<A
+ HREF="node448.html#Dhondt">18</A>]:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="90" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img947.png"
+ ALT="$\displaystyle [K]_{e(iK)(jM)}$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="267" HEIGHT="59" ALIGN="MIDDLE" BORDER="0"
+ SRC="img948.png"
+ ALT="$\displaystyle = - \int _{A_{s}} \varphi _i \frac{\partial \boldsymbol{t_{(n)}}^K}{\partial \boldsymbol{u^s}_M } \varphi_j da , \;\;\; i \in S, j \in S$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(236)</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="90" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img947.png"
+ ALT="$\displaystyle [K]_{e(iK)(jM)}$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="289" HEIGHT="59" ALIGN="MIDDLE" BORDER="0"
+ SRC="img949.png"
+ ALT="$\displaystyle = \sum_l \int _{A_{s}^l} \varphi _i \frac{\partial \boldsymbol{t_{(n)}}^K}{\partial \boldsymbol{u^s}_M } \psi_j^l da , \;\;\; i \in S, j \in M^l$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+<A NAME="eqc">(237)</A></TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="90" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img947.png"
+ ALT="$\displaystyle [K]_{e(iK)(jM)}$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="290" HEIGHT="59" ALIGN="MIDDLE" BORDER="0"
+ SRC="img950.png"
+ ALT="$\displaystyle = \sum_l \int _{A_{s}^l} \psi _i^l \frac{\partial \boldsymbol{t_{(n)}}^K}{\partial \boldsymbol{u^s}_M } \varphi_j da , \;\;\; i \in M^l, j \in S$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(238)</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="90" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img947.png"
+ ALT="$\displaystyle [K]_{e(iK)(jM)}$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="316" HEIGHT="59" ALIGN="MIDDLE" BORDER="0"
+ SRC="img951.png"
+ ALT="$\displaystyle = - \sum_l \int _{A_{s}^l} \psi _i^l \frac{\partial \boldsymbol{t_{(n)}}^K}{\partial \boldsymbol{u^s}_M } \psi_j^l da , \;\;\; i \in M^l, j \in M^l$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(239)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<IMG
+ WIDTH="15" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img952.png"
+ ALT="$ S$"> is the slave face ``<IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img946.png"
+ ALT="$ s$">'' at stake, <IMG
+ WIDTH="27" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img953.png"
+ ALT="$ M^l$"> is the master face to which the
+orthogonal projection of the infinitesimal slave area <IMG
+ WIDTH="21" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img954.png"
+ ALT="$ da$"> belongs. The integrals in the above expression are evaluated by numerical
+integration. One could, for instance, use the classical Gauss points in the
+slave faces. This, however, will not give optimal results, since the master
+and slave faces do not match and the function to integrate exhibits
+discontinuities in the derivatives. Much better results are obtained by using the
+integration scheme presented in the previous section and illustrated in Figure
+<A HREF="node139.html#f2fint">136</A>. In this way, the above integrals are 
+replaced by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+-\int _{A_{s}} \varphi _i \frac{\partial
+  \boldsymbol{t_{(n)}}^K}{\partial  \boldsymbol{u^s}_M } \varphi_j da= -\sum_k
+\varphi_i(\xi _{s_k},\eta_{s_k}) \varphi_j(\xi_{s_k},\eta_{s_k}) \left .  \frac{\partial
+   \boldsymbol{t_{(n)}}^K}{\partial  \boldsymbol{u^s}_M }  \right
+|_{\xi _{s_k}, \eta_{s_k}} \| \boldsymbol{J} \| _k w_k,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="537" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img955.png"
+ ALT="$\displaystyle -\int _{A_{s}} \varphi _i \frac{\partial \boldsymbol{t_{(n)}}^K}{...
+...}_M } \right \vert _{\xi _{s_k}, \eta_{s_k}} \Vert \boldsymbol{J} \Vert _k w_k,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(240)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\int _{A_{s}^l} \varphi _i \frac{\partial
+  \boldsymbol{t_{(n)}}^K}{\partial  \boldsymbol{u^s}_M } \psi_j^l da= \sum_k
+\varphi_i(\xi _{s_k},\eta_{s_k}) \psi_j^l(\xi_{m_k},\eta_{m_k}) \left .  \frac{\partial
+   \boldsymbol{t_{(n)}}^K}{\partial  \boldsymbol{u^s}_M }  \right
+|_{\xi _{s_k}, \eta_{s_k}} \| \boldsymbol{J} \| _k w_k,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="517" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img956.png"
+ ALT="$\displaystyle \int _{A_{s}^l} \varphi _i \frac{\partial \boldsymbol{t_{(n)}}^K}...
+...}_M } \right \vert _{\xi _{s_k}, \eta_{s_k}} \Vert \boldsymbol{J} \Vert _k w_k,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(241)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+\int _{A_{s}^l} \psi _i^l \frac{\partial
+  \boldsymbol{t_{(n)}}^K}{\partial  \boldsymbol{u^s}_M } \varphi_j da= \sum_k
+\psi_i^l(\xi _{m_k},\eta_{m_k}) \varphi_j(\xi_{s_k},\eta_{s_k}) \left .  \frac{\partial
+   \boldsymbol{t_{(n)}}^K}{\partial  \boldsymbol{u^s}_M }  \right
+|_{\xi _{s_k}, \eta_{s_k}} \| \boldsymbol{J} \| _k w_k,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="517" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img957.png"
+ ALT="$\displaystyle \int _{A_{s}^l} \psi _i^l \frac{\partial \boldsymbol{t_{(n)}}^K}{...
+...}_M } \right \vert _{\xi _{s_k}, \eta_{s_k}} \Vert \boldsymbol{J} \Vert _k w_k,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(242)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+-\int _{A_{s}^l} \psi _i^l \frac{\partial
+  \boldsymbol{t_{(n)}}^K}{\partial  \boldsymbol{u^s}_M } \psi_j^l da= -\sum_k
+\psi_i^l(\xi _{m_k},\eta_{m_k}) \psi_j^l(\xi_{m_k},\eta_{m_k}) \left .  \frac{\partial
+   \boldsymbol{t_{(n)}}^K}{\partial  \boldsymbol{u^s}_M }  \right
+|_{\xi _{s_k}, \eta_{s_k}} \| \boldsymbol{J} \| _k w_k,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="558" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img958.png"
+ ALT="$\displaystyle -\int _{A_{s}^l} \psi _i^l \frac{\partial \boldsymbol{t_{(n)}}^K}...
+...}_M } \right \vert _{\xi _{s_k}, \eta_{s_k}} \Vert \boldsymbol{J} \Vert _k w_k,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(243)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+where <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img341.png"
+ ALT="$ k$"> is the number of the integration point; (<!-- MATH
+ $\xi _{s_k}, \eta_{s_k}$
+ -->
+<IMG
+ WIDTH="54" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img959.png"
+ ALT="$ \xi _{s_k}, \eta_{s_k}$">) are the local coordinates of the slave
+integration point; (<!-- MATH
+ $\xi_{m_k},\eta_{m_k}$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img960.png"
+ ALT="$ \xi_{m_k},\eta_{m_k}$">) are the local coordinates of the
+orthogonal projection of the slave integration point onto the master surface
+w.r.t. the master face to which the projection belongs; <!-- MATH
+ $\| \boldsymbol{J} \|_k$
+ -->
+<IMG
+ WIDTH="40" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img961.png"
+ ALT="$ \Vert \boldsymbol{J} \Vert _k$"> is the norm
+of the local Jacobian vector at the integration point on the slave face and
+<IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img962.png"
+ ALT="$ w_k$"> is the weight. As noted before the projection of integration points within
+the same slave face may belong to different master faces. Each slave
+integration point <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img341.png"
+ ALT="$ k$"> leads to a contact element connecting a slave face with a
+master face and represented by a stiffness matrix of size <!-- MATH
+ $3(n_s+n_m)$
+ -->
+<IMG
+ WIDTH="82" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img963.png"
+ ALT="$ 3(n_s+n_m)$"> x <!-- MATH
+ $3(n_s+n_m)$
+ -->
+<IMG
+ WIDTH="82" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img963.png"
+ ALT="$ 3(n_s+n_m)$"> made
+up of contributions described by the above equations for just one value of
+integration point <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img341.png"
+ ALT="$ k$">.
+
+<P>
+From this one observes that it is sufficient to determine the 3x3 stiffness
+matrix 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="eq98"></A><!-- MATH
+ \begin{equation}
+\left . \frac{\partial
+   \boldsymbol{t_{(n)}}^K}{\partial  \boldsymbol{u^s}_M } \right
+|_{\xi _{s_k}, \eta_{s_k}}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="108" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img964.png"
+ ALT="$\displaystyle \left . \frac{\partial \boldsymbol{t_{(n)}}^K}{\partial \boldsymbol{u^s}_M } \right \vert _{\xi _{s_k}, \eta_{s_k}}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(244)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+at the
+ slave integration points in order to obtain the stiffness matrix of the complete
+ contact element. It represents the derivative of the traction in an integration point
+ of the slave surface with respect to the displacement vector at the same
+ location.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2835"
+  HREF="node141.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2831"
+  HREF="node138.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2825"
+  HREF="node139.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2833"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2836"
+  HREF="node141.html">Normal contact stiffness</A>
+<B> Up:</B> <A NAME="tex2html2832"
+  HREF="node138.html">Face-to-Face Penalty Contact</A>
+<B> Previous:</B> <A NAME="tex2html2826"
+  HREF="node139.html">General considerations</A>
+ &nbsp; <B>  <A NAME="tex2html2834"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

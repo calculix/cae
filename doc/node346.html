@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Distribruted load (dload.f)</TITLE>
+<META NAME="description" CONTENT="Distribruted load (dload.f)">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node347.html">
+<LINK REL="previous" HREF="node345.html">
+<LINK REL="up" HREF="node342.html">
+<LINK REL="next" HREF="node347.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5525"
+  HREF="node347.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5521"
+  HREF="node342.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5515"
+  HREF="node345.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5523"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5526"
+  HREF="node347.html">Heat convection (film.f)</A>
+<B> Up:</B> <A NAME="tex2html5522"
+  HREF="node342.html">User-defined loading</A>
+<B> Previous:</B> <A NAME="tex2html5516"
+  HREF="node345.html">Distributed flux (dflux.f)</A>
+ &nbsp; <B>  <A NAME="tex2html5524"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00094400000000000000"></A><A NAME="userdload"></A>
+<BR>
+Distribruted load (dload.f)
+</H3>
+
+<P>
+This subroutine is used for nonuniform pressure, characterized by
+distributed load labels of the form PxNUy, cf
+<A HREF="node247.html#dload">*DLOAD</A>. The load label can be up to 20 characters long. In
+particular, y can be used to distinguish different nonuniform loading
+patterns. The header and variable description is as
+follows:
+
+<P>
+<PRE>
+      subroutine dload(f,kstep,kinc,time,noel,npt,layer,kspt,
+     &amp;     coords,jltyp,loadtype,vold,co,lakonl,konl,
+     &amp;     ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,iscale,veold,
+     &amp;     rho,amat,mi)
+!
+!     user subroutine dload
+!
+!
+!     INPUT:
+!
+!     kstep              step number
+!     kinc               increment number
+!     time(1)            current step time
+!     time(2)            current total time
+!     noel               element number
+!     npt                integration point number
+!     layer              currently not used
+!     kspt               currently not used
+!     coords(1..3)       global coordinates of the integration point
+!     jltyp              loading face kode:
+!                        21 = face 1 
+!                        22 = face 2 
+!                        23 = face 3 
+!                        24 = face 4 
+!                        25 = face 5 
+!                        26 = face 6
+!     loadtype           load type label
+!     vold(0..4,1..nk)   solution field in all nodes
+!                        0: temperature
+!                        1: displacement in global x-direction
+!                        2: displacement in global y-direction
+!                        3: displacement in global z-direction
+!                        4: static pressure
+!     veold(0..3,1..nk)  derivative of the solution field w.r.t.
+!                        time in all nodes
+!                        0: temperature rate
+!                        1: velocity in global x-direction
+!                        2: velocity in global y-direction
+!                        3: velocity in global z-direction
+!     co(3,1..nk)        coordinates of all nodes
+!                        1: coordinate in global x-direction
+!                        2: coordinate in global y-direction
+!                        3: coordinate in global z-direction
+!     lakonl             element label
+!     konl(1..20)        nodes belonging to the element
+!     ipompc(1..nmpc))   ipompc(i) points to the first term of
+!                        MPC i in field nodempc
+!     nodempc(1,*)       node number of a MPC term
+!     nodempc(2,*)       coordinate direction of a MPC term
+!     nodempc(3,*)       if not 0: points towards the next term
+!                                  of the MPC in field nodempc
+!                        if 0: MPC definition is finished
+!     coefmpc(*)         coefficient of a MPC term
+!     nmpc               number of MPC's
+!     ikmpc(1..nmpc)     ordered global degrees of freedom of the MPC's
+!                        the global degree of freedom is
+!                        8*(node-1)+direction of the dependent term of
+!                        the MPC (direction = 0: temperature;
+!                        1-3: displacements; 4: static pressure;
+!                        5-7: rotations)
+!     ilmpc(1..nmpc)     ilmpc(i) is the MPC number corresponding
+!                        to the reference number in ikmpc(i)   
+!     rho                local density 
+!     amat               material name
+!     mi(1)              max # of integration points per element (max
+!                        over all elements)
+!     mi(2)              max degree of freedomm per node (max over all
+!                        nodes) in fields like v(0:mi(2))...
+!
+!     OUTPUT:
+!
+!     f                  magnitude of the distributed load
+!     iscale             determines whether the flux has to be
+!                        scaled for increments smaller than the 
+!                        step time in static calculations
+!                        0: no scaling
+!                        1: scaling (default)
+!
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

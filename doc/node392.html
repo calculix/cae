@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Applying the MPC's to the expanded structure</TITLE>
+<META NAME="description" CONTENT="Applying the MPC's to the expanded structure">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node393.html">
+<LINK REL="previous" HREF="node391.html">
+<LINK REL="up" HREF="node386.html">
+<LINK REL="next" HREF="node393.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html6171"
+  HREF="node393.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6167"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6161"
+  HREF="node391.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6169"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6172"
+  HREF="node393.html">Applying temperatures and temperature</A>
+<B> Up:</B> <A NAME="tex2html6168"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6162"
+  HREF="node391.html">Applying the SPC's to</A>
+ &nbsp; <B>  <A NAME="tex2html6170"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000113600000000000000">
+Applying the MPC's to the expanded structure</A>
+</H3>
+
+<P>
+The procedure applied here (and coded in subroutine ``gen3dmpc.f'') is similar to the one in the previous section. The
+problem consists again of connecting the nodes to which the MPC is applied
+with the newly generated nodes of the expansion. Each term in the MPC is
+considered separately. If a knot is defined in the node of the term at stake,
+nothing needs to be done if a translational degree of freedom is addressed,
+whereas for a rotational degree of freedom the node is replaced by the
+rotational node of the knot. If no knot is defined, MPC's satisfying Equation
+<A HREF="node390.html#eqcon1D">522</A> are generated for 1D elements, MPC's satisfying Equation
+<A HREF="node390.html#eqcon2Dshell">523</A> for 2D shell elements and MPC's described by Equation
+<A HREF="node390.html#eqcon2Dplane">524</A> for plane and axisymmetric elements. For the latter
+elements only the nodes in the zero-z plane are connected, see Figure
+<A HREF="node390.html#con2Dplane">161</A>. No rotational degrees of freedom are allowed in nodes of
+MPC's in which no knot was created.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6171"
+  HREF="node393.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6167"
+  HREF="node386.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6161"
+  HREF="node391.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6169"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6172"
+  HREF="node393.html">Applying temperatures and temperature</A>
+<B> Up:</B> <A NAME="tex2html6168"
+  HREF="node386.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6162"
+  HREF="node391.html">Applying the SPC's to</A>
+ &nbsp; <B>  <A NAME="tex2html6170"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

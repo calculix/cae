@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>M&#246;hring</TITLE>
+<META NAME="description" CONTENT="M&#246;hring">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node97.html">
+<LINK REL="previous" HREF="node95.html">
+<LINK REL="up" HREF="node76.html">
+<LINK REL="next" HREF="node97.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2270"
+  HREF="node97.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2266"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2260"
+  HREF="node95.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2268"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2271"
+  HREF="node97.html">Change absolute/relative system</A>
+<B> Up:</B> <A NAME="tex2html2267"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2261"
+  HREF="node95.html">Vortex</A>
+ &nbsp; <B>  <A NAME="tex2html2269"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000742000000000000000">
+M&#246;hring</A>
+</H3>
+
+<P>
+A M&#246;hring element is a vortex element for which the characteristics are
+determined by the integration of a nonlinear differential equation describing
+the physics of the problem
+ [<A
+ HREF="node448.html#Moehring">56</A>]. It basically describes the flow in narrow gaps between a
+rotating and a static device and is more precise than the formulation of the
+forced and free vortex element. The geometry is shown in Figure <A HREF="#moehring">112</A>
+and consists of a minimum radius, a maximum radius, a value for the gap
+between stator and rotor and the shroud radius. It is complemented by the
+label of the upstream and downstream node, the rotating speed of the rotor and
+the value of the swirl at entrance. The user must choose the centrifugal or
+centripetal version of the Moehring element before start of the calculation,
+i.e. the user must decide beforehand in which direction the flow will move. If
+the calculation detects that the flow is reversed, an error message is issued. 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="moehring"></A><A NAME="12006"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 112:</STRONG>
+Geometry of the M&#246;hring element</CAPTION>
+<TR><TD><IMG
+ WIDTH="543" HEIGHT="387" BORDER="0"
+ SRC="img616.png"
+ ALT="\begin{figure}\epsfig{file=moehring.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The following constants must be entered (to be specified in
+that order on the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>,
+TYPE=MOEHRING CENTRIFUGAL card or <A HREF="node264.html#fluidsection">*FLUID SECTION</A>,
+TYPE=MOEHRING CENTRIPETAL card):
+
+<P>
+
+<UL>
+<LI><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img617.png"
+ ALT="$ R_{min}$">: minimum radius
+</LI>
+<LI><IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img618.png"
+ ALT="$ R_{max}$">: maximum radius
+</LI>
+<LI><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img279.png"
+ ALT="$ d$">: disk/stator gap
+</LI>
+<LI><!-- MATH
+ $R_{shroud}$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img619.png"
+ ALT="$ R_{shroud}$">: shroud radius
+</LI>
+<LI>upstream node label
+</LI>
+<LI>downstream node label
+</LI>
+<LI><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img604.png"
+ ALT="$ N$">: speed of the rotor (rad/unit of time)
+</LI>
+<LI>circumferential speed of the gas at entrance
+</LI>
+<LI>alternatively to the previous line, the upstream element number
+</LI>
+<LI>not used (internally: circumferential exit velocity in unit of
+  length/unit of time (for the downstream element))
+</LI>
+</UL>
+
+<P>
+
+<P><P>
+<BR>
+Example files: moehring.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2270"
+  HREF="node97.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2266"
+  HREF="node76.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2260"
+  HREF="node95.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2268"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2271"
+  HREF="node97.html">Change absolute/relative system</A>
+<B> Up:</B> <A NAME="tex2html2267"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2261"
+  HREF="node95.html">Vortex</A>
+ &nbsp; <B>  <A NAME="tex2html2269"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

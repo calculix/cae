@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-import ccx_dialog, ccx_dom
+import ccx_dialog, ccx_dom, re
 
 
 class tree:
@@ -23,10 +23,12 @@ class tree:
 
         # Now generate treeView items
         self.model = QtGui.QStandardItemModel()
+        self.CAE.treeView.setModel(self.model)
         self.generateTreeView()
 
         # Actions
         self.CAE.treeView.doubleClicked.connect(self.doubleClicked)
+        self.CAE.treeView.clicked.connect(self.clicked)
         self.CAE.treeView.customContextMenuRequested.connect(self.rightClicked)
         self.CAE.treeView.expanded.connect(self.treeViewExpanded)
         self.CAE.treeView.collapsed.connect(self.treeViewCollapsed)
@@ -36,8 +38,7 @@ class tree:
     def generateTreeView(self):
         self.model.clear() # remove all items and data from tree
         branch = self.model.invisibleRootItem() # top element in QTreeView
-        self.addToTree(branch, self.CAE.DOM.root.items) # pass root groups
-        self.CAE.treeView.setModel(self.model)
+        self.addToTree(branch, self.CAE.DOM.root.items) # pass top level groups
 
 
     # Used with generateTreeView() - implements recursion
@@ -116,6 +117,49 @@ class tree:
                     # Add new one
                     impl = ccx_dom.implementation(keyword, INP_code, name=item.name)
                     tree_element.setData(impl)
+
+
+    # Highlight node sets, element sets or surfaces
+    def clicked(self):
+        index = self.CAE.treeView.selectedIndexes()[0] # selected item index
+        tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
+        item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
+        ipn = item.parent.name
+
+        if item.item_type == ccx_dom.item_type.IMPLEMENTATION and \
+                ipn in ['*NSET', '*ELSET', '*SURFACE']:
+            self.CAE.VTK.actionSelectionClear() # clear selection before new call
+
+            _set = []
+            lead_line = item.INP_code[0].upper()
+
+            # Get node or element numbers from item's INP_code
+            if not 'GENERATE' in lead_line:
+                for line in item.INP_code[1:]:
+                    _list = re.split(',\s*', line.strip())
+
+                    # Surface line with element face number
+                    if re.match('\d+,\s*S\d+', line.strip()):
+                        _set.append(tuple(_list))
+                    
+                    # Just node list
+                    else:
+                        for l in _list:
+                            if len(l):
+                                _set.append(int(l))
+            else:
+                start, stop, step = re.split(',\s*', item.INP_code[1].strip())
+                _set = list(range(int(start), int(stop)+1, int(step)))
+
+            # Highlight
+            if ipn == '*NSET' or (ipn == '*SURFACE' and 'TYPE=NODE' in lead_line):
+                self.CAE.VTK.highlight(_set, 1) # vtk.vtkSelectionNode.POINT
+            elif ipn == '*ELSET':
+                self.CAE.VTK.highlight(_set, 0) # vtk.vtkSelectionNode.CELL
+            elif ipn == '*SURFACE':
+                self.CAE.VTK.highlightSURFACE(_set)
+        else:
+            self.CAE.VTK.actionSelectionClear() # clear selection
 
 
     # Context menu for right click

@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Pump</TITLE>
+<META NAME="description" CONTENT="Pump">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node111.html">
+<LINK REL="previous" HREF="node109.html">
+<LINK REL="up" HREF="node101.html">
+<LINK REL="next" HREF="node111.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2446"
+  HREF="node111.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2442"
+  HREF="node101.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2436"
+  HREF="node109.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2444"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2447"
+  HREF="node111.html">In/Out</A>
+<B> Up:</B> <A NAME="tex2html2443"
+  HREF="node101.html">Fluid Section Types: Liquids</A>
+<B> Previous:</B> <A NAME="tex2html2437"
+  HREF="node109.html">Pipe, Gate Valve</A>
+ &nbsp; <B>  <A NAME="tex2html2445"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00075900000000000000">
+Pump</A>
+</H3>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="liquidpump"></A><A NAME="12041"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 121:</STRONG>
+Pump Characteristic</CAPTION>
+<TR><TD><IMG
+ WIDTH="313" HEIGHT="358" BORDER="0"
+ SRC="img671.png"
+ ALT="\begin{figure}\epsfig{file=Liquidpump.eps,width=7cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+A pump is characterized by a 
+total head increase versus total flow curve (Figure <A HREF="#liquidpump">121</A>). The total head <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img672.png"
+ ALT="$ h$"> is defined by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+h=z+\frac{p}{\rho g},
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="87" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
+ SRC="img673.png"
+ ALT="$\displaystyle h=z+\frac{p}{\rho g},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(135)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img674.png"
+ ALT="$ z$"> is the vertical elevation, <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$ p$"> is the pressure, <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"> is the liquid
+density and <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img675.png"
+ ALT="$ g$"> is the value of the earth acceleration. The total flow <IMG
+ WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img676.png"
+ ALT="$ Q$">
+satisfies:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{equation}
+Q = \dot{m}/\rho,
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="73" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img677.png"
+ ALT="$\displaystyle Q = \dot{m}/\rho,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(136)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img391.png"
+ ALT="$ \dot{m}$"> is the mass flow. The pump characteristic can be defined
+underneath a *FLUID SECTION,TYPE=LIQUID PUMP by discrete data points on the
+curve. The data points should be given in increasing total flow order and the
+corresponding total head values must be decreasing. No more than 10 pairs are
+allowed. In between the data points
+CalculiX performs an interpolation (solid line in Figure
+<A HREF="#liquidpump">121</A>). For flow values outside the defined range an extrapolation
+is performed, the form of which depends on the precise location of the flow
+(dashed lines in  Figure  <A HREF="#liquidpump">121</A>). For positive flow values inferior to the lowest flow data
+point, the total head corresponding to this lowest flow data point is taken
+(horizontal dashed line). For negative flow
+values the total head sharply increases (<!-- MATH
+ $\alpha=0.0001$
+ -->
+<IMG
+ WIDTH="80" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img678.png"
+ ALT="$ \alpha=0.0001$">) to simulate the
+zero-flow conditions of the pump in that region. For flow values exceeding the
+largest flow data point the total head decreases sharply with the same tangent <IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$">.
+
+<P>
+The gravity acceleration must be specified by a gravity type
+<A HREF="node247.html#dload">*DLOAD</A> card defined for the elements at stake. The material
+characteristic <IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"> can be defined by a
+<A HREF="node241.html#density">*DENSITY</A>
+card. 
+
+<P>
+The liquid is defined  
+by the following parameters (to be specified in that order on
+the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=LIQUID PUMP card):
+
+<P>
+
+<UL>
+<LI>not used
+</LI>
+<LI><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$ X_1$">
+</LI>
+<LI><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$ Y_1$">
+</LI>
+<LI><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img414.png"
+ ALT="$ X_2$">
+</LI>
+<LI><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img415.png"
+ ALT="$ Y_2$">
+</LI>
+<LI>... (maximum 16 entries per line, use more lines if you want to
+define more than 7 pairs, maximum 9 pairs in total)
+</LI>
+</UL>
+
+<P>
+
+<P><P>
+<BR>
+Example files: centheat1.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2446"
+  HREF="node111.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2442"
+  HREF="node101.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2436"
+  HREF="node109.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2444"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2447"
+  HREF="node111.html">In/Out</A>
+<B> Up:</B> <A NAME="tex2html2443"
+  HREF="node101.html">Fluid Section Types: Liquids</A>
+<B> Previous:</B> <A NAME="tex2html2437"
+  HREF="node109.html">Pipe, Gate Valve</A>
+ &nbsp; <B>  <A NAME="tex2html2445"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

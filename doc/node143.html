@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Materials</TITLE>
+<META NAME="description" CONTENT="Materials">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node159.html">
+<LINK REL="previous" HREF="node126.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node144.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2869"
+  HREF="node144.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2865"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2859"
+  HREF="node142.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2867"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2870"
+  HREF="node144.html">Linear elastic materials</A>
+<B> Up:</B> <A NAME="tex2html2866"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html2860"
+  HREF="node142.html">Tangent contact stiffness</A>
+ &nbsp; <B>  <A NAME="tex2html2868"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00078000000000000000">
+Materials</A>
+</H2>
+
+<P>
+A material definition starts with a <A HREF="node282.html#material">*MATERIAL</A> key
+card followed by material specific cards such as
+<A HREF="node250.html#elastic">*ELASTIC</A>,  <A HREF="node260.html#expansion">*EXPANSION</A>,
+<A HREF="node241.html#density">*DENSITY</A>, <A HREF="node273.html#hyperelastic">*HYPERELASTIC</A>,
+<A HREF="node274.html#hyperfoam">*HYPERFOAM</A>, <A HREF="node240.html#deformationplasticity">*DEFORMATION
+PLASTICITY</A>, <A HREF="node301.html#plastic">*PLASTIC</A>,
+<A HREF="node235.html#creep">*CREEP</A> or <A HREF="node332.html#usermaterial">*USER MATERIAL</A>. To assign a material to an element, the <A HREF="node312.html#solidsection">*SOLID SECTION</A> card is used. An element can consist of one material only. Each element in the structure must have a material assigned. Some types of loading require specific material properties: gravity loading requires the density of the material, temperature loading requires the thermal expansion coefficient. A material property can also be required by the type of analysis: a frequency analysis requires the material's density.
+
+<P>
+Some of the material cards are mutually exclusive, while others are
+interdependent. Exactly one of the following is required: *ELASTIC,
+*HYPERELASTIC, *HYPERFOAM, *DEFORMATION PLASTICITY and *USER
+MATERIAL. The keyword *PLASTIC must be preceded by *ELASTIC(,TYPE=ISO). The same applies to the *CREEP card. A *PLASTIC card in between the *ELASTIC and *CREEP card defines a viscoplastic material. The other keywords can be used according to your needs.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2871"
+  HREF="node144.html">Linear elastic materials</A>
+<LI><A NAME="tex2html2872"
+  HREF="node145.html">Linear elastic materials for large strains (Ciarlet model)</A>
+<LI><A NAME="tex2html2873"
+  HREF="node146.html">Linear elastic materials for rotation-insensitive small
+  strains</A>
+<LI><A NAME="tex2html2874"
+  HREF="node147.html">Ideal gas for quasi-static calculations</A>
+<LI><A NAME="tex2html2875"
+  HREF="node148.html">Hyperelastic and hyperfoam materials</A>
+<LI><A NAME="tex2html2876"
+  HREF="node149.html">Deformation plasticity</A>
+<LI><A NAME="tex2html2877"
+  HREF="node150.html">Incremental (visco)plasticity: multiplicative decomposition</A>
+<LI><A NAME="tex2html2878"
+  HREF="node151.html">Incremental (visco)plasticity: additive decomposition</A>
+<LI><A NAME="tex2html2879"
+  HREF="node152.html">Tension-only and compression-only materials.</A>
+<LI><A NAME="tex2html2880"
+  HREF="node153.html">Fiber reinforced materials.</A>
+<LI><A NAME="tex2html2881"
+  HREF="node154.html">The Cailletaud single crystal model.</A>
+<LI><A NAME="tex2html2882"
+  HREF="node155.html">The Cailletaud single crystal creep model.</A>
+<LI><A NAME="tex2html2883"
+  HREF="node156.html">Elastic anisotropy with isotropic
+viscoplasticity.</A>
+<LI><A NAME="tex2html2884"
+  HREF="node157.html">Elastic anisotropy with isotropic creep defined by a creep
+  user subroutine.</A>
+<LI><A NAME="tex2html2885"
+  HREF="node158.html">User materials</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>

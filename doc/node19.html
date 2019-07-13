@@ -1,0 +1,882 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Cantilever beam using beam elements</TITLE>
+<META NAME="description" CONTENT="Cantilever beam using beam elements">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node20.html">
+<LINK REL="previous" HREF="node18.html">
+<LINK REL="up" HREF="node6.html">
+<LINK REL="next" HREF="node20.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1100"
+  HREF="node20.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1096"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1090"
+  HREF="node18.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1098"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1101"
+  HREF="node20.html">Reinforced concrete cantilever beam</A>
+<B> Up:</B> <A NAME="tex2html1097"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1091"
+  HREF="node18.html">Channel with hydraulic jump</A>
+ &nbsp; <B>  <A NAME="tex2html1099"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000613000000000000000">
+Cantilever beam using beam elements</A>
+</H2>
+
+<P>
+Previously, a thick cantilever beam was modeled with volume
+elements. In the present section quadratic beam elements are used for a
+similar exercise (Section
+<A HREF="node59.html#B32">6.2.33</A>). Beam
+elements are easy to define: they consist of three nodes on a
+line. Internally, they are expanded into volumetric elements. There are two
+types of beam elements: B32 elements, which are expanded into C3D20 elements,
+and B32R (reduced integration) elements, which are expanded into C3D20R
+elements. Based on the results in the present section, the B32R element is
+highly recommended. The B32 element, on the other hand, should be avoided
+especially if section forces are needed.
+
+<P>
+The first cantilever beam which is looked at is 100 mm long and has a square
+cross section of 2 x 2 <!-- MATH
+ $\text{mm}^2$
+ -->
+mm<IMG
+ WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ ^2$">. The axis of the beam is along the global
+z-direction. This beam is modeled with just one element and loaded at its end
+by a unit force in x-direction, Figure <A HREF="#simplebeam1">41</A>. We are interested in
+the stresses at integration point a and at node b,  the section forces at
+the beam's fixed end, and the displacement in x at the free end. The location
+of the integration point a is at <!-- MATH
+ $x=-1/\sqrt{3}$
+ -->
+<IMG
+ WIDTH="84" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img181.png"
+ ALT="$ x=-1/\sqrt{3}$">, <!-- MATH
+ $y=1/\sqrt{3}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img182.png"
+ ALT="$ y=1/\sqrt{3}$"> and
+<!-- MATH
+ $z=50(1+1/\sqrt{3})$
+ -->
+<IMG
+ WIDTH="127" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img183.png"
+ ALT="$ z=50(1+1/\sqrt{3})$">, the nodal coordinates of b are <IMG
+ WIDTH="55" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img184.png"
+ ALT="$ x=-1$">, <IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img185.png"
+ ALT="$ y=1$"> and <IMG
+ WIDTH="58" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img186.png"
+ ALT="$ z=100$">
+[<A
+ HREF="node448.html#Dhondt">18</A>]. The material is isotropic linear elastic with a Young's modulus of
+100,000 MPa and a Poisson's ratio of 0.3.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="simplebeam1"></A><A NAME="11784"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 41:</STRONG>
+Geometry of the beam</CAPTION>
+<TR><TD><IMG
+ WIDTH="540" HEIGHT="216" BORDER="0"
+ SRC="img187.png"
+ ALT="\begin{figure}\begin{center}
+\epsfig{file=simplebeam1.eps,width=12cm}\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The input deck for
+this example is very similar to the simplebeam.inp example in the test suite
+(Figure <A HREF="#simplebeam2">42</A>).
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="simplebeam2"></A><A NAME="11785"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 42:</STRONG>
+Input deck for the beam</CAPTION>
+<TR><TD><IMG
+ WIDTH="542" HEIGHT="456" BORDER="0"
+ SRC="img188.png"
+ ALT="\begin{figure}\epsfig{file=simplebeam2.ps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The
+stresses at the integration points are obtained by a <A HREF="node256.html#elprint">*EL
+  PRINT</A> card, the stresses at the nodes by the OUTPUT=3D option
+(default) on
+the <A HREF="node255.html#elfile">*EL FILE</A> card, whereas for the section forces the
+SECTION FORCES option on the same card is used (this option is mutually
+exclusive with the OUTPUT=3D option). The displacements are best obtained in
+the non-expanded view, i.e. using the OUTPUT=2D option. This means that for
+the present results the example had to be run twice: once with the OUTPUT=3D
+option and once with the SECTION FORCES option.
+
+<P>
+The results are summarized in Table <A HREF="#squarebend1">3</A>. The <!-- MATH
+ $\{\text{mm}, \text{N},
+\text{s}, \text{K} \}$
+ -->
+<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$ \{$">mm<IMG
+ WIDTH="9" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$ ,$">&nbsp; &nbsp;N<IMG
+ WIDTH="9" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$ ,$">&nbsp; &nbsp;s<IMG
+ WIDTH="9" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$ ,$">&nbsp; &nbsp;K<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$ \}$"> system is used. The reference results are analytical
+results using simple beam theory [<A
+ HREF="node448.html#Popov">63</A>]. The agreement is
+overwhelming. The stresses at the integration points match exactly, so do the
+extrapolated normal stresses to the nodes. The shear stresses need special
+attention. For a beam the shear stress varies parabolically across the
+section. A quadratic volumetric element can simulate only a linear stress
+variation across the section. Therefore, the parabolic variation is
+approximated by a constant shear stress across the section. Since the
+reduced integration points (at <!-- MATH
+ $\pm 1/\sqrt{3}$
+ -->
+<IMG
+ WIDTH="54" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img189.png"
+ ALT="$ \pm 1/\sqrt{3}$">) happen to be points at which the parabolic stress
+variation attains its mean value the values at the integration points are
+exact! The extrapolated values to the nodes take the same constant value and
+are naturally wrong since the exact value at the corners is zero. 
+
+<P>
+The section forces are obtained by 
+
+<OL>
+<LI>calculating the stresses at the integration points (inside the element,
+  such as integration point a)
+</LI>
+<LI>extrapolating those stresses to the corner nodes (such as node b)
+</LI>
+<LI>calculating the stresses at the middle nodes by interpolation between
+  the adjacent corner nodes
+</LI>
+<LI>interpolating the stresses at all nodes within a section face onto the
+  reduced integration points within the face (such as integration point c, using the shape functions of the face)
+</LI>
+<LI>integrating these stresses numerically.
+</LI>
+</OL>
+
+<P>
+As shown by Table <A HREF="#squarebend1">3</A> this procedure yields the correct section
+forces for the square beam. 
+
+<P>
+The displacements at the beam tip are off by 10 %. The deformation of a beam
+subject to a shear force at its end is third order, however, the C3D20R
+element can only simulate a quadratic behavior. The deviation is reduced to
+2.4 % by using 5 elements (Table <A HREF="#squarebend5">4</A>). Notice that integration
+point a is now closer to the fixation (same position is before but in the
+element adjacent to the fixation).
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="11786"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 3:</STRONG>
+Results for the square section beam subject to bending (1 element).</CAPTION>
+<TR><TD ALIGN="CENTER">result</TD>
+<TD ALIGN="CENTER">value</TD>
+<TD ALIGN="CENTER">reference</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{zz}(a)$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img190.png"
+ ALT="$ \sigma_{zz}(a)$"></TD>
+<TD ALIGN="CENTER">34.151</TD>
+<TD ALIGN="CENTER">34.151</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(a)$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="$ \sigma_{xz}(a)$"></TD>
+<TD ALIGN="CENTER">-0.25</TD>
+<TD ALIGN="CENTER">-0.25</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img192.png"
+ ALT="$ F_{xx}$"></TD>
+<TD ALIGN="CENTER">-1.</TD>
+<TD ALIGN="CENTER">-1.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img193.png"
+ ALT="$ M_{yy}$"></TD>
+<TD ALIGN="CENTER">100.</TD>
+<TD ALIGN="CENTER">100.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{zz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img194.png"
+ ALT="$ \sigma_{zz}(b)$"></TD>
+<TD ALIGN="CENTER">75.</TD>
+<TD ALIGN="CENTER">75.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$ \sigma_{xz}(b)$"></TD>
+<TD ALIGN="CENTER">-0.25</TD>
+<TD ALIGN="CENTER">0.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$ u_{x}$"></TD>
+<TD ALIGN="CENTER">2.25</TD>
+<TD ALIGN="CENTER">2.50</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="11787"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 4:</STRONG>
+Results for the square section beam subject to bending (5 elements).</CAPTION>
+<TR><TD ALIGN="CENTER">result</TD>
+<TD ALIGN="CENTER">value</TD>
+<TD ALIGN="CENTER">reference</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{zz}(a)$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img190.png"
+ ALT="$ \sigma_{zz}(a)$"></TD>
+<TD ALIGN="CENTER">41.471</TD>
+<TD ALIGN="CENTER">41.471</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(a)$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="$ \sigma_{xz}(a)$"></TD>
+<TD ALIGN="CENTER">-0.25</TD>
+<TD ALIGN="CENTER">-0.25</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img192.png"
+ ALT="$ F_{xx}$"></TD>
+<TD ALIGN="CENTER">-1.</TD>
+<TD ALIGN="CENTER">-1.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img193.png"
+ ALT="$ M_{yy}$"></TD>
+<TD ALIGN="CENTER">100.</TD>
+<TD ALIGN="CENTER">100.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{zz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img194.png"
+ ALT="$ \sigma_{zz}(b)$"></TD>
+<TD ALIGN="CENTER">75.</TD>
+<TD ALIGN="CENTER">75.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$ \sigma_{xz}(b)$"></TD>
+<TD ALIGN="CENTER">-0.25</TD>
+<TD ALIGN="CENTER">0.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$ u_{x}$"></TD>
+<TD ALIGN="CENTER">2.44</TD>
+<TD ALIGN="CENTER">2.50</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+The same beam was now subjected to a torque of 1 Nmm at its free end. The
+results are summarized in Table <A HREF="#squaretorque1">5</A>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="11788"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 5:</STRONG>
+Results for the square section beam subject to torsion (1 element).</CAPTION>
+<TR><TD ALIGN="CENTER">result</TD>
+<TD ALIGN="CENTER">value</TD>
+<TD ALIGN="CENTER">reference</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(a)$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="$ \sigma_{xz}(a)$"></TD>
+<TD ALIGN="CENTER">-0.21651</TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{yz}(a)$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img197.png"
+ ALT="$ \sigma_{yz}(a)$"></TD>
+<TD ALIGN="CENTER">-0.21651</TD>
+<TD ALIGN="CENTER">-</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img198.png"
+ ALT="$ M_{zz}$"></TD>
+<TD ALIGN="CENTER">1.</TD>
+<TD ALIGN="CENTER">1.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$ \sigma_{xz}(b)$"></TD>
+<TD ALIGN="CENTER">-0.375</TD>
+<TD ALIGN="CENTER">0</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{yz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img199.png"
+ ALT="$ \sigma_{yz}(b)$"></TD>
+<TD ALIGN="CENTER">-0.375</TD>
+<TD ALIGN="CENTER">0</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img200.png"
+ ALT="$ u_{y}$"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $9.75 \cdot 10^{-4}$
+ -->
+<IMG
+ WIDTH="77" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img201.png"
+ ALT="$ 9.75 \cdot 10^{-4}$"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $1.1525 \cdot 10^{-3}$
+ -->
+<IMG
+ WIDTH="93" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img202.png"
+ ALT="$ 1.1525 \cdot 10^{-3}$"></TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+The torque is matched perfectly, the torsion at the end of the beam (<IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img203.png"
+ ALT="$ u_y$"> is
+the displacement in y-direction at the corresponding node of node b) is off by
+15 % [<A
+ HREF="node448.html#Popov">63</A>]. The shear stresses at node b are definitely not correct
+(there is no shear stress at a corner node), however, the integration of the
+values interpolated from the nodes at the facial integration points yields the
+exact torque! Using more elements does not change the values in Table
+<A HREF="#squaretorque1">5</A>. 
+
+<P>
+The same exercise is now repeated for a circular cross section (radius = 1 mm,
+same length, boundary conditions and material data as for the rectangular
+cross section). For such a
+cross section the vertex nodes of the element lie at <!-- MATH
+ $x,y = \pm 0.7071, \pm 0.7071$
+ -->
+<IMG
+ WIDTH="170" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img204.png"
+ ALT="$ x,y = \pm 0.7071, \pm 0.7071 $">,
+whereas the middle nodes lie at <!-- MATH
+ $x,y = 0,\pm 1$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img205.png"
+ ALT="$ x,y = 0,\pm 1$"> and <!-- MATH
+ $x,y = \pm 1,0$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img206.png"
+ ALT="$ x,y = \pm 1,0$">. The
+integration points are located at <!-- MATH
+ $x,y = \pm 0.5210$
+ -->
+<IMG
+ WIDTH="107" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img207.png"
+ ALT="$ x,y = \pm 0.5210 $">. The results for bending
+with just one element are shown in Table <A HREF="#circbend1">6</A> and with 5 elements
+in Table  <A HREF="#circbend5">7</A>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="11789"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 6:</STRONG>
+Results for the circular section beam subject to bending (1 element).</CAPTION>
+<TR><TD ALIGN="CENTER">result</TD>
+<TD ALIGN="CENTER">value</TD>
+<TD ALIGN="CENTER">reference</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{zz}(a)$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img190.png"
+ ALT="$ \sigma_{zz}(a)$"></TD>
+<TD ALIGN="CENTER">34.00</TD>
+<TD ALIGN="CENTER">52.26</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(a)$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="$ \sigma_{xz}(a)$"></TD>
+<TD ALIGN="CENTER">-0.322</TD>
+<TD ALIGN="CENTER">-0.318</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img192.png"
+ ALT="$ F_{xx}$"></TD>
+<TD ALIGN="CENTER">-0.99996</TD>
+<TD ALIGN="CENTER">-1.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img193.png"
+ ALT="$ M_{yy}$"></TD>
+<TD ALIGN="CENTER">58.7</TD>
+<TD ALIGN="CENTER">100.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{zz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img194.png"
+ ALT="$ \sigma_{zz}(b)$"></TD>
+<TD ALIGN="CENTER">62.8</TD>
+<TD ALIGN="CENTER">90.03</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$ \sigma_{xz}(b)$"></TD>
+<TD ALIGN="CENTER">-0.322</TD>
+<TD ALIGN="CENTER">-0.318</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$ u_{x}$"></TD>
+<TD ALIGN="CENTER">2.91</TD>
+<TD ALIGN="CENTER">4.24</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="11790"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 7:</STRONG>
+Results for the circular section beam subject to bending (5 elements).</CAPTION>
+<TR><TD ALIGN="CENTER">result</TD>
+<TD ALIGN="CENTER">value</TD>
+<TD ALIGN="CENTER">reference</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{zz}(a)$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img190.png"
+ ALT="$ \sigma_{zz}(a)$"></TD>
+<TD ALIGN="CENTER">59.77</TD>
+<TD ALIGN="CENTER">63.41</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(a)$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="$ \sigma_{xz}(a)$"></TD>
+<TD ALIGN="CENTER">-0.322</TD>
+<TD ALIGN="CENTER">-0.318</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img192.png"
+ ALT="$ F_{xx}$"></TD>
+<TD ALIGN="CENTER">-0.99996</TD>
+<TD ALIGN="CENTER">-1.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img193.png"
+ ALT="$ M_{yy}$"></TD>
+<TD ALIGN="CENTER">102.</TD>
+<TD ALIGN="CENTER">100.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{zz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img194.png"
+ ALT="$ \sigma_{zz}(b)$"></TD>
+<TD ALIGN="CENTER">109.</TD>
+<TD ALIGN="CENTER">90.03</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$ \sigma_{xz}(b)$"></TD>
+<TD ALIGN="CENTER">-0.322</TD>
+<TD ALIGN="CENTER">-0.318</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$ u_{x}$"></TD>
+<TD ALIGN="CENTER">3.86</TD>
+<TD ALIGN="CENTER">4.24</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+For just one element the shear stress is quite close to the analytical value,
+leading to a even better match of the shear force. This is remarkable an can
+only be explained by the fact that the cross area of the piecewise quadratic
+approximation of the circular circumference is smaller and exactly compensates
+the slightly higher shear stress. A similar effect will be noticed for the
+torque. The normal stress, however, is far off at the integration points as
+well as at the nodes leading to a bending moment which is way too small. The
+same applies to the deformation in x-direction. Using five elements leads to a
+significant improvement: the bending moment is only 2 % off, the deformation
+at the free end 9 %. Here again one can argue that the deformation is of
+cubic order, whereas a quadratic element can only  simulate a quadratic
+change. Using more elements consequently improves the results.
+
+<P>
+The results for a torque applied to a circular cross section beam is shown in
+Table <A HREF="#circtorque1">8</A> (1 element; the results for 5 elements are identical).
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<DIV ALIGN="CENTER">
+<A NAME="11791"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 8:</STRONG>
+Results for the circular section beam subject to torsion (1 element).</CAPTION>
+<TR><TD ALIGN="CENTER">result</TD>
+<TD ALIGN="CENTER">value</TD>
+<TD ALIGN="CENTER">reference</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(a)$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="$ \sigma_{xz}(a)$"></TD>
+<TD ALIGN="CENTER">-0.309</TD>
+<TD ALIGN="CENTER">-0.331</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{yz}(a)$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img197.png"
+ ALT="$ \sigma_{yz}(a)$"></TD>
+<TD ALIGN="CENTER">-0.309</TD>
+<TD ALIGN="CENTER">-0.331</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img198.png"
+ ALT="$ M_{zz}$"></TD>
+<TD ALIGN="CENTER">0.999994</TD>
+<TD ALIGN="CENTER">1.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{xz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$ \sigma_{xz}(b)$"></TD>
+<TD ALIGN="CENTER">-0.535</TD>
+<TD ALIGN="CENTER">-0.450</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><!-- MATH
+ $\sigma_{yz}(b)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img199.png"
+ ALT="$ \sigma_{yz}(b)$"></TD>
+<TD ALIGN="CENTER">-0.535</TD>
+<TD ALIGN="CENTER">-0.450</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img200.png"
+ ALT="$ u_{y}$"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $1.54 \cdot 10^{-3}$
+ -->
+<IMG
+ WIDTH="77" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img208.png"
+ ALT="$ 1.54 \cdot 10^{-3}$"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $1.66 \cdot 10^{-3}$
+ -->
+<IMG
+ WIDTH="77" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img209.png"
+ ALT="$ 1.66 \cdot 10^{-3}$"></TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+Again, it is remarkable that the torque is perfectly matched, although the
+shear stress at the integration points is 6 % off. This leads to shear values
+at the vertex nodes which are 19 % off. Interpolation to the facial
+integration points yields shear stresses of -0.305 MPa. Integration of these
+stresses finally leads to the perfect torque values. The torsion angle at the
+end of the beam is 7 %off. 
+
+<P>
+Summarizing, one can state that the use of C3D20R elements leads to quite
+remarkable results:
+
+<P>
+
+<UL>
+<LI>For a rectangular cross section:
+
+<UL>
+<LI>the section forces are correct
+</LI>
+<LI>the stresses at the integration points are correct
+</LI>
+<LI>the displacements for bending are correct, provided enough elements are
+  used
+</LI>
+<LI>the torsion angle is somewhat off (15 %).
+</LI>
+</UL>
+</LI>
+<LI>For a circular cross section:
+
+<UL>
+<LI>the shear force and torque section forces are correct
+</LI>
+<LI>the bending moment is correct if enough elements are used
+</LI>
+<LI>the displacements for bending are correct, provided enough elements are used
+</LI>
+<LI>the torsion angle is somewhat off (7 %).
+</LI>
+</UL>
+</LI>
+</UL>
+
+<P>
+It is generally recommended to calculate the stresses from the section
+forces. 
+ The only drawback is the C3D20R element may lead to
+hourglassing, leading to weird displacements. However, the mean of the
+displacements across the cross section is usually fine. An additional problem which
+can arise is that nonlinear geometric calculations may not converge due to this
+hourglassing. This is remedied in CalculiX by slightly perturbing the
+coordinates of the expanded nodes (by about 0.1 %).
+
+<P>
+A similar exercise was performed for the B32 element, however, the results
+were quite discouraging. The section forces were, especially for bending, way
+off. 
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1100"
+  HREF="node20.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1096"
+  HREF="node6.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1090"
+  HREF="node18.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1098"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1101"
+  HREF="node20.html">Reinforced concrete cantilever beam</A>
+<B> Up:</B> <A NAME="tex2html1097"
+  HREF="node6.html">Simple example problems</A>
+<B> Previous:</B> <A NAME="tex2html1091"
+  HREF="node18.html">Channel with hydraulic jump</A>
+ &nbsp; <B>  <A NAME="tex2html1099"
+  HREF="node1.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+guido dhondt
+2018-12-15
+</ADDRESS>
+</BODY>
+</HTML>
