@@ -10,7 +10,7 @@
 """
 
 
-import copy
+import copy, re
 from enum import Enum
 
 
@@ -309,7 +309,11 @@ class implementation(item):
             index = int(name.split('-')[1]) - 1
         else:
             index = len(keyword.getImplementations())
-            self.name = keyword.name[1:] + '-' + str(index + 1)
+            try:
+                match = re.search('(NAME|ELSET|NSET)=\w*', INP_code[0].upper())
+                self.name = match.group(0).split('=')[1].strip()
+            except:
+                self.name = keyword.name[1:] + '-' + str(index + 1)
 
         self.INP_code = INP_code # INP-code for current implementation - list of strings
         keyword.items.insert(index, self) # append implementation to keyword's items

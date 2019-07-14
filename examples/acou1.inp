@@ -4,7 +4,7 @@
 **                   pressure increase on open end
 **
 *HEADING
-Model: air column
+    Model: air column
 *NODE
      1,      0.000000,      0.000000,      0.000000
      2,      1.000000,      0.000000,      0.000000
@@ -337,54 +337,54 @@ Model: air column
     97,    96,    95,    94,    93,    20,    19,    18,    17,    16,    15,
     14,    13,    12,    11,    10,     9,     4,     3,     2,     1
 *NSET,NSET=NALL,GENERATE
-1,261
+    1,261
 *ELSET,ELSET=Eall,GENERATE
-1,32
+    1,32
 *MATERIAL,NAME=EL
 *CONDUCTIVITY
-1.
+    1.
 *SPECIFIC HEAT
-8.6505E-6
+    8.6505E-6
 *DENSITY
-1.
+    1.
 *SOLID SECTION,ELSET=Eall,MATERIAL=EL
 *NSET,NSET=GIBO
-5, 
-6, 
-7, 
-8, 
-21, 
-22, 
-23, 
-24, 
-25, 
-26, 
-27, 
-28, 
-29, 
-30, 
-31, 
-32, 
-98, 
-99, 
-100, 
-101, 
-102,
+    5, 
+    6, 
+    7, 
+    8, 
+    21, 
+    22, 
+    23, 
+    24, 
+    25, 
+    26, 
+    27, 
+    28, 
+    29, 
+    30, 
+    31, 
+    32, 
+    98, 
+    99, 
+    100, 
+    101, 
+    102,
 *BOUNDARY
-GIBO,11,11,0.
+    GIBO,11,11,0.
 *AMPLITUDE,NAME=A1
-0.,0.,1.E-4,1.,10.,1.
+    0.,0.,1.E-4,1.,10.,1.
 *NSET,NSET=MID
-117
+    117
 *STEP
 *HEAT TRANSFER,FREQUENCY,STORAGE=YES
-10
+    10
 *END STEP
 *STEP
 *HEAT TRANSFER,MODAL DYNAMIC
-1.E-3,1.E-1
+    1.E-3,1.E-1
 *BOUNDARY,AMPLITUDE=A1
-GIBO,11,11,1.
+    GIBO,11,11,1.
 *NODE PRINT,NSET=MID
-NT
+    NT
 *END STEP

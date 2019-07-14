@@ -20,8 +20,15 @@ class Parse:
                     a = lines[i+1].split(',')
                     num = int(a[0].strip()) # node number
                     self.nodes[num] = () # tuple with node coordinates
-                    for coord in a[1:]:
-                        self.nodes[num] += (float(coord.strip()), ) # add coordinate to tuple
+                    for j,coord in enumerate(a[1:]):
+                        coord = float(coord.strip())
+                        self.nodes[num] += (coord, ) # add coordinate to tuple
+
+                        # Bounding box
+                        if coord < self.bounds[j*2]:
+                            self.bounds[j*2] = coord # update min coords values
+                        if coord > self.bounds[j*2+1]:
+                            self.bounds[j*2+1] = coord # update max coords values
                     i += 1
                     # self.CAE.logger.info('Node ' + str(num) + ': ' + str(self.nodes[num]))
                 return
@@ -163,6 +170,9 @@ class Parse:
             'surf1', 'surf2', 'surf3', 
         """
         self.surfaces = ()
+
+        # Mesh bounds to avoid camera flying to infinity
+        self.bounds = [1e+6,-1e+6]*3 # Xmin,Xmax, Ymin,Ymax, Zmin,Zmax
 
         # Open and read all the .inp-file
         lines = []

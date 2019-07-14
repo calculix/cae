@@ -1,0 +1,5 @@
+** ball.inp
+*surface, name=floor, type=element
+    efloor, SPOS
+*surface, name=ball, type=node
+    nsurface

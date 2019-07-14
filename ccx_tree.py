@@ -148,7 +148,11 @@ class tree:
                             if len(l):
                                 _set.append(int(l))
             else:
-                start, stop, step = re.split(',\s*', item.INP_code[1].strip())
+                try:
+                    start, stop, step = re.split(',\s*', item.INP_code[1].strip())
+                except:
+                    start, stop = re.split(',\s*', item.INP_code[1].strip())
+                    step = 1
                 _set = list(range(int(start), int(stop)+1, int(step)))
 
             # Highlight

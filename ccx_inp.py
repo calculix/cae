@@ -52,10 +52,13 @@ class inp:
 
             # Parse mesh and transfer it to VTK
             mesh = ccx_mesh.Parse(file_name, self.CAE) # parse mesh, textEdit passed for logging
+            self.CAE.bounds = mesh.bounds # to be available everywhere
+
             try:
                 points = vtk.vtkPoints()
                 for n in mesh.nodes.keys(): # create VTK points from mesh nodes
                     points.InsertPoint(n-1, mesh.nodes[n]) # node numbers should start from 0!
+                    # print(n-1, mesh.nodes[n])
 
                 ugrid = vtk.vtkUnstructuredGrid() # create empty grid in VTK
                 ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
