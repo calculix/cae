@@ -9,10 +9,14 @@
 """
 
 
+import ccx_log
+
+
 class Parse:
 
     # Parse nodes with coordinates
     # *NODE keyword
+    # TODO parse NSET in lead line
     def get_nodes(self, lines):
         for i in range(len(lines)):
             if lines[i].startswith('*NODE'):
@@ -30,8 +34,7 @@ class Parse:
                         if coord > self.bounds[j*2+1]:
                             self.bounds[j*2+1] = coord # update max coords values
                     i += 1
-                    # self.CAE.logger.info('Node ' + str(num) + ': ' + str(self.nodes[num]))
-                return
+                # do not return to parse few *NODE sections
 
 
     # Parse node sets
@@ -51,6 +54,7 @@ class Parse:
 
     # Parse elements composition and calculate centroid
     # *ELEMENT keyword
+    # TODO parse ELSET in lead line
     def get_elements(self, lines):
         for i in range(len(lines)):
             if lines[i].startswith('*ELEMENT'):
@@ -79,6 +83,7 @@ class Parse:
                     x /= amount; y /= amount; z /= amount
                     self.centroids[num] = (x, y, z) # centroid coordinates 3D
                     i += 1
+                # do not return to parse few *ELEMENT sections
 
 
     # Parse element sets
@@ -110,9 +115,9 @@ class Parse:
 
 
     # Initialization
-    def __init__(self, inp_file, CAE):
+    def __init__(self, inp_file):
 
-        self.CAE = CAE
+        self.msg_list = [] # list of messages for logger
 
         # All mesh nodes with coordinates
         """
@@ -182,33 +187,57 @@ class Parse:
                     lines.append(line.strip().upper())
         try:
             self.get_nodes(lines) # parse nodes
-            self.CAE.logger.info('{0} nodes'.format(len(self.nodes)))
+
+            msg_text = '{0} nodes'.format(len(self.nodes))
+            msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
+            self.msg_list.append(msg)
         except:
-            self.CAE.logger.error('Can\'t parse nodes')
+            msg_text = 'Can\'t parse nodes'
+            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            self.msg_list.append(msg)
 
         try:
             self.get_nsets(lines) # parse node sets
-            self.CAE.logger.info('{0} nsets'.format(len(self.nsets)))
+
+            msg_text = '{0} nsets'.format(len(self.nsets))
+            msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
+            self.msg_list.append(msg)
         except:
-            self.CAE.logger.error('Can\'t parse nsets')
+            msg_text = 'Can\'t parse nsets'
+            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            self.msg_list.append(msg)
 
         try:
             self.get_elements(lines) # parse elements
-            self.CAE.logger.info('{0} elements'.format(len(self.elements)))
+
+            msg_text = '{0} elements'.format(len(self.elements))
+            msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
+            self.msg_list.append(msg)
         except:
-            self.CAE.logger.error('Can\'t parse elements')
+            msg_text = 'Can\'t parse elements'
+            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            self.msg_list.append(msg)
 
         try:
             self.get_esets(lines) # parse node sets
-            self.CAE.logger.info('{0} esets'.format(len(self.esets)))
+
+            msg_text = '{0} esets'.format(len(self.esets))
+            msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
+            self.msg_list.append(msg)
         except:
-            self.CAE.logger.error('Can\'t parse esets')
+            msg_text = 'Can\'t parse esets'
+            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            self.msg_list.append(msg)
 
         try:
             self.get_surfaces(lines) # parse surfaces
-            self.CAE.logger.info('{0} surfaces'.format(len(self.surfaces)))
+            msg_text = '{0} surfaces'.format(len(self.surfaces))
+            msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
+            self.msg_list.append(msg)
         except:
-            self.CAE.logger.error('Can\'t parse surfaces')
+            msg_text = 'Can\'t parse surfaces'
+            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            self.msg_list.append(msg)
 
 
     # Convert Calculix element type to VTK
@@ -216,7 +245,7 @@ class Parse:
     def convert_elem_type(frd_elem_type):
         """
             Keep in mind that CalculiX expands shell elements
-            In vtk elements nodes are numbered starting from 0, not 1
+            In vtk elements nodes are numbered starting from 0, not from 1
 
             For frd see http://www.dhondt.de/cgx_2.15.pdf pages 117-123 (chapter 10)
             For vtk see https://vtk.org/wp-content/uploads/2015/04/file-formats.pdf pages 9-10

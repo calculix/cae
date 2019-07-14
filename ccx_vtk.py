@@ -150,20 +150,20 @@ class VTK:
         self.actionViewFit()
 
     def actionViewFit(self):
-        self.renderer.ResetCamera(self.CAE.bounds) # avoid camera flying to infinity
+        self.renderer.ResetCamera(self.CAE.mesh.bounds) # avoid camera flying to infinity
         self.window.Render() # render updated view
 
         # Some logs for debugging
-        # self.CAE.logger.info('Camera\'s focal point is ' + str(self.camera.GetFocalPoint()))
-        # self.CAE.logger.info('Camera\'s position is ' + str(self.camera.GetPosition()))
-        # self.CAE.logger.info('Camera\'s ViewUp is ' + str(self.camera.GetViewUp()))
-        # self.CAE.logger.info('Camera\'s distance is ' + str(self.camera.GetDistance()))
-        # self.CAE.logger.info('Camera\'s Roll is ' + str(self.camera.GetRoll()))
-        # self.CAE.logger.info('Camera\'s ViewAngle is ' + str(self.camera.GetViewAngle()))
-        # self.CAE.logger.info('Camera\'s ParallelScale is ' + str(self.camera.GetParallelScale()))
-        # self.CAE.logger.info('Camera\'s ClippingRange is ' + str(self.camera.GetClippingRange()))
-        # self.CAE.logger.info('Camera\'s WindowCenter is ' + str(self.camera.GetWindowCenter()))
-        # self.CAE.logger.info('Camera\'s orientation is ' + str(self.camera.GetOrientation()))
+        self.CAE.logger.info('Camera\'s focal point is ' + str(self.camera.GetFocalPoint()))
+        self.CAE.logger.info('Camera\'s position is ' + str(self.camera.GetPosition()))
+        self.CAE.logger.info('Camera\'s ViewUp is ' + str(self.camera.GetViewUp()))
+        self.CAE.logger.info('Camera\'s distance is ' + str(self.camera.GetDistance()))
+        self.CAE.logger.info('Camera\'s Roll is ' + str(self.camera.GetRoll()))
+        self.CAE.logger.info('Camera\'s ViewAngle is ' + str(self.camera.GetViewAngle()))
+        self.CAE.logger.info('Camera\'s ParallelScale is ' + str(self.camera.GetParallelScale()))
+        self.CAE.logger.info('Camera\'s ClippingRange is ' + str(self.camera.GetClippingRange()))
+        self.CAE.logger.info('Camera\'s WindowCenter is ' + str(self.camera.GetWindowCenter()))
+        self.CAE.logger.info('Camera\'s orientation is ' + str(self.camera.GetOrientation()))
 
     def actionViewWireframe(self):
         self.actor.GetProperty().SetRepresentationToWireframe()

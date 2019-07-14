@@ -1,0 +1,3213 @@
+==================================================
+achtel2.inp
+ERROR! Can't parse nodes
+1 nsets
+8 elements
+2 esets
+0 surfaces
+==================================================
+achtel29.inp
+ERROR! Can't parse nodes
+1 nsets
+8 elements
+2 esets
+0 surfaces
+==================================================
+achtel9.inp
+ERROR! Can't parse nodes
+1 nsets
+8 elements
+2 esets
+0 surfaces
+==================================================
+achtelc.inp
+ERROR! Can't parse nodes
+1 nsets
+8 elements
+2 esets
+0 surfaces
+==================================================
+achtelcas.inp
+ERROR! Can't parse nodes
+1 nsets
+8 elements
+2 esets
+0 surfaces
+==================================================
+achteld.inp
+ERROR! Can't parse nodes
+1 nsets
+8 elements
+1 esets
+0 surfaces
+==================================================
+achtelg.inp
+ERROR! Can't parse nodes
+1 nsets
+8 elements
+2 esets
+0 surfaces
+==================================================
+achtelp.inp
+ERROR! Can't parse nodes
+1 nsets
+8 elements
+2 esets
+0 surfaces
+==================================================
+acou1.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+acou2.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+acou3.inp
+ERROR! Can't parse nodes
+7 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+acou4.inp
+ERROR! Can't parse nodes
+7 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+aircolumn.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+anipla.inp
+ERROR! Can't parse nodes
+2 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+aniso.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+artery1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+artery2.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+artery3.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+artery4.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+artery5.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+ax6.inp
+ERROR! Can't parse nodes
+0 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+c3d6.inp
+ERROR! Can't parse nodes
+0 nsets
+6 elements
+1 esets
+0 surfaces
+==================================================
+capacitor.inp
+108 nodes
+2 nsets
+10 elements
+0 esets
+1 surfaces
+==================================================
+carbonseal.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+centheat1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+7 esets
+0 surfaces
+==================================================
+changefric.inp
+ERROR! Can't parse nodes
+2 nsets
+2 elements
+2 esets
+2 surfaces
+==================================================
+changesolidsection.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+changesurfbeh.inp
+ERROR! Can't parse nodes
+2 nsets
+2 elements
+2 esets
+2 surfaces
+==================================================
+channel1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+5 esets
+0 surfaces
+==================================================
+channel10.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+9 esets
+0 surfaces
+==================================================
+channel11.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+9 esets
+0 surfaces
+==================================================
+channel12.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+9 esets
+0 surfaces
+==================================================
+channel2.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+5 esets
+0 surfaces
+==================================================
+channel3.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+5 esets
+0 surfaces
+==================================================
+channel4.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+5 esets
+0 surfaces
+==================================================
+channel5.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+5 esets
+0 surfaces
+==================================================
+channel6.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+8 esets
+0 surfaces
+==================================================
+channel7.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+5 esets
+0 surfaces
+==================================================
+channel9.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+9 esets
+0 surfaces
+==================================================
+chanson1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+5 esets
+0 surfaces
+==================================================
+characteristic.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+circ10p.inp
+ERROR! Can't parse nodes
+2 nsets
+31 elements
+0 esets
+1 surfaces
+==================================================
+circ10pfin.inp
+ERROR! Can't parse nodes
+2 nsets
+ERROR! Can't parse elements
+0 esets
+1 surfaces
+==================================================
+concretebeam.inp
+ERROR! Can't parse nodes
+2 nsets
+10 elements
+0 esets
+0 surfaces
+==================================================
+contact1.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+1 esets
+2 surfaces
+==================================================
+contact10.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+0 esets
+2 surfaces
+==================================================
+contact11.inp
+ERROR! Can't parse nodes
+2 nsets
+2 elements
+0 esets
+2 surfaces
+==================================================
+contact2.inp
+ERROR! Can't parse nodes
+1 nsets
+64 elements
+0 esets
+2 surfaces
+==================================================
+contact3.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+1 esets
+2 surfaces
+==================================================
+contact4.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+0 esets
+2 surfaces
+==================================================
+contact5.inp
+ERROR! Can't parse nodes
+2 nsets
+64 elements
+0 esets
+2 surfaces
+==================================================
+contact5lin.inp
+ERROR! Can't parse nodes
+2 nsets
+64 elements
+0 esets
+2 surfaces
+==================================================
+contact6.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+1 esets
+2 surfaces
+==================================================
+contact7.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+1 esets
+2 surfaces
+==================================================
+pipempc1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+3 esets
+0 surfaces
+==================================================
+pipempc2.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+3 esets
+0 surfaces
+==================================================
+pipempc3.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+2 esets
+0 surfaces
+==================================================
+piperestrictor.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+10 esets
+0 surfaces
+==================================================
+planestrain.inp
+ERROR! Can't parse nodes
+0 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+planestrain2.inp
+ERROR! Can't parse nodes
+0 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+planestress.inp
+ERROR! Can't parse nodes
+1 nsets
+4 elements
+0 esets
+0 surfaces
+==================================================
+planestress2.inp
+ERROR! Can't parse nodes
+1 nsets
+4 elements
+4 esets
+0 surfaces
+==================================================
+planestress3.inp
+ERROR! Can't parse nodes
+1 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+plate.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+1 esets
+2 surfaces
+==================================================
+poi2d.inp
+ERROR! Can't parse nodes
+0 nsets
+200 elements
+0 esets
+1 surfaces
+==================================================
+poi2d2.inp
+ERROR! Can't parse nodes
+0 nsets
+200 elements
+0 esets
+5 surfaces
+==================================================
+potied.inp
+461 nodes
+1 nsets
+61 elements
+0 esets
+2 surfaces
+==================================================
+pret1.inp
+ERROR! Can't parse nodes
+1 nsets
+14 elements
+0 esets
+1 surfaces
+==================================================
+pret2.inp
+ERROR! Can't parse nodes
+2 nsets
+2 elements
+0 esets
+1 surfaces
+==================================================
+pret3.inp
+ERROR! Can't parse nodes
+3 nsets
+11 elements
+0 esets
+0 surfaces
+==================================================
+pret4.inp
+ERROR! Can't parse nodes
+1 nsets
+14 elements
+0 esets
+1 surfaces
+==================================================
+pret5.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+0 esets
+1 surfaces
+==================================================
+pret6.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+0 esets
+1 surfaces
+==================================================
+beamd2.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+2 esets
+0 surfaces
+==================================================
+beamdelay.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamdy1.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy10.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy10bm.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy11.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy12.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy13.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy14.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy15.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy16.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy17.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy18.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy19.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy2.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy20.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy3.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy4.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy5.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+rot4.inp
+ERROR! Can't parse nodes
+3 nsets
+4 elements
+0 esets
+0 surfaces
+==================================================
+rotor.inp
+2656 nodes
+1 nsets
+368 elements
+0 esets
+0 surfaces
+==================================================
+sc123.inp
+ERROR! Can't parse nodes
+2 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+sc123creep.inp
+ERROR! Can't parse nodes
+2 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+scheibe.inp
+ERROR! Can't parse nodes
+1 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+scheibe2f2f.inp
+ERROR! Can't parse nodes
+10 nsets
+512 elements
+3 esets
+6 surfaces
+==================================================
+scheibe2n2f.inp
+ERROR! Can't parse nodes
+9 nsets
+512 elements
+3 esets
+6 surfaces
+==================================================
+section.inp
+ERROR! Can't parse nodes
+0 nsets
+20 elements
+0 esets
+0 surfaces
+==================================================
+section4.inp
+ERROR! Can't parse nodes
+0 nsets
+20 elements
+0 esets
+0 surfaces
+==================================================
+segdyn.inp
+ERROR! Can't parse nodes
+4 nsets
+96 elements
+0 esets
+2 surfaces
+==================================================
+segment.inp
+ERROR! Can't parse nodes
+2 nsets
+96 elements
+0 esets
+2 surfaces
+==================================================
+segment1.inp
+ERROR! Can't parse nodes
+1 nsets
+8 elements
+0 esets
+0 surfaces
+==================================================
+segment2.inp
+ERROR! Can't parse nodes
+1 nsets
+8 elements
+0 esets
+0 surfaces
+==================================================
+segmentbeam.inp
+661 nodes
+2 nsets
+97 elements
+0 esets
+2 surfaces
+==================================================
+segmentbeam2.inp
+661 nodes
+3 nsets
+97 elements
+0 esets
+2 surfaces
+==================================================
+segmentf.inp
+ERROR! Can't parse nodes
+2 nsets
+8 elements
+0 esets
+0 surfaces
+==================================================
+segmentface.inp
+661 nodes
+2 nsets
+96 elements
+0 esets
+4 surfaces
+==================================================
+segmentm.inp
+ERROR! Can't parse nodes
+1 nsets
+8 elements
+0 esets
+0 surfaces
+==================================================
+ax6ht.inp
+85 nodes
+0 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamd.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+2 esets
+0 surfaces
+==================================================
+beamdy6.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamnh.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamprb.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamt3.inp
+ERROR! Can't parse nodes
+12 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+c3d15.inp
+ERROR! Can't parse nodes
+0 nsets
+24 elements
+1 esets
+0 surfaces
+==================================================
+contact8.inp
+16 nodes
+3 nsets
+2 elements
+1 esets
+2 surfaces
+==================================================
+cubenewt.inp
+ERROR! Can't parse nodes
+2 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+gap.inp
+ERROR! Can't parse nodes
+2 nsets
+65 elements
+0 esets
+0 surfaces
+==================================================
+hinge.inp
+ERROR! Can't parse nodes
+1 nsets
+32 elements
+0 esets
+1 surfaces
+==================================================
+membrane2.inp
+ERROR! Can't parse nodes
+1 nsets
+4 elements
+0 esets
+0 surfaces
+==================================================
+pipe2.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+3 esets
+0 surfaces
+==================================================
+pret7.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+0 esets
+1 surfaces
+==================================================
+rot3.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+segmenttet.inp
+2756 nodes
+2 nsets
+1489 elements
+0 esets
+2 surfaces
+==================================================
+slant.inp
+ERROR! Can't parse nodes
+0 nsets
+120 elements
+0 esets
+5 surfaces
+==================================================
+beamnld.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamnldy.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamnldye.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamnldynodirect.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamnldyp.inp
+ERROR! Can't parse nodes
+6 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamnldype.inp
+ERROR! Can't parse nodes
+6 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamnlmpc.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamnlp.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamnlptp.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamnlt.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamnoan.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamog.inp
+ERROR! Can't parse nodes
+9 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamp.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+2 surfaces
+==================================================
+beamp1rotate.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamp2.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+2 surfaces
+==================================================
+beamp2rotate.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamp2stage.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beampd.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beampdepmpc.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamperror.inp
+261 nodes
+3 nsets
+32 elements
+0 esets
+2 surfaces
+==================================================
+beampfix.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beampic.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beampik.inp
+ERROR! Can't parse nodes
+9 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beampis.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beampiso.inp
+ERROR! Can't parse nodes
+9 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beampiso2.inp
+261 nodes
+9 nsets
+32 elements
+2 esets
+0 surfaces
+==================================================
+beampisof.inp
+261 nodes
+9 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beampkin.inp
+ERROR! Can't parse nodes
+9 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beampl.inp
+ERROR! Can't parse nodes
+9 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamplane.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beampo1.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beampo2.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beampo3.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamprand.inp
+261 nodes
+4 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+gap2.inp
+ERROR! Can't parse nodes
+2 nsets
+6 elements
+0 esets
+0 surfaces
+==================================================
+gaspipe-cfd-pressure.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe-fanno10.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe-fanno8-oil.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe-fanno9.inp
+ERROR! Can't parse nodes
+ERROR! Can't parse nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe1-oil.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe11.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe12.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe13.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe14.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe2.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe3.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe4.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe5.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe6.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe7.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe8-cfd-massflow.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe8-cfd-pressure-split.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe8-cfd-pressure.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe8-oil.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe8.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspipe9.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+gaspres.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+green1.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+green2.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+green3.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+green4.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+contact9.inp
+16 nodes
+3 nsets
+2 elements
+1 esets
+2 surfaces
+==================================================
+contactenergy.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+1 esets
+2 surfaces
+==================================================
+contdamp1.inp
+ERROR! Can't parse nodes
+3 nsets
+3 elements
+0 esets
+2 surfaces
+==================================================
+contdamp2.inp
+ERROR! Can't parse nodes
+3 nsets
+3 elements
+0 esets
+2 surfaces
+==================================================
+cou.inp
+ERROR! Can't parse nodes
+0 nsets
+100 elements
+0 esets
+5 surfaces
+==================================================
+cou2d.inp
+ERROR! Can't parse nodes
+0 nsets
+100 elements
+0 esets
+1 surfaces
+==================================================
+coucss.inp
+ERROR! Can't parse nodes
+0 nsets
+100 elements
+0 esets
+5 surfaces
+==================================================
+couctr.inp
+ERROR! Can't parse nodes
+0 nsets
+100 elements
+0 esets
+5 surfaces
+==================================================
+couette1.inp
+ERROR! Can't parse nodes
+0 nsets
+20 elements
+1 esets
+3 surfaces
+==================================================
+couette2.inp
+ERROR! Can't parse nodes
+0 nsets
+20 elements
+1 esets
+3 surfaces
+==================================================
+couettecyl.inp
+ERROR! Can't parse nodes
+0 nsets
+128 elements
+0 esets
+1 surfaces
+==================================================
+couettecyl4.inp
+ERROR! Can't parse nodes
+0 nsets
+16 elements
+0 esets
+3 surfaces
+==================================================
+couettecylcent.inp
+ERROR! Can't parse nodes
+0 nsets
+128 elements
+0 esets
+1 surfaces
+==================================================
+couettecylcomp.inp
+ERROR! Can't parse nodes
+0 nsets
+128 elements
+0 esets
+1 surfaces
+==================================================
+coupling1.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+1 surfaces
+==================================================
+coupling2.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+1 surfaces
+==================================================
+coupling3.inp
+262 nodes
+3 nsets
+32 elements
+0 esets
+1 surfaces
+==================================================
+coupling4.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+1 surfaces
+==================================================
+coupling5.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+1 surfaces
+==================================================
+coupling6.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+1 surfaces
+==================================================
+coupling7.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+1 surfaces
+==================================================
+cube2.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+2 esets
+0 surfaces
+==================================================
+cubef2f1.inp
+2961 nodes
+2 nsets
+ERROR! Can't parse elements
+1 esets
+2 surfaces
+==================================================
+cubef2f2.inp
+2961 nodes
+2 nsets
+ERROR! Can't parse elements
+1 esets
+2 surfaces
+==================================================
+cubef2f3.inp
+2961 nodes
+2 nsets
+ERROR! Can't parse elements
+1 esets
+2 surfaces
+==================================================
+small_pressure_gradient.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+solidshell1.inp
+ERROR! Can't parse nodes
+2 nsets
+12 elements
+1 esets
+0 surfaces
+==================================================
+solidshell2.inp
+ERROR! Can't parse nodes
+2 nsets
+16 elements
+1 esets
+0 surfaces
+==================================================
+spring1.inp
+ERROR! Can't parse nodes
+0 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+spring2.inp
+ERROR! Can't parse nodes
+0 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+spring3.inp
+ERROR! Can't parse nodes
+1 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+spring4.inp
+ERROR! Can't parse nodes
+1 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+spring5.inp
+ERROR! Can't parse nodes
+2 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+spring6.inp
+ERROR! Can't parse nodes
+0 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+spring7.inp
+ERROR! Can't parse nodes
+0 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+square.inp
+ERROR! Can't parse nodes
+2 nsets
+100 elements
+0 esets
+0 surfaces
+==================================================
+submodelbeamp.inp
+ERROR! Can't parse nodes
+1 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+submodeltwobeam.inp
+ERROR! Can't parse nodes
+2 nsets
+2 elements
+2 esets
+0 surfaces
+==================================================
+submodeltwobeamnlgeom.inp
+ERROR! Can't parse nodes
+2 nsets
+2 elements
+2 esets
+0 surfaces
+==================================================
+substructure.inp
+261 nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+swing.inp
+ERROR! Can't parse nodes
+0 nsets
+20 elements
+2 esets
+0 surfaces
+==================================================
+tempdiscon.inp
+ERROR! Can't parse nodes
+3 nsets
+3 elements
+0 esets
+0 surfaces
+==================================================
+thermomech.inp
+ERROR! Can't parse nodes
+3 nsets
+64 elements
+0 esets
+0 surfaces
+==================================================
+thermomech2.inp
+ERROR! Can't parse nodes
+3 nsets
+64 elements
+0 esets
+0 surfaces
+==================================================
+thread.inp
+2389 nodes
+0 nsets
+718 elements
+10 esets
+ERROR! Can't parse surfaces
+==================================================
+transition.inp
+ERROR! Can't parse nodes
+2 nsets
+ERROR! Can't parse elements
+1 esets
+0 surfaces
+==================================================
+truss.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+truss2.inp
+ERROR! Can't parse nodes
+0 nsets
+10 elements
+0 esets
+0 surfaces
+==================================================
+unet1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+unetp1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+uprofile.inp
+ERROR! Can't parse nodes
+0 nsets
+5 elements
+0 esets
+0 surfaces
+==================================================
+userbeam.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+vortex1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+vortex2.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+vortex3.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+wire.inp
+107 nodes
+1 nsets
+30 elements
+2 esets
+0 surfaces
+==================================================
+axial.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+axiplane.inp
+13 nodes
+0 nsets
+2 elements
+1 esets
+0 surfaces
+==================================================
+axrad.inp
+53 nodes
+2 nsets
+10 elements
+0 esets
+0 surfaces
+==================================================
+axrad2.inp
+ERROR! Can't parse nodes
+3 nsets
+1140 elements
+0 esets
+0 surfaces
+==================================================
+b31.inp
+ERROR! Can't parse nodes
+0 nsets
+10 elements
+0 esets
+0 surfaces
+==================================================
+b31nodthi.inp
+11 nodes
+0 nsets
+10 elements
+0 esets
+0 surfaces
+==================================================
+ball.inp
+ERROR! Can't parse nodes
+1 nsets
+769 elements
+0 esets
+2 surfaces
+==================================================
+beam10p.inp
+ERROR! Can't parse nodes
+2 nsets
+31 elements
+0 esets
+0 surfaces
+==================================================
+beam20p.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beam20t.inp
+ERROR! Can't parse nodes
+7 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beam8b.inp
+425 nodes
+2 nsets
+256 elements
+0 esets
+0 surfaces
+==================================================
+beam8f.inp
+425 nodes
+2 nsets
+256 elements
+0 esets
+0 surfaces
+==================================================
+beam8p.inp
+ERROR! Can't parse nodes
+2 nsets
+256 elements
+0 esets
+0 surfaces
+==================================================
+beam8t.inp
+ERROR! Can't parse nodes
+1 nsets
+256 elements
+2 esets
+0 surfaces
+==================================================
+beamabq.inp
+ERROR! Can't parse nodes
+6 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamb.inp
+261 nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamcom.inp
+ERROR! Can't parse nodes
+0 nsets
+4 elements
+2 esets
+0 surfaces
+==================================================
+beamcontact.inp
+277 nodes
+1 nsets
+34 elements
+0 esets
+4 surfaces
+==================================================
+beamcr.inp
+ERROR! Can't parse nodes
+9 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamcr2.inp
+ERROR! Can't parse nodes
+9 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy7.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy7bm.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy8.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdy9.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamdynamic.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamf.inp
+ERROR! Can't parse nodes
+1 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamf2.inp
+261 nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamf3.inp
+ERROR! Can't parse nodes
+1 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamf3submodel.inp
+ERROR! Can't parse nodes
+1 nsets
+12 elements
+0 esets
+0 surfaces
+==================================================
+beamfsh1.inp
+ERROR! Can't parse nodes
+2 nsets
+34 elements
+1 esets
+0 surfaces
+==================================================
+beamfstrucdamp.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamfsubmodel.inp
+ERROR! Can't parse nodes
+1 nsets
+12 elements
+0 esets
+0 surfaces
+==================================================
+beamft.inp
+261 nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamheatplas.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamhf.inp
+ERROR! Can't parse nodes
+9 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamhtbf.inp
+ERROR! Can't parse nodes
+1 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamhtbo.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamhtcr.inp
+ERROR! Can't parse nodes
+2 nsets
+48 elements
+0 esets
+0 surfaces
+==================================================
+beamhtcr2.inp
+ERROR! Can't parse nodes
+2 nsets
+48 elements
+0 esets
+0 surfaces
+==================================================
+beamhtfc.inp
+ERROR! Can't parse nodes
+4 nsets
+40 elements
+1 esets
+0 surfaces
+==================================================
+beamhtfc2.inp
+ERROR! Can't parse nodes
+4 nsets
+40 elements
+1 esets
+0 surfaces
+==================================================
+beamhtfcaero.inp
+ERROR! Can't parse nodes
+4 nsets
+40 elements
+1 esets
+0 surfaces
+==================================================
+beamhtfcaerothne.inp
+ERROR! Can't parse nodes
+4 nsets
+40 elements
+1 esets
+0 surfaces
+==================================================
+beamhtfcnu.inp
+ERROR! Can't parse nodes
+4 nsets
+40 elements
+1 esets
+0 surfaces
+==================================================
+beamidset.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamimpdy1.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamimpdy1nodirect.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamimpdy2.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamlin.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+1 esets
+0 surfaces
+==================================================
+beammix.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+2 esets
+0 surfaces
+==================================================
+beammpc.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+2 surfaces
+==================================================
+beammr.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beammrco.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beammrlin.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beampset.inp
+ERROR! Can't parse nodes
+ERROR! Can't parse nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beampt.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamptied1.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+3 surfaces
+==================================================
+beamptied1noadjust.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+3 surfaces
+==================================================
+beamptied2.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+3 surfaces
+==================================================
+beamptied3.inp
+282 nodes
+4 nsets
+32 elements
+0 esets
+3 surfaces
+==================================================
+beamptied4.inp
+282 nodes
+4 nsets
+32 elements
+0 esets
+3 surfaces
+==================================================
+beamptied5.inp
+282 nodes
+4 nsets
+32 elements
+0 esets
+3 surfaces
+==================================================
+beamptied6.inp
+282 nodes
+4 nsets
+32 elements
+0 esets
+3 surfaces
+==================================================
+beamptied7.inp
+282 nodes
+4 nsets
+32 elements
+0 esets
+3 surfaces
+==================================================
+beamptrans.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamrb.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamrb2.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamread.inp
+0 nodes
+0 nsets
+0 elements
+0 esets
+0 surfaces
+==================================================
+beamread2.inp
+0 nodes
+0 nsets
+0 elements
+0 esets
+0 surfaces
+==================================================
+beamread3.inp
+0 nodes
+0 nsets
+0 elements
+0 esets
+0 surfaces
+==================================================
+beamstraight.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamt.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamt2.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+3 esets
+0 surfaces
+==================================================
+cubespring.inp
+ERROR! Can't parse nodes
+2 nsets
+54 elements
+0 esets
+2 surfaces
+==================================================
+cyl.inp
+ERROR! Can't parse nodes
+1 nsets
+160 elements
+0 esets
+1 surfaces
+==================================================
+dam.inp
+ERROR! Can't parse nodes
+2 nsets
+320 elements
+2 esets
+0 surfaces
+==================================================
+damper1.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+dashpot1.inp
+ERROR! Can't parse nodes
+2 nsets
+3 elements
+0 esets
+0 surfaces
+==================================================
+dashpot2.inp
+ERROR! Can't parse nodes
+3 nsets
+3 elements
+0 esets
+0 surfaces
+==================================================
+dashpot3.inp
+ERROR! Can't parse nodes
+2 nsets
+3 elements
+0 esets
+0 surfaces
+==================================================
+dashpot5.inp
+ERROR! Can't parse nodes
+2 nsets
+3 elements
+0 esets
+0 surfaces
+==================================================
+disk2.inp
+ERROR! Can't parse nodes
+0 nsets
+8 elements
+2 esets
+0 surfaces
+==================================================
+dist.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+distcoup.inp
+ERROR! Can't parse nodes
+3 nsets
+33 elements
+0 esets
+0 surfaces
+==================================================
+distcoup2.inp
+ERROR! Can't parse nodes
+4 nsets
+34 elements
+0 esets
+0 surfaces
+==================================================
+dloadlinI.inp
+ERROR! Can't parse nodes
+2 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+dloadlinIf.inp
+ERROR! Can't parse nodes
+2 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+edgeload.inp
+ERROR! Can't parse nodes
+8 nsets
+233 elements
+0 esets
+0 surfaces
+==================================================
+equrem1.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+equrem2.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+equrem3.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+equrem4.inp
+ERROR! Can't parse nodes
+2 nsets
+34 elements
+1 esets
+1 surfaces
+==================================================
+fluidread.inp
+ERROR! Can't parse nodes
+0 nsets
+0 elements
+0 esets
+0 surfaces
+==================================================
+fluidwrite.inp
+ERROR! Can't parse nodes
+0 nsets
+120 elements
+0 esets
+5 surfaces
+==================================================
+fricloop.inp
+ERROR! Can't parse nodes
+2 nsets
+2 elements
+2 esets
+2 surfaces
+==================================================
+friction1.inp
+250 nodes
+2 nsets
+128 elements
+0 esets
+2 surfaces
+==================================================
+friction2.inp
+16 nodes
+3 nsets
+2 elements
+0 esets
+2 surfaces
+==================================================
+friction3.inp
+16 nodes
+3 nsets
+2 elements
+0 esets
+2 surfaces
+==================================================
+fullseg.inp
+1013 nodes
+2 nsets
+160 elements
+0 esets
+2 surfaces
+==================================================
+furnace.inp
+ERROR! Can't parse nodes
+2 nsets
+305 elements
+0 esets
+0 surfaces
+==================================================
+hueeber1.inp
+ERROR! Can't parse nodes
+9 nsets
+8500 elements
+2 esets
+2 surfaces
+==================================================
+hueeber2.inp
+ERROR! Can't parse nodes
+9 nsets
+8500 elements
+2 esets
+2 surfaces
+==================================================
+hueeber3.inp
+ERROR! Can't parse nodes
+9 nsets
+8500 elements
+2 esets
+2 surfaces
+==================================================
+hueeber4.inp
+ERROR! Can't parse nodes
+9 nsets
+8500 elements
+2 esets
+2 surfaces
+==================================================
+induction.inp
+ERROR! Can't parse nodes
+2 nsets
+612 elements
+2 esets
+0 surfaces
+==================================================
+induction2.inp
+ERROR! Can't parse nodes
+4 nsets
+1712 elements
+0 esets
+0 surfaces
+==================================================
+inistrain.inp
+20 nodes
+1 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+inistrain2.inp
+20 nodes
+1 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+labyrinth1fin.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+labyrinthstepped.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+labyrinthstraight.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+largerot1.inp
+261 nodes
+0 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+largerot2.inp
+261 nodes
+0 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+largerot3.inp
+261 nodes
+0 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+leifer1.inp
+ERROR! Can't parse nodes
+2 nsets
+100 elements
+0 esets
+0 surfaces
+==================================================
+leifer2.inp
+ERROR! Can't parse nodes
+2 nsets
+100 elements
+0 esets
+0 surfaces
+==================================================
+linearnet.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+mass1.inp
+ERROR! Can't parse nodes
+3 nsets
+33 elements
+0 esets
+0 surfaces
+==================================================
+mass2.inp
+261 nodes
+1 nsets
+33 elements
+1 esets
+0 surfaces
+==================================================
+mass3.inp
+ERROR! Can't parse nodes
+0 nsets
+3 elements
+0 esets
+0 surfaces
+==================================================
+massflow_percent_ccx.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+membrane1.inp
+ERROR! Can't parse nodes
+1 nsets
+4 elements
+0 esets
+0 surfaces
+==================================================
+membrane3.inp
+ERROR! Can't parse nodes
+1 nsets
+4 elements
+0 esets
+0 surfaces
+==================================================
+metalforming.inp
+ERROR! Can't parse nodes
+21 nsets
+ERROR! Can't parse elements
+37 esets
+8 surfaces
+==================================================
+metalformingmortar.inp
+ERROR! Can't parse nodes
+21 nsets
+ERROR! Can't parse elements
+37 esets
+8 surfaces
+==================================================
+modelchel.inp
+261 nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+modelchel2.inp
+261 nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+moehring.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+mpcforce.inp
+ERROR! Can't parse nodes
+4 nsets
+32 elements
+2 esets
+0 surfaces
+==================================================
+multistage.inp
+ERROR! Can't parse nodes
+8 nsets
+140 elements
+2 esets
+6 surfaces
+==================================================
+networkmpc.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+networkmpc2.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+oneel.inp
+ERROR! Can't parse nodes
+0 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+oneel20cf.inp
+ERROR! Can't parse nodes
+1 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+oneel20df.inp
+ERROR! Can't parse nodes
+1 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+oneel20fi.inp
+ERROR! Can't parse nodes
+1 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+oneel20rs.inp
+ERROR! Can't parse nodes
+1 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+oneel8ra.inp
+ERROR! Can't parse nodes
+1 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+opt1.inp
+ERROR! Can't parse nodes
+1 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+opt2.inp
+ERROR! Can't parse nodes
+0 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+opt3.inp
+ERROR! Can't parse nodes
+1 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+pendel.inp
+ERROR! Can't parse nodes
+1 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+pipe.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+10 esets
+0 surfaces
+==================================================
+beamt4.inp
+ERROR! Can't parse nodes
+7 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamt6.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamth.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+1 esets
+0 surfaces
+==================================================
+beamtor.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+beamu.inp
+ERROR! Can't parse nodes
+6 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamuamp.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamwrite.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamwrite2.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beamwrite3.inp
+ERROR! Can't parse nodes
+2 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+beam_sens_freq_coord1.inp
+ERROR! Can't parse nodes
+1 nsets
+ERROR! Can't parse elements
+1 esets
+0 surfaces
+==================================================
+beam_sens_freq_coord2.inp
+ERROR! Can't parse nodes
+2 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+beam_sens_freq_coord3.inp
+ERROR! Can't parse nodes
+2 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+beam_sens_stress_coord1.inp
+ERROR! Can't parse nodes
+1 nsets
+ERROR! Can't parse elements
+1 esets
+0 surfaces
+==================================================
+beam_sens_stress_coord2.inp
+ERROR! Can't parse nodes
+1 nsets
+ERROR! Can't parse elements
+1 esets
+0 surfaces
+==================================================
+bifur.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+bolt.inp
+ERROR! Can't parse nodes
+1 nsets
+352 elements
+0 esets
+6 surfaces
+==================================================
+boxprofile.inp
+ERROR! Can't parse nodes
+0 nsets
+5 elements
+0 esets
+0 surfaces
+==================================================
+boxprofile2.inp
+11 nodes
+0 nsets
+5 elements
+0 esets
+0 surfaces
+==================================================
+branch1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+branch2.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+branchjoint1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+branchjoint2.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+branchjoint3.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+branchjoint4.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+branchsplit1.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+branchsplit2.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+branchsplit3.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+primaryair.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+punch1.inp
+ERROR! Can't parse nodes
+3 nsets
+54 elements
+0 esets
+2 surfaces
+==================================================
+punch2.inp
+ERROR! Can't parse nodes
+4 nsets
+54 elements
+0 esets
+2 surfaces
+==================================================
+resstress1.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+resstress2.inp
+ERROR! Can't parse nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+resstress3.inp
+261 nodes
+3 nsets
+32 elements
+0 esets
+0 surfaces
+==================================================
+restrictor-oil.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+restrictor.inp
+ERROR! Can't parse nodes
+0 nsets
+ERROR! Can't parse elements
+0 esets
+0 surfaces
+==================================================
+ring1.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+0 esets
+2 surfaces
+==================================================
+ring2.inp
+ERROR! Can't parse nodes
+3 nsets
+2 elements
+0 esets
+2 surfaces
+==================================================
+ring3.inp
+ERROR! Can't parse nodes
+4 nsets
+2 elements
+0 esets
+2 surfaces
+==================================================
+ring4.inp
+ERROR! Can't parse nodes
+4 nsets
+2 elements
+0 esets
+2 surfaces
+==================================================
+ringfcontact1.inp
+720 nodes
+6 nsets
+100 elements
+2 esets
+6 surfaces
+==================================================
+ringfcontact2.inp
+720 nodes
+6 nsets
+100 elements
+2 esets
+6 surfaces
+==================================================
+ringfcontact3.inp
+720 nodes
+6 nsets
+100 elements
+2 esets
+6 surfaces
+==================================================
+ringfcontact4.inp
+720 nodes
+6 nsets
+100 elements
+2 esets
+6 surfaces
+==================================================
+ringfcontact5.inp
+720 nodes
+6 nsets
+100 elements
+2 esets
+6 surfaces
+==================================================
+rot1.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+rot2.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+segststate.inp
+ERROR! Can't parse nodes
+3 nsets
+96 elements
+0 esets
+2 surfaces
+==================================================
+sensitivity_I.inp
+ERROR! Can't parse nodes
+1 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+sensitivity_V.inp
+ERROR! Can't parse nodes
+1 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+sensitivity_VI.inp
+ERROR! Can't parse nodes
+1 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+sensitivity_VII.inp
+ERROR! Can't parse nodes
+2 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+sens_disp_orien.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+2 esets
+0 surfaces
+==================================================
+sens_disp_orien_nlgeom.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+2 esets
+0 surfaces
+==================================================
+sens_freq_disp_cyc.inp
+ERROR! Can't parse nodes
+2 nsets
+624 elements
+0 esets
+2 surfaces
+==================================================
+sens_freq_orien.inp
+ERROR! Can't parse nodes
+0 nsets
+2 elements
+2 esets
+0 surfaces
+==================================================
+shell1.inp
+ERROR! Can't parse nodes
+3 nsets
+4 elements
+0 esets
+0 surfaces
+==================================================
+shell1lin.inp
+ERROR! Can't parse nodes
+3 nsets
+4 elements
+0 esets
+0 surfaces
+==================================================
+shell2.inp
+ERROR! Can't parse nodes
+1 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+shell3.inp
+ERROR! Can't parse nodes
+1 nsets
+4 elements
+0 esets
+0 surfaces
+==================================================
+shell4.inp
+ERROR! Can't parse nodes
+2 nsets
+242 elements
+2 esets
+0 surfaces
+==================================================
+shell5.inp
+ERROR! Can't parse nodes
+3 nsets
+4 elements
+0 esets
+0 surfaces
+==================================================
+shellbeam.inp
+ERROR! Can't parse nodes
+0 nsets
+3 elements
+1 esets
+0 surfaces
+==================================================
+shellf.inp
+ERROR! Can't parse nodes
+4 nsets
+4 elements
+0 esets
+0 surfaces
+==================================================
+shellf2.inp
+ERROR! Can't parse nodes
+4 nsets
+4 elements
+0 esets
+0 surfaces
+==================================================
+shellnor.inp
+ERROR! Can't parse nodes
+1 nsets
+2 elements
+0 esets
+0 surfaces
+==================================================
+simplebeam.inp
+ERROR! Can't parse nodes
+0 nsets
+1 elements
+0 esets
+0 surfaces
+==================================================
+simplebeampipe1.inp
+ERROR! Can't parse nodes
+0 nsets
+10 elements
+0 esets
+0 surfaces
+==================================================
+simplebeampipe2.inp
+ERROR! Can't parse nodes
+0 nsets
+10 elements
+0 esets
+0 surfaces
+==================================================
+simplebeampipe3.inp
+ERROR! Can't parse nodes
+0 nsets
+10 elements
+0 esets
+0 surfaces
+==================================================
+simplebeampipe4.inp
+21 nodes
+0 nsets
+10 elements
+0 esets
+0 surfaces
+==================================================
+simplebeampipe5.inp
+ERROR! Can't parse nodes
+0 nsets
+10 elements
+0 esets
+0 surfaces

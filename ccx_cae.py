@@ -42,14 +42,14 @@ class CAE(QtWidgets.QMainWindow):
         # Generate empty CalculiX model and treeView items
         self.tree = ccx_tree.tree(self)
 
-        # Mesh bounds to avoid camera flying to infinity
-        self.bounds = [] # Xmin,Xmax, Ymin,Ymax, Zmin,Zmax
+        # Mesh from .inp-file - will be parsed in ccx_inp.py
+        self.mesh = None
 
         # Default start model could be chosen with command line parameter
         parser = argparse.ArgumentParser()
         parser.add_argument("--mesh", "-mesh",
                             help="Mesh .inp file",
-                            type=str, default='./examples/contact5.inp')
+                            type=str, default='./examples/ball.inp')
         args = parser.parse_args()
         self.inp = ccx_inp.inp(self) # must be called to define actions
         if len(args.mesh): # import default ugrid

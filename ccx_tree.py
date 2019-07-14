@@ -138,9 +138,21 @@ class tree:
                 for line in item.INP_code[1:]:
                     _list = re.split(',\s*', line.strip())
 
-                    # Surface line with element face number
-                    if re.match('\d+,\s*S\d+', line.strip()):
+                    # Surface line with element and face numbers
+                    #   1, S1
+                    #   2, S1
+                    if re.match('^\d+,\s*S\d+', line.strip()):
                         _set.append(tuple(_list))
+                    
+                    # Surface line with elset and face number
+                    #   elset1, S1
+                    #   elset2, S2
+                    elif re.match('^\w+,\s*S\d+', line.strip()):
+                        elset_name = _list[0]
+                        surf_name = _list[1]
+                        if self.CAE.mesh:
+                            for element in self.CAE.mesh.esets[elset_name]:
+                                _set.append((element, surf_name))
                     
                     # Just node list
                     else:
@@ -156,12 +168,13 @@ class tree:
                 _set = list(range(int(start), int(stop)+1, int(step)))
 
             # Highlight
-            if ipn == '*NSET' or (ipn == '*SURFACE' and 'TYPE=NODE' in lead_line):
-                self.CAE.VTK.highlight(_set, 1) # vtk.vtkSelectionNode.POINT
-            elif ipn == '*ELSET':
-                self.CAE.VTK.highlight(_set, 0) # vtk.vtkSelectionNode.CELL
-            elif ipn == '*SURFACE':
-                self.CAE.VTK.highlightSURFACE(_set)
+            if len(_set):
+                if ipn == '*NSET' or (ipn == '*SURFACE' and 'TYPE=NODE' in lead_line):
+                    self.CAE.VTK.highlight(_set, 1) # vtk.vtkSelectionNode.POINT
+                elif ipn == '*ELSET':
+                    self.CAE.VTK.highlight(_set, 0) # vtk.vtkSelectionNode.CELL
+                elif ipn == '*SURFACE':
+                    self.CAE.VTK.highlightSURFACE(_set)
         else:
             self.CAE.VTK.actionSelectionClear() # clear selection
 

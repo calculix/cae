@@ -51,8 +51,9 @@ class inp:
             self.CAE.tree.generateTreeView()
 
             # Parse mesh and transfer it to VTK
-            mesh = ccx_mesh.Parse(file_name, self.CAE) # parse mesh, textEdit passed for logging
-            self.CAE.bounds = mesh.bounds # to be available everywhere
+            mesh = ccx_mesh.Parse(file_name) # parse mesh
+            self.CAE.logger.messages(mesh.msg_list) # process list of INFO and ERROR messages
+            self.CAE.mesh = mesh # to be available everywhere
 
             try:
                 points = vtk.vtkPoints()
