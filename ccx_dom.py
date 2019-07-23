@@ -310,7 +310,7 @@ class implementation(item):
         else:
             index = len(keyword.getImplementations())
             try:
-                match = re.search('(NAME|ELSET|NSET)=\w*', INP_code[0].upper())
+                match = re.search('(NAME|ELSET|NSET)\s*=\s*\w*', INP_code[0].upper())
                 self.name = match.group(0).split('=')[1].strip()
             except:
                 self.name = keyword.name[1:] + '-' + str(index + 1)

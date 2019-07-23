@@ -239,6 +239,7 @@ class VTK:
         self.renderer.AddActor(selectedActor)
         self.window.Render() # update window
 
+    # TODO TET/WEDGE surfaces: circ10pfin.inp
     def highlightSURFACE(self, _set):
         # Get our mesh
         ugrid = self.mapper.GetInput()

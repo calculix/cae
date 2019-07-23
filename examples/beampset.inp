@@ -3,7 +3,7 @@
 **   Test objective: set defined using another set.
 **
 *HEADING
-Model: beam     Date: 10-Mar-1998
+    Model: beam     Date: 10-Mar-1998
 *NODE
      1,      0.000000,      0.000000,      0.000000
      2,      1.000000,      0.000000,      0.000000
@@ -335,28 +335,27 @@ Model: beam     Date: 10-Mar-1998
     97,    96,    95,    94,    93,    20,    19,    18,    17,    16,    15,
     14,    13,    12,    11,    10,     9,     4,     3,     2,     1
 *BOUNDARY
-FIX, 1
+    FIX, 1
 *BOUNDARY
-FIX, 2
+    FIX, 2
 *BOUNDARY
-FIX, 3
+    FIX, 3
 *NSET,NSET=Nall,GENERATE
-1,261
+    1,261
 *MATERIAL,NAME=EL
 *ELASTIC
-  210000.0,        .3
+    210000.0,        .3
 *SOLID SECTION,ELSET=Eall,MATERIAL=EL
 *NSET,NSET=LOAD1
-5,6,7,8
+    5,6,7,8
 *NSET,NSET=LOAD2
-LOAD1,22,25,28,31,100
+    LOAD1,22,25,28,31,100
 *STEP
 *STATIC
 *CLOAD
-LOAD2,2,1.
+    LOAD2,2,1.
 *NODE PRINT,NSET=Nall
-U
+    U
 *EL PRINT,ELSET=Eall
-S
+    S
 *END STEP
-

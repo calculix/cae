@@ -55,28 +55,27 @@ class inp:
             self.CAE.logger.messages(mesh.msg_list) # process list of INFO and ERROR messages
             self.CAE.mesh = mesh # to be available everywhere
 
-            try:
-                points = vtk.vtkPoints()
-                for n in mesh.nodes.keys(): # create VTK points from mesh nodes
-                    points.InsertPoint(n-1, mesh.nodes[n]) # node numbers should start from 0!
-                    # print(n-1, mesh.nodes[n])
+            # try:
+            points = vtk.vtkPoints()
+            for n in mesh.nodes.keys(): # create VTK points from mesh nodes
+                points.InsertPoint(n-1, mesh.nodes[n]) # node numbers should start from 0!
 
-                ugrid = vtk.vtkUnstructuredGrid() # create empty grid in VTK
-                ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
-                ugrid.SetPoints(points) # insert all points to the grid
+            ugrid = vtk.vtkUnstructuredGrid() # create empty grid in VTK
+            ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
+            ugrid.SetPoints(points) # insert all points to the grid
 
-                for e in mesh.elements.keys():
-                    ccx_element_type = mesh.types[e]
-                    vtk_element_type = ccx_mesh.Parse.convert_elem_type(ccx_element_type)
-                    node_numbers = [n-1 for n in mesh.elements[e]] # list of nodes in the element: node numbers should start from 0!
-                    ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
-                    # print(ccx_element_type, 'to', vtk_element_type, ':', e, node_numbers)
+            for e in mesh.elements.keys():
+                ccx_element_type = mesh.types[e]
+                vtk_element_type = ccx_mesh.Parse.convert_elem_type(ccx_element_type)
+                node_numbers = [n-1 for n in mesh.elements[e]] # list of nodes in the element: node numbers should start from 0!
+                ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
+                # print(ccx_element_type, 'to', vtk_element_type, ':', e, node_numbers)
 
-                self.CAE.VTK.mapper.SetInputData(ugrid) # ugrid is our mesh data
-                self.CAE.VTK.actionViewIso() # iso view after import
-                self.CAE.logger.info('Rendering OK.')
-            except:
-                self.CAE.logger.error('Can\'t render INP mesh.')
+            self.CAE.VTK.mapper.SetInputData(ugrid) # ugrid is our mesh data
+            self.CAE.VTK.actionViewIso() # iso view after import
+            self.CAE.logger.info('Rendering OK.')
+            # except:
+            #     self.CAE.logger.error('Can\'t render INP mesh.')
     def parser(self, INP_doc):
         keyword_chain = []
         impl_counter = {}
@@ -104,40 +103,43 @@ class inp:
                 # Find DOM keyword path corresponding to keyword_chain
                 path = self.CAE.DOM.getPath(keyword_chain)
 
-                # Read INP_code for the current keyword 
-                INP_code = [line] # here line is only r-stripped
-                while i+1 < len(INP_doc) and \
-                    not INP_doc[i+1].lstrip().startswith('*'): # there will be no comments
-                    INP_code.append(INP_doc[i+1].rstrip()) # cut '\n'
-                    i += 1
+                if path:
 
-                # Create keyword implementations
-                impl = None
-                path_as_string = '' # string representation of 'path' accounting for implementations
-                for j in range(len(path)):
-                    if impl:
-                        item = impl.getItemByName(path[j].name)
+                    # Read INP_code for the current keyword 
+                    INP_code = [line] # here line is only r-stripped
+                    while i+1 < len(INP_doc) and \
+                        not INP_doc[i+1].lstrip().startswith('*'): # there will be no comments
+                        INP_code.append(INP_doc[i+1].rstrip()) # cut '\n'
+                        i += 1
+
+                    # Create keyword implementations
+                    impl = None
+                    path_as_string = '' # string representation of 'path' accounting for implementations
+                    for j in range(len(path)):
+                        if impl:
+                            item = impl.getItemByName(path[j].name)
+                        else:
+                            item = path[j] # keyword or group
+                        path_as_string += '/' + item.name
+                        if j == len(path) - 1:
+                            # Last item is always keyword
+                            impl = ccx_dom.implementation(item, INP_code) # create, for example, MATERIAL-1
+                        elif item.item_type == ccx_dom.item_type.KEYWORD:
+                            # If we are here, then for this keyword implementation was created previously
+                            counter = impl_counter[path_as_string]-1
+                            impl = item.items[counter] # first implementation, for example, STEP-1
+                            path_as_string += '/' + impl.name
+                        else:
+                            impl = item
+
+                    # Count implementation
+                    if path_as_string in impl_counter:
+                        impl_counter[path_as_string] += 1
                     else:
-                        item = path[j] # keyword or group
-                    path_as_string += '/' + item.name
-                    if j == len(path) - 1:
-                        # Last item is always keyword
-                        impl = ccx_dom.implementation(item, INP_code) # create, for example, MATERIAL-1
-                    elif item.item_type == ccx_dom.item_type.KEYWORD:
-                        # If we are here, then for this keyword implementation was created previously
-                        counter = impl_counter[path_as_string]-1
-                        impl = item.items[counter] # first implementation, for example, STEP-1
-                        path_as_string += '/' + impl.name
-                    else:
-                        impl = item
+                        impl_counter[path_as_string] = 1
 
-
-                # Count implementation
-                if path_as_string in impl_counter:
-                    impl_counter[path_as_string] += 1
                 else:
-                    impl_counter[path_as_string] = 1
-                # print(path_as_string)
+                    self.CAE.logger.error('Wrong keyword {}.'.format(keyword_name))
 
 
     # Menu File -> Write INP file

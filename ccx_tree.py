@@ -143,7 +143,7 @@ class tree:
                     #   2, S1
                     if re.match('^\d+,\s*S\d+', line.strip()):
                         _set.append(tuple(_list))
-                    
+
                     # Surface line with elset and face number
                     #   elset1, S1
                     #   elset2, S2
@@ -153,7 +153,7 @@ class tree:
                         if self.CAE.mesh:
                             for element in self.CAE.mesh.esets[elset_name]:
                                 _set.append((element, surf_name))
-                    
+
                     # Just node list
                     else:
                         for l in _list:

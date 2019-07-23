@@ -1,31 +1,52 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, May 2019.  
+    © Ihor Mirzov, 2019.  
     Distributed under GNU General Public License, version 2.
 
     Parses finite element mesh from the CalculiX .inp-file.
     Reads nodes coordinates, elements composition, node and element sets, surfaces.
+    It's case insensitive and translates all text uppercase.
 """
 
 
-import ccx_log
+import ccx_log, os, re
 
 
 class Parse:
 
     # Parse nodes with coordinates
     # *NODE keyword
-    # TODO parse NSET in lead line
     def get_nodes(self, lines):
-        for i in range(len(lines)):
-            if lines[i].startswith('*NODE'):
+        for i in range(len(lines)): # lines are uppercase
+
+            # Distinguish 'NODE' and 'NODE PRINT'
+            if ',' in lines[i]:
+                keyword_name = lines[i].split(',')[0]
+            else:
+                keyword_name = lines[i]
+
+            if keyword_name == '*NODE':
+
+                # Node set with all nodes
+                # if 'NSET' in lines[i]:
+                match = re.search('NSET\s*=\s*\w*', lines[i])
+                try:
+                    name = match.group(0).split('=')[1].strip()
+                except:
+                    name = 'ALL'
+                self.nsets[name] = ()
+
                 while i+1<len(lines) and not lines[i+1].startswith('*'): # read the whole block and return
-                    a = lines[i+1].split(',')
-                    num = int(a[0].strip()) # node number
+                    lines[i+1] = lines[i+1].replace(',', ' ') # to avoid redundant commas in the end of line
+                    a = lines[i+1].split()
+                    if len(a) == 3: # in 2D case add Z coord equal to zero
+                        a.append(0)
+                    num = int(a[0]) # node number
+                    self.nsets[name] += (num, )
                     self.nodes[num] = () # tuple with node coordinates
                     for j,coord in enumerate(a[1:]):
-                        coord = float(coord.strip())
+                        coord = float(coord)
                         self.nodes[num] += (coord, ) # add coordinate to tuple
 
                         # Bounding box
@@ -34,51 +55,95 @@ class Parse:
                         if coord > self.bounds[j*2+1]:
                             self.bounds[j*2+1] = coord # update max coords values
                     i += 1
+                    if not len(self.nodes[num]):
+                        msg_text = 'Node {} has no coordinates and will be removed.'.format(num)
+                        msg = ccx_log.msg(ccx_log.msgType.WARNING, msg_text)
+                        self.msg_list.append(msg)
+                        del self.nodes[num]
                 # do not return to parse few *NODE sections
 
 
     # Parse node sets
     # *NSET keyword
     def get_nsets(self, lines):
-        for i in range(len(lines)):
+        for i in range(len(lines)): # lines are uppercase
             if lines[i].startswith('*NSET'):
-                name = lines[i].split('=')[1]
+
+                match = re.search('NSET\s*=\s*\w*', lines[i])
+                name = match.group(0).split('=')[1].strip()
                 self.nsets[name] = ()
-                while i+1<len(lines) and not lines[i+1].startswith('*'):
-                    a = lines[i+1].split(',')
-                    for n in a:
-                        if len(n.strip()):
-                            self.nsets[name] += (int(n), )
-                    i += 1
+
+                if not 'GENERATE' in lines[i]:
+                    while i+1<len(lines) and not lines[i+1].startswith('*'):
+                        a = lines[i+1].split(',')
+                        for n in a:
+                            n = n.strip()
+                            if len(n):
+                                try:
+                                    self.nsets[name] += (int(n), )
+                                except ValueError as err:
+                                    for node in self.nsets[n]:
+                                        self.nsets[name] += (node, )
+                        i += 1
+                else:
+                    try:
+                        start, stop, step = re.split(',\s*', lines[i+1].strip())
+                    except:
+                        start, stop = re.split(',\s*', lines[i+1].strip())
+                        step = 1
+                    self.nsets[name] += tuple(range(int(start), int(stop)+1, int(step)))
 
 
     # Parse elements composition and calculate centroid
     # *ELEMENT keyword
-    # TODO parse ELSET in lead line
     def get_elements(self, lines):
-        for i in range(len(lines)):
+        for i in range(len(lines)): # lines are uppercase
             if lines[i].startswith('*ELEMENT'):
-                etype = lines[i].upper().split('TYPE=')[1].split(',')[0] # element type
+
+                # Element set with all elements
+                match = re.search('ELSET\s*=\s*\w*', lines[i])
+                try:
+                    name = match.group(0).split('=')[1].strip()
+                except:
+                    name = 'ALL'
+                self.esets[name] = ()
+
+                match = re.search('TYPE\s*=\s*\w*', lines[i])
+                etype = match.group(0).split('=')[1].strip()
+                amount = self.get_amount_of_nodes(etype)
+
                 while i+1<len(lines) and not lines[i+1].startswith('*'): # there will be no comments
+
                     # Element nodes could be splitted into 2 lines
-                    if lines[i+1].endswith(','):
-                        a = (lines[i+1] + lines[i+2]).split(',')
+                    a = lines[i+1].replace(',', ' ').split()
+                    if len(a) < amount + 1: # +1 for element number
+                        a.extend( lines[i+2].replace(',', ' ').split() )
                         i += 1
-                    else:
-                        a = lines[i+1].split(',')
+
                     num = int(a[0].strip()) # element number
+                    self.esets[name] += (num, )
                     self.types[num] = etype.strip() # save element type
                     self.elements[num] = () # tuple with element nodes
                     for n in a[1:]:
                         self.elements[num] += (int(n.strip()), ) # add node to tuple
                     x=0; y=0; z=0
                     for n in a[1:]: # iterate over element's node numbers
-                        x += self.nodes[int(n.strip())][0] # sum up x-coordinates of all nodes of the element
-                        y += self.nodes[int(n.strip())][1] # sum up y-coordinates of all nodes of the element
-                        try: # 3D case
-                            z += self.nodes[int(n.strip())][2] # sum up z-coordinates of all nodes of the element
-                        except:
-                            pass
+                        node = int(n.strip()) # node number
+                        if node == 0: # it is possible in network element, type=D
+                            node = int(a[2].strip()) # take middle node to display in VTK
+                        if node in self.nodes:
+                            x += self.nodes[node][0] # sum up x-coordinates of all nodes of the element
+                            y += self.nodes[node][1] # sum up y-coordinates of all nodes of the element
+                            try: # 3D case
+                                z += self.nodes[node][2] # sum up z-coordinates of all nodes of the element
+                            except:
+                                pass
+                        else:
+                            msg_text = 'Theree is no node {} in element {}. '.format(n.strip(), num) + \
+                                        'This element will be removed.'
+                            msg = ccx_log.msg(ccx_log.msgType.WARNING, msg_text)
+                            self.msg_list.append(msg)
+                            del self.elements[num]
                     amount = len(a[1:]) # amount of nodes in element
                     x /= amount; y /= amount; z /= amount
                     self.centroids[num] = (x, y, z) # centroid coordinates 3D
@@ -89,29 +154,67 @@ class Parse:
     # Parse element sets
     # *ELSET keyword
     def get_esets(self, lines):
-        for i in range(len(lines)):
+        for i in range(len(lines)): # lines are uppercase
             if lines[i].startswith('*ELSET'):
-                name = lines[i].split('=')[1]
+
+                match = re.search('ELSET\s*=\s*\w*', lines[i])
+                name = match.group(0).split('=')[1].strip()
                 self.esets[name] = ()
-                while i+1<len(lines) and not lines[i+1].startswith('*'):
-                    a = lines[i+1].split(',')
-                    for e in a:
-                        try:
-                            self.esets[name] += (int(e.strip()), )
-                        except:
-                            pass
-                    i += 1
+
+                if not 'GENERATE' in lines[i]:
+                    while i+1<len(lines) and not lines[i+1].startswith('*'):
+                        a = lines[i+1].split(',')
+                        for e in a:
+                            e = e.strip()
+                            if len(e):
+                                try:
+                                    self.esets[name] += (int(e), )
+                                except ValueError as err:
+                                    for element in self.esets[e]:
+                                        self.esets[name] += (element, )
+                        i += 1
+                else:
+                    try:
+                        start, stop, step = re.split(',\s*', lines[i+1].strip())
+                    except:
+                        start, stop = re.split(',\s*', lines[i+1].strip())
+                        step = 1
+                    self.esets[name] += tuple(range(int(start), int(stop)+1, int(step)))
 
 
     # Parse surfaces
     # *SURFACE keyword
     def get_surfaces(self, lines):
-        for line in lines:
+        for line in lines: # lines are uppercase
             if line.startswith('*SURFACE') and \
                     not '*SURFACE INTERACTION' in line and \
                     not '*SURFACE BEHAVIOR' in line:
-                name = line.upper().split('NAME=')[1].split(',')[0]
+                match = re.search('NAME\s*=\s*\w*', line)
+                name = match.group(0).split('=')[1].strip()
                 self.surfaces += (name, )
+
+
+    # Recurcively read all the lines of the file and its includes
+    def get_lines(self, inp_file):
+        lines = []
+        try:
+            inp_file = os.path.abspath(inp_file)
+            with open(inp_file, 'r') as f:
+                for line in f.readlines():
+                    line = line.strip()
+                    if (not line.startswith('**')) and len(line): # skip comments and empty lines
+                        lines.append(line.upper())
+
+                        # Append lines from include file
+                        if line.upper().startswith('*INCLUDE'):
+                            path = os.path.dirname(inp_file)
+                            inp_file2 = line.split('=')[1].strip()
+                            lines.extend(self.get_lines(path + '/' + inp_file2))
+        except:
+            msg_text = 'There is no file {}.'.format(inp_file)
+            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            self.msg_list.append(msg)
+        return lines
 
 
     # Initialization
@@ -179,16 +282,14 @@ class Parse:
         # Mesh bounds to avoid camera flying to infinity
         self.bounds = [1e+6,-1e+6]*3 # Xmin,Xmax, Ymin,Ymax, Zmin,Zmax
 
-        # Open and read all the .inp-file
-        lines = []
-        with open(inp_file, 'r') as f:
-            for i, line in enumerate(f):
-                if not '**' in line: # skip comments
-                    lines.append(line.strip().upper())
-        try:
-            self.get_nodes(lines) # parse nodes
+        # Open and read whole the .inp-file
+        lines = self.get_lines(inp_file)
 
-            msg_text = '{0} nodes'.format(len(self.nodes))
+        # Parse nodes
+        self.get_nodes(lines)
+        try:
+
+            msg_text = '{} nodes'.format(len(self.nodes))
             msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
             self.msg_list.append(msg)
         except:
@@ -196,10 +297,13 @@ class Parse:
             msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
             self.msg_list.append(msg)
 
+        # Parse node sets
         try:
-            self.get_nsets(lines) # parse node sets
+            self.get_nsets(lines)
 
-            msg_text = '{0} nsets'.format(len(self.nsets))
+            msg_text = '{} nsets'.format(len(self.nsets))
+            # for k,v in self.nsets.items():
+            #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
             msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
             self.msg_list.append(msg)
         except:
@@ -207,10 +311,11 @@ class Parse:
             msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
             self.msg_list.append(msg)
 
+        # Parse elements
         try:
-            self.get_elements(lines) # parse elements
+            self.get_elements(lines)
 
-            msg_text = '{0} elements'.format(len(self.elements))
+            msg_text = '{} elements'.format(len(self.elements))
             msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
             self.msg_list.append(msg)
         except:
@@ -218,10 +323,13 @@ class Parse:
             msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
             self.msg_list.append(msg)
 
+        # Parse element sets
         try:
-            self.get_esets(lines) # parse node sets
+            self.get_esets(lines)
 
-            msg_text = '{0} esets'.format(len(self.esets))
+            msg_text = '{} esets'.format(len(self.esets))
+            # for k,v in self.esets.items():
+            #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
             msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
             self.msg_list.append(msg)
         except:
@@ -229,9 +337,11 @@ class Parse:
             msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
             self.msg_list.append(msg)
 
+        # Parse surfaces
         try:
-            self.get_surfaces(lines) # parse surfaces
-            msg_text = '{0} surfaces'.format(len(self.surfaces))
+            self.get_surfaces(lines)
+
+            msg_text = '{} surfaces'.format(len(self.surfaces))
             msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
             self.msg_list.append(msg)
         except:
@@ -423,3 +533,71 @@ class Parse:
                 return frd2vtk_txt[frd_elem_type]
             else:
                 return 0
+
+
+    # Get amount of nodex by element type
+    def get_amount_of_nodes(self, etype):
+        try:
+            return {
+                   'C3D8': 8,
+                   'F3D8': 8,
+                  'C3D8R': 8,
+                  'C3D8I': 8,
+                   'C3D6': 6,
+                   'F3D6': 6,
+                   'C3D4': 4,
+                   'F3D4': 4,
+                  'C3D20': 20,
+                 'C3D20R': 20,
+                  'C3D15': 15,
+                  'C3D10': 10,
+                 'C3D10T': 10,
+                     'S3': 3,
+                   'M3D3': 3,
+                   'CPS3': 3,
+                   'CPE3': 3,
+                   'CAX3': 3,
+                     'S6': 6,
+                   'M3D6': 6,
+                   'CPS6': 6,
+                   'CPE6': 6,
+                   'CAX6': 6,
+                     'S4': 4,
+                    'S4R': 4,
+                   'M3D4': 4,
+                  'M3D4R': 4,
+                   'CPS4': 4,
+                  'CPS4R': 4,
+                   'CPE4': 4,
+                  'CPE4R': 4,
+                   'CAX4': 4,
+                  'CAX4R': 4,
+                     'S8': 8,
+                    'S8R': 8,
+                   'M3D8': 8,
+                  'M3D8R': 8,
+                   'CPS8': 8,
+                  'CPS8R': 8,
+                   'CPE8': 8,
+                  'CPE8R': 8,
+                   'CAX8': 8,
+                  'CAX8R': 8,
+                    'B21': 2,
+                    'B31': 2,
+                   'B31R': 2,
+                   'T2D2': 2,
+                   'T3D2': 2,
+                 'GAPUNI': 2,
+               'DASHPOTA': 2,
+                'SPRING2': 2,
+                'SPRINGA': 2,
+                    'B32': 3,
+                   'B32R': 3,
+                   'T3D3': 3,
+                      'D': 3,
+                'SPRING1': 1,
+                'DCOUP3D': 1,
+                   'MASS': 1,
+            } [etype]
+        except:
+            return 2 # minimum possible
