@@ -121,62 +121,34 @@ class tree:
 
     # Highlight node sets, element sets or surfaces
     def clicked(self):
+        self.CAE.VTK.actionSelectionClear() # clear selection
         index = self.CAE.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
-        ipn = item.parent.name
+        ipn = item.parent.name.upper()
 
-        if item.item_type == ccx_dom.item_type.IMPLEMENTATION and \
-                ipn in ['*NSET', '*ELSET', '*SURFACE']:
-            self.CAE.VTK.actionSelectionClear() # clear selection before new call
-
-            _set = []
+        if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
             lead_line = item.INP_code[0].upper()
+            _set = []
 
-            # Get node or element numbers from item's INP_code
-            if not 'GENERATE' in lead_line:
-                for line in item.INP_code[1:]:
-                    _list = re.split(',\s*', line.strip())
+            if ipn == '*NSET' or ipn == '*NODE':
+                name = re.search('NSET\s*=\s*(\w*)', lead_line).group(1) # node set name
+                _set = self.CAE.mesh.nsets[name]
+                self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
 
-                    # Surface line with element and face numbers
-                    #   1, S1
-                    #   2, S1
-                    if re.match('^\d+,\s*S\d+', line.strip()):
-                        _set.append(tuple(_list))
+            elif ipn == '*ELSET' or ipn == '*ELEMENT':
+                name = re.search('ELSET\s*=\s*(\w*)', lead_line).group(1) # element set name
+                _set = self.CAE.mesh.esets[name]
+                self.CAE.VTK.highlight(_set, 0) # 0 = vtk.vtkSelectionNode.CELL
 
-                    # Surface line with elset and face number
-                    #   elset1, S1
-                    #   elset2, S2
-                    elif re.match('^\w+,\s*S\d+', line.strip()):
-                        elset_name = _list[0]
-                        surf_name = _list[1]
-                        if self.CAE.mesh:
-                            for element in self.CAE.mesh.esets[elset_name]:
-                                _set.append((element, surf_name))
-
-                    # Just node list
-                    else:
-                        for l in _list:
-                            if len(l):
-                                _set.append(int(l))
-            else:
-                try:
-                    start, stop, step = re.split(',\s*', item.INP_code[1].strip())
-                except:
-                    start, stop = re.split(',\s*', item.INP_code[1].strip())
-                    step = 1
-                _set = list(range(int(start), int(stop)+1, int(step)))
-
-            # Highlight
-            if len(_set):
-                if ipn == '*NSET' or (ipn == '*SURFACE' and 'TYPE=NODE' in lead_line):
-                    self.CAE.VTK.highlight(_set, 1) # vtk.vtkSelectionNode.POINT
-                elif ipn == '*ELSET':
-                    self.CAE.VTK.highlight(_set, 0) # vtk.vtkSelectionNode.CELL
-                elif ipn == '*SURFACE':
+            elif ipn == '*SURFACE':
+                surface_type = re.search('TYPE\s*=\s*(\w*)', lead_line).group(1) # surface type
+                name = re.search('NAME\s*=\s*(\w*)', lead_line).group(1) # surface name
+                _set = self.CAE.mesh.get_surface(name, surface_type).set
+                if surface_type == 'ELEMENT':
                     self.CAE.VTK.highlightSURFACE(_set)
-        else:
-            self.CAE.VTK.actionSelectionClear() # clear selection
+                elif surface_type=='NODE':
+                    self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
 
 
     # Context menu for right click
