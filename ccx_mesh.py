@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, 2019.  
+    © Ihor Mirzov, July 2019.
     Distributed under GNU General Public License, version 2.
 
     Parses finite element mesh from the CalculiX .inp-file.

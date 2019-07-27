@@ -6,7 +6,7 @@
 
     Test mesh parser for all example input files.
     Run with command:
-        python3 test.py > test.txt
+        python3 test.py > test.log
 """
 
 import os, ccx_mesh, ccx_log
