@@ -1,4 +1,5 @@
-© Ihor Mirzov, 2019.  
+© Ihor Mirzov, July 2019.
+
 Distributed under GNU General Public License, version 2.
 
 <br/><br/>
@@ -7,7 +8,9 @@ Distributed under GNU General Public License, version 2.
 
 # CalculiX CAE
 
-GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free and open source. It is implied that you have already created geometry and generated mesh in some other software like [Salome-platform](https://www.salome-platform.org/). Program is based on CalculiX 2.15 keywords hierarchy. Written in Python3. Utilizes PyQt5 and VTK.
+GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free and open source. Program is based on CalculiX 2.15 keywords hierarchy. Written in Python3, utilizes PyQt5 and VTK.
+
+It is implied that you have already created geometry and generated mesh in some other software like [Salome-platform](https://www.salome-platform.org/). CacluliX CAE is designed to guide you through the keywords creation sequence and is aimed to help you reach correct input file with no mistakes.
 
 <br/><br/>
 
@@ -15,13 +18,13 @@ GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free 
 
 # Features
 
-- Calculix keywords hierarchy with all attributes is maintaned in simple editable text file - ccx_dom.inp
+- Calculix keywords hierarchy with all attributes is maintaned in simple editable text file - [ccx_dom.inp](./ccx_dom.inp).
 
-- Import/export of .inp-files - one format for all needs. Program parses .inp-file and generates model on the fly, so separate format for the model is not needed.
+- Import/export of .inp-files - one format for all needs. Program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by ccx.
 
-- Highlight of surfaces, node and element sets after mesh import.
+- Solid mesh parser - ccx_mesh.py - tested on all the example CacluliX models with ability to highlight surfaces, node and element sets after mesh import.
 
-- Keyword's edit dialog shows apropriate chapter of the official HTML documentation.
+- Keyword's edit dialog shows apropriate chapter of the official HTML documentation. Edit dialog is generated on the fly reading keyword's attributes from ccx_dom.inp.
 
 - Nice icons for all keywords/tree objects.
 
@@ -43,7 +46,9 @@ Create keyword dialog:
 
 # Downloads
 
-First of all you can use the source code and run *ccx_cae.py* from terminal. Pay attention to [prerequisites](#prerequisites). Or download Ubuntu binaries, extract archive and run *ccx_cae*. Both sources and binaries are on [Google Drive](https://drive.google.com/drive/folders/1rrnOfIcu9gZ42I-r5-pVQMWRTp9Pp3IW).
+First of all you can use the source code and run *ccx_cae.py* from terminal. Pay attention to [prerequisites](#prerequisites).
+
+Otherwise you may download binaries (only Ubuntu is supported), extract archive and run *ccx_cae*. Both sources and binaries could be found on [release page](https://github.com/imirzov/ccx_cae/releases).
 
 <br/><br/>
 

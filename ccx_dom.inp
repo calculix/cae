@@ -11,7 +11,7 @@
 ** Parameters start with ','. Parameter values go after '=' and are separated by '|'.
 ** Usually parameter ends with '='. Parameters without '=' are just keys.
 ** Plus '+' means parameters go together. '|' means parameters are mutually exclusive.
-** No 'required' flag means that parameter is optional. Argument's default value should come first.
+** No '__required' flag means that parameter is optional. Argument's default value should come first.
 **
 
 Model__group
