@@ -132,17 +132,27 @@ class tree:
             _set = []
 
             if ipn == '*NSET' or ipn == '*NODE':
-                name = re.search('NSET\s*=\s*(\w*)', lead_line).group(1) # node set name
-                _set = self.CAE.mesh.nsets[name]
-                self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
+                match = re.search('NSET\s*=\s*(\w*)', lead_line)
+                if match: # if there if NSET attribute
+                    name = match.group(1) # node set name
+                    _set = self.CAE.mesh.nsets[name]
+                    self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
 
             elif ipn == '*ELSET' or ipn == '*ELEMENT':
-                name = re.search('ELSET\s*=\s*(\w*)', lead_line).group(1) # element set name
-                _set = self.CAE.mesh.esets[name]
-                self.CAE.VTK.highlight(_set, 0) # 0 = vtk.vtkSelectionNode.CELL
+                match = re.search('ELSET\s*=\s*(\w*)', lead_line)
+                if match: # if there if ELSET attribute
+                    name = match.group(1) # element set name
+                    _set = self.CAE.mesh.elsets[name]
+                    self.CAE.VTK.highlight(_set, 0) # 0 = vtk.vtkSelectionNode.CELL
 
             elif ipn == '*SURFACE':
-                surface_type = re.search('TYPE\s*=\s*(\w*)', lead_line).group(1) # surface type
+
+                # Surface type - optional attribute
+                surface_type = 'ELEMENT' # 'ELEMENT' or 'NODE'
+                match = re.search('\*SURFACE\s*,.*TYPE\s*=\s*(\w*)', lead_line)
+                if match:
+                    surface_type = match.group(1)
+
                 name = re.search('NAME\s*=\s*(\w*)', lead_line).group(1) # surface name
                 _set = self.CAE.mesh.get_surface(name, surface_type).set
                 if surface_type == 'ELEMENT':

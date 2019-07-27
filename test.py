@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 """
+    © Ihor Mirzov, July 2019.
+    Distributed under GNU General Public License, version 2.
+
     Test mesh parser for all example input files.
     Run with command:
-        python3 ccx_test.py > ccx_test.txt
+        python3 test.py > test.txt
 """
 
 import os, ccx_mesh, ccx_log

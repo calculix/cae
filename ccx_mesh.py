@@ -65,11 +65,11 @@ class Parse:
 
         # Element sets
         """
-            'eset1': [1, 2, 3, 4],
-            'eset2': [5, 6, 7, 8],
+            'elset1': [1, 2, 3, 4],
+            'elset2': [5, 6, 7, 8],
             ...
         """
-        self.esets = {}
+        self.elsets = {}
 
         # Surfaces with corresponding nodes and element faces
         """
@@ -79,7 +79,7 @@ class Parse:
 
             TYPE=ELEMENT:
             'surf3: [(1, S1), (2, S1), ...]'
-            'surf4: [(eset1, S2), (eset2, S2), ...]'
+            'surf4: [(elset1, S2), (elset2, S2), ...]'
         """
         self.surfaces = {}
         self.surface_list = [] # list of Surface objects
@@ -130,16 +130,16 @@ class Parse:
 
         # Parse element sets
         try:
-            self.parse_esets(lines)
+            self.parse_elsets(lines)
 
-            msg_text = '{} esets'.format(len(self.esets))
-            # msg_text += ': ' + str(list(self.esets.keys()))
-            # for k,v in self.esets.items():
+            msg_text = '{} elsets'.format(len(self.elsets))
+            # msg_text += ': ' + str(list(self.elsets.keys()))
+            # for k,v in self.elsets.items():
             #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
             msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
             self.msg_list.append(msg)
         except:
-            msg_text = 'Can\'t parse esets'
+            msg_text = 'Can\'t parse elsets'
             msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
             self.msg_list.append(msg)
 
@@ -176,7 +176,7 @@ class Parse:
                     name = match.group(0).split('=')[1].strip()
                 except:
                     name = 'ALL'
-                self.nsets[name] = ()
+                self.nsets[name] = []
 
                 while i+1<len(lines) and not lines[i+1].startswith('*'): # read the whole block and return
                     lines[i+1] = lines[i+1].replace(',', ' ') # to avoid redundant commas in the end of line
@@ -184,11 +184,11 @@ class Parse:
                     if len(a) == 3: # in 2D case add Z coord equal to zero
                         a.append(0)
                     num = int(a[0]) # node number
-                    self.nsets[name] += (num, )
-                    self.nodes[num] = () # tuple with node coordinates
+                    self.nsets[name].append(num)
+                    self.nodes[num] = [] # tuple with node coordinates
                     for j,coord in enumerate(a[1:]):
                         coord = float(coord)
-                        self.nodes[num] += (coord, ) # add coordinate to tuple
+                        self.nodes[num].append(coord) # add coordinate to tuple
 
                         # Bounding box
                         if coord < self.bounds[j*2]:
@@ -212,7 +212,13 @@ class Parse:
 
                 match = re.search('NSET\s*=\s*\w*', lines[i])
                 name = match.group(0).split('=')[1].strip()
-                self.nsets[name] = []
+
+                if name in self.nsets:
+                    msg_text = 'Duplicated nset name {}.'.format(name)
+                    msg = ccx_log.msg(ccx_log.msgType.WARNING, msg_text)
+                    self.msg_list.append(msg)
+                else:
+                    self.nsets[name] = []
 
                 if not 'GENERATE' in lines[i]:
                     while i+1<len(lines) and not lines[i+1].startswith('*'):
@@ -246,7 +252,7 @@ class Parse:
                     name = match.group(0).split('=')[1].strip()
                 except:
                     name = 'ALL'
-                self.esets[name] = ()
+                self.elsets[name] = []
 
                 match = re.search('TYPE\s*=\s*\w*', lines[i])
                 etype = match.group(0).split('=')[1].strip()
@@ -261,11 +267,11 @@ class Parse:
                         i += 1
 
                     num = int(a[0].strip()) # element number
-                    self.esets[name] += (num, )
+                    self.elsets[name].append(num)
                     self.types[num] = etype.strip() # save element type
-                    self.elements[num] = () # tuple with element nodes
+                    self.elements[num] = [] # tuple with element nodes
                     for n in a[1:]:
-                        self.elements[num] += (int(n.strip()), ) # add node to tuple
+                        self.elements[num].append(int(n.strip())) # add node to tuple
                     x=0; y=0; z=0
                     for n in a[1:]: # iterate over element's node numbers
                         node = int(n.strip()) # node number
@@ -293,12 +299,17 @@ class Parse:
 
     # Parse element sets
     # *ELSET keyword
-    def parse_esets(self, lines):
+    def parse_elsets(self, lines):
         for i in range(len(lines)): # lines are uppercase
             match = re.search('(\*ELSET)\s*,.*ELSET\s*=\s*(\w*)', lines[i])
             if match:
                 name = match.group(2)
-                self.esets[name] = []
+                if name in self.elsets:
+                    msg_text = 'Duplicated elset name {}.'.format(name)
+                    msg = ccx_log.msg(ccx_log.msgType.WARNING, msg_text)
+                    self.msg_list.append(msg)
+                else:
+                    self.elsets[name] = []
 
                 if not 'GENERATE' in lines[i]:
                     while i+1<len(lines) and not lines[i+1].startswith('*'):
@@ -307,9 +318,9 @@ class Parse:
                             e = e.strip()
                             if len(e):
                                 try:
-                                    self.esets[name].append(int(e))
+                                    self.elsets[name].append(int(e))
                                 except ValueError as err:
-                                    self.esets[name].extend(self.esets[e])
+                                    self.elsets[name].extend(self.elsets[e])
                         i += 1
                 else:
                     try:
@@ -317,7 +328,7 @@ class Parse:
                     except:
                         start, stop = re.split(',\s*', lines[i+1])
                         step = 1
-                    self.esets[name].extend(list(range(int(start), int(stop)+1, int(step))))
+                    self.elsets[name].extend(list(range(int(start), int(stop)+1, int(step))))
 
 
     # Parse surfaces
@@ -340,6 +351,10 @@ class Parse:
                 surface_type = match.group(1)
 
             if not skip:
+                if name in self.surfaces:
+                    msg_text = 'Duplicated surface name {}.'.format(name)
+                    msg = ccx_log.msg(ccx_log.msgType.WARNING, msg_text)
+                    self.msg_list.append(msg)
                 self.surfaces[name] = []
 
                 while i+1<len(lines) and not lines[i+1].startswith('*'):
@@ -349,7 +364,7 @@ class Parse:
                         """
                             TYPE=ELEMENT:
                             'surf3: [(1, S1), (2, S1), ...]'
-                            'surf4: [(eset1, S2), (eset2, S2), ...]'
+                            'surf4: [(elset1, S2), (elset2, S2), ...]'
                         """
 
                         # Surface with element and face numbers
@@ -364,7 +379,7 @@ class Parse:
                         elif re.match('^\w+,\s*S\d+', lines[i+1]):
                             elset_name = _list[0]
                             surf_name = _list[1]
-                            for element in self.esets[elset_name]:
+                            for element in self.elsets[elset_name]:
                                 self.surfaces[name].append((element, surf_name))
 
                     elif surface_type == 'NODE':

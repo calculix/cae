@@ -154,16 +154,17 @@ class VTK:
         self.window.Render() # render updated view
 
         # Some logs for debugging
-        self.CAE.logger.info('Camera\'s focal point is ' + str(self.camera.GetFocalPoint()))
-        self.CAE.logger.info('Camera\'s position is ' + str(self.camera.GetPosition()))
-        self.CAE.logger.info('Camera\'s ViewUp is ' + str(self.camera.GetViewUp()))
-        self.CAE.logger.info('Camera\'s distance is ' + str(self.camera.GetDistance()))
-        self.CAE.logger.info('Camera\'s Roll is ' + str(self.camera.GetRoll()))
-        self.CAE.logger.info('Camera\'s ViewAngle is ' + str(self.camera.GetViewAngle()))
-        self.CAE.logger.info('Camera\'s ParallelScale is ' + str(self.camera.GetParallelScale()))
-        self.CAE.logger.info('Camera\'s ClippingRange is ' + str(self.camera.GetClippingRange()))
-        self.CAE.logger.info('Camera\'s WindowCenter is ' + str(self.camera.GetWindowCenter()))
-        self.CAE.logger.info('Camera\'s orientation is ' + str(self.camera.GetOrientation()))
+        # TODO check camera for all example files
+        # self.CAE.logger.info('Camera\'s focal point is ' + str(self.camera.GetFocalPoint()))
+        # self.CAE.logger.info('Camera\'s position is ' + str(self.camera.GetPosition()))
+        # self.CAE.logger.info('Camera\'s ViewUp is ' + str(self.camera.GetViewUp()))
+        # self.CAE.logger.info('Camera\'s distance is ' + str(self.camera.GetDistance()))
+        # self.CAE.logger.info('Camera\'s Roll is ' + str(self.camera.GetRoll()))
+        # self.CAE.logger.info('Camera\'s ViewAngle is ' + str(self.camera.GetViewAngle()))
+        # self.CAE.logger.info('Camera\'s ParallelScale is ' + str(self.camera.GetParallelScale()))
+        # self.CAE.logger.info('Camera\'s ClippingRange is ' + str(self.camera.GetClippingRange()))
+        # self.CAE.logger.info('Camera\'s WindowCenter is ' + str(self.camera.GetWindowCenter()))
+        # self.CAE.logger.info('Camera\'s orientation is ' + str(self.camera.GetOrientation()))
 
     def actionViewWireframe(self):
         self.actor.GetProperty().SetRepresentationToWireframe()
@@ -239,7 +240,6 @@ class VTK:
         self.renderer.AddActor(selectedActor)
         self.window.Render() # update window
 
-    # TODO TET/WEDGE surfaces: circ10pfin.inp
     def highlightSURFACE(self, _set):
         # Get our mesh
         ugrid = self.mapper.GetInput()
@@ -251,16 +251,16 @@ class VTK:
         point_num = 0
         for cell_num, face_num in _set:
             cell = ugrid.GetCell(int(cell_num) - 1)
-            face_num = int(face_num[1:]) # face number from .inp file: S1, S2 etc.
+            face_num = int(face_num[1:]) # face number from .inp file: S1=1, S2=2 etc.
 
             if cell.GetCellType() in [12,25]: # hex
                 face_num = [4,5,2,1,3,0][face_num - 1]
                 face = cell.GetFace(face_num) # vtkCell made from face: quad or triangle
             elif cell.GetCellType() in [10,24]: # tet
-                face_num = [0,0,0,0][face_num - 1]
+                face_num = [3,0,1,2][face_num - 1]
                 face = cell.GetFace(face_num) # vtkCell made from face: quad or triangle
             elif cell.GetCellType() == 13: # wedge
-                face_num = [0,0,0,0,0][face_num - 1]
+                face_num = face_num - 1
                 face = cell.GetFace(face_num) # vtkCell made from face: quad or triangle
             elif cell.GetCellType() in [5,22,9,23]: # shells
                 face_num = face_num - 1

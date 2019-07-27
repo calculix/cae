@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
+    © Ihor Mirzov, July 2019.
+    Distributed under GNU General Public License, version 2.
+
     Creates a new vtkInteractorStyle which can be used to implement custom reactions on user events.
     Prints a message and calls the original eventhandler of the vtkInteractorStyleTrackballCamera.
 

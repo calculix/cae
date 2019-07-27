@@ -192,8 +192,7 @@ class Dialog(QtWidgets.QDialog):
         if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
             keyword_name = item.parent.name[1:] # cut star
 
-        script = os.path.realpath(__file__)
-        folder = os.path.dirname(script) + '/doc/'
+        folder = os.path.dirname(__file__) + '/doc/'
 
         # Generate html file if it wasn't created previously
         if not os.path.isfile(folder + keyword_name + '.html'):
@@ -210,7 +209,7 @@ class Dialog(QtWidgets.QDialog):
                         pass
 
             # Read html of the keyword's page
-            html = '<html><head><link rel="stylesheet" type="text/css" href="' + folder + 'style.css"></head><body>'
+            html = '<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body>'
             with open(folder + href, 'r') as f:
                 append = False
                 cut_breakline = True

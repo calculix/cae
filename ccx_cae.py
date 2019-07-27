@@ -11,7 +11,7 @@
 """
 
 
-import sys, os, argparse, vtk
+import sys, os, argparse
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import ccx_mesh, ccx_tree, ccx_log, ccx_vtk, ccx_dom, ccx_inp
 
@@ -48,8 +48,9 @@ class CAE(QtWidgets.QMainWindow):
         # Default start model could be chosen with command line parameter
         parser = argparse.ArgumentParser()
         parser.add_argument("--mesh", "-mesh",
-                            help="Mesh .inp file",
-                            type=str, default='./examples/metalforming.inp')
+                            help="Mesh .inp file", type=str,
+                            default='ccx_mesh.inp')
+                            # default='./examples/beamp2stage.inp')
         args = parser.parse_args()
         self.inp = ccx_inp.inp(self) # must be called to define actions
         if len(args.mesh): # import default ugrid
