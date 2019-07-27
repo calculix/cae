@@ -48,7 +48,9 @@ Create keyword dialog:
 
 First of all you can use the source code and run [ccx_cae.py](ccx_cae.py) from terminal. Pay attention to [prerequisites](#prerequisites).
 
-Otherwise you may download binaries (only Ubuntu is supported), extract archive and run binary *ccx_cae*. Both sources and binaries could be found on [the release page](https://github.com/imirzov/ccx_cae/releases).
+Otherwise you may download binaries (only Ubuntu is supported), extract archive and run binary *ccx_cae*.
+
+Both sources and binaries could be found on [the release page](https://github.com/imirzov/ccx_cae/releases).
 
 <br/><br/>
 
