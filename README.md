@@ -22,9 +22,9 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Import/export of .inp-files - one format for all needs. Program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by ccx.
 
-- Solid mesh parser - ccx_mesh.py - tested on all the example CacluliX models with ability to highlight surfaces, node and element sets after mesh import.
+- Solid mesh parser - [ccx_mesh.py](./ccx_mesh.py) - tested on all the example CacluliX models with ability to highlight surfaces, node and element sets after mesh import.
 
-- Keyword's edit dialog shows apropriate chapter of the official HTML documentation. Edit dialog is generated on the fly reading keyword's attributes from ccx_dom.inp.
+- Keyword's edit dialog shows apropriate chapter of the official HTML documentation. Edit dialog is generated on the fly reading keyword's attributes from [ccx_dom.inp](./ccx_dom.inp).
 
 - Nice icons for all keywords/tree objects.
 
@@ -46,9 +46,9 @@ Create keyword dialog:
 
 # Downloads
 
-First of all you can use the source code and run *ccx_cae.py* from terminal. Pay attention to [prerequisites](#prerequisites).
+First of all you can use the source code and run [ccx_cae.py](./ccx_cae.py) from terminal. Pay attention to [prerequisites](#prerequisites).
 
-Otherwise you may download binaries (only Ubuntu is supported), extract archive and run *ccx_cae*. Both sources and binaries could be found on [release page](https://github.com/imirzov/ccx_cae/releases).
+Otherwise you may download binaries (only Ubuntu is supported), extract archive and run binary *ccx_cae*. Both sources and binaries could be found on [the release page](https://github.com/imirzov/ccx_cae/releases).
 
 <br/><br/>
 
@@ -56,11 +56,11 @@ Otherwise you may download binaries (only Ubuntu is supported), extract archive 
 
 # Prerequisites
 
-To run ccx_cae.py or contribute first of all install VTK, PyQt5 and QT designer:
+To run [ccx_cae.py](./ccx_cae.py) or contribute first of all install VTK, PyQt5 and QT designer:
 
     pip3 install vtk
     pip3 install PyQt5
-    pip3 install PyQtWebEngine --user
+    pip3 install PyQtWebEngine
     sudo apt install qttools5-dev-tools
 
 [Some examples](https://lorensen.github.io/VTKExamples/site/Python/) for getting started with VTK in Python. Also you'll need [pyinstaller](https://www.pyinstaller.org/) to create executable:
@@ -77,7 +77,7 @@ More tests for all features.
 
 Visualize BC's, constraints and loads in VTK.
 
-Reparse *NODE, *ELEMENT, *NSET or *ELSET after edit 
+Reparse *NODE, *ELEMENT, *NSET or *ELSET after edit.
 
 Do not remove comments. Include them to apropriate tree item's INP_code.
 
@@ -89,13 +89,11 @@ During keyword's edit parse arguments and pass them to Dialog.
 
 Save display options.
 
-
-
-<!--
 Import mesh from FRD, VTK, VTU:  
 https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/  
 https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/
 
+<!--
 DistanceBetweenPoints:  
 https://lorensen.github.io/VTKExamples/site/Python/SimpleOperations/DistanceBetweenPoints/
 
