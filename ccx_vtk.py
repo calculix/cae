@@ -8,16 +8,17 @@
 """
 
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
-import vtk, ccx_select_style
+import vtk, ccx_cae_log, ccx_mesh
+# import ccx_vtk_select_style
+
 
 
 class VTK:
 
 
     # Create empty VTK widget: called once during startup
-    def __init__(self, CAE):
-
-        self.CAE = CAE
+    def __init__(self):
+        self.bounds = [-1,1]*3
 
         # Create the graphics structure
         self.widget = QVTKRenderWindowInteractor()
@@ -74,27 +75,42 @@ class VTK:
         # Start the event loop
         self.interactor.Start()
 
-        # Actions
-        CAE.actionSelectionNodes.triggered.connect(self.actionSelectionNodes)
-        CAE.actionSelectionElements.triggered.connect(self.actionSelectionElements)
-        CAE.actionSelectionClear.triggered.connect(self.actionSelectionClear)
-        CAE.actionViewParallel.triggered.connect(self.actionViewParallel)
-        CAE.actionViewPerspective.triggered.connect(self.actionViewPerspective)
-        CAE.actionViewFront.triggered.connect(self.actionViewFront)
-        CAE.actionViewBack.triggered.connect(self.actionViewBack)
-        CAE.actionViewTop.triggered.connect(self.actionViewTop)
-        CAE.actionViewBottom.triggered.connect(self.actionViewBottom)
-        CAE.actionViewLeft.triggered.connect(self.actionViewLeft)
-        CAE.actionViewRight.triggered.connect(self.actionViewRight)
-        CAE.actionViewIso.triggered.connect(self.actionViewIso)
-        CAE.actionViewFit.triggered.connect(self.actionViewFit)
-        CAE.actionViewWireframe.triggered.connect(self.actionViewWireframe)
-        CAE.actionViewSurface.triggered.connect(self.actionViewSurface)
-        CAE.actionViewSurfaceWithEdges.triggered.connect(self.actionViewSurfaceWithEdges)
-
         # Apply some action functions by default
         self.actionViewParallel()
         self.actionViewSurfaceWithEdges()
+
+
+    # Generate VTK unstructured grid from ccx_mesh object
+    def mesh2ugrid(self, mesh):
+        msg_list = [] # list of messages for logger
+        ugrid = None
+
+        self.bounds = mesh.bounds
+
+        try:
+            points = vtk.vtkPoints()
+            for n in mesh.nodes.keys(): # create VTK points from mesh nodes
+                points.InsertPoint(n-1, mesh.nodes[n]) # node numbers should start from 0!
+            ugrid = vtk.vtkUnstructuredGrid() # create empty grid in VTK
+            ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
+            ugrid.SetPoints(points) # insert all points to the grid
+            for e in mesh.elements.keys():
+                ccx_element_type = mesh.types[e]
+                vtk_element_type = ccx_mesh.Parse.convert_elem_type(ccx_element_type)
+                node_numbers = [n-1 for n in mesh.elements[e]] # list of nodes in the element: node numbers should start from 0!
+                ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
+                # print(ccx_element_type, 'to', vtk_element_type, ':', e, node_numbers)
+
+            msg_text = 'VTK ugrid is built.'
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
+            msg_list.append(msg)
+
+        except:
+            msg_text = 'Can\'t build VTK ugrid.'
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
+            msg_list.append(msg)
+
+        return msg_list, ugrid
 
 
     # View toolbar
@@ -110,61 +126,66 @@ class VTK:
     def actionViewFront(self):
         self.camera.SetPosition(0, 0, 1) # camera's positions
         self.camera.SetViewUp(0, 1, 0) # which axis will be set as vertical
-        self.camera.SetFocalPoint(0,0,0) # set focal foint to center
+        self.camera.SetFocalPoint(0, 0, 0) # set focal foint to center
         self.actionViewFit()
 
     def actionViewBack(self):
         self.camera.SetPosition(0, 0, -1) # camera's positions
         self.camera.SetViewUp(0, 1, 0) # which axis will be set as vertical
-        self.camera.SetFocalPoint(0,0,0) # set focal foint to center
+        self.camera.SetFocalPoint(0, 0, 0) # set focal foint to center
         self.actionViewFit()
 
     def actionViewTop(self):
         self.camera.SetPosition(0, 1, 0) # camera's positions
         self.camera.SetViewUp(0, 0, -1) # which axis will be set as vertical
-        self.camera.SetFocalPoint(0,0,0) # set focal foint to center
+        self.camera.SetFocalPoint(0, 0, 0) # set focal foint to center
         self.actionViewFit()
 
     def actionViewBottom(self):
         self.camera.SetPosition(0, -1, 0) # camera's positions
         self.camera.SetViewUp(0, 0, 1) # which axis will be set as vertical
-        self.camera.SetFocalPoint(0,0,0) # set focal foint to center
+        self.camera.SetFocalPoint(0, 0, 0) # set focal foint to center
         self.actionViewFit()
 
     def actionViewLeft(self):
         self.camera.SetPosition(-1, 0, 0) # camera's positions
         self.camera.SetViewUp(0, 1, 0) # which axis will be set as vertical
-        self.camera.SetFocalPoint(0,0,0) # set focal foint to center
+        self.camera.SetFocalPoint(0, 0, 0) # set focal foint to center
         self.actionViewFit()
 
     def actionViewRight(self):
         self.camera.SetPosition(1, 0, 0) # camera's positions
         self.camera.SetViewUp(0, 1, 0) # which axis will be set as vertical
-        self.camera.SetFocalPoint(0,0,0) # set focal foint to center
+        self.camera.SetFocalPoint(0, 0, 0) # set focal foint to center
         self.actionViewFit()
 
     def actionViewIso(self):
         self.camera.SetPosition(1.3, 1.0, 1.3) # camera's positions
         self.camera.SetViewUp(0, 1, 0) # which axis will be set as vertical
-        self.camera.SetFocalPoint(0,0,0) # set focal foint to center
+        self.camera.SetFocalPoint(0, 0, 0) # set focal foint to center
         self.actionViewFit()
 
     def actionViewFit(self):
-        self.renderer.ResetCamera(self.CAE.mesh.bounds) # avoid camera flying to infinity
+        self.renderer.ResetCamera(self.bounds) # avoid camera flying to infinity
         self.window.Render() # render updated view
 
         # Some logs for debugging
-        # TODO check camera for all example files
-        # self.CAE.logger.info('Camera\'s focal point is ' + str(self.camera.GetFocalPoint()))
-        # self.CAE.logger.info('Camera\'s position is ' + str(self.camera.GetPosition()))
-        # self.CAE.logger.info('Camera\'s ViewUp is ' + str(self.camera.GetViewUp()))
-        # self.CAE.logger.info('Camera\'s distance is ' + str(self.camera.GetDistance()))
-        # self.CAE.logger.info('Camera\'s Roll is ' + str(self.camera.GetRoll()))
-        # self.CAE.logger.info('Camera\'s ViewAngle is ' + str(self.camera.GetViewAngle()))
-        # self.CAE.logger.info('Camera\'s ParallelScale is ' + str(self.camera.GetParallelScale()))
-        # self.CAE.logger.info('Camera\'s ClippingRange is ' + str(self.camera.GetClippingRange()))
-        # self.CAE.logger.info('Camera\'s WindowCenter is ' + str(self.camera.GetWindowCenter()))
-        # self.CAE.logger.info('Camera\'s orientation is ' + str(self.camera.GetOrientation()))
+        self.msg_list = [] # list of messages for logger
+        messages = [
+            'Camera\'s focal point is ' + str(self.camera.GetFocalPoint()),
+            'Camera\'s position is ' + str(self.camera.GetPosition()),
+            # 'Camera\'s ViewUp is ' + str(self.camera.GetViewUp()),
+            'Camera\'s distance is {:.1f}'.format(self.camera.GetDistance()),
+            # 'Camera\'s Roll is {:.1f}'.format(self.camera.GetRoll()),
+            # 'Camera\'s ViewAngle is {:.1f}'.format(self.camera.GetViewAngle()),
+            'Camera\'s ParallelScale is {:.1f}'.format(self.camera.GetParallelScale()),
+            'Camera\'s ClippingRange is ' + str(self.camera.GetClippingRange()),
+            # 'Camera\'s WindowCenter is ' + str(self.camera.GetWindowCenter()),
+            # 'Camera\'s orientation is ' + str(self.camera.GetOrientation())
+        ]
+        for msg_text in messages:
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
+            self.msg_list.append(msg)
 
     def actionViewWireframe(self):
         self.actor.GetProperty().SetRepresentationToWireframe()
@@ -183,15 +204,15 @@ class VTK:
 
     # Menu Select
 
-    def actionSelectionNodes(self):
-        self.actionSelectionClear() # clear selection before new call
-        style = ccx_select_style.nodes(self.renderer, self.window, self.CAE.textEdit)
-        self.interactor.SetInteractorStyle(style)
+    # def actionSelectionNodes(self):
+    #     self.actionSelectionClear() # clear selection before new call
+    #     style = ccx_vtk_select_style.nodes(self.renderer, self.window, self.CAE.textEdit)
+    #     self.interactor.SetInteractorStyle(style)
 
-    def actionSelectionElements(self):
-        self.actionSelectionClear() # clear selection before new call
-        style = ccx_select_style.elements(self.renderer, self.window, self.CAE.textEdit)
-        self.interactor.SetInteractorStyle(style)
+    # def actionSelectionElements(self):
+    #     self.actionSelectionClear() # clear selection before new call
+    #     style = ccx_vtk_select_style.elements(self.renderer, self.window, self.CAE.textEdit)
+    #     self.interactor.SetInteractorStyle(style)
 
     def actionSelectionClear(self):
         self.renderer.RemoveAllViewProps()
@@ -201,8 +222,11 @@ class VTK:
 
 
     # Highlight node sets, element sets and surfaces
-
+    # TODO error: create new set and highlight it
     def highlight(self, _set, field_type):
+        # Clear selection
+        self.actionSelectionClear()
+
         # Get our mesh
         ugrid = self.mapper.GetInput()
 
@@ -241,6 +265,9 @@ class VTK:
         self.window.Render() # update window
 
     def highlightSURFACE(self, _set):
+        # Clear selection
+        self.actionSelectionClear()
+
         # Get our mesh
         ugrid = self.mapper.GetInput()
 

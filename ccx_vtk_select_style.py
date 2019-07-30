@@ -9,9 +9,11 @@
 
     If you just want to disable single events you can also have a look at:
     https://vtk.org/Wiki/VTK/Examples/Python/Interaction/MouseEventsObserver
+
+    Partially dependent on ccx_cae.CAE.
 """
 
-import vtk, ccx_log
+import vtk, ccx_cae_log
 
 
 # TODO second click to deselect
@@ -24,7 +26,7 @@ class nodes(vtk.vtkInteractorStyleTrackballCamera):
 
         # Configure logging
         self.textEdit = textEdit
-        self.logger = ccx_log.logger(self.textEdit)
+        self.logger = ccx_cae_log.logger(self.textEdit)
 
         self.renderer = renderer
         self.window = window
@@ -75,7 +77,7 @@ class elements(vtk.vtkInteractorStyleTrackballCamera):
 
         # Configure logging
         self.textEdit = textEdit
-        self.logger = ccx_log.logger(self.textEdit)
+        self.logger = ccx_cae_log.logger(self.textEdit)
 
         self.renderer = renderer
         self.window = window

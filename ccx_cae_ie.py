@@ -5,78 +5,90 @@
     © Ihor Mirzov, July 2019.
     Distributed under GNU General Public License, version 2.
 
-    INP importer/parser and exporter/writer
+    INP importer:
+        Enrich DOM with implementations from parsed file.
+        Generate new tree with keyword implementations.
+        Parse mesh and build ugrid
+        Display ugrid in the VTK widget
+
+    INP exporter:
+        Recursively write implementation's INP_code to output .inp-file
+
+    Depends on ccx_cae.CAE.
 """
 
 
 from PyQt5 import QtWidgets
-import vtk
-import ccx_dom, ccx_mesh
+import vtk, os
+import ccx_dom, ccx_mesh, ccx_cae_log, ccx_vtk
 
 
-class inp:
+class IE:
 
 
     def __init__(self, CAE):
         self.CAE = CAE
 
         # Actions
-        self.CAE.actionFileImportINP.triggered.connect(self.importINP)
-        self.CAE.actionFileExportINP.triggered.connect(self.exportINP)
+        self.CAE.actionFileImportINP.triggered.connect(lambda:
+            self.CAE.logger.messages(self.importINP()))
+        self.CAE.actionFileExportINP.triggered.connect(lambda:
+            self.CAE.logger.messages(self.exportINP()))
 
 
     # Menu File -> Import INP file
-    # Import mesh and display it in the VTK widget
     def importINP(self, file_name=None):
+        msg_list = [] # list of messages for logger
+
         if not file_name:
             file_name = QtWidgets.QFileDialog.getOpenFileName(None, \
                 'Import INP file', '', 'Input files (*.inp);;All Files (*)')[0]
 
         if file_name:
-            self.CAE.logger.info('Loading ' + file_name + '.')
+
+            # Show model name in window's title
+            self.CAE.setWindowTitle('Calculix CAE - ' + os.path.basename(file_name))
+
+            # Clear log window before new import
+            self.CAE.textEdit.setText('')
 
             # Clear selection before import new model
             self.CAE.VTK.actionSelectionClear()
 
-            # Generate CalculiX DOM based on keywords hierarchy from ccx_dom.txt
-            self.CAE.DOM = ccx_dom.DOM(self.CAE)
+            msg_text = 'Loading ' + file_name + '.'
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
+            msg_list.append(msg)
 
-            # Parse model from INP - it will modify DOM
+            # Generate new DOM without implementations
+            self.CAE.DOM = ccx_dom.DOM()
+            msg_list.extend(self.CAE.DOM.msg_list) # 'CalculiX object model generated.'
+
+            # Parse INP and enrich DOM with parsed objects
             with open(file_name, 'r') as f:
-                INP_doc = f.readlines()
-                # Parse CalculiX'es keywords in the INP_doc lines
-                self.parser(INP_doc) # enrich DOM with parsed objects
+                self.importer(f.readlines(), msg_list) # pass whole INP-file to the parser
 
-            # Regenerate treeView items to account for modifications in DOM
+            # Add parsed implementations to the tree
             self.CAE.tree.generateTreeView()
 
-            # Parse mesh and transfer it to VTK
-            mesh = ccx_mesh.Parse(file_name) # parse mesh
-            self.CAE.logger.messages(mesh.msg_list) # process list of INFO and ERROR messages
-            self.CAE.mesh = mesh # to be available everywhere
+            # Parse mesh
+            self.CAE.mesh = ccx_mesh.Parse(file_name) # parse mesh
+            msg_list.extend(self.CAE.mesh.msg_list) # show info about nodes, elements etc.
 
-            # try:
-            points = vtk.vtkPoints()
-            for n in mesh.nodes.keys(): # create VTK points from mesh nodes
-                points.InsertPoint(n-1, mesh.nodes[n]) # node numbers should start from 0!
+            # Create ugrid from mesh
+            msgs, ugrid = self.CAE.VTK.mesh2ugrid(self.CAE.mesh)
+            msg_list.extend(msgs)
 
-            ugrid = vtk.vtkUnstructuredGrid() # create empty grid in VTK
-            ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
-            ugrid.SetPoints(points) # insert all points to the grid
+            # Plot ugrid in VTK
+            if ugrid:
+                self.CAE.VTK.mapper.SetInputData(ugrid)
+                self.CAE.VTK.actionViewIso() # iso view after import
+                # msg_list.extend(self.CAE.VTK.msg_list)
 
-            for e in mesh.elements.keys():
-                ccx_element_type = mesh.types[e]
-                vtk_element_type = ccx_mesh.Parse.convert_elem_type(ccx_element_type)
-                node_numbers = [n-1 for n in mesh.elements[e]] # list of nodes in the element: node numbers should start from 0!
-                ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
-                # print(ccx_element_type, 'to', vtk_element_type, ':', e, node_numbers)
+        return msg_list
 
-            self.CAE.VTK.mapper.SetInputData(ugrid) # ugrid is our mesh data
-            self.CAE.VTK.actionViewIso() # iso view after import
-            self.CAE.logger.info('Rendering OK.')
-            # except:
-            #     self.CAE.logger.error('Can\'t render INP mesh.')
-    def parser(self, INP_doc):
+
+    # Enrich DOM with keywords from INP_doc
+    def importer(self, INP_doc, msg_list):
         keyword_chain = []
         impl_counter = {}
         for i in range(len(INP_doc)):
@@ -102,7 +114,6 @@ class inp:
 
                 # Find DOM keyword path corresponding to keyword_chain
                 path = self.CAE.DOM.getPath(keyword_chain)
-
                 if path:
 
                     # Read INP_code for the current keyword 
@@ -121,8 +132,7 @@ class inp:
                         else:
                             item = path[j] # keyword or group
                         path_as_string += '/' + item.name
-                        if j == len(path) - 1:
-                            # Last item is always keyword
+                        if j == len(path) - 1: # last item is always keyword
                             impl = ccx_dom.implementation(item, INP_code) # create, for example, MATERIAL-1
                         elif item.item_type == ccx_dom.item_type.KEYWORD:
                             # If we are here, then for this keyword implementation was created previously
@@ -139,12 +149,14 @@ class inp:
                         impl_counter[path_as_string] = 1
 
                 else:
-                    self.CAE.logger.error('Wrong keyword {}.'.format(keyword_name))
+                    msg_text = 'Wrong keyword {}.'.format(keyword_name)
+                    msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
+                    msg_list.append(msg)
 
 
     # Menu File -> Write INP file
-    # Write input file for CalculiX
     def exportINP(self):
+        msg_list = [] # list of messages for logger
 
         file_name = QtWidgets.QFileDialog.getSaveFileName(None, \
             'Write INP file', '', 'Input files (*.inp);;All Files (*)')[0]
@@ -152,10 +164,19 @@ class inp:
         if file_name:
             with open(file_name, 'w') as f:
                 # Recursively iterate over DOM items, write INP_code for each implementation
-                self.writer(self.CAE.DOM.root, f)
+                self.exporter(self.CAE.DOM.root, f)
 
-            self.CAE.logger.info('Input written!')
-    def writer(self, parent, f):
+            # Log message
+            # self.CAE.logger.info('Input written!')
+            msg_text = 'Input written!'
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
+            msg_list.append(msg)
+
+        return msg_list
+
+
+    # Recursively write implementation's INP_code to output .inp-file
+    def exporter(self, parent, f):
         for item in parent.items: # for each group/keyword from DOM
 
             if item.item_type == ccx_dom.item_type.ARGUMENT:
@@ -165,4 +186,4 @@ class inp:
                 for line in item.INP_code:
                     f.write(line + '\n')
 
-            self.writer(item, f) # continue call iterator until dig to implementation
+            self.exporter(item, f) # continue call iterator until dig to implementation

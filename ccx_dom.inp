@@ -2,17 +2,19 @@
 **  Distributed under GNU General Public License, version 2.
 **
 ** Empty lines and comments are ignored. No spaces after punctuation symbols!
-** Padding with exactly 1 tab is mandatory - it defines hierarchy.
+** Padding with exactly 1 tab is mandatory - it defines nesting.
 ** 
 ** CalculiX keywords start with '*'. If keyword ends with '__newline'
 ** it means that all arguments should and will be written from a new line.
-** '__' in the line's end is needed just for correct highlighting in vscode - parser removes it
+** '__' in the line's end is needed just for correct highlighting in vscode -
+** parser removes it
 ** 
 ** Parameters start with ','. Parameter values go after '=' and are separated by '|'.
 ** Usually parameter ends with '='. Parameters without '=' are just keys.
 ** Plus '+' means parameters go together. '|' means parameters are mutually exclusive.
-** No '__required' flag means that parameter is optional. Argument's default value should come first.
-**
+** No '__required' flag means that parameter is optional. Argument's default value
+** should come first.
+
 
 Model__group
 

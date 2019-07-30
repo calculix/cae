@@ -10,7 +10,7 @@
 """
 
 
-import ccx_log, os, re
+import ccx_cae_log, os, re
 
 
 class Parse:
@@ -95,25 +95,30 @@ class Parse:
             self.parse_nodes(lines)
 
             msg_text = '{} nodes'.format(len(self.nodes))
-            msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
             self.msg_list.append(msg)
         except:
             msg_text = 'Can\'t parse nodes'
-            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.ERROR, msg_text)
             self.msg_list.append(msg)
 
         # Parse node sets
         try:
             self.parse_nsets(lines)
 
+            # Remove duplicated nodes
+            for k,v in self.nsets.items():
+                self.nsets[k] = set(v)
+
             msg_text = '{} nsets'.format(len(self.nsets))
+            # msg_text += ': ' + str(list(self.nsets.keys()))
             # for k,v in self.nsets.items():
             #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
-            msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
             self.msg_list.append(msg)
         except:
             msg_text = 'Can\'t parse nsets'
-            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.ERROR, msg_text)
             self.msg_list.append(msg)
 
         # Parse elements
@@ -121,26 +126,30 @@ class Parse:
             self.parse_elements(lines)
 
             msg_text = '{} elements'.format(len(self.elements))
-            msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
             self.msg_list.append(msg)
         except:
             msg_text = 'Can\'t parse elements'
-            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.ERROR, msg_text)
             self.msg_list.append(msg)
 
         # Parse element sets
         try:
             self.parse_elsets(lines)
 
+            # Remove duplicated elements
+            for k,v in self.elsets.items():
+                self.elsets[k] = set(v)
+
             msg_text = '{} elsets'.format(len(self.elsets))
             # msg_text += ': ' + str(list(self.elsets.keys()))
             # for k,v in self.elsets.items():
             #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
-            msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
             self.msg_list.append(msg)
         except:
             msg_text = 'Can\'t parse elsets'
-            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.ERROR, msg_text)
             self.msg_list.append(msg)
 
         # Parse surfaces
@@ -149,11 +158,11 @@ class Parse:
 
             msg_text = '{} surfaces'.format(len(self.surfaces))
             # msg_text += ': ' + str(self.surfaces)
-            msg = ccx_log.msg(ccx_log.msgType.INFO, msg_text)
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
             self.msg_list.append(msg)
         except:
             msg_text = 'Can\'t parse surfaces'
-            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.ERROR, msg_text)
             self.msg_list.append(msg)
 
 
@@ -174,18 +183,29 @@ class Parse:
                 match = re.search('NSET\s*=\s*\w*', lines[i])
                 try:
                     name = match.group(0).split('=')[1].strip()
+                    self.nsets[name] = []
                 except:
-                    name = 'ALL'
-                self.nsets[name] = []
-
+                    pass
+                
                 while i+1<len(lines) and not lines[i+1].startswith('*'): # read the whole block and return
                     lines[i+1] = lines[i+1].replace(',', ' ') # to avoid redundant commas in the end of line
                     a = lines[i+1].split()
                     if len(a) == 3: # in 2D case add Z coord equal to zero
                         a.append(0)
                     num = int(a[0]) # node number
-                    self.nsets[name].append(num)
-                    self.nodes[num] = [] # tuple with node coordinates
+                    try:
+                        self.nsets[name].append(num)
+                    except:
+                        pass
+
+                    # Check duplicates
+                    if num in self.nodes:
+                        msg_text = 'Duplicated node {}.'.format(num)
+                        msg = ccx_cae_log.msg(ccx_cae_log.msgType.WARNING, msg_text)
+                        self.msg_list.append(msg)
+                    else:
+                        self.nodes[num] = [] # node coordinates
+
                     for j,coord in enumerate(a[1:]):
                         coord = float(coord)
                         self.nodes[num].append(coord) # add coordinate to tuple
@@ -198,7 +218,7 @@ class Parse:
                     i += 1
                     if not len(self.nodes[num]):
                         msg_text = 'Node {} has no coordinates and will be removed.'.format(num)
-                        msg = ccx_log.msg(ccx_log.msgType.WARNING, msg_text)
+                        msg = ccx_cae_log.msg(ccx_cae_log.msgType.WARNING, msg_text)
                         self.msg_list.append(msg)
                         del self.nodes[num]
                 # do not return to parse few *NODE sections
@@ -215,7 +235,7 @@ class Parse:
 
                 if name in self.nsets:
                     msg_text = 'Duplicated nset name {}.'.format(name)
-                    msg = ccx_log.msg(ccx_log.msgType.WARNING, msg_text)
+                    msg = ccx_cae_log.msg(ccx_cae_log.msgType.WARNING, msg_text)
                     self.msg_list.append(msg)
                 else:
                     self.nsets[name] = []
@@ -246,13 +266,13 @@ class Parse:
         for i in range(len(lines)): # lines are uppercase
             if lines[i].startswith('*ELEMENT'):
 
-                # Element set with all elements
+                # Element set name
                 match = re.search('ELSET\s*=\s*\w*', lines[i])
                 try:
                     name = match.group(0).split('=')[1].strip()
+                    self.elsets[name] = []
                 except:
-                    name = 'ALL'
-                self.elsets[name] = []
+                    pass
 
                 match = re.search('TYPE\s*=\s*\w*', lines[i])
                 etype = match.group(0).split('=')[1].strip()
@@ -260,16 +280,27 @@ class Parse:
 
                 while i+1<len(lines) and not lines[i+1].startswith('*'): # there will be no comments
 
-                    # Element nodes could be splitted into 2 lines
+                    # Element nodes could be splitted into few lines
                     a = lines[i+1].replace(',', ' ').split()
-                    if len(a) < amount + 1: # +1 for element number
+                    while len(a) < amount + 1: # +1 for element number
                         a.extend( lines[i+2].replace(',', ' ').split() )
                         i += 1
 
                     num = int(a[0].strip()) # element number
-                    self.elsets[name].append(num)
+                    try:
+                        self.elsets[name].append(num)
+                    except:
+                        pass
                     self.types[num] = etype.strip() # save element type
-                    self.elements[num] = [] # tuple with element nodes
+
+                    # Check duplicates
+                    if num in self.elements:
+                        msg_text = 'Duplicated element {}.'.format(num)
+                        msg = ccx_cae_log.msg(ccx_cae_log.msgType.WARNING, msg_text)
+                        self.msg_list.append(msg)
+                    else:
+                        self.elements[num] = [] # element nodes
+
                     for n in a[1:]:
                         self.elements[num].append(int(n.strip())) # add node to tuple
                     x=0; y=0; z=0
@@ -287,7 +318,7 @@ class Parse:
                         else:
                             msg_text = 'Theree is no node {} in element {}. '.format(n.strip(), num) + \
                                         'This element will be removed.'
-                            msg = ccx_log.msg(ccx_log.msgType.WARNING, msg_text)
+                            msg = ccx_cae_log.msg(ccx_cae_log.msgType.WARNING, msg_text)
                             self.msg_list.append(msg)
                             del self.elements[num]
                     amount = len(a[1:]) # amount of nodes in element
@@ -306,7 +337,7 @@ class Parse:
                 name = match.group(2)
                 if name in self.elsets:
                     msg_text = 'Duplicated elset name {}.'.format(name)
-                    msg = ccx_log.msg(ccx_log.msgType.WARNING, msg_text)
+                    msg = ccx_cae_log.msg(ccx_cae_log.msgType.WARNING, msg_text)
                     self.msg_list.append(msg)
                 else:
                     self.elsets[name] = []
@@ -353,7 +384,7 @@ class Parse:
             if not skip:
                 if name in self.surfaces:
                     msg_text = 'Duplicated surface name {}.'.format(name)
-                    msg = ccx_log.msg(ccx_log.msgType.WARNING, msg_text)
+                    msg = ccx_cae_log.msg(ccx_cae_log.msgType.WARNING, msg_text)
                     self.msg_list.append(msg)
                 self.surfaces[name] = []
 
@@ -424,7 +455,7 @@ class Parse:
                             lines.extend(self.parse_lines(path + '/' + inp_file2))
         except:
             msg_text = 'There is no file {}.'.format(inp_file)
-            msg = ccx_log.msg(ccx_log.msgType.ERROR, msg_text)
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.ERROR, msg_text)
             self.msg_list.append(msg)
         return lines
 

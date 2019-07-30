@@ -4,7 +4,8 @@
     © Ihor Mirzov, July 2019.
     Distributed under GNU General Public License, version 2.
 
-    Logging methods
+    Logging methods.
+    Depends on ccx_cae.CAE.
 """
 
 
@@ -31,7 +32,16 @@ class logger:
 
     def __init__(self, CAE=None):
         self.CAE = CAE
-    
+
+
+    # Short syntax for all messages
+    def info(self, msg_text):
+        self.message(msg(msgType.INFO, msg_text))
+    def warning(self, msg_text):
+        self.message(msg(msgType.WARNING, msg_text))
+    def error(self, msg_text):
+        self.message(msg(msgType.ERROR, msg_text))
+
 
     # Process one message
     def message(self, msg):
@@ -52,21 +62,3 @@ class logger:
     def messages(self, msg_list):
         for msg in msg_list:
             self.message(msg)
-
-
-    # Info log with Black font color
-    # TODO obsolete
-    def info(self, msg):
-        print(msg)
-        if self.CAE: # could be None in tests
-            self.CAE.textEdit.append('<p style=\'color:Black; margin:0px;\'>' + msg + '</p>')
-            self.CAE.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
-
-
-    # Error log with Red font color
-    # TODO obsolete
-    def error(self, msg):
-        print('ERROR!', msg)
-        if self.CAE: # could be None in tests
-            self.CAE.textEdit.append('<p style=\'color:Red; margin:0px;\'>ERROR! ' + msg + '</p>')
-            self.CAE.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end

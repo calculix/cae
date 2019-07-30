@@ -7,13 +7,12 @@
 
     CalculiX CAE
     Main window application
-    INP parser and writer
 """
 
 
 import sys, os, argparse
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
-import ccx_mesh, ccx_tree, ccx_log, ccx_vtk, ccx_dom, ccx_inp
+import ccx_mesh, ccx_cae_tree, ccx_cae_log, ccx_vtk, ccx_dom, ccx_cae_ie
 
 
 class CAE(QtWidgets.QMainWindow):
@@ -29,35 +28,58 @@ class CAE(QtWidgets.QMainWindow):
         uic.loadUi('ccx_cae.ui', self)
 
         # Configure logging
-        self.logger = ccx_log.logger(self)
+        self.logger = ccx_cae_log.logger(self)
 
         # Create VTK widget
-        self.VTK = ccx_vtk.VTK(self) # create everything for model visualization
+        self.VTK = ccx_vtk.VTK() # create everything for model visualization
         self.vl.addWidget(self.VTK.widget) # add vtk_widget to the form
         self.frame.setLayout(self.vl) # apply layout: it will expand vtk_widget to the frame size
 
-        # Generate CalculiX DOM based on keywords hierarchy from ccx_dom.txt
-        self.DOM = ccx_dom.DOM(self) # empty DOM w/o implementations
+        self.mesh = None # mesh from .inp-file - will be parsed in ccx_cae_ie.py
+        self.IE = ccx_cae_ie.IE(self) # import/export of .inp-file
+        self.DOM = ccx_dom.DOM() # empty DOM w/o implementations
+        self.logger.messages(self.DOM.msg_list) # process list of log messages
 
-        # Generate empty CalculiX model and treeView items
-        self.tree = ccx_tree.tree(self)
-
-        # Mesh from .inp-file - will be parsed in ccx_inp.py
-        self.mesh = None
+        # Create/regenerate treeView items: empty model or with implementations
+        self.tree = ccx_cae_tree.tree(self)
 
         # Default start model could be chosen with command line parameter
         parser = argparse.ArgumentParser()
         parser.add_argument("--mesh", "-mesh",
                             help="Mesh .inp file", type=str,
-                            default='ccx_mesh.inp')
-                            # default='./examples/beamp2stage.inp')
+                            # default='')
+                            # default='ccx_mesh.inp')
+                            default='./examples/achtel2.inp')
         args = parser.parse_args()
-        self.inp = ccx_inp.inp(self) # must be called to define actions
         if len(args.mesh): # import default ugrid
-            self.inp.importINP(args.mesh)
+            msgs = self.IE.importINP(args.mesh)
+            self.logger.messages(msgs)
 
         # Actions
+        self.actions()
+
+
+    # Actions
+    def actions(self):
         self.treeView.keyPressEvent = self.keyPressEvent
+
+        # VTK actions
+        # self.actionSelectionNodes.triggered.connect(self.VTK.actionSelectionNodes)
+        # self.actionSelectionElements.triggered.connect(self.VTK.actionSelectionElements)
+        # self.actionSelectionClear.triggered.connect(self.VTK.actionSelectionClear)
+        self.actionViewParallel.triggered.connect(self.VTK.actionViewParallel)
+        self.actionViewPerspective.triggered.connect(self.VTK.actionViewPerspective)
+        self.actionViewFront.triggered.connect(self.VTK.actionViewFront)
+        self.actionViewBack.triggered.connect(self.VTK.actionViewBack)
+        self.actionViewTop.triggered.connect(self.VTK.actionViewTop)
+        self.actionViewBottom.triggered.connect(self.VTK.actionViewBottom)
+        self.actionViewLeft.triggered.connect(self.VTK.actionViewLeft)
+        self.actionViewRight.triggered.connect(self.VTK.actionViewRight)
+        self.actionViewIso.triggered.connect(self.VTK.actionViewIso)
+        self.actionViewFit.triggered.connect(self.VTK.actionViewFit)
+        self.actionViewWireframe.triggered.connect(self.VTK.actionViewWireframe)
+        self.actionViewSurface.triggered.connect(self.VTK.actionViewSurface)
+        self.actionViewSurfaceWithEdges.triggered.connect(self.VTK.actionViewSurfaceWithEdges)
 
 
     # Delete keyword's implementation in the treeView by pressing 'Delete' button

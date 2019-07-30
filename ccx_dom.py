@@ -10,7 +10,7 @@
 """
 
 
-import copy, re
+import copy, re, ccx_cae_log
 from enum import Enum
 
 
@@ -25,8 +25,8 @@ class DOM:
 
 
     # Read CalculiX keywords hierarchy
-    def __init__(self, CAE):
-        self.CAE = CAE
+    def __init__(self):
+        self.msg_list = [] # list of messages for logger
 
         try:
             # Last parent for given padding level
@@ -66,9 +66,13 @@ class DOM:
             self.buildPathes(self.root)
             self.pathes.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
 
-            self.CAE.logger.info('CalculiX object model generated.')
+            msg_text = 'CalculiX object model generated.'
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
+            self.msg_list.append(msg)
         except:
-            self.CAE.logger.error('Can\'t generate keywords hierarchy!')
+            msg_text = 'Can\'t generate keywords hierarchy!'
+            msg = ccx_cae_log.msg(ccx_cae_log.msgType.ERROR, msg_text)
+            self.msg_list.append(msg)
 
 
     # Recursively builds all possible pathes to nested keywords in DOM
@@ -304,14 +308,14 @@ class implementation(item):
         self.parent = keyword
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
+        index = len(keyword.getImplementations())
         if name:
             self.name = name # it will be used in edit Dialog
-            index = int(name.split('-')[1]) - 1
+            # index = int(name.split('-')[1]) - 1
         else:
-            index = len(keyword.getImplementations())
             try:
-                match = re.search('(NAME|ELSET|NSET)\s*=\s*\w*', INP_code[0].upper())
-                self.name = match.group(0).split('=')[1].strip()
+                match = re.search('(NAME|ELSET|NSET)\s*=\s*(\w*)', INP_code[0].upper())
+                self.name = match.group(2)
             except:
                 self.name = keyword.name[1:] + '-' + str(index + 1)
 

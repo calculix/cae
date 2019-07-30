@@ -5,6 +5,7 @@
     Distributed under GNU General Public License, version 2.
 
     Methods to work with main window's treeView widget.
+    Depends on ccx_cae.CAE.
 """
 
 
