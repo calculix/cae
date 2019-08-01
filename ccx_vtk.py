@@ -8,7 +8,7 @@
 """
 
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
-import vtk, logging, ccx_mesh
+import vtk, logging, frd2vtk
 
 
 class VTK:
@@ -91,7 +91,7 @@ class VTK:
             ugrid.SetPoints(points) # insert all points to the grid
             for e in mesh.elements.keys():
                 ccx_element_type = mesh.elements[e].type
-                vtk_element_type = ccx_mesh.frd2vtk(ccx_element_type)
+                vtk_element_type = frd2vtk.convert_elem_type(ccx_element_type)
                 node_numbers = [n.num-1 for n in mesh.elements[e].nodes] # list of nodes in the element: node numbers should start from 0!
                 ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
                 # print(ccx_element_type, 'to', vtk_element_type, ':', e, node_numbers)
