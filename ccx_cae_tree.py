@@ -132,34 +132,49 @@ class tree:
             lead_line = item.INP_code[0].upper()
             _set = []
 
+            # Hightlight mesh entities
             if ipn == '*NSET' or ipn == '*NODE':
                 match = re.search('NSET\s*=\s*(\w*)', lead_line)
                 if match: # if there if NSET attribute
                     name = match.group(1) # node set name
-                    _set = self.CAE.mesh.nsets[name]
+                    _set = self.CAE.mesh.nsets[name].nodes
                     self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
-
             elif ipn == '*ELSET' or ipn == '*ELEMENT':
                 match = re.search('ELSET\s*=\s*(\w*)', lead_line)
                 if match: # if there if ELSET attribute
                     name = match.group(1) # element set name
-                    _set = self.CAE.mesh.elsets[name]
+                    _set = self.CAE.mesh.elsets[name].elements
                     self.CAE.VTK.highlight(_set, 0) # 0 = vtk.vtkSelectionNode.CELL
-
             elif ipn == '*SURFACE':
 
                 # Surface type - optional attribute
-                surface_type = 'ELEMENT' # 'ELEMENT' or 'NODE'
+                stype = 'ELEMENT' # 'ELEMENT' or 'NODE'
                 match = re.search('\*SURFACE\s*,.*TYPE\s*=\s*(\w*)', lead_line)
                 if match:
-                    surface_type = match.group(1)
+                    stype = match.group(1)
 
                 name = re.search('NAME\s*=\s*(\w*)', lead_line).group(1) # surface name
-                _set = self.CAE.mesh.get_surface(name, surface_type).set
-                if surface_type == 'ELEMENT':
+                _set = self.CAE.mesh.surfaces[name + stype].set
+                if stype == 'ELEMENT':
                     self.CAE.VTK.highlightSURFACE(_set)
-                elif surface_type=='NODE':
+                elif stype=='NODE':
                     self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
+
+            # Hightlight Loads & BC
+            elif ipn in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
+                for line in item.INP_code[1:]:
+                    line = line.strip().upper()
+                    n = line.replace(',', ' ').split()[0]
+                    try:
+                        # Single node number
+                        _set.append(int(n))
+                    except ValueError as err:
+                        # Node set name
+                        _set.extend(self.CAE.mesh.nsets[n].nodes)
+                self.CAE.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
+            elif ipn in ['*BOUNDARYF', '*MASS FLOW', '*DLOAD', '*DFLUX',
+                         '*RADIATE', '*FILM', '*MODAL DAMPING']:
+                pass
 
 
     # Context menu for right click

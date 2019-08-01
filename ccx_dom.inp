@@ -11,9 +11,8 @@
 ** 
 ** Parameters start with ','. Parameter values go after '=' and are separated by '|'.
 ** Usually parameter ends with '='. Parameters without '=' are just keys.
-** Plus '+' means parameters go together. '|' means parameters are mutually exclusive.
-** No '__required' flag means that parameter is optional. Argument's default value
-** should come first.
+** Mutually exclusive parameters are separated with '|'. No '__required' flag means
+** that parameter is optional. Argument's default value should come first.
 
 
 Model__group
@@ -123,7 +122,7 @@ Model__group
 				*OBJECTIVE__newline,DISPLACEMENT,EIGENFREQUENCY,GREEN,MASS,SHAPEENERGY,STRESS
 					*FILTER,TYPE=LINEAR|QUADRATIC|CUBIC,BOUNDARY WEIGHTING=YES|NO,EDGE PRESERVATION=YES|NO,DIRECTION WEIGHTING=YES|NO
 			*STATIC,SOLVER=SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING,DIRECT,EXPLICIT,TIME RESET,TOTAL TIME AT START
-				*TEMPERATURE,OP=NEW|MOD,AMPLITUDE=,TIME DELAY=,USER,SUBMODEL+STEP+DATA SET
+				*TEMPERATURE,OP=NEW|MOD,AMPLITUDE=,TIME DELAY=,USER,SUBMODEL=,STEP=,DATA SET=__
 
 			*STEADY STATE DYNAMICS,HARMONIC=YES|NO,SOLVER=SPOOLES|PARDISO|SGI|TAUCS
 				*BASE MOTION,DOF__required,AMPLITUDE__required,TYPE=ACCELERATION|DISPLACEMENT

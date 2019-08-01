@@ -46,18 +46,17 @@ Main window with imported mesh and highlighted node set:
 
 # Prerequisites
 
-Suppose you already have [Python 3](https://www.python.org/downloads/). So first of all install VTK, PyQt5 and PyQtWebEngine. Then run [ccx_cae.py](ccx_cae.py):
+Suppose you already have [Python 3](https://www.python.org/downloads/). So first of all install VTK, PyQt5 and PyQtWebEngine:
 
     pip3 install vtk PyQt5 PyQtWebEngine
-    python3 ccx_cae.py
 
-Here are [some examples](https://lorensen.github.io/VTKExamples/site/Python/) for getting started with VTK in Python.
+That's all if you're going only to use CalculiX CAE.
 
-To edit GUI-forms [ccx_dialog.ui](ccx_dialog.ui) and [ccx_cae.ui](ccx_cae.ui) you'll need QT designer:
+For developers to edit GUI-forms [ccx_dialog.ui](ccx_dialog.ui) and [ccx_cae.ui](ccx_cae.ui) you'll need QT designer:
 
     sudo apt install qttools5-dev-tools
 
-Also you'll need [pyinstaller](https://www.pyinstaller.org/) to build release binaries:
+To build release binaries install [pyinstaller](https://www.pyinstaller.org/):
 
     pip3 install pyinstaller
 
@@ -75,6 +74,11 @@ Otherwise you may download binaries (for now only Ubuntu is supported), extract 
 
     ./ccx_cae
 
+Pass name of your INP model as a '--mesh' argument to open it at start:
+
+    python3 ccx_cae.py --mesh=your_model.inp
+    ./ccx_cae --mesh=your_model.inp
+
 <br/><br/>
 
 
@@ -91,15 +95,13 @@ Both sources and binaries could be found on [the release page](https://github.co
 
 **Improvements and bugfixes:**
 
-+ Tested VTK camera for all example models.
+- Windows binaries
 
-- Windows binary
+- Get all mutually exclusive keyword arguments from the manual.
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
 
 - Better surface highlight: remove original face for pure color.
-
-- Get all mutually exclusive keyword arguments from the manual.
 
 - During keyword's edit parse arguments and pass them to Dialog. Reparse *NODE, *ELEMENT, *NSET or *ELSET after edit.
 
@@ -127,3 +129,7 @@ Both sources and binaries could be found on [the release page](https://github.co
     Text actor for displaying model info:  
     https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/TextActor/
 -->
+
+**Done for the next release:**
+
++ Tested VTK camera for all example models.

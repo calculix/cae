@@ -5,14 +5,13 @@
     © Ihor Mirzov, July 2019.
     Distributed under GNU General Public License, version 2.
 
-    CalculiX CAE
-    Main window application
+    CalculiX CAE - main window
 """
 
 
-import sys, os, argparse
+import sys, os, argparse, logging
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
-import ccx_mesh, ccx_cae_tree, ccx_cae_log, ccx_vtk, ccx_dom, ccx_cae_ie
+import ccx_mesh, ccx_cae_tree, ccx_vtk, ccx_dom, ccx_cae_ie, ccx_cae_log
 
 
 class CAE(QtWidgets.QMainWindow):
@@ -28,7 +27,8 @@ class CAE(QtWidgets.QMainWindow):
         uic.loadUi('ccx_cae.ui', self)
 
         # Configure logging
-        self.logger = ccx_cae_log.logger(self)
+        logging.getLogger().addHandler(ccx_cae_log.myHandler(self))
+        logging.getLogger().setLevel(logging.INFO) # control the logging level
 
         # Create VTK widget
         self.VTK = ccx_vtk.VTK() # create everything for model visualization
@@ -38,7 +38,6 @@ class CAE(QtWidgets.QMainWindow):
         self.mesh = None # mesh from .inp-file - will be parsed in ccx_cae_ie.py
         self.IE = ccx_cae_ie.IE(self) # import/export of .inp-file
         self.DOM = ccx_dom.DOM() # empty DOM w/o implementations
-        self.logger.messages(self.DOM.msg_list) # process list of log messages
 
         # Create/regenerate treeView items: empty model or with implementations
         self.tree = ccx_cae_tree.tree(self)
@@ -48,12 +47,11 @@ class CAE(QtWidgets.QMainWindow):
         parser.add_argument("--mesh", "-mesh",
                             help="Mesh .inp file", type=str,
                             # default='')
-                            # default='ccx_mesh.inp')
-                            default='./examples/achtel2.inp')
+                            default='ccx_mesh.inp')
+                            # default='./examples/couette1.inp')
         args = parser.parse_args()
         if len(args.mesh): # import default ugrid
             msgs = self.IE.importINP(args.mesh)
-            self.logger.messages(msgs)
 
         # Actions
         self.actions()
@@ -64,9 +62,9 @@ class CAE(QtWidgets.QMainWindow):
         self.treeView.keyPressEvent = self.keyPressEvent
 
         # VTK actions
-        # self.actionSelectionNodes.triggered.connect(self.VTK.actionSelectionNodes)
-        # self.actionSelectionElements.triggered.connect(self.VTK.actionSelectionElements)
-        # self.actionSelectionClear.triggered.connect(self.VTK.actionSelectionClear)
+        self.actionSelectionNodes.triggered.connect(self.VTK.actionSelectionNodes)
+        self.actionSelectionElements.triggered.connect(self.VTK.actionSelectionElements)
+        self.actionSelectionClear.triggered.connect(self.VTK.actionSelectionClear)
         self.actionViewParallel.triggered.connect(self.VTK.actionViewParallel)
         self.actionViewPerspective.triggered.connect(self.VTK.actionViewPerspective)
         self.actionViewFront.triggered.connect(self.VTK.actionViewFront)

@@ -19,8 +19,8 @@
 
 
 from PyQt5 import QtWidgets
-import vtk, os
-import ccx_dom, ccx_mesh, ccx_cae_log, ccx_vtk
+import vtk, os, logging
+import ccx_dom, ccx_mesh, ccx_vtk
 
 
 class IE:
@@ -30,15 +30,12 @@ class IE:
         self.CAE = CAE
 
         # Actions
-        self.CAE.actionFileImportINP.triggered.connect(lambda:
-            self.CAE.logger.messages(self.importINP()))
-        self.CAE.actionFileExportINP.triggered.connect(lambda:
-            self.CAE.logger.messages(self.exportINP()))
+        self.CAE.actionFileImportINP.triggered.connect(self.importINP)
+        self.CAE.actionFileExportINP.triggered.connect(self.exportINP)
 
 
     # Menu File -> Import INP file
     def importINP(self, file_name=None):
-        msg_list = [] # list of messages for logger
 
         if not file_name:
             file_name = QtWidgets.QFileDialog.getOpenFileName(None, \
@@ -51,44 +48,35 @@ class IE:
 
             # Clear log window before new import
             self.CAE.textEdit.setText('')
+            logging.info('Loading ' + file_name + '.')
 
             # Clear selection before import new model
             self.CAE.VTK.actionSelectionClear()
 
-            msg_text = 'Loading ' + file_name + '.'
-            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
-            msg_list.append(msg)
-
             # Generate new DOM without implementations
             self.CAE.DOM = ccx_dom.DOM()
-            msg_list.extend(self.CAE.DOM.msg_list) # 'CalculiX object model generated.'
 
             # Parse INP and enrich DOM with parsed objects
             with open(file_name, 'r') as f:
-                self.importer(f.readlines(), msg_list) # pass whole INP-file to the parser
+                self.importer(f.readlines()) # pass whole INP-file to the parser
 
             # Add parsed implementations to the tree
             self.CAE.tree.generateTreeView()
 
             # Parse mesh
             self.CAE.mesh = ccx_mesh.Parse(file_name) # parse mesh
-            msg_list.extend(self.CAE.mesh.msg_list) # show info about nodes, elements etc.
 
             # Create ugrid from mesh
-            msgs, ugrid = self.CAE.VTK.mesh2ugrid(self.CAE.mesh)
-            msg_list.extend(msgs)
+            ugrid = self.CAE.VTK.mesh2ugrid(self.CAE.mesh)
 
             # Plot ugrid in VTK
             if ugrid:
                 self.CAE.VTK.mapper.SetInputData(ugrid)
                 self.CAE.VTK.actionViewIso() # iso view after import
-                # msg_list.extend(self.CAE.VTK.msg_list)
-
-        return msg_list
 
 
     # Enrich DOM with keywords from INP_doc
-    def importer(self, INP_doc, msg_list):
+    def importer(self, INP_doc):
         keyword_chain = []
         impl_counter = {}
         for i in range(len(INP_doc)):
@@ -149,30 +137,20 @@ class IE:
                         impl_counter[path_as_string] = 1
 
                 else:
-                    msg_text = 'Wrong keyword {}.'.format(keyword_name)
-                    msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
-                    msg_list.append(msg)
+                    logging.info('Wrong keyword {}.'.format(keyword_name))
 
 
     # Menu File -> Write INP file
     def exportINP(self):
-        msg_list = [] # list of messages for logger
 
         file_name = QtWidgets.QFileDialog.getSaveFileName(None, \
             'Write INP file', '', 'Input files (*.inp);;All Files (*)')[0]
 
+        # Recursively iterate over DOM items, write INP_code for each implementation
         if file_name:
             with open(file_name, 'w') as f:
-                # Recursively iterate over DOM items, write INP_code for each implementation
                 self.exporter(self.CAE.DOM.root, f)
-
-            # Log message
-            # self.CAE.logger.info('Input written!')
-            msg_text = 'Input written!'
-            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
-            msg_list.append(msg)
-
-        return msg_list
+            logging.info('Input written!')
 
 
     # Recursively write implementation's INP_code to output .inp-file

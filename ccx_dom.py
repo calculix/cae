@@ -10,7 +10,7 @@
 """
 
 
-import copy, re, ccx_cae_log
+import copy, re, logging
 from enum import Enum
 
 
@@ -26,8 +26,6 @@ class DOM:
 
     # Read CalculiX keywords hierarchy
     def __init__(self):
-        self.msg_list = [] # list of messages for logger
-
         try:
             # Last parent for given padding level
             parent_items = {}
@@ -66,13 +64,9 @@ class DOM:
             self.buildPathes(self.root)
             self.pathes.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
 
-            msg_text = 'CalculiX object model generated.'
-            msg = ccx_cae_log.msg(ccx_cae_log.msgType.INFO, msg_text)
-            self.msg_list.append(msg)
+            logging.info('CalculiX object model generated.')
         except:
-            msg_text = 'Can\'t generate keywords hierarchy!'
-            msg = ccx_cae_log.msg(ccx_cae_log.msgType.ERROR, msg_text)
-            self.msg_list.append(msg)
+            logging.error('Can\'t generate keywords hierarchy!')
 
 
     # Recursively builds all possible pathes to nested keywords in DOM
@@ -283,7 +277,6 @@ class argument(item):
             left_part = left_part + '='
 
             # Define argument's values
-            # TODO add '+' splitter for arguments that always go together
             if '|' in right_part:
                 # if few values are present
                 self.items = [v for v in right_part.split('|')]
