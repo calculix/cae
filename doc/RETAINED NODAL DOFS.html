@@ -1,6 +1,0 @@
-<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body><H2><BR>*RETAINED NODAL DOFS</H2><P>Keyword type: step<P>This option is used to prescribe the nodal degrees of freedom which are keptin a *SUBSTRUCTURE GENERATE analysis. Itcannot be used in any other sort of analysis.<P>There is one optional parameter: SORTED=NO. It is not possible to request asorting of the degrees of freedom entered. The entries in the substructurestiffness matrix are in the order introduced by the user.<P>No transformation is allowed. Consequently, the global Carthesian system applies.<P><P><BR><P>First line:<UL><LI>*RETAINED NODAL DOFS</LI><LI>Enter the parameter SORTED=NO (optional).</LI></UL><P>Following line:<UL><LI>Node number or node set label</LI><LI>First degree of freedom retained</LI><LI>Last degree of freedom retained. This field may be left blank if only one degree of freedom is retained.</LI></UL>Repeat this line if needed.<P><PRE>
-Example:
-
-*RETAINED NODAL DOFS
-73,1,3
-</PRE><P>retains the degrees of freedom one through three (global) of node 73.<P><P><P><BR>Example files: substructure.<P></body></html>

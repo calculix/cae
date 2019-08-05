@@ -1,4 +1,4 @@
-© Ihor Mirzov, July 2019.
+© Ihor Mirzov, August 2019.
 
 Distributed under GNU General Public License, version 2.
 
@@ -66,19 +66,25 @@ To create release binaries install [pyinstaller](https://www.pyinstaller.org/):
 
 # How to use
 
-Despite of your operating system it is recommended to use the source code - just call [ccx_cae.py](ccx_cae.py) from terminal. Otherwise you may [download binaries](https://github.com/imirzov/ccx_cae/releases), extract archive and run *ccx_cae* or *ccx_cae.exe*.
+Despite of your operating system it is recommended to use the source code - simply call [ccx_cae.py](ccx_cae.py) from terminal. Otherwise you may [download binaries](https://github.com/imirzov/ccx_cae/releases). CacluliX CAE is portable software and doesn't need to be installed. Just extract archive and run *ccx_cae* or *ccx_cae.exe*. Don't forget to make all binaries executable.
 
     multiplatform: python3 ccx_cae.py
     in Linux: ./ccx_cae
     in Windows: ./ccx_cae.exe
 
-Pass name of your INP model as a '--mesh' argument to open it at start:
+Pass name of your INP file as an argument to open it at start. Arguments '--model' and '-m' are the same:
 
-    multiplatform: python3 ccx_cae.py --mesh=your_model.inp
-    in Linux: ./ccx_cae --mesh=your_model.inp
-    in Windows: ./ccx_cae.exe --mesh=your_model.inp
+    multiplatform:
+        python3 ccx_cae.py --model=your_model.inp
+        python3 ccx_cae.py -m=your_model.inp
+    in Linux:
+        ./ccx_cae --model=your_model.inp
+        ./ccx_cae -m=your_model.inp
+    in Windows:
+        ./ccx_cae.exe --model=your_model.inp
+        ./ccx_cae.exe -m=your_model.inp
 
-To create release binaries files use commands:
+Create release binaries with command:
 
     pyinstaller ccx_cae.py
 
@@ -94,11 +100,31 @@ Both sources and binaries could be found on [the release page](https://github.co
 
 
 
+# Your help
+
+Please, you may:
+
+- simply use this sofware
+- ask questions
+- post issues here, on the GitHub
+- attach your models and screenshots
+- follow discussion in the [Yahoo CalculiX Group](https://groups.yahoo.com/neo/groups/CALCULIX/conversations/topics/15616)
+
+<br/><br/>
+
+
+
 # TODO
+
+**Done for the new release**
+
++ Fixed *boundary line in ccx_dom.inp: added missig NEW|MOD values of parameter OP
+
++ In the HTML help window line breaks are replaced by spaces, avoiding words to be glued together.
 
 **Improvements and bugfixes:**
 
-- Get all mutually exclusive keyword arguments from the manual.
+- Get all keyword arguments from the manual.
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
 
@@ -108,7 +134,13 @@ Both sources and binaries could be found on [the release page](https://github.co
 
 - Do not remove comments. Include them into apropriate tree item's INP_code.
 
+- There is a glitch in the graphics window. If you click left and drag even just a little, then the model disappears. I guess this is due to inappropriate center of rotation. Recovery is by the Fit view button. Middle-drag and right-drag work ok.
+
+- "I am not quite sure, what the intended workflow is. I'd expect some representation (object tree) of what has been imported and/or has been already defined. The tree in the CAE window seems to be just sort of a menu but not an actual object tree."
+
 **New features:**
+
+- PDF manual for beginners
 
 - Visualize BC's, constraints and loads in VTK.
 
@@ -116,11 +148,21 @@ Both sources and binaries could be found on [the release page](https://github.co
 
 - Save display options.
 
-- Import certain keyword with descendants from .inp-file.
+- Run job from CAE. Settings for path to *ccx* command.
 
-- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/).
+- Import certain keyword with descendants (tree branch) from INP-file.
 
-- Run job from CAE.
+- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), UNV.
+
+- Prool's INP-templates. Materials library - set of INP files or one big file with all materials.
+
+- Include 'Examples' into releases. Martin Kraska examples. HTML page with tags/groups for all INP files.
+
+- Interactor to select nodes and elements for model construction.
+
+- Open 'New keyword' dialog in a tab, not in separate window. Ctrl+Tab to switch between tabs.
+
+- In 'New keyword' dialog propose implementation variants for corresponding keyword arguments.
 
 <!--
     DistanceBetweenPoints:  
@@ -132,4 +174,3 @@ Both sources and binaries could be found on [the release page](https://github.co
     Text actor for displaying model info:  
     https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/TextActor/
 -->
-

@@ -1,0 +1,5 @@
+<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body> <H2> <BR> *CHANGE MATERIAL </H2>  <P> Keyword type: step  <P> With this option one can redefine material properties within a step. There is one required parameter NAME, denoting the name of the *MATERIAL. Right now, only plastic data of an elastically isotropic material with explicitly defined isotropic or kinematic hardening data can be changed. This card must be followed by a *CHANGE PLASTIC card to have any effect.  <P><P> <BR>  <P> First and only line:  <UL> <LI>*CHANGE MATERIAL </LI> <LI>enter the required parameter NAME and its parameter. </LI> </UL>  <P> <PRE>
+Example:
+
+*CHANGE MATERIAL,NAME=PL
+</PRE>  <P> indicates that the plastic data of material PL are to be changed to the values underneath the following *CHANGE PLASTIC card.  <P>  <P><P> <BR> Example files: beampiso2  <P> </body></html>

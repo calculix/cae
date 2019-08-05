@@ -4,7 +4,7 @@
     © Ihor Mirzov, July 2019.
     Distributed under GNU General Public License, version 2.
 
-    Prepare binaries for publising.
+    Prepare binaries for publishing.
 """
 
 

@@ -1,6 +1,0 @@
-<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body><H2><BR>*DESIGN VARIABLES</H2><P>Keyword type: model definition<P>This option is used to define the design variables for a sensitivitystudy. The parameter TYPE is required and can take the value COORDINATE orORIENTATION. In case of COORDINATE a second line is needed todefine the nodes whose coordinates are to be changed. These nodes should bepart of the surface of the structure (a change in position of nodes internalto the structure does not change the geometry). They will be varied in adirection locally orthogonal to the structure (in-surface motions do notchange the geometry). In the case ofORIENTATION the sensitivity of all orientations expressed by*ORIENTATION cards is calculated successively. <P>This keywork card should only occur once in the input deck. If it occurs morethan once only the first occurrence is taken into account.<P><P><BR><P>First line:<UL><LI>*DESIGN VARIABLES</LI><LI>Enter the TYPE parameter and its value.</LI></UL><P>Following line if TYPE=COORDINATE:<UL><LI>Node set containing the design variables.</LI></UL><P><PRE>
-Example:
-
-*DESIGN VARIABLES,TYPE=COORDINATE
-N1
-</PRE><P>defines the set N1 as the node set containing the design variables.<P><P><P><BR>Example files: sensitivity_I.<P></body></html>

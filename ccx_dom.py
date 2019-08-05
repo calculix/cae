@@ -10,7 +10,7 @@
 """
 
 
-import copy, re, logging
+import copy, re, logging, ccx_dialog
 from enum import Enum
 
 
@@ -48,6 +48,10 @@ class DOM:
                     # Define item for current padding level
                     if line.startswith('*'):
                         item = keyword(line)
+
+                        # Regenerate all HTML help pages
+                        # ccx_dialog.saveHTML(item)
+
                     elif line.endswith('__group'):
                         item = group(line)
 

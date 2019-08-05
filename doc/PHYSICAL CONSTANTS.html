@@ -1,9 +1,0 @@
-<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body><H2><BR>*PHYSICAL CONSTANTS</H2> <P>Keyword type: model definition<P>This keyword is used to define the Stefan-Boltzmann constant,absolute zero temperature and the universal gravitational constant in the user'sunits. For 3D fluid calculations only absolutezero temperature is needed, for radiation type boundary conditions bothabsolute zero temperature and the Stefan-Boltzmann constant must be defined. They are defined by the two parameters ABSOLUTE ZEROand STEFAN BOLTZMANN. The universal gravitational constant is required for generalgravitational loading, e.g. for the calculation of orbits and is defined bythe parameter NEWTON GRAVITATION.<P><P><BR><P>First line:<UL><LI>*PHYSICAL CONSTANTS</LI></UL><P><PRE>
-Example:
-
-*PHYSICAL CONSTANTS, ABSOLUTE ZERO=0, STEFAN BOLTZMANN=5.669E-8
-</PRE><P>for time in s, length in m, mass in kg and temperature in K (unit of theStefan-Boltzmann constant: <!-- MATH $\text{W} \text{m}^{-2} \text{K}^{-4}$ --><B>W&nbsp; &nbsp;m<IMG WIDTH="22" HEIGHT="18" ALIGN="BOTTOM" BORDER="0" SRC="img1810.png" ALT="$ ^{-2}$">&nbsp; &nbsp;K<IMG WIDTH="22" HEIGHT="18" ALIGN="BOTTOM" BORDER="0" SRC="img1811.png" ALT="$ ^{-4}$"></B>.<P><PRE>
-Example:
-
-*PHYSICAL CONSTANTS, NEWTON GRAVITY=6.67E-11
-</PRE><P>for time in s, length in m, mass in kg and temperature in K (unit of theuniversal gravitational constant: <!-- MATH $\text{N} \text{m}^2 \text{kg}^{-2}$ --><B>N&nbsp; &nbsp;m<IMG WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0" SRC="img3.png" ALT="$ ^2$">&nbsp; &nbsp;kg<IMG WIDTH="22" HEIGHT="18" ALIGN="BOTTOM" BORDER="0" SRC="img1810.png" ALT="$ ^{-2}$"></B>).<P><P><P><BR>Example files: beamhtbf, oneel20cf, cubenewt.<P></body></html>

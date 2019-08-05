@@ -45,14 +45,14 @@ class CAE(QtWidgets.QMainWindow):
 
         # Default start model could be chosen with command line parameter
         parser = argparse.ArgumentParser()
-        parser.add_argument("--mesh", "-mesh",
+        parser.add_argument("--model", "-m",
                             help="Mesh .inp file", type=str,
                             # default='')
                             default='ccx_mesh.inp')
                             # default='./examples/couette1.inp')
         args = parser.parse_args()
-        if len(args.mesh): # import default ugrid
-            msgs = self.IE.importINP(args.mesh)
+        if len(args.model): # import default ugrid
+            msgs = self.IE.importINP(args.model)
 
         # Actions
         self.actions()
