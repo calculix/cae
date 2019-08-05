@@ -162,19 +162,25 @@ class VTK:
         # Some logs for debugging
         self.msg_list = [] # list of messages for logger
         messages = [
-            'Camera\'s focal point is ' + str(self.camera.GetFocalPoint()),
-            'Camera\'s position is ' + str(self.camera.GetPosition()),
-            # 'Camera\'s ViewUp is ' + str(self.camera.GetViewUp()),
-            'Camera\'s distance is {:.1f}'.format(self.camera.GetDistance()),
-            # 'Camera\'s Roll is {:.1f}'.format(self.camera.GetRoll()),
-            # 'Camera\'s ViewAngle is {:.1f}'.format(self.camera.GetViewAngle()),
-            'Camera\'s ParallelScale is {:.1f}'.format(self.camera.GetParallelScale()),
-            'Camera\'s ClippingRange is ' + str(self.camera.GetClippingRange()),
-            # 'Camera\'s WindowCenter is ' + str(self.camera.GetWindowCenter()),
-            # 'Camera\'s orientation is ' + str(self.camera.GetOrientation())
+            'Camera\'s focal point is (' + \
+                ', '.join(['{:.1f}'.format(x) for x in self.camera.GetFocalPoint()]) + ').',
+            'Camera\'s position is (' + \
+                ', '.join(['{:.1f}'.format(x) for x in self.camera.GetPosition()]) + ').',
+            # 'Camera\'s ViewUp is (' + \
+            #     ', '.join(['{:.1f}'.format(x) for x in self.camera.GetViewUp()]) + ').',
+            'Camera\'s distance is {:.1f}.'.format(self.camera.GetDistance()),
+            # 'Camera\'s Roll is {:.1f}.'.format(self.camera.GetRoll()),
+            # 'Camera\'s ViewAngle is {:.1f}.'.format(self.camera.GetViewAngle()),
+            'Camera\'s ParallelScale is {:.1f}.'.format(self.camera.GetParallelScale()),
+            'Camera\'s ClippingRange is (' + \
+                ', '.join(['{:.1f}'.format(x) for x in self.camera.GetClippingRange()]) + ').',
+            # 'Camera\'s WindowCenter is (' + \
+            #     ', '.join(['{:.1f}'.format(x) for x in self.camera.GetWindowCenter()]) + ').',
+            'Camera\'s orientation is (' + \
+                ', '.join(['{:.1f}'.format(x) for x in self.camera.GetOrientation()]) + ').',
         ]
         for msg_text in messages:
-            logging.info(msg_text)
+            logging.debug(msg_text)
 
     def actionViewWireframe(self):
         self.actor.GetProperty().SetRepresentationToWireframe()
@@ -203,7 +209,7 @@ class VTK:
         # From _set get IDs of the selected items
         IDs = vtk.vtkIdTypeArray()
         IDs.SetNumberOfComponents(1)
-        for i in _set:
+        for i in _set: # TODO AttributeError: 'int' object has no attribute 'num'
             IDs.InsertNextValue(i.num-1) # in VTK nodes start from 0
 
         selectionNode = vtk.vtkSelectionNode()

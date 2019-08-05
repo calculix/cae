@@ -24,7 +24,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Solid mesh parser - [ccx_mesh.py](ccx_mesh.py) - tested on the all example CacluliX models - with ability to highlight surfaces, node and element sets after mesh import. See [test.log](test.log).
 
-- Keyword's edit dialog shows apropriate chapter of the official HTML documentation. Edit dialog is generated on the fly reading keyword's attributes from [ccx_dom.inp](ccx_dom.inp).
+- "New keyword" dialog shows apropriate chapter of the official HTML documentation. The dialog is generated on the fly reading keyword's attributes from [ccx_dom.inp](ccx_dom.inp).
 
 - Nice icons for all keywords/tree objects.
 
@@ -37,7 +37,7 @@ It is implied that you have already created geometry and generated mesh in some 
 Main window with imported mesh and highlighted node set:
 ![Main window](img_social.png "Main window")
 
-"New keyword" dialog:
+"New keyword" dialog with corresponding chapter from HTML manual:
 ![Create keyword dialog](img_dialog.png "Create keyword dialog")
 
 <br/><br/>
@@ -56,7 +56,7 @@ For developers to edit GUI-forms [ccx_dialog.ui](ccx_dialog.ui) and [ccx_cae.ui]
 
     sudo apt install qttools5-dev-tools
 
-To build release binaries install [pyinstaller](https://www.pyinstaller.org/):
+To create release binaries install [pyinstaller](https://www.pyinstaller.org/):
 
     pip3 install pyinstaller
 
@@ -66,18 +66,21 @@ To build release binaries install [pyinstaller](https://www.pyinstaller.org/):
 
 # How to use
 
-Despite of your operating system it is recommended to use the source code. Simply run [ccx_cae.py](ccx_cae.py) from terminal:
+Despite of your operating system it is recommended to use the source code - just call [ccx_cae.py](ccx_cae.py) from terminal. Otherwise you may [download binaries](https://github.com/imirzov/ccx_cae/releases), extract archive and run *ccx_cae* or *ccx_cae.exe*.
 
-    python3 ccx_cae.py
-
-Otherwise you may download binaries (for now only Ubuntu is supported), extract archive and run binary *ccx_cae*:
-
-    ./ccx_cae
+    multiplatform: python3 ccx_cae.py
+    in Linux: ./ccx_cae
+    in Windows: ./ccx_cae.exe
 
 Pass name of your INP model as a '--mesh' argument to open it at start:
 
-    python3 ccx_cae.py --mesh=your_model.inp
-    ./ccx_cae --mesh=your_model.inp
+    multiplatform: python3 ccx_cae.py --mesh=your_model.inp
+    in Linux: ./ccx_cae --mesh=your_model.inp
+    in Windows: ./ccx_cae.exe --mesh=your_model.inp
+
+To create release binaries files use commands:
+
+    pyinstaller ccx_cae.py
 
 <br/><br/>
 
@@ -95,8 +98,6 @@ Both sources and binaries could be found on [the release page](https://github.co
 
 **Improvements and bugfixes:**
 
-- Windows binaries
-
 - Get all mutually exclusive keyword arguments from the manual.
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
@@ -105,7 +106,7 @@ Both sources and binaries could be found on [the release page](https://github.co
 
 - During keyword's edit parse arguments and pass them to Dialog. Reparse *NODE, *ELEMENT, *NSET or *ELSET after edit.
 
-- Do not remove comments. Include them to apropriate tree item's INP_code.
+- Do not remove comments. Include them into apropriate tree item's INP_code.
 
 **New features:**
 
@@ -119,6 +120,8 @@ Both sources and binaries could be found on [the release page](https://github.co
 
 - Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/).
 
+- Run job from CAE.
+
 <!--
     DistanceBetweenPoints:  
     https://lorensen.github.io/VTKExamples/site/Python/SimpleOperations/DistanceBetweenPoints/
@@ -130,6 +133,3 @@ Both sources and binaries could be found on [the release page](https://github.co
     https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/TextActor/
 -->
 
-**Done for the next release:**
-
-+ Tested VTK camera for all example models.

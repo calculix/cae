@@ -9,7 +9,8 @@
 """
 
 
-import sys, os, argparse, logging
+import sys, os, argparse, logging, shutil
+os.environ['PATH'] += os.path.dirname(sys.executable) # Pyinstaller bug in Windows
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import ccx_mesh, ccx_cae_tree, ccx_vtk, ccx_dom, ccx_cae_ie, ccx_cae_log
 
@@ -88,8 +89,9 @@ class CAE(QtWidgets.QMainWindow):
 
 if __name__ == '__main__':
 
-    # Clean cached files before start
-    os.system('py3clean .')
+    # Clean cached files
+    if os.path.isdir('__pycache__'):
+        shutil.rmtree('__pycache__') # works in Linux as in Windows
 
     app = QtWidgets.QApplication(sys.argv)
     window = CAE()

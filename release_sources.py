@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     DIRECTORY = os.getcwd()
     SKIP = ['examples', '.git', 'test.py', 'test.txt',
-            'release_binaries.py', os.path.basename(__file__)]
+            'release_binaries.py', os.path.basename(sys.executable)]
     DATE = datetime.datetime.now().strftime('%Y%m%d')
     ARCH = '../ccx_cae_sources_' + DATE + '.zip'
 

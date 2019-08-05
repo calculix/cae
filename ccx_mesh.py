@@ -80,7 +80,7 @@ class Parse:
             self.parse_surfaces(lines)
 
             msg_text = '{} surfaces'.format(len(self.surfaces))
-            # msg_text += ': ' + str(self.surfaces)
+            # msg_text += ': ' + str(self.surfaces.keys())
             logging.info(msg_text)
         except:
             logging.error('Can\'t parse surfaces')
@@ -353,8 +353,11 @@ class Parse:
                         for n in _list:
                             if len(n):
                                 try:
-                                    _set.append(int(n))
+                                    # Single node number
+                                    node = self.nodes[int(n)]
+                                    _set.append(node)
                                 except ValueError:
+                                    # Node set name
                                     _set.extend(self.nsets[n].nodes)
 
                     i += 1

@@ -4,14 +4,14 @@
     © Ihor Mirzov, July 2019.
     Distributed under GNU General Public License, version 2.
 
-    Dialog window to edit CalculiX keyword
-    Called via double click on keyword in the treeView
-    Actually, here we define a keyword's implementation: its name and INP_code
+    Dialog window to edit CalculiX keyword.
+    Called via double click on keyword in the treeView.
+    Here we define a keyword's implementation: its name and INP_code.
 """
 
 
 from PyQt5 import QtWidgets, uic, QtCore, QtWebEngineWidgets
-import os, re, ccx_dom
+import sys, os, re, ccx_dom
 
 
 class Dialog(QtWidgets.QDialog):
@@ -183,7 +183,7 @@ class Dialog(QtWidgets.QDialog):
         return self.textEdit.toPlainText().strip().split('\n')
 
 
-    # Load PDF help into QWebEngineView
+    # Load HTML help into QWebEngineView
     def showDoc(self, item):
 
         # Get keyword name
@@ -192,14 +192,17 @@ class Dialog(QtWidgets.QDialog):
         if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
             keyword_name = item.parent.name[1:] # cut star
 
-        folder = os.path.dirname(__file__) + '/doc/'
+        folder = os.path.dirname(sys.argv[0])
+        folder = os.path.abspath(folder)
+        folder = os.path.join(folder, 'doc')
+        url = os.path.join(folder, keyword_name + '.html')
 
         # Generate html file if it wasn't created previously
-        if not os.path.isfile(folder + keyword_name + '.html'):
+        if not os.path.isfile(url):
 
             # Open 'ccx.html' and find link to keyword's page
             href = 'ccx.html'
-            with open(folder + href, 'r') as f:
+            with open(os.path.join(folder, href), 'r') as f:
                 for line in f.readlines():
                     match = re.search('node\d{3}\.html.{3}' + keyword_name, line) # regex to match href
                     try:
@@ -210,7 +213,7 @@ class Dialog(QtWidgets.QDialog):
 
             # Read html of the keyword's page
             html = '<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body>'
-            with open(folder + href, 'r') as f:
+            with open(os.path.join(folder, href), 'r') as f:
                 append = False
                 cut_breakline = True
                 for line in f.readlines():
@@ -230,8 +233,8 @@ class Dialog(QtWidgets.QDialog):
             html += '</body></html>'
             html = re.sub('<A.+?\">', '', html) # '?' makes it not greedy
             html = html.replace('</A>', '')
-            with open(folder + keyword_name + '.html', 'w') as f:
+            with open(os.path.join(folder, keyword_name + '.html'), 'w') as f:
                 f.write(html)
 
         # Load help document
-        self.doc.load(QtCore.QUrl('file://' + folder + keyword_name + '.html'))
+        self.doc.load(QtCore.QUrl.fromLocalFile(url))
