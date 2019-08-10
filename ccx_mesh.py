@@ -14,6 +14,29 @@
 import os, re, logging
 
 
+# Recurcively read all the lines of the file and its includes.
+# For simplicity convert all lines to uppercase.
+def read_lines(inp_file, include=False):
+    lines = []
+    try:
+        inp_file = os.path.abspath(inp_file)
+        with open(inp_file, 'r') as f:
+            for line in f.readlines():
+                line = line.strip()
+                if (not line.startswith('**')) and len(line): # skip comments and empty lines
+                    lines.append(line.upper())
+
+                    # Append lines from include file
+                    if include and line.upper().startswith('*INCLUDE'):
+                        path = os.path.dirname(inp_file)
+                        inp_file2 = line.split('=')[1].strip()
+                        lines.extend(read_lines(path + '/' + inp_file2))
+    except:
+        msg_text = 'There is no file {}.'.format(inp_file)
+        logging.error(msg_text)
+    return lines
+
+
 class Parse:
 
 
@@ -29,7 +52,7 @@ class Parse:
         self.bounds = [1e+6,-1e+6]*3 # Xmin,Xmax, Ymin,Ymax, Zmin,Zmax
 
         # Open and read whole the .inp-file
-        lines = self.parse_lines(inp_file)
+        lines = read_lines(inp_file, include=True)
 
         # Parse nodes
         try:
@@ -364,29 +387,6 @@ class Parse:
 
                 # Create new SURFACE and append to list
                 self.surfaces[name + stype] = SURFACE(name, _set, stype)
-
-
-    # Recurcively read all the lines of the file and its includes.
-    # For simplicity convert all lines to uppercase.
-    def parse_lines(self, inp_file):
-        lines = []
-        try:
-            inp_file = os.path.abspath(inp_file)
-            with open(inp_file, 'r') as f:
-                for line in f.readlines():
-                    line = line.strip()
-                    if (not line.startswith('**')) and len(line): # skip comments and empty lines
-                        lines.append(line.upper())
-
-                        # Append lines from include file
-                        if line.upper().startswith('*INCLUDE'):
-                            path = os.path.dirname(inp_file)
-                            inp_file2 = line.split('=')[1].strip()
-                            lines.extend(self.parse_lines(path + '/' + inp_file2))
-        except:
-            msg_text = 'There is no file {}.'.format(inp_file)
-            logging.error(msg_text)
-        return lines
 
 
     # Get amount of nodes by CalculiX element type

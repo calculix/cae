@@ -93,7 +93,7 @@ class tree:
             item.item_type == ccx_dom.item_type.IMPLEMENTATION:
 
             # Create dialog window and pass item
-            dialog = ccx_dialog.Dialog(item)
+            dialog = ccx_dialog.Dialog(self.CAE.DOM, item)
 
             # Get response from dialog window
             if dialog.exec() == ccx_dialog.Dialog.Accepted: # if user pressed 'OK'
@@ -137,13 +137,15 @@ class tree:
                 match = re.search('NSET\s*=\s*(\w*)', lead_line)
                 if match: # if there if NSET attribute
                     name = match.group(1) # node set name
-                    _set = self.CAE.mesh.nsets[name].nodes
+                    _set = [self.CAE.VTK.node2point[n.num] \
+                            for n in self.CAE.mesh.nsets[name].nodes]
                     self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
             elif ipn == '*ELSET' or ipn == '*ELEMENT':
                 match = re.search('ELSET\s*=\s*(\w*)', lead_line)
                 if match: # if there if ELSET attribute
                     name = match.group(1) # element set name
-                    _set = self.CAE.mesh.elsets[name].elements
+                    _set = [self.CAE.VTK.element2cell[e.num] \
+                            for e in self.CAE.mesh.elsets[name].elements]
                     self.CAE.VTK.highlight(_set, 0) # 0 = vtk.vtkSelectionNode.CELL
             elif ipn == '*SURFACE':
 
@@ -154,10 +156,12 @@ class tree:
                     stype = match.group(1)
 
                 name = re.search('NAME\s*=\s*(\w*)', lead_line).group(1) # surface name
-                _set = self.CAE.mesh.surfaces[name + stype].set
                 if stype == 'ELEMENT':
+                    _set = self.CAE.mesh.surfaces[name + stype].set
                     self.CAE.VTK.highlightSURFACE(_set)
                 elif stype=='NODE':
+                    _set = [self.CAE.VTK.node2point[n.num] \
+                            for n in self.CAE.mesh.surfaces[name + stype].set]
                     self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
 
             # Hightlight Loads & BC

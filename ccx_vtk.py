@@ -81,20 +81,31 @@ class VTK:
     # Generate VTK unstructured grid from ccx_mesh object
     def mesh2ugrid(self, mesh):
         ugrid = None
+        self.node2point = {} # point numbers should go consequently!
+        self.element2cell = {} # cell numbers should go consequently!
         self.bounds = mesh.bounds
         try:
             points = vtk.vtkPoints()
-            for n in mesh.nodes.keys(): # create VTK points from mesh nodes
-                points.InsertPoint(n-1, mesh.nodes[n].coords) # node numbers should start from 0!
+            p_num = 0 # point numbers should start from 0!
+            for n_num in mesh.nodes.keys(): # create VTK points from mesh nodes
+                self.node2point[n_num] = p_num
+                points.InsertPoint(p_num, mesh.nodes[n_num].coords)
+                # logging.debug('Renumbering node {} -> {}'.format(n_num, p_num))
+                p_num += 1
             ugrid = vtk.vtkUnstructuredGrid() # create empty grid in VTK
             ugrid.Allocate(len(mesh.elements)) # allocate memory fo all elements
             ugrid.SetPoints(points) # insert all points to the grid
+
+            c_num = 0 # cell numbers should start from 0!
             for e in mesh.elements.keys():
                 ccx_element_type = mesh.elements[e].type
                 vtk_element_type = frd2vtk.convert_elem_type(ccx_element_type)
-                node_numbers = [n.num-1 for n in mesh.elements[e].nodes] # list of nodes in the element: node numbers should start from 0!
-                ugrid.InsertNextCell(vtk_element_type, len(node_numbers), node_numbers) # create VTK element
-                # print(ccx_element_type, 'to', vtk_element_type, ':', e, node_numbers)
+                point_numbers = [self.node2point[n.num] for n in mesh.elements[e].nodes] # list of points in the element: point numbers should start from 0!
+                ugrid.InsertNextCell(vtk_element_type, len(point_numbers), point_numbers) # create VTK element
+                self.element2cell[e] = c_num
+                c_num += 1
+                # logging.debug('{} to {}'.format(ccx_element_type, vtk_element_type) +\
+                #     ': {} {}'.format(e, point_numbers))
 
             logging.info('VTK ugrid is built.')
         except:
@@ -108,10 +119,12 @@ class VTK:
     def actionViewParallel(self):
         self.camera.SetParallelProjection(True)
         self.window.Render() # render updated view
+        # self.log()
 
     def actionViewPerspective(self):
         self.camera.SetParallelProjection(False)
         self.window.Render() # render updated view
+        # self.log()
 
     def actionViewFront(self):
         self.camera.SetPosition(0, 0, 1) # camera's positions
@@ -158,29 +171,7 @@ class VTK:
     def actionViewFit(self):
         self.renderer.ResetCamera(self.bounds) # avoid camera flying to infinity
         self.window.Render() # render updated view
-
-        # Some logs for debugging
-        self.msg_list = [] # list of messages for logger
-        messages = [
-            'Camera\'s focal point is (' + \
-                ', '.join(['{:.1f}'.format(x) for x in self.camera.GetFocalPoint()]) + ').',
-            'Camera\'s position is (' + \
-                ', '.join(['{:.1f}'.format(x) for x in self.camera.GetPosition()]) + ').',
-            # 'Camera\'s ViewUp is (' + \
-            #     ', '.join(['{:.1f}'.format(x) for x in self.camera.GetViewUp()]) + ').',
-            'Camera\'s distance is {:.1f}.'.format(self.camera.GetDistance()),
-            # 'Camera\'s Roll is {:.1f}.'.format(self.camera.GetRoll()),
-            # 'Camera\'s ViewAngle is {:.1f}.'.format(self.camera.GetViewAngle()),
-            'Camera\'s ParallelScale is {:.1f}.'.format(self.camera.GetParallelScale()),
-            'Camera\'s ClippingRange is (' + \
-                ', '.join(['{:.1f}'.format(x) for x in self.camera.GetClippingRange()]) + ').',
-            # 'Camera\'s WindowCenter is (' + \
-            #     ', '.join(['{:.1f}'.format(x) for x in self.camera.GetWindowCenter()]) + ').',
-            'Camera\'s orientation is (' + \
-                ', '.join(['{:.1f}'.format(x) for x in self.camera.GetOrientation()]) + ').',
-        ]
-        for msg_text in messages:
-            logging.debug(msg_text)
+        # self.log()
 
     def actionViewWireframe(self):
         self.actor.GetProperty().SetRepresentationToWireframe()
@@ -196,6 +187,29 @@ class VTK:
         self.actor.GetProperty().SetRepresentationToSurface()
         self.window.Render() # render updated view
 
+    # Some logs for debugging
+    def log(self):
+        messages = [
+            'Data bounds are ' + str(self.bounds) + '.',
+            'Camera\'s focal point is (' + \
+                ', '.join(['{:.1f}'.format(x) for x in self.camera.GetFocalPoint()]) + ').',
+            'Camera\'s position is (' + \
+                ', '.join(['{:.1f}'.format(x) for x in self.camera.GetPosition()]) + ').',
+            # 'Camera\'s ViewUp is (' + \
+            #     ', '.join(['{:.1f}'.format(x) for x in self.camera.GetViewUp()]) + ').',
+            'Camera\'s distance is {:.1f}.'.format(self.camera.GetDistance()),
+            # 'Camera\'s Roll is {:.1f}.'.format(self.camera.GetRoll()),
+            # 'Camera\'s ViewAngle is {:.1f}.'.format(self.camera.GetViewAngle()),
+            'Camera\'s ParallelScale is {:.1f}.'.format(self.camera.GetParallelScale()),
+            'Camera\'s ClippingRange is (' + \
+                ', '.join(['{:.1f}'.format(x) for x in self.camera.GetClippingRange()]) + ').',
+            # 'Camera\'s WindowCenter is (' + \
+            #     ', '.join(['{:.1f}'.format(x) for x in self.camera.GetWindowCenter()]) + ').',
+            # 'Camera\'s orientation is (' + \
+            #     ', '.join(['{:.1f}'.format(x) for x in self.camera.GetOrientation()]) + ').',
+        ]
+        for msg_text in messages:
+            logging.debug(msg_text)
 
     # Highlight node sets, element sets and surfaces
     # TODO error: create new set and highlight it
@@ -209,8 +223,8 @@ class VTK:
         # From _set get IDs of the selected items
         IDs = vtk.vtkIdTypeArray()
         IDs.SetNumberOfComponents(1)
-        for i in _set: # TODO AttributeError: 'int' object has no attribute 'num'
-            IDs.InsertNextValue(i.num-1) # in VTK nodes start from 0
+        for i in _set:
+            IDs.InsertNextValue(i)
 
         selectionNode = vtk.vtkSelectionNode()
         selectionNode.SetFieldType(field_type) # select nodes/cells by index

@@ -68,13 +68,13 @@ To create release binaries install [pyinstaller](https://www.pyinstaller.org/):
 
 Despite of your operating system it is recommended to use the source code - simply call [ccx_cae.py](ccx_cae.py) from terminal. Otherwise you may [download binaries](https://github.com/imirzov/ccx_cae/releases). CacluliX CAE is portable software and doesn't need to be installed. Just extract archive and run *ccx_cae* or *ccx_cae.exe*. Don't forget to make all binaries executable.
 
-    multiplatform: python3 ccx_cae.py
-    in Linux: ./ccx_cae
-    in Windows: ./ccx_cae.exe
+    crossplatform: python3 ccx_cae.py
+    in Linux:      ./ccx_cae
+    in Windows:    ccx_cae.exe
 
 Pass name of your INP file as an argument to open it at start. Arguments '--model' and '-m' are the same:
 
-    multiplatform:
+    crossplatform:
         python3 ccx_cae.py --model=your_model.inp
         python3 ccx_cae.py -m=your_model.inp
     in Linux:
@@ -104,11 +104,11 @@ Both sources and binaries could be found on [the release page](https://github.co
 
 Please, you may:
 
-- simply use this sofware
-- ask questions
-- post issues here, on the GitHub
-- attach your models and screenshots
-- follow discussion in the [Yahoo CalculiX Group](https://groups.yahoo.com/neo/groups/CALCULIX/conversations/topics/15616)
+- Simply use this software and ask questions.
+- Share your models and screenshots.
+- Report problems by [posting issues](./issues).
+- Do something from the [TODO-list](#TODO).
+- Follow discussion in the [Yahoo CalculiX Group](https://groups.yahoo.com/neo/groups/CALCULIX/conversations/topics/15616)
 
 <br/><br/>
 
@@ -118,13 +118,30 @@ Please, you may:
 
 **Done for the new release**
 
-+ Fixed *boundary line in ccx_dom.inp: added missig NEW|MOD values of parameter OP
++ Fixed *boundary line in ccx_dom.inp: added missig NEW|MOD values of parameter OP.
 
 + In the HTML help window line breaks are replaced by spaces, avoiding words to be glued together.
 
-**Improvements and bugfixes:**
++ Fixed camera's clipping range bug due to nonconsequent point numbering in the VTK unstructured grid.
 
-- Get all keyword arguments from the manual.
++ Fixed VTK cells numbering.
+
+
++ Now exporter writes INP code with paddings - for code folding.
+
++ Added debug level messages in logging.
+
++ Added support for mutually exclusive arguments in ccx_dom.inp. Example - *MODAL DAMPING.
+
++ Got all keyword arguments from the manual (still not accurately).
+
++ In 'New keyword' dialog propose implementation variants for corresponding keyword arguments.
+
+**TODO: improvements and bugfixes**
+
+- ./examples/beam8b.inp will eat all the memory and crash system.
+
+- Create second step and there will be no children in the treeView until its regeneration.
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
 
@@ -134,11 +151,9 @@ Please, you may:
 
 - Do not remove comments. Include them into apropriate tree item's INP_code.
 
-- There is a glitch in the graphics window. If you click left and drag even just a little, then the model disappears. I guess this is due to inappropriate center of rotation. Recovery is by the Fit view button. Middle-drag and right-drag work ok.
-
 - "I am not quite sure, what the intended workflow is. I'd expect some representation (object tree) of what has been imported and/or has been already defined. The tree in the CAE window seems to be just sort of a menu but not an actual object tree."
 
-**New features:**
+**TODO: new features**
 
 - PDF manual for beginners
 
@@ -162,7 +177,7 @@ Please, you may:
 
 - Open 'New keyword' dialog in a tab, not in separate window. Ctrl+Tab to switch between tabs.
 
-- In 'New keyword' dialog propose implementation variants for corresponding keyword arguments.
+- Describe VTK Keyboard Shortcuts and Controls
 
 <!--
     DistanceBetweenPoints:  

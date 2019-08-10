@@ -48,8 +48,10 @@ class CAE(QtWidgets.QMainWindow):
         parser.add_argument("--model", "-m",
                             help="Mesh .inp file", type=str,
                             # default='')
-                            default='ccx_mesh.inp')
-                            # default='./examples/couette1.inp')
+                            # default='ccx_mesh.inp')
+                            # default='test.inp')
+                            default='../unv2ccx/tests/Baffle-3D.inp')
+                            # default='./examples/beam8b.inp') # TODO
         args = parser.parse_args()
         if len(args.model): # import default ugrid
             msgs = self.IE.importINP(args.model)

@@ -30,6 +30,9 @@ class DOM:
             # Last parent for given padding level
             parent_items = {}
 
+            # List of all existing keywords
+            self.keywords = []
+
             # Analyze keywords hierarchy
             with open('ccx_dom.inp', 'r') as f:
                 for line in f.readlines(): # read the whole file and iterate over line
@@ -48,6 +51,7 @@ class DOM:
                     # Define item for current padding level
                     if line.startswith('*'):
                         item = keyword(line)
+                        self.keywords.append(item)
 
                         # Regenerate all HTML help pages
                         # ccx_dialog.saveHTML(item)
@@ -67,6 +71,8 @@ class DOM:
             self.pathes = []
             self.buildPathes(self.root)
             self.pathes.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
+            # for path in self.pathes:
+            #     logging.debug(str([item.name for item in path]))
 
             logging.info('CalculiX object model generated.')
         except:
@@ -78,7 +84,7 @@ class DOM:
         if not path:
             path = []
         for item in parent.items:
-            if (item.item_type != item_type.ARGUMENT):
+            if item.item_type != item_type.ARGUMENT:
                 self.buildPathes(item, path + [item])
         if len(path):
             if path not in self.pathes:
@@ -92,27 +98,27 @@ class DOM:
         if len(keyword_chain) > 1 and \
             keyword_chain[-1] == keyword_chain[-2]:
             del keyword_chain[-2]
-        # print(keyword_chain)
+        logging.debug('keyword_chain: ' + str(keyword_chain))
 
         # Now compare keyword_chain with all self.pathes
         for path in self.pathes:
 
             # Compare last words
-            if path[-1].name.lower() != keyword_chain[-1]:
+            if path[-1].name.upper() != keyword_chain[-1]:
                 continue
 
             matches = 0
             minimum_j = 0
             for i in range(1, len(path)+1):
                 for j in range(1, len(keyword_chain)+1):
-                    if path[-i].name.lower() == keyword_chain[-j]:
+                    if path[-i].name.upper() == keyword_chain[-j]:
                         matches += 1
                         minimum_j = len(keyword_chain)-j
                         continue
 
             # If we found all words from path in keyword_chain = if needed path is found
             if matches >= self.keyword_counter(path):
-                # print([item.name for item in path], '\n')
+                # logging.debug(str([item.name for item in path]) + '\n')
                 del keyword_chain[:minimum_j]
                 return path
 
@@ -124,6 +130,13 @@ class DOM:
             if item.name.startswith('*'):
                 keyword_counter += 1
         return keyword_counter
+
+
+    # Get keyword from self.keywords by its name
+    def getKeywordByName(self, name, parent=None):
+        for kw in self.keywords:
+            if kw.name.upper() == name:
+                return kw
 
 
 # Enums for 'item_type' variable
@@ -255,9 +268,9 @@ class keyword(item):
         if not ',' in line:
             self.name = line
         else:
-            lines = line.split(',')
-            self.name = lines[0]
-            for arg in lines[1:]:
+            arguments = line.split(',')
+            self.name = arguments[0]
+            for arg in arguments[1:]:
                 self.items.append(argument(arg))
 
 
@@ -272,28 +285,21 @@ class argument(item):
         self.required = False
         if '__required' in line:
             self.required = True
+            line = line.replace('__required', '')
 
         self.items = [] # list of strings
-        left_part = line
-        if '=' in line:
-            # arguments : values
-            left_part, right_part = line.split('=')
-            left_part = left_part + '='
+        self.name = line
 
-            # Define argument's values
-            if '|' in right_part:
-                # if few values are present
-                self.items = [v for v in right_part.split('|')]
-            elif len(right_part):
-                # one value only
-                self.items = [right_part]
+        match = re.search('^([\(\)\w\- \|\=]+)=([\w\- \|]*)$', line)
+        if match:
+            # Argument's name
+            self.name = re.sub('[\(\)]', '', match.group(1)) + '='
 
-        # If '__required' is present - remove it
-        if '__required' in left_part:
-            left_part = left_part.replace('__required', '')
-
-        # Define argument's name
-        self.name = left_part
+            # Argument's values
+            if '|' in match.group(2): # if few values are present
+                self.items = [v for v in match.group(2).split('|')]
+            elif len(match.group(2)): # if one value is present
+                self.items = [match.group(2)]
 
 
 # Keyword implementation - a piece of INP-code for CalculiX input file

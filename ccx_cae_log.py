@@ -25,7 +25,12 @@ class myHandler(logging.Handler):
         msg_text = self.format(LogRecord)
 
         # Message color depending on logging level
-        color = {'INFO':'Black', 'WARNING':'Blue', 'ERROR':'Red'}[LogRecord.levelname]
+        color = {
+                'DEBUG':'Gray',
+                'INFO':'Black',
+                'WARNING':'Blue',
+                'ERROR':'Red',
+            }[LogRecord.levelname]
 
         self.textEdit.append('<p style=\'color:{0}; margin:0px;\'>{1}</p>'.format(color, msg_text))
         self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end

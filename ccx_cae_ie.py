@@ -57,8 +57,8 @@ class IE:
             self.CAE.DOM = ccx_dom.DOM()
 
             # Parse INP and enrich DOM with parsed objects
-            with open(file_name, 'r') as f:
-                self.importer(f.readlines()) # pass whole INP-file to the parser
+            lines = ccx_mesh.read_lines(file_name)
+            self.importer(lines) # pass whole INP-file to the parser
 
             # Add parsed implementations to the tree
             self.CAE.tree.generateTreeView()
@@ -80,16 +80,10 @@ class IE:
         keyword_chain = []
         impl_counter = {}
         for i in range(len(INP_doc)):
-            line = INP_doc[i].rstrip() # cut '\n'
-
-            # Skip comments and empty lines
-            if line.strip() == '':
-                continue
-            elif line.strip().startswith('**'):
-                continue
+            line = INP_doc[i]
 
             # Parse keyword
-            elif line.startswith('*'):
+            if line.startswith('*'):
 
                 # Distinguish 'NODE' and 'NODE PRINT'
                 if ',' in line:
@@ -97,11 +91,11 @@ class IE:
                 else:
                     keyword_name = line
 
-                keyword_name = keyword_name.lower().strip()
                 keyword_chain.append(keyword_name)
 
                 # Find DOM keyword path corresponding to keyword_chain
                 path = self.CAE.DOM.getPath(keyword_chain)
+                logging.debug('Path found: ' + str([item.name for item in path]))
                 if path:
 
                     # Read INP_code for the current keyword 
@@ -149,19 +143,28 @@ class IE:
         # Recursively iterate over DOM items, write INP_code for each implementation
         if file_name:
             with open(file_name, 'w') as f:
-                self.exporter(self.CAE.DOM.root, f)
+                self.exporter(self.CAE.DOM.root, f, 0)
             logging.info('Input written!')
 
 
     # Recursively write implementation's INP_code to output .inp-file
-    def exporter(self, parent, f):
-        for item in parent.items: # for each group/keyword from DOM
+    def exporter(self, parent, f, level):
+
+        # Level is used for padding
+        if parent.item_type == ccx_dom.item_type.IMPLEMENTATION:
+            level += 1
+
+        # For each group/keyword from DOM
+        for item in parent.items:
 
             if item.item_type == ccx_dom.item_type.ARGUMENT:
                 continue
 
             if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
-                for line in item.INP_code:
-                    f.write(line + '\n')
+                # INP_code is stripped
+                f.write(' '*4*level + item.INP_code[0] + '\n')
+                for line in item.INP_code[1:]:
+                    f.write(' '*4*(level+1) + line + '\n')
 
-            self.exporter(item, f) # continue call iterator until dig to implementation
+            # Continue call iterator until dig to implementation
+            self.exporter(item, f, level)

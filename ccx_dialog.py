@@ -11,7 +11,7 @@
 
 
 from PyQt5 import QtWidgets, uic, QtCore, QtWebEngineWidgets
-import sys, os, re, ccx_dom
+import sys, os, re, logging, ccx_dom
 
 
 # Load HTML help into QWebEngineView
@@ -77,7 +77,7 @@ def saveHTML(item):
 class Dialog(QtWidgets.QDialog):
 
 
-    def __init__(self, item):
+    def __init__(self, DOM, item):
 
         # Create dialog window
         super(Dialog, self).__init__()
@@ -98,6 +98,24 @@ class Dialog(QtWidgets.QDialog):
                 if argument.item_type != ccx_dom.item_type.ARGUMENT:
                     continue
 
+                # Remove braces if any
+                argument.name = re.sub('[\(\)]', '', argument.name)
+                
+                # Try to get existing implementations for argument.name
+                keyword_name = '*'+argument.name[:-1] # cut '='
+                keyword = DOM.getKeywordByName(keyword_name)
+                if keyword:
+                    """
+                        For example, add names of *AMPLITUDE implementations,
+                            if argument.name is 'AMPLITUDE'
+                    """
+                    implementations = [item.name for item in keyword.items \
+                        if item.item_type == ccx_dom.item_type.IMPLEMENTATION]
+                    if len(implementations):
+                        logging.debug('{} {}'.format(keyword.name, implementations))
+                        argument.items.extend(implementations)
+                        argument.items.insert(0, '') # first row needed empty
+
                 # Argument's values
                 if len(argument.items):
                     # Predefined values to be chosen
@@ -111,7 +129,7 @@ class Dialog(QtWidgets.QDialog):
                     sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
                     sizePolicy.setHorizontalStretch(1) # expand horizontally
                     argument_values_widget.setSizePolicy(sizePolicy)
-                elif '=' in argument.name:
+                elif argument.name.endswith('='):
                     # Values to be entered
                     argument_values_widget = QtWidgets.QLineEdit()
 
@@ -133,14 +151,15 @@ class Dialog(QtWidgets.QDialog):
                     self.vertical_layout.insertWidget(index, argument_required_widget)
                     index += 1 # first time
 
-                # Argument's name
+                # Mutually exclusive arguments
                 if '|' in argument.name:
-                    # Mutually exclusive arguments
+
                     argument_name_widget = QtWidgets.QComboBox()
                     argument_name_widget.addItems(argument.name.split('|'))
 
                     # Assign event to update textEdit widget
                     argument_name_widget.currentIndexChanged.connect(self.onChange)
+                
                 else:
                     argument_name_widget = QtWidgets.QLabel()
                     argument_name_widget.setText(argument.name)
@@ -182,7 +201,6 @@ class Dialog(QtWidgets.QDialog):
     def onChange(self, event):
         arguments = {} # name:value
         for i, widget in enumerate(self.widgets):
-            # print(i, widget.__class__.__name__, text)
 
             # Get text from widget: argument's name and value
             text = '' # clear text from prev. iteration
@@ -195,6 +213,8 @@ class Dialog(QtWidgets.QDialog):
             elif widget.__class__.__name__ == 'QCheckBox':
                 if widget.isChecked():
                     text = 'QCheckBox'
+
+            # logging.debug('{} {} {}'.format(i, widget.__class__.__name__, text))
 
             value = '' # clear value from prev. iteration
             if not 'Required' in text:
