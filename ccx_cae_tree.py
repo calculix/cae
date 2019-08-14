@@ -2,7 +2,7 @@
 
 """
     © Ihor Mirzov, July 2019.
-    Distributed under GNU General Public License, version 2.
+    Distributed under GNU General Public License v3.0
 
     Methods to work with main window's treeView widget.
     Depends on ccx_cae.CAE.
@@ -173,8 +173,9 @@ class tree:
                         # Single node number
                         _set.append(int(n))
                     except ValueError as err:
-                        # Node set name
-                        _set.extend(self.CAE.mesh.nsets[n].nodes)
+                        # Nodes in node set
+                        _set.extend([self.CAE.VTK.node2point[n.num] \
+                            for n in self.CAE.mesh.nsets[n].nodes])
                 self.CAE.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
             elif ipn in ['*BOUNDARYF', '*MASS FLOW', '*DLOAD', '*DFLUX',
                          '*RADIATE', '*FILM', '*MODAL DAMPING']:

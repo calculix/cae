@@ -3,7 +3,7 @@
 
 """
     © Ihor Mirzov, August 2019.
-    Distributed under GNU General Public License, version 2.
+    Distributed under GNU General Public License v3.0
 
     Convert Calculix element type to VTK
     Keep in mind that CalculiX expands shell elements

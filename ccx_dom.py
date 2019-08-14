@@ -2,7 +2,7 @@
 
 """
     © Ihor Mirzov, July 2019.
-    Distributed under GNU General Public License, version 2.
+    Distributed under GNU General Public License v3.0
 
     Data object model based on CalculiX keywords hierarchy.
     Keywords with all arguments are parsed from ccx_dom.txt.
@@ -10,7 +10,7 @@
 """
 
 
-import copy, re, logging, ccx_dialog
+import re, logging, copy
 from enum import Enum
 
 
@@ -22,7 +22,6 @@ class DOM:
         root            -   group 'ROOT' from ccx_dom.inp
         pathes          -   all possible keywords nesting variants
     """
-
 
     # Read CalculiX keywords hierarchy
     def __init__(self):
@@ -53,9 +52,6 @@ class DOM:
                         item = keyword(line)
                         self.keywords.append(item)
 
-                        # Regenerate all HTML help pages
-                        # ccx_dialog.saveHTML(item)
-
                     elif line.endswith('__group'):
                         item = group(line)
 
@@ -74,6 +70,11 @@ class DOM:
             # for path in self.pathes:
             #     logging.debug(str([item.name for item in path]))
 
+            # # Regenerate all HTML help pages
+            # for item in self.keywords:
+            #     import ccx_dialog
+            #     ccx_dialog.saveHTML(item)
+
             logging.info('CalculiX object model generated.')
         except:
             logging.error('Can\'t generate keywords hierarchy!')
@@ -82,7 +83,7 @@ class DOM:
     # Recursively builds all possible pathes to nested keywords in DOM
     def buildPathes(self, parent, path=None):
         if not path:
-            path = []
+            path = [] # list of groups, keywords and implementations
         for item in parent.items:
             if item.item_type != item_type.ARGUMENT:
                 self.buildPathes(item, path + [item])
@@ -91,13 +92,14 @@ class DOM:
                 self.pathes.append(path)
 
 
-    # Get nesting path for each of the parsed INP_doc keyword
+    # Get nesting path for each of the parsed keyword
     def getPath(self, keyword_chain):
 
-        # Modify keyword_chain to remove duplicated words in the end
+        # Duplicated words in the end of keyword_chain play no role
         if len(keyword_chain) > 1 and \
             keyword_chain[-1] == keyword_chain[-2]:
             del keyword_chain[-2]
+        logging.debug('')
         logging.debug('keyword_chain: ' + str(keyword_chain))
 
         # Now compare keyword_chain with all self.pathes
@@ -186,13 +188,15 @@ class item:
 
 
     # Get list of items - non implementations
-    def getItems(self):
-        imps = []
+    def copyItems(self):
+        items = []
         for item in self.items:
             if item.item_type == item_type.GROUP or \
                 item.item_type == item_type.KEYWORD:
-                imps.append(item)
-        return imps
+                item = copy.copy(item)
+                item.items = item.copyItems()
+                items.append(item)
+        return items
 
 
     # Set item's parent
@@ -307,20 +311,19 @@ class implementation(item):
 
     def __init__(self, keyword, INP_code, name=None):
         self.item_type = item_type.IMPLEMENTATION
-        self.items = copy.deepcopy(keyword.getItems())
+        self.items = keyword.copyItems() # newer use deepcopy!
         self.parent = keyword
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
-        index = len(keyword.getImplementations())
+        index = len(self.parent.getImplementations())
         if name:
             self.name = name # it will be used in edit Dialog
-            # index = int(name.split('-')[1]) - 1
         else:
-            try:
-                match = re.search('(NAME|ELSET|NSET)\s*=\s*(\w*)', INP_code[0].upper())
+            match = re.search('(NAME|ELSET|NSET)\s*=\s*(\w*)', INP_code[0].upper())
+            if match:
                 self.name = match.group(2)
-            except:
-                self.name = keyword.name[1:] + '-' + str(index + 1)
+            else:
+                self.name = self.parent.name[1:] + '-' + str(index + 1)
 
         self.INP_code = INP_code # INP-code for current implementation - list of strings
-        keyword.items.insert(index, self) # append implementation to keyword's items
+        self.parent.items.insert(index, self) # append implementation to keyword's items

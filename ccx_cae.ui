@@ -58,7 +58,7 @@
        <widget class="QTreeView" name="treeView">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>1</horstretch>
+          <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
@@ -90,7 +90,7 @@
        <widget class="QFrame" name="frame">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>1</horstretch>
+          <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
@@ -105,8 +105,8 @@
           <rect>
            <x>29</x>
            <y>29</y>
-           <width>91</width>
-           <height>141</height>
+           <width>231</width>
+           <height>321</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="vl">

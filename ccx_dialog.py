@@ -2,7 +2,7 @@
 
 """
     © Ihor Mirzov, July 2019.
-    Distributed under GNU General Public License, version 2.
+    Distributed under GNU General Public License v3.0
 
     Dialog window to edit CalculiX keyword.
     Called via double click on keyword in the treeView.

@@ -3,7 +3,7 @@
 
 """
     © Ihor Mirzov, July 2019.
-    Distributed under GNU General Public License, version 2.
+    Distributed under GNU General Public License v3.0
 
     Parses finite element mesh from the CalculiX .inp-file.
     Reads nodes coordinates, elements composition, node and element sets, surfaces.
@@ -121,7 +121,7 @@ class Parse:
 
             if keyword_name == '*NODE':
                 nodes = []
-                match = re.search('NSET\s*=\s*(\w*)', lines[i]) # if all nodes are united in a set
+                match = re.search('NSET\s*=\s*(\w*)', lines[i])
 
                 while i+1<len(lines) and not lines[i+1].startswith('*'): # read the whole block and return
                     a = lines[i+1].replace(',', ' ').split() # to avoid redundant commas in the end of line
@@ -156,10 +156,10 @@ class Parse:
 
                     i += 1
  
-                # If there is node set name for all nodes
+                # If all nodes are named as a set
                 if match:
                     name = match.group(1)
-                    self.nsets[name] = NSET(name, nodes)
+                    self.create_or_extend_nset(name, nodes)
 
                 # do not return to parse few *NODE sections
 
@@ -201,17 +201,16 @@ class Parse:
                             msg_text = 'NSET {} - there is no node {} in the mesh.'.format(name, n)
                             logging.warning(msg_text)
 
-                # Create node set
-                node_set = NSET(name, nodes)
-
-                # Check duplicates
-                if name in self.nsets:
-                    msg_text = 'Duplicated nset name {}.'.format(name)
-                    logging.warning(msg_text)
-                else:
-                    self.nsets[name] = node_set
-
+                self.create_or_extend_nset(name, nodes)
                 # do not return to parse few *NSET sections
+
+
+    def create_or_extend_nset(self, name, nodes):
+        if name in self.nsets: # check duplicates
+            self.nsets[name].nodes.extend(nodes) # append to existing node set
+            logging.warning('Duplicated nset name {}!'.format(name))
+        else:
+            self.nsets[name] = NSET(name, nodes) # create new node set
 
 
     # Parse elements composition - *ELEMENT keyword
@@ -262,10 +261,10 @@ class Parse:
 
                     i += 1
  
-                # If there is element set name for all elements
+                # If all elements are named as a set
                 if match:
                     name = match.group(1)
-                    self.elsets[name] = ELSET(name, elements)
+                    self.create_or_extend_elset(name, elements)
 
                 # do not return to parse few *ELEMENT sections
 
@@ -307,15 +306,16 @@ class Parse:
                             msg_text = 'ELSET {} - there is no element {} in the mesh.'.format(name, e)
                             logging.warning(msg_text)
 
-                # Create element set
-                element_set = ELSET(name, elements)
+                self.create_or_extend_elset(name, elements)
+                # do not return to parse few *ELSET sections
 
-                # Check duplicates
-                if name in self.elsets:
-                    msg_text = 'Duplicated elset name {}.'.format(name)
-                    logging.warning(msg_text)
-                else:
-                    self.elsets[name] = element_set
+
+    def create_or_extend_elset(self, name, elements):
+        if name in self.elsets: # check duplicates
+            self.elsets[name].elements.extend(elements) # append to existing element set
+            logging.warning('Duplicated elset name {}!'.format(name))
+        else:
+            self.elsets[name] = ELSET(name, elements) # create new node set
 
 
     # Parse surfaces - *SURFACE keyword

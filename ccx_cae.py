@@ -3,9 +3,11 @@
 
 """
     © Ihor Mirzov, July 2019.
-    Distributed under GNU General Public License, version 2.
+    Distributed under GNU General Public License v3.0
 
-    CalculiX CAE - main window
+    CalculiX CAE - main window.
+    How to run:
+        python3 ccx_cae.py ccx_mesh.inp
 """
 
 
@@ -45,16 +47,14 @@ class CAE(QtWidgets.QMainWindow):
 
         # Default start model could be chosen with command line parameter
         parser = argparse.ArgumentParser()
-        parser.add_argument("--model", "-m",
-                            help="Mesh .inp file", type=str,
+        parser.add_argument('-inp', type=str,
+                            help='your .inp file',
                             # default='')
                             # default='ccx_mesh.inp')
-                            # default='test.inp')
-                            default='../unv2ccx/tests/Baffle-3D.inp')
-                            # default='./examples/beam8b.inp') # TODO
+                            # default='test.inp') # TODO shorten path for repeating blocks
+                            default='./examples/beam8b.inp')
         args = parser.parse_args()
-        if len(args.model): # import default ugrid
-            msgs = self.IE.importINP(args.model)
+        msgs = self.IE.importINP(args.inp) # import default ugrid
 
         # Actions
         self.actions()

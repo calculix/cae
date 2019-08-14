@@ -6,7 +6,7 @@
 
     Test for all CalculiX examples.
     Run with command:
-        python3 test.py > test.log
+        python3 tests.py > tests.log
 """
 
 import os, sys, time, logging

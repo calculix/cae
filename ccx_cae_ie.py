@@ -3,7 +3,7 @@
 
 """
     © Ihor Mirzov, July 2019.
-    Distributed under GNU General Public License, version 2.
+    Distributed under GNU General Public License v3.0
 
     INP importer:
         Enrich DOM with implementations from parsed file.
@@ -91,47 +91,58 @@ class IE:
                 else:
                     keyword_name = line
 
-                keyword_chain.append(keyword_name)
-
                 # Find DOM keyword path corresponding to keyword_chain
+                keyword_chain.append(keyword_name)
                 path = self.CAE.DOM.getPath(keyword_chain)
                 logging.debug('Path found: ' + str([item.name for item in path]))
-                if path:
 
+                if path:
                     # Read INP_code for the current keyword 
-                    INP_code = [line] # here line is only r-stripped
+                    INP_code = [line] # line is stripped in ccx_mesh
                     while i+1 < len(INP_doc) and \
-                        not INP_doc[i+1].lstrip().startswith('*'): # there will be no comments
-                        INP_code.append(INP_doc[i+1].rstrip()) # cut '\n'
+                        not INP_doc[i+1].startswith('*'): # here will be no comments - they are removed in ccx_mesh
+                        INP_code.append(INP_doc[i+1])
                         i += 1
 
                     # Create keyword implementations
                     impl = None
                     path_as_string = '' # string representation of 'path' accounting for implementations
                     for j in range(len(path)):
+                        # Choose where to create implementation
                         if impl:
+                            # Implementation will be created inside another implementation
                             item = impl.getItemByName(path[j].name)
                         else:
-                            item = path[j] # keyword or group
+                            # Implementation will be created inside keyword or group
+                            item = path[j]
+                        
                         path_as_string += '/' + item.name
                         if j == len(path) - 1: # last item is always keyword
-                            impl = ccx_dom.implementation(item, INP_code) # create, for example, MATERIAL-1
+                            # Create implementation (for example, MATERIAL-1)
+                            impl = ccx_dom.implementation(item, INP_code)
+                            logging.info(impl.name)
+                            logging.debug('1')
                         elif item.item_type == ccx_dom.item_type.KEYWORD:
-                            # If we are here, then for this keyword implementation was created previously
-                            counter = impl_counter[path_as_string]-1
+                            # If for this keyword implementation was created previously
+                            counter = impl_counter[path_as_string] - 1
                             impl = item.items[counter] # first implementation, for example, STEP-1
                             path_as_string += '/' + impl.name
+                            logging.debug('2')
                         else:
                             impl = item
+                            logging.debug('3')
 
                     # Count implementation
                     if path_as_string in impl_counter:
+                        # If current keyword already has implementations
                         impl_counter[path_as_string] += 1
                     else:
+                        # If first implementation was created for current keyword 
                         impl_counter[path_as_string] = 1
 
                 else:
-                    logging.info('Wrong keyword {}.'.format(keyword_name))
+                    logging.warning('Wrong keyword {}.'.format(keyword_name))
+
 
 
     # Menu File -> Write INP file

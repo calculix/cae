@@ -1,6 +1,6 @@
 © Ihor Mirzov, August 2019.
 
-Distributed under GNU General Public License, version 2.
+Distributed under GNU General Public License v3.0
 
 <br/><br/>
 
@@ -22,7 +22,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Import/export of .inp-files - one format for all needs. Program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by ccx.
 
-- Solid mesh parser - [ccx_mesh.py](ccx_mesh.py) - tested on the all example CacluliX models - with ability to highlight surfaces, node and element sets after mesh import. See [test.log](test.log).
+- Solid mesh parser - [ccx_mesh.py](ccx_mesh.py) - tested on the all example CacluliX models - with ability to highlight surfaces, node and element sets after mesh import. See [tests.log](tests.log).
 
 - "New keyword" dialog shows apropriate chapter of the official HTML documentation. The dialog is generated on the fly reading keyword's attributes from [ccx_dom.inp](ccx_dom.inp).
 
@@ -72,17 +72,11 @@ Despite of your operating system it is recommended to use the source code - simp
     in Linux:      ./ccx_cae
     in Windows:    ccx_cae.exe
 
-Pass name of your INP file as an argument to open it at start. Arguments '--model' and '-m' are the same:
+Pass name of your INP file as an argument to open it at start:
 
-    crossplatform:
-        python3 ccx_cae.py --model=your_model.inp
-        python3 ccx_cae.py -m=your_model.inp
-    in Linux:
-        ./ccx_cae --model=your_model.inp
-        ./ccx_cae -m=your_model.inp
-    in Windows:
-        ./ccx_cae.exe --model=your_model.inp
-        ./ccx_cae.exe -m=your_model.inp
+    crossplatform: python3 ccx_cae.py -inp=your_model.inp
+    in Linux: ./ccx_cae -inp=your_model.inp
+    in Windows: ccx_cae.exe -inp=your_model.inp
 
 Create release binaries with command:
 
@@ -126,7 +120,6 @@ Please, you may:
 
 + Fixed VTK cells numbering.
 
-
 + Now exporter writes INP code with paddings - for code folding.
 
 + Added debug level messages in logging.
@@ -138,8 +131,6 @@ Please, you may:
 + In 'New keyword' dialog propose implementation variants for corresponding keyword arguments.
 
 **TODO: improvements and bugfixes**
-
-- ./examples/beam8b.inp will eat all the memory and crash system.
 
 - Create second step and there will be no children in the treeView until its regeneration.
 
@@ -161,7 +152,7 @@ Please, you may:
 
 - Python code (*PYTHON keyword) in INP_code for step repetition and other kind of model generation.
 
-- Save display options.
+- Save display options + path to CCX and CGX.
 
 - Run job from CAE. Settings for path to *ccx* command.
 
@@ -175,9 +166,11 @@ Please, you may:
 
 - Interactor to select nodes and elements for model construction.
 
-- Open 'New keyword' dialog in a tab, not in separate window. Ctrl+Tab to switch between tabs.
+- Open 'New keyword' dialog in QTabWidget, not in separate window. Ctrl+Tab to switch between tabs.
 
-- Describe VTK Keyboard Shortcuts and Controls
+- Menu Help: VTK Keyboard Shortcuts and Controls.
+
+- Embed CGX into additional QTabWidget.
 
 <!--
     DistanceBetweenPoints:  
