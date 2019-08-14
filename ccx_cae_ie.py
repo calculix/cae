@@ -2,7 +2,7 @@
 
 
 """
-    © Ihor Mirzov, July 2019.
+    © Ihor Mirzov, August 2019
     Distributed under GNU General Public License v3.0
 
     INP importer:
@@ -18,7 +18,7 @@
 """
 
 
-from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QFileDialog
 import vtk, os, logging
 import ccx_dom, ccx_mesh, ccx_vtk
 
@@ -38,7 +38,7 @@ class IE:
     def importINP(self, file_name=None):
 
         if not file_name:
-            file_name = QtWidgets.QFileDialog.getOpenFileName(None, \
+            file_name = QFileDialog.getOpenFileName(None, \
                 'Import INP file', '', 'Input files (*.inp);;All Files (*)')[0]
 
         if file_name:
@@ -148,7 +148,7 @@ class IE:
     # Menu File -> Write INP file
     def exportINP(self):
 
-        file_name = QtWidgets.QFileDialog.getSaveFileName(None, \
+        file_name = QFileDialog.getSaveFileName(None, \
             'Write INP file', '', 'Input files (*.inp);;All Files (*)')[0]
 
         # Recursively iterate over DOM items, write INP_code for each implementation

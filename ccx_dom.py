@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, July 2019.
+    © Ihor Mirzov, August 2019
     Distributed under GNU General Public License v3.0
 
     Data object model based on CalculiX keywords hierarchy.
@@ -11,6 +11,7 @@
 
 
 import re, logging, copy
+import ccx_cae
 from enum import Enum
 
 
@@ -59,7 +60,7 @@ class DOM:
                     parent_items[level] = item
                     if level > 0:
                         parent_items[level-1].addItem(item) # for example, add keyword to group
-                        item.setParent(parent_items[level-1]) # set item's parent
+                        item.parent = parent_items[level-1] # set item's parent
 
             self.root = parent_items[0] # group 'Model'
 
@@ -152,11 +153,14 @@ class item_type(Enum):
 # Needed for inheritance by further classes
 class item:
 
+    # Read application's global settings
+    settings = ccx_cae.Settings()
+
     item_type = ''      # item's type: group/keyword/argument/implementation
     name = ''           # name of item, string
     items = []          # list of children
     parent = None       # item's parent item
-    expanded = True     # flag for treeView
+    expanded = settings.expanded
 
 
     # Recursive function to count keyword implementations in item's descendants
@@ -197,16 +201,6 @@ class item:
                 item.items = item.copyItems()
                 items.append(item)
         return items
-
-
-    # Set item's parent
-    def setParent(self, item):
-        self.parent = item
-
-
-    # Get item's parent
-    def getParent(self):
-        return self.parent
 
 
     # Print all the branch DOM elements starting from current item

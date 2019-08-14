@@ -2,7 +2,7 @@
 
 
 """
-    © Ihor Mirzov, July 2019.
+    © Ihor Mirzov, August 2019
     Distributed under GNU General Public License v3.0
 
     CalculiX CAE - main window.
@@ -14,9 +14,42 @@
 import sys, os, argparse, logging, shutil
 os.environ['PATH'] += os.path.dirname(sys.executable) # Pyinstaller bug in Windows
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
-import ccx_mesh, ccx_cae_tree, ccx_vtk, ccx_dom, ccx_cae_ie, ccx_cae_log
+import ccx_cae_tree, ccx_vtk, ccx_dom, ccx_cae_ie
 
 
+# Application's global settings
+class Settings:
+    exec(open('Settings.env').read())
+
+
+# Logging handler
+class myLoggingHandler(logging.Handler):
+
+
+    # Initialization
+    def __init__(self, CAE):
+        super().__init__() # create handler
+        self.textEdit = CAE.textEdit
+        self.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
+
+
+    # Sends log messages to CAE's textEdit widget
+    def emit(self, LogRecord):
+        msg_text = self.format(LogRecord)
+
+        # Message color depending on logging level
+        color = {
+                'DEBUG':'Gray',
+                'INFO':'Black',
+                'WARNING':'Blue',
+                'ERROR':'Red',
+            }[LogRecord.levelname]
+
+        self.textEdit.append('<p style=\'color:{0}; margin:0px;\'>{1}</p>'.format(color, msg_text))
+        self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+
+
+# Main window
 class CAE(QtWidgets.QMainWindow):
 
 
@@ -29,9 +62,12 @@ class CAE(QtWidgets.QMainWindow):
         # Load form
         uic.loadUi('ccx_cae.ui', self)
 
+        # Read application's global settings
+        self.settings = Settings()
+
         # Configure logging
-        logging.getLogger().addHandler(ccx_cae_log.myHandler(self))
-        logging.getLogger().setLevel(logging.INFO) # control the logging level
+        logging.getLogger().addHandler(myLoggingHandler(self))
+        logging.getLogger().setLevel(self.settings.logging_level)
 
         # Create VTK widget
         self.VTK = ccx_vtk.VTK() # create everything for model visualization
@@ -47,12 +83,8 @@ class CAE(QtWidgets.QMainWindow):
 
         # Default start model could be chosen with command line parameter
         parser = argparse.ArgumentParser()
-        parser.add_argument('-inp', type=str,
-                            help='your .inp file',
-                            # default='')
-                            # default='ccx_mesh.inp')
-                            # default='test.inp') # TODO shorten path for repeating blocks
-                            default='./examples/beam8b.inp')
+        parser.add_argument('-inp', type=str, help='your .inp file',
+                            default=self.settings.default_start_model)
         args = parser.parse_args()
         msgs = self.IE.importINP(args.inp) # import default ugrid
 
@@ -89,6 +121,7 @@ class CAE(QtWidgets.QMainWindow):
             self.tree.actionDeleteImplementation()
 
 
+# Here application starts
 if __name__ == '__main__':
 
     # Clean cached files
@@ -96,6 +129,9 @@ if __name__ == '__main__':
         shutil.rmtree('__pycache__') # works in Linux as in Windows
 
     app = QtWidgets.QApplication(sys.argv)
-    window = CAE()
-    window.show() # window.showMaximized() or window.show()
+    window = CAE() # create main window
+    if window.settings.showMaximized:
+        window.showMaximized()
+    else:
+        window.show()
     sys.exit(app.exec_())

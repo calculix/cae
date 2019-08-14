@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, July 2019.
+    © Ihor Mirzov, August 2019
     Distributed under GNU General Public License v3.0
 
     Dialog window to edit CalculiX keyword.
@@ -102,7 +102,7 @@ class Dialog(QtWidgets.QDialog):
                 argument.name = re.sub('[\(\)]', '', argument.name)
                 
                 # Try to get existing implementations for argument.name
-                keyword_name = '*'+argument.name[:-1] # cut '='
+                keyword_name = '*' + argument.name[:-1] # cut '='
                 keyword = DOM.getKeywordByName(keyword_name)
                 if keyword:
                     """

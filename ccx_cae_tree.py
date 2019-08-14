@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, July 2019.
+    © Ihor Mirzov, August 2019
     Distributed under GNU General Public License v3.0
 
     Methods to work with main window's treeView widget.
@@ -19,8 +19,8 @@ class tree:
     def __init__(self, CAE):
         self.CAE = CAE
 
-        # Hide / show tree keywords without implementations 
-        self.show_empty = True # start with show all tree items
+        # Read application's global settings
+        self.settings = CAE.settings
 
         # Now generate treeView items
         self.model = QtGui.QStandardItemModel()
@@ -55,7 +55,7 @@ class tree:
                 continue
 
             # Check if there are keywords with implementations
-            if self.show_empty \
+            if self.settings.show_empty_keywords \
                     or item.countImplementations() \
                     or item.item_type == ccx_dom.item_type.IMPLEMENTATION:
 
@@ -215,7 +215,7 @@ class tree:
         except:
             pass
 
-        if self.show_empty:
+        if self.settings.show_empty_keywords:
             title = 'Hide empty containers'
         else:
             title = 'Show empty containers'
@@ -236,7 +236,7 @@ class tree:
 
     # Show/Hide empty treeView items
     def actionShowHide(self):
-        self.show_empty = not(self.show_empty)
+        self.settings.show_empty_keywords = not(self.settings.show_empty_keywords)
         self.generateTreeView()
 
 
@@ -273,7 +273,7 @@ class tree:
                 def hideParent(branch):
 
                     # To hide current item/brunch it should be empty 'keyword' or 'group'
-                    if not self.show_empty \
+                    if not self.show_empty_keywords \
                         and not branch.hasChildren() \
                         and branch.data().item_type != ccx_dom.item_type.IMPLEMENTATION:
 

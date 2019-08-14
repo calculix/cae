@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, July 2019.
+    © Ihor Mirzov, August 2019
     Distributed under GNU General Public License v3.0
 
     Methods to work with VTK widget.
 """
 
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
-import vtk, logging, frd2vtk
+import vtk, logging, frd2vtk, ccx_cae
 
 
 class VTK:
@@ -17,6 +17,9 @@ class VTK:
     # Create empty VTK widget: called once during startup
     def __init__(self):
         self.bounds = [-1,1]*3
+
+        # Read application's global settings
+        self.settings = ccx_cae.Settings()
 
         # Create the graphics structure
         self.widget = QVTKRenderWindowInteractor()
@@ -48,24 +51,25 @@ class VTK:
         self.renderer.SetBackground(1, 1, 1) # white color
 
         # Add orientation axes
-        self.axes = vtk.vtkAxesActor()
-        self.axes.SetShaftTypeToCylinder()
-        self.axes.SetXAxisLabelText('X')
-        self.axes.SetYAxisLabelText('Y')
-        self.axes.SetZAxisLabelText('Z')
-        self.axes.SetTotalLength(1.0, 1.0, 1.0)
-        self.axes.SetCylinderRadius(1.0 * self.axes.GetCylinderRadius())
-        tprop = vtk.vtkTextProperty()
-        tprop.SetColor(0, 0, 0) # font color
-        self.axes.GetXAxisCaptionActor2D().SetCaptionTextProperty(tprop)
-        self.axes.GetYAxisCaptionActor2D().SetCaptionTextProperty(tprop)
-        self.axes.GetZAxisCaptionActor2D().SetCaptionTextProperty(tprop)
-        self.omw = vtk.vtkOrientationMarkerWidget()
-        self.omw.SetOrientationMarker(self.axes)
-        self.omw.SetViewport(0, 0, 0.15, 0.15) # position lower left in the viewport
-        self.omw.SetInteractor(self.interactor)
-        self.omw.EnabledOn()
-        self.omw.InteractiveOn()
+        if self.settings.vtk_show_axes:
+            self.axes = vtk.vtkAxesActor()
+            self.axes.SetShaftTypeToCylinder()
+            self.axes.SetXAxisLabelText('X')
+            self.axes.SetYAxisLabelText('Y')
+            self.axes.SetZAxisLabelText('Z')
+            self.axes.SetTotalLength(1.0, 1.0, 1.0)
+            self.axes.SetCylinderRadius(1.0 * self.axes.GetCylinderRadius())
+            tprop = vtk.vtkTextProperty()
+            tprop.SetColor(0, 0, 0) # font color
+            self.axes.GetXAxisCaptionActor2D().SetCaptionTextProperty(tprop)
+            self.axes.GetYAxisCaptionActor2D().SetCaptionTextProperty(tprop)
+            self.axes.GetZAxisCaptionActor2D().SetCaptionTextProperty(tprop)
+            self.omw = vtk.vtkOrientationMarkerWidget()
+            self.omw.SetOrientationMarker(self.axes)
+            self.omw.SetViewport(0, 0, 0.15, 0.15) # position lower left in the viewport
+            self.omw.SetInteractor(self.interactor)
+            self.omw.EnabledOn()
+            self.omw.InteractiveOn()
 
         # Render mesh
         self.window.Render()
@@ -73,9 +77,19 @@ class VTK:
         # Start the event loop
         self.interactor.Start()
 
-        # Apply some action functions by default
-        self.actionViewParallel()
-        self.actionViewSurfaceWithEdges()
+        # Parallel or perspective view
+        if self.settings.vtk_parallel_view:
+            self.actionViewParallel()
+        else:
+            self.actionViewPerspective()
+
+        # View
+        if self.settings.vtk_view == 'Wireframe':
+            self.actionViewWireframe()
+        elif self.settings.vtk_view == 'Surface':
+            self.actionViewSurface()
+        else:
+            self.actionViewSurfaceWithEdges()
 
 
     # Generate VTK unstructured grid from ccx_mesh object

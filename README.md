@@ -1,5 +1,4 @@
-© Ihor Mirzov, August 2019.
-
+© Ihor Mirzov, August 2019  
 Distributed under GNU General Public License v3.0
 
 <br/><br/>
@@ -8,7 +7,7 @@ Distributed under GNU General Public License v3.0
 
 # CalculiX CAE
 
-GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free and open source. Program is based on CalculiX 2.15 keywords hierarchy. Written in Python3, utilizes PyQt5 and VTK.
+GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free and open source. Program is based on CalculiX keywords hierarchy. Written in Python3, utilizes PyQt5 and VTK.
 
 It is implied that you have already created geometry and generated mesh in some other software like [Salome-platform](https://www.salome-platform.org/). CacluliX CAE is designed to guide you through the keywords creation sequence and is aimed to help you reach correct input file with no mistakes.
 
@@ -22,9 +21,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Import/export of .inp-files - one format for all needs. Program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by ccx.
 
-- Solid mesh parser - [ccx_mesh.py](ccx_mesh.py) - tested on the all example CacluliX models - with ability to highlight surfaces, node and element sets after mesh import.
-
-<!-- See [tests.log](tests.log). -->
+- Solid mesh parser - [ccx_mesh.py](ccx_mesh.py) - tested on the all example CacluliX models - with ability to highlight surfaces, node and element sets after mesh import. See [tests.log](tests.log).
 
 - "New keyword" dialog shows apropriate chapter of the official HTML documentation. The dialog is generated on the fly reading keyword's attributes from [ccx_dom.inp](ccx_dom.inp).
 
@@ -133,8 +130,6 @@ Please, you may:
 + In 'New keyword' dialog propose implementation variants for corresponding keyword arguments.
 
 **TODO: improvements and bugfixes**
-
-- Create second step and there will be no children in the treeView until its regeneration.
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
 
