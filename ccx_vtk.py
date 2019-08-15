@@ -134,11 +134,15 @@ class VTK:
         self.camera.SetParallelProjection(True)
         self.window.Render() # render updated view
         # self.log()
+        self.settings.vtk_parallel_view = True
+        self.settings.save()
 
     def actionViewPerspective(self):
         self.camera.SetParallelProjection(False)
         self.window.Render() # render updated view
         # self.log()
+        self.settings.vtk_parallel_view = False
+        self.settings.save()
 
     def actionViewFront(self):
         self.camera.SetPosition(0, 0, 1) # camera's positions
@@ -190,16 +194,22 @@ class VTK:
     def actionViewWireframe(self):
         self.actor.GetProperty().SetRepresentationToWireframe()
         self.window.Render() # render updated view
+        self.settings.vtk_view = 'Wireframe'
+        self.settings.save()
 
     def actionViewSurface(self):
         self.actor.GetProperty().EdgeVisibilityOff()
         self.actor.GetProperty().SetRepresentationToSurface()
         self.window.Render() # render updated view
+        self.settings.vtk_view = 'Surface'
+        self.settings.save()
 
     def actionViewSurfaceWithEdges(self):
         self.actor.GetProperty().EdgeVisibilityOn()
         self.actor.GetProperty().SetRepresentationToSurface()
         self.window.Render() # render updated view
+        self.settings.vtk_view = 'WithEdges'
+        self.settings.save()
 
     # Some logs for debugging
     def log(self):

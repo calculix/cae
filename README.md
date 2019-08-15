@@ -119,6 +119,7 @@ Please, you may:
 
 + Fixed VTK cells numbering.
 
+
 + Now exporter writes INP code with paddings - for code folding.
 
 + Added debug level messages in logging.
@@ -128,6 +129,8 @@ Please, you may:
 + Got all keyword arguments from the manual (still not accurately).
 
 + In 'New keyword' dialog propose implementation variants for corresponding keyword arguments.
+
++ Settings with autosave + path to CCX and CGX.
 
 **TODO: improvements and bugfixes**
 
@@ -148,8 +151,6 @@ Please, you may:
 - Visualize BC's, constraints and loads in VTK.
 
 - Python code (*PYTHON keyword) in INP_code for step repetition and other kind of model generation.
-
-- Save display options + path to CCX and CGX.
 
 - Run job from CAE. Settings for path to *ccx* command.
 

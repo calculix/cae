@@ -237,14 +237,19 @@ class tree:
     # Show/Hide empty treeView items
     def actionShowHide(self):
         self.settings.show_empty_keywords = not(self.settings.show_empty_keywords)
+        self.settings.save() # save 'show_empty_keywords' value in settings
         self.generateTreeView()
 
 
     # Expand or collapse all treeView items
     def actionCollapseAll(self):
         self.CAE.treeView.collapseAll()
+        self.settings.expanded = False
+        self.settings.save()
     def actionExpandAll(self):
         self.CAE.treeView.expandAll()
+        self.settings.expanded = True
+        self.settings.save()
 
 
     # Delete keyword's implementation from DOM
