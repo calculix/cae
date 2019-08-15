@@ -60,6 +60,9 @@ class IE:
             lines = ccx_mesh.read_lines(file_name)
             self.importer(lines) # pass whole INP-file to the parser
 
+            # Rename job before tree regeneration
+            self.CAE.job.rename(file_name)
+
             # Add parsed implementations to the tree
             self.CAE.tree.generateTreeView()
 
@@ -73,6 +76,7 @@ class IE:
             if ugrid:
                 self.CAE.VTK.mapper.SetInputData(ugrid)
                 self.CAE.VTK.actionViewIso() # iso view after import
+
 
 
     # Enrich DOM with keywords from INP_doc
@@ -147,15 +151,20 @@ class IE:
 
     # Menu File -> Write INP file
     def exportINP(self):
-
         file_name = QFileDialog.getSaveFileName(None, \
-            'Write INP file', '', 'Input files (*.inp);;All Files (*)')[0]
+            'Write INP file', self.CAE.job.name, 'Input files (*.inp);;All Files (*)')[0]
 
         # Recursively iterate over DOM items, write INP_code for each implementation
         if file_name:
             with open(file_name, 'w') as f:
                 self.exporter(self.CAE.DOM.root, f, 0)
             logging.info('Input written!')
+
+            # Rename job if new INP-file name was selected
+            self.CAE.job.rename(file_name)
+
+            # Update tree to account for new job name
+            self.CAE.tree.generateTreeView()
 
 
     # Recursively write implementation's INP_code to output .inp-file

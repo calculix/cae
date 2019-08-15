@@ -40,7 +40,10 @@
 *SURFACE, NAME=HEX_6
     1, S6
 *SURFACE, TYPE=NODE, NAME=HEX_node_surf
-    5, 6, 7, 8
+    5,
+    6,
+    7,
+    8
 
 
 
@@ -72,7 +75,9 @@
 *SURFACE, NAME=TET_4
     2, S4
 *SURFACE, TYPE=NODE, NAME=TET_node_surf
-    21, 22, 23
+    21,
+    22,
+    23
 
 
 
@@ -111,4 +116,6 @@
 *SURFACE, NAME=WEDGE_5
     3, S5
 *SURFACE, TYPE=NODE, NAME=WEDGE_node_surf
-    31, 32, 33
+    31,
+    32,
+    33

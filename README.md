@@ -132,6 +132,8 @@ Please, you may:
 
 + Settings with autosave + path to CCX and CGX.
 
++ Run job from CAE.
+
 **TODO: improvements and bugfixes**
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
@@ -142,17 +144,15 @@ Please, you may:
 
 - Do not remove comments. Include them into apropriate tree item's INP_code.
 
-- "I am not quite sure, what the intended workflow is. I'd expect some representation (object tree) of what has been imported and/or has been already defined. The tree in the CAE window seems to be just sort of a menu but not an actual object tree."
+- More materials in Materials library.
 
 **TODO: new features**
 
-- PDF manual for beginners
+- PDF manual for beginners: "I am not quite sure, what the intended workflow is. I'd expect some representation (object tree) of what has been imported and/or has been already defined. The tree in the CAE window seems to be just sort of a menu but not an actual object tree."
 
 - Visualize BC's, constraints and loads in VTK.
 
 - Python code (*PYTHON keyword) in INP_code for step repetition and other kind of model generation.
-
-- Run job from CAE. Settings for path to *ccx* command.
 
 - Import certain keyword with descendants (tree branch) from INP-file.
 

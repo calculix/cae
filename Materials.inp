@@ -1,3 +1,5 @@
+** Materials library
+
 *MATERIAL,NAME=Structural_Steel_A36
     *ELASTIC
         2.00E+011, 0.28

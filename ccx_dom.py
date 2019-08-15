@@ -195,10 +195,12 @@ class item:
     def copyItems(self):
         items = []
         for item in self.items:
-            if item.item_type == item_type.GROUP or \
-                item.item_type == item_type.KEYWORD:
+            if item.item_type in [item_type.GROUP, item_type.KEYWORD]:
                 item = copy.copy(item)
                 item.items = item.copyItems()
+                items.append(item)
+            if item.item_type == item_type.ARGUMENT:
+                item = copy.copy(item)
                 items.append(item)
         return items
 

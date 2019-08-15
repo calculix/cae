@@ -74,6 +74,50 @@ class myLoggingHandler(logging.Handler):
         self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
 
 
+# Job to submit from CAE
+class Job:
+
+
+    # Create job object
+    def __init__(self, CAE, path):
+        self.CAE = CAE
+        self.name = self.CAE.settings.job_prefix
+        self.path = '.'
+        self.rename(path)
+
+
+    # Rename job
+    def rename(self, path):
+
+        # Full path
+        self.path = os.path.abspath(path)
+
+        # Job name with prefix
+        self.name = os.path.basename(path)
+        if not self.name.startswith(self.CAE.settings.job_prefix):
+            self.name = self.CAE.settings.job_prefix + self.name
+
+        # Full path to job with prefix
+        self.path = os.path.join(os.path.dirname(path), self.name)
+
+
+    # Submit job
+    def submit(self):
+        if os.path.isfile(self.CAE.settings.path_ccx):
+
+            # Enable multithreading
+            import multiprocessing as mp
+            cpu_count = str(mp.cpu_count()) # amount of cores
+            os.environ['OMP_NUM_THREADS'] = cpu_count
+
+            # Run analysis
+            import subprocess
+            subprocess.run('{0} -i {1} > {1}.log'\
+                .format(self.CAE.settings.path_ccx, self.name[:-4]), shell=True)
+        else:
+            logging.error('Wrong path to CCX: ' + self.CAE.settings.path_ccx)
+
+
 # Main window
 class CAE(QtWidgets.QMainWindow):
 
@@ -103,15 +147,20 @@ class CAE(QtWidgets.QMainWindow):
         self.IE = ccx_cae_ie.IE(self) # import/export of .inp-file
         self.DOM = ccx_dom.DOM() # empty DOM w/o implementations
 
-        # Create/regenerate treeView items: empty model or with implementations
-        self.tree = ccx_cae_tree.tree(self)
-
         # Default start model could be chosen with command line parameter
         parser = argparse.ArgumentParser()
         parser.add_argument('-inp', type=str, help='your .inp file',
                             default=self.settings.default_start_model)
         args = parser.parse_args()
-        msgs = self.IE.importINP(args.inp) # import default ugrid
+
+        # Create job object
+        self.job = Job(self, args.inp)
+
+        # Create/regenerate treeView items: empty model or with implementations
+        self.tree = ccx_cae_tree.tree(self)
+
+        # Import default ugrid
+        self.IE.importINP(args.inp)
 
         # Actions
         self.actions()
