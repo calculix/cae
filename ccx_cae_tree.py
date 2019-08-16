@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 """
     © Ihor Mirzov, August 2019
     Distributed under GNU General Public License v3.0
@@ -10,7 +11,7 @@
 
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-import ccx_dialog, ccx_dom, re, os
+import ccx_dialog, ccx_dom, re, os, logging
 
 
 class tree:
@@ -38,12 +39,12 @@ class tree:
     # Recursively generate treeView widget items based on DOM
     def generateTreeView(self):
         self.model.clear() # remove all items and data from tree
-        branch = self.model.invisibleRootItem() # top element in QTreeView
-        self.addToTree(branch, self.CAE.DOM.root.items) # pass top level groups
+        parent_element = self.model.invisibleRootItem() # top element in QTreeView
+        self.addToTree(parent_element, self.CAE.DOM.root.items) # pass top level groups
 
 
     # Used with generateTreeView() - implements recursion
-    def addToTree(self, branch, items):
+    def addToTree(self, parent_element, items):
 
         for item in items:
 
@@ -60,9 +61,22 @@ class tree:
                     or item.countImplementations() \
                     or item.item_type == ccx_dom.item_type.IMPLEMENTATION:
 
+                # Create tree_element
                 tree_element = QtGui.QStandardItem(item.name)
                 tree_element.setData(item)
-                branch.appendRow(tree_element)
+                parent_element.appendRow(tree_element)
+
+                # Set text color for tree_element
+                brush = QtGui.QBrush()
+                brush.setColor(QtCore.Qt.gray)
+                if item.isActive():
+                    brush.setColor(QtCore.Qt.black)
+                    if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+                        brush.setColor(QtCore.Qt.darkRed)
+                        # font = QtGui.QFont()
+                        # font.setBold(True)
+                        # tree_element.setFont(font)
+                tree_element.setForeground(brush)
 
                 # Expand / collapse
                 if item.expanded:
@@ -95,9 +109,10 @@ class tree:
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
         # Double click on GROUP doesn't create dialog
-        if item:
-            if item.item_type == ccx_dom.item_type.KEYWORD or \
-                item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+        if item and item.item_type in \
+            [ccx_dom.item_type.KEYWORD, ccx_dom.item_type.IMPLEMENTATION]:
+
+            if item.active:
 
                 # Create dialog window and pass item
                 dialog = ccx_dialog.Dialog(self.CAE.DOM, item)
@@ -110,10 +125,11 @@ class tree:
 
                     # Create implementation object for keyword
                     if item.item_type == ccx_dom.item_type.KEYWORD:
-                        impl = ccx_dom.implementation(item, INP_code)
-                        impl_element = QtGui.QStandardItem(impl.name)
-                        impl_element.setData(impl)
-                        tree_element.appendRow(impl_element)
+                        impl = ccx_dom.implementation(item, INP_code) # create keyword's implementation
+
+                        # Regenerate tree_element's children
+                        tree_element.removeRows(0, tree_element.rowCount()) # remove all children
+                        self.addToTree(tree_element, item.getImplementations()) # add only implementations
 
                     # Replace implementation object with a new one
                     elif item.item_type == ccx_dom.item_type.IMPLEMENTATION:
@@ -125,6 +141,9 @@ class tree:
                         # Add new one
                         impl = ccx_dom.implementation(keyword, INP_code, name=item.name)
                         tree_element.setData(impl)
+
+            else:
+                logging.warning('Please, create ' + item.parent.name + ' first.')
 
 
     # Highlight node sets, element sets or surfaces
@@ -200,6 +219,7 @@ class tree:
             tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
             item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
+            # Context menu for any keyword and implementations
             if item:
                 if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
 
@@ -220,6 +240,7 @@ class tree:
                     self.myMenu.addAction(action_create_implementation)
                     action_create_implementation.triggered.connect(self.doubleClicked)
 
+            # Context menu for Job
             elif tree_element.text() == self.CAE.job.name:
 
                 # Write input file
@@ -242,6 +263,7 @@ class tree:
         except IndexError:
             pass
 
+        # Context menu elements which always present
         if self.settings.show_empty_keywords:
             action_show_hide = QtWidgets.QAction('Hide empty containers', self.CAE.treeView)
         else:
@@ -298,26 +320,28 @@ class tree:
                 parent = tree_element.parent() # parent treeView item
                 keyword = parent.data() # parent keyword for implementation
                 keyword.items.remove(item) # remove implementation from keyword's items
-                parent.removeRow(tree_element.row()) # remove row in treeView
 
-                # Hide empty branch from tree
-                def hideParent(branch):
+                # Regenerate parent's children
+                parent.removeRows(0, parent.rowCount()) # remove all children
+                self.addToTree(parent, keyword.items)
 
-                    # To hide current item/brunch it should be empty 'keyword' or 'group'
-                    if not self.show_empty_keywords \
-                        and not branch.hasChildren() \
-                        and branch.data().item_type != ccx_dom.item_type.IMPLEMENTATION:
+                if not self.settings.show_empty_keywords:
+                    self.hideParent(parent)
+    def hideParent(self, tree_element):
 
-                        # Hide current item/brunch from tree via calling parent.removeRow
-                        parent = branch.parent()
-                        if not parent:
-                            parent = self.model.invisibleRootItem()
-                        parent.removeRow(branch.row())
+        # To hide current item/brunch it should be empty 'keyword' or 'group'
+        if not self.settings.show_empty_keywords \
+            and not tree_element.hasChildren() \
+            and tree_element.data().item_type != ccx_dom.item_type.IMPLEMENTATION:
 
-                        if parent != self.model.invisibleRootItem():
-                            hideParent(parent)
+            # Hide current item/brunch from tree via calling parent.removeRow
+            parent = tree_element.parent()
+            if not parent:
+                parent = self.model.invisibleRootItem()
+            parent.removeRow(tree_element.row())
 
-                hideParent(parent)
+            if parent != self.model.invisibleRootItem():
+                self.hideParent(parent)
 
 
     # Change DOM item's 'expanded' variable when user interacts with treeView

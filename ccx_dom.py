@@ -156,11 +156,36 @@ class item:
     # Read application's global settings
     settings = ccx_cae.Settings()
 
-    item_type = ''      # item's type: group/keyword/argument/implementation
-    name = ''           # name of item, string
-    items = []          # list of children
-    parent = None       # item's parent item
+    item_type = ''          # item's type: group/keyword/argument/implementation
+    name = ''               # name of item, string
+    items = []              # list of children
+    parent = None           # item's parent item
     expanded = settings.expanded
+    active = False
+
+
+    # Define if item is active
+    def isActive(self):
+
+        # Top groups
+        if self.parent and self.parent.name == 'Model':
+            self.active = True
+            return True
+
+        # Children of active groups
+        elif self.parent and self.parent.active and self.parent.item_type in \
+            [self.item_type.GROUP, self.item_type.IMPLEMENTATION]:
+            self.active = True
+            return True
+
+        # Implementations are always active
+        elif self.item_type == self.item_type.IMPLEMENTATION:
+            self.active = True
+            return True
+
+        else:
+            self.active = False
+            return False
 
 
     # Recursive function to count keyword implementations in item's descendants
@@ -195,6 +220,7 @@ class item:
     def copyItems(self):
         items = []
         for item in self.items:
+            item.active = True
             if item.item_type in [item_type.GROUP, item_type.KEYWORD]:
                 item = copy.copy(item)
                 item.items = item.copyItems()
@@ -308,6 +334,8 @@ class implementation(item):
     def __init__(self, keyword, INP_code, name=None):
         self.item_type = item_type.IMPLEMENTATION
         self.items = keyword.copyItems() # newer use deepcopy!
+        for item in self.items:
+            item.parent = self
         self.parent = keyword
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)

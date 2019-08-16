@@ -27,6 +27,11 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Nice icons for all keywords/tree objects.
 
+- Run job analysis directly from CAE.
+
+- Application's global settings are maintained in [text file](Settings.env) with Python syntax. Settings are automatically saved during the workflow.
+
+
 <br/><br/>
 
 
@@ -38,26 +43,6 @@ Main window with imported mesh and highlighted node set:
 
 "New keyword" dialog with corresponding chapter from HTML manual:
 ![Create keyword dialog](img_dialog.png "Create keyword dialog")
-
-<br/><br/>
-
-
-
-# Prerequisites
-
-Suppose you already have [Python 3](https://www.python.org/downloads/). So first of all install VTK, PyQt5 and PyQtWebEngine:
-
-    pip3 install vtk PyQt5 PyQtWebEngine
-
-That's all if you're going only to use CalculiX CAE.
-
-For developers to edit GUI-forms [ccx_dialog.ui](ccx_dialog.ui) and [ccx_cae.ui](ccx_cae.ui) you'll need QT designer:
-
-    sudo apt install qttools5-dev-tools
-
-To create release binaries install [pyinstaller](https://www.pyinstaller.org/):
-
-    pip3 install pyinstaller
 
 <br/><br/>
 
@@ -76,10 +61,6 @@ Pass name of your INP file as an argument to open it at start:
     crossplatform: python3 ccx_cae.py -inp=your_model.inp
     in Linux: ./ccx_cae -inp=your_model.inp
     in Windows: ccx_cae.exe -inp=your_model.inp
-
-Create release binaries with command:
-
-    pyinstaller ccx_cae.py
 
 <br/><br/>
 
@@ -102,6 +83,30 @@ Please, you may:
 - Report problems by [posting issues](./issues).
 - Do something from the [TODO-list](#TODO).
 - Follow discussion in the [Yahoo CalculiX Group](https://groups.yahoo.com/neo/groups/CALCULIX/conversations/topics/15616)
+
+<br/><br/>
+
+
+
+# For developers
+
+Suppose you already have [Python 3](https://www.python.org/downloads/). So first of all install VTK, PyQt5 and PyQtWebEngine:
+
+    pip3 install vtk PyQt5 PyQtWebEngine
+
+That's all if you're going only to use CalculiX CAE.
+
+For developers to edit GUI-forms [ccx_dialog.ui](ccx_dialog.ui) and [ccx_cae.ui](ccx_cae.ui) you'll need QT designer:
+
+    sudo apt install qttools5-dev-tools
+
+To create release binaries install [pyinstaller](https://www.pyinstaller.org/):
+
+    pip3 install pyinstaller
+
+Then create release binaries with command:
+
+    pyinstaller ccx_cae.py
 
 <br/><br/>
 
@@ -133,6 +138,8 @@ Please, you may:
 + Settings with autosave + path to CCX and CGX.
 
 + Run job from CAE.
+
++ Improved treeView: grayed out items for non-clickeable keywords. 'Active' parameter for Class item.
 
 **TODO: improvements and bugfixes**
 
