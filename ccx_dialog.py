@@ -109,12 +109,14 @@ class Dialog(QtWidgets.QDialog):
                         For example, add names of *AMPLITUDE implementations,
                             if argument.name is 'AMPLITUDE'
                     """
-                    implementations = [item.name for item in keyword.items \
-                        if item.item_type == ccx_dom.item_type.IMPLEMENTATION]
+                    # implementations = [item.name for item in keyword.items \
+                    #     if item.item_type == ccx_dom.item_type.IMPLEMENTATION]
+                    implementations = [item.name for item in keyword.getImplementations()]
                     if len(implementations):
                         logging.debug('{} {}'.format(keyword.name, implementations))
                         argument.items.extend(implementations)
                         argument.items.insert(0, '') # first row needed empty
+                        argument.items = sorted(list(set(argument.items)))
 
                 # Argument's values
                 if len(argument.items):

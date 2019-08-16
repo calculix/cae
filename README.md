@@ -139,7 +139,10 @@ Then create release binaries with command:
 
 + Run job from CAE.
 
-+ Improved treeView: grayed out items for non-clickeable keywords. 'Active' parameter for Class item.
++ Improved treeView:
+    - non-clickable keywords are grayed out;
+    - 'active' parameter for Class item;
+    - bold keywords implementations.
 
 **TODO: improvements and bugfixes**
 

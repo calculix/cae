@@ -71,11 +71,11 @@ class tree:
                 brush.setColor(QtCore.Qt.gray)
                 if item.isActive():
                     brush.setColor(QtCore.Qt.black)
+                    # Bold font for implementations
                     if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
-                        brush.setColor(QtCore.Qt.darkRed)
-                        # font = QtGui.QFont()
-                        # font.setBold(True)
-                        # tree_element.setFont(font)
+                        font = QtGui.QFont()
+                        font.setBold(True)
+                        tree_element.setFont(font)
                 tree_element.setForeground(brush)
 
                 # Expand / collapse
