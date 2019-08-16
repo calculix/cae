@@ -140,8 +140,7 @@ Then create release binaries with command:
 + Run job from CAE.
 
 + Improved treeView:
-    - non-clickable keywords are grayed out;
-    - 'active' parameter for Class item;
+    - non-clickable keywords are grayed out - 'active' parameter for Class item;
     - bold keywords implementations.
 
 **TODO: improvements and bugfixes**
@@ -150,11 +149,7 @@ Then create release binaries with command:
 
 - Better surface highlight: remove original face for pure color.
 
-- During keyword's edit parse arguments and pass them to Dialog. Reparse *NODE, *ELEMENT, *NSET or *ELSET after edit.
-
-- Do not remove comments. Include them into apropriate tree item's INP_code.
-
-- More materials in Materials library.
+- During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.
 
 **TODO: new features**
 
@@ -164,11 +159,11 @@ Then create release binaries with command:
 
 - Python code (*PYTHON keyword) in INP_code for step repetition and other kind of model generation.
 
-- Import certain keyword with descendants (tree branch) from INP-file.
+- Import certain keyword with descendants (tree branch) from INP-file. Interface for materials import. Enrich Materials library.
 
 - Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), UNV.
 
-- Prool's INP-templates. Materials library - set of INP files or one big file with all materials.
+- Prool's INP-templates and snippets.
 
 - Include 'Examples' into releases. Martin Kraska examples. HTML page with tags/groups for all INP files.
 
@@ -176,17 +171,6 @@ Then create release binaries with command:
 
 - Open 'New keyword' dialog in QTabWidget, not in separate window. Ctrl+Tab to switch between tabs.
 
-- Menu Help: VTK Keyboard Shortcuts and Controls.
-
 - Embed CGX into additional QTabWidget.
 
-<!--
-    DistanceBetweenPoints:  
-    https://lorensen.github.io/VTKExamples/site/Python/SimpleOperations/DistanceBetweenPoints/
-
-    Screenshot:  
-    https://lorensen.github.io/VTKExamples/site/Python/Utilities/Screenshot/
-
-    Text actor for displaying model info:  
-    https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/TextActor/
--->
+- Menu Help: VTK Keyboard Shortcuts and Controls.

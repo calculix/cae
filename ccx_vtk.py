@@ -368,6 +368,17 @@ class VTK:
         style = style_select_elements(self.renderer, self.window)
         self.interactor.SetInteractorStyle(style)
 
+    """
+        DistanceBetweenPoints:  
+        https://lorensen.github.io/VTKExamples/site/Python/SimpleOperations/DistanceBetweenPoints/
+
+        Screenshot:  
+        https://lorensen.github.io/VTKExamples/site/Python/Utilities/Screenshot/
+
+        Text actor for displaying model info:  
+        https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/TextActor/
+    """
+
 
 """
     Creates a new vtkInteractorStyle which can be used to implement custom reactions on user events.

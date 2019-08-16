@@ -23,7 +23,9 @@ def read_lines(inp_file, include=False):
         with open(inp_file, 'r') as f:
             for line in f.readlines():
                 line = line.strip()
-                if (not line.startswith('**')) and len(line): # skip comments and empty lines
+
+                # Skip comments and empty lines
+                if (not line.startswith('**')) and len(line):
                     lines.append(line.upper())
 
                     # Append lines from include file

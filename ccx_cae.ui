@@ -154,19 +154,7 @@
     <addaction name="actionFileImportINP"/>
     <addaction name="actionFileExportINP"/>
    </widget>
-   <widget class="QMenu" name="menuSelect">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="title">
-     <string>Select</string>
-    </property>
-    <addaction name="actionSelectionNodes"/>
-    <addaction name="actionSelectionElements"/>
-    <addaction name="actionSelectionClear"/>
-   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuSelect"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">

@@ -78,7 +78,6 @@ class IE:
                 self.CAE.VTK.actionViewIso() # iso view after import
 
 
-
     # Enrich DOM with keywords from INP_doc
     def importer(self, INP_doc):
         keyword_chain = []
@@ -146,7 +145,6 @@ class IE:
 
                 else:
                     logging.warning('Wrong keyword {}.'.format(keyword_name))
-
 
 
     # Menu File -> Write INP file
