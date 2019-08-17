@@ -38,7 +38,7 @@ class DOM:
                 for line in f.readlines(): # read the whole file and iterate over line
 
                     # Skip comments and empty lines
-                    if line.strip() == '': continue 
+                    if line.strip() == '': continue
                     if line.strip().startswith('**'): continue
 
                     # Define padding level
@@ -343,9 +343,10 @@ class implementation(item):
         if name:
             self.name = name # it will be used in edit Dialog
         else:
-            match = re.search('(NAME|ELSET|NSET)\s*=\s*(\w*)', INP_code[0].upper())
+            lead_line = INP_code[0]
+            match = re.search('(NAME|ELSET|NSET)\s*=\s*(\w*)', lead_line.upper())
             if match:
-                self.name = match.group(2)
+                self.name = lead_line[match.start(2):match.end(2)]
             else:
                 self.name = self.parent.name[1:] + '-' + str(index + 1)
 

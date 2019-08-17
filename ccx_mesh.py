@@ -7,7 +7,6 @@
 
     Parses finite element mesh from the CalculiX .inp-file.
     Reads nodes coordinates, elements composition, node and element sets, surfaces.
-    It's case insensitive and translates all text uppercase.
 """
 
 
@@ -15,24 +14,23 @@ import os, re, logging
 
 
 # Recurcively read all the lines of the file and its includes.
-# For simplicity convert all lines to uppercase.
 def read_lines(inp_file, include=False):
     lines = []
     try:
-        inp_file = os.path.abspath(inp_file)
+        inp_file = os.path.abspath(inp_file) # full path
         with open(inp_file, 'r') as f:
             for line in f.readlines():
                 line = line.strip()
 
                 # Skip comments and empty lines
                 if (not line.startswith('**')) and len(line):
-                    lines.append(line.upper())
+                    lines.append(line)
 
                     # Append lines from include file
                     if include and line.upper().startswith('*INCLUDE'):
-                        path = os.path.dirname(inp_file)
-                        inp_file2 = line.split('=')[1].strip()
-                        lines.extend(read_lines(path + '/' + inp_file2))
+                        inc_file = line.split('=')[1].strip()
+                        inc_file = os.path.abspath(inc_file) # file name with path
+                        lines.extend(read_lines(inc_file))
     except:
         msg_text = 'There is no file {}.'.format(inp_file)
         logging.error(msg_text)
@@ -71,7 +69,7 @@ class Parse:
             self.parse_nsets(lines)
 
             msg_text = '{} nsets'.format(len(self.nsets))
-            # msg_text += ': ' + str(list(self.nsets.keys()))
+            msg_text += ': ' + ', '.join(self.nsets.keys())
             # for k,v in self.nsets.items():
             #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
             logging.info(msg_text)
@@ -93,7 +91,7 @@ class Parse:
             self.parse_elsets(lines)
 
             msg_text = '{} elsets'.format(len(self.elsets))
-            # msg_text += ': ' + str(list(self.elsets.keys()))
+            msg_text += ': ' + ', '.join(self.elsets.keys())
             # for k,v in self.elsets.items():
             #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
             logging.info(msg_text)
@@ -113,7 +111,7 @@ class Parse:
 
     # Parse nodes with coordinates - *NODE keyword
     def parse_nodes(self, lines):
-        for i in range(len(lines)): # lines are uppercase
+        for i in range(len(lines)):
 
             # Distinguish 'NODE' and 'NODE PRINT'
             if ',' in lines[i]:
@@ -121,9 +119,10 @@ class Parse:
             else:
                 keyword_name = lines[i]
 
-            if keyword_name == '*NODE':
+            if keyword_name.upper() == '*NODE':
                 nodes = []
-                match = re.search('NSET\s*=\s*(\w*)', lines[i])
+                lead_line = lines[i]
+                match = re.search('NSET\s*=\s*(\w*)', lead_line.upper())
 
                 while i+1<len(lines) and not lines[i+1].startswith('*'): # read the whole block and return
                     a = lines[i+1].replace(',', ' ').split() # to avoid redundant commas in the end of line
@@ -157,10 +156,10 @@ class Parse:
                             del node
 
                     i += 1
- 
+
                 # If all nodes are named as a set
                 if match:
-                    name = match.group(1)
+                    name = lead_line[match.start(1):match.end(1)]
                     self.create_or_extend_nset(name, nodes)
 
                 # do not return to parse few *NODE sections
@@ -168,13 +167,13 @@ class Parse:
 
     # Parse node sets - *NSET keyword
     def parse_nsets(self, lines):
-        for i in range(len(lines)): # lines are uppercase
-            match = re.search('(\*NSET)\s*,.*NSET\s*=\s*(\w*)', lines[i])
+        for i in range(len(lines)):
+            match = re.search('(\*NSET)\s*,.*NSET\s*=\s*(\w*)', lines[i].upper())
             if match:
-                name = match.group(2) # node set name
+                name = lines[i][match.start(2):match.end(2)] # node set name
                 nodes = []
 
-                if not 'GENERATE' in lines[i]:
+                if not 'GENERATE' in lines[i].upper():
                     while i+1<len(lines) and not lines[i+1].startswith('*'):
                         a = lines[i+1].replace(',', ' ').split()
                         for n in a:
@@ -217,13 +216,14 @@ class Parse:
 
     # Parse elements composition - *ELEMENT keyword
     def parse_elements(self, lines):
-        for i in range(len(lines)): # lines are uppercase
-            if lines[i].startswith('*ELEMENT'):
-                match = re.search('TYPE\s*=\s*(\w*)', lines[i])
-                etype = match.group(1) # element type
+        for i in range(len(lines)):
+            if lines[i].upper().startswith('*ELEMENT'):
+                lead_line = lines[i]
+                match = re.search('TYPE\s*=\s*(\w*)', lead_line.upper())
+                etype = lead_line[match.start(1):match.end(1)] # element type
                 amount = self.amount_of_nodes(etype)
                 elements = []
-                match = re.search('ELSET\s*=\s*(\w*)', lines[i]) # if all elements are united in a set
+                match = re.search('ELSET\s*=\s*(\w*)', lead_line.upper()) # if all elements are united in a set
 
                 while i+1<len(lines) and not lines[i+1].startswith('*'): # there will be no comments
 
@@ -262,10 +262,10 @@ class Parse:
                             self.elements[num] = element
 
                     i += 1
- 
+
                 # If all elements are named as a set
                 if match:
-                    name = match.group(1)
+                    name = lead_line[match.start(1):match.end(1)]
                     self.create_or_extend_elset(name, elements)
 
                 # do not return to parse few *ELEMENT sections
@@ -273,13 +273,13 @@ class Parse:
 
     # Parse element sets - *ELSET keyword
     def parse_elsets(self, lines):
-        for i in range(len(lines)): # lines are uppercase
-            match = re.search('(\*ELSET)\s*,.*ELSET\s*=\s*(\w*)', lines[i])
+        for i in range(len(lines)):
+            match = re.search('(\*ELSET)\s*,.*ELSET\s*=\s*(\w*)', lines[i].upper())
             if match:
-                name = match.group(2) # element set name
+                name = lines[i][match.start(2):match.end(2)] # element set name
                 elements = []
 
-                if not 'GENERATE' in lines[i]:
+                if not 'GENERATE' in lines[i].upper():
                     while i+1<len(lines) and not lines[i+1].startswith('*'):
                         a = lines[i+1].replace(',', ' ').split()
                         for e in a:
@@ -322,21 +322,21 @@ class Parse:
 
     # Parse surfaces - *SURFACE keyword
     def parse_surfaces(self, lines):
-        for i in range(len(lines)): # lines are uppercase
+        for i in range(len(lines)):
             skip = True
 
             # Surface name - required attribute
             name = ''
-            match = re.search('\*SURFACE\s*,.*NAME\s*=\s*(\w*)', lines[i])
+            match = re.search('\*SURFACE\s*,.*NAME\s*=\s*(\w*)', lines[i].upper())
             if match:
-                name = match.group(1)
+                name = lines[i][match.start(1):match.end(1)]
                 skip = False
 
             # Surface type - optional attribute
             stype = 'ELEMENT' # 'ELEMENT' or 'NODE'
-            match = re.search('\*SURFACE\s*,.*TYPE\s*=\s*(\w*)', lines[i])
+            match = re.search('\*SURFACE\s*,.*TYPE\s*=\s*(\w*)', lines[i].upper())
             if match:
-                stype = match.group(1)
+                stype = lines[i][match.start(1):match.end(1)]
 
             if not skip:
                 if name + stype in self.surfaces:

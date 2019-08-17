@@ -50,8 +50,8 @@ class tree:
 
             # Add to the tree only needed item_types
             if item.item_type not \
-                in [ccx_dom.item_type.GROUP, 
-                    ccx_dom.item_type.KEYWORD, 
+                in [ccx_dom.item_type.GROUP,
+                    ccx_dom.item_type.KEYWORD,
                     ccx_dom.item_type.IMPLEMENTATION]:
                 continue
 
@@ -154,36 +154,39 @@ class tree:
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
         if item:
-            ipn = item.parent.name.upper()
+            ipn_up = item.parent.name.upper()
 
             if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
-                lead_line = item.INP_code[0].upper()
+                lead_line = item.INP_code[0]
                 _set = []
 
                 # Hightlight mesh entities
-                if ipn == '*NSET' or ipn == '*NODE':
-                    match = re.search('NSET\s*=\s*(\w*)', lead_line)
+                if ipn_up == '*NSET' or ipn_up == '*NODE':
+                    match = re.search('NSET\s*=\s*(\w*)', lead_line.upper())
                     if match: # if there if NSET attribute
-                        name = match.group(1) # node set name
-                        _set = [self.CAE.VTK.node2point[n.num] \
+                        name = lead_line[match.start(1):match.end(1)] # node set name
+                        if name in self.CAE.mesh.nsets:
+                            _set = [self.CAE.VTK.node2point[n.num] \
                                 for n in self.CAE.mesh.nsets[name].nodes]
-                        self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
-                elif ipn == '*ELSET' or ipn == '*ELEMENT':
-                    match = re.search('ELSET\s*=\s*(\w*)', lead_line)
+                            self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
+                elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
+                    match = re.search('ELSET\s*=\s*(\w*)', lead_line.upper())
                     if match: # if there if ELSET attribute
-                        name = match.group(1) # element set name
-                        _set = [self.CAE.VTK.element2cell[e.num] \
-                                for e in self.CAE.mesh.elsets[name].elements]
-                        self.CAE.VTK.highlight(_set, 0) # 0 = vtk.vtkSelectionNode.CELL
-                elif ipn == '*SURFACE':
+                        name = lead_line[match.start(1):match.end(1)] # element set name
+                        if name in self.CAE.mesh.elsets:
+                            _set = [self.CAE.VTK.element2cell[e.num] \
+                                    for e in self.CAE.mesh.elsets[name].elements]
+                            self.CAE.VTK.highlight(_set, 0) # 0 = vtk.vtkSelectionNode.CELL
+                elif ipn_up == '*SURFACE':
 
                     # Surface type - optional attribute
                     stype = 'ELEMENT' # 'ELEMENT' or 'NODE'
-                    match = re.search('\*SURFACE\s*,.*TYPE\s*=\s*(\w*)', lead_line)
+                    match = re.search('\*SURFACE\s*,.*TYPE\s*=\s*(\w*)', lead_line.upper())
                     if match:
-                        stype = match.group(1)
+                        stype = lead_line[match.start(1):match.end(1)]
 
-                    name = re.search('NAME\s*=\s*(\w*)', lead_line).group(1) # surface name
+                    match = re.search('NAME\s*=\s*(\w*)', lead_line.upper())
+                    name = lead_line[match.start(1):match.end(1)] # surface name
                     if stype == 'ELEMENT':
                         _set = self.CAE.mesh.surfaces[name + stype].set
                         self.CAE.VTK.highlightSURFACE(_set)
@@ -193,7 +196,7 @@ class tree:
                         self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
 
                 # Hightlight Loads & BC
-                elif ipn in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
+                elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
                     for line in item.INP_code[1:]:
                         line = line.strip().upper()
                         n = line.replace(',', ' ').split()[0]
@@ -205,7 +208,7 @@ class tree:
                             _set.extend([self.CAE.VTK.node2point[n.num] \
                                 for n in self.CAE.mesh.nsets[n].nodes])
                     self.CAE.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
-                elif ipn in ['*BOUNDARYF', '*MASS FLOW', '*DLOAD', '*DFLUX',
+                elif ipn_up in ['*BOUNDARYF', '*MASS FLOW', '*DLOAD', '*DFLUX',
                             '*RADIATE', '*FILM', '*MODAL DAMPING']:
                     pass
 
@@ -250,7 +253,7 @@ class tree:
 
                 # Submit job
                 action = QtWidgets.QAction('Submit', self.CAE.treeView)
-                if os.path.isfile(self.CAE.job.name):
+                if os.path.isfile(self.CAE.job.path):
                     action.setDisabled(False)
                 else:
                     action.setDisabled(True)
@@ -306,7 +309,7 @@ class tree:
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
-        if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+        if item and item.item_type == ccx_dom.item_type.IMPLEMENTATION:
 
             # Confirmation dialog to delete implementation
             answer = QtWidgets.QMessageBox.question(None,

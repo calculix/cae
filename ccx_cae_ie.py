@@ -100,7 +100,7 @@ class IE:
                 logging.debug('Path found: ' + str([item.name for item in path]))
 
                 if path:
-                    # Read INP_code for the current keyword 
+                    # Read INP_code for the current keyword
                     INP_code = [line] # line is stripped in ccx_mesh
                     while i+1 < len(INP_doc) and \
                         not INP_doc[i+1].startswith('*'): # here will be no comments - they are removed in ccx_mesh
@@ -118,7 +118,7 @@ class IE:
                         else:
                             # Implementation will be created inside keyword or group
                             item = path[j]
-                        
+
                         path_as_string += '/' + item.name
                         if j == len(path) - 1: # last item is always keyword
                             # Create implementation (for example, MATERIAL-1)
@@ -140,7 +140,7 @@ class IE:
                         # If current keyword already has implementations
                         impl_counter[path_as_string] += 1
                     else:
-                        # If first implementation was created for current keyword 
+                        # If first implementation was created for current keyword
                         impl_counter[path_as_string] = 1
 
                 else:

@@ -7,7 +7,7 @@
 
     CalculiX CAE - main window.
     How to run:
-        python3 ccx_cae.py ccx_mesh.inp
+        python3 ccx_cae.py -inp ccx_mesh.inp
 """
 
 
@@ -104,16 +104,16 @@ class Job:
     # Submit job
     def submit(self):
         if os.path.isfile(self.CAE.settings.path_ccx):
+            logging.info('Job submitted.')
 
             # Enable multithreading
             import multiprocessing as mp
             cpu_count = str(mp.cpu_count()) # amount of cores
             os.environ['OMP_NUM_THREADS'] = cpu_count
 
-            # Run analysis
-            import subprocess
-            subprocess.run('{0} -i {1} > {1}.log'\
-                .format(self.CAE.settings.path_ccx, self.name[:-4]), shell=True)
+            # Run analysis in a detached process
+            os.system('{0} -i {1} > {1}.log &'\
+                .format(self.CAE.settings.path_ccx, self.path[:-4]))
         else:
             logging.error('Wrong path to CCX: ' + self.CAE.settings.path_ccx)
 
@@ -141,7 +141,6 @@ class CAE(QtWidgets.QMainWindow):
         # Create VTK widget
         self.VTK = ccx_vtk.VTK() # create everything for model visualization
         self.vl.addWidget(self.VTK.widget) # add vtk_widget to the form
-        self.frame.setLayout(self.vl) # apply layout: it will expand vtk_widget to the frame size
 
         self.mesh = None # mesh from .inp-file - will be parsed in ccx_cae_ie.py
         self.IE = ccx_cae_ie.IE(self) # import/export of .inp-file

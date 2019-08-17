@@ -236,7 +236,6 @@ class VTK:
             logging.debug(msg_text)
 
     # Highlight node sets, element sets and surfaces
-    # TODO error: create new set and highlight it
     def highlight(self, _set, field_type):
         # Clear selection
         self.actionSelectionClear()
@@ -369,13 +368,13 @@ class VTK:
         self.interactor.SetInteractorStyle(style)
 
     """
-        DistanceBetweenPoints:  
+        DistanceBetweenPoints:
         https://lorensen.github.io/VTKExamples/site/Python/SimpleOperations/DistanceBetweenPoints/
 
-        Screenshot:  
+        Screenshot:
         https://lorensen.github.io/VTKExamples/site/Python/Utilities/Screenshot/
 
-        Text actor for displaying model info:  
+        Text actor for displaying model info:
         https://lorensen.github.io/VTKExamples/site/Python/GeometricObjects/TextActor/
     """
 
@@ -455,32 +454,32 @@ class style_select_elements(vtk.vtkInteractorStyleTrackballCamera):
             logging.info('Element ' + str(cell_id))
 
             ids_to_hightlight = [cell_id, ]
-            ids = vtk.vtkIdTypeArray() 
-            ids.SetNumberOfComponents(1) 
-            ids.Allocate(len(ids_to_hightlight)) 
-            for i in ids_to_hightlight: 
+            ids = vtk.vtkIdTypeArray()
+            ids.SetNumberOfComponents(1)
+            ids.Allocate(len(ids_to_hightlight))
+            for i in ids_to_hightlight:
                 ids.InsertNextValue(i)
 
-            selection_node = vtk.vtkSelectionNode() 
+            selection_node = vtk.vtkSelectionNode()
             selection_node.SetFieldType(vtk.vtkSelectionNode.CELL) # CELL POINT VERTEX
             selection_node.SetContentType(vtk.vtkSelectionNode.INDICES)
             selection_node.SetSelectionList(ids)
 
-            selection = vtk.vtkSelection() 
-            selection.AddNode(selection_node) 
+            selection = vtk.vtkSelection()
+            selection.AddNode(selection_node)
 
-            extract_selection = vtk.vtkExtractSelection() 
+            extract_selection = vtk.vtkExtractSelection()
             extract_selection.PreserveTopologyOn()
             # extract_selection.SetInputData(0, self.ugrid) # TODO somehow plot original ugrid
             extract_selection.SetInputData(0, selection)
             # extract_selection.SetInputData(1, selection)
-            extract_selection.Update() 
+            extract_selection.Update()
 
-            grid_selected = vtk.vtkUnstructuredGrid() 
-            grid_selected.ShallowCopy(extract_selection.GetOutput()) 
+            grid_selected = vtk.vtkUnstructuredGrid()
+            grid_selected.ShallowCopy(extract_selection.GetOutput())
 
             selected_mapper = vtk.vtkDataSetMapper()
-            selected_mapper.SetInputData(grid_selected) 
+            selected_mapper.SetInputData(grid_selected)
 
             actor = vtk.vtkActor()
             actor.SetMapper(selected_mapper)

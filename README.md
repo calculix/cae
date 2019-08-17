@@ -124,6 +124,9 @@ Then create release binaries with command:
 
 + Fixed VTK cells numbering.
 
++ INP_code is not capitalizing anymore.
+
+
 
 + Now exporter writes INP code with paddings - for code folding.
 
@@ -135,11 +138,11 @@ Then create release binaries with command:
 
 + In 'New keyword' dialog propose implementation variants for corresponding keyword arguments.
 
-+ Settings with autosave + path to CCX and CGX.
++ Settings with autosave + path to CCX.
 
 + Run job from CAE.
 
-+ Improved treeView:
++ Improved treeView usability:
     - non-clickable keywords are grayed out - 'active' parameter for Class item;
     - bold keywords implementations.
 
@@ -149,9 +152,16 @@ Then create release binaries with command:
 
 - Better surface highlight: remove original face for pure color.
 
-- During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.
+- During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.  
+Error: create new set and highlight it
+
+- Notify on job completion.
+
+- Convert calculation results.
 
 **TODO: new features**
+
+- User control for the font size.
 
 - PDF manual for beginners: "I am not quite sure, what the intended workflow is. I'd expect some representation (object tree) of what has been imported and/or has been already defined. The tree in the CAE window seems to be just sort of a menu but not an actual object tree."
 

@@ -23,7 +23,7 @@ def saveHTML(item):
         keyword_name = item.name[1:] # cut star
     if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
         keyword_name = item.parent.name[1:] # cut star
-    
+
     # Avoid spaces in html page names
     html_page_name = keyword_name.replace(' ', '_')
 
@@ -70,7 +70,7 @@ def saveHTML(item):
         html = html.replace('</A>', '')
         with open(url, 'w') as f:
             f.write(html)
-        
+
     return url
 
 
@@ -100,7 +100,7 @@ class Dialog(QtWidgets.QDialog):
 
                 # Remove braces if any
                 argument.name = re.sub('[\(\)]', '', argument.name)
-                
+
                 # Try to get existing implementations for argument.name
                 keyword_name = '*' + argument.name[:-1] # cut '='
                 keyword = DOM.getKeywordByName(keyword_name)
@@ -161,7 +161,7 @@ class Dialog(QtWidgets.QDialog):
 
                     # Assign event to update textEdit widget
                     argument_name_widget.currentIndexChanged.connect(self.onChange)
-                
+
                 else:
                     argument_name_widget = QtWidgets.QLabel()
                     argument_name_widget.setText(argument.name)
