@@ -29,7 +29,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Run job analysis directly from CAE.
 
-- Application's global settings are maintained in [text file](Settings.env) with Python syntax. Settings are automatically saved during the workflow.
+- Application's global settings are maintained in text file [Settings.env](Settings.env) with Python syntax. Settings are automatically saved during the workflow.
 
 
 <br/><br/>
@@ -50,7 +50,9 @@ Main window with imported mesh and highlighted node set:
 
 # How to use
 
-Despite of your operating system it is recommended to use the source code - simply call [ccx_cae.py](ccx_cae.py) from terminal. Otherwise you may [download binaries](https://github.com/imirzov/ccx_cae/releases). CacluliX CAE is portable software and doesn't need to be installed. Just extract archive and run *ccx_cae* or *ccx_cae.exe*. Don't forget to make all binaries executable.
+First, to run analysis from CAE configure path to CalculiX in Settings.env.
+
+Despite of your operating system it is recommended to use the source code - simply call [ccx_cae.py](ccx_cae.py) from terminal. Otherwise you may [download binaries](./releases). CacluliX CAE is portable software and doesn't need to be installed. Just extract archive and run *ccx_cae* or *ccx_cae.exe*. Don't forget to make all binaries executable.
 
     crossplatform: python3 ccx_cae.py
     in Linux:      ./ccx_cae
@@ -58,9 +60,9 @@ Despite of your operating system it is recommended to use the source code - simp
 
 Pass name of your INP file as an argument to open it at start:
 
-    crossplatform: python3 ccx_cae.py -inp=your_model.inp
-    in Linux: ./ccx_cae -inp=your_model.inp
-    in Windows: ccx_cae.exe -inp=your_model.inp
+    crossplatform: python3 ccx_cae.py -inp your_model.inp
+    in Linux: ./ccx_cae -inp your_model.inp
+    in Windows: ccx_cae.exe -inp your_model.inp
 
 <br/><br/>
 
@@ -68,7 +70,7 @@ Pass name of your INP file as an argument to open it at start:
 
 # Downloads
 
-Both sources and binaries could be found on [the release page](https://github.com/imirzov/ccx_cae/releases).
+Both sources and binaries could be found on [the releases page](./releases).
 
 <br/><br/>
 
@@ -114,39 +116,7 @@ Then create release binaries with command:
 
 # TODO
 
-**Done for the new release**
-
-+ Fixed *boundary line in ccx_dom.inp: added missig NEW|MOD values of parameter OP.
-
-+ In the HTML help window line breaks are replaced by spaces, avoiding words to be glued together.
-
-+ Fixed camera's clipping range bug due to nonconsequent point numbering in the VTK unstructured grid.
-
-+ Fixed VTK cells numbering.
-
-+ INP_code is not capitalizing anymore.
-
-
-
-+ Now exporter writes INP code with paddings - for code folding.
-
-+ Added debug level messages in logging.
-
-+ Added support for mutually exclusive arguments in ccx_dom.inp. Example - *MODAL DAMPING.
-
-+ Got all keyword arguments from the manual (still not accurately).
-
-+ In 'New keyword' dialog propose implementation variants for corresponding keyword arguments.
-
-+ Settings with autosave + path to CCX.
-
-+ Run job from CAE.
-
-+ Improved treeView usability:
-    - non-clickable keywords are grayed out - 'active' parameter for Class item;
-    - bold keywords implementations.
-
-**TODO: improvements and bugfixes**
+**Improvements and bugfixes**
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
 
@@ -159,7 +129,7 @@ Error: create new set and highlight it
 
 - Convert calculation results.
 
-**TODO: new features**
+**New features**
 
 - User control for the font size.
 
@@ -171,16 +141,10 @@ Error: create new set and highlight it
 
 - Import certain keyword with descendants (tree branch) from INP-file. Interface for materials import. Enrich Materials library.
 
-- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), UNV.
+- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), [UNV](https://github.com/imirzov/unv2ccx).
 
 - Prool's INP-templates and snippets.
 
-- Include 'Examples' into releases. Martin Kraska examples. HTML page with tags/groups for all INP files.
-
-- Interactor to select nodes and elements for model construction.
-
-- Open 'New keyword' dialog in QTabWidget, not in separate window. Ctrl+Tab to switch between tabs.
-
-- Embed CGX into additional QTabWidget.
+- Include Martin Kraska examples.
 
 - Menu Help: VTK Keyboard Shortcuts and Controls.

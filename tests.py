@@ -10,7 +10,8 @@
 """
 
 import os, sys, time, logging
-import ccx_vtk, ccx_mesh
+# import ccx_vtk # TODO module 'ccx_cae' has no attribute 'Settings'
+import ccx_mesh
 from PyQt5 import QtWidgets
 
 
@@ -51,16 +52,16 @@ class Tester:
         app = QtWidgets.QApplication(sys.argv)
 
         # Create VTK widget
-        VTK = ccx_vtk.VTK()
+        # VTK = ccx_vtk.VTK()
 
         # Parse mesh and convert it to ugrid
         mesh = ccx_mesh.Parse(file_name) # parse mesh
-        ugrid = VTK.mesh2ugrid(mesh)
+        # ugrid = VTK.mesh2ugrid(mesh)
 
-        # Plot ugrid in VTK
-        if ugrid:
-            VTK.mapper.SetInputData(ugrid) # ugrid is our mesh data
-            VTK.actionViewIso() # iso view after import
+        # # Plot ugrid in VTK
+        # if ugrid:
+        #     VTK.mapper.SetInputData(ugrid) # ugrid is our mesh data
+        #     VTK.actionViewIso() # iso view after import
 
 
 if __name__ == '__main__':
