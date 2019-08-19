@@ -48,11 +48,21 @@ Main window with imported mesh and highlighted node set:
 
 
 
+# Downloads
+
+Both sources and binaries could be found on [the releases page](./releases).
+
+<br/><br/>
+
+
+
 # How to use
 
-First, to run analysis from CAE configure path to CalculiX in Settings.env.
+CacluliX CAE is portable software and doesn't need to be installed. Just extract archive and run *ccx_cae* or *ccx_cae.exe*. Don't forget to make binaries executable.
 
-Despite of your operating system it is recommended to use the source code - simply call [ccx_cae.py](ccx_cae.py) from terminal. Otherwise you may [download binaries](./releases). CacluliX CAE is portable software and doesn't need to be installed. Just extract archive and run *ccx_cae* or *ccx_cae.exe*. Don't forget to make all binaries executable.
+To run analysis from CAE configure path to CalculiX in Settings.env.
+
+It is recommended to use the source code - it's crossplatform.
 
     crossplatform: python3 ccx_cae.py
     in Linux:      ./ccx_cae
@@ -60,17 +70,15 @@ Despite of your operating system it is recommended to use the source code - simp
 
 Pass name of your INP file as an argument to open it at start:
 
-    crossplatform: python3 ccx_cae.py -inp your_model.inp
-    in Linux: ./ccx_cae -inp your_model.inp
-    in Windows: ccx_cae.exe -inp your_model.inp
+    crossplatform: python3 ccx_cae.py -inp model.inp
+    in Linux:      ./ccx_cae -inp model.inp
+    in Windows:    ccx_cae.exe -inp model.inp
 
-<br/><br/>
-
-
-
-# Downloads
-
-Both sources and binaries could be found on [the releases page](./releases).
+So, the intended workflow is:
+- create geometry and mesh in [Salome-platform](https://www.salome-platform.org/)
+- export Salome mesh to INP with [SalomeToCalculix GUI tool](https://github.com/psicofil/SalomeToCalculix),
+- import INP mesh to CAE and continue creating model, submit job from CAE,
+- convert FRD results to VTK/VTU to post-process in Paraview with the [ccx2paraview converter](https://github.com/imirzov/ccx2paraview).
 
 <br/><br/>
 
@@ -92,21 +100,11 @@ Please, you may:
 
 # For developers
 
-Suppose you already have [Python 3](https://www.python.org/downloads/). So first of all install VTK, PyQt5 and PyQtWebEngine:
+Suppose you already have [Python 3](https://www.python.org/downloads/). Install dependancies with command:
 
-    pip3 install vtk PyQt5 PyQtWebEngine
+    pip3 install -r requirements.txt
 
-That's all if you're going only to use CalculiX CAE.
-
-For developers to edit GUI-forms [ccx_dialog.ui](ccx_dialog.ui) and [ccx_cae.ui](ccx_cae.ui) you'll need QT designer:
-
-    sudo apt install qttools5-dev-tools
-
-To create release binaries install [pyinstaller](https://www.pyinstaller.org/):
-
-    pip3 install pyinstaller
-
-Then create release binaries with command:
+Use [pyinstaller](https://www.pyinstaller.org/) to create release binaries:
 
     pyinstaller ccx_cae.py
 
@@ -123,23 +121,22 @@ Then create release binaries with command:
 - Better surface highlight: remove original face for pure color.
 
 - During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.  
-Error: create new set and highlight it
-
-- Notify on job completion.
-
-- Convert calculation results.
 
 **New features**
 
-- User control for the font size.
+- Notify on job completion.
 
-- PDF manual for beginners: "I am not quite sure, what the intended workflow is. I'd expect some representation (object tree) of what has been imported and/or has been already defined. The tree in the CAE window seems to be just sort of a menu but not an actual object tree."
+- Convert calculation results: FRD -> VTK/VTU.
+
+- PDF manual or YouTube videos for beginners.
 
 - Visualize BC's, constraints and loads in VTK.
 
 - Python code (*PYTHON keyword) in INP_code for step repetition and other kind of model generation.
 
-- Import certain keyword with descendants (tree branch) from INP-file. Interface for materials import. Enrich Materials library.
+- Import certain keyword with descendants (tree branch) from INP-file.
+
+- Interface for materials import. Enrich Materials library.
 
 - Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), [UNV](https://github.com/imirzov/unv2ccx).
 

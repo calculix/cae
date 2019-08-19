@@ -1,0 +1,5 @@
+vtk
+PyQt5
+PyQtWebEngine
+qttools5-dev-tools
+pyinstaller
