@@ -11,7 +11,7 @@
 
 
 import re, logging, copy
-import ccx_cae
+import ccx_cae, ccx_settings
 from enum import Enum
 
 
@@ -107,14 +107,14 @@ class DOM:
         for path in self.pathes:
 
             # Compare last words
-            if path[-1].name.upper() != keyword_chain[-1]:
+            if path[-1].name.upper() != keyword_chain[-1].upper():
                 continue
 
             matches = 0
             minimum_j = 0
             for i in range(1, len(path)+1):
                 for j in range(1, len(keyword_chain)+1):
-                    if path[-i].name.upper() == keyword_chain[-j]:
+                    if path[-i].name.upper() == keyword_chain[-j].upper():
                         matches += 1
                         minimum_j = len(keyword_chain)-j
                         continue
@@ -154,7 +154,7 @@ class item_type(Enum):
 class item:
 
     # Read application's global settings
-    settings = ccx_cae.Settings()
+    settings = ccx_settings.Settings()
 
     item_type = ''          # item's type: group/keyword/argument/implementation
     name = ''               # name of item, string

@@ -11,7 +11,7 @@
 
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-import ccx_dialog, ccx_dom, re, os, logging
+import ccx_dialog, ccx_dom, re, os, logging, ccx_settings
 
 
 class tree:
@@ -21,7 +21,7 @@ class tree:
         self.CAE = CAE
 
         # Read application's global settings
-        self.settings = CAE.settings
+        self.settings = ccx_settings.Settings()
 
         # Now generate treeView items
         self.model = QtGui.QStandardItemModel()
@@ -86,7 +86,10 @@ class tree:
 
                 # Add icon to each keyword in tree
                 icon_name = item.name.replace('*', '') + '.png'
-                icon = QtGui.QIcon('./icons/' + icon_name.lower())
+                icon_path = os.path.join('icons', icon_name.lower())
+                icon = QtGui.QIcon(icon_path)
+                # print(icon_path)
+                # icon = QtGui.QIcon('./icons/' + icon_name.lower())
                 tree_element.setIcon(icon)
 
                 # Append job name
@@ -249,7 +252,7 @@ class tree:
                 # Write input file
                 action = QtWidgets.QAction('Write input', self.CAE.treeView)
                 self.myMenu.addAction(action)
-                action.triggered.connect(lambda: self.CAE.IE.exportINP())
+                action.triggered.connect(lambda: self.CAE.IE.writeInput())
 
                 # Submit job
                 action = QtWidgets.QAction('Submit', self.CAE.treeView)

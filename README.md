@@ -104,15 +104,22 @@ Suppose you already have [Python 3](https://www.python.org/downloads/). Install 
 
     pip3 install -r requirements.txt
 
-Use [pyinstaller](https://www.pyinstaller.org/) to create release binaries:
+Use [pyinstaller](https://www.pyinstaller.org/) or [release_binaries.py](release_binaries.py) to create releases:
 
     pyinstaller ccx_cae.py
+    python3 release_binaries.py
 
 <br/><br/>
 
 
 
 # TODO
+
+**Done**
+
+- Import mesh from [UNV](https://github.com/imirzov/unv2ccx).
+
+- Notification on job completion.
 
 **Improvements and bugfixes**
 
@@ -123,8 +130,6 @@ Use [pyinstaller](https://www.pyinstaller.org/) to create release binaries:
 - During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.  
 
 **New features**
-
-- Notify on job completion.
 
 - Convert calculation results: FRD -> VTK/VTU.
 
@@ -138,7 +143,7 @@ Use [pyinstaller](https://www.pyinstaller.org/) to create release binaries:
 
 - Interface for materials import. Enrich Materials library.
 
-- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), [UNV](https://github.com/imirzov/unv2ccx).
+- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/).
 
 - Prool's INP-templates and snippets.
 

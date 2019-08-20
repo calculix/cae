@@ -367,7 +367,7 @@ class Parse:
                             elset_name = _list[0]
                             surf_name = _list[1]
                             for element in self.elsets[elset_name].elements:
-                                _set.append((element, surf_name))
+                                _set.append((element.num, surf_name))
 
                     elif stype == 'NODE':
                         """

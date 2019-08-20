@@ -160,8 +160,8 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionFileImportINP"/>
-    <addaction name="actionFileExportINP"/>
+    <addaction name="actionFileImport"/>
+    <addaction name="actionFileWriteInput"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -195,13 +195,13 @@
    <addaction name="actionViewSurface"/>
    <addaction name="actionViewSurfaceWithEdges"/>
   </widget>
-  <action name="actionFileImportINP">
+  <action name="actionFileImport">
    <property name="icon">
     <iconset>
-     <normaloff>icons/file_importINP.png</normaloff>icons/file_importINP.png</iconset>
+     <normaloff>icons/file_import.png</normaloff>icons/file_import.png</iconset>
    </property>
    <property name="text">
-    <string>Import INP file</string>
+    <string>Import</string>
    </property>
   </action>
   <action name="actionViewFit">
@@ -382,13 +382,13 @@
     <string>Surface View With Edges</string>
    </property>
   </action>
-  <action name="actionFileExportINP">
+  <action name="actionFileWriteInput">
    <property name="icon">
     <iconset>
-     <normaloff>icons/file_exportINP.png</normaloff>icons/file_exportINP.png</iconset>
+     <normaloff>icons/file_write_input.png</normaloff>icons/file_write_input.png</iconset>
    </property>
    <property name="text">
-    <string>Export INP file</string>
+    <string>Write input</string>
    </property>
   </action>
  </widget>

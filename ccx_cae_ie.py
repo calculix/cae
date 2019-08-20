@@ -30,25 +30,21 @@ class IE:
         self.CAE = CAE
 
         # Actions
-        self.CAE.actionFileImportINP.triggered.connect(self.importINP)
-        self.CAE.actionFileExportINP.triggered.connect(self.exportINP)
+        self.CAE.actionFileImport.triggered.connect(self.importFile)
+        self.CAE.actionFileWriteInput.triggered.connect(self.writeInput)
 
 
-    # Menu File -> Import INP file
-    def importINP(self, file_name=None):
+    # Menu File -> Import
+    def importFile(self, file_name=None):
 
         if not file_name:
             file_name = QFileDialog.getOpenFileName(None, \
-                'Import INP file', '', 'Input files (*.inp);;All Files (*)')[0]
+                'Import INP file', '', 'INP (*.inp);;UNV (*.unv);;All Files (*)')[0]
 
         if file_name:
 
-            # Show model name in window's title
-            self.CAE.setWindowTitle('Calculix CAE - ' + os.path.basename(file_name))
-
             # Clear log window before new import
             self.CAE.textEdit.setText('')
-            logging.info('Loading ' + file_name + '.')
 
             # Clear selection before import new model
             self.CAE.VTK.actionSelectionClear()
@@ -56,7 +52,27 @@ class IE:
             # Generate new DOM without implementations
             self.CAE.DOM = ccx_dom.DOM()
 
+            # Convert UNV to INP
+            if file_name.lower().endswith('.unv'):
+                import subprocess
+                extension = ('.exe' if os.name=='nt' else '') # file extension in OS
+                converter_path = os.path.join('converters', 'unv2ccx' + extension)
+                p = subprocess.Popen(converter_path + ' ' + file_name,
+                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+                response = p.stdout.read().decode().strip()
+                if response.startswith('INFO:'):
+                    response = response[6:]
+                logging.info(response)
+                file_name = file_name[:-4] + '.inp'
+                if not os.path.isfile(file_name):
+                    logging.error('Error converting ' + file_name)
+                    return
+
+            # Show model name in window's title
+            self.CAE.setWindowTitle('Calculix CAE - ' + os.path.basename(file_name))
+
             # Parse INP and enrich DOM with parsed objects
+            logging.info('Loading ' + file_name + '.')
             lines = ccx_mesh.read_lines(file_name)
             self.importer(lines) # pass whole INP-file to the parser
 
@@ -148,14 +164,14 @@ class IE:
 
 
     # Menu File -> Write INP file
-    def exportINP(self):
+    def writeInput(self):
         file_name = QFileDialog.getSaveFileName(None, \
             'Write INP file', self.CAE.job.name, 'Input files (*.inp);;All Files (*)')[0]
 
         # Recursively iterate over DOM items, write INP_code for each implementation
         if file_name:
             with open(file_name, 'w') as f:
-                self.exporter(self.CAE.DOM.root, f, 0)
+                self.writer(self.CAE.DOM.root, f, 0)
             logging.info('Input written!')
 
             # Rename job if new INP-file name was selected
@@ -166,7 +182,7 @@ class IE:
 
 
     # Recursively write implementation's INP_code to output .inp-file
-    def exporter(self, parent, f, level):
+    def writer(self, parent, f, level):
 
         # Level is used for padding
         if parent.item_type == ccx_dom.item_type.IMPLEMENTATION:
@@ -185,4 +201,4 @@ class IE:
                     f.write(' '*4*(level+1) + line + '\n')
 
             # Continue call iterator until dig to implementation
-            self.exporter(item, f, level)
+            self.writer(item, f, level)

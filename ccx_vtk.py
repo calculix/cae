@@ -8,7 +8,7 @@
 """
 
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
-import vtk, logging, frd2vtk, ccx_cae
+import vtk, logging, frd2vtk, ccx_cae, ccx_settings
 
 
 class VTK:
@@ -19,7 +19,7 @@ class VTK:
         self.bounds = [-1,1]*3
 
         # Read application's global settings
-        self.settings = ccx_cae.Settings()
+        self.settings = ccx_settings.Settings()
 
         # Create the graphics structure
         self.widget = QVTKRenderWindowInteractor()
@@ -79,17 +79,17 @@ class VTK:
 
         # Parallel or perspective view
         if self.settings.vtk_parallel_view:
-            self.actionViewParallel()
+            self.actionViewParallel(save_settings=False)
         else:
-            self.actionViewPerspective()
+            self.actionViewPerspective(save_settings=False)
 
         # View
         if self.settings.vtk_view == 'Wireframe':
-            self.actionViewWireframe()
+            self.actionViewWireframe(save_settings=False)
         elif self.settings.vtk_view == 'Surface':
-            self.actionViewSurface()
+            self.actionViewSurface(save_settings=False)
         else:
-            self.actionViewSurfaceWithEdges()
+            self.actionViewSurfaceWithEdges(save_settings=False)
 
 
     # Generate VTK unstructured grid from ccx_mesh object
@@ -130,19 +130,21 @@ class VTK:
 
     # View toolbar
 
-    def actionViewParallel(self):
+    def actionViewParallel(self, save_settings=True):
         self.camera.SetParallelProjection(True)
         self.window.Render() # render updated view
         # self.log()
-        self.settings.vtk_parallel_view = True
-        self.settings.save()
+        if save_settings:
+            self.settings.vtk_parallel_view = True
+            self.settings.save()
 
-    def actionViewPerspective(self):
+    def actionViewPerspective(self, save_settings=True):
         self.camera.SetParallelProjection(False)
         self.window.Render() # render updated view
         # self.log()
-        self.settings.vtk_parallel_view = False
-        self.settings.save()
+        if save_settings:
+            self.settings.vtk_parallel_view = False
+            self.settings.save()
 
     def actionViewFront(self):
         self.camera.SetPosition(0, 0, 1) # camera's positions
@@ -189,27 +191,30 @@ class VTK:
     def actionViewFit(self):
         self.renderer.ResetCamera(self.bounds) # avoid camera flying to infinity
         self.window.Render() # render updated view
-        # self.log()
+        self.log()
 
-    def actionViewWireframe(self):
+    def actionViewWireframe(self, save_settings=True):
         self.actor.GetProperty().SetRepresentationToWireframe()
         self.window.Render() # render updated view
-        self.settings.vtk_view = 'Wireframe'
-        self.settings.save()
+        if save_settings:
+            self.settings.vtk_view = 'Wireframe'
+            self.settings.save()
 
-    def actionViewSurface(self):
+    def actionViewSurface(self, save_settings=True):
         self.actor.GetProperty().EdgeVisibilityOff()
         self.actor.GetProperty().SetRepresentationToSurface()
         self.window.Render() # render updated view
-        self.settings.vtk_view = 'Surface'
-        self.settings.save()
+        if save_settings:
+            self.settings.vtk_view = 'Surface'
+            self.settings.save()
 
-    def actionViewSurfaceWithEdges(self):
+    def actionViewSurfaceWithEdges(self, save_settings=True):
         self.actor.GetProperty().EdgeVisibilityOn()
         self.actor.GetProperty().SetRepresentationToSurface()
         self.window.Render() # render updated view
-        self.settings.vtk_view = 'WithEdges'
-        self.settings.save()
+        if save_settings:
+            self.settings.vtk_view = 'WithEdges'
+            self.settings.save()
 
     # Some logs for debugging
     def log(self):
