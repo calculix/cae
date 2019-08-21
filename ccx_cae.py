@@ -17,38 +17,6 @@ from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import ccx_cae_tree, ccx_vtk, ccx_dom, ccx_cae_ie, ccx_settings, ccx_job
 
 
-"""
-    # Application's global settings
-    class Settings:
-
-
-        def __init__(self):
-            self.file_name = 'Settings.env'
-            f = open(self.file_name).read()
-            self.lines = f.split('\n')
-            exec(f)
-
-        def save(self):
-            with open(self.file_name, 'w') as f:
-                counter = 0
-                for line in self.lines:
-                    if line.startswith('self.'):
-                        param, value = line[5:].split('=')
-                        param = param.strip()
-                        value = value.strip()
-                        if value.startswith('\'') and value.endswith('\''):
-                            value = '\'' + getattr(self, param) + '\''
-                        else:
-                            value = getattr(self, param)
-                        line = 'self.{} = {}'.format(param, value)
-                    if counter:
-                        f.write('\n')
-                    f.write(line)
-                    counter += 1
-            logging.info('Settings saved.')
-"""
-
-
 # Logging handler
 class myLoggingHandler(logging.Handler):
 
@@ -75,52 +43,6 @@ class myLoggingHandler(logging.Handler):
         self.textEdit.append('<p style=\'color:{0}; margin:0px;\'>{1}</p>'.format(color, msg_text))
         self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
 
-"""
-    # Job to submit from CAE
-    class Job:
-
-
-    # Create job object
-    def __init__(self, settings, path):
-        self.name = settings.job_prefix
-        self.path = '.'
-        self.rename(path)
-
-
-    # Rename job
-    def rename(self, path):
-
-        # Full path
-        self.path = os.path.abspath(path)
-
-        # Job name with prefix
-        self.name = os.path.basename(path)
-        if not self.name.startswith(settings.job_prefix):
-            self.name = settings.job_prefix + self.name
-
-        # Full path to job with prefix
-        self.path = os.path.join(os.path.dirname(path), self.name)
-
-
-    # Submit job
-    def submit(self):
-        if os.path.isfile(settings.path_ccx):
-            logging.info('Job submitted.')
-
-            # Enable multithreading
-            import multiprocessing as mp
-            cpu_count = str(mp.cpu_count()) # amount of cores
-            os.environ['OMP_NUM_THREADS'] = cpu_count
-
-            # Run analysis in a detached process
-            # os.system('{0} -i {1} > {1}.log &'\
-            #     .format(settings.path_ccx, self.path[:-4]))
-            p = subprocess.Popen([settings.path_ccx, '-i',
-                    self.path[:-4], '>', self.path[:-4] + '.log'], shell=True)
-            logging.info(p.pid)
-        else:
-            logging.error('Wrong path to CCX: ' + settings.path_ccx)
-"""
 
 # Main window
 class CAE(QtWidgets.QMainWindow):

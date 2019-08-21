@@ -88,14 +88,12 @@ class tree:
                 icon_name = item.name.replace('*', '') + '.png'
                 icon_path = os.path.join('icons', icon_name.lower())
                 icon = QtGui.QIcon(icon_path)
-                # print(icon_path)
-                # icon = QtGui.QIcon('./icons/' + icon_name.lower())
                 tree_element.setIcon(icon)
 
                 # Append job name
                 if item.name == 'Job':
-                    job_element = QtGui.QStandardItem(self.CAE.job.name)
-                    tree_element.appendRow(job_element)
+                    self.job_element = tree_element
+                    self.appendJobName()
 
                 # Organize recursion
                 impls = item.getImplementations()
@@ -103,6 +101,17 @@ class tree:
                     self.addToTree(tree_element, impls)
                 else:
                     self.addToTree(tree_element, item.items)
+
+
+    def appendJobName(self):
+
+        # Remove old job name element
+        if self.job_element.hasChildren():
+            self.model.removeRow(0, self.job_element.index())
+
+        # Append new job name element
+        job_name_element = QtGui.QStandardItem(self.CAE.job.name)
+        self.job_element.appendRow(job_name_element)
 
 
     # Double click on treeView item: edit the keyword via dialog
@@ -249,19 +258,10 @@ class tree:
             # Context menu for Job
             elif tree_element.text() == self.CAE.job.name:
 
-                # Write input file
-                action = QtWidgets.QAction('Write input', self.CAE.treeView)
+                # Write input file & submit job
+                action = QtWidgets.QAction('Write input && Submit', self.CAE.treeView)
                 self.myMenu.addAction(action)
-                action.triggered.connect(lambda: self.CAE.IE.writeInput())
-
-                # Submit job
-                action = QtWidgets.QAction('Submit', self.CAE.treeView)
-                if os.path.isfile(self.CAE.job.path):
-                    action.setDisabled(False)
-                else:
-                    action.setDisabled(True)
-                self.myMenu.addAction(action)
-                action.triggered.connect(self.CAE.job.submit)
+                action.triggered.connect(self.writeInputAndSubmit)
 
             # Add splitter
             self.myMenu.addSeparator()
@@ -286,6 +286,12 @@ class tree:
         action_expand_collapse.triggered.connect(self.actionExpandAll)
 
         self.myMenu.exec_(QtGui.QCursor.pos())
+
+
+    # Write input and submit job
+    def writeInputAndSubmit(self):
+        self.CAE.IE.writeInput(file_name=self.CAE.job.path)
+        self.CAE.job.submit()
 
 
     # Show/Hide empty treeView items

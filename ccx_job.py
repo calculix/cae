@@ -18,26 +18,16 @@ class Job:
 
 
     # Create job object
-    def __init__(self, settings, path):
+    def __init__(self, settings, file_name):
         self.settings = settings
-        self.name = self.settings.job_prefix
-        self.path = '.'
-        self.rename(path)
+        self.rename(file_name)
 
 
     # Rename job
-    def rename(self, path):
-
-        # Full path
-        self.path = os.path.abspath(path)
-
-        # Job name with prefix
-        self.name = os.path.basename(path)
-        if not self.name.startswith(self.settings.job_prefix):
-            self.name = self.settings.job_prefix + self.name
-
-        # Full path to job with prefix
-        self.path = os.path.join(os.path.dirname(path), self.name)
+    def rename(self, file_name):
+        self.path = os.path.abspath(file_name) # full path to INP file
+        self.dir = os.path.dirname(file_name) # working directory
+        self.name = os.path.basename(file_name) # INP file name
 
 
     # Submit job
@@ -70,6 +60,7 @@ class Job:
         os.environ['OMP_NUM_THREADS'] = str(mp.cpu_count())
 
         # Run job in CalculiX + write log
+        os.chdir(self.dir)
         command = '{0} -i {1} > {1}.log'\
                     .format(self.settings.path_ccx, self.path[:-4])
         subprocess.run(command, shell=True)

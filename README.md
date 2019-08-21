@@ -115,7 +115,7 @@ Use [pyinstaller](https://www.pyinstaller.org/) or [release_binaries.py](release
 
 # TODO
 
-**Done**
+**Done for the next release**
 
 - Import mesh from [UNV](https://github.com/imirzov/unv2ccx).
 

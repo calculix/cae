@@ -19,6 +19,7 @@
 
 
 from PyQt5.QtWidgets import QFileDialog
+from PyQt5 import QtWidgets, QtCore
 import vtk, os, logging
 import ccx_dom, ccx_mesh, ccx_vtk
 
@@ -164,21 +165,20 @@ class IE:
 
 
     # Menu File -> Write INP file
-    def writeInput(self):
-        file_name = QFileDialog.getSaveFileName(None, \
-            'Write INP file', self.CAE.job.name, 'Input files (*.inp);;All Files (*)')[0]
-
-        # Recursively iterate over DOM items, write INP_code for each implementation
+    def writeInput(self, file_name=None):
+        if not file_name:
+            file_name = QFileDialog.getSaveFileName(None, \
+                'Write INP file', self.CAE.job.path, 'Input files (*.inp);;All Files (*)')[0]
         if file_name:
             with open(file_name, 'w') as f:
                 self.writer(self.CAE.DOM.root, f, 0)
-            logging.info('Input written!')
+            logging.info('Input written to ' + file_name)
 
-            # Rename job if new INP-file name was selected
+            # Rename job and update treeView if new INP-file name was selected
+            old_job_name = self.CAE.job.name
             self.CAE.job.rename(file_name)
-
-            # Update tree to account for new job name
-            self.CAE.tree.generateTreeView()
+            if self.CAE.job.name != old_job_name:
+                self.CAE.tree.appendJobName()
 
 
     # Recursively write implementation's INP_code to output .inp-file
