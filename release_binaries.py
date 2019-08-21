@@ -23,7 +23,7 @@ if __name__ == '__main__':
     op_sys = '_windows' if os.name=='nt' else '_ubuntu'
     ARCH = os.path.join('..', PROJECT_NAME + op_sys + DATE)
     TEMP = 'C:\\Windows\\Temp\\' if os.name=='nt' else '/tmp/'
-    extension = ('.exe' if os.name=='nt' else '') # file extension in OS
+    extension = '.exe' if os.name=='nt' else '' # file extension in OS
 
     # Run pyinstaller to create binaries
     args = [PROJECT_NAME + '.py', '--workpath=' + TEMP]

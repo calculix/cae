@@ -263,6 +263,20 @@ class tree:
                 self.myMenu.addAction(action)
                 action.triggered.connect(self.writeInputAndSubmit)
 
+                # View job log
+                if os.path.isfile(self.CAE.job.log):
+                    action = QtWidgets.QAction('View log', self.CAE.treeView)
+                    self.myMenu.addAction(action)
+                    action.triggered.connect(lambda: \
+                        os.system(self.settings.editor + ' ' + \
+                        self.CAE.job.log))
+
+                # Convert FRD to VTK/VTU
+                if os.path.isfile(self.CAE.job.frd):
+                    action = QtWidgets.QAction('Export to Paraview', self.CAE.treeView)
+                    self.myMenu.addAction(action)
+                    action.triggered.connect(self.CAE.job.exportToParaview)
+
             # Add splitter
             self.myMenu.addSeparator()
 
@@ -290,7 +304,7 @@ class tree:
 
     # Write input and submit job
     def writeInputAndSubmit(self):
-        self.CAE.IE.writeInput(file_name=self.CAE.job.path)
+        self.CAE.IE.writeInput(file_name=self.CAE.job.inp)
         self.CAE.job.submit()
 
 

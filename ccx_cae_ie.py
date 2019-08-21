@@ -19,16 +19,16 @@
 
 
 from PyQt5.QtWidgets import QFileDialog
-from PyQt5 import QtWidgets, QtCore
-import vtk, os, logging
-import ccx_dom, ccx_mesh, ccx_vtk
+import os, logging
+import ccx_dom, ccx_mesh, ccx_log
 
 
 class IE:
 
 
-    def __init__(self, CAE):
+    def __init__(self, CAE, settings):
         self.CAE = CAE
+        self.settings = settings
 
         # Actions
         self.CAE.actionFileImport.triggered.connect(self.importFile)
@@ -40,7 +40,8 @@ class IE:
 
         if not file_name:
             file_name = QFileDialog.getOpenFileName(None, \
-                'Import INP file', '', 'INP (*.inp);;UNV (*.unv);;All Files (*)')[0]
+                'Import INP file', self.CAE.job.dir, \
+                'INP (*.inp);;UNV (*.unv);;All Files (*)')[0]
 
         if file_name:
 
@@ -53,38 +54,29 @@ class IE:
             # Generate new DOM without implementations
             self.CAE.DOM = ccx_dom.DOM()
 
+            # Rename job before tree regeneration
+            self.CAE.job.rename(file_name[:-4] + '.inp')
+
             # Convert UNV to INP
             if file_name.lower().endswith('.unv'):
-                import subprocess
-                extension = ('.exe' if os.name=='nt' else '') # file extension in OS
-                converter_path = os.path.join('converters', 'unv2ccx' + extension)
-                p = subprocess.Popen(converter_path + ' ' + file_name,
-                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
-                response = p.stdout.read().decode().strip()
-                if response.startswith('INFO:'):
-                    response = response[6:]
-                logging.info(response)
-                file_name = file_name[:-4] + '.inp'
-                if not os.path.isfile(file_name):
-                    logging.error('Error converting ' + file_name)
+                self.CAE.job.importUNV()
+                if not os.path.isfile(self.CAE.job.inp):
+                    logging.error('Error converting ' + self.CAE.job.unv)
                     return
 
             # Show model name in window's title
-            self.CAE.setWindowTitle('Calculix CAE - ' + os.path.basename(file_name))
+            self.CAE.setWindowTitle('Calculix CAE - ' + os.path.basename(self.CAE.job.inp))
 
             # Parse INP and enrich DOM with parsed objects
-            logging.info('Loading ' + file_name + '.')
-            lines = ccx_mesh.read_lines(file_name)
+            logging.info('Loading ' + self.CAE.job.inp + '.')
+            lines = ccx_mesh.read_lines(self.CAE.job.inp)
             self.importer(lines) # pass whole INP-file to the parser
-
-            # Rename job before tree regeneration
-            self.CAE.job.rename(file_name)
 
             # Add parsed implementations to the tree
             self.CAE.tree.generateTreeView()
 
             # Parse mesh
-            self.CAE.mesh = ccx_mesh.Parse(file_name) # parse mesh
+            self.CAE.mesh = ccx_mesh.Parse(self.CAE.job.inp) # parse mesh
 
             # Create ugrid from mesh
             ugrid = self.CAE.VTK.mesh2ugrid(self.CAE.mesh)
@@ -168,7 +160,8 @@ class IE:
     def writeInput(self, file_name=None):
         if not file_name:
             file_name = QFileDialog.getSaveFileName(None, \
-                'Write INP file', self.CAE.job.path, 'Input files (*.inp);;All Files (*)')[0]
+                'Write INP file', self.CAE.job.dir, \
+                'Input files (*.inp);;All Files (*)')[0]
         if file_name:
             with open(file_name, 'w') as f:
                 self.writer(self.CAE.DOM.root, f, 0)

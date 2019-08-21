@@ -9,7 +9,7 @@
 """
 
 
-import logging
+import logging, re
 
 
 class Settings:
@@ -23,19 +23,19 @@ class Settings:
 
     def save(self):
         with open(self.file_name, 'w') as f:
-            counter = 0
+            new_line = False
             for line in self.lines:
-                if line.startswith('self.'):
-                    param, value = line[5:].split('=')
-                    param = param.strip()
-                    value = value.strip()
+                match = re.search('^self\.(\S+)\s*=\s*(.+)', line)
+                if match:
+                    param = match.group(1)
+                    value = match.group(2)
                     if value.startswith('\'') and value.endswith('\''):
                         value = '\'' + getattr(self, param) + '\''
                     else:
                         value = getattr(self, param)
                     line = 'self.{} = {}'.format(param, value)
-                if counter:
+                if new_line:
                     f.write('\n')
                 f.write(line)
-                counter += 1
+                new_line = True
         logging.info('Settings saved.')

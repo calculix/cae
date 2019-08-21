@@ -5,11 +5,13 @@
     © Ihor Mirzov, August 2019
     Distributed under GNU General Public License v3.0
 
-    Job to submit from CAE
+    Job submition and convertion. Run a detached process and
+    send messages to queue. This scheme doesn't freeze CAE
+    while analysis is running or files are converting.
 """
 
 
-import os, logging, subprocess, time
+import os, logging, subprocess, time, ccx_log, queue, threading
 import multiprocessing as mp
 from PyQt5 import QtWidgets
 
@@ -21,49 +23,90 @@ class Job:
     def __init__(self, settings, file_name):
         self.settings = settings
         self.rename(file_name)
+        self.home_dir = os.getcwd() # installation directory
 
 
     # Rename job
     def rename(self, file_name):
-        self.path = os.path.abspath(file_name) # full path to INP file
         self.dir = os.path.dirname(file_name) # working directory
         self.name = os.path.basename(file_name) # INP file name
+        self.inp = os.path.abspath(file_name) # full path to INP file with extension
+        self.path = self.inp[:-4] # full path to INP without extension
+        self.frd = self.path + '.frd' # full path to job results file
+        self.log = self.path + '.log' # full path to job log file
+        self.unv = self.path + '.unv' # full path to imported UNV file
 
 
-    # Submit job
+    # Submit job for CalculiX
     def submit(self):
         if os.path.isfile(self.settings.path_ccx):
-            logging.info('Job submitted.')
-            job_completed = mp.Event()
 
-            # Run analysis in a detached process
-            job = mp.Process(target=self.runJob, args=(job_completed,))
-            job.start()
+            # Enable multithreading with needed amount of cores
+            os.environ['OMP_NUM_THREADS'] = str(mp.cpu_count())
 
-            # Wait for job completion
-            while not job_completed.is_set():
-                QtWidgets.qApp.processEvents() # do not freeze GUI
-                time.sleep(0.1)
-
-            # Terminate job process after finishing the job
-            job.terminate()
-
-            logging.info("Job completed.")
+            command = [self.settings.path_ccx, '-i', self.path]
+            self.run(command)
         else:
             logging.error('Wrong path to CCX: ' + self.settings.path_ccx)
 
 
-    # Run analysis in a detached process
-    def runJob(self, job_completed):
+    # Convert FRD to VTK/VTU
+    def exportToParaview(self):
+        if os.path.isfile(self.frd):
+            extension = '.exe' if os.name=='nt' else '' # file extension in OS
+            converter_path = \
+                os.path.join(self.home_dir, 'converters',
+                    'ccx2paraview' + extension)
+            command = [converter_path, self.frd, 'vtu']
+            self.run(command)
+        else:
+            logging.error('File not found: ' + self.frd)
 
-        # Enable multithreading with needed amount of cores
-        os.environ['OMP_NUM_THREADS'] = str(mp.cpu_count())
 
-        # Run job in CalculiX + write log
+    def importUNV(self):
+        extension = '.exe' if os.name=='nt' else '' # file extension in OS
+        converter_path = os.path.join(self.home_dir, 
+                            'converters', 'unv2ccx' + extension)
+        command = [converter_path, self.unv]
+        self.run(command)
+
+
+    # Run command and log stdout without blocking GUI
+    def run(self, command):
+        start = time.perf_counter() # start time
         os.chdir(self.dir)
-        command = '{0} -i {1} > {1}.log'\
-                    .format(self.settings.path_ccx, self.path[:-4])
-        subprocess.run(command, shell=True)
 
-        # Notify about job completeion
-        job_completed.set()
+        # Run command
+        p = subprocess.Popen(command,
+                stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+        # Make daemon to enqueue stdout
+        q = queue.Queue()
+        t = threading.Thread(target=enqueue_output, args=(p.stdout, q))
+        t.daemon = True # thread dies with the program
+        t.start()
+
+        # Read and log stdout without blocking GUI
+        with open(self.log, 'w') as lf:
+            while True:
+                try:
+                    line = q.get_nowait()
+                    if line == 'END':
+                        logging.info('Total {:.0f} seconds.'\
+                            .format(time.perf_counter()-start)) # end time
+                        break
+                    ccx_log.logLine(line)
+                    lf.write(line + '\n')
+                except queue.Empty:
+                    QtWidgets.qApp.processEvents() # do not block GUI
+
+        os.chdir(self.home_dir)
+
+
+# Put stdout lines to queue
+def enqueue_output(stdout, queue):
+    for line in iter(stdout.readline, b''):
+        line = line.decode().strip()
+        queue.put(line)
+    queue.put('END') # mark to break while loop
+    stdout.close()

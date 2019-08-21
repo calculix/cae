@@ -121,6 +121,10 @@ Use [pyinstaller](https://www.pyinstaller.org/) or [release_binaries.py](release
 
 - Notification on job completion.
 
+- Convert calculation results: FRD -> VTU.
+
+- Jobs run without GUI blocking.
+
 **Improvements and bugfixes**
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
@@ -130,8 +134,6 @@ Use [pyinstaller](https://www.pyinstaller.org/) or [release_binaries.py](release
 - During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.  
 
 **New features**
-
-- Convert calculation results: FRD -> VTK/VTU.
 
 - PDF manual or YouTube videos for beginners.
 

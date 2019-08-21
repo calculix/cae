@@ -14,34 +14,7 @@
 import sys, os, argparse, logging, shutil, subprocess
 os.environ['PATH'] += os.path.dirname(sys.executable) # Pyinstaller bug in Windows
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
-import ccx_cae_tree, ccx_vtk, ccx_dom, ccx_cae_ie, ccx_settings, ccx_job
-
-
-# Logging handler
-class myLoggingHandler(logging.Handler):
-
-
-    # Initialization
-    def __init__(self, CAE):
-        super().__init__() # create handler
-        self.textEdit = CAE.textEdit
-        self.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
-
-
-    # Sends log messages to CAE's textEdit widget
-    def emit(self, LogRecord):
-        msg_text = self.format(LogRecord)
-
-        # Message color depending on logging level
-        color = {
-                'DEBUG':'Gray',
-                'INFO':'Black',
-                'WARNING':'Blue',
-                'ERROR':'Red',
-            }[LogRecord.levelname]
-
-        self.textEdit.append('<p style=\'color:{0}; margin:0px;\'>{1}</p>'.format(color, msg_text))
-        self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
+import ccx_cae_tree, ccx_vtk, ccx_dom, ccx_cae_ie, ccx_settings, ccx_job, ccx_log
 
 
 # Main window
@@ -57,11 +30,8 @@ class CAE(QtWidgets.QMainWindow):
         # Load form
         uic.loadUi('ccx_cae.ui', self)
 
-        # # Read application's global settings
-        # settings = ccx_settings.Settings()
-
         # Configure logging
-        logging.getLogger().addHandler(myLoggingHandler(self))
+        logging.getLogger().addHandler(ccx_log.myLoggingHandler(self))
         logging.getLogger().setLevel(settings.logging_level)
 
         # Create VTK widget
@@ -69,10 +39,11 @@ class CAE(QtWidgets.QMainWindow):
         self.vl.addWidget(self.VTK.widget) # add vtk_widget to the form
 
         self.mesh = None # mesh from .inp-file - will be parsed in ccx_cae_ie.py
-        self.IE = ccx_cae_ie.IE(self) # import/export of .inp-file
+        self.IE = ccx_cae_ie.IE(self, settings) # import/export of .inp-file
         self.DOM = ccx_dom.DOM() # empty DOM w/o implementations
 
         # Default start model could be chosen with command line parameter
+        # TODO mode outside class
         parser = argparse.ArgumentParser()
         parser.add_argument('-inp', type=str, help='your .inp file',
                             default=settings.default_start_model)
@@ -88,30 +59,26 @@ class CAE(QtWidgets.QMainWindow):
         self.IE.importFile(args.inp)
 
         # Actions
-        self.actions()
+        if True:
+            self.treeView.keyPressEvent = self.keyPressEvent
 
-
-    # Actions
-    def actions(self):
-        self.treeView.keyPressEvent = self.keyPressEvent
-
-        # VTK actions
-        self.actionSelectionNodes.triggered.connect(self.VTK.actionSelectionNodes)
-        self.actionSelectionElements.triggered.connect(self.VTK.actionSelectionElements)
-        self.actionSelectionClear.triggered.connect(self.VTK.actionSelectionClear)
-        self.actionViewParallel.triggered.connect(self.VTK.actionViewParallel)
-        self.actionViewPerspective.triggered.connect(self.VTK.actionViewPerspective)
-        self.actionViewFront.triggered.connect(self.VTK.actionViewFront)
-        self.actionViewBack.triggered.connect(self.VTK.actionViewBack)
-        self.actionViewTop.triggered.connect(self.VTK.actionViewTop)
-        self.actionViewBottom.triggered.connect(self.VTK.actionViewBottom)
-        self.actionViewLeft.triggered.connect(self.VTK.actionViewLeft)
-        self.actionViewRight.triggered.connect(self.VTK.actionViewRight)
-        self.actionViewIso.triggered.connect(self.VTK.actionViewIso)
-        self.actionViewFit.triggered.connect(self.VTK.actionViewFit)
-        self.actionViewWireframe.triggered.connect(self.VTK.actionViewWireframe)
-        self.actionViewSurface.triggered.connect(self.VTK.actionViewSurface)
-        self.actionViewSurfaceWithEdges.triggered.connect(self.VTK.actionViewSurfaceWithEdges)
+            # VTK actions
+            self.actionSelectionNodes.triggered.connect(self.VTK.actionSelectionNodes)
+            self.actionSelectionElements.triggered.connect(self.VTK.actionSelectionElements)
+            self.actionSelectionClear.triggered.connect(self.VTK.actionSelectionClear)
+            self.actionViewParallel.triggered.connect(self.VTK.actionViewParallel)
+            self.actionViewPerspective.triggered.connect(self.VTK.actionViewPerspective)
+            self.actionViewFront.triggered.connect(self.VTK.actionViewFront)
+            self.actionViewBack.triggered.connect(self.VTK.actionViewBack)
+            self.actionViewTop.triggered.connect(self.VTK.actionViewTop)
+            self.actionViewBottom.triggered.connect(self.VTK.actionViewBottom)
+            self.actionViewLeft.triggered.connect(self.VTK.actionViewLeft)
+            self.actionViewRight.triggered.connect(self.VTK.actionViewRight)
+            self.actionViewIso.triggered.connect(self.VTK.actionViewIso)
+            self.actionViewFit.triggered.connect(self.VTK.actionViewFit)
+            self.actionViewWireframe.triggered.connect(self.VTK.actionViewWireframe)
+            self.actionViewSurface.triggered.connect(self.VTK.actionViewSurface)
+            self.actionViewSurfaceWithEdges.triggered.connect(self.VTK.actionViewSurfaceWithEdges)
 
 
     # Delete keyword's implementation in the treeView by pressing 'Delete' button
