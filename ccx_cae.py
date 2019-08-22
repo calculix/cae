@@ -11,8 +11,18 @@
 """
 
 
+# Modify system enviroment variable PATH
+def _append_run_path():
+    # If the application runs as a bundle, the pyInstaller bootloader
+    # extends the sys module by a flag frozen=True and sets the app
+    # path into variable _MEIPASS'.
+    if getattr(sys, 'frozen', False):
+        pathlist = [sys._MEIPASS, os.path.dirname(sys.executable)]
+        os.environ['PATH'] += os.pathsep + os.pathsep.join(pathlist)
+
+
 import sys, os, argparse, logging, shutil, subprocess
-os.environ['PATH'] += os.path.dirname(sys.executable) # Pyinstaller bug in Windows
+_append_run_path() # Pyinstaller bug in Windows
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import ccx_cae_tree, ccx_vtk, ccx_dom, ccx_cae_ie, ccx_settings, ccx_job, ccx_log
 

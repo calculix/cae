@@ -118,10 +118,6 @@ CalculiX CAE uses external converters:
 
 # TODO
 
-**Done for the next release**
-
-- Open job result in GraphiX
-
 **Improvements and bugfixes**
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().

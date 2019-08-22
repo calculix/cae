@@ -17,7 +17,6 @@ if __name__ == '__main__':
 
     one_file = False
     PROJECT_NAME = os.path.split(os.getcwd())[-1] # name of project's folder
-
     DIRECTORY = os.path.join(os.path.abspath('dist'), PROJECT_NAME)
     DATE = '_' + datetime.datetime.now().strftime('%Y%m%d')
     op_sys = '_windows' if os.name=='nt' else '_ubuntu'
@@ -26,9 +25,13 @@ if __name__ == '__main__':
     extension = '.exe' if os.name=='nt' else '' # file extension in OS
 
     # Run pyinstaller to create binaries
-    args = [PROJECT_NAME + '.py', '--workpath=' + TEMP]
+    args = [
+        PROJECT_NAME + '.py',   # ccx_cae.py
+        '--workpath=' + TEMP,   # temp dir
+        '-w',                   # no console during app run
+        ]
     if one_file:
-        args.append('--onefile')
+        args.append('-F')
     PyInstaller.__main__.run(args)
 
     # Delete cached files
