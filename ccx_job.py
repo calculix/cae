@@ -63,12 +63,22 @@ class Job:
             logging.error('File not found: ' + self.frd)
 
 
+    # Convert UNV to VTU
     def importUNV(self):
         extension = '.exe' if os.name=='nt' else '' # file extension in OS
         converter_path = os.path.join(self.home_dir,
                             'converters', 'unv2ccx' + extension)
         command = [converter_path, self.unv]
         self.run(command)
+
+
+    # Open FRD in GraphiX
+    def openCGX(self):
+        if os.path.isfile(self.settings.path_cgx):
+            command = [self.settings.path_cgx, '-o', self.frd]
+            self.run(command)
+        else:
+            logging.error('Wrong path to CGX: ' + self.settings.path_cgx)
 
 
     # Run job command and log stdout without blocking GUI

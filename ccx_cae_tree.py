@@ -271,8 +271,15 @@ class tree:
                         os.system(self.settings.editor + ' ' + \
                         self.CAE.job.log))
 
-                # Convert FRD to VTK/VTU
+                # If job result - FRD file - present
                 if os.path.isfile(self.CAE.job.frd):
+
+                    # Open FRD file ini CGX
+                    action = QtWidgets.QAction('Open in GraphiX', self.CAE.treeView)
+                    self.myMenu.addAction(action)
+                    action.triggered.connect(self.CAE.job.openCGX)
+
+                    # Convert FRD to VTU
                     action = QtWidgets.QAction('Export to Paraview', self.CAE.treeView)
                     self.myMenu.addAction(action)
                     action.triggered.connect(self.CAE.job.exportVTU)
