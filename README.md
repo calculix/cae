@@ -50,7 +50,7 @@ Main window with imported mesh and highlighted node set:
 
 # Downloads
 
-Both sources and binaries could be found on [the releases page](./releases).
+Both sources and binaries could be found on [the releases page](releases).
 
 <br/><br/>
 
