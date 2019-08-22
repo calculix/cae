@@ -10,19 +10,16 @@
         python3 ccx_cae.py -inp ccx_mesh.inp
 """
 
+import sys, os
 
-# Modify system enviroment variable PATH
-def _append_run_path():
-    # If the application runs as a bundle, the pyInstaller bootloader
-    # extends the sys module by a flag frozen=True and sets the app
-    # path into variable _MEIPASS'.
-    if getattr(sys, 'frozen', False):
-        pathlist = [sys._MEIPASS, os.path.dirname(sys.executable)]
-        os.environ['PATH'] += os.pathsep + os.pathsep.join(pathlist)
+# Update enviroment variable PATH: pyinstaller bug in Windows
+home_dir = os.path.dirname(sys.argv[0]) # app. home directory
+if home_dir not in os.environ['PATH']:
+    if not os.environ['PATH'].endswith(os.pathsep):
+        os.environ['PATH'] += os.pathsep
+    os.environ['PATH'] += home_dir
 
-
-import sys, os, argparse, logging, shutil, subprocess
-_append_run_path() # Pyinstaller bug in Windows
+import argparse, logging, shutil, subprocess
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import ccx_cae_tree, ccx_vtk, ccx_dom, ccx_cae_ie, ccx_settings, ccx_job, ccx_log
 
@@ -34,11 +31,18 @@ class CAE(QtWidgets.QMainWindow):
     # Create main window
     def __init__(self, settings, default_start_model):
         QtWidgets.QMainWindow.__init__(self) # create main window
-        uic.loadUi('ccx_cae.ui', self) # load form
+        ui = os.path.join(os.path.dirname(sys.argv[0]), 'ccx_cae.ui') # full path
+        uic.loadUi(ui, self) # load form
 
         # Configure logs to be shown in window
         logging.getLogger().addHandler(ccx_log.myLoggingHandler(self))
         logging.getLogger().setLevel(settings.logging_level)
+
+        # Abs. path to the default_start_model
+        default_start_model = os.path.abspath(default_start_model)
+        if not os.path.isfile(default_start_model):
+            default_start_model = os.path.join(os.path.dirname(sys.argv[0]),
+                os.path.basename(default_start_model))
 
         # Create VTK widget
         self.VTK = ccx_vtk.VTK() # create everything for model visualization
@@ -80,7 +84,6 @@ class CAE(QtWidgets.QMainWindow):
             self.tree.actionDeleteImplementation()
 
 
-# Here application starts
 if __name__ == '__main__':
 
     # Create application

@@ -27,7 +27,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Nice icons for all keywords/tree objects.
 
-- Run job analysis directly from CAE.
+- Run job analysis and call GraphiX directly from GUI.
 
 - Application's global settings are maintained in text file [ccx_settings.env](ccx_settings.env) with Python syntax. Settings are automatically saved during the workflow.
 
@@ -58,20 +58,20 @@ Both sources and binaries could be found on [the releases page](https://github.c
 
 # How to use
 
-CacluliX CAE is portable software and doesn't need to be installed. Just extract archive, make binary executable and run it with double click. To submit analysis from CAE configure path to CalculiX in Settings.env.
-
-CaculiX CAE supports INP and UNV files as start models. Pass name of your model as an argument to open it at start:
-
-    in Linux:       ./ccx_cae -inp model.inp
-                    ./ccx_cae -inp model.unv
-    in Windows:     ccx_cae.exe -inp model.inp
-                    ccx_cae.exe -inp model.unv
+CacluliX CAE is portable software and doesn't need to be installed. Just extract archive, make binary executable and run it with double click. To submit analysis from CAE and view results in GraphiX configure path to your CalculiX binaries in ccx_settings.env.
 
 The intended workflow is:
 - create geometry and mesh in [Salome-platform](https://www.salome-platform.org/),
 - save mesh as UNV or export it to INP with [SalomeToCalculix GUI tool](https://github.com/psicofil/SalomeToCalculix),
 - import INP or UNV mesh to CAE and continue creating model, submit job from CAE,
-- export job to the Paraview post-processor.
+- export job result to the Paraview post-processor or view it in GraphiX.
+
+CaculiX CAE supports INP and UNV model formats. Pass name of your model as an argument to open it at start:
+
+    in Linux:       ./ccx_cae -inp model.inp
+                    ./ccx_cae -inp model.unv
+    in Windows:     ccx_cae.exe -inp model.inp
+                    ccx_cae.exe -inp model.unv
 
 <br/><br/>
 
@@ -127,6 +127,8 @@ CalculiX CAE uses external converters:
 - During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.  
 
 **New features**
+
+- treeView: show implementations only.
 
 - PDF manual or YouTube videos for beginners.
 

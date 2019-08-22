@@ -10,8 +10,9 @@
 """
 
 
+import re, os, sys, logging
 from PyQt5 import QtWidgets, QtCore, QtGui
-import ccx_dialog, ccx_dom, re, os, logging, ccx_settings
+import ccx_dialog, ccx_dom, ccx_settings
 
 
 class tree:
@@ -86,7 +87,8 @@ class tree:
 
                 # Add icon to each keyword in tree
                 icon_name = item.name.replace('*', '') + '.png'
-                icon_path = os.path.join('icons', icon_name.lower())
+                icon_path = os.path.join(os.path.dirname(sys.argv[0]),
+                                'icons', icon_name.lower())
                 icon = QtGui.QIcon(icon_path)
                 tree_element.setIcon(icon)
 

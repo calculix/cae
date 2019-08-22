@@ -9,14 +9,14 @@
 """
 
 
-import logging, re
+import os, sys, logging, re
 
 
 class Settings:
 
 
     def __init__(self):
-        self.file_name = 'ccx_settings.env'
+        self.file_name = os.path.join(os.path.dirname(sys.argv[0]), 'ccx_settings.env') # full path
         f = open(self.file_name).read()
         self.lines = f.split('\n')
         exec(f)

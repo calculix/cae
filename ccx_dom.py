@@ -10,7 +10,7 @@
 """
 
 
-import re, logging, copy
+import re, logging, copy, os, sys
 import ccx_cae, ccx_settings
 from enum import Enum
 
@@ -34,7 +34,8 @@ class DOM:
             self.keywords = []
 
             # Analyze keywords hierarchy
-            with open('ccx_dom.inp', 'r') as f:
+            ccx_dom_inp = os.path.join(os.path.dirname(sys.argv[0]), 'ccx_dom.inp')
+            with open(ccx_dom_inp, 'r') as f:
                 for line in f.readlines(): # read the whole file and iterate over line
 
                     # Skip comments and empty lines

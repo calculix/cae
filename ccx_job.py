@@ -11,7 +11,7 @@
 """
 
 
-import os, logging, subprocess, time, ccx_log, queue, threading
+import os, sys, logging, subprocess, time, ccx_log, queue, threading
 import multiprocessing as mp
 from PyQt5 import QtWidgets
 
@@ -23,7 +23,7 @@ class Job:
     def __init__(self, settings, file_name):
         self.settings = settings
         self.rename(file_name)
-        self.home_dir = os.getcwd() # installation directory
+        self.home_dir = os.path.dirname(sys.argv[0]) # app. home directory
 
 
     # Rename job

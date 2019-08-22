@@ -106,7 +106,7 @@ class IE:
                 # Find DOM keyword path corresponding to keyword_chain
                 keyword_chain.append(keyword_name)
                 path = self.CAE.DOM.getPath(keyword_chain)
-                logging.debug('Path found: ' + str([item.name for item in path]))
+                logging.debug('path found: ' + str([item.name for item in path]))
 
                 if path:
                     # Read INP_code for the current keyword

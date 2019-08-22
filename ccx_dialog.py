@@ -83,7 +83,7 @@ class Dialog(QtWidgets.QDialog):
         super(Dialog, self).__init__()
 
         # Load basic form
-        ui_path = os.path.join( os.path.dirname(__file__), 'ccx_dialog.ui')
+        ui_path = os.path.join(os.path.dirname(sys.argv[0]), 'ccx_dialog.ui')
         uic.loadUi(ui_path, self)
 
         self.widgets = [] # list of created widgets
