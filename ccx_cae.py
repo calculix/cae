@@ -22,15 +22,11 @@ class CAE(QtWidgets.QMainWindow):
 
 
     # Create main window
-    def __init__(self, settings):
+    def __init__(self, settings, default_start_model):
+        QtWidgets.QMainWindow.__init__(self) # create main window
+        uic.loadUi('ccx_cae.ui', self) # load form
 
-        # Create main window
-        QtWidgets.QMainWindow.__init__(self)
-
-        # Load form
-        uic.loadUi('ccx_cae.ui', self)
-
-        # Configure logging
+        # Configure logs to be shown in window
         logging.getLogger().addHandler(ccx_log.myLoggingHandler(self))
         logging.getLogger().setLevel(settings.logging_level)
 
@@ -41,22 +37,9 @@ class CAE(QtWidgets.QMainWindow):
         self.mesh = None # mesh from .inp-file - will be parsed in ccx_cae_ie.py
         self.IE = ccx_cae_ie.IE(self, settings) # import/export of .inp-file
         self.DOM = ccx_dom.DOM() # empty DOM w/o implementations
-
-        # Default start model could be chosen with command line parameter
-        # TODO mode outside class
-        parser = argparse.ArgumentParser()
-        parser.add_argument('-inp', type=str, help='your .inp file',
-                            default=settings.default_start_model)
-        args = parser.parse_args()
-
-        # Create job object
-        self.job = ccx_job.Job(settings, args.inp)
-
-        # Create/regenerate treeView items: empty model or with implementations
-        self.tree = ccx_cae_tree.tree(self)
-
-        # Import default ugrid
-        self.IE.importFile(args.inp)
+        self.job = ccx_job.Job(settings, default_start_model) # create job object
+        self.tree = ccx_cae_tree.tree(self) # create treeView items based on DOM
+        self.IE.importFile(default_start_model) # import default ugrid
 
         # Actions
         if True:
@@ -96,13 +79,19 @@ if __name__ == '__main__':
     # Read application's global settings
     settings = ccx_settings.Settings()
 
-    # Create main window
-    window = CAE(settings)
+    # Default start model could be chosen with command line parameter
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-inp', type=str, help='your .inp file',
+                        default=settings.default_start_model)
+    args = parser.parse_args()
+
+    # Create and show main window
+    window = CAE(settings, args.inp)
     if settings.showMaximized:
         window.showMaximized()
     else:
         window.show()
-    
+
     # Execute application
     a = app.exec_()
 

@@ -50,8 +50,8 @@ class Job:
             logging.error('Wrong path to CCX: ' + self.settings.path_ccx)
 
 
-    # Convert FRD to VTK/VTU
-    def exportToParaview(self):
+    # Convert FRD to VTU
+    def exportVTU(self):
         if os.path.isfile(self.frd):
             extension = '.exe' if os.name=='nt' else '' # file extension in OS
             converter_path = \
@@ -65,13 +65,13 @@ class Job:
 
     def importUNV(self):
         extension = '.exe' if os.name=='nt' else '' # file extension in OS
-        converter_path = os.path.join(self.home_dir, 
+        converter_path = os.path.join(self.home_dir,
                             'converters', 'unv2ccx' + extension)
         command = [converter_path, self.unv]
         self.run(command)
 
 
-    # Run command and log stdout without blocking GUI
+    # Run job command and log stdout without blocking GUI
     def run(self, command):
         start = time.perf_counter() # start time
         os.chdir(self.dir)

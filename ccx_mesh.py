@@ -29,7 +29,8 @@ def read_lines(inp_file, include=False):
                     # Append lines from include file
                     if include and line.upper().startswith('*INCLUDE'):
                         inc_file = line.split('=')[1].strip()
-                        inc_file = os.path.abspath(inc_file) # file name with path
+                        inc_file = os.path.join(os.path.dirname(inp_file),
+                                        os.path.basename(inc_file)) # file name with path
                         lines.extend(read_lines(inc_file))
     except:
         msg_text = 'There is no file {}.'.format(inp_file)

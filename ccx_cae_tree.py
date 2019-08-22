@@ -275,7 +275,7 @@ class tree:
                 if os.path.isfile(self.CAE.job.frd):
                     action = QtWidgets.QAction('Export to Paraview', self.CAE.treeView)
                     self.myMenu.addAction(action)
-                    action.triggered.connect(self.CAE.job.exportToParaview)
+                    action.triggered.connect(self.CAE.job.exportVTU)
 
             # Add splitter
             self.myMenu.addSeparator()

@@ -48,14 +48,6 @@ class myLoggingHandler(logging.Handler):
         self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
 
 
-# Process thread's stdout messages
-def logResponse(process):
-    response = process.stdout.read().split(b'\n') # split into byte lines
-    for line in response:
-        line = line.decode().strip() # decode byte line into string
-        logLine(line)
-
-
 # Process one stdout message
 def logLine(line):
     logging_level = {

@@ -65,7 +65,7 @@ class IE:
                     return
 
             # Show model name in window's title
-            self.CAE.setWindowTitle('Calculix CAE - ' + os.path.basename(self.CAE.job.inp))
+            self.CAE.setWindowTitle('CalculiX CAE - ' + os.path.basename(self.CAE.job.inp))
 
             # Parse INP and enrich DOM with parsed objects
             logging.info('Loading ' + self.CAE.job.inp + '.')

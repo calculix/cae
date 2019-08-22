@@ -58,27 +58,20 @@ Both sources and binaries could be found on [the releases page](./releases).
 
 # How to use
 
-CacluliX CAE is portable software and doesn't need to be installed. Just extract archive and run *ccx_cae* or *ccx_cae.exe*. Don't forget to make binaries executable.
+CacluliX CAE is portable software and doesn't need to be installed. Just extract archive, make binary executable and run it with double click. To submit analysis from CAE configure path to CalculiX in Settings.env.
 
-To run analysis from CAE configure path to CalculiX in Settings.env.
+CaculiX CAE supports INP and UNV files as start models. Pass name of your model as an argument to open it at start:
 
-It is recommended to use the source code - it's crossplatform.
+    in Linux:       ./ccx_cae -inp model.inp
+                    ./ccx_cae -inp model.unv
+    in Windows:     ccx_cae.exe -inp model.inp
+                    ccx_cae.exe -inp model.unv
 
-    crossplatform: python3 ccx_cae.py
-    in Linux:      ./ccx_cae
-    in Windows:    ccx_cae.exe
-
-Pass name of your INP file as an argument to open it at start:
-
-    crossplatform: python3 ccx_cae.py -inp model.inp
-    in Linux:      ./ccx_cae -inp model.inp
-    in Windows:    ccx_cae.exe -inp model.inp
-
-So, the intended workflow is:
-- create geometry and mesh in [Salome-platform](https://www.salome-platform.org/)
-- export Salome mesh to INP with [SalomeToCalculix GUI tool](https://github.com/psicofil/SalomeToCalculix),
-- import INP mesh to CAE and continue creating model, submit job from CAE,
-- convert FRD results to VTK/VTU to post-process in Paraview with the [ccx2paraview converter](https://github.com/imirzov/ccx2paraview).
+The intended workflow is:
+- create geometry and mesh in [Salome-platform](https://www.salome-platform.org/),
+- save mesh as UNV or export it to INP with [SalomeToCalculix GUI tool](https://github.com/psicofil/SalomeToCalculix),
+- import INP or UNV mesh to CAE and continue creating model, submit job from CAE,
+- export job to the Paraview post-processor.
 
 <br/><br/>
 
@@ -104,26 +97,26 @@ Suppose you already have [Python 3](https://www.python.org/downloads/). Install 
 
     pip3 install -r requirements.txt
 
+Run source code with one of the commands:
+
+    python3 ccx_cae.py
+    python3 ccx_cae.py -inp model.inp
+    python3 ccx_cae.py -inp model.unv
+
 Use [pyinstaller](https://www.pyinstaller.org/) or [release_binaries.py](release_binaries.py) to create releases:
 
     pyinstaller ccx_cae.py
     python3 release_binaries.py
+
+CalculiX CAE uses external converters:
+- [ccx2paraview](https://github.com/imirzov/ccx2paraview) - CalculiX to Paraview converter (frd to vtk/vtu)
+- [unv2ccx](https://github.com/imirzov/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
 
 <br/><br/>
 
 
 
 # TODO
-
-**Done for the next release**
-
-- Import mesh from [UNV](https://github.com/imirzov/unv2ccx).
-
-- Notification on job completion.
-
-- Convert calculation results: FRD -> VTU.
-
-- Jobs run without GUI blocking.
 
 **Improvements and bugfixes**
 
