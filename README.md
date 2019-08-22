@@ -17,19 +17,19 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Features
 
-- Calculix keywords hierarchy with all attributes is maintaned in simple editable text file - [ccx_dom.inp](ccx_dom.inp). Keyword's edit dialog is based on it.
+- Calculix keywords hierarchy with all attributes is maintaned in simple editable text file - [ccx_dom.inp](ccx_dom.inp). "New keyword" dialog is based on it.
+
+- "New keyword" dialog shows apropriate chapter of the official HTML documentation.
 
 - Import/export of .inp-files - one format for all needs. Program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by ccx.
 
 - Solid mesh parser - [ccx_mesh.py](ccx_mesh.py) - tested on the all example CacluliX models - with ability to highlight surfaces, node and element sets after mesh import. See [tests.log](tests.log).
 
-- "New keyword" dialog shows apropriate chapter of the official HTML documentation. The dialog is generated on the fly reading keyword's attributes from [ccx_dom.inp](ccx_dom.inp).
-
 - Nice icons for all keywords/tree objects.
 
 - Run job analysis directly from CAE.
 
-- Application's global settings are maintained in text file [Settings.env](Settings.env) with Python syntax. Settings are automatically saved during the workflow.
+- Application's global settings are maintained in text file [ccx_settings.env](ccx_settings.env) with Python syntax. Settings are automatically saved during the workflow.
 
 
 <br/><br/>
