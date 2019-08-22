@@ -50,7 +50,7 @@ Main window with imported mesh and highlighted node set:
 
 # Downloads
 
-Both sources and binaries could be found on [the releases page](releases).
+Both sources and binaries could be found on [the releases page](https://github.com/imirzov/ccx_cae/releases).
 
 <br/><br/>
 
@@ -83,7 +83,7 @@ Please, you may:
 
 - Simply use this software and ask questions.
 - Share your models and screenshots.
-- Report problems by [posting issues](./issues).
+- Report problems by [posting issues](https://github.com/imirzov/ccx_cae/issues).
 - Do something from the [TODO-list](#TODO).
 - Follow discussion in the [Yahoo CalculiX Group](https://groups.yahoo.com/neo/groups/CALCULIX/conversations/topics/15616)
 
