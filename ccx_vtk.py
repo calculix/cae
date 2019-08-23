@@ -294,8 +294,8 @@ class VTK:
         faces = vtk.vtkCellArray()
         points = vtk.vtkPoints() # all points of the ugrid
         point_num = 0
-        for cell_num, face_num in _set:
-            cell = ugrid.GetCell(int(cell_num) - 1)
+        for elem_num, face_num in _set:
+            cell = ugrid.GetCell(self.element2cell[elem_num])
             face_num = int(face_num[1:]) # face number from .inp file: S1=1, S2=2 etc.
 
             if cell.GetCellType() in [12,25]: # hex

@@ -388,13 +388,15 @@ class Parse:
                         # Surface with element and face numbers
                         #   1, S1
                         #   2, S1
-                        if re.match('^\d+,\s*S\d+', lines[i+1]):
-                            _set.append(tuple(_list))
+                        if re.match('^\d+,\s*S\d', lines[i+1]):
+                            elem_num = int(_list[0])
+                            surf_name = _list[1]
+                            _set.append((elem_num, surf_name))
 
                         # Surface with elset and face number
                         #   elset1, S1
                         #   elset2, S2
-                        elif re.match('^\w+,\s*S\d+', lines[i+1]):
+                        elif re.match('^[\w\-]+,\s*S\d', lines[i+1]):
                             elset_name = _list[0]
                             surf_name = _list[1]
                             for element in self.elsets[elset_name].elements:

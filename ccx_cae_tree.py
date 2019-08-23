@@ -177,7 +177,7 @@ class tree:
                 # Hightlight mesh entities
                 if ipn_up == '*NSET' or ipn_up == '*NODE':
                     match = re.search('NSET\s*=\s*([\w\-]*)', lead_line.upper())
-                    if match: # if there if NSET attribute
+                    if match: # if there is NSET attribute
                         name = lead_line[match.start(1):match.end(1)] # node set name
                         if name in self.CAE.mesh.nsets:
                             _set = [self.CAE.VTK.node2point[n.num] \
@@ -185,7 +185,7 @@ class tree:
                             self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
                 elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
                     match = re.search('ELSET\s*=\s*([\w\-]*)', lead_line.upper())
-                    if match: # if there if ELSET attribute
+                    if match: # if there is ELSET attribute
                         name = lead_line[match.start(1):match.end(1)] # element set name
                         if name in self.CAE.mesh.elsets:
                             _set = [self.CAE.VTK.element2cell[e.num] \
