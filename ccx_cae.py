@@ -44,7 +44,6 @@ class CAE(QtWidgets.QMainWindow):
             if not os.path.isfile(default_start_model):
                 default_start_model = os.path.join(os.path.dirname(sys.argv[0]),
                     os.path.basename(default_start_model))
-        print(default_start_model)
 
         # Create VTK widget
         self.VTK = ccx_vtk.VTK() # create everything for model visualization

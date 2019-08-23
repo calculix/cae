@@ -69,7 +69,7 @@ class IE:
 
             # Parse INP and enrich DOM with parsed objects
             logging.info('Loading ' + self.CAE.job.inp + '.')
-            lines = ccx_mesh.read_lines(self.CAE.job.inp)
+            lines = ccx_mesh.readLines(self.CAE.job.inp)
             self.importer(lines) # pass whole INP-file to the parser
 
             # Add parsed implementations to the tree

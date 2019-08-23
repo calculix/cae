@@ -176,7 +176,7 @@ class tree:
 
                 # Hightlight mesh entities
                 if ipn_up == '*NSET' or ipn_up == '*NODE':
-                    match = re.search('NSET\s*=\s*(\w*)', lead_line.upper())
+                    match = re.search('NSET\s*=\s*([\w\-]*)', lead_line.upper())
                     if match: # if there if NSET attribute
                         name = lead_line[match.start(1):match.end(1)] # node set name
                         if name in self.CAE.mesh.nsets:
@@ -184,7 +184,7 @@ class tree:
                                 for n in self.CAE.mesh.nsets[name].nodes]
                             self.CAE.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
                 elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
-                    match = re.search('ELSET\s*=\s*(\w*)', lead_line.upper())
+                    match = re.search('ELSET\s*=\s*([\w\-]*)', lead_line.upper())
                     if match: # if there if ELSET attribute
                         name = lead_line[match.start(1):match.end(1)] # element set name
                         if name in self.CAE.mesh.elsets:
@@ -199,7 +199,7 @@ class tree:
                     if match:
                         stype = lead_line[match.start(1):match.end(1)]
 
-                    match = re.search('NAME\s*=\s*(\w*)', lead_line.upper())
+                    match = re.search('NAME\s*=\s*([\w\-]*)', lead_line.upper())
                     name = lead_line[match.start(1):match.end(1)] # surface name
                     if stype == 'ELEMENT':
                         _set = self.CAE.mesh.surfaces[name + stype].set
@@ -212,7 +212,7 @@ class tree:
                 # Hightlight Loads & BC
                 elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
                     for line in item.INP_code[1:]:
-                        line = line.strip().upper()
+                        line = line.strip()
                         n = line.replace(',', ' ').split()[0]
                         try:
                             # Single node number
@@ -222,9 +222,6 @@ class tree:
                             _set.extend([self.CAE.VTK.node2point[n.num] \
                                 for n in self.CAE.mesh.nsets[n].nodes])
                     self.CAE.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
-                elif ipn_up in ['*BOUNDARYF', '*MASS FLOW', '*DLOAD', '*DFLUX',
-                            '*RADIATE', '*FILM', '*MODAL DAMPING']:
-                    pass
 
 
     # Context menu for right click

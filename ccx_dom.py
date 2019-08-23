@@ -345,7 +345,7 @@ class implementation(item):
             self.name = name # it will be used in edit Dialog
         else:
             lead_line = INP_code[0]
-            match = re.search('(NAME|ELSET|NSET)\s*=\s*(\w*)', lead_line.upper())
+            match = re.search('(NAME|ELSET|NSET)\s*=\s*([\w\-]*)', lead_line.upper())
             if match:
                 self.name = lead_line[match.start(2):match.end(2)]
             else:

@@ -62,8 +62,8 @@ class Job:
     def openCGX(self):
         if os.path.isfile(self.frd):
             if os.path.isfile(self.settings.path_cgx):
-                command = [self.settings.path_cgx, '-o', self.frd]
-                self.run(command)
+                command = self.settings.path_cgx + ' -o ' + self.frd
+                os.system(command)
             else:
                 logging.error('Wrong path to CGX: ' + self.settings.path_cgx)
         else:
@@ -102,8 +102,8 @@ class Job:
             vtu_path = self.path + '.vtu'
 
         if os.path.isfile(self.settings.path_paraview):
-            command = [self.settings.path_paraview, '--data=' + vtu_path]
-            self.run(command)
+            command = self.settings.path_paraview + ' --data=' + vtu_path
+            os.system(command)
         else:
             logging.error('Wrong path to Paraview: ' + self.settings.path_paraview)
 
@@ -136,6 +136,7 @@ class Job:
                     lf.write(line + '\n')
                 except queue.Empty:
                     QtWidgets.qApp.processEvents() # do not block GUI
+                    time.sleep(0.1) # reduce CPU usage
 
         os.chdir(self.home_dir)
 

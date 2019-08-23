@@ -118,6 +118,16 @@ CalculiX CAE uses external converters:
 
 # TODO
 
+**Done for the next release**
+
+- New context menu for job: Open in Paraview.
+
+- Fixed UnicodeDecodeError during file parse. Implemented binary INP file reading.
+
+- Fixed 100% CPU usage during using Paraview and GraphiX.
+
+- Fixed error in mesh parser and VTK selections: now names can contain symbol '-'.
+
 **Improvements and bugfixes**
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().

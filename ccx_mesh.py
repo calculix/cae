@@ -13,14 +13,14 @@
 import os, re, logging
 
 
-# Recurcively read all the lines of the file and its includes.
-def read_lines(inp_file, include=False):
+# Recurcively read all the lines of the file and its includes
+def readLines(inp_file, include=False):
     lines = []
-    try:
-        inp_file = os.path.abspath(inp_file) # full path
-        with open(inp_file, 'r') as f:
-            for line in f.readlines():
-                line = line.strip()
+    inp_file = os.path.abspath(inp_file) # full path
+    if os.path.isfile(inp_file):
+        with open(inp_file, 'rb') as f:
+            line = readByteLine(f)
+            while line != None:
 
                 # Skip comments and empty lines
                 if (not line.startswith('**')) and len(line):
@@ -31,11 +31,41 @@ def read_lines(inp_file, include=False):
                         inc_file = line.split('=')[1].strip()
                         inc_file = os.path.join(os.path.dirname(inp_file),
                                         os.path.basename(inc_file)) # file name with path
-                        lines.extend(read_lines(inc_file))
-    except:
-        msg_text = 'There is no file {}.'.format(inp_file)
+                        lines.extend(readLines(inc_file))
+
+                line = readByteLine(f)
+    else:
+        msg_text = 'File not found: ' + inp_file
         logging.error(msg_text)
+
     return lines
+
+
+# Read byte line and decode: return None after EOF
+def readByteLine(f):
+
+    # Check EOF
+    byte = f.read(1)
+    if not byte:
+        return None
+
+    # Convert first byte
+    try:
+        line = byte.decode()
+    except UnicodeDecodeError:
+        line = ' ' # replace endecoded symbols with space
+
+    # Continue reading until EOF or new line
+    while byte != b'\n':
+        byte = f.read(1)
+        if not byte:
+            return line.strip() # EOF
+        try:
+            line += byte.decode()
+        except UnicodeDecodeError:
+            line += ' ' # replace endecoded symbols with space
+
+    return line.strip()
 
 
 class Parse:
@@ -53,7 +83,7 @@ class Parse:
         self.bounds = [1e+6,-1e+6]*3 # Xmin,Xmax, Ymin,Ymax, Zmin,Zmax
 
         # Open and read whole the .inp-file
-        lines = read_lines(inp_file, include=True)
+        lines = readLines(inp_file, include=True)
 
         # Parse nodes
         try:
@@ -123,7 +153,7 @@ class Parse:
             if keyword_name.upper() == '*NODE':
                 nodes = []
                 lead_line = lines[i]
-                match = re.search('NSET\s*=\s*(\w*)', lead_line.upper())
+                match = re.search('NSET\s*=\s*([\w\-]*)', lead_line.upper())
 
                 while i+1<len(lines) and not lines[i+1].startswith('*'): # read the whole block and return
                     a = lines[i+1].replace(',', ' ').split() # to avoid redundant commas in the end of line
@@ -169,7 +199,7 @@ class Parse:
     # Parse node sets - *NSET keyword
     def parse_nsets(self, lines):
         for i in range(len(lines)):
-            match = re.search('(\*NSET)\s*,.*NSET\s*=\s*(\w*)', lines[i].upper())
+            match = re.search('(\*NSET)\s*,.*NSET\s*=\s*([\w\-]*)', lines[i].upper())
             if match:
                 name = lines[i][match.start(2):match.end(2)] # node set name
                 nodes = []
@@ -224,7 +254,7 @@ class Parse:
                 etype = lead_line[match.start(1):match.end(1)] # element type
                 amount = self.amount_of_nodes(etype)
                 elements = []
-                match = re.search('ELSET\s*=\s*(\w*)', lead_line.upper()) # if all elements are united in a set
+                match = re.search('ELSET\s*=\s*([\w\-]*)', lead_line.upper()) # if all elements are united in a set
 
                 while i+1<len(lines) and not lines[i+1].startswith('*'): # there will be no comments
 
@@ -275,7 +305,7 @@ class Parse:
     # Parse element sets - *ELSET keyword
     def parse_elsets(self, lines):
         for i in range(len(lines)):
-            match = re.search('(\*ELSET)\s*,.*ELSET\s*=\s*(\w*)', lines[i].upper())
+            match = re.search('(\*ELSET)\s*,.*ELSET\s*=\s*([\w\-]*)', lines[i].upper())
             if match:
                 name = lines[i][match.start(2):match.end(2)] # element set name
                 elements = []
@@ -328,7 +358,7 @@ class Parse:
 
             # Surface name - required attribute
             name = ''
-            match = re.search('\*SURFACE\s*,.*NAME\s*=\s*(\w*)', lines[i].upper())
+            match = re.search('\*SURFACE\s*,.*NAME\s*=\s*([\w\-]*)', lines[i].upper())
             if match:
                 name = lines[i][match.start(1):match.end(1)]
                 skip = False
