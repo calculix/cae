@@ -27,9 +27,9 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Nice icons for all keywords/tree objects.
 
-- Run job analysis and call GraphiX directly from GUI.
+- Run job analysis directly from GUI. Open results in GraphiX or Paraview. 
 
-- Application's global settings are maintained in text file [ccx_settings.env](ccx_settings.env) with Python syntax. Settings are automatically saved during the workflow.
+- Application's global settings are maintained in simple editable text file [ccx_settings.env](ccx_settings.env) with Python syntax. Settings are automatically saved during the workflow.
 
 
 <br/><br/>
@@ -38,7 +38,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Screenshots
 
-Main window with imported mesh and highlighted node set:
+Main window with imported mesh and highlighted node set after job calculation:
 ![Main window](img_social.png "Main window")
 
 "New keyword" dialog with corresponding chapter from HTML manual:
@@ -58,7 +58,7 @@ Both sources and binaries could be found on [the releases page](https://github.c
 
 # How to use
 
-CacluliX CAE is portable software and doesn't need to be installed. Just extract archive, make binary executable and run it with double click. To submit analysis from CAE and view results in GraphiX configure path to your CalculiX binaries in ccx_settings.env.
+CacluliX CAE is portable software and doesn't need to be installed. Just extract archive, make binary executable and run it with double click. **To submit analysis from CAE and view results in GraphiX configure path to your CalculiX binaries in ccx_settings.env**.
 
 The intended workflow is:
 - create geometry and mesh in [Salome-platform](https://www.salome-platform.org/),
@@ -66,7 +66,7 @@ The intended workflow is:
 - import INP or UNV mesh to CAE and continue creating model, submit job from CAE,
 - export job result to the Paraview post-processor or view it in GraphiX.
 
-CaculiX CAE supports INP and UNV model formats. Pass name of your model as an argument to open it at start:
+Pass name of your model as an argument to open it at start:
 
     in Linux:       ./ccx_cae -inp model.inp
                     ./ccx_cae -inp model.unv
@@ -93,7 +93,7 @@ Please, you may:
 
 # For developers
 
-Suppose you already have [Python 3](https://www.python.org/downloads/). Install dependancies with command:
+Suppose you already have [Python 3](https://www.python.org/downloads/). Open terminal in CalculiX CAE directory and install dependancies with command:
 
     pip3 install -r requirements.txt
 
@@ -117,16 +117,6 @@ CalculiX CAE uses external converters:
 
 
 # TODO
-
-**Done for the next release**
-
-- New context menu for job: Open in Paraview.
-
-- Fixed UnicodeDecodeError during file parse. Implemented binary INP file reading.
-
-- Fixed 100% CPU usage during using Paraview and GraphiX.
-
-- Fixed error in mesh parser and VTK selections: now names can contain symbol '-'.
 
 **Improvements and bugfixes**
 

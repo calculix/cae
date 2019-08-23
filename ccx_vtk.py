@@ -252,7 +252,10 @@ class VTK:
         IDs = vtk.vtkIdTypeArray()
         IDs.SetNumberOfComponents(1)
         for i in _set:
-            IDs.InsertNextValue(i)
+            if field_type: # == 1: node
+                IDs.InsertNextValue(self.node2point[i])
+            else: # == 0: element
+                IDs.InsertNextValue(self.element2cell[i])
 
         selectionNode = vtk.vtkSelectionNode()
         selectionNode.SetFieldType(field_type) # select nodes/cells by index
