@@ -39,10 +39,12 @@ class CAE(QtWidgets.QMainWindow):
         logging.getLogger().setLevel(settings.logging_level)
 
         # Abs. path to the default_start_model
-        default_start_model = os.path.abspath(default_start_model)
-        if not os.path.isfile(default_start_model):
-            default_start_model = os.path.join(os.path.dirname(sys.argv[0]),
-                os.path.basename(default_start_model))
+        if len(default_start_model):
+            default_start_model = os.path.abspath(default_start_model)
+            if not os.path.isfile(default_start_model):
+                default_start_model = os.path.join(os.path.dirname(sys.argv[0]),
+                    os.path.basename(default_start_model))
+        print(default_start_model)
 
         # Create VTK widget
         self.VTK = ccx_vtk.VTK() # create everything for model visualization
@@ -53,7 +55,8 @@ class CAE(QtWidgets.QMainWindow):
         self.DOM = ccx_dom.DOM() # empty DOM w/o implementations
         self.job = ccx_job.Job(settings, default_start_model) # create job object
         self.tree = ccx_cae_tree.tree(self) # create treeView items based on DOM
-        self.IE.importFile(default_start_model) # import default ugrid
+        if len(default_start_model):
+            self.IE.importFile(default_start_model) # import default start model
 
         # Actions
         if True:

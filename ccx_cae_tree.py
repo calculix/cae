@@ -276,15 +276,20 @@ class tree:
                 # If job result - FRD file - present
                 if os.path.isfile(self.CAE.job.frd):
 
-                    # Open FRD file ini CGX
+                    # Open FRD file in CGX
                     action = QtWidgets.QAction('Open in GraphiX', self.CAE.treeView)
                     self.myMenu.addAction(action)
                     action.triggered.connect(self.CAE.job.openCGX)
 
                     # Convert FRD to VTU
-                    action = QtWidgets.QAction('Export to Paraview', self.CAE.treeView)
+                    action = QtWidgets.QAction('Convert to VTU', self.CAE.treeView)
                     self.myMenu.addAction(action)
                     action.triggered.connect(self.CAE.job.exportVTU)
+
+                    # Open VTU in Paraview
+                    action = QtWidgets.QAction('Open in Paraview', self.CAE.treeView)
+                    self.myMenu.addAction(action)
+                    action.triggered.connect(self.CAE.job.openParaview)
 
             # Add splitter
             self.myMenu.addSeparator()
