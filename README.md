@@ -17,19 +17,21 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Features
 
-- Calculix keywords hierarchy with all attributes is maintaned in simple editable text file - [ccx_dom.inp](ccx_dom.inp). "New keyword" dialog is based on it.
+- Calculix keywords hierarchy with all attributes is maintaned in [simple editable text file](ccx_dom.inp).
 
-- "New keyword" dialog shows apropriate chapter of the official HTML documentation.
+- "New keyword" dialog shows apropriate chapter of the official [HTML documentation](doc).
 
-- Import/export of .inp-files - one format for all needs. Program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by ccx.
+- INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by CalculiX.
 
-- Solid mesh parser - [ccx_mesh.py](ccx_mesh.py) - tested on the all example CacluliX models - with ability to highlight surfaces, node and element sets after mesh import. See [tests.log](tests.log).
+- [Solid mesh parser](ccx_mesh.py) with ability to highlight surfaces, node and element sets after mesh import. Supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](tests.log).
 
-- Nice icons for all keywords/tree objects.
+- Application's global settings are maintained in [simple editable text file](ccx_settings.env) with Python syntax. Settings are automatically saved during the workflow.
 
-- Run job analysis directly from GUI. Open results in GraphiX or Paraview. 
+- [Optimal job management](ccx_job.py): run analysis directly from GUI - you'll be notified on job completion, open results in GraphiX or convert to VTU format and open it in [Paraview](https://www.paraview.org).
 
-- Application's global settings are maintained in simple editable text file [ccx_settings.env](ccx_settings.env) with Python syntax. Settings are automatically saved during the workflow.
+- Added support for UNV mesh import.
+
+- Cute modern design with [nice icons](icons).
 
 
 <br/><br/>
@@ -43,6 +45,9 @@ Main window with imported mesh and highlighted node set after job calculation:
 
 "New keyword" dialog with corresponding chapter from HTML manual:
 ![Create keyword dialog](img_dialog.png "Create keyword dialog")
+
+Calculation result exported to Paraview:
+![Results in Paraview](img_paraview.png "Results in Paraview")
 
 <br/><br/>
 
