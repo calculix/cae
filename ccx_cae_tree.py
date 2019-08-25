@@ -162,7 +162,8 @@ class tree:
 
     # Highlight node sets, element sets or surfaces
     def clicked(self):
-        self.CAE.VTK.actionSelectionClear() # clear selection
+        if self.settings.show_vtk:
+            self.CAE.VTK.actionSelectionClear() # clear selection
 
         # Debug for Ctrl+Click
         if not len(self.CAE.treeView.selectedIndexes()):
@@ -175,9 +176,9 @@ class tree:
         if not item:
             return
 
-        ipn_up = item.parent.name.upper()
-
-        if item.item_type == ccx_kom.item_type.IMPLEMENTATION:
+        # Hightlight entities in VTK
+        if self.settings.show_vtk and  item.item_type == ccx_kom.item_type.IMPLEMENTATION:
+            ipn_up = item.parent.name.upper()
             lead_line = item.INP_code[0]
             _set = []
 
@@ -270,7 +271,7 @@ class tree:
                     action = QtWidgets.QAction('View log', self.CAE.treeView)
                     self.myMenu.addAction(action)
                     action.triggered.connect(lambda: \
-                        os.system(self.settings.editor + ' ' + \
+                        os.system(self.settings.path_editor + ' ' + \
                         self.CAE.job.log))
 
                 # If job result - FRD file - present

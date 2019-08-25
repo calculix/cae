@@ -87,7 +87,7 @@ class Dialog(QtWidgets.QDialog):
         self.settings = ccx_settings.Settings()
 
         # Load basic form
-        ui_path = os.path.join(os.path.dirname(sys.argv[0]), 'ccx_dialog.ui')
+        ui_path = os.path.join(os.path.dirname(sys.argv[0]), 'ccx_dialog.xml')
         uic.loadUi(ui_path, self)
 
         self.widgets = [] # list of created widgets
@@ -286,22 +286,25 @@ class Dialog(QtWidgets.QDialog):
 
     # Show / Hide HTML help
     def showHideHelp(self, button_click):
-        if button_click: # if called from button click
-            self.settings.showHelp = not self.settings.showHelp
-            self.settings.save()
-        if self.settings.showHelp:
-            self.horizontal_layout.removeWidget(self.doc)
 
-            self.helpButton.setText('Show help')
-            self.setMaximumSize(500, 10000)
-            self.setMinimumSize(500, 600)
-            self.resize(500, 720)
-        else:
+        # If called from button click
+        if button_click:
+            self.settings.show_help = not self.settings.show_help
+            self.settings.save()
+
+        # Show or not show 
+        if self.settings.show_help:
             url = saveHTML(self.item)
             self.doc.load(QtCore.QUrl.fromLocalFile(url)) # load help document
-            self.horizontal_layout.addWidget(self.doc)
 
+            self.horizontal_layout.addWidget(self.doc)
             self.helpButton.setText('Hide help')
             self.setMaximumSize(10000, 10000)
             self.setMinimumSize(1280, 600)
             self.resize(1280, 720)
+        else:
+            self.horizontal_layout.removeWidget(self.doc)
+            self.helpButton.setText('Show help')
+            self.setMaximumSize(500, 10000)
+            self.setMinimumSize(500, 600)
+            self.resize(500, 720)

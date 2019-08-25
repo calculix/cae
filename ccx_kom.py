@@ -10,8 +10,8 @@
 """
 
 
-import re, logging, copy, os, sys
-import ccx_cae, ccx_settings
+import re, logging, copy, os, sys, time
+import ccx_settings
 from enum import Enum
 import xml.etree.ElementTree as ET
 
@@ -19,40 +19,36 @@ import xml.etree.ElementTree as ET
 # Keyword Object Model
 class KOM:
 
-    """
-        root            -   group 'Model' from ccx_kom.xml
-        pathes          -   all possible keywords nesting variants
-    """
 
     # Read CalculiX keywords hierarchy
     def __init__(self):
 
-        # try:
-        self.root = group()
+        try:
+            self.root = group() # group 'Model' from ccx_kom.xml
 
-        # List of all existing keywords
-        self.keywords = []
+            # List of all existing keywords
+            self.keywords = []
 
-        # Analyze keywords hierarchy
-        ccx_kom_xml = os.path.join(os.path.dirname(sys.argv[0]), 'ccx_kom.xml')
-        tree = ET.parse(ccx_kom_xml)
-        self.buildKOM(tree.getroot(), self.root)
+            # Analyze keywords hierarchy
+            ccx_kom_xml = os.path.join(os.path.dirname(sys.argv[0]), 'ccx_kom.xml')
+            tree = ET.parse(ccx_kom_xml)
+            self.buildKOM(tree.getroot(), self.root)
 
-        # All possible keywords nesting variants - needed for parsing INP_doc
-        self.pathes = []
-        self.buildPathes(self.root)
-        self.pathes.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
-        # for path in self.pathes:
-        #     logging.debug(str([item.name for item in path]))
+            # All possible keywords nesting variants - needed for parsing INP_doc
+            self.pathes = []
+            self.buildPathes(self.root)
+            self.pathes.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
+            # for path in self.pathes:
+            #     logging.debug(str([item.name for item in path]))
 
-        # # Regenerate all HTML help pages
-        # for item in self.keywords:
-        #     import ccx_dialog
-        #     ccx_dialog.saveHTML(item)
+            # # Regenerate all HTML help pages
+            # for item in self.keywords:
+            #     import ccx_dialog
+            #     ccx_dialog.saveHTML(item)
 
-        logging.info('CalculiX object model generated.')
-        # except:
-        #     logging.error('Can\'t generate keywords hierarchy!')
+            logging.info('CalculiX object model generated.')
+        except:
+            logging.error('Can\'t generate keywords hierarchy!')
 
 
     # Recursively build Keyword Object Model
@@ -302,17 +298,6 @@ class argument(item):
         self.form = '' # QCheckBox, QLineEdit, QComboBox
         self.required = False
 
-        # match = re.search('^([\(\)\w\- \|\=]+)=([\w\- \|]*)$', line)
-        # if match:
-        #     # Argument's name
-        #     self.name = re.sub('[\(\)]', '', match.group(1)) + '='
-
-        #     # Argument's values
-        #     if '|' in match.group(2): # if few values are present
-        #         self.items = [v for v in match.group(2).split('|')]
-        #     elif len(match.group(2)): # if one value is present
-        #         self.items = [match.group(2)]
-
 
 # Keyword implementation - a piece of INP-code for CalculiX input file
 class implementation(item):
@@ -343,5 +328,7 @@ class implementation(item):
 
 # Test module
 if __name__ == '__main__':
+    start = time.perf_counter() # start time
     logging.getLogger().setLevel(logging.DEBUG)
     KOM()
+    print('\nTotal {:.1e} seconds'.format(time.perf_counter()-start)) # end time

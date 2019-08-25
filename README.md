@@ -19,13 +19,15 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Calculix keywords hierarchy with all attributes is maintaned in [editable XML file](ccx_kom.xml).
 
-- "New keyword" dialog shows apropriate chapter of the official [HTML documentation](doc). It could be hidden if not needed.
+- "New keyword" dialog shows apropriate chapter of the official [HTML documentation](doc).
 
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by CalculiX.
 
-- [Solid mesh parser](ccx_mesh.py) with ability to highlight surfaces, node and element sets after mesh import. Supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](tests.log).
+- [Solid mesh parser](ccx_mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](tests.log).
 
-- Application's global settings are maintained in [simple editable text file](ccx_settings.env) with Python syntax. Settings are automatically saved during the workflow.
+- Surfaces and sets of the imported mesh could be highlighted in the [VTK widget](ccx_vtk.py).
+
+- Application's global settings are maintained in [editable env-file](ccx_settings.env) with Python syntax. Settings are automatically saved during the workflow.
 
 - [Optimal job management](ccx_job.py): run analysis directly from GUI - you'll be notified on job completion, open results in GraphiX or convert to VTU format and open it in [Paraview](https://www.paraview.org).
 
@@ -127,7 +129,11 @@ CalculiX CAE uses external converters:
 
 - Show/Hide HTML help in the keyword edit Dialog.
 
-- Keywords hierarchy implemented with XML format. Now it's faster and program code is simpler.
+- Show/Hide VTK mesh visualization widget.
+
+- Keywords hierarchy implemented with XML format. Now it's 1e-4 seconds faster :) and program code is simpler.
+
+- File->Settings user dialog.
 
 **Improvements and bugfixes**
 

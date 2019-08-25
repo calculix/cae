@@ -49,7 +49,8 @@ class IE:
             self.CAE.textEdit.setText('')
 
             # Clear selection before import new model
-            self.CAE.VTK.actionSelectionClear()
+            if self.settings.show_vtk:
+                self.CAE.VTK.actionSelectionClear()
 
             # Generate new KOM without implementations
             self.CAE.KOM = ccx_kom.KOM()
@@ -79,12 +80,13 @@ class IE:
             self.CAE.mesh = ccx_mesh.Parse(self.CAE.job.inp) # parse mesh
 
             # Create ugrid from mesh
-            ugrid = self.CAE.VTK.mesh2ugrid(self.CAE.mesh)
+            if self.settings.show_vtk:
+                ugrid = self.CAE.VTK.mesh2ugrid(self.CAE.mesh)
 
-            # Plot ugrid in VTK
-            if ugrid:
-                self.CAE.VTK.mapper.SetInputData(ugrid)
-                self.CAE.VTK.actionViewIso() # iso view after import
+                # Plot ugrid in VTK
+                if ugrid:
+                    self.CAE.VTK.mapper.SetInputData(ugrid)
+                    self.CAE.VTK.actionViewIso() # iso view after import
 
 
     # Enrich KOM with keywords from INP_doc

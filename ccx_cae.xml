@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
+    <width>600</width>
     <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1280</width>
+    <width>600</width>
     <height>600</height>
    </size>
   </property>
@@ -41,11 +41,11 @@
      <number>6</number>
     </property>
     <item>
-     <widget class="QSplitter" name="splitter_2">
+     <widget class="QSplitter" name="v_splitter">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QSplitter" name="splitter">
+      <widget class="QSplitter" name="h_splitter">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -87,44 +87,6 @@
          <bool>false</bool>
         </attribute>
        </widget>
-       <widget class="QFrame" name="frame">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>250</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <layout class="QVBoxLayout" name="vl">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-          </layout>
-         </item>
-        </layout>
-       </widget>
       </widget>
       <widget class="QTextEdit" name="textEdit">
        <property name="sizePolicy">
@@ -152,7 +114,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1280</width>
+     <width>600</width>
      <height>31</height>
     </rect>
    </property>
@@ -162,10 +124,14 @@
     </property>
     <addaction name="actionFileImport"/>
     <addaction name="actionFileWriteInput"/>
+    <addaction name="actionFileSettings"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -389,6 +355,11 @@
    </property>
    <property name="text">
     <string>Write input</string>
+   </property>
+  </action>
+  <action name="actionFileSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>
