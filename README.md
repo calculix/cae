@@ -17,9 +17,9 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Features
 
-- Calculix keywords hierarchy with all attributes is maintaned in [simple editable text file](ccx_dom.inp).
+- Calculix keywords hierarchy with all attributes is maintaned in [editable XML file](ccx_kom.xml).
 
-- "New keyword" dialog shows apropriate chapter of the official [HTML documentation](doc).
+- "New keyword" dialog shows apropriate chapter of the official [HTML documentation](doc). It could be hidden if not needed.
 
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by CalculiX.
 
@@ -126,6 +126,8 @@ CalculiX CAE uses external converters:
 **Done for the next release**
 
 - Show/Hide HTML help in the keyword edit Dialog.
+
+- Keywords hierarchy implemented with XML format. Now it's faster and program code is simpler.
 
 **Improvements and bugfixes**
 
