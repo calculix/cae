@@ -12,7 +12,7 @@
 
 import re, os, sys, logging
 from PyQt5 import QtWidgets, QtCore, QtGui
-import ccx_dialog, ccx_dom, ccx_settings
+import ccx_dialog, ccx_kom, ccx_settings
 
 
 class tree:
@@ -37,11 +37,11 @@ class tree:
         self.CAE.treeView.collapsed.connect(self.treeViewCollapsed)
 
 
-    # Recursively generate treeView widget items based on DOM
+    # Recursively generate treeView widget items based on KOM
     def generateTreeView(self):
         self.model.clear() # remove all items and data from tree
         parent_element = self.model.invisibleRootItem() # top element in QTreeView
-        self.addToTree(parent_element, self.CAE.DOM.root.items) # pass top level groups
+        self.addToTree(parent_element, self.CAE.KOM.root.items) # pass top level groups
 
 
     # Used with generateTreeView() - implements recursion
@@ -51,16 +51,16 @@ class tree:
 
             # Add to the tree only needed item_types
             if item.item_type not \
-                in [ccx_dom.item_type.GROUP,
-                    ccx_dom.item_type.KEYWORD,
-                    ccx_dom.item_type.IMPLEMENTATION]:
+                in [ccx_kom.item_type.GROUP,
+                    ccx_kom.item_type.KEYWORD,
+                    ccx_kom.item_type.IMPLEMENTATION]:
                 continue
 
             # Check if there are keywords with implementations
             if self.settings.show_empty_keywords \
                     or item.name == 'Job' \
                     or item.countImplementations() \
-                    or item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+                    or item.item_type == ccx_kom.item_type.IMPLEMENTATION:
 
                 # Create tree_element
                 tree_element = QtGui.QStandardItem(item.name)
@@ -73,7 +73,7 @@ class tree:
                 if item.isActive():
                     brush.setColor(QtCore.Qt.black)
                     # Bold font for implementations
-                    if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+                    if item.item_type == ccx_kom.item_type.IMPLEMENTATION:
                         font = QtGui.QFont()
                         font.setBold(True)
                         tree_element.setFont(font)
@@ -124,12 +124,12 @@ class tree:
 
         # Double click on GROUP doesn't create dialog
         if item and item.item_type in \
-            [ccx_dom.item_type.KEYWORD, ccx_dom.item_type.IMPLEMENTATION]:
+            [ccx_kom.item_type.KEYWORD, ccx_kom.item_type.IMPLEMENTATION]:
 
             if item.active:
 
                 # Create dialog window and pass item
-                dialog = ccx_dialog.Dialog(self.CAE.DOM, item)
+                dialog = ccx_dialog.Dialog(self.CAE.KOM, item)
 
                 # Get response from dialog window
                 if dialog.exec() == ccx_dialog.Dialog.Accepted: # if user pressed 'OK'
@@ -138,22 +138,22 @@ class tree:
                     INP_code = dialog.onOk() # list of strings
 
                     # Create implementation object for keyword
-                    if item.item_type == ccx_dom.item_type.KEYWORD:
-                        impl = ccx_dom.implementation(item, INP_code) # create keyword's implementation
+                    if item.item_type == ccx_kom.item_type.KEYWORD:
+                        impl = ccx_kom.implementation(item, INP_code) # create keyword's implementation
 
                         # Regenerate tree_element's children
                         tree_element.removeRows(0, tree_element.rowCount()) # remove all children
                         self.addToTree(tree_element, item.getImplementations()) # add only implementations
 
                     # Replace implementation object with a new one
-                    elif item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+                    elif item.item_type == ccx_kom.item_type.IMPLEMENTATION:
                         # Remove old one
                         parent = tree_element.parent() # parent treeView item
                         keyword = parent.data() # parent keyword for implementation
                         keyword.items.remove(item) # remove implementation from keyword's items
 
                         # Add new one
-                        impl = ccx_dom.implementation(keyword, INP_code, name=item.name)
+                        impl = ccx_kom.implementation(keyword, INP_code, name=item.name)
                         tree_element.setData(impl)
 
             else:
@@ -177,7 +177,7 @@ class tree:
 
         ipn_up = item.parent.name.upper()
 
-        if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+        if item.item_type == ccx_kom.item_type.IMPLEMENTATION:
             lead_line = item.INP_code[0]
             _set = []
 
@@ -238,7 +238,7 @@ class tree:
 
             # Context menu for any keyword and implementations
             if item:
-                if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+                if item.item_type == ccx_kom.item_type.IMPLEMENTATION:
 
                     # 'Edit' action
                     action_edit_implementation = QtWidgets.QAction('Edit', self.CAE.treeView)
@@ -250,7 +250,7 @@ class tree:
                     self.myMenu.addAction(action_delete_implementation)
                     action_delete_implementation.triggered.connect(self.actionDeleteImplementation)
 
-                if item.item_type == ccx_dom.item_type.KEYWORD:
+                if item.item_type == ccx_kom.item_type.KEYWORD:
 
                     # 'Create' action
                     action_create_implementation = QtWidgets.QAction('Create', self.CAE.treeView)
@@ -340,13 +340,13 @@ class tree:
         self.settings.save()
 
 
-    # Delete keyword's implementation from DOM
+    # Delete keyword's implementation from KOM
     def actionDeleteImplementation(self):
         index = self.CAE.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
-        if item and item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+        if item and item.item_type == ccx_kom.item_type.IMPLEMENTATION:
 
             # Confirmation dialog to delete implementation
             answer = QtWidgets.QMessageBox.question(None,
@@ -372,7 +372,7 @@ class tree:
         # To hide current item/brunch it should be empty 'keyword' or 'group'
         if not self.settings.show_empty_keywords \
             and not tree_element.hasChildren() \
-            and tree_element.data().item_type != ccx_dom.item_type.IMPLEMENTATION:
+            and tree_element.data().item_type != ccx_kom.item_type.IMPLEMENTATION:
 
             # Hide current item/brunch from tree via calling parent.removeRow
             parent = tree_element.parent()
@@ -384,7 +384,7 @@ class tree:
                 self.hideParent(parent)
 
 
-    # Change DOM item's 'expanded' variable when user interacts with treeView
+    # Change KOM item's 'expanded' variable when user interacts with treeView
     def treeViewExpanded(self, index):
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION

@@ -123,6 +123,10 @@ CalculiX CAE uses external converters:
 
 # TODO
 
+**Done for the next release**
+
+- Show/Hide HTML help in the keyword edit Dialog.
+
 **Improvements and bugfixes**
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
@@ -132,6 +136,8 @@ CalculiX CAE uses external converters:
 - During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.  
 
 **New features**
+
+- Job from CAE: automatically recompile CalculiX sources with updated subroutines.
 
 - treeView: show implementations only.
 
@@ -145,7 +151,7 @@ CalculiX CAE uses external converters:
 
 - Interface for materials import. Enrich Materials library.
 
-- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/).
+- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), Abaqus INP and ODB.
 
 - Prool's INP-templates and snippets.
 

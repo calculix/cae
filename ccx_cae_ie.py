@@ -6,7 +6,7 @@
     Distributed under GNU General Public License v3.0
 
     INP importer:
-        Enrich DOM with implementations from parsed file.
+        Enrich KOM with implementations from parsed file.
         Generate new tree with keyword implementations.
         Parse mesh and build ugrid
         Display ugrid in the VTK widget
@@ -20,7 +20,7 @@
 
 from PyQt5.QtWidgets import QFileDialog
 import os, logging
-import ccx_dom, ccx_mesh, ccx_log
+import ccx_kom, ccx_mesh, ccx_log
 
 
 class IE:
@@ -51,8 +51,8 @@ class IE:
             # Clear selection before import new model
             self.CAE.VTK.actionSelectionClear()
 
-            # Generate new DOM without implementations
-            self.CAE.DOM = ccx_dom.DOM()
+            # Generate new KOM without implementations
+            self.CAE.KOM = ccx_kom.KOM()
 
             # Rename job before tree regeneration
             self.CAE.job.rename(file_name[:-4] + '.inp')
@@ -67,7 +67,7 @@ class IE:
             # Show model name in window's title
             self.CAE.setWindowTitle('CalculiX CAE - ' + os.path.basename(self.CAE.job.inp))
 
-            # Parse INP and enrich DOM with parsed objects
+            # Parse INP and enrich KOM with parsed objects
             logging.info('Loading ' + self.CAE.job.inp + '.')
             lines = ccx_mesh.readLines(self.CAE.job.inp)
             self.importer(lines) # pass whole INP-file to the parser
@@ -87,7 +87,7 @@ class IE:
                 self.CAE.VTK.actionViewIso() # iso view after import
 
 
-    # Enrich DOM with keywords from INP_doc
+    # Enrich KOM with keywords from INP_doc
     def importer(self, INP_doc):
         keyword_chain = []
         impl_counter = {}
@@ -103,9 +103,9 @@ class IE:
                 else:
                     keyword_name = line
 
-                # Find DOM keyword path corresponding to keyword_chain
+                # Find KOM keyword path corresponding to keyword_chain
                 keyword_chain.append(keyword_name)
-                path = self.CAE.DOM.getPath(keyword_chain)
+                path = self.CAE.KOM.getPath(keyword_chain)
                 logging.debug('path found: ' + str([item.name for item in path]))
 
                 if path:
@@ -131,10 +131,10 @@ class IE:
                         path_as_string += '/' + item.name
                         if j == len(path) - 1: # last item is always keyword
                             # Create implementation (for example, MATERIAL-1)
-                            impl = ccx_dom.implementation(item, INP_code)
+                            impl = ccx_kom.implementation(item, INP_code)
                             logging.info(impl.name)
                             logging.debug('1')
-                        elif item.item_type == ccx_dom.item_type.KEYWORD:
+                        elif item.item_type == ccx_kom.item_type.KEYWORD:
                             # If for this keyword implementation was created previously
                             counter = impl_counter[path_as_string] - 1
                             impl = item.items[counter] # first implementation, for example, STEP-1
@@ -164,7 +164,7 @@ class IE:
                 'Input files (*.inp);;All Files (*)')[0]
         if file_name:
             with open(file_name, 'w') as f:
-                self.writer(self.CAE.DOM.root, f, 0)
+                self.writer(self.CAE.KOM.root, f, 0)
             logging.info('Input written to ' + file_name)
 
             # Rename job and update treeView if new INP-file name was selected
@@ -178,16 +178,16 @@ class IE:
     def writer(self, parent, f, level):
 
         # Level is used for padding
-        if parent.item_type == ccx_dom.item_type.IMPLEMENTATION:
+        if parent.item_type == ccx_kom.item_type.IMPLEMENTATION:
             level += 1
 
-        # For each group/keyword from DOM
+        # For each group/keyword from KOM
         for item in parent.items:
 
-            if item.item_type == ccx_dom.item_type.ARGUMENT:
+            if item.item_type == ccx_kom.item_type.ARGUMENT:
                 continue
 
-            if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+            if item.item_type == ccx_kom.item_type.IMPLEMENTATION:
                 # INP_code is stripped
                 f.write(' '*4*level + item.INP_code[0] + '\n')
                 for line in item.INP_code[1:]:

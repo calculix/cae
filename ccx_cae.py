@@ -21,7 +21,7 @@ if home_dir not in os.environ['PATH']:
 
 import argparse, logging, shutil, subprocess
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
-import ccx_cae_tree, ccx_vtk, ccx_dom, ccx_cae_ie, ccx_settings, ccx_job, ccx_log
+import ccx_cae_tree, ccx_vtk, ccx_kom, ccx_cae_ie, ccx_settings, ccx_job, ccx_log
 
 
 # Main window
@@ -51,9 +51,9 @@ class CAE(QtWidgets.QMainWindow):
 
         self.mesh = None # mesh from .inp-file - will be parsed in ccx_cae_ie.py
         self.IE = ccx_cae_ie.IE(self, settings) # import/export of .inp-file
-        self.DOM = ccx_dom.DOM() # empty DOM w/o implementations
+        self.KOM = ccx_kom.KOM() # empty KOM w/o implementations
         self.job = ccx_job.Job(settings, default_start_model) # create job object
-        self.tree = ccx_cae_tree.tree(self) # create treeView items based on DOM
+        self.tree = ccx_cae_tree.tree(self) # create treeView items based on KOM
         if len(default_start_model):
             self.IE.importFile(default_start_model) # import default start model
 

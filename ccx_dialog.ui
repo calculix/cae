@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>dialog</class>
+ <widget class="QDialog" name="dialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
+    <width>500</width>
     <height>720</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
+    <width>500</width>
     <height>600</height>
    </size>
   </property>
@@ -26,7 +26,7 @@
    <iconset>
     <normaloff>../../../../../home/ihor/.designer/backup/icons/logo.png</normaloff>../../../../../home/ihor/.designer/backup/icons/logo.png</iconset>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
    <property name="spacing">
     <number>6</number>
    </property>
@@ -43,21 +43,12 @@
     <number>6</number>
    </property>
    <item>
-    <widget class="QSplitter" name="splitter">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>1</horstretch>
-       <verstretch>1</verstretch>
-      </sizepolicy>
+    <layout class="QHBoxLayout" name="horizontal_layout">
+     <property name="spacing">
+      <number>6</number>
      </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <widget class="QWidget" name="layoutWidget">
+     <item>
       <layout class="QVBoxLayout" name="vertical_layout">
-       <property name="sizeConstraint">
-        <enum>QLayout::SetDefaultConstraint</enum>
-       </property>
        <item>
         <widget class="QLabel" name="label">
          <property name="enabled">
@@ -96,66 +87,70 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>500</width>
+           <width>488</width>
            <height>0</height>
           </size>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QDialogButtonBox" name="buttonBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>6</number>
          </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="standardButtons">
-          <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
-         </property>
-        </widget>
+         <item>
+          <widget class="QDialogButtonBox" name="buttonBox">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="standardButtons">
+            <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+           </property>
+           <property name="centerButtons">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="helpButton">
+           <property name="text">
+            <string>Show help</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
-     </widget>
-     <widget class="QWebEngineView" name="doc" native="true">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>1</horstretch>
-        <verstretch>1</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>400</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="url" stdset="0">
-       <url>
-        <string>about:blank</string>
-       </url>
-      </property>
-     </widget>
-    </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QWebEngineView</class>
-   <extends>QWidget</extends>
-   <header>qwebengineview.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>dialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -171,7 +166,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>dialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">

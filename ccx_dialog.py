@@ -11,7 +11,8 @@
 
 
 from PyQt5 import QtWidgets, uic, QtCore, QtWebEngineWidgets
-import sys, os, re, logging, ccx_dom
+import sys, os, re, logging
+import ccx_kom, ccx_settings
 
 
 # Load HTML help into QWebEngineView
@@ -19,9 +20,9 @@ def saveHTML(item):
     USE_CACHED_HTML = True # if False cached html will NOT be used
 
     # Get keyword name
-    if item.item_type == ccx_dom.item_type.KEYWORD:
+    if item.item_type == ccx_kom.item_type.KEYWORD:
         keyword_name = item.name[1:] # cut star
-    if item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+    if item.item_type == ccx_kom.item_type.IMPLEMENTATION:
         keyword_name = item.parent.name[1:] # cut star
 
     # Avoid spaces in html page names
@@ -77,10 +78,13 @@ def saveHTML(item):
 class Dialog(QtWidgets.QDialog):
 
 
-    def __init__(self, DOM, item):
+    def __init__(self, KOM, item):
 
         # Create dialog window
         super(Dialog, self).__init__()
+
+        # Read application's global settings
+        self.settings = ccx_settings.Settings()
 
         # Load basic form
         ui_path = os.path.join(os.path.dirname(sys.argv[0]), 'ccx_dialog.ui')
@@ -90,40 +94,40 @@ class Dialog(QtWidgets.QDialog):
         self.item = item # needed to pass to other functions
 
         # New implementation: draw full form for keyword's arguments
-        if self.item.item_type == ccx_dom.item_type.KEYWORD:
+        if self.item.item_type == ccx_kom.item_type.KEYWORD:
             self.setWindowTitle('New ' + self.item.name)
 
             # For each keyword's argument create name and value widgets
-            index = 0 # row number for vertical layout
+            row_number = 0 # row number for vertical layout
+            logging.debug('')
             for argument in self.item.items:
-                if argument.item_type != ccx_dom.item_type.ARGUMENT:
+                if argument.item_type != ccx_kom.item_type.ARGUMENT:
                     continue
-
-                # Remove braces if any
-                argument.name = re.sub('[\(\)]', '', argument.name)
+                logging.debug('Argument ' + argument.name)
 
                 # Try to get existing implementations for argument.name
-                keyword_name = '*' + argument.name[:-1] # cut '='
-                keyword = DOM.getKeywordByName(keyword_name)
+                keyword = KOM.getKeywordByName('*' + argument.name)
+                argument_values_items = argument.items
                 if keyword:
                     """
                         For example, add names of *AMPLITUDE implementations,
                             if argument.name is 'AMPLITUDE'
                     """
-                    # implementations = [item.name for item in keyword.items \
-                    #     if item.item_type == ccx_dom.item_type.IMPLEMENTATION]
                     implementations = [item.name for item in keyword.getImplementations()]
-                    if len(implementations):
-                        logging.debug('{} {}'.format(keyword.name, implementations))
-                        argument.items.extend(implementations)
-                        argument.items.insert(0, '') # first row needed empty
-                        argument.items = sorted(list(set(argument.items)))
+                    logging.debug('\tKeyword ' + keyword.name)
+                    logging.debug('\t\tImplementations ' + str(implementations))
+                    logging.debug('\t\tArgument items ' + str(argument.items))
+                    if len(implementations) and not len(argument.items):
+                        argument.form = 'QComboBox'
+                        argument_values_items = [''] + implementations
 
                 # Argument's values
-                if len(argument.items):
+                if argument.form == 'QComboBox':
+                    argument_name_text = argument.name + ' ='
+
                     # Predefined values to be chosen
                     argument_values_widget = QtWidgets.QComboBox()
-                    argument_values_widget.addItems(argument.items)
+                    argument_values_widget.addItems(argument_values_items)
 
                     # Assign event to update textEdit widget
                     argument_values_widget.currentIndexChanged.connect(self.onChange)
@@ -132,16 +136,21 @@ class Dialog(QtWidgets.QDialog):
                     sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
                     sizePolicy.setHorizontalStretch(1) # expand horizontally
                     argument_values_widget.setSizePolicy(sizePolicy)
-                elif argument.name.endswith('='):
+
+                elif argument.form == 'QLineEdit':
+                    argument_name_text = argument.name + ' ='
+                    
                     # Values to be entered
                     argument_values_widget = QtWidgets.QLineEdit()
 
                     # Assign event to update textEdit widget
                     argument_values_widget.textChanged.connect(self.onChange)
-                else:
+                
+                elif argument.form == 'QCheckBox':
+                    argument_name_text = argument.name + ' ' # shift checkbox a little bit for nice view
+
                     # Flag to be checked
                     argument_values_widget = QtWidgets.QCheckBox()
-                    argument.name += ' ' # shift checkbox a little bit for nice view
 
                     # Assign event to update textEdit widget
                     argument_values_widget.clicked.connect(self.onChange)
@@ -151,21 +160,24 @@ class Dialog(QtWidgets.QDialog):
                     argument_required_widget = QtWidgets.QLabel()
                     argument_required_widget.setText('Required:')
                     argument_required_widget.setStyleSheet('color:Red;')
-                    self.vertical_layout.insertWidget(index, argument_required_widget)
-                    index += 1 # first time
+                    self.vertical_layout.insertWidget(row_number, argument_required_widget)
+                    row_number += 1 # first time
 
                 # Mutually exclusive arguments
                 if '|' in argument.name:
-
                     argument_name_widget = QtWidgets.QComboBox()
-                    argument_name_widget.addItems(argument.name.split('|'))
+                    if argument.form == 'QCheckBox':
+                        arg_names = argument.name.split('|')
+                    else:
+                        arg_names = [n + ' =' for n in argument.name.split('|')]
+                    argument_name_widget.addItems(arg_names)
 
                     # Assign event to update textEdit widget
                     argument_name_widget.currentIndexChanged.connect(self.onChange)
 
                 else:
                     argument_name_widget = QtWidgets.QLabel()
-                    argument_name_widget.setText(argument.name)
+                    argument_name_widget.setText(argument_name_text)
 
                 # Keep name and values in horizontal layout
                 horizontal_layout = QtWidgets.QHBoxLayout()
@@ -179,25 +191,30 @@ class Dialog(QtWidgets.QDialog):
                 self.widgets.append(argument_values_widget)
 
                 # Add widgets to dialog window
-                self.vertical_layout.insertLayout(index, horizontal_layout)
-                index += 1 # second time
+                self.vertical_layout.insertLayout(row_number, horizontal_layout)
+                row_number += 1 # second time
 
             # Fill textEdit widget with default keyword's configuration
             self.onChange(None)
 
         # Edit implementation: draw only textEdit
-        if self.item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+        if self.item.item_type == ccx_kom.item_type.IMPLEMENTATION:
             self.setWindowTitle('Edit ' + self.item.name)
             for line in self.item.INP_code:
                 self.textEdit.append(line)
 
         # Generate html help page from official manual
-        url = saveHTML(item)
-        self.doc.load(QtCore.QUrl.fromLocalFile(url)) # load help document
+        self.doc = QtWebEngineWidgets.QWebEngineView()
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(1) # expand horizontally
+        self.doc.setSizePolicy(sizePolicy)
+
+        self.showHideHelp(False)
 
         # Actions
         self.buttonBox.accepted.connect(self.onOk)
         self.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.onReset)
+        self.helpButton.clicked.connect(lambda: self.showHideHelp(True))
 
 
     # Update piece of INP-code in the textEdit widget
@@ -235,14 +252,14 @@ class Dialog(QtWidgets.QDialog):
                         arguments[name.strip()] = value
 
         # Generate text for textEdit widget
-        if self.item.item_type == ccx_dom.item_type.KEYWORD:
+        if self.item.item_type == ccx_kom.item_type.KEYWORD:
             string = self.item.name
             for name, value in arguments.items():
                 if self.item.from_new_line:
                     string += '\n' + name + value # argument goes from new line
                 else:
                     string += ', ' + name + value # argument goes inline
-        if self.item.item_type == ccx_dom.item_type.IMPLEMENTATION:
+        if self.item.item_type == ccx_kom.item_type.IMPLEMENTATION:
             string = self.item.parent.name
 
         self.textEdit.setText(string)
@@ -265,3 +282,26 @@ class Dialog(QtWidgets.QDialog):
     def onOk(self):
         super(Dialog, self).accept()
         return self.textEdit.toPlainText().strip().split('\n')
+
+
+    # Show / Hide HTML help
+    def showHideHelp(self, button_click):
+        if button_click: # if called from button click
+            self.settings.showHelp = not self.settings.showHelp
+            self.settings.save()
+        if self.settings.showHelp:
+            self.horizontal_layout.removeWidget(self.doc)
+
+            self.helpButton.setText('Show help')
+            self.setMaximumSize(500, 10000)
+            self.setMinimumSize(500, 600)
+            self.resize(500, 720)
+        else:
+            url = saveHTML(self.item)
+            self.doc.load(QtCore.QUrl.fromLocalFile(url)) # load help document
+            self.horizontal_layout.addWidget(self.doc)
+
+            self.helpButton.setText('Hide help')
+            self.setMaximumSize(10000, 10000)
+            self.setMinimumSize(1280, 600)
+            self.resize(1280, 720)
