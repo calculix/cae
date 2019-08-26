@@ -1,0 +1,17 @@
+#! /bin/csh -f
+
+set msglvl      = 1
+set msgFile    = stdout
+
+set matrices    = ../../Matrices
+set matrix      = R2D100
+
+set inGraphFile = $matrices/$matrix/orig0.graphf
+set inETreeFile = $matrices/$matrix/nd.etreef
+set inMapFile   = $matrices/$matrix/ndms.ivf
+
+set seed          = 10101
+
+testSemi \
+   $msglvl $msgFile $inGraphFile $inETreeFile $inMapFile
+

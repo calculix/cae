@@ -1,0 +1,161 @@
+%
+%  main TeX file
+%
+% \documentstyle[leqno,11pt,twoside]{report}
+\documentclass[leqno,10pt,twoside]{report}
+\usepackage{amsmath}
+
+\textwidth      6.5 in
+\textheight     8.5 in
+\oddsidemargin  0.0 in
+\evensidemargin 0.0 in
+\topmargin      0.0 in
+\baselineskip   20 pt
+\parskip        3 pt plus 1 pt minus 1 pt
+
+\makeindex
+\input psfig
+
+\newcommand{\bfi}{{\bf i}}
+\newcommand{\bfj}{{\bf j}}
+\newcommand{\bnd}[1]{{\partial{#1}}}
+
+\pagestyle{myheadings}
+% \markboth
+% {\quad \hrulefill \quad {\bf SPOOLES} : {\it DRAFT} \today \quad \hrulefill}
+% {\quad \hrulefill \quad {\bf SPOOLES} : {\it DRAFT} \quad \today \hrulefill}
+\markboth
+{\quad \hrulefill \quad {\bf SPOOLES 2.2} : \today \quad \hrulefill}
+{\quad \hrulefill \quad {\bf SPOOLES 2.2} : \quad \today \hrulefill}
+
+\begin{document}
+
+\bibliographystyle{plain}
+
+\title{
+       The Reference Manual for {\bf SPOOLES}, Release 2.2: \break
+       An Object Oriented Software Library for Solving \break
+       Sparse Linear Systems of Equations}
+\author{
+   Cleve Ashcraft\thanks{
+   Boeing Shared Services Group,
+   P. O. Box 24346,
+   Mail Stop 7L-22,
+   Seattle, Washington 98124,
+   {\tt cleve.ashcraft@boeing.com}.
+   This research was supported in part by the DARPA
+   Contract DABT63-95-C-0122 and the DoD High Performance Computing
+   Modernization Program Common HPC Software Support Initiative.}
+ \and 
+ Daniel Pierce\thanks{
+   Boeing Shared Services Group,
+   P. O. Box 24346,
+   Mail Stop 7L-22,
+   Seattle, Washington 98124,
+   {\tt dpierce@redwood.rt.cs.boeing.com}.
+   This research was supported in part by the DARPA
+   Contract DABT63-95-C-0122 and the DoD High Performance Computing
+   Modernization Program Common HPC Software Support Initiative.}
+ \and 
+ David K. Wah\thanks{
+   Boeing Shared Services Group,
+   P. O. Box 24346,
+   Mail Stop 7L-22,
+   Seattle, Washington 98124,
+   {\tt david.wah@pss.boeing.com}.
+   This research was supported in part by the DARPA
+   Contract DABT63-95-C-0122 and the DoD High Performance Computing
+   Modernization Program Common HPC Software Support Initiative.}
+ \and 
+ Jason Wu\thanks{
+   Boeing Shared Services Group,
+   P. O. Box 24346,
+   Mail Stop 7L-22,
+   Seattle, Washington 98124,
+   {\tt jwu@redwood.rt.cs.boeing.com}.
+   This research was supported in part by the DARPA
+   Contract DABT63-95-C-0122 and the DoD High Performance Computing
+   Modernization Program Common HPC Software Support Initiative.}
+% \and
+%  Joseph W.H. Liu\thanks{
+%     Department of Computer Science, York
+%     University, North York, Ontario, Canada M3J 1P3.
+%     This research was supported in part by the
+%     Natural Sciences and Engineering Research Council of Canada
+%     under grant A5509
+%     and in part by the ARPA
+%     Contract DABT63-95-C-0122.}
+}
+\date{\today}
+\maketitle
+
+\begin{abstract}
+Solving sparse linear systems of equations is a common and important 
+application of a multitude of scientific and engineering applications.
+The {\bf SPOOLES} software package\footnote{
+{\bf SPOOLES} is an acronym for {\bf SP}arse 
+{\bf O}bject-{\bf O}riented {\bf L}inear {\bf E}quations {\bf S}olver.
+}
+provides this functionality with
+a collection of software objects.
+The first step to solving a sparse linear system is to find a good
+low-fill ordering of the rows and columns.
+The library contains several ways to perform this operation:
+minimum degree, generalized nested dissection, and multisection.
+The second step is to factor the matrix as a product of triangular
+and diagonal matrices.
+The library supports pivoting for numerical stability (when required),
+approximation techniques to reduce the storage for and work to
+compute the matrix factors, and the computations are based on BLAS3
+numerical kernels to take advantage of high performance computing
+architectures.
+The third step is to solve the linear system using the computed
+factors.
+\par
+The library is written in ANSI C using object oriented design.
+Good design and efficient code sometimes conflict; 
+generally we have preferred to cater to design. 
+For large sparse matrices the serial code outperforms its FORTRAN 
+predecessors, the reverse holds for moderate sized matrices 
+or those that do not have good block structure.
+The present release of the library contains a serial factorization 
+and solve,
+a multithreaded version using the Solaris and Posix thread packages,
+and an MPI version.
+There is considerable code overlap between the serial, threaded
+and MPI versions.
+\par
+This release of the package is totally within the public domain; 
+there are absolutely no licensing restrictions as with other
+software packages.
+The development of this software was funded by 
+DARPA\footnote{DARPA Contract DABT63-95-C-0122.} 
+and the DoD\footnote{DoD High Performance Computing
+   Modernization Program Common HPC Software Support Initiative.}
+with the express purpose that
+others (academic, government, industrial and commercial) could
+easily incorporate the data structures and algorithms into
+application codes.
+All we ask is an acknowledgement in derivative codes and any
+publications from research that uses this software.
+And, we hope that any improvements will be communicated to others.
+\end{abstract}
+\par
+% \input preface.tex
+
+\tableofcontents
+\listoffigures
+
+\input partIntro.tex
+\input partUtil.tex
+\input partOrder.tex
+\input partNumeric.tex
+\input partMisc.tex
+\input partMT.tex
+\input partMPI.tex
+
+\bibliography{spooles}
+
+\input main.ind
+
+\end{document}

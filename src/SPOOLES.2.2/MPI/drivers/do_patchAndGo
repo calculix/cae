@@ -1,0 +1,43 @@
+#! /bin/csh -f
+
+set msglvl           = 1
+set msgFile          = res.serial
+set msgFile          = stdout
+set msgFile          = res
+
+set type             = 1
+set symmetryflag     = 0
+set seed             = 9999
+ 
+set patchAndGoFlag = 0
+set toosmall       = 1.e-9
+set fudge          = 1.e-9
+set storeids       = 1
+set storevalues    = 1
+
+set nproc = 4
+
+#
+# for solaris with mpich
+#
+set pgFile = patchAndGo.$nproc.pg
+/usr/local/mpi/bin/mpirun -p4pg $pgFile \
+patchAndGoMPI $msglvl $msgFile $type $symmetryflag \
+              $patchAndGoFlag $toosmall $fudge \
+              $storeids $storevalues $seed
+ 
+#
+# for sgi
+#
+# mpirun -np $nproc \
+# patchAndGoMPI $msglvl $msgFile $type $symmetryflag \
+#               $patchAndGoFlag $toosmall $fudge \
+#               $storeids $storevalues $seed
+ 
+#
+# for hp
+#
+# /opt/mpi/bin/mpirun -np $nproc \
+# patchAndGoMPI $msglvl $msgFile $type $symmetryflag \
+#               $patchAndGoFlag $toosmall $fudge \
+#               $storeids $storevalues $seed

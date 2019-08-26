@@ -1,0 +1,121 @@
+\par
+\section{Driver programs for the {\tt SemiImplMtx} object}
+\label{section:SemiImplMtx:drivers}
+\par
+This section contains brief descriptions of the driver programs.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testGrid msglvl msgFile n1 n2 n3 maxzeros maxsize seed type symmetryflag
+         sparsityflag pivotingflag tau droptol nrhs depth
+\end{verbatim}
+This driver program tests the {\tt SemiImplMtx} creation and solve
+methods for a matrix from a regular 2-D or 3-D grid.
+The matrix can be real or complex and is loaded with random
+entries.
+The linear system $AX = B$ is solved as follows.
+\begin{itemize}
+\item
+First $A$ is factored, and a {\tt FrontMtx} object is created to
+hold the factorization.
+\item
+The system is solved using the {\tt FrontMtx} object.
+\item
+A {\tt SemiImplMtx} matrix object is constructed from the {\tt
+FrontMtx} object and $A$.
+\item
+The system is solved using the {\tt SemiImplMtx} object.
+\end{itemize}
+Various statistics and CPU timings are written to the message
+file to compare the two solution processes.
+Use the {\tt do\_grid} shell script for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt n1} is the number of grid points in the first direction.
+\item
+{\tt n2} is the number of grid points in the second direction.
+\item
+{\tt n3} is the number of grid points in the third direction.
+\item
+{\tt maxzeros} is the maximum number of zeroes to place into a front.
+\item
+{\tt maxsize} is the maximum number of internal rows and columns
+in a front.
+\item
+{\tt type} must be either 
+{\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+\item
+{\tt symmetryflag} must be either 
+{\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or
+\item
+{\tt sparsityflag} must be either 
+{\tt FRONTMTX\_DENSE\_FRONTS} or
+{\tt FRONTMTX\_SPARSE\_FRONTS}.
+\item
+{\tt pivotingflag} must be either 
+{\tt SPOOLES\_PIVOTING},
+{\tt SPOOLES\_NO\_PIVOTING} or
+\item
+{\tt tau} is used when pivoting is enabled,
+it is an upper bound on the magnitude of the entries in $L$ and $U$.
+\item
+{\tt droptol} is used when an approximate factorization is called
+for, (i.e., when {\tt sparsityflag} is {\tt FRONTMTX\_SPARSE\_FRONTS}).
+It is a lower bound on the magnitude of the entries in $L$ and $U$
+that are stored and used in computations.
+\item
+{\tt nrhs} is the number of right hand sides.
+\item
+{\tt depth} is used to specify the schur complement.
+It is based on separators, not on fronts. (Recall that large
+separators can be split into smaller fronts for efficiency reasons.)
+All fronts found in separators lower than {\tt depth} in depth
+(the top level separator has depth zero) belong in domains.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testSimple msglvl msgFile inFrontMtxFile inInpMtxFile inIVfile
+\end{verbatim}
+This driver program is used to construct a {\tt SemiImplMtx} object.
+It reads in a {\tt FrontMtx} and {\tt InpMtx} from files.
+It also reads in an {\tt IV} object that specifies whether a front
+is to be in the domains (the (1,1) block) or the 
+Schur complement (the (2,2) block).
+It then creates the {\tt SemiImplMtx} object and writes it to the
+message file.
+Use the {\tt do\_simple} script file for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt FrontMtx} object is read from the {\tt inFrontMtxFile} file,
+which must be of the form {\tt *.frontmtxf} or {\tt *.frontmtxb}.
+\item
+The {\tt InpMtx} object is read from the {\tt inInpMtxFile} file,
+which must be of the form {\tt *.inpmtxf} or {\tt *.inpmtxb}.
+\item
+The map vector {\tt IV} object is read from the {\tt inIVfile} file,
+which must be of the form {\tt *.ivf} or {\tt *.ivb}.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

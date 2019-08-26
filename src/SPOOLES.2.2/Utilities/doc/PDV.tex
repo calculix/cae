@@ -1,0 +1,46 @@
+\par
+\subsection{{\tt PDV} : {\tt double *} vector methods}
+\label{subsection:Utilities:proto:PDV}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double ** PDVinit ( int n ) ;
+\end{verbatim}
+\index{PDVinit@{\tt PDVinit()}}
+This is the allocator and initializer method for {\tt double*} vectors.
+Storage for an array with size {\tt n} is found and each
+entry is filled with {\tt NULL}.
+A pointer to the array is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PDVfree ( double **p_vec ) ;
+\end{verbatim}
+\index{PDVfree@{\tt PDVfree()}}
+This method releases the storage taken by {\tt p\_vec[]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PDVcopy ( int n, double *p_y[], double *p_x[] ) ;
+\end{verbatim}
+\index{PDVcopy@{\tt PDVcopy()}}
+This method copies {\tt n} entries from {\tt p\_x[]} to {\tt p\_y[]},
+i.e.,
+{\tt p\_y[i] = p\_x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PDVsetup ( int n, int sizes[], double vec[], double *p_vec[] ) ;
+\end{verbatim}
+\index{PDVsetup@{\tt PDVsetup()}}
+This method sets the entries of {\tt p\_vec[]} as pointers into {\tt
+vec[]} given by the {\tt sizes[]} vector,
+i.e.,
+{\tt p\_vec[0] = vec}, and 
+{\tt p\_vec[i] = p\_vec[i-1] + sizes[i-1]} 
+for {\tt 0 < i < n}.
+%-----------------------------------------------------------------------
+\end{enumerate}

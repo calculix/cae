@@ -1,0 +1,41 @@
+\par
+\section{Data Structure}
+\label{section:SolveMap:dataStructure}
+\par
+The {\tt SolveMap} structure has the following fields.
+\begin{itemize}
+\item
+{\tt int symmetryflag} : symmetry flag
+\begin{itemize}
+\item {\tt SPOOLES\_SYMMETRIC} 
+      -- symmetric $(U^T + I)D(I + U)$ factorization
+\item {\tt SPOOLES\_HERMITIAN} 
+      -- hermitian $(U^H + I)D(I + U)$ factorization
+\item {\tt SPOOLES\_NONSYMMETRIC} 
+      -- nonsymmetric $(L + I)D(I + U)$ factorization
+\end{itemize}
+\item
+{\tt int nfront} -- number of fronts
+\item
+{\tt int nproc} -- number of threads or processes
+\item
+{\tt int *owners} -- vector mapping fronts to owning threads or
+processes
+\item
+{\tt int nblockUpper} -- number of submatrices in the upper triangle
+\item
+{\tt int *rowidsUpper} -- vector of row ids for the upper triangle
+\item
+{\tt int *colidsUpper} -- vector of column ids for the upper triangle
+\item
+{\tt int *mapUpper} -- map from submatrices to threads or processes
+\item
+{\tt int nblockLower} -- number of submatrices in the lower triangle
+\item
+{\tt int *rowidsLower} -- vector of row ids for the lower triangle
+\item
+{\tt int *colidsLower} -- vector of column ids for the lower triangle
+\item
+{\tt int *mapLower} -- map from submatrices to threads or processes
+processes
+\end{itemize}

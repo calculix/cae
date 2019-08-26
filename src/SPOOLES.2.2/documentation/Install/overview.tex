@@ -1,0 +1,107 @@
+\section{Overview}
+\label{section:overview}
+\par
+The {\bf SPOOLES} library is {\it object-oriented}.
+Just about everything is an object, data structures and algorithms.
+The directory structure reflects this design philosophy.
+First, make a directory (say called {\tt spooles}) 
+and place the tar file {\tt spooles.2.2.tar.gz} in this directory.
+unzip the file and then extract the files.
+For example, here are the Unix commands.
+\begin{verbatim}
+% mkdir spooles
+% mv spooles.2.2.tar.gz spooles
+% cd spooles
+% gzip -d spooles.2.2.tar.gz
+% tar -xvf spooles.2.2.tar.gz
+\end{verbatim}
+The top level directory has many subdirectories and many header files.
+Most subdirectories deal with a single object.
+\par
+Let's look at the first object, the {\tt A2} dense matrix
+object. ({\tt A2} stands for {\tt A}rray, {\tt 2}-dimensional.)
+The {\tt A2} directory has two files and three subdirectories.
+\begin{itemize}
+\item
+{\tt A2.h} --- This is the header file that defines the {\tt
+struct} that holds the {\tt A2} object and has prototypes of all
+of the {\tt A2} methods.
+If you don't have printed documentation in front of you, this is a
+handy place to look.
+This file contains comments from the source code telling what the
+method does and describes the calling sequence parameters.
+\item
+{\tt makefile} --- This makefile is called by the top level
+makefile to compile source, drivers, and clean up the
+subdirectories.
+\item
+{\tt doc/} --- This subdirectory contains \LaTeX\ files that
+document the {\tt A2} object. 
+These files also form a chapter of the {\bf SPOOLES} Reference
+Manual.
+\item
+{\tt src/} --- This subdirectory contains all the source code for
+the {\tt A2} object.
+\item
+{\tt drivers/} --- This subdirectory contains all the driver
+programs that exercise and validate the behavior of the {\tt A2} object.
+\end{itemize}
+Each object's directory contains a header file, a make file, and a
+source and document subdirectories.
+Most but not all contain driver directories.
+\par
+{\bf SPOOLES} is written in the C language, which does not directly
+support object-oriented programming.
+There is no inheritance in C, and so there is no nesting of
+our object directories.
+For example, there are three tree objects ---
+{\tt Tree} for a simple tree,
+{\tt ETree} for a front tree (which contains a {\tt Tree} object
+and so could be descended from it),
+and
+{\tt DSTree} for a ``domain/separator'' tree 
+(which also contains a {\tt Tree} object) ---
+but they are separate objects whose directories are at the same level.
+\par
+There are some directories that are peripheral to the main library.
+\begin{itemize}
+\item
+The {\tt LinSol} directory contains some ``bridge'' or ``wrapper''
+methods used to incorporate {\bf SPOOLES} into CSAR-Nastran, a
+finite element program, to solve linear systems.
+\item
+The {\tt Eigen} directory contains some ``bridge'' or ``wrapper''
+methods used to incorporate {\bf SPOOLES} into a block-shifted
+Lanczos eigensolver.
+\item
+The {\tt FanBothMap} directory is an experimental object used to
+investigate the feasibility of replacing the fan-in method with 
+the fan-both method for a distributed factorization.
+\item
+The {\tt ReferenceManual} directory contains \LaTeX\ files to
+construct the reference manual (currently 400+ pages).
+\item
+The {\tt UserManual} directory contains \LaTeX\ files to
+construct the various user manuals. (This document is one.)
+\item
+The {\tt Matrices} directory contains some matrix files
+that can be used to run the example programs.
+\end{itemize}
+\par
+The goal is to get work done.
+The {\bf SPOOLES} library can be used in several ways.
+Here are three scenarios.
+\begin{itemize}
+\item
+I want a global library to link with other application programs.
+\item
+I want to exercise the objects in the library to get a feel for
+performance, e.g., test out the matrix orderings, or the factors
+and solves, or the multithreaded and MPI programs.
+\item
+I want to do development work, modify existing objects or create
+new objects.
+\end{itemize}
+We will discuss each in turn.
+But first, let's talk about makefiles.
+\par

@@ -1,0 +1,15 @@
+#! /bin/csh -f
+#
+ 
+set msglvl       =       1
+set msgFile      =     res 
+set msgFile      =  stdout
+set type         =       2
+set symflag      =       2
+set nD           =       6
+set nU           =       5
+set seed         =     77787
+set tau          =      10
+
+test_findPivot \
+   $msglvl $msgFile $nD $nU $type $symflag $seed $tau

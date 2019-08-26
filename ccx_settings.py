@@ -12,7 +12,7 @@
 """
 
 
-import os, sys, logging, re
+import os, sys, logging, re, clean
 from PyQt5 import QtWidgets, uic
 
 
@@ -132,8 +132,7 @@ if __name__ == '__main__':
     a = app.exec_()
 
     # Clean cached files
-    if os.path.isdir('__pycache__'):
-        shutil.rmtree('__pycache__') # works in Linux as in Windows
+    clean.cache()
 
     # Exit application
     sys.exit(a)

@@ -1,0 +1,38 @@
+#! /bin/csh -f
+#
+ 
+set msglvl       =       2
+set msgFile      =     res 
+set msgFile      =  stdout
+set type         =       1
+set symflag      =       0
+set sparsityflag =       1
+set ncolT        =      14
+set nDT          =       5
+set ncolU        =  $ncolT
+set ncolU        =      18
+set nrowD        =      10
+set nentU        =      55
+set offset       =       4
+set seed         =   66666
+
+# nDT = 5, 6, 7
+set nDT = 7
+# ncolT = 12, 13, 14
+set ncolT = 14
+
+set offset = 4
+
+set nrowD = 10
+@ ncolU = $ncolT + $offset
+
+foreach type               ( 2 )
+   foreach symflag         ( 2 )
+      foreach sparsityflag ( 1 )
+         test_update \
+            $msglvl $msgFile $type $symflag $sparsityflag \
+            $ncolT $nDT $ncolU $nrowD $nentU $offset $seed
+      end
+   end
+end
+

@@ -1,0 +1,15 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inETreeFile = $matrices/$matrix/nd.etreef
+
+set outIVfile    = none
+set outIVfile    = temp.ivf
+
+set msglvl  = 3
+
+set msgFile = stdout
+
+extractTopSep $msglvl $msgFile $inETreeFile $outIVfile 

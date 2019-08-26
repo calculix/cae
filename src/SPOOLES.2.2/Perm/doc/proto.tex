@@ -1,0 +1,339 @@
+\par
+\section{Prototypes and descriptions of {\tt Perm} methods}
+\label{section:Perm:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt Perm} object.
+\par
+\subsection{Basic methods}
+\label{subsection:Perm:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Perm * Perm_new ( void ) ;
+\end{verbatim}
+\index{Perm_new@{\tt Perm\_new()}}
+This method simply allocates storage for the {\tt Perm} structure 
+and then sets the default fields by a call to 
+{\tt Perm\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Perm_setDefaultFields ( Perm *perm ) ;
+\end{verbatim}
+\index{Perm_setDefaultFields@{\tt Perm\_setDefaultFields()}}
+This method sets the structure's fields to default values.
+\par \noindent {\it Error checking:}
+If {\tt perm} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Perm_clearData ( Perm *perm ) ;
+\end{verbatim}
+\index{Perm_clearData@{\tt Perm\_clearData()}}
+This method clears data owned by the object.
+If {\tt perm->newToOld} is not {\tt NULL},
+its storage is free'd with a call to {\tt IVfree()}.
+If {\tt perm->oldToNew} is not {\tt NULL},
+its storage is free'd with a call to {\tt IVfree()}.
+The structure's default fields are then set
+with a call to {\tt Perm\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt perm} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Perm_free ( Perm *perm ) ;
+\end{verbatim}
+\index{Perm_free@{\tt Perm\_free()}}
+This method releases any storage by a call to 
+{\tt Perm\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt perm} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:Perm:proto:initializers}
+\par
+There is one initializer method.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Perm_initWithTypeAndSize ( Perm *perm, int isPresent, int size ) ;
+\end{verbatim}
+\index{Perm_initWithTypeAndSize@{\tt Perm\_initWithTypeAndSize()}}
+This method is the primary initializer.
+It clears any previous data with a call to 
+{\tt Perm\_clearData()}.
+Then the {\tt isPresent} and {\tt size} fields are set.
+If {\tt isPresent == 1} then {\tt newToOld} is set with a call to
+{\tt IVinit()}.
+If {\tt isPresent == 2} then {\tt oldToNew} is set with a call to
+{\tt IVinit()}.
+If {\tt isPresent == 3} then {\tt newToOld} and {\tt newToOld} are set 
+with calls to {\tt IVinit()}.
+\par \noindent {\it Error checking:}
+If {\tt perm} is {\tt NULL}, 
+or if {\tt isPresent} is invalid,
+or if {\tt size <= 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:Perm:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Perm_sizeOf ( Perm *perm ) ;
+\end{verbatim}
+\index{Perm_sizeOf@{\tt Perm\_sizeOf()}}
+This method returns the number of bytes taken by this object.
+\par \noindent {\it Error checking:}
+If {\tt perm} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Perm_checkPerm ( Perm *perm ) ;
+\end{verbatim}
+\index{Perm_checkPerm@{\tt Perm\_checkPerm()}}
+This method checks the validity of the {\tt Perm} object.
+If {\tt oldToNew} is present, it is checked to see that
+it is a true permutation vector, i.e., a one-one and onto map from
+{\tt [0,size)} to {\tt [0,size)}, and similarly for {\tt newToOld}
+if it is present.
+If the permutation vector(s) are valid, {\tt 1} is returned,
+otherwise {\tt 0} is returned.
+\par \noindent {\it Error checking:}
+If {\tt perm} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Perm_fillOldToNew ( Perm *perm ) ;
+\end{verbatim}
+\index{Perm_fillOldToNew@{\tt Perm\_fillOldToNew()}}
+If {\tt oldToNew} is already present, the function returns.
+Otherwise, {\tt oldToNew} is initialized with a call to {\tt
+IVinit()} and has its values set from {\tt newToOld}.
+\par \noindent {\it Error checking:}
+If {\tt perm} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Perm_fillNewToOld ( Perm *perm ) ;
+\end{verbatim}
+\index{Perm_fillNewToOld@{\tt Perm\_fillNewToOld()}}
+If {\tt NewToOld} is already present, the function returns.
+Otherwise, {\tt NewToOld} is initialized with a call to {\tt
+IVinit()} and has its values set from {\tt oldToNew}.
+\par \noindent {\it Error checking:}
+If {\tt perm} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Perm_releaseOldToNew ( Perm *perm ) ;
+\end{verbatim}
+\index{Perm_releaseOldToNew@{\tt Perm\_releaseOldToNew()}}
+If {\tt oldToNew} is not present, the function returns.
+Otherwise, the storage for {\tt oldToNew} is released with 
+a call to {\tt IVfree()} the {\tt isPresent} field is changed
+appropriately.
+\par \noindent {\it Error checking:}
+If {\tt perm} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Perm_releaseNewToOld ( Perm *perm ) ;
+\end{verbatim}
+\index{Perm_releaseNewToOld@{\tt Perm\_releaseNewToOld()}}
+If {\tt NewToOld} is not present, the function returns.
+Otherwise, the storage for {\tt NewToOld} is released with 
+a call to {\tt IVfree()} the {\tt isPresent} field is changed
+appropriately.
+\par \noindent {\it Error checking:}
+If {\tt perm} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Perm * Perm_compress ( Perm *perm, IV *eqmapIV ) ;
+\end{verbatim}
+\index{Perm_compress@{\tt Perm\_compress()}}
+This method takes as input a {\tt Perm} object 
+and an equivalence map {\tt IV} object (they must be the same size).
+The equivalence map is from vertices to indistinguishable vertices
+in a compressed graph.
+A second {\tt Perm} object is produced that contains the equivalent
+permutation on the compressed graph.
+\par \noindent {\it Error checking:}
+If {\tt perm} or {\tt eqmapIV} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:Perm:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a {\tt Perm} object is simple:
+\begin{center}
+\begin{tabbing}
+{\tt isPresent} {\tt size} \\
+{\tt oldToNew[size]} (if present) \\
+{\tt newToOld[size]} (if present)
+\end{tabbing}
+\end{center}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Perm_readFromFile ( Perm *perm, char *fn ) ;
+\end{verbatim}
+\index{Perm_readFromFile@{\tt Perm\_readFromFile()}}
+\par
+This method reads a {\tt Perm} object from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt Perm\_readFromFormattedFile()} or
+{\tt Perm\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt perm} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.permf} (for a formatted file) 
+or {\tt *.permb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Perm_readFromFormattedFile ( Perm *perm, FILE *fp ) ;
+\end{verbatim}
+\index{Perm_readFromFormattedFile@{\tt Perm\_readFromFormattedFile()}}
+\par
+This method reads in a {\tt Perm} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+Note, if the permutation vectors are one-based (as for Fortran),
+they are converted to zero-based vectors.
+\par \noindent {\it Error checking:}
+If {\tt perm} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Perm_readFromBinaryFile ( Perm *perm, FILE *fp ) ;
+\end{verbatim}
+\index{Perm_readFromBinaryFile@{\tt Perm\_readFromBinaryFile()}}
+\par
+This method reads in a {\tt Perm} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+Note, if the permutation vectors are one-based (as for Fortran),
+they are converted to zero-based vectors.
+\par \noindent {\it Error checking:}
+If {\tt perm} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Perm_writeToFile ( Perm *perm, char *fn ) ;
+\end{verbatim}
+\index{Perm_writeToFile@{\tt Perm\_writeToFile()}}
+\par
+This method writes a {\tt Perm} object to a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt Perm\_writeFromFormattedFile()} or
+{\tt Perm\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt perm} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.permf} (for a formatted file) 
+or {\tt *.permb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Perm_writeToFormattedFile ( Perm *perm, FILE *fp ) ;
+\end{verbatim}
+\index{Perm_writeToFormattedFile@{\tt Perm\_writeToFormattedFile()}}
+\par
+This method writes out a {\tt Perm} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt perm} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Perm_writeToBinaryFile ( Perm *perm, FILE *fp ) ;
+\end{verbatim}
+\index{Perm_writeToBinaryFile@{\tt Perm\_writeToBinaryFile()}}
+\par
+This method writes out a {\tt Perm} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt perm} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Perm_writeForHumanEye ( Perm *perm, FILE *fp ) ;
+\end{verbatim}
+\index{Perm_writeForHumanEye@{\tt Perm\_writeForHumanEye()}}
+\par
+This method writes out a {\tt Perm} object to a file in a human
+readable format.
+The method {\tt Perm\_writeStats()} 
+is called to write out the
+header and statistics. 
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt perm} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Perm_writeStats ( Perm *perm, FILE *fp ) ;
+\end{verbatim}
+\index{Perm_writeStats@{\tt Perm\_writeStats()}}
+\par
+This method writes out a header and statistics to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt perm} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

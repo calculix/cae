@@ -306,7 +306,7 @@
        <item>
         <widget class="QCheckBox" name="show_vtk">
          <property name="text">
-          <string>Show VTK widget in the window</string>
+          <string>Show VTK widget (app. restart required)</string>
          </property>
         </widget>
        </item>

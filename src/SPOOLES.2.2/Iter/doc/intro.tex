@@ -1,0 +1,28 @@
+\par
+\chapter{{\tt Iter}: Iterative Methods}
+\par
+{\tt Iter} is composed of 5 Krylov space iterative methods, PCG (Preconditioned Conjugate
+Gradients),  BiCGStab,  TFQMR, and BGMRES (Block GMRES), 
+and MLBiCGStab. 
+(For references, see top comments in codes.)
+The intent of these methods is to provide the user of {\bf SPOOLES} with an
+ easy way to evaluate the effectiveness of the approximate factorizations belonging
+to the {\tt FrontMtx} object.  To further facilitate the evaluation we have included
+a single call {\tt driver} that can run anyone of the methods we have provided with the
+type of preconditioner desired.  For each iterative method we allow for left and right 
+preconditioning.  Also, for each method, except BGMRES, we allow for real or
+complex matrices.
+\par
+Because our intent was to provide a simple means to test the effectiveness of the
+preconditioners, these implementations are not parallel (neither shared or distributed
+memory).  However, they were intentionally written to be consistent in style and form
+so that they could be easily adapted to exploit the parallelism that is in {\bf SPOOLES}.
+All iterative methods use the basic structure {\tt DenseMtx} for handling the intermediate
+vectors and performing the matrix multiplications and system solves.  By doing this
+we have also anticipated the eventual movement to block iterative methods and the
+{\tt DenseMtx} structure can remain the basic structure.  There are a few basic
+utilities that have been added, which are discribed in this section, upon which the
+iterative methods were built.  These are provided to aid the experienced {\bf SPOOLES} 
+user with an ability to develop additional iterative methods, as seen fit.
+
+

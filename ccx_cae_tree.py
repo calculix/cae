@@ -266,31 +266,31 @@ class tree:
                 self.myMenu.addAction(action)
                 action.triggered.connect(self.writeInputAndSubmit)
 
-                # View job log
-                if os.path.isfile(self.CAE.job.log):
-                    action = QtWidgets.QAction('View log', self.CAE.treeView)
-                    self.myMenu.addAction(action)
-                    action.triggered.connect(lambda: \
-                        os.system(self.settings.path_editor + ' ' + \
-                        self.CAE.job.log))
+                """
+                    # View job log
+                    if os.path.isfile(self.CAE.job.log):
+                        action = QtWidgets.QAction('View log', self.CAE.treeView)
+                        self.myMenu.addAction(action)
+                        action.triggered.connect(self.CAE.job.viewLog)
 
-                # If job result - FRD file - present
-                if os.path.isfile(self.CAE.job.frd):
+                    # If job result - FRD file - present
+                    if os.path.isfile(self.CAE.job.frd):
 
-                    # Open FRD file in CGX
-                    action = QtWidgets.QAction('Open in GraphiX', self.CAE.treeView)
-                    self.myMenu.addAction(action)
-                    action.triggered.connect(self.CAE.job.openCGX)
+                        # Open FRD file in CGX
+                        action = QtWidgets.QAction('Open in GraphiX', self.CAE.treeView)
+                        self.myMenu.addAction(action)
+                        action.triggered.connect(self.CAE.job.openCGX)
 
-                    # Convert FRD to VTU
-                    action = QtWidgets.QAction('Convert to VTU', self.CAE.treeView)
-                    self.myMenu.addAction(action)
-                    action.triggered.connect(self.CAE.job.exportVTU)
+                        # Convert FRD to VTU
+                        action = QtWidgets.QAction('Convert to VTU', self.CAE.treeView)
+                        self.myMenu.addAction(action)
+                        action.triggered.connect(self.CAE.job.exportVTU)
 
-                    # Open VTU in Paraview
-                    action = QtWidgets.QAction('Open in Paraview', self.CAE.treeView)
-                    self.myMenu.addAction(action)
-                    action.triggered.connect(self.CAE.job.openParaview)
+                        # Open VTU in Paraview
+                        action = QtWidgets.QAction('Open in Paraview', self.CAE.treeView)
+                        self.myMenu.addAction(action)
+                        action.triggered.connect(self.CAE.job.openParaview)
+                """
 
             # Add splitter
             self.myMenu.addSeparator()

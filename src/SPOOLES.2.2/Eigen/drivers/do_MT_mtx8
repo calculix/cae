@@ -1,0 +1,22 @@
+#! /bin/csh -f
+
+set MTX_DIR = /home/pattersn/LANCZOS/test/inp
+
+echo matrix8
+
+uncompress < $MTX_DIR/matrix.8A.Z > fort.37
+uncompress < $MTX_DIR/matrix.8B.Z > fort.38
+
+set msglvl   = 0
+set msgFile  = res.mtx8
+set parmFile = mtx8.inp
+set seed     = 10
+set inFileA  = fort.37
+set inFileB  = fort.38
+set resFile  = res.mtx8
+
+set nthread  = 4
+
+testMT $msglvl $msgFile $parmFile $seed $nthread $inFileA $inFileB 
+
+rm fort.* lmq* lq* evc*

@@ -26,13 +26,13 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
-     <number>6</number>
+     <number>0</number>
     </property>
     <property name="leftMargin">
      <number>6</number>
     </property>
     <property name="topMargin">
-     <number>6</number>
+     <number>0</number>
     </property>
     <property name="rightMargin">
      <number>6</number>
@@ -47,7 +47,7 @@
       </property>
       <widget class="QSplitter" name="h_splitter">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>7</verstretch>
         </sizepolicy>
@@ -58,15 +58,24 @@
        <widget class="QTreeView" name="treeView">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>1</horstretch>
+          <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>500</width>
+          <height>0</height>
+         </size>
         </property>
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="contextMenuPolicy">
          <enum>Qt::CustomContextMenu</enum>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
@@ -89,6 +98,9 @@
        </widget>
       </widget>
       <widget class="QTextEdit" name="textEdit">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -98,8 +110,11 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>100</height>
+         <height>0</height>
         </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -122,15 +137,32 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionFileImport"/>
-    <addaction name="actionFileWriteInput"/>
-    <addaction name="actionFileSettings"/>
+    <addaction name="action_file_import"/>
+    <addaction name="action_file_settings"/>
+   </widget>
+   <widget class="QMenu" name="menuJob">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="title">
+     <string>Job</string>
+    </property>
+    <addaction name="action_job_write_input"/>
+    <addaction name="action_job_edit_inp"/>
+    <addaction name="action_job_open_subroutine"/>
+    <addaction name="action_job_rebuild_ccx"/>
+    <addaction name="action_job_submit"/>
+    <addaction name="action_job_view_log"/>
+    <addaction name="action_job_open_cgx"/>
+    <addaction name="action_job_export_vtu"/>
+    <addaction name="action_job_open_paraview"/>
    </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuJob"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="windowTitle">
     <string>toolBar</string>
@@ -161,7 +193,7 @@
    <addaction name="actionViewSurface"/>
    <addaction name="actionViewSurfaceWithEdges"/>
   </widget>
-  <action name="actionFileImport">
+  <action name="action_file_import">
    <property name="icon">
     <iconset>
      <normaloff>icons/file_import.png</normaloff>icons/file_import.png</iconset>
@@ -357,9 +389,73 @@
     <string>Write input</string>
    </property>
   </action>
-  <action name="actionFileSettings">
+  <action name="action_file_settings">
    <property name="text">
     <string>Settings</string>
+   </property>
+  </action>
+  <action name="action_job_write_input">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/job_write_input.png</normaloff>icons/job_write_input.png</iconset>
+   </property>
+   <property name="text">
+    <string>Write input</string>
+   </property>
+  </action>
+  <action name="action_job_edit_inp">
+   <property name="text">
+    <string>Open INP in editor</string>
+   </property>
+  </action>
+  <action name="action_job_rebuild_ccx">
+   <property name="text">
+    <string>Rebuild CalculiX</string>
+   </property>
+  </action>
+  <action name="action_job_submit">
+   <property name="text">
+    <string>Submit</string>
+   </property>
+  </action>
+  <action name="action_job_view_log">
+   <property name="text">
+    <string>View log</string>
+   </property>
+  </action>
+  <action name="action_job_open_cgx">
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/logo.png</normaloff>icons/logo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open in GraphiX</string>
+   </property>
+  </action>
+  <action name="action_job_export_vtu">
+   <property name="text">
+    <string>Export VTU results</string>
+   </property>
+  </action>
+  <action name="action_job_open_paraview">
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/job_paraview.png</normaloff>icons/job_paraview.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open VTU in Paraview</string>
+   </property>
+  </action>
+  <action name="action_job_open_subroutine">
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/job_open_subroutine.png</normaloff>icons/job_open_subroutine.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open a subroutine</string>
    </property>
   </action>
  </widget>

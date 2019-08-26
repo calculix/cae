@@ -1,0 +1,69 @@
+\chapter{{\tt GPart}: Graph Partitioning Object}
+\label{chapter:GPart:intro}
+\par
+The {\tt GPart} object is used to create a partition of a graph.
+We use an explicit vertex separator to split a graph (or a
+subgraph) into the separator and two or more connected components.
+This process proceeds recursively until the subgraphs are too small
+to split (given by some user-supplied parameter).
+\par
+At present, there is one path for splitting a graph (or a subgraph).
+\begin{itemize}
+\item
+Find a {\it domain decomposition} of the graph.
+The graph's vertices $V$ are partitioned into {\it domains},
+$\Omega_1, \ldots, \Omega_m$, each a connected component,
+and the interface vertices $\Phi$.
+The boundary of a domain $\Omega_i$ (those vertices not in the domain 
+but adjacent to a vertex in the domain), written
+$\mbox{adj}(\Omega_i)$, are a subset of $\Phi$, the interface
+vertices.
+We use the term {\it multisector} for $\Phi$, for it generalizes
+the notion of bisector.
+\par
+We currently find the domain decomposition by growing domains from
+random seed vertices.
+Upper and lower bounds are placed on the weights of the domains.
+\item
+Given a domain decomposition of the graph $\langle \Phi, \Omega_1,
+\ldots, \Omega_m \rangle$, we find a {\it 2-set partition}
+$[S, B, W]$ of the vertices, where $S \subseteq \Phi$, 
+$\mbox{Adj}(B) \subseteq S$ and $\mbox{Adj}(W) \subseteq S$.
+Note, it may be the case that $B$ and/or $W$ are not connected
+components.
+\par
+We currently find a 2-set partition by forming a {\it
+domain-segment} bipartite graph where the segments partition the
+interface nodes $\Phi$.
+We use a block Kernighan-Lin method to find an edge separator of
+this domain-segment graph.
+Since the ``edges'' are segments, an edge separator of the
+domain-segment graph is truly a vertex separator of the original
+graph.
+\item
+Given a 2-set decomposition $[S,B,W]$ of the graph, we improve
+the partition by {\it smoothing} $S$.
+The goal is to decrease the size of $S$, or improve the balance
+of the two sets (minimize $\left| |B| - |W| \right |$, or both.
+Our present approach is to generate a {\it wide separator} $Y$
+where $S \subseteq Y$ and try to find a separator 
+$\widehat S \subseteq Y$ that induces a better partition
+$[{\widehat S}, {\widehat B}, {\widehat W}]$.
+\par
+To do this, we form a network and solve a max flow problem.
+The nodes in $B \setminus Y$ are condensed into the {\it source}
+while the nodes in $W \setminus Y$ are condensed into the {\it sink}.
+The rest of the network is formed using the structure of the
+subgraph induced by $Y$.
+Given a {\it min-cut} of the network we can identify a separator
+${\widehat S} \subseteq Y$ that has minimal weight.
+We examine two (possibly) different min-cuts and evaluate the
+partitions induced via their minimal weight separators, and accept
+a better partition if present.
+\end{itemize}
+This process we call {\tt DDSEP}, which is short for {\it {\tt D}omain
+{\tt D}ecomposition {\tt SEP}arator},
+explained in more detail in 
+\cite{ash97-DDSEP} and
+\cite{ash98-maxflow}.
+\par

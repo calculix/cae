@@ -1,0 +1,29 @@
+include ../../Make.inc
+ 
+#-----------------------------------------------------------------------
+ 
+OBJ = Tree
+
+SRC = basics.c \
+      compress.c \
+      drawTree.c \
+      init.c \
+      instance.c \
+      IO.c \
+      justify.c \
+      maximizeGain.c \
+      metrics.c \
+      perms.c \
+      permute.c \
+      util.c
+
+OBJ_FILES = ${SRC:.c=.o}
+
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a
+	

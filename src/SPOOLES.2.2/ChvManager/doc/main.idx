@@ -1,0 +1,9 @@
+\indexentry{ChvManager_new@{\tt ChvManager\_new()}}{2}
+\indexentry{ChvManager_setDefaultFields@{\tt ChvManager\_setDefaultFields()}}{3}
+\indexentry{ChvManager_clearData@{\tt ChvManager\_clearData()}}{3}
+\indexentry{ChvManager_free@{\tt ChvManager\_free()}}{3}
+\indexentry{ChvManager_init@{\tt ChvManager\_init()}}{3}
+\indexentry{ChvManager_newObjectOfSizeNbytes@{\tt ChvManager\_newObjectOfSizeNbytes()}}{3}
+\indexentry{ChvManager_releaseObject@{\tt ChvManager\_releaseObject()}}{3}
+\indexentry{ChvManager_releaseListOfObjects@{\tt ChvManager\_releaseListOfObjects()}}{3}
+\indexentry{ChvManager_writeForHumanEye@{\tt ChvManager\_writeForHumanEye()}}{4}

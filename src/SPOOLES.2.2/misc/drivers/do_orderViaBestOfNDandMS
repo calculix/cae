@@ -1,0 +1,55 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+set matrix      = R2D10000
+set inGraphFile = $matrices/$matrix/orig0.graphf
+
+set matrices    = ../../../matrices
+set matrix      = GRD7x7
+set matrix      = BCSSTK17
+set matrix      = R10KV
+set matrix      = R3D13824
+set matrix      = TRI10
+set matrix      = BCSSTK24
+set matrix      = BCSSTK30
+set matrix      = MN12
+
+set inGraphFile = ../../InpMtx/drivers/temp.graphf
+set inGraphFile = /local1/ARPA/matrices/i4a/orig1.graphb
+set inGraphFile = $matrices/$matrix/orig0.graphb
+set inGraphFile = $matrices/$matrix/orig0.graphf
+set inGraphFile = $matrices/$matrix/orig1.graphb
+
+set msglvl      = 1
+
+set msgFile    = res.MS.$matrix
+set msgFile    = res.i4a
+set msgFile    = stdout
+
+set outETreeFile = ms.etreef
+set outETreeFile = none
+set outETreeFile = $matrices/$matrix/best0.etreef
+
+set maxzeros      = 0
+set maxzeros      = 1000
+set maxsize       = 1000000
+set maxsize       = 64
+
+set maxdomainsize = 1
+set maxdomainsize = 500
+set maxdomainsize = 1
+set maxdomainsize = 100
+
+set seed          = 10101 
+set seed          = 101012
+
+set nseed = 1
+
+while ( $nseed > 0 )
+   testOrderViaBestOfNDandMS \
+      $msglvl $msgFile $inGraphFile $maxdomainsize $maxzeros \
+      $maxsize $seed $outETreeFile
+   @ seed  = $seed  + 1
+   @ nseed = $nseed - 1
+end
+

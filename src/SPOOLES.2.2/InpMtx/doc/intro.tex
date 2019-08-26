@@ -1,0 +1,122 @@
+\chapter{{\tt InpMtx}: Input Matrix Object}
+\label{chapter:InpMtx}
+\par
+The {\tt InpMtx} object has two functions:
+\begin{itemize}
+\item
+It is used to assemble a sparse matrix (or just its structure)
+from individual entries, rows, columns or dense submatrices 
+(or any combination of these) that may overlap.
+\item
+It is used to communicate entries of a matrix into a front during
+the factorization.
+\end{itemize}
+We have designed this object to be easy to use, but it has one
+significant drawback --- it is an in-core implementation,
+and this is a disadvantage in situations where memory is limited.
+Extending this object to work out-of-core is not difficult,
+but we leave that {\it value-added} function to others in the
+future.
+\par
+The {\tt InpMtx} object has three faces.
+It can just manipulate $(i,j)$ pairs, where it assembles just the
+nonzero structure of a matrix.
+We use this functionality to generate a {\tt Graph} object 
+that is needed as input to the ordering software.
+Alternatively, it can assemble and manipulate $(i,j,a_{i,j}$
+triples where $a_{i,j}$ is either a real or complex number.
+(At any one time, the object works with either no numbers, 
+real numbers or complex numbers but not mixtures of the three.)
+The normal input to the {\tt InpMtx} object is a collection of
+matrix entries in some form, e.g., single entries, (partial) rows
+or columns, or dense submatrices.
+\par
+Here is a common sequence of events to use this object when we want
+to build the structure of a sparse matrix.
+\begin{enumerate}
+\item
+Create an instance of a {\tt InpMtx} object using
+the {\tt InpMtx\_new()} method.
+\item
+Initialize the {\tt InpMtx} object using the {\tt InpMtx\_init()} 
+method; set the input mode to indices only,
+maximum number of entries for the workspace, and the number of
+vectors. (The latter two quantities may be zero, for the object
+resizes its storage as required.)
+\item
+Call the method {\tt InpMtx\_changeCoordType()}
+to set the coordinate type to rows.
+\item
+Load data into the object using one or more of the
+five input methods:
+{\tt InpMtx\_inputEntry()},
+{\tt InpMtx\_inputRow()}, 
+{\tt InpMtx\_inputColumn()},
+{\tt InpMtx\_inputMatrix()} and
+{\tt InpMtx\_inputTriples()} methods.
+Each time the workspace fills up, the raw data is sorted and
+compressed and then the workspace is resized.
+If the input data overlaps, e.g., elemental matrices are being
+assembled, it would be efficient to have sufficient elbow room
+to minimize the number of sorts and compressions.
+In this case, a tight upper bound on the necessary storage is the
+sum of the sizes of the elemental matrices.
+The entries are assembled 
+by a call to {\tt InpMtx\_changeStorageMode()}.
+\item
+Create an {\tt IVL} object that contains the full adjacency of
+$A + A^T$ by calling the {\tt InpMtx\_fullAdjacency()} method.
+\item
+Create a {\tt Graph} object using the {\tt Graph\_init2()} method
+and the {\tt IVL} object as an input argument.
+\end{enumerate}
+A similar functionality exists for creating a {\tt Graph} object
+from a linear combination of two {\tt InpMtx} objects that
+contains the matrices $A$ and $B$.
+The {\tt InpMtx\_fullAdjacency2()} method returns an {\tt IVL}
+object with the full adjacency of $(A+B) + (A+B)^T$.
+These two methods are called by the {\tt DPencil\_fullAdjacency()}
+methods to return the full adjacency of a matrix pencil.
+\par
+Here is a common sequence of events to use this object when we want
+to assemble the entries of a sparse matrix.
+\begin{enumerate}
+\item
+Create an instance of a {\tt InpMtx} object using
+the {\tt InpMtx\_new()} method.
+\item
+Initialize the {\tt InpMtx} object using the {\tt InpMtx\_init()} 
+method; set the input mode to real or complex entries,
+maximum number of entries for the workspace, and the number of
+vectors. (The latter two quantities may be zero, for the object
+resizes its storage as required.)
+\item
+Call the method {\tt InpMtx\_changeCoordType()}
+to set the coordinate type to rows.
+\item
+Load data into the object using one or more of the
+five input methods:
+{\tt InpMtx\_inputEntry()},
+{\tt InpMtx\_inputRow()}, 
+{\tt InpMtx\_inputColumn()},
+{\tt InpMtx\_inputMatrix()} and
+{\tt InpMtx\_inputTriples()} methods.
+Each time the workspace fills up, the raw data is sorted and
+compressed and then the workspace is resized.
+If the input data overlaps, e.g., elemental matrices are being
+assembled, it would be efficient to have sufficient elbow room
+to minimize the number of sorts and compressions.
+In this case, a tight upper bound on the necessary storage is the
+sum of the sizes of the elemental matrices.
+The entries are assembled 
+by a call to {\tt InpMtx\_changeStorageMode()}.
+\end{enumerate}
+The {\tt InpMtx} object is now ready to be permuted, take part in a
+matrix-vector multiply, become part of a {\tt Pencil} matrix pencil
+object, or serve as input to a numeric factorization.
+\par
+{\bf NOTE:} to improve performance we have changed the
+{\tt InpMtx\_fullAdjacency()} method.
+The {\tt InpMtx} object must be in the chevron coordinate type
+and have its storage mode be by vectors.
+Previously, this was done if necessary inside the method.

@@ -1,0 +1,44 @@
+#! /bin/csh -f
+
+set msglvl           = 1
+set msgFile          = res
+
+set seed             = 10101
+
+set matrices = ../../Matrices/
+set matrix   = GRD7x7
+ 
+set neqns        = 49
+set type         =  1
+set symmetryflag =  0
+ 
+set mtxFile = $matrices/$matrix/realsym.inpmtxb
+set rhsFile = $matrices/$matrix/realrhs.densemtxb
+set solFile = none
+
+set nproc   = 4
+
+#
+#  for solaris with mpich
+#
+set pgFile  = wrapperMPI.$nproc.pg
+/usr/local/mpi/bin/mpirun -p4pg $pgFile \
+testWrapperMPI $msglvl $msgFile \
+               $neqns $type $symmetryflag \
+               $mtxFile $rhsFile $solFile $seed 
+ 
+#
+#  for sgi
+#
+# mpirun -np $nproc \
+# testWrapperMPI $msglvl $msgFile \
+#                $neqns $type $symmetryflag \
+#                $mtxFile $rhsFile $solFile $seed 
+ 
+#
+#  for hp
+#
+# /opt/mpi/bin/mpirun -np $nproc \
+# testWrapperMPI $msglvl $msgFile \
+#                $neqns $type $symmetryflag \
+#                $mtxFile $rhsFile $solFile $seed 

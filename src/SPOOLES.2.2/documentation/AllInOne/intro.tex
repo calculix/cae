@@ -1,0 +1,126 @@
+\vfill \eject
+\par
+\section{Overview}
+\label{chapter:overview}
+\par
+The {\bf SPOOLES} software library is designed to solve sparse
+systems of linear equations
+$A X = Y$ for $X$, where $A$ is full rank 
+and $X$ and $Y$ are dense matrices.  
+The matrix $A$ can be either real or complex, symmetric, Hermitian, 
+square nonsymmetric, or overdetermined. 
+When $A$ is square, 
+there are four steps in the process of solving $A X = Y$.
+\begin{itemize}
+\item 
+{\bf communicate} the data for the problem as $A$, $X$ and $Y$.
+\item 
+{\bf reorder} as
+${\widetilde A} {\widetilde X} = {\widetilde Y}$, where
+${\widetilde A} = P_1 A P_1^T$,
+${\widetilde X} = P_1 X$ and
+${\widetilde Y} = P_1 Y$,
+and $P_1$ is a permutation matrix.
+\item 
+{\bf factor} $ {\widetilde A} = P_2LDUQ_2^T$,
+where $P_2$ and $Q_2$ are permutation matrices.
+\item 
+{\bf solve}  $LDU (Q_2^T P_1 X) = (P_2^T P_1 Y)$.
+\end{itemize}
+When $A$ is symmetric or Hermitian, $L = U^T$ or $L = U^H$,
+respectively, and $P_2 = Q_2$.
+For a $QR$ factorization of $A$,
+there are also four steps in the process of solving $A X = Y$.
+\begin{itemize}
+\item 
+{\bf communicate} the data for the problem as $A$, $X$ and $Y$.
+\item 
+{\bf reorder} as
+${\widetilde A} {\widetilde X} = Y$, where
+${\widetilde A} = A P^T$ and
+${\widetilde X} = P X$.
+and $P$ is a permutation matrix.
+\item 
+{\bf factor} $ {\widetilde A} = Q R$,
+where $Q$ is orthogonal and $R$ is upper triangular.
+\item 
+{\bf solve}  $R^T R (P X) = A^T Y$ (if real)
+or {\bf solve}  $R^H R (P X) = A^H Y$ (if complex).
+\end{itemize}
+\par
+The purpose of this manual is to describe the solution process in a
+step by step manner for several different scenarios --- serial,
+multithreaded and MPI environments, and $LU$ and $QR$ factorizations.
+The following sections describe driver programs to solve linear
+systems of these types.
+\par
+This document largely replaces the {\it ``User Manual''} from the 
+{\bf SPOOLES 1.0} and {\bf SPOOLES 2.0} releases.
+The material of those documents that deals with ordering sparse
+matrices has been removed and can be found in an improved and 
+extended format as
+the {\it ``Ordering Sparse Matrices and Transforming Front Trees''}
+user document.
+\par
+The four simple steps described above to solve a linear system
+translate into a fair amount of code, as we shall see in the
+following sections.
+The user who is looking for a more gentle introduction to solving
+square linear systems using an $LU$ factorization, might first take
+a look at {\tt LinSol} directory and the user document
+{\it ``Wrapper Objects for Solving a Linear System of Equations
+using {\bf SPOOLES} 2.2''}.
+The {\bf SPOOLES} library has been integrated into the CSAR-Nastran
+finite element package, in the serial, multithreaded and MPI
+environments.
+To make the process easier, we wrote ``wrappers'' around the 
+code found in the three driver programs.
+These wrapper objects insulate the user from much of the
+complexity of using the package. 
+There is a cost, functionality is somewhat restricted.
+They are meant as learning examples rather than final code.
+\par
+In a similar way, the {\bf SPOOLES} library has been integrated
+into a Block-Shifted Lanczos eigensolver for symmetric
+eigensystems.
+See the {\tt Eigen} subdirectory and the user document
+{\it ``Integrating the {\bf SPOOLES} 2.2 Sparse Linear Algebra
+Library into the {\bf LANCZOS} Block-shifted Lanczos Eigensolver''}.
+This set of wrapper objects has also served as a model to
+integrate {\bf SPOOLES} into the {\bf PLANSO} eigensystem package.
+\par
+The {\bf SPOOLES} library is based on an object
+oriented design philosophy.  
+There are several data structures or objects
+that the user must interact with.  
+These interactions are performed
+with a set of methods for each object.  
+Every object has some standard
+methods, such as initializing the object, placing data into the object,
+extracting data out of the object, writing and reading the object to a 
+input/output file, printing the contents of the object to a specified 
+file, and freeing the object.  
+\par
+For example, consider the {\tt DenseMtx} object that models a dense
+matrix.
+The {\tt DenseMtx/DenseMtx.h} header file defines the object's C 
+struct and has prototypes (with extensive comments) of the object's 
+methods.
+The source files are found in the 
+{\tt DenseMtx/src} directory.
+The \LaTeX\ documentation files are found in the 
+{\tt DenseMtx/doc} directory.
+The files can be used to create the {\tt DenseMtx} object's chapter
+in the Reference Manual, or in a standalone manner to generate the
+object's documentation.
+The {\tt DenseMtx/drivers} directory contains driver programs that
+exercise and validate the object's functionality.
+\par
+Almost all the methods in the library are associated with a
+particular object.
+There are some exceptions, mostly found in the {\tt misc/src}
+directory. 
+The {\tt misc/drivers} directory contains the serial $LU$ and $QR$
+driver programs.
+The {\tt MT/drivers} and {\tt MPI/drivers} directories contain 
+the multithreaded and MPI $LU$ driver programs.

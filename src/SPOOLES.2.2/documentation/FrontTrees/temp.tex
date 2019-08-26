@@ -1,0 +1,884 @@
+%
+%  main TeX file
+%
+\documentclass[leqno,10pt,twoside]{article}
+
+\textwidth      6.5 in
+\textheight     8.5 in
+\oddsidemargin  0.0 in
+\evensidemargin 0.0 in
+\topmargin      0.0 in
+\baselineskip   20 pt
+\parskip        3 pt plus 1 pt minus 1 pt
+
+\makeindex
+\input psfig
+
+\newcommand{\bfi}{{\bf i}}
+\newcommand{\bfj}{{\bf j}}
+\newcommand{\bnd}[1]{{\partial{#1}}}
+\newcommand\WHILE{{\bf while}}
+\newcommand\IF{{\bf if}}
+\newcommand\END{{\bf end}}
+\newcommand\ELSE{{\bf else}}
+\newcommand\THEN{{\bf then}}
+
+\pagestyle{myheadings}
+% \markboth
+% {\quad \hrulefill \quad {\bf SPOOLES 2.2} : \today \quad \hrulefill}
+% {\quad \hrulefill \quad {\bf SPOOLES 2.2} : \quad \today \hrulefill}
+\markboth
+{\hspace*{0.5 in} Orderings and Front Trees \quad\hrulefill\quad\today}
+{\today \quad\hrulefill\quad Orderings and Front Trees \hspace*{0.5 in}}
+
+\begin{document}
+
+\begin{center}
+\fbox{
+\setlength{\unitlength}{0.15 cm}
+\begin{picture}(102,102)
+
+\put(-0.5,0.5){\framebox(100,100){}}
+% \put(-0.5,0.5){\line(0,1){100.5}} % 0
+\put( 0.5,0.5){\line(0,1){100}} % 1
+   \put( 0.5,99.5){\line(1,0){1}} % 1
+\put( 1.5,0.5){\line(0,1){ 99}} % 2
+   \put( 1.5,98.5){\line(1,0){1}} % 2
+\put( 2.5,0.5){\line(0,1){ 98}} % 3
+   \put( 2.5,97.5){\line(1,0){1}} % 3
+\put( 2.5,0.5){\line(0,1){ 98}} % 4
+\put( 2.5,0.5){\line(0,1){ 98}} % 5
+\put( 2.5,0.5){\line(0,1){ 98}} % 6
+% \put(-0.5,0.5){\framebox(  1, 99){}} % 0
+% \put( 0.5,0.5){\framebox(  1, 98){}} % 1
+% \put( 1.5,0.5){\framebox(  1, 97){}} % 2
+% \put( 2.5,0.5){\framebox(  1, 96){}} % 3
+\put( 3.5,0.5){\framebox(  1, 95){}} % 4
+\put( 4.5,0.5){\framebox(  1, 94){}} % 5
+\put( 5.5,0.5){\framebox(  2, 92){}} % 6, 7
+\put( 7.5,0.5){\framebox(  1, 91){}} % 8
+\put( 8.5,0.5){\framebox(  1, 90){}} % 9
+\put( 9.5,0.5){\framebox(  1, 89){}} % 10
+\put(10.5,0.5){\framebox(  1, 88){}} % 11
+\put(11.5,0.5){\framebox(  1, 87){}} % 12
+\put(12.5,0.5){\framebox(  1, 86){}} % 13
+\put(13.5,0.5){\framebox(  1, 85){}} % 14
+\put(14.5,0.5){\framebox(  1, 84){}} % 15
+\put(15.5,0.5){\framebox(  1, 83){}} % 16
+\put(16.5,0.5){\framebox(  1, 82){}} % 17
+\put(17.5,0.5){\framebox(  4, 78){}} % 18-21
+\put(21.5,0.5){\framebox(  1, 77){}} % 22
+\put(22.5,0.5){\framebox(  1, 76){}} % 23
+\put(23.5,0.5){\framebox(  1, 75){}} % 24
+\put(24.5,0.5){\framebox(  1, 74){}} % 25
+\put(25.5,0.5){\framebox(  1, 73){}} % 26
+\put(26.5,0.5){\framebox(  1, 72){}} % 27
+\put(27.5,0.5){\framebox(  1, 71){}} % 28
+\put(28.5,0.5){\framebox(  1, 70){}} % 29
+\put(29.5,0.5){\framebox(  1, 69){}} % 30
+\put(30.5,0.5){\framebox(  2, 67){}} % 31-32
+\put(31.5,0.5){\framebox(  1, 66){}} % 33
+\put(32.5,0.5){\framebox(  1, 65){}} % 34
+\put(33.5,0.5){\framebox(  1, 64){}} % 35
+\put(34.5,0.5){\framebox(  1, 63){}} % 36
+\put(35.5,0.5){\framebox(  1, 62){}} % 37
+\put(36.5,0.5){\framebox(  1, 61){}} % 38
+\put(37.5,0.5){\framebox(  1, 60){}} % 39
+\put(38.5,0.5){\framebox(  1, 59){}} % 40
+\put(39.5,0.5){\framebox(  1, 58){}} % 41
+\put(40.5,0.5){\framebox(  2, 56){}} % 42-43
+\put(42.5,0.5){\framebox(  1, 55){}} % 44
+\put(43.5,0.5){\framebox(  3, 52){}} % 45-47
+\put(47.5,0.5){\framebox(  1, 51){}} % 48
+\put(48.5,0.5){\framebox(  1, 50){}} % 49
+\put(49.5,0.5){\framebox(  1, 49){}} % 50
+\put(50.5,0.5){\framebox(  1, 48){}} % 51
+\put(51.5,0.5){\framebox(  1, 47){}} % 52
+\put(52.5,0.5){\framebox(  1, 46){}} % 53
+\put(53.5,0.5){\framebox(  1, 45){}} % 54
+\put(54.5,0.5){\framebox(  1, 44){}} % 55
+\put(55.5,0.5){\framebox(  1, 43){}} % 56
+\put(56.5,0.5){\framebox(  1, 42){}} % 57
+\put(57.5,0.5){\framebox(  1, 41){}} % 58
+\put(58.5,0.5){\framebox(  1, 40){}} % 59
+\put(59.5,0.5){\framebox(  1, 39){}} % 60
+\put(60.5,0.5){\framebox(  1, 38){}} % 61
+\put(61.5,0.5){\framebox(  1, 37){}} % 62
+\put(62.5,0.5){\framebox(  1, 36){}} % 63
+\put(63.5,0.5){\framebox(  2, 34){}} % 64-65
+\put(65.5,0.5){\framebox(  5, 29){}} % 66-70
+\put(70.5,0.5){\framebox(  1, 28){}} % 71
+\put(71.5,0.5){\framebox(  1, 27){}} % 72
+\put(72.5,0.5){\framebox(  1, 26){}} % 73
+\put(73.5,0.5){\framebox(  1, 25){}} % 74
+\put(74.5,0.5){\framebox(  1, 24){}} % 75
+\put(75.5,0.5){\framebox(  1, 23){}} % 76
+\put(76.5,0.5){\framebox(  1, 22){}} % 77
+\put(77.5,0.5){\framebox(  1, 21){}} % 78
+\put(78.5,0.5){\framebox(  1, 20){}} % 79
+\put(79.5,0.5){\framebox(  1, 19){}} % 80
+\put(80.5,0.5){\framebox(  1, 18){}} % 81
+\put(81.5,0.5){\framebox(  1, 17){}} % 82
+\put(82.5,0.5){\framebox(  1, 16){}} % 83
+\put(83.5,0.5){\framebox(  3, 13){}} % 84-86
+\put(86.5,0.5){\framebox(  3, 10){}} % 87-89
+
+
+
+ \put(79,21){\makebox(0,0){$\circ$}}
+ \put(79,20){\makebox(0,0){$\circ$}}
+ \put(79,19){\makebox(0,0){$\circ$}}
+ \put(79,18){\makebox(0,0){$\circ$}}
+ \put(79,16){\makebox(0,0){$\circ$}}
+ \put(80,20){\makebox(0,0){$\circ$}}
+ \put(80,19){\makebox(0,0){$\circ$}}
+ \put(80,18){\makebox(0,0){$\circ$}}
+ \put(80,16){\makebox(0,0){$\circ$}}
+ \put(80,10){\makebox(0,0){$\circ$}}
+ \put(80,4){\makebox(0,0){$\circ$}}
+ \put(81,19){\makebox(0,0){$\circ$}}
+ \put(81,18){\makebox(0,0){$\circ$}}
+ \put(81,17){\makebox(0,0){$\circ$}}
+ \put(81,16){\makebox(0,0){$\circ$}}
+ \put(81,10){\makebox(0,0){$\circ$}}
+ \put(81,4){\makebox(0,0){$\circ$}}
+ \put(76,24){\makebox(0,0){$\circ$}}
+ \put(76,23){\makebox(0,0){$\circ$}}
+ \put(76,22){\makebox(0,0){$\circ$}}
+ \put(76,18){\makebox(0,0){$\circ$}}
+ \put(76,17){\makebox(0,0){$\circ$}}
+ \put(76,15){\makebox(0,0){$\circ$}}
+ \put(77,23){\makebox(0,0){$\circ$}}
+ \put(77,22){\makebox(0,0){$\circ$}}
+ \put(77,18){\makebox(0,0){$\circ$}}
+ \put(77,17){\makebox(0,0){$\circ$}}
+ \put(77,15){\makebox(0,0){$\circ$}}
+ \put(77,14){\makebox(0,0){$\circ$}}
+ \put(77,12){\makebox(0,0){$\circ$}}
+ \put(75,25){\makebox(0,0){$\circ$}}
+ \put(75,22){\makebox(0,0){$\circ$}}
+ \put(75,17){\makebox(0,0){$\circ$}}
+ \put(75,12){\makebox(0,0){$\circ$}}
+ \put(75,11){\makebox(0,0){$\circ$}}
+ \put(75,6){\makebox(0,0){$\circ$}}
+ \put(75,3){\makebox(0,0){$\circ$}}
+ \put(78,22){\makebox(0,0){$\circ$}}
+ \put(78,18){\makebox(0,0){$\circ$}}
+ \put(78,17){\makebox(0,0){$\circ$}}
+ \put(78,15){\makebox(0,0){$\circ$}}
+ \put(78,14){\makebox(0,0){$\circ$}}
+ \put(78,12){\makebox(0,0){$\circ$}}
+ \put(78,11){\makebox(0,0){$\circ$}}
+ \put(78,6){\makebox(0,0){$\circ$}}
+ \put(78,3){\makebox(0,0){$\circ$}}
+ \put(82,18){\makebox(0,0){$\circ$}}
+ \put(82,17){\makebox(0,0){$\circ$}}
+ \put(82,16){\makebox(0,0){$\circ$}}
+ \put(82,15){\makebox(0,0){$\circ$}}
+ \put(82,14){\makebox(0,0){$\circ$}}
+ \put(82,12){\makebox(0,0){$\circ$}}
+ \put(82,11){\makebox(0,0){$\circ$}}
+ \put(82,10){\makebox(0,0){$\circ$}}
+ \put(82,6){\makebox(0,0){$\circ$}}
+ \put(82,4){\makebox(0,0){$\circ$}}
+ \put(82,3){\makebox(0,0){$\circ$}}
+ \put(83,17){\makebox(0,0){$\circ$}}
+ \put(83,16){\makebox(0,0){$\circ$}}
+ \put(83,15){\makebox(0,0){$\circ$}}
+ \put(83,14){\makebox(0,0){$\circ$}}
+ \put(83,12){\makebox(0,0){$\circ$}}
+ \put(83,11){\makebox(0,0){$\circ$}}
+ \put(83,10){\makebox(0,0){$\circ$}}
+ \put(83,7){\makebox(0,0){$\circ$}}
+ \put(83,6){\makebox(0,0){$\circ$}}
+ \put(83,4){\makebox(0,0){$\circ$}}
+ \put(83,3){\makebox(0,0){$\circ$}}
+ \put(73,27){\makebox(0,0){$\circ$}}
+ \put(73,26){\makebox(0,0){$\circ$}}
+ \put(73,14){\makebox(0,0){$\circ$}}
+ \put(73,13){\makebox(0,0){$\circ$}}
+ \put(73,12){\makebox(0,0){$\circ$}}
+ \put(71,29){\makebox(0,0){$\circ$}}
+ \put(71,28){\makebox(0,0){$\circ$}}
+ \put(71,16){\makebox(0,0){$\circ$}}
+ \put(72,28){\makebox(0,0){$\circ$}}
+ \put(72,26){\makebox(0,0){$\circ$}}
+ \put(72,16){\makebox(0,0){$\circ$}}
+ \put(72,15){\makebox(0,0){$\circ$}}
+ \put(74,26){\makebox(0,0){$\circ$}}
+ \put(74,16){\makebox(0,0){$\circ$}}
+ \put(74,15){\makebox(0,0){$\circ$}}
+ \put(74,14){\makebox(0,0){$\circ$}}
+ \put(74,13){\makebox(0,0){$\circ$}}
+ \put(74,12){\makebox(0,0){$\circ$}}
+ \put(84,16){\makebox(0,0){$\circ$}}
+ \put(84,15){\makebox(0,0){$\circ$}}
+ \put(84,14){\makebox(0,0){$\circ$}}
+ \put(84,13){\makebox(0,0){$\circ$}}
+ \put(84,12){\makebox(0,0){$\circ$}}
+ \put(84,11){\makebox(0,0){$\circ$}}
+ \put(84,10){\makebox(0,0){$\circ$}}
+ \put(84,7){\makebox(0,0){$\circ$}}
+ \put(84,6){\makebox(0,0){$\circ$}}
+ \put(84,4){\makebox(0,0){$\circ$}}
+ \put(84,3){\makebox(0,0){$\circ$}}
+ \put(85,15){\makebox(0,0){$\circ$}}
+ \put(85,14){\makebox(0,0){$\circ$}}
+ \put(85,13){\makebox(0,0){$\circ$}}
+ \put(85,12){\makebox(0,0){$\circ$}}
+ \put(85,11){\makebox(0,0){$\circ$}}
+ \put(85,10){\makebox(0,0){$\circ$}}
+ \put(85,7){\makebox(0,0){$\circ$}}
+ \put(85,6){\makebox(0,0){$\circ$}}
+ \put(85,4){\makebox(0,0){$\circ$}}
+ \put(85,3){\makebox(0,0){$\circ$}}
+ \put(86,14){\makebox(0,0){$\circ$}}
+ \put(86,13){\makebox(0,0){$\circ$}}
+ \put(86,12){\makebox(0,0){$\circ$}}
+ \put(86,11){\makebox(0,0){$\circ$}}
+ \put(86,10){\makebox(0,0){$\circ$}}
+ \put(86,7){\makebox(0,0){$\circ$}}
+ \put(86,6){\makebox(0,0){$\circ$}}
+ \put(86,4){\makebox(0,0){$\circ$}}
+ \put(86,3){\makebox(0,0){$\circ$}}
+ \put(61,39){\makebox(0,0){$\circ$}}
+ \put(61,38){\makebox(0,0){$\circ$}}
+ \put(61,37){\makebox(0,0){$\circ$}}
+ \put(61,36){\makebox(0,0){$\circ$}}
+ \put(61,35){\makebox(0,0){$\circ$}}
+ \put(60,40){\makebox(0,0){$\circ$}}
+ \put(60,38){\makebox(0,0){$\circ$}}
+ \put(60,37){\makebox(0,0){$\circ$}}
+ \put(60,33){\makebox(0,0){$\circ$}}
+ \put(60,31){\makebox(0,0){$\circ$}}
+ \put(60,8){\makebox(0,0){$\circ$}}
+ \put(60,1){\makebox(0,0){$\circ$}}
+ \put(62,38){\makebox(0,0){$\circ$}}
+ \put(62,37){\makebox(0,0){$\circ$}}
+ \put(62,36){\makebox(0,0){$\circ$}}
+ \put(62,35){\makebox(0,0){$\circ$}}
+ \put(62,33){\makebox(0,0){$\circ$}}
+ \put(62,31){\makebox(0,0){$\circ$}}
+ \put(62,30){\makebox(0,0){$\circ$}}
+ \put(62,8){\makebox(0,0){$\circ$}}
+ \put(62,1){\makebox(0,0){$\circ$}}
+ \put(63,37){\makebox(0,0){$\circ$}}
+ \put(63,36){\makebox(0,0){$\circ$}}
+ \put(63,35){\makebox(0,0){$\circ$}}
+ \put(63,33){\makebox(0,0){$\circ$}}
+ \put(63,31){\makebox(0,0){$\circ$}}
+ \put(63,30){\makebox(0,0){$\circ$}}
+ \put(63,11){\makebox(0,0){$\circ$}}
+ \put(63,8){\makebox(0,0){$\circ$}}
+ \put(63,2){\makebox(0,0){$\circ$}}
+ \put(63,1){\makebox(0,0){$\circ$}}
+ \put(56,44){\makebox(0,0){$\circ$}}
+ \put(56,43){\makebox(0,0){$\circ$}}
+ \put(56,42){\makebox(0,0){$\circ$}}
+ \put(56,41){\makebox(0,0){$\circ$}}
+ \put(56,13){\makebox(0,0){$\circ$}}
+ \put(57,43){\makebox(0,0){$\circ$}}
+ \put(57,42){\makebox(0,0){$\circ$}}
+ \put(57,41){\makebox(0,0){$\circ$}}
+ \put(57,36){\makebox(0,0){$\circ$}}
+ \put(57,13){\makebox(0,0){$\circ$}}
+ \put(57,12){\makebox(0,0){$\circ$}}
+ \put(58,42){\makebox(0,0){$\circ$}}
+ \put(58,41){\makebox(0,0){$\circ$}}
+ \put(58,36){\makebox(0,0){$\circ$}}
+ \put(58,35){\makebox(0,0){$\circ$}}
+ \put(58,13){\makebox(0,0){$\circ$}}
+ \put(58,12){\makebox(0,0){$\circ$}}
+ \put(59,41){\makebox(0,0){$\circ$}}
+ \put(59,36){\makebox(0,0){$\circ$}}
+ \put(59,35){\makebox(0,0){$\circ$}}
+ \put(59,34){\makebox(0,0){$\circ$}}
+ \put(59,32){\makebox(0,0){$\circ$}}
+ \put(59,13){\makebox(0,0){$\circ$}}
+ \put(59,12){\makebox(0,0){$\circ$}}
+ \put(64,36){\makebox(0,0){$\circ$}}
+ \put(64,35){\makebox(0,0){$\circ$}}
+ \put(64,34){\makebox(0,0){$\circ$}}
+ \put(64,33){\makebox(0,0){$\circ$}}
+ \put(64,32){\makebox(0,0){$\circ$}}
+ \put(64,31){\makebox(0,0){$\circ$}}
+ \put(64,30){\makebox(0,0){$\circ$}}
+ \put(64,13){\makebox(0,0){$\circ$}}
+ \put(64,12){\makebox(0,0){$\circ$}}
+ \put(64,11){\makebox(0,0){$\circ$}}
+ \put(64,8){\makebox(0,0){$\circ$}}
+ \put(64,2){\makebox(0,0){$\circ$}}
+ \put(64,1){\makebox(0,0){$\circ$}}
+ \put(65,35){\makebox(0,0){$\circ$}}
+ \put(65,34){\makebox(0,0){$\circ$}}
+ \put(65,33){\makebox(0,0){$\circ$}}
+ \put(65,32){\makebox(0,0){$\circ$}}
+ \put(65,31){\makebox(0,0){$\circ$}}
+ \put(65,30){\makebox(0,0){$\circ$}}
+ \put(65,13){\makebox(0,0){$\circ$}}
+ \put(65,12){\makebox(0,0){$\circ$}}
+ \put(65,11){\makebox(0,0){$\circ$}}
+ \put(65,8){\makebox(0,0){$\circ$}}
+ \put(65,2){\makebox(0,0){$\circ$}}
+ \put(65,1){\makebox(0,0){$\circ$}}
+ \put(54,46){\makebox(0,0){$\circ$}}
+ \put(54,45){\makebox(0,0){$\circ$}}
+ \put(54,33){\makebox(0,0){$\circ$}}
+ \put(54,31){\makebox(0,0){$\circ$}}
+ \put(54,9){\makebox(0,0){$\circ$}}
+ \put(54,5){\makebox(0,0){$\circ$}}
+ \put(50,50){\makebox(0,0){$\circ$}}
+ \put(50,49){\makebox(0,0){$\circ$}}
+ \put(50,45){\makebox(0,0){$\circ$}}
+ \put(50,31){\makebox(0,0){$\circ$}}
+ \put(48,52){\makebox(0,0){$\circ$}}
+ \put(48,51){\makebox(0,0){$\circ$}}
+ \put(48,47){\makebox(0,0){$\circ$}}
+ \put(49,51){\makebox(0,0){$\circ$}}
+ \put(49,49){\makebox(0,0){$\circ$}}
+ \put(49,48){\makebox(0,0){$\circ$}}
+ \put(49,47){\makebox(0,0){$\circ$}}
+ \put(51,49){\makebox(0,0){$\circ$}}
+ \put(51,48){\makebox(0,0){$\circ$}}
+ \put(51,47){\makebox(0,0){$\circ$}}
+ \put(51,45){\makebox(0,0){$\circ$}}
+ \put(51,31){\makebox(0,0){$\circ$}}
+ \put(52,48){\makebox(0,0){$\circ$}}
+ \put(52,47){\makebox(0,0){$\circ$}}
+ \put(52,45){\makebox(0,0){$\circ$}}
+ \put(52,31){\makebox(0,0){$\circ$}}
+ \put(52,30){\makebox(0,0){$\circ$}}
+ \put(53,47){\makebox(0,0){$\circ$}}
+ \put(53,45){\makebox(0,0){$\circ$}}
+ \put(53,34){\makebox(0,0){$\circ$}}
+ \put(53,32){\makebox(0,0){$\circ$}}
+ \put(53,31){\makebox(0,0){$\circ$}}
+ \put(53,30){\makebox(0,0){$\circ$}}
+ \put(55,45){\makebox(0,0){$\circ$}}
+ \put(55,34){\makebox(0,0){$\circ$}}
+ \put(55,33){\makebox(0,0){$\circ$}}
+ \put(55,32){\makebox(0,0){$\circ$}}
+ \put(55,31){\makebox(0,0){$\circ$}}
+ \put(55,30){\makebox(0,0){$\circ$}}
+ \put(55,9){\makebox(0,0){$\circ$}}
+ \put(55,5){\makebox(0,0){$\circ$}}
+ \put(66,34){\makebox(0,0){$\circ$}}
+ \put(66,33){\makebox(0,0){$\circ$}}
+ \put(66,32){\makebox(0,0){$\circ$}}
+ \put(66,31){\makebox(0,0){$\circ$}}
+ \put(66,30){\makebox(0,0){$\circ$}}
+ \put(66,13){\makebox(0,0){$\circ$}}
+ \put(66,12){\makebox(0,0){$\circ$}}
+ \put(66,11){\makebox(0,0){$\circ$}}
+ \put(66,9){\makebox(0,0){$\circ$}}
+ \put(66,8){\makebox(0,0){$\circ$}}
+ \put(66,5){\makebox(0,0){$\circ$}}
+ \put(66,2){\makebox(0,0){$\circ$}}
+ \put(66,1){\makebox(0,0){$\circ$}}
+ \put(67,33){\makebox(0,0){$\circ$}}
+ \put(67,32){\makebox(0,0){$\circ$}}
+ \put(67,31){\makebox(0,0){$\circ$}}
+ \put(67,30){\makebox(0,0){$\circ$}}
+ \put(67,13){\makebox(0,0){$\circ$}}
+ \put(67,12){\makebox(0,0){$\circ$}}
+ \put(67,11){\makebox(0,0){$\circ$}}
+ \put(67,9){\makebox(0,0){$\circ$}}
+ \put(67,8){\makebox(0,0){$\circ$}}
+ \put(67,5){\makebox(0,0){$\circ$}}
+ \put(67,2){\makebox(0,0){$\circ$}}
+ \put(67,1){\makebox(0,0){$\circ$}}
+ \put(68,32){\makebox(0,0){$\circ$}}
+ \put(68,31){\makebox(0,0){$\circ$}}
+ \put(68,30){\makebox(0,0){$\circ$}}
+ \put(68,13){\makebox(0,0){$\circ$}}
+ \put(68,12){\makebox(0,0){$\circ$}}
+ \put(68,11){\makebox(0,0){$\circ$}}
+ \put(68,9){\makebox(0,0){$\circ$}}
+ \put(68,8){\makebox(0,0){$\circ$}}
+ \put(68,5){\makebox(0,0){$\circ$}}
+ \put(68,2){\makebox(0,0){$\circ$}}
+ \put(68,1){\makebox(0,0){$\circ$}}
+ \put(69,31){\makebox(0,0){$\circ$}}
+ \put(69,30){\makebox(0,0){$\circ$}}
+ \put(69,13){\makebox(0,0){$\circ$}}
+ \put(69,12){\makebox(0,0){$\circ$}}
+ \put(69,11){\makebox(0,0){$\circ$}}
+ \put(69,9){\makebox(0,0){$\circ$}}
+ \put(69,8){\makebox(0,0){$\circ$}}
+ \put(69,5){\makebox(0,0){$\circ$}}
+ \put(69,2){\makebox(0,0){$\circ$}}
+ \put(69,1){\makebox(0,0){$\circ$}}
+ \put(70,30){\makebox(0,0){$\circ$}}
+ \put(70,13){\makebox(0,0){$\circ$}}
+ \put(70,12){\makebox(0,0){$\circ$}}
+ \put(70,11){\makebox(0,0){$\circ$}}
+ \put(70,9){\makebox(0,0){$\circ$}}
+ \put(70,8){\makebox(0,0){$\circ$}}
+ \put(70,5){\makebox(0,0){$\circ$}}
+ \put(70,2){\makebox(0,0){$\circ$}}
+ \put(70,1){\makebox(0,0){$\circ$}}
+ \put(87,13){\makebox(0,0){$\circ$}}
+ \put(87,12){\makebox(0,0){$\circ$}}
+ \put(87,11){\makebox(0,0){$\circ$}}
+ \put(87,10){\makebox(0,0){$\circ$}}
+ \put(87,9){\makebox(0,0){$\circ$}}
+ \put(87,8){\makebox(0,0){$\circ$}}
+ \put(87,7){\makebox(0,0){$\circ$}}
+ \put(87,6){\makebox(0,0){$\circ$}}
+ \put(87,5){\makebox(0,0){$\circ$}}
+ \put(87,4){\makebox(0,0){$\circ$}}
+ \put(87,3){\makebox(0,0){$\circ$}}
+ \put(87,2){\makebox(0,0){$\circ$}}
+ \put(87,1){\makebox(0,0){$\circ$}}
+ \put(88,12){\makebox(0,0){$\circ$}}
+ \put(88,11){\makebox(0,0){$\circ$}}
+ \put(88,10){\makebox(0,0){$\circ$}}
+ \put(88,9){\makebox(0,0){$\circ$}}
+ \put(88,8){\makebox(0,0){$\circ$}}
+ \put(88,7){\makebox(0,0){$\circ$}}
+ \put(88,6){\makebox(0,0){$\circ$}}
+ \put(88,5){\makebox(0,0){$\circ$}}
+ \put(88,4){\makebox(0,0){$\circ$}}
+ \put(88,3){\makebox(0,0){$\circ$}}
+ \put(88,2){\makebox(0,0){$\circ$}}
+ \put(88,1){\makebox(0,0){$\circ$}}
+ \put(89,11){\makebox(0,0){$\circ$}}
+ \put(89,10){\makebox(0,0){$\circ$}}
+ \put(89,9){\makebox(0,0){$\circ$}}
+ \put(89,8){\makebox(0,0){$\circ$}}
+ \put(89,7){\makebox(0,0){$\circ$}}
+ \put(89,6){\makebox(0,0){$\circ$}}
+ \put(89,5){\makebox(0,0){$\circ$}}
+ \put(89,4){\makebox(0,0){$\circ$}}
+ \put(89,3){\makebox(0,0){$\circ$}}
+ \put(89,2){\makebox(0,0){$\circ$}}
+ \put(89,1){\makebox(0,0){$\circ$}}
+ \put(33,67){\makebox(0,0){$\circ$}}
+ \put(33,66){\makebox(0,0){$\circ$}}
+ \put(33,65){\makebox(0,0){$\circ$}}
+ \put(34,66){\makebox(0,0){$\circ$}}
+ \put(34,65){\makebox(0,0){$\circ$}}
+ \put(34,64){\makebox(0,0){$\circ$}}
+ \put(34,62){\makebox(0,0){$\circ$}}
+ \put(35,65){\makebox(0,0){$\circ$}}
+ \put(35,64){\makebox(0,0){$\circ$}}
+ \put(35,63){\makebox(0,0){$\circ$}}
+ \put(35,62){\makebox(0,0){$\circ$}}
+ \put(36,64){\makebox(0,0){$\circ$}}
+ \put(36,63){\makebox(0,0){$\circ$}}
+ \put(36,62){\makebox(0,0){$\circ$}}
+ \put(36,61){\makebox(0,0){$\circ$}}
+ \put(36,60){\makebox(0,0){$\circ$}}
+ \put(37,63){\makebox(0,0){$\circ$}}
+ \put(37,62){\makebox(0,0){$\circ$}}
+ \put(37,61){\makebox(0,0){$\circ$}}
+ \put(37,60){\makebox(0,0){$\circ$}}
+ \put(37,59){\makebox(0,0){$\circ$}}
+ \put(38,62){\makebox(0,0){$\circ$}}
+ \put(38,61){\makebox(0,0){$\circ$}}
+ \put(38,60){\makebox(0,0){$\circ$}}
+ \put(38,59){\makebox(0,0){$\circ$}}
+ \put(38,56){\makebox(0,0){$\circ$}}
+ \put(39,61){\makebox(0,0){$\circ$}}
+ \put(39,60){\makebox(0,0){$\circ$}}
+ \put(39,59){\makebox(0,0){$\circ$}}
+ \put(39,58){\makebox(0,0){$\circ$}}
+ \put(39,56){\makebox(0,0){$\circ$}}
+ \put(39,54){\makebox(0,0){$\circ$}}
+ \put(40,60){\makebox(0,0){$\circ$}}
+ \put(40,59){\makebox(0,0){$\circ$}}
+ \put(40,58){\makebox(0,0){$\circ$}}
+ \put(40,57){\makebox(0,0){$\circ$}}
+ \put(40,56){\makebox(0,0){$\circ$}}
+ \put(40,54){\makebox(0,0){$\circ$}}
+ \put(28,72){\makebox(0,0){$\circ$}}
+ \put(28,71){\makebox(0,0){$\circ$}}
+ \put(28,70){\makebox(0,0){$\circ$}}
+ \put(28,69){\makebox(0,0){$\circ$}}
+ \put(28,55){\makebox(0,0){$\circ$}}
+ \put(28,53){\makebox(0,0){$\circ$}}
+ \put(29,71){\makebox(0,0){$\circ$}}
+ \put(29,70){\makebox(0,0){$\circ$}}
+ \put(29,69){\makebox(0,0){$\circ$}}
+ \put(29,68){\makebox(0,0){$\circ$}}
+ \put(29,55){\makebox(0,0){$\circ$}}
+ \put(29,53){\makebox(0,0){$\circ$}}
+ \put(29,6){\makebox(0,0){$\circ$}}
+ \put(29,3){\makebox(0,0){$\circ$}}
+ \put(30,70){\makebox(0,0){$\circ$}}
+ \put(30,69){\makebox(0,0){$\circ$}}
+ \put(30,68){\makebox(0,0){$\circ$}}
+ \put(30,55){\makebox(0,0){$\circ$}}
+ \put(30,53){\makebox(0,0){$\circ$}}
+ \put(30,8){\makebox(0,0){$\circ$}}
+ \put(30,6){\makebox(0,0){$\circ$}}
+ \put(30,3){\makebox(0,0){$\circ$}}
+ \put(30,2){\makebox(0,0){$\circ$}}
+ \put(23,77){\makebox(0,0){$\circ$}}
+ \put(23,76){\makebox(0,0){$\circ$}}
+ \put(23,75){\makebox(0,0){$\circ$}}
+ \put(23,73){\makebox(0,0){$\circ$}}
+ \put(23,68){\makebox(0,0){$\circ$}}
+ \put(23,7){\makebox(0,0){$\circ$}}
+ \put(24,76){\makebox(0,0){$\circ$}}
+ \put(24,75){\makebox(0,0){$\circ$}}
+ \put(24,74){\makebox(0,0){$\circ$}}
+ \put(24,73){\makebox(0,0){$\circ$}}
+ \put(24,69){\makebox(0,0){$\circ$}}
+ \put(24,68){\makebox(0,0){$\circ$}}
+ \put(24,7){\makebox(0,0){$\circ$}}
+ \put(25,75){\makebox(0,0){$\circ$}}
+ \put(25,74){\makebox(0,0){$\circ$}}
+ \put(25,73){\makebox(0,0){$\circ$}}
+ \put(25,69){\makebox(0,0){$\circ$}}
+ \put(25,68){\makebox(0,0){$\circ$}}
+ \put(25,58){\makebox(0,0){$\circ$}}
+ \put(25,57){\makebox(0,0){$\circ$}}
+ \put(25,7){\makebox(0,0){$\circ$}}
+ \put(26,74){\makebox(0,0){$\circ$}}
+ \put(26,73){\makebox(0,0){$\circ$}}
+ \put(26,69){\makebox(0,0){$\circ$}}
+ \put(26,68){\makebox(0,0){$\circ$}}
+ \put(26,58){\makebox(0,0){$\circ$}}
+ \put(26,57){\makebox(0,0){$\circ$}}
+ \put(26,55){\makebox(0,0){$\circ$}}
+ \put(26,54){\makebox(0,0){$\circ$}}
+ \put(26,7){\makebox(0,0){$\circ$}}
+ \put(22,78){\makebox(0,0){$\circ$}}
+ \put(22,73){\makebox(0,0){$\circ$}}
+ \put(22,59){\makebox(0,0){$\circ$}}
+ \put(22,10){\makebox(0,0){$\circ$}}
+ \put(27,73){\makebox(0,0){$\circ$}}
+ \put(27,69){\makebox(0,0){$\circ$}}
+ \put(27,68){\makebox(0,0){$\circ$}}
+ \put(27,59){\makebox(0,0){$\circ$}}
+ \put(27,58){\makebox(0,0){$\circ$}}
+ \put(27,57){\makebox(0,0){$\circ$}}
+ \put(27,55){\makebox(0,0){$\circ$}}
+ \put(27,54){\makebox(0,0){$\circ$}}
+ \put(27,10){\makebox(0,0){$\circ$}}
+ \put(27,7){\makebox(0,0){$\circ$}}
+ \put(27,4){\makebox(0,0){$\circ$}}
+ \put(31,69){\makebox(0,0){$\circ$}}
+ \put(31,68){\makebox(0,0){$\circ$}}
+ \put(31,59){\makebox(0,0){$\circ$}}
+ \put(31,58){\makebox(0,0){$\circ$}}
+ \put(31,57){\makebox(0,0){$\circ$}}
+ \put(31,55){\makebox(0,0){$\circ$}}
+ \put(31,54){\makebox(0,0){$\circ$}}
+ \put(31,53){\makebox(0,0){$\circ$}}
+ \put(31,10){\makebox(0,0){$\circ$}}
+ \put(31,8){\makebox(0,0){$\circ$}}
+ \put(31,7){\makebox(0,0){$\circ$}}
+ \put(31,6){\makebox(0,0){$\circ$}}
+ \put(31,4){\makebox(0,0){$\circ$}}
+ \put(31,3){\makebox(0,0){$\circ$}}
+ \put(31,2){\makebox(0,0){$\circ$}}
+ \put(32,68){\makebox(0,0){$\circ$}}
+ \put(32,59){\makebox(0,0){$\circ$}}
+ \put(32,58){\makebox(0,0){$\circ$}}
+ \put(32,57){\makebox(0,0){$\circ$}}
+ \put(32,55){\makebox(0,0){$\circ$}}
+ \put(32,54){\makebox(0,0){$\circ$}}
+ \put(32,53){\makebox(0,0){$\circ$}}
+ \put(32,10){\makebox(0,0){$\circ$}}
+ \put(32,8){\makebox(0,0){$\circ$}}
+ \put(32,7){\makebox(0,0){$\circ$}}
+ \put(32,6){\makebox(0,0){$\circ$}}
+ \put(32,4){\makebox(0,0){$\circ$}}
+ \put(32,3){\makebox(0,0){$\circ$}}
+ \put(32,2){\makebox(0,0){$\circ$}}
+ \put(41,59){\makebox(0,0){$\circ$}}
+ \put(41,58){\makebox(0,0){$\circ$}}
+ \put(41,57){\makebox(0,0){$\circ$}}
+ \put(41,56){\makebox(0,0){$\circ$}}
+ \put(41,55){\makebox(0,0){$\circ$}}
+ \put(41,54){\makebox(0,0){$\circ$}}
+ \put(41,53){\makebox(0,0){$\circ$}}
+ \put(41,10){\makebox(0,0){$\circ$}}
+ \put(41,8){\makebox(0,0){$\circ$}}
+ \put(41,7){\makebox(0,0){$\circ$}}
+ \put(41,6){\makebox(0,0){$\circ$}}
+ \put(41,4){\makebox(0,0){$\circ$}}
+ \put(41,3){\makebox(0,0){$\circ$}}
+ \put(41,2){\makebox(0,0){$\circ$}}
+ \put(42,58){\makebox(0,0){$\circ$}}
+ \put(42,57){\makebox(0,0){$\circ$}}
+ \put(42,56){\makebox(0,0){$\circ$}}
+ \put(42,55){\makebox(0,0){$\circ$}}
+ \put(42,54){\makebox(0,0){$\circ$}}
+ \put(42,53){\makebox(0,0){$\circ$}}
+ \put(42,10){\makebox(0,0){$\circ$}}
+ \put(42,8){\makebox(0,0){$\circ$}}
+ \put(42,7){\makebox(0,0){$\circ$}}
+ \put(42,6){\makebox(0,0){$\circ$}}
+ \put(42,4){\makebox(0,0){$\circ$}}
+ \put(42,3){\makebox(0,0){$\circ$}}
+ \put(42,2){\makebox(0,0){$\circ$}}
+ \put(43,57){\makebox(0,0){$\circ$}}
+ \put(43,56){\makebox(0,0){$\circ$}}
+ \put(43,55){\makebox(0,0){$\circ$}}
+ \put(43,54){\makebox(0,0){$\circ$}}
+ \put(43,53){\makebox(0,0){$\circ$}}
+ \put(43,10){\makebox(0,0){$\circ$}}
+ \put(43,8){\makebox(0,0){$\circ$}}
+ \put(43,7){\makebox(0,0){$\circ$}}
+ \put(43,6){\makebox(0,0){$\circ$}}
+ \put(43,4){\makebox(0,0){$\circ$}}
+ \put(43,3){\makebox(0,0){$\circ$}}
+ \put(43,2){\makebox(0,0){$\circ$}}
+ \put(14,86){\makebox(0,0){$\circ$}}
+ \put(14,85){\makebox(0,0){$\circ$}}
+ \put(14,84){\makebox(0,0){$\circ$}}
+ \put(14,83){\makebox(0,0){$\circ$}}
+ \put(14,53){\makebox(0,0){$\circ$}}
+ \put(14,1){\makebox(0,0){$\circ$}}
+ \put(15,85){\makebox(0,0){$\circ$}}
+ \put(15,84){\makebox(0,0){$\circ$}}
+ \put(15,83){\makebox(0,0){$\circ$}}
+ \put(15,81){\makebox(0,0){$\circ$}}
+ \put(15,80){\makebox(0,0){$\circ$}}
+ \put(15,53){\makebox(0,0){$\circ$}}
+ \put(15,1){\makebox(0,0){$\circ$}}
+ \put(12,88){\makebox(0,0){$\circ$}}
+ \put(12,87){\makebox(0,0){$\circ$}}
+ \put(12,80){\makebox(0,0){$\circ$}}
+ \put(12,79){\makebox(0,0){$\circ$}}
+ \put(12,55){\makebox(0,0){$\circ$}}
+ \put(13,87){\makebox(0,0){$\circ$}}
+ \put(13,84){\makebox(0,0){$\circ$}}
+ \put(13,80){\makebox(0,0){$\circ$}}
+ \put(13,79){\makebox(0,0){$\circ$}}
+ \put(13,55){\makebox(0,0){$\circ$}}
+ \put(13,53){\makebox(0,0){$\circ$}}
+ \put(16,84){\makebox(0,0){$\circ$}}
+ \put(16,83){\makebox(0,0){$\circ$}}
+ \put(16,81){\makebox(0,0){$\circ$}}
+ \put(16,80){\makebox(0,0){$\circ$}}
+ \put(16,79){\makebox(0,0){$\circ$}}
+ \put(16,55){\makebox(0,0){$\circ$}}
+ \put(16,53){\makebox(0,0){$\circ$}}
+ \put(16,1){\makebox(0,0){$\circ$}}
+ \put(9,91){\makebox(0,0){$\circ$}}
+ \put(9,90){\makebox(0,0){$\circ$}}
+ \put(9,82){\makebox(0,0){$\circ$}}
+ \put(10,90){\makebox(0,0){$\circ$}}
+ \put(10,89){\makebox(0,0){$\circ$}}
+ \put(10,82){\makebox(0,0){$\circ$}}
+ \put(10,81){\makebox(0,0){$\circ$}}
+ \put(8,92){\makebox(0,0){$\circ$}}
+ \put(8,89){\makebox(0,0){$\circ$}}
+ \put(8,83){\makebox(0,0){$\circ$}}
+ \put(8,9){\makebox(0,0){$\circ$}}
+ \put(11,89){\makebox(0,0){$\circ$}}
+ \put(11,83){\makebox(0,0){$\circ$}}
+ \put(11,82){\makebox(0,0){$\circ$}}
+ \put(11,81){\makebox(0,0){$\circ$}}
+ \put(11,9){\makebox(0,0){$\circ$}}
+ \put(17,83){\makebox(0,0){$\circ$}}
+ \put(17,82){\makebox(0,0){$\circ$}}
+ \put(17,81){\makebox(0,0){$\circ$}}
+ \put(17,80){\makebox(0,0){$\circ$}}
+ \put(17,79){\makebox(0,0){$\circ$}}
+ \put(17,55){\makebox(0,0){$\circ$}}
+ \put(17,53){\makebox(0,0){$\circ$}}
+ \put(17,9){\makebox(0,0){$\circ$}}
+ \put(17,5){\makebox(0,0){$\circ$}}
+ \put(17,1){\makebox(0,0){$\circ$}}
+ \put(3,97){\makebox(0,0){$\circ$}}
+ \put(3,96){\makebox(0,0){$\circ$}}
+ \put(3,95){\makebox(0,0){$\circ$}}
+ \put(3,94){\makebox(0,0){$\circ$}}
+ \put(3,82){\makebox(0,0){$\circ$}}
+ \put(4,96){\makebox(0,0){$\circ$}}
+ \put(4,95){\makebox(0,0){$\circ$}}
+ \put(4,94){\makebox(0,0){$\circ$}}
+ \put(4,93){\makebox(0,0){$\circ$}}
+ \put(4,82){\makebox(0,0){$\circ$}}
+ \put(4,80){\makebox(0,0){$\circ$}}
+ \put(5,95){\makebox(0,0){$\circ$}}
+ \put(5,94){\makebox(0,0){$\circ$}}
+ \put(5,93){\makebox(0,0){$\circ$}}
+ \put(5,82){\makebox(0,0){$\circ$}}
+ \put(5,81){\makebox(0,0){$\circ$}}
+ \put(5,80){\makebox(0,0){$\circ$}}
+ \put(0,100){\makebox(0,0){$\circ$}}
+ \put(0,99){\makebox(0,0){$\circ$}}
+ \put(0,98){\makebox(0,0){$\circ$}}
+ \put(0,94){\makebox(0,0){$\circ$}}
+ \put(0,93){\makebox(0,0){$\circ$}}
+ \put(1,99){\makebox(0,0){$\circ$}}
+ \put(1,98){\makebox(0,0){$\circ$}}
+ \put(1,94){\makebox(0,0){$\circ$}}
+ \put(1,93){\makebox(0,0){$\circ$}}
+ \put(1,79){\makebox(0,0){$\circ$}}
+ \put(1,54){\makebox(0,0){$\circ$}}
+ \put(2,98){\makebox(0,0){$\circ$}}
+ \put(2,94){\makebox(0,0){$\circ$}}
+ \put(2,93){\makebox(0,0){$\circ$}}
+ \put(2,79){\makebox(0,0){$\circ$}}
+ \put(2,56){\makebox(0,0){$\circ$}}
+ \put(2,54){\makebox(0,0){$\circ$}}
+ \put(6,94){\makebox(0,0){$\circ$}}
+ \put(6,93){\makebox(0,0){$\circ$}}
+ \put(6,82){\makebox(0,0){$\circ$}}
+ \put(6,81){\makebox(0,0){$\circ$}}
+ \put(6,80){\makebox(0,0){$\circ$}}
+ \put(6,79){\makebox(0,0){$\circ$}}
+ \put(6,56){\makebox(0,0){$\circ$}}
+ \put(6,54){\makebox(0,0){$\circ$}}
+ \put(7,93){\makebox(0,0){$\circ$}}
+ \put(7,82){\makebox(0,0){$\circ$}}
+ \put(7,81){\makebox(0,0){$\circ$}}
+ \put(7,80){\makebox(0,0){$\circ$}}
+ \put(7,79){\makebox(0,0){$\circ$}}
+ \put(7,56){\makebox(0,0){$\circ$}}
+ \put(7,54){\makebox(0,0){$\circ$}}
+ \put(18,82){\makebox(0,0){$\circ$}}
+ \put(18,81){\makebox(0,0){$\circ$}}
+ \put(18,80){\makebox(0,0){$\circ$}}
+ \put(18,79){\makebox(0,0){$\circ$}}
+ \put(18,56){\makebox(0,0){$\circ$}}
+ \put(18,55){\makebox(0,0){$\circ$}}
+ \put(18,54){\makebox(0,0){$\circ$}}
+ \put(18,53){\makebox(0,0){$\circ$}}
+ \put(18,9){\makebox(0,0){$\circ$}}
+ \put(18,5){\makebox(0,0){$\circ$}}
+ \put(18,1){\makebox(0,0){$\circ$}}
+ \put(19,81){\makebox(0,0){$\circ$}}
+ \put(19,80){\makebox(0,0){$\circ$}}
+ \put(19,79){\makebox(0,0){$\circ$}}
+ \put(19,56){\makebox(0,0){$\circ$}}
+ \put(19,55){\makebox(0,0){$\circ$}}
+ \put(19,54){\makebox(0,0){$\circ$}}
+ \put(19,53){\makebox(0,0){$\circ$}}
+ \put(19,9){\makebox(0,0){$\circ$}}
+ \put(19,5){\makebox(0,0){$\circ$}}
+ \put(19,1){\makebox(0,0){$\circ$}}
+ \put(20,80){\makebox(0,0){$\circ$}}
+ \put(20,79){\makebox(0,0){$\circ$}}
+ \put(20,56){\makebox(0,0){$\circ$}}
+ \put(20,55){\makebox(0,0){$\circ$}}
+ \put(20,54){\makebox(0,0){$\circ$}}
+ \put(20,53){\makebox(0,0){$\circ$}}
+ \put(20,9){\makebox(0,0){$\circ$}}
+ \put(20,5){\makebox(0,0){$\circ$}}
+ \put(20,1){\makebox(0,0){$\circ$}}
+ \put(21,79){\makebox(0,0){$\circ$}}
+ \put(21,56){\makebox(0,0){$\circ$}}
+ \put(21,55){\makebox(0,0){$\circ$}}
+ \put(21,54){\makebox(0,0){$\circ$}}
+ \put(21,53){\makebox(0,0){$\circ$}}
+ \put(21,9){\makebox(0,0){$\circ$}}
+ \put(21,5){\makebox(0,0){$\circ$}}
+ \put(21,1){\makebox(0,0){$\circ$}}
+ \put(44,56){\makebox(0,0){$\circ$}}
+ \put(44,55){\makebox(0,0){$\circ$}}
+ \put(44,54){\makebox(0,0){$\circ$}}
+ \put(44,53){\makebox(0,0){$\circ$}}
+ \put(44,10){\makebox(0,0){$\circ$}}
+ \put(44,9){\makebox(0,0){$\circ$}}
+ \put(44,8){\makebox(0,0){$\circ$}}
+ \put(44,7){\makebox(0,0){$\circ$}}
+ \put(44,6){\makebox(0,0){$\circ$}}
+ \put(44,5){\makebox(0,0){$\circ$}}
+ \put(44,4){\makebox(0,0){$\circ$}}
+ \put(44,3){\makebox(0,0){$\circ$}}
+ \put(44,2){\makebox(0,0){$\circ$}}
+ \put(44,1){\makebox(0,0){$\circ$}}
+ \put(45,55){\makebox(0,0){$\circ$}}
+ \put(45,54){\makebox(0,0){$\circ$}}
+ \put(45,53){\makebox(0,0){$\circ$}}
+ \put(45,10){\makebox(0,0){$\circ$}}
+ \put(45,9){\makebox(0,0){$\circ$}}
+ \put(45,8){\makebox(0,0){$\circ$}}
+ \put(45,7){\makebox(0,0){$\circ$}}
+ \put(45,6){\makebox(0,0){$\circ$}}
+ \put(45,5){\makebox(0,0){$\circ$}}
+ \put(45,4){\makebox(0,0){$\circ$}}
+ \put(45,3){\makebox(0,0){$\circ$}}
+ \put(45,2){\makebox(0,0){$\circ$}}
+ \put(45,1){\makebox(0,0){$\circ$}}
+ \put(46,54){\makebox(0,0){$\circ$}}
+ \put(46,53){\makebox(0,0){$\circ$}}
+ \put(46,10){\makebox(0,0){$\circ$}}
+ \put(46,9){\makebox(0,0){$\circ$}}
+ \put(46,8){\makebox(0,0){$\circ$}}
+ \put(46,7){\makebox(0,0){$\circ$}}
+ \put(46,6){\makebox(0,0){$\circ$}}
+ \put(46,5){\makebox(0,0){$\circ$}}
+ \put(46,4){\makebox(0,0){$\circ$}}
+ \put(46,3){\makebox(0,0){$\circ$}}
+ \put(46,2){\makebox(0,0){$\circ$}}
+ \put(46,1){\makebox(0,0){$\circ$}}
+ \put(47,53){\makebox(0,0){$\circ$}}
+ \put(47,10){\makebox(0,0){$\circ$}}
+ \put(47,9){\makebox(0,0){$\circ$}}
+ \put(47,8){\makebox(0,0){$\circ$}}
+ \put(47,7){\makebox(0,0){$\circ$}}
+ \put(47,6){\makebox(0,0){$\circ$}}
+ \put(47,5){\makebox(0,0){$\circ$}}
+ \put(47,4){\makebox(0,0){$\circ$}}
+ \put(47,3){\makebox(0,0){$\circ$}}
+ \put(47,2){\makebox(0,0){$\circ$}}
+ \put(47,1){\makebox(0,0){$\circ$}}
+ \put(90,10){\makebox(0,0){$\circ$}}
+ \put(90,9){\makebox(0,0){$\circ$}}
+ \put(90,8){\makebox(0,0){$\circ$}}
+ \put(90,7){\makebox(0,0){$\circ$}}
+ \put(90,6){\makebox(0,0){$\circ$}}
+ \put(90,5){\makebox(0,0){$\circ$}}
+ \put(90,4){\makebox(0,0){$\circ$}}
+ \put(90,3){\makebox(0,0){$\circ$}}
+ \put(90,2){\makebox(0,0){$\circ$}}
+ \put(90,1){\makebox(0,0){$\circ$}}
+ \put(91,9){\makebox(0,0){$\circ$}}
+ \put(91,8){\makebox(0,0){$\circ$}}
+ \put(91,7){\makebox(0,0){$\circ$}}
+ \put(91,6){\makebox(0,0){$\circ$}}
+ \put(91,5){\makebox(0,0){$\circ$}}
+ \put(91,4){\makebox(0,0){$\circ$}}
+ \put(91,3){\makebox(0,0){$\circ$}}
+ \put(91,2){\makebox(0,0){$\circ$}}
+ \put(91,1){\makebox(0,0){$\circ$}}
+ \put(92,8){\makebox(0,0){$\circ$}}
+ \put(92,7){\makebox(0,0){$\circ$}}
+ \put(92,6){\makebox(0,0){$\circ$}}
+ \put(92,5){\makebox(0,0){$\circ$}}
+ \put(92,4){\makebox(0,0){$\circ$}}
+ \put(92,3){\makebox(0,0){$\circ$}}
+ \put(92,2){\makebox(0,0){$\circ$}}
+ \put(92,1){\makebox(0,0){$\circ$}}
+ \put(93,7){\makebox(0,0){$\circ$}}
+ \put(93,6){\makebox(0,0){$\circ$}}
+ \put(93,5){\makebox(0,0){$\circ$}}
+ \put(93,4){\makebox(0,0){$\circ$}}
+ \put(93,3){\makebox(0,0){$\circ$}}
+ \put(93,2){\makebox(0,0){$\circ$}}
+ \put(93,1){\makebox(0,0){$\circ$}}
+ \put(94,6){\makebox(0,0){$\circ$}}
+ \put(94,5){\makebox(0,0){$\circ$}}
+ \put(94,4){\makebox(0,0){$\circ$}}
+ \put(94,3){\makebox(0,0){$\circ$}}
+ \put(94,2){\makebox(0,0){$\circ$}}
+ \put(94,1){\makebox(0,0){$\circ$}}
+ \put(95,5){\makebox(0,0){$\circ$}}
+ \put(95,4){\makebox(0,0){$\circ$}}
+ \put(95,3){\makebox(0,0){$\circ$}}
+ \put(95,2){\makebox(0,0){$\circ$}}
+ \put(95,1){\makebox(0,0){$\circ$}}
+ \put(96,4){\makebox(0,0){$\circ$}}
+ \put(96,3){\makebox(0,0){$\circ$}}
+ \put(96,2){\makebox(0,0){$\circ$}}
+ \put(96,1){\makebox(0,0){$\circ$}}
+ \put(97,3){\makebox(0,0){$\circ$}}
+ \put(97,2){\makebox(0,0){$\circ$}}
+ \put(97,1){\makebox(0,0){$\circ$}}
+ \put(98,2){\makebox(0,0){$\circ$}}
+ \put(98,1){\makebox(0,0){$\circ$}}
+ \put(99,1){\makebox(0,0){$\circ$}}
+\end{picture}
+}
+\end{center}
+
+\end{document}

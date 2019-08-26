@@ -1,0 +1,686 @@
+\par
+\subsection{{\tt ZV} : {\tt double complex } vector methods}
+\label{subsection:Utilities:proto:ZV}
+\par
+A double precision complex vector of length {\tt n} 
+is simply a double precision vector of length {\tt 2n}.
+There is a separate {\tt ZVinit()} allocator and initializer method,
+since it requires a real and imaginary part to fill the vector.
+However, there is no {\tt ZVinit2()} method (which allocates
+without initializing the entries) nor a {\tt ZVfree()} method
+to free the entries;
+the {\tt DVinit2()} and {\tt DVfree()} methods can be used.
+Similarly, there is no {\tt ZVfscanf()} method,
+instead the {\tt DVfscanf()} method can be used.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * ZVinit ( int n, double real, double imag ) ;
+\end{verbatim}
+\index{ZVinit@{\tt ZVinit()}}
+This is the allocator and initializer method 
+for {\tt double complex} vectors.
+Storage for an array with size {\tt n} is found and each
+entry is filled with {\tt (real,imag)}.
+A pointer to the array is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVfprintf ( FILE *fp, int n, double y[] ) ;
+\end{verbatim}
+\index{ZVfprintf@{\tt ZVfprintf()}}
+This method prints {\tt n} entries in {\tt y[]} to file {\tt fp}.
+The format is new line followed by 
+{\tt "< \%12.4e, \%12.4e >"} format.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double Zabs ( double real, double imag ) ;
+\end{verbatim}
+\index{Zabs@{\tt Zabs()}}
+This method returns the magnitude of {\tt (real,imag)}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Zrecip ( double areal, double aimag, double *pbreal, double *pbimag ) ;
+\end{verbatim}
+\index{Zrecip@{\tt Zrecip()}}
+This method fills {\tt *pbreal} and {\tt *pbimag} with the real and
+imaginary parts of the reciprocal of {\tt (areal,aimag)}.
+The return value is {\tt 0} if {\tt areal} and {\tt aimag} are zero,
+otherwise the return value is {\tt 1}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Zrecip2 ( double areal, double aimag, double breal, double bimag,
+              double creal, double cimag, double dreal, double dimag,
+              double *pereal, double *peimag, double *pfreal, double *pfimag,
+              double *pgreal, double *pgimag, double *phreal, double *phimag ) ;
+\end{verbatim}
+\index{Zrecip2@{\tt Zrecip2()}}
+This method computes 
+$
+\displaystyle
+\left \lbrack \begin{array}{cc}
+e & f \\
+g & h
+\end{array} \right \rbrack
+=
+\left \lbrack \begin{array}{cc}
+a & b \\
+c & d
+\end{array} \right \rbrack^{-1}
+$.
+If {\tt pereal} is not {\tt NULL}, then {\tt *pereal} is loaded with
+the real part of $e$.
+If {\tt peimag} is not {\tt NULL}, then {\tt *peimag} is loaded with
+the imaginary part of $e$.
+Similarly for $f$, $g$ and $h$.
+The return value is {\tt 0} if $2 \times 2$ matrix is singular,
+otherwise the return value is {\tt 1}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVaxpy ( int n, double y[], double areal, double aimag, double x[] ) ;
+\end{verbatim}
+\index{ZVaxpy@{\tt ZVaxpy()}}
+This method adds a scaled multiple of {\tt n} entries from {\tt x[]} 
+into {\tt y[]},
+i.e.,
+{\tt y[i] += (areal,aimag) * x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVaxpy2 ( int n, double z[], double areal, double aimag, 
+               double x[], double breal, double bimag, double y[] ) ;
+\end{verbatim}
+\index{ZVaxpy@{\tt ZVaxpy()}}
+This method adds a scaled multiple of two vectors {\tt x[]} 
+and {\tt y[]} to another vector {\tt z[]}, i.e.,
+i.e.,
+{\tt z[i] += (areal,aimag) * x[i] + (breal,bimag) * y[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVaxpy33 ( int n, double y0[], double y1[], double y2[], 
+                double alpha[], double x0[], double x1[], double x2[] ) ;
+\end{verbatim}
+\index{ZVaxpy33@{\tt ZVaxpy33()}}
+This method computes the following.
+\begin{verbatim}
+y0[] = y0[] + alpha[0:1] * x0[] + alpha[2:3] * x1[] + alpha[4:5] * x2[]
+y1[] = y1[] + alpha[6:7] * x0[] + alpha[8:9] * x1[] + alpha[10:11] * x2[]
+y2[] = y2[] + alpha[12:13] * x0[] + alpha[14:15] * x1[] + alpha[16:17] * x2[]
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVaxpy32 ( int n, double y0[], double y1[], double y2[], 
+                double alpha[], double x0[], double x1[] ) ;
+\end{verbatim}
+\index{ZVaxpy32@{\tt ZVaxpy32()}}
+This method computes the following.
+\begin{verbatim}
+y0[] = y0[] + alpha[0:1] * x0[] + alpha[2:3] * x1[] 
+y1[] = y1[] + alpha[4:5] * x0[] + alpha[6:7] * x1[] 
+y2[] = y2[] + alpha[8:9] * x0[] + alpha[10:11] * x1[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVaxpy31 ( int n, double y0[], double y1[], double y2[], 
+                double alpha[], double x0[] ) ;
+\end{verbatim}
+\index{ZVaxpy31@{\tt ZVaxpy31()}}
+This method computes the following.
+\begin{verbatim}
+y0[] = y0[] + alpha[0:1] * x0[] 
+y1[] = y1[] + alpha[2:3] * x0[] 
+y2[] = y2[] + alpha[4:5] * x0[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVaxpy23 ( int n, double y0[], double y1[], 
+                double alpha[], double x0[], double x1[], double x2[] ) ;
+\end{verbatim}
+\index{ZVaxpy23@{\tt ZVaxpy23()}}
+This method computes the following.
+\begin{verbatim}
+y0[] = y0[] + alpha[0:1] * x0[] + alpha[2:3] * x1[] + alpha[4:5] * x2[]
+y1[] = y1[] + alpha[6:7] * x0[] + alpha[8:9] * x1[] + alpha[10:11] * x2[]
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVaxpy22 ( int n, double y0[], double y1[], 
+                double alpha[], double x0[], double x1[] ) ;
+\end{verbatim}
+\index{ZVaxpy22@{\tt ZVaxpy22()}}
+This method computes the following.
+\begin{verbatim}
+y0[] = y0[] + alpha[0:1] * x0[] + alpha[2:3] * x1[] 
+y1[] = y1[] + alpha[4:5] * x0[] + alpha[6:7] * x1[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVaxpy21 ( int n, double y0[], double y1[], 
+                double alpha[], double x0[] ) ;
+\end{verbatim}
+\index{ZVaxpy21@{\tt ZVaxpy21()}}
+This method computes the following.
+\begin{verbatim}
+y0[] = y0[] + alpha[0:1] * x0[] 
+y1[] = y1[] + alpha[2:3] * x0[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVaxpy13 ( int n, double y0[], 
+                double alpha[], double x0[], double x1[], double x2[] ) ;
+\end{verbatim}
+\index{ZVaxpy13@{\tt ZVaxpy13()}}
+This method computes the following.
+\begin{verbatim}
+y0[] = y0[] + alpha[0:1] * x0[] + alpha[2:3] * x1[] + alpha[4:5] * x2[]
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVaxpy12 ( int n, double y0[], double alpha[], double x0[], double x1[] ) ;
+\end{verbatim}
+\index{ZVaxpy12@{\tt ZVaxpy12()}}
+This method computes the following.
+\begin{verbatim}
+y0[] = y0[] + alpha[0:1] * x0[] + alpha[2:3] * x1[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVaxpy11 ( int n, double y0[], double alpha[], double x0[] ) ;
+\end{verbatim}
+\index{ZVaxpy11@{\tt ZVaxpy11()}}
+This method computes the following.
+\begin{verbatim}
+y0[] = y0[] + alpha[0:1] * x0[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVcopy ( int n, double y[], double x[] ) ;
+\end{verbatim}
+\index{ZVcopy@{\tt ZVcopy()}}
+This method copies {\tt n} entries from {\tt x[]} to {\tt y[]},
+i.e.,
+{\tt y[i] = x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVdotU ( int n, double y[], double x[], double *prdot, double *pidot ) ;
+\end{verbatim}
+\index{ZVdotU@{\tt ZVdotU()}}
+This method fills {\tt *prdot} and {\tt *pidot} with the real and
+imaginary part of ${\tt y}^T{\tt x}$,
+the dot product of the vector {\tt x[]} and {\tt y[]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVdotC ( int n, double y[], double x[], double *prdot, double *pidot ) ;
+\end{verbatim}
+\index{ZVdotC@{\tt ZVdotC()}}
+This method fills {\tt *prdot} and {\tt *pidot} with the real and
+imaginary part of ${\tt y}^H{\tt x}$,
+the dot product of the vector {\tt x[]} and {\tt y[]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVdotiU ( int n, double y[], int index[], double x[],
+               double *prdot, double *pidot ) ;
+\end{verbatim}
+\index{ZVdotiU@{\tt ZVdotiU()}}
+This method fills {\tt *prdot} and {\tt *pidot} with the real and
+imaginary parts of the indexed dot product 
+$\displaystyle \sum_{{\tt i=0}}^{{\tt n-1}} {\tt y[index[i]] * x[i]}$.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVdotiC ( int n, double y[], int index[], double x[],
+               double *prdot, double *pidot ) ;
+\end{verbatim}
+\index{ZVdotiC@{\tt ZVdotiC()}}
+This method fills {\tt *prdot} and {\tt *pidot} with the real and
+imaginary parts of the indexed dot product 
+$\displaystyle \sum_{{\tt i=0}}^{{\tt n-1}} 
+\overline{\tt y[index[i]]} * {\tt x[i]}$.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotU33 ( int n, double row0[], double row1[], double row2[], 
+              double col0[], double col1[], double col2[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotU33@{\tt ZVdotU33()}}
+This method computes nine dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0;1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col2[i]}$ &
+$\displaystyle{\tt sums[6:7]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ \\
+$\displaystyle{\tt sums[8:9]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col1[i]}$ &
+$\displaystyle{\tt sums[10:11]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col2[i]}$ \\
+$\displaystyle{\tt sums[12:13]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col0[i]}$ &
+$\displaystyle{\tt sums[14:15]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col1[i]}$ \\
+$\displaystyle{\tt sums[16:17]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col2[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotU32 ( int n, double row0[], double row1[], double row2[], 
+              double col0[], double col1[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotU32@{\tt ZVdotU32()}}
+This method computes six dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0:1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ &
+$\displaystyle{\tt sums[6:7]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col1[i]}$ \\
+$\displaystyle{\tt sums[8:9]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col0[i]}$ &
+$\displaystyle{\tt sums[10:11]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col1[i]}$
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotU31 ( int n, double row0[], double row1[], double row2[], 
+              double col0[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotU31@{\tt ZVdotU31()}}
+This method computes three dot products.
+\par
+\begin{tabular}{l}
+$\displaystyle{\tt sums[0:1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ \\
+$\displaystyle{\tt sums[2:3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col0[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotU23 ( int n, double row0[], double row1[],         
+              double col0[], double col1[], double col2[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotU23@{\tt ZVdotU23()}}
+This method computes six dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0:1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col2[i]}$ &
+$\displaystyle{\tt sums[6:7]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ \\
+$\displaystyle{\tt sums[8:9]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col1[i]}$ &
+$\displaystyle{\tt sums[10:11]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col2[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotU22 ( int n, double row0[], double row1[], 
+              double col0[], double col1[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotU22@{\tt ZVdotU22()}}
+This method computes four dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0:1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ &
+$\displaystyle{\tt sums[6:7]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col1[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotU21 ( int n, double row0[], double row1[], 
+              double col0[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotU21@{\tt ZVdotU21()}}
+This method computes two dot products.
+\par
+\begin{tabular}{l}
+$\displaystyle{\tt sums[0:1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ \\
+$\displaystyle{\tt sums[2:3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotU13 ( int n, double row0[], 
+              double col0[], double col1[], double col2[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotU13@{\tt ZVdotU13()}}
+This method computes six dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0:1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col2[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotU12 ( int n, double row0[], double row1[], 
+              double col0[], double col1[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotU12@{\tt ZVdotU12()}}
+This method computes two dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0:1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotU11 ( int n, double row0[], double col0[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotU11@{\tt ZVdotU11()}}
+This method computes one dot product.
+\par
+\begin{tabular}{l}
+$\displaystyle{\tt sums[0:1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotC33 ( int n, double row0[], double row1[], double row2[], 
+              double col0[], double col1[], double col2[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotC33@{\tt ZVdotC33()}}
+This method computes nine dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0;1]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col1[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col2[i]}$ &
+$\displaystyle{\tt sums[6:7]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col0[i]}$ \\
+$\displaystyle{\tt sums[8:9]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col1[i]}$ &
+$\displaystyle{\tt sums[10:11]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col2[i]}$ \\
+$\displaystyle{\tt sums[12:13]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row2[i]} * {\tt col0[i]}$ &
+$\displaystyle{\tt sums[14:15]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row2[i]} * {\tt col1[i]}$ \\
+$\displaystyle{\tt sums[16:17]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row2[i]} * {\tt col2[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotC32 ( int n, double row0[], double row1[], double row2[], 
+              double col0[], double col1[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotC32@{\tt ZVdotC32()}}
+This method computes six dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0:1]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col1[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col0[i]}$ &
+$\displaystyle{\tt sums[6:7]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col1[i]}$ \\
+$\displaystyle{\tt sums[8:9]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row2[i]} * {\tt col0[i]}$ &
+$\displaystyle{\tt sums[10:11]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row2[i]} * {\tt col1[i]}$
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotC31 ( int n, double row0[], double row1[], double row2[], 
+              double col0[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotC31@{\tt ZVdotC31()}}
+This method computes three dot products.
+\par
+\begin{tabular}{l}
+$\displaystyle{\tt sums[0:1]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col0[i]}$ \\
+$\displaystyle{\tt sums[2:3]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col0[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row2[i]} * {\tt col0[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotC23 ( int n, double row0[], double row1[],         
+              double col0[], double col1[], double col2[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotC23@{\tt ZVdotC23()}}
+This method computes six dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0:1]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col1[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col2[i]}$ &
+$\displaystyle{\tt sums[6:7]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col0[i]}$ \\
+$\displaystyle{\tt sums[8:9]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col1[i]}$ &
+$\displaystyle{\tt sums[10:11]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col2[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotC22 ( int n, double row0[], double row1[], 
+              double col0[], double col1[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotC22@{\tt ZVdotC22()}}
+This method computes four dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0:1]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col1[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col0[i]}$ &
+$\displaystyle{\tt sums[6:7]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col1[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotC21 ( int n, double row0[], double row1[], 
+              double col0[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotC21@{\tt ZVdotC21()}}
+This method computes two dot products.
+\par
+\begin{tabular}{l}
+$\displaystyle{\tt sums[0:1]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col0[i]}$ \\
+$\displaystyle{\tt sums[2:3]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row1[i]} * {\tt col0[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotC13 ( int n, double row0[], 
+              double col0[], double col1[], double col2[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotC13@{\tt ZVdotC13()}}
+This method computes six dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0:1]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col1[i]}$ \\
+$\displaystyle{\tt sums[4:5]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col2[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotC12 ( int n, double row0[], double row1[], 
+              double col0[], double col1[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotC12@{\tt ZVdotC12()}}
+This method computes two dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0:1]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col0[i]}$ &
+$\displaystyle{\tt sums[2:3]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col1[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZVdotC11 ( int n, double row0[], double col0[], double sums[] ) ;
+\end{verbatim}
+\index{ZVdotC11@{\tt ZVdotC11()}}
+This method computes one dot product.
+\par
+\begin{tabular}{l}
+$\displaystyle{\tt sums[0:1]}
+= \sum_{\tt i = 0}^{\tt n-1} \overline{\tt row0[i]} * {\tt col0[i]}$
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVgather ( int n, double y[], double x[], int index[] ) ;
+\end{verbatim}
+\index{ZVgather@{\tt ZVgather()}}
+{\tt y[i] = x[index[i]]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double ZVmaxabs ( int n, double y[] ) ;
+\end{verbatim}
+\index{ZVmaxabs@{\tt ZVmaxabs()}}
+This method returns the maximum magnitude of entries in {\tt y[0:n-1]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double ZVminabs ( int n, double y[] ) ;
+\end{verbatim}
+\index{ZVminabs@{\tt ZVminabs()}}
+This method returns the minimum magnitude of entries in {\tt y[0:n-1]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVscale ( int n, double y[], double areal, double aimag ) ;
+\end{verbatim}
+\index{ZVscale@{\tt ZVscale()}}
+This method scales a vector {\tt y[]} by {\tt (areal,aimag)},
+i.e.,
+{\tt y[i] *= (areal,aimag)}.
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVscale2 ( int n, double x[], double y[], 
+                double areal, double aimag, double breal, double bimag, 
+                double creal, double cimag, double dreal, double dimag ) ;
+\end{verbatim}
+\index{ZVscale@{\tt ZVscale()}}
+This method scales two vectors {\tt y[]} by a $2 \times 2$ matrix,
+i.e.,
+$$
+\left \lbrack \begin{array}{ccc}
+{\tt x[0]} & \ldots & {\tt x[n-1]} \\
+{\tt y[0]} & \ldots & {\tt y[n-1]} 
+\end{array} \right \rbrack
+:= 
+\left \lbrack \begin{array}{cc}
+{\tt (areal,aimag)} & {\tt (breal,bimag)} \\
+{\tt (creal,cimag)} & {\tt (dreal,dimag)}
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+{\tt x[0]} & \ldots & {\tt x[n-1]} \\
+{\tt y[0]} & \ldots & {\tt y[n-1]} 
+\end{array} \right \rbrack.
+$$
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVscatter ( int n, double y[], int index[], double x[] ) ;
+\end{verbatim}
+\index{ZVscatter@{\tt ZVscatter()}}
+This method scatters {\tt n} entries of {\tt x[]} into {\tt y[]} 
+as follows,
+{\tt y[index[i]] = x[i]} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVsub ( int n, double y[], double x[] ) ;
+\end{verbatim}
+\index{ZVsub@{\tt ZVsub()}}
+This method subtracts {\tt n} entries from {\tt x[]} to {\tt y[]},
+i.e.,
+{\tt y[i] -= x[i]}
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZVzero ( int n, double y[] ) ;
+\end{verbatim}
+\index{ZVzero@{\tt ZVzero()}}
+This method zeroes {\tt n} entries in {\tt y[]},
+i.e.,
+{\tt y[i] = 0} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\end{enumerate}

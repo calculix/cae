@@ -1,0 +1,18 @@
+#! /bin/csh -f
+#
+ 
+set msglvl  =       2
+set msgFile =     res 
+set msgFile =  stdout
+# type = 1 (real) or (2) complex
+set type    =       1
+# mode = 2, 3, 5, 6
+set mode    =       6
+set nrowA   =      15
+set nentA   =     100
+set ncolB   =       8
+set seed    =   376666
+
+test_solveT \
+   $msglvl $msgFile $type $mode $nrowA $nentA $ncolB $seed
+exit

@@ -1,0 +1,45 @@
+\par
+\section{Driver programs for the {\tt I2Ohash object}}
+\label{section:I2Ohash:drivers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_hash msglvl msgFile size grow maxkey nent seed
+\end{verbatim}
+This driver program tests the {\tt I2Ohash} insert method.
+It inserts a number of triples into a hash table and prints
+out the ``measure'' of how well distributed the entries are in the
+hash table.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt size} parameter is the number of lists.
+\item
+The {\tt grow} parameter is how much the pool of {\tt I2OP} objects
+can grow.
+Setting {\tt grow} to zero is helpful when the number of items 
+that can be placed into the hash table is known a priori.
+If one tries to insert an items when the free pool is empty and
+{\tt grow} is zero, an error message is printed and the program
+exits.
+\item
+The {\tt maxkey} parameter an upper bound on key value.
+\item
+The {\tt nent} parameter is the number of {\tt <key1, key2, pointer>}
+triples to insert.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

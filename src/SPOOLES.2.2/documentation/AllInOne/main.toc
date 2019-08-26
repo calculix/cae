@@ -1,0 +1,37 @@
+\contentsline {section}{\numberline {1}Overview}{4}
+\contentsline {section}{\numberline {2}Serial Solution of $A X = Y$ using an $LU$ factorization}{6}
+\contentsline {subsection}{\numberline {2.1}Reading the input parameters}{6}
+\contentsline {subsection}{\numberline {2.2}Communicating the data for the problem}{6}
+\contentsline {subsection}{\numberline {2.3}Reordering the linear system}{9}
+\contentsline {subsection}{\numberline {2.4}Non-numeric work}{9}
+\contentsline {subsection}{\numberline {2.5}The Matrix Factorization}{10}
+\contentsline {subsection}{\numberline {2.6}The Forward and Backsolves}{11}
+\contentsline {subsection}{\numberline {2.7}Sample Matrix and Right Hand Side Files}{12}
+\contentsline {section}{\numberline {3}Multithreaded Solution of $A X = Y$ using an $LU$ factorization}{13}
+\contentsline {subsection}{\numberline {3.1}Reading the input parameters}{13}
+\contentsline {subsection}{\numberline {3.2}Communicating the data for the problem}{13}
+\contentsline {subsection}{\numberline {3.3}Reordering the linear system}{13}
+\contentsline {subsection}{\numberline {3.4}Non-numeric work}{13}
+\contentsline {subsection}{\numberline {3.5}The Matrix Factorization}{14}
+\contentsline {subsection}{\numberline {3.6}The Forward and Backsolves}{15}
+\contentsline {subsection}{\numberline {3.7}Sample Matrix and Right Hand Side Files}{15}
+\contentsline {section}{\numberline {4}MPI Solution of $A X = Y$ using an $LU$ factorization}{16}
+\contentsline {subsection}{\numberline {4.1}Reading the input parameters}{16}
+\contentsline {subsection}{\numberline {4.2}Communicating the data for the problem}{16}
+\contentsline {subsection}{\numberline {4.3}Reordering the linear system}{16}
+\contentsline {subsection}{\numberline {4.4}Non-numeric work}{17}
+\contentsline {subsection}{\numberline {4.5}The Matrix Factorization}{18}
+\contentsline {subsection}{\numberline {4.6}The Forward and Backsolves}{19}
+\contentsline {subsection}{\numberline {4.7}Sample Matrix and Right Hand Side Files}{20}
+\contentsline {section}{\numberline {5}Serial Solution of $A X = Y$ using an $QR$ factorization}{21}
+\contentsline {subsection}{\numberline {5.1}Reading the input parameters}{21}
+\contentsline {subsection}{\numberline {5.2}Communicating the data for the problem}{21}
+\contentsline {subsection}{\numberline {5.3}Reordering the linear system}{21}
+\contentsline {subsection}{\numberline {5.4}Non-numeric work}{21}
+\contentsline {subsection}{\numberline {5.5}The Matrix Factorization}{22}
+\contentsline {subsection}{\numberline {5.6}Solving the linear system}{23}
+\contentsline {subsection}{\numberline {5.7}Sample Matrix and Right Hand Side Files}{23}
+\contentsline {section}{\numberline {A}{\tt allInOne.c} -- A Serial $LU$ Driver Program}{24}
+\contentsline {section}{\numberline {B}{\tt allInOne.c} -- A Serial $LU$ Driver Program}{31}
+\contentsline {section}{\numberline {C}{\tt allInOne.c} -- A Serial $LU$ Driver Program}{39}
+\contentsline {section}{\numberline {D}{\tt allInOne.c} -- A Serial $QR$ Driver Program}{49}

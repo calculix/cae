@@ -1,0 +1,136 @@
+\par
+\section{Driver programs for the {\tt DSTree} object}
+\label{section:DSTree:drivers}
+\par
+This section contains brief descriptions of the driver programs.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testIO msglvl msgFile inFile outFile
+\end{verbatim}
+This driver program reads and write {\tt DSTree} files, useful for
+converting formatted files to binary files and vice versa.
+One can also read in a {\tt DSTree} file and print out just the 
+header information (see the {\tt DSTree\_writeStats()} method).
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt DSTree} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inFile} parameter is the input file for the {\tt DSTree}
+object. It must be of the form {\tt *.dinpmtxf} or {\tt *.dinpmtxb}.
+The {\tt DSTree} object is read from the file via the
+{\tt DSTree\_readFromFile()} method.
+\item
+The {\tt outFile} parameter is the output file for the {\tt DSTree}
+object. 
+If {\tt outFile} is {\tt none} then the {\tt DSTree} object is not
+written to a file. 
+Otherwise, the {\tt DSTree\_writeToFile()} method is called to write
+the object to 
+a formatted file (if {\tt outFile} is of the form {\tt *.dinpmtxf}),
+or
+a binary file (if {\tt outFile} is of the form {\tt *.dinpmtxb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+writeStagesIV msglvl msgFile inFile type outFile
+\end{verbatim}
+This driver program reads in a {\tt DSTree} from a file,
+creates a stages {\tt IV} object and writes it to a file.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt DSTree} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inFile} parameter is the input file for the {\tt DSTree}
+object. It must be of the form {\tt *.dstreef} or {\tt *.dstreeb}.
+The {\tt DSTree} object is read from the file via the
+{\tt DSTree\_readFromFile()} method.
+\item
+The {\tt type} parameter specifies which type of stages vector to
+create. There are presently four supported types : 
+{\tt ND}, {\tt ND2}, {\tt MS2} and {\tt ND3}.
+See the stage methods 
+in Section~\ref{subsection:DSTree:proto:stages}.
+\item
+The {\tt outFile} parameter is the output file for the stages {\tt IV}
+object. 
+If {\tt outFile} is {\tt none} then the {\tt IV} object is not
+written to a file. 
+Otherwise, the {\tt IV\_writeToFile()} method is called to write
+the object to 
+a formatted file (if {\tt outFile} is of the form {\tt *.ivf}),
+or
+a binary file (if {\tt outFile} is of the form {\tt *.ivb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testDomWeightStages msglvl msgFile 
+                    inDSTreeFile inGraphFile inCutoffDVfile outFile
+\end{verbatim}
+This driver program is used to create a stages vector based on
+subtree weight.
+It reads in three objects from files:
+a {\tt DSTree} object, a {\tt Graph} object and a {\tt DV} object
+that contains the cutoff vector,
+then creates a stages {\tt IV} object and writes it to a file.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt DSTree} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inDSTreeFile} parameter is the input file for the {\tt DSTree}
+object. It must be of the form {\tt *.dstreef} or {\tt *.dstreeb}.
+The {\tt DSTree} object is read from the file via the
+{\tt DSTree\_readFromFile()} method.
+\item
+The {\tt inGraphFile} parameter is the input file for the {\tt Graph}
+object. It must be of the form {\tt *.graphf} or {\tt *.graphb}.
+The {\tt Graph} object is read from the file via the
+{\tt Graph\_readFromFile()} method.
+\item
+The {\tt inCutoffDVfile} parameter is the input file for the cutoff
+{\tt DV} object. 
+It must be of the form {\tt *.dvf} or {\tt *.dvb}.
+The {\tt DV} object is read from the file via the
+{\tt DV\_readFromFile()} method.
+\item
+The {\tt outFile} parameter is the output file for the stages {\tt IV}
+object. 
+If {\tt outFile} is {\tt none} then the {\tt IV} object is not
+written to a file. 
+Otherwise, the {\tt IV\_writeToFile()} method is called to write
+the object to 
+a formatted file (if {\tt outFile} is of the form {\tt *.ivf}),
+or
+a binary file (if {\tt outFile} is of the form {\tt *.ivb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

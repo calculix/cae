@@ -1,0 +1,1071 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=latex 97.4.4)  25 JAN 1999 11:30
+**main
+(main.tex
+LaTeX2e <1996/12/01> patch level 1
+Babel <v3.6h> and hyphenation patterns for english, german, loaded.
+(/home/tex/teTeX/texmf/tex/latex/base/report.cls
+Document Class: report 1996/10/31 v1.3u Standard LaTeX document class
+(/home/tex/teTeX/texmf/tex/latex/base/leqno.clo
+File: leqno.clo 1996/07/26 v1.1b Standard LaTeX option (left equation numbers)
+)
+(/home/tex/teTeX/texmf/tex/latex/base/size10.clo
+File: size10.clo 1996/10/31 v1.3u Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/home/tex/teTeX/texmf/tex/latex/amslatex/amsmath.sty
+Package: amsmath 1996/11/01 v1.2c AMS math features
+\@mathmargin=\skip43
+
+(/home/tex/teTeX/texmf/tex/latex/amslatex/amstext.sty
+Package: amstext 1996/10/28 v1.2b
+
+(/home/tex/teTeX/texmf/tex/latex/amslatex/amsgen.sty
+File: amsgen 1996/10/29 v1.2b
+\@emptytoks=\toks14
+\ex@=\dimen103
+))
+(/home/tex/teTeX/texmf/tex/latex/amslatex/amsbsy.sty
+Package: amsbsy 1996/10/28 v1.2b
+\pmbraise@=\dimen104
+)
+(/home/tex/teTeX/texmf/tex/latex/amslatex/amsopn.sty
+Package: amsopn 1996/10/28 v1.2b operator names
+)
+LaTeX Info: Redefining \frac on input line 188.
+\uproot@=\count88
+\leftroot@=\count89
+\classnum@=\count90
+\DOTSCASE@=\count91
+LaTeX Info: Redefining \dots on input line 335.
+LaTeX Info: Redefining \ldots on input line 418.
+LaTeX Info: Redefining \cdots on input line 422.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen105
+LaTeX Font Info:    Redeclaring font encoding OML on input line 500.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 501.
+\skewcharcount@=\count92
+\familycount@=\count93
+\pointcount@=\count94
+\accentdimen@=\dimen106
+\accentmu@=\count95
+\minaw@=\dimen107
+\c@MaxMatrixCols=\count96
+\dotsspace@=\muskip10
+\c@parentequation=\count97
+\dspbrk@lvl=\count98
+\tag@help=\toks15
+\row@=\count99
+\column@=\count100
+\maxfields@=\count101
+\andhelp@=\toks16
+\eqnshift@=\dimen108
+\alignsep@=\dimen109
+\tagshift@=\dimen110
+\tagwidth@=\dimen111
+\totwidth@=\dimen112
+\lineht@=\dimen113
+\@envbody=\toks17
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+)
+\@indexfile=\write3
+
+Writing index file main.idx
+(/home/tex/teTeX/texmf/tex/generic/local/psfig/psfig.tex
+\@unused=\write4
+\ps@stream=\read1
+\p@intvaluex=\dimen114
+\p@intvaluey=\dimen115
+
+psfig/tex 1.10-dvips
+) (main.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+
+Underfull \hbox (badness 3635) in paragraph at lines 90--90
+[][]\OT1/cmr/m/n/9 Boeing Shared Ser-vices Group, P. O. Box 24346, Mail Stop 7L
+-22, Seat-tle, Wash-ing-ton 98124,
+ []
+
+
+Underfull \hbox (badness 3635) in paragraph at lines 90--90
+[][]\OT1/cmr/m/n/9 Boeing Shared Ser-vices Group, P. O. Box 24346, Mail Stop 7L
+-22, Seat-tle, Wash-ing-ton 98124,
+ []
+
+
+Underfull \hbox (badness 3635) in paragraph at lines 90--90
+[][]\OT1/cmr/m/n/9 Boeing Shared Ser-vices Group, P. O. Box 24346, Mail Stop 7L
+-22, Seat-tle, Wash-ing-ton 98124,
+ []
+
+
+Underfull \hbox (badness 3635) in paragraph at lines 90--90
+[][]\OT1/cmr/m/n/9 Boeing Shared Ser-vices Group, P. O. Box 24346, Mail Stop 7L
+-22, Seat-tle, Wash-ing-ton 98124,
+ []
+
+[1
+
+] [1] (main.toc [2
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+ [] []\OT1/cmtt/m/n/10 Drand\OT1/cmr/bx/n/10 :  
+ []
+
+[3] [4]
+Underfull \hbox (badness 10000) in paragraph at lines 145--145
+ [] []\OT1/cmtt/m/n/10 DSTree\OT1/cmr/bx/n/10 :  
+ []
+
+[5] [6]
+Underfull \hbox (badness 10000) in paragraph at lines 202--202
+ [] []\OT1/cmtt/m/n/10 MSMD\OT1/cmr/bx/n/10 :  
+ []
+
+[7] [8] [9] [10] [11] [12])
+\tf@toc=\write5
+ [13] (main.lof)
+\tf@lof=\write6
+ (partIntro.tex [14
+
+] [15
+
+] [16]
+Chapter 1.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 8.
+(/home/tex/teTeX/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1997/01/14 v2.5a Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 8.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17
+
+]
+[18]
+LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 238
+.
+LaTeX Font Info:    No file OMScmtt.fd. on input line 238.
+
+
+LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textbraceleft' on input line 238.
+
+[19] [20] [21]) (partUtil.tex [22] [23
+
+] [24] (../../A2/doc/intro.tex
+Chapter 2.
+) (../../A2/doc/dataStructure.tex
+Overfull \hbox (22.05931pt too wide) in paragraph at lines 44--54
+\OT1/cmr/m/n/10 The \OT1/cmtt/m/n/10 A2[]copyEntriesToVector() \OT1/cmr/m/n/10 
+method uses the fol-low-ing con-stants: \OT1/cmtt/m/n/10 A2[]STRICT[]LOWER\OT1/
+cmr/m/n/10 , \OT1/cmtt/m/n/10 A2[]LOWER\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 A2[]D
+IAGONAL\OT1/cmr/m/n/10 ,
+ []
+
+) (../../A2/doc/proto.tex [25
+
+] [26] [27]
+Overfull \hbox (9.5478pt too wide) in paragraph at lines 290--295
+\OT1/cmr/m/n/10 Note, \OT1/cmtt/m/n/10 firstrow\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/
+10 lastrow\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 firstcol \OT1/cmr/m/n/10 and \OT1/
+cmtt/m/n/10 lastcol \OT1/cmr/m/n/10 must sat-isfy \OT1/cmtt/m/n/10 0 <= firstro
+w <= lastrow < mtxB->n1
+ []
+
+[28] [29] [30] [31]
+Overfull \hbox (0.273pt too wide) in paragraph at lines 776--779
+[]\OT1/cmr/m/n/10 This method fills the ma-trix with ran-dom num-bers taken fro
+m a uni-form dis-tri-bu-tion on \OT1/cmtt/m/n/10 [lower,upper]
+ []
+
+[32] [33]) (../../A2/doc/drivers.tex [34]) (../../Coords/doc/intro.tex [35]
+Chapter 3.
+) (../../Coords/doc/dataStructure.tex) (../../Coords/doc/proto.tex [36
+
+]
+[37] [38]
+Overfull \hbox (16.26517pt too wide) in paragraph at lines 330--336
+[]\OT1/cmr/m/n/10 This method write the \OT1/cmtt/m/n/10 Coords \OT1/cmr/m/n/10
+ ob-ject to a file in an easy to read fash-ion. The method \OT1/cmtt/m/n/10 Coo
+rds[]writeStats()
+ []
+
+) (../../Coords/doc/drivers.tex [39]) (../../DV/doc/intro.tex [40]
+Chapter 4.
+) (../../DV/doc/dataStructure.tex) (../../DV/doc/proto.tex
+Overfull \hbox (5.16449pt too wide) in paragraph at lines 23--1
+\OT1/cmr/m/n/10 The \OT1/cmtt/m/n/10 size\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 max
+size\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 nowned \OT1/cmr/m/n/10 and \OT1/cmtt/m/n
+/10 vec \OT1/cmr/m/n/10 fields need never be ac-cessed di-rectly --- see the \O
+T1/cmtt/m/n/10 DV[]size()\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 DV[]maxsize()\OT1/c
+mr/m/n/10 ,
+ []
+
+[41
+
+] [42]
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 197.
+
+ (/home/tex/teTeX/texmf/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 1997/01/14 v2.5a Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 197.
+ [43] [44] [45])
+(../../DV/doc/drivers.tex [46]) (../../Drand/doc/intro.tex [47]
+Chapter 5.
+) (../../Drand/doc/dataStructure.tex) (../../Drand/doc/proto.tex [48
+
+] [49])
+(../../Drand/doc/drivers.tex [50]) (../../I2Ohash/doc/intro.tex [51]
+Chapter 6.
+) (../../I2Ohash/doc/dataStructure.tex) (../../I2Ohash/doc/proto.tex [52
+
+]
+Overfull \hbox (17.40442pt too wide) in paragraph at lines 80--86
+[]\OT1/cmr/m/n/10 This method is the ba-sic ini-tial-izer method. It clears any
+ pre-vi-ous data with a call to \OT1/cmtt/m/n/10 I2Ohash[]clearData()\OT1/cmr/m
+/n/10 .
+ []
+
+[53]) (../../I2Ohash/doc/drivers.tex [54]) (../../IIheap/doc/intro.tex [55]
+Chapter 7.
+) (../../IIheap/doc/dataStructure.tex) (../../IIheap/doc/proto.tex [56
+
+]
+Overfull \hbox (80.88438pt too wide) in paragraph at lines 44--49
+\OT1/cmtt/m/n/10 heap->keys \OT1/cmr/m/n/10 and \OT1/cmtt/m/n/10 heap->values \
+OT1/cmr/m/n/10 vec-tors, then sets the struc-ture's de-fault fields with a call
+ to \OT1/cmtt/m/n/10 IIheap[]setDefaultFields()\OT1/cmr/m/n/10 . 
+ []
+
+
+Overfull \hbox (12.15446pt too wide) in paragraph at lines 80--87
+[]\OT1/cmr/m/n/10 This method is the ba-sic ini-tial-izer method. It clears any
+ pre-vi-ous data with a call to \OT1/cmtt/m/n/10 IIheap[]clearData()\OT1/cmr/m/
+n/10 ,
+ []
+
+) (../../IV/doc/intro.tex [57]
+Chapter 8.
+) (../../IV/doc/dataStructure.tex [58
+
+]) (../../IV/doc/proto.tex [59] [60]
+[61] [62] [63] [64]) (../../IV/doc/drivers.tex) (../../IVL/doc/intro.tex
+[65]
+Chapter 9.
+) (../../IVL/doc/dataStructure.tex [66
+
+]) (../../IVL/doc/proto.tex [67]
+Overfull \hbox (1.08043pt too wide) in paragraph at lines 166--171
+[]\OT1/cmr/m/n/10 This method is used when the num-ber of lists and their to-ta
+l size is known --- \OT1/cmtt/m/n/10 type \OT1/cmr/m/n/10 must be \OT1/cmtt/m/n
+/10 IVL[]CHUNKED\OT1/cmr/m/n/10 .
+ []
+
+
+Overfull \hbox (1.49115pt too wide) in paragraph at lines 199--199
+ []\OT1/cmtt/m/n/10 int IVL_initFromSubIVL ( IVL *subIVL, IVL *ivl, IV *keeplis
+tIV, IV *keepentriesIV ) ;[] 
+ []
+
+[68] [69] [70] [71] [72]) (../../IVL/doc/drivers.tex) (../../Ideq/doc/intro.tex
+[73]
+Chapter 10.
+) (../../Ideq/doc/dataStructure.tex) (../../Ideq/doc/proto.tex [74
+
+] [75])
+(../../Lock/doc/intro.tex [76]
+Chapter 11.
+) (../../Lock/doc/dataStructure.tex) (../../Lock/doc/proto.tex [77
+
+]
+Overfull \hbox (18.04205pt too wide) in paragraph at lines 40--47
+[]\OT1/cmr/m/n/10 This method clears the data for the ob-ject. If \OT1/cmtt/m/n
+/10 lock->mutex \OT1/cmr/m/n/10 is not \OT1/cmtt/m/n/10 NULL\OT1/cmr/m/n/10 , t
+hen \OT1/cmtt/m/n/10 mutex[]destroy(lock->mutex)
+ []
+
+) (../../Perm/doc/intro.tex [78]
+Chapter 12.
+) (../../Perm/doc/dataStructure.tex) (../../Perm/doc/proto.tex [79
+
+] [80]
+[81]
+Overfull \hbox (17.45987pt too wide) in paragraph at lines 317--323
+[]\OT1/cmr/m/n/10 This method writes out a \OT1/cmtt/m/n/10 Perm \OT1/cmr/m/n/1
+0 ob-ject to a file in a hu-man read-able for-mat. The method \OT1/cmtt/m/n/10 
+Perm[]writeStats()
+ []
+
+) (../../Utilities/doc/intro.tex [82]
+Chapter 13.
+) (../../Utilities/doc/dataStructure.tex) (../../Utilities/doc/proto.tex
+(../../Utilities/doc/CV.tex [83
+
+]) (../../Utilities/doc/DV.tex [84] [85]
+[86] [87] [88] [89]) (../../Utilities/doc/ZV.tex
+Overfull \hbox (23.13327pt too wide) in paragraph at lines 51--57
+[]\OT1/cmr/m/n/10 This method fills \OT1/cmtt/m/n/10 *pbreal \OT1/cmr/m/n/10 an
+d \OT1/cmtt/m/n/10 *pbimag \OT1/cmr/m/n/10 with the real and imag-i-nary parts 
+of the re-cip-ro-cal of \OT1/cmtt/m/n/10 (areal,aimag)\OT1/cmr/m/n/10 .
+ []
+
+[90] [91] [92] [93] [94] [95]) (../../Utilities/doc/IV.tex [96] [97])
+(../../Utilities/doc/FV.tex [98] [99]) (../../Utilities/doc/PCV.tex [100])
+(../../Utilities/doc/PDV.tex) (../../Utilities/doc/PIV.tex)
+(../../Utilities/doc/PFV.tex [101]) (../../Utilities/doc/sort.tex [102]
+[103] [104]) (../../Utilities/doc/IP.tex [105]) (../../Utilities/doc/I2OP.tex
+Overfull \hbox (4.87234pt too wide) in paragraph at lines 57--62
+[]\OT1/cmr/m/n/10 This is an ini-tial-izer method for a vec-tor of \OT1/cmtt/m/
+n/10 I2OP \OT1/cmr/m/n/10 struc-tures. We set \OT1/cmtt/m/n/10 base[i].value0 =
+ base[i].value1
+ []
+
+)) (../../Utilities/doc/drivers.tex [106]) (../../ZV/doc/intro.tex [107]
+Chapter 14.
+) (../../ZV/doc/dataStructure.tex) (../../ZV/doc/proto.tex
+Overfull \hbox (5.16449pt too wide) in paragraph at lines 23--1
+\OT1/cmr/m/n/10 The \OT1/cmtt/m/n/10 size\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 max
+size\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 nowned \OT1/cmr/m/n/10 and \OT1/cmtt/m/n
+/10 vec \OT1/cmr/m/n/10 fields need never be ac-cessed di-rectly --- see the \O
+T1/cmtt/m/n/10 ZV[]size()\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 ZV[]maxsize()\OT1/c
+mr/m/n/10 ,
+ []
+
+[108
+
+] [109] [110] [111] [112]) (../../ZV/doc/drivers.tex [113])) (partOrder.tex [11
+4] [115
+
+] [116] (../../BKL/doc/intro.tex
+Chapter 15.
+) (../../BKL/doc/dataStructure.tex [117
+
+]) (../../BKL/doc/proto.tex [118]
+[119] [120]) (../../BPG/doc/intro.tex [121]
+Chapter 16.
+[122
+
+] [123]) (../../BPG/doc/dataStructure.tex) (../../BPG/doc/proto.tex
+[124] [125]
+Overfull \hbox (66.05252pt too wide) in paragraph at lines 260--262
+[]\OT1/cmr/m/n/10 This method has the same func-tion-al-ity, call-ing se-quence
+ and re-turned val-ues as the pre-ced-ing \OT1/cmtt/m/n/10 BPG[]DMdecomposition
+()
+ []
+
+[126]) (../../BPG/doc/drivers.tex [127]) (../../DSTree/doc/intro.tex [128]
+Chapter 17.
+) (../../DSTree/doc/dataStructure.tex) (../../DSTree/doc/proto.tex [129
+
+]
+[130] [131] [132]
+Overfull \hbox (21.79298pt too wide) in paragraph at lines 428--437
+[]\OT1/cmr/m/n/10 This method writes a \OT1/cmtt/m/n/10 DSTree \OT1/cmr/m/n/10 
+ob-ject to a file in a hu-man read-able for-mat. The method \OT1/cmtt/m/n/10 DS
+Tree[]writeStats()
+ []
+
+) (../../DSTree/doc/drivers.tex [133]) (../../EGraph/doc/intro.tex [134]
+Chapter 18.
+) (../../EGraph/doc/dataStructure.tex) (../../EGraph/doc/proto.tex [135
+
+]
+[136]
+Overfull \hbox (27.34856pt too wide) in paragraph at lines 264--274
+[]\OT1/cmr/m/n/10 This method writes an \OT1/cmtt/m/n/10 EGraph \OT1/cmr/m/n/10
+ ob-ject to a file in a hu-man read-able for-mat. The method \OT1/cmtt/m/n/10 E
+Graph[]writeStats()
+ []
+
+
+Overfull \hbox (59.98613pt too wide) in paragraph at lines 264--274
+\OT1/cmr/m/n/10 is called to write out the header and statis-tics. Then the \OT
+1/cmtt/m/n/10 adjIVL \OT1/cmr/m/n/10 ob-ject is writ-ten out us-ing \OT1/cmtt/m
+/n/10 IVL[]writeForHumanEye()\OT1/cmr/m/n/10 .
+ []
+
+[137]) (../../EGraph/doc/drivers.tex [138]) (../../ETree/doc/intro.tex [139]
+Chapter 19.
+) (../../ETree/doc/dataStructure.tex) (../../ETree/doc/proto.tex [140
+
+]
+Overfull \hbox (10.32721pt too wide) in paragraph at lines 32--35
+[]\OT1/cmr/m/n/10 This method sets the struc-ture's fields are set to de-fault 
+val-ues: \OT1/cmtt/m/n/10 nfront = nvtx = 0\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 t
+ree = nodwghtsIV
+ []
+
+[141] [142] [143]
+Overfull \hbox (6.7411pt too wide) in paragraph at lines 354--354
+ []\OT1/cmtt/m/n/10 int ETree_initFromSubtree ( ETree *subtree, IV *nodeidsIV, 
+ETree *etree, IV *vtxIV ) ;[] 
+ []
+
+
+Overfull \hbox (9.87708pt too wide) in paragraph at lines 468--475
+\OT1/cmr/m/n/10 (1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 2)$ blocks dur-ing a fac-t
+or-iza-tion. The \OT1/cmtt/m/n/10 type \OT1/cmr/m/n/10 pa-ram-e-ter can be one 
+of \OT1/cmtt/m/n/10 SPOOLES[]REAL \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/10 SPOOLES[]
+COMPLEX\OT1/cmr/m/n/10 .
+ []
+
+[144]
+Overfull \hbox (22.49097pt too wide) in paragraph at lines 565--565
+ []\OT1/cmtt/m/n/10 ETree * ETree_spliceTwoEtrees ( ETree *etree0, Graph *graph
+, IV *mapIV, ETree *etree1 ) ;[] 
+ []
+
+[145] [146] [147] [148] [149]
+Overfull \hbox (14.4601pt too wide) in paragraph at lines 1095--1102
+\OT1/cmr/m/n/10 us-ing \OT1/cmtt/m/n/10 ETree[]mergeFrontsOne() \OT1/cmr/m/n/10
+ fol-lowed by \OT1/cmtt/m/n/10 ETree[]mergeFrontsAll()\OT1/cmr/m/n/10 . See the
+ driver pro-grams \OT1/cmtt/m/n/10 testTransform
+ []
+
+[150] [151] [152] [153]
+Overfull \hbox (30.76532pt too wide) in paragraph at lines 1493--1501
+[]\OT1/cmr/m/n/10 This method writes an \OT1/cmtt/m/n/10 ETree \OT1/cmr/m/n/10 
+ob-ject to a file in a read-able for-mat. Oth-er-wise, the method \OT1/cmtt/m/n
+/10 ETree[]writeStats()
+ []
+
+) (../../ETree/doc/drivers.tex [154] [155] [156]
+Overfull \hbox (31.12537pt too wide) in paragraph at lines 320--328
+\OT1/cmtt/m/n/10 outETreeFile \OT1/cmr/m/n/10 is \OT1/cmtt/m/n/10 none \OT1/cmr
+/m/n/10 then the \OT1/cmtt/m/n/10 ETree \OT1/cmr/m/n/10 ob-ject is not writ-ten
+ to a file. Oth-er-wise, the \OT1/cmtt/m/n/10 ETree[]writeToFile()
+ []
+
+[157]
+psfig: searching ../../ETree/doc/FS1.eps for bounding box
+psfig: including ../../ETree/doc/FS1.eps 
+psfig: searching ../../ETree/doc/FS2.eps for bounding box
+psfig: including ../../ETree/doc/FS2.eps 
+[158] [159] [160]
+psfig: searching ../../ETree/doc/GRD7x7x7_nzA.eps for bounding box
+psfig: including ../../ETree/doc/GRD7x7x7_nzA.eps 
+psfig: searching ../../ETree/doc/GRD7x7x7_nzF.eps for bounding box
+psfig: including ../../ETree/doc/GRD7x7x7_nzF.eps 
+psfig: searching ../../ETree/doc/GRD7x7x7_forwops.eps for bounding box
+psfig: including ../../ETree/doc/GRD7x7x7_forwops.eps 
+psfig: searching ../../ETree/doc/GRD7x7x7_backops.eps for bounding box
+psfig: including ../../ETree/doc/GRD7x7x7_backops.eps 
+psfig: searching ../../ETree/doc/workingStorage.eps for bounding box
+psfig: including ../../ETree/doc/workingStorage.eps 
+[161] [162]) (../../GPart/doc/intro.tex [163] [164]
+Chapter 20.
+) (../../GPart/doc/dataStructure.tex [165
+
+] [166]) (../../GPart/doc/proto.tex
+[167] [168] [169] [170] [171] [172]) (../../GPart/doc/drivers.tex [173]
+[174] [175]) (../../Graph/doc/intro.tex [176]
+Chapter 21.
+[177
+
+]) (../../Graph/doc/dataStructure.tex) (../../Graph/doc/proto.tex [178]
+[179] [180] [181] [182]
+Overfull \hbox (11.29308pt too wide) in paragraph at lines 531--536
+[]\OT1/cmr/m/n/10 This method writes a \OT1/cmtt/m/n/10 Graph \OT1/cmr/m/n/10 o
+b-ject to a file in a hu-man read-able for-mat. The method \OT1/cmtt/m/n/10 Gra
+ph[]writeStats()
+ []
+
+) (../../Graph/doc/drivers.tex [183] [184]
+Overfull \hbox (27.02443pt too wide) in paragraph at lines 200--204
+[]\OT1/cmr/m/n/10 This driver pro-gram reads in a \OT1/cmtt/m/n/10 Graph \OT1/c
+mr/m/n/10 ob-ject and tests whether it is sym-met-ric us-ing the \OT1/cmtt/m/n/
+10 Graph[]isSymmetric()
+ []
+
+psfig: searching ../../Graph/doc/rad1.eps for bounding box
+psfig: including ../../Graph/doc/rad1.eps 
+psfig: searching ../../Graph/doc/rad2.eps for bounding box
+psfig: including ../../Graph/doc/rad2.eps 
+[185]) (../../MSMD/doc/intro.tex [186]
+Chapter 22.
+[187
+
+]) (../../MSMD/doc/dataStructure.tex [188] [189] [190])
+(../../MSMD/doc/proto.tex [191] [192] [193]
+Overfull \hbox (39.69234pt too wide) in paragraph at lines 336--339
+[]\OT1/cmr/m/n/10 This method cleans the nodes in the reach set by call-ing \OT
+1/cmtt/m/n/10 MSMD[]cleanSubtreeList() \OT1/cmr/m/n/10 and \OT1/cmtt/m/n/10 MSM
+D[]clearEdgeList()\OT1/cmr/m/n/10 . 
+ []
+
+[194]) (../../MSMD/doc/drivers.tex [195]
+Overfull \hbox (2.44388pt too wide) in paragraph at lines 72--75
+[]\OT1/cmtt/m/n/10 stepType == 0 \OT1/cmr/m/n/10 --- one ver-tex elim-i-nated a
+t each step, like YSMP, and QMD from SPARSPAK. 
+ []
+
+[196]) (../../Network/doc/intro.tex [197]
+Chapter 23.
+[198
+
+]) (../../Network/doc/dataStructure.tex [199]) (../../Network/doc/proto.tex [20
+0] [201]
+Overfull \hbox (10.01547pt too wide) in paragraph at lines 232--238
+[]\OT1/cmr/m/n/10 This method writes the net-work to a file in a hu-man read-ab
+le for-mat. The method \OT1/cmtt/m/n/10 Network[]writeStats()
+ []
+
+) (../../SolveMap/doc/intro.tex [202]
+Chapter 24.
+) (../../SolveMap/doc/dataStructure.tex) (../../SolveMap/doc/proto.tex [203
+
+]
+[204]
+Overfull \hbox (1.13116pt too wide) in paragraph at lines 223--230
+\OT1/cmr/m/it/10 Error check-ing: \OT1/cmr/m/n/10 If \OT1/cmtt/m/n/10 solvemap 
+\OT1/cmr/m/n/10 is \OT1/cmtt/m/n/10 NULL\OT1/cmr/m/n/10 , or \OT1/cmtt/m/n/10 s
+ymmetryflag \OT1/cmr/m/n/10 is in-valid, or \OT1/cmtt/m/n/10 nfront\OT1/cmr/m/n
+/10 , \OT1/cmtt/m/n/10 nblockUpper\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 nblockLowe
+r
+ []
+
+[205] [206]
+Overfull \hbox (43.46613pt too wide) in paragraph at lines 391--404
+\OT1/cmr/m/n/10 and \OT1/cmtt/m/n/10 mapidsUpper[*]\OT1/cmr/m/n/10 , and if \OT
+1/cmtt/m/n/10 symmetryflag = SPOOLES[]NONSYMMETRIC\OT1/cmr/m/n/10 , fol-lowed b
+y \OT1/cmtt/m/n/10 rowidsLower[*]\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 colidsLower
+[*]
+ []
+
+[207]
+Overfull \hbox (48.40392pt too wide) in paragraph at lines 508--513
+[]\OT1/cmr/m/n/10 This method writes an \OT1/cmtt/m/n/10 SolveMap \OT1/cmr/m/n/
+10 ob-ject to a file in an eas-ily read-able for-mat. The method \OT1/cmtt/m/n/
+10 SolveMap[]writeStats()
+ []
+
+) (../../Tree/doc/intro.tex [208]
+Chapter 25.
+) (../../Tree/doc/dataStructure.tex) (../../Tree/doc/proto.tex [209
+
+] [210]
+[211] [212] [213] [214] [215]
+Overfull \hbox (0.79317pt too wide) in paragraph at lines 830--837
+[]\OT1/cmr/m/n/10 This method writes a \OT1/cmtt/m/n/10 Perm \OT1/cmr/m/n/10 ob
+-ject to a file in a hu-man read-able for-mat. The method \OT1/cmtt/m/n/10 Tree
+[]writeStats()
+ []
+
+[216]) (../../Tree/doc/drivers.tex
+psfig: searching ../../Tree/doc/R2D100HC.eps for bounding box
+psfig: including ../../Tree/doc/R2D100HC.eps 
+psfig: searching ../../Tree/doc/R2D100DC.eps for bounding box
+psfig: including ../../Tree/doc/R2D100DC.eps 
+psfig: searching ../../Tree/doc/R2D100HP.eps for bounding box
+psfig: including ../../Tree/doc/R2D100HP.eps 
+psfig: searching ../../Tree/doc/R2D100DP.eps for bounding box
+psfig: including ../../Tree/doc/R2D100DP.eps 
+)) (partNumeric.tex [217] [218] [219
+
+] [220] (../../Chv/doc/intro.tex
+Chapter 26.
+psfig: searching ../../Chv/doc/simple.eps for bounding box
+psfig: including ../../Chv/doc/simple.eps 
+[221
+
+]
+psfig: searching ../../Chv/doc/simple2.eps for bounding box
+psfig: including ../../Chv/doc/simple2.eps 
+) (../../Chv/doc/dataStructure.tex [222]) (../../Chv/doc/proto.tex [223]
+[224] [225] [226] [227] [228] [229] [230] [231] [232] [233])
+(../../Chv/doc/drivers.tex [234]
+Overfull \hbox (28.32214pt too wide) in paragraph at lines 99--107
+\OT1/cmr/m/n/10 been fac-tored to store the en-tries into dense $\OML/cmm/m/it/
+10 L$ \OT1/cmr/m/n/10 and $\OML/cmm/m/it/10 U$ \OT1/cmr/m/n/10 sub-ma-tri-ces. 
+Use the script file \OT1/cmtt/m/n/10 do[]copyEntriesToVector
+ []
+
+[235] [236] [237]
+Overfull \hbox (47.11063pt too wide) in paragraph at lines 406--415
+[]\OT1/cmr/m/n/10 This driver pro-gram tests three meth-ods: \OT1/cmtt/m/n/10 C
+hv[]swapRowsAndColumns()\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 Chv[]swapRows() \OT1
+/cmr/m/n/10 and \OT1/cmtt/m/n/10 Chv[]swapColumns()\OT1/cmr/m/n/10 .
+ []
+
+[238]) (../../ChvList/doc/intro.tex [239]
+Chapter 27.
+) (../../ChvList/doc/dataStructure.tex [240
+
+]) (../../ChvList/doc/proto.tex
+[241]) (../../ChvManager/doc/intro.tex [242]
+Chapter 28.
+) (../../ChvManager/doc/dataStructure.tex [243
+
+])
+(../../ChvManager/doc/proto.tex [244]) (../../DenseMtx/doc/intro.tex [245]
+Chapter 29.
+) (../../DenseMtx/doc/dataStructure.tex) (../../DenseMtx/doc/proto.tex [246
+
+]
+[247] [248] [249] [250] [251] [252]) (../../FrontMtx/doc/intro.tex [253]
+Chapter 30.
+psfig: searching ../../FrontMtx/doc/simple.eps for bounding box
+psfig: including ../../FrontMtx/doc/simple.eps 
+[254
+
+] [255]) (../../FrontMtx/doc/dataStructure.tex [256] [257])
+(../../FrontMtx/doc/proto.tex [258] [259] [260] [261]
+Overfull \hbox (13.35185pt too wide) in paragraph at lines 368--376
+\OT1/cmr/m/it/10 Error check-ing: \OT1/cmr/m/n/10 If \OT1/cmtt/m/n/10 frontmtx\
+OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 frontETree \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/1
+0 symbfacIVL \OT1/cmr/m/n/10 is \OT1/cmtt/m/n/10 NULL\OT1/cmr/m/n/10 , or if \O
+T1/cmtt/m/n/10 type\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 symmetryflag\OT1/cmr/m/n/
+10 , \OT1/cmtt/m/n/10 sparsityflag
+ []
+
+[262]
+Overfull \hbox (24.57285pt too wide) in paragraph at lines 503--508
+\OT1/cmr/m/n/10 gre-gate fronts and help syn-chro-nize the fac-tor-iza-tion. Th
+ere is an anal-o-gous \OT1/cmtt/m/n/10 FrontMtx[]MPI[]aggregateList()
+ []
+
+[263] [264] [265]
+Overfull \hbox (1.49115pt too wide) in paragraph at lines 765--765
+ []                                \OT1/cmtt/m/n/10 ChvManager *chvmanager, int
+ msglvl, FILE *msgFile ) ;[] 
+ []
+
+[266] [267] [268] [269] [270]
+Overfull \hbox (42.7928pt too wide) in paragraph at lines 1297--1302
+[]\OT1/cmr/m/n/10 This method writes a \OT1/cmtt/m/n/10 FrontMtx \OT1/cmr/m/n/1
+0 ob-ject to a file in a hu-man read-able for-mat. The method \OT1/cmtt/m/n/10 
+FrontMtx[]writeStats()
+ []
+
+) (../../FrontMtx/doc/drivers.tex [271]) (../../ILUMtx/doc/intro.tex [272]
+Chapter 31.
+) (../../ILUMtx/doc/dataStructure.tex
+Overfull \hbox (59.24767pt too wide) in paragraph at lines 14--18
+[]\OT1/cmtt/m/n/10 int symmetryflag \OT1/cmr/m/n/10 : type of ma-trix sym-me-tr
+y, \OT1/cmtt/m/n/10 SPOOLES[]SYMMETRIC\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 SPOOLE
+S[]HERMITIAN \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/10 SPOOLES[]NONSYMMETRIC\OT1/cmr/
+m/n/10 . 
+ []
+
+[273
+
+]) (../../ILUMtx/doc/proto.tex
+Overfull \hbox (11.74596pt too wide) in paragraph at lines 32--40
+[]\OT1/cmr/m/n/10 This method sets the struc-ture's fields to de-fault val-ues:
+ \OT1/cmtt/m/n/10 neqns = 0\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 type \OT1/cmr/m/n
+/10 = \OT1/cmtt/m/n/10 SPOOLES[]REAL\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 symmetry
+flag
+ []
+
+[274] [275]) (../../ILUMtx/doc/drivers.tex [276]) (../../InpMtx/doc/intro.tex
+[277]
+Chapter 32.
+[278
+
+]) (../../InpMtx/doc/dataStructure.tex [279]
+Overfull \hbox (10.7373pt too wide) in paragraph at lines 74--79
+[]\OT1/cmtt/m/n/10 int maxnvector \OT1/cmr/m/n/10 -- present max-i-mum num-ber 
+of vec-tors. This quan-tity is ini-tial-ized by the \OT1/cmtt/m/n/10 InpMtx[]in
+it()
+ []
+
+[280]) (../../InpMtx/doc/proto.tex [281] [282] [283]
+Overfull \hbox (9.61465pt too wide) in paragraph at lines 390--400
+[]\OT1/cmr/m/n/10 This method changes the co-or-di-nate type. If $[] = []$, the
+ pro-gram re-turns. If $[] \OMS/cmtt/m/n/10 ^^U
+ []
+
+[284] [285] [286]
+Overfull \hbox (34.11732pt too wide) in paragraph at lines 734--745
+\OT1/cmtt/m/n/10 INPMTX[]BY[]CHEVRONS\OT1/cmr/m/n/10 , or if \OT1/cmtt/m/n/10 s
+torageMode \OT1/cmr/m/n/10 is not one of \OT1/cmtt/m/n/10 INPMTX[]RAW[]DATA\OT1
+/cmr/m/n/10 , \OT1/cmtt/m/n/10 INPMTX[]SORTED \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/
+10 INPMTX[]BY[]VECTORS\OT1/cmr/m/n/10 ,
+ []
+
+
+Overfull \hbox (6.7411pt too wide) in paragraph at lines 751--751
+ []\OT1/cmtt/m/n/10 void InpMtx_nonsym_mmmVector ( InpMtx *A, DenseMtx *Y, doub
+le alpha[], DenseMtx *X ) ;[] 
+ []
+
+
+Overfull \hbox (17.24101pt too wide) in paragraph at lines 751--751
+ []\OT1/cmtt/m/n/10 void InpMtx_nonsym_mmmVector_T ( InpMtx *A, DenseMtx *Y, do
+uble alpha[], DenseMtx *X ) ;[] 
+ []
+
+
+Overfull \hbox (17.24101pt too wide) in paragraph at lines 751--751
+ []\OT1/cmtt/m/n/10 void InpMtx_nonsym_mmmVector_H ( InpMtx *A, DenseMtx *Y, do
+uble alpha[], DenseMtx *X ) ;[] 
+ []
+
+[287]
+Overfull \hbox (34.11732pt too wide) in paragraph at lines 787--798
+\OT1/cmtt/m/n/10 INPMTX[]BY[]CHEVRONS\OT1/cmr/m/n/10 , or if \OT1/cmtt/m/n/10 s
+torageMode \OT1/cmr/m/n/10 is not one of \OT1/cmtt/m/n/10 INPMTX[]RAW[]DATA\OT1
+/cmr/m/n/10 , \OT1/cmtt/m/n/10 INPMTX[]SORTED \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/
+10 INPMTX[]BY[]VECTORS\OT1/cmr/m/n/10 ,
+ []
+
+[288]
+Overfull \hbox (11.27731pt too wide) in paragraph at lines 964--972
+\OT1/cmr/m/it/10 Error check-ing: \OT1/cmr/m/n/10 If \OT1/cmtt/m/n/10 inpmtxA \
+OT1/cmr/m/n/10 is \OT1/cmtt/m/n/10 NULL\OT1/cmr/m/n/10 , or if the co-or-di-nat
+e type is not \OT1/cmtt/m/n/10 INPMTX[]BY[]ROWS \OT1/cmr/m/n/10 or \OT1/cmtt/m/
+n/10 INPMTX[]BY[]COLUMNS\OT1/cmr/m/n/10 ,
+ []
+
+
+Overfull \hbox (11.27731pt too wide) in paragraph at lines 980--988
+\OT1/cmr/m/it/10 Error check-ing: \OT1/cmr/m/n/10 If \OT1/cmtt/m/n/10 inpmtxA \
+OT1/cmr/m/n/10 is \OT1/cmtt/m/n/10 NULL\OT1/cmr/m/n/10 , or if the co-or-di-nat
+e type is not \OT1/cmtt/m/n/10 INPMTX[]BY[]ROWS \OT1/cmr/m/n/10 or \OT1/cmtt/m/
+n/10 INPMTX[]BY[]COLUMNS\OT1/cmr/m/n/10 ,
+ []
+
+[289] [290] [291]
+Overfull \hbox (13.68219pt too wide) in paragraph at lines 1411--1418
+[]\OT1/cmr/m/n/10 This method writes the ob-ject to a file suit-able for read-i
+ng by a hu-man. The method \OT1/cmtt/m/n/10 InpMtx[]writeStats()
+ []
+
+[292]
+Overfull \hbox (10.59344pt too wide) in paragraph at lines 1465--1471
+\OT1/cmtt/m/n/10 readHB[]mat[]double() \OT1/cmr/m/n/10 from the Harwell-Boeing 
+C IO rou-tines from NIST[], found in the \OT1/cmtt/m/n/10 misc/src/iohb.c
+ []
+
+) (../../InpMtx/doc/drivers.tex [293] [294] [295] [296]
+psfig: searching ../../InpMtx/doc/BCSSTK23.eps for bounding box
+psfig: including ../../InpMtx/doc/BCSSTK23.eps 
+[297] [298] [299]) (../../Iter/doc/intro.tex [300]
+Chapter 33.
+
+Overfull \hbox (5.20291pt too wide) in paragraph at lines 4--15
+\OT1/cmtt/m/n/10 Iter \OT1/cmr/m/n/10 is com-posed of 5 Krylov space it-er-a-ti
+ve meth-ods, PCG (Pre-con-di-tioned Con-ju-gate Gra-di-ents), BiCGStab,
+ []
+
+) (../../Iter/doc/dataStructure.tex) (../../Iter/doc/proto.tex [301
+
+] [302]
+[303] [304] [305]) (../../Iter/doc/drivers.tex [306] [307] [308] [309])
+(../../PatchAndGoInfo/doc/intro.tex [310]
+Chapter 34.
+) (../../PatchAndGoInfo/doc/dataStructure.tex [311
+
+]
+Overfull \hbox (58.84337pt too wide) in paragraph at lines 14--18
+[]\OT1/cmtt/m/n/10 2 \OT1/cmr/m/n/10 --- used with struc-tural anal-y-sis ma-tr
+i-ces, if $\OMS/cmtt/m/n/10 j\OML/cmm/m/it/10 A[]\OMS/cmtt/m/n/10 j ^^T []$ \OT
+1/cmr/m/n/10 then set $\OML/cmm/m/it/10 A[] \OT1/cmr/m/n/10 = [] \OMS/cmtt/m/n/
+10 ^^A []f\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 ; [][]\OMS/cmtt/m/n/10 fj\OML/cmm/m
+/it/10 A[]\OMS/cmtt/m/n/10 j\OML/cmm/m/it/10 ; \OMS/cmtt/m/n/10 j\OML/cmm/m/it/
+10 A[]\OMS/cmtt/m/n/10 jgg$ 
+ []
+
+) (../../PatchAndGoInfo/doc/proto.tex
+Overfull \hbox (3.66177pt too wide) in paragraph at lines 5--7
+\OT1/cmr/m/n/10 This sec-tion con-tains brief de-scrip-tions in-clud-ing pro-to
+-types of all meth-ods that be-long to the \OT1/cmtt/m/n/10 PatchAndGoInfo
+ []
+
+[312]) (../../Pencil/doc/intro.tex [313]
+Chapter 35.
+) (../../Pencil/doc/dataStructure.tex) (../../Pencil/doc/proto.tex [314
+
+]
+[315]) (../../SemiImplMtx/doc/intro.tex [316]
+Chapter 36.
+) (../../SemiImplMtx/doc/dataStructure.tex [317
+
+]
+Overfull \hbox (59.24767pt too wide) in paragraph at lines 14--18
+[]\OT1/cmtt/m/n/10 int symmetryflag \OT1/cmr/m/n/10 : type of ma-trix sym-me-tr
+y, \OT1/cmtt/m/n/10 SPOOLES[]SYMMETRIC\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 SPOOLE
+S[]HERMITIAN \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/10 SPOOLES[]NONSYMMETRIC\OT1/cmr/
+m/n/10 . 
+ []
+
+) (../../SemiImplMtx/doc/proto.tex
+Overfull \hbox (7.96838pt too wide) in paragraph at lines 32--41
+[]\OT1/cmr/m/n/10 This method sets the struc-ture's fields to de-fault val-ues:
+ \OT1/cmtt/m/n/10 neqns \OT1/cmr/m/n/10 = 0, \OT1/cmtt/m/n/10 type \OT1/cmr/m/n
+/10 = \OT1/cmtt/m/n/10 SPOOLES[]REAL\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 symmetry
+flag
+ []
+
+[318] [319]) (../../SemiImplMtx/doc/drivers.tex [320]
+Overfull \hbox (2.85498pt too wide) in paragraph at lines 111--114
+[]\OT1/cmr/m/n/10 The \OT1/cmtt/m/n/10 FrontMtx \OT1/cmr/m/n/10 ob-ject is read
+ from the \OT1/cmtt/m/n/10 inFrontMtxFile \OT1/cmr/m/n/10 file, which must be o
+f the form \OT1/cmtt/m/n/10 *.frontmtxf
+ []
+
+) (../../SubMtx/doc/intro.tex [321]
+Chapter 37.
+[322
+
+]) (../../SubMtx/doc/dataStructure.tex [323]) (../../SubMtx/doc/proto.tex
+Overfull \hbox (2.80563pt too wide) in paragraph at lines 32--40
+[]\OT1/cmr/m/n/10 The struc-ture's fields are set to de-fault val-ues: \OT1/cmt
+t/m/n/10 type \OT1/cmr/m/n/10 = \OT1/cmtt/m/n/10 SPOOLES[]REAL\OT1/cmr/m/n/10 ,
+ \OT1/cmtt/m/n/10 mode \OT1/cmr/m/n/10 = \OT1/cmtt/m/n/10 DENSEMTX[]DENSE[]COLU
+MNS\OT1/cmr/m/n/10 ,
+ []
+
+[324] [325]
+Overfull \hbox (36.46364pt too wide) in paragraph at lines 223--237
+\OT1/cmtt/m/n/10 [firstlocs[irow],lastlocs[irow]] \OT1/cmr/m/n/10 when $[] \OMS
+/cmtt/m/n/10 ^^U \OT1/cmr/m/n/10 0$ and $[] \OMS/cmtt/m/n/10 ^^T []$\OT1/cmr/m/
+n/10 .
+ []
+
+[326] [327] [328] [329] [330] [331]
+Overfull \hbox (38.45969pt too wide) in paragraph at lines 911--917
+[]\OT1/cmr/m/n/10 This method writes out a \OT1/cmtt/m/n/10 SubMtx \OT1/cmr/m/n
+/10 ob-ject to a file in a hu-man read-able for-mat. The method \OT1/cmtt/m/n/1
+0 SubMtx[]writeStats()
+ []
+
+) (../../SubMtx/doc/drivers.tex [332]
+Underfull \hbox (badness 10000) in paragraph at lines 97--106
+\OT1/cmr/m/n/10 (\OT1/cmtt/m/n/10 SUBMTX[]DENSE[]SUBROWS\OT1/cmr/m/n/10 ), 6 (\
+OT1/cmtt/m/n/10 SUBMTX[]DENSE[]SUBCOLUMNS\OT1/cmr/m/n/10 ), 7 (\OT1/cmtt/m/n/10
+ SUBMTX[]DIAGONAL\OT1/cmr/m/n/10 ), 
+ []
+
+[333]
+Overfull \hbox (65.22816pt too wide) in paragraph at lines 228--234
+[]\OT1/cmr/m/n/10 The \OT1/cmtt/m/n/10 mode \OT1/cmr/m/n/10 pa-ram-e-ter must b
+e one of 0 (\OT1/cmtt/m/n/10 SUBMTX[]DENSE[]ROWS\OT1/cmr/m/n/10 ), 1 (\OT1/cmtt
+/m/n/10 SUBMTX[]DENSE[]COLUMNS\OT1/cmr/m/n/10 ), 2 (\OT1/cmtt/m/n/10 SUBMTX[]SP
+ARSE[]ROWS\OT1/cmr/m/n/10 )
+ []
+
+[334]
+Overfull \hbox (65.22816pt too wide) in paragraph at lines 279--285
+[]\OT1/cmr/m/n/10 The \OT1/cmtt/m/n/10 mode \OT1/cmr/m/n/10 pa-ram-e-ter must b
+e one of 0 (\OT1/cmtt/m/n/10 SUBMTX[]DENSE[]ROWS\OT1/cmr/m/n/10 ), 1 (\OT1/cmtt
+/m/n/10 SUBMTX[]DENSE[]COLUMNS\OT1/cmr/m/n/10 ), 2 (\OT1/cmtt/m/n/10 SUBMTX[]SP
+ARSE[]ROWS\OT1/cmr/m/n/10 )
+ []
+
+
+Overfull \hbox (65.22816pt too wide) in paragraph at lines 331--337
+[]\OT1/cmr/m/n/10 The \OT1/cmtt/m/n/10 mode \OT1/cmr/m/n/10 pa-ram-e-ter must b
+e one of 0 (\OT1/cmtt/m/n/10 SUBMTX[]DENSE[]ROWS\OT1/cmr/m/n/10 ), 1 (\OT1/cmtt
+/m/n/10 SUBMTX[]DENSE[]COLUMNS\OT1/cmr/m/n/10 ), 2 (\OT1/cmtt/m/n/10 SUBMTX[]SP
+ARSE[]ROWS\OT1/cmr/m/n/10 )
+ []
+
+[335]
+Overfull \hbox (65.22816pt too wide) in paragraph at lines 381--387
+[]\OT1/cmr/m/n/10 The \OT1/cmtt/m/n/10 mode \OT1/cmr/m/n/10 pa-ram-e-ter must b
+e one of 0 (\OT1/cmtt/m/n/10 SUBMTX[]DENSE[]ROWS\OT1/cmr/m/n/10 ), 1 (\OT1/cmtt
+/m/n/10 SUBMTX[]DENSE[]COLUMNS\OT1/cmr/m/n/10 ), 2 (\OT1/cmtt/m/n/10 SUBMTX[]SP
+ARSE[]ROWS\OT1/cmr/m/n/10 )
+ []
+
+) (../../SubMtxList/doc/intro.tex [336]
+Chapter 38.
+) (../../SubMtxList/doc/dataStructure.tex [337
+
+])
+(../../SubMtxList/doc/proto.tex [338]) (../../SubMtxManager/doc/intro.tex
+[339]
+Chapter 39.
+) (../../SubMtxManager/doc/dataStructure.tex [340
+
+])
+(../../SubMtxManager/doc/proto.tex [341]) (../../SymbFac/doc/intro.tex [342]
+Chapter 40.
+) (../../SymbFac/doc/dataStructure.tex) (../../SymbFac/doc/proto.tex [343
+
+]
+Overfull \hbox (10.96967pt too wide) in paragraph at lines 54--65
+\OT1/cmr/m/it/10 Error check-ing: \OT1/cmr/m/n/10 If \OT1/cmtt/m/n/10 etree \OT
+1/cmr/m/n/10 or \OT1/cmtt/m/n/10 inpmtx \OT1/cmr/m/n/10 is \OT1/cmtt/m/n/10 NUL
+L\OT1/cmr/m/n/10 , or if the co-or-di-nate type of \OT1/cmtt/m/n/10 inpmtx \OT1
+/cmr/m/n/10 is not \OT1/cmtt/m/n/10 INPMTX[]BY[]CHEVRONS\OT1/cmr/m/n/10 ,
+ []
+
+) (../../SymbFac/doc/drivers.tex [344])) (partMisc.tex [345] [346
+
+] [347]
+(../../misc/doc/intro.tex
+Chapter 41.
+) (../../misc/doc/proto.tex [348
+
+] [349] [350] [351])
+(../../misc/doc/drivers.tex [352] [353]
+psfig: searching ../../misc/doc/R2D100notags.eps for bounding box
+psfig: including ../../misc/doc/R2D100notags.eps 
+psfig: searching ../../misc/doc/R2D100fishnet.eps for bounding box
+psfig: including ../../misc/doc/R2D100fishnet.eps 
+[354] [355] [356] [357] [358] [359])) (partMT.tex [360] [361
+
+] [362]
+(../../MT/doc/intro.tex
+Chapter 42.
+) (../../MT/doc/dataStructure.tex) (../../MT/doc/proto.tex [363
+
+]
+Overfull \hbox (63.2698pt too wide) in paragraph at lines 11--27
+\OT1/cmr/m/n/10 There are five meth-ods to mul-ti-ply a vec-tor times a dense m
+a-trix. The first three meth-ods, called \OT1/cmtt/m/n/10 InpMtx[]MT[]nonsym[]m
+mm*()\OT1/cmr/m/n/10 ,
+ []
+
+
+Overfull \hbox (34.11732pt too wide) in paragraph at lines 64--75
+\OT1/cmtt/m/n/10 INPMTX[]BY[]CHEVRONS\OT1/cmr/m/n/10 , or if \OT1/cmtt/m/n/10 s
+torageMode \OT1/cmr/m/n/10 is not one of \OT1/cmtt/m/n/10 INPMTX[]RAW[]DATA\OT1
+/cmr/m/n/10 , \OT1/cmtt/m/n/10 INPMTX[]SORTED \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/
+10 INPMTX[]BY[]VECTORS\OT1/cmr/m/n/10 ,
+ []
+
+[364]
+Overfull \hbox (34.11732pt too wide) in paragraph at lines 101--112
+\OT1/cmtt/m/n/10 INPMTX[]BY[]CHEVRONS\OT1/cmr/m/n/10 , or if \OT1/cmtt/m/n/10 s
+torageMode \OT1/cmr/m/n/10 is not one of \OT1/cmtt/m/n/10 INPMTX[]RAW[]DATA\OT1
+/cmr/m/n/10 , \OT1/cmtt/m/n/10 INPMTX[]SORTED \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/
+10 INPMTX[]BY[]VECTORS\OT1/cmr/m/n/10 ,
+ []
+
+
+Overfull \hbox (34.11732pt too wide) in paragraph at lines 130--139
+\OT1/cmtt/m/n/10 INPMTX[]BY[]CHEVRONS\OT1/cmr/m/n/10 , or if \OT1/cmtt/m/n/10 s
+torageMode \OT1/cmr/m/n/10 is not one of \OT1/cmtt/m/n/10 INPMTX[]RAW[]DATA\OT1
+/cmr/m/n/10 , \OT1/cmtt/m/n/10 INPMTX[]SORTED \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/
+10 INPMTX[]BY[]VECTORS\OT1/cmr/m/n/10 ,
+ []
+
+[365] [366]) (../../MT/doc/drivers.tex [367] [368] [369] [370] [371]))
+(partMPI.tex [372] [373
+
+] [374] (../../MPI/doc/intro.tex
+Chapter 43.
+) (../../MPI/doc/dataStructure.tex
+Overfull \hbox (0.87425pt too wide) in paragraph at lines 30--34
+[]\OT1/cmr/m/n/10 The \OT1/cmtt/m/n/10 MatMulInfo \OT1/cmr/m/n/10 ob-ject store
+s all the nec-es-sary in-for-ma-tion to make this hap-pen. There is one \OT1/cm
+tt/m/n/10 MatMulInfo
+ []
+
+[375
+
+]) (../../MPI/doc/proto.tex
+Overfull \hbox (59.838pt too wide) in paragraph at lines 97--1
+[]\OT1/cmr/m/n/10 See the meth-ods \OT1/cmtt/m/n/10 MatMul[]MPI[]setup()\OT1/cm
+r/m/n/10 , \OT1/cmtt/m/n/10 MatMul[]setLocalIndices()\OT1/cmr/m/n/10 , \OT1/cmt
+t/m/n/10 MatMul[]setGlobalIndices()\OT1/cmr/m/n/10 , \OT1/cmtt/m/n/10 MatMul[]M
+PI[]mmm()
+ []
+
+[376] [377]
+Overfull \hbox (31.97972pt too wide) in paragraph at lines 249--256
+\OT1/cmr/m/n/10 dis-tributed matrix-matrix mul-ti-ply. The gather op-er-a-tion 
+$\OML/cmm/m/it/10 X[] \OMS/cmtt/m/n/10   \OML/cmm/m/it/10 X$ \OT1/cmr/m/n/10 is
+ per-formed by \OT1/cmtt/m/n/10 DenseMtx[]MPI[]gatherRows()\OT1/cmr/m/n/10 ,
+ []
+
+[378] [379] [380]
+Overfull \hbox (11.99106pt too wide) in paragraph at lines 517--517
+ []\OT1/cmtt/m/n/10 void FrontMtx_MPI_permuteUpperAdj ( FrontMtx *frontmtx, IV 
+*frontOwnersIV, int stats[],[] 
+ []
+
+
+Overfull \hbox (11.99106pt too wide) in paragraph at lines 517--517
+ []                             \OT1/cmtt/m/n/10 int msglvl, FILE *msgFile, int
+ firsttag, MPI_Comm comm ) ;[] 
+ []
+
+
+Overfull \hbox (11.99106pt too wide) in paragraph at lines 517--517
+ []\OT1/cmtt/m/n/10 void FrontMtx_MPI_permuteLowerAdj ( FrontMtx *frontmtx, IV 
+*frontOwnersIV, int stats[],[] 
+ []
+
+
+Overfull \hbox (11.99106pt too wide) in paragraph at lines 517--517
+ []                             \OT1/cmtt/m/n/10 int msglvl, FILE *msgFile, int
+ firsttag, MPI_Comm comm ) ;[] 
+ []
+
+[381] [382] [383] [384] [385]
+Overfull \hbox (11.99106pt too wide) in paragraph at lines 981--981
+ []\OT1/cmtt/m/n/10 void * makeSendRecvIVLs ( IV *supportedIV, IV *globalmapIV,
+ IVL *sendIVL, IVL *recvIVL,[] 
+ []
+
+
+Overfull \hbox (11.99106pt too wide) in paragraph at lines 981--981
+ []                \OT1/cmtt/m/n/10 int stats[], int msglvl, FILE *msgFile, int
+ firsttag, MPI_Comm comm ) ;[] 
+ []
+
+) (../../MPI/doc/drivers.tex [386] [387] [388] [389]
+Overfull \hbox (31.23914pt too wide) in paragraph at lines 409--426
+[]\OT1/cmr/m/n/10 This driver pro-gram tests the dis-tributed \OT1/cmtt/m/n/10 
+IVL[]MPI[]alltoall() \OT1/cmr/m/n/10 method. This is used by the \OT1/cmtt/m/n/
+10 makeSendRecvIVLs
+ []
+
+[390] [391] [392] [393])) (main.bbl [394] [395
+
+]) (main.ind [396] [397
+
+] [398]
+[399] [400] [401] [402] [403] [404] [405] [406] [407] [408] [409] [410]
+[411
+
+]) (main.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 2333 strings out of 10908
+ 33520 string characters out of 72189
+ 70848 words of memory out of 262141
+ 4393 multiletter control sequences out of 9500
+ 18288 words of font info for 69 fonts, out of 150000 for 255
+ 14 hyphenation exceptions out of 607
+ 28i,17n,21p,614b,426s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (412 pages, 1580660 bytes).

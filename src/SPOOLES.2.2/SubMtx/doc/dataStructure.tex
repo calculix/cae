@@ -1,0 +1,97 @@
+\par
+\section{Data Structure}
+\label{section:SubMtx:dataStructure}
+\par
+\par
+The {\tt SubMtx} structure has the following fields.
+\begin{itemize}
+\item
+{\tt int type} : type of entries.
+\begin{itemize}
+\item {\tt SPOOLES\_REAL} : double precision real entries.
+\item {\tt SPOOLES\_COMPLEX} : double precision complex entries.
+\end{itemize}
+\item
+{\tt int mode} : storage mode.
+\begin{itemize}
+\item {\tt SUBMTX\_DENSE\_ROWS} : dense, storage by rows.
+\item {\tt SUBMTX\_DENSE\_COLUMNS} : dense, storage by columns.
+\item {\tt SUBMTX\_SPARSE\_ROWS} : sparse, storage by rows.
+\item {\tt SUBMTX\_SPARSE\_COLUMNS} : sparse, storage by columns.
+\item {\tt SUBMTX\_SPARSE\_TRIPLES} : sparse, storage by 
+      $(i,j,a_{i,j})$ triples.
+\item {\tt SUBMTX\_DENSE\_SUBROWS} : sparse, storage by dense subrows.
+\item {\tt SUBMTX\_DENSE\_SUBCOLUMNS} : 
+      sparse, storage by dense subcolumns.
+\item {\tt SUBMTX\_DIAGONAL} : a diagonal matrix.
+\item {\tt SUBMTX\_BLOCK\_DIAGONAL\_SYM} : a symmetric block
+      diagonal matrix with $1 \times 1$ and $2 \times 2$ blocks.
+\item {\tt SUBMTX\_BLOCK\_DIAGONAL\_HERM} : a hermitian block
+      diagonal matrix with $1 \times 1$ and $2 \times 2$ blocks.
+\end{itemize}
+\item
+{\tt int rowid} : object's row id, default value is {\tt -1}.
+\item
+{\tt int colid} : object's column id, default value is {\tt -1}.
+\item
+{\tt int nrow} : number of rows 
+\item
+{\tt int ncol} : number of columns 
+\item
+{\tt int nent} : number of stored matrix entries.
+\item
+{\tt DV wrkDV} : 
+object that manages the owned working storage.
+\item
+{\tt SubMtx *next} : 
+link to a next object in a singly linked list.
+\end{itemize}
+\par
+One can query the type of the object using these simple macros.
+\begin{itemize}
+\item
+{\tt SUBMTX\_IS\_REAL(mtx)} is {\tt 1} if {\tt mtx} 
+has real entries and {\tt 0} otherwise.
+\item
+{\tt SUBMTX\_IS\_COMPLEX(mtx)} is {\tt 1} if {\tt mtx} 
+has complex entries and {\tt 0} otherwise.
+\item
+{\tt SUBMTX\_IS\_DENSE\_ROWS(mtx)} is {\tt 1} if {\tt mtx} 
+has dense rows as its storage format, 
+and {\tt 0} otherwise.
+\item
+{\tt SUBMTX\_IS\_DENSE\_COLUMNS(mtx)} is {\tt 1} if {\tt mtx} 
+has dense columns as its storage format, 
+and {\tt 0} otherwise.
+\item
+{\tt SUBMTX\_IS\_SPARSE\_ROWS(mtx)} is {\tt 1} if {\tt mtx} 
+has sparse rows as its storage format, 
+and {\tt 0} otherwise.
+\item
+{\tt SUBMTX\_IS\_SPARSE\_COLUMNS(mtx)} is {\tt 1} if {\tt mtx} 
+has sparse columns as its storage format, 
+and {\tt 0} otherwise.
+\item
+{\tt SUBMTX\_IS\_SPARSE\_TRIPLES(mtx)} is {\tt 1} if {\tt mtx} 
+has sparse triples as its storage format, 
+{\tt 0} otherwise.
+\item
+{\tt SUBMTX\_IS\_DENSE\_SUBROWS(mtx)} is {\tt 1} if {\tt mtx} 
+has dense subrows as its storage format, 
+{\tt 0} otherwise.
+\item
+{\tt SUBMTX\_IS\_DENSE\_SUBCOLUMNS(mtx)} is {\tt 1} if {\tt mtx} 
+has dense subcolumns as its storage format, 
+{\tt 0} otherwise.
+\item
+{\tt SUBMTX\_IS\_DIAGONAL(mtx)} is {\tt 1} if {\tt mtx} is diagonal, 
+{\tt 0} otherwise.
+\item
+{\tt SUBMTX\_IS\_BLOCK\_DIAGONAL\_SYM(mtx)} is {\tt 1} if {\tt mtx} 
+is block diagonal and symmetric, 
+{\tt 0} otherwise.
+\item
+{\tt SUBMTX\_IS\_BLOCK\_DIAGONAL\_HERM(mtx)} is {\tt 1} if {\tt mtx} 
+is block diagonal and hermitian, 
+{\tt 0} otherwise.
+\end{itemize}

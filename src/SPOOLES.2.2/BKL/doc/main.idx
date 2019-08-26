@@ -1,0 +1,17 @@
+\indexentry{BKL_new@{\tt BKL\_new()}}{2}
+\indexentry{BKL_setDefaultFields@{\tt BKL\_setDefaultFields()}}{2}
+\indexentry{BKL_clearData@{\tt BKL\_clearData()}}{2}
+\indexentry{BKL_free@{\tt BKL\_free()}}{2}
+\indexentry{BKL_init@{\tt BKL\_init()}}{3}
+\indexentry{BKL_setRandomColors@{\tt BKL\_setRandomColors()}}{3}
+\indexentry{BKL_setColorWeights@{\tt BKL\_setColorWeights()}}{3}
+\indexentry{BKL_segColor@{\tt BKL\_segColor()}}{3}
+\indexentry{BKL_flipDomain@{\tt BKL\_flipDomain()}}{3}
+\indexentry{BKL_greyCodeDomain@{\tt BKL\_greyCodeDomain()}}{3}
+\indexentry{BKL_setInitPart@{\tt BKL\_setInitPart()}}{3}
+\indexentry{BKL_domAdjToSep@{\tt BKL\_domAdjToSep()}}{4}
+\indexentry{BKL_evalgain@{\tt BKL\_evalgain()}}{4}
+\indexentry{BKL_evalfcn@{\tt BKL\_evalfcn()}}{4}
+\indexentry{BKL_eval@{\tt BKL\_eval()}}{5}
+\indexentry{BKL_exhSearch@{\tt BKL\_exhSearch()}}{5}
+\indexentry{BKL_fidmat@{\tt BKL\_fidmat()}}{5}

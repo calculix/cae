@@ -1,0 +1,9 @@
+\begin{theindex}
+
+  \item {\tt PatchAndGoInfo\_clearData()}, 3
+  \item {\tt PatchAndGoInfo\_free()}, 3
+  \item {\tt PatchAndGoInfo\_init()}, 3
+  \item {\tt PatchAndGoInfo\_new()}, 2
+  \item {\tt PatchAndGoInfo\_setDefaultFields()}, 2
+
+\end{theindex}

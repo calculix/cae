@@ -1,0 +1,194 @@
+\par
+\section{Prototypes and descriptions of {\tt Drand} methods}
+\label{section:Drand:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt Drand} object.
+\par
+\subsection{Basic methods}
+\label{subsection:Drand:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Drand * Drand_new ( void ) ;
+\end{verbatim}
+\index{Drand_new@{\tt Drand\_new()}}
+This method simply allocates storage for the {\tt Drand} structure 
+and then sets the default fields by a call to 
+{\tt Drand\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Drand_setDefaultFields ( Drand *drand ) ;
+\end{verbatim}
+\index{Drand_setDefaultFields@{\tt Drand\_setDefaultFields()}}
+This method sets the structure's fields to default values.
+\begin{center}
+\begin{verbatim}
+drand->seed1 =  123456789.0 ; drand->seed2 =  987654321.0 ;
+drand->base1 = 2147483563.0 ; drand->base2 = 2147483399.0 ;
+drand->lower =          0.0 ; drand->upper =          1.0 ;
+drand->mean  =          0.0 ; drand->sigma =          1.0 ;
+drand->mode  =            1 ;
+\end{verbatim}
+\end{center}
+The default mode is a uniform distribution on {\tt [0,1]}.
+\par \noindent {\it Error checking:}
+If {\tt drand} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Drand_clearData ( Drand *drand ) ;
+\end{verbatim}
+\index{Drand_clearData@{\tt Drand\_clearData()}}
+This method clears any data owned by the object.
+It then sets the default fields 
+with a call to {\tt Drand\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt drand} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Drand_free ( Drand *drand ) ;
+\end{verbatim}
+\index{Drand_free@{\tt Drand\_free()}}
+This method frees the object.
+It releases any storage by a call to 
+{\tt Drand\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt drand} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:Drand:proto:initializers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Drand_init ( Drand *drand ) ;
+\end{verbatim}
+\index{Drand_init@{\tt Drand\_init()}}
+This initializer simply sets the default fields with a call to
+{\tt Drand\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt drand} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Drand_setSeed ( Drand *drand, int seed1 ) ;
+\end{verbatim}
+\index{Drand_setSeed@{\tt Drand\_setSeed()}}
+This method sets the random number seeds using a single input seed.
+\par \noindent {\it Error checking:}
+If {\tt drand} is {\tt NULL},
+or if ${\tt seed1} \le 0$,
+or if ${\tt seed1} \ge 2147483563$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Drand_setSeeds ( Drand *drand, int seed1, int seed2 ) ;
+\end{verbatim}
+\index{Drand_setSeeds@{\tt Drand\_setSeeds()}}
+This method sets the random number seeds using two input seeds.
+\par \noindent {\it Error checking:}
+If {\tt drand} is {\tt NULL},
+an error message is printed and the program exits.
+\par \noindent {\it Error checking:}
+If {\tt drand} is {\tt NULL},
+or if ${\tt seed1} \le 0$,
+or if ${\tt seed1} \ge 2147483563$,
+or if ${\tt seed2} \le 0$,
+or if ${\tt seed2} \ge 2147483399$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Drand_setNormal ( Drand *drand, double mean, double sigma ) ;
+\end{verbatim}
+\index{Drand_setNormal@{\tt Drand\_setNormal()}}
+This method sets the mode to be a normal distribution with mean
+{\tt mean} and variation {\tt sigma}.
+\par \noindent {\it Error checking:}
+If {\tt drand} is {\tt NULL},
+or if ${\tt sigma} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Drand_setUniform ( Drand *drand, double lower, double upper ) ;
+\end{verbatim}
+\index{Drand_setUniform@{\tt Drand\_setUniform()}}
+This method sets the mode to be a uniform distribution over the
+interval {\tt [lower,upper]} ;
+\par \noindent {\it Error checking:}
+If {\tt drand} is {\tt NULL},
+or if ${\tt lower} \ge {\tt upper}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:Drand:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double Drand_value ( Drand *drand ) ;
+\end{verbatim}
+\index{Drand_value@{\tt Drand\_value()}}
+This method returns a double precision random number.
+\par \noindent {\it Error checking:}
+If {\tt drand} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Drand_fillZvector ( Drand *drand, int n, double vec[] ) ;
+\end{verbatim}
+\index{Drand_fillZvector@{\tt Drand\_fillZvector()}}
+This method fills a double precision complex vector {\tt vec[]} 
+with {\tt n} complex random numbers.
+\par \noindent {\it Error checking:}
+If {\tt drand} or {\tt vec} are {\tt NULL} or if {\tt n < 0 },
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Drand_fillDvector ( Drand *drand, int n, double vec[] ) ;
+\end{verbatim}
+\index{Drand_fillDvector@{\tt Drand\_fillDvector()}}
+This method fills double precision vector {\tt vec[]} 
+with {\tt n} random numbers.
+\par \noindent {\it Error checking:}
+If {\tt drand} or {\tt vec} are {\tt NULL} or if {\tt n < 0 },
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Drand_fillIvector ( Drand *drand, int n, int vec[] ) ;
+\end{verbatim}
+\index{Drand_fillIvector@{\tt Drand\_fillIvector()}}
+This method fills {\tt vec[]} with {\tt n} {\tt int} random numbers.
+\par \noindent {\it Error checking:}
+If {\tt drand} or {\tt vec} are {\tt NULL} or if {\tt n < 0 },
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}

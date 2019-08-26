@@ -1,0 +1,72 @@
+\par
+\chapter{{\tt ChvManager}: {\tt Chv} manager object }
+\par
+This object was created to handle 
+a number of instances of {\tt Chv} objects.
+Our codes are heavily dependent on dynamic memory management.
+This is partly due to the pivoting capability during the
+factorization and partly to the nondeterministic nature of
+parallel computation --- we may not know ahead of time just what
+data structures will exist during the computations.
+\par
+We wanted to be able to generate and re-use {\tt Chv} objects,
+and we wanted to make the process somewhat transparent to other
+sections of the code.
+Towards this aim, there are two simple functions.
+\begin{itemize}
+\item
+Ask the manager object for a {\tt Chv} object that has a certain
+amount of workspace.
+\item
+Return to the manager object a {\tt Chv} object or list of objects
+that are no longer needed.
+\end{itemize}
+Where the manager object gets an instance, 
+or what the manager does with the
+instance objects when they are returned to it,
+is of no concern to the user of the manager object ---
+unless the process takes too much time or storage.
+We support two {\it modes} of behavior.
+\begin{itemize}
+\item {\it catch-and-release}
+\par
+In this mode the {\tt ChvManager} object is just a front to
+{\tt malloc()} and {\tt free()} calls.
+The user asks for an object of a certain size, and the manager
+creates one using a call to {\tt malloc()}.
+When the user returns an object, the manager releases the storage
+via a call to {\tt free()}.
+\item {\it recycle}
+\par
+In this mode the {\tt ChvManager} object keeps a free pool of {\tt
+Chv} objects. When the user requests a {\tt Chv} object of a
+certain size, the manager searches the pool and finds one of that
+size or larger, removes the object from the pool,
+and returns the object to the user. 
+(Our implementation finds {\it a} smallest object
+of that size or larger.)
+If there is no object on the free pool of sufficient size,
+one is created and returned.
+When the user releases an object to the manager, the object is
+placed on the free pool.
+\end{itemize}
+For the factorization, serial, multithreaded or MPI,
+we recommend using the recycling mode.
+\par
+A multithreaded environment creates some difficulties.
+Should there be one manager object per thread, or should all the
+threads share one object?
+We have chosen the latter course, but this requires that a lock be
+present to guard the critical section of code where one searches or
+adds an object to the list.
+The lock we use is a {\tt Lock} object, and so the {\tt
+ChvManager} code is completely independent of the thread package.
+Porting to a new system might require some modification to
+the {\tt Lock}, but none to the manager object.
+\par
+Each manager object keeps track of certain statistics,
+% e.g., the number of active {\tt Chv} objects, the number of
+bytes in their workspaces, the total number of bytes requested,
+the number of requests for a {\tt Chv} objects, the number of
+releases, and the number of locks and unlocks.
+

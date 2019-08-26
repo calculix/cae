@@ -1,0 +1,110 @@
+\par
+\chapter{{\tt SubMtx}: Submatrix object}
+\par
+The {\tt SubMtx} object was created to hold the data for and operate
+with a submatrix of a sparse matrix.
+The entries in a submatrix can be either double precision 
+real or complex.
+\par
+For example, the lower and upper triangular matrices $L$ and $U$
+that are created during the factorization are stored as
+submatrices,
+e.g., $L_{I,I}$ and $L_{J,I}$ where $I$ and $J$ are index sets.
+To be more precise, $I$ and $J$ are index sets associated with
+fronts {\tt I} and {\tt J}.
+We do not necessarily represent $L_{J,I}$, 
+because some of the rows in the submatrix may be zero.
+Instead we keep $L_{\bnd{I}\cap J,I}$, where
+$\bnd{I} \cap J$ are precisely those rows that may have nonzeros.
+The situation is similar for $U$ where we keep $U_{I,\bnd{I}\cap J}$.
+\par
+The submatrices for $L$ and $U$ may be dense or sparse.
+(A direct factorization typically generates dense submatrices
+while a drop tolerance factorization produces sparse submatrices.)
+We also use {\tt SubMtx} objects to represent submatrices of the
+$D$ matrix, where $D$ is either diagonal or has $1 \times 1$ and
+$2 \times 2$ blocks on its diagonal.
+In the latter case, we support $D_{I,I}$ to be either 
+real symmetric, complex symmetric or complex Hermitian.
+\par
+The {\tt SubMtx} object has the following attributes.
+\begin{itemize}
+\item
+A {\tt SubMtx} object has a row id and column id to identify itself
+within the context of a larger block matrix.
+\item
+Each row and column of the block matrix corresponds 
+to a certain index set.
+A {\tt SubMtx} object associated with block row {\tt J} 
+and block column {I} has row indices $J$ and column indices $I$.
+\item
+Matrix entries stored in one of the following ways.
+\begin{itemize}
+\item dense by rows, i.e., dense and row major
+\item dense by columns, i.e., dense and column major
+\item sparse using dense subrows
+\item sparse using dense subcolumns
+\item sparse using sparse rows
+\item sparse using sparse columns
+\item sparse using $(i,j,a_{i,j})$ triples
+\item a diagonal matrix
+\item a block diagonal symmetric matrix where the blocks are 
+      $1 \times 1$ or $2 \times 2$, used in the symmetric
+      indefinite factorization.
+\item a block diagonal Hermitian matrix where the blocks are 
+      $1 \times 1$ or $2 \times 2$, used in the hermitian
+      indefinite factorization.
+\end{itemize}
+\item
+The {\tt SubMtx} object can be self-contained, in the sense that
+its structure contains a {\tt DV} object that manages a contiguous
+vector of workspace that is used to store all information about the
+{\tt SubMtx} object --- its scalar parameters, any integer index
+or dimension information, and all matrix entries.
+In a distributed environment, 
+this allows a {\tt SubMtx} object to be sent between processors
+as one message, no copying to an internal buffer is needed,
+nor any custom data type needs to be defined as for MPI.
+In an out-of-core environment,
+a {\tt SubMtx} object can be read from or written to a file 
+by a single operation.
+\end{itemize}
+\par
+The {\tt SubMtx} object is a superset of the {\tt DenseMtx} object
+in terms of data structure and functionality.
+If we were working in a language that supports inheritance,
+{\tt SubMtx} would be an abstract class and {\tt DenseMtx} would be
+a subclass where entries would be stored by dense rows or columns.
+At some point in the future we may deprecate the {\tt DenseMtx}
+object in this library, replacing it with the {\tt SubMtx} object.
+\par
+Because the {\tt SubMtx} object wears so many hats, i.e., it supports
+nine different storage formats, it has to be flexible in how it
+responds to its environment.
+For example, how we access the data is different depending on which
+storage format.
+Instead of accessing structure fields directly,
+e.g., let {\tt mtx->entries} point to the start of the matrix entries,
+we follow a convention that {\it instance} methods return
+information.
+For example, the function call
+\begin{verbatim}
+       SubMtx_columnIndices(mtx, &nrow, &rowind) ;
+\end{verbatim}
+is an instance method that fills {\tt nrow} with the number of
+rows and {\tt rowind} with the first location of the row indices.
+A more complex example is for the sparse storage by rows format,
+\begin{verbatim}
+       SubMtx_sparseRowsInfo(mtx, &nrow, &nent, &sizes, &indices, &entries) ;
+\end{verbatim}
+where the number of rows and entries are returned in {\tt nrow}
+and {\tt nent}, the number of nonzero
+entries in each row is contained in {\tt sizes[]},
+and the column indices and nonzero entries are found in 
+{\tt indices[]} and {\tt entries[]}, respectively. 
+This convention of using instance methods to return information
+is better than using explicit structure fields.
+For example, if we want to extend the object by allowing another
+storage format, we do not need to increase the size of the structure 
+at all --- it is only necessary to provide one or more instance methods
+to return the new information.

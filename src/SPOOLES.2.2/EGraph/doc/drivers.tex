@@ -1,0 +1,124 @@
+\par
+\section{Driver programs for the {\tt EGraph} object}
+\label{section:EGraph:drivers}
+\par
+This section contains brief descriptions of the driver programs.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testIO msglvl msgFile inFile outFile
+\end{verbatim}
+This driver program reads and writes {\tt EGraph} files, useful for
+converting formatted files to binary files and vice versa.
+One can also read in a {\tt EGraph} file and print out just the 
+header information (see the {\tt EGraph\_writeStats()} method).
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt EGraph} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inFile} parameter is the input file for the {\tt EGraph}
+object. It must be of the form {\tt *.egraphf} or {\tt *.egraphb}.
+The {\tt EGraph} object is read from the file via the
+{\tt EGraph\_readFromFile()} method.
+\item
+The {\tt outFile} parameter is the output file for the {\tt EGraph}
+object. 
+If {\tt outFile} is {\tt none} then the {\tt EGraph} object is not
+written to a file. 
+Otherwise, the {\tt EGraph\_writeToFile()} method is called to write
+the object to 
+a formatted file (if {\tt outFile} is of the form {\tt *.egraphf}),
+or
+a binary file (if {\tt outFile} is of the form {\tt *.egraphb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+mkGraph msglvl msgFile inEGraphFile outGraphFile 
+\end{verbatim}
+This driver program reads in an {\tt EGraph} object and creates a
+{\tt Graph} object, which is then optionally written out to a file.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt EGraph} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inEGraphFile} parameter is the input file for the {\tt EGraph}
+object. It must be of the form {\tt *.egraphf} or {\tt *.egraphb}.
+The {\tt EGraph} object is read from the file via the
+{\tt EGraph\_readFromFile()} method.
+\item
+The {\tt outGraphFile} parameter is the output file for the 
+{\tt Graph} object. 
+If {\tt outGraphFile} is {\tt none} then the {\tt Graph} object is not
+written to a file. 
+Otherwise, the {\tt Graph\_writeToFile()} method is called to write
+the object to 
+a formatted file (if {\tt outGraphFile} is of the form 
+{\tt *.graphf}),
+or
+a binary file (if {\tt outGraphFile} is of the form {\tt *.graphb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+mkGridEGraph msglvl msgFile n1 n2 n3 ncomp outEGraphFile 
+\end{verbatim}
+This driver program creates an element graph for linear
+quadrilateral elements if {\tt n3 = 1} or for linear hexahedral
+elements if {\tt n3 > 1}.
+There are {\tt ncomp} degrees of freedom at each grid point.
+The {\tt EGraph} object is optionally written out to a file.
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means that all objects are written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+message data.
+\item
+{\tt n1} is the number of grid points in the first direction,
+must be greater than one.
+\item
+{\tt n2} is the number of grid points in the second direction,
+must be greater than one.
+\item
+{\tt n3} is the number of grid points in the third direction,
+must be greater than or equal to one.
+\item
+{\tt ncomp} is the number of components (i.e., the number of 
+degrees of freedom) at each grid point,
+must be greater than or equal to one.
+\item
+The {\tt outEGraphFile} parameter 
+is the output file for the {\tt EGraph} object. 
+If {\tt outEGraphFile} is {\tt none} then 
+the {\tt EGraph} object is not written to a file. 
+Otherwise, the {\tt EGraph\_writeToFile()} method is called to write
+the object to a formatted file (if {\tt outEGraphFile} 
+is of the form {\tt *.egraphf}), or
+a binary file (if {\tt outEGraphFile} is of the form {\tt *.egraphb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

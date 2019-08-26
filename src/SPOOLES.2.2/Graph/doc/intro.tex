@@ -1,0 +1,88 @@
+\par
+\chapter{{\tt Graph}: A Graph object}
+\label{chapter:Graph}
+\par
+The {\tt Graph} object is used to represent the graph of a matrix.
+The representation uses a set of adjacency lists, one edge list for 
+each vertex in the graph, and is implemented using an {\tt IVL}
+object.\footnote{
+The {\tt EGraph} object represents a graph of the matrix,
+but stores a list of covering cliques in an {\tt IVL} object.
+}
+For the {\tt Graph} object,
+the vertices and the edges can be either unit weight or non-unit
+weight independently.
+None of the algorithms in the package {\it at present} use weighted
+edges, though most use weighted vertices.
+The weighted edges capability is there, and the weighted edges are
+also stored using an {\tt IVL} object.
+\par
+The {\tt Graph} object is not too sophisticated, i.e., we chose
+{\bf not} to implement a method to find a separator of a graph 
+inside this object.
+Such complex functionality is best left to higher level objects,
+and our method based on domain decomposition \cite{ash97-DDSEP}
+is found in the {\tt GPart} object.
+\par
+A graph can also be a subgraph of another graph --- nested dissection
+is the natural recursive partition of a graph --- and it pays to
+use the knowledge of the boundary of a subgraph.
+We chose not to implement a ``sub''-graph object separately from a
+graph object, thus our {\tt Graph} object can have a boundary.
+One specifies {\tt nvtx}, the number of internal vertices,
+and {\tt nvbnd}, the number of external or boundary vertices.
+The labels for internal vertices are found in {\tt [0, nvtx)}
+and those for boundary vertices are found in {\tt [nvtx, nvtx+nvbnd)}.
+\par
+It is easy to create a {\tt Graph} object: one specifies the number
+of internal and boundary vertices, the type of graph (weighted or
+unit weight vertices and edges), and then uses the methods for the
+{\tt IVL} object to add adjacency lists and (possibly) lists of edge
+weights.
+The {\tt Graph} object relies strongly on the {\tt IVL} object.
+\par
+Weighted graphs are commonly used in partitioning and ordering
+algorithm, and they normally arise from {\it compressing} the graph
+in some manner.
+Let us write the unit weight graph as $G(V,E)$ and the weighted
+graph as ${\bf G}({\bf V}, {\bf E})$, and let $\phi : V \mapsto {\bf V}$
+be the map from unit weight vertices to weighted vertices.
+Let $u$ and $v$ be vertices and $(u,v)$ be an edge in $G(V,E)$,
+and let ${\bf u}$ and ${\bf v}$ be vertices 
+and $({\bf u},{\bf v})$ be an edge in ${\bf G}({\bf V}, {\bf E})$.
+The weight of a vertex is $w({\bf u})$, the number of unit weight
+vertices in the weighted vertex.
+The weight of an edge is 
+$w({\bf u},{\bf v})$, the number of $(u,v)$ edges in the 
+unit weight graph where $u \in {\bf u}$ and $v \in {\bf v}$.
+\par
+The natural compressed graph \cite{ash95-compressed-graphs},
+\cite{dam92-compressed} 
+is very important for many matrices from structral
+analysis and computational fluid mechanics.
+This type of graph has one special property:
+$$
+w({\bf u}, {\bf v}) = w({\bf u}) \cdot w({\bf v})
+$$
+and it is the smallest graph with this property.
+The compression is {\it loss-less}, 
+for given ${\bf G}({\bf V},{\bf E})$ and $\phi$,
+we can reconstruct the unit weight graph $G(V,E)$.
+In effect, we can work with the natural compressed graph to find
+separators and orderings and map back to the unit weight graph.
+The savings in time and space can be considerable.
+\par
+The {\tt Graph} object has a method to find the $\phi$ map for the
+natural compressed graph; it requires $O(|V|)$ space and $O(|E|)$
+time.
+There is a method to compress a graph 
+(i.e., given $G(V,E)$ and an arbitrary $\phi$, 
+construct ${\bf G}({\bf V}, {\bf E})$) 
+and a method to expand a graph
+(i.e., given ${\bf G}({\bf V},{\bf E})$ and an arbitrary $\phi$, 
+construct $G(V, E)$).
+\par
+There are several utility methods to return information about the
+memory in use by the {\tt Graph object}, to access adjacency lists
+and edge weight lists, and to provide information about the
+connected components of a graph. 

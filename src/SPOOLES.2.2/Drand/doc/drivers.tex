@@ -1,0 +1,47 @@
+\par
+\section{Driver programs for the {\tt Drand} object}
+\label{section:Drand:drivers}
+\par
+This section contains brief descriptions of the driver programs.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testDrand msglvl msgFile distribution param1 param2 seed1 seed2 n
+\end{verbatim}
+This driver program test the {\tt Drand} random number generator.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt distribution} parameter specifies the mode of the object.
+If {\tt 1}, the distribution is uniform.
+If {\tt 2}, the distribution is normal.
+\item
+When {\tt distribution = 1}, {\tt param1} is the lower bound for
+the interval.
+When {\tt distribution = 2}, {\tt param1} is the mean for the
+normal distribution.
+\item
+When {\tt distribution = 1}, {\tt param2} is the upper bound for
+the interval.
+When {\tt distribution = 2}, {\tt param2} is the variance for the
+normal distribution.
+\item
+{\tt seed1} is the first random number seed.
+\item
+{\tt seed2} is the second random number seed.
+\item
+{\tt n} is the length of the vector of random numbers to be
+generated.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

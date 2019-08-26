@@ -1,0 +1,496 @@
+\par
+\section{Driver programs for the {\tt Chv object}}
+\label{section:Chv:drivers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_addChevron msglvl msgFile nD nU type symflag seed alphareal alphaimag
+\end{verbatim}
+This driver program tests the {\tt Chv\_addChevron} method.
+Use the script file {\tt do\_addChevron} for testing.
+When the output file is loaded into matlab,
+the last line to the screen is the error of the assembly.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nD} parameter is the number of rows and columns 
+in the (1,1) block.
+\item
+The {\tt nU} parameter is the number of columns 
+in the (1,2) block.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt symflag} parameter is the symmetry flag ---
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC}.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt alphareal} and {\tt alphaimag} parameters form a complex
+number that is a scaling parameter.
+Normally {\tt alpha} is (1.0,0.0), when we are just loading matrix
+entries into a front.
+However, when we factor $A + \alpha B$, the entries of $B$ will
+be loaded with {\tt alpha} set equal to $\alpha[0:1]$.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_assmbChv msglvl msgFile nDJ nUJ nDI nUI type symflag seed
+\end{verbatim}
+This driver program tests the {\tt Chv\_assembleChv} method.
+It assembles a chevron $T_I$ into $T_J$, as is done during the
+assembly of postponed rows and columns during the factorization
+when pivoting is enabled.
+Use the script file {\tt do\_assmbChv} for testing.
+When the output file is loaded into matlab,
+the last line to the screen is the error of the assembly.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nDJ} parameter is the number of rows and columns 
+in the (1,1) block of $T_J$.
+\item
+The {\tt nUJ} parameter is the number of columns 
+in the (1,2) block of $T_J$.
+\item
+The {\tt nDI} parameter is the number of rows and columns 
+in the (1,1) block of $T_I$.
+\item
+The {\tt nUI} parameter is the number of columns 
+in the (1,2) block of $T_I$.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt symflag} parameter is the symmetry flag ---
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC}.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_copyEntriesToVector msglvl msgFile nD nU type symflag 
+                         pivotingflag storeflag seed 
+\end{verbatim}
+This driver program tests the {\tt Chv\_copyEntriesToVector} method
+which is used when after a front has been factored to store the
+entries into dense $L$ and $U$ submatrices.
+Use the script file {\tt do\_copyEntriesToVector} for testing.
+When the output file is loaded into matlab,
+the last line to the screen is a matrix that contains two entries.
+If the program executes correctly, these two entries should be
+exactly zero.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nD} parameter is the number of rows and columns 
+in the (1,1) block.
+\item
+The {\tt nU} parameter is the number of columns 
+in the (1,2) block.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt symflag} parameter is the symmetry flag ---
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC}.
+\item
+The {\tt pivotingflag} parameter is the pivoting flag ---
+{\tt SPOOLES\_NO\_PIVOTING} for no pivoting,
+{\tt SPOOLES\_PIVOTING} for pivoting.
+\item
+The {\tt storeflag} parameter is the storage flag,
+to store by rows, use {\tt SPOOLES\_BY\_ROWS},
+to store by columns, use {\tt SPOOLES\_BY\_COLUMNS}.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_copyBigEntriesToVector msglvl msgFile nD nU type symflag 
+                         pivotingflag storeflag seed droptol
+\end{verbatim}
+This driver program tests the {\tt Chv\_copyBigEntriesToVector} method
+which is used when after a front has been factored to store the
+entries into sparse $L$ and $U$ submatrices.
+Use the script file {\tt do\_copyBigEntriesToVector} for testing.
+When the output file is loaded into matlab,
+the last line to the screen is a matrix that contains three entries.
+The first two are the maximum magnitudes of the entries that were
+not copied (two different ways), and the third is the drop tolerance.
+If the program executes correctly, the third term is larger than
+the first two.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nD} parameter is the number of rows and columns 
+in the (1,1) block.
+\item
+The {\tt nU} parameter is the number of columns 
+in the (1,2) block.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt symflag} parameter is the symmetry flag ---
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC}.
+\item
+The {\tt pivotingflag} parameter is the pivoting flag ---
+{\tt SPOOLES\_NO\_PIVOTING} for no pivoting,
+{\tt SPOOLES\_PIVOTING} for pivoting.
+\item
+The {\tt storeflag} parameter is the storage flag,
+to store by rows, use {\tt SPOOLES\_BY\_ROWS},
+to store by columns, use {\tt SPOOLES\_BY\_COLUMNS}.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt droptol} parameter is a drop tolerance parameters,
+entries whose magnitude is smaller than {\tt droptol} are not
+copied.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_factor msglvl msgFile nD nU type symflag pivotingflag seed tau
+\end{verbatim}
+This driver program tests the {\tt Chv\_factor} method.
+Use the script file {\tt do\_factor} for testing.
+When the output file is loaded into matlab,
+the last line to the screen is a matrix that contains three entries.
+The first entry is the error in the factorization.
+The second and third entries are the maximum magnitudes of the
+entries in $L$ and $U$, respectively.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nD} parameter is the number of rows and columns 
+in the (1,1) block.
+\item
+The {\tt nU} parameter is the number of columns 
+in the (1,2) block.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt symflag} parameter is the symmetry flag ---
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC}.
+\item
+The {\tt pivotingflag} parameter is the pivoting flag ---
+{\tt SPOOLES\_NO\_PIVOTING} for no pivoting,
+{\tt SPOOLES\_PIVOTING} for pivoting.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt tau} parameter is used when pivoting is enabled.
+All entries in $L$ and $U$ will have magnitudes less than {\tt tau}.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_findPivot msglvl msgFile nD nU type symflag seed tau
+\end{verbatim}
+This driver program tests the {\tt Chv\_findPivot} method.
+Use the script file {\tt do\_findPivot} for testing.
+When the output file is loaded into matlab,
+look on the screen for the variables
+{\tt maxerrupd} (the error in the factor and update),
+{\tt ubound} (the maximum magnitude of the entries in $U$),
+and if nonsymmetric
+{\tt lbound} (the maximum magnitude of the entries in $L$).
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nD} parameter is the number of rows and columns 
+in the (1,1) block.
+\item
+The {\tt nU} parameter is the number of columns 
+in the (1,2) block.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt symflag} parameter is the symmetry flag ---
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC}.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt tau} parameter is used when pivoting is enabled.
+All entries in $L$ and $U$ will have magnitudes less than {\tt tau}.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_maxabs msglvl msgFile nD nU type symflag seed 
+\end{verbatim}
+This driver program tests the 
+{\tt Chv\_maxabsInRow()},
+{\tt Chv\_maxabsInRow11()},
+{\tt Chv\_maxabsInColumn()},
+{\tt Chv\_maxabsInColumn11()} and
+{\tt Chv\_maxabsInDiagonal11()} 
+methods.
+Use the script file {\tt do\_maxabs} for testing.
+When the output file is loaded into matlab,
+look on the screen for the variables
+{\tt rowerror}, {\tt colerror},
+{\tt rowerror11}, {\tt colerror11}
+and {\tt diag11error}.
+All should be zero.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nD} parameter is the number of rows and columns 
+in the (1,1) block.
+\item
+The {\tt nU} parameter is the number of columns 
+in the (1,2) block.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt symflag} parameter is the symmetry flag ---
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC}.
+\item
+The {\tt pivotingflag} parameter is the pivoting flag ---
+{\tt SPOOLES\_NO\_PIVOTING} for no pivoting,
+{\tt SPOOLES\_PIVOTING} for pivoting.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_r1upd msglvl msgFile nD nU type symflag seed 
+\end{verbatim}
+This driver program tests the {\tt Chv\_r1upd()} method.
+Use the script file {\tt do\_r1upd} for testing.
+When the output file is loaded into matlab,
+the last line is the error of the update.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nD} parameter is the number of rows and columns 
+in the (1,1) block.
+\item
+The {\tt nU} parameter is the number of columns 
+in the (1,2) block.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt symflag} parameter is the symmetry flag ---
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC}.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_r2upd msglvl msgFile nD nU type symflag seed 
+\end{verbatim}
+This driver program tests the {\tt Chv\_r2upd()} method.
+Use the script file {\tt do\_r2upd} for testing.
+When the output file is loaded into matlab,
+the last line is the error of the update.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nD} parameter is the number of rows and columns 
+in the (1,1) block.
+\item
+The {\tt nU} parameter is the number of columns 
+in the (1,2) block.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt symflag} parameter is the symmetry flag ---
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC}.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_swap msglvl msgFile nD nU type symflag seed 
+\end{verbatim}
+This driver program tests three methods: 
+{\tt Chv\_swapRowsAndColumns()},
+{\tt Chv\_swapRows()} and
+{\tt Chv\_swapColumns()}.
+Use the script file {\tt do\_swap} for testing.
+When the output file is loaded into matlab,
+look for the {\tt maxerrrowswap1}, {\tt maxerrcolswap1},
+{\tt maxerrswap}, {\tt maxerrsymswap1} and {\tt maxerrsymswap2} values.
+All should be zero.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nD} parameter is the number of rows and columns 
+in the (1,1) block.
+\item
+The {\tt nU} parameter is the number of columns 
+in the (1,2) block.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt symflag} parameter is the symmetry flag ---
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC}.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_update msglvl msgFile type symflag sparsityflag
+            ncolT ncolU nrowD nentU offset seed 
+\end{verbatim}
+This driver program tests the 
+{\tt Chv\_updateH()},
+{\tt Chv\_updateS()} and
+{\tt Chv\_updateN()} methods.
+The {\tt Chv} object $T$ is updated by $-U^TDU$, $-U^HDU$ or $-LDU$, 
+depending on whether $T$ is symmetric, hermitian or nonsymmetric.
+Use the script file {\tt do\_update} for testing.
+When the output file is loaded into matlab,
+the last line is the error in the update which should be zero.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt symflag} parameter is the symmetry flag ---
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC}.
+\item
+The {\tt sparsityflag} parameter should be zero for dense $U$ and $L$,
+or 1 for sparse $U$ and $L$.
+\item
+The {\tt ncolT} parameter is the number of columns 
+in the (1,1) and (1,2) blocks of $T$.
+\item
+The {\tt nDT} parameter is the number of rows and columns 
+in the (1,1) block of $T$.
+\item
+The {\tt ncolU} parameter is the number of columns in $U$.
+\item
+The {\tt nrowD} parameter is the number of rows and columns in $D$.
+\item
+The {\tt nentU} parameter is the number entries in $U$, ignored if
+{\tt sparsityflag = 0}.
+\item
+The {\tt offset} parameter is the offset of first index in $T$ from
+the last index in $D$.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

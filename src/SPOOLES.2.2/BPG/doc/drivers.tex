@@ -1,0 +1,140 @@
+\par
+\section{Driver programs for the {\tt BPG} object}
+\label{section:BPG:drivers}
+\par
+This section contains brief descriptions of the driver programs.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testIO msglvl msgFile inFile outFile
+\end{verbatim}
+This driver program reads and write {\tt BPG} files, useful for
+converting formatted files to binary files and vice versa.
+One can also read in a {\tt BPG} file and print out just the 
+header information (see the {\tt BPG\_writeStats()} method).
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt BPG} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inFile} parameter is the input file for the {\tt BPG}
+object. It must be of the form {\tt *.bpgf} or {\tt *.bpgb}.
+The {\tt BPG} object is read from the file via the
+{\tt BPG\_readFromFile()} method.
+\item
+The {\tt outFile} parameter is the output file for the {\tt BPG}
+object. 
+If {\tt outFile} is {\tt none} then the {\tt BPG} object is not
+written to a file. 
+Otherwise, the {\tt BPG\_writeToFile()} method is called to write
+the graph to 
+a formatted file (if {\tt outFile} is of the form {\tt *.bpgf}),
+or
+a binary file (if {\tt outFile} is of the form {\tt *.bpgb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+extractBPG msglvl msgFile inGraphFile inCompidsIVfile 
+                  icomp outMapFile outBPGfile 
+\end{verbatim}
+This driver program reads in a {\tt Graph} object 
+and an {\tt IV} object that contains the component ids.
+(A separator vertex has component id zero; other vertices have
+positive component ids to identify the subgraph that contains
+them.)
+It then extracts out the bipartite graph formed by the separator
+and nodes in the target component that are adjacent to the separator.
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means that all objects are written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+message data.
+\item
+The {\tt inGraphFile} parameter is the input file for the {\tt Graph}
+object. It must be of the form {\tt *.graphf} or {\tt *.graphb}.
+The {\tt Graph} object is read from the file via the
+{\tt Graph\_readFromFile()} method.
+\item
+The {\tt inCompidsIVfile} parameter is the input file for the {\tt IV}
+object that contains the component ids. 
+It must be of the form {\tt *.ivf} or {\tt *.ivb}.
+The {\tt IV} object is read from the file via the
+{\tt IV\_readFromFile()} method.
+\item
+The {\tt icomp} parameter defines the target component to form the
+$Y$ nodes of the bipartite graph. 
+(The separator nodes, component zero, form the $X$ nodes.)
+\item
+The {\tt outMapFile} parameter is the output file for the {\tt IV}
+object that holds the map from vertices in the bipartite graph to
+vertices in the original graph.
+If {\tt outMapFile} is {\tt none} then the {\tt IV} object is not
+written to a file. 
+Otherwise, the {\tt IV\_writeToFile()} method is called to write
+the {\tt IV} object to 
+a formatted file (if {\tt outMapFile} is of the form {\tt *.ivf}),
+or
+a binary file (if {\tt outMapFile} is of the form {\tt *.ivb}).
+\item
+The {\tt outBPGFile} parameter is the output file for the 
+compressed {\tt BPG} object. 
+If {\tt outBPGFile} is {\tt none} then the {\tt BPG} object is not
+written to a file. 
+Otherwise, the {\tt BPG\_writeToFile()} method is called to write
+the graph to 
+a formatted file (if {\tt outBPGFile} is of the form {\tt *.graphf}),
+or
+a binary file (if {\tt outBPGFile} is of the form {\tt *.graphb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testDM msglvl msgFile inBPGfile
+\end{verbatim}
+This driver program reads in a {\tt BPG} object from a file.
+It then finds the Dulmage-Mendelsohn decomposition using two
+methods.
+\begin{itemize}
+\item 
+{\tt BPG\_DMdecomposition()} which uses matching
+techniques on the weighted graph.
+\item 
+{\tt BPG\_DMviaMaxFlow()} which forms bipartite network and solves
+the max flow problem using a simple Ford-Fulkerson algorithm.
+\end{itemize}
+This provides a good check on the two programs (they must have the
+same output) and writes their execution times.
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means that all objects are written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+message data.
+\item
+The {\tt inBPGFile} parameter is the input file for the {\tt BPG}
+object. It must be of the form {\tt *.graphf} or {\tt *.graphb}.
+The {\tt BPG} object is read from the file via the
+{\tt BPG\_readFromFile()} method.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

@@ -1,0 +1,34 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+set matrix      = R2D100
+set matrix      = BCSSTK16
+set matrix      = BCSSTK24
+set inGraphFile = $matrices/$matrix/orig0.graphf
+set inGraphFile = $matrices/$matrix/orig1.graphf
+
+set msglvl      = 2
+
+set msgFile    = stdout
+
+set firstseed = 1
+set lastseed  = 2
+set lastseed  = 21
+set lastseed  =  6
+set lastseed  = 51
+set lastseed  = 11
+set lastseed  =  1
+
+set alpha = 1.0
+
+   echo ' matrix = ' $matrix
+   set inIVfile    = $matrices/$matrix/fishnet.ivf
+   set outIVfile   = $matrices/$matrix/bkl.ivf
+   set outIVfile   = none
+   set msgFile     = stdout
+   @ seed = $firstseed
+   while ( $seed <= $lastseed )
+      testTwoSetViaBKL $msglvl $msgFile $inGraphFile \
+                       $inIVfile $seed $alpha $outIVfile
+      @ seed = $seed + 1
+   end

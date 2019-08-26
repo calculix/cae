@@ -1,0 +1,592 @@
+\par
+\section{Prototypes and descriptions of {\tt DV} methods}
+\label{section:DV:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt DV} object.
+\par
+\subsection{Basic methods}
+\label{subsection:DV:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+DV * DV_new ( void ) ;
+\end{verbatim}
+\index{DV_new@{\tt DV\_new()}}
+This method simply allocates storage for the {\tt DV} structure 
+and then sets the default fields by a call to 
+{\tt DV\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_setDefaultFields ( DV *dv ) ;
+\end{verbatim}
+\index{DV_setDefaultFields@{\tt DV\_setDefaultFields()}}
+This method sets the default fields of the object,
+{\tt size = maxsize = owned = 0} and {\tt vec = NULL}.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_clearData ( DV *dv ) ;
+\end{verbatim}
+\index{DV_clearData@{\tt DV\_clearData()}}
+This method releases any data owned by the object. 
+If {\tt vec} is not {\tt NULL} and {\tt owned = 1},
+then the storage for {\tt vec} is free'd by a call to
+{\tt DVfree()}.
+The structure's default fields are then set 
+with a call to {\tt DV\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_free ( DV *dv ) ;
+\end{verbatim}
+\index{DV_free@{\tt DV\_free()}}
+This method releases any storage by a call to 
+{\tt DV\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:DV:proto:Instance}
+\par
+These method allow access to information in the data fields without
+explicitly following pointers.
+There is overhead involved with these method due to the function
+call and error checking inside the methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_owned ( DV *dv ) ;
+\end{verbatim}
+\index{DV_owned@{\tt DV\_owned()}}
+This method returns the value of {\tt owned}.
+If {\tt owned > 0}, 
+then the object owns the data pointed to by {\tt vec}
+and will free this data with a call to {\tt DVfree()} when its data
+is cleared by a call to {\tt DV\_free()} or {\tt DV\_clearData()}.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_size ( DV *dv ) ;
+\end{verbatim}
+\index{DV_size@{\tt DV\_size()}}
+This method returns the value of {\tt size},
+the present size of the vector.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_maxsize ( DV *dv ) ;
+\end{verbatim}
+\index{DV_maxsize@{\tt DV\_size()}}
+This method returns the value of {\tt size},
+the maximum size of the vector.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DV_entry ( DV *dv, int loc ) ;
+\end{verbatim}
+\index{DV_entry@{\tt DV\_entry()}}
+This method returns the value of the {\tt loc}'th entry
+in the vector.
+If {\tt loc < 0} or {\tt loc >= size}, i.e., if the location is
+out of range, we return {\tt 0.0}.
+This design {\tt feature} is handy when a list terminates with a
+{\tt 0.0} value.
+\par \noindent {\it Error checking:}
+If {\tt dv} or {\tt vec} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * DV_entries ( DV *dv ) ;
+\end{verbatim}
+\index{DV_entries@{\tt DV\_entries()}}
+This method returns {\tt vec},
+a pointer to the base address of the vector.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_sizeAndEntries ( DV *dv, int *psize, double **pentries ) ;
+\end{verbatim}
+\index{DV_sizeAndEntries@{\tt DV\_sizeAndEntries()}}
+This method fills {\tt *psize} with the size of the vector
+and {\tt **pentries} with the base address of the vector.
+\par \noindent {\it Error checking:}
+If {\tt dv}, {\tt psize} or {\tt pentries} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_setEntry ( DV *dv, int loc, double value ) ;
+\end{verbatim}
+\index{DV_setEntry@{\tt DV\_setEntry()}}
+This method sets the {\tt loc}'th entry of the vector to {\tt value}.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL} or {\tt loc < 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:DV:proto:initializers}
+\par
+There are three initializer methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_init ( DV *dv, int size, double *entries ) ;
+\end{verbatim}
+\index{DV_init@{\tt DV\_init()}}
+This method initializes the object given a size for the vector
+and a possible pointer to the vectors' storage.
+Any previous data is cleared with a call to {\tt DV\_clearData()}.
+If {\tt entries != NULL} then the {\tt vec} field is set to {\tt
+entries}, the {\tt size} and {\tt maxsize} fields are set to 
+{\tt size}, and {\tt owned} is set to zero
+because the object does not own the entries.
+If {\tt entries} is {\tt NULL} and {\tt size > 0} then a vector 
+is allocated by the object, and the object owns this storage.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL} or {\tt size < 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_init1 ( DV *dv, int size ) ;
+\end{verbatim}
+\index{DV_init1@{\tt DV\_init1()}}
+This method initializes the object given a size size for the vector
+via a call to {\tt DV\_init()}.
+\par \noindent {\it Error checking:}
+Error checking is done with the call to {\t DV\_init()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_init2 ( DV *dv, int size, int maxsize, int owned, double *vec ) ;
+\end{verbatim}
+\index{DV_init2@{\tt DV\_init2()}}
+This is the total initialization method.
+The data is cleared with a call to {\tt DV\_clearData()}.
+If {\tt vec} is {\tt NULL}, the object is initialized via a call
+to {\tt DV\_init1()}.
+Otherwise, the objects remaining fields are set to the input
+parameters.
+and if {\tt owned} is not {\tt 1}, the data is not owned, so the
+object cannot grow.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}, 
+or if {\tt size < 0},
+or if {\tt maxsize < size},
+or if {\tt owned} is not equal to {\tt 0} or {\tt 1},
+of if { \tt owned = 1} and {\tt vec = NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_setMaxsize ( DV *dv, int newmaxsize ) ;
+\end{verbatim}
+\index{DV_setMaxsize@{\tt DV\_setMaxsize()}}
+This method sets the maximum size of the vector.
+If {\tt maxsize}, the present maximum size of the vector,
+is not equal to {\tt newmaxsize}, then new storage is allocated.
+Only {\tt size}
+entries of the old data are copied into the new
+storage, so if {\tt size > newmaxsize} then data will be lost.
+The {\tt size} field is set to the minimum of {\tt size} 
+and {\tt newmaxsize}.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL} or {\tt newmaxsize < 0},
+or if {\tt 0 < maxsize} and {\tt owned == 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_setSize ( DV *dv, int newsize ) ;
+\end{verbatim}
+\index{DV_setSize@{\tt DV\_setSize()}}
+This method sets the size of the vector.
+If {\tt newsize > maxsize}, the length of the vector is increased
+with a call to {\tt DV\_setMaxsize()}.
+The {\tt size} field is set to {\tt newsize}.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}, or {\tt newsize < 0},
+or if {\tt 0 < maxsize < newsize} and {\tt owned = 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:DV:proto:utilities}
+\par
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_shiftBase ( DV *dv, int offset ) ;
+\end{verbatim}
+\index{DV_shiftBase@{\tt DV\_shiftBase()}}
+This method shifts the base entries of the vector and decrements
+the present size and maximum size of the vector by {\tt offset}.
+This is a dangerous method to use because the state of the vector
+is lost, namely {\tt vec}, the base of the entries, is corrupted.
+If the object owns its entries and {\tt DV\_free()}, 
+{\tt DV\_setSize()} or {\tt DV\_setMaxsize()} is called before 
+the base has been shifted back to
+its original position, a segmentation violation will likely result.
+This is a very useful method, but use with caution.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_push ( DV *dv, double val ) ;
+\end{verbatim}
+\index{DV_push@{\tt DV\_push()}}
+This method pushes an entry onto the vector.
+If the vector is full, i.e., if {\tt size == maxsize - 1},
+then the size of the vector is doubled if possible.
+If the storage cannot grow, i.e., if the object does not own its
+storage, an error message is printed and the program exits.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DV_min ( DV *dv ) ;
+double DV_max ( DV *dv ) ;
+double DV_sun ( DV *dv ) ;
+\end{verbatim}
+\index{DV_min@{\tt DV\_min()}}
+\index{DV_max@{\tt DV\_max()}}
+\index{DV_sum@{\tt DV\_sum()}}
+These methods simply return the minimum entry, the maximum entry 
+and the sum of the entries in the vector.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}, {\tt size <= 0} or if {\tt vec == NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_sortUp ( DV *dv ) ;
+void DV_sortDown ( DV *dv ) ;
+\end{verbatim}
+\index{DV_sortUp@{\tt DV\_sortUp()}}
+\index{DV_sortDown@{\tt DV\_sortDown()}}
+This method sorts the entries in the vector into ascending or
+descending order via calls to {\tt DVqsortUp()} and {\tt
+DVqsortDown()}.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}, {\tt size <= 0} or if {\tt vec == NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_ramp ( DV *dv, double base, int double ) ;
+\end{verbatim}
+\index{DV_ramp@{\tt DV\_ramp()}}
+This method fills the object with a ramp vector,
+i.e., entry {\tt i} is {\tt base + i*incr}.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}, {\tt size <= 0} or if {\tt vec == NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_shuffle ( DV *dv, int seed ) ;
+\end{verbatim}
+\index{DV_shuffle@{\tt DV\_shuffle()}}
+This method shuffles the entries in the vector
+using {\tt seed} as a seed to a random number generator.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}, {\tt size <= 0} or if {\tt vec == NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_sizeOf ( DV *dv ) ;
+\end{verbatim}
+\index{DV_sizeOf@{\tt DV\_sizeOf()}}
+This method returns the number of bytes taken by the object.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * DV_first ( DV *dv ) ;
+double * DV_next ( DV *dv, int *pd ) ;
+\end{verbatim}
+\index{DV_first@{\tt DV\_first()}}
+\index{DV_next@{\tt DV\_next()}}
+These two methods are used as iterators, e.g.,
+\begin{verbatim}
+for ( pd = DV_first(dv) ; pd != NULL ; pd = DV_next(dv, pd) ) {
+   do something with entry *pd
+}
+\end{verbatim}
+Each method checks to see if {\tt dv} or {\tt pd} is {\tt NULL},
+if so an error message is printed and the program exits.
+In method {\tt DV\_next()}, if {\tt pd} is not in the valid
+range, an error message is printed and the program exits.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_fill ( DV *dv, double value ) ;
+\end{verbatim}
+\index{DV_fill@{\tt DV\_fill()}}
+This method fills the vector with a scalar value.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_zero ( DV *dv ) ;
+\end{verbatim}
+\index{DV_zero@{\tt DV\_zero()}}
+This method fills the vector with zeros.
+\par \noindent {\it Error checking:}
+If {\tt dv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_copy ( DV *dv1, DV *dv2 ) ;
+\end{verbatim}
+\index{DV_copy@{\tt DV\_copy()}}
+This method fills the {\tt dv1} object with entries in the {\tt
+iv2} object.
+Note, this is a {\it mapped} copy, {\tt dv1} and {\tt dv2} need not
+have the same size.
+The number of entries that are copied is the smaller of the two sizes.
+\par \noindent {\it Error checking:}
+If {\tt dv1} or {\tt dv2} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV_log10profile ( DV *dv, int npts, DV *xDV, DV *yDV, double tausmall, 
+                       double taubig, int *pnzero, int *pnsmall, int *pnbig ) ;
+\end{verbatim}
+\index{DV_log10profile@{\tt DV\_log10profile()}}
+This method scans the entries in the {\tt DV} object and fills {\tt
+xDV} and {\tt yDV} with data that allows a simple $\log_{10}$ 
+distribution plot.
+Only entries whose magnitudes lie in the range {\tt [tausmall, taubig]}
+contribute to the distribution.
+The number of entries whose magnitudes are zero, 
+smaller than {\tt tausmall},
+or larger than {\tt taubig} 
+are placed into {\tt pnzero}, {\tt *pnsmall} and {\tt *pnbig},
+respectively.
+On return, the size of the {\tt xDV} and {\tt yDV} objects 
+is {\tt npts}.
+\par \noindent {\it Error checking:}
+If {\tt dv}, {\tt xDV}, {\tt yDV}, {\tt pnsmall} or {\tt pnbig} are
+{\tt NULL}, or if ${\tt npts} \le 0$, 
+or if ${\tt taubig} < 0.0$
+or if ${\tt tausmall} > {\tt taubig}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:DV:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a {\tt DV} object is simple:
+the first entry is {\tt size}, followed by the {\tt size} entries
+found in {\tt vec[]}.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_readFromFile ( DV *dv, char *fn ) ;
+\end{verbatim}
+\index{DV_readFromFile@{\tt DV\_readFromFile()}}
+\par
+This method reads a {\tt DV} object from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt DV\_readFromFormattedFile()} or
+{\tt DV\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt dv} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.dvf} (for a formatted file) 
+or {\tt *.dvb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_readFromFormattedFile ( DV *dv, FILE *fp ) ;
+\end{verbatim}
+\index{DV_readFromFormattedFile@{\tt DV\_readFromFormattedFile()}}
+\par
+This method reads in a {\tt DV} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt dv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_readFromBinaryFile ( DV *dv, FILE *fp ) ;
+\end{verbatim}
+\index{DV_readFromBinaryFile@{\tt DV\_readFromBinaryFile()}}
+\par
+This method reads in a {\tt DV} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt dv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_writeToFile ( DV *dv, char *fn ) ;
+\end{verbatim}
+\index{DV_writeToFile@{\tt DV\_writeToFile()}}
+\par
+This method writes a {\tt DV} object from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt DV\_writeFromFormattedFile()} or
+{\tt DV\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt dv} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.dvf} (for a formatted file) 
+or {\tt *.dvb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_writeToFormattedFile ( DV *dv, FILE *fp ) ;
+\end{verbatim}
+\index{DV_writeToFormattedFile@{\tt DV\_writeToFormattedFile()}}
+\par
+This method writes a {\tt DV} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt dv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_writeToBinaryFile ( DV *dv, FILE *fp ) ;
+\end{verbatim}
+\index{DV_writeToBinaryFile@{\tt DV\_writeToBinaryFile()}}
+\par
+This method writes a {\tt DV} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt dv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_writeForHumanEye ( DV *dv, FILE *fp ) ;
+\end{verbatim}
+\index{DV_writeForHumanEye@{\tt DV\_writeForHumanEye()}}
+\par
+This method writes a {\tt DV} object to a file in a human
+readable format.
+is called to write out the
+header and statistics. 
+The entries of the vector then follow in eighty column format
+using the {\tt DVfprintf()} method.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt dv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_writeStats ( DV *dv, FILE *fp ) ;
+\end{verbatim}
+\index{DV_writeStats@{\tt DV\_writeStats()}}
+\par
+This method writes the header and statistics to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt dv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DV_writeForMatlab ( DV *dv, char *name, FILE *fp ) ;
+\end{verbatim}
+\index{DV_writeForMatlab@{\tt DV\_writeForMatlab()}}
+\par
+This method writes the entries of the vector to a file
+suitable to be read by Matlab.
+The character string {\tt name} is the name of the vector,
+e.g, if {\tt name = "A"}, then we have lines of the form
+\begin{verbatim}
+A(1) = 1.000000000000e0 ;
+A(2) = 2.000000000000e0 ;
+...
+\end{verbatim}
+for each entry in the vector.
+Note, the output indexing is 1-based, not 0-based.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt dv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

@@ -1,0 +1,41 @@
+\chapter{{\tt SymbFac}: Symbolic Factorization}
+\label{chapter:SymbFac}
+\par
+This object is really a collection of methods --- there is no
+{\tt struct} associated with it, and therefore no data. The reason
+for its existence is that a symbolic factorization can be produced
+using an {\tt ETree} object and one of several different inputs,
+e.g., a {\tt Graph} object, a {\tt InpMtx} object, and a {\tt
+Pencil} object.
+Possibly there could be others, all that is necessary is to be able
+to communicate the nonzero structure of a chevron.
+\par
+The symbolic factorization methods used to belong to the {\tt
+ETree} object. It was a natural location for this functionality.
+We first generated a symbolic factorization using a {\tt Graph}
+object as input, and since the {\tt ETree} object used a {\tt
+Graph} object to initialize itself, this was acceptable.
+Then we started to bypass the {\tt Graph} object and use a {\tt
+InpMtx} object as input, and this forced the {\it vision} of the
+{\tt ETree} object (the other objects it must know about) to grow.
+By the time we started using the {\tt Pencil} matrix pencil object
+to find the symbolic factorization, we knew things were out of
+hand.
+By creating a new object to handle the symbolic factorization,
+we can remove the {\tt InpMtx} and {\tt Pencil} objects from the
+vision of the ETree object.
+\par
+The symbolic factorization is stored in an {\tt IVL} object.
+The vertices in $J \cup \bnd{J}$ are stored in the {\tt J}'th
+list and can be accessed via a call to
+\begin{verbatim}
+IVL_listAndSize(symbfacIVL, J, &size, &indices) ;
+\end{verbatim}
+where on return, the {\tt int} vector {\tt indices[size]} 
+contains the vertices.
+\par
+{\bf NOTE:} The {\tt SymbFac\_initFromInpMtx()}
+and {\tt SymbFac\_initFromPencil()} methods have been changed
+slightly to make them more efficient.
+The {\tt InpMtx} objects that are input are now required to have
+chevron coordinate type and storage mode must be by vectors.

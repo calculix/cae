@@ -1,0 +1,827 @@
+\chapter{The Multithreaded Wrapper Object and Driver}
+\label{section:MT}
+The goal is to solve $AX = Y$ in a multithreaded environment.
+Section 8 of the User's Manual presents a listing of the 
+{\tt AllInOneMT.c} driver program for solving $AX =Y$.
+There are ten steps, and each requires ``mid-level'' knowledge 
+of several objects of the {\bf SPOOLES} library.
+To reduce the complexity of using the library, 
+(and the complexity rises dramatically in the MPI environments),
+we created the {\tt BridgeMT} object.
+The term ``bridge'' symbolizes spanning the distance between the
+{\bf SPOOLES} library and the CSAR Nastran application code.
+The ten steps of the {\tt allInOneMT.c} driver program is reduced to
+five using the {\tt BridgeMT} object.
+\begin{itemize}
+\item Initialization and setup step.
+\par
+Here the {\tt BridgeMT} object is allocated via a call to 
+{\tt BridgeMT\_new()}.
+Parameters are set using {\tt BridgeMT\_set*()} methods.
+The setup phase orders the matrix and prepares all the necessary 
+{\bf SPOOLES} data structures for the factorization and solve 
+that follow
+\item Setup the numerical factorization.
+\par
+In this step, 
+{\tt BridgeMT\_factorSetup()} is called
+to define the parallelism for the factorization,
+and all data structures for the parallel execution are created.
+\item Factorization step.
+\par
+The matrix is factored via a call to {\tt BridgeMT\_factor()}.
+\item Setup the numerical solves.
+\par
+{\tt BridgeMT\_solveSetup()} is called to set up the parallel solves.
+This must be called {\it once} after a factorization,
+one or more solves may follow.
+\item Solution step.
+\par
+The linear system is solved via a call to {\tt BridgeMT\_solve()}.
+\end{itemize}
+\par
+The {\tt BridgeMT} object has many parameters that control 
+the ordering of the matrix,
+the pivoting tolerance (if pivoting is requested),
+the drop tolerance (for an approximate factorization),
+and so on.
+Rather than burden the user with the knowledge of and setting these
+parameters, there are decent default values built into the object.
+\par
+Section~\ref{section:BridgeMT:quick-look-MT-driver} takes a quick
+look at the {\tt BridgeMT} driver program (whose complete listing is
+found in Appendix~\ref{chapter:MT_driver}).
+Section~\ref{section:BridgeMT:dataStructure} describes the internal 
+data fields of the {\tt BridgeMT} object.
+Section~\ref{section:Bridge:proto} contains the prototypes and
+descriptions of all {\tt Bridge} methods.
+\par
+\section{A quick look at the multithreaded driver program}
+\label{section:BridgeMT:quick-look-MT-driver}
+\par
+The entire listing of this multithreaded driver is found in
+Appendix~\ref{chapter:MT_driver}.
+We now extract parts of the code.
+\begin{itemize}
+\item Decode the input.
+\par
+\begin{verbatim}
+msglvl       = atoi(argv[1]) ;
+msgFileName  = argv[6] ;
+neqns        = atoi(argv[3]) ;
+type         = atoi(argv[4]) ;
+symmetryflag = atoi(argv[5]) ;
+mtxFileName  = argv[6] ;
+rhsFileName  = argv[7] ;
+solFileName  = argv[8] ;
+seed         = atoi(argv[9]) ;
+nthread      = atoi(argv[10]) ;
+\end{verbatim}
+Here is a description of the input parameters.
+
+\begin{itemize}
+\item {\tt msglvl} is the message level.
+\item {\tt msgFile} is the message file name
+\item {\tt neqns} is the number of equations.
+\item {\tt type} is the type of entries:
+1 ({\tt SPOOLES\_REAL}) or
+2 ({\tt SPOOLES\_COMPLEX}).
+\item {\tt symmetryflag} is the type of matrix symmetry:
+0 ({\tt SPOOLES\_SYMMETRIC}),
+1 ({\tt SPOOLES\_HERMITIAN}) or
+2 ({\tt SPOOLES\_NONSYMMETRIC}).
+\item {\tt mtxFile} is the name of the file from which to read the {\tt
+InpMtx} object for $A$.
+The file name must have the form {\tt *.inpmtxb} for a binary file or
+{\tt *.inpmtxf} for a formatted file.
+\item {\tt rhsFile} is the name of the file from which to read the {\tt
+DenseMtx} object for the right hand side $Y$.
+The file name must have the form {\tt *.densemtxb} for a binary file or
+{\tt *.densemtxf} for a formatted file.
+\item {\tt solFile} is the name of the file to write the {\tt
+DenseMtx} object for the solution $X$.
+The file name must have the form {\tt *.densemtxb} for a binary file or
+{\tt *.densemtxf} for a formatted file, {\tt "none"} for no output,
+or any other name for a human-readable listing.
+\item {\tt seed} is a random number seed used in the ordering process.
+\item {\tt nthread} is the number of threads to be used in the
+factorization and solve.
+\end{itemize}
+%
+\item Read in the {\tt InpMtx} object for $A$.
+\begin{verbatim}
+mtxA = InpMtx_new() ;
+rc = InpMtx_readFromFile(mtxA, mtxFileName) ;
+\end{verbatim}
+The {\tt rc} parameter is the error return. 
+In the driver it is tested for an error, but we omit this from the
+present discussion.
+%
+\item Read in the {\tt DenseMtx} object for $Y$.
+\begin{verbatim}
+mtxY = DenseMtx_new() ;
+rc = DenseMtx_readFromFile(mtxY, mtxFileName) ;
+DenseMtx_dimensions(mtxY, &nrow, &nrhs) ;
+\end{verbatim}
+The {\tt nrhs} parameter contains the number of right hand sides,
+or equivalently, the number of columns in $Y$.
+%
+\item Create and setup the {\tt BridgeMT} object.
+\begin{verbatim}
+bridge = BridgeMT_new() ;
+BridgeMT_setMatrixParams(bridge, neqns, type, symmetryflag) ;
+BridgeMT_setMessageInfo(bridge, msglvl, msgFile) ;
+rc = BridgeMT_setup(bridge, mtxA) ;
+\end{verbatim}
+The {\tt BridgeMT} object is allocated by {\tt BridgeMT\_new()},
+and various parameters are set.
+The actual ordering of the matrix, symbolic factorization,
+and permutation creation are performed inside the {\tt BridgeMT\_setup()}
+method.
+%
+\item Setup the numerical factorization.
+\begin{verbatim}
+rc = BridgeMT_factorSetup(bridge, nthread, 0, 0.0) ;
+\end{verbatim}
+This step tells the \texttt{BridgeMT} object the number of threads
+to be used in the factorization and solve.
+The third and fourth parameters define the particular type 
+of map of the computations to processors.
+When the third parameter is zero, the defaults map is used.
+If {\tt rc = 1}, the setup completed without any error.
+%
+\item Compute the matrix factorization.
+\begin{verbatim}
+permuteflag = 1 ;
+rc = BridgeMT_factor(bridge, mtxA, permuteflag, &error) ;
+\end{verbatim}
+When {\tt permuteflag} is {\tt 1}, it means that the matrix in {\tt
+mtxA} has not yet been permuted into the new ordering and so is
+done inside the method.
+The {\tt error} flag is filled with an error code that tells how far the
+factorization was able to proceed.
+If {\tt rc = 1}, the factorization completed without any error.
+%
+\item Setup the solve.
+\begin{verbatim}
+rc = BridgeMT_solveSetup(bridge) ;
+\end{verbatim}
+This method sets up the environment for a parallel solve.
+If {\tt rc = 1}, the setup completed without any error.
+%
+\item Solve the linear system.
+\begin{verbatim}
+mtxX = DenseMtx_new() ;
+DenseMtx_init(mtxX, type, 0, 0, neqns, nrhs, 1, neqns) ;
+DenseMtx_zero(mtxX) ;
+rc = BridgeMT_solve(bridge, permuteflag, mtxX, mtxY) ;
+\end{verbatim}
+The {\tt DenseMtx} object {\tt mtxX} is created and initialized to be
+the same type and size as {\tt mtxY}.
+Its entries are explicitly zeroed (this is not necessary but is a good
+idea in general).
+The solution is then solved.
+Again, note the presence of {\tt permuteflag}.
+When {\tt 1}, \texttt{mtxY} needs to be permuted into the new ordering,
+and \texttt{mtxX} is returned in the original ordering.
+\end{itemize}
+\par
+\section{The \texttt{BridgeMT} Data Structure}
+\label{section:BridgeMT:dataStructure}
+\par
+The {\tt BridgeMT} structure has the following fields.
+\begin{itemize}
+%
+\item Graph parameters:
+\begin{itemize} 
+\item
+{\tt int neqns} : number of equations, 
+i.e., number of vertices in the graph.
+\item
+{\tt int nedges} : number of edges 
+(includes $(u,v)$, $(v,u)$ and $(u,u)$).
+\item
+{\tt int Neqns} : number of equations in the compressed graph.
+\item
+{\tt int Nedges} : number of edges in the compressed graph.
+\end{itemize}
+%
+\item Ordering parameters:
+\begin{itemize}
+\item
+{\tt int maxdomainsize} : maximum size of a subgraph to not split any
+further during the nested dissection process.
+\item
+{\tt int maxnzeros} : maximum number of zeros to allow in a front 
+during the supernode amalgamation process.
+\item
+{\tt int maxsize} : maximum size of a front when the fronts are split.
+\item
+{\tt int seed} : random number seed.
+\item
+{\tt double compressCutoff} : if the \texttt{Neqns} $<$
+\texttt{compressCutoff} $*$ \texttt{neqns}, then the compressed
+graph is formed, ordered and used to create the symbolic
+factorization.
+\end{itemize}
+%
+\item Matrix parameters:
+\begin{itemize}
+\item
+{\tt int type} : type of entries,
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX},
+default value is {\tt SPOOLES\_REAL}.
+\item
+{\tt int symmetryflag} : type of symmetry for the matrix,
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC},
+default value is {\tt SPOOLES\_SYMMETRIC}.
+\end{itemize}
+%
+\item Factorization parameters:
+\begin{itemize}
+\item
+{\tt int sparsityflag} : 
+{\tt SPOOLES\_DENSE\_FRONTS} for a direct factorization,
+or {\tt SPOOLES\_SPARSE\_FRONTS} for an approximate factorization,
+default value is {\tt SPOOLES\_DENSE\_FRONTS}.
+\item
+{\tt int pivotingflag} : 
+{\tt SPOOLES\_PIVOTING} for pivoting enabled,
+or {\tt SPOOLES\_NO\_PIVOTING} for no pivoting,
+default value is {\tt SPOOLES\_NO\_PIVOTING}.
+\item
+{\tt double tau} : used when pivoting is enabled,
+all entries in $L$ and $U$ have magnitude less than or equal to
+\texttt{tau},
+default value is 100.
+\item
+{\tt double droptol} : used for an approximation,
+all entries in $L$ and $U$ that are kept 
+have magnitude greater than or equal to \texttt{droptol}.
+default value is 0.001.
+\item
+{\tt PatchAndGoInfo *patchinfo} : pointer to an object that
+controls special factorizations for optimization matrices
+and singular matrices from structural analysis,
+default value is \texttt{NULL} which means no special action is taken.
+See the Reference Manual for more information.
+\end{itemize}
+%
+\item Pointers to objects:
+\begin{itemize}
+\item
+{\tt ETree *frontETree} : object that defines the factorizations,
+e.g., the number of fronts, the tree they form, the number of
+internal and external rows for each front, and the map from
+vertices to the front where it is contained.
+\item
+{\tt IVL *symbfacIVL} : object that contains the symbolic
+factorization of the matrix.
+\item
+{\tt SubMtxManager *mtxmanager} : object that manages the
+\texttt{SubMtx} objects that store the factor entries and are used
+in the solves.
+\item
+{\tt FrontMtx *frontmtx} : object that stores the $L$, $D$ and $U$
+factor matrices.
+\item
+{\tt IV *oldToNewIV} : object that stores old-to-new permutation vector.
+\item
+{\tt IV *newToOldIV} : object that stores new-to-old permutation vector.
+\end{itemize}
+%
+\item Multithreaded information:
+\begin{itemize}
+\item
+{\tt int nthread} : number of threads to be used during the factor and
+solve.
+\item
+{\tt int lookahead} : this parameter is used to possibly reduce the
+idle time of threads during the factorization.
+When {\tt lookahead} is 0, the factorization uses the least amount
+of working storage but threads can be idle.
+Larger values of {\tt lookahead} tend to increase the working
+storage but may decrease the execution time.
+Values of {\tt lookahead} greater than {\tt nthread} are not useful.
+\item
+{\tt IV *ownersIV} : this object contains the map from fronts to
+their owning processors.
+\item
+{\tt SolveMap *solvemap} : this object contains the map from factor
+submatrices to their owning processors.
+\item
+{\tt DV *cumopsDV} : this object is formed when the map from
+fronts to owning processors is created.
+Its size is {\tt nthread} and contains the operations that each
+thread will perform during a direct factorization without pivoting.
+\end{itemize}
+%
+\item Message information, statistics and cpu times:
+\begin{itemize}
+\item
+{\tt int msglvl} : message level for output.
+When 0, no output, When 1, just statistics and cpu times.
+When greater than 1, more and more output.
+\item
+{\tt FILE *msgFile} : message file for output.
+When \texttt{msglvl} $>$ 0, \texttt{msgFile} must not be \texttt{NULL}.
+\item
+{\tt int stats[6]} : statistics for the factorization.
+\begin{center}
+\begin{tabular}{ll}
+\texttt{stats[0]} : & \# of pivots \\
+\texttt{stats[1]} : & \# of pivot tests \\
+\texttt{stats[2]} : & \# of delayed rows and columns
+\end{tabular}
+\begin{tabular}{ll}
+\texttt{stats[3]} : & \# of entries in $D$ \\
+\texttt{stats[4]} : & \# of entries in $L$ \\
+\texttt{stats[5]} : & \# of entries in $U$
+\end{tabular}
+\end{center}
+\item
+{\tt double cpus[16]} : cpus for the different functions.
+\begin{center}
+\begin{tabular}{ll}
+\texttt{cpus[0]} : & time to construct \texttt{Graph} \\
+\texttt{cpus[1]} : & time to compress \texttt{Graph} \\
+\texttt{cpus[2]} : & time to order \texttt{Graph} \\
+\texttt{cpus[3]} : & time for symbolic factorization \\
+\texttt{cpus[4]} : & total setup time \\
+\texttt{cpus[5]} : & time to setup the factorization \\
+\texttt{cpus[6]} : & time to permute matrix \\
+\texttt{cpus[7]} : & time to initialize front matrix 
+\end{tabular}
+\begin{tabular}{ll}
+\texttt{cpus[8]} : & time to factor matrix \\
+\texttt{cpus[9]} : & time to post-process matrix \\
+\texttt{cpus[10]} : & total factor time \\
+\texttt{cpus[11]} : & time to setup the parallel solve \\
+\texttt{cpus[12]} : & time to permute rhs \\
+\texttt{cpus[13]} : & time to solve \\
+\texttt{cpus[14]} : & time to permute solution \\
+\texttt{cpus[15]} : & total solve time
+\end{tabular}
+\end{center}
+\end{itemize}
+\end{itemize}
+\par
+\section{Prototypes and descriptions of \texttt{BridgeMT} methods}
+\label{section:BridgeMT:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt BridgeMT} object.
+\par
+\subsection{Basic methods}
+\label{subsection:BridgeMT:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+BridgeMT * BridgeMT_new ( void ) ;
+\end{verbatim}
+\index{BridgeMT_new@{\tt BridgeMT\_new()}}
+This method simply allocates storage for the {\tt BridgeMT} structure 
+and then sets the default fields by a call to 
+{\tt BridgeMT\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_setDefaultFields ( BridgeMT *bridge ) ;
+\end{verbatim}
+\index{BridgeMT_setDefaultFields@{\tt BridgeMT\_setDefaultFields()}}
+The structure's fields are set to default values:
+\begin{itemize}
+\item
+\texttt{neqns} = \texttt{nedges} = \texttt{Neqns} =
+\texttt{Nedges} = 0.
+\item
+\texttt{maxdomainsize} = \texttt{maxnzeros} 
+   = \texttt{maxsize} = \texttt{seed} = -1.
+\texttt{compressCutoff} = 0.
+\item
+\texttt{type} = \texttt{SPOOLES\_REAL}.
+\item
+\texttt{symmetryflag} = \texttt{SPOOLES\_SYMMETRIC}.
+\item
+\texttt{sparsityflag} = \texttt{SPOOLES\_DENSE\_FRONTS}.
+\item
+\texttt{pivotingflag} = \texttt{SPOOLES\_NO\_PIVOTING}.
+\item
+\texttt{tau} = 100., \texttt{droptol} = 0.001.
+\item
+\texttt{lookahead} = \texttt{nthread} = 0.
+\item
+\texttt{patchinfo},
+\texttt{frontETree},
+\texttt{symbfacIVL},
+\texttt{mtxmanager},
+\texttt{frontmtx},
+\texttt{oldToNewIV},
+\texttt{newToOldIV},
+\texttt{ownersIV},
+\texttt{solvemap} and
+\texttt{cumopsDV} 
+are all set to \texttt{NULL}.
+\end{itemize}
+The \texttt{stats[6]} and \texttt{cpus[16]} vectors are filled 
+with zeros.
+\par \noindent {\it Return value:}
+1 for a normal return, -1 if \texttt{bridge} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_clearData ( BridgeMT *bridge ) ;
+\end{verbatim}
+\index{BridgeMT_clearData@{\tt BridgeMT\_clearData()}}
+This method clears the object and free's any owned data.
+It then calls {\tt BridgeMT\_setDefaultFields()}.
+\par \noindent {\it Return value:}
+1 for a normal return, -1 if \texttt{bridge} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_free ( BridgeMT *bridge ) ;
+\end{verbatim}
+\index{BridgeMT_free@{\tt BridgeMT\_free()}}
+This method releases any storage by a call to
+{\tt BridgeMT\_clearData()} and then free the space for {\tt bridge}.
+\par \noindent {\it Return value:}
+1 for a normal return, -1 if \texttt{bridge} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:BridgeMT:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_oldToNewIV ( BridgeMT *bridge, IV **pobj ) ;
+\end{verbatim}
+\index{BridgeMT_oldToNewIV@{\tt BridgeMT\_oldToNewIV()}}
+This method fills \texttt{*pobj} with its \texttt{oldToNewIV} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_newToOldIV ( BridgeMT *bridge, IV **pobj ) ;
+\end{verbatim}
+\index{BridgeMT_newToOldIV@{\tt BridgeMT\_newToOldIV()}}
+This method fills \texttt{*pobj} with its \texttt{newToOldIV} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_frontETree ( BridgeMT *bridge, ETree **pobj ) ;
+\end{verbatim}
+\index{BridgeMT_frontETree@{\tt BridgeMT\_frontETree()}}
+This method fills \texttt{*pobj} with its \texttt{frontETree} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_symbfacIVL ( BridgeMT *bridge, IVL **pobj ) ;
+\end{verbatim}
+\index{BridgeMT_symbfacIVL@{\tt BridgeMT\_symbfacIVL()}}
+This method fills \texttt{*pobj} with its \texttt{symbfacIVL} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_mtxmanager ( BridgeMT *bridge, SubMtxManager **pobj ) ;
+\end{verbatim}
+\index{BridgeMT_mtxmanager@{\tt BridgeMT\_mtxmanager()}}
+This method fills \texttt{*pobj} with its \texttt{mtxmanager} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_frontmtx ( BridgeMT *bridge, FrontMtx **pobj ) ;
+\end{verbatim}
+\index{BridgeMT_frontmtx@{\tt BridgeMT\_frontmtx()}}
+This method fills \texttt{*pobj} with its \texttt{frontmtx} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_ownersIV ( BridgeMT *bridge, IV **pobj ) ;
+\end{verbatim}
+\index{BridgeMT_ownersIV@{\tt BridgeMT\_ownersIV()}}
+This method fills \texttt{*pobj} with its \texttt{ownersIV} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_solvemap ( BridgeMT *bridge, SolveMap **pobj ) ;
+\end{verbatim}
+\index{BridgeMT_solvemap@{\tt BridgeMT\_solvemap()}}
+This method fills \texttt{*pobj} with its \texttt{solvemap} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_nthread ( BridgeMT *bridge, int *pnthread ) ;
+\end{verbatim}
+\index{BridgeMT_nthread@{\tt BridgeMT\_nthread()}}
+This method fills \texttt{*pobj} with the number of threads.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pnthread} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_lookahead ( BridgeMT *bridge, int *plookahead ) ;
+\end{verbatim}
+\index{BridgeMT_lookahead@{\tt BridgeMT\_lookahead()}}
+This method fills \texttt{*pobj} with the lookahead parameter.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{plookahead} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Parameter methods}
+\label{subsection:BridgeMT:proto:parameters}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_setMatrixParams ( BridgeMT *bridge, int neqns, int type, int symmetryflag ) ;
+\end{verbatim}
+\index{BridgeMT_setMatrixParams@{\tt BridgeMT\_setMatrixParams()}}
+This method sets the number of equations, type of entries, 
+and symmetry type of the matrix.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{neqns} $\le$ 0
+\end{tabular}
+\begin{tabular}{ll}
+-3 & \texttt{type} is invalid \\
+-4 & \texttt{symmetryflag} is invalid \\
+-5 & symmetry flag is Hermitian but type is real
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_setOrderingParams ( BridgeMT *bridge, int maxdomainsize, int maxnzeros, 
+                               int maxsize, int seed, double compressCutoff ) ;
+\end{verbatim}
+\index{BridgeMT_setOrderingParams@{\tt BridgeMT\_setOrderingParams()}}
+This method sets parameters needed for the ordering.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{maxdomainsize} $\le$ 0
+\end{tabular}
+\begin{tabular}{ll}
+-3 & \texttt{maxsize} $\le$ 0 \\
+-4 & \texttt{compressCutoff} $>$ 1
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_setFactorParams ( BridgeMT *bridge, int sparsityflag, int pivotingflag, 
+              double tau, double droptol, int lookahead, PatchAndGoInfo *patchinfo ) ;
+\end{verbatim}
+\index{BridgeMT_setFactorParams@{\tt BridgeMT\_setFactorParams()}}
+This method sets parameters needed for the factorization.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{sparsityflag} is invalid \\
+-3 & \texttt{pivotingflag} is invalid 
+\end{tabular}
+\begin{tabular}{ll}
+-4 & \texttt{tau} $<$ 2.0 \\
+-5 & \texttt{droptol} $<$ 0.0 \\
+-6 & \texttt{lookahead} $<$ 0
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_setMessagesInfo ( BridgeMT *bridge, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{BridgeMT_setMessagesInfo@{\tt BridgeMT\_setMessagesInfo()}}
+This method sets the message level and file.
+\par \noindent {\it Return value:}
+1 for a  normal return,
+-1 if \texttt{bridge} is \texttt{NULL},
+-2 if \texttt{msglvl} $>$ 0 and \texttt{msgFile} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Setup methods}
+\label{subsection:BridgeMT:proto:setup}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_setup ( BridgeMT *bridge, InpMtx *mtxA ) ;
+\end{verbatim}
+\index{BridgeMT_setup@{\tt BridgeMT\_setup()}}
+This method orders the graph, generates the front tree, computes
+the symbolic factorization, and creates the two permutation vectors.
+\par \noindent {\it Return value:}
+1 for a  normal return,
+-1 if \texttt{bridge} is \texttt{NULL},
+-2 if \texttt{mtxA} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_factorStats ( BridgeMT *bridge, int type, int symmetryflag, int *pnfront,
+      int *pnfactorind, int *pnfactorent, int *pnsolveops, double *pnfactorops ) ;
+\end{verbatim}
+\index{BridgeMT_factorStats@{\tt BridgeMT\_factorStats()}}
+This method takes as input the type and symmetry of the matrix,
+and fills the pointer fields with the number of fronts, factor
+indices, factor entries, forward and back solve operations,
+and factor operations.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{type} is invalid \\
+-3 & \texttt{symmetryflag} is invalid \\
+-4 & \texttt{type} is real but \texttt{symmetryflag} is Hermitian \\
+-5 & front tree is not present
+\end{tabular}
+\begin{tabular}{ll}
+~-6 & \texttt{pnfront} is \texttt{NULL}  \\
+~-7 & \texttt{pnfactorind} is \texttt{NULL}  \\
+~-8 & \texttt{pnfactorent} is \texttt{NULL}  \\
+~-9 & \texttt{pnsolveops} is \texttt{NULL}  \\
+-10 & \texttt{pnfactorops} is \texttt{NULL} 
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Factor methods}
+\label{subsection:BridgeMT:proto:factor}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_factorSetup ( BridgeMT *bridge, int nthread, int maptype, double cutoff ) ;
+\end{verbatim}
+\index{BridgeMT_factorSetup@{\tt BridgeMT\_factorSetup()}}
+This method constructs the map from fronts to owning threads, and
+computes the number of factor operations that each thread will execute.
+The \texttt{maptype} parameter can be one of four values:
+\begin{itemize}
+\item 1 --- wrap map
+\item 2 --- balanced map
+\item 3 --- subtree-subset map
+\item 4 --- domain decomposition map
+\end{itemize}
+The wrap map and balanced map are not recommended.
+The subtree-subset map is a good map with a very well balanced
+nested dissection ordering.
+The domain decomposition map is recommended when the nested
+dissection tree is imbalanced or for the multisection ordering.
+The domain decomposition map requires a \texttt{cutoff} parameter
+in $\left \lbrack0,1\right \rbrack$ 
+which specifies the relative size of a subtree that forms a domain.
+If \texttt{maptype} is not one of 1, 2, 3 or 4, the default map is
+used: domain decomposition with
+\texttt{cutoff} = 1/(2*\texttt{nthread}).
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return, factorization did complete \\
+-1 & \texttt{bridge} is \texttt{NULL} \\
+\end{tabular}
+\begin{tabular}{ll}
+-2 & \texttt{nthread} $<$ 1 \\
+-5 & \texttt{frontETree} is not present \\
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_factor ( BridgeMT *bridge, InpMtx *mtxA, int permuteflag, int *perror ) ;
+\end{verbatim}
+\index{BridgeMT_factor@{\tt BridgeMT\_factor()}}
+This method permutes the matrix into the new ordering (if
+\texttt{permuteflag} is 1), factors the matrix, and then
+post-processes the factors.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return, factorization did complete \\
+~0 & factorization did not complete \\
+\end{tabular}
+\begin{tabular}{ll}
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{mtxA} is \texttt{NULL} \\
+-3 & \texttt{perror} is \texttt{NULL} \\
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Solve methods}
+\label{subsection:BridgeMT:proto:solve}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_solveSetup ( BridgeMT *bridge ) ;
+\end{verbatim}
+\index{BridgeMT_solveSetup@{\tt BridgeMT\_solveSetup()}}
+This method creates the {\tt SolveMap} object that governs the
+parallel solve.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL}
+\end{tabular}
+\begin{tabular}{ll}
+-2 & \texttt{frontMtx} is \texttt{NULL} \\
+-3 & \texttt{frontMtx} needs to be postprocessed
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMT_solve ( BridgeMT *bridge, int permuteflag, DenseMtx *mtxX, DenseMtx *mtxY ) ;
+\end{verbatim}
+\index{BridgeMT_solve@{\tt BridgeMT\_solve()}}
+If \texttt{permuteflag} is 1, then \texttt{mtxY} is permuted into
+the new ordering.
+The linear system $AX = Y$ is solved.
+If \texttt{permuteflag} is 1, then \texttt{mtxX} is permuted into
+the old ordering.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{X} is \texttt{NULL} \\
+-3 & \texttt{Y} is \texttt{NULL} \\
+\end{tabular}
+\begin{tabular}{ll}
+-4 & \texttt{frontmtx} is \texttt{NULL} \\
+-5 & \texttt{mtxmanager} is \texttt{NULL} \\
+-6 & \texttt{oldToNewIV} needed, but not available \\
+-7 & \texttt{newToOldIV} needed, but not available \\
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}

@@ -1,0 +1,183 @@
+\par
+\chapter{{\tt BPG}: Bipartite Graph Object}
+\label{chapter:BPG}
+\par
+The {\tt BPG} object is used to represent a bipartite graph.
+A bipartite graph naturally {\it is-a} graph,
+but since we are working in C, without inheritance,
+we have chosen to use the {\it has-a} relationship,
+i.e., our {\tt BPG} bipartite graph object {\it has-a}
+{\tt Graph} object inside itself.
+\par
+A bipartite graph is a triple $H = (X, Y, E)$ where
+$X$ and $Y$ are two disjoint sets of vertices and the edge set $E$
+is a subset of $X \times Y$.
+In other words, nodes in $X$ are adjacent to node in $Y$,
+but no edge connects two vertices in $X$ or two vertices in $Y$.
+\par
+We do not support bipartite graphs that are {\it subgraphs}
+of other bipartite graphs (in the sense that there are
+{\tt Graph} objects that are subgraphs of other {\tt Graph}
+objects) because we haven't found any reason to do so.
+\par
+This bipartite graph object is very rudimentary.
+We have used it in two instances.
+\begin{itemize}
+\item
+Given a domain decomposition of a graph, we want to find a bisector
+of the graph that is a subset of the interface vertices.
+To do this we construct a bipartite graph such that the $X$ nodes
+are the domains and the $Y$ nodes are the
+segments (a partition of the interface vertices).
+We then apply a variant of the Kernighan-Lin algorithm to find an
+edge separator that is a subset of the segments.
+(Details are found in \cite{ash97-DDSEP}.)
+\item
+Given a 2-set partition of a graph $[S,B,W]$ where $S$ is the
+separator and $B$ and $W$ are the two components, we want to find
+an improved partition
+$[{\widehat S}, {\widehat B}, {\widehat W}]$.
+One way to do this is to construct a bipartite graph where $X = S$
+and $Y = Adj(S) \cap B$ or $Y = Adj(S) \cap W$
+and the edge set $E$ is constructed naturally from the appropriate
+edges in the graph.
+We then find the Dulmage-Mendelsohn decomposition of this bipartite
+graph to look for a better 2-set partition.
+(Details are found in \cite{ash98-maxflow}.)
+\end{itemize}
+Our bipartite graph object illustrates software in evolution.
+In both cases, our desired output is a separator and the problem
+can be formulated as a bipartite graph.
+Does the {\it data} (the bipartite graph) {\it own} the {\it
+process} (the Kernighan-Lin algorithm or the Dulmage-Mendelsohn
+decomposition)?
+Or does the process operate on the data?
+There is no cut and dried answer.
+In fact, we did it both ways.
+\par
+To find a separator from a domain decomposition, we took the
+approach that the process works on the data.
+(See the {\tt BKL} block Kernighan-Lin object.)
+The process was sufficiently involved that soon the {\tt BKL} code
+for the process outweighed (outline'd?) the {\tt BPG} code for the data.
+Now if someone wants to modify (and hopefully improve) the
+Kernighan-Lin process, they won't alter the behavior of the
+bipartite graph object.
+\par
+Finding the Dulmage-Mendelsohn decomposition of a bipartite graph
+is a little less clear cut.
+When the vertices in the bipartite graph have unit weight, the
+process is straightforward.
+\begin{itemize}
+\item
+Find a maximum matching.
+\item
+Drop an alternating level structure from exposed nodes in $X$.
+\item
+Drop an alternating level structure from exposed nodes in $Y$.
+\item
+Based on the two previous steps, partition $X$ into three pieces
+and $Y$ into three pieces and form a new separator from the
+pieces.
+\end{itemize}
+(If these terms are not familiar, see \cite{ash98-maxflow};
+our present purpose is a discussion of software design, not
+algorithms.)
+A matching is a very common operation on a bipartite graph,
+so it is not unreasonable to expand the data object to include some
+mechanism for matching, e.g., a {\tt mate[]} vector.
+Finding a maximum matching is a bit more tricky for there are a
+number of algorithms to do so, some fast, some slow,
+some simple, some complex. Which to choose?
+\par
+If we only worked with unit weight bipartite graphs, then we
+probably would have added methods to find a maximum matching,
+and dropping alternating level structures, and then to find the
+Dulmage-Mendelsohn decomposition.
+If someone wanted to use a faster algorithm to find a maximum
+matching it would be a simple case of replacing a method.
+However, one of the strengths of this software package is that we
+do not work on unit weight graphs unless we have to, we work on the
+natural compressed graph.
+\par
+The Dulmage-Mendelsohn decomposition was not defined for non-unit
+weight graphs.
+We were in new territory, at least to us.
+We could always expand the weighted bipartite compressed graph into
+a larger unit weight graph, find the Dulmage-Mendelsohn
+decomposition and map it back to the weighted graph.
+(It turns out that the DM partition is conformal with the
+compressed graph, i.e., a weighted vertex is completely contained
+inside one of the six sets.)
+This would have been a very ugly feature of an otherwise clean code.
+\par
+Our first remedy was to design a method that found the DM
+decomposition of the unit weight graph while {\it using} the
+compressed graph plus a work vector whose size was the sum of the
+vertex weights.
+See the method {\tt BPG\_DMdecomposition()}.
+The code is appreciably faster than expanding the weighted graph to
+a unit weight graph, finding the decomposition and then mapping back.
+It is not really a method, but a module, for the fourteen hundred
+lines of code contain many static functions.
+Though the code is adequately documented, this isn't an algorithm
+that we felt like publicizing, so we export the method but not the
+internals.
+\par
+After some time, thought and reflection, we came to realize that we
+can find the decomposition by solving a max flow problem.
+In some sense this is obvious, for bipartite graph matching is
+nothing more than a special case of max flow.
+Just how to formulate the max flow problem is what eluded us for an
+embarassing amount of time.
+Once we were able to formulate the problem as max flow, we wrote a
+new method to find the decomposition for a weighted graph.
+The line count for {\tt BPG\_DMviaMaxFlow()} is about one half that 
+of {\tt BPG\_DMdecomposition()} and it is easier to understand.
+Both methods use a simple Ford-Fulkerson augmenting flow approach.
+\par
+At this time we thought about writing an object to solve max flow
+problems and shifting most of the responsibility of finding the
+decomposition to a specialized object that solves a max flow
+problem on a bipartite network.
+Had we more time, we would have done so.
+The advantages are clear.
+In fact, that is the approach we have taken, but in a different
+context.
+To explain, we must return to our original problem.
+\par
+The goal is to improve a 2-set partition $[S,B,W]$.
+Let $B$ be the larger of $B$ and $W$.
+We look at the subgraph induced by $S \cup (Adj(S) \cap B)$.
+The goal is to find a set $Z \subseteq S$ that will be absorbed by
+the smaller component $W$ that results in a smaller separator.
+As a result, some nodes in $Adj(S) \cap B$ move from $B$ into the
+separator set.
+The DM decomposition lets us identify a set $Z$ that results in the
+{\it largest} decrease in the separator size.
+But, if we consider $S \cup (Adj(S) \cap B)$ to be a {\it wide}
+separator, the resulting separator ${\widehat S}$ need not be a
+separator with minimal weight that is found within the wide
+separator.
+The trick is that some nodes in $Adj(S) \cap B$ might be absorbed
+into $W$.
+\par
+One can find a separator with minimal weight from the wide
+separator $S \cup (Adj(S) \cap B)$, in fact from {\it any} wide
+separator that contains $S$, by solving a max flow problem.
+The drawback is that the network induced by $S \cup (Adj(S) \cap B)$ 
+need not be bipartite.
+In other words, a bipartite induced graph necessarily implies two
+layers to the wide separator, but the converse does not hold.
+We were then free to examine wide separators that had more than two
+layers from which to find a minimal weight separator.
+It turns out that three layers is better than two, in practice.
+\par
+We did write a separate object to solve our max flow problem; 
+see the {\tt Network} object.
+To smooth a separator, i.e., to improve a 2-set partition,
+we no longer have need of the bipartite graph object.
+We leave the two Dulmage-Mendelsohn methods in the {\tt BPG} object
+for historical and sentimental reasons.
+
+

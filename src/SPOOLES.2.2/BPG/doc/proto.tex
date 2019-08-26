@@ -1,0 +1,404 @@
+\par
+\section{Prototypes and descriptions of {\tt BPG} methods}
+\label{section:BPG:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt BPG} object.
+\par
+\subsection{Basic methods}
+\label{subsection:BPG:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+BPG * BPG_new ( void ) ;
+\end{verbatim}
+\index{BPG_new@{\tt BPG\_new()}}
+This method simply allocates storage for the {\tt BPG} structure 
+and then sets the default fields by a call to 
+{\tt BPG\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BPG_setDefaultFields ( BPG *bpg ) ;
+\end{verbatim}
+\index{BPG_setDefaultFields@{\tt BPG\_setDefaultFields()}}
+This method sets the fields of the structure to their default values:
+{\tt nX = nY = 0} and {\tt graph = NULL}.
+\par \noindent {\it Error checking:}
+If {\tt bpg} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BPG_clearData ( BPG *bpg ) ;
+\end{verbatim}
+\index{BPG_clearData@{\tt BPG\_clearData()}}
+This method releases the storage for {\tt graph} via a call
+to {\tt Graph\_clearData()}, and
+then the structure's fields are then set to their default values
+with a call to {\tt BPG\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt bpg} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BPG_free ( BPG *bpg ) ;
+\end{verbatim}
+\index{BPG_free@{\tt BPG\_free()}}
+This method releases any storage by a call to 
+{\tt BPG\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt bpg} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:BPG:proto:initializers}
+\par
+There are two initializer methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BPG_init ( BPG *bpg, int nX, int nY, Graph *graph ) ;
+\end{verbatim}
+\index{BPG_init@{\tt BPG\_init()}}
+This method initializes the {\tt BPG} object when all three of its
+fields are given in the calling sequence.
+The {\tt Graph} object has {\tt nX + nY} vertices.
+Note, the {\tt BPG} object now ``owns'' the {\tt Graph} object and
+so will free the {\tt Graph} object when it is free'd.
+The {\tt Graph} object may contains edges between nodes in {\tt X}
+and {\tt Y}, but these edges are swapped to the end of each
+adjacency list and the size of each list is then set.
+\par \noindent {\it Error checking:}
+If {\tt bpg} or {\tt graph} are {\tt NULL},
+or if ${\tt nX} \le 0$,
+or if ${\tt nY} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BPG_initFromColoring ( BPG *bpg, Graph *graph, int colors[], int cX, 
+                            int cY, int cmap[], int indX[], int indY[] ) ;
+\end{verbatim}
+\index{BPG_initFromColoring@{\tt BPG\_initFromColoring()}}
+This method extracts a bipartite graph from a {\tt Graph} object where
+the {\tt X} vertices are those with {\tt cmap[]} value 
+equal to {\tt cX} and the {\tt Y} vertices are those 
+with {\tt cmap[]} value equal to {\tt cY}.
+The vectors {\tt indX[]} and {\tt indY[]} hold the global vertex
+ids of the {\tt X} and {\tt Y} vertices respectively.
+\par \noindent {\it Error checking:}
+If {\tt bpg}, {\tt graph}, {\tt colors} or {\tt cmap} are {\tt NULL},
+or if ${\tt cX} \le 0$,
+or if ${\tt cY} \le 0$,
+or if ${\tt cX} = {\tt cY}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Generate induced graphs}
+\label{subsection:BPG:proto:induced-graphs}
+\par
+Sometimes we need to know which {\tt X} or {\tt Y} vertices 
+share an edge,
+e.g., in the {\tt BKL} object we need the domain-domain adjacency
+graph (the domains are the {\tt X} vertices)
+to efficiently implement the Fiduccia-Mattheyses algorithm.
+We have two methods to generate the two induced graphs.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Graph * BPG_makeGraphXbyX ( BPG *bpg ) ;
+\end{verbatim}
+\index{BPG_makeGraphXbyX@{\tt BPG\_makeGraphXbyX()}}
+This method constructs and returns a {\tt Graph} object whose
+vertices are {\tt X} and an edge {\tt (x1,x2)} is in the graph
+when there is a {\tt Y} vertex {\tt y} such that {\tt (x1,y)}
+and {\tt (x2,y)} are in the bipartite graph.
+\par \noindent {\it Error checking:}
+If {\tt bpg} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Graph * BPG_makeGraphYbyY ( BPG *bpg ) ;
+\end{verbatim}
+\index{BPG_makeGraphYbyY@{\tt BPG\_makeGraphYbyY()}}
+This method constructs and returns a {\tt Graph} object whose
+vertices are {\tt Y} and an edge {\tt (y1,y2)} is in the graph
+when there is a {\tt X} vertex {\tt x} such that {\tt (x,y1)}
+and {\tt (x,y2)} are in the bipartite graph.
+\par \noindent {\it Error checking:}
+If {\tt bpg} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:BPG:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BPG_pseudoperipheralnode ( BPG *bpg, int seed ) ;
+\end{verbatim}
+\index{BPG_pseudoperipheralnode@{\tt BPG\_pseudoperipheralnode()}}
+This method finds and returns a pseudoperipheral node for the
+bipartite graph.
+\par \noindent {\it Error checking:}
+If {\tt bpg} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BPG_levelStructure ( BPG *bpg, int root, int list[], int dist[],
+                         int mark[], int tag ) ;
+\end{verbatim}
+\index{BPG_levelStructure@{\tt BPG\_levelStructure()}}
+This method drops a level structure from vertex {\tt root}, fills
+the {\tt dist[]} vector with the distances from {\tt root},
+and returns the number of levels created.
+The {\tt mark[]} vector is used to mark nodes with the {\tt tag}
+value as they are placed in the level structure.
+The {\tt list[]} vector is used to accumulate the nodes as they are
+placed in the level structure.
+\par \noindent {\it Error checking:}
+If {\tt bpg}, {\tt list}, {\tt dist} or {\tt mark} is {\tt NULL},
+or if {\tt root} is not in {\tt [0, nX+nY)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Dulmage-Mendelsohn decomposition method}
+\label{subsection:BPG:proto:DM}
+\par
+There is one method to find the Dulmage-Mendelsohn decomposition that
+uses matching when the graph is unit weight and a generalized
+matching technique otherwise.
+There is a second method to find the decomposition using a
+Ford-Fulkerson algorithm to find a max flow and a min-cut on a
+bipartite network.
+This has largely been superceded by the {\tt Network} object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BPG_DMdecomposition ( BPG *bpg, int dmflags[], int stats[],
+                           int msglvl, FILE *msgFile )
+\end{verbatim}
+\index{BPG_DMdecomposition@{\tt BPG\_DMdecomposition()}}
+This method constructs and returns the Dulmage-Mendelsohn
+decomposition for a unit weight graph and its generalization for a
+non-unit weight graph.
+On return, the {\tt dmflags[]} vector is filled with the following 
+values:
+\begin{displaymath}
+\mbox{\tt dmflags[x]} =
+\begin{cases}
+0 & \text{if \texttt{x} $\in X_R$} \\
+1 & \text{if \texttt{x} $\in X_I$} \\
+2 & \text{if \texttt{x} $\in X_E$}
+\end{cases}
+\qquad
+\mbox{\tt dmflags[y]} =
+\begin{cases}
+0 & \text{if \texttt{y} $\in Y_R$} \\
+1 & \text{if \texttt{y} $\in Y_I$} \\
+2 & \text{if \texttt{y} $\in Y_E$}
+\end{cases}
+\end{displaymath}
+The set $X_I \cup Y_E$ contains all nodes that are reachable via
+alternating paths starting from exposed nodes in $X$.
+The set $Y_I \cup X_E$ contains all nodes that are reachable via
+alternating paths starting from exposed nodes in $Y$.
+The remaining two sets are $X_R = X \setminus (X_I \cup X_E)$
+and $Y_R = Y \setminus (Y_I \cup Y_E)$.
+On return, the {\tt stats[]} vector is filled with the following
+values:
+\begin{center}
+\begin{tabular}{lllllll}
+{\tt stats[0]} & --- & weight of $X_I$ 
+& \qquad & {\tt stats[3]} & --- & weight of $Y_I$ \\
+{\tt stats[1]} & --- & weight of $X_E$
+& \qquad & {\tt stats[4]} & --- & weight of $Y_E$ \\
+{\tt stats[2]} & --- & weight of $X_R$ 
+& \qquad & {\tt stats[5]} & --- & weight of $Y_R$ 
+\end{tabular}
+\end{center}
+\par \noindent {\it Error checking:}
+If {\tt bpg}, {\tt dmflags} or {\tt stats} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BPG_DMviaMaxFlow ( BPG *bpg, int dmflags[], int stats[],
+                        int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{BPG_DMviaMaxFlow@{\tt BPG\_DMviaMaxFlow()}}
+This method has the same functionality, calling sequence and
+returned values as the preceding {\tt BPG\_DMdecomposition()} method.
+\par \noindent {\it Error checking:}
+If {\tt bpg}, {\tt dmflags} or {\tt stats} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:BPG:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a {\tt BPG} object is simple:
+the two scalar fields {\tt nX} and {\tt nY}
+come first and the {\tt Graph} object follows.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BPG_readFromFile ( BPG *bpg, char *fn ) ;
+\end{verbatim}
+\index{BPG_readFromFile@{\tt BPG\_readFromFile()}}
+\par
+This method reads a {\tt BPG} object from a file.
+The method tries to open the file and if it is successful, 
+it then calls {\tt BPG\_readFromFormattedFile()} or
+{\tt BPG\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt bpg} or {\tt fn} is {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.bpgf} (for a formatted file) 
+or {\tt *.bpgb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BPG_readFromFormattedFile ( BPG *bpg, FILE *fp ) ;
+\end{verbatim}
+\index{BPG_readFromFormattedFile@{\tt BPG\_readFromFormattedFile()}}
+\par
+This method reads a {\tt BPG} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt bpg} or {\tt fp} is {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BPG_readFromBinaryFile ( BPG *bpg, FILE *fp ) ;
+\end{verbatim}
+\index{BPG_readFromBinaryFile@{\tt BPG\_readFromBinaryFile()}}
+\par
+This method reads a {\tt BPG} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt bpg} or {\tt fp} is {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BPG_writeToFile ( BPG *bpg, char *fn ) ;
+\end{verbatim}
+\index{BPG_writeToFile@{\tt BPG\_writeToFile()}}
+\par
+This method writes a {\tt BPG} object to a file.
+The method tries to open the file and if it is successful, 
+it then calls {\tt BPG\_writeFromFormattedFile()} or
+{\tt BPG\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt bpg} or {\tt fn} is {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.bpgf} (for a formatted file) 
+or {\tt *.bpgb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BPG_writeToFormattedFile ( BPG *bpg, FILE *fp ) ;
+\end{verbatim}
+\index{BPG_writeToFormattedFile@{\tt BPG\_writeToFormattedFile()}}
+\par
+This method writes a {\tt BPG} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt bpg} or {\tt fp} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BPG_writeToBinaryFile ( BPG *bpg, FILE *fp ) ;
+\end{verbatim}
+\index{BPG_writeToBinaryFile@{\tt BPG\_writeToBinaryFile()}}
+\par
+This method writes a {\tt BPG} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt bpg} or {\tt fp} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BPG_writeForHumanEye ( BPG *bpg, FILE *fp ) ;
+\end{verbatim}
+\index{BPG_writeForHumanEye@{\tt BPG\_writeForHumanEye()}}
+\par
+This method writes a {\tt BPG} object to a file
+in a human readable format.
+The method {\tt BPG\_writeStats()} 
+is called to write out the
+header and statistics. 
+Then the {\tt bpg->graph} object is written via a call to
+{\tt Graph\_writeForHumanEye()}.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt bpg} or {\tt fp} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BPG_writeStats ( BPG *bpg, FILE *fp ) ;
+\end{verbatim}
+\index{BPG_writeStats@{\tt BPG\_writeStats()}}
+\par
+This method writes a header with statistics to a file.
+A header is written and the value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt bpg} or {\tt fp} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

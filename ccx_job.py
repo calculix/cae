@@ -25,7 +25,7 @@ class Job:
         if not len(file_name):
             file_name = 'job.inp'
         self.rename(file_name)
-        self.home_dir = os.path.dirname(sys.argv[0]) # app. home directory
+        self.home_dir = os.path.dirname(os.path.abspath(sys.argv[0])) # app. home directory
         self.extension = '.exe' if os.name=='nt' else '' # file extension in OS
 
 
@@ -43,19 +43,71 @@ class Job:
     # Convert UNV to INP
     def importUNV(self):
         converter_path = os.path.join(self.home_dir,
-            'converters', 'unv2ccx' + self.extension)
+            'bin', 'unv2ccx' + self.extension)
         command = [converter_path, self.unv]
         self.run(command)
 
 
+    # Open INP file in external text editor
+    def editINP(self):
+        if os.path.isfile(self.inp):
+            os.system(self.settings.path_editor + ' ' + self.inp)
+        else:
+            logging.error('File not found: ' + self.inp)
+            logging.error('Write input first.')
+
+
+    # Dialog window to filter fortran subroutines
+    def openSubroutine(self):
+        file_name = QtWidgets.QFileDialog.getOpenFileName(None, \
+            'Open a subroutine', \
+            os.path.join(self.home_dir, 'src', 'ccx_free_form_fortran'), \
+            'FORTRAN (*.f)')[0]
+        if file_name:
+            os.system(self.settings.path_editor + ' ' + file_name)
+
+
+    # Recompile CalculiX sources with updated subroutines
+    def rebuildCCX(self):
+        if os.name=='nt':
+            logging.warning('CalculiX rebuild not jet supported in fuck\'n Windows!')
+            logging.warning('Please, format C: and install normal OS like Ubuntu.')
+        else:
+            p0 = os.path.join('src', 'ccx_free_form_fortran')
+            p1 = os.path.join(p0, 'ccx_2.15_MT')
+            p2 = os.path.join('bin', 'ccx')
+            subprocess.run('make -f Makefile_MT -C ' + p0, shell=True)
+            subprocess.run('cp ' + p1 + ' ' + p2, shell=True)
+
+            # TODO Use self.run()
+            # command = ['make', '-f', 'Makefile_MT', '-C', p0, ';cp', p1, p2]
+            # self.run(command)
+
+            # TODO Implement event notification to make logger wait for completion
+            logging.info('Compilation OK!')
+
+
     # Submit INP to CalculiX
     def submit(self):
-        if os.path.isfile(self.settings.path_ccx):
-            os.environ['OMP_NUM_THREADS'] = str(mp.cpu_count()) # enable multithreading
-            command = [self.settings.path_ccx, '-i', self.path]
-            self.run(command)
+        if os.path.isfile(self.inp):
+            if os.path.isfile(self.settings.path_ccx):
+                os.environ['OMP_NUM_THREADS'] = str(mp.cpu_count()) # enable multithreading
+                command = [self.settings.path_ccx, '-i', self.path]
+                self.run(command)
+            else:
+                logging.error('Wrong path to CCX: ' + self.settings.path_ccx)
         else:
-            logging.error('Wrong path to CCX: ' + self.settings.path_ccx)
+            logging.error('File not found: ' + self.inp)
+            logging.error('Write input first.')
+
+
+    # Open log file in external text editor
+    def viewLog(self):
+        if os.path.isfile(self.log):
+            os.system(self.settings.path_editor + ' ' + self.log)
+        else:
+            logging.error('File not found: ' + self.log)
+            logging.error('Submit analysis first.')
 
 
     # Open FRD in GraphiX
@@ -68,6 +120,7 @@ class Job:
                 logging.error('Wrong path to CGX: ' + self.settings.path_cgx)
         else:
             logging.error('File not found: ' + self.frd)
+            logging.error('Submit analysis first.')
 
 
     # Convert FRD to VTU
@@ -75,13 +128,14 @@ class Job:
         if os.path.isfile(self.frd):
             if os.path.isfile(self.settings.path_paraview):
                 converter_path = os.path.join(self.home_dir,
-                    'converters', 'ccx2paraview' + self.extension)
+                    'bin', 'ccx2paraview' + self.extension)
                 command = [converter_path, self.frd, 'vtu']
                 self.run(command)
             else:
                 logging.error('Wrong path to Paraview: ' + self.settings.path_paraview)
         else:
             logging.error('File not found: ' + self.frd)
+            logging.error('Submit analysis first.')
 
 
     # Open VTU in Paraview
@@ -98,8 +152,12 @@ class Job:
                 file_list.append(f)
         if len(file_list) > 1:
             vtu_path = self.path + '...vtu'
-        else:
+        elif len(file_list) == 1:
             vtu_path = self.path + '.vtu'
+        else:
+            logging.error('VTU file not found.')
+            logging.error('Export VTU results first.')
+            return
 
         if os.path.isfile(self.settings.path_paraview):
             command = self.settings.path_paraview + ' --data=' + vtu_path
@@ -148,3 +206,10 @@ def enqueue_output(stdout, queue):
         queue.put(line)
     queue.put('END') # mark to break while loop
     stdout.close()
+
+
+# Test ccx sources recompilation
+if __name__ == '__main__':
+    import clean
+    Job(None, '').rebuildCCX()
+    clean.cache()

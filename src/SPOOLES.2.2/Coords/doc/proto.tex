@@ -1,0 +1,352 @@
+\par
+\section{Prototypes and descriptions of {\tt Coords} methods}
+\label{section:Coords:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt Coords} object.
+\par
+\subsection{Basic methods}
+\label{subsection:Coords:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Coords * Coords_new ( void ) ;
+\end{verbatim}
+\index{Coords_new@{\tt Coords\_new()}}
+This method simply allocates storage for the {\tt Coords} structure 
+and then sets the default fields by a call to 
+{\tt Coords\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Coords_setDefaultFields ( Coords *coords ) ;
+\end{verbatim}
+\index{Coords_setDefaultFields@{\tt Coords\_setDefaultFields()}}
+This method sets the structure's fields are set to default values:
+{\tt type = COORDS\_BY\_TUPLE}, 
+{\tt ndim = ncoor = 0} and {\tt coors = NULL}.
+\par \noindent {\it Error checking:}
+If {\tt coords} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Coords_clearData ( Coords *coords ) ;
+\end{verbatim}
+\index{Coords_clearData@{\tt Coords\_clearData()}}
+This method clears data and releases any storage allocated by the
+object.
+If {\tt coords->coors} is not {\tt NULL}, 
+then {\tt FVfree(coords->coors)} is called to free the {\tt float}
+vector.
+It then sets the structure's default fields 
+with a call to {\tt Coords\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt coords} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Coords_free ( Coords *coords ) ;
+\end{verbatim}
+\index{Coords_free@{\tt Coords\_free()}}
+This method releases any storage by a call to 
+{\tt Coords\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt coords} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:Coords:proto:initializers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Coords_init ( Coords *coords, int type, int ndim, int ncoor ) ;
+\end{verbatim}
+\index{Coords_init@{\tt Coords\_init()}}
+This method initializes a {\tt Coords} object given 
+the type, number of dimensions and number of grid points.
+It clears any previous data with a call to 
+{\tt Coords\_clearData()}. 
+The {\tt float} vector is initialized by a call to {\tt FVinit()}.
+\par \noindent {\it Error checking:}
+If {\tt coords} is {\tt NULL} or {\tt type} is not 
+{\tt COORDS\_BY\_TUPLE} or {\tt COORDS\_BY\_COORD},
+or if either {\tt ndim} or {\tt ncoor} are nonpositive,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Coords_init9P ( Coords *coords, float bbox[], int type, 
+                     int n1, int n2, int ncomp ) ;
+\end{verbatim}
+\index{Coords_init9P@{\tt Coords\_init9P()}}
+This method initializes a {\tt Coords} object for a 9-point
+operator on a $\mbox{\tt n1} \times \mbox{\tt n2}$ grid with
+{\tt ncomp} degrees of freedom at a grid point.
+The grid's location is given by the bounding box vector,
+{\tt bbox[0]} = $x$-coordinate of the southwest point,
+{\tt bbox[1]} = $y$-coordinate of the southwest point,
+{\tt bbox[2]} = $x$-coordinate of the northeast point, and
+{\tt bbox[3]} = $y$-coordinate of the northeast point.
+\par \noindent {\it Error checking:}
+If {\tt coords} {\tt bbox} is {\tt NULL},
+or if {\tt type} is not 
+{\tt COORDS\_BY\_TUPLE} or {\tt COORDS\_BY\_COORD},
+or if any of {\tt n1}, {\tt n2} or {\tt ncomp} are nonpositive,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Coords_init27P ( Coords *coords, float bbox[], int type, 
+                      int n1, int n2, int n3, int ncomp ) ;
+\end{verbatim}
+\index{Coords_init27P@{\tt Coords\_init27P()}}
+This method initializes a {\tt Coords} object for a 27-point
+operator on a $\mbox{\tt n1} \times \mbox{\tt n2} \times {\tt n3}$ 
+grid with {\tt ncomp} degrees of freedom at a grid point.
+The grid's location is given by the bounding box vector,
+{\tt bbox[0]} = $x$-coordinate of the southwest point,
+{\tt bbox[1]} = $y$-coordinate of the southwest point,
+{\tt bbox[2]} = $z$-coordinate of the southwest point,
+{\tt bbox[3]} = $x$-coordinate of the northeast point,
+{\tt bbox[4]} = $y$-coordinate of the northeast point, and
+{\tt bbox[5]} = $z$-coordinate of the northeast point.
+\par \noindent {\it Error checking:}
+If {\tt coords} {\tt bbox} is {\tt NULL},
+or if {\tt type} is not 
+{\tt COORDS\_BY\_TUPLE} or {\tt COORDS\_BY\_COORD},
+or if any of {\tt n1}, {\tt n2}, {\tt n3} 
+or {\tt ncomp} are nonpositive,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:Coords:proto:utilities}
+\par
+There are three utility methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Coords_sizeOf ( Coords *coords ) ;
+\end{verbatim}
+\index{Coords_sizeOf@{\tt Coords\_sizeOf()}}
+This method returns the number of bytes that the object occupies.
+\par \noindent {\it Error checking:}
+If {\tt coords} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float Coords_min ( Coords *coords, int dim )
+\end{verbatim}
+\index{Coords_min@{\tt Coords\_min()}}
+This method returns the minimum coordinate value for the {\tt
+dim}'th entry in the coordinates.
+For example, {\tt Coords\_min(coords, 1)} is the minimum $x$-value
+and {\tt Coords\_min(coords, 2)} is the minimum $y$-value.
+\par \noindent {\it Error checking:}
+If {\tt coords} is {\tt NULL},
+or if {\tt idim} does not lie in the range {\tt [1,ndim]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float Coords_max ( Coords *coords, int dim )
+\end{verbatim}
+\index{Coords_max@{\tt Coords\_max()}}
+This method returns the maximum coordinate value for the {\tt
+dim}'th entry in the coordinates.
+For example, {\tt Coords\_max(coords, 1)} is the maximum $x$-value
+and {\tt Coords\_max(coords, 2)} is the maximum $y$-value.
+\par \noindent {\it Error checking:}
+If {\tt coords} is {\tt NULL},
+or if {\tt idim} does not lie in the range {\tt [1,ndim]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float Coords_value ( Coords *coords, int idim, int icoor ) ;
+\end{verbatim}
+\index{Coords_value@{\tt Coords\_value()}}
+This method returns the {\tt float} value of the {\tt idim}-th
+coordinate of the {\tt icoor}-th grid point.
+For example, {\tt Coords\_value(coords, 1, 27)} returns $x_{27}$,
+{\tt Coords\_value(coords, 2, 16)} returns $y_{16}$,
+and {\tt Coords\_value(coords, 3, 118)} returns $z_{118}$.
+\par \noindent {\it Error checking:}
+If {\tt coords} is {\tt NULL},
+or if {\tt idim} does not lie in the range {\tt [1,ndim]},
+or if {\tt icoor} does not lie in the range {\tt [0,ncoor)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Coords_setValue ( Coords *coords, int idim, int icoor, float val ) ;
+\end{verbatim}
+\index{Coords_setValue@{\tt Coords\_setValue()}}
+This method sets the {\tt float} value of the {\tt idim}-th
+coordinate of the {\tt icoor}-th grid point.
+For example, 
+{\tt Coords\_setValue(coords, 1, 27, 1.2)} sets $x_{27} = 1.2$,
+{\tt Coords\_setValue(coords, 2, 16, 3.3)} sets $y_{16} = 3.3$,
+and {\tt Coords\_setValue(coords, 3, 118, 0)} sets $z_{118} = 0$.
+\par \noindent {\it Error checking:}
+If {\tt coords} is {\tt NULL},
+or if {\tt idim} does not lie in the range {\tt [1,ndim]},
+or if {\tt icoor} does not lie in the range {\tt [0,ncoor)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:Coords:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a {\tt Coords} object is simple:
+{\tt type}, {\tt ndim}, {\tt ncoor}
+followed by the {\tt coors[]} vector.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Coords_readFromFile ( Coords *coords, char *filename ) ;
+\end{verbatim}
+\index{Coords_readFromFile@{\tt Coords\_readFromFile()}}
+\par
+This method read a {\tt Coords} object from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt Coords\_readFromFormattedFile()} or
+{\tt Coords\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt coords} or {\tt filename} is {\tt NULL}, 
+or if {\tt filename} is not of the form
+{\tt *.coordsf} (for a formatted file) 
+or {\tt *.coordsb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Coords_readFromFormattedFile ( Coords *coords, FILE *fp ) ;
+\end{verbatim}
+\index{Coords_readFromFormattedFile@{\tt Coords\_readFromFormattedFile()}}
+\par
+This method reads in a {\tt Coords} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt coords} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Coords_readFromBinaryFile ( Coords *coords, FILE *fp ) ;
+\end{verbatim}
+\index{Coords_readFromBinaryFile@{\tt Coords\_readFromBinaryFile()}}
+\par
+This method reads in a {\tt Coords} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt coords} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Coords_writeToFile ( Coords *coords, char *fn ) ;
+\end{verbatim}
+\index{Coords_writeToFile@{\tt Coords\_writeToFile()}}
+\par
+This method write a {\tt Coords} object to a file.
+The method tries to open the file and if it is successful, 
+it then calls {\tt Coords\_writeFromFormattedFile()} or
+{\tt Coords\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt coords} or {\tt fn} is {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.coordsf} (for a formatted file) 
+or {\tt *.coordsb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Coords_writeToFormattedFile ( Coords *coords, FILE *fp ) ;
+\end{verbatim}
+\index{Coords_writeToFormattedFile@{\tt Coords\_writeToFormattedFile()}}
+\par
+This method writes a {\tt Coords} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt coords} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Coords_writeToBinaryFile ( Coords *coords, FILE *fp ) ;
+\end{verbatim}
+\index{Coords_writeToBinaryFile@{\tt Coords\_writeToBinaryFile()}}
+\par
+This method writes a {\tt Coords} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt coords} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Coords_writeForHumanEye ( Coords *coords, FILE *fp ) ;
+\end{verbatim}
+\index{Coords_writeForHumanEye@{\tt Coords\_writeForHumanEye()}}
+\par
+This method write the {\tt Coords} object to a file in an easy to
+read fashion.
+The method {\tt Coords\_writeStats()} is called to write out the
+header and statistics. 
+The {\tt coors[]} vector is then printed out.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt coords} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Coords_writeStats ( Coords *coords, FILE *fp ) ;
+\end{verbatim}
+\index{Coords_writeStats@{\tt Coords\_writeStats()}}
+\par
+The header and statistics are written.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt coords} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

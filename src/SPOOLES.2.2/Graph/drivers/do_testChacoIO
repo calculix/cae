@@ -1,0 +1,20 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set matrices     = ../../../matrices
+set matrix       = metisExample
+set matrix       = kartik
+
+set inFile  = $matrices/$matrix/graph11.metis
+set inFile  = $matrices/$matrix/kartik.chaco
+
+set outFile = $matrices/$matrix/orig0.graphb
+set outFile = none
+
+set msglvl  = 5
+
+set msgFile = stdout
+
+testChacoIO $msglvl $msgFile $inFile $outFile

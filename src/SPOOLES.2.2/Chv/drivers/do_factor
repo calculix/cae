@@ -1,0 +1,28 @@
+#! /bin/csh -f
+#
+#  test the Chv_factor() method
+#
+#  created -- 98apr22, cca
+#
+ 
+set msglvl       =       4
+set msgFile      =    res 
+set msgFile      =  stdout
+set type         =       2
+set symflag      =       0
+set nD           =      16
+set nU           =      15
+
+set pivotingflag =  1
+set seed         =  188291
+set tau          =  5
+
+foreach type               ( 2 )
+   foreach symflag         ( 2 )
+      foreach pivotingflag ( 1 )
+         test_factor \
+            $msglvl $msgFile $nD $nU $type $symflag \
+            $pivotingflag $seed $tau
+      end
+   end
+end

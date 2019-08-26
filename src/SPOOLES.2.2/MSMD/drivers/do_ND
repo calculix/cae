@@ -1,0 +1,51 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+
+set matrix      = R2D10000
+set matrix      = BCSSTK25
+set matrix      = BCSSTK39
+set matrix      = BCSSTK30
+set matrix      = R2D100
+set inGraphFile = $matrices/$matrix/orig1.graphf
+set inGraphFile = $matrices/$matrix/orig1.graphb
+set inGraphFile = $matrices/$matrix/orig0.graphf
+
+set inDSTreeFile = none
+set inDSTreeFile = $matrices/$matrix/nd.dstreef
+
+set msglvl      = 1
+
+set msgFile    = res.$matrix
+set msgFile    = res2
+set msgFile    = stdout
+
+set compressFlag = 2
+set prioType     = 1
+set stepType     = 1
+
+set nseed      =  4
+set nseed      = 11
+set nseed      = 21
+set nseed      = 11
+set nseed      = 1
+
+set frontTreeFile = $matrices/$matrix/nd2.etreef
+set frontTreeFile = none
+set frontTreeFile = $matrices/$matrix/nd.etreef
+
+set oldToNewIVfile = $matrices/$matrix/ndOldToNew.ivf
+set oldToNewIVfile = none
+
+set newToOldIVfile = $matrices/$matrix/ndNewToOld.ivf
+set newToOldIVfile = none
+
+#  @ seed = $nseed
+   @ seed = 1
+   while ( $seed <= $nseed )
+      echo ' seed = ' $seed
+      orderViaND $msglvl $msgFile $inGraphFile $inDSTreeFile \
+              $seed $compressFlag $prioType $stepType \
+              $frontTreeFile $oldToNewIVfile $newToOldIVfile 
+      @ seed = $seed + 1
+   end

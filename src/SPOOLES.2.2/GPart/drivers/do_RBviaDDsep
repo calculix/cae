@@ -1,0 +1,76 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+set matrix      = R2D100
+set matrix      = BCSSTK16
+set matrix      = BCSSTK24
+set inGraphFile = $matrices/$matrix/orig0.graphf
+set inGraphFile = $matrices/$matrix/orig1.graphf
+
+set msglvl      = 1
+
+set msgFile    = stdout
+
+set nseed      =  1
+set nseed      = 21
+
+set minweight  =  10
+set maxweight  =  20
+set minweight  =   50
+set maxweight  =  100
+set minweight  =  200
+set maxweight  =  400
+set minweight  =   5
+set maxweight  =  10
+set minweight  =  100
+set maxweight  =  200
+
+set alpha      = 0.25
+set alpha      = 1.0
+set freeze     = 4.0
+
+set maxDomWeight = 200000
+set maxDomWeight = 8000
+set maxDomWeight = 2000
+set maxDomWeight = 4000
+set maxDomWeight =  500
+set maxDomWeight =  250
+set maxDomWeight = 8000
+set maxDomWeight = 16000
+set maxDomWeight =  9
+set maxDomWeight = 200
+set maxDomWeight = 500
+set maxDomWeight = 10
+set maxDomWeight = 100
+
+set DDoption     = 1
+
+set ordertype    = 1
+
+set outIVfile = $matrices/$matrix/levels50.ivf
+set outIVfile = none
+
+set outDSTreeFile = $matrices/$matrix/ms.dstreef
+set outDSTreeFile = none
+set outDSTreeFile = $matrices/$matrix/nd.dstreef
+
+set seed = 1
+
+set nlayer = 3
+
+set msgFile = $matrix.res.$nlayer.$alpha
+set msgFile = res.$matrix
+set msgFile = stdout
+
+set firstseed = 1
+set lastseed  = 11
+set lastseed  = 1
+
+@ seed = $firstseed
+while ( $seed <= $lastseed )
+   echo 'maxDomWeight = ' $maxDomWeight ' seed = ' $seed
+   testRBviaDDsep  $msglvl $msgFile $inGraphFile $seed \
+                   $minweight $maxweight $freeze $alpha \
+                   $maxDomWeight $DDoption $nlayer
+   @ seed = $seed + 1
+end

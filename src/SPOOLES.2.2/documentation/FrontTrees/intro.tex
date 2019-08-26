@@ -1,0 +1,63 @@
+\section{Introduction}
+\par
+If the ultimate goal is to solve linear systems of the form
+$AX = B$, one must compute an $A = LDU$, $A = U^TDU$ or
+$A = U^HDU$ factorization, depending on whether the matrix $A$
+is nonsymmetric, symmetric or Hermitian.
+$D$ is a diagonal or block diagonal matrix,
+$L$ is unit lower triangular,
+and $U$ is unit upper triangular.
+$A$ is sparse, but the sparsity structure of $L$ and $U$ will
+likely be much larger than that of $A$,
+i.e., they will suffer fill-in.
+It is crucial to find a permutation matrix such that the factors of
+$PAP^T$ have as moderate fill-in as can be reasonably expected.
+\par
+To illustrate, consider a 27-point finite difference operator defined
+on an $n \times n \times n$ grid.
+The number of rows and columns in $A$ is $n^3$, as is the number of
+nonzero entries in $A$.
+Using the natural ordering, the numbers of entries in $L$ and $U$ 
+are $O(n^5)$, and it takes $O(n^7)$ operations to compute the
+factorization.
+The banded and profile orderings \cite{geo81-book} 
+have the same complexity.
+\par
+Using the nested dissection ordering,
+\cite{geo73-nested},
+the factor storage is reduced to $O(n^4)$ and factor operations to
+$O(n^6)$.
+In practice, the minimum degree ordering has this same low-fill
+nature, although topological counterexamples exist
+\cite{ber90-mindeg}.
+A unit cube is the worst case comparison between banded and profile
+orderings and the minimum degree and nested dissection orderings.
+But, there is still a lot to be gained by using a good permutation
+when solving most sparse linear systems, and the relative gain
+becomes larger as the problem size increases.
+\par
+This short paper is a gentle introduction to the ordering methods
+--- the background as well as the specific function calls.
+But finding a good ordering is not enough.
+The ``choreography'' of the factorization and solves, i.e., what
+data structures and computations exist, and in a parallel
+environment, which thread or processor does what and when,
+is as crucial.
+The structure of the factor matrices, as well as the structure of the
+computations is controlled by a ``front tree''.
+This object is constructed directly by the {\bf SPOOLES} ordering
+software, or can be created from the graph of the matrix and an
+outside permutation.
+Various transformations on the front tree can make a large
+difference in performance.
+Some knowledge of the linear system, (e.g., does it come from a 2-D
+or 3-D problem? is it small or large?), coupled with some knowledge
+of how to tailor a front tree, can be important to getting the best
+performance from the library.
+\par
+Section~\ref{section:ordering} introduces some background on sparse
+matrix orderings and describes the {\bf SPOOLES} ordering software.
+Section~\ref{section:front-trees} presents the front tree object
+that controls the factorization, and its various transformations
+to improve performance.
+

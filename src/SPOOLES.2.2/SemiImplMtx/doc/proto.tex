@@ -1,0 +1,281 @@
+\par
+\section{Prototypes and descriptions of {\tt SemiImplMtx} methods}
+\label{section:SemiImplMtx:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt SemiImplMtx} object.
+\par
+\subsection{Basic methods}
+\label{subsection:SemiImplMtx:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+SemiImplMtx * SemiImplMtx_new ( void ) ;
+\end{verbatim}
+\index{SemiImplMtx_new@{\tt SemiImplMtx\_new()}}
+This method simply allocates storage for the {\tt SemiImplMtx} 
+structure and then sets the default fields by a call to 
+{\tt SemiImplMtx\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SemiImplMtx_setDefaultFields ( SemiImplMtx *mtx ) ;
+\end{verbatim}
+\index{SemiImplMtx_setDefaultFields@{\tt SemiImplMtx\_setDefaultFields()}}
+This method sets the structure's fields to default values:
+{\tt neqns} = 0,
+{\tt type} = {\tt SPOOLES\_REAL}, 
+{\tt symmetryflag} = {\tt SPOOLES\_SYMMETRIC}, 
+{\tt ndomeqns} = {\tt nschureqns} = 0,
+and {\tt domainMtx}, {\tt schurMtx}, {\tt A21}, {\tt A12},
+{\tt domRowsIV}, {\tt schurRowsIV},
+{\tt domColumnsIV}  and {\tt schurColumnsIV} 
+are all set to {\tt NULL}.
+\par \noindent {\it Return codes:}
+{\tt 1} means a normal return,
+{\tt -1} means {\tt mtx} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SemiImplMtx_clearData ( SemiImplMtx *mtx ) ;
+\end{verbatim}
+\index{SemiImplMtx_clearData@{\tt SemiImplMtx\_clearData()}}
+This method releases all storage held by the object.
+\par \noindent {\it Return codes:}
+{\tt 1} means a normal return,
+{\tt -1} means {\tt mtx} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SemiImplMtx_free ( SemiImplMtx *mtx ) ;
+\end{verbatim}
+\index{SemiImplMtx_free@{\tt SemiImplMtx\_free()}}
+This method releases all storage held by the object via a call to
+{\tt SemiImplMtx\_clearData()}, then free'd the storage for the
+object.
+\par \noindent {\it Return codes:}
+{\tt 1} means a normal return,
+{\tt -1} means {\tt mtx} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization Methods}
+\label{subsection:SemiImplMtx:proto:initializers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SemiImplMtx_initFromFrontMtx ( SemiImplMtx *semimtx, FrontMtx *frontmtx, 
+                InpMtx *inpmtx, IV *frontmapIV, int msglvl, FILE *msgFile) ;
+\end{verbatim}
+\index{SemiImplMtx_initFromFrontMtx@{\tt SemiImplMtx\_initFromFrontMtx()}}
+This initializer is used after the {\tt FrontMtx} object for the
+factorization has been computed.
+The {\tt frontmapIV} object defines which fronts map to domains
+and which to the Schur complement.
+If entry {\tt J} of the {\tt frontmapIV} object is zero, then front
+{\tt J} belongs in the Schur complement, otherwise it belongs to
+the domains' matrix.
+The $A_{1,2}$ and $A_{2,1}$ (if nonsymmetric) matrices are
+extracted from the {\tt InpMtx} object.
+\par
+The {\tt semimtx} object removes submatrices from the {\tt
+frontmtx} object, i.e., after the return of this method,
+the {\tt frontmtx} no longer owns (and so cannot free) the
+submatrices from the $(1,1)$ and $(2,2)$ blocks.
+On return, the {\tt frontmtx} object can safely be free'd
+without affecting the {\tt semimtx} object.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+ 1 & normal return \\
+-1 & {\tt semimtx} is {\tt NULL} \\
+-2 & {\tt frontmtx} is {\tt NULL} \\
+-3 & {\tt inpmtx} is {\tt NULL} \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-4 & {\tt frontmapIV} is {\tt NULL} \\
+-5 & {\tt frontmapIV} is invalid \\
+-6 & unable to create (1,1) front matrix \\
+-7 & unable to create (2,2) front matrix \\
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_initFromSubMtx ( FrontMtx *submtx, FrontMtx *frontmtx, IV *frontidsIV,
+                              IV *rowsIV, IV *colsIV, int msglvl, FILE *msgFile) ;
+\end{verbatim}
+\index{FrontMtx_initFromSubMtx@{\tt FrontMtx\_initFromSubMtx()}}
+This initializer is used to initialize the {\tt submtx} {\tt
+FrontMtx} object from a global {\tt FrontMtx} object,
+i.e., to initialize the {\tt domainMtx} and {\tt schurMtx} objects.
+The fronts of the {\tt frontmtx} that will be included into the
+{\tt submtx} object are given in the {\tt frontidsIV} vector object.
+The {\tt submtx} object extracts the submatrices from the {\tt
+frontmtx} object, i.e., after the return of this method,
+the {\tt frontmtx} no longer owns (and so cannot free) its
+submatrices.
+The {\tt submtx} front matrix has {\it local} numbering, 
+its global row ids are placed in {\tt rowsIV} and 
+its global column ids are placed in {\tt colsIV}.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+~~1 & normal return \\
+~-1 & {\tt submtx} is {\tt NULL} \\
+~-2 & {\tt frontmtx} is {\tt NULL} \\
+~-3 & {\tt frontmtx} is not in 2-d mode \\
+~-4 & {\tt frontidsIV} is {\tt NULL} \\
+~-5 & {\tt frontidsIV} is invalid \\
+~-6 & {\tt rowsIV} is {\tt NULL} \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+~-7 & {\tt colsIV} is {\tt NULL} \\
+~-8 & unable to create the front tree \\
+~-9 & unable to create the symbolic factorization \\
+-10 & unable to create the column adjacency  \\
+-11 & unable to create the row adjacency  \\
+-12 & unable to create the upper block {\tt IVL}  \\
+-13 & unable to create the lower block {\tt IVL}  \\
+\end{tabular}
+\end{center}
+\end{enumerate}
+\par
+%=======================================================================
+\par
+\subsection{Solve Methods}
+\label{subsection:SemiImplMtx:proto:solve}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SemiImplMtx_solve ( SemiImplMtx *mtx, DenseMtx *X, DenseMtx *B, 
+         SubMtxManager *mtxmanager, double cpus[], int msglvl, FILE  *msgFile ) ;
+\end{verbatim}
+\index{SemiImplMtx_solve@{\tt SemiImplMtx\_solve()}}
+This methods solves a linear system
+$(L + I)D(I + U)X = B$, $(U^T + I)D(I + U)X = B$ or
+$(U^H + I)D(I + U)X = B$,
+where {\tt X} and {\tt B} are {\tt DenseMtx} objects.
+{\tt mtxmanager} is an object to handle the working
+{\tt SubMtx} objects during the solve.
+One can have {\tt X} and {\tt B} point to the same object,
+for entries are read from {\tt B} and written to {\tt X}.
+On return, the {\tt cpus[]} vector contains the following
+information.
+\begin{center}
+\begin{tabular}{rl}
+{\tt cpus[0]} & initialize working matrices \\
+{\tt cpus[1]} & load right hand side \\
+{\tt cpus[2]} & first solve with domains \\
+{\tt cpus[3]} & compute Schur right hand side \\
+{\tt cpus[4]} & Schur solve
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+{\tt cpus[5]} & compute domains' right hand side \\
+{\tt cpus[6]} & second solve with domains \\
+{\tt cpus[7]} & store solution \\
+{\tt cpus[8]} & miscellaneous time \\
+{\tt cpus[9]} & total time
+\end{tabular}
+\end{center}
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+ 1 & normal return \\
+-1 & {\tt mtx} is {\tt NULL} \\
+-2 & {\tt X} is {\tt NULL} \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-3 & {\tt B} is {\tt NULL} \\
+-4 & {\tt mtxmanager} is {\tt NULL} \\
+-5 & {\tt cpus} is {\tt NULL} \\
+\end{tabular}
+\end{center}
+\end{enumerate}
+\par
+%=======================================================================
+\subsection{Utility methods}
+\label{subsection:SemiImplMtx:proto:utility}
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SemiImplMtx_stats ( SemiImplMtx *mtx, int stats[] ) ;
+\end{verbatim}
+\index{SemiImplMtx_stats@{\tt SemiImplMtx\_stats()}}
+This method fills the {\tt stats[]} vector with some statistics.
+\begin{center}
+\begin{tabular}[t]{rl}
+{\tt stats[0]} & \# of equations \\
+{\tt stats[1]} & \# of equations in the $(1,1)$ block \\
+{\tt stats[2]} & \# of equations in the $(2,2)$ block \\
+{\tt stats[3]} & \# of entries in $L_{1,1}$ \\
+{\tt stats[4]} & \# of entries in $D_{1,1}$ \\
+{\tt stats[5]} & \# of entries in $U_{1,1}$ \\
+{\tt stats[6]} & \# of entries in $L_{2,2}$ \\
+\end{tabular}
+\quad
+\begin{tabular}[t]{rl}
+{\tt stats[7]} & \# of entries in $D_{2,2}$ \\
+{\tt stats[8]} & \# of entries in $U_{2,2}$ \\
+{\tt stats[9]} & \# of entries in $A_{1,2}$ \\
+{\tt stats[10]} & \# of entries in $A_{2,1}$ \\
+{\tt stats[11]} & total \# of entries \\
+{\tt stats[12]} & \# of operations for a solve 
+\end{tabular}
+\end{center}
+\par \noindent {\it Return values:}
+\par
+{\tt 1} for a normal return,
+{\tt -1} if {\tt mtx} is {\tt NULL},
+{\tt -2} if {\tt stats} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:SemiImplMtx:proto:IO}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SemiImplMtx_writeForHumanEye ( SemiImplMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{SemiImplMtx_writeForHumanEye@{\tt SemiImplMtx\_writeForHumanEye()}}
+\par
+This method writes out a {\tt SemiImplMtx} object to a file in a 
+human readable format.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+ 1 & normal return \\
+-1 & {\tt mtx} is {\tt NULL} \\
+-2 & {\tt type} is invalid \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-3 & {\tt symmetryflag} is invalid \\
+-4 & {\tt fp} is {\tt NULL}
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}

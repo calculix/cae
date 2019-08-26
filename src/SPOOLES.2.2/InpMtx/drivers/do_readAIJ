@@ -1,0 +1,40 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = GRD7x7
+
+set msglvl  = 1
+set msgFile = stdout
+
+set dataType = 1
+set flag     = 0
+
+set matrices     = /local1/DATA
+set matrix       = MAT_1
+
+set matrices     = ../../../matrices
+set matrix       = R3D13824
+
+set inFile  = $matrices/$matrix/AIJ$dataType.raw
+set inFile  = $matrices/$matrix.DAT
+set inFile  = $matrices/$matrix/aij.raw
+
+set outFile = $matrices/$matrix/AIJ$dataType.inpmtxf
+set outFile = $matrices/$matrix/AIJ$dataType.inpmtxb
+set outFile = /local1/ARPA/matrices/SFTC1/SFTC1.inpmtxb
+set outFile = $matrices/$matrix/orig.inpmtxb
+
+time readAIJ $msglvl $msgFile $dataType $inFile $outFile $flag
+
+exit
+
+# set inFile  = temp
+# set outFile = temp.inpmtxb
+
+foreach n ( 2 3 4 5 6 7 8 )
+   set inFile   = /local1/DATA/MAT_$n.DAT
+   set outFile  = /local1/ARPA/matrices/SFTC$n/SFTC$n.inpmtxb
+   echo inFile $inFile
+   echo outFile $outFile
+   time readAIJ $msglvl $msgFile $dataType $inFile $outFile $flag
+end

@@ -1,0 +1,24 @@
+include ../../Make.inc
+ 
+OBJ = A2
+
+SRC = basics.c \
+      copyEntriesToVector.c \
+      init.c \
+      instance.c \
+      IO.c \
+      makeStaircase.c \
+      norms.c \
+      QRreduce.c \
+      sort.c \
+      util.c
+
+OBJ_FILES = ${SRC:.c=.o}
+
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a

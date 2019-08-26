@@ -1,0 +1,43 @@
+\chapter{{\tt DV}: Double Vector Object}
+\par
+The {\tt DV} object is a wrapper around a {\tt double} vector,
+thus the acronym {\bf D}ouble {\bf V}ector.
+The driving force for its creation is more convenience than 
+performance.
+There are three cases that led to its development.
+\begin{itemize}
+\item 
+Often a method will create a vector (allocate storage for and fill
+the entries) whose size is not known before the method call.
+Instead of having a pointer to {\tt int} and a pointer to {\tt double*}
+in the calling sequence, we can return a pointer to an {\tt DV}
+object that contains the newly created vector and its size.
+\item
+In many cases we need a persistent {\tt double} vector object,
+and file IO is simplified if we have an object to deal with.
+The filename is of the form {\tt *.dvf} for a formatted file
+or {\tt *.dvb} for a binary file.
+\item
+Prototyping can go much faster with this object as opposed to
+working with an {\tt double} array.
+Consider the case when one wants to accumulate a list of doubles,
+but one doesn't know how large the list will be.
+The method {\tt DV\_setSize()} can be used to set 
+the size of the vector to zero.
+Another method {\tt DV\_push()} appends an element to the vector,
+growing the storage if necessary.
+\item
+Sometimes an object needs to change its size, i.e., vectors need to
+grow or shrink.
+It is easier and more robust to tell an {\tt DV} object to resize
+itself (see the {\tt DV\_setSize()} and {\tt DV\_setMaxsize()}
+methods) than it is to duplicate code to work on an {\tt double}
+vector.
+\end{itemize}
+One must choose where to use this object.
+There is a substantial performance penalty for doing the simplest
+operations, and so when we need to manipulate an {\tt double} vector
+inside a loop, we extract out the size and pointer to the base
+array from the {\tt DV} object.
+On the other hand, the convenience makes it a widely used object.
+\par

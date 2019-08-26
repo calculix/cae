@@ -1,0 +1,34 @@
+#! /bin/csh -f
+
+set msglvl  = 5
+set msgFile = stdout
+set msgFile = res
+
+set seed    = 10101
+set nproc   = 4
+
+set matrices = ../../Matrices
+set matrix   = R2D100
+set inGraphFile = $matrices/$matrix/orig0.graphf
+set inETreeFile = $matrices/$matrix/nd.etreef
+
+#
+#  for solaris with mpich
+#
+set pgFile  = symbfac$nproc.pg
+echo $pgFile
+/usr/local/mpi/bin/mpirun -p4pg $pgFile \
+testSymbFac $msglvl $msgFile $inGraphFile $inETreeFile $seed
+ 
+#
+#  for sgi
+#
+# mpirun -np $nproc \
+# testSymbFac $msglvl $msgFile $inGraphFile $inETreeFile $seed
+ 
+#
+#  for hp
+#
+# /opt/mpi/bin/mpirun -np $nproc \
+# testSymbFac $msglvl $msgFile $inGraphFile $inETreeFile $seed
+

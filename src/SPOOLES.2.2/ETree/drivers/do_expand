@@ -1,0 +1,24 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set number = 8
+
+set inETreeFile = $matrices/$matrix/nd.etreef
+set inETreeFile = nd.etreef
+set inETreeFile = /local1/ARPA/matrices/i4a/best1.etreef
+set inETreeFile = /local1/ARPA/matrices/SFTC$number/best1.etreef
+
+set inEqmapFile = /local1/ARPA/matrices/i4a/map1.ivb
+set inEqmapFile = /local1/ARPA/matrices/SFTC$number/eqmap.ivb
+
+set outETreeFile = $matrices/$matrix/nd.etreeb
+set outETreeFile = none
+set outETreeFile = /local1/ARPA/matrices/SFTC$number/best0.etreef
+
+set msglvl  = 1
+
+set msgFile = stdout
+
+testExpand $msglvl $msgFile $inETreeFile $inEqmapFile $outETreeFile

@@ -1,0 +1,139 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=latex 97.4.4)  23 JAN 1999 13:15
+**main
+(main.tex
+LaTeX2e <1996/12/01> patch level 1
+Babel <v3.6h> and hyphenation patterns for english, german, loaded.
+(/home/tex/teTeX/texmf/tex/latex/base/report.cls
+Document Class: report 1996/10/31 v1.3u Standard LaTeX document class
+(/home/tex/teTeX/texmf/tex/latex/base/leqno.clo
+File: leqno.clo 1996/07/26 v1.1b Standard LaTeX option (left equation numbers)
+)
+(/home/tex/teTeX/texmf/tex/latex/base/size11.clo
+File: size11.clo 1996/10/31 v1.3u Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/home/tex/teTeX/texmf/tex/generic/local/psfig/psfig.tex
+\@unused=\write3
+\ps@stream=\read1
+\p@intvaluex=\dimen103
+\p@intvaluey=\dimen104
+
+psfig/tex 1.10-dvips
+)
+\@indexfile=\write4
+
+Writing index file main.idx
+(main.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+ (intro.tex
+Chapter 1.
+
+LaTeX Warning: Citation `liu90-etree' on page 1 undefined on input line 8.
+
+
+LaTeX Warning: Citation `duf83-multifrontal' on page 1 undefined on input line 
+9.
+
+
+LaTeX Warning: Citation `eis76-elementModel' on page 1 undefined on input line 
+10.
+
+
+LaTeX Warning: Reference `chapter:ETree' on page 1 undefined on input line 21.
+
+) (dataStructure.tex
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 10.
+ (/home/tex/teTeX/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1997/01/14 v2.5a Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 10.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 28.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 28.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 28.
+)
+(proto.tex [1
+
+
+] [2]
+Overfull \hbox (16.3256pt too wide) in paragraph at lines 138--143
+[]\OT1/cmr/m/n/10.95 This is the ba-sic ini-tial-izer method. Any pre-vi-ous da
+ta is cleared with a call to \OT1/cmtt/m/n/10.95 Tree[]clearData()\OT1/cmr/m/n/
+10.95 .
+ []
+
+[3] [4] [5]
+LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 420
+.
+LaTeX Font Info:    No file OMScmtt.fd. on input line 420.
+
+
+LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textbraceleft' on input line 420.
+
+
+LaTeX Warning: Citation `liu91-generalizedEnvelope' on page 6 undefined on inpu
+t line 472.
+
+[6] [7]
+Overfull \hbox (23.26378pt too wide) in paragraph at lines 660--660
+ []\OT1/cmtt/m/n/10.95 int Tree_drawToEPS ( Tree *tree, FILE *filename, DV *xDV
+, DV *yDV, double rscale,[] 
+ []
+
+[8] [9]) (drivers.tex [10]
+psfig: searching ../../Tree/doc/R2D100HC.eps for bounding box
+psfig: including ../../Tree/doc/R2D100HC.eps 
+psfig: searching ../../Tree/doc/R2D100DC.eps for bounding box
+psfig: including ../../Tree/doc/R2D100DC.eps 
+psfig: searching ../../Tree/doc/R2D100HP.eps for bounding box
+psfig: including ../../Tree/doc/R2D100HP.eps 
+psfig: searching ../../Tree/doc/R2D100DP.eps for bounding box
+psfig: including ../../Tree/doc/R2D100DP.eps 
+) (main.ind [11] [12] [13
+
+]) (main.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 582 strings out of 10908
+ 6101 string characters out of 72189
+ 52826 words of memory out of 262141
+ 3463 multiletter control sequences out of 9500
+ 10615 words of font info for 38 fonts, out of 150000 for 255
+ 14 hyphenation exceptions out of 607
+ 22i,6n,22p,274b,342s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (13 pages, 37688 bytes).

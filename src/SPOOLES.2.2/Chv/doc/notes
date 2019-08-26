@@ -1,0 +1,8 @@
+(1) DFront's create new DFront objects as the first step
+    of an update, an inter-front computation.
+(2) The second step is the assembly of one DFront object
+    into another.
+(3) I.e., DFront objects do not have internal access to
+    others of their own class during the update.
+(4) Later, we can write the code to perform the update 
+    with direct-action-on-storage of the two DFront's.

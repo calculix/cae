@@ -1,0 +1,95 @@
+\chapter{Introduction}
+\label{chapter:introduction}
+\par
+The Lanczos eigensolver 
+finds selected eigenvalues and eigenvectors of 
+% three types of eigenproblems, 
+$AX = B X \Lambda$, where $X$ are eigenvectors
+and $\Lambda$ is a diagonal matrix whose elements are eigenvalues.
+Three types of eigenproblems are supported.
+\begin{itemize}
+\item 
+An ``ordinary'' eigenvalue problem 
+where $A$ is symmetric and $B = I$.
+\item 
+An ``vibration'' eigenvalue problem 
+where $A$ is symmetric and 
+$B$ is symmetric positive semidefinite.
+\item 
+A ``buckling'' eigenvalue problem 
+$A$ is symmetric positive semidefinite and
+$B$ is symmetric.
+\end{itemize}
+For the vibration and buckling problems, there must exist a
+$\sigma$ that is not an eigenvalue such that
+$A - \sigma B$ is nonsingular,
+i.e., $A$ and $B$ cannot share the same null space.
+\par
+During the computations, the eigensolver requires the following
+sparse linear algebra computations.
+\begin{itemize}
+\item
+Sparse factorizations of the form $A - \sigma B$.
+\item
+Solves of the form $(A - \sigma B) Z = Y$.
+\item
+Multiplies of the form $Z = B Y$ (for the vibration problem)
+or $Z = A Y$ (for the buckling problem).
+\end{itemize}
+The Lanczos eigensolver has defined a specific interface with an
+external linear algebra package to perform these three operations.
+The eigensolver currently interfaces with the {\bf BCSLIB-EXT} linear
+solver in a serial environment and the {\bf SPOOLES} linear solver
+in serial, multithreaded and MPI environments.
+\par
+This paper documents the {\bf SPOOLES} objects and functions
+that interface with the eigensolver.
+The three following chapters describe the serial, multithreaded and
+MPI objects, their data structures, and their methods.
+The appendix contains listings of three driver programs to exercise
+the eigensolver using the {\bf SPOOLES} library.
+\par
+Symmetric permutations of the eigensystem do not change the
+eigenvalues, and the eigenvectors can be easily constructed
+using the permutation matrix.
+$$
+A X = B X \Lambda
+\longrightarrow
+{\widehat A} {\widehat X} 
+= {\widehat B} {\widehat X} \Lambda
+\quad \mbox{where} \quad
+{\widehat A} = PAP^T, \quad
+{\widehat B} = PBP^T, \quad
+\mbox{and} \quad 
+{\widehat X} = PX 
+$$
+The linear algebra package is free to use any permutation matrix
+$P$ to most efficiently perform the factorizations and solves
+involving ${\widehat A}$ and ${\widehat B}$.
+This permutation matrix $P$ is typically found by ordering the
+graph of $A + B$ using a variant of minimum degree or nested
+dissection.
+The ordering is performed prior to any action by the eigensolver.
+This ``setup phase'' includes more than just finding the
+permutation matrix, e.g., various data structures must be
+initialized.
+In a parallel environment, there is even more setup work to do,
+analyzing the factorization and solves and specifying which threads
+or processors perform what computations and store what data.
+In a distributed environment, the entries of $A$ and $B$ must 
+also be distributed among the processors in preparation for 
+the factors and multiplies.
+\par
+For each of the three environments --- serial, multithreaded and
+MPI --- the {\bf SPOOLES} solver has constructed a ``bridge''
+object to span the interface between the linear system solver 
+and the eigensolver.
+Each of the {\tt Bridge}, {\tt BridgeMT} and {\tt BridgeMPI}
+objects have five methods: set-up, factor, solve, matrix-multiply
+and cleanup.
+The factor, solve and matrix-multiply methods follow the calling
+sequence convention imposed by the eigensolver, and are passed 
+to the eigensolver at the beginning of the Lanczos run.
+The set-up method is called prior to the eigensolver, and the
+cleanup method is called after the eigenvalues and eigenvectors
+have been determined.

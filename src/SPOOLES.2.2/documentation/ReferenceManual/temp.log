@@ -1,0 +1,51 @@
+This is TeX, Version 3.1415 (C version 6.1) (format=lplain 94.11.14)  19 JUN 1998 10:07
+**temp
+(temp.tex
+LaTeX Version 2.09 <25 March 1992>
+(/usr/local/lib/texmf/tex/latex209/report.sty
+Standard Document Style `report' <14 Jan 92>.
+(/usr/local/lib/texmf/tex/latex209/rep11.sty)
+\descriptionmargin=\dimen99
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+
+(/usr/local/lib/texmf/tex/latex209/titlepag.sty
+Document Style Option `titlepage' -- Released 16 June 1991.
+)) (/usr/local/lib/texmf/tex/latex209/leqno.sty
+Document style option `leqno' - released 29 Sep 1991
+) (/usr/local/lib/texmf/tex/generic/psfig/psfig.tex
+\@unused=\write3
+\ps@stream=\read1
+\p@intvaluex=\dimen100
+\p@intvaluey=\dimen101
+
+psfig/tex 1.10-dvips
+) (temp.aux) [0
+
+] [0] (partIntro.tex [1
+
+] [2]
+Chapter 1.
+[3
+
+] (softwareDesign.tex [4] [5] [6]) [7]
+LaTeX Warning: Citation `hr96-msndtalk' on page 8 undefined on input line 147.
+LaTeX Warning: Citation `kar95-metis' on page 8 undefined on input line 148.
+[8]) [9] (temp.aux) ) 
+Here is how much of TeX's memory you used:
+ 415 strings out of 11977
+ 4158 string characters out of 87269
+ 38617 words of memory out of 262141
+ 2357 multiletter control sequences out of 9500
+ 19913 words of font info for 75 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 16i,9n,17p,149b,272s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on temp.dvi (11 pages, 30700 bytes).

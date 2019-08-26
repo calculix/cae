@@ -1,0 +1,290 @@
+\par
+\section{Prototypes and descriptions of {\tt EGraph} methods}
+\label{section:EGraph:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt EGraph} object.
+\par
+\subsection{Basic methods}
+\label{subsection:EGraph:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+EGraph * EGraph_new ( void ) ;
+\end{verbatim}
+\index{EGraph_new@{\tt EGraph\_new()}}
+This method simply allocates storage for the {\tt EGraph} structure 
+and then sets the default fields by a call to 
+{\tt EGraph\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void EGraph_setDefaultFields ( EGraph *egraph ) ;
+\end{verbatim}
+\index{EGraph_setDefaultFields@{\tt EGraph\_setDefaultFields()}}
+This method sets the structure's fields are set to default values:
+{\tt type = nelem = nvtx = 0}, {\tt adjIVL = vwghts = NULL}.
+\par \noindent {\it Error checking:}
+If {\tt egraph} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void EGraph_clearData ( EGraph *egraph ) ;
+\end{verbatim}
+\index{EGraph_clearData@{\tt EGraph\_clearData()}}
+This method clears data and releases any storage allocated by the
+object.
+If {\tt egraph->adjIVL} is not {\tt NULL}, 
+then {\tt IVL\_free(egraph->adjIVL)} is called to free the {\tt IVL}
+object.
+If {\tt egraph->vwghts} is not {\tt NULL}, 
+then {\tt IVfree(egraph->vwghts)} is called to free the {\tt int}
+vector.
+It then sets the structure's default fields 
+with a call to {\tt EGraph\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt egraph} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void EGraph_free ( EGraph *egraph ) ;
+\end{verbatim}
+\index{EGraph_free@{\tt EGraph\_free()}}
+This method releases any storage by a call to 
+{\tt EGraph\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt egraph} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:EGraph:proto:initializers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void EGraph_init ( EGraph *egraph, int type, int nelem, int nvtx,
+                   int IVL_type ) ;
+\end{verbatim}
+\index{EGraph_init@{\tt EGraph\_init()}}
+This method initializes an {\tt EGraph} object given 
+the type of vertices, number of elements, number of vertices,
+and storage type for the {\tt IVL} element list object.
+It then clears any previous data with a call to 
+{\tt EGraph\_clearData()}. 
+The {\tt IVL} object is initialized by a call to {\tt IVL\_init1()}.
+If {\tt type = 1}, the {\tt vwghts} is initialized via a call to
+{\tt IVinit()}.
+See the {\tt IVL} object for a description of the {\tt IVL\_type}
+parameter.
+\par \noindent {\it Error checking:}
+If {\tt egraph} is {\tt NULL} or {\tt type} is not zero or one,
+or if either {\tt nelem} or {\tt nvtx} are nonpositive,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:EGraph:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Graph EGraph_mkAdjGraph ( EGraph *egraph ) ;
+\end{verbatim}
+\index{EGraph_mkAdjGraph@{\tt EGraph\_mkAdjGraph()}}
+This method creates and returns a {\tt Graph} object 
+with vertex adjacency lists from the element graph object.
+\par \noindent {\it Error checking:}
+If {\tt egraph} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+EGraph * EGraph_make9P ( int n1, int n2, int ncomp ) ;
+\end{verbatim}
+\index{EGraph_make9P@{\tt EGraph\_make9P()}}
+This method creates and returns a {\tt EGraph} object 
+for a $\mbox{\tt n1} \times \mbox{\tt n2}$ grid for a 9-point
+operator matrix.
+Each element is a linear quadrilateral finite element with {\tt
+ncomp} degrees of freedom at the grid points.
+The resulting graph has {\tt n1*n2*ncomp} vertices and
+{\tt (n1-1)*(n2-1)} elements.
+\par \noindent {\it Error checking:}
+If {\tt n1}, {\tt n2} or {\tt ncomp} is less than or equal to zero,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+EGraph * EGraph_make27P ( int n1, int n2, int n3, int ncomp ) ;
+\end{verbatim}
+\index{EGraph_make27P@{\tt EGraph\_make27P()}}
+This method creates and returns a {\tt EGraph} object 
+for a $\mbox{\tt n1} \times \mbox{\tt n2} \times \mbox{\tt n3}$ grid 
+for a 27-point operator matrix.
+Each element is a linear hexahedral finite element with {\tt
+ncomp} degrees of freedom at the grid points.
+The resulting graph has {\tt n1*n2*n3*ncomp} vertices and
+{\tt (n1-1)*(n2-1)*(n3-1)} elements.
+\par \noindent {\it Error checking:}
+If {\tt n1}, {\tt n2}, {\tt n3} or {\tt ncomp} 
+is less than or equal to zero,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:EGraph:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a EGraph object is simple:
+{\tt type}, {\tt nelem}, {\tt nvtx},
+an {\tt IVL} object,
+and an {\tt int} vector if {\tt vwghts} is not {\tt NULL}.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int EGraph_readFromFile ( EGraph *egraph, char *fn ) ;
+\end{verbatim}
+\index{EGraph_readFromFile@{\tt EGraph\_readFromFile()}}
+\par
+This method reads an {\tt EGraph} object from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt EGraph\_readFromFormattedFile()} or
+{\tt EGraph\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt egraph} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.egraphf} (for a formatted file) 
+or {\tt *.egraphb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int EGraph_readFromFormattedFile ( EGraph *egraph, FILE *fp ) ;
+\end{verbatim}
+\index{EGraph_readFromFormattedFile@{\tt EGraph\_readFromFormattedFile()}}
+\par
+This method reads in an {\tt EGraph} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt egraph} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int EGraph_readFromBinaryFile ( EGraph *egraph, FILE *fp ) ;
+\end{verbatim}
+\index{EGraph_readFromBinaryFile@{\tt EGraph\_readFromBinaryFile()}}
+\par
+This method reads in an {\tt EGraph} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt egraph} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int EGraph_writeToFile ( EGraph *egraph, char *fn ) ;
+\end{verbatim}
+\index{EGraph_writeToFile@{\tt EGraph\_writeToFile()}}
+\par
+This method writes an {\tt EGraph} object to a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt EGraph\_writeFromFormattedFile()} or
+{\tt EGraph\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt egraph} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.egraphf} (for a formatted file) 
+or {\tt *.egraphb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int EGraph_writeToFormattedFile ( EGraph *egraph, FILE *fp ) ;
+\end{verbatim}
+\index{EGraph_writeToFormattedFile@{\tt EGraph\_writeToFormattedFile()}}
+\par
+This method writes an {\tt EGraph} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt egraph} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int EGraph_writeToBinaryFile ( EGraph *egraph, FILE *fp ) ;
+\end{verbatim}
+\index{EGraph_writeToBinaryFile@{\tt EGraph\_writeToBinaryFile()}}
+\par
+This method writes an {\tt EGraph} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt egraph} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int EGraph_writeForHumanEye ( EGraph *egraph, FILE *fp ) ;
+\end{verbatim}
+\index{EGraph_writeForHumanEye@{\tt EGraph\_writeForHumanEye()}}
+\par
+This method writes an {\tt EGraph} object to a file in a human
+readable format.
+The method {\tt EGraph\_writeStats()} 
+is called to write out the
+header and statistics. 
+Then the {\tt adjIVL} object is written out using
+{\tt IVL\_writeForHumanEye()}.
+If the {\tt vwghts} vector is present, the vertex weights are
+written out.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt egraph} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int EGraph_writeStats ( EGraph *egraph, FILE *fp ) ;
+\end{verbatim}
+\index{EGraph_writeStats@{\tt EGraph\_writeStats()}}
+\par
+This method writes a header and statistics to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt egraph} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

@@ -1,0 +1,692 @@
+\par
+\section{Prototypes and descriptions of {\tt IV} methods}
+\label{section:IV:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt IV} object.
+\par
+\subsection{Basic methods}
+\label{subsection:IV:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * IV_new ( void ) ;
+\end{verbatim}
+\index{IV_new@{\tt IV\_new()}}
+This method simply allocates storage for the {\tt IV} structure 
+and then sets the default fields by a call to 
+{\tt IV\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_setDefaultFields ( IV *iv ) ;
+\end{verbatim}
+\index{IV_setDefaultFields@{\tt IV\_setDefaultFields()}}
+This method sets the structure's fields to default values:
+{\tt size} = {\tt maxsize} = {\tt owned} = 0 
+and {\tt vec} = {\tt NULL} .
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_clearData ( IV *iv ) ;
+\end{verbatim}
+\index{IV_clearData@{\tt IV\_clearData()}}
+This method clears any data owned by the object.
+If {\tt vec} is not {\tt NULL} and {\tt owned = 1},
+then the storage for {\tt vec} is free'd by a call to
+{\tt IVfree()}.
+The structure's default fields are then set 
+with a call to {\tt IV\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_free ( IV *iv ) ;
+\end{verbatim}
+\index{IV_free@{\tt IV\_free()}}
+This method releases any storage by a call to 
+{\tt IV\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:IV:proto:Instance}
+\par
+These method allow access to information in the data fields without
+explicitly following pointers.
+There is overhead involved with these method due to the function
+call and error checking inside the methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_owned ( IV *iv ) ;
+\end{verbatim}
+\index{IV_owned@{\tt IV\_owned()}}
+This method returns the value of {\tt owned}.
+If {\tt owned = 1}, 
+then the object owns the data pointed to by {\tt vec}
+and will free this data with a call to {\tt IVfree()} when its data
+is cleared by a call to {\tt IV\_free()} or {\tt IV\_clearData()}.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_size ( IV *iv ) ;
+\end{verbatim}
+\index{IV_size@{\tt IV\_size()}}
+This method returns the value of {\tt size},
+the present size of the vector.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_maxsize ( IV *iv ) ;
+\end{verbatim}
+\index{IV_maxsize@{\tt IV\_maxsize()}}
+This method returns the value of {\tt maxsize},
+the maximum size of the vector.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_entry ( IV *iv, int loc ) ;
+\end{verbatim}
+\index{IV_entry@{\tt IV\_entry()}}
+This method returns the value of the {\tt loc}'th entry
+in the vector.
+If {\tt loc < 0} or {\tt loc >= size}, i.e., if the location is
+out of range, we return {\tt -1}.
+This design {\tt feature} is handy when a list terminates with a
+{\tt -1} value.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * IV_entries ( IV *iv ) ;
+\end{verbatim}
+\index{IV_entries@{\tt IV\_entries()}}
+This method returns {\tt vec},
+a pointer to the base address of the vector.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_sizeAndEntries ( IV *iv, int *psize, int **pentries ) ;
+\end{verbatim}
+\index{IV_sizeAndEntries@{\tt IV\_sizeAndEntries()}}
+This method fills {\tt *psize} with the size of the vector
+and {\tt *pentries} with the base address of the vector.
+\par \noindent {\it Error checking:}
+If {\tt iv}, {\tt psize} or {\tt pentries} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_setEntry ( IV *iv, int loc, int value ) ;
+\end{verbatim}
+\index{IV_setEntry@{\tt IV\_setEntry()}}
+This method sets the {\tt loc}'th entry of the vector to {\tt value}.
+\par \noindent {\it Error checking:}
+If {\tt iv}, {\tt loc < 0} or {\tt loc >= size}, 
+or if {\tt vec} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:IV:proto:initializers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_init ( IV *iv, int size, int *entries ) ;
+\end{verbatim}
+\index{IV_init@{\tt IV\_init()}}
+This method initializes the object given a size for the vector
+and a possible pointer to the vectors storage.
+Any previous data with a call to {\tt IV\_clearData()}.
+If {\tt entries != NULL} then the {\tt vec} field is set to {\tt
+entries}, the {\tt size} and {\tt maxsize} fields are set
+to {\tt size} , and {\tt owned} is set to zero
+because the object does not own the entries.
+If {\tt entries} is {\tt NULL} and if {\tt size > 0} then 
+a vector is allocated by the object, and the object owns this storage.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL} or {\tt size < 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_init1 ( IV *iv, int size ) ;
+\end{verbatim}
+\index{IV_init1@{\tt IV\_init1()}}
+This method initializes the object given a size for the vector.
+Any previous data is cleared with a call to {\tt IV\_clearData()}.
+Then {\tt size} and {\tt maxsize} are set to {\tt size}.
+If {\tt size > 0}, then the vector is created via a call to {\tt
+IVinit()} and {\tt owned} is set to {\tt 1}.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL} or {\tt size < 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_init2 ( IV *iv, int size, int maxsize, int owned, int *vec ) ;
+\end{verbatim}
+\index{IV_init2@{\tt IV\_init2()}}
+This is the total initialization method.
+Any previous data is cleared with a call to {\tt IV\_clearData()}.
+If {\tt vec} is {\tt NULL}, the object is initialized via a call
+to {\tt IV\_init1()}.
+Otherwise, the object's remaining fields 
+are set to the input parameters.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL} or {\tt maxsize < 0} or {\tt size < 0},
+or if {\tt owned} is not equal to {\tt 0} or {\tt 1},
+or if {\tt owned = 0} and {\tt vec == NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_setMaxsize ( IV *iv, int newmaxsize ) ;
+\end{verbatim}
+\index{IV_setMaxsize@{\tt IV\_setMaxsize()}}
+This method sets the maximum size of the vector.
+If {\tt maxsize}, the present maximum size, 
+is not equal to {\tt newmaxsize}, then new storage is allocated.
+Only {\tt size} entries of the old data are copied into the new
+storage, so if {\tt size > newmaxsize} then data will be lost.
+The {\tt size} field is set to the minimum of {\tt size} 
+and {\tt newmaxsize}.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL} or {\tt newmaxsize < 0},
+or if {\tt 0 < maxsize} and {\tt owned == 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_setSize ( IV *iv, int newsize ) ;
+\end{verbatim}
+\index{IV_setSize@{\tt IV\_setSize()}}
+This method sets the size of the vector.
+If {\tt newsize > maxsize}, the length of the vector is increased
+with a call to {\tt IV\_setMaxsize()}.
+The {\tt size} field is set to {\tt newsize}.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL} or {\tt newsize < 0},
+or if {\tt 0 < maxsize < newsize} and {\tt owned == 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:IV:proto:utilities}
+\par
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_shiftBase ( IV *iv, int offset ) ;
+\end{verbatim}
+\index{IV_shiftBase@{\tt IV\_shiftBase()}}
+This method shifts the base entries of the vector and decrements
+the present size and maximum size of the vector by {\tt offset}.
+This is a dangerous method to use because the state of the vector
+is lost, namely {\tt vec}, the base of the entries, is corrupted.
+If the object owns its entries and {\tt IV\_free()}, 
+{\tt IV\_setSize()} or {\tt IV\_setMaxsize()} 
+is called before the base has been shifted back to
+its original position, a segmentation violation will likely result.
+This is a very useful method, but use with caution.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_push ( IV *iv, int val ) ;
+\end{verbatim}
+\index{IV_push@{\tt IV\_push()}}
+This method pushes an entry onto the vector.
+If the vector is full, i.e., if {\tt size = maxsize - 1},
+then the size of the vector is doubled if possible.
+If the storage cannot grow, i.e., if the object does not own its
+storage, an error message is printed and the program exits.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_min ( IV *iv ) ;
+int IV_max ( IV *iv ) ;
+\end{verbatim}
+\index{IV_min@{\tt IV\_min()}}
+\index{IV_max@{\tt IV\_max()}}
+These methods simply return the minimum and maximum entries in the
+vector.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL}, {\tt size <= 0} or if {\tt vec == NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_sortUp ( IV *iv ) ;
+void IV_sortDown ( IV *iv ) ;
+\end{verbatim}
+\index{IV_sortUp@{\tt IV\_sortUp()}}
+\index{IV_sortDown@{\tt IV\_sortDown()}}
+This method sorts the entries in the vector into ascending or
+descending order via calls to {\tt IVqsortUp()} and {\tt
+IVqsortDown()}.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL}, {\tt size <= 0} or if {\tt vec == NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_ramp ( IV *iv, int base, int incr ) ;
+\end{verbatim}
+\index{IV_ramp@{\tt IV\_ramp()}}
+This method fill the object with a ramp vector,
+i.e., entry {\tt i} is {\tt base + i*incr}.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL}, {\tt size <= 0} or if {\tt vec == NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_shuffle ( IV *iv, int seed ) ;
+\end{verbatim}
+\index{IV_shuffle@{\tt IV\_shuffle()}}
+This method shuffles the entries in the vector
+using {\tt seed} as a seed to a random number generator.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL}, {\tt size <= 0} or if {\tt vec == NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_sizeOf ( IV *iv ) ;
+\end{verbatim}
+\index{IV_sizeOf@{\tt IV\_sizeOf()}}
+This method returns the number of bytes taken by the object.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_filterKeep ( IV *iv, int tags[], int keepTag ) ;
+\end{verbatim}
+\index{IV_filterKeep@{\tt IV\_filterKeep()}}
+This method examines the entries in the vector.
+Let {\tt k} be entry {\tt i} in the vector.
+If {\tt tags[k] != keepTag}, the entry is moved to the end of the
+vector, otherwise it is moved to the beginning of the vector.
+The size of the vector is reset to be the number of tagged entries
+that are now in the leading locations.
+\par \noindent {\it Error checking:}
+If {\tt iv} of {\tt tags} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_filterPurge ( IV *iv, int tags[], int purgeTag ) ;
+\end{verbatim}
+\index{IV_filterPurge@{\tt IV\_filterPurge()}}
+This method examines the entries in the vector.
+Let {\tt k} be entry {\tt i} in the vector.
+If {\tt tags[k] == purgeTag}, the entry is moved to the end of the
+vector, otherwise it is moved to the beginning of the vector.
+The size of the vector is reset to be the number of untagged entries
+that are now in the leading locations.
+\par \noindent {\it Error checking:}
+If {\tt iv} of {\tt tags} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * IV_first ( IV *iv ) ;
+int * IV_next ( IV *iv, int *pi ) ;
+\end{verbatim}
+\index{IV_first@{\tt IV\_first()}}
+\index{IV_next@{\tt IV\_next()}}
+These two methods are used as iterators, e.g.,
+\begin{verbatim}
+for ( pi = IV_first(iv) ; pi != NULL ; pi = IV_next(iv, pi) ) {
+   do something with entry *pi
+}
+\end{verbatim}
+\par \noindent {\it Error checking:}
+Each method checks to see if {\tt iv} or {\tt pi} is {\tt NULL}.
+If so an error message is printed and the program exits.
+In method {\tt IV\_first()}, if {\tt pi} is not in the valid
+range, an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_fill ( IV *iv, int value ) ;
+\end{verbatim}
+\index{IV_fill@{\tt IV\_fill()}}
+This method fills the vector with a scalar value.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_copy ( IV *iv1, IV *iv2 ) ;
+\end{verbatim}
+\index{IV_copy@{\tt IV\_copy()}}
+This method fills the {\tt iv1} object with entries in the {\tt
+iv2} object.
+Note, this is a {\it mapped} copy, {\tt iv1} and {\tt iv2} need not
+have the same size.
+The number of entries that are copied is the smaller of the two sizes.
+\par \noindent {\it Error checking:}
+If {\tt iv1} or {\tt iv2} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_increment ( IV *iv, int loc ) ;
+\end{verbatim}
+\index{IV_increment@{\tt IV\_increment()}}
+This method increments the {\tt loc}'th location 
+of the {\tt iv} object by one and returns the new value.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL} or if {\tt loc} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_decrement ( IV *iv, int loc ) ;
+\end{verbatim}
+\index{IV_decrement@{\tt IV\_decrement()}}
+This method decrements the {\tt loc}'th location 
+of the {\tt iv} object by one and returns the new value.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL} or if {\tt loc} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_findValue ( IV *iv, int value ) ;
+\end{verbatim}
+\index{IV_findValue@{\tt IV\_findValue()}}
+This method looks for {\tt value} in its entries.
+If {\tt value} is present, the first location is returned,
+otherwise {\tt -1} is returned.
+The cost is linear in the number of entries.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_findValueAscending ( IV *iv, int value ) ;
+\end{verbatim}
+\index{IV_findValueAscending@{\tt IV\_findValueAscending()}}
+This method looks for {\tt value} in its entries.
+If {\tt value} is present, a location is returned,
+otherwise {\tt -1} is returned.
+This method assumes that the entries are sorted in ascending order.
+The cost is logarthmic in the number of entries.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_findValueDescending ( IV *iv, int value ) ;
+\end{verbatim}
+\index{IV_findValueDescending@{\tt IV\_findValueDescending()}}
+This method looks for {\tt value} in its entries.
+If {\tt value} is present, a location is returned,
+otherwise {\tt -1} is returned.
+This method assumes that the entries are sorted in descending order.
+The cost is logarthmic in the number of entries.
+\par \noindent {\it Error checking:}
+If {\tt iv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * IV_inverseMap ( IV *listIV ) ;
+\end{verbatim}
+\index{IV_inverseMap@{\tt IV\_inverseMap()}}
+This method creates and returns an inverse map for a list of 
+nonnegative integers.
+This function is used when {\tt listIV} contains a list of global
+ids and we need a map from the global ids to their location in the list.
+The size of the returned {\tt IV} object is equal to one plus the
+largest value found in {\tt listIV}.
+If {\tt value} is not found in {\tt listIV}, then the corresponding
+entry in the returned {\tt IV} object is -1.
+\par \noindent {\it Error checking:}
+If {\tt listIV} is {\tt NULL}, 
+or if its size if zero or less or if its entries are {\tt NULL},
+or if one of its entries is negative,
+or if any entry in listIV is repeated,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * IV_targetEntries ( IV *listIV ) ;
+\end{verbatim}
+\index{IV_targetEntries@{\tt IV\_targetEntries()}}
+This method creates and returns a list of 
+locations where {\tt target} is found in {\tt listIV} .
+\par \noindent {\it Error checking:}
+If {\tt listIV} is {\tt NULL}, 
+or if its size if zero or less or if its entries are {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:IV:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of an {\tt IV} object is simple:
+the first entry is {\tt size}, followed by the {\tt size} entries
+found in {\tt vec[]}.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_readFromFile ( IV *iv, char *fn ) ;
+\end{verbatim}
+\index{IV_readFromFile@{\tt IV\_readFromFile()}}
+\par
+This method reads an {\tt IV} object from a formatted file.
+It tries to open the file and if it is successful, 
+it then calls {\tt IV\_readFromFormattedFile()} or
+{\tt IV\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt iv} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.ivf} (for a formatted file) 
+or {\tt *.ivb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_readFromFormattedFile ( IV *iv, FILE *fp ) ;
+\end{verbatim}
+\index{IV_readFromFormattedFile@{\tt IV\_readFromFormattedFile()}}
+\par
+This method reads in an {\tt IV} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt iv} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_readFromBinaryFile ( IV *iv, FILE *fp ) ;
+\end{verbatim}
+\index{IV_readFromBinaryFile@{\tt IV\_readFromBinaryFile()}}
+\par
+This method reads in an {\tt IV} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt iv} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_writeToFile ( IV *iv, char *fn ) ;
+\end{verbatim}
+\index{IV_writeToFile@{\tt IV\_writeToFile()}}
+\par
+This method writes an {\tt IV} object to a formatted file.
+It tries to open the file and if it is successful, 
+it then calls {\tt IV\_writeFromFormattedFile()} or
+{\tt IV\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt iv} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.ivf} (for a formatted file) 
+or {\tt *.ivb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_writeToFormattedFile ( IV *iv, FILE *fp ) ;
+\end{verbatim}
+\index{IV_writeToFormattedFile@{\tt IV\_writeToFormattedFile()}}
+\par
+This method writes an {\tt IV} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt iv} or {\tt fp} are {\tt NULL} an error message is printed and
+zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_writeToBinaryFile ( IV *iv, FILE *fp ) ;
+\end{verbatim}
+\index{IV_writeToBinaryFile@{\tt IV\_writeToBinaryFile()}}
+\par
+This method writes an {\tt IV} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt iv} or {\tt fp} are {\tt NULL} an error message is printed and
+zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_writeForHumanEye ( IV *iv, FILE *fp ) ;
+\end{verbatim}
+\index{IV_writeForHumanEye@{\tt IV\_writeForHumanEye()}}
+\par
+This method writes an {\tt IV} object to a file in a human readable
+format.
+The method {\tt IV\_writeStats()} is called to write out the
+header and statistics. 
+The entries of the vector then follow in eighty column format
+using the {\tt IVfp80()} method.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt iv} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_writeStats ( IV *iv, FILE *fp ) ;
+\end{verbatim}
+\index{IV_writeStats@{\tt IV\_writeStats()}}
+\par
+This method writes the header and statistics to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt iv} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_fp80 ( IV *iv, FILE *fp, int column, int *pierr ) ;
+\end{verbatim}
+\index{IV_fp80@{\tt IV\_fp80()}}
+\par
+This method is just a wrapper around the {\tt IVfp80()} method for
+an {\tt int} method. 
+The entries in the vector are found on lines with eighty columns
+and are separated by a whitespace.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt iv} or {\tt fp} or {\tt pierr} are {\tt NULL}, 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV_writeForMatlab ( IV *iv, char *name, FILE *fp ) ;
+\end{verbatim}
+\index{IV_writeForMatlab@{\tt IV\_writeForMatlab()}}
+\par
+This method writes the entries of the vector to a file
+suitable to be read by Matlab.
+The character string {\tt name} is the name of the vector,
+e.g, if {\tt name = "A"}, then we have lines of the form
+\begin{verbatim}
+A(1) = 32 ;
+A(2) = -433 ;
+...
+\end{verbatim}
+for each entry in the vector.
+Note, the output indexing is 1-based, not 0-based.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt iv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

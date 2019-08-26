@@ -1,0 +1,30 @@
+#! /bin/csh -f
+
+set msglvl  = 1
+set msgFile = stdout
+set msgFile = nd3d.res
+
+set n1 =  33
+set n2 =  33
+set n3 =  33
+
+set maxzeros = 16384
+set maxzeros = 64
+set maxsize  = 32
+set maxzeros =  1000
+set maxzeros =  0
+set maxsize  =  64
+set maxsize  = 100000
+
+# foreach n ( 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 )
+# foreach n ( 10 12 14 17 20 24 28 34 40 48 56 )
+foreach n ( 31 )
+   set n1 = $n
+   set n2 = $n
+#  set n3 = 1
+   set n3 = $n
+   echo $n1 x $n2 x $n3
+   mkNDETree $msglvl $msgFile $n1 $n2 $n3 $maxzeros $maxsize nd.etreef
+   testHeight $msglvl $msgFile nd.etreef
+   rm nd.etreef
+end

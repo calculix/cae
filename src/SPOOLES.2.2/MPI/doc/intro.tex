@@ -1,0 +1,29 @@
+\chapter{{\tt MPI} directory}
+\label{chapter:MPI}
+\par
+All methods that use MPI constructs are found in this directory.
+There are a remarkably small number when one
+considers that the numeric functionality of this library has been
+extended to a distributed memory system.
+Most of the necessary data structures exist equally well as 
+a {\it global} object for a serial or multithreaded application 
+or as a {\it distributed} object for a distributed memory application.
+\par
+There is very little new numeric code in this directory.
+The ``chores'' --- what is done and how --- is unchanged from the
+serial codes.
+The ``choreography'' --- who does what when --- is unchanged from the
+multithreaded codes.
+All that was necessary to add the explicit message passing demanded
+by the MPI environment.
+\par
+All communication is ``safe'', meaning that the programs will complete 
+when using an MPI implementation that conforms to the standard.
+We use non-blocking communication, i.e., communication calls that
+are guaranteed to complete, namely
+{\tt MPI\_Alltoall()},
+{\tt MPI\_Sendrecv()},
+{\tt MPI\_Bcast()},
+{\tt MPI\_Allgather()},
+{\tt MPI\_Irecv()} and
+{\tt MPI\_Isend()}.

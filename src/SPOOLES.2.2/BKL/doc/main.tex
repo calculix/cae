@@ -1,0 +1,30 @@
+%
+%  main TeX file
+%
+% \documentstyle[leqno,11pt,twoside]{report}
+\documentclass[leqno,11pt,twoside]{report}
+
+\textwidth      6.5 in
+\textheight     8.5 in
+\oddsidemargin  0.0 in
+\evensidemargin 0.0 in
+\topmargin      0.0 in
+\baselineskip   20 pt
+\parskip        3 pt plus 1 pt minus 1 pt
+
+\makeindex
+
+\begin{document}
+
+\pagestyle{myheadings}
+\markboth
+{\quad \hrulefill \quad {\tt BKL} : {\it DRAFT} \today \quad \hrulefill}
+{\quad \hrulefill \quad {\tt BKL} : {\it DRAFT} \quad \today \hrulefill}
+
+\input intro.tex
+\input dataStructure.tex
+\input proto.tex
+
+\input main.ind
+
+\end{document}

@@ -1,0 +1,146 @@
+\par
+\chapter{A Quick Start}
+\label{chapter:quickstart}
+\par
+The {\bf SPOOLES} software package is large and complex ---
+there are seven objects, roughly 32000 lines of source code 
+and another 4000 lines of driver programs.
+Furthermore, it is built on the {\bf SMOOTH} software package 
+for ordering sparse matrices which contains twenty objects,
+55000 lines of source code and another 12000 lines
+of driver programs.
+We like to think of the software in these two packages
+as boxes of Legos (plastic
+building blocks for children) --- by pulling out the right objects
+and fitting them together we can easily build code with complex
+functionality.
+\par
+Each object has its directory, a {\tt src} subdirectory that
+contains source code, a {\tt doc} subdirectory that holds \LaTeX\ 
+files for documentation, and possibly a {\tt drivers} subdirectory
+that contains driver programs for this object.
+\par
+There are twenty objects in the {\bf SMOOTH} library.
+\begin{center}
+\begin{tabular}{|l|l|} \hline
+{\tt BKL } & block Kernighan-Lin algorithm \\
+{\tt BPG } & bipartite graph object \\
+{\tt Coords } & coordinates object \\
+{\tt CV } & {\tt char} vector object \\
+{\tt DInpMtx } & input matrix object \\
+{\tt Drand } & random number generator \\
+{\tt DSTree } & domain/separator tree object \\
+{\tt DV } & {\tt double} vector object \\
+{\tt EGraph } & element graph object \\
+{\tt ETree } & elimination and front tree object \\
+{\tt GPart } & graph partitioning object \\
+{\tt Graph } & graph object \\
+{\tt IIheap } & heap object \\
+{\tt IV } & {\tt int} vector object \\
+{\tt IVL } & {\tt int} vector list object \\
+{\tt Ideq } & {\tt int} dequeue object \\
+{\tt MSMD } & multi-stage minimum degree object \\
+{\tt Network } & max flow/ min-cut network object \\
+{\tt Perm } & permutation object \\
+{\tt Tree } & tree object \\ \hline
+\end{tabular}
+\end{center}
+Nine of these are used in the {\bf SPOOLES} library:
+the
+{\tt CV},
+{\tt DInpMtx},
+{\tt Drand},
+{\tt DV},
+{\tt ETree},
+{\tt IV},
+{\tt IVL},
+{\tt Ideq} and
+{\tt Tree} objects.
+The {\tt DInpMtx} and {\tt ETree} objects are the most important.
+The {\tt DInpMtx} object is used to assemble, store and make
+available to the factorization object the entries in the original
+matrix.
+The {\tt ETree} object stores the {\it front tree}, which is
+basically the blueprint or DNA that defines the data structures 
+and the computations for the factorization and solves.
+The {\tt ETree} object is the end product of a matrix ordering
+that can be obtained from the {\bf SMOOTH} library.\footnote{
+One can also use a permutation vector obtained from some outside
+source. There are {\tt ETree} methods that will generate an {\tt
+ETree} object from a permutation vector and a graph.
+One is not restricted to the ordering methods in the {\bf SMOOTH}
+library.
+}
+\par
+There are seven objects in the {\bf SPOOLES} library.
+\begin{center}
+\begin{tabular}{|l|l|} \hline
+{\tt CA2 } & character two-dimensional array object \\
+{\tt DA2 } & double precision two-dimensional array object \\
+{\tt DChv } & double precision chevron object \\
+{\tt DChvL } & {\tt DChv} list object \\
+{\tt DFrontMtx } & front matrix object, factors and solves \\
+{\tt DVL } & double precision vector list object \\
+{\tt PivotFinder } & object that finds pivot elements \\ 
+\hline
+\end{tabular}
+\end{center}
+\par
+The {\it user} need know about very few of these objects --- 
+\begin{itemize}
+\item
+{\tt DInpMtx} to assemble a sparse matrix, permute the matrix
+elements, and map the elements into the factorization,
+\item
+{\tt ETree} to hold a front tree 
+that drives the factorization and solves,
+\item
+{\tt PivotFinder} that finds pivots for the factorization, and
+\item
+{\tt DFrontMtx} that computes and stores a factorization and
+solves linear systems.
+\end{itemize}
+We refer the reader to the {\bf SMOOTH} documentation for
+information on the {\tt DInpMtx} and {\tt ETree} objects.
+\par
+The {\tt PivotFinder} is a simple object that looks for suitable
+pivots in a front.
+If the user does not want pivoting enabled, (for example, if the
+matrix is diagonally dominant or one just wants to live
+dangerously), just set the {\tt PivotFinder} input parameter to
+{\tt NULL} in the calling sequence for the factorization method.
+The {\tt PivotFinder} object has several options and a user defined 
+tolerance to give a range of behaviors.
+Furthermore, the {\tt DFrontMtx} factor matrix object knows nothing
+about pivot selection, so the {\tt PivotFinder} object can be
+extended or even replaced without touching any of the {\tt
+DFrontMtx} code.\footnote{
+Were we working in a language that supported inheritance and/or
+protocols, (e.g., C++ or Objective-C), replacing the PivotFinder
+object would be a simple process.
+Since we work in C, we find it easiest to duplicate the 
+{\tt PivotFinder} directory, change the functionality,
+and then link the new object into the {\tt DFrontMtx} code.
+}
+\par
+The {\tt DFrontMtx} object is the workhorse of the library.
+It handles symmetric or nonsymmetric factorizations,
+exact or approximate (the latter is not yet implemented though
+the hooks are in place), pivoting or no pivoting.
+Furthermore, there are three modes in which it operates:
+serial mode, multi-threaded, and MPI.
+The present release of the library uses the Solaris thread package 
+to implement the multithreaded factor and solves.
+However, since we only use thread create and join operations
+along with mutex's (mutual exclusion locks), the port to a POSIX
+thread package, or just about any other thread package, will
+be straightforward.
+The MPI version of the factor and solves is still in the
+development stages.
+\par
+To get started with solving a linear system, 
+read the {\tt DFrontMtx} documentation in
+Section~\ref{section:DFrontMtx} and
+see the {\tt testFactor.c}
+and {\tt testPFactor.c} driver programs in the
+{\tt spooles/DFrontmtx/drivers} directory.

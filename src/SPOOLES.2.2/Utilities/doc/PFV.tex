@@ -1,0 +1,46 @@
+\par
+\subsection{{\tt PFV} : {\tt float *} vector methods}
+\label{subsection:Utilities:proto:PFV}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float ** PFVinit ( int n ) ;
+\end{verbatim}
+\index{PFVinit@{\tt PFVinit()}}
+This is the allocator and initializer method for {\tt float*} vectors.
+Storage for an array with size {\tt n} is found and each
+entry is filled with {\tt NULL}.
+A pointer to the array is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PFVfree ( float **p_vec ) ;
+\end{verbatim}
+\index{PFVfree@{\tt PFVfree()}}
+This method releases the storage taken by {\tt p\_vec[]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PFVcopy ( int n, float *p_y[], float *p_x[] ) ;
+\end{verbatim}
+\index{PFVcopy@{\tt PFVcopy()}}
+This method copies {\tt n} entries from {\tt p\_x[]} to {\tt p\_y[]},
+i.e.,
+{\tt p\_y[i] = p\_x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PFVsetup ( int n, int sizes[], float vec[], float *p_vec[] ) ;
+\end{verbatim}
+\index{PFVsetup@{\tt PFVsetup()}}
+This method sets the entries of {\tt p\_vec[]} as pointers into {\tt
+vec[]} given by the {\tt sizes[]} vector,
+i.e.,
+{\tt p\_vec[0] = vec}, and 
+{\tt p\_vec[i] = p\_vec[i-1] + sizes[i-1]} 
+for {\tt 0 < i < n}.
+%-----------------------------------------------------------------------
+\end{enumerate}

@@ -1,0 +1,34 @@
+\chapter{{\tt ILUMtx}: Incomplete $LU$ Matrix Object}
+\label{chapter:ILUMtx}
+\par
+The {\tt ILUMtx} object represents and approximate (incomplete) 
+$(L+I)D(I+U)$, $(U^T+I)D(I+U)$ or $(U^H+I)D(I+U)$ factorization.
+It is a very simple object, rows and columns of $L$ and $U$ are
+stored as single vectors. 
+All computations to compute the factorization and to solve linear
+systems are performed with sparse BLAS1 kernels.
+Presently, the storage scheme is very simple minded, we use {\tt
+malloc()} and {\tt free()} to handle the individual vectors of the
+rows and columns of $L$ and $U$.
+\par
+At present we have one factorization method.
+No pivoting is performed.
+Rows of $U$ are stored, along with columns of $L$ if the matrix is
+nonsymmetric.
+If a zero pivot is encountered on the diagonal during the
+factorization, the computation stops and returns a nonzero error
+code.
+(Presently, there is no ``patch-and-go'' functionality.)
+An $L_{j,i}$ entry is kept if
+$
+|L_{j,i} D_{i,i}| \ge \sigma \sqrt{|D_{i,i}| \ |A_{j,j}|},
+$
+where $\sigma$ is a user supplied drop tolerance,
+and similarly for $U_{i,j}$.
+Note, if $A_{j,j} = 0$, as is common for KKT matrices,
+all $L_{j,i}$ and $U_{i,j}$ entries will be kept.
+It is simple to modify the code to use another drop tolerance
+criteria, e.g., an absolute tolerance, or one based only on
+$|D_{i,i}|$.
+We intend to write other factorization methods that will
+conform to a user-supplied nonzero structure for the factors.

@@ -1,0 +1,19 @@
+\par
+\section{Data Structure}
+\par
+The {\tt ETree} object has six fields.
+\begin{itemize}
+\item {\tt int nfront} : number of fronts in the tree
+\item {\tt int nvtx} : number of vertices in the tree
+\item {\tt Tree *tree} : pointer to a {\tt Tree} structure
+\item {\tt IV  *nodwghtsIV} : pointer to an {\tt IV} object to hold
+front weights, size {\tt nfront}
+\item {\tt IV  *bndwghtsIV} : pointer to an {\tt IV} object to hold
+the weights of the fronts' boundaries, size {\tt nfront}
+\item {\tt IV  *vtxToFrontIV} : pointer to an {\tt IV} object to hold
+the map from vertices to fronts, size {\tt nfront}
+\end{itemize}
+A correctly initialized and nontrivial {\tt ETree} object 
+will have positive {\tt nfront} and {\tt nvtx} values,
+a valid {\tt tree} field and non-{\tt NULL}
+{\tt nodwghtsIV}, {\tt bndwghtsIV} and {\tt vtxToFrontIV} pointers.

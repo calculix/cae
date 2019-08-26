@@ -1,0 +1,447 @@
+\par
+\section{Prototypes and descriptions of {\tt MSMDinfo} methods}
+\label{section:MSMDinfo:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt MSMDinfo} object.
+\par
+\subsection{Basic methods}
+\label{subsection:MSMDinfo:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+MSMDinfo * MSMDinfo_new ( void ) ;
+\end{verbatim}
+\index{MSMDinfo_new@{\tt MSMDinfo\_new()}}
+This method simply allocates storage for the {\tt MSMDinfo} structure 
+and then sets the default fields by a call to 
+{\tt MSMDinfo\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMDinfo_setDefaultFields ( MSMDinfo *info ) ;
+\end{verbatim}
+\index{MSMDinfo_setDefaultFields@{\tt MSMDinfo\_setDefaultFields()}}
+This method sets the structure's fields to default values.
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMDinfo_clearData ( MSMDinfo *info ) ;
+\end{verbatim}
+\index{MSMDinfo_clearData@{\tt MSMDinfo\_clearData()}}
+This method clears any data owned by the object
+and then sets the structure's default fields 
+with a call to {\tt MSMDinfo\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMDinfo_free ( MSMDinfo *info ) ;
+\end{verbatim}
+\index{MSMDinfo_free@{\tt MSMDinfo\_free()}}
+This method releases any storage by a call to 
+{\tt MSMDinfo\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+\end{enumerate}
+%-----------------------------------------------------------------------
+\par
+\subsection{Utility methods}
+\label{subsection:MSMDinfo:proto:utility}
+\par
+There are two utility methods, one to print the object, one to
+check to see if it is valid.
+\par
+\begin{enumerate}
+\item
+\begin{verbatim}
+void MSMDinfo_print ( MSMDinfo *info, FILE *fp ) ;
+\end{verbatim}
+\index{MSMDinfo_print@{\tt MSMDinfo\_print()}}
+This method prints out the information to a file.
+\par \noindent {\it Error checking:}
+If {\tt info} or {\tt fp} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int MSMDinfo_isValid ( MSMDinfo *info ) ;
+\end{verbatim}
+\index{MSMDinfo_isValid@{\tt MSMDinfo\_isValid()}}
+This method checks that the object is valid.
+The return value is {\tt 1} for a valid object, 
+{\tt 0} for an invalid object.
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+%=======================================================================
+\par
+\section{Prototypes and descriptions of {\tt MSMD} methods}
+\label{section:MSMD:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt MSMD} object.
+The methods are loosely classified as {\it public} and {\it private}.
+Since the C language does not support private methods (with the
+exception of {\tt static} methods within a file), 
+specifying a method as public or private is advisory.
+\par
+\subsection{Basic methods --- public}
+\label{subsection:MSMD:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+MSMD * MSMD_new ( void ) ;
+\end{verbatim}
+\index{MSMD_new@{\tt MSMD\_new()}}
+This method simply allocates storage for the {\tt MSMD} structure 
+and then sets the default fields by a call to 
+{\tt MSMD\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_setDefaultFields ( MSMD *msmd ) ;
+\end{verbatim}
+\index{MSMD_setDefaultFields@{\tt MSMD\_setDefaultFields()}}
+This method sets the structure's fields to default values.
+\par \noindent {\it Error checking:}
+If {\tt msmd} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_clearData ( MSMD *msmd ) ;
+\end{verbatim}
+\index{MSMD_clearData@{\tt MSMD\_clearData()}}
+This method clears any data owned by the object,
+then sets the structure's default fields 
+with a call to {\tt MSMD\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt msmd} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_free ( MSMD *msmd ) ;
+\end{verbatim}
+\index{MSMD_free@{\tt MSMD\_free()}}
+This method releases any storage by a call to 
+{\tt MSMD\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt msmd} is {\tt NULL},
+an error message is printed and the program exits.
+\end{enumerate}
+%=======================================================================
+\par
+\subsection{Initialization methods --- public}
+\label{subsection:MSMD:proto:init}
+\par
+There is one initialization method.
+\par
+\begin{enumerate}
+\item
+\begin{verbatim}
+void MSMD_init ( MSMD *msmd, Graph *graph, int stages[], MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_init@{\tt MSMD\_init()}}
+This method initializes the {\tt MSMD} object prior to an ordering.
+It is called by {\tt MSMD\_order()} method, and so it is currently
+a {\it private} method for the object.
+However, when designing more complicated ordering methods, this
+object is necessary to set up the data structures.
+There are two input arguments:
+{\tt graph} is a pointer to a {\tt Graph} object that holds the
+adjacency lists and weights of the vertices, 
+and {\tt stages} is a map from each
+vertex to the stage at which it is to be eliminated.
+(If {\tt stages == NULL}, then all vertices will be eliminated in
+one stage, i.e., we order the graph using minimum degree.)
+Unlike much other ordering software, we do {\bf not} destroy the
+adjacency structure of the graph --- however we might shuffle the
+entries in each adjacency list.
+\par \noindent {\it Error checking:}
+If {\tt msmd}, {\tt graph} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+%=======================================================================
+\par
+\subsection{Ordering methods --- public}
+\label{subsection:MSMD:proto:order}
+\par
+There is currently one ordering method.
+\par
+\begin{enumerate}
+\item
+\begin{verbatim}
+void MSMD_order ( MSMD *msmd, Graph *graph, int stages[], MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_order@{\tt MSMD\_order()}}
+This method orders the vertices in the graph and maintains the {\tt
+MSMDvtx} objects in a suitable representation to generate
+permutation vectors and/or a front tree.
+The input is the same as for the {\tt MSMD\_init()} method defined
+above.
+\par
+The method first checks that the input is valid, i.e., that {\tt
+msmd}, {\tt graph} and {\tt info} are not {\tt NULL} and that the
+{\tt info} structure is valid by calling {\tt MSMD\_isValid()}.
+The {\tt msmd} is then initialized by calling {\tt MSMD\_init()}.
+If called for, the graph is compressed prior to any elimination.
+The vertices are then eliminated by their stages via calls to 
+{\tt MSMD\_eliminateStage()}.
+The overall statistics for the elimination are then computed,
+and then the working storage is then released, save for the {\tt
+MSMDvtx} structures.
+\par \noindent {\it Error checking:}
+If {\tt msmd}, {\tt graph} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+\end{enumerate}
+%=======================================================================
+\par
+\subsection{Extraction methods --- public}
+\label{subsection:MSMD:proto:extraction}
+\par
+There are two methods to extract the ordering.
+The first fills one or two {\tt IV} objects with the permutation
+vector(s).
+The second returns an {\tt ETree} object that holds the front tree
+for the ordering.
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_fillPerms ( MSMD *msmd, IV *newToOldIV, IV *oldToNewIV ) ;
+\end{verbatim}
+\index{MSMD_fillPerms@{\tt MSMD\_fillPerms()}}
+If {\tt newToOldIV} is not {\tt NULL}, this method fills the {\tt
+IV} object with the new-to-old permutation of the vertices,
+resizing the {\tt IV} object if necessary.
+If {\tt oldToNewIV} is not {\tt NULL}, this method fills the {\tt
+IV} object with the old-to-new permutation of the vertices,
+resizing the {\tt IV} object if necessary.
+\par \noindent {\it Error checking:}
+If {\tt msmd} is {\tt NULL},
+or if {\tt newToOldIV} and {\tt oldToNewIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * MSMD_frontETree ( MSMD *msmd ) ;
+\end{verbatim}
+\index{MSMD_frontETree@{\tt MSMD\_frontETree()}}
+This method constructs and returns a {\tt ETree} object that
+contains the front tree for the ordering.
+\par \noindent {\it Error checking:}
+If {\tt msmd} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+%=======================================================================
+\par
+\subsection{Internal methods --- private}
+\label{subsection:MSMD:proto:private}
+\par
+The following methods are used internally to order the graph.
+the user should never have any cause to call them.
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_eliminateStage ( MSMD *msmd, MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_eliminateStage@{\tt MSMD\_eliminateStage()}}
+This method eliminates the vertices in the present stage.
+\par \noindent {\it Error checking:}
+If {\tt msmd} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int MSMD_eliminateStep ( MSMD *msmd, MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_eliminateStep@{\tt MSMD\_eliminateStep()}}
+This method eliminates one {\it step} of vertices, an independent
+set of vertices.
+The return value is the weight of the vertices eliminated at this
+step.
+\par \noindent {\it Error checking:}
+If {\tt msmd} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_eliminateVtx ( MSMD *msmd, MSMDvtx *v, MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_eliminateVtx@{\tt MSMD\_eliminateVtx()}}
+This method eliminates vertex {\tt v}.
+\par \noindent {\it Error checking:}
+If {\tt msmd}, {\tt v} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_findInodes ( MSMD *msmd, MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_findInodes@{\tt MSMD\_findInodes()}}
+This method examines nodes in the reach set to detect
+indistinguishability.
+\begin{itemize}
+\item
+If {\tt info->compressFlag \% 4 == 0}, there is a simple return.
+\item
+If {\tt info->compressFlag \% 4 == 1}, only 2-adjacent nodes are
+examined.
+\item
+If {\tt info->compressFlag \% 4 == 2}, all nodes are examined.
+\end{itemize}
+The order of the nodes in the reach set may be permuted, but any
+indistinguishable nodes in the reach set are not purged from the
+reach set.
+\par \noindent {\it Error checking:}
+If {\tt msmd} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_cleanReachSet ( MSMD *msmd, MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_cleanReachSet@{\tt MSMD\_cleanReachSet()}}
+This method cleans the nodes in the reach set by calling
+{\tt MSMD\_cleanSubtreeList()}
+and {\tt MSMD\_clearEdgeList()}.
+\par \noindent {\it Error checking:}
+If {\tt msmd} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_cleanSubtreeList ( MSMD *msmd, MSMDvtx *v, MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_cleanSubtreeList@{\tt MSMD\_cleanSubtreeList()}}
+This method cleans the list of subtrees for vertex {\tt v},
+removing any node which is no longer the root of a subtree of
+eliminated nodes.
+\par \noindent {\it Error checking:}
+If {\tt msmd}, {\tt v} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_cleanEdgeList ( MSMD *msmd, MSMDvtx *v, MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_cleanEdgeList@{\tt MSMD\_cleanEdgeList()}}
+This method cleans the list of uncovered edges for vertex {\tt v},
+removing any edge {\tt (v,w)} where {\tt v} and {\tt w} share a
+common adjacent subtree.
+\par \noindent {\it Error checking:}
+If {\tt msmd}, {\tt v} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_update ( MSMD *msmd, MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_update@{\tt MSMD\_update()}}
+This method updates the priorities of all nodes in the reach set.
+\par \noindent {\it Error checking:}
+If {\tt msmd} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int MSMD_exactDegree2 ( MSMD *msmd, MSMDvtx *v, MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_exactDegree2@{\tt MSMD\_exactDegree2()}}
+This method computes and returns the exact external degree 
+for vertex {\tt v}.
+\par \noindent {\it Error checking:}
+If {\tt msmd}, {\tt v} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int MSMD_exactDegree3 ( MSMD *msmd, MSMDvtx *v, MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_exactDegree3@{\tt MSMD\_exactDegree3()}}
+This method computes and returns the exact external degree 
+for vertex {\tt v}.
+\par \noindent {\it Error checking:}
+If {\tt msmd}, {\tt v} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int MSMD_approxDegree ( MSMD *msmd, MSMDvtx *v, MSMD *info ) ;
+\end{verbatim}
+\index{MSMD_approxDegree@{\tt MSMD\_approxDegree()}}
+This method computes and returns the approximate external degree 
+for vertex {\tt v}.
+\par \noindent {\it Error checking:}
+If {\tt msmd}, {\tt v} or {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMD_makeSchurComplement ( MSMD *msmd, Graph *schurGraph, IV *VtoPhiIV ) ;
+\end{verbatim}
+\index{MSMD_makeSchurComplement@{\tt MSMD\_makeSchurComplement()}}
+This method fills {\tt schurGraph} with the graph of the Schur
+complement matrix (the fill graph of the uneliminated vertices)
+and fills {\tt VtoPhiIV} with a map from the vertices of the
+original graph to the vertices of the Schur complement graph.
+(The mapped value of an eliminated vertex is {\tt -1}.)
+\par \noindent {\it Error checking:}
+If {\tt msmd}, {\tt schurGraph} or {\tt VtoPhiIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+%=======================================================================
+\par
+\section{Prototypes and descriptions of {\tt MSMDvtx} methods}
+\label{section:MSMDvtx:proto}
+\par
+The {\tt MSMDvtx} object is private so would not normally be
+accessed by the user. There is one method to print out the object.
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MSMDvtx_print ( MSMDvtx *v, FILE *fp ) ;
+\end{verbatim}
+\index{MSMDvtx_print@{\tt MSMDvtx\_print()}}
+This method prints a human-readable representation of a vertex,
+used for debugging.
+\par \noindent {\it Error checking:}
+If {\tt v} or {\tt fp} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+%=======================================================================

@@ -1,0 +1,440 @@
+\par
+\section{Driver programs for the multithreaded functions}
+\label{section:MT:drivers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+allInOneMT msglvl msgFile type symmetryflag pivotingflag 
+           matrixFileName rhsFileName seed nthread
+\end{verbatim}
+This driver program reads in a matrix $A$ and right hand side $B$,
+generates the graph for $A$ and orders the matrix,
+factors $A$ and solves the linear system $AX = B$ for $X$
+using multithreaded factors and solves.
+Use the script file {\tt do\_gridMT} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter specifies a real or complex linear system.
+\begin{itemize}
+\item
+{\tt type = 1 (SPOOLES\_REAL)} for real,
+\item
+{\tt type = 2 (SPOOLES\_COMPLEX)} for complex.
+\end{itemize}
+\item
+The {\tt symmetryflag} parameter specifies the symmetry of the matrix.
+\begin{itemize}
+\item
+{\tt type = 0 (SPOOLES\_SYMMETRIC)} for $A$ real or complex symmetric,
+\item
+{\tt type = 1 (SPOOLES\_HERMITIAN)} for $A$ complex Hermitian,
+\item
+{\tt type = 2 (SPOOLES\_NONSYMMETRIC)}
+\end{itemize}
+for $A$ real or complex nonsymmetric.
+\item
+The {\tt pivotingflag} parameter signals whether pivoting for
+stability will be enabled or not.
+\begin{itemize}
+\item
+If {\tt pivotingflag = 0 (SPOOLES\_NO\_PIVOTING)},
+no pivoting will be done.
+\item
+If {\tt pivotingflag = 1 (SPOOLES\_PIVOTING)},
+pivoting will be done to ensure that all
+entries in $U$ and $L$ have magnitude less than {\tt tau}.
+\end{itemize}
+\item
+The {\tt matrixFileName} parameter is the name of the files where
+the matrix entries are read from.
+The file has the following structure.
+\begin{verbatim}
+neqns neqns nent
+irow jcol entry
+...  ...  ...
+\end{verbatim}
+where {\tt neqns} is the global number of equations and {\tt nent}
+is the number of entries in this file.
+There follows {\tt nent} lines, each containing a row index, a
+column index and one or two floating point numbers, one if real,
+two if complex.
+\item
+The {\tt rhsFileName} parameter is the name of the files where
+the right hand side entries are read from.
+The file has the following structure.
+\begin{verbatim}
+nrow nrhs
+irow entry ... entry
+...  ...   ... ...
+\end{verbatim}
+where {\tt nrow} is the number of rows in this file
+and {\tt nrhs} is the number of rigght and sides.
+There follows {\tt nrow} lines, each containing a row index
+and either {\tt nrhs} or {\tt 2*nrhs} floating point numbers, 
+the first if real, the second if complex.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt nthread} parameter is the number of threads.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+patchAndGoMT msglvl msgFile type symmetryflag patchAndGoFlag fudge toosmall 
+             storeids storevalues matrixFileName rhsFileName seed nthread
+\end{verbatim}
+This driver program is used to test the ``patch-and-go''
+functionality for a factorization without pivoting.
+When small diagonal pivot elements are found, 
+one of three actions are taken.
+See the {\tt PatchAndGoInfo} object for more information.
+\par
+The program reads in a matrix $A$ and right hand side $B$,
+generates the graph for $A$ and orders the matrix,
+factors $A$ and solves the linear system $AX = B$ for $X$
+using multithreaded factors and solves.
+Use the script file {\tt do\_patchAndGo} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter specifies a real or complex linear system.
+\begin{itemize}
+\item
+{\tt type = 1 (SPOOLES\_REAL)} for real,
+\item
+{\tt type = 2 (SPOOLES\_COMPLEX)} for complex.
+\end{itemize}
+\item
+The {\tt symmetryflag} parameter specifies the symmetry of the matrix.
+\begin{itemize}
+\item
+{\tt type = 0 (SPOOLES\_SYMMETRIC)} for $A$ real or complex symmetric,
+\item
+{\tt type = 1 (SPOOLES\_HERMITIAN)} for $A$ complex Hermitian,
+\item
+{\tt type = 2 (SPOOLES\_NONSYMMETRIC)}
+\end{itemize}
+for $A$ real or complex nonsymmetric.
+\item
+The {\tt patchAndGoFlag} specifies the ``patch-and-go'' strategy.
+\begin{itemize}
+\item
+{\tt patchAndGoFlag = 0} --- if a zero pivot is detected, stop
+computing the factorization, set the error flag and return.
+\item
+{\tt patchAndGoFlag = 1} --- if a small or zero pivot is detected, 
+set the diagonal entry to 1 and the offdiagonal entries to zero.
+\item
+{\tt patchAndGoFlag = 2} --- if a small or zero pivot is detected, 
+perturb the diagonal entry.
+\end{itemize}
+\item
+The {\tt fudge} parameter is used to perturb a diagonal entry.
+\item
+The {\tt toosmall} parameter is judge when a diagonal entry is small. 
+\item
+If {\tt storeids = 1}, then the locations where action was taken is
+stored in an {\tt IV} object.
+\item
+If {\tt storevalues = 1}, then the perturbations are
+stored in an {\tt DV} object.
+\item
+The {\tt matrixFileName} parameter is the name of the files where
+the matrix entries are read from.
+The file has the following structure.
+\begin{verbatim}
+neqns neqns nent
+irow jcol entry
+...  ...  ...
+\end{verbatim}
+where {\tt neqns} is the global number of equations and {\tt nent}
+is the number of entries in this file.
+There follows {\tt nent} lines, each containing a row index, a
+column index and one or two floating point numbers, one if real,
+two if complex.
+\item
+The {\tt rhsFileName} parameter is the name of the files where
+the right hand side entries are read from.
+The file has the following structure.
+\begin{verbatim}
+nrow nrhs
+irow entry ... entry
+...  ...   ... ...
+\end{verbatim}
+where {\tt nrow} is the number of rows in this file
+and {\tt nrhs} is the number of rigght and sides.
+There follows {\tt nrow} lines, each containing a row index
+and either {\tt nrhs} or {\tt 2*nrhs} floating point numbers, 
+the first if real, the second if complex.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt nthread} parameter is the number of threads.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testMMM msglvl msgFile dataType symflag storageMode transpose
+        nrow ncol nitem nrhs seed alphaReal alphaImag nthread
+\end{verbatim}
+This driver program generates $A$, a 
+${\tt nrow} \times {\tt ncol}$
+matrix using {\tt nitem} input entries, $X$ and $Y$,
+${\tt nrow} \times {\tt nrhs}$ matrices,
+is filled with random numbers.
+It then computes $Y + \alpha*A*X$, $Y + \alpha*A^T*X$ or
+$Y + \alpha*A^H*X$.
+The program's output is a file which when sent into Matlab,
+outputs the error in the computation.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt InpMtx} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt dataType} is the type of entries,
+{\tt 0} for real, {\tt 1} for complex.
+\item
+{\tt symflag} is the symmetry flag, {\tt 0} for symmetric, 
+{\tt 1} for Hermitian, {\tt 2} for nonsymmetric.
+\item
+{\tt storageMode} is the storage mode for the entries, 
+{\tt 1} for by rows, {\tt 2} for by columns, 
+{\tt 3} for by chevrons. 
+\item
+{\tt transpose} determines the equation,
+{\tt 0} for $Y + \alpha*A*X$, 
+{\tt 1} for $Y + \alpha*A^T*X$ or
+{\tt 2} for $Y + \alpha*A^H*X$.
+\item
+{\tt nrowA} is the number of rows in $A$
+\item
+{\tt ncolA} is the number of columns in $A$
+\item
+{\tt nitem} is the number of matrix entries that are 
+assembled into the matrix.
+\item
+{\tt nrhs} is the number of columns in $X$ and $Y$.
+\item
+The {\tt seed} parameter is a random number seed used to fill the
+matrix entries with random numbers.
+\item
+{\tt alphaReal} and {\tt alphaImag} form the scalar in the multiply.
+\item
+{\tt nthread} is the number of threads to use.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testGridMT msglvl msgFile n1 n2 n3 maxzeros maxsize seed type
+         symmetryflag sparsityflag pivotingflag tau droptol
+         nrhs nthread maptype cutoff lookahead
+\end{verbatim}
+This driver program tests the serial {\tt FrontMtx\_MT\_factor()}
+and {\tt FrontMtx\_MT\_solve()} methods for the linear system $AX = B$.
+The factorization and solve are done in parallel.
+Use the script file {\tt do\_gridMT} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt n1} is the number of points in the first grid direction.
+\item
+{\tt n2} is the number of points in the second grid direction.
+\item
+{\tt n3} is the number of points in the third grid direction.
+\item
+{\tt maxzeros} is used to merge small fronts together into larger
+fronts.
+Look at the {\tt ETree} object for
+the {\tt ETree\_mergeFronts\{One,All,Any\}()} methods.
+\item
+{\tt maxsize} is used to split large fronts into smaller
+fronts.
+See the {\tt ETree\_splitFronts()} method.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt type} parameter specifies a real or complex linear system.
+\begin{itemize}
+\item
+{\tt type = 1 (SPOOLES\_REAL)} for real,
+\item
+{\tt type = 2 (SPOOLES\_COMPLEX)} for complex.
+\end{itemize}
+\item
+The {\tt symmetryflag} parameter specifies the symmetry of the matrix.
+\begin{itemize}
+\item
+{\tt type = 0 (SPOOLES\_SYMMETRIC)} for $A$ real or complex symmetric,
+\item
+{\tt type = 1 (SPOOLES\_HERMITIAN)} for $A$ complex Hermitian,
+\item
+{\tt type = 2 (SPOOLES\_NONSYMMETRIC)}
+\end{itemize}
+for $A$ real or complex nonsymmetric.
+\item
+The {\tt sparsityflag} parameter signals a direct or approximate
+factorization.
+\begin{itemize}
+\item
+{\tt sparsityflag = 0 (FRONTMTX\_DENSE\_FRONTS)} implies a direct
+factorization, the fronts will be stored as dense submatrices.
+\item
+{\tt sparsityflag = 1 (FRONTMTX\_SPARSE\_FRONTS)} implies an
+approximate factorization.
+The fronts will be stored as sparse submatrices, where
+the entries in the triangular factors will be
+subjected to a drop tolerance test --- if the magnitude of an entry
+is {\tt droptol} or larger, it will be stored, otherwise it will be
+dropped.
+\end{itemize}
+\item
+The {\tt pivotingflag} parameter signals whether pivoting for
+stability will be enabled or not.
+\begin{itemize}
+\item
+If {\tt pivotingflag = 0 (SPOOLES\_NO\_PIVOTING)},
+no pivoting will be done.
+\item
+If {\tt pivotingflag = 1 (SPOOLES\_PIVOTING)},
+pivoting will be done to ensure that all
+entries in $U$ and $L$ have magnitude less than {\tt tau}.
+\end{itemize}
+\item
+The {\tt tau} parameter is an upper bound on the magnitude of the
+entries in $L$ and $U$ when pivoting is enabled.
+\item
+The {\tt droptol} parameter is a lower bound on the magnitude of the
+entries in $L$ and $U$ when the approximate factorization is enabled.
+\item
+The {\tt nrhs} parameter is the number of right hand sides to solve
+as one block.
+\item
+The {\tt nthread} parameter is the number of threads.
+\item
+The {\tt maptype} parameter determines the type of map from fronts
+to processes to be used during the factorization
+\begin{itemize}
+\item 1 -- wrap map
+\item 2 -- balanced map
+\item 3 -- subtree-subset map
+\item 4 -- domain decomposition map
+\item 5 -- improved domain decomposition map
+\end{itemize}
+See the {\tt ETree} methods for constructing maps.
+\item
+The {\tt cutoff} parameter is used for domain decomposition maps.
+We try to construct domains (each domain is owned by a single
+thread) that contain $0 \le {\tt cutoff} \le 1$ of the rows and
+columns of the matrix.
+Try to choose {\tt cutoff} to be {\tt 1/nthread}
+or {\tt 1/(2*nthread)}.
+\item
+The {\tt lookahead} parameter controls the degree that a thread
+will look past a stalled front in order to do some useful work.
+{\t lookahead = 0} implies a thread will not look ahead, while
+{\tt lookahead = k} implies a thread will look {\tt k} ancestors up
+the front tree to find useful work.
+Bewarned, while a thread is doing useful work further up the tree,
+the stalled front may be ready, so large values of lookahead can be
+detrimental to a fast computation.
+In addition, a positive value of {\tt lookahead} means a larger
+storage footprint taken by the factorization.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testQRgridMT msglvl msgFile n1 n2 n3 seed nrhs type
+             nthread maptype cutoff
+\end{verbatim}
+This driver program tests the serial {\tt FrontMtx\_QR\_factor()}
+and {\tt FrontMtx\_QR\_solve()} methods for the least squares problem
+$\min_X \| F - A X \|_F$.
+The factorization and solve are done in parallel.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt n1} is the number of points in the first grid direction.
+\item
+{\tt n2} is the number of points in the second grid direction.
+\item
+{\tt n3} is the number of points in the third grid direction.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt nrhs} parameter is the number of right hand sides to solve
+as one block.
+\item
+The {\tt type} parameter specifies a real or complex linear system.
+\begin{itemize}
+\item
+{\tt type = 1 (SPOOLES\_REAL)} for real,
+\item
+{\tt type = 2 (SPOOLES\_COMPLEX)} for complex.
+\end{itemize}
+\item
+The {\tt nthread} parameter is the number of threads.
+\item
+The {\tt maptype} parameter determines the type of map from fronts
+to processes to be used during the factorization
+\begin{itemize}
+\item 1 -- wrap map
+\item 2 -- balanced map
+\item 3 -- subtree-subset map
+\item 4 -- domain decomposition map
+\item 5 -- improved domain decomposition map
+\end{itemize}
+See the {\tt ETree} methods for constructing maps.
+\item
+The {\tt cutoff} parameter is used for domain decomposition maps.
+We try to construct domains (each domain is owned by a single
+thread) that contain $0 \le {\tt cutoff} \le 1$ of the rows and
+columns of the matrix.
+Try to choose {\tt cutoff} to be {\tt 1/nthread}
+or {\tt 1/(2*nthread)}.
+\end{itemize}
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+\end{enumerate}

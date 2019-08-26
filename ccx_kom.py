@@ -168,7 +168,7 @@ class item:
     items = []              # list of children
     parent = None           # item's parent item
     expanded = settings.expanded
-    active = False # TODO do we need it?
+    active = False
 
 
     # Define if item is active

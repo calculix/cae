@@ -1,0 +1,944 @@
+\par
+\section{Prototypes and descriptions of {\tt MPI} methods}
+\label{section:MPI:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods found in the {\tt MPI} source directory.
+\par
+\subsection{Split and redistribution methods}
+\label{subsection:MPI:proto:split}
+\par
+%=======================================================================
+In a distributed environment, data must be distributed,
+and sometimes during a computation, data must be re-distributed.
+These methods split and redistribute four data objects.
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_MPI_splitByRows ( DenseMtx *mtx, IV *mapIV, int stats[], 
+              int msglvl, FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{DenseMtx_MPI_splitByRows@{\tt DenseMtx\_MPI\_splitByRows()}}
+This method splits and redistributes the {\tt DenseMtx} object based 
+on the {\tt mapIV} object that maps rows to processes.
+The messages that will be sent require {\tt nproc} consecutive tags
+--- the first is the parameter {\tt firsttag}.
+On return, the {\tt stats[]} vector contains the following
+information.
+\par
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+\par
+Note, the values in {\tt stats[]} are {\it incremented}, i.e.,
+the {\tt stats[]} vector is not zeroed at the start of the method,
+and so can be used to accumulated information with multiple calls.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt rowmapIV} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+or if {\tt firsttag < 0} or {\tt firsttag + nproc} 
+is larger than the largest available tag,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_MPI_split ( InpMtx *inpmtx, IV *mapIV, int stats[], int msglvl, 
+                        FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{InpMtx_MPI_split@{\tt InpMtx\_MPI\_split()}}
+This method splits and redistributes the {\tt InpMtx} object based 
+on the {\tt mapIV} object that maps the {\tt InpMtx} object's 
+vectors (rows, columns or chevrons) to processes.
+The the vectors are defined by the first coordinate of the 
+{\tt InpMtx} object.
+For the distributed $LU$, $U^TDU$ and $U^HDU$ factorizations, 
+we use the chevron coordinate type to store the matrix entries.
+This method will redistribute a matrix by rows if the coordinate
+type is {\tt 1} (for rows) and {\tt mapIV} is a row map.
+Similarly,
+this method will redistribute a matrix by columns if the coordinate
+type is {\tt 2} (for columns) and {\tt mapIV} is a column map.
+See the {\tt InpMtx} object for details.
+The messages that will be sent require {\tt nproc} consecutive tags
+--- the first is the parameter {\tt firsttag}.
+On return, the {\tt stats[]} vector contains the following
+information.
+\par
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+\par
+Note, the values in {\tt stats[]} are {\it incremented}, i.e.,
+the {\tt stats[]} vector is not zeroed at the start of the method,
+and so can be used to accumulated information with multiple calls.
+\par \noindent {\it Error checking:}
+If {\tt firsttag < 0} or {\tt firsttag + nproc} 
+is larger than the largest available tag,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_MPI_split ( Pencil *pencil, IV *mapIV, int tag, int stats[],
+                        int msglvl, FILE *msgFile, MPI_Comm comm ) ;
+\end{verbatim}
+\index{Pencil_MPI_split@{\tt Pencil\_MPI\_split()}}
+This method splits and redistributes the matrix pencil based on the
+{\tt mapIV} object that maps rows and columns to processes.
+This is a simple wrapper around the {\tt InpMtx\_MPI\_split()} method.
+The messages that will be sent require {\tt 2*nproc} consecutive tags
+--- the first is the parameter {\tt firsttag}.
+On return, the {\tt stats[]} vector contains the following
+information.
+\par
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+\par
+Note, the values in {\tt stats[]} are {\it incremented}, i.e.,
+the {\tt stats[]} vector is not zeroed at the start of the method,
+and so can be used to accumulated information with multiple calls.
+\par \noindent {\it Error checking:}
+If {\tt firsttag < 0} or {\tt firsttag + 2*nproc} 
+is larger than the largest available tag,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_MPI_split ( FrontMtx *frontmtx, SolveMap *solvemap,
+                          int stats[], int msglvl, FILE *msgFile, 
+                          int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{FrontMtx_MPI_split@{\tt FrontMtx\_MPI\_split()}}
+Used after the factorization,
+this method is used instead of 
+the {\tt FrontMtx\_splitUpperMatrices()}
+and {\tt FrontMtx\_splitLowerMatrices()} methods.
+The method splits and redistributes the {\tt FrontMtx} object based 
+on the {\tt solvemap} object that maps submatrices to processes.
+The {\tt firsttag} is the first tag that will be used for all messages.
+Unfortunately, the number of different tags that are necessary is
+not known prior to entering this method.
+On return, the {\tt stats[]} vector contains the following
+information.
+\par
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+\par
+Note, the values in {\tt stats[]} are {\it incremented}, i.e.,
+the {\tt stats[]} vector is not zeroed at the start of the method,
+and so can be used to accumulated information with multiple calls.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt rowmapIV} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+or if {\tt firsttag < 0} is larger than the largest available tag,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Gather and scatter methods}
+\label{subsection:MPI:proto:gather-scatter}
+\par
+%=======================================================================
+These method gather and scatter/add rows of {\tt DenseMtx} objects.
+These operations are performed during the distributed matrix-matrix
+multiply.
+The gather operation $X_{supp}^q \leftarrow X$ is performed by
+{\tt DenseMtx\_MPI\_gatherRows()},
+while the scatter/add operation $Y^q := Y^q + \sum_r Y_{supp}^r$
+is performed by {\tt DenseMtx\_MPI\_scatterAddRows()}.
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_MPI_gatherRows ( DenseMtx *Y, DenseMtx *X, IVL *sendIVL,
+                               IVL *recvIVL, int stats[], int msglvl, 
+                               FILE *msgFile, MPI_Comm comm) ;
+\end{verbatim}
+\index{DenseMtx_MPI_gatherRows@{\tt DenseMtx\_MPI\_gatherRows()}}
+This method is used to gather rows of {\tt X}, a globally
+distributed matrix, into {\tt Y}, a local matrix.
+List $q$ of {\tt sendIVL} contains the local row ids of the local
+part of {\tt X} that will be sent to processor $q$.
+List $q$ of {\tt recvIVL} contains the local row ids of {\tt Y}
+that will be received from processor $q$.
+\par
+This method uses tags in the range {\tt [tag,tag+nproc*nproc)}.
+On return, the following statistics will have been added.
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+This method is {\it safe} in the sense that it uses only
+non-blocking sends and receives, 
+{\tt MPI\_Isend()} and {\tt MPI\_Irecv()}.
+\par \noindent {\it Error checking:}
+If {\tt Y}, {\tt X}, {\tt sendIVL} 
+or {\tt recvIVL} is {\tt NULL}, 
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+or if {\tt tag < 0} or {\tt tag + nproc*nproc} 
+is larger than the largest available tag,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_MPI_scatterAddRows ( DenseMtx *Y, DenseMtx *X, IVL *sendIVL,
+                                   IVL *recvIVL, int stats[], int msglvl, 
+                                   FILE *msgFile, MPI_Comm comm) ;
+\end{verbatim}
+\index{DenseMtx_MPI_scatterAddRows@{\tt DenseMtx\_MPI\_scatterAddRows()}}
+This method is used to scatter/add rows of {\tt X}, a globally
+distributed matrix, into {\tt Y}, a local matrix.
+List $q$ of {\tt sendIVL} contains the local row ids of the local
+part of {\tt X} that will be sent to processor $q$.
+List $q$ of {\tt recvIVL} contains the local row ids of {\tt Y}
+that will be received from processor $q$.
+\par
+This method uses tags in the range {\tt [tag,tag+nproc*nproc)}.
+On return, the following statistics will have been added.
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+This method is {\it safe} in the sense that it uses only
+non-blocking sends and receives, 
+{\tt MPI\_Isend()} and {\tt MPI\_Irecv()}.
+\par \noindent {\it Error checking:}
+If {\tt Y}, {\tt X}, {\tt sendIVL} 
+or {\tt recvIVL} is {\tt NULL}, 
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+or if {\tt tag < 0} or {\tt tag + nproc*nproc} 
+is larger than the largest available tag,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Symbolic Factorization methods}
+\label{subsection:MPI:proto:symbfac}
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * SymbFac_MPI_initFromInpMtx ( ETree *etree, IV *frontOwnersIV, 
+                          InpMtx *inpmtx, int stats[], int msglvl, 
+                          FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+IVL * SymbFac_MPI_initFromPencil ( ETree *etree, IV *frontOwnersIV, 
+                          Pencil *pencil, int stats[], int msglvl, 
+                          FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{SymbFac_MPI_initFromInpMtx@{\tt SymbFac\_MPI\_initFromInpMtx()}}
+\index{SymbFac_MPI_initFromPencil@{\tt SymbFac\_MPI\_initFromPencil()}}
+These methods are used in place of 
+the {\tt Symbfac\_initFrom\{InpMtx,Pencil\}()}
+methods to compute the symbolic factorization.
+The {\tt ETree} object is assumed to be replicated over the processes.
+The {\tt InpMtx} and
+{\tt Pencil} objects are partitioned among the processes.
+Therefore, to compute the {\tt IVL} object that contains 
+the symbolic factorization is a distributed, cooperative process.
+At the end of the symbolic factorization, 
+each process will own a portion of the {\tt IVL} object.
+The {\tt IVL} object is neither replicated nor partitioned
+(except in trivial cases), but the {\tt IVL} object on each process
+contains just a portion, usually not much more than what it needs
+to know for its part of the factorization and solves.
+\par
+This method uses tags in the range {\tt [tag,tag+nfront)}.
+On return, the following statistics will have been added.
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+This method is {\it safe} in the sense that it uses only
+non-blocking sends and receives, 
+{\tt MPI\_Isend()} and {\tt MPI\_Irecv()}.
+\par \noindent {\it Error checking:}
+If {\tt etree}, {\tt inpmtx}, {\tt pencil} 
+or {\tt frontOwnersIV} is {\tt NULL}, 
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+or if {\tt tag < 0} or {\tt tag + nfront} 
+is larger than the largest available tag,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Numeric Factorization methods}
+\label{subsection:MPI:proto:factor}
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Chv * FrontMtx_MPI_factorPencil ( FrontMtx *frontmtx, Pencil *pencil, 
+   double tau, double droptol, ChvManager *chvmanager, IV *frontOwnersIV, 
+   int lookahead, int *perror, double cpus[], int stats[], 
+   int msglvl, FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+Chv * FrontMtx_MPI_factorInpMtx ( FrontMtx *frontmtx, InpMtx *inpmtx, 
+   double tau, double droptol, ChvManager *chvmanager, IV *frontOwnersIV, 
+   int lookahead, int *perror, double cpus[], int stats[], 
+   int msglvl, FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{FrontMtx_MPI_factorPencil@{\tt FrontMtx\_MPI\_factorPencil()}}
+\index{FrontMtx_MPI_factorInpMtx@{\tt FrontMtx\_MPI\_factorInpMtx()}}
+These methods are used to compute the numeric factorization
+and are very similar to the multithreaded
+{\tt FrontMtx\_MT\_factorPencil()} 
+and {\tt FrontMtx\_MT\_factorInpMtx()} 
+methods.
+All that has been added is the code to send and receive 
+the {\tt Chv} messages.
+The input {\tt firsttag} parameter is used to tag the messages during
+the factorization.
+This method uses tags in the range 
+{\tt [firsttag, firsttag + 3*nfront + 3)}.
+\par
+On return, {\tt *perror} holds an error flag.
+If the factorization completed without any error detected, 
+{\tt *perror} will be negative.
+Otherwise it holds the id of a front where the factorization
+failed.
+Currently, this can happen only if pivoting is not enabled and a
+zero pivot was detected.
+\par
+The return value is a pointer to a list of {\tt Chv} objects that
+hold entries of the matrix that could not be factored.
+This value should be {\tt NULL} in all cases.
+We have left this return behavior as a hook for future
+implementation of a multi-stage factorization.
+\par
+On return, the {\tt cpus[]} vector has the following information.
+\begin{center}
+\begin{tabular}{ccl}
+{\tt cpus[0] }  & --- & initialize fronts \\
+{\tt cpus[1] }  & --- & load original entries \\
+{\tt cpus[2] }  & --- & update fronts \\
+{\tt cpus[3] }  & --- & insert aggregate data \\
+{\tt cpus[4] }  & --- & assemble aggregate data \\
+{\tt cpus[5] }  & --- & assemble postponed data \\
+{\tt cpus[6] }  & --- & factor fronts \\
+{\tt cpus[7] }  & --- & extract postponed data \\
+{\tt cpus[8] }  & --- & store factor entries \\
+{\tt cpus[9] }  & --- & post initial receives \\
+{\tt cpus[10] } & --- & check for received messages \\
+{\tt cpus[11] } & --- & post initial sends \\
+{\tt cpus[12] } & --- & check for sent messages \\
+\end{tabular}
+\end{center}
+On return, the {\tt stats[]} vector has the following information.
+\begin{center}
+\begin{tabular}{ccl}
+{\tt stats[0]} & --- & \# of pivots \\
+{\tt stats[1]} & --- & \# of pivot tests \\
+{\tt stats[2]} & --- & \# of delayed rows and columns \\
+{\tt stats[3]} & --- & \# of entries in D \\
+{\tt stats[4]} & --- & \# of entries in L \\
+{\tt stats[5]} & --- & \# of entries in U \\
+{\tt stats[6]} & --- & \# of aggregate messages sent \\
+{\tt stats[7]} & --- & \# of bytes sent in aggregate messages \\
+{\tt stats[8]} & --- & \# of aggregate messages received \\
+{\tt stats[9]} & --- & \# of bytes received in aggregate messages \\
+{\tt stats[10]} & --- & \# of postponed messages sent \\
+{\tt stats[11]} & --- & \# of bytes sent in postponed messages \\
+{\tt stats[12]} & --- & \# of postponed messages received \\
+{\tt stats[13]} & --- & \# of bytes received in postponed messages \\
+{\tt stats[14]} & --- & \# of active {\tt Chv} objects (working storage) \\
+{\tt stats[15]} & --- & \# of active bytes in working storage \\
+{\tt stats[16]} & --- & \# of requested bytes for working storage
+\end{tabular}
+\end{center}
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt pencil}, {\tt frontOwnersIV}, {\tt cpus}
+or {\tt stats} is {\tt NULL}, 
+or if {\tt tau < 1.0} or {\tt droptol < 0.0},
+or if {\tt firsttag < 0} or {\tt firsttag + 3*nfront + 2} 
+is larger than the largest available tag,
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Post-processing methods}
+\label{subsection:MPI:proto:postprocess}
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_MPI_postProcess ( FrontMtx *frontmtx, IV *frontOwnersIV, 
+   int stats[], int msglvl, FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{FrontMtx_MPI_postProcess@{\tt FrontMtx\_MPI\_postProcess()}}
+After the factorization is complete, the factor matrices are 
+split into submatrices.
+This method replaces the serial {\tt FrontMtx\_postProcess()} method.
+The messages that will be sent require at most {\tt 5*nproc} 
+consecutive tags --- the first is the parameter {\tt firsttag}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt frontOwnersIV} or {\tt stats} is {\tt NULL}, 
+or if {\tt firsttag < 0} or {\tt firsttag + 5*nproc},
+is larger than the largest available tag,
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_MPI_permuteUpperAdj ( FrontMtx *frontmtx, IV *frontOwnersIV, 
+   int stats[], int msglvl, FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+void FrontMtx_MPI_permuteLowerAdj ( FrontMtx *frontmtx, IV *frontOwnersIV, 
+   int stats[], int msglvl, FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{FrontMtx_MPI_permuteUpperAdj@{\tt FrontMtx\_MPI\_permuteUpperAdj()}}
+\index{FrontMtx_MPI_permuteLowerAdj@{\tt FrontMtx\_MPI\_permuteLowerAdj()}}
+If pivoting takes place during the factorization, the off diagonal
+blocks of the factor matrices must be permuted prior to being split
+into submatrices.
+To do this, the final rows and columns of the factor matrix must be
+made known to the different processors.
+The messages that will be sent require at most {\tt nproc} 
+consecutive tags --- the first is the parameter {\tt firsttag}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt frontOwnersIV} or {\tt stats} is {\tt NULL}, 
+or if {\tt firsttag < 0} or {\tt firsttag + nproc},
+is larger than the largest available tag,
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV_MPI_allgather ( IV *iv, IV *ownersIV, int stats[], int msglvl, 
+                        FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{IV_MPI_allgather@{\tt IV\_MPI\_allgather()}}
+After a factorization with pivoting, the {\tt frontsizesIV} object
+needs to be made global on each processor.
+This methods takes the individual entries of an {\tt IV} object
+whose owners are specified by the {\tt ownersIV} object, and
+communicates the entries around the processors until the global
+{\tt IV} object is present on each.
+The messages that will be sent require at most {\tt nproc} 
+consecutive tags --- the first is the parameter {\tt firsttag}.
+\par \noindent {\it Error checking:}
+If {\tt iv}, {\tt ownersIV} or {\tt stats} is {\tt NULL}, 
+or if {\tt firsttag < 0} or {\tt firsttag + nproc},
+is larger than the largest available tag,
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_MPI_allgather ( IVL *ivl, IV *ownersIV, int stats[], int msglvl, 
+                         FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{IVL_MPI_allgather@{\tt IVL\_MPI\_allgather()}}
+When the {\tt FrontMtx} object is split into submatrices, each
+processor accumulates the structure of the block matrix for the
+fronts its owns. 
+This structure must be global to all processors before the
+submatrix map can be computed.
+This method takes a {\it partitioned} {\tt IVL} object and
+communicates the entries among the processors until the global
+{\tt IVL} object is present on each.
+Which processor owns what lists of the {\tt IVL} object is given by
+the {\tt ownersIV} object.
+The messages that will be sent require at most {\tt nproc} 
+consecutive tags --- the first is the parameter {\tt firsttag}.
+\par \noindent {\it Error checking:}
+If {\tt ivl}, {\tt ownersIV} or {\tt stats} is {\tt NULL}, 
+or if {\tt firsttag < 0} or {\tt firsttag + nproc},
+is larger than the largest available tag,
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Numeric Solve methods}
+\label{subsection:MPI:proto:solve}
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_MPI_solve ( FrontMtx *frontmtx, DenseMtx *mtxX, DenseMtx *mtxB,
+    SubMtxManager *mtxmanager, SolveMap *solvemap, double cpus[], 
+    int stats[], int msglvl, FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{FrontMtx_MPI_solve@{\tt FrontMtx\_MPI\_solve()}}
+This method is used to compute the forward and backsolves.
+Its structure is very, very similar to the multithreaded
+{\tt FrontMtx\_MT\_solve()} method.
+All that has been added is the code to send and receive 
+the {\tt SubMtx} messages.
+The method uses tags in the range
+{\tt [firsttag, firsttag + 2*nfront)}.
+On return, the {\tt cpus[]} vector has the following information.
+\begin{center}
+\begin{tabular}{ccl}
+{\tt cpus[0] } & --- & setup the solves \\
+{\tt cpus[1] } & --- & load rhs and store solution \\
+{\tt cpus[2] } & --- & forward solve \\
+{\tt cpus[3] } & --- & diagonal solve \\
+{\tt cpus[4] } & --- & backward solve \\
+{\tt cpus[5] } & --- & miscellaneous 
+\end{tabular}
+\end{center}
+On return, the following statistics will have been added.
+\begin{center}
+\begin{tabular}{ccl}
+{\tt stats[0]} & --- & \# of solution messages sent \\
+{\tt stats[1]} & --- & \# of aggregate messages sent \\
+{\tt stats[2]} & --- & \# of solution bytes sent \\
+{\tt stats[3]} & --- & \# of aggregate bytes sent \\
+{\tt stats[4]} & --- & \# of solution messages received \\
+{\tt stats[5]} & --- & \# of aggregate messages received \\
+{\tt stats[6]} & --- & \# of solution bytes received \\
+{\tt stats[7]} & --- & \# of aggregate bytes received 
+\end{tabular}
+\end{center}
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt pencil}, {\tt frontOwnersIV}, {\tt cpus}
+or {\tt stats} is {\tt NULL}, 
+or if {\tt firsttag < 0} or {\tt firsttag + 2*nfront} 
+is larger than the largest available tag,
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Matrix-matrix multiply methods}
+\label{subsection:MPI:proto:mmm}
+\par
+The usual sequence of events is as follows.
+\begin{itemize}
+\item
+Set up the data structure via a call to {\tt MatMul\_MPI\_setup()}.
+\item
+Convert the local $A^q$ matrix to local indices via a call to
+{\tt MatMul\_setLocalIndices()}.
+\item
+Compute the matrix-matrix multiply with a call to 
+{\tt MatMul\_MPI\_mmm()}.
+Inside this method, the MPI methods {\tt DenseMtx\_MPI\_gatherRows()}
+and {\tt DenseMtx\_MPI\_scatterAddRows()} are called, along with
+a serial {\tt InpMtx} matrix-matrix multiply method.
+\item
+Clean up and free data structures via a call to
+{\tt MatMul\_cleanup().}
+\item
+Convert the local $A^q$ matrix to global indices via a call to
+{\tt MatMul\_setGlobalIndices()}.
+\end{itemize}
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+MatMulInfo * MatMul_MPI_setup ( InpMtx *A, int symflag, int opflag,
+                                IV *XownersIV, IV *YownersIV int stats[], 
+                                int msglvl, FILE *msgFile, MPI_Comm comm) ;
+\end{verbatim}
+\index{MatMul_MPI_setup@{\tt MatMul\_MPI\_setup()}}
+This method is used to set up and return the {\tt MatMulInfo} 
+data structure that stores the information for the distributed
+matrix-matrix multiply.
+The {\tt symflag} parameter specifies the symmetry of the matrix.
+\begin{itemize}
+\item
+0 ({\tt SPOOLES\_SYMMETRIC}) 
+\item
+1 ({\tt SPOOLES\_HERMITIAN}) 
+\item
+2 ({\tt SPOOLES\_NONSYMMETRIC}) 
+\end{itemize}
+The {\tt opflag} parameter specifies what type of operation will
+be performed.
+\begin{itemize}
+\item
+0 ({\tt MMM\_WITH\_A}) --- $Y := Y + \alpha A X$
+\item
+1 ({\tt MMM\_WITH\_AT}) --- $Y := Y + \alpha A^T X$
+\item
+2 ({\tt MMM\_WITH\_AH}) --- $Y := Y + \alpha A^H X$
+\end{itemize}
+The {\tt XownersIV} object is the map from the rows of $X$ to their
+owning processors.
+The {\tt YownersIV} object is the map from the rows of $Y$ to their
+owning processors.
+\par
+On return, the following statistics will have been added.
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+This method calls {\tt makeSendRecvIVLs()}.
+\par \noindent {\it Error checking:}
+If {\tt A}, {\tt XownersIV}, {\tt YownersIV} 
+or {\tt stats} is {\tt NULL}, 
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MatMul_setLocalIndices ( MatMulInfo *info, InpMtx *A ) ;
+void MatMul_setGlobalIndices ( MatMulInfo *info, InpMtx *A ) ;
+\end{verbatim}
+\index{MatMul_setLocalIndices@{\tt MatMul\_setLocalIndices()}}
+\index{MatMul_setGlobalIndices@{\tt MatMul\_setGlobalIndices()}}
+The first method maps the indices of {\tt A} (which are assumed to be
+global) into local indices.
+The second method maps the indices of {\tt A} (which are assumed to be
+local) back into global indices.
+It uses the {\tt XmapIV}, {\tt XsupIV}
+{\tt YmapIV} and {\tt YsupIV} objects that are contained in the
+{\tt info} object.
+These are serial methods, performed independently on each
+processor.
+\par \noindent {\it Error checking:}
+If {\tt info} or {\tt A} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MatMul_MPI_mmm ( MatMulInfo *info, DenseMtx *Yloc, double alpha[],
+                      InpMtx *A, DenseMtx *Xloc, int stats[], 
+                      int msglvl, FILE *msgFile, MPI_Comm comm) ;
+\end{verbatim}
+\index{MatMul_MPI_mmm@{\tt MatMul\_MPI\_mmm()}}
+This method computes a distributed matrix-matrix multiply
+$Y := Y + \alpha A X$,
+$Y := Y + \alpha A^T X$ or
+$Y := Y + \alpha A^H X$,
+depending on how the {\tt info} object was set up.
+NOTE: {\tt A} must have local indices, use
+{\tt MatMul\_setLocalIndices()} to convert from global to local indices.
+{\tt Xloc} and {\tt Yloc} contain the owned rows of $X$ and $Y$,
+respectively.
+\par
+On return, the following statistics will have been added.
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+This method calls {\tt makeSendRecvIVLs()}.
+\par \noindent {\it Error checking:}
+If {\tt info}, {\tt Yloc}, {\tt alpha}, {\tt A}, {\tt Xloc}
+or {\tt stats} is {\tt NULL}, 
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MatMul_cleanup ( MatMulInfo *info ) ;
+\end{verbatim}
+\index{MatMul_cleanup@{\tt MatMul\_cleanup()}}
+This method free's the data structures owned by the {\tt info}
+object, and then free's the object.
+processor.
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Broadcast methods}
+\label{subsection:MPI:proto:broadcast}
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * ETree_MPI_Bcast ( ETree *etree, int root, 
+                         int msglvl, FILE *msgFile, MPI_Comm comm ) ;
+\end{verbatim}
+\index{ETree_MPI_Bcast@{\tt ETree\_MPI\_Bcast()}}
+This method is a broadcast method for an {\tt ETree} object.
+The {\tt root} processor broadcasts its {\tt ETree} object to the
+other nodes and returns a pointer to its {\tt ETree} object.
+A node other than {\tt root} free's its {\tt ETree} object
+(if not {\tt NULL}), receives {\tt root}'s {\tt ETree} object,
+and returns a pointer to it.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Graph * Graph_MPI_Bcast ( Graph *etree, int root, 
+                         int msglvl, FILE *msgFile, MPI_Comm comm ) ;
+\end{verbatim}
+\index{Graph_MPI_Bcast@{\tt Graph\_MPI\_Bcast()}}
+This method is a broadcast method for an {\tt Graph} object.
+The {\tt root} processor broadcasts its {\tt Graph} object to the
+other nodes and returns a pointer to its {\tt Graph} object.
+A node other than {\tt root}, clears the data in its Graph object,
+receives the Graph object from the root
+and returns a pointer to it.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * IVL_MPI_Bcast ( IVL *etree, int root, 
+                      int msglvl, FILE *msgFile, MPI_Comm comm ) ;
+\end{verbatim}
+\index{IVL_MPI_Bcast@{\tt IVL\_MPI\_Bcast()}}
+This method is a broadcast method for an {\tt IVL} object.
+The {\tt root} processor broadcasts its {\tt IVL} object to the
+other nodes and returns a pointer to its {\tt IVL} object.
+A node other than {\tt root}, clears the data in its IVL object,
+receives the IVL object from the root
+and returns a pointer to it.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:MPI:proto:utility}
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * InpMtx_MPI_fullAdjacency ( InpMtx *inpmtx, int stats[], 
+                   int msglvl, FILE *msgFile, MPI_Comm comm ) ;
+IVL * Pencil_MPI_fullAdjacency ( Pencil *pencil, int stats[], 
+                   int msglvl, FILE *msgFile, MPI_Comm comm ) ;
+\end{verbatim}
+\index{InpMtx_MPI_fullAdjacency@{\tt InpMtx\_MPI\_fullAdjacency()}}
+\index{Pencil_MPI_fullAdjacency@{\tt Pencil\_MPI\_fullAdjacency()}}
+These methods are used to return an {\tt IVL} object that contains
+the full adjacency structure of the graph of the matrix 
+or matrix pencil.
+The matrix or matrix pencil is distributed among the processes,
+each process has a {\it local} portion of the matrix or matrix pencil.
+The returned {\tt IVL} object contains the structure of the global
+graph.
+The {\tt stats[]} vector must have at least four fields.
+On return, the following statistics will have been added.
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+\par \noindent {\it Error checking:}
+If {\tt inpmtx}, {\tt pencil} or {\tt stats} is {\tt NULL}, 
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ChvList * FrontMtx_MPI_aggregateList ( FrontMtx *frontmtx, IV *frontOwnersIV, 
+   int stats[], int msglvl, FILE *msgFile, int tag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{FrontMtx_MPI_aggregateList@{\tt FrontMtx\_MPI\_aggregateList()}}
+This method is used in place of the {\tt FrontMtx\_aggregateList()}
+method to initialize the aggregate list object.
+Since the symbolic factorization data is distributed among the
+processes, the number of incoming aggregates for a front and the
+number of different processes contributing to a front ---
+information necessary to initialize the list object --- must be
+computed cooperatively.
+This method uses {\tt tag} as the message tag for all
+messages communicated during this method.
+The {\tt stats[]} vector must have at least four fields.
+On return, the following statistics will have been added.
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt frontOwnersIV} is {\tt NULL}, 
+or if {\tt tag < 0} or {\tt tag} is larger than the largest
+available tag,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * FrontMtx_MPI_colmapIV ( FrontMtx *frontmtx, IV *frontOwnersIV, 
+                             int msglvl, FILE *msgFile, MPI_Comm comm ) ;
+IV * FrontMtx_MPI_rowmapIV ( FrontMtx *frontmtx, IV *frontOwnersIV, 
+                             int msglvl, FILE *msgFile, MPI_Comm comm ) ;
+\end{verbatim}
+\index{FrontMtx_MPI_colmapIV@{\tt FrontMtx\_MPI\_colmapIV()}}
+\index{FrontMtx_MPI_rowmapIV@{\tt FrontMtx\_MPI\_rowmapIV()}}
+For a factorization with pivoting, the elimination of some rows 
+and columns may be delayed from the front that initially contains
+them to an ancestor front.
+The solution and right hand side entries would therefore need to be
+redistributed.
+To do so requires new row and column maps, maps from the row or
+column to the processor that owns them.
+These two methods construct that map.
+The routine uses the {\tt MPI\_Allgather()} and {\tt MPI\_Bcast()}
+methods, so no unique tag values are needed.
+\par \noindent {\it Error checking:}
+None at present.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL *
+IVL_MPI_alltoall ( IVL *sendIVL, IVL *recvIVL, int stats[], int msglvl,
+                   FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{InpMtx_MPI_alltoall@{\tt InpMtx\_MPI\_alltoall}}
+This method is used during the setup for matrix-vector multiplies.
+Each processor has computed the vertices it needs from other
+processors, these lists are contained in {\tt sendIVL}. 
+On return, {\tt recvIVL} contains the lists of vertices this processor 
+must send to all others.
+\par
+This method uses tags in the range {\tt [tag,tag+nproc-1)}.
+On return, the following statistics will have been added.
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+This method is {\it safe} in the sense that it uses only
+{\tt MPI\_Sendrecv()}.
+\par \noindent {\it Error checking:}
+If {\tt sendIVL}
+or {\tt stats} is {\tt NULL}, 
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+or if {\tt tag < 0} or {\tt tag + nproc} 
+is larger than the largest available tag,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void * makeSendRecvIVLs ( IV *supportedIV, IV *globalmapIV, IVL *sendIVL, 
+                          IVL *recvIVL, int stats[], int msglvl,
+                          FILE *msgFile, int firsttag, MPI_Comm comm ) ;
+\end{verbatim}
+\index{makeSendRecvIVLs@{\tt makeSendRecvIVLs}}
+\par
+The purpose of this method to analyze and organize communication. 
+It was written in support of a distributed matrix-vector multiply 
+but can be used for other applications.
+\par 
+Each processor has a list of items it "supports" or needs found
+in the {\tt supportedIV} object. 
+The {\tt globalmapIV} object contains the
+map from items to owning processors. 
+We need to figure out what items this processor will send to 
+and receive from each other processor. 
+This information is found in the {\tt sendIVL} and {\tt recvIVL} 
+objects. 
+\par 
+On return, list {\tt jproc} of {\tt sendIVL} contains the items 
+owned by this processor and needed by {\tt jproc}.
+On return, list {\tt jproc} of {\tt recvIVL} contains the items 
+needed by this processor and owned by {\tt jproc}.
+\par
+This method initializes the {\tt recvIVL} object, and then calls
+{\tt IVL\_MPI\_alltoall()} to construct the {\tt sendIVL} object.
+This method uses tags in the range {\tt [tag,tag+nproc*nproc)}.
+On return, the following statistics will have been added.
+\begin{center}
+\begin{tabular}{cclcccl}
+{\tt stats[0]} & --- & \# of messages sent 
+& &
+{\tt stats[1]} & --- & \# of bytes sent \\
+{\tt stats[2]} & --- & \# of messages received 
+& &
+{\tt stats[3]} & --- & \# of bytes received 
+\end{tabular}
+\end{center}
+This method is {\it safe} in the sense that it uses only
+{\tt MPI\_Sendrecv()}.
+\par \noindent {\it Error checking:}
+If {\tt sendIVL}
+or {\tt stats} is {\tt NULL}, 
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+or if {\tt tag < 0} or {\tt tag + nproc} 
+is larger than the largest available tag,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int maxTagMPI ( MPI_Comm comm) ;
+\end{verbatim}
+\index{maxTagMPI@{\tt maxTagMPI()}}
+This method returns the maximum tag value for the communicator {\tt
+comm}.
+\par \noindent {\it Error checking:}
+None at present.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par

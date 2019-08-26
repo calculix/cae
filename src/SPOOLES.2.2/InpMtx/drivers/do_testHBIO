@@ -1,0 +1,36 @@
+#! /bin/csh -f
+
+set matrices     = /local/cleve/ARPA/matrices
+set matrix       = BCELL14
+set matrices     = ../../Matrices
+set matrix       = BCSSTK23
+set matrix       = PLAT362
+set matrix       = BCSSTK03
+set matrix       = BCSSTK04
+set matrix       = BCSSTM04
+set matrix       = BCSSTK17
+
+set matrices     = /local/cleve/ARPA/matrices
+set inHBfile = $matrices/$matrix/$matrix.hbmat
+# set inHBfile = $matrices/$matrix/bcell14.rb.mtx
+
+# set matrices = /local/cleve/ARPA/release2.1/iohb1.0/data
+# set inHBfile = $matrices/abb313.pra
+# set inHBfile = $matrices/add20.rua
+# set inHBfile = $matrices/dwg961a.cua
+# set inHBfile = $matrices/illc1033.rra
+# set inHBfile = $matrices/mahindas.rua
+# set inHBfile = $matrices/mhd1280b.cua
+
+# set matrices = /local/cleve/ARPA/release1.0/Matrices/
+# set inHBfile = $matrices/BCSSTK23/BCSSTK23.hbmat
+
+set outInpMtxFile = $matrices/$matrix/orig.inpmtxf
+set outInpMtxFile = $matrices/$matrix/orig.inpmtxb
+set outInpMtxFile = none
+
+set msglvl  = 1
+
+set msgFile = stdout
+
+testHBIO2 $msglvl $msgFile $inHBfile $outInpMtxFile

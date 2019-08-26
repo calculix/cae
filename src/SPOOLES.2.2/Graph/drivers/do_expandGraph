@@ -1,0 +1,18 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = BCSSTK24
+
+set inGraphFile  = $matrices/$matrix/orig1.graphf
+
+set outGraphFile = $matrices/$matrix/orig0.graphf
+set outGraphFile = none
+
+set inMapFile = $matrices/$matrix/eqmap.ivf
+
+set msglvl  = 1
+
+set msgFile = stdout
+
+expandGraph $msglvl $msgFile \
+   $inGraphFile $inMapFile $outGraphFile

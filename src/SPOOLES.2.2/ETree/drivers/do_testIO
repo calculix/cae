@@ -1,0 +1,16 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inFile = nd.etreef
+set inFile = $matrices/$matrix/nd.etreef
+
+set outFile = $matrices/$matrix/nd.etreeb
+set outFile = none
+
+set msglvl  = 3
+
+set msgFile = stdout
+
+testIO $msglvl $msgFile $inFile $outFile

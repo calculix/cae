@@ -1,0 +1,119 @@
+#! /usr/local/gnu/bin/perl
+#
+#-----------------------------------------------------------------------
+#
+# purpose : to provide incremental updates to the spooles.a library
+#
+# the spooles.a library is a global library and contains all spooles 
+# methods. (this is in contrast to local libraries that contain 
+# methods for only one object, e.g., A2/src/A2.a) 
+#
+# the spooles.a library is usually created once, by executing
+# "make global" in the spooles directory, which compiles each
+# and every source file in all the object/src directories.
+# on many systems this can take quite a long time.
+#
+# there are times when we make a change to one method and want to
+# update the spooles.a library. calling "make global" in the
+# spooles directory would compile all the source once again.
+#
+# what is needed is a way to compile only those src files that
+# need to be compiled. well, we haven't quite achieved this.
+# what this perl script helps do is to create a makefile (written
+# to stdout) that will compile all src files that are more recent 
+# than spooles.a library. this perl script is called when
+# executing "make updateLib" within the object's src directory.
+#
+# this works well in some cases. for example, let us say that we
+# are working in the FrontMtx/drivers directory and we see that 
+# the A2/src/QRreduce.c file needs a change. we open another window,
+# move to the A2/src directory, and make the change in QRreduce.c.
+# we then execute "make updateLib", which first calls this
+# script to generate a makefile that will compile QRreduce.c
+# and load into spooles.a. the makefile is then executed to perform
+# that operation, and then removed. we have a good incremental
+# change to the global spooles.a library.
+#
+# here is a second case where it doesn't work as well. assume again
+# that we are working in the FrontMtx/drivers directory, and we
+# see that changes need to be made to two different src files,
+# the first A2/src/QRreduce.c and the second SubMtx/src/util.c.
+# we edit the two source files and then need to update the spooles.a 
+# library.
+#
+# we first go to the A2/src directory and execute "make updateLib"
+# then the QRreduce.c file gets compiled and loaded into spooles.a. 
+# we then go to the SubMtx/src directory and execute "make updateLib" 
+# and the util.c file # is NOT compiled and loaded into the library. 
+# this is because spooles.a is more recent the SubMtx/src/util.c, 
+# because spooles.a was just modified when A2/src/QRreduce.c was 
+# compiled and loaded.
+#
+# i presently don't know of a clean solution to this problem
+# (and am open to suggestions). a decent workaround is this.
+# (1) go to A2/src, modify QRreduce.c, then "make updateLib"
+# (2) go to SubMtx/src, modify util.c, then "make updateLib"
+# here the util.c file is more recent than spooles.a. in other words,
+# update the library after each src file is changed.
+#
+# this is my first perl script, so don't laugh, 
+# just send me comments and suggestions.
+#
+# created -- 98dec16, cca
+#
+#-----------------------------------------------------------------------
+#
+#  open the makefile to extract out the src file names
+#
+$makefile = "makefile" ;
+open( MAKEFILE, $makefile ) or die "Cannot open $makefile" ;
+#
+#  get the last modification time for ../../spooles.a
+#
+if ( -e "../../spooles.a" ) {
+   $lib_time = -M "../../spooles.a" ;
+}
+#
+#  read in each line, look for $(OBJ).a(srcname.o)
+#  put srcname into the @srcnames array
+#
+while ( $line = <MAKEFILE> ) {
+   chop($line) ;
+   if ( $line =~ /OBJ =/ ) {
+      ($first, $objname) = split /OBJ = /, $line
+   }
+   if ( $line =~ /\$\(OBJ\)\.a\(/ ) {
+      ($first, $second) = split /\$\(OBJ\)\.a\(/, $line ;
+      ($srcname, $remainder) = split /\.o\)/, $second ;
+      $srcname = $srcname . ".c" ;
+#
+#     get the last modification time for srcname.c
+#
+      $srcname_time = -M $srcname ;
+      if ( (! -e "../../spooles.a") or ($srcname_time < $lib_time) ) {
+         push @srcnames, $srcname
+      }
+   }
+}
+#
+# now start printing the makefile to stdout
+#
+print "\ninclude ../../Make.inc" ;
+print "\n" ;
+print "\nOBJ = $objname" ;
+print "\n\nSRC = " ;
+foreach $src ( @srcnames ) {
+   $srcname = " \\\n     " . $src ;
+   print $srcname ;
+}
+print "\n\nOBJ_FILES = \$\{SRC:.c=.o\}" ;
+print "\n\n" ;
+print <<'EOF' ;
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a
+EOF

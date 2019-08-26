@@ -1,0 +1,11 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = BCSSTK24
+
+set msglvl  = 3
+set msgFile = stdout
+
+set inFile  = $matrices/$matrix/orig1.graphf
+
+testIsSymmetric $msglvl $msgFile $inFile

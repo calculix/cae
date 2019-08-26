@@ -1,0 +1,198 @@
+\par
+\section{Prototypes and descriptions of {\tt ChvList} methods}
+\label{section:ChvList:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt ChvList} object.
+\par
+\subsection{Basic methods}
+\label{subsection:ChvList:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ChvList * ChvList_new ( void ) ;
+\end{verbatim}
+\index{ChvList_new@{\tt ChvList\_new()}}
+This method simply allocates storage 
+for the {\tt ChvList} structure 
+and then sets the default fields by a call to 
+{\tt ChvList\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvList_setDefaultFields ( ChvList *list ) ;
+\end{verbatim}
+\index{ChvList_setDefaultFields@{\tt ChvList\_setDefaultFields()}}
+The structure's fields are set to default values:
+{\tt nlist} and {\tt nlocks} set to zero,
+and {\tt heads}, {\tt counts}, {\tt lock} and {\tt flags} 
+are set to {\tt NULL} .
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvList_clearData ( ChvList *list ) ;
+\end{verbatim}
+\index{ChvList_clearData@{\tt ChvList\_clearData()}}
+This method clears the object and free's any owned data
+by calling {\tt Chv\_free()} for each object on the free
+list.
+If {\tt heads} is not {\tt NULL}, it is free'd.
+If {\tt counts} is not {\tt NULL}, 
+it is free'd via a call to {\tt IVfree()}.
+If {\tt flags} is not {\tt NULL}, 
+it is free'd via a call to {\tt CVfree()}.
+If the lock is not {\tt NULL}, it is destroyed via a call to
+{\tt Lock\_free()}.
+There is a concluding call to 
+{\tt ChvList\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvList_free ( ChvList *list ) ;
+\end{verbatim}
+\index{ChvList_free@{\tt ChvList\_free()}}
+This method releases any storage by a call to 
+{\tt ChvList\_clearData()} 
+and then free the space for {\tt list}.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization methods}
+\label{subsection:ChvList:proto:initial}
+\par
+There are three initializer methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvList_init( ChvList *list, int nlist, int counts[], 
+                   int lockflag, char flags[] ) ;
+\end{verbatim}
+\index{ChvList_init@{\tt ChvList\_init()}}
+Any data is cleared via a call to
+{\tt ChvList\_clearData()}.
+The number of lists is set and the {\tt heads[]} vector is
+initialized.
+If {\tt counts} is not {\tt NULL}, the object's {\tt counts[]}
+vector is allocated and filled with the incoming entries.
+If {\tt lockflag} is zero, the lock is not initialized.
+If {\tt lockflag} is {\tt 1}, the lock is initialized
+to be able to synchronize threads with the calling process.
+If {\tt lockflag} is {\tt 2}, the lock is initialized
+to be able to synchronize threads across processes.
+If {\tt flags} is not {\tt NULL}, the object's {\tt flags[]}
+vector is allocated and filled with the incoming entries.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+or if ${\tt nlist} \le 0$,
+or if {\tt lockflag} is not in {\tt [0,2]},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:ChvList:proto:utility}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ChvList_isListNonempty ( ChvList *list, int ilist ) ;
+\end{verbatim}
+\index{ChvList_isListNonempty@{\tt ChvList\_isListNonempty()}}
+\par
+If list {\tt ilist} is empty, the method returns 0.
+Otherwise, the method returns 1.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+or if {\tt ilist} is not in the range {\tt [0,nlist)},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ChvList_isCountZero ( ChvList *list, int ilist ) ;
+\end{verbatim}
+\index{ChvList_isCountZero@{\tt ChvList\_isCountZero()}}
+\par
+If {\tt counts} is {\tt NULL}, 
+or if {\tt counts[ilist]} equal to zero, the method returns 1.
+Otherwise, the method returns 0.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+or if {\tt ilist} is not in the range {\tt [0,nlist)},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Chv * ChvList_getList ( ChvList *list, int ilist ) ;
+\end{verbatim}
+\index{ChvList_getList@{\tt ChvList\_getList()}}
+\par
+If list {\tt ilist} is empty, the method returns {\tt NULL}.
+Otherwise, if the list needs to be locked, the lock is locked.
+The head of the list is saved to a pointer and then the head is set
+to {\tt NULL}.
+If the list was locked, the number of locks is incremented and the
+lock unlocked.
+The saved pointer is returned.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+or if {\tt ilist} is not in the range {\tt [0,nlist)},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvList_addObjectToList ( ChvList *list, Chv *chv, int ilist ) ;
+\end{verbatim}
+\index{ChvList_addObjectToList@{\tt ChvList\_addObjectToList()}}
+\par
+If the list needs to be locked, the lock is locked.
+If {\tt chv} is not {\tt NULL}, it is added to the head of the list.
+If {\tt counts} is not {\tt NULL}, then {\tt counts[ilist]} is
+decremented.
+If the lock was locked, the number of locks is incremented
+and it is now unlocked.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+or if {\tt ilist} is not in the range {\tt [0,nlist)},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:ChvList:proto:IO}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvList_writeForHumanEye ( ChvList *list, FILE *fp ) ;
+\end{verbatim}
+\index{ChvList_writeForHumanEye@{\tt ChvList\_writeForHumanEye()}}
+\par
+This method writes the list to a file in user readable form.
+\par \noindent {\it Error checking:}
+If {\tt list} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

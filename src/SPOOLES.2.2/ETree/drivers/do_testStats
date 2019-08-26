@@ -1,0 +1,45 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set matrices     = ../../../matrices
+set matrix       = GRD7x7
+set matrix       = GRD127x127
+set matrix       = GRD31x31x31
+set matrix       = BCSSTK39
+set matrix       = GRD7x7x7
+
+set inETreeFile = nd.etreef
+set inETreeFile = $matrices/$matrix/nd.etreef
+
+set inGraphFile = $matrices/$matrix/orig0.graphb
+set inGraphFile = $matrices/$matrix/orig1.graphb
+set inGraphFile = $matrices/$matrix/orig0.graphf
+
+set msglvl  = 1
+
+set msgFile = res
+set msgFile = stdout
+
+set outEPSfile = none
+set outEPSfile = temp.eps
+
+#
+# metricType
+#    0 -- no metric
+#    1 -- size of front
+#    2 -- # original matrix entries in front
+#    3 -- # factor matrix entries in front
+#    4 -- # forward factor ops in front
+#    5 -- # backward factor ops in front
+#
+set metricType = 5
+set heightflag = D
+set coordflag  = P
+set rmax       = 20
+set labelflag  = 0
+set fontscale  = 6
+
+testStats $msglvl $msgFile $inETreeFile $inGraphFile $outEPSfile \
+       $metricType $heightflag $coordflag $rmax $labelflag $fontscale

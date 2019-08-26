@@ -1,0 +1,27 @@
+include ../../Make.inc
+ 
+#-----------------------------------------------------------------------
+ 
+OBJ = Graph
+
+SRC = IO.c \
+      basics.c \
+      compress.c \
+      equivMap.c \
+      expand.c \
+      fillFromOffsets.c \
+      init.c \
+      setListsFromOffsets.c \
+      util.c \
+      wirebasket.c
+
+OBJ_FILES = ${SRC:.c=.o}
+
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a
+	

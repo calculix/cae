@@ -1,0 +1,16 @@
+\begin{theindex}
+
+  \item {\tt Drand\_clearData()}, 2
+  \item {\tt Drand\_fillDvector()}, 3
+  \item {\tt Drand\_fillIvector()}, 3
+  \item {\tt Drand\_free()}, 2
+  \item {\tt Drand\_init()}, 2
+  \item {\tt Drand\_new()}, 2
+  \item {\tt Drand\_setDefaultFields()}, 2
+  \item {\tt Drand\_setNormal()}, 3
+  \item {\tt Drand\_setSeed()}, 2
+  \item {\tt Drand\_setSeeds()}, 3
+  \item {\tt Drand\_setUniform()}, 3
+  \item {\tt Drand\_value()}, 3
+
+\end{theindex}

@@ -1,0 +1,114 @@
+\begin{thebibliography}{10}
+
+\bibitem{ame96-amd}
+P.~Amestoy, T.~Davis, and I.~Duff.
+\newblock An approximate minimum degree ordering algorithm.
+\newblock {\em SIAM J. Matrix Anal. Appl.}, 17:886--905, 1996.
+
+\bibitem{and90-random}
+S.~L. Anderson.
+\newblock Random number generators on vector supercomputers and other advanced
+  architectures.
+\newblock {\em SIAM Review}, 32:221--251, 1990.
+
+\bibitem{ash95-compressed-graphs}
+C.~Ashcraft.
+\newblock Compressed graphs and the minimum degree algorithm.
+\newblock {\em SIAM J. Sci. Comput.}, 16:1404--1411, 1995.
+
+\bibitem{ash89-relaxed}
+C.~Ashcraft and R.~Grimes.
+\newblock The influence of relaxed supernode partitions on the multifrontal
+  method.
+\newblock {\em ACM Trans. Math. Software}, 15:291--309, 1989.
+
+\bibitem{ash97-DDSEP}
+C.~Ashcraft and J.~W.~H. Liu.
+\newblock Using domain decompositions to find graph bisectors.
+\newblock {\em BIT}, 37:506--534, 1997.
+
+\bibitem{ash98-maxflow}
+C.~Ashcraft and J.~W.~H. Liu.
+\newblock Applications of the {D}ulmage-{M}endelsohn decomposition and network
+  flow to graph bisection improvement.
+\newblock {\em SIAM J. Matrix Analysis and Applic.}, 19:325--354, 1998.
+
+\bibitem{bent93-sort}
+J.~L. Bentley and M.~D. McIlroy.
+\newblock Engineering a sort function.
+\newblock {\em Software -- Practice and Experience}, 23(11):1249--1265, 1993.
+
+\bibitem{bha93-localND}
+M.~V. Bhat, W.~G. Habashi, J.~W.~H. Liu, V.~N. Nguyen, and M.~F. Peeters.
+\newblock A note on nested dissection for rectangular grids.
+\newblock {\em SIAM J. Matrix Analysis and Applic.}, 14:253--258, 1993.
+
+\bibitem{dam92-compressed}
+A.~C. Damhaug.
+\newblock {\em Sparse Solution of Finite Element Equations}.
+\newblock PhD thesis, The Norwegian Institute of Technology, 1992.
+
+\bibitem{duf83-multifrontal}
+I.~Duff and J.~Reid.
+\newblock The multifrontal solution of indefinite sparse symmetric linear
+  equations.
+\newblock {\em ACM Trans. Math. Software}, 6:302--325, 1983.
+
+\bibitem{eis76-elementModel}
+S.~C. Eisenstat, M.~H. Schultz, and A.~H. Sherman.
+\newblock Applications of an element model for {G}aussian elimination.
+\newblock In J.~R. Bunch and D.~J. Rose, editors, {\em Sparse Matrix
+  Computations}, pages 85--96. Academic Press, 1976.
+
+\bibitem{sparsematlab}
+J.~Gilbert, C.~Moler, and R.~Schreiber.
+\newblock Sparse matrices in {MATLAB}: design and implementation.
+\newblock {\em SIAM J. Matrix Analysis and Applic.}, 13:335--356, 1992.
+
+\bibitem{hr98-msndtalk}
+B.~Hendrickson and E.~Rothberg.
+\newblock Improving the runtime and quality of nested dissection ordering.
+\newblock {\em SIAM J. Sci. Comput.}, 20:468--489, 1998.
+
+\bibitem{karypis98metis}
+G.~Karypis and V.~Kumar.
+\newblock Metis~4.0: Unstructured graph partitioning and sparse matrix ordering
+  system.
+\newblock Technical report, Department of Computer Science, University of
+  Minnesota, 1998.
+\newblock Available on the WWW at URL {\em http://www.cs.umn.edu/\~{}metis}.
+
+\bibitem{liu85-mfstorage}
+J.~W.~H. Liu.
+\newblock On the storage requirement in the out-of-core multifrontal method for
+  sparse factorization.
+\newblock {\em ACM Trans. on Math. Software}, 12:249--264, 1986.
+
+\bibitem{liu90-etree}
+J.~W.~H. Liu.
+\newblock The role of elimination trees in sparse factorization.
+\newblock {\em SIAM J. Matrix Analysis and Applic.}, 11:134--172, 1990.
+
+\bibitem{liu91-generalizedEnvelope}
+J.~W.~H. Liu.
+\newblock A generalized envelope method for sparse factorization by rows.
+\newblock {\em ACM Trans. on Math. Software}, 17:112--129, 1991.
+
+\bibitem{ng96-mindefIdaho}
+E.~Ng and P.~Raghavan.
+\newblock Minimum deficiency ordering.
+\newblock In {\em Second SIAM Conference on Sparse Matrices}, 1996.
+\newblock Conference presentation.
+
+\bibitem{rot96-mindefIdaho}
+E.~Rothberg.
+\newblock Ordering sparse matrices using approximate minimum local fill.
+\newblock In {\em Second SIAM Conference on Sparse Matrices}, 1996.
+\newblock Conference presentation.
+
+\bibitem{rot98-mindef}
+E.~Rothberg and S.~C. Eisenstat.
+\newblock Node selection strategies for bottom-up sparse matrix ordering.
+\newblock {\em SIAM J. Matrix Anal.}, 19:682--695, 1998.
+
+\end{thebibliography}

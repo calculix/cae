@@ -1,0 +1,110 @@
+\par
+\section{Driver programs for the {\tt ILUMtx} object}
+\label{section:ILUMtx:drivers}
+\par
+This section contains brief descriptions of the driver programs.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testFactor msglvl msgFile type symflag 
+           neqns nitem seed sigma matlabFile
+\end{verbatim}
+This driver program generates a random matrix $A$ stored in
+an {\tt InpMtx} object.
+It then factors $A = (L+I)D(I+U)$, $A = (U^T+I)D(I+U)$ or
+$A = (U^H+I)D(I+U)$ (depending on {\tt type} and {\tt symflag}).
+If {\tt matlabFile} is not {\tt "none"},
+it writes $A$, $L$, $D$ and $U$ to a Matlab file,
+which can then be run through matlab to compute the error in
+the factorization.
+The CPU, number of operations and megaflops for the factorization
+are printed to {\tt msgFile}.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt type} must be either 
+{\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+\item
+{\tt symflag} must be either 
+{\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or
+{\tt SPOOLES\_SYMMETRIC}.
+\item
+{\tt neqns} is the number of equations, must be positive.
+\item
+{\tt nitem} is the number of off-diagonal entries, must be nonnegative.
+\item
+{\tt seed} is a random number seed.
+\item
+{\tt sigma} is the drop tolerance.
+\item
+{\tt matlabFile} is the name of the Matlab file for the matrices. 
+If {\tt "none"} then no output is written.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testSolve msglvl msgFile neqns type symflag 
+           LstorageMode UstorageMode seed matlabFile
+\end{verbatim}
+This driver program solve a linear system
+$(L+I)D(I+U)X = B$, 
+$(U^T+I)D(I+U)X = B$ or
+$(U^H+I)D(I+U)X = B$,
+depending on {\tt type} and {\tt symflag}.
+$L$, $D$ and $L$ are random sparse matrices and
+$B$ is a random vector.
+If {\tt matlabFile} is not {\tt "none"},
+it writes $L$, $D$, $U$, $B$ and the computed solution
+$X$ to a Matlab file,
+which can then be run through matlab to compute the error in
+the solve.
+The CPU, number of operations and megaflops for the factorization
+are printed to {\tt msgFile}.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt neqns} is the number of equations, must be positive.
+\item
+{\tt type} must be either 
+{\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+\item
+{\tt symflag} must be either 
+{\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or
+{\tt SPOOLES\_SYMMETRIC}.
+\item
+{\tt LstorageMode} must be either 
+{\tt SPOOLES\_BY\_ROWS} or
+{\tt SPOOLES\_BY\_COLUMNS}.
+\item
+{\tt UstorageMode} must be either 
+{\tt SPOOLES\_BY\_ROWS} or
+{\tt SPOOLES\_BY\_COLUMNS}.
+\item
+{\tt seed} is a random number seed.
+\item
+{\tt matlabFile} is the name of the Matlab file for the matrices. 
+If {\tt "none"} then no output is written.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

@@ -1,0 +1,26 @@
+\begin{abstract}
+The {\bf SPOOLES} library stands for
+{\bf SP}arse {\bf O}bject {\bf O}riented {\bf L}inear 
+{\bf E}quation {\bf S}olver.
+It is written in the C language using object oriented design
+and can solve real or complex linear systems in serial,
+multithreaded and MPI environments.
+It contains three options to order the matrices: minimum degree,
+generalized nested dissection and multisection.
+The matrices may be symmetric, Hermitian or nonsymmetric.
+Pivoting for numerical stability is supported.
+\par
+While the functionality of the library is broad, 
+the learning curve can be steep for the initial user.
+We present in this paper some ``wrapper'' objects in the serial,
+multithreaded and MPI environments that ease the transition.
+They were originally written to integrate the {\bf SPOOLES} library
+into CSAR's CSAR-Nastran library.
+\par
+The wrapper objects are presented as a learning device; anything
+that reduces the interface between the user and the library also
+restricts the ability to tune the library to a particular need.
+This drawback is ameliorated by a number of wrapper methods that
+allow the user to change default parameters that govern the
+ordering, factorization and solve.
+\end{abstract}

@@ -1,0 +1,164 @@
+\par
+\section{Data Structures}
+\label{section:FrontMtx:dataStructure}
+\par
+The {\tt FrontMtx} structure has the following fields.
+\begin{itemize}
+\item
+{\tt int nfront} : number of fronts.
+\item
+{\tt int neqns} : number of rows and columns in the factor matrix.
+\item
+{\tt int symmetryflag} : flag to denote the type of symmetry
+of $A + \sigma B$.
+\begin{itemize}
+\item
+{\tt SPOOLES\_SYMMETRIC} --- $A$ and/or $B$ are symmetric.
+\item
+{\tt SPOOLES\_HERMITIAN} --- $A$ and/or $B$ are hermitian.
+\item
+{\tt SPOOLES\_NONSYMMETRIC} --- $A$ and/or $B$ are nonsymmetric.
+\end{itemize}
+\item
+{\tt int pivotingflag} : flag to specify pivoting for stability,
+\begin{itemize}
+\item
+{\tt SPOOLES\_NO\_PIVOTING} --- pivoting not used
+\item
+{\tt SPOOLES\_PIVOTING} --- pivoting used
+\end{itemize}
+\item
+{\tt int sparsityflag} : flag to specify storage of factors.
+\begin{itemize}
+\item
+{\tt 0} --- each front is dense
+\item
+{\tt 1} --- a front may be sparse due to entries dropped
+because they are below a drop tolerance.
+\end{itemize}
+\item
+{\tt int dataMode} : flag to specify data storage.
+\begin{itemize}
+\item
+{\tt 1} --- one-dimensional, used during the factorization.
+\item
+{\tt 2} --- two-dimensional, used during the solves.
+\end{itemize}
+\item
+{\tt int nentD} : number of entries in $D$
+\item
+{\tt int nentL} : number of entries in $L$
+\item
+{\tt int nentU} : number of entries in $U$
+\item
+{\tt Tree *tree} : Tree object that holds the tree of fronts.
+Note, normally this is {\tt frontETree->tree}, but we leave this
+here for later enhancements where we change the tree after the
+factorization, e.g., merge/drop fronts.
+\item
+{\tt ETree *frontETree} : elimination tree object that holds the
+front tree.
+\item
+{\tt IVL *symbfacIVL} : {\tt IVL} object that holds the
+symbolic factorization.
+\item
+{\tt IV *frontsizesIV} : {\tt IV} object that holds the
+vector of front sizes, i.e., the number of internal rows
+and columns in a front.
+\item
+{\tt IVL *rowadjIVL} : {\tt IVL} object that holds the
+row list for the fronts, used only for a nonsymmetric factorization
+with pivoting enabled.
+\item
+{\tt IVL *coladjIVL} : {\tt IVL} object that holds the
+column list for the fronts, used only for a symmetric or
+nonsymmetric factorization with pivoting enabled.
+\item
+{\tt IVL *lowerblockIVL} : {\tt IVL} object that holds the
+front-to-front coupling in $L$, used only for a
+nonsymmetric factorization.
+\item
+{\tt IVL *upperblockIVL} : {\tt IVL} object that holds the
+front-to-front coupling in $U$.
+\item
+{\tt SubMtx **p\_mtxDJJ} : a vector of pointers to diagonal submatrices.
+\item
+{\tt SubMtx **p\_mtxUJJ} : a vector of pointers to  submatrices in U
+that are on the block diagonal, used only during the factorization.
+\item
+{\tt SubMtx **p\_mtxUJN} : a vector of pointers to  submatrices in U
+that are off the block diagonal, used only during the factorization.
+\item
+{\tt SubMtx **p\_mtxLJJ} : a vector of pointers to  submatrices in L
+that are on the block diagonal, used only during a nonsymmetric 
+factorization.
+\item
+{\tt SubMtx **p\_mtxLNJ} : a vector of pointers to  submatrices in L
+that are off the block diagonal, used only during a nonsymmetric 
+factorization.
+\item
+{\tt I2Ohash *lowerhash} : pointer to a {\tt I2Ohash} hash table
+for submatrices in $L$, used during the solves.
+\item
+{\tt I2Ohash *upperhash} : pointer to a {\tt I2Ohash} hash table
+for submatrices in $U$, used during the solves.
+\item
+{\tt SubMtxManager *manager} : pointer to an object that manages
+the instances of submatrices during the factors and solves.
+\item
+{\tt Lock *lock} : pointer to a {\tt Lock} lock used 
+in a multithreaded environment to ensure exlusive access while
+allocating storage in the {\tt IV} and {\tt IVL} objects.
+This is not used in a serial or MPI environment.
+\item
+{\tt int nlocks} : number of times the lock has been locked.
+\item
+{\tt PatchAndGo *info} : this is a pointer to an object that is
+used by the {\tt Chv} object during the factorization of a front.
+\end{itemize}
+\par
+One can query the properties of the front matrix object 
+using these simple macros.
+\begin{itemize}
+\item
+{\tt FRONTMTX\_IS\_REAL(frontmtx)} is {\tt 1} if {\tt frontmtx} 
+has real entries and {\tt 0} otherwise.
+\item
+{\tt FRONTMTX\_IS\_COMPLEX(frontmtx)} is {\tt 1} if {\tt frontmtx} 
+has complex entries and {\tt 0} otherwise.
+\item
+{\tt FRONTMTX\_IS\_SYMMETRIC(frontmtx)} is {\tt 1} if {\tt frontmtx} 
+comes from a symmetric matrix or linear combination of symmetric
+matrices, and {\tt 0} otherwise.
+\item
+{\tt FRONTMTX\_IS\_HERMITIAN(frontmtx)} is {\tt 1} if {\tt frontmtx} 
+comes from a Hermitian matrix or linear combination of Hermitian
+matrices, and {\tt 0} otherwise.
+\item
+{\tt FRONTMTX\_IS\_NONSYMMETRIC(frontmtx)} is {\tt 1} if {\tt frontmtx} 
+comes from a nonsymmetric matrix or linear combination of nonsymmetric
+matrices, and {\tt 0} otherwise.
+\item
+{\tt FRONTMTX\_IS\_DENSE\_FRONTS(frontmtx)} is {\tt 1} 
+if {\tt frontmtx} 
+comes from a direct factorization and so stores dense submatrices,
+and {\tt 0} otherwise.
+\item
+{\tt FRONTMTX\_IS\_SPARSE\_FRONTS(frontmtx)} is {\tt 1} 
+if {\tt frontmtx} comes from an approximate factorization 
+and so stores sparse submatrices, and {\tt 0} otherwise.
+\item
+{\tt FRONTMTX\_IS\_PIVOTING(frontmtx)} is {\tt 1} 
+if pivoting was used during the factorization,
+and {\tt 0} otherwise.
+\item
+{\tt FRONTMTX\_IS\_1D\_MODE(frontmtx)} is {\tt 1} 
+if the factor are still stored as a one-dimensional data
+decomposition (i.e., the matrix has not yet been post-processed),
+and {\tt 0} otherwise.
+\item
+{\tt FRONTMTX\_IS\_2D\_MODE(frontmtx)} is {\tt 1} 
+if the factor are stored as a two-dimensional data
+decomposition (i.e., the matrix has been post-processed),
+and {\tt 0} otherwise.
+\end{itemize}

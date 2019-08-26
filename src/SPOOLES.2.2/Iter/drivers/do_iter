@@ -1,0 +1,47 @@
+#! /bin/csh -f
+## method: 0)BiCGStabR     1)BiCGStabL   2)MLBiCGStabR   3)MLBiCGStabL  
+##         4)TFQMRR        5)TFQMRL      6)PCGR          7)PCGL
+##         8)GMRESR        9)GMRESL      
+
+set input            = in2
+set srcformat        = 0
+set srcFile          = ../../Matrices/COMPLEX/zherm.inpmtxb
+set inpmtxFile       = none
+set etreesrc         = 0
+set etreeFile        = ../../Matrices/COMPLEX/zherm.etreef
+set rhsFile          = none
+set slnFile          = none
+set msgFile          = stdout
+set msglvl           = 1
+set seed             = 10101
+set nrhs             = 4
+set Ik               = 5
+set itermax          = 100
+set iterout          = 10
+set symmetryflag     = 1
+set sparsityflag     = 1
+set pivotingflag     = 1
+set tau              = 100
+set droptol          = 1.0e-4
+set convergece       = 1.0e-8
+set method           = 6/7  #use "/" to separate method number
+
+echo $srcformat > $input      
+echo $srcFile >> $input
+echo $inpmtxFile >> $input
+echo $etreesrc >> $input
+echo $etreeFile  >> $input
+echo $rhsFile >> $input
+echo $slnFile >> $input
+echo $msgFile >> $input
+echo $msglvl    $seed    $nrhs  $Ik   $itermax $iterout >> $input
+echo $symmetryflag $sparsityflag $pivotingflag >> $input
+echo $tau   $droptol   $convergece  >> $input
+set tmp = `echo $method | /bin/sed s/"\/"/" "/g`
+echo $tmp   >> $input
+echo " " >> $input
+
+iter $input
+#/bin/rm -f $input
+
+

@@ -1,0 +1,13 @@
+\begin{theindex}
+
+  \item {\tt SubMtxManager\_clearData()}, 3
+  \item {\tt SubMtxManager\_free()}, 3
+  \item {\tt SubMtxManager\_init()}, 3
+  \item {\tt SubMtxManager\_new()}, 2
+  \item {\tt SubMtxManager\_newObjectOfSizeNbytes()}, 3
+  \item {\tt SubMtxManager\_releaseListOfObjects()}, 4
+  \item {\tt SubMtxManager\_releaseObject()}, 3
+  \item {\tt SubMtxManager\_setDefaultFields()}, 3
+  \item {\tt SubMtxManager\_writeForHumanEye()}, 4
+
+\end{theindex}

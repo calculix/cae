@@ -1,0 +1,31 @@
+include ../../Make.inc
+ 
+#-----------------------------------------------------------------------
+ 
+OBJ = Utilities
+
+SRC = CV.c \
+      DV.c \
+      FV.c \
+      IV.c \
+      PCV.c \
+      PDV.c \
+      PFV.c \
+      PIV.c \
+      IP.c \
+      I2OP.c \
+      iohb.c \
+      newsort.c \
+      sortAndCompress.c \
+      ZV.c
+
+OBJ_FILES = ${SRC:.c=.o}
+
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a
+	

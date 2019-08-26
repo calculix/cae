@@ -1,0 +1,10 @@
+\indexentry{I2Ohash_new@{\tt I2Ohash\_new()}}{2}
+\indexentry{I2Ohash_setDefaultFields@{\tt I2Ohash\_setDefaultFields()}}{2}
+\indexentry{I2Ohash_clearData@{\tt I2Ohash\_clearData()}}{2}
+\indexentry{I2Ohash_free@{\tt I2Ohash\_free()}}{2}
+\indexentry{I2Ohash_init@{\tt I2Ohash\_init()}}{3}
+\indexentry{I2Ohash_insert@{\tt I2Ohash\_insert()}}{3}
+\indexentry{I2Ohash_locate@{\tt I2Ohash\_locate()}}{3}
+\indexentry{I2Ohash_remove@{\tt I2Ohash\_remove()}}{3}
+\indexentry{I2Ohash_measure@{\tt I2Ohash\_measure()}}{3}
+\indexentry{I2Ohash_writeForHumanEye@{\tt I2Ohash\_writeForHumanEye()}}{3}

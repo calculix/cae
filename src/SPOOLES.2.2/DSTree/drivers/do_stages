@@ -1,0 +1,19 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+set matrix      = R2D100
+set inGraphFile = $matrices/$matrix/orig0.graphf
+
+set inDSTreeFile = $matrices/$matrix/nd.dstreef
+
+set outStagesFile = temp.ivf
+set outStagesFile = $matrices/$matrix/ndstages.ivf
+
+set msglvl      = 1
+
+set msgFile    = stdout
+
+writeStagesIV $msglvl $msgFile \
+   $inDSTreeFile \
+   ND \
+   $outStagesFile 

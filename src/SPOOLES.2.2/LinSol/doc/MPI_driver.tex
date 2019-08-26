@@ -1,0 +1,377 @@
+\chapter{{\tt testWrapperMPI.c} --- A MPI Driver Program}
+\label{chapter:MPI_driver}
+
+\begin{verbatim}
+/*  testWrapperMPI.c  */
+
+#include "../BridgeMPI.h"
+
+/*--------------------------------------------------------------------*/
+int
+main ( int argc, char *argv[] ) {
+/*
+   -----------------------------------------------------------
+   purpose -- main driver program to solve a linear system
+      where the matrix and rhs are read in from files and
+      the solution is written to a file.
+      NOTE: MPI version
+
+   created -- 98sep25, cca and pjs
+   -----------------------------------------------------------
+*/
+BridgeMPI   *bridge ;
+char        *mtxFileName, *rhsFileName, *solFileName ;
+double      nfactorops ;
+FILE        *msgFile ;
+InpMtx      *mtxA ;
+int         error, msglvl, myid, neqns, nfent, nfind, nfront,
+            nproc, nrhs, nrow, nsolveops, permuteflag, rc, seed, 
+            symmetryflag, type ;
+int         tstats[6] ;
+DenseMtx    *mtxX, *mtxY ;
+/*--------------------------------------------------------------------*/
+/*
+   ---------------------------------------------------------------
+   find out the identity of this process and the number of process
+   ---------------------------------------------------------------
+*/
+MPI_Init(&argc, &argv) ;
+MPI_Comm_rank(MPI_COMM_WORLD, &myid) ;
+MPI_Comm_size(MPI_COMM_WORLD, &nproc) ;
+/*--------------------------------------------------------------------*/
+/*
+    --------------------
+    get input parameters
+    --------------------
+*/
+if ( argc != 10 ) {
+   fprintf(stdout, 
+           "\n\n usage : %s msglvl msgFile neqns type symmetryflag"
+           "\n         mtxFile rhsFile solFile seed"
+           "\n   msglvl  -- message level"
+           "\n      0 -- no output"
+           "\n      1 -- timings and statistics"
+           "\n      2 and greater -- lots of output"
+           "\n   msgFile -- message file"
+           "\n   neqns   -- # of equations"
+           "\n   type    -- type of entries"
+           "\n      1 -- real"
+           "\n      2 -- complex"
+           "\n   symmetryflag -- symmetry flag"
+           "\n      0 -- symmetric"
+           "\n      1 -- hermitian"
+           "\n      2 -- nonsymmetric"
+           "\n   mtxFile -- input file for A matrix InpMtx object"
+           "\n      must be *.inpmtxf or *.inpmtxb"
+           "\n   rhsFile -- input file for Y DenseMtx object"
+           "\n      must be *.densemtxf or *.densemtxb"
+           "\n   solFile -- output file for X DenseMtx object"
+           "\n      must be none, *.densemtxf or *.densemtxb"
+           "\n   seed -- random number seed"
+           "\n",
+        argv[0]) ;
+   return(0) ;
+}
+msglvl = atoi(argv[1]) ;
+if ( strcmp(argv[2], "stdout") == 0 ) {
+   msgFile = stdout ;
+} else {
+   int    length = strlen(argv[2]) + 1 + 4 ;
+   char   *buffer = CVinit(length, '\0') ;
+   sprintf(buffer, "%s.%d", argv[2], myid) ;
+   if ( (msgFile = fopen(buffer, "w")) == NULL ) {
+      fprintf(stderr, "\n fatal error in %s"
+              "\n unable to open file %s\n",
+              argv[0], argv[2]) ;
+      MPI_Finalize() ;
+      return(0) ;
+   }
+   CVfree(buffer) ;
+}
+neqns        = atoi(argv[3]) ;
+type         = atoi(argv[4]) ;
+symmetryflag = atoi(argv[5]) ;
+mtxFileName  = argv[6] ;
+rhsFileName  = argv[7] ;
+solFileName  = argv[8] ;
+seed         = atoi(argv[9]) ;
+fprintf(msgFile, 
+        "\n\n %s input :"
+        "\n msglvl       = %d"
+        "\n msgFile      = %s"
+        "\n neqns        = %d"
+        "\n type         = %d"
+        "\n symmetryflag = %d"
+        "\n mtxFile      = %s"
+        "\n rhsFile      = %s"
+        "\n solFile      = %s"
+        "\n",
+        argv[0], msglvl, argv[2], neqns, type, symmetryflag,
+        mtxFileName, rhsFileName, solFileName) ;
+/*--------------------------------------------------------------------*/
+/*
+   -----------------------------------
+   processor zero reads in the matrix.
+   if an error is found, 
+   all processors exit cleanly
+   -----------------------------------
+*/
+if ( myid != 0 ) {
+   mtxA = NULL ;
+} else {
+/*
+   ----------------------------------------------------
+   open the file, read in the matrix and close the file
+   ----------------------------------------------------
+*/
+   mtxA = InpMtx_new() ;
+   rc = InpMtx_readFromFile(mtxA, mtxFileName) ;
+   if ( rc != 1 ) {
+      fprintf(msgFile, 
+              "\n fatal error reading mtxA from file %s, rc = %d",
+              mtxFileName, rc) ;
+      fflush(msgFile) ;
+   }
+}
+/*
+   ---------------------------------------------------------------
+   processor 0 broadcasts the error return to the other processors
+   ---------------------------------------------------------------
+*/
+MPI_Bcast((void *) &rc, 1, MPI_INT, 0, MPI_COMM_WORLD) ;
+if ( rc != 1 ) {
+   MPI_Finalize() ;
+   return(-1) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   ---------------------------------------------------
+   processor zero reads in the right hand side matrix.
+   if an error is found, all processors exit cleanly
+   ---------------------------------------------------
+*/
+if ( myid != 0 ) {
+   mtxY = NULL ;
+} else {
+/*
+   ----------------------------------
+   read in the right hand side matrix
+   ----------------------------------
+*/
+   mtxY = DenseMtx_new() ;
+   rc = DenseMtx_readFromFile(mtxY, rhsFileName) ;
+   if ( rc != 1 ) {
+      fprintf(msgFile, 
+              "\n fatal error reading mtxY from file %s, rc = %d",
+              rhsFileName, rc) ;
+      fflush(msgFile) ;
+   } else {
+      DenseMtx_dimensions(mtxY, &nrow, &nrhs) ;
+   }
+}
+/*
+   ---------------------------------------------------------------
+   processor 0 broadcasts the error return to the other processors
+   ---------------------------------------------------------------
+*/
+MPI_Bcast((void *) &rc, 1, MPI_INT, 0, MPI_COMM_WORLD) ;
+if ( rc != 1 ) {
+   MPI_Finalize() ;
+   return(-1) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   ------------------------------------------
+   create and setup a BridgeMPI object
+   set the MPI, matrix and message parameters
+   ------------------------------------------
+*/
+bridge = BridgeMPI_new() ;
+BridgeMPI_setMPIparams(bridge, nproc, myid, MPI_COMM_WORLD) ;
+BridgeMPI_setMatrixParams(bridge, neqns, type, symmetryflag) ;
+BridgeMPI_setMessageInfo(bridge, msglvl, msgFile) ;
+/*
+   -----------------
+   setup the problem
+   -----------------
+*/
+rc = BridgeMPI_setup(bridge, mtxA) ;
+fprintf(msgFile, 
+        "\n\n ----- SETUP -----\n"
+        "\n    CPU %8.3f : time to construct Graph"
+        "\n    CPU %8.3f : time to compress Graph"
+        "\n    CPU %8.3f : time to order Graph"
+        "\n    CPU %8.3f : time for symbolic factorization"
+        "\n    CPU %8.3f : time to broadcast front tree"
+        "\n    CPU %8.3f : time to broadcast symbolic factorization"
+        "\n CPU %8.3f : total setup time\n",
+        bridge->cpus[0], bridge->cpus[1], bridge->cpus[2],
+        bridge->cpus[3], bridge->cpus[4], bridge->cpus[5],
+        bridge->cpus[6]) ;
+rc = BridgeMPI_factorStats(bridge, type, symmetryflag, &nfront,
+                           &nfind, &nfent, &nsolveops, &nfactorops) ;
+if ( rc != 1 ) { 
+   fprintf(stderr, 
+           "\n error return %d from BridgeMPI_factorStats()", rc) ;
+   MPI_Finalize() ;
+   exit(-1) ;
+}
+fprintf(msgFile, 
+        "\n\n factor matrix statistics"
+        "\n %d fronts, %d indices, %d entries"
+        "\n %d solve operations, %12.4e factor operations",
+        nfront, nfind, nfent, nsolveops, nfactorops) ;
+fflush(msgFile) ;
+/*--------------------------------------------------------------------*/
+/*
+   --------------------------------
+   setup the parallel factorization
+   --------------------------------
+*/
+rc = BridgeMPI_factorSetup(bridge, 0, 0.0) ;
+if ( rc != 1 ) { 
+   fprintf(stderr, 
+           "\n error return %d from BridgeMPI_factorSetup()", rc) ;
+   MPI_Finalize() ;
+   exit(-1) ;
+}
+fprintf(msgFile, "\n\n ----- PARALLEL FACTOR SETUP -----\n") ;
+fprintf(msgFile, 
+        "\n    CPU %8.3f : time to setup parallel factorization",
+        bridge->cpus[7]) ;
+if ( msglvl > 0 ) {
+   fprintf(msgFile, "\n total factor operations = %.0f"
+           "\n upper bound on speedup due to load balance = %.2f",
+           DV_sum(bridge->cumopsDV),
+           DV_sum(bridge->cumopsDV)/DV_max(bridge->cumopsDV)) ;
+   fprintf(msgFile, "\n operations distributions over processors") ;
+   DV_writeForHumanEye(bridge->cumopsDV, msgFile) ;
+   fflush(msgFile) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   ------------------------------------------------------
+   set the factorization parameters and factor the matrix
+   ------------------------------------------------------
+*/
+permuteflag = 1 ;
+rc = BridgeMPI_factor(bridge, mtxA, permuteflag, &error) ;
+fprintf(msgFile, "\n\n ----- FACTORIZATION -----\n") ;
+if ( rc == 1 ) {
+   fprintf(msgFile, "\n\n factorization completed successfully\n") ;
+} else {
+   fprintf(msgFile, "\n"
+           "\n return code from factorization = %d\n"
+           "\n error code                     = %d\n",
+           rc, error) ;
+   MPI_Finalize() ;
+   exit(-1) ;
+}
+fprintf(msgFile, 
+        "\n    CPU %8.3f : time to permute original matrix"
+        "\n    CPU %8.3f : time to distribute original matrix" 
+        "\n    CPU %8.3f : time to initialize factor matrix" 
+        "\n    CPU %8.3f : time to compute factorization"
+        "\n    CPU %8.3f : time to post-process factorization"
+        "\n CPU %8.3f : total factorization time\n",
+        bridge->cpus[8], bridge->cpus[9], bridge->cpus[10],
+        bridge->cpus[11], bridge->cpus[12], bridge->cpus[13]) ;
+IVzero(6, tstats) ;
+MPI_Reduce((void *) bridge->stats, (void *) tstats, 6, MPI_INT,
+           MPI_SUM, 0, bridge->comm) ;
+fprintf(msgFile,
+        "\n\n   factorization statistics"
+        "\n   %d pivots, %d pivot tests, %d delayed vertices"
+        "\n   %d entries in D, %d entries in L, %d entries in U",
+        tstats[0], tstats[1], tstats[2], 
+        tstats[3], tstats[4], tstats[5]) ;
+fprintf(msgFile,
+        "\n\n   factorization: raw mflops %8.3f, overall mflops %8.3f",
+        1.e-6*nfactorops/bridge->cpus[11], 
+        1.e-6*nfactorops/bridge->cpus[13]) ;
+fflush(msgFile) ;
+/*--------------------------------------------------------------------*/
+/*
+   ------------------------
+   setup the parallel solve
+   ------------------------
+*/
+rc = BridgeMPI_solveSetup(bridge) ;
+fprintf(msgFile, "\n\n ----- PARALLEL SOLVE SETUP -----\n"
+        "\n    CPU %8.3f : time to setup parallel solve", 
+        bridge->cpus[14]) ;
+if ( rc != 1 ) { 
+   fprintf(stderr, 
+           "\n error return %d from BridgeMPI_solveSetup()", rc) ;
+   MPI_Finalize() ;
+   exit(-1) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   -----------------------------------------
+   processor 0 initializes a DenseMtx object 
+   to hold the global solution matrix
+   -----------------------------------------
+*/
+if ( myid == 0 ) {
+   mtxX = DenseMtx_new() ;
+   DenseMtx_init(mtxX, type, 0, 0, neqns, nrhs, 1, neqns) ;
+   DenseMtx_zero(mtxX) ;
+} else {
+   mtxX = NULL ;
+}
+/*
+   ---------------------------------------------
+   the processors solve the system cooperatively
+   ---------------------------------------------
+*/
+permuteflag = 1 ;
+rc = BridgeMPI_solve(bridge, permuteflag, mtxX, mtxY) ;
+if ( rc == 1 ) {
+   fprintf(msgFile, "\n\n solve complete successfully\n") ;
+} else {
+   fprintf(msgFile, "\n" " return code from solve = %d\n", rc) ;
+}
+fprintf(msgFile, "\n\n ----- SOLVE -----\n"
+        "\n    CPU %8.3f : time to permute rhs into new ordering"
+        "\n    CPU %8.3f : time to distribute rhs "
+        "\n    CPU %8.3f : time to initialize solution matrix "
+        "\n    CPU %8.3f : time to solve linear system"
+        "\n    CPU %8.3f : time to gather solution "
+        "\n    CPU %8.3f : time to permute solution into old ordering"
+        "\n CPU %8.3f : total solve time"
+        "\n\n solve: raw mflops %8.3f, overall mflops %8.3f",
+        bridge->cpus[15], bridge->cpus[16], bridge->cpus[17], 
+        bridge->cpus[18], bridge->cpus[19], bridge->cpus[20],
+        bridge->cpus[21],
+        1.e-6*nsolveops/bridge->cpus[18],
+        1.e-6*nsolveops/bridge->cpus[21]) ;
+fflush(msgFile) ;
+if ( myid == 0 ) {
+   if ( msglvl > 0 ) {
+      fprintf(msgFile, "\n\n solution matrix in original ordering") ;
+      DenseMtx_writeForHumanEye(mtxX, msgFile) ;
+      fflush(msgFile) ;
+   }
+}
+/*--------------------------------------------------------------------*/
+/*
+   ---------------------
+   free the working data
+   ---------------------
+*/
+if ( myid == 0 ) {
+   InpMtx_free(mtxA) ;
+   DenseMtx_free(mtxX) ;
+   DenseMtx_free(mtxY) ;
+}
+BridgeMPI_free(bridge) ;
+
+/*--------------------------------------------------------------------*/
+
+MPI_Finalize() ;
+
+return(1) ; }
+
+/*--------------------------------------------------------------------*/
+\end{verbatim}

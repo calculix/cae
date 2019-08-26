@@ -1,0 +1,59 @@
+\begin{theindex}
+
+  \item {\tt DenseMtx\_MPI\_gatherRows()}, 5
+  \item {\tt DenseMtx\_MPI\_scatterAddRows()}, 6
+  \item {\tt DenseMtx\_MPI\_splitByRows()}, 3
+  \item {\tt DenseMtx\_MPI\_splitFromGlobalByRows()}, 3
+
+  \indexspace
+
+  \item {\tt ETree\_MPI\_Bcast()}, 12
+
+  \indexspace
+
+  \item {\tt FrontMtx\_MPI\_aggregateList()}, 13
+  \item {\tt FrontMtx\_MPI\_colmapIV()}, 13
+  \item {\tt FrontMtx\_MPI\_factorInpMtx()}, 7
+  \item {\tt FrontMtx\_MPI\_factorPencil()}, 7
+  \item {\tt FrontMtx\_MPI\_permuteLowerAdj()}, 8
+  \item {\tt FrontMtx\_MPI\_permuteUpperAdj()}, 8
+  \item {\tt FrontMtx\_MPI\_postProcess()}, 8
+  \item {\tt FrontMtx\_MPI\_rowmapIV()}, 13
+  \item {\tt FrontMtx\_MPI\_solve()}, 9
+  \item {\tt FrontMtx\_MPI\_split()}, 5
+
+  \indexspace
+
+  \item {\tt Graph\_MPI\_Bcast()}, 12
+
+  \indexspace
+
+  \item {\tt InpMtx\_MPI\_alltoall}, 13
+  \item {\tt InpMtx\_MPI\_fullAdjacency()}, 12
+  \item {\tt InpMtx\_MPI\_split()}, 3
+  \item {\tt InpMtx\_MPI\_splitFromGlobal()}, 4
+  \item {\tt IV\_MPI\_allgather()}, 9
+  \item {\tt IVL\_MPI\_allgather()}, 9
+  \item {\tt IVL\_MPI\_Bcast()}, 12
+
+  \indexspace
+
+  \item {\tt makeSendRecvIVLs}, 14
+  \item {\tt MatMul\_cleanup()}, 11
+  \item {\tt MatMul\_MPI\_mmm()}, 11
+  \item {\tt MatMul\_MPI\_setup()}, 10
+  \item {\tt MatMul\_setGlobalIndices()}, 11
+  \item {\tt MatMul\_setLocalIndices()}, 11
+  \item {\tt maxTagMPI()}, 14
+
+  \indexspace
+
+  \item {\tt Pencil\_MPI\_fullAdjacency()}, 12
+  \item {\tt Pencil\_MPI\_split()}, 4
+
+  \indexspace
+
+  \item {\tt SymbFac\_MPI\_initFromInpMtx()}, 6
+  \item {\tt SymbFac\_MPI\_initFromPencil()}, 6
+
+\end{theindex}

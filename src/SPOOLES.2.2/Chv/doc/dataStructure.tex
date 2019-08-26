@@ -1,0 +1,70 @@
+\par
+\section{Data Structure}
+\label{section:Chv:dataStructure}
+\par
+\par
+The {\tt Chv} structure has the following fields.
+\begin{itemize}
+\item
+{\tt int id} : object's id, default value is {\tt -1}.
+\item
+{\tt int nD} : number of rows and columns in the (1,1) block
+\item
+{\tt int nL} : number of rows in the (2,1) block
+\item
+{\tt int nU} : number of columns in the (1,2) block
+\item
+{\tt int type} : type of entries
+\begin{itemize}
+\item {\tt SPOOLES\_REAL} $\Longrightarrow$ real entries
+\item {\tt SPOOLES\_COMPLEX} $\Longrightarrow$ complex entries
+\end{itemize}
+\item
+{\tt int symflag} : symmetry flag
+\begin{itemize}
+\item {\tt SPOOLES\_SYMMETRIC} $\Longrightarrow$ 
+      symmetric entries
+\item {\tt SPOOLES\_HERMITIAN} $\Longrightarrow$ 
+      Hermitian entries
+\item {\tt SPOOLES\_NONSYMMETRIC} $\Longrightarrow$ 
+      nonsymmetric entries
+\end{itemize}
+\item
+{\tt int *rowind} : 
+pointer to the base address of the {\tt int} vector 
+that contains row indices.
+\item
+{\tt int *colind} : 
+pointer to the base address of the {\tt int} vector 
+that contains column indices.
+\item
+{\tt double *entries} : 
+pointer to the base address of the {\tt double} vector that
+contains the entries.
+\item
+{\tt DV wrkDV} : 
+object that manages the owned working storage.
+\item
+{\tt Chv *next} : 
+link to a next object in a singly linked list.
+\end{itemize}
+\par
+One can query the type and symmetry
+of the object using these simple macros.
+\begin{itemize}
+\item
+{\tt CHV\_IS\_REAL(chv)} is {\tt 1} if {\tt chv} 
+has real entries and {\tt 0} otherwise.
+\item
+{\tt CHV\_IS\_COMPLEX(chv)} is {\tt 1} if {\tt chv} 
+has complex entries and {\tt 0} otherwise.
+\item
+{\tt CHV\_IS\_SYMMETRIC(chv)} is {\tt 1} if {\tt chv} 
+is symmetric and {\tt 0} otherwise.
+\item
+{\tt CHV\_IS\_HERMITIAN(chv)} is {\tt 1} if {\tt chv} 
+is Hermitian and {\tt 0} otherwise.
+\item
+{\tt CHV\_IS\_NONSYMMETRIC(chv)} is {\tt 1} if {\tt chv} 
+is nonsymmetric and {\tt 0} otherwise.
+\end{itemize}

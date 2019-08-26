@@ -19,7 +19,7 @@ if home_dir not in os.environ['PATH']:
         os.environ['PATH'] += os.pathsep
     os.environ['PATH'] += home_dir
 
-import argparse, logging, shutil, subprocess
+import argparse, logging, shutil, subprocess, clean
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import ccx_cae_tree, ccx_vtk, ccx_kom, ccx_cae_ie, ccx_settings, ccx_job, ccx_log
 
@@ -47,16 +47,12 @@ class CAE(QtWidgets.QMainWindow):
 
         # Create VTK widget
         if settings.show_vtk:
-            self.toolBar.setEnabled(True)
             self.VTK = ccx_vtk.VTK() # create everything for model visualization
-            self.h_splitter.addWidget(self.VTK.widget) # add vtk_widget to the form
-
-            sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-            sizePolicy.setHorizontalStretch(1) # expand horizontally
-            self.VTK.widget.setSizePolicy(sizePolicy)
-
+            self.h_splitter.addWidget(self.VTK.widget)
             self.setMinimumSize(1280, 600)
             self.resize(1280, 720)
+        else:
+            self.toolBar.setParent(None) # hide toolbar
 
         self.mesh = None # mesh from .inp-file - will be parsed in ccx_cae_ie.py
         self.IE = ccx_cae_ie.IE(self, settings) # import/export of .inp-file
@@ -69,7 +65,18 @@ class CAE(QtWidgets.QMainWindow):
         # Actions
         if True:
             self.treeView.keyPressEvent = self.keyPressEvent
-            self.actionFileSettings.triggered.connect(settings.open)
+            self.action_file_settings.triggered.connect(settings.open)
+
+            # Job actions
+            self.action_job_write_input.triggered.connect(self.IE.writeInput)
+            self.action_job_edit_inp.triggered.connect(self.job.editINP)
+            self.action_job_open_subroutine.triggered.connect(self.job.openSubroutine)
+            self.action_job_rebuild_ccx.triggered.connect(self.job.rebuildCCX)
+            self.action_job_submit.triggered.connect(self.job.submit)
+            self.action_job_view_log.triggered.connect(self.job.viewLog)
+            self.action_job_open_cgx.triggered.connect(self.job.openCGX)
+            self.action_job_export_vtu.triggered.connect(self.job.exportVTU)
+            self.action_job_open_paraview.triggered.connect(self.job.openParaview)
 
             # VTK actions
             if settings.show_vtk:
@@ -122,8 +129,7 @@ if __name__ == '__main__':
     a = app.exec_()
 
     # Clean cached files
-    if os.path.isdir('__pycache__'):
-        shutil.rmtree('__pycache__') # works in Linux as in Windows
+    clean.cache()
 
     # Exit application
     sys.exit(a)

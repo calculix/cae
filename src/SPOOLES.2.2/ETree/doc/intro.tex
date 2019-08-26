@@ -1,0 +1,33 @@
+\chapter{{\tt ETree}: Elimination and Front Trees}
+\label{chapter:ETree}
+\par
+The {\tt ETree} object is used to model an elimination tree or a
+front tree for a sparse factorization with symmetric structure.
+The tree is defined over a set of vertices in a graph --- the graph
+can be unit weight or non-unit weight.
+A ``node'' in the tree can be a single vertex (in the context of 
+an elimination tree) or a group of vertices (as for a front tree).
+\par
+The tree information is stored as a {\tt Tree} object.
+In addition there are three {\tt IV} objects.
+One stores the total size of the nodes in the fronts,
+one stores the size of the boundaries of the fronts,
+and one stores the map from the vertices to the fronts.
+\par
+There is a great deal of functionality embodied into the {\tt ETree} 
+object.
+Given an elimination tree or a front tree, one can extract the
+permutation vectors (for the fronts or the vertices), extract a
+multisector based on several criteria, compress the front tree in
+several ways, justify the tree (order children of a node in
+meaningful ways), evaluate metric vectors on the tree (heights,
+depths, subtree accumulators).
+\par
+The front tree we obtain from a low-fill matrix ordering is usually
+not the front tree that drives the factorization.
+We provide three methods that transform the former into the latter.
+One method merges the fronts together in a
+way that adds logical zeros to their structure.
+One method splits large fronts into smaller fronts.
+One method combines these two functionalities.
+

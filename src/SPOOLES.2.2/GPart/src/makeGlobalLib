@@ -1,0 +1,33 @@
+include ../../Make.inc
+ 
+#-----------------------------------------------------------------------
+ 
+OBJ = GPart
+
+SRC = DDviaFishnet.c \
+      DDviaProjection.c \
+      DDsepInfo.c \
+      RBviaDDsep.c \
+      TwoSetViaBKL.c \
+      basics.c \
+      domSegMap.c \
+      identifyWideSep.c \
+      init.c \
+      makeYCmap.c \
+      smoothBisector.c \
+      smoothBy2layers.c \
+      smoothYSep.c \
+      split.c \
+      util.c
+
+
+OBJ_FILES = ${SRC:.c=.o}
+
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a
+	

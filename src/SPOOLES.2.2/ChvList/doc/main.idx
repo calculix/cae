@@ -1,0 +1,10 @@
+\indexentry{ChvList_new@{\tt ChvList\_new()}}{2}
+\indexentry{ChvList_setDefaultFields@{\tt ChvList\_setDefaultFields()}}{2}
+\indexentry{ChvList_clearData@{\tt ChvList\_clearData()}}{3}
+\indexentry{ChvList_free@{\tt ChvList\_free()}}{3}
+\indexentry{ChvList_init@{\tt ChvList\_init()}}{3}
+\indexentry{ChvList_isListNonempty@{\tt ChvList\_isListNonempty()}}{3}
+\indexentry{ChvList_isCountZero@{\tt ChvList\_isCountZero()}}{3}
+\indexentry{ChvList_getList@{\tt ChvList\_getList()}}{4}
+\indexentry{ChvList_addObjectToList@{\tt ChvList\_addObjectToList()}}{4}
+\indexentry{ChvList_writeForHumanEye@{\tt ChvList\_writeForHumanEye()}}{4}

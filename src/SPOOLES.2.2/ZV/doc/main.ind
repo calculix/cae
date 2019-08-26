@@ -1,0 +1,38 @@
+\begin{theindex}
+
+  \item {\tt ZV\_clearData()}, 2
+  \item {\tt ZV\_copy()}, 5
+  \item {\tt ZV\_entries()}, 3
+  \item {\tt ZV\_entry()}, 3
+  \item {\tt ZV\_fill()}, 5
+  \item {\tt ZV\_free()}, 2
+  \item {\tt ZV\_init()}, 4
+  \item {\tt ZV\_init1()}, 4
+  \item {\tt ZV\_init2()}, 4
+  \item {\tt ZV\_log10profile()}, 6
+  \item {\tt ZV\_maxabs()}, 5
+  \item {\tt ZV\_size()}, 3
+  \item {\tt ZV\_minabs()}, 5
+  \item {\tt ZV\_new()}, 2
+  \item {\tt ZV\_owned()}, 3
+  \item {\tt ZV\_pointersToEntry()}, 3
+  \item {\tt ZV\_push()}, 5
+  \item {\tt ZV\_readFromBinaryFile()}, 6
+  \item {\tt ZV\_readFromFile()}, 6
+  \item {\tt ZV\_readFromFormattedFile()}, 6
+  \item {\tt ZV\_setDefaultFields()}, 2
+  \item {\tt ZV\_setEntry()}, 4
+  \item {\tt ZV\_setMaxsize()}, 4
+  \item {\tt ZV\_setSize()}, 4
+  \item {\tt ZV\_shiftBase()}, 5
+  \item {\tt ZV\_size()}, 3
+  \item {\tt ZV\_sizeAndEntries()}, 3
+  \item {\tt ZV\_sizeOf()}, 5
+  \item {\tt ZV\_writeForHumanEye()}, 7
+  \item {\tt ZV\_writeStats()}, 7
+  \item {\tt ZV\_writeToBinaryFile()}, 7
+  \item {\tt ZV\_writeToFile()}, 6
+  \item {\tt ZV\_writeToFormattedFile()}, 6
+  \item {\tt ZV\_zero()}, 5
+
+\end{theindex}

@@ -48,6 +48,9 @@ Main window with imported mesh and highlighted node set after job calculation:
 "New keyword" dialog with corresponding chapter from HTML manual:
 ![Create keyword dialog](img_dialog.png "Create keyword dialog")
 
+Main window and "new keyword" dialog in a simple view mode with hidden VTK widget and HTML help:
+![Simple view mode](img_simple.png "Simple view mode")
+
 Calculation result exported to Paraview:
 ![Results in Paraview](img_paraview.png "Results in Paraview")
 
@@ -119,6 +122,13 @@ CalculiX CAE uses external converters:
 - [ccx2paraview](https://github.com/imirzov/ccx2paraview) - CalculiX to Paraview converter (frd to vtk/vtu)
 - [unv2ccx](https://github.com/imirzov/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
 
+The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/imirzov/ccx_free_form_fortran). This version has much better code folding and readability.
+
+To compile CalculiX sources from CAE you'll need compilers:
+
+    in Ubuntu:  gcc, gfortran
+    in Windows: cygwin
+
 <br/><br/>
 
 
@@ -131,9 +141,15 @@ CalculiX CAE uses external converters:
 
 - Show/Hide VTK mesh visualization widget.
 
-- Keywords hierarchy implemented with XML format. Now it's 1e-4 seconds faster :) and program code is simpler.
+- Keywords hierarchy implemented with XML format. Now it's only 1e-4 seconds faster :) but the source code is much simpler.
 
 - File->Settings user dialog.
+
+- ToolBox panel hides with VTK widget.
+
+- Menu Job.
+
+- Automatically recompile CalculiX sources with updated subroutines.
 
 **Improvements and bugfixes**
 
@@ -141,15 +157,11 @@ CalculiX CAE uses external converters:
 
 - Better surface highlight: remove original face for pure color.
 
-- During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.  
+- During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit. 
 
 **New features**
 
-- Job from CAE: automatically recompile CalculiX sources with updated subroutines.
-
 - treeView: show implementations only.
-
-- PDF manual or YouTube videos for beginners.
 
 - Visualize BC's, constraints and loads in VTK.
 
@@ -165,4 +177,7 @@ CalculiX CAE uses external converters:
 
 - Include Martin Kraska examples.
 
-- Menu Help: VTK Keyboard Shortcuts and Controls.
+- Menu Help:
+    - PDF manual / YouTube videos for beginners.
+    - VTK Keyboard Shortcuts and Controls.
+    - Links to other GitHub projects.

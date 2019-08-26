@@ -1,0 +1,30 @@
+\par
+\section{Data Structure}
+\label{section:Pencil:dataStructure}
+\par
+\par
+The {\tt Pencil} structure has the following fields.
+\begin{itemize}
+\item
+{\tt int type} : type of matrix entries,
+\begin{itemize}
+\item {\tt SPOOLES\_REAL} for real entries
+\item {\tt SPOOLES\_COMPLEX} for complex entries
+\end{itemize}
+\item
+{\tt int symflag} : type of symmetry present in the matrices
+\begin{itemize}
+\item {\tt SPOOLES\_SYMMETRIC} for real or complex symmetric matrices 
+\item {\tt SPOOLES\_HERMITIAN} for complex Hermitian matrices 
+\item {\tt SPOOLES\_NONSYMMETRIC} 
+for real or complex nonsymmetric matrices 
+\end{itemize}
+\item
+{\tt InpMtx *inpmtxA} : pointer to the matrix object for $A$.
+If {\tt inpmtxA} is {\tt NULL}, then $A$ is the identity matrix.
+\item
+{\tt InpMtx *inpmtxB} : pointer to the matrix object for $B$.
+If {\tt inpmtxB} is {\tt NULL}, then $B$ is the identity matrix.
+\item
+{\tt double sigma[2]} : real or complex scalar shift value.
+\end{itemize}

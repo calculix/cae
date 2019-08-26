@@ -1,0 +1,30 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+set inETreeFile = $matrices/$matrix/nd.etreef
+set inGraphFile = $matrices/$matrix/orig0.graphf
+
+set matrices     = ../../../matrices
+set matrix       = BCSSTK24
+set matrix       = GRD15x15x127
+set matrix       = GRD7x7
+set matrix       = GRD31x31x31
+set matrix       = BCSSTK37
+set matrix       = BCSSTK30
+set matrix       = MN12    
+
+# set matrices     = /local1/ARPA/matrices
+# set matrix       = i4a    
+
+set inETreeFile = $matrices/$matrix/nd2.etreef
+set inETreeFile = $matrices/$matrix/msmd.etreef
+set inETreeFile = $matrices/$matrix/best0.etreef
+set inETreeFile = $matrices/$matrix/mmd.etreef
+set inETreeFile = $matrices/$matrix/nd.etreef
+set inETreeFile = $matrices/$matrix/ms.etreef
+
+set msglvl  = 1
+set msgFile = stdout
+
+testHeight $msglvl $msgFile $inETreeFile

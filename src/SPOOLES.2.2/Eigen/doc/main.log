@@ -1,0 +1,127 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=latex 97.4.4)  2 JAN 1999 11:32
+**main
+(main.tex
+LaTeX2e <1996/12/01> patch level 1
+Babel <v3.6h> and hyphenation patterns for english, german, loaded.
+(/home/tex/teTeX/texmf/tex/latex/base/report.cls
+Document Class: report 1996/10/31 v1.3u Standard LaTeX document class
+(/home/tex/teTeX/texmf/tex/latex/base/size10.clo
+File: size10.clo 1996/10/31 v1.3u Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+\@indexfile=\write3
+
+Writing index file main.idx
+(/home/tex/teTeX/texmf/tex/generic/local/psfig/psfig.tex
+\@unused=\write4
+\ps@stream=\read1
+\p@intvaluex=\dimen103
+\p@intvaluey=\dimen104
+
+psfig/tex 1.10-dvips
+) (main.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 52.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 52.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 52.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 52.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 52.
+ [1
+
+] (main.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 3.
+)
+\tf@toc=\write5
+ (intro.tex [1
+
+]
+Chapter 1.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 12.
+(/home/tex/teTeX/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1997/01/14 v2.5a Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 12.
+) (serial.tex [2
+
+] [3]
+Chapter 2.
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 4.
+[4
+
+] [5]
+Overfull \hbox (22.49097pt too wide) in paragraph at lines 173--173
+ []\OT1/cmtt/m/n/10 void Factor ( double *psigma, double *ppvttol, void *data, 
+int *pinertia, int *perror ) ;[] 
+ []
+
+[6] [7]) (MT.tex [8]
+Chapter 3.
+[9
+
+] [10] [11] [12]) (MPI.tex [13]
+Chapter 4.
+[14
+
+]
+Overfull \hbox (1.79965pt too wide) in paragraph at lines 72--75
+[]\OT1/cmtt/m/n/10 IV *ownersIV \OT1/cmr/m/n/10 : ob-ject that maps fronts to o
+wn-ing pro-ces-sors for the fac-tor-iza-tion and matrix-multiplies. 
+ []
+
+[15] [16] [17] [18]) (serial_driver.tex [19]
+Appendix A.
+[20
+
+] [21] [22] [23] [24] [25]) (MT_driver.tex [26]
+Appendix B.
+[27
+
+] [28] [29] [30] [31] [32]) (MPI_driver.tex [33]
+Appendix C.
+[34
+
+] [35] [36] [37] [38] [39] [40]) (main.ind [41] [42
+
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 570 strings out of 10908
+ 5786 string characters out of 72189
+ 58833 words of memory out of 262141
+ 3463 multiletter control sequences out of 9500
+ 11727 words of font info for 43 fonts, out of 150000 for 255
+ 14 hyphenation exceptions out of 607
+ 25i,11n,21p,152b,396s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (43 pages, 103452 bytes).

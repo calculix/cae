@@ -1,0 +1,1476 @@
+\par
+\section{Prototypes and descriptions of {\tt InpMtx} methods}
+\label{section:InpMtx:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt InpMtx} object.
+\par
+\subsection{Basic methods}
+\label{subsection:InpMtx:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+InpMtx * InpMtx_new ( void ) ;
+\end{verbatim}
+\index{InpMtx_new@{\tt InpMtx\_new()}}
+This method simply allocates storage for the {\tt InpMtx} structure 
+and then sets the default fields by a call to 
+{\tt InpMtx\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_setDefaultFields ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_setDefaultFields@{\tt InpMtx\_setDefaultFields()}}
+This method sets the structure's fields to default values:
+{\tt coordType} = {\tt INPMTX\_BY\_ROWS},
+{\tt storageMode} = {\tt INPMTX\_RAW\_DATA},
+{\tt inputMode} = {\tt SPOOLES\_REAL}, 
+{\tt resizeMultiple} = 1.25, and
+{\tt maxnent} = {\tt nent} =
+{\tt maxnvector} = {\tt nvector} = 0.
+The {\tt IV} and {\tt DV} objects have their fields set to their
+default values via calls to {\tt IV\_setDefaultFields()} and
+{\tt DV\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_clearData ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_clearData@{\tt InpMtx\_clearData()}}
+This method releases all storage held by the object.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_free ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_free@{\tt InpMtx\_free()}}
+This method releases all storage held by the object via a call to
+{\tt InpMtx\_clearData()}, then free'd the storage for the
+object.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance Methods}
+\label{subsection:InpMtx:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_coordType ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_coordType@{\tt InpMtx\_coordType()}}
+This method returns the coordinate type.
+\begin{itemize}
+\item {\tt INPMTX\_NO\_TYPE} -- none specified
+\item {\tt INPMTX\_BY\_ROWS} -- storage by row triples
+\item {\tt INPMTX\_BY\_COLUMNS} -- storage by column triples
+\item {\tt INPMTX\_BY\_CHEVRONS} -- storage by chevron triples
+\item {\tt INPMTX\_CUSTOM} -- custom type
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_storageMode ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_storageMode@{\tt InpMtx\_storageMode()}}
+This method returns the storage mode.
+\begin{itemize}
+\item {\tt INPMTX\_NO\_MODE} -- none specified
+\item {\tt INPMTX\_RAW\_DATA} -- raw triples
+\item {\tt INPMTX\_SORTED} -- sorted and distinct triples
+\item {\tt INPMTX\_BY\_VECTORS} -- vectors by the first coordinate
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_inputMode ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_inputMode@{\tt InpMtx\_inputMode()}}
+This method returns the input mode.
+\begin{itemize}
+\item {\tt INPMTX\_INDICES\_ONLY} -- indices only
+\item {\tt SPOOLES\_REAL} -- indices and real entries
+\item {\tt SPOOLES\_COMPLEX} -- indices and complex entries
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_maxnent ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_maxnent@{\tt InpMtx\_maxnent()}}
+This method returns the maximum number of entries.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_nent ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_nent@{\tt InpMtx\_nent()}}
+This method returns the present number of entries.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_maxnvector ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_maxnvector@{\tt InpMtx\_maxnvector()}}
+This method returns the maximum number of vectors.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_nvector ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_nvector@{\tt InpMtx\_nvector()}}
+This method returns the present number of vectors.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double InpMtx_resizeMultiple ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_resizeMultiple@{\tt InpMtx\_resizeMultiple()}}
+This method returns the present resize multiple for the storage of
+entries.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * InpMtx_ivec1 ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_ivec1@{\tt InpMtx\_ivec1()}}
+This method returns the base address of the {\tt ivec1[]} vector.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * InpMtx_ivec2 ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_ivec2@{\tt InpMtx\_ivec2()}}
+This method returns the base address of the {\tt ivec2[]} vector.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * InpMtx_dvec ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_dvec@{\tt InpMtx\_dvec()}}
+This method returns the base address of the {\tt dvec[]} vector.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * InpMtx_vecids ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_vecids@{\tt InpMtx\_vecids()}}
+This method returns the base address of the {\tt vecids[]} vector.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * InpMtx_sizes ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_sizes@{\tt InpMtx\_sizes()}}
+This method returns the base address of the {\tt sizes[]} vector.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * InpMtx_offsets ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_offsets@{\tt InpMtx\_offsets()}}
+This method returns the base address of the {\tt offsets[]} vector.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_vector ( InpMtx *inpmtx, int id, int *pnent, int **pindices ) ;
+void InpMtx_realVector ( InpMtx *inpmtx, int id, int *pnent, 
+                         int **pindices, double **pentries ) ;
+void InpMtx_complexVector ( InpMtx *inpmtx, int id, int *pnent, 
+                            int **pindices, double **pentries ) ;
+\end{verbatim}
+\index{InpMtx_vector@{\tt InpMtx\_vector()}}
+\index{InpMtx_realVector@{\tt InpMtx\_realVector()}}
+\index{InpMtx_complexVector@{\tt InpMtx\_complexVector()}}
+This methods fills {\tt *pnent} with the number of entries in
+vector {\tt id} and 
+sets {\tt *pindices} to the base address of the indices.
+When the object stores real or complex matrix entries,
+the methods sets {\tt *pentries} to the base address of the entries.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+or if ${\tt storageMode} \ne {\tt INPMTX\_BY\_VECTORS}$,
+or if {\tt id} is out of range,
+or if {\tt pnent}, {\tt pindices} or {\tt pentries} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_range ( InpMtx *inpmtx, int *pmincol, int *pmaxcol,
+                                   int *pminrow, int *pmaxrow ) ;
+\end{verbatim}
+\index{InpMtx_range@{\tt InpMtx\_range()}}
+This method computes and returns the minimum and maximum rows and
+columns in the matrix.
+If {\tt pmincol} is not {\tt NULL}, on return {\tt *pmincol}
+is filled with the minimum column id.
+If {\tt pmaxcol} is not {\tt NULL}, on return {\tt *pmaxcol}
+is filled with the maximum column id.
+If {\tt pminrow} is not {\tt NULL}, on return {\tt *pminrow}
+is filled with the minimum row id.
+If {\tt pmaxrow} is not {\tt NULL}, on return {\tt *pmaxrow}
+is filled with the maximum row id.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+ 1 & normal return \\
+-1 & {\tt mtx} is {\tt NULL} \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-2 & no entries in the matrix \\
+-3 & invalid coordinate type
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_setMaxnent ( InpMtx *inpmtx, int newmaxnent ) ;
+\end{verbatim}
+\index{InpMtx_setMaxnent@{\tt InpMtx\_setMaxnent()}}
+This method sets the maxinum number of entries in the indices and
+entries vectors.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL}, or if ${\tt newmaxnent} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_setNent ( InpMtx *inpmtx, int newnent ) ;
+\end{verbatim}
+\index{InpMtx_setNent@{\tt InpMtx\_setNent()}}
+This method sets the present number of entries in the indices and
+entries vectors.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL}, or if ${\tt newnent} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_setMaxnvector ( InpMtx *inpmtx, int newmaxnvector ) ;
+\end{verbatim}
+\index{InpMtx_setMaxnvector@{\tt InpMtx\_setMaxnvector()}}
+This method sets the maxinum number of vectors.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL}, or if ${\tt newmaxnvector} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_setNvector ( InpMtx *inpmtx, int newnvector ) ;
+\end{verbatim}
+\index{InpMtx_setNvector@{\tt InpMtx\_setNvector()}}
+This method sets the present number of vectors.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL}, or if ${\tt newnvector} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_setResizeMultiple ( InpMtx *inpmtx, double resizeMultiple ) ;
+\end{verbatim}
+\index{InpMtx_setResizeMultiple@{\tt InpMtx\_setResizeMultiple()}}
+This method sets the present number of vectors.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL}, or if ${\tt resizeMultiple} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_setCoordType ( InpMtx *inpmtx, int type ) ;
+\end{verbatim}
+\index{InpMtx_setCoordType@{\tt InpMtx\_setCoordType()}}
+This method sets a custom coordinate type, so type must be greater
+than or equal to {\tt 4}.
+To change from one of the three supported types to another,
+use {\tt InpMtx\_changeCoordType()}.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL}, or if ${\tt coordType} <= 3$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Methods to initialize and change state}
+\label{subsection:InpMtx:proto:initializers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_init ( InpMtx *inpmtx, int coordType, int inputMode, 
+                    int maxnent, int maxnvector) ;
+\end{verbatim}
+\index{InpMtx_init@{\tt InpMtx\_init()}}
+This is the initializer method that should be called immediately
+after {\tt InpMtx\_new()}.
+It first clears any previous data with a call to 
+{\tt InpMtx\_clearData()}.
+The {\tt coordType} and {\tt inputMode} fields are set.
+If {\tt maxnent > 0} then the {\tt ivec1IV} and {\tt ivec2IV} 
+objects are initialized to have size {\tt maxnent}.
+If {\tt maxnent > 0} 
+and {\tt inputMode = SPOOLES\_REAL} 
+or {\tt inputMode = SPOOLES\_COMPLEX} ,
+then the {\tt dvecDV} object is initialized to have size {\tt maxnent}.
+If {\tt maxnvector > 0} then the {\tt sizesIV} and {\tt offsetsIV} 
+objects are initialized to have size {\tt maxnvector}.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL} 
+or if {\tt coordType} or {\tt inputMode} is invalid,
+or if {\tt maxnent} or {\tt maxnvector} are less than zero,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_changeCoordType ( InpMtx *inpmtx, int newType ) ;
+\end{verbatim}
+\index{InpMtx_changeCoordType@{\tt InpMtx\_changeCoordType()}}
+This method changes the coordinate type.
+If ${\tt coordType} = {\tt newType}$, the program returns.
+If ${\tt coordType} \ge 4$, then the triples are held in some unknown
+custom type and cannot be translated, so an error message is
+printed and the program exits.
+If ${\tt newType} \ge 4$, then some custom coordinate type is now
+present; the {\tt coordType} field is set and the method returns.
+If {\tt newType} is one of {\tt INPMTX\_BY\_ROWS},
+{\tt INPMTX\_BY\_COLUMNS} or {\tt INPMTX\_BY\_CHEVRONS},
+a translation is made from the old coordinate type to the new type.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL} or {\tt newType} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_changeStorageMode ( InpMtx *inpmtx, int newMode ) ;
+\end{verbatim}
+\index{InpMtx_changeStorageMode@{\tt InpMtx\_changeStorageMode()}}
+If {\tt storageMode} = {\tt newMode}, the method returns.
+Otherwise, a translation between the three valid modes is made
+by calling {\tt InpMtx\_sortAndCompress()} and
+{\tt InpMtx\_convertToVectors()}, as appropriate.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL} or {\tt newMode} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Input methods}
+\label{subsection:InpMtx:proto:input}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_inputEntry ( InpMtx *inpmtx, int row, int col ) ;
+void InpMtx_inputRealEntry ( InpMtx *inpmtx, int row, int col, double value ) ;
+void InpMtx_inputComplexEntry ( InpMtx *inpmtx, int row, int col, 
+                                double real, double imag ) ;
+\end{verbatim}
+\index{InpMtx_inputEntry@{\tt InpMtx\_inputEntry()}}
+\index{InpMtx_inputRealEntry@{\tt InpMtx\_inputRealEntry()}}
+\index{InpMtx_inputComplexEntry@{\tt InpMtx\_inputComplexEntry()}}
+This method places a single entry into the matrix object.
+The coordinate type of the object must be 
+{\tt INPMTX\_BY\_ROWS}, {\tt INPMTX\_BY\_COLUMNS} 
+or {\tt INPMTX\_BY\_CHEVRONS}.
+The triple is formed and inserted into the vectors, which are
+resized if necessary.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL} or {\tt row} or {\tt col} are negative,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_inputRow ( InpMtx *inpmtx, int row, int rowsize, int rowind[] ) ;
+void InpMtx_inputRealRow ( InpMtx *inpmtx, int row, int rowsize, 
+                           int rowind[], double rowent[] ) ;
+void InpMtx_inputComplexRow ( InpMtx *inpmtx, int row, int rowsize, 
+                              int rowind[], double rowent[] ) ;
+\end{verbatim}
+\index{InpMtx_inputRow@{\tt InpMtx\_inputRow()}}
+\index{InpMtx_inputRealRow@{\tt InpMtx\_inputRealRow()}}
+\index{InpMtx_inputComplexRow@{\tt InpMtx\_inputComplexRow()}}
+This method places a row or row fragment into the matrix object.
+The coordinate type of the object must be 
+{\tt INPMTX\_BY\_ROWS}, {\tt INPMTX\_BY\_COLUMNS} 
+or {\tt INPMTX\_BY\_CHEVRONS}.
+The individual entries of the row are placed into the vector
+storage as triples, and the vectors are resized if necessary.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL}, or {\tt row} or {\tt rowsize} 
+are negative, or {\tt rowind} or {\tt rowent} are {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_inputColumn ( InpMtx *inpmtx, int col, int colsize, int colind[] ) ;
+void InpMtx_inputRealColumn ( InpMtx *inpmtx, int col, int colsize, 
+                              int colind[], double colent[] ) ;
+void InpMtx_inputComplexColumn ( InpMtx *inpmtx, int col, int colsize, 
+                                 int colind[], double colent[] ) ;
+\end{verbatim}
+\index{InpMtx_inputColumn@{\tt InpMtx\_inputColumn()}}
+\index{InpMtx_inputRealColumn@{\tt InpMtx\_inputRealColumn()}}
+\index{InpMtx_inputComplexColumn@{\tt InpMtx\_inputComplexColumn()}}
+This method places a column or column fragment into the matrix object.
+The coordinate type of the object must be 
+{\tt INPMTX\_BY\_ROWS}, {\tt INPMTX\_BY\_COLUMNS} 
+or {\tt INPMTX\_BY\_CHEVRONS}.
+The individual entries of the column are placed into the vector
+storage as triples, and the vectors are resized if necessary.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL}, or {\tt col} or {\tt colsize} 
+are negative, or {\tt colind} or {\tt colent} are {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_inputChevron ( InpMtx *inpmtx, int chv, int chvsize, int chvind[] ) ;
+void InpMtx_inputRealChevron ( InpMtx *inpmtx, int chv, int chvsize, 
+                               int chvind[], double chvent[] ) ;
+void InpMtx_inputComplexChevron ( InpMtx *inpmtx, int chv, int chvsize, 
+                                  int chvind[], double chvent[] ) ;
+\end{verbatim}
+\index{InpMtx_inputChevron@{\tt InpMtx\_inputChevron()}}
+\index{InpMtx_inputRealChevron@{\tt InpMtx\_inputRealChevron()}}
+\index{InpMtx_inputComplexChevron@{\tt InpMtx\_inputComplexChevron()}}
+This method places a chevron or chevron fragment into the matrix object.
+The coordinate type of the object must be 
+{\tt INPMTX\_BY\_ROWS}, {\tt INPMTX\_BY\_COLUMNS} 
+or {\tt INPMTX\_BY\_CHEVRONS}.
+The individual entries of the chevron are placed into the vector
+storage as triples, and the vectors are resized if necessary.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL}, or {\tt chv} or {\tt chvsize} 
+are negative, or {\tt chvind} or {\tt chvent} are {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_inputMatrix ( InpMtx *inpmtx, int nrow, int col, 
+   int rowstride, int colstride, int rowind[], int colind[] ) ;
+void InpMtx_inputRealMatrix ( InpMtx *inpmtx, int nrow, int col, 
+   int rowstride, int colstride, int rowind[], int colind[], double mtxent[] ) ;
+void InpMtx_inputComplexMatrix ( InpMtx *inpmtx, int nrow, int col, 
+   int rowstride, int colstride, int rowind[], int colind[], double mtxent[] ) ;
+\end{verbatim}
+\index{InpMtx_inputMatrix@{\tt InpMtx\_inputMatrix()}}
+\index{InpMtx_inputRealMatrix@{\tt InpMtx\_inputRealMatrix()}}
+\index{InpMtx_inputComplexMatrix@{\tt InpMtx\_inputComplexMatrix()}}
+This method places a dense submatrix into the matrix object.
+The coordinate type of the object must be 
+{\tt INPMTX\_BY\_ROWS}, {\tt INPMTX\_BY\_COLUMNS} 
+or {\tt INPMTX\_BY\_CHEVRONS}.
+The individual entries of the matrix are placed into the vector
+storage as triples, and the vectors are resized if necessary.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL}, 
+or {\tt col} or {\tt row} are negative, 
+or {\tt rowstride} or {\tt colstride} are less than {\tt 1},
+or {\tt rowind}, {\tt colind} or {\tt mtxent} are {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_inputTriples ( InpMtx *inpmtx, int ntriples, 
+               int rowids[], int colids[]) ;
+void InpMtx_inputRealTriples ( InpMtx *inpmtx, int ntriples, 
+               int rowids[], int colids[], double entries[] ) ;
+void InpMtx_inputComplexTriples ( InpMtx *inpmtx, int ntriples, 
+               int rowids[], int colids[], double entries[] ) ;
+\end{verbatim}
+\index{InpMtx_inputTriples@{\tt InpMtx\_inputTriples()}}
+\index{InpMtx_inputRealTriples@{\tt InpMtx\_inputRealTriples()}}
+\index{InpMtx_inputComplexTriples@{\tt InpMtx\_inputComplexTriples()}}
+This method places a vector of (row,column,entry) triples 
+into the matrix object.
+The coordinate type of the object must be 
+{\tt INPMTX\_BY\_ROWS}, {\tt INPMTX\_BY\_COLUMNS} 
+or {\tt INPMTX\_BY\_CHEVRONS}.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx}, {\tt rowids}, {\tt colids} is {\tt NULL},
+or {\tt ntriples} are negative,
+or if {\tt inputMode = 2} and {\tt entries} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Permutation, map and support methods}
+\label{subsection:InpMtx:proto:permute}
+\par
+These methods find the {\it support} of a matrix, map the indices
+from one numbering to another, and
+permute the rows and/or columns of the matrix.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_supportNonsym ( InpMtx *A, IV *rowsupIV, IV *colsupIV ) ;
+void InpMtx_supportNonsymT ( InpMtx *A, IV *rowsupIV, IV *colsupIV ) ;
+void InpMtx_supportNonsymH ( InpMtx *A, IV *rowsupIV, IV *colsupIV ) ;
+\end{verbatim}
+\index{InpMtx_supportNonsym@{\tt InpMtx\_supportNonsym()}}
+\index{InpMtx_supportNonsymT@{\tt InpMtx\_supportNonsymT()}}
+\index{InpMtx_supportNonsymH@{\tt InpMtx\_supportNonsymH()}}
+These methods are used to set up sparse matrix-matrix multiplies 
+of the form $Y := Y + \alpha A X$, $Y := Y + \alpha A^T X$ or
+$Y := Y + \alpha A^H X$, where $A$ is a nonsymmetric matrix.
+These methods fill {\tt rowsupIV} with the rows of $Y$ that will be
+updated, and {\tt colsupIV} with the rows of $X$ that will be
+accessed.
+In a distributed environment, $A$, $X$ and $Y$ will be distributed,
+and {\tt A} will contain only part of the larger global matrix $A$.
+Finding the row an column support enables one to construct local
+data structures for $X$ and the product $\alpha A X$.
+\par \noindent {\it Error checking:}
+If {\tt A}, {\tt rowsupIV} or {\tt colsupIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_supportSym ( InpMtx *A, IV *supIV ) ;
+void InpMtx_supportSymH ( InpMtx *A, IV *supIV ) ;
+\end{verbatim}
+\index{InpMtx_supportSym@{\tt InpMtx\_supportSym()}}
+\index{InpMtx_supportSymH@{\tt InpMtx\_supportSymH()}}
+These methods are used to set up sparse matrix-matrix multiplies 
+of the form $Y := Y + \alpha A X$
+where $A$ is a symmetric or Hermitian matrix.
+These methods fill {\tt supIV} with 
+the rows of $Y$ that will be updated. 
+Since $A$ has symmetric nonzero structure, 
+the rows of $Y$ that will be updated are exactly the same as 
+the rows of $X$ that will be accessed.
+In a distributed environment, $A$, $X$ and $Y$ will be distributed,
+and {\tt A} will contain only part of the larger global matrix $A$.
+Finding the row an column support enables one to construct local
+data structures for $X$ and the product $\alpha A X$.
+\par \noindent {\it Error checking:}
+If {\tt A} or {\tt supIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_mapEntries ( InpMtx *A, IV *rowmapIV, IV *colmapIV ) ;
+\end{verbatim}
+\index{InpMtx_mapEntries@{\tt InpMtx\_mapEntries()}}
+These methods are used to map a matrix from one numbering system
+to another.
+The primary use of this method is to map a part of a distributed
+matrix between the global and local numberings.
+\par \noindent {\it Error checking:}
+If {\tt A}, {\tt rowmapIV} or {\tt colmapIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_permute ( InpMtx *inpmtx, int rowOldToNew[], int colOldToNew[] ) ;
+\end{verbatim}
+\index{InpMtx_permute@{\tt InpMtx\_permute()}}
+This method permutes the rows and or columns of the matrix.
+If {\tt rowOldToNew} and {\tt colOldToNew} are both {\tt NULL}, or
+if there are no entries in the matrix, the method returns.
+Note, either {\tt rowOldToNew} or {\tt colOldToNew} can be {\tt NULL}.
+If {\tt coordType == INPMTX\_BY\_CHEVRONS}, then the coordinates
+are changed to row coordinates.
+The coordinates are then mapped to their new values.
+The {\tt storageMode} is set to {\tt 1}, (raw triples).
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Matrix-matrix multiply methods}
+\label{subsection:InpMtx:proto:mvm}
+\par
+There are four families of matrix-vector and matrix-matrix multiply
+methods.
+The {\tt InpMtx\_*\_mmm*()} methods compute
+$$
+Y := Y + \alpha A X, \qquad
+Y := Y + \alpha A^T X \qquad \mbox{\ and\ } \qquad
+Y := Y + \alpha A^H X,
+$$
+where $A$ is an {\tt InpMtx} object, and $X$ and $Y$ are column
+major {\tt DenseMtx} objects.
+The {\tt InpMtx\_*\_mmmVector*()} methods compute
+$$
+y := y + \alpha A x, \qquad
+y := y + \alpha A^T x \qquad \mbox{\ and\ } \qquad
+y := y + \alpha A^H x,
+$$
+where $A$ is an {\tt InpMtx} object, and $x$ and $y$ are vectors.
+The {\tt InpMtx\_*\_gmmm*()} methods compute
+$$
+Y := \beta Y + \alpha A X, \qquad
+Y := \beta Y + \alpha A^T X \qquad \mbox{\ and\ } \qquad
+Y := \beta Y + \alpha A^H X,
+$$
+where $A$ is an {\tt InpMtx} object, and $X$ and $Y$ are column
+major {\tt DenseMtx} objects.
+The {\tt InpMtx\_*\_gmvm*()} methods compute
+$$
+y := \beta y + \alpha A x, \qquad
+y := \beta y + \alpha A^T x \qquad \mbox{\ and\ } \qquad
+y := \beta y + \alpha A^H x,
+$$
+where $A$ is an {\tt InpMtx} object, and $x$ and $y$ are 
+{\tt double} vectors.
+The code notices if $\alpha$ and/or $\beta$ are zero or 1 
+and takes special action.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_nonsym_mmm ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X ) ;
+void InpMtx_sym_mmm ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X ) ;
+void InpMtx_herm_mmm ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X ) ;
+void InpMtx_nonsym_mmm_T ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X ) ;
+void InpMtx_nonsym_mmm_H ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X ) ;
+\end{verbatim}
+\index{InpMtx_nonsym_mmm@{\tt InpMtx\_nonsym\_mmm()}}
+\index{InpMtx_sym_mmm@{\tt InpMtx\_sym\_mmm()}}
+\index{InpMtx_herm_mmm@{\tt InpMtx\_herm\_mmm()}}
+\index{InpMtx_nonsym_mmm_T@{\tt InpMtx\_nonsym\_mmm\_T()}}
+\index{InpMtx_nonsym_mmm_H@{\tt InpMtx\_nonsym\_mmm\_H()}}
+These five methods perform the following computations.
+\begin{center}
+\begin{tabular}{llll}
+{\tt InpMtx\_nonsym\_mmm()} 
+   &  $Y := Y + \alpha A X$
+   & nonsymmetric
+   & real or complex \\
+{\tt InpMtx\_sym\_mmm()} 
+   &  $Y := Y + \alpha A X$
+   & symmetric
+   & real or complex \\
+{\tt InpMtx\_herm\_mmm()} 
+   &  $Y := Y + \alpha A X$
+   & Hermitian
+   & complex \\
+{\tt InpMtx\_nonsym\_mmm\_T()} 
+   &  $Y := Y + \alpha A^T X$
+   & nonsymmetric
+   & real or complex \\
+{\tt InpMtx\_nonsym\_mmm\_H()} 
+   &  $Y := Y + \alpha A^H X$
+   & nonsymmetric
+   & complex 
+\end{tabular}
+\end{center}
+{\tt A}, {\tt X} and {\tt Y} must all be real or all be complex.
+When {\tt A} is real, then $\alpha$ = {\tt alpha[0]}.
+When {\tt A} is complex, then $\alpha$ = 
+{\tt alpha[0]} + i* {\tt alpha[1]}.
+The values of $\alpha$ must be loaded into an array of length 1 or 2.
+\par \noindent {\it Error checking:}
+If {\tt A}, {\tt Y} or {\tt X} are {\tt NULL},
+or if {\tt coordType} is not {\tt INPMTX\_BY\_ROWS},
+{\tt INPMTX\_BY\_COLUMNS} or {\tt INPMTX\_BY\_CHEVRONS},
+or if {\tt storageMode} is not one of {\tt INPMTX\_RAW\_DATA},
+{\tt INPMTX\_SORTED} or {\tt INPMTX\_BY\_VECTORS},
+or if {\tt inputMode} is not {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_nonsym_mmmVector ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X ) ;
+void InpMtx_sym_mmmVector ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X ) ;
+void InpMtx_herm_mmmVector ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X ) ;
+void InpMtx_nonsym_mmmVector_T ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X ) ;
+void InpMtx_nonsym_mmmVector_H ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X ) ;
+\end{verbatim}
+\index{InpMtx_nonsym_mmmVector@{\tt InpMtx\_nonsym\_mmmVector()}}
+\index{InpMtx_sym_mmmVector@{\tt InpMtx\_sym\_mmmVector()}}
+\index{InpMtx_herm_mmmVector@{\tt InpMtx\_herm\_mmmVector()}}
+\index{InpMtx_nonsym_mmmVector_T@{\tt InpMtx\_nonsym\_mmmVector\_T()}}
+\index{InpMtx_nonsym_mmmVector_H@{\tt InpMtx\_nonsym\_mmmVector\_H()}}
+These five methods perform the following computations.
+\begin{center}
+\begin{tabular}{llll}
+{\tt InpMtx\_nonsym\_mmm()} 
+   &  $y := y + \alpha A x$
+   & nonsymmetric
+   & real or complex \\
+{\tt InpMtx\_sym\_mmm()} 
+   &  $y := y + \alpha A x$
+   & symmetric
+   & real or complex \\
+{\tt InpMtx\_herm\_mmm()} 
+   &  $y := y + \alpha A x$
+   & Hermitian
+   & complex \\
+{\tt InpMtx\_nonsym\_mmm\_T()} 
+   &  $y := y + \alpha A^T x$
+   & nonsymmetric
+   & real or complex \\
+{\tt InpMtx\_nonsym\_mmm\_H()} 
+   &  $y := y + \alpha A^H x$
+   & nonsymmetric
+   & complex 
+\end{tabular}
+\end{center}
+{\tt A}, {\tt x} and {\tt y} must all be real or all be complex.
+When {\tt A} is real, then $\alpha$ = {\tt alpha[0]}.
+When {\tt A} is complex, then $\alpha$ = 
+{\tt alpha[0]} + i* {\tt alpha[1]}.
+The values of $\alpha$ must be loaded into an array of length 1 or 2.
+\par \noindent {\it Error checking:}
+If {\tt A}, {\tt x} or {\tt x} are {\tt NULL},
+or if {\tt coordType} is not {\tt INPMTX\_BY\_ROWS},
+{\tt INPMTX\_BY\_COLUMNS} or {\tt INPMTX\_BY\_CHEVRONS},
+or if {\tt storageMode} is not one of {\tt INPMTX\_RAW\_DATA},
+{\tt INPMTX\_SORTED} or {\tt INPMTX\_BY\_VECTORS},
+or if {\tt inputMode} is not {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_nonsym_gmmm ( InpMtx *A, double beta[], DenseMtx *Y, 
+                         double alpha[], DenseMtx *X ) ;
+int InpMtx_sym_gmmm ( InpMtx *A, double beta[], DenseMtx *Y, 
+                      double alpha[], DenseMtx *X ) ;
+int InpMtx_herm_gmmm ( InpMtx *A, double beta[], DenseMtx *Y, 
+                       double alpha[], DenseMtx *X ) ;
+int InpMtx_nonsym_gmmm_T ( InpMtx *A, double beta[], DenseMtx *Y, 
+                           double alpha[], DenseMtx *X ) ;
+int InpMtx_nonsym_gmmm_H ( InpMtx *A, double beta[], DenseMtx *Y, 
+                           double alpha[], DenseMtx *X ) ;
+\end{verbatim}
+\index{InpMtx_nonsym_gmmm@{\tt InpMtx\_nonsym\_gmmm()}}
+\index{InpMtx_sym_gmmm@{\tt InpMtx\_sym\_gmmm()}}
+\index{InpMtx_herm_gmmm@{\tt InpMtx\_herm\_gmmm()}}
+\index{InpMtx_nonsym_gmmm_T@{\tt InpMtx\_nonsym\_gmmm\_T()}}
+\index{InpMtx_nonsym_gmmm_H@{\tt InpMtx\_nonsym\_gmmm\_H()}}
+These five methods perform the following computations.
+\begin{center}
+\begin{tabular}{llll}
+{\tt InpMtx\_nonsym\_gmmm()} 
+   &  $Y := \beta  Y + \alpha  A  X$
+   & nonsymmetric
+   & real or complex \\
+{\tt InpMtx\_sym\_gmmm()} 
+   &  $Y := \beta Y + \alpha A X$
+   & symmetric
+   & real or complex \\
+{\tt InpMtx\_herm\_gmmm()} 
+   &  $Y := \beta Y + \alpha A X$
+   & Hermitian
+   & complex \\
+{\tt InpMtx\_nonsym\_gmmm\_T()} 
+   &  $Y := \beta Y + \alpha A^T X$
+   & nonsymmetric
+   & real or complex \\
+{\tt InpMtx\_nonsym\_gmmm\_H()} 
+   &  $Y := \beta Y + \alpha A^H X$
+   & nonsymmetric
+   & complex 
+\end{tabular}
+\end{center}
+{\tt A}, {\tt X} and {\tt Y} must all be real or all be complex.
+When {\tt A} is real, 
+then $\beta$ = {\tt beta[0]}
+and $\alpha$ = {\tt alpha[0]}.
+When {\tt A} is complex, 
+then $\beta$ = {\tt beta[0]} + i*{\tt beta[1]}
+and $\alpha$ = {\tt alpha[0]} + i*{\tt alpha[1]}.
+The values of $\beta$ and $\alpha$ must be loaded 
+into an array of length 1 or 2.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}[t]{rl}
+~1 & normal return \\
+-1 & {\tt A} is {\tt NULL} \\
+-2 & type of {\tt A} is invalid \\
+-3 & indices of entries of {\tt A} are {\tt NULL} \\
+-4 & {\tt beta} is {\tt NULL} \\
+-5 & {\tt Y} is {\tt NULL} \\
+-6 & type of {\tt Y} is invalid \\
+-7 & bad dimensions and strides for {\tt Y} \\
+\end{tabular}
+\begin{tabular}[t]{rl}
+~-8 & entries of {\tt Y} are {\tt NULL} \\
+~-9 & {\tt alpha} is {\tt NULL} \\
+-10 & {\tt X} is {\tt NULL} \\
+-11 & type of {\tt X} is invalid \\
+-12 & bad dimensions and strides for {\tt X} \\
+-13 & entries of {\tt X} are {\tt NULL} \\
+-14 & types of {\tt A}, {\tt X} and {\tt Y} are not identical \\
+-15 & number of columns in {\tt X} and {\tt Y} are not equal
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_nonsym_gmvm ( InpMtx *A, double beta[], int ny, double y[],
+                         double alpha[], int nx, double x[] ) ;
+int InpMtx_sym_gmvm ( InpMtx *A, double beta[], int ny, double y[],
+                      double alpha[], int nx, double x[] ) ;
+int InpMtx_herm_gmvm ( InpMtx *A, double beta[], int ny, double y[],
+                       double alpha[], int nx, double x[] ) ;
+int InpMtx_nonsym_gmvm_T ( InpMtx *A, double beta[], int ny, double y[],
+                           double alpha[], int nx, double x[] ) ;
+int InpMtx_nonsym_gmvm_H ( InpMtx *A, double beta[], int ny, double y[],
+                           double alpha[], int nx, double x[] ) ;
+\end{verbatim}
+\index{InpMtx_nonsym_gmvm@{\tt InpMtx\_nonsym\_gmvm()}}
+\index{InpMtx_sym_gmvm@{\tt InpMtx\_sym\_gmvm()}}
+\index{InpMtx_herm_gmvm@{\tt InpMtx\_herm\_gmvm()}}
+\index{InpMtx_nonsym_gmvm_T@{\tt InpMtx\_nonsym\_gmvm\_T()}}
+\index{InpMtx_nonsym_gmvm_H@{\tt InpMtx\_nonsym\_gmvm\_H()}}
+These five methods perform the following computations.
+\begin{center}
+\begin{tabular}{llll}
+{\tt InpMtx\_nonsym\_gmvm()} 
+   &  $y := \beta  y + \alpha  A  x$
+   & nonsymmetric
+   & real or complex \\
+{\tt InpMtx\_sym\_gmvm()} 
+   &  $y := \beta y + \alpha A x$
+   & symmetric
+   & real or complex \\
+{\tt InpMtx\_herm\_gmvm()} 
+   &  $y := \beta y + \alpha A x$
+   & Hermitian
+   & complex \\
+{\tt InpMtx\_nonsym\_gmvm\_T()} 
+   &  $y := \beta y + \alpha A^T x$
+   & nonsymmetric
+   & real or complex \\
+{\tt InpMtx\_nonsym\_gmvm\_H()} 
+   &  $y := \beta y + \alpha A^H x$
+   & nonsymmetric
+   & complex 
+\end{tabular}
+\end{center}
+When {\tt A} is real, 
+then $\beta$ = {\tt beta[0]}
+and $\alpha$ = {\tt alpha[0]}.
+When {\tt A} is complex, 
+then $\beta$ = {\tt beta[0]} + i*{\tt beta[1]}
+and $\alpha$ = {\tt alpha[0]} + i*{\tt alpha[1]}.
+The values of $\beta$ and $\alpha$ 
+must be loaded into an array of length 1 or 2.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}[t]{rl}
+~1 & normal return \\
+-1 & {\tt A} is {\tt NULL} \\
+-2 & type of {\tt A} is invalid \\
+-3 & indices of entries of {\tt A} are {\tt NULL} \\
+-4 & {\tt beta} is {\tt NULL} \\
+\end{tabular}
+\begin{tabular}[t]{rl}
+-5 & ${\tt ny} \le 0$ \\
+-6 & {\tt y} is {\tt NULL} \\
+-7 & {\tt alpha} is {\tt NULL} \\
+-8 & ${\tt nx} \le 0$ \\
+-9 & {\tt x} is {\tt NULL} \\
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Graph construction methods}
+\label{subsection:InpMtx:proto:construct}
+\par
+Often we need to construct a graph object from a matrix, e.g.,
+when we need to find an ordering of the rows and columns.
+We don't construct a {\tt Graph} object directly, but create a full
+adjacency structure that is stored in an {\tt IVL} object, a lower
+level object than the {\tt Graph} object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * InpMtx_fullAdjacency ( InpMtx *inpmtxA ) ;
+\end{verbatim}
+\index{InpMtx_fullAdjacency@{\tt InpMtx\_fullAdjacency()}}
+This method creates and returns an {\tt IVL} object that holds the
+full adjacency structure of $A + A^T$, where {\tt inpmtxA} contains
+the entries in $A$.
+\par \noindent {\it Error checking:}
+If {\tt inpmtxA} is {\tt NULL},
+or if the coordinate type is not 
+{\tt INPMTX\_BY\_ROWS} or {\tt INPMTX\_BY\_COLUMNS},
+or if the storage mode is not {\tt INPMTX\_BY\_VECTORS},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * InpMtx_fullAdjacency2 ( InpMtx *inpmtxA, InpMtx *inpmtxB ) ;
+\end{verbatim}
+\index{InpMtx_fullAdjacency2@{\tt InpMtx\_fullAdjacency2()}}
+This method creates and returns an {\tt IVL} object that holds the
+full adjacency structure of $(A + B) + (A + B)^T$, 
+where {\tt inpmtxA} contains the entries in $A$
+and {\tt inpmtxB} contains the entries in $B$.
+\par \noindent {\it Error checking:}
+If {\tt inpmtxA} is {\tt NULL},
+or if the coordinate type is not 
+{\tt INPMTX\_BY\_ROWS} or {\tt INPMTX\_BY\_COLUMNS},
+or if the storage mode is not {\tt INPMTX\_BY\_VECTORS},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * InpMtx_adjForATA ( InpMtx *inpmtxA ) ;
+\end{verbatim}
+\index{InpMtx_adjForATA@{\tt InpMtx\_adjForATA()}}
+This method creates and returns an {\tt IVL} object that holds the
+full adjacency structure of $A^T A$, where {\tt inpmtxA} contains
+the entries in $A$.
+\par \noindent {\it Error checking:}
+If {\tt inpmtxA} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\par
+%=======================================================================
+% \subsection{Custom coordinate mapping methods}
+% \label{subsection:InpMtx:proto:custom}
+% \par
+% There is one method to map the entries into custom coordinates.
+% We want to be able to load entries of the matrix into the front
+% structures in as rapid and efficient manner as possible.
+% Towards this goal, this custom coordinate map has 
+% {\tt ivec1[ient]} equal to the front that will assemble entry 
+% {\tt ient}, 
+% {\tt ivec2[ient]} is the offset into the data array for the front 
+% where the entry will be assembled.
+% \par
+% \begin{enumerate}
+%-----------------------------------------------------------------------
+% \item
+% \begin{verbatim}
+% void InpMtx_mapToFronts ( InpMtx *inpmtx, IV *vtxToFrontIV,
+%                            IVL *frontIndicesIVL ) ;
+% \end{verbatim}
+% \index{InpMtx_mapToFronts@{\tt InpMtx\_mapToFronts()}}
+% We are given two input parameters: an {\tt IV} object that contains
+% the map from the vertices to the fronts, 
+% and an {\tt IVL} object that holds the indices for each of the fronts.
+% {\it For this method,}\footnote{
+% There are other ways to map entries into frontal matrices.
+% For example, if the full frontal matrix is stored, (as for the
+% classical multifrontal method), we could map entry $a_{i,j}$ to the
+% first numbered front that contains both $i$ and $j$ in its rows and
+% columns.}
+% the front contains three matrices --- $A_{1,1}$, $A_{1,2}$ and
+% $A_{2,1}$.
+% The mode of storage is column-major for $A_{1,1}$ and $A_{1,2}$
+% and row-major for $A_{2,1}$.
+% The storage for the three matrices is contiguous, that of $A_{1,1}$
+% first, followed by that for $A_{1,2}$, followed by that for $A_{2,1}$.
+% \par
+% We first convert the coordinate mode to chevrons, sort and compress.
+% (This allows the mapping to be executed in an efficient manner.)
+% The {\tt ivec1[]} and {\tt ivec2[]} vectors are filled with the
+% fronts and offsets for the entries, respectively.
+% The coordinate type is set to {\tt 4} (custom) and the storage mode
+% is then converted to {\tt 3}, distinct vectors.
+% \par \noindent {\it Error checking:}
+% If {\tt inpmtx}, {\tt vtxToFrontIV} or {\tt frontIndicesIVL} 
+% are {\tt NULL},
+% an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+% \end{enumerate}
+\par
+%=======================================================================
+\subsection{Submatrix extraction method}
+\label{subsection:InpMtx:proto:extract}
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_initFromSubmatrix ( InpMtx *B, InpMtx *A, IV *BrowsIV, 
+            IV *BcolsIV, int symmetryflag, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{InpMtx_initFromSubmatrix@{\tt InpMtx\_initFromSubmatrix()}}
+This method fills {\tt B} with the submatrix formed from the rows
+and columns of {\tt A} found 
+in {\tt BrowsIV} and {\tt BcolsIV}.
+The row and column indices in {\tt B} are local with respect to
+{\tt BrowsIV} and {\tt BcolsIV}.
+\par
+When {\tt symmetryflag} is {\tt SPOOLES\_SYMMETRIC} or 
+{\tt SPOOLES\_HERMITIAN}, then we assume that when $i \ne j$,
+$A_{i,j}$ or $A_{j,i}$ is stored, but not both.
+($A$ could be stored by rows of its upper triangle, or by columns
+of its lower triangle, or a mixture.)
+In this case,
+if {\tt BrowsIV} and {\tt BcolsIV} are identical, then just the upper
+triangular part of {\tt B} is stored. 
+Otherwise {\tt B} contains all entries of $A$ for rows in {\tt
+rowsIV} and columns in {\tt colsIV}.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+ 1 & normal return \\
+-1 & {\tt B} is {\tt NULL} \\
+-2 & {\tt BcolsIV} is {\tt NULL} \\
+-3 & {\tt BrowsIV} is {\tt NULL} \\
+-4 & {\tt A} is {\tt NULL} \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-5 & invalid input mode for {\tt A} \\
+-6 & invalid coordinate type for {\tt A} \\
+-7 & invalid {\tt symmetryflag} \\
+-8 & Hermitian {\tt symmetryflag} but not complex \\
+-9 & ${\tt msglvl} > 0$ and {\tt msgFile} is {\tt NULL}
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+%=======================================================================
+\subsection{Utility methods}
+\label{subsection:InpMtx:proto:utility}
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_sortAndCompress ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_sortAndCompress@{\tt InpMtx\_sortAndCompress()}}
+This method sorts the triples first by their primary key and
+next by their secondary key.
+At this point any two triples with identical first and second
+coordinates lie in consecutive locations, so it is easy to add all
+entries together that are associated with a triple and thus
+compress the vectors.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+or if {\tt storageMode} is not 1,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_convertToVectors ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_convertToVectors@{\tt InpMtx\_convertToVectors()}}
+This method fills the {\tt sizes[]} and {\tt offsets[]} arrays
+to generate a set of vectors of triples whose first coordinate is
+identical.
+The method requires that {\tt storageMode = INPMTX\_SORTED}, 
+i.e., that the triples have been sorted and compressed.
+The sizes of the two arrays are changed as necessary.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+or if {\tt storageMode} is not 2,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_dropOffDiagonalEntries ( InpMtx *inpmtx ) ;
+void InpMtx_dropLowerTriangle ( InpMtx *inpmtx ) ;
+void InpMtx_dropUpperTriangle ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_dropOffDiagonalEntries@{\tt InpMtx\_dropOffDiagonalEntries()}}
+\index{InpMtx_dropLowerTriangle@{\tt InpMtx\_dropLowerTriangle()}}
+\index{InpMtx_dropUpperTriangle@{\tt InpMtx\_dropUpperTriangle()}}
+These methods purge entries based on structure.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+or if {\tt coordType} is not {\tt INPMTX\_BY\_ROWS},
+{\tt INPMTX\_BY\_COLUMNS} or {\tt INPMTX\_BY\_CHEVRONS},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_mapToLowerTriangle  ( InpMtx *inpmtx ) ;
+void InpMtx_mapToUpperTriangle  ( InpMtx *inpmtx ) ;
+void InpMtx_mapToUpperTriangleH ( InpMtx *inpmtx ) ;
+\end{verbatim}
+\index{InpMtx_mapToLowerTriangle@{\tt InpMtx\_mapToLowerTriangle()}}
+\index{InpMtx_mapToUpperTriangle@{\tt InpMtx\_mapToUpperTriangle()}}
+\index{InpMtx_mapToUpperTriangleH@{\tt InpMtx\_mapToUpperTriangleH()}}
+If the {\tt InpMtx} object holds only the lower or upper triangle
+of a matrix (as when the matrix is symmetric or Hermitian), 
+and is then permuted, 
+it is not likely that the permuted object will only have entries in
+the lower or upper triangle.
+The first method moves $a_{i,j}$ for $i < j$ to $a_{j,i}$.
+The second method moves $a_{i,j}$ for $i > j$ to $a_{j,i}$,
+(If the matrix is Hermitian, the sign of the imaginary part of an
+entry is dealt with in the correct fashion.)
+In other words, using these methods will restore the lower or upper
+triangular structure after a permutation.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+or if {\tt coordType} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_log10profile ( InpMtx *inpmtx, int npts, DV *xDV, DV *yDV,
+                            double tausmall, double taubig, 
+                            int *pnzero, int *pnsmall, int *pnbig ) ;
+\end{verbatim}
+\index{InpMtx_log10profile@{\tt InpMtx\_log10profile()}}
+This method fills the {\tt xDV} and {\tt yDV} objects with with an
+approximate density profile of the magnitudes of the entries in the
+matrix.
+Only values whose $\log10(a_{i,j})$ is in the range 
+{\tt [tausmall, taubig]} contribute to the profile.
+The range is divided up into {\tt npts} buckets.
+The {\tt x} value is the $\log10$ of a average magnitude 
+of a bucket, and the {\tt y}
+value is the number of entries found in that bucket.
+On return, 
+{\tt *pnzero} returns the number of zero entries in the matrix,
+{\tt *pnsmall} returns the number of entries whose $\log10$ magnitude is
+smaller than {\tt tausmall},
+and 
+{\tt *pnbig} returns the number of entries whose $\log10$ magnitude is
+larger than {\tt taubig}.
+The {\tt DVL\_log10profile()} method is used to find the profile.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx}, {\tt xDV}, {\tt yDV}, {\tt pnzero}, {\tt pnsmall} 
+or {\tt pnbig} is {\tt NULL},
+or if {\tt inputMode} is not {\tt SPOOLES\_REAL} 
+or {\tt SPOOLES\_COMPLEX},
+or if {\tt npts}, {\tt taubig} or {\tt tausmall} $\le 0$,
+or if {\tt tausmall > taubig},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_checksums ( InpMtx *inpmtx, double sums[] ) ;
+\end{verbatim}
+\index{InpMtx_checksums@{\tt InpMtx\_checksums()}}
+This method fills {\tt sums[0]} with the sum of the absolute values
+of the first coordinates,
+{\tt sums[1]} with the sum of the absolute values
+of the second coordinates,
+and if entries are present, it fills {\tt sums[2]} 
+with the sum of the magnitudes of the entries.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL},
+or if {\tt inputMode} is not valid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_randomMatrix ( InpMtx *inpmtx, int inputMode, int coordType,
+                          int storageMode, int nrow, int ncol, int symflag, 
+                          int nonzerodiag, int nitem, int seed ) ;
+\end{verbatim}
+\index{InpMtx_randomMatrix@{\tt InpMtx\_randomMatrix()}}
+This methods fills {\tt mtx} with random entries.
+{\tt inputMode} can be indices only, real or complex.
+{\tt coordType} can be rows, columns or chevrons.
+{\tt storageMode} can be raw, sorted or vectors.
+{\tt nrow} and {\tt ncol} must be positive.
+{\tt symflag} can be symmetric, Hermitian or nonsymmetric.
+if {\tt nonzerodiag} is {\tt 1}, the diagonal of the matrix
+is filled with nonzeros.
+{\tt nitem} numbers (or {\tt nitem + min(nrow,ncol)} if
+{\tt nonzerodiag = 1})
+are placed into the matrix.
+{\tt seed} is used for the random number generator.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} is {\tt NULL}, {\tt -1} is returned.
+If {\tt inputMode} is invalid, {\tt -2} is returned.
+If {\tt coordType} is invalid, {\tt -3} is returned.
+If {\tt storageMode} is invalid, {\tt -4} is returned.
+If {\tt nrow} or {\tt ncol} is not positive, {\tt -5} is returned.
+If {\tt symflag} is invalid, {\tt -5} is returned.
+If {\tt symflag} is Hermitian but {\tt inputMode} is not complex,
+{\tt -7} is returned.
+If {\tt symflag} is symmetric or Hermitian but {\tt nrow} is not 
+equal to {\tt ncol},
+{\tt -8} is returned.
+If {\tt nitem} is not positive, {\tt -9} is returned.
+Otherwise, {\tt 1} is returned.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+ 1 & normal return \\
+-1 & {\tt inpmtx} is {\tt NULL} \\
+-2 & {\tt inputMode} invalid \\
+-3 & {\tt coordType} invalid \\
+-4 & {\tt storageMode} invalid \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-5 & {\tt nrow} or {\tt ncol} negative \\
+-6 & {\tt symflag} is invalid \\
+-7 & {\tt (symflag,inputMode)} invalid \\
+-8 & {\tt (symflag,nrow,ncol)} invalid \\
+-9 & {\tt nitem} negative \\
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:InpMtx:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a {\tt InpMtx} object is simple:
+The first entries in the file are
+{\tt coordType},
+{\tt storageMode},
+{\tt inputMode},
+{\tt nent} and
+{\tt nvector}.
+If {\tt nent > 0}, then the
+{\tt ivec1IV} and {\tt ivec2IV} vectors follow,
+If {\tt nent > 0} and {\tt inputMode = SPOOLES\_REAL}
+or {\tt SPOOLES\_COMPLEX}, 
+the {\tt dvecDV} vector follows.
+If {\tt storageMode = INPMTX\_BY\_VECTORS} and {\tt nvector > 0}, 
+the {\tt vecidsIV}, {\tt sizesIV} and {\tt offsetsIV} vectors follow.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_readFromFile ( InpMtx *inpmtx, char *fn ) ;
+\end{verbatim}
+\index{InpMtx_readFromFile@{\tt InpMtx\_readFromFile()}}
+\par
+This method reads the object from a formatted or binary file.
+It  tries to open the file and if successful, 
+it then calls 
+{\tt InpMtx\_readFromBinaryFile()} 
+or
+{\tt InpMtx\_readFromFormattedFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} or {\tt fn} is {\tt NULL},
+or if {\tt fn} is not of the form
+{\tt *.inpmtxf} (for a formatted file) 
+or {\tt *.inpmtxb} (for a binary file),
+or if the file cannot be opened,
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_readFromFormattedFile ( InpMtx *inpmtx, FILE *fp ) ;
+\end{verbatim}
+\index{InpMtx_readFromFormattedFile@{\tt InpMtx\_readFromFormattedFile()}}
+\par
+This method reads in the object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} or {\tt fp} is {\tt NULL},
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_readFromBinaryFile ( InpMtx *inpmtx, FILE *fp ) ;
+\end{verbatim}
+\index{InpMtx_readFromBinaryFile@{\tt InpMtx\_readFromBinaryFile()}}
+\par
+This method reads in the object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} or {\tt fp} is {\tt NULL},
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_writeToFile ( InpMtx *inpmtx, char *fn ) ;
+\end{verbatim}
+\index{InpMtx_writeToFile@{\tt InpMtx\_writeToFile()}}
+\par
+This method writes the object to a formatted or binary file.
+It tries to open the file and if successful, 
+it then calls 
+{\tt InpMtx\_writeToBinaryFile()}
+or
+{\tt InpMtx\_writeToFormattedFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} of {\tt fn} is {\tt NULL},
+or if {\tt fn} is not of the form
+{\tt *.inpmtxf} (for a formatted file) 
+or {\tt *.inpmtxb} (for a binary file),
+or if the file cannot be opened,
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_writeToFormattedFile ( InpMtx *inpmtx, FILE *fp ) ;
+\end{verbatim}
+\index{InpMtx_writeToFormattedFile@{\tt InpMtx\_writeToFormattedFile()}}
+\par
+This method writes the object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} or {\tt fp} is {\tt NULL},
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_writeToBinaryFile ( InpMtx *inpmtx, FILE *fp ) ;
+\end{verbatim}
+\index{InpMtx_writeToBinaryFile@{\tt InpMtx\_writeToBinaryFile()}}
+\par
+This method writes the object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} or {\tt fp} is {\tt NULL},
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_writeForHumanEye ( InpMtx *inpmtx, FILE *fp ) ;
+\end{verbatim}
+\index{InpMtx_writeForHumanEye@{\tt InpMtx\_writeForHumanEye()}}
+\par
+This method writes the object to a file suitable for reading by a
+human.
+The method {\tt InpMtx\_writeStats()} is called to write out the
+header and statistics. 
+The data is written out in the appropriate way, e.g., if the
+storage mode is by triples, triples are written out.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} or {\tt fp} are {\tt NULL}, 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_writeStats ( InpMtx *inpmtx, FILE *fp ) ;
+\end{verbatim}
+\index{InpMtx_writeStats@{\tt InpMtx\_writeStats()}}
+\par
+This method writes the statistics about the object to a file.
+human.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} or {\tt fp} are {\tt NULL},
+ an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_writeForMatlab ( InpMtx *mtx, char *mtxname, FILE *fp ) ;
+\end{verbatim}
+\index{InpMtx_writeForMatlab@{\tt InpMtx\_writeForMatlab()}}
+\par
+This method writes out a {\tt InpMtx} object to a file in a Matlab
+format.
+A sample line is
+\begin{verbatim}
+a(10,5) =  -1.550328201511e-01 +   1.848033378871e+00*i ;
+\end{verbatim}
+for complex matrices, or
+\begin{verbatim}
+a(10,5) =  -1.550328201511e-01 ;
+\end{verbatim}
+for real matrices, where mtxname = {\tt "a"}.
+The matrix indices come from the {\tt rowind[]} and {\tt colind[]}
+vectors, and are incremented by one to follow the Matlab and
+FORTRAN convention.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt mtxname} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int InpMtx_readFromHBFile ( InpMtx *inpmtx, char *fn ) ;
+\end{verbatim}
+\index{InpMtx_readFromHBFile@{\tt InpMtx\_readFromHBFile()}}
+\par
+This method reads the object from a Harwell-Boeing file.
+This method calls {\tt readHB\_info()} and
+{\tt readHB\_mat\_double()} from the Harwell-Boeing C IO routines
+from NIST\footnote{\tt
+http://math.nist.gov/mcsd/Staff/KRemington/harwell\_io/harwell\_io.html},
+found in the {\tt misc/src/iohb.c} file.
+\par \noindent {\it Error checking:}
+If {\tt inpmtx} or {\tt fn} is {\tt NULL},
+or if the file cannot be opened,
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\end{enumerate}

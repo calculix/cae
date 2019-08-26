@@ -1,0 +1,72 @@
+\par
+\section{Exercising the objects' driver programs}
+\par
+Each object has a {\tt src/} subdirectory that contains source code,
+and a {\tt doc} subdirectory that contains \LaTeX\ files for
+documentation.
+Most objects also have a {\tt drivers/} subdirectory that contain
+driver programs that exercise and verify the objects' behavior.
+\par
+Once the global {\tt spooles.a} library is built, one can compile,
+link and load the driver programs.
+This can be done inside the {\tt drivers/} subdirectory of each
+individual object, or all the executables for the driver programs 
+can be created by typing {\tt make all\_drivers} in the top level 
+directory.
+\par
+Let us look at one particular example.
+The {\tt Chv} object is used during the sparse factorization to
+store a ``front'', a submatrix of the sparse matrix that is worked
+on at one time.
+The most expensive part of the factorization is the dense
+matrix-matrix operations that are done to a front.
+The {\tt Chv/drivers/test\_update.c} program exercises this
+functionality.
+To create the {\tt test\_update} executable, type 
+{\tt make test\_update} while in the {\tt Chv/drivers/}{ directory.
+To execute this program, there is a {\tt do\_update} shell script.
+Here we can test the accuracy and performance of this particular
+computation.
+\par
+The shell script has a number of parameters ---
+real or complex entries, symmetric, Hermitian or nonsymmetric
+matrices, sparse or dense fronts, sizes of the updating and
+updated fronts, etc.
+The message level parameter {\tt msglvl} governs the amount of
+output sent to the message file.
+When {\tt msglvl} is {\tt 1}, only timing information is written.
+When {\tt msglvl} is {\tt 2} or greater, the program dumps output
+in a form that is readable by Matlab, (and, with some tweaking,
+by the GNU Octave program that is very similar and free.)
+This is our usual practice to validate the behavior of small parts
+of the computations before we link them into larger pieces.
+\par
+While the source code is very well documented, and the driver
+programs are fairly well documented, the shell scripts that
+exercise the driver programs are rarely documented.
+Consult the source of each driver program to understand their
+accompanying shell script.
+\par
+If you want to get a feel for the speed of the {\bf SPOOLES}
+library on your system, see the {\tt test\_update} program in
+the {\tt Chv/drivers/} directory
+and the {\tt test\_solveupd*} programs in
+the {\tt SubMtx/drivers/} directory.
+These are the programs that exercise the BLAS3 computations used
+during the factors and solves.
+Remember to set {\tt msglvl} to {\tt 1} to get just timings.
+To test out the numeric factorizations and solves, see the
+{\tt testGrid} program.
+in the {\tt FrontMtx/drivers} directory.
+There are similar programs in the {\tt MT/drivers} and {\tt
+MPI/drivers} directories.
+Many shell scripts, particularly those that deal with the ordering
+and factorization objects, attempt to read in matrix and graph
+files you will not find on your systems.\footnote{
+What you are seeing is a snapshot of my development environment.
+You should be able to customize your environment.
+}
+There is a small {\tt Matrices} directory that contains test
+matrices, which can be used in some of the shell scripts,
+once the files are un-zip'ed.
+\par

@@ -1,0 +1,58 @@
+\par
+\section{Building global libraries}
+\par
+To build the global serial library {\tt spooles.a}, type the
+following.
+\begin{verbatim}
+% cd spooles
+% make lib
+\end{verbatim}
+This visits each of the serial objects' {\tt src/} directories,
+compiles the source code and loads it into the {\tt spooles.a}
+library.
+Note, this option requires the Perl language installed on the
+system, for we use a Perl script to generate a temporary makefile
+for each object.
+If your computer system does {\it not} have Perl installed, 
+this option will have the same result.
+\begin{verbatim}
+% cd spooles
+% make global
+\end{verbatim}
+This approach uses hard-coded makefile inside each {\tt src/}
+directory, and is less reliable than the first way.
+\par
+The result of either of these two commands is a {\tt spooles.a}
+library that is present in the top level {\tt spooles} directory.
+Recall, this only contains the serial code.
+This process may take a long time, for there are about 140,000 
+lines of source code in the library.
+\par
+To build a multithreaded library, one must go to the {\tt MT/src}
+directory.
+Now we have two choices --- to build a separate {\tt spoolesMT.a}
+library, or two merge the multithreaded code into the {\tt
+spooles.a} library.
+We recommend the first, via typing {\tt make spoolesMT.a},
+though the second is perfectly fine by typing {\tt make makeLib}.
+If Perl is not installed, type {\tt make -f makeGlobalLib} for the
+latter behavior.
+\par
+Much the same applies to the MPI library.
+To build a MPI library, one must go to the {\tt MPI/src}
+directory.
+Now we have two choices --- to build a separate {\tt spoolesMPI.a}
+library, or two merge the MPI code into the {\tt
+spooles.a} library.
+We recommend the first, via typing {\tt make spoolesMPI.a},
+though the second is perfectly fine by typing {\tt make makeLib}.
+If Perl is not installed, type {\tt make -f makeGlobalLib} for the
+latter behavior.
+\par
+Note, in the top level {\tt spooles/makefile} there are two lines
+commented out under the {\tt lib:} target which will compile the
+multithreaded and MPI source code into {\tt spooles.a}.
+If you uncomment these lines, (replace the {\tt \#} with a tab),
+and type {\tt make lib}, then the multithreaded and MPI source will
+be included in {\tt spooles.a}.
+\par

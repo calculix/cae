@@ -31,8 +31,7 @@ class IE:
         self.settings = settings
 
         # Actions
-        self.CAE.actionFileImport.triggered.connect(self.importFile)
-        self.CAE.actionFileWriteInput.triggered.connect(self.writeInput)
+        self.CAE.action_file_import.triggered.connect(self.importFile)
 
 
     # Menu File -> Import
@@ -40,7 +39,7 @@ class IE:
 
         if not file_name:
             file_name = QFileDialog.getOpenFileName(None, \
-                'Import INP file', self.CAE.job.dir, \
+                'Import INP/UNV file', self.CAE.job.dir, \
                 'INP (*.inp);;UNV (*.unv);;All Files (*)')[0]
 
         if file_name:

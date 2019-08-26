@@ -1,0 +1,400 @@
+\par
+\section{Driver programs}
+\label{section:Iter:drivers}
+\par
+\begin{enumerate}
+ 
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_colCopy msglvl msgFile type n1 n2 inc1 inc2 icol jcol seed 
+\end{verbatim}
+This driver program generates a {\tt  DenseMtx} object
+whose column {\tt icol} is copied to column {\tt jcol}.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt DenseMtx} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt type} is the type of entries, {\tt 0} for real, {\tt 1} for complex.
+\item
+{\tt n1} is the row dimension of the test matrix.
+\item
+{\tt n2} is the column dimension of the test matrix.
+\item
+{\tt inc1} is the row increment.
+\item
+{\tt inc2} is the column increment.
+\item
+{\tt icol} is the column number to be copied.  $0\leq${\tt icol}$<${\tt n2}.
+\item
+{\tt jcol} is the column number to be replaced.  $0\leq${\tt jcol}$<${\tt n2}.
+\item
+{\tt seed} parameter is random number seed.
+\end{itemize}
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_colDotProduct msglvl msgFile type n1 n2 inc1 inc2 icol jcol seed 
+\end{verbatim}
+This driver program generates a {\tt DenseMtx} object
+object, and  computes the dot product 
+of column {\tt icol} and column {\tt jcol} of the matrix.  
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt DenseMtx} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt type} is the type of entries, {\tt 0} for real, {\tt 1} for complex.
+\item
+{\tt n1} is the row dimension of the test matrix.
+\item
+{\tt n2} is the column dimension of the test matrix.
+\item
+{\tt inc1} is the row increment.
+\item
+{\tt inc2} is the column increment.
+\item
+{\tt icol} is the first column number.  $0\leq${\tt icol}$<${\tt n2}.
+\item
+{\tt jcol} is the second column number.  $0\leq${\tt jcol}$<${\tt n2}.
+\item
+{\tt seed} parameter is random number seed.
+\end{itemize}
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_colGenAxpy msglvl msgFile type n1 n2 inc1 inc2 icol jcol 
+   ralpha, ialpha, rbeta, ibeta, seed
+\end{verbatim}
+This driver program generates a {\tt DenseMtx} object whose
+column {\tt icol} is replaced by $\alpha$ times column {\tt icol} 
+plus $\beta$ times column {\tt jcol}.  
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt DenseMtx} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt type} is the type of entries, {\tt 0} for real, {\tt 1} for complex.
+\item
+{\tt n1} is the row dimension of the test matrix.
+\item
+{\tt n2} is the column dimension of the test matrix.
+\item
+{\tt inc1} is the row increment.
+\item
+{\tt inc2} is the column increment.
+\item
+{\tt icol} is the column number to be replaced.  $0\leq${\tt icol}$<${\tt n2}.
+\item
+{\tt jcol} is the column number to be added.  $0\leq${\tt jcol}$<${\tt n2}.
+\item
+{\tt ralpha} is the real part of the scalar $\alpha$.
+\item
+{\tt ialpha} is the imaginary part of the scalar $\alpha$.
+\item
+{\tt rbeta} is the real part of the scalar $\beta$.
+\item
+{\tt ibeta} is the imaginary part of the scalar $\beta$.
+\item
+{\tt seed} parameter is random number seed.
+\end{itemize}
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_frobNorm msglvl msgFile type n1 n2 inc1 inc2 seed
+\end{verbatim}
+This driver program generates a {\tt DenseMtx} object and
+computes the Frobenius norm of this matrix.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt DenseMtx} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt type} is the type of entries, {\tt 0} for real, {\tt 1} for complex.
+\item
+{\tt n1} is the row dimension of the test matrix.
+\item
+{\tt n2} is the column dimension of the test matrix.
+\item
+{\tt inc1} is the row increment.
+\item
+{\tt inc2} is the column increment.
+\item
+{\tt seed} parameter is random number seed.
+\end{itemize}
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_frobNorm msglvl msgFile type n1 n2 inc1 inc2 jcol seed
+\end{verbatim}
+This driver program generates a {\tt DenseMtx} object and computes 
+two norm of column {\tt jcol} of this matrix.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt DenseMtx} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt type} is the type of entries, {\tt 0} for real, {\tt 1} for complex.
+\item
+{\tt n1} is the row dimension of the test matrix.
+\item
+{\tt n2} is the column dimension of the test matrix.
+\item
+{\tt inc1} is the row increment.
+\item
+{\tt inc2} is the column increment.
+\item
+{\tt jcol} is the column number whose two norm is required.  
+           $0\leq${\tt jcol}$<${\tt n2}.
+\item
+{\tt seed} parameter is random number seed.
+\end{itemize}
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_DenseMtx_mmm msglvl msgFile type nrow nk ncol ainc1
+           ainc2 binc1 binc2 cinc1 cinc2 a_opt b_opt ralpha 
+           ialpha rbeta ibeta seed 
+\end{verbatim}
+This driver program tests the matrix-matrix multiply method.
+The program generates {\tt DenseMtx} objects $A$,
+,$B$ and $C$. It returns the matrix {\tt C} whose
+elements are replaced by $\beta$ times matrix {\tt C} plus
+$\alpha$ times matrix {\tt A} times matrix {\tt B}.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt DenseMtx} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt type} is the type of entries, {\tt 0} for real, {\tt 1} for complex.
+\item
+{\tt nrow} is the row dimension of the test matrix {\tt A}.
+\item
+{\tt nk} is the column dimension of the test matrix {\tt A} and
+the row dimension of the test matrix {\tt B}.
+\item
+{\tt ncol} is the column dimension of the test matrix {\tt B}.
+\item
+{\tt ainc1} is the row increment for the test matrix {\tt A}.
+\item
+{\tt ainc2} is the column increment for the test matrix {\tt A}.
+\item
+{\tt binc1} is the row increment for the test matrix {\tt B}.
+\item
+{\tt binc2} is the column increment for the test matrix {\tt B}.
+\item
+{\tt cinc1} is the row increment for the test matrix {\tt C}.
+\item
+{\tt cinc2} is the column increment for the test matrix {\tt C}.
+\item
+{\tt a\_opt} specifies the computation of the test matrix {\tt A} 
+to be performed. 
+{\tt "n"} or {\tt "N"} is No transpose.
+{\tt "t"} or {\tt "T"} is Transpose. 
+{\tt "c"} or {\tt "C"} is Conjugate transpose.
+\item
+{\tt b\_opt} specifies the computation of the test matrix {\tt B} 
+to be performed.
+{\tt "n"} or {\tt "N"} is No transpose.
+{\tt "t"} or {\tt "T"} is Transpose. 
+{\tt "c"} or {\tt "C"} is Conjugate transpose.
+\item
+{\tt ralpha} is the real part of the scalar $\alpha$.
+\item
+{\tt ialpha} is the imaginary part of the scalar $\alpha$.
+\item
+{\tt rbeta} is the real part of the scalar $\beta$.
+\item
+{\tt ibeta} is the imaginary part of the scalar $\beta$.
+\item
+{\tt seed} parameter is random number seed.
+\end{itemize}
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+iter inFile
+\end{verbatim}
+This driver program reads required parameters from the {\tt inFile}
+to solve a sparse linear system $AX=B$, where $A$ is an {\tt InpMtx} object
+and $X$ and $B$ are {\tt DenseMtx} objects, using selected methods with 
+left or right preconditioner. The preconditioner is obtained via applying 
+frontal method to the  matrix $A$.
+In the {\tt inFile},
+the required parameters are in a layout as
+\begin{verbatim}
+   srcMtxFormat
+   srcMtxFile
+   InpMtxFile
+   ETreeFormat
+   ETreeFile
+   rhsFile
+   slnFile
+   msgFile 
+   msglvl  seed  nrhs  Ik  itermax  iterout
+   symmetryflag  sparsityflag  pivotingflag
+   tau  droptol  convtol
+   methods
+\end{verbatim}
+All comment lins should start with a start ({\tt *}) and the lines 
+order of the required parameters should not be changed.
+\par
+\begin{itemize}
+
+\item
+{\tt srcMtxFormat} is the file format of source matrix $A$,
+ {\tt 0} for InpMtx, {\tt 1} for HBF, and {\tt 2} for AIJ2.
+\item
+{\tt srcMtxFile} is the file name saved the source matrix $A$.
+\item
+{\tt InpMtxFile} is the file name to save InpMtx object if the 
+  original input matrix is in HBF or AIJ2 format.  It should be with
+  extension {\tt .inpmtxb} or {\tt .inpmtxf}.  If {\tt InpMtxFile} is
+  {\tt none}, the converted InpMtx object will not be written to file.
+\item
+{\tt ETreeFormat} is the source format for ETree object.
+ {\tt 0} for reading from file, {\tt 1} for obtaining via the best of a nested
+ dissection and a multisection ordering, {\tt 2} for obtaining via a multiple 
+ minimum degree ordering, {\tt 3} for obtaining via a multisection ordering, 
+ and {\tt 4} for obtaining via a nested dissection ordering.
+\item
+{\tt ETreeFile} is the name of file from which ETree object is read 
+  if {\tt ETreeFormat} is {\tt 0}.  Otherwise, it is the file name to
+  save the computed ETree object.   It should be with
+  extension {\tt .etreeb} or {\tt .etreef}.  If {\tt ETreeFile} is
+  {\tt none}, the computed ETree object will not be written to file.
+\item
+{\tt rhsFile} is the name of file from which right-hand-side vectors $B$ 
+  is read.  It should be with
+  extension {\tt .densemtxb} or {\tt .densemtxf}.  If {\tt rhsFile} is
+  {\tt none}, the  right-hand-side $B$ is generated by random numbers.
+\item
+{\tt slnFile} is the name of file from which solution vectors $X$ 
+  is saved.  It should be with
+  extension {\tt .densemtxb} or {\tt .densemtxf}.  If {\tt rhsFile} is
+  {\tt none}, the solution $X$ is not saved.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means most of the objects are written
+to the message file.
+\item
+{\tt seed} parameter is random number seed.
+\item
+{\tt nrhs} is the number of columns of  right-hand-side $B$.
+\item
+{\tt Ik} is a block parameter for MLBiCGStab method.
+\item
+{\tt itermax} is the maximum iterations number. (inner iterations number
+for GMRES method)
+\item
+{\tt iterout} is the maximum outer number of iterations for GMRES method.
+\item
+The {\tt symmetryflag} parameter specifies the symmetry of the matrix $A$.
+\begin{itemize}
+\item
+{\tt type = 0 (SPOOLES\_SYMMETRIC)} for $A$ real or complex symmetric,
+\item
+{\tt type = 1 (SPOOLES\_HERMITIAN)} for $A$ complex Hermitian,
+\item
+{\tt type = 2 (SPOOLES\_NONSYMMETRIC)}
+\end{itemize}
+for $A$ real or complex nonsymmetric.
+\item
+The {\tt sparsityflag} parameter signals a direct or approximate
+factorization.
+\begin{itemize}
+\item
+{\tt sparsityflag = 0 (FRONTMTX\_DENSE\_FRONTS)} implies a direct
+factorization, the fronts will be stored as dense submatrices.
+\item
+{\tt sparsityflag = 1 (FRONTMTX\_SPARSE\_FRONTS)} implies an
+approximate factorization.
+The fronts will be stored as sparse submatrices, where
+the entries in the triangular factors will be
+subjected to a drop tolerance test --- if the magnitude of an entry
+is {\tt droptol} or larger, it will be stored, otherwise it will be
+dropped.
+\end{itemize}
+\item
+The {\tt pivotingflag} parameter signals whether pivoting for
+stability will be enabled or not.
+\begin{itemize}
+\item
+If {\tt pivotingflag = 0 (SPOOLES\_NO\_PIVOTING)},
+no pivoting will be done.
+\item
+If {\tt pivotingflag = 1 (SPOOLES\_PIVOTING)},
+pivoting will be done to ensure that all
+entries in $U$ and $L$ have magnitude less than {\tt tau}.
+\end{itemize}
+\item
+The {\tt tau} parameter is an upper bound on the magnitude of the
+entries in $L$ and $U$ when pivoting is enabled.
+\item
+The {\tt droptol} parameter is a lower bound on the magnitude of the
+entries in $L$ and $U$ when the approximate factorization is enabled.
+\item
+{\tt convtol}  parameter is a stop criterion for iterative algorithms.
+\item
+{\tt methods} parameters are choices of iterative algorithms,
+  {\tt 0} for BiCGStabR, {\tt 1} for BiCGStabL, {\tt 2} for MLBiCGStabR,
+  {\tt 3} for MLBiCGStabL, {\tt  4} for TFQMRR, {\tt 5} for TFQMRL,
+  {\tt 6} for PCGR {\tt 7}, for PCGL {\tt  8} for BGMRESR, and
+  {\tt 9} for BGMRESL.
+
+\end{itemize}
+
+\end{enumerate}

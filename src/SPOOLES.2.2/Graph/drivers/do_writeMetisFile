@@ -1,0 +1,16 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inFile  = $matrices/$matrix/orig0.graphf
+
+set outFile = $matrices/$matrix/metis.graph
+set outFile = metis.graph
+set outFile = none
+
+set msglvl  = 3
+
+set msgFile = stdout
+
+writeMetisFile $msglvl $msgFile $inFile $outFile

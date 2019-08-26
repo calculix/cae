@@ -1,0 +1,41 @@
+\par
+\section{Data Structure}
+\label{section:ChvManager:dataStructure}
+\par
+\par
+The {\tt ChvList} structure has the following fields.
+\begin{itemize}
+\item
+{\tt Chv *head} : 
+vector of pointers to the heads of the list of {\tt Chv} objects.
+\item
+{\tt Lock *lock} : mutual exclusion lock.
+\item
+{\tt int mode} : behavior mode.
+When {\tt mode = 0}, the object calls {\tt SubMtx\_new()}
+and {\tt SubMtx\_free()} to create and release objects.
+When {\tt mode = 1}, the object recycles the objects.
+\item
+{\tt int nactive} : 
+number of active instances.
+\item
+{\tt int nbytesactive} : 
+number of bytes that are active.
+\item
+{\tt int nbytesrequested} : 
+number of bytes that have been requested.
+\item
+{\tt int nbytesalloc} : 
+number of bytes that have been allocated.
+\item
+{\tt int nrequests} : 
+number of requests for instances.
+\item
+{\tt int releases} : 
+number of instances that have been released.
+\item
+{\tt int nlocks} : 
+total number of locks made on the mutual exclusion lock.
+{\tt int nunlocks} : 
+total number of unlocks made on the mutual exclusion lock.
+\end{itemize}

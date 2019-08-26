@@ -1,0 +1,16 @@
+\par
+\section{Data Structure}
+\label{section:BPG:dataStructure}
+\par
+A bipartite graph is a triple $(X,Y,E)$
+where $X$ and $Y$ are disjoint sets of vertices
+and $E \subseteq X \times Y$ is a set of edges connecting vertices
+in $X$ and $Y$.
+The {\tt BPG} structure has three fields.
+\begin{itemize}
+\item {\tt int nX} : number of vertices in $X$
+\item {\tt int nY} : number of vertices in $Y$
+\item {\tt Graph *graph} 
+: pointer to a graph object $G = (X \cup Y), E)$.
+\end{itemize}
+
