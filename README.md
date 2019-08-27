@@ -68,15 +68,17 @@ Both sources and binaries could be found on [the releases page](https://github.c
 
 # How to use
 
-CacluliX CAE is portable software and doesn't need to be installed. Just extract archive, make binary executable and run it with double click. **To submit analysis from CAE and view results in GraphiX configure path to your CalculiX binaries in ccx_settings.env**.
+CacluliX CAE is portable software and doesn't need to be installed. Just extract archive, make binary executable and run it with double click. **To view results in GraphiX and Paraview configure pathes in File->Settings**.
 
 The intended workflow is:
 - create geometry and mesh in [Salome-platform](https://www.salome-platform.org/),
 - save mesh as UNV or export it to INP with [SalomeToCalculix GUI tool](https://github.com/psicofil/SalomeToCalculix),
-- import INP or UNV mesh to CAE and continue creating model, submit job from CAE,
+- import INP or UNV mesh to CAE and continue creating model,
+- if needed edit Fortran subroutines and rebuild ccx (Job->Rebuild CalculiX),
+- submit job from CAE,
 - export job result to the Paraview post-processor or view it in GraphiX.
 
-Pass name of your model as an argument to open it at start:
+You can pass name of your model as an argument to open it at start:
 
     in Linux:       ./ccx_cae -inp model.inp
                     ./ccx_cae -inp model.unv
