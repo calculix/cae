@@ -24,7 +24,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../../../home/ihor/.designer/backup/icons/logo.png</normaloff>../../../../../home/ihor/.designer/backup/icons/logo.png</iconset>
+    <normaloff>img/logo.png</normaloff>img/logo.png</iconset>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_3">
    <property name="spacing">

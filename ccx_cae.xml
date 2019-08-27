@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons/logo.png</normaloff>icons/logo.png</iconset>
+    <normaloff>img/logo.png</normaloff>img/logo.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -196,7 +196,7 @@
   <action name="action_file_import">
    <property name="icon">
     <iconset>
-     <normaloff>icons/file_import.png</normaloff>icons/file_import.png</iconset>
+     <normaloff>img/menuBar_file_import.png</normaloff>img/menuBar_file_import.png</iconset>
    </property>
    <property name="text">
     <string>Import</string>
@@ -205,41 +205,16 @@
   <action name="actionViewFit">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewFit.png</normaloff>icons/viewFit.png</iconset>
+     <normaloff>img/toolBar_viewFit.png</normaloff>img/toolBar_viewFit.png</iconset>
    </property>
    <property name="text">
     <string>Fit view</string>
    </property>
   </action>
-  <action name="actionSelectionNodes">
-   <property name="text">
-    <string>Select Nodes</string>
-   </property>
-   <property name="toolTip">
-    <string>Select Nodes</string>
-   </property>
-  </action>
-  <action name="actionSelectionElements">
-   <property name="text">
-    <string>Select Elements</string>
-   </property>
-   <property name="toolTip">
-    <string>Select Elements</string>
-   </property>
-  </action>
-  <action name="actionSelectionClear">
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/selection_clear.png</normaloff>icons/selection_clear.png</iconset>
-   </property>
-   <property name="text">
-    <string>Clear selection</string>
-   </property>
-  </action>
   <action name="actionViewParallel">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewParallel.png</normaloff>icons/viewParallel.png</iconset>
+     <normaloff>img/toolBar_viewParallel.png</normaloff>img/toolBar_viewParallel.png</iconset>
    </property>
    <property name="text">
     <string>Parallel View</string>
@@ -251,7 +226,7 @@
   <action name="actionViewPerspective">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewPerspective.png</normaloff>icons/viewPerspective.png</iconset>
+     <normaloff>img/toolBar_viewPerspective.png</normaloff>img/toolBar_viewPerspective.png</iconset>
    </property>
    <property name="text">
     <string>Perspective View</string>
@@ -263,7 +238,7 @@
   <action name="actionViewFront">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewFront.png</normaloff>icons/viewFront.png</iconset>
+     <normaloff>img/toolBar_viewFront.png</normaloff>img/toolBar_viewFront.png</iconset>
    </property>
    <property name="text">
     <string>Front View</string>
@@ -275,7 +250,7 @@
   <action name="actionViewBack">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewBack.png</normaloff>icons/viewBack.png</iconset>
+     <normaloff>img/toolBar_viewBack.png</normaloff>img/toolBar_viewBack.png</iconset>
    </property>
    <property name="text">
     <string>Back View</string>
@@ -287,7 +262,7 @@
   <action name="actionViewTop">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewTop.png</normaloff>icons/viewTop.png</iconset>
+     <normaloff>img/toolBar_viewTop.png</normaloff>img/toolBar_viewTop.png</iconset>
    </property>
    <property name="text">
     <string>Top View</string>
@@ -299,7 +274,7 @@
   <action name="actionViewBottom">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewBottom.png</normaloff>icons/viewBottom.png</iconset>
+     <normaloff>img/toolBar_viewBottom.png</normaloff>img/toolBar_viewBottom.png</iconset>
    </property>
    <property name="text">
     <string>Bottom View</string>
@@ -311,7 +286,7 @@
   <action name="actionViewLeft">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewLeft.png</normaloff>icons/viewLeft.png</iconset>
+     <normaloff>img/toolBar_viewLeft.png</normaloff>img/toolBar_viewLeft.png</iconset>
    </property>
    <property name="text">
     <string>Left View</string>
@@ -323,7 +298,7 @@
   <action name="actionViewRight">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewRight.png</normaloff>icons/viewRight.png</iconset>
+     <normaloff>img/toolBar_viewRight.png</normaloff>img/toolBar_viewRight.png</iconset>
    </property>
    <property name="text">
     <string>Right View</string>
@@ -335,7 +310,7 @@
   <action name="actionViewIso">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewIso.png</normaloff>icons/viewIso.png</iconset>
+     <normaloff>img/toolBar_viewIso.png</normaloff>img/toolBar_viewIso.png</iconset>
    </property>
    <property name="text">
     <string>Iso View</string>
@@ -347,7 +322,7 @@
   <action name="actionViewWireframe">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewWireframe.png</normaloff>icons/viewWireframe.png</iconset>
+     <normaloff>img/toolBar_viewWireframe.png</normaloff>img/toolBar_viewWireframe.png</iconset>
    </property>
    <property name="text">
     <string>Wireframe View</string>
@@ -359,7 +334,7 @@
   <action name="actionViewSurface">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewSurface.png</normaloff>icons/viewSurface.png</iconset>
+     <normaloff>img/toolBar_viewSurface.png</normaloff>img/toolBar_viewSurface.png</iconset>
    </property>
    <property name="text">
     <string>Surface View</string>
@@ -371,7 +346,7 @@
   <action name="actionViewSurfaceWithEdges">
    <property name="icon">
     <iconset>
-     <normaloff>icons/viewSurfaceWithEdges.png</normaloff>icons/viewSurfaceWithEdges.png</iconset>
+     <normaloff>img/toolBar_viewSurfaceWithEdges.png</normaloff>img/toolBar_viewSurfaceWithEdges.png</iconset>
    </property>
    <property name="text">
     <string>Surface View With Edges</string>
@@ -380,16 +355,11 @@
     <string>Surface View With Edges</string>
    </property>
   </action>
-  <action name="actionFileWriteInput">
+  <action name="action_file_settings">
    <property name="icon">
     <iconset>
-     <normaloff>icons/file_write_input.png</normaloff>icons/file_write_input.png</iconset>
+     <normaloff>img/menuBar_file_settings.png</normaloff>img/menuBar_file_settings.png</iconset>
    </property>
-   <property name="text">
-    <string>Write input</string>
-   </property>
-  </action>
-  <action name="action_file_settings">
    <property name="text">
     <string>Settings</string>
    </property>
@@ -400,7 +370,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icons/job_write_input.png</normaloff>icons/job_write_input.png</iconset>
+     <normaloff>img/menuBar_job_write_input.png</normaloff>img/menuBar_job_write_input.png</iconset>
    </property>
    <property name="text">
     <string>Write input</string>
@@ -429,7 +399,7 @@
   <action name="action_job_open_cgx">
    <property name="icon">
     <iconset>
-     <normaloff>icons/logo.png</normaloff>icons/logo.png</iconset>
+     <normaloff>img/icon_logo.png</normaloff>img/icon_logo.png</iconset>
    </property>
    <property name="text">
     <string>Open in GraphiX</string>
@@ -443,7 +413,7 @@
   <action name="action_job_open_paraview">
    <property name="icon">
     <iconset>
-     <normaloff>icons/job_paraview.png</normaloff>icons/job_paraview.png</iconset>
+     <normaloff>img/menuBar_job_paraview.png</normaloff>img/menuBar_job_paraview.png</iconset>
    </property>
    <property name="text">
     <string>Open VTU in Paraview</string>
@@ -452,7 +422,7 @@
   <action name="action_job_open_subroutine">
    <property name="icon">
     <iconset>
-     <normaloff>icons/job_open_subroutine.png</normaloff>icons/job_open_subroutine.png</iconset>
+     <normaloff>img/menuBar_job_open_subroutine.png</normaloff>img/menuBar_job_open_subroutine.png</iconset>
    </property>
    <property name="text">
     <string>Open a subroutine</string>

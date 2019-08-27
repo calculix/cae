@@ -80,9 +80,9 @@ class CAE(QtWidgets.QMainWindow):
 
             # VTK actions
             if settings.show_vtk:
-                self.actionSelectionNodes.triggered.connect(self.VTK.actionSelectionNodes)
-                self.actionSelectionElements.triggered.connect(self.VTK.actionSelectionElements)
-                self.actionSelectionClear.triggered.connect(self.VTK.actionSelectionClear)
+                # self.actionSelectionNodes.triggered.connect(self.VTK.actionSelectionNodes)
+                # self.actionSelectionElements.triggered.connect(self.VTK.actionSelectionElements)
+                # self.actionSelectionClear.triggered.connect(self.VTK.actionSelectionClear)
                 self.actionViewParallel.triggered.connect(self.VTK.actionViewParallel)
                 self.actionViewPerspective.triggered.connect(self.VTK.actionViewPerspective)
                 self.actionViewFront.triggered.connect(self.VTK.actionViewFront)

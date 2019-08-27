@@ -68,6 +68,7 @@ class Job:
 
 
     # Recompile CalculiX sources with updated subroutines
+    # TODO freezes GUI
     def rebuildCCX(self):
         if os.name=='nt':
             logging.warning('CalculiX rebuild not jet supported in fuck\'n Windows!')

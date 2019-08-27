@@ -33,7 +33,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Added support for UNV mesh import.
 
-- Cute modern design with [nice icons](icons).
+- Cute modern design with [nice icons](img).
 
 
 <br/><br/>
@@ -43,16 +43,16 @@ It is implied that you have already created geometry and generated mesh in some 
 # Screenshots
 
 Main window with imported mesh and highlighted node set after job calculation:
-![Main window](img_social.png "Main window")
+![Main window](img/img_social.png "Main window")
 
 "New keyword" dialog with corresponding chapter from HTML manual:
-![Create keyword dialog](img_dialog.png "Create keyword dialog")
+![Create keyword dialog](img/img_dialog.png "Create keyword dialog")
 
 Main window and "new keyword" dialog in a simple view mode with hidden VTK widget and HTML help:
-![Simple view mode](img_simple.png "Simple view mode")
+![Simple view mode](img/img_simple.png "Simple view mode")
 
 Calculation result exported to Paraview:
-![Results in Paraview](img_paraview.png "Results in Paraview")
+![Results in Paraview](img/img_paraview.png "Results in Paraview")
 
 <br/><br/>
 

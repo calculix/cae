@@ -87,8 +87,10 @@ class tree:
 
                 # Add icon to each keyword in tree
                 icon_name = item.name.replace('*', '') + '.png'
+                icon_name = icon_name.replace(' ', '_')
+                icon_name = icon_name.replace('-', '_')
                 icon_path = os.path.join(os.path.dirname(sys.argv[0]),
-                                'icons', icon_name.lower())
+                                'img', 'icon_' + icon_name.lower())
                 icon = QtGui.QIcon(icon_path)
                 tree_element.setIcon(icon)
 
