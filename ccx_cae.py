@@ -19,9 +19,16 @@ if home_dir not in os.environ['PATH']:
         os.environ['PATH'] += os.pathsep
     os.environ['PATH'] += home_dir
 
-import argparse, logging, shutil, subprocess, clean
+import argparse, logging, shutil, subprocess
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
-import ccx_cae_tree, ccx_vtk, ccx_kom, ccx_cae_ie, ccx_settings, ccx_job, ccx_log
+from src.ccx_cae_tree import tree
+from src.ccx_vtk import VTK
+from src.ccx_kom import KOM
+from src.ccx_cae_ie import IE
+from src.ccx_settings import Settings 
+from src.ccx_job import Job
+from src.ccx_log import myLoggingHandler
+from src.clean import cleanCache
 
 
 # Main window
@@ -31,11 +38,11 @@ class CAE(QtWidgets.QMainWindow):
     # Create main window
     def __init__(self, settings, path_start_model):
         QtWidgets.QMainWindow.__init__(self) # create main window
-        ui = os.path.join(os.path.dirname(sys.argv[0]), 'ccx_cae.xml') # full path
+        ui = os.path.join(os.path.dirname(sys.argv[0]), 'src', 'ccx_cae.xml') # full path
         uic.loadUi(ui, self) # load form
 
         # Configure logs to be shown in window
-        logging.getLogger().addHandler(ccx_log.myLoggingHandler(self))
+        logging.getLogger().addHandler(myLoggingHandler(self))
         logging.getLogger().setLevel(settings.logging_level)
 
         # Abs. path to the path_start_model
@@ -47,7 +54,7 @@ class CAE(QtWidgets.QMainWindow):
 
         # Create VTK widget
         if settings.show_vtk:
-            self.VTK = ccx_vtk.VTK() # create everything for model visualization
+            self.VTK = VTK() # create everything for model visualization
             self.h_splitter.addWidget(self.VTK.widget)
             self.setMinimumSize(1280, 600)
             self.resize(1280, 720)
@@ -55,10 +62,10 @@ class CAE(QtWidgets.QMainWindow):
             self.toolBar.setParent(None) # hide toolbar
 
         self.mesh = None # mesh from .inp-file - will be parsed in ccx_cae_ie.py
-        self.IE = ccx_cae_ie.IE(self, settings) # import/export of .inp-file
-        self.KOM = ccx_kom.KOM() # empty KOM w/o implementations
-        self.job = ccx_job.Job(settings, path_start_model) # create job object
-        self.tree = ccx_cae_tree.tree(self) # create treeView items based on KOM
+        self.IE = IE(self, settings) # import/export of .inp-file
+        self.KOM = KOM() # empty KOM w/o implementations
+        self.job = Job(settings, path_start_model) # create job object
+        self.tree = tree(self) # create treeView items based on KOM
         if len(path_start_model):
             self.IE.importFile(path_start_model) # import default start model
 
@@ -110,7 +117,7 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
     # Read application's global settings
-    settings = ccx_settings.Settings()
+    settings = Settings()
 
     # Default start model could be chosen with command line parameter
     parser = argparse.ArgumentParser()
@@ -129,7 +136,7 @@ if __name__ == '__main__':
     a = app.exec_()
 
     # Clean cached files
-    clean.cache()
+    cleanCache('src')
 
     # Exit application
     sys.exit(a)

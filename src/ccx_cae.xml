@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Calculix CAE</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../img/logo.png</normaloff>../img/logo.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>6</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>6</number>
+    </property>
+    <property name="bottomMargin">
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QSplitter" name="v_splitter">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QSplitter" name="h_splitter">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>7</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <widget class="QTreeView" name="treeView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>500</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectItems</enum>
+        </property>
+        <property name="allColumnsShowFocus">
+         <bool>false</bool>
+        </property>
+        <property name="expandsOnDoubleClick">
+         <bool>false</bool>
+        </property>
+        <attribute name="headerVisible">
+         <bool>false</bool>
+        </attribute>
+       </widget>
+      </widget>
+      <widget class="QTextEdit" name="textEdit">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="action_file_import"/>
+    <addaction name="action_file_settings"/>
+   </widget>
+   <widget class="QMenu" name="menuJob">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="title">
+     <string>Job</string>
+    </property>
+    <addaction name="action_job_write_input"/>
+    <addaction name="action_job_edit_inp"/>
+    <addaction name="action_job_open_subroutine"/>
+    <addaction name="action_job_rebuild_ccx"/>
+    <addaction name="action_job_submit"/>
+    <addaction name="action_job_view_log"/>
+    <addaction name="action_job_open_cgx"/>
+    <addaction name="action_job_export_vtu"/>
+    <addaction name="action_job_open_paraview"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuJob"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionViewParallel"/>
+   <addaction name="actionViewPerspective"/>
+   <addaction name="actionViewFront"/>
+   <addaction name="actionViewBack"/>
+   <addaction name="actionViewTop"/>
+   <addaction name="actionViewBottom"/>
+   <addaction name="actionViewLeft"/>
+   <addaction name="actionViewRight"/>
+   <addaction name="actionViewIso"/>
+   <addaction name="actionViewFit"/>
+   <addaction name="actionViewWireframe"/>
+   <addaction name="actionViewSurface"/>
+   <addaction name="actionViewSurfaceWithEdges"/>
+  </widget>
+  <action name="action_file_import">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/menuBar_file_import.png</normaloff>../img/menuBar_file_import.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
+  <action name="actionViewFit">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewFit.png</normaloff>../img/toolBar_viewFit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Fit view</string>
+   </property>
+  </action>
+  <action name="actionViewParallel">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewParallel.png</normaloff>../img/toolBar_viewParallel.png</iconset>
+   </property>
+   <property name="text">
+    <string>Parallel View</string>
+   </property>
+   <property name="toolTip">
+    <string>Parallel View</string>
+   </property>
+  </action>
+  <action name="actionViewPerspective">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewPerspective.png</normaloff>../img/toolBar_viewPerspective.png</iconset>
+   </property>
+   <property name="text">
+    <string>Perspective View</string>
+   </property>
+   <property name="toolTip">
+    <string>Perspective View</string>
+   </property>
+  </action>
+  <action name="actionViewFront">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewFront.png</normaloff>../img/toolBar_viewFront.png</iconset>
+   </property>
+   <property name="text">
+    <string>Front View</string>
+   </property>
+   <property name="toolTip">
+    <string>Front View</string>
+   </property>
+  </action>
+  <action name="actionViewBack">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewBack.png</normaloff>../img/toolBar_viewBack.png</iconset>
+   </property>
+   <property name="text">
+    <string>Back View</string>
+   </property>
+   <property name="toolTip">
+    <string>Back View</string>
+   </property>
+  </action>
+  <action name="actionViewTop">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewTop.png</normaloff>../img/toolBar_viewTop.png</iconset>
+   </property>
+   <property name="text">
+    <string>Top View</string>
+   </property>
+   <property name="toolTip">
+    <string>Top View</string>
+   </property>
+  </action>
+  <action name="actionViewBottom">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewBottom.png</normaloff>../img/toolBar_viewBottom.png</iconset>
+   </property>
+   <property name="text">
+    <string>Bottom View</string>
+   </property>
+   <property name="toolTip">
+    <string>Bottom View</string>
+   </property>
+  </action>
+  <action name="actionViewLeft">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewLeft.png</normaloff>../img/toolBar_viewLeft.png</iconset>
+   </property>
+   <property name="text">
+    <string>Left View</string>
+   </property>
+   <property name="toolTip">
+    <string>Left View</string>
+   </property>
+  </action>
+  <action name="actionViewRight">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewRight.png</normaloff>../img/toolBar_viewRight.png</iconset>
+   </property>
+   <property name="text">
+    <string>Right View</string>
+   </property>
+   <property name="toolTip">
+    <string>Right View</string>
+   </property>
+  </action>
+  <action name="actionViewIso">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewIso.png</normaloff>../img/toolBar_viewIso.png</iconset>
+   </property>
+   <property name="text">
+    <string>Iso View</string>
+   </property>
+   <property name="toolTip">
+    <string>Iso View</string>
+   </property>
+  </action>
+  <action name="actionViewWireframe">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewWireframe.png</normaloff>../img/toolBar_viewWireframe.png</iconset>
+   </property>
+   <property name="text">
+    <string>Wireframe View</string>
+   </property>
+   <property name="toolTip">
+    <string>Wireframe View</string>
+   </property>
+  </action>
+  <action name="actionViewSurface">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewSurface.png</normaloff>../img/toolBar_viewSurface.png</iconset>
+   </property>
+   <property name="text">
+    <string>Surface View</string>
+   </property>
+   <property name="toolTip">
+    <string>Surface View</string>
+   </property>
+  </action>
+  <action name="actionViewSurfaceWithEdges">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/toolBar_viewSurfaceWithEdges.png</normaloff>../img/toolBar_viewSurfaceWithEdges.png</iconset>
+   </property>
+   <property name="text">
+    <string>Surface View With Edges</string>
+   </property>
+   <property name="toolTip">
+    <string>Surface View With Edges</string>
+   </property>
+  </action>
+  <action name="action_file_settings">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/menuBar_file_settings.png</normaloff>../img/menuBar_file_settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="action_job_write_input">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/menuBar_job_write_input.png</normaloff>../img/menuBar_job_write_input.png</iconset>
+   </property>
+   <property name="text">
+    <string>Write input</string>
+   </property>
+  </action>
+  <action name="action_job_edit_inp">
+   <property name="text">
+    <string>Open INP in editor</string>
+   </property>
+  </action>
+  <action name="action_job_rebuild_ccx">
+   <property name="text">
+    <string>Rebuild CalculiX</string>
+   </property>
+  </action>
+  <action name="action_job_submit">
+   <property name="text">
+    <string>Submit</string>
+   </property>
+  </action>
+  <action name="action_job_view_log">
+   <property name="text">
+    <string>View log</string>
+   </property>
+  </action>
+  <action name="action_job_open_cgx">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icon_logo.png</normaloff>../img/icon_logo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open in GraphiX</string>
+   </property>
+  </action>
+  <action name="action_job_export_vtu">
+   <property name="text">
+    <string>Export VTU results</string>
+   </property>
+  </action>
+  <action name="action_job_open_paraview">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/menuBar_job_paraview.png</normaloff>../img/menuBar_job_paraview.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open VTU in Paraview</string>
+   </property>
+  </action>
+  <action name="action_job_open_subroutine">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/menuBar_job_open_subroutine.png</normaloff>../img/menuBar_job_open_subroutine.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open a subroutine</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

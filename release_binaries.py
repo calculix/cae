@@ -44,12 +44,13 @@ if __name__ == '__main__':
 
     # Copy some files and folders from sources
     if not one_file:
-        skip_files = ['tests', 'dist', '.git']
+        skip_files = ('tests', 'dist', '.py', '.git', '.vscode')
         for f in os.listdir():
             # All dirs and files except Python sources
-            if not f in skip_files and not f.lower().endswith('.py'):
+            if not f.endswith(skip_files):
                 if os.path.isdir(f):
-                    shutil.copytree(f, os.path.join(DIRECTORY, f))
+                    shutil.copytree(f, os.path.join(DIRECTORY, f),
+                        ignore=shutil.ignore_patterns('*.py'))
                 else:
                     shutil.copy2(f, os.path.join(DIRECTORY, f))
 
