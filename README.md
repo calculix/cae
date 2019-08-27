@@ -17,21 +17,25 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Features
 
-- Calculix keywords hierarchy with all attributes is maintaned in [editable XML file](ccx_kom.xml).
+- Calculix keywords hierarchy with all attributes is maintaned in [editable XML file](src/ccx_kom.xml).
 
 - "New keyword" dialog shows apropriate chapter of the official [HTML documentation](doc).
 
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by CalculiX.
 
-- [Solid mesh parser](ccx_mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](tests.log).
+- [Solid mesh parser](src/ccx_mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](tests.log).
 
-- Surfaces and sets of the imported mesh could be highlighted in the [VTK widget](ccx_vtk.py).
+- Surfaces and sets of the imported mesh could be highlighted in the [VTK widget](src/ccx_vtk.py).
 
-- Application's global settings are maintained in [editable env-file](ccx_settings.env) with Python syntax. Settings are automatically saved during the workflow.
+- Application's global settings are maintained in [editable env-file](src/ccx_settings.env) with Python syntax. Settings are automatically saved during the workflow.
 
-- [Optimal job management](ccx_job.py): run analysis directly from GUI - you'll be notified on job completion, open results in GraphiX or convert to VTU format and open it in [Paraview](https://www.paraview.org).
+- [Optimal job management](src/ccx_job.py):
 
-- Added support for UNV mesh import.
+    - if you use [subroutines](ccx/ccx_free_form_fortran), CalculiX sources could be automatically recompiled from GUI;
+    - run analysis directly from GUI - you'll be notified on job completion;
+    - open results in GraphiX or convert to VTU format and open them in [Paraview](https://www.paraview.org).
+
+- Supports UNV mesh import.
 
 - Cute modern design with [nice icons](img).
 
@@ -74,11 +78,11 @@ The intended workflow is:
 - create geometry and mesh in [Salome-platform](https://www.salome-platform.org/),
 - save mesh as UNV or export it to INP with [SalomeToCalculix GUI tool](https://github.com/psicofil/SalomeToCalculix),
 - import INP or UNV mesh to CAE and continue creating model,
-- if needed edit Fortran subroutines and rebuild ccx (Job->Rebuild CalculiX),
+- if needed, edit Fortran subroutines and rebuild ccx (Job->Rebuild CalculiX),
 - submit job from CAE,
 - export job result to the Paraview post-processor or view it in GraphiX.
 
-You can pass name of your model as an argument to open it at start:
+Edit default startup model name in in File->Settings or you can pass it as an argument to open at start:
 
     in Linux:       ./ccx_cae -inp model.inp
                     ./ccx_cae -inp model.unv
