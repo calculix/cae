@@ -333,7 +333,7 @@ Model: beam     Date: 10-Mar-1998
           188,   215,    99,   102,    29,    30,   218,   261,   189,    92
     32,   258,   158,    76,   187,   100,    25,     7,    28,   259,   159,
           186,   260,   101,    26,    27,   102,   261,   160,    77,   189
-**INCLUDE,INPUT=opt1.equ
+*INCLUDE,INPUT=opt1.equ
 *MATERIAL,NAME=EL
 *ELASTIC
   210000.0,        .3
