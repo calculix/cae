@@ -44,7 +44,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - [Optimal job management](src/ccx_job.py):
 
-    - if you use [subroutines](ccx/ccx_free_form_fortran), CalculiX sources could be automatically recompiled from GUI;
+    - if you use subroutines, CalculiX sources could be automatically recompiled from GUI;
     - run analysis directly from GUI - you'll be notified on job completion;
     - open results in GraphiX or convert to VTU format and open them in [Paraview](https://www.paraview.org).
 
@@ -145,10 +145,7 @@ CalculiX CAE uses external converters:
 
 The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/imirzov/ccx_free_form_fortran). This version has much better code folding and readability.
 
-To compile CalculiX sources from CAE you'll need:
-
-    in Ubuntu:  gcc, gfortran, make
-    in Windows: cygwin with gcc, gfortran, make
+To compile CalculiX sources from CAE in Windows you'll need *cygwin* with *gcc*, *gfortran* and *make*. Install it to 'C:\\cygwin64'.
 
 <br/><br/>
 

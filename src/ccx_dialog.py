@@ -12,8 +12,8 @@
 
 from PyQt5 import QtWidgets, uic, QtCore, QtWebEngineWidgets
 import sys, os, re, logging
-from src.ccx_kom import item_type
-from src.ccx_settings import Settings
+from .ccx_kom import item_type
+from .ccx_settings import Settings
 
 
 # Load HTML help into QWebEngineView

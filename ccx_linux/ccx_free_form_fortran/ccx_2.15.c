@@ -138,7 +138,7 @@ printf("CalculiX comes with ABSOLUTELY NO WARRANTY. This is free\n");
 printf("software, and you are welcome to redistribute it under\n");
 printf("certain conditions, see gpl.htm\n\n");
 printf("************************************************************\n\n");
-printf("You are using an executable made on Wed 28 Aug 13:07:59 CEST 2019\n");
+printf("You are using an executable made on Wed 28 Aug 15:17:45 CEST 2019\n");
 fflush(stdout);
 
 istep=0;

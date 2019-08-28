@@ -11,10 +11,12 @@
 """
 
 
-import os, sys, logging, subprocess, time, queue, threading, shutil
-import multiprocessing as mp
+import os, sys, logging, queue
 from PyQt5 import QtWidgets
-from src.ccx_log import logLine
+try:
+    from .ccx_log import logLine
+except:
+    from ccx_log import logLine
 
 
 class Job:
@@ -27,24 +29,13 @@ class Job:
             file_name = 'job.inp'
         self.rename(file_name)
         self.home_dir = os.path.dirname(os.path.abspath(sys.argv[0])) # app. home directory
-
-        # Windows
-        if os.name=='nt':
-            self.extension = '.exe' # file extension in OS
-            # self.path_ccx = os.path.join(self.home_dir, 'ccx_windows',
-            #         'ccx_free_form_fortran', 'ccx_2.15_MT.exe')
-        # Linux
-        else:
-            self.extension = '' # file extension in OS
-            # self.path_ccx = os.path.join(self.home_dir, 'ccx_linux',
-            #         'ccx_free_form_fortran', 'ccx_2.15_MT')
-        
+        self.extension = '.exe' if os.name=='nt' else '' # file extension in OS
         self.path_ccx = os.path.join(self.home_dir, 'bin', 'ccx_2.15_MT') + self.extension
 
 
     # Rename job
     def rename(self, file_name):
-        self.dir = os.path.dirname(file_name) # working directory
+        self.dir = os.path.abspath(os.path.dirname(file_name)) # working directory
         self.name = os.path.basename(file_name) # INP file name
         self.inp = os.path.abspath(file_name) # full path to INP file with extension
         self.path = self.inp[:-4] # full path to INP without extension
@@ -58,7 +49,7 @@ class Job:
         converter_path = os.path.join(self.home_dir,
             'bin', 'unv2ccx' + self.extension)
         command = [converter_path, self.unv]
-        self.run(command)
+        self.run([command])
 
 
     # Open INP file in external text editor
@@ -92,37 +83,48 @@ class Job:
 
     # Recompile CalculiX sources with updated subroutines
     def rebuildCCX(self):
-        if os.name=='nt':
-            logging.info('Please, format C: and install normal OS like Ubuntu.')
-            p0 = self.home_dir[0].lower() + self.home_dir[2:].replace('\\', '/')
-            p0 = '/cygdrive/' + p0 + '/ccx_windows/ccx_free_form_fortran' # path to ccx sources
-            command = 'C:\\cygwin64\\bin\\make.exe -f Makefile_MT -C ' + p0
-            p1 = os.path.join(self.home_dir, 'ccx_windows',
-                    'ccx_free_form_fortran', 'ccx_2.15_MT') # build result
-        else:
-            p0 = os.path.join('ccx_linux', 'ccx_free_form_fortran') # path to ccx sources
-            command = 'make -f Makefile_MT -C ' + p0
-            p1 = os.path.join(p0, 'ccx_2.15_MT') # build result
 
-        # TODO Freezes GUI - Use self.run()
-        # self.run(command)
+        # Windows
+        if os.name=='nt':
+
+            # App home path in cygwin
+            home = '/cygdrive/' + \
+                    self.home_dir[0].lower() + \
+                    self.home_dir[2:].replace('\\', '/')
+
+            # Path to ccx sources in cygwin
+            ccx = home + '/ccx_windows/ccx_free_form_fortran'
+           
+            make = 'C:\\cygwin64\\bin\\make.exe' # Make command
+            move = 'C:\\cygwin64\\bin\\mv.exe' # Move command
+
+        # Linux
+        else:
+
+            # App home path
+            home = self.home_dir
+
+            # Path to ccx sources
+            ccx = home + '/ccx_linux/ccx_free_form_fortran'
+
+            make = 'make' # Make command
+            move = 'mv' # Move command
 
         # Build CalculiX
-        subprocess.run(command, shell=True)
+        command1 = [make, '-f', 'Makefile_MT', '-C', ccx]
 
         # Move binary
-        shutil.copyfile(p1, self.path_ccx)
+        command2 = [move, ccx + '/ccx_2.15_MT', home + '/bin/ccx_2.15_MT' + self.extension]
 
-        # TODO Implement event notification to make logger wait for completion
-        logging.info('Compiled!')
+        self.run([command1, command2], msg='Compiled!')
 
 
     # Submit INP to CalculiX
     def submit(self):
         if os.path.isfile(self.inp):
-            os.environ['OMP_NUM_THREADS'] = str(mp.cpu_count()) # enable multithreading
+            os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
             command = [self.path_ccx, '-i', self.path]
-            self.run(command)
+            self.run([command])
         else:
             logging.error('File not found: ' + self.inp)
             logging.error('Write input first.')
@@ -163,7 +165,7 @@ class Job:
             converter_path = os.path.join(self.home_dir,
                 'bin', 'ccx2paraview' + self.extension)
             command = [converter_path, self.frd, 'vtu']
-            self.run(command)
+            self.run([command])
         else:
             logging.error('File not found: ' + self.frd)
             logging.error('Submit analysis first.')
@@ -191,8 +193,8 @@ class Job:
                 logging.error('Export VTU results first.')
                 return
 
-            command = self.settings.path_paraview + ' --data=' + vtu_path
-            os.system(command)
+            command = [self.settings.path_paraview, '--data=' + vtu_path]
+            self.run([command])
         else:
             logging.error('Wrong path to Paraview: ' + \
                 self.settings.path_paraview +\
@@ -200,35 +202,42 @@ class Job:
 
 
     # Run commands and log stdout without blocking GUI
-    def run(self, command):
-        os.chdir(self.dir)
+    def run(self, commands, msg=None):
+        import subprocess, time, threading
+
         start = time.perf_counter() # start time
+        os.chdir(self.dir)
 
-        # Run command
-        p = subprocess.Popen(command,
-                stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        for command in commands:
+            logging.info(' '.join(command))
 
-        # Make daemon to enqueue stdout
-        q = queue.Queue()
-        t = threading.Thread(target=enqueue_output, args=(p.stdout, q))
-        t.daemon = True # thread dies with the program
-        t.start()
+            # Run command
+            p = subprocess.Popen(command,
+                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-        # Read and log stdout without blocking GUI
-        with open(self.log, 'a') as lf:
-            while True:
-                try:
-                    line = q.get_nowait()
-                    if line == 'END':
-                        logging.info('Total {:.0f} seconds.'\
-                            .format(time.perf_counter()-start)) # end time
-                        break
-                    logLine(line)
-                    lf.write(line + '\n')
-                except queue.Empty:
-                    QtWidgets.qApp.processEvents() # do not block GUI
-                    time.sleep(0.1) # reduce CPU usage
+            # Make daemon to enqueue stdout
+            q = queue.Queue()
+            t = threading.Thread(target=enqueue_output, args=(p.stdout, q))
+            t.daemon = True # thread dies with the program
+            t.start()
 
+            # Read and log stdout without blocking GUI
+            with open(self.log, 'a') as lf:
+                while True:
+                    try:
+                        line = q.get_nowait()
+                        if line == 'END':
+                            logging.info('Total {:.0f} seconds.'\
+                                .format(time.perf_counter()-start)) # end time
+                            break
+                        logLine(line)
+                        lf.write(line + '\n')
+                    except queue.Empty:
+                        QtWidgets.qApp.processEvents() # do not block GUI
+                        time.sleep(0.1) # reduce CPU usage
+
+        if msg:
+            logging.info(msg)
         os.chdir(self.home_dir)
 
 
@@ -245,4 +254,4 @@ def enqueue_output(stdout, queue):
 if __name__ == '__main__':
     import clean
     Job(None, '').rebuildCCX()
-    clean.cache()
+    clean.cleanCache()
