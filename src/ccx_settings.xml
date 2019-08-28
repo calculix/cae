@@ -40,27 +40,6 @@
         <number>6</number>
        </property>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="label_path_ccx">
-           <property name="text">
-            <string>Path to CalculiX CrunchiX</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="path_ccx">
-           <property name="text">
-            <string>/usr/local/bin/ccx</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <property name="spacing">
           <number>0</number>
@@ -68,7 +47,7 @@
          <item>
           <widget class="QLabel" name="label_path_cgx">
            <property name="text">
-            <string>Path to CalculiX GraphiX</string>
+            <string>Path to CalculiX GraphiX:</string>
            </property>
           </widget>
          </item>
@@ -89,7 +68,7 @@
          <item>
           <widget class="QLabel" name="label_path_paraview">
            <property name="text">
-            <string>Path to Paraview</string>
+            <string>Path to Paraview:</string>
            </property>
           </widget>
          </item>
@@ -110,7 +89,7 @@
          <item>
           <widget class="QLabel" name="label_path_editor">
            <property name="text">
-            <string>Text editor</string>
+            <string>Path to text editor:</string>
            </property>
           </widget>
          </item>
@@ -131,7 +110,7 @@
          <item>
           <widget class="QLabel" name="label_path_start_model">
            <property name="text">
-            <string>Default start model</string>
+            <string>Default start model:</string>
            </property>
           </widget>
          </item>
@@ -164,7 +143,7 @@
            <item>
             <widget class="QLabel" name="label_logging_level">
              <property name="text">
-              <string>Logging level</string>
+              <string>Logging level:</string>
              </property>
             </widget>
            </item>
@@ -209,7 +188,7 @@
            <item>
             <widget class="QLabel" name="label_vtk_view">
              <property name="text">
-              <string>VTK default view</string>
+              <string>VTK default view:</string>
              </property>
             </widget>
            </item>

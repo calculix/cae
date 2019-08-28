@@ -11,7 +11,7 @@
 """
 
 
-import os, sys, logging, subprocess, time, queue, threading
+import os, sys, logging, subprocess, time, queue, threading, shutil
 import multiprocessing as mp
 from PyQt5 import QtWidgets
 from src.ccx_log import logLine
@@ -27,7 +27,19 @@ class Job:
             file_name = 'job.inp'
         self.rename(file_name)
         self.home_dir = os.path.dirname(os.path.abspath(sys.argv[0])) # app. home directory
-        self.extension = '.exe' if os.name=='nt' else '' # file extension in OS
+
+        # Windows
+        if os.name=='nt':
+            self.extension = '.exe' # file extension in OS
+            # self.path_ccx = os.path.join(self.home_dir, 'ccx_windows',
+            #         'ccx_free_form_fortran', 'ccx_2.15_MT.exe')
+        # Linux
+        else:
+            self.extension = '' # file extension in OS
+            # self.path_ccx = os.path.join(self.home_dir, 'ccx_linux',
+            #         'ccx_free_form_fortran', 'ccx_2.15_MT')
+        
+        self.path_ccx = os.path.join(self.home_dir, 'bin', 'ccx_2.15_MT') + self.extension
 
 
     # Rename job
@@ -51,53 +63,66 @@ class Job:
 
     # Open INP file in external text editor
     def editINP(self):
-        if os.path.isfile(self.inp):
-            os.system(self.settings.path_editor + ' ' + self.inp)
+        if os.path.isfile(self.settings.path_editor):
+            if os.path.isfile(self.inp):
+                os.system(self.settings.path_editor + ' ' + self.inp)
+            else:
+                logging.error('File not found: ' + self.inp)
+                logging.error('Write input first.')
         else:
-            logging.error('File not found: ' + self.inp)
-            logging.error('Write input first.')
+            logging.error('Wrong path to text editor: ' + \
+                self.settings.path_editor +\
+                '. Configure it in File->Settings.')
 
 
     # Dialog window to filter fortran subroutines
     def openSubroutine(self):
-        file_name = QtWidgets.QFileDialog.getOpenFileName(None, \
-            'Open a subroutine', \
-            os.path.join(self.home_dir, 'ccx', 'ccx_free_form_fortran'), \
-            'FORTRAN (*.f)')[0]
-        if file_name:
-            os.system(self.settings.path_editor + ' ' + file_name)
+        if os.path.isfile(self.settings.path_editor):
+            file_name = QtWidgets.QFileDialog.getOpenFileName(None, \
+                'Open a subroutine', \
+                os.path.join(self.home_dir, 'ccx', 'ccx_free_form_fortran'), \
+                'FORTRAN (*.f)')[0]
+            if file_name:
+                os.system(self.settings.path_editor + ' ' + file_name)
+        else:
+            logging.error('Wrong path to text editor: ' + \
+                self.settings.path_editor +\
+                '. Configure it in File->Settings.')
 
 
     # Recompile CalculiX sources with updated subroutines
-    # TODO freezes GUI
     def rebuildCCX(self):
         if os.name=='nt':
-            logging.warning('CalculiX rebuild not jet supported in fuck\'n Windows!')
-            logging.warning('Please, format C: and install normal OS like Ubuntu.')
+            logging.info('Please, format C: and install normal OS like Ubuntu.')
+            p0 = self.home_dir[0].lower() + self.home_dir[2:].replace('\\', '/')
+            p0 = '/cygdrive/' + p0 + '/ccx_windows/ccx_free_form_fortran' # path to ccx sources
+            command = 'C:\\cygwin64\\bin\\make.exe -f Makefile_MT -C ' + p0
+            p1 = os.path.join(self.home_dir, 'ccx_windows',
+                    'ccx_free_form_fortran', 'ccx_2.15_MT') # build result
         else:
-            p0 = os.path.join('ccx', 'ccx_free_form_fortran')
-            p1 = os.path.join(p0, 'ccx_2.15_MT')
-            p2 = os.path.join('bin', 'ccx')
-            subprocess.run('make -f Makefile_MT -C ' + p0, shell=True)
-            subprocess.run('cp ' + p1 + ' ' + p2, shell=True)
+            p0 = os.path.join('ccx_linux', 'ccx_free_form_fortran') # path to ccx sources
+            command = 'make -f Makefile_MT -C ' + p0
+            p1 = os.path.join(p0, 'ccx_2.15_MT') # build result
 
-            # TODO Use self.run()
-            # command = ['make', '-f', 'Makefile_MT', '-C', p0, ';cp', p1, p2]
-            # self.run(command)
+        # TODO Freezes GUI - Use self.run()
+        # self.run(command)
 
-            # TODO Implement event notification to make logger wait for completion
-            logging.info('Compilation OK!')
+        # Build CalculiX
+        subprocess.run(command, shell=True)
+
+        # Move binary
+        shutil.copyfile(p1, self.path_ccx)
+
+        # TODO Implement event notification to make logger wait for completion
+        logging.info('Compiled!')
 
 
     # Submit INP to CalculiX
     def submit(self):
         if os.path.isfile(self.inp):
-            if os.path.isfile(self.settings.path_ccx):
-                os.environ['OMP_NUM_THREADS'] = str(mp.cpu_count()) # enable multithreading
-                command = [self.settings.path_ccx, '-i', self.path]
-                self.run(command)
-            else:
-                logging.error('Wrong path to CCX: ' + self.settings.path_ccx)
+            os.environ['OMP_NUM_THREADS'] = str(mp.cpu_count()) # enable multithreading
+            command = [self.path_ccx, '-i', self.path]
+            self.run(command)
         else:
             logging.error('File not found: ' + self.inp)
             logging.error('Write input first.')
@@ -105,36 +130,40 @@ class Job:
 
     # Open log file in external text editor
     def viewLog(self):
-        if os.path.isfile(self.log):
-            os.system(self.settings.path_editor + ' ' + self.log)
+        if os.path.isfile(self.settings.path_editor):
+            if os.path.isfile(self.log):
+                os.system(self.settings.path_editor + ' ' + self.log)
+            else:
+                logging.error('File not found: ' + self.log)
+                logging.error('Submit analysis first.')
         else:
-            logging.error('File not found: ' + self.log)
-            logging.error('Submit analysis first.')
+            logging.error('Wrong path to text editor: ' + \
+                self.settings.path_editor +\
+                '. Configure it in File->Settings.')
 
 
     # Open FRD in GraphiX
     def openCGX(self):
-        if os.path.isfile(self.frd):
-            if os.path.isfile(self.settings.path_cgx):
-                command = self.settings.path_cgx + ' -o ' + self.frd
-                os.system(command)
+        if os.path.isfile(self.settings.path_cgx):
+            if os.path.isfile(self.frd):
+                    command = self.settings.path_cgx + ' -o ' + self.frd
+                    os.system(command)
             else:
-                logging.error('Wrong path to CGX: ' + self.settings.path_cgx)
+                logging.error('File not found: ' + self.frd)
+                logging.error('Submit analysis first.')
         else:
-            logging.error('File not found: ' + self.frd)
-            logging.error('Submit analysis first.')
+            logging.error('Wrong path to CGX: ' + \
+                self.settings.path_cgx +\
+                '. Configure it in File->Settings.')
 
 
     # Convert FRD to VTU
     def exportVTU(self):
         if os.path.isfile(self.frd):
-            if os.path.isfile(self.settings.path_paraview):
-                converter_path = os.path.join(self.home_dir,
-                    'bin', 'ccx2paraview' + self.extension)
-                command = [converter_path, self.frd, 'vtu']
-                self.run(command)
-            else:
-                logging.error('Wrong path to Paraview: ' + self.settings.path_paraview)
+            converter_path = os.path.join(self.home_dir,
+                'bin', 'ccx2paraview' + self.extension)
+            command = [converter_path, self.frd, 'vtu']
+            self.run(command)
         else:
             logging.error('File not found: ' + self.frd)
             logging.error('Submit analysis first.')
@@ -142,30 +171,32 @@ class Job:
 
     # Open VTU in Paraview
     def openParaview(self):
-
-        # Count result VTU files
-        file_list = []
-        for f in os.listdir(self.dir):
-            f = os.path.basename(f)
-            if f.lower() == self.name[:-4] + '.vtu':
-                file_list = []
-                break
-            if f.lower().endswith('.vtu') and f.startswith(self.name[:-4]):
-                file_list.append(f)
-        if len(file_list) > 1:
-            vtu_path = self.path + '...vtu'
-        elif len(file_list) == 1:
-            vtu_path = self.path + '.vtu'
-        else:
-            logging.error('VTU file not found.')
-            logging.error('Export VTU results first.')
-            return
-
         if os.path.isfile(self.settings.path_paraview):
+
+            # Count result VTU files
+            file_list = []
+            for f in os.listdir(self.dir):
+                f = os.path.basename(f)
+                if f.lower() == self.name[:-4] + '.vtu':
+                    file_list = []
+                    break
+                if f.lower().endswith('.vtu') and f.startswith(self.name[:-4]):
+                    file_list.append(f)
+            if len(file_list) > 1:
+                vtu_path = self.path + '...vtu'
+            elif len(file_list) == 1:
+                vtu_path = self.path + '.vtu'
+            else:
+                logging.error('VTU file not found.')
+                logging.error('Export VTU results first.')
+                return
+
             command = self.settings.path_paraview + ' --data=' + vtu_path
             os.system(command)
         else:
-            logging.error('Wrong path to Paraview: ' + self.settings.path_paraview)
+            logging.error('Wrong path to Paraview: ' + \
+                self.settings.path_paraview +\
+                '. Configure it in File->Settings.')
 
 
     # Run commands and log stdout without blocking GUI
@@ -184,7 +215,7 @@ class Job:
         t.start()
 
         # Read and log stdout without blocking GUI
-        with open(self.log, 'w') as lf:
+        with open(self.log, 'a') as lf:
             while True:
                 try:
                     line = q.get_nowait()

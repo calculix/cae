@@ -59,6 +59,7 @@ class Settings():
         # Get response from dialog window
         if dialog.exec() == Dialog.Accepted: # if user pressed 'OK'
             dialog.onOk()
+            logging.warning('For some settings to take effect application\'s restart may be needed.')
 
 
 # User dialog window with all setting attributes: menu File->Settings

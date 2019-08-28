@@ -38,9 +38,9 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - [Solid mesh parser](src/ccx_mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](tests.log).
 
-- Surfaces and sets of the imported mesh could be highlighted in the [VTK widget](src/ccx_vtk.py).
+- Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/ccx_vtk.py).
 
-- Application's global settings are maintained in [editable env-file](src/ccx_settings.env) with Python syntax. Settings are automatically saved during the workflow.
+- Application's global settings could be set up in the File->Settings menu. Settings are maintained in [editable env-file](src/ccx_settings.env) with Python syntax. The file is automatically overwrited during the workflow.
 
 - [Optimal job management](src/ccx_job.py):
 
@@ -88,6 +88,7 @@ Both sources and binaries could be found on [the releases page](https://github.c
 CacluliX CAE is portable software and doesn't need to be installed. Just extract archive, make binary executable and run it with double click. **To view results in GraphiX and Paraview configure pathes in File->Settings**.
 
 The intended workflow is:
+
 - create geometry and mesh in [Salome-platform](https://www.salome-platform.org/),
 - save mesh as UNV or export it to INP with [SalomeToCalculix GUI tool](https://github.com/psicofil/SalomeToCalculix),
 - import INP or UNV mesh to CAE and continue creating model,
@@ -138,15 +139,16 @@ Use [pyinstaller](https://www.pyinstaller.org/) or [release_binaries.py](release
     python3 release_binaries.py
 
 CalculiX CAE uses external converters:
+
 - [ccx2paraview](https://github.com/imirzov/ccx2paraview) - CalculiX to Paraview converter (frd to vtk/vtu)
 - [unv2ccx](https://github.com/imirzov/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
 
 The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/imirzov/ccx_free_form_fortran). This version has much better code folding and readability.
 
-To compile CalculiX sources from CAE you'll need compilers:
+To compile CalculiX sources from CAE you'll need:
 
-    in Ubuntu:  gcc, gfortran
-    in Windows: cygwin
+    in Ubuntu:  gcc, gfortran, make
+    in Windows: cygwin with gcc, gfortran, make
 
 <br/><br/>
 
@@ -154,31 +156,29 @@ To compile CalculiX sources from CAE you'll need compilers:
 
 # TODO
 
-**Done for the next release**
+## Done for the next release
 
 - Show/Hide HTML help in the keyword edit Dialog.
 
-- Show/Hide VTK mesh visualization widget.
+- Show/Hide VTK mesh visualization widget. ToolBox panel hides with VTK.
 
 - Keywords hierarchy implemented with XML format. Now it's only 1e-4 seconds faster :) but the source code is much simpler.
 
 - File->Settings user dialog.
 
-- ToolBox panel hides with VTK widget.
-
 - Menu Job.
 
 - Automatically recompile CalculiX sources with updated subroutines.
 
-**Improvements and bugfixes**
+## Improvements and bugfixes
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
 
 - Better surface highlight: remove original face for pure color.
 
-- During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit. 
+- During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.
 
-**New features**
+## New features
 
 - treeView: show implementations only.
 
@@ -197,6 +197,8 @@ To compile CalculiX sources from CAE you'll need compilers:
 - Include Martin Kraska examples.
 
 - Menu Help:
+    - File -> Exit
+    - Link to README.md
     - PDF manual / YouTube videos for beginners.
     - VTK Keyboard Shortcuts and Controls.
     - Links to other GitHub projects.

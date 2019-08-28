@@ -139,6 +139,7 @@
     </property>
     <addaction name="action_file_import"/>
     <addaction name="action_file_settings"/>
+    <addaction name="action_file_exit"/>
    </widget>
    <widget class="QMenu" name="menuJob">
     <property name="enabled">
@@ -426,6 +427,15 @@
    </property>
    <property name="text">
     <string>Open a subroutine</string>
+   </property>
+  </action>
+  <action name="action_file_exit">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/menuBar_file_exit.png</normaloff>../img/menuBar_file_exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
    </property>
   </action>
  </widget>

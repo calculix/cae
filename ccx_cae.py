@@ -72,7 +72,10 @@ class CAE(QtWidgets.QMainWindow):
         # Actions
         if True:
             self.treeView.keyPressEvent = self.keyPressEvent
+
+            # File actions
             self.action_file_settings.triggered.connect(settings.open)
+            self.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
             # Job actions
             self.action_job_write_input.triggered.connect(self.IE.writeInput)
