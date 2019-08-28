@@ -19,8 +19,8 @@ if __name__ == '__main__':
     PROJECT_NAME = os.path.split(os.getcwd())[-1] # name of project's folder
     DIRECTORY = os.path.join(os.path.abspath('dist'), PROJECT_NAME)
     DATE = '_' + datetime.datetime.now().strftime('%Y%m%d')
-    op_sys = '_windows' if os.name=='nt' else '_ubuntu'
-    ARCH = os.path.join('..', PROJECT_NAME + op_sys + DATE)
+    op_sys = '_windows' if os.name=='nt' else '_linux'
+    ARCH = os.path.join('..', PROJECT_NAME + DATE + op_sys)
     TEMP = 'C:\\Windows\\Temp\\' if os.name=='nt' else '/tmp/'
     extension = '.exe' if os.name=='nt' else '' # file extension in OS
 
@@ -44,7 +44,8 @@ if __name__ == '__main__':
 
     # Copy some files and folders from sources
     if not one_file:
-        skip_files = ('tests', 'dist', '.py', '.git', '.vscode')
+        skip_os = '_linux' if os.name=='nt' else '_windows'
+        skip_files = ('tests', 'dist', '.py', '.git', '.vscode', skip_os)
         for f in os.listdir():
             # All dirs and files except Python sources
             if not f.endswith(skip_files):

@@ -31,9 +31,6 @@ class IE:
         self.CAE = CAE
         self.settings = settings
 
-        # Actions
-        self.CAE.action_file_import.triggered.connect(self.importFile)
-
 
     # Menu File -> Import
     def importFile(self, file_name=None):

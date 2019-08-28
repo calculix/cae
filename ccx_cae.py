@@ -74,6 +74,7 @@ class CAE(QtWidgets.QMainWindow):
             self.treeView.keyPressEvent = self.keyPressEvent
 
             # File actions
+            self.action_file_import.triggered.connect(self.IE.importFile)
             self.action_file_settings.triggered.connect(settings.open)
             self.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
@@ -87,6 +88,16 @@ class CAE(QtWidgets.QMainWindow):
             self.action_job_open_cgx.triggered.connect(self.job.openCGX)
             self.action_job_export_vtu.triggered.connect(self.job.exportVTU)
             self.action_job_open_paraview.triggered.connect(self.job.openParaview)
+
+            # Help actions
+            self.action_help_dhondt.triggered.connect(lambda:
+                    self.help('http://www.dhondt.de/'))
+            self.action_help_readme.triggered.connect(lambda:
+                    self.help('https://github.com/imirzov/ccx_cae#calculix-cae'))
+            self.action_help_yahoo.triggered.connect(lambda:
+                    self.help('https://groups.yahoo.com/neo/groups/CALCULIX/conversations/topics/15616'))
+            self.action_help_issues.triggered.connect(lambda:
+                    self.help('https://github.com/imirzov/ccx_cae/issues'))
 
             # VTK actions
             if settings.show_vtk:
@@ -112,6 +123,14 @@ class CAE(QtWidgets.QMainWindow):
     def keyPressEvent(self, e):
         if e.key() == QtCore.Qt.Key_Delete:
             self.tree.actionDeleteImplementation()
+
+
+    # Open README.md on the GitHub
+    def help(self, link):
+        url = QtCore.QUrl(link)
+        logging.info('Going to ' + link)
+        if not QtGui.QDesktopServices.openUrl(url):
+            logging.warning('Can\'t open url: ' + link)
 
 
 if __name__ == '__main__':

@@ -158,8 +158,18 @@
     <addaction name="action_job_export_vtu"/>
     <addaction name="action_job_open_paraview"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="action_help_dhondt"/>
+    <addaction name="action_help_readme"/>
+    <addaction name="action_help_yahoo"/>
+    <addaction name="action_help_issues"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuJob"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="enabled">
@@ -436,6 +446,42 @@
    </property>
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="action_help_readme">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/menuBar_help_readme.png</normaloff>../img/menuBar_help_readme.png</iconset>
+   </property>
+   <property name="text">
+    <string>README.md</string>
+   </property>
+  </action>
+  <action name="action_help_dhondt">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icon_logo.png</normaloff>../img/icon_logo.png</iconset>
+   </property>
+   <property name="text">
+    <string>CalculiX homepage</string>
+   </property>
+  </action>
+  <action name="action_help_yahoo">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/menuBar_help_yahoo.png</normaloff>../img/menuBar_help_yahoo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Discussion on Yahoo</string>
+   </property>
+  </action>
+  <action name="action_help_issues">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/menuBar_help_issues.png</normaloff>../img/menuBar_help_issues.png</iconset>
+   </property>
+   <property name="text">
+    <string>Post issue</string>
    </property>
   </action>
  </widget>

@@ -117,13 +117,15 @@ class Dialog(QtWidgets.QDialog):
                         For example, add names of *AMPLITUDE implementations,
                             if argument.name is 'AMPLITUDE'
                     """
-                    implementations = [item.name for item in keyword.getImplementations()]
-                    logging.debug('\tKeyword ' + keyword.name)
-                    logging.debug('\t\tImplementations ' + str(implementations))
-                    logging.debug('\t\tArgument items ' + str(argument.items))
-                    if len(implementations) and not len(argument.items):
-                        argument.form = 'QComboBox'
-                        argument_values_items = [''] + implementations
+                    # Example: ELSET argument in *ELSET keyword
+                    if argument.name.upper() != keyword.name.upper()[1:]:
+                        implementations = [item.name for item in keyword.getImplementations()]
+                        logging.debug('\tKeyword ' + keyword.name)
+                        logging.debug('\t\tImplementations ' + str(implementations))
+                        logging.debug('\t\tArgument items ' + str(argument.items))
+                        if len(implementations) and not len(argument.items):
+                            argument.form = 'QComboBox'
+                            argument_values_items = [''] + implementations
 
                 # Argument's values
                 if argument.form == 'QComboBox':
