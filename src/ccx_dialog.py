@@ -211,7 +211,8 @@ class Dialog(QtWidgets.QDialog):
 
         # Generate html help page from official manual
         self.doc = QtWebEngineWidgets.QWebEngineView()
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding,
+                QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(1) # expand horizontally
         self.doc.setSizePolicy(sizePolicy)
 

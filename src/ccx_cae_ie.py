@@ -36,10 +36,9 @@ class IE:
     def importFile(self, file_name=None):
 
         if not file_name:
-            # TODO remove 'All Files'
             file_name = QFileDialog.getOpenFileName(None, \
                 'Import INP/UNV file', self.CAE.job.dir, \
-                'INP (*.inp);;UNV (*.unv);;All Files (*)')[0]
+                'INP (*.inp);;UNV (*.unv)')[0]
 
         if file_name:
 

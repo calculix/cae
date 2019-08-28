@@ -153,7 +153,7 @@ To compile CalculiX sources from CAE in Windows you'll need *cygwin* with *gcc*,
 
 # TODO
 
-## Done for the next release
+## Done for release v0.4
 
 - Show/Hide HTML help in the keyword edit Dialog.
 
@@ -166,6 +166,8 @@ To compile CalculiX sources from CAE in Windows you'll need *cygwin* with *gcc*,
 - Menus Job, Help.
 
 - Automatically recompile CalculiX sources with updated subroutines.
+
+- Fixed a few bugs.
 
 ## Improvements and bugfixes
 

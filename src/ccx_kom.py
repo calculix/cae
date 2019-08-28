@@ -308,6 +308,7 @@ class implementation(item):
         for item in self.items:
             item.parent = self
         self.parent = keyword
+        self.active = True
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
         index = len(self.parent.getImplementations())

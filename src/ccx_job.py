@@ -29,6 +29,7 @@ class Job:
             file_name = 'job.inp'
         self.rename(file_name)
         self.home_dir = os.path.dirname(os.path.abspath(sys.argv[0])) # app. home directory
+        self.op_sys = 'windows' if os.name=='nt' else 'linux'
         self.extension = '.exe' if os.name=='nt' else '' # file extension in OS
         self.path_ccx = os.path.join(self.home_dir, 'bin', 'ccx_2.15_MT') + self.extension
 
@@ -69,10 +70,9 @@ class Job:
     # Dialog window to filter fortran subroutines
     def openSubroutine(self):
         if os.path.isfile(self.settings.path_editor):
-            file_name = QtWidgets.QFileDialog.getOpenFileName(None, \
-                'Open a subroutine', \
-                os.path.join(self.home_dir, 'ccx', 'ccx_free_form_fortran'), \
-                'FORTRAN (*.f)')[0]
+            file_name = QtWidgets.QFileDialog.getOpenFileName(None, 'Open a subroutine',
+                os.path.join(self.home_dir, 'ccx_' + self.op_sys,
+                    'ccx_free_form_fortran'), 'FORTRAN (*.f)')[0]
             if file_name:
                 os.system(self.settings.path_editor + ' ' + file_name)
         else:
@@ -91,9 +91,6 @@ class Job:
             home = '/cygdrive/' + \
                     self.home_dir[0].lower() + \
                     self.home_dir[2:].replace('\\', '/')
-
-            # Path to ccx sources in cygwin
-            ccx = home + '/ccx_windows/ccx_free_form_fortran'
            
             make = 'C:\\cygwin64\\bin\\make.exe' # Make command
             move = 'C:\\cygwin64\\bin\\mv.exe' # Move command
@@ -104,11 +101,11 @@ class Job:
             # App home path
             home = self.home_dir
 
-            # Path to ccx sources
-            ccx = home + '/ccx_linux/ccx_free_form_fortran'
-
             make = 'make' # Make command
             move = 'mv' # Move command
+
+        # Path to ccx sources
+        ccx = home + '/ccx_' + self.op_sys + '/ccx_free_form_fortran'
 
         # Build CalculiX
         command1 = [make, '-f', 'Makefile_MT', '-C', ccx]
