@@ -163,7 +163,7 @@ To compile CalculiX sources from CAE in Windows you'll need *cygwin* with *gcc*,
 
 - File->Settings user dialog.
 
-- Menu Job.
+- Menus Job, Help.
 
 - Automatically recompile CalculiX sources with updated subroutines.
 
