@@ -103,6 +103,8 @@ Edit default startup model name in in File->Settings or you can pass it as an ar
     in Windows:     ccx_cae.exe -inp model.inp
                     ccx_cae.exe -inp model.unv
 
+To compile CalculiX sources from CAE in Windows you'll need *cygwin* with *gcc*, *gfortran* and *make*. Install it to 'C:\\cygwin64'.
+
 <br/><br/>
 
 
@@ -145,31 +147,11 @@ CalculiX CAE uses external converters:
 
 The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/imirzov/ccx_free_form_fortran). This version has much better code folding and readability.
 
-To compile CalculiX sources from CAE in Windows you'll need *cygwin* with *gcc*, *gfortran* and *make*. Install it to 'C:\\cygwin64'.
-
 <br/><br/>
 
 
 
 # TODO
-
-## Done for release v0.4
-
-- Show/Hide HTML help in the keyword edit Dialog.
-
-- Show/Hide VTK mesh visualization widget. ToolBox panel hides with VTK.
-
-- Keywords hierarchy implemented with XML format. Now it's only 1e-4 seconds faster :) but the source code is much simpler.
-
-- File->Settings user dialog.
-
-- Menus Job, Help.
-
-- Automatically recompile CalculiX sources with updated subroutines.
-
-- Parallel logging to external text file. Separate for each job name.
-
-- Fixed a few bugs.
 
 ## Improvements and bugfixes
 
@@ -198,8 +180,5 @@ To compile CalculiX sources from CAE in Windows you'll need *cygwin* with *gcc*,
 - Include Martin Kraska examples.
 
 - Menu Help:
-    - File -> Exit
-    - Link to README.md
     - PDF manual / YouTube videos for beginners.
     - VTK Keyboard Shortcuts and Controls.
-    - Links to other GitHub projects.
