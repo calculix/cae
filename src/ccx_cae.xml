@@ -162,10 +162,9 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="action_help_dhondt"/>
     <addaction name="action_help_readme"/>
-    <addaction name="action_help_yahoo"/>
     <addaction name="action_help_issues"/>
+    <addaction name="action_help_yahoo"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuJob"/>
@@ -457,13 +456,13 @@
     <string>README.md</string>
    </property>
   </action>
-  <action name="action_help_dhondt">
+  <action name="action_help_issues">
    <property name="icon">
     <iconset>
-     <normaloff>../img/icon_logo.png</normaloff>../img/icon_logo.png</iconset>
+     <normaloff>../img/menuBar_help_issues.png</normaloff>../img/menuBar_help_issues.png</iconset>
    </property>
    <property name="text">
-    <string>CalculiX homepage</string>
+    <string>Post issue</string>
    </property>
   </action>
   <action name="action_help_yahoo">
@@ -473,15 +472,6 @@
    </property>
    <property name="text">
     <string>Discussion on Yahoo</string>
-   </property>
-  </action>
-  <action name="action_help_issues">
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/menuBar_help_issues.png</normaloff>../img/menuBar_help_issues.png</iconset>
-   </property>
-   <property name="text">
-    <string>Post issue</string>
    </property>
   </action>
  </widget>

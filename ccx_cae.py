@@ -10,6 +10,8 @@
         python3 ccx_cae.py -inp ccx_mesh.inp
 """
 
+# TODO icons on dialog windows: Settings, New keyword dialog
+
 import sys, os
 
 # Update enviroment variable PATH: pyinstaller bug in Windows
@@ -87,11 +89,9 @@ class CAE(QtWidgets.QMainWindow):
             self.action_job_view_log.triggered.connect(self.job.viewLog)
             self.action_job_open_cgx.triggered.connect(self.job.openCGX)
             self.action_job_export_vtu.triggered.connect(self.job.exportVTU)
-            self.action_job_open_paraview.triggered.connect(self.job.openParaview)
+            self.action_job_open_paraview.triggered.connect(self.job.openParaView)
 
             # Help actions
-            self.action_help_dhondt.triggered.connect(lambda:
-                    self.help('http://www.dhondt.de/'))
             self.action_help_readme.triggered.connect(lambda:
                     self.help('https://github.com/imirzov/ccx_cae#calculix-cae'))
             self.action_help_yahoo.triggered.connect(lambda:

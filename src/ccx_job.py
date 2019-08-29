@@ -224,8 +224,8 @@ class Job:
             logging.error('Submit analysis first.')
 
 
-    # Open VTU in Paraview
-    def openParaview(self):
+    # Open VTU in ParaView
+    def openParaView(self):
         if os.path.isfile(self.settings.path_paraview):
 
             # Count result VTU files
@@ -251,7 +251,7 @@ class Job:
             command = [self.settings.path_paraview, '--data=' + vtu_path]
             subprocess.Popen(command)
         else:
-            logging.error('Wrong path to Paraview: ' + \
+            logging.error('Wrong path to ParaView: ' + \
                 self.settings.path_paraview +\
                 '. Configure it in File->Settings.')
 

@@ -22,10 +22,12 @@ class Settings():
 
     # Read settings from file
     def __init__(self):
+        op_sys = '_windows' if os.name=='nt' else '_linux'
         path = os.path.dirname(sys.argv[0])
         if path.endswith('src'):
             path = path[:-3]
-        self.file_name = os.path.join(path, 'src', 'ccx_settings.env') # full path
+        self.file_name = os.path.join(path, 'src',
+                'ccx_settings' + op_sys + '.env') # full path
         f = open(self.file_name).read()
         self.lines = f.split('\n')
         exec(f)

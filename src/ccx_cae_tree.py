@@ -290,10 +290,10 @@ class tree:
                         self.myMenu.addAction(action)
                         action.triggered.connect(self.CAE.job.exportVTU)
 
-                        # Open VTU in Paraview
-                        action = QtWidgets.QAction('Open in Paraview', self.CAE.treeView)
+                        # Open VTU in ParaView
+                        action = QtWidgets.QAction('Open in ParaView', self.CAE.treeView)
                         self.myMenu.addAction(action)
-                        action.triggered.connect(self.CAE.job.openParaview)
+                        action.triggered.connect(self.CAE.job.openParaView)
                 """
 
             # Add splitter
