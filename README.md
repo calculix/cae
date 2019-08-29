@@ -167,6 +167,8 @@ To compile CalculiX sources from CAE in Windows you'll need *cygwin* with *gcc*,
 
 - Automatically recompile CalculiX sources with updated subroutines.
 
+- Parallel logging to external text file. Separate for each job name.
+
 - Fixed a few bugs.
 
 ## Improvements and bugfixes
