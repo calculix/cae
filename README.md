@@ -40,7 +40,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/ccx_vtk.py).
 
-- Application's global settings could be set up in the File->Settings menu. Settings are maintained in [editable env-file](src/ccx_settings.env) with Python syntax. The file is automatically overwrited during the workflow.
+- Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable env-file with Python syntax. The file is automatically overwrited during the workflow.
 
 - [Optimal job management](src/ccx_job.py):
 

@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Settings</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../img/menuBar_file_settings.png</normaloff>../img/menuBar_file_settings.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_10">
    <property name="spacing">
     <number>9</number>

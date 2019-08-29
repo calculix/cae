@@ -1,0 +1,56 @@
+INFO: Loading /media/ihor/WORK/Calculix/ccx_cae/default.inp.
+INFO: Hex created.
+INFO: Hex
+INFO: Tet created.
+INFO: Tet
+INFO: Wedge created.
+INFO: Wedge
+INFO: Hex_Quadratic created.
+INFO: Hex_Quadratic
+INFO: Tet_Quadratic created.
+INFO: Tet_Quadratic
+INFO: Wedge_Quadratic created.
+INFO: Wedge_Quadratic
+INFO: Hex_1 created.
+INFO: Hex_1
+INFO: Hex_2 created.
+INFO: Hex_2
+INFO: Hex_3 created.
+INFO: Hex_3
+INFO: Hex_4 created.
+INFO: Hex_4
+INFO: Hex_5 created.
+INFO: Hex_5
+INFO: Hex_6 created.
+INFO: Hex_6
+INFO: Hex_Node_Surf created.
+INFO: Hex_Node_Surf
+INFO: Tet_1 created.
+INFO: Tet_1
+INFO: Tet_2 created.
+INFO: Tet_2
+INFO: Tet_3 created.
+INFO: Tet_3
+INFO: Tet_4 created.
+INFO: Tet_4
+INFO: Tet_Node_Surf created.
+INFO: Tet_Node_Surf
+INFO: Wedge_1 created.
+INFO: Wedge_1
+INFO: Wedge_2 created.
+INFO: Wedge_2
+INFO: Wedge_3 created.
+INFO: Wedge_3
+INFO: Wedge_4 created.
+INFO: Wedge_4
+INFO: Wedge_5 created.
+INFO: Wedge_5
+INFO: Wedge_Node_Surf created.
+INFO: Wedge_Node_Surf
+INFO: 45 nodes
+INFO: 3 nsets: Hex, Tet, Wedge
+INFO: 3 elements
+INFO: 3 elsets: Hex_Quadratic, Tet_Quadratic, Wedge_Quadratic
+INFO: 18 surfaces
+INFO: VTK ugrid is built.
+INFO: CalculiX object model generated.

@@ -10,7 +10,7 @@
 """
 
 
-from PyQt5 import QtWidgets, uic, QtCore, QtWebEngineWidgets
+from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtWebEngineWidgets
 import sys, os, re, logging
 from .ccx_kom import item_type
 from .ccx_settings import Settings
@@ -96,6 +96,15 @@ class Dialog(QtWidgets.QDialog):
 
         self.widgets = [] # list of created widgets
         self.item = item # needed to pass to other functions
+
+        # Add window icon (different for each keyword)
+        icon_name = item.name.replace('*', '') + '.png'
+        icon_name = icon_name.replace(' ', '_')
+        icon_name = icon_name.replace('-', '_')
+        icon_path = os.path.join(os.path.dirname(sys.argv[0]),
+                        'img', 'icon_' + icon_name.lower())
+        icon = QtGui.QIcon(icon_path)
+        self.setWindowIcon(icon)
 
         # New implementation: draw full form for keyword's arguments
         if self.item.item_type == item_type.KEYWORD:

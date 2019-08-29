@@ -22,10 +22,6 @@
     <height>600</height>
    </size>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>../img/logo.png</normaloff>../img/logo.png</iconset>
-  </property>
   <layout class="QHBoxLayout" name="horizontalLayout_3">
    <property name="spacing">
     <number>6</number>

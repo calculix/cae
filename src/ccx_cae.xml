@@ -206,7 +206,7 @@
   <action name="action_file_import">
    <property name="icon">
     <iconset>
-     <normaloff>../img/menuBar_file_import.png</normaloff>../img/menuBar_file_import.png</iconset>
+     <normaloff>../img/action_file_import.png</normaloff>../img/action_file_import.png</iconset>
    </property>
    <property name="text">
     <string>Import</string>
@@ -368,7 +368,7 @@
   <action name="action_file_settings">
    <property name="icon">
     <iconset>
-     <normaloff>../img/menuBar_file_settings.png</normaloff>../img/menuBar_file_settings.png</iconset>
+     <normaloff>../img/action_file_settings.png</normaloff>../img/action_file_settings.png</iconset>
    </property>
    <property name="text">
     <string>Settings</string>
@@ -380,28 +380,44 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../img/menuBar_job_write_input.png</normaloff>../img/menuBar_job_write_input.png</iconset>
+     <normaloff>../img/action_job_write_input.png</normaloff>../img/action_job_write_input.png</iconset>
    </property>
    <property name="text">
     <string>Write input</string>
    </property>
   </action>
   <action name="action_job_edit_inp">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_job_edit_inp.png</normaloff>../img/action_job_edit_inp.png</iconset>
+   </property>
    <property name="text">
     <string>Open INP in editor</string>
    </property>
   </action>
   <action name="action_job_rebuild_ccx">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_job_rebuild_ccx.png</normaloff>../img/action_job_rebuild_ccx.png</iconset>
+   </property>
    <property name="text">
     <string>Rebuild CalculiX</string>
    </property>
   </action>
   <action name="action_job_submit">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_job_submit.png</normaloff>../img/action_job_submit.png</iconset>
+   </property>
    <property name="text">
     <string>Submit</string>
    </property>
   </action>
   <action name="action_job_view_log">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_job_view_log.png</normaloff>../img/action_job_view_log.png</iconset>
+   </property>
    <property name="text">
     <string>View log</string>
    </property>
@@ -416,6 +432,10 @@
    </property>
   </action>
   <action name="action_job_export_vtu">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_job_export_vtu.png</normaloff>../img/action_job_export_vtu.png</iconset>
+   </property>
    <property name="text">
     <string>Export VTU results</string>
    </property>
@@ -423,7 +443,7 @@
   <action name="action_job_open_paraview">
    <property name="icon">
     <iconset>
-     <normaloff>../img/menuBar_job_paraview.png</normaloff>../img/menuBar_job_paraview.png</iconset>
+     <normaloff>../img/action_job_paraview.png</normaloff>../img/action_job_paraview.png</iconset>
    </property>
    <property name="text">
     <string>Open VTU in Paraview</string>
@@ -432,7 +452,7 @@
   <action name="action_job_open_subroutine">
    <property name="icon">
     <iconset>
-     <normaloff>../img/menuBar_job_open_subroutine.png</normaloff>../img/menuBar_job_open_subroutine.png</iconset>
+     <normaloff>../img/action_job_open_subroutine.png</normaloff>../img/action_job_open_subroutine.png</iconset>
    </property>
    <property name="text">
     <string>Open a subroutine</string>
@@ -441,7 +461,7 @@
   <action name="action_file_exit">
    <property name="icon">
     <iconset>
-     <normaloff>../img/menuBar_file_exit.png</normaloff>../img/menuBar_file_exit.png</iconset>
+     <normaloff>../img/action_file_exit.png</normaloff>../img/action_file_exit.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -450,7 +470,7 @@
   <action name="action_help_readme">
    <property name="icon">
     <iconset>
-     <normaloff>../img/menuBar_help_readme.png</normaloff>../img/menuBar_help_readme.png</iconset>
+     <normaloff>../img/action_help_readme.png</normaloff>../img/action_help_readme.png</iconset>
    </property>
    <property name="text">
     <string>README.md</string>
@@ -459,7 +479,7 @@
   <action name="action_help_issues">
    <property name="icon">
     <iconset>
-     <normaloff>../img/menuBar_help_issues.png</normaloff>../img/menuBar_help_issues.png</iconset>
+     <normaloff>../img/action_help_issues.png</normaloff>../img/action_help_issues.png</iconset>
    </property>
    <property name="text">
     <string>Post issue</string>
@@ -468,7 +488,7 @@
   <action name="action_help_yahoo">
    <property name="icon">
     <iconset>
-     <normaloff>../img/menuBar_help_yahoo.png</normaloff>../img/menuBar_help_yahoo.png</iconset>
+     <normaloff>../img/action_help_yahoo.png</normaloff>../img/action_help_yahoo.png</iconset>
    </property>
    <property name="text">
     <string>Discussion on Yahoo</string>
