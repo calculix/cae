@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../img/menuBar_file_settings.png</normaloff>../img/menuBar_file_settings.png</iconset>
+    <normaloff>../img/action_file_settings.png</normaloff>../img/action_file_settings.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_10">
    <property name="spacing">

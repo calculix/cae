@@ -10,12 +10,10 @@
         python3 ccx_cae.py -inp ccx_mesh.inp
 """
 
-# TODO icons on dialog windows: Settings, New keyword dialog
-
 import sys, os
 
 # Update enviroment variable PATH: pyinstaller bug in Windows
-home_dir = os.path.dirname(sys.argv[0]) # app. home directory
+home_dir = os.path.dirname(os.path.abspath(sys.argv[0])) # app. home directory
 if home_dir not in os.environ['PATH']:
     if not os.environ['PATH'].endswith(os.pathsep):
         os.environ['PATH'] += os.pathsep

@@ -45,7 +45,8 @@ if __name__ == '__main__':
     # Copy some files and folders from sources
     if not one_file:
         skip_os = '_linux' if os.name=='nt' else '_windows'
-        skip_files = ('tests', 'dist', '.py', '.git', '.vscode', skip_os)
+        skip_files = ('tests', 'dist', '.py', '.git', '.vscode',
+                '.gitignore', skip_os)
         for f in os.listdir():
             # All dirs and files except Python sources
             if not f.endswith(skip_files):
