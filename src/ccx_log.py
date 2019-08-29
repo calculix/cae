@@ -21,7 +21,8 @@ class myLoggingHandler(logging.Handler):
     def __init__(self, CAE):
         super().__init__() # create handler
         self.textEdit = CAE.textEdit
-        self.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
+        fmt = logging.Formatter('%(levelname)s: %(message)s')
+        self.setFormatter(fmt)
 
 
     # Sends log messages to CAE's textEdit widget
