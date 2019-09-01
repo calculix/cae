@@ -23,7 +23,7 @@ class Path:
                 os.path.join(os.path.dirname(sys.argv[0]), '..'))
 
         self.bin = os.path.join(self.app_home_dir, 'bin')
-        self.ccx = os.path.join(self.app_home_dir, 'ccx' + op_sys, 'ccx_free_form_fortran')
+        self.ccx = os.path.join(self.app_home_dir, 'ccx_' + op_sys, 'ccx_free_form_fortran')
         self.config = os.path.join(self.app_home_dir, 'config')
         self.doc = os.path.join(self.app_home_dir, 'doc')
         self.examples = os.path.join(self.app_home_dir, 'examples')

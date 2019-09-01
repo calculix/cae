@@ -30,19 +30,19 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Features
 
-- Calculix keywords hierarchy with all attributes is maintaned in [editable XML file](src/ccx_kom.xml).
+- Calculix keywords hierarchy with all attributes is maintaned in [editable XML file](config/kom.xml).
 
 - "New keyword" dialog shows apropriate chapter of the official [HTML documentation](doc).
 
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by CalculiX.
 
-- [Solid mesh parser](src/ccx_mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](src/tests.log).
+- [Solid mesh parser](src/mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](src/tests.log).
 
-- Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/ccx_vtk.py).
+- Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/VTK.py).
 
 - Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable env-file with Python syntax. The file is automatically overwrited during the workflow.
 
-- [Optimal job management](src/ccx_job.py):
+- [Optimal job management](src/job.py):
 
     - if you use subroutines, CalculiX sources could be automatically recompiled from GUI;
     - run analysis directly from GUI - you'll be notified on job completion;
@@ -90,7 +90,7 @@ CacluliX CAE is portable software and doesn't need to be installed. Just extract
 The intended workflow is:
 
 - create geometry and mesh in [Salome-platform](https://www.salome-platform.org/),
-- save mesh as UNV or export it to INP with [SalomeToCalculix GUI tool](https://github.com/psicofil/SalomeToCalculix),
+- save mesh as UNV or export it to INP with [salome2ccx GUI tool](https://github.com/imirzov/salome2ccx),
 - import INP or UNV mesh to CAE and continue creating model,
 - if needed, edit Fortran subroutines and rebuild ccx (Job->Rebuild CalculiX),
 - submit job from CAE,
@@ -98,10 +98,10 @@ The intended workflow is:
 
 Edit default startup model name in in File->Settings or you can pass it as an argument to open at start:
 
-    in Linux:       ./ccx_cae -inp model.inp
-                    ./ccx_cae -inp model.unv
-    in Windows:     ccx_cae.exe -inp model.inp
-                    ccx_cae.exe -inp model.unv
+    in Linux:       ./cae.sh -inp model.inp
+                    ./cae.sh -inp model.unv
+    in Windows:     cae.bat -inp model.inp
+                    cae.bat -inp model.unv
 
 To compile CalculiX sources from CAE in Windows you'll need *cygwin* with *gcc*, *gfortran* and *make*. Install it to 'C:\\cygwin64'.
 
@@ -129,23 +129,22 @@ Suppose you already have [Python 3](https://www.python.org/downloads/). Open ter
 
     pip3 install -r requirements.txt
 
-Run source code with one of the commands:
+From 'src' directory run source code with one of the commands:
 
-    python3 ccx_cae.py
-    python3 ccx_cae.py -inp model.inp
-    python3 ccx_cae.py -inp model.unv
+    python3 cae.py
+    python3 cae.py -inp model.inp
+    python3 cae.py -inp model.unv
 
-Use [pyinstaller](https://www.pyinstaller.org/) or [make_release.py](make_release.py) to create releases:
+Use [make_release.py](make_release.py) to create releases:
 
-    pyinstaller ccx_cae.py
-    python3 release_binaries.py
+    python3 make_release.py
 
 CalculiX CAE uses external converters:
 
 - [ccx2paraview](https://github.com/imirzov/ccx2paraview) - CalculiX to Paraview converter (frd to vtk/vtu)
 - [unv2ccx](https://github.com/imirzov/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
 
-The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/imirzov/ccx_free_form_fortran). This version has much better code folding and readability.
+The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/imirzov/ccx_free_form_fortran) - this version has much better code folding and readability.
 
 <br/><br/>
 

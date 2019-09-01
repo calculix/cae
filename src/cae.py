@@ -156,7 +156,7 @@ if __name__ == '__main__':
     a = app.exec_()
 
     # Clean cached files
-    cleanCache()
+    cleanCache(p.src)
 
     # Exit application
     sys.exit(a)
