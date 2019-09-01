@@ -18,10 +18,10 @@ class myLoggingHandler(logging.Handler):
 
 
     # Initialization
-    def __init__(self, CAE):
+    def __init__(self, textEdit):
         super().__init__() # create handler
-        self.textEdit = CAE.textEdit
-        fmt = logging.Formatter('%(levelname)s: %(message)s')
+        self.textEdit = textEdit
+        fmt = logging.Formatter('%(levelname)s, %(module)s: %(message)s')
         self.setFormatter(fmt)
 
 

@@ -20,11 +20,9 @@ from .ccx_settings import Settings
 class tree:
 
 
-    def __init__(self, CAE):
+    def __init__(self, CAE, settings):
         self.CAE = CAE
-
-        # Read application's global settings
-        self.settings = Settings()
+        self.settings = settings
 
         # Now generate treeView items
         self.model = QtGui.QStandardItemModel()

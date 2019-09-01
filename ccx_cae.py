@@ -42,8 +42,12 @@ class CAE(QtWidgets.QMainWindow):
         uic.loadUi(ui, self) # load form
 
         # Configure logs to be shown in window
-        logging.getLogger().addHandler(myLoggingHandler(self))
+        logging.getLogger().addHandler(myLoggingHandler(self.textEdit))
         logging.getLogger().setLevel(settings.logging_level)
+
+        # When logger is ready - check if settings read correctly
+        if hasattr(settings, 'error'):
+            logging.error('Error reading ENV settings file. Default values used.')
 
         # Abs. path to the path_start_model
         if len(path_start_model):
@@ -65,7 +69,7 @@ class CAE(QtWidgets.QMainWindow):
         self.IE = IE(self, settings) # import/export of .inp-file
         self.KOM = KOM() # empty KOM w/o implementations
         self.job = Job(settings, path_start_model) # create job object
-        self.tree = tree(self) # create treeView items based on KOM
+        self.tree = tree(self, settings) # create treeView items based on KOM
         if len(path_start_model):
             self.IE.importFile(path_start_model) # import default start model
 

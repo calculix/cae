@@ -34,8 +34,9 @@ class IE:
 
     # Menu File -> Import
     def importFile(self, file_name=None):
-
+        clear_textEdit = False
         if not file_name:
+            clear_textEdit = True
             file_name = QFileDialog.getOpenFileName(None, \
                 'Import INP/UNV file', self.CAE.job.dir, \
                 'INP (*.inp);;UNV (*.unv)')[0]
@@ -43,7 +44,8 @@ class IE:
         if file_name:
 
             # Clear log window before new import
-            self.CAE.textEdit.setText('')
+            if clear_textEdit:
+                self.CAE.textEdit.setText('')
 
             # Clear selection before import new model
             if self.settings.show_vtk:
@@ -131,7 +133,6 @@ class IE:
                         if j == len(path) - 1: # last item is always keyword
                             # Create implementation (for example, MATERIAL-1)
                             impl = implementation(item, INP_code)
-                            logging.info(impl.name)
                             logging.debug('1')
                         elif item.item_type == item_type.KEYWORD:
                             # If for this keyword implementation was created previously
@@ -160,7 +161,7 @@ class IE:
         if not file_name:
             file_name = QFileDialog.getSaveFileName(None, \
                 'Write INP file', self.CAE.job.dir, \
-                'Input files (*.inp);;All Files (*)')[0]
+                'Input files (*.inp)')[0]
         if file_name:
             with open(file_name, 'w') as f:
                 self.writer(self.CAE.KOM.root, f, 0)

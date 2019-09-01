@@ -153,6 +153,12 @@ The source code for the CalculiX solver is taken from the [free_form_fortran pro
 
 # TODO
 
+## Done for the next releasee
+
+- Fixed path processing in settings.
+
+- In settings added option to edit path to CCX binary. Now rebuild process will account for this path. Attention! In Windows CCX may not work if placed outside 'bin' directory. It needs Cygwin DLLs! So, if you change path to CCX, place there Cygwin DLLs from 'bin' directory.
+
 ## Improvements and bugfixes
 
 - Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
@@ -162,6 +168,8 @@ The source code for the CalculiX solver is taken from the [free_form_fortran pro
 - During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.
 
 ## New features
+
+- It would be nice if different ELSETS were assigned different colors for visualization.
 
 - treeView: show implementations only.
 

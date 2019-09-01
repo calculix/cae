@@ -28,9 +28,26 @@ class Settings():
             path = path[:-3]
         self.file_name = os.path.join(path, 'src',
                 'ccx_settings' + op_sys + '.env') # full path
-        f = open(self.file_name).read()
-        self.lines = f.split('\n')
-        exec(f)
+        try:
+            f = open(self.file_name).read()
+            self.lines = f.split('\n')
+            exec(f)
+        except:
+            # Apply default values
+            self.path_cgx = ''
+            self.path_paraview = ''
+            self.path_editor = ''
+            self.path_start_model = 'default.inp'
+            self.logging_level = 'INFO'
+            self.vtk_view = 'WithEdges'
+            self.show_maximized = True
+            self.show_empty_keywords = False
+            self.expanded = True
+            self.vtk_show_axes = True
+            self.vtk_parallel_view = True
+            self.show_help = True
+            self.show_vtk = True
+            self.error = True
 
 
     # Automatically save settings during the workflow
@@ -58,11 +75,15 @@ class Settings():
     def open(self):
         dialog = Dialog()
 
+        # Warning about Cygwin DLLs
+        if os.name=='nt':
+            logging.warning('In Windows ccx binary may not work if placed outside \'bin\' directory. It needs Cygwin DLLs!')
+
         # Get response from dialog window
         if dialog.exec() == Dialog.Accepted: # if user pressed 'OK'
             dialog.onOk()
             logging.warning('For some settings to take effect application\'s restart may be needed.')
-
+        
 
 # User dialog window with all setting attributes: menu File->Settings
 class Dialog(QtWidgets.QDialog):
@@ -73,7 +94,7 @@ class Dialog(QtWidgets.QDialog):
 
         # Load UI form
         super(Dialog, self).__init__()
-        path = os.path.dirname(sys.argv[0])
+        path = os.path.dirname(os.path.abspath(sys.argv[0]))
         if path.endswith('src'):
             path = path[:-3]
         ccx_settings_xml = os.path.join(path, 'src',  'ccx_settings.xml') # full path
@@ -113,7 +134,10 @@ class Dialog(QtWidgets.QDialog):
                         line = 'self.{} = {}'.format(attr, value.isChecked())
                         comment = value.text()
                     if value.__class__.__name__ == 'QLineEdit':
-                        line = 'self.{} = \'{}\''.format(attr, value.text())
+                        text = value.text()
+                        if '\\' in text: # reconstruct path for Windows
+                            text = '\\\\'.join(value.text().split('\\'))
+                        line = 'self.{} = \'{}\''.format(attr, text)
                         value = self.__dict__['label_' + attr]
                         comment = value.text()
                     if value.__class__.__name__ == 'QComboBox':
@@ -133,14 +157,11 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
     # Create and open settings window
-    Settings().open()
-
-    # Execute application
-    a = app.exec_()
+    settings = Settings()
+    if hasattr(settings, 'error'):
+        logging.error('Error reading ENV settings file. Default values used.')
+    settings.open()
 
     # Clean cached files
-    from .clean import cleanCache
+    from clean import cleanCache
     cleanCache()
-
-    # Exit application
-    sys.exit(a)

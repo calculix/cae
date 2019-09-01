@@ -15,8 +15,10 @@ import os, sys, logging, subprocess, queue
 from PyQt5 import QtWidgets
 try:
     from .ccx_log import logLine
+    from .ccx_settings import Settings
 except:
     from ccx_log import logLine
+    from ccx_settings import Settings
 
 
 class Job:
@@ -41,9 +43,9 @@ class Job:
             if self.home_dir.endswith('/src'):
                 self.home_dir = self.home_dir[:-4]
 
-        self.path_ccx = os.path.join(self.home_dir, 'bin', 'ccx_2.15_MT') + self.extension
+        self.path_ccx = os.path.abspath(settings.path_ccx)
         if not len(file_name):
-            file_name = 'job.inp'
+            file_name = settings.path_start_model
         self.rename(file_name)
 
 
@@ -61,7 +63,7 @@ class Job:
         if len(logging.getLogger().handlers) > 1:
             logging.getLogger().handlers.pop()
         fh = logging.FileHandler(self.log, mode='a') # TODO with 'w' log is empty after saving INP
-        fmt = logging.Formatter('%(levelname)s: %(message)s')
+        fmt = logging.Formatter('%(module)s, %(levelname)s: %(message)s')
         fh.setFormatter(fmt)
         logging.getLogger().addHandler(fh)
 
@@ -113,70 +115,52 @@ class Job:
         if os.name=='nt':
 
             # App home path in cygwin
-            home = '/cygdrive/' + \
-                    self.home_dir[0].lower() + \
-                    self.home_dir[2:].replace('\\', '/')
+            home = path2cygwin(self.home_dir)
 
             # Path to ccx sources
             ccx = home + '/ccx_' + self.op_sys + '/ccx_free_form_fortran'
 
             # Open bash
             cmd1 = 'C:\\cygwin64\\bin\\bash.exe --login'
-            # p = subprocess.Popen(cmd1, stdin=subprocess.PIPE,
-            #         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
             # Send command to build CalculiX
-            send1 = '/bin/make -f Makefile_MT -C {}\n'.format(ccx)
-            # logging.info(send1)
-            # p.stdin.write(bytes(send1, 'utf8'))
-            # p.stdin.close()
+            send1 = '/bin/make -f Makefile_MT -C {}'.format(ccx)
 
-            # # Read response: without it doesn't work
-            # out = p.stdout.read()
-            # for line in out.decode().split('\n'):
-            #     logging.info(line)
-
-            # Move built binary to ./bin
+            # Move built binary
             cmd2 = 'C:\\cygwin64\\bin\\mv.exe ' + ccx + '/ccx_2.15_MT ' + \
-                    home + '/bin/ccx_2.15_MT' + self.extension
-            # logging.info(cmd2)
-            # p = subprocess.Popen(cmd2, stdin=subprocess.PIPE,
-            #         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-            # logging.info('Compiled!')
+                    path2cygwin(self.path_ccx)
 
             self.run([(cmd1, send1), (cmd2, '')], msg='Compiled!')
 
         # Linux
         else:
 
-            # App home path
-            home = self.home_dir
-
-            make = 'make' # Make command
-            move = 'mv' # Move command
-
             # Path to ccx sources
-            ccx = home + '/ccx_' + self.op_sys + '/ccx_free_form_fortran'
+            ccx = self.home_dir + '/ccx_' + self.op_sys + '/ccx_free_form_fortran'
 
             # Build CalculiX
-            cmd1 = [make, '-f', 'Makefile_MT', '-C', ccx]
+            cmd1 = ['make', '-f', 'Makefile_MT', '-C', ccx]
 
             # Move binary
-            cmd2 = [move, ccx + '/ccx_2.15_MT', home + '/bin/ccx_2.15_MT' + self.extension]
+            cmd2 = ['mv', ccx + '/ccx_2.15_MT', self.path_ccx]
 
             self.run([(cmd1, ''), (cmd2, '')], msg='Compiled!')
 
 
     # Submit INP to CalculiX
     def submit(self):
-        if os.path.isfile(self.inp):
-            os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
-            cmd1 = [self.path_ccx, '-i', self.path]
-            self.run([(cmd1, ''), ])
+        if os.path.isfile(self.settings.path_ccx):
+            if os.path.isfile(self.inp):
+                os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
+                cmd1 = [self.path_ccx, '-i', self.path]
+                self.run([(cmd1, ''), ])
+            else:
+                logging.error('File not found: ' + self.inp)
+                logging.error('Write input first.')
         else:
-            logging.error('File not found: ' + self.inp)
-            logging.error('Write input first.')
+            logging.error('Wrong path to CCX: ' + \
+                self.settings.path_ccx +\
+                '. Configure it in File->Settings.')
 
 
     # Open log file in external text editor
@@ -264,13 +248,14 @@ class Job:
         os.chdir(self.dir)
 
         for cmd1, cmd2 in commands:
-            logging.debug(str(cmd1) + ' ' + cmd2)
+            logging.info(str(cmd1) + ' ' + cmd2)
 
             # Run command: works both in Linux and in Windows
             p = subprocess.Popen(cmd1, stdin=subprocess.PIPE,
                     stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            p.stdin.write(bytes(cmd2, 'utf8'))
-            p.stdin.close()
+            if len(cmd2):
+                p.stdin.write(bytes(cmd2, 'utf8'))
+                p.stdin.close()
 
             # Make daemon to enqueue stdout
             q = queue.Queue()
@@ -309,6 +294,13 @@ def enqueue_output(stdout, queue):
     stdout.close()
 
 
+# Converts Windows path to Cygwin path
+def path2cygwin(path):
+    return '/cygdrive/' + \
+            path[0].lower() + \
+            path[2:].replace('\\', '/')
+
+
 # Tests
 if __name__ == '__main__':
 
@@ -318,8 +310,13 @@ if __name__ == '__main__':
     logging.info = print
     logging.warning = print
 
+    settings = Settings()
+
+    # Create job
+    j = Job(settings, '')
+
     # Rebuild CCX
-    Job(None, '').rebuildCCX()
+    j.rebuildCCX()
 
     # Remove cached files
     import clean

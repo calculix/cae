@@ -19,7 +19,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_10">
    <property name="spacing">
-    <number>9</number>
+    <number>6</number>
    </property>
    <property name="leftMargin">
     <number>6</number>
@@ -43,6 +43,27 @@
        <property name="rightMargin">
         <number>6</number>
        </property>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_1">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_path_ccx">
+           <property name="text">
+            <string>Path to CalculiX CrunchiX:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="path_ccx">
+           <property name="text">
+            <string>./bin/ccx_2.15_MT</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <property name="spacing">
@@ -100,7 +121,7 @@
          <item>
           <widget class="QLineEdit" name="path_editor">
            <property name="text">
-            <string>/usr/bin/gedit</string>
+            <string>/snap/bin/code</string>
            </property>
           </widget>
          </item>
@@ -121,7 +142,7 @@
          <item>
           <widget class="QLineEdit" name="path_start_model">
            <property name="text">
-            <string>ccx_mesh.inp</string>
+            <string>default.inp</string>
            </property>
           </widget>
          </item>
@@ -237,6 +258,9 @@
          <property name="text">
           <string>Maximize window on startup</string>
          </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>
@@ -284,12 +308,18 @@
          <property name="text">
           <string>Show HTML help with keywords dialog</string>
          </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="show_vtk">
          <property name="text">
           <string>Show VTK widget (app. restart required)</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
