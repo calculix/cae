@@ -13,11 +13,11 @@
 import sys, os
 
 # Update enviroment variable PATH: pyinstaller bug in Windows
-home_dir = os.path.dirname(os.path.abspath(sys.argv[0])) # app. home directory
-if home_dir not in os.environ['PATH']:
+src_dir = os.path.dirname(os.path.abspath(sys.argv[0])) # ./src/ directory
+if src_dir not in os.environ['PATH']:
     if not os.environ['PATH'].endswith(os.pathsep):
         os.environ['PATH'] += os.pathsep
-    os.environ['PATH'] += home_dir
+    os.environ['PATH'] += src_dir
 
 import argparse, logging, shutil, subprocess
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
@@ -51,10 +51,8 @@ class CAE(QtWidgets.QMainWindow):
 
         # Abs. path to the path_start_model
         if len(path_start_model):
-            path_start_model = os.path.abspath(path_start_model)
-            if not os.path.isfile(path_start_model):
-                path_start_model = os.path.join(os.path.dirname(sys.argv[0]),
-                    os.path.basename(path_start_model))
+            home_dir = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..')) # app. home directory
+            path_start_model = os.path.join(home_dir, path_start_model)
 
         # Create VTK widget
         if settings.show_vtk:
@@ -68,6 +66,7 @@ class CAE(QtWidgets.QMainWindow):
         self.mesh = None # mesh from .inp-file - will be parsed in cae_ie.py
         self.IE = IE(self, settings) # import/export of .inp-file
         self.KOM = KOM() # empty KOM w/o implementations
+        # TODO try to reorder to omit double job calling/renaming
         self.job = Job(settings, path_start_model) # create job object
         self.tree = tree(self, settings) # create treeView items based on KOM
         if len(path_start_model):

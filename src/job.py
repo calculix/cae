@@ -23,7 +23,8 @@ class Job:
     # Create job object
     def __init__(self, settings, file_name):
         self.settings = settings
-        self.home_dir = os.path.dirname(os.path.abspath(sys.argv[0])) # app. home directory
+        self.home_dir = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..')) # app. home directory
+        logging.info('Application directory is: ' + self.home_dir)
 
         # Windows
         if os.name=='nt':
@@ -43,7 +44,8 @@ class Job:
 
     # Rename job
     def rename(self, file_name):
-        self.dir = os.path.abspath(os.path.dirname(file_name)) # working directory
+        self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
+        logging.info('Work directory is: ' + self.dir)
         self.name = os.path.basename(file_name) # INP file name
         self.inp = os.path.abspath(file_name) # full path to INP file with extension
         self.path = self.inp[:-4] # full path to INP without extension
@@ -62,7 +64,7 @@ class Job:
 
     # Convert UNV to INP
     def importUNV(self):
-        converter_path = os.path.join(self.home_dir, '../bin', 'unv2ccx' + self.extension)
+        converter_path = os.path.join(self.home_dir, 'bin', 'unv2ccx' + self.extension)
         # cmd1 = converter_path + ' ' + self.unv
         cmd1 = [converter_path, self.unv]
         self.run([(cmd1, ''), ])
@@ -192,7 +194,7 @@ class Job:
     def exportVTU(self):
         if os.path.isfile(self.frd):
             converter_path = os.path.join(self.home_dir,
-                '../bin', 'ccx2paraview' + self.extension)
+                'bin', 'ccx2paraview' + self.extension)
             cmd1 = [converter_path, self.frd, 'vtu']
             self.run([(cmd1, ''), ], msg='Finished!')
         else:

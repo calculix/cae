@@ -34,7 +34,7 @@ class Settings():
             self.path_cgx = ''
             self.path_paraview = ''
             self.path_editor = ''
-            self.path_start_model = 'default.inp'
+            self.path_start_model = 'examples/default.inp'
             self.logging_level = 'INFO'
             self.vtk_view = 'WithEdges'
             self.show_maximized = True

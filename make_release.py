@@ -33,12 +33,12 @@ if __name__ == '__main__':
 
     if os.name=='nt':
         op_sys = '_windows'
-        skip = ('_linux', '.sh', '.desktop')
+        skip = ('_linux', '_linux.env', '.sh', '.desktop')
         extension = '.exe' # binary extension in OS
         TEMP = 'C:\\Windows\\Temp\\'
     else:
         op_sys = '_linux'
-        skip = ('_windows', '.bat', '.exe', '.dll')
+        skip = ('_windows', '_windows.env', '.bat', '.exe', '.dll')
         extension = '' # binary extension in OS
         TEMP = '/tmp/'
 
@@ -71,7 +71,8 @@ if __name__ == '__main__':
     shutil.move('./dist/cae', './dist/src')
 
     # Copy files and folders from sources to 'dist'
-    skip += ('dist', '.git', '.vscode', '.py', '.gitignore')
+    skip += ('dist', '.git', '.vscode', '.py', '.gitignore',
+            'requirements.txt', 'default.log')
     copy('.', 'dist', skip)
 
     # Make archive
