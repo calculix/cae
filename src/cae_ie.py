@@ -14,14 +14,14 @@
     INP exporter:
         Recursively write implementation's INP_code to output .inp-file
 
-    Depends on ccx_cae.CAE.
+    Depends on cae.CAE.
 """
 
 
 from PyQt5.QtWidgets import QFileDialog
 import os, logging
-from .ccx_kom import item_type, implementation, KOM
-from .ccx_mesh import Parse, readLines
+from kom import item_type, implementation, KOM
+from mesh import Parse, readLines
 
 
 class IE:
@@ -111,9 +111,9 @@ class IE:
 
                 if path:
                     # Read INP_code for the current keyword
-                    INP_code = [line] # line is stripped in ccx_mesh
+                    INP_code = [line] # line is stripped in mesh.py
                     while i+1 < len(INP_doc) and \
-                        not INP_doc[i+1].startswith('*'): # here will be no comments - they are removed in ccx_mesh
+                        not INP_doc[i+1].startswith('*'): # here will be no comments - they are removed in mesh.py
                         INP_code.append(INP_doc[i+1])
                         i += 1
 

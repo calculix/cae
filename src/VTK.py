@@ -9,8 +9,8 @@
 
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 import vtk, logging
-from .frd2vtk import convert_elem_type
-from .ccx_settings import Settings
+from frd2vtk import convert_elem_type
+from settings import Settings
 
 
 class VTK:
@@ -94,7 +94,7 @@ class VTK:
             self.actionViewSurfaceWithEdges(save_settings=False)
 
 
-    # Generate VTK unstructured grid from ccx_mesh object
+    # Generate VTK unstructured grid from mesh object
     def mesh2ugrid(self, mesh):
         ugrid = None
         self.node2point = {} # point numbers should go consequently!

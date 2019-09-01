@@ -6,15 +6,15 @@
     Distributed under GNU General Public License v3.0
 
     Methods to work with main window's treeView widget.
-    Depends on ccx_cae.CAE.
+    Depends on cae.CAE.
 """
 
 
 import re, os, sys, logging
 from PyQt5 import QtWidgets, QtCore, QtGui
-from .ccx_dialog import Dialog
-from .ccx_kom import item_type, implementation
-from .ccx_settings import Settings
+from dialog import Dialog
+from kom import item_type, implementation
+from settings import Settings
 
 
 class tree:
@@ -90,7 +90,7 @@ class tree:
                 icon_name = icon_name.replace(' ', '_')
                 icon_name = icon_name.replace('-', '_')
                 icon_path = os.path.join(os.path.dirname(sys.argv[0]),
-                                'img', 'icon_' + icon_name.lower())
+                                '../img', 'icon_' + icon_name.lower())
                 icon = QtGui.QIcon(icon_path)
                 tree_element.setIcon(icon)
 

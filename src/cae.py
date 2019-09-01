@@ -7,7 +7,7 @@
 
     CalculiX CAE - main window.
     How to run:
-        python3 ccx_cae.py -inp ccx_mesh.inp
+        python3 cae.py -inp model.inp
 """
 
 import sys, os
@@ -21,14 +21,14 @@ if home_dir not in os.environ['PATH']:
 
 import argparse, logging, shutil, subprocess
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
-from src.ccx_cae_tree import tree
-from src.ccx_vtk import VTK
-from src.ccx_kom import KOM
-from src.ccx_cae_ie import IE
-from src.ccx_settings import Settings 
-from src.ccx_job import Job
-from src.ccx_log import myLoggingHandler
-from src.clean import cleanCache
+from cae_tree import tree
+from VTK import VTK
+from kom import KOM
+from cae_ie import IE
+from settings import Settings 
+from job import Job
+from log import myLoggingHandler
+from clean import cleanCache
 
 
 # Main window
@@ -38,7 +38,7 @@ class CAE(QtWidgets.QMainWindow):
     # Create main window
     def __init__(self, settings, path_start_model):
         QtWidgets.QMainWindow.__init__(self) # create main window
-        ui = os.path.join(os.path.dirname(sys.argv[0]), 'src', 'ccx_cae.xml') # full path
+        ui = os.path.join(os.path.dirname(sys.argv[0]), 'cae.xml') # full path
         uic.loadUi(ui, self) # load form
 
         # Configure logs to be shown in window
@@ -65,7 +65,7 @@ class CAE(QtWidgets.QMainWindow):
         else:
             self.toolBar.setParent(None) # hide toolbar
 
-        self.mesh = None # mesh from .inp-file - will be parsed in ccx_cae_ie.py
+        self.mesh = None # mesh from .inp-file - will be parsed in cae_ie.py
         self.IE = IE(self, settings) # import/export of .inp-file
         self.KOM = KOM() # empty KOM w/o implementations
         self.job = Job(settings, path_start_model) # create job object
@@ -160,7 +160,7 @@ if __name__ == '__main__':
     a = app.exec_()
 
     # Clean cached files
-    cleanCache('src')
+    cleanCache()
 
     # Exit application
     sys.exit(a)

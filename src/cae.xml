@@ -425,7 +425,7 @@
   <action name="action_job_open_cgx">
    <property name="icon">
     <iconset>
-     <normaloff>../img/icon_logo.png</normaloff>../img/icon_logo.png</iconset>
+     <normaloff>../img/action_job_open_cgx.png</normaloff>../img/action_job_open_cgx.png</iconset>
    </property>
    <property name="text">
     <string>Open in GraphiX</string>

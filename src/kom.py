@@ -5,7 +5,7 @@
     Distributed under GNU General Public License v3.0
 
     CalculiX Keyword Object Model.
-    Keywords with all arguments are parsed from ccx_kom.xml.
+    Keywords with all arguments are parsed from kom.xml.
     Parser supposts mutually exclusive parameters for keywords.
 """
 
@@ -13,7 +13,7 @@
 import re, logging, copy, os, sys, time
 from enum import Enum
 import xml.etree.ElementTree as ET
-from .ccx_settings import Settings
+from settings import Settings
 
 
 # Keyword Object Model
@@ -24,14 +24,14 @@ class KOM:
     def __init__(self):
 
         try:
-            self.root = group() # group 'Model' from ccx_kom.xml
+            self.root = group() # group 'Model' from kom.xml
 
             # List of all existing keywords
             self.keywords = []
 
             # Analyze keywords hierarchy
-            ccx_kom_xml = os.path.join(os.path.dirname(sys.argv[0]), 'src', 'ccx_kom.xml')
-            tree = ET.parse(ccx_kom_xml)
+            kom_xml = os.path.join(os.path.dirname(sys.argv[0]), 'kom.xml')
+            tree = ET.parse(kom_xml)
             self.buildKOM(tree.getroot(), self.root)
 
             # All possible keywords nesting variants - needed for parsing INP_doc
@@ -43,8 +43,8 @@ class KOM:
 
             # # Regenerate all HTML help pages
             # for item in self.keywords:
-            #     import ccx_dialog
-            #     ccx_dialog.saveHTML(item)
+            #     import dialog
+            #     dialog.saveHTML(item)
 
             logging.info('CalculiX object model generated.')
         except:

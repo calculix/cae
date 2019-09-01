@@ -36,7 +36,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by CalculiX.
 
-- [Solid mesh parser](src/ccx_mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](tests.log).
+- [Solid mesh parser](src/ccx_mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](src/tests.log).
 
 - Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/ccx_vtk.py).
 
@@ -135,7 +135,7 @@ Run source code with one of the commands:
     python3 ccx_cae.py -inp model.inp
     python3 ccx_cae.py -inp model.unv
 
-Use [pyinstaller](https://www.pyinstaller.org/) or [release_binaries.py](release_binaries.py) to create releases:
+Use [pyinstaller](https://www.pyinstaller.org/) or [make_release.py](make_release.py) to create releases:
 
     pyinstaller ccx_cae.py
     python3 release_binaries.py

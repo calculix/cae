@@ -12,8 +12,8 @@
 
 from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtWebEngineWidgets
 import sys, os, re, logging
-from .ccx_kom import item_type
-from .ccx_settings import Settings
+from kom import item_type
+from settings import Settings
 
 
 # Load HTML help into QWebEngineView
@@ -31,7 +31,7 @@ def saveHTML(item):
 
     folder = os.path.dirname(sys.argv[0])
     folder = os.path.abspath(folder)
-    folder = os.path.join(folder, 'doc')
+    folder = os.path.join(folder, '../doc')
     url = os.path.join(folder, html_page_name + '.html')
 
     # Generate html file if it wasn't created previously
@@ -89,9 +89,7 @@ class Dialog(QtWidgets.QDialog):
 
         # Load basic form
         path = os.path.dirname(sys.argv[0])
-        if path.endswith('src'):
-            path = path[:-3]
-        ui_path = os.path.join(path, 'src', 'ccx_dialog.xml')
+        ui_path = os.path.join(path, 'dialog.xml')
         uic.loadUi(ui_path, self)
 
         self.widgets = [] # list of created widgets
@@ -101,8 +99,7 @@ class Dialog(QtWidgets.QDialog):
         icon_name = item.name.replace('*', '') + '.png'
         icon_name = icon_name.replace(' ', '_')
         icon_name = icon_name.replace('-', '_')
-        icon_path = os.path.join(os.path.dirname(sys.argv[0]),
-                        'img', 'icon_' + icon_name.lower())
+        icon_path = os.path.join(path, '../img', 'icon_' + icon_name.lower())
         icon = QtGui.QIcon(icon_path)
         self.setWindowIcon(icon)
 

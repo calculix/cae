@@ -13,12 +13,8 @@
 
 import os, sys, logging, subprocess, queue
 from PyQt5 import QtWidgets
-try:
-    from .ccx_log import logLine
-    from .ccx_settings import Settings
-except:
-    from ccx_log import logLine
-    from ccx_settings import Settings
+from log import logLine
+from settings import Settings
 
 
 class Job:
@@ -33,15 +29,11 @@ class Job:
         if os.name=='nt':
             self.op_sys = 'windows' # OS name
             self.extension = '.exe' # file extension in OS
-            if self.home_dir.endswith('\\src'):
-                self.home_dir = self.home_dir[:-4]
 
         # Linux
         else:
             self.op_sys = 'linux' # OS name
             self.extension = '' # file extension in OS
-            if self.home_dir.endswith('/src'):
-                self.home_dir = self.home_dir[:-4]
 
         self.path_ccx = os.path.abspath(settings.path_ccx)
         if not len(file_name):
@@ -70,7 +62,7 @@ class Job:
 
     # Convert UNV to INP
     def importUNV(self):
-        converter_path = os.path.join(self.home_dir, 'bin', 'unv2ccx' + self.extension)
+        converter_path = os.path.join(self.home_dir, '../bin', 'unv2ccx' + self.extension)
         # cmd1 = converter_path + ' ' + self.unv
         cmd1 = [converter_path, self.unv]
         self.run([(cmd1, ''), ])
@@ -200,7 +192,7 @@ class Job:
     def exportVTU(self):
         if os.path.isfile(self.frd):
             converter_path = os.path.join(self.home_dir,
-                'bin', 'ccx2paraview' + self.extension)
+                '../bin', 'ccx2paraview' + self.extension)
             cmd1 = [converter_path, self.frd, 'vtu']
             self.run([(cmd1, ''), ], msg='Finished!')
         else:

@@ -6,9 +6,9 @@
     Distributed under GNU General Public License v3.0
 
     Application's settings.
-    Attributes values are maintained through the ccx_settings.ENV file.
-    User dialog form is maintained through the ccx_settings.XML file.
-    You may edit ccx_settings.XML directly from Qt Designer.
+    Attributes values are maintained through the settings.ENV file.
+    User dialog form is maintained through the settings.XML file.
+    You may edit settings.XML directly from Qt Designer.
 """
 
 
@@ -24,10 +24,7 @@ class Settings():
     def __init__(self):
         op_sys = '_windows' if os.name=='nt' else '_linux'
         path = os.path.dirname(sys.argv[0])
-        if path.endswith('src'):
-            path = path[:-3]
-        self.file_name = os.path.join(path, 'src',
-                'ccx_settings' + op_sys + '.env') # full path
+        self.file_name = os.path.join(path, 'settings' + op_sys + '.env') # full path
         try:
             f = open(self.file_name).read()
             self.lines = f.split('\n')
@@ -95,10 +92,8 @@ class Dialog(QtWidgets.QDialog):
         # Load UI form
         super(Dialog, self).__init__()
         path = os.path.dirname(os.path.abspath(sys.argv[0]))
-        if path.endswith('src'):
-            path = path[:-3]
-        ccx_settings_xml = os.path.join(path, 'src',  'ccx_settings.xml') # full path
-        uic.loadUi(ccx_settings_xml, self)
+        settings_xml = os.path.join(path, 'settings.xml') # full path
+        uic.loadUi(settings_xml, self)
 
         # Push settings values to the form
         self.settings = Settings() # read settings from file
