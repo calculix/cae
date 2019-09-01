@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
+
 """
-    © Ihor Mirzov, August 2019
+    © Ihor Mirzov, September 2019
     Distributed under GNU General Public License v3.0
 
     CalculiX Keyword Object Model.

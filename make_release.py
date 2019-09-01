@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, August 2019
+    © Ihor Mirzov, September 2019
     Distributed under GNU General Public License v3.0
 
     Prepare binaries for publishing:
@@ -13,16 +13,32 @@ import os, shutil, datetime, subprocess
 import PyInstaller.__main__
 
 
+def copy(src, dst, skip):
+    for f in os.listdir(src):
+        if f!='dist' and not f.endswith(skip):
+            src_path = os.path.join(src, f)
+            dst_path = os.path.join('dist', src, f)
+
+            if os.path.isdir(src_path):
+                if not os.path.isdir(dst_path):
+                    os.mkdir(dst_path)
+                copy(src_path, dst_path, skip)
+
+            if os.path.isfile(src_path):
+                shutil.copy2(src_path, dst_path)
+
+
+
 if __name__ == '__main__':
 
     if os.name=='nt':
         op_sys = '_windows'
-        skip_files = ('_linux', '.sh', '.desktop')
+        skip = ('_linux', '.sh', '.desktop')
         extension = '.exe' # binary extension in OS
         TEMP = 'C:\\Windows\\Temp\\'
     else:
         op_sys = '_linux'
-        skip_files = ('_windows', '.bat', '.exe', '.dll')
+        skip = ('_windows', '.bat', '.exe', '.dll')
         extension = '' # binary extension in OS
         TEMP = '/tmp/'
 
@@ -30,6 +46,10 @@ if __name__ == '__main__':
     DIRECTORY = os.path.join(os.path.abspath('dist'), 'cae')
     DATE = '_' + datetime.datetime.now().strftime('%Y%m%d')
     ARCH = os.path.join('..', PROJECT_NAME + DATE + op_sys)
+
+    # Remove prev. trash
+    if os.path.isdir('./dist'):
+        shutil.rmtree('./dist')
 
     # Run pyinstaller to create binaries
     args = [
@@ -50,17 +70,9 @@ if __name__ == '__main__':
     # Rename ./dist/cae to ./dist/src
     shutil.move('./dist/cae', './dist/src')
 
-    # Copy some files and folders from sources
-    skip_files += ('dist', 'src', '.py', '.git', '.vscode',
-            '.gitignore')
-    for f in os.listdir():
-        # All dirs and files except Python sources
-        if not f.endswith(skip_files):
-            if os.path.isdir(f):
-                shutil.copytree(f, os.path.join('dist', f),
-                    ignore=shutil.ignore_patterns('*.py'))
-            else:
-                shutil.copy2(f, os.path.join('dist', f))
+    # Copy files and folders from sources to 'dist'
+    skip += ('dist', '.git', '.vscode', '.py', '.gitignore')
+    copy('.', 'dist', skip)
 
     # Make archive
     if os.path.isfile(ARCH + '.zip'):
