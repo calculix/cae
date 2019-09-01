@@ -10,16 +10,14 @@
         python3 cae.py -inp model.inp
 """
 
-import sys, os
 
-# Update enviroment variable PATH: pyinstaller bug in Windows
-src_dir = os.path.dirname(os.path.abspath(sys.argv[0])) # ./src/ directory
-if src_dir not in os.environ['PATH']:
-    if not os.environ['PATH'].endswith(os.pathsep):
-        os.environ['PATH'] += os.pathsep
-    os.environ['PATH'] += src_dir
+# Pyinstaller bug in Windows: append 'app_home_dir' and 'src' directories to PATH
+from path import Path
+p = Path() # calculate absolute pathes
+p.append_to_PATH([p.app_home_dir, p.src])
 
-import argparse, logging, shutil, subprocess
+# Main imports
+import os, sys, argparse, logging, shutil, subprocess
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 from cae_tree import tree
 from VTK import VTK
@@ -38,7 +36,7 @@ class CAE(QtWidgets.QMainWindow):
     # Create main window
     def __init__(self, settings, path_start_model):
         QtWidgets.QMainWindow.__init__(self) # create main window
-        ui = os.path.join(os.path.dirname(sys.argv[0]), 'cae.xml') # full path
+        ui = os.path.join(p.config, 'cae.xml') # full path
         uic.loadUi(ui, self) # load form
 
         # Configure logs to be shown in window
@@ -51,8 +49,7 @@ class CAE(QtWidgets.QMainWindow):
 
         # Abs. path to the path_start_model
         if len(path_start_model):
-            home_dir = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..')) # app. home directory
-            path_start_model = os.path.join(home_dir, path_start_model)
+            path_start_model = os.path.join(p.app_home_dir, path_start_model)
 
         # Create VTK widget
         if settings.show_vtk:

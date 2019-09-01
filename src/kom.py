@@ -11,6 +11,7 @@
 """
 
 
+from path import Path
 import re, logging, copy, os, sys, time
 from enum import Enum
 import xml.etree.ElementTree as ET
@@ -31,7 +32,8 @@ class KOM:
             self.keywords = []
 
             # Analyze keywords hierarchy
-            kom_xml = os.path.join(os.path.dirname(sys.argv[0]), 'kom.xml')
+            p = Path() # calculate absolute pathes
+            kom_xml = os.path.join(p.config, 'kom.xml')
             tree = ET.parse(kom_xml)
             self.buildKOM(tree.getroot(), self.root)
 

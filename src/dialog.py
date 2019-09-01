@@ -11,70 +11,11 @@
 """
 
 
+from path import Path
 from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtWebEngineWidgets
 import sys, os, re, logging
 from kom import item_type
 from settings import Settings
-
-
-# Load HTML help into QWebEngineView
-def saveHTML(item):
-    USE_CACHED_HTML = True # if False cached html will NOT be used
-
-    # Get keyword name
-    if item.item_type == item_type.KEYWORD:
-        keyword_name = item.name[1:] # cut star
-    if item.item_type == item_type.IMPLEMENTATION:
-        keyword_name = item.parent.name[1:] # cut star
-
-    # Avoid spaces in html page names
-    html_page_name = keyword_name.replace(' ', '_')
-
-    folder = os.path.dirname(sys.argv[0])
-    folder = os.path.abspath(folder)
-    folder = os.path.join(folder, '../doc')
-    url = os.path.join(folder, html_page_name + '.html')
-
-    # Generate html file if it wasn't created previously
-    if not os.path.isfile(url) or not USE_CACHED_HTML:
-
-        # Open 'ccx.html' and find link to keyword's page
-        href = 'ccx.html'
-        with open(os.path.join(folder, href), 'r') as f:
-            for line in f.readlines():
-                match = re.search('node\d{3}\.html.{3}' + keyword_name, line) # regex to match href
-                try:
-                    href = match.group(0)[:12]
-                    break
-                except:
-                    pass
-
-        # Read html of the keyword's page
-        html = '<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body>'
-        with open(os.path.join(folder, href), 'r') as f:
-            append = False
-            cut_breakline = True
-            for line in f.readlines():
-                if '<!--End of Navigation Panel-->' in line:
-                    append = True
-                    continue
-                if '<HR>' in  line:
-                    break
-                if '<PRE>' in line:
-                    cut_breakline = False
-                if '</PRE>' in line:
-                    cut_breakline = True
-                if append:
-                    if cut_breakline:
-                        line = line[:-1] + ' ' # replace '\n' with space
-                    html += line
-        html += '</body></html>'
-        html = re.sub('<A.+?\">', '', html) # '?' makes it not greedy
-        html = html.replace('</A>', '')
-        with open(url, 'w') as f:
-            f.write(html)
-
-    return url
 
 
 class Dialog(QtWidgets.QDialog):
@@ -89,8 +30,8 @@ class Dialog(QtWidgets.QDialog):
         self.settings = Settings()
 
         # Load basic form
-        path = os.path.dirname(sys.argv[0])
-        ui_path = os.path.join(path, 'dialog.xml')
+        self.p = Path() # calculate absolute pathes
+        ui_path = os.path.join(self.p.config, 'dialog.xml')
         uic.loadUi(ui_path, self)
 
         self.widgets = [] # list of created widgets
@@ -100,7 +41,7 @@ class Dialog(QtWidgets.QDialog):
         icon_name = item.name.replace('*', '') + '.png'
         icon_name = icon_name.replace(' ', '_')
         icon_name = icon_name.replace('-', '_')
-        icon_path = os.path.join(path, '../img', 'icon_' + icon_name.lower())
+        icon_path = os.path.join(self.p.img, 'icon_' + icon_name.lower())
         icon = QtGui.QIcon(icon_path)
         self.setWindowIcon(icon)
 
@@ -296,6 +237,66 @@ class Dialog(QtWidgets.QDialog):
     def onOk(self):
         super(Dialog, self).accept()
         return self.textEdit.toPlainText().strip().split('\n')
+
+
+    # Load HTML help into QWebEngineView
+    def saveHTML(self, item):
+        USE_CACHED_HTML = True # if False cached html will NOT be used
+
+        # Get keyword name
+        if item.item_type == item_type.KEYWORD:
+            keyword_name = item.name[1:] # cut star
+        if item.item_type == item_type.IMPLEMENTATION:
+            keyword_name = item.parent.name[1:] # cut star
+
+        # Avoid spaces in html page names
+        html_page_name = keyword_name.replace(' ', '_')
+
+        # folder = os.path.dirname(sys.argv[0])
+        # folder = os.path.abspath(folder)
+        # folder = os.path.join(folder, '../doc')
+        url = os.path.join(self.p.doc, html_page_name + '.html')
+
+        # Generate html file if it wasn't created previously
+        if not os.path.isfile(url) or not USE_CACHED_HTML:
+
+            # Open 'ccx.html' and find link to keyword's page
+            href = 'ccx.html'
+            with open(os.path.join(self.p.doc, href), 'r') as f:
+                for line in f.readlines():
+                    match = re.search('node\d{3}\.html.{3}' + keyword_name, line) # regex to match href
+                    try:
+                        href = match.group(0)[:12]
+                        break
+                    except:
+                        pass
+
+            # Read html of the keyword's page
+            html = '<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body>'
+            with open(os.path.join(self.p.doc, href), 'r') as f:
+                append = False
+                cut_breakline = True
+                for line in f.readlines():
+                    if '<!--End of Navigation Panel-->' in line:
+                        append = True
+                        continue
+                    if '<HR>' in  line:
+                        break
+                    if '<PRE>' in line:
+                        cut_breakline = False
+                    if '</PRE>' in line:
+                        cut_breakline = True
+                    if append:
+                        if cut_breakline:
+                            line = line[:-1] + ' ' # replace '\n' with space
+                        html += line
+            html += '</body></html>'
+            html = re.sub('<A.+?\">', '', html) # '?' makes it not greedy
+            html = html.replace('</A>', '')
+            with open(url, 'w') as f:
+                f.write(html)
+
+        return url
 
 
     # Show / Hide HTML help

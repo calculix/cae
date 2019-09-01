@@ -157,6 +157,10 @@ The source code for the CalculiX solver is taken from the [free_form_fortran pro
 
 - Fixed path processing in settings.
 
+- New path module to build absolute pathes - reduces amount of mistakes.
+
+- New clear source code structure/order.
+
 - In settings added option to edit path to CCX binary. Now rebuild process will account for this path. Attention! In Windows CCX may not work if placed outside 'bin' directory. It needs Cygwin DLLs! So, if you change path to CCX, place there Cygwin DLLs from 'bin' directory.
 
 ## Improvements and bugfixes

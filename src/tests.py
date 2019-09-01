@@ -9,6 +9,8 @@
         python3 tests.py > tests.log
 """
 
+
+from path import Path
 import os, sys, time, logging, shutil
 import VTK
 from mesh import Parse
@@ -28,25 +30,27 @@ class myHandler(logging.Handler):
 
 class Tester:
 
+
     def __init__(self):
 
         # Configure logging
         logging.getLogger().addHandler(myHandler())
         logging.getLogger().setLevel(logging.DEBUG) # control the logging level
 
-        DIRECTORY = os.path.abspath('examples')
+        p = Path()
         start = time.perf_counter() # start time
 
-        file_list = [file_name for file_name in os.listdir(DIRECTORY) if file_name.lower().endswith('.inp')]
+        file_list = [file_name for file_name in os.listdir(p.examples) if file_name.lower().endswith('.inp')]
         for i, file_name in enumerate(file_list):
             print('\n' + '='*50 + '\n{0}: {1}'.format(i+1, file_name))
 
-            self.test(os.path.join(DIRECTORY, file_name))
+            self.test(os.path.join(p.examples, file_name))
 
             # break # one file only
             # if i==50: break # 10 files only
 
         print('\nTotal {:.1f} seconds'.format(time.perf_counter()-start)) # end time
+
 
     def test(self, file_name):
         app = QtWidgets.QApplication(sys.argv)

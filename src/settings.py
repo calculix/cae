@@ -12,6 +12,7 @@
 """
 
 
+from path import Path
 import os, sys, logging, re
 from PyQt5 import QtWidgets, uic
 
@@ -23,14 +24,15 @@ class Settings():
     # Read settings from file
     def __init__(self):
         op_sys = '_windows' if os.name=='nt' else '_linux'
-        path = os.path.dirname(sys.argv[0])
-        self.file_name = os.path.join(path, 'settings' + op_sys + '.env') # full path
+        p = Path() # calculate absolute pathes
+        self.file_name = os.path.join(p.config, 'settings' + op_sys + '.env') # full path
         try:
             f = open(self.file_name).read()
             self.lines = f.split('\n')
             exec(f)
         except:
             # Apply default values
+            self.path_ccx = 'bin/ccx_2.15_MT'
             self.path_cgx = ''
             self.path_paraview = ''
             self.path_editor = ''
@@ -91,8 +93,8 @@ class Dialog(QtWidgets.QDialog):
 
         # Load UI form
         super(Dialog, self).__init__()
-        path = os.path.dirname(os.path.abspath(sys.argv[0]))
-        settings_xml = os.path.join(path, 'settings.xml') # full path
+        p = Path() # calculate absolute pathes
+        settings_xml = os.path.join(p.config, 'settings.xml') # full path
         uic.loadUi(settings_xml, self)
 
         # Push settings values to the form

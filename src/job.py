@@ -11,6 +11,7 @@
 """
 
 
+from path import Path
 import os, sys, logging, subprocess, queue
 from PyQt5 import QtWidgets
 from log import logLine
@@ -23,8 +24,8 @@ class Job:
     # Create job object
     def __init__(self, settings, file_name):
         self.settings = settings
-        self.home_dir = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..')) # app. home directory
-        logging.info('Application directory is: ' + self.home_dir)
+        self.p = Path()
+        logging.info('Application\'s home directory is: ' + self.p.app_home_dir)
 
         # Windows
         if os.name=='nt':
@@ -36,7 +37,6 @@ class Job:
             self.op_sys = 'linux' # OS name
             self.extension = '' # file extension in OS
 
-        self.path_ccx = os.path.abspath(settings.path_ccx)
         if not len(file_name):
             file_name = settings.path_start_model
         self.rename(file_name)
@@ -64,7 +64,7 @@ class Job:
 
     # Convert UNV to INP
     def importUNV(self):
-        converter_path = os.path.join(self.home_dir, 'bin', 'unv2ccx' + self.extension)
+        converter_path = os.path.join(self.p.bin, 'unv2ccx' + self.extension)
         # cmd1 = converter_path + ' ' + self.unv
         cmd1 = [converter_path, self.unv]
         self.run([(cmd1, ''), ])
@@ -89,11 +89,9 @@ class Job:
     # Dialog window to filter fortran subroutines
     def openSubroutine(self):
         if os.path.isfile(self.settings.path_editor):
-            file_name = QtWidgets.QFileDialog.getOpenFileName(None, 'Open a subroutine',
-                os.path.join(self.home_dir, 'ccx_' + self.op_sys,
-                    'ccx_free_form_fortran'), 'FORTRAN (*.f)')[0]
+            file_name = QtWidgets.QFileDialog.getOpenFileName(None,
+                'Open a subroutine', self.p.ccx, 'FORTRAN (*.f)')[0]
             if file_name:
-                # os.system(self.settings.path_editor + ' ' + file_name)
                 command = [self.settings.path_editor, file_name]
                 subprocess.Popen(command)
         else:
@@ -122,7 +120,7 @@ class Job:
 
             # Move built binary
             cmd2 = 'C:\\cygwin64\\bin\\mv.exe ' + ccx + '/ccx_2.15_MT ' + \
-                    path2cygwin(self.path_ccx)
+                    path2cygwin(self.p.ccx)
 
             self.run([(cmd1, send1), (cmd2, '')], msg='Compiled!')
 
@@ -136,7 +134,7 @@ class Job:
             cmd1 = ['make', '-f', 'Makefile_MT', '-C', ccx]
 
             # Move binary
-            cmd2 = ['mv', ccx + '/ccx_2.15_MT', self.path_ccx]
+            cmd2 = ['mv', ccx + '/ccx_2.15_MT', self.p.ccx]
 
             self.run([(cmd1, ''), (cmd2, '')], msg='Compiled!')
 
@@ -146,7 +144,7 @@ class Job:
         if os.path.isfile(self.settings.path_ccx):
             if os.path.isfile(self.inp):
                 os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
-                cmd1 = [self.path_ccx, '-i', self.path]
+                cmd1 = [self.p.ccx, '-i', self.path]
                 self.run([(cmd1, ''), ])
             else:
                 logging.error('File not found: ' + self.inp)
@@ -161,7 +159,6 @@ class Job:
     def viewLog(self):
         if os.path.isfile(self.settings.path_editor):
             if os.path.isfile(self.log):
-                # os.system(self.settings.path_editor + ' ' + self.log)
                 command = [self.settings.path_editor, self.log]
                 subprocess.Popen(command)
             else:
@@ -177,8 +174,6 @@ class Job:
     def openCGX(self):
         if os.path.isfile(self.settings.path_cgx):
             if os.path.isfile(self.frd):
-                    # command = self.settings.path_cgx + ' -o ' + self.frd
-                    # os.system(command)
                     command = [self.settings.path_cgx, '-o', self.frd]
                     subprocess.Popen(command)
             else:
@@ -193,8 +188,8 @@ class Job:
     # Convert FRD to VTU
     def exportVTU(self):
         if os.path.isfile(self.frd):
-            converter_path = os.path.join(self.home_dir,
-                'bin', 'ccx2paraview' + self.extension)
+            converter_path = os.path.join(self.p.bin,
+                    'ccx2paraview' + self.extension)
             cmd1 = [converter_path, self.frd, 'vtu']
             self.run([(cmd1, ''), ], msg='Finished!')
         else:
