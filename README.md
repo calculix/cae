@@ -1,4 +1,4 @@
-© Ihor Mirzov, August 2019  
+© Ihor Mirzov, September 2019  
 Distributed under GNU General Public License v3.0
 
 <br/><br/>
@@ -154,7 +154,7 @@ The source code for the CalculiX solver is taken from the [free_form_fortran pro
 
 ## Done for the next releasee
 
-- Fixed path processing in settings.
+- Refactored Settings. Fixed path processing.
 
 - New path module to build absolute pathes - reduces amount of mistakes.
 

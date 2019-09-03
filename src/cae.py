@@ -23,7 +23,7 @@ from cae_tree import tree
 from VTK import VTK
 from kom import KOM
 from cae_ie import IE
-from settings import Settings 
+from settings import Settings, SettingsDialog
 from job import Job
 from log import myLoggingHandler
 from clean import cleanCache
@@ -35,24 +35,25 @@ class CAE(QtWidgets.QMainWindow):
 
     # Create main window
     def __init__(self, settings, path_start_model):
+        self.settings = settings
         QtWidgets.QMainWindow.__init__(self) # create main window
-        ui = os.path.join(p.config, 'cae.xml') # full path
-        uic.loadUi(ui, self) # load form
+        uic.loadUi(p.cae_xml, self) # load form
 
         # Configure logs to be shown in window
         logging.getLogger().addHandler(myLoggingHandler(self.textEdit))
-        logging.getLogger().setLevel(settings.logging_level)
+        logging.getLogger().setLevel(self.settings.logging_level)
 
         # When logger is ready - check if settings read correctly
-        if hasattr(settings, 'error'):
-            logging.error('Error reading ENV settings file. Default values used.')
+        if hasattr(self.settings, 'error_path'):
+            logging.error('Error path in settings file: ' + self.settings.error_path + '. Loading default values.')
+            # self.settings.save() # Save default values to file
 
         # Abs. path to the path_start_model
         if len(path_start_model):
             path_start_model = os.path.join(p.app_home_dir, path_start_model)
 
         # Create VTK widget
-        if settings.show_vtk:
+        if self.settings.show_vtk:
             self.VTK = VTK() # create everything for model visualization
             self.h_splitter.addWidget(self.VTK.widget)
             self.setMinimumSize(1280, 600)
@@ -61,11 +62,11 @@ class CAE(QtWidgets.QMainWindow):
             self.toolBar.setParent(None) # hide toolbar
 
         self.mesh = None # mesh from .inp-file - will be parsed in cae_ie.py
-        self.IE = IE(self, settings) # import/export of .inp-file
+        self.IE = IE(self, self.settings) # import/export of .inp-file
         self.KOM = KOM() # empty KOM w/o implementations
         # TODO try to reorder to omit double job calling/renaming
-        self.job = Job(settings, path_start_model) # create job object
-        self.tree = tree(self, settings) # create treeView items based on KOM
+        self.job = Job(self.settings, path_start_model) # create job object
+        self.tree = tree(self, self.settings) # create treeView items based on KOM
         if len(path_start_model):
             self.IE.importFile(path_start_model) # import default start model
 
@@ -75,7 +76,9 @@ class CAE(QtWidgets.QMainWindow):
 
             # File actions
             self.action_file_import.triggered.connect(self.IE.importFile)
-            self.action_file_settings.triggered.connect(settings.open)
+            # self.action_file_settings.triggered.connect(lambda: Settings().open())
+            # self.action_file_settings.triggered.connect(self.openSettings)
+            self.action_file_settings.triggered.connect(self.settings.open)
             self.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
             # Job actions
@@ -131,6 +134,13 @@ class CAE(QtWidgets.QMainWindow):
             logging.warning('Can\'t open url: ' + link)
 
 
+    # # Open dialog window and reload CAE's settings from file
+    # def openSettings(self):
+    #     # SettingsDialog(self.settings)
+    #     self.settings = Settings()
+    #     self.settings.open()
+
+
 if __name__ == '__main__':
 
     # Create application
@@ -153,7 +163,7 @@ if __name__ == '__main__':
         window.show()
 
     # Execute application
-    a = app.exec_()
+    a = app.exec()
 
     # Clean cached files
     cleanCache(p.src)

@@ -74,7 +74,6 @@ class Job:
     def editINP(self):
         if os.path.isfile(self.settings.path_editor):
             if os.path.isfile(self.inp):
-                # os.system(self.settings.path_editor + ' ' + self.inp)
                 command = [self.settings.path_editor, self.inp]
                 subprocess.Popen(command)
             else:
@@ -106,11 +105,8 @@ class Job:
         # Windows
         if os.name=='nt':
 
-            # App home path in cygwin
-            home = path2cygwin(self.home_dir)
-
             # Path to ccx sources
-            ccx = home + '/ccx_' + self.op_sys + '/ccx_free_form_fortran'
+            ccx = path2cygwin(self.p.ccx)
 
             # Open bash
             cmd1 = 'C:\\cygwin64\\bin\\bash.exe --login'
@@ -119,22 +115,20 @@ class Job:
             send1 = '/bin/make -f Makefile_MT -C {}'.format(ccx)
 
             # Move built binary
-            cmd2 = 'C:\\cygwin64\\bin\\mv.exe ' + ccx + '/ccx_2.15_MT ' + \
-                    path2cygwin(self.p.ccx)
+            cmd2 = 'C:\\cygwin64\\bin\\mv.exe ' + \
+                    ccx + '/ccx_2.15_MT ' + self.settings.path_ccx
 
             self.run([(cmd1, send1), (cmd2, '')], msg='Compiled!')
 
         # Linux
         else:
 
-            # Path to ccx sources
-            ccx = self.home_dir + '/ccx_' + self.op_sys + '/ccx_free_form_fortran'
-
             # Build CalculiX
-            cmd1 = ['make', '-f', 'Makefile_MT', '-C', ccx]
+            cmd1 = ['make', '-f', 'Makefile_MT', '-C', self.p.ccx]
 
             # Move binary
-            cmd2 = ['mv', ccx + '/ccx_2.15_MT', self.p.ccx]
+            cmd2 = ['mv', self.p.ccx + '/ccx_2.15_MT',
+                    self.settings.path_ccx]
 
             self.run([(cmd1, ''), (cmd2, '')], msg='Compiled!')
 
@@ -144,7 +138,7 @@ class Job:
         if os.path.isfile(self.settings.path_ccx):
             if os.path.isfile(self.inp):
                 os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
-                cmd1 = [self.p.ccx, '-i', self.path]
+                cmd1 = [self.settings.path_ccx, '-i', self.path]
                 self.run([(cmd1, ''), ])
             else:
                 logging.error('File not found: ' + self.inp)
@@ -219,8 +213,6 @@ class Job:
                 logging.error('Export VTU results first.')
                 return
 
-            # command = self.settings.path_paraview + ' --data=' + vtu_path
-            # os.system(command)
             command = [self.settings.path_paraview, '--data=' + vtu_path]
             subprocess.Popen(command)
         else:
@@ -263,7 +255,7 @@ class Job:
                     QtWidgets.qApp.processEvents() # do not block GUI
                     time.sleep(0.1) # reduce CPU usage
 
-        os.chdir(self.home_dir)
+        os.chdir(self.p.app_home_dir)
 
         # Total time passed
         total_time = 'Total {:.0f} seconds.'.format(time.perf_counter() - start)

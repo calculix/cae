@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>settings</class>
- <widget class="QDialog" name="settings">
+ <author>Ihor Mirzov</author>
+ <class>Settings</class>
+ <widget class="QDialog" name="Settings">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>414</height>
+    <height>452</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +18,7 @@
    <iconset>
     <normaloff>../img/action_file_settings.png</normaloff>../img/action_file_settings.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_10">
+  <layout class="QVBoxLayout" name="verticalLayout_9">
    <property name="spacing">
     <number>6</number>
    </property>
@@ -35,8 +36,14 @@
    </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <property name="bottomMargin">
+      <number>15</number>
+     </property>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_9">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
        <property name="spacing">
         <number>6</number>
        </property>
@@ -58,11 +65,24 @@
          <item>
           <widget class="QLineEdit" name="path_ccx">
            <property name="text">
-            <string>./bin/ccx_2.15_MT</string>
+            <string>bin/ccx_2.15_MT</string>
            </property>
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>208</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -86,6 +106,19 @@
         </layout>
        </item>
        <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>208</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <property name="spacing">
           <number>0</number>
@@ -105,6 +138,19 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>208</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -128,6 +174,19 @@
         </layout>
        </item>
        <item>
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>208</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <layout class="QVBoxLayout" name="verticalLayout_8">
          <property name="spacing">
           <number>0</number>
@@ -142,7 +201,7 @@
          <item>
           <widget class="QLineEdit" name="path_start_model">
            <property name="text">
-            <string>default.inp</string>
+            <string>examples/default.inp</string>
            </property>
           </widget>
          </item>
@@ -174,19 +233,17 @@
            </item>
            <item>
             <widget class="QComboBox" name="logging_level">
+             <property name="currentText">
+              <string>INFO</string>
+             </property>
              <item>
               <property name="text">
-               <string>NOTSET</string>
+               <string>INFO</string>
               </property>
              </item>
              <item>
               <property name="text">
                <string>DEBUG</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>INFO</string>
               </property>
              </item>
              <item>
@@ -197,11 +254,6 @@
              <item>
               <property name="text">
                <string>ERROR</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>CRITICAL</string>
               </property>
              </item>
             </widget>
@@ -247,8 +299,8 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>17</width>
-           <height>13</height>
+           <width>338</width>
+           <height>18</height>
           </size>
          </property>
         </spacer>
@@ -264,6 +316,19 @@
         </widget>
        </item>
        <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>338</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QCheckBox" name="show_empty_keywords">
          <property name="text">
           <string>Show empty keywords in the treeView</string>
@@ -272,6 +337,19 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>338</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QCheckBox" name="expanded">
@@ -284,6 +362,19 @@
         </widget>
        </item>
        <item>
+        <spacer name="verticalSpacer_8">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>338</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QCheckBox" name="vtk_show_axes">
          <property name="text">
           <string>Show orientation axes in VTK</string>
@@ -292,6 +383,19 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_9">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>338</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QCheckBox" name="vtk_parallel_view">
@@ -304,6 +408,19 @@
         </widget>
        </item>
        <item>
+        <spacer name="verticalSpacer_10">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>338</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QCheckBox" name="show_help">
          <property name="text">
           <string>Show HTML help with keywords dialog</string>
@@ -312,6 +429,19 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_11">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>338</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QCheckBox" name="show_vtk">
@@ -328,22 +458,9 @@
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>1</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Save</set>
      </property>
      <property name="centerButtons">
       <bool>true</bool>
@@ -357,32 +474,16 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>settings</receiver>
+   <receiver>Settings</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>399</x>
-     <y>390</y>
+     <y>428</y>
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
-     <y>206</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>settings</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>399</x>
-     <y>390</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>206</y>
+     <y>225</y>
     </hint>
    </hints>
   </connection>

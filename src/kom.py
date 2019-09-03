@@ -33,8 +33,7 @@ class KOM:
 
             # Analyze keywords hierarchy
             p = Path() # calculate absolute pathes
-            kom_xml = os.path.join(p.config, 'kom.xml')
-            tree = ET.parse(kom_xml)
+            tree = ET.parse(p.kom_xml)
             self.buildKOM(tree.getroot(), self.root)
 
             # All possible keywords nesting variants - needed for parsing INP_doc
