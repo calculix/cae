@@ -76,8 +76,6 @@ class CAE(QtWidgets.QMainWindow):
 
             # File actions
             self.action_file_import.triggered.connect(self.IE.importFile)
-            # self.action_file_settings.triggered.connect(lambda: Settings().open())
-            # self.action_file_settings.triggered.connect(self.openSettings)
             self.action_file_settings.triggered.connect(self.settings.open)
             self.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
@@ -132,13 +130,6 @@ class CAE(QtWidgets.QMainWindow):
         logging.info('Going to ' + link)
         if not QtGui.QDesktopServices.openUrl(url):
             logging.warning('Can\'t open url: ' + link)
-
-
-    # # Open dialog window and reload CAE's settings from file
-    # def openSettings(self):
-    #     # SettingsDialog(self.settings)
-    #     self.settings = Settings()
-    #     self.settings.open()
 
 
 if __name__ == '__main__':

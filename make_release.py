@@ -66,7 +66,7 @@ if __name__ == '__main__':
     # Delete .spec file
     if os.path.isfile('cae.spec'):
         os.remove('cae.spec')
-    
+
     # Rename ./dist/cae to ./dist/src
     shutil.move('./dist/cae', './dist/src')
 

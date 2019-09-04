@@ -92,13 +92,13 @@ class Dialog(QtWidgets.QDialog):
 
                 elif argument.form == 'QLineEdit':
                     argument_name_text = argument.name + ' ='
-                    
+
                     # Values to be entered
                     argument_values_widget = QtWidgets.QLineEdit()
 
                     # Assign event to update textEdit widget
                     argument_values_widget.textChanged.connect(self.onChange)
-                
+
                 elif argument.form == 'QCheckBox':
                     argument_name_text = argument.name + ' ' # shift checkbox a little bit for nice view
 
@@ -306,9 +306,9 @@ class Dialog(QtWidgets.QDialog):
             self.settings.show_help = not self.settings.show_help
             self.settings.save()
 
-        # Show or not show 
+        # Show or not show
         if self.settings.show_help:
-            url = saveHTML(self.item)
+            url = self.saveHTML(self.item)
             self.doc.load(QtCore.QUrl.fromLocalFile(url)) # load help document
 
             self.horizontal_layout.addWidget(self.doc)

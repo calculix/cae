@@ -32,16 +32,40 @@ class Settings():
             if len(self.__dict__) < 2:
                 raise Exception
 
-        # Apply default values from UI form
+        # Apply default values
         except:
-            print('Error reading ENV settings. Overwriting file with default values.')
-            self = SettingsDialog()
-            self.save()
+            print('Error reading ENV settings. Applying default values.')
+
+            # Windows
+            if os.name=='nt':
+                self.path_ccx = 'bin\\ccx_2.15_MT.exe'
+                self.path_cgx = 'C:\\cgx.exe'
+                self.path_paraview = 'C:\\Program Files\\ParaView\\bin\\paraview.exe'
+                self.path_editor = 'C:\\Windows\\System32\\notepad.exe'
+                self.path_start_model = 'examples/default.inp'
+
+            # Linux
+            else:
+                self.path_ccx = 'bin/ccx_2.15_MT'
+                self.path_cgx = '/usr/local/bin/cgx'
+                self.path_paraview = '/opt/ParaView/bin/paraview'
+                self.path_editor = '/snap/bin/code'
+                self.path_start_model = 'examples/default.inp'
+
+            self.logging_level = 'INFO'
+            self.vtk_view = 'WithEdges'
+            self.show_maximized = True
+            self.show_empty_keywords = True
+            self.expanded = True
+            self.vtk_show_axes = True
+            self.vtk_parallel_view = True
+            self.show_help = True
+            self.show_vtk = True
 
 
     # Open dialog window and pass settings
     def open(self):
-        dialog = SettingsDialog(push=True)
+        dialog = SettingsDialog(settings=self)
 
         # Warning about Cygwin DLLs
         if os.name=='nt':
@@ -50,15 +74,23 @@ class Settings():
         # Get response from dialog window
         if dialog.exec(): # == 1 if user pressed 'OK'
             dialog.save()
+            self.__init__() # read settings from file
             logging.warning('For some settings to take effect application\'s restart may be needed.')
-        
+
+
+    # Automatic save current settings during the workflow
+    def save(self):
+        # Pass values to dialog and save
+        settings = SettingsDialog(settings=self)
+        settings.save()
+
 
 # User dialog window with all setting attributes: menu File->Settings
 class SettingsDialog(QtWidgets.QDialog):
 
 
     # Create dialog window
-    def __init__(self, push=False):
+    def __init__(self, settings=None):
 
         # Load UI form
         QtWidgets.QDialog.__init__(self)
@@ -66,8 +98,7 @@ class SettingsDialog(QtWidgets.QDialog):
         uic.loadUi(self.p.settings_xml, self) # load default settings from
 
         # Push settings values to the form
-        if push:
-            settings = Settings()
+        if settings:
             for attr, value in settings.__dict__.items():
                 try:
                     widget = self.findChild(QtWidgets.QCheckBox, attr)
@@ -84,7 +115,7 @@ class SettingsDialog(QtWidgets.QDialog):
                             pass
 
 
-    # Save settings updated via dialog
+    # Save settings updated via or passed to dialog
     def save(self):
         with open(self.p.settings, 'w') as f:
 

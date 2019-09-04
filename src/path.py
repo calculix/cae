@@ -47,13 +47,13 @@ class Path:
                 os.environ['PATH'] += os.pathsep
 
 
-    # Convert relative path to absolute and check 
+    # Convert relative path to absolute and check
     def abspath(self, rel):
 
         # We do not know if rel is really relative path
         if os.path.isfile(os.path.join(self.app_home_dir, rel)):
             return os.path.join(self.app_home_dir, rel)
-        
+
         # If rel is absolute path - return as is
         else:
             return rel
