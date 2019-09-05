@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=CalculiX CAE
-GenericName=CalculiX CAE
-Exec=/opt/ccx_cae/cae.sh
-Icon=/opt/ccx_cae/img/icon_logo.png
-Categories=Education;Science;

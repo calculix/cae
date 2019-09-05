@@ -12,6 +12,7 @@ Distributed under GNU General Public License v3.0
 - [How to use](#how-to-use)
 - [Your help](#your-help)
 - [For developers](#for-developers)
+- [What's new](#whats-new)
 - [TODO](#todo)
 
 <br/><br/>
@@ -105,6 +106,8 @@ Edit default startup model name in in File->Settings or you can pass it as an ar
 
 To compile CalculiX sources from CAE in Windows you'll need *cygwin* with *gcc*, *gfortran* and *make*. Install it to 'C:\\cygwin64'.
 
+Attention! In Windows CCX may not work if placed outside 'bin' directory. It needs Cygwin DLLs! So, if you change path to CCX, place there Cygwin DLLs from 'bin' directory.
+
 <br/><br/>
 
 
@@ -150,17 +153,19 @@ The source code for the CalculiX solver is taken from the [free_form_fortran pro
 
 
 
-# TODO
-
-## Done for the next releasee
-
-- Refactored Settings. Fixed path processing.
-
-- New path module to build absolute pathes - reduces amount of mistakes.
+# What's new
 
 - New clear source code structure/order.
 
-- In settings added option to edit path to CCX binary. Now rebuild process will account for this path. Attention! In Windows CCX may not work if placed outside 'bin' directory. It needs Cygwin DLLs! So, if you change path to CCX, place there Cygwin DLLs from 'bin' directory.
+- New path module to build absolute pathes - reduces amount of mistakes.
+
+- Refactored Settings. Fixed path processing. Added option to edit path to CCX binary. Now rebuild process will account for this path. Attention! In Windows CCX may not work if placed outside 'bin' directory. It needs Cygwin DLLs! So, if you change path to CCX, place there Cygwin DLLs from 'bin' directory.
+
+<br/><br/>
+
+
+
+# TODO
 
 ## Improvements and bugfixes
 

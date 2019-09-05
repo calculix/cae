@@ -1,0 +1,130 @@
+kom, INFO: CalculiX object model generated.
+job, INFO: Work directory is: d:\Calculix\ccx_cae\examples
+cae_ie, INFO: Loading d:\Calculix\ccx_cae\examples\default.inp.
+kom, INFO: HEADING-1 created.
+kom, INFO: ALL created.
+kom, INFO: C3D4 created.
+kom, INFO: C3D6 created.
+kom, INFO: C3D8 created.
+kom, INFO: C3D10 created.
+kom, INFO: C3D15 created.
+kom, INFO: C3D20 created.
+kom, INFO: C3D4 created.
+kom, INFO: C3D6 created.
+kom, INFO: C3D8 created.
+kom, INFO: C3D10 created.
+kom, INFO: C3D15 created.
+kom, INFO: C3D20 created.
+kom, INFO: ALL created.
+kom, INFO: S1 created.
+kom, INFO: S2 created.
+kom, INFO: S3 created.
+kom, INFO: S4 created.
+kom, INFO: S5 created.
+kom, INFO: S6 created.
+mesh, INFO: 116 nodes
+mesh, INFO: 7 nsets: ALL, C3D4, C3D6, C3D8, C3D10, C3D15, C3D20
+mesh, INFO: 75 elements
+mesh, INFO: 7 elsets: C3D4, C3D6, C3D8, C3D10, C3D15, C3D20, ALL
+mesh, INFO: 6 surfaces
+VTK, INFO: VTK ugrid is built.
+kom, INFO: CalculiX object model generated.
+job, INFO: Work directory is: d:\Calculix\ccx_cae\examples
+cae_ie, INFO: Loading d:\Calculix\ccx_cae\examples\default.inp.
+kom, INFO: HEADING-1 created.
+kom, INFO: ALL created.
+kom, INFO: C3D4 created.
+kom, INFO: C3D6 created.
+kom, INFO: C3D8 created.
+kom, INFO: C3D10 created.
+kom, INFO: C3D15 created.
+kom, INFO: C3D20 created.
+kom, INFO: C3D4 created.
+kom, INFO: C3D6 created.
+kom, INFO: C3D8 created.
+kom, INFO: C3D10 created.
+kom, INFO: C3D15 created.
+kom, INFO: C3D20 created.
+kom, INFO: ALL created.
+kom, INFO: S1 created.
+kom, INFO: S2 created.
+kom, INFO: S3 created.
+kom, INFO: S4 created.
+kom, INFO: S5 created.
+kom, INFO: S6 created.
+mesh, INFO: 116 nodes
+mesh, INFO: 7 nsets: ALL, C3D4, C3D6, C3D8, C3D10, C3D15, C3D20
+mesh, INFO: 75 elements
+mesh, INFO: 7 elsets: C3D4, C3D6, C3D8, C3D10, C3D15, C3D20, ALL
+mesh, INFO: 6 surfaces
+VTK, INFO: VTK ugrid is built.
+settings, WARNING: In Windows ccx binary may not work if placed outside 'bin' directory. It needs Cygwin DLLs!
+settings, WARNING: For some settings to take effect application's restart may be needed.
+kom, INFO: CalculiX object model generated.
+job, INFO: Work directory is: d:\Calculix\ccx_cae\examples
+cae_ie, INFO: Loading d:\Calculix\ccx_cae\examples\default.inp.
+kom, INFO: HEADING-1 created.
+kom, INFO: ALL created.
+kom, INFO: C3D4 created.
+kom, INFO: C3D6 created.
+kom, INFO: C3D8 created.
+kom, INFO: C3D10 created.
+kom, INFO: C3D15 created.
+kom, INFO: C3D20 created.
+kom, INFO: C3D4 created.
+kom, INFO: C3D6 created.
+kom, INFO: C3D8 created.
+kom, INFO: C3D10 created.
+kom, INFO: C3D15 created.
+kom, INFO: C3D20 created.
+kom, INFO: ALL created.
+kom, INFO: S1 created.
+kom, INFO: S2 created.
+kom, INFO: S3 created.
+kom, INFO: S4 created.
+kom, INFO: S5 created.
+kom, INFO: S6 created.
+mesh, INFO: 116 nodes
+mesh, INFO: 7 nsets: ALL, C3D4, C3D6, C3D8, C3D10, C3D15, C3D20
+mesh, INFO: 75 elements
+mesh, INFO: 7 elsets: C3D4, C3D6, C3D8, C3D10, C3D15, C3D20, ALL
+mesh, INFO: 6 surfaces
+VTK, INFO: VTK ugrid is built.
+settings, WARNING: In Windows ccx binary may not work if placed outside 'bin' directory. It needs Cygwin DLLs!
+settings, WARNING: For some settings to take effect application's restart may be needed.
+kom, INFO: PHYSICAL CONSTANTS-1 created.
+settings, WARNING: In Windows ccx binary may not work if placed outside 'bin' directory. It needs Cygwin DLLs!
+settings, WARNING: For some settings to take effect application's restart may be needed.
+settings, WARNING: In Windows ccx binary may not work if placed outside 'bin' directory. It needs Cygwin DLLs!
+settings, WARNING: For some settings to take effect application's restart may be needed.
+kom, INFO: CalculiX object model generated.
+job, INFO: Work directory is: d:\Calculix\ccx_cae\examples
+cae_ie, INFO: Loading d:\Calculix\ccx_cae\examples\default.inp.
+kom, INFO: HEADING-1 created.
+kom, INFO: ALL created.
+kom, INFO: C3D4 created.
+kom, INFO: C3D6 created.
+kom, INFO: C3D8 created.
+kom, INFO: C3D10 created.
+kom, INFO: C3D15 created.
+kom, INFO: C3D20 created.
+kom, INFO: C3D4 created.
+kom, INFO: C3D6 created.
+kom, INFO: C3D8 created.
+kom, INFO: C3D10 created.
+kom, INFO: C3D15 created.
+kom, INFO: C3D20 created.
+kom, INFO: ALL created.
+kom, INFO: S1 created.
+kom, INFO: S2 created.
+kom, INFO: S3 created.
+kom, INFO: S4 created.
+kom, INFO: S5 created.
+kom, INFO: S6 created.
+mesh, INFO: 116 nodes
+mesh, INFO: 7 nsets: ALL, C3D4, C3D6, C3D8, C3D10, C3D15, C3D20
+mesh, INFO: 75 elements
+mesh, INFO: 7 elsets: C3D4, C3D6, C3D8, C3D10, C3D15, C3D20, ALL
+mesh, INFO: 6 surfaces
+settings, WARNING: In Windows ccx binary may not work if placed outside 'bin' directory. It needs Cygwin DLLs!
+settings, WARNING: For some settings to take effect application's restart may be needed.

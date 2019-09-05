@@ -42,7 +42,7 @@ class Settings():
                 self.path_cgx = 'C:\\cgx.exe'
                 self.path_paraview = 'C:\\Program Files\\ParaView\\bin\\paraview.exe'
                 self.path_editor = 'C:\\Windows\\System32\\notepad.exe'
-                self.path_start_model = 'examples/default.inp'
+                self.path_start_model = 'examples\\default.inp'
 
             # Linux
             else:
@@ -130,9 +130,9 @@ class SettingsDialog(QtWidgets.QDialog):
                         text = str(value.isChecked())
                     elif class_name == 'QLineEdit':
                         text = value.text()
+                        text = '\'' + self.p.abspath(text) + '\'' # covert path to absolute
                         if '\\' in text: # reconstruct path for Windows
                             text = '\\\\'.join(text.split('\\'))
-                        text = '\'' + self.p.abspath(text) + '\'' # covert path to absolute
                         value = self.__dict__['label_' + attr]
                     elif class_name == 'QComboBox':
                         text = '\'' + value.currentText() + '\''
