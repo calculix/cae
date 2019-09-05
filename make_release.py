@@ -28,7 +28,6 @@ def copy(src, dst, skip):
                 shutil.copy2(src_path, dst_path)
 
 
-
 if __name__ == '__main__':
 
     if os.name=='nt':

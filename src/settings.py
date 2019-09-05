@@ -65,6 +65,7 @@ class Settings():
 
     # Open dialog window and pass settings
     def open(self):
+        self.__init__() # re-read settings from file
         dialog = SettingsDialog(settings=self)
 
         # Warning about Cygwin DLLs

@@ -56,7 +56,7 @@ class Job:
         # Log each job into file
         if len(logging.getLogger().handlers) > 1:
             logging.getLogger().handlers.pop()
-        fh = logging.FileHandler(self.log, mode='a') # TODO with 'w' log is empty after saving INP
+        fh = logging.FileHandler(self.log, mode='a')
         fmt = logging.Formatter('%(module)s, %(levelname)s: %(message)s')
         fh.setFormatter(fmt)
         logging.getLogger().addHandler(fh)
