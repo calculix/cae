@@ -30,7 +30,7 @@ class Dialog(QtWidgets.QDialog):
         self.settings = Settings()
 
         # Load basic form
-        self.p = Path() # calculate absolute pathes
+        self.p = Path() # calculate absolute paths
         uic.loadUi(self.p.dialog_xml, self)
 
         self.widgets = [] # list of created widgets

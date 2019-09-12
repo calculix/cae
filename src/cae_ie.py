@@ -65,12 +65,14 @@ class IE:
                     return
 
             # Show model name in window's title
-            self.CAE.setWindowTitle('CalculiX CAE - ' + os.path.basename(self.CAE.job.inp))
+            self.CAE.setWindowTitle('CalculiX CAE - ' + self.CAE.job.name)
+
 
             # Parse INP and enrich KOM with parsed objects
             logging.info('Loading ' + self.CAE.job.inp + '.')
             lines = readLines(self.CAE.job.inp)
-            self.importer(lines) # pass whole INP-file to the parser
+            self.importer(lines, self.CAE.KOM) # pass whole INP-file to the parser
+
 
             # Add parsed implementations to the tree
             self.CAE.tree.generateTreeView()
@@ -89,7 +91,7 @@ class IE:
 
 
     # Enrich KOM with keywords from INP_doc
-    def importer(self, INP_doc):
+    def importer(self, INP_doc, KOM):
         keyword_chain = []
         impl_counter = {}
         for i in range(len(INP_doc)):
@@ -106,7 +108,7 @@ class IE:
 
                 # Find KOM keyword path corresponding to keyword_chain
                 keyword_chain.append(keyword_name)
-                path = self.CAE.KOM.getPath(keyword_chain)
+                path = KOM.getPath(keyword_chain)
                 logging.debug('path found: ' + str([item.name for item in path]))
 
                 if path:

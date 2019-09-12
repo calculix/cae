@@ -5,7 +5,7 @@
     © Ihor Mirzov, September 2019
     Distributed under GNU General Public License v3.0
 
-    Utility to calculate absolute pathes to the application's main folders.
+    Utility to calculate absolute paths to the application's main folders.
 """
 
 
@@ -38,10 +38,10 @@ class Path:
 
 
     # Pyinstaller bug in Windows: append 'app_home_dir' and 'src' directories to PATH
-    def append_to_PATH(self, pathes):
+    def append_to_PATH(self, paths):
         if not os.environ['PATH'].endswith(os.pathsep):
             os.environ['PATH'] += os.pathsep
-        for path in pathes:
+        for path in paths:
             if path not in os.environ['PATH']:
                 os.environ['PATH'] += path
                 os.environ['PATH'] += os.pathsep

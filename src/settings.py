@@ -23,7 +23,7 @@ class Settings():
 
     # Read settings from file
     def __init__(self):
-        self.p = Path() # calculate absolute pathes
+        self.p = Path() # calculate absolute paths
 
         # Try to read settings file
         try:
@@ -95,7 +95,7 @@ class SettingsDialog(QtWidgets.QDialog):
 
         # Load UI form
         QtWidgets.QDialog.__init__(self)
-        self.p = Path() # calculate absolute pathes
+        self.p = Path() # calculate absolute paths
         uic.loadUi(self.p.settings_xml, self) # load default settings from
 
         # Push settings values to the form
@@ -156,5 +156,5 @@ if __name__ == '__main__':
 
     # Clean cached files
     from clean import cleanCache
-    p = Path() # calculate absolute pathes
+    p = Path() # calculate absolute paths
     cleanCache(p.src)

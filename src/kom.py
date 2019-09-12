@@ -5,7 +5,7 @@
     © Ihor Mirzov, September 2019
     Distributed under GNU General Public License v3.0
 
-    CalculiX Keyword Object Model.
+    CalculiX Keyword Object Model (hierarchy).
     Keywords with all arguments are parsed from kom.xml.
     Parser supposts mutually exclusive parameters for keywords.
 """
@@ -32,15 +32,15 @@ class KOM:
             self.keywords = []
 
             # Analyze keywords hierarchy
-            p = Path() # calculate absolute pathes
+            p = Path() # calculate absolute paths
             tree = ET.parse(p.kom_xml)
             self.buildKOM(tree.getroot(), self.root)
 
             # All possible keywords nesting variants - needed for parsing INP_doc
-            self.pathes = []
-            self.buildPathes(self.root)
-            self.pathes.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
-            # for path in self.pathes:
+            self.paths = []
+            self.buildPaths(self.root)
+            self.paths.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
+            # for path in self.paths:
             #     logging.debug(str([item.name for item in path]))
 
             # # Regenerate all HTML help pages
@@ -50,7 +50,7 @@ class KOM:
 
             logging.info('CalculiX object model generated.')
         except:
-            logging.error('Can\'t generate keywords hierarchy!')
+            logging.error('Can\'t generate keyword object model!')
 
 
     # Recursively build Keyword Object Model
@@ -90,16 +90,16 @@ class KOM:
             self.buildKOM(xml_child, item)
 
 
-    # Recursively builds all possible pathes to nested keywords in KOM
-    def buildPathes(self, parent, path=None):
+    # Recursively builds all possible paths to nested keywords in KOM
+    def buildPaths(self, parent, path=None):
         if not path:
             path = [] # list of groups, keywords and implementations
         for item in parent.items:
             if item.item_type != item_type.ARGUMENT:
-                self.buildPathes(item, path + [item])
+                self.buildPaths(item, path + [item])
         if len(path):
-            if path not in self.pathes:
-                self.pathes.append(path)
+            if path not in self.paths:
+                self.paths.append(path)
 
 
     # Get nesting path for each of the parsed keyword
@@ -112,8 +112,8 @@ class KOM:
         logging.debug('')
         logging.debug('keyword_chain: ' + str(keyword_chain))
 
-        # Now compare keyword_chain with all self.pathes
-        for path in self.pathes:
+        # Now compare keyword_chain with all self.paths
+        for path in self.paths:
 
             # Compare last words
             if path[-1].name.upper() != keyword_chain[-1].upper():
@@ -161,16 +161,13 @@ class item_type(Enum):
 
 # Needed for inheritance by further classes
 class item:
-
-    # Read application's global settings
-    settings = Settings()
-
     item_type = ''          # item's type: group/keyword/argument/implementation
     name = ''               # name of item, string
     items = []              # list of children
     parent = None           # item's parent item
-    expanded = settings.expanded
     active = False
+    settings = Settings() # read application's global settings
+    expanded = settings.expanded
 
 
     # Define if item is active
@@ -332,6 +329,5 @@ class implementation(item):
 # Test module
 if __name__ == '__main__':
     start = time.perf_counter() # start time
-    logging.getLogger().setLevel(logging.DEBUG)
     KOM()
     print('\nTotal {:.1e} seconds'.format(time.perf_counter()-start)) # end time

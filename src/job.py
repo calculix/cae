@@ -65,7 +65,6 @@ class Job:
     # Convert UNV to INP
     def importUNV(self):
         converter_path = os.path.join(self.p.bin, 'unv2ccx' + self.extension)
-        # cmd1 = converter_path + ' ' + self.unv
         cmd1 = [converter_path, self.unv]
         self.run([(cmd1, ''), ])
 

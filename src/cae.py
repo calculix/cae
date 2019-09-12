@@ -13,7 +13,7 @@
 
 # Pyinstaller bug in Windows: append 'app_home_dir' and 'src' directories to PATH
 from path import Path
-p = Path() # calculate absolute pathes
+p = Path() # calculate absolute paths
 p.append_to_PATH([p.app_home_dir, p.src])
 
 # Main imports
@@ -23,7 +23,7 @@ from cae_tree import tree
 from VTK import VTK
 from kom import KOM
 from cae_ie import IE
-from settings import Settings, SettingsDialog
+from settings import Settings
 from job import Job
 from log import myLoggingHandler
 from clean import cleanCache
@@ -133,31 +133,37 @@ class CAE(QtWidgets.QMainWindow):
 
 
 if __name__ == '__main__':
+    # from pycallgraph import PyCallGraph
+    # from pycallgraph import Config
+    # from pycallgraph.output import GraphvizOutput
+    # config = Config(max_depth=1)
+    # graphviz = GraphvizOutput(output_file='architecture.png')
+    # with PyCallGraph(output=graphviz):
 
-    # Create application
-    app = QtWidgets.QApplication(sys.argv)
+        # Create application
+        app = QtWidgets.QApplication(sys.argv)
 
-    # Read application's global settings
-    settings = Settings()
+        # Read application's global settings
+        settings = Settings()
 
-    # Default start model could be chosen with command line parameter
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-inp', type=str, help='your .inp file',
-                        default=settings.path_start_model)
-    args = parser.parse_args()
+        # Default start model could be chosen with command line parameter
+        parser = argparse.ArgumentParser()
+        parser.add_argument('-inp', type=str, help='your .inp file',
+                            default=settings.path_start_model)
+        args = parser.parse_args()
 
-    # Create and show main window
-    window = CAE(settings, args.inp)
-    if settings.show_maximized:
-        window.showMaximized()
-    else:
-        window.show()
+        # Create and show main window
+        window = CAE(settings, args.inp)
+        if settings.show_maximized:
+            window.showMaximized()
+        else:
+            window.show()
 
-    # Execute application
-    a = app.exec()
+        # Execute application
+        a = app.exec()
 
-    # Clean cached files
-    cleanCache(p.src)
+        # Clean cached files
+        cleanCache(p.src)
 
-    # Exit application
-    sys.exit(a)
+        # Exit application
+        sys.exit(a)
