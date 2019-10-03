@@ -46,7 +46,6 @@ class CAE(QtWidgets.QMainWindow):
         # When logger is ready - check if settings read correctly
         if hasattr(self.settings, 'error_path'):
             logging.error('Error path in settings file: ' + self.settings.error_path + '. Loading default values.')
-            # self.settings.save() # Save default values to file
 
         # Abs. path to the path_start_model
         if len(path_start_model):
@@ -135,10 +134,14 @@ class CAE(QtWidgets.QMainWindow):
 if __name__ == '__main__':
     # from pycallgraph import PyCallGraph
     # from pycallgraph import Config
+    # from pycallgraph import GlobbingFilter
     # from pycallgraph.output import GraphvizOutput
-    # config = Config(max_depth=1)
+    # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['CAE*']
+    # config = Config()
+    # config.trace_filter = GlobbingFilter(
+    #     include=modules, exclude=['logging*', '*FileFinder'])
     # graphviz = GraphvizOutput(output_file='architecture.png')
-    # with PyCallGraph(output=graphviz):
+    # with PyCallGraph(output=graphviz, config=config):
 
         # Create application
         app = QtWidgets.QApplication(sys.argv)

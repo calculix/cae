@@ -120,7 +120,7 @@ Please, you may:
 - Share your models and screenshots.
 - Report problems by [posting issues](https://github.com/imirzov/ccx_cae/issues).
 - Do something from the [TODO-list](#TODO).
-- Follow discussion in the [Yahoo CalculiX Group](https://groups.yahoo.com/neo/groups/CALCULIX/conversations/topics/15616)
+- Follow discussion in the [Yahoo CalculiX Group](https://groups.yahoo.com/neo/groups/CALCULIX/conversations/topics/15616).
 
 <br/><br/>
 
@@ -148,18 +148,6 @@ CalculiX CAE uses external converters:
 - [unv2ccx](https://github.com/imirzov/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
 
 The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/imirzov/ccx_free_form_fortran) - this version has much better code folding and readability.
-
-<br/><br/>
-
-
-
-# What's new
-
-- New clear source code structure/order.
-
-- New path module to build absolute pathes - reduces amount of mistakes.
-
-- Refactored Settings. Fixed path processing. Added option to edit path to CCX binary. Now rebuild process will account for this path. Attention! In Windows CCX may not work if placed outside 'bin' directory. It needs Cygwin DLLs! So, if you change path to CCX, place there Cygwin DLLs from 'bin' directory.
 
 <br/><br/>
 

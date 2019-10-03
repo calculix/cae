@@ -16,7 +16,16 @@ class Path:
 
 
     def __init__(self):
-        op_sys = 'windows' if os.name=='nt' else 'linux' # OS name
+
+        # Windows
+        if os.name=='nt':
+            self.op_sys = 'windows' # OS name
+            self.extension = '.exe' # file extension in OS
+
+        # Linux
+        else:
+            self.op_sys = 'linux' # OS name
+            self.extension = '' # file extension in OS
 
         # Application's home directory - the one with README.md and LICENSE
         self.app_home_dir = os.path.abspath(
@@ -29,8 +38,8 @@ class Path:
         self.dialog_xml = os.path.join(self.config, 'dialog.xml')
 
         self.bin = os.path.join(self.app_home_dir, 'bin')
-        self.ccx = os.path.join(self.app_home_dir, 'ccx_' + op_sys, 'ccx_free_form_fortran')
-        self.settings = os.path.join(self.config, 'settings_' + op_sys + '.env')
+        self.ccx = os.path.join(self.app_home_dir, 'ccx_' + self.op_sys, 'ccx_free_form_fortran')
+        self.settings = os.path.join(self.config, 'settings_' + self.op_sys + '.env')
         self.doc = os.path.join(self.app_home_dir, 'doc')
         self.examples = os.path.join(self.app_home_dir, 'examples')
         self.img = os.path.join(self.app_home_dir, 'img')

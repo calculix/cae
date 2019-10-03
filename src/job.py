@@ -12,7 +12,7 @@
 
 
 from path import Path
-import os, sys, logging, subprocess, queue
+import os, logging, subprocess, queue
 from PyQt5 import QtWidgets
 from log import logLine
 from settings import Settings
@@ -26,16 +26,6 @@ class Job:
         self.settings = settings
         self.p = Path()
         logging.info('Application\'s home directory is: ' + self.p.app_home_dir)
-
-        # Windows
-        if os.name=='nt':
-            self.op_sys = 'windows' # OS name
-            self.extension = '.exe' # file extension in OS
-
-        # Linux
-        else:
-            self.op_sys = 'linux' # OS name
-            self.extension = '' # file extension in OS
 
         if not len(file_name):
             file_name = settings.path_start_model
@@ -51,7 +41,6 @@ class Job:
         self.path = self.inp[:-4] # full path to INP without extension
         self.frd = self.path + '.frd' # full path to job results file
         self.log = self.path + '.log' # full path to job log file
-        self.unv = self.path + '.unv' # full path to imported UNV file
 
         # Log each job into file
         if len(logging.getLogger().handlers) > 1:
@@ -63,9 +52,9 @@ class Job:
 
 
     # Convert UNV to INP
-    def importUNV(self):
-        converter_path = os.path.join(self.p.bin, 'unv2ccx' + self.extension)
-        cmd1 = [converter_path, self.unv]
+    def convertUNV(self):
+        converter_path = os.path.join(self.p.bin, 'unv2ccx' + self.p.extension)
+        cmd1 = [converter_path, self.path + '.unv']
         self.run([(cmd1, ''), ])
 
 
@@ -182,7 +171,7 @@ class Job:
     def exportVTU(self):
         if os.path.isfile(self.frd):
             converter_path = os.path.join(self.p.bin,
-                    'ccx2paraview' + self.extension)
+                    'ccx2paraview' + self.p.extension)
             cmd1 = [converter_path, self.frd, 'vtu']
             self.run([(cmd1, ''), ], msg='Finished!')
         else:

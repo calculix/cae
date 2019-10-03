@@ -59,7 +59,7 @@ class IE:
 
             # Convert UNV to INP
             if file_name.lower().endswith('.unv'):
-                self.CAE.job.importUNV()
+                self.CAE.job.convertUNV()
                 if not os.path.isfile(self.CAE.job.inp):
                     logging.error('Error converting ' + self.CAE.job.unv)
                     return

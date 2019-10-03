@@ -46,6 +46,7 @@ class Settings():
 
             # Linux
             else:
+                # TODO path_ccx doesn't work on first run
                 self.path_ccx = 'bin/ccx_2.15_MT'
                 self.path_cgx = '/usr/local/bin/cgx'
                 self.path_paraview = '/opt/ParaView/bin/paraview'

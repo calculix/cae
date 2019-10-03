@@ -5,7 +5,7 @@
     © Ihor Mirzov, September 2019
     Distributed under GNU General Public License v3.0
 
-    Dialog window to edit CalculiX keyword.
+    Dialog window to create/edit keyword's implementation.
     Called via double click on keyword in the treeView.
     Here we define a keyword's implementation: its name and INP_code.
 """
