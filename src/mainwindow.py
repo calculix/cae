@@ -2,7 +2,7 @@
 
 
 """
-    © Ihor Mirzov, September 2019
+    © Ihor Mirzov, October 2019
     Distributed under GNU General Public License v3.0
 
     Main window class.
@@ -22,7 +22,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     # Create main window
-    def __init__(self, p, settings, m):
+    def __init__(self, p, settings):
         QtWidgets.QMainWindow.__init__(self) # create main window
         uic.loadUi(p.cae_xml, self) # load form
 
@@ -43,11 +43,9 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             self.toolBar.setParent(None) # hide toolbar
 
-        self.tree = tree(self, settings, m.KOM) # create treeView items based on KOM
-
-        # Actions
+        # MainWindow actions
         if True:
-            self.treeView.keyPressEvent = self.keyPressEvent
+            # self.treeView.keyPressEvent = self.keyPressEvent
 
             # File actions
             self.action_file_import.triggered.connect(lambda: importFile(m))
@@ -94,9 +92,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     # Delete keyword's implementation in the treeView by pressing 'Delete' button
-    def keyPressEvent(self, e):
-        if e.key() == QtCore.Qt.Key_Delete:
-            self.tree.actionDeleteImplementation()
+    # def keyPressEvent(self, e):
+    #     if e.key() == QtCore.Qt.Key_Delete:
+    #         self.tree.actionDeleteImplementation()
 
 
     # Open README.md on the GitHub

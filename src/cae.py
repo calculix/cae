@@ -2,7 +2,7 @@
 
 
 """
-    © Ihor Mirzov, September 2019
+    © Ihor Mirzov, October 2019
     Distributed under GNU General Public License v3.0
 
     CalculiX CAE - main function.
@@ -20,8 +20,10 @@ p.append_to_PATH([p.app_home_dir, p.src])
 import os, sys, argparse, shutil, subprocess
 from PyQt5 import QtWidgets
 from settings import Settings
-from model import Model
 from mainwindow import MainWindow
+from model import Model
+from tree import tree
+from ie import importFile
 from clean import cleanCache
 
 
@@ -51,15 +53,18 @@ if __name__ == '__main__':
 
 
 
+        # Create and show main window
+        mw = MainWindow(p, settings)
+        if settings.show_maximized:
+            mw.showMaximized()
+        else:
+            mw.show()
+
         # Generate FEM model
         m = Model(p, settings, args.inp)
 
-        # Create and show main window
-        main_window = MainWindow(p, settings, m)
-        if settings.show_maximized:
-            main_window.showMaximized()
-        else:
-            main_window.show()
+        # Create treeView items based on KOM
+        t = tree(p, settings, mw.treeView, mw.VTK, m.KOM)
 
 
 
