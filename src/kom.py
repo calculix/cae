@@ -323,7 +323,7 @@ class implementation(item):
 
         self.INP_code = INP_code # INP-code for current implementation - list of strings
         self.parent.items.insert(index, self) # append implementation to keyword's items
-        logging.info(self.name + ' created.')
+        logging.info(self.name + ' created.') # TODO: or updated
 
 
 # Test module
@@ -333,7 +333,7 @@ if __name__ == '__main__':
     from pycallgraph import GlobbingFilter
     from pycallgraph.output import GraphvizOutput
     p = Path()
-    modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['CAE*']
+    modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['MainWindow*']
     config = Config()
     config.trace_filter = GlobbingFilter(
         include=modules, exclude=['logging*', '*FileFinder'])

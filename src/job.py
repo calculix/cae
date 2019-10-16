@@ -6,7 +6,7 @@
     Distributed under GNU General Public License v3.0
 
     Job submition and convertion. Run a detached process and
-    send messages to queue. This scheme doesn't freeze CAE
+    send messages to queue. This scheme doesn't freeze MainWindow
     while analysis is running or files are converting.
 """
 

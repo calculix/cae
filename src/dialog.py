@@ -18,13 +18,13 @@ from kom import item_type
 from settings import Settings
 
 
-class Dialog(QtWidgets.QDialog):
+class KeywordDialog(QtWidgets.QDialog):
 
 
     def __init__(self, KOM, item):
 
         # Create dialog window
-        super(Dialog, self).__init__()
+        super(KeywordDialog, self).__init__()
 
         # Read application's global settings
         self.settings = Settings()
@@ -76,7 +76,7 @@ class Dialog(QtWidgets.QDialog):
 
                 # Argument's values
                 if argument.form == 'QComboBox':
-                    argument_name_text = argument.name + ' ='
+                    argument_name_text = argument.name + '='
 
                     # Predefined values to be chosen
                     argument_values_widget = QtWidgets.QComboBox()
@@ -91,7 +91,7 @@ class Dialog(QtWidgets.QDialog):
                     argument_values_widget.setSizePolicy(sizePolicy)
 
                 elif argument.form == 'QLineEdit':
-                    argument_name_text = argument.name + ' ='
+                    argument_name_text = argument.name + '='
 
                     # Values to be entered
                     argument_values_widget = QtWidgets.QLineEdit()
@@ -122,7 +122,7 @@ class Dialog(QtWidgets.QDialog):
                     if argument.form == 'QCheckBox':
                         arg_names = argument.name.split('|')
                     else:
-                        arg_names = [n + ' =' for n in argument.name.split('|')]
+                        arg_names = [n + '=' for n in argument.name.split('|')]
                     argument_name_widget.addItems(arg_names)
 
                     # Assign event to update textEdit widget
@@ -234,7 +234,7 @@ class Dialog(QtWidgets.QDialog):
 
     # Return piece of created code for the .inp-file
     def onOk(self):
-        super(Dialog, self).accept()
+        super(KeywordDialog, self).accept()
         return self.textEdit.toPlainText().strip().split('\n')
 
 

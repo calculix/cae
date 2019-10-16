@@ -25,7 +25,7 @@ class myLoggingHandler(logging.Handler):
         self.setFormatter(fmt)
 
 
-    # Sends log messages to CAE's textEdit widget
+    # Sends log messages to MainWindow's textEdit widget
     def emit(self, LogRecord):
 
         # Message color depending on logging level
