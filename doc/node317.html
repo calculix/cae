@@ -1,186 +1,99 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*STEADY STATE DYNAMICS</TITLE>
-<META NAME="description" CONTENT="*STEADY STATE DYNAMICS">
+<TITLE>*KINEMATIC</TITLE>
+<META NAME="description" CONTENT="*KINEMATIC">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node318.html">
 <LINK REL="previous" HREF="node316.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node318.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5132"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5248"
   HREF="node318.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5128"
-  HREF="node205.html">
+<A NAME="tex2html5244"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5122"
+<A NAME="tex2html5238"
   HREF="node316.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5130"
+<A NAME="tex2html5246"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5133"
-  HREF="node318.html">*STEP</A>
-<B> Up:</B> <A NAME="tex2html5129"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5123"
-  HREF="node316.html">*STATIC</A>
- &nbsp; <B>  <A NAME="tex2html5131"
+<B> Next:</B> <A NAME="tex2html5249"
+  HREF="node318.html">*MAGNETIC PERMEABILITY</A>
+<B> Up:</B> <A NAME="tex2html5245"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5239"
+  HREF="node316.html">*INITIAL STRAIN INCREASE</A>
+ &nbsp; <B>  <A NAME="tex2html5247"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION0008109000000000000000"></A><A NAME="steadystatedynamics"></A>
+<H2><A NAME="SECTION000970000000000000000"></A><A NAME="kinematic"></A>
 <BR>
-*STEADY STATE DYNAMICS
+*KINEMATIC
 </H2>
 
 <P>
-Keyword type: step
+Keyword type: model definition
 
 <P>
-This procedure is used to calculate the steady state response of a structure
-subject to periodic loading. Although the deformation up to the onset of the
-dynamic calculation can be nonlinear, this procedure is basically linear and
-assumes that the response can be written as a linear combination of the lowest
-modes of the structure. To this end, these modes must have been calculated in
-a previous *FREQUENCY,STORAGE=YES step (not necessarily in the same calculation). In the
-*STEADY STATE DYNAMICS step the eigenfrequencies, modes, stiffness and mass
-matrix are recovered from the file jobname.eig. 
+With this keyword kinematic constraints can be established between each node
+belonging to an element surface and a reference node. A kinematic constraint
+specifies that the displacement in a certain direction i at a node corresponds to the
+rigid body motion of this node about a reference node. Therefore, the location of the
+reference node is important.
 
 <P>
-For harmonic loading the steady state response is
-calculated for the frequency range specified by the user. The number of data
-points within this range <B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img605.png"
- ALT="$ n$"></B> can also be defined by the user, default is 20,
-minimum is 2 (if the user specifies <B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img605.png"
- ALT="$ n$"></B> to be less than 2, the default is taken). If
-no eigenvalues occur within the specified range, this is the total number of
-data points taken, i.e. including the lower frequency bound and the
-upper frequency bound. If one or more eigenvalues fall within the specified range, <B><IMG
- WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1165.png"
- ALT="$ n-2$"></B>
-points are taken in between the lower frequency bound and the lowest eigenfrequency
-in the range, <B><IMG
- WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1165.png"
- ALT="$ n-2$"></B> between any subsequent eigenfrequencies in the range and
-<B><IMG
- WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1165.png"
- ALT="$ n-2$"></B> points in between the highest eigenfrequency in the range and upper
-frequency bound. Consequently, if <B><IMG
- WIDTH="18" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img177.png"
- ALT="$ m$"></B> eigenfrequencies belong to the specified
-range, <!-- MATH
- $(m+1)(n-2)+m+2=nm-m+n$
- -->
-<B><IMG
- WIDTH="276" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1166.png"
- ALT="$ (m+1)(n-2)+m+2=nm-m+n$"></B> data points are taken. They are equally spaced
-in between the fixed points (lower frequency bound, upper frequency bound and
-eigenfrequencies) if the user specifies a bias equal to 1. If a different bias
-is specified, the data points are concentrated about the fixed points. Default
-for the bias is 3., minimum value allowed is 1. (if the user specifies a value
-less than 1., the default is taken).
-The number of eigenmodes used is taken from the previous *FREQUENCY
-step. Since a steady state dynamics step is a perturbation step, all previous loading
-is removed. The
-loading defined within the step is multiplied by
-the amplitude history for each load as specified by the AMPLITUDE parameter on
-the loading card, if any. In this context the AMPLITUDE cards are interpreted
-as load factor versus frequency. Loading histories extending beyond the amplitude
-frequency scale are extrapolated in a constant way. The absence of the
-AMPLITUDE parameter on a loading card leads to a frequency independent load.
+This card must be immediately preceded by a <A HREF="node273.html#coupling">*COUPLING</A>
+keyword card. If no ORIENTATION was specified on the *COUPLING card, the
+degrees of freedom entered immediately below the *KINEMATIC card (these are
+the degrees of freedom i which take part in the rigid body motion) apply to the global rectangular system, if an ORIENTATION
+was used, they apply to the local system. If the local system is cylindrical,
+the degrees of freedom 1, 2 and 3 correspond to the displacement in radial
+direction, the circumferential angle and the displacement in axial
+direction, respectively (as defined by the *ORIENTATION card; the position of
+the reference node is immaterial to that respect).
 
 <P>
-For nonharmonic loading the loading across one period is not harmonic and has
-to be specified in the time domain. To this end the user can specify the
-starting time and the final time of one period and describe the loading within
-this period with *AMPLITUDE cards. Default is the interval <B><IMG
- WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1167.png"
- ALT="$ [0.,1.]$"></B> and step
-loading. Notice that for nonharmonic loading the *AMPLITUDE cards describe
-amplitude versus TIME. Furthermore, the user can specify the number of Fourier
-terms the nonharmonic loading is expanded in (default:20). The remaining input is the same as for harmonic loading, i.e. the
-user specifies a frequency range, the number of data points within this range
-and the bias.
-
-<P>
-There are two optional parameters: HARMONIC and SOLVER. HARMONIC=YES (default)
-indicates that the periodic loading is harmonic, HARMONIC=NO specifies
-nonharmonic periodic loading. The parameter SOLVER determines the
-package used to solve for the steady state solution in the presence of nonzero
-displacement boundary conditions. The following solvers
-can be selected:
+The degrees of freedom in the reference node (1 up to 3 for translations, 4 up
+to 6 for rotations; they apply to the global system unless a *TRANSFORM card
+was defined for the reference node) can be constrained by a
+<A HREF="node248.html#boundary">*BOUNDARY</A> card. Alternatively, a force (degrees of
+freedom 1 up to 3) or moment (degrees of freedom 4 up to 6) can be
+applied by a <A HREF="node262.html#cload">*CLOAD</A> card. In the latter case the resulting displacements
+(degrees of freedom 1 up to 3)
+ can be printed in the .dat file by selecting U on the <A HREF="node333.html#nodeprint">*NODE
+  PRINT</A> card for the reference node. However, the corresponding selection of RF
+on the *NODE PRINT card does not work for the reference node. Instead, the
+user should use <A HREF="node347.html#sectionprint">*SECTION PRINT</A> to obtain the global
+force and moment on the selected surface.
 
 <P>
 
-<UL>
-<LI>the SGI solver
-</LI>
-<LI>PARDISO
-</LI>
-<LI>SPOOLES [<A
- HREF="node448.html#Ashcraft1">3</A>,<A
- HREF="node448.html#Ashcraft2">4</A>]. 
-</LI>
-<LI>TAUCS 
-</LI>
-</UL>
-
-<P>
-Default is the first solver which has been installed of the following list:
-SGI, PARDISO, SPOOLES and TAUCS. If none is installed, an error is issued.
-
-<P>
-The SGI solver should by now be considered as outdated. SPOOLES is very fast, but has no
-out-of-core capability: the size of systems you can solve is limited by your
-RAM memory. With 2GB of RAM you can solve up to 250,000 equations. TAUCS is
-also good, but my experience is limited to the <B><IMG
- WIDTH="36" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
- SRC="img1577.png"
- ALT="$ LL^T$"></B> decomposition, which
-only applies to positive definite systems. It has an out-of-core capability
-and also offers a <B><IMG
- WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img1578.png"
- ALT="$ LU$"></B> decomposition, however, I was not able to run either of
-them so far. PARDISO is the Intel proprietary solver and is to my knowledge
-presently the fastest. 
 <P><P>
 <BR>
 
@@ -188,122 +101,83 @@ presently the fastest.
 First line:
 
 <UL>
-<LI>*STEADY STATE DYNAMICS
-</LI>
-<LI>enter any of the parameters you need.
+<LI>*KINEMATIC
 </LI>
 </UL>
-Second line for HARMONIC=YES (default):
+
+<P>
+Following line:
 
 <UL>
-<LI>Lower bound of the frequency range (cycles/time)
+<LI>first degree of freedom (only 1, 2 or 3 allowed)
 </LI>
-<LI>Upper bound of the frequency range (cycles/time)
-</LI>
-<LI>Number of data points <B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img605.png"
- ALT="$ n$"></B> (default: 20)
-</LI>
-<LI>Bias (default: 3.)
+<LI>last degree of freedom (only 1, 2 or 3 allowed); if left blank the last
+  degree of freedom coincides with the first degree of freedom.
 </LI>
 </UL>
-Second line for HARMONIC=NO:
-
-<UL>
-<LI>Lower bound of the frequency range (cycles/time)
-</LI>
-<LI>Upper bound of the frequency range (cycles/time)
-</LI>
-<LI>Number of data points <B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img605.png"
- ALT="$ n$"></B> (default: 20)
-</LI>
-<LI>Bias (default: 3.)
-</LI>
-<LI>Number of Fourier terms <B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img605.png"
- ALT="$ n$"></B> (default: 20)
-</LI>
-<LI>Lower bound of the time range (default: 0.)
-</LI>
-<LI>Upper bound of the time range (default: 1.)
-</LI>
-</UL>
+Repeat this line if needed to constrain other degrees of freedom.
 
 <P>
 <PRE>
 Example:
 
-*STEADY STATE DYNAMICS
-12000.,14000.,5,4.
+*NODE
+262,.5,.5,8.
+*ORIENTATION,NAME=OR1,SYSTEM=CYLINDRICAL
+.5,.5,0.,.5,.5,1.
+*COUPLING,REF NODE=262,SURFACE=S1,ORIENTATION=OR1,CONSTRAINT NAME=CN1
+*KINEMATIC
+2
+*STEP
+*STATIC
+*BOUNDARY
+262,6,6,.01
 </PRE>
 
 <P>
-defines a steady state dynamics procedure in the frequency interval
-<!-- MATH
- $[12000.,14000.]$
- -->
-<B><IMG
- WIDTH="109" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1825.png"
- ALT="$ [12000.,14000.]$"></B> with 5 data points and a bias of 4.
-
-<P>
-<PRE>
-Example:
-
-*STEADY STATE DYNAMICS,HARMONIC=NO
-2.,4.,3,1.,11,0.,.5
-</PRE>
-
-<P>
-defines a steady state dynamics procedure in the time domain. A complete
-period is defined in the time interval [0.,0.5], and 11 Fourier terms will be
-taken. Calculations will be performed for three equidistant points in the
-frequency interval [2.,4.], i.e. for 2 cycles/time, 3 cycles/time and 4
-cycles/time, provided there are no eigenfrequencies in this interval.
+specifies a moment of size 0.01 about the z-axis through node 262. The
+rotation (angle) about this axis of each node belonging to
+the facial surface SURF will be identical and such that the resulting moment
+in the structure agrees with the applied moment. Since only local degree of
+freedom 2 takes part in the rigid body motion, the radial and axial
+displacement in the nodes belonging to surface S1 is left completely free.
 
 <P>
 
 <P><P>
 <BR>
-Example files: beamdy8, beamdy9, beamdy10, beamdy11, beamdy12, beamdy13.
+Example files: coupling2, coupling3.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html5132"
+<A NAME="tex2html5248"
   HREF="node318.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5128"
-  HREF="node205.html">
+<A NAME="tex2html5244"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5122"
+<A NAME="tex2html5238"
   HREF="node316.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5130"
+<A NAME="tex2html5246"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5133"
-  HREF="node318.html">*STEP</A>
-<B> Up:</B> <A NAME="tex2html5129"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5123"
-  HREF="node316.html">*STATIC</A>
- &nbsp; <B>  <A NAME="tex2html5131"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html5249"
+  HREF="node318.html">*MAGNETIC PERMEABILITY</A>
+<B> Up:</B> <A NAME="tex2html5245"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5239"
+  HREF="node316.html">*INITIAL STRAIN INCREASE</A>
+ &nbsp; <B>  <A NAME="tex2html5247"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

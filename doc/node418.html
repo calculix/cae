@@ -1,197 +1,322 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Sensitivity Analysis</TITLE>
-<META NAME="description" CONTENT="Sensitivity Analysis">
+<TITLE>SPC's</TITLE>
+<META NAME="description" CONTENT="SPC's">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node422.html">
+<LINK REL="next" HREF="node419.html">
 <LINK REL="previous" HREF="node417.html">
-<LINK REL="up" HREF="node373.html">
+<LINK REL="up" HREF="node417.html">
 <LINK REL="next" HREF="node419.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6489"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6592"
   HREF="node419.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6485"
-  HREF="node373.html">
+<A NAME="tex2html6588"
+  HREF="node417.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6479"
+<A NAME="tex2html6582"
   HREF="node417.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6487"
+<A NAME="tex2html6590"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6490"
-  HREF="node419.html">Preprocessing the sensitivity</A>
-<B> Up:</B> <A NAME="tex2html6486"
-  HREF="node373.html">Program structure.</A>
-<B> Previous:</B> <A NAME="tex2html6480"
-  HREF="node417.html">Three-Dimensional Navier-Stokes Calculations</A>
- &nbsp; <B>  <A NAME="tex2html6488"
+<B> Next:</B> <A NAME="tex2html6593"
+  HREF="node419.html">Homogeneous linear equations</A>
+<B> Up:</B> <A NAME="tex2html6589"
+  HREF="node417.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6583"
+  HREF="node417.html">Reading the step input</A>
+ &nbsp; <B>  <A NAME="tex2html6591"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION0001110000000000000000">
-Sensitivity Analysis</A>
-</H2>
+<H3><A NAME="SECTION000122100000000000000">
+SPC's</A>
+</H3>
 
 <P>
-The coding for sensitivity analysis is concentrated within the
-sensitivity.c subroutine. The objective functions and the parameters
-describing them are stored in a character*81 field objectset(4,nobject), where
-nobject is the number of objective functions. In the absence of constraints
-there can be an arbitrary number of objective functions specified by the
-user. In the presence of constraints, there is exactly one objective function
-and an arbitrary number of constraints. Regarding the field objectset,
-constraints are treated in exactly the same way as objective
-functions. However, in the presence of constraints, in addition to the
-sensitivity of the objective function and each of the constraints, the
-sensitivity of the constrained objective function is calculated
-too. Therefore, nobject is in that case 1(for the unconstrained objective function) + number
-of constraints + 1 (for the constrained objective function)
-
-<P>
-The structure of the field objectset is as follows:
-
-<UL>
-<LI>objectset(1,*)
-
-<UL>
-<LI>1-18: objective/constraint (e.g. DISPLACEMENT)
-</LI>
-<LI>19-20: LE or GE (for constraints)
-</LI>
-<LI>21-40: boundary weighting distance
-</LI>
-<LI>41-60: relative constraint value
-</LI>
-<LI>61-80: absolute constraint value
-</LI>
-<LI>81-81: R for reading the sensitivities from file jobname.sen, W for
-  writing the sensitivities to file jobname.sen (only stored in objectset(1,1))
-</LI>
-</UL>
-</LI>
-<LI>objectset(2,*)
-
-<UL>
-<LI>1-5: filter type
-</LI>
-<LI>6-8: BOU if boundary weighting is active, else empty
-</LI>
-<LI>10-12: EDG if edge conservation is active, else empty
-</LI>
-<LI>14-16: DIR if direction weighting is active, else empty
-</LI>
-<LI>21-40: filter radius
-</LI>
-<LI>41-60: <B><IMG
- WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img30.png"
- ALT="$ \rho$"></B> of the Kreisselmeier-Steinhauser function
-</LI>
-<LI>61-80: <!-- MATH
- $\bar{\sigma}$
+The first one is the cataloguing algorithm for SPC's (single
+point constraints, *BOUNDARY). Let's say a boundary condition m is defined for node i in
+direction j, <!-- MATH
+ $0 \le j \le 6$
  -->
-<B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1591.png"
- ALT="$ \bar{\sigma}$"></B> of the Kreisselmeier-Steinhauser function
-</LI>
-</UL>
-</LI>
-<LI>objectset(3,*)
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="70" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2391.png"
+ ALT="$ 0 \le j \le 6$"></B></SPAN>, direction 0 stands for temperature, directions 1
+to 3 for translations in global x-, y- and z- direction, direction 4 stands
+for static pressure, directions 5 to 7
+stand for rotations about the global x-, y- and z-axis. Then a degree of
+freedom <!-- MATH
+ $\text{idof}=8*(i-1)+j$
+ -->
+<SPAN CLASS="MATH"><B>idof<IMG
+ WIDTH="116" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2392.png"
+ ALT="$ =8*(i-1)+j$"></B></SPAN> is assigned to this boundary condition. Then, it is
+stored at location k in the one-dimensional field ikboun, where all previous boundary
+degrees of freedom are stored in numerical order such that
+<!-- MATH
+ $\text{ikboun}(k-1)<\text{idof}<\text{ikboun}(k+1)$
+ -->
+<SPAN CLASS="MATH"><B>ikboun<IMG
+ WIDTH="69" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2393.png"
+ ALT="$ (k-1)&lt;$">idof<IMG
+ WIDTH="16" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2394.png"
+ ALT="$ &lt;$">ikboun<IMG
+ WIDTH="52" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2395.png"
+ ALT="$ (k+1)$"></B></SPAN>. Furthermore the number of the boundary
+condition (m) is stored in ilboun: <!-- MATH
+ $\text{ilboun(k)=m}$
+ -->
+<SPAN CLASS="MATH"><B>ilboun(k)=m</B></SPAN>, and the node of the boundary
+condition, its direction and value are stored in the one-dimensional fields
+nodeboun, ndirboun and xboun: <!-- MATH
+ $\text{nodeboun}(m)=i$
+ -->
+<SPAN CLASS="MATH"><B>nodeboun<IMG
+ WIDTH="57" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2396.png"
+ ALT="$ (m)=i$"></B></SPAN>,
+<!-- MATH
+ $\text{ndirboun}(m)=j$
+ -->
+<SPAN CLASS="MATH"><B>ndirboun<IMG
+ WIDTH="59" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2397.png"
+ ALT="$ (m)=j$"></B></SPAN> and <!-- MATH
+ $\text{xboun}(m)=\text{value}$
+ -->
+<SPAN CLASS="MATH"><B>xboun<IMG
+ WIDTH="47" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2398.png"
+ ALT="$ (m)=$">value</B></SPAN>. If an amplitude definition applies to
+the boundary condition, its number <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img649.png"
+ ALT="$ n$"></B></SPAN> is stored in the one-dimensional field
+iamboun: <!-- MATH
+ $\text{iamboun}(m)=n$
+ -->
+<SPAN CLASS="MATH"><B>iamboun<IMG
+ WIDTH="61" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2399.png"
+ ALT="$ (m)=n$"></B></SPAN>.  
+
+<P>
+The SPC type is stored in the one-dimensional field typeboun. SPC's can be of
+different types, depending on whether the were defined by a genuin *BOUNDARY
+CARD, or introduced for other reasons. The field typeboun is a
+one-dimensional character*1 field. Other reasons to introduce SPC's are:
+
+<P>
 
 <UL>
-<LI>1-81: node or element set to which the objective/constraint applies
+<LI>fixing of the midplane in expanded plane stress/plane strain/axisymmetric
+  elements
 </LI>
-</UL>
-</LI>
-<LI>objectset(4,*)
-
-<UL>
-<LI>set of opposite ndoes for THICKNESS constraint
-</LI>
-</UL>
+<LI>taking care of the inhomogeneous term in nonlinear MPC's such as the
+  PLANE <A HREF="node326.html#mpc">*MPC</A>, the STRAIGHT <A HREF="node326.html#mpc">*MPC</A>, a
+  <A HREF="node346.html#rigidbody">*RIGID BODY</A> definition or USER <A HREF="node326.html#mpc">*MPC</A>. 
 </LI>
 </UL>
 
 <P>
-The structure of subroutine sensitivity.c is made up of a preprocessing part,
-a processing part and a postprocessing part. The preprocessing part is
-executed only once, for frequency sensitivities the processing and
-postprocessing part is executed as many times as there are eigenvalues, else
-they are executed only once.
+The corresponding type code is:
 
 <P>
-<BR><HR>
-<!--Table of Child-Links-->
-<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
 
 <UL>
-<LI><A NAME="tex2html6491"
-  HREF="node419.html">Preprocessing the sensitivity</A>
-<LI><A NAME="tex2html6492"
-  HREF="node420.html">Processing the sensitivity</A>
-<LI><A NAME="tex2html6493"
-  HREF="node421.html">Postprocessing the sensitivity</A>
+<LI>B = prescribed boundary condition
+</LI>
+<LI>M = midplane constraint (plane stress/plane strain/axisymmetric elements)
+</LI>
+<LI>P = PLANE MPC
+</LI>
+<LI>R = RIGID BODY definition
+</LI>
+<LI>S = STRAIGHT MPC
+</LI>
+<LI>U = USER MPC
+</LI>
 </UL>
-<!--End of Table of Child-Links-->
-<HR>
+
+<P>
+The total number of boundary conditions
+is stored in variable nboun.  
+
+<P>
+Consequently, ikboun
+contains all degrees of freedom of the boundary conditions in numerical
+order, and ilboun contains the corresponding boundary condition numbers. This
+assures that one can quickly check whether a given degree of freedom was used
+in a SPC. For example, if the SPC's look like:
+
+<P>
+<PRE>
+*BOUNDARY
+8,1,1,0.
+10,1,2,0.
+7,3,3,-1.
+</PRE>
+
+<P>
+the fields look like:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\text{nodeboun}=\begin{Bmatrix} 8 \\10 \\10 \\7 \end{Bmatrix},
+\text{ndirboun}=\begin{Bmatrix} 1 \\1 \\2 \\3 \end{Bmatrix},
+\text{xboun}=\begin{Bmatrix} 0. \\0. \\0. \\-1. \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH">nodeboun<IMG
+ WIDTH="72" HEIGHT="93" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2400.png"
+ ALT="$\displaystyle =\begin{Bmatrix}8 \\ 10 \\ 10 \\ 7 \end{Bmatrix},$">&nbsp; &nbsp;ndirboun<IMG
+ WIDTH="64" HEIGHT="93" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2401.png"
+ ALT="$\displaystyle =\begin{Bmatrix}1 \\ 1 \\ 2 \\ 3 \end{Bmatrix},$">&nbsp; &nbsp;xboun<IMG
+ WIDTH="74" HEIGHT="93" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2402.png"
+ ALT="$\displaystyle =\begin{Bmatrix}0. \\ 0. \\ 0. \\ -1. \end{Bmatrix}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">774</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\text{typeboun}=\begin{Bmatrix} B \\B \\B \\B \end{Bmatrix},
+\text{ikboun}=\begin{Bmatrix} 45 \\50 \\64 \\65 \end{Bmatrix}, 
+\text{ilboun}=\begin{Bmatrix} 4 \\1 \\2 \\3 \end{Bmatrix}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH">typeboun<IMG
+ WIDTH="69" HEIGHT="93" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2403.png"
+ ALT="$\displaystyle =\begin{Bmatrix}B \\ B \\ B \\ B \end{Bmatrix},$">&nbsp; &nbsp;ikboun<IMG
+ WIDTH="72" HEIGHT="93" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2404.png"
+ ALT="$\displaystyle =\begin{Bmatrix}45 \\ 50 \\ 64 \\ 65 \end{Bmatrix},$">&nbsp; &nbsp;ilboun<IMG
+ WIDTH="64" HEIGHT="93" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2405.png"
+ ALT="$\displaystyle =\begin{Bmatrix}4 \\ 1 \\ 2 \\ 3 \end{Bmatrix}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">775</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+and nboun=4.
+
+<P>
+Finally, the following one-dimensional fields are also used:
+
+<P>
+
+<UL>
+<LI>nodebounold: contains the node numbers of the SPC's at the end of
+  the last step
+</LI>
+<LI>ndirbounold: contains the directions of the SPC's at the end of the last
+  step
+</LI>
+<LI>xbounold: contains the values of the SPC's at the end of the last step,
+  or, if this is the first step, zero values.
+</LI>
+<LI>xbounact: contains the values of the SPC's at the end of the present
+  increment, or, for linear calculations, at the end of the present step. The
+  field xbounact is derived from the fields xbounold and xboun by use of the
+  present time and/or amplitude information. How this is done depends on the
+  procedure and is explained later on.
+</LI>
+<LI>xbounini: contains the values of the SPC's at the end of the last
+  increment, or, if this is the first increment in the first step,
+  zero's. This field is used for nonlinear calculations only.
+</LI>
+</UL>
+
+<P>
+Notice that among the boundary conditions SPC's are somewhat special. They are
+sometimes called geometric boundary conditions to distinguish them from the
+natural boundary conditions such as the application of a concentrated or
+distributed load. To remove a natural boundary condition, just set it to
+zero. This is not true for geometric boundary conditions: by setting a SPC to
+zero, the corresponding node is fixed in space which usually does not
+correspond to what one understands by removing the SPC, i.e. free
+unconstrained motion of the node. Therefore, to remove a SPC the option OP=NEW
+must be specified on the *BOUNDARY keyword card. This removes ALL SPC
+constraints. Then, the constraints which the user does not wish to remove must
+be redefined. Depending on the procedure (*STATIC, *DYNAMIC...), the change of
+SPC's is applied in a linear way. This means that the old SPC information must
+be kept to establish this linear change. That's why the fields nodebounold and
+ndirbounold are introduced. The relationship between the old and new SPC's is
+established in subroutine spcmatch, called from ccx_2.16.c.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html6489"
+<A NAME="tex2html6592"
   HREF="node419.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6485"
-  HREF="node373.html">
+<A NAME="tex2html6588"
+  HREF="node417.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6479"
+<A NAME="tex2html6582"
   HREF="node417.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6487"
+<A NAME="tex2html6590"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6490"
-  HREF="node419.html">Preprocessing the sensitivity</A>
-<B> Up:</B> <A NAME="tex2html6486"
-  HREF="node373.html">Program structure.</A>
-<B> Previous:</B> <A NAME="tex2html6480"
-  HREF="node417.html">Three-Dimensional Navier-Stokes Calculations</A>
- &nbsp; <B>  <A NAME="tex2html6488"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html6593"
+  HREF="node419.html">Homogeneous linear equations</A>
+<B> Up:</B> <A NAME="tex2html6589"
+  HREF="node417.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6583"
+  HREF="node417.html">Reading the step input</A>
+ &nbsp; <B>  <A NAME="tex2html6591"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

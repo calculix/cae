@@ -1,194 +1,182 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Incremental (visco)plasticity: multiplicative decomposition</TITLE>
-<META NAME="description" CONTENT="Incremental (visco)plasticity: multiplicative decomposition">
+<TITLE>Deformation plasticity</TITLE>
+<META NAME="description" CONTENT="Deformation plasticity">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node151.html">
 <LINK REL="previous" HREF="node149.html">
-<LINK REL="up" HREF="node143.html">
+<LINK REL="up" HREF="node144.html">
 <LINK REL="next" HREF="node151.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html2968"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3031"
   HREF="node151.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2964"
-  HREF="node143.html">
+<A NAME="tex2html3027"
+  HREF="node144.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2958"
+<A NAME="tex2html3021"
   HREF="node149.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2966"
+<A NAME="tex2html3029"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2969"
-  HREF="node151.html">Incremental (visco)plasticity: additive decomposition</A>
-<B> Up:</B> <A NAME="tex2html2965"
-  HREF="node143.html">Materials</A>
-<B> Previous:</B> <A NAME="tex2html2959"
-  HREF="node149.html">Deformation plasticity</A>
- &nbsp; <B>  <A NAME="tex2html2967"
+<B> Next:</B> <A NAME="tex2html3032"
+  HREF="node151.html">Incremental (visco)plasticity: multiplicative decomposition</A>
+<B> Up:</B> <A NAME="tex2html3028"
+  HREF="node144.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3022"
+  HREF="node149.html">Hyperelastic and hyperfoam materials</A>
+ &nbsp; <B>  <A NAME="tex2html3030"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00078700000000000000"></A><A NAME="incplas"></A>
-<BR>
-Incremental (visco)plasticity: multiplicative decomposition
+<H3><A NAME="SECTION00078600000000000000">
+Deformation plasticity</A>
 </H3>
 
 <P>
-The implementation of incremental plasticity for nonlinear geometrical
-calculations in CalculiX follows the algorithms in [<A
- HREF="node448.html#Simo3">73</A>] and [<A
- HREF="node448.html#Simo4">74</A>] and is based on the notion of an intermediate stress-free configuration. The deformation is viewed as a plastic flow due to dislocation motion followed by elastic stretching and rotation of the crystal lattice. This is synthesized by a local multiplicative decomposition of the deformation gradient <!-- MATH
- $\textbf{F}=\textbf{F}^e \textbf{F}^p$
+Deformation plasticity is characterized by a one-to-one (bijective) relationship between the strain and the stress. This relationship is a three-dimensional generalization of the one-dimensional Ramberg-Osgood law frequently used for metallic materials (e.g. in the simple tension test) yielding a monotonic increasing function of the stress as a function of the strain. Therefore, deformation plasticity is very well suited to model the relation between the Cauchy (true) stress and the strain. Because tensile and compressive test results coincide well when plotting the Cauchy stress versus the logarithmic strain (soon to be defined), these quantities are generally used in the deformation plasticity law. 
+The implementation in CalculiX (keyword card <A HREF="node279.html#deformationplasticity">*DEFORMATION PLASTICITY</A>), however, uses the relationship to model the dependence of the Cauchy (true) stress on the Eulerian strain. For all practical purposes, the Eulerian strain coincides with the logarithmic strain. For a tensile test specimen, with initial length L, initial cross section <SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img599.png"
+ ALT="$ A_0$"></SPAN>, final length <!-- MATH
+ $L+\Delta L$
  -->
-<IMG
- WIDTH="74" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
- SRC="img1017.png"
- ALT="$ \textbf{F}=\textbf{F}^e \textbf{F}^p$"> where <!-- MATH
- $F_{kK}=x_{k,K}$
+<SPAN CLASS="MATH"><IMG
+ WIDTH="58" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1052.png"
+ ALT="$ L+\Delta L$"></SPAN> and final cross section A, loaded by a force F, the Cauchy stress <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1053.png"
+ ALT="$ \sigma$"></SPAN>, the logarithmic strain <!-- MATH
+ $\epsilon_{log}$
  -->
-<IMG
- WIDTH="87" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1018.png"
- ALT="$ F_{kK}=x_{k,K}$"> in Cartesian coordinates.
-
-<P>
-In the present implementation, the elastic response is isotropic and is deduced from a stored-energy function (hyperelastic response). Furthermore, the plastic flow is isochoric (the volume is conserved) and the classical von Mises-Huber yield condition applies. This condition can be visualized as a sphere in principal deviatoric stress space. 
-
-<P>
-The hardening can consist of isotropic hardening, resulting in an expansion or contraction of the yield surface, of kinematic hardening, resulting in a translation of the yield surface, or of a combination of both. The hardening curve should yield the von Mises true stress versus the equivalent plastic logarithmic strain (cf. deformation plasticity for its definition). 
-
-<P>
-Incremental plasticity is defined by the <A HREF="node301.html#plastic">*PLASTIC</A> card, followed by the isotropic hardening curve for isotropic hardening or the kinematic hardening curve for kinematic and combined hardening. For combined hardening, the isotropic hardening curve is defined by the <A HREF="node236.html#cyclichardening">*CYCLIC HARDENING</A> card. The <A HREF="node301.html#plastic">*PLASTIC</A> card should be preceded within the same material definition by an <A HREF="node250.html#elastic">*ELASTIC</A> card, defining the isotropic elastic properties of the material.
-
-<P>
-By allowing the stress to leave the yield surface temporarily in order
-to regain it with time, creep effects can be modeled [<A
- HREF="node448.html#Simo1">71</A>]. The
-viscous part of the viscoplastic law is defined by the
-<A HREF="node235.html#creep">*CREEP</A> card. Default is a Norton type law. However,
-the user can also define his own law in user subroutine creep.f. If
-the *CREEP card is not preceded by a *PLASTIC card, a zero yield
-surface without any hardening effects is assumed. The *CREEP card must
-be preceded by an *ELASTIC card defining the isotropic elastic
-properties of the material. Notice that creep behavior is switched off in a
-<A HREF="node316.html#static">*STATIC</A> step.
-
-<P>
-For this model, there are 13 internal state variables: 
-
-<UL>
-<LI>the accumulated equivalent plastic strain <IMG
- WIDTH="19" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
- SRC="img1019.png"
- ALT="$ \bar{e^p}$"> (1)
-</LI>
-<LI>the unit tensor minus the inverse plastic right Cauchy-Green tensor and divided
-  by two <!-- MATH
- $(\mathbf{I}-\mathbf{{C^p}^{-1}})/2$
+<SPAN CLASS="MATH"><IMG
+ WIDTH="28" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1054.png"
+ ALT="$ \epsilon_{log}$"></SPAN> and the Eulerian strain <!-- MATH
+ $\epsilon_{Euler}$
  -->
-<IMG
- WIDTH="99" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
- SRC="img1020.png"
- ALT="$ (\mathbf{I}-\mathbf{{C^p}^{-1}})/2$">. For small deformations the resulting
-  tensor coincides with the infinitesimal plastic strain tensor <!-- MATH
- $\mathbf{\epsilon^p}$
+<SPAN CLASS="MATH"><IMG
+ WIDTH="45" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1055.png"
+ ALT="$ \epsilon_{Euler}$"></SPAN> satisfy:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\sigma=F/A=\frac{F(L+\Delta L)}{A_0 L}
+\end{equation}
  -->
-<IMG
- WIDTH="20" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
- SRC="img1021.png"
- ALT="$ \mathbf{\epsilon^p}$"> (6)
-</LI>
-<LI>the back stress <!-- MATH
- $\mathbf{\Gamma}$
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="169" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1056.png"
+ ALT="$\displaystyle \sigma=F/A=\frac{F(L+\Delta L)}{A_0 L}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">288</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\epsilon_{log}=ln \left[1+\frac{\Delta L}{L} \right]
+\end{equation}
  -->
-<IMG
- WIDTH="15" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img1022.png"
- ALT="$ \mathbf{\Gamma}$"> (6)
-</LI>
-</UL>
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="139" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1057.png"
+ ALT="$\displaystyle \epsilon_{log}=ln \left[1+\frac{\Delta L}{L} \right]$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">289</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-These variables are accessible through the <A HREF="node256.html#elprint">*EL
-PRINT</A> (.dat file) and <A HREF="node255.html#elfile">*EL FILE</A> (.frd file)
-keywords in exactly this order (label SDV).
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\epsilon_{Euler}=\frac{\Delta L}{L}\left[1-\frac{\Delta L}{2L} \right]
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="169" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1058.png"
+ ALT="$\displaystyle \epsilon_{Euler}=\frac{\Delta L}{L}\left[1-\frac{\Delta L}{2L} \right]$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">290</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-By using the <A HREF="node218.html#changematerial">*CHANGE MATERIAL</A>, <A HREF="node219.html#changeplastic">*CHANGE
-  PLASTIC</A>,  <A HREF="node316.html#static">*STATIC</A> and
-<A HREF="node335.html#visco">*VISCO</A> cards the user can switch between a purely plastic
-and creep behavior. The viscoplastic model implemented in CalculiX is an
-overstress model, i.e. creep only occurs above the yield stress. For a lot of
-materials this is not realistic. At high temperatures creep is frequently
-observed well below the yield stress. To simulate this behavior one can set
-the yield stress to zero. In order to simulate an initial large plastic
-deformation (e.g. due to forging or other machining operations) followed by
-creep at high temperature at operation conditions one can proceed as follows:
-one defines the material as a viscoplastic material using the *PLASTIC and
-*CREEP card. To switch off the creep behavior in the machining step one uses
-the *STATIC procedure. In a subsequent step at operating conditions the
-viscous behavior is switched on using the *VISCO procedure whereas the yield
-stress is set to zero by means of a *CHANGE MATERIAL and *CHANGE PLASTIC card.
+The difference between the logarithmic strain and the Eulerian strain is about 1.3 % for an Engineering strain <!-- MATH
+ $\Delta L / L=20 \%$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="97" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1059.png"
+ ALT="$ \Delta L / L=20 \%$"></SPAN>. The user should give the Ramberg-Osgood material constants directly (by plotting a Cauchy stress versus Eulerian strain curve and performing a fit).
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html2968"
+<A NAME="tex2html3031"
   HREF="node151.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2964"
-  HREF="node143.html">
+<A NAME="tex2html3027"
+  HREF="node144.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2958"
+<A NAME="tex2html3021"
   HREF="node149.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2966"
+<A NAME="tex2html3029"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2969"
-  HREF="node151.html">Incremental (visco)plasticity: additive decomposition</A>
-<B> Up:</B> <A NAME="tex2html2965"
-  HREF="node143.html">Materials</A>
-<B> Previous:</B> <A NAME="tex2html2959"
-  HREF="node149.html">Deformation plasticity</A>
- &nbsp; <B>  <A NAME="tex2html2967"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html3032"
+  HREF="node151.html">Incremental (visco)plasticity: multiplicative decomposition</A>
+<B> Up:</B> <A NAME="tex2html3028"
+  HREF="node144.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3022"
+  HREF="node149.html">Hyperelastic and hyperfoam materials</A>
+ &nbsp; <B>  <A NAME="tex2html3030"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

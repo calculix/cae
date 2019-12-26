@@ -1,136 +1,230 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Sluice Opening</TITLE>
-<META NAME="description" CONTENT="Sluice Opening">
+<TITLE>Sluice Gate</TITLE>
+<META NAME="description" CONTENT="Sluice Gate">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node116.html">
 <LINK REL="previous" HREF="node114.html">
-<LINK REL="up" HREF="node112.html">
+<LINK REL="up" HREF="node113.html">
 <LINK REL="next" HREF="node116.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html2517"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html2580"
   HREF="node116.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2513"
-  HREF="node112.html">
+<A NAME="tex2html2576"
+  HREF="node113.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2507"
+<A NAME="tex2html2570"
   HREF="node114.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2515"
+<A NAME="tex2html2578"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2518"
-  HREF="node116.html">Weir Crest</A>
-<B> Up:</B> <A NAME="tex2html2514"
-  HREF="node112.html">Fluid Section Types: Open</A>
-<B> Previous:</B> <A NAME="tex2html2508"
-  HREF="node114.html">Sluice Gate</A>
- &nbsp; <B>  <A NAME="tex2html2516"
+<B> Next:</B> <A NAME="tex2html2581"
+  HREF="node116.html">Sluice Opening</A>
+<B> Up:</B> <A NAME="tex2html2577"
+  HREF="node113.html">Fluid Section Types: Open</A>
+<B> Previous:</B> <A NAME="tex2html2571"
+  HREF="node114.html">Straight Channel</A>
+ &nbsp; <B>  <A NAME="tex2html2579"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00076300000000000000">
-Sluice Opening</A>
+<H3><A NAME="SECTION00076200000000000000">
+Sluice Gate</A>
 </H3>
 
 <P>
-The sluice opening element is always adjacent to a sluice gate element on its
-downstream side.  Both are illustrated in Figure <A HREF="node114.html#sluicegate">123</A>. The sluice
-opening element has the gate door located at its upstream end node. Since the
-water depth in the downstream end node of this element should represent the depth
-just downstream of the gate door, the length of this element should be chosen
-to be particularly small.  The following constants have to be specified on the
-line beneath the *FLUID SECTION,TYPE=CHANNEL SLUICE OPENING card:
+
+<DIV ALIGN="CENTER"><A NAME="sluicegate"></A><A NAME="15099"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 123:</STRONG>
+Sluice gate geometry</CAPTION>
+<TR><TD><IMG
+ WIDTH="450" HEIGHT="343" BORDER="0"
+ SRC="img726.png"
+ ALT="\begin{figure}\epsfig{file=Sluice.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The sluice gate is the upstream element of a pair of boundary elements
+simulating a sluice. The downstream element is the sluice opening. Both are
+illustrated in Figure <A HREF="#sluicegate">123</A>. The interesting point is that the gate
+height <SPAN CLASS="MATH"><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img727.png"
+ ALT="$ h_g$"></SPAN> may be part of the backwater curve, but it does not have to. If
+the lower point of the gate is higher than the fluid surface, it will not be
+part of the backwater curve. 
+
+<P>
+If the gate door touches the water and the water curve is a frontwater curve
+(curve A in Figure  <A HREF="#sluicegate">123</A>) the volumetric flow <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img720.png"
+ ALT="$ Q$"></SPAN> is given by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+Q=b h_g \sqrt{2 g (h-h_g \sqrt{1 - S_0^2})},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="216" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img728.png"
+ ALT="$\displaystyle Q=b h_g \sqrt{2 g (h-h_g \sqrt{1 - S_0^2})},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">162</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+if the gate door does not touch the water and the water curve is a frontwater curve
+the volumetric flow <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img720.png"
+ ALT="$ Q$"></SPAN> is given by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+Q=b h_c \sqrt{2 g (h-h_c \sqrt{1 - S_0^2})},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="214" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img729.png"
+ ALT="$\displaystyle Q=b h_c \sqrt{2 g (h-h_c \sqrt{1 - S_0^2})},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">163</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img730.png"
+ ALT="$ h_c$"></SPAN> is the critical depth. If the gate door touches the water and the water curve is a backwater curve
+(governed by downstream boundary conditions, curve B in Figure  <A HREF="#sluicegate">123</A>)) the volumetric flow is given by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+Q=b h_g \sqrt{2 g (h-h_d \sqrt{1 - S_0^2})}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="216" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img731.png"
+ ALT="$\displaystyle Q=b h_g \sqrt{2 g (h-h_d \sqrt{1 - S_0^2})}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">164</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Finally, if the gate door does not touch the water and the water curve is a
+backwater curve the volumetric flow is given by
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+Q=b h_d \sqrt{2 g (h-h_d \sqrt{1 - S_0^2})}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="216" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img732.png"
+ ALT="$\displaystyle Q=b h_d \sqrt{2 g (h-h_d \sqrt{1 - S_0^2})}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">165</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The following constants have to be specified on the
+line beneath the *FLUID SECTION,TYPE=CHANNEL SLUICE GATE card:
 
 <P>
 
 <UL>
-<LI>the width <IMG
- WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img310.png"
- ALT="$ b$">
+<LI>the width <SPAN CLASS="MATH"><IMG
+ WIDTH="11" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img323.png"
+ ALT="$ b$"></SPAN>
 </LI>
 <LI>the slope <!-- MATH
  $S_0 = \sin \phi$
  -->
-<IMG
- WIDTH="74" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img680.png"
- ALT="$ S_0= \sin \phi$"> (if <IMG
- WIDTH="63" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img681.png"
- ALT="$ S_0&lt;-1$"> the slope is calculated from the
+<SPAN CLASS="MATH"><IMG
+ WIDTH="73" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img724.png"
+ ALT="$ S_0= \sin \phi$"></SPAN> (if <SPAN CLASS="MATH"><IMG
+ WIDTH="62" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img725.png"
+ ALT="$ S_0&lt;-1$"></SPAN> the slope is calculated from the
   coordinates of the end nodes belonging to the element)
 </LI>
-<LI>the length <IMG
- WIDTH="15" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img288.png"
- ALT="$ L$"> (if <IMG
- WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img690.png"
- ALT="$ L \le 0$"> the length is calculated from the
-  coordinates of the end nodes belonging to the element)
-</LI>
-<LI>the trapezoid angle <IMG
- WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img178.png"
- ALT="$ \theta$">
-</LI>
-<LI>the grain diameter <IMG
+<LI>the height of the gate door <SPAN CLASS="MATH"><IMG
  WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img448.png"
- ALT="$ k_s$"> for the White-Colebrook law or the Manning
-  constant <IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img605.png"
- ALT="$ n$"> for the Manning law (in the latter case the user has to specify
-  the parameter MANNING on the *FLUID SECTION card)
+ SRC="img727.png"
+ ALT="$ h_g$"></SPAN>
 </LI>
-<LI>the number of the upstream sluice gate element
+<LI>not used
+</LI>
+<LI>the number of the downstream sluice opening element
+</LI>
+<LI>the number of the upstream reference element, if any
 </LI>
 </UL>
 
 <P>
-The meaning of <IMG
- WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img310.png"
- ALT="$ b$">, <IMG
+The slope <SPAN CLASS="MATH"><IMG
  WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img689.png"
- ALT="$ S_0$">, <IMG
- WIDTH="15" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img288.png"
- ALT="$ L$"> and <IMG
- WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img733.png"
+ ALT="$ S_0$"></SPAN> is used in case the gate door does not touch the water
+surface. The cross section of a sluice gate is supposed to be
+rectangular. Therefore, <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
  SRC="img178.png"
- ALT="$ \theta$"> can be derived from Figure
-<A HREF="node113.html#channelsection1">122</A>. 
+ ALT="$ \theta$"></SPAN> is lacking in its definition. Notice that a sluice gate can have upstream channel elements attached
+to it. In that case it is mandatory to specify an upstream reference element.
 
 <P>
 
@@ -139,37 +233,35 @@ The meaning of <IMG
 Example files: channel1, chanson1.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html2517"
+<A NAME="tex2html2580"
   HREF="node116.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2513"
-  HREF="node112.html">
+<A NAME="tex2html2576"
+  HREF="node113.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2507"
+<A NAME="tex2html2570"
   HREF="node114.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2515"
+<A NAME="tex2html2578"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2518"
-  HREF="node116.html">Weir Crest</A>
-<B> Up:</B> <A NAME="tex2html2514"
-  HREF="node112.html">Fluid Section Types: Open</A>
-<B> Previous:</B> <A NAME="tex2html2508"
-  HREF="node114.html">Sluice Gate</A>
- &nbsp; <B>  <A NAME="tex2html2516"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html2581"
+  HREF="node116.html">Sluice Opening</A>
+<B> Up:</B> <A NAME="tex2html2577"
+  HREF="node113.html">Fluid Section Types: Open</A>
+<B> Previous:</B> <A NAME="tex2html2571"
+  HREF="node114.html">Straight Channel</A>
+ &nbsp; <B>  <A NAME="tex2html2579"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

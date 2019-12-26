@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
+<HTML>
+<HEAD>
+<TITLE>Calculating the residual and setting up the equation system</TITLE>
+<META NAME="description" CONTENT="Calculating the residual and setting up the equation system">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node455.html">
+<LINK REL="previous" HREF="node453.html">
+<LINK REL="up" HREF="node450.html">
+<LINK REL="next" HREF="node455.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html7039"
+  HREF="node455.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html7035"
+  HREF="node450.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html7029"
+  HREF="node453.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html7037"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html7040"
+  HREF="node455.html">Convergence criteria</A>
+<B> Up:</B> <A NAME="tex2html7036"
+  HREF="node450.html">Aerodynamic and hydraulic networks</A>
+<B> Previous:</B> <A NAME="tex2html7030"
+  HREF="node453.html">Initializing the unknowns</A>
+ &nbsp; <B>  <A NAME="tex2html7038"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000128400000000000000">
+Calculating the residual and setting up the equation system</A>
+</H3>
+
+<P>
+The residual of the governing equations is calculated in subroutine
+resultnet.f. At the start of the routine the static temperature is calculated for the nodes not identified as
+chambers based on the total pressure, total temperature and mass flow. Then, a
+loop is initialized covering all network elements. For each element the
+contributions to the conservation of mass equation and to the conservation of
+energy equation (or, equivalently, to the isothermal equation if the element
+is an isothermal gas pipe element) of its corner nodes are
+determined. Subsequently, the satisfaction of the element equation is
+verified. This is the third mode the element routines are called in,
+characterized by iflag=2. Finally, the energy contributions resulting from the
+interaction with the walls and due to prescribed heat generation in the
+network are taken into account. The residual constitutes the right hand side of
+the network system.
+
+<P>
+Setting up the equation system is done in subroutine mafillnet.f. The
+structure of the routine is very similar to the resultnet routine: in a loop
+over all elements the coefficients of the equations (conservation of mass and
+momentum and the conservation of energy, or, if applicable, the isothermal
+condition) are determined. This includes effects from the interaction with the
+walls. This leads to the left hand side of the system of equations.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html7039"
+  HREF="node455.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html7035"
+  HREF="node450.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html7029"
+  HREF="node453.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html7037"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html7040"
+  HREF="node455.html">Convergence criteria</A>
+<B> Up:</B> <A NAME="tex2html7036"
+  HREF="node450.html">Aerodynamic and hydraulic networks</A>
+<B> Previous:</B> <A NAME="tex2html7030"
+  HREF="node453.html">Initializing the unknowns</A>
+ &nbsp; <B>  <A NAME="tex2html7038"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

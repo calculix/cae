@@ -1,180 +1,273 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>User subroutines.</TITLE>
-<META NAME="description" CONTENT="User subroutines.">
+<TITLE>*OBJECTIVE</TITLE>
+<META NAME="description" CONTENT="*OBJECTIVE">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node372.html">
-<LINK REL="previous" HREF="node205.html">
-<LINK REL="up" HREF="ccx.html">
+<LINK REL="next" HREF="node337.html">
+<LINK REL="previous" HREF="node335.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node337.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5358"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5476"
   HREF="node337.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5354"
-  HREF="ccx.html">
+<A NAME="tex2html5472"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5348"
+<A NAME="tex2html5466"
   HREF="node335.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5356"
+<A NAME="tex2html5474"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5359"
-  HREF="node337.html">Creep (creep.f)</A>
-<B> Up:</B> <A NAME="tex2html5355"
-  HREF="ccx.html">CalculiX CrunchiX USER'S MANUAL</A>
-<B> Previous:</B> <A NAME="tex2html5349"
-  HREF="node335.html">*VISCO</A>
- &nbsp; <B>  <A NAME="tex2html5357"
+<B> Next:</B> <A NAME="tex2html5477"
+  HREF="node337.html">*ORIENTATION</A>
+<B> Up:</B> <A NAME="tex2html5473"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5467"
+  HREF="node335.html">*NSET</A>
+ &nbsp; <B>  <A NAME="tex2html5475"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H1><A NAME="SECTION00090000000000000000">
-User subroutines.</A>
-</H1>
+<H2><A NAME="SECTION000989000000000000000"></A><A NAME="objective"></A>
+<BR>
+*OBJECTIVE
+</H2>
 
 <P>
-Although the present software is protected by the GNU General Public
-License, and the user should always get the source code, it is
-sometimes more practical to get a nicely described user interface to
-plug in your own routines, instead of having to analyze the whole
-program. Therefore, for specific tasks well-defined interfaces are put
-at the disposal of the user. These interfaces are basically FORTRAN
-subroutines containing a subroutine header, a description of the input and
-output variables and declaration statements for these variables. The body of
-the routine has to be written by the user.
+Keyword type: step
 
 <P>
-To use a user subroutine, replace the dummy routine in the CalculiX
-distribution by yours (e.g. dflux.f from the distribution by the dflux.f you
-wrote yourself) and recompile.
+With *OBJECTIVE one can define the objective functions in a sensitivity
+analysis. Right now the following objectives are allowed for TYPE=COORDINATE
+design variables: 
 
 <P>
-<BR><HR>
-<!--Table of Child-Links-->
-<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
 
 <UL>
-<LI><A NAME="tex2html5360"
-  HREF="node337.html">Creep (creep.f) </A>
-<LI><A NAME="tex2html5361"
-  HREF="node338.html">Hardening (uhardening.f)</A>
-<LI><A NAME="tex2html5362"
-  HREF="node339.html">User-defined initial conditions</A>
-<UL>
-<LI><A NAME="tex2html5363"
-  HREF="node340.html">Initial internal variables (sdvini.f)</A>
-<LI><A NAME="tex2html5364"
-  HREF="node341.html">Initial stress field (sigini.f)</A>
+<LI>DISPLACEMENT: the square root of the sum of the square of the displacements in all nodes of
+  the structure or of a subset if a node set is defined
+</LI>
+<LI>EIGENFREQUENCY: all eigenfrequencies calculated in a previous
+<A HREF="node304.html#frequency">*FREQUENCY</A> step (actually the eigenvalues, which are the
+square of the eigenfrequencies)
+</LI>
+<LI>MASS: mass of the total structure or of a subset if
+  an element set is defined
+</LI>
+<LI>STRAIN ENERGY: internal energy of the total structure or of a subset if
+  an element set is defined
+</LI>
+<LI>STRESS: the maximum von Mises stress of the total structure or of a
+  subset if a node set is defined. The maximum is approximated by the
+  Kreisselmeier-Steinhauser function 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+f=\frac{1}{\rho} \ln \sum_i e^{\rho \frac{\sigma_{i}}{\bar{\sigma}}},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="125" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2110.png"
+ ALT="$\displaystyle f=\frac{1}{\rho} \ln \sum_i e^{\rho \frac{\sigma_{i}}{\bar{\sigma}}},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">757</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2111.png"
+ ALT="$ \sigma_i$"></B></SPAN> is the von Mises stress in node i, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B></SPAN> and  <!-- MATH
+ $\bar{\sigma}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2112.png"
+ ALT="$ \bar{\sigma}$"></B></SPAN>
+are user-defined parameters. The higher <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B></SPAN> the closer <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img496.png"
+ ALT="$ f$"></B></SPAN> is to the actual
+maximum (a value of 10 is recommended; the higher this value, the sharper the
+turns in the function). <!-- MATH
+ $\bar{\sigma}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2112.png"
+ ALT="$ \bar{\sigma}$"></B></SPAN> is the target stress, it
+should not be too far
+away from the actual maximum.
+
+<P>
+</LI>
 </UL>
+
+<P>
+and for TYPE=ORIENTATION design variables:
+
+<P>
+
+<UL>
+<LI>DISPLACEMENT: the displacements in all nodes.
+</LI>
+<LI>EIGENFREQUENCY: all eigenfrequencies (actually the eigenvalues, which
+  are the square of the eigenfrequencies) and eigenmodes calculated in a previous
+<A HREF="node304.html#frequency">*FREQUENCY</A> step.
+</LI>
+<LI>GREEN: the Green functions calculated in a previous <A HREF="node309.html#green">*GREEN</A> step.
+</LI>
+<LI>MASS: mass of the total structure or of a subset if
+  an element set is defined
+</LI>
+<LI>STRAIN ENERGY: internal energy of the total structure or of a subset if
+  an element set is defined
+</LI>
+<LI>STRESS: the stresses in all nodes.
+</LI>
+</UL>
+
+<P>
+There is one optional parameter TARGET. If TARGET=MIN (= default) the sensivity is
+calculated for a minization of the objective, if TARGET=MAX for a
+maximization. The difference comes into play when determining which
+constraints are active.  Exactly one *OBJECTIVE keyword is required in a
+*SENSITIVITY step. This keyword has to be followed by at least one objective
+function. If a <A HREF="node265.html#constraint">*CONSTRAINT</A> card is used within the step
+exactly one objective function must be defined within the step.
+
+<P>
+
+<P><P>
 <BR>
-<LI><A NAME="tex2html5365"
-  HREF="node342.html">User-defined loading</A>
+
+<P>
+First line:
+
 <UL>
-<LI><A NAME="tex2html5366"
-  HREF="node343.html">Concentrated flux (cflux.f)</A>
-<LI><A NAME="tex2html5367"
-  HREF="node344.html">Concentrated load (cload.f)</A>
-<LI><A NAME="tex2html5368"
-  HREF="node345.html">Distributed flux (dflux.f)</A>
-<LI><A NAME="tex2html5369"
-  HREF="node346.html">Distribruted load (dload.f)</A>
-<LI><A NAME="tex2html5370"
-  HREF="node347.html">Heat convection (film.f)</A>
-<LI><A NAME="tex2html5371"
-  HREF="node348.html">Boundary conditions(uboun.f)</A>
-<LI><A NAME="tex2html5372"
-  HREF="node349.html">Heat radiation (radiate.f)</A>
-<LI><A NAME="tex2html5373"
-  HREF="node350.html">Temperature (utemp.f)</A>
-<LI><A NAME="tex2html5374"
-  HREF="node351.html">Amplitude (uamplitude.f)</A>
-<LI><A NAME="tex2html5375"
-  HREF="node352.html">Face loading (ufaceload.f)</A>
-<LI><A NAME="tex2html5376"
-  HREF="node353.html">Gap conductance (gapcon.f)</A>
-<LI><A NAME="tex2html5377"
-  HREF="node354.html">Gap heat generation (fricheat.f)</A>
+<LI>*OBJECTIVE.
+</LI>
 </UL>
+
+<P>
+Second line:
+
+<UL>
+<LI>an objective function
+</LI>
+<LI>an element or node set, if appropriate
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B></SPAN> for the Kreisselmeier-Steinhauser function (only for the
+  coordinates as design variables and the stress as target)
+</LI>
+<LI><!-- MATH
+ $\bar{\sigma}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2112.png"
+ ALT="$ \bar{\sigma}$"></B></SPAN> for the Kreisselmeier-Steinhauser function (only for the
+  coordinates as design variables and the stress as target)
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+The objective functions STRAIN ENERGY, MASS, DISPLACEMENT and STRESS require a *STATIC
+step before the <A HREF="node349.html#sensitivity">*SENSITIVITY</A> step, the objective function EIGENFREQUENCY
+requires a *FREQUENCY step immediately preceding the *SENSITIVITY
+step and the objective function GREEN requires a *GREEN step before the
+*SENSITIVITY step. Therefore, the {STRAIN ENERGY, MASS, DISPLACEMENT, STRESS} objective functions,
+ the {EIGENFREQUENCY} objective function and the  {GREEN} objective function are mutually exclusive within
+one and the same *SENSITIVITY step.
+
+<P>
+<PRE>
+Example:
+
+*OBJECTIVE
+DISPLACEMENT,N1
+</PRE>
+
+<P>
+defines the square root of the sum of the square of the displacements in set N1 to be the
+objective function.
+
+<P>
+
+<P><P>
 <BR>
-<LI><A NAME="tex2html5378"
-  HREF="node355.html">User-defined mechanical material laws.</A>
-<UL>
-<LI><A NAME="tex2html5379"
-  HREF="node356.html">The CalculiX interface</A>
-<UL>
-<LI><A NAME="tex2html5380"
-  HREF="node357.html">Introduction of a new mechanical behaviour by modifying the
-  sources</A>
-<LI><A NAME="tex2html5381"
-  HREF="node358.html">Calling mechanical behaviours defined shared libraries</A>
-</UL>
-<LI><A NAME="tex2html5382"
-  HREF="node359.html">ABAQUS umat routines</A>
-<UL>
-<LI><A NAME="tex2html5383"
-  HREF="node360.html">Calling mechanical behaviours defined shared libraries</A>
-<LI><A NAME="tex2html5384"
-  HREF="node361.html">Calling shared libraries</A>
-<LI><A NAME="tex2html5385"
-  HREF="node362.html">Limitations</A>
-<LI><A NAME="tex2html5386"
-  HREF="node363.html">Calling shared libraries</A>
-<LI><A NAME="tex2html5387"
-  HREF="node364.html">Limitations</A>
-</UL>
-</UL>
+Example files: sensitivity_I.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5476"
+  HREF="node337.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5472"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5466"
+  HREF="node335.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5474"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<LI><A NAME="tex2html5388"
-  HREF="node365.html">User-defined thermal material laws.</A>
-<LI><A NAME="tex2html5389"
-  HREF="node366.html">User-defined nonlinear equations </A>
-<UL>
-<LI><A NAME="tex2html5390"
-  HREF="node367.html">Mean rotation MPC.</A>
-<LI><A NAME="tex2html5391"
-  HREF="node368.html">Maximum distance MPC.</A>
-<LI><A NAME="tex2html5392"
-  HREF="node369.html">Network MPC.</A>
-</UL>
-<BR>
-<LI><A NAME="tex2html5393"
-  HREF="node370.html">User-defined elements</A>
-<UL>
-<LI><A NAME="tex2html5394"
-  HREF="node371.html">Network element</A>
-</UL></UL>
-<!--End of Table of Child-Links-->
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+<B> Next:</B> <A NAME="tex2html5477"
+  HREF="node337.html">*ORIENTATION</A>
+<B> Up:</B> <A NAME="tex2html5473"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5467"
+  HREF="node335.html">*NSET</A>
+ &nbsp; <B>  <A NAME="tex2html5475"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

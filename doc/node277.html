@@ -1,87 +1,210 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*INITIAL STRAIN INCREASE</TITLE>
-<META NAME="description" CONTENT="*INITIAL STRAIN INCREASE">
+<TITLE>*DAMPING</TITLE>
+<META NAME="description" CONTENT="*DAMPING">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node278.html">
 <LINK REL="previous" HREF="node276.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node278.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4652"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4768"
   HREF="node278.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4648"
-  HREF="node205.html">
+<A NAME="tex2html4764"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4642"
+<A NAME="tex2html4758"
   HREF="node276.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4650"
+<A NAME="tex2html4766"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4653"
-  HREF="node278.html">*KINEMATIC</A>
-<B> Up:</B> <A NAME="tex2html4649"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4643"
-  HREF="node276.html">*INITIAL CONDITIONS</A>
- &nbsp; <B>  <A NAME="tex2html4651"
+<B> Next:</B> <A NAME="tex2html4769"
+  HREF="node278.html">*DASHPOT</A>
+<B> Up:</B> <A NAME="tex2html4765"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4759"
+  HREF="node276.html">*CYCLIC SYMMETRY MODEL</A>
+ &nbsp; <B>  <A NAME="tex2html4767"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000869000000000000000"></A><A NAME="initialstrainincrease"></A>
+<H2><A NAME="SECTION000930000000000000000"></A><A NAME="damping"></A>
 <BR>
-*INITIAL STRAIN INCREASE
+*DAMPING
 </H2>
 
 <P>
-Keyword type: step
+Keyword type: model definition, if structural damping: material
 
 <P>
-This option is used to define an increase of initial strains. The values are
-added to the initial strains already present in the model. The use of this
-option requires the previous use of <A HREF="node276.html#initialconditions">*INITIAL
-  CONDITIONS</A>, TYPE=PLASTIC STRAIN or <A HREF="node286.html#modelchange">*MODEL
-  CHANGE</A>, TYPE=ELEMENT, ADD or  <A HREF="node286.html#modelchange">*MODEL
-  CHANGE</A>, TYPE=ELEMENT, ADD=STRAIN FREE.
+This card is used to define Rayleigh damping for implicit and explicit dynamic calculations
+(<A HREF="node288.html#dynamic">*DYNAMIC</A>) and structural damping for steady state dynamics
+calculations (<A HREF="node356.html#steadystatedynamics">*STEADY STATE DYNAMICS</A>). 
 
 <P>
-The resulting initial strain components are subtracted from the
-strain components computed from the displacement field. If thermal strains are
-relevant they are additionally subtracted. The resulting strain is used to
-compute the stress and tangent stiffness matrix using the appropriate
-constitutive equations.  
+For Rayleigh damping there are two required parameters: ALPHA and
+BETA.
 
 <P>
-Please note that the strains have to be provided in the
-GLOBAL (rectangular) coordinate system, no matter whether an *ORIENTATION card
-or *TRANSFORM card applies to the corresponding element.
+Rayleigh damping is applied in a
+global way, i.e. the damping matrix <!-- MATH
+ $\left [ C \right ]$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="25" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2165.png"
+ ALT="$ \left [ C \right ]$"></B></SPAN> is taken to be a linear combination of the
+stiffness matrix <!-- MATH
+ $\left [ K \right ]$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2166.png"
+ ALT="$ \left [ K \right ]$"></B></SPAN> and the mass matrix <!-- MATH
+ $\left [ M \right ]$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2167.png"
+ ALT="$ \left [ M \right ]$"></B></SPAN>:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\left [ C \right ] = \alpha \left [ M \right ]
++ \beta \left [ K \right ].
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="148" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2168.png"
+ ALT="$\displaystyle \left [ C \right ] = \alpha \left [ M \right ] + \beta \left [ K \right ].$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">728</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The damping force satisfies:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\lbrace F \rbrace = \left [ C \right ] \lbrace v \rbrace,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="106" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2169.png"
+ ALT="$\displaystyle \lbrace F \rbrace = \left [ C \right ] \lbrace v \rbrace,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">729</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\lbrace v \rbrace$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="28" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2170.png"
+ ALT="$ \lbrace v \rbrace$"></B></SPAN> is the velocity vector. For Rayleigh damping only one *DAMPING card can be used in the input deck. It
+applies to the whole model.
+
+<P>
+For explicit dynamic calculations only mass proportional damping is allowed,
+i.e. <SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img540.png"
+ ALT="$ \beta$"></B></SPAN> must be zero. 
+
+<P>
+For structural damping the damping is a material characteristic. Each material
+can have its own damping value. There is one required parameter STRUCTURAL,
+defining the value <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img333.png"
+ ALT="$ \zeta$"></B></SPAN> of the damping. For structural damping the element
+damping force is displacement dependent and satisfies: 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\lbrace F \rbrace_e = i \zeta_e \left [ K \right ]_e \lbrace x \rbrace_e,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="151" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2171.png"
+ ALT="$\displaystyle \lbrace F \rbrace_e = i \zeta_e \left [ K \right ]_e \lbrace x \rbrace_e,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">730</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $i=\sqrt{-1}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="64" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2172.png"
+ ALT="$ i=\sqrt{-1}$"></B></SPAN>, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="34" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2173.png"
+ ALT="$ [K]_e$"></B></SPAN> is the element stiffness matrix, and <!-- MATH
+ $\lbrace x
+\rbrace_e$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="36" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2174.png"
+ ALT="$ \lbrace x
+\rbrace_e$"></B></SPAN> is the element displacement vector. <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2175.png"
+ ALT="$ \zeta_e$"></B></SPAN> is the structural
+damping value for the material of element <SPAN CLASS="MATH"><B><IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1523.png"
+ ALT="$ e$"></B></SPAN> (default is zero). The global
+damping force is assembled from the element damping forces. 
+
+<P>
 
 <P><P>
 <BR>
@@ -90,89 +213,83 @@ or *TRANSFORM card applies to the corresponding element.
 First line:
 
 <UL>
-<LI>*INITIAL STRAIN INCREASE
+<LI>*DAMPING
+</LI>
+<LI>Enter ALPHA and BETA and their values for Rayleigh damping or STRUCTURAL
+  and its value for structural damping.
 </LI>
 </UL>
-
-<P>
-
-<P><P>
-<BR>
-Following line:
-
-<UL>
-<LI>Element number.
-</LI>
-<LI>Integration point number.
-</LI>
-<LI>Value of first initial strain increase component (xx) in the GLOBAL coordinate
-  system x-y-z.
-</LI>
-<LI>Value of second initial strain increase component (yy) in the GLOBAL coordinate system x-y-z.
-</LI>
-<LI>Value of third initial strain increase component (zz) in the GLOBAL coordinate system x-y-z.
-</LI>
-<LI>Value of fourth initial strain increase component (xy) in the GLOBAL coordinate system x-y-z.
-</LI>
-<LI>Value of fifth initial strain increase component (xz) in the GLOBAL coordinate system x-y-z.
-</LI>
-<LI>Value of sixth initial strain increase component (yz) in the GLOBAL coordinate system x-y-z.
-</LI>
-</UL>
-Repeat this line if needed. The strain components should be given as Lagrange
-strain components for nonlinear calculations and linearized strain components
-for linear computations. 
 
 <P>
 <PRE>
-Examples:
+Example:
 
-*INITIAL STRAIN INCREASE
-20,5,0.01,0.,0.01,0.,0.,0.
+*DAMPING,ALPHA=5000.,BETA=2.e-3
 </PRE>
 
 <P>
-increases the initial strain at integration point 5 of element 20 by
-a normal global x and normal global z component of 0.01, the other strains remain unchanged.
+indicates that a damping matrix is created by multiplying the mass matrix with
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="40" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2176.png"
+ ALT="$ 5000.$"></B></SPAN> and adding it to the stiffness matrix multiplied by <!-- MATH
+ $2 \cdot 10^{-4}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="56" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2177.png"
+ ALT="$ 2 \cdot 10^{-4}$"></B></SPAN>
+
+<P>
+<PRE>
+Example:
+
+*DAMPING,STRUCTURAL=0.03
+</PRE>
+
+<P>
+defines a structural damping value of 0.03 (3 <SPAN CLASS="MATH"><B><IMG
+ WIDTH="17" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1235.png"
+ ALT="$ \%$"></B></SPAN>). This card must be part of
+a material description.
 
 <P>
 
 <P><P>
 <BR>
-Example files: inistrain2.
+Example files: beamimpdy1, beamimpdy2.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4652"
+<A NAME="tex2html4768"
   HREF="node278.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4648"
-  HREF="node205.html">
+<A NAME="tex2html4764"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4642"
+<A NAME="tex2html4758"
   HREF="node276.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4650"
+<A NAME="tex2html4766"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4653"
-  HREF="node278.html">*KINEMATIC</A>
-<B> Up:</B> <A NAME="tex2html4649"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4643"
-  HREF="node276.html">*INITIAL CONDITIONS</A>
- &nbsp; <B>  <A NAME="tex2html4651"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html4769"
+  HREF="node278.html">*DASHPOT</A>
+<B> Up:</B> <A NAME="tex2html4765"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4759"
+  HREF="node276.html">*CYCLIC SYMMETRY MODEL</A>
+ &nbsp; <B>  <A NAME="tex2html4767"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -99,9 +99,9 @@ def importer(INP_doc, KOM):
             # Find KOM keyword path corresponding to keyword_chain
             keyword_chain.append(keyword_name)
             path = KOM.getPath(keyword_chain)
-            logging.debug('path found: ' + str([item.name for item in path]))
-
             if path:
+                logging.debug('path found: ' + str([item.name for item in path]))
+
                 # Read INP_code for the current keyword
                 INP_code = [line] # line is stripped in mesh.py
                 while i+1 < len(INP_doc) and \

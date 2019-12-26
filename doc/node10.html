@@ -1,10 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
 <TITLE>Thermal calculation of a furnace</TITLE>
@@ -13,7 +9,7 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
@@ -25,34 +21,35 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html992"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1053"
   HREF="node11.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html988"
+<A NAME="tex2html1049"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html982"
+<A NAME="tex2html1043"
   HREF="node9.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html990"
+<A NAME="tex2html1051"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html993"
+<B> Next:</B> <A NAME="tex2html1054"
   HREF="node11.html">Seepage under a dam</A>
-<B> Up:</B> <A NAME="tex2html989"
+<B> Up:</B> <A NAME="tex2html1050"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html983"
+<B> Previous:</B> <A NAME="tex2html1044"
   HREF="node9.html">Frequency calculation of a</A>
- &nbsp; <B>  <A NAME="tex2html991"
+ &nbsp; <B>  <A NAME="tex2html1052"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
 <H2><A NAME="SECTION00064000000000000000">
@@ -61,12 +58,12 @@ Thermal calculation of a furnace</A>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="furngeo"></A><A NAME="11758"></A>
+<DIV ALIGN="CENTER"><A NAME="furngeo"></A><A NAME="14787"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 16:</STRONG>
 Description of the furnace</CAPTION>
 <TR><TD><IMG
- WIDTH="497" HEIGHT="370" BORDER="0"
+ WIDTH="497" HEIGHT="371" BORDER="0"
  SRC="img101.png"
  ALT="\begin{figure}\epsfig{file=furngeo.eps,width=11cm}\end{figure}"></TD></TR>
 </TABLE>
@@ -75,105 +72,105 @@ Description of the furnace</CAPTION>
 <P>
 This problem involves a thermal calculation of the furnace depicted in
 Figure <A HREF="#furngeo">16</A>. The furnace consists of a bottom plate at a temperature
-<IMG
- WIDTH="23" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="22" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
  SRC="img102.png"
- ALT="$ Tb$">, which is prescribed. It changes linearly in an extremely short time from
+ ALT="$ Tb$"></SPAN>, which is prescribed. It changes linearly in an extremely short time from
 300 K to 1000 K after which it remains constant. The side walls of the furnace
 are isolated from the outer world, but exchange heat through radiation with
 the other walls of the furnace. The emissivity of the side walls and bottom
 is <!-- MATH
  $\epsilon=1$
  -->
-<IMG
- WIDTH="40" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
  SRC="img103.png"
- ALT="$ \epsilon=1$">. The top of the furnace exchanges heat through radiation with
+ ALT="$ \epsilon=1$"></SPAN>. The top of the furnace exchanges heat through radiation with
 the other walls and with the environmental temperature which is fixed at 300
 K. The emissivity of the top is <!-- MATH
  $\epsilon=0.8$
  -->
-<IMG
- WIDTH="52" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="52" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
  SRC="img104.png"
- ALT="$ \epsilon=0.8$">. Furthermore, the top exchanges
+ ALT="$ \epsilon=0.8$"></SPAN>. Furthermore, the top exchanges
 heat through convection with a fluid (air) moving at the constant rate of
 0.001 kg/s. The temperature of the fluid at the right upper corner is 300
 K. The walls of the oven are made of 10 cm steel. The material
 constants for steels are: heat conductivity <!-- MATH
  $\kappa=50 \mathrm{W/m K}$
  -->
-<IMG
- WIDTH="101" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="100" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
  SRC="img105.png"
- ALT="$ \kappa=50 \mathrm{W/m K}$">,
+ ALT="$ \kappa=50 \mathrm{W/m K}$"></SPAN>,
 specific 
 heat <!-- MATH
  $c=446 \mathrm{W/kg K}$
  -->
-<IMG
- WIDTH="110" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="109" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
  SRC="img106.png"
- ALT="$ c=446 \mathrm{W/kg K}$"> and density <!-- MATH
+ ALT="$ c=446 \mathrm{W/kg K}$"></SPAN> and density <!-- MATH
  $\rho=7800 \mathrm{kg/m^3}$
  -->
-<IMG
- WIDTH="111" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="110" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
  SRC="img107.png"
- ALT="$ \rho=7800 \mathrm{kg/m^3}$">. The material
+ ALT="$ \rho=7800 \mathrm{kg/m^3}$"></SPAN>. The material
 constants for 
 air are : specific heat <!-- MATH
  $c_p=1000 \mathrm{W/kg K}$
  -->
-<IMG
- WIDTH="125" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="124" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
  SRC="img108.png"
- ALT="$ c_p=1000 \mathrm{W/kg K}$"> and density <!-- MATH
+ ALT="$ c_p=1000 \mathrm{W/kg K}$"></SPAN> and density <!-- MATH
  $\rho=1
 \mathrm{kg/m^3}$
  -->
-<IMG
- WIDTH="87" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="86" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
  SRC="img109.png"
  ALT="$ \rho=1
-\mathrm{kg/m^3}$">. The 
+\mathrm{kg/m^3}$"></SPAN>. The 
 convection coefficient is <!-- MATH
  $h=25 \mathrm{W/m^2 K}$
  -->
-<IMG
- WIDTH="108" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="107" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
  SRC="img110.png"
- ALT="$ h=25 \mathrm{W/m^2 K}$">. The dimensions of the furnace
+ ALT="$ h=25 \mathrm{W/m^2 K}$"></SPAN>. The dimensions of the furnace
 are <!-- MATH
  $0.3 \times
 0.3 \times 0.3 \mathrm{m^3}$
  -->
-<IMG
- WIDTH="125" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="124" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
  SRC="img111.png"
  ALT="$ 0.3 \times
-0.3 \times 0.3 \mathrm{m^3}$"> (cube). At <IMG
- WIDTH="39" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+0.3 \times 0.3 \mathrm{m^3}$"></SPAN> (cube). At <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
  SRC="img112.png"
- ALT="$ t=0$"> all parts are at <!-- MATH
+ ALT="$ t=0$"></SPAN> all parts are at <!-- MATH
  $T=300
 \mathrm{K}$
  -->
-<IMG
- WIDTH="73" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="73" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
  SRC="img113.png"
  ALT="$ T=300
-\mathrm{K}$">. We would like to know the temperature at locations A,B,C,D and E as a
+\mathrm{K}$"></SPAN>. We would like to know the temperature at locations A,B,C,D and E as a
 function of time.  
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="furninp"></A><A NAME="11759"></A>
+<DIV ALIGN="CENTER"><A NAME="furninp"></A><A NAME="14788"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 17:</STRONG>
 Input deck for the furnace</CAPTION>
 <TR><TD><IMG
- WIDTH="368" HEIGHT="766" BORDER="0"
+ WIDTH="368" HEIGHT="767" BORDER="0"
  SRC="img114.png"
  ALT="\begin{figure}\epsfig{file=furninp.ps,width=12cm}\end{figure}"></TD></TR>
 </TABLE>
@@ -184,8 +181,8 @@ The input deck is listed in Figure <A HREF="#furninp">17</A>. It starts with the
 definitions. The highest node number in the structure is 602. The nodes 603 up
 to 608 are fluid nodes, i.e. in the fluid extra nodes were defined (z=0.3
 corresponds with the top of the furnace, z=0 with the bottom). Fluid node 603
-corresponds to the location where the fluid temperature is 300 K (``inlet''),
-node 608 corresponds to the ``outlet'', the other nodes are located in
+corresponds to the location where the fluid temperature is 300 K (&ldquo;inlet&rdquo;),
+node 608 corresponds to the &ldquo;outlet&rdquo;, the other nodes are located in
 between. The coordinates of the fluid nodes actually do not enter the
 calculations. Only the convective definitions with the keyword *FILM
 govern the exchange between furnace and fluid. With the *ELEMENT card the
@@ -231,13 +228,13 @@ furnace. This ends the model definition.
 
 <P>
 The first step describes the linear increase of the temperature boundary
-condition between <IMG
- WIDTH="39" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+condition between <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
  SRC="img112.png"
- ALT="$ t=0$"> and <IMG
- WIDTH="39" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ ALT="$ t=0$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
  SRC="img115.png"
- ALT="$ t=1$">. The INC=100 parameter on the *STEP card
+ ALT="$ t=1$"></SPAN>. The INC=100 parameter on the *STEP card
 allows for 100 increments in this step. The procedure is *HEAT TRANSFER,
 i.e. we would like to perform a purely thermal analysis: the only unknowns are
 the temperature and there are no mechanical unknowns (e.g. displacements). The
@@ -251,7 +248,7 @@ is kept at 1000 K, but is modulated by amplitude A1. The result is that the
 temperature boundary condition starts at 0.3 x 1000 = 300K and increases
 linearly to reach 1000 K at t=1 s. The second boundary conditions specifies
 that the temperature of (fluid) node 603 is kept at 300 K. This is the inlet
-temperature. Notice that ``11'' is the temperature degree of freedom.
+temperature. Notice that &ldquo;11&rdquo; is the temperature degree of freedom.
 
 <P>
 The mass flow rate in the fluid is defined with the *BOUNDARY card applied to
@@ -274,7 +271,7 @@ general, these lines are generated automatically in cgx (CalculiX GraphiX).
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="furntemp"></A><A NAME="11760"></A>
+<DIV ALIGN="CENTER"><A NAME="furntemp"></A><A NAME="14789"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 18:</STRONG>
 Temperature distribution at t=3001 s</CAPTION>
@@ -287,7 +284,7 @@ Temperature distribution at t=3001 s</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="furn2D"></A><A NAME="11761"></A>
+<DIV ALIGN="CENTER"><A NAME="furn2D"></A><A NAME="14790"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 19:</STRONG>
 Temperature at selected positions</CAPTION>
@@ -306,10 +303,10 @@ Next come the film conditions. Forced convection is defined for the top face
 of the top plate of the furnace with a convection coefficient <!-- MATH
  $h=25 \mathrm{W/mK}$
  -->
-<IMG
- WIDTH="101" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="100" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
  SRC="img118.png"
- ALT="$ h=25 \mathrm{W/mK}$">. The
+ ALT="$ h=25 \mathrm{W/mK}$"></SPAN>. The
 first line underneath the *FILM keyword indicates that the second face of
 element 51 interacts through forced convection with (fluid)node 604. The last
 entry in this line is the convection coefficient. So for each face interacting
@@ -339,10 +336,10 @@ expect a temperature minimum in the middle of the top. Both effects are
 superimposed. The temperature distribution at <!-- MATH
  $t=3001 \mathrm{s}$
  -->
-<IMG
- WIDTH="70" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="69" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
  SRC="img119.png"
- ALT="$ t=3001 \mathrm{s}$"> is shown in
+ ALT="$ t=3001 \mathrm{s}$"></SPAN> is shown in
 Figure <A HREF="#furntemp">18</A>. There is a temperature gradient from the bottom of the
 furnace towards the top. At the top the temperature is indeed not
 symmetric. This is also shown in Figure <A HREF="#furn2D">19</A>, where the temperature of
@@ -355,37 +352,35 @@ elements with the right thickness. Therefore, the pictures, which were plotted
 from within CalculiX GraphiX, show 3D elements.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html992"
+<A NAME="tex2html1053"
   HREF="node11.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html988"
+<A NAME="tex2html1049"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html982"
+<A NAME="tex2html1043"
   HREF="node9.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html990"
+<A NAME="tex2html1051"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html993"
+<B> Next:</B> <A NAME="tex2html1054"
   HREF="node11.html">Seepage under a dam</A>
-<B> Up:</B> <A NAME="tex2html989"
+<B> Up:</B> <A NAME="tex2html1050"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html983"
+<B> Previous:</B> <A NAME="tex2html1044"
   HREF="node9.html">Frequency calculation of a</A>
- &nbsp; <B>  <A NAME="tex2html991"
-  HREF="node1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1052"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -1,204 +1,258 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Edge fields</TITLE>
-<META NAME="description" CONTENT="Edge fields">
+<TITLE>Material description</TITLE>
+<META NAME="description" CONTENT="Material description">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node425.html">
 <LINK REL="previous" HREF="node423.html">
-<LINK REL="up" HREF="node422.html">
+<LINK REL="up" HREF="node417.html">
 <LINK REL="next" HREF="node425.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6585"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6662"
   HREF="node425.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6581"
-  HREF="node422.html">
+<A NAME="tex2html6658"
+  HREF="node417.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6575"
+<A NAME="tex2html6654"
   HREF="node423.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6583"
+<A NAME="tex2html6660"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6586"
-  HREF="node425.html">Face fields</A>
-<B> Up:</B> <A NAME="tex2html6582"
-  HREF="node422.html">Mesh refinement</A>
-<B> Previous:</B> <A NAME="tex2html6576"
-  HREF="node423.html">Nodal fields</A>
- &nbsp; <B>  <A NAME="tex2html6584"
+<B> Next:</B> <A NAME="tex2html6663"
+  HREF="node425.html">Expansion of the one-dimensional</A>
+<B> Up:</B> <A NAME="tex2html6659"
+  HREF="node417.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6655"
+  HREF="node423.html">Sets</A>
+ &nbsp; <B>  <A NAME="tex2html6661"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION0001111200000000000000">
-Edge fields</A>
+<H3><A NAME="SECTION000122700000000000000">
+Material description</A>
 </H3>
 
 <P>
-
-<DIV ALIGN="CENTER"><A NAME="iedg"></A><A NAME="12848"></A>
-<TABLE>
-<CAPTION ALIGN="BOTTOM"><STRONG>Figure 181:</STRONG>
-Node per edge relationship</CAPTION>
-<TR><TD><IMG
- WIDTH="443" HEIGHT="356" BORDER="0"
- SRC="img2010.png"
- ALT="\begin{figure}\epsfig{file=iedg.eps,width=10cm}\end{figure}"></TD></TR>
-</TABLE>
-</DIV>
-
-<P>
-During the mesh refinement no middle nodes are considered. Consequently, edges
-only contain two nodes. They are numbered according to their storage in field
-iedg(1..3,*) (Figure <A HREF="#iedg">181</A>). In this field entry iedg(1,i) contains the
-first node of edge i and iedg(2,i) contains the second node, such that
-iedg(1,i) <B><IMG
- WIDTH="70" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1865.png"
- ALT="$ &lt;$"></B> iedg(2,i). For a node j ipoed(j) points to an edge in field
-iedg for which j is the smallest node number. If there is more than one such
-edge iedg(3,i) points to the next entry in iedg containing an edge for which j
-is again the smallest node number. If no more such edge exists the value of
-iedg(3,..)=0. This is a construct similar to field ieln. An actual free entry
-in field iedg is pointed to by ifreeed, and for any free line k iedg(3,k)
-points to a next free line.
-
-<P>
-Fields containing a similar number of lines as iedg are d(*) containing the
-length of the edges, n(*) containing the number of new nodes to be inserted
-on the edge for the mesh refinement (can only take the value 0 or 1 in each
-iteration depending on whether a node is to be inserted), r(*) containing the
-bias for the node insertion (if any) and iedgmid(*) containing the number of
-the midnode on the edge. The latter field is only introduced at the end of the
-mesh refinement (in projectnodes.f) and only if quadratic tetrahedral elements are
-requested. Finally, there is the field iexternedg(*) which takes the value:
+The size of the fields reserved for material description is governed by the
+scalars nmat_, nmat, ncmat_, ntmat_ and npmat_. Their meaning:
 
 <P>
 
 <UL>
-<LI>-1 if the edge is external but is not part of an edge of the unrefined
-  mesh
+<LI>nmat_: upper estimate of the number of materials
 </LI>
-<LI>0 if the edge is not external
+<LI>nmat: actual number of materials
 </LI>
-<LI>i <B><IMG
- WIDTH="542" HEIGHT="342" ALIGN="MIDDLE" BORDER="0"
- SRC="img1963.png"
- ALT="$ &gt;$"></B> 0 if the edge is external and part of an external edge i of the
-  unrefined mesh. This edge i is described by its nodes <B><IMG
- WIDTH="444" HEIGHT="317" ALIGN="MIDDLE" BORDER="0"
- SRC="img2011.png"
- ALT="$ n_1$"></B>, <B><IMG
- WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img2012.png"
- ALT="$ n_2$"></B> (middle
-  node, if any, else 0) and <B><IMG
- WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img2013.png"
- ALT="$ n_3$"></B>
-  which are stored in field iedgext(1..3,i). Field iedgext is a static field
-  (i.e. it does not change during refinement) since it describes the unrefined
-  mesh. Entries iedgeextfa(1..2,i) are the two external faces to which
-  external edge i belongs. Data on these external faces,
-  e.g. j=iedgeextfa(1,i) is stored in ifacext(1..6,j) and
-  ifacexted(1..3,j). These fields are discussed in the face field
-  section. Finally, isharp(i) indicates whether an external edge is
-  sharp. Whether an external edge is sharp is decided on at the end of the
-  refinement at the time of the node projection. An external edge is sharp if
+<LI>ncmat_: maximum number of (hyper)elastic constants at any temperature
+  for any material
+</LI>
+<LI>ntmat_: maximum number of temperature data points for any material
+  property for any material
+</LI>
+<LI>npmat_: maximum number of stress-strain data points for any temperature
+  for any material for any type of hardening (isotropic or kinematic)
+</LI>
+</UL>
+
+<P>
+An elastic material is described by the two-dimensional integer field nelcon
+and three-dimensional real field elcon. For material i, nelcon(1,i) contains
+for linear elastic materials the number of elastic constants. For hyperelastic
+materials and the elastic regime of viscoplastic materials nelcon(1,i)
+contains an integer code uniquely identifying the material. The code reads a
+follows:
+
+<P>
 
 <UL>
-<LI>it is used as parent edge for at least one newly generated edge during
-  mesh refinement AND
+<LI>-1: Arruda-Boyce                                  
 </LI>
-<LI>the normals on the adjacent external faces have an angle of less than
-  about 0.05<B><IMG
- WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
- SRC="img302.png"
- ALT="$ ^\circ$"></B>.
+<LI>-2: Mooney-Rivlin                                 
+</LI>
+<LI>-3: Neo-Hooke                                     
+</LI>
+<LI>-4: Ogden (N=1)                                   
+</LI>
+<LI>-5: Ogden (N=2)                                   
+</LI>
+<LI>-6: Ogden (N=3)                                   
+</LI>
+<LI>-7: Polynomial (N=1)                              
+</LI>
+<LI>-8: Polynomial (N=2)                              
+</LI>
+<LI>-9: Polynomial (N=3)                              
+</LI>
+<LI>-10: Reduced Polynomial (N=1)                     
+</LI>
+<LI>-11: Reduced Polynomial (N=2)                     
+</LI>
+<LI>-12: Reduced Polynomial (N=3)                     
+</LI>
+<LI>-13: Van der Waals (not implemented yet)          
+</LI>
+<LI>-14: Yeoh                                         
+</LI>
+<LI>-15: Hyperfoam (N=1)                              
+</LI>
+<LI>-16: Hyperfoam (N=2)                              
+</LI>
+<LI>-17: Hyperfoam (N=3)                              
+</LI>
+<LI>-50: deformation plasticity                       
+</LI>
+<LI>-51: incremental plasticity (no viscosity)        
+</LI>
+<LI>-52: viscoplasticity                              
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="16" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2394.png"
+ ALT="$ &lt;$"></B></SPAN> -100: user material routine with -kode-100 user    
+               defined constants with keyword *USER MATERIAL
 </LI>
 </UL>
-Fields iedgeextfa, ifacext, ifacexted and isharp are static, the contents of
-field isharp, however, is modified at the end of the refinement in routine
-projectnodes.f. All of these fields are needed for the projection
-  of the newly generated nodes after mesh refinement.
+
+<P>
+Notice that elconloc is also used to store
+
+<P>
+
+<UL>
+<LI>user-defined constants for user-defined materials
+</LI>
+<LI>the creep constants for isotropic viscoplastic materials (after the two
+  elastic constants).
 </LI>
 </UL>
 
 <P>
-
-<DIV ALIGN="CENTER"><A NAME="ieled"></A><A NAME="12849"></A>
-<TABLE>
-<CAPTION ALIGN="BOTTOM"><STRONG>Figure 182:</STRONG>
-Element per edge relationship</CAPTION>
-<TR><TD><IMG
- WIDTH="23" HEIGHT="31" BORDER="0"
- SRC="img2014.png"
- ALT="\begin{figure}\epsfig{file=ieled.eps,width=10cm}\end{figure}"></TD></TR>
-</TABLE>
-</DIV>
+Entry nelcon(2,i) contains the number of temperature
+points for material i.
 
 <P>
-The last fields ipoeled(i) and ieled(2,*) point to the elements to which edge
-i belongs in the same way the element per node relationship is stored in
-ipoeln(*) and ieln(2,*), Figure <A HREF="#ieled">182</A>.
+The field elcon is used for the storage of the elastic constants: elcon(0,j,i)
+contains the temperature at the (hyper)elastic temperature point j of material
+i, elcon(k,j,i) contains the (hyper)elastic constant k at temperature point j
+of material i. Notice that the first index of field elcon starts at zero.
 
 <P>
-<HR>
+Suppose only one material is defined:
+
+<P>
+<PRE>
+*MATERIAL,NAME=EL
+*ELASTIC
+210000.,.3,293.
+200000.,.29,393.
+180000.,.27,493.
+</PRE>
+
+<P>
+then the fields nelcon and elcon look like:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\text{nelcon}=\begin{bmatrix} 2 & 3 \end{bmatrix},
+\text{elcon}(*,*,1)=\begin{bmatrix} 293. & 393. & 493. \\210000. & 200000. & 180000
+\\.3 & .29 & .27  \end{bmatrix},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH">nelcon<IMG
+ WIDTH="73" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2428.png"
+ ALT="$\displaystyle =\begin{bmatrix}2 &amp; 3 \end{bmatrix},$">&nbsp; &nbsp;elcon<IMG
+ WIDTH="288" HEIGHT="73" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2429.png"
+ ALT="$\displaystyle (*,*,1)=\begin{bmatrix}293. &amp; 393. &amp; 493. \\ 210000. &amp; 200000. &amp; 180000 \\ .3 &amp; .29 &amp; .27 \end{bmatrix},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">783</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and nmat=1, ntmat_ = 3, ncmat_=2. 
+
+<P>
+Other material properties are stored in a very similar way. The expansion
+coefficients are stored in fields nalcon and alcon, the conductivity
+coefficients in fields ncocon and cocon. The density and specific heat are
+stored in fields nrhcon, rhcon, nshcon and shcon, respectively. Furthermore,
+the specific gas constant is also stored in shcon. The fields
+nrhcon and nshcon are only one-dimensional, since there is only one density
+and one specific heat constant per temperature per material (the specific gas
+constant is temperature independent). 
+
+<P>
+The isotropic hardening curves for viscoplastic materials are stored in the
+two-dimensional integer field nplicon and the three-dimensional real field
+plicon. The entry nplicon(0,i) contains the number of temperature data points
+for the isotropic hardening definition of material i, whereas nplicon(j,i)
+contains the number of stress-strain data points at temperature point j of
+material i. Entry plicon(2*k-1,j,i) contains the stress corresponding to
+stress-plastic strain data point k at temperature data point j of material i,
+plicon(2*k,j,i) contains the plastic strain corresponding to stress-plastic
+strain data point k at temperature data point j of material i. Similar
+definitions apply for the kinematic hardening curves stored in nplkcon and
+plkcon. 
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html6585"
+<A NAME="tex2html6662"
   HREF="node425.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6581"
-  HREF="node422.html">
+<A NAME="tex2html6658"
+  HREF="node417.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6575"
+<A NAME="tex2html6654"
   HREF="node423.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6583"
+<A NAME="tex2html6660"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6586"
-  HREF="node425.html">Face fields</A>
-<B> Up:</B> <A NAME="tex2html6582"
-  HREF="node422.html">Mesh refinement</A>
-<B> Previous:</B> <A NAME="tex2html6576"
-  HREF="node423.html">Nodal fields</A>
- &nbsp; <B>  <A NAME="tex2html6584"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html6663"
+  HREF="node425.html">Expansion of the one-dimensional</A>
+<B> Up:</B> <A NAME="tex2html6659"
+  HREF="node417.html">Reading the step input</A>
+<B> Previous:</B> <A NAME="tex2html6655"
+  HREF="node423.html">Sets</A>
+ &nbsp; <B>  <A NAME="tex2html6661"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

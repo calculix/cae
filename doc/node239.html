@@ -1,202 +1,464 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*DASHPOT</TITLE>
-<META NAME="description" CONTENT="*DASHPOT">
+<TITLE>Mass conservation equation</TITLE>
+<META NAME="description" CONTENT="Mass conservation equation">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node240.html">
 <LINK REL="previous" HREF="node238.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node235.html">
 <LINK REL="next" HREF="node240.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4196"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4183"
   HREF="node240.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4192"
-  HREF="node205.html">
+<A NAME="tex2html4179"
+  HREF="node235.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4186"
+<A NAME="tex2html4175"
   HREF="node238.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4194"
+<A NAME="tex2html4181"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4197"
-  HREF="node240.html">*DEFORMATION PLASTICITY</A>
-<B> Up:</B> <A NAME="tex2html4193"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4187"
-  HREF="node238.html">*DAMPING</A>
- &nbsp; <B>  <A NAME="tex2html4195"
+<B> Next:</B> <A NAME="tex2html4184"
+  HREF="node240.html">Summary of the incompressible</A>
+<B> Up:</B> <A NAME="tex2html4180"
+  HREF="node235.html">Incompressible flow</A>
+<B> Previous:</B> <A NAME="tex2html4176"
+  HREF="node238.html">Convective terms</A>
+ &nbsp; <B>  <A NAME="tex2html4182"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000831000000000000000"></A><A NAME="dashpot"></A>
-<BR>
-*DASHPOT
-</H2>
+<H3><A NAME="SECTION000810400000000000000">
+Mass conservation equation</A>
+</H3>
 
 <P>
-Keyword type: model definition
+For incompressible flow the mass flow as expressed by Equation (<A HREF="node226.html#eqF113">611</A>)
+can be written as:
 
 <P>
-With this option the force-velocity relationship can be defined for dashpot
-elements. Dashpot elements only make sense for dynamic calculations
-(<A HREF="node249.html#dynamic">*DYNAMIC</A>, <A HREF="node285.html#modaldynamic">*MODAL DYNAMIC</A> and
-<A HREF="node317.html#steadystatedynamics">*STEADY STATE DYNAMICS</A>). There is one required parameter ELSET. With this parameter the element set is referred to for which the
-dashpot behavior is defined. This element set should contain dashpot elements
-of type DASHPOTA only.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\dot{m} _f ^{(m)} = \overrightarrow{\rho }_f ^{(m-1)}  A_f \boldsymbol{v}_f
+  ^{(m)}
+  \cdot \boldsymbol{n}_f ,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="202" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2062.png"
+ ALT="$\displaystyle \dot{m} _f ^{(m)} = \overrightarrow{\rho }_f ^{(m-1)} A_f \boldsymbol{v}_f ^{(m)} \cdot \boldsymbol{n}_f ,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">706</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-The dashpot constant can depend on frequency and temperature. Frequency dependence only makes sense for
-<A HREF="node317.html#steadystatedynamics">*STEADY STATE DYNAMICS</A> calculations. 
-
-<P><P>
-<BR>
-
-<P>
-First line:
-
-<UL>
-<LI>*DASHPOT
-</LI>
-<LI>Enter the parameter ELSET and its value
-</LI>
-</UL>
-
-<P>
-Second line: enter a blank line
-
-<P>
-For each temperature a set of lines can be entered. First line in the first set:
-
-<UL>
-<LI>Dashpot constant.
-</LI>
-<LI>Frequency (only for steady state dynamics calculations, else blank).
-</LI>
-<LI>Temperature.
-</LI>
-</UL>
-Use as many lines in the first set as needed to define the complete frequency
-dependence of the dashpot constant (if applicable) for this temperature.
-Use as many sets as needed to define complete temperature dependence.
+where <!-- MATH
+ $\overrightarrow{\rho }_f ^{(m-1)}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="58" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1837.png"
+ ALT="$ \overrightarrow{\rho }_f^{(m-1)} $"></B></SPAN> is a function of <!-- MATH
+ $\overrightarrow{T
+}_f ^{(m-1)}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="58" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2063.png"
+ ALT="$ \overrightarrow{T
+}_f ^{(m-1)}$"></B></SPAN> only. Therefore, the density is constant while treating the mass
+conservation equation. Using Equation (<A HREF="node226.html#eqF109">606</A>) this can be further
+rewritten as:
 
 <P>
-<PRE>
-Example:
-
-*DASHPOT,ELSET=Eall
-1.e-5
-</PRE>
-
-<P>
-defines a dashpot constant with value <B><IMG
- WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
- SRC="img1620.png"
- ALT="$ 10^{-5}$"></B> for all elements in element
-set Eall and all temperatures.
-
-<P>
-<PRE>
-Example:
-
-*DASHPOT,ELSET=Eall
-1.e-5,1000.,273.
-1.e-6,2000.,273.
-1.e-4,,373.
-</PRE>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eqF197"></A><!-- MATH
+ \begin{equation}
+\dot{m} _f ^{(m)} = \overrightarrow{\rho }_f ^{(m-1)}  A_f \left ( \overline{\boldsymbol{v} }_f ^{(m)} +
+  \overline{D}_f \left [ \overline{\nabla p}_f ^{(m)} - \nabla p_f ^{(m)}
+    \right ] \right )
+  \cdot \boldsymbol{n}_f .
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="389" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2064.png"
+ ALT="$\displaystyle \dot{m} _f ^{(m)} = \overrightarrow{\rho }_f ^{(m-1)} A_f \left (...
+...abla p}_f ^{(m)} - \nabla p_f ^{(m)} \right ] \right ) \cdot \boldsymbol{n}_f .$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">707</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-defines a dashpot constant with value <B><IMG
- WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
- SRC="img1620.png"
- ALT="$ 10^{-5}$"></B> at a frequency of <B><IMG
- WIDTH="36" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1656.png"
- ALT="$ 1000$"></B> and
-with value <B><IMG
- WIDTH="38" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
- SRC="img1657.png"
- ALT="$ 10^{-6}$"></B> at a frequency of <B><IMG
- WIDTH="36" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1658.png"
- ALT="$ 2000$"></B>, both at a temperature of
-<B><IMG
- WIDTH="28" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1659.png"
- ALT="$ 273$"></B>. At a temperature of <B><IMG
- WIDTH="28" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1660.png"
- ALT="$ 373$"></B> the dashpot constant is frequency independent
-and takes the value  <B><IMG
- WIDTH="37" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
- SRC="img1592.png"
- ALT="$ 10^{-4}$"></B>. These constants apply to all dashpot elements
-in set Eall.
+In the next step Equation (<A HREF="node226.html#eqF108">605</A>) is approximated by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\boldsymbol{v}_P ^{(m)} + \boldsymbol{H}_P (\boldsymbol{v}^* ) = B_P
+  ^{(m-1)} - D_P \nabla p ^{(m)} _P
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="271" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2065.png"
+ ALT="$\displaystyle \boldsymbol{v}_P ^{(m)} + \boldsymbol{H}_P (\boldsymbol{v}^* ) = B_P ^{(m-1)} - D_P \nabla p ^{(m)} _P$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">708</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Notice that <!-- MATH
+ $\boldsymbol{v} ^{(m)}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="35" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2066.png"
+ ALT="$ \boldsymbol{v} ^{(m)}$"></B></SPAN> in the <!-- MATH
+ $\boldsymbol{H}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1377.png"
+ ALT="$ \boldsymbol{H}$"></B></SPAN>-term was replaced
+by <!-- MATH
+ $\boldsymbol{v}^*$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1799.png"
+ ALT="$ \boldsymbol{v}^*$"></B></SPAN>. This does not correspond to the SIMPLE algorithm, since
+the term is not neglected, but also not quite corresponds to the SIMPLEC
+algorithm, since <!-- MATH
+ $\boldsymbol{v}^*$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1799.png"
+ ALT="$ \boldsymbol{v}^*$"></B></SPAN> is used. Writing this equation for the
+neighboring element E and taking the mean leads to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\overline{\boldsymbol{v}}_f ^{(m)} + \overline{\boldsymbol{H}}_f
+  (\boldsymbol{v}^* ) = \overline{B}_f
+  ^{(m-1)} - \overline{D}_f \overline{\nabla p} ^{(m)} _f,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="271" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2067.png"
+ ALT="$\displaystyle \overline{\boldsymbol{v}}_f ^{(m)} + \overline{\boldsymbol{H}}_f ...
+...}^* ) = \overline{B}_f ^{(m-1)} - \overline{D}_f \overline{\nabla p} ^{(m)} _f,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">709</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+in which the second order correction <!-- MATH
+ $\overline{D_f \nabla p
+^{(m)} _f} \approx \overline{D}_f \overline{\nabla p} ^{(m)} _f$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="155" HEIGHT="48" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2068.png"
+ ALT="$ \overline{D_f \nabla p
+^{(m)} _f} \approx \overline{D}_f \overline{\nabla p} ^{(m)} _f$"></B></SPAN> was used. Therefore
+Equation (<A HREF="#eqF197">707</A>) now reduces to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\dot{m} _f ^{(m)} = \overrightarrow{\rho }_f ^{(m-1)}  A_f \left (  \overline{B}_f
+  ^{(m-1)}- \overline{\boldsymbol{H}}_f
+  (\boldsymbol{v}^* ) -
+  \overline{D}_f  \nabla p_f ^{(m)}
+     \right )
+  \cdot \boldsymbol{n}_f ,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="402" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2069.png"
+ ALT="$\displaystyle \dot{m} _f ^{(m)} = \overrightarrow{\rho }_f ^{(m-1)} A_f \left (...
+...bol{v}^* ) - \overline{D}_f \nabla p_f ^{(m)} \right ) \cdot \boldsymbol{n}_f ,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">710</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+or, with the abbreviation <!-- MATH
+ $\boldsymbol{v}_f^{\Box}:= \overline{B}_f
+  ^{(m-1)}- \overline{\boldsymbol{H}}_f
+(\boldsymbol{v}^* )$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="175" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2070.png"
+ ALT="$ \boldsymbol{v}_f^{\Box}:= \overline{B}_f
+^{(m-1)}- \overline{\boldsymbol{H}}_f
+(\boldsymbol{v}^* )$"></B></SPAN>:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\dot{m} _f ^{(m)} = \overrightarrow{\rho }_f ^{(m-1)}  A_f \left ( \boldsymbol{v}_f^{\Box} -
+  \overline{D}_f  \nabla p_f ^{(m)}
+     \right )
+  \cdot \boldsymbol{n}_f .
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="298" HEIGHT="45" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2071.png"
+ ALT="$\displaystyle \dot{m} _f ^{(m)} = \overrightarrow{\rho }_f ^{(m-1)} A_f \left (...
+...}_f^{\Box} - \overline{D}_f \nabla p_f ^{(m)} \right ) \cdot \boldsymbol{n}_f .$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">711</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+If the velocity on the face is known the mass flow can be calculated
+directly. Therefore, Equation (<A HREF="node226.html#eqF124">621</A>) now reads:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\sum_{f\setminus BC}^{}  \overrightarrow{\rho }_f ^{(m-1)}  A_f
+  \overline{D}_f  \nabla p_f ^{(m)}
+  \cdot \boldsymbol{n}_f = \sum_{f\setminus
+    BC}^{}  \overrightarrow{\rho }_f ^{(m-1)}  A_f  \boldsymbol{v}_f^{\Box} 
+  \cdot \boldsymbol{n}_f +\sum_{BC}^{} \dot{m} _f ^{(m)},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="480" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2072.png"
+ ALT="$\displaystyle \sum_{f\setminus BC}^{} \overrightarrow{\rho }_f ^{(m-1)} A_f \ov...
+...\boldsymbol{v}_f^{\Box} \cdot \boldsymbol{n}_f +\sum_{BC}^{} \dot{m} _f ^{(m)},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">712</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="29" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2073.png"
+ ALT="$ BC$"></B></SPAN> stands for the faces on which the velocity is defined by the
+user. Notice that the unknown here is the pressure and not the correction to
+the pressure as in compressible flow.
+
+<P>
+The pressure gradient can be treated as in Equation
+(<A HREF="node226.html#eqF126">623</A>). Alternatively, one can also write (Figure <A HREF="#F9">160</A>):
 
 <P>
 
-<P><P>
-<BR>
-Example files: dashpot1, dashpot2, dashpot3.
+<DIV ALIGN="CENTER"><A NAME="F9"></A><A NAME="15872"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 160:</STRONG>
+Alternative derivation of the pressure gradient</CAPTION>
+<TR><TD><IMG
+ WIDTH="543" HEIGHT="192" BORDER="0"
+ SRC="img2074.png"
+ ALT="\begin{figure}\epsfig{file=figF9.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
 
 <P>
-<HR>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\nabla p_f = \frac{p_{F'}-p_{P'}}{(\boldsymbol{r}_F - \boldsymbol{r}_P)\cdot
+    \boldsymbol{n} }.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="156" HEIGHT="48" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2075.png"
+ ALT="$\displaystyle \nabla p_f = \frac{p_{F'}-p_{P'}}{(\boldsymbol{r}_F - \boldsymbol{r}_P)\cdot \boldsymbol{n} }.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">713</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Since
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+p_{F'} \approx p_F + \nabla p_F \cdot (\boldsymbol{r}_{F'…} -
+  \boldsymbol{r}_F)
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="211" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2076.png"
+ ALT="$\displaystyle p_{F'} \approx p_F + \nabla p_F \cdot (\boldsymbol{r}_{F'…} - \boldsymbol{r}_F)$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">714</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+p_{P'} \approx p_P + \nabla p_P \cdot (\boldsymbol{r}_{P'…} -
+  \boldsymbol{r}_P)
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="211" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2077.png"
+ ALT="$\displaystyle p_{P'} \approx p_P + \nabla p_P \cdot (\boldsymbol{r}_{P'…} - \boldsymbol{r}_P)$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">715</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+one obtains:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+(\nabla p_f \cdot \boldsymbol{n}_f)^s \approx \frac{p_{F}^s-p_{P}^s}{(\boldsymbol{r}_F - \boldsymbol{r}_P)\cdot
+    \boldsymbol{n} } + \left ( \frac{\nabla p_F \cdot (\boldsymbol{r}_{F'} -
+    \boldsymbol{r}_F) - \nabla p_P \cdot (\boldsymbol{r}_{P'} - \boldsymbol{r}_P)    }{(\boldsymbol{r}_F - \boldsymbol{r}_P)\cdot
+    \boldsymbol{n}} \right ) ^{s-1}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="536" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2078.png"
+ ALT="$\displaystyle (\nabla p_f \cdot \boldsymbol{n}_f)^s \approx \frac{p_{F}^s-p_{P}...
+...) }{(\boldsymbol{r}_F - \boldsymbol{r}_P)\cdot \boldsymbol{n}} \right ) ^{s-1}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">716</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+If the pressure is known on the face, the expression reduces to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+(\nabla p_f \cdot \boldsymbol{n}_f)^s \approx \frac{p_{f}-p_{P}^s}{(\boldsymbol{r}_f - \boldsymbol{r}_P)\cdot
+    \boldsymbol{n} } + \left (  \frac{- \nabla p_P \cdot (\boldsymbol{r}_{P'} - \boldsymbol{r}_P)    }{(\boldsymbol{r}_f - \boldsymbol{r}_P)\cdot
+    \boldsymbol{n}} \right ) ^{s-1}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="408" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2079.png"
+ ALT="$\displaystyle (\nabla p_f \cdot \boldsymbol{n}_f)^s \approx \frac{p_{f}-p_{P}^s...
+...) }{(\boldsymbol{r}_f - \boldsymbol{r}_P)\cdot \boldsymbol{n}} \right ) ^{s-1}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">717</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4196"
+<A NAME="tex2html4183"
   HREF="node240.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4192"
-  HREF="node205.html">
+<A NAME="tex2html4179"
+  HREF="node235.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4186"
+<A NAME="tex2html4175"
   HREF="node238.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4194"
+<A NAME="tex2html4181"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4197"
-  HREF="node240.html">*DEFORMATION PLASTICITY</A>
-<B> Up:</B> <A NAME="tex2html4193"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4187"
-  HREF="node238.html">*DAMPING</A>
- &nbsp; <B>  <A NAME="tex2html4195"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html4184"
+  HREF="node240.html">Summary of the incompressible</A>
+<B> Up:</B> <A NAME="tex2html4180"
+  HREF="node235.html">Incompressible flow</A>
+<B> Previous:</B> <A NAME="tex2html4176"
+  HREF="node238.html">Convective terms</A>
+ &nbsp; <B>  <A NAME="tex2html4182"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -1,10 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
 <TITLE>Three-node network element (D)</TITLE>
@@ -13,7 +9,7 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
@@ -25,34 +21,35 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html1851"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1913"
   HREF="node64.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1847"
+<A NAME="tex2html1909"
   HREF="node26.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1841"
+<A NAME="tex2html1903"
   HREF="node62.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1849"
+<A NAME="tex2html1911"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1852"
+<B> Next:</B> <A NAME="tex2html1914"
   HREF="node64.html">Two-node unidirectional gap element</A>
-<B> Up:</B> <A NAME="tex2html1848"
+<B> Up:</B> <A NAME="tex2html1910"
   HREF="node26.html">Element Types</A>
-<B> Previous:</B> <A NAME="tex2html1842"
+<B> Previous:</B> <A NAME="tex2html1904"
   HREF="node62.html">Three-node 3D truss element</A>
- &nbsp; <B>  <A NAME="tex2html1850"
+ &nbsp; <B>  <A NAME="tex2html1912"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
 <H3><A NAME="SECTION000723700000000000000"></A><A NAME="tnfe"></A>
@@ -66,16 +63,16 @@ applications. It consists of three nodes: two corner nodes and one midside node.
 The node numbering is shown in Figure <A HREF="node59.html#c1d3">77</A>. In the corner nodes the only
 active degrees of freedom are the temperature degree of freedom (degree of
 freedom 11) and the pressure degree of freedom (degree of freedom 2). These nodes can
-be used in forced convection <A HREF="node261.html#film">*FILM</A> conditions. In the middle
+be used in forced convection <A HREF="node300.html#film">*FILM</A> conditions. In the middle
 node the only active degree of freedom is degree of freedom 1, and stands for
 the mass flow rate through the element. A positive mass flow rate flows from
 local node 1 to local node 3, a negative mass flow rate in the reverse
-direction. It can be defined using a <A HREF="node209.html#boundary">*BOUNDARY</A> card for
+direction. It can be defined using a <A HREF="node248.html#boundary">*BOUNDARY</A> card for
 the first degree of freedom of the midside node of the element. Fluid material
-properties can be defined using the <A HREF="node282.html#material">*MATERIAL</A>,
-<A HREF="node263.html#fluidconstants">*FLUID CONSTANTS</A> and <A HREF="node313.html#specificgasconstant">*SPECIFIC GAS
+properties can be defined using the <A HREF="node321.html#material">*MATERIAL</A>,
+<A HREF="node302.html#fluidconstants">*FLUID CONSTANTS</A> and <A HREF="node352.html#specificgasconstant">*SPECIFIC GAS
   CONSTANT</A> cards  and assigned by the
-<A HREF="node264.html#fluidsection">*FLUID SECTION</A> card.
+<A HREF="node303.html#fluidsection">*FLUID SECTION</A> card.
 
 <P>
 network elements form fluid dynamic networks and should not share any node with any
@@ -102,7 +99,7 @@ belong to one of the following two types of calculations:
 
 <P>
 The available types of fluid sections are listed in subsection
-<A HREF="node76.html#fluidsectiontypesgases">6.4</A> and <A HREF="node101.html#fluidsectiontypesliquids">6.5</A>.
+<A HREF="node76.html#fluidsectiontypesgases">6.4</A> and <A HREF="node102.html#fluidsectiontypesliquids">6.5</A>.
 
 <P>
 Notice that three-node network elements are one-dimensional and can account for two- or
@@ -117,37 +114,35 @@ freedom. The degree of freedom 1 of the midside node corresponds to the entering
 leaving mass flow.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html1851"
+<A NAME="tex2html1913"
   HREF="node64.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1847"
+<A NAME="tex2html1909"
   HREF="node26.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1841"
+<A NAME="tex2html1903"
   HREF="node62.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1849"
+<A NAME="tex2html1911"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1852"
+<B> Next:</B> <A NAME="tex2html1914"
   HREF="node64.html">Two-node unidirectional gap element</A>
-<B> Up:</B> <A NAME="tex2html1848"
+<B> Up:</B> <A NAME="tex2html1910"
   HREF="node26.html">Element Types</A>
-<B> Previous:</B> <A NAME="tex2html1842"
+<B> Previous:</B> <A NAME="tex2html1904"
   HREF="node62.html">Three-node 3D truss element</A>
- &nbsp; <B>  <A NAME="tex2html1850"
-  HREF="node1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1912"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

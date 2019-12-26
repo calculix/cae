@@ -1,119 +1,224 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Calculating the residual and setting up the equation system</TITLE>
-<META NAME="description" CONTENT="Calculating the residual and setting up the equation system">
+<TITLE>readinput</TITLE>
+<META NAME="description" CONTENT="readinput">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node416.html">
 <LINK REL="previous" HREF="node414.html">
-<LINK REL="up" HREF="node411.html">
+<LINK REL="up" HREF="node413.html">
 <LINK REL="next" HREF="node416.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6455"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6551"
   HREF="node416.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6451"
-  HREF="node411.html">
+<A NAME="tex2html6547"
+  HREF="node413.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6445"
+<A NAME="tex2html6541"
   HREF="node414.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6453"
+<A NAME="tex2html6549"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6456"
-  HREF="node416.html">Convergence criteria</A>
-<B> Up:</B> <A NAME="tex2html6452"
-  HREF="node411.html">Aerodynamic and hydraulic networks</A>
-<B> Previous:</B> <A NAME="tex2html6446"
-  HREF="node414.html">Initializing the unknowns</A>
- &nbsp; <B>  <A NAME="tex2html6454"
+<B> Next:</B> <A NAME="tex2html6552"
+  HREF="node416.html">allocate</A>
+<B> Up:</B> <A NAME="tex2html6548"
+  HREF="node413.html">Allocation of the fields</A>
+<B> Previous:</B> <A NAME="tex2html6542"
+  HREF="node414.html">openfile</A>
+ &nbsp; <B>  <A NAME="tex2html6550"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000118400000000000000">
-Calculating the residual and setting up the equation system</A>
+<H3><A NAME="SECTION000121200000000000000">
+readinput</A>
 </H3>
 
 <P>
-The residual of the governing equations is calculated in subroutine
-resultnet.f. At the start of the routine the static temperature is calculated for the nodes not identified as
-chambers based on the total pressure, total temperature and mass flow. Then, a
-loop is initialized covering all network elements. For each element the
-contributions to the conservation of mass equation and to the conservation of
-energy equation (or, equivalently, to the isothermal equation if the element
-is an isothermal gas pipe element) of its corner nodes are
-determined. Subsequently, the satisfaction of the element equation is
-verified. This is the third mode the element routines are called in,
-characterized by iflag=2. Finally, the energy contributions resulting from the
-interaction with the walls and due to prescribed heat generation in the
-network are taken into account. The residual constitutes the right hand side of
-the network system.
+This subroutine reads the input and stores it in field inpc. Before storing,
+the following actions are performed:
 
 <P>
-Setting up the equation system is done in subroutine mafillnet.f. The
-structure of the routine is very similar to the resultnet routine: in a loop
-over all elements the coefficients of the equations (conservation of mass and
-momentum and the conservation of energy, or, if applicable, the isothermal
-condition) are determined. This includes effects from the interaction with the
-walls. This leads to the left hand side of the system of equations.
+
+<UL>
+<LI>the blanks are deleted
+</LI>
+<LI>all characters are changed to uppercase except file names
+</LI>
+<LI>the comment lines are not stored
+</LI>
+<LI>the include statements are expanded
+</LI>
+</UL>
 
 <P>
-<HR>
+Furthermore, the number of sets are counted and stored in nset_, the number of
+lines in inpc are stored in nline. The variable nset_ is used for subsequent
+allocation purposes. Finally, the order in which inpc is to be read is stored
+in the fields ipoinp and inp. Indeed, some keyword cards cannot be interpreted
+before others were read, e.g. a material reference in a *SOLID SECTION card
+cannot be interpreted before the material definition in the *MATERIAl card was
+read. The order in which keyword cards must be read is defined in field
+nameref in subroutine keystart.f. Right now, it reads:
+
+<P>
+
+<OL>
+<LI>*RESTART,READ
+</LI>
+<LI>*NODE
+</LI>
+<LI>*USER ELEMENT
+</LI>
+<LI>*ELEMENT
+</LI>
+<LI>*NSET
+</LI>
+<LI>*ELSET
+</LI>
+<LI>*TRANSFORM
+</LI>
+<LI>*MATERIAL
+</LI>
+<LI>*ORIENTATION
+</LI>
+<LI>*SURFACE
+</LI>
+<LI>*TIE
+</LI>
+<LI>*SURFACE INTERACTION
+</LI>
+<LI>*INITIAL CONDITIONS
+</LI>
+<LI>*AMPLITUDE
+</LI>
+<LI>*CONTACTPAIR
+</LI>
+<LI>*COUPLING
+</LI>
+<LI>everything else
+</LI>
+</OL>
+
+<P>
+This means that *RESTART,READ has to be read before all other cards, then
+comes *NODE etc. The way inpc is to be read is stored in the fields ipoinp,
+inp and ipoinpc. The two-dimensional field ipoinp consists of 2 columns and nentries rows,
+where nentries is the number of keyword cards listed in the list above,
+i.e. right now nentries=17. The first column of row i in field ipoinp contains
+a row number of field inp, for instance j1. Then, the first column
+of row j1 in field inp contains the line number where reading for keyword i
+should start, the second column contains the line number where reading should
+end and the third column contains the line number in field inp where  the
+reading information
+for keyword i continues, else it is zero. If it is zero the corresponding row
+number in inp is stored in the second column of row i in field ipoinp. 
+Lines are stored consecutively in field inpc (without blanks and without
+comment lines). Line l1 starts at ipoinpc(l1-1)+1 (first character) and ends at
+ipoinpc(l1) (last character). Notice that ipoinpc(0)=0. This
+structure uniquely specifies in what order field inpc must be read. This is
+also illustrated in Figure <A HREF="#input">165</A>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="input"></A><A NAME="16095"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 165:</STRONG>
+Reading the lines for keyword entry i</CAPTION>
+<TR><TD><IMG
+ WIDTH="448" HEIGHT="281" BORDER="0"
+ SRC="img2389.png"
+ ALT="\begin{figure}\epsfig{file=input.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+If you want to add keywords in the above list you have to 
+
+<P>
+
+<UL>
+<LI>update nentries in
+the parameter statement in the FORTRAN subroutines allocation.f, calinput.f, keystart.f,
+getnewline.f and writeinput.f 
+</LI>
+<LI>update the initialization of nentries in the
+C-routines ccx_2.16.c and readinput.c. 
+</LI>
+<LI>update the data statement for
+the field nameref in the FORTRAN subroutines keystart.f and writeinput.f 
+</LI>
+<LI>update
+the data statement for the field namelen in the FORTRAN subroutine
+keystart.f. It contains the number of characters in each keyword.
+</LI>
+<LI>look for the block running
+
+<P>
+<PRE>
+      else if(strcmp1(&amp;buff[0],"*ORIENTATION")==0){
+        FORTRAN(keystart,(&amp;ifreeinp,ipoinp,inp,"ORIENTATION",
+                          nline,&amp;ikey));
+			  }
+</PRE>
+
+<P>
+in file readinput.c, copy the block and replace ORIENTATION by the new keyword.
+</LI>
+</UL>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html6455"
+<A NAME="tex2html6551"
   HREF="node416.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6451"
-  HREF="node411.html">
+<A NAME="tex2html6547"
+  HREF="node413.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6445"
+<A NAME="tex2html6541"
   HREF="node414.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6453"
+<A NAME="tex2html6549"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6456"
-  HREF="node416.html">Convergence criteria</A>
-<B> Up:</B> <A NAME="tex2html6452"
-  HREF="node411.html">Aerodynamic and hydraulic networks</A>
-<B> Previous:</B> <A NAME="tex2html6446"
-  HREF="node414.html">Initializing the unknowns</A>
- &nbsp; <B>  <A NAME="tex2html6454"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html6552"
+  HREF="node416.html">allocate</A>
+<B> Up:</B> <A NAME="tex2html6548"
+  HREF="node413.html">Allocation of the fields</A>
+<B> Previous:</B> <A NAME="tex2html6542"
+  HREF="node414.html">openfile</A>
+ &nbsp; <B>  <A NAME="tex2html6550"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

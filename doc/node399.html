@@ -1,250 +1,143 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>De-cascading the MPC's</TITLE>
-<META NAME="description" CONTENT="De-cascading the MPC's">
+<TITLE>Calling mechanical behaviours defined shared libraries</TITLE>
+<META NAME="description" CONTENT="Calling mechanical behaviours defined shared libraries">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node400.html">
 <LINK REL="previous" HREF="node398.html">
-<LINK REL="up" HREF="node397.html">
+<LINK REL="up" HREF="node398.html">
 <LINK REL="next" HREF="node400.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6256"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6287"
   HREF="node400.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6252"
-  HREF="node397.html">
+<A NAME="tex2html6283"
+  HREF="node398.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6246"
+<A NAME="tex2html6277"
   HREF="node398.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6254"
+<A NAME="tex2html6285"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6257"
-  HREF="node400.html">Determining the matrix structure.</A>
-<B> Up:</B> <A NAME="tex2html6253"
-  HREF="node397.html">Determining the matrix structure</A>
-<B> Previous:</B> <A NAME="tex2html6247"
-  HREF="node398.html">Matching the SPC's</A>
- &nbsp; <B>  <A NAME="tex2html6255"
+<B> Next:</B> <A NAME="tex2html6288"
+  HREF="node400.html">Calling shared libraries</A>
+<B> Up:</B> <A NAME="tex2html6284"
+  HREF="node398.html">ABAQUS umat routines</A>
+<B> Previous:</B> <A NAME="tex2html6278"
+  HREF="node398.html">ABAQUS umat routines</A>
+ &nbsp; <B>  <A NAME="tex2html6286"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000115200000000000000">
-De-cascading the MPC's</A>
-</H3>
+<H4><A NAME="SECTION000105210000000000000">
+Calling mechanical behaviours defined shared libraries</A>
+</H4>
 
 <P>
-Multiple point constraints can depend on each other. For instance:
+Calling shared libraries is triggered by putting the <TT>@</TT>
+character in front material name. The material name is then decomposed
+into two parts, separated by the <TT>_</TT> character:
+
+<UL>
+<LI>The base name of the library (see below).
+</LI>
+<LI>The name of the function implementing the behavior. If the
+  function's name is ommitted, the &ldquo;umat_&rdquo; function name is used.
+</LI>
+</UL>
 
 <P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-5. u_1(10)+8. u_1(23)+ 2.3 u_2(12)=0
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="48" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1935.png"
- ALT="$\displaystyle 5. u_1(10)+8. u_1(23)+ 2.3 u_2(12)=0$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(525)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
+For instance, if we want to call a small strain behavior in a linear
+analysis, implemented by the &ldquo;CHABOCHE&rdquo; function in the
+&ldquo;libCALCULIXBEHAVIOURS.so&rdquo; shared library<A NAME="tex2html186"
+  HREF="footnode.html#foot13185"><SUP><SPAN CLASS="arabic">3</SPAN></SUP></A>, one would declare the
+following material name:
+<DIV ALIGN="CENTER">
+@CALCULIXBEHAVIOURS_CHABOCHE
+
+</DIV>
 
 <P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-u_1(23)-3. u_1(2)+ 4. u_1(90)=0
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="251" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1936.png"
- ALT="$\displaystyle u_1(23)-3. u_1(2)+ 4. u_1(90)=0$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(526)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
+Here, the library name has been stripped from system-specific
+convention (the leading lib and the .so extension). <EM>The base name
+  of the library and the name of the function must be
+  upper-cased</EM>. This is due to the way CalculiX interprets the input
+file.
 
 <P>
-The first equation depends on the second, since <B><IMG
- WIDTH="223" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1937.png"
- ALT="$ u_1(23)$"></B> belongs to the
-independent terms of the first equation, but it is the dependent term in the
-second (the first term in a MPC is the dependent term and is removed from the
-global system, the other terms are independent terms). Since the dependent
-terms are removed, it is necessary to expand (``de-cascade'', since the
-equations are ``cascaded'' like falls) the first equation by substituting the
-second in the first, yielding:
+To distinguish two materials using the same external behaviour, one
+may add a unique identifier at the end of the material name. This
+identifier starts with the <TT>@</TT> character.  For example, one may
+use the material names <TT>@CALCULIXBEHAVIOURS_CHABOCHE@1</TT>
+and <TT>@CALCULIXBEHAVIOURS_CHABOCHE@2</TT> to create to
+distinct materials (with distinct material properties) which will call
+the same external behaviour.
 
 <P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-5. u_1(10)+24. u_1(2) - 32. u_1(90) + 2.3 u_2(12)=0
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1938.png"
- ALT="$\displaystyle 5. u_1(10)+24. u_1(2) - 32. u_1(90) + 2.3 u_2(12)=0$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(527)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
+The linear routine is triggered by putting ABAQUS in front of the material
+name. The total length of the material name should not exceed 80 characters,
+consequently, 74 characters are left for the proper material name. For
+instance, if the material name in the ABAQUS routine is supposed to be
+&ldquo;WOOD&rdquo;, you must specify &ldquo;ABAQUSWOOD&rdquo; in the CalculiX input file. The part
+&ldquo;ABAQUS&rdquo; is removed from the name before entering the umat routine.
 
 <P>
-This is done in subroutine cascade.c at least if the MPC's which depend on
-each other are linear. Then, the corresponding terms are expanded and the
-MPC's are replaced by their expanded form, if applicable. 
+The nonlinear routine is triggered by putting ABAQUSNL in front of the
+material name. 
 
 <P>
-However, the expansion is not done if any of the MPC's which depend on each
-other is nonlinear. For nonlinear MPC's the coefficients of the MPC are not
-really known at the stage in which cascade.c is called. Indeed, in most cases
-the coefficients depend on the solution, which is not known yet: an iterative
-procedure results. Therefore, in a nonlinear MPC terms can vanish during the
-solution procedure (zero coefficients) thereby changing the dependencies
-between the MPC's. Thus, the dependencies must be determined in each iteration
-anew and subroutine cascade.c is called from within the iterative procedure in
-subroutine nonlingeo.c. This will be discussed later.
 
-<P>
-In cascade.c there are two procedures to de-cascade the MPC's. The first one
-(which is the only one productive right now) is heuristic and iteratively expands the MPC's
-until no dependencies are left. This procedure worked very well thus far, but
-lacks a theoretical convergence proof. The second procedure, which is assured
-to work, is based on linear equation solving and uses SPOOLES. The dependent
-terms are collected on the left hand side, the independent ones on the right
-hand side and the sets of equations resulting from setting one independent
-term to 1 and the others to 0 are subsequently solved: the system of equations
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-\begin{bmatrix} A \end{bmatrix} \begin{Bmatrix} U_d \end{Bmatrix} =
-\begin{bmatrix} B \end{bmatrix} \begin{Bmatrix} U_i \end{Bmatrix} 
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="336" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1939.png"
- ALT="$\displaystyle \begin{bmatrix}A \end{bmatrix} \begin{Bmatrix}U_d \end{Bmatrix} = \begin{bmatrix}B \end{bmatrix} \begin{Bmatrix}U_i \end{Bmatrix}$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(528)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-is solved to yield
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-\begin{Bmatrix} U_d \end{Bmatrix} = \begin{bmatrix} A \end{bmatrix} ^{-1}
-\begin{bmatrix} B \end{bmatrix} \begin{Bmatrix} U_i \end{Bmatrix}
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="154" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1940.png"
- ALT="$\displaystyle \begin{Bmatrix}U_d \end{Bmatrix} = \begin{bmatrix}A \end{bmatrix} ^{-1} \begin{bmatrix}B \end{bmatrix} \begin{Bmatrix}U_i \end{Bmatrix}$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(529)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-in which <!-- MATH
- $\begin{bmatrix} U_d \end{bmatrix}$
- -->
-<B><IMG
- WIDTH="171" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
- SRC="img1941.png"
- ALT="$ \begin{bmatrix}U_d \end{bmatrix}$"></B> are the dependent terms and
-<!-- MATH
- $\begin{bmatrix} U_i \end{bmatrix}$
- -->
-<B><IMG
- WIDTH="36" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1942.png"
- ALT="$ \begin{bmatrix}U_i \end{bmatrix}$"></B> the independent terms. However, in
-practice the MPC's do not heavily depend on each other, and the SPOOLES
-procedure has proven to be much slower than the heuristic procedure.
-
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html6256"
+<A NAME="tex2html6287"
   HREF="node400.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6252"
-  HREF="node397.html">
+<A NAME="tex2html6283"
+  HREF="node398.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6246"
+<A NAME="tex2html6277"
   HREF="node398.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6254"
+<A NAME="tex2html6285"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6257"
-  HREF="node400.html">Determining the matrix structure.</A>
-<B> Up:</B> <A NAME="tex2html6253"
-  HREF="node397.html">Determining the matrix structure</A>
-<B> Previous:</B> <A NAME="tex2html6247"
-  HREF="node398.html">Matching the SPC's</A>
- &nbsp; <B>  <A NAME="tex2html6255"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html6288"
+  HREF="node400.html">Calling shared libraries</A>
+<B> Up:</B> <A NAME="tex2html6284"
+  HREF="node398.html">ABAQUS umat routines</A>
+<B> Previous:</B> <A NAME="tex2html6278"
+  HREF="node398.html">ABAQUS umat routines</A>
+ &nbsp; <B>  <A NAME="tex2html6286"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

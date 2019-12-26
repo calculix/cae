@@ -1,187 +1,104 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Deformation plasticity</TITLE>
-<META NAME="description" CONTENT="Deformation plasticity">
+<TITLE>Hyperelastic and hyperfoam materials</TITLE>
+<META NAME="description" CONTENT="Hyperelastic and hyperfoam materials">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node150.html">
 <LINK REL="previous" HREF="node148.html">
-<LINK REL="up" HREF="node143.html">
+<LINK REL="up" HREF="node144.html">
 <LINK REL="next" HREF="node150.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html2956"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3019"
   HREF="node150.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2952"
-  HREF="node143.html">
+<A NAME="tex2html3015"
+  HREF="node144.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2946"
+<A NAME="tex2html3009"
   HREF="node148.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2954"
+<A NAME="tex2html3017"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2957"
-  HREF="node150.html">Incremental (visco)plasticity: multiplicative decomposition</A>
-<B> Up:</B> <A NAME="tex2html2953"
-  HREF="node143.html">Materials</A>
-<B> Previous:</B> <A NAME="tex2html2947"
-  HREF="node148.html">Hyperelastic and hyperfoam materials</A>
- &nbsp; <B>  <A NAME="tex2html2955"
+<B> Next:</B> <A NAME="tex2html3020"
+  HREF="node150.html">Deformation plasticity</A>
+<B> Up:</B> <A NAME="tex2html3016"
+  HREF="node144.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3010"
+  HREF="node148.html">Ideal gas for quasi-static</A>
+ &nbsp; <B>  <A NAME="tex2html3018"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00078600000000000000">
-Deformation plasticity</A>
+<H3><A NAME="SECTION00078500000000000000"></A><A NAME="hel"></A>
+<BR>
+Hyperelastic and hyperfoam materials
 </H3>
 
 <P>
-Deformation plasticity is characterized by a one-to-one (bijective) relationship between the strain and the stress. This relationship is a three-dimensional generalization of the one-dimensional Ramberg-Osgood law frequently used for metallic materials (e.g. in the simple tension test) yielding a monotonic increasing function of the stress as a function of the strain. Therefore, deformation plasticity is very well suited to model the relation between the Cauchy (true) stress and the strain. Because tensile and compressive test results coincide well when plotting the Cauchy stress versus the logarithmic strain (soon to be defined), these quantities are generally used in the deformation plasticity law. 
-The implementation in CalculiX (keyword card <A HREF="node240.html#deformationplasticity">*DEFORMATION PLASTICITY</A>), however, uses the relationship to model the dependence of the Cauchy (true) stress on the Eulerian strain. For all practical purposes, the Eulerian strain coincides with the logarithmic strain. For a tensile test specimen, with initial length L, initial cross section <IMG
- WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img553.png"
- ALT="$ A_0$">, final length <!-- MATH
- $L+\Delta L$
- -->
-<IMG
- WIDTH="59" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1009.png"
- ALT="$ L+\Delta L$"> and final cross section A, loaded by a force F, the Cauchy stress <IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1010.png"
- ALT="$ \sigma$">, the logarithmic strain <!-- MATH
- $\epsilon_{log}$
- -->
-<IMG
- WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1011.png"
- ALT="$ \epsilon_{log}$"> and the Eulerian strain <!-- MATH
- $\epsilon_{Euler}$
- -->
-<IMG
- WIDTH="46" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1012.png"
- ALT="$ \epsilon_{Euler}$"> satisfy:
+Hyperelastic materials are materials for which a potential function exists such that the second Piola-Kirchhoff stress tensor can be written as the derivative of this potential with respect to the Lagrangian strain tensor. This definition includes linear elastic materials, although the term hyperelastic material is usually reserved for proper nonlinear elastic materials. 
+One important class constitutes the isotropic hyperelastic materials, for which the potential function is a function of the strain invariants only. All rubber material models presently included in CalculiX are of that type (Arruda-Boyce, Mooney-Rivlin, Neo Hooke, Ogden, Polynomial, Reduced Polynomial and Yeoh). They are selected by the keyword <A HREF="node312.html#hyperelastic">*HYPERELASTIC</A>. Rubber materials are virtually incompressible (virtually no dependence on the third Lagrangian strain invariant which takes values close to 1). The dependence on the third invariant (the compressibility) is separated from the dependence on the first two invariants and is governed by so called compressibility coefficients, taking the value 0 for perfectly incompressible materials. Perfectly incompressible materials require the use of hybrid finite elements, in which the pressure is taken as an additional independent variable (in addition to the displacements). CalculiX does not provide such elements. Consequently, a slight amount of compressibility is required for CalculiX to work. If the user inserts zero compressibility coefficients, CalculiX uses a default value corresponding to an initial value of the Poisson coefficient of 0.475.
 
 <P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-\sigma=F/A=\frac{F(L+\Delta L)}{A_0 L}
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="170" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
- SRC="img1013.png"
- ALT="$\displaystyle \sigma=F/A=\frac{F(L+\Delta L)}{A_0 L}$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(263)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
+Another example of isotropic hyperelastic materials are the hyperfoam materials, which are also implemented in CalculiX (activated by the keyword <A HREF="node313.html#hyperfoam">*HYPERFOAM</A>). Hyperfoam materials are very compressible.
 
 <P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-\epsilon_{log}=ln \left[1+\frac{\Delta L}{L} \right]
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="139" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
- SRC="img1014.png"
- ALT="$\displaystyle \epsilon_{log}=ln \left[1+\frac{\Delta L}{L} \right]$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(264)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
+Other materials frequently simulated by a hyperelastic model are human tissue (lung tissue, heart tissue..). To simulate these classes of materials anisotropic hyperelastic models are used, in which the potential function depends on the Lagrangian strain tensor components. No such models are implemented in CalculiX, although their inclusion is not difficult to manage. For further information the reader is referred to [<A
+ HREF="node487.html#Beatty">8</A>]. A very nice treatment of the large deformation theory for hyperelastic materials is given in [<A
+ HREF="node487.html#Simo2">77</A>].
 
 <P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-\epsilon_{Euler}=\frac{\Delta L}{L}\left[1-\frac{\Delta L}{2L} \right]
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="170" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
- SRC="img1015.png"
- ALT="$\displaystyle \epsilon_{Euler}=\frac{\Delta L}{L}\left[1-\frac{\Delta L}{2L} \right]$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(265)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
 
-<P>
-The difference between the logarithmic strain and the Eulerian strain is about 1.3 % for an Engineering strain <!-- MATH
- $\Delta L / L=20 \%$
- -->
-<IMG
- WIDTH="98" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1016.png"
- ALT="$ \Delta L / L=20 \%$">. The user should give the Ramberg-Osgood material constants directly (by plotting a Cauchy stress versus Eulerian strain curve and performing a fit).
-
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html2956"
+<A NAME="tex2html3019"
   HREF="node150.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2952"
-  HREF="node143.html">
+<A NAME="tex2html3015"
+  HREF="node144.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2946"
+<A NAME="tex2html3009"
   HREF="node148.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2954"
+<A NAME="tex2html3017"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2957"
-  HREF="node150.html">Incremental (visco)plasticity: multiplicative decomposition</A>
-<B> Up:</B> <A NAME="tex2html2953"
-  HREF="node143.html">Materials</A>
-<B> Previous:</B> <A NAME="tex2html2947"
-  HREF="node148.html">Hyperelastic and hyperfoam materials</A>
- &nbsp; <B>  <A NAME="tex2html2955"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html3020"
+  HREF="node150.html">Deformation plasticity</A>
+<B> Up:</B> <A NAME="tex2html3016"
+  HREF="node144.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3010"
+  HREF="node148.html">Ideal gas for quasi-static</A>
+ &nbsp; <B>  <A NAME="tex2html3018"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

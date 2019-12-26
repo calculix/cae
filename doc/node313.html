@@ -1,116 +1,146 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*SPECIFIC GAS CONSTANT</TITLE>
-<META NAME="description" CONTENT="*SPECIFIC GAS CONSTANT">
+<TITLE>*HYPERFOAM</TITLE>
+<META NAME="description" CONTENT="*HYPERFOAM">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node314.html">
 <LINK REL="previous" HREF="node312.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node314.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5084"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5200"
   HREF="node314.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5080"
-  HREF="node205.html">
+<A NAME="tex2html5196"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5074"
+<A NAME="tex2html5190"
   HREF="node312.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5082"
+<A NAME="tex2html5198"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5085"
-  HREF="node314.html">*SPECIFIC HEAT</A>
-<B> Up:</B> <A NAME="tex2html5081"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5075"
-  HREF="node312.html">*SOLID SECTION</A>
- &nbsp; <B>  <A NAME="tex2html5083"
+<B> Next:</B> <A NAME="tex2html5201"
+  HREF="node314.html">*INCLUDE</A>
+<B> Up:</B> <A NAME="tex2html5197"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5191"
+  HREF="node312.html">*HYPERELASTIC</A>
+ &nbsp; <B>  <A NAME="tex2html5199"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION0008105000000000000000"></A><A NAME="specificgasconstant"></A>
+<H2><A NAME="SECTION000966000000000000000"></A><A NAME="hyperfoam"></A>
 <BR>
-*SPECIFIC GAS CONSTANT
+*HYPERFOAM
 </H2>
 
 <P>
 Keyword type: model definition, material
 
 <P>
-With this option the specific gas constant of a material can be defined. The
-specific gas constant is required for a calculation in which a gas dynamic
-network is included. The specific gas constant <B><IMG
- WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img306.png"
- ALT="$ R$"></B> is defined as 
+This option is used to define a hyperfoam material. There is one optional parameters, N. N determines the order of the strain energy potential. Default is N=1. All constants may be temperature dependent.
+
+<P>
+The hyperfoam strain energy potential takes the form
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+U=\sum_{i=1}^{N} \frac{2 \mu_i}{\alpha_i^2} \left[ \lambda_1^{\alpha_i}+\lambda_2^{\alpha_i}+\lambda_3^{\alpha_i}-3+\frac{1}{\beta_i}(J^{-\alpha_i \beta_i}-1) \right]
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="370" HEIGHT="67" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2317.png"
+ ALT="$\displaystyle U=\sum_{i=1}^{N} \frac{2 \mu_i}{\alpha_i^2} \left[ \lambda_1^{\al...
+...ha_i}+\lambda_3^{\alpha_i}-3+\frac{1}{\beta_i}(J^{-\alpha_i \beta_i}-1) \right]$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">751</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2289.png"
+ ALT="$ \lambda_1$"></B></SPAN>, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2290.png"
+ ALT="$ \lambda_2$"></B></SPAN> and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2291.png"
+ ALT="$ \lambda_3$"></B></SPAN> are the principal
+stretches. The parameters <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2318.png"
+ ALT="$ \beta_i$"></B></SPAN> are related to the Poisson coefficients
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="17" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2319.png"
+ ALT="$ \nu_i$"></B></SPAN> by:
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
-R=\mathcal{R}/M
+\beta_i=\frac{ \nu_i}{1 -2 \nu_i}
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="76" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1817.png"
- ALT="$\displaystyle R=\mathcal{R}/M$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(497)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="92" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2320.png"
+ ALT="$\displaystyle \beta_i=\frac{ \nu_i}{1 -2 \nu_i}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">752</SPAN>)</TD></TR>
 </TABLE></DIV>
 <BR CLEAR="ALL"><P></P>
 
 <P>
-where <!-- MATH
- $\mathcal{R}= 8314 \; \text{J}/(\text{kmol}\;\text{K})$
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\nu_i= \frac{ \beta_i}{1+2 \beta_i}.
+\end{equation}
  -->
-<B><IMG
- WIDTH="75" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img1818.png"
- ALT="$ \mathcal{R}= 8314 \;$">&nbsp; &nbsp;J<IMG
- WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1819.png"
- ALT="$ /($">kmol<IMG
- WIDTH="9" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
- SRC="img1820.png"
- ALT="$ \;$">K<IMG
- WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1821.png"
- ALT="$ )$"></B> is the universal gas constant 
-and <B><IMG
- WIDTH="22" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img464.png"
- ALT="$ M$"></B> is the molecular weight of the material. The specific gas constant is
-temperature independent.
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="96" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2321.png"
+ ALT="$\displaystyle \nu_i= \frac{ \beta_i}{1+2 \beta_i}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">753</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
 
 <P><P>
 <BR>
@@ -119,57 +149,199 @@ temperature independent.
 First line:
 
 <UL>
-<LI>*SPECIFIC GAS CONSTANT
+<LI>*HYPERFOAM
+</LI>
+<LI>Enter parameters and their values, if needed
 </LI>
 </UL>
 
 <P>
-Following line:
+Following line for N=1:
 
 <UL>
-<LI>Specific gas constant.
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2302.png"
+ ALT="$ \mu_{1}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{1}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2303.png"
+ ALT="$ \alpha_{1}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2322.png"
+ ALT="$ \nu_{1}$"></B></SPAN>.
+</LI>
+<LI>Temperature.
 </LI>
 </UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+Following line for N=2:
+
+<UL>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2302.png"
+ ALT="$ \mu_{1}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{1}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2303.png"
+ ALT="$ \alpha_{1}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2304.png"
+ ALT="$ \mu_{2}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{2}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2305.png"
+ ALT="$ \alpha_{2}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2322.png"
+ ALT="$ \nu_{1}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2323.png"
+ ALT="$ \nu_{2}$"></B></SPAN>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+Following lines, in a pair, for N=3:
+First line of pair:
+
+<UL>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2302.png"
+ ALT="$ \mu_{1}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{1}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2303.png"
+ ALT="$ \alpha_{1}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2304.png"
+ ALT="$ \mu_{2}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{2}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2305.png"
+ ALT="$ \alpha_{2}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2307.png"
+ ALT="$ \mu_{3}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{3}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2308.png"
+ ALT="$ \alpha_{3}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2322.png"
+ ALT="$ \nu_{1}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2323.png"
+ ALT="$ \nu_{2}$"></B></SPAN>.
+</LI>
+</UL>
+Second line of pair:
+
+<UL>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2324.png"
+ ALT="$ \nu_{3}$"></B></SPAN>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this pair if needed to define complete temperature dependence.
 
 <P>
 <PRE>
 Example:
 
-*SPECIFIC GAS CONSTANT
-287.
+*HYPERFOAM,N=2
+0.164861,8.88413,2.302e-5,-4.81798,0.,0.
 </PRE>
 
 <P>
-defines a specific gas constant with a value of 287. This value is appropriate
-for air if Joule is chosen for the unit of energy, kg as unit of mass and K as
-unit of temperature, i.e. <!-- MATH
- $R = 287 \; \text{J}/(\text{kg}\;\text{K})$
- -->
-<B><IMG
- WIDTH="66" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img1822.png"
- ALT="$ R = 287 \;$">&nbsp; &nbsp;J<IMG
- WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1819.png"
- ALT="$ /($">kg<IMG
- WIDTH="9" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
- SRC="img1820.png"
- ALT="$ \;$">K<IMG
- WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1821.png"
- ALT="$ )$"></B>.
+defines a hyperfoam material with two terms in the series.
 
 <P>
 
 <P><P>
 <BR>
-Example files: linearnet, branch1, branch2.
+Example files: beamhf.
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5200"
+  HREF="node314.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5196"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5190"
+  HREF="node312.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5198"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5201"
+  HREF="node314.html">*INCLUDE</A>
+<B> Up:</B> <A NAME="tex2html5197"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5191"
+  HREF="node312.html">*HYPERELASTIC</A>
+ &nbsp; <B>  <A NAME="tex2html5199"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

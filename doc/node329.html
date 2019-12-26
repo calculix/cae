@@ -1,85 +1,93 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*TRANSFORMF</TITLE>
-<META NAME="description" CONTENT="*TRANSFORMF">
+<TITLE>*NODAL THICKNESS</TITLE>
+<META NAME="description" CONTENT="*NODAL THICKNESS">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node330.html">
 <LINK REL="previous" HREF="node328.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node330.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5276"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5392"
   HREF="node330.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5272"
-  HREF="node205.html">
+<A NAME="tex2html5388"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5266"
+<A NAME="tex2html5382"
   HREF="node328.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5274"
+<A NAME="tex2html5390"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5277"
-  HREF="node330.html">*UNCOUPLED TEMPERATURE-DISPLACEMENT</A>
-<B> Up:</B> <A NAME="tex2html5273"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5267"
-  HREF="node328.html">*TRANSFORM</A>
- &nbsp; <B>  <A NAME="tex2html5275"
+<B> Next:</B> <A NAME="tex2html5393"
+  HREF="node330.html">*NODE</A>
+<B> Up:</B> <A NAME="tex2html5389"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5383"
+  HREF="node328.html">*NO ANALYSIS</A>
+ &nbsp; <B>  <A NAME="tex2html5391"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION0008121000000000000000"></A><A NAME="transformf"></A>
+<H2><A NAME="SECTION000982000000000000000"></A><A NAME="nodalthickness"></A>
 <BR>
-*TRANSFORMF
+*NODAL THICKNESS
 </H2>
 
 <P>
 Keyword type: model definition
 
 <P>
-This option may be used to specify a local axis system X'-Y'-Z' to be used for
-defining SPC's in CFD-calculations. For now, rectangular and cylindrical systems can be defined, triggered by the parameter TYPE=R (default) and TYPE=C. 
+This option is used to assign a thickness to a node or to a node
+set. There are no parameters. This keyword only makes sense for nodes
+belonging to plane stress/strain elements,  shell
+elements and beam elements. For all of these except for the beam
+elements one thickness value should be given. For plane stress/strain and
+shell elements this is the thickness in normal direction. The normal
+direction can be defined by using the <A HREF="node334.html#normal">*NORMAL</A>
+keyword card. If none is defined, the normal is calculated based on
+the geometrical data. For beam
+elements two thicknesses can be defined: one in 1-direction and one in
+2-direction. The 1-direction can be defined on the <A HREF="node247.html#beamsection">*BEAM
+SECTION</A> card, the 2-direction by the
+<A HREF="node334.html#normal">*NORMAL</A> card. 
 
 <P>
-A rectangular system is defined by specifying a point a on the local X' axis and a point b belonging to the X'-Y' plane but not on the X' axis. A right hand system is assumed (Figure <A HREF="node328.html#rectsystem2">154</A>).
+The *NODAL THICKNESS card takes precedence over any other thickness
+definitions if the NODAL THICKNESS parameter was selected on the
+<A HREF="node247.html#beamsection">*BEAM SECTION</A>, 
+<A HREF="node350.html#shellsection">*SHELL SECTION</A>  or <A HREF="node351.html#solidsection">*SOLID SECTION</A> card. Right now, it cannot be used for
+composite materials.
 
 <P>
-When using a cylindrical system two points a and b on the axis must be given. The X' axis is in radial direction, the Z' axis in axial direction from point a to point b, and Y' is in tangential direction such that X'-Y'-Z' is a right hand system (Figure <A HREF="node328.html#cylsystem2">155</A>). 
-
-<P>
-The difference with the *TRANSFORM card is that for CFD-calculations the SPC's
-are applied to element faces instead of nodes. The parameter SURFACE,
-specifying the surface for which the transformation applies, is
-required. Notice that this surface must be face-based.
-
-<P>
+For structures in which axisymmetric elements (type CAX*) are present any
+thickness defined on the present card for plane stress/strain and shell elements applies to 360<SPAN CLASS="MATH"><B><IMG
+ WIDTH="11" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img315.png"
+ ALT="$ ^\circ$"></B></SPAN>.
 
 <P><P>
 <BR>
@@ -88,25 +96,19 @@ required. Notice that this surface must be face-based.
 First line:
 
 <UL>
-<LI>*TRANSFORM
-</LI>
-<LI>Enter the required parameter SURFACE, and the optional parameter TYPE if needed.
+<LI>*NODAL THICKNESS
 </LI>
 </UL>
-Second line:
+
+<P>
+Following line:
 
 <UL>
-<LI>X-coordinate of point a.
+<LI>Node or set of nodes previously defined
 </LI>
-<LI>Y-coordinate of point a.
+<LI>Thickness 1
 </LI>
-<LI>Z-coordinate of point a.
-</LI>
-<LI>X-coordinate of point b.
-</LI>
-<LI>Y-coordinate of point b.
-</LI>
-<LI>Z-coordinate of point b.
+<LI>Thickness 2
 </LI>
 </UL>
 
@@ -114,52 +116,53 @@ Second line:
 <PRE>
 Example:
 
-*TRANSFORMF,SURFACE=ABC,TYPE=C
-0.,0.,0.,1.,0.,0.
+*NODAL THICKNESS
+22,0.05,0.08
 </PRE>
 
 <P>
-assigns a new cylindrical coordinate system to the faces belonging to surface
-ABC. The cylindrical axis is the global x-axis.
+assigns to node 22 the thickness 0.05 and 0.08. Any plane stress or
+shell element containing node 22 will have a local thickness of 0.05
+unit lengths at node 22. Any beam element containing
+node 22 will have a thickness of 0.05 unit length in local 1-direction
+and a thickness of 0.08 unit length in local 2-direction.
 
 <P>
 
 <P><P>
 <BR>
-Example files: .
+Example files: shell1.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html5276"
+<A NAME="tex2html5392"
   HREF="node330.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5272"
-  HREF="node205.html">
+<A NAME="tex2html5388"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5266"
+<A NAME="tex2html5382"
   HREF="node328.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5274"
+<A NAME="tex2html5390"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5277"
-  HREF="node330.html">*UNCOUPLED TEMPERATURE-DISPLACEMENT</A>
-<B> Up:</B> <A NAME="tex2html5273"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5267"
-  HREF="node328.html">*TRANSFORM</A>
- &nbsp; <B>  <A NAME="tex2html5275"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html5393"
+  HREF="node330.html">*NODE</A>
+<B> Up:</B> <A NAME="tex2html5389"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5383"
+  HREF="node328.html">*NO ANALYSIS</A>
+ &nbsp; <B>  <A NAME="tex2html5391"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

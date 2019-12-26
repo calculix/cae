@@ -1,98 +1,133 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Linear static analysis</TITLE>
-<META NAME="description" CONTENT="Linear static analysis">
+<TITLE>Calling shared libraries</TITLE>
+<META NAME="description" CONTENT="Calling shared libraries">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node403.html">
 <LINK REL="previous" HREF="node401.html">
-<LINK REL="up" HREF="node401.html">
+<LINK REL="up" HREF="node398.html">
 <LINK REL="next" HREF="node403.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6296"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6323"
   HREF="node403.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6292"
-  HREF="node401.html">
+<A NAME="tex2html6319"
+  HREF="node398.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6286"
+<A NAME="tex2html6313"
   HREF="node401.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6294"
+<A NAME="tex2html6321"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6297"
-  HREF="node403.html">Nonlinear calculations</A>
-<B> Up:</B> <A NAME="tex2html6293"
-  HREF="node401.html">Filling and solving the</A>
-<B> Previous:</B> <A NAME="tex2html6287"
-  HREF="node401.html">Filling and solving the</A>
- &nbsp; <B>  <A NAME="tex2html6295"
+<B> Next:</B> <A NAME="tex2html6324"
+  HREF="node403.html">Limitations</A>
+<B> Up:</B> <A NAME="tex2html6320"
+  HREF="node398.html">ABAQUS umat routines</A>
+<B> Previous:</B> <A NAME="tex2html6314"
+  HREF="node401.html">Limitations</A>
+ &nbsp; <B>  <A NAME="tex2html6322"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000116100000000000000">
-Linear static analysis</A>
-</H3>
+<H4><A NAME="SECTION000105240000000000000">
+Calling shared libraries</A>
+</H4>
 
 <P>
-For a linear static analysis (prespooles.c) the structure is as
-follows:
-
-<P>
+Calling shared libraries is triggered by putting the <TT>@</TT>
+character in front material name. The material name is then decomposed
+into three parts, separated by the <TT>_</TT> character:
 
 <UL>
-<LI>determine the loads at the end of the step in routine tempload.f
+<LI>The name of the interface (ABAQUS or ABAQUSNL).
 </LI>
-<LI>fill the matrix (routine mafillsm)
+<LI>The base name of the library (see below).
 </LI>
-<LI>solve the system of equations (routines spooles or preiter)
-</LI>
-<LI>determine the required results for all degrees of freedom, starting from
-  the displacement solution for the active degrees of freedom. This is done in
-  subroutine results.f, including any storage in the .dat file.
-</LI>
-<LI>store the results in the .frd file. For structures not
-  exhibiting cyclic symmetry this is performed in routine out.f, for cyclic
-  symmetric structures routine frdcyc.c is called before calling out. If an
-  error occurred during the matrix fill the output is reduced to the pure
-  geometry. 
+<LI>The name of the function implementing the behavior. If the
+  function's name is ommitted, the &ldquo;umat_&rdquo; function name is used.
 </LI>
 </UL>
 
 <P>
-The different routines in the above listing will be discussed separately,
-since they are common to most types of analysis.
+For instance, if we want to call a small strain behavior in a linear
+analysis, implemented by the &ldquo;CHABOCHE&rdquo; function in the
+&ldquo;libABAQUSBEHAVIOURS.so&rdquo; shared library<A NAME="tex2html188"
+  HREF="footnode.html#foot13203"><SUP><SPAN CLASS="arabic">5</SPAN></SUP></A>, one would declare the
+following material name:
+<DIV ALIGN="CENTER">
+@ABAQUS_ABAQUSBEHAVIOURS_CHABOCHE
+
+</DIV>
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+Here, the library name has been stripped from system-specific
+convention (the leading lib and the .so extension). <EM>The base name
+  of the library and the name of the function must be
+  upper-cased</EM>. This is due to the way CalculiX interprets the input
+file.
+
+<P>
+To distinguish two materials using the same external behaviour, one
+may add a unique identifier at the end of the material name. This
+identifier starts with the <TT>@</TT> character.  For example, one may
+use the material names <TT>@ABAQUS_ABAQUSBEHAVIOURS_CHABOCHE@1</TT>
+and <TT>@ABAQUS_ABAQUSBEHAVIOURS_CHABOCHE@2</TT> to create to
+distinct materials (with distinct material properties) which will call
+the same external behaviour.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6323"
+  HREF="node403.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6319"
+  HREF="node398.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6313"
+  HREF="node401.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6321"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6324"
+  HREF="node403.html">Limitations</A>
+<B> Up:</B> <A NAME="tex2html6320"
+  HREF="node398.html">ABAQUS umat routines</A>
+<B> Previous:</B> <A NAME="tex2html6314"
+  HREF="node401.html">Limitations</A>
+ &nbsp; <B>  <A NAME="tex2html6322"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

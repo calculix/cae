@@ -1,99 +1,97 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*PLASTIC</TITLE>
-<META NAME="description" CONTENT="*PLASTIC">
+<TITLE>*FILTER</TITLE>
+<META NAME="description" CONTENT="*FILTER">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node302.html">
 <LINK REL="previous" HREF="node300.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node302.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4940"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5056"
   HREF="node302.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4936"
-  HREF="node205.html">
+<A NAME="tex2html5052"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4930"
+<A NAME="tex2html5046"
   HREF="node300.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4938"
+<A NAME="tex2html5054"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4941"
-  HREF="node302.html">*PRE-TENSION SECTION</A>
-<B> Up:</B> <A NAME="tex2html4937"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4931"
-  HREF="node300.html">*PHYSICAL CONSTANTS</A>
- &nbsp; <B>  <A NAME="tex2html4939"
+<B> Next:</B> <A NAME="tex2html5057"
+  HREF="node302.html">*FLUID CONSTANTS</A>
+<B> Up:</B> <A NAME="tex2html5053"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5047"
+  HREF="node300.html">*FILM</A>
+ &nbsp; <B>  <A NAME="tex2html5055"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000893000000000000000"></A><A NAME="plastic"></A>
+<H2><A NAME="SECTION000954000000000000000"></A><A NAME="filter"></A>
 <BR>
-*PLASTIC
+*FILTER
 </H2>
 
 <P>
-Keyword type: model definition, material
+Keyword type: step
 
 <P>
-This option is used to define the plastic properties of an
-incrementally plastic material. There is one optional parameter
-HARDENING. Default is HARDENING=ISOTROPIC, other values are
-HARDENING=KINEMATIC for kinematic hardening, HARDENING=COMBINED for
-combined isotropic and kinematic hardening and HARDENING=USER for user
-defined hardening curves. All constants may be temperature
-dependent. The card should be preceded by a
-<A HREF="node250.html#elastic">*ELASTIC</A> card within the same material definition,
-defining the isotropic elastic properties of the material. User
-defined hardening curves should be defined in the user subroutine
-uhardening.f
+With *FILTER the sensitivities can be modified to obtain a more smooth
+result. 
 
 <P>
-If the elastic data is isotropic, the large strain viscoplastic theory
-treated in [<A
- HREF="node448.html#Simo3">73</A>] and [<A
- HREF="node448.html#Simo4">74</A>] is applied. If the elastic
-data is orthotropic, the infinitesimal strain model discussed in
-Section <A HREF="node156.html#s533">6.8.13</A> is used. Accordingly, for an elastically
-orthotropic material 
-the hardening can be at most linear. Furthermore, if the temperature
-data points for the hardening curves do not correspond to the *ELASTIC
-temperature data points, they are interpolated at the latter
-points. Accordingly, for an elastically orthotropic material, it is
-advisable to define the hardening curves at the same temperatures as
-the elastic data.
+There are four optional parameters: TYPE, BOUNDARY WEIGHTING, EDGE PRESERVATION and
+DIRECTION WEIGHTING.
 
 <P>
-For the selection of plastic output variables the reader is referred to
-Section <A HREF="node150.html#incplas">6.8.7</A>.
+The filter itself is a monotonically decreasing function within a sphere at
+the node at stake taking the value 1 at the center of the sphere and 0 at its
+boundary. The TYPE of filter can be LINEAR, QUADRATIC, CUBIC or GAUSS. If no TYPE is
+specified, no filtering will be active.
+
+<P>
+With BOUNDARY WEIGHTING=YES the sensitivities near the boundary between the design
+space and the nodes not belonging to the design space are gradually decreased
+to zero. The distance across which this happens can be specified by the
+user. Default is no boundary weighting. If the BOUNDARY WEIGHTING parameter is
+active but no boundary weighting distance is given (or zero) the filter radius
+is taken is boundary weighting distance.
+
+<P>
+The EDGE PRESERVATION=YES parameter indicates that sharp corners at the boundary
+of the design space should be kept. This means that for the calculation of the
+normal on the design space, only the faces internal to the design space are
+used. Default is no edge preservation.
+
+<P>
+Finally, DIRECTION WEIGHTING=YES indicates that the values within the filter
+radius should be weighted with the scalar product of the local normal with the
+normal at the center of the filter.
 
 <P>
 
@@ -104,86 +102,68 @@ Section <A HREF="node150.html#incplas">6.8.7</A>.
 First line:
 
 <UL>
-<LI>*PLASTIC
-</LI>
-<LI>Enter the HARDENING parameter and its value, if needed
+<LI>*FILTER and any appropriate parameters.
 </LI>
 </UL>
 
 <P>
-Following sets of lines define the isotropic hardening curve for HARDENING=ISOTROPIC and the kinematic hardening curve for HARDENING=KINEMATIC or HARDENING=COMBINED:
-First line in the first set:
+Second line (only necessary if TYPE and/or BOUNDARY WEIGHTING was selected):
 
 <UL>
-<LI>Von Mises stress.
+<LI>the filter radius
 </LI>
-<LI>Equivalent plastic strain.
-</LI>
-<LI>Temperature.
+<LI>the boundary weighting distance
 </LI>
 </UL>
-Use as many lines in the first set as needed to define the complete hardening curve for this temperature.
-
-<P>
-Use as many sets as needed to define complete temperature dependence.
-
-<P>
-For the definition of the isotropic hardening curve for HARDENING=COMBINED the keyword <A HREF="node236.html#cyclichardening">*CYCLIC HARDENING</A> is used. 
 
 <P>
 <PRE>
 Example:
 
-*PLASTIC
-800.,0.,273.
-900.,0.05,273.
-1000.,0.15,273.
-700.,0.,873.
-750.,0.04,873.
-800.,0.13,873.
+*FILTER
+3.
 </PRE>
 
 <P>
-defines two stress-strain curves: one for temperature T=273. and one for T=873. The curve at T=273 connects the points (800.,0.), (900.,0.05) and (1000.,0.15), the curve at T=873 connects (700.,0.), (750.,0.04) and (800.,0.13). Notice that the first point on the curves represents first yielding and must give the Von Mises stress for a zero equivalent plastic strain.
+defines a filter radius of 3 length units. Boundary weighting, edge
+preservation and direction weighting are not active.
 
 <P>
 
 <P><P>
 <BR>
-Example files: beampd, beampiso, beampkin, beampt.
+Example files: beam_sens_freq_coord1.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4940"
+<A NAME="tex2html5056"
   HREF="node302.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4936"
-  HREF="node205.html">
+<A NAME="tex2html5052"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4930"
+<A NAME="tex2html5046"
   HREF="node300.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4938"
+<A NAME="tex2html5054"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4941"
-  HREF="node302.html">*PRE-TENSION SECTION</A>
-<B> Up:</B> <A NAME="tex2html4937"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4931"
-  HREF="node300.html">*PHYSICAL CONSTANTS</A>
- &nbsp; <B>  <A NAME="tex2html4939"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html5057"
+  HREF="node302.html">*FLUID CONSTANTS</A>
+<B> Up:</B> <A NAME="tex2html5053"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5047"
+  HREF="node300.html">*FILM</A>
+ &nbsp; <B>  <A NAME="tex2html5055"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

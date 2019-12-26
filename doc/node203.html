@@ -1,148 +1,146 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Gradient error estimator</TITLE>
-<META NAME="description" CONTENT="Gradient error estimator">
+<TITLE>Zienkiewicz-Zhu error estimator</TITLE>
+<META NAME="description" CONTENT="Zienkiewicz-Zhu error estimator">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
+<LINK REL="next" HREF="node204.html">
 <LINK REL="previous" HREF="node202.html">
-<LINK REL="up" HREF="node201.html">
+<LINK REL="up" HREF="node202.html">
 <LINK REL="next" HREF="node204.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3635"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3700"
   HREF="node204.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3631"
-  HREF="node201.html">
+<A NAME="tex2html3696"
+  HREF="node202.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3627"
+<A NAME="tex2html3690"
   HREF="node202.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3633"
+<A NAME="tex2html3698"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3636"
-  HREF="node204.html">Output variables</A>
-<B> Up:</B> <A NAME="tex2html3632"
-  HREF="node201.html">Error estimators</A>
-<B> Previous:</B> <A NAME="tex2html3628"
-  HREF="node202.html">Zienkiewicz-Zhu error estimator</A>
- &nbsp; <B>  <A NAME="tex2html3634"
+<B> Next:</B> <A NAME="tex2html3701"
+  HREF="node204.html">Gradient error estimator</A>
+<B> Up:</B> <A NAME="tex2html3697"
+  HREF="node202.html">Error estimators</A>
+<B> Previous:</B> <A NAME="tex2html3691"
+  HREF="node202.html">Error estimators</A>
+ &nbsp; <B>  <A NAME="tex2html3699"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000712200000000000000">
-Gradient error estimator</A>
+<H3><A NAME="SECTION000712100000000000000">
+Zienkiewicz-Zhu error estimator</A>
 </H3>
 
 <P>
-A different error estimator is based on the difference between the maximum and
-minimum of an elementwise-selected principal stress at the integration points in the
-elements belonging to one and the same node . It is
-triggered by selecting ERR underneath the <A HREF="node255.html#elfile">*EL FILE</A> keyword
-card.
+The Zienkiewicz-Zhu error estimator [<A
+ HREF="node487.html#Zienkiewiczzhu1">93</A>],
+[<A
+ HREF="node487.html#Zienkiewiczzhu2">94</A>] tries to estimate the error made by the finite element
+discretization. To do so, it calculates for each node an improved stress and
+defines the error as the difference between this stress and the one calculated
+by the standard finite element procedure.
 
 <P>
-The elementwise-selected principal stress is either the smallest or the
-largest principal stress (first or third). It is the largest principal stress
-if the maximum over all integration points in the element of the absolute
-value of the largest principal stress is larger than the maximum over all
-integration points in the element of the absolute value of the smallest
-principal stress. Else, it is the smallest principal stress.
+The stress obtained in the nodes using the standard finite element procedure
+is an extrapolation of the stresses at the integration points
+[<A
+ HREF="node487.html#Dhondt">19</A>]. Indeed, the basic unknowns in mechanical calculations are the
+displacements. Differentiating the displacements yields the strains, which can
+be converted into stresses by means of the appropriate material law. Due to the
+numerical integration used to obtain the stiffness coefficients, the strains
+and stresses are most accurate at the integration points. The standard finite
+element procedure extrapolates these integration point values to the
+nodes. The way this extrapolation is done depends on the kind of element
+[<A
+ HREF="node487.html#Dhondt">19</A>]. Usually, a node belongs to more than one element. The standard
+procedure averages the stress values obtained from each element to which the
+node belongs.
 
 <P>
-A node usually belongs to several elements. The stresses are available (and
-most accurate) at the
-integration points of these elements. If the largest difference between the elementwise-selected
-principal stress at all integration points within an element is small, the
-stresses vary little across the element and the element size is deemed
-adequate to yield an accurate stress prediction. From the absolute value of
-the largest difference a relative element value is calculated. The relative
-element value is the absolute value divided by the absolute value of the largest elementwise-selected
-principal stress within the element.
+To determine a more accurate stress value at the nodes, the Zienkiewicz-Zhu
+procedure starts from the stresses at the reduced integration points. This 
+applies to quadratic elements only, since only for these elements a reduced
+integration procedure exists (for element types different from C3D20R the
+ordinary integration points are taken instead) . The reduced integration points are
+superconvergent points, i.e. points at which the stress is an order
+of magnitude more accurate than in any other point within the element
+[<A
+ HREF="node487.html#Barlow">7</A>]. To improve the stress at a node an element patch is defined,
+usually consisting of all elements to which the nodes belongs. However, at
+boundaries and for tetrahedral elements this patch can contain other elements
+too. Now, a polynomial function is defined consisting of the monomials used
+for the shape function of the elements at stake. Again, to improve the
+accuracy, other monomials may be considered as well. The coefficients of the
+polynomial are defined such that the polynomial matches the stress as well as
+possible in the reduced integration points of the patch (in a least squares
+sense). Finally, an improved stress in the node is obtained by evaluating this
+polynomial. This is done for all stress components separately. For more
+details on the implementation in CalculiX the user is referred to [<A
+ HREF="node487.html#Merz">54</A>]. 
 
 <P>
-To obtain the relative value at the nodes the maximum is taken of the relative element
-value across all elements
-belonging to the node. In a strict sense this is not an error estimator, it is
-just a measure for the variation of the elementwise-selected principal stress across all elements belonging
-to the node. 
+In CalculiX one can obtain the improved CalculiX-Zhu stress by selecting ZZS
+underneath the <A HREF="node294.html#elfile">*EL FILE</A> keyword card. It is available for
+tetrahedral and hexahedral elements. In a node belonging to tetrahedral,
+hexahedral and any other type of elements, only the hexahedral elements are
+used to defined the improved stress, if the node does not belong to hexahedral
+elements the tetrahedral elements are used, if any. 
 
 <P>
-By applying this concept to a large number of examples for which the stress
-error was known a heuristic relationship was deduced. It allows for a given
-element type to determine the error in the elementwise-selected principal stress in a node
-(called STR in the frd file; it is
-obtained by selecting ERR underneath the *EL FILE or *ELEMENT OUTPUT card) from the
-relative measure just defined (describing the relative change of the elementwise-selected
-principal stress in the adjacent elements). If a node belongs to several
-element types the worst value is taken. The STR-value is in %.
 
-<P>
-For heat transfer a similar error estimator was coded for the heat flux.  It is
-triggered by selecting HER underneath the <A HREF="node255.html#elfile">*EL FILE</A> keyword
-card. It represents the variation of the size of the heat flux vector across
-all elements belonging to one and the same node. For thermal problems too 
-heuristic relationships connecting the largest temperature gradient in the
-adjacent element to a node and the temperature error in the node have been
-established. The temperature error is called TEM in the frd file and is in
-%. It is obtained by selecting HER underneath the *EL FILE or *ELEMENT OUTPUT card.
-
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html3635"
+<A NAME="tex2html3700"
   HREF="node204.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3631"
-  HREF="node201.html">
+<A NAME="tex2html3696"
+  HREF="node202.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3627"
+<A NAME="tex2html3690"
   HREF="node202.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3633"
+<A NAME="tex2html3698"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3636"
-  HREF="node204.html">Output variables</A>
-<B> Up:</B> <A NAME="tex2html3632"
-  HREF="node201.html">Error estimators</A>
-<B> Previous:</B> <A NAME="tex2html3628"
-  HREF="node202.html">Zienkiewicz-Zhu error estimator</A>
- &nbsp; <B>  <A NAME="tex2html3634"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html3701"
+  HREF="node204.html">Gradient error estimator</A>
+<B> Up:</B> <A NAME="tex2html3697"
+  HREF="node202.html">Error estimators</A>
+<B> Previous:</B> <A NAME="tex2html3691"
+  HREF="node202.html">Error estimators</A>
+ &nbsp; <B>  <A NAME="tex2html3699"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

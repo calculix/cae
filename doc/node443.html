@@ -1,106 +1,229 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>cavity.f</TITLE>
-<META NAME="description" CONTENT="cavity.f">
+<TITLE>Frequency calculations</TITLE>
+<META NAME="description" CONTENT="Frequency calculations">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node444.html">
 <LINK REL="previous" HREF="node442.html">
-<LINK REL="up" HREF="node427.html">
+<LINK REL="up" HREF="node440.html">
 <LINK REL="next" HREF="node444.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6829"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6904"
   HREF="node444.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6825"
-  HREF="node427.html">
+<A NAME="tex2html6900"
+  HREF="node440.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6819"
+<A NAME="tex2html6894"
   HREF="node442.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6827"
+<A NAME="tex2html6902"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6830"
-  HREF="node444.html">END OF MAJOR LOOP.</A>
-<B> Up:</B> <A NAME="tex2html6826"
-  HREF="node427.html">Mesh refining procedure</A>
-<B> Previous:</B> <A NAME="tex2html6820"
-  HREF="node442.html">.</A>
- &nbsp; <B>  <A NAME="tex2html6828"
+<B> Next:</B> <A NAME="tex2html6905"
+  HREF="node444.html">Buckling calculations</A>
+<B> Up:</B> <A NAME="tex2html6901"
+  HREF="node440.html">Filling and solving the</A>
+<B> Previous:</B> <A NAME="tex2html6895"
+  HREF="node442.html">Nonlinear calculations</A>
+ &nbsp; <B>  <A NAME="tex2html6903"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H4><A NAME="SECTION00011115160000000000000">
-cavity.f</A>
-</H4>
+<H3><A NAME="SECTION000126300000000000000">
+Frequency calculations</A>
+</H3>
 
 <P>
-It is done in the following way:
+Frequency calculations are performed in subroutines arpack.c for structures
+not exhibiting cyclic symmetry and arpackcs.c for cyclic symmetric
+structures. Frequency calculations involve the following steps:
 
 <P>
 
 <UL>
-<LI>determine the cavity for the new node
-
-<UL>
-<LI>start from the base element
+<LI>filling the stiffness and mass matrix in mafillsm.f. The stiffness
+  matrix depends on the perturbation parameter: if iperturb=1 the stress
+  stiffness and large deformation stiffness of the most recent static step is
+  taken into account ([<A
+ HREF="node487.html#Dhondt">19</A>])
 </LI>
-<LI>add elements one by one through adjacency; only element whose
-  circumcircle enclose the new node are taken into account
+<LI>solving the eigenvalue system using SPOOLES and ARPACK
 </LI>
-<LI>check for nodes within the cavity; if any, remove the element to which
-  they belong from the cavity
+<LI>calculating the field variables in results.f, including storing in the
+  .dat file
 </LI>
-<LI>check that the cavity is convex in the sense that each cavity face is
-  visible from the new node, else the element bordering the face is removed
-  from the cavity
-</LI>
-</UL>
-</LI>
-<LI>remove the cavity elements
-</LI>
-<LI>create new elements connecting the new node with each of the cavity
-  faces
-</LI>
-<LI>if any element has a very small volume or at least one very small height
-  the original mesh of the cavity is restored
-</LI>
-<LI>since elements have been deleted and created the base element numbers of
-  the nodes still te be inserted may not be correct any more: perform a check
-  on these nodes and correct the base element numbers if necessary.
+<LI>storing the results in .frd format in out.f
 </LI>
 </UL>
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+The eigenvalues and eigenmodes are solved in shift-invert mode. This
+corresponds to Mode 3 in ARPACK ([<A
+ HREF="node487.html#Lehoucq">44</A>]). Suppose we want to solve the
+system
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\begin{bmatrix} K \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix} = \omega^2
+\begin{bmatrix} M \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="171" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2473.png"
+ ALT="$\displaystyle \begin{bmatrix}K \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix} = \omega^2 \begin{bmatrix}M \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">792</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+then the shift-invert mode requires algorithms for solving
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eq1"></A><!-- MATH
+ \begin{equation}
+\begin{bmatrix} K - \sigma M \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix} =
+\begin{Bmatrix} X_1 \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="172" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2474.png"
+ ALT="$\displaystyle \begin{bmatrix}K - \sigma M \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix} = \begin{Bmatrix}X_1 \end{Bmatrix}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">793</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and for
+calculating
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eq2"></A><!-- MATH
+ \begin{equation}
+\begin{Bmatrix} Y \end{Bmatrix} =
+\begin{bmatrix} M \end{bmatrix} \begin{Bmatrix} X_2 \end{Bmatrix}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="128" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2475.png"
+ ALT="$\displaystyle \begin{Bmatrix}Y \end{Bmatrix} = \begin{bmatrix}M \end{bmatrix} \begin{Bmatrix}X_2 \end{Bmatrix}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">794</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where  <!-- MATH
+ $\begin{Bmatrix} X_1 \end{Bmatrix}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="43" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2476.png"
+ ALT="$ \begin{Bmatrix}X_1 \end{Bmatrix}$"></B></SPAN> and <!-- MATH
+ $\begin{Bmatrix} X_2
+\end{Bmatrix}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="43" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2477.png"
+ ALT="$ \begin{Bmatrix}X_2
+\end{Bmatrix}$"></B></SPAN> are given and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1053.png"
+ ALT="$ \sigma$"></B></SPAN> is a parameter. In CalculiX, it is set
+to 1. These operations are used in an iterative
+procedure in order to determine the eigenvalues and the eigenmodes. For the first operation SPOOLES is used. SPOOLES solves a system by
+using a LU decomposition. This decomposition is performed before the iteration
+loop initiated by ARPACK since the left hand side of Equation (<A HREF="#eq1">793</A>) is
+always the same. Only the backwards substitution is inside the loop. The
+second operation (Equation (<A HREF="#eq2">794</A>)) is performed in routine op.f and is a
+simple matrix multiplication. Notice that this routine depends on the storage
+scheme of the matrix. 
+
+<P>
+For cyclic symmetric structures the following additional tasks must be
+performed:
+
+<P>
+
+<UL>
+<LI>Expanding the structure in case more than one segment is selected for output
+purposes (parameter NGRAPH on the 
+<A HREF="node276.html#cyclicsymmetrymodel">*CYCLIC SYMMETRY MODEL</A> keywork card). This is
+done before the mafillsm call.
+</LI>
+<LI>Calculating the results for the extra sectors based on the results for
+  the basis sector. This is performed after the call of routine results.f.
+</LI>
+</UL>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6904"
+  HREF="node444.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6900"
+  HREF="node440.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6894"
+  HREF="node442.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6902"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6905"
+  HREF="node444.html">Buckling calculations</A>
+<B> Up:</B> <A NAME="tex2html6901"
+  HREF="node440.html">Filling and solving the</A>
+<B> Previous:</B> <A NAME="tex2html6895"
+  HREF="node442.html">Nonlinear calculations</A>
+ &nbsp; <B>  <A NAME="tex2html6903"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

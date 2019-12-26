@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
+<HTML>
+<HEAD>
+<TITLE>Aerodynamic and hydraulic networks</TITLE>
+<META NAME="description" CONTENT="Aerodynamic and hydraulic networks">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node456.html">
+<LINK REL="previous" HREF="node447.html">
+<LINK REL="up" HREF="node412.html">
+<LINK REL="next" HREF="node451.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6986"
+  HREF="node451.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6982"
+  HREF="node412.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6976"
+  HREF="node449.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6984"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6987"
+  HREF="node451.html">The variables and the</A>
+<B> Up:</B> <A NAME="tex2html6983"
+  HREF="node412.html">Program structure.</A>
+<B> Previous:</B> <A NAME="tex2html6977"
+  HREF="node449.html">results</A>
+ &nbsp; <B>  <A NAME="tex2html6985"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000128000000000000000">
+Aerodynamic and hydraulic networks</A>
+</H2>
+
+<P>
+Aerodynamic and hydraulic networks are solved separately from the structural
+equation system. This is because networks generally lead to small sets of
+equations (at most a couple of thousand equations) which are inherently
+asymmetric. If solved together with the structural system, the small network
+contribution would lead to a complete asymmetric matrix and increase the
+computational time significantly. Moreover, especially aerodynamic networks
+are very nonlinear and require more iterations than structural
+nonlinearities. Consequently, the small network contribution would also lead
+to a lot more iterations. Therefore, the matrices of networks are set up and
+solved on their own taking the structural solution from the previous
+structural iteration as boundary condition. In a similar way, the network
+solution acts as boundary condition for the next structural iteration.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html6988"
+  HREF="node451.html">The variables and the equations</A>
+<LI><A NAME="tex2html6989"
+  HREF="node452.html">Determining the basic characteristics of the network</A>
+<LI><A NAME="tex2html6990"
+  HREF="node453.html">Initializing the unknowns</A>
+<LI><A NAME="tex2html6991"
+  HREF="node454.html">Calculating the residual and setting up the equation system</A>
+<LI><A NAME="tex2html6992"
+  HREF="node455.html">Convergence criteria</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+
+</BODY>
+</HTML>

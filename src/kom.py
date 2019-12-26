@@ -25,28 +25,28 @@ class KOM:
     # Read CalculiX keywords hierarchy
     def __init__(self):
 
+        # List of all existing keywords
+        self.keywords = []
+        # All possible keywords nesting variants - needed for parsing INP_doc
+        self.paths = []
+
         try:
             self.root = group() # group 'Model' from kom.xml
-
-            # List of all existing keywords
-            self.keywords = []
 
             # Analyze keywords hierarchy
             p = Path() # calculate absolute paths
             tree = ET.parse(p.kom_xml)
             self.buildKOM(tree.getroot(), self.root)
 
-            # All possible keywords nesting variants - needed for parsing INP_doc
-            self.paths = []
+            # # Regenerate all HTML help pages
+            # from dialog import saveHTML
+            # for item in self.keywords:
+            #     saveHTML(item, p.doc)
+
             self.buildPaths(self.root)
             self.paths.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
             # for path in self.paths:
             #     logging.debug(str([item.name for item in path]))
-
-            # # Regenerate all HTML help pages
-            # for item in self.keywords:
-            #     import dialog
-            #     dialog.saveHTML(item)
 
             logging.info('CalculiX object model generated.')
         except:

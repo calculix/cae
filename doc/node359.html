@@ -1,92 +1,124 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>ABAQUS umat routines</TITLE>
-<META NAME="description" CONTENT="ABAQUS umat routines">
+<TITLE>*SUBSTRUCTURE GENERATE</TITLE>
+<META NAME="description" CONTENT="*SUBSTRUCTURE GENERATE">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="previous" HREF="node356.html">
-<LINK REL="up" HREF="node355.html">
+<LINK REL="next" HREF="node360.html">
+<LINK REL="previous" HREF="node358.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node360.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5686"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5752"
   HREF="node360.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5682"
-  HREF="node355.html">
+<A NAME="tex2html5748"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5678"
+<A NAME="tex2html5742"
   HREF="node358.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5684"
+<A NAME="tex2html5750"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5687"
-  HREF="node360.html">Calling mechanical behaviours defined</A>
-<B> Up:</B> <A NAME="tex2html5683"
-  HREF="node355.html">User-defined mechanical material laws.</A>
-<B> Previous:</B> <A NAME="tex2html5679"
-  HREF="node358.html">Calling mechanical behaviours defined</A>
- &nbsp; <B>  <A NAME="tex2html5685"
+<B> Next:</B> <A NAME="tex2html5753"
+  HREF="node360.html">*SUBSTRUCTURE MATRIX OUTPUT</A>
+<B> Up:</B> <A NAME="tex2html5749"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5743"
+  HREF="node358.html">*SUBMODEL</A>
+ &nbsp; <B>  <A NAME="tex2html5751"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00095200000000000000">
-ABAQUS umat routines</A>
-</H3>
+<H2><A NAME="SECTION0009112000000000000000"></A><A NAME="substructuregenerate"></A>
+<BR>
+*SUBSTRUCTURE GENERATE
+</H2>
 
 <P>
-There are two interfaces to include ABAQUS umat routines: umat_abaqus is meant
-to include linear materials, umat_abaqusnl for nonlinear materials. For
-nonlinear materials the logarithmic strain and infinitesimal rotation are
-calculated, which slows down the calculation. Consequently, the nonlinear
-routine should only be used if necessary.
+Keyword type: step
 
 <P>
-<BR><HR>
-<!--Table of Child-Links-->
-<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+This procedure is used to generate a substructure and store the stiffness
+matrix using the <A HREF="node360.html#substructurematrixoutput">*SUBSTRUCTURE MATRIX
+  OUTPUT</A> keyword card. No loading should be applied.
+
+<P>
+There is one optional parameter: SOLVER. It determines the
+package used to solve the ensuing system of equations. The following solvers
+can be selected:
+
+<P>
 
 <UL>
-<LI><A NAME="tex2html5688"
-  HREF="node360.html">Calling mechanical behaviours defined shared libraries</A>
-<LI><A NAME="tex2html5689"
-  HREF="node361.html">Calling shared libraries</A>
-<LI><A NAME="tex2html5690"
-  HREF="node362.html">Limitations</A>
-<LI><A NAME="tex2html5691"
-  HREF="node363.html">Calling shared libraries</A>
-<LI><A NAME="tex2html5692"
-  HREF="node364.html">Limitations</A>
+<LI>PARDISO
+</LI>
+<LI>SPOOLES [<A
+ HREF="node487.html#Ashcraft1">3</A>,<A
+ HREF="node487.html#Ashcraft2">4</A>]. 
+</LI>
 </UL>
-<!--End of Table of Child-Links-->
+
+<P>
+Default is the first solver which has been installed of the following list:
+PARDISO, SPOOLES. If none is installed, a substructure generation is not
+possible.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*SUBSTRUCTURE GENERATE
+</LI>
+<LI>Enter SOLVER, if needed, and its value.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*SUBSTRUCTURE GENERATE,SOLVER=PARDISO
+</PRE>
+
+<P>
+defines a substructure generation step and selects the PARDISO solver as
+linear equation solver in the step. For this to work, the PARDISO solver must
+have been linked with CalculiX.
+
+<P>
+
+<P><P>
+<BR>
+Example files: substructure.
+
+<P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

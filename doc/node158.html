@@ -1,73 +1,289 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>User materials</TITLE>
-<META NAME="description" CONTENT="User materials">
+<TITLE>Elastic anisotropy with isotropic creep defined by a creep user subroutine.</TITLE>
+<META NAME="description" CONTENT="Elastic anisotropy with isotropic creep defined by a creep user subroutine.">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
+<LINK REL="next" HREF="node159.html">
 <LINK REL="previous" HREF="node157.html">
-<LINK REL="up" HREF="node143.html">
+<LINK REL="up" HREF="node144.html">
 <LINK REL="next" HREF="node159.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3062"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3127"
   HREF="node159.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3058"
-  HREF="node143.html">
+<A NAME="tex2html3123"
+  HREF="node144.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3054"
+<A NAME="tex2html3117"
   HREF="node157.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3060"
+<A NAME="tex2html3125"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3063"
-  HREF="node159.html">Types of analysis</A>
-<B> Up:</B> <A NAME="tex2html3059"
-  HREF="node143.html">Materials</A>
-<B> Previous:</B> <A NAME="tex2html3055"
+<B> Next:</B> <A NAME="tex2html3128"
+  HREF="node159.html">User materials</A>
+<B> Up:</B> <A NAME="tex2html3124"
+  HREF="node144.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3118"
   HREF="node157.html">Elastic anisotropy with isotropic</A>
- &nbsp; <B>  <A NAME="tex2html3061"
+ &nbsp; <B>  <A NAME="tex2html3126"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000781500000000000000">
-User materials</A>
+<H3><A NAME="SECTION000781400000000000000">
+Elastic anisotropy with isotropic creep defined by a creep
+  user subroutine.</A>
 </H3>
 
 <P>
-Other material laws can be defined by the user by means of the
-<A HREF="node332.html#usermaterial">*USER MATERIAL</A> keyword card. More information
-and examples can be found in section <A HREF="node355.html#user"><A HREF="node355.html#user"><tex2html_cr_mark></A></A>.
+This material model is similar to the previous one, except that 
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
+<UL>
+<LI>no plasticity is assumed (yield surface coincides with the origine)
+</LI>
+<LI>the creep model is to be provided by a creep user subroutine
+</LI>
+</UL>
+
+<P>
+In the present implementation orthotropic elastic behavior is
+assumed. Consequently, for each temperature 9
+constants need to be defined: the elastic constants <SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1124.png"
+ ALT="$ C_{1111}$"></B></SPAN>,
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1125.png"
+ ALT="$ C_{1122}$"></B></SPAN>, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1168.png"
+ ALT="$ C_{2222}$"></B></SPAN>,<SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1169.png"
+ ALT="$ C_{1133}$"></B></SPAN>,
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1170.png"
+ ALT="$ C_{2233}$"></B></SPAN>, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1171.png"
+ ALT="$ C_{3333}$"></B></SPAN>,<SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1126.png"
+ ALT="$ C_{1212}$"></B></SPAN>,
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1172.png"
+ ALT="$ C_{1313}$"></B></SPAN> and  <SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1173.png"
+ ALT="$ C_{2323}$"></B></SPAN>. 
+
+<P>
+The material
+definition consists of a *MATERIAL card defining the name of
+the material. This name HAS TO START WITH &rdquo;ANISO_CREEP&rdquo; but can be
+up to 80 characters long. Thus, the last 69 characters can be freely
+chosen by the user. Within the material definition a <A HREF="node371.html#usermaterial">*USER
+MATERIAL</A> card has to be used satisfying:
+
+<P>
+First line:
+
+<UL>
+<LI>*USER MATERIAL
+</LI>
+<LI>Enter the CONSTANTS parameter and its value, i.e. 9.
+</LI>
+</UL>
+
+<P>
+Following lines, in sets of 2:
+
+<P>
+
+<P><P>
+<BR>
+First line of set:
+
+<UL>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1124.png"
+ ALT="$ C_{1111}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1125.png"
+ ALT="$ C_{1122}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1168.png"
+ ALT="$ C_{2222}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1169.png"
+ ALT="$ C_{1133}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1170.png"
+ ALT="$ C_{2233}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1171.png"
+ ALT="$ C_{3333}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1126.png"
+ ALT="$ C_{1212}$"></B></SPAN>.
+</LI>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1172.png"
+ ALT="$ C_{1313}$"></B></SPAN>.
+</LI>
+</UL>
+Second line of set:
+
+<UL>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1173.png"
+ ALT="$ C_{2323}$"></B></SPAN>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+
+<P>
+Repeat this set if needed to define complete temperature dependence.
+
+<P>
+The principal axes of the material are assumed to coincide with the global
+coordinate system. If this is not the case, use an
+<A HREF="node337.html#orientation">*ORIENTATION</A> card to define a local system.
+
+<P>
+For this model, there are 7 internal state variables (recall that CalculiX
+does not make a distinction between plastic strain and creep strain: the field
+<!-- MATH
+ ${\epsilon^p}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1177.png"
+ ALT="$ {\epsilon^p}$"></B></SPAN> contains the sum of both): 
+
+<UL>
+<LI>the equivalent plastic strain <!-- MATH
+ ${\epsilon}^{peq}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="30" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1155.png"
+ ALT="$ {\epsilon}^{peq}$"></B></SPAN> (1)
+</LI>
+<LI>the plastic strain tensor <!-- MATH
+ ${\epsilon^p}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1177.png"
+ ALT="$ {\epsilon^p}$"></B></SPAN> (6) 
+</LI>
+</UL>
+
+<P>
+These variables are accessible through the <A HREF="node295.html#elprint">*EL
+PRINT</A> (.dat file) and <A HREF="node294.html#elfile">*EL FILE</A> (.frd file)
+keywords in exactly this order (label SDV). The
+<A HREF="node281.html#depvar">*DEPVAR</A> card must be included in the material
+definition with a value of 7.
+
+<P>
+The creep subroutine has to be provided by the user (cf. Section
+<A HREF="node376.html#creepf">9.1</A>). Since the material is anisotropic the input to the creep
+routine is the equivalent deviatoric creep strain, the output is the von Mises
+stress and the derivative of the equivalent deviatoric creep strain increment
+w.r.t. the von Mises stress.
+
+<P>
+<PRE>
+Example:
+
+*MATERIAL,NAME=ANISO_CREEP
+*USER MATERIAL,CONSTANTS=9
+500000.,157200.,500000.,157200.,157200.,500000.,126200.,126200.,
+126200.
+*DEPVAR
+7
+</PRE>
+
+<P>
+defines a single crystal with elastic constants
+500000., 157200., 500000., 157200., 157200., 500000., 126200., 126200. and
+126200.. The creep law has to be provide by the user in the form of a creep.f subroutine.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3127"
+  HREF="node159.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3123"
+  HREF="node144.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3117"
+  HREF="node157.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3125"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3128"
+  HREF="node159.html">User materials</A>
+<B> Up:</B> <A NAME="tex2html3124"
+  HREF="node144.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3118"
+  HREF="node157.html">Elastic anisotropy with isotropic</A>
+ &nbsp; <B>  <A NAME="tex2html3126"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

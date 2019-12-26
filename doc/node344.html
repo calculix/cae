@@ -1,130 +1,183 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Concentrated load (cload.f)</TITLE>
-<META NAME="description" CONTENT="Concentrated load (cload.f)">
+<TITLE>*RESTART</TITLE>
+<META NAME="description" CONTENT="*RESTART">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node345.html">
 <LINK REL="previous" HREF="node343.html">
-<LINK REL="up" HREF="node342.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node345.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5501"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5572"
   HREF="node345.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5497"
-  HREF="node342.html">
+<A NAME="tex2html5568"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5491"
+<A NAME="tex2html5562"
   HREF="node343.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5499"
+<A NAME="tex2html5570"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5502"
-  HREF="node345.html">Distributed flux (dflux.f)</A>
-<B> Up:</B> <A NAME="tex2html5498"
-  HREF="node342.html">User-defined loading</A>
-<B> Previous:</B> <A NAME="tex2html5492"
-  HREF="node343.html">Concentrated flux (cflux.f)</A>
- &nbsp; <B>  <A NAME="tex2html5500"
+<B> Next:</B> <A NAME="tex2html5573"
+  HREF="node345.html">*RETAINED NODAL DOFS</A>
+<B> Up:</B> <A NAME="tex2html5569"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5563"
+  HREF="node343.html">*REFINE MESH</A>
+ &nbsp; <B>  <A NAME="tex2html5571"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00094200000000000000"></A><A NAME="usercload"></A>
+<H2><A NAME="SECTION000997000000000000000"></A><A NAME="restart"></A>
 <BR>
-Concentrated load (cload.f)
-</H3>
+*RESTART
+</H2>
 
 <P>
-This subroutine is used for user-defined concentrated load, characterized
-by the parameter USER on the <A HREF="node223.html#cload">*CLOAD</A> card. The header and variable description is as
-follows:
+Keyword type: prestep (*RESTART,READ), step (*RESTART,WRITE)
+
+<P>
+Sometimes you wish to continue a previous run without having to redo
+the complete calculation. This is where the *RESTART keyword comes
+in. It can be used to store results for a later restart, or to
+continue a previous calculation. 
+
+<P>
+There is one required parameter specifying whether you want to read
+previous results (READ) or store the results of the present
+calculation for future restarts (WRITE). This parameter must follow
+immediately after the *RESTART keyword card.
+
+<P>
+If you specify READ, you can
+indicate with the parameter STEP which step of the previous run is to
+be read. The results will be read from the binary file
+&ldquo;jobname.rin&rdquo; which should have been generated in a previous
+run. If the STEP parameter is absent the last step stored in the restart file
+is taken. A restart file can contain any number of steps and anything
+which is allowed within a step. For instance, one can define new loads
+based on sets generated in previous runs. If present, the *RESTART,READ line
+must be the first non-comment line in the input deck.
+
+<P>
+If you specify WRITE, you can
+specify the frequency (parameter FREQUENCY) at which results are
+stored. A frequency of two means that the results of every second step will be
+stored. Default is one. The results will be stored in binary format in
+file &ldquo;jobname.rout&rdquo;. Any existing file with this name will be
+deleted prior to the first writing operation. The restart file is being
+written starting with the step in which the *RESTART card appears and is being
+continued up to the step in which the *RESTART card is reused, if any. A reuse
+of the *RESTART card can be useful in case the user does not want any further
+steps to be stored in the restart file (FREQUENCY=0), or in case he/she wants to
+change the write frequency. 
+
+<P>
+In order to prevent the restart file to be come too big, the user can specify
+the parameter OVERLAY for the *RESTART,WRITE combination. In that case every
+new step being written to the restart file will delete all previous
+information. So only the last step written to file will be available for any
+subsequent reuse by a *RESTART,READ command.
+
+<P>
+For a subsequent restart job with name
+&ldquo;jobname_new.inp&rdquo; the &ldquo;jobname.rout&rdquo; file must be renamed into
+&ldquo;jobname_new.rin&rdquo;. The *RESTART,WRITE combination must be used within a
+*STEP definition
+
+<P><P>
+<BR>
+
+<P>
+First and only line:
+
+<UL>
+<LI>*RESTART
+</LI>
+<LI>Enter any needed parameters and their values
+</LI>
+</UL>
 
 <P>
 <PRE>
-      subroutine cload(xload,kstep,kinc,time,node,idof,coords,vold,
-     &amp;  mi,ntrans,trab,inotr,veold)
-!
-!     user subroutine cload
-!
-!
-!     INPUT:
-!
-!     kstep              step number
-!     kinc               increment number
-!     time(1)            current step time
-!     time(2)            current total time
-!     node               node number
-!     idof               degree of freedom
-!     coords(1..3)       global coordinates of the node
-!     vold(0..mi(2)
-!              ,1..nk)   solution field in all nodes (for modal
-!                        dynamics: in all nodes for which output
-!                        was requested or a force was applied)
-!                        0: temperature
-!                        1: displacement in global x-direction
-!                        2: displacement in global y-direction
-!                        3: displacement in global z-direction
-!                        4: static pressure
-!     mi(1)              max # of integration points per element (max
-!                        over all elements)
-!     mi(2)              max degree of freedomm per node (max over all
-!                        nodes) in fields like v(0:mi(2))...
-!     veold(0..3,1..nk)  derivative of the solution field w.r.t.
-!                        time in all nodes(for modal
-!                        dynamics: in all nodes for which output
-!                        was requested or a force was applied)
-!                        0: temperature rate
-!                        1: velocity in global x-direction
-!                        2: velocity in global y-direction
-!                        3: velocity in global z-direction
-!     ntrans             number of transform definitions
-!     trab(1..6,i)       coordinates of two points defining transform i
-!     trab(7,i)          -1: cylindrical transformation
-!                         1: rectangular transformation 
-!     inotr(1,j)         transformation number applied to node j
-!     inotr(2,j)         a SPC in a node j in which a transformation
-!                        applied corresponds to a MPC. inotr(2,j) 
-!                        contains the number of a new node generated
-!                        for the inhomogeneous part of the MPC
-!
-!     OUTPUT:
-!
-!     xload              concentrated load in direction idof of node
-!                        "node" (global coordinates)
-!
+Example:
+
+*RESTART,READ,STEP=2
 </PRE>
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+will read the results of step two in the previous calculation.
+
+<P>
+<PRE>
+Example:
+
+*RESTART,WRITE,FREQUENCY=3
+</PRE>
+
+<P>
+will write the results every third step.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamread, beamwrite, beamread2, beamwrite2.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5572"
+  HREF="node345.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5568"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5562"
+  HREF="node343.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5570"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5573"
+  HREF="node345.html">*RETAINED NODAL DOFS</A>
+<B> Up:</B> <A NAME="tex2html5569"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5563"
+  HREF="node343.html">*REFINE MESH</A>
+ &nbsp; <B>  <A NAME="tex2html5571"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

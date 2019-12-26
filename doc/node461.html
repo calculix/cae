@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
+<HTML>
+<HEAD>
+<TITLE>Mesh refinement</TITLE>
+<META NAME="description" CONTENT="Mesh refinement">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node485.html">
+<LINK REL="previous" HREF="node457.html">
+<LINK REL="up" HREF="node412.html">
+<LINK REL="next" HREF="node462.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html7122"
+  HREF="node462.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html7118"
+  HREF="node412.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html7112"
+  HREF="node460.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html7120"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html7123"
+  HREF="node462.html">Nodal fields</A>
+<B> Up:</B> <A NAME="tex2html7119"
+  HREF="node412.html">Program structure.</A>
+<B> Previous:</B> <A NAME="tex2html7113"
+  HREF="node460.html">Postprocessing the sensitivity</A>
+ &nbsp; <B>  <A NAME="tex2html7121"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0001211000000000000000">
+Mesh refinement</A>
+</H2>
+
+<P>
+The mesh refinement procedure starts from the mesh in the input deck. All
+elements which are not of type C3D4 or C3D10 are kept and their element
+numbers are not modified. All other elements are deleted and the gaps in the
+numbering between the elements which are not tetrahedral are filled from low
+to high by the newly generated tetrahedral elements. The procedure for the
+refinement is based on the book by P.-L. George and H. Borouchaki [<A
+ HREF="node487.html#George">25</A>].
+
+<P>
+The mesh refinement procedure uses a lot of mesh description fields, most of which are
+dynamically modified during the refinement. These fields are introduced first.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html7124"
+  HREF="node462.html">Nodal fields</A>
+<LI><A NAME="tex2html7125"
+  HREF="node463.html">Edge fields</A>
+<LI><A NAME="tex2html7126"
+  HREF="node464.html">Face fields</A>
+<LI><A NAME="tex2html7127"
+  HREF="node465.html">Element fields</A>
+<LI><A NAME="tex2html7128"
+  HREF="node466.html">Mesh refining procedure</A>
+<UL>
+<LI><A NAME="tex2html7129"
+  HREF="node467.html">cattet.f</A>
+<LI><A NAME="tex2html7130"
+  HREF="node468.html">catedges.f</A>
+<LI><A NAME="tex2html7131"
+  HREF="node469.html">determineextern.f</A>
+<LI><A NAME="tex2html7132"
+  HREF="node470.html">midexternaledges.f</A>
+<LI><A NAME="tex2html7133"
+  HREF="node471.html">midexternalfaces.f</A>
+<LI><A NAME="tex2html7134"
+  HREF="node472.html">START OF MAJOR LOOP</A>
+<LI><A NAME="tex2html7135"
+  HREF="node473.html">first loop: calculateh.f</A>
+<LI><A NAME="tex2html7136"
+  HREF="node474.html">first loop: getlocalresults.f</A>
+<LI><A NAME="tex2html7137"
+  HREF="node475.html">all but the first loop: calculated.f</A>
+<LI><A NAME="tex2html7138"
+  HREF="node476.html">START OF THE REFINEMENT OF THE EXTERNAL EDGES</A>
+<LI><A NAME="tex2html7139"
+  HREF="node477.html">edgedivide.f</A>
+<LI><A NAME="tex2html7140"
+  HREF="node478.html">newnodes.f</A>
+<LI><A NAME="tex2html7141"
+  HREF="node479.html">cavityext.f</A>
+<LI><A NAME="tex2html7142"
+  HREF="node480.html">START OF THE REFINEMENT OF THE INTERNAL EDGES.</A>
+<LI><A NAME="tex2html7143"
+  HREF="node481.html">.</A>
+<LI><A NAME="tex2html7144"
+  HREF="node482.html">cavity.f</A>
+<LI><A NAME="tex2html7145"
+  HREF="node483.html">END OF MAJOR LOOP.</A>
+<LI><A NAME="tex2html7146"
+  HREF="node484.html">.</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+
+</BODY>
+</HTML>

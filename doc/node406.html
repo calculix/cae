@@ -1,130 +1,503 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Modal dynamic calculations</TITLE>
-<META NAME="description" CONTENT="Modal dynamic calculations">
+<TITLE>Mean rotation MPC.</TITLE>
+<META NAME="description" CONTENT="Mean rotation MPC.">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node407.html">
 <LINK REL="previous" HREF="node405.html">
-<LINK REL="up" HREF="node401.html">
+<LINK REL="up" HREF="node405.html">
 <LINK REL="next" HREF="node407.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6344"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6372"
   HREF="node407.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6340"
-  HREF="node401.html">
+<A NAME="tex2html6368"
+  HREF="node405.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6334"
+<A NAME="tex2html6362"
   HREF="node405.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6342"
+<A NAME="tex2html6370"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6345"
-  HREF="node407.html">Steady state dynamics calculations</A>
-<B> Up:</B> <A NAME="tex2html6341"
-  HREF="node401.html">Filling and solving the</A>
-<B> Previous:</B> <A NAME="tex2html6335"
-  HREF="node405.html">Buckling calculations</A>
- &nbsp; <B>  <A NAME="tex2html6343"
+<B> Next:</B> <A NAME="tex2html6373"
+  HREF="node407.html">Maximum distance MPC.</A>
+<B> Up:</B> <A NAME="tex2html6369"
+  HREF="node405.html">User-defined nonlinear equations</A>
+<B> Previous:</B> <A NAME="tex2html6363"
+  HREF="node405.html">User-defined nonlinear equations</A>
+ &nbsp; <B>  <A NAME="tex2html6371"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000116500000000000000">
-Modal dynamic calculations</A>
+<H3><A NAME="SECTION000107100000000000000"></A><A NAME="meanrotationmpc"></A>
+<BR>
+Mean rotation MPC.
 </H3>
 
 <P>
-For modal dynamic calculations the response of the system is assumed to be a
-linear combination of the lowest eigenmodes. To this end, the eigenvalues and
-eigenmodes must have been calculated, either in the same run, or in a previous
-run. At the end of a frequency calculation this data, including the stiffness
-and mass
-matrix, is stored in binary form in a .eig file, provided the STORAGE=YES
-option is activated on the *FREQUENCY or *HEAT TRANSFER,FREQUENCY card. This file is read at the
-beginning of file dyna.c.
+This MPC is used to apply a
+rotation to a set of nodes. An important application constitutes rotations on
+shell and beam elements, see Sections <A HREF="node40.html#S8">6.2.14</A> and <A HREF="node59.html#B32">6.2.33</A>. The rotation is characterized by its size
+(angle in radians) and its axis (normal vector). All nodes
+participating in the rotation should be listed three times (once for
+each DOF). The user must define an extra node at the end in order to
+define the size and axis of rotation: the coordinates of the extra
+node are the components of a vector on the rotation axis, the first
+DOF of the node is interpreted as the size of the rotation. This size
+can be defined using a <A HREF="node248.html#boundary">*BOUNDARY</A> card. Applying a
+mean rotation implies that the mean of the rotation of all
+participating nodes amounts to a given value, but not the individual
+rotations per se. The complement of the mean rotation is the torque needed for the rotation. By selecting RF on a <A HREF="node333.html#nodeprint">*NODE
+  PRINT</A> or <A HREF="node331.html#nodefile">*NODE FILE</A> card this torque can be
+saved in the .dat or .frd file. Conversely, instead of specifying the mean
+rotation one can also specify the torque (specify a force with
+<A HREF="node262.html#cload">*CLOAD</A> on the first DOF of the extra node) and calculate the
+resulting mean rotation.
 
 <P>
-In file dyna.c the response is calculated in an explicit way, for details
-the reader is referred to [<A
- HREF="node448.html#Dhondt">18</A>]. Modal damping is allowed in the form
-of Rayleigh damping. Within file dyna the following routines are used:
+The more
+nodes are contained in a mean rotation MPC the longer the
+nonlinear equation. This leads to a large, fully populated submatrix in the system of
+equations leading to long solution times. Therefore, it is recommended not to
+include more than maybe 50 nodes in a mean rotation MPC.
+<PRE>
+Example:
+
+*NODE
+162,0.,1.,0.
+*MPC
+MEANROT,3,3,3,2,2,2,14,14,14,39,39,39,42,42,42,
+50,50,50,48,48,48,162
+..
+*STEP
+*STATIC
+*BOUNDARY
+162,1,1,.9
+..
+*END STEP
+</PRE>
+
+<P>
+specifies a mean rotation MPC. Its size is 0.9 radians = <!-- MATH
+ $51.56
+^\circ$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="47" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2367.png"
+ ALT="$ 51.56
+^\circ$"></B></SPAN> and the global y-axis is the rotation axis. The participating nodes
+are 3,2,14,39,42,50 and 48.
 
 <P>
 
-<UL>
-<LI>tempload, to calculate the instantaneous loading
-</LI>
-<LI>rhs, to determine the external force vector of the system
-</LI>
-<LI>results, to calculate all displacements, stresses and/or any other
-  variables selected by the user
-</LI>
-</UL>
+<P><P>
+<BR>
+Example files: beammr, beammrco.
+
+<P><P>
+<BR>
 
 <P>
-Notice that if nonzero boundary conditions are prescribed (base loading, e.g
-for earthquake calculations) the stiffness matrix of the system is used to
-calculate the steady state response to these nonzero conditions. It serves as
-particular solution in the modal dynamic solution procedure.
+The theory behind the mean rotation MPC is explained in [<A
+ HREF="node487.html#Dhondt">19</A>], Section
+3.6, in case
+that all nodes are lying in a plane orthogonal to the rotation axis. If this
+is not the case, the derivation in [<A
+ HREF="node487.html#Dhondt">19</A>] is not correct and has to be
+extended. Indeed, for the general case <!-- MATH
+ $\boldsymbol{p}_i'$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2368.png"
+ ALT="$ \boldsymbol{p}_i'$"></B></SPAN> and
+<!-- MATH
+ $\boldsymbol{u}_i'$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2369.png"
+ ALT="$ \boldsymbol{u}_i'$"></B></SPAN> in Equation (3.98) of that reference have to be replaced by their projection
+on a plane orthogonal to the rotation vector <!-- MATH
+ $\boldsymbol{a}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img949.png"
+ ALT="$ \boldsymbol{a}$"></B></SPAN>. The projection
+<!-- MATH
+ $\boldsymbol{Py}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2370.png"
+ ALT="$ \boldsymbol{Py}$"></B></SPAN> of a vector <!-- MATH
+ $\boldsymbol{y}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2371.png"
+ ALT="$ \boldsymbol{y}$"></B></SPAN> is given by:
 
 <P>
-<HR>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\boldsymbol{Py} =  \boldsymbol{y} - ( \boldsymbol{y} \cdot
+ \boldsymbol{a}) \boldsymbol{a}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="137" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2372.png"
+ ALT="$\displaystyle \boldsymbol{Py} = \boldsymbol{y} - ( \boldsymbol{y} \cdot \boldsymbol{a}) \boldsymbol{a}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">762</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Defining <!-- MATH
+ $\boldsymbol{b}_i \equiv \boldsymbol{Pp}_i'$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="67" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2373.png"
+ ALT="$ \boldsymbol{b}_i \equiv \boldsymbol{Pp}_i'$"></B></SPAN> Equation (3.101)of the
+reference has to be replaced by (no implicit summation in this section)
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\lambda_i = \frac{(\boldsymbol{b}_i \times \boldsymbol{Pu}_i') \cdot
+  \boldsymbol{a}}{\| \boldsymbol{b}_i \| \cdot \| \boldsymbol{b}_i +
+  \boldsymbol{Pu}_i' \|}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="163" HEIGHT="55" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2374.png"
+ ALT="$\displaystyle \lambda_i = \frac{(\boldsymbol{b}_i \times \boldsymbol{Pu}_i') \c...
+...\boldsymbol{b}_i \Vert \cdot \Vert \boldsymbol{b}_i + \boldsymbol{Pu}_i' \Vert}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">763</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+(recall that the vector product of a vector with itself
+vanishes). <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img766.png"
+ ALT="$ \lambda_i$"></B></SPAN> is the sinus of the angle between <!-- MATH
+ $\boldsymbol{Pp}_i'$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="33" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2375.png"
+ ALT="$ \boldsymbol{Pp}_i'$"></B></SPAN>,
+which is the projected vector from the center of gravity of the nodal set for which the
+mean rotation MPC applies to one of its nodes i, and <!-- MATH
+ $\boldsymbol{Pp}_i' +
+\boldsymbol{Pu}_i'$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="82" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2376.png"
+ ALT="$ \boldsymbol{Pp}_i' +
+\boldsymbol{Pu}_i'$"></B></SPAN>, which is the projection of the vector connecting the deformed position of the center of gravity with the deformed
+position of node i. The mean rotation in the mean rotation MPC is
+supposed to be equal to a given angle <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img825.png"
+ ALT="$ \gamma$"></B></SPAN>, i.e. the equation to be satisfied is:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\sum_{i=1}^N \sin^{-1} \lambda_i \equiv \sum_{i=1}^N \gamma_i = N \gamma.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="193" HEIGHT="67" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2377.png"
+ ALT="$\displaystyle \sum_{i=1}^N \sin^{-1} \lambda_i \equiv \sum_{i=1}^N \gamma_i = N \gamma.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">764</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+In order to find the coefficients of the linearization we concentrate here on
+the derivation of <!-- MATH
+ $\frac{\partial \lambda_i}{\partial \boldsymbol{u}_p}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="30" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2378.png"
+ ALT="$ \frac{\partial \lambda_i}{\partial \boldsymbol{u}_p}$"></B></SPAN>.
+One readily
+finds the following relationships:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\frac {\partial \| \boldsymbol{y} \|}{\partial \boldsymbol{u}} =
+\frac{\boldsymbol{y}}{\| \boldsymbol{y} \|} \cdot \frac{\partial
+  \boldsymbol{y}}{\partial \boldsymbol{u}},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="134" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2379.png"
+ ALT="$\displaystyle \frac {\partial \Vert \boldsymbol{y} \Vert}{\partial \boldsymbol{...
+...symbol{y} \Vert} \cdot \frac{\partial \boldsymbol{y}}{\partial \boldsymbol{u}},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">765</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\frac {\partial \boldsymbol{Py}}{\partial \boldsymbol{u}} = [\boldsymbol{I} -
+\boldsymbol{a} \otimes \boldsymbol{a}] \cdot \frac{\partial
+  \boldsymbol{y}}{\partial \boldsymbol{u}} \equiv \mathbb{P}  \cdot \frac{\partial
+  \boldsymbol{y}}{\partial \boldsymbol{u}},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="246" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2380.png"
+ ALT="$\displaystyle \frac {\partial \boldsymbol{Py}}{\partial \boldsymbol{u}} = [\bol...
+...equiv \mathbb{P} \cdot \frac{\partial \boldsymbol{y}}{\partial \boldsymbol{u}},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">766</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\boldsymbol{a} \cdot (\boldsymbol{y} \times \mathbb{P}) = \boldsymbol{a} \times
+\boldsymbol{y}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="142" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2381.png"
+ ALT="$\displaystyle \boldsymbol{a} \cdot (\boldsymbol{y} \times \mathbb{P}) = \boldsymbol{a} \times \boldsymbol{y}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">767</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Furthermore, since <!-- MATH
+ $\boldsymbol{b}_i + \boldsymbol{Pu}_i' \perp
+\boldsymbol{a}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="98" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2382.png"
+ ALT="$ \boldsymbol{b}_i + \boldsymbol{Pu}_i' \perp
+\boldsymbol{a}$"></B></SPAN> one obtains
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+(\boldsymbol{b}_i + \boldsymbol{Pu}_i') \cdot \mathbb{P} = \boldsymbol{b}_i +
+\boldsymbol{Pu}_i'.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="189" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2383.png"
+ ALT="$\displaystyle (\boldsymbol{b}_i + \boldsymbol{Pu}_i') \cdot \mathbb{P} = \boldsymbol{b}_i + \boldsymbol{Pu}_i'.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">768</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Finally, since (Equation (3.96) of the reference)
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\boldsymbol{u}_i' = \boldsymbol{u}_i - \frac{1}{N} \sum_j \boldsymbol{u}_j,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="145" HEIGHT="56" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2384.png"
+ ALT="$\displaystyle \boldsymbol{u}_i' = \boldsymbol{u}_i - \frac{1}{N} \sum_j \boldsymbol{u}_j,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">769</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+one further finds
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\frac{\partial \boldsymbol{u}_i'}{\partial \boldsymbol{u}_p} = \boldsymbol{I}
+\cdot (\delta_{ip} - \frac{1}{N}),
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="151" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2385.png"
+ ALT="$\displaystyle \frac{\partial \boldsymbol{u}_i'}{\partial \boldsymbol{u}_p} = \boldsymbol{I} \cdot (\delta_{ip} - \frac{1}{N}),$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">770</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\boldsymbol{I}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$ \boldsymbol{I}$"></B></SPAN> is the unit second order tensor. Using the above formulas one arrives at
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\frac{\partial \lambda_i}{\partial \boldsymbol{u}_p} = \frac{(\delta_{ip} -
+  \frac{1}{N})}{\|  \boldsymbol{b}_i + \boldsymbol{Pu}_i' \|} \left[
+  \boldsymbol{a} \times \frac{\boldsymbol{b}_i}{\| \boldsymbol{b}_i \|} -
+  \lambda_i \frac{\boldsymbol{b}_i + \boldsymbol{Pu}_i'}{\| \boldsymbol{b}_i +
+    \boldsymbol{Pu}_i' \|} \right],
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="346" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2386.png"
+ ALT="$\displaystyle \frac{\partial \lambda_i}{\partial \boldsymbol{u}_p} = \frac{(\de...
+...\boldsymbol{Pu}_i'}{\Vert \boldsymbol{b}_i + \boldsymbol{Pu}_i' \Vert} \right],$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">771</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\frac{\partial \gamma_i}{\partial \boldsymbol{u}_p} =
+\frac{1}{\sqrt{1-\lambda_i^2}} \frac{(\delta_{ip} -
+  \frac{1}{N})}{\|  \boldsymbol{b}_i + \boldsymbol{Pu}_i' \|} \left[
+  \boldsymbol{a} \times \frac{\boldsymbol{b}_i}{\| \boldsymbol{b}_i \|} -
+  \lambda_i \frac{\boldsymbol{b}_i + \boldsymbol{Pu}_i'}{\| \boldsymbol{b}_i +
+    \boldsymbol{Pu}_i' \|} \right],
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="409" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2387.png"
+ ALT="$\displaystyle \frac{\partial \gamma_i}{\partial \boldsymbol{u}_p} = \frac{1}{\s...
+...\boldsymbol{Pu}_i'}{\Vert \boldsymbol{b}_i + \boldsymbol{Pu}_i' \Vert} \right],$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">772</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+which replaces Equation (3.109) of the reference.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html6344"
+<A NAME="tex2html6372"
   HREF="node407.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6340"
-  HREF="node401.html">
+<A NAME="tex2html6368"
+  HREF="node405.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6334"
+<A NAME="tex2html6362"
   HREF="node405.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6342"
+<A NAME="tex2html6370"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6345"
-  HREF="node407.html">Steady state dynamics calculations</A>
-<B> Up:</B> <A NAME="tex2html6341"
-  HREF="node401.html">Filling and solving the</A>
-<B> Previous:</B> <A NAME="tex2html6335"
-  HREF="node405.html">Buckling calculations</A>
- &nbsp; <B>  <A NAME="tex2html6343"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html6373"
+  HREF="node407.html">Maximum distance MPC.</A>
+<B> Up:</B> <A NAME="tex2html6369"
+  HREF="node405.html">User-defined nonlinear equations</A>
+<B> Previous:</B> <A NAME="tex2html6363"
+  HREF="node405.html">User-defined nonlinear equations</A>
+ &nbsp; <B>  <A NAME="tex2html6371"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

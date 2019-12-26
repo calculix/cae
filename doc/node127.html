@@ -1,80 +1,109 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Single point constraints (SPC)</TITLE>
-<META NAME="description" CONTENT="Single point constraints (SPC)">
+<TITLE>Boundary conditions</TITLE>
+<META NAME="description" CONTENT="Boundary conditions">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node128.html">
-<LINK REL="previous" HREF="node126.html">
-<LINK REL="up" HREF="node126.html">
+<LINK REL="next" HREF="node144.html">
+<LINK REL="previous" HREF="node113.html">
+<LINK REL="up" HREF="node24.html">
 <LINK REL="next" HREF="node128.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html2675"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html2722"
   HREF="node128.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2671"
-  HREF="node126.html">
+<A NAME="tex2html2718"
+  HREF="node24.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2665"
+<A NAME="tex2html2712"
   HREF="node126.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2673"
+<A NAME="tex2html2720"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2676"
-  HREF="node128.html">Multiple point constraints (MPC)</A>
-<B> Up:</B> <A NAME="tex2html2672"
-  HREF="node126.html">Boundary conditions</A>
-<B> Previous:</B> <A NAME="tex2html2666"
-  HREF="node126.html">Boundary conditions</A>
- &nbsp; <B>  <A NAME="tex2html2674"
+<B> Next:</B> <A NAME="tex2html2723"
+  HREF="node128.html">Single point constraints (SPC)</A>
+<B> Up:</B> <A NAME="tex2html2719"
+  HREF="node24.html">Theory</A>
+<B> Previous:</B> <A NAME="tex2html2713"
+  HREF="node126.html">In/Out</A>
+ &nbsp; <B>  <A NAME="tex2html2721"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00077100000000000000">
-Single point constraints (SPC)</A>
-</H3>
-
-<P>
-In a single point constraint one or more degrees of freedom are fixed for a
-given node. The prescribed value can be zero or nonzero. Nonzero SPC's cannot
-be defined outside a step. Zero SPC's can be defined inside or outside a
-step. SPC's are defined with the keyword <A HREF="node209.html#boundary">*BOUNDARY</A>. The
-mechanical degrees of freedom are labeld 1 through 6 (1 = translation in x, 2
-= translation in y, 3 = translation in z, 4 = rotation about x, 5 = rotation
-about y, 6 = rotation about z), the thermal degree of freedom is labeled
-11. Rotational degrees of freedom can be applied to beam and shell elements
-only. 
+<H2><A NAME="SECTION00077000000000000000">
+Boundary conditions</A>
+</H2>
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html2724"
+  HREF="node128.html">Single point constraints (SPC)</A>
+<LI><A NAME="tex2html2725"
+  HREF="node129.html">Multiple point constraints (MPC)</A>
+<LI><A NAME="tex2html2726"
+  HREF="node130.html">Kinematic and Distributing Coupling</A>
+<LI><A NAME="tex2html2727"
+  HREF="node131.html">Mathematical description of a knot</A>
+<UL>
+<LI><A NAME="tex2html2728"
+  HREF="node132.html">Beam knot</A>
+<LI><A NAME="tex2html2729"
+  HREF="node133.html">Shell knot</A>
+<LI><A NAME="tex2html2730"
+  HREF="node134.html">Arbitrary knot</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2731"
+  HREF="node135.html">Node-to-Face Penalty Contact </A>
+<UL>
+<LI><A NAME="tex2html2732"
+  HREF="node136.html">General considerations</A>
+<LI><A NAME="tex2html2733"
+  HREF="node137.html">Normal contact stiffness </A>
+<LI><A NAME="tex2html2734"
+  HREF="node138.html">Tangent contact stiffness</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2735"
+  HREF="node139.html">Face-to-Face Penalty Contact</A>
+<UL>
+<LI><A NAME="tex2html2736"
+  HREF="node140.html">General considerations</A>
+<LI><A NAME="tex2html2737"
+  HREF="node141.html">Weak formulation</A>
+<LI><A NAME="tex2html2738"
+  HREF="node142.html">Normal contact stiffness</A>
+<LI><A NAME="tex2html2739"
+  HREF="node143.html">Tangent contact stiffness</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+
 </BODY>
 </HTML>

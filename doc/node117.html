@@ -1,136 +1,150 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Weir slope</TITLE>
-<META NAME="description" CONTENT="Weir slope">
+<TITLE>Weir Crest</TITLE>
+<META NAME="description" CONTENT="Weir Crest">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node118.html">
 <LINK REL="previous" HREF="node116.html">
-<LINK REL="up" HREF="node112.html">
+<LINK REL="up" HREF="node113.html">
 <LINK REL="next" HREF="node118.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html2541"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html2604"
   HREF="node118.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2537"
-  HREF="node112.html">
+<A NAME="tex2html2600"
+  HREF="node113.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2531"
+<A NAME="tex2html2594"
   HREF="node116.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2539"
+<A NAME="tex2html2602"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2542"
-  HREF="node118.html">Discontinuous Slope</A>
-<B> Up:</B> <A NAME="tex2html2538"
-  HREF="node112.html">Fluid Section Types: Open</A>
-<B> Previous:</B> <A NAME="tex2html2532"
-  HREF="node116.html">Weir Crest</A>
- &nbsp; <B>  <A NAME="tex2html2540"
+<B> Next:</B> <A NAME="tex2html2605"
+  HREF="node118.html">Weir slope</A>
+<B> Up:</B> <A NAME="tex2html2601"
+  HREF="node113.html">Fluid Section Types: Open</A>
+<B> Previous:</B> <A NAME="tex2html2595"
+  HREF="node116.html">Sluice Opening</A>
+ &nbsp; <B>  <A NAME="tex2html2603"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00076500000000000000">
-Weir slope</A>
+<H3><A NAME="SECTION00076400000000000000">
+Weir Crest</A>
 </H3>
 
 <P>
-The weir slope is the downstream element of the boundary element pair defining
-a weir.   The following constants have to be specified on the
-line beneath the *FLUID SECTION,TYPE=CHANNEL WEIR SLOPE card:
+
+<DIV ALIGN="CENTER"><A NAME="weir"></A><A NAME="15104"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 124:</STRONG>
+Weir geometry</CAPTION>
+<TR><TD><IMG
+ WIDTH="451" HEIGHT="218" BORDER="0"
+ SRC="img735.png"
+ ALT="\begin{figure}\epsfig{file=Weir.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The weir crest is the upstream element of a pair of boundary elements
+simulating a weir. The corresponding downstream element is the weir slope.
+Both are illustrated in Figure <A HREF="#weir">124</A>. The weir can occur in different
+forms such as broad-crested weirs (left picture in the Figure) and
+sharp-crested weirs (right picture in the Figure). The volumetric flow <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img720.png"
+ ALT="$ Q$"></SPAN> can be characterized by
+a law of the form
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="weireq"></A><!-- MATH
+ \begin{equation}
+Q=C b (h-p)^{3/2},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="130" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img736.png"
+ ALT="$\displaystyle Q=C b (h-p)^{3/2},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">166</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where C is a constant. For instance, in the formula by Poleni <!-- MATH
+ $C=2 C_d \sqrt{2
+  g}/3$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="110" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img737.png"
+ ALT="$ C=2 C_d \sqrt{2
+g}/3$"></SPAN>, where <SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img419.png"
+ ALT="$ C_d$"></SPAN> is coefficient smaller than 1 to be measured
+experimentally [<A
+ HREF="node487.html#Berlamont2">11</A>]. The following constants have to be specified on the
+line beneath the *FLUID SECTION,TYPE=CHANNEL WEIR CREST card:
 
 <P>
 
 <UL>
-<LI>the width <IMG
- WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img310.png"
- ALT="$ b$">
+<LI>the width <SPAN CLASS="MATH"><IMG
+ WIDTH="11" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img323.png"
+ ALT="$ b$"></SPAN>
 </LI>
-<LI>the slope <!-- MATH
- $S_0 = \sin \phi$
- -->
-<IMG
- WIDTH="74" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img680.png"
- ALT="$ S_0= \sin \phi$"> (if <IMG
- WIDTH="63" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img681.png"
- ALT="$ S_0&lt;-1$"> the slope is calculated from the
-  coordinates of the end nodes belonging to the element)
+<LI>the height <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img330.png"
+ ALT="$ p$"></SPAN>
 </LI>
-<LI>the length <IMG
- WIDTH="15" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img288.png"
- ALT="$ L$"> (if <IMG
- WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img690.png"
- ALT="$ L \le 0$"> the length is calculated from the
-  coordinates of the end nodes belonging to the element)
+<LI>the constant <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img738.png"
+ ALT="$ C$"></SPAN>
 </LI>
-<LI>the trapezoid angle <IMG
- WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img178.png"
- ALT="$ \theta$">
+<LI>not used
 </LI>
-<LI>the grain diameter <IMG
- WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img448.png"
- ALT="$ k_s$"> for the White-Colebrook law or the Manning
-  constant <IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img605.png"
- ALT="$ n$"> for the Manning law (in the latter case the user has to specify
-  the parameter MANNING on the *FLUID SECTION card)
+<LI>the number of the downstream weir slope element
 </LI>
-<LI>the number of the upstream weir crest element
+<LI>the number of the upstream reference element, if any
 </LI>
 </UL>
 
 <P>
-The meaning of <IMG
- WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img310.png"
- ALT="$ b$"> and <IMG
- WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img178.png"
- ALT="$ \theta$"> can be derived from Figure
-<A HREF="node113.html#channelsection1">122</A>. The value of <IMG
- WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img689.png"
- ALT="$ S_0$"> is used to determine the critical
-depth on the crest. Moreover, it is used in the Bresse equation in case the
-flow is determined by the downstream conditions (inundated crest). It should
-simulate the mean slope in the absence of the weir. The length <IMG
- WIDTH="15" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img288.png"
- ALT="$ L$"> of the weir
-is shown in Figure <A HREF="node116.html#weir">124</A>.
+The cross section of the weir is supposed to be rectangular. This is
+important, since a different form leads to a different exponent in Equation <A HREF="#weireq">166</A>. Notice that a weir can have upstream channel elements attached
+to it. In that case it is mandatory to specify an upstream reference element.
 
 <P>
 
@@ -139,37 +153,35 @@ is shown in Figure <A HREF="node116.html#weir">124</A>.
 Example files: channel7.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html2541"
+<A NAME="tex2html2604"
   HREF="node118.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2537"
-  HREF="node112.html">
+<A NAME="tex2html2600"
+  HREF="node113.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2531"
+<A NAME="tex2html2594"
   HREF="node116.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2539"
+<A NAME="tex2html2602"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2542"
-  HREF="node118.html">Discontinuous Slope</A>
-<B> Up:</B> <A NAME="tex2html2538"
-  HREF="node112.html">Fluid Section Types: Open</A>
-<B> Previous:</B> <A NAME="tex2html2532"
-  HREF="node116.html">Weir Crest</A>
- &nbsp; <B>  <A NAME="tex2html2540"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html2605"
+  HREF="node118.html">Weir slope</A>
+<B> Up:</B> <A NAME="tex2html2601"
+  HREF="node113.html">Fluid Section Types: Open</A>
+<B> Previous:</B> <A NAME="tex2html2595"
+  HREF="node116.html">Sluice Opening</A>
+ &nbsp; <B>  <A NAME="tex2html2603"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

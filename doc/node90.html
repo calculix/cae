@@ -1,19 +1,15 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Restrictor, Exit</TITLE>
-<META NAME="description" CONTENT="Restrictor, Exit">
+<TITLE>Restrictor, Entrance</TITLE>
+<META NAME="description" CONTENT="Restrictor, Entrance">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
@@ -25,81 +21,82 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html2198"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html2261"
   HREF="node91.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2194"
+<A NAME="tex2html2257"
   HREF="node76.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2188"
+<A NAME="tex2html2251"
   HREF="node89.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2196"
+<A NAME="tex2html2259"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2199"
-  HREF="node91.html">Restrictor, User</A>
-<B> Up:</B> <A NAME="tex2html2195"
+<B> Next:</B> <A NAME="tex2html2262"
+  HREF="node91.html">Restrictor, Exit</A>
+<B> Up:</B> <A NAME="tex2html2258"
   HREF="node76.html">Fluid Section Types: Gases</A>
-<B> Previous:</B> <A NAME="tex2html2189"
-  HREF="node89.html">Restrictor, Entrance</A>
- &nbsp; <B>  <A NAME="tex2html2197"
+<B> Previous:</B> <A NAME="tex2html2252"
+  HREF="node89.html">Restrictor, Wall Orifice</A>
+ &nbsp; <B>  <A NAME="tex2html2260"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
 <H3><A NAME="SECTION000741400000000000000">
-Restrictor, Exit</A>
+Restrictor, Entrance</A>
 </H3>
 
 <P>
-Properties: adiabatic, not isentropic,directional, <IMG
- WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img363.png"
- ALT="$ A$">-inlet based restrictor
+Properties: adiabatic, not isentropic, directional, <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img375.png"
+ ALT="$ A$"></SPAN>-outlet based restrictor
 
 <P>
-An exit element is used to model the exit from a gas pipe into a large
-chamber. For an exit the value of <IMG
- WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img320.png"
- ALT="$ \zeta$"> is 1. It is described by the following constants (to be specified in that order on
-the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>, TYPE=RESTRICTOR
-EXIT card):
+An entrance element is used to model the entry from a large chamber into a gas
+pipe. For an entrance the value of <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img333.png"
+ ALT="$ \zeta$"></SPAN> is 0.5. It is described by the following constants (to be specified in that order on
+the line beneath the <A HREF="node303.html#fluidsection">*FLUID SECTION</A>, TYPE=RESTRICTOR
+ENTRANCE card):
 
 <P>
 
 <UL>
-<LI>cross section of the exit <IMG
- WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img363.png"
- ALT="$ A$">.
+<LI>not used (internally: set to 100,000 <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img375.png"
+ ALT="$ A$"></SPAN> as upstream section)
 </LI>
-<LI>not used (internally: set to 100,000 <IMG
- WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img363.png"
- ALT="$ A$"> as downstream section)
+<LI>cross section of the entrance <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img375.png"
+ ALT="$ A$"></SPAN>.
 </LI>
-<LI>hydraulic diameter <IMG
- WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img540.png"
- ALT="$ D_h$"> defined by <IMG
- WIDTH="87" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img541.png"
- ALT="$ D_h=4 A/P$"> where <IMG
- WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img542.png"
- ALT="$ P$"> is the
+<LI>hydraulic diameter <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img586.png"
+ ALT="$ D_h$"></SPAN> defined by <SPAN CLASS="MATH"><IMG
+ WIDTH="87" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img587.png"
+ ALT="$ D_h=4 A/P$"></SPAN> where <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img588.png"
+ ALT="$ P$"></SPAN> is the
   perimeter of the cross section. 
 </LI>
-<LI>number of the upstream element; this element must be of type GAS PIPE FANNO
+<LI>not used (internally: set of 0.5 as pressure loss coefficient)
 </LI>
 <LI>oil mass flow in the restrictor (only if the OIL parameter is used to define
   the kind of oil in the *FLUID SECTION card)
@@ -115,9 +112,6 @@ are calculated.
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -1,10 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
 <TITLE>Stationary laminar inviscid compressible airfoil flow</TITLE>
@@ -13,7 +9,7 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
@@ -25,34 +21,35 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html1064"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1125"
   HREF="node17.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1060"
+<A NAME="tex2html1121"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1054"
+<A NAME="tex2html1115"
   HREF="node15.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1062"
+<A NAME="tex2html1123"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1065"
+<B> Next:</B> <A NAME="tex2html1126"
   HREF="node17.html">Stationary laminar viscous compressible</A>
-<B> Up:</B> <A NAME="tex2html1061"
+<B> Up:</B> <A NAME="tex2html1122"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html1055"
+<B> Previous:</B> <A NAME="tex2html1116"
   HREF="node15.html">Transient laminar incompressible Couette</A>
- &nbsp; <B>  <A NAME="tex2html1063"
+ &nbsp; <B>  <A NAME="tex2html1124"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
 <H2><A NAME="SECTION000610000000000000000">
@@ -115,7 +112,7 @@ MACH,VF,TSF,PSF,TTF
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="nacamesh1"></A><A NAME="11774"></A>
+<DIV ALIGN="CENTER"><A NAME="nacamesh1"></A><A NAME="14803"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 32:</STRONG>
 Global mesh</CAPTION>
@@ -129,7 +126,7 @@ Global mesh</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="nacamesh2"></A><A NAME="11775"></A>
+<DIV ALIGN="CENTER"><A NAME="nacamesh2"></A><A NAME="14804"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 33:</STRONG>
 Detailed mesh along the NACA profile</CAPTION>
@@ -143,7 +140,7 @@ Detailed mesh along the NACA profile</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="nacamach"></A><A NAME="11776"></A>
+<DIV ALIGN="CENTER"><A NAME="nacamach"></A><A NAME="14805"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 34:</STRONG>
 Mach number</CAPTION>
@@ -157,7 +154,7 @@ Mach number</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="nacaps"></A><A NAME="11777"></A>
+<DIV ALIGN="CENTER"><A NAME="nacaps"></A><A NAME="14806"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 35:</STRONG>
 Static pressure</CAPTION>
@@ -171,7 +168,7 @@ Static pressure</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="nacats"></A><A NAME="11778"></A>
+<DIV ALIGN="CENTER"><A NAME="nacats"></A><A NAME="14807"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 36:</STRONG>
 Static temperature</CAPTION>
@@ -185,7 +182,7 @@ Static temperature</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="nacatt"></A><A NAME="11779"></A>
+<DIV ALIGN="CENTER"><A NAME="nacatt"></A><A NAME="14808"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 37:</STRONG>
 Total temperature</CAPTION>
@@ -202,40 +199,40 @@ After the definition of the nodes and the elements (8-noded brick elements;
 they are internally treated as finite volume cells; cf. Figure <A HREF="#nacamesh1">32</A>
 and Figure <A HREF="#nacamesh2">33</A> for
 the mesh and geometry of the domain) the material is
-defined. The heat capacity at constant pressure <IMG
- WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+defined. The heat capacity at constant pressure <SPAN CLASS="MATH"><IMG
+ WIDTH="18" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
  SRC="img37.png"
- ALT="$ c_p$"> is normalized to 1, the
-dynamic viscosity <IMG
- WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ ALT="$ c_p$"></SPAN> is normalized to 1, the
+dynamic viscosity <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
  SRC="img48.png"
- ALT="$ \mu$"> is set to a very low number (<IMG
- WIDTH="44" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ ALT="$ \mu$"></SPAN> is set to a very low number (<SPAN CLASS="MATH"><IMG
+ WIDTH="43" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
  SRC="img153.png"
- ALT="$ 10^{-20}$">), so the flow is
+ ALT="$ 10^{-20}$"></SPAN>), so the flow is
 frictionless. The specific gas constant is such that <!-- MATH
  $\kappa =
 c_p/c_v=1.4$
  -->
-<IMG
- WIDTH="113" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="112" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
  SRC="img154.png"
  ALT="$ \kappa =
-c_p/c_v=1.4$">. The initial conditions are set to a unit velocity in x-direction <IMG
- WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+c_p/c_v=1.4$"></SPAN>. The initial conditions are set to a unit velocity in x-direction <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
  SRC="img155.png"
- ALT="$ v_x$">
+ ALT="$ v_x$"></SPAN>
 and a static pressure and static temperature value such that the density
-<IMG
- WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="41" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
  SRC="img156.png"
- ALT="$ \rho=1$"> and the Mach number <!-- MATH
+ ALT="$ \rho=1$"></SPAN> and the Mach number <!-- MATH
  $M=v_x/(\mu L)=0.95$
  -->
-<IMG
- WIDTH="149" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="148" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
  SRC="img157.png"
- ALT="$ M=v_x/(\mu L)=0.95$"> where L is the length of the
+ ALT="$ M=v_x/(\mu L)=0.95$"></SPAN> where L is the length of the
 airfoil in x-direction, which happens to be 1. These are also the boundary
 conditions at the inlet, set by a *BOUNDARYF card. Other boundary conditions
 are zero mass flow through the airfoil surface, zero mass flow in z-direction
@@ -258,22 +255,22 @@ total change of the total temperature along a stream line is given by:
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
 \frac{D \rho c_p T_t}{D t} = (t^{lm} v_m)_{,l} - \boldsymbol{\nabla} \cdot
 \boldsymbol{q} + \rho h_{ \theta} + \frac{\partial p}{\partial t} + \rho f^m v^k
 \delta_{mk}.
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="379" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="379" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
  SRC="img158.png"
  ALT="$\displaystyle \frac{D \rho c_p T_t}{D t} = (t^{lm} v_m)_{,l} - \boldsymbol{\nab...
-... + \rho h_{ \theta} + \frac{\partial p}{\partial t} + \rho f^m v^k \delta_{mk}.$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(1)</TD></TR>
+... + \rho h_{ \theta} + \frac{\partial p}{\partial t} + \rho f^m v^k \delta_{mk}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">1</SPAN>)</TD></TR>
 </TABLE></DIV>
 <BR CLEAR="ALL"><P></P>
 
@@ -284,37 +281,35 @@ heat introduced per unit mass (zero), the change in pressure (zero in the
 steady state regime) and the work by external body forces (zero).
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html1064"
+<A NAME="tex2html1125"
   HREF="node17.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1060"
+<A NAME="tex2html1121"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1054"
+<A NAME="tex2html1115"
   HREF="node15.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1062"
+<A NAME="tex2html1123"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1065"
+<B> Next:</B> <A NAME="tex2html1126"
   HREF="node17.html">Stationary laminar viscous compressible</A>
-<B> Up:</B> <A NAME="tex2html1061"
+<B> Up:</B> <A NAME="tex2html1122"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html1055"
+<B> Previous:</B> <A NAME="tex2html1116"
   HREF="node15.html">Transient laminar incompressible Couette</A>
- &nbsp; <B>  <A NAME="tex2html1063"
-  HREF="node1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1124"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

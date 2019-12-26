@@ -1,95 +1,72 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*FLUID SECTION</TITLE>
-<META NAME="description" CONTENT="*FLUID SECTION">
+<TITLE>*CONDUCTIVITY</TITLE>
+<META NAME="description" CONTENT="*CONDUCTIVITY">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node265.html">
 <LINK REL="previous" HREF="node263.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node265.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4496"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4612"
   HREF="node265.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4492"
-  HREF="node205.html">
+<A NAME="tex2html4608"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4486"
+<A NAME="tex2html4602"
   HREF="node263.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4494"
+<A NAME="tex2html4610"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4497"
-  HREF="node265.html">*FREQUENCY</A>
-<B> Up:</B> <A NAME="tex2html4493"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4487"
-  HREF="node263.html">*FLUID CONSTANTS</A>
- &nbsp; <B>  <A NAME="tex2html4495"
+<B> Next:</B> <A NAME="tex2html4613"
+  HREF="node265.html">*CONSTRAINT</A>
+<B> Up:</B> <A NAME="tex2html4609"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4603"
+  HREF="node263.html">*COMPLEX FREQUENCY</A>
+ &nbsp; <B>  <A NAME="tex2html4611"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000856000000000000000"></A><A NAME="fluidsection"></A>
+<H2><A NAME="SECTION000917000000000000000"></A><A NAME="conductivity"></A>
 <BR>
-*FLUID SECTION
+*CONDUCTIVITY
 </H2>
 
 <P>
-Keyword type: model definition
+Keyword type: model definition, material
 
 <P>
-This option is used to assign material properties to network element
-sets. The parameters ELSET and MATERIAL are required, the parameters TYPE, OIL
-and CONSTANTS are
-optional. The parameter
-ELSET defines the network element set to which the material specified by
-the parameter MATERIAL applies.
-
-<P>
-The parameter TYPE is only necessary in fluid dynamic networks in which the
-pressure and/or the mass flow are unknown in at least one node. In that case,
-the type of fluid section must be selected from the list in section <A HREF="node63.html#tnfe">6.2.37</A>
-and the appropriate constants describing the section must be specified in the
-line(s) underneath the *FLUID SECTION keyword card, eight per line, except for
-the last line which can contain less. 
-
-<P>
-The parameter OIL defines the material parameters used in two-phase
-flow in gas pipes, restrictors and branches. Its argument must be the name of
-a material defined using the <A HREF="node282.html#material">*MATERIAL</A> card.
-
-<P>
-Finally, with the parameter CONSTANTS the number of parameters needed to
-describe the type of fluid section can be specified. This parameter is only
-necessary for user-defined fluid section types. They start with ``U'' and can
-only be defined for compressible network elements. For further information the
-reader is referred to Section <A HREF="node100.html#networkuserelement">6.4.24</A>.
+This option is used to define the conductivity coefficients of a
+material. There is one optional parameter TYPE. Default is TYPE=ISO,
+other values are TYPE=ORTHO for orthotropic materials and TYPE=ANISO
+for anisotropic materials. All constants may be temperature
+dependent. The unit of the conductivity coefficients is energy per
+unit of time per unit of length per unit of temperature.
 
 <P><P>
 <BR>
@@ -98,96 +75,191 @@ reader is referred to Section <A HREF="node100.html#networkuserelement">6.4.24</
 First line:
 
 <UL>
-<LI>*FLUID SECTION
+<LI>*CONDUCTIVITY
 </LI>
-<LI>Enter any needed parameters.
+<LI>Enter the TYPE parameter and its values, if needed
 </LI>
 </UL>
 
 <P>
-Following line (only necessary if TYPE was used):
+Following line for TYPE=ISO:
 
 <UL>
-<LI>First constant
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img369.png"
+ ALT="$ \kappa$"></B></SPAN>.
 </LI>
-<LI>Second constant
-</LI>
-<LI>etc (maximum eight constants on this line)
+<LI>Temperature.
 </LI>
 </UL>
-Repeat this line if more than eight constants are needed to describe the
-fluid section.
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+Following line for TYPE=ORTHO:
+
+<UL>
+<LI><!-- MATH
+ $\kappa_{11}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="26" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2100.png"
+ ALT="$ \kappa_{11}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\kappa_{22}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="26" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2101.png"
+ ALT="$ \kappa_{22}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\kappa_{33}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="26" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2102.png"
+ ALT="$ \kappa_{33}$"></B></SPAN>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+Following line for TYPE=ANISO:
+
+<UL>
+<LI><!-- MATH
+ $\kappa_{11}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="26" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2100.png"
+ ALT="$ \kappa_{11}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\kappa_{22}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="26" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2101.png"
+ ALT="$ \kappa_{22}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\kappa_{33}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="26" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2102.png"
+ ALT="$ \kappa_{33}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\kappa_{12}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="26" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2103.png"
+ ALT="$ \kappa_{12}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\kappa_{13}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="26" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2104.png"
+ ALT="$ \kappa_{13}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\kappa_{23}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="26" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2105.png"
+ ALT="$ \kappa_{23}$"></B></SPAN>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
 
 <P>
 <PRE>
 Example:
 
-*FLUID SECTION,MATERIAL=NITROGEN,ELSET=Eall
+*CONDUCTIVITY
+50.,373.
+100.,573.
 </PRE>
 
 <P>
-assigns material NITROGEN to all elements in (element)
-set Eall.
-
-<P>
-<PRE>
-Example:
-
-*FLUID SECTION,MATERIAL=AIR,ELSET=Eall,TYPE=ORIFICE_PK_MS
-3.14,0.1,2.,0.01,0.1
-</PRE>
-
-<P>
-assigns material AIR to all elements in set Eall. The type of fluid section is
-an orifice with the <B><IMG
- WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1720.png"
- ALT="$ c_d$"></B> coefficient calculated following the formulas by
-Parker and Kercher [<A
- HREF="node448.html#Parker">62</A>], modified for the influence of the rotational
-velocity by McGreehan and Schotsch [<A
- HREF="node448.html#McGreehan">47</A>]. The area of the orifice
-is 3.14, the length is 0.1, the diameter is 2., the inlet corner radius is
-0.01 and the pipe diameter ratio is 0.1. 
+tells you that the conductivity coefficient in a body made of this material is
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2106.png"
+ ALT="$ 50$"></B></SPAN> at <SPAN CLASS="MATH"><B><IMG
+ WIDTH="60" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2107.png"
+ ALT="$ T=373$"></B></SPAN> and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2108.png"
+ ALT="$ 100$"></B></SPAN> at <SPAN CLASS="MATH"><B><IMG
+ WIDTH="60" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2109.png"
+ ALT="$ T=573$"></B></SPAN>. Below <SPAN CLASS="MATH"><B><IMG
+ WIDTH="60" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2107.png"
+ ALT="$ T=373$"></B></SPAN> its value is set
+to <SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2106.png"
+ ALT="$ 50$"></B></SPAN>, above <SPAN CLASS="MATH"><B><IMG
+ WIDTH="60" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2109.png"
+ ALT="$ T=573$"></B></SPAN> it is set to <SPAN CLASS="MATH"><B><IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2108.png"
+ ALT="$ 100$"></B></SPAN> and in between linear
+interpolation is applied.
 
 <P>
 
 <P><P>
 <BR>
-Example files: furnace, beamhtfc, branch1.
+Example files: beamhtbo, oneel20fi.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4496"
+<A NAME="tex2html4612"
   HREF="node265.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4492"
-  HREF="node205.html">
+<A NAME="tex2html4608"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4486"
+<A NAME="tex2html4602"
   HREF="node263.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4494"
+<A NAME="tex2html4610"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4497"
-  HREF="node265.html">*FREQUENCY</A>
-<B> Up:</B> <A NAME="tex2html4493"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4487"
-  HREF="node263.html">*FLUID CONSTANTS</A>
- &nbsp; <B>  <A NAME="tex2html4495"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html4613"
+  HREF="node265.html">*CONSTRAINT</A>
+<B> Up:</B> <A NAME="tex2html4609"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4603"
+  HREF="node263.html">*COMPLEX FREQUENCY</A>
+ &nbsp; <B>  <A NAME="tex2html4611"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -1,73 +1,80 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*MATERIAL</TITLE>
-<META NAME="description" CONTENT="*MATERIAL">
+<TITLE>*DESIGN VARIABLES</TITLE>
+<META NAME="description" CONTENT="*DESIGN VARIABLES">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node283.html">
 <LINK REL="previous" HREF="node281.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node283.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4712"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4828"
   HREF="node283.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4708"
-  HREF="node205.html">
+<A NAME="tex2html4824"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4702"
+<A NAME="tex2html4818"
   HREF="node281.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4710"
+<A NAME="tex2html4826"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4713"
-  HREF="node283.html">*MEMBRANE SECTION</A>
-<B> Up:</B> <A NAME="tex2html4709"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4703"
-  HREF="node281.html">*MASS FLOW</A>
- &nbsp; <B>  <A NAME="tex2html4711"
+<B> Next:</B> <A NAME="tex2html4829"
+  HREF="node283.html">*DFLUX</A>
+<B> Up:</B> <A NAME="tex2html4825"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4819"
+  HREF="node281.html">*DEPVAR</A>
+ &nbsp; <B>  <A NAME="tex2html4827"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000874000000000000000"></A><A NAME="material"></A>
+<H2><A NAME="SECTION000935000000000000000"></A><A NAME="designvariables"></A>
 <BR>
-*MATERIAL
+*DESIGN VARIABLES
 </H2>
 
 <P>
 Keyword type: model definition
 
 <P>
-This option is used to indicate the start of a material definition. A material data block is defined by the options between a *MATERIAL line and either another *MATERIAL line or a keyword line that does not define material properties. All material options within a data block will be assumed to define the same material. If a property is defined more than once for a material, the last definition is used. There is one required parameter, NAME, defining the name of the material with which it can be referenced in element property options (e.g. *SOLID SECTION). The name can contain up to 80 characters.
+This option is used to define the design variables for a sensitivity
+study. The parameter TYPE is required and can take the value COORDINATE or
+ORIENTATION. In case of COORDINATE a second line is needed to
+define the nodes whose coordinates are to be changed. These nodes should be
+part of the surface of the structure (a change in position of nodes internal
+to the structure does not change the geometry). They will be varied in a
+direction locally orthogonal to the structure (in-surface motions do not
+change the geometry). In the case of
+ORIENTATION the sensitivity of all orientations expressed by
+<A HREF="node337.html#orientation">*ORIENTATION</A> cards is calculated successively. 
 
 <P>
-Material data requests outside the defined ranges are extrapolated in a constant way and a warning is generated. Be aware that this occasionally occurs due to rounding errors.
+This keywork card should only occur once in the input deck. If it occurs more
+than once only the first occurrence is taken into account.
 
 <P><P>
 <BR>
@@ -76,9 +83,17 @@ Material data requests outside the defined ranges are extrapolated in a constant
 First line:
 
 <UL>
-<LI>*MATERIAL
+<LI>*DESIGN VARIABLES
 </LI>
-<LI>Enter the NAME parameter and its value.
+<LI>Enter the TYPE parameter and its value.
+</LI>
+</UL>
+
+<P>
+Following line if TYPE=COORDINATE:
+
+<UL>
+<LI>Node set containing the design variables.
 </LI>
 </UL>
 
@@ -86,23 +101,21 @@ First line:
 <PRE>
 Example:
 
-*MATERIAL,NAME=EL
+*DESIGN VARIABLES,TYPE=COORDINATE
+N1
 </PRE>
 
 <P>
-starts a material block with name EL.
+defines the set N1 as the node set containing the design variables.
 
 <P>
 
 <P><P>
 <BR>
-Example files: fullseg, beamnldype, beamog.
+Example files: sensitivity_I.
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

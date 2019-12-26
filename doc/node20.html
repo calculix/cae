@@ -1,10 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
 <TITLE>Reinforced concrete cantilever beam</TITLE>
@@ -13,7 +9,7 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
@@ -25,34 +21,35 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html1112"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1173"
   HREF="node21.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1108"
+<A NAME="tex2html1169"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1102"
+<A NAME="tex2html1163"
   HREF="node19.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1110"
+<A NAME="tex2html1171"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1113"
+<B> Next:</B> <A NAME="tex2html1174"
   HREF="node21.html">Wrinkling of a thin</A>
-<B> Up:</B> <A NAME="tex2html1109"
+<B> Up:</B> <A NAME="tex2html1170"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html1103"
+<B> Previous:</B> <A NAME="tex2html1164"
   HREF="node19.html">Cantilever beam using beam</A>
- &nbsp; <B>  <A NAME="tex2html1111"
+ &nbsp; <B>  <A NAME="tex2html1172"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
 <H2><A NAME="SECTION000614000000000000000">
@@ -127,30 +124,30 @@ S
 The beam has a cross section of 1 x 1 <!-- MATH
  $\text{m}^2$
  -->
-m<IMG
- WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+<SPAN CLASS="MATH">m<IMG
+ WIDTH="11" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
  SRC="img3.png"
- ALT="$ ^2$"> and a length of 10 m. The
+ ALT="$ ^2$"></SPAN> and a length of 10 m. The
 density of concrete is 2350 <!-- MATH
  $\text{kg}/\text{m}^3$
  -->
-kg<IMG
- WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH">kg<IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
  SRC="img1.png"
  ALT="$ /$">m<IMG
- WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ WIDTH="11" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
  SRC="img4.png"
- ALT="$ ^3$">, whereas the density of
+ ALT="$ ^3$"></SPAN>, whereas the density of
 steel is 7800 <!-- MATH
  $\text{kg}/\text{m}^3$
  -->
-kg<IMG
- WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH">kg<IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
  SRC="img1.png"
  ALT="$ /$">m<IMG
- WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ WIDTH="11" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
  SRC="img4.png"
- ALT="$ ^3$">. The
+ ALT="$ ^3$"></SPAN>. The
 Young's moduli are 14000 MPa and 210000 MPa, respectively. Steel is
 provided only on the top of the beam (tension side of the beam) at a distance
 of 9.5 cm from the upper surface. Its layer thickness is 1 cm (in reality the
@@ -175,18 +172,18 @@ the steel).
 Concrete cannot sustain tension whereas it is largely linear elastic under
 pressure. This can be modeled with the COMPRESSION_ONLY material model. In
 CalculiX this is an example of a user material. The name of user materials has
-to start with a fixed character set, in this case ''COMPRESSION_ONLY''. The
+to start with a fixed character set, in this case &rdquo;COMPRESSION_ONLY&rdquo;. The
 remaining 64 characters (a material name can be at most 80 characters long)
 can be freely chosen. In the present input deck no extra characters were
 selected. Choosing extra characters is needed if more than 1 compression-only
-material is present (in order to distinguish them). The ''COMPRESSION_ONLY''
+material is present (in order to distinguish them). The &rdquo;COMPRESSION_ONLY&rdquo;
 material is characterized by 2 constants, the first is Young's modulus, the
 second is the maximum tensile stress the user is willing to allow, in our case
 0.1 MPa (SI-units are used).
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="concretebeam1"></A><A NAME="11792"></A>
+<DIV ALIGN="CENTER"><A NAME="concretebeam1"></A><A NAME="14821"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 43:</STRONG>
 Axial stress across the height of the beam at
@@ -200,7 +197,7 @@ Axial stress across the height of the beam at
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="concretebeam2"></A><A NAME="11793"></A>
+<DIV ALIGN="CENTER"><A NAME="concretebeam2"></A><A NAME="14822"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 44:</STRONG>
 Axial stress across the height of the beam at
@@ -214,7 +211,7 @@ Axial stress across the height of the beam at
 
 <P>
 Using simple beam theory ([<A
- HREF="node448.html#Mortelmans">58</A>]) leads to a tensile stress of
+ HREF="node487.html#Mortelmans">60</A>]) leads to a tensile stress of
 152.3 MPa in the steel and a maximum compressive stress of 7.77 MPa at
 the lower edge of the concrete. The finite element calculation (Figure
 <A HREF="#concretebeam1">43</A>) predicts 152
@@ -224,37 +221,35 @@ dimensions. In Figure <A HREF="#concretebeam2">44</A> one notices the correct di
 the composite and the high tensile stresses in the thin steel layer. 
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html1112"
+<A NAME="tex2html1173"
   HREF="node21.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1108"
+<A NAME="tex2html1169"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1102"
+<A NAME="tex2html1163"
   HREF="node19.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1110"
+<A NAME="tex2html1171"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1113"
+<B> Next:</B> <A NAME="tex2html1174"
   HREF="node21.html">Wrinkling of a thin</A>
-<B> Up:</B> <A NAME="tex2html1109"
+<B> Up:</B> <A NAME="tex2html1170"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html1103"
+<B> Previous:</B> <A NAME="tex2html1164"
   HREF="node19.html">Cantilever beam using beam</A>
- &nbsp; <B>  <A NAME="tex2html1111"
-  HREF="node1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1172"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

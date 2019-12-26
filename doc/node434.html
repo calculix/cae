@@ -1,94 +1,216 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>first loop: calculateh.f</TITLE>
-<META NAME="description" CONTENT="first loop: calculateh.f">
+<TITLE>Integrating the stresses in beams to obtain the section forces</TITLE>
+<META NAME="description" CONTENT="Integrating the stresses in beams to obtain the section forces">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node435.html">
 <LINK REL="previous" HREF="node433.html">
-<LINK REL="up" HREF="node427.html">
+<LINK REL="up" HREF="node425.html">
 <LINK REL="next" HREF="node435.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6721"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6789"
   HREF="node435.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6717"
-  HREF="node427.html">
+<A NAME="tex2html6785"
+  HREF="node425.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6711"
+<A NAME="tex2html6781"
   HREF="node433.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6719"
+<A NAME="tex2html6787"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6722"
-  HREF="node435.html">first loop: getlocalresults.f</A>
-<B> Up:</B> <A NAME="tex2html6718"
-  HREF="node427.html">Mesh refining procedure</A>
-<B> Previous:</B> <A NAME="tex2html6712"
-  HREF="node433.html">START OF MAJOR LOOP</A>
- &nbsp; <B>  <A NAME="tex2html6720"
+<B> Next:</B> <A NAME="tex2html6790"
+  HREF="node435.html">Contact</A>
+<B> Up:</B> <A NAME="tex2html6786"
+  HREF="node425.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6782"
+  HREF="node433.html">Applying concentrated forces to</A>
+ &nbsp; <B>  <A NAME="tex2html6788"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H4><A NAME="SECTION0001111570000000000000">
-first loop: calculateh.f</A>
-</H4>
+<H3><A NAME="SECTION000123900000000000000">
+Integrating the stresses in beams to obtain the section forces</A>
+</H3>
 
 <P>
-The first time the loop is run, the tetrahedral mesh is still the unrefined
-mesh. The following actions are performed in calculateh.f:
+
+<DIV ALIGN="CENTER"><A NAME="c1dsection"></A><A NAME="16102"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 171:</STRONG>
+Expansion of a beam element</CAPTION>
+<TR><TD><IMG
+ WIDTH="540" HEIGHT="487" BORDER="0"
+ SRC="img2437.png"
+ ALT="\begin{figure}\epsfig{file=C1Dsection.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In beam elements the section forces can be requested at the end nodes. To this
+end the stresses in the expanded faces at the end nodes are integrated. How
+this is done can be explained by looking at Figure <A HREF="#c1dsection">171</A>.
+
+<P>
+The stresses in the expanded element are at first determined in the integration
+points (e.g. the Gauss-Kronrod points, cf. Figure <A HREF="node59.html#gausskronrod">80</A>). Then,
+they are expanded to the nodes of the element. Consequently, the stresses are
+available at all 20 nodes of the element in Figure  <A HREF="#c1dsection">171</A>. In order
+to obtain the section force the following local coordinate systems are
+introduced:
 
 <P>
 
 <UL>
-<LI>determine the length of each edge and store it in field d(*)
+<LI>The local element <!-- MATH
+ $\xi-\eta-\zeta$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="67" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2438.png"
+ ALT="$ \xi-\eta-\zeta$"></B></SPAN>-system. <SPAN CLASS="MATH"><B><IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img328.png"
+ ALT="$ \xi$"></B></SPAN> is along the axis of
+  the beam (from the first node of the element to the last node), <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img333.png"
+ ALT="$ \zeta$"></B></SPAN> is along the user-defined 1-direction of the beam, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img332.png"
+ ALT="$ \eta$"></B></SPAN>
+  corresponds to the minus 2-direction. The 2-direction is defined such that
+  <SPAN CLASS="MATH"><B><IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img328.png"
+ ALT="$ \xi$"></B></SPAN>-1-2 corresponds to a positive axis system.
 </LI>
-<LI>determine for each node the mean length of the edges to which it
-  belongs. Multiply this value with the limit value specified by the user and
-  divide it by the actual value of the user-defined criterion. Store the
-  resulting value in field h(*). For instance, if the user has selected the
-  stress criterion, the limit value is 50. and the actual stress value in the
-  node is 200., then an average edge length in the node of 0.1 will lead to a
-  value of 0.025 in this node, i.e. the desired edge length is locally 0.025.
+<LI>On the positive face of the beam element (the face corresponding to the
+  last end node of the beam definition, i.e. <SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img709.png"
+ ALT="$ \xi=1$"></B></SPAN>) the positive direction
+  for the section forces, which is denoted by I, II and III in Figure
+  <A HREF="#c1dsection">171</A> corresponds to the element 1-direction, 2-direction and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img328.png"
+ ALT="$ \xi$"></B></SPAN>.
 </LI>
-<LI>determine the minimum value of d(*) across the complete mesh and store
-  it in <B><IMG
- WIDTH="445" HEIGHT="453" ALIGN="MIDDLE" BORDER="0"
- SRC="img2018.png"
- ALT="$ d_{min}$"></B>.
+<LI>On the negative face of the beam element the positive direction for the
+  section forces, denoted by I, II and III points in the other direction of
+  the corresponding axes on the positive face (action=reaction).
+</LI>
+<LI>The local node numbering within the positive face is labeled by 1 to 8
+  in small circles and corresponds to a local coordinate system <!-- MATH
+ $\xi_l,\eta_l$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2439.png"
+ ALT="$ \xi_l,\eta_l$"></B></SPAN>
+  = <!-- MATH
+ $\zeta,-\eta$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="40" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2440.png"
+ ALT="$ \zeta,-\eta$"></B></SPAN>
+  coinciding with the system I-II.
+</LI>
+<LI>The local node numbering within the negative face is also labeled by 1
+  to 8 in small circles and corresponds to a local coordinate system
+  <!-- MATH
+ $\xi_l,\eta_l$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2439.png"
+ ALT="$ \xi_l,\eta_l$"></B></SPAN> = -I,II = <!-- MATH
+ $\zeta,\eta$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2441.png"
+ ALT="$ \zeta,\eta$"></B></SPAN>.
 </LI>
 </UL>
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+The system I-II-III in the faces denotes the positive direction of the section
+forces. The location of the integration points in the corresponding
+<!-- MATH
+ $\xi_l,\eta_l$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2439.png"
+ ALT="$ \xi_l,\eta_l$"></B></SPAN> system is obtained from the local element coordinate system
+<!-- MATH
+ $\xi-\eta-\zeta$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="67" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2438.png"
+ ALT="$ \xi-\eta-\zeta$"></B></SPAN> through the above face-dependent relationships.
+
+<P>
+In order to get the section forces the stresses are calculated in the
+integration points of the positive and negative face by interpolation from the
+stresses at the nodes belonging to the respective face. The integration point
+scheme depends on the beam section. 
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6789"
+  HREF="node435.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6785"
+  HREF="node425.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6781"
+  HREF="node433.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6787"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6790"
+  HREF="node435.html">Contact</A>
+<B> Up:</B> <A NAME="tex2html6786"
+  HREF="node425.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6782"
+  HREF="node433.html">Applying concentrated forces to</A>
+ &nbsp; <B>  <A NAME="tex2html6788"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

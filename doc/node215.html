@@ -1,228 +1,425 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*CFD</TITLE>
-<META NAME="description" CONTENT="*CFD">
+<TITLE>Conservation of momentum (compressible flow)</TITLE>
+<META NAME="description" CONTENT="Conservation of momentum (compressible flow)">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node216.html">
+<LINK REL="next" HREF="node225.html">
 <LINK REL="previous" HREF="node214.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node206.html">
 <LINK REL="next" HREF="node216.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3908"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3881"
   HREF="node216.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3904"
-  HREF="node205.html">
+<A NAME="tex2html3877"
+  HREF="node206.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3898"
+<A NAME="tex2html3871"
   HREF="node214.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3906"
+<A NAME="tex2html3879"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3909"
-  HREF="node216.html">*CFLUX</A>
-<B> Up:</B> <A NAME="tex2html3905"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html3899"
-  HREF="node214.html">*BUCKLE</A>
- &nbsp; <B>  <A NAME="tex2html3907"
+<B> Next:</B> <A NAME="tex2html3882"
+  HREF="node216.html">Transient term</A>
+<B> Up:</B> <A NAME="tex2html3878"
+  HREF="node206.html">The Finite Volume Method</A>
+<B> Previous:</B> <A NAME="tex2html3872"
+  HREF="node214.html">General approach for solving</A>
+ &nbsp; <B>  <A NAME="tex2html3880"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION00087000000000000000"></A><A NAME="cfd"></A>
-<BR>
-*CFD
+<H2><A NAME="SECTION00084000000000000000">
+Conservation of momentum (compressible flow)</A>
 </H2>
 
 <P>
-Keyword type: step
+The conservation principles are of utmost importance in fluid dynamics. They
+lead to sets of linear equations the solution of which yields the fields we
+are looking for (velocity, pressure, temperature...). The conservation of
+momentum can be written in the following component form (in spatial carthesian
+coordinates) [<A
+ HREF="node487.html#Dhondt">19</A>]:
 
 <P>
-This procedure is used to perform a three-dimensional computational fluid
-dynamics (CFD) calculation.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eqF33"></A><!-- MATH
+ \begin{equation}
+\rho \frac{D v_i}{Dt} =  \sigma_{ij,j} + \rho f_i .
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="138" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1718.png"
+ ALT="$\displaystyle \rho \frac{D v_i}{Dt} = \sigma_{ij,j} + \rho f_i .$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">529</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-There are seven optional parameters: STEADY STATE,
-TIME RESET, TOTAL TIME AT START, COMPRESSIBLE, TURBULENCE MODEL, SCHEME and SIMPLEC. 
+Since (definition of the total derivative):
 
 <P>
-The parameter STEADY STATE indicates that only the steady state should be
-calculated. If this parameter is absent, the calculation is assumed to be time
-dependent and a transient analysis is performed. 
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\rho \frac{Dv_i}{Dt} = \rho \frac{\partial v_i}{\partial t} + \rho
+  v_{i,j}v_j
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="163" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1719.png"
+ ALT="$\displaystyle \rho \frac{Dv_i}{Dt} = \rho \frac{\partial v_i}{\partial t} + \rho v_{i,j}v_j$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">530</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-The initial time increment and time step period are interpreted mechanical
-time increment and mechanical time step. For each mechanical time increment a
-CFD calculation is performed consisting of several CFD time
-increments. Therefore, the initial CFD time increment cannot exceed the
-initial mechanical time increment. CFD time increments are usually much
-smaller than the mechanical time increments. The CFD calculation is performed
-up to the end of the mechanical time increment (if the calculation is
-transient) or up to steady state conditions (if the CFD calculation is a
-steady state calculation).
+and (conservation of mass)  [<A
+ HREF="node487.html#Dhondt">19</A>]
 
 <P>
-The parameter TIME RESET can be used to force the total time at the
-end of the present step to coincide with the total time at the end of the
-previous step. If there is no previous step the targeted total time is
-zero. If this parameter is absent the total time at the end of the present step is the
-total time at the end of the previous step plus the time period of the present
-step (2nd parameter underneath the *CFD keyword). Consequently, if the time
-at the end of the previous step is 10. and the present time period is 1., the
-total time at the end of the present step is 11. If the TIME RESET parameter
-is used, the total time at the beginning of the present step is 9. and at the
-end of the present step it will be 10. This is sometimes useful if
-transient coupled temperature-displacement calculations are preceded by a stationary heat
-transfer step to reach steady state conditions at the start of the transient
-coupled temperature-displacement calculations. Using the TIME RESET parameter in the stationary
-step (the first step in the calculation) will lead to a zero total time at the start of the subsequent
-instationary step. 
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\frac{\partial \rho }{\partial t} + (\rho v_j),_{j} =0,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="123" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1720.png"
+ ALT="$\displaystyle \frac{\partial \rho }{\partial t} + (\rho v_j),_{j} =0,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">531</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-The parameter TOTAL TIME AT START can be used to set the total time
-at the start of the step to a specific value.
+one can write
 
 <P>
-The parameter COMPRESSIBLE 
-specifies that the fluid is compressible. Default is incompressible.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\rho \frac{Dv_i}{Dt} = \frac{\partial \rho v_i}{\partial t}+ (\rho v_i
+  v_j),_{j}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="177" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1721.png"
+ ALT="$\displaystyle \rho \frac{Dv_i}{Dt} = \frac{\partial \rho v_i}{\partial t}+ (\rho v_i v_j),_{j}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">532</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-For 3D fluid calculations the parameter TURBULENCE MODEL defines the
-turbulence model to be used. The user can choose among NONE (laminar
-calculations; this is default), K-EPSILON, K-OMEGA and SST [<A
- HREF="node448.html#Menter">49</A>].
+and consequently Equation (<A HREF="#eqF33">529</A>) amounts to:
 
 <P>
-The parameter SCHEME is only important for compressible fluids. It selects the
-scheme to be used to calculate the facial quantities from the element center
-quantities for the convective terms in the governing equations. Right now, the
-user can choose between upwind difference (SCHEME=UD, default) and modified smart
-(SCHEME=MODSMART). Upwind difference has more false diffusion, however, the
-stability is better. Modified smart is a so called high resolution scheme
-[<A
- HREF="node448.html#Moukalled">59</A>]. It has less false diffusion but may lead to divergence in
-some cases. If modified smart does not diverge, it will give better
-results. For incompressible fluids a Gamma scheme [<A
- HREF="node448.html#Jasak">35</A>] is used. This
-cannot be influenced by the user. It is also a high resolution scheme.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eqF37"></A><!-- MATH
+ \begin{equation}
+\frac{\partial \rho v_i}{\partial t} + (\rho v_i v_j),_{j} = t_{ij,j} -
+  p,_{j} \delta_{ij} + \rho f_i,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="267" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1722.png"
+ ALT="$\displaystyle \frac{\partial \rho v_i}{\partial t} + (\rho v_i v_j),_{j} = t_{ij,j} - p,_{j} \delta_{ij} + \rho f_i,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">533</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-Finally, the parameter SIMPLEC indicates, if selected, that the SIMPLEC
-algorithm is to be used rather than the standard SIMPLE. Right now, the
-SIMPLEC
-scheme can only be selected for compressible flow. It usually leads to faster
-convergence [<A
- HREF="node448.html#Moukalled">59</A>].
+since the Cauchy stress <!-- MATH
+ $\sigma_{ij}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="24" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1723.png"
+ ALT="$ \sigma_{ij}$"></B></SPAN> can be written as the viscous stress
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1724.png"
+ ALT="$ t_{ij}$"></B></SPAN> minus the hydrostatic pressure <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img330.png"
+ ALT="$ p$"></B></SPAN>:
 
 <P>
-
-<P><P>
-<BR>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\sigma_{ij}=t_{ij} - p \delta_{ij}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="112" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1725.png"
+ ALT="$\displaystyle \sigma_{ij}=t_{ij} - p \delta_{ij}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">534</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-First line:
+The viscous stress <SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1724.png"
+ ALT="$ t_{ij}$"></B></SPAN> can be written as the sum of the laminar viscous
+stress <SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1726.png"
+ ALT="$ t_{ij}^l$"></B></SPAN> and the turbulent viscous stress <SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1727.png"
+ ALT="$ t_{ij}^t$"></B></SPAN> satisfying [<A
+ HREF="node487.html#Pope">67</A>]
 
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eqF39"></A><!-- MATH
+ \begin{equation}
+t_{ij}^l = \mu (v_{i,j}+v_{j,i}-\frac{2}{3} v_{k,k} \delta_{ij})
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="204" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1728.png"
+ ALT="$\displaystyle t_{ij}^l = \mu (v_{i,j}+v_{j,i}-\frac{2}{3} v_{k,k} \delta_{ij})$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">535</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eqF40"></A><!-- MATH
+ \begin{equation}
+t_{ij}^t = \mu_t (v_{i,j}+v_{j,i}-\frac{2}{3} v_{k,k}
+  \delta_{ij})-\frac{2}{3} \rho k \delta_{ij},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="280" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1729.png"
+ ALT="$\displaystyle t_{ij}^t = \mu_t (v_{i,j}+v_{j,i}-\frac{2}{3} v_{k,k} \delta_{ij})-\frac{2}{3} \rho k \delta_{ij},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">536</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+(<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img353.png"
+ ALT="$ k$"></B></SPAN> is the turbulent kinetic energy and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1730.png"
+ ALT="$ \mu_t$"></B></SPAN> is the turbulent viscosity) leading to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\sigma_{ij}=(\mu + \mu_t) (v_{i,j}+v_{j,i}-\frac{2}{3}
+  v_{k,k}\delta_{ij})-(p+\frac{2}{3}\rho k) \delta_{ij}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="365" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1731.png"
+ ALT="$\displaystyle \sigma_{ij}=(\mu + \mu_t) (v_{i,j}+v_{j,i}-\frac{2}{3} v_{k,k}\delta_{ij})-(p+\frac{2}{3}\rho k) \delta_{ij}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">537</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Integrating Equation (<A HREF="#eqF37">533</A>) over an element one obtains (using Gauss'
+theorem):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eqF42"></A><!-- MATH
+ \begin{equation}
+\frac{\partial }{\partial t } \int_{V}^{} \rho v_i dv + \int_{A}^{} \rho v_i
+  \boldsymbol{v} \cdot \boldsymbol{n} da = \int_{A}^{} t_{ij} n_j da -
+  \int_{A}^{} p n_i da + \int_{V}^{} \rho f_i dv,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="455" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1732.png"
+ ALT="$\displaystyle \frac{\partial }{\partial t } \int_{V}^{} \rho v_i dv + \int_{A}^...
+...a = \int_{A}^{} t_{ij} n_j da - \int_{A}^{} p n_i da + \int_{V}^{} \rho f_i dv,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">538</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="17" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1276.png"
+ ALT="$ V$"></B></SPAN> is the volume of the element and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img375.png"
+ ALT="$ A$"></B></SPAN> the external surface (which is
+the sum of the area of all external faces of the element). The area of a face
+is calculated by considering it as a 2-dimensional finite element and
+calculating the Jacobian vector at the center (1-point integration). The
+volume is obtained by replacing <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ \phi$"></B></SPAN> by the coordinate <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img712.png"
+ ALT="$ x$"></B></SPAN> and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img353.png"
+ ALT="$ k$"></B></SPAN> by <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1257.png"
+ ALT="$ 1$"></B></SPAN> in
+Equation (<A HREF="node209.html#eqF4">503</A>):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+V_p=\sum_{f}^{} x_f (n_1)_f A_f.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="147" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1733.png"
+ ALT="$\displaystyle V_p=\sum_{f}^{} x_f (n_1)_f A_f.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">539</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Now, turning to Equation (<A HREF="#eqF42">538</A>) each term is considered in detail for
+element P and iteration <SPAN CLASS="MATH"><B><IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1715.png"
+ ALT="$ (m)$"></B></SPAN> of increment <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img649.png"
+ ALT="$ n$"></B></SPAN>.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html3883"
+  HREF="node216.html">Transient term</A>
+<LI><A NAME="tex2html3884"
+  HREF="node217.html">Convection term</A>
+<LI><A NAME="tex2html3885"
+  HREF="node218.html">Diffusion term</A>
 <UL>
-<LI>*CFD
-</LI>
-<LI>Enter any needed parameters and their values.
-</LI>
+<LI><A NAME="tex2html3886"
+  HREF="node219.html">Inlet</A>
+<LI><A NAME="tex2html3887"
+  HREF="node220.html">Outlet</A>
+<LI><A NAME="tex2html3888"
+  HREF="node221.html">Non-moving Wall</A>
+<LI><A NAME="tex2html3889"
+  HREF="node222.html">Sliding conditions</A>
 </UL>
-
-<P>
-
-<UL>
-<LI>Initial time increment. This value will be modified due to automatic incrementation, unless the parameter DIRECT was specified (default 1.).
-</LI>
-<LI>Time period of the step (default 1.).
-</LI>
-<LI>Minimum time increment allowed. Only active if DIRECT is not specified. Default is the initial time increment or 1.e-5 times the time period of the step, whichever is smaller.
-</LI>
-<LI>Maximum time increment allowed. Only active if DIRECT is not
-  specified. Default is 1.e+30.
-</LI>
-<LI>Initial time increment for CFD applications (default 1.e-2). If left
-  free, a proper initial increment is calculated.
-</LI>
-</UL>
-
-<P>
-Example: couette1
-
-<P>
-<PRE>
-*CFD
-.1,1.,,,0.01
-</PRE>
-
-<P>
-defines a CFD step. The second line indicates that the initial time increment
-is .1, the total step time is 1 and the CFD time increment is 0.01.
-
-<P>
-
-<P><P>
 <BR>
-Example files: couette1per.
+<LI><A NAME="tex2html3890"
+  HREF="node223.html">Pressure term</A>
+<LI><A NAME="tex2html3891"
+  HREF="node224.html">Volume forces</A>
+</UL>
+<!--End of Table of Child-Links-->
 
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html3908"
+<A NAME="tex2html3881"
   HREF="node216.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3904"
-  HREF="node205.html">
+<A NAME="tex2html3877"
+  HREF="node206.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3898"
+<A NAME="tex2html3871"
   HREF="node214.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3906"
+<A NAME="tex2html3879"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3909"
-  HREF="node216.html">*CFLUX</A>
-<B> Up:</B> <A NAME="tex2html3905"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html3899"
-  HREF="node214.html">*BUCKLE</A>
- &nbsp; <B>  <A NAME="tex2html3907"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html3882"
+  HREF="node216.html">Transient term</A>
+<B> Up:</B> <A NAME="tex2html3878"
+  HREF="node206.html">The Finite Volume Method</A>
+<B> Previous:</B> <A NAME="tex2html3872"
+  HREF="node214.html">General approach for solving</A>
+ &nbsp; <B>  <A NAME="tex2html3880"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

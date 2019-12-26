@@ -1,10 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
 <TITLE>Lid-driven cavity</TITLE>
@@ -13,7 +9,7 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
@@ -25,34 +21,35 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html1040"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1101"
   HREF="node15.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1036"
+<A NAME="tex2html1097"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1030"
+<A NAME="tex2html1091"
   HREF="node13.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1038"
+<A NAME="tex2html1099"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1041"
+<B> Next:</B> <A NAME="tex2html1102"
   HREF="node15.html">Transient laminar incompressible Couette</A>
-<B> Up:</B> <A NAME="tex2html1037"
+<B> Up:</B> <A NAME="tex2html1098"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html1031"
+<B> Previous:</B> <A NAME="tex2html1092"
   HREF="node13.html">Hydraulic pipe system</A>
- &nbsp; <B>  <A NAME="tex2html1039"
+ &nbsp; <B>  <A NAME="tex2html1100"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
 <H2><A NAME="SECTION00068000000000000000">
@@ -62,7 +59,7 @@ Lid-driven cavity</A>
 <P>
 The lid-driven cavity is a well-known benchmark problem for viscous
 incompressible fluid flow [<A
- HREF="node448.html#Zienkiewicz2">85</A>]. The geometry at stake is shown in Figure
+ HREF="node487.html#Zienkiewicz2">92</A>]. The geometry at stake is shown in Figure
 <A HREF="#lidgeo">26</A>. We are dealing with a square cavity consisting of three rigid
 walls with no-slip conditions and a lid moving with a tangential unit
 velocity. We are
@@ -71,7 +68,7 @@ interested in the velocity and pressure distribution for a Reynolds number of
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="lidgeo"></A><A NAME="11768"></A>
+<DIV ALIGN="CENTER"><A NAME="lidgeo"></A><A NAME="14797"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 26:</STRONG>
 Geometry of the lid-driven cavity</CAPTION>
@@ -85,7 +82,7 @@ Geometry of the lid-driven cavity</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="lidmesh"></A><A NAME="11769"></A>
+<DIV ALIGN="CENTER"><A NAME="lidmesh"></A><A NAME="14798"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 27:</STRONG>
 Mesh of the lid-driven cavity</CAPTION>
@@ -179,9 +176,9 @@ the name SOLIDSURFACE (no upper case required, though).
 
 <P>
 The material definition consists of the density, the heat capacity and the
-dynamic viscosity. The density is set to 1. The heat capacity and the dynamic viscosity are entered underneath the <A HREF="node263.html#fluidconstants">*FLUID
+dynamic viscosity. The density is set to 1. The heat capacity and the dynamic viscosity are entered underneath the <A HREF="node302.html#fluidconstants">*FLUID
   CONSTANTS</A> keyword. The heat capacity is not needed
-since the calculation is steady state, so its value here is irrelevant. The
+since the calculation does not involve temperatures, so its value here is irrelevant. The
 value of the dynamic viscosity was chosen such that the Reynolds number is
 400. The Reynolds number is defined as velocity times length divided by the
 kinematic viscosity. The velocity of the lid is 1, its length is 1 and since
@@ -222,7 +219,7 @@ FREQUENCYF parameter. This means, that results will be stored every 5000 increme
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="lidvelx"></A><A NAME="11770"></A>
+<DIV ALIGN="CENTER"><A NAME="lidvelx"></A><A NAME="14799"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 28:</STRONG>
 y-component of the velocity in the lid-driven cavity</CAPTION>
@@ -236,7 +233,7 @@ y-component of the velocity in the lid-driven cavity</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="lidvel"></A><A NAME="11771"></A>
+<DIV ALIGN="CENTER"><A NAME="lidvel"></A><A NAME="14800"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 29:</STRONG>
 Velocity distribution in the lid-driven cavity (excerpt)</CAPTION>
@@ -250,7 +247,7 @@ Velocity distribution in the lid-driven cavity (excerpt)</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="lidpre"></A><A NAME="11772"></A>
+<DIV ALIGN="CENTER"><A NAME="lidpre"></A><A NAME="14801"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 30:</STRONG>
 Pressure distribution in the lid-driven cavity</CAPTION>
@@ -266,7 +263,7 @@ Pressure distribution in the lid-driven cavity</CAPTION>
 The velocity distribution in y-direction (i.e. the direction tangential to the lid) is
 shown in Figure <A HREF="#lidvelx">28</A>. The smallest value (-0.33) and its location
 agree very well with the results in [<A
- HREF="node448.html#Zienkiewicz2">85</A>]. Figure <A HREF="#lidvel">29</A>
+ HREF="node487.html#Zienkiewicz2">92</A>]. Figure <A HREF="#lidvel">29</A>
 shows a vector plot of the velocity. Near the lid there is a large gradient,
 in the lower left and lower right corner are dead zones. The pressure plot
 (Figure <A HREF="#lidpre">30</A>) reveals a low pressure zone in the center of the major
@@ -275,37 +272,35 @@ point for the y-component of the velocity and is characterized by a
 significant pressure built-up.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html1040"
+<A NAME="tex2html1101"
   HREF="node15.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1036"
+<A NAME="tex2html1097"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1030"
+<A NAME="tex2html1091"
   HREF="node13.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1038"
+<A NAME="tex2html1099"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1041"
+<B> Next:</B> <A NAME="tex2html1102"
   HREF="node15.html">Transient laminar incompressible Couette</A>
-<B> Up:</B> <A NAME="tex2html1037"
+<B> Up:</B> <A NAME="tex2html1098"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html1031"
+<B> Previous:</B> <A NAME="tex2html1092"
   HREF="node13.html">Hydraulic pipe system</A>
- &nbsp; <B>  <A NAME="tex2html1039"
-  HREF="node1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1100"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

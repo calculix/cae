@@ -1,124 +1,182 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Applying concentrated forces to the expanded structure</TITLE>
-<META NAME="description" CONTENT="Applying concentrated forces to the expanded structure">
+<TITLE>User-defined mechanical material laws.</TITLE>
+<META NAME="description" CONTENT="User-defined mechanical material laws.">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node395.html">
-<LINK REL="previous" HREF="node393.html">
-<LINK REL="up" HREF="node386.html">
+<LINK REL="next" HREF="node404.html">
+<LINK REL="previous" HREF="node381.html">
+<LINK REL="up" HREF="node375.html">
 <LINK REL="next" HREF="node395.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6195"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6215"
   HREF="node395.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6191"
-  HREF="node386.html">
+<A NAME="tex2html6211"
+  HREF="node375.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6185"
+<A NAME="tex2html6205"
   HREF="node393.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6193"
+<A NAME="tex2html6213"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6196"
-  HREF="node395.html">Integrating the stresses in</A>
-<B> Up:</B> <A NAME="tex2html6192"
-  HREF="node386.html">Expansion of the one-dimensional</A>
-<B> Previous:</B> <A NAME="tex2html6186"
-  HREF="node393.html">Applying temperatures and temperature</A>
- &nbsp; <B>  <A NAME="tex2html6194"
+<B> Next:</B> <A NAME="tex2html6216"
+  HREF="node395.html">The CalculiX interface</A>
+<B> Up:</B> <A NAME="tex2html6212"
+  HREF="node375.html">User subroutines.</A>
+<B> Previous:</B> <A NAME="tex2html6206"
+  HREF="node393.html">Gap heat generation (fricheat.f)</A>
+ &nbsp; <B>  <A NAME="tex2html6214"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000113800000000000000">
-Applying concentrated forces to the expanded structure</A>
-</H3>
+<H2><A NAME="SECTION000105000000000000000"></A><A NAME="user"></A>
+<BR>
+User-defined mechanical material laws.
+</H2>
+User-defined mechanical behavior can be implemented using three
+different interfaces:
+
+<UL>
+<LI>The  native CalculiX interface.
+</LI>
+<LI>The ABAQUS umat routines for linear materials (small strain
+  analyses).
+</LI>
+<LI>The ABAQUSNL umat routines for non linear materials (finite
+  strain analyses).
+</LI>
+</UL>
 
 <P>
-This is similar to the application of SPC's: if a knot is defined in the node
-nothing is done for applied translational forces. For moments (which can be
-considered as rotational forces) their values are applied to the rotational
-node of the knot, i.e. the node number is changed in the force application.
+There are two ways of introducing user-defined mechanical behavior:
+
+<UL>
+<LI>Modify the CalculiX sources. This option is supported for the
+  three interfaces.
+</LI>
+<LI>Call a behavior defined in shared libraries.
+</LI>
+</UL>
 
 <P>
-If no knot is defined in a node in which a force is applied MPC's are generated between the node at stake and the
-new nodes in the expanded structure in the case of 1D elements and 2D
-shells. For 2D plane and axisymmetric elements the force is applied to the
-zero-z node in the expanded structure. If a moment is applied (only applicable
-to shells and beams) a mean rotation
-MPC is generated. 
+Each of these approaches has its own advantages and its own
+pitfalls.
 
 <P>
-For axisymmetric structures the concentrated forces are assumed to apply for
-the whole <B><IMG
- WIDTH="36" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img268.png"
- ALT="$ 360^\circ$"></B>. Since the expansion is done for a small sector only
-(must be small to keep enough accuracy with only one layer of elements, the
-size of the sector is specified by the user underneath the <A HREF="node312.html#solidsection">*SOLID
-  SECTION</A> card) the
-force is scaled down appropriately. 
+The first one is intrusive and requires a partial recompilation of
+CalculiX, which means having access to the sources and the rights to
+install the executable if it is meant to be deployed on a system-wide
+location.
 
 <P>
-Application of nodal forces is done in subroutine ``gen3dforc.f''.
+The second one does not require any modification to CalculiX, is
+generally easier to set up and is very flexible. There is no intrinsic
+limitations on the number of shared libraries and functions that can
+be dynamically loaded. It is thus quite feasible to create mechanical
+behaviours databases by creating a shared library by specific
+material. Such libraries will only be loaded if needed. In such an
+approach, the mechanical behaviour is dedicated to a specific material
+and is self-contained: it has no external parameter. Shared libraries
+can be shared between co-workers by moving them on a shared folder.
+However, experience shows that using shared libraries can be confusing
+for some user as they have to update their environment variables (PATH
+on Windows or LD_LIBRARY_PATH on Unixes) for the libraries to be
+usable. Shared libraries can also be more sensible to system
+updates. A drawback of using shared libraries is that the behaviors
+must be written in C or C++ as the name of the functions implementing
+the behaviors must be upper-cased du to CalculiX internal
+conventions<A NAME="tex2html184"
+  HREF="footnode.html#foot13150"><SUP><SPAN CLASS="arabic">1</SPAN></SUP></A> The reason of such a restriction is detailed below. On
+way of generating such library with the appropriate naming convention
+is to use the MFront code generator:
+<DIV ALIGN="CENTER">
+http://tfel.sourceforge.net
+
+</DIV>
 
 <P>
-<HR>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html6217"
+  HREF="node395.html">The CalculiX interface</A>
+<UL>
+<LI><A NAME="tex2html6218"
+  HREF="node396.html">Introduction of a new mechanical behaviour by modifying the
+  sources</A>
+<LI><A NAME="tex2html6219"
+  HREF="node397.html">Calling mechanical behaviours defined shared libraries</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html6220"
+  HREF="node398.html">ABAQUS umat routines</A>
+<UL>
+<LI><A NAME="tex2html6221"
+  HREF="node399.html">Calling mechanical behaviours defined shared libraries</A>
+<LI><A NAME="tex2html6222"
+  HREF="node400.html">Calling shared libraries</A>
+<LI><A NAME="tex2html6223"
+  HREF="node401.html">Limitations</A>
+<LI><A NAME="tex2html6224"
+  HREF="node402.html">Calling shared libraries</A>
+<LI><A NAME="tex2html6225"
+  HREF="node403.html">Limitations</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html6195"
+<A NAME="tex2html6215"
   HREF="node395.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6191"
-  HREF="node386.html">
+<A NAME="tex2html6211"
+  HREF="node375.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6185"
+<A NAME="tex2html6205"
   HREF="node393.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6193"
+<A NAME="tex2html6213"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6196"
-  HREF="node395.html">Integrating the stresses in</A>
-<B> Up:</B> <A NAME="tex2html6192"
-  HREF="node386.html">Expansion of the one-dimensional</A>
-<B> Previous:</B> <A NAME="tex2html6186"
-  HREF="node393.html">Applying temperatures and temperature</A>
- &nbsp; <B>  <A NAME="tex2html6194"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html6216"
+  HREF="node395.html">The CalculiX interface</A>
+<B> Up:</B> <A NAME="tex2html6212"
+  HREF="node375.html">User subroutines.</A>
+<B> Previous:</B> <A NAME="tex2html6206"
+  HREF="node393.html">Gap heat generation (fricheat.f)</A>
+ &nbsp; <B>  <A NAME="tex2html6214"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

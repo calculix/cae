@@ -1,10 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
 <TITLE>Optimization of a simply supported beam</TITLE>
@@ -13,7 +9,7 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
@@ -25,34 +21,35 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html1136"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1197"
   HREF="node23.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1132"
+<A NAME="tex2html1193"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1126"
+<A NAME="tex2html1187"
   HREF="node21.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1134"
+<A NAME="tex2html1195"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1137"
+<B> Next:</B> <A NAME="tex2html1198"
   HREF="node23.html">Mesh refinement of a</A>
-<B> Up:</B> <A NAME="tex2html1133"
+<B> Up:</B> <A NAME="tex2html1194"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html1127"
+<B> Previous:</B> <A NAME="tex2html1188"
   HREF="node21.html">Wrinkling of a thin</A>
- &nbsp; <B>  <A NAME="tex2html1135"
+ &nbsp; <B>  <A NAME="tex2html1196"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
 <H2><A NAME="SECTION000616000000000000000">
@@ -75,7 +72,7 @@ force in the middle. The von Mises stresses are shown in Figure <A HREF="#opt1">
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="opt1"></A><A NAME="11798"></A>
+<DIV ALIGN="CENTER"><A NAME="opt1"></A><A NAME="14827"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 49:</STRONG>
 von Mises stress in the starting geometry of the beam</CAPTION>
@@ -98,7 +95,7 @@ of the supports. These latter nodes are shown in Figure <A HREF="#opt2">50</A>.
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="opt2"></A><A NAME="11799"></A>
+<DIV ALIGN="CENTER"><A NAME="opt2"></A><A NAME="14828"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 50:</STRONG>
 Nodes excuded from the set of design variables</CAPTION>
@@ -126,7 +123,7 @@ DESIGNNODES
 </PRE>
 
 <P>
-``DESIGNNODES'' is a nodal set containing the design nodes as previously
+&ldquo;DESIGNNODES&rdquo; is a nodal set containing the design nodes as previously
 discussed. For optimization problems in which the geometry of the structure is
 to be optimized the type is COORDINATE. Alternatively, one could optimize the
 orientation of anisotropic materials in a structure, this is covered by
@@ -135,7 +132,7 @@ TYPE=ORIENTATION.
 <P>
 The objective is the function one would like to minimize. In the present
 example the Kreisselmeier-Steinhauser function calculated from the von Mises
-stress in all design nodes (cf. <A HREF="node297.html#objective">*OBJECTIVE</A> for the
+stress in all design nodes (cf. <A HREF="node336.html#objective">*OBJECTIVE</A> for the
 definition of this function) is to be minimized. Again, the support nodes are
 not taken into account because of the local stress singularity. The objective
 is taken care of by the lines:
@@ -169,7 +166,7 @@ MASS,Eall,LE,1.,
 
 <P>
 For the meaning of the entries the reader is referred to
-<A HREF="node226.html#constraint">*CONTRAINT</A>. Notice that for this constraint to be active
+<A HREF="node265.html#constraint">*CONTRAINT</A>. Notice that for this constraint to be active
 the user should have defined a density for the material at stake. Within
 CalculiX the constraint is linearized. This means that, depending on the
 increment size during an optimization, the constraint will not be satisfied exacty.
@@ -197,7 +194,7 @@ present input deck (opt1.inp) the following filter is applied:
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="opt3"></A><A NAME="11800"></A>
+<DIV ALIGN="CENTER"><A NAME="opt3"></A><A NAME="14829"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 51:</STRONG>
 Stress sensitivity before filtering</CAPTION>
@@ -210,7 +207,7 @@ Stress sensitivity before filtering</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="opt4"></A><A NAME="11801"></A>
+<DIV ALIGN="CENTER"><A NAME="opt4"></A><A NAME="14830"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 52:</STRONG>
 Stress sensitivity after filtering</CAPTION>
@@ -223,7 +220,7 @@ Stress sensitivity after filtering</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="opt5"></A><A NAME="11802"></A>
+<DIV ALIGN="CENTER"><A NAME="opt5"></A><A NAME="14831"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 53:</STRONG>
 Mass sensitivity after filtering</CAPTION>
@@ -237,7 +234,7 @@ Mass sensitivity after filtering</CAPTION>
 <P>
 The filter is linear with a radius of 3 (it can be visualized as a cone at each design variable
 in which the sensitivity is integrated and subsequently smeared), sharp
-corners should be kept (EDGE PRESERVATION=YES, cf. <A HREF="node262.html#filter">*FILTER</A>)
+corners should be kept (EDGE PRESERVATION=YES, cf. <A HREF="node301.html#filter">*FILTER</A>)
 and surfaces with a clearly different orientation (e.g. orthogonal) are not
 taken into account while filtering (or taken into account to a lesser degree,
 DIRECTION WEIGHTING=YES). The filtering is applied to the objective function
@@ -249,7 +246,7 @@ card. Notice that the sensitivity is normalized after filtering.
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="opt6"></A><A NAME="11803"></A>
+<DIV ALIGN="CENTER"><A NAME="opt6"></A><A NAME="14832"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 54:</STRONG>
 Stress sensitivity taking the mass constraint into account</CAPTION>
@@ -312,7 +309,7 @@ generated by CalculiX during the opt1.inp run. They are included by the statemen
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="opt7"></A><A NAME="11804"></A>
+<DIV ALIGN="CENTER"><A NAME="opt7"></A><A NAME="14833"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 55:</STRONG>
 Deformed mesh after one iteration</CAPTION>
@@ -325,7 +322,7 @@ Deformed mesh after one iteration</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="opt8"></A><A NAME="11805"></A>
+<DIV ALIGN="CENTER"><A NAME="opt8"></A><A NAME="14834"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 56:</STRONG>
 Mises stress after one iteration</CAPTION>
@@ -354,37 +351,35 @@ beam has indeed decreased from 114 to about 80 (MPa if the selected units were
 mm, N, s and K). Further improvements can be obtained by running several iterations.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html1136"
+<A NAME="tex2html1197"
   HREF="node23.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1132"
+<A NAME="tex2html1193"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1126"
+<A NAME="tex2html1187"
   HREF="node21.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1134"
+<A NAME="tex2html1195"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1137"
+<B> Next:</B> <A NAME="tex2html1198"
   HREF="node23.html">Mesh refinement of a</A>
-<B> Up:</B> <A NAME="tex2html1133"
+<B> Up:</B> <A NAME="tex2html1194"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html1127"
+<B> Previous:</B> <A NAME="tex2html1188"
   HREF="node21.html">Wrinkling of a thin</A>
- &nbsp; <B>  <A NAME="tex2html1135"
-  HREF="node1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1196"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

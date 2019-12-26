@@ -1,97 +1,166 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*REFINE MESH</TITLE>
-<META NAME="description" CONTENT="*REFINE MESH">
+<TITLE>*FREQUENCY</TITLE>
+<META NAME="description" CONTENT="*FREQUENCY">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node305.html">
 <LINK REL="previous" HREF="node303.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node305.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4976"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5092"
   HREF="node305.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4972"
-  HREF="node205.html">
+<A NAME="tex2html5088"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4966"
+<A NAME="tex2html5082"
   HREF="node303.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4974"
+<A NAME="tex2html5090"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4977"
-  HREF="node305.html">*RESTART</A>
-<B> Up:</B> <A NAME="tex2html4973"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4967"
-  HREF="node303.html">*RADIATE</A>
- &nbsp; <B>  <A NAME="tex2html4975"
+<B> Next:</B> <A NAME="tex2html5093"
+  HREF="node305.html">*FRICTION</A>
+<B> Up:</B> <A NAME="tex2html5089"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5083"
+  HREF="node303.html">*FLUID SECTION</A>
+ &nbsp; <B>  <A NAME="tex2html5091"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000896000000000000000"></A><A NAME="refinemesh"></A>
+<H2><A NAME="SECTION000957000000000000000"></A><A NAME="frequency"></A>
 <BR>
-*REFINE MESH
+*FREQUENCY
 </H2>
 
 <P>
 Keyword type: step
 
 <P>
-With this keyword the part of the input mesh consisting of C3D4 and C3D10
-elements is refined according to certain criteria and stored in file
-jobname.fin. All other element types in the input mesh are not
-considered. Subsequently, the user can replace the tetrahedral elements in his
-input deck by the newly generated elements and restart a calculation in order
-to get a more accurate results. This has to be done manually.
+This procedure is used to determine eigenfrequencies and the
+corresponding eigenmodes of a structure. The frequency range of
+interest can be specified by entering its lower and upper
+value. However, internally only as many frequencies are calculated as
+requested in the first field beneath the *FREQUENCY keyword
+card. Accordingly, if the highest calculated frequency is smaller than
+the upper value of the requested frequency range, there is no
+guarantee that all eigenfrequencies within the requested range were
+calculated. If the PERTURBATION parameter is used in the *STEP card, the load active in the last *STATIC step, if any, will be taken as preload. Otherwise, no preload will be active.
 
 <P>
-For the refinement the available criteria are the size of the displacements
-(label U), the velocity (label V), the stress (label S), the total strain
-(label E), the mechanical strain (label ME), the equivalent plastic strain
-(label PEEQ), the energy density (label ENER), the heat flux (label HFL), the
-gradient based error estimator (label ERR) or a user-defined function (user
-subroutine ucalculateh.f). The size is defined as the absolute value if it
-concerns a scalar quantity and the norm if it concerns a vector or tensor.
+There are four optional parameters SOLVER, STORAGE, GLOBAL and CYCMPC.
+SOLVER specifies which solver is used to perform a
+decomposition of the linear equation system. This decomposition is done only
+once. It is repeatedly used in the iterative procedure determining the eigenvalues. The following solvers
+can be selected:
 
 <P>
-With the parameter LIMIT the user defines a positive value above which
-refinement is requested. For instance, if the limit is 50. and the value of
-the selected criterion is 200. a refinement by a factor of 4 is aimed at. The
-refinement is done iteratively (3 times), and each iteration induces a
-maximum refinement by a factor of 2.
+
+<UL>
+<LI>the SGI solver
+</LI>
+<LI>PARDISO
+</LI>
+<LI>SPOOLES [<A
+ HREF="node487.html#Ashcraft1">3</A>,<A
+ HREF="node487.html#Ashcraft2">4</A>]. 
+</LI>
+<LI>TAUCS 
+</LI>
+<LI>MATRIXSTORAGE. This is not really a solver. Rather, it is an option
+  allowing the user to store the stiffness and mass matrix.
+</LI>
+</UL>
 
 <P>
-If the tetrahedral mesh in the input deck contains at least one quadratic
-element, the refined mesh contains C3D10 elements only, else it is a pure C3D4 mesh.
+Default is the first solver which has been installed of the following list:
+SGI, PARDISO, SPOOLES and TAUCS. If none is installed, no eigenvalue analysis can be performed.
 
 <P>
+The SGI solver should by now be considered as outdated. SPOOLES is very fast, but has no
+out-of-core capability: the size of systems you can solve is limited by your
+RAM memory. With 2GB of RAM you can solve up to 250,000 equations. TAUCS is
+also good, but my experience is limited to the <SPAN CLASS="MATH"><B><IMG
+ WIDTH="35" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2098.png"
+ ALT="$ LL^T$"></B></SPAN> decomposition, which
+only applies to positive definite systems. It has an out-of-core capability
+and also offers a <SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2099.png"
+ ALT="$ LU$"></B></SPAN> decomposition, however, I was not able to run either of
+them so far. PARDISO is the Intel proprietary solver and is to my knowledge
+presently the fastest.
+
+<P>
+If the MATRIXSTORAGE option is used, the stiffness and mass matrices are
+stored in files jobname.sti and jobname.mas, respectively. These are ASCII
+files containing the nonzero entries (occasionally, they can be zero;
+however, none of the entries which are not listed are nonzero). Each line
+consists of two integers and one real: the row number, the column number and
+the corresponding value. The entries are listed column per
+column. In addition, a file jobname.dof is created. It has as many entries as
+there are rows and columns in the stiffness and mass matrix. Each line
+contains a real number of the form &ldquo;a.b&rdquo;. Part a is the node number and
+b is the global degree of freedom corresponding to selected row. Notice that
+the program stops after creating these files. No further steps are
+treated. Consequently, *FREQUENCY, MATRIXSTORAGE only makes sense as the last
+step in a calculation. 
+
+<P>
+The parameter STORAGE indicates whether the eigenvalues, eigenmodes, mass and
+stiffness matrix should be stored in binary form in file jobname.eig for
+further use in a *MODAL DYNAMICS, *STEADY STATE DYNAMICS or *SENSITIVITY procedure. Default
+is STORAGE=NO. Specify STORAGE=YES if storage is requested.
+
+<P>
+The parameters GLOBAL and CYCMPC only make sense in the presence of
+SOLVER=MATRIXSTORAGE. GLOBAL indicates whether the matrices should be stored
+in global coordinates, irrespective of whether a local coordinates system for
+any of the nodes in the structure was defined. Default is GLOBAL=YES. For
+GLOBAL=NO the matrices are stored in local coordinates and the directions in
+file jobname.dof are local directions. Notice that the GLOBAL=NO only works if no single or multiple point constrains were defined and
+one and the same coordinate system was defined for ALL nodes in the
+structure. The second parameter (CYCMPC) specifies whether any cyclic multiple point
+constraints should remain active while assembling the stiffness and mass matrix
+before storing them. Default is CYCMPC=ACTIVE. CYCMPC=INACTIVE means that all
+cyclic MPC's and any other MPC's containing dependent nodes belonging to
+cyclic MPC's are removed before assembling the matrices. The CYCMPC parameter
+only makes sense if GLOBAL=YES, since only then are MPC's allowed. 
+
+<P>
+For the iterative eigenvalue procedure ARPACK [<A
+ HREF="node487.html#Lehoucq">44</A>] is
+used. The eigenfrequencies are always stored in file jobname.dat. 
+
+<P>
+At the start
+of a frequency calculation all single point constraint boundary conditions,
+which may be zero due to previous steps, are set to zero.
 
 <P><P>
 <BR>
@@ -100,17 +169,21 @@ element, the refined mesh contains C3D10 elements only, else it is a pure C3D4 m
 First line:
 
 <UL>
-<LI>*REFINE MESH.
-</LI>
-<LI>enter the required parameter LIMIT and its value
+<LI>*FREQUENCY
 </LI>
 </UL>
-
-<P>
 Second line:
 
 <UL>
-<LI>the label of the selected criterion.
+<LI>Number of eigenfrequencies desired.
+</LI>
+<LI>Lower value of requested eigenfrequency range (in cycles/time; default:0).
+</LI>
+<LI>Upper value of requested eigenfrequency range (in cycles/time;
+default: <SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2250.png"
+ ALT="$ \infty$"></B></SPAN>).
 </LI>
 </UL>
 
@@ -118,51 +191,49 @@ Second line:
 <PRE>
 Example:
 
-*REFINE MESH,LIMIT=50.
-S
+*FREQUENCY
+10
 </PRE>
 
 <P>
-requests a refinement based on the size of the stress and a limit of 50.
+requests the calculation of the 10 lowest eigenfrequencies and corresponding eigenmodes. 
 
 <P>
 
 <P><P>
 <BR>
-Example files: circ10p.
+Example files: beam8f, beamf.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4976"
+<A NAME="tex2html5092"
   HREF="node305.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4972"
-  HREF="node205.html">
+<A NAME="tex2html5088"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4966"
+<A NAME="tex2html5082"
   HREF="node303.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4974"
+<A NAME="tex2html5090"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4977"
-  HREF="node305.html">*RESTART</A>
-<B> Up:</B> <A NAME="tex2html4973"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4967"
-  HREF="node303.html">*RADIATE</A>
- &nbsp; <B>  <A NAME="tex2html4975"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html5093"
+  HREF="node305.html">*FRICTION</A>
+<B> Up:</B> <A NAME="tex2html5089"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5083"
+  HREF="node303.html">*FLUID SECTION</A>
+ &nbsp; <B>  <A NAME="tex2html5091"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

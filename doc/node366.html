@@ -1,257 +1,201 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>User-defined nonlinear equations </TITLE>
-<META NAME="description" CONTENT="User-defined nonlinear equations ">
+<TITLE>*TIME POINTS</TITLE>
+<META NAME="description" CONTENT="*TIME POINTS">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node370.html">
+<LINK REL="next" HREF="node367.html">
 <LINK REL="previous" HREF="node365.html">
-<LINK REL="up" HREF="node336.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node367.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5773"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5836"
   HREF="node367.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5769"
-  HREF="node336.html">
+<A NAME="tex2html5832"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5763"
+<A NAME="tex2html5826"
   HREF="node365.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5771"
+<A NAME="tex2html5834"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5774"
-  HREF="node367.html">Mean rotation MPC.</A>
-<B> Up:</B> <A NAME="tex2html5770"
-  HREF="node336.html">User subroutines.</A>
-<B> Previous:</B> <A NAME="tex2html5764"
-  HREF="node365.html">User-defined thermal material laws.</A>
- &nbsp; <B>  <A NAME="tex2html5772"
+<B> Next:</B> <A NAME="tex2html5837"
+  HREF="node367.html">*TRANSFORM</A>
+<B> Up:</B> <A NAME="tex2html5833"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5827"
+  HREF="node365.html">*TIE</A>
+ &nbsp; <B>  <A NAME="tex2html5835"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION00097000000000000000"></A><A NAME="usermpc"></A>
+<H2><A NAME="SECTION0009119000000000000000"></A><A NAME="timepoints"></A>
 <BR>
-User-defined nonlinear equations 
+*TIME POINTS
 </H2>
 
 <P>
-This user subroutine allows the user to insert his/her own nonlinear
-equations (also called Multiple Point Constraints or MPC's). The
-driver routine is ``nonlinmpc.f''. For each new type of equation the
-user can define a name, e.g. FUN (maximum length 80 characters). To be consistent, the user subroutine should
-be called umpc_fun and stored in ``umpc_fun.f''. In file
-``nonlinmpc.f'' the lines
+Keyword type: model definition
 
 <P>
-<PRE>
-            elseif(labmpc(ii)(1:4).eq.'USER') then
-               call umpc_user(aux,aux(3*maxlenmpc+1),const,
-     &amp;            aux(6*maxlenmpc+1),iaux,n,fmpc(ii),iit,idiscon)
-</PRE>
+This option may be used to specify a sequence of time points. If
+the parameter TIME=TOTAL TIME is used the reference time is the total
+time since the start of the calculation, else it is the local step
+time. The parameter NAME,
+specifying a name for the time point sequence so that it can be referenced by output
+definitions (<A HREF="node331.html#nodefile">*NODE FILE</A>, <A HREF="node294.html#elfile">*EL FILE</A>,
+<A HREF="node333.html#nodeprint">*NODE PRINT</A> or <A HREF="node295.html#elprint">*EL PRINT</A>) is required (maximum
+80 characters).This option makes sense for nonlinear static, nonlinear
+dynamic, modal dynamic, heat transfer and coupled temperature-displacement
+calculations only. In all other procedures, this card is ignored.
 
 <P>
-should be duplicated and user (USER) replaced by fun (FUN).
+In each step, the local step time starts at zero. Its upper limit is
+given by the time period of the step. This time period is specified on
+the <A HREF="node355.html#static">*STATIC</A>, <A HREF="node288.html#dynamic">*DYNAMIC</A>, <A HREF="node311.html#heattransfer">*HEAT TRANSFER</A> or <A HREF="node272.html#coupledtemperaturedisplacement">*COUPLED TEMPERATURE-DISPLACEMENT</A> keyword card. The default step
+time period is 1. 
 
 <P>
-It is assumed that the nonlinear equation is a function of the
-displacements only. Then it can generally be written as
+The total time is the time accumulated until the beginning of the actual step augmented
+by the local step time.
 
 <P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-f(u_1,u_2,u_3,....,u_n)=0
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="168" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1830.png"
- ALT="$\displaystyle f(u_1,u_2,u_3,....,u_n)=0$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(498)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
+GENERATE is the second optional parameter. If specified, the user can define a
+regular pattern of time points by specifying the starting time, the end time
+and the time increment. 
+
+<P><P>
+<BR>
 
 <P>
-where <B><IMG
- WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1831.png"
- ALT="$ u_i$"></B> represents the displacement in node <B><IMG
- WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1832.png"
- ALT="$ n_i$"></B> in direction
-<B><IMG
- WIDTH="15" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1833.png"
- ALT="$ l_i$"></B>. Nonlinear equations are solved by approximating them
-linearly and using an iterative procedure. It is the linearization
-which must be provided by the user in the subroutine. Assume we
-arrived at an intermediate solution <!-- MATH
- $u^0_1,u^0_2,....u^0_n$
- -->
-<B><IMG
- WIDTH="87" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
- SRC="img1834.png"
- ALT="$ u^0_1,u^0_2,....u^0_n$"></B>. Then the
-above equation can be linearly approximated by:
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-f(u^0_1,u^0_2,....,u^0_n)+\sum_{i=1}^{i=n}\left. \frac{\partial f}{\partial u_i} \right|_0 (u_i-u^0_i)=0
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="297" HEIGHT="66" ALIGN="MIDDLE" BORDER="0"
- SRC="img1835.png"
- ALT="$\displaystyle f(u^0_1,u^0_2,....,u^0_n)+\sum_{i=1}^{i=n}\left. \frac{\partial f}{\partial u_i} \right\vert _0 (u_i-u^0_i)=0$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(499)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-For more details the user is referred to [<A
- HREF="node448.html#Dhondt">18</A>]. To use a user-defined equation its name must be specified on the line beneath the keyword <A HREF="node287.html#mpc">*MPC</A>, followed by a list of all the
-nodes involved in the MPC. This list of nodes is transferred to the
-user routine, as specified by the following 
- header and input/output variables of the umpc_user routine:
-
-<P>
-<PRE>
-      subroutine umpc_user(x,u,f,a,jdof,n,force,iit,idiscon)
-!
-!     updates the coefficients in a user mpc
-!
-!     INPUT:
-!
-!     x(3,n)             Carthesian coordinates of the nodes in the
-!                        user mpc.
-!     u(3,n)             Actual displacements of the nodes in the
-!                        user mpc.     
-!     jdof               Actual degrees of freedom of the mpc terms
-!     n                  number of terms in the user mpc
-!     force              Actual value of the mpc force
-!     iit                iteration number
-!
-!     OUTPUT:
-!
-!     f                  Actual value of the mpc. If the mpc is
-!                        exactly satisfied, this value is zero
-!     a(n)               coefficients of the linearized mpc
-!     jdof               Corrected degrees of freedom of the mpc terms
-!     idiscon            0: no discontinuity
-!                        1: discontinuity
-!                        If a discontinuity arises the previous
-!                        results are not extrapolated at the start of
-!                        a new increment
-!
-</PRE>
-
-<P>
-The subroutine returns the value of f (<!-- MATH
- $f(u^0_1,u^0_2,....,u^0_n)$
- -->
-<B><IMG
- WIDTH="115" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
- SRC="img1836.png"
- ALT="$ f(u^0_1,u^0_2,....,u^0_n)$"></B>),
-the coefficients of the linearization (<!-- MATH
- $\left. \frac{df}{du_i}
-\right|_0$
- -->
-<B><IMG
- WIDTH="42" HEIGHT="45" ALIGN="MIDDLE" BORDER="0"
- SRC="img1837.png"
- ALT="$ \left. \frac{df}{du_i}
-\right\vert _0$"></B>) and the degrees of freedom involved. 
-
-<P>
-The parameter idiscon can be used to specify whether a discontinuity took
-place. This usually means that the degrees of freedom in the MPC changed from
-the previous call. An example of this is a gap MPC. If a discontinuity
-occurred in an increment, the results (displacements..) in this increment are
-NOT extrapolated to serve as an initial guess in the next increment.
-
-<P>
-An example is given next.
-
-<P>
-<BR><HR>
-<!--Table of Child-Links-->
-<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+First line:
 
 <UL>
-<LI><A NAME="tex2html5775"
-  HREF="node367.html">Mean rotation MPC.</A>
-<LI><A NAME="tex2html5776"
-  HREF="node368.html">Maximum distance MPC.</A>
-<LI><A NAME="tex2html5777"
-  HREF="node369.html">Network MPC.</A>
+<LI>*TIME POINTS
+</LI>
+<LI>Enter the required parameter NAME, and the optional parameter if needed.
+</LI>
 </UL>
-<!--End of Table of Child-Links-->
-<HR>
+
+<P>
+Following line, using as many entries as needed, if GENERATE is not specified:
+
+<UL>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+<LI>Time.
+</LI>
+</UL>
+Repeat this line if more than eight entries are needed.
+
+<P>
+Following line, using as many entries as needed, if GENERATE is specified:
+
+<UL>
+<LI>Starting time
+</LI>
+<LI>End time
+</LI>
+<LI>Time increment
+</LI>
+</UL>
+Repeat this line if more than one regular sequence is needed.
+
+<P>
+<PRE>
+Example:
+
+*TIME POINTS,NAME=T1
+.2,.3.,.8
+</PRE>
+
+<P>
+defines a time points sequence with name T1 consisting of times .2, .3 and .8
+time units. The time used is the local step time.
+
+<P>
+<PRE>
+Example:
+
+*TIME POINTS,NAME=T1,GENERATE
+0.,3.,1.
+</PRE>
+
+<P>
+defines a time points sequence with name T1 consisting of the time points 0.,
+1., 2., and 3. The time used is the local step time.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamnlptp
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html5773"
+<A NAME="tex2html5836"
   HREF="node367.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5769"
-  HREF="node336.html">
+<A NAME="tex2html5832"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5763"
+<A NAME="tex2html5826"
   HREF="node365.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5771"
+<A NAME="tex2html5834"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5774"
-  HREF="node367.html">Mean rotation MPC.</A>
-<B> Up:</B> <A NAME="tex2html5770"
-  HREF="node336.html">User subroutines.</A>
-<B> Previous:</B> <A NAME="tex2html5764"
-  HREF="node365.html">User-defined thermal material laws.</A>
- &nbsp; <B>  <A NAME="tex2html5772"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html5837"
+  HREF="node367.html">*TRANSFORM</A>
+<B> Up:</B> <A NAME="tex2html5833"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5827"
+  HREF="node365.html">*TIE</A>
+ &nbsp; <B>  <A NAME="tex2html5835"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

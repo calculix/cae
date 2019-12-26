@@ -1,131 +1,178 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>newnodes.f</TITLE>
-<META NAME="description" CONTENT="newnodes.f">
+<TITLE>Determining the matrix structure.</TITLE>
+<META NAME="description" CONTENT="Determining the matrix structure.">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node440.html">
 <LINK REL="previous" HREF="node438.html">
-<LINK REL="up" HREF="node427.html">
+<LINK REL="up" HREF="node436.html">
 <LINK REL="next" HREF="node440.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6781"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6850"
   HREF="node440.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6777"
-  HREF="node427.html">
+<A NAME="tex2html6846"
+  HREF="node436.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6771"
+<A NAME="tex2html6842"
   HREF="node438.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6779"
+<A NAME="tex2html6848"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6782"
-  HREF="node440.html">cavityext.f</A>
-<B> Up:</B> <A NAME="tex2html6778"
-  HREF="node427.html">Mesh refining procedure</A>
-<B> Previous:</B> <A NAME="tex2html6772"
-  HREF="node438.html">edgedivide.f</A>
- &nbsp; <B>  <A NAME="tex2html6780"
+<B> Next:</B> <A NAME="tex2html6851"
+  HREF="node440.html">Filling and solving the</A>
+<B> Up:</B> <A NAME="tex2html6847"
+  HREF="node436.html">Determining the matrix structure</A>
+<B> Previous:</B> <A NAME="tex2html6843"
+  HREF="node438.html">De-cascading the MPC's</A>
+ &nbsp; <B>  <A NAME="tex2html6849"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H4><A NAME="SECTION00011115120000000000000">
-newnodes.f</A>
-</H4>
+<H3><A NAME="SECTION000125300000000000000">
+Determining the matrix structure.</A>
+</H3>
 
 <P>
-This routine contains a loop over all edges. For each edge i which is to be
-divided into two sub-edges the following actions are taken:
+This important task is performed in mastruct.c for structures not exhibiting
+cyclic symmetry 
+and mastructcs.c for cyclic symmetric structures. Let us focus on matruct.c.
+
+<P>
+The active degrees of freedom are stored in a two-dimensional field
+nactdof. It has as many rows as there are nodes in the model and four columns
+since each node  
+has one temperature degree of freedom and three translational degrees. Because
+the 1-d and 2-d elements are expanded into 3-d elements in routine &ldquo;gen3delem.f&rdquo;
+there is no need for rotational degrees of freedom. In C this field is mapped
+into a one-dimensional field starting with the degrees of freedom of node 1,
+then those of node 2, and so on. At first, all entries in nactdof are
+deactivated (set to zero). Then they are (de)activated according to the
+following algorithm:
 
 <P>
 
 <UL>
-<LI>determine the coordinates of the new node on the edge and store them in
-  a consecutively arranged field conewnodes(1..3,*) with the total number of new nodes
-  stored in the scalar nnewnodes. Let us assume that edge i is the j-th edge
-  to be subdivided, then the coordinates are stored in conewnodes(1..3,j)
+<LI>In a mechanical or a thermomechanical analysis the translational degrees
+  of freedom of all nodes belonging to elements are activated.
 </LI>
-<LI>determine a base element to which the edge belongs (an arbitrary element
-  of the shell of the edge) and store the number in ibasenewnodes(j)
+<LI>In a thermal or a thermomechanical analysis the temperature degree of
+  freedom of all nodes belonging to elements are activated.
 </LI>
-<LI>store the edge number on which the nodes lies (i.e. here i) in field
-  iedgnewnodes(*), i.e. iedgnewnodes(j)=i. 
+<LI>All degrees of freedom belonging to MPC's are activated (dependent and independent)
 </LI>
-<LI>determine the value of the h-field in the new node by interpolation
-  within the unrefined mesh and store it in hnewnodes(j)
+<LI>The degrees of freedom corresponding to SPC's are deactivated by setting
+  them to -2*i (i.e. a negative number) where i is the number of the SPC.
+</LI>
+<LI>The degrees of freedom corresponding to the dependent side of MPC's are
+  deactivated by setting them to -(2*i-1) (i.e. a negative number) where i is the number of the MPC.
 </LI>
 </UL>
 
 <P>
-After leaving newnodes a random contribution is added to the coordinates of
-each new node while moving them towards the center of gravity of their base
-element (=perturbation of the nodal position from a surface position to a
-subsurface position). This ensures that each new node lies within a tetrahedral element and
-not on its faces or edges. This facilitates the insertion of the new nodes in
-the existing mesh and is particularly important for the newly created external
-surface nodes. Indeed, the insertion procedure explained in [<A
- HREF="node448.html#George">24</A>] works
-only for nodes not lying on the external surface. The insertion of the new nodes is done one by one after
-reordering them in an aleatoric way.
+Then, the active degrees of freedom are numbered (positive numbers). Subsequently, the structure
+of the matrix is determined on basis of the topology of the elements and the
+multiple point constraints.
 
 <P>
-<HR>
+For SPOOLES, ARPACK and the iterative methods the storage scheme is
+ limited to the nonzero SUBdiagonal positions of the matrix
+only. The scheme is as it is because of historical reasons, and I do not think
+there is any reason not to use another scheme, such as a SUPERdiagonal
+storage. The storage is described as follows:
+
+<P>
+
+<UL>
+<LI>the field irow contains the row numbers of the
+  SUBdiagonal nonzero's, column per column.
+</LI>
+<LI>icol(i) contains the number of SUBdiagonal nonzero's in column i.
+</LI>
+<LI>jq(i) contains the location in field irow of the first SUBdiagonal
+  nonzero in column i
+</LI>
+</UL>
+
+<P>
+All three fields are one-dimensional, the size of irow corresponds
+with the number of nonzero SUBdiagonal entries in the matrix, the size of icol
+and jq is the number of active degrees of freedom. The diagonal entries of the
+matrix stored separately and consequently no storage information for these
+items is needed. 
+
+<P>
+The thermal entries, if any, are stored after the mechanical entries, if
+any. The number of mechanical entries is neq[0] (C-notation), the total number
+of entries (mechanical and thermal) is neq[1]. In the same way the number of
+nonzero mechanical SUBdiagonal entries is nzs[0], the total number of
+SUBdiagonal entries is nzs[1]. In thermomechanical applications the mechanical
+and thermal sub-matrices are assumed to be distinct, i.e. there is no
+connection in the stiffness matrix between the mechanical and the thermal
+degrees of freedom. Therefore, the mechanical and thermal degrees of freedom
+occupy two distinct areas in the storage field irow.
+
+<P>
+File mastructcs calculates the storage for cyclic symmetric structures. These
+are characterized by the double amount of degrees of freedom, since cyclic
+symmetry results in a complex system which is reduced to a real system twice
+the size. The cyclic symmetry equations are linear equations with complex
+coefficients and require a separate treatment. The fields used for the
+storage, however, are the 
+same. 
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html6781"
+<A NAME="tex2html6850"
   HREF="node440.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6777"
-  HREF="node427.html">
+<A NAME="tex2html6846"
+  HREF="node436.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6771"
+<A NAME="tex2html6842"
   HREF="node438.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6779"
+<A NAME="tex2html6848"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6782"
-  HREF="node440.html">cavityext.f</A>
-<B> Up:</B> <A NAME="tex2html6778"
-  HREF="node427.html">Mesh refining procedure</A>
-<B> Previous:</B> <A NAME="tex2html6772"
-  HREF="node438.html">edgedivide.f</A>
- &nbsp; <B>  <A NAME="tex2html6780"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html6851"
+  HREF="node440.html">Filling and solving the</A>
+<B> Up:</B> <A NAME="tex2html6847"
+  HREF="node436.html">Determining the matrix structure</A>
+<B> Previous:</B> <A NAME="tex2html6843"
+  HREF="node438.html">De-cascading the MPC's</A>
+ &nbsp; <B>  <A NAME="tex2html6849"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

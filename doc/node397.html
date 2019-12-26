@@ -1,96 +1,130 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Determining the matrix structure</TITLE>
-<META NAME="description" CONTENT="Determining the matrix structure">
+<TITLE>Calling mechanical behaviours defined shared libraries</TITLE>
+<META NAME="description" CONTENT="Calling mechanical behaviours defined shared libraries">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node401.html">
 <LINK REL="previous" HREF="node396.html">
-<LINK REL="up" HREF="node373.html">
+<LINK REL="up" HREF="node395.html">
 <LINK REL="next" HREF="node398.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6229"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6260"
   HREF="node398.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6225"
-  HREF="node373.html">
+<A NAME="tex2html6256"
+  HREF="node395.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6219"
+<A NAME="tex2html6252"
   HREF="node396.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6227"
+<A NAME="tex2html6258"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6230"
-  HREF="node398.html">Matching the SPC's</A>
-<B> Up:</B> <A NAME="tex2html6226"
-  HREF="node373.html">Program structure.</A>
-<B> Previous:</B> <A NAME="tex2html6220"
-  HREF="node396.html">Contact</A>
- &nbsp; <B>  <A NAME="tex2html6228"
+<B> Next:</B> <A NAME="tex2html6261"
+  HREF="node398.html">ABAQUS umat routines</A>
+<B> Up:</B> <A NAME="tex2html6257"
+  HREF="node395.html">The CalculiX interface</A>
+<B> Previous:</B> <A NAME="tex2html6253"
+  HREF="node396.html">Introduction of a new</A>
+ &nbsp; <B>  <A NAME="tex2html6259"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000115000000000000000">
-Determining the matrix structure</A>
-</H2>
+<H4><A NAME="SECTION000105120000000000000">
+Calling mechanical behaviours defined shared libraries</A>
+</H4>
 
 <P>
-This part consists of the following subparts:
-
-<P>
+Calling shared libraries is triggered by putting the <TT>@</TT>
+character in front material name. The material name is then decomposed
+into two parts, separated by the <TT>_</TT> character:
 
 <UL>
-<LI>matching the SPC's
+<LI>The base name of the library (see below).
 </LI>
-<LI>de-cascading the MPC's
-</LI>
-<LI>determining the matrix structure
+<LI>The name of the function implementing the behavior. If the
+  function's name is ommitted, the &ldquo;umat_&rdquo; function name is used.
 </LI>
 </UL>
 
 <P>
-<BR><HR>
-<!--Table of Child-Links-->
-<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+For instance, if we want to call a small strain behavior in a linear
+analysis, implemented by the &ldquo;CHABOCHE&rdquo; function in the
+&ldquo;libCALCULIXBEHAVIOURS.so&rdquo; shared library<A NAME="tex2html185"
+  HREF="footnode.html#foot13172"><SUP><SPAN CLASS="arabic">2</SPAN></SUP></A>, one would declare the
+following material name:
+<DIV ALIGN="CENTER">
+@CALCULIXBEHAVIOURS_CHABOCHE
 
-<UL>
-<LI><A NAME="tex2html6231"
-  HREF="node398.html">Matching the SPC's</A>
-<LI><A NAME="tex2html6232"
-  HREF="node399.html">De-cascading the MPC's</A>
-<LI><A NAME="tex2html6233"
-  HREF="node400.html">Determining the matrix structure.</A>
-</UL>
-<!--End of Table of Child-Links-->
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+</DIV>
+
+<P>
+Here, the library name has been stripped from system-specific
+convention (the leading lib and the .so extension). <EM>The base name
+  of the library and the name of the function must be
+  upper-cased</EM>. This is due to the way CalculiX interprets the input
+file.
+
+<P>
+To distinguish two materials using the same external behaviour, one
+may add a unique identifier at the end of the material name. This
+identifier starts with the <TT>@</TT> character.  For example, one may
+use the material names <TT>@CALCULIXBEHAVIOURS_CHABOCHE@1</TT>
+and <TT>@CALCULIXBEHAVIOURS_CHABOCHE@2</TT> to create to
+distinct materials (with distinct material properties) which will call
+the same external behaviour.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6260"
+  HREF="node398.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6256"
+  HREF="node395.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6252"
+  HREF="node396.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6258"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6261"
+  HREF="node398.html">ABAQUS umat routines</A>
+<B> Up:</B> <A NAME="tex2html6257"
+  HREF="node395.html">The CalculiX interface</A>
+<B> Previous:</B> <A NAME="tex2html6253"
+  HREF="node396.html">Introduction of a new</A>
+ &nbsp; <B>  <A NAME="tex2html6259"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

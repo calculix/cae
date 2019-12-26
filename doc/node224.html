@@ -1,125 +1,129 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*COMPLEX FREQUENCY</TITLE>
-<META NAME="description" CONTENT="*COMPLEX FREQUENCY">
+<TITLE>Volume forces</TITLE>
+<META NAME="description" CONTENT="Volume forces">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node225.html">
 <LINK REL="previous" HREF="node223.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node215.html">
 <LINK REL="next" HREF="node225.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4016"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3998"
   HREF="node225.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4012"
-  HREF="node205.html">
+<A NAME="tex2html3994"
+  HREF="node215.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4006"
+<A NAME="tex2html3990"
   HREF="node223.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4014"
+<A NAME="tex2html3996"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4017"
-  HREF="node225.html">*CONDUCTIVITY</A>
-<B> Up:</B> <A NAME="tex2html4013"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4007"
-  HREF="node223.html">*CLOAD</A>
- &nbsp; <B>  <A NAME="tex2html4015"
+<B> Next:</B> <A NAME="tex2html3999"
+  HREF="node225.html">Rhie-Chow interpolation</A>
+<B> Up:</B> <A NAME="tex2html3995"
+  HREF="node215.html">Conservation of momentum (compressible</A>
+<B> Previous:</B> <A NAME="tex2html3991"
+  HREF="node223.html">Pressure term</A>
+ &nbsp; <B>  <A NAME="tex2html3997"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000816000000000000000"></A><A NAME="complexfrequency"></A>
-<BR>
-*COMPLEX FREQUENCY
-</H2>
+<H3><A NAME="SECTION00084500000000000000">
+Volume forces</A>
+</H3>
 
 <P>
-Keyword type: step
+The term with volume forces is modeled by:
 
 <P>
-This procedure card is used to determine frequencies taking into account
-Coriolis forces (cf. Section <A HREF="node162.html#complexfrequencyanalysis">6.9.3</A>). It must be
-preceded by a <A HREF="node265.html#frequency">*FREQUENCY</A> step in which the eigenvalues
-and eigenmodes are calculated without Coriolis (do not forget to use the
-option STORAGE=YES in the frequency step, ensuring that the eigenmodes and
-eigenvalues are stored in a .eig file). The frequency step does not have to be
-in the same input deck. There is one required parameter CORIOLIS.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\int_{V}^{} \rho g_i dv \approx \rho_P^{(m-1)} g_i V_P
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="165" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1797.png"
+ ALT="$\displaystyle \int_{V}^{} \rho g_i dv \approx \rho_P^{(m-1)} g_i V_P$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">578</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-Finally, the number of
-eigenfrequencies requested should not exceed the corresponding number in the
-frequency step.
+and ends up on the right hand side.
 
 <P>
-
-<P><P>
-<BR>
-
-<P>
-First line:
-
-<UL>
-<LI>*COMPLEX FREQUENCY
-</LI>
-<LI>use the required parameter CORIOLIS
-</LI>
-</UL>
-Second line:
-
-<UL>
-<LI>Number of eigenfrequencies desired.
-</LI>
-</UL>
-
-<P>
-<PRE>
-Example:
-
-*COMPLEX FREQUENCY,CORIOLIS
-10
-</PRE>
-
-<P>
-requests the calculation of the 10 lowest eigenfrequencies and corresponding eigenmodes. 
-
-<P>
-
-<P><P>
-<BR>
-Example files: rotor.
+After solving the resulting system of equations leading to
+<!-- MATH
+ $\boldsymbol{v}^{\text{momentum}}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="76" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1798.png"
+ ALT="$ \boldsymbol{v}^{\text{momentum}}$"></B></SPAN> the solution <!-- MATH
+ $\boldsymbol{v}^*$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1799.png"
+ ALT="$ \boldsymbol{v}^*$"></B></SPAN> is
+calculated by blending <!-- MATH
+ $\boldsymbol{v} ^{(m-1)}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="52" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1800.png"
+ ALT="$ \boldsymbol{v} ^{(m-1)} $"></B></SPAN> (20 %) with
+<!-- MATH
+ $\boldsymbol{v}^{\text{momentum}}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="76" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1798.png"
+ ALT="$ \boldsymbol{v}^{\text{momentum}}$"></B></SPAN> (80 %). This is called underrelaxation
+and is needed to ensure stability in the SIMPLE scheme (the specifics of this
+scheme will be discussed when treating the conservation of
+mass). For the SIMPLE scheme underrelaxation is needed for all conservation
+equations: for the conservation of momentum, temperature, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img353.png"
+ ALT="$ k$"></B></SPAN> and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img97.png"
+ ALT="$ \omega$"></B></SPAN> in
+the above blend, for the conservation of mass using the inverse blend, i.e. 20
+% of the new solution combined with 80 % of the old solution. For the
+SIMPLEC scheme (also discussed further along the line) no underrelaxation is needed.  
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

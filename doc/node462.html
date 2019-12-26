@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
+<HTML>
+<HEAD>
+<TITLE>Nodal fields</TITLE>
+<META NAME="description" CONTENT="Nodal fields">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node463.html">
+<LINK REL="previous" HREF="node461.html">
+<LINK REL="up" HREF="node461.html">
+<LINK REL="next" HREF="node463.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html7157"
+  HREF="node463.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html7153"
+  HREF="node461.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html7147"
+  HREF="node461.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html7155"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html7158"
+  HREF="node463.html">Edge fields</A>
+<B> Up:</B> <A NAME="tex2html7154"
+  HREF="node461.html">Mesh refinement</A>
+<B> Previous:</B> <A NAME="tex2html7148"
+  HREF="node461.html">Mesh refinement</A>
+ &nbsp; <B>  <A NAME="tex2html7156"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION0001211100000000000000">
+Nodal fields</A>
+</H3>
+
+<P>
+The primary nodal field is cotet(3,*), which contains the actual coordinates
+of the mesh. This includes the coordinates of these parts of the mesh which
+are not meshed by tetrahedral elements. During the refinement only nodes are
+created, existing nodes are not deleted. The actual maximum node number is
+nktet, the actual nodal allocation size is nktet_. Both numbers change during
+the refinement.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="tnodes"></A><A NAME="16142"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 188:</STRONG>
+Nodal fields</CAPTION>
+<TR><TD><IMG
+ WIDTH="450" HEIGHT="283" BORDER="0"
+ SRC="img2537.png"
+ ALT="\begin{figure}\epsfig{file=nodes.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+iexternnode(*) is a nodal field which indicates whether the node is on the
+surface (value 1) or internal (value 0). The field h(*) specifies the desired
+edge length at each node. Both these fields change dynamically during the
+refinement. The structure of fields cotet(3,*), iexternnode(*) and h(*) is
+illustrated in Figure <A HREF="#tnodes">188</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="ieln"></A><A NAME="16143"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 189:</STRONG>
+Element per node relationship</CAPTION>
+<TR><TD><IMG
+ WIDTH="443" HEIGHT="356" BORDER="0"
+ SRC="img2538.png"
+ ALT="\begin{figure}\epsfig{file=ieln.eps,width=10cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Finally, the fields ipoeln and ieln are used to specify the elements
+containing a specific node (Figure <A HREF="#ieln">189</A>). For a node i the value
+ipoeln(i) points to an entry ieln(1,ipoeln(i)) containing an element to which
+the node belongs. If there are more such elements, the next element is stored
+in ieln(1,ieln(2,ipoeln(i))) and so on until
+ieln(2,ieln(2,ieln(2...,ipoeln(i))))=0. At any time during the scalar ifreeln contains the next
+free position in ieln, whereas the entry ieln(2,j) for any not used position j
+in the field points to a next free position. 
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html7157"
+  HREF="node463.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html7153"
+  HREF="node461.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html7147"
+  HREF="node461.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html7155"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html7158"
+  HREF="node463.html">Edge fields</A>
+<B> Up:</B> <A NAME="tex2html7154"
+  HREF="node461.html">Mesh refinement</A>
+<B> Previous:</B> <A NAME="tex2html7148"
+  HREF="node461.html">Mesh refinement</A>
+ &nbsp; <B>  <A NAME="tex2html7156"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

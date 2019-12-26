@@ -1,338 +1,308 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Acoustics</TITLE>
-<META NAME="description" CONTENT="Acoustics">
+<TITLE>Heat transfer</TITLE>
+<META NAME="description" CONTENT="Heat transfer">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node169.html">
 <LINK REL="previous" HREF="node167.html">
-<LINK REL="up" HREF="node159.html">
+<LINK REL="up" HREF="node160.html">
 <LINK REL="next" HREF="node169.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3205"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3268"
   HREF="node169.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3201"
-  HREF="node159.html">
+<A NAME="tex2html3264"
+  HREF="node160.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3195"
+<A NAME="tex2html3258"
   HREF="node167.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3203"
+<A NAME="tex2html3266"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3206"
-  HREF="node169.html">Shallow water motion</A>
-<B> Up:</B> <A NAME="tex2html3202"
-  HREF="node159.html">Types of analysis</A>
-<B> Previous:</B> <A NAME="tex2html3196"
-  HREF="node167.html">Heat transfer</A>
- &nbsp; <B>  <A NAME="tex2html3204"
+<B> Next:</B> <A NAME="tex2html3269"
+  HREF="node169.html">Acoustics</A>
+<B> Up:</B> <A NAME="tex2html3265"
+  HREF="node160.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3259"
+  HREF="node167.html">Direct integration dynamic analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3267"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00079900000000000000">
-Acoustics</A>
+<H3><A NAME="SECTION00079800000000000000">
+Heat transfer</A>
 </H3>
 
 <P>
-Linear acoustic calculations in gas are very similar to heat transfer
-calculations. Indeed, the pressure variation in a space with uniform basis pressure <B><IMG
- WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img123.png"
- ALT="$ p_0$"></B> and
-density <B><IMG
- WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img998.png"
- ALT="$ \rho_0$"></B> (and consequently uniform temperature <B><IMG
- WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1174.png"
- ALT="$ T_0$"></B> due to the gas law) satisfies
+In a heat transfer analysis, triggered by the <A HREF="node311.html#heattransfer">*HEAT
+  TRANSFER</A>  procedure card, the temperature is the independent degree of
+freedom. In essence, the energy equation is solved subject to temperature and
+flux boundary conditions ([<A
+ HREF="node487.html#Dhondt">19</A>]). For steady-state calculations it
+leads to a Laplace-type equation.
+
+<P>
+The governing equation for heat transfer reads
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><A NAME="waveeq"></A><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
-\nabla \cdot (- \boldsymbol{I} \cdot \nabla{p}) + \frac{1}{c_0^2} \ddot{p} = -
-\rho_0 \nabla \cdot
-\boldsymbol{f},
+\nabla \cdot (- \boldsymbol{\kappa} \cdot \nabla{T}) + \rho c \dot{T} = \rho h
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="230" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
- SRC="img1180.png"
- ALT="$\displaystyle \nabla \cdot (- \boldsymbol{I} \cdot \nabla{p}) + \frac{1}{c_0^2} \ddot{p} = - \rho_0 \nabla \cdot \boldsymbol{f},$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(311)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="185" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1228.png"
+ ALT="$\displaystyle \nabla \cdot (- \boldsymbol{\kappa} \cdot \nabla{T}) + \rho c \dot{T} = \rho h$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">339</SPAN>)</TD></TR>
 </TABLE></DIV>
-<BR CLEAR="ALL"><P></P> 
+<BR CLEAR="ALL"><P></P>
 
 <P>
 where <!-- MATH
- $\boldsymbol{ I}$
+ $\boldsymbol{\kappa}$
  -->
-<B><IMG
- WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img1181.png"
- ALT="$ \boldsymbol{ I}$"></B> is the second order unit tensor (or, for simplicity,
-unit matrix) and <B><IMG
- WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img763.png"
- ALT="$ c_0$"></B> is the speed of sound satisfying:
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1229.png"
+ ALT="$ \boldsymbol{\kappa}$"></B></SPAN> contains the conduction coefficients, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B></SPAN> is the
+density, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img716.png"
+ ALT="$ h$"></B></SPAN> the heat generation per unit of mass and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1230.png"
+ ALT="$ c$"></B></SPAN> is the specific
+heat.
+
+<P>
+The temperature can be defined using the <A HREF="node248.html#boundary">*BOUNDARY</A> card
+using degree of freedom 11. Flux type boundary conditions can consist of any
+combination of the following:
+
+<P>
+
+<OL>
+<LI>Concentrated flux, applied to nodes, using the <A HREF="node255.html#cflux">*CFLUX</A>
+  card (degree of freedom 11)
+</LI>
+<LI>Distributed flux, applied to surfaces or volumes, using the
+  <A HREF="node283.html#dflux">*DFLUX</A> card
+</LI>
+<LI>Convective flux defined by a <A HREF="node300.html#film">*FILM</A> card. It satisfies
+  the equation
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
-c_0=\sqrt{ \gamma R T_0}.
+q = h(T-T_0)
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="98" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
- SRC="img1182.png"
- ALT="$\displaystyle c_0=\sqrt{ \gamma R T_0}.$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(312)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="102" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1231.png"
+ ALT="$\displaystyle q = h(T-T_0)$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">340</SPAN>)</TD></TR>
 </TABLE></DIV>
 <BR CLEAR="ALL"><P></P>
 
 <P>
-<B><IMG
- WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img783.png"
- ALT="$ \gamma$"></B> is the ratio of the heat capacity at constant pressure divided by the
-heat capacity at constant volume (<!-- MATH
- $\gamma=1.4$
- -->
-<B><IMG
- WIDTH="55" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1183.png"
- ALT="$ \gamma=1.4$"></B> for normal air), <B><IMG
- WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img306.png"
- ALT="$ R$"></B> is the
-specific gas constant (<!-- MATH
- $R=287 J/(kg K)$
- -->
-<B><IMG
- WIDTH="123" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1184.png"
- ALT="$ R=287 J/(kg K)$"></B> for normal air) and <B><IMG
- WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1174.png"
- ALT="$ T_0$"></B> is the
-absolute basis temperature (in K). Furthermore, the balance of momentum reduces to:
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-\nabla{p}=\rho_0 ( \boldsymbol{ f} - \boldsymbol{ a}).
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="119" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1185.png"
- ALT="$\displaystyle \nabla{p}=\rho_0 ( \boldsymbol{ f} - \boldsymbol{ a}).$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(313)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-For details, the reader is referred to [<A
- HREF="node448.html#Eringen">20</A>] and
-[<A
- HREF="node448.html#Anderson">2</A>]. Equation&nbsp;(<A HREF="#waveeq">311</A>) is the well-known wave
-equation. By comparison with the heat equation, the correspondence in Table
-&nbsp;(<A HREF="#t1">9</A>) arises. 
-
-<P>
-<BR><P></P>
-<DIV ALIGN="CENTER">
-
-<DIV ALIGN="CENTER">
-<A NAME="12412"></A>
-<TABLE CELLPADDING=3 BORDER="1">
-<CAPTION><STRONG>Table 9:</STRONG>
-Correspondence between the heat equation and the gas momentum equation.</CAPTION>
-<TR><TD ALIGN="CENTER">heat quantity</TD>
-<TD ALIGN="CENTER">gas quantity</TD>
-</TR>
-<TR><TD ALIGN="CENTER">T</TD>
-<TD ALIGN="CENTER">p</TD>
-</TR>
-<TR><TD ALIGN="CENTER"><!-- MATH
- $\boldsymbol{ q}$
- -->
-<B><IMG
- WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img717.png"
- ALT="$ \boldsymbol{q}$"></B></TD>
-<TD ALIGN="CENTER"><!-- MATH
- $\rho_0 (\boldsymbol{ a} - \boldsymbol{ f})$
- -->
-<B><IMG
- WIDTH="73" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1186.png"
- ALT="$ \rho_0 (\boldsymbol{ a} - \boldsymbol{ f})$"></B></TD>
-</TR>
-<TR><TD ALIGN="CENTER"><B><IMG
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="11" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img331.png"
+ ALT="$ q$"></B></SPAN> is the a flux normal to the surface, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img716.png"
+ ALT="$ h$"></B></SPAN> is the film coefficient, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="15" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img354.png"
+ ALT="$ T$"></B></SPAN> is
+the body temperature and <SPAN CLASS="MATH"><B><IMG
  WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1187.png"
- ALT="$ q_n$"></B></TD>
-<TD ALIGN="CENTER"><!-- MATH
- $\rho_0 ( a_n - f_n)$
- -->
-<B><IMG
- WIDTH="85" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1188.png"
- ALT="$ \rho_0 ( a_n - f_n)$"></B></TD>
-</TR>
-<TR><TD ALIGN="CENTER"><!-- MATH
- $\boldsymbol{ \kappa }$
- -->
-<B><IMG
- WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1171.png"
- ALT="$ \boldsymbol{\kappa}$"></B></TD>
-<TD ALIGN="CENTER"><!-- MATH
- $\boldsymbol{ I}$
- -->
-<B><IMG
- WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img1181.png"
- ALT="$ \boldsymbol{ I}$"></B></TD>
-</TR>
-<TR><TD ALIGN="CENTER"><B><IMG
- WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1189.png"
- ALT="$ \rho h$"></B></TD>
-<TD ALIGN="CENTER"><!-- MATH
- $- \rho_0 \nabla \cdot \boldsymbol{ f}$
- -->
-<B><IMG
- WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1190.png"
- ALT="$ - \rho_0 \nabla \cdot \boldsymbol{ f}$"></B></TD>
-</TR>
-<TR><TD ALIGN="CENTER"><B><IMG
- WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1191.png"
- ALT="$ \rho c$"></B></TD>
-<TD ALIGN="CENTER"><!-- MATH
- $\frac{ 1}{c_0^2}$
- -->
-<B><IMG
- WIDTH="20" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1192.png"
- ALT="$ \frac{ 1}{c_0^2}$"></B></TD>
-</TR>
-</TABLE>
-</DIV>
-</DIV>
-<BR>
+ SRC="img1232.png"
+ ALT="$ T_0$"></B></SPAN> is the environment temperature (also called
+sink temperature). CalculiX can also be used for forced convection
+calculations, in which the sink temperature is an unknown too. This applied to
+all kinds of surfaces cooled by fluids or gases.
 
 <P>
-Notice, however, that the time derivative in the heat equation is first order,
-in the gas momentum equation it is second order. This means that the transient
-heat transfer capability in CalculiX can NOT be used for the gas
-equation. However, the frequency option can be used and the resulting
-eigenmodes can be taken for a subsequent modal dynamic or steady state
-dynamics analysis. Recall that
-the governing equation for solids also has a second order time derivative
-([<A
- HREF="node448.html#Dhondt">18</A>]).
-
-<P>
-For the driving terms one obtains:
+</LI>
+<LI>Radiative flux defined by a <A HREF="node342.html#radiate">*RADIATE</A> card. The
+  equation reads
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
-\int_ A \rho_0 ( a_n -f_n) d A - \int_ V \rho_0 \nabla \cdot \boldsymbol{ f}
-dV = \int_A \rho_0 a_n dA,
+q = \epsilon (\theta^4-\theta_0^4)
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="341" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
- SRC="img1193.png"
- ALT="$\displaystyle \int_ A \rho_0 ( a_n -f_n) d A - \int_ V \rho_0 \nabla \cdot \boldsymbol{ f} dV = \int_A \rho_0 a_n dA,$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(314)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="101" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1233.png"
+ ALT="$\displaystyle q = \epsilon (\theta^4-\theta_0^4)$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">341</SPAN>)</TD></TR>
 </TABLE></DIV>
 <BR CLEAR="ALL"><P></P>
 
 <P>
-which means that the equivalent of the normal heat flux at the boundary is the
-basis density multiplied with the acceleration. Consequently, at the boundary
-either the pressure must be known or the acceleration.
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="11" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img331.png"
+ ALT="$ q$"></B></SPAN> is a flux normal to the surface, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></B></SPAN> is the emissivity,
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img178.png"
+ ALT="$ \theta$"></B></SPAN> is the absolute body temperature (Kelvin) and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1234.png"
+ ALT="$ \theta_0$"></B></SPAN> is the
+absolute environment temperature (also called sink temperature). The
+emissivity takes values between 0 and 1. A zero value applied to a body with
+no absorption nor emission and 100 <SPAN CLASS="MATH"><B><IMG
+ WIDTH="17" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1235.png"
+ ALT="$ \%$"></B></SPAN> reflection. A value of 1 applies to a
+black body. The radiation is assumed to be diffuse (independent of the
+direction of emission) and gray (independent of the emitted wave
+length). CalculiX can also be used for cavity radiation, simulating the
+radiation interaction of several surfaces. In that case, the viewfactors are
+calculated, see also [<A
+ HREF="node487.html#Incropera">35</A>] for the fundamentals of heat transfer
+and [<A
+ HREF="node487.html#Ashdown">6</A>] for the calculation of viewfactors.
 
 <P>
-<HR>
+The calculation of viewfactors involves the solution of a four-fold
+integral. By using analytical formulas derived by Lambert this integral can be
+reduced to a two-fold integral. This is applied in CalculiX right now: the
+interacting surfaces are triangulated and the viewfactor between two triangles
+is calculated by taking a one-point integration for the base triangle (in the
+center of gravity) and the analytical formula for the integration over the
+other triangles covering a hemisphere about the base triangle. One can switch
+to a more accurate integration over the base triangle by increasing the
+variable &ldquo;factor&rdquo; in subroutine radmatrix, look at the comments in that
+subroutine. This, however, will increase the computational time.
+
+<P>
+</LI>
+</OL>
+
+<P>
+For a heat transfer analysis the conductivity coefficients of the material are
+needed (using the <A HREF="node264.html#conductivity">*CONDUCTIVITY</A> card) and for
+transient calculations the heat capacity (using the 
+<A HREF="node353.html#specificheat">*SPECIFIC HEAT</A> card). Furthermore, for radiation boundary conditions
+the <A HREF="node339.html#physicalconstants">*PHYSICAL CONSTANTS</A> card is needed,
+specifying absolute zero in the user's temperature scale and the Boltzmann
+constant. 
+
+<P>
+Notice that a phase transition can be modeled by a local sharp maximum of the
+specific heat. The energy <SPAN CLASS="MATH"><B><IMG
+ WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img462.png"
+ ALT="$ U$"></B></SPAN> per unit of mass needed to complete the phase
+transition satisfies
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+U = \int_{T_0}^{T_1} C dT,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="106" HEIGHT="59" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1236.png"
+ ALT="$\displaystyle U = \int_{T_0}^{T_1} C dT,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">342</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img738.png"
+ ALT="$ C$"></B></SPAN> is the specific heat and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="53" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1237.png"
+ ALT="$ [T_0,T_1]$"></B></SPAN> is the temperature interval
+within which the phase transition takes place.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html3205"
+<A NAME="tex2html3268"
   HREF="node169.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3201"
-  HREF="node159.html">
+<A NAME="tex2html3264"
+  HREF="node160.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3195"
+<A NAME="tex2html3258"
   HREF="node167.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3203"
+<A NAME="tex2html3266"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3206"
-  HREF="node169.html">Shallow water motion</A>
-<B> Up:</B> <A NAME="tex2html3202"
-  HREF="node159.html">Types of analysis</A>
-<B> Previous:</B> <A NAME="tex2html3196"
-  HREF="node167.html">Heat transfer</A>
- &nbsp; <B>  <A NAME="tex2html3204"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html3269"
+  HREF="node169.html">Acoustics</A>
+<B> Up:</B> <A NAME="tex2html3265"
+  HREF="node160.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3259"
+  HREF="node167.html">Direct integration dynamic analysis</A>
+ &nbsp; <B>  <A NAME="tex2html3267"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

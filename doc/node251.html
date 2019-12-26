@@ -1,73 +1,62 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*ELECTRICAL CONDUCTIVITY</TITLE>
-<META NAME="description" CONTENT="*ELECTRICAL CONDUCTIVITY">
+<TITLE>Submodel</TITLE>
+<META NAME="description" CONTENT="Submodel">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node252.html">
 <LINK REL="previous" HREF="node250.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node248.html">
 <LINK REL="next" HREF="node252.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4340"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4456"
   HREF="node252.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4336"
-  HREF="node205.html">
+<A NAME="tex2html4452"
+  HREF="node248.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4330"
+<A NAME="tex2html4448"
   HREF="node250.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4338"
+<A NAME="tex2html4454"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4341"
-  HREF="node252.html">*ELECTROMAGNETICS</A>
-<B> Up:</B> <A NAME="tex2html4337"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4331"
-  HREF="node250.html">*ELASTIC</A>
- &nbsp; <B>  <A NAME="tex2html4339"
+<B> Next:</B> <A NAME="tex2html4457"
+  HREF="node252.html">*BOUNDARYF</A>
+<B> Up:</B> <A NAME="tex2html4453"
+  HREF="node248.html">*BOUNDARY</A>
+<B> Previous:</B> <A NAME="tex2html4449"
+  HREF="node250.html">Inhomogeneous Conditions</A>
+ &nbsp; <B>  <A NAME="tex2html4455"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000843000000000000000"></A><A NAME="electricalconductivity"></A>
-<BR>
-*ELECTRICAL CONDUCTIVITY
-</H2>
+<H3><A NAME="SECTION00094300000000000000">
+Submodel</A>
+</H3>
 
 <P>
-Keyword type: model definition, material
-
-<P>
-This option is used to define the electrical conductivity of a
-material. There are no parameters. The material is supposed to be isotropic. The constant may be temperature
-dependent. The unit of the electrical conductivity coefficient is one divided
-by the unit of resistivity (in SI-units: ohm) times the unit of length.
+Submodel conditions can be defined between a *STEP card and an *END STEP card only. 
 
 <P><P>
 <BR>
@@ -76,7 +65,9 @@ by the unit of resistivity (in SI-units: ohm) times the unit of length.
 First line:
 
 <UL>
-<LI>*ELECTRICAL CONDUCTIVITY
+<LI>*BOUNDARY,SUBMODEL
+</LI>
+<LI>use the STEP or DATA SET parameter to specify the step or mode in the global model
 </LI>
 </UL>
 
@@ -84,39 +75,35 @@ First line:
 Following line:
 
 <UL>
-<LI><B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1010.png"
- ALT="$ \sigma$"></B>.
+<LI>Node number or node set label
 </LI>
-<LI>Temperature.
+<LI>First degree of freedom to be interpolated from the global model
+</LI>
+<LI>Last degree of freedom to be interpolated from the global model
 </LI>
 </UL>
-Repeat this line if needed to define complete temperature dependence.
+Repeat this line if needed.
 
 <P>
 <PRE>
 Example:
 
-*ELECTRICAL CONDUCTIVITY
-5.96E7
+*BOUNDARY,SUBMODEL
+73,1,3
 </PRE>
 
 <P>
-tells you that the electrical conductivity coefficient is 5.96E7, independent
-of temperature (if SI-units are used this is the electrical conductivity of copper).
+specifies that all displacements in node 73 should be obtained by
+interpolation from the global model. 
 
 <P>
 
 <P><P>
 <BR>
-Example files: induction.
+Example files: .
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

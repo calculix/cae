@@ -1,84 +1,114 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*SELECT CYCLIC SYMMETRY MODES</TITLE>
-<META NAME="description" CONTENT="*SELECT CYCLIC SYMMETRY MODES">
+<TITLE>*GREEN</TITLE>
+<META NAME="description" CONTENT="*GREEN">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node310.html">
 <LINK REL="previous" HREF="node308.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node310.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5036"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5152"
   HREF="node310.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5032"
-  HREF="node205.html">
+<A NAME="tex2html5148"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5026"
+<A NAME="tex2html5142"
   HREF="node308.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5034"
+<A NAME="tex2html5150"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5037"
-  HREF="node310.html">*SENSITIVITY</A>
-<B> Up:</B> <A NAME="tex2html5033"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5027"
-  HREF="node308.html">*SECTION PRINT</A>
- &nbsp; <B>  <A NAME="tex2html5035"
+<B> Next:</B> <A NAME="tex2html5153"
+  HREF="node310.html">*HEADING</A>
+<B> Up:</B> <A NAME="tex2html5149"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5143"
+  HREF="node308.html">*GAP HEAT GENERATION</A>
+ &nbsp; <B>  <A NAME="tex2html5151"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION0008101000000000000000"></A><A NAME="selectcyclicsymmetrymodes"></A>
+<H2><A NAME="SECTION000962000000000000000"></A><A NAME="green"></A>
 <BR>
-*SELECT CYCLIC SYMMETRY MODES
+*GREEN
 </H2>
 
 <P>
 Keyword type: step
 
 <P>
-This option is used to trigger an eigenmode analysis for cyclic symmetric structures. It must be preceded by a *FREQUENCY card. There are two optional parameters NMIN, NMAX. NMIN is the lowest cyclic symmetry mode number (also called nodal diameter)to be considered (default 0), NMAX is the highest cyclic symmetry mode number (default N/2 for N even and (N+1)/2 for N odd, where N is the number of sectors on the <A HREF="node237.html#cyclicsymmetrymodel">*CYCLIC SYMMETRY MODEL</A> card. 
+This procedure is used to calculate the Green function due to unit forces at
+specific nodes in specific global directions. The Green functions are
+calculated for each unit force separately. The unit forces are defined by a
+<A HREF="node262.html#cload">*CLOAD</A> card (the force value specified by the user is
+immaterial, a unit force is taken). For details the user is referred to Section <A HREF="node183.html#greenfunctions">6.9.23</A>.
 
 <P>
-For models containing the axis of cyclic symmetry (e.g. a full disk), the nodes on the symmetry axis are treated differently depending on whether the cyclic symmetry mode number is 0, 1 or exceeds 1. Therefore, for such structures calculations for cyclic symmetry mode numbers 0 or 1 must be performed in separate steps with NMIN=0,NMAX=0 and NMIN=1,NMAX=1, respectively.
+There are two optional parameters: SOLVER and STORAGE. SOLVER specifies which solver is used to perform a
+decomposition of the linear equation system. This decomposition is done only
+once. It is repeatedly used in determining all Green functions. The following solvers
+can be selected:
+
+<P>
+
+<UL>
+<LI>the SGI solver
+</LI>
+<LI>PARDISO
+</LI>
+<LI>SPOOLES [<A
+ HREF="node487.html#Ashcraft1">3</A>,<A
+ HREF="node487.html#Ashcraft2">4</A>]. 
+</LI>
+<LI>TAUCS 
+</LI>
+</UL>
+
+<P>
+Default is the first solver which has been installed of the following list:
+SGI, PARDISO, SPOOLES and TAUCS. If none is installed, a Green function calculation is not
+possible.
+
+<P>
+The parameter STORAGE indicates whether the scalar frequencies, Green functions, mass and
+stiffness matrix should be stored in binary form in file jobname.eig for
+further use in a *SENSITIVITY procedure. Default
+is STORAGE=NO. Specify STORAGE=YES if storage is requested.
 
 <P><P>
 <BR>
 
 <P>
-First and only line:
+First line:
 
 <UL>
-<LI>*SELECT CYCLIC SYMMETRY MODES
+<LI>*GREEN
 </LI>
-<LI>Enter the parameters NMIN and NMAX and their values, if appropriate.
+<LI>Enter SOLVER, if needed, and its value.
 </LI>
 </UL>
 
@@ -86,50 +116,50 @@ First and only line:
 <PRE>
 Example:
 
-*SELECT CYCLIC SYMMETRY MODES, NMIN=2, NMAX=4
+*GREEN,SOLVER=PARDISO
 </PRE>
 
 <P>
-triggers a cyclic symmetry calculation for mode numbers 2 up to and including 4.
+defines a Green function step and selects the PARDISO solver as
+linear equation solver. For this to work, the PARDISO solver must
+have been linked with CalculiX.
 
 <P>
 
 <P><P>
 <BR>
-Example files: segment, fullseg.
+Example files: green1.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html5036"
+<A NAME="tex2html5152"
   HREF="node310.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5032"
-  HREF="node205.html">
+<A NAME="tex2html5148"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5026"
+<A NAME="tex2html5142"
   HREF="node308.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5034"
+<A NAME="tex2html5150"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5037"
-  HREF="node310.html">*SENSITIVITY</A>
-<B> Up:</B> <A NAME="tex2html5033"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5027"
-  HREF="node308.html">*SECTION PRINT</A>
- &nbsp; <B>  <A NAME="tex2html5035"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html5153"
+  HREF="node310.html">*HEADING</A>
+<B> Up:</B> <A NAME="tex2html5149"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5143"
+  HREF="node308.html">*GAP HEAT GENERATION</A>
+ &nbsp; <B>  <A NAME="tex2html5151"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

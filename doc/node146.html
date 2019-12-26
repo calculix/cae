@@ -1,239 +1,309 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Linear elastic materials for rotation-insensitive small strains</TITLE>
-<META NAME="description" CONTENT="Linear elastic materials for rotation-insensitive small strains">
+<TITLE>Linear elastic materials for large strains (Ciarlet model)</TITLE>
+<META NAME="description" CONTENT="Linear elastic materials for large strains (Ciarlet model)">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node147.html">
 <LINK REL="previous" HREF="node145.html">
-<LINK REL="up" HREF="node143.html">
+<LINK REL="up" HREF="node144.html">
 <LINK REL="next" HREF="node147.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html2920"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html2983"
   HREF="node147.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2916"
-  HREF="node143.html">
+<A NAME="tex2html2979"
+  HREF="node144.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2910"
+<A NAME="tex2html2973"
   HREF="node145.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2918"
+<A NAME="tex2html2981"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2921"
-  HREF="node147.html">Ideal gas for quasi-static</A>
-<B> Up:</B> <A NAME="tex2html2917"
-  HREF="node143.html">Materials</A>
-<B> Previous:</B> <A NAME="tex2html2911"
-  HREF="node145.html">Linear elastic materials for</A>
- &nbsp; <B>  <A NAME="tex2html2919"
+<B> Next:</B> <A NAME="tex2html2984"
+  HREF="node147.html">Linear elastic materials for</A>
+<B> Up:</B> <A NAME="tex2html2980"
+  HREF="node144.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2974"
+  HREF="node145.html">Linear elastic materials</A>
+ &nbsp; <B>  <A NAME="tex2html2982"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00078300000000000000">
-Linear elastic materials for rotation-insensitive small
-  strains</A>
+<H3><A NAME="SECTION00078200000000000000">
+Linear elastic materials for large strains (Ciarlet model)</A>
 </H3>
 
 <P>
-This is a material formulation for very special applications. Small strains
-(i.e. linearized strains) are large rotation sensitive, i.e. they become
-nonzero if you apply a large rigid body rotation to a structure (cf
-[<A
- HREF="node448.html#Dhondt">18</A>]).
-
-<P>
-The Lagrange strain tensor satisfies:
+In [<A
+ HREF="node487.html#Dhondt">19</A>] it is explained that substituting the infinitesimal strains
+in the classical Hooke law by the Lagrangian strain and the stress by the
+Piola-Kirchoff stress of the second kind does not lead to a
+physically sensible material law. In particular, such a model (also called
+St-Venant-Kirchoff material) does not exhibit large stresses when compressing
+the volume of the material to nearly zero. An alternative for isotropic
+materials is the following
+stored-energy function developed by Ciarlet [<A
+ HREF="node487.html#Ciarlet">17</A>] (<SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$ \mu$"></SPAN> and
+<SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></SPAN> are Lam&#233;'s constants):
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
-2 \boldmath {E}={\boldmath {F}}^T{\boldmath {F}}-\boldmath {I},
+\Sigma = \frac{\lambda}{4}(III_C - \ln III_C -1) + \frac{\mu }{4}(I_C - \ln
+III_C -3).
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="126" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
- SRC="img988.png"
- ALT="$\displaystyle 2 \boldmath {E}={\boldmath {F}}^T{\boldmath {F}}-\boldmath {I},$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(257)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="357" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1020.png"
+ ALT="$\displaystyle \Sigma = \frac{\lambda}{4}(III_C - \ln III_C -1) + \frac{\mu }{4}(I_C - \ln III_C -3).$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">277</SPAN>)</TD></TR>
 </TABLE></DIV>
 <BR CLEAR="ALL"><P></P>
 
 <P>
-which can also be written as:
+The stress-strain relation amounts to (<!-- MATH
+ $\boldsymbol{S}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1021.png"
+ ALT="$ \boldsymbol{S}$"></SPAN> is the Piola-Kirchoff
+stress of the second kind) :
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
-2 \boldmath {E}={(\boldmath {F}-\boldmath {I})}^T + {(\boldmath {F}-\boldmath {I})}+{(\boldmath {F}-\boldmath {I})}^T{(\boldmath {F}-\boldmath {I})}.
+\boldsymbol{S}=  \frac{\lambda}{2}(\text{det} \boldsymbol{C} -1)
+\boldsymbol{C^{-1}} + \mu (\boldsymbol{I}-\boldsymbol{C^{-1}}) ,
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="361" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
- SRC="img989.png"
- ALT="$\displaystyle 2 \boldmath {E}={(\boldmath {F}-\boldmath {I})}^T + {(\boldmath {...
-...oldmath {I})}+{(\boldmath {F}-\boldmath {I})}^T{(\boldmath {F}-\boldmath {I})}.$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(258)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="56" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1022.png"
+ ALT="$\displaystyle \boldsymbol{S}= \frac{\lambda}{2}($">det<IMG
+ WIDTH="193" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1023.png"
+ ALT="$\displaystyle \boldsymbol{C} -1) \boldsymbol{C^{-1}} + \mu (\boldsymbol{I}-\boldsymbol{C^{-1}}) ,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">278</SPAN>)</TD></TR>
 </TABLE></DIV>
 <BR CLEAR="ALL"><P></P>
 
 <P>
+and the derivative of <!-- MATH
+ $\boldsymbol{S}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1021.png"
+ ALT="$ \boldsymbol{S}$"></SPAN> with respect to the Green tensor
 <!-- MATH
- $\boldmath {F}$
+ $\boldsymbol{E}$
  -->
-<IMG
- WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img990.png"
- ALT="$ \boldmath {F}$"> is the deformation gradient and the expressions in parentheses
-are the gradient of the displacements. Linearizing, only the first two terms on
-the right hand side of the above equation are kept. This linearization,
-however, is not large-rotation insensitive. In order to create a
-rotation-insensitive linear strain, the deformation gradient is replaced by
-the right hand stretch tensor <!-- MATH
- $\boldmath {U}$
- -->
-<IMG
- WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img991.png"
- ALT="$ \boldmath {U}$"> (recall that
-<!-- MATH
- $\boldmath {F}=\boldmath {R}\boldmath {U}$
- -->
-<IMG
- WIDTH="63" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img992.png"
- ALT="$ \boldmath {F}=\boldmath {R}\boldmath {U}$">, where <!-- MATH
- $\boldmath {R}$
- -->
-<IMG
- WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img993.png"
- ALT="$ \boldmath {R}$"> is the rotation tensor):
+<SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1024.png"
+ ALT="$ \boldsymbol{E}$"></SPAN> reads (component notation):
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
-2 \boldmath {E}={(\boldmath {U}-\boldmath {I})}^T + {(\boldmath {U}-\boldmath {I})}.
+\frac{d S^{IJ} }{d E_{KL} }  = \lambda (\text{det} \boldsymbol{C})
+C^{{-1}^{KL}} C^{{-1}^{IJ}}+[2 \mu - \lambda (\text{det} \boldsymbol{C} -1)] C^{{-1}^{IK}} C^{{-1}^{LJ}}.
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="211" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
- SRC="img994.png"
- ALT="$\displaystyle 2 \boldmath {E}={(\boldmath {U}-\boldmath {I})}^T + {(\boldmath {U}-\boldmath {I})}.$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(259)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="85" HEIGHT="56" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1025.png"
+ ALT="$\displaystyle \frac{d S^{IJ} }{d E_{KL} } = \lambda ($">det<IMG
+ WIDTH="191" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1026.png"
+ ALT="$\displaystyle \boldsymbol{C}) C^{{-1}^{KL}} C^{{-1}^{IJ}}+[2 \mu - \lambda ($">det<IMG
+ WIDTH="151" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1027.png"
+ ALT="$\displaystyle \boldsymbol{C} -1)] C^{{-1}^{IK}} C^{{-1}^{LJ}}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">279</SPAN>)</TD></TR>
 </TABLE></DIV>
 <BR CLEAR="ALL"><P></P>
 
 <P>
-This strain is, although linear, large rotation insensitive. Now, what is this
-good for? In some applications (e.g. in linear elastic fracture mechanics) you
-need linear strains exhibiting the appropriate stress and strain
-singularities (e.g. at the crack tip). However, you would still like to include
-appications with large rotations. The above formulation takes care of exactly
-these requirements.
+This model was implemented into CalculiX by Sven Ka&#223;bohm. 
+The definition consists of a *MATERIAL card defining the name of
+the material. This name HAS TO START WITH &rdquo;CIARLET_EL&rdquo; but can be
+up to 80 characters long. Thus, the last 70 characters can be freely
+chosen by the user. Within the material definition a <A HREF="node371.html#usermaterial">*USER
+MATERIAL</A> card has to be used satisfying:
 
 <P>
-In order to apply this formulation in CalculiX, the user has to specify the
-parameter NLGEOM on the *STEP card. In those elements, in which
-rotation-insensitive linear strains should be used, the user has to replace
-the linear elastic isotropic material he/she would usually apply by the user
-material coded in routine umat_undo_nlgeom_lin_iso_el.f. To that end the
-user gives a new name to the material starting with
-UNDO_NLGEOM_LIN_ISO_EL. The constants of this user material are the
-Young's modulus and Poisson's coefficient of the original material. Suppose
-the original material formulation was:
+First line:
+
+<UL>
+<LI>*USER MATERIAL
+</LI>
+<LI>Enter the CONSTANTS parameter and its value, i.e. 2.
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<P>
+
+<P><P>
+<BR>
+
+<UL>
+<LI><SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1028.png"
+ ALT="$ E$"></SPAN> (Young's modulus).
+</LI>
+<LI><SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="$ \nu$"></SPAN> (Poisson's coefficient).
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+
+<P>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+For this model, there are no internal state variables.
 
 <P>
 <PRE>
-*MATERIAL,NAME=EL
-*ELASTIC
-210000.,.3
-</PRE>
+Example:
 
-<P>
-Then, the new material is defined by:
-
-<P>
-<PRE>
-*MATERIAL,NAME=UNDO_NLGEOM_LIN_ISO_ELx
+*MATERIAL,NAME=CIARLET_EL
 *USER MATERIAL,CONSTANTS=2
-210000.,.3
+210000.,.3,400.
 </PRE>
 
 <P>
-where x can be whatever character string preferred by the user, minimum 0
-characters, maximum 58 characters long. Only linear elastic isotropic
-materials are allowed so far.
+defines an isotropic material with elastic constants
+ <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1028.png"
+ ALT="$ E$"></SPAN>=210000.  and <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="$ \nu$"></SPAN>=0.3 for a temperature of 400 (units appropriately
+chosen by the user). Recall
+ that
 
 <P>
-<HR>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\mu= \frac{E}{2(1+\nu)}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="95" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1029.png"
+ ALT="$\displaystyle \mu= \frac{E}{2(1+\nu)}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">280</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+and
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\lambda=\frac{\nu E}{(1+\nu)(1-2 \nu)}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="148" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1030.png"
+ ALT="$\displaystyle \lambda=\frac{\nu E}{(1+\nu)(1-2 \nu)}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">281</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html2920"
+<A NAME="tex2html2983"
   HREF="node147.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2916"
-  HREF="node143.html">
+<A NAME="tex2html2979"
+  HREF="node144.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2910"
+<A NAME="tex2html2973"
   HREF="node145.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2918"
+<A NAME="tex2html2981"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2921"
-  HREF="node147.html">Ideal gas for quasi-static</A>
-<B> Up:</B> <A NAME="tex2html2917"
-  HREF="node143.html">Materials</A>
-<B> Previous:</B> <A NAME="tex2html2911"
-  HREF="node145.html">Linear elastic materials for</A>
- &nbsp; <B>  <A NAME="tex2html2919"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html2984"
+  HREF="node147.html">Linear elastic materials for</A>
+<B> Up:</B> <A NAME="tex2html2980"
+  HREF="node144.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html2974"
+  HREF="node145.html">Linear elastic materials</A>
+ &nbsp; <B>  <A NAME="tex2html2982"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

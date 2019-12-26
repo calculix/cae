@@ -1,100 +1,159 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Aerodynamic and hydraulic networks</TITLE>
-<META NAME="description" CONTENT="Aerodynamic and hydraulic networks">
+<TITLE>Programming rules.</TITLE>
+<META NAME="description" CONTENT="Programming rules.">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node417.html">
-<LINK REL="previous" HREF="node408.html">
-<LINK REL="up" HREF="node373.html">
+<LINK REL="next" HREF="node412.html">
+<LINK REL="previous" HREF="node375.html">
+<LINK REL="up" HREF="ccx.html">
 <LINK REL="next" HREF="node412.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6402"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6427"
   HREF="node412.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6398"
-  HREF="node373.html">
+<A NAME="tex2html6423"
+  HREF="ccx.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6392"
+<A NAME="tex2html6417"
   HREF="node410.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6400"
+<A NAME="tex2html6425"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6403"
-  HREF="node412.html">The variables and the</A>
-<B> Up:</B> <A NAME="tex2html6399"
-  HREF="node373.html">Program structure.</A>
-<B> Previous:</B> <A NAME="tex2html6393"
-  HREF="node410.html">results</A>
- &nbsp; <B>  <A NAME="tex2html6401"
+<B> Next:</B> <A NAME="tex2html6428"
+  HREF="node412.html">Program structure.</A>
+<B> Up:</B> <A NAME="tex2html6424"
+  HREF="ccx.html">CalculiX CrunchiX USER'S MANUAL</A>
+<B> Previous:</B> <A NAME="tex2html6418"
+  HREF="node410.html">Network element</A>
+ &nbsp; <B>  <A NAME="tex2html6426"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000118000000000000000">
-Aerodynamic and hydraulic networks</A>
-</H2>
+<H1><A NAME="SECTION000110000000000000000">
+Programming rules.</A>
+</H1>
 
 <P>
-Aerodynamic and hydraulic networks are solved separately from the structural
-equation system. This is because networks generally lead to small sets of
-equations (at most a couple of thousand equations) which are inherently
-asymmetric. If solved together with the structural system, the small network
-contribution would lead to a complete asymmetric matrix and increase the
-computational time significantly. Moreover, especially aerodynamic networks
-are very nonlinear and require more iterations than structural
-nonlinearities. Consequently, the small network contribution would also lead
-to a lot more iterations. Therefore, the matrices of networks are set up and
-solved on their own taking the structural solution from the previous
-structural iteration as boundary condition. In a similar way, the network
-solution acts as boundary condition for the next structural iteration.
+CalculiX CrunchiX is a mixture of FORTRAN77 (with elements from FORTRAN90) and
+C. C is primarily used for automatic allocation and reallocation
+purposes. FORTRAN is the first language I learned and I must admit that I'm
+still a FORTRAN addict. I use C where necessary, I avoid it where
+possible. Roughly
+speaking, the main routine and some of the routines called by main are in C,
+the others are in FORTRAN. This means that no C routine is called by a FORTRAN
+routine, a FORTRAN routine
+may be called by a C routine or a FORTRAN routine. There are NO commons in the
+code. All data transfer is through arguments of subroutine calls. All
+arguments are transferred by address, not value (there may be one or two
+exceptions on this rule in the code).
 
 <P>
-<BR><HR>
-<!--Table of Child-Links-->
-<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+In summary, the following programming rules apply:
 
 <UL>
-<LI><A NAME="tex2html6404"
-  HREF="node412.html">The variables and the equations</A>
-<LI><A NAME="tex2html6405"
-  HREF="node413.html">Determining the basic characteristics of the network</A>
-<LI><A NAME="tex2html6406"
-  HREF="node414.html">Initializing the unknowns</A>
-<LI><A NAME="tex2html6407"
-  HREF="node415.html">Calculating the residual and setting up the equation system</A>
-<LI><A NAME="tex2html6408"
-  HREF="node416.html">Convergence criteria</A>
+<LI>C calls C or FORTRAN, FORTRAN only calls FORTRAN
+</LI>
+<LI>Data transfer to subroutines is ALWAYS by address (not value). This
+  applies to the C-to-C data transfer and the C-to-FORTRAN transfer. The
+  reason for this rule is that FORTRAN always transfers by address.
+</LI>
+<LI>Subroutines should be written in lower case. Upper case variables or
+  mixed variables should not be used
+</LI>
+<LI>All FORTRAN routines are started with &ldquo;implicit none&rdquo;. For choosing
+  names of variables, however, you should stick to the &ldquo;implicit
+  real(a-h,o-z)&rdquo; rule, i.e. integers start by the letters i up to n, reals by
+  the letters a up to h and o up to z. Characters and logicals can start by
+  any character. This applies to C and FORTRAN.
+</LI>
+<LI>In C-routines only one-dimensional arrays or scalar should be defined
+  and used. More-dimensional arrays should not be used in C. This is because C
+  and FORTRAN store more-dimensional arrays in different ways. Therefore, I
+  prefer to limit the use of more-dimensional arrays to the FORTRAN routines.
+</LI>
+<LI>In FORTRAN, common statements should not be used.
+</LI>
+<LI>Avoid the transfer of logical variables from C to FORTRAN.
+</LI>
+<LI>For sections of the code which are parallellized (multithreading):
+
+<UL>
+<LI>avoid logical variables
+</LI>
+<LI>avoid internal read and write statements (use the ichar function instead)
+</LI>
+<LI>avoid external read and write statements
+</LI>
 </UL>
-<!--End of Table of Child-Links-->
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+</LI>
+</UL>
+
+<P>
+This set of rules grew out of my long-year experience with C and
+FORTRAN. These are personal preferences, and some of them are really useful in
+order to avoid different-to-trace programming errors. If you want to
+contribute to CalculiX, I expect you to adhere to these rules. 
+
+<P>
+Starting with version 2.8 the environment variable
+CCX_LOG_ALLOC has been introduced. If set to 1 (default is zero) one gets
+detailed information on all allocated, reallocated and deallocated fields
+during the executation of CalculiX. This may be particularly important during
+debugging of segmentation faults.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6427"
+  HREF="node412.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6423"
+  HREF="ccx.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6417"
+  HREF="node410.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6425"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6428"
+  HREF="node412.html">Program structure.</A>
+<B> Up:</B> <A NAME="tex2html6424"
+  HREF="ccx.html">CalculiX CrunchiX USER'S MANUAL</A>
+<B> Previous:</B> <A NAME="tex2html6418"
+  HREF="node410.html">Network element</A>
+ &nbsp; <B>  <A NAME="tex2html6426"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

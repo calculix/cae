@@ -1,130 +1,99 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Steady state dynamics calculations</TITLE>
-<META NAME="description" CONTENT="Steady state dynamics calculations">
+<TITLE>Maximum distance MPC.</TITLE>
+<META NAME="description" CONTENT="Maximum distance MPC.">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
+<LINK REL="next" HREF="node408.html">
 <LINK REL="previous" HREF="node406.html">
-<LINK REL="up" HREF="node401.html">
+<LINK REL="up" HREF="node405.html">
 <LINK REL="next" HREF="node408.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6354"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6384"
   HREF="node408.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6350"
-  HREF="node401.html">
+<A NAME="tex2html6380"
+  HREF="node405.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6346"
+<A NAME="tex2html6374"
   HREF="node406.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6352"
+<A NAME="tex2html6382"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6355"
-  HREF="node408.html">Major routines</A>
-<B> Up:</B> <A NAME="tex2html6351"
-  HREF="node401.html">Filling and solving the</A>
-<B> Previous:</B> <A NAME="tex2html6347"
-  HREF="node406.html">Modal dynamic calculations</A>
- &nbsp; <B>  <A NAME="tex2html6353"
+<B> Next:</B> <A NAME="tex2html6385"
+  HREF="node408.html">Network MPC.</A>
+<B> Up:</B> <A NAME="tex2html6381"
+  HREF="node405.html">User-defined nonlinear equations</A>
+<B> Previous:</B> <A NAME="tex2html6375"
+  HREF="node406.html">Mean rotation MPC.</A>
+ &nbsp; <B>  <A NAME="tex2html6383"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000116600000000000000">
-Steady state dynamics calculations</A>
+<H3><A NAME="SECTION000107200000000000000">
+Maximum distance MPC.</A>
 </H3>
 
 <P>
-For steady state dynamics calculations the steady state response of the system to a
-harmonic excitation is again assumed to be a
-linear combination of the lowest eigenmodes. To this end, the eigenvalues and
-eigenmodes must have been calculated, either in the same run, or in a previous
-run. At the end of a frequency calculation this data, including the stiffness
-and mass
-matrix, is stored in binary form in a .eig file, provided the STORAGE=YES
-option is activated on the *FREQUENCY or *HEAT TRANSFER,FREQUENCY card. This file is read at the
-beginning of file steadystate.c.
+This MPC is used to specify that the (Euclidean) distance between two nodes a and b must
+not exceed a given distance d. A fictitious node c must be defined using the
+<A HREF="node330.html#node">*NODE</A> card. The distance d should be assigned to the first coordinate
+of c, the other coordinates are arbitrary. The first DOF of c should be
+assigned a value of zero by means of a <A HREF="node248.html#boundary">*BOUNDARY</A> card. Since
+all DOFs of nodes a and b are used in the MPC, these nodes must be listed
+three times. Notice that due to this MPC discontinuities can arise.
 
 <P>
-In file steadystate.c the response is calculated in an explicit way, for details
-the reader is referred to [<A
- HREF="node448.html#Dhondt">18</A>]. Modal damping is allowed in the form
-of Rayleigh damping. Within file steadystate the following routines are used:
+<PRE>
+Example:
+
+*NODE
+262,7.200000,0.,0.
+*MPC
+DIST,129,129,129,10,10,10,262
+..
+*STEP
+*STATIC
+*BOUNDARY
+262,1,1,0.
+..
+*END STEP
+</PRE>
+
+<P>
+specifies a maximum distance MPC. The distance between nodes 129 and 10 is not
+allowed to exceed 7.2 units.
 
 <P>
 
-<UL>
-<LI>tempload, to calculate the instantaneous loading
-</LI>
-<LI>rhs, to determine the external force vector of the system
-</LI>
-<LI>results, to calculate all displacements, stresses and/or any other
-  variables selected by the user
-</LI>
-</UL>
-
-<P>
-Notice that if nonzero boundary conditions are prescribed (base loading, e.g
-for earthquake calculations) the stiffness matrix of the system is used to
-calculate the steady state response to these nonzero conditions. It serves as
-particular solution in the modal dynamic solution procedure.
-
-<P>
-<HR>
-<!--Navigation Panel-->
-<A NAME="tex2html6354"
-  HREF="node408.html">
-<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
- SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6350"
-  HREF="node401.html">
-<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
- SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6346"
-  HREF="node406.html">
-<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
- SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6352"
-  HREF="node1.html">
-<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
- SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<P><P>
 <BR>
-<B> Next:</B> <A NAME="tex2html6355"
-  HREF="node408.html">Major routines</A>
-<B> Up:</B> <A NAME="tex2html6351"
-  HREF="node401.html">Filling and solving the</A>
-<B> Previous:</B> <A NAME="tex2html6347"
-  HREF="node406.html">Modal dynamic calculations</A>
- &nbsp; <B>  <A NAME="tex2html6353"
-  HREF="node1.html">Contents</A></B> 
-<!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+Example file: dist.
+
+<P>
+<BR><HR>
+
 </BODY>
 </HTML>

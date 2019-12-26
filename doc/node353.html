@@ -1,112 +1,123 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Gap conductance (gapcon.f)</TITLE>
-<META NAME="description" CONTENT="Gap conductance (gapcon.f)">
+<TITLE>*SPECIFIC HEAT</TITLE>
+<META NAME="description" CONTENT="*SPECIFIC HEAT">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node354.html">
 <LINK REL="previous" HREF="node352.html">
-<LINK REL="up" HREF="node342.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node354.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5609"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5680"
   HREF="node354.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5605"
-  HREF="node342.html">
+<A NAME="tex2html5676"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5599"
+<A NAME="tex2html5670"
   HREF="node352.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5607"
+<A NAME="tex2html5678"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5610"
-  HREF="node354.html">Gap heat generation (fricheat.f)</A>
-<B> Up:</B> <A NAME="tex2html5606"
-  HREF="node342.html">User-defined loading</A>
-<B> Previous:</B> <A NAME="tex2html5600"
-  HREF="node352.html">Face loading (ufaceload.f)</A>
- &nbsp; <B>  <A NAME="tex2html5608"
+<B> Next:</B> <A NAME="tex2html5681"
+  HREF="node354.html">*SPRING</A>
+<B> Up:</B> <A NAME="tex2html5677"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5671"
+  HREF="node352.html">*SPECIFIC GAS CONSTANT</A>
+ &nbsp; <B>  <A NAME="tex2html5679"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000941100000000000000"></A><A NAME="usergapconductance"></A>
+<H2><A NAME="SECTION0009106000000000000000"></A><A NAME="specificheat"></A>
 <BR>
-Gap conductance (gapcon.f)
-</H3>
+*SPECIFIC HEAT
+</H2>
 
 <P>
-This subroutine is used to define the gap conductance across a contact pair
-(penalty contact only). cf <A HREF="node268.html#gapconductance">*GAP CONDUCTANCE</A>. The header and variable description is as
-follows:
+Keyword type: model definition, material
+
+<P>
+With this option the specific heat of a solid material can be defined. The
+specific heat is required for a transient heat transfer analysis
+(*HEAT TRANSFER or *COUPLED TEMPERATURE-DISPLACEMENT). The specific heat can
+be temperature dependent.
+
+<P>
+This option should not be used to define the specific heat of a fluid (gas or
+liquid) in an aerodynamic or fluid dynamic network. For the latter purpose the
+keyword <A HREF="node302.html#fluidconstants">*FLUID CONSTANTS</A> is available.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*SPECIFIC HEAT
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Specific heat.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
 
 <P>
 <PRE>
-      subroutine gapcon(ak,d,flowm,temp,predef,time,ciname,slname,
-     &amp;   msname,coords,noel,node,npred,kstep,kinc,area)
-!
-!     user subroutine gapcon
-!
-!
-!     INPUT:
-!
-!     d(1)               separation between the surfaces
-!     d(2)               pressure transmitted across the surfaces
-!     flowm              not used
-!     temp(1)            temperature at the slave node
-!     temp(2)            temperature at the corresponding master
-!                        position
-!     predef             not used
-!     time(1)            step time at the end of the increment
-!     time(2)            total time at the end of the increment
-!     ciname             surface interaction name
-!     slname             not used
-!     msname             not used
-!     coords(1..3)       coordinates of the slave node
-!     noel               element number of the contact spring element
-!     node               slave node number
-!     npred              not used
-!     kstep              step number
-!     kinc               increment number
-!     area               slave area
-!
-!     OUTPUT:
-!
-!     ak(1)              gap conductance
-!     ak(2..5)           not used
-!
+Example:
+
+*SPECIFIC HEAT
+446.E6
 </PRE>
 
 <P>
+defines a specific heat with value <!-- MATH
+ $446. \times 10^{6}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="74" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2352.png"
+ ALT="$ 446. \times 10^{6}$"></B></SPAN> for all temperatures.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamth, beamhtcr.
+
+<P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -79,6 +79,8 @@ Calculation result exported to Paraview:
 
 Both sources and binaries could be found on [the releases page](https://github.com/imirzov/ccx_cae/releases).
 
+Dear users, from now there will be no Windows binary since I'm not using this OS anymore.
+
 <br/><br/>
 
 

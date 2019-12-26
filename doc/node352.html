@@ -1,101 +1,169 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Face loading (ufaceload.f)</TITLE>
-<META NAME="description" CONTENT="Face loading (ufaceload.f)">
+<TITLE>*SPECIFIC GAS CONSTANT</TITLE>
+<META NAME="description" CONTENT="*SPECIFIC GAS CONSTANT">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node353.html">
 <LINK REL="previous" HREF="node351.html">
-<LINK REL="up" HREF="node342.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node353.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5597"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5668"
   HREF="node353.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5593"
-  HREF="node342.html">
+<A NAME="tex2html5664"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5587"
+<A NAME="tex2html5658"
   HREF="node351.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5595"
+<A NAME="tex2html5666"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5598"
-  HREF="node353.html">Gap conductance (gapcon.f)</A>
-<B> Up:</B> <A NAME="tex2html5594"
-  HREF="node342.html">User-defined loading</A>
-<B> Previous:</B> <A NAME="tex2html5588"
-  HREF="node351.html">Amplitude (uamplitude.f)</A>
- &nbsp; <B>  <A NAME="tex2html5596"
+<B> Next:</B> <A NAME="tex2html5669"
+  HREF="node353.html">*SPECIFIC HEAT</A>
+<B> Up:</B> <A NAME="tex2html5665"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5659"
+  HREF="node351.html">*SOLID SECTION</A>
+ &nbsp; <B>  <A NAME="tex2html5667"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000941000000000000000"></A><A NAME="userfaceload"></A>
+<H2><A NAME="SECTION0009105000000000000000"></A><A NAME="specificgasconstant"></A>
 <BR>
-Face loading (ufaceload.f)
-</H3>
+*SPECIFIC GAS CONSTANT
+</H2>
 
 <P>
-This routine is called at the beginning of each step and can be used to
-determine the area of faces on which loading is applied. In that way the flux
-through the face can be calculated and stored in an extra file. This can be
-beneficial for thermal calculations to check the heat flux due to convection
-and radiation.
+Keyword type: model definition, material
+
+<P>
+With this option the specific gas constant of a material can be defined. The
+specific gas constant is required for a calculation in which a gas dynamic
+network is included. The specific gas constant <SPAN CLASS="MATH"><B><IMG
+ WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img319.png"
+ ALT="$ R$"></B></SPAN> is defined as 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+R=\mathcal{R}/M
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="75" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2346.png"
+ ALT="$\displaystyle R=\mathcal{R}/M$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">759</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\mathcal{R}= 8314 \; \text{J}/(\text{kmol}\;\text{K})$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="75" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2347.png"
+ ALT="$ \mathcal{R}= 8314 \;$">&nbsp; &nbsp;J<IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2348.png"
+ ALT="$ /($">kmol<IMG
+ WIDTH="8" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2349.png"
+ ALT="$ \;$">K<IMG
+ WIDTH="10" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2350.png"
+ ALT="$ )$"></B></SPAN> is the universal gas constant 
+and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img476.png"
+ ALT="$ M$"></B></SPAN> is the molecular weight of the material. The specific gas constant is
+temperature independent.
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*SPECIFIC GAS CONSTANT
+</LI>
+</UL>
+
+<P>
+Following line:
+
+<UL>
+<LI>Specific gas constant.
+</LI>
+</UL>
 
 <P>
 <PRE>
-      subroutine ufaceload(co,ipkon,kon,lakon,
-     &amp;  nelemload,sideload,nload)
-!
-!
-!     INPUT:
-!
-!     co(0..3,1..nk)     coordinates of the nodes
-!     ipkon(*)           element topology pointer into field kon
-!     kon(*)             topology vector of all elements
-!     lakon(*)           vector with elements labels
-!     nelemload(1..2,*)  1: elements faces of which are loaded
-!                        2: nodes for environmental temperatures
-!     sideload(*)        load label
-!     nload              number of facial distributed loads
-!
-!     user routine called at the start of each step; possible use:
-!     calculation of the area of sets of elements for
-!     further use to calculate film or radiation coefficients.
-!     The areas can be shared using common blocks.
-!
+Example:
+
+*SPECIFIC GAS CONSTANT
+287.
 </PRE>
 
 <P>
+defines a specific gas constant with a value of 287. This value is appropriate
+for air if Joule is chosen for the unit of energy, kg as unit of mass and K as
+unit of temperature, i.e. <!-- MATH
+ $R = 287 \; \text{J}/(\text{kg}\;\text{K})$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="65" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2351.png"
+ ALT="$ R = 287 \;$">&nbsp; &nbsp;J<IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2348.png"
+ ALT="$ /($">kg<IMG
+ WIDTH="8" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2349.png"
+ ALT="$ \;$">K<IMG
+ WIDTH="10" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2350.png"
+ ALT="$ )$"></B></SPAN>.
+
+<P>
+
+<P><P>
+<BR>
+Example files: linearnet, branch1, branch2.
+
+<P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>
