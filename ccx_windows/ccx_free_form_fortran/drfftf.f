@@ -1,84 +1,84 @@
-!
-!     part of SLATEC (en.wikipedia.org/wiki/FFTPACK): public domain
-!
-!                      FFTPACK
-!
-!* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-!
-!                  version 4  april 1985
-!
-!     a package of fortran subprograms for the fast fourier
-!      transform of periodic and other symmetric sequences
-!
-!                         by
-!
-!                  paul n swarztrauber
-!
-!  national center for atmospheric research  boulder,colorado 80307
-!
-!   which is sponsored by the national science foundation
-!
-!     CHANGED ON 11 May 2005 by Guido Dhondt:
-!        1. introduced array isave (compatibility with ifac in drfftf1)
-!        2. changed real to double
-!
-!* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-!
-!
-!this package consists of programs which perform fast fourier
-!transforms for both complex and real periodic sequences and
-!certain other symmetric sequences that are listed below.
-!
-!1.   drffti     initialize  drfftf and rfftb
-!2.   drfftf     forward transform of a real periodic sequence
-!
-!
-!******************************************************************
-!
-!subroutine drffti(n,wsave,isave)
-!
-!  ****************************************************************
-!
-!subroutine drffti initializes the array wsave which is used in
-!both drfftf and rfftb. the prime factorization of n together with
-!a tabulation of the trigonometric functions are computed and
-!stored in wsave.
-!
-!input parameter
-!
-!n       the length of the sequence to be transformed.
-!
-!output parameter
-!
-!wsave   a work array which must be dimensioned at least 2*n.
-!        the same work array can be used for both drfftf and rfftb
-!        as long as n remains unchanged. different wsave arrays
-!        are required for different values of n. the contents of
-!        wsave must not be changed between calls of drfftf or rfftb.
-!isave   a work array which must be dimensioned at least 15.
-!
-!******************************************************************
-!
-!subroutine drfftf(n,r,wsave,isave)
-!
-!******************************************************************
-!
-!subroutine drfftf computes the fourier coefficients of a real
-!perodic sequence (fourier analysis). the transform is defined
-!below at output parameter r.
-!
-!input parameters
-!
-!n       the length of the array r to be transformed.  the method
-!        is most efficient when n is a product of small primes.
-!        n may change so long as different work arrays are provided
-!
-!r       a real array of length n which contains the sequence
-!        to be transformed
-!
-!wsave   a work array which must be dimensioned at least 2*n.
-!        in the program that calls drfftf. the wsave array must be
-!        initialized by calling subroutine drffti(n,wsave) and a
+      !
+      !     part of SLATEC (en.wikipedia.org/wiki/FFTPACK): public domain
+      !
+      !                      FFTPACK
+      !
+      !* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      !
+      !                  version 4  april 1985
+      !
+      !     a package of fortran subprograms for the fast fourier
+      !      transform of periodic and other symmetric sequences
+      !
+      !                         by
+      !
+      !                  paul n swarztrauber
+      !
+      !  national center for atmospheric research  boulder,colorado 80307
+      !
+      !   which is sponsored by the national science foundation
+      !
+      !     CHANGED ON 11 May 2005 by Guido Dhondt:
+      !        1. introduced array isave (compatibility with ifac in drfftf1)
+      !        2. changed real to double
+      !
+      !* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      !
+      !
+      !this package consists of programs which perform fast fourier
+      !transforms for both complex and real periodic sequences and
+      !certain other symmetric sequences that are listed below.
+      !
+      !1.   drffti     initialize  drfftf and rfftb
+      !2.   drfftf     forward transform of a real periodic sequence
+      !
+      !
+      !******************************************************************
+      !
+      !subroutine drffti(n,wsave,isave)
+      !
+      !  ****************************************************************
+      !
+      !subroutine drffti initializes the array wsave which is used in
+      !both drfftf and rfftb. the prime factorization of n together with
+      !a tabulation of the trigonometric functions are computed and
+      !stored in wsave.
+      !
+      !input parameter
+      !
+      !n       the length of the sequence to be transformed.
+      !
+      !output parameter
+      !
+      !wsave   a work array which must be dimensioned at least 2*n.
+      !        the same work array can be used for both drfftf and rfftb
+      !        as long as n remains unchanged. different wsave arrays
+      !        are required for different values of n. the contents of
+      !        wsave must not be changed between calls of drfftf or rfftb.
+      !isave   a work array which must be dimensioned at least 15.
+      !
+      !******************************************************************
+      !
+      !subroutine drfftf(n,r,wsave,isave)
+      !
+      !******************************************************************
+      !
+      !subroutine drfftf computes the fourier coefficients of a real
+      !perodic sequence (fourier analysis). the transform is defined
+      !below at output parameter r.
+      !
+      !input parameters
+      !
+      !n       the length of the array r to be transformed.  the method
+      !        is most efficient when n is a product of small primes.
+      !        n may change so long as different work arrays are provided
+      !
+      !r       a real array of length n which contains the sequence
+      !        to be transformed
+      !
+      !wsave   a work array which must be dimensioned at least 2*n.
+      !        in the program that calls drfftf. the wsave array must be
+      !        initialized by calling subroutine drffti(n,wsave) and a
       !        different wsave array must be used for each different
       !        value of n. this initialization does not have to be
       !        repeated so long as n remains unchanged thus subsequent

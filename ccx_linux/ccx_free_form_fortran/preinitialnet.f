@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -44,11 +44,12 @@
            nelem,index,nshcon(*),ipkon(*),kon(*),nodem,imat,ielprop(*),&
            nrhcon(*),neighbor,ichange,iponoel(*),inoel(2,*),indexe,&
            itg(*),ntg,node,imin,imax,iel,nodemnei,ierror,nelemnei,&
-           nodenei,ibranch,numel,noderef,nelemref,ierr
+           nodenei,ibranch,numel,noderef,nelemref,ierr,j
       !
       real*8 prop(*),shcon(0:3,ntmat_,*),xflow,v(0:mi(2),*),cp,r,&
            dvi,rho,rhcon(0:1,ntmat_,*),kappa,cti,Ti,ri,ro,p1zp2,omega,&
-           p2zp1,xmin,xmax,fluxtot,ratio,pref,prefnew
+           p2zp1,xmin,xmax,fluxtot,ratio,pref,prefnew,r1,r2,xl,om2,&
+           Tt2mTt1,a1,c1,c2,d1,d2,disc
       !
       !     the user should assign an initial pressure to any
       !         - node which is connected to an inlet or an outlet
@@ -74,13 +75,25 @@
          !
          if(v(2,node).gt.0.d0) cycle
          !
+         !        check whether any node in the element has a zero label
+         !
+         !          if((kon(ipkon(nelem)+1).eq.0).or.
+         !      &        (kon(ipkon(nelem)+3).eq.0)) then
+         !             write(*,*) '*ERROR in preinitialnet:'
+         !             write(*,*) '       node',node,
+         !      &         ' is connected to an inlet or outlet, yet'
+         !             write(*,*) '       no initial pressure was assigned'
+         !             ierror=1
+         !             cycle
+         !          endif
+         !
          !        check whether node belongs to more than 1 element
          !
          index=inoel(2,index)
          if(index.eq.0) then
             write(*,*) '*ERROR in preinitialnet:'
             write(*,*) '       node',node,&
-               ' is an inlet or outlet, yet'
+               ' is connected to an inlet or outlet, yet'
             write(*,*) '       no initial pressure was assigned'
             ierror=1
             cycle
@@ -91,7 +104,7 @@
          if(nodenei.eq.0) then
             write(*,*) '*ERROR in preinitialnet:'
             write(*,*) '       node',node,&
-               ' is an inlet or outlet, yet'
+               ' is connected to an inlet or outlet, yet'
             write(*,*) '       no initial pressure was assigned'
             ierror=1
             cycle
@@ -176,7 +189,8 @@
             node2=kon(indexe+3)
             if(node2.eq.0) cycle
             !
-            !           at least one total pressure value unknown in the element
+            !           exactly one total pressure value unknown in the element
+            !           (only this case is considered!)
             !
             if(((v(2,node1).ne.0.d0).and.(v(2,node2).eq.0.d0)).or.&
                ((v(2,node1).eq.0.d0).and.(v(2,node2).ne.0.d0))) then
@@ -204,8 +218,7 @@
                         !
                         imat=ielmat(1,nelem)
                         call materialdata_tg(imat,ntmat_,Ti,shcon,&
-                             nshcon,cp,&
-                             r,dvi,rhcon,nrhcon,rho)
+                             nshcon,cp,r,dvi,rhcon,nrhcon,rho)
                         !
                         kappa=cp/(cp-r)
                         cti=omega*ri
@@ -247,8 +260,7 @@
                         !
                         imat=ielmat(1,nelem)
                         call materialdata_tg(imat,ntmat_,Ti,shcon,&
-                             nshcon,cp,&
-                             r,dvi,rhcon,nrhcon,rho)
+                             nshcon,cp,r,dvi,rhcon,nrhcon,rho)
                         !
                         kappa=cp/(cp-r)
                         cti=omega*ri
@@ -274,6 +286,88 @@
                         endif
                         ichange=1
                      endif
+                  endif
+               elseif((lakon(nelem)(2:5).eq.'GAPR').and.&
+                       (prop(ielprop(nelem)+10).gt.0.d0)) then
+                  !
+                  !                 truly rotating pipe
+                  !
+                  index=ielprop(nelem)
+                  r1=prop(index+8)
+                  r2=prop(index+9)
+                  if(((r2.lt.r1).and.(v(0,node2).gt.0.d0)).or.&
+                       ((r2.ge.r1).and.(v(0,node1).gt.0.d0))) then
+                     !
+                     !                    estimating the pressure ratio across the pipe
+                     !
+                     if(r2.lt.r1) then
+                        Ti=v(0,node2)
+                        om2=-prop(index+10)**2
+                     else
+                        Ti=v(0,node1)
+                        om2=prop(index+10)**2
+                     endif
+                     !
+                     imat=ielmat(1,nelem)
+                     call materialdata_tg(imat,ntmat_,Ti,shcon,&
+                          nshcon,cp,r,dvi,rhcon,nrhcon,rho)
+                     kappa=cp/(cp-r)
+                     !
+                     xl=prop(index+3)
+                     !
+                     !                      p1zp2=dexp(kappa*om2*(r1+r2)*xl/
+                     !      &                    ((1.d0-kappa)*cp*Ti*2.d0))
+                     !
+                     !                    improved formula
+                     !
+                     p1zp2=(1.d0+om2*(r1+r2)*xl/(cp*v(0,node1)*2.d0))&
+                           **(kappa/(1.d0-kappa))
+                     !
+                     !                      if(v(0,node1).gt.0.d0) then
+                     !                         a1=xl*r1/(r2-r1)
+                     !                         disc=a1**2-2.d0*xl*cp*v(0,node1)/
+                     !      &                       (om2*(r2-r1))
+                     !                         if(disc.lt.0.d0) then
+                     !                            write(*,*) '*ERROR in preinitialnet:'
+                     !                            write(*,*) '       negative discriminant'
+                     !                            stop
+                     !                         endif
+                     !                         d1=-a1+dsqrt(disc)
+                     !                         d2=-a1-dsqrt(disc)
+                     !                         c1=(d1+a1)/(d1-d2)
+                     !                         c2=(d2+a1)/(d2-d1)
+                     !                         p2zp1=((d1-xl)/d1)**(2.d0*kappa*c1/(kappa-1))*
+                     !      &                       ((d2-xl)/d2)**(2.d0*kappa*c2/(kappa-1))
+                     ! c     p1zp2=1.d0/p2zp1
+                     !                         write(*,*) 'preinitialnet p1zp2 ',
+                     !      &                              p1zp2,1.d0/p2zp1
+                     !                      else
+                     !                         a1=xl*r2/(r1-r2)
+                     !                         disc=a1**2-2.d0*xl*cp*v(0,node2)/
+                     !      &                       (om2*(r2-r1))
+                     !                         if(disc.lt.0.d0) then
+                     !                            write(*,*) '*ERROR in preinitialnet:'
+                     !                            write(*,*) '       negative discriminant'
+                     !                            stop
+                     !                         endif
+                     !                         d1=-a1+dsqrt(disc)
+                     !                         d2=-a1-dsqrt(disc)
+                     !                         c1=(d1+a1)/(d1-d2)
+                     !                         c2=(d2+a1)/(d2-d1)
+                     !                         p2zp1=1.d0/(
+                     !      &                       ((d1-xl)/d1)**(2.d0*kappa*c1/(kappa-1))*
+                     !      &                       ((d2-xl)/d2)**(2.d0*kappa*c2/(kappa-1)))
+                     ! c     p1zp2=1.d0/p2zp1
+                     !                         write(*,*) 'preinitialnet p1zp2 ',
+                     !      &                              p1zp2,1.d0/p2zp1
+                     !                      endif
+                     !
+                     if(v(2,node1).eq.0.d0) then
+                        v(2,node1)=v(2,node2)*p1zp2
+                     else
+                        v(2,node2)=v(2,node1)/p1zp2
+                     endif
+                     ichange=1
                   endif
                elseif(v(1,nodem).ne.0.d0) then
                   !
@@ -619,10 +713,13 @@
             node2=kon(indexe+3)
             if(node2.eq.0) cycle
             !
+            !           only case in which exactly 1 temperature is unknown
+            !           is considered
+            !
             if(((v(0,node1).ne.0.d0).and.(v(0,node2).ne.0.d0)).or.&
                ((v(0,node1).eq.0.d0).and.(v(0,node2).eq.0.d0))) cycle
             !
-            !           If the element is a adiabatic gas pipe the
+            !           If the element is an adiabatic gas pipe the
             !           total temperature at both ends is equal
             !
             if(lakon(nelem)(2:6).eq.'GAPFA') then
@@ -631,6 +728,44 @@
                else
                   v(0,node2)=v(0,node1)
                endif
+               ichange=1
+               cycle
+            elseif(lakon(nelem)(2:5).eq.'GAPR') then
+               !
+               !              total temperature change due to the rotation
+               !
+               index=ielprop(nelem)
+               xl=prop(index+3)
+               r1=prop(index+8)
+               r2=prop(index+9)
+               !
+               if(v(0,node1).eq.0.d0) then
+                  Ti=v(0,node2)
+               else
+                  Ti=v(0,node1)
+               endif
+               !
+               !              if r2 > r1 then the centrifugal force points in
+               !              the direction from node1 to node2
+               !
+               if(r2.lt.r1) then
+                  om2=-prop(index+10)**2
+               else
+                  om2=prop(index+10)**2
+               endif
+               !
+               imat=ielmat(1,nelem)
+               call materialdata_tg(imat,ntmat_,Ti,shcon,&
+                    nshcon,cp,r,dvi,rhcon,nrhcon,rho)
+               !
+               Tt2mTt1=om2*(r1+r2)*xl/(2.d0*cp)
+               !
+               if(v(0,node1).eq.0.d0) then
+                  v(0,node1)=v(0,node2)-Tt2mTt1
+               else
+                  v(0,node2)=v(0,node1)+Tt2mTt1
+               endif
+               !
                ichange=1
                cycle
             endif
@@ -683,8 +818,9 @@
       enddo
       !
       !     check the pressures: set pressures to zero (i.e. no initial condtion)
-      !     which lie in between the neighboring pressures => Laplace method
-      !     is applied in initialnet
+      !     which lie in between the neighboring pressures (i.e. at least one
+      !     neighbor has a lower pressure and at least one neighbor has a higher
+      !     pressure) => Laplace method is applied in initialnet
       !
       loop: do i=1,ntg
          node=itg(i)
@@ -702,7 +838,8 @@
          !
          do
             nelem=inoel(1,index)
-            if(lakon(nelem)(2:3).eq.'VO') cycle loop
+            if((lakon(nelem)(2:3).eq.'VO').or.&
+               (lakon(nelem)(2:5).eq.'GAPR')) cycle loop
             indexe=ipkon(nelem)
             !
             !           neighboring vertex node
@@ -746,10 +883,10 @@
          !          if(v(2,node).lt.0.d0) v(2,node)=0.d0
          if(v(2,node).lt.0.d0) v(2,node)=-v(2,node)
       enddo
-      !          write(*,*) 'preinitialnet end '
-      !          do i=1,ntg
-      !             write(*,'(i10,3(1x,e11.4))') itg(i),(v(j,itg(i)),j=0,2)
-      !          enddo
+         write(*,*) 'preinitialnet end '
+         do i=1,ntg
+            write(*,'(i10,3(1x,e11.4))') itg(i),(v(j,itg(i)),j=0,2)
+         enddo
       !
       !     same for temperatures?
       !

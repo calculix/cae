@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -24,7 +24,7 @@
       implicit none
       !
       integer n,nx(n),ny(n),nz(n),ir(k+6),nr,neighbor(k),kflag,iflag,&
-        i,j,k,m,id,idx,idy,idz,eight,idummy,node,l
+        i,j,k,m,id,idx,idy,idz,eight,node,l
       !
       real*8 x(n),y(n),z(n),xo(n),yo(n),zo(n),xp,yp,zp,r(k+6),xr,yr,&
         zr,c(8),dd,xw,xe,ys,yn,zb,zt,sqrt_rmaxini
@@ -192,7 +192,8 @@
          c(6)=xw*xw+yn*yn+zt*zt
          c(7)=xw*xw+ys*ys+zt*zt
          c(8)=xe*xe+ys*ys+zt*zt
-         call dsort(c,idummy,eight,iflag)
+         call insertsortd(c,eight)
+         !          call dsort(c,idummy,eight,iflag)
          !
          !        check for new entries
          !

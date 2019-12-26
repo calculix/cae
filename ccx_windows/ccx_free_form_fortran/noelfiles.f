@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,7 +20,7 @@
         nodefile_flag,elfile_flag,ifile_output,nener,ithermal,&
         istep,istat,n,iline,ipol,inl,ipoinp,inp,out3d,nlabel,&
         amname,nam,itpamp,idrct,ipoinpc,nef,contactfile_flag,&
-        set,nset,xmodal,ier)
+        set,nset,xmodal,ier,physcon,output)
       !
       !     reading the *NODE FILE, *EL FILE and *CONTACT FILE cards in the
       !     input deck
@@ -31,6 +31,7 @@
         contactfile_flag
       !
       character*1 nodesys,elemsys,inpc(*)
+      character*4 output
       character*80 amname(*),timepointsname
       character*81 noset,set(*)
       character*87 filab(*)
@@ -41,7 +42,7 @@
         iline,ipol,inl,ipoinp(2,*),inp(3,*),j,nlabel,nam,itpamp,i,&
         idrct,ipoinpc(0:*),nef,ifile_output,ipos,nset
       !
-      real*8 xmodal(*)
+      real*8 xmodal(*),physcon(*)
       !
       save sectionforces
       !
@@ -246,6 +247,8 @@
            endif
         elseif(textpart(ii)(1:13).eq.'SECTIONFORCES') then
               filab(3)(5:5)='M'
+           elseif(textpart(ii)(1:9).eq.'OUTPUTALL') then
+              output(4:4)='a'
         elseif(textpart(ii)(1:11).eq.'TIMEPOINTS=') then
            timepointsname=textpart(ii)(12:91)
            do i=1,nam
@@ -280,6 +283,8 @@
            filab(1)(4:4)='I'
         elseif(textpart(ii)(1:15).eq.'CONTACTELEMENTS') then
            filab(1)(3:3)='C'
+        elseif(textpart(ii)(1:6).eq.'DOUBLE') then
+           output(1:3)='dbi '
         else
             write(*,*)&
                    '*WARNING reading *NODE/EL/CONTACT FILE:'
@@ -542,6 +547,11 @@
                   write(*,*)&
       '*WARNING reading *NODE/EL/CONTACT FILE: TURB only makes'
                   write(*,*) '         sense for 3D fluid calculations'
+               elseif(physcon(9).lt.1.d0) then
+                  write(*,*)&
+      '*WARNING reading *NODE/EL/CONTACT FILE: TURB only makes'
+                  write(*,*) '         sense for 3D fluid calculations'
+                  write(*,*) '         with an active turbulence model'
                else
                   filab(25)(1:4)='TURB'
                   filab(25)(6:6)=nodesys

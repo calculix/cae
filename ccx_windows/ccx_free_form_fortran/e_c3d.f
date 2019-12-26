@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -27,7 +27,8 @@
         ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,veold,springarea,&
         nstate_,xstateini,xstate,ne0,ipkon,thicke,&
         integerglob,doubleglob,tieset,istartset,iendset,ialset,ntie,&
-        nasym,pslavsurf,pmastsurf,mortar,clearini,ielprop,prop,kscale)
+        nasym,pslavsurf,pmastsurf,mortar,clearini,ielprop,prop,kscale,&
+        smscalel,mscalmethod)
       !
       !     computation of the element matrix and rhs for the element with
       !     the topology in konl
@@ -62,7 +63,8 @@
         layer,kspt,jltyp,iflag,iperm(60),m,ipompc(*),nodempc(3,*),&
         nmpc,ikmpc(*),ilmpc(*),iscale,nstate_,ne0,iselect(6),kscale,&
         istartset(*),iendset(*),ialset(*),ntie,integerglob(*),nasym,&
-        nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,nopered
+        nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,nopered,&
+        mscalmethod
       !
       real*8 co(3,*),xl(3,26),shp(4,26),xs2(3,7),veold(0:mi(2),*),&
         s(60,60),w(3,3),p1(3),p2(3),bodyf(3),bodyfx(3),ff(60),&
@@ -82,7 +84,8 @@
         plicon(0:2*npmat_,ntmat_,*),plkcon(0:2*npmat_,ntmat_,*),&
         xstiff(27,mi(1),*),plconloc(802),dtime,ttime,time,tvar(2),&
         sax(60,60),ffax(60),gs(8,4),a,stress(6),stre(3,3),&
-        pslavsurf(3,*),pmastsurf(6,*),xmass
+        pslavsurf(3,*),pmastsurf(6,*),xmass,xsjmass,shpmass(4,26),&
+        shpjmass(4,26),smscalel,smfactor
       !
       intent(in) co,kon,lakonl,p1,p2,omx,bodyfx,nbody,&
         nelem,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,&
@@ -665,6 +668,7 @@
             call shape8hr(xl,xsj,shp,gs,a)
          elseif(lakonl(1:5).eq.'C3D8I') then
             call shape8hu(xi,et,ze,xl,xsj,shp,iflag)
+            call shape8humass(xi,et,ze,xl,xsjmass,shpmass,iflag)
          elseif(nope.eq.20) then
             !      Bernhardi end
             if(lakonl(7:7).eq.'A') then
@@ -722,7 +726,8 @@
                enddo
             elseif(lakonl(4:6).eq.'20 ')then
                nopered=20
-               call lintemp(t0,t1,konl,nopered,kk,t0l,t1l)
+               call lintemp(t0,konl,nopered,kk,t0l)
+               call lintemp(t1,konl,nopered,kk,t1l)
             elseif(lakonl(4:6).eq.'10T') then
                call linscal10(t0,konl,t0l,null,shp)
                call linscal10(t1,konl,t1l,null,shp)
@@ -740,7 +745,8 @@
                enddo
             elseif(lakonl(4:6).eq.'20 ')then
                nopered=20
-               call lintemp_th(t0,vold,konl,nopered,kk,t0l,t1l,mi)
+               call lintemp_th0(t0,konl,nopered,kk,t0l,mi)
+               call lintemp_th1(vold,konl,nopered,kk,t1l,mi)
             elseif(lakonl(4:6).eq.'10T') then
                call linscal10(t0,konl,t0l,null,shp)
                call linscal10(vold,konl,t1l,mi(2),shp)
@@ -831,6 +837,11 @@
             shpj(3,i1)=shp(3,i1)*xsjj
             shpj(4,i1)=shp(4,i1)*xsj
          enddo
+         if(lakonl(4:5).eq.'8I') then
+            do i1=1,nope
+               shpjmass(4,i1)=shpmass(4,i1)*xsjmass
+            enddo
+         endif
          !
          !           determination of the stiffness, and/or mass and/or
          !           buckling matrix
@@ -846,7 +857,7 @@
                !               dynamic calculations
                !
                if((mass.eq.1).and.(iexpl.gt.1)) then
-                  summass=summass+rho*xsj
+                  summass=summass+rho*xsj*weight
                endif
                !
                jj1=1
@@ -939,8 +950,13 @@
                         !                     mass matrix
                         !
                         if(mass.eq.1) then
-                           sm(ii1,jj1)=sm(ii1,jj1)&
-                                +rho*shpj(4,ii)*shp(4,jj)*weight
+                           if(lakonl(4:5).ne.'8I') then
+                              sm(ii1,jj1)=sm(ii1,jj1)&
+                                   +rho*shpj(4,ii)*shp(4,jj)*weight
+                           else
+                              sm(ii1,jj1)=sm(ii1,jj1)&
+                                +rho*shpjmass(4,ii)*shpmass(4,jj)*weight
+                           endif
                            sm(ii1+1,jj1+1)=sm(ii1,jj1)
                            sm(ii1+2,jj1+2)=sm(ii1,jj1)
                         endif
@@ -1001,7 +1017,7 @@
                !               dynamic calculations
                !
                if((mass.eq.1).and.(iexpl.gt.1)) then
-                  summass=summass+rho*xsj
+                  summass=summass+rho*xsj*weight
                endif
                !
                jj1=1
@@ -1070,8 +1086,13 @@
                      !                   mass matrix
                      !
                      if(mass.eq.1) then
-                        sm(ii1,jj1)=sm(ii1,jj1)&
-                             +rho*shpj(4,ii)*shp(4,jj)*weight
+                        if(lakonl(4:5).ne.'8I') then
+                           sm(ii1,jj1)=sm(ii1,jj1)&
+                                +rho*shpj(4,ii)*shp(4,jj)*weight
+                        else
+                           sm(ii1,jj1)=sm(ii1,jj1)&
+                                +rho*shpjmass(4,ii)*shpmass(4,jj)*weight
+                        endif
                         sm(ii1+1,jj1+1)=sm(ii1,jj1)
                         sm(ii1+2,jj1+2)=sm(ii1,jj1)
                      endif
@@ -1343,22 +1364,18 @@
              endif
              !
              if(rhsi.eq.1) then
-                !                 if(nopes.eq.9) then
-                !                    call shape9q(xi,et,xl2,xsj2,xs2,shp2,iflag)
                 if(nopes.eq.8) then
                    call shape8q(xi,et,xl2,xsj2,xs2,shp2,iflag)
                 elseif(nopes.eq.4) then
                    call shape4q(xi,et,xl2,xsj2,xs2,shp2,iflag)
                 elseif(nopes.eq.6) then
                    call shape6tri(xi,et,xl2,xsj2,xs2,shp2,iflag)
-                !                 elseif(nopes.eq.7) then
-                !                    call shape7tri(xi,et,xl2,xsj2,xs2,shp2,iflag)
                 else
                    call shape3tri(xi,et,xl2,xsj2,xs2,shp2,iflag)
                 endif
-!
-!            for nonuniform load: determine the coordinates of the
-!            point (transferred into the user subroutine)
+                !
+                !            for nonuniform load: determine the coordinates of the
+                !            point (transferred into the user subroutine)
                 !
                 if(sideload(id)(3:4).eq.'NU') then
                    do k=1,3
@@ -1453,9 +1470,9 @@
                 else
                    call shape3tri(xi,et,xl1,xsj2,xs2,shp2,iflag)
                 endif
-!
-!            for nonuniform load: determine the coordinates of the
-!            point (transferred into the user subroutine)
+                !
+                !            for nonuniform load: determine the coordinates of the
+                !            point (transferred into the user subroutine)
                 !
                 if(sideload(id)(3:4).eq.'NU') then
                    do k=1,3
@@ -1622,40 +1639,11 @@
       !     for axially symmetric and plane stress/strain elements:
       !     complete s and sm
       !
-      if(((lakonl(4:5).eq.'8 ').or.&
-          ((lakonl(4:6).eq.'20R').and.(lakonl(7:8).ne.'BR'))).and.&
-         ((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'S').or.&
-          (lakonl(7:7).eq.'E'))) then
-         do i=1,60
-            do j=i,60
-               k=abs(iperm(i))
-               l=abs(iperm(j))
-               if(k.gt.l) then
-                  m=k
-                  k=l
-                  l=m
-               endif
-               sax(i,j)=s(k,l)*iperm(i)*iperm(j)/(k*l)
-            enddo
-         enddo
-         do i=1,60
-            do j=i,60
-               s(i,j)=s(i,j)+sax(i,j)
-            enddo
-         enddo
-         !
-         if((nload.ne.0).or.(nbody.ne.0)) then
-            do i=1,60
-               k=abs(iperm(i))
-               ffax(i)=ff(k)*iperm(i)/k
-            enddo
-            do i=1,60
-               ff(i)=ff(i)+ffax(i)
-            enddo
-         endif
-         !
-         if(mass.eq.1) then
-            summass=2.d0*summass
+      if(intscheme.eq.0) then
+         if(((lakonl(4:5).eq.'8 ').or.&
+              ((lakonl(4:6).eq.'20R').and.(lakonl(7:8).ne.'BR'))).and.&
+              ((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'S').or.&
+              (lakonl(7:7).eq.'E'))) then
             do i=1,60
                do j=i,60
                   k=abs(iperm(i))
@@ -1665,18 +1653,49 @@
                      k=l
                      l=m
                   endif
-                  sax(i,j)=sm(k,l)*iperm(i)*iperm(j)/(k*l)
+                  sax(i,j)=s(k,l)*iperm(i)*iperm(j)/(k*l)
                enddo
             enddo
             do i=1,60
                do j=i,60
-                  sm(i,j)=sm(i,j)+sax(i,j)
+                  s(i,j)=s(i,j)+sax(i,j)
                enddo
             enddo
+            !
+            if((nload.ne.0).or.(nbody.ne.0)) then
+               do i=1,60
+                  k=abs(iperm(i))
+                  ffax(i)=ff(k)*iperm(i)/k
+               enddo
+               do i=1,60
+                  ff(i)=ff(i)+ffax(i)
+               enddo
+            endif
+            !
+            if(mass.eq.1) then
+               summass=2.d0*summass
+               do i=1,60
+                  do j=i,60
+                     k=abs(iperm(i))
+                     l=abs(iperm(j))
+                     if(k.gt.l) then
+                        m=k
+                        k=l
+                        l=m
+                     endif
+                     sax(i,j)=sm(k,l)*iperm(i)*iperm(j)/(k*l)
+                  enddo
+               enddo
+               do i=1,60
+                  do j=i,60
+                     sm(i,j)=sm(i,j)+sax(i,j)
+                  enddo
+               enddo
+            endif
          endif
       endif
       !
-      if((mass.eq.1).and.(iexpl.gt.1)) then
+      if((mass.eq.1).and.(iexpl.gt.1))then
          !
          !        scaling the diagonal terms of the mass matrix such that the total mass
          !        is right (LUMPING; for explicit dynamic calculations)
@@ -1721,6 +1740,53 @@
             sm(i+1,i+1)=sm(i,i)
             sm(i+2,i+2)=sm(i,i)
          enddo
+         !
+         if((mscalmethod.ne.1).and.(mscalmethod.ne.3)) then
+            !
+            !     setting all off-diagonal terms to zero
+            !
+            do i=1,3*nope
+               do j=1,3*nope
+                  if(i.eq.j) cycle
+                  sm(i,j)=0.d0
+               enddo
+            enddo
+         else
+            !
+            !           CC: Mass Scaling
+            !           mscalmethod = 1: selective mass scaling SMS
+            !
+            !           beta = smscalel
+            !
+            smfactor=smscalel*summass/((nope-1)*nope)
+            !
+            do i=1,3*nope
+               do j=1,3*nope
+                  if(i.ne.j) then
+                     !     set non diagonals to zero
+                     sm(i,j)=0.d0
+                  !     diagonal terms of M for SMS
+                  else
+                     sm(i,j)=sm(i,j)+(nope-1)*smfactor
+                  endif
+               enddo
+            enddo
+            !
+            !           nondiagonal terms of M for SMS
+            !
+            i=0
+            do j=0,nope*3-1,3
+               i=i+1
+               do k=1,(nope-i)
+                  do l=1,3
+                     sm(j+l+k*3,j+l)=-smfactor
+                     sm(j+l,j+l+k*3)=-smfactor
+                  enddo
+               enddo
+            enddo
+            !     to calculate additional energy in resultsmech.f:
+            smscalel=smfactor
+         endif
       !
       endif
       !

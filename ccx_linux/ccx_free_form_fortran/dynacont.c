@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -147,7 +147,7 @@ void dynacont(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
 
   /* load the convergence constants from ctrl*/
 
-  i0=ctrl[0];ic=ctrl[3];ia=ctrl[7];df=ctrl[10];alea=ctrl[53];
+  i0=ctrl[0];ic=ctrl[3];ia=ctrl[7];df=ctrl[10];alea=ctrl[54];
 
   /* set the convergence parameters*/
 
@@ -334,7 +334,7 @@ void dynacont(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
       /* calculating the instantaneous loading vector */
       
       if(iabsload!=2){
-	  FORTRAN(rhs,(co,nk,kon,ipkon,lakon,ne,
+	  rhsmain(co,nk,kon,ipkon,lakon,ne,
 		   ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforcdiff,
 		   nforc,nelemload,sideload,xloaddiff,nload,xbodydiff,
 		   ipobody,nbody,cgr,b,nactdof,&neq[1],nmethod,
@@ -345,9 +345,9 @@ void dynacont(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
 		   npmat_,ttime,time,istep,iinc,dtime,physcon,ibody,
 		   xbodyold,reltime,veold,matname,mi,ikactmech,nactmech,
                    ielprop,prop,sti,xstateini,xstate,nstate_,ntrans,inotr,
-                   trab));
+                   trab);
       }else{
-	  FORTRAN(rhs,(co,nk,kon,ipkon,lakon,ne,
+	  rhsmain(co,nk,kon,ipkon,lakon,ne,
 		   ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforcact,
 		   nforc,nelemload,sideload,xloadact,nload,xbodyact,
 		   ipobody,nbody,cgr,b,nactdof,&neq[1],nmethod,
@@ -358,7 +358,7 @@ void dynacont(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
 		   npmat_,ttime,time,istep,iinc,dtime,physcon,ibody,
 		   xbodyold,reltime,veold,matname,mi,ikactmech,nactmech,
                    ielprop,prop,sti,xstateini,xstate,nstate_,ntrans,inotr,
-                   trab));
+                   trab);
       }
       
       /* correction for nonzero SPC's */

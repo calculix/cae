@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -21,7 +21,7 @@
         b,xxn,neq,nzs,hfa,gradpel,bp,xxi,neij,&
         xlen,cosb,ielmatf,mi,a1,a2,a3,velo,veloo,dtimef,shcon,&
         ntmat_,vel,nactdohinv,xrlfa,flux,nefa,nefb,iau6,xxicn,&
-        gamma)
+        gamma,inlet)
       !
       !     filling the lhs and rhs to calculate p
       !
@@ -35,7 +35,7 @@
       !
       character*8 lakonf(*)
       !
-      integer i,nef,indexf,ipnei(*),neifa(*),&
+      integer i,nef,indexf,ipnei(*),neifa(*),inlet(*),&
         neiel(*),iel,ifa,irow(*),ielfa(4,*),&
         ifabou(*),neq,jq(*),indexb,&
         neij(*),nzs,imat,nefa,nefb,iau6(6,*),&
@@ -50,7 +50,7 @@
       !
       intent(in) nef,lakonf,ipnei,neifa,neiel,vfa,area,&
         advfa,xlet,cosa,volume,jq,irow,ielfa,ifabou,xle,&
-        xxn,nzs,hfa,gradpel,xxi,neij,&
+        xxn,nzs,hfa,gradpel,xxi,neij,inlet,&
         xlen,cosb,ielmatf,mi,a1,a2,a3,velo,veloo,dtimef,shcon,&
         ntmat_,vel,nactdohinv,xrlfa,flux,gamma
       !
@@ -111,13 +111,10 @@
                   !
                   if(ielfa(2,ifa).lt.0) then
                      indexb=-ielfa(2,ifa)
-                     if((ifabou(indexb+1).ne.0).and.&
-                        (ifabou(indexb+2).ne.0).and.&
-                        (ifabou(indexb+3).ne.0).and.&
-                        (ifabou(indexb+4).eq.0).and.&
-                        (ifabou(indexb+5).eq.0)) then
+                     if((inlet(ifa).ne.0).and.&
+                        (ifabou(indexb+4).eq.0)) then
                         !
-                        !                       inlet (no wall, no sliding)
+                        !                       inlet
                         !                       and no pressure given (typical subsonic inlet)
                         !
                         ad(i)=ad(i)+xflux/(vfa(5,ifa)*r*vfa(0,ifa))
@@ -134,7 +131,6 @@
                !
                coef=vfa(5,ifa)*area(ifa)*advfa(ifa)/&
                     xlet(indexf)
-               !      &              (xlet(indexf)*cosb(indexf))
                ad(i)=ad(i)+coef
                au(indexf)=au(indexf)-coef
             else
@@ -151,7 +147,6 @@
                      !
                      coef=vfa(5,ifa)*area(ifa)*advfa(ifa)/&
                           xle(indexf)
-                     !      &                    (xle(indexf)*cosb(indexf))
                      ad(i)=ad(i)+coef
                   endif
                endif

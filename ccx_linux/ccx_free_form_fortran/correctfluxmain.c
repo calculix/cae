@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -24,12 +24,13 @@
 
 static ITG *nef1,*ipnei1,*neifa1,*neiel1,*ielfa1,*ifabou1,*num_cpus1;
 
-static double *flux1,*vfa1,*advfa1,*area1,*vel1,*xlet1,*xle1;
+static double *flux1,*vfa1,*advfa1,*area1,*vel1,*alet1,*ale1,*xxnj1,
+  *gradpcfa1;
 
 void correctfluxmain(ITG *nef,ITG *ipnei,ITG *neifa,ITG *neiel,double *flux,
 		     double *vfa,double *advfa,double *area,double *vel,
-		     double *xlet,ITG *ielfa,double *xle,ITG *ifabou,
-		     ITG *num_cpus){
+		     double *alet,ITG *ielfa,double *ale,ITG *ifabou,
+		     ITG *num_cpus,double *xxnj,double *gradpcfa){
 
     ITG i;
       
@@ -42,8 +43,8 @@ void correctfluxmain(ITG *nef,ITG *ipnei,ITG *neifa,ITG *neiel,double *flux,
     /* calculation of the density at the cell centers */
 
     nef1=nef;ipnei1=ipnei;neifa1=neifa;neiel1=neiel;flux1=flux;vfa1=vfa;
-    advfa1=advfa;area1=area;vel1=vel;xlet1=xlet;ielfa1=ielfa;xle1=xle;
-    ifabou1=ifabou;num_cpus1=num_cpus;
+    advfa1=advfa;area1=area;vel1=vel;alet1=alet;ielfa1=ielfa;ale1=ale;
+    ifabou1=ifabou;num_cpus1=num_cpus;xxnj1=xxnj;gradpcfa1=gradpcfa;
     
     /* create threads and wait */
     
@@ -72,8 +73,8 @@ void *correctflux1mt(ITG *i){
     if((*i==*num_cpus1-1)&&(nefb<*nef1)) nefb=*nef1;
 
     FORTRAN(correctflux,(nef1,ipnei1,neifa1,neiel1,flux1,vfa1,advfa1,
-			  area1,vel1,xlet1,ielfa1,xle1,ifabou1,
-			  &nefa,&nefb));
+			  area1,vel1,alet1,ielfa1,ale1,ifabou1,
+			  &nefa,&nefb,xxnj1,gradpcfa1));
 
     return NULL;
 }

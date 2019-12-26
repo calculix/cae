@@ -1,5 +1,7 @@
-
 #include <stdlib.h>
+
+#define CGXFLOAT double
+
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
@@ -11,10 +13,13 @@
 #define     MAX_INTEGER 2147483647
 #define     MAX_FLOAT   1.e32
 
+
 typedef struct {
   char  model[MAX_LINE_LENGTH]; /* model-name header*/
+  char  threads;   /* nr of threads to be used */
   char  **uheader; /* user header */
   char  **pheader; /* project header (remark: leading dataset-project-headers are stored in the related dataset!) */
+  int   v;         /* number of values */
   int   u;         /* number of user headers */
   int   p;         /* number of project headers */
   int   n;         /* number of nodes */
@@ -36,8 +41,8 @@ typedef struct {
   int   orignmax;  /* max-node-nr-of-original-nodes (w/o nodes for drawing purposes) */
   int   orign;     /* nr-of-original-nodes (w/o nodes for drawing purposes) */
   int   olc;       /* nr-of-original-loadcases (w/o cgx generated datasets (lc)) */
-  int   noffs;     /* node-nr offset, defined with asgn */
-  int   eoffs;     /* elem-nr offset, defined with asgn */
+  int   nnext;     /* next node-nr, eventually defined with asgn */
+  int   enext;     /* next elem-nr, eventually defined with asgn */
 } Summen;
 
 
@@ -50,11 +55,13 @@ typedef struct {
   double nx;             /*   coordinates  node[ext-node-nr].nx */
   double ny;
   double nz;
+  double nv[3];          /* normal vector */
 } Nodes;
+
 
 typedef struct {
   int nr;                /* external element-nr */
-  //  int indx;              /* -index (elem[external elem-nr].indx)   */
+  // int indx;              /* -index (elem[external elem-nr].indx)   */
   int type;              /* element type (1:Hexa8)  */
   int group;
   int mat;
@@ -68,9 +75,14 @@ typedef struct {
                          /*  6: axisymmetric  (CAX) tr3c */
                          /*  7: fluid he8f */
                          /*  8: tet10m */
+                         /*  9: tet10t */
+                         /*  14: reduced integration, plane strain (CPE)  */
+                         /*  15: reduced integration, plane stress (CPS)  */
+                         /*  16: reduced integration, axisymmetric  (CAX) */
   int nod[27];
   double **side;         /* side[Nr.][x|y|z]== normal vector */
 } Elements;
+
 
 typedef struct {
   char  **pheader;    /* project header */
@@ -81,7 +93,7 @@ typedef struct {
   char  dataset_name[MAX_LINE_LENGTH];
   char  dataset_text[MAX_LINE_LENGTH];
   char  analysis_name[MAX_LINE_LENGTH];
-  float value;
+  double value;
   char  filename[MAX_LINE_LENGTH];
   FILE *handle;
   fpos_t *fileptr;
@@ -89,31 +101,27 @@ typedef struct {
   int format_flag;
   int analysis_type;
   int step_number;
-  int ncomps;
+  int ncomps;         /* components of a result of an entity (node, gauspnt) */
   int irtype;
   int *menu;
   int *ictype;
   int *icind1;
   int *icind2;
   int *iexist;
-  float **dat;        /* node related data */
-  float ***edat;      /* element related data */
-  float *max;         /* maximum datum */
-  float *min;         /* minimum datum */
+  double **dat;        /* node related data */
+  double ***edat;      /* element related data, not propper implemented */
+  double *max;         /* maximum datum */
+  double *min;         /* minimum datum */
   int *nmax;          /* node with maximum datum */
   int *nmin;          /* node with minimum datum */
 } Datasets;
 
-void freeDatasets(Datasets *lcase, int nr);
 int readfrd(char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets **lptr, int read_mode );
 int readfrdblock( int lc, Summen *anz,   Nodes     *node, Datasets *lcase );
-int stoi(char *string, int a, int b);
 double stof(char *string, int a, int b);
+int stoi(char *string, int a, int b);
 void stos(char *string, int a, int b, char *puffer);
-int compare (char *str1, char *str2, int length);
-int frecord( FILE *handle1,  char *string);
-int elemChecker(int sum_e, Nodes *node, Elements *elem);
-void v_result( double *A, double *B, double *C );
-void v_prod( double *A, double *B, double *C );
-double v_betrag(double *a);
 int strsplt( char *rec_str, char breakchar, char ***ptr);
+int frecord( FILE *handle1,  char *string);
+int compare (char *str1, char *str2, int length);
+void freeDatasets(Datasets *lcase, int nr);

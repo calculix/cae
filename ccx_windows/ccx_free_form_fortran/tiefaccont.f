@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -461,53 +461,41 @@
                      !
                      !                    filling fields iponoels and inoels
                      !
-                     ifreenoelold=iponoels(node)
-                     ifreenoels=ifreenoels+1
-                     iponoels(node)=ifreenoels
-                     inoels(1,ifreenoels)=ifacecount
-                     !
-                     !                    filling xnoels with the coefficient corresponding
-                     !                    to a constant pressure (sum over all nodes must
-                     !                    be 1)
-                     !
-                     if(nopes.eq.3) then
-                        xnoels(ifreenoels)=1.d0/3.d0
-                     elseif(nopes.eq.4) then
-                        xnoels(ifreenoels)=1.d0/4.d0
-                     elseif(nopes.eq.6) then
-                        if(l.le.3) then
-                           xnoels(ifreenoels)=1.d0/999.d0
-                        else
-                           xnoels(ifreenoels)=332.d0/999.d0
-                        endif
-                     elseif(nopes.eq.7) then
-                        if(l.le.3) then
-                           xnoels(ifreenoels)=1.d0/20.d0
-                        elseif(l.le.6) then
-                           xnoels(ifreenoels)=2.d0/15.d0
-                        else
-                           xnoels(ifreenoels)=9.d0/20.d0
-                        endif
-                     elseif(nopes.eq.8) then
+                     if(mortar.eq.0) then
+                        !                         ifreenoelold=iponoels(node)
+                        ifreenoels=ifreenoels+1
+                        !                         iponoels(node)=ifreenoels
+                        inoels(1,ifreenoels)=ifacecount
+                        inoels(2,ifreenoels)=iponoels(node)
+                        iponoels(node)=ifreenoels
                         !
-                        !           for a 8-node face a distribution of 1/100 at the vertex
-                        !           nodes and 24/100 at the midnodes (instead of -1/12 and 1/3)
+                        !     filling xnoels with the coefficient corresponding
+                        !     to a constant pressure (sum over all nodes must
+                        !     be 1)
                         !
-                        if(l.le.4) then
-                           xnoels(ifreenoels)=1.d0/100.d0
-                        else
-                           xnoels(ifreenoels)=24.d0/100.d0
+                        if(nopes.eq.3) then
+                           xnoels(ifreenoels)=1.d0/3.d0
+                        elseif(nopes.eq.4) then
+                           xnoels(ifreenoels)=1.d0/4.d0
+                        elseif(nopes.eq.6) then
+                           if(l.le.3) then
+                              xnoels(ifreenoels)=1.d0/999.d0
+                           else
+                              xnoels(ifreenoels)=332.d0/999.d0
+                           endif
+                        elseif(nopes.eq.8) then
+                           !
+                           !     for a 8-node face a distribution of 1/100 at the vertex
+                           !     nodes and 24/100 at the midnodes (instead of -1/12 and 1/3)
+                           !
+                           if(l.le.4) then
+                              xnoels(ifreenoels)=1.d0/100.d0
+                           else
+                              xnoels(ifreenoels)=24.d0/100.d0
+                           endif
                         endif
-                     elseif(nopes.eq.9) then
-                        if(l.le.4) then
-                           xnoels(ifreenoels)=1.d0/36.d0
-                        elseif(l.le.8) then
-                           xnoels(ifreenoels)=1.d0/9.d0
-                        else
-                           xnoels(ifreenoels)=4.d0/9.d0
-                        endif
+                     !                         inoels(2,ifreenoels)=ifreenoelold
                      endif
-                     inoels(2,ifreenoels)=ifreenoelold
                   enddo
                !
                endif

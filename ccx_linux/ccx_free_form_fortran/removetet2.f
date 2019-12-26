@@ -3,9 +3,9 @@
         ifreefa,ipofa,ielement,ipoeln,ieln,ifreeln,&
         ipoeled,ieled,ifreele,iedtet,ipoed,iedg,ifreeed,&
         iexternfa,iexternedg)
-!
-!     removes a tet and updates the data base
-!     equivalent to subroutine removetet, apart from the extra
+      !
+      !     removes a tet and updates the data base
+      !     equivalent to subroutine removetet, apart from the extra
       !     update of the ieln data base
       !
       implicit none

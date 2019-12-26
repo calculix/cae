@@ -4,23 +4,23 @@
       subroutine dqag(f,a,b,epsabs,epsrel,key,result,abserr,neval,ier,&
           limit,lenw,last,iwork,work,phi,lambda1,zk0,Pup,Tup,rurd,xflow,&
            kup)
-! ***begin prologue  dqag
-! ***date written   800101   (yymmdd)
-! ***revision date  830518   (yymmdd)
-! ***category no.  h2a1a1
-! ***keywords  automatic integrator, general-purpose,
-!              integrand examinator, globally adaptive,
-!              gauss-kronrod
-! ***author  piessens,robert,appl. math. & progr. div - k.u.leuven
-!            de doncker,elise,appl. math. & progr. div. - k.u.leuven
-! ***purpose  the routine calculates an approximation result to a given
-!             definite integral i = integral of f over (a,b),
-!             hopefully satisfying following claim for accuracy
-!             abs(i-result)le.max(epsabs,epsrel*abs(i)).
-! ***description
-!
-!         computation of a definite integral
-!         standard fortran subroutine
+      ! ***begin prologue  dqag
+      ! ***date written   800101   (yymmdd)
+      ! ***revision date  830518   (yymmdd)
+      ! ***category no.  h2a1a1
+      ! ***keywords  automatic integrator, general-purpose,
+      !              integrand examinator, globally adaptive,
+      !              gauss-kronrod
+      ! ***author  piessens,robert,appl. math. & progr. div - k.u.leuven
+      !            de doncker,elise,appl. math. & progr. div. - k.u.leuven
+      ! ***purpose  the routine calculates an approximation result to a given
+      !             definite integral i = integral of f over (a,b),
+      !             hopefully satisfying following claim for accuracy
+      !             abs(i-result)le.max(epsabs,epsrel*abs(i)).
+      ! ***description
+      !
+      !         computation of a definite integral
+      !         standard fortran subroutine
       !         double precision version
       !
       !             f      - double precision
@@ -194,23 +194,23 @@
       subroutine dqage(f,a,b,epsabs,epsrel,key,limit,result,abserr,&
          neval,ier,alist,blist,rlist,elist,iord,last,phi,lambda1,zk0,&
            Pup,Tup,rurd,xflow,kup)
-! ***begin prologue  dqage
-! ***date written   800101   (yymmdd)
-! ***revision date  830518   (yymmdd)
-! ***category no.  h2a1a1
-! ***keywords  automatic integrator, general-purpose,
-!              integrand examinator, globally adaptive,
-!              gauss-kronrod
-! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!            de doncker,elise,appl. math. & progr. div. - k.u.leuven
-! ***purpose  the routine calculates an approximation result to a given
-!             definite integral   i = integral of f over (a,b),
-!             hopefully satisfying following claim for accuracy
-!             abs(i-reslt).le.max(epsabs,epsrel*abs(i)).
-! ***description
-!
-!         computation of a definite integral
-!         standard fortran subroutine
+      ! ***begin prologue  dqage
+      ! ***date written   800101   (yymmdd)
+      ! ***revision date  830518   (yymmdd)
+      ! ***category no.  h2a1a1
+      ! ***keywords  automatic integrator, general-purpose,
+      !              integrand examinator, globally adaptive,
+      !              gauss-kronrod
+      ! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
+      !            de doncker,elise,appl. math. & progr. div. - k.u.leuven
+      ! ***purpose  the routine calculates an approximation result to a given
+      !             definite integral   i = integral of f over (a,b),
+      !             hopefully satisfying following claim for accuracy
+      !             abs(i-reslt).le.max(epsabs,epsrel*abs(i)).
+      ! ***description
+      !
+      !         computation of a definite integral
+      !         standard fortran subroutine
       !         double precision version
       !
       !         parameters
@@ -534,8 +534,8 @@
         rlist(last) = area1
         elist(maxerr) = error2
         elist(last) = error1
-!
-!            call subroutine dqpsrt to maintain the descending ordering
+   !
+   !            call subroutine dqpsrt to maintain the descending ordering
    !            in the list of error estimates and select the subinterval
    !            with the largest error estimate (to be bisected next).
    !
@@ -559,20 +559,20 @@
       end
       subroutine dqk15(f,a,b,result,abserr,resabs,resasc,phi,lambda1,&
            zk0,Pup,Tup,rurd,xflow,kup)
-! ***begin prologue  dqk15
-! ***date written   800101   (yymmdd)
-! ***revision date  830518   (yymmdd)
-! ***category no.  h2a1a2
-! ***keywords  15-point gauss-kronrod rules
-! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!            de doncker,elise,appl. math. & progr. div - k.u.leuven
-! ***purpose  to compute i = integral of f over (a,b), with error
-!                            estimate
-!                        j = integral of abs(f) over (a,b)
-! ***description
-!
-!            integration rules
-!            standard fortran subroutine
+      ! ***begin prologue  dqk15
+      ! ***date written   800101   (yymmdd)
+      ! ***revision date  830518   (yymmdd)
+      ! ***category no.  h2a1a2
+      ! ***keywords  15-point gauss-kronrod rules
+      ! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
+      !            de doncker,elise,appl. math. & progr. div - k.u.leuven
+      ! ***purpose  to compute i = integral of f over (a,b), with error
+      !                            estimate
+      !                        j = integral of abs(f) over (a,b)
+      ! ***description
+      !
+      !            integration rules
+      !            standard fortran subroutine
       !            double precision version
       !
       !            parameters
@@ -742,20 +742,20 @@
       end
       subroutine dqk21(f,a,b,result,abserr,resabs,resasc,phi,lambda1,&
            zk0,Pup,Tup,rurd,xflow,kup)
-! ***begin prologue  dqk21
-! ***date written   800101   (yymmdd)
-! ***revision date  830518   (yymmdd)
-! ***category no.  h2a1a2
-! ***keywords  21-point gauss-kronrod rules
-! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!            de doncker,elise,appl. math. & progr. div. - k.u.leuven
-! ***purpose  to compute i = integral of f over (a,b), with error
-!                            estimate
-!                        j = integral of abs(f) over (a,b)
-! ***description
-!
-!            integration rules
-!            standard fortran subroutine
+      ! ***begin prologue  dqk21
+      ! ***date written   800101   (yymmdd)
+      ! ***revision date  830518   (yymmdd)
+      ! ***category no.  h2a1a2
+      ! ***keywords  21-point gauss-kronrod rules
+      ! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
+      !            de doncker,elise,appl. math. & progr. div. - k.u.leuven
+      ! ***purpose  to compute i = integral of f over (a,b), with error
+      !                            estimate
+      !                        j = integral of abs(f) over (a,b)
+      ! ***description
+      !
+      !            integration rules
+      !            standard fortran subroutine
       !            double precision version
       !
       !            parameters
@@ -931,20 +931,20 @@
       end
       subroutine dqk31(f,a,b,result,abserr,resabs,resasc,phi,lambda1,&
            zk0,Pup,Tup,rurd,xflow,kup)
-! ***begin prologue  dqk31
-! ***date written   800101   (yymmdd)
-! ***revision date  830518   (yymmdd)
-! ***category no.  h2a1a2
-! ***keywords  31-point gauss-kronrod rules
-! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!            de doncker,elise,appl. math. & progr. div. - k.u.leuven
-! ***purpose  to compute i = integral of f over (a,b) with error
-!                            estimate
-!                        j = integral of abs(f) over (a,b)
-! ***description
-!
-!            integration rules
-!            standard fortran subroutine
+      ! ***begin prologue  dqk31
+      ! ***date written   800101   (yymmdd)
+      ! ***revision date  830518   (yymmdd)
+      ! ***category no.  h2a1a2
+      ! ***keywords  31-point gauss-kronrod rules
+      ! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
+      !            de doncker,elise,appl. math. & progr. div. - k.u.leuven
+      ! ***purpose  to compute i = integral of f over (a,b) with error
+      !                            estimate
+      !                        j = integral of abs(f) over (a,b)
+      ! ***description
+      !
+      !            integration rules
+      !            standard fortran subroutine
       !            double precision version
       !
       !            parameters
@@ -1129,20 +1129,20 @@
       end
       subroutine dqk41(f,a,b,result,abserr,resabs,resasc,phi,lambda1,&
            zk0,Pup,Tup,rurd,xflow,kup)
-! ***begin prologue  dqk41
-! ***date written   800101   (yymmdd)
-! ***revision date  830518   (yymmdd)
-! ***category no.  h2a1a2
-! ***keywords  41-point gauss-kronrod rules
-! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!            de doncker,elise,appl. math. & progr. div. - k.u.leuven
-! ***purpose  to compute i = integral of f over (a,b), with error
-!                            estimate
-!                        j = integral of abs(f) over (a,b)
-! ***description
-!
-!            integration rules
-!            standard fortran subroutine
+      ! ***begin prologue  dqk41
+      ! ***date written   800101   (yymmdd)
+      ! ***revision date  830518   (yymmdd)
+      ! ***category no.  h2a1a2
+      ! ***keywords  41-point gauss-kronrod rules
+      ! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
+      !            de doncker,elise,appl. math. & progr. div. - k.u.leuven
+      ! ***purpose  to compute i = integral of f over (a,b), with error
+      !                            estimate
+      !                        j = integral of abs(f) over (a,b)
+      ! ***description
+      !
+      !            integration rules
+      !            standard fortran subroutine
       !            double precision version
       !
       !            parameters
@@ -1342,26 +1342,26 @@
       end
       subroutine dqk51(f,a,b,result,abserr,resabs,resasc,phi,lambda1,&
            zk0,Pup,Tup,rurd,xflow,kup)
-! ***begin prologue  dqk51
-! ***date written   800101   (yymmdd)
-! ***revision date  830518   (yymmdd)
-! ***category no.  h2a1a2
-! ***keywords  51-point gauss-kronrod rules
-! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!            de doncker,elise,appl. math & progr. div. - k.u.leuven
-! ***purpose  to compute i = integral of f over (a,b) with error
-!                            estimate
-!                        j = integral of abs(f) over (a,b)
-! ***description
-!
-!            integration rules
-!            standard fortran subroutine
-!            double precision version
-!
-!            parameters
-!             on entry
-!               f      - double precision
-!                        function subroutine defining the integrand
+      ! ***begin prologue  dqk51
+      ! ***date written   800101   (yymmdd)
+      ! ***revision date  830518   (yymmdd)
+      ! ***category no.  h2a1a2
+      ! ***keywords  51-point gauss-kronrod rules
+      ! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
+      !            de doncker,elise,appl. math & progr. div. - k.u.leuven
+      ! ***purpose  to compute i = integral of f over (a,b) with error
+      !                            estimate
+      !                        j = integral of abs(f) over (a,b)
+      ! ***description
+      !
+      !            integration rules
+      !            standard fortran subroutine
+      !            double precision version
+      !
+      !            parameters
+      !             on entry
+      !               f      - double precision
+      !                        function subroutine defining the integrand
       !                        function f(x). the actual name for f needs to be
       !                        declared e x t e r n a l in the calling program.
       !
@@ -1568,20 +1568,20 @@
       end
       subroutine dqk61(f,a,b,result,abserr,resabs,resasc,phi,lambda1,&
            zk0,Pup,Tup,rurd,xflow,kup)
-! ***begin prologue  dqk61
-! ***date written   800101   (yymmdd)
-! ***revision date  830518   (yymmdd)
-! ***category no.  h2a1a2
-! ***keywords  61-point gauss-kronrod rules
-! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!            de doncker,elise,appl. math. & progr. div. - k.u.leuven
-! ***purpose  to compute i = integral of f over (a,b) with error
-!                            estimate
-!                        j = integral of dabs(f) over (a,b)
-! ***description
-!
-!         integration rule
-!         standard fortran subroutine
+      ! ***begin prologue  dqk61
+      ! ***date written   800101   (yymmdd)
+      ! ***revision date  830518   (yymmdd)
+      ! ***category no.  h2a1a2
+      ! ***keywords  61-point gauss-kronrod rules
+      ! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
+      !            de doncker,elise,appl. math. & progr. div. - k.u.leuven
+      ! ***purpose  to compute i = integral of f over (a,b) with error
+      !                            estimate
+      !                        j = integral of dabs(f) over (a,b)
+      ! ***description
+      !
+      !         integration rule
+      !         standard fortran subroutine
       !         double precision version
       !
       !
@@ -1805,23 +1805,23 @@
       end
       subroutine dqpsrt(limit,last,maxerr,ermax,elist,iord,nrmax,&
            phi,lambda1,zk0,Pup,Tup,rurd,xflow,kup)
-! ***begin prologue  dqpsrt
-! ***refer to  dqage,dqagie,dqagpe,dqawse
-! ***routines called  (none)
-! ***revision date  810101   (yymmdd)
-! ***keywords  sequential sorting
-! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!            de doncker,elise,appl. math. & progr. div. - k.u.leuven
-! ***purpose  this routine maintains the descending ordering in the
-!             list of the local error estimated resulting from the
-!             interval subdivision process. at each call two error
-!             estimates are inserted using the sequential search
-!             method, top-down for the largest error estimate and
-!             bottom-up for the smallest error estimate.
-! ***description
-!
-!            ordering routine
-!            standard fortran subroutine
+      ! ***begin prologue  dqpsrt
+      ! ***refer to  dqage,dqagie,dqagpe,dqawse
+      ! ***routines called  (none)
+      ! ***revision date  810101   (yymmdd)
+      ! ***keywords  sequential sorting
+      ! ***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
+      !            de doncker,elise,appl. math. & progr. div. - k.u.leuven
+      ! ***purpose  this routine maintains the descending ordering in the
+      !             list of the local error estimated resulting from the
+      !             interval subdivision process. at each call two error
+      !             estimates are inserted using the sequential search
+      !             method, top-down for the largest error estimate and
+      !             bottom-up for the smallest error estimate.
+      ! ***description
+      !
+      !            ordering routine
+      !            standard fortran subroutine
       !            double precision version
       !
       !            parameters (meaning at output)

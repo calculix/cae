@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -294,7 +294,7 @@
                   !     calculation of the dynamic viscosity
                   !
                   if(dabs(dvi).lt.1d-30) then
-                     write(*,*) '*ERROR in gaspipe_fanno: '
+                     write(*,*) '*ERROR in mafillnet: '
                      write(*,*) '       no dynamic viscosity defined'
                      write(*,*) '       dvi= ',dvi
                      call exit(201)
@@ -457,7 +457,7 @@
                   !     calculation of the dynamic viscosity
                   !
                   if(dabs(dvi).lt.1d-30) then
-                     write(*,*) '*ERROR in gaspipe_fanno: '
+                     write(*,*) '*ERROR in mafillnet: '
                      write(*,*) '       no dynamic viscosity defined'
                      write(*,*) '       dvi= ',dvi
                      call exit(201)

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -35,7 +35,7 @@
         ibody,xbody,nbody,xbodyold,ttime,qaold,cs,mcs,output,&
         physcon,ctrl,typeboun,fmpc,tieset,ntie,tietol,nslavs,t0g,t1g,&
         nprop,ielprop,prop,mortar,nintpoint,ifacecount,islavsurf,&
-        pslavsurf,clearini,irstrt,vel,nef,velo,veloo)
+        pslavsurf,clearini,irstrt,vel,nef,velo,veloo,ne2boun)
       !
       !     writes all information needed for a restart to file
       !
@@ -47,7 +47,7 @@
       logical op
       !
       character*1 typeboun(*)
-      character*3 output
+      character*4 output
       character*6 prlab(*)
       character*8 lakon(*)
       character*20 labmpc(*),sideload(*)
@@ -70,7 +70,7 @@
         iponor(*),knor(*),iponoel(*),inoel(*),rig(*),&
         nshcon(*),ncocon(*),ics(*),infree(*),i,ipos,&
         nener,iprestr,istepnew,maxlenmpc,mcs,ntie,&
-        ibody(*),nbody,mt,nslavs,namtot,nef
+        ibody(*),nbody,mt,nslavs,namtot,nef,ne2boun(*)
       !
       real*8 co(*),xboun(*),coefmpc(*),xforc(*),xload(*),elcon(*),&
         rhcon(*),alcon(*),alzero(*),plicon(*),plkcon(*),orab(*),&
@@ -115,10 +115,11 @@
                  FORM='UNFORMATTED',err=151)
       endif
       !
-      do i=1,80
-         version(i:i)=' '
-      enddo
-      version(1:20)='Version 2.15'
+      !       do i=1,80
+      !          version(i:i)=' '
+      !       enddo
+      !       version(1:20)='Version 2.16'
+      version='Version 2.16'
       write(15) version
       !
       write(15)istepnew
@@ -406,6 +407,7 @@
          write(15)(iponoel(i),i=1,infree(4))
          write(15)(inoel(i),i=1,3*(infree(3)-1))
          write(15)(rig(i),i=1,infree(4))
+         write(15)(ne2boun(i),i=1,2*infree(4))
       endif
       !
       !     tie constraints
@@ -458,10 +460,13 @@
       !
       write(15) (irstrt(i),i=1,2)
       !
+      flush(15)
+      !
       !     if overlay mode: rename temporaryrestartfile into
       !     .rout file
       !
       if(irstrt(2).eq.1) then
+         close(15)
          call system("rm -f "//fnrstrt(1:ipos+4))
          call system("mv temporaryrestartfile "//fnrstrt(1:ipos+4))
       endif

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,14 +16,12 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-      subroutine greens(inpc,textpart,nmethod,iperturb,&
-        isolver,istep,istat,n,iline,ipol,inl,ipoinp,inp,&
-        ithermal,ipoinpc,ier)
+      subroutine greens(inpc,textpart,nmethod,&
+        mei,iperturb,istep,istat,n,iline,ipol,inl,&
+        ipoinp,inp,ithermal,isolver,xboun,nboun,ipoinpc,&
+        ier)
       !
       !     reading the input deck: *GREEN
-      !
-      !     isolver=0: SPOOLES
-      !             7: pardiso
       !
       implicit none
       !
@@ -31,23 +29,18 @@
       character*20 solver
       character*132 textpart(16)
       !
-      integer nmethod,iperturb(2),isolver,istep,istat,n,key,i,&
-        iline,ipol,inl,ipoinp(2,*),inp(3,*),ithermal,ipoinpc(0:*),&
-        ier
+      integer nmethod,mei(4),istep,istat,iperturb(2),i,nboun,ier,&
+        n,key,iline,ipol,inl,ipoinp(2,*),inp(3,*),ithermal,isolver,&
+        ipoinpc(0:*)
       !
-      !       if((iperturb.eq.1).and.(istep.ge.1)) then
-      !          write(*,*) '*ERROR reading *GREEN:'
-      !          write(*,*) '       perturbation analysis is'
-      !          write(*,*) '       not provided in a *GREEN'
-      !          write(*,*) '       step.'
-      !          ier=1
-      !          return
-      !       endif
+      real*8 xboun(*)
+      !
+      mei(4)=0
       !
       if(istep.lt.1) then
-         write(*,*) '*ERROR reading *GREEN:'
-         write(*,*) '       *GREEN can only be used'
-         write(*,*) '       within a STEP'
+         write(*,*)&
+            '*ERROR reading *GREEN: *GREEN can only be used'
+         write(*,*) '  within a STEP'
          ier=1
          return
       endif
@@ -78,9 +71,11 @@
       do i=2,n
          if(textpart(i)(1:7).eq.'SOLVER=') then
             read(textpart(i)(8:27),'(a20)') solver
+         elseif(textpart(i)(1:11).eq.'STORAGE=YES') then
+            mei(4)=1
          else
-            write(*,*) '*WARNING reading *GREEN:'
-            write(*,*) '         parameter not recognized:'
+            write(*,*)&
+              '*WARNING reading *GREEN: parameter not recognized:'
             write(*,*) '         ',&
                        textpart(i)(1:index(textpart(i),' ')-1)
             call inputwarning(inpc,ipoinpc,iline,&
@@ -90,18 +85,41 @@
       !
       if(solver(1:7).eq.'SPOOLES') then
          isolver=0
+      elseif(solver(1:16).eq.'ITERATIVESCALING') then
+         write(*,*) '*WARNING reading *GREEN: the iterative scaling'
+         write(*,*) '         procedure is not available for green'
+         write(*,*) '         calculations; the default solver is used'
+      elseif(solver(1:17).eq.'ITERATIVECHOLESKY') then
+         write(*,*) '*WARNING reading *GREEN: the iterative scaling'
+         write(*,*) '         procedure is not available for green'
+         write(*,*) '         calculations; the default solver is used'
+      elseif(solver(1:3).eq.'SGI') then
+         isolver=4
+      elseif(solver(1:5).eq.'TAUCS') then
+         isolver=5
       elseif(solver(1:7).eq.'PARDISO') then
          isolver=7
       else
-         write(*,*) '*ERROR reading *GREEN:'
-         write(*,*) '       solver:',solver,'is not allowed.'
-         write(*,*) '       please specify SPOOLES or PARDISO'
+         write(*,*) '*WARNING reading *GREEN: unknown solver;'
+         write(*,*) '         the default solver is used'
+      endif
+      !
+      if((isolver.eq.2).or.(isolver.eq.3)) then
+         write(*,*) '*ERROR reading *GREEN: the default solver ',&
+       solver
+         write(*,*) '       cannot be used for green calculations '
          ier=1
          return
       endif
       !
-      nmethod=11
+      nmethod=13
       if(iperturb(1).gt.1) iperturb(1)=0
+      !
+      !     removing nonzero boundary conditions
+      !
+      do i=1,nboun
+         xboun(i)=0.d0
+      enddo
       !
       call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,&
            ipoinp,inp,ipoinpc)

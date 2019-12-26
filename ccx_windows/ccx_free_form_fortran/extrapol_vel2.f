@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,20 +16,20 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-      subroutine extrapol_vel2(ipnei,neifa,vfap,area,xxn,volume,gradvel,&
-        nefa,nefb)
+      subroutine extrapol_vel2(ipnei,neifa,vfa,area,xxna,volume,gradvel,&
+        nefa,nefb,ncfd)
       !
       !     calculate the gradient of the velocities at the center of
       !     the elements
       !
       implicit none
       !
-      integer ipnei(*),neifa(*),nefa,nefb,i,k,l,ifa,indexf
+      integer ipnei(*),neifa(*),nefa,nefb,i,k,l,ifa,indexf,ncfd
       !
-      real*8 vfap(0:7,*),area(*),xxn(3,*),volume(*),gradvel(3,3,*)
+      real*8 vfa(0:7,*),area(*),xxna(3,*),volume(*),gradvel(3,3,*)
       !
-      intent(in) ipnei,neifa,vfap,area,xxn,volume,&
-        nefa,nefb
+      intent(in) ipnei,neifa,vfa,area,xxna,volume,&
+        nefa,nefb,ncfd
       !
       intent(inout) gradvel
       !
@@ -37,26 +37,26 @@
          !
          !           initialization
          !
-         do k=1,3
-            do l=1,3
+         do k=1,ncfd
+            do l=1,ncfd
                gradvel(k,l,i)=0.d0
             enddo
          enddo
          !
          do indexf=ipnei(i)+1,ipnei(i+1)
             ifa=neifa(indexf)
-            do k=1,3
-               do l=1,3
+            do k=1,ncfd
+               do l=1,ncfd
                   gradvel(k,l,i)=gradvel(k,l,i)+&
-                       vfap(k,ifa)*area(ifa)*xxn(l,indexf)
+                       vfa(k,ifa)*xxna(l,indexf)
                enddo
             enddo
          enddo
          !
          !     dividing by the volume of the element
          !
-         do k=1,3
-            do l=1,3
+         do k=1,ncfd
+            do l=1,ncfd
                gradvel(k,l,i)=gradvel(k,l,i)/volume(i)
             enddo
          enddo

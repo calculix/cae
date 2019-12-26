@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 !
       subroutine extrapolate_d_v_simple(ielfa,xrlfa,adv,advfa,&
                         hfa,icyclic,c,ifatie,vel,nef,volume,&
-                        nfacea,nfaceb)
+                        nfacea,nfaceb,ncfd)
       !
       !     inter/extrapolation of volume/adv at the center of the elements
       !     to the center of the faces
@@ -29,13 +29,13 @@
       implicit none
       !
       integer ielfa(4,*),iel1,iel2,iel3,i,j,icyclic,ifatie(*),&
-        nef,nfacea,nfaceb
+        nef,nfacea,nfaceb,ncfd
       !
       real*8 xrlfa(3,*),xl1,xl2,advfa(*),adv(*),vel(nef,0:7),hfa(3,*),&
            c(3,3),volume(*)
       !
       intent(in) ielfa,xrlfa,adv,icyclic,c,ifatie,vel,nef,volume,&
-           nfacea,nfaceb
+           nfacea,nfaceb,ncfd
       !
       intent(inout) advfa,hfa
       !
@@ -51,19 +51,19 @@
             advfa(i)=xl1*volume(iel1)/adv(iel1)&
                     +xl2*volume(iel2)/adv(iel2)
             if((icyclic.eq.0).or.(ifatie(i).eq.0)) then
-               do j=1,3
+               do j=1,ncfd
                   hfa(j,i)=(xl1*vel(iel1,j)&
                        +xl2*vel(iel2,j))
                enddo
             elseif(ifatie(i).gt.0) then
-               do j=1,3
+               do j=1,ncfd
                   hfa(j,i)=(xl1*vel(iel1,j)&
                        +xl2*(c(j,1)*vel(iel2,1)+&
                              c(j,2)*vel(iel2,2)+&
                              c(j,3)*vel(iel2,3)))
                enddo
             else
-               do j=1,3
+               do j=1,ncfd
                   hfa(j,i)=(xl1*vel(iel1,j)&
                        +xl2*(c(1,j)*vel(iel2,1)+&
                              c(2,j)*vel(iel2,2)+&
@@ -77,7 +77,7 @@
             iel3=abs(ielfa(3,i))
             advfa(i)=xl1*volume(iel1)/adv(iel1)&
                     +xrlfa(3,i)*volume(iel3)/adv(iel3)
-            do j=1,3
+            do j=1,ncfd
                hfa(j,i)=(xl1*vel(iel1,j)+xrlfa(3,i)*vel(iel3,j))
             enddo
          else
@@ -86,7 +86,7 @@
             !           element layer)
             !
             advfa(i)=volume(iel1)/adv(iel1)
-            do j=1,3
+            do j=1,ncfd
                hfa(j,i)=vel(iel1,j)
             enddo
          endif

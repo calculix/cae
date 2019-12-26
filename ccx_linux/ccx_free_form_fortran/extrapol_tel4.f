@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -75,11 +75,7 @@
             !
             !     zero gradient
             !
-            indexf=ipnei(iel1)+ielfa(4,i)
-            vfa(0,i)=vel(iel1,0)&
-                 +(gradtfa(1,i)*xxi(1,indexf)+&
-                 gradtfa(2,i)*xxi(2,indexf)+&
-                 gradtfa(3,i)*xxi(3,indexf))*xle(indexf)
+            vfa(0,i)=vel(iel1,0)
          endif
       enddo
       !

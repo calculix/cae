@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -86,7 +86,7 @@ void remastructem(ITG *ipompc, double **coefmpcp, ITG **nodempcp, ITG *nmpc,
     RENEW(b,double,neq[1]);for(i=0;i<neq[1];i++) b[i]=0.;
     RENEW(fini,double,neq[1]);for(i=0;i<neq[1];i++) fini[i]=0.;
 
-    if(*nmethod==4){
+    if((*nmethod==2)||(*nmethod==4)){
 	RENEW(aux2,double,neq[1]);for(i=0;i<neq[1];i++) aux2[i]=0.;
 	RENEW(fextini,double,neq[1]);for(i=0;i<neq[1];i++) fextini[i]=0.;
 	RENEW(adb,double,neq[1]);for(i=0;i<neq[1];i++) adb[i]=0.;

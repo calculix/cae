@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -23,14 +23,14 @@
 !            sorting Eigenvalues in increasing order
 !
       subroutine sortev(nev,nmd,eigxx,cyclicsymmetry,x,eigxr,ipev,&
-           istartnmd,iendnmd,a,b)
+           istartnmd,iendnmd,a,b,nevcomplex)
       !
       !     sorts the eigenvalues and eigenvectors of complex frequency
       !
       implicit none
       !
       integer nev,i,j,k,l,m,istartnmd(*),iendnmd(*),nmd,&
-           cyclicsymmetry,ipev(*)
+           cyclicsymmetry,ipev(*),nevcomplex
       !
       real*8 eigxr(*)
       !
@@ -40,15 +40,15 @@
          !
          !     sorting the eigenvalues according to their size
          !
-         do i=1,nev
+         do i=1,nevcomplex
             ipev(i)=i
             eigxr(i)=cdabs(eigxx(i))
          enddo
-         call dsort(eigxr,ipev,nev,2)
+         call dsort(eigxr,ipev,nevcomplex,2)
          !
          !     sorting the eigenvectors
          !
-         do i=1,nev
+         do i=1,nevcomplex
             a(i)=eigxx(ipev(i))
             do j=1,nev
                b(j,i)=x(j,ipev(i))
@@ -57,10 +57,10 @@
          !
          !     copying in the original fields
          !
-         do i=1,nev
+         do i=1,nevcomplex
             eigxx(i)=a(i)
             do j=1,nev
-               x(i,j)=b(i,j)
+               x(j,i)=b(j,i)
                enddo
             enddo
          else

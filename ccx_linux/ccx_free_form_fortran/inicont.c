@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -32,13 +32,13 @@ void inicont(ITG * nk,ITG *ncont, ITG *ntie, char *tieset, ITG *nset, char *set,
 	       ITG *iperturb, ITG *ikboun, ITG *nboun, double *co,
 	       ITG *istep,double **xnoelsp){
     
-  char kind1[2]="C",kind2[2]="-",*tchar1=NULL,*tchar3=NULL;
+  char kind1[2]="C",kind2[2]="-";
     
   ITG *itietri=NULL,*koncont=NULL,*itiefac=NULL, *islavsurf=NULL,im,
       *islavnode=NULL,*imastnode=NULL,*nslavnode=NULL,*nmastnode=NULL,
       nmasts,*ipe=NULL,*ime=NULL,*imastop=NULL,
       *iponoels=NULL,*inoels=NULL,ifreenoels,ifreeme,*ipoface=NULL,
-      *nodface=NULL,iface,i,j,k,ncone;
+      *nodface=NULL,ncone;
     
   double *xnoels=NULL;
     

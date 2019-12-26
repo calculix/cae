@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -21,11 +21,11 @@
            nactdog,identity,ielprop,prop,iflag,v,xflow,f,&
            nodef,idirf,df,cp,r,physcon,dvi,numf,set,&
            mi,ttime,time,iaxial,iplausi)
-!
-!     This subroutine is used to enables the processing of empiric
-!     given under the form
-!     massflow*dsqrt(T1)/Pt1=f((Pt1-Pt2)/Pt1) and T1=T2
-!     characteristics the subroutine proceeds using
+      !
+      !     This subroutine is used to enables the processing of empiric
+      !     given under the form
+      !     massflow*dsqrt(T1)/Pt1=f((Pt1-Pt2)/Pt1) and T1=T2
+      !     characteristics the subroutine proceeds using
       !     linear interpolation to estimate the values for the whole characteristic
       !     note that the characteristic is implicitely containing the point (0,0)
       !
@@ -64,6 +64,12 @@
          endif
       !
       elseif ((iflag.eq.1).or.(iflag.eq.2)) then
+         if(iflag.eq.1) then
+            if(v(1,nodem).ne.0.d0) then
+               xflow=v(1,nodem)
+               return
+            endif
+         endif
          !
          index=ielprop(nelem)
          !

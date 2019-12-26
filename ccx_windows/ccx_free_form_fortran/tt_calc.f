@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,8 +17,8 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine tt_calc(xflow,Tt,pt,kappa,r,A,Ts,icase)
-!
-!     this subroutine solves the implicit equation
+      !
+      !     this subroutine solves the implicit equation
       !     f=xflow*dsqrt(Tt)/(a*Pt)-C*(TtdT)**expon*(Ttdt-1)**0.5d0
       !     in order to find Tt when Ts , xflow, pt and a are given
       !

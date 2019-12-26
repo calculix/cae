@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,14 +17,14 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine extrapol_oel1(ielfa,xrlfa,vfap,vel,ifabou,&
-        nef,umfa,constant,dy,vfa,nfacea,nfaceb)
+        nef,umfa,constant,dy,vfa,inlet,nfacea,nfaceb)
       !
       !     extrapolation of turbulent kinetic energy values to the faces
       !
       implicit none
       !
       integer ielfa(4,*),ifabou(*),nfacea,nfaceb,nef,i,iel1,iel2,&
-        ipointer
+        ipointer,inlet(*)
       !
       real*8 xrlfa(3,*),vfap(0:7,*),vel(nef,0:7),xl1,dy(*),&
         umfa(*),constant,vfa(0:7,*)
@@ -43,6 +43,7 @@
             !           face between two elements: interpolation
             !
             vfap(7,i)=xl1*vel(iel1,7)+xrlfa(2,i)*vel(iel2,7)
+         !
          elseif(ielfa(3,i).gt.0) then
             !
             !           boundary face; no zero gradient
@@ -59,9 +60,7 @@
                !              wall: turbulent dissipation rate known
                !
                vfap(7,i)=dy(ifabou(ipointer+5))*umfa(i)/vfa(5,i)
-            elseif(((ifabou(ipointer+1).gt.0).and.&
-                    (ifabou(ipointer+2).gt.0).and.&
-                    (ifabou(ipointer+3).gt.0)).or.&
+            elseif((inlet(i).eq.1).or.&
                    (ifabou(ipointer+5).lt.0)) then
                !
                !              inlet or sliding conditions: kinetic turbulent energy known
@@ -75,7 +74,7 @@
             endif
          else
             !
-            !           boundary face; zero gradient
+            !           boundary face; zero gradient in i-direction
             !
             vfap(7,i)=vel(iel1,7)
          endif

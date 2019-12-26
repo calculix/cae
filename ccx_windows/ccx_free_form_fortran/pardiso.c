@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -50,6 +50,7 @@ void pardiso_factor(double *ad, double *au, double *adb, double *aub,
   }
 
   iparm[0]=0;
+  iparm[1]=3;
 /* set MKL_NUM_THREADS to min(CCX_NPROC_EQUATION_SOLVER,OMP_NUM_THREADS)
    must be done once  */
   if (nthread_mkl == 0) {
@@ -118,7 +119,8 @@ void pardiso_factor(double *ad, double *au, double *adb, double *aub,
 	  }
       }
   }else{
-      mtype=11;
+//      mtype=11;
+      mtype=1;
 
       if(*inputformat==3){
 
@@ -307,9 +309,11 @@ void pardiso_solve(double *b, ITG *neq,ITG *symmetryflag,ITG *nrhs){
   if(*symmetryflag==0){
       mtype=-2;
   }else{
-      mtype=11;
+//      mtype=11;
+      mtype=1;
   }
-  iparm[0]=0;
+//  iparm[0]=0;
+  iparm[1]=3;
 /* pardiso_factor has been called befor, MKL_NUM_THREADS=nthread_mkl is set*/
 
   printf(" number of threads =% d\n\n",nthread_mkl);
@@ -335,7 +339,8 @@ void pardiso_cleanup(ITG *neq,ITG *symmetryflag){
   if(*symmetryflag==0){
       mtype=-2;
   }else{
-      mtype=11;
+//      mtype=11;
+      mtype=1;
   }
 
   FORTRAN(pardiso,(pt,&maxfct,&mnum,&mtype,&phase,neq,aupardiso,

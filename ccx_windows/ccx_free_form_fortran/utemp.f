@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,8 +20,8 @@
         mi,iponoel,inoel,ipobody,xbody,ibody,ipkon,kon,&
         lakon,ielprop,prop,ielmat,&
         shcon,nshcon,rhcon,nrhcon,ntmat_,cocon,ncocon)
-!
-!     user subroutine utemp
+      !
+      !     user subroutine utemp
       !
       !
       !     INPUT:
@@ -130,8 +130,8 @@
         shcon,nshcon,rhcon,nrhcon,ntmat_,cocon,ncocon
       !
       intent(out) temp
-!
-!     In order to use this user subroutine:
+      !
+      !     In order to use this user subroutine:
       !       1. delete the next call to utemp_ccxlib
       !       2. write your own code replacing the line "temp(1)=293.d0"
       !

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,7 +16,7 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-      subroutine gen3membrane(ipompc,nodempc,coefmpc,nmpc,nmpc_,&
+      subroutine gen3dmembrane(ipompc,nodempc,coefmpc,nmpc,nmpc_,&
         mpcfree,ikmpc,ilmpc,labmpc,nk,ithermal,i)
       !
       !     connects nodes of 1-D and 2-D elements, for which SPC's were

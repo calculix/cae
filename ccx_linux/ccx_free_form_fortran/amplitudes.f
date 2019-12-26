@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -41,12 +41,12 @@
       shiftx=0.d0
       shifty=0.d0
       !
-      if((istep.gt.0).and.(irstrt(1).ge.0)) then
-         write(*,*) '*ERROR reading *AMPLITUDE: *AMPLITUDE should be'
-         write(*,*) '  placed before all step definitions'
-         ier=1
-         return
-      endif
+      !       if((istep.gt.0).and.(irstrt(1).ge.0)) then
+      !          write(*,*) '*ERROR reading *AMPLITUDE: *AMPLITUDE should be'
+      !          write(*,*) '  placed before all step definitions'
+      !          ier=1
+      !          return
+      !       endif
       !
       nam=nam+1
       if(nam.gt.nam_) then

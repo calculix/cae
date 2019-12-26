@@ -157,8 +157,8 @@ void getglobalresults (char *jobnamec,ITG **integerglobp,double **doubleglobp,
     anz->sets=0;
     anz->mats=0;
     anz->amps=0;
-    anz->noffs=0;
-    anz->eoffs=0;
+//    anz->nnext=0;
+//    anz->enext=0;
     
     readfrd( datin, anz, &node, &elem, &lcase, read_mode);
     

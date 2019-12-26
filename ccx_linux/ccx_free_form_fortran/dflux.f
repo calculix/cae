@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,8 +20,8 @@
            jltyp,temp,press,loadtype,area,vold,co,lakonl,konl,&
            ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,iscale,mi,&
            sti,xstateini,xstate,nstate_,dtime)
-!
-!     user subroutine dflux
+      !
+      !     user subroutine dflux
       !
       !
       !     INPUT:
@@ -88,7 +88,7 @@
       !     xstateini(i,j,k)   value of the state variable i at integration
       !                        point j in element k at the beginning of the
       !                        present increment
-      !     xstateini(i,j,k)   value of the state variable i at integration
+      !     xstate(i,j,k)   value of the state variable i at integration
       !                        point j in element k at the end of the
       !                        present increment
       !     nstate_            number of state variables

@@ -1,6 +1,6 @@
 !
 !      CalculiX - A 3-dimensional finite element program
-!               Copyright (C) 1998-2018 Guido Dhondt
+!               Copyright (C) 1998-2019 Guido Dhondt
 !
 !      This program is free software; you can redistribute it and/or
 !      modify it under the terms of the GNU General Public License as
@@ -16,7 +16,7 @@
 !      along with this program; if not, write to the Free Software
 !      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-       subroutine writemac(mac,nev)
+       subroutine writemac(mac,nev,nevcomplex)
        !
        !      writes the results of MAC-caculation in *_mac.dat
        !
@@ -26,14 +26,14 @@
        !
        implicit none
        !
-       integer i,j,nev
-       real*8 mac(nev,nev)
+       integer i,j,nev,nevcomplex
+       real*8 mac(nev,nevcomplex)
        !
        write(5,*)
        write(5,*)    'Modal Assurance Criterium'
        write(5,*)
        do i=1,nev
-          write(5,100) (mac(i,j),j=1,nev)
+          write(5,100) (mac(i,j),j=1,nevcomplex)
        enddo
  !
  100   format(15(1x,e11.4))

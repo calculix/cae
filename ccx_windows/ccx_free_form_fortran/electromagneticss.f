@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -37,17 +37,17 @@
       character*20 solver
       character*132 textpart(16)
       !
-      integer nmethod,iperturb,isolver,istep,istat,n,key,i,idrct,nev,&
+      integer nmethod,iperturb(*),isolver,istep,istat,n,key,i,idrct,nev,&
         ithermal,iline,ipol,inl,ipoinp(2,*),inp(3,*),mei(4),ncv,mxiter,&
         ipoinpc(0:*),idirect,iheat,ier
       !
-      real*8 tinc,tper,tmin,tmax,alpha,fei(3),tol,fmin,fmax,ctrl(*),&
+      real*8 tinc,tper,tmin,tmax,alpha(*),fei(3),tol,fmin,fmax,ctrl(*),&
         ttime
       !
       tmin=0.d0
       tmax=0.d0
       nmethod=9
-      alpha=0.d0
+      alpha(1)=0.d0
       mei(4)=0
       timereset=.false.
       !
@@ -56,19 +56,19 @@
       fmin=-1.d0
       fmax=-1.d0
       !
-      if(iperturb.eq.0) then
-         iperturb=2
-      elseif((iperturb.eq.1).and.(istep.gt.1)) then
+      if(iperturb(1).eq.0) then
+         iperturb(1)=2
+      elseif((iperturb(1).eq.1).and.(istep.gt.1)) then
          write(*,*)&
         '*ERROR reading *ELECTROMAGNETICS: perturbation analysis is'
-         write(*,*) '       not provided in a *HEAT TRANSFER step.'
+         write(*,*) '       not provided in a *ELECTROMAGNETICS step.'
          ier=1
          return
       endif
       !
       if(istep.lt.1) then
          write(*,*)&
-           '*ERROR reading *ELECTROMAGNETICS: *HEAT TRANSFER can only'
+          '*ERROR reading *ELECTROMAGNETICS: *ELECTROMAGNETICS can only'
          write(*,*) '       be used within a STEP'
          ier=1
          return
@@ -114,6 +114,8 @@
             read(textpart(i)(18:37),'(f20.0)',iostat=istat) ttime
          elseif(textpart(i)(1:14).eq.'NOHEATTRANSFER') then
             iheat=0
+         elseif(textpart(i)(1:6).eq.'OMEGA=') then
+            read(textpart(i)(7:26),'(f20.0)',iostat=istat) alpha(1)
          else
             write(*,*)&
          '*WARNING reading *ELECTROMAGNETICS: parameter not recognized:'
@@ -128,7 +130,7 @@
       !     default for modal dynamic calculations is DIRECT,
       !     for static or dynamic calculations DIRECT=NO
       !
-      if(iperturb.eq.0) then
+      if(iperturb(1).eq.0) then
          idrct=1
          if(idirect.eq.0)idrct=0
       else
@@ -149,7 +151,7 @@
          endif
       endif
       !
-      if((nmethod.ne.10).and.(iperturb.ne.0)) then
+      if((nmethod.ne.10).and.(iperturb(1).ne.0)) then
          !
          !        static or dynamic thermal analysis
          !
@@ -174,7 +176,7 @@
          call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,&
               ipoinp,inp,ipoinpc)
          if((istat.lt.0).or.(key.eq.1)) then
-            if(iperturb.ge.2) then
+            if(iperturb(1).ge.2) then
                write(*,*) '*WARNING reading *ELECTROMAGNETICS: a nonline&
       ar geometric analysis is requested'
                write(*,*) '         but no time increment nor step is sp&
@@ -239,59 +241,41 @@
          endif
       elseif(nmethod.eq.10) then
          !
-         !        thermal eigenmode analysis
+         !        steady state electrodynamics analysis
          !
-         iperturb=0
+         iperturb(1)=0
+         !
+         if(solver(1:7).eq.'SPOOLES') then
+            isolver=0
+         elseif(solver(1:16).eq.'ITERATIVESCALING') then
+            isolver=2
+         elseif(solver(1:17).eq.'ITERATIVECHOLESKY') then
+            isolver=3
+         elseif(solver(1:3).eq.'SGI') then
+            isolver=4
+         elseif(solver(1:5).eq.'TAUCS') then
+            isolver=5
+         elseif(solver(1:7).eq.'PARDISO') then
+            isolver=7
+         else
+            write(*,*)&
+                '*WARNING reading *ELECTROMAGNETICS: unknown solver;'
+            write(*,*) '         the default solver is used'
+         endif
          !
          call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,&
               ipoinp,inp,ipoinpc)
-         if((istat.lt.0).or.(key.eq.1)) then
-            write(*,*)&
-             '*ERROR reading *ELECTROMAGNETICS: definition not complete'
-            write(*,*) '  '
-            call inputerror(inpc,ipoinpc,iline,&
-                 "*ELECTROMAGNETICS%",ier)
-            return
-         endif
-         read(textpart(1)(1:10),'(i10)',iostat=istat) nev
-         if(istat.gt.0) then
-            call inputerror(inpc,ipoinpc,iline,&
-                 "*ELECTROMAGNETICS%",ier)
-            return
-         endif
-         if(nev.le.0) then
-            write(*,*) '*ERROR reading *ELECTROMAGNETICS: less than 1 ei&
-      genvalue requested'
-            ier=1
-            return
-         endif
-         tol=1.d-2
-         ncv=4*nev
-         ncv=ncv+nev
-         mxiter=1000
-         if(textpart(2)(1:1).ne.' ') then
-            read(textpart(2)(1:20),'(f20.0)',iostat=istat) fmin
-            if(istat.gt.0) then
-               call inputerror(inpc,ipoinpc,iline,&
-                    "*ELECTROMAGNETICS%",ier)
-               return
-            endif
-         endif
-         if(textpart(3)(1:1).ne.' ') then
-            read(textpart(3)(1:20),'(f20.0)',iostat=istat) fmax
-            if(istat.gt.0) then
-               call inputerror(inpc,ipoinpc,iline,&
-                    "*ELECTROMAGNETICS%",ier)
-               return
-            endif
-         endif
-         !
-         mei(1)=nev
-         mei(2)=ncv
-         mei(3)=mxiter
-         fei(1)=tol
-         fei(2)=fmin
-         fei(3)=fmax
+         write(*,*) '*INFO reading *ELECTROMAGNETICS:'
+         write(*,*)&
+           '      for a steady state electromagnetics calculation'
+         write(*,*) '      the time defaults (1,1) are used'
+         tinc=1.d0
+         tper=1.d0
+         tmin=1.d-5
+         tmax=1.d+30
+         if(timereset)ttime=ttime-tper
+         if((istat.lt.0).or.(key.eq.1)) return
+      !
       endif
       !
       if(timereset)ttime=ttime-tper

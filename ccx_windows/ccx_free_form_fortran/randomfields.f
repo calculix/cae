@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -50,7 +50,7 @@
       read(textpart(1)(1:20),'(i10)',iostat=istat) neigenvectors
       physcon(11)=1.d0*neigenvectors
       !
-      !     Standarddeviation
+      !     Standard deviation
       !
       read(textpart(2)(1:20),'(f20.0)',iostat=istat) physcon(12)
       !

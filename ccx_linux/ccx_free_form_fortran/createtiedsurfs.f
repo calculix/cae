@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -30,8 +30,8 @@
       !
       integer ipkon(*),kon(*),ne,nodface(5,*),ipoface(*),istartset(*),&
         iendset(*),ialset(*),inomat(*),ithree,ifour,ifaceq(8,6),&
-        ifacet(6,4),ifacew(8,5),ifree,ifreenew,index,indexold,kflag,&
-        i,j,k,iactive(3),ntie,nodes(4),iaux,nalset,nk,nset,indexe
+        ifacet(6,4),ifacew(8,5),ifree,ifreenew,index,indexold,&
+        i,j,k,iactive(3),ntie,nodes(4),nalset,nk,nset,indexe
       !
       real*8 tietol(3,*)
       !
@@ -53,7 +53,6 @@
                    2,3,6,5,8,15,11,14,&
                    4,6,3,1,12,15,9,13/
       !
-      kflag=1
       ithree=3
       ifour=4
       !
@@ -83,7 +82,8 @@
                do k=1,4
                   nodes(k)=kon(indexe+ifaceq(k,j))
                enddo
-               call isortii(nodes,iaux,ifour,kflag)
+               call insertsorti(nodes,ifour)
+               !                call isortii(nodes,iaux,ifour,kflag)
                indexold=0
                index=ipoface(nodes(1))
                do
@@ -126,7 +126,8 @@
                do k=1,3
                   nodes(k)=kon(indexe+ifacet(k,j))
                enddo
-               call isortii(nodes,iaux,ithree,kflag)
+               call insertsorti(nodes,ithree)
+               !                call isortii(nodes,iaux,ithree,kflag)
                indexold=0
                index=ipoface(nodes(1))
                do
@@ -170,12 +171,14 @@
                   do k=1,3
                      nodes(k)=kon(indexe+ifacew(k,j))
                   enddo
-                  call isortii(nodes,iaux,ithree,kflag)
+                  call insertsorti(nodes,ithree)
+               !                   call isortii(nodes,iaux,ithree,kflag)
                else
                   do k=1,4
                      nodes(k)=kon(indexe+ifacew(k,j))
                   enddo
-                  call isortii(nodes,iaux,ifour,kflag)
+                  call insertsorti(nodes,ifour)
+               !                   call isortii(nodes,iaux,ifour,kflag)
                endif
                indexold=0
                index=ipoface(nodes(1))

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -168,8 +168,8 @@
       niso=int(plconloc(801))
       !
       if(niso.eq.0) then
-!
-!        user subroutine for the conductance
+         !
+         !        user subroutine for the conductance
          !
          d(1)=val
          d(2)=pressure

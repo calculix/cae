@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine extrapol_kel5(ielfa,ipnei,vel,xlet,gradkfa,xxj,&
-        nef,nfacea,nfaceb)
+        nef,nfacea,nfaceb,ncfd)
       !
       !     correct the facial turbulent kinetic energy gradients:
       !     Moukalled et al. p 289
@@ -25,12 +25,12 @@
       implicit none
       !
       integer ielfa(4,*),ipnei(*),nef,nfacea,nfaceb,i,k,iel1,iel2,&
-        indexf
+        indexf,ncfd
       !
       real*8 vel(nef,0:7),xlet(*),gradkfa(3,*),xxj(3,*),dd
       !
       intent(in) ielfa,ipnei,vel,xlet,xxj,&
-        nef,nfacea,nfaceb
+        nef,nfacea,nfaceb,ncfd
       !
       intent(inout) gradkfa
       !
@@ -43,7 +43,7 @@
               -gradkfa(1,i)*xxj(1,indexf)&
               -gradkfa(2,i)*xxj(2,indexf)&
               -gradkfa(3,i)*xxj(3,indexf)
-            do k=1,3
+            do k=1,ncfd
                gradkfa(k,i)=gradkfa(k,i)+dd*xxj(k,indexf)
             enddo
          endif

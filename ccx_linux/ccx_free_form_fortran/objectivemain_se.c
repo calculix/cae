@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -39,7 +39,8 @@ static ITG *kon1,*ipkon1,*ne1,*nelcon1,*nrhcon1,*nalcon1,*ielmat1,*ielorien1,
     *islavsurf1,kscale1,network1,nestart1,neend1,*jqs1,*irows1,*nasym1,
     *isolver1,nodeset1,num_cpuse,*neapar2=NULL,*nebpar2=NULL,*ialdesi1,
     *ialnk1,*ialeneigh1,*ialnneigh1,*ipos1,*nodedesired1,*istarteneigh1,
-    *istartnneigh1,*nactdofred1,*nactdofinv1,*mt1,*istartnk1;
+    *istartnneigh1,*nactdofred1,*nactdofinv1,*mt1,*istartnk1,
+    *iponod2dto3d1;
     
     
 static double *co1,*v1,*stx1,*elcon1,*rhcon1,*alcon1,*alzero1,*orab1,*t01,*t11,
@@ -95,23 +96,25 @@ void objectivemain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne
        double *aub,double*adb,ITG *cyclicsymmetry,ITG *nzss,ITG *nev,
        ITG *ishapeenergy,double *fint,ITG *nlabel,ITG *igreen,ITG *nasym,
        ITG *iponoel,ITG *inoel,ITG *nodedesiinv,double *dgdxglob,
-       double *df2,double *dgdxdy,ITG *nkon){
+       double *df2,double *dgdxdy,ITG *nkon,ITG *iponod2dto3d,
+       ITG *iponk2dto3d,ITG *ics,ITG *mcs,ITG *mpcend,ITG *noddiam){
 
     char description[13]="            ",cflag[1]=" ",*filabl=NULL;
 
     ITG calcul_qa,nener=0,ikin,i,j,k,m,iobject,im,symmetryflag=0,inputformat=0,
-        mt=mi[1]+1,mode=-1,noddiam=-1,ngraph=1,idesvar,nea,neb,nodeset,lmax,
+        mt=mi[1]+1,mode=-1,ngraph=1,idesvar,nea,neb,nodeset,lmax,
         kscale=1,idir,iorien,network=0,inorm=0,irand=0,*neinset=NULL,
         nepar,isum,idelta,*neapar=NULL,*nebpar=NULL,nestart,neend,num_cpus,
-        l,idesvarbref,idesvara,idesvarb,inode,node,idof,nrhs=1,
+        l,idesvarbref,idesvara,idesvarb,inode,node,idof,nrhs=1,kkv,index,
 	*istartnk,*ialnk,*istartnneigh=NULL,*ialnneigh=NULL,*ichecknodes=NULL,
 	*icheckelems=NULL,*istarteneigh=NULL,*ialeneigh=NULL,neielemtot,
-        *nkinsetinv=NULL,ndesired,*nodedesired=NULL,neqred,
-	*nactdofred=NULL,ipos;
+        *nkinsetinv=NULL,ndesired,*nodedesired=NULL,neqred,lprev,ilength,
+        *nactdofred=NULL,ipos,icomplex,ij,id,ishape=0;
 	
     double sigma=0.,ptime=0.,*temp=NULL,*bfix=NULL,*vnew=NULL,*dstn=NULL,
 	freq,*c=NULL,orabsav[7],rotvec[3],a[9],pgauss[3],*b=NULL,dispmin=1.e-8,
-        *vec=NULL,expks,*dgdu=NULL,*dv=NULL,*dstx=NULL,*conew=NULL;	
+        *vec=NULL,expks,*dgdu=NULL,*dv=NULL,*dstx=NULL,*conew=NULL,
+        *coefmpcnew=NULL,xreal,ximag;	
     
     if(*nasym!=0){symmetryflag=2;inputformat=1;}
 
@@ -434,7 +437,7 @@ void objectivemain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne
 
 	    FORTRAN(objective_shapeener_tot,(ne,kon,ipkon,lakon,fint,vold,
 			iperturb,mi,nactdof,dgdx,df,ndesi,&iobject,jqs,
-			irows,vec));
+			irows,vec,iponk2dto3d));
 	    
 	    SFREE(vec);
 	    
@@ -494,7 +497,12 @@ void objectivemain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne
 
 		NNEW(bfix,double,neq[1]);
 		NNEW(b,double,neq[1]);
-		NNEW(temp,double,mt**nk);
+
+		if(!*cyclicsymmetry){
+		  NNEW(temp,double,mt**nk);
+		}else{
+		  NNEW(temp,double,2*mt**nk);
+		}
 
 		if(*igreen!=1){
 		    
@@ -607,23 +615,95 @@ void objectivemain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne
 			SFREE(c);
 		    }
 
-		    /* store the answer in temp w.r.t. node and direction
-		       instead of w.r.t. dof */
+
+		    if(!*cyclicsymmetry){
 		    
-		    DMEMSET(temp,0,mt**nk,0.);
-		    FORTRAN(resultsnoddir,(nk,temp,nactdof,b,ipompc,nodempc,
-				      coefmpc,nmpc,mi));
+		      /* store the answer in temp w.r.t. node and direction
+			 instead of w.r.t. dof */
+		      
+		      DMEMSET(temp,0,mt**nk,0.);
+		      FORTRAN(resultsnoddir,(nk,temp,nactdof,b,ipompc,nodempc,
+					     coefmpc,nmpc,mi));
+
+		    }else{
+
+		      /* generate appropriate MPC's for the real
+                         and imaginary part of the sensivity */
+		      
+		      DMEMSET(temp,0,2*mt**nk,0.);
+		      NNEW(coefmpcnew,double,*mpcend);
+		      
+		      for(k=0;k<neq[1];k+=neq[1]/2){
+			
+			if(k==0){kkv=0;}else{kkv=mt**nk;}
+			
+			/* generating the cyclic MPC's (needed for nodal diameters
+			   different from 0 */
+			
+			for(i=0;i<*nmpc;i++){
+			  index=ipompc[i]-1;
+			  /* check whether thermal mpc */
+			  if(nodempc[3*index+1]==0) continue;
+			  coefmpcnew[index]=coefmpc[index];
+			  while(1){
+			    index=nodempc[3*index+2];
+			    if(index==0) break;
+			    index--;
+			    
+			    icomplex=0;
+			    inode=nodempc[3*index];
+			    if(strcmp1(&labmpc[20*i],"CYCLIC")==0){
+			      icomplex=atoi(&labmpc[20*i+6]);}
+			    else if(strcmp1(&labmpc[20*i],"SUBCYCLIC")==0){
+			      for(ij=0;ij<*mcs;ij++){
+				lprev=cs[ij*17+13];
+				ilength=cs[ij*17+3];
+				FORTRAN(nident,(&ics[lprev],&inode,&ilength,&id));
+				if(id!=0){
+				  if(ics[lprev+id-1]==inode){icomplex=ij+1;break;}
+				}
+			      }
+			    }
+			    
+			    if(icomplex!=0){
+			      idir=nodempc[3*index+1];
+			      idof=nactdof[mt*(inode-1)+idir]-1;
+			      if(idof<=-1){xreal=1.;ximag=1.;}
+			      else{xreal=b[idof];ximag=b[idof+neq[1]/2];}
+			      if(k==0) {
+				if(fabs(xreal)<1.e-30)xreal=1.e-30;
+				coefmpcnew[index]=coefmpc[index]*
+				  (cs[17*(icomplex-1)+14]+ximag/xreal*cs[17*(icomplex-1)+15]);}
+			      else {
+				if(fabs(ximag)<1.e-30)ximag=1.e-30;
+				coefmpcnew[index]=coefmpc[index]*
+				  (cs[17*(icomplex-1)+14]-xreal/ximag*cs[17*(icomplex-1)+15]);}
+			    }
+			    else{coefmpcnew[index]=coefmpc[index];}
+			  }
+			}
 		    
+			/* store the answer in temp w.r.t. node and direction
+			   instead of w.r.t. dof */
+			
+			FORTRAN(resultsnoddir,(nk,&temp[kkv],nactdof,&b[k],ipompc,nodempc,
+					       coefmpcnew,nmpc,mi));
+			
+		      }
+
+		      SFREE(coefmpcnew);
+		    }
+		      
 		    /* storing the sensitivity of the eigenmodes to file */
 		    
 		    ++*kode;
 		    frd_sen(co,nk,stn,inum,nmethod,kode,filab,
                        &freq,nstate_,
-		       istep,iinc,&mode,&noddiam,description,mi,&ngraph,
+		       istep,iinc,&mode,noddiam,description,mi,&ngraph,
                        ne,cs,set,nset,istartset,iendset,ialset,
 		       jobnamec,output,temp,&iobject,objectset,ntrans,
 		       inotr,trab,&idesvar,orname,icoordinate,&inorm,
-                       &irand); 
+		       &irand,&ishape); 
 
 		}  // enddo loop idesvar
 
@@ -742,11 +822,11 @@ void objectivemain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne
 		       ++*kode;
 		       frd_sen(co,nk,stn,inum,nmethod,kode,filab,
                           &ptime,nstate_,
-		          istep,iinc,&mode,&noddiam,description,mi,&ngraph,
+		          istep,iinc,&mode,noddiam,description,mi,&ngraph,
                           ne,cs,set,nset,istartset,iendset,ialset,
 		          jobnamec,output,temp,&iobject,objectset,ntrans,
 		          inotr,trab,&idesvar,orname,icoordinate,&inorm,
-                          &irand); 
+			  &irand,&ishape); 
 
                 }       
 		
@@ -762,7 +842,8 @@ void objectivemain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne
 	       NNEW(dgdu,double,*neq);
 	       
                FORTRAN(disp_sen_dv,(&nodeset,istartset,iendset,ialset,&iobject,
-		       mi,nactdof,dgdu,vold,objectset,nactdofinv,&neq[1]));
+				    mi,nactdof,dgdu,vold,objectset,nactdofinv,
+				    &neq[1],g0));
                        
 	       /* Multiplication of dg/du with K^-1 */	    	      
 	    
@@ -825,7 +906,7 @@ void objectivemain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne
 		NNEW(istartnk,ITG,*nk+1);
 		NNEW(ialnk,ITG,*nkon);
 
-            FORTRAN(createialnk,(nk,iponoel,inoel,istartnk,ialnk,ipkon));
+		FORTRAN(createialnk,(nk,iponoel,inoel,istartnk,ialnk,ipkon));
 
 		RENEW(ialnk,ITG,istartnk[*nk]-1);
 		
@@ -1068,11 +1149,11 @@ void objectivemain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne
 		++*kode;
 		frd_sen(co,nk,dstn,inum,nmethod,kode,filab,
 			&ptime,nstate_,
-			istep,iinc,&mode,&noddiam,description,mi,&ngraph,
+			istep,iinc,&mode,noddiam,description,mi,&ngraph,
 			ne,cs,set,nset,istartset,iendset,ialset,
 			jobnamec,output,temp,&iobject,objectset,ntrans,
 			inotr,trab,&idesvar,orname,icoordinate,&inorm,
-			&irand); 
+			&irand,&ishape); 
 		
 		SFREE(dstn);
 		
@@ -1157,7 +1238,7 @@ void objectivemain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne
 	      istarteneigh1=istarteneigh;conew1=conew;nodedesired1=nodedesired;
 	      nodedesi1=nodedesi;istartdesi1=istartdesi;xdesi1=xdesi;
 	      nactdofred1=nactdofred;nactdofinv1=nactdofinv;mt1=&mt;
-	      istartnk1=istartnk;ndesi1=ndesi;
+	      istartnk1=istartnk;ndesi1=ndesi;iponod2dto3d1=iponod2dto3d;
 
 	      /* Variation of the coordinates of the designvariables */
 	      
@@ -1658,7 +1739,8 @@ void *objectivemt_mass_dx(ITG *i){
 
 void *stress_sen_dxmt(ITG *i){
   
-  ITG idesvar,node,nea,neb,naneigh,nbneigh,neaneigh,nebneigh,j;
+  ITG idesvar,node,nea,neb,naneigh,nbneigh,neaneigh,nebneigh,j,
+      node1,node2,nelem;
 
   /* next design variable to tread (FORTRAN-notation) */
   
@@ -1675,15 +1757,27 @@ void *stress_sen_dxmt(ITG *i){
   memcpy(&conew1[3**nk1**i],&co1[0],sizeof(double)*3**nk1);
   memcpy(&dstx1[6*mi1[0]**ne1**i],&stx1[0],sizeof(double)*6*mi1[0]**ne1);
   memcpy(&dstn1[6**nk1**i],&stn1[0],sizeof(double)*6**nk1);
-//  memcpy(&dstx1[6*mi1[0]**ne1**i],&stx1[0],sizeof(double)*6*mi1[0]**ne1);
-//  memcpy(&dstn1[6**nk1**i],&stn1[0],sizeof(double)*6**nk1);
 
-  /* pertubation of the coordiantes of the designavriables */ 
+  /* pertubation of the coordinates of the design variables */ 
 
   for(j=0;j<3;j++){    
      conew1[(node-1)*3+j+3**nk1**i]=co1[(node-1)*3+j]+xdesi1[(idesvar-1)*3+j];
   }
   
+  /* perturbation of the coordinates of the neighboring nodes of the design variables
+    in case of an axisymmetric or plain strain (stress? shell?) model */
+  
+  nelem=ialdesi1[nea-1]-1;
+  if((strcmp1(&lakon1[nelem*8+6],"A")==0)||(strcmp1(&lakon1[nelem*8+6],"E")==0)){ 
+     node1=iponod2dto3d1[2*(node-1)];
+     node2=iponod2dto3d1[2*(node-1)+1];
+  
+     for(j=0;j<3;j++){ 
+        conew1[(node1-1)*3+j+3**nk1**i]=co1[(node1-1)*3+j]+xdesi1[(idesvar-1)*3+j];
+	conew1[(node2-1)*3+j+3**nk1**i]=co1[(node2-1)*3+j]+xdesi1[(idesvar-1)*3+j];
+     }
+  } 
+
   stress_sen_dx(&conew1[3**nk1**i],nk1,kon1,ipkon1,lakon1,ne1,
      &dstn1[6**nk1**i],
      elcon1,nelcon1,rhcon1,nrhcon1,alcon1,nalcon1,alzero1,ielmat1,
@@ -1708,7 +1802,7 @@ void *stress_sen_dxmt(ITG *i){
 void *stress_sen_dvmt(ITG *i){
   
   ITG idof,node,nea,neb,naneigh,nbneigh,neaneigh,nebneigh,
-      inode,idir;
+      inode,idir,node1,node2,nelem;;
 
   idof=nactdofred1[*ipos1+(*i)];					  
   inode=nactdofinv1[idof];
@@ -1716,7 +1810,7 @@ void *stress_sen_dvmt(ITG *i){
   node=inode/(*mt1)+1;
   
   nea=istartnk1[node-1];
-  neb=istartnk1[node]-1; 							  
+  neb=istartnk1[node]-1;
   naneigh=istartnneigh1[node-1];
   nbneigh=istartnneigh1[node]-1;
   neaneigh=istarteneigh1[node-1];
@@ -1725,12 +1819,23 @@ void *stress_sen_dvmt(ITG *i){
   memcpy(&dv1[*mt1**nk1**i],&vold1[0],sizeof(double)**mt1**nk1);
   memcpy(&dstx1[6*mi1[0]**ne1**i],&stx1[0],sizeof(double)*6*mi1[0]**ne1);
   memcpy(&dstn1[6**nk1**i],&stn1[0],sizeof(double)*6**nk1);
-//  memcpy(&dstx1[6*mi1[0]**ne1**i],&stx1[0],sizeof(double)*6*mi1[0]**ne1);
-//  memcpy(&dstn1[6**nk1**i],&stn1[0],sizeof(double)*6**nk1);
 
-  /* pertubation of the coordiantes of the displacements */ 
+  /* perturbation of the coordinates of the displacements */ 
 
   dv1[(node-1)**mt1+idir+*mt1**nk1**i]+=dispmin1;	       
+
+  /* perturbation of the coordinates of the neighboring nodes of the design variables
+    in case of an axisymmetric or plain strain (plane stress? shell?) model */
+  
+  nelem=ialnk1[nea-1]-1;
+  if((strcmp1(&lakon1[nelem*8+6],"A")==0)||(strcmp1(&lakon1[nelem*8+6],"E")==0)){ 
+     node1=iponod2dto3d1[2*(node-1)];
+     node2=iponod2dto3d1[2*(node-1)+1];
+  
+     dv1[(node1-1)**mt1+idir+*mt1**nk1**i]+=dispmin1;
+     dv1[(node2-1)**mt1+idir+*mt1**nk1**i]+=dispmin1;
+	
+  } 
     
   stress_sen_dv(co1,nk1,kon1,ipkon1,lakon1,ne1,&dstn1[6**nk1**i],
      elcon1,nelcon1,rhcon1,nrhcon1,alcon1,nalcon1,alzero1,ielmat1,

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,11 +17,11 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine mafillk(nef,ipnei,neifa,neiel,vfa,xxn,area,&
-        au,ad,jq,irow,nzs,b,vel,umfa,xlet,xle,gradkfa,xxi,&
+        au,ad,jq,irow,nzs,b,vel,umfa,alet,ale,gradkfa,xxi,&
         body,volume,ielfa,lakonf,ifabou,nbody,neq,&
         dtimef,velo,veloo,cvfa,hcfa,cvel,gradvel,xload,gamma,xrlfa,&
         xxj,nactdohinv,a1,a2,a3,flux,nefa,nefb,iau6,xxni,xxnj,&
-        iturbulent,f1,of2,yy,umel,gradkel,gradoel)
+        iturbulent,f1,of2,yy,umel,gradkel,gradoel,sc)
       !
       !     filling the matrix for the conservation of energy
       !
@@ -37,19 +37,19 @@
         iau6(6,*),iturbulent
       !
       real*8 xflux,vfa(0:7,*),xxn(3,*),area(*),au(*),ad(*),b(neq),&
-        vel(nef,0:7),umfa(*),xlet(*),xle(*),coef,gradkfa(3,*),&
+        vel(nef,0:7),umfa(*),alet(*),ale(*),coef,gradkfa(3,*),&
         xxi(3,*),body(0:3,*),volume(*),dtimef,velo(nef,0:7),&
         veloo(nef,0:7),rhovol,cvel(*),gradvel(3,3,*),sk,&
         cvfa(*),hcfa(*),div,xload(2,*),gamma(*),xrlfa(3,*),&
         xxj(3,*),a1,a2,a3,flux(*),xxnj(3,*),xxni(3,*),difcoef,&
         f1(*),of2(*),yy(*),umel(*),gradkel(3,*),gradoel(3,*),&
-        cd,arg1
+        cd,arg1,sc(*),constant
       !
       intent(in) nef,ipnei,neifa,neiel,vfa,xxn,area,&
-        jq,irow,nzs,vel,umfa,xlet,xle,gradkfa,xxi,&
+        jq,irow,nzs,vel,umfa,alet,ale,gradkfa,xxi,&
         body,volume,ielfa,lakonf,ifabou,nbody,neq,&
         dtimef,velo,veloo,cvfa,hcfa,cvel,gradvel,xload,gamma,xrlfa,&
-        xxj,nactdohinv,a1,a2,a3,flux,nefa,nefb,iturbulent
+        xxj,nactdohinv,a1,a2,a3,flux,nefa,nefb,iturbulent,sc
       !
       intent(inout) au,ad,b
       !
@@ -151,13 +151,13 @@
                !
                !              neighboring element
                !
-               coef=difcoef*area(ifa)/xlet(indexf)
+               coef=difcoef*alet(indexf)
                ad(i)=ad(i)+coef
                au(indexf)=au(indexf)-coef
                !
                !              correction for non-orthogonal grid
                !
-               b(i)=b(i)+difcoef*area(ifa)*&
+               b(i)=b(i)+difcoef*&
                     (gradkfa(1,ifa)*xxnj(1,indexf)+&
                      gradkfa(2,ifa)*xxnj(2,indexf)+&
                      gradkfa(3,ifa)*xxnj(3,indexf))
@@ -178,7 +178,7 @@
                      !                    (i.e. no wall || no sliding || at least one velocity given)
                      !                    turbulent variable is assumed fixed
                      !
-                     coef=difcoef*area(ifa)/xle(indexf)
+                     coef=difcoef*ale(indexf)
                      ad(i)=ad(i)+coef
                      b(i)=b(i)+coef*vfa(6,ifa)
                   else
@@ -191,10 +191,10 @@
                !              correction for non-orthogonal grid
                !
                if(.not.knownflux) then
-                  b(i)=b(i)+difcoef*area(ifa)*&
-                       (gradkfa(1,ifa)*xxni(1,indexf)+&
-                        gradkfa(2,ifa)*xxni(2,indexf)+&
-                        gradkfa(3,ifa)*xxni(3,indexf))
+                  b(i)=b(i)+difcoef*&
+                       (gradkfa(1,ifa)*xxnj(1,indexf)+&
+                        gradkfa(2,ifa)*xxnj(2,indexf)+&
+                        gradkfa(3,ifa)*xxnj(3,indexf))
                endif
             endif
          enddo
@@ -236,9 +236,10 @@
          !
          !           transient term
          !
-         b(i)=b(i)-(a2*velo(i,6)+a3*veloo(i,6))*rhovol
-         rhovol=a1*rhovol
-         ad(i)=ad(i)+rhovol
+         constant=rhovol*sc(i)
+         b(i)=b(i)-(a2*velo(i,6)+a3*veloo(i,6))*constant
+         constant=a1*constant
+         ad(i)=ad(i)+constant
       !
       enddo
       !

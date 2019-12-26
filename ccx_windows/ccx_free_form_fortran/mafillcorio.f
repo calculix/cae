@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -117,7 +117,7 @@
         do
            j=ipobody(1,index)
            if(j.eq.0) exit
-           if(ibody(1,j).eq.1) then
+           if(ibody(1,j).eq.4) then
               om=xbody(1,j)
               p1(1)=xbody(2,j)
               p1(2)=xbody(3,j)

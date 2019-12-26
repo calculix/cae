@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -65,7 +65,7 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
   ITG null,one,i,j,k,indexe,nemax,nlayer,noutloc,iset,iselect,ncomp,nope,
       nodes,ifield[7],nfield[2],icomp[7],ifieldstate[*nstate_],two,three,
       icompstate[*nstate_],ip0=0,ip1=1,ip2=2,ip3=3,ip4=4,ip5=5,ip6=6,ip7=7,
-      ip8=8,ip9=9,ip10=10,ip11=11,ip12=12,imat,nelout,
+      ip8=8,ip9=9,ip10=10,ip11=11,ip12=12,imat,nelout,ioutall=0,
       nterms,nout,noutplus,noutmin,mt=mi[1]+1;
 
   ITG ncompscalar=1,ifieldscalar[1]={1},icompscalar[1]={0},
@@ -84,7 +84,7 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
       
   int iw;
 
-  float ifl;
+  float fl;
 
   double pi,oner,*errn=NULL;
 
@@ -96,6 +96,11 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
     exit(0);
   }
 
+  /* check whether all results have to be stored (also those
+     corresponding to inactive nodes or elements) */
+  
+  if(strcmp1(&output[3],"a")==0) ioutall=1;
+  
   pi=4.*atan(1.);
   null=0;
   one=1;two=2;three=3;
@@ -110,11 +115,19 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
       nout=0;
       noutplus=0;
       noutmin=0;
-      for(i=0;i<*nk;i++){
-	  if(inum[i]==0) continue;
-	  nout++;
-	  if(inum[i]>0) noutplus++;
-	  if(inum[i]<0) noutmin++;
+      if(ioutall==0){
+	  for(i=0;i<*nk;i++){
+	      if(inum[i]==0) continue;
+	      nout++;
+	      if(inum[i]>0) noutplus++;
+	      if(inum[i]<0) noutmin++;
+	  }
+      }else{
+	  for(i=0;i<*nk;i++){
+	      nout++;
+	      if(inum[i]>0) noutplus++;
+	      if(inum[i]<0) noutmin++;
+	  }
       }
   }else{
       nout=*nk;
@@ -124,10 +137,8 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
      computational metadata, the nodal coordinates and the
      topology */
 
-//  if(*kode==1){
   if((*kode==1)&&((*nmethod!=5)||(*mode!=0))){
     iaxial=0.;
-//    fprintf(f1,"%5s%1s\n",p1,c);
 
     /* date and time */
 
@@ -188,8 +199,8 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
     fprintf(f1,"%5sUTIME              %8s                                        \n",p1,newclock);
     fprintf(f1,"%5sUHOST                                                              \n",p1);
     fprintf(f1,"%5sUPGM               CalculiX                                        \n",p1);
-    fprintf(f1,"%5sUVERSION           Version 2.15                             \n",p1);
-    fprintf(f1,"%5sUCOMPILETIME       Mon  2 Sep 00:10:55 CEST 2019                    \n",p1);
+    fprintf(f1,"%5sUVERSION           Version 2.16                             \n",p1);
+    fprintf(f1,"%5sUCOMPILETIME       Mo 25. Nov 18:56:47 CET 2019                    \n",p1);
     fprintf(f1,"%5sUDIR                                                               \n",p1);
     fprintf(f1,"%5sUDBN                                                               \n",p1);
     
@@ -246,7 +257,7 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
     if(*nmethod!=0){
 	nelout=0;
 	for(i=0;i<*ne0;i++){
-	    if(ipkon[i]<=-1){
+	    if(((ipkon[i]<=-1)&&(ioutall==0))||(ipkon[i]==-1)){
 		continue;
 
 	    /* the following elements are not stored in the .frd file: */
@@ -299,7 +310,15 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 
     for(i=0;i<*ne0;i++){
       if(ipkon[i]<=-1){
-	  continue;
+	  if(ioutall==0){
+	      continue;
+	  }else if(ipkon[i]!=-1){
+
+	      /* in case also inactivated elements are to be stored, calculate the
+                 appropriate index */
+	      
+	      indexe=-2-ipkon[i];
+	  }
 
 	  /* next element types are not stored */
 
@@ -1284,7 +1303,7 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 
   /* node-to-face penalty */
   
-  if((strcmp1(&filab[2175],"CONT")==0)&&(*mortar!=1)&&(*ithermal!=2)&&(*nmethod!=2)){
+  if((strcmp1(&filab[2175],"CONT")==0)&&(*mortar!=1)&&(*ithermal!=2)&&((*nmethod!=2)&&(*nmethod!=13))){
     
     for(i=*ne-1;i>=0;i--){
       if((strcmp1(&lakon[8*i+1],"S")!=0)||(strcmp1(&lakon[8*i+6],"C")!=0))
@@ -1314,9 +1333,15 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 	  for(j=0;j<6;j++)fprintf(f1,"%12.5E",(float)stx[6*mi[0]*i+j]);
       }else{
 	  iw=(int)(nodes);fwrite(&iw,sizeof(int),1,f1);
-	  for(j=0;j<6;j++){
-	      ifl=(float)stx[6*mi[0]*i+j];
-	      fwrite(&ifl,sizeof(float),1,f1);
+	  if(strcmp1(output,"bin")==0){
+	      for(j=0;j<6;j++){
+		  fl=(float)stx[6*mi[0]*i+j];
+		  fwrite(&fl,sizeof(float),1,f1);
+	      }
+	  }else{
+	      for(j=0;j<6;j++){
+		  fwrite(&stx[6*mi[0]*i+j],sizeof(double),1,f1);
+	      }
 	  }
       }
      if(strcmp1(output,"asc")==0)fprintf(f1,"\n");
@@ -1401,8 +1426,12 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 	  fprintf(f1,"%3s%10" ITGFORMAT "%12.5E\n",m1,nodes,(float)ener[i*mi[0]]);
       }else{
 	  iw=(int)(nodes);fwrite(&iw,sizeof(int),1,f1);
-	  ifl=(float)ener[i*mi[0]];
-	  fwrite(&ifl,sizeof(float),1,f1);
+	  if(strcmp1(output,"bin")==0){
+	      fl=(float)ener[i*mi[0]];
+	      fwrite(&fl,sizeof(float),1,f1);
+	  }else{
+	      fwrite(&ener[i*mi[0]],sizeof(double),1,f1);
+	  }
       }
     }
     
@@ -1869,7 +1898,7 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
   /*  the remaining lines only apply to frequency calculations
       with cyclic symmetry, complex frequency and steady state calculations */
 
-  if((*nmethod!=2)&&(*nmethod!=5)&&(*nmethod!=6)&&(*nmethod!=7)){fclose(f1);return;}
+  if((*nmethod!=2)&&(*nmethod!=13)&&(*nmethod!=5)&&(*nmethod!=6)&&(*nmethod!=7)){fclose(f1);return;}
   if((*nmethod==5)&&(*mode==-1)){fclose(f1);return;}
 
   /* storing the displacements in the nodes (magnitude, phase) */
@@ -2014,7 +2043,7 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 
   /* the remaining parts are for frequency calculations with cyclic symmetry only */
 
-  if(*nmethod!=2){fclose(f1);return;}
+  if((*nmethod!=2)&&(*nmethod!=13)){fclose(f1);return;}
 
   /* storing the maximum displacements of the nodes in the base sector
      (components, magnitude) */

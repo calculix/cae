@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
 /*     published by the Free Software Foundation(version 2);    */
@@ -82,7 +82,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
     *ilmpc=NULL,nsectors,nmpcold,mpcendold,*ipompcold=NULL,*nodempcold=NULL,
     *ikmpcold=NULL,*ilmpcold=NULL,kflag=2,nmd,nevd,*nm=NULL,*iamt1=NULL,
     *itg=NULL,ntg=0,symmetryflag=0,inputformat=0,dashpot,lrw,liw,iddebdf=0,
-    *iwork=NULL,ngraph=1,nkg,neg,ncont,ne0,nkon0, *itietri=NULL,
+    *iwork=NULL,ngraph=1,nkg,neg,ncont=0,ne0,nkon0, *itietri=NULL,
     *koncont=NULL,konl[20],imat,nope,kodem,indexe,j1,jdof,icutb=0,
     *ipneigh=NULL,*neigh=NULL,inext,itp=0,*islavact=NULL,
     ismallsliding=0,isteadystate,mpcfree,im,cyclicsymmetry,
@@ -96,8 +96,8 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
     *imdnode=NULL,nmdnode,*imdboun=NULL,nmdboun,*imdmpc=NULL,
     nmdmpc,intpointvar,kmin,kmax,i1,ifacecount,*izdof=NULL,
     nzdof,iload,iforc,*iponoel=NULL,*inoel=NULL,*imdelem=NULL,nmdelem,
-    irenewxstate,nasym=0,*nshcon=NULL,nherm,icfd=0,*inomat=NULL,
-    ialeatoric=0,network=0;
+    nasym=0,*nshcon=NULL,nherm,icfd=0,*inomat=NULL,
+    ialeatoric=0,network=0,iperturbsav,mscalmethod=0;
 
   long long i2;
 
@@ -117,18 +117,18 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
     *eme=NULL,*ener=NULL,*coefmpc=NULL,*fmpc=NULL,*coefmpcold,*veold=NULL,
     *xini=NULL,*rwork=NULL,*adc=NULL,*auc=NULL,*zc=NULL, *rpar=NULL,
     *cg=NULL,*straight=NULL,xl[27],voldl[mt*9],elas[21],fnl[27],t0l,t1l,
-    elconloc[21],veoldl[mt*9],setnull,deltmx,bbmax,dd,dtheta,dthetaref,
+    elconloc[21],veoldl[mt*9],setnull,deltmx,fextmax,dd,dtheta,dthetaref,
     theta,*vini=NULL,dthetaold,*bcont=NULL,*vr=NULL,*vi=NULL,*bcontini=NULL,
     *stnr=NULL,*stni=NULL,*vmax=NULL,*stnmax=NULL,precision,resultmaxprev,
     resultmax,func,funcp,fexp,fexm,fcos,fsin,sump,*bp=NULL,h14,senergy=0.0,
     *bv=NULL,*cstr=NULL,*aube=NULL,*adbe=NULL,*sti=*stip,time0=0.0,
     time=0.0,*xforcdiff=NULL,*xloaddiff=NULL,*xbodydiff=NULL,*t1diff=NULL,
     *xboundiff=NULL,*bprev=NULL,*bdiff=NULL,*areaslav=NULL,venergy=0.0,
-    *springarea=NULL, *bold=NULL,*eenmax=NULL,*fnr=NULL,*fni=NULL,
+    *springarea=NULL, *fextold=NULL,*eenmax=NULL,*fnr=NULL,*fni=NULL,
     *xmastnor=NULL,*emeini=NULL,*xstate=NULL,*clearini=NULL,
     *shcon=NULL,*xmr=NULL,*xmi=NULL,*xnoels=NULL,*pslavsurf=NULL,
     *pmastsurf=NULL,*cdnr=NULL,*cdni=NULL,*tinc,*tper,*tmin,*tmax,
-    *energyini=NULL,*energy=NULL,alea;
+    *energyini=NULL,*energy=NULL,alea,*fext=NULL,*smscale=NULL;
 
   FILE *f1;
 
@@ -141,13 +141,13 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 #endif
 
   /*    if iabsload=0: aamech is modified by the present incremental 
-                       contribution of b
+                       contribution of fext
            iabsload=1: the last incremental contribution is
-                       subtracted before the new one is added to b;
+                       subtracted before the new one is added to fext;
                        this latter incremental contribution is used
                        to update aamech
            iabsload=2: aamech is determined by the absolute
-	               contribution of b (no incremental procedure
+	               contribution of fext (no incremental procedure
                        for the load; this is necessary if
                        - nonlinear MPC's are applied or
                        - user dloads are applied */
@@ -177,15 +177,15 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
       kmin=0;kmax=3;
   }
 
-//NNEW(xstiff,double,(long long)27*mi[0]**ne);
-
   dtime=*tinc;
 
   alpham=xmodal[0];
   betam=xmodal[1];
 
-  dd=ctrl[16];deltmx=ctrl[26];alea=ctrl[53];
+  dd=ctrl[16];deltmx=ctrl[26];alea=ctrl[54];
 
+  ne0=*ne;
+  
   /* determining nzl */
 
   *nzl=0;
@@ -195,6 +195,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 	  break;
       }
   }
+
 
   /* opening the eigenvalue file and checking for cyclic symmetry */
 
@@ -233,6 +234,48 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
       printf("       from a non-Hermitian eigenvalue problem. The modal\n");
       printf("       dynamic procedure cannot handle that yet\n\n");
       FORTRAN(stop,());
+  }
+
+  iperturbsav=iperturb[0];
+  if(fread(&iperturb[0],sizeof(ITG),1,f1)!=1){
+      printf(" *ERROR in dyna reading the perturbation flag in the eigenvalue file");
+      printf(" *INFO  in dyna: if there are problems reading the .eig file this may be due to:\n");
+      printf("        1) the nonexistence of the .eig file\n");
+      printf("        2) other boundary conditions than in the input deck\n");
+      printf("           which created the .eig file\n\n");
+      exit(0);
+  }
+  if(iperturbsav!=iperturb[0]){
+      if(iperturb[0]==0){
+	  printf(" *ERROR in dyna: the .eig-file was created without perturbation info\n");
+	  printf("        the present *MODAL DYNAMIC step, however, contains the\n");
+	  printf("        perturbation parameter on the *STEP card.\n");
+      }else if(iperturb[0]==1){
+	  printf(" *ERROR in dyna: the .eig-file was created with perturbation info\n");
+	  printf("        the present *MODAL DYNAMIC step, however, does not contain the\n");
+	  printf("        perturbation parameter on the *STEP card.\n");
+      }
+      FORTRAN(stop,());
+  }
+
+  if(iperturb[0]==1){
+      if(fread(vold,sizeof(double),mt**nk,f1)!=mt**nk){
+	  printf("*ERROR in dyna reading the reference displacements in the eigenvalue file...");
+	  printf(" *INFO  in dyna: if there are problems reading the .eig file this may be due to:\n");
+	  printf("        1) the nonexistence of the .eig file\n");
+	  printf("        2) other boundary conditions than in the input deck\n");
+	  printf("           which created the .eig file\n\n");
+	  exit(0);
+      }
+  }
+
+  /* copying the displacements from the previous step as initial conditions in
+     vini (only if not cyclic symmetric; initial conditions for cyclic symmetric
+     calculations are assumed to be zero */
+
+  if(!cyclicsymmetry){
+      NNEW(vini,double,mt**nk);
+      memcpy(&vini[0],&vold[0],sizeof(double)*mt**nk);
   }
 
   /* creating imddof containing the degrees of freedom
@@ -437,6 +480,29 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 	  for(i=nev;i<nev+nevd;i++){nm[i]=nmd;}
 	  
 	  if(nev==0){
+	      NNEW(ad,double,neq[1]);
+	      NNEW(au,double,nzs[1]);
+
+	      if(fread(ad,sizeof(double),neq[1],f1)!=neq[1]){
+		  printf(" *ERROR in dyna reading the diagonal of the stiffness matrix in the eigenvalue file");
+		  printf(" *INFO  in dyna: if there are problems reading the .eig file this may be due to:\n");
+		  printf("        1) the nonexistence of the .eig file\n");
+		  printf("        2) other boundary conditions than in the input deck\n");
+		  printf("           which created the .eig file\n\n");
+		  exit(0);
+	      }
+	      
+	      if(fread(au,sizeof(double),nzs[1],f1)!=nzs[1]){
+		  printf(" *ERROR in dyna reading the off-diagonals of the stiffness matrix in the eigenvalue file");
+		  printf(" *INFO  in dyna: if there are problems reading the .eig file this may be due to:\n");
+		  printf("        1) the nonexistence of the .eig file\n");
+		  printf("        2) other boundary conditions than in the input deck\n");
+		  printf("           which created the .eig file\n\n");
+		  exit(0);
+	      }
+
+	      SFREE(ad);SFREE(au);
+
 	      NNEW(adb,double,neq[1]);
 	      NNEW(aub,double,nzs[1]);
 
@@ -603,8 +669,12 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
       RENEW(imdboun,ITG,*nboun*nsectors);
       RENEW(imdmpc,ITG,*nmpc*nsectors);
 
-//izdofNNEW(//      izdof,ITG,1);
-      
+      if(iperturb[0]==1){
+	  RENEW(vold,double,mt**nk*nsectors);
+      }else{
+	  SFREE(vold);NNEW(vold,double,mt**nk*nsectors);
+      }
+
       expand(co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,xboun,nboun,
 	ipompc,nodempc,coefmpc,labmpc,nmpc,nodeforc,ndirforc,xforc,
         nforc,nelemload,sideload,xload,nload,nactdof,neq,
@@ -621,15 +691,13 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
         &icole,&jqe,&irowe,isolver,nzse,&adbe,&aube,iexpl,
 	ibody,xbody,nbody,cocon,ncocon,tieset,ntie,imddof,&nmddof,
 	imdnode,&nmdnode,imdboun,&nmdboun,imdmpc,&nmdmpc,&izdof,&nzdof,
-	&nherm,xmr,xmi,typeboun,ielprop,prop,orname);
+	&nherm,xmr,xmi,typeboun,ielprop,prop,orname,itiefac);
 
       RENEW(imddof,ITG,nmddof);
       RENEW(imdnode,ITG,nmdnode);
       RENEW(imdboun,ITG,nmdboun);
       RENEW(imdmpc,ITG,nmdmpc);
 
-      SFREE(vold);
-      NNEW(vold,double,mt**nk);
       SFREE(veold);
       NNEW(veold,double,mt**nk);
       RENEW(eme,double,6*mi[0]**ne);
@@ -760,68 +828,6 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 
   /* contact conditions */
 
-  if(*nslavs==0){irenewxstate=1;}else{irenewxstate=0;}
-  inicont(nk,&ncont,ntie,tieset,nset,set,istartset,iendset,ialset,&itietri,
-	  lakon,ipkon,kon,&koncont,nslavs,tietol,&ismallsliding,&itiefac,
-          &islavsurf,&islavnode,&imastnode,&nslavnode,&nmastnode,
-          &mortar,&imastop,nkon,&iponoels,&inoels,&ipe,&ime,ne,&ifacecount,
-	  iperturb,ikboun,nboun,co,istep,&xnoels);
-
-  if(ncont!=0){
-
-      if(mortar>0){
-	  printf(" *ERROR in dyna: modal dynamics cannot be combined with\n");
-	  printf("        face-to-face penalty contact\n\n");
-	  FORTRAN(stop,());
-      }
-	  
-      if(dashpot){
-	  printf(" *ERROR in dyna: contact is not allowed in combination with dashpots\n");
-	  FORTRAN(stop,());
-      }
-      RENEW(ipkon,ITG,*ne+*nslavs);
-      RENEW(lakon,char,8*(*ne+*nslavs));
-      if(*nener==1){
-	RENEW(ener,double,mi[0]*(*ne+*nslavs)*2);
-      }
-
-      /* 11 instead of 10: last position is reserved for how
-         many dependent nodes are paired to this face */
-    
-      RENEW(kon,ITG,*nkon+11**nslavs);
-      if(*norien>0){
-	  RENEW(ielorien,ITG,mi[2]*(*ne+*nslavs));
-	  for(k=mi[2]**ne;k<mi[2]*(*ne+*nslavs);k++) ielorien[k]=0;
-      }
-      RENEW(ielmat,ITG,mi[2]*(*ne+*nslavs));
-      for(k=mi[2]**ne;k<mi[2]*(*ne+*nslavs);k++) ielmat[k]=1;
-      NNEW(cg,double,3*ncont);
-      NNEW(straight,double,16*ncont);
-
-      /* internal state variables for contact */
-
-      if((irenewxstate==1)&&(*nslavs!=0)&&(*nstate_>0)){
-	  RENEW(xstate,double,*nstate_*mi[0]*(*ne+*nslavs));
-	  for(k=*nstate_*mi[0]**ne;k<*nstate_*mi[0]*(*ne+*nslavs);k++){
-	      xstate[k]=0.;
-	  }
-      }
-      if(*nstate_>0){
-	  NNEW(xstateini,double,*nstate_*mi[0]*(*ne+*nslavs));
-	  for(k=0;k<*nstate_*mi[0]*(*ne+*nslavs);++k){
-	      xstateini[k]=xstate[k];
-	  }
-      }
-
-      NNEW(xmastnor,double,3*nmastnode[*ntie]);
-      NNEW(areaslav,double,ifacecount);
-      NNEW(springarea,double,2**nslavs);
-      NNEW(vini,double,mt**nk);
-      NNEW(bcontini,double,neq[1]);
-      NNEW(bcont,double,neq[1]);
-      NNEW(ikactcont,ITG,nactcont_);
-  }
-
   /* storing the element and topology information before introducing 
      contact elements */
 
@@ -851,7 +857,8 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 	    }*/
       }
   }
-  else{
+  //  else{
+  else if((ITG)xmodal[10]>0){
 
     /*copy the damping coefficients for every eigenfrequency from xmodal[11....] */
 
@@ -894,10 +901,13 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
       for(j=0;j<mt;j++){
 	if(nactdof[mt*i+j]>0){
 	  idof=nactdof[mt*i+j]-1;
-	  temp_array1[idof]=vold[mt*i+j];
+//	  temp_array1[idof]=vold[mt*i+j];
+	  temp_array1[idof]=vini[mt*i+j];
 	}
       }
     }
+
+    SFREE(vini);
     
     FORTRAN(op,(&neq[1],temp_array1,temp_array2,adb,aub,jq,irow));
     
@@ -959,7 +969,8 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
       RENEW(ipobody,ITG,2*(ifreebody-1));
   }
 	       
-  NNEW(b,double,neq[1]); /* load rhs vector and displacement solution vector */
+  NNEW(fext,double,neq[1]); /* load rhs vector */
+  NNEW(b,double,neq[1]); /* displacement solution vector */
   NNEW(bp,double,neq[1]); /* velocity solution vector */
   NNEW(bj,double,nev); /* response modal decomposition */
   NNEW(bjp,double,nev); /* derivative of the response modal decomposition */
@@ -1041,23 +1052,23 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
               fn,ipobody,iponoel,inoel,ipkon,kon,lakon,ielprop,prop,ielmat,
               shcon,nshcon,rhcon,nrhcon,ntmat_,cocon,ncocon));
 
-      if(iabsload==2) NNEW(bold,double,neq[1]);
+      if(iabsload==2) NNEW(fextold,double,neq[1]);
 
   /*  calculating the instantaneous loading vector at time 0 */
 
   NNEW(ikactmech,ITG,neq[1]);
   nactmech=0;
-  FORTRAN(rhs,(co,nk,kon,ipkon,lakon,ne,
+  rhsmain(co,nk,kon,ipkon,lakon,ne,
        ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforcact,
        nforc,nelemload,sideload,xloadact,nload,xbodyact,ipobody,nbody,
-       cgr,b,nactdof,&neq[1],nmethod,
+       cgr,fext,nactdof,&neq[1],nmethod,
        ikmpc,ilmpc,elcon,nelcon,rhcon,nrhcon,alcon,
        nalcon,alzero,ielmat,ielorien,norien,orab,ntmat_,t0,t1act,
        ithermal,iprestr,vold,iperturb,iexpl,plicon,
        nplicon,plkcon,nplkcon,npmat_,ttime,&time0,istep,&iinc,&dtime,
        physcon,ibody,xbodyold,&reltime,veold,matname,mi,ikactmech,
        &nactmech,ielprop,prop,sti,xstateini,xstate,nstate_,ntrans,
-       inotr,trab));
+       inotr,trab);
   
   /*  correction for nonzero SPC's */
   
@@ -1120,7 +1131,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
       init=1;
       dynboun(amta,namta,nam,ampli,&time0,ttime,&dtime,xbounold,xboun,
 	      xbounact,iamboun,nboun,nodeboun,ndirboun,ad,au,adb,
-	      aub,icol,irow,neq,nzs,&sigma,b,isolver,
+	      aub,icol,irow,neq,nzs,&sigma,fext,isolver,
 	      &alpham,&betam,nzl,&init,bact,bmin,jq,amname,bv,
 	      bprev,bdiff,&nactmech,&iabsload,&iprev,&reltime);
       init=0;
@@ -1129,7 +1140,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 /* creating contact elements and calculating the contact forces
    (normal and shear) */
 
-  if(ncont!=0){
+/*  if(ncont!=0){
       DMEMSET(bcont,0,neq[1],0.);
       contact(&ncont,ntie,tieset,nset,set,istartset,iendset,
 	      ialset,itietri,lakon,ipkon,kon,koncont,ne,cg,straight,nkon,
@@ -1176,7 +1187,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
       if(nactcont>100){nactcont_=nactcont;}else{nactcont_=100;}
       RENEW(ikactcont,ITG,nactcont_);
 
-  }
+  }*/
 
   iit=1;
 
@@ -1189,19 +1200,19 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 	  aamech[i]=0.;
 	  if(nactmech<neq[1]/2){
 	      for(j=0;j<nactmech;j++){
-		  aamech[i]+=z[i2+ikactmech[j]]*b[ikactmech[j]];
+		  aamech[i]+=z[i2+ikactmech[j]]*fext[ikactmech[j]];
 	      }
 	  }else{
 	      for(j=0;j<neq[1];j++){
-		  aamech[i]+=z[i2+j]*b[j];
+		  aamech[i]+=z[i2+j]*fext[j];
 	      }
 	  }
 	  aanew[i]=aamech[i];
-	  if(ncont!=0){
+/*	  if(ncont!=0){
 	      for(j=0;j<nactcont;j++){
 		  aanew[i]+=z[i2+ikactcont[j]]*bcont[ikactcont[j]];
 	      }
-	  }
+	      }*/
       }
   }else{
       for(i=0;i<nev;i++){aamech[i]=0.;}
@@ -1210,13 +1221,13 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 	  if(id!=0){
 	      if(izdof[id-1]==ikactmech[j]){
 		  for(i=0;i<nev;i++){
-		      aamech[i]+=z[(long long)i*nzdof+id-1]*b[ikactmech[j]];
+		      aamech[i]+=z[(long long)i*nzdof+id-1]*fext[ikactmech[j]];
 		  }
 	      }else{printf(" *ERROR in dyna\n");FORTRAN(stop,());}
 	  }else{printf(" *ERROR in dyna\n");FORTRAN(stop,());}
       }
       memcpy(&aanew[0],&aamech[0],sizeof(double)*nev);
-      if(ncont!=0){
+/*      if(ncont!=0){
 	  for(j=0;j<nactcont;j++){
 	      FORTRAN(nident,(izdof,&ikactcont[j],&nzdof,&id));
 	      if(id!=0){
@@ -1227,7 +1238,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 		  }else{printf(" *ERROR in dyna\n");FORTRAN(stop,());}
 	      }else{printf(" *ERROR in dyna\n");FORTRAN(stop,());}
 	  }
-      }
+	  }*/
   }
 
   /* check whether integration point values are requested; if not,
@@ -1294,7 +1305,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
       }
     }
 
-    if(ncont!=0){
+/*    if(ncont!=0){
 	if(nmdnode!=0){
 	    for(i=0;i<nmdnode;i++){
 		i1=mt*(imdnode[i]-1);
@@ -1310,7 +1321,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 		xstateini[k]=xstate[k];
 	    }
 	}	
-    }
+    }*/
     iinc++;
     jprint++;
 
@@ -1370,10 +1381,10 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
       /* calculating the instantaneous loading vector */
 	      
       if(iabsload!=2){
-	  FORTRAN(rhs,(co,nk,kon,ipkon,lakon,ne,
+	  rhsmain(co,nk,kon,ipkon,lakon,ne,
 		    ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforcdiff,
 		    nforc,nelemload,sideload,xloaddiff,nload,xbodydiff,
-		    ipobody,nbody,cgr,b,nactdof,&neq[1],nmethod,
+		    ipobody,nbody,cgr,fext,nactdof,&neq[1],nmethod,
 		    ikmpc,ilmpc,elcon,nelcon,rhcon,nrhcon,
 		    alcon,nalcon,alzero,ielmat,ielorien,norien,orab,ntmat_,
 		    t0,t1diff,ithermal,iprestr,vold,iperturb,iexpl,plicon,
@@ -1381,12 +1392,12 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 		    npmat_,ttime,&time,istep,&iinc,&dtime,physcon,ibody,
 		    xbodyold,&reltime,veold,matname,mi,ikactmech,&nactmech,
                     ielprop,prop,sti,xstateini,xstate,nstate_,ntrans,inotr,
-                    trab));
+                    trab);
       }else{
-	  FORTRAN(rhs,(co,nk,kon,ipkon,lakon,ne,
+	  rhsmain(co,nk,kon,ipkon,lakon,ne,
 		    ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforcact,
 		    nforc,nelemload,sideload,xloadact,nload,xbodyact,
-		    ipobody,nbody,cgr,b,nactdof,&neq[1],nmethod,
+		    ipobody,nbody,cgr,fext,nactdof,&neq[1],nmethod,
 		    ikmpc,ilmpc,elcon,nelcon,rhcon,nrhcon,
 		    alcon,nalcon,alzero,ielmat,ielorien,norien,orab,ntmat_,
 		    t0,t1act,ithermal,iprestr,vold,iperturb,iexpl,plicon,
@@ -1394,7 +1405,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 		    npmat_,ttime,&time,istep,&iinc,&dtime,physcon,ibody,
 		    xbodyold,&reltime,veold,matname,mi,ikactmech,&nactmech,
                     ielprop,prop,sti,xstateini,xstate,nstate_,ntrans,inotr,
-                    trab));
+                    trab);
       }
 	      
       /* correction for nonzero SPC's */
@@ -1403,57 +1414,57 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 	  dynboun(amta,namta,nam,ampli,&time,ttime,&dtime,
 		  xbounold,xboun,
 		  xbounact,iamboun,nboun,nodeboun,ndirboun,ad,au,adb,
-		  aub,icol,irow,neq,nzs,&sigma,b,isolver,
+		  aub,icol,irow,neq,nzs,&sigma,fext,isolver,
 		  &alpham,&betam,nzl,&init,bact,bmin,jq,amname,bv,
 		  bprev,bdiff,&nactmech,&iabsload,&iprev,&reltime);
       }
 
       if(*idrct==0){
-	  bbmax=0.;
+	  fextmax=0.;
 	  if(iabsload!=2){
 	      if(nactmech<neq[1]/2){
 		  for(i=0;i<nactmech;i++){
-		      if(fabs(b[ikactmech[i]])>bbmax) bbmax=fabs(b[ikactmech[i]]);
+		      if(fabs(fext[ikactmech[i]])>fextmax) fextmax=fabs(fext[ikactmech[i]]);
 		  }
 	      }else{
 		  for(i=0;i<neq[1];i++){
-		      if(fabs(b[i])>bbmax) bbmax=fabs(b[i]);
+		      if(fabs(fext[i])>fextmax) fextmax=fabs(fext[i]);
 		  }
 	      }
 	  }else{
 
-	      /* bbmax is to be calculated from the difference of b and bold */
+	      /* fextmax is to be calculated from the difference of fext and fextold */
 
 	      if(nactmech<neq[1]/2){
 		  for(i=0;i<nactmech;i++){
-		      if(fabs(b[ikactmech[i]]-bold[ikactmech[i]])>bbmax) 
-			  bbmax=fabs(b[ikactmech[i]]-bold[ikactmech[i]]);
+		      if(fabs(fext[ikactmech[i]]-fextold[ikactmech[i]])>fextmax) 
+			  fextmax=fabs(fext[ikactmech[i]]-fextold[ikactmech[i]]);
 		  }
 	      }else{
 		  for(i=0;i<neq[1];i++){
-		      if(fabs(b[i])>bbmax) bbmax=fabs(b[i]-bold[i]);
+		      if(fabs(fext[i])>fextmax) fextmax=fabs(fext[i]-fextold[i]);
 		  }
 	      }
 	      
-	      /* copy b into bold */
+	      /* copy fext into fextold */
 
 	      if(nactmech<neq[1]/2){
 		  for(i=0;i<nactmech;i++){
-		      bold[ikactmech[i]]=b[ikactmech[i]];
+		      fextold[ikactmech[i]]=fext[ikactmech[i]];
 		  }
 	      }else{
-		  memcpy(&bold[0],&b[0],sizeof(double)*neq[1]);
+		  memcpy(&fextold[0],&fext[0],sizeof(double)*neq[1]);
 	      }
 	  }
 
 	  /* check for size of mechanical force */
 
-	  if((bbmax>deltmx)&&(((itp==1)&&(dtheta>*tmin))||(itp==0))){
+	  if((fextmax>deltmx)&&(((itp==1)&&(dtheta>*tmin))||(itp==0))){
 
 	      /* force increase too big: increment size is decreased */
 
 	      if(iabsload==0) iabsload=1;
-	      dtheta=dtheta*deltmx/bbmax;
+	      dtheta=dtheta*deltmx/fextmax;
 	      dthetaref=dtheta;
 	      if(itp==1){
 		  inext--;
@@ -1489,10 +1500,10 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 	      /* calculating the instantaneous loading vector */
 	      
 	      if(iabsload!=2){
-		  FORTRAN(rhs,(co,nk,kon,ipkon,lakon,ne,
+		  rhsmain(co,nk,kon,ipkon,lakon,ne,
 		    ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforcdiff,
 		    nforc,nelemload,sideload,xloaddiff,nload,xbodydiff,
-		    ipobody,nbody,cgr,b,nactdof,&neq[1],nmethod,
+		    ipobody,nbody,cgr,fext,nactdof,&neq[1],nmethod,
 		    ikmpc,ilmpc,elcon,nelcon,rhcon,nrhcon,
 		    alcon,nalcon,alzero,ielmat,ielorien,norien,orab,ntmat_,
 		    t0,t1diff,ithermal,iprestr,vold,iperturb,iexpl,plicon,
@@ -1500,12 +1511,12 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 		    npmat_,ttime,&time,istep,&iinc,&dtime,physcon,ibody,
 		    xbodyold,&reltime,veold,matname,mi,ikactmech,&nactmech,
                     ielprop,prop,sti,xstateini,xstate,nstate_,ntrans,inotr,
-                    trab));
+                    trab);
 	      }else{
-		  FORTRAN(rhs,(co,nk,kon,ipkon,lakon,ne,
+		  rhsmain(co,nk,kon,ipkon,lakon,ne,
 		    ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforcact,
 		    nforc,nelemload,sideload,xloadact,nload,xbodyact,
-		    ipobody,nbody,cgr,b,nactdof,&neq[1],nmethod,
+		    ipobody,nbody,cgr,fext,nactdof,&neq[1],nmethod,
 		    ikmpc,ilmpc,elcon,nelcon,rhcon,nrhcon,
 		    alcon,nalcon,alzero,ielmat,ielorien,norien,orab,ntmat_,
 		    t0,t1act,ithermal,iprestr,vold,iperturb,iexpl,plicon,
@@ -1513,7 +1524,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 		    npmat_,ttime,&time,istep,&iinc,&dtime,physcon,ibody,
 		    xbodyold,&reltime,veold,matname,mi,ikactmech,&nactmech,
                     ielprop,prop,sti,xstateini,xstate,nstate_,ntrans,inotr,
-                    trab));
+                    trab);
 	      }
 	      
 	      /* correction for nonzero SPC's */
@@ -1522,19 +1533,19 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 		  dynboun(amta,namta,nam,ampli,&time,ttime,&dtime,
                       xbounold,xboun,
 		      xbounact,iamboun,nboun,nodeboun,ndirboun,ad,au,adb,
-		      aub,icol,irow,neq,nzs,&sigma,b,isolver,
+		      aub,icol,irow,neq,nzs,&sigma,fext,isolver,
 		      &alpham,&betam,nzl,&init,bact,bmin,jq,amname,bv,
 		      bprev,bdiff,&nactmech,&iabsload,&iprev,&reltime);
 	      }
 	      if(iabsload==1) iabsload=0;
 	  }
 	  
-	  if(ncont!=0){
+/*	  if(ncont!=0){
 	      for(i=0;i<nactcont;i++){
 		  jdof=ikactcont[i];
 		  bcontini[jdof]=bcont[jdof];
 	      }
-	  }
+	  }*/
 
       }
 
@@ -1551,20 +1562,20 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 	      if(iabsload==2){aamech[i]=0.;}
 	      if(nactmech<neq[1]/2){
 		  for(j=0;j<nactmech;j++){
-		      aamech[i]+=z[i2+ikactmech[j]]*b[ikactmech[j]];
+		      aamech[i]+=z[i2+ikactmech[j]]*fext[ikactmech[j]];
 		  }
 	      }else{
 		  for(j=0;j<neq[1];j++){
-		      aamech[i]+=z[i2+j]*b[j];
+		      aamech[i]+=z[i2+j]*fext[j];
 		  }
 	      }
 	      
 	      aanew[i]=aamech[i];
-	      if(ncont!=0){
+/*	      if(ncont!=0){
 		  for(j=0;j<nactcont;j++){
 		      aanew[i]+=z[i2+ikactcont[j]]*bcont[ikactcont[j]];
 		  }
-	      }
+	      }*/
 	      
 	      bb[i]=(aanew[i]-aa[i])/dtime;
 	      aa[i]=aanew[i]-bb[i]*time;
@@ -1579,13 +1590,13 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 	      if(id!=0){
 		  if(izdof[id-1]==ikactmech[j]){
 		      for(i=0;i<nev;i++){
-			  aamech[i]+=z[(long long)i*nzdof+id-1]*b[ikactmech[j]];
+			  aamech[i]+=z[(long long)i*nzdof+id-1]*fext[ikactmech[j]];
 		      }
 		  }else{printf(" *ERROR in dyna\n");FORTRAN(stop,());}
 	      }else{printf(" *ERROR in dyna\n");FORTRAN(stop,());}
 	  }
 	  memcpy(&aanew[0],&aamech[0],sizeof(double)*nev);
-	  if(ncont!=0){
+/*	  if(ncont!=0){
 	      for(j=0;j<nactcont;j++){
 		  FORTRAN(nident,(izdof,&ikactcont[j],&nzdof,&id));
 		  if(id!=0){
@@ -1596,7 +1607,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 		      }else{printf(" *ERROR in dyna\n");FORTRAN(stop,());}
 		  }else{printf(" *ERROR in dyna\n");FORTRAN(stop,());}
 	      }
-	  }
+	  }*/
 	  for(i=0;i<nev;i++){
       	  	bb[i]=(aanew[i]-aa[i])/(dtime);
 	  	aa[i]=aanew[i]-bb[i]*time;
@@ -1796,7 +1807,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
       /* creating contact elements and calculating the contact forces
 	 based on the displacements at the end of the present increment */
       
-      if(ncont!=0){
+/*      if(ncont!=0){
 	  dynacont(co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,xboun,nboun,
 	      ipompc,nodempc,coefmpc,labmpc,nmpc,nodeforc,ndirforc,xforc,
 	      nforc,nelemload,sideload,xload,nload,nactdof,neq,nzl,icol,
@@ -1824,7 +1835,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
               nslavnode,islavnode,islavsurf,itiefac,areaslav,iponoels,
 	      inoels,springarea,izdof,&nzdof,fn,imastnode,nmastnode,xmastnor,
 	      xstateini,nslavs,&cyclicsymmetry,xnoels,&ielas,ielprop,prop);
-      }   
+      }  */ 
 	  
       theta+=dtheta;
 //      (*ttime)+=dtime;
@@ -1891,7 +1902,8 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 		sideload,xload,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 		&mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
                 islavsurf,ielprop,prop,energyini,energy,&iit,iponoel,
-                inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun);
+                inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun,
+	        itiefac,tieset,smscale,&mscalmethod);
 
 	/* restoring */
 
@@ -2029,8 +2041,16 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
   if(*ithermal==1){
     for(k=0;k<*nk;++k){t1[k]=t1act[k];}
   }
+
+  if(!cyclicsymmetry){
+
+      /* copying the actual displacements into field vold
+	 serves as initial conditions in the next step */
+
+      memcpy(&vold[0],&v[0],sizeof(double)*mt**nk);
+  }
   
-  SFREE(v);SFREE(fn);SFREE(stn);SFREE(inum);SFREE(adb);SFREE(d);
+  SFREE(v);SFREE(fn);SFREE(stn);SFREE(inum);SFREE(adb);SFREE(d);SFREE(fext);
   SFREE(aub);SFREE(z);SFREE(b);SFREE(zeta);SFREE(bj);SFREE(cd);SFREE(cv);
   SFREE(xforcact);SFREE(xloadact);SFREE(xbounact);SFREE(aa);SFREE(bb);SFREE(aanew);
   SFREE(ampli);SFREE(xbodyact);SFREE(bjp);SFREE(bp);SFREE(aamech);SFREE(ikactmech);
@@ -2065,7 +2085,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
   /* deleting the contact information */
 
 //  *ne=ne0; *nkon=nkon0;
-  if(ncont!=0){
+/*  if(ncont!=0){
       *ne=ne0; *nkon=nkon0;
       if(*nener==1){
 	RENEW(ener,double,mi[0]**ne*2);
@@ -2090,7 +2110,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 
       if(*nstate_>0){SFREE(xstateini);}
 
-  }
+  }*/
 
   if(!cyclicsymmetry){
       SFREE(ad);SFREE(au);
@@ -2159,7 +2179,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
       RENEW(sti,double,6*mi[0]**ne);
       if(*nener==1)RENEW(ener,double,mi[0]**ne*2);
 
-/* distributed loads */
+      /* distributed loads */
 
       for(i=0;i<*nload;i++){
 	  if(nelemload[2*i+1]<nsectors){
@@ -2169,7 +2189,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 	  }
       }
 
-  /*  sorting the elements with distributed loads */
+       /*  sorting the elements with distributed loads */
 
       if(*nload>0){
 	  if(*nam>0){
@@ -2179,7 +2199,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 	  }
       }
       
-/* point loads */
+      /* point loads */
       
       for(i=0;i<*nforc;i++){
 	  if(nodeforc[2*i+1]<nsectors){
@@ -2200,7 +2220,7 @@ void dyna(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp, ITG *n
 
   SFREE(imddof);SFREE(imdnode);SFREE(imdboun);SFREE(imdmpc);SFREE(imdelem);
 
-  if(iabsload==2) SFREE(bold);
+  if(iabsload==2) SFREE(fextold);
 
   *ialsetp=ialset;
   *cop=co;*konp=kon;*ipkonp=ipkon;*lakonp=lakon;*ielmatp=ielmat;

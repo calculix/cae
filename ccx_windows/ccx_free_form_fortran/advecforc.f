@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -128,10 +128,10 @@
       endif
       !
       do i=1,mint2d
-!
-!     copying the sink temperature to ensure the same
-!     value in each integration point (sinktemp can be
-!     changed in subroutine film: requirement from the
+         !
+         !     copying the sink temperature to ensure the same
+         !     value in each integration point (sinktemp can be
+         !     changed in subroutine film: requirement from the
          !     thermal people)
          !
          sinktemp=tl2(nope)
@@ -181,9 +181,9 @@
          do j=1,nopes
             temp=temp+tl2(j)*shp2(4,j)
          enddo
-!
-!     for nonuniform load: determine the coordinates of the
-!     point (transferred into the user subroutine)
+         !
+         !     for nonuniform load: determine the coordinates of the
+         !     point (transferred into the user subroutine)
          !
          if((sideload(id)(3:4).eq.'NU').or.&
               (sideload(id)(5:6).eq.'NU')) then

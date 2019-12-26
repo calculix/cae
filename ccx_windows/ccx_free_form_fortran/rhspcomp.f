@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -73,7 +73,7 @@
                !
                !              internal face
                !
-               b(i)=b(i)+vfa(5,ifa)*area(ifa)*advfa(ifa)*&
+               b(i)=b(i)+vfa(5,ifa)*advfa(ifa)*&
                          (gradpcfa(1,ifa)*xxnj(1,indexf)+&
                           gradpcfa(2,ifa)*xxnj(2,indexf)+&
                           gradpcfa(3,ifa)*xxnj(3,indexf))
@@ -89,7 +89,7 @@
                      !                    not all velocity components known
                      !                    pressure known
                      !
-                     b(i)=b(i)+vfa(5,ifa)*area(ifa)*advfa(ifa)*&
+                     b(i)=b(i)+vfa(5,ifa)*advfa(ifa)*&
                           (gradpcfa(1,ifa)*xxnj(1,indexf)+&
                            gradpcfa(2,ifa)*xxnj(2,indexf)+&
                            gradpcfa(3,ifa)*xxnj(3,indexf))

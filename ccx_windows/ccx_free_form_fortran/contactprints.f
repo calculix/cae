@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,7 +19,8 @@
       subroutine contactprints(inpc,textpart,&
            nprint,nprint_,jout,prlab,prset,&
            contactprint_flag,ithermal,istep,istat,n,iline,ipol,inl,&
-           ipoinp,inp,amname,nam,itpamp,idrct,ipoinpc,nener,ier)
+           ipoinp,inp,amname,nam,itpamp,idrct,ipoinpc,nener,ier,&
+           ntie,tieset)
       !
       !     reading the *CONTACT PRINT cards in the input deck
       !
@@ -30,11 +31,11 @@
       character*1 total,nodesys,inpc(*)
       character*6 prlab(*)
       character*80 amname(*),timepointsname
-      character*81 prset(*),noset
+      character*81 prset(*),noset,mastersurface,slavesurface,tieset(3,*)
       character*132 textpart(16)
       !
-      integer ii,i,nam,itpamp,ier,&
-        jout(2),joutl,ithermal,nprint,nprint_,istep,&
+      integer ii,i,nam,itpamp,ier,ntie,iposslave,iposmaster,&
+        jout(2),joutl,ithermal,nprint,nprint_,istep,itie,&
         istat,n,key,ipos,iline,ipol,inl,ipoinp(2,*),inp(3,*),idrct,&
         ipoinpc(0:*),nener
       !
@@ -47,6 +48,10 @@
       endif
       !
       nodesys='L'
+      do i=1,81
+         slavesurface(i:i)=' '
+         mastersurface(i:i)=' '
+      enddo
       !
       !     reset the contact print requests (node and element print requests,
       !     if any, are kept)
@@ -57,7 +62,10 @@
             if((prlab(i)(1:4).eq.'CSTR').or.&
                (prlab(i)(1:4).eq.'CDIS').or.&
                (prlab(i)(1:4).eq.'CNUM').or.&
-               (prlab(i)(1:4).eq.'CELS')) cycle
+               (prlab(i)(1:4).eq.'CELS').or.&
+               (prlab(i)(1:4).eq.'CF  ').or.&
+               (prlab(i)(1:4).eq.'CFN ').or.&
+               (prlab(i)(1:4).eq.'CFS ')) cycle
             ii=ii+1
             prlab(ii)=prlab(i)
             prset(ii)=prset(i)
@@ -120,7 +128,21 @@
            endif
            jout(1)=1
            jout(2)=1
-         else
+        elseif(textpart(ii)(1:6).eq.'SLAVE=') then
+           read(textpart(ii)(7:86),'(a80)',iostat=istat) slavesurface
+           if(istat.gt.0) then
+              call inputerror(inpc,ipoinpc,iline,&
+                   "*CONTACT PRINT%",ier)
+              return
+           endif
+        elseif(textpart(ii)(1:7).eq.'MASTER=') then
+           read(textpart(ii)(8:87),'(a80)',iostat=istat) mastersurface
+           if(istat.gt.0) then
+              call inputerror(inpc,ipoinpc,iline,&
+                   "*CONTACT PRINT%",ier)
+              return
+           endif
+        else
             write(*,*)&
             '*WARNING reading *CONTACT PRINT: parameter not recognized:'
             write(*,*) '         ',&
@@ -129,7 +151,24 @@
       "*CONTACT PRINT%")
         endif
       enddo
-
+      !
+      !     determining the appropriate contact tie
+      !
+      itie=0
+      iposslave=index(slavesurface(1:80),' ')
+      iposmaster=index(mastersurface(1:80),' ')
+      do i=1,ntie
+         if(tieset(1,i)(81:81).ne.'C') cycle
+         ipos=index(tieset(2,i),' ')-1
+         if(ipos.ne.iposslave) cycle
+         if(tieset(2,i)(1:ipos-1).ne.slavesurface(1:ipos-1)) cycle
+         ipos=index(tieset(3,i),' ')-1
+         if(ipos.ne.iposmaster) cycle
+         if(tieset(3,i)(1:ipos-1).ne.mastersurface(1:ipos-1)) cycle
+         itie=i
+         exit
+      enddo
+      !
       do
          call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,&
               ipoinp,inp,ipoinpc)
@@ -138,7 +177,10 @@
             if((textpart(ii)(1:4).ne.'CSTR').and.&
                (textpart(ii)(1:4).ne.'CELS').and.&
                (textpart(ii)(1:4).ne.'CNUM').and.&
-               (textpart(ii)(1:4).ne.'CDIS')) then
+               (textpart(ii)(1:4).ne.'CDIS').and.&
+               (textpart(ii)(1:4).ne.'CF  ').and.&
+               (textpart(ii)(1:4).ne.'CFN ').and.&
+               (textpart(ii)(1:4).ne.'CFS')) then
                write(*,*) '*WARNING reading *CONTACT PRINT: label not ap&
       plicable'
                write(*,*) '         or unknown; '
@@ -146,8 +188,6 @@
       "*CONTACT PRINT%")
                cycle
             endif
-            !
-            !
             !
             if(textpart(ii)(1:4).eq.'CELS') nener=1
             !
@@ -157,7 +197,25 @@
                ier=1
                return
             endif
-            prset(nprint)=noset
+            !
+            !           for contact tie sets the tie number is stored,
+            !           else the surface name
+            !
+            if(textpart(ii)(1:2).eq.'CF') then
+               if(itie.eq.0) then
+                  write(*,*) '*ERROR reading *CONTACT PRINT: no'
+                  write(*,*) '       existing contact pair defined'
+                  ier=1
+                  return
+               endif
+               write(prset(nprint)(1:10),'(i10)') itie
+               do i=11,81
+                  prset(nprint)(i:i)=' '
+               enddo
+            else
+               prset(nprint)=noset
+            endif
+            !
             prlab(nprint)(1:4)=textpart(ii)(1:4)
             prlab(nprint)(5:5)=total
             prlab(nprint)(6:6)=nodesys

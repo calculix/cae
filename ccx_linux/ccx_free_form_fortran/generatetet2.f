@@ -14,7 +14,7 @@
         itetfa(2,*),ipofa(*),ipoeln(*),ieln(2,*),ifreeln,&
         ifreetet,ifreefa,ig(3,4),nodee(2),ipoed(*),ifreeed,iedg(3,*),&
         ipoeled(*),ieled(2,*),ifreele,iedtet(6,*),ie(2,6),iedge,&
-        index,i,n,kflag,idum,node,ielement
+        index,i,n,node,ielement
       !
       real*8 bc(4,*),planfa(4,*),cotet(3,*),cg(3,*),&
         p1x,p1y,p1z,p2x,p2y,p2z,p3x,p3y,p3z,p4x,p4y,p4z,a11,&
@@ -51,8 +51,8 @@
          nodef(3)=nodes(ig(3,i))
          !
          n=3
-         kflag=1
-         call isortii(nodef,idum,n,kflag)
+         call insertsorti(nodef,n)
+         !          call isortii(nodef,idum,n,kflag)
          !
          !        check whether face already exists
          !
@@ -181,8 +181,8 @@
          nodee(1)=kontet(ie(1,i),ielement)
          nodee(2)=kontet(ie(2,i),ielement)
          n=2
-         kflag=1
-         call isortii(nodee,idum,n,kflag)
+         call insertsorti(nodee,n)
+         !          call isortii(nodee,idum,n,kflag)
          !
          !        check whether edge is already catalogued
          !

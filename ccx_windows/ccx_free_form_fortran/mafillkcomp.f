@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,11 +17,11 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine mafillkcomp(nef,ipnei,neifa,neiel,vfa,xxn,area,&
-        au,ad,jq,irow,nzs,b,vel,umfa,xlet,xle,gradkfa,xxi,&
+        au,ad,jq,irow,nzs,b,vel,umfa,alet,ale,gradkfa,xxi,&
         body,volume,ielfa,lakonf,ifabou,nbody,neq,&
         dtimef,velo,veloo,cvfa,hcfa,cvel,gradvel,xload,xrlfa,&
         xxj,nactdohinv,a1,a2,a3,flux,nefa,nefb,iau6,xxni,xxnj,&
-        iturbulent,f1,of2,yy,umel,gradkel,gradoel)
+        iturbulent,f1,of2,yy,umel,gradkel,gradoel,inlet,sc)
       !
       !     filling the matrix for the conservation of energy
       !
@@ -34,22 +34,22 @@
       integer i,nef,indexf,ipnei(*),j,ifa,iel,neifa(*),&
         neiel(*),jq(*),irow(*),nzs,ielfa(4,*),nefa,nefb,&
         ipointer,ifabou(*),nbody,neq,indexb,nactdohinv(*),&
-        iau6(6,*),iturbulent
+        iau6(6,*),iturbulent,inlet(*)
       !
       real*8 xflux,vfa(0:7,*),xxn(3,*),area(*),au(*),ad(*),b(neq),&
-        vel(nef,0:7),umfa(*),xlet(*),xle(*),coef,gradkfa(3,*),&
+        vel(nef,0:7),umfa(*),alet(*),ale(*),coef,gradkfa(3,*),&
         xxi(3,*),body(0:3,*),volume(*),dtimef,velo(nef,0:7),&
         veloo(nef,0:7),rhovol,cvel(*),gradvel(3,3,*),sk,&
         cvfa(*),hcfa(*),div,xload(2,*),xrlfa(3,*),unt,&
         xxj(3,*),a1,a2,a3,flux(*),xxnj(3,*),xxni(3,*),difcoef,&
         f1(*),of2(*),yy(*),umel(*),gradkel(3,*),gradoel(3,*),&
-        cd,arg1
+        cd,arg1,sc(*),constant
       !
       intent(in) nef,ipnei,neifa,neiel,vfa,xxn,area,&
-        jq,irow,nzs,vel,umfa,xlet,xle,gradkfa,xxi,&
+        jq,irow,nzs,vel,umfa,alet,ale,gradkfa,xxi,&
         body,volume,ielfa,lakonf,ifabou,nbody,neq,&
         dtimef,velo,veloo,cvfa,hcfa,cvel,gradvel,xload,xrlfa,&
-        xxj,nactdohinv,a1,a2,a3,flux,nefa,nefb,iturbulent
+        xxj,nactdohinv,a1,a2,a3,flux,nefa,nefb,iturbulent,sc
       !
       intent(inout) au,ad,b
       !
@@ -121,11 +121,7 @@
                   !                    incoming flux through boundary
                   !
                   if(ielfa(2,ifa).lt.0) then
-                     indexb=-ielfa(2,ifa)
-                     if(((ifabou(indexb+1).ne.0).and.&
-                         (ifabou(indexb+2).ne.0).and.&
-                         (ifabou(indexb+3).ne.0)).or.&
-                          (dabs(xflux).lt.1.d-10)) then
+                     if(inlet(ifa).eq.1) then
                         b(i)=b(i)-vfa(6,ifa)*xflux
                      endif
                   endif
@@ -151,34 +147,29 @@
                !
                !              neighboring element
                !
-               coef=difcoef*area(ifa)/xlet(indexf)
+               coef=difcoef*alet(indexf)
                ad(i)=ad(i)+coef
                au(indexf)=au(indexf)-coef
                !
                !              correction for non-orthogonal grid
                !
-               b(i)=b(i)+difcoef*area(ifa)*&
+               b(i)=b(i)+difcoef*&
                     (gradkfa(1,ifa)*xxnj(1,indexf)+&
                      gradkfa(2,ifa)*xxnj(2,indexf)+&
                      gradkfa(3,ifa)*xxnj(3,indexf))
             else
                !
-               !              boundary; either temperature given or adiabatic
-               !              or outlet
+               !              boundary
                !
                knownflux=.false.
                ipointer=abs(ielfa(2,ifa))
                if(ipointer.gt.0) then
-                  if((ifabou(ipointer+5).ne.0).or.&
-                     (ifabou(ipointer+1).ne.0).or.&
-                     (ifabou(ipointer+2).ne.0).or.&
-                     (ifabou(ipointer+3).ne.0)) then
+                  if(ielfa(3,ifa).gt.0) then
                      !
-                     !                    no outlet:
-                     !                    (i.e. no wall || no sliding || at least one velocity given)
+                     !                    if diffusion is not necessarily equal to zero:
                      !                    turbulent variable is assumed fixed
                      !
-                     coef=difcoef*area(ifa)/xle(indexf)
+                     coef=difcoef*ale(indexf)
                      ad(i)=ad(i)+coef
                      b(i)=b(i)+coef*vfa(6,ifa)
                   else
@@ -191,10 +182,10 @@
                !              correction for non-orthogonal grid
                !
                if(.not.knownflux) then
-                  b(i)=b(i)+difcoef*area(ifa)*&
-                       (gradkfa(1,ifa)*xxni(1,indexf)+&
-                        gradkfa(2,ifa)*xxni(2,indexf)+&
-                        gradkfa(3,ifa)*xxni(3,indexf))
+                  b(i)=b(i)+difcoef*&
+                       (gradkfa(1,ifa)*xxnj(1,indexf)+&
+                        gradkfa(2,ifa)*xxnj(2,indexf)+&
+                        gradkfa(3,ifa)*xxnj(3,indexf))
                endif
             endif
          enddo
@@ -216,7 +207,8 @@
          endif
          !
          !        rest of the production term
-         !        (source terms which is treated explicitly (rhs))
+         !        (positive part is treated explicitly (rhs),
+         !         negative part is treated implicitly (lhs))
          !
          if(iturbulent.le.3) then
             !
@@ -230,7 +222,7 @@
                  (gradvel(1,2,i)+gradvel(2,1,i))**2+&
                  (gradvel(1,3,i)+gradvel(3,1,i))**2+&
                  (gradvel(2,3,i)+gradvel(3,2,i))**2))
-            b(i)=b(i)-2.d0*unt*rhovol/3d0*div**2
+            ad(i)=ad(i)+2.d0*rhovol*div**2/(3.d0*vel(i,7))
          else
             !
             !           SST model: other definition of the turbulent
@@ -243,14 +235,15 @@
                  (gradvel(1,2,i)+gradvel(2,1,i))**2+&
                  (gradvel(1,3,i)+gradvel(3,1,i))**2+&
                  (gradvel(2,3,i)+gradvel(3,2,i))**2))
-            b(i)=b(i)-2.d0*unt*rhovol/3d0*div**2
+            ad(i)=ad(i)+2.d0*rhovol*div**2/(3.d0*vel(i,7))
          endif
          !
          !           transient term
          !
-         b(i)=b(i)-(a2*velo(i,6)+a3*veloo(i,6))*rhovol
-         rhovol=a1*rhovol
-         ad(i)=ad(i)+rhovol
+         constant=rhovol*sc(i)
+         b(i)=b(i)-(a2*velo(i,6)+a3*veloo(i,6))*constant
+         rhovol=a1*constant
+         ad(i)=ad(i)+constant
       !
       enddo
       !

@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -24,10 +24,10 @@
 
 static ITG *ipnei1,*nef1,*neifa1,*ielfa1,*neiel1,*ifabou1,*num_cpus1;
 
-static double *area1,*vfa1,*xxn1,*flux1,*xxj1,*gradpfa1,*xlet1,*xle1,
+static double *area1,*vfa1,*xxna1,*flux1,*xxj1,*gradpfa1,*xlet1,*xle1,
     *vel1,*advfa1,*hfa1;
 
-void calcfluxmain(double *area,double *vfa,double *xxn,ITG *ipnei,
+void calcfluxmain(double *area,double *vfa,double *xxna,ITG *ipnei,
 		  ITG *nef,ITG *neifa,double *flux,double *xxj,
 		  double *gradpfa,double *xlet,double *xle,double *vel,
 		  double *advfa,ITG *ielfa,ITG *neiel,ITG *ifabou,
@@ -43,7 +43,7 @@ void calcfluxmain(double *area,double *vfa,double *xxn,ITG *ipnei,
 
     /* calculation of the density at the cell centers */
 
-    area1=area;vfa1=vfa;xxn1=xxn;ipnei1=ipnei;nef1=nef;neifa1=neifa;
+    area1=area;vfa1=vfa;xxna1=xxna;ipnei1=ipnei;nef1=nef;neifa1=neifa;
     flux1=flux;xxj1=xxj;gradpfa1=gradpfa;xlet1=xlet;xle1=xle;vel1=vel;
     advfa1=advfa;ielfa1=ielfa;neiel1=neiel;ifabou1=ifabou;hfa1=hfa;
     num_cpus1=num_cpus;
@@ -74,7 +74,7 @@ void *calcflux1mt(ITG *i){
     nefb=(*i+1)*nefdelta;
     if((*i==*num_cpus1-1)&&(nefb<*nef1)) nefb=*nef1;
 
-    FORTRAN(calcflux,(area1,vfa1,xxn1,ipnei1,nef1,neifa1,flux1,xxj1,
+    FORTRAN(calcflux,(area1,vfa1,xxna1,ipnei1,nef1,neifa1,flux1,xxj1,
 		       gradpfa1,xlet1,xle1,vel1,advfa1,ielfa1,neiel1,
 		       ifabou1,hfa1,&nefa,&nefb));
 

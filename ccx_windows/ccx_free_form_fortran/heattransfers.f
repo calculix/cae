@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -41,13 +41,13 @@
         ithermal,iline,ipol,inl,ipoinp(2,*),inp(3,*),mei(4),ncv,mxiter,&
         ipoinpc(0:*),idirect,ier
       !
-      real*8 tinc,tper,tmin,tmax,alpha,fei(3),tol,fmin,fmax,ctrl(*),&
+      real*8 tinc,tper,tmin,tmax,alpha(*),fei(3),tol,fmin,fmax,ctrl(*),&
         ttime
       !
       tmin=0.d0
       tmax=0.d0
       nmethod=4
-      alpha=0.d0
+      alpha(1)=0.d0
       mei(4)=0
       timereset=.false.
       !

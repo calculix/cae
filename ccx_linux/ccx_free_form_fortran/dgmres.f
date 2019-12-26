@@ -1558,51 +1558,51 @@
       END
       ! DECK DHEQR
       SUBROUTINE DHEQR (A, LDA, N, Q, INFO, IJOB)
-! ***BEGIN PROLOGUE  DHEQR
-! ***SUBSIDIARY
-! ***PURPOSE  Internal routine for DGMRES.
-! ***LIBRARY   SLATEC (SLAP)
-! ***CATEGORY  D2A4, D2B4
-! ***TYPE      DOUBLE PRECISION (SHEQR-S, DHEQR-D)
-! ***KEYWORDS  GENERALIZED MINIMUM RESIDUAL, ITERATIVE PRECONDITION,
-!              NON-SYMMETRIC LINEAR SYSTEM, SLAP, SPARSE
-! ***AUTHOR  Brown, Peter, (LLNL), pnbrown@llnl.gov
-!            Hindmarsh, Alan, (LLNL), alanh@llnl.gov
-!            Seager, Mark K., (LLNL), seager@llnl.gov
-!              Lawrence Livermore National Laboratory
-!              PO Box 808, L-60
-!              Livermore, CA 94550 (510) 423-3141
-! ***DESCRIPTION
-!         This   routine  performs  a QR   decomposition  of an  upper
-!         Hessenberg matrix A using Givens  rotations.  There  are two
-!         options  available: 1)  Performing  a fresh decomposition 2)
-!         updating the QR factors by adding a row and  a column to the
-!         matrix A.
-!
-!  *Usage:
-!       INTEGER LDA, N, INFO, IJOB
-!       DOUBLE PRECISION A(LDA,N), Q(2*N)
-!
-!       CALL DHEQR(A, LDA, N, Q, INFO, IJOB)
-!
-!  *Arguments:
-!  A      :INOUT    Double Precision A(LDA,N)
-!          On input, the matrix to be decomposed.
-!          On output, the upper triangular matrix R.
-!          The factorization can be written Q*A = R, where
-!          Q is a product of Givens rotations and R is upper
-!          triangular.
-!  LDA    :IN       Integer
-!          The leading dimension of the array A.
-!  N      :IN       Integer
-!          A is an (N+1) by N Hessenberg matrix.
-!  Q      :OUT      Double Precision Q(2*N)
-!          The factors c and s of each Givens rotation used
-!          in decomposing A.
-!  INFO   :OUT      Integer
-!          = 0  normal value.
-!          = K  if  A(K,K) .eq. 0.0 .  This is not an error
-!            condition for this subroutine, but it does
+      ! ***BEGIN PROLOGUE  DHEQR
+      ! ***SUBSIDIARY
+      ! ***PURPOSE  Internal routine for DGMRES.
+      ! ***LIBRARY   SLATEC (SLAP)
+      ! ***CATEGORY  D2A4, D2B4
+      ! ***TYPE      DOUBLE PRECISION (SHEQR-S, DHEQR-D)
+      ! ***KEYWORDS  GENERALIZED MINIMUM RESIDUAL, ITERATIVE PRECONDITION,
+      !              NON-SYMMETRIC LINEAR SYSTEM, SLAP, SPARSE
+      ! ***AUTHOR  Brown, Peter, (LLNL), pnbrown@llnl.gov
+      !            Hindmarsh, Alan, (LLNL), alanh@llnl.gov
+      !            Seager, Mark K., (LLNL), seager@llnl.gov
+      !              Lawrence Livermore National Laboratory
+      !              PO Box 808, L-60
+      !              Livermore, CA 94550 (510) 423-3141
+      ! ***DESCRIPTION
+      !         This   routine  performs  a QR   decomposition  of an  upper
+      !         Hessenberg matrix A using Givens  rotations.  There  are two
+      !         options  available: 1)  Performing  a fresh decomposition 2)
+      !         updating the QR factors by adding a row and  a column to the
+      !         matrix A.
+      !
+      !  *Usage:
+      !       INTEGER LDA, N, INFO, IJOB
+      !       DOUBLE PRECISION A(LDA,N), Q(2*N)
+      !
+      !       CALL DHEQR(A, LDA, N, Q, INFO, IJOB)
+      !
+      !  *Arguments:
+      !  A      :INOUT    Double Precision A(LDA,N)
+      !          On input, the matrix to be decomposed.
+      !          On output, the upper triangular matrix R.
+      !          The factorization can be written Q*A = R, where
+      !          Q is a product of Givens rotations and R is upper
+      !          triangular.
+      !  LDA    :IN       Integer
+      !          The leading dimension of the array A.
+      !  N      :IN       Integer
+      !          A is an (N+1) by N Hessenberg matrix.
+      !  Q      :OUT      Double Precision Q(2*N)
+      !          The factors c and s of each Givens rotation used
+      !          in decomposing A.
+      !  INFO   :OUT      Integer
+      !          = 0  normal value.
+      !          = K  if  A(K,K) .eq. 0.0 .  This is not an error
+      !            condition for this subroutine, but it does
       !            indicate that DHELS will divide by zero
       !            if called.
       !  IJOB   :IN       Integer

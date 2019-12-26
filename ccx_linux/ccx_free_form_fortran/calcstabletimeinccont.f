@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,11 +18,17 @@
 !
       subroutine calcstabletimeinccont(ne,lakon,kon,ipkon,mi,&
         ielmat,elcon,mortar,adb,alpha,nactdof,springarea,&
-        ne0,ntmat_,ncmat_,dtcont)
+        ne0,ntmat_,ncmat_,dtcont,smscale,dtset,mscalmethod)
       !
       !     Calculates the critical time increment (CTI) for contact
       !     spring elements based on the Courant
       !     Criterion for Explicit Dynamics calculations.
+      !
+      !     mscalmethod<0: no explicit dynamics
+      !                 0: explicit dynamics, no scaling
+      !                 1: explicit dynamics, volumetric scaling active
+      !                 2: explicit dynamics, contact scaling active
+      !                 3: explicit dynamics, volumetric and contact scaling
       !
       implicit none
       !
@@ -30,11 +36,12 @@
       !
       integer j,ne,nope,kon(*),ipkon(*),indexe,nelem,&
         ncmat_,ntmat_,mi(*),ielmat(mi(3),*),imat,mortar,&
-        indexn,nactdof(0:mi(2),*),ne0,nopem
+        indexn,nactdof(0:mi(2),*),ne0,nopem,mscalmethod,&
+        icount
       !
-      real*8 elcon(0:ncmat_,ntmat_,*),safefac,xk,adb(*),alpha,bet,gam,&
+      real*8 elcon(0:ncmat_,ntmat_,*),safefac,xk,adb(*),alpha(*),&
         critom,damping,springms,springmm,springfac,dtcont,xmacont,&
-        springarea(2,*),areaslav
+        springarea(2,*),areaslav,bet,gam,smscale(*),dtset
       !
       dtcont=1.d30
       safefac=0.80d0
@@ -42,18 +49,19 @@
       xmacont=0.0d0
       !
       damping=0.d0
+      icount=0
       !
-      bet=(1.d0-alpha)*(1.d0-alpha)/4.d0
-      gam=0.5d0-alpha
+      bet=(1.d0-alpha(1))*(1.d0-alpha(1))/4.d0
+      gam=0.5d0-alpha(1)
       !
       !     Omega Critical
       !     Om_cr=dt*freq_max
       !
-      critom=dsqrt(damping*damping*(1.d0+2.d0*alpha*(1.d0-gam))&
-           *(1.d0+2.d0*alpha*(1.d0-gam))&
-          +   2.d0*(gam+2.d0*alpha*(gam-bet)))
-      critom=0.98d0*(-damping*(1.d0+2.d0*alpha*(1.d0-gam))+critom)&
-           /(gam+2.d0*alpha*(gam-bet)) !eq 25 miranda
+      critom=dsqrt(damping*damping*(1.d0+2.d0*alpha(1)*(1.d0-gam))&
+           *(1.d0+2.d0*alpha(1)*(1.d0-gam))&
+          +   2.d0*(gam+2.d0*alpha(1)*(gam-bet)))
+      critom=0.98d0*(-damping*(1.d0+2.d0*alpha(1)*(1.d0-gam))+critom)&
+           /(gam+2.d0*alpha(1)*(gam-bet)) !eq 25 miranda
       !
       !     ** DO per element
       !
@@ -161,10 +169,14 @@
                   springmm=springmm/2.0d0
                   springms=springms/2.0d0      
                   !
+                  !                 time increment needed by contact spring
+                  !
+                  smscale(nelem)=springfac*critom*&
+                       dsqrt(springmm*springms/&
+                             ((springmm+springms)*xk))
+                  !
                   dtcont =&
-                       min(dtcont,&
-                       springfac*critom*dsqrt((springmm*springms)/&
-                       ((springmm+springms)*xk)))
+                       min(dtcont,smscale(nelem))
                !
                else
                   write(*,*) '*ERROR in calcstabletimeinccont:'
@@ -176,7 +188,46 @@
       enddo
       !     ** ENDDO per element
       !
-      dtcont=dtcont* safefac
+      !     check whether spring scaling is necessary in order to meet the
+      !     smallest allowed time increment specified by the user
+      !
+      if(dtcont.lt.dtset/safefac) then
+         dtset=dtset/safefac
+         if(mscalmethod.eq.1) then
+            mscalmethod=3
+         else
+            mscalmethod=2
+         endif
+         !
+         do nelem=ne0+1,ne
+            if(smscale(nelem).ge.dtset) then
+               smscale(nelem)=1.d0
+            else
+               smscale(nelem)=(smscale(nelem)/dtset)**2
+               icount=icount+1
+            endif
+         enddo
+         !
+         write(*,*) 'Selective Spring Scaling is active'
+         write(*,*)
+         write(*,*) 'Scaling factor of time increment:',dtset/dtcont
+         write(*,*) 'Reduction of spring stiffness by (maximum) =',&
+              (dtset/dtcont)**2
+         write(*,*) 'In total ',icount,'elements were scaled of'
+         write(*,*) '         ',ne-ne0,' contact elements' 
+         write(*,*)
+         !
+         dtset=dtset*safefac
+      !
+      else
+         if(mscalmethod.eq.3) then
+            mscalmethod=1
+         elseif(mscalmethod.eq.2) then
+            mscalmethod=0
+         endif
+      endif
+      !
+      dtcont=dtcont*safefac
       !
       return
       end

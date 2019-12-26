@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -694,10 +694,10 @@
           endif
           !
           do i=1,mint2d
-!
-!            copying the sink temperature to ensure the same
-!            value in each integration point (sinktemp can be
-!            changed in subroutine film: requirement from the
+             !
+             !            copying the sink temperature to ensure the same
+             !            value in each integration point (sinktemp can be
+             !            changed in subroutine film: requirement from the
              !            thermal people)
              !
              sinktemp=xload(2,id)
@@ -751,9 +751,9 @@
              do j=1,nopes
                 temp=temp+tl2(j)*shp2(4,j)
              enddo
-!
-!            for nonuniform load: determine the coordinates of the
-!            point (transferred into the user subroutine)
+             !
+             !            for nonuniform load: determine the coordinates of the
+             !            point (transferred into the user subroutine)
              !
              if((sideload(id)(3:4).eq.'NU').or.&
                 (sideload(id)(5:6).eq.'NU')) then
@@ -763,7 +763,6 @@
                       coords(k)=coords(k)+xl2(k,j)*shp2(4,j)
                    enddo
                 enddo
-                !                 read(sideload(id)(2:2),'(i1)') jltyp
                 jltyp=ichar(sideload(id)(2:2))-48
                 jltyp=jltyp+10
                 if(sideload(id)(1:1).eq.'S') then
@@ -773,9 +772,6 @@
                      areaj,vold,co,lakonl,konl,&
                      ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,iscale,mi,&
                      sti,xstateini,xstate,nstate_,dtime)
-                !                    if((nmethod.eq.1).and.(iscale.ne.0))
-                !      &                   xload(1,id)=xloadold(1,id)+
-                !      &                  (xload(1,id)-xloadold(1,id))*reltime
                 elseif(sideload(id)(1:1).eq.'F') then
                    node=nelemload(2,id)
                    call film(xload(1,id),sinktemp,temp,istep,&
@@ -784,14 +780,10 @@
                      ipkon,kon,lakon,iponoel,inoel,ielprop,prop,ielmat,&
                      shcon,nshcon,rhcon,nrhcon,ntmat_,cocon,ncocon,&
                      ipobody,xbody,ibody,heatnod,heatfac)
-                !                    if(nmethod.eq.1) xload(1,id)=xloadold(1,id)+
-                !      &                  (xload(1,id)-xloadold(1,id))*reltime
                 elseif(sideload(id)(1:1).eq.'R') then
                    call radiate(xload(1,id),xload(2,id),temp,istep,&
                      iinc,timeend,nelem,i,coords,jltyp,field,nfield,&
                      sideload(id),node,areaj,vold,mi,iemchange)
-                !                    if(nmethod.eq.1) xload(1,id)=xloadold(1,id)+
-                !      &                  (xload(1,id)-xloadold(1,id))*reltime
                 endif
              endif
                 
@@ -859,41 +851,10 @@
       !     for axially symmetric and plane stress/strain elements:
       !     complete s and sm
       !
-      if(((lakonl(4:5).eq.'8 ').or.&
-          ((lakonl(4:6).eq.'20R').and.(lakonl(7:8).ne.'BR'))).and.&
-         ((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'E'))) then
-         do i=1,20
-            do j=i,20
-               k=iperm(i)
-               l=iperm(j)
-               if(k.gt.l) then
-                  m=k
-                  k=l
-                  l=m
-               endif
-               sax(i,j)=s(k,l)
-            enddo
-         enddo
-         do i=1,20
-            do j=i,20
-               s(i,j)=s(i,j)+sax(i,j)
-            enddo
-         enddo
-         !
-         !        special treatment of plane stress elements since lateral
-         !        heating is allowed (orthogonal to the plane)
-         !
-         if(nload.ne.0) then
-            do i=1,20
-               k=iperm(i)
-               ffax(i)=ff(k)
-            enddo
-            do i=1,20
-               ff(i)=ff(i)+ffax(i)
-            enddo
-         endif
-         !
-         if(mass.eq.1) then
+      if(intscheme.eq.0) then
+         if(((lakonl(4:5).eq.'8 ').or.&
+              ((lakonl(4:6).eq.'20R').and.(lakonl(7:8).ne.'BR'))).and.&
+              ((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'E'))) then
             do i=1,20
                do j=i,20
                   k=iperm(i)
@@ -903,14 +864,68 @@
                      k=l
                      l=m
                   endif
-                  sax(i,j)=sm(k,l)
+                  sax(i,j)=s(k,l)
                enddo
             enddo
             do i=1,20
                do j=i,20
-                  sm(i,j)=sm(i,j)+sax(i,j)
+                  s(i,j)=s(i,j)+sax(i,j)
                enddo
             enddo
+            !
+            !     special treatment of plane stress elements since lateral
+            !     heating is allowed (orthogonal to the plane)
+            !
+            if(nload.ne.0) then
+               do i=1,20
+                  k=iperm(i)
+                  ffax(i)=ff(k)
+               enddo
+               do i=1,20
+                  ff(i)=ff(i)+ffax(i)
+               enddo
+            endif
+            !
+            if(mass.eq.1) then
+               do i=1,20
+                  do j=i,20
+                     k=iperm(i)
+                     l=iperm(j)
+                     if(k.gt.l) then
+                        m=k
+                        k=l
+                        l=m
+                     endif
+                     sax(i,j)=sm(k,l)
+                  enddo
+               enddo
+               do i=1,20
+                  do j=i,20
+                     sm(i,j)=sm(i,j)+sax(i,j)
+                  enddo
+               enddo
+            endif
+         endif
+      else
+         !
+         !        only 2-D scheme is reduced for intscheme=1
+         !
+         if(((lakonl(4:5).eq.'8 ').or.&
+              ((lakonl(4:6).eq.'20R').and.(lakonl(7:8).ne.'BR'))).and.&
+              ((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'E'))) then
+            !
+            !           special treatment of plane stress elements since lateral
+            !           heating is allowed (orthogonal to the plane)
+            !
+            if(nload.ne.0) then
+               do i=1,20
+                  k=iperm(i)
+                  ffax(i)=ff(k)
+               enddo
+               do i=1,20
+                  ff(i)=ff(i)+ffax(i)
+               enddo
+            endif
          endif
       endif
       !

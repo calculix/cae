@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -234,12 +234,12 @@
                veold(ndir,node)=fixed_disp/coefmpc(ist)
             enddo
          endif
-         !
-         do i=1,nk
-            do j=jmin,jmax
-               vold(j,i)=v(j,i)
-            enddo
-         enddo
+      !
+      !          do i=1,nk
+      !             do j=jmin,jmax
+      !                vold(j,i)=v(j,i)
+      !             enddo
+      !          enddo
       !
       !     output for a selected number of nodes (fields imdnode,
       !     imdboun and imdmpc)
@@ -427,12 +427,12 @@
                veold(ndir,node)=fixed_disp/coefmpc(ist)
             enddo
          endif
-         !
-         do i=1,nmdnode
-            do j=jmin,jmax
-               vold(j,imdnode(i))=v(j,imdnode(i))
-            enddo
-         enddo
+      !
+      !          do i=1,nmdnode
+      !             do j=jmin,jmax
+      !                vold(j,imdnode(i))=v(j,imdnode(i))
+      !             enddo
+      !          enddo
       endif
       !
       return

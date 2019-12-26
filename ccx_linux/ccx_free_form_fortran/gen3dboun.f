@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,7 +20,7 @@
         xboun,iamboun,typeboun,iponoel,inoel,iponoelmax,kon,ipkon,&
         lakon,ne,iponor,xnor,knor,ipompc,nodempc,coefmpc,nmpc,nmpc_,&
         mpcfree,ikmpc,ilmpc,labmpc,rig,ntrans,inotr,trab,nam,nk,nk_,co,&
-        nmethod,iperturb,istep,vold,mi)
+        nmethod,iperturb,istep,vold,mi,ne2boun)
       !
       !     connects nodes of 1-D and 2-D elements, for which SPC's were
       !     defined, to the nodes of their expanded counterparts
@@ -41,13 +41,15 @@
         index,ielem,j,indexe,indexk,idir,iamplitude,irotnode,nk,nk_,&
         newnode,idof,id,mpcfreenew,k,nam,nmethod,iperturb,ndepnodes,&
         idepnodes(80),l,iexpnode,indexx,irefnode,imax,isol,mpcfreeold,&
-        nod,impc,istep,nrhs,ipiv(3),info,m,mi(*),itr,idirref,id1,nnode
+        nod,impc,istep,nrhs,ipiv(3),info,m,mi(*),itr,idirref,nnode,&
+        ne2boun(2,*),ispc1,ispc2,node1,node2,&
+        midfix(3,4)
       !
       real*8 xboun(*),xnor(*),coefmpc(*),trab(7,*),val,co(3,*),&
         xnoref(3),dmax,d(3,3),e(3,3,3),alpha,q(3),w(3),xn(3),&
         a1(3),a2(3),dd,c1,c2,c3,ww,c(3,3),vold(0:mi(2),*),a(3,3),&
-        e1(3),e2(3),t1(3),b(3,3),x(3),y(3),fv1(3),dot,midfix(3,4),&
-        fv2(3),z(3,3),xi1,xi2,xi3,u(3,3),r(3,3),xnode
+        e1(3),e2(3),t1(3),b(3,3),x(3),y(3),fv1(3),dot,&
+        fv2(3),z(3,3),xi1,xi2,xi3,u(3,3),r(3,3),xnode,dot1,dot2
       !
       data d /1.d0,0.d0,0.d0,0.d0,1.d0,0.d0,0.d0,0.d0,1.d0/
       data e /0.d0,0.d0,0.d0,0.d0,0.d0,-1.d0,0.d0,1.d0,0.d0,&
@@ -58,40 +60,27 @@
       label='                    '
       fixed=.false.
       !
+      !     remove any rotational value applied to shells
+      !
+      do i=1,iponoelmax
+         if(ne2boun(1,i).ne.0) then
+            xboun(ne2boun(1,i))=0.d0
+            if(ne2boun(2,i).ne.0) then
+               xboun(ne2boun(2,i))=0.d0
+            endif
+         endif
+      enddo
+      !
+      !     global loop over all boundary conditions
+      !
       nbounold=nboun
       do i=1,nbounold
          node=nodeboun(i)
          if(node.gt.iponoelmax) then
-            !             if((ndirboun(i).gt.3).and.(ndirboun(i).lt.7)) then
-            !                write(*,*) '*ERROR: in gen3dboun: node ',node,
-            !      &              ' does not'
-            !                write(*,*) '        belong to a beam nor shell'
-            !                write(*,*) '        element and consequently has no'
-            !                write(*,*) '        rotational degrees of freedom.'
-            !                write(*,*) '        This may be caused by applying'
-            !                write(*,*) '        a local coordinate system to a'
-            !                write(*,*) '        node in which a rotational boundary'
-            !                write(*,*) '        conditions is defined. In CalculiX'
-            !                write(*,*) '        this is not allowed.'
-            !                call exit(201)
-            !             endif
             cycle
          endif
          index=iponoel(node)
          if(index.eq.0) then
-            !             if((ndirboun(i).gt.3).and.(ndirboun(i).lt.7)) then
-            !                write(*,*) '*ERROR: in gen3dboun: node ',node,
-            !      &              ' does not'
-            !                write(*,*) '        belong to a beam nor shell'
-            !                write(*,*) '        element and consequently has no'
-            !                write(*,*) '        rotational degrees of freedom.'
-            !                write(*,*) '        This may be caused by applying'
-            !                write(*,*) '        a local coordinate system to a'
-            !                write(*,*) '        node in which a rotational boundary'
-            !                write(*,*) '        conditions is defined. In CalculiX'
-            !                write(*,*) '        this is not allowed.'
-            !                call exit(201)
-            !             endif
             cycle
          endif
          ielem=inoel(1,index)
@@ -369,35 +358,6 @@
                            c(l,m)=0.d0
                         enddo
                      enddo
-                     ! !
-                     ! !     solving a least squares problem to determine
-                     ! !
-                     ! !              start meanrotationmpc
-                     ! !              change: mean rotation MPC instead of KNOT
-                     ! !
-                     !                idirref=idir-3
-                     ! !
-                     !                if(lakon(ielem)(7:7).eq.'L') then
-                     !                   lstart=3
-                     !                   lend=1
-                     !                   linc=-2
-                     !                elseif(lakon(ielem)(7:7).eq.'B') then
-                     !                   lstart=4
-                     !                   lend=1
-                     !                   linc=-1
-                     !                endif
-                     ! !
-                     ! !              check for transformations
-                     ! !
-                     !                if(ntrans.le.0) then
-                     !                   itr=0
-                     !                elseif(inotr(1,node).eq.0) then
-                     !                   itr=0
-                     !                else
-                     !                   itr=inotr(1,node)
-                     !                endif
-                     ! !
-                     ! !              determine a unit vector on the rotation axis
                      !
                      !     the transpose of the deformation gradient:
                      !     c.F^T=b
@@ -628,13 +588,6 @@
                   enddo
                !
                elseif(lakon(ielem)(7:7).eq.'B') then
-                  !                   if(lakon(ielem)(4:4).eq.'8') then
-                  !                      lstart=4
-                  !                      lend=1
-                  !                   else
-                  !                      lstart=8
-                  !                      lend=1
-                  !                   endif
                   lstart=4
                   lend=1
                   linc=-1
@@ -670,48 +623,288 @@
                   dot=a(1,idirref)*xn(1)+a(2,idirref)*xn(2)+&
                       a(3,idirref)*xn(3)
                   !
-                  !                 rotation vectors with a substantial component
-                  !                 along the drilling direction are not allowed if
-                  !                 the rotation value (SPC) is nonzero; else the
-                  !                 rotation vector is projected on the tangential
-                  !                 plane
+                  !                 rotation vectors along the drilling direction
+                  !                 are not taken into account
                   !
-                  if(dabs(dot).gt.0.05d0) then
-                     if(xboun(i).gt.1.d-10) then
-                        write(*,*) '*WARNING in gen3dboun: rotation'
-                        write(*,*) '         vector in node ',node
-                        write(*,*) '         and direction ',idir-1
-                        write(*,*) '         has a significant'
-                        write(*,*)&
-                             '         component along the drilling'
-                        write(*,*) '         direction and a nonzero'
-                        write(*,*)&
-                            '         boundary value; projection is'
-                        write(*,*) '         applied'
-                        write(*,*)
-                     !                         call exit(201)
+                  !                 in general, rotation vectors are projected onto
+                  !                 the shell surface
+                  !
+                  if(dabs(dot).gt.0.999d0) cycle
+                  !
+                  !                 check for all applied rotations in this node
+                  !
+                  !                 idir1 is the dof the projection of which
+                  !                 corresponds to the first unit vector in the
+                  !                 shell plane (corresponds to ispc1)
+                  !
+                  !                   idir1=0
+                  !
+                  !                 if one rotation is applied in this node, its
+                  !                 values is stored in SPC ispc1
+                  !                 if more than one rotation is applied in this node,
+                  !                 the value of the second rotation (only two are
+                  !                 possible in the shell plane) is stored in SPC ispc2
+                  !
+                  !                   ispc1=0
+                  !                   ispc2=0
+                  !                   ispcref=0
+                  !                   do k=1,3
+                  !                      idofr=8*(node-1)+k+3
+                  !                      call nident(ikboun,idofr,nboun,idr(k))
+                  !                      if(idr(k).gt.0) then
+                  !                         if(ikboun(idr(k)).eq.idofr) then
+                  !                            ispc=ilboun(idr(k))
+                  !                            if(ne2boun(1,ispc).ne.0) then
+                  !                               idir1=k
+                  !                               ispcref=ispc
+                  !                               ispc1=ne2boun(1,ispcref)
+                  !                               ispc2=ne2boun(2,ispcref)
+                  !                            endif
+                  !                            cycle
+                  !                         endif
+                  !                      endif
+                  !                      idr(k)=0
+                  !                   enddo
+                  !                   if(ispcref.eq.0) ispcref=i
+                  !
+                  ispc1=ne2boun(1,node)
+                  ispc2=ne2boun(2,node)
+                  !
+                  !                 idr(k),k=1,3 are the SPC's corresponding to
+                  !                 dofs 4..6 (0 if not applied)
+                  !
+                  if(ispc1.eq.0) then
+                     !
+                     !                    rotation not applied yet:
+                     !                      - project rotation on shell plane
+                     !                      - create MPC
+                     !
+                     !                 projecting the rotation vector on the tangent plane
+                     !
+                     do k=1,3
+                        a(k,idirref)=a(k,idirref)-dot*xn(k)
+                     enddo
+                     dd=0.d0
+                     do k=1,3
+                        dd=dd+a(k,idirref)**2
+                     enddo
+                     dd=dsqrt(dd)
+                     do k=1,3
+                        a(k,idirref)=a(k,idirref)/dd
+                     enddo
+                     val=val*dsqrt(1.d0-dot*dot)
+                     !
+                     !                    specific label for mean rotations for beams and
+                     !                    shells
+                     !
+                     label='MEANROTBS           '
+                     write(27,*)&
+                          'a MEAN ROTATION MPC was generated in node ',&
+                          node
+                     write(27,*) '                about the axis (',&
+                      a(1,idirref),',',a(2,idirref),',',a(3,idirref),')'
+                     write(27,*)
+                     nnodes=0
+                     do j=lstart,lend,linc
+                        nodeact=knor(indexk+j)
+                        do k=1,3
+                           nnodes=nnodes+1
+                           call usermpc(ipompc,nodempc,coefmpc,&
+                                labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,&
+                                nk,nk_,nodeboun,ndirboun,ikboun,ilboun,&
+                                nboun,nboun_,nnodes,nodeact,co,label,&
+                                typeboun,iperturb,node,idirref,xboun)
+                        enddo
+                     enddo
+                     !
+                     !                    rotation value term
+                     !
+                     nodeact=nk+1
+                     do k=1,3
+                        co(k,nodeact)=a(k,idirref)
+                     enddo
+                     nnodes=nnodes+1
+                     call usermpc(ipompc,nodempc,coefmpc,&
+                          labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,&
+                          nk,nk_,nodeboun,ndirboun,ikboun,ilboun,&
+                          nboun,nboun_,nnodes,nodeact,co,label,&
+                          typeboun,iperturb,node,idirref,xboun)
+                     !
+                     !                    inhomogeneous term
+                     !
+                     nodeact=0
+                     call usermpc(ipompc,nodempc,coefmpc,&
+                          labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,&
+                          nk,nk_,nodeboun,ndirboun,ikboun,ilboun,&
+                          nboun,nboun_,nnodes,nodeact,co,label,&
+                          typeboun,iperturb,node,idirref,xboun)
+                     !
+                     !                    end meanrotationmpc
+                     !
+                     !                    SPC angle term
+                     !
+                     if(nodeact.ne.-1) then
+                        idir=1
+                        type='B'
+                        call bounadd(nk,idir,idir,val,nodeboun,&
+                             ndirboun,xboun,nboun,nboun_,iamboun,&
+                             iamplitude,nam,ipompc,nodempc,coefmpc,&
+                             nmpc,nmpc_,mpcfree,inotr,trab,ntrans,&
+                             ikboun,ilboun,ikmpc,ilmpc,co,nk,nk_,labmpc,&
+                             type,typeboun,nmethod,iperturb,fixed,vold,&
+                             nk,mi,label)
+                        !
+                        !                       storing the index of the SPC with the angle
+                        !                       value in ne2boun
+                        !
+                        !                         ne2boun(1,ispcref)=nboun
+                        ne2boun(1,node)=nboun
+                     endif
+                     !                   elseif(idirref.eq.idir1) then
+                     elseif(a(1,idirref)*co(1,nodeboun(ispc1))+&
+                            a(2,idirref)*co(2,nodeboun(ispc1))+&
+                            a(3,idirref)*co(3,nodeboun(ispc1)).gt.&
+                            0.9999d0) then
+                     !
+                     !                    the dof of the applied rotation corresponds
+                     !                    to the first dof in the shell plane
+                     !
+                     val=val*dsqrt(1.d0-dot*dot)
+                     xboun(ispc1)=xboun(ispc1)+val
+                  else
+                     !
+                     !                    applied rotation does not correspond to the
+                     !                    first coordinate direction in the shell plane
+                     !
+                     !                    determine first direction
+                     !
+                     node1=nodeboun(ispc1)
+                     do k=1,3
+                        e1(k)=co(k,node1)
+                     enddo
+                     !
+                     !                    determine second direction
+                     !
+                     if(ispc2.ne.0) then
+                        node2=nodeboun(ispc2)
+                        do k=1,3
+                           e2(k)=co(k,node2)
+                        enddo
+                     else
+                        !
+                        !                       e2=n x e1
+                        !
+                        e2(1)=xn(2)*e1(3)-xn(3)*e1(2)
+                        e2(2)=xn(3)*e1(1)-xn(1)*e1(3)
+                        e2(3)=xn(1)*e1(2)-xn(2)*e1(1)
+                        !
+                        dd=dsqrt(e2(1)*e2(1)+e2(2)*e2(2)+e2(3)*e2(3))
+                        !
+                        do k=1,3
+                           e2(k)=e2(k)/dd
+                        enddo
+                     endif
+                     !
+                     !                    determine cosines between rotation direction and
+                     !                    unit vectors in shell plane
+                     !
+                     dot1=a(1,idirref)*e1(1)&
+                         +a(2,idirref)*e1(2)&
+                         +a(3,idirref)*e1(3)
+                     dot2=a(1,idirref)*e2(1)&
+                         +a(2,idirref)*e2(2)&
+                         +a(3,idirref)*e2(3)
+                     !
+                     !                    contribution to first direction
+                     !
+                     xboun(ispc1)=xboun(ispc1)+val*dot1
+                     !
+                     if(ispc2.eq.0) then
+                        !
+                        !                       SPC corresponding to second direction has to
+                        !                       be created
+                        !
+                        val=val*dot2
+                        do k=1,3
+                           a(k,idirref)=e2(k)
+                        enddo
+                        !
+                        label='MEANROTBS           '
+                        write(27,*)&
+                          'a MEAN ROTATION MPC was generated in node ',&
+                             node
+                        write(27,*) '                about the axis (',&
+                           a(1,idirref),',',a(2,idirref),',',&
+                           a(3,idirref),')'
+                        write(27,*)
+                        nnodes=0
+                        do j=lstart,lend,linc
+                           nodeact=knor(indexk+j)
+                           do k=1,3
+                              nnodes=nnodes+1
+                              call usermpc(ipompc,nodempc,coefmpc,&
+                                 labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,&
+                                 nk,nk_,nodeboun,ndirboun,ikboun,ilboun,&
+                                 nboun,nboun_,nnodes,nodeact,co,label,&
+                                 typeboun,iperturb,node,idirref,xboun)
+                           enddo
+                        enddo
+                        !
+                        !                       rotation value term
+                        !
+                        nodeact=nk+1
+                        do k=1,3
+                           co(k,nodeact)=a(k,idirref)
+                        enddo
+                        nnodes=nnodes+1
+                        call usermpc(ipompc,nodempc,coefmpc,&
+                             labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,&
+                             nk,nk_,nodeboun,ndirboun,ikboun,ilboun,&
+                             nboun,nboun_,nnodes,nodeact,co,label,&
+                             typeboun,iperturb,node,idirref,xboun)
+                        !
+                        !                       inhomogeneous term
+                        !
+                        nodeact=0
+                        call usermpc(ipompc,nodempc,coefmpc,&
+                             labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,&
+                             nk,nk_,nodeboun,ndirboun,ikboun,ilboun,&
+                             nboun,nboun_,nnodes,nodeact,co,label,&
+                             typeboun,iperturb,node,idirref,xboun)
+                        !
+                        !                       end meanrotationmpc
+                        !
+                        !                       SPC angle term
+                        !
+                        if(nodeact.ne.-1) then
+                           idir=1
+                           type='B'
+                           call bounadd(nk,idir,idir,val,nodeboun,&
+                             ndirboun,xboun,nboun,nboun_,iamboun,&
+                             iamplitude,nam,ipompc,nodempc,coefmpc,&
+                             nmpc,nmpc_,mpcfree,inotr,trab,ntrans,&
+                             ikboun,ilboun,ikmpc,ilmpc,co,nk,nk_,labmpc,&
+                             type,typeboun,nmethod,iperturb,fixed,vold,&
+                             nk,mi,label)
+                           !
+                           !                          storing the index of the SPC with the angle
+                           !                          value in ne2boun
+                           !
+                           !                            ne2boun(2,ispcref)=nboun
+                           ne2boun(2,node)=nboun
+                        endif
+                     else
+                        !
+                        !                       SPC corresponding to second direction in shell
+                        !                       plane has already been created
+                        !
+                        xboun(ispc2)=xboun(ispc2)+val*dot2
                      endif
                   endif
-                  !
-                  !                 rotation vectors closer than 45 degrees with the normal
-                  !                 (= drilling direction) are not taken into account
-                  !
-                  if(dabs(dot).gt.0.70710678d0) cycle
-                  !
-                  !                 projecting the rotation vector on the tangent plane
-                  !
-                  do k=1,3
-                     a(k,idirref)=a(k,idirref)-dot*xn(k)
-                  enddo
-                  dd=0.d0
-                  do k=1,3
-                     dd=dd+a(k,idirref)**2
-                  enddo
-                  dd=dsqrt(dd)
-                  do k=1,3
-                     a(k,idirref)=a(k,idirref)/dd
-                  enddo
+                  cycle
                endif
+               !
+               !              beams
                !
                !              specific label for mean rotations for beams and
                !              shells

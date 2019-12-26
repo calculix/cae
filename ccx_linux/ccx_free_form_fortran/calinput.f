@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -44,7 +44,7 @@
         pslavsurf,clearini,heading,iaxial,nobject,objectset,nprint_,&
         iuel,nuel_,nodempcref,coefmpcref,ikmpcref,memmpcref_,&
         mpcfreeref,maxlenmpcref,memmpc_,isens,namtot,nstam,dacon,&
-        vel,nef,velo,veloo)
+        vel,nef,velo,veloo,ne2boun,itempuser)
       !
       implicit none
       !
@@ -77,7 +77,7 @@
         beamgeneralsection,objective_flag,constraint_flag
       !
       character*1 typeboun(*),inpc(*)
-      character*3 output
+      character*4 output
       character*6 prlab(*)
       character*8 lakon(*)
       character*20 labmpc(*),sideload(*)
@@ -113,7 +113,7 @@
         ichangesurfacebehavior,nobject,ibasemotion,iuel(4,*),nuel_,&
         nodempcref(3,*),ikmpcref(*),memmpcref_,mpcfreeref,&
         maxlenmpcref,memmpc_,isens,iamplitudedefault,namtot,&
-        nstam,ier,nef
+        nstam,ier,nef,ne2boun(2,*),itempuser(*)
       !
       real*8 co(3,*),xboun(*),coefmpc(*),xforc(*),fmpc(*),&
         xload(2,*),alzero(*),offset(2,*),prop(*),pslavsurf(3,*),&
@@ -128,7 +128,7 @@
         xstate(nstate_,mi(1),*),ttime,qaold(2),cs(17,*),tietol(2,*),&
         xbody(7,*),xbodyold(7,*),t0g(2,*),t1g(2,*),&
         fei(3),tinc,tper,xmodal(*),tmin,tmax,tincf,&
-        alpha,physcon(*),coefmpcref(*),vel(nef,*),velo(*),veloo(*)
+        alpha(*),physcon(*),coefmpcref(*),vel(nef,*),velo(*),veloo(*)
       !
       save solid,ianisoplas,out3d,pretension
       !
@@ -217,6 +217,7 @@
          ntie=0
          nsubmodel=0
          !
+         imat=0
          lprev=0
          !
          do i=1,ne_
@@ -415,16 +416,16 @@
          elseif((textpart(1)(1:12).eq.'*CONTACTFILE').or.&
                 (textpart(1)(1:14).eq.'*CONTACTOUTPUT')) then
             if(textpart(1)(1:12).eq.'*CONTACTFILE') then
-               output='asc'
+               output='asc '
             else
-               output='bin'
+               output='bin '
             endif
             ifile_output=3
             call noelfiles(inpc,textpart,jout,filab,nmethod,&
                  nodefile_flag,elfile_flag,ifile_output,nener,ithermal,&
                  istep,istat,n,iline,ipol,inl,ipoinp,inp,out3d,nlabel,&
                  amname,nam,itpamp,idrct,ipoinpc,nef,contactfile_flag,&
-                 set,nset,xmodal,ier)
+                 set,nset,xmodal,ier,physcon,output)
             contactfile_flag=.true.
          !
          elseif(textpart(1)(1:12).eq.'*CONTACTPAIR') then
@@ -437,7 +438,7 @@
             call contactprints(inpc,textpart,nprint,nprint_,jout,&
                  prlab,prset,contactprint_flag,ithermal,istep,istat,n,&
                  iline,ipol,inl,ipoinp,inp,amname,nam,itpamp,idrct,&
-                 ipoinpc,nener,ier)
+                 ipoinpc,nener,ier,ntie,tieset)
             contactprint_flag=.true.
          !
          elseif(textpart(1)(1:9).eq.'*CONTROLS') then
@@ -589,16 +590,16 @@
          elseif((textpart(1)(1:7).eq.'*ELFILE').or.&
                 (textpart(1)(1:14).eq.'*ELEMENTOUTPUT')) then
             if(textpart(1)(1:7).eq.'*ELFILE') then
-               output='asc'
+               output='asc '
             else
-               output='bin'
+               output='bin '
             endif
             ifile_output=2
             call noelfiles(inpc,textpart,jout,filab,nmethod,&
                  nodefile_flag,elfile_flag,ifile_output,nener,ithermal,&
                  istep,istat,n,iline,ipol,inl,ipoinp,inp,out3d,nlabel,&
                  amname,nam,itpamp,idrct,ipoinpc,nef,contactfile_flag,&
-                 set,nset,xmodal,ier)
+                 set,nset,xmodal,ier,physcon,output)
             elfile_flag=.true.
          !
          elseif(textpart(1)(1:8).eq.'*ELPRINT') then
@@ -699,9 +700,10 @@
                  ipoinp,inp,ipoinpc,nstate_,ier)
          !
          elseif(textpart(1)(1:6).eq.'*GREEN') then
-            call greens(inpc,textpart,nmethod,iperturb,&
-                 isolver,istep,istat,n,iline,ipol,inl,ipoinp,inp,&
-                 ithermal,ipoinpc,ier)
+            call greens(inpc,textpart,nmethod,&
+                 mei,iperturb,istep,istat,n,iline,ipol,inl,&
+                 ipoinp,inp,ithermal,isolver,xboun,nboun,ipoinpc,&
+                 ier)
          !
          elseif(textpart(1)(1:8).eq.'*HEADING') then
             call headings(inpc,textpart,istat,n,iline,ipol,inl,&
@@ -817,16 +819,16 @@
          elseif((textpart(1)(1:9).eq.'*NODEFILE').or.&
                 (textpart(1)(1:11).eq.'*NODEOUTPUT')) then
             if(textpart(1)(1:9).eq.'*NODEFILE') then
-               output='asc'
+               output='asc '
             else
-               output='bin'
+               output='bin '
             endif
             ifile_output=1
             call noelfiles(inpc,textpart,jout,filab,nmethod,&
                  nodefile_flag,elfile_flag,ifile_output,nener,ithermal,&
                  istep,istat,n,iline,ipol,inl,ipoinp,inp,out3d,nlabel,&
                  amname,nam,itpamp,idrct,ipoinpc,nef,contactfile_flag,&
-                 set,nset,xmodal,ier)
+                 set,nset,xmodal,ier,physcon,output)
             nodefile_flag=.true.
          !
          elseif(textpart(1)(1:10).eq.'*NODEPRINT') then
@@ -900,7 +902,7 @@
          elseif(textpart(1)(1:8).eq.'*RESTART') then
             call restarts(istep,nset,nload,nforc, nboun,nk,ne,&
                  nmpc,nalset,nmat,ntmat_,npmat_,norien,nam,nprint,&
-                 mi(1),ntrans,ncs_,namtot_,ncmat_,mpcfree,&
+                 mi(1),ntrans,ncs_,namtot,ncmat_,mpcfree,&
                  maxlenmpc,ne1d,&
                  ne2d,nflow,nlabel,iplas,nkon,ithermal,nmethod,&
                  iperturb,nstate_,nener,set,istartset,iendset,ialset,co,&
@@ -921,7 +923,8 @@
                  cs,mcs,output,physcon,ctrl,typeboun,iline,ipol,inl,&
                  ipoinp,inp,fmpc,tieset,ntie,tietol,ipoinpc,nslavs,&
                  t0g,t1g,nprop,ielprop,prop,mortar,nintpoint,ifacecount,&
-                 islavsurf,pslavsurf,clearini,ier,vel,nef,velo,veloo)
+                 islavsurf,pslavsurf,clearini,ier,vel,nef,velo,veloo,&
+                 ne2boun)
             !
             elseif(textpart(1)(1:18).eq.'*RETAINEDNODALDOFS') then
                call retainednodaldofss(inpc,textpart,set,istartset,&
@@ -997,14 +1000,15 @@
             call steadystatedynamicss(inpc,textpart,nmethod,&
               iexpl,istep,istat,n,iline,ipol,inl,ipoinp,inp,iperturb,&
               isolver,xmodal,cs,mcs,ipoinpc,nforc,nload,nbody,iprestr,&
-              t0,t1,ithermal,nk,set,nset,cyclicsymmetry,ier)
+              t0,t1,ithermal,nk,set,nset,cyclicsymmetry,ibody,ier)
          !
          elseif(textpart(1)(1:5).eq.'*STEP') then
             call steps(inpc,textpart,iperturb,iprestr,nbody,nforc,&
                        nload,ithermal,t0,t1,nk,irstrt,istep,istat,n,&
                        jmax,ctrl,iline,ipol,inl,ipoinp,inp,newstep,&
                        ipoinpc,network,iamplitudedefault,amname,nam,&
-                       nam_,namta,amta,namtot,nstam,ier,namtot_)
+                       nam_,namta,amta,namtot,nstam,ier,namtot_,&
+                       physcon)
          !
          elseif(textpart(1)(1:9).eq.'*SUBMODEL') then
             call submodels(inpc,textpart,set,istartset,iendset,ialset,&
@@ -1043,7 +1047,7 @@
               ialset,nset,t0,t1,nk,ithermal,iamt1,amname,nam,&
               inoelfree,nk_,nmethod,temp_flag,istep,istat,n,iline,&
               ipol,inl,ipoinp,inp,nam_,namtot_,namta,amta,ipoinpc,t1g,&
-              iamplitudedefault,namtot,ier)
+              iamplitudedefault,namtot,ier,itempuser,jobnamec)
             temp_flag=.true.
          !
          elseif(textpart(1)(1:4).eq.'*TIE') then
@@ -1207,7 +1211,7 @@
         iperturb,tinc,tper,tmin,tmax,ctrl,typeboun,nmethod,nset,set,&
         istartset,iendset,ialset,prop,ielprop,vold,mi,nkon,ielmat,&
         icomposite,t0g,t1g,idefforc,iamt1,orname,orab,norien,norien_,&
-        ielorien,jobnamec)
+        ielorien,jobnamec,ne2boun)
       !
       !     New multistage Routine Call
       !
@@ -1414,7 +1418,8 @@
       !     conditions an initial and final temperature value was assigned
       !     to each node belonging to an element
       !
-      if((ithermal(1).eq.1).and.(istep.eq.1)) then
+      if((ithermal(1).eq.1).and.(istep.eq.1).and.(itempuser(1).eq.0))&
+           then
          call checktemp(t0,t1,lakon,ne,ipkon,kon)
       endif
       !
@@ -1427,7 +1432,7 @@
          do i=1,nmat
             if((nrhcon(i).ne.0).or.(matname(i)(1:6).eq.'SPRING').or.&
                (matname(i)(1:7).eq.'DASHPOT')) then
-               ierror=ierror+1
+               if(nrhcon(i).gt.0) ierror=ierror+1
             else
                write(*,*)'*WARNING in calinput: no density was assigned'
                write(*,*) '         to material ',&

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -87,8 +87,8 @@
       else
          ivisco=0
       endif
-!
-!     check for user subroutines
+      !
+      !     check for user subroutines
       !
       if((plconloc(801).lt.0.8d0).and.(plconloc(802).lt.0.8d0)) then
          user_hardening=1

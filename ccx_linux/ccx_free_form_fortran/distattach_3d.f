@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -26,7 +26,7 @@
       !
       implicit none
       !
-      integer nterms,i,j,iy,kflag,n
+      integer nterms,i,j,n
       !
       real*8 ratio(20),pneigh(3,*),pnode(3),a,xi,et,xig,etg,p(3),&
         dummy,ze,zeg,omg,omh,omr,opg,oph,opr,dx(3),al,&
@@ -38,7 +38,6 @@
       !
       intent(inout) ratio,a,p
       !
-      kflag=1
       n=3
       !
       if(nterms.eq.4) then
@@ -48,7 +47,8 @@
          dx(1)=xi
          dx(2)=et
          dx(3)=ze
-         call dsort(dx,iy,n,kflag)
+         call insertsortd(dx,n)
+         !          call dsort(dx,iy,n,kflag)
          if(dx(3).gt.1.d-30) then
             al=dx(3)/(xi+et+ze)
             xi=al*xi
@@ -112,7 +112,8 @@
          dx(1)=xi
          dx(2)=et
          dx(3)=ze
-         call dsort(dx,iy,n,kflag)
+         call insertsortd(dx,n)
+         !          call dsort(dx,iy,n,kflag)
          if(dx(3).gt.1.d-30) then
             al=dx(3)/(xi+et+ze)
             xi=al*xi

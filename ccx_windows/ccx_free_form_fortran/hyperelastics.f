@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -38,7 +38,7 @@
       !     positions per model)
       !
       data jcoef /3,0,0,3,0,0,2,0,0,3,0,0,5,6,0,7,8,9,3,0,0,&
-                  6,7,0,12,13,14,2,0,0,3,4,0,4,5,6,5,0,0,4,5,6/
+                  6,7,0,10,11,12,2,0,0,3,4,0,4,5,6,5,0,0,4,5,6/
       !
       ntmat=0
       iperturb(1)=3

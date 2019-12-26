@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -23,7 +23,7 @@
       !
       implicit none
       !
-      integer idummy(3),three,kflag,i
+      integer three,kflag,i
       !
       real*8 c(3,3),al(3),v1,v2,v3,bb,cc,cm,cn,tt,pi
       !
@@ -73,7 +73,8 @@
       !
       !     sorting
       !
-      call dsort(al,idummy,three,kflag)
+      call insertsortd(al,three)
+      !       call dsort(al,idummy,three,kflag)
       !
       return
       end

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -26,6 +26,8 @@
       !
       implicit none
       !
+      logical nodalthickness
+      !
       character*1 inpc(*)
       character*8 lakon(*)
       character*80 matname(*),orname(*),material,orientation
@@ -37,7 +39,7 @@
         norien,ielem,node1,node2,m,indexx,ixfree,iponor(2,*),&
         istep,istat,n,key,i,j,k,l,imaterial,iorientation,ipos,&
         iline,ipol,inl,ipoinp(2,*),inp(3,*),mcs,iaxial,ipoinpc(0:*),&
-        nelcon(2,*),ier
+        nelcon(2,*),ier,numnod
       !
       real*8 thicke(mi(3),*),thickness,pi,cs(17,*),xn(3),co(3,*),p(3),&
         dd,xnor(*)
@@ -49,6 +51,7 @@
          return
       endif
       !
+      nodalthickness=.false.
       pi=4.d0*datan(1.d0)
       !
       orientation='&
@@ -67,6 +70,8 @@
             elset(81:81)=' '
             ipos=index(elset,' ')
             elset(ipos:ipos)='E'
+         elseif(textpart(i)(1:14).eq.'NODALTHICKNESS') then
+            nodalthickness=.true.
          else
             write(*,*)&
             '*WARNING reading *SOLID SECTION: parameter not recognized:'
@@ -180,10 +185,13 @@
            ipoinp,inp,ipoinpc)
       if(istat.lt.0) return
       !
-      !     assigning a thickness to plane stress elements and an angle to
+      !     assigning a thickness to plane stress/strain elements and an angle to
       !     axisymmetric elements
       !
       if(key.eq.0) then
+         !
+         !        second line with thickness given
+         !
          read(textpart(1)(1:20),'(f20.0)',iostat=istat) thickness
          if(istat.gt.0) then
             call inputerror(inpc,ipoinpc,iline,&
@@ -196,14 +204,22 @@
          !           thickness for plane stress elements: reduced by 180
          !           thickness for plane strain elements: reduced by 180
          !
-         if(iaxial.eq.180) then
-            if(lakon(ialset(istartset(i)))(1:2).eq.'CA') then
-               thickness=datan(1.d0)*8.d0/iaxial
-            elseif(lakon(ialset(istartset(i)))(1:3).eq.'CPS') then
-               thickness=thickness/iaxial
-            elseif(lakon(ialset(istartset(i)))(1:3).eq.'CPE') then
-               thickness=thickness/iaxial
+         if(.not.nodalthickness) then
+            if(iaxial.eq.180) then
+               if(lakon(ialset(istartset(i)))(1:2).eq.'CA') then
+                  thickness=datan(1.d0)*8.d0/iaxial
+               elseif(lakon(ialset(istartset(i)))(1:3).eq.'CPS') then
+                  thickness=thickness/iaxial
+               elseif(lakon(ialset(istartset(i)))(1:3).eq.'CPE') then
+                  thickness=thickness/iaxial
+               endif
             endif
+         else
+            !
+            !           for those elements for which nodal thickness is activated
+            !           the thickness is set to -1.d0
+            !
+            thickness=-1.d0
          endif
          !
          !        assigning the thickness to each node of the corresponding
@@ -214,10 +230,11 @@
                if((lakon(ialset(j))(1:2).eq.'CP').or.&
                     (lakon(ialset(j))(1:2).eq.'CA')) then
                   !
-                  !                 plane stress/strain  or axisymmetric elements
+                  !                 plane stress/strain or axisymmetric elements
                   !
                   indexe=ipkon(ialset(j))
-                  do l=1,8
+                  read(lakon(ialset(j))(4:4),'(i1)') numnod
+                  do l=1,numnod
                      thicke(1,indexe+l)=thickness
                   enddo
                elseif(lakon(ialset(j))(1:1).eq.'T') then
@@ -284,7 +301,8 @@
                   if((lakon(k)(1:2).eq.'CP').or.&
                        (lakon(k)(1:2).eq.'CA')) then
                      indexe=ipkon(k)
-                     do l=1,8
+                     read(lakon(k)(4:4),'(i1)') numnod
+                     do l=1,numnod
                         thicke(1,indexe+l)=thickness
                      enddo
                   elseif(lakon(k)(1:1).eq.'T') then
@@ -347,8 +365,11 @@
          enddo
       else
          !
+         !        no second line (no thickness given)
+         !
          !        assigning the thickness to each node of the corresponding
-         !        elements (thickness not specified: only axisymmetric elements)
+         !        elements (thickness not specified: only axisymmetric elements
+         !        or plane stress/strain elements with nodal thickness)
          !
          thickness=datan(1.d0)*8.d0/iaxial
          do j=istartset(i),iendset(i)
@@ -358,9 +379,19 @@
                   !                 axisymmetric elements
                   !
                   indexe=ipkon(ialset(j))
-                  do l=1,8
+                  read(lakon(ialset(j))(4:4),'(i1)') numnod
+                  do l=1,numnod
                      thicke(1,indexe+l)=thickness
                   enddo
+               elseif((lakon(ialset(j))(1:3).eq.'CPS').or.&
+                       (lakon(ialset(j))(1:3).eq.'CPE')) then
+                  if(nodalthickness) then
+                     indexe=ipkon(ialset(j))
+                     read(lakon(ialset(j))(4:4),'(i1)') numnod
+                     do l=1,numnod
+                        thicke(1,indexe+l)=-1.d0
+                     enddo
+                  endif
                endif
             else
                k=ialset(j-2)
@@ -372,9 +403,19 @@
                      !                 axisymmetric elements
                      !
                      indexe=ipkon(k)
-                     do l=1,8
+                     read(lakon(k)(4:4),'(i1)') numnod
+                     do l=1,numnod
                         thicke(1,indexe+l)=thickness
                      enddo
+                  elseif((lakon(k)(1:3).eq.'CPS').or.&
+                          (lakon(k)(1:3).eq.'CPE')) then
+                     if(nodalthickness) then
+                        indexe=ipkon(k)
+                        read(lakon(k)(4:4),'(i1)') numnod
+                        do l=1,numnod
+                           thicke(1,indexe+l)=-1.d0
+                        enddo
+                     endif
                   endif
                enddo
             endif

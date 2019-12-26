@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -23,7 +23,7 @@
       integer nk,iponoel(*),inoel(2,*),ipkon(*),ielem,&
          istartnk(*),ialnk(*),ifree,index,i
       !
-      !     determining the elements belonging to a nk.
+      !     determining the elements belonging to a node i.
       !     They are stored in ialnk(istartnk(i))..
       !     ...up to..... ialnk(istartnk(i+1)-1)
       !

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -62,6 +62,9 @@
          elseif(textpart(i)(1:3).eq.'ADD') then
             add=.true.
             strainfree=.true.
+         elseif(textpart(i)(1:20).eq.'MECHSTRAINTORESIDUAL')&
+           then
+            strainfree=.true.
          elseif(textpart(i)(1:6).eq.'REMOVE') then
             remove=.true.
          else
@@ -91,11 +94,13 @@
          return
       endif
       !
-      if((.not.add).and.(.not.remove)) then
-         write(*,*) '*ERROR reading *MODEL CHANGE: at least ADD or'
-         write(*,*) '        REMOVE has to be selected'
-         ier=1
-         return
+      if(.not.strainfree) then
+         if((.not.add).and.(.not.remove)) then
+            write(*,*) '*ERROR reading *MODEL CHANGE: at least ADD or'
+            write(*,*) '        REMOVE has to be selected'
+            ier=1
+            return
+         endif
       endif
       !
       if(add.and.remove) then
@@ -111,6 +116,7 @@
          else
             write(*,*) '*ERROR reading *MODEL CHANGE'
             write(*,*) '       a strain-free addition of elements'
+            write(*,*) '       or stress removal in elements'
             write(*,*) '       is only possible for nonlinear'
             write(*,*) '       calculations'
             ier=1
@@ -179,7 +185,9 @@
                         m=iendset(j)-istartset(j)+1
                         do k=1,m
                            nelem=ialset(istartset(j)+k-1)
-                           ipkon(nelem)=-2-ipkon(nelem)
+                           if((add).or.(remove)) then 
+                              ipkon(nelem)=-2-ipkon(nelem)
+                           endif
                            if(strainfree) ielmat(1,nelem)=&
                                          -ielmat(1,nelem)
                         enddo
@@ -203,7 +211,9 @@
                           nelem
                      write(*,*) '          > ne;'
                   else
-                     ipkon(nelem)=-2-ipkon(nelem)
+                     if((add).or.(remove)) then
+                        ipkon(nelem)=-2-ipkon(nelem)
+                     endif
                      if(strainfree) ielmat(1,nelem)=-ielmat(1,nelem)
                   endif
                endif

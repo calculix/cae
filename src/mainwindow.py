@@ -48,20 +48,8 @@ class MainWindow(QtWidgets.QMainWindow):
             # self.treeView.keyPressEvent = self.keyPressEvent
 
             # File actions
-            self.action_file_import.triggered.connect(lambda: importFile(m))
             self.action_file_settings.triggered.connect(settings.open)
             self.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
-
-            # Job actions
-            # self.action_job_write_input.triggered.connect(self.IE.writeInput)
-            # self.action_job_edit_inp.triggered.connect(self.job.editINP)
-            # self.action_job_open_subroutine.triggered.connect(self.job.openSubroutine)
-            # self.action_job_rebuild_ccx.triggered.connect(self.job.rebuildCCX)
-            # self.action_job_submit.triggered.connect(self.job.submit)
-            # self.action_job_view_log.triggered.connect(self.job.viewLog)
-            # self.action_job_open_cgx.triggered.connect(self.job.openCGX)
-            # self.action_job_export_vtu.triggered.connect(self.job.exportVTU)
-            # self.action_job_open_paraview.triggered.connect(self.job.openParaView)
 
             # Help actions
             self.action_help_readme.triggered.connect(lambda:
@@ -97,7 +85,7 @@ class MainWindow(QtWidgets.QMainWindow):
     #         self.tree.actionDeleteImplementation()
 
 
-    # Open README.md on the GitHub
+    # Open links from the Help menu
     def help(self, link):
         url = QtCore.QUrl(link)
         logging.info('Going to ' + link)

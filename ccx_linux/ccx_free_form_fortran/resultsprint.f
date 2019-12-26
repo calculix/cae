@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -25,7 +25,7 @@
         nshcon,cocon,ncocon,ntmat_,sideload,icfd,inomat,pslavsurf,&
         islavact,cdn,mortar,islavnode,nslavnode,ntie,islavsurf,time,&
         ielprop,prop,veold,ne0,nmpc,ipompc,nodempc,labmpc,energyini,&
-        energy,orname,xload)
+        energy,orname,xload,itiefac,pmastsurf,springarea,tieset)
       !
       !     - stores the results in the .dat file, if requested
       !       - nodal quantities at the nodes
@@ -44,7 +44,7 @@
       character*8 lakon(*)
       character*20 sideload(*),labmpc(*)
       character*80 orname(*)
-      character*81 set(*),prset(*)
+      character*81 set(*),prset(*),tieset(3,*)
       character*87 filab(*)
       !
       integer kon(*),inum(*),iperm(20),mi(*),ielorien(mi(3),*),&
@@ -56,7 +56,7 @@
         nprint,ntrans,ikin,ncocon(2,*),ntmat_,icfd,inomat(*),mortar,&
         islavact(*),islavnode(*),nslavnode(*),ntie,islavsurf(2,*),&
         ielprop(*),ne0,index,nmpc,ipompc(*),nodempc(3,*),nactdoh,&
-        iextrapolate
+        iextrapolate,itiefac(2,*)
       !
       real*8 co(3,*),v(0:mi(2),*),stx(6,mi(1),*),stn(6,*),cdn(6,*),&
         qfx(3,mi(1),*),qfn(3,*),orab(7,*),fn(0:mi(2),*),pslavsurf(3,*),&
@@ -64,7 +64,8 @@
         ener(mi(1),*),enern(*),eei(6,mi(1),*),rhcon(0:1,ntmat_,*),&
         ttime,xstate(nstate_,mi(1),*),trab(7,*),xstaten(nstate_,*),&
         eme(6,mi(1),*),emn(6,*),shcon(0:3,ntmat_,*),cocon(0:6,ntmat_,*),&
-        prop(*),veold(0:mi(2),*),energy(*),energyini(*),xload(2,*)
+        prop(*),veold(0:mi(2),*),energy(*),energyini(*),xload(2,*),&
+        pmastsurf,springarea(2,*)
       !
       intent(in) co,nk,kon,ipkon,lakon,ne,v,stn,&
         stx,ielorien,norien,orab,t1,ithermal,filab,een,iperturb,fn,&
@@ -75,7 +76,7 @@
         nshcon,cocon,ncocon,ntmat_,sideload,icfd,inomat,pslavsurf,&
         islavact,cdn,mortar,islavnode,nslavnode,ntie,islavsurf,time,&
         ielprop,prop,veold,ne0,nmpc,ipompc,nodempc,labmpc,energyini,&
-        energy,orname,xload
+        energy,orname,xload,itiefac,pmastsurf,springarea,tieset
       !
       intent(inout) inum
       !
@@ -88,10 +89,10 @@
       !     no print requests
       !
       if(iout.le.0) then
-!
-!        2d basic dof results (displacements, temperature) are
-!        calculated in each iteration, so that they are available
-!        in the user subroutines
+         !
+         !        2d basic dof results (displacements, temperature) are
+         !        calculated in each iteration, so that they are available
+         !        in the user subroutines
          !
          if(filab(1)(5:5).ne.' ') then
             nfield=mt
@@ -105,11 +106,11 @@
          !        - for thermal and thermomechanical calculations (ithermal(1)>1)
          !        - for electromagnetic calculations (mi(2)=5)
          !
-         if((nmethod.eq.4).and.(iperturb(1).gt.1).and.&
-            (ithermal(1).le.1).and.(mi(2).ne.5)) then
-            call calcenergy(ipkon,lakon,kon,co,ener,mi,ne,thicke,&
-                 ielmat,energyini,energy,ielprop,prop)
-         endif
+         !          if((nmethod.eq.4).and.(iperturb(1).gt.1).and.
+         !      &      (ithermal(1).le.1).and.(mi(2).ne.5)) then
+         !             call calcenergy(ipkon,lakon,kon,co,ener,mi,ne,thicke,
+         !      &           ielmat,energyini,energy,ielprop,prop)
+         !          endif
          !
          return
       endif
@@ -121,7 +122,7 @@
         mi(1),nstate_,ithermal,co,kon,qfx,ttime,trab,inotr,ntrans,&
         orab,ielorien,norien,nk,ne,inum,filab,vold,ikin,ielmat,thicke,&
         eme,islavsurf,mortar,time,ielprop,prop,veold,orname,&
-        nelemload,nload,sideload,xload)
+        nelemload,nload,sideload,xload,rhcon,nrhcon,ntmat_)
       !
       !     for facial information (*section print): if forces and/or
       !     moments in sections are requested, the stresses have to be
@@ -151,7 +152,11 @@
       call printoutface(co,rhcon,nrhcon,ntmat_,vold,shcon,nshcon,&
         cocon,ncocon,icompressible,istartset,iendset,ipkon,lakon,kon,&
         ialset,prset,ttime,nset,set,nprint,prlab,ielmat,mi,&
-        ithermal,nactdoh,icfd,time,stn)
+           ithermal,nactdoh,icfd,time,stn)
+      !
+      call printoutcontact(co,vold,lakon,ne0,ne,pslavsurf,stx,&
+        prset,ttime,nprint,prlab,mi,ipkon,kon,springarea,&
+        time,tieset,itiefac,ntie,pmastsurf)
       !
       !     interpolation in the original nodes of 1d and 2d elements
       !     this operation has to be performed in any case since
@@ -369,9 +374,9 @@
               vold,force,ielmat,thicke,ielprop,prop)
          iextrapolate=1
       endif
-!
-!     if no element quantities requested in the nodes: calculate
-!     inum if nodal quantities are requested: used in subroutine frd
+      !
+      !     if no element quantities requested in the nodes: calculate
+      !     inum if nodal quantities are requested: used in subroutine frd
       !     to determine which nodes are active in the model
       !
       if((iextrapolate.eq.0).and.&
@@ -406,7 +411,7 @@
             if((sideload(i)(3:4).ne.'FC').and.&
                (sideload(i)(3:4).ne.'NP')) cycle
             node=nelemload(2,i)
-            if(icfd.eq.1) then
+            if(icfd.ne.0) then
                if(node.gt.0) then
                   if(inomat(node).ne.0) cycle
                endif
@@ -424,7 +429,7 @@
          do i=1,nload
             if((sideload(i)(3:4).ne.'CR')) cycle
             node=nelemload(2,i)
-            if(icfd.eq.1) then
+            if(icfd.ne.0) then
                if(node.gt.0) then
                   if(inomat(node).ne.0) cycle
                endif
@@ -456,7 +461,7 @@
          do i=1,nboun
             node=nodeboun(i)
             if(inum(node).ne.0) cycle
-            if(icfd.eq.1) then
+            if(icfd.ne.0) then
                if(inomat(node).ne.0) cycle
             endif
             if((cflag.ne.' ').and.(ndirboun(i).eq.3)) cycle

@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                     */
+/*              Copyright (C) 1998-2019 Guido Dhondt                     */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -152,7 +152,7 @@ void radflowload(ITG *itg,ITG *ieg,ITG *ntg,ITG *ntr,double *adrad,
 			   xbodyact,co,nbody,network,&iin_abs,vold,set,
 			   istep,iit,mi,ineighe,ilboun,&ichannel,iaxial,
 			   nmpc,labmpc,ipompc,nodempc,coefmpc,ttime,time,
-			   iponoel,inoel,vold));
+			   iponoel,inoel));
       
               /* initialization for channels with free surface */
 

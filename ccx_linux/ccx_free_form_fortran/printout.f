@@ -1,6 +1,6 @@
-
+!
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -21,7 +21,7 @@
         mi,nstate_,ithermal,co,kon,qfx,ttime,trab,inotr,ntrans,&
         orab,ielorien,norien,nk,ne,inum,filab,vold,ikin,ielmat,thicke,&
         eme,islavsurf,mortar,time,ielprop,prop,veold,orname,&
-        nelemload,nload,sideload,xload)
+        nelemload,nload,sideload,xload,rhcon,nrhcon,ntmat_)
       !
       !     stores results in the .dat file
       !
@@ -41,21 +41,22 @@
         mi(*),nstate_,ii,jj,iset,l,limit,node,ipos,ithermal,ielem,&
         nelem,kon(*),inotr(2,*),ntrans,ielorien(mi(3),*),norien,nk,ne,&
         inum(*),nfield,ikin,nodes,ne0,nope,mt,ielmat(mi(3),*),iface,&
-        jfaces,mortar,islavsurf(2,*),ielprop(*),nload,&
-        nelemload(2,*)
+        jfaces,mortar,islavsurf(2,*),ielprop(*),nload,i,ntmat_,&
+        nelemload(2,*),nrhcon(*)
       !
       real*8 v(0:mi(2),*),t1(*),fn(0:mi(2),*),stx(6,mi(1),*),bhetot,&
         eei(6,mi(1),*),xstate(nstate_,mi(1),*),ener(mi(1),*),energytot,&
         volumetot,co(3,*),qfx(3,mi(1),*),rftot(0:3),ttime,time,&
         trab(7,*),orab(7,*),vold(0:mi(2),*),enerkintot,thicke(mi(3),*),&
-        eme(6,mi(1),*),prop(*),veold(0:mi(2),*),xload(2,*)
+        eme(6,mi(1),*),prop(*),veold(0:mi(2),*),xload(2,*),xmasstot,&
+        xinertot(6),cg(3),rhcon(0:1,ntmat_,*)
       !
       intent(in) set,nset,istartset,iendset,ialset,nprint,&
         prlab,prset,v,t1,fn,ipkon,lakon,stx,eei,xstate,ener,&
         mi,nstate_,ithermal,co,kon,qfx,ttime,trab,inotr,ntrans,&
         orab,ielorien,norien,nk,ne,inum,filab,vold,ikin,ielmat,thicke,&
         eme,islavsurf,mortar,time,ielprop,prop,veold,orname,&
-        nelemload,nload,sideload,xload
+        nelemload,nload,sideload,xload,rhcon,nrhcon,ntmat_
       !
       mt=mi(2)+1
       !
@@ -249,7 +250,7 @@
                   write(5,*)
                   write(5,107) elset(1:ipos-2),ttime+time
  107              format(' strains (elem, integ.pnt.,exx,eyy,ezz,exy,exz&
-      ,eyz) forset ',A,' and time ',e14.7)
+      ,eyz) for set ',A,' and time ',e14.7)
                   write(5,*)
                elseif(prlab(ii)(1:4).eq.'PEEQ') then
                   write(5,*)
@@ -280,7 +281,7 @@
                   write(5,*)
                   write(5,130) elset(1:ipos-2),ttime+time
  130              format(' mechanical strains (elem, integ.pnt.,exx,eyy,&
-      ezz,exy,exz,eyz) forset ',A,' and time ',e14.7)
+      ezz,exy,exz,eyz) for set ',A,' and time ',e14.7)
                   write(5,*)
                endif
                !
@@ -322,6 +323,7 @@
          elseif((prlab(ii)(1:4).eq.'ELSE').or.&
                  (prlab(ii)(1:4).eq.'ELKE').or.&
                  (prlab(ii)(1:4).eq.'EVOL').or.&
+                 (prlab(ii)(1:4).eq.'EMAS').or.&
                  (prlab(ii)(1:4).eq.'EBHE').or.&
                  (prlab(ii)(1:4).eq.'CSTR').or.&
                  (prlab(ii)(1:4).eq.'CDIS').or.&
@@ -353,6 +355,14 @@
                write(5,*)
                write(5,114) elset(1:ipos-2),ttime+time
  114           format(' volume (element, volume) for set ',A,&
+                      ' and time ',e14.7)
+               write(5,*)
+            elseif((prlab(ii)(1:5).eq.'EMAS ').or.&
+                   (prlab(ii)(1:5).eq.'EMAST')) then
+               write(5,*)
+               write(5,136) elset(1:ipos-2),ttime+time
+ 136           format(' mass (element, mass) and mass moment of itertia&
+      (xx,yy,zz,xy,xz,yz) for set ',A,&
                       ' and time ',e14.7)
                write(5,*)
             elseif((prlab(ii)(1:5).eq.'EBHE ').or.&
@@ -414,7 +424,14 @@
             bhetot=0.d0
             energytot=0.d0
             enerkintot=0.d0
-            
+            xmasstot=0.d0
+            do jj=1,6
+               xinertot(jj)=0.d0
+            enddo
+            do jj=1,3
+               cg(jj)=0.d0
+            enddo
+            !
             if ((prlab(ii)(1:4).eq.'CSTR').or.&
                  (prlab(ii)(1:4).eq.'CDIS').or.&
                  (prlab(ii)(1:4).eq.'CNUM').or.&
@@ -440,7 +457,9 @@
                              ener,mi(1),ii,nelem,energytot,volumetot,&
                              enerkintot,ne,stx,nodes,thicke,ielmat,&
                              ielem,iface,mortar,ielprop,prop,&
-                             sideload,nload,nelemload,xload,bhetot)
+                             sideload,nload,nelemload,xload,bhetot,&
+                             xmasstot,xinertot,cg,ithermal,rhcon,nrhcon,&
+                             ntmat_,t1,vold)
                      enddo
                   elseif(mortar.eq.1) then
                      do nelem=ne0,ne
@@ -452,7 +471,9 @@
                              ener,mi(1),ii,nelem,energytot,volumetot,&
                              enerkintot,ne,stx,nodes,thicke,ielmat,&
                              ielem,iface,mortar,ielprop,prop,&
-                             sideload,nload,nelemload,xload,bhetot)
+                             sideload,nload,nelemload,xload,bhetot,&
+                             xmasstot,xinertot,cg,ithermal,rhcon,nrhcon,&
+                             ntmat_,t1,vold)
                      enddo
                   endif
                endif
@@ -468,14 +489,18 @@
                           ener,mi(1),ii,nelem,energytot,volumetot,&
                           enerkintot,ne,stx,nodes,thicke,ielmat,&
                           ielem,iface,mortar,ielprop,prop,&
-                          sideload,nload,nelemload,xload,bhetot)
+                          sideload,nload,nelemload,xload,bhetot,&
+                          xmasstot,xinertot,cg,ithermal,rhcon,nrhcon,&
+                          ntmat_,t1,vold)
                   elseif(ialset(jj+1).gt.0) then
                      nelem=ialset(jj)
                      call printoutelem(prlab,ipkon,lakon,kon,co,&
                           ener,mi(1),ii,nelem,energytot,volumetot,&
                           enerkintot,ne,stx,nodes,thicke,ielmat,&
                           ielem,iface,mortar,ielprop,prop,&
-                          sideload,nload,nelemload,xload,bhetot)
+                          sideload,nload,nelemload,xload,bhetot,&
+                          xmasstot,xinertot,cg,ithermal,rhcon,nrhcon,&
+                          ntmat_,t1,vold)
                   else
                      do nelem=ialset(jj-1)-ialset(jj+1),ialset(jj),&
                           -ialset(jj+1)
@@ -483,7 +508,9 @@
                              ener,mi(1),ii,nelem,energytot,volumetot,&
                              enerkintot,ne,stx,nodes,thicke,ielmat,&
                              ielem,iface,mortar,ielprop,prop,&
-                             sideload,nload,nelemload,xload,bhetot)
+                             sideload,nload,nelemload,xload,bhetot,&
+                             xmasstot,xinertot,cg,ithermal,rhcon,nrhcon,&
+                             ntmat_,t1,vold)
                      enddo
                   endif
                enddo
@@ -514,6 +541,39 @@
  121           format(' total volume for set ',A,' and time ',e14.7)
                write(5,*)
                write(5,'(6x,1p,1x,e13.6)') volumetot
+            elseif((prlab(ii)(1:5).eq.'EMASO').or.&
+                    (prlab(ii)(1:5).eq.'EMAST')) then
+               write(5,*)
+               write(5,137) elset(1:ipos-2),ttime+time
+ 137           format(' total mass for set ',A,' and time ',e14.7)
+               write(5,*)
+               write(5,'(6x,1p,1x,e13.6)') xmasstot
+               write(5,*)
+               write(5,134) elset(1:ipos-2),ttime+time
+ 134           format(&
+           ' total mass moment of inertia (xx,yy,zz,xy,xz,yz) for set ',&
+                  A,' and time ',e14.7)
+               write(5,*)
+               write(5,'(6x,1p,6(1x,e13.6))') (xinertot(i),i=1,6)
+               write(5,*)
+               write(5,135) elset(1:ipos-2),ttime+time
+ 135           format(' center of gravity for set ',A,&
+                      ' and time ',e14.7)
+               write(5,*)
+               write(5,'(6x,1p,3(1x,e13.6))') (cg(i)/xmasstot,i=1,3)
+               write(5,*)
+               write(5,138) elset(1:ipos-2),ttime+time
+ 138           format(' total mass moment of inertia about the center of&
+       gravity (xx,yy,zz,xy,xz,yz) for set ',&
+                  A,' and time ',e14.7)
+               write(5,*)
+               write(5,'(6x,1p,6(1x,e13.6))')&
+                    xinertot(1)-cg(1)*cg(1)/xmasstot,&
+                    xinertot(2)-cg(2)*cg(2)/xmasstot,&
+                    xinertot(3)-cg(3)*cg(3)/xmasstot,&
+                    xinertot(4)-cg(1)*cg(2)/xmasstot,&
+                    xinertot(5)-cg(1)*cg(3)/xmasstot,&
+                    xinertot(6)-cg(2)*cg(3)/xmasstot
             elseif((prlab(ii)(1:5).eq.'EBHEO').or.&
                     (prlab(ii)(1:5).eq.'EBHET')) then
                write(5,*)

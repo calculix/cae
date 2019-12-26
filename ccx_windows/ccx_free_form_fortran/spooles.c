@@ -1,6 +1,6 @@
 
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -499,6 +499,8 @@ void spooles_factor(double *ad, double *au,  double *adb, double *aub,
 			if(fabs(ad[i*(int)*nzs+j])>1.e-20) nent++;
 		    }
 		}
+	    }else if(*inputformat==4){
+	      nent = *nzs;
 	    }
 	    
 	    InpMtx_init(mtxA, INPMTX_BY_ROWS, SPOOLES_REAL, nent, size);
@@ -511,7 +513,9 @@ void spooles_factor(double *ad, double *au,  double *adb, double *aub,
 	          and upper triangle have nonzero's at symmetric positions)
 	       2: full matrix in field ad
 	       3: sparse full matrix in ad (diagonal)
-	          and au (off-diagonal positions)  */
+	          and au (off-diagonal positions)
+               4: sparse full matrix in au, row after row
+                  (CFD applications, call from compfluid.c)  */
 	    
 	    if(*inputformat==0){
 		ipoint = 0;
@@ -606,6 +610,17 @@ void spooles_factor(double *ad, double *au,  double *adb, double *aub,
 			ipoint = ipoint + icol[col];
 		    }
 		}
+	    }else if(*inputformat==4){
+	        int row;
+	        for(row = 0; row < size; row++){
+		    for(ipo = irow[row]; ipo < irow[row+1]; ipo++){
+		        col = icol[ipo] - 1;
+			printf("spooles %d %d %d %f\n",ipo,row,col,au[ipo]);
+		        InpMtx_inputRealEntry(mtxA, col, row, 
+					au[ipo]);
+		     }
+	        }
+		  
 	    }		  
 	    
 	    InpMtx_changeStorageMode(mtxA, INPMTX_BY_VECTORS);
@@ -819,6 +834,8 @@ void spooles_factor_rad(double *ad, double *au,  double *adb, double *aub,
 			if(fabs(ad[i*(int)*nzs+j])>1.e-20) nent++;
 		    }
 		}
+	    }else if(*inputformat==4){
+	        nent = *nzs;
 	    }
 	    
 	    InpMtx_init(mtxA, INPMTX_BY_ROWS, SPOOLES_REAL, nent, size);
@@ -921,6 +938,16 @@ void spooles_factor_rad(double *ad, double *au,  double *adb, double *aub,
 			ipoint = ipoint + icol[col];
 		    }
 		}
+	    }else if(*inputformat==4){
+	        int row;
+	        for(row = 0; row < size; row++){
+		    for(ipo = irow[row]; ipo < irow[row+1]; ipo++){
+		        col = icol[ipo] - 1;
+		        InpMtx_inputRealEntry(mtxA, col, row, 
+					au[ipo]);
+		     }
+	        }
+		  
 	    }		  
 	    
 	    InpMtx_changeStorageMode(mtxA, INPMTX_BY_VECTORS);

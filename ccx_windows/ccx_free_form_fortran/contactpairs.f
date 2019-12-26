@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -166,30 +166,41 @@
          write(*,*)&
            '*ERROR reading *CONTACT PAIR: no PRESSURE-OVERCLOSURE'
          write(*,*)&
-         '       has been defined for at least one *CONTACT INTERACTION'
+         '       has been defined for at least one *SURFACE INTERACTION'
          ier=1
          return
-      elseif(int(elcon(3,1,i)).le.0) then
-         write(*,*)&
-           '*ERROR reading *CONTACT PAIR: no PRESSURE-OVERCLOSURE'
-         write(*,*)&
-         '       has been defined for at least one *CONTACT INTERACTION'
-         ier=1
-         return
+      elseif(mortar.lt.2) then
+         if(ncmat_<3) then
+            write(*,*)&
+                 '*ERROR reading *CONTACT PAIR: no PRESSURE-OVERCLOSURE'
+            write(*,*)&
+         '       has been defined for at least one *SURFACE INTERACTION'
+            ier=1
+            return
+         elseif(int(elcon(3,1,i)).le.0) then
+            write(*,*)&
+                 '*ERROR reading *CONTACT PAIR: no PRESSURE-OVERCLOSURE'
+            write(*,*)&
+         '       has been defined for at least one *SURFACE INTERACTION'
+            ier=1
+            return
+         endif
       endif
       !
-      if(int(elcon(3,1,i)).eq.2) then
-         if(mortar.eq.0) then
-            if(elcon(1,1,i).lt.1.d-30) then
-               write(*,*) '*ERROR reading *CONTACT PAIR:'
-               write(*,*) '       for node-to-face penalty contact'
-               write(*,*) '       with linear pressure-overclosure'
-               write(*,*) '       relationship, the'
-               write(*,*) '       tension at large clearances'
-               write(*,*) '       must exceed 1.e-30'
-               call inputerror(inpc,ipoinpc,iline,&
-                    "*CONTACT PAIR%",ier)
-               return
+      if(ncmat_>=3) then
+         if(int(elcon(3,1,i)).eq.2) then
+            if(mortar.eq.0) then
+               if(elcon(1,1,i).lt.1.d-30) then
+                  write(*,*) '*ERROR reading *CONTACT PAIR:'
+                  write(*,*) '       for node-to-face penalty contact'
+                  write(*,*) '       with linear pressure-overclosure'
+                  write(*,*) '       relationship, the'
+                  write(*,*) '       tension at large clearances'
+                  write(*,*) '       must exceed 1.e-30'
+                  call inputerror(inpc,ipoinpc,iline,&
+                       "*CONTACT PAIR%",ier)
+                  return
+               endif
             endif
          endif
       endif

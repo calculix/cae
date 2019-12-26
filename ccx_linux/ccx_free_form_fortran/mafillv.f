@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,11 +17,11 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine mafillv(nef,ipnei,neifa,neiel,vfa,xxn,area,&
-        auv,adv,jq,irow,nzs,bv,vel,cosa,umfa,xlet,xle,gradvfa,xxi,&
+        auv,adv,jq,irow,nzs,bv,vel,cosa,umfa,alet,ale,gradvfa,xxi,&
         body,volume,ielfa,lakonf,ifabou,nbody,&
         dtimef,velo,veloo,sel,xrlfa,gamma,xxj,nactdohinv,a1,&
-        a2,a3,flux,nefa,nefb,icyclic,c,ifatie,iau6,xxni,xxnj,&
-        iturbulent,gradvel,of2,yy,umel)
+        a2,a3,flux,nefa,nefb,icyclic,c,ifatie,iau6,xxna,xxnj,&
+        iturbulent,gradvel,of2,yy,umel,ncfd,inlet,sc)
       !
       implicit none
       !
@@ -30,20 +30,20 @@
       integer i,nef,indexf,ipnei(*),j,ifa,iel,neifa(*),icyclic,&
         neiel(*),jq(*),irow(*),nzs,iwall,ielfa(4,*),nefa,nefb,&
         ipointer,ifabou(*),nbody,k,indexb,nactdohinv(*),&
-        ifatie(*),iau6(6,*),iturbulent
+        ifatie(*),iau6(6,*),iturbulent,ncfd,inlet(*)
       !
       real*8 xflux,vfa(0:7,*),xxn(3,*),area(*),auv(*),adv(*),bv(nef,3),&
-        vel(nef,0:7),cosa(*),umfa(*),xlet(*),xle(*),coef,gradvfa(3,3,*),&
+        vel(nef,0:7),cosa(*),umfa(*),alet(*),ale(*),coef,gradvfa(3,3,*),&
         xxi(3,*),body(0:3,*),volume(*),coef2,dtimef,velo(nef,0:7),&
-        veloo(nef,0:7),rhovel,constant,sel(3,*),xrlfa(3,*),gamma(*),&
-        xxj(3,*),a1,a2,a3,flux(*),c(3,3),xxni(3,*),xxnj(3,*),difcoef,&
-        xl1,xl2,aa,bb,gradvel(3,3,*),of2(*),f2,arg2,yy(*),umel(*)
+        veloo(nef,0:7),rhovol,constant,sel(3,*),xrlfa(3,*),gamma(*),&
+        xxj(3,*),a1,a2,a3,flux(*),c(3,3),xxna(3,*),xxnj(3,*),difcoef,&
+        xl1,xl2,aa,bb,gradvel(3,3,*),of2(*),f2,arg2,yy(*),umel(*),sc(*)
       !
       intent(in) nef,ipnei,neifa,neiel,vfa,xxn,area,&
-        jq,irow,nzs,vel,cosa,umfa,xlet,xle,gradvfa,xxi,&
+        jq,irow,nzs,vel,cosa,umfa,alet,ale,gradvfa,xxi,&
         body,volume,ielfa,lakonf,ifabou,nbody,&
         dtimef,velo,veloo,xrlfa,gamma,xxj,nactdohinv,a1,&
-        a2,a3,flux,gradvel,yy,umel,iturbulent
+        a2,a3,flux,gradvel,yy,umel,iturbulent,ncfd,sc
       !
       intent(inout) adv,auv,bv,sel,of2
       !
@@ -64,7 +64,7 @@
                   adv(i)=adv(i)+xflux
                else
                   adv(i)=adv(i)+xflux
-                  do k=1,3
+                  do k=1,ncfd
                     !   retarded gamma
                     bv(i,k)=bv(i,k)-gamma(ifa)*(vfa(k,ifa)&
                              -vel(i,k))*xflux
@@ -77,13 +77,13 @@
                   !
                   if((icyclic.eq.0).or.(ifatie(ifa).eq.0)) then
                      auv(indexf)=auv(indexf)+xflux
-                     do k=1,3
+                     do k=1,ncfd
                         !    retarded gamma
                         bv(i,k)=bv(i,k)-gamma(ifa)*&
                                 (vfa(k,ifa)-vel(iel,k))*xflux
                      enddo
                   else
-                     do k=1,3
+                     do k=1,ncfd
                         bv(i,k)=bv(i,k)-vfa(k,ifa)*xflux
                      enddo
                   endif
@@ -92,12 +92,8 @@
                   !                    incoming flux through boundary
                   !
                   if(ielfa(2,ifa).lt.0) then
-                     indexb=-ielfa(2,ifa)
-                     if(((ifabou(indexb+1).ne.0).and.&
-                         (ifabou(indexb+2).ne.0).and.&
-                         (ifabou(indexb+3).ne.0)).or.&
-                          (dabs(xflux).lt.1.d-10)) then
-                        do k=1,3
+                     if(inlet(ifa).ne.0) then
+                        do k=1,ncfd
                            bv(i,k)=bv(i,k)-vfa(k,ifa)*xflux
                         enddo
                      endif
@@ -132,7 +128,7 @@
                !
                !                 neighboring element
                !
-               coef=difcoef*area(ifa)/xlet(indexf)
+               coef=difcoef*alet(indexf)
                adv(i)=adv(i)+coef
                if((icyclic.eq.0).or.(ifatie(ifa).eq.0)) then
                   auv(indexf)=auv(indexf)-coef
@@ -143,13 +139,13 @@
                   !                 (i.e. the x-, y- and z- momentum equations cannot
                   !                  be solved separately any more)
                   !
-                  do k=1,3
+                  do k=1,ncfd
                      bv(i,k)=bv(i,k)+&
                       (c(k,1)*vel(iel,1)+c(k,2)*vel(iel,2)+&
                        c(k,3)*vel(iel,3))*coef
                   enddo
                else
-                  do k=1,3
+                  do k=1,ncfd
                      bv(i,k)=bv(i,k)+&
                       (c(1,k)*vel(iel,1)+c(2,k)*vel(iel,2)+&
                        c(3,k)*vel(iel,3))*coef
@@ -158,8 +154,8 @@
                !
                !                 correction for non-orthogonal grid
                !
-               do k=1,3
-                  bv(i,k)=bv(i,k)+difcoef*area(ifa)*&
+               do k=1,ncfd
+                  bv(i,k)=bv(i,k)+difcoef*&
                     (gradvfa(k,1,ifa)*xxnj(1,indexf)+&
                      gradvfa(k,2,ifa)*xxnj(2,indexf)+&
                      gradvfa(k,3,ifa)*xxnj(3,indexf))
@@ -183,9 +179,9 @@
                      !
                      !                       no outlet: face velocity fixed
                      !
-                     coef=difcoef*area(ifa)/xle(indexf)
+                     coef=difcoef*ale(indexf)
                      adv(i)=adv(i)+coef
-                     do k=1,3
+                     do k=1,ncfd
                         bv(i,k)=bv(i,k)+coef*vfa(k,ifa)
                      enddo
                   else
@@ -196,75 +192,87 @@
                   !
                   !                    correction for non-orthogonal grid
                   !
-                  do k=1,3
-                     bv(i,k)=bv(i,k)+difcoef*area(ifa)*&
-                       (gradvfa(k,1,ifa)*xxni(1,indexf)+&
-                        gradvfa(k,2,ifa)*xxni(2,indexf)+&
-                        gradvfa(k,3,ifa)*xxni(3,indexf))
+                  do k=1,ncfd
+                     bv(i,k)=bv(i,k)+difcoef*&
+                       (gradvfa(k,1,ifa)*xxnj(1,indexf)+&
+                        gradvfa(k,2,ifa)*xxnj(2,indexf)+&
+                        gradvfa(k,3,ifa)*xxnj(3,indexf))
                   enddo
                elseif(iwall.gt.0) then
                   !
                   !                    wall
                   !
-                  coef=difcoef*area(ifa)/(xle(indexf)*cosa(indexf))
+                  coef=difcoef*cosa(indexf)
                   adv(i)=adv(i)+coef
                   !
                   !                    correction for non-orthogonal grid and nonzero
                   !                    wall velocity
                   !
-                  coef2=((vel(i,1)-vfa(1,ifa))*xxn(1,indexf)+&
-                       (vel(i,2)-vfa(2,ifa))*xxn(2,indexf)+&
-                       (vel(i,3)-vfa(3,ifa))*xxn(3,indexf))*coef
-                  do k=1,3
+                  coef2=(vel(i,1)*xxn(1,indexf)+&
+                       vel(i,2)*xxn(2,indexf)+&
+                       vel(i,3)*xxn(3,indexf))*coef
+                  do k=1,ncfd
                      bv(i,k)=bv(i,k)+coef*vfa(k,ifa)+&
                        coef2*xxn(k,indexf)
                   enddo
                endif
             endif
-         !
-         !     pressure
-         !
+            !
+            !           pressure and turbulent kinetic energy
+            !
+            if(iturbulent.eq.0) then
+               do k=1,ncfd
+                  bv(i,k)=bv(i,k)&
+                       -vfa(4,ifa)*xxna(k,indexf)
+               enddo
+            else
+               do k=1,ncfd
+                  bv(i,k)=bv(i,k)&
+                       -(vfa(4,ifa)+2.d0*vfa(5,ifa)*vfa(6,ifa)/3.d0)&
+                       *xxna(k,indexf)
+               enddo
+            endif
          enddo
          !
-         !           body force
+         !        body force
          !
-         rhovel=vel(i,5)*volume(i)
+         rhovol=vel(i,5)*volume(i)
          !
          if(nbody.gt.0) then
-            do k=1,3
-               bv(i,k)=bv(i,k)+rhovel*body(k,i)
+            do k=1,ncfd
+               bv(i,k)=bv(i,k)+rhovol*body(k,i)
             enddo
          endif
          !
          !           transient term
          !
-         constant=rhovel
-         do k=1,3
+         constant=rhovol*sc(i)
+         do k=1,ncfd
             bv(i,k)=bv(i,k)-(a2*velo(i,k)+a3*veloo(i,k))*constant
          enddo
          constant=a1*constant
          adv(i)=adv(i)+constant
-         !
-         !        pressure contribution to b
-         !
-         if(iturbulent.eq.0) then
-            do indexf=ipnei(i)+1,ipnei(i+1)
-               ifa=neifa(indexf)
-               do k=1,3
-                  bv(i,k)=bv(i,k)&
-                       -vfa(4,ifa)*xxn(k,indexf)*area(ifa)
-               enddo
-            enddo
-         else
-            do indexf=ipnei(i)+1,ipnei(i+1)
-               ifa=neifa(indexf)
-               do k=1,3
-                  bv(i,k)=bv(i,k)&
-                     -(vfa(4,ifa)+2.d0*vfa(5,ifa)*vfa(6,ifa)/3.d0)&
-                     *xxn(k,indexf)*area(ifa)
-               enddo
-            enddo
-         endif
+      !
+      !        pressure contribution to b
+      !
+      !          if(iturbulent.eq.0) then
+      !             do indexf=ipnei(i)+1,ipnei(i+1)
+      !                ifa=neifa(indexf)
+      !                do k=1,ncfd
+      !                   bv(i,k)=bv(i,k)
+      !      &                 -vfa(4,ifa)*xxna(k,indexf)
+      !                enddo
+      !             enddo
+      !          else
+      !             do indexf=ipnei(i)+1,ipnei(i+1)
+      !                ifa=neifa(indexf)
+      !                do k=1,ncfd
+      !                   bv(i,k)=bv(i,k)
+      !      &               -(vfa(4,ifa)+2.d0*vfa(5,ifa)*vfa(6,ifa)/3.d0)
+      !      &               *xxna(k,indexf)
+      !                enddo
+      !             enddo
+      !          endif
       !
       enddo
       !

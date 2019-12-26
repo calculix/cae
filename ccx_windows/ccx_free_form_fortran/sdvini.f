@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,8 +18,8 @@
 !
       subroutine sdvini(statev,coords,nstatv,ncrds,noel,npt,&
         layer,kspt)
-!
-!     user subroutine sdvini
+      !
+      !     user subroutine sdvini
       !
       !
       !     INPUT:

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -90,14 +90,14 @@
                endif
             enddo
             if(nelcon(1,nmat).eq.-109) then
-!
-!              elastic orthotropic
-!              no plasticity
-!              user creep: -109
-!
-!              7 state variables: cf. Section 6.8.13
-!              "Elastic anisotropy with isotropic creep defined by
-!               a creep user subroutine" in the User's Manual
+               !
+               !              elastic orthotropic
+               !              no plasticity
+               !              user creep: -109
+               !
+               !              7 state variables: cf. Section 6.8.13
+               !              "Elastic anisotropy with isotropic creep defined by
+               !               a creep user subroutine" in the User's Manual
                !
                nstate_=max(nstate_,7)
                if(matname(nmat)(70:80).ne.'           ') then

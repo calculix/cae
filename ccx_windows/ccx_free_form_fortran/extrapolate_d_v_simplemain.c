@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -22,14 +22,14 @@
 #include <pthread.h>
 #include "CalculiX.h"
 
-static ITG *nface1,*ielfa1,*icyclic1,*ifatie1,*nef1,*num_cpus1;
+static ITG *nface1,*ielfa1,*icyclic1,*ifatie1,*nef1,*num_cpus1,*ncfd1;
 
 static double *xrlfa1,*adv1,*advfa1,*hfa1,*c1,*vel1,*volume1;
 
 void extrapolate_d_v_simplemain(ITG *nface,ITG *ielfa,double *xrlfa,double *adv,
 				double *advfa,double *hfa,ITG *icyclic,
 				double *c,ITG *ifatie,double *vel,ITG *nef,
-				double *volume,ITG *num_cpus){
+				double *volume,ITG *num_cpus,ITG *ncfd){
 
     ITG i;
       
@@ -43,7 +43,7 @@ void extrapolate_d_v_simplemain(ITG *nface,ITG *ielfa,double *xrlfa,double *adv,
     
     ielfa1=ielfa,xrlfa1=xrlfa;adv1=adv;advfa1=advfa;hfa1=hfa;
     icyclic1=icyclic;c1=c;ifatie1=ifatie;vel1=vel;nef1=nef;
-    volume1=volume;num_cpus1=num_cpus;nface1=nface;
+    volume1=volume;num_cpus1=num_cpus;nface1=nface;ncfd1=ncfd;
     
     /* create threads and wait */
     
@@ -73,7 +73,7 @@ void *extrapolate_d_v_simple1mt(ITG *i){
 
     FORTRAN(extrapolate_d_v_simple,(ielfa1,xrlfa1,adv1,advfa1,hfa1,
 				    icyclic1,c1,ifatie1,vel1,nef1,volume1,
-         			    &nfacea,&nfaceb));
+         			    &nfacea,&nfaceb,ncfd1));
 
     return NULL;
 }

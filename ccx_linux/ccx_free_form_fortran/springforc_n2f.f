@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,7 +20,8 @@
         elas,fnl,ncmat_,ntmat_,nope,lakonl,t1l,kode,elconloc,&
         plicon,nplicon,npmat_,senergy,nener,cstr,mi,&
         springarea,nmethod,ne0,nstate_,xstateini,&
-        xstate,reltime,ielas,venergy,ielorien,orab,norien,nelem)
+        xstate,reltime,ielas,venergy,ielorien,orab,norien,&
+        nelem,smscale,mscalmethod)
       !
       !     calculates the force of the spring (node-to-face penalty)
       !
@@ -31,7 +32,7 @@
       integer konl(9),i,j,imat,ncmat_,ntmat_,nope,nterms,iflag,mi(*),&
         kode,niso,id,nplicon(0:ntmat_,*),npmat_,nelcon(2,*),nener,&
         nmethod,ne0,nstate_,ielas,norien,nelem,ielorien(mi(3),*),&
-        iorien,idof,idof1,idof2
+        iorien,idof,idof1,idof2,mscalmethod
       !
       real*8 xl(3,10),elas(21),ratio(9),t1l,al(3),vl(0:mi(2),10),&
         pl(3,10),xn(3),dm,alpha,beta,fnl(3,10),tp(3),te(3),ftrial(3),&
@@ -42,7 +43,7 @@
         um,eps,pi,senergy,cstr(6),dg,dfshear,dfnl,&
         springarea(2),overlap,pres,xn1(3),xn2(3),&
         xstate(nstate_,mi(1),*),xstateini(nstate_,mi(1),*),t1(3),t2(3),&
-        dt1,dte,alnew(3),reltime
+        dt1,dte,alnew(3),reltime,smscale(*)
       !
       intent(in) xl,konl,vl,imat,elcon,nelcon,&
         ncmat_,ntmat_,nope,lakonl,t1l,kode,elconloc,&
@@ -306,11 +307,19 @@
             !
             if(clear.le.0.d0)then
                pi=4.d0*datan(1.d0)
-               eps=elcon(1,1,imat)*pi/elcon(2,1,imat)
-               elas(1)=(-springarea(1)*elcon(2,1,imat)*clear*&
+               xk=elcon(2,1,imat)
+               !
+               !              spring scaling for explicit dynamics
+               !
+               if((mscalmethod.eq.2).or.(mscalmethod.eq.3)) then
+                  xk=xk*smscale(nelem)
+               endif
+               !
+               eps=elcon(1,1,imat)*pi/xk
+               elas(1)=(-springarea(1)*xk*clear*&
                     (0.5d0+datan(-clear/eps)/pi))
                if(nener.eq.1)&
-                   senergy=springarea(1)*elcon(2,1,imat)*(clear**2/4.d0+&
+                   senergy=springarea(1)*xk*(clear**2/4.d0+&
                    (0.5d0*datan(-clear/eps)*clear**2+&
                    0.5d0*(eps*clear+datan(-clear/eps)*eps**2))/pi)
             else
@@ -416,6 +425,12 @@
             !     slip curve
             !
             xk=elcon(7,1,imat)*springarea(1)
+            !
+            !           spring scaling for explicit dynamics
+            !
+            if((mscalmethod.eq.2).or.(mscalmethod.eq.3)) then
+               xk=xk*smscale(nelem)
+            endif
             !
             !     calculating the relative displacement between the slave node
             !     and its projection on the master surface

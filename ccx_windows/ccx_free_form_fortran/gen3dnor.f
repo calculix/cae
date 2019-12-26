@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -21,7 +21,7 @@
         tper,tmin,tmax,ctrl,ipompc,nodempc,coefmpc,nmpc,nmpc_,mpcfree,&
         ikmpc,ilmpc,labmpc,ikboun,ilboun,nboun,nboun_,nodeboun,ndirboun,&
         xboun,iamboun,typeboun,nam,ntrans,inotr,trab,ikfree,ixfree,&
-        nmethod,ithermal,istep,mi,icomposite,ielmat,vold)
+        nmethod,ithermal,istep,mi,icomposite,ielmat,vold,iflagpl)
       !
       !     calculates normals on 1-D and 2-D elements
       !
@@ -50,7 +50,8 @@
         i,ndepnodes,index,nexp,nnor,nel,ielem,indexe,j,iel(100),idmpc,&
         jl(100),ial(100),ifi(100),idepnodes(800),indexx,k,l,ifix,nemin,&
         jact,ixfree,ikfree,node,nelshell,irefnode,idof,id,mpcfreeold,&
-        irotnode,imax,iamplitude,nmethod,ithermal(2),iexpnode,idim
+        irotnode,imax,iamplitude,nmethod,ithermal(2),iexpnode,idim,&
+        iflagpl
       !
       real*8 co(3,*),thicke(mi(3),*),offset(2,*),xnor(*),tinc,tper,tmin,&
         tmax,ctrl(*),coefmpc(*),xboun(*),trab(7,*),vold(0:mi(2),*),&
@@ -420,7 +421,7 @@
                         !
                         !                       membrane: insert hinge
                         !
-                        call gen3membrane(ipompc,nodempc,coefmpc,nmpc,&
+                        call gen3dmembrane(ipompc,nodempc,coefmpc,nmpc,&
                              nmpc_,mpcfree,ikmpc,ilmpc,labmpc,nk,&
                              ithermal,i)
                      endif
@@ -816,15 +817,15 @@
                        ithermal,i,nodeboun,ndirboun,ikboun,ilboun,&
                        nboun,nboun_,typeboun,xboun,xta,jact,co,&
                        knor,ntrans,inotr,trab,vold,mi,nmethod,nk_,&
-                       nam,iperturb,ikfree,iamboun)
+                       nam,iperturb,ikfree,iamboun,iflagpl)
                endif
                ikfree=ikfree+8
             enddo
          endif
-!
-!           check whether the user has specified rotational degrees
-!           of freedom (in that case rig(i)=-1 was assigned in
-!           subroutine gen3delem); if so, a rigid MPC must be defined
+         !
+         !           check whether the user has specified rotational degrees
+         !           of freedom (in that case rig(i)=-1 was assigned in
+         !           subroutine gen3delem); if so, a rigid MPC must be defined
          !
          !          if(rig(i).ne.0) then
          !             rig(i)=0

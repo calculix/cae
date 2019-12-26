@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,7 +16,7 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-      subroutine calcflux(area,vfa,xxn,ipnei,nef,neifa,flux,xxj,&
+      subroutine calcflux(area,vfa,xxna,ipnei,nef,neifa,flux,xxj,&
         gradpfa,xlet,xle,vel,advfa,ielfa,neiel,ifabou,hfa,nefa,&
         nefb)
       !
@@ -30,10 +30,10 @@
       integer i,indexf,ipnei(*),ifa,nef,neifa(*),ielfa(4,*),&
         neiel(*),iwall,iel,ipointer,ifabou(*),nefa,nefb
       !
-      real*8 area(*),vfa(0:7,*),xxn(3,*),flux(*),xxj(3,*),gradpfa(3,*),&
+      real*8 area(*),vfa(0:7,*),xxna(3,*),flux(*),xxj(3,*),gradpfa(3,*),&
         xlet(*),xle(*),vel(nef,0:7),advfa(*),coef,hfa(3,*)
       !
-      intent(in) area,vfa,xxn,ipnei,nef,neifa,xxj,&
+      intent(in) area,vfa,xxna,ipnei,nef,neifa,xxj,&
         gradpfa,xlet,xle,vel,advfa,ielfa,neiel,ifabou,hfa,nefa,&
         nefb
       !
@@ -62,10 +62,10 @@
                      !
                      !                    inlet: velocity fixed
                      !
-                     flux(indexf)=area(ifa)*vfa(5,ifa)*&
-                                  (vfa(1,ifa)*xxn(1,indexf)+&
-                                   vfa(2,ifa)*xxn(2,indexf)+&
-                                   vfa(3,ifa)*xxn(3,indexf))
+                     flux(indexf)=vfa(5,ifa)*&
+                                  (vfa(1,ifa)*xxna(1,indexf)+&
+                                   vfa(2,ifa)*xxna(2,indexf)+&
+                                   vfa(3,ifa)*xxna(3,indexf))
                   else
                      !
                      !                    outlet or 1-layer
@@ -75,19 +75,20 @@
                            (gradpfa(1,ifa)*xxj(1,indexf)+&
                             gradpfa(2,ifa)*xxj(2,indexf)+&
                             gradpfa(3,ifa)*xxj(3,indexf)))
-                     flux(indexf)=area(ifa)*vfa(5,ifa)*&
-                         ((hfa(1,ifa)-coef*xxj(1,indexf))*xxn(1,indexf)+&
-                          (hfa(2,ifa)-coef*xxj(2,indexf))*xxn(2,indexf)+&
-                          (hfa(3,ifa)-coef*xxj(3,indexf))*xxn(3,indexf))
+                     flux(indexf)=vfa(5,ifa)*&
+                        ((hfa(1,ifa)-coef*xxj(1,indexf))*xxna(1,indexf)+&
+                         (hfa(2,ifa)-coef*xxj(2,indexf))*xxna(2,indexf)+&
+                         (hfa(3,ifa)-coef*xxj(3,indexf))*xxna(3,indexf))
                   endif
                else
                   !
                   !                 wall or sliding: velocity of the wall
                   !
-                  flux(indexf)=area(ifa)*vfa(5,ifa)*&
-                       (vfa(1,ifa)*xxn(1,indexf)+&
-                        vfa(2,ifa)*xxn(2,indexf)+&
-                        vfa(3,ifa)*xxn(3,indexf))
+                  flux(indexf)=0.d0
+               !                   flux(indexf)=vfa(5,ifa)*
+               !      &                 (vfa(1,ifa)*xxna(1,indexf)+
+               !      &                  vfa(2,ifa)*xxna(2,indexf)+
+               !      &                  vfa(3,ifa)*xxna(3,indexf))
                endif
             else
                !
@@ -98,10 +99,10 @@
                     (gradpfa(1,ifa)*xxj(1,indexf)+&
                     gradpfa(2,ifa)*xxj(2,indexf)+&
                     gradpfa(3,ifa)*xxj(3,indexf)))
-               flux(indexf)=area(ifa)*vfa(5,ifa)*&
-                    ((hfa(1,ifa)-coef*xxj(1,indexf))*xxn(1,indexf)+&
-                    (hfa(2,ifa)-coef*xxj(2,indexf))*xxn(2,indexf)+&
-                    (hfa(3,ifa)-coef*xxj(3,indexf))*xxn(3,indexf))
+               flux(indexf)=vfa(5,ifa)*&
+                    ((hfa(1,ifa)-coef*xxj(1,indexf))*xxna(1,indexf)+&
+                    (hfa(2,ifa)-coef*xxj(2,indexf))*xxna(2,indexf)+&
+                    (hfa(3,ifa)-coef*xxj(3,indexf))*xxna(3,indexf))
              endif
          enddo
       enddo

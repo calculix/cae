@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,7 +20,7 @@
         mpcfree,ikmpc,ilmpc,labmpc,nk,ithermal,i,nodeboun,ndirboun,&
         ikboun,ilboun,nboun,nboun_,typeboun,xboun,xta,jact,co,&
         knor,ntrans,inotr,trab,vold,mi,nmethod,nk_,nam,iperturb,&
-        indexk,iamboun)
+        indexk,iamboun,iflagpl)
       !
       !     - connects the expanded nodes of a truss element to the
       !       original node
@@ -38,10 +38,18 @@
         ithermal(*),jstart,jend,nodeboun(*),ndirboun(*),ikboun(*),&
         ilboun(*),nboun,nboun_,jact,knor(*),ntrans,inotr(2,*),&
         nnodes,nodeact,nmethod,nk_,k,iperturb(2),nam,indexk,&
-        iamplitude,idirref,iamboun(*)
+        iamplitude,idirref,iamboun(*),iflagpl
       !
       real*8 coefmpc(*),xboun(*),xta(3,100),co(3,*),trab(7,*),&
-        vold(0:mi(2)),val
+           vold(0:mi(2)),val
+      !
+      intent(in) nmpc_,nk,ithermal,i,nodeboun,ndirboun,&
+        ikboun,nboun,nboun_,typeboun,xboun,xta,jact,&
+        knor,ntrans,inotr,trab,vold,mi,nmethod,nk_,nam,iperturb,&
+        indexk,iamboun,iflagpl
+      !
+      intent(inout) ilboun,co,mpcfree,nodempc,coefmpc,ikmpc,ilmpc,&
+        labmpc,nmpc,ipompc
       !
       !     generating a hinge at a node of a truss element
       !
@@ -100,7 +108,15 @@
             enddo
             nodempc(1,mpcfree)=i
             nodempc(2,mpcfree)=idir
-            coefmpc(mpcfree)=-4.d0
+            !
+            !           in the presence of 2D plane strain/stress/axi elements
+            !           (iflagpl=1) the displacements in z are to be fixed
+            !
+            if((iflagpl.eq.1).and.(idir.eq.3)) then
+               coefmpc(mpcfree)=0.d0
+            else
+               coefmpc(mpcfree)=-4.d0
+            endif
             mpcfreenew=nodempc(3,mpcfree)
             if(mpcfreenew.eq.0) then
                write(*,*)&

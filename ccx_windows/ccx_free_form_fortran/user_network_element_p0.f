@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,96 +20,96 @@
            kon,ipkon,nactdog,identity,ielprop,prop,iflag,v,xflow,f,&
            nodef,idirf,df,cp,R,physcon,dvi,numf,set,co,vold,mi,ttime,&
            time,iaxial,iplausi)
-!
-!     user subroutine user_network_element
-!
-!     skeleton file
-!
-!     INPUT:
-!
-!     node1              first node in element topology
-!     node2              third node in element topology
-!     nodem              second node in element topology (middle node)
-!     nelem              element number
-!     lakon(i)           label of element i
-!     kon                connectivity list of all elements; the topology
-!                        of element i starts at kon(ipkon(i))
-!     ipkon(i)           pointer of element i into list kon
-!     nactdog(j,i)       global degree of freedom in the network
-!                        equation system of local dof j (0,1 or 2 for
-!                        networks) of node i. If nactdog(j,i)=0 the
-!                        variable is known
-!     ielprop(i)         pointer for element i into field prop. The
-!                        properties for element i start at
-!                        prop(ielprop(i)+1,...)
-!     prop               field of all properties
-!     iflag              indicates what information should be returned
-!                        by the routine:
-!                        0: identity
-!                        1: xflow
-!                        2: numf, nodef, idirf, f, df
-!                        3: none
-!     v(0..mi(2),i)      values at node i in the current network
-!                        iteration (0=total temperature,
-!                        1=mass flow, 2=total pressure for network nodes,
-!                        0=temperature, 1..3=displacements for structural
-!                        nodes)
-!     cp                 specific heat at constant pressure corresponding
-!                        to a mean static temperature across the element
-!     R                  specific gas constant
-!     physcon(1..)       physical constants (e.g. physcon(1) is absolute
-!                        zero in the unit systemof the user; cf. the
-!                        user's manual for the other entries)
-!     dvi                dynamical viscosity corresponding
-!                        to a mean static temperature across the element
-!     set(i)             set name corresponding to set i
-!     co(1..3,i)         coordinates of node i in the global system
-!     vold(0..mi(2),i)   values at node i at the start of the current network
-!                        iterations (0=total temperature,
-!                        1=mass flow, 2=total pressure for network nodes,
-!                        0=temperature, 1..3=displacements for structural
-!                        nodes)
-!     mi(2)              max degree of freedom per node (max over all
-!                        nodes) in fields like v(0:mi(2))...; the other
-!                        values of mi are not relevant here
-!     ttime              total time at the end of the current
-!                        thermo-mechanical increment. To reach the end
-!                        of this increment several thermo-mechanical
-!                        iterations are performed. For each of these
-!                        iterations a loop of network iterations is
-!                        performed
-!     time               step time a the end of the current thermo-
-!                        mechanical increment
-!     iaxial             number of times the current structure fits into
-!                        360 degrees
-!     iplausi            flag telling whether any plausibility checks
-!                        have been violated up to entry in this routine
-!                        0: plausibility checks not satisfied
-!                        1: plausibility checks (if any) are satisfied
-!
-!
-!     OUTPUT:
-!
-!     identity           if .true. the user_network_element routine is
-!                        not needed (all variables known)
-!     xflow              mass flow
-!     f                  value of the element equation
-!     nodef              nodes corresponding to the variables in the
-!                        element equation
-!     idirf              degrees of freedom corresponding to the variables
-!                        in the element equation
-!     df                 derivatives of the element equation w.r.t. its
-!                        variables
-!     numf               number of variables in the element equation
-!     iplausi            flag telling whether any plausibility checks
-!                        were violated at return time from this routine
-!                        0: plausibility checks not satisfied
-!                        1: plausibility checks (if any) are satisfied
-!                        only feasible change within this routine is from
-!                        1 to 0.
-!
-!     NOTE: to convert total temperature into static temperatures
-!           subroutine
+      !
+      !     user subroutine user_network_element
+      !
+      !     skeleton file
+      !
+      !     INPUT:
+      !
+      !     node1              first node in element topology
+      !     node2              third node in element topology
+      !     nodem              second node in element topology (middle node)
+      !     nelem              element number
+      !     lakon(i)           label of element i
+      !     kon                connectivity list of all elements; the topology
+      !                        of element i starts at kon(ipkon(i))
+      !     ipkon(i)           pointer of element i into list kon
+      !     nactdog(j,i)       global degree of freedom in the network
+      !                        equation system of local dof j (0,1 or 2 for
+      !                        networks) of node i. If nactdog(j,i)=0 the
+      !                        variable is known
+      !     ielprop(i)         pointer for element i into field prop. The
+      !                        properties for element i start at
+      !                        prop(ielprop(i)+1,...)
+      !     prop               field of all properties
+      !     iflag              indicates what information should be returned
+      !                        by the routine:
+      !                        0: identity
+      !                        1: xflow
+      !                        2: numf, nodef, idirf, f, df
+      !                        3: none
+      !     v(0..mi(2),i)      values at node i in the current network
+      !                        iteration (0=total temperature,
+      !                        1=mass flow, 2=total pressure for network nodes,
+      !                        0=temperature, 1..3=displacements for structural
+      !                        nodes)
+      !     cp                 specific heat at constant pressure corresponding
+      !                        to a mean static temperature across the element
+      !     R                  specific gas constant
+      !     physcon(1..)       physical constants (e.g. physcon(1) is absolute
+      !                        zero in the unit systemof the user; cf. the
+      !                        user's manual for the other entries)
+      !     dvi                dynamical viscosity corresponding
+      !                        to a mean static temperature across the element
+      !     set(i)             set name corresponding to set i
+      !     co(1..3,i)         coordinates of node i in the global system
+      !     vold(0..mi(2),i)   values at node i at the start of the current network
+      !                        iterations (0=total temperature,
+      !                        1=mass flow, 2=total pressure for network nodes,
+      !                        0=temperature, 1..3=displacements for structural
+      !                        nodes)
+      !     mi(2)              max degree of freedom per node (max over all
+      !                        nodes) in fields like v(0:mi(2))...; the other
+      !                        values of mi are not relevant here
+      !     ttime              total time at the end of the current
+      !                        thermo-mechanical increment. To reach the end
+      !                        of this increment several thermo-mechanical
+      !                        iterations are performed. For each of these
+      !                        iterations a loop of network iterations is
+      !                        performed
+      !     time               step time a the end of the current thermo-
+      !                        mechanical increment
+      !     iaxial             number of times the current structure fits into
+      !                        360 degrees
+      !     iplausi            flag telling whether any plausibility checks
+      !                        have been violated up to entry in this routine
+      !                        0: plausibility checks not satisfied
+      !                        1: plausibility checks (if any) are satisfied
+      !
+      !
+      !     OUTPUT:
+      !
+      !     identity           if .true. the user_network_element routine is
+      !                        not needed (all variables known)
+      !     xflow              mass flow
+      !     f                  value of the element equation
+      !     nodef              nodes corresponding to the variables in the
+      !                        element equation
+      !     idirf              degrees of freedom corresponding to the variables
+      !                        in the element equation
+      !     df                 derivatives of the element equation w.r.t. its
+      !                        variables
+      !     numf               number of variables in the element equation
+      !     iplausi            flag telling whether any plausibility checks
+      !                        were violated at return time from this routine
+      !                        0: plausibility checks not satisfied
+      !                        1: plausibility checks (if any) are satisfied
+      !                        only feasible change within this routine is from
+      !                        1 to 0.
+      !
+      !     NOTE: to convert total temperature into static temperatures
+      !           subroutine
       !           call ts_calc(xflow,Tt1,pt1,kappa,r,A,T1,icase)
       !           may be used (cf. user_netowrk_element_p1.f for an example
       !           of its use).
@@ -145,6 +145,10 @@
       !         identity=?
       !
       elseif(iflag.eq.1)then
+         if(v(1,nodem).ne.0.d0) then
+            xflow=v(1,nodem)
+            return
+         endif
       !
       !        called by initialnet.f:
       !

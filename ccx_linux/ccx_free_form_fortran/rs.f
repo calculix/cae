@@ -28,9 +28,9 @@
       implicit none
       integer n,nm,ierr,matz
       real*8 a(nm,n),w(n),z(nm,n),fv1(n),fv2(n)
-!
-!      this subroutine calls the recommended sequence of
-!      subroutines from the eigensystem subroutine package (eispack)
+      !
+      !      this subroutine calls the recommended sequence of
+      !      subroutines from the eigensystem subroutine package (eispack)
       !      to find the eigenvalues and eigenvectors (if desired)
       !      of a real symmetric matrix.
       !
@@ -90,13 +90,13 @@
       integer i,j,l,m,n,ii,l1,l2,mml,ierr
       real*8 d(n),e(n)
       real*8 c,c2,c3,dl1,el1,f,g,h,p,r,s,s2,tst1,tst2,pythag
-!
-!      this subroutine is a translation of the algol procedure tql1,
-!      num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
-!      wilkinson.
-!      handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
-!
-!      this subroutine finds the eigenvalues of a symmetric
+      !
+      !      this subroutine is a translation of the algol procedure tql1,
+      !      num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
+      !      wilkinson.
+      !      handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
+      !
+      !      this subroutine finds the eigenvalues of a symmetric
       !      tridiagonal matrix by the ql method.
       !
       !      on input
@@ -227,13 +227,13 @@
       integer i,j,k,l,m,n,ii,l1,l2,nm,mml,ierr
       real*8 d(n),e(n),z(nm,n)
       real*8 c,c2,c3,dl1,el1,f,g,h,p,r,s,s2,tst1,tst2,pythag
-!
-!      this subroutine is a translation of the algol procedure tql2,
-!      num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
-!      wilkinson.
-!      handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
-!
-!      this subroutine finds the eigenvalues and eigenvectors
+      !
+      !      this subroutine is a translation of the algol procedure tql2,
+      !      num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
+      !      wilkinson.
+      !      handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
+      !
+      !      this subroutine finds the eigenvalues and eigenvectors
       !      of a symmetric tridiagonal matrix by the ql method.
       !      the eigenvectors of a full symmetric matrix can also
       !      be found if  tred2  has been used to reduce this
@@ -399,12 +399,12 @@
       integer i,j,k,l,n,ii,nm,jp1
       real*8 a(nm,n),d(n),e(n),e2(n)
       real*8 f,g,h,scale
-!
-!      this subroutine is a translation of the algol procedure tred1,
-!      num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
-!      handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).
-!
-!      this subroutine reduces a real symmetric matrix
+      !
+      !      this subroutine is a translation of the algol procedure tred1,
+      !      num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
+      !      handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).
+      !
+      !      this subroutine reduces a real symmetric matrix
       !      to a symmetric tridiagonal matrix using
       !      orthogonal similarity transformations.
       !
@@ -536,12 +536,12 @@
       integer i,j,k,l,n,ii,nm,jp1
       real*8 a(nm,n),d(n),e(n),z(nm,n)
       real*8 f,g,h,hh,scale
-!
-!      this subroutine is a translation of the algol procedure tred2,
-!      num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
-!      handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).
-!
-!      this subroutine reduces a real symmetric matrix to a
+      !
+      !      this subroutine is a translation of the algol procedure tred2,
+      !      num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
+      !      handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).
+      !
+      !      this subroutine reduces a real symmetric matrix to a
       !      symmetric tridiagonal matrix using and accumulating
       !      orthogonal similarity transformations.
       !

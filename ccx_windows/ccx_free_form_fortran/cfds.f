@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -45,16 +45,22 @@
         ithermal,iline,ipol,inl,ipoinp(2,*),inp(3,*),ipoinpc(0:*),&
         iexpl,ier
       !
-      real*8 tinc,tper,tmin,tmax,alpha,ctrl(*),tincf,ttime,physcon(*)
+      real*8 tinc,tper,tmin,tmax,alpha(*),ctrl(*),tincf,ttime,physcon(*)
       !
       idrct=0
-      alpha=-0.05d0
       tmin=0.d0
       tmax=0.d0
       tincf=-1.d0
       nmethod=4
       timereset=.false.
+      !
+      !     default: no turbulence model
+      !
       physcon(9)=0.5d0
+      !
+      !     default: 3D
+      !
+      physcon(10)=3.5d0
       !
       if(iperturb.eq.0) then
          iperturb=2
@@ -115,6 +121,8 @@
             elseif(textpart(i)(17:19).eq.'SST') then
                physcon(9)=4.5d0
             endif
+         elseif(textpart(i)(1:2).eq.'2D') then
+            physcon(10)=2.5d0
          elseif(textpart(i)(1:9).eq.'SCHEME=UD') then
             ctrl(48)=1.5d0
          elseif(textpart(i)(1:15).eq.'SCHEME=MODSMART') then

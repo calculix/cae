@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -23,10 +23,10 @@
 #include "CalculiX.h"
 
 static ITG *ielfa1,*icyclic1,*ifatie1,*ifabou1,*ipnei1,*nef1,*num_cpus1,
-    *neifa1,*nface1;
+  *neifa1,*nface1,*ncfd1,*ip1;
 
 static double *xrlfa1,*vfap1,*vel1,*c1,*xxn1,*area1,*volume1,
-    *gradpcel1,*gradpcfa1,*xxi1,*xlet1,*xxj1;
+  *gradpcel1,*gradpcfa1,*xxi1,*xlet1,*xxj1,*xxna1,*rf1;
 
 void extrapol_dpelmain(ITG *nface,ITG *ielfa,double *xrlfa,double *vel,
 		      double *vfa,
@@ -36,9 +36,10 @@ void extrapol_dpelmain(ITG *nface,ITG *ielfa,double *xrlfa,double *vel,
 		      double *xxn,ITG *ipnei,ITG *ifatie,double *coefmpc,
 		      ITG *nmpc,char *labmpc,ITG *ipompc,ITG *nodempc,
 		      ITG *ifaext,ITG *nfaext,ITG *nactdoh,ITG *iflag,
-		      double *xxj,double *xlet,double *c,ITG *num_cpus){
+		      double *xxj,double *xlet,double *c,ITG *num_cpus,
+		       double *xxna,ITG *ncfd,ITG *ip){
 
-    ITG i;
+    ITG i,im;
 
     double *vfap=NULL;
       
@@ -72,7 +73,7 @@ void extrapol_dpelmain(ITG *nface,ITG *ielfa,double *xrlfa,double *vel,
     /* multiple point constraints */
 
     if(*nmpc>0){
-	FORTRAN(applympc_dpel,(nface,ielfa,xrlfa,vel,vfa,
+	FORTRAN(applympc_dpel,(nface,ielfa,xrlfa,vel,vfap,
 		ifabou,xbounact,nef,gradpcel,gradpcfa,neifa,rf,area,volume,
 		xle,xxi,icyclic,xxn,ipnei,ifatie,
                 coefmpc,nmpc,labmpc,ipompc,nodempc,ifaext,nfaext,
@@ -82,8 +83,8 @@ void extrapol_dpelmain(ITG *nface,ITG *ielfa,double *xrlfa,double *vel,
     /* calculate the gradient of p' at the center of
        the elements */
 
-    ipnei1=ipnei;neifa1=neifa;vfap1=vfap;area1=area;xxn1=xxn;volume1=volume;
-    gradpcel1=gradpcel;nef1=nef;
+    ipnei1=ipnei;neifa1=neifa;vfap1=vfap;area1=area;xxna1=xxna;volume1=volume;
+    gradpcel1=gradpcel;nef1=nef;ncfd1=ncfd;
     
     /* create threads and wait */
     
@@ -103,7 +104,7 @@ void extrapol_dpelmain(ITG *nface,ITG *ielfa,double *xrlfa,double *vel,
 	   center of the elements to the center of the faces */
 	
 	ielfa1=ielfa;xrlfa1=xrlfa;icyclic1=icyclic;ifatie1=ifatie;gradpcfa1=gradpcfa;
-	gradpcel1=gradpcel;c1=c;ipnei1=ipnei;xxi1=xxi;nface1=nface;
+	gradpcel1=gradpcel;c1=c;ipnei1=ipnei;xxi1=xxi;nface1=nface;ncfd1=ncfd;
 	
 	/* create threads and wait */
 	
@@ -124,7 +125,7 @@ void extrapol_dpelmain(ITG *nface,ITG *ielfa,double *xrlfa,double *vel,
        Moukalled et al. p 289 */
 
     ielfa1=ielfa;ipnei1=ipnei;vel1=vel;xlet1=xlet;gradpcfa1=gradpcfa;xxj1=xxj;
-    nef1=nef;nface1=nface;
+    nef1=nef;nface1=nface;ncfd1=ncfd;
 	
     /* create threads and wait */
     
@@ -153,7 +154,7 @@ void *extrapol_dpel1mt(ITG *i){
     if((*i==*num_cpus1-1)&&(nfaceb<*nface1)) nfaceb=*nface1;
 
     FORTRAN(extrapol_dpel1,(ielfa1,xrlfa1,vfap1,vel1,
-       ifabou1,nef1,&nfacea,&nfaceb));
+	    ifabou1,nef1,&nfacea,&nfaceb));
 
     return NULL;
 }
@@ -169,8 +170,8 @@ void *extrapol_dpel2mt(ITG *i){
     nefb=(*i+1)*nefdelta;
     if((*i==*num_cpus1-1)&&(nefb<*nef1)) nefb=*nef1;
 
-    FORTRAN(extrapol_dpel2,(ipnei1,neifa1,vfap1,area1,xxn1,volume1,gradpcel1,
-			   &nefa,&nefb));
+    FORTRAN(extrapol_dpel2,(ipnei1,neifa1,vfap1,area1,xxna1,volume1,gradpcel1,
+			    &nefa,&nefb,ncfd1));
 
     return NULL;
 }
@@ -187,7 +188,8 @@ void *extrapol_dpel3mt(ITG *i){
     if((*i==*num_cpus1-1)&&(nfaceb<*nface1)) nfaceb=*nface1;
 
     FORTRAN(extrapol_dpel3,(ielfa1,xrlfa1,icyclic1,ifatie1,gradpcfa1,
-			   gradpcel1,c1,ipnei1,xxi1,&nfacea,&nfaceb));
+			    gradpcel1,c1,ipnei1,xxi1,&nfacea,&nfaceb,
+                            ncfd1));
 
     return NULL;
 }
@@ -204,7 +206,7 @@ void *extrapol_dpel5mt(ITG *i){
     if((*i==*num_cpus1-1)&&(nfaceb<*nface1)) nfaceb=*nface1;
 
     FORTRAN(extrapol_dpel5,(ielfa1,ipnei1,vel1,xlet1,gradpcfa1,xxj1,
-			   nef1,&nfacea,&nfaceb));
+			    nef1,&nfacea,&nfaceb,ncfd1));
 
     return NULL;
 }

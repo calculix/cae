@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,11 +17,13 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine ts_calc(xflow,Tt,pt,kappa,r,A,Ts,icase)
-!
-!     Calculation of the static temperature Ts from the total
-!     temperature Tt, the total pressure Pt and the mass flow xflow
-!
-!     this subroutine solves the implicit equation
+      !
+      !     Calculation of the static temperature Ts from the total
+      !     temperature Tt, the total pressure Pt and the mass flow xflow
+      !
+      !     Use of the General Gas Equation
+      !
+      !     this subroutine solves the implicit equation
       !     xflow*dsqrt(Tt)/(A*Pt)-C*(Tt/Ts)**expon*(Tt/Ts-1)**0.5d0=0.d0
       !
       !          expon=-0.5d0*(kappa+1.d0)/(kappa-1.d0)
@@ -156,7 +158,7 @@
          if(i.gt.10000000)then
             write(*,*)'*ERROR in ts_calc.f'
             write(*,*)'       max. iteration number exceeded'
-            call exit(201)
+           call exit(201)
          endif
          !
          if(f_min*f.le.0.d0)then

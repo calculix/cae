@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -66,13 +66,13 @@
             !
             k=k+1
             irowfreq(k)=irow(j)
-            iaux(k)=j
+            iaux(k)=i
             aufreq(k)=au(j)
             !
             !           upper left matrix, upper triangle
             !
             k=k+1
-            irowfreq(k)=j
+            irowfreq(k)=i
             iaux(k)=irow(j)
             aufreq(k)=au(j)
             !
@@ -80,13 +80,13 @@
             !
             k=k+1
             irowfreq(k)=neq+irow(j)
-            iaux(k)=neq+j
+            iaux(k)=neq+i
             aufreq(k)=au(j)
             !
             !           lower right matrix, upper triangle
             !
             k=k+1
-            irowfreq(k)=neq+j
+            irowfreq(k)=neq+i
             iaux(k)=neq+irow(j)
             aufreq(k)=au(j)
          enddo
@@ -110,13 +110,13 @@
             !
             k=k+1
             irowfreq(k)=neq+irow(j)
-            iaux(k)=j
+            iaux(k)=i
             aufreq(k)=om*aub(j)
             !
             !           lower left matrix, upper triangle
             !
             k=k+1
-            irowfreq(k)=neq+j
+            irowfreq(k)=neq+i
             iaux(k)=irow(j)
             aufreq(k)=om*aub(j)
             !
@@ -124,13 +124,13 @@
             !
             k=k+1
             irowfreq(k)=irow(j)
-            iaux(k)=neq+j
+            iaux(k)=neq+i
             aufreq(k)=-om*aub(j)
             !
             !           upper right matrix, upper triangle
             !
             k=k+1
-            irowfreq(k)=j
+            irowfreq(k)=i
             iaux(k)=neq+irow(j)
             aufreq(k)=-om*aub(j)
          enddo
@@ -148,7 +148,7 @@
       do i=1,nzsfreq
          if(iaux(i).gt.k) then
             k=k+1
-            jqfreq(k+1)=i
+            jqfreq(k)=i
             cycle
          endif
       enddo

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -121,6 +121,16 @@
               icmd,ielas,mi(1),&
               nstate_,xstateini,xstate,stre,stiff,iorien,pgauss,orab)
       !
+      elseif(amat(1:12).eq.'LIN_EL_COROT') then
+         !
+         amatloc(1:68)=amat(13:80)
+         amatloc(69:80)='            '
+         call umat_lin_el_corot(amatloc,iel,iint,kode,&
+              elconloc,emec,emec0,&
+              beta,xikl,vij,xkl,vj,ithermal,t1l,dtime,time,ttime,&
+              icmd,ielas,mi(1),nstate_,xstateini,xstate,stre,stiff,&
+              iorien,pgauss,orab,eloc,nlgeom_undo)
+      !
       elseif(amat(1:10).eq.'LIN_ISO_EL') then
          !
          amatloc(1:70)=amat(11:80)
@@ -180,6 +190,16 @@
               beta,xikl,vij,xkl,vj,ithermal,t1l,dtime,time,ttime,&
               icmd,ielas,mi(1),nstate_,xstateini,xstate,stre,stiff,&
               iorien,pgauss,orab,pnewdt,ipkon)
+      !
+      elseif(amat(1:18).eq.'UNDO_NLGEOM_LIN_EL') then
+         !
+         amatloc(1:62)=amat(19:80)
+         amatloc(63:80)='                  '
+         call umat_undo_nlgeom_lin_el(amatloc,iel,iint,kode,&
+              elconloc,emec,emec0,&
+              beta,xikl,vij,xkl,vj,ithermal,t1l,dtime,time,ttime,&
+              icmd,ielas,mi(1),nstate_,xstateini,xstate,stre,stiff,&
+              iorien,pgauss,orab,eloc,nlgeom_undo)
       !
       elseif(amat(1:22).eq.'UNDO_NLGEOM_LIN_ISO_EL') then
          !

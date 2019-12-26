@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
       subroutine distributesens(istartdesi,ialdesi,ipkon,lakon,&
          ipoface,ndesi,nodedesi,nodface,kon,co,dgdx,nobject,&
          weightformgrad,nodedesiinv,iregion,objectset,&
-         dgdxglob,nk)
+         dgdxglob,nk,physcon)
       !
       !     calculation of the relationship between facial distributions
       !     and corresponding nodal values
@@ -34,7 +34,7 @@
       !
       integer idesvar,j,k,kk,l,m,m1,n,istartdesi(*),&
          ielem,ipoface(*),nodface(5,*),ndesi,nodedesi(*),nope,&
-         ialdesi(*),nopes,indexe,iaux,ifour,kflag,indexel,&
+         ialdesi(*),nopes,indexe,ifour,indexel,&
          mint3d,mint2d,ipkon(*),konl(26),iflag,ifaceq(8,6),&
          ifacet(6,4),ifacew1(4,5),ifacew2(8,5),kon(*),&
          nodes1(8),ifacel,iobject,nodes2(8),indexs,nk,&
@@ -43,7 +43,7 @@
       !
       real*8 xi,et,weight,xl(3,9),xs(3,2),xsj(3),shp(7,9),&
          co(3,*),xsjj,weightformgrad(ndesi),dgdx(ndesi,nobject),&
-         dgdxglob(2,nk,nobject)
+         dgdxglob(2,nk,nobject),physcon(*)
       !
       intent(in) istartdesi,ialdesi,ipkon,lakon,&
          ipoface,ndesi,nodedesi,nodface,kon,co,nobject,&
@@ -149,7 +149,6 @@
       !
       !     flag for shape functions
       !
-      kflag=1
       ifour=4
       ithree=3
       !
@@ -235,8 +234,9 @@
                   do l=1,nopes
                      nodes1(l)=konl(ifaceq(l,k))
                      nodes2(l)=nodes1(l)
-                  enddo     
-                  call isortii(nodes1,iaux,ifour,kflag)
+                  enddo
+                  call insertsorti(nodes1,ifour)
+               !                   call isortii(nodes1,iaux,ifour,kflag)
                !
                !     tetrahedral element
                !
@@ -247,7 +247,8 @@
                      nodes1(l)=konl(ifacet(l,k))
                      nodes2(l)=nodes1(l)
                   enddo
-                  call isortii(nodes1,iaux,ithree,kflag)
+                  call insertsorti(nodes1,ithree)
+                  !                   call isortii(nodes1,iaux,ithree,kflag)
                   nodes1(4)=0
                !
                !     wedge element
@@ -263,7 +264,8 @@
                         nodes1(l)=konl(ifacew2(l,k))
                         nodes2(l)=nodes1(l)
                      enddo  
-                     call isortii(nodes1,iaux,ithree,kflag)
+                     call insertsorti(nodes1,ithree)
+                     !                      call isortii(nodes1,iaux,ithree,kflag)
                      nodes1(4)=0
                   else
                      nopes=8
@@ -273,7 +275,8 @@
                         nodes1(l)=konl(ifacew2(l,k))
                         nodes2(l)=nodes1(l)
                      enddo  
-                     call isortii(nodes1,iaux,ithree,kflag)
+                     call insertsorti(nodes1,ithree)
+                  !                      call isortii(nodes1,iaux,ithree,kflag)
                   endif        
                else 
                   k=ifacw(1,m,i)
@@ -285,7 +288,8 @@
                         nodes1(l)=konl(ifacew1(l,k))
                         nodes2(l)=nodes1(l)
                      enddo  
-                     call isortii(nodes1,iaux,ithree,kflag)
+                     call insertsorti(nodes1,ithree)
+                     !                      call isortii(nodes1,iaux,ithree,kflag)
                      nodes1(4)=0
                   else
                      nopes=4
@@ -294,7 +298,8 @@
                         nodes1(l)=konl(ifacew1(l,k))
                         nodes2(l)=nodes1(l)
                      enddo  
-                     call isortii(nodes1,iaux,ithree,kflag)
+                     call insertsorti(nodes1,ithree)
+                  !                      call isortii(nodes1,iaux,ithree,kflag)
                   endif        
                endif
                if(k.eq.0) exit
@@ -385,6 +390,12 @@
                                  call shape8q(xi,et,xl,xsj,&
                                       xs,shp,iflag)
                               endif
+                           elseif(lakon(ielem)(4:5).eq.'8R') then
+                              xi=gauss2d1(1,kk)
+                              et=gauss2d1(2,kk)
+                              weight=weight2d1(kk)
+                              call shape4q(xi,et,xl,xsj,&
+                                   xs,shp,iflag)
                            elseif(lakon(ielem)(4:4).eq.'8') then
                               xi=gauss2d2(1,kk)
                               et=gauss2d2(2,kk)
@@ -416,8 +427,8 @@
                            !
                            weightformgrad(idesvar)=weightformgrad&
                                 (idesvar)+weight*shp(4,m1)*xsjj
-                        !                            write(*,*) 'formgradient ',idesvar,j,m,kk,
-                        !      &                             weightformgrad(idesvar)
+                        !                           write(*,*) 'formgradient ',idesvar,j,m,kk,
+                        !     &                             weightformgrad(idesvar)
                         enddo
                      endif
                      exit
@@ -431,6 +442,17 @@
       !
       enddo                     ! Loop over all designvariables
       !
+      !     Change sign of sensitivity of objective function in case of
+      !     a maximization problem
+      !
+      if(physcon(11).le.0.d0) then
+         if(objectset(2,1)(17:19).eq.'MAX') then
+            do idesvar=1,ndesi
+               dgdx(idesvar,1)=-dgdx(idesvar,1)
+            enddo
+         endif
+      endif
+      !
       !     Scaling of sensitivities
       !
       do idesvar=1,ndesi
@@ -440,7 +462,7 @@
             if(objectset(1,iobject)(1:12).eq.'FIXSHRINKAGE') cycle
             if(weightformgrad(idesvar).gt.0.d0) then
                dgdx(idesvar,iobject)=dgdx(idesvar,iobject)&
-                    /weightformgrad(idesvar)
+                   /weightformgrad(idesvar)
                iactnode=nodedesi(idesvar)
                dgdxglob(1,iactnode,iobject)=dgdx(idesvar,iobject)
             else

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -499,29 +499,48 @@
          if((iout.gt.0).or.(iout.eq.-2).or.(kode.le.-100).or.&
               ((nmethod.eq.4).and.(iperturb(1).gt.1).and.&
               (ithermal(1).le.1))) then
-            if(ithermal(1).eq.0) then
-               do m1=1,6
-                  eth(m1)=0.d0
-               enddo
-            endif
-            if(nener.eq.1) then
-               ener(jj,i)=enerini(jj,i)+&
-                    ((eloc(1)-eth(1)-emeini(1,jj,i))*&
-                    (stre(1)+stiini(1,jj,i))+&
-                    (eloc(2)-eth(2)-emeini(2,jj,i))*&
-                    (stre(2)+stiini(2,jj,i))+&
-                    (eloc(3)-eth(3)-emeini(3,jj,i))*&
-                    (stre(3)+stiini(3,jj,i)))/2.d0+&
-               (eloc(4)-eth(4)-emeini(4,jj,i))*(stre(4)+stiini(4,jj,i))+&
-               (eloc(5)-eth(5)-emeini(5,jj,i))*(stre(5)+stiini(5,jj,i))+&
-               (eloc(6)-eth(6)-emeini(6,jj,i))*(stre(6)+stiini(6,jj,i))
-            endif
-            eme(1,jj,i)=eloc(1)-eth(1)
-            eme(2,jj,i)=eloc(2)-eth(2)
-            eme(3,jj,i)=eloc(3)-eth(3)
-            eme(4,jj,i)=eloc(4)-eth(4)
-            eme(5,jj,i)=eloc(5)-eth(5)
-            eme(6,jj,i)=eloc(6)-eth(6)
+               !             if(ithermal(1).eq.0) then
+               !                do m1=1,6
+               !                   eth(m1)=0.d0
+               !                enddo
+               !             endif
+               !             if(nener.eq.1) then
+               !                ener(jj,i)=enerini(jj,i)+
+               !      &              ((eloc(1)-eth(1)-emeini(1,jj,i))*
+               !      &              (stre(1)+stiini(1,jj,i))+
+               !      &              (eloc(2)-eth(2)-emeini(2,jj,i))*
+               !      &              (stre(2)+stiini(2,jj,i))+
+               !      &              (eloc(3)-eth(3)-emeini(3,jj,i))*
+               !      &              (stre(3)+stiini(3,jj,i)))/2.d0+
+               !      &         (eloc(4)-eth(4)-emeini(4,jj,i))*(stre(4)+stiini(4,jj,i))+
+               !      &         (eloc(5)-eth(5)-emeini(5,jj,i))*(stre(5)+stiini(5,jj,i))+
+               !      &         (eloc(6)-eth(6)-emeini(6,jj,i))*(stre(6)+stiini(6,jj,i))
+               !             endif
+               !             eme(1,jj,i)=eloc(1)-eth(1)
+               !             eme(2,jj,i)=eloc(2)-eth(2)
+               !             eme(3,jj,i)=eloc(3)-eth(3)
+               !             eme(4,jj,i)=eloc(4)-eth(4)
+               !             eme(5,jj,i)=eloc(5)-eth(5)
+               !             eme(6,jj,i)=eloc(6)-eth(6)
+               !
+               if(nener.eq.1) then
+                  ener(jj,i)=enerini(jj,i)+&
+                       ((emec(1)-emeini(1,jj,i))*&
+                        (stre(1)+stiini(1,jj,i))+&
+                        (emec(2)-emeini(2,jj,i))*&
+                        (stre(2)+stiini(2,jj,i))+&
+                        (emec(3)-emeini(3,jj,i))*&
+                        (stre(3)+stiini(3,jj,i)))/2.d0+&
+               (emec(4)-emeini(4,jj,i))*(stre(4)+stiini(4,jj,i))+&
+               (emec(5)-emeini(5,jj,i))*(stre(5)+stiini(5,jj,i))+&
+               (emec(6)-emeini(6,jj,i))*(stre(6)+stiini(6,jj,i))
+               endif
+               eme(1,jj,i)=emec(1)
+               eme(2,jj,i)=emec(2)
+               eme(3,jj,i)=emec(3)
+               eme(4,jj,i)=emec(4)
+               eme(5,jj,i)=emec(5)
+               eme(6,jj,i)=emec(6)
          endif
          !
          if((iout.gt.0).or.(iout.eq.-2).or.(kode.le.-100)) then

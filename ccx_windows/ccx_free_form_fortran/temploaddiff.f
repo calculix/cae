@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -124,8 +124,8 @@
          do i=1,nboun
             if((xboun(i).lt.1.2357111318d0).and.&
                  (xboun(i).gt.1.2357111316d0)) then
-!
-!     user subroutine for boundary conditions
+               !
+               !     user subroutine for boundary conditions
                !
                node=nodeboun(i)
                !
@@ -212,8 +212,8 @@
             if((xforc(i).lt.1.2357111318d0).and.&
                (xforc(i).gt.1.2357111316d0)) then
                iabsload=2
-!
-!              user subroutine for the concentrated heat flux
+               !
+               !              user subroutine for the concentrated heat flux
                !
                node=nodeforc(1,i)
                !
@@ -259,8 +259,8 @@
             if((xforc(i).lt.1.2357111318d0).and.&
                (xforc(i).gt.1.2357111316d0)) then
                iabsload=2
-!
-!              user subroutine for the concentrated force
+               !
+               !              user subroutine for the concentrated force
                !
                node=nodeforc(1,i)
                !
@@ -310,8 +310,8 @@
       enddo
       !
       do i=1,nload
-!
-!        check for dload subroutine
+         !
+         !        check for dload subroutine
          !
          if(sideload(i)(3:4).eq.'NU') then
             iabsload=2

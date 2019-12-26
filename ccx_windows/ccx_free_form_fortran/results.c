@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -31,14 +31,15 @@ static ITG *kon1,*ipkon1,*ne1,*nelcon1,*nrhcon1,*nalcon1,*ielmat1,*ielorien1,
     *nal=NULL,*ipompc1,*nodempc1,*nmpc1,*ncocon1,*ikmpc1,*ilmpc1,
     num_cpus,mt1,*nk1,*ne01,*nshcon1,*nelemload1,*nload1,*mortar1,
     *ielprop1,*kscale1,*iponoel1,*inoel1,*network1,*ipobody1,*ibody1,
-    *neapar=NULL,*nebpar=NULL;
+    *neapar=NULL,*nebpar=NULL,*mscalmethod1;
 
 static double *co1,*v1,*stx1,*elcon1,*rhcon1,*alcon1,*alzero1,*orab1,*t01,*t11,
     *prestr1,*eme1,*fn1=NULL,*qa1=NULL,*vold1,*veold1,*dtime1,*time1,
     *ttime1,*plicon1,*plkcon1,*xstateini1,*xstiff1,*xstate1,*stiini1,
     *vini1,*ener1,*eei1,*enerini1,*springarea1,*reltime1,*coefmpc1,
     *cocon1,*qfx1,*thicke1,*emeini1,*shcon1,*xload1,*prop1,
-    *xloadold1,*pslavsurf1,*pmastsurf1,*clearini1,*xbody1;
+    *xloadold1,*pslavsurf1,*pmastsurf1,*clearini1,*xbody1,*energy1=NULL,
+    *smscale1,*energysms1=NULL;
 
 void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
        double *v,double *stn,ITG *inum,double *stx,double *elcon,ITG *nelcon,
@@ -73,7 +74,8 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
        ITG *islavsurf,ITG *ielprop,double *prop,double *energyini,
        double *energy,ITG *kscale,ITG *iponoel,ITG *inoel,ITG *nener,
        char *orname,ITG *network,ITG *ipobody,double *xbody,ITG *ibody,
-       char *typeboun){
+       char *typeboun,ITG *itiefac,char *tieset,double *smscale,
+       ITG *mscalmethod){
 
     ITG intpointvarm,calcul_fn,calcul_f,calcul_qa,calcul_cauchy,ikin,
         intpointvart,mt=mi[1]+1,i,j;
@@ -159,12 +161,12 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
     /* 1. nodewise storage of the primary variables
        2. determination which derived variables have to be calculated */
 
-    FORTRAN(resultsini,(nk,v,ithermal,filab,iperturb,f,fn,
+    resultsini(nk,v,ithermal,filab,iperturb,f,fn,
        nactdof,iout,qa,vold,b,nodeboun,ndirboun,
        xboun,nboun,ipompc,nodempc,coefmpc,labmpc,nmpc,nmethod,cam,neq,
        veold,accold,bet,gam,dtime,mi,vini,nprint,prlab,
        &intpointvarm,&calcul_fn,&calcul_f,&calcul_qa,&calcul_cauchy,
-       &ikin,&intpointvart,typeboun));
+       &ikin,&intpointvart,typeboun,&num_cpus);
 
    /* next statement allows for storing the displacements in each
       iteration: for debugging purposes */
@@ -188,6 +190,7 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
 	NNEW(fn1,double,num_cpus*mt**nk);
 	NNEW(qa1,double,num_cpus*4);
 	NNEW(nal,ITG,num_cpus);
+	NNEW(energysms1,double,num_cpus);
 
 	co1=co;kon1=kon;ipkon1=ipkon;lakon1=lakon;ne1=ne;v1=v;
         stx1=stx;elcon1=elcon;nelcon1=nelcon;rhcon1=rhcon;
@@ -206,11 +209,11 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
         nener1=nener;ikin1=ikin;mt1=mt;nk1=nk;ne01=ne0;thicke1=thicke;
         emeini1=emeini;pslavsurf1=pslavsurf;clearini1=clearini;
         pmastsurf1=pmastsurf;mortar1=mortar;ielprop1=ielprop;prop1=prop;
-        kscale1=kscale;
+        kscale1=kscale;smscale1=smscale;mscalmethod1=mscalmethod;
 
 	/* calculating the stresses */
 	
-	if(((*nmethod!=4)&&(*nmethod!=5))||(iperturb[0]>1)){
+	if(((*nmethod!=4)&&(*nmethod!=5))||((iperturb[0]>1)&&(*mscalmethod<0))){
 		printf(" Using up to %" ITGFORMAT " cpu(s) for the stress calculation.\n\n", num_cpus);
 	}
 	
@@ -280,6 +283,15 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
 	    }
 	}
 	SFREE(nal);
+	
+	/*add up additional kinetic energy through mass scaling*/
+	if((*mscalmethod==1)||(*mscalmethod==3)){
+	    energy[4]=energysms1[0];
+	    for(j=1;j<num_cpus;j++){
+		energy[4]+=energysms1[j];
+	    }
+	}
+	SFREE(energysms1);
     }
 
     /* calculating the thermal flux and material tangent at the 
@@ -362,9 +374,60 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
 
     /* calculating the matrix system internal force vector */
 
-    FORTRAN(resultsforc,(nk,f,fn,nactdof,ipompc,nodempc,
-	    coefmpc,labmpc,nmpc,mi,fmpc,&calcul_fn,&calcul_f));
+    resultsforc(nk,f,fn,nactdof,ipompc,nodempc,
+		coefmpc,labmpc,nmpc,mi,fmpc,&calcul_fn,&calcul_f,
+		&num_cpus);
 
+    /* calculating the total energy if
+       - iout<=0 (no result output)
+       - nmethod==4 (dynamical calculation)
+       - iperturb(1)>1 (no modal dynamics)
+       - ithermal[0]<=1 (no thermal or thermomechanical calculation)
+       - mi[1]!=5 (no electromagnetic calculation) */
+
+    if((*iout<=0)&&(*nmethod==4)&&(iperturb[0]>1)&&(ithermal[0]<=1)&&(mi[1]!=5)){
+    
+        /* determining the element bounds in each thread */
+
+	NNEW(neapar,ITG,num_cpus);
+	NNEW(nebpar,ITG,num_cpus);
+	elementcpuload(neapar,nebpar,ne,ipkon,&num_cpus);
+
+	NNEW(energy1,double,num_cpus*4);
+
+	ipkon1=ipkon;lakon1=lakon;kon1=kon;co1=co;ener1=ener;mi1=mi;
+	ne1=ne;thicke1=thicke;ielmat1=ielmat;ielprop1=ielprop;
+	prop1=prop;
+
+	/* calculating the energy */
+	
+	if(*mscalmethod<0){	
+	    printf(" Using up to %" ITGFORMAT " cpu(s) for the energy calculation.\n\n", num_cpus);
+	}
+	
+	/* create threads and wait */
+	
+	NNEW(ithread,ITG,num_cpus);
+	for(i=0; i<num_cpus; i++)  {
+	    ithread[i]=i;
+	    pthread_create(&tid[i], NULL, (void *)calcenergymt, (void *)&ithread[i]);
+	}
+	for(i=0; i<num_cpus; i++)  pthread_join(tid[i], NULL);
+	
+	for(i=0;i<4;i++){
+	  //	    energy[i]=energyini[i]+energy1[i];
+	    energy[i]=energy1[i];
+	}
+	for(i=0;i<4;i++){
+	    for(j=1;j<num_cpus;j++){
+		energy[i]+=energy1[i+j*4];
+	    }
+	}
+	SFREE(energy1);SFREE(ithread);SFREE(neapar);SFREE(nebpar);
+	
+    }
+
+    
     /* storing results in the .dat file
        extrapolation of integration point values to the nodes
        interpolation of 3d results for 1d/2d elements */
@@ -379,7 +442,7 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
        nshcon,cocon,ncocon,ntmat_,sideload,icfd,inomat,pslavsurf,islavact,
        cdn,mortar,islavnode,nslavnode,ntie,islavsurf,time,ielprop,prop,
        veold,ne0,nmpc,ipompc,nodempc,labmpc,energyini,energy,orname,
-       xload));
+       xload,itiefac,pmastsurf,springarea,tieset));
   
   return;
 
@@ -410,7 +473,7 @@ void *resultsmechmt(ITG *i){
           springarea1,reltime1,&calcul_fn1,&calcul_qa1,&calcul_cauchy1,nener1,
 	  &ikin1,&nal[indexnal],ne01,thicke1,emeini1,
 	  pslavsurf1,pmastsurf1,mortar1,clearini1,&nea,&neb,ielprop1,prop1,
-	  kscale1,&list1,ilist1));
+	  kscale1,&list1,ilist1,smscale1,mscalmethod1,&energysms1[indexnal]));
 
     return NULL;
 }
@@ -439,6 +502,24 @@ void *resultsthermmt(ITG *i){
 	   nelemload1,nload1,nmethod1,reltime1,sideload1,xload1,xloadold1,
 	   pslavsurf1,pmastsurf1,mortar1,clearini1,plicon1,nplicon1,ielprop1,
 	   prop1,iponoel1,inoel1,network1,ipobody1,xbody1,ibody1));
+
+    return NULL;
+}
+
+/* subroutine for multithreading of calcenergy */
+
+void *calcenergymt(ITG *i){
+
+    ITG indexenergy,nea,neb;
+
+    indexenergy=*i*4;
+
+    nea=neapar[*i]+1;
+    neb=nebpar[*i]+1;
+
+    FORTRAN(calcenergy,(ipkon1,lakon1,kon1,co1,ener1,mi1,ne1,
+			thicke1,ielmat1,&energy1[indexenergy],
+			ielprop1,prop1,&nea,&neb));
 
     return NULL;
 }

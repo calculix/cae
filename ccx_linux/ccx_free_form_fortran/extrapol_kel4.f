@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine extrapol_kel4(ielfa,vfa,vfap,gradkfa,rf,ifabou,&
-        ipnei,vel,xxi,xle,nef,nfacea,nfaceb)
+        ipnei,vel,xxi,xle,nef,inlet,nfacea,nfaceb)
       !
       !     extrapolation of turbulent kinetic energy values to the faces (taking the
       !     skewness of the elements into account)
@@ -30,7 +30,7 @@
       implicit none
       !
       integer ielfa(4,*),ifabou(*),nfacea,nfaceb,nef,i,iel1,iel2,&
-        indexf,ipnei(*),ipointer
+        indexf,ipnei(*),ipointer,inlet(*)
       !
       real*8 vfap(0:7,*),vel(nef,0:7),vfa(0:7,*),rf(3,*),gradkfa(3,*),&
         xle(*),xxi(3,*)
@@ -63,9 +63,7 @@
                !              wall: kinetic turbulent energy known
                !
                vfa(6,i)=vfap(6,i)
-            elseif(((ifabou(ipointer+1).gt.0).and.&
-                    (ifabou(ipointer+2).gt.0).and.&
-                    (ifabou(ipointer+3).gt.0)).or.&
+            elseif((inlet(i).eq.1).or.&
                     (ifabou(ipointer+5).lt.0)) then
                !
                !              inlet or sliding conditions: kinetic turbulent energy known
@@ -83,11 +81,7 @@
             !
             !           zero gradient in i-direction
             !
-            indexf=ipnei(iel1)+ielfa(4,i)
-            vfa(6,i)=vel(iel1,6)&
-                 +(gradkfa(1,i)*xxi(1,indexf)+&
-                 gradkfa(2,i)*xxi(2,indexf)+&
-                 gradkfa(3,i)*xxi(3,indexf))*xle(indexf)
+            vfa(6,i)=vel(iel1,6)
          endif
       enddo
       !

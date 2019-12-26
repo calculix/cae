@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -67,7 +67,7 @@
       !
       solver='                    '
       if(isolver.eq.0) then
-         solver(1:20)='SPOOLES             '
+         solver(1:7)='SPOOLES'
       elseif(isolver.eq.2) then
          solver(1:16)='ITERATIVESCALING'
       elseif(isolver.eq.3) then

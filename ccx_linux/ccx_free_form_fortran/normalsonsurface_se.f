@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,9 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine normalsonsurface_se(ipkon,kon,lakon,extnor,co,nk,&
-            ipoface,nodface,nactdof,mi,nodedesiinv,iregion)
+            ipoface,nodface,nactdof,mi,nodedesiinv,iregion,&
+            iponoelfa,ndesi,nodedesi,iponod2dto3d,ikboun,nboun,&
+            ne2d)
       !
       !     calculating the normal direction onto the external surface;
       !     the design variables are moved in this direction.
@@ -37,11 +39,14 @@
       !
       character*8 lakon(*)
       !
-      integer j,nelemm,jfacem,indexe,ipkon(*),kon(*),nopem,node,&
-        ifaceq(8,6),ifacet(6,4),ifacew1(4,5),ifacew2(8,5),&
+      integer j,nelem,jface,indexe,ipkon(*),kon(*),nopem,node,&
+        ifaceq(8,6),ifacet(6,4),ifacew1(4,5),ifacew2(8,5),ne2d,&
         konl(26),ipoface(*),nodface(5,*),mi(*),nodedesiinv(*),&
         nactdof(0:mi(2),*),nopesurf(9),nnodes,iregion,nope,&
-        nopedesi,l,m,iflag,k,nk
+        nopedesi,l,m,iflag,k,nk,iponoelfa(*),ndesi,nodedesi(*),&
+        nodemid,nodeboun1,nodeboun2,iponod2dto3d(2,*),&
+        ishift,expandhex(20),expandwed(15),konl2d(26),ikboun(*),&
+        idof,nboun,id,node2d
       !
       real*8 extnor(3,*),xsj2(3),shp2(7,9),xs2(3,2),xi,et,dd,&
         xquad(2,9),xtri(2,7),xl2m(3,9),co(3,*)
@@ -50,6 +55,19 @@
             ipoface,nodface,nactdof,mi,nodedesiinv,iregion
       !
       intent(inout) extnor
+      !
+      !     local node numbers for relationship between 2D and 3D elements
+      !
+      data expandhex /1,2,3,4,&
+                      1,2,3,4,&
+                      5,6,7,8,&
+                      5,6,7,8,&
+                      1,2,3,4/
+      data expandwed /1,2,3,&
+                      1,2,3,&
+                      4,5,6,&
+                      4,5,6,&
+                      1,2,3/
       !
       !     nodes per face for hex elements
       !
@@ -122,63 +140,129 @@
          !
          do
             !
-            nelemm=nodface(3,indexe)
-            jfacem=nodface(4,indexe)
+            nelem=nodface(3,indexe)
+            jface=nodface(4,indexe)
+            !             write(*,*) 'normalsonsurface_se ',j,nelem,jface
+            !
+            if((lakon(nelem)(7:7).eq.'A').or.&
+                 (lakon(nelem)(7:7).eq.'S').or.&
+                 (lakon(nelem)(7:7).eq.'E')) then
+               !
+               !              for plane stress/strain/axi only faces
+               !              3 and higher are taken into account for the normal
+               !
+               if(jface.le.2) then
+                  indexe=nodface(5,indexe)
+                  if(indexe.eq.0) then
+                     exit
+                  else
+                     cycle
+                  endif
+               endif
+            elseif(lakon(nelem)(7:7).eq.'L') then
+               !
+               !              for shells only faces 2 and lower
+               !              taken into account for the normal
+               !
+               if(jface.gt.2) then
+                  indexe=nodface(5,indexe)
+                  if(indexe.eq.0) then
+                     exit
+                  else
+                     cycle
+                  endif
+               endif
+            endif
             !
             !           nopem: # of nodes in the surface
             !           nope: # of nodes in the element
             !
-            if(lakon(nelemm)(4:4).eq.'8') then
+            if(lakon(nelem)(4:4).eq.'8') then
                nopem=4
                nope=8
                nopedesi=3
-            elseif(lakon(nelemm)(4:5).eq.'20') then
+               ishift=8
+            elseif(lakon(nelem)(4:5).eq.'20') then
                nopem=8
                nope=20
                nopedesi=5
-            elseif(lakon(nelemm)(4:5).eq.'10') then
+               ishift=20
+            elseif(lakon(nelem)(4:5).eq.'10') then
                nopem=6
                nope=10
-               !                nopedesi=3
                nopedesi=4
-            elseif(lakon(nelemm)(4:4).eq.'4') then
+            elseif(lakon(nelem)(4:4).eq.'4') then
                nopem=3
                nope=4
                nopedesi=3
             !
             !     treatment of wedge faces
             !
-            elseif(lakon(nelemm)(4:4).eq.'6') then
+            elseif(lakon(nelem)(4:4).eq.'6') then
                nope=6
-               if(jfacem.le.2) then
+               if(jface.le.2) then
                   nopem=3
                else
                   nopem=4
                endif
                nopedesi=3
-            elseif(lakon(nelemm)(4:5).eq.'15') then
+               ishift=6
+            elseif(lakon(nelem)(4:5).eq.'15') then
                nope=15
-               if(jfacem.le.2) then
+               if(jface.le.2) then
                   nopem=6
                   nopedesi=4
                else
                   nopem=8
                   nopedesi=5
                endif
-            !                nopedesi=3
+               ishift=15
             endif
             if(iregion.eq.0) nopedesi=0
             !
             !     actual position of the nodes belonging to the
-            !     master surface
+            !     surface
             !
-            do k=1,nope
-               konl(k)=kon(ipkon(nelemm)+k)
-            enddo
+            if((lakon(nelem)(7:7).eq.'A').or.&
+                 (lakon(nelem)(7:7).eq.'S').or.&
+                 (lakon(nelem)(7:7).eq.'E')) then
+               if((lakon(nelem)(4:5).eq.'20').or.&
+                    (lakon(nelem)(4:5).eq.'8 ')) then
+                  do k=1,nope
+                     konl(k)=kon(ipkon(nelem)+k)
+                     konl2d(k)=kon(ipkon(nelem)+ishift+expandhex(k))
+                  enddo
+               elseif((lakon(nelem)(4:5).eq.'15').or.&
+                       (lakon(nelem)(4:5).eq.'6 ')) then
+                  do k=1,nope
+                     konl(k)=kon(ipkon(nelem)+k)
+                     konl2d(k)=kon(ipkon(nelem)+ishift+expandwed(k))
+                  enddo
+               endif
+            else
+               do k=1,nope
+                  konl(k)=kon(ipkon(nelem)+k)
+               enddo
+            endif
+            !
+            !             do k=1,nope
+            !                konl(k)=kon(ipkon(nelem)+k)
+            !                if((lakon(nelem)(7:7).eq.'A').or.
+            !      &            (lakon(nelem)(7:7).eq.'S').or.
+            !      &            (lakon(nelem)(7:7).eq.'E')) then
+            !                   if((lakon(nelem)(4:5).eq.'20').or.
+            !      &               (lakon(nelem)(4:5).eq.'8 ')) then
+            !                      konl2d(k)=kon(ipkon(nelem)+ishift+expandhex(k))
+            !                   elseif((lakon(nelem)(4:5).eq.'15').or.
+            !      &                   (lakon(nelem)(4:5).eq.'6 ')) then
+            !                      konl2d(k)=kon(ipkon(nelem)+ishift+expandwed(k))
+            !                   endif
+            !                endif
+            !             enddo
             !
             if((nope.eq.20).or.(nope.eq.8)) then
                do m=1,nopem
-                  nopesurf(m)=konl(ifaceq(m,jfacem))
+                  nopesurf(m)=konl(ifaceq(m,jface))
                   do k=1,3
                      xl2m(k,m)=co(k,nopesurf(m))
                   enddo
@@ -186,21 +270,21 @@
             elseif((nope.eq.10).or.(nope.eq.4))&
                     then
                do m=1,nopem
-                  nopesurf(m)=konl(ifacet(m,jfacem))
+                  nopesurf(m)=konl(ifacet(m,jface))
                   do k=1,3
                      xl2m(k,m)=co(k,nopesurf(m))
                   enddo
                enddo
             elseif(nope.eq.15) then
                do m=1,nopem
-                  nopesurf(m)=konl(ifacew2(m,jfacem))
+                  nopesurf(m)=konl(ifacew2(m,jface))
                   do k=1,3
                      xl2m(k,m)=co(k,nopesurf(m))
                   enddo
                enddo
             else
                do m=1,nopem
-                  nopesurf(m)=konl(ifacew1(m,jfacem))
+                  nopesurf(m)=konl(ifacew1(m,jface))
                   do k=1,3
                      xl2m(k,m)=co(k,nopesurf(m))
                   enddo
@@ -216,7 +300,7 @@
                endif
             enddo         
             !
-            !     calculate the normal vector in the nodes belonging to the master surface
+            !     calculate the normal vector in the nodes belonging to the surface
             !
             if(nopem.eq.8) then
                do m=1,nopem
@@ -230,10 +314,13 @@
                   xsj2(3)=xsj2(3)/dd
                   !
                   if(nope.eq.20) then
-                     node=konl(ifaceq(m,jfacem))
+                     node=konl(ifaceq(m,jface))
                   elseif(nope.eq.15) then
-                     node=konl(ifacew2(m,jfacem))
+                     node=konl(ifacew2(m,jface))
                   endif
+                  !                   write(*,*) 'normalsonsurface_se',node,nelem,jface,
+                  !      &xsj2(1),
+                  !      &xsj2(2),xsj2(3),lakon(nelem)
                   if((nodedesiinv(node).eq.0).or.&
                      ((nodedesiinv(node).eq.1).and.&
                       (nnodes.ge.nopedesi))) then
@@ -243,6 +330,41 @@
                           +xsj2(2)
                      extnor(3,node)=extnor(3,node)&
                           +xsj2(3)
+                     !                      write(*,*) 'normalsonsurface_se ',extnor(3,node)
+                     !
+                     !                    in case of plain strain/stress/axi elements
+                     !                    not considering the x3-direction and the
+                     !                    directions with fixed displacements
+                     !
+                     if((lakon(nelem)(7:7).eq.'A').or.&
+                        (lakon(nelem)(7:7).eq.'S').or.&
+                        (lakon(nelem)(7:7).eq.'E')) then
+                         if(nope.eq.20) then
+                            node2d=konl2d(ifaceq(m,jface))
+                         elseif(nope.eq.15) then
+                            node2d=konl2d(ifacew2(m,jface))
+                         endif
+                         do l=1,2
+                            idof=8*(node2d-1)+l
+                            call nident(ikboun,idof,nboun,id)
+                            if(id.gt.0) then
+                               if(ikboun(id).eq.idof) then
+                                  extnor(l,node)=0.d0
+                               endif
+                            endif
+                         enddo   
+                         extnor(3,node)=0.d0
+                     !
+                     !                    else, all the directions with fixed
+                     !                    displacements are not considered
+                     !
+                     elseif(lakon(nelem)(7:7).eq.' ') then
+                        do l=1,3
+                           if(nactdof(l,node).le.0) then
+                              extnor(l,node)=0.d0
+                           endif
+                        enddo
+                     endif
                   endif
                enddo
             elseif(nopem.eq.4) then
@@ -257,19 +379,57 @@
                   xsj2(3)=xsj2(3)/dd
                   !
                   if(nope.eq.8) then
-                     node=konl(ifaceq(m,jfacem))
+                     node=konl(ifaceq(m,jface))
                   elseif(nope.eq.6) then
-                     node=konl(ifacew1(m,jfacem))
+                     node=konl(ifacew1(m,jface))
                   endif
+                  !                   write(*,*) 'normalsonsurface_se',node,nelem,jface,
+                  !      &xsj2(1),
+                  !      &xsj2(2),xsj2(3),lakon(nelem)
                   if((nodedesiinv(node).eq.0).or.&
                      ((nodedesiinv(node).eq.1).and.&
                       (nnodes.ge.nopedesi))) then
+                     !                   write(*,*) 'normalsonsurface_se accepted'
                      extnor(1,node)=extnor(1,node)&
                           +xsj2(1)
                      extnor(2,node)=extnor(2,node)&
                           +xsj2(2)
                      extnor(3,node)=extnor(3,node)&
                           +xsj2(3)
+                     !
+                     !                    in case of plain strain/stress/axi elements
+                     !                    not considering the x3-direction and the
+                     !                    directions with fixed displacements
+                     !
+                     if((lakon(nelem)(7:7).eq.'A').or.&
+                        (lakon(nelem)(7:7).eq.'S').or.&
+                        (lakon(nelem)(7:7).eq.'E')) then
+                         if(nope.eq.8) then
+                            node2d=konl2d(ifaceq(m,jface))
+                         elseif(nope.eq.6) then
+                            node2d=konl2d(ifacew1(m,jface))
+                         endif
+                         do l=1,2
+                            idof=8*(node2d-1)+l
+                            call nident(ikboun,idof,nboun,id)
+                            if(id.gt.0) then
+                               if(ikboun(id).eq.idof) then
+                                  extnor(l,node)=0.d0
+                               endif
+                            endif
+                         enddo   
+                         extnor(3,node)=0.d0
+                     !
+                     !                    else, all the directions with fixed
+                     !                    displacements are not considered
+                     !
+                     elseif(lakon(nelem)(7:7).eq.' ') then
+                        do l=1,3
+                           if(nactdof(l,node).le.0) then
+                              extnor(l,node)=0.d0
+                           endif
+                        enddo
+                     endif
                   endif
                enddo
             elseif(nopem.eq.6) then
@@ -284,9 +444,9 @@
                   xsj2(3)=xsj2(3)/dd
                   !
                   if(nope.eq.10) then
-                     node=konl(ifacet(m,jfacem))
+                     node=konl(ifacet(m,jface))
                   elseif(nope.eq.15) then
-                     node=konl(ifacew2(m,jfacem))
+                     node=konl(ifacew2(m,jface))
                   endif
                   if((nodedesiinv(node).eq.0).or.&
                      ((nodedesiinv(node).eq.1).and.&
@@ -297,6 +457,40 @@
                           +xsj2(2)
                      extnor(3,node)=extnor(3,node)&
                           +xsj2(3)
+                     !
+                     !                    in case of plain strain/stress/axi elements
+                     !                    not considering the x3-direction and the
+                     !                    directions with fixed displacements
+                     !
+                     if((lakon(nelem)(7:7).eq.'A').or.&
+                        (lakon(nelem)(7:7).eq.'S').or.&
+                        (lakon(nelem)(7:7).eq.'E')) then
+                         if(nope.eq.10) then
+                            node2d=konl2d(ifacet(m,jface))
+                         elseif(nope.eq.15) then
+                            node2d=konl2d(ifacew2(m,jface))
+                         endif
+                         do l=1,2
+                            idof=8*(node2d-1)+l
+                            call nident(ikboun,idof,nboun,id)
+                            if(id.gt.0) then
+                               if(ikboun(id).eq.idof) then
+                                  extnor(l,node)=0.d0
+                               endif
+                            endif
+                         enddo   
+                         extnor(3,node)=0.d0
+                     !
+                     !                    else, all the directions with fixed
+                     !                    displacements are not considered
+                     !
+                     elseif(lakon(nelem)(7:7).eq.' ') then
+                        do l=1,3
+                           if(nactdof(l,node).le.0) then
+                              extnor(l,node)=0.d0
+                           endif
+                        enddo         
+                     endif
                   endif
                enddo
             else
@@ -311,9 +505,9 @@
                   xsj2(3)=xsj2(3)/dd
                   !
                   if(nope.eq.6) then
-                     node=konl(ifacew1(m,jfacem))
+                     node=konl(ifacew1(m,jface))
                   elseif(nope.eq.4) then
-                     node=konl(ifacet(m,jfacem))
+                     node=konl(ifacet(m,jface))
                   endif
                   if((nodedesiinv(node).eq.0).or.&
                      ((nodedesiinv(node).eq.1).and.&
@@ -324,7 +518,41 @@
                           +xsj2(2)
                      extnor(3,node)=extnor(3,node)&
                           +xsj2(3)
-                  endif
+                     !
+                     !                    in case of plain strain/stress/axi elements
+                     !                    not considering the x3-direction and the
+                     !                    directions with fixed displacements
+                     !
+                     if((lakon(nelem)(7:7).eq.'A').or.&
+                        (lakon(nelem)(7:7).eq.'S').or.&
+                        (lakon(nelem)(7:7).eq.'E')) then
+                         if(nope.eq.6) then
+                            node2d=konl2d(ifacew1(m,jface))
+                         elseif(nope.eq.4) then
+                            node2d=konl2d(ifacet(m,jface))
+                         endif
+                         do l=1,2
+                            idof=8*(node2d-1)+l
+                            call nident(ikboun,idof,nboun,id)
+                            if(id.gt.0) then
+                               if(ikboun(id).eq.idof) then
+                                  extnor(l,node)=0.d0
+                               endif
+                            endif
+                         enddo   
+                         extnor(3,node)=0.d0
+                     !
+                     !                    else, all the directions with fixed
+                     !                    displacements are not considered
+                     !
+                     elseif(lakon(nelem)(7:7).eq.' ') then
+                        do l=1,3
+                           if(nactdof(l,node).le.0) then
+                              extnor(l,node)=0.d0
+                           endif
+                        enddo
+                     endif
+                   endif
                enddo
             endif
             !
@@ -333,16 +561,6 @@
          !
          enddo
       enddo
-      !
-      !     not considering the directions with fixed displacements
-      !
-      do l=1,nk
-         do m=1,3
-            if(nactdof(m,l).le.0) then
-               extnor(m,l)=0.d0
-            endif
-         enddo
-      enddo 
       !
       !     normalizing the normals
       !
@@ -355,6 +573,25 @@
             enddo
          endif
       enddo    
+      !
+      !     in case of 2D elements all expanded nodes have to have the same
+      !     normal direction to get the correct normal direction for the 2D model
+      !
+      if(ne2d.ne.0) then
+         do l=1,ndesi
+            nodemid=nodedesi(l)
+            !             write(*,*) 'nodemid',nodemid
+            if(iponod2dto3d(1,nodemid).ne.0) then      
+               nodeboun1=iponod2dto3d(1,nodemid)
+               nodeboun2=iponod2dto3d(2,nodemid)
+               do m=1,3
+                  extnor(m,nodeboun1)=extnor(m,nodemid)
+                  extnor(m,nodeboun2)=extnor(m,nodemid)
+               enddo
+            !                write(*,*) 'nodeboun1',nodeboun1,nodeboun2
+            endif
+         enddo
+      endif
       !
       return
       end

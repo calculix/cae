@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -21,8 +21,8 @@
         cmname,ntgrd,nstatv,props,nprops,coords,pnewdt,&
         noel,npt,layer,kspt,kstep,kinc,vold,co,lakonl,konl,&
         ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,mi)
-!
-!     heat transfer material subroutine
+      !
+      !     heat transfer material subroutine
       !
       !     INPUT:
       !

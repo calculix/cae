@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -21,14 +21,20 @@
       !
       implicit none
       !
-      !     finds the external surface of the structure
+      !     1) catalogues the external surface of the structure: see
+      !     comments further down
+      !     2) creates topology fields for the external faces:
+      !        ipkonfa(1...nsurfs): pointer into konfa
+      !        konfa(..): konfa(ipkonfa(i)+1,....ipkonfa(i+1)) contains
+      !                   the nodes belonging to face i
+      !        lakonfa(1...nsurfs): label (S3, S4, S6 or S8)
       !
       character*8 lakon(*),lakonfa(*)
       !
       integer ipkon(*),kon(*),ne,nodface(5,*),ipoface(*),nk,nopem,m,&
         ithree,ifour,ifaceq(8,6),konfa(*),ipkonfa(*),nelemm,jfacem,&
-        ifacet(6,4),ifacew2(8,5),ifree,ifreenew,index,indexold,kflag,&
-        i,j,k,nodes(4),iaux,indexe,konl(26),nope,nsurfs,&
+        ifacet(6,4),ifacew2(8,5),ifree,ifreenew,index,indexold,&
+        i,j,k,nodes(4),indexe,konl(26),nope,nsurfs,&
         ifacew1(4,5),ifreemax
       !
       intent(in) ne,ipkon,lakon,kon,nk
@@ -58,12 +64,11 @@
                    2,3,6,5,8,15,11,14,&
                    3,1,4,6,9,13,12,15/
       !
-      kflag=1
       ithree=3
       ifour=4
       !
-      !     determining the external element faces of the electromagnetic mesh
-      !     the faces are catalogued by the three lowes nodes numbers
+      !     determining the external element faces of the mesh;
+      !     the faces are catalogued by the three lowest nodes numbers
       !     in ascending order. ipoface(i) points to a face for which
       !     node i is the lowest node and nodface(1,ipoface(i)) and
       !     nodface(2,ipoface(i)) are the next lower ones.
@@ -89,7 +94,8 @@
                do k=1,4
                   nodes(k)=kon(indexe+ifaceq(k,j))
                enddo
-               call isortii(nodes,iaux,ifour,kflag)
+               call insertsorti(nodes,ifour)
+               !                call isortii(nodes,iaux,ifour,kflag)
                indexold=0
                index=ipoface(nodes(1))
                do
@@ -133,7 +139,8 @@
                do k=1,3
                   nodes(k)=kon(indexe+ifacet(k,j))
                enddo
-               call isortii(nodes,iaux,ithree,kflag)
+               call insertsorti(nodes,ithree)
+               !                call isortii(nodes,iaux,ithree,kflag)
                indexold=0
                index=ipoface(nodes(1))
                do
@@ -178,12 +185,14 @@
                   do k=1,3
                      nodes(k)=kon(indexe+ifacew2(k,j))
                   enddo
-                  call isortii(nodes,iaux,ithree,kflag)
+                  call insertsorti(nodes,ithree)
+               !                   call isortii(nodes,iaux,ithree,kflag)
                else
                   do k=1,4
                      nodes(k)=kon(indexe+ifacew2(k,j))
                   enddo
-                  call isortii(nodes,iaux,ifour,kflag)
+                  call insertsorti(nodes,ifour)
+               !                   call isortii(nodes,iaux,ifour,kflag)
                endif
                indexold=0
                index=ipoface(nodes(1))

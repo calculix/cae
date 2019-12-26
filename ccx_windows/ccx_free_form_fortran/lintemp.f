@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,7 +16,7 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-      subroutine lintemp(t0,t1,konl,nope,jj,t0l,t1l)
+      subroutine lintemp(t0,konl,nope,jj,t0l)
       !
       !     calculates a trilinear approximation to the quadratic interpolation
       !     of the temperatures in a C3D20 element (full integration). A
@@ -29,11 +29,11 @@
       !
       integer konl(20),nope,jj,i1
       !
-      real*8 t0(*),t1(*),t0l,t1l,a20l(20,27)
+      real*8 t0(*),t0l,a20l(20,27)
       !
-      intent(in) t0,t1,konl,nope,jj
+      intent(in) t0,konl,nope,jj
       !
-      intent(inout) t0l,t1l
+      intent(inout) t0l
       !
       a20l=reshape((/-0.088729832,-0.240369600,-0.059630393,-0.240369600,-0.240369600,&
        !&
@@ -148,7 +148,6 @@
       !
       do i1=1,nope
          t0l=t0l+a20l(i1,jj)*t0(konl(i1))
-         t1l=t1l+a20l(i1,jj)*t1(konl(i1))
       enddo
       !
       return

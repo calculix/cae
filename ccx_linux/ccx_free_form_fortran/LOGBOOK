@@ -1,6 +1,6 @@
-
+ 
 ========
-LOG-BOOK Version 2.15
+LOG-BOOK Version 2.16
 ========
 
 09 Nov 1998	- removed mistake from anisotropic.f
@@ -3718,3 +3718,421 @@ Dec 2002        - started to work on single crystal plasticity
                - inserted a note on the use of elastic potentials for
                  the elastic material behavior in the User's manual.
                - corrected frd-output for more than 99 internal variables (SDV)
+
+ 16 Dec 2018   - posted version 2.15
+
+ 11 Jan 2019   - started including Mortar contact
+               - worked on shells with multiple rotations defined in the
+                 nodes
+
+ 12 Jan 2019   - reduced the required memory in the initial allocation
+                 of ipobody in line 371 of nonlingeo.c
+               - reused the gradient value from the previous iteration
+                 for the calculation of the velocity, pressure etc. in
+                 routine extrapol_vel1.f,....
+
+ 13 Jan 2019   - changed xxni into xxnj at every occurrence (CFD)
+               - multiplied xxnj with the area of the face (CFD)
+               - created field xxna=xxn*area (CFD)
+               - created fields ale=area/xle and alet/area/xlet (CFD)
+
+ 18 Jan 2019   - finished inclusion of Mortar contact
+               - changed the application of rotational boundary conditions
+                 on shells (gen3dboun.f)
+               - looked into a gas pipe element with centrifugal loading
+                 and changing cross section
+
+ 21 Jan 2019   - introduced ncfd for 2-D CFD-calculations
+
+ 22 Jan 2019   - continued
+
+ 23 Jan 2019   - continued
+
+ 25 Jan 2019   - stored reference displacements in the .eig-file;
+                 has repercussions on arpack.c, arpackcs.c, linstatic.c,
+                 complexfreq.c, dyna.c, steadystate.c and sensitivity.c
+
+ 27 Jan 2019   - corrected an error in the parameters of calcrespfluid and
+                 calcrestfluid (auv -> au)
+               - corrected errors in the turbulence section of
+                 compfluid
+
+ 3 Feb 2019    - corrected an error in steadystate.c
+               - checked whether the perturbation parameter is used on
+                 the *STEP card in those steps in which an .eig-file with
+                 perturbation information is read
+
+ 8 Feb 2019    - coded the calculation of mass, mass moments of
+                 inertia and center of gravity (output in .dat file)
+               - made a change in complexfreq.c: now eigenvalues square 
+                 which are negative are taken into account for the 
+                 calculation of complex frequencies (abs. value)
+
+ 14 Feb 2019   - allowed for less requested eigenvalues in a *COMPLEX
+                 FREQUENCY step than in the preceding *FREQUENCY step
+
+ 15 Feb 2019   - improved the procedure for the determination of trial
+                 values for the complex frequencies
+               - coded Coriolis for steady state dynamics
+               - set the off-diagonal terms of the lumped mass matrix
+                 in e_c3d.f to zero (important if equations are applied)
+               - looked into a smooth transition between a static 
+                 calculation in a local rotating system and a subsequent
+                 dynamic calculation in a global non-rotating system
+
+ 1 Mar 2019    - corrected some items in the documentation regarding
+                 sensitivity analyses
+               - implemented output of the wave rotation direction
+	         for:
+		 *COMPLEX FREQUENCY and
+		 *FREQUENCY in the presence of cyclic symmetry 
+               - coded velinireltoabs.f: calculates initial velocities at
+	         the start of a dynamic step based on the centrifugal
+		 forces in a preceding static step
+		 
+ 8 Mar 2019    - option -O3 in version 7.3.1 of gcc seems to lead to
+                 wrong results; option -O2 is recommended
+	       - corrected an error in printoutelem.f
+               - parallellized the calculation of the energy in
+	         calcenergy.f
+               - corrected errors in printoutface.f
+               - changed the method to determine the wave rotation
+	         direction
+               - started the output of forces and moments on slave
+	         contact surfaces (*contact print)
+		 
+ 15 Mar 2019   - change the input for a Ciarlet material from Lame's
+                 constants to Young's modulus and Poisson's coefficients
+	       - corrected an error in the Ciarlet user material routine
+	         now, the thermal strains are taken into account
+	       - reversed a change from 24 Nov 2017 in shape8hu.f
+	         (some contact calculations with c3d8i did not converge
+		 any more); change in shape functions should be
+		 restricted to mass matrix: introduced shape8humass.f
+               - improved the criterion to detect the turning direction
+	         for frequency calculations with cyclic symmetry and
+		 complex frequency calculations; updated the documentation
+               - finalized the calculation of forces and moments on
+	         slave contact surfaces
+
+ 22 Mar 2019   - updated Mortar contact (not successfull yet)
+               - corrected an error in modaldynamics.f (iperturb(1) does
+	         not have to be set to zero)
+	       - introduced the parameter RELATIVE TO ABSOLUTE for
+	         dynamic calculations
+               - analyzed and compared the nonlinear geometric behavior of
+	         the St-Venant-Kirchhoff, the Simo and the Ciarlet linear
+		 elastic model
+		 
+ 29 Mar 2019   - corrected an error in umat_undo_nlgeom_lin_iso_el.f (a
+                 square root was missing in the calculation of the principal
+		 stretches)
+               - corrected an error in the parallellization of the
+	         energy calculation in results.c
+               - changed nasym>0 into symmetryflag==2 before solver calls
+	         in nonlingeo.c
+               - continued analysis of the Mortar code (does not converge)
+	       
+ 5 April 2019  - removed an error in dyna.c: split b into fext and b
+               - removed a couple of errors in umat_tension_only.f and
+	         umat_compression_only.f
+               - coded umat_lin_el_corot.f for linear elastic materials
+	         in which the rotation is removed
+               - worked on steady state electrodynamics
+
+ 8 April 2019  - updated extrapol_vel*.f, _pel*.f, _tel*.f, _dpel3.f and
+                 extrapolate_d_v_simple*f (discarding xrlfa(3,*))
+
+ 9 April 2019  - updated extrapol_dpel1.f
+
+ 11 April 2019 - restored the version of the 6th of april 2019: CFD
+                 calculations especially with viscosity were less smooth
+ 
+ 12 April 2019 - made a modification in resultsini.f (regarding accold,
+                 only for SPC's, not for MPC's)
+               - checked the material model in umat_lin_el_corot.f;
+	         improved the calculation of the tangent matrix
+		 (matrix is not symmetric; is symmetrized)
+               - started reanalyzing sensitivity (for 2D)
+
+ 13 April 2019 - worked intensively on CFD
+
+ 14 April 2019 - introduced upper/lower bounds for the interpolation of
+                 v, p and T in extrapol*1.f and extrapol*4.f
+
+ 18 April 2019 - worked on 2D sensitivity. Analyzed the code,
+                 removed some errors, added comments, created a
+		 comparable 2D and 3D example (sens2d and sens3d) for
+		 further analysis
+	       - worked out a plan for Green functions with cyclic
+	         symmetry (usage of arpack and arpackcs instead of
+		 linstatic)
+		 
+ 23 April 2019 - removed the use of the gradient in extrapol_*1.f (cFD)
+               - use of *controls,parameters=cfd and 20,0,0,4 as
+	         parameters is recommended for triangular meshes (CFD)
+
+ 24 April 2019 - called extrapol_*el5.f immediately after each
+                 extrapol_*el3.f call for velocity and temperature
+		 
+ 25 April 2019 - removed the gradient information from extrapol_*el1.f
+ 
+ 26 April 2019 - corrected an error in solidsections.f (dates from
+                 4. Mai 2018): the parameter NODAL THICKNESS is needed
+		 to ensure thickness values from the *NODAL THICKNESS
+		 card (similar to *SHELL SECTION and *BEAM SECTION);
+		 updated the documentation.
+	       - moved the calculation of the Green functions from
+	         linstatic.c to arpack.c
+	       - coded the calculation of Green functions with cyclic
+	         symmetry (arpackcs.c)
+		 
+ 10 May 2019   - made a change in gen3dtruss.f (problems of trusses in
+                 combination with plane stress/strain/axi elements)
+               - updated 2d-sensitivity: works now
+	       - allowed for rigid body particular solutions in
+	         displacement-driven steady state dynamics calculations
+               - looked into the sensitivity of Green functions with
+	         cyclic symmetry: looks like storage of the stiffness
+		 matrix in the .eig-file will be needed.
+
+ 17 May 2019   - analyzed a problem with *frequency and cyclic symmetry
+                 (false alarm)
+	       - updated the documentation concerning *contact file and
+	         output variables
+		 
+ 30 May 2019   - worked on turbulence
+
+ 31 May 2019   - looked into some issues concerning the normalization of
+                 cyclic symmetric eigenmodes
+               - differences in the P-field of example induction2.inp
+	         seem to be due to a constant shift
+               - differences in the random field of example beamprand.inp
+	         are due to a different random number initialization
+               - implemented mass scaling for explicit dynamics; adjusted
+	         the energy balance
+               - updated the explicit dynamic examples
+
+ 2 June 2019   - moved negative terms on the rhs of the energy equation to
+                 the lhs (sink terms)
+
+ 7 June 2019   - subtracted the thermal stretch from the total stretch
+                 instead of the thermal strain from the total strain
+               - devised a concept for the implementation of Craig-Bampton
+               - updated projectgradmain.c and checkprojectgrad.f
+	       - checked the normalization of eigenmodes with
+	         cyclic symmetry (arpackcs.c)
+               - made a change in postinitialnet.f (allowed for zero
+	         mass flow boundary conditions)
+
+ 21 June 2019  - change in e_c3d*f: for intscheme=1 the completion of
+                 the stiffness, mass and rhs for plane stress/strain/axi
+		 elements has to be removed, for e_c3d_th*f it has to be
+		 modified.
+               - for GREEN and FREQUENCY sensitivities with cyclic
+	         symmetry: calculate the appropriate cyclic MPC's for
+		 output purposes and store the real and imaginary
+		 part
+               - analyzed problems with 2D-sensitivities; corrected
+	         an error in objective_shapeener_tot.f
+
+ 22 June 2019  - reintroduced the Characteristic Based Split (CBS) method
+                 for CFD alongside the Finite Volume Method (start)
+
+ 23 June 2019  - finished reintroduction of the CBS method
+
+ 24 June 2019  - corrected some errors related to the sensitivity
+                 of 2D plane stress/strain/axi elements
+		 
+ 28 June 2019  - coded the UNDO_NLGEOM_LIN_EL material (extension of
+                 the UNDO_NLGEOM_LIN_ISO_EL material to anisotropic
+		 materials) for small stretches and large rotations
+               - looked into sensitivity for 2D-structures
+	         improved normalsonsurface_se.f
+               - analyzed explicit dynamics for the inclusion of
+	         Rayleigh damping
+		 
+ 29 June 2019  - removed the thickness direction of 2d-elements for
+                 the calculation of distmin in sensitivity calculations
+
+ 5 July 2019   - parallellized rhs.f and the copying of the fields * in
+                 *ini (nonlingeo.c)
+               - checked the residual in arpackcs.c; looks like the lowest
+	         eigenmode is not so accurate as the others
+	       - started implementing mass-proportional Rayleigh damping
+	         in nonlingeo.c
+
+ 8 July 2019   - included the couette and pois examples for the CBS
+                 method in the test suite.
+
+ 12 July 2019  - corrected some errors
+               - updated the documentation
+	       - implemented network modifications; theta=0.5 does
+	         not seem to work for all test examples
+	       - implemented a normalization of the eigenmodes in
+	         arpackcs.c (ARPACK not always normalizes)
+               - implemented mass proportional Rayleigh damping for
+	         explicit dynamic calculations; updated the
+		 documentation
+
+ 19 July 2019  - corrected an error in hyperelastics.f (for a polynomial
+                 hyperelastic model with N=3).
+	       - corrected the irstrt description in the documentation
+               - parallellized the copying of arrays in nonlingeo.c
+               - reduced the output for explicit dynamic calculations
+               - parallellized part of prediction.c; modified the
+	         loop variables
+               - parallellized parts of calcresidual.c (target: explicit
+	         dynamic calculations)
+
+ 21 July 2019  - parallellized energy parts of nonlingeo.c
+
+ 22 July 2019  - changed mtype=11 into mtype=1 in pardiso.c
+               - set iparm[1]=3 in pardiso.c
+
+ 31 July 2019  - made some corrections related to b32r beams and
+                 dynamics
+
+ 1 Aug 2019    - allowed for the definition of new amplitudes in a
+                 restart file
+               - split allocation and initialization to zero
+	       - parallellized the initialization
+               - checked which fields do not have to be initialized
+               - changed resultsforc.f into C and parallellized part
+	         of it
+
+ 2 Aug 2019    - changed resultsini.f into C and parallellized part
+                 of it
+
+ 7 Aug 2019    - corrected the use of " in a new *.c routines
+               - replaced INEW and DNEW by NNEW in nonlingeo.c (no
+	         speed up)
+	       - replaced ctrl(35) from 5.e-7 to 1.e-5 (= c1p)
+               - corrected format for error message for more than
+	         16 entries per line
+               - included the parameter OUTPUT ALL on the FILE and
+	         OUTPUT keyword cards
+               - started providing the option to read temperatures
+	         from a frd-file.
+
+ 9 Aug 2019    - made some corrections for steady state harmonic
+                 electromagnetic calculations
+	       - checked *damping for the dashpot example and compared
+	         with analytical solutions: fits
+		 
+ 7 Sept 2019   - included contact definitions in steadystate.c
+
+ 9 Sept 2019   - made some small changes in nonlingeo.c and expand.c
+               - removed an error defining voldt in expand.c,
+	         an error in createmddof.f and in genmodes.f
+
+ 11 Sept 2019  - removed contact from steadystate.c
+
+ 13 Sept 2019  - improved error message for missing density in dynamic
+                 calculations
+               - improved the output for explicit dynamic calculations
+               - complemented the documentation on explicit dynamic
+	         calculations in the User's Manual
+               - coded the capability to read temperatures for a
+	         structural calculation from a frd-file
+
+ 14 Sept 2019  - coded contact spring stiffness reduction as a counterpart
+                 of mass scaling for explicit dynamic calculations
+
+ 20 Sept 2019  - created insertsortd.f and insertsorti.f: replaced
+                 quicksort by insertsort for small arrays
+               - updated the documentation w.r.t. the treatment of
+	         thermal strains in geometrically nonlinear calculations
+               - analyzed the POP-report
+	       - worked on rotating gas pipes with friction and
+	         variable cross section
+
+ 24 Sept 2019  - calculated the element height instead of the edge length
+                 in initialcfd.f for use in calcguesstinc.f
+
+ 27 Sept 2019  - checked a sensitivity update: update rejected
+               - optimized gaspipe_fanno.f (defined Z1 and Z2,
+	         kept sign of xflow for icase=2...)
+
+ 3 Oct 2019    - worked on the calculation of the time increment
+                 for CFD-calculations
+
+ 4 Oct 2019    - allowed for a plausibility check for the initial
+                 mass flow in fluid network elements
+               - introduced plausibility check in gaspipe_fanno.f
+               - allowed for double precision binary output in frd.c
+	       - started validating the rotating gas pipe with
+	         variable cross section: converging/diverging pipe
+		 
+ 11 Oct 2019   - changed the displacement target function for
+                 sensitivity analyses (sqrt(u**2) instead of u**2)
+               - introduced double filtering and related aspects
+	         in sensitivity.c and its subroutines
+               - allowed for double precision binary frd-files as
+	         master files for submodels and *temperature
+               - corrected an error for isothermal fanno gaspipes
+	         for iflag=3
+               - started check of the rotating pipe for rotations
+	         leading to a pressure increase
+
+ 19 Oct 2019   - removed voldwithspc from initialnet.f and used vold
+                 instead
+               - introduced an estimate of the pressure increase
+	         in preinitialnet.f for rotating pipes
+               - checked double precision binary frd-files as
+	         master files for submodels
+
+ 25 Oct 2019   - removed errors in printoutint.f
+               - got the rotating gaspipe to work assuming an
+	         absolute system
+	       - looked into the equations for the arc length method
+	       - studied the documentation of PaStiX as alternative
+	         solver to PARDISO or SPOOLES.
+
+ 26 Oct 2019   - continued the rotating pipe (no critical checks for
+                 nonzero rotation)
+
+ 27 Oct 2019   - introduced mass scaling for steady state compressible
+                 flow
+
+ 28 Oct 2019   - introduced mass scaling for steady state incompressible
+                 flow
+
+ 31 Oct 2019   - allowed for the conversion of the mechanical strain in
+                 residual strain at the start of a step for selected
+		 elements (*MODEL CHANGE,ELEMENT,MECHSTRAINTORESIDUAL)
+               - worked on divergent non-rotating gas pipes
+
+ 1 Nov 2019    - updated the documentation on CFD
+
+ 8 Nov 2019    - checked for a problem with *nodal thickness and
+                 *solid section, nodal thickness
+               - coded an improved estimate for the pressure ratio in
+	         a rotating pipe
+	       - got the divergent not-rotating pipe to work
+
+ 10 Nov 2019   - changed hrr_ud.f and hrr_mod_smart.f: the convective
+                 density is calculated based on the convective pressure
+		 and mean temperature
+		 
+ 12 Nov 2019   - removed an error in the definition in MNEW
+               - inserted SFREE(iedgextfa) in refinemesh.c
+
+ 14 Nov 2019   - replaced an occurrence of isortii by insertsorti in
+                 generatetet.f
+
+ 15 Nov 2019   - corrected an error in spcmatch/allocation: number of
+                 old SPC's, forces.... (nboundold..) was not transferred
+		 to restart calculation
+               - corrected an error in complexfreq.c: output should be
+	         calculated for nevcomplex eigenmodes, not nev.
+
+ 19 Nov 2019   - included the CFD-Theory into the manual
+               - made some modifications in resultsmech.f for linear
+	         strains for large rotations
+
+ 22 Nov 2019   - deleted source files not being used
+               - created version 2.16; checked compilation, ran valgrind,
+	         checked the integrity of the documentation
+               - analyzed the inimortar code. Corrected an error in
+	         genislavelinv.f

@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -67,7 +67,7 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	     double *thicke, char *jobnamec,char *tieset,ITG *ntie,
 	     ITG *istep,ITG *nmat,ITG *ielprop,double *prop,char *typeboun,
 	     ITG *mortar,ITG *mpcinfo,double *tietol,ITG *ics,ITG *icontact,
-             char *orname){
+	     char *orname,ITG *itempuser){
   
   char description[13]="            ",*lakon=NULL,stiffmatrix[132]="",
        fneig[132]="",jobnamef[396]="";
@@ -85,7 +85,7 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
       *iponoels=NULL,*inoels=NULL,*ipe=NULL,*ime=NULL,iit=-1,iflagact=0,
       icutb=0,*kon=NULL,*ipkon=NULL,*ielmat=NULL,ialeatoric=0,kscale=1,
       *iponoel=NULL,*inoel=NULL,zero=0,nherm=1,nev=*nforc,node,idir,
-      *ielorien=NULL,network=0,nrhs=1,iperturbsav;
+      *ielorien=NULL,network=0,nrhs=1,iperturbsav,mscalmethod=0;
 
   double *stn=NULL,*v=NULL,*een=NULL,cam[5],*xstiff=NULL,*stiini=NULL,*tper,
          *f=NULL,*fn=NULL,qa[4],*fext=NULL,*epn=NULL,*xstateini=NULL,
@@ -99,7 +99,7 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
          *adb=NULL,*pslavsurf=NULL,*pmastsurf=NULL,*cdn=NULL,*cdnr=NULL,
          *cdni=NULL,*submatrix=NULL,*xnoels=NULL,*cg=NULL,*straight=NULL,
          *areaslav=NULL,*xmastnor=NULL,theta=0.,*ener=NULL,*xstate=NULL,
-         *fnext=NULL,*energyini=NULL,*energy=NULL,*d=NULL,alea=0.1;
+         *fnext=NULL,*energyini=NULL,*energy=NULL,*d=NULL,alea=0.1,*smscale=NULL;
 
   FILE *f1,*f2;
   
@@ -135,6 +135,12 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
   getglobalresults(jobnamec,&integerglob,&doubleglob,nboun,iamboun,xboun,
 		   nload,sideload,iamload,&iglob,nforc,iamforc,xforc,
                    ithermal,nk,t1,iamt1,&sigma);
+
+  /* reading temperatures from frd-file */
+  
+  if((itempuser[0]==2)&&(itempuser[1]!=itempuser[2])) {
+      utempread(t1,&itempuser[2],jobnamec);
+  }      
 
   /* allocating fields for the actual external loading */
 
@@ -285,7 +291,7 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		 labmpc,nk,&memmpc_,&icascade,&maxlenmpc,
 		 kon,ipkon,lakon,ne,nactdof,icol,jq,&irow,isolver,
 		 neq,nzs,nmethod,ithermal,iperturb,mass,mi,ics,cs,
-		 mcs,mortar,typeboun,&iit,&network);
+		 mcs,mortar,typeboun,&iit,&network,iexpl);
       }
 
       /* field for initial values of state variables (needed for contact */
@@ -354,7 +360,8 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	  sideload,xloadact,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 	  mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
 	  islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-          inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun);
+          inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun,
+	  itiefac,tieset,smscale,&mscalmethod);
   SFREE(v);SFREE(fn);SFREE(stx);SFREE(inum);
   iout=1;
 
@@ -447,7 +454,7 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
             xstateini,xstate,thicke,integerglob,doubleglob,
 	    tieset,istartset,iendset,ialset,ntie,&nasym,pslavsurf,
 	    pmastsurf,mortar,clearini,ielprop,prop,&ne0,fnext,&kscale,
-	    iponoel,inoel,&network,ntrans,inotr,trab);
+	    iponoel,inoel,&network,ntrans,inotr,trab,smscale,&mscalmethod);
 
   /* check for negative Jacobians */
 
@@ -592,7 +599,8 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		   sideload,xloadact,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 		   mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
 		   islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-		   inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun);
+		   inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun,
+	           itiefac,tieset,smscale,&mscalmethod);
 	      
 	      xbounact[iretain[i]-1]=0.;
 	      
@@ -616,7 +624,7 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	  }
 	  SFREE(iretain);
 	  
-	  FORTRAN(writesubmatrix,(submatrix,noderetain,ndirretain,&nretain,jobnamec));
+ 	  FORTRAN(writesubmatrix,(submatrix,noderetain,ndirretain,&nretain,jobnamec));
 	  
 	  SFREE(submatrix);SFREE(noderetain);SFREE(ndirretain);
 
@@ -633,7 +641,7 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	  strcat(fneig,".eig");
       
 	  if((f2=fopen(fneig,"wb"))==NULL){
-	      printf("*ERROR in arpack: cannot open eigenvalue file for writing...");
+	      printf("*ERROR in linstatic: cannot open eigenvalue file for writing...");
 	      
 	      exit(0);
 	  }
@@ -651,6 +659,22 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	  if(fwrite(&nherm,sizeof(ITG),1,f2)!=1){
 	      printf("*ERROR saving the Hermitian flag to the eigenvalue file...");
 	      exit(0);
+	  }
+
+	  /* perturbation parameter iperturb[0] */
+	  
+	  if(fwrite(&iperturb[0],sizeof(ITG),1,f2)!=1){
+	      printf("*ERROR saving the perturbation flag to the eigenvalue file...");
+	      exit(0);
+	  }
+	      
+	  /* reference displacements */
+
+	  if(iperturb[0]==1){
+	      if(fwrite(vold,sizeof(double),mt**nk,f2)!=mt**nk){
+		  printf("*ERROR saving the reference displacements to the eigenvalue file...");
+		  exit(0);
+	      }
 	  }
 	  
 	  /* storing the number of eigenvalues */
@@ -770,7 +794,8 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		   sideload,xloadact,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 		   mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
 		   islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-		   inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun);
+		   inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun,
+	           itiefac,tieset,smscale,&mscalmethod);
 	      
 	      SFREE(eei);
 	      if(*nener==1){
@@ -819,6 +844,7 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	      if(strcmp1(&filab[2175],"CONT")==0) SFREE(cdn);
 	      
 	  }
+
 
 	  fclose(f2);
 
@@ -983,7 +1009,8 @@ void linstatic(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
             sideload,xloadact,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
             mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
 	    islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-            inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun);
+            inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun,
+	    itiefac,tieset,smscale,&mscalmethod);
 
     SFREE(eei);
     if(*nener==1){

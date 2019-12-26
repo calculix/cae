@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -27,7 +27,8 @@ static ITG *ia1,*ja1,*nestart1,*nef1;
 static double *a1,*b1,*au1,*x1,*res1=NULL,*xmax1=NULL;
 
 void calcresvfluidmain(ITG *n,double *a,double *b,double *au,ITG *ia,
-		ITG *ja,double *x,double *res,ITG *nestart,ITG *num_cpus){
+		       ITG *ja,double *x,double *res,ITG *nestart,ITG *num_cpus,
+                       ITG *ncfd){
 
     ITG i;
 
@@ -83,23 +84,26 @@ void calcresvfluidmain(ITG *n,double *a,double *b,double *au,ITG *ia,
 
     /* residue of momentum equations in z */
 
-    NNEW(res1,double,*num_cpus);
+    if(*ncfd>2){
 
-    a1=a;b1=&b[2**n];au1=au;ia1=ia;ja1=ja;x1=&x[2**n];nestart1=nestart;
-    
-    /* create threads and wait */
-    
-    NNEW(ithread,ITG,*num_cpus);
-    for(i=0; i<*num_cpus; i++)  {
-	ithread[i]=i;
-	pthread_create(&tid[i], NULL, (void *)calcresvfluid1mt, (void *)&ithread[i]);
+	NNEW(res1,double,*num_cpus);
+
+	a1=a;b1=&b[2**n];au1=au;ia1=ia;ja1=ja;x1=&x[2**n];nestart1=nestart;
+	
+	/* create threads and wait */
+	
+	NNEW(ithread,ITG,*num_cpus);
+	for(i=0; i<*num_cpus; i++)  {
+	    ithread[i]=i;
+	    pthread_create(&tid[i], NULL, (void *)calcresvfluid1mt, (void *)&ithread[i]);
+	}
+	for(i=0; i<*num_cpus; i++)  pthread_join(tid[i], NULL);
+	
+	for(i=0;i<*num_cpus;i++){
+	    *res+=res1[i];
+	}
+	SFREE(ithread);SFREE(res1);
     }
-    for(i=0; i<*num_cpus; i++)  pthread_join(tid[i], NULL);
-    
-    for(i=0;i<*num_cpus;i++){
-	*res+=res1[i];
-    }
-    SFREE(ithread);SFREE(res1);
 
     /* max velocity */
 
@@ -142,7 +146,7 @@ void *calcresvfluid1mt(ITG *i){
 
     FORTRAN(calcresvfluid1,(&n,a1,&b1[nestart1[*i]],&au1[nestart1[*i]],
 			    ia1,&ja1[nestart1[*i]],&x1[nestart1[*i]],
-			    res1));
+			    &res1[*i]));
 
     return NULL;
 }
@@ -157,7 +161,7 @@ void *calcresvfluid2mt(ITG *i){
 
     n=nestart1[*i+1]-nestart1[*i];
 
-    FORTRAN(calcresvfluid2,(&n,&x1[nestart1[*i]],xmax1,nef1));
+    FORTRAN(calcresvfluid2,(&n,&x1[nestart1[*i]],&xmax1[*i],nef1));
 
     return NULL;
 }

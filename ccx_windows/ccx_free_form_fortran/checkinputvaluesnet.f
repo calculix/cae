@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,7 +16,7 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-!     check wether teh property array contains values or IDs
+!     check wether the property array contains values or IDs
 !     if first gas iteration (iin =0) then
 !         for each property of each fluid element
 !              if IDs: the IDs contained in prop array are stored in prop_store array
@@ -42,7 +42,7 @@
          index=ielprop(nelem)
          if(index.lt.0) cycle
          !
-         !     modifying the prop array (formerly done in fluidsections.f)
+         !        modifying the prop array (formerly done in fluidsections.f)
          !
          if(lakon(nelem)(2:8).eq.'REBRJI2') then
             if(1.d0-(prop(index+5)+prop(index+6))/&
@@ -57,6 +57,8 @@
          !
          elseif((lakon(nelem)(2:3).eq.'OR').and.&
                 (lakon(nelem)(2:5).ne.'ORC1').and.&
+                (lakon(nelem)(2:5).ne.'ORB1').and.&
+                (lakon(nelem)(2:5).ne.'ORB2').and.&
                 (lakon(nelem)(2:5).ne.'ORBT').and.&
                 (lakon(nelem)(2:5).ne.'ORPN').and.&
                 (lakon(nelem)(2:5).ne.'ORFL'))then
@@ -210,6 +212,56 @@
                write(*,*) '       element number: ',nelem
                call exit(201)
             endif
+         elseif((lakon(nelem)(2:5).eq.'ORB1'.or.&
+                 lakon(nelem)(2:5).eq.'ORB2'))then
+            if(prop(index+4).eq.50d0.and.&
+               prop(index+5).ne.0.00015d0)then
+               write(*,*) '*ERROR in checkinputvaluesnet: '                
+              write(*,*) '       For a brush seal with a bristle'
+              write(*,*) '       density of 50 the bristle diameter'
+              write(*,*) '       has to be 0.00015m!'
+              write(*,*) '       For element number:', nelem
+              write(*,*) '       the value is:',prop(index+5)
+               call exit(201)
+            elseif(prop(index+4).eq.100d0.and.&
+               prop(index+5).ne.0.00007d0)then
+               write(*,*) '*ERROR in checkinputvaluesnet: '                
+              write(*,*) '       For a brush seal with a bristle'
+              write(*,*) '       density of 100 the bristle diameter'
+              write(*,*) '       has to be 0.00007m!'
+              write(*,*) '       For element number:', nelem
+              write(*,*) '       the value is:',prop(index+5)
+               call exit(201)
+            elseif(prop(index+4).eq.140d0.and.&
+               prop(index+5).ne.0.00010d0)then
+               write(*,*) '*ERROR in checkinputvaluesnet: '                
+              write(*,*) '       For a brush seal with a bristle'
+              write(*,*) '       density of 140 the bristle diameter'
+              write(*,*) '       has to be 0.00010m!'
+              write(*,*) '       For element number:', nelem
+              write(*,*) '       the value is:',prop(index+5)
+               call exit(201)
+            elseif(prop(index+4).eq.200d0.and.&
+               prop(index+5).ne.0.000070d0)then
+               write(*,*) '*ERROR in checkinputvaluesnet: '                
+              write(*,*) '       For a brush seal with a bristle'
+              write(*,*) '       density of 200 the bristle diameter'
+              write(*,*) '       has to be 0.00010m!'
+              write(*,*) '       For element number:', nelem
+              write(*,*) '       the value is:',prop(index+5)
+               call exit(201)              
+            endif
+           if(prop(index+4).ne.50d0.and.&
+               prop(index+4).ne.100d0.and.&
+               prop(index+4).ne.140d0.and.&
+               prop(index+4).ne.200d0)then
+               write(*,*) '*ERROR in checkinputvaluesnet: '
+              write(*,*) '       Only a brsitle density of'
+              write(*,*) '       50, 100, 140 and 200 is supported.'
+              write(*,*) '       For element number:', nelem
+              write(*,*) '       the value is:',prop(index+4)
+              call exit(201)
+           endif
          !
          elseif((lakon(nelem)(2:4).eq.'LAB').and.&
                 (lakon(nelem)(2:5).ne.'LABF').and.&

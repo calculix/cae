@@ -29,9 +29,9 @@ class tree:
 
         # Actions
         treeView.doubleClicked.connect(
-            lambda: self.doubleClicked(treeView))
+            lambda: self.doubleClicked(treeView, KOM))
         treeView.clicked.connect(
-            lambda: self.clicked(treeView, VTK))
+            lambda: self.clicked(settings, treeView, VTK))
         treeView.customContextMenuRequested.connect(
             lambda: self.rightClicked(p, KOM, settings, treeView))
         treeView.expanded.connect(self.treeViewExpanded)
@@ -119,7 +119,7 @@ class tree:
 
 
     # Double click on treeView item: edit the keyword via dialog
-    def doubleClicked(self, treeView):
+    def doubleClicked(self, treeView, KOM):
         index = treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
@@ -131,7 +131,7 @@ class tree:
             if item.active:
 
                 # Create dialog window and pass item
-                dialog = KeywordDialog(self.KOM, item)
+                dialog = KeywordDialog(KOM, item)
 
                 # Get response from dialog window
                 if dialog.exec() == KeywordDialog.Accepted: # if user pressed 'OK'
@@ -163,7 +163,7 @@ class tree:
 
 
     # Highlight node sets, element sets or surfaces
-    def clicked(self, treeView, VTK):
+    def clicked(self, settings, treeView, VTK):
         if settings.show_vtk:
             VTK.actionSelectionClear() # clear selection
 
@@ -248,7 +248,7 @@ class tree:
                     action_edit_implementation = QtWidgets.QAction('Edit', treeView)
                     self.myMenu.addAction(action_edit_implementation)
                     action_edit_implementation.triggered.connect(
-                        lambda: self.doubleClicked(treeView))
+                        lambda: self.doubleClicked(treeView, KOM))
 
                     # 'Delete' action
                     action_delete_implementation = QtWidgets.QAction('Delete', treeView)

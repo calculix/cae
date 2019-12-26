@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -43,14 +43,14 @@
 !                in account
 !
       subroutine calcmac(neq,z,zz,nev,xmac,xmaccpx,istartnmd,&
-           iendnmd,nmd,cyclicsymmetry,neqact,bett,betm)
+           iendnmd,nmd,cyclicsymmetry,neqact,bett,betm,nevcomplex)
       !
       !     calculates the Modal Assurance Criterium MAC=<z,zz>/(||z||*||zz||)
       !
       implicit none
       !
       integer neq,nev,i,j,k,l,istartnmd(*),iendnmd(*),nmd,&
-           cyclicsymmetry,neqact
+           cyclicsymmetry,neqact,nevcomplex
       !
       real*8 bett(*),betm(*),xmac(nev,*),z(neq,*),zz(2*neqact,*)
       !
@@ -61,16 +61,23 @@
          do i=1,nev
             do k=1,neq
                bett(i)=bett(i)+z(k,i)**2
+            enddo
+         enddo
+         do i=1,nevcomplex
+            do k=1,neq
                betm(i)=betm(i)+zz(k,i)**2+zz(k+neq,i)**2
             enddo
          enddo
+         !
          do i=1,nev
             bett(i)=dsqrt(bett(i))
+         enddo
+         do i=1,nevcomplex
             betm(i)=dsqrt(betm(i)) 
          enddo
          !     Calculation of MAC
          do i=1,nev
-            do j=1,nev
+            do j=1,nevcomplex
                do k=1,neq  
                   xmaccpx(i,j)=xmaccpx(i,j)+z(k,i)&
                        *(zz(k,j)+zz(k+neq,j)*(0.d0,1.d0))

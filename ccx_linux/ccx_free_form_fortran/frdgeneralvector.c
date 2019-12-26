@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -31,7 +31,7 @@ void frdgeneralvector(double *v,ITG *iset,ITG *ntrans,char * filabl,
       
   int iw;
 
-  float ifl;
+  float fl;
   
   double a[9];
 
@@ -57,8 +57,14 @@ void frdgeneralvector(double *v,ITG *iset,ITG *ntrans,char * filabl,
 	    }
 	}else{
 	  iw=(int)(i+1);fwrite(&iw,sizeof(int),1,f1);
-	  for(j=1;j<=mi[1];j++){
-	      ifl=(float)v[(mi[1]+1)*i+j];fwrite(&ifl,sizeof(float),1,f1);
+	  if(strcmp1(output,"bin")==0){
+	      for(j=1;j<=mi[1];j++){
+		  fl=(float)v[(mi[1]+1)*i+j];fwrite(&fl,sizeof(float),1,f1);
+	      }
+	  }else{
+	      for(j=1;j<=mi[1];j++){
+		  fwrite(&v[(mi[1]+1)*i+j],sizeof(double),1,f1);
+	      }
 	  }
 	}
       }
@@ -84,8 +90,14 @@ void frdgeneralvector(double *v,ITG *iset,ITG *ntrans,char * filabl,
 	    }
 	  }else{
 	    iw=(int)(i+1);fwrite(&iw,sizeof(int),1,f1);
-	    for(j=1;j<=mi[1];j++){
-		ifl=(float)v[(mi[1]+1)*i+j];fwrite(&ifl,sizeof(float),1,f1);
+	    if(strcmp1(output,"bin")==0){
+		for(j=1;j<=mi[1];j++){
+		    fl=(float)v[(mi[1]+1)*i+j];fwrite(&fl,sizeof(float),1,f1);
+		}
+	    }else{
+		for(j=1;j<=mi[1];j++){
+		    fwrite(&v[(mi[1]+1)*i+j],sizeof(double),1,f1);
+		}
 	    }
 	  }
 	}else{
@@ -122,8 +134,14 @@ void frdgeneralvector(double *v,ITG *iset,ITG *ntrans,char * filabl,
 		  }
 	      }else{
 		  iw=(int)(i+1);fwrite(&iw,sizeof(int),1,f1);
-		  for(j=1;j<=mi[1];j++){
-		      ifl=(float)v[(mi[1]+1)*i+j];fwrite(&ifl,sizeof(float),1,f1);
+		  if(strcmp1(output,"bin")==0){
+		      for(j=1;j<=mi[1];j++){
+			  fl=(float)v[(mi[1]+1)*i+j];fwrite(&fl,sizeof(float),1,f1);
+		      }
+		  }else{
+		      for(j=1;j<=mi[1];j++){
+			  fwrite(&v[(mi[1]+1)*i+j],sizeof(double),1,f1);
+		      }
 		  }
 	      }
 	  }else{
@@ -160,8 +178,14 @@ void frdgeneralvector(double *v,ITG *iset,ITG *ntrans,char * filabl,
 		    }
 		}else{
 		    iw=(int)(i+1);fwrite(&iw,sizeof(int),1,f1);
-		    for(j=1;j<=mi[1];j++){
-			ifl=(float)v[(mi[1]+1)*i+j];fwrite(&ifl,sizeof(float),1,f1);
+		    if(strcmp1(output,"bin")==0){
+			for(j=1;j<=mi[1];j++){
+			    fl=(float)v[(mi[1]+1)*i+j];fwrite(&fl,sizeof(float),1,f1);
+			}
+		    }else{
+			for(j=1;j<=mi[1];j++){
+			    fwrite(&v[(mi[1]+1)*i+j],sizeof(double),1,f1);
+			}
 		    }
 		}
 	    }else{

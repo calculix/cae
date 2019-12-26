@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -29,7 +29,7 @@
       !
       integer ipoface(*),nodface(5,*),nodes(4),&
         ne,ipkon(*),kon(*),indexe,ifaceq(8,6),ifacet(6,4),index1,&
-        ifacew(8,5),ithree,ifour,iaux,kflag,i,j,k,m,&
+        ifacew(8,5),ithree,ifour,i,j,k,m,&
         ifree,index1old,ifreenew,ntie,ipos
       !
       !     nodes belonging to the element faces
@@ -62,7 +62,6 @@
             !
             ipos=index(slavset,' ')-1
             if(slavset(ipos:ipos).eq.'S') then
-               kflag=1
                ithree=3
                ifour=4
                !
@@ -102,7 +101,8 @@
                         do k=1,4
                            nodes(k)=kon(indexe+ifaceq(k,j))
                         enddo
-                        call isortii(nodes,iaux,ifour,kflag)
+                        call insertsorti(nodes,ifour)
+                        !                         call isortii(nodes,iaux,ifour,kflag)
                         index1old=0
                         index1=ipoface(nodes(1))
                         do
@@ -150,7 +150,8 @@
                         do k=1,3
                            nodes(k)=kon(indexe+ifacet(k,j))
                         enddo
-                        call isortii(nodes,iaux,ithree,kflag)
+                        call insertsorti(nodes,ithree)
+                        !                         call isortii(nodes,iaux,ithree,kflag)
                         nodes(4)=0
                         index1old=0
                         index1=ipoface(nodes(1))
@@ -199,13 +200,15 @@
                            do k=1,3
                               nodes(k)=kon(indexe+ifacew(k,j))
                            enddo
-                           call isortii(nodes,iaux,ithree,kflag)
+                           call insertsorti(nodes,ithree)
+                           !                            call isortii(nodes,iaux,ithree,kflag)
                            nodes(4)=0
                         else
                            do k=1,4
                               nodes(k)=kon(indexe+ifacew(k,j))
                            enddo
-                           call isortii(nodes,iaux,ifour,kflag)
+                           call insertsorti(nodes,ifour)
+                        !                            call isortii(nodes,iaux,ifour,kflag)
                         endif
                         index1old=0
                         index1=ipoface(nodes(1))

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -48,7 +48,6 @@
             iel=neiel(indexf)
             if(iel.ne.0) then
                coef=vfa(5,ifa)*area(ifa)*advfa(ifa)/&
-                    !      &              (xlet(indexf))
                     (xlet(indexf)*cosb(indexf))
                ad(i)=ad(i)+coef
                if(i.gt.iel) au(iau6(j,i))=au(iau6(j,i))-coef
@@ -64,7 +63,6 @@
                      !                    components are given)
                      !
                      coef=vfa(5,ifa)*area(ifa)*advfa(ifa)/&
-                          !      &                    (xle(indexf))
                           (xle(indexf)*cosb(indexf))
                      ad(i)=ad(i)+coef
                   endif

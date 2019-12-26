@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -32,7 +32,7 @@
         xstateini,xstate,thicke,integerglob,doubleglob,&
         tieset,istartset,iendset,ialset,ntie,nasym,pslavsurf,pmastsurf,&
         mortar,clearini,ielprop,prop,ne0,fnext,nea,neb,kscale,&
-        iponoel,inoel,network)
+        iponoel,inoel,network,smscale,mscalmethod)
       !
       !     filling the stiffness matrix in spare matrix format (sm)
       !
@@ -58,7 +58,7 @@
         mpc1,mpc2,index1,index2,jdof,node1,node2,kflag,icalccg,&
         ntmat_,indexe,nope,norien,iexpl,i0,ncmat_,istep,iinc,&
         nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,mortar,&
-        nea,neb,kscale,iponoel(*),inoel(2,*),network,ndof
+        nea,neb,kscale,iponoel(*),inoel(2,*),network,ndof,mscalmethod
       !
       real*8 co(3,*),xboun(*),coefmpc(*),xforc(*),xload(2,*),p1(3),&
         p2(3),ad(*),au(*),bodyf(3),fext(*),xloadold(2,*),reltime,&
@@ -72,7 +72,7 @@
         plicon(0:2*npmat_,ntmat_,*),plkcon(0:2*npmat_,ntmat_,*),&
         xstiff(27,mi(1),*),veold(0:mi(2),*),om,valu2,value,dtime,ttime,&
         time,thicke(mi(3),*),doubleglob(*),clearini(3,9,*),&
-        pslavsurf(3,*),pmastsurf(6,*)
+        pslavsurf(3,*),pmastsurf(6,*),smscale(*)
       !
       intent(in) co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,&
         xboun,nboun,&
@@ -247,7 +247,7 @@
                 springarea,nstate_,xstateini,xstate,ne0,ipkon,thicke,&
                 integerglob,doubleglob,tieset,istartset,&
                 iendset,ialset,ntie,nasym,pslavsurf,pmastsurf,mortar,&
-                clearini,ielprop,prop,kscale)
+                clearini,ielprop,prop,kscale,smscale(i),mscalmethod)
         else
            call e_c3d_u(co,kon,lakon(i),p1,p2,om,bodyf,nbody,s,sm,ff,i,&
                 nmethod,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,&

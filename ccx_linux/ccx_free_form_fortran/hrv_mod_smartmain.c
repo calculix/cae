@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -24,12 +24,11 @@
 
 static ITG *nface1,*ielfa1,*ipnei1,*nef1,*num_cpus1;
 
-static double *vel1,*gradvel1,*xlet1,*xxj1,*flux1,*vfa1,*gamma1;
+static double *vel1,*gradvel1,*xlet1,*xxj1,*flux1,*vfa1;
 
 void hrv_mod_smartmain(ITG *nface,ITG *ielfa,double *vel,double *gradvel,
 		       double *xlet,double *xxj,ITG *ipnei,ITG *nef,
-		       double *flux,double *vfa,ITG *num_cpus,
-                       double *gamma){
+		       double *flux,double *vfa,ITG *num_cpus){
 
     ITG i;
       
@@ -43,7 +42,7 @@ void hrv_mod_smartmain(ITG *nface,ITG *ielfa,double *vel,double *gradvel,
     
     ielfa1=ielfa;vel1=vel;gradvel1=gradvel;xlet1=xlet;xxj1=xxj;
     ipnei1=ipnei;nef1=nef;flux1=flux;vfa1=vfa;num_cpus1=num_cpus;
-    nface1=nface;gamma1=gamma;
+    nface1=nface;
     
     /* create threads and wait */
     
@@ -60,7 +59,7 @@ void hrv_mod_smartmain(ITG *nface,ITG *ielfa,double *vel,double *gradvel,
 
 }
 
-/* subroutine for multithreading of calcgammav1 */
+/* subroutine for multithreading of hrv_mod_smart */
 
 void *hrv_mod_smart1mt(ITG *i){
 
@@ -72,7 +71,7 @@ void *hrv_mod_smart1mt(ITG *i){
     if((*i==*num_cpus1-1)&&(nfaceb<*nface1)) nfaceb=*nface1;
 
     FORTRAN(hrv_mod_smart,(ielfa1,vel1,gradvel1,xlet1,xxj1,ipnei1,
-			    nef1,flux1,vfa1,&nfacea,&nfaceb,gamma1));
+			    nef1,flux1,vfa1,&nfacea,&nfaceb));
 
     return NULL;
 }

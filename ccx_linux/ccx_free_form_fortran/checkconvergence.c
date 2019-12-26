@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -83,7 +83,7 @@ void checkconvergence(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
     i0=ctrl[0];ir=ctrl[1];ip=ctrl[2];ic=ctrl[3];il=ctrl[4];ig=ctrl[5];
     ia=ctrl[7];df=ctrl[10];dc=ctrl[11];db=ctrl[12];da=ctrl[13];dd=ctrl[16];
     ran=ctrl[18];can=ctrl[19];rap=ctrl[22];ea=ctrl[23];cae=ctrl[24];
-    ral=ctrl[25];cetol=ctrl[39];kscalemax=ctrl[54];itf2f=ctrl[55];
+    ral=ctrl[25];cetol=ctrl[39];kscalemax=ctrl[55];itf2f=ctrl[56];
 
     /* for face-to-face penalty contact: increase the number of iterations
        in two subsequent increments in order to increase the increment size */
@@ -233,7 +233,10 @@ void checkconvergence(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 
 	    r_rel=*r_abs/(*emax);
 	    if(r_rel<=-maxdecay) {
-		idivergence=1;
+	      // deactivated on 22.03.2019
+	      // energy/work may not be calculated correctly for forced BC
+	      // (example: shaft)
+	      		idivergence=1;
 	    }else{
 		
 		/* Check if the residual is too close to the boundary */
@@ -414,7 +417,7 @@ void checkconvergence(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	if((*dtheta>*sizemaxinc)&&(*idrct==0)){
 	    *dtheta=*sizemaxinc;
 	    *dthetaref=*dtheta;
-	    printf(" the increment size exceeds thetamax and is decreased to %e\n\n",*dtheta**tper);
+	    printf(" the increment size exceeds the maximum allowed and is decreased to %e\n\n",*dtheta**tper);
 	}
 
         /* check whether new time point exceeds end of step */

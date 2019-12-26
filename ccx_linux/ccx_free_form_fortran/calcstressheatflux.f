@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -29,10 +29,6 @@
       real*8 sti(6,mi(1),*),qfx(3,mi(1),*),umel(*),hcel(*),&
         gradvel(3,3,*),gradtel(3,*)
       !
-      ! $omp parallel default(none)
-      ! $omp& shared(nef,isti,umel,gradvel,hcel,gradtel,sti,qfx,iqfx)
-      ! $omp& private(i)
-      ! $omp do
       do i=1,nef
          if(isti.gt.0) then
             sti(1,1,i)=2.d0*umel(i)*gradvel(1,1,i)
@@ -48,8 +44,6 @@
             qfx(3,1,i)=-hcel(i)*gradtel(3,i)
          endif
       enddo
-      ! $omp end do
-      ! $omp end parallel
       !
       return
       end

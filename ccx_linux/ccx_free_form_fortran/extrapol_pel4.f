@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -77,11 +77,11 @@
             !
             !           boundary face; one layer
             !
-            indexf=ipnei(iel1)+ielfa(4,i)
-            vfa(4,i)=vel(iel1,4)&
-                 +(gradpfa(1,i)*xxi(1,indexf)+&
-                 gradpfa(2,i)*xxi(2,indexf)+&
-                 gradpfa(3,i)*xxi(3,indexf))*xle(indexf)
+            !             indexf=ipnei(iel1)+ielfa(4,i)
+            vfa(4,i)=vel(iel1,4)
+         !      &           +(gradpfa(1,i)*xxi(1,indexf)+
+         !      &           gradpfa(2,i)*xxi(2,indexf)+
+         !      &           gradpfa(3,i)*xxi(3,indexf))*xle(indexf)
          endif
       enddo
       !

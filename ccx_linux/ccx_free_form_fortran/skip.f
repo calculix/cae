@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -234,6 +234,7 @@
          read(15)(i4,i=1,infree(4))
          read(15)(i4,i=1,3*(infree(3)-1))
          read(15)(i4,i=1,infree(4))
+         read(15)(i4,i=1,2*infree(4))
       endif
       !
       !     tie constraints

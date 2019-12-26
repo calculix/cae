@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -29,10 +29,6 @@
       real*8 vel(nef,0:7),gradtel(3,*),xxn(3,*),xxj(3,*),vud,vcd,&
         gamma(*),phic,xlet(*),betam,flux(*),vfa(0:7,*)
       !
-      ! $omp parallel default(none)
-      ! $omp& shared(nface,ielfa,ipnei,vel,vfa,flux,gradtel,xxj,xlet)
-      ! $omp& private(i,iel2,iel1,j,indexf,vcd,vud,phic)
-      ! $omp do
       do i=1,nface
          iel2=ielfa(2,i)
          !
@@ -123,8 +119,6 @@
             endif
          endif
       enddo
-      ! $omp end do
-      ! $omp end parallel
       !
       return
       end

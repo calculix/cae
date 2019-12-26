@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,9 +20,9 @@
            nactdog,identity,ielprop,prop,iflag,v,xflow,f,&
            nodef,idirf,df,cp,R,dvi,numf,set,mi,ttime,time,&
            iaxial,iplausi)
-!
-!     moehring element
-!     This subroutines computes the evolution of the core swirl ratio
+      !
+      !     moehring element
+      !     This subroutines computes the evolution of the core swirl ratio
       !     for a disc stator system with either centrifugal or centripetal
       !     flow.
       !     Theoretical explanations can be found in
@@ -77,6 +77,10 @@
          endif
       !
       elseif(iflag.eq.1)then
+         if(v(1,nodem).ne.0.d0) then
+            xflow=v(1,nodem)
+            return
+         endif
          !
          pi=4.d0*datan(1.d0)
          kappa=(cp/(cp-R))

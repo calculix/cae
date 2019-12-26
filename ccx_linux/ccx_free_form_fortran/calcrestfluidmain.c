@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -96,7 +96,7 @@ void *calcrestfluidmt(ITG *i){
 
     FORTRAN(calcrestfluid,(&n,a1,&b1[nestart1[*i]],&au1[nestart1[*i]],
 			   ia1,&ja1[nestart1[*i]],&x1[nestart1[*i]],
-			   res1,xmin1,xmax1));
+			   &res1[*i],&xmin1[*i],&xmax1[*i]));
 
     return NULL;
 }

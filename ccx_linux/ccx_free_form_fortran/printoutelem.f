@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,7 +19,8 @@
       subroutine printoutelem(prlab,ipkon,lakon,kon,co,&
            ener,mi,ii,nelem,energytot,volumetot,enerkintot,ne,&
            stx,nodes,thicke,ielmat,ielem,iface,mortar,ielprop,prop,&
-           sideload,nload,nelemload,xload,bhetot)
+           sideload,nload,nelemload,xload,bhetot,xmasstot,xinertot,&
+           cg,ithermal,rhcon,nrhcon,ntmat_,t1,vold)
       !
       !     stores whole element results for element "nelem" in the .dat file
       !
@@ -30,15 +31,18 @@
       character*20 sideload(*)
       !
       integer ipkon(*),nelem,ii,kon(*),mi(*),nope,indexe,i,j,k,&
-        konl(20),iface,mortar,ielem,ielprop(*),nvol,nbhe,&
+        konl(20),iface,mortar,ielem,ielprop(*),nvol,nmas,nbhe,&
         mint3d,jj,nener,iflag,nkin,ne,nodes,ki,kl,ilayer,nlayer,kk,&
-        nopes,ielmat(mi(3),*),mint2d,null,id,nload,nelemload(2,*)
+        nopes,ielmat(mi(3),*),mint2d,null,id,nload,nelemload(2,*),&
+        ithermal(2),nrhcon(*),ntmat_,imat,i1
       !
       real*8 ener(mi(1),*),energytot,volumetot,energy,volume,co(3,*),&
         xl(3,20),xi,et,ze,xsj,shp(4,20),weight,enerkintot,enerkin,&
         stx(6,mi(1),*),a,gs(8,4),dlayer(4),tlayer(4),thickness,&
         thicke(mi(3),*),xlayer(mi(3),4),shp2(7,8),xs2(3,7),xsj2(3),&
-        xl2(3,8),prop(*),dflux,xload(2,*),bhe,bhetot
+        xl2(3,8),prop(*),dflux,xload(2,*),bhe,bhetot,xmass,xmasstot,&
+        xiner(6),xinertot(6),cg(3),t1l,rho,rhcon(0:1,ntmat_,*),&
+        t1(*),vold(0:mi(2),*),dxmass,xlint(3)
       !
       include "gauss.f"
       !
@@ -51,6 +55,7 @@
       nener=0
       nkin=0
       nvol=0
+      nmas=0
       nbhe=0
       !
       if((prlab(ii)(1:4).eq.'ELSE').or.(prlab(ii)(1:4).eq.'CELS')) then
@@ -59,6 +64,8 @@
          nkin=1
       elseif(prlab(ii)(1:4).eq.'EVOL') then
          nvol=1
+      elseif(prlab(ii)(1:4).eq.'EMAS') then
+         nmas=1
       elseif(prlab(ii)(1:4).eq.'EBHE') then
          nbhe=1
       endif
@@ -97,7 +104,7 @@
       elseif(prlab(ii)(1:4).eq.'EBHE ') then
          !
          !        body heating: check whether there is any body heating in
-         !        this elements
+         !        this element
          !
          dflux=0.d0
          if(nload.gt.0) then
@@ -117,7 +124,7 @@
          !
          if(dflux.eq.0.d0) then
             if((prlab(ii)(1:5).eq.'EBHE ').or.&
-               (prlab(ii)(1:5).eq.'EBHET')) then
+                 (prlab(ii)(1:5).eq.'EBHET')) then
                write(5,'(i10,1p,1x,e13.6)') nelem,dflux
             endif
             return
@@ -144,7 +151,9 @@
       !
       !        composite materials
       !
-      if(lakon(nelem)(7:8).eq.'LC') then
+      if(lakon(nelem)(7:8).ne.'LC') then
+         imat=ielmat(1,nelem)
+      else
          !
          !        determining the number of layers
          !
@@ -231,6 +240,10 @@
       volume=0.d0
       bhe=0.d0
       enerkin=0.d0
+      xmass=0.d0
+      do j=1,6
+         xiner(j)=0.d0
+      enddo
       !
       if(lakon(nelem)(4:5).eq.'8R') then
          mint3d=1
@@ -318,6 +331,7 @@
                ze=2.d0*(dlayer(ki)+(ze+1.d0)/2.d0*xlayer(ilayer,ki))/&
                     tlayer(ki)-1.d0
                weight=weight*xlayer(ilayer,ki)/tlayer(ki)
+               imat=ielmat(ilayer,nelem)
             endif
          elseif(lakon(nelem)(4:4).eq.'2') then
             xi=gauss3d3(1,jj)
@@ -395,6 +409,70 @@
             enerkin=enerkin+weight*xsj*ener(jj,nelem+ne)
          elseif(nvol.eq.1) then
             volume=volume+weight*xsj
+         elseif(nmas.eq.1) then
+            !
+            !           coordinates of the integration point
+            !
+            do k=1,3
+               xlint(k)=0.d0
+            enddo
+            do j=1,nope
+               do k=1,3
+                  xlint(k)=xlint(k)+xl(k,j)*shp(4,j)
+               enddo
+            enddo
+            !
+            !           temperature of the integration point
+            !
+            t1l=0.d0
+            if(ithermal(1).eq.1) then
+               if((lakon(nelem)(4:5).eq.'8 ').or.&
+                    (lakon(nelem)(4:5).eq.'8I')) then
+                  do i1=1,8
+                     t1l=t1l+t1(konl(i1))/8.d0
+                  enddo
+               elseif(lakon(nelem)(4:6).eq.'20 ') then
+                  call lintemp(t1,konl,nope,jj,t1l)
+               elseif(lakon(nelem)(4:6).eq.'10T') then
+                  call linscal10(t1,konl,t1l,null,shp)
+               else
+                  do i1=1,nope
+                     t1l=t1l+shp(4,i1)*t1(konl(i1))
+                  enddo
+               endif
+            elseif(ithermal(1).ge.2) then
+               if((lakon(nelem)(4:5).eq.'8 ').or.&
+                    (lakon(nelem)(4:5).eq.'8I')) then
+                  do i1=1,8
+                     t1l=t1l+vold(0,konl(i1))/8.d0
+                  enddo
+               elseif(lakon(nelem)(4:6).eq.'20 ') then
+                  call lintemp_th1(vold,konl,nope,jj,t1l,mi)
+               elseif(lakon(nelem)(4:6).eq.'10T') then
+                  call linscal10(vold,konl,t1l,mi(2),shp)
+               else
+                  do i1=1,nope
+                     t1l=t1l+shp(4,i1)*vold(0,konl(i1))
+                  enddo
+               endif
+            endif
+            !
+            !           calculating the density
+            !
+            call materialdata_rho(rhcon,nrhcon,imat,rho,&
+                 t1l,ntmat_,ithermal(1))
+            !
+            dxmass=weight*xsj*rho
+            xmass=xmass+dxmass
+            xiner(1)=xiner(1)+xlint(1)*xlint(1)*dxmass
+            xiner(2)=xiner(2)+xlint(2)*xlint(2)*dxmass
+            xiner(3)=xiner(3)+xlint(3)*xlint(3)*dxmass
+            xiner(4)=xiner(4)+xlint(1)*xlint(2)*dxmass
+            xiner(5)=xiner(5)+xlint(1)*xlint(3)*dxmass
+            xiner(6)=xiner(6)+xlint(2)*xlint(3)*dxmass
+            do i1=1,3
+               cg(i1)=cg(i1)+xlint(i1)*dxmass
+            enddo
          elseif(nbhe.eq.1) then
             bhe=bhe+dflux*weight*xsj
          endif
@@ -406,6 +484,11 @@
          enerkintot=enerkintot+enerkin
       elseif(nvol.eq.1) then
          volumetot=volumetot+volume
+      elseif(nmas.eq.1) then
+         xmasstot=xmasstot+xmass
+         do j=1,6
+            xinertot(j)=xinertot(j)+xiner(j)
+         enddo
       elseif(nbhe.eq.1) then
          bhetot=bhetot+bhe
       endif
@@ -425,6 +508,10 @@
       elseif((prlab(ii)(1:5).eq.'EVOL ').or.&
               (prlab(ii)(1:5).eq.'EVOLT')) then
          write(5,'(i10,1p,1x,e13.6)') nelem,volume
+      elseif((prlab(ii)(1:5).eq.'EMAS ').or.&
+              (prlab(ii)(1:5).eq.'EMAST')) then
+         write(5,'(i10,1p,7(1x,e13.6))') nelem,xmass,&
+           (xiner(i),i=1,6)
       elseif((prlab(ii)(1:5).eq.'ELKE ').or.&
               (prlab(ii)(1:5).eq.'ELKET')) then
          write(5,'(i10,1p,1x,e13.6)') nelem,enerkin

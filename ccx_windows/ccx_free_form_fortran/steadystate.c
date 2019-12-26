@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -82,7 +82,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
     *ilboun=NULL,*nactdof=NULL,*ipompc=NULL,*nodempc=NULL,*ikmpc=NULL,
     *ilmpc=NULL,*ipompcold=NULL,*nodempcold=NULL,*ikmpcold=NULL,
     *ilmpcold=NULL,nmpcold,mpcendold,kflag=2,*iamt1=NULL,ifreebody,
-    *itg=NULL,ntg=0,symmetryflag=0,inputformat=0,dashpot=0,nrhs=1,
+    *itg=NULL,ntg=0,symmetryflag=0,inputformat=0,dampmat=0,nrhs=1,
     *ipiv=NULL,info,nev2,ngraph=1,nkg,neg,iflag=1,idummy=1,imax,
     nzse[3],mt=mi[1]+1,*ikactmech=NULL,nactmech,id,nasym=0,
     *imddof=NULL,nmddof,*imdnode=NULL,nmdnode,*imdboun=NULL,nmdboun,
@@ -91,7 +91,8 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
     iforc,iload,ne0,*iponoel=NULL,*inoel=NULL,*imdelem=NULL,
     nmdelem,*integerglob=NULL,*nshcon=NULL,nherm,icfd=0,*inomat=NULL,
     *islavnode=NULL,*nslavnode=NULL,*islavsurf=NULL,iit=-1,
-    network=0,kscale=0,nmethodact=1;
+    network=0,kscale=0,nmethodact=1,iperturbsav,coriolis,*itiefac=NULL,
+    mscalmethod=0;
 
   long long i2;
 
@@ -103,7 +104,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
     *f=NULL, *fn=NULL, *xbounact=NULL,*epn=NULL,*xstateini=NULL,
     *enern=NULL,*xstaten=NULL,*eei=NULL,*enerini=NULL,*qfn=NULL,
     *qfx=NULL, *xbodyact=NULL, *cgr=NULL, *au=NULL,*xbodyi=NULL,
-    time,dtime,reltime,*co=NULL,*xboun=NULL,*xbounold=NULL,
+    time,dtime,reltime=1.,*co=NULL,*xboun=NULL,*xbounold=NULL,
     physcon[1],qa[4],cam[5],accold[1],bet,gam,*emn=NULL,timem,
     *ad=NULL,sigma=0.,alpham,betam,*fnr=NULL,*fni=NULL,*emeini=NULL,
     fmin,fmax,bias,*freq=NULL,*xforcr=NULL,dd,pi,vreal,constant,
@@ -117,8 +118,8 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
     *stna=NULL,*stnp=NULL,*bp=NULL,*eenmax=NULL,*clearini=NULL,
     *doubleglob=NULL,*shcon=NULL,*veold=NULL,*xmr=NULL,*xmi=NULL,*eig=NULL,
     *ax=NULL,*bx=NULL,*pslavsurf=NULL,*pmastsurf=NULL,xnull=0.,
-    *cdnr=NULL,*cdni=NULL,*tinc,*tper,*energyini=NULL,*energy=NULL,
-    *v=NULL,*b=NULL;
+    *cdnr=NULL,*cdni=NULL,*energyini=NULL,*energy=NULL,
+      *v=NULL,*b=NULL,*cco=NULL,*smscale=NULL;
 
   /* dummy arguments for the call of expand*/
 
@@ -141,9 +142,6 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
   vold=*voldp;eme=*emep;ener=*enerp;ipompc=*ipompcp;nodempc=*nodempcp;
   coefmpc=*coefmpcp;labmpc=*labmpcp;ikmpc=*ikmpcp;ilmpc=*ilmpcp;
   fmpc=*fmpcp;iamt1=*iamt1p;t0=*t0p;t1=*t1p;t1old=*t1oldp;
-
-  tinc=&timepar[0];
-  tper=&timepar[1];
 
   pi=4.*atan(1.);
   iout=2;
@@ -197,6 +195,39 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
       printf("        2) other boundary conditions than in the input deck\n");
       printf("           which created the .eig file\n\n");
       exit(0);
+  }
+
+  iperturbsav=iperturb[0];
+  if(fread(&iperturb[0],sizeof(ITG),1,f1)!=1){
+      printf(" *ERROR in steadystate reading the perturbation flag in the eigenvalue file");
+      printf(" *INFO  in steadystate: if there are problems reading the .eig file this may be due to:\n");
+      printf("        1) the nonexistence of the .eig file\n");
+      printf("        2) other boundary conditions than in the input deck\n");
+      printf("           which created the .eig file\n\n");
+      exit(0);
+  }
+  if(iperturbsav!=iperturb[0]){
+      if(iperturb[0]==0){
+	  printf(" *ERROR in steadystate: the .eig-file was created without perturbation info\n");
+	  printf("        the present *STEADY STATE DYNAMICS step, however, contains the\n");
+	  printf("        perturbation parameter on the *STEP card.\n\n");
+      }else if(iperturb[0]==1){
+	  printf(" *ERROR in steadystate: the .eig-file was created with perturbation info\n\n");
+	  printf("        the present *STEADY STATE DYNAMICS step, however, does not contain the\n");
+	  printf("        perturbation parameter on the *STEP card.\n");
+      }
+      FORTRAN(stop,());
+  }
+
+  if(iperturb[0]==1){
+      if(fread(vold,sizeof(double),mt**nk,f1)!=mt**nk){
+	  printf("*ERROR in steadystate reading the reference displacements in the eigenvalue file...");
+	  printf(" *INFO  in steadystate: if there are problems reading the .eig file this may be due to:\n");
+	  printf("        1) the nonexistence of the .eig file\n");
+	  printf("        2) other boundary conditions than in the input deck\n");
+	  printf("           which created the .eig file\n\n");
+	  exit(0);
+      }
   }
 
   /* determining retained nodes, dofs, spcs and mpcs based on:
@@ -480,6 +511,29 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	  for(i=nev;i<nev+nevd;i++){nm[i]=nmd;}
 	  
 	  if(nev==0){
+	      NNEW(ad,double,neq[1]);
+	      NNEW(au,double,nzs[1]);
+
+	      if(fread(ad,sizeof(double),neq[1],f1)!=neq[1]){
+		  printf(" *ERROR in steadystate reading the diagonal of the stiffness matrix in the eigenvalue file");
+		  printf(" *INFO  in steadystate: if there are problems reading the .eig file this may be due to:\n");
+		  printf("        1) the nonexistence of the .eig file\n");
+		  printf("        2) other boundary conditions than in the input deck\n");
+		  printf("           which created the .eig file\n\n");
+		  exit(0);
+	      }
+	      
+	      if(fread(au,sizeof(double),nzs[1],f1)!=nzs[1]){
+		  printf(" *ERROR in steadystate reading the off-diagonals of the stiffness matrix in the eigenvalue file");
+		  printf(" *INFO  in steadystate: if there are problems reading the .eig file this may be due to:\n");
+		  printf("        1) the nonexistence of the .eig file\n");
+		  printf("        2) other boundary conditions than in the input deck\n");
+		  printf("           which created the .eig file\n\n");
+		  exit(0);
+	      }
+
+	      SFREE(ad);SFREE(au);
+	      
 	      NNEW(adb,double,neq[1]);
 	      NNEW(aub,double,nzs[1]);
 
@@ -624,7 +678,11 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
       RENEW(imdboun,ITG,*nboun*nsectors);
       RENEW(imdmpc,ITG,*nmpc*nsectors);
 
-//izdofNNEW(//      izdof,ITG,1);
+      if(iperturb[0]==1){
+	  RENEW(vold,double,mt**nk*nsectors);
+      }else{
+	  SFREE(vold);NNEW(vold,double,mt**nk*nsectors);
+      }
 
       expand(co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,xboun,nboun,
 	ipompc,nodempc,coefmpc,labmpc,nmpc,nodeforc,ndirforc,xforc,
@@ -642,15 +700,13 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
         &irowe,isolver,nzse,&adbe,&aube,iexpl,
 	ibody,xbody,nbody,cocon,ncocon,tieset,&ntie,imddof,&nmddof,
 	imdnode,&nmdnode,imdboun,&nmdboun,imdmpc,&nmdmpc,&izdof,&nzdof,
-	&nherm,xmr,xmi,typeboun,ielprop,prop,orname);
+	&nherm,xmr,xmi,typeboun,ielprop,prop,orname,itiefac);
 
       RENEW(imddof,ITG,nmddof);
       RENEW(imdnode,ITG,nmdnode);
       RENEW(imdboun,ITG,nmdboun);
       RENEW(imdmpc,ITG,nmdmpc);
 
-      SFREE(vold);
-      NNEW(vold,double,mt**nk);
       SFREE(veold);
       NNEW(veold,double,mt**nk);
       RENEW(eme,double,6*mi[0]**ne);
@@ -668,27 +724,35 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
       NNEW(fric,double,2*nev);
   }
 
-  /* check whether there is structural damping or whether there are dashpot elements */
+  /* check whether there is structural damping or whether there are dashpot elements
+     both lead to the creation of a damping matrix */
 
   if(*ndamp>0){
-      dashpot=1;
+
+      /* structural damping */
+
+      dampmat=1;
   }else{
+
+      /* check for dashpot elements */
+
       for(i=0;i<*ne;i++){
 	  if(ipkon[i]==-1) continue;
 	  if(strcmp1(&lakon[i*8],"ED")==0){
-	      dashpot=1;break;}
+	      dampmat=1;break;}
       }
   }
 
-  if(dashpot){
-
+  if(dampmat){
       if(cyclicsymmetry){
-	  printf(" *ERROR in steadystate: dashpots are not allowed in combination with cyclic symmetry\n");
+	  printf(" *ERROR in steadystate: structural damping and/or dashpot elements\n");
+	  printf("        are not allowed in combination with cyclic symmetry\n");
 	  FORTRAN(stop,());
       }
 
       if(nherm!=1){
-	  printf("ERROR in steadystate: dashpots cannot be combined with non-Hermitian systems (in the present version of CalculiX)\n");
+	  printf("ERROR in steadystate: structural damping and/or dashpot elements \n");
+	  printf("      cannot be combined with non-Hermitian systems (in the present version of CalculiX)\n");
 	  FORTRAN(stop,());
       }
 
@@ -696,10 +760,37 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
          space spanned by eigenmodes) */
 
       NNEW(cc,double,nev*nev);
-/*      nev2=2*nev;
-      NNEW(am,double,nev2*nev2);
-      NNEW(bm,double,nev2);
-      NNEW(ipiv,ITG,nev2);*/
+  }
+
+  /* check whether there are centrifugal forces; if so, they are converted
+     into Coriolis forces */
+
+  coriolis=0;
+  for(i=0;i<*nbody;i++){
+      if(ibody[3*i]==1){
+	  ibody[3*i]=4;
+	  coriolis=1;
+      }
+  }
+
+  if(coriolis){
+      if(nherm!=1){
+	  printf(" *WARNING in steadystate: centrifugal loading cannot be combined \n");
+	  printf("          with non-Hermitian systems (in the present version of CalculiX)\n");
+	  printf("          it is deactivated\n");
+	  for(i=0;i<*nbody;i++){
+	      if(ibody[3*i]==4){
+		  ibody[3*i]=0;
+	      }
+	      coriolis=0;
+	  }
+      }else{
+
+      /* cc is the reduced damping matrix (damping matrix mapped onto
+         space spanned by eigenmodes) */
+
+	  NNEW(cc,double,nev*nev);
+      }
   }
 
   NNEW(inum,ITG,*nk);
@@ -747,7 +838,13 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	     (strcmp1(&prlab[6*i],"RFL")==0)) {intpointvar=1;break;}
       }
   }
-   
+ 
+/**********************************************************************
+
+  HARMONIC EXCITATION
+
+**********************************************************************/
+  
   if(nfour<=0){
 
       /* harmonic excitation */
@@ -864,9 +961,14 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	  FORTRAN(stop,());
       }
 
-      /* calculating the damping coefficients = friction coefficient*2*eigenvalue */
+      /* calculating the damping coefficients = friction coefficient*2*eigenvalue 
+         this is done for Rayleigh damping and direct damping
+         (both activated with the *MODAL DAMPING card) */
       
       if(xmodal[10]<0){
+
+	  /* Rayleigh damping */
+
 	  for(i=0;i<nev;i++){
 	      if(nherm==1){
 		  if(sqrt(d[i])>(1.e-10)){
@@ -888,7 +990,10 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	      }
 	  }
       }
-      else{
+      else if((ITG)xmodal[10]>0){
+
+	  /* direct damping */
+
 	  if(iprescribedboundary){
 	      printf(" *ERROR in steadystate: prescribed boundaries are not allowed in combination with direct modal damping\n");
 	      FORTRAN(stop,());
@@ -1062,7 +1167,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 
 	  /* calculating cc */
 
-	  if(dashpot){
+	  if(dampmat||coriolis){
 
 	      /* determining the elastic constants in xstiff (needed in mafilldmss) */
 
@@ -1075,77 +1180,145 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		  NNEW(stx,double,6*mi[0]**ne);
 	      }
 	      results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
-		  elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
-		  ielorien,norien,orab,ntmat_,t0,t1act,ithermal,
-		  prestr,iprestr,filab,eme,emn,een,iperturb,
-		  f,fn,nactdof,&iout,qa,vold,b,nodeboun,
-		  ndirboun,xbounact,nboun,ipompc,
-		  nodempc,coefmpc,labmpc,nmpc,&nmethodact,cam,neq,veold,accold,
-		  &bet,&gam,&dtime,&time,ttime,plicon,nplicon,plkcon,nplkcon,
-		  xstateini,xstiff,xstate,npmat_,epn,matname,mi,&ielas,
-		  &icmd,ncmat_,nstate_,stiini,vini,ikboun,ilboun,ener,enern,
-		  emeini,xstaten,eei,enerini,cocon,ncocon,set,nset,istartset,
-		  iendset,ialset,nprint,prlab,prset,qfx,qfn,trab,inotr,ntrans,
-		  fmpc,nelemload,nload,ikmpc,ilmpc,istep,&iinc,springarea,
-		  &reltime,&ne0,thicke,shcon,nshcon,
-		  sideload,xloadact,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
-		  &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
-		  islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-		  inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun);
+			  elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
+			  ielorien,norien,orab,ntmat_,t0,t1act,ithermal,
+			  prestr,iprestr,filab,eme,emn,een,iperturb,
+			  f,fn,nactdof,&iout,qa,vold,b,nodeboun,
+			  ndirboun,xbounact,nboun,ipompc,
+			  nodempc,coefmpc,labmpc,nmpc,&nmethodact,cam,neq,veold,accold,
+			  &bet,&gam,&dtime,&time,ttime,plicon,nplicon,plkcon,nplkcon,
+			  xstateini,xstiff,xstate,npmat_,epn,matname,mi,&ielas,
+			  &icmd,ncmat_,nstate_,stiini,vini,ikboun,ilboun,ener,enern,
+			  emeini,xstaten,eei,enerini,cocon,ncocon,set,nset,istartset,
+			  iendset,ialset,nprint,prlab,prset,qfx,qfn,trab,inotr,ntrans,
+			  fmpc,nelemload,nload,ikmpc,ilmpc,istep,&iinc,springarea,
+			  &reltime,&ne0,thicke,shcon,nshcon,
+			  sideload,xloadact,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
+			  &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
+			  islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
+			  inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun,
+	                  itiefac,tieset,smscale,&mscalmethod);
 	      SFREE(v);SFREE(f);
 	      if(intpointvar!=1){SFREE(fn);SFREE(stx);}
 	      iout=2;
-	      
-	      NNEW(adc,double,neq[1]);
-	      NNEW(auc,double,nzs[1]);
 
-	      mafilldmssmain(co,nk,kon,ipkon,lakon,ne,
-		  ipompc,nodempc,coefmpc,nmpc,
-		  nelemload,sideload,xload,nload,xbody,ipobody,
-		  nbody,cgr,adc,auc,nactdof,jq,irow,neq,
-		  nmethod,ikmpc,ilmpc,
-		  elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,
-		  ielmat,ielorien,norien,orab,ntmat_,
-		  t0,t0,ithermal,vold,iperturb,sti,
-		  nzs,stx,iexpl,plicon,nplicon,plkcon,nplkcon,
-		  xstiff,npmat_,&dtime,matname,mi,
-                  ncmat_,physcon,ttime,&time,istep,&iinc,
-		  ibody,xloadold,&reltime,veold,springarea,nstate_,
-                  xstateini,xstate,thicke,integerglob,doubleglob,
-		  tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,
-		  pmastsurf,&mortar,clearini,ielprop,prop,&ne0,
-		  &freq[l],ndamp,dacon);
-
-	      SFREE(xstiff);
-
-	      /*  zc = damping matrix * eigenmodes */
-	      
-	      NNEW(zc,double,neq[1]*nev);
-	      for(i=0;i<nev;i++){
-		  FORTRAN(op,(&neq[1],&z[(long long)i*neq[1]],&zc[i*neq[1]],adc,auc,
-			      jq,irow));
-	      }
-	      
-	      /* cc is the reduced damping matrix (damping matrix mapped onto
-		 space spanned by eigenmodes) */
-	      
 	      for(i=0;i<nev*nev;i++){cc[i]=0.;}
-	      for(i=0;i<nev;i++){
-		  for(j=0;j<=i;j++){
-		      for(k=0;k<neq[1];k++){
-			  cc[i*nev+j]+=z[(long long)j*neq[1]+k]*zc[i*neq[1]+k];
+
+	      if(dampmat){
+	      
+		  NNEW(adc,double,neq[1]);
+		  NNEW(auc,double,nzs[1]);
+		  mafilldmssmain(co,nk,kon,ipkon,lakon,ne,
+			ipompc,nodempc,coefmpc,nmpc,
+			nelemload,sideload,xload,nload,xbody,ipobody,
+			nbody,cgr,adc,auc,nactdof,jq,irow,neq,
+			nmethod,ikmpc,ilmpc,
+		        elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,
+			ielmat,ielorien,norien,orab,ntmat_,
+			t0,t0,ithermal,vold,iperturb,sti,
+			nzs,stx,iexpl,plicon,nplicon,plkcon,nplkcon,
+			xstiff,npmat_,&dtime,matname,mi,
+			ncmat_,physcon,ttime,&time,istep,&iinc,
+			ibody,xloadold,&reltime,veold,springarea,nstate_,
+			xstateini,xstate,thicke,integerglob,doubleglob,
+			tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,
+			pmastsurf,&mortar,clearini,ielprop,prop,&ne0,
+			&freq[l],ndamp,dacon);
+
+		  /*  zc = damping matrix * eigenmodes */
+		  
+		  NNEW(zc,double,neq[1]*nev);
+		  for(i=0;i<nev;i++){
+		      FORTRAN(op,(&neq[1],&z[(long long)i*neq[1]],&zc[i*neq[1]],adc,auc,
+				  jq,irow));
+		  }
+		  SFREE(adc);SFREE(auc);
+	      
+		  /* cc is the reduced damping matrix (damping matrix mapped onto
+		     space spanned by eigenmodes) */
+		  
+		  for(i=0;i<nev;i++){
+		      for(j=0;j<=i;j++){
+			  for(k=0;k<neq[1];k++){
+			      cc[i*nev+j]+=z[(long long)j*neq[1]+k]*zc[i*neq[1]+k];
+			  }
 		      }
 		  }
-	      }
+		  SFREE(zc);
 	      
-	      /* symmetric part of cc matrix */
+		  /* symmetric part of cc matrix */
 	      
-	      for(i=0;i<nev;i++){
-		  for(j=i;j<nev;j++){
-		      cc[i*nev+j]=cc[j*nev+i];
+		  for(i=0;i<nev;i++){
+		      for(j=i;j<nev;j++){
+			  cc[i*nev+j]=cc[j*nev+i];
+		      }
 		  }
+
+	      }else if(coriolis){
+	      
+		  NNEW(adc,double,neq[1]);
+		  NNEW(auc,double,nzs[1]);
+		  FORTRAN(mafillcorio,(co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,
+	  	          xboun,nboun,
+		          ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforc,
+		          nforc,nelemload,sideload,xload,nload,xbody,ipobody,nbody,cgr,
+		          adc,auc,nactdof,icol,jq,irow,neq,nzl,nmethod,
+		          ikmpc,ilmpc,ikboun,ilboun,
+		          elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
+		          ielorien,norien,orab,ntmat_,
+		          t0,t0,ithermal,prestr,iprestr,vold,iperturb,sti,
+		          nzs,stx,adb,aub,iexpl,plicon,nplicon,plkcon,nplkcon,
+		          xstiff,npmat_,&dtime,matname,mi,ncmat_,
+		          ttime,&time,istep,&iinc,ibody,ielprop,prop));
+
+		  /*  zc = damping matrix * eigenmodes */
+	      
+		  NNEW(zc,double,neq[1]*nev);
+		  for(i=0;i<nev;i++){
+		      FORTRAN(op,(&neq[1],&z[(long long)i*neq[1]],&zc[i*neq[1]],adc,auc,
+				  jq,irow));
+		  }
+		  SFREE(adc);SFREE(auc);
+	      
+		  /* cco is the reduced coriolis matrix (coriolis matrix mapped onto
+		     space spanned by eigenmodes) */
+		  
+		  NNEW(cco,double,nev*nev);
+		  for(i=0;i<nev;i++){
+		      for(j=0;j<=i;j++){
+			  for(k=0;k<neq[1];k++){
+			      cco[i*nev+j]+=z[(long long)j*neq[1]+k]*zc[i*neq[1]+k];
+			  }
+		      }
+		  }
+		  SFREE(zc);
+
+                  /* multiplying with the driving frequency */
+
+		  for(i=0;i<nev;i++){
+		      for(j=0;j<=i;j++){
+			  cco[i*nev+j]*=freq[l];
+		      }
+		  }
+
+		  /* transpose is the negative of the matrix */
+
+		  for(i=0;i<nev;i++){
+		      for(j=i+1;j<nev;j++){
+			  cco[i*nev+j]=-cco[j*nev+i];
+		      }
+		  }
+
+		  /* adding cco to cc */
+
+		  for(i=0;i<nev;i++){
+		      for(j=0;j<nev;j++){
+			  cc[i*nev+j]+=cco[j*nev+i];
+		      }
+		  }
+		  SFREE(cco);
 	      }
-	      SFREE(zc);SFREE(adc);SFREE(auc);
+	      SFREE(xstiff);
 	  }
 	  
 	  /* calculating the instantaneous loads (forces, surface loading, 
@@ -1186,7 +1359,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	  
 	  /* calculating the instantaneous loading vector */
 	  
-	  FORTRAN(rhs,(co,nk,kon,ipkon,lakon,ne,
+	  rhsmain(co,nk,kon,ipkon,lakon,ne,
 		       ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforcr,
 		       nforc,nelemload,sideload,xloadr,nload,xbodyr,
 		       ipobody,nbody,cgr,br,nactdof,&neq[1],nmethod,
@@ -1197,7 +1370,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		       npmat_,ttime,&time,istep,&iinc,&dtime,physcon,ibody,
                        xbodyold,&reltime,veold,matname,mi,ikactmechr,
                        &nactmechr,ielprop,prop,sti,xstateini,xstate,nstate_,
-                       ntrans,inotr,trab));
+                       ntrans,inotr,trab);
 	  
 	  /* real modal coefficients */
 	  
@@ -1287,26 +1460,46 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		      ubr[ir]=fr[ir];
 		  }
 	      }
-	      if(*isolver==0){
+
+              /* check for zero force (points to rigid body motion) */
+
+	      dd=0.;
+	      for(j=0;j<neq[1];j++){
+		dd=dd+fr[j]*fr[j];
+	      }
+	      if(dd!=0.){
+
+		/* solve equation system */
+		
+		if(*isolver==0){
 #ifdef SPOOLES
 		  spooles_solve(ubr,&neq[1]);
 #endif
-	      }
-	      else if(*isolver==4){
+		}
+		else if(*isolver==4){
 #ifdef SGI
 		  sgi_solve(ubr,token);
 #endif
-	      }
-	      else if(*isolver==5){
+		}
+		else if(*isolver==5){
 #ifdef TAUCS
 		  tau_solve(ubr,&neq[1]);
 #endif
-	      }
-	      else if(*isolver==7){
+		}
+		else if(*isolver==7){
 #ifdef PARDISO
 		  pardiso_solve(ubr,&neq[1],&symmetryflag,&nrhs);
 #endif
+		}
+	      }else{
+
+                /* rigid body mode: all displacements are equal */
+		
+		for(j=0;j<neq[1];j++){
+		  ubr[j]=xbounr[0];
+		}
 	      }
+		
 	      FORTRAN(op,(&neq[1],ubr,mubr,adb,aub,jq,irow));
 	  }
 	  
@@ -1333,7 +1526,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	  
 	  /* calculating the instantaneous loading vector */
 	  
-	  FORTRAN(rhs,(co,nk,kon,ipkon,lakon,ne,
+	  rhsmain(co,nk,kon,ipkon,lakon,ne,
 		       ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforci,
 		       nforc,nelemload,sideload,xloadi,nload,xbodyi,
 		       ipobody,nbody,cgr,bi,nactdof,&neq[1],nmethod,
@@ -1344,7 +1537,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		       npmat_,ttime,&time,istep,&iinc,&dtime,physcon,ibody,
                        xbodyold,&reltime,veold,matname,mi,ikactmechi,
                        &nactmechi,ielprop,prop,sti,xstateini,xstate,nstate_,
-                       ntrans,inotr,trab));
+                       ntrans,inotr,trab);
 	  
 	  /* imaginary modal coefficients */
 	  
@@ -1435,26 +1628,46 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		      ubi[ir]=fi[ir];
 		  }
 	      }
-	      if(*isolver==0){
+
+              /* check for zero force (points to rigid body motion) */
+
+	      dd=0.;
+	      for(j=0;j<neq[1];j++){
+		dd=dd+fi[j]*fi[j];
+	      }
+	      if(dd!=0.){
+
+		/* solve equation system */
+		
+		if(*isolver==0){
 #ifdef SPOOLES
 		  spooles_solve(ubi,&neq[1]);
 #endif
-	      }
-	      else if(*isolver==4){
+		}
+		else if(*isolver==4){
 #ifdef SGI
 		  sgi_solve(ubi,token);
 #endif
-	      }
-	      else if(*isolver==5){
+		}
+		else if(*isolver==5){
 #ifdef TAUCS
 		  tau_solve(ubi,&neq[1]);
 #endif
-	      }
-	      else if(*isolver==7){
+		}
+		else if(*isolver==7){
 #ifdef PARDISO
 		  pardiso_solve(ubi,&neq[1],&symmetryflag,&nrhs);
 #endif
+		}
+	      }else{
+
+                /* rigid body mode: all displacements are equal */
+		
+		for(j=0;j<neq[1];j++){
+		  ubi[j]=xbouni[0];
+		}
 	      }
+	      
 	      FORTRAN(op,(&neq[1],ubi,mubi,adb,aub,jq,irow));
 	  
 	      /* correction for prescribed boundary conditions */
@@ -1485,7 +1698,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	  /* calculating the modal coefficients */
 	  
 	  if(nherm==1){
-	      if(dashpot==0){
+	      if((dampmat==0)&&(coriolis==0)){
 		  for(i=0;i<nev;i++){
 		      dd=pow(d[i]-pow(freq[l],2),2)+
 			  pow(fric[i],2)*pow(freq[l],2);
@@ -1756,7 +1969,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		      &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
                       islavsurf,ielprop,prop,energyini,energy,&iit,iponoel,
                       inoel,nener,orname,&network,ipobody,xbodyact,ibody,
-                      typeboun);}
+                      typeboun,itiefac,tieset,smscale,&mscalmethod);}
 	  else{
       
               /* calculating displacements/temperatures */
@@ -1786,7 +1999,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		      &mortar,islavact,cdn,islavnode,nslavnode,&ntie,
 		      clearini,islavsurf,ielprop,prop,energyini,energy,&iit,
                       iponoel,inoel,nener,orname,&network,ipobody,xbodyact,
-                      ibody,typeboun);
+                      ibody,typeboun,itiefac,tieset,smscale,&mscalmethod);
 	      
 	      if(nmdnode==0){
 		  DMEMSET(br,0,neq[1],0.);
@@ -1847,7 +2060,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		      &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
                       islavsurf,ielprop,prop,energyini,energy,&iit,iponoel,
                       inoel,nener,orname,&network,ipobody,xbodyact,ibody,
-                      typeboun);}
+                      typeboun,itiefac,tieset,smscale,&mscalmethod);}
 	  else{ 
       
               /* calculating displacements/temperatures */
@@ -1877,7 +2090,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		      &mortar,islavact,cdn,islavnode,nslavnode,&ntie,
 		      clearini,islavsurf,ielprop,prop,energyini,energy,&iit,
                       iponoel,inoel,nener,orname,&network,ipobody,xbodyact,
-                      ibody,typeboun);
+                      ibody,typeboun,itiefac,tieset,smscale,&mscalmethod);
 
 	      if(nmdnode==0){
 		  DMEMSET(bi,0,neq[1],0.);
@@ -2115,8 +2328,12 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
       }
 
   }else{
+ 
+/**********************************************************************
 
-      /* steady state response to a nonharmonic periodic loading */
+      NONHARMONIC PERIODIC EXCITATION
+
+**********************************************************************/
 
       NNEW(ikactmech,ITG,neq[1]);
       nactmech=0;
@@ -2237,12 +2454,12 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 
       for(i=0;i<*nbody;i++){
 	  for(l=0;l<nfour;l++){
-	      r[l]=xbodyact[l**nbody+7*i];
+	      r[l]=xbodyact[l*7**nbody+7*i];
 	  }
 	  FORTRAN(drffti,(&nfour,wsave,isave));
 	  FORTRAN(drfftf,(&nfour,r,wsave,isave));
 	  for(l=0;l<nfour;l++){
-	      xbodyact[l**nbody+7*i]=r[l]/nfour*2.;
+	      xbodyact[l*7**nbody+7*i]=r[l]/nfour*2.;
 	  }
 	  xbodyact[7*i]=xbodyact[7*i]/2.;
       }
@@ -2407,7 +2624,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 
 	  /* calculating cc */
 
-	      if(dashpot){
+	      if((dampmat||coriolis)){
 
 	      /* determining the elastic constants in xstiff (needed in mafilldmss) */
 
@@ -2436,61 +2653,132 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 			  sideload,xloadact,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 			  &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 			  islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-			  inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun);
+			  inoel,nener,orname,&network,ipobody,xbodyact,ibody,typeboun,
+	                  itiefac,tieset,smscale,&mscalmethod);
 		  SFREE(v);SFREE(f);
 		  if(intpointvar!=1){SFREE(fn);SFREE(stx);}
 		  iout=2;
 
-		  NNEW(adc,double,neq[1]);
-		  NNEW(auc,double,nzs[1]);
-
-		  mafilldmssmain(co,nk,kon,ipkon,lakon,ne,
-		    ipompc,nodempc,coefmpc,nmpc,
-		    nelemload,sideload,xload,nload,xbody,ipobody,
-		    nbody,cgr,adc,auc,nactdof,jq,irow,neq,
-		    nmethod,ikmpc,ilmpc,
-		    elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,
-		    ielmat,ielorien,norien,orab,ntmat_,
-		    t0,t0,ithermal,vold,iperturb,sti,
-		    nzs,stx,iexpl,plicon,nplicon,plkcon,nplkcon,
-		    xstiff,npmat_,&dtime,matname,mi,
-                    ncmat_,physcon,ttime,&time,istep,&iinc,
-		    ibody,xloadold,&reltime,veold,springarea,nstate_,
-                    xstateini,xstate,thicke,integerglob,doubleglob,
-		    tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,
-		    pmastsurf,&mortar,clearini,ielprop,prop,&ne0,
-		    &freq[l],ndamp,dacon);
-
-		  SFREE(xstiff);
-		  
-		  /*  zc = damping matrix * eigenmodes */
-		  
-		  NNEW(zc,double,neq[1]*nev);
-		  for(i=0;i<nev;i++){
-		      FORTRAN(op,(&neq[1],&z[(long long)i*neq[1]],&zc[i*neq[1]],
-                                  adc,auc,jq,irow));
-		  }
-		  
-		  /* cc is the reduced damping matrix (damping matrix mapped onto
-		     space spanned by eigenmodes) */
-		  
 		  for(i=0;i<nev*nev;i++){cc[i]=0.;}
-		  for(i=0;i<nev;i++){
-		      for(j=0;j<=i;j++){
-			  for(k=0;k<neq[1];k++){
-			      cc[i*nev+j]+=z[(long long)j*neq[1]+k]*zc[i*neq[1]+k];
+		  
+		  if(dampmat){
+
+		      NNEW(adc,double,neq[1]);
+		      NNEW(auc,double,nzs[1]);
+		      mafilldmssmain(co,nk,kon,ipkon,lakon,ne,
+			    ipompc,nodempc,coefmpc,nmpc,
+			    nelemload,sideload,xload,nload,xbody,ipobody,
+			    nbody,cgr,adc,auc,nactdof,jq,irow,neq,
+			    nmethod,ikmpc,ilmpc,
+			    elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,
+			    ielmat,ielorien,norien,orab,ntmat_,
+			    t0,t0,ithermal,vold,iperturb,sti,
+			    nzs,stx,iexpl,plicon,nplicon,plkcon,nplkcon,
+			    xstiff,npmat_,&dtime,matname,mi,
+			    ncmat_,physcon,ttime,&time,istep,&iinc,
+			    ibody,xloadold,&reltime,veold,springarea,nstate_,
+			    xstateini,xstate,thicke,integerglob,doubleglob,
+			    tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,
+			    pmastsurf,&mortar,clearini,ielprop,prop,&ne0,
+			    &freq[l],ndamp,dacon);
+		      
+		      SFREE(xstiff);
+		      
+		      /*  zc = damping matrix * eigenmodes */
+		      
+		      NNEW(zc,double,neq[1]*nev);
+		      for(i=0;i<nev;i++){
+			  FORTRAN(op,(&neq[1],&z[(long long)i*neq[1]],&zc[i*neq[1]],
+				      adc,auc,jq,irow));
+		      }
+		      SFREE(adc);SFREE(auc);
+		      
+		      /* cc is the reduced damping matrix (damping matrix mapped onto
+			 space spanned by eigenmodes) */
+		      
+		      for(i=0;i<nev*nev;i++){cc[i]=0.;}
+		      for(i=0;i<nev;i++){
+			  for(j=0;j<=i;j++){
+			      for(k=0;k<neq[1];k++){
+				  cc[i*nev+j]+=z[(long long)j*neq[1]+k]*zc[i*neq[1]+k];
+			      }
 			  }
 		      }
-		  }
-		  
-		  /* symmetric part of cc matrix */
-		  
-		  for(i=0;i<nev;i++){
-		      for(j=i;j<nev;j++){
-			  cc[i*nev+j]=cc[j*nev+i];
+		      SFREE(zc);
+		      
+		      /* symmetric part of cc matrix */
+		      
+		      for(i=0;i<nev;i++){
+			  for(j=i;j<nev;j++){
+			      cc[i*nev+j]=cc[j*nev+i];
+			  }
 		      }
+		      
+		  }else if(coriolis){
+		      
+		      NNEW(adc,double,neq[1]);
+		      NNEW(auc,double,nzs[1]);
+		      FORTRAN(mafillcorio,(co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,
+			      xboun,nboun,
+			      ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforc,
+			      nforc,nelemload,sideload,xload,nload,xbody,ipobody,nbody,cgr,
+			      adc,auc,nactdof,icol,jq,irow,neq,nzl,nmethod,
+			      ikmpc,ilmpc,ikboun,ilboun,
+			      elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
+			      ielorien,norien,orab,ntmat_,
+			      t0,t0,ithermal,prestr,iprestr,vold,iperturb,sti,
+			      nzs,stx,adb,aub,iexpl,plicon,nplicon,plkcon,nplkcon,
+			      xstiff,npmat_,&dtime,matname,mi,ncmat_,
+			      ttime,&time,istep,&iinc,ibody,ielprop,prop));
+		      
+		      /*  zc = damping matrix * eigenmodes */
+		      
+		      NNEW(zc,double,neq[1]*nev);
+		      for(i=0;i<nev;i++){
+			  FORTRAN(op,(&neq[1],&z[(long long)i*neq[1]],&zc[i*neq[1]],adc,auc,
+				      jq,irow));
+		      }
+		      SFREE(adc);SFREE(auc);
+		      
+		      /* cco is the reduced coriolis matrix (coriolis matrix mapped onto
+			 space spanned by eigenmodes) */
+		      
+		      NNEW(cco,double,nev*nev);
+		      for(i=0;i<nev;i++){
+			  for(j=0;j<=i;j++){
+			      for(k=0;k<neq[1];k++){
+				  cco[i*nev+j]+=z[(long long)j*neq[1]+k]*zc[i*neq[1]+k];
+			      }
+			  }
+		      }
+		      SFREE(zc);
+		      
+		      /* multiplying with the driving frequency */
+		      
+		      for(i=0;i<nev;i++){
+			  for(j=0;j<=i;j++){
+			      cco[i*nev+j]*=freq[l];
+			  }
+		      }
+		      
+		      /* transpose is the negative of the matrix */
+		      
+		      for(i=0;i<nev;i++){
+			  for(j=i+1;j<nev;j++){
+			      cco[i*nev+j]=-cco[j*nev+i];
+			  }
+		      }
+		      
+		      /* adding cco to cc */
+		      
+		      for(i=0;i<nev;i++){
+			  for(j=0;j<nev;j++){
+			      cc[i*nev+j]+=cco[j*nev+i];
+			  }
+		      }
+		      SFREE(cco);
 		  }
-		  SFREE(zc);SFREE(adc);SFREE(auc);
+		  SFREE(xstiff);
 	      }
 	      
 	      /* loading for this frequency */
@@ -2504,12 +2792,12 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	      }
 	      
 	      for(i=0;i<*nbody;i++){
-		  xbodyr[7*i]=xbodyact[l**nbody+7*i];
+		  xbodyr[7*i]=xbodyact[l*7**nbody+7*i];
 	      }
 	      
 	      /* calculating the instantaneous loading vector */
 	      
-	      FORTRAN(rhs,(co,nk,kon,ipkon,lakon,ne,
+	      rhsmain(co,nk,kon,ipkon,lakon,ne,
 		ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforcr,
 		nforc,nelemload,sideload,xloadr,nload,xbodyr,
 		ipobody,nbody,cgr,br,nactdof,&neq[1],nmethod,
@@ -2520,7 +2808,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		npmat_,ttime,&time,istep,&iinc,&dtime,physcon,ibody,
 		xbodyold,&reltime,veold,matname,mi,ikactmech,&nactmech,
                 ielprop,prop,sti,xstateini,xstate,nstate_,ntrans,inotr,
-                trab));
+                trab);
 	  
 	      /* real modal coefficients */
 	  
@@ -2583,26 +2871,46 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 			  ubr[ir]=fr[ir];
 		      }
 		  }
-		  if(*isolver==0){
+
+		  /* check for zero force (points to rigid body motion) */
+		  
+		  dd=0.;
+		  for(j=0;j<neq[1];j++){
+		    dd=dd+fr[j]*fr[j];
+		  }
+		  if(dd!=0.){
+
+		    /* solve equation system */
+		    
+		    if(*isolver==0){
 #ifdef SPOOLES
 		      spooles_solve(ubr,&neq[1]);
 #endif
-		  }
-		  else if(*isolver==4){
+		    }
+		    else if(*isolver==4){
 #ifdef SGI
 		      sgi_solve(ubr,token);
 #endif
-		  }
-		  else if(*isolver==5){
+		    }
+		    else if(*isolver==5){
 #ifdef TAUCS
 		      tau_solve(ubr,&neq[1]);
 #endif
-		  }
-		  else if(*isolver==7){
+		    }
+		    else if(*isolver==7){
 #ifdef PARDISO
 		      pardiso_solve(ubr,&neq[1],&symmetryflag,&nrhs);
 #endif
+		    }
+		  }else{
+		    
+		    /* rigid body mode: all displacements are equal */
+		    
+		    for(j=0;j<neq[1];j++){
+		      ubr[j]=xbounr[0];
+		    }
 		  }
+		  
 		  FORTRAN(op,(&neq[1],ubr,mubr,adb,aub,jq,irow));
 		  
 		  for(i=0;i<neq[1];i++){
@@ -2629,7 +2937,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	      
 	      /* calculating the modal coefficients */
 	      
-	      if(dashpot==0){
+	      if(dampmat==0){
 		  for(i=0;i<nev;i++){
 		      dd=pow(d[i]-pow(freq[l],2),2)+
 			  pow(fric[i],2)*pow(freq[l],2);
@@ -2826,7 +3134,6 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		  if((l!=0)&&(2*(ITG)floor(l/2.+0.1)==l)){
 		      for(jj=0;jj<nmddof;jj++){
 			  i=imddof[jj];
-//			  bi[i]-=pi/2.;}
 			  bi[i]+=pi/2.;}
 		  }
 		  
@@ -2935,7 +3242,7 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		      &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
                       islavsurf,ielprop,prop,energyini,energy,&iit,iponoel,
                       inoel,nener,orname,&network,ipobody,xbodyact,ibody,
-                      typeboun);
+                      typeboun,itiefac,tieset,smscale,&mscalmethod);
 	  
 	      (*kode)++;
 	      mode=-1;
@@ -3095,7 +3402,15 @@ void steadystate(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 
   SFREE(fric);
 
-  if(dashpot){SFREE(cc);}
+  if(dampmat||coriolis){SFREE(cc);}
+
+  /* reactivating centrigual forces */
+
+  for(i=0;i<*nbody;i++){
+      if((ibody[3*i]==0)||(ibody[3*i]==4)){
+	  ibody[3*i]=1;
+      }
+  }
 
   if(nherm!=1){SFREE(xmr);SFREE(xmi);}
 

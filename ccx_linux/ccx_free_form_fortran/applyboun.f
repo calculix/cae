@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,7 +19,8 @@
       subroutine applyboun(ifaext,nfaext,ielfa,ikboun,ilboun,&
         nboun,typeboun,nelemload,nload,sideload,isolidsurf,nsolidsurf,&
         ifabou,nfabou,nface,nodeboun,ndirboun,ikmpc,ilmpc,labmpc,nmpc,&
-        nactdohinv,compressible,iatleastonepressurebc,ipkonf,kon,konf)
+        nactdohinv,compressible,iatleastonepressurebc,ipkonf,kon,konf,&
+        inlet)
       !
       !     stores pointers to ifabou in ielfa(2,*) at those locations
       !     which are zero (external faces)
@@ -35,7 +36,7 @@
         nload,isolidsurf(*),nsolidsurf,ifabou(*),i,nface,indexb,&
         nodeboun(*),ndirboun(*),jsum,ig,ikmpc(*),ilmpc(*),nmpc,mpc,&
         nactdohinv(*),compressible,iatleastonepressurebc,iface,&
-        ipkonf(*),kon(*),konf(*),indexe
+        ipkonf(*),kon(*),konf(*),indexe,inlet(*)
       !
       nfabou=1
       iatleastonepressurebc=0
@@ -250,6 +251,17 @@
                !              no velocity boundary conditions
                !
                ielfa(3,ifa)=-ielfa(3,ifa)
+            endif
+            !
+            !           check for inlet conditions (all velocity components given
+            !           and no wall)
+            !
+            indexb=-ielfa(2,ifa)
+            if((ifabou(indexb+1).ne.0).and.&
+                 (ifabou(indexb+2).ne.0).and.&
+                 (ifabou(indexb+3).ne.0).and.&
+                 (ifabou(indexb+5).le.0)) then
+               inlet(ifa)=1
             endif
          endif
       enddo

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,8 +19,8 @@
       subroutine radiate(e,sink,temp,kstep,kinc,time,noel,npt,&
         coords,jltyp,field,nfield,loadtype,node,area,vold,mi,&
         iemchange)
-!
-!     user subroutine radiate
+      !
+      !     user subroutine radiate
       !
       !
       !     INPUT:

@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -75,11 +75,11 @@ void resultsinduction(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
       
     /* variables for multithreading procedure */
     
-    char *env,*envloc,*envsys;
+  char *env,*envloc,*envsys,*tieset=NULL;
 
     ITG intpointvarm,calcul_fn,calcul_f,calcul_qa,calcul_cauchy,nener,ikin,
         intpointvart,mt=mi[1]+1,i,j,*ithread=NULL,*islavsurf=NULL,
-        sys_cpus,mortar=0,*islavact=NULL;
+      sys_cpus,mortar=0,*islavact=NULL,*itiefac=NULL;
 
     double *pmastsurf=NULL,*clearini=NULL,*pslavsurf=NULL,*cdn=NULL;
 
@@ -297,7 +297,8 @@ void resultsinduction(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
     /* calculating the thermal internal forces */
 
     FORTRAN(resultsforc_em,(nk,f,fn,nactdof,ipompc,nodempc,
-	    coefmpc,labmpc,nmpc,mi,fmpc,&calcul_fn,&calcul_f,inomat));
+			    coefmpc,labmpc,nmpc,mi,fmpc,&calcul_fn,&calcul_f,
+			    inomat));
 
     /* storing results in the .dat file
        extrapolation of integration point values to the nodes
@@ -313,7 +314,7 @@ void resultsinduction(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
        nshcon,cocon,ncocon,ntmat_,sideload,icfd,inomat,pslavsurf,islavact,
        cdn,&mortar,islavnode,nslavnode,ntie,islavsurf,time,ielprop,prop,
        veold,ne0,nmpc,ipompc,nodempc,labmpc,energyini,energy,orname,
-       xload));
+       xload,itiefac,pmastsurf,springarea,tieset));
   
   return;
 

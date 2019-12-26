@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine calcmass(ipkon,lakon,kon,co,&
-           mi,nelem,ne,thicke,ielmat,nope,t0,t1,rhcon,nrhcon,ntmat_,&
+           mi,nelem,ne,thicke,ielmat,nope,t0,rhcon,nrhcon,ntmat_,&
            ithermal,csmasstot,ielprop,prop)
       !
       !     calculates the mass of element "nelem"
@@ -32,9 +32,9 @@
       !
       real*8 csmasstot,csmass,co(3,*),prop(*),&
         xl(3,20),xi,et,ze,xsj,shp(4,20),weight,&
-        a,gs(8,4),dlayer(4),tlayer(4),thickness,t0l,t1l,rho,&
+        a,gs(8,4),dlayer(4),tlayer(4),thickness,t0l,rho,&
         thicke(mi(3),*),xlayer(mi(3),4),shp2(7,8),xs2(3,7),xsj2(3),&
-        xl2(3,8),t0(*),t1(*),rhcon(0:1,ntmat_,*)
+        xl2(3,8),t0(*),rhcon(0:1,ntmat_,*)
       !
       include "gauss.f"
       !
@@ -309,14 +309,13 @@
          !        point
          !
          t0l=0.d0
-         t1l=0.d0
          if(ithermal.eq.1) then
             if(lakon(nelem)(4:5).eq.'8 ') then
                do i1=1,nope
                   t0l=t0l+t0(konl(i1))/8.d0
                enddo
             elseif(lakon(nelem)(4:6).eq.'20 ') then
-               call lintemp(t0,t1,konl,nope,jj,t0l,t1l)
+               call lintemp(t0,konl,nope,jj,t0l)
             elseif(lakon(nelem)(4:6).eq.'10T') then
                call linscal10(t0,konl,t0l,null,shp)
             else

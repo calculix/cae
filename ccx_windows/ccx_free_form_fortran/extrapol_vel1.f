@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine extrapol_vel1(ielfa,xrlfa,icyclic,ifatie,vfap,vel,&
-        c,ifabou,xbounact,ipnei,xxn,nef,nfacea,nfaceb)
+        c,ifabou,xbounact,ipnei,xxn,nef,nfacea,nfaceb,ncfd)
       !
       !     inter/extrapolation of v at the center of the elements
       !     to the center of the faces
@@ -25,21 +25,20 @@
       implicit none
       !
       integer ielfa(4,*),icyclic,ifatie(*),ifabou(*),ipnei(*),nfacea,&
-        nfaceb,i,j,ipointer,iel1,iel2,iel3,indexf,nef
+        nfaceb,i,j,ipointer,iel1,iel2,iel3,indexf,nef,ncfd
       !
       real*8 xrlfa(3,*),vfap(0:7,*),vel(nef,0:7),c(3,3),xbounact(*),&
         xxn(3,*),xl1,xl2,dd
       !
       intent(in) ielfa,xrlfa,icyclic,ifatie,vel,&
-        c,ifabou,xbounact,ipnei,xxn,nef,nfacea,nfaceb
+        c,ifabou,xbounact,ipnei,xxn,nef,nfacea,nfaceb,&
+        ncfd
       !
       intent(inout) vfap
       !
       !     initialization of the facial velocities
       !
-      !       write(*,*) 'extrapol_vel ',nfacea,nfaceb
       do i=nfacea,nfaceb
-         !          write(*,*) i
          iel1=ielfa(1,i)
          xl1=xrlfa(1,i)
          iel2=ielfa(2,i)
@@ -49,18 +48,18 @@
             !
             xl2=xrlfa(2,i)
             if((icyclic.eq.0).or.(ifatie(i).eq.0)) then
-               do j=1,3
+               do j=1,ncfd
                   vfap(j,i)=xl1*vel(iel1,j)+xl2*vel(iel2,j)
                enddo
             elseif(ifatie(i).gt.0) then
-               do j=1,3
+               do j=1,ncfd
                   vfap(j,i)=xl1*vel(iel1,j)+xl2*&
                     (c(j,1)*vel(iel2,1)&
                     +c(j,2)*vel(iel2,2)&
                     +c(j,3)*vel(iel2,3))
                enddo
             else
-               do j=1,3
+               do j=1,ncfd
                   vfap(j,i)=xl1*vel(iel1,j)+xl2*&
                     (c(1,j)*vel(iel2,1)&
                     +c(2,j)*vel(iel2,2)&
@@ -123,7 +122,7 @@
                dd=vfap(1,i)*xxn(1,indexf)+&
                     vfap(2,i)*xxn(2,indexf)+&
                     vfap(3,i)*xxn(3,indexf)
-               do j=1,3
+               do j=1,ncfd
                   vfap(j,i)=vfap(j,i)-dd*xxn(j,indexf)
                enddo
             endif
@@ -132,11 +131,10 @@
             !
             !           boundary face; zero gradient
             !
-            do j=1,3
+            do j=1,ncfd
                vfap(j,i)=vel(iel1,j)
             enddo
          endif
-      !          write(*,*) 'extrapol_vel1 ',i,vfap(1,i),vfap(2,i),vfap(3,i)
       enddo
       !
       return

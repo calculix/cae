@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -63,7 +63,12 @@
          elseif(textpart(i)(1:7).eq.'FLUTTER') then
             nmethod=7
          elseif(textpart(i)(1:11).eq.'STORAGE=YES') then
-            mei(4)=1
+            write(*,*) '*WARNING reading *COMPLEX FREQUENCY:'
+            write(*,*) '         for this keyword'
+            write(*,*) '         STORAGE=YES is deactivated'
+            write(*,*) '         in the CalculiX code'
+
+         !             mei(4)=1
          else
             write(*,*)&
                  '*WARNING reading *COMPLEX FREQUENCY:'

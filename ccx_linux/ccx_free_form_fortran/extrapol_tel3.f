@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine extrapol_tel3(ielfa,xrlfa,icyclic,ifatie,gradtfa,&
-        gradtel,c,ipnei,xxi,ifabou,xxn,xload,nfacea,nfaceb)
+        gradtel,c,ipnei,xxi,ifabou,xxn,xload,nfacea,nfaceb,ncfd)
       !
       !     interpolate/extrapolate the temperature gradient from the
       !     center of the elements to the center of the faces
@@ -25,13 +25,13 @@
       implicit none
       !
       integer ielfa(4,*),icyclic,ifatie(*),ipnei(*),nfacea,nfaceb,&
-        iel1,iel2,i,l,indexf,ifabou(*)
+        iel1,iel2,i,l,indexf,ifabou(*),ncfd
       !
       real*8 xrlfa(3,*),gradtfa(3,*),gradtel(3,*),c(3,3),xxi(3,*),&
         gradnor,xl1,xl2,q,xxn(3,*),xload(2,*)
       !
       intent(in) ielfa,xrlfa,icyclic,ifatie,ifabou,xxn,xload,&
-        gradtel,c,ipnei,xxi,nfacea,nfaceb
+        gradtel,c,ipnei,xxi,nfacea,nfaceb,ncfd
       !
       intent(inout) gradtfa
       !
@@ -45,19 +45,19 @@
             !
             xl2=xrlfa(2,i)
             if((icyclic.eq.0).or.(ifatie(i).eq.0)) then
-               do l=1,3
+               do l=1,ncfd
                   gradtfa(l,i)=xl1*gradtel(l,iel1)+&
                        xl2*gradtel(l,iel2)
                enddo
             elseif(ifatie(i).gt.0) then
-               do l=1,3
+               do l=1,ncfd
                   gradtfa(l,i)=xl1*gradtel(l,iel1)+xl2*&
                         (gradtel(1,iel2)*c(l,1)+&
                          gradtel(2,iel2)*c(l,2)+&
                          gradtel(3,iel2)*c(l,3))
                enddo
             else
-               do l=1,3
+               do l=1,ncfd
                   gradtfa(l,i)=xl1*gradtel(l,iel1)+xl2*&
                         (gradtel(1,iel2)*c(1,l)+&
                          gradtel(2,iel2)*c(2,l)+&
@@ -76,7 +76,7 @@
                !
                !              temperature given: extrapolate gradient
                !
-               do l=1,3
+               do l=1,ncfd
                   gradtfa(l,i)=xl1*gradtel(l,iel1)+&
                        xrlfa(3,i)*gradtel(l,abs(ielfa(3,i)))
                enddo
@@ -94,7 +94,7 @@
                gradnor=gradtel(1,iel1)*xxn(1,indexf)&
                       +gradtel(2,iel1)*xxn(2,indexf)&
                       +gradtel(3,iel1)*xxn(3,indexf)-q
-               do l=1,3
+               do l=1,ncfd
                   gradtfa(l,i)=gradtel(l,iel1)&
                               -gradnor*xxn(l,indexf)
                enddo
@@ -107,7 +107,7 @@
             gradnor=gradtel(1,iel1)*xxi(1,indexf)+&
                     gradtel(2,iel1)*xxi(2,indexf)+&
                     gradtel(3,iel1)*xxi(3,indexf)
-            do l=1,3
+            do l=1,ncfd
                   gradtfa(l,i)=gradtel(l,iel1)&
                               -gradnor*xxi(l,indexf)
             enddo

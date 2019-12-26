@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -78,7 +78,7 @@
             !
             if(lakon(nelem)(2:3).ne.'LP') then
                !
-               !              incompressible
+               !              compressible
                !
                if(node1.eq.0) then
                   ts1=v(3,node2)
@@ -93,7 +93,7 @@
                gastemp=(ts1+ts2)/2.d0
             else
                !
-               !              compressible
+               !              incompressible
                !
                if(xflow.gt.0) then
                   gastemp=v(3,node1)

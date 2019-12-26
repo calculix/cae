@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -63,7 +63,7 @@ void checkdivergence(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
         *fn=NULL,*eenmax=NULL,*fnr=NULL,*fni=NULL,*qfx=NULL,*cdn=NULL,
         *cdnr=NULL,*cdni=NULL;
 
-    ia=ctrl[7];kscalemax=ctrl[54];
+    ia=ctrl[7];kscalemax=ctrl[55];
 
     /* check whether divergence was signaled in radflowload.c
        => repeat the increment with a smaller size */

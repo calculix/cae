@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -82,13 +82,6 @@
                  "*FRICTION%",ier)
             return
          endif
-         !          if(elcon(7,1,imat).le.0.d0) then
-         !             write(*,*) '*ERROR reading *FRICTION: stick slope'
-         !             write(*,*) '       must be strictly positive'
-         !             call inputerror(inpc,ipoinpc,iline,
-         !      &            "*FRICTION%",ier)
-         !              return
-         !          endif
          if(elcon(7,1,imat).le.0.d0) then
             write(*,*) '*WARNING reading *FRICTION: stick slope'
             write(*,*) '         must be strictly positive'

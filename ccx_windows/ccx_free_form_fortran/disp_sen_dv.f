@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine disp_sen_dv(nodeset,istartset,iendset,ialset,iobject,&
-        mi,nactdof,dgdu,vold,objectset,nactdofinv,neq)
+        mi,nactdof,dgdu,vold,objectset,nactdofinv,neq,g0)
       !
       !     calculates the sum of the square of the displacements of a node
       !     set and its derivative w.r.t. the coordinates of the mesh
@@ -30,7 +30,7 @@
         idof,iobject,mi(*),nactdof(0:mi(2),*),j,k,nactdofinv(*),&
         inode,node,neq,mt
       !
-      real*8 dgdu(*),vold(0:mi(2),*)
+      real*8 dgdu(*),vold(0:mi(2),*),g0(*)
       !
       intent(in) nodeset,istartset,iendset,ialset,iobject,mi,&
         nactdof,vold
@@ -47,21 +47,21 @@
             idir=inode-mt*(inode/mt);
             node=inode/mt+1;
             if(objectset(1,iobject)(1:12).eq.'DISPLACEMENT') then
-               dgdu(idof)=2.d0*vold(idir,node)
-               elseif(objectset(1,iobject)(1:6).eq.'X-DISP') then
-                  if(idir.eq.1) then
-                     dgdu(idof)=2.d0*vold(idir,node)
-                  endif   
-               elseif(objectset(1,iobject)(1:6).eq.'Y-DISP') then
-                  if(idir.eq.2) then
-                     dgdu(idof)=2.d0*vold(idir,node)
-                  endif   
-               elseif(objectset(1,iobject)(1:6).eq.'Z-DISP') then
-                  if(idir.eq.3) then
-                     dgdu(idof)=2.d0*vold(idir,node)
-                  endif   
-               endif                     
-            enddo
+               dgdu(idof)=vold(idir,node)/g0(iobject)
+            elseif(objectset(1,iobject)(1:6).eq.'X-DISP') then
+               if(idir.eq.1) then
+                  dgdu(idof)=vold(idir,node)/g0(iobject)
+               endif   
+            elseif(objectset(1,iobject)(1:6).eq.'Y-DISP') then
+               if(idir.eq.2) then
+                  dgdu(idof)=vold(idir,node)/g0(iobject)
+               endif   
+            elseif(objectset(1,iobject)(1:6).eq.'Z-DISP') then
+               if(idir.eq.3) then
+                  dgdu(idof)=vold(idir,node)/g0(iobject)
+               endif   
+            endif          
+         enddo
       else
          do j=istartset(nodeset),iendset(nodeset)      
             if(ialset(j).gt.0) then
@@ -69,23 +69,23 @@
                   do idir=1,3
                      idof=nactdof(idir,ialset(j))
                      if(idof.gt.0) then
-                        dgdu(idof)=2.d0*vold(idir,ialset(j))
+                        dgdu(idof)=vold(idir,ialset(j))/g0(iobject)
                      endif
                   enddo
                elseif(objectset(1,iobject)(1:6).eq.'X-DISP') then
                   idof=nactdof(1,ialset(j))
                   if(idof.gt.0) then
-                     dgdu(idof)=2.d0*vold(1,ialset(j))
+                     dgdu(idof)=vold(1,ialset(j))/g0(iobject)
                   endif   
                elseif(objectset(1,iobject)(1:6).eq.'Y-DISP') then
                   idof=nactdof(2,ialset(j))
                   if(idof.gt.0) then
-                     dgdu(idof)=2.d0*vold(2,ialset(j))
+                     dgdu(idof)=vold(2,ialset(j))/g0(iobject)
                   endif   
                elseif(objectset(1,iobject)(1:6).eq.'Z-DISP') then
                   idof=nactdof(3,ialset(j))
                   if(idof.gt.0) then
-                     dgdu(idof)=2.d0*vold(3,ialset(j))
+                     dgdu(idof)=vold(3,ialset(j))/g0(iobject)
                   endif   
                endif    
             else
@@ -97,23 +97,23 @@
                      do idir=1,3
                         idof=nactdof(idir,ialset(j))
                         if(idof.gt.0) then
-                           dgdu(idof)=2.d0*vold(idir,ialset(j))
+                           dgdu(idof)=vold(idir,ialset(j))/g0(iobject)
                         endif
                      enddo
                   elseif(objectset(1,iobject)(1:6).eq.'X-DISP') then
                      idof=nactdof(1,ialset(j))
                      if(idof.gt.0) then
-                        dgdu(idof)=2.d0*vold(1,ialset(j))
+                        dgdu(idof)=vold(1,ialset(j))/g0(iobject)
                      endif     
                   elseif(objectset(1,iobject)(1:6).eq.'Y-DISP') then
                      idof=nactdof(2,ialset(j))
                      if(idof.gt.0) then
-                        dgdu(idof)=2.d0*vold(2,ialset(j))
+                        dgdu(idof)=vold(2,ialset(j))/g0(iobject)
                      endif     
                   elseif(objectset(1,iobject)(1:6).eq.'Z-DISP') then
                      idof=nactdof(3,ialset(j))
                      if(idof.gt.0) then
-                        dgdu(idof)=2.d0*vold(3,ialset(j))
+                        dgdu(idof)=vold(3,ialset(j))/g0(iobject)
                      endif     
                   endif      
                enddo

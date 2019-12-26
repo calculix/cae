@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -65,7 +65,8 @@
         nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,nopered,&
         ndesi,nodedesi(*),idesvar,node,kscale,iactive,ij,&
         mass,stiffness,buckling,rhsi,coriolis,icoordinate,idir,ne,&
-        istartelem(*),ialelem(*),ieigenfrequency,idesloc
+        istartelem(*),ialelem(*),ieigenfrequency,idesloc,&
+        node1,node2,ifaceqexp(2,20),ifacewexp(2,15)
       !
       real*8 co(3,*),xl(3,26),shp(4,26),xs2(3,7),veold(0:mi(2),*),&
         s(60,60),w(3,3),p1(3),p2(3),bodyf(3),bodyfx(3),sigma,&
@@ -130,6 +131,47 @@
                   37,38,-39,40,41,-42,43,44,-45,46,47,-48,&
                   25,26,-27,28,29,-30,31,32,-33,34,35,-36,&
                   49,50,-51,52,53,-54,55,56,-57,58,59,-60/)
+      !
+      !     nodes in expansion direction of hex element
+      !
+      data ifaceqexp /5,17,&
+                      6,18,&
+                      7,19,&
+                      8,20,&
+                      1,17,&
+                      2,18,&
+                      3,19,&
+                      4,20,&
+                      13,0,&
+                      14,0,&
+                      15,0,&
+                      16,0,&
+                      9,0,&
+                      10,0,&
+                      11,0,&
+                      12,0,&
+                      0,0,&
+                      0,0,&
+                      0,0,&
+                      0,0/
+      !
+      !     nodes in expansion direction of wedge element
+      !
+      data ifacewexp /4,13,&
+                      5,14,&
+                      6,16,&
+                      1,13,&
+                      2,14,&
+                      3,15,&
+                      10,0,&
+                      11,0,&
+                      12,0,&
+                      7,0,&
+                      8,0,&
+                      9,0,&
+                      0,0,&
+                      0,0,&
+                      0,0/
       !
       tvar(1)=time
       tvar(2)=ttime+time
@@ -418,6 +460,59 @@
          do i=1,3
             xl(i,iactive)=xl(i,iactive)+xdesi(i,idesvar)
          enddo
+         if(lakonl(1:5).eq.'C3D20') then
+            if((lakonl(7:7).eq.'A').or.&
+               (lakonl(7:7).eq.'L').or.&
+               (lakonl(7:7).eq.'S').or.&
+               (lakonl(7:7).eq.'E')) then
+               node1=ifaceqexp(1,iactive)
+               node2=ifaceqexp(2,iactive)
+               do i=1,3
+                  if(iactive.le.8) then
+                     xl(i,node1)=xl(i,node1)+xdesi(i,idesvar)
+                     xl(i,node2)=xl(i,node2)+xdesi(i,idesvar)
+                  else
+                     xl(i,node1)=xl(i,node1)+xdesi(i,idesvar)
+                  endif          
+               enddo  
+            endif    
+         elseif(lakonl(1:5).eq.'C3D15') then
+            if((lakonl(7:7).eq.'A').or.&
+               (lakonl(7:7).eq.'L').or.&
+               (lakonl(7:7).eq.'S').or.&
+               (lakonl(7:7).eq.'E')) then
+               node1=ifacewexp(1,iactive)
+               node2=ifacewexp(2,iactive)
+               do i=1,3
+                  if(iactive.le.6) then
+                     xl(i,node1)=xl(i,node1)+xdesi(i,idesvar)
+                     xl(i,node2)=xl(i,node2)+xdesi(i,idesvar)
+                  else
+                     xl(i,node1)=xl(i,node1)+xdesi(i,idesvar)
+                  endif          
+               enddo  
+            endif    
+         elseif(lakonl(1:4).eq.'C3D8') then
+            if((lakonl(7:7).eq.'A').or.&
+               (lakonl(7:7).eq.'L').or.&
+               (lakonl(7:7).eq.'S').or.&
+               (lakonl(7:7).eq.'E')) then
+               node1=ifaceqexp(1,iactive)
+               do i=1,3
+                  xl(i,node1)=xl(i,node1)+xdesi(i,idesvar)         
+               enddo  
+            endif    
+         elseif(lakonl(1:4).eq.'C3D6') then
+            if((lakonl(7:7).eq.'A').or.&
+               (lakonl(7:7).eq.'L').or.&
+               (lakonl(7:7).eq.'S').or.&
+               (lakonl(7:7).eq.'E')) then
+               node1=ifaceqexp(1,iactive)
+               do j=1,3
+                  xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)       
+               enddo  
+            endif     
+         endif
       endif
       !     Ertl end
       !
@@ -694,12 +789,6 @@
                weight=weight3d8(kk)
             endif
          endif
-         !          if(nelem.eq.1) then
-         !                   write(*,*) 'kk', kk
-         !                   write(*,*) 'coords',xi,et,ze
-         !                   write(*,*) 'weight',weight
-         !                   write(*,*) 'dlayer',dlayer(ki)
-         !          endif
          !
          !           calculation of the shape functions and their derivatives
          !           in the gauss point
@@ -767,7 +856,8 @@
                enddo
             elseif(lakonl(4:6).eq.'20 ')then
                nopered=20
-               call lintemp(t0,t1,konl,nopered,kk,t0l,t1l)
+               call lintemp(t0,konl,nopered,kk,t0l)
+               call lintemp(t1,konl,nopered,kk,t1l)
             elseif(lakonl(4:6).eq.'10T') then
                call linscal10(t0,konl,t0l,null,shp)
                call linscal10(t1,konl,t1l,null,shp)
@@ -785,7 +875,8 @@
                enddo
             elseif(lakonl(4:6).eq.'20 ')then
                nopered=20
-               call lintemp_th(t0,vold,konl,nopered,kk,t0l,t1l,mi)
+               call lintemp_th0(t0,konl,nopered,kk,t0l,mi)
+               call lintemp_th1(vold,konl,nopered,kk,t1l,mi)
             elseif(lakonl(4:6).eq.'10T') then
                call linscal10(t0,konl,t0l,null,shp)
                call linscal10(vold,konl,t1l,mi(2),shp)
@@ -1330,6 +1421,37 @@
                          xl2(j,i)=&
                               xl2(j,i)+xdesi(j,idesvar)
                       enddo
+                      if(lakonl(1:5).eq.'C3D20') then
+                         if((lakonl(7:7).eq.'A').or.&
+                              (lakonl(7:7).eq.'L').or.&
+                              (lakonl(7:7).eq.'S').or.&
+                              (lakonl(7:7).eq.'E')) then
+                            node1=ifaceqexp(1,i)
+                            node2=ifaceqexp(2,i)
+                            do j=1,3
+                               if(iactive.le.8) then
+                                  xl2(j,node1)=xl2(j,node1)+&
+                                       xdesi(j,idesvar)
+                                  xl2(j,node2)=xl2(j,node2)+&
+                                       xdesi(j,idesvar)
+                               else
+                                  xl2(j,node1)=xl2(j,node1)+&
+                                       xdesi(j,idesvar)
+                               endif      
+                            enddo      
+                         endif  
+                      elseif(lakonl(1:4).eq.'C3D8') then
+                         if((lakonl(7:7).eq.'A').or.&
+                              (lakonl(7:7).eq.'L').or.&
+                              (lakonl(7:7).eq.'S').or.&
+                              (lakonl(7:7).eq.'E')) then
+                            node1=ifaceqexp(1,i)
+                            do j=1,3
+                               xl2(j,node1)=xl2(j,node1)+&
+                                    xdesi(j,idesvar)
+                            enddo      
+                         endif  
+                      endif
                       exit
                    endif
                 enddo
@@ -1410,6 +1532,26 @@
                          xl2(j,i)=&
                               xl2(j,i)+xdesi(j,idesvar)
                       enddo
+                      if(lakonl(1:5).eq.'C3D15') then
+                         if((lakonl(7:7).eq.'A').or.&
+                              (lakonl(7:7).eq.'L').or.&
+                              (lakonl(7:7).eq.'S').or.&
+                              (lakonl(7:7).eq.'E')) then
+                            node1=ifacewexp(1,i)
+                            node2=ifacewexp(2,i)
+                            do j=1,3
+                               if(iactive.le.6) then
+                                  xl2(j,node1)=xl2(j,node1)+&
+                                       xdesi(j,idesvar)
+                                  xl2(j,node2)=xl2(j,node2)+&
+                                       xdesi(j,idesvar)
+                               else
+                                  xl2(j,node1)=xl2(j,node1)+&
+                                       xdesi(j,idesvar)
+                               endif      
+                            enddo      
+                         endif  
+                      endif
                       exit
                    endif
                 enddo
@@ -1445,22 +1587,18 @@
              endif
              !
              if(rhsi.eq.1) then
-                !                 if(nopes.eq.9) then
-                !                    call shape9q(xi,et,xl2,xsj2,xs2,shp2,iflag)
                 if(nopes.eq.8) then
                    call shape8q(xi,et,xl2,xsj2,xs2,shp2,iflag)
                 elseif(nopes.eq.4) then
                    call shape4q(xi,et,xl2,xsj2,xs2,shp2,iflag)
                 elseif(nopes.eq.6) then
                    call shape6tri(xi,et,xl2,xsj2,xs2,shp2,iflag)
-                !                 elseif(nopes.eq.7) then
-                !                    call shape7tri(xi,et,xl2,xsj2,xs2,shp2,iflag)
                 else
                    call shape3tri(xi,et,xl2,xsj2,xs2,shp2,iflag)
                 endif
-!
-!            for nonuniform load: determine the coordinates of the
-!            point (transferred into the user subroutine)
+                !
+                !            for nonuniform load: determine the coordinates of the
+                !            point (transferred into the user subroutine)
                 !
                 if(sideload(id)(3:4).eq.'NU') then
                    do k=1,3
@@ -1544,25 +1682,20 @@
              !            three-dimensional thermomechanical Applications,
              !            Wiley, 2004, p 153, eqn. (3.54).
              !
-             !              elseif((mass.eq.1).and.(iperturb(1).ne.0)) then
              elseif((mass.eq.1).and.&
                   ((iperturb(1).eq.1).or.(iperturb(2).eq.1))) then
-                !                 if(nopes.eq.9) then
-                !                    call shape9q(xi,et,xl1,xsj2,xs2,shp2,iflag)
                 if(nopes.eq.8) then
                    call shape8q(xi,et,xl1,xsj2,xs2,shp2,iflag)
                 elseif(nopes.eq.4) then
                    call shape4q(xi,et,xl1,xsj2,xs2,shp2,iflag)
                 elseif(nopes.eq.6) then
                    call shape6tri(xi,et,xl1,xsj2,xs2,shp2,iflag)
-                !                 elseif(nopes.eq.7) then
-                !                    call shape7tri(xi,et,xl1,xsj2,xs2,shp2,iflag)
                 else
                    call shape3tri(xi,et,xl1,xsj2,xs2,shp2,iflag)
                 endif
-!
-!            for nonuniform load: determine the coordinates of the
-!            point (transferred into the user subroutine)
+                !
+                !            for nonuniform load: determine the coordinates of the
+                !            point (transferred into the user subroutine)
                 !
                 if(sideload(id)(3:4).eq.'NU') then
                    do k=1,3
@@ -1571,7 +1704,6 @@
                          coords(k)=coords(k)+xl1(k,j)*shp2(4,j)
                       enddo
                    enddo
-                   !                    read(sideload(id)(2:2),'(i1)') jltyp
                    jltyp=ichar(sideload(id)(2:2))-48
                    jltyp=jltyp+20
                    iscale=1
@@ -1593,7 +1725,6 @@
                          coords(k)=coords(k)+xl2(k,j)*shp2(4,j)
                       enddo
                    enddo
-                   !                    read(sideload(id)(2:2),'(i1)') jltyp
                    jltyp=ichar(sideload(id)(2:2))-48
                    !
                    entity='T'
@@ -1605,7 +1736,6 @@
                    call interpolsubmodel(integerglob,doubleglob,stress,&
                         coords,iselect,six,iface,tieset,istartset,&
                         iendset,ialset,ntie,entity)
-                   !                    write(*,*) 'e_c3d ',(stress(k),k=1,6)
                    !
                    stre(1,1)=stress(1)
                    stre(1,2)=stress(4)
@@ -1729,40 +1859,11 @@
       !     for axially symmetric and plane stress/strain elements:
       !     complete s and sm
       !
-      if(((lakonl(4:5).eq.'8 ').or.&
-          ((lakonl(4:6).eq.'20R').and.(lakonl(7:8).ne.'BR'))).and.&
-         ((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'S').or.&
-          (lakonl(7:7).eq.'E'))) then
-         do i=1,60
-            do j=i,60
-               k=abs(iperm(i))
-               l=abs(iperm(j))
-               if(k.gt.l) then
-                  m=k
-                  k=l
-                  l=m
-               endif
-               sax(i,j)=s(k,l)*iperm(i)*iperm(j)/(k*l)
-            enddo
-         enddo
-         do i=1,60
-            do j=i,60
-               s(i,j)=s(i,j)+sax(i,j)
-            enddo
-         enddo
-         !
-         if((nload.ne.0).or.(nbody.ne.0)) then
-            do i=1,60
-               k=abs(iperm(i))
-               ffax(i)=ff(k)*iperm(i)/k
-            enddo
-            do i=1,60
-               ff(i)=ff(i)+ffax(i)
-            enddo
-         endif
-         !
-         if(mass.eq.1) then
-            summass=2.d0*summass
+      if(intscheme.eq.0) then
+         if(((lakonl(4:5).eq.'8 ').or.&
+              ((lakonl(4:6).eq.'20R').and.(lakonl(7:8).ne.'BR'))).and.&
+              ((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'S').or.&
+              (lakonl(7:7).eq.'E'))) then
             do i=1,60
                do j=i,60
                   k=abs(iperm(i))
@@ -1772,14 +1873,45 @@
                      k=l
                      l=m
                   endif
-                  sax(i,j)=sm(k,l)*iperm(i)*iperm(j)/(k*l)
+                  sax(i,j)=s(k,l)*iperm(i)*iperm(j)/(k*l)
                enddo
             enddo
             do i=1,60
                do j=i,60
-                  sm(i,j)=sm(i,j)+sax(i,j)
+                  s(i,j)=s(i,j)+sax(i,j)
                enddo
             enddo
+            !
+            if((nload.ne.0).or.(nbody.ne.0)) then
+               do i=1,60
+                  k=abs(iperm(i))
+                  ffax(i)=ff(k)*iperm(i)/k
+               enddo
+               do i=1,60
+                  ff(i)=ff(i)+ffax(i)
+               enddo
+            endif
+            !
+            if(mass.eq.1) then
+               summass=2.d0*summass
+               do i=1,60
+                  do j=i,60
+                     k=abs(iperm(i))
+                     l=abs(iperm(j))
+                     if(k.gt.l) then
+                        m=k
+                        k=l
+                        l=m
+                     endif
+                     sax(i,j)=sm(k,l)*iperm(i)*iperm(j)/(k*l)
+                  enddo
+               enddo
+               do i=1,60
+                  do j=i,60
+                     sm(i,j)=sm(i,j)+sax(i,j)
+                  enddo
+               enddo
+            endif
          endif
       endif
       !

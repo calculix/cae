@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -77,7 +77,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
     rhsi=1, intscheme=0, noddiam=-1,*ipneigh=NULL,*neigh=NULL,ne0,
     *integerglob=NULL,ntie,icfd=0,*inomat=NULL,mortar=0,*islavnode=NULL,
     *islavact=NULL,*nslavnode=NULL,*islavsurf=NULL,kscale=1,
-    *iponoel=NULL,*inoel=NULL,network=0,nrhs=1;
+    *iponoel=NULL,*inoel=NULL,network=0,nrhs=1,*itiefac=NULL,mscalmethod=0;
 
   double *stn=NULL,*v=NULL,*resid=NULL,*z=NULL,*workd=NULL,
     *workl=NULL,*d=NULL,sigma,*temp_array=NULL,*fnext=NULL,
@@ -90,7 +90,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
     *vmax=NULL,*stnmax=NULL,*cs=NULL,*springarea=NULL,*eenmax=NULL,
     *emeini=NULL,*doubleglob=NULL,*au=NULL,*clearini=NULL,
     *ad=NULL,*b=NULL,*aub=NULL,*adb=NULL,*pslavsurf=NULL,*pmastsurf=NULL,
-    *cdnr=NULL,*cdni=NULL,*energyini=NULL,*energy=NULL;
+    *cdnr=NULL,*cdni=NULL,*energyini=NULL,*energy=NULL,*smscale=NULL;
 
   /* buckling routine; only for mechanical applications */
 
@@ -162,7 +162,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	     sideload,xload,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 	     &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	     islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-             inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun);
+             inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
+	     itiefac,tieset,smscale,&mscalmethod);
   }else{
      results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
 	     elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
@@ -181,7 +182,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	     sideload,xload,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 	     &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	     islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-             inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun);
+             inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
+	     itiefac,tieset,smscale,&mscalmethod);
   }
 
   SFREE(v);SFREE(fn);SFREE(stx);SFREE(inum);
@@ -210,7 +212,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	      xstateini,xstate,thicke,integerglob,doubleglob,
 	      tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,pmastsurf,
 	      &mortar,clearini,ielprop,prop,&ne0,fnext,&kscale,iponoel,inoel,
-	      &network,ntrans,inotr,trab);
+	      &network,ntrans,inotr,trab,smscale,&mscalmethod);
   }
   else{
     mafillsmmain(co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,xboun,nboun,
@@ -229,7 +231,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
               xstateini,xstate,thicke,integerglob,doubleglob,
 	      tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,
 	      pmastsurf,&mortar,clearini,ielprop,prop,&ne0,fnext,&kscale,
-	      iponoel,inoel,&network,ntrans,inotr,trab);
+	      iponoel,inoel,&network,ntrans,inotr,trab,smscale,&mscalmethod);
   }
 
   /* determining the right hand side */
@@ -343,7 +345,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	    sideload,xload,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 	    &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	    islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-            inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun);}
+            inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
+	    itiefac,tieset,smscale,&mscalmethod);}
   else{
     results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,
 	    stx,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
@@ -362,7 +365,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	    sideload,xload,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 	    &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	    islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-            inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun);
+            inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
+	    itiefac,tieset,smscale,&mscalmethod);
   }
 
   for(k=0;k<mt**nk;++k){
@@ -420,7 +424,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
               xstateini,xstate,thicke,integerglob,doubleglob,
 	      tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,
 	      pmastsurf,&mortar,clearini,ielprop,prop,&ne0,fnext,&kscale,
-	      iponoel,inoel,&network,ntrans,inotr,trab);
+	      iponoel,inoel,&network,ntrans,inotr,trab,smscale,&mscalmethod);
   }
   else{
       mafillsmmain(co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,xboun,nboun,
@@ -439,7 +443,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
               xstateini,xstate,thicke,integerglob,doubleglob,
 	      tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,
 	      pmastsurf,&mortar,clearini,ielprop,prop,&ne0,fnext,&kscale,
-	      iponoel,inoel,&network,ntrans,inotr,trab);
+	      iponoel,inoel,&network,ntrans,inotr,trab,smscale,&mscalmethod);
   }
 
   SFREE(stx);SFREE(fext);if(*nbody>0) SFREE(ipobody);
@@ -619,7 +623,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	  &ncv,z,&dz,iparam,ipntr,workd,workl,&lworkl,&info));
 
   printf("sigma=%f,d[0]=%f\n\n",sigma,d[0]);
-  if((5.>d[0]/sigma)||(50000.<d[0]/sigma)){
+  
+/*  if((5.>d[0]/sigma)||(50000.<d[0]/sigma)){
     if(iconverged<-4) {
       printf("no convergence for the buckling factor; maybe no buckling occurs");
       FORTRAN(stop,());
@@ -629,7 +634,9 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
     --iconverged;
     SFREE(z);SFREE(d);
   }
-  else{iconverged=0;}
+  else{iconverged=0;}*/
+
+  iconverged=0;
      
   SFREE(resid);SFREE(workd);SFREE(workl);SFREE(select);SFREE(temp_array);
 
@@ -683,7 +690,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	      sideload,xload,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 	      &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	      islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-              inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun);}
+              inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
+	      itiefac,tieset,smscale,&mscalmethod);}
     else{
       results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,
 	      stx,elcon,
@@ -703,7 +711,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	      sideload,xload,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 	      &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	      islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-              inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun);
+              inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
+	      itiefac,tieset,smscale,&mscalmethod);
     }
 
     ++*kode;

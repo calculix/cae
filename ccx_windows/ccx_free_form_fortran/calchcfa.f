@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -28,10 +28,6 @@
       !
       real*8 t1l,vfa(0:7,*),cond,cocon(0:6,ntmat_,*),hcfa(*)
       !
-      ! $omp parallel default(none)
-      ! $omp& shared(nface,vfa,ielmat,ielfa,ntmat_,cocon,ncocon,hcfa)
-      ! $omp& private(i,t1l,imat,cond)
-      ! $omp do
       do i=1,nface
          t1l=vfa(0,i)
          !
@@ -41,8 +37,6 @@
          call materialdata_cond(imat,ntmat_,t1l,cocon,ncocon,cond)
          hcfa(i)=cond
       enddo
-      ! $omp end do
-      ! $omp end parallel
       !
       return
       end

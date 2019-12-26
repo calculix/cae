@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -22,7 +22,7 @@
         springarea,nmethod,ne0,nstate_,xstateini,&
         xstate,reltime,ielas,jfaces,igauss,&
         pslavsurf,pmastsurf,clearini,venergy,kscale,&
-        konl,iout,nelem)
+        konl,iout,nelem,smscale,mscalmethod)
       !
       !     calculates the force of the spring (face-to-face penalty)
       !
@@ -33,7 +33,7 @@
       integer i,j,k,imat,ncmat_,ntmat_,nope,iflag,mi(*),&
         kode,niso,id,nplicon(0:ntmat_,*),npmat_,nelcon(2,*),nener,&
         nmethod,ne0,nstate_,ielas,jfaces,kscale,konl(26),&
-        igauss,nopes,nopem,nopep,iout,nelem
+        igauss,nopes,nopem,nopep,iout,nelem,mscalmethod
       !
       real*8 xl(3,10),elas(21),t1l,al(3),vl(0:mi(2),19),stickslope,&
         pl(3,19),xn(3),alpha,beta,fnl(3,19),tp(3),te(3),ftrial(3),&
@@ -43,7 +43,8 @@
         dfshear,dfnl,springarea(2),overlap,pres,clearini(3,9,*),&
         xstate(nstate_,mi(1),*),xstateini(nstate_,mi(1),*),t1(3),t2(3),&
         dt1,dte,alnew(3),reltime,weight,xsj2m(3),xs2m(3,7),shp2m(7,9),&
-        xsj2s(3),xs2s(3,7),shp2s(7,9),pslavsurf(3,*),pmastsurf(6,*)
+        xsj2s(3),xs2s(3,7),shp2s(7,9),pslavsurf(3,*),pmastsurf(6,*),&
+        smscale(*)
       !
       include "gauss.f"
       !
@@ -58,26 +59,14 @@
       !     # of slave nodes
       !
       nopes=nope-nopem
-         !
-         !     actual positions of the master nodes belonging to the contact spring
-         !
-         !       if(nmethod.ne.2) then
-         do i=1,nopem
-            do j=1,3
-               pl(j,i)=xl(j,i)+vl(j,i)
-            enddo
+      !
+      !     actual positions of the master nodes belonging to the contact spring
+      !
+      do i=1,nopem
+         do j=1,3
+            pl(j,i)=xl(j,i)+vl(j,i)
          enddo
-      !       else
-      ! !
-      ! !        for frequency calculations the eigenmodes are freely
-      ! !        scalable, leading to problems with contact finding
-      ! !
-      !          do i=1,nopem
-      !             do j=1,3
-      !                pl(j,i)=xl(j,i)
-      !             enddo
-      !          enddo
-      !       endif
+      enddo
       !
       !     actual positions of the slave nodes belonging to the contact spring
       !
@@ -107,16 +96,12 @@
       weight=pslavsurf(3,igauss)
       !
       iflag=1
-      !       if(nopes.eq.9) then
-      !           call shape9q(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
       if(nopes.eq.8) then
           call shape8q(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
       elseif(nopes.eq.4) then
           call shape4q(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
       elseif(nopes.eq.6) then
           call shape6tri(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
-      !       elseif(nopes.eq.7) then
-      !           call shape7tri(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
       else
           call shape3tri(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
       endif
@@ -140,16 +125,12 @@
       !     determining the jacobian vector on the surface
       !
       iflag=2
-      !       if(nopem.eq.9) then
-      !          call shape9q(xi,et,pl,xsj2m,xs2m,shp2m,iflag)
       if(nopem.eq.8) then
          call shape8q(xi,et,pl,xsj2m,xs2m,shp2m,iflag)
       elseif(nopem.eq.4) then
          call shape4q(xi,et,pl,xsj2m,xs2m,shp2m,iflag)
       elseif(nopem.eq.6) then
          call shape6tri(xi,et,pl,xsj2m,xs2m,shp2m,iflag)
-      !       elseif(nopem.eq.7) then
-      !          call shape7tri(xi,et,pl,xsj2m,xs2m,shp2m,iflag)
       else
          call shape3tri(xi,et,pl,xsj2m,xs2m,shp2m,iflag)
       endif
@@ -182,7 +163,6 @@
       if(nmethod.eq.1) then
          clear=clear-springarea(2)*(1.d0-reltime)
       endif
-      !       if(clear.le.0.d0) cstr(1)=clear
       cstr(1)=clear
       !
       !
@@ -211,6 +191,13 @@
          !        linear overclosure/tied overclosure
          !
          elas(1)=-springarea(1)*elcon(2,1,imat)*clear/kscale
+         !
+         !     spring scaling for explicit dynamics
+         !
+         if((mscalmethod.eq.2).or.(mscalmethod.eq.3)) then
+            elas(1)=elas(1)*smscale(nelem)
+         endif
+         !
          if(nener.eq.1) then
             senergy=-elas(1)*clear/2.d0;
          endif
@@ -287,6 +274,12 @@
             um=elcon(6,1,imat)
          endif
          stickslope=elcon(7,1,imat)/kscale
+         !
+         !     spring scaling for explicit dynamics
+         !
+         if((mscalmethod.eq.2).or.(mscalmethod.eq.3)) then
+            stickslope=stickslope*smscale(nelem)
+         endif
          !
          if(um.gt.0.d0) then
             if(1.d0 - dabs(xn(1)).lt.1.5231d-6) then       

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -35,7 +35,8 @@
         mt,i,ii,j,k,jj,kk,indexe,nope,norien,ihyper,iactive,&
         imat,mint3d,iorien,ilayer,nlayer,ki,kl,istartdesi(*),&
         ielprop(*),mortar,idesvar,node,ndesi,nodedesi(*),&
-        nobject,iobject,ialdesi(*),ij
+        nobject,iobject,ialdesi(*),ij,node1,node2,&
+        ifaceqexp(2,20),ifacewexp(2,15)
       !
       real*8 co(3,*),shp(4,26),xl(3,26),vl(0:mi(2),26),&
         prop(*),rhcon(0:1,ntmat_,*),xs2(3,7),thickness,rho,xl2(3,8),&
@@ -58,6 +59,47 @@
       null=0
       !
       mt=mi(2)+1
+      !
+      !     nodes in expansion direction of hex element
+      !
+      data ifaceqexp /5,17,&
+                      6,18,&
+                      7,19,&
+                      8,20,&
+                      1,17,&
+                      2,18,&
+                      3,19,&
+                      4,20,&
+                      13,0,&
+                      14,0,&
+                      15,0,&
+                      16,0,&
+                      9,0,&
+                      10,0,&
+                      11,0,&
+                      12,0,&
+                      0,0,&
+                      0,0,&
+                      0,0,&
+                      0,0/
+      !
+      !     nodes in expansion direction of wedge element
+      !
+      data ifacewexp /4,13,&
+                      5,14,&
+                      6,16,&
+                      1,13,&
+                      2,14,&
+                      3,15,&
+                      10,0,&
+                      11,0,&
+                      12,0,&
+                      7,0,&
+                      8,0,&
+                      9,0,&
+                      0,0,&
+                      0,0,&
+                      0,0/
          !
          !     -------------------------------------------------------------
          !     Initialisation of the loop for the variation of
@@ -289,6 +331,59 @@
                do j=1,3
                   xl(j,iactive)=xl(j,iactive)+xdesi(j,idesvar)
                enddo
+               if(lakonl(1:5).eq.'C3D20') then
+                  if((lakonl(7:7).eq.'A').or.&
+                     (lakonl(7:7).eq.'L').or.&
+                     (lakonl(7:7).eq.'S').or.&
+                     (lakonl(7:7).eq.'E')) then
+                     node1=ifaceqexp(1,iactive)
+                     node2=ifaceqexp(2,iactive)
+                     do j=1,3
+                        if(iactive.le.8) then
+                           xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                           xl(j,node2)=xl(j,node2)+xdesi(j,idesvar)
+                        else
+                           xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                        endif         
+                     enddo  
+                  endif     
+               elseif(lakonl(1:5).eq.'C3D15') then
+                  if((lakonl(7:7).eq.'A').or.&
+                     (lakonl(7:7).eq.'L').or.&
+                     (lakonl(7:7).eq.'S').or.&
+                     (lakonl(7:7).eq.'E')) then
+                     node1=ifacewexp(1,iactive)
+                     node2=ifacewexp(2,iactive)
+                     do j=1,3
+                        if(iactive.le.6) then
+                           xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                           xl(j,node2)=xl(j,node2)+xdesi(j,idesvar)
+                        else
+                           xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                        endif         
+                     enddo  
+                  endif     
+               elseif(lakonl(1:4).eq.'C3D8') then
+                  if((lakonl(7:7).eq.'A').or.&
+                     (lakonl(7:7).eq.'L').or.&
+                     (lakonl(7:7).eq.'S').or.&
+                     (lakonl(7:7).eq.'E')) then
+                     node1=ifaceqexp(1,iactive)
+                     do j=1,3
+                        xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)       
+                     enddo  
+                  endif     
+               elseif(lakonl(1:4).eq.'C3D6') then
+                  if((lakonl(7:7).eq.'A').or.&
+                     (lakonl(7:7).eq.'L').or.&
+                     (lakonl(7:7).eq.'S').or.&
+                     (lakonl(7:7).eq.'E')) then
+                     node1=ifaceqexp(1,iactive)
+                     do j=1,3
+                        xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)       
+                     enddo  
+                  endif     
+               endif
             endif
             !
             do jj=1,mint3d
@@ -439,14 +534,14 @@
                   else
                      call shape20h(xi,et,ze,xl,xsj,shp,iflag)
                   endif
-               elseif(nope.eq.26) then
-                  call shape26h(xi,et,ze,xl,xsj,shp,iflag,konl)
+               !                elseif(nope.eq.26) then
+               !                   call shape26h(xi,et,ze,xl,xsj,shp,iflag,konl)
                elseif(nope.eq.8) then
                   call shape8h(xi,et,ze,xl,xsj,shp,iflag)
                elseif(nope.eq.10) then
                   call shape10tet(xi,et,ze,xl,xsj,shp,iflag)
-               elseif(nope.eq.14) then
-                  call shape14tet(xi,et,ze,xl,xsj,shp,iflag,konl)
+               !                elseif(nope.eq.14) then
+               !                   call shape14tet(xi,et,ze,xl,xsj,shp,iflag,konl)
                elseif(nope.eq.4) then
                   call shape4tet(xi,et,ze,xl,xsj,shp,iflag)
                elseif(nope.eq.15) then
@@ -459,6 +554,11 @@
                !
                rho=rhcon(1,1,imat)
                xmassel=xmassel+weight*xsj*rho
+            !
+            !               write(5,'(i5,3x,i5,3x,i5,3x,e14.8,3x,e14.7,3x,e14.8,
+            !     &                    3x,e14.8,3x,e14.8,3x,e20.14)')
+            !     &                    idesvar,i,jj,weight,xsj,xi,et,ze,
+            !     &                    xmassel
             !
             !     end of loop over all integration points
             enddo

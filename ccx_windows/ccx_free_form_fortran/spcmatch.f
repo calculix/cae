@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,12 +18,14 @@
 !
       subroutine spcmatch(xboun,nodeboun,ndirboun,nboun,xbounold,&
          nodebounold,ndirbounold,nbounold,ikboun,ilboun,vold,reorder,&
-         nreorder,mi)
+         nreorder,mi,typeboun)
       !
       !     matches SPC boundary conditions of one step with those of
       !     the previous step
       !
       implicit none
+      !
+      character*1 typeboun(*)
       !
       integer nodeboun(*),ndirboun(*),nboun,nodebounold(*),ilboun(*),&
         ndirbounold(*),nbounold,i,kflag,idof,id,nreorder(*),ikboun(*),&
@@ -36,6 +38,11 @@
       do i=1,nboun
          nreorder(i)=0
       enddo
+      !
+      !     determining for which new SPC there exists an old value
+      !     for new SPC i the value of reorder(i) is set to the
+      !     old value and nreorder(i) is set to 1 (default for
+      !     both fields is 0)
       !
       do i=1,nbounold
          idof=8*(nodebounold(i)-1)+ndirbounold(i)
@@ -50,7 +57,14 @@
          endif
       enddo
       !
+      !     for new SPC's which do not have an equivalent SPC
+      !     the last value of the corresponding field is stored
+      !     in reorder (not for fluid SPC's since the facial
+      !     values of the field are not stored in the restart
+      !     file)
+      !
       do i=1,nboun
+         if(typeboun(i).eq.'F') cycle
          if(nreorder(i).eq.0) then
             if(ndirboun(i).gt.4) then
                reorder(i)=0.d0
@@ -61,6 +75,7 @@
       enddo
       !
       do i=1,nboun
+         if(typeboun(i).eq.'F') cycle
          xbounold(i)=reorder(i)
       enddo
       !

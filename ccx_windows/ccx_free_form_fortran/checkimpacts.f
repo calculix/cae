@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -147,7 +147,7 @@
                sizemaxinc=max(temax/tper/10.d0,0.5d0*dtheta)
                istab=1
             endif
-            
+         !
          endif
       !
       elseif(mortar.eq.1)then
@@ -189,6 +189,10 @@
       if(sizemaxinc.lt.tmin)then
          sizemaxinc=tmin
       endif
+      !
+      write(*,*) '*INFO in checkimpacts: due to impact rules the'
+      write(*,*) '      maximum allowed time increment has been'
+      write(*,*) '      changed to',sizemaxinc*tper
       !
       return
       end

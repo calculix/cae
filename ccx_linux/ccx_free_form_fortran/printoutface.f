@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -89,7 +89,10 @@
             then
             !
             ipos=index(prset(ii),' ')
-            faset='                    '
+            do i=1,80
+               faset(i:i)=' '
+            enddo
+            !             faset='                    '
             faset(1:ipos-1)=prset(ii)(1:ipos-1)
             !
             !     printing the header
@@ -154,7 +157,7 @@
                !
                !              for CFD calculations the elements were renumbered
                !
-               if(icfd.eq.1) then
+               if(icfd.ne.0) then
                   nelemcfd=nactdoh(nelem)
                   indexe=ipkonf(nelemcfd)
                   lakonl=lakonf(nelemcfd)
@@ -591,10 +594,10 @@
                      !
                      dd=dsqrt(xsj2(1)*xsj2(1)+xsj2(2)*xsj2(2)+&
                           xsj2(3)*xsj2(3))
-                     area=area+dd
+                     area=area+dd*weight
                      do i1=1,3
-                        cg(i1)=cg(i1)+coords(i1)*dd
-                        xn(i1)=xn(i1)+xsj2(i1)
+                        cg(i1)=cg(i1)+coords(i1)*dd*weight
+                        xn(i1)=xn(i1)+xsj2(i1)*weight
                      enddo
                   endif
                enddo

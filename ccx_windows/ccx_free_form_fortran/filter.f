@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -33,7 +33,7 @@
       real*8 dgdxglob(2,nk,nobject),xo(ndesi),yo(ndesi),zo(ndesi),&
              x(ndesi),y(ndesi),z(ndesi),filterrad,r(ndesi+6),&
              filterval(ndesi),nominator,denominator,distmin,&
-             xdesi(3,ndesi),scalar
+             xdesi(3,ndesi),scalar,pi,sigma
       !
       !     Calculate filtered sensitivities
       !
@@ -48,6 +48,13 @@
       !     Assign filter radius (taken from first defined object function)
       !
       read(objectset(2,1)(21:40),'(f20.0)',iostat=istat) filterrad     
+      !
+      !     For the GAUSS filter search in the 3sigma distance
+      !
+      if(objectset(2,1)(1:5).eq.'GAUSS') then
+         sigma=filterrad
+         filterrad=3*filterrad
+      endif
       !
       do j=ndesia,ndesib
          !
@@ -82,6 +89,15 @@
             do i=1,nnodesinside
                filterval(i)=(2*(dsqrt(r(i))/filterrad)**3&
                             -3*(dsqrt(r(i))/filterrad)**2+1)*filterrad
+            enddo 
+         !
+         !        Calculate function value of the filterfunction GAUSS
+         !
+         elseif(objectset(2,1)(1:5).eq.'GAUSS') then
+            pi=4.d0*datan(1.d0)
+            do i=1,nnodesinside
+               filterval(i)=1/(dsqrt(2*pi)*sigma)*exp(-(dsqrt(r(i))**2)&
+                            /(2*sigma**2))
             enddo 
          endif
          !

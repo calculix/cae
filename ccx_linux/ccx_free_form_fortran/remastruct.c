@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -53,7 +53,7 @@ void remastruct(ITG *ipompc, double **coefmpcp, ITG **nodempcp, ITG *nmpc,
     /* decascading the MPC's */
 
     if(*icascade>0){
-	printf(" Decascading the MPC's\n\n");
+	if(*iexpl<=1) printf(" Decascading the MPC's\n\n");
 	
 	callfrommain=0;
 	cascade(ipompc,&coefmpc,&nodempc,nmpc,
@@ -65,7 +65,7 @@ void remastruct(ITG *ipompc, double **coefmpcp, ITG **nodempcp, ITG *nmpc,
 
     /* determining the matrix structure */
     
-    printf(" Determining the structure of the matrix:\n");
+    if(*iexpl<=1) printf(" Determining the structure of the matrix:\n");
  
     if(nzs[1]<10) nzs[1]=10;   
     NNEW(mast1,ITG,nzs[1]);
@@ -75,7 +75,7 @@ void remastruct(ITG *ipompc, double **coefmpcp, ITG **nodempcp, ITG *nmpc,
 	     nodempc,nmpc,nactdof,icol,jq,&mast1,&irow,isolver,neq,
 	     ikmpc,ilmpc,ipointer,nzs,nmethod,ithermal,
              ikboun,ilboun,iperturb,mi,mortar,typeboun,labmpc,
-             iit,icascade,network);
+             iit,icascade,network,iexpl);
 
     SFREE(ipointer);SFREE(mast1);
     RENEW(irow,ITG,nzs[2]);

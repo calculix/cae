@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,8 +19,8 @@
       subroutine calcheatnet(nelem,lakon,ipkon,kon,v,ielprop,prop,&
         ielmat,ntmat_,shcon,nshcon,rhcon,nrhcon,ipobody,ibody,xbody,&
         mi,nacteq,bc,qat,nalt)
-!
-!     user subroutine film
+      !
+      !     user subroutine film
       !
       !
       !     INPUT:
@@ -118,11 +118,11 @@
       !
       integer nelem,ipkon(*),kon(*),nshcon(*),nrhcon(*),ipobody(2,*),&
         ibody(3,*),mi(*),ntmat_,ielprop(*),ielmat(mi(3),*),node1,&
-        node2,nodem,imat,nalt,ieq,nacteq(0:3,*)
+        node2,nodem,imat,nalt,ieq,nacteq(0:3,*),index
       !
       real*8 shcon(0:3,ntmat_,*),rhcon(0:1,ntmat_,*),xbody(7,*),heat,&
         v(0:mi(2),*),prop(*),xflow,Uout,Tg1,Tg2,Rin,Rout,R1,R2,r,cp,rho,&
-        dvi,Uin,gastemp,cp_cor,bc(*),qat
+        dvi,Uin,gastemp,cp_cor,bc(*),qat,om
       !
       intent(in) nelem,lakon,ipkon,kon,v,ielprop,prop,&
         ielmat,ntmat_,shcon,nshcon,rhcon,nrhcon,ipobody,ibody,xbody,&
@@ -140,36 +140,18 @@
       !
       if(lakon(nelem)(2:3).eq.'VO') then
          !
-         !          nodem=kon(ipkon(nelem)+2)
-         !          xflow=v(1,nodem)
-         !          if(xflow.gt.0d0) then
-         !             node1=kon(ipkon(nelem)+1)
-         !             node2=kon(ipkon(nelem)+3)
-         !          else
-         !             node1=kon(ipkon(nelem)+1)
-         !             node2=kon(ipkon(nelem)+3)
-         !          endif
+         index=ielprop(nelem)
          !
          if(xflow.gt.0d0) then
-            R1=prop(ielprop(nelem)+2)
-            R2=prop(ielprop(nelem)+1)
-            if(R1.gt.R2) then
-               Rout=R2
-               Rin=R1
-            else
-               Rout=R2
-               Rin=R1
-            endif
+            R1=prop(index+2)
+            R2=prop(index+1)
+            Rout=R2
+            Rin=R1
          else
-            R1=prop(ielprop(nelem)+2)
-            R2=prop(ielprop(nelem)+1)
-            if(R1.gt.R2) then
-               Rout=R1
-               Rin=R2
-            else
-               Rout=R1
-               Rin=R2
-            endif
+            R1=prop(index+2)
+            R2=prop(index+1)
+            Rout=R1
+            Rin=R2
          endif
          !
          !     computing temperature corrected Cp=Cp(T) coefficient
@@ -193,36 +175,60 @@
          !
          call cp_corrected(cp,Tg1,Tg2,cp_cor)
          !
-         Uout=prop(ielprop(nelem)+5)*Rout
-         Uin=prop(ielprop(nelem)+5)*Rin
+         !          Uout=prop(index+5)*Rout
+         !          Uin=prop(index+5)*Rin
          !
          !     free and forced vortices with temperature
          !     change in the relative system of coordinates
          !
          if((lakon(nelem)(2:5).eq.'VOFR') .and.&
-              (nint(prop(ielprop(nelem)+8)).eq.(-1))) then
+              (nint(prop(index+8)).eq.(-1))) then
             !
-            Uout=prop(ielprop(nelem)+7)*Rout
-            Uin=prop(ielprop(nelem)+7)*Rin
+            Uout=prop(index+7)*Rout
+            Uin=prop(index+7)*Rin
             !
             heat=0.5d0*Cp/Cp_cor*(Uout**2-Uin**2)*xflow
          !
          elseif (((lakon(nelem)(2:5).eq.'VOFO')&
-                 .and.(nint(prop(ielprop(nelem)+6)).eq.(-1)))) then
+                 .and.(nint(prop(index+6)).eq.(-1)))) then
             !
-            Uout=prop(ielprop(nelem)+5)*Rout
-            Uin=prop(ielprop(nelem)+5)*Rin
+            Uout=prop(index+5)*Rout
+            Uin=prop(index+5)*Rin
             !
             heat=0.5d0*Cp/Cp_cor*(Uout**2-Uin**2)*xflow
          !
          !     forced vortices with temperature change in the absolute system
          !
          elseif((lakon(nelem)(2:5).eq.'VOFO')&
-                 .and.((nint(prop(ielprop(nelem)+6)).eq.1))) then
+                 .and.((nint(prop(index+6)).eq.1))) then
             !
+            Uout=prop(index+5)*Rout
+            Uin=prop(index+5)*Rin
             heat=Cp/Cp_cor*(Uout**2-Uin**2)*xflow
          !
          endif
+      elseif(lakon(nelem)(2:5).eq.'GAPR') then
+         !
+         !        heat production in a rotating pipe (in the relative
+         !        system)
+         !
+         index=ielprop(nelem)
+         !
+         R1=prop(index+8)
+         R2=prop(index+9)
+         om=prop(index+10)
+         if(xflow.gt.0.d0) then
+            Rin=R1
+            Rout=R2
+         else
+            Rin=R2
+            Rout=R1
+         endif
+         Uin=Rin*om
+         Uout=Rout*om
+         !
+         heat=(Uout**2-Uin**2)*xflow/2.d0
+      !
       elseif(lakon(nelem)(2:2).eq.'U') then
          !
          !        insert here the heat generated in user defined network elements

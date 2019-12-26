@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -38,9 +38,9 @@
       !
       !
       nev2=2*nev
-!
-!     transferring fields into global field rpar
-!     (needed for subroutine fd)
+      !
+      !     transferring fields into global field rpar
+      !     (needed for subroutine fd)
       !     rpar contains (field, size): m+0.5, 1
       !                                  alpham, 1
       !                                  betam, 1

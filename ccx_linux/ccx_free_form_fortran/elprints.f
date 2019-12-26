@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -60,6 +60,7 @@
                (prlab(i)(1:4).eq.'ELSE').or.&
                (prlab(i)(1:4).eq.'ELKE').or.&
                (prlab(i)(1:4).eq.'EVOL').or.&
+               (prlab(i)(1:4).eq.'EMAS').or.&
                (prlab(i)(1:4).eq.'EBHE').or.&
                (prlab(i)(1:4).eq.'SVF ').or.&
                (prlab(i)(1:4).eq.'HFLF').or.&
@@ -243,6 +244,7 @@
                    (textpart(ii)(1:4).ne.'E   ').and.&
                    (textpart(ii)(1:4).ne.'ME  ').and.&
                    (textpart(ii)(1:4).ne.'EVOL').and.&
+                   (textpart(ii)(1:4).ne.'EMAS').and.&
                    (textpart(ii)(1:4).ne.'EBHE')) then
                write(*,*)&
                    '*WARNING reading *EL PRINT: label not applicable'

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -57,11 +57,12 @@
       !     check whether in case of cyclic symmetry the frequency procedure
       !     is chosen
       !
-      if(nmethod.ne.2) then
+      if((nmethod.ne.2).and.(nmethod.ne.13)) then
          write(*,*) '*ERROR reading *SELECT CYCLIC SYMMETRY MODES:'
-         write(*,*) '       the only valid procedure'
+         write(*,*) '       the only valid procedures'
          write(*,*) '       for cyclic symmetry calculations'
-         write(*,*) '       with nodal diameters is *FREQUENCY'
+         write(*,*) '       with nodal diameters are *FREQUENCY'
+         write(*,*) '       and *GREEN'
          ier=1
          return
       endif

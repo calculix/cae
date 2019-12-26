@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -26,7 +26,7 @@ static char *lakonf1;
 
 static ITG num_cpus,*nef1,*ipnei1,*neifa1,*neiel1,*jq1,*irow1,*ielfa1,
     *ifabou1,*neq1,*nzs1,*neij1,*ielmatf1,*mi1,*ntmat1_,*nactdohinv1,
-    *iau61;
+  *iau61,*inlet1;
 
 static double *vfa1,*area1,*advfa1,*xlet1,*cosa1,*volume1,*au1,*ad1,
     *ap1,*xle1,*b1,*xxn1,*hfa1,*gradpel1,*bp1,*xxi1,*xlen1,*cosb1,
@@ -43,7 +43,7 @@ void mafillpcompmain(ITG *nef,char *lakonf,ITG *ipnei,
              ITG *ielmatf,ITG *mi,double *a1,double *a2,double *a3,double *velo,
              double *veloo,double *dtimef,double *shcon,ITG *ntmat_,double *vel,
 	     ITG *nactdohinv,double *xrlfa,double *flux,ITG *iau6,double *xxicn,
-             double *gamma){
+	     double *gamma,ITG *inlet){
 
     ITG i,j;
       
@@ -113,6 +113,7 @@ void mafillpcompmain(ITG *nef,char *lakonf,ITG *ipnei,
     a21=a2;a31=a3;velo1=velo;veloo1=veloo;dtimef1=dtimef;shcon1=shcon;
     ntmat1_=ntmat_;vel1=vel;nactdohinv1=nactdohinv;xrlfa1=xrlfa;
     flux1=flux;iau61=iau6;ad1=ad;au1=au;b1=b;xxicn1=xxicn;gamma1=gamma;
+    inlet1=inlet;
     
     /* create threads and wait */
     
@@ -149,7 +150,7 @@ void *mafillpcompmt(ITG *i){
                          hfa1,gradpel1,bp1,xxi1,neij1,xlen1,cosb1,ielmatf1,mi1,
                          a11,a21,a31,velo1,veloo1,dtimef1,shcon1,ntmat1_,vel1,
                          nactdohinv1,xrlfa1,flux1,&nefa,&nefb,iau61,xxicn1,
-                         gamma1));
+                         gamma1,inlet1));
 
     return NULL;
 }

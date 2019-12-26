@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -31,12 +31,12 @@ void remastructar(ITG *ipompc, double **coefmpcp, ITG **nodempcp, ITG *nmpc,
               ITG *neq, ITG *nzs,ITG *nmethod, ITG *ithermal,
 	      ITG *iperturb, ITG *mass, ITG *mi, ITG *ics, double *cs,
 	      ITG *mcs,ITG *mortar,char *typeboun,ITG *iit,
-              ITG *network){
+	      ITG *network,ITG *iexpl){
 
     /* reconstructs the nonzero locations in the stiffness and mass
        matrix after a change in MPC's or the generation of contact
        spring elements: version for frequency calculations (called
-       by arpack and arpackcs)  */
+       by arpack, arpackcs and linstatic)  */
 
     ITG *nodempc=NULL,*mast1=NULL,*ipointer=NULL,mpcend,
         callfrommain,i,*irow=NULL,mt;
@@ -74,7 +74,7 @@ void remastructar(ITG *ipompc, double **coefmpcp, ITG **nodempcp, ITG *nmpc,
 	     nodempc,nmpc,nactdof,icol,jq,&mast1,&irow,isolver,neq,
 	     ikmpc,ilmpc,ipointer,nzs,nmethod,ithermal,
 	     ikboun,ilboun,iperturb,mi,mortar,typeboun,labmpc,
-	     iit,icascade,network);
+	     iit,icascade,network,iexpl);
 
     }else{
       

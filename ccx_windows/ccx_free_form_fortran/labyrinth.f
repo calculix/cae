@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -69,6 +69,10 @@
          endif
       !
       elseif(iflag.eq.1)then
+         if(v(1,nodem).ne.0.d0) then
+            xflow=v(1,nodem)
+            return
+         endif
           !
           kappa=(cp/(cp-R))
           !
@@ -384,11 +388,11 @@
                !     corrective term for the first spike
                p1p2=p1/p2
                pt0zps1=(p1p2)**(1/prop(index+4))
-               call cd_lab_1spike (pt0zps1,s,b,cd_1spike)
+               call cd_lab_1spike(pt0zps1,s,b,cd_1spike)
                !
                !     corrective term for cd_lab_1spike
                !
-               call cd_lab_correction (p1p2,s,b,cd_correction)
+               call cd_lab_correction(p1p2,s,b,cd_correction)
                !
                !     calculation of the discharge coefficient of the stepped labyrinth
                !
@@ -570,11 +574,11 @@
                !     corrective term for the first spike
                p1p2=p1/p2
                pt0zps1=(p1p2)**(1/prop(index+4))
-               call cd_lab_1spike (pt0zps1,s,b,cd_1spike)
+               call cd_lab_1spike(pt0zps1,s,b,cd_1spike)
                !
                !     corrective term for cd_lab_1spike
                !
-               call cd_lab_correction (p1p2,s,b,cd_correction)
+               call cd_lab_correction(p1p2,s,b,cd_correction)
                !
                !     calculation of the discharge coefficient of the stepped labyrinth
                !

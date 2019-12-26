@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -747,18 +747,18 @@
          enddo
       enddo
       !
-      !       open(30,file='dummy',status='unknown')
-      !       write(30,*) 'nactdog'
-      !       do i=1,ntg
-      !          write(30,*) itg(i),(nactdog(j,itg(i)),j=0,3)
-      !       enddo
-      !
-      !       write(30,*) ''
-      !       write(30,*) 'nacteq'
-      !       do i=1,ntg
-      !          write(30,*) itg(i),(nacteq(j,itg(i)),j=0,3)
-      !       enddo
-      !       close(30)
+      open(30,file='dummy',status='unknown')
+      write(30,*) 'nactdog'
+      do i=1,ntg
+         write(30,*) itg(i),(nactdog(j,itg(i)),j=0,3)
+      enddo
+
+      write(30,*) ''
+      write(30,*) 'nacteq'
+      do i=1,ntg
+         write(30,*) itg(i),(nacteq(j,itg(i)),j=0,3)
+      enddo
+      close(30)
       !
       if(ntq.ne.nteq) then
          write(*,*) '*ERROR in envtemp:'

@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                     */
+/*              Copyright (C) 1998-2019 Guido Dhondt                     */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -41,7 +41,8 @@
 
 
 void projectgradmain(ITG *nobject,char **objectsetp,double **dgdxglobp,
-         double *g0,ITG *ndesi,ITG *nodedesi,ITG *nk,ITG *isolver){
+         double *g0,ITG *ndesi,ITG *nodedesi,ITG *nk,ITG *isolver,
+	 double *co, double *xdesi, double *distmin, ITG *nconstraint){
                
   /* generating the projected gradient vector for constraint 
      optimization */
@@ -51,10 +52,11 @@ void projectgradmain(ITG *nobject,char **objectsetp,double **dgdxglobp,
   ITG nzss,*mast1=NULL,*irows=NULL,*icols=NULL,*jqs=NULL,*ipointer=NULL,
       symmetryflag=0,inputformat=0,i,iconst,iter,nactiveold,*ipoactiold=NULL,
       *iconstactiold=NULL,*ipoacti=NULL,*iconstacti=NULL,nactive=0,nnlconst,
-      iscaleflag,nrhs=1,*inameacti=NULL;
+      iscaleflag,nrhs=1,*inameacti=NULL,*inameactiold=NULL,iobject,node;
              
   double *au=NULL,*ad=NULL,*adb=NULL,*aub=NULL,sigma=0,*rhs=NULL,
-      *vector=NULL,*xlambd=NULL,*xtf=NULL,*objnorm=NULL,*dgdxglob=NULL;   
+      *vector=NULL,*xlambd=NULL,*xtf=NULL,*objnorm=NULL,*dgdxglob=NULL,
+      *dgdxglobcpy=NULL;   
   
   objectset=*objectsetp;dgdxglob=*dgdxglobp;
   
@@ -76,16 +78,19 @@ void projectgradmain(ITG *nobject,char **objectsetp,double **dgdxglobp,
       saved via a pointer to the field objectset */
   
   NNEW(objnorm,double,*nobject);
-  NNEW(ipoacti,ITG,*nobject+*ndesi);
-  NNEW(inameacti,ITG,*nobject+*ndesi);  
-  NNEW(iconstacti,ITG,*nobject+*ndesi);
+  NNEW(ipoacti,ITG,*nobject**ndesi);
+  NNEW(inameacti,ITG,*nobject**ndesi);  
+  NNEW(iconstacti,ITG,*nobject**ndesi);
 
   /* estimate nactive on the basis of the function values of the 
      constraints */
+     
+  if(nconstraint>0){
   
-  FORTRAN(checkconstraint,(nobject,objectset,g0,&nactive,&nnlconst,
-     ipoacti,ndesi,dgdxglob,nk,nodedesi,iconstacti,objnorm,
-     inameacti));
+     FORTRAN(checkconstraint,(nobject,objectset,g0,&nactive,&nnlconst,
+        ipoacti,ndesi,dgdxglob,nk,nodedesi,iconstacti,objnorm,
+        inameacti));	
+  }
 
   RENEW(ipoacti,ITG,nactive);
   RENEW(inameacti,ITG,nactive);
@@ -95,7 +100,7 @@ void projectgradmain(ITG *nobject,char **objectsetp,double **dgdxglobp,
      
      iscaleflag=1;     
      FORTRAN(scalesen,(dgdxglob,nobject,nk,nodedesi,ndesi,
-                       objectset,&iscaleflag));
+                       objectset,&iscaleflag,ipoacti,&nnlconst,&nactive));
       
      *nobject=*nobject+1; 
      RENEW(dgdxglob,double,2**nk**nobject);
@@ -194,6 +199,10 @@ void projectgradmain(ITG *nobject,char **objectsetp,double **dgdxglobp,
 	}
 	
         /* solve the system nactive-times */
+
+        for(i=0;i<nactive;i++){
+           xtf[i]=0.00;
+        }
 	
         RENEW(rhs,double,nactive);
         RENEW(xlambd,double,nactive);
@@ -282,9 +291,11 @@ void projectgradmain(ITG *nobject,char **objectsetp,double **dgdxglobp,
 	
         RENEW(ipoactiold,ITG,nactive);
         RENEW(iconstactiold,ITG,nactive);
+	RENEW(inameactiold,ITG,nactive);
 	
         FORTRAN(checkprojectgrad,(&nactiveold,&nactive,ipoacti,ipoactiold,
-		objectset,xlambd,&nnlconst,iconstacti,iconstactiold,inameacti));
+		objectset,xlambd,&nnlconst,iconstacti,iconstactiold,inameacti,
+		inameactiold,g0,nobject));
 	
      }
      
@@ -303,15 +314,36 @@ void projectgradmain(ITG *nobject,char **objectsetp,double **dgdxglobp,
   FORTRAN(postprojectgrad,(ndesi,nodedesi,dgdxglob,&nactive,nobject,
              &nnlconst,ipoacti,nk,&iconst,objectset,iconstacti,inameacti));
                 
-  iscaleflag=0;
+  /* Filtering of sensitivities a second time to account for dependency
+     between the control field and the designvariables*/
+
+  NNEW(dgdxglobcpy,double,2**nk**nobject);
+  memcpy(&dgdxglobcpy[0],&dgdxglob[0],sizeof(double)*2**nk**nobject);
+  
+  iscaleflag=2;	     	     
+  FORTRAN(scalesen,(dgdxglobcpy,nobject,nk,nodedesi,ndesi,
+             objectset,&iscaleflag,ipoacti,&nnlconst,&nactive));
+     
+  filtermain(co,dgdxglobcpy,nobject,nk,nodedesi,ndesi,objectset,
+             xdesi,distmin);
+
+  for(iobject=0;iobject<*nobject;iobject++){
+     for(i=0;i<*ndesi;i++){
+        node=nodedesi[i]-1;
+	dgdxglob[2*node+1+2*iobject**nk]=dgdxglobcpy[2*node+1+2*iobject**nk];
+     }
+  }
+       
+  iscaleflag=3;
   FORTRAN(scalesen,(dgdxglob,nobject,nk,nodedesi,ndesi,
-                    objectset,&iscaleflag));
+             objectset,&iscaleflag,ipoacti,&nnlconst,&nactive));
   
   SFREE(mast1);SFREE(irows);SFREE(icols);SFREE(jqs);
   SFREE(ad);SFREE(au);SFREE(adb);SFREE(aub);SFREE(rhs);SFREE(xlambd);
   SFREE(xtf);SFREE(vector);SFREE(ipoactiold);SFREE(iconstactiold);
   SFREE(objnorm);SFREE(ipoacti);SFREE(iconstacti);SFREE(inameacti);
-
+  SFREE(dgdxglobcpy);
+  
   *objectsetp=objectset;*dgdxglobp=dgdxglob;
   
   return;

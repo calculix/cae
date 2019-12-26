@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -29,13 +29,14 @@ static ITG *kon1,*ipkon1,*ne1,*nelcon1,*nrhcon1,*nalcon1,*ielmat1,*ielorien1,
     *nplicon1,*nplkcon1,*npmat1_,*mi1,*ielas1,*icmd1,*ncmat1_,*nstate1_,
     *istep1,*iinc1,calcul_fn1,calcul_qa1,calcul_cauchy1,*nener1,ikin1,
     *nal=NULL,num_cpus,mt1,*nk1,*ne01,*mortar1,*ielprop1,*kscale1,*neapar1,
-    *nebpar1;
+    *nebpar1,mscalmethod1=0;
 
 static double *co1,*v1,*stx1,*elcon1,*rhcon1,*alcon1,*alzero1,*orab1,*t01,*t11,
     *prestr1,*eme1,*fn1=NULL,*qa1=NULL,*vold1,*veold1,*dtime1,*time1,
     *ttime1,*plicon1,*plkcon1,*xstateini1,*xstiff1,*xstate1,*stiini1,
     *vini1,*ener1,*eei1,*enerini1,*springarea1,*reltime1,
-    *thicke1,*emeini1,*prop1,*pslavsurf1,*pmastsurf1,*clearini1;
+    *thicke1,*emeini1,*prop1,*pslavsurf1,*pmastsurf1,*clearini1,*smscale1,
+    enerscal1=0.;
 
 void resultsstr(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
        double *v,double *stn,ITG *inum,double *stx,double *elcon,ITG *nelcon,
@@ -71,8 +72,10 @@ void resultsstr(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
        double *energy,ITG *kscale,ITG *nener,
        char *orname,ITG *network,ITG *neapar,ITG *nebpar){
 
+    char *tieset=NULL;
+  
     ITG intpointvarm,calcul_fn,calcul_f,calcul_qa,calcul_cauchy,ikin,
-        mt=mi[1]+1,i,j;
+      mt=mi[1]+1,i,j,*itiefac=NULL;
 
     /*
 
@@ -250,7 +253,7 @@ void resultsstr(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
        nshcon,cocon,ncocon,ntmat_,sideload,icfd,inomat,pslavsurf,islavact,
        cdn,mortar,islavnode,nslavnode,ntie,islavsurf,time,ielprop,prop,
        veold,ne0,nmpc,ipompc,nodempc,labmpc,energyini,energy,orname,
-       xload));
+       xload,itiefac,pmastsurf,springarea,tieset));
   
   return;
 
@@ -285,7 +288,7 @@ void *resultsmechmtstr(ITG *i){
           springarea1,reltime1,&calcul_fn1,&calcul_qa1,&calcul_cauchy1,nener1,
 	  &ikin1,&nal[indexnal],ne01,thicke1,emeini1,
 	  pslavsurf1,pmastsurf1,mortar1,clearini1,&nea,&neb,ielprop1,prop1,
-	  kscale1,&list,ilist));
+	  kscale1,&list,ilist,smscale1,&mscalmethod1,&enerscal1));
 
     return NULL;
 }

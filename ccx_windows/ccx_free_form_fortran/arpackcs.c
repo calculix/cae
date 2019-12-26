@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -79,7 +79,7 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
   
   char bmat[2]="G", which[3]="LM", howmny[2]="A",*lakont=NULL,
       description[13]="            ",fneig[132]="",filabcp[9]="        ",
-      lakonl[2]=" \0",*lakon=NULL,jobnamef[396]="";
+    lakonl[2]=" \0",*lakon=NULL,jobnamef[396]="",*turdir=NULL;
 
   ITG *inum=NULL,k,ido,ldz,iparam[11],ipntr[14],lworkl,idir,nherm=1,
     info,rvec=1,*select=NULL,lfin,j,lint,iout=1,nm,index,inode,id,i,idof,
@@ -90,19 +90,19 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
     *inotrt=NULL,symmetryflag=0,inputformat=0,inewton=0,ifreebody,
     mass=1, stiffness=1, buckling=0, rhsi=0, intscheme=0,*ncocon=NULL,
     coriolis=0,iworsttime,l3,iray,mt,kkx,im,ne0,*integerglob=NULL,
-    *nshcon=NULL,one=1,irenewxstate,ncont=0,*itietri=NULL,neq2,
+    *nshcon=NULL,one=1,ncont=0,*itietri=NULL,neq2,
     *koncont=NULL,ismallsliding=0,*itiefac=NULL,*islavsurf=NULL,
     *islavnode=NULL,*imastnode=NULL,*nslavnode=NULL,*nmastnode=NULL,
     *imastop=NULL,*iponoels=NULL,*inoels=NULL,*ipe=NULL,*ime=NULL,
     mpcfree,memmpc_,icascade,maxlenmpc,nkon0,iit=-1,*irow=NULL,nasym=0,
     kmax1,kmax2,icfd=0,*inomat=NULL,*ipkon=NULL,*kon=NULL,*ielmat=NULL,
     *ielorien=NULL,*islavact=NULL,*islavsurfold=NULL,nslavs_prev_step,
-    maxprevcontel,iex,iflagact=0,*nmc=NULL,icutb=0,ialeatoric=0,
-    *iponoel=NULL,*inoel=NULL,network=0,ioffr,ioffi,nrhs=1,
-    ioffrl,ioffil;
+    maxprevcontel,iflagact=0,*nmc=NULL,icutb=0,ialeatoric=0,
+    *iponoel=NULL,*inoel=NULL,network=0,ioffr,nrhs=1,
+    ioffrl,igreen=0,mscalmethod=0,kref;
 
   double *stn=NULL,*v=NULL,*resid=NULL,*z=NULL,*workd=NULL,*vr=NULL,
-      *workl=NULL,*d=NULL,sigma,*temp_array=NULL,*vini=NULL,
+    *workl=NULL,*d=NULL,sigma,*temp_array=NULL,*vini=NULL,
     *een=NULL,cam[5],*f=NULL,*fn=NULL,qa[4],*fext=NULL,*emn=NULL,
     *epn=NULL,*stiini=NULL,*fnr=NULL,*fni=NULL,fnreal,fnimag,*emeini=NULL,
     *xstateini=NULL,theta=0,pi,*coefmpcnew=NULL,*xstiff=NULL,*vi=NULL,
@@ -119,8 +119,9 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
     *workev=NULL,*temp_array2=NULL,*ener=NULL,*xstate=NULL,cdnimag,
     sigmai=0,amp,ampmax,*zstorage=NULL,*au=NULL,*ad=NULL,cdnreal,
     *b=NULL,*aub=NULL,*adb=NULL,*pslavsurf=NULL,*pmastsurf=NULL,
-    *cdnt=NULL,*cdnr=NULL,*cdni=NULL,*eme=NULL,alea=0.1,
-    *pslavsurfold=NULL,*energyini=NULL,*energy=NULL;
+    *cdnt=NULL,*cdnr=NULL,*cdni=NULL,*eme=NULL,alea=0.1,sum,
+    *pslavsurfold=NULL,*energyini=NULL,*energy=NULL,xn[3],e1[3],e2[3],
+    *smscale=NULL;
 
   FILE *f1;
 
@@ -138,6 +139,11 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
   kon=*konp;ielmat=*ielmatp;ielorien=*ielorienp;
 
   islavsurf=*islavsurfp;pslavsurf=*pslavsurfp;clearini=*clearinip;
+
+  if(*nmethod==13){
+    *nmethod=2;
+    igreen=1;
+  }
 
   if(*nener==1){NNEW(ener,double,mi[0]**ne);}
   
@@ -168,12 +174,21 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
   
   /* copying the frequency parameters */
   
-  nev=mei[0];
-  ncv=mei[1];
-  mxiter=mei[2];
-  tol=fei[0];
-  fmin=2*pi*fei[1];
-  fmax=2*pi*fei[2];
+  if(igreen==0){
+    nev=mei[0];
+    ncv=mei[1];
+    mxiter=mei[2];
+    tol=fei[0];
+    fmin=2*pi*fei[1];
+    fmax=2*pi*fei[2];
+  }else{
+
+    /* Green functions: number of "eigenmodes" is the number of
+       unit forces */
+    
+    nev=*nforc;
+    ncv=*nforc;
+  }
   
   /* assigning the body forces to the elements */ 
   
@@ -201,7 +216,6 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
       memmpc_=mpcinfo[0];mpcfree=mpcinfo[1];icascade=mpcinfo[2];
       maxlenmpc=mpcinfo[3];
       
-      if(*nslavs==0){irenewxstate=1;}else{irenewxstate=0;}
       inicont(nk,&ncont,ntie,tieset,nset,set,istartset,iendset,ialset,&itietri,
 	      lakon,ipkon,kon,&koncont,nslavs,tietol,&ismallsliding,&itiefac,
 	      &islavsurf,&islavnode,&imastnode,&nslavnode,&nmastnode,
@@ -297,7 +311,6 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		  }
 		  
 		  if((*nintpoint>0)&&(maxprevcontel>0)){
-		      iex=2;
 		      
 		      /* interpolation of xstate */
 		      
@@ -343,7 +356,7 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		       labmpc,nk,&memmpc_,&icascade,&maxlenmpc,
 		       kon,ipkon,lakon,ne,nactdof,icol,jq,&irow,isolver,
 		       neq,nzs,nmethod,ithermal,iperturb,&mass,mi,ics,cs,
-		       mcs,mortar,typeboun,&iit,&network);
+		       mcs,mortar,typeboun,&iit,&network,iexpl);
       }
   }
   
@@ -390,7 +403,8 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	      sideload,xload,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
               mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
 	      islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-              inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun);
+              inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
+	      itiefac,tieset,smscale,&mscalmethod);
   }else{
       results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
 	      elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
@@ -409,7 +423,8 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	      sideload,xload,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
               mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
 	      islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-              inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun);
+              inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
+	      itiefac,tieset,smscale,&mscalmethod);
   }
   SFREE(f);SFREE(v);SFREE(fn);SFREE(stx);SFREE(eme);SFREE(inum);
   iout=1;
@@ -588,7 +603,11 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
       
       /* LU decomposition of the left hand matrix */
       
-      if(nasym==1){sigma=0.;}else{sigma=1.;}
+      if(igreen==0){
+	if(nasym==1){sigma=0.;}else{sigma=1.;}
+      }else{
+	if(*nforc>0){sigma=xforc[0];}
+      }
       
       if(*isolver==0){
 #ifdef SPOOLES
@@ -636,164 +655,136 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 #endif
       }
       
-      SFREE(au);SFREE(ad);
+      //      SFREE(au);SFREE(ad);
       
       /* calculating the eigenvalues and eigenmodes */
+
+      if(igreen==0){
       
-      printf(" Calculating the eigenvalues and the eigenmodes\n");
-      
-      ido=0;
-      ldz=neq[1];
-      for(k=0;k<11;k++)iparam[k]=0;
-      iparam[0]=1;
-      iparam[2]=mxiter;
-      iparam[3]=1;
-      iparam[6]=3;
-      
-      info=0;
-      
-      NNEW(resid,double,neq[1]);
-      NNEW(z,double,(long long)ncv*neq[1]);
-      NNEW(workd,double,3*neq[1]);
-      
-      if(nasym==1){
+	printf(" Calculating the eigenvalues and the eigenmodes\n");
+	
+	ido=0;
+	ldz=neq[1];
+	for(k=0;k<11;k++)iparam[k]=0;
+	iparam[0]=1;
+	iparam[2]=mxiter;
+	iparam[3]=1;
+	iparam[6]=3;
+	
+	info=0;
+	
+	NNEW(resid,double,neq[1]);
+	NNEW(z,double,(long long)ncv*neq[1]);
+	NNEW(workd,double,3*neq[1]);
+	
+	if(nasym==1){
 	  lworkl=3*ncv*(2+ncv);
 	  NNEW(workl,double,lworkl);
 	  FORTRAN(dnaupd,(&ido,bmat,&neq[1],which,&nev,&tol,resid,&ncv,z,&ldz,iparam,ipntr,workd,
 			  workl,&lworkl,&info));
-      }else{
+	}else{
 	  lworkl=ncv*(8+ncv);
 	  NNEW(workl,double,lworkl);
 	  FORTRAN(dsaupd,(&ido,bmat,&neq[1],which,&nev,&tol,resid,&ncv,z,&ldz,
 			  iparam,ipntr,workd,workl,&lworkl,&info));
-      }
-      
-      NNEW(temp_array,double,neq[1]);
-      
-      while((ido==-1)||(ido==1)||(ido==2)){
+	}
+	
+	NNEW(temp_array,double,neq[1]);
+	
+	while((ido==-1)||(ido==1)||(ido==2)){
 	  if(ido==-1){
-	      if(nasym==1){
-		  FORTRAN(opas,(&neq[1],&workd[ipntr[0]-1],temp_array,adb,aub,jq,irow,nzs));
-	      }else{
-		  FORTRAN(op,(&neq[1],&workd[ipntr[0]-1],temp_array,adb,aub,
-			      jq,irow));
-	      }
+	    if(nasym==1){
+	      FORTRAN(opas,(&neq[1],&workd[ipntr[0]-1],temp_array,adb,aub,jq,irow,nzs));
+	    }else{
+	      FORTRAN(op,(&neq[1],&workd[ipntr[0]-1],temp_array,adb,aub,
+			  jq,irow));
+	    }
 	  }
 	  
 	  /* solve the linear equation system  */
 	  
 	  if((ido==-1)||(ido==1)){
+	    
+	    if(ido==-1){
+	      if(*isolver==0){
+#ifdef SPOOLES
+		spooles_solve(temp_array,&neq[1]);
+#endif
+	      }
+	      else if(*isolver==4){
+#ifdef SGI
+		sgi_solve(temp_array,token);
+#endif
+	      }
+	      else if(*isolver==5){
+#ifdef TAUCS
+		tau_solve(temp_array,&neq[1]);
+#endif
+	      }
+	      else if(*isolver==7){
+#ifdef PARDISO
+		pardiso_solve(temp_array,&neq[1],&symmetryflag,&nrhs);
+#endif
+	      }
+	      for(jrow=0;jrow<neq[1];jrow++){
+		workd[ipntr[1]-1+jrow]=temp_array[jrow];
+	      }
+	    }
+	    else if(ido==1){
+	      if(*isolver==0){
+#ifdef SPOOLES
+		spooles_solve(&workd[ipntr[2]-1],&neq[1]);
+#endif
+	      }
+	      else if(*isolver==4){
+#ifdef SGI
+		sgi_solve(&workd[ipntr[2]-1],token);
+#endif
+	      }
+	      else if(*isolver==5){
+#ifdef TAUCS
+		tau_solve(&workd[ipntr[2]-1],&neq[1]);
+#endif
+	      }
+	      else if(*isolver==7){
+#ifdef PARDISO
+		pardiso_solve(&workd[ipntr[2]-1],&neq[1],&symmetryflag,&nrhs);
+#endif
+	      }
+	      for(jrow=0;jrow<neq[1];jrow++){
+		workd[ipntr[1]-1+jrow]=workd[ipntr[2]-1+jrow];
+	      }
 	      
-	      if(ido==-1){
-		  if(*isolver==0){
-#ifdef SPOOLES
-		      spooles_solve(temp_array,&neq[1]);
-#endif
-		  }
-		  else if(*isolver==4){
-#ifdef SGI
-		      sgi_solve(temp_array,token);
-#endif
-		  }
-		  else if(*isolver==5){
-#ifdef TAUCS
-		      tau_solve(temp_array,&neq[1]);
-#endif
-		  }
-		  else if(*isolver==7){
-#ifdef PARDISO
-		      pardiso_solve(temp_array,&neq[1],&symmetryflag,&nrhs);
-#endif
-		  }
-		  for(jrow=0;jrow<neq[1];jrow++){
-		      workd[ipntr[1]-1+jrow]=temp_array[jrow];
-		      //		}
-		  }
-	      }
-	      else if(ido==1){
-		  if(*isolver==0){
-#ifdef SPOOLES
-		      spooles_solve(&workd[ipntr[2]-1],&neq[1]);
-#endif
-		  }
-		  else if(*isolver==4){
-#ifdef SGI
-		      sgi_solve(&workd[ipntr[2]-1],token);
-#endif
-		  }
-		  else if(*isolver==5){
-#ifdef TAUCS
-		      tau_solve(&workd[ipntr[2]-1],&neq[1]);
-#endif
-		  }
-		  else if(*isolver==7){
-#ifdef PARDISO
-		      pardiso_solve(&workd[ipntr[2]-1],&neq[1],&symmetryflag,&nrhs);
-#endif
-		  }
-		  for(jrow=0;jrow<neq[1];jrow++){
-		      workd[ipntr[1]-1+jrow]=workd[ipntr[2]-1+jrow];
-		  }
-		  //	    }
-		  
-	      }
+	    }
 	  }
 	  
 	  if(ido==2){
-	      if(nasym==1){
-		  FORTRAN(opas,(&neq[1],&workd[ipntr[0]-1],&workd[ipntr[1]-1],
-				adb,aub,jq,irow,nzs));
-	      }else{
-		  FORTRAN(op,(neq,&workd[ipntr[0]-1],&workd[ipntr[1]-1],
-			      adb,aub,jq,irow));
-	      }
+	    if(nasym==1){
+	      FORTRAN(opas,(&neq[1],&workd[ipntr[0]-1],&workd[ipntr[1]-1],
+			    adb,aub,jq,irow,nzs));
+	    }else{
+	      FORTRAN(op,(neq,&workd[ipntr[0]-1],&workd[ipntr[1]-1],
+			  adb,aub,jq,irow));
+	    }
 	  }
 	  
 	  if(nasym==1){
-	      FORTRAN(dnaupd,(&ido,bmat,&neq[1],which,&nev,&tol,resid,&ncv,z,&ldz,
-			      iparam,ipntr,workd,workl,&lworkl,&info));
+	    FORTRAN(dnaupd,(&ido,bmat,&neq[1],which,&nev,&tol,resid,&ncv,z,&ldz,
+			    iparam,ipntr,workd,workl,&lworkl,&info));
 	  }else{
-	      FORTRAN(dsaupd,(&ido,bmat,&neq[1],which,&nev,&tol,resid,&ncv,
-			      z,&ldz,iparam,ipntr,workd,workl,&lworkl,&info));
+	    FORTRAN(dsaupd,(&ido,bmat,&neq[1],which,&nev,&tol,resid,&ncv,
+			    z,&ldz,iparam,ipntr,workd,workl,&lworkl,&info));
 	  }
-      }
-      
-/*--------------------------------------------------------------------*/
-/*
-  -----------
-  free memory
-  -----------
-*/
-      SFREE(temp_array);SFREE(temp_array2);
-      if(*isolver==0){
-#ifdef SPOOLES
-	  spooles_cleanup();
-#endif
-      }
-      else if(*isolver==4){
-#ifdef SGI
-	  sgi_cleanup(token);
-#endif
-      }
-      else if(*isolver==5){
-#ifdef TAUCS
-	  tau_cleanup();
-#endif
-      }
-      else if(*isolver==7){
-#ifdef PARDISO
-	  pardiso_cleanup(&neq[1],&symmetryflag);
-#endif
-      }
-      
-      if(info!=0){
-	  printf("*ERROR in arpackcs: info=%" ITGFORMAT "\n",info);
+	}
+	
+	if(info!=0){
+	  printf("*ERROR in d[n,s]aupd: info=%" ITGFORMAT "\n",info);
 	  printf("       # of converged eigenvalues=%" ITGFORMAT "\n\n",iparam[4]);
-      }         
-      
-      NNEW(select,ITG,ncv);
-      
-      if(nasym==1){
+	}         
+	
+	NNEW(select,ITG,ncv);
+	
+	if(nasym==1){
 	  NNEW(d,double,nev+1);
 	  NNEW(di,double,nev+1);
 	  NNEW(workev,double,3*ncv);
@@ -807,49 +798,90 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	  /* storing as complex number and taking the square root */
 	  
 	  for(j=0;j<nev;j++){
-	      dc[2*j]=sqrt(sqrt(d[j]*d[j]+di[j]*di[j])+d[j])/sqrt(2.);
-	      dc[2*j+1]=sqrt(sqrt(d[j]*d[j]+di[j]*di[j])-d[j])/sqrt(2.);
-	      if(di[j]<0.) dc[2*j+1]=-dc[2*j+1];
-	      nmc[j]=nm;
+	    dc[2*j]=sqrt(sqrt(d[j]*d[j]+di[j]*di[j])+d[j])/sqrt(2.);
+	    dc[2*j+1]=sqrt(sqrt(d[j]*d[j]+di[j]*di[j])-d[j])/sqrt(2.);
+	    if(di[j]<0.) dc[2*j+1]=-dc[2*j+1];
+	    nmc[j]=nm;
 	  }
 	  FORTRAN(writeevcscomplex,(dc,&nev,nmc,&fmin,&fmax));
 	  SFREE(di);SFREE(dc);SFREE(nmc);
-      }else{
+	}else{
 	  NNEW(d,double,nev);
 	  FORTRAN(dseupd,(&rvec,howmny,select,d,z,&ldz,&sigma,bmat,&neq[1],which,&nev,
 			  &tol,resid,&ncv,z,&ldz,iparam,ipntr,workd,workl,&lworkl,&info));
 	  FORTRAN(writeevcs,(d,&nev,&nm,&fmin,&fmax));
-      }
-      SFREE(select);SFREE(resid);SFREE(workd);SFREE(workl);
-      
-      /* for double eigenmodes: the eigenmode for which the largest
-	 amplitude has the lowest dof comes first */
-      
-      neq2=neq[1]/2;
-      for (j=0;j<nev;j+=2){
+	}
+	SFREE(select);SFREE(resid);SFREE(workd);SFREE(workl);
+	
+	if(info!=0){
+	  printf("*ERROR in d[n,s]eupd: info=%" ITGFORMAT "\n",info);
+	}         
+
+	/* check the normalization of the eigenmodes */
+
+	for(j=0;j<nev;j++){
+	  kref=j*neq[1];
+	  if(nasym==1){
+	    FORTRAN(opas,(&neq[1],&z[kref],temp_array,
+			  adb,aub,jq,irow,nzs));
+	  }else{
+	    FORTRAN(op,(neq,&z[kref],temp_array,
+			adb,aub,jq,irow));
+	  }
+	  sum=0;
+	  for(k=0;k<neq[1];k++){sum+=z[kref+k]*temp_array[k];}
+	  printf("U^T*M*U=%f for eigenmode %d\n",sum,j+1);
+
+	  /* normalizing the eigenmode (if not yet normalized by ARPACK */
+
+	  if(fabs(sum-1.)>1.e-5){
+	    printf("normalizing the eigenmode \n");
+	    for(k=0;k<neq[1];k++){z[kref+k]/=sqrt(sum);}
+	  }
+	  
+	}
+	
+	SFREE(temp_array);
+	
+	/* for double eigenmodes: the eigenmode for which the largest
+	   amplitude has the lowest dof comes first */
+	
+	neq2=neq[1]/2;
+	for (j=0;j<nev;j+=2){
 	  
 	  ampmax=0.;kmax1=0;
 	  for(k=0;k<neq2;k++){
-	      amp=z[2*j*neq[1]+k]*z[2*j*neq[1]+k]+
-		  z[2*j*neq[1]+neq2+k]*z[2*j*neq[1]+neq2+k];
-	      if(amp>ampmax){ampmax=amp;kmax1=k;}
+	    amp=z[2*j*neq[1]+k]*z[2*j*neq[1]+k]+
+	      z[2*j*neq[1]+neq2+k]*z[2*j*neq[1]+neq2+k];
+	    if(amp>ampmax){ampmax=amp;kmax1=k;}
 	  }
 	  
 	  ampmax=0.;kmax2=0;
 	  for(k=0;k<neq2;k++){
-	      amp=z[(2*j+1)*neq[1]+k]*z[(2*j+1)*neq[1]+k]+
-		  z[(2*j+1)*neq[1]+neq2+k]*z[(2*j+1)*neq[1]+neq2+k];
-	      if(amp>ampmax){ampmax=amp;kmax2=k;}
+	    amp=z[(2*j+1)*neq[1]+k]*z[(2*j+1)*neq[1]+k]+
+	      z[(2*j+1)*neq[1]+neq2+k]*z[(2*j+1)*neq[1]+neq2+k];
+	    if(amp>ampmax){ampmax=amp;kmax2=k;}
 	  }
 	  
 	  if(kmax2<kmax1){
-	      printf("exchange!\n");
-	      NNEW(zstorage,double,neq[1]);
-	      memcpy(zstorage,&z[2*j*neq[1]],sizeof(double)*neq[1]);
-	      memcpy(&z[2*j*neq[1]],&z[(2*j+1)*neq[1]],sizeof(double)*neq[1]);
-	      memcpy(&z[(2*j+1)*neq[1]],zstorage,sizeof(double)*neq[1]);
-	      SFREE(zstorage);
+	    printf("exchange!\n");
+	    NNEW(zstorage,double,neq[1]);
+	    memcpy(zstorage,&z[2*j*neq[1]],sizeof(double)*neq[1]);
+	    memcpy(&z[2*j*neq[1]],&z[(2*j+1)*neq[1]],sizeof(double)*neq[1]);
+	    memcpy(&z[(2*j+1)*neq[1]],zstorage,sizeof(double)*neq[1]);
+	    SFREE(zstorage);
 	  }
+	}
+      }else{
+	
+	/* Green functions */
+	
+	/* storing omega_0^2 into d */
+	
+	NNEW(d,double,*nforc);
+	for(j=0;j<*nforc;j++){d[j]=xforc[0];}
+	NNEW(z,double,neq[1]);
+	
       }
       
       /* writing the eigenvalues and mass matrix to a binary file */
@@ -882,6 +914,22 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		  printf("*ERROR saving the Hermitian flag to the eigenvalue file...");
 		  exit(0);
 	      }
+
+	      /* perturbation parameter iperturb[0] */
+	      
+	      if(fwrite(&iperturb[0],sizeof(ITG),1,f1)!=1){
+		  printf("*ERROR saving the perturbation flag to the eigenvalue file...");
+		  exit(0);
+	      }
+		  
+	      /* reference displacements */
+
+	      if(iperturb[0]==1){
+		  if(fwrite(vold,sizeof(double),mt**nk,f1)!=mt**nk){
+		      printf("*ERROR saving the reference displacements to the eigenvalue file...");
+		      exit(0);
+		  }
+	      }
 	      
 	  }else{
 	      if((f1=fopen(fneig,"ab"))==NULL){
@@ -912,6 +960,17 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	  }
 	  if(*nevtot==0){
 	      
+	      /* stiffness matrix */
+	      
+	      if(fwrite(ad,sizeof(double),neq[1],f1)!=neq[1]){
+		  printf("*ERROR saving the diagonal of the stiffness matrix to the eigenvalue file...");
+		  exit(0);
+	      }
+	      if(fwrite(au,sizeof(double),nzs[1],f1)!=nzs[1]){
+		  printf("*ERROR saving the off-diagonal terms of the stiffness matrix to the eigenvalue file...");
+		  exit(0);
+	      }
+	      
 	      /* mass matrix */
 	      
 	      if(fwrite(adb,sizeof(double),neq[1],f1)!=neq[1]){
@@ -923,13 +982,18 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		  exit(0);
 	      }
 	  }
+
+//	  SFREE(ad);SFREE(au);
       }
 
-      /* calculating the participation factors and the relative effective
-	 modal mass */
-
-      if(*ithermal!=2){
+      if(igreen==0){
+	
+	/* calculating the participation factors and the relative effective
+	   modal mass */
+	
+	if(*ithermal!=2){
 	  FORTRAN(effectivemodalmass,(neq,nactdof,mi,adb,aub,jq,irow,&nev,z,co,nk));
+	}
       }
       
       /* calculating the displacements and the stresses and storing */
@@ -1137,13 +1201,54 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
       if(strcmp1(&filab[2523],"MAXE")==0){
 	  NNEW(eenmax,double,7*nkt);
       }
+
+      /* determining a local coordinate system based on the rotation axis */
+      
+      FORTRAN(localaxescs,(cs,mcs,e1,e2,xn));
+      NNEW(turdir,char,nev);
       
       /* start of output calculations */
       
       lfin=0;
       for(j=0;j<nev;++j){
 	  lint=lfin;
-	  lfin=lfin+neq[1];
+	  if(igreen==0){
+	    lfin=lfin+neq[1];
+	  }else{
+	    
+	    /* Green function: solve the system ([K]-w**2*[M]){X}={Y} */
+	    
+	    node=nodeforc[2*j];
+	    idir=ndirforc[j];
+	    
+	    /* check whether degree of freedom is active */
+	    
+	    if(nactdof[mt*(node-1)+idir]==0){
+	      printf("*ERROR in linstatic: degree of freedom corresponding to node %d \n and direction %d is not active: no unit force can be applied\n",node,idir);
+	      FORTRAN(stop,());
+	    }
+      
+	    /* defining a unit force on the rhs */
+	    
+	    DMEMSET(z,0,neq[1],0.);
+	    z[nactdof[mt*(node-1)+idir]-1]=1.;
+	    
+	    /* solving the system */
+	    
+	    if(neq[1]>0){
+	      if(*isolver==0){
+#ifdef SPOOLES
+		spooles_solve(z,&neq[1]);
+#endif
+	      }
+	      else if(*isolver==7){
+#ifdef PARDISO
+		pardiso_solve(z,&neq[1],&symmetryflag,&nrhs);
+#endif
+		
+	      }
+	    }
+	  }
 	  
 	  if(mei[3]==1){
 	      if(fwrite(&z[lint],sizeof(double),neq[1],f1)!=neq[1]){
@@ -1151,15 +1256,18 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		  exit(0);
 	      }
 	  }
-	  
-	  /* check whether the frequency belongs to the requested
-	     interval */
-	  
-	  if(fmin>-0.5){
+
+	  if(igreen==0){
+	    
+	    /* check whether the frequency belongs to the requested
+	       interval */
+	    
+	    if(fmin>-0.5){
 	      if(fmin*fmin>d[j]) continue;
-	  }
-	  if(fmax>-0.5){
+	    }
+	    if(fmax>-0.5){
 	      if(fmax*fmax<d[j]) continue;
+	    }
 	  }
 	  
 	  if(*nprint>0)FORTRAN(writehe,(&j));
@@ -1246,7 +1354,8 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		    sideload,xload,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 		    mortar,islavact,&cdn[kk6],islavnode,nslavnode,ntie,clearini,
 		    islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-		    inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun);}
+		    inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
+	            itiefac,tieset,smscale,&mscalmethod);}
 	      else{
 		  results(co,nk,kon,ipkon,lakon,ne,&v[kkv],&stn[kk6],inum,
 		    &stx[kkx],elcon,
@@ -1266,12 +1375,18 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 		    sideload,xload,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
 		    mortar,islavact,&cdn[kk6],islavnode,nslavnode,ntie,clearini,
 		    islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-		    inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun);
+		    inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
+	            itiefac,tieset,smscale,&mscalmethod);
 	      }
 	      
 	  }
 	  SFREE(eei);
 	  if(*nener==1){SFREE(stiini);SFREE(emeini);SFREE(enerini);}
+
+	  /* determining the turning direction */
+	  
+	  FORTRAN(turningdirection,(v,e1,e2,xn,mi,nk,&turdir[j],lakon,ipkon,
+				    kon,ne,co));
 	  
 	  if(strcmp1(&filab[1566],"MAXU")==0){
 	      
@@ -1676,12 +1791,13 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
     if((strcmp1(&filab[0],"U  ")==0)||(strcmp1(&filab[870],"PU  ")==0)){
       for(l=0;l<mt**nk;l++){vt[l]=v[l];}
       for(l=0;l<mt**nk;l++){vt[l+mt**nk*ngraph]=v[l+mt**nk];}}
-    if(strcmp1(&filab[87],"NT  ")==0)
+    if(strcmp1(&filab[87],"NT  ")==0){
 	if(*iperturb==0){
 	    for(l=0;l<*nk;l++){t1t[l]=t1[l];};
 	}else{
 	    for(l=0;l<*nk;l++){t1t[l]=t1old[l];};
 	}
+    }
     if((strcmp1(&filab[174],"S   ")==0)||(strcmp1(&filab[1479],"PHS ")==0)){
 	for(l=0;l<6**nk;l++){stnt[l]=stn[l];}
 	for(l=0;l<6**nk;l++){stnt[l+6**nk*ngraph]=stn[l+6**nk];}}
@@ -2198,6 +2314,8 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	strcpy1(&filab[2697],&filabcp[4],4);
     }
 
+    if(igreen==1) *nmethod=13;
+    
     frd(cot,&nkt,kont,ipkont,lakont,&net,vt,stnt,inumt,nmethod,
 	    kode,filab,eent,t1t,fnt,&freq,epn,ielmatt,matname,enernt,xstaten,
 	    nstate_,istep,&iinc,ithermal,qfn,&j,&nm,trab,inotrt,
@@ -2206,6 +2324,8 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
 	    cs,set,nset,istartset,iendset,ialset,eenmax,fnr,fni,emnt,
 	    thicke,jobnamec,output,qfx,cdnt,mortar,cdnr,cdni,nmat,
 	    ielprop,prop);
+
+    if(igreen==1) *nmethod=2;
 
     /* reactivating S and ME request if only needed for ENER */
 
@@ -2227,12 +2347,46 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
     /* end loop over the eigenvalues */
 
   }
-
-  if((fmax>-0.5)&&(fmax*fmax>d[nev-1])){
-    printf("\n*WARNING: not all frequencies in the requested interval might be found;\nincrease the number of requested frequencies\n");
+      
+  /*--------------------------------------------------------------------*/
+  /*
+  -----------
+  free memory
+  -----------
+  */
+  if(*isolver==0){
+#ifdef SPOOLES
+    spooles_cleanup();
+#endif
+  }
+  else if(*isolver==4){
+#ifdef SGI
+    sgi_cleanup(token);
+#endif
+  }
+  else if(*isolver==5){
+#ifdef TAUCS
+    tau_cleanup();
+#endif
+  }
+  else if(*isolver==7){
+#ifdef PARDISO
+    pardiso_cleanup(&neq[1],&symmetryflag);
+#endif
   }
 
-  SFREE(adb);SFREE(aub);SFREE(temp_array);SFREE(coefmpcnew);
+  /* output of the turning direction */
+      
+  FORTRAN(writeturdircs,(xn,turdir,&nev,&nm));
+  SFREE(turdir);
+
+  if(igreen==0){
+    if((fmax>-0.5)&&(fmax*fmax>d[nev-1])){
+      printf("\n*WARNING: not all frequencies in the requested interval might be found;\nincrease the number of requested frequencies\n");
+    }
+  }
+
+  SFREE(adb);SFREE(aub);SFREE(temp_array);SFREE(coefmpcnew);SFREE(ad);SFREE(au);
 
   /* deactivating S and ME request if only needed for ENER */
 
@@ -2282,7 +2436,7 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
   if(*iperturb!=0){
       if(ncont!=0){
 	  *ne=ne0;*nkon=nkon0;
-	  if(*nener==1){SFREE(ener);}
+//	  if(*nener==1){SFREE(ener);}
 	  RENEW(ipkon,ITG,*ne);
 	  RENEW(lakon,char,8**ne);
 	  RENEW(kon,ITG,*nkon);
@@ -2306,8 +2460,9 @@ void arpackcs(double *co, ITG *nk, ITG **konp, ITG **ipkonp, char **lakonp,
       }
   }
 
+  if(*nener==1){SFREE(ener);}
   SFREE(inocs);SFREE(ielcs);SFREE(xstiff);
-  SFREE(ipobody);
+  if(*nbody>0) SFREE(ipobody);
 
   if(*nstate_!=0) SFREE(xstateini);
 

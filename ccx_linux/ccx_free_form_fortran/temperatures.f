@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,24 +20,30 @@
         ialset,nset,t0,t1,nk,ithermal,iamt1,amname,nam,inoelfree,nk_,&
         nmethod,temp_flag,istep,istat,n,iline,ipol,inl,ipoinp,inp,&
         nam_,namtot_,namta,amta,ipoinpc,t1g,iamplitudedefault,&
-        namtot,ier)
+        namtot,ier,itempuser,jobnamec)
       !
       !     reading the input deck: *TEMPERATURE
       !
+      !     itempuser(1): flag: 0: temperatures in the input deck
+      !                         1: user subroutine utemp is used
+      !                         2: temperatures read from frd-file
+      !                            (user subroutine may be used depending
+      !                             on the values in the file)
+      !
       implicit none
       !
-      logical temp_flag,user,submodel
+      logical temp_flag,user,submodel,utempusesteps
       !
       character*1 inpc(*)
       character*80 amname(*),amplitude
       character*81 set(*),noset
-      character*132 textpart(16)
+      character*132 textpart(16),jobnamec(*)
       !
       integer istartset(*),iendset(*),ialset(*),iamt1(*),nmethod,&
         nset,nk,ithermal,istep,istat,n,key,i,j,k,l,nam,ipoinpc(0:*),&
         iamplitude,ipos,inoelfree,nk_,iline,ipol,inl,ipoinp(2,*),&
         inp(3,*),nam_,namtot,namtot_,namta(3,*),idelay,iglobstep,&
-        iamplitudedefault,ier
+        iamplitudedefault,ier,itempuser(*)
       !
       real*8 t0(*),t1(*),temperature,tempgrad1,tempgrad2,amta(2,*),&
         t1g(2,*)
@@ -45,8 +51,15 @@
       iamplitude=iamplitudedefault
       idelay=0
       user=.false.
+      utempusesteps=.false.
       iglobstep=0
       submodel=.false.
+      !
+      !     defaults: 1) temperatures read from the input deck
+      !               2) if read from file, then from the first step
+      !
+      itempuser(1)=0
+      itempuser(3)=1
       !
       if(nmethod.eq.3) then
          write(*,*) '*ERROR reading *TEMPERATURE: temperature'
@@ -123,11 +136,6 @@
             endif
             namta(3,nam)=sign(iamplitude,namta(3,iamplitude))
             iamplitude=nam
-            !             if(nam.eq.1) then
-            !                namtot=0
-            !             else
-            !                namtot=namta(2,nam-1)
-            !             endif
             namtot=namtot+1
             if(namtot.gt.namtot_) then
                write(*,*) '*ERROR temperatures: increase namtot_'
@@ -136,7 +144,6 @@
             endif
             namta(1,nam)=namtot
             namta(2,nam)=namtot
-            !             call reorderampl(amname,namta,nam)
             read(textpart(i)(11:30),'(f20.0)',iostat=istat)&
                  amta(1,namtot)
             if(istat.gt.0) then
@@ -146,6 +153,30 @@
             endif
          elseif(textpart(i)(1:4).eq.'USER') then
             user=.true.
+         elseif(textpart(i)(1:4).eq.'FILE') then
+            itempuser(1)=2
+            jobnamec(6)(1:127)=textpart(i)(6:132)
+            jobnamec(6)(128:132)='     '
+            loop1: do j=1,127
+               if(jobnamec(6)(j:j).eq.'"') then
+                  do k=j+1,127
+                     if(jobnamec(6)(k:k).eq.'"') then
+                        do l=k-1,127
+                           jobnamec(6)(l:l)=' '
+                           exit loop1
+                        enddo
+                     endif
+                     jobnamec(6)(k-1:k-1)=jobnamec(6)(k:k)
+                  enddo
+                  jobnamec(6)(127:127)=' '
+               endif
+            enddo loop1
+         user=.true.
+         elseif(textpart(i)(1:6).eq.'BSTEP=') then
+            read(textpart(i)(7:16),'(i10)',iostat=istat) itempuser(3)
+            if(istat.gt.0) call inputerror(inpc,ipoinpc,iline,&
+      "*TEMPERATURE%")
+            utempusesteps=.true.
          elseif(textpart(i)(1:8).eq.'SUBMODEL') then
             submodel=.true.
          elseif(textpart(i)(1:5).eq.'STEP=') then
@@ -176,6 +207,14 @@
       "*TEMPERATURE%")
          endif
       enddo
+      !
+      if(utempusesteps.and.(itempuser(1).ne.2)) then
+         write(*,*) '*ERROR reading *TEMPERATURE: the BSTEP parameter '
+         write(*,*) '       can only be used in combination '
+         write(*,*) '       with parameter FILE.'
+         ier=1
+         return
+      endif
       !
       !     check whether global step was specified for submodel
       !

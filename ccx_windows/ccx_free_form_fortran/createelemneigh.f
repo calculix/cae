@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -25,8 +25,8 @@
          ifree,index,i,j,ipos,na,nb,node,istarteneigh(*),ialeneigh(*),&
          icheckelems(*)
       !
-      !     determining all the elems of the neighbouring
-      !     nodes of node nk.
+      !     determining all the elements to which the objective
+      !     nodes of the neighboring elements of a node i belong
       !     They are stored in ialeneigh(istarteneigh(i))..
       !     ...up to..... ialeneigh(istarteneigh(i+1)-1)
       !

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -46,8 +46,8 @@
            rhcon(0:1,ntmat_,*),cp_oil,r_oil
       !
       parameter ( xpmini=1.E10)
-!
-!     this subroutine enables to take in account the existence of
+      !
+      !     this subroutine enables to take in account the existence of
       !     2 phase flows (air /oil) in some flow elements.
       !
       !     lambda: friction coefficient solely due to air

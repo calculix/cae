@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -31,7 +31,8 @@ void mastruct(ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
 	      ITG *ikmpc, ITG *ilmpc,ITG *ipointer, ITG *nzs, 
               ITG *nmethod,ITG *ithermal, ITG *ikboun, ITG *ilboun, 
               ITG *iperturb, ITG *mi, ITG *mortar, char *typeboun,
-              char *labmpc, ITG *iit, ITG *icascade,ITG *network){
+              char *labmpc, ITG *iit, ITG *icascade,ITG *network,
+              ITG *iexpl){
 
   /* determines the structure of the thermo-mechanical matrices;
      (i.e. the location of the nonzeros */
@@ -715,11 +716,13 @@ void mastruct(ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
 
     /* summary */
 
-    printf(" number of equations\n");
-    printf(" %" ITGFORMAT "\n",neq[1]);
-    printf(" number of nonzero lower triangular matrix elements\n");
-    printf(" %" ITGFORMAT "\n",nmast);
-    printf("\n");
+    if(*iexpl<=1){
+	printf(" number of equations\n");
+	printf(" %" ITGFORMAT "\n",neq[1]);
+	printf(" number of nonzero lower triangular matrix elements\n");
+	printf(" %" ITGFORMAT "\n",nmast);
+	printf("\n");
+    }
 
     /* determining irow, jq and icol for the boundary stiffness matrix (only
        for frequency and modal dynamic calculations) 

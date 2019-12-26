@@ -1,6 +1,6 @@
 
-CFLAGS = -Wall -O3 -fopenmp -I ../../../SPOOLES.2.2 -DARCH="Linux" -DSPOOLES -DARPACK -DMATRIXSTORAGE -DLONGLONG
-FFLAGS = -Wall -O3 -fopenmp -fdefault-integer-8
+CFLAGS = -Wall -O2 -fopenmp -I ../../../SPOOLES.2.2 -DARCH="Linux" -DSPOOLES -DARPACK -DMATRIXSTORAGE -DLONGLONG
+FFLAGS = -Wall -O2 -fopenmp -fdefault-integer-8
 
 CC=cc
 FC=gfortran
@@ -12,7 +12,7 @@ FC=gfortran
 
 include Makefile.inc
 
-SCCXMAIN = ccx_2.15.c
+SCCXMAIN = ccx_2.16.c
 
 OCCXF = $(SCCXF:.f=.o)
 OCCXC = $(SCCXC:.c=.o)
@@ -25,11 +25,11 @@ LIBS = \
 	../../../ARPACK_i8/libarpack_INTEL_i8.a \
        -lpthread -lm -lc
 
-ccx_2.15: $(OCCXMAIN) ccx_2.15.a $(LIBS)
-	./date.pl; $(CC) $(CFLAGS) -c ccx_2.15.c; $(FC) -Wall -O3 -o $@ \
-	$(OCCXMAIN) ccx_2.15.a $(LIBS)
+ccx_2.16: $(OCCXMAIN) ccx_2.16.a $(LIBS)
+	./date.pl; $(CC) $(CFLAGS) -c ccx_2.16.c; $(FC) -Wall -O2 -o $@ \
+	$(OCCXMAIN) ccx_2.16.a $(LIBS)
 
-ccx_2.15.a: $(OCCXF) $(OCCXC)
+ccx_2.16.a: $(OCCXF) $(OCCXC)
 	ar vr $@ $?
 
                                                                                

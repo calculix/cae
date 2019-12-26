@@ -24,7 +24,7 @@
       integer nodes(4),nodef(3),kontet(4,*),ifatet(4,*),inodfa(4,*),&
         ipofa(*),ifreetet,ifreefa,ifree,ig(3,4),j,&
         n1,n2,n3,n4,nxa,nxb,nxc,nxd,nya,nyb,nyc,nyd,nza,nzb,nzc,&
-        nzd,nx1,nx2,ny1,ny2,nz1,nz2,index,j1,j2,j3,i,n,kflag,idum,&
+        nzd,nx1,nx2,ny1,ny2,nz1,nz2,index,j1,j2,j3,i,n,&
         node,indexold,ielement,ndx,ndy,ndz,iparentelement
       !
       real*8 planfa(4,*),cotet(3,*),dd
@@ -45,8 +45,8 @@
          nodef(3)=nodes(ig(3,i))
          !
          n=3
-         kflag=1
-         call isortii(nodef,idum,n,kflag)
+         call insertsorti(nodef,n)
+         !          call isortii(nodef,idum,n,kflag)
          !
          !        check whether face already exists
          !

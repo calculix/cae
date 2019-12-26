@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -48,7 +48,7 @@
         nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,calcul_qa,&
         nopered,mortar,jfaces,igauss,idesvar,ndesi,nodedesi(*),&
         nobject,iobject,iactive,node,istartdesi(*),ialdesi(*),ij,&
-        nlgeom_undo
+        nlgeom_undo,node1,node2,ifaceqexp(2,20),ifacewexp(2,15)
       !
       real*8 co(3,*),shp(4,26),stiini(6,mi(1),*),xener(*),&
         stx(6,mi(1),*),xl(3,26),vl(0:mi(2),26),stre(6),prop(*),&
@@ -93,6 +93,47 @@
       qa(4)=0.d0
       !
       mt=mi(2)+1
+      !
+      !     nodes in expansion direction of hex element
+      !
+      data ifaceqexp /5,17,&
+                      6,18,&
+                      7,19,&
+                      8,20,&
+                      1,17,&
+                      2,18,&
+                      3,19,&
+                      4,20,&
+                      13,0,&
+                      14,0,&
+                      15,0,&
+                      16,0,&
+                      9,0,&
+                      10,0,&
+                      11,0,&
+                      12,0,&
+                      0,0,&
+                      0,0,&
+                      0,0,&
+                      0,0/
+      !
+      !     nodes in expansion direction of wedge element
+      !
+      data ifacewexp /4,13,&
+                      5,14,&
+                      6,16,&
+                      1,13,&
+                      2,14,&
+                      3,15,&
+                      10,0,&
+                      11,0,&
+                      12,0,&
+                      7,0,&
+                      8,0,&
+                      9,0,&
+                      0,0,&
+                      0,0,&
+                      0,0/
          !
          !     -------------------------------------------------------------
          !     Initialisation of the loop for the variation of
@@ -325,6 +366,59 @@
                   xl(j,iactive)=&
                        xl(j,iactive)+xdesi(j,idesvar)
                enddo
+               if(lakonl(1:5).eq.'C3D20') then
+                  if((lakonl(7:7).eq.'A').or.&
+                     (lakonl(7:7).eq.'L').or.&
+                     (lakonl(7:7).eq.'S').or.&
+                     (lakonl(7:7).eq.'E')) then
+                     node1=ifaceqexp(1,iactive)
+                     node2=ifaceqexp(2,iactive)
+                     do j=1,3
+                        if(iactive.le.8) then
+                           xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                           xl(j,node2)=xl(j,node2)+xdesi(j,idesvar)
+                        else
+                           xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                        endif         
+                     enddo  
+                  endif     
+               elseif(lakonl(1:5).eq.'C3D15') then
+                  if((lakonl(7:7).eq.'A').or.&
+                     (lakonl(7:7).eq.'L').or.&
+                     (lakonl(7:7).eq.'S').or.&
+                     (lakonl(7:7).eq.'E')) then
+                     node1=ifacewexp(1,iactive)
+                     node2=ifacewexp(2,iactive)
+                     do j=1,3
+                        if(iactive.le.6) then
+                           xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                           xl(j,node2)=xl(j,node2)+xdesi(j,idesvar)
+                        else
+                           xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                        endif         
+                     enddo  
+                  endif     
+               elseif(lakonl(1:4).eq.'C3D8') then
+                  if((lakonl(7:7).eq.'A').or.&
+                     (lakonl(7:7).eq.'L').or.&
+                     (lakonl(7:7).eq.'S').or.&
+                     (lakonl(7:7).eq.'E')) then
+                     node1=ifaceqexp(1,iactive)
+                     do j=1,3
+                        xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)       
+                     enddo  
+                  endif     
+               elseif(lakonl(1:4).eq.'C3D6') then
+                  if((lakonl(7:7).eq.'A').or.&
+                     (lakonl(7:7).eq.'L').or.&
+                     (lakonl(7:7).eq.'S').or.&
+                     (lakonl(7:7).eq.'E')) then
+                     node1=ifaceqexp(1,iactive)
+                     do j=1,3
+                        xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)       
+                     enddo  
+                  endif     
+               endif
             endif
             !
             !     calculating the forces for the contact elements
@@ -531,14 +625,14 @@
                   else
                      call shape20h(xi,et,ze,xl,xsj,shp,iflag)
                   endif
-               elseif(nope.eq.26) then
-                  call shape26h(xi,et,ze,xl,xsj,shp,iflag,konl)
+               !                elseif(nope.eq.26) then
+               !                   call shape26h(xi,et,ze,xl,xsj,shp,iflag,konl)
                elseif(nope.eq.8) then
                   call shape8h(xi,et,ze,xl,xsj,shp,iflag)
                elseif(nope.eq.10) then
                   call shape10tet(xi,et,ze,xl,xsj,shp,iflag)
-               elseif(nope.eq.14) then
-                  call shape14tet(xi,et,ze,xl,xsj,shp,iflag,konl)
+               !                elseif(nope.eq.14) then
+               !                   call shape14tet(xi,et,ze,xl,xsj,shp,iflag,konl)
                elseif(nope.eq.4) then
                   call shape4tet(xi,et,ze,xl,xsj,shp,iflag)
                elseif(nope.eq.15) then
@@ -800,7 +894,8 @@
                      elseif((lakonl(4:6).eq.'20 ').or.&
                              (lakonl(4:6).eq.'26 ')) then
                         nopered=20
-                        call lintemp(t0,t1,konl,nopered,jj,t0l,t1l)
+                        call lintemp(t0,konl,nopered,jj,t0l)
+                        call lintemp(t1,konl,nopered,jj,t1l)
                      elseif(lakonl(4:6).eq.'10T') then
                         call linscal10(t0,konl,t0l,null,shp)
                         call linscal10(t1,konl,t1l,null,shp)
@@ -820,8 +915,8 @@
                      elseif((lakonl(4:6).eq.'20 ').or.&
                              (lakonl(4:6).eq.'26 ')) then
                         nopered=20
-                        call lintemp_th(t0,vold,konl,nopered,jj,t0l,t1l,&
-                               mi)
+                        call lintemp_th0(t0,konl,nopered,jj,t0l,mi)
+                        call lintemp_th1(vold,konl,nopered,jj,t1l,mi)
                      elseif(lakonl(4:6).eq.'10T') then
                         call linscal10(t0,konl,t0l,null,shp)
                         call linscal10(vold,konl,t1l,mi(2),shp)
@@ -864,9 +959,10 @@
                !     determining the mechanical strain
                !
                if(ithermal(1).ne.0) then
-                  do m1=1,6
-                     emec(m1)=eloc(m1)-eth(m1)
-                  enddo
+                  call calcmechstrain(vkl,vokl,emec,eth,iperturb)
+               !                   do m1=1,6
+               !                      emec(m1)=eloc(m1)-eth(m1)
+               !                   enddo
                else
                   do m1=1,6
                      emec(m1)=eloc(m1)
@@ -975,16 +1071,26 @@
                   !
                   !                 only change of energy is stored
                   !
+                  !                   ener(jj,i)=
+                  !      &              ((eloc(1)-eth(1)-emeini(1,jj,i))*
+                  !      &              (stre(1)+stiini(1,jj,i))+
+                  !      &              (eloc(2)-eth(2)-emeini(2,jj,i))*
+                  !      &              (stre(2)+stiini(2,jj,i))+
+                  !      &              (eloc(3)-eth(3)-emeini(3,jj,i))*
+                  !      &              (stre(3)+stiini(3,jj,i)))/2.d0+
+                  !      &         (eloc(4)-eth(4)-emeini(4,jj,i))*(stre(4)+stiini(4,jj,i))+
+                  !      &         (eloc(5)-eth(5)-emeini(5,jj,i))*(stre(5)+stiini(5,jj,i))+
+                  !      &         (eloc(6)-eth(6)-emeini(6,jj,i))*(stre(6)+stiini(6,jj,i))
                   ener(jj,i)=&
-                    ((eloc(1)-eth(1)-emeini(1,jj,i))*&
+                    ((emec(1)-emeini(1,jj,i))*&
                     (stre(1)+stiini(1,jj,i))+&
-                    (eloc(2)-eth(2)-emeini(2,jj,i))*&
+                    (emec(2)-emeini(2,jj,i))*&
                     (stre(2)+stiini(2,jj,i))+&
-                    (eloc(3)-eth(3)-emeini(3,jj,i))*&
+                    (emec(3)-emeini(3,jj,i))*&
                     (stre(3)+stiini(3,jj,i)))/2.d0+&
-               (eloc(4)-eth(4)-emeini(4,jj,i))*(stre(4)+stiini(4,jj,i))+&
-               (eloc(5)-eth(5)-emeini(5,jj,i))*(stre(5)+stiini(5,jj,i))+&
-               (eloc(6)-eth(6)-emeini(6,jj,i))*(stre(6)+stiini(6,jj,i))
+               (emec(4)-emeini(4,jj,i))*(stre(4)+stiini(4,jj,i))+&
+               (emec(5)-emeini(5,jj,i))*(stre(5)+stiini(5,jj,i))+&
+               (emec(6)-emeini(6,jj,i))*(stre(6)+stiini(6,jj,i))
                   !
                   xenerel=xenerel+weight*xsj*ener(jj,i)
                endif

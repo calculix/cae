@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -85,12 +85,13 @@
             ctrl(48)=1.5d0
             ctrl(49)=0.5d0
             ctrl(50)=20.5d0
-            ctrl(51)=1.5d0
+            ctrl(51)=0.5d0
             ctrl(52)=1.5d0
-            ctrl(53)=1.d-3
-            ctrl(54)=1.d-1
-            ctrl(55)=100.5d0
-            ctrl(56)=60.5d0
+            ctrl(53)=1.5d0
+            ctrl(54)=1.d-3
+            ctrl(55)=1.d-1
+            ctrl(56)=100.5d0
+            ctrl(57)=60.5d0
             write(*,*)
             write(*,*)&
                '*INFO: control parameters reset to default'
@@ -233,7 +234,7 @@
             call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,&
                  ipoinp,inp,ipoinpc)
             if((istat.lt.0).or.(key.eq.1)) return
-            do j=1,min(3,n)
+            do j=1,min(4,n)
                if(textpart(j)(1:1).eq.' ') cycle
                read(textpart(j)(1:20),'(f20.0)',iostat=istat) ctrl(j+49)
                if(istat.gt.0) then
@@ -243,9 +244,10 @@
                endif
             enddo
             write(*,*) '*INFO: CFD control parameters set to:'
-            write(*,*) '       iitt = ',int(ctrl(50))
+            write(*,*) '       iitf = ',int(ctrl(50))
             write(*,*) '       iitg = ',int(ctrl(51))
             write(*,*) '       iitp = ',int(ctrl(52))
+            write(*,*) '       iitpt = ',int(ctrl(53))
             exit
          elseif(textpart(i)(1:18).eq.'PARAMETERS=CONTACT') then
             call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,&
@@ -253,25 +255,25 @@
             if((istat.lt.0).or.(key.eq.1)) return
             do j=1,min(4,n)
                if(textpart(j)(1:1).eq.' ') cycle
-               read(textpart(j)(1:20),'(f20.0)',iostat=istat) ctrl(j+52)
+               read(textpart(j)(1:20),'(f20.0)',iostat=istat) ctrl(j+53)
                if(istat.gt.0) then
                   call inputerror(inpc,ipoinpc,iline,&
                        "*CONTROLS%",ier)
                   return
                endif
-               if(j.ge.3) ctrl(j+52)=ctrl(j+52)+0.5d0
+               if(j.ge.3) ctrl(j+53)=ctrl(j+53)+0.5d0
             enddo
             !
             !           check range of parameters
             !
-            if(ctrl(53).lt.0.d0) then
+            if(ctrl(54).lt.0.d0) then
                write(*,*) '*ERROR reading *CONTROLS'
                write(*,*) '       delcon should be positive'
                call inputerror(inpc,ipoinpc,iline,&
                     "*CONTROLS%",ier)
             endif
             !
-            if((ctrl(54).lt.0.d0).or.(ctrl(54).gt.1.d0)) then
+            if((ctrl(55).lt.0.d0).or.(ctrl(55).gt.1.d0)) then
                write(*,*) '*ERROR reading *CONTROLS'
                write(*,*)&
               '       alea should belong to the interval [0.,1.]'
@@ -279,14 +281,14 @@
                     "*CONTROLS%",ier)
             endif
             !
-            if(ctrl(55).lt.1.d0) then
+            if(ctrl(56).lt.1.d0) then
                write(*,*) '*ERROR reading *CONTROLS'
                write(*,*) '       kscalemax must be at least 1'
                call inputerror(inpc,ipoinpc,iline,&
                     "*CONTROLS%",ier)
             endif
             !
-            if(ctrl(56).lt.1.d0) then
+            if(ctrl(57).lt.1.d0) then
                write(*,*) '*ERROR reading *CONTROLS'
                write(*,*) '       itf2f must be at least 1'
                call inputerror(inpc,ipoinpc,iline,&
@@ -294,10 +296,10 @@
             endif
             !
             write(*,*) '*INFO: CONTACT control parameter set to:'
-            write(*,*) '       delcon = ',ctrl(53)
-            write(*,*) '       alea = ',ctrl(54)
-            write(*,*) '       kscalemax = ',int(ctrl(55))
-            write(*,*) '       itf2f = ',int(ctrl(56))
+            write(*,*) '       delcon = ',ctrl(54)
+            write(*,*) '       alea = ',ctrl(55)
+            write(*,*) '       kscalemax = ',int(ctrl(56))
+            write(*,*) '       itf2f = ',int(ctrl(57))
             exit
          else
             write(*,*)&

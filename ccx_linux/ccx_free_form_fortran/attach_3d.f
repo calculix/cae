@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -25,7 +25,7 @@
       !
       implicit none
       !
-      integer nterms,i,j,k,m,imin,jmin,kmin,im,jm,km,kflag,n,iy,loopa
+      integer nterms,i,j,k,m,imin,jmin,kmin,im,jm,km,n,loopa
       !
       real*8 ratio(20),pneigh(3,20),pnode(3),a,xi(-1:1,-1:1,-1:1),&
         et(-1:1,-1:1,-1:1),ze(-1:1,-1:1,-1:1),p(3),distmin,d1,dist,&
@@ -35,7 +35,6 @@
       !
       intent(inout) xil,etl,zel,pnode,dist,ratio
       !
-      kflag=1
       n=3
       !
       d1=1.d0
@@ -172,7 +171,8 @@
          dx(1)=xil
          dx(2)=etl
          dx(3)=zel
-         call dsort(dx,iy,n,kflag)
+         call insertsortd(dx,n)
+         !          call dsort(dx,iy,n,kflag)
          if(dx(3).gt.1.d-30) then
             al=dx(3)/(xil+etl+zel)
             xil=al*xil

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,11 +17,11 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine mafilltcomp(nef,ipnei,neifa,neiel,vfa,xxn,area,&
-        au,ad,jq,irow,nzs,b,vel,umel,xlet,xle,gradtfa,xxi,&
+        au,ad,jq,irow,nzs,b,vel,umel,alet,ale,gradtfa,xxi,&
         body,volume,ielfa,lakonf,ifabou,nbody,neq,&
         dtimef,velo,veloo,cvfa,hcfa,cvel,gradvel,xload,gamma,xrlfa,&
         xxj,nactdohinv,a1,a2,a3,flux,nefa,nefb,iau6,xxni,xxnj,&
-        iturbulent,of2)
+        iturbulent,of2,sc)
       !
       !     filling the matrix for the conservation of energy
       !
@@ -37,17 +37,17 @@
         nefa,nefb,iturbulent
       !
       real*8 xflux,vfa(0:7,*),xxn(3,*),area(*),au(*),ad(*),b(neq),&
-        vel(nef,0:7),umel(*),xlet(*),xle(*),coef,gradtfa(3,*),&
+        vel(nef,0:7),umel(*),alet(*),ale(*),coef,gradtfa(3,*),&
         xxi(3,*),body(0:3,*),volume(*),dtimef,velo(nef,0:7),&
         veloo(nef,0:7),rhovol,constant,cvel(*),gradvel(3,3,*),&
-        cvfa(*),hcfa(*),div,xload(2,*),gamma(*),xrlfa(3,*),&
+        cvfa(*),hcfa(*),div,xload(2,*),gamma(*),xrlfa(3,*),sc(*),&
         xxj(3,*),a1,a2,a3,flux(*),xxni(3,*),xxnj(3,*),four,of2(*)
       !
       intent(in) nef,ipnei,neifa,neiel,vfa,xxn,area,&
-        jq,irow,nzs,vel,umel,xlet,xle,gradtfa,xxi,&
+        jq,irow,nzs,vel,umel,alet,ale,gradtfa,xxi,&
         body,volume,ielfa,lakonf,ifabou,nbody,neq,&
         dtimef,velo,veloo,cvfa,hcfa,cvel,gradvel,xload,gamma,xrlfa,&
-        xxj,nactdohinv,a1,a2,a3,flux,nefa,nefb,iturbulent
+        xxj,nactdohinv,a1,a2,a3,flux,nefa,nefb,iturbulent,sc
       !
       intent(inout) au,ad,b,of2
       !
@@ -65,14 +65,8 @@
                !     outflowing flux
                !
                ad(i)=ad(i)+xflux
-               !                if(iel.eq.0) then
-               !                   ad(i)=ad(i)+xflux
-               !                else
-               !                   ad(i)=ad(i)+xflux
                !
-               ! c               b(i)=b(i)-gamma(ifa)*(vfa(0,ifa)-vel(i,0))*xflux
                b(i)=b(i)-(vfa(0,ifa)-vel(i,0))*xflux
-            !                endif
             !
             else
                if(iel.gt.0) then
@@ -81,7 +75,6 @@
                   !
                   au(indexf)=au(indexf)+xflux
                   !
-                  ! c                  b(i)=b(i)-gamma(ifa)*(vfa(0,ifa)-vel(iel,0))*xflux
                   b(i)=b(i)-(vfa(0,ifa)-vel(iel,0))*xflux
                !
                else
@@ -124,13 +117,13 @@
                !
                !              neighboring element
                !
-               coef=four*area(ifa)/xlet(indexf)
+               coef=four*alet(indexf)
                ad(i)=ad(i)+coef
                au(indexf)=au(indexf)-coef
                !
                !              correction for non-orthogonal grid
                !
-               b(i)=b(i)+four*area(ifa)*&
+               b(i)=b(i)+four*&
                     (gradtfa(1,ifa)*xxnj(1,indexf)+&
                      gradtfa(2,ifa)*xxnj(2,indexf)+&
                      gradtfa(3,ifa)*xxnj(3,indexf))
@@ -149,15 +142,12 @@
                      b(i)=b(i)-xload(1,ifabou(ipointer+6))
                      knownflux=.true.
                   !
-                  elseif((ifabou(ipointer).ne.0).or.&
-                         (ifabou(ipointer+1).ne.0).or.&
-                         (ifabou(ipointer+2).ne.0).or.&
-                         (ifabou(ipointer+3).ne.0)) then
+                  elseif(ifabou(ipointer).ne.0) then
                      !
                      !                    temperature given or no outlet:
                      !                    temperature is assumed fixed
                      !
-                     coef=four*area(ifa)/xle(indexf)
+                     coef=four*ale(indexf)
                      ad(i)=ad(i)+coef
                      b(i)=b(i)+coef*vfa(0,ifa)
                   else
@@ -170,10 +160,10 @@
                !              correction for non-orthogonal grid
                !
                if(.not.knownflux) then
-                  b(i)=b(i)+four*area(ifa)*&
-                       (gradtfa(1,ifa)*xxni(1,indexf)+&
-                        gradtfa(2,ifa)*xxni(2,indexf)+&
-                        gradtfa(3,ifa)*xxni(3,indexf))
+                  b(i)=b(i)+four*&
+                       (gradtfa(1,ifa)*xxnj(1,indexf)+&
+                        gradtfa(2,ifa)*xxnj(2,indexf)+&
+                        gradtfa(3,ifa)*xxnj(3,indexf))
                endif
             endif
          enddo
@@ -181,7 +171,11 @@
          !        -p*div(v) term
          !
          div=gradvel(1,1,i)+gradvel(2,2,i)+gradvel(3,3,i)
-         b(i)=b(i)-vel(i,4)*div*volume(i)
+         if(div.le.0.d0) then
+            b(i)=b(i)-vel(i,4)*div*volume(i)
+         else
+            ad(i)=ad(i)+vel(i,4)*div*volume(i)/vel(i,0)
+         endif
          !
          !           viscous dissipation
          !
@@ -191,19 +185,25 @@
               (gradvel(1,2,i)+gradvel(2,1,i))**2+&
               (gradvel(1,3,i)+gradvel(3,1,i))**2+&
               (gradvel(2,3,i)+gradvel(3,2,i))**2)
-         b(i)=b(i)-2.d0*umel(i)*volume(i)/3.d0*div**2
+         ad(i)=ad(i)+2.d0*umel(i)*volume(i)*div**2/(3.d0*vel(i,0))
          !
          !           body heat source and body sources
          !
+         !          rhovol=vel(i,5)*volume(i)
          rhovol=vel(i,5)*volume(i)
+         !          write(*,*) 'mafilltcomp ',i,sc(i)
          !
          if(nbody.gt.0) then
-            b(i)=b(i)+rhovol*body(0,i)
+            if(body(0,i).gt.0.d0) then
+               b(i)=b(i)+rhovol*body(0,i)
+            else
+               ad(i)=ad(i)-rhovol*body(0,i)/vel(i,0)
+            endif
          endif
          !
          !           transient term
          !
-         constant=rhovol*cvel(i)
+         constant=rhovol*cvel(i)*sc(i)
          b(i)=b(i)-(a2*velo(i,0)+a3*veloo(i,0))*constant
          constant=a1*constant
          ad(i)=ad(i)+constant

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
       subroutine steadystatedynamicss(inpc,textpart,nmethod,&
         iexpl,istep,istat,n,iline,ipol,inl,ipoinp,inp,iperturb,isolver,&
         xmodal,cs,mcs,ipoinpc,nforc,nload,nbody,iprestr,t0,t1,ithermal,&
-        nk,set,nset,cyclicsymmetry,ier)
+        nk,set,nset,cyclicsymmetry,ibody,ier)
       !
       !     reading the input deck: *STEADY STATE DYNAMICS
       !
@@ -36,12 +36,11 @@
       integer nmethod,istep,istat,n,key,iexpl,iline,ipol,inl,nset,&
         ipoinp(2,*),inp(3,*),iperturb(2),isolver,i,ndata,nfour,mcs,&
         ipoinpc(0:*),nforc,nload,nbody,iprestr,ithermal,j,nk,ipos,&
-        cyclicsymmetry,ier
+        cyclicsymmetry,ier,ibody(3,*)
       !
       real*8 fmin,fmax,bias,tmin,tmax,xmodal(*),cs(17,*),t0(*),t1(*)
       !
       iexpl=0
-      iperturb(1)=0
       iperturb(2)=0
       harmonic='YES'
       if((mcs.ne.0).and.(cs(2,1).ge.0.d0)) then
@@ -154,7 +153,15 @@
               "*STEADY STATE DYNAMICS%",ier)
          return
       endif
-      if(ndata.lt.2) ndata=20
+      if(textpart(3)(1:1).eq.' ') then
+         ndata=20
+      elseif(ndata.lt.2) then
+         write(*,*) '*WARNING reading *STEADY STATE DYNAMICS:'
+         write(*,*) '         number of data points:',ndata
+         write(*,*) '         is smaller than 2;'
+         write(*,*) '         2 data points are taken instead'
+         ndata=2
+      endif
       xmodal(5)=ndata+0.5d0
       read(textpart(4)(1:20),'(f20.0)',iostat=istat) bias
       if(istat.gt.0) then
@@ -200,11 +207,14 @@
          xmodal(9)=tmax
       endif
       !
-      !     removing the present loading
+      !     removing the present loading except centrigufal loading
       !
       nforc=0
       nload=0
-      nbody=0
+      do i=1,nbody
+         if(ibody(1,i).ne.1) ibody(1,i)=0
+      enddo
+      !       nbody=0
       iprestr=0
       if((ithermal.eq.1).or.(ithermal.eq.3)) then
          do j=1,nk

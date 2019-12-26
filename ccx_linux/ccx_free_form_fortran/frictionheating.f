@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -121,8 +121,8 @@
                pl(k,j)=co(k,konl(j))+vold(k,konl(j))
             enddo
          enddo
-!
-!        user subroutine called if vnorm=-0.01d0
+         !
+         !        user subroutine called if vnorm=-0.01d0
          !
          if((vnorm.lt.0.d0).and.(vnorm.gt.-0.5d0)) then
             !

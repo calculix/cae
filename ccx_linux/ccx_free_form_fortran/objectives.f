@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -87,6 +87,28 @@
          nconst=nobject
          nobject=0
       endif
+      !
+      !     check if it is a minimization or maximization problem
+      !
+      if(textpart(2)(1:7).eq.'TARGET=') then
+         if(textpart(1)(8:10).eq.'MIN') then
+            objectset(2,1)(17:19)='MIN'
+         elseif(textpart(2)(8:10).eq.'MAX') then 
+            objectset(2,1)(17:19)='MAX'  
+         else
+            write(*,*)&
+              '*WARNING optimization TARGET not known.'
+            write(*,*)&
+              '         Minimization problem assumed as default.'
+            objectset(2,1)(17:19)='MIN' 
+         endif              
+      else
+         write(*,*)&
+           '*WARNING optimization TARGET not specified.'
+         write(*,*)&
+              '      Minimization problem assumed as default.'
+         objectset(2,1)(17:19)='MIN' 
+      endif        
       !
       !     reading the objectives
       !

@@ -13,8 +13,6 @@
 
     INP exporter:
         Recursively write implementation's INP_code to output .inp-file
-
-    Depends on cae.model.
 """
 
 
@@ -25,61 +23,61 @@ from mesh import Parse, readLines
 
 
 # Menu File -> Import
-def importFile(model, file_name=None):
+def importFile(p, settings, m, mw, t, file_name=None):
     clear_textEdit = False
     if not file_name:
         clear_textEdit = True
         file_name = QFileDialog.getOpenFileName(None, \
-            'Import INP/UNV file', model.job.dir, \
+            'Import INP/UNV file', m.job.dir, \
             'INP (*.inp);;UNV (*.unv)')[0]
 
     if file_name:
 
         # Clear log window before new import
-        # if clear_textEdit:
-        #     model.textEdit.setText('')
+        if clear_textEdit:
+            mw.textEdit.setText('')
 
         # Clear selection before import new model
-        # if model.settings.show_vtk:
-        #     model.VTK.actionSelectionClear()
+        if settings.show_vtk:
+            mw.VTK.actionSelectionClear()
 
         # Generate new KOM without implementations
-        model.KOM = KOM()
+        m.KOM = KOM()
 
         # Rename job before tree regeneration
-        model.job.rename(file_name[:-4] + '.inp')
+        m.job.rename(file_name[:-4] + '.inp')
 
         # Convert UNV to INP
         if file_name.lower().endswith('.unv'):
-            model.job.convertUNV()
-            if not os.path.isfile(model.job.inp):
-                logging.error('Error converting ' + model.job.unv)
+            m.job.convertUNV()
+            if not os.path.isfile(m.job.inp):
+                logging.error('Error converting ' + m.job.unv)
                 return
 
         # Show model name in window's title
-        # MainWindow.setWindowTitle('CalculiX CAE - ' + model.job.name)
+        mw.setWindowTitle('CalculiX CAE - ' + m.job.name)
 
 
         # Parse INP and enrich KOM with parsed objects
-        logging.info('Loading ' + model.job.inp + '.')
-        lines = readLines(model.job.inp)
-        importer(lines, model.KOM) # pass whole INP-file to the parser
+        logging.info('Loading ' + m.job.inp + '.')
+        lines = readLines(m.job.inp)
+        importer(lines, m.KOM) # pass whole INP-file to the parser
 
 
         # Add parsed implementations to the tree
-        # model.tree.generateTreeView()
+        t.generateTreeView(p, settings, m.KOM, mw.treeView)
 
         # Parse mesh
-        # model.mesh = Parse(model.job.inp) # parse mesh
+        m.mesh = Parse(m.job.inp) # parse mesh
 
         # Create ugrid from mesh
-        # if model.settings.show_vtk:
-        #     ugrid = model.VTK.mesh2ugrid(model.mesh)
+        if settings.show_vtk:
+            ugrid = mw.VTK.mesh2ugrid(m.mesh)
 
-        #     # Plot ugrid in VTK
-        #     if ugrid:
-        #         model.VTK.mapper.SetInputData(ugrid)
-        #         model.VTK.actionViewIso() # iso view after import
+            # Plot ugrid in VTK
+            if ugrid:
+                mw.VTK.mapper.SetInputData(ugrid)
+                mw.VTK.actionViewIso() # iso view after import
 
 
 # Enrich KOM with keywords from INP_doc
@@ -151,21 +149,21 @@ def importer(INP_doc, KOM):
 
 
 # Menu File -> Write INP file
-def writeInput(file_name=None):
+def writeInput(m, file_name=None):
     if not file_name:
         file_name = QFileDialog.getSaveFileName(None, \
-            'Write INP file', model.job.dir, \
+            'Write INP file', m.job.dir, \
             'Input files (*.inp)')[0]
     if file_name:
         with open(file_name, 'w') as f:
-            writer(model.KOM.root, f, 0)
+            writer(m.KOM.root, f, 0)
         logging.info('Input written to ' + file_name)
 
         # Rename job and update treeView if new INP-file name was selected
-        old_job_name = model.job.name
-        model.job.rename(file_name)
-        if model.job.name != old_job_name:
-            model.tree.appendJobName()
+        old_job_name = m.job.name
+        m.job.rename(file_name)
+        # if m.job.name != old_job_name:
+        #     tree.appendJobName()
 
 
 # Recursively write implementation's INP_code to output .inp-file

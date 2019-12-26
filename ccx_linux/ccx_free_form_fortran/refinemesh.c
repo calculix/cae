@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -567,7 +567,7 @@ void refinemesh(ITG *nk,ITG *ne,double *co,ITG *ipkon,ITG *kon,
     SFREE(iedgmid);
 
     SFREE(iexternedg);SFREE(iexternfa);SFREE(iexternnode);SFREE(iedgext);
-    SFREE(ifacext);SFREE(ifacexted);SFREE(iexternfaor);
+    SFREE(ifacext);SFREE(ifacexted);SFREE(iexternfaor);SFREE(iedgextfa);
 
     SFREE(integerglob);SFREE(doubleglob);
 

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -49,7 +49,8 @@
         nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,calcul_fn,&
         calcul_cauchy,nopered,mortar,jfaces,igauss,&
         idesvar,node,nodedesi(*),kscale,idir,nlgeom_undo,&
-        iactive,icoordinate,ialdesi(*),ii
+        iactive,icoordinate,ialdesi(*),ii,&
+        node1,node2,ifaceqexp(2,20),ifacewexp(2,15)
       !
       real*8 co(3,*),v(0:mi(2),*),shp(4,26),stiini(6,mi(1),*),&
         stx(6,mi(1),*),xl(3,26),vl(0:mi(2),26),stre(6),prop(*),&
@@ -95,6 +96,47 @@
       qa(4)=0.d0
       !
       mt=mi(2)+1
+      !
+      !     nodes in expansion direction of hex element
+      !
+      data ifaceqexp /5,17,&
+                      6,18,&
+                      7,19,&
+                      8,20,&
+                      1,17,&
+                      2,18,&
+                      3,19,&
+                      4,20,&
+                      13,0,&
+                      14,0,&
+                      15,0,&
+                      16,0,&
+                      9,0,&
+                      10,0,&
+                      11,0,&
+                      12,0,&
+                      0,0,&
+                      0,0,&
+                      0,0,&
+                      0,0/
+      !
+      !     nodes in expansion direction of wedge element
+      !
+      data ifacewexp /4,13,&
+                      5,14,&
+                      6,16,&
+                      1,13,&
+                      2,14,&
+                      3,15,&
+                      10,0,&
+                      11,0,&
+                      12,0,&
+                      7,0,&
+                      8,0,&
+                      9,0,&
+                      0,0,&
+                      0,0,&
+                      0,0/
       !
       !     -------------------------------------------------------------
       !     Initialisation of the loop for the variation of
@@ -335,6 +377,59 @@
             do j=1,3
                xl(j,iactive)=xl(j,iactive)+xdesi(j,idesvar)
             enddo
+            if(lakonl(1:5).eq.'C3D20') then
+               if((lakonl(7:7).eq.'A').or.&
+                  (lakonl(7:7).eq.'L').or.&
+                  (lakonl(7:7).eq.'S').or.&
+                  (lakonl(7:7).eq.'E')) then
+                  node1=ifaceqexp(1,iactive)
+                  node2=ifaceqexp(2,iactive)
+                  do j=1,3
+                     if(iactive.le.8) then
+                        xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                        xl(j,node2)=xl(j,node2)+xdesi(j,idesvar)
+                     else
+                        xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                     endif      
+                  enddo      
+               endif  
+            elseif(lakonl(1:5).eq.'C3D15') then
+               if((lakonl(7:7).eq.'A').or.&
+                  (lakonl(7:7).eq.'L').or.&
+                  (lakonl(7:7).eq.'S').or.&
+                  (lakonl(7:7).eq.'E')) then
+                  node1=ifacewexp(1,iactive)
+                  node2=ifacewexp(2,iactive)
+                  do j=1,3
+                     if(iactive.le.6) then
+                        xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                        xl(j,node2)=xl(j,node2)+xdesi(j,idesvar)
+                     else
+                        xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)
+                     endif      
+                  enddo      
+               endif  
+            elseif(lakonl(1:4).eq.'C3D8') then
+               if((lakonl(7:7).eq.'A').or.&
+                  (lakonl(7:7).eq.'L').or.&
+                  (lakonl(7:7).eq.'S').or.&
+                  (lakonl(7:7).eq.'E')) then
+                  node1=ifaceqexp(1,iactive)
+                  do j=1,3
+                     xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)      
+                  enddo      
+               endif  
+            elseif(lakonl(1:4).eq.'C3D6') then
+               if((lakonl(7:7).eq.'A').or.&
+                    (lakonl(7:7).eq.'L').or.&
+                    (lakonl(7:7).eq.'S').or.&
+                    (lakonl(7:7).eq.'E')) then
+                  node1=ifaceqexp(1,iactive)
+                  do j=1,3
+                     xl(j,node1)=xl(j,node1)+xdesi(j,idesvar)       
+                  enddo  
+               endif     
+            endif
          endif
          !
          !        calculating the forces for the contact elements
@@ -830,7 +925,8 @@
                      enddo
                   elseif(lakonl(4:6).eq.'20 ') then
                      nopered=20
-                     call lintemp(t0,t1,konl,nopered,jj,t0l,t1l)
+                     call lintemp(t0,konl,nopered,jj,t0l)
+                     call lintemp(t1,konl,nopered,jj,t1l)
                   elseif(lakonl(4:6).eq.'10T') then
                      call linscal10(t0,konl,t0l,null,shp)
                      call linscal10(t1,konl,t1l,null,shp)
@@ -849,7 +945,8 @@
                      enddo
                   elseif(lakonl(4:6).eq.'20 ') then
                      nopered=20
-                     call lintemp_th(t0,vold,konl,nopered,jj,t0l,t1l,mi)
+                     call lintemp_th0(t0,konl,nopered,jj,t0l,mi)
+                     call lintemp_th1(vold,konl,nopered,jj,t1l,mi)
                   elseif(lakonl(4:6).eq.'10T') then
                      call linscal10(t0,konl,t0l,null,shp)
                      call linscal10(vold,konl,t1l,mi(2),shp)

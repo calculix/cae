@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,8 +17,8 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine cd_ms_ms(p1,p2,T1,rad,d,xl,kappa,r,reynolds,u,vid,cd)
-!
-!     This subroutine enables to calculate the discharge coefficient for an
+      !
+      !     This subroutine enables to calculate the discharge coefficient for an
       !     orifice (shap edged , rotating..) following the results obtained
       !     by Mcgreehan and Schotsch
       !     The decription of the method can be found in :

@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -44,10 +44,10 @@ void stress_sen_dv(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
   ITG symmetryflag=0,mt=mi[1]+1,i,iactpos,calcul_fn,list,
       calcul_qa,calcul_cauchy,ikin=0,nal,iout=2,icmd=3,nener=0,
       *inum=NULL,nprintl=0,unperturbflag,nfield,ndim,iorienglob,
-      force;
+      force,mscalmethod=0;
 
   double *fn=NULL,*eei=NULL,qa[4]={0.,0.,-1.,0.},*xstiff=NULL,*ener=NULL,    
-    *eme=NULL,kspart,dksper;
+    *eme=NULL,kspart,dksper,*smscale=NULL,enerscal=0.;
   
   char cflag[1];
     
@@ -79,7 +79,7 @@ void stress_sen_dv(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
       springarea,reltime,&calcul_fn,&calcul_qa,&calcul_cauchy,&nener,
       &ikin,&nal,ne0,thicke,emeini,
       pslavsurf,pmastsurf,mortar,clearini,nea,neb,ielprop,
-      prop,kscale,&list,ialnk));
+      prop,kscale,&list,ialnk,smscale,&mscalmethod,&enerscal));
 
   /* extrapolating the stresses */
 

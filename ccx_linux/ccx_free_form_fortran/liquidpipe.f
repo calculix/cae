@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -104,7 +104,13 @@
             identity=.false.
          endif
       !
-      elseif((iflag.eq.1).or.(iflag.eq.2).or.(iflag.eq.3))then
+      elseif((iflag.eq.1).or.(iflag.eq.2).or.(iflag.eq.3)) then
+         if(iflag.eq.1) then
+            if(v(1,nodem).ne.0.d0) then
+               xflow=v(1,nodem)
+               return
+            endif
+         endif
          !
          index=ielprop(nelem)
          !

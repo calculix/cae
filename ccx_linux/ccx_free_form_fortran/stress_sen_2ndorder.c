@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -62,14 +62,17 @@ void stress_sen_2ndorder(double *co,ITG *nk,ITG *kon,ITG *ipkon,
        ITG *isolver,double *distmin,ITG *nodeset,double *b1,double *b2,
        double *dgdxdy){
 
+  char *tieset=NULL;
+  
   ITG symmetryflag=0,mt=mi[1]+1,i,j,iactpos,calcul_fn,list,*ilist=NULL,
        calcul_qa,calcul_cauchy,ikin=0,nal,iout=2,icmd=3,nener=0,
-      *inum=NULL,nprintl=0;
+       *inum=NULL,nprintl=0,*itiefac=NULL,mscalmethod=0;
 
   double *vnew=NULL,*conew=NULL,*dstn=NULL,*v=NULL,*fn=NULL,
     *stx=NULL,*eei=NULL,qa[4]={0.,0.,-1.,0.},*xstiff=NULL,*ener=NULL,
     *eme=NULL,*dv1=NULL,*dv2=NULL,*dstn1=NULL,*dstn2=NULL,*dstn12=NULL,
-    coef1[6]={1,1,0,-1,-1,1},coef2[6]={0,1,1,1,-1,-1};
+    coef1[6]={1,1,0,-1,-1,1},coef2[6]={0,1,1,1,-1,-1},*smscale=NULL,
+    enerscal=0.;
     
   if(*nasym!=0){symmetryflag=2;}
       
@@ -138,7 +141,7 @@ void stress_sen_2ndorder(double *co,ITG *nk,ITG *kon,ITG *ipkon,
           springarea,reltime,&calcul_fn,&calcul_qa,&calcul_cauchy,&nener,
           &ikin,&nal,ne0,thicke,emeini,
           pslavsurf,pmastsurf,mortar,clearini,nestart,neend,ielprop,
-	  prop,kscale,&list,ilist));
+	  prop,kscale,&list,ilist,smscale,&mscalmethod,&enerscal));
 
       /* storing results in the .dat file
         extrapolation of integration point values to the nodes
@@ -154,7 +157,7 @@ void stress_sen_2ndorder(double *co,ITG *nk,ITG *kon,ITG *ipkon,
               nshcon,cocon,ncocon,ntmat_,sideload,icfd,inomat,pslavsurf,islavact,
               cdn,mortar,islavnode,nslavnode,ntie,islavsurf,time,ielprop,prop,
 	      veold,ne0,nmpc,ipompc,nodempc,labmpc,energyini,energy,orname,
-              xload));
+              xload,itiefac,pmastsurf,springarea,tieset));
       
       SFREE(v);SFREE(fn);SFREE(stx);SFREE(eei);
 

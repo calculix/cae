@@ -52,18 +52,27 @@ void freeDatasets(Datasets *lcase, int nr)
   {
     for(i=0; i<lcase[nr].ncomps; i++) SFREE(lcase[nr].dat[i]);
   }
+  /* always allocated */
+  SFREE(lcase[nr].dat);
+  lcase[nr].dat=NULL;
+
   if(lcase[nr].npheader)
   {
     for(i=0; i<lcase[nr].npheader; i++) SFREE(lcase[nr].pheader[i]);
     SFREE(lcase[nr].pheader);
+    lcase[nr].pheader=NULL;
   }
   for(i=0; i<lcase[nr].ncomps; i++)
   {
     SFREE(lcase[nr].compName[i]);
     SFREE(lcase[nr].icname[i]);
   }
+  /* always allocated */
   SFREE(lcase[nr].compName);
   SFREE(lcase[nr].icname);
+  lcase[nr].compName=NULL;
+  lcase[nr].icname=NULL;
+
   SFREE(lcase[nr].ictype);
   SFREE(lcase[nr].icind1);
   SFREE(lcase[nr].icind2);
@@ -73,8 +82,9 @@ void freeDatasets(Datasets *lcase, int nr)
   SFREE(lcase[nr].min);
   SFREE(lcase[nr].nmax);
   SFREE(lcase[nr].nmin);
-  SFREE(lcase[nr].dat);
   SFREE(lcase[nr].fileptr);
+  lcase[nr].fileptr=NULL;
+  lcase[nr].loaded=0;
 
   /* edat not propper implemented or deleted */
   // for(i=0; i<3; i++) for(e=0; e<anz->e; e++) SFREE(lcase[nr].edat[i][e]);
@@ -87,20 +97,21 @@ void freeDatasets(Datasets *lcase, int nr)
 int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets **lptr, int read_mode )
 {
   FILE *handle;
-  register int i=0, j=0;
+  int i=0, j=0;
   int  nodeflag=0, elemflag=0, errFlag=0, firsttime=1;
   int n;  /* used in format_flag */
   long offset=0;
   fpos_t *filepntr=NULL;
   int elem_data=0,nod_data=0, nod_1st_block=0; /* nodes in resultblock, nodes in 1st block (if no "nr of nodes" are given in frd file, 100C-line) */
 
-  int  ncomps, maxcomps=0, nvals, nentities;
+  int  ncomps, indx, maxcomps=0, nvals, nentities;
   char rec_str[MAX_LINE_LENGTH];
   int  node_field_size, elem_field_size;
   int  e_nmax=1, e_nmin=1;
   int  length, flag, format_flag;
   int  ipuf, nodenr=0;
   static float *value=NULL;
+  static double *dvalue=NULL;
 
   char **dat, **compName;
   int          *menu, *ictype, *icind1, *icind2, *iexist; 
@@ -117,12 +128,14 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
     printf("\n\n ERROR: malloc failed\n\n") ;
 
   anz->u=anz->n=anz->e=anz->l=-1;
+  anz->nmax=0;  anz->nmin=MAX_INTEGER;
+  anz->emax=0;  anz->emin=MAX_INTEGER;
   length = 1;
   format_flag=0;
 
   /* Open the files and check to see that it was opened correctly */
-  handle = fopen (datin, "r");
-  if ( handle== NULL )  { printf ("ERROR: The input file \"%s\" could not be opened.\n\n", datin); return(-1); }
+  handle = fopen (datin, "rb");
+  if ( handle== NULL )  { printf ("ERROR in readfrd: The input file \"%s\" could not be opened.\n\n", datin); return(-1); }
   else  printf (" file:%s opened\n", datin);
 
 
@@ -165,7 +178,8 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
     if(( (nodeflag==1)&&(flag == 2) ) || ( (elemflag==1)&&(flag == 3) ))
     {
       printf ("found a second mesh. This mesh will be ignored\n");
-      flag=-1;
+      if(format_flag < 2) flag=-1;
+      else flag*=-1;
     }
     if(flag == 1)
     {
@@ -207,7 +221,6 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
       pheader=NULL;
 
       printf ("reading Nodes\n");
-      // anz->nmax=-MAX_INTEGER;  anz->nmin= MAX_INTEGER;
       nodeflag=1;
 
       /* nr of nodes per block can be read from the frd file, this is not documented in the original frd-spec. */
@@ -313,7 +326,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
               exit(-1);
             }
           }while(!node);
-          for(n=node[anz->n].nr; n<node_field_size; n++) node[n].indx=-1;
+          for(n=anz->nmax+1; n<node_field_size; n++) node[n].indx=-1;
         }
         /* save only nodes which are not already stored */
         if (format_flag == 2)
@@ -327,6 +340,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
             node[node[anz->n].nr].ny = value[1];
             node[node[anz->n].nr].nz = value[2];
           }
+          else fseeko(handle, 3*sizeof(float), SEEK_CUR);
 	}
         else
 	{
@@ -335,7 +349,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
             length=fread((double *)&node[node[anz->n].nr].nx,sizeof(double),3,handle);
             node[node[anz->n].nr].indx=anz->n;
           }
-          else fseek(handle, 3*sizeof(double), SEEK_CUR);
+          else fseeko(handle, 3*sizeof(double), SEEK_CUR);
 	}
         if (node[anz->n].nr >  anz->nmax)  anz->nmax=node[anz->n].nr;
         if (node[anz->n].nr <  anz->nmin)  anz->nmin=node[anz->n].nr;
@@ -352,6 +366,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
         printf("\n\n ERROR: realloc failed\n\n") ;
       else
         printf ("\n %d nodes reallocated \n",anz->nmax);
+      //nod_1st_block=anz->n;
     }
 
     else if(flag == 3)
@@ -361,7 +376,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
       elemflag=1;
       e_nmax=-MAX_INTEGER;  e_nmin=MAX_INTEGER;
 
-      /* nr of nodes per block can be read from the frd file, this is not documented in the original frd-spec. */
+      /* nr of elems per block can be read from the frd file, this is not documented in the original frd-spec. */
       elem_data=stoi( rec_str, 25, 36 );
       if(elem_data>0) elem_field_size=elem_data;
       else elem_field_size=INI_FIELD_SIZE;
@@ -579,7 +594,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
       {
         strcpy(lcase[anz->l].analysis_name,"");
       }
-      ncomps=nentities=0;
+      ncomps=nentities=indx=0;
       if (!format_flag) n=8;
       else n=13;
       errFlag=0;
@@ -607,10 +622,12 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
         }
       }
 
+      /* initialize */
+      lcase[anz->l].ncomps=0;
       do
       {
         /* bin mode, active after last column definition was read (-5 lines). Attention flag:-6 not permitted so far! */
-        if (( format_flag==2)&&(lcase[anz->l].ncomps>0)&&(ncomps==lcase[anz->l].ncomps))
+        if (( format_flag>=2)&&(lcase[anz->l].ncomps>0)&&(ncomps==lcase[anz->l].ncomps))
         {
           //printf("format_flag=%d ncomps:%d lcncomps:%d\n",format_flag,ncomps,lcase[anz->l].ncomps);
 
@@ -628,10 +645,10 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
               lcase[anz->l].handle=handle;
               strcpy(lcase[anz->l].filename,datin);
 
-              if( fseek( handle, offset, SEEK_CUR )!=0) printf("error in fseek\n");
+              if( fseeko( handle, offset, SEEK_CUR )!=0) printf("error in fseeko\n");
 	    }
 	  }
-          else
+          else if(format_flag==2)
 	  {
             if ( (value = (float *)realloc((float *)value, (lcase[anz->l].ncomps) * sizeof(float))) == NULL )
               printf("\n\n ERROR: realloc failed, value\n\n") ;
@@ -644,6 +661,23 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
               {
 	        // printf(" %f",value[i]); 
                 lcase[anz->l].dat[i][nodenr]= value[i];
+              }
+              // printf("\n");
+            }
+	  }
+          else if(format_flag==3)
+	  {
+            if ( (dvalue = (double *)realloc((double *)dvalue, (lcase[anz->l].ncomps) * sizeof(double))) == NULL )
+              printf("\n\n ERROR: realloc failed, dvalue\n\n") ;
+            for(n=0; n<nod_data; n++)
+            {
+              length=fread((int *)&nodenr,sizeof(int),1,handle);
+              length=fread((double *)dvalue,sizeof(double),lcase[anz->l].ncomps,handle);
+	      // printf("n:%d N:%d ",n+1, nodenr); 
+              for(i=0; i<lcase[anz->l].ncomps; i++)
+              {
+	        // printf(" %f",dvalue[i]); 
+                lcase[anz->l].dat[i][nodenr]= dvalue[i];
               }
               // printf("\n");
             }
@@ -674,7 +708,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
               strcpy(lcase[anz->l].filename,datin);
 
               /* reduce the offset by the current record */
-              if( fseek( handle, offset-length, SEEK_CUR )!=0) printf("error in fseek\n");
+              if( fseeko( handle, offset-length, SEEK_CUR )!=0) printf("error in fseeko\n");
 	    }
 	  }
           else
@@ -751,9 +785,9 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
             printf("\n\n ERROR: malloc failure\n\n" );
           if ( (lcase[anz->l].nmin = (int *)malloc( (lcase[anz->l].ncomps) * sizeof(int))) == NULL )
             printf("\n\n ERROR: malloc failure\n\n" );
-          if ( (lcase[anz->l].max = (float *)malloc( (lcase[anz->l].ncomps) * sizeof(float))) == NULL )
+          if ( (lcase[anz->l].max = (CGXFLOAT *)malloc( (lcase[anz->l].ncomps) * sizeof(CGXFLOAT))) == NULL )
             printf("\n\n ERROR: malloc failure\n\n" );
-          if ( (lcase[anz->l].min = (float *)malloc( (lcase[anz->l].ncomps) * sizeof(float))) == NULL )
+          if ( (lcase[anz->l].min = (CGXFLOAT *)malloc( (lcase[anz->l].ncomps) * sizeof(CGXFLOAT))) == NULL )
             printf("\n\n ERROR: malloc failure\n\n" );
           if ( (lcase[anz->l].compName = (char **)malloc( (lcase[anz->l].ncomps) * sizeof(char *))) == NULL )
             printf("\n\n ERROR: malloc failure\n\n" );
@@ -769,7 +803,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
             printf("\n\n ERROR: malloc failure\n\n" );
           if ( (lcase[anz->l].iexist = (int *)malloc( lcase[anz->l].ncomps * sizeof(int))) == NULL )
             printf("\n\n ERROR: malloc failure\n\n" );
-          if ( (lcase[anz->l].dat = (float **)malloc( (lcase[anz->l].ncomps) * sizeof(float *))) == NULL )
+          if ( (lcase[anz->l].dat = (CGXFLOAT **)malloc( (lcase[anz->l].ncomps) * sizeof(CGXFLOAT *))) == NULL )
             printf("\n\n ERROR: malloc failure\n\n" );
   printf(" gen lc[%d] ncomps:%d\n",anz->l,lcase[anz->l].ncomps);
           for(i=0; i<(lcase[anz->l].ncomps); i++)
@@ -784,22 +818,23 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
         }
         else if(flag == -5)
         {
-          if(ncomps<lcase[anz->l].ncomps)
+          if(indx<lcase[anz->l].ncomps)
 	  {
-            stos(rec_str, 6, 13, lcase[anz->l].compName[ncomps]);
-            lcase[anz->l].menu[ncomps] = stoi(rec_str,14,18);
-            lcase[anz->l].ictype[ncomps] = stoi(rec_str,19,23);
-            lcase[anz->l].icind1[ncomps] = stoi(rec_str,24,28);
-            lcase[anz->l].icind2[ncomps] = stoi(rec_str,29,33);
-            lcase[anz->l].iexist[ncomps] = stoi(rec_str,34,38);
+            stos(rec_str, 6, 13, lcase[anz->l].compName[indx]);
+            lcase[anz->l].menu[indx] = stoi(rec_str,14,18);
+            lcase[anz->l].ictype[indx] = stoi(rec_str,19,23);
+            lcase[anz->l].icind1[indx] = stoi(rec_str,24,28);
+            lcase[anz->l].icind2[indx] = stoi(rec_str,29,33);
+            lcase[anz->l].iexist[indx] = stoi(rec_str,34,38);
 
             /* requests for additional components are not supported so far */
-            if(!lcase[anz->l].iexist[ncomps]) ncomps++;
-            else
+            if(lcase[anz->l].iexist[indx]==1)
 	    {
-              SFREE(lcase[anz->l].compName[ncomps]); lcase[anz->l].compName[ncomps]=NULL;
-              SFREE(lcase[anz->l].icname[ncomps]); lcase[anz->l].icname[ncomps]=NULL;
+              SFREE(lcase[anz->l].compName[indx]); lcase[anz->l].compName[indx]=NULL;
+              SFREE(lcase[anz->l].icname[indx]); lcase[anz->l].icname[indx]=NULL;
 	    }
+            else ncomps++;
+            indx++;
 	  }
           else
 	  {
@@ -829,6 +864,10 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
 		{
                   offset= nod_data * (4+nvals*4); 
 		}
+                else if (format_flag==3)
+		{
+                  offset= nod_data * (4+nvals*8); 
+		}
                 else
 		{
                   /* just to get an approximate offset: */
@@ -853,7 +892,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
               /* in case the data should be read directly and not on demand */
               for(i=0; i<(lcase[anz->l].ncomps); i++)
 	      {
-                if ( (lcase[anz->l].dat[i] = (float *)malloc( (anz->nmax+1) * sizeof(float))) == NULL )
+                if ( (lcase[anz->l].dat[i] = (CGXFLOAT *)malloc( (anz->nmax+1) * sizeof(CGXFLOAT))) == NULL )
                   printf("\n\n ERROR: malloc failure\n\n" );	               
                 for(j=0; j<=anz->nmax; j++) lcase[anz->l].dat[i][j]=0.;
 	      }
@@ -948,11 +987,11 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
         printf("\n\n ERROR: malloc failure\n\n" );
       if ( (lcase[anz->l].nmin = (int *)malloc( lcase[anz->l].ncomps * sizeof(int))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
-      if ( (lcase[anz->l].max = (float *)malloc( lcase[anz->l].ncomps * sizeof(float))) == NULL )
+      if ( (lcase[anz->l].max = (CGXFLOAT *)malloc( lcase[anz->l].ncomps * sizeof(CGXFLOAT))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
-      if ( (lcase[anz->l].min = (float *)malloc( lcase[anz->l].ncomps * sizeof(float))) == NULL )
+      if ( (lcase[anz->l].min = (CGXFLOAT *)malloc( lcase[anz->l].ncomps * sizeof(CGXFLOAT))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
-      if ( (lcase[anz->l].dat = (float **)malloc( lcase[anz->l].ncomps * sizeof(float *))) == NULL )
+      if ( (lcase[anz->l].dat = (CGXFLOAT **)malloc( lcase[anz->l].ncomps * sizeof(CGXFLOAT *))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
       if ( (lcase[anz->l].compName = (char **)malloc( lcase[anz->l].ncomps * sizeof(char *))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
@@ -966,7 +1005,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
            printf("\n\n ERROR: malloc failed\n\n" );
         lcase[anz->l].max[i]=-MAX_FLOAT;
         lcase[anz->l].min[i]=MAX_FLOAT;
-        if ( (lcase[anz->l].dat[i] = (float *)malloc( (anz->nmax+1) * sizeof(float))) == NULL )
+        if ( (lcase[anz->l].dat[i] = (CGXFLOAT *)malloc( (anz->nmax+1) * sizeof(CGXFLOAT))) == NULL )
           printf("\n\n ERROR: malloc failure\n\n" );	               
         for(j=0; j<=anz->nmax; j++) lcase[anz->l].dat[i][j]=0.;
       }
@@ -1056,11 +1095,11 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
         printf("\n\n ERROR: malloc failure\n\n" );
       if ( (lcase[anz->l].nmin = (int *)malloc( lcase[anz->l].ncomps * sizeof(int))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
-      if ( (lcase[anz->l].max = (float *)malloc( lcase[anz->l].ncomps * sizeof(float))) == NULL )
+      if ( (lcase[anz->l].max = (CGXFLOAT *)malloc( lcase[anz->l].ncomps * sizeof(CGXFLOAT))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
-      if ( (lcase[anz->l].min = (float *)malloc( lcase[anz->l].ncomps * sizeof(float))) == NULL )
+      if ( (lcase[anz->l].min = (CGXFLOAT *)malloc( lcase[anz->l].ncomps * sizeof(CGXFLOAT))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
-      if ( (lcase[anz->l].dat = (float **)malloc( lcase[anz->l].ncomps * sizeof(float *))) == NULL )
+      if ( (lcase[anz->l].dat = (CGXFLOAT **)malloc( lcase[anz->l].ncomps * sizeof(CGXFLOAT *))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
       if ( (lcase[anz->l].compName = (char **)malloc( lcase[anz->l].ncomps * sizeof(char *))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
@@ -1068,7 +1107,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
         printf("\n\n ERROR: malloc failure\n\n" );
       for(i=0; i<lcase[anz->l].ncomps; i++)
       {
-        if ( (lcase[anz->l].dat[i] = (float *)malloc( (anz->nmax+1) * sizeof(float))) == NULL )
+        if ( (lcase[anz->l].dat[i] = (CGXFLOAT *)malloc( (anz->nmax+1) * sizeof(CGXFLOAT))) == NULL )
           printf("\n\n ERROR: malloc failure\n\n" );	               
         if ( (lcase[anz->l].compName[i] = (char *)malloc( MAX_LINE_LENGTH * sizeof(char))) == NULL )
            printf("\n\n ERROR: malloc failed\n\n" );
@@ -1183,11 +1222,11 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
         printf("\n\n ERROR: malloc failure\n\n" );
       if ( (lcase[anz->l].nmin = (int *)malloc( lcase[anz->l].ncomps * sizeof(int))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
-      if ( (lcase[anz->l].max = (float *)malloc( lcase[anz->l].ncomps * sizeof(float))) == NULL )
+      if ( (lcase[anz->l].max = (CGXFLOAT *)malloc( lcase[anz->l].ncomps * sizeof(CGXFLOAT))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
-      if ( (lcase[anz->l].min = (float *)malloc( lcase[anz->l].ncomps * sizeof(float))) == NULL )
+      if ( (lcase[anz->l].min = (CGXFLOAT *)malloc( lcase[anz->l].ncomps * sizeof(CGXFLOAT))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
-      if ( (lcase[anz->l].dat = (float **)malloc( lcase[anz->l].ncomps * sizeof(float *))) == NULL )
+      if ( (lcase[anz->l].dat = (CGXFLOAT **)malloc( lcase[anz->l].ncomps * sizeof(CGXFLOAT *))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
       if ( (lcase[anz->l].compName = (char **)malloc( lcase[anz->l].ncomps * sizeof(char *))) == NULL )
         printf("\n\n ERROR: malloc failure\n\n" );
@@ -1195,7 +1234,7 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
         printf("\n\n ERROR: malloc failure\n\n" );
       for(i=0; i<lcase[anz->l].ncomps; i++)
       {
-        if ( (lcase[anz->l].dat[i] = (float *)malloc( (anz->nmax+1) * sizeof(float))) == NULL )
+        if ( (lcase[anz->l].dat[i] = (CGXFLOAT *)malloc( (anz->nmax+1) * sizeof(CGXFLOAT))) == NULL )
           printf("\n\n ERROR: malloc failure\n\n" );	               
         if ( (lcase[anz->l].compName[i] = (char *)malloc( MAX_LINE_LENGTH * sizeof(char))) == NULL )
            printf("\n\n ERROR: malloc failed\n\n" );
@@ -1271,9 +1310,56 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
       }
     }
 
-    else
+    else if(flag == -1)
     {
   next:;
+      printf (" overread Block: %s\n", rec_str);
+      do
+      {
+        length = frecord( handle, rec_str);
+        if (rec_str[length] == (char)EOF) break;
+        /* printf ("\n record:%d %s\n", length, rec_str);   */
+        if (length != 0)
+        {
+          flag = stoi(rec_str,1,5);
+        }
+      } while(flag != -3);
+    }
+    else if(flag == -2)
+    {
+      /* nr of nodes per block can be read from the frd file, this is not documented in the original frd-spec. */
+      nod_data=stoi( rec_str, 25, 36 );
+      printf ("scip %d nodes\n",nod_data);
+      if(format_flag == 2) fseeko(handle, nod_data*(sizeof(int)+3*sizeof(float)), SEEK_CUR);
+      else  fseeko(handle, nod_data*(sizeof(int)+3*sizeof(double)), SEEK_CUR);
+    }
+    else if(flag == -3)
+    {
+      /* nr of elems per block can be read from the frd file, this is not documented in the original frd-spec. */
+      elem_data=stoi( rec_str, 25, 36 );
+      printf ("scip %d elements\n",elem_data);
+      for (i=0; i<elem_data; i++)
+      {
+        fseeko(handle, sizeof(int), SEEK_CUR);
+        length=fread((int *)&j,sizeof(int),1,handle);
+        fseeko(handle, 2*sizeof(int), SEEK_CUR);
+        if (j == 1)      ipuf = 8;   /* HEXA8  */
+        else if (j == 2) ipuf = 6;   /* PE6   */
+        else if (j == 3) ipuf = 4;   /* TET4   */
+        else if (j == 4) ipuf = 20;  /* HEXA20 */
+        else if (j == 5) ipuf = 15;  /* PE15  */
+        else if (j == 6) ipuf = 10;  /* TET10  */
+        else if (j == 7) ipuf = 3;   /* TRI3   */
+        else if (j == 8) ipuf = 6;   /* TRI6   */
+        else if (j == 9) ipuf = 4;   /* QUAD4  */
+        else if (j == 10) ipuf = 8; /* QUAD8  */
+        else if (j == 11) ipuf = 2;  /* BEAM2   */
+        else if (j == 12) ipuf = 3;  /* BEAM3   */
+        fseeko(handle, ipuf*sizeof(int), SEEK_CUR);
+      }
+    }
+    else
+    {
       printf (" overread Block: %s\n", rec_str);
       do
       {
@@ -1306,7 +1392,6 @@ int readfrd( char *datin, Summen *anz, Nodes **nptr, Elements **eptr, Datasets *
     printf ("\nWARNING: element requestes a nodename lower than allocated\n\n");
     printf (" e_nmax=%d e_nmin=%d\n", e_nmax, e_nmin );
   }
-  elemChecker( anz->e, node, elem);
 
   anz->orign    = anz->n;
   anz->orignmax = anz->nmax;
@@ -1328,13 +1413,14 @@ int readfrdblock(int lc, Summen *anz,   Nodes     *node, Datasets *lcase )
   int  errFlag=0;
   char rec_str[MAX_LINE_LENGTH];
   static float *value=NULL;
+  static double *dvalue=NULL;
   FILE *handle;
 
   // printf("readfrdblock for file:%s\n", lcase[lc].filename);
 
   /* Open the files and check to see that it was opened correctly */
   handle = lcase[lc].handle;
-  if ( handle== NULL )  { printf ("ERROR: The input file \"%s\" could not be opened.\n\n", lcase[lc].filename); return(-1); }
+  if ( handle== NULL )  { printf ("ERROR in readfrdblock: The input file \"%s\" could not be opened.\n\n", lcase[lc].filename); return(-1); }
 
   if( fsetpos( handle, (fpos_t *)lcase[lc].fileptr)!=0) { printf("error in fsetpos"); return(-1); }
   lcase[lc].loaded=1;
@@ -1354,11 +1440,11 @@ int readfrdblock(int lc, Summen *anz,   Nodes     *node, Datasets *lcase )
     return(-1);
   }
 
-  if ( (lcase[lc].dat = (float **)malloc( (lcase[lc].ncomps) * sizeof(float *))) == NULL )
+  if ( (lcase[lc].dat = (CGXFLOAT **)malloc( (lcase[lc].ncomps) * sizeof(CGXFLOAT *))) == NULL )
     printf("\n\n ERROR: malloc failure\n\n" );
   for(i=0; i<(lcase[lc].ncomps); i++)
   {
-    if ( (lcase[lc].dat[i] = (float *)malloc( (anz->nmax+1) * sizeof(float))) == NULL )
+    if ( (lcase[lc].dat[i] = (CGXFLOAT *)malloc( (anz->nmax+1) * sizeof(CGXFLOAT))) == NULL )
       printf("\n\n ERROR: malloc failure\n\n" );	               
     for(j=0; j<=anz->nmax; j++) lcase[lc].dat[i][j]=0.;
   }
@@ -1376,7 +1462,7 @@ int readfrdblock(int lc, Summen *anz,   Nodes     *node, Datasets *lcase )
       flag = stoi(rec_str,1,3);
 
       /* bin mode, active after last column definition was read (-5 lines). Attention flag:-6 not permitted so far! */
-      if ( format_flag==2)
+      if ( format_flag>=2)
       {
         if (flag == -4)
         {
@@ -1389,19 +1475,39 @@ int readfrdblock(int lc, Summen *anz,   Nodes     *node, Datasets *lcase )
         /* skip the meta-data */
         for(i=0; i<ncomps; i++) length = frecord( handle, rec_str);
 
-        if ( (value = (float *)realloc((float *)value, (lcase[lc].ncomps) * sizeof(float))) == NULL )
-          printf("\n\n ERROR: realloc failed, value\n\n") ;
-        for(n=0; n<nod_data; n++)
+        if ( format_flag==2)
         {
-          length=fread((int *)&nodenr,sizeof(int),1,handle);
-          length=fread((float *)value,sizeof(float),lcase[lc].ncomps,handle);
-	  // printf("N:%d ",nodenr);
-          for(i=0; i<lcase[lc].ncomps; i++)
+          if ( (value = (float *)realloc((float *)value, (lcase[lc].ncomps) * sizeof(float))) == NULL )
+            printf("\n\n ERROR: realloc failed, value\n\n") ;
+          for(n=0; n<nod_data; n++)
           {
-	    // printf(" %f",value[i]); 
-            lcase[lc].dat[i][nodenr]= value[i];
+            length=fread((int *)&nodenr,sizeof(int),1,handle);
+            length=fread((float *)value,sizeof(float),lcase[lc].ncomps,handle);
+  	  // printf("N:%d ",nodenr);
+            for(i=0; i<lcase[lc].ncomps; i++)
+            {
+  	    // printf(" %f",value[i]); 
+              lcase[lc].dat[i][nodenr]= value[i];
+            }
+  	  // printf("\n");
           }
-	  // printf("\n");
+        }
+        if ( format_flag==3)
+        {
+          if ( (dvalue = (double *)realloc((double *)dvalue, (lcase[lc].ncomps) * sizeof(double))) == NULL )
+            printf("\n\n ERROR: realloc failed, dvalue\n\n") ;
+          for(n=0; n<nod_data; n++)
+          {
+            length=fread((int *)&nodenr,sizeof(int),1,handle);
+            length=fread((double *)dvalue,sizeof(double),lcase[lc].ncomps,handle);
+  	  // printf("N:%d ",nodenr);
+            for(i=0; i<lcase[lc].ncomps; i++)
+            {
+  	    // printf(" %f",dvalue[i]); 
+              lcase[lc].dat[i][nodenr]= dvalue[i];
+            }
+  	  // printf("\n");
+          }
         }
         break;        
       }
@@ -1490,7 +1596,7 @@ char *getRecord(FILE *handle, int n, int x0 )
       m=(n2+n1)/2;
 
       
-      if( fseek( handle, offset, SEEK_CUR )!=0) printf("error in fseek\n");
+      if( fseeko( handle, offset, SEEK_CUR )!=0) printf("error in fseeko\n");
                           
       if(x0>= x ) n1=m;              
       if(x0 < x ) n2=m;              
@@ -1514,7 +1620,8 @@ int readOneNode( int lc, Summen *anz, Datasets *lcase, int nodenr, double **vptr
   int  errFlag=0, readFlag=0, bailout=0;
   char rec_str[MAX_LINE_LENGTH];
   FILE *handle;
-  float *value=NULL;
+  static float *value=NULL;
+  static double *dvalue=NULL;
   double *dat;
   int  nod_data=0, nvals=0;
 
@@ -1522,12 +1629,12 @@ int readOneNode( int lc, Summen *anz, Datasets *lcase, int nodenr, double **vptr
 
   /* Open the files and check to see that it was opened correctly */
   handle = lcase[lc].handle;
-  if ( handle== NULL )  { printf ("ERROR: The input file \"%s\" could not be opened.\n\n", lcase[lc].filename); return(-1); }
+  if ( handle== NULL )  { printf ("ERROR in readOneNode: The input file \"%s\" could not be opened.\n\n", lcase[lc].filename); return(-1); }
 
   if( fsetpos( handle, (fpos_t *)lcase[lc].fileptr)!=0) { printf("error in fsetpos"); return(-1); }
 
   /* the header-lines must be skipped in case byte_offset==0 and format == 2(bin) */
-  if((lcase[lc].format_flag==2)&&(!*byte_offset))
+  if((lcase[lc].format_flag>=2)&&(!*byte_offset))
   {
     do
     {
@@ -1547,7 +1654,7 @@ int readOneNode( int lc, Summen *anz, Datasets *lcase, int nodenr, double **vptr
       break;        
     }while(1);
   }
-  else{ if( fseek( handle, *byte_offset, SEEK_CUR )!=0) printf("error in fseek\n"); }
+  else{ if( fseeko( handle, *byte_offset, SEEK_CUR )!=0) printf("error in fseeko\n"); }
 
   offset=*byte_offset;
 
@@ -1574,6 +1681,30 @@ int readOneNode( int lc, Summen *anz, Datasets *lcase, int nodenr, double **vptr
     {
 	//printf(" %f",value[i]);
       dat[i]= value[i];
+    }
+
+    *byte_offset=offset;
+    //printf("offset:%d\n", offset);
+    return(0);
+  }
+  if(lcase[lc].format_flag==3)
+  {
+    if ( (dvalue = (double *)realloc((double *)dvalue, (lcase[lc].ncomps) * sizeof(double))) == NULL )
+      printf("\n\n ERROR: realloc failed, dvalue\n\n") ;
+    do
+    {
+      length=fread((int *)&inodenr,sizeof(int),1,handle)*sizeof(int);
+      length+=fread((double *)dvalue,sizeof(double),lcase[lc].ncomps,handle)*sizeof(double);
+      //printf("N:%d ",inodenr);
+      //for(i=0; i<lcase[lc].ncomps; i++) printf(" %f",dvalue[i]);
+      //printf("\n");
+      if(inodenr==nodenr) break;
+      else offset+=length;
+    }while(1);
+    for(i=0; i<lcase[lc].ncomps; i++)
+    {
+	//printf(" %f",dvalue[i]);
+      dat[i]= dvalue[i];
     }
 
     *byte_offset=offset;

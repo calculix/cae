@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -41,7 +41,7 @@ void biosav(ITG *ipkon,ITG *kon,char *lakon,ITG *ne,double *co,
     ITG sys_cpus;
     char *env,*envloc,*envsys;
     
-    num_cpus = 0;
+    num_cpus=0;
     sys_cpus=0;
 
     /* explicit user declaration prevails */
@@ -76,8 +76,8 @@ void biosav(ITG *ipkon,ITG *kon,char *lakon,ITG *ne,double *co,
     env = getenv("OMP_NUM_THREADS");
     if(num_cpus==0){
 	if (env)
-	    num_cpus = atoi(env);
-	if (num_cpus < 1) {
+	    num_cpus=atoi(env);
+	if (num_cpus<1) {
 	    num_cpus=1;
 	}else if(num_cpus>sys_cpus){
 	    num_cpus=sys_cpus;

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -34,8 +34,15 @@
       !     the sign takes care that the diagonal term becomes 1
       !     (and not -1)
       !
+      !     taking zero's on the diagonal into account (adaux(i)=1 in such case)
+      !
       do i=1,neq
-         adaux(i)=dsign(1.d0/dsqrt(dabs(ad(i))),ad(i))
+         !      write(*,*) 'preconditioning ',i,ad(i)
+         if(dabs(ad(i)).lt.1.d-30) then
+            adaux(i)=dsign(1.d0,ad(i))
+         else
+            adaux(i)=dsign(1.d0/dsqrt(dabs(ad(i))),ad(i))
+         endif
       enddo
       !       do i=1,neq
       !          adaux(i)=1.d0/dsqrt(dabs(ad(i)))
@@ -54,7 +61,9 @@
          !
          do i=jq(ic),jq(ic+1)-1
             ir=irow(i)
+            !             write(*,*) 'au before',i,au(i),adc,ir,adaux(ir)
             au(i)=au(i)*adc*adaux(ir)
+         !             write(*,*) 'au after',i,au(i)
          enddo
          !
          !        scaling the right hand side

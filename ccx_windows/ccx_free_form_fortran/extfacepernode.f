@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -30,8 +30,12 @@
       !
       intent(inout) iponoelfa,inoelfa,inoelsize
       !
-      !     determining the external faces belonging to the nodes on
-      !     the surface of the structure
+      !     lists which external faces correspond to a given node i
+      !     iponoelfa(i) points to an entry j in field inoelfa where:
+      !     inoelfa(1,j): face number as catalogued in fields konfa, lakonfa
+      !     inoelfa(2,j): local node number in the topology description
+      !     inoelfa(3,j): pointer to the next face to which i belongs, or, if
+      !                   none is left: zero
       !
       inoelfree=1
       do i=1,nsurfs

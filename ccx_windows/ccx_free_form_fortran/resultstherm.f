@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -371,8 +371,8 @@
                enddo
             elseif(lakon(i)(4:6).eq.'20 ') then
                nopered=20
-               call lintemp_th(t0,vold,konl,nopered,kk,t0l,t1lold,mi)
-               call lintemp_th(t0,v,konl,nopered,kk,t0l,t1l,mi)
+               call lintemp_th1(vold,konl,nopered,kk,t1lold,mi)
+               call lintemp_th1(v,konl,nopered,kk,t1l,mi)
             elseif(lakon(i)(4:6).eq.'10T') then
                call linscal10(vold,konl,t1lold,mi(2),shp)
                call linscal10(v,konl,t1l,mi(2),shp)

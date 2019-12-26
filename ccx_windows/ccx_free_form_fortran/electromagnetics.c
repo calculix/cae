@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -106,7 +106,8 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
       *nelemloadref=NULL,*iamloadref=NULL,nloadref,kscale=1,
       *nelemload=NULL,*iamload=NULL,*idefload=NULL,ialeatoric=0,
       *iponoel=NULL,*inoel=NULL,inoelsize,nrhs=1,neqfreq,nzsfreq,
-      *irowfreq=NULL,*icolfreq=NULL,*jqfreq=NULL,*jq=NULL,maxmode;
+      *irowfreq=NULL,*icolfreq=NULL,*jqfreq=NULL,*jq=NULL,maxmode,
+      *itiefac=NULL,mscalmethod=0;
 
   double *stn=NULL,*v=NULL,*een=NULL,cam[5],*epn=NULL,*cdn=NULL,
       *f=NULL,*fn=NULL,qa[4]={0.,0.,-1.,0.},qam[2]={0.,0.},dtheta,theta,
@@ -131,7 +132,7 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
          *emeini=NULL,*doubleglob=NULL,*au=NULL,
 	 *ad=NULL,*b=NULL,*aub=NULL,*adb=NULL,*pslavsurf=NULL,*pmastsurf=NULL,
 	 *cdnr=NULL,*cdni=NULL,*energyini=NULL,*energy=NULL,*adfreq=NULL,
-	 *aufreq=NULL,*bfreq=NULL,om;
+	 *aufreq=NULL,*bfreq=NULL,om,*smscale=NULL;
 
 #ifdef SGI
   ITG token;
@@ -312,7 +313,7 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
   
   /* allocating fields for nonlinear dynamics */
   
-  if(*nmethod==4){
+  if((*nmethod==2)||(*nmethod==4)){
       mass[0]=1;
       mass[1]=1;
       NNEW(aux2,double,neq[1]);
@@ -323,7 +324,7 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
       NNEW(adb,double,neq[1]);
       NNEW(aub,double,nzs[1]);
   }
-  
+
   qa[0]=qaold[0];
   qa[1]=qaold[1];
   
@@ -333,9 +334,9 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
   dtheta=(*tinc)/(*tper);
   dthetaref=dtheta;
   if(dtheta<=1.e-6){
-      printf("\n *ERROR in electromagnetics\n");
-      printf(" increment size smaller than one millionth of step size\n");
-      printf(" increase increment size\n\n");
+    printf("\n *ERROR in electromagnetics\n");
+    printf(" increment size smaller than one millionth of step size\n");
+    printf(" increase increment size\n\n");
   }
   *tmin=*tmin/(*tper);
   *tmax=*tmax/(*tper);
@@ -344,18 +345,17 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
   /* calculating an initial flux norm */
   
   if(*ithermal!=2){
-      if(qau>1.e-10){qam[0]=qau;}
-      else if(qa0>1.e-10){qam[0]=qa0;}
-      else if(qa[0]>1.e-10){qam[0]=qa[0];}
-      else {qam[0]=1.e-2;}
+    if(qau>1.e-10){qam[0]=qau;}
+    else if(qa0>1.e-10){qam[0]=qa0;}
+    else if(qa[0]>1.e-10){qam[0]=qa[0];}
+    else {qam[0]=1.e-2;}
   }
   if(*ithermal>1){
-      if(qau>1.e-10){qam[1]=qau;}
-      else if(qa0>1.e-10){qam[1]=qa0;}
-      else if(qa[1]>1.e-10){qam[1]=qa[1];}
-      else {qam[1]=1.e-2;}
+    if(qau>1.e-10){qam[1]=qau;}
+    else if(qa0>1.e-10){qam[1]=qa0;}
+    else if(qa[1]>1.e-10){qam[1]=qa[1];}
+    else {qam[1]=1.e-2;}
   }
-  
   
   /*********************************************************************/
   
@@ -451,7 +451,8 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
 	  sideload,xloadact,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
           &mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
 	  islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-          inoel,nener,orname,network,ipobody,xbodyact,ibody,typeboun);
+          inoel,nener,orname,network,ipobody,xbodyact,ibody,typeboun,
+	  itiefac,tieset,smscale,&mscalmethod);
   
   SFREE(fn);SFREE(inum);SFREE(v);
   
@@ -476,7 +477,7 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
 		    xstateini,xstate,thicke,integerglob,doubleglob,
 		    tieset,istartset,iendset,ialset,ntie,&nasym,pslavsurf,
 		    pmastsurf,&mortar,clearini,ielprop,prop,&ne0,fnext,&kscale,
-	            iponoel,inoel,network,ntrans,inotr,trab);
+	            iponoel,inoel,network,ntrans,inotr,trab,smscale,&mscalmethod);
   
   if(nmethodact==0){
       
@@ -565,7 +566,8 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
 	  sideload,xloadact,xloadold,&icfd,inomat,pslavsurf,pmastsurf,
           &mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
 	  islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
-          inoel,nener,orname,network,ipobody,xbodyact,ibody,typeboun);
+          inoel,nener,orname,network,ipobody,xbodyact,ibody,typeboun,
+	  itiefac,tieset,smscale,&mscalmethod);
   
 //  memcpy(&vold[0],&v[0],sizeof(double)*mt**nk);
   
@@ -822,14 +824,14 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
 	  for(k=0;k<neq[1];++k){
 	      fini[k]=f[k];
 	  }
-	  if(*nmethod==4){
+	  /*	  if((*nmethod==2)||(*nmethod==4)){
 	      for(k=0;k<mt**nk;++k){
 		  veini[k]=veold[k];
 	      }
 	      for(k=0;k<neq[1];++k){
 		  fextini[k]=fext[k];
 	      }
-	  }
+	      }*/
       }
       
       /* check for max. # of increments */
@@ -1104,6 +1106,7 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
 	      NNEW(jqfreq,ITG,neqfreq+1);
 	      NNEW(bfreq,double,neqfreq);
 
+	      om=alpha[0];
 	      FORTRAN(mafillfreq_em,(ad,au,adb,aub,irow,jq,&neq[0],
 		      adfreq,aufreq,irowfreq,iaux,jqfreq,
                       icolfreq,&neqfreq,&nzsfreq,&om,&symmetryflag,
@@ -1139,6 +1142,7 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
 	      nzs[0]=nzsfreq;nzs[1]=nzsfreq;
 
 	  }else if(*nmethod==4){
+//	  }else if((*nmethod==2)||(*nmethod==4)){
 	      
 	      /* transient calculation */
 
@@ -1412,14 +1416,6 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
 	  for(k=0;k<neq[1];++k){
 	      f[k]=fini[k];
 	  }
-	  if(*nmethod==4){
-	      for(k=0;k<mt**nk;++k){
-		  veold[k]=veini[k];
-	      }
-	      for(k=0;k<neq[1];++k){
-		  fext[k]=fextini[k];
-	      }
-	  }
 	  
 	  qam[0]=qamold[0];
 	  qam[1]=qamold[1];
@@ -1440,7 +1436,7 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
 	  NNEW(inum,ITG,*nk);
 	  
 	  memcpy(&v[0],&vold[0],sizeof(double)*mt**nk);
-	  
+
 	  iout=2;
 	  icmd=3;
 	  
@@ -1521,11 +1517,16 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
 	  NNEW(v,double,mt**nk);
 	  NNEW(fn,double,mt**nk);
 	  if(*ithermal>1) NNEW(qfn,double,3**nk);
-	  if(strcmp1(&filab[3741],"EMF ")==0) NNEW(stn,double,6**nk);
+	  if((strcmp1(&filab[3741],"EMFE")==0)||
+	     (strcmp1(&filab[3828],"EMFB")==0)) NNEW(stn,double,6**nk);
 	  NNEW(inum,ITG,*nk);
 	  
 	  memcpy(&v[0],&vold[0],sizeof(double)*mt**nk);
-	  iout=2;
+	  if(*nmethod==2){
+	      iout=1;
+	  }else{
+	      iout=2;
+	  }
 	  icmd=3;
 	  
 	  resultsinduction(co,nk,kon,ipkon,lakon,ne,v,stn,inum,
@@ -1576,7 +1577,8 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
 	  
 	  SFREE(v);SFREE(fn);SFREE(inum);
 	  if(*ithermal>1){SFREE(qfn);}
-	  if(strcmp1(&filab[3741],"EMF ")==0) SFREE(stn);
+	  if((strcmp1(&filab[3741],"EMFE")==0)||
+	     (strcmp1(&filab[3828],"EMFB")==0)) SFREE(stn);
       }
       
   }
@@ -1669,7 +1671,7 @@ void electromagnetics(double **cop, ITG *nk, ITG **konp, ITG **ipkonp,
   }
   
   SFREE(fini);
-  if(*nmethod==4){
+  if((*nmethod==2)||(*nmethod==4)){
       SFREE(aux2);SFREE(fextini);SFREE(veini);
       SFREE(adb);SFREE(aub);SFREE(cv);SFREE(cvini);
   }

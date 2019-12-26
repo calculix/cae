@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -26,7 +26,7 @@
         iperturb,tinc,tper,tmin,tmax,ctrl,typeboun,nmethod,nset,set,&
         istartset,iendset,ialset,prop,ielprop,vold,mi,nkon,ielmat,&
         icomposite,t0g,t1g,idefforc,iamt1,orname,orab,norien,norien_,&
-        ielorien,jobnamec)
+        ielorien,jobnamec,ne2boun)
       !
       !     generates three-dimensional elements:
       !         for plane stress
@@ -46,7 +46,7 @@
       integer ipompc(*),nodempc(3,*),nmpc,nmpc_,mpcfree,ikmpc(*),&
         ilmpc(*),kon(*),ipkon(*),ne,indexe,i,j,node,index,&
         ikboun(*),ilboun(*),nboun,nboun_,ishift,iexpand,&
-        neigh(7,8),nodeboun(*),ndirboun(*),nk,&
+        neigh(7,8),nodeboun(*),ndirboun(*),nk,iflagpl,&
         nk_,iponoel(*),inoel(3,*),inoelfree,istep,nmpcold,&
         ikforc(*),ilforc(*),nodeforc(2,*),ndirforc(*),iamforc(*),&
         nforc,nforc_,ithermal(2),nload,iamboun(*),&
@@ -54,7 +54,8 @@
         rig(*),nmethod,nset,istartset(*),iendset(*),ialset(*),nkon,&
         ielprop(*),mi(*),nope,ilen,&
         ielmat(mi(3),*),iponor(2,*),knor(*),ixfree,ikfree,icomposite,&
-        idefforc(*),idim,iamt1(*),norien,norien_,ielorien(mi(3),*)
+        idefforc(*),idim,iamt1(*),norien,norien_,ielorien(mi(3),*),&
+        ne2boun(2,*)
       !
       real*8 coefmpc(*),thicke(mi(3),*),xnor(*),thickn(2,*),tinc,&
         tper,tmin,t0g(2,*),t1g(2,*),e1(3),e2(3),xt1(3),orab(7,*),&
@@ -72,6 +73,7 @@
                   -1.d0,-1.d0,1.d0,1.d0,-1.d0,1.d0,1.d0,1.d0,1.d0,-1.d0,&
                    1.d0,1.d0/
       !
+      iflagpl=0
       pi=4.d0*datan(1.d0)
       !
       !     open file for 2d-information
@@ -206,32 +208,16 @@
             endif
          enddo
          !
-         !        checking whether any rotational degrees of freedom are fixed
-         !        by SPC's, MPC's or loaded by bending moments or torques
-         !        in the end, rig(i)=0 if no rigid knot is defined in node i,
-         !        else rig(i)=the rotational node of the knot. The value -1 is
-         !        a dummy.
+         !        creating a flag to indicate that there is at least one
+         !        plane stress, plane strain or axisymmetric element
          !
-         ! !        only for nonlinear dynamic calculations
-         !
-         !          if((nmethod.eq.4).and.(iperturb.gt.1)) then
-         !             do i=1,nboun
-         !                if(ndirboun(i).gt.4) rig(nodeboun(i))=-1
-         !             enddo
-         !             do i=1,nforc
-         !                if(ndirforc(i).gt.4) rig(nodeforc(1,i))=-1
-         !             enddo
-         !             do i=1,nmpc
-         !                index=ipompc(i)
-         !                do
-         !                   if(index.eq.0) exit
-         !                   if(nodempc(2,index).gt.4) then
-         !                      rig(nodempc(1,index))=-1
-         !                   endif
-         !                  index=nodempc(3,index)
-         !               enddo
-         !             enddo
-         !          endif
+         do i=1,ne
+            if(ipkon(i).lt.0) cycle
+            if((lakon(i)(1:2).eq.'CP').or.&
+                 (lakon(i)(1:2).eq.'CA')) then
+               iflagpl=1
+            endif
+         enddo
          !
          !     calculating the normals in nodes belonging to shells/beams
          !
@@ -243,7 +229,7 @@
            mpcfree,ikmpc,ilmpc,labmpc,ikboun,ilboun,nboun,nboun_,&
            nodeboun,ndirboun,xboun,iamboun,typeboun,nam,ntrans,inotr,&
            trab,ikfree,ixfree,nmethod,ithermal,istep,mi,icomposite,&
-           ielmat,vold)
+           ielmat,vold,iflagpl)
       !
       endif
       !
@@ -455,7 +441,7 @@
            xboun,iamboun,typeboun,iponoel,inoel,iponoelmax,kon,ipkon,&
            lakon,ne,iponor,xnor,knor,ipompc,nodempc,coefmpc,nmpc,nmpc_,&
            mpcfree,ikmpc,ilmpc,labmpc,rig,ntrans,inotr,trab,nam,nk,nk_,&
-           co,nmethod,iperturb,istep,vold,mi)
+           co,nmethod,iperturb,istep,vold,mi,ne2boun)
          !
          !        updating the nodal surfaces: establishing links between the user
          !        defined nodes and the newly generated nodes (mid-nodes

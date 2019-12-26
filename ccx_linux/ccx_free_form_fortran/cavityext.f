@@ -79,7 +79,8 @@
          ikcav(i)=kontet(i,ibase)
       enddo
       kflag=1
-      call isortii(ikcav,idum,nkcav,kflag)
+      call insertsorti(ikcav,nkcav)
+      !       call isortii(ikcav,idum,nkcav,kflag)
       !
       nfcav=0
       !

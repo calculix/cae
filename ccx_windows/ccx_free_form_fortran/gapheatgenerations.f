@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -117,9 +117,9 @@
          ier=1
          return
       endif
-!
-!     user subroutine: vnorm=-0.01
-!     no user subroutine: vnorm from input deck: vnorm >= 0.
+      !
+      !     user subroutine: vnorm=-0.01
+      !     no user subroutine: vnorm from input deck: vnorm >= 0.
       !                         vnorm calculated from differential velocity: vnorm=-1.
       !
       if(user) then

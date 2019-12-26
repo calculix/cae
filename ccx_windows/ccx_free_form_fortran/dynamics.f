@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -43,7 +43,7 @@
         isolver,iline,ipol,inl,ipoinp(2,*),inp(3,*),ithermal,&
         ipoinpc(0:*),nef,nener,ier
       !
-      real*8 tinc,tper,tmin,tmax,alpha,ctrl(*),tincf
+      real*8 tinc,tper,tmin,tmax,alpha(*),ctrl(*),tincf
       !
       if(istep.lt.1) then
          write(*,*) '*ERROR reading *DYNAMIC: *DYNAMIC can only'
@@ -69,7 +69,8 @@
       !     default values
       !
       idrct=0
-      alpha=-0.05d0
+      alpha(1)=-0.05d0
+      alpha(2)=0.5d0
       tmin=0.d0
       tmax=0.d0
       tincf=1.d-2
@@ -93,20 +94,20 @@
       !
       do i=2,n
          if(textpart(i)(1:6).eq.'ALPHA=') then
-            read(textpart(i)(7:26),'(f20.0)',iostat=istat) alpha
+            read(textpart(i)(7:26),'(f20.0)',iostat=istat) alpha(1)
             if(istat.gt.0) then
                call inputerror(inpc,ipoinpc,iline,&
                     "*DYNAMIC%",ier)
                return
             endif
-            if(alpha.lt.-1.d0/3.d0) then
+            if(alpha(1).lt.-1.d0/3.d0) then
                write(*,*) '*WARNING reading *DYNAMIC: alpha is smaller'
                write(*,*) '  than -1/3 and is reset to -1/3'
-               alpha=-1.d0/3.d0
-            elseif(alpha.gt.0.d0) then
+               alpha(1)=-1.d0/3.d0
+            elseif(alpha(1).gt.0.d0) then
                write(*,*) '*WARNING reading *DYNAMIC: alpha is greater'
                write(*,*) '  than 0 and is reset to 0'
-               alpha=0.d0
+               alpha(1)=0.d0
             endif
          elseif(textpart(i)(1:8).eq.'EXPLICIT') then
             iexpl=2
@@ -115,6 +116,8 @@
             idrct=1
          elseif(textpart(i)(1:7).eq.'SOLVER=') then
             read(textpart(i)(8:27),'(a20)') solver
+         elseif(textpart(i)(1:18).eq.'RELATIVETOABSOLUTE') then
+            alpha(2)=1.5
          else
             write(*,*)&
               '*WARNING reading *DYNAMIC: parameter not recognized:'
@@ -215,6 +218,9 @@
          endif
          if(dabs(tmax).lt.1.d-10) then
             tmax=1.d+30
+         endif
+         if(dabs(tmax).gt.tper) then
+            tmax=tper
          endif
          if(tinc.gt.dabs(tmax)) then
             write(*,*) '*WARNING reading *DYNAMIC:'

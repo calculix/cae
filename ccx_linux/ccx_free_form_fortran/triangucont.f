@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,27 +17,28 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine triangucont(ncont,ntie,tieset,nset,set,istartset,&
-        iendset,ialset,itietri,lakon,ipkon,kon,koncont,kind1,kind2,&
-        co,nk)
+           iendset,ialset,itietri,lakon,ipkon,kon,koncont,kind1,kind2,&
+           co,nk)
       !
       !     generate a triangulation of the contact master surfaces
       !
       implicit none
       !
-      character*1 kind1,kind2,c
-      character*3 m1,m2,m3
-      character*5 p0,p1,p2,p3,p7,p9999
+      character*1 kind1,kind2
+      !       character*1 c
+      !       character*3 m1,m2,m3
+      !       character*5 p0,p1,p2,p3,p7,p9999
       character*8 lakon(*)
       character*81 tieset(3,*),mastset,set(*)
-      character*88 fntria
+      !       character*88 fntria
       !
-      integer ncont,ntie,i,j,k,l,nset,istartset(*),iendset(*),&
-        ialset(*),itrifac9(3,8),itrifac7(3,6),&
-        iright,itietri(2,ntie),nelem,jface,indexe,ipkon(*),nope,m,one,&
-        ifaceq(8,6),ifacet(6,4),ifacew1(4,5),ifacew2(8,5),node,ilen,&
+      integer ncont,ntie,i,j,k,l,nset,istartset(*),iendset(*),ialset(*),&
+        iright,itietri(2,ntie),nelem,jface,indexe,ipkon(*),nope,&
+        ifaceq(8,6),ifacet(6,4),ifacew1(4,5),ifacew2(8,5),node,&
         ntrifac,itrifac3(3,1),itrifac4(3,2),itrifac6(3,4),itrifac8(3,6),&
         itrifac(3,8),nnodelem,nface,nodef(9),kon(*),koncont(4,*),nk,&
-        ncontini
+           ncontini
+      !      integer one,ilen,m
       !
       real*8 co(3,*)
       !
@@ -85,17 +86,9 @@
       !
       data itrifac6 /1,4,6,4,2,5,6,5,3,4,5,6/
       !
-      !     triangulation for seven-node face
-      !
-      data itrifac7 /1,4,7,4,2,7,2,5,7,5,3,7,3,6,7,6,1,7/
-      !
       !     triangulation for eight-node face
       !
       data itrifac8 /1,5,8,5,2,6,7,6,3,8,7,4,8,5,7,5,6,7/
-      !
-      !     triangulation for nine-node face
-      !
-      data itrifac9 /1,5,9,5,2,9,2,6,9,6,3,9,3,7,9,7,4,9,4,8,9,8,1,9/
       !
       ncont=0
       !
@@ -208,25 +201,11 @@
                         itrifac(k,l)=itrifac6(k,l)
                      enddo
                   enddo
-               elseif(nnodelem.eq.7) then
-                  ntrifac=6
-                  do l=1,ntrifac
-                     do k=1,3
-                        itrifac(k,l)=itrifac7(k,l)
-                     enddo
-                  enddo
                elseif(nnodelem.eq.8) then
                   ntrifac=6
                   do l=1,ntrifac
                      do k=1,3
                         itrifac(k,l)=itrifac8(k,l)
-                     enddo
-                  enddo
-               elseif(nnodelem.eq.9) then
-                  ntrifac=8
-                  do l=1,ntrifac
-                     do k=1,3
-                        itrifac(k,l)=itrifac9(k,l)
                      enddo
                   enddo
                endif

@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -43,7 +43,7 @@ void frdheader(ITG *icounter,double *oner,double *time,double *pi,
 
   /* additional headers for frequency calculations */
 
-  if((*nmethod==2)||(*nmethod==6)||(*nmethod==7)||
+  if((*nmethod==2)||(*nmethod==6)||(*nmethod==7)||(*nmethod==13)||
      ((*nmethod==12)&&(*noddiam>-1))){
     strcpy1(&text[0],"    1PGM",8);
     for(i=8;i<70;i++)text[i]=' ';text[70]='\0';
@@ -94,7 +94,7 @@ void frdheader(ITG *icounter,double *oner,double *time,double *pi,
   for(i=0;i<75;i++)text[i]=' ';
   if(abs(*nmethod)==1){
     strcpy1(&text[0],"  100CL       .00000E+00                                 0    1",63);
-  }else if(*nmethod==2){
+  }else if((*nmethod==2)||(*nmethod==13)){
     strcpy1(&text[0],"  100CL       .00000E+00                                 2    1",63);
   }else if(*nmethod==3){
     strcpy1(&text[0],"  100CL       .00000E+00                                 4    1",63);
@@ -107,11 +107,13 @@ void frdheader(ITG *icounter,double *oner,double *time,double *pi,
   sprintf(tmp,"%12" ITGFORMAT "",*noutloc);
   strcpy1(&text[24],tmp,12);
   strcpy1(&text[36],description,12);
-  if(*nmethod==2)strcpy1(&text[63],"MODAL",5);
+  if((*nmethod==2)||(*nmethod==13))strcpy1(&text[63],"MODAL",5);
   if(strcmp1(output,"asc")==0){
     strcpy1(&text[74],"1",1);
-  }else{
+  }else if(strcmp1(output,"bin")==0){
     strcpy1(&text[74],"2",1);
+  }else{
+    strcpy1(&text[74],"3",1);
   }
   sprintf(tmp,"%5" ITGFORMAT "",100+(*kode));
   strcpy1(&text[7],tmp,5);

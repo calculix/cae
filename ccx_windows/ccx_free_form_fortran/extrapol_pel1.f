@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -42,7 +42,8 @@
             !           face between two elements: interpolation
             !
             vfap(4,i)=xl1*vel(iel1,4)+xrlfa(2,i)*vel(iel2,4)
-         elseif(ielfa(3,i).ne.0) then
+        !
+        elseif(ielfa(3,i).ne.0) then
             !
             !           boundary face; more than one layer
             !

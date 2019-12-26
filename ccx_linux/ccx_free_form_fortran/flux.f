@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -130,6 +130,16 @@
       elseif(lakon(nelem)(2:5).eq.'GAPF') then 
          !
          call gaspipe_fanno(node1,node2,nodem,nelem,lakon,kon,ipkon,&
+              nactdog,identity,ielprop,prop,kflag,v,xflow,f,&
+              nodef,idirf,df,cp,r,physcon,dvi,numf,set,shcon,&
+              nshcon,rhcon,nrhcon,ntmat_,co,vold,mi,ttime,time,&
+              iaxial,iplausi)
+      !
+      !     rotating gas pipe
+      !
+      elseif(lakon(nelem)(2:5).eq.'GAPR') then 
+         !
+         call gaspipe_rot(node1,node2,nodem,nelem,lakon,kon,ipkon,&
               nactdog,identity,ielprop,prop,kflag,v,xflow,f,&
               nodef,idirf,df,cp,r,physcon,dvi,numf,set,shcon,&
               nshcon,rhcon,nrhcon,ntmat_,co,vold,mi,ttime,time,&

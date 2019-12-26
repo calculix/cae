@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -374,7 +374,15 @@
             !           a nodal slave surface
             !
             if(slavset(ipos:ipos).eq.'S') then
+               !
+               !              'S' means node-to-face contact, it does not mean
+               !              that the slave surface is node-based;
+               !              start with assuming a nodal surface (default),
+               !              if not present, check for a facial surface
+               !
                nodeslavsurf=.true.
+            else
+               nodeslavsurf=.false.
             endif
             !
             !           determining the slave surface

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -23,7 +23,8 @@
         ithermal,nener,nstate,irestartstep,inpc,ipoinp,inp,&
         ntie,nbody,nprop,ipoinpc,nevdamp,npt,nslavs,nkon,mcs,&
         mortar,ifacecount,nintpoint,infree,nheading,nobject,&
-        iuel,iprestr,nstam,ndamp,nef)
+        iuel,iprestr,nstam,ndamp,nef,nbounold,nforcold,nloadold,&
+        nbodyold)
       !
       !     calculates a conservative estimate of the size of the
       !     fields to be allocated
@@ -66,7 +67,8 @@
         ifacecount,nintpoint,mortar,infree(4),nheading,icfd,&
         multslav,multmast,nobject,numnodes,iorientation,id,&
         irotation,itranslation,nuel,iuel(4,*),number,four,&
-        iprestr,nstam,ier,ndamp,nef
+        iprestr,nstam,ier,ndamp,nef,nbounold,nforcold,nloadold,&
+        nbodyold
       !
       real*8 temperature,tempact,xfreq,tpinc,tpmin,tpmax
       !
@@ -727,11 +729,11 @@
             !           CFD-calculation
             !
             if(icfd.ne.1) then
-               if((mi(1).eq.1).or.(mi(1).eq.8).or.(mi(1).eq.27)) then
+               if((mi(1).eq.1).or.(mi(1).eq.8)) then
                   mi(1)=27
                elseif(mi(1).eq.4) then
                   mi(1)=15
-               else
+               elseif(mi(1).eq.2) then
                   !                   mi(1)=18
                   mi(1)=9
                endif
@@ -840,7 +842,7 @@
                      mi(1)=max(mi(1),8)
                      nope=20
                      nopeexp=20
-                  elseif((label.eq.'C3D8R   ').or.(label.eq.'F3D8    '))&
+                  elseif((label.eq.'C3D8R   ').or.(label.eq.'F3D8R   '))&
                      then
                      mi(1)=max(mi(1),1)
                      nope=8
@@ -867,7 +869,8 @@
                      mi(1)=max(mi(1),1)
                      nope=6
                      nopeexp=6
-                  elseif(label.eq.'C3D8    ') then
+                  elseif((label.eq.'C3D8    ').or.(label.eq.'F3D8    '))&
+                     then
                      mi(1)=max(mi(1),8)
                      nope=8
                      nopeexp=8
@@ -1507,6 +1510,10 @@
                   elseif(textpart(i)(1:3).eq.'ADD') then
                      iprestr=2
                      exit
+                  elseif(textpart(i)(1:20).eq.'MECHSTRAINTORESIDUAL')&
+                    then
+                     iprestr=2
+                     exit
                   endif
                enddo
             endif
@@ -1788,6 +1795,10 @@
                     nslavs,nkon,mcs,nprop,mortar,ifacecount,nintpoint,&
                     infree,nef)
                irstrt(1)=-1
+               nbounold=nboun
+               nforcold=nforc
+               nloadold=nload
+               nbodyold=nbody
             else
             endif
             call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,&

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,8 +17,8 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine correctfluxcomp(nef,ipnei,neifa,neiel,flux,vfa,advfa,&
-        area,vel,xlet,ielfa,xle,ifabou,ielmatf,mi,shcon,&
-        ntmat_,nefa,nefb)
+        area,vel,alet,ielfa,ale,ifabou,ielmatf,mi,shcon,&
+        ntmat_,nefa,nefb,xxnj,gradpcfa,inlet)
       !
       !     correction of v due to the balance of mass
       !     the correction is in normal direction to the face
@@ -33,14 +33,14 @@
       !
       integer i,nef,indexf,ipnei(*),neifa(*),neiel(*),ielfa(4,*),&
         iel,ifa,ifabou(*),mi(*),ielmatf(mi(3),*),ntmat_,imat,indexb,&
-        nefa,nefb
+        nefa,nefb,inlet(*)
       !
-      real*8 flux(*),vfa(0:7,*),advfa(*),area(*),vel(nef,0:7),xlet(*),&
-        xle(*),r,xflux,shcon(0:3,ntmat_,*)
+      real*8 flux(*),vfa(0:7,*),advfa(*),area(*),vel(nef,0:7),alet(*),&
+        ale(*),r,xflux,shcon(0:3,ntmat_,*),xxnj(3,*),gradpcfa(3,*)
       !
-      intent(in) nef,ipnei,neifa,neiel,vfa,advfa,&
-        area,vel,xlet,ielfa,xle,ifabou,ielmatf,mi,shcon,&
-        ntmat_,nefa,nefb
+      intent(in) nef,ipnei,neifa,neiel,vfa,advfa,inlet,&
+        area,vel,alet,ielfa,ale,ifabou,ielmatf,mi,shcon,&
+        ntmat_,nefa,nefb,xxnj,gradpcfa
       !
       intent(inout) flux
       !
@@ -61,9 +61,11 @@
                   !
                   !                 internal face (velocity and density contribution)
                   !
-                  flux(indexf)=flux(indexf)+vfa(5,ifa)*advfa(ifa)&
-                                 *area(ifa)*(vel(i,4)-vel(iel,4))/&
-                                 xlet(indexf)&
+                  flux(indexf)=flux(indexf)+vfa(5,ifa)*advfa(ifa)*&
+                       ((vel(i,4)-vel(iel,4))*alet(indexf)&
+                       -(gradpcfa(1,ifa)*xxnj(1,indexf)+&
+                         gradpcfa(2,ifa)*xxnj(2,indexf)+&
+                         gradpcfa(3,ifa)*xxnj(3,indexf)))&
                               +flux(indexf)*vel(i,4)/&
                                  (vfa(5,ifa)*r*vfa(0,ifa))
                else
@@ -79,7 +81,10 @@
                            !                          (typical subsonic outlet)
                            !
                            flux(indexf)=flux(indexf)+vfa(5,ifa)*&
-                              advfa(ifa)*area(ifa)*vel(i,4)/xle(indexf)
+                              advfa(ifa)*(vel(i,4)*ale(indexf)&
+                                   -(gradpcfa(1,ifa)*xxnj(1,indexf)+&
+                                     gradpcfa(2,ifa)*xxnj(2,indexf)+&
+                                     gradpcfa(3,ifa)*xxnj(3,indexf)))
                         else
                            !
                            !                          outflow, pressure unknown: convection term
@@ -105,8 +110,10 @@
                   !                 internal face (velocity and density contribution)
                   !
                   flux(indexf)=flux(indexf)+vfa(5,ifa)*advfa(ifa)&
-                                 *area(ifa)*(vel(i,4)-vel(iel,4))/&
-                                 xlet(indexf)&
+                                 *((vel(i,4)-vel(iel,4))*alet(indexf)&
+                                  -(gradpcfa(1,ifa)*xxnj(1,indexf)+&
+                                    gradpcfa(2,ifa)*xxnj(2,indexf)+&
+                                    gradpcfa(3,ifa)*xxnj(3,indexf)))&
                               +flux(indexf)*vel(iel,4)/&
                                  (vfa(5,ifa)*r*vfa(0,ifa))
                else
@@ -115,15 +122,11 @@
                   !
                   indexb=-ielfa(2,ifa)
                   if(indexb.gt.0) then
-                     if((ifabou(indexb+1).ne.0).and.&
-                        (ifabou(indexb+2).ne.0).and.&
-                        (ifabou(indexb+3).ne.0).and.&
-                        (ifabou(indexb+4).eq.0).and.&
-                        (ifabou(indexb+5).eq.0)) then
+                     if((inlet(ifa).ne.0).and.&
+                        (ifabou(indexb+4).eq.0)) then
                         !
-                        !                       all velocities known but no wall nor sliding
-                        !                       pressure unknown: typical subsonic inlet conditions
-                        !                       density contribution
+                        !                       inlet and pressure unknown
+                        !                       typical subsonic inlet conditions
                         !
                         flux(indexf)=flux(indexf)*(1.d0+vel(iel,4)/&
                               (vfa(5,ifa)*r*vfa(0,ifa)))

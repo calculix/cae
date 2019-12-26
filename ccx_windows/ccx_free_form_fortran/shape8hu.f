@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -129,9 +129,17 @@
       shp(4, 6)=opg*omh*opr/8.d0
       shp(4, 7)=opg*oph*opr/8.d0
       shp(4, 8)=omg*oph*opr/8.d0
-      shp(4, 9)=1.0d0-xi*xi
-      shp(4,10)=1.0d0-et*et
-      shp(4,11)=1.0d0-ze*ze
+      !
+      !      change on 190315: set shape functions to
+      !      zero in order to obtain convergence in
+      !      contact calculations with c3d8i
+      !
+      shp(4, 9)=0.d0
+      shp(4,10)=0.d0
+      shp(4,11)=0.d0
+      !       shp(4, 9)=1.0d0-xi*xi
+      !       shp(4,10)=1.0d0-et*et
+      !       shp(4,11)=1.0d0-ze*ze
       !
       if(iflag.eq.1) return
       !

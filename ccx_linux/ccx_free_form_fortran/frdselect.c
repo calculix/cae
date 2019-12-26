@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -40,24 +40,34 @@ void frdselect(double *field1,double *field2,ITG *iset,ITG *nkcoords,ITG *inum,
          - ifield[i]: 1=field1,2=field2
          - icomp[i]: component: 0...,(nfield[0]-1 or nfield[1]-1) */
  
-  ITG i,j,k,l,m,n,nksegment;
+  ITG i,j,k,l,m,n,nksegment,ioutall=0;
       
   int iw;
 
-  float ifl;
+  float fl;
 
+  if(strcmp1(&output[3],"a")==0) ioutall=1;
+  
   if(*iset==0){
     for(i=0;i<*nkcoords;i++){
 
       /* check whether output is requested for solid nodes or
          network nodes */
 
-      if(*iselect==1){
-	if(inum[i]<=0) continue;
-      }else if(*iselect==-1){
-	if(inum[i]>=0) continue;
+      if(ioutall==0){
+	  if(*iselect==1){
+	      if(inum[i]<=0) continue;
+	  }else if(*iselect==-1){
+	      if(inum[i]>=0) continue;
+	  }else{
+	      if(inum[i]==0) continue;
+	  }
       }else{
-	if(inum[i]==0) continue;
+	  if(*iselect==1){
+	      if(inum[i]<0) continue;
+	  }else if(*iselect==-1){
+	      if(inum[i]>0) continue;
+	  }
       }
 
       /* storing the entities */
@@ -73,16 +83,20 @@ void frdselect(double *field1,double *field2,ITG *iset,ITG *nkcoords,ITG *inum,
 	      if(ifield[j]==1){
 		if(strcmp1(output,"asc")==0){
 		    fprintf(f1,"%12.5E",(float)field1[i*nfield[0]+icomp[j]]);
+		}else if(strcmp1(output,"bin")==0){
+		  fl=(float)field1[i*nfield[0]+icomp[j]];
+		  fwrite(&fl,sizeof(float),1,f1);
 		}else{
-		  ifl=(float)field1[i*nfield[0]+icomp[j]];
-		  fwrite(&ifl,sizeof(float),1,f1);
+		  fwrite(&field1[i*nfield[0]+icomp[j]],sizeof(double),1,f1);
 		}
 	      }else{
 		if(strcmp1(output,"asc")==0){
 		  fprintf(f1,"%12.5E",(float)field2[i*nfield[1]+icomp[j]]);
+		}else if(strcmp1(output,"bin")==0){
+		  fl=(float)field2[i*nfield[1]+icomp[j]];
+		  fwrite(&fl,sizeof(float),1,f1);
 		}else{
-		  ifl=(float)field2[i*nfield[1]+icomp[j]];
-		  fwrite(&ifl,sizeof(float),1,f1);
+		  fwrite(&field2[i*nfield[1]+icomp[j]],sizeof(double),1,f1);
 		}
 	      }
 	    }
@@ -93,16 +107,20 @@ void frdselect(double *field1,double *field2,ITG *iset,ITG *nkcoords,ITG *inum,
 	      if(ifield[j]==1){
 		if(strcmp1(output,"asc")==0){
 		  fprintf(f1,"%12.5E",(float)field1[i*nfield[0]+icomp[j]]);
+		}else if(strcmp1(output,"bin")==0){
+		  fl=(float)field1[i*nfield[0]+icomp[j]];
+		  fwrite(&fl,sizeof(float),1,f1);
 		}else{
-		  ifl=(float)field1[i*nfield[0]+icomp[j]];
-		  fwrite(&ifl,sizeof(float),1,f1);
+		  fwrite(&field1[i*nfield[0]+icomp[j]],sizeof(double),1,f1);
 		}
 	      }else{
 		if(strcmp1(output,"asc")==0){
 		  fprintf(f1,"%12.5E",(float)field2[i*nfield[1]+icomp[j]]);
+		}else if(strcmp1(output,"bin")==0){
+		  fl=(float)field2[i*nfield[1]+icomp[j]];
+		  fwrite(&fl,sizeof(float),1,f1);
 		}else{
-		  ifl=(float)field2[i*nfield[1]+icomp[j]];
-		  fwrite(&ifl,sizeof(float),1,f1);
+		  fwrite(&field2[i*nfield[1]+icomp[j]],sizeof(double),1,f1);
 		}
 	      }
 	    }
@@ -142,16 +160,20 @@ void frdselect(double *field1,double *field2,ITG *iset,ITG *nkcoords,ITG *inum,
 		if(ifield[j]==1){
 		  if(strcmp1(output,"asc")==0){
 		    fprintf(f1,"%12.5E",(float)field1[i*nfield[0]+icomp[j]]);
+		  }else if(strcmp1(output,"bin")==0){
+		    fl=(float)field1[i*nfield[0]+icomp[j]];
+		    fwrite(&fl,sizeof(float),1,f1);
 		  }else{
-		    ifl=(float)field1[i*nfield[0]+icomp[j]];
-		    fwrite(&ifl,sizeof(float),1,f1);
+		    fwrite(&field1[i*nfield[0]+icomp[j]],sizeof(double),1,f1);
 		  }
 		}else{
 		  if(strcmp1(output,"asc")==0){
 		    fprintf(f1,"%12.5E",(float)field2[i*nfield[1]+icomp[j]]);
+		  }else if(strcmp1(output,"bin")==0){
+		    fl=(float)field2[i*nfield[1]+icomp[j]];
+		    fwrite(&fl,sizeof(float),1,f1);
 		  }else{
-		    ifl=(float)field2[i*nfield[1]+icomp[j]];
-		    fwrite(&ifl,sizeof(float),1,f1);
+		    fwrite(&field2[i*nfield[1]+icomp[j]],sizeof(double),1,f1);
 		  }
 		}
 	      }
@@ -162,16 +184,20 @@ void frdselect(double *field1,double *field2,ITG *iset,ITG *nkcoords,ITG *inum,
 		if(ifield[j]==1){
 		  if(strcmp1(output,"asc")==0){
 		    fprintf(f1,"%12.5E",(float)field1[i*nfield[0]+icomp[j]]);
+		  }else if(strcmp1(output,"bin")==0){
+		    fl=(float)field1[i*nfield[0]+icomp[j]];
+		    fwrite(&fl,sizeof(float),1,f1);
 		  }else{
-		    ifl=(float)field1[i*nfield[0]+icomp[j]];
-		    fwrite(&ifl,sizeof(float),1,f1);
+		    fwrite(&field1[i*nfield[0]+icomp[j]],sizeof(double),1,f1);
 		  }
 		}else{
 		  if(strcmp1(output,"asc")==0){
 		    fprintf(f1,"%12.5E",(float)field2[i*nfield[1]+icomp[j]]);
+		  }else if(strcmp1(output,"bin")==0){
+		    fl=(float)field2[i*nfield[1]+icomp[j]];
+		    fwrite(&fl,sizeof(float),1,f1);
 		  }else{
-		    ifl=(float)field2[i*nfield[1]+icomp[j]];
-		    fwrite(&ifl,sizeof(float),1,f1);
+		    fwrite(&field2[i*nfield[1]+icomp[j]],sizeof(double),1,f1);
 		  }
 		}
 	      }
@@ -212,16 +238,20 @@ void frdselect(double *field1,double *field2,ITG *iset,ITG *nkcoords,ITG *inum,
 		  if(ifield[j]==1){
 		    if(strcmp1(output,"asc")==0){
 		      fprintf(f1,"%12.5E",(float)field1[i*nfield[0]+icomp[j]]);
+		    }else if(strcmp1(output,"bin")==0){
+		      fl=(float)field1[i*nfield[0]+icomp[j]];
+		      fwrite(&fl,sizeof(float),1,f1);
 		    }else{
-		      ifl=(float)field1[i*nfield[0]+icomp[j]];
-		      fwrite(&ifl,sizeof(float),1,f1);
+		      fwrite(&field1[i*nfield[0]+icomp[j]],sizeof(double),1,f1);
 		    }
 		  }else{
 		    if(strcmp1(output,"asc")==0){
 		      fprintf(f1,"%12.5E",(float)field2[i*nfield[1]+icomp[j]]);
+		    }else if(strcmp1(output,"bin")==0){
+		      fl=(float)field2[i*nfield[1]+icomp[j]];
+		      fwrite(&fl,sizeof(float),1,f1);
 		    }else{
-		      ifl=(float)field2[i*nfield[1]+icomp[j]];
-		      fwrite(&ifl,sizeof(float),1,f1);
+		      fwrite(&field2[i*nfield[1]+icomp[j]],sizeof(double),1,f1);
 		    }
 		  }
 		}
@@ -232,16 +262,20 @@ void frdselect(double *field1,double *field2,ITG *iset,ITG *nkcoords,ITG *inum,
 		  if(ifield[j]==1){
 		    if(strcmp1(output,"asc")==0){
 		      fprintf(f1,"%12.5E",(float)field1[i*nfield[0]+icomp[j]]);
+		    }else if(strcmp1(output,"bin")==0){
+		      fl=(float)field1[i*nfield[0]+icomp[j]];
+		      fwrite(&fl,sizeof(float),1,f1);
 		    }else{
-		      ifl=(float)field1[i*nfield[0]+icomp[j]];
-		      fwrite(&ifl,sizeof(float),1,f1);
+		      fwrite(&field1[i*nfield[0]+icomp[j]],sizeof(double),1,f1);
 		    }
 		  }else{
 		    if(strcmp1(output,"asc")==0){
 		      fprintf(f1,"%12.5E",(float)field2[i*nfield[1]+icomp[j]]);
+		    }else if(strcmp1(output,"bin")==0){
+		      fl=(float)field2[i*nfield[1]+icomp[j]];
+		      fwrite(&fl,sizeof(float),1,f1);
 		    }else{
-		      ifl=(float)field2[i*nfield[1]+icomp[j]];
-		      fwrite(&ifl,sizeof(float),1,f1);
+		      fwrite(&field2[i*nfield[1]+icomp[j]],sizeof(double),1,f1);
 		    }
 		  }
 		}

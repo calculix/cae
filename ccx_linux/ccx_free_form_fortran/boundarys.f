@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -169,6 +169,12 @@
             nboun=nbounnew
             kflag=2
             call isortii(ikboun,ilboun,nboun,kflag)
+         elseif(textpart(i)(1:6).eq.'OP=NEW') then
+               write(*,*)&
+                 '*INFO reading *BOUNDARY: OP=NEW only makes sense'
+               write(*,*)&
+                    '      on the first *BOUNDARY card within a step'
+               write(*,*)
          elseif(textpart(i)(1:10).eq.'AMPLITUDE=') then
             read(textpart(i)(11:90),'(a80)') amplitude
             do j=nam,1,-1

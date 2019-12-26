@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -94,16 +94,12 @@
       et=pslavsurf(2,igauss)
       weight=pslavsurf(3,igauss)
       !
-      !       if(nopes.eq.9) then
-      !           call shape9q(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
       if(nopes.eq.8) then
           call shape8q(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
       elseif(nopes.eq.4) then
           call shape4q(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
       elseif(nopes.eq.6) then
           call shape6tri(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
-      !       elseif(nopes.eq.7) then
-      !           call shape7tri(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
       else
           call shape3tri(xi,et,pl(1,nopem+1),xsj2s,xs2s,shp2s,iflag)
       endif
@@ -127,16 +123,12 @@
       !
       !     determining the jacobian vector on the surface
       !
-      !       if(nopem.eq.9) then
-      !          call shape9q(xi,et,pl,xm,xs2,shp2m,iflag)
       if(nopem.eq.8) then
          call shape8q(xi,et,pl,xm,xs2,shp2m,iflag)
       elseif(nopem.eq.4) then
          call shape4q(xi,et,pl,xm,xs2,shp2m,iflag)
       elseif(nopem.eq.6) then
          call shape6tri(xi,et,pl,xm,xs2,shp2m,iflag)
-      !       elseif(nopem.eq.7) then
-      !          call shape7tri(xi,et,pl,xm,xs2,shp2m,iflag)
       else
          call shape3tri(xi,et,pl,xm,xs2,shp2m,iflag)
       endif

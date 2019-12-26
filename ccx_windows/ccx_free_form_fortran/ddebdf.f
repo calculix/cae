@@ -4,619 +4,619 @@
       ! DECK DDEBDF
       SUBROUTINE DDEBDF (DF, NEQ, T, Y, TOUT, INFO, RTOL, ATOL, IDID,&
          RWORK, LRW, IWORK, LIW, RPAR, IPAR, DJAC)
-! ***BEGIN PROLOGUE  DDEBDF
-! ***PURPOSE  Solve an initial value problem in ordinary differential
-!             equations using backward differentiation formulas.  It is
-!             intended primarily for stiff problems.
-! ***LIBRARY   SLATEC (DEPAC)
-! ***CATEGORY  I1A2
-! ***TYPE      DOUBLE PRECISION (DEBDF-S, DDEBDF-D)
-! ***KEYWORDS  BACKWARD DIFFERENTIATION FORMULAS, DEPAC,
-!              INITIAL VALUE PROBLEMS, ODE,
-!              ORDINARY DIFFERENTIAL EQUATIONS, STIFF
-! ***AUTHOR  Shampine, L. F., (SNLA)
-!            Watts, H. A., (SNLA)
-! ***DESCRIPTION
-!
-!    This is the backward differentiation code in the package of
-!    differential equation solvers DEPAC, consisting of the codes
-!    DDERKF, DDEABM, and DDEBDF.  Design of the package was by
-!    L. F. Shampine and H. A. Watts.  It is documented in
-!         SAND-79-2374 , DEPAC - Design of a User Oriented Package of ODE
-!                               Solvers.
-!    DDEBDF is a driver for a modification of the code LSODE written by
-!              A. C. Hindmarsh
-!              Lawrence Livermore Laboratory
-!              Livermore, California 94550
-!
-!  **********************************************************************
-!  **             DEPAC PACKAGE OVERVIEW           **
-!  **********************************************************************
-!
-!         You have a choice of three differential equation solvers from
-!         DEPAC.  The following brief descriptions are meant to aid you
-!         in choosing the most appropriate code for your problem.
-!
-!         DDERKF is a fifth order Runge-Kutta code. It is the simplest of
-!         the three choices, both algorithmically and in the use of the
-!         code. DDERKF is primarily designed to solve non-stiff and mild-
-!         ly stiff differential equations when derivative evaluations are
-!         not expensive.  It should generally not be used to get high
-!         accuracy results nor answers at a great many specific points.
-!         Because DDERKF has very low overhead costs, it will usually
-!         result in the least expensive integration when solving
-!         problems requiring a modest amount of accuracy and having
-!         equations that are not costly to evaluate.  DDERKF attempts to
-!         discover when it is not suitable for the task posed.
-!
-!         DDEABM is a variable order (one through twelve) Adams code. Its
-!         complexity lies somewhere between that of DDERKF and DDEBDF.
-!         DDEABM is primarily designed to solve non-stiff and mildly
-!         stiff differential equations when derivative evaluations are
-!         expensive, high accuracy results are needed or answers at
-!         many specific points are required.  DDEABM attempts to discover
-!         when it is not suitable for the task posed.
-!
-!         DDEBDF is a variable order (one through five) backward
-!         differentiation formula code.  It is the most complicated of
-!         the three choices.  DDEBDF is primarily designed to solve stiff
-!         differential equations at crude to moderate tolerances.
-!         If the problem is very stiff at all, DDERKF and DDEABM will be
-!         quite inefficient compared to DDEBDF.  However, DDEBDF will be
-!         inefficient compared to DDERKF and DDEABM on non-stiff problems
-!         because it uses much more storage, has a much larger overhead,
-!         and the low order formulas will not give high accuracies
-!         efficiently.
-!
-!         The concept of stiffness cannot be described in a few words.
-!         If you do not know the problem to be stiff, try either DDERKF
-!         or DDEABM.  Both of these codes will inform you of stiffness
-!         when the cost of solving such problems becomes important.
-!
-!  **********************************************************************
-!  ** ABSTRACT **
-!  **********************************************************************
-!
-!    Subroutine DDEBDF uses the backward differentiation formulas of
-!    orders one through five to integrate a system of NEQ first order
-!    ordinary differential equations of the form
-!                          DU/DX = DF(X,U)
-!    when the vector Y(*) of initial values for U(*) at X=T is given.
-!    The subroutine integrates from T to TOUT. It is easy to continue the
-!    integration to get results at additional TOUT. This is the interval
-!    mode of operation. It is also easy for the routine to return with
-!    the solution at each intermediate step on the way to TOUT. This is
-!    the intermediate-output mode of operation.
-!
-!  **********************************************************************
-!  * Description of The Arguments To DDEBDF (An Overview) *
-!  **********************************************************************
-!
-!    The Parameters are:
-!
-!       DF -- This is the name of a subroutine which you provide to
-!             define the differential equations.
-!
-!       NEQ -- This is the number of (first order) differential
-!              equations to be integrated.
-!
-!       T -- This is a DOUBLE PRECISION value of the independent
-!            variable.
-!
-!       Y(*) -- This DOUBLE PRECISION array contains the solution
-!               components at T.
-!
-!       TOUT -- This is a DOUBLE PRECISION point at which a solution is
-!               desired.
-!
-!       INFO(*) -- The basic task of the code is to integrate the
-!              differential equations from T to TOUT and return an
-!              answer at TOUT.  INFO(*) is an INTEGER array which is used
-!              to communicate exactly how you want this task to be
-!              carried out.
-!
-!       RTOL, ATOL -- These DOUBLE PRECISION quantities
-!              represent relative and absolute error tolerances which you
-!              provide to indicate how accurately you wish the solution
-!              to be computed.  You may choose them to be both scalars
-!              or else both vectors.
-!
-!       IDID -- This scalar quantity is an indicator reporting what
-!              the code did.  You must monitor this INTEGER variable to
-!              decide what action to take next.
-!
-!       RWORK(*), LRW -- RWORK(*) is a DOUBLE PRECISION work array of
-!              length LRW which provides the code with needed storage
-!              space.
-!
-!       IWORK(*), LIW -- IWORK(*) is an INTEGER work array of length LIW
-!              which provides the code with needed storage space and an
-!              across call flag.
-!
-!       RPAR, IPAR -- These are DOUBLE PRECISION and INTEGER parameter
-!              arrays which you can use for communication between your
-!              calling program and the DF subroutine (and the DJAC
-!              subroutine).
-!
-!       DJAC -- This is the name of a subroutine which you may choose to
-!              provide for defining the Jacobian matrix of partial
-!              derivatives DF/DU.
-!
-!   Quantities which are used as input items are
-!              NEQ, T, Y(*), TOUT, INFO(*),
-!              RTOL, ATOL, RWORK(1), LRW,
-!              IWORK(1), IWORK(2), and LIW.
-!
-!   Quantities which may be altered by the code are
-!              T, Y(*), INFO(1), RTOL, ATOL,
-!              IDID, RWORK(*) and IWORK(*).
-!
-!  **********************************************************************
-!  * INPUT -- What To Do On The First Call To DDEBDF *
-!  **********************************************************************
-!
-!    The first call of the code is defined to be the start of each new
-!    problem.  Read through the descriptions of all the following items,
-!    provide sufficient storage space for designated arrays, set
-!    appropriate variables for the initialization of the problem, and
-!    give information about how you want the problem to be solved.
-!
-!
-!       DF -- Provide a subroutine of the form
-!                                DF(X,U,UPRIME,RPAR,IPAR)
-!              to define the system of first order differential equations
-!              which is to be solved. For the given values of X and the
-!              vector  U(*)=(U(1),U(2),...,U(NEQ)) , the subroutine must
-!              evaluate the NEQ components of the system of differential
-!              equations  DU/DX=DF(X,U)  and store the derivatives in the
-!              array UPRIME(*), that is,  UPRIME(I) = * DU(I)/DX *  for
-!              equations I=1,...,NEQ.
-!
-!              Subroutine DF must not alter X or U(*). You must declare
-!              the name DF in an external statement in your program that
-!              calls DDEBDF. You must dimension U and UPRIME in DF.
-!
-!              RPAR and IPAR are DOUBLE PRECISION and INTEGER parameter
-!              arrays which you can use for communication between your
-!              calling program and subroutine DF. They are not used or
-!              altered by DDEBDF.  If you do not need RPAR or IPAR,
-!              ignore these parameters by treating them as dummy
-!              arguments. If you do choose to use them, dimension them in
-!              your calling program and in DF as arrays of appropriate
-!              length.
-!
-!       NEQ -- Set it to the number of differential equations.
-!              (NEQ .GE. 1)
-!
-!       T -- Set it to the initial point of the integration.
-!              You must use a program variable for T because the code
-!              changes its value.
-!
-!       Y(*) -- Set this vector to the initial values of the NEQ solution
-!              components at the initial point.  You must dimension Y at
-!              least NEQ in your calling program.
-!
-!       TOUT -- Set it to the first point at which a solution is desired.
-!              You can take TOUT = T, in which case the code
-!              will evaluate the derivative of the solution at T and
-!              return.  Integration either forward in T  (TOUT .GT. T)
-!              or backward in T  (TOUT .LT. T)  is permitted.
-!
-!              The code advances the solution from T to TOUT using
-!              step sizes which are automatically selected so as to
-!              achieve the desired accuracy.  If you wish, the code will
-!              return with the solution and its derivative following
-!              each intermediate step (intermediate-output mode) so that
-!              you can monitor them, but you still must provide TOUT in
-!              accord with the basic aim of the code.
-!
-!              The first step taken by the code is a critical one
-!              because it must reflect how fast the solution changes near
-!              the initial point.  The code automatically selects an
-!              initial step size which is practically always suitable for
-!              the problem.  By using the fact that the code will not
-!              step past TOUT in the first step, you could, if necessary,
-!              restrict the length of the initial step size.
-!
-!              For some problems it may not be permissible to integrate
-!              past a point TSTOP because a discontinuity occurs there
-!              or the solution or its derivative is not defined beyond
-!              TSTOP.  When you have declared a TSTOP point (see INFO(4)
-!              and RWORK(1)), you have told the code not to integrate
-!              past TSTOP.  In this case any TOUT beyond TSTOP is invalid
-!              input.
-!
-!       INFO(*) -- Use the INFO array to give the code more details about
-!              how you want your problem solved.  This array should be
-!              dimensioned of length 15 to accommodate other members of
-!              DEPAC or possible future extensions, though DDEBDF uses
-!              only the first six entries.  You must respond to all of
-!              the following items which are arranged as questions.  The
-!              simplest use of the code corresponds to answering all
-!              questions as YES ,i.e. setting all entries of INFO to 0.
-!
-!         INFO(1) -- This parameter enables the code to initialize
-!                itself.  You must set it to indicate the start of every
-!                new problem.
-!
-!             **** Is this the first call for this problem ...
-!                   YES -- Set INFO(1) = 0
-!                    NO -- Not applicable here.
-!                          See below for continuation calls.  ****
-!
-!         INFO(2) -- How much accuracy you want of your solution
-!                is specified by the error tolerances RTOL and ATOL.
-!                The simplest use is to take them both to be scalars.
-!                To obtain more flexibility, they can both be vectors.
-!                The code must be told your choice.
-!
-!             **** Are both error tolerances RTOL, ATOL scalars ...
-!                   YES -- Set INFO(2) = 0
-!                          and input scalars for both RTOL and ATOL
-!                    NO -- Set INFO(2) = 1
-!                          and input arrays for both RTOL and ATOL ****
-!
-!         INFO(3) -- The code integrates from T in the direction
-!                of TOUT by steps.  If you wish, it will return the
-!                computed solution and derivative at the next
-!                intermediate step (the intermediate-output mode) or
-!                TOUT, whichever comes first.  This is a good way to
-!                proceed if you want to see the behavior of the solution.
-!                If you must have solutions at a great many specific
-!                TOUT points, this code will compute them efficiently.
-!
-!             **** Do you want the solution only at
-!                  TOUT (and NOT at the next intermediate step) ...
-!                   YES -- Set INFO(3) = 0
-!                    NO -- Set INFO(3) = 1 ****
-!
-!         INFO(4) -- To handle solutions at a great many specific
-!                values TOUT efficiently, this code may integrate past
-!                TOUT and interpolate to obtain the result at TOUT.
-!                Sometimes it is not possible to integrate beyond some
-!                point TSTOP because the equation changes there or it is
-!                not defined past TSTOP.  Then you must tell the code
-!                not to go past.
-!
-!             **** Can the integration be carried out without any
-!                  restrictions on the independent variable T ...
-!                   YES -- Set INFO(4)=0
-!                    NO -- Set INFO(4)=1
-!                          and define the stopping point TSTOP by
-!                          setting RWORK(1)=TSTOP ****
-!
-!         INFO(5) -- To solve stiff problems it is necessary to use the
-!                Jacobian matrix of partial derivatives of the system
-!                of differential equations.  If you do not provide a
-!                subroutine to evaluate it analytically (see the
-!                description of the item DJAC in the call list), it will
-!                be approximated by numerical differencing in this code.
-!                Although it is less trouble for you to have the code
-!                compute partial derivatives by numerical differencing,
-!                the solution will be more reliable if you provide the
-!                derivatives via DJAC.  Sometimes numerical differencing
-!                is cheaper than evaluating derivatives in DJAC and
-!                sometimes it is not - this depends on your problem.
-!
-!                If your problem is linear, i.e. has the form
-!                DU/DX = DF(X,U) = J(X)*U + G(X)   for some matrix J(X)
-!                and vector G(X), the Jacobian matrix  DF/DU = J(X).
-!                Since you must provide a subroutine to evaluate DF(X,U)
-!                analytically, it is little extra trouble to provide
-!                subroutine DJAC for evaluating J(X) analytically.
-!                Furthermore, in such cases, numerical differencing is
-!                much more expensive than analytic evaluation.
-!
-!             **** Do you want the code to evaluate the partial
-!                  derivatives automatically by numerical differences ...
-!                   YES -- Set INFO(5)=0
-!                    NO -- Set INFO(5)=1
-!                          and provide subroutine DJAC for evaluating the
-!                          Jacobian matrix ****
-!
-!         INFO(6) -- DDEBDF will perform much better if the Jacobian
-!                matrix is banded and the code is told this.  In this
-!                case, the storage needed will be greatly reduced,
-!                numerical differencing will be performed more cheaply,
-!                and a number of important algorithms will execute much
-!                faster.  The differential equation is said to have
-!                half-bandwidths ML (lower) and MU (upper) if equation I
-!                involves only unknowns Y(J) with
-!                               I-ML .LE. J .LE. I+MU
-!                for all I=1,2,...,NEQ.  Thus, ML and MU are the widths
-!                of the lower and upper parts of the band, respectively,
-!                with the main diagonal being excluded.  If you do not
-!                indicate that the equation has a banded Jacobian,
-!                the code works with a full matrix of NEQ**2 elements
-!                (stored in the conventional way).  Computations with
-!                banded matrices cost less time and storage than with
-!                full matrices if  2*ML+MU .LT. NEQ.  If you tell the
-!                code that the Jacobian matrix has a banded structure and
-!                you want to provide subroutine DJAC to compute the
-!                partial derivatives, then you must be careful to store
-!                the elements of the Jacobian matrix in the special form
-!                indicated in the description of DJAC.
-!
-!             **** Do you want to solve the problem using a full
-!                  (dense) Jacobian matrix (and not a special banded
-!                  structure) ...
-!                   YES -- Set INFO(6)=0
-!                    NO -- Set INFO(6)=1
-!                          and provide the lower (ML) and upper (MU)
-!                          bandwidths by setting
-!                          IWORK(1)=ML
-!                          IWORK(2)=MU ****
-!
-!       RTOL, ATOL -- You must assign relative (RTOL) and absolute (ATOL)
-!              error tolerances to tell the code how accurately you want
-!              the solution to be computed.  They must be defined as
-!              program variables because the code may change them.  You
-!              have two choices --
-!                   Both RTOL and ATOL are scalars. (INFO(2)=0)
-!                   Both RTOL and ATOL are vectors. (INFO(2)=1)
-!              In either case all components must be non-negative.
-!
-!              The tolerances are used by the code in a local error test
-!              at each step which requires roughly that
-!                      ABS(LOCAL ERROR) .LE. RTOL*ABS(Y)+ATOL
-!              for each vector component.
-!              (More specifically, a root-mean-square norm is used to
-!              measure the size of vectors, and the error test uses the
-!              magnitude of the solution at the beginning of the step.)
-!
-!              The true (global) error is the difference between the true
-!              solution of the initial value problem and the computed
-!              approximation.  Practically all present day codes,
-!              including this one, control the local error at each step
-!              and do not even attempt to control the global error
-!              directly.  Roughly speaking, they produce a solution Y(T)
-!              which satisfies the differential equations with a
-!              residual R(T),    DY(T)/DT = DF(T,Y(T)) + R(T)   ,
-!              and, almost always, R(T) is bounded by the error
-!              tolerances.  Usually, but not always, the true accuracy of
-!              the computed Y is comparable to the error tolerances. This
-!              code will usually, but not always, deliver a more accurate
-!              solution if you reduce the tolerances and integrate again.
-!              By comparing two such solutions you can get a fairly
-!              reliable idea of the true error in the solution at the
-!              bigger tolerances.
-!
-!              Setting ATOL=0. results in a pure relative error test on
-!              that component.  Setting RTOL=0. results in a pure abso-
-!              lute error test on that component.  A mixed test with non-
-!              zero RTOL and ATOL corresponds roughly to a relative error
-!              test when the solution component is much bigger than ATOL
-!              and to an absolute error test when the solution component
-!              is smaller than the threshold ATOL.
-!
-!              Proper selection of the absolute error control parameters
-!              ATOL  requires you to have some idea of the scale of the
-!              solution components.  To acquire this information may mean
-!              that you will have to solve the problem more than once. In
-!              the absence of scale information, you should ask for some
-!              relative accuracy in all the components (by setting  RTOL
-!              values non-zero) and perhaps impose extremely small
-!              absolute error tolerances to protect against the danger of
-!              a solution component becoming zero.
-!
-!              The code will not attempt to compute a solution at an
-!              accuracy unreasonable for the machine being used.  It will
-!              advise you if you ask for too much accuracy and inform
-!              you as to the maximum accuracy it believes possible.
-!
-!       RWORK(*) -- Dimension this DOUBLE PRECISION work array of length
-!              LRW in your calling program.
-!
-!       RWORK(1) -- If you have set INFO(4)=0, you can ignore this
-!              optional input parameter.  Otherwise you must define a
-!              stopping point TSTOP by setting   RWORK(1) = TSTOP.
-!              (For some problems it may not be permissible to integrate
-!              past a point TSTOP because a discontinuity occurs there
-!              or the solution or its derivative is not defined beyond
-!              TSTOP.)
-!
-!       LRW -- Set it to the declared length of the RWORK array.
-!              You must have
-!                   LRW .GE. 250+10*NEQ+NEQ**2
-!              for the full (dense) Jacobian case (when INFO(6)=0),  or
-!                   LRW .GE. 250+10*NEQ+(2*ML+MU+1)*NEQ
-!              for the banded Jacobian case (when INFO(6)=1).
-!
-!       IWORK(*) -- Dimension this INTEGER work array of length LIW in
-!              your calling program.
-!
-!       IWORK(1), IWORK(2) -- If you have set INFO(6)=0, you can ignore
-!              these optional input parameters. Otherwise you must define
-!              the half-bandwidths ML (lower) and MU (upper) of the
-!              Jacobian matrix by setting    IWORK(1) = ML   and
-!              IWORK(2) = MU.  (The code will work with a full matrix
-!              of NEQ**2 elements unless it is told that the problem has
-!              a banded Jacobian, in which case the code will work with
-!              a matrix containing at most  (2*ML+MU+1)*NEQ  elements.)
-!
-!       LIW -- Set it to the declared length of the IWORK array.
-!              You must have LIW .GE. 56+NEQ.
-!
-!       RPAR, IPAR -- These are parameter arrays, of DOUBLE PRECISION and
-!              INTEGER type, respectively. You can use them for
-!              communication between your program that calls DDEBDF and
-!              the  DF subroutine (and the DJAC subroutine). They are not
-!              used or altered by DDEBDF. If you do not need RPAR or
-!              IPAR, ignore these parameters by treating them as dummy
-!              arguments. If you do choose to use them, dimension them in
-!              your calling program and in DF (and in DJAC) as arrays of
-!              appropriate length.
-!
-!       DJAC -- If you have set INFO(5)=0, you can ignore this parameter
-!              by treating it as a dummy argument. (For some compilers
-!              you may have to write a dummy subroutine named  DJAC  in
-!              order to avoid problems associated with missing external
-!              routine names.)  Otherwise, you must provide a subroutine
-!              of the form
-!                           DJAC(X,U,PD,NROWPD,RPAR,IPAR)
-!              to define the Jacobian matrix of partial derivatives DF/DU
-!              of the system of differential equations   DU/DX = DF(X,U).
-!              For the given values of X and the vector
-!              U(*)=(U(1),U(2),...,U(NEQ)), the subroutine must evaluate
-!              the non-zero partial derivatives  DF(I)/DU(J)  for each
-!              differential equation I=1,...,NEQ and each solution
-!              component J=1,...,NEQ , and store these values in the
-!              matrix PD.  The elements of PD are set to zero before each
-!              call to DJAC so only non-zero elements need to be defined.
-!
-!              Subroutine DJAC must not alter X, U(*), or NROWPD. You
-!              must declare the name DJAC in an external statement in
-!              your program that calls DDEBDF. NROWPD is the row
-!              dimension of the PD matrix and is assigned by the code.
-!              Therefore you must dimension PD in DJAC according to
-!                               DIMENSION PD(NROWPD,1)
-!              You must also dimension U in DJAC.
-!
-!              The way you must store the elements into the PD matrix
-!              depends on the structure of the Jacobian which you
-!              indicated by INFO(6).
-!              *** INFO(6)=0 -- Full (Dense) Jacobian ***
-!                  When you evaluate the (non-zero) partial derivative
-!                  of equation I with respect to variable J, you must
-!                  store it in PD according to
-!                                 PD(I,J) = * DF(I)/DU(J) *
-!              *** INFO(6)=1 -- Banded Jacobian with ML Lower and MU
-!                  Upper Diagonal Bands (refer to INFO(6) description of
-!                  ML and MU) ***
-!                  When you evaluate the (non-zero) partial derivative
-!                  of equation I with respect to variable J, you must
-!                  store it in PD according to
-!                                 IROW = I - J + ML + MU + 1
-!                                 PD(IROW,J) = * DF(I)/DU(J) *
-!
-!              RPAR and IPAR are DOUBLE PRECISION and INTEGER parameter
-!              arrays which you can use for communication between your
-!              calling program and your Jacobian subroutine DJAC. They
-!              are not altered by DDEBDF. If you do not need RPAR or
-!              IPAR, ignore these parameters by treating them as dummy
-!              arguments.  If you do choose to use them, dimension them
-!              in your calling program and in DJAC as arrays of
-!              appropriate length.
-!
-!  **********************************************************************
-!  * OUTPUT -- After any return from DDEBDF *
-!  **********************************************************************
-!
-!    The principal aim of the code is to return a computed solution at
-!    TOUT, although it is also possible to obtain intermediate results
-!    along the way.  To find out whether the code achieved its goal
-!    or if the integration process was interrupted before the task was
-!    completed, you must check the IDID parameter.
-!
-!
-!       T -- The solution was successfully advanced to the
-!              output value of T.
-!
-!       Y(*) -- Contains the computed solution approximation at T.
-!              You may also be interested in the approximate derivative
-!              of the solution at T.  It is contained in
-!              RWORK(21),...,RWORK(20+NEQ).
-!
-!       IDID -- Reports what the code did
-!
-!                          *** Task Completed ***
-!                    Reported by positive values of IDID
-!
-!              IDID = 1 -- A step was successfully taken in the
-!                        intermediate-output mode.  The code has not
-!                        yet reached TOUT.
-!
-!              IDID = 2 -- The integration to TOUT was successfully
-!                        completed (T=TOUT) by stepping exactly to TOUT.
-!
-!              IDID = 3 -- The integration to TOUT was successfully
-!                        completed (T=TOUT) by stepping past TOUT.
-!                        Y(*) is obtained by interpolation.
-!
-!                          *** Task Interrupted ***
-!                    Reported by negative values of IDID
-!
-!              IDID = -1 -- A large amount of work has been expended.
-!                        (500 steps attempted)
-!
-!              IDID = -2 -- The error tolerances are too stringent.
-!
-!              IDID = -3 -- The local error test cannot be satisfied
-!                        because you specified a zero component in ATOL
-!                        and the corresponding computed solution
-!                        component is zero.  Thus, a pure relative error
-!                        test is impossible for this component.
-!
-!              IDID = -4,-5  -- Not applicable for this code but used
-!                        by other members of DEPAC.
-!
-!              IDID = -6 -- DDEBDF had repeated convergence test failures
-!                        on the last attempted step.
-!
-!              IDID = -7 -- DDEBDF had repeated error test failures on
-!                        the last attempted step.
-!
-!              IDID = -8,..,-32  -- Not applicable for this code but
-!                        used by other members of DEPAC or possible
-!                        future extensions.
-!
-!                          *** Task Terminated ***
-!                    Reported by the value of IDID=-33
-!
-!              IDID = -33 -- The code has encountered trouble from which
-!                        it cannot recover.  A message is printed
-!                        explaining the trouble and control is returned
-!                        to the calling program.  For example, this
-!                        occurs when invalid input is detected.
-!
-!       RTOL, ATOL -- These quantities remain unchanged except when
-!              IDID = -2.  In this case, the error tolerances have been
-!              increased by the code to values which are estimated to be
-!              appropriate for continuing the integration.  However, the
-!              reported solution at T was obtained using the input values
-!              of RTOL and ATOL.
-!
-!       RWORK, IWORK -- Contain information which is usually of no
-!              interest to the user but necessary for subsequent calls.
-!              However, you may find use for
-!
-!              RWORK(11)--which contains the step size H to be
-!                         attempted on the next step.
-!
-!              RWORK(12)--If the tolerances have been increased by the
-!                         code (IDID = -2) , they were multiplied by the
-!                         value in RWORK(12).
-!
-!              RWORK(13)--which contains the current value of the
-!                         independent variable, i.e. the farthest point
-!                         integration has reached.  This will be
-!                         different from T only when interpolation has
-!                         been performed (IDID=3).
-!
-!              RWORK(20+I)--which contains the approximate derivative
-!                         of the solution component Y(I).  In DDEBDF, it
-!                         is never obtained by calling subroutine DF to
-!                         evaluate the differential equation using T and
-!                         Y(*), except at the initial point of
-!                         integration.
-!
-!  **********************************************************************
-!  ** INPUT -- What To Do To Continue The Integration **
-!  **             (calls after the first)             **
-!  **********************************************************************
-!
-!         This code is organized so that subsequent calls to continue the
-!         integration involve little (if any) additional effort on your
-!         part. You must monitor the IDID parameter in order to determine
-!         what to do next.
-!
-!         Recalling that the principal task of the code is to integrate
-!         from T to TOUT (the interval mode), usually all you will need
-!         to do is specify a new TOUT upon reaching the current TOUT.
-!
-!         Do not alter any quantity not specifically permitted below,
-!         in particular do not alter NEQ, T, Y(*), RWORK(*), IWORK(*) or
-!         the differential equation in subroutine DF. Any such alteration
+      ! ***BEGIN PROLOGUE  DDEBDF
+      ! ***PURPOSE  Solve an initial value problem in ordinary differential
+      !             equations using backward differentiation formulas.  It is
+      !             intended primarily for stiff problems.
+      ! ***LIBRARY   SLATEC (DEPAC)
+      ! ***CATEGORY  I1A2
+      ! ***TYPE      DOUBLE PRECISION (DEBDF-S, DDEBDF-D)
+      ! ***KEYWORDS  BACKWARD DIFFERENTIATION FORMULAS, DEPAC,
+      !              INITIAL VALUE PROBLEMS, ODE,
+      !              ORDINARY DIFFERENTIAL EQUATIONS, STIFF
+      ! ***AUTHOR  Shampine, L. F., (SNLA)
+      !            Watts, H. A., (SNLA)
+      ! ***DESCRIPTION
+      !
+      !    This is the backward differentiation code in the package of
+      !    differential equation solvers DEPAC, consisting of the codes
+      !    DDERKF, DDEABM, and DDEBDF.  Design of the package was by
+      !    L. F. Shampine and H. A. Watts.  It is documented in
+      !         SAND-79-2374 , DEPAC - Design of a User Oriented Package of ODE
+      !                               Solvers.
+      !    DDEBDF is a driver for a modification of the code LSODE written by
+      !              A. C. Hindmarsh
+      !              Lawrence Livermore Laboratory
+      !              Livermore, California 94550
+      !
+      !  **********************************************************************
+      !  **             DEPAC PACKAGE OVERVIEW           **
+      !  **********************************************************************
+      !
+      !         You have a choice of three differential equation solvers from
+      !         DEPAC.  The following brief descriptions are meant to aid you
+      !         in choosing the most appropriate code for your problem.
+      !
+      !         DDERKF is a fifth order Runge-Kutta code. It is the simplest of
+      !         the three choices, both algorithmically and in the use of the
+      !         code. DDERKF is primarily designed to solve non-stiff and mild-
+      !         ly stiff differential equations when derivative evaluations are
+      !         not expensive.  It should generally not be used to get high
+      !         accuracy results nor answers at a great many specific points.
+      !         Because DDERKF has very low overhead costs, it will usually
+      !         result in the least expensive integration when solving
+      !         problems requiring a modest amount of accuracy and having
+      !         equations that are not costly to evaluate.  DDERKF attempts to
+      !         discover when it is not suitable for the task posed.
+      !
+      !         DDEABM is a variable order (one through twelve) Adams code. Its
+      !         complexity lies somewhere between that of DDERKF and DDEBDF.
+      !         DDEABM is primarily designed to solve non-stiff and mildly
+      !         stiff differential equations when derivative evaluations are
+      !         expensive, high accuracy results are needed or answers at
+      !         many specific points are required.  DDEABM attempts to discover
+      !         when it is not suitable for the task posed.
+      !
+      !         DDEBDF is a variable order (one through five) backward
+      !         differentiation formula code.  It is the most complicated of
+      !         the three choices.  DDEBDF is primarily designed to solve stiff
+      !         differential equations at crude to moderate tolerances.
+      !         If the problem is very stiff at all, DDERKF and DDEABM will be
+      !         quite inefficient compared to DDEBDF.  However, DDEBDF will be
+      !         inefficient compared to DDERKF and DDEABM on non-stiff problems
+      !         because it uses much more storage, has a much larger overhead,
+      !         and the low order formulas will not give high accuracies
+      !         efficiently.
+      !
+      !         The concept of stiffness cannot be described in a few words.
+      !         If you do not know the problem to be stiff, try either DDERKF
+      !         or DDEABM.  Both of these codes will inform you of stiffness
+      !         when the cost of solving such problems becomes important.
+      !
+      !  **********************************************************************
+      !  ** ABSTRACT **
+      !  **********************************************************************
+      !
+      !    Subroutine DDEBDF uses the backward differentiation formulas of
+      !    orders one through five to integrate a system of NEQ first order
+      !    ordinary differential equations of the form
+      !                          DU/DX = DF(X,U)
+      !    when the vector Y(*) of initial values for U(*) at X=T is given.
+      !    The subroutine integrates from T to TOUT. It is easy to continue the
+      !    integration to get results at additional TOUT. This is the interval
+      !    mode of operation. It is also easy for the routine to return with
+      !    the solution at each intermediate step on the way to TOUT. This is
+      !    the intermediate-output mode of operation.
+      !
+      !  **********************************************************************
+      !  * Description of The Arguments To DDEBDF (An Overview) *
+      !  **********************************************************************
+      !
+      !    The Parameters are:
+      !
+      !       DF -- This is the name of a subroutine which you provide to
+      !             define the differential equations.
+      !
+      !       NEQ -- This is the number of (first order) differential
+      !              equations to be integrated.
+      !
+      !       T -- This is a DOUBLE PRECISION value of the independent
+      !            variable.
+      !
+      !       Y(*) -- This DOUBLE PRECISION array contains the solution
+      !               components at T.
+      !
+      !       TOUT -- This is a DOUBLE PRECISION point at which a solution is
+      !               desired.
+      !
+      !       INFO(*) -- The basic task of the code is to integrate the
+      !              differential equations from T to TOUT and return an
+      !              answer at TOUT.  INFO(*) is an INTEGER array which is used
+      !              to communicate exactly how you want this task to be
+      !              carried out.
+      !
+      !       RTOL, ATOL -- These DOUBLE PRECISION quantities
+      !              represent relative and absolute error tolerances which you
+      !              provide to indicate how accurately you wish the solution
+      !              to be computed.  You may choose them to be both scalars
+      !              or else both vectors.
+      !
+      !       IDID -- This scalar quantity is an indicator reporting what
+      !              the code did.  You must monitor this INTEGER variable to
+      !              decide what action to take next.
+      !
+      !       RWORK(*), LRW -- RWORK(*) is a DOUBLE PRECISION work array of
+      !              length LRW which provides the code with needed storage
+      !              space.
+      !
+      !       IWORK(*), LIW -- IWORK(*) is an INTEGER work array of length LIW
+      !              which provides the code with needed storage space and an
+      !              across call flag.
+      !
+      !       RPAR, IPAR -- These are DOUBLE PRECISION and INTEGER parameter
+      !              arrays which you can use for communication between your
+      !              calling program and the DF subroutine (and the DJAC
+      !              subroutine).
+      !
+      !       DJAC -- This is the name of a subroutine which you may choose to
+      !              provide for defining the Jacobian matrix of partial
+      !              derivatives DF/DU.
+      !
+      !   Quantities which are used as input items are
+      !              NEQ, T, Y(*), TOUT, INFO(*),
+      !              RTOL, ATOL, RWORK(1), LRW,
+      !              IWORK(1), IWORK(2), and LIW.
+      !
+      !   Quantities which may be altered by the code are
+      !              T, Y(*), INFO(1), RTOL, ATOL,
+      !              IDID, RWORK(*) and IWORK(*).
+      !
+      !  **********************************************************************
+      !  * INPUT -- What To Do On The First Call To DDEBDF *
+      !  **********************************************************************
+      !
+      !    The first call of the code is defined to be the start of each new
+      !    problem.  Read through the descriptions of all the following items,
+      !    provide sufficient storage space for designated arrays, set
+      !    appropriate variables for the initialization of the problem, and
+      !    give information about how you want the problem to be solved.
+      !
+      !
+      !       DF -- Provide a subroutine of the form
+      !                                DF(X,U,UPRIME,RPAR,IPAR)
+      !              to define the system of first order differential equations
+      !              which is to be solved. For the given values of X and the
+      !              vector  U(*)=(U(1),U(2),...,U(NEQ)) , the subroutine must
+      !              evaluate the NEQ components of the system of differential
+      !              equations  DU/DX=DF(X,U)  and store the derivatives in the
+      !              array UPRIME(*), that is,  UPRIME(I) = * DU(I)/DX *  for
+      !              equations I=1,...,NEQ.
+      !
+      !              Subroutine DF must not alter X or U(*). You must declare
+      !              the name DF in an external statement in your program that
+      !              calls DDEBDF. You must dimension U and UPRIME in DF.
+      !
+      !              RPAR and IPAR are DOUBLE PRECISION and INTEGER parameter
+      !              arrays which you can use for communication between your
+      !              calling program and subroutine DF. They are not used or
+      !              altered by DDEBDF.  If you do not need RPAR or IPAR,
+      !              ignore these parameters by treating them as dummy
+      !              arguments. If you do choose to use them, dimension them in
+      !              your calling program and in DF as arrays of appropriate
+      !              length.
+      !
+      !       NEQ -- Set it to the number of differential equations.
+      !              (NEQ .GE. 1)
+      !
+      !       T -- Set it to the initial point of the integration.
+      !              You must use a program variable for T because the code
+      !              changes its value.
+      !
+      !       Y(*) -- Set this vector to the initial values of the NEQ solution
+      !              components at the initial point.  You must dimension Y at
+      !              least NEQ in your calling program.
+      !
+      !       TOUT -- Set it to the first point at which a solution is desired.
+      !              You can take TOUT = T, in which case the code
+      !              will evaluate the derivative of the solution at T and
+      !              return.  Integration either forward in T  (TOUT .GT. T)
+      !              or backward in T  (TOUT .LT. T)  is permitted.
+      !
+      !              The code advances the solution from T to TOUT using
+      !              step sizes which are automatically selected so as to
+      !              achieve the desired accuracy.  If you wish, the code will
+      !              return with the solution and its derivative following
+      !              each intermediate step (intermediate-output mode) so that
+      !              you can monitor them, but you still must provide TOUT in
+      !              accord with the basic aim of the code.
+      !
+      !              The first step taken by the code is a critical one
+      !              because it must reflect how fast the solution changes near
+      !              the initial point.  The code automatically selects an
+      !              initial step size which is practically always suitable for
+      !              the problem.  By using the fact that the code will not
+      !              step past TOUT in the first step, you could, if necessary,
+      !              restrict the length of the initial step size.
+      !
+      !              For some problems it may not be permissible to integrate
+      !              past a point TSTOP because a discontinuity occurs there
+      !              or the solution or its derivative is not defined beyond
+      !              TSTOP.  When you have declared a TSTOP point (see INFO(4)
+      !              and RWORK(1)), you have told the code not to integrate
+      !              past TSTOP.  In this case any TOUT beyond TSTOP is invalid
+      !              input.
+      !
+      !       INFO(*) -- Use the INFO array to give the code more details about
+      !              how you want your problem solved.  This array should be
+      !              dimensioned of length 15 to accommodate other members of
+      !              DEPAC or possible future extensions, though DDEBDF uses
+      !              only the first six entries.  You must respond to all of
+      !              the following items which are arranged as questions.  The
+      !              simplest use of the code corresponds to answering all
+      !              questions as YES ,i.e. setting all entries of INFO to 0.
+      !
+      !         INFO(1) -- This parameter enables the code to initialize
+      !                itself.  You must set it to indicate the start of every
+      !                new problem.
+      !
+      !             **** Is this the first call for this problem ...
+      !                   YES -- Set INFO(1) = 0
+      !                    NO -- Not applicable here.
+      !                          See below for continuation calls.  ****
+      !
+      !         INFO(2) -- How much accuracy you want of your solution
+      !                is specified by the error tolerances RTOL and ATOL.
+      !                The simplest use is to take them both to be scalars.
+      !                To obtain more flexibility, they can both be vectors.
+      !                The code must be told your choice.
+      !
+      !             **** Are both error tolerances RTOL, ATOL scalars ...
+      !                   YES -- Set INFO(2) = 0
+      !                          and input scalars for both RTOL and ATOL
+      !                    NO -- Set INFO(2) = 1
+      !                          and input arrays for both RTOL and ATOL ****
+      !
+      !         INFO(3) -- The code integrates from T in the direction
+      !                of TOUT by steps.  If you wish, it will return the
+      !                computed solution and derivative at the next
+      !                intermediate step (the intermediate-output mode) or
+      !                TOUT, whichever comes first.  This is a good way to
+      !                proceed if you want to see the behavior of the solution.
+      !                If you must have solutions at a great many specific
+      !                TOUT points, this code will compute them efficiently.
+      !
+      !             **** Do you want the solution only at
+      !                  TOUT (and NOT at the next intermediate step) ...
+      !                   YES -- Set INFO(3) = 0
+      !                    NO -- Set INFO(3) = 1 ****
+      !
+      !         INFO(4) -- To handle solutions at a great many specific
+      !                values TOUT efficiently, this code may integrate past
+      !                TOUT and interpolate to obtain the result at TOUT.
+      !                Sometimes it is not possible to integrate beyond some
+      !                point TSTOP because the equation changes there or it is
+      !                not defined past TSTOP.  Then you must tell the code
+      !                not to go past.
+      !
+      !             **** Can the integration be carried out without any
+      !                  restrictions on the independent variable T ...
+      !                   YES -- Set INFO(4)=0
+      !                    NO -- Set INFO(4)=1
+      !                          and define the stopping point TSTOP by
+      !                          setting RWORK(1)=TSTOP ****
+      !
+      !         INFO(5) -- To solve stiff problems it is necessary to use the
+      !                Jacobian matrix of partial derivatives of the system
+      !                of differential equations.  If you do not provide a
+      !                subroutine to evaluate it analytically (see the
+      !                description of the item DJAC in the call list), it will
+      !                be approximated by numerical differencing in this code.
+      !                Although it is less trouble for you to have the code
+      !                compute partial derivatives by numerical differencing,
+      !                the solution will be more reliable if you provide the
+      !                derivatives via DJAC.  Sometimes numerical differencing
+      !                is cheaper than evaluating derivatives in DJAC and
+      !                sometimes it is not - this depends on your problem.
+      !
+      !                If your problem is linear, i.e. has the form
+      !                DU/DX = DF(X,U) = J(X)*U + G(X)   for some matrix J(X)
+      !                and vector G(X), the Jacobian matrix  DF/DU = J(X).
+      !                Since you must provide a subroutine to evaluate DF(X,U)
+      !                analytically, it is little extra trouble to provide
+      !                subroutine DJAC for evaluating J(X) analytically.
+      !                Furthermore, in such cases, numerical differencing is
+      !                much more expensive than analytic evaluation.
+      !
+      !             **** Do you want the code to evaluate the partial
+      !                  derivatives automatically by numerical differences ...
+      !                   YES -- Set INFO(5)=0
+      !                    NO -- Set INFO(5)=1
+      !                          and provide subroutine DJAC for evaluating the
+      !                          Jacobian matrix ****
+      !
+      !         INFO(6) -- DDEBDF will perform much better if the Jacobian
+      !                matrix is banded and the code is told this.  In this
+      !                case, the storage needed will be greatly reduced,
+      !                numerical differencing will be performed more cheaply,
+      !                and a number of important algorithms will execute much
+      !                faster.  The differential equation is said to have
+      !                half-bandwidths ML (lower) and MU (upper) if equation I
+      !                involves only unknowns Y(J) with
+      !                               I-ML .LE. J .LE. I+MU
+      !                for all I=1,2,...,NEQ.  Thus, ML and MU are the widths
+      !                of the lower and upper parts of the band, respectively,
+      !                with the main diagonal being excluded.  If you do not
+      !                indicate that the equation has a banded Jacobian,
+      !                the code works with a full matrix of NEQ**2 elements
+      !                (stored in the conventional way).  Computations with
+      !                banded matrices cost less time and storage than with
+      !                full matrices if  2*ML+MU .LT. NEQ.  If you tell the
+      !                code that the Jacobian matrix has a banded structure and
+      !                you want to provide subroutine DJAC to compute the
+      !                partial derivatives, then you must be careful to store
+      !                the elements of the Jacobian matrix in the special form
+      !                indicated in the description of DJAC.
+      !
+      !             **** Do you want to solve the problem using a full
+      !                  (dense) Jacobian matrix (and not a special banded
+      !                  structure) ...
+      !                   YES -- Set INFO(6)=0
+      !                    NO -- Set INFO(6)=1
+      !                          and provide the lower (ML) and upper (MU)
+      !                          bandwidths by setting
+      !                          IWORK(1)=ML
+      !                          IWORK(2)=MU ****
+      !
+      !       RTOL, ATOL -- You must assign relative (RTOL) and absolute (ATOL)
+      !              error tolerances to tell the code how accurately you want
+      !              the solution to be computed.  They must be defined as
+      !              program variables because the code may change them.  You
+      !              have two choices --
+      !                   Both RTOL and ATOL are scalars. (INFO(2)=0)
+      !                   Both RTOL and ATOL are vectors. (INFO(2)=1)
+      !              In either case all components must be non-negative.
+      !
+      !              The tolerances are used by the code in a local error test
+      !              at each step which requires roughly that
+      !                      ABS(LOCAL ERROR) .LE. RTOL*ABS(Y)+ATOL
+      !              for each vector component.
+      !              (More specifically, a root-mean-square norm is used to
+      !              measure the size of vectors, and the error test uses the
+      !              magnitude of the solution at the beginning of the step.)
+      !
+      !              The true (global) error is the difference between the true
+      !              solution of the initial value problem and the computed
+      !              approximation.  Practically all present day codes,
+      !              including this one, control the local error at each step
+      !              and do not even attempt to control the global error
+      !              directly.  Roughly speaking, they produce a solution Y(T)
+      !              which satisfies the differential equations with a
+      !              residual R(T),    DY(T)/DT = DF(T,Y(T)) + R(T)   ,
+      !              and, almost always, R(T) is bounded by the error
+      !              tolerances.  Usually, but not always, the true accuracy of
+      !              the computed Y is comparable to the error tolerances. This
+      !              code will usually, but not always, deliver a more accurate
+      !              solution if you reduce the tolerances and integrate again.
+      !              By comparing two such solutions you can get a fairly
+      !              reliable idea of the true error in the solution at the
+      !              bigger tolerances.
+      !
+      !              Setting ATOL=0. results in a pure relative error test on
+      !              that component.  Setting RTOL=0. results in a pure abso-
+      !              lute error test on that component.  A mixed test with non-
+      !              zero RTOL and ATOL corresponds roughly to a relative error
+      !              test when the solution component is much bigger than ATOL
+      !              and to an absolute error test when the solution component
+      !              is smaller than the threshold ATOL.
+      !
+      !              Proper selection of the absolute error control parameters
+      !              ATOL  requires you to have some idea of the scale of the
+      !              solution components.  To acquire this information may mean
+      !              that you will have to solve the problem more than once. In
+      !              the absence of scale information, you should ask for some
+      !              relative accuracy in all the components (by setting  RTOL
+      !              values non-zero) and perhaps impose extremely small
+      !              absolute error tolerances to protect against the danger of
+      !              a solution component becoming zero.
+      !
+      !              The code will not attempt to compute a solution at an
+      !              accuracy unreasonable for the machine being used.  It will
+      !              advise you if you ask for too much accuracy and inform
+      !              you as to the maximum accuracy it believes possible.
+      !
+      !       RWORK(*) -- Dimension this DOUBLE PRECISION work array of length
+      !              LRW in your calling program.
+      !
+      !       RWORK(1) -- If you have set INFO(4)=0, you can ignore this
+      !              optional input parameter.  Otherwise you must define a
+      !              stopping point TSTOP by setting   RWORK(1) = TSTOP.
+      !              (For some problems it may not be permissible to integrate
+      !              past a point TSTOP because a discontinuity occurs there
+      !              or the solution or its derivative is not defined beyond
+      !              TSTOP.)
+      !
+      !       LRW -- Set it to the declared length of the RWORK array.
+      !              You must have
+      !                   LRW .GE. 250+10*NEQ+NEQ**2
+      !              for the full (dense) Jacobian case (when INFO(6)=0),  or
+      !                   LRW .GE. 250+10*NEQ+(2*ML+MU+1)*NEQ
+      !              for the banded Jacobian case (when INFO(6)=1).
+      !
+      !       IWORK(*) -- Dimension this INTEGER work array of length LIW in
+      !              your calling program.
+      !
+      !       IWORK(1), IWORK(2) -- If you have set INFO(6)=0, you can ignore
+      !              these optional input parameters. Otherwise you must define
+      !              the half-bandwidths ML (lower) and MU (upper) of the
+      !              Jacobian matrix by setting    IWORK(1) = ML   and
+      !              IWORK(2) = MU.  (The code will work with a full matrix
+      !              of NEQ**2 elements unless it is told that the problem has
+      !              a banded Jacobian, in which case the code will work with
+      !              a matrix containing at most  (2*ML+MU+1)*NEQ  elements.)
+      !
+      !       LIW -- Set it to the declared length of the IWORK array.
+      !              You must have LIW .GE. 56+NEQ.
+      !
+      !       RPAR, IPAR -- These are parameter arrays, of DOUBLE PRECISION and
+      !              INTEGER type, respectively. You can use them for
+      !              communication between your program that calls DDEBDF and
+      !              the  DF subroutine (and the DJAC subroutine). They are not
+      !              used or altered by DDEBDF. If you do not need RPAR or
+      !              IPAR, ignore these parameters by treating them as dummy
+      !              arguments. If you do choose to use them, dimension them in
+      !              your calling program and in DF (and in DJAC) as arrays of
+      !              appropriate length.
+      !
+      !       DJAC -- If you have set INFO(5)=0, you can ignore this parameter
+      !              by treating it as a dummy argument. (For some compilers
+      !              you may have to write a dummy subroutine named  DJAC  in
+      !              order to avoid problems associated with missing external
+      !              routine names.)  Otherwise, you must provide a subroutine
+      !              of the form
+      !                           DJAC(X,U,PD,NROWPD,RPAR,IPAR)
+      !              to define the Jacobian matrix of partial derivatives DF/DU
+      !              of the system of differential equations   DU/DX = DF(X,U).
+      !              For the given values of X and the vector
+      !              U(*)=(U(1),U(2),...,U(NEQ)), the subroutine must evaluate
+      !              the non-zero partial derivatives  DF(I)/DU(J)  for each
+      !              differential equation I=1,...,NEQ and each solution
+      !              component J=1,...,NEQ , and store these values in the
+      !              matrix PD.  The elements of PD are set to zero before each
+      !              call to DJAC so only non-zero elements need to be defined.
+      !
+      !              Subroutine DJAC must not alter X, U(*), or NROWPD. You
+      !              must declare the name DJAC in an external statement in
+      !              your program that calls DDEBDF. NROWPD is the row
+      !              dimension of the PD matrix and is assigned by the code.
+      !              Therefore you must dimension PD in DJAC according to
+      !                               DIMENSION PD(NROWPD,1)
+      !              You must also dimension U in DJAC.
+      !
+      !              The way you must store the elements into the PD matrix
+      !              depends on the structure of the Jacobian which you
+      !              indicated by INFO(6).
+      !              *** INFO(6)=0 -- Full (Dense) Jacobian ***
+      !                  When you evaluate the (non-zero) partial derivative
+      !                  of equation I with respect to variable J, you must
+      !                  store it in PD according to
+      !                                 PD(I,J) = * DF(I)/DU(J) *
+      !              *** INFO(6)=1 -- Banded Jacobian with ML Lower and MU
+      !                  Upper Diagonal Bands (refer to INFO(6) description of
+      !                  ML and MU) ***
+      !                  When you evaluate the (non-zero) partial derivative
+      !                  of equation I with respect to variable J, you must
+      !                  store it in PD according to
+      !                                 IROW = I - J + ML + MU + 1
+      !                                 PD(IROW,J) = * DF(I)/DU(J) *
+      !
+      !              RPAR and IPAR are DOUBLE PRECISION and INTEGER parameter
+      !              arrays which you can use for communication between your
+      !              calling program and your Jacobian subroutine DJAC. They
+      !              are not altered by DDEBDF. If you do not need RPAR or
+      !              IPAR, ignore these parameters by treating them as dummy
+      !              arguments.  If you do choose to use them, dimension them
+      !              in your calling program and in DJAC as arrays of
+      !              appropriate length.
+      !
+      !  **********************************************************************
+      !  * OUTPUT -- After any return from DDEBDF *
+      !  **********************************************************************
+      !
+      !    The principal aim of the code is to return a computed solution at
+      !    TOUT, although it is also possible to obtain intermediate results
+      !    along the way.  To find out whether the code achieved its goal
+      !    or if the integration process was interrupted before the task was
+      !    completed, you must check the IDID parameter.
+      !
+      !
+      !       T -- The solution was successfully advanced to the
+      !              output value of T.
+      !
+      !       Y(*) -- Contains the computed solution approximation at T.
+      !              You may also be interested in the approximate derivative
+      !              of the solution at T.  It is contained in
+      !              RWORK(21),...,RWORK(20+NEQ).
+      !
+      !       IDID -- Reports what the code did
+      !
+      !                          *** Task Completed ***
+      !                    Reported by positive values of IDID
+      !
+      !              IDID = 1 -- A step was successfully taken in the
+      !                        intermediate-output mode.  The code has not
+      !                        yet reached TOUT.
+      !
+      !              IDID = 2 -- The integration to TOUT was successfully
+      !                        completed (T=TOUT) by stepping exactly to TOUT.
+      !
+      !              IDID = 3 -- The integration to TOUT was successfully
+      !                        completed (T=TOUT) by stepping past TOUT.
+      !                        Y(*) is obtained by interpolation.
+      !
+      !                          *** Task Interrupted ***
+      !                    Reported by negative values of IDID
+      !
+      !              IDID = -1 -- A large amount of work has been expended.
+      !                        (500 steps attempted)
+      !
+      !              IDID = -2 -- The error tolerances are too stringent.
+      !
+      !              IDID = -3 -- The local error test cannot be satisfied
+      !                        because you specified a zero component in ATOL
+      !                        and the corresponding computed solution
+      !                        component is zero.  Thus, a pure relative error
+      !                        test is impossible for this component.
+      !
+      !              IDID = -4,-5  -- Not applicable for this code but used
+      !                        by other members of DEPAC.
+      !
+      !              IDID = -6 -- DDEBDF had repeated convergence test failures
+      !                        on the last attempted step.
+      !
+      !              IDID = -7 -- DDEBDF had repeated error test failures on
+      !                        the last attempted step.
+      !
+      !              IDID = -8,..,-32  -- Not applicable for this code but
+      !                        used by other members of DEPAC or possible
+      !                        future extensions.
+      !
+      !                          *** Task Terminated ***
+      !                    Reported by the value of IDID=-33
+      !
+      !              IDID = -33 -- The code has encountered trouble from which
+      !                        it cannot recover.  A message is printed
+      !                        explaining the trouble and control is returned
+      !                        to the calling program.  For example, this
+      !                        occurs when invalid input is detected.
+      !
+      !       RTOL, ATOL -- These quantities remain unchanged except when
+      !              IDID = -2.  In this case, the error tolerances have been
+      !              increased by the code to values which are estimated to be
+      !              appropriate for continuing the integration.  However, the
+      !              reported solution at T was obtained using the input values
+      !              of RTOL and ATOL.
+      !
+      !       RWORK, IWORK -- Contain information which is usually of no
+      !              interest to the user but necessary for subsequent calls.
+      !              However, you may find use for
+      !
+      !              RWORK(11)--which contains the step size H to be
+      !                         attempted on the next step.
+      !
+      !              RWORK(12)--If the tolerances have been increased by the
+      !                         code (IDID = -2) , they were multiplied by the
+      !                         value in RWORK(12).
+      !
+      !              RWORK(13)--which contains the current value of the
+      !                         independent variable, i.e. the farthest point
+      !                         integration has reached.  This will be
+      !                         different from T only when interpolation has
+      !                         been performed (IDID=3).
+      !
+      !              RWORK(20+I)--which contains the approximate derivative
+      !                         of the solution component Y(I).  In DDEBDF, it
+      !                         is never obtained by calling subroutine DF to
+      !                         evaluate the differential equation using T and
+      !                         Y(*), except at the initial point of
+      !                         integration.
+      !
+      !  **********************************************************************
+      !  ** INPUT -- What To Do To Continue The Integration **
+      !  **             (calls after the first)             **
+      !  **********************************************************************
+      !
+      !         This code is organized so that subsequent calls to continue the
+      !         integration involve little (if any) additional effort on your
+      !         part. You must monitor the IDID parameter in order to determine
+      !         what to do next.
+      !
+      !         Recalling that the principal task of the code is to integrate
+      !         from T to TOUT (the interval mode), usually all you will need
+      !         to do is specify a new TOUT upon reaching the current TOUT.
+      !
+      !         Do not alter any quantity not specifically permitted below,
+      !         in particular do not alter NEQ, T, Y(*), RWORK(*), IWORK(*) or
+      !         the differential equation in subroutine DF. Any such alteration
       !         constitutes a new problem and must be treated as such, i.e.
       !         you must start afresh.
       !
@@ -2727,59 +2727,59 @@
       END
       ! DECK DGBFA
       SUBROUTINE DGBFA (ABD, LDA, N, ML, MU, IPVT, INFO)
-! ***BEGIN PROLOGUE  DGBFA
-! ***PURPOSE  Factor a band matrix using Gaussian elimination.
-! ***LIBRARY   SLATEC (LINPACK)
-! ***CATEGORY  D2A2
-! ***TYPE      DOUBLE PRECISION (SGBFA-S, DGBFA-D, CGBFA-C)
-! ***KEYWORDS  BANDED, LINEAR ALGEBRA, LINPACK, MATRIX FACTORIZATION
-! ***AUTHOR  Moler, C. B., (U. of New Mexico)
-! ***DESCRIPTION
-!
-!      DGBFA factors a double precision band matrix by elimination.
-!
-!      DGBFA is usually called by DGBCO, but it can be called
-!      directly with a saving in time if  RCOND  is not needed.
-!
-!      On Entry
-!
-!         ABD     DOUBLE PRECISION(LDA, N)
-!                 contains the matrix in band storage.  The columns
-!                 of the matrix are stored in the columns of  ABD  and
-!                 the diagonals of the matrix are stored in rows
-!                 ML+1 through 2*ML+MU+1 of  ABD .
-!                 See the comments below for details.
-!
-!         LDA     INTEGER
-!                 the leading dimension of the array  ABD .
-!                 LDA must be .GE. 2*ML + MU + 1 .
-!
-!         N       INTEGER
-!                 the order of the original matrix.
-!
-!         ML      INTEGER
-!                 number of diagonals below the main diagonal.
-!                 0 .LE. ML .LT.  N .
-!
-!         MU      INTEGER
-!                 number of diagonals above the main diagonal.
-!                 0 .LE. MU .LT.  N .
-!                 More efficient if  ML .LE. MU .
-!      On Return
-!
-!         ABD     an upper triangular matrix in band storage and
-!                 the multipliers which were used to obtain it.
-!                 The factorization can be written  A = L*U  where
-!                 L  is a product of permutation and unit lower
-!                 triangular matrices and  U  is upper triangular.
-!
-!         IPVT    INTEGER(N)
-!                 an integer vector of pivot indices.
-!
-!         INFO    INTEGER
-!                 = 0  normal value.
-!                 = K  if  U(K,K) .EQ. 0.0 .  This is not an error
-!                      condition for this subroutine, but it does
+      ! ***BEGIN PROLOGUE  DGBFA
+      ! ***PURPOSE  Factor a band matrix using Gaussian elimination.
+      ! ***LIBRARY   SLATEC (LINPACK)
+      ! ***CATEGORY  D2A2
+      ! ***TYPE      DOUBLE PRECISION (SGBFA-S, DGBFA-D, CGBFA-C)
+      ! ***KEYWORDS  BANDED, LINEAR ALGEBRA, LINPACK, MATRIX FACTORIZATION
+      ! ***AUTHOR  Moler, C. B., (U. of New Mexico)
+      ! ***DESCRIPTION
+      !
+      !      DGBFA factors a double precision band matrix by elimination.
+      !
+      !      DGBFA is usually called by DGBCO, but it can be called
+      !      directly with a saving in time if  RCOND  is not needed.
+      !
+      !      On Entry
+      !
+      !         ABD     DOUBLE PRECISION(LDA, N)
+      !                 contains the matrix in band storage.  The columns
+      !                 of the matrix are stored in the columns of  ABD  and
+      !                 the diagonals of the matrix are stored in rows
+      !                 ML+1 through 2*ML+MU+1 of  ABD .
+      !                 See the comments below for details.
+      !
+      !         LDA     INTEGER
+      !                 the leading dimension of the array  ABD .
+      !                 LDA must be .GE. 2*ML + MU + 1 .
+      !
+      !         N       INTEGER
+      !                 the order of the original matrix.
+      !
+      !         ML      INTEGER
+      !                 number of diagonals below the main diagonal.
+      !                 0 .LE. ML .LT.  N .
+      !
+      !         MU      INTEGER
+      !                 number of diagonals above the main diagonal.
+      !                 0 .LE. MU .LT.  N .
+      !                 More efficient if  ML .LE. MU .
+      !      On Return
+      !
+      !         ABD     an upper triangular matrix in band storage and
+      !                 the multipliers which were used to obtain it.
+      !                 The factorization can be written  A = L*U  where
+      !                 L  is a product of permutation and unit lower
+      !                 triangular matrices and  U  is upper triangular.
+      !
+      !         IPVT    INTEGER(N)
+      !                 an integer vector of pivot indices.
+      !
+      !         INFO    INTEGER
+      !                 = 0  normal value.
+      !                 = K  if  U(K,K) .EQ. 0.0 .  This is not an error
+      !                      condition for this subroutine, but it does
       !                      indicate that DGBSL will divide by zero if
       !                      called.  Use  RCOND  in DGBCO for a reliable
       !                      indication of singularity.
@@ -2914,58 +2914,58 @@
       END
       ! DECK DGBSL
       SUBROUTINE DGBSL (ABD, LDA, N, ML, MU, IPVT, B, JOB)
-! ***BEGIN PROLOGUE  DGBSL
-! ***PURPOSE  Solve the real band system A*X=B or TRANS(A)*X=B using
-!             the factors computed by DGBCO or DGBFA.
-! ***LIBRARY   SLATEC (LINPACK)
-! ***CATEGORY  D2A2
-! ***TYPE      DOUBLE PRECISION (SGBSL-S, DGBSL-D, CGBSL-C)
-! ***KEYWORDS  BANDED, LINEAR ALGEBRA, LINPACK, MATRIX, SOLVE
-! ***AUTHOR  Moler, C. B., (U. of New Mexico)
-! ***DESCRIPTION
-!
-!      DGBSL solves the double precision band system
-!      A * X = B  or  TRANS(A) * X = B
-!      using the factors computed by DGBCO or DGBFA.
-!
-!      On Entry
-!
-!         ABD     DOUBLE PRECISION(LDA, N)
-!                 the output from DGBCO or DGBFA.
-!
-!         LDA     INTEGER
-!                 the leading dimension of the array  ABD .
-!
-!         N       INTEGER
-!                 the order of the original matrix.
-!
-!         ML      INTEGER
-!                 number of diagonals below the main diagonal.
-!
-!         MU      INTEGER
-!                 number of diagonals above the main diagonal.
-!
-!         IPVT    INTEGER(N)
-!                 the pivot vector from DGBCO or DGBFA.
-!
-!         B       DOUBLE PRECISION(N)
-!                 the right hand side vector.
-!
-!         JOB     INTEGER
-!                 = 0         to solve  A*X = B ,
-!                 = nonzero   to solve  TRANS(A)*X = B , where
-!                             TRANS(A)  is the transpose.
-!
-!      On Return
-!
-!         B       the solution vector  X .
-!
-!      Error Condition
-!
-!         A division by zero will occur if the input factor contains a
-!         zero on the diagonal.  Technically this indicates singularity
-!         but it is often caused by improper arguments or improper
-!         setting of LDA .  It will not occur if the subroutines are
+      ! ***BEGIN PROLOGUE  DGBSL
+      ! ***PURPOSE  Solve the real band system A*X=B or TRANS(A)*X=B using
+      !             the factors computed by DGBCO or DGBFA.
+      ! ***LIBRARY   SLATEC (LINPACK)
+      ! ***CATEGORY  D2A2
+      ! ***TYPE      DOUBLE PRECISION (SGBSL-S, DGBSL-D, CGBSL-C)
+      ! ***KEYWORDS  BANDED, LINEAR ALGEBRA, LINPACK, MATRIX, SOLVE
+      ! ***AUTHOR  Moler, C. B., (U. of New Mexico)
+      ! ***DESCRIPTION
+      !
+      !      DGBSL solves the double precision band system
+      !      A * X = B  or  TRANS(A) * X = B
+      !      using the factors computed by DGBCO or DGBFA.
+      !
+      !      On Entry
+      !
+      !         ABD     DOUBLE PRECISION(LDA, N)
+      !                 the output from DGBCO or DGBFA.
+      !
+      !         LDA     INTEGER
+      !                 the leading dimension of the array  ABD .
+      !
+      !         N       INTEGER
+      !                 the order of the original matrix.
+      !
+      !         ML      INTEGER
+      !                 number of diagonals below the main diagonal.
+      !
+      !         MU      INTEGER
+      !                 number of diagonals above the main diagonal.
+      !
+      !         IPVT    INTEGER(N)
+      !                 the pivot vector from DGBCO or DGBFA.
+      !
+      !         B       DOUBLE PRECISION(N)
+      !                 the right hand side vector.
+      !
+      !         JOB     INTEGER
+      !                 = 0         to solve  A*X = B ,
+      !                 = nonzero   to solve  TRANS(A)*X = B , where
+      !                             TRANS(A)  is the transpose.
+      !
+      !      On Return
+      !
+      !         B       the solution vector  X .
+      !
+      !      Error Condition
+      !
+      !         A division by zero will occur if the input factor contains a
+      !         zero on the diagonal.  Technically this indicates singularity
+      !         but it is often caused by improper arguments or improper
+      !         setting of LDA .  It will not occur if the subroutines are
       !         called correctly and if DGBCO has set RCOND .GT. 0.0
       !         or DGBFA has set INFO .EQ. 0 .
       !
@@ -3063,48 +3063,48 @@
       END
       ! DECK DGEFA
       SUBROUTINE DGEFA (A, LDA, N, IPVT, INFO)
-! ***BEGIN PROLOGUE  DGEFA
-! ***PURPOSE  Factor a matrix using Gaussian elimination.
-! ***LIBRARY   SLATEC (LINPACK)
-! ***CATEGORY  D2A1
-! ***TYPE      DOUBLE PRECISION (SGEFA-S, DGEFA-D, CGEFA-C)
-! ***KEYWORDS  GENERAL MATRIX, LINEAR ALGEBRA, LINPACK,
-!              MATRIX FACTORIZATION
-! ***AUTHOR  Moler, C. B., (U. of New Mexico)
-! ***DESCRIPTION
-!
-!      DGEFA factors a double precision matrix by Gaussian elimination.
-!
-!      DGEFA is usually called by DGECO, but it can be called
-!      directly with a saving in time if  RCOND  is not needed.
-!      (Time for DGECO) = (1 + 9/N)*(Time for DGEFA) .
-!
-!      On Entry
-!
-!         A       DOUBLE PRECISION(LDA, N)
-!                 the matrix to be factored.
-!
-!         LDA     INTEGER
-!                 the leading dimension of the array  A .
-!
-!         N       INTEGER
-!                 the order of the matrix  A .
-!
-!      On Return
-!
-!         A       an upper triangular matrix and the multipliers
-!                 which were used to obtain it.
-!                 The factorization can be written  A = L*U  where
-!                 L  is a product of permutation and unit lower
-!                 triangular matrices and  U  is upper triangular.
-!
-!         IPVT    INTEGER(N)
-!                 an integer vector of pivot indices.
-!
-!         INFO    INTEGER
-!                 = 0  normal value.
-!                 = K  if  U(K,K) .EQ. 0.0 .  This is not an error
-!                      condition for this subroutine, but it does
+      ! ***BEGIN PROLOGUE  DGEFA
+      ! ***PURPOSE  Factor a matrix using Gaussian elimination.
+      ! ***LIBRARY   SLATEC (LINPACK)
+      ! ***CATEGORY  D2A1
+      ! ***TYPE      DOUBLE PRECISION (SGEFA-S, DGEFA-D, CGEFA-C)
+      ! ***KEYWORDS  GENERAL MATRIX, LINEAR ALGEBRA, LINPACK,
+      !              MATRIX FACTORIZATION
+      ! ***AUTHOR  Moler, C. B., (U. of New Mexico)
+      ! ***DESCRIPTION
+      !
+      !      DGEFA factors a double precision matrix by Gaussian elimination.
+      !
+      !      DGEFA is usually called by DGECO, but it can be called
+      !      directly with a saving in time if  RCOND  is not needed.
+      !      (Time for DGECO) = (1 + 9/N)*(Time for DGEFA) .
+      !
+      !      On Entry
+      !
+      !         A       DOUBLE PRECISION(LDA, N)
+      !                 the matrix to be factored.
+      !
+      !         LDA     INTEGER
+      !                 the leading dimension of the array  A .
+      !
+      !         N       INTEGER
+      !                 the order of the matrix  A .
+      !
+      !      On Return
+      !
+      !         A       an upper triangular matrix and the multipliers
+      !                 which were used to obtain it.
+      !                 The factorization can be written  A = L*U  where
+      !                 L  is a product of permutation and unit lower
+      !                 triangular matrices and  U  is upper triangular.
+      !
+      !         IPVT    INTEGER(N)
+      !                 an integer vector of pivot indices.
+      !
+      !         INFO    INTEGER
+      !                 = 0  normal value.
+      !                 = K  if  U(K,K) .EQ. 0.0 .  This is not an error
+      !                      condition for this subroutine, but it does
       !                      indicate that DGESL or DGEDI will divide by zero
       !                      if called.  Use  RCOND  in DGECO for a reliable
       !                      indication of singularity.
@@ -3180,52 +3180,52 @@
       END
       ! DECK DGESL
       SUBROUTINE DGESL (A, LDA, N, IPVT, B, JOB)
-! ***BEGIN PROLOGUE  DGESL
-! ***PURPOSE  Solve the real system A*X=B or TRANS(A)*X=B using the
-!             factors computed by DGECO or DGEFA.
-! ***LIBRARY   SLATEC (LINPACK)
-! ***CATEGORY  D2A1
-! ***TYPE      DOUBLE PRECISION (SGESL-S, DGESL-D, CGESL-C)
-! ***KEYWORDS  LINEAR ALGEBRA, LINPACK, MATRIX, SOLVE
-! ***AUTHOR  Moler, C. B., (U. of New Mexico)
-! ***DESCRIPTION
-!
-!      DGESL solves the double precision system
-!      A * X = B  or  TRANS(A) * X = B
-!      using the factors computed by DGECO or DGEFA.
-!
-!      On Entry
-!
-!         A       DOUBLE PRECISION(LDA, N)
-!                 the output from DGECO or DGEFA.
-!
-!         LDA     INTEGER
-!                 the leading dimension of the array  A .
-!
-!         N       INTEGER
-!                 the order of the matrix  A .
-!
-!         IPVT    INTEGER(N)
-!                 the pivot vector from DGECO or DGEFA.
-!
-!         B       DOUBLE PRECISION(N)
-!                 the right hand side vector.
-!
-!         JOB     INTEGER
-!                 = 0         to solve  A*X = B ,
-!                 = nonzero   to solve  TRANS(A)*X = B  where
-!                             TRANS(A)  is the transpose.
-!
-!      On Return
-!
-!         B       the solution vector  X .
-!
-!      Error Condition
-!
-!         A division by zero will occur if the input factor contains a
-!         zero on the diagonal.  Technically this indicates singularity
-!         but it is often caused by improper arguments or improper
-!         setting of LDA .  It will not occur if the subroutines are
+      ! ***BEGIN PROLOGUE  DGESL
+      ! ***PURPOSE  Solve the real system A*X=B or TRANS(A)*X=B using the
+      !             factors computed by DGECO or DGEFA.
+      ! ***LIBRARY   SLATEC (LINPACK)
+      ! ***CATEGORY  D2A1
+      ! ***TYPE      DOUBLE PRECISION (SGESL-S, DGESL-D, CGESL-C)
+      ! ***KEYWORDS  LINEAR ALGEBRA, LINPACK, MATRIX, SOLVE
+      ! ***AUTHOR  Moler, C. B., (U. of New Mexico)
+      ! ***DESCRIPTION
+      !
+      !      DGESL solves the double precision system
+      !      A * X = B  or  TRANS(A) * X = B
+      !      using the factors computed by DGECO or DGEFA.
+      !
+      !      On Entry
+      !
+      !         A       DOUBLE PRECISION(LDA, N)
+      !                 the output from DGECO or DGEFA.
+      !
+      !         LDA     INTEGER
+      !                 the leading dimension of the array  A .
+      !
+      !         N       INTEGER
+      !                 the order of the matrix  A .
+      !
+      !         IPVT    INTEGER(N)
+      !                 the pivot vector from DGECO or DGEFA.
+      !
+      !         B       DOUBLE PRECISION(N)
+      !                 the right hand side vector.
+      !
+      !         JOB     INTEGER
+      !                 = 0         to solve  A*X = B ,
+      !                 = nonzero   to solve  TRANS(A)*X = B  where
+      !                             TRANS(A)  is the transpose.
+      !
+      !      On Return
+      !
+      !         B       the solution vector  X .
+      !
+      !      Error Condition
+      !
+      !         A division by zero will occur if the input factor contains a
+      !         zero on the diagonal.  Technically this indicates singularity
+      !         but it is often caused by improper arguments or improper
+      !         setting of LDA .  It will not occur if the subroutines are
       !         called correctly and if DGECO has set RCOND .GT. 0.0
       !         or DGEFA has set INFO .EQ. 0 .
       !

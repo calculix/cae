@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -143,12 +143,12 @@ void results_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
     /* 1. nodewise storage of the primary variables
        2. determination which derived variables have to be calculated */
 
-    FORTRAN(resultsini,(nk,v,ithermal,filab,iperturb,f,fn,
+    resultsini(nk,v,ithermal,filab,iperturb,f,fn,
        nactdof,iout,qa,vold,b,nodeboun,ndirboun,
        xboun,nboun,ipompc,nodempc,coefmpc,labmpc,nmpc,nmethod,cam,neq,
        veold,accold,bet,gam,dtime,mi,vini,nprint,prlab,
        &intpointvarm,&calcul_fn,&calcul_f,&calcul_qa,&calcul_cauchy,
-       &ikin,&intpointvart,typeboun));
+       &ikin,&intpointvart,typeboun,&num_cpus);
 
     NNEW(fn0,double,mt**nkon);
     NNEW(dfn,double,mt**nk);

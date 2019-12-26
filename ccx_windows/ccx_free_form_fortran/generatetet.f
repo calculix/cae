@@ -55,7 +55,8 @@
          !
          n=3
          kflag=1
-         call isortii(nodef,idum,n,kflag)
+         call insertsorti(nodef,n)
+         !          call isortii(nodef,idum,n,kflag)
          !
          !        check whether face already exists
          !

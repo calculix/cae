@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,20 +18,20 @@
 !
       subroutine rectcyl(co,v,fn,stn,qfn,een,cs,n,icntrl,t,filab,&
         imag,mi,emn)
-!
-!     icntrl=1:  rectangular to cylindrical coordinates for nodal
-!                coordinates in field co
-!     icntrl=-1: cylindrical to rectangular coordinates for nodal
-!                coordinates in field co
-!     icntrl=2:  rectangular to cylindrical coordinates for fields
-!                v,fn,stn,een and emn
-!     icntrl=-2: cylindrical to rectangular coordinates for fields
-!                v,fn,stn, een and emn
-!
-!     the axis of the cylindrical coordinates is defined by points
-!     a with coordinates csab(1..3) and b with coordinates csab(4..6).
-!     Theta=0 (2nd cylindrical coordinate) is defined by the vector t,
-!     which is perpendicular to the axis. The subroutine should be called
+      !
+      !     icntrl=1:  rectangular to cylindrical coordinates for nodal
+      !                coordinates in field co
+      !     icntrl=-1: cylindrical to rectangular coordinates for nodal
+      !                coordinates in field co
+      !     icntrl=2:  rectangular to cylindrical coordinates for fields
+      !                v,fn,stn,een and emn
+      !     icntrl=-2: cylindrical to rectangular coordinates for fields
+      !                v,fn,stn, een and emn
+      !
+      !     the axis of the cylindrical coordinates is defined by points
+      !     a with coordinates csab(1..3) and b with coordinates csab(4..6).
+      !     Theta=0 (2nd cylindrical coordinate) is defined by the vector t,
+      !     which is perpendicular to the axis. The subroutine should be called
       !     with icntrl=1 before calling it with icntrl=-1.
       !
       !     for icntrl=2 the imaginary part is extra taken into account if

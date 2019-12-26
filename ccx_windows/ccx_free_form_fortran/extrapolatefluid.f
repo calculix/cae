@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -37,6 +37,8 @@
         gradvfa(3,3,*),gradpfa(3,*),gradkfa(3,*),gradofa(3,*),&
         vfal(0:7),co(3,*),cofa(3,*)
       !
+      !       sum=0.d0
+      !
       do i=1,nk
          !
          !        athermal calculations
@@ -68,7 +70,6 @@
                   vfal(4)=vfa(4,iface)
                endif
                do l=1,4
-                  !                   v(l,i)=v(l,i)+vfa(l,iface)
                   v(l,i)=v(l,i)+vfal(l)
                enddo
                inum(i)=inum(i)+1
@@ -129,11 +130,6 @@
                           gradvfa(l,2,iface)*(co(2,i)-cofa(2,iface))+&
                           gradvfa(l,3,iface)*(co(3,i)-cofa(3,iface))
                   enddo
-                  !                write(*,*) 'extrapolatefluid ',i,iface,vfa(1,iface)
-                  !                write(*,*) gradvfa(1,1,iface),(co(1,i)-cofa(1,iface))
-                  !                write(*,*) gradvfa(1,2,iface),(co(2,i)-cofa(2,iface))
-                  !                write(*,*) gradvfa(1,3,iface),(co(3,i)-cofa(3,iface))
-                  !                write(*,*) vfal(1)
                   vfal(4)=vfa(4,iface)+&
                        gradpfa(1,iface)*(co(1,i)-cofa(1,iface))+&
                        gradpfa(2,iface)*(co(2,i)-cofa(2,iface))+&
@@ -147,11 +143,9 @@
                endif
                do l=0,4
                   v(l,i)=v(l,i)+vfal(l)
-               !                   v(l,i)=v(l,i)+vfa(l,iface)
                enddo
                if(imach.eq.1) then
                   t1l=vfal(0)
-                  !                   t1l=vfa(0,iface)
                   imat=ielmat(1,ielfa(1,iface))
                   r=shcon(3,1,imat)
                   call materialdata_cp_sec(imat,ntmat_,t1l,&
@@ -159,8 +153,6 @@
                   xk=cp/(cp-r)
                   xmach(i)=xmach(i)+dsqrt((vfal(1)**2+&
                      vfal(2)**2+vfal(3)**2)/(xk*r*t1l))
-               !                   xmach(i)=xmach(i)+dsqrt((vfa(1,iface)**2+
-               !      &               vfa(2,iface)**2+vfa(3,iface)**2)/(xk*r*t1l))
                endif
                if(ikappa.eq.1) then
                   xkappa(i)=xkappa(i)+xk
@@ -193,27 +185,39 @@
                        gradkfa(1,iface)*(co(1,i)-cofa(1,iface))+&
                        gradkfa(2,iface)*(co(2,i)-cofa(2,iface))+&
                        gradkfa(3,iface)*(co(3,i)-cofa(3,iface))
+                  !                   write(*,*) 'extrapolatefluid i1',i,vfal(6)
+                  !                   if(sum.lt.vfal(6)) sum=vfal(6)
                   vfal(7)=vfa(7,iface)+&
                        gradofa(1,iface)*(co(1,i)-cofa(1,iface))+&
                        gradofa(2,iface)*(co(2,i)-cofa(2,iface))+&
                        gradofa(3,iface)*(co(3,i)-cofa(3,iface))
                else
                   vfal(6)=vfa(6,iface)
+                  !                   write(*,*) 'extrapolatefluid i2',i,vfal(6)
+                  !                   if(sum.lt.vfal(6)) sum=vfal(6)
                   vfal(7)=vfa(7,iface)
                endif
                do l=1,2
                   xturb(l,i)=xturb(l,i)+vfal(l+5)
-               !                   xturb(l,i)=xturb(l,i)+vfa(l+5,iface)
                enddo
+               !                inum(i)=inum(i)+1
                indexf=inofa(2,indexf)
             enddo
             if(inum(i).gt.0) then
                do l=1,2
                   xturb(l,i)=xturb(l,i)/inum(i)
+               !                   write(*,*) 'extrapolatesum ',i,xturb(1,i)
+               !                   if(sum.lt.abs(xturb(1,i))) sum=abs(xturb(1,i))
                enddo
+               !
+               !              check for values with an exponent consisting of 3 digits
+               !              (are not correctly displayed in cgx)
+               !
+               if(xturb(1,i).lt.1.e-30) xturb(1,i)=0.d0
             endif
          endif
       enddo
+      !       write(*,*) 'extrapolatefluid sum',sum
       !
       return
       end

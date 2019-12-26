@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -32,7 +32,7 @@ void frd_sen(double *co,ITG *nk,double *dstn,ITG *inum,ITG *nmethod,
 	 char *jobnamec,char *output,double *v,ITG *iobject,
 	 char *objectset,ITG *ntrans,ITG *inotr,double *trab,
 	 ITG *idesvar,char *orname,ITG *icoordinate,ITG *inorm,
-         ITG *irand){
+         ITG *irand,ITG *ishape){
 	 
      /* stores the results in frd format
 
@@ -49,7 +49,8 @@ void frd_sen(double *co,ITG *nk,double *dstn,ITG *inum,ITG *nmethod,
 
   static ITG icounter=0,nkcoords;
 
-  ITG null,one,i,noutloc,iset,iselect,two,three,nout,noutplus,noutmin;
+  ITG null,one,i,noutloc,iset,iselect,two,three,nout,noutplus,noutmin,
+      mt=mi[1]+1,ioutall=0;
 
   ITG ncomptensoro=6,ifieldtensoro[6]={1,1,1,1,1,1},
       icomptensoro[6]={0,1,2,3,5,4},nfieldtensoro[2]={6,0},
@@ -68,6 +69,11 @@ void frd_sen(double *co,ITG *nk,double *dstn,ITG *inum,ITG *nmethod,
     exit(0);
   }
 
+  /* check whether all results have to be stored (also those
+     corresponding to inactive nodes or elements) */
+  
+  if(strcmp1(&output[3],"a")==0) ioutall=1;
+
   pi=4.*atan(1.);
   null=0;
   one=1;two=2;three=3;
@@ -82,11 +88,19 @@ void frd_sen(double *co,ITG *nk,double *dstn,ITG *inum,ITG *nmethod,
       nout=0;
       noutplus=0;
       noutmin=0;
-      for(i=0;i<*nk;i++){
-	  if(inum[i]==0) continue;
-	  nout++;
-	  if(inum[i]>0) noutplus++;
-	  if(inum[i]<0) noutmin++;   
+      if(ioutall==0){
+	  for(i=0;i<*nk;i++){
+	      if(inum[i]==0) continue;
+	      nout++;
+	      if(inum[i]>0) noutplus++;
+	      if(inum[i]<0) noutmin++;   
+	  }
+      }else{
+	  for(i=0;i<*nk;i++){
+	      nout++;
+	      if(inum[i]>0) noutplus++;
+	      if(inum[i]<0) noutmin++;   
+	  }
       }
   }else{
       nout=*nk;
@@ -110,6 +124,27 @@ void frd_sen(double *co,ITG *nk,double *dstn,ITG *inum,ITG *nmethod,
       fprintf(f1," -5  NORMX       1    2	 1    0\n");
       fprintf(f1," -5  NORMY       1    2	 2    0\n");
       fprintf(f1," -5  NORMZ       1    2	 3    0\n");
+      fprintf(f1," -5  ALL         1    2	 0    0    1ALL\n");
+      
+      frdselect(v,v,&iset,&nkcoords,inum,m1,istartset,iendset,
+                ialset,ngraph,&ncompvector,ifieldvector,icompvector,
+                nfieldvector1,&iselect,m2,f1,output,m3);
+
+  }else if(*ishape==1){
+
+      /* storing the shape updates to the structure */
+      
+      frdset(&filab[4002],set,&iset,istartset,iendset,ialset,
+	     inum,&noutloc,&nout,nset,&noutmin,&noutplus,&iselect,
+	     ngraph);
+      
+      frdheader(&icounter,&oner,time,&pi,noddiam,cs,&null,mode,
+		&noutloc,description,kode,nmethod,f1,output,istep,iinc); 
+      
+      fprintf(f1," -4  SEVE        4    1\n");
+      fprintf(f1," -5  SEVEX       1    2	 1    0\n");
+      fprintf(f1," -5  SEVEY       1    2	 2    0\n");
+      fprintf(f1," -5  SEVEZ       1    2	 3    0\n");
       fprintf(f1," -5  ALL         1    2	 0    0    1ALL\n");
       
       frdselect(v,v,&iset,&nkcoords,inum,m1,istartset,iendset,
@@ -183,6 +218,42 @@ void frd_sen(double *co,ITG *nk,double *dstn,ITG *inum,ITG *nmethod,
 	  
 	  frdvector(v,&iset,ntrans,&filab[4002],&nkcoords,inum,m1,inotr,
 		    trab,co,istartset,iendset,ialset,mi,ngraph,f1,output,m3);
+
+	  if(*noddiam>=0){
+	  
+	    frdheader(&icounter,&oner,time,&pi,noddiam,cs,&null,mode,
+		      &noutloc,description,kode,nmethod,f1,output,istep,iinc); 
+	    
+	    strcpy1(&text[0]," -4              4    1",23);
+	    strcpy1(&text[5],"D",1);
+	    strcpy1(&text[6],&orname[80*(*idesvar/3)],5);
+	    if(*idesvar-(*idesvar/3)*3==0){
+	      strcpy1(&text[10],"RxI",3);
+	      text[23]='\0';
+	      fprintf(f1,"%s\n",text);
+	      fprintf(f1," -5  dD1dRx      1    2    1    0\n");
+	      fprintf(f1," -5  dD2dRx      1    2    1    0\n");
+	      fprintf(f1," -5  dD3dRx      1    2    1    0\n");
+	    }else if(*idesvar-(*idesvar/3)*3==1){
+	      strcpy1(&text[10],"RyI",3);
+	      text[23]='\0';
+	      fprintf(f1,"%s\n",text);
+	      fprintf(f1," -5  dD1dRy      1    2    1    0\n");
+	      fprintf(f1," -5  dD2dRy      1    2    1    0\n");
+	      fprintf(f1," -5  dD3dRy      1    2    1    0\n");
+	    }else{
+	      strcpy1(&text[10],"RzI",3);
+	      text[23]='\0';
+	      fprintf(f1,"%s\n",text);
+	      fprintf(f1," -5  dD1dRz      1    2    1    0\n");
+	      fprintf(f1," -5  dD2dRz      1    2    1    0\n");
+	      fprintf(f1," -5  dD3dRz      1    2    1    0\n");
+	    }
+	    fprintf(f1," -5  ALL         1    2    0    0    1ALL\n");
+	    
+	    frdvector(&v[*nk*mt],&iset,ntrans,&filab[4002],&nkcoords,inum,m1,inotr,
+		    trab,co,istartset,iendset,ialset,mi,ngraph,f1,output,m3);
+	  }
 	  
       }else if(strcmp1(&objectset[(*iobject-1)*324],"STRESS")==0){
 	  

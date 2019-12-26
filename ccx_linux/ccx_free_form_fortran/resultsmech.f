@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -26,7 +26,7 @@
         springarea,reltime,calcul_fn,calcul_qa,calcul_cauchy,nener,&
         ikin,nal,ne0,thicke,emeini,pslavsurf,&
         pmastsurf,mortar,clearini,nea,neb,ielprop,prop,kscale,&
-        list,ilist)
+        list,ilist,smscale,mscalmethod,enerscal)
       !
       !     calculates stresses and the material tangent at the integration
       !     points and the internal forces at the nodes
@@ -47,7 +47,7 @@
         istiff,ncmat_,nstate_,ikin,ilayer,nlayer,ki,kl,ielprop(*),&
         nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,calcul_fn,&
         calcul_cauchy,calcul_qa,nopered,mortar,jfaces,igauss,&
-        istrainfree,nlgeom_undo,list,ilist(*),m
+        istrainfree,nlgeom_undo,list,ilist(*),m,j1,mscalmethod
       !
       real*8 co(3,*),v(0:mi(2),*),shp(4,26),stiini(6,mi(1),*),&
         stx(6,mi(1),*),xl(3,26),vl(0:mi(2),26),stre(6),prop(*),&
@@ -56,18 +56,19 @@
         alzero(*),orab(7,*),elas(21),rho,fn(0:mi(2),*),&
         fnl(3,10),skl(3,3),beta(6),q(0:mi(2),26),xl2(3,8),&
         vkl(0:3,3),t0(*),t1(*),prestr(6,mi(1),*),eme(6,mi(1),*),&
-        ckl(3,3),vold(0:mi(2),*),eloc(9),veold(0:mi(2),*),&
+        ckl(3,3),vold(0:mi(2),*),eloc(6),veold(0:mi(2),*),&
         springarea(2,*),elconloc(21),eth(6),xkl(3,3),voldl(0:mi(2),26),&
         xikl(3,3),ener(mi(1),*),emec(6),eei(6,mi(1),*),enerini(mi(1),*),&
         emec0(6),vel(1:3,26),veoldl(0:mi(2),26),xsj2(3),shp2(7,8),&
-        e,un,al,um,am1,xi,et,ze,tt,exx,eyy,ezz,exy,exz,eyz,&
+        e,un,al,um,am1,xi,et,ze,tt,&
         xsj,qa(*),vj,t0l,t1l,dtime,weight,pgauss(3),vij,time,ttime,&
         plicon(0:2*npmat_,ntmat_,*),plkcon(0:2*npmat_,ntmat_,*),&
         xstiff(27,mi(1),*),xstate(nstate_,mi(1),*),plconloc(802),&
         vokl(3,3),xstateini(nstate_,mi(1),*),vikl(3,3),&
         gs(8,4),a,reltime,tlayer(4),dlayer(4),xlayer(mi(3),4),&
         thicke(mi(3),*),emeini(6,mi(1),*),clearini(3,9,*),&
-        pslavsurf(3,*),pmastsurf(6,*)
+        pslavsurf(3,*),pmastsurf(6,*),smscale(*),sum1,sum2,&
+        scal,enerscal,elineng(6)
       !
       intent(in) co,kon,ipkon,lakon,ne,v,&
         elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,&
@@ -79,10 +80,10 @@
         springarea,reltime,calcul_fn,calcul_qa,calcul_cauchy,nener,&
         ikin,ne0,thicke,pslavsurf,&
         pmastsurf,mortar,clearini,nea,neb,ielprop,prop,kscale,&
-        list,ilist
+        list,ilist,smscale,mscalmethod
       !
       intent(inout) nal,qa,fn,xstiff,ener,eme,eei,stx,ielmat,prestr,&
-        emeini
+        emeini,enerscal
       !
       include "gauss.f"
       !
@@ -93,6 +94,7 @@
       nal=0
       qa(3)=-1.d0
       qa(4)=0.d0
+      enerscal=0.d0
       !
       do m=nea,neb
          !
@@ -370,7 +372,8 @@
                     plicon,nplicon,npmat_,ener(1,i),nener,&
                     stx(1,1,i),mi,springarea(1,konl(nope+1)),nmethod,&
                     ne0,nstate_,xstateini,xstate,reltime,&
-                    ielas,ener(1,i+ne),ielorien,orab,norien,i)
+                    ielas,ener(1,i+ne),ielorien,orab,norien,i,&
+                    smscale,mscalmethod)
                elseif((mortar.eq.1).and.&
                  ((nmethod.ne.1).or.(iperturb(1).ge.2).or.(iout.ne.-1)))&
                      then
@@ -382,7 +385,8 @@
                     stx(1,1,i),mi,springarea(1,igauss),nmethod,&
                     ne0,nstate_,xstateini,xstate,reltime,&
                     ielas,jfaces,igauss,pslavsurf,pmastsurf,&
-                    clearini,ener(1,i+ne),kscale,konl,iout,i)
+                    clearini,ener(1,i+ne),kscale,konl,iout,i,&
+                    smscale,mscalmethod)
                endif
                !
                !              next lines are not executed in linstatic.c before the
@@ -613,77 +617,79 @@
             !
             !           calculating the strain
             !
-            !           attention! exy,exz and eyz are engineering strains!
+            call calctotstrain(vkl,vokl,eloc,elineng,iperturb)
             !
-            exx=vkl(1,1)
-            eyy=vkl(2,2)
-            ezz=vkl(3,3)
-            exy=vkl(1,2)+vkl(2,1)
-            exz=vkl(1,3)+vkl(3,1)
-            eyz=vkl(2,3)+vkl(3,2)
-            !
-            if(iperturb(2).eq.1) then
-               !
-               !                 Lagrangian strain
-               !
-               exx=exx+(vkl(1,1)**2+vkl(2,1)**2+vkl(3,1)**2)/2.d0
-               eyy=eyy+(vkl(1,2)**2+vkl(2,2)**2+vkl(3,2)**2)/2.d0
-               ezz=ezz+(vkl(1,3)**2+vkl(2,3)**2+vkl(3,3)**2)/2.d0
-               exy=exy+vkl(1,1)*vkl(1,2)+vkl(2,1)*vkl(2,2)+&
-                    vkl(3,1)*vkl(3,2)
-               exz=exz+vkl(1,1)*vkl(1,3)+vkl(2,1)*vkl(2,3)+&
-                    vkl(3,1)*vkl(3,3)
-               eyz=eyz+vkl(1,2)*vkl(1,3)+vkl(2,2)*vkl(2,3)+&
-                    vkl(3,2)*vkl(3,3)
-            !
-            !           for frequency analysis or buckling with preload the
-            !           strains are calculated with respect to the deformed
-            !           configuration
-            !
-            elseif(iperturb(1).eq.1) then
-               exx=exx+vokl(1,1)*vkl(1,1)+vokl(2,1)*vkl(2,1)+&
-                    vokl(3,1)*vkl(3,1)
-               eyy=eyy+vokl(1,2)*vkl(1,2)+vokl(2,2)*vkl(2,2)+&
-                    vokl(3,2)*vkl(3,2)
-               ezz=ezz+vokl(1,3)*vkl(1,3)+vokl(2,3)*vkl(2,3)+&
-                    vokl(3,3)*vkl(3,3)
-               exy=exy+vokl(1,1)*vkl(1,2)+vokl(1,2)*vkl(1,1)+&
-                    vokl(2,1)*vkl(2,2)+vokl(2,2)*vkl(2,1)+&
-                    vokl(3,1)*vkl(3,2)+vokl(3,2)*vkl(3,1)
-               exz=exz+vokl(1,1)*vkl(1,3)+vokl(1,3)*vkl(1,1)+&
-                    vokl(2,1)*vkl(2,3)+vokl(2,3)*vkl(2,1)+&
-                    vokl(3,1)*vkl(3,3)+vokl(3,3)*vkl(3,1)
-               eyz=eyz+vokl(1,2)*vkl(1,3)+vokl(1,3)*vkl(1,2)+&
-                    vokl(2,2)*vkl(2,3)+vokl(2,3)*vkl(2,2)+&
-                    vokl(3,2)*vkl(3,3)+vokl(3,3)*vkl(3,2)
-            endif
-            !
-            !              storing the local strains
-            !
-            if(iperturb(1).ne.-1) then
-               eloc(1)=exx
-               eloc(2)=eyy
-               eloc(3)=ezz
-               eloc(4)=exy/2.d0
-               eloc(5)=exz/2.d0
-               eloc(6)=eyz/2.d0
-            else
-               !
-               !              linear iteration within a nonlinear increment:
-               !
-               eloc(1)=vokl(1,1)+&
-                 (vokl(1,1)**2+vokl(2,1)**2+vokl(3,1)**2)/2.d0
-               eloc(2)=vokl(2,2)+&
-                 (vokl(1,2)**2+vokl(2,2)**2+vokl(3,2)**2)/2.d0
-               eloc(3)=vokl(3,3)+&
-                 (vokl(1,3)**2+vokl(2,3)**2+vokl(3,3)**2)/2.d0
-               eloc(4)=(vokl(1,2)+vokl(2,1)+vokl(1,1)*vokl(1,2)+&
-                    vokl(2,1)*vokl(2,2)+vokl(3,1)*vokl(3,2))/2.d0
-               eloc(5)=(vokl(1,3)+vokl(3,1)+vokl(1,1)*vokl(1,3)+&
-                    vokl(2,1)*vokl(2,3)+vokl(3,1)*vokl(3,3))/2.d0
-               eloc(6)=(vokl(2,3)+vokl(3,2)+vokl(1,2)*vokl(1,3)+&
-                    vokl(2,2)*vokl(2,3)+vokl(3,2)*vokl(3,3))/2.d0
-            endif
+            ! !           attention! exy,exz and eyz are engineering strains!
+            ! !
+            !             exx=vkl(1,1)
+            !             eyy=vkl(2,2)
+            !             ezz=vkl(3,3)
+            !             exy=vkl(1,2)+vkl(2,1)
+            !             exz=vkl(1,3)+vkl(3,1)
+            !             eyz=vkl(2,3)+vkl(3,2)
+            ! !
+            !             if(iperturb(2).eq.1) then
+            ! !
+            ! !                 Lagrangian strain
+            ! !
+            !                exx=exx+(vkl(1,1)**2+vkl(2,1)**2+vkl(3,1)**2)/2.d0
+            !                eyy=eyy+(vkl(1,2)**2+vkl(2,2)**2+vkl(3,2)**2)/2.d0
+            !                ezz=ezz+(vkl(1,3)**2+vkl(2,3)**2+vkl(3,3)**2)/2.d0
+            !                exy=exy+vkl(1,1)*vkl(1,2)+vkl(2,1)*vkl(2,2)+
+            !      &              vkl(3,1)*vkl(3,2)
+            !                exz=exz+vkl(1,1)*vkl(1,3)+vkl(2,1)*vkl(2,3)+
+            !      &              vkl(3,1)*vkl(3,3)
+            !                eyz=eyz+vkl(1,2)*vkl(1,3)+vkl(2,2)*vkl(2,3)+
+            !      &              vkl(3,2)*vkl(3,3)
+            ! !
+            ! !           for frequency analysis or buckling with preload the
+            ! !           strains are calculated with respect to the deformed
+            ! !           configuration
+            ! !
+            !             elseif(iperturb(1).eq.1) then
+            !                exx=exx+vokl(1,1)*vkl(1,1)+vokl(2,1)*vkl(2,1)+
+            !      &              vokl(3,1)*vkl(3,1)
+            !                eyy=eyy+vokl(1,2)*vkl(1,2)+vokl(2,2)*vkl(2,2)+
+            !      &              vokl(3,2)*vkl(3,2)
+            !                ezz=ezz+vokl(1,3)*vkl(1,3)+vokl(2,3)*vkl(2,3)+
+            !      &              vokl(3,3)*vkl(3,3)
+            !                exy=exy+vokl(1,1)*vkl(1,2)+vokl(1,2)*vkl(1,1)+
+            !      &              vokl(2,1)*vkl(2,2)+vokl(2,2)*vkl(2,1)+
+            !      &              vokl(3,1)*vkl(3,2)+vokl(3,2)*vkl(3,1)
+            !                exz=exz+vokl(1,1)*vkl(1,3)+vokl(1,3)*vkl(1,1)+
+            !      &              vokl(2,1)*vkl(2,3)+vokl(2,3)*vkl(2,1)+
+            !      &              vokl(3,1)*vkl(3,3)+vokl(3,3)*vkl(3,1)
+            !                eyz=eyz+vokl(1,2)*vkl(1,3)+vokl(1,3)*vkl(1,2)+
+            !      &              vokl(2,2)*vkl(2,3)+vokl(2,3)*vkl(2,2)+
+            !      &              vokl(3,2)*vkl(3,3)+vokl(3,3)*vkl(3,2)
+            !             endif
+            ! !
+            ! !              storing the local strains
+            ! !
+            !             if(iperturb(1).ne.-1) then
+            !                eloc(1)=exx
+            !                eloc(2)=eyy
+            !                eloc(3)=ezz
+            !                eloc(4)=exy/2.d0
+            !                eloc(5)=exz/2.d0
+            !                eloc(6)=eyz/2.d0
+            !             else
+            ! !
+            ! !              linear iteration within a nonlinear increment:
+            ! !
+            !                eloc(1)=vokl(1,1)+
+            !      &           (vokl(1,1)**2+vokl(2,1)**2+vokl(3,1)**2)/2.d0
+            !                eloc(2)=vokl(2,2)+
+            !      &           (vokl(1,2)**2+vokl(2,2)**2+vokl(3,2)**2)/2.d0
+            !                eloc(3)=vokl(3,3)+
+            !      &           (vokl(1,3)**2+vokl(2,3)**2+vokl(3,3)**2)/2.d0
+            !                eloc(4)=(vokl(1,2)+vokl(2,1)+vokl(1,1)*vokl(1,2)+
+            !      &              vokl(2,1)*vokl(2,2)+vokl(3,1)*vokl(3,2))/2.d0
+            !                eloc(5)=(vokl(1,3)+vokl(3,1)+vokl(1,1)*vokl(1,3)+
+            !      &              vokl(2,1)*vokl(2,3)+vokl(3,1)*vokl(3,3))/2.d0
+            !                eloc(6)=(vokl(2,3)+vokl(3,2)+vokl(1,2)*vokl(1,3)+
+            !      &              vokl(2,2)*vokl(2,3)+vokl(3,2)*vokl(3,3))/2.d0
+            !             endif
             !
             !                 calculating the deformation gradient (needed to
             !                 convert the element stiffness matrix from spatial
@@ -819,7 +825,8 @@
                      enddo
                   elseif(lakonl(4:6).eq.'20 ') then
                      nopered=20
-                     call lintemp(t0,t1,konl,nopered,jj,t0l,t1l)
+                     call lintemp(t0,konl,nopered,jj,t0l)
+                     call lintemp(t1,konl,nopered,jj,t1l)
                   elseif(lakonl(4:6).eq.'10T') then
                      call linscal10(t0,konl,t0l,null,shp)
                      call linscal10(t1,konl,t1l,null,shp)
@@ -838,7 +845,8 @@
                      enddo
                   elseif(lakonl(4:6).eq.'20 ') then
                      nopered=20
-                     call lintemp_th(t0,vold,konl,nopered,jj,t0l,t1l,mi)
+                     call lintemp_th0(t0,konl,nopered,jj,t0l,mi)
+                     call lintemp_th1(vold,konl,nopered,jj,t1l,mi)
                   elseif(lakonl(4:6).eq.'10T') then
                      call linscal10(t0,konl,t0l,null,shp)
                      call linscal10(vold,konl,t1l,mi(2),shp)
@@ -881,9 +889,10 @@
             !           determining the mechanical strain
             !
             if(ithermal(1).ne.0) then
-               do m1=1,6
-                  emec(m1)=eloc(m1)-eth(m1)
-               enddo
+               call calcmechstrain(vkl,vokl,emec,eth,iperturb)
+            !                do m1=1,6
+            !                   emec(m1)=eloc(m1)-eth(m1)
+            !                enddo
             else
                do m1=1,6
                   emec(m1)=eloc(m1)
@@ -940,12 +949,12 @@
                !                    in a quasi-static way (only applies to
                !                    quasi-static analyses (*STATIC))
                !
-               eloc(1)=exx-vokl(1,1)
-               eloc(2)=eyy-vokl(2,2)
-               eloc(3)=ezz-vokl(3,3)
-               eloc(4)=exy-(vokl(1,2)+vokl(2,1))
-               eloc(5)=exz-(vokl(1,3)+vokl(3,1))
-               eloc(6)=eyz-(vokl(2,3)+vokl(3,2))
+               eloc(1)=elineng(1)-vokl(1,1)
+               eloc(2)=elineng(2)-vokl(2,2)
+               eloc(3)=elineng(3)-vokl(3,3)
+               eloc(4)=elineng(4)-(vokl(1,2)+vokl(2,1))
+               eloc(5)=elineng(5)-(vokl(1,3)+vokl(3,1))
+               eloc(6)=elineng(6)-(vokl(2,3)+vokl(3,2))
                !
                if(mattyp.eq.1) then
                   e=elas(1)
@@ -1000,30 +1009,50 @@
             if((iout.gt.0).or.(iout.eq.-2).or.(kode.le.-100).or.&
                ((nmethod.eq.4).and.&
                 ((iperturb(1).gt.1).and.(nlgeom_undo.eq.0)).and.&
-                (ithermal(1).le.1))) then
-               if(ithermal(1).eq.0) then
-                  do m1=1,6
-                     eth(m1)=0.d0
-                  enddo
-               endif
+                 (ithermal(1).le.1))) then
+               !
+               !                if(ithermal(1).eq.0) then
+               !                   do m1=1,6
+               !                      eth(m1)=0.d0
+               !                   enddo
+               !                endif
+               !                if(nener.eq.1) then
+               !                   ener(jj,i)=enerini(jj,i)+
+               !      &                 ((eloc(1)-eth(1)-emeini(1,jj,i))*
+               !      &                  (stre(1)+stiini(1,jj,i))+
+               !      &                  (eloc(2)-eth(2)-emeini(2,jj,i))*
+               !      &                  (stre(2)+stiini(2,jj,i))+
+               !      &                  (eloc(3)-eth(3)-emeini(3,jj,i))*
+               !      &                  (stre(3)+stiini(3,jj,i)))/2.d0+
+               !      &         (eloc(4)-eth(4)-emeini(4,jj,i))*(stre(4)+stiini(4,jj,i))+
+               !      &         (eloc(5)-eth(5)-emeini(5,jj,i))*(stre(5)+stiini(5,jj,i))+
+               !      &         (eloc(6)-eth(6)-emeini(6,jj,i))*(stre(6)+stiini(6,jj,i))
+               !                endif
+               !                eme(1,jj,i)=eloc(1)-eth(1)
+               !                eme(2,jj,i)=eloc(2)-eth(2)
+               !                eme(3,jj,i)=eloc(3)-eth(3)
+               !                eme(4,jj,i)=eloc(4)-eth(4)
+               !                eme(5,jj,i)=eloc(5)-eth(5)
+               !                eme(6,jj,i)=eloc(6)-eth(6)
+               !
                if(nener.eq.1) then
                   ener(jj,i)=enerini(jj,i)+&
-                       ((eloc(1)-eth(1)-emeini(1,jj,i))*&
+                       ((emec(1)-emeini(1,jj,i))*&
                         (stre(1)+stiini(1,jj,i))+&
-                        (eloc(2)-eth(2)-emeini(2,jj,i))*&
+                        (emec(2)-emeini(2,jj,i))*&
                         (stre(2)+stiini(2,jj,i))+&
-                        (eloc(3)-eth(3)-emeini(3,jj,i))*&
+                        (emec(3)-emeini(3,jj,i))*&
                         (stre(3)+stiini(3,jj,i)))/2.d0+&
-               (eloc(4)-eth(4)-emeini(4,jj,i))*(stre(4)+stiini(4,jj,i))+&
-               (eloc(5)-eth(5)-emeini(5,jj,i))*(stre(5)+stiini(5,jj,i))+&
-               (eloc(6)-eth(6)-emeini(6,jj,i))*(stre(6)+stiini(6,jj,i))
+               (emec(4)-emeini(4,jj,i))*(stre(4)+stiini(4,jj,i))+&
+               (emec(5)-emeini(5,jj,i))*(stre(5)+stiini(5,jj,i))+&
+               (emec(6)-emeini(6,jj,i))*(stre(6)+stiini(6,jj,i))
                endif
-               eme(1,jj,i)=eloc(1)-eth(1)
-               eme(2,jj,i)=eloc(2)-eth(2)
-               eme(3,jj,i)=eloc(3)-eth(3)
-               eme(4,jj,i)=eloc(4)-eth(4)
-               eme(5,jj,i)=eloc(5)-eth(5)
-               eme(6,jj,i)=eloc(6)-eth(6)
+               eme(1,jj,i)=emec(1)
+               eme(2,jj,i)=emec(2)
+               eme(3,jj,i)=emec(3)
+               eme(4,jj,i)=emec(4)
+               eme(5,jj,i)=emec(5)
+               eme(6,jj,i)=emec(6)
             endif
             !
             if((iout.gt.0).or.(iout.eq.-2).or.(kode.le.-100)) then
@@ -1088,7 +1117,7 @@
                      !
                      !                          nonlinear geometric part
                      !
-                     if((iperturb(2).eq.1).and.(nlgeom_undo.eq.0)) then
+                     if(iperturb(2).eq.1) then
                         do m3=1,3
                            do m4=1,3
                               fn(m2,konl(m1))=fn(m2,konl(m1))+&
@@ -1103,19 +1132,18 @@
                enddo
                !      Bernhardi start
                if(lakonl(1:5).eq.'C3D8R') then
-                  call hgforce (fn,elas,a,gs,vl,mi,konl)
+                  call hgforce(fn,elas,a,gs,vl,mi,konl)
                endif
             !      Bernhardi end
             endif
             !
             !           calculation of the Cauchy stresses
             !
-            if((calcul_cauchy.eq.1).and.(nlgeom_undo.eq.0)) then
+            if(calcul_cauchy.eq.1) then
                !
                !              changing the displacement gradients into
                !              deformation gradients
                !
-               !                if(kode.ne.-50) then
                if((kode.ne.-50).and.(kode.gt.-100)) then
                   !      Bernhardi start
                   xkl(1,1)=vkl(1,1)+1.0d0
@@ -1171,6 +1199,30 @@
             enddo
             nal=nal+3*nope
          endif
+         
+         !        Calculation of additional kinetic energy if selevtive mass scaling
+         !        is used: E_kin_add= v^T *lamda *v *0.5
+         !
+         if((ikin.eq.1).and.&
+            ((mscalmethod.eq.1).or.(mscalmethod.eq.3)))then
+            do m1=1,3
+               sum2=0.d0
+               do i1=1,nope
+                  sum1=0.d0
+                  do j1=1,nope
+                    if(i1.eq.j1)then
+                      scal=smscale(i)*(nope-1)
+                    else
+                      scal=-1*smscale(i)
+                    endif
+                    sum1=sum1+(veoldl(m1,j1))*scal
+                  enddo
+                  sum2=sum2+sum1*veoldl(m1,i1)
+                enddo
+                enerscal=enerscal+sum2
+             enddo
+         endif
+      !
       enddo
       !
       return

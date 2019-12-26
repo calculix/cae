@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2018 Guido Dhondt                          */
+/*              Copyright (C) 1998-2019 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -34,7 +34,7 @@ static ITG *nk1,*kon1,*ipkon1,*ne1,*nodeboun1,*ndirboun1,*nboun1,
     *nshcon1,*ncocon1,*istep1,*iinc1,*coriolis1,*ibody1,*nstate1_,
     *integerglob1,*istartset1,*iendset1,*ialset1,*ntie1,*nasym1,
     *mortar1,*ielprop1,*ne01,num_cpus,*kscale1,*iponoel1,*inoel1,
-    *network1,*neapar=NULL,*nebpar=NULL;
+    *network1,*neapar=NULL,*nebpar=NULL,*mscalmethod1;
 
 static double *co1,*xboun1,*coefmpc1,*xforc1,*xload1,*xbody1,*cgr1,
     *ad1=NULL,*au1=NULL,*fext1=NULL,*elcon1,*rhcon1,*alcon1,*alzero1,
@@ -42,7 +42,7 @@ static double *co1,*xboun1,*coefmpc1,*xforc1,*xload1,*xbody1,*cgr1,
     *plicon1,*plkcon1,*xstiff1,*dtime1,*physcon1,*shcon1,*cocon1,
     *ttime1,*time1,*xloadold1,*reltime1,*veold1,*springarea1,
     *xstateini1,*xstate1,*thicke1,*doubleglob1,*pslavsurf1,*pmastsurf1,
-    *clearini1,*prop1,*fnext1=NULL;
+    *clearini1,*prop1,*fnext1=NULL,*smscale1;
 
 void mafillsmmain(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
 	       ITG *ne,ITG *nodeboun,ITG *ndirboun,double *xboun, 
@@ -77,7 +77,8 @@ void mafillsmmain(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
 	       ITG *nasym,double *pslavsurf,double *pmastsurf,ITG *mortar,
 	       double *clearini,ITG *ielprop,double *prop,ITG *ne0,
 	       double *fnext,ITG *kscale,ITG *iponoel,ITG *inoel,
-	       ITG *network,ITG *ntrans,ITG *inotr,double *trab){
+	       ITG *network,ITG *ntrans,ITG *inotr,double *trab,
+	       double *smscale,ITG *mscalmethod){
 
     ITG i,j,mt=mi[1]+1;
       
@@ -228,7 +229,8 @@ void mafillsmmain(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
     iendset1=iendset;ialset1=ialset;ntie1=ntie;nasym1=nasym;
     pslavsurf1=pslavsurf;pmastsurf1=pmastsurf;mortar1=mortar;
     clearini1=clearini;ielprop1=ielprop;prop1=prop;ne01=ne0;kscale1=kscale;
-    iponoel1=iponoel;inoel1=inoel;network1=network;  
+    iponoel1=iponoel;inoel1=inoel;network1=network;
+    smscale1=smscale;mscalmethod1=mscalmethod;  
 
     /* calculating the stiffness/mass */
     
@@ -474,7 +476,8 @@ void *mafillsmmt(ITG *i){
             xstateini1,xstate1,thicke1,integerglob1,doubleglob1,
 	    tieset1,istartset1,iendset1,ialset1,ntie1,nasym1,pslavsurf1,
 	    pmastsurf1,mortar1,clearini1,ielprop1,prop1,ne01,
-	    &fnext1[indexfnext],&nea,&neb,kscale1,iponoel1,inoel1,network1));
+	    &fnext1[indexfnext],&nea,&neb,kscale1,iponoel1,inoel1,network1,
+	    smscale1,mscalmethod1));
 
     return NULL;
 }

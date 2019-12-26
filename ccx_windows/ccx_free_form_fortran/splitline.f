@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -62,7 +62,8 @@
                            '*ERROR in splitline: there should not'
                         write(*,*)'       be more than 16 entries in a '
                         write(*,*) '       line; '
-                        write(*,'(a1320)') text(1:k-1)
+                        write(*,'(a)') text(1:k-1)
+                        !                         write(*,'(a1320)') text(1:k-1)
                         call exit(201)
                      endif
                   endif

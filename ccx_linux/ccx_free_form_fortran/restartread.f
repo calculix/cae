@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 !
       subroutine restartread(istep,nset,nload,nforc, nboun,nk,ne,&
         nmpc,nalset,nmat,ntmat_,npmat_,norien,nam,nprint,mi,&
-        ntrans,ncs_,namtot_,ncmat_,mpcfree,maxlenmpc,&
+        ntrans,ncs_,namtot,ncmat_,mpcfree,maxlenmpc,&
         ne1d,ne2d,nflow,nlabel,iplas,&
         nkon,ithermal,nmethod,iperturb,nstate_,nener,set,istartset,&
         iendset,ialset,co,kon,ipkon,lakon,nodeboun,ndirboun,iamboun,&
@@ -35,12 +35,13 @@
         cbody,ibody,xbody,nbody,xbodyold,ttime,qaold,cs,mcs,&
         output,physcon,ctrl,typeboun,fmpc,tieset,ntie,tietol,nslavs,&
         t0g,t1g,nprop,ielprop,prop,mortar,nintpoint,ifacecount,&
-        islavsurf,pslavsurf,clearini,irstrt,vel,nef,velo,veloo)
+        islavsurf,pslavsurf,clearini,irstrt,vel,nef,velo,veloo,&
+        ne2boun)
       !
       implicit none
       !
       character*1 typeboun(*)
-      character*3 output
+      character*4 output
       character*6 prlab(*)
       character*8 lakon(*)
       character*20 labmpc(*),sideload(*)
@@ -51,7 +52,7 @@
       !
       integer istep,nset,nload,nforc,nboun,nk,ne,nmpc,nalset,nmat,&
         ntmat_,npmat_,norien,nam,nprint,mi(*),ntrans,ncs_,&
-        namtot_,ncmat_,mpcfree,ne1d,ne2d,nflow,nlabel,iplas,nkon,&
+        namtot,ncmat_,mpcfree,ne1d,ne2d,nflow,nlabel,iplas,nkon,&
         ithermal,nmethod,iperturb(*),nstate_,istartset(*),iendset(*),&
         ialset(*),kon(*),ipkon(*),nodeboun(*),ndirboun(*),iamboun(*),&
         ikboun(*),ilboun(*),ipompc(*),nodempc(*),ikmpc(*),ilmpc(*),&
@@ -63,7 +64,8 @@
         iponor(*),knor(*),iponoel(*),inoel(*),rig(*),&
         nshcon(*),ncocon(*),ics(*),infree(*),i,ipos,&
         nener,irestartstep,istat,iprestr,irstrt(*),&
-        maxlenmpc,mcs,mpcend,ntie,ibody(*),nbody,nslavs,nef
+        maxlenmpc,mcs,mpcend,ntie,ibody(*),nbody,nslavs,nef,&
+        ne2boun(*)
       !
       real*8 co(*),xboun(*),coefmpc(*),xforc(*),xload(*),elcon(*),&
         rhcon(*),alcon(*),alzero(*),plicon(*),plkcon(*),orab(*),&
@@ -153,7 +155,7 @@
          !        amplitude size
          !
          read(15)nam
-         read(15)namtot_
+         read(15)namtot
          !
          !        print size
          !
@@ -389,6 +391,7 @@
          read(15)(iponoel(i),i=1,infree(4))
          read(15)(inoel(i),i=1,3*(infree(3)-1))
          read(15)(rig(i),i=1,infree(4))
+         read(15)(ne2boun(i),i=1,2*infree(4))
       endif
       !
       !     tie constraints

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -469,7 +469,7 @@
                   do l=1,3
                      c(k,l)=0.d0
                      do m=1,3
-                        c(k,l)=b(k,m)*a(m,l)
+                        c(k,l)=c(k,l)+b(k,m)*a(m,l)
                      enddo
                   enddo
                enddo
@@ -477,7 +477,7 @@
                   do l=k,3
                      b(k,l)=0.d0
                      do m=1,3
-                        b(k,l)=a(m,k)*c(m,l)
+                        b(k,l)=b(k,l)+a(m,k)*c(m,l)
                      enddo
                   enddo
                enddo
@@ -523,15 +523,17 @@
                b(3,2)=b(2,3)
                do k=1,3
                   do l=1,3
+                     c(k,l)=0.d0
                      do m=1,3
-                        c(k,l)=b(k,m)*a(m,l)
+                        c(k,l)=c(k,l)+b(k,m)*a(m,l)
                      enddo
                   enddo
                enddo
                do k=1,3
                   do l=k,3
+                     b(k,l)=0.d0
                      do m=1,3
-                        b(k,l)=a(m,k)*c(m,l)
+                        b(k,l)=b(k,l)+a(m,k)*c(m,l)
                      enddo
                   enddo
                enddo

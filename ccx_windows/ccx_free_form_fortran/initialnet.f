@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -30,7 +30,7 @@
            rhcon,nrhcon,ipobody,ibody,xbodyact,co,nbody,network,&
            iin_abs,vold,set,istep,iit,mi,ineighe,ilboun,ichannel,&
            iaxial,nmpc,labmpc,ipompc,nodempc,coefmpc,ttime,time,&
-           iponoel,inoel,voldwithspc)
+           iponoel,inoel)
       !
       implicit none
      
@@ -55,19 +55,18 @@
            tg2,gastemp,physcon(*),pressmin,dvi,rho,g(3),z1,z2,&
            rhcon(0:1,ntmat_,*),co(3,*),xbodyact(7,*),kappa,&
            A,Tt,pt,Ts,pressmax,constant,vold(0:mi(2),*),&
-           coefmpc(*),ttime,time,xflow360,A2,d,l,s,&
-           voldwithspc(0:mi(2),*)
+           coefmpc(*),ttime,time,xflow360,A2,d,l,s
       !
       intent(in) itg,ieg,ntg,lakon,&
            ipkon,kon,nflow,ikboun,nboun,prop,ielprop,&
            nactdog,ndirboun,nodeboun,xbounact,&
            ielmat,ntmat_,shcon,nshcon,physcon,ipiv,nteq,&
            rhcon,nrhcon,ipobody,ibody,xbodyact,co,nbody,network,&
-           iin_abs,vold,set,istep,iit,mi,ilboun,&
+           iin_abs,set,istep,iit,mi,ilboun,&
            iaxial,nmpc,labmpc,ipompc,nodempc,coefmpc,ttime,time,&
            iponoel,inoel
       !
-      intent(inout) ichannel,v,ac,bc,ineighe,voldwithspc
+      intent(inout) ichannel,v,ac,bc,ineighe,vold
       !
       kflag=1
       ider=0
@@ -78,7 +77,7 @@
       !
       do j=1,nboun
          v(ndirboun(j),nodeboun(j))=xbounact(j)
-         voldwithspc(ndirboun(j),nodeboun(j))=xbounact(j)
+         vold(ndirboun(j),nodeboun(j))=xbounact(j)
       enddo
       !
       !     check for channel elements
@@ -108,7 +107,7 @@
          !
          call preinitialnet(ieg,lakon,v,ipkon,kon,nflow,prop,ielprop,&
            ielmat,ntmat_,shcon,nshcon,rhcon,nrhcon,mi,iponoel,inoel,&
-           itg,ntg)
+              itg,ntg)
          !
          !     determining whether pressure initial conditions
          !     are provided for all nodes
@@ -157,6 +156,7 @@
             !
             if(iin_abs.eq.0) then
                if ((lakon(nelem)(2:5).eq.'GAPF').or.&
+                   (lakon(nelem)(2:5).eq.'GAPR').or.&
                    ((lakon(nelem)(2:3).eq.'RE')&
                     .and.(lakon(nelem)(2:7).ne.'REWAOR')).or.&
                    (lakon(nelem)(2:3).eq.'UP')) then
@@ -715,10 +715,15 @@
                endif
             endif
             !
-            !           calculating flux if the flux is an unknown AND there was
-            !           no initial flux defined by the user
+            !            calculating flux if the flux is an unknown; any initial
+            !            flux defined by the user is checked on plausibility
             !
-            if((nactdog(1,nodem).ne.0).and.(v(1,nodem).eq.0.d0)) then
+            ! !
+            ! !           calculating flux if the flux is an unknown AND there was
+            ! !           no initial flux defined by the user
+            ! !
+            !             if((nactdog(1,nodem).ne.0).and.(v(1,nodem).eq.0.d0)) then
+            if(nactdog(1,nodem).ne.0) then
                call flux(node1,node2,nodem,nelem,lakon,kon,ipkon,&
                  nactdog,identity,ielprop,prop,kflag,v,xflow,f,&
                  nodef,idirf,df,cp,r,rho,physcon,g,co,dvi,numf,&
@@ -729,6 +734,7 @@
             !
             if((lakon(nelem)(2:4).ne.'LIP').and.&
                (lakon(nelem)(2:3).ne.'VO').and.&
+               (lakon(nelem)(2:5).ne.'GAPR').and.&
                (lakon(nelem)(2:4).ne.'ATR').and.&
                (lakon(nelem)(2:4).ne.'RTA')) then
                if(v(1,nodem).eq.0d0) then
@@ -766,7 +772,7 @@
       !
       call postinitialnet(ieg,lakon,v,ipkon,kon,nflow,prop,ielprop,&
            ielmat,ntmat_,shcon,nshcon,rhcon,nrhcon,mi,iponoel,inoel,&
-           itg,ntg)
+           itg,ntg,nactdog)
       !
       !     calculating the static temperature for nodes belonging to gas pipes
       !     and restrictors (except RESTRICTOR WALL ORIFICE)
@@ -866,6 +872,17 @@
                      icase=1
                   endif     
                !
+               elseif(lakon(nelem)(2:5).eq.'GAPR') then
+                  !
+                  !                 rotating adiabatic gas pipe with variable cross section:
+                  !                 check whether section 1 or 2
+                  !
+                  if(kon(ipkon(nelem)+1).eq.node) then
+                     A=prop(index+1)
+                  else
+                     A=prop(index+2)
+                  endif
+                  icase=0
                elseif(lakon(nelem)(2:3).eq.'RE') then
                   index2=ipkon(nelem)
                   node1=kon(index2+1)
@@ -924,7 +941,6 @@
                   !
                   call calcgeomelemnet(vold,co,prop,lakon,nelem,&
                              ttime,time,ielprop,mi,A,A2,d,l,s)
-                  !                   A=prop(index+1)
                   icase=0
                endif
                !
@@ -950,10 +966,10 @@
       !      &      v(1,itg(i)),v(2,itg(i)),ineighe(i)
       enddo
       !
-      !       write(*,*) 'initialnet '
-      !       do i=1,ntg
-      !          write(*,'(i10,3(1x,e11.4))') itg(i),(v(j,itg(i)),j=0,2)
-      !       enddo
+      write(*,*) 'initialnet '
+      do i=1,ntg
+         write(*,'(i10,3(1x,e11.4))') itg(i),(v(j,itg(i)),j=0,2)
+      enddo
       !
       return
       end

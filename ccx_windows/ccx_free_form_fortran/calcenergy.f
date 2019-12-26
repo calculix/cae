@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine calcenergy(ipkon,lakon,kon,co,ener,mi,ne,&
-           thicke,ielmat,energyini,energy,ielprop,prop)
+           thicke,ielmat,energy,ielprop,prop,nea,neb)
       !
       !     calculates the energy in a *DYNAMIC calculation
       !
@@ -27,16 +27,16 @@
       !
       integer ipkon(*),nelem,kon(*),mi(*),nope,indexe,i,j,k,&
         konl(20),mint3d,jj,iflag,ne,ki,kl,ilayer,nlayer,kk,&
-        nopes,ielmat(mi(3),*),mint2d,null,ielprop(*)
+        nopes,ielmat(mi(3),*),mint2d,null,ielprop(*),nea,neb
       !
       real*8 ener(mi(1),*),enerinttot,enerint,co(3,*),prop(*),&
         xl(3,20),xi,et,ze,xsj,shp(4,20),weight,enerkintot,enerkin,&
-        a,gs(8,4),dlayer(4),tlayer(4),thickness,energyini(*),&
+        a,gs(8,4),dlayer(4),tlayer(4),thickness,&
         thicke(mi(3),*),xlayer(mi(3),4),shp2(7,8),xs2(3,7),xsj2(3),&
         xl2(3,8),energy(*),enerelctot,enervictot,enerelc,enervic
       !
       intent(in) ipkon,lakon,kon,co,ener,mi,ne,&
-           thicke,ielmat,energyini,ielprop,prop
+           thicke,ielmat,ielprop,prop,nea,neb
       !
       intent(inout) energy
       !
@@ -48,9 +48,9 @@
       enerinttot=0.d0
       enerkintot=0.d0
       enerelctot=0.d0
-      enervictot=energyini(4)
+      enervictot=0.d0
       !
-      do nelem=1,ne
+      do nelem=nea,neb
          if(ipkon(nelem).lt.0) cycle
          !
          lakonl=lakon(nelem)
@@ -211,10 +211,10 @@
                weight=weight3d1(jj)
             elseif(lakonl(4:7).eq.'20RB') then
                if((lakonl(8:8).eq.'R').or.(lakonl(8:8).eq.'C')) then
-                  xi=gauss3d13(1,kk)
-                  et=gauss3d13(2,kk)
-                  ze=gauss3d13(3,kk)
-                  weight=weight3d13(kk)
+                  xi=gauss3d13(1,jj)
+                  et=gauss3d13(2,jj)
+                  ze=gauss3d13(3,jj)
+                  weight=weight3d13(jj)
                else
                   call beamintscheme(lakonl,mint3d,ielprop(nelem),prop,&
                        kk,xi,et,ze,weight)

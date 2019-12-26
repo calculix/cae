@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,7 +20,7 @@
         nforc,nload,ithermal,t0,t1,nk,irstrt,istep,istat,n,jmax,ctrl,&
         iline,ipol,inl,ipoinp,inp,newstep,ipoinpc,network,&
         iamplitudedefault,amname,nam,nam_,namta,amta,namtot,&
-        nstam,ier,namtot_)
+        nstam,ier,namtot_,physcon)
       !
       !     reading the input deck: *STEP
       !
@@ -36,7 +36,7 @@
         newstep,nbody,ipoinpc(0:*),network,iamplitudedefault,nam,&
         nam_,namta(3,*),namtot,nstam,ier
       !
-      real*8 t0(*),t1(*),ctrl(*),amta(2,*)
+      real*8 t0(*),t1(*),ctrl(*),amta(2,*),physcon(*)
       !
       if(newstep.eq.1) then
          write(*,*) '*ERROR reading *STEP: *STEP statement detected'
@@ -229,6 +229,13 @@
                   endif
                enddo
             endif
+         elseif(textpart(i)(1:15).eq.'SHOCKSMOOTHING=') then
+            !
+            !           reading the shock smoothing parameter for compressible
+            !           cfd-calculations
+            !
+            read(textpart(i)(16:35),'(f20.0)',iostat=istat) physcon(14)
+            if(istat.gt.0) call inputerror(inpc,ipoinpc,iline)
          else
             write(*,*)&
                 '*WARNING reading *STEP: parameter not recognized:'

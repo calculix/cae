@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,8 +19,8 @@
       subroutine cflux(flux,msecpt,kstep,kinc,time,node,coords,vold,&
         mi,ipkon,kon,lakon,iponoel,inoel,ielprop,prop,ielmat,&
         shcon,nshcon,rhcon,nrhcon,ntmat_,cocon,ncocon)
-!
-!     user subroutine cflux
+      !
+      !     user subroutine cflux
       !
       !
       !     INPUT:

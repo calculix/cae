@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2018 Guido Dhondt
+!     Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 !
       subroutine postinitialnet(ieg,lakon,v,ipkon,kon,nflow,prop,&
            ielprop,ielmat,ntmat_,shcon,nshcon,rhcon,nrhcon,mi,iponoel,&
-           inoel,itg,ntg)
+           inoel,itg,ntg,nactdog)
       !
       !     this routine only applies to compressible networks
       !
@@ -32,8 +32,8 @@
       !     be identically zero (a zero mass flow leads to convergence problems).
       !
       !     This routine is used for elements in which the pressure gradient
-      !     does not allow to determine the mass flow, e.g. the free vortex
-      !     and the forced vortex
+      !     does not allow to determine the mass flow, e.g. the free vortex,
+      !     the forced vortex and the rotating pipe
       !
       implicit none
       !
@@ -42,7 +42,7 @@
       integer mi(*),ieg(*),nflow,i,ielmat(mi(3),*),ntmat_,node1,node2,&
            nelem,index,nshcon(*),ipkon(*),kon(*),nodem,imat,ielprop(*),&
            nrhcon(*),neighbor,ichange,iponoel(*),inoel(2,*),indexe,&
-           itg(*),ntg,j
+           itg(*),ntg,j,nactdog(0:3,*)
       !
       real*8 prop(*),shcon(0:3,ntmat_,*),xflow,v(0:mi(2),*),cp,r,&
            dvi,rho,rhcon(0:1,ntmat_,*),kappa,cti,Ti,ri,ro,p1zp2,omega,&
@@ -63,7 +63,8 @@
             indexe=ipkon(nelem)
             nodem=kon(indexe+2)
             !
-            if(dabs(v(1,nodem)).le.0.d0) then
+            if((dabs(v(1,nodem)).le.0.d0).and.&
+               (nactdog(1,nodem).ne.0)) then
                !
                !              no initial mass flow given yet
                !              check neighbors for mass flow (only if not

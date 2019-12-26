@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -47,8 +47,7 @@
       igwk(4)=1
       igwk(5)=10
       ligw=20
-       !
-      
+      !
       call dgmres(n,b,x,nelt,ia,ja,a,isym,matvec_struct,&
         msolve_struct,itol,tol,itmax,&
         iter,err,ierr,iunit,sb,sx,rgwk,lrgw,igwk,ligw,rwork,iwork)

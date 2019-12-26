@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -24,7 +24,7 @@
       implicit none
       !
       integer i,j,netet_,iedg(3,*),kontet(4,*),nodee(2),ie(2,6),n,&
-        kflag,idum,node,index,ipoed(*),ifreeed,iedtet(6,*),&
+        node,index,ipoed(*),ifreeed,iedtet(6,*),&
         ieled(2,*),iedge,ifreele,ipoeled(*)
       !
       !     nodes belonging to the six edges
@@ -49,8 +49,9 @@
             nodee(1)=kontet(ie(1,i),j)
             nodee(2)=kontet(ie(2,i),j)
             n=2
-            kflag=1
-            call isortii(nodee,idum,n,kflag)
+            !             kflag=1
+            call insertsorti(nodee,n)
+            !             call isortii(nodee,idum,n,kflag)
             !
             !           check whether edge is already catalogued
             !

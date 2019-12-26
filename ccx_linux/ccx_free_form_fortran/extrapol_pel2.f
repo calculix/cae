@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,20 +16,20 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-      subroutine extrapol_pel2(ipnei,neifa,vfap,area,xxn,volume,gradpel,&
-        nefa,nefb)
+      subroutine extrapol_pel2(ipnei,neifa,vfa,area,xxna,volume,gradpel,&
+        nefa,nefb,ncfd)
       !
       !     calculate the gradient of the pressure at the center of
       !     the elements
       !
       implicit none
       !
-      integer ipnei(*),neifa(*),nefa,nefb,ifa,i,l,indexf
+      integer ipnei(*),neifa(*),nefa,nefb,ifa,i,l,indexf,ncfd
       !
-      real*8 vfap(0:7,*),area(*),xxn(3,*),volume(*),gradpel(3,*)
+      real*8 vfa(0:7,*),area(*),xxna(3,*),volume(*),gradpel(3,*)
       !
-      intent(in) ipnei,neifa,vfap,area,xxn,volume,&
-        nefa,nefb
+      intent(in) ipnei,neifa,vfa,area,xxna,volume,&
+        nefa,nefb,ncfd
       !
       intent(inout) gradpel
       !
@@ -37,21 +37,21 @@
          !
          !        initialization
          !
-         do l=1,3
+         do l=1,ncfd
             gradpel(l,i)=0.d0
          enddo
          !
          do indexf=ipnei(i)+1,ipnei(i+1)
             ifa=neifa(indexf)
-            do l=1,3
+            do l=1,ncfd
                gradpel(l,i)=gradpel(l,i)+&
-                    vfap(4,ifa)*area(ifa)*xxn(l,indexf)
+                    vfa(4,ifa)*xxna(l,indexf)
             enddo
          enddo
          !
          !        dividing by the volume of the element
          !
-         do l=1,3
+         do l=1,ncfd
             gradpel(l,i)=gradpel(l,i)/volume(i)
          enddo
       enddo

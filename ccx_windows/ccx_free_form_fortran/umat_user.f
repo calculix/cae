@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,78 +20,78 @@
               beta,xokl,voj,xkl,vj,ithermal,t1l,dtime,time,ttime,&
               icmd,ielas,mi,nstate_,xstateini,xstate,stre,stiff,&
               iorien,pgauss,orab,pnewdt,ipkon)
-!
-!     calculates stiffness and stresses for a user defined material
-!     law
-!
-!     icmd=3: calcutates stress at mechanical strain
-!     else: calculates stress at mechanical strain and the stiffness
-!           matrix
-!
-!     INPUT:
-!
-!     amat               material name
-!     iel                element number
-!     iint               integration point number
-!
-!     kode               material type (-100-#of constants entered
-!                        under *USER MATERIAL): can be used for materials
-!                        with varying number of constants
-!
-!     elconloc(*)        user defined constants defined by the keyword
-!                        card *USER MATERIAL (actual # =
-!                        -kode-100), interpolated for the
-!                        actual temperature t1l
-!
-!     emec(6)            Lagrange mechanical strain tensor (component order:
-!                        11,22,33,12,13,23) at the end of the increment
-!                        (thermal strains are subtracted)
-!     emec0(6)           Lagrange mechanical strain tensor at the start of the
-!                        increment (thermal strains are subtracted)
-!     beta(6)            residual stress tensor (the stress entered under
-!                        the keyword *INITIAL CONDITIONS,TYPE=STRESS)
-!
-!     xokl(3,3)          deformation gradient at the start of the increment
-!     voj                Jacobian at the start of the increment
-!     xkl(3,3)           deformation gradient at the end of the increment
-!     vj                 Jacobian at the end of the increment
-!
-!     ithermal           0: no thermal effects are taken into account
-!                        >0: thermal effects are taken into account (triggered
-!                        by the keyword *INITIAL CONDITIONS,TYPE=TEMPERATURE)
-!     t1l                temperature at the end of the increment
-!     dtime              time length of the increment
-!     time               step time at the end of the current increment
-!     ttime              total time at the start of the current step
-!
-!     icmd               not equal to 3: calculate stress and stiffness
-!                        3: calculate only stress
-!     ielas              0: no elastic iteration: irreversible effects
-!                        are allowed
-!                        1: elastic iteration, i.e. no irreversible
-!                           deformation allowed
-!
-!     mi(1)              max. # of integration points per element in the
-!                        model
-!     nstate_            max. # of state variables in the model
-!
-!     xstateini(nstate_,mi(1),# of elements)
-!                        state variables at the start of the increment
-!     xstate(nstate_,mi(1),# of elements)
-!                        state variables at the end of the increment
-!
-!     stre(6)            Piola-Kirchhoff stress of the second kind
-!                        at the start of the increment
-!
-!     iorien             number of the local coordinate axis system
-!                        in the integration point at stake (takes the value
-!                        0 if no local system applies)
-!     pgauss(3)          global coordinates of the integration point
-!     orab(7,*)          description of all local coordinate systems.
-!                        If a local coordinate system applies the global
-!                        tensors can be obtained by premultiplying the local
-!                        tensors with skl(3,3). skl is  determined by calling
-!                        the subroutine transformatrix:
+      !
+      !     calculates stiffness and stresses for a user defined material
+      !     law
+      !
+      !     icmd=3: calculates stress at mechanical strain
+      !     else: calculates stress at mechanical strain and the stiffness
+      !           matrix
+      !
+      !     INPUT:
+      !
+      !     amat               material name
+      !     iel                element number
+      !     iint               integration point number
+      !
+      !     kode               material type (-100-#of constants entered
+      !                        under *USER MATERIAL): can be used for materials
+      !                        with varying number of constants
+      !
+      !     elconloc(*)        user defined constants defined by the keyword
+      !                        card *USER MATERIAL (actual # =
+      !                        -kode-100), interpolated for the
+      !                        actual temperature t1l
+      !
+      !     emec(6)            Lagrange mechanical strain tensor (component order:
+      !                        11,22,33,12,13,23) at the end of the increment
+      !                        (thermal strains are subtracted)
+      !     emec0(6)           Lagrange mechanical strain tensor at the start of the
+      !                        increment (thermal strains are subtracted)
+      !     beta(6)            residual stress tensor (the stress entered under
+      !                        the keyword *INITIAL CONDITIONS,TYPE=STRESS)
+      !
+      !     xokl(3,3)          deformation gradient at the start of the increment
+      !     voj                Jacobian at the start of the increment
+      !     xkl(3,3)           deformation gradient at the end of the increment
+      !     vj                 Jacobian at the end of the increment
+      !
+      !     ithermal           0: no thermal effects are taken into account
+      !                        >0: thermal effects are taken into account (triggered
+      !                        by the keyword *INITIAL CONDITIONS,TYPE=TEMPERATURE)
+      !     t1l                temperature at the end of the increment
+      !     dtime              time length of the increment
+      !     time               step time at the end of the current increment
+      !     ttime              total time at the start of the current step
+      !
+      !     icmd               not equal to 3: calculate stress and stiffness
+      !                        3: calculate only stress
+      !     ielas              0: no elastic iteration: irreversible effects
+      !                        are allowed
+      !                        1: elastic iteration, i.e. no irreversible
+      !                           deformation allowed
+      !
+      !     mi(1)              max. # of integration points per element in the
+      !                        model
+      !     nstate_            max. # of state variables in the model
+      !
+      !     xstateini(nstate_,mi(1),# of elements)
+      !                        state variables at the start of the increment
+      !     xstate(nstate_,mi(1),# of elements)
+      !                        state variables at the end of the increment
+      !
+      !     stre(6)            Piola-Kirchhoff stress of the second kind
+      !                        at the start of the increment
+      !
+      !     iorien             number of the local coordinate axis system
+      !                        in the integration point at stake (takes the value
+      !                        0 if no local system applies)
+      !     pgauss(3)          global coordinates of the integration point
+      !     orab(7,*)          description of all local coordinate systems.
+      !                        If a local coordinate system applies the global
+      !                        tensors can be obtained by premultiplying the local
+      !                        tensors with skl(3,3). skl is  determined by calling
+      !                        the subroutine transformatrix:
       !                        call transformatrix(orab(1,iorien),pgauss,skl)
       !
       !

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2018 Guido Dhondt
+!              Copyright (C) 1998-2019 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -21,14 +21,14 @@
         sideload,xload,nload,idist,ttime,time,istep,iinc,dtime,&
         xloadold,reltime,ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,&
         veold,matname,mi,ielprop,prop)
-!
-!     computation of the rhs for the element with
-!     the topology in konl: only for nonlinear calculations (i.e.
-!     the field ff contains no temperature and eigenstress
-!     contributions)
-!
-!     RESTRICTION: the only material parameter occurring in the
-!     loading is the density. In the present subroutine the density
+      !
+      !     computation of the rhs for the element with
+      !     the topology in konl: only for nonlinear calculations (i.e.
+      !     the field ff contains no temperature and eigenstress
+      !     contributions)
+      !
+      !     RESTRICTION: the only material parameter occurring in the
+      !     loading is the density. In the present subroutine the density
       !     is assumed to be temperature INDEPENDENT.
       !
       implicit none
@@ -510,9 +510,9 @@
             else
                call shape3tri(xi,et,xl2,xsj2,xs2,shp2,iflag)
             endif
-!
-!     for nonuniform load: determine the coordinates of the
-!     point (transferred into the user subroutine)
+            !
+            !     for nonuniform load: determine the coordinates of the
+            !     point (transferred into the user subroutine)
             !
             if(sideload(id)(3:4).eq.'NU') then
                do k=1,3
