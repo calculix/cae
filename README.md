@@ -5,15 +5,14 @@ Distributed under GNU General Public License v3.0
 
 
 
-- [Introduction](#calculix-cae)
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Downloads](#downloads)
-- [How to use](#how-to-use)
-- [Your help](#your-help)
-- [For developers](#for-developers)
-- [What's new](#whats-new)
-- [TODO](#todo)
+[Features](#features) |
+[Screenshots](#screenshots) |
+[Downloads](#downloads) |
+[How to use](#how-to-use) |
+[Your help](#your-help) |
+[For developers](#for-developers) |
+[What's new](#whats-new) |
+[TODO](#todo)
 
 <br/><br/>
 
