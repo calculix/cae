@@ -1,0 +1,57 @@
+\par
+\section{Setting the thread type}
+\par
+Once the {\tt Make.inc} file is modified for your system, it's time
+to think about what functionality you want to use.
+The {\bf SPOOLES} library operates in serial, multithreaded and MPI
+environments.
+The code for these three environments is fairly segregated.
+The {\tt MPI} directory contains all source and driver code for MPI
+programs.
+The {\tt MT} directory contains all source and driver code 
+for multithreaded programs.
+All other directories contain serial code.\footnote{
+This is not quite true.
+The {\tt LinSol} directory contains serial, MT and MPI subdirectories,
+but the {\tt LinSol} package is {\it adjunct} to the {\bf SPOOLES}
+library, not part of it.}
+The MPI source code is compiled into a {\tt spoolesMPI.a} library.
+The multithreaded source code is compiled into a {\tt spoolesMT.a} 
+library.
+The serial code is compiled into a {\tt spooles.a} library.
+\par
+If you are going to operate only in serial mode, then you should edit
+one file, {\tt Lock/Lock.h}.
+Here is where we hide the operating system specific details about
+{\it mutual exclusion} locks.
+Presently only POSIX threads are actively supported by the library.
+The original development work was done using Solaris threads, and
+there is some Solaris thread code still in the {\tt Lock} and
+{\tt MT} {\tt src/} directories.
+(The library has also been ported to use the NeXT and WindowsNT
+thread packages, but this code is not included in this release.)
+% (Some work was done using the NeXT thread library, but we have
+% removed this code from the present library.)
+% The {\bf SPOOLES} library has been ported to use WindowsNT threads
+% by a finite element software company,
+% but the changes have not been made available to us.
+The decision to use threads or not, or which thread library to use,
+requires the {\tt Lock/Lock.h} file to be modified.
+Line 9 defines the thread type. It is presently set to POSIX threads.
+\begin{verbatim}
+#define THREAD_TYPE TT_POSIX
+\end{verbatim}
+To use no threads, one would replace this line with the one below.
+\begin{verbatim}
+#define THREAD_TYPE TT_NONE
+\end{verbatim}
+{\tt TT\_POSIX} and {\tt TT\_NONE} are defined in the {\tt Lock/Lock.h}
+file.
+There is also a line to define Solaris threads.
+If you are planning to port the {\bf SPOOLES} library to another 
+thread library, add a {\tt THREAD\_TYPE} define statement and
+modify the definition of the lock in the {\tt Lock} structure.
+The files in {\tt Lock/src} and {\tt MT/src} will also have to be
+modified to use different subroutine calls to create and join
+threads, etc.
+\par

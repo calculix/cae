@@ -1,156 +1,267 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Line search</TITLE>
-<META NAME="description" CONTENT="Line search">
+<TITLE>Contact</TITLE>
+<META NAME="description" CONTENT="Contact">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node187.html">
 <LINK REL="previous" HREF="node185.html">
-<LINK REL="up" HREF="node183.html">
+<LINK REL="up" HREF="node184.html">
 <LINK REL="next" HREF="node187.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3424"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3487"
   HREF="node187.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3420"
-  HREF="node183.html">
+<A NAME="tex2html3483"
+  HREF="node184.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3414"
+<A NAME="tex2html3477"
   HREF="node185.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3422"
+<A NAME="tex2html3485"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3425"
-  HREF="node187.html">Network iterations</A>
-<B> Up:</B> <A NAME="tex2html3421"
-  HREF="node183.html">Convergence criteria</A>
-<B> Previous:</B> <A NAME="tex2html3415"
-  HREF="node185.html">Contact</A>
- &nbsp; <B>  <A NAME="tex2html3423"
+<B> Next:</B> <A NAME="tex2html3488"
+  HREF="node187.html">Line search</A>
+<B> Up:</B> <A NAME="tex2html3484"
+  HREF="node184.html">Convergence criteria</A>
+<B> Previous:</B> <A NAME="tex2html3478"
+  HREF="node185.html">Thermomechanical iterations</A>
+ &nbsp; <B>  <A NAME="tex2html3486"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000710300000000000000">
-Line search</A>
+<H3><A NAME="SECTION000710200000000000000"></A><A NAME="contactconvergence"></A>
+<BR>
+Contact
 </H3>
 
 <P>
-
-<DIV ALIGN="CENTER"><A NAME="linesearch"></A><A NAME="12582"></A>
-<TABLE>
-<CAPTION ALIGN="BOTTOM"><STRONG>Figure 143:</STRONG>
-Principle of the line search method</CAPTION>
-<TR><TD><IMG
- WIDTH="449" HEIGHT="324" BORDER="0"
- SRC="img1517.png"
- ALT="\begin{figure}\epsfig{file=linesearch.eps,width=10cm}\end{figure}"></TD></TR>
-</TABLE>
-</DIV>
+In the presence of contact the convergence conditions in the previous section
+are slightly modified. Let us first repeat the general convergence check
+strategy (coded in checkconvergence.c):
 
 <P>
-In the case of static calculations with face-to-face penalty contact the
-displacement increment <!-- MATH
- $\Delta \boldsymbol{u}$
- -->
-<B><IMG
- WIDTH="29" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img1518.png"
- ALT="$ \Delta \boldsymbol{u}$"></B> in each iteration is scaled
-with a scalar <B><IMG
- WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
- SRC="img41.png"
- ALT="$ \lambda$"></B> in order to get better convergence. <B><IMG
- WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
- SRC="img41.png"
- ALT="$ \lambda$"></B> is
-determined such that the residual (i.e. external force minus internal force) of the scaled solution <!-- MATH
- $\boldsymbol{u} + \lambda
-\Delta \boldsymbol{u}$
- -->
-<B><IMG
- WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1519.png"
- ALT="$ \boldsymbol{u} + \lambda
-\Delta \boldsymbol{u}$"></B> is orthogonal to the displacement increment:
+
+<UL>
+<LI>If, at the end of an iteration, convergence is detected then:
+
+<UL>
+<LI>a new increment is started (unless the step is finished)
+</LI>
+<LI>it is checked whether the size of this increment has to be decreased
+  w.r.t. the present increment size
+  (slow convergence) or can be increased (fast convergence)
+</LI>
+</UL>
+</LI>
+<LI>else (no convergence detected)
+
+<UL>
+<LI>it is checked whether the number of allowable iterations has been
+  reached, if so the program stops
+</LI>
+<LI>it is checked whether divergence occurred in the following order:
+
+<UL>
+<LI>due to non-convergence in a material user subroutine
+</LI>
+<LI>the force residual is larger than in the previous iteration AND larger
+  than in the iteration before the previous iteration (only done after <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1571.png"
+ ALT="$ I_0$"></B></SPAN>
+  iterations). Let us call this check the major divergence check.
+</LI>
+<LI>due to the violation of a user-defined limit
+  (e.g. temperature change limit, viscous strain limit)
+</LI>
+</UL>
+</LI>
+<LI>if divergence is detected then
+
+<UL>
+<LI>if the increment size is fixed by the user
+  the program stops
+</LI>
+<LI>else a new increment is started with a smaller size
+  (unless the size is smaller than a user-defined quantity, in which case the
+  program stops)
+</LI>
+</UL>
+</LI>
+<LI>if no divergence is detected then a check is performed for too slow
+  convergence. If this is the case then
+
+<UL>
+<LI>if the increment size is fixed by the user
+  the program stops
+</LI>
+<LI>else a new increment is started with a smaller size
+  (unless the size is smaller than a user-defined quantity, in which case the
+  program stops)
+</LI>
+</UL>
+</LI>
+<LI>if no divergence is detected and the convergence is not too slow the
+  next iteration is started.
+</LI>
+</UL>
+</LI>
+</UL>
 
 <P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-\Delta \boldsymbol{u} \cdot \boldsymbol{R} (\boldsymbol{u}+ \lambda \Delta
-\boldsymbol{u}) = 0.
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="164" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1520.png"
- ALT="$\displaystyle \Delta \boldsymbol{u} \cdot \boldsymbol{R} (\boldsymbol{u}+ \lambda \Delta \boldsymbol{u}) = 0.$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(451)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
+In the case penalty contact was defined an additional parameter iflagact is
+defined expressing whether the number of contact elements changed
+significantly between the present and the previous iteration. In the latter
+case iflagact=1, else it takes the value zero (default). Whether a change is
+significantly or not is governed by the value of the parameter delcon, which
+the user can define underneath a *CONTROLS,PARAMETERS=CONTACT card (default is
+0.001, i.e. 0.1 %).
 
 <P>
-Now, the residual for <B><IMG
- WIDTH="43" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
- SRC="img1521.png"
- ALT="$ \lambda=0$"></B> is known from the previous increment, and
-the residual for <B><IMG
- WIDTH="43" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
- SRC="img426.png"
- ALT="$ \lambda=1$"></B> is known from the present increment. In between a
-linear relationship is assumed (cf. Figure <A HREF="#linesearch">143</A>), which yields the
-value of <B><IMG
- WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
- SRC="img41.png"
- ALT="$ \lambda$"></B> without extra calculations. With the
-<A HREF="node232.html#controls">*CONTROLS</A> card the user can specify a value for
-<!-- MATH
- $\lambda_{\text{min}}$
- -->
-<B><IMG
- WIDTH="36" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1522.png"
- ALT="$ \lambda_{\text{min}}$"></B> (default: 0.25) and <!-- MATH
- $\lambda_{\text{max}}$
- -->
-<B><IMG
- WIDTH="38" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1523.png"
- ALT="$ \lambda_{\text{max}}$"></B>(default: 1.01).
+Now, in the case of node-to-face penalty contact the standard convergence check algorithm is
+modified as follows:
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
+<UL>
+<LI>If iflagact=1 at the end of the present iteration the counter for <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1571.png"
+ ALT="$ I_0$"></B></SPAN>
+  and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1572.png"
+ ALT="$ I_R$"></B></SPAN> is reset to zero and the value of <SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1568.png"
+ ALT="$ I_C$"></B></SPAN> is incremented by 1. 
+</LI>
+<LI>Mechanical convergence requires iflagact to be zero.
+</LI>
+</UL>
+
+<P>
+In the case of face-to-face penalty contact the criteria are modified as
+follows:
+
+<P>
+
+<UL>
+<LI>Mechanical convergence requires iflagact to be zero.
+</LI>
+<LI>If convergence occurred the check whether the next increment must be
+  decreased is not done
+</LI>
+<LI>If no convergence occurred then
+
+<UL>
+<LI>the check whether the number of allowable iterations has been reached is
+  not done
+</LI>
+<LI>the major divergence check (see above) is only done if one of the
+  following conditions is satisfied:
+
+<UL>
+<LI>the present force residual exceeds 1.e9
+</LI>
+<LI>iflagact is zero (no significant change in contact elements). If, in
+  this case, the major divergence check points to divergence and the solution
+  condition <!-- MATH
+ ${c}^{\alpha}_{i,max} \le c_2 {\Delta u}^{\alpha}_{i,max}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="137" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1546.png"
+ ALT="$ {c}^{\alpha}_{i,max} \le c_2 {\Delta u}^{\alpha}_{i,max}$"></B></SPAN> is
+  satisfied the aleatoric flag is set to 1. Physically, this means that the
+  force residuals are increasing although the displacement solution does not
+  change much, i.e. a local minimum has been reached. In order to leave this
+  minimum a percentage of the contacts (default: 10 %; can be changed
+  with the *CONTROLS,PARAMETERS=CONTACT card) is removed in an aleatoric way
+  in order to stir the complete structure.
+</LI>
+<LI>the number of contact elements is oscillating since the last two
+  iterations (e.g. the number of contact elements increased in the present
+  iteration but decreased in the previous one or vice versa) and there is no
+  significant change in the sum of the residual force in the present and
+  previous iteration (compared to the sum of the residual force in the
+  previous iteration and the one before the previous iteration). Physically
+  this means that solution is alternating between two states.
+</LI>
+</UL>
+</LI>
+<LI>if divergence is detected not only the time increment is decreased, also
+  the spring stiffness in case of linear pressure-overclosure and the stick
+  slope are reduced by a factor of 100 (this number can be changed with the *CONTROLS,PARAMETERS=CONTACT card). This factor (variable &ldquo;kscale&rdquo; in the
+  code) is reset to one at the
+  next convergence detection in which case the iteration is continued until
+  renewed successful convergence for kscale=1.
+</LI>
+<LI>the too slow convergence check is replaced by a check whether the number
+  of iterations has reached the value of 60 (this number can be changed with the *CONTROLS,PARAMETERS=CONTACT card). In that case the spring stiffness in case of linear pressure-overclosure and the stick
+  slope are reduced by a factor of 100 (this number can be changed with the *CONTROLS,PARAMETERS=CONTACT card). This factor (variable &ldquo;kscale&rdquo; in the
+  code) is reset to one at the
+  next convergence detection in which case the iteration is continued until
+  renewed successful convergence for kscale=1). The time increment is NOT
+  decreased, unless this is already the second cutback or higher.
+</LI>
+</UL>
+</LI>
+</UL>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3487"
+  HREF="node187.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3483"
+  HREF="node184.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3477"
+  HREF="node185.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3485"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3488"
+  HREF="node187.html">Line search</A>
+<B> Up:</B> <A NAME="tex2html3484"
+  HREF="node184.html">Convergence criteria</A>
+<B> Previous:</B> <A NAME="tex2html3478"
+  HREF="node185.html">Thermomechanical iterations</A>
+ &nbsp; <B>  <A NAME="tex2html3486"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

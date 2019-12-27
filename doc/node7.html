@@ -1,10 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
 <TITLE>Cantilever beam</TITLE>
@@ -13,7 +9,7 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
@@ -25,34 +21,35 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html956"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1017"
   HREF="node8.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html952"
+<A NAME="tex2html1013"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html946"
+<A NAME="tex2html1007"
   HREF="node6.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html954"
+<A NAME="tex2html1015"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html957"
+<B> Next:</B> <A NAME="tex2html1018"
   HREF="node8.html">Frequency calculation of a</A>
-<B> Up:</B> <A NAME="tex2html953"
+<B> Up:</B> <A NAME="tex2html1014"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html947"
+<B> Previous:</B> <A NAME="tex2html1008"
   HREF="node6.html">Simple example problems</A>
- &nbsp; <B>  <A NAME="tex2html955"
+ &nbsp; <B>  <A NAME="tex2html1016"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
 <H2><A NAME="SECTION00061000000000000000">
@@ -61,12 +58,12 @@ Cantilever beam</A>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="beam1"></A><A NAME="11742"></A>
+<DIV ALIGN="CENTER"><A NAME="beam1"></A><A NAME="14771"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 1:</STRONG>
 Geometry and boundary conditions of the beam problem</CAPTION>
 <TR><TD><IMG
- WIDTH="451" HEIGHT="154" BORDER="0"
+ WIDTH="451" HEIGHT="155" BORDER="0"
  SRC="img80.png"
  ALT="\begin{figure}\epsfig{file=Beam1.eps,width=10cm}\end{figure}"></TD></TR>
 </TABLE>
@@ -74,12 +71,12 @@ Geometry and boundary conditions of the beam problem</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="beam2"></A><A NAME="11743"></A>
+<DIV ALIGN="CENTER"><A NAME="beam2"></A><A NAME="14772"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 2:</STRONG>
 Mesh for the beam</CAPTION>
 <TR><TD><IMG
- WIDTH="454" HEIGHT="414" BORDER="0"
+ WIDTH="454" HEIGHT="413" BORDER="0"
  SRC="img81.png"
  ALT="\begin{figure}\epsfig{file=Beam2.ps,width=10cm}\end{figure}"></TD></TR>
 </TABLE>
@@ -91,29 +88,29 @@ analyzed.
 
 <P>
 The geometry, loading and boundary conditions of the cantilever beam are shown in Figure
-<A HREF="#beam1">1</A>. The size of the beam is 1x1x8 <IMG
- WIDTH="26" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+<A HREF="#beam1">1</A>. The size of the beam is 1x1x8 <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
  SRC="img82.png"
- ALT="$ m^3$">, the loading consists of a
+ ALT="$ m^3$"></SPAN>, the loading consists of a
 point force of <!-- MATH
  $9 \times 10^6$
  -->
-<IMG
- WIDTH="55" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><IMG
+ WIDTH="54" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
  SRC="img83.png"
- ALT="$ 9 \times 10^6$"> N and the beam is completely fixed (in all directions) on the left end. Let us take 1 m and 1 MN as units of length and force, respectively. Assume that the beam geometry was generated and meshed with CalculiX GraphiX (cgx) resulting in the mesh in Figure <A HREF="#beam2">2</A>. For reasons of clarity, only element labels are displayed.
+ ALT="$ 9 \times 10^6$"></SPAN> N and the beam is completely fixed (in all directions) on the left end. Let us take 1 m and 1 MN as units of length and force, respectively. Assume that the beam geometry was generated and meshed with CalculiX GraphiX (cgx) resulting in the mesh in Figure <A HREF="#beam2">2</A>. For reasons of clarity, only element labels are displayed.
 
 <P>
 A CalculiX input deck basically consists of a model definition section describing the geometry and boundary conditions of the problem and one or more steps (Figure <A HREF="#beam3">3</A>) defining the loads.
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="beam3"></A><A NAME="11744"></A>
+<DIV ALIGN="CENTER"><A NAME="beam3"></A><A NAME="14773"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 3:</STRONG>
 Structure of a CalculiX input deck</CAPTION>
 <TR><TD><IMG
- WIDTH="360" HEIGHT="844" BORDER="0"
+ WIDTH="361" HEIGHT="844" BORDER="0"
  SRC="img84.png"
  ALT="\begin{figure}\epsfig{file=Beam3.eps,width=8cm}\end{figure}"></TD></TR>
 </TABLE>
@@ -127,12 +124,12 @@ In our example (Figure <A HREF="#beam4">4</A>), the first keyword card is *HEADI
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="beam4"></A><A NAME="11745"></A>
+<DIV ALIGN="CENTER"><A NAME="beam4"></A><A NAME="14774"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 4:</STRONG>
 Beam input deck</CAPTION>
 <TR><TD><IMG
- WIDTH="511" HEIGHT="585" BORDER="0"
+ WIDTH="511" HEIGHT="586" BORDER="0"
  SRC="img85.png"
  ALT="\begin{figure}\epsfig{file=BeamInputDeck.ps,width=12cm}\end{figure}"></TD></TR>
 </TABLE>
@@ -140,7 +137,7 @@ Beam input deck</CAPTION>
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="beam5"></A><A NAME="11746"></A>
+<DIV ALIGN="CENTER"><A NAME="beam5"></A><A NAME="14775"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 5:</STRONG>
 Deformation of the beam</CAPTION>
@@ -178,22 +175,22 @@ FIX,1,3
 meaning that degrees of freedom 1 through 3 are to be fixed (i.e. set to zero).
 
 <P>
-The next section in the input deck is the material description. This section is special since the cards describing one and the same material must be grouped together, although the section itself can occur anywhere before the first *STEP card. A material section is always started by a *MATERIAL card defining the name of the material by means of the parameter NAME. Depending on the kind of material several keyword cards can follow. Here, the material is linear elastic, characterized by a Young's modulus of 210,000.0 <IMG
- WIDTH="64" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+The next section in the input deck is the material description. This section is special since the cards describing one and the same material must be grouped together, although the section itself can occur anywhere before the first *STEP card. A material section is always started by a *MATERIAL card defining the name of the material by means of the parameter NAME. Depending on the kind of material several keyword cards can follow. Here, the material is linear elastic, characterized by a Young's modulus of 210,000.0 <SPAN CLASS="MATH"><IMG
+ WIDTH="63" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
  SRC="img87.png"
- ALT="$ MN/{m^2}$"> and a Poisson coefficient of 0.3 (steel). These properties are stored beneath the *ELASTIC keyword card, which here concludes the material definition. Next, the material is assigned to the element set Eall by means of the keyword card *SOLID SECTION.
+ ALT="$ MN/{m^2}$"></SPAN> and a Poisson coefficient of 0.3 (steel). These properties are stored beneath the *ELASTIC keyword card, which here concludes the material definition. Next, the material is assigned to the element set Eall by means of the keyword card *SOLID SECTION.
 
 <P>
 Finally, the last card in the model definition section defines a node set LOAD which will be needed to define the load. The card starting with two asterisks in between the model definition section and the first step section is a comment line. A comment line can be introduced at any place. It is completely ignored by CalculiX and serves for input deck clarity only.
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="beam6"></A><A NAME="11747"></A>
+<DIV ALIGN="CENTER"><A NAME="beam6"></A><A NAME="14776"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 6:</STRONG>
 Axial normal stresses in the beam</CAPTION>
 <TR><TD><IMG
- WIDTH="409" HEIGHT="372" BORDER="0"
+ WIDTH="408" HEIGHT="372" BORDER="0"
  SRC="img88.png"
  ALT="\begin{figure}\epsfig{file=Beam6.ps,width=9cm}\end{figure}"></TD></TR>
 </TABLE>
@@ -224,49 +221,47 @@ Figure <A HREF="#beam5">5</A> shows the deformation of the beam under the prevai
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="beam7"></A><A NAME="11748"></A>
+<DIV ALIGN="CENTER"><A NAME="beam7"></A><A NAME="14777"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 7:</STRONG>
 Von Mises stresses in the beam</CAPTION>
 <TR><TD><IMG
- WIDTH="409" HEIGHT="372" BORDER="0"
+ WIDTH="408" HEIGHT="372" BORDER="0"
  SRC="img89.png"
  ALT="\begin{figure}\epsfig{file=Beam7.ps,width=9cm}\end{figure}"></TD></TR>
 </TABLE>
 </DIV>
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html956"
+<A NAME="tex2html1017"
   HREF="node8.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html952"
+<A NAME="tex2html1013"
   HREF="node6.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html946"
+<A NAME="tex2html1007"
   HREF="node6.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html954"
+<A NAME="tex2html1015"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html957"
+<B> Next:</B> <A NAME="tex2html1018"
   HREF="node8.html">Frequency calculation of a</A>
-<B> Up:</B> <A NAME="tex2html953"
+<B> Up:</B> <A NAME="tex2html1014"
   HREF="node6.html">Simple example problems</A>
-<B> Previous:</B> <A NAME="tex2html947"
+<B> Previous:</B> <A NAME="tex2html1008"
   HREF="node6.html">Simple example problems</A>
- &nbsp; <B>  <A NAME="tex2html955"
-  HREF="node1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1016"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

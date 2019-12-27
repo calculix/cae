@@ -1,0 +1,19 @@
+#! /bin/csh -f
+#
+#  test the ZChv_r2upd() method
+#
+#  created -- 98apr22, cca
+#
+ 
+set msglvl  =       4
+set msgFile =    res 
+set msgFile =  stdout
+set type    =       1
+set symflag =       0
+set nD      =       6
+set nU      =       5
+set seed    =  18291
+
+foreach symflag ( 0 )
+   test_r2upd $msglvl $msgFile $nD $nU $type $symflag $seed 
+end

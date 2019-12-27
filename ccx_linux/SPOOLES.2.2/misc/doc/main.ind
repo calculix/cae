@@ -1,0 +1,28 @@
+\begin{theindex}
+
+  \item {\tt drawGraphEPS()}, 4
+
+  \indexspace
+
+  \item {\tt fp2DGrid()}, 3
+  \item {\tt fp3DGrid()}, 3
+
+  \indexspace
+
+  \item {\tt localND2D()}, 2
+  \item {\tt localND3D()}, 2
+
+  \indexspace
+
+  \item {\tt mkNDlinsys()}, 5
+  \item {\tt mkNDlinsysQR()}, 5
+  \item {\tt mkNDperm()}, 1
+  \item {\tt mkNDperm2()}, 2
+
+  \indexspace
+
+  \item {\tt orderViaMMD()}, 3
+  \item {\tt orderViaMS()}, 4
+  \item {\tt orderViaND()}, 3
+
+\end{theindex}

@@ -1,0 +1,76 @@
+\par
+\section{Driver programs for the {\tt Coords} object}
+\label{section:Coords:drivers}
+\par
+This section contains brief descriptions of the driver programs.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testIO msglvl msgFile inFile outFile
+\end{verbatim}
+This driver program reads and write {\tt Coords} files, useful for
+converting formatted files to binary files and vice versa.
+One can also read in a {\tt Coords} file and print out just the 
+header information (see the {\tt Coords\_writeStats()} method).
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt Coords} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inFile} parameter is the input file for the {\tt Coords}
+object. It must be of the form {\tt *.coordsf} or {\tt *.coordsb}.
+The {\tt Coords} object is read from the file via the
+{\tt Coords\_readFromFile()} method.
+\item
+The {\tt outFile} parameter is the output file for the {\tt Coords}
+object. 
+If {\tt outFile} is {\tt none} then the {\tt Coords} object is not
+written to a file. 
+Otherwise, the {\tt Coords\_writeToFile()} method is called to write
+the object to 
+a formatted file (if {\tt outFile} is of the form {\tt *.coordsf}),
+or
+a binary file (if {\tt outFile} is of the form {\tt *.coordsb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+mk9PCoords msglvl msgFile n1 n2 outCoordsFile
+\end{verbatim}
+This driver program creates a {\tt Coords} object 
+for 9-point finite difference operator on 
+a $\mbox{\tt n1} \times \mbox{\tt n2}$ grid
+and optionally writes it to a file.
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means that all objects are written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+message data.
+\item
+The {\tt outCoordsFile} parameter is the output file for the 
+{\tt Coords} object. 
+If {\tt outCoordsFile} is {\tt none} then the {\tt Coords} object 
+is not written to a file. 
+Otherwise, the {\tt Coords\_writeToFile()} method is called to write
+the object to 
+a formatted file (if {\tt outCoordsFile} 
+is of the form {\tt *.coordsf}), or
+a binary file (if {\tt outCoordsFile} is of the form {\tt *.coordsb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

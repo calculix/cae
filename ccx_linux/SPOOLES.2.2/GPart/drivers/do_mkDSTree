@@ -1,0 +1,75 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+set matrix      = R2D100
+set matrix      = BCSSTK16
+set matrix      = BCSSTK24
+set inGraphFile = $matrices/$matrix/orig0.graphf
+set inGraphFile = $matrices/$matrix/orig1.graphf
+
+set matrices    = ../../../matrices
+set matrix      = GRD15x15x127
+set inGraphFile = $matrices/$matrix/orig0.graphb
+
+set msglvl      = 1
+
+set msgFile    = stdout
+
+set nseed      = 21
+set nseed      =  1
+
+set minweight  =  10
+set maxweight  =  20
+set minweight  =  100
+set maxweight  =  200
+set minweight  =  200
+set maxweight  =  400
+set minweight  =   50
+set maxweight  =  100
+set minweight  =   5
+set maxweight  =  10
+
+set freeze     = 4.0
+set alpha      = 0.25
+set alpha      = 0.5
+set alpha      = 0.75
+set alpha      = 1.0
+set alpha      = 0.1
+
+set maxDomWeight = 200000
+set maxDomWeight = 8000
+set maxDomWeight = 2000
+set maxDomWeight = 4000
+set maxDomWeight =  500
+set maxDomWeight =  250
+set maxDomWeight = 8000
+set maxDomWeight = 16000
+set maxDomWeight =  9
+set maxDomWeight = 200
+set maxDomWeight = 500
+set maxDomWeight = 25
+set maxDomWeight = 1
+set maxDomWeight = 100
+set maxDomWeight = 343
+set maxDomWeight = 3375
+
+set DDoption     = 1
+
+set ordertype    = 1
+
+set outIVfile = $matrices/$matrix/levels50.ivf
+set outIVfile = $matrices/$matrix/levels.ivf
+set outIVfile = none
+
+set outDSTreeFile = $matrices/$matrix/ms.dstreef
+set outDSTreeFile = $matrices/$matrix/nd.dstreef
+set outDSTreeFile = none
+set outDSTreeFile = $matrices/$matrix/nd2.dstreef
+
+set seed = 4
+
+set nlayer = 2
+
+mkDSTree $msglvl $msgFile $inGraphFile $seed \
+         $minweight $maxweight $freeze $alpha \
+         $maxDomWeight $DDoption $nlayer $outDSTreeFile

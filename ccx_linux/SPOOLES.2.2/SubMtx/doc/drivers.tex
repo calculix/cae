@@ -1,0 +1,397 @@
+\par
+\section{Driver programs for the {\tt SubMtx object}}
+\label{section:SubMtx:drivers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testIO msglvl msgFile inFile outFile
+\end{verbatim}
+This driver program reads in a {\tt SubMtx} object from {\tt inFile}
+and writes out the object to {\tt outFile}
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means the {\tt SubMtx} object is written
+to the message file.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inFile} parameter is the input file for the {\tt SubMtx}
+object. It must be of the form {\tt *.submtxf} or {\tt *.submtxb}.
+The {\tt SubMtx} object is read from the file via the
+{\tt SubMtx\_readFromFile()} method.
+\item
+The {\tt outFile} parameter is the output file for the {\tt SubMtx}
+object. It must be of the form {\tt *.submtxf} or {\tt *.submtxb}.
+The {\tt SubMtx} object is written to the file via the
+{\tt SubMtx\_writeToFile()} method.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_scalevec msglvl msgFile type mode nrowA seed
+\end{verbatim}
+This driver program tests 
+the {\tt SubMtx\_scalevec\{1,2,3\}()} methods.
+Use the script file {\tt do\_scalevec} for testing.
+When the output file is loaded into matlab,
+the last lines to the screen contain the errors.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter must be one of 1 ({\tt SPOOLES\_REAL})
+or 2 ({\tt SPOOLES\_COMPLEX}). 
+\item
+The {\tt mode} parameter must be one of
+7 ({\tt SUBMTX\_DIAGONAL}),
+8 ({\tt SUBMTX\_BLOCK\_DIAGONAL\_SYM}) or
+9 ({\tt SUBMTX\_BLOCK\_DIAGONAL\_HERM}).
+\item
+The {\tt nrowA} parameter is the number of rows in the matrix. 
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_solve msglvl msgFile type mode nrowA nentA ncolB seed
+\end{verbatim}
+This driver program tests 
+the {\tt SubMtx\_solve()} method
+which tests the solve
+$AX = B$ when $A$ is diagonal or block diagonal,
+and $(I + A)X = B$ otherwise ($A$ is strict upper or lower
+triangular).
+Use the script file {\tt do\_solve} for testing.
+When the output file is loaded into matlab,
+the last lines to the screen contain the errors.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter must be one of 1 ({\tt SPOOLES\_REAL})
+or 2 ({\tt SPOOLES\_COMPLEX}). 
+\item
+The {\tt mode} parameter must be one of
+2 ({\tt SUBMTX\_SPARSE\_ROWS}),
+3 ({\tt SUBMTX\_SPARSE\_COLUMNS}),
+5 ({\tt SUBMTX\_DENSE\_SUBROWS}),
+6 ({\tt SUBMTX\_DENSE\_SUBCOLUMNS}),
+7 ({\tt SUBMTX\_DIAGONAL}), \break
+8 ({\tt SUBMTX\_BLOCK\_DIAGONAL\_SYM}) or
+9 ({\tt SUBMTX\_BLOCK\_DIAGONAL\_HERM}).
+\item
+The {\tt nrowA} parameter is the number of rows in the matrix. 
+\item
+The {\tt nentA} parameter is the number of nonzero entries in the
+submatrix, when appropriate.
+\item
+The {\tt ncolB} parameter is the number of columns in $B$.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_solveH msglvl msgFile type mode nrowA nentA ncolB seed
+\end{verbatim}
+This driver program tests 
+the {\tt SubMtx\_solve()} method
+which tests the solve
+$(I + A^H)X = B$ when $A$ is strict upper or lower triangular
+and has dense subrows, dense subcolumns, sparse rows, or sparse
+columns.
+Use the script file {\tt do\_solveH} for testing.
+When the output file is loaded into matlab,
+the last lines to the screen contain the errors.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter must be 2 ({\tt SPOOLES\_COMPLEX}). 
+\item
+The {\tt mode} parameter must be one of
+2 ({\tt SUBMTX\_SPARSE\_ROWS}),
+3 ({\tt SUBMTX\_SPARSE\_COLUMNS}),
+5 ({\tt SUBMTX\_DENSE\_SUBROWS}) or
+6 ({\tt SUBMTX\_DENSE\_SUBCOLUMNS}).
+\item
+The {\tt nrowA} parameter is the number of rows in the matrix. 
+\item
+The {\tt nentA} parameter is the number of nonzero entries in the
+submatrix, when appropriate.
+\item
+The {\tt ncolB} parameter is the number of columns in $B$.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_solveT msglvl msgFile type mode nrowA nentA ncolB seed
+\end{verbatim}
+This driver program tests 
+the {\tt SubMtx\_solve()} method
+which tests the solve
+$(I + A^T)X = B$ when $A$ is strict upper or lower triangular
+and has dense subrows, dense subcolumns, sparse rows, or sparse
+columns.
+Use the script file {\tt do\_solveT} for testing.
+When the output file is loaded into matlab,
+the last lines to the screen contain the errors.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter must be one of 1 ({\tt SPOOLES\_REAL})
+or 2 ({\tt SPOOLES\_COMPLEX}). 
+\item
+The {\tt mode} parameter must be one of
+2 ({\tt SUBMTX\_SPARSE\_ROWS}),
+3 ({\tt SUBMTX\_SPARSE\_COLUMNS}),
+5 ({\tt SUBMTX\_DENSE\_SUBROWS}) or
+6 ({\tt SUBMTX\_DENSE\_SUBCOLUMNS}).
+\item
+The {\tt nrowA} parameter is the number of rows in the matrix. 
+\item
+The {\tt nentA} parameter is the number of nonzero entries in the
+submatrix, when appropriate.
+\item
+The {\tt ncolB} parameter is the number of columns in $B$.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_solveupd msglvl msgFile type mode nrowA nentA ncolB seed
+\end{verbatim}
+This driver program tests 
+the {\tt SubMtx\_solveupd()} method
+which tests the update $Y := Y - A * X$,
+used in the forward solve.
+$X$ and $Y$ have dense columns,
+and $A$ has dense rows or columns or sparse rows or columns.
+Use the script file {\tt do\_solveupd} for testing.
+When the output file is loaded into matlab,
+the last lines to the screen contain the errors.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter must be one of 1 ({\tt SPOOLES\_REAL})
+or 2 ({\tt SPOOLES\_COMPLEX}). 
+\item
+The {\tt mode} parameter must be one of
+0 ({\tt SUBMTX\_DENSE\_ROWS}),
+1 ({\tt SUBMTX\_DENSE\_COLUMNS}),
+2 ({\tt SUBMTX\_SPARSE\_ROWS}) or
+3 ({\tt SUBMTX\_SPARSE\_COLUMNS}).
+\item
+The {\tt nrowY} parameter is the number of rows in $Y$.
+\item
+The {\tt ncolY} parameter is the number of columns in $Y$.
+\item
+The {\tt nrowA} parameter is the number of rows in $A$,
+${\tt nrowA} \le {\tt nrowY}$.
+\item
+The {\tt ncolA} parameter is the number of columns in $A$,
+${\tt ncolA} \le {\tt nrowX}$.
+\item
+The {\tt nentA} parameter is the number of nonzero entries in the
+submatrix, when appropriate.
+\item
+The {\tt nrowX} parameter is the number of rows in $X$,
+${\tt nrowA} \le {\tt nrowY}$.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_solveupdH msglvl msgFile type mode nrowA nentA ncolB seed
+\end{verbatim}
+This driver program tests 
+the {\tt SubMtx\_solveupd()} method
+which tests the update $Y := Y - A^H * X$,
+used in the forward solve of a hermitian factorization.
+$X$ and $Y$ have dense columns,
+and $A$ has dense rows or columns or sparse rows or columns.
+Use the script file {\tt do\_solveupdH} for testing.
+When the output file is loaded into matlab,
+the last lines to the screen contain the errors.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter must be 2 ({\tt SPOOLES\_COMPLEX}). 
+\item
+The {\tt mode} parameter must be one of
+0 ({\tt SUBMTX\_DENSE\_ROWS}),
+1 ({\tt SUBMTX\_DENSE\_COLUMNS}),
+2 ({\tt SUBMTX\_SPARSE\_ROWS}) or
+3 ({\tt SUBMTX\_SPARSE\_COLUMNS}).
+\item
+The {\tt nrowY} parameter is the number of rows in $Y$.
+\item
+The {\tt ncolY} parameter is the number of columns in $Y$.
+\item
+The {\tt nrowA} parameter is the number of rows in $A$,
+${\tt nrowA} \le {\tt nrowY}$.
+\item
+The {\tt ncolA} parameter is the number of columns in $A$,
+${\tt ncolA} \le {\tt nrowX}$.
+\item
+The {\tt nentA} parameter is the number of nonzero entries in the
+submatrix, when appropriate.
+\item
+The {\tt nrowX} parameter is the number of rows in $X$,
+${\tt nrowA} \le {\tt nrowY}$.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_solveupdT msglvl msgFile type mode nrowA nentA ncolB seed
+\end{verbatim}
+This driver program tests 
+the {\tt SubMtx\_solveupd()} method
+which tests the update $Y := Y - A^T * X$,
+used in the forward solve of a symmetric factorization.
+$X$ and $Y$ have dense columns,
+and $A$ has dense rows or columns or sparse rows or columns.
+Use the script file {\tt do\_solveupdT} for testing.
+When the output file is loaded into matlab,
+the last lines to the screen contain the errors.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter must be one of 1 ({\tt SPOOLES\_REAL})
+or 2 ({\tt SPOOLES\_COMPLEX}). 
+\item
+The {\tt mode} parameter must be one of
+0 ({\tt SUBMTX\_DENSE\_ROWS}),
+1 ({\tt SUBMTX\_DENSE\_COLUMNS}),
+2 ({\tt SUBMTX\_SPARSE\_ROWS}) or
+3 ({\tt SUBMTX\_SPARSE\_COLUMNS}).
+\item
+The {\tt nrowY} parameter is the number of rows in $Y$.
+\item
+The {\tt ncolY} parameter is the number of columns in $Y$.
+\item
+The {\tt nrowA} parameter is the number of rows in $A$,
+${\tt nrowA} \le {\tt nrowY}$.
+\item
+The {\tt ncolA} parameter is the number of columns in $A$,
+${\tt ncolA} \le {\tt nrowX}$.
+\item
+The {\tt nentA} parameter is the number of nonzero entries in the
+submatrix, when appropriate.
+\item
+The {\tt nrowX} parameter is the number of rows in $X$,
+${\tt nrowA} \le {\tt nrowY}$.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_sort msglvl msgFile type mode nrowA ncolA nentA seed
+\end{verbatim}
+This driver program tests 
+the {\tt SubMtx\_sortRowsUp()} 
+and {\tt SubMtx\_sortColumnsUp()} 
+methods.
+Use the script file {\tt do\_sort} for testing.
+When the output file is loaded into matlab,
+the last lines to the screen contain the errors.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter must be one of 1 ({\tt SPOOLES\_REAL})
+or 2 ({\tt SPOOLES\_COMPLEX}). 
+\item
+The {\tt mode} parameter must be one of
+0 ({\tt SUBMTX\_DENSE\_ROWS}),
+1 ({\tt SUBMTX\_DENSE\_COLUMNS}),
+2 ({\tt SUBMTX\_SPARSE\_ROWS}) or
+3 ({\tt SUBMTX\_SPARSE\_COLUMNS}).
+\item
+The {\tt nrowA} parameter is the number of rows in $A$.
+\item
+The {\tt ncolA} parameter is the number of columns in $A$.
+\item
+The {\tt nentA} parameter is the number of nonzero entries in the
+submatrix, when appropriate.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

@@ -1,0 +1,117 @@
+\par
+\section{Prototypes and descriptions of {\tt Lock} methods}
+\label{section:Lock:proto}
+\par
+\subsection{Basic methods}
+\label{subsection:Lock:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Lock * Lock_new ( void ) ;
+\end{verbatim}
+\index{Lock_new@{\tt Lock\_new()}}
+This method simply allocates storage for the {\tt Lock} structure 
+and then sets the default fields by a call to 
+{\tt Lock\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Lock_setDefaultFields ( Lock *lock ) ;
+\end{verbatim}
+\index{Lock_setDefaultFields@{\tt Lock\_setDefaultFields()}}
+This method sets the structure's fields to default values:
+{\tt nlocks} and {\tt nunlocks} are zero, and {\tt mutex} is {\tt NULL}.
+\par \noindent {\it Error checking:}
+If {\tt lock} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Lock_clearData ( Lock *lock ) ;
+\end{verbatim}
+\index{Lock_clearData@{\tt Lock\_clearData()}}
+This method clears the data for the object.
+If {\tt lock->mutex} is not {\tt NULL}, 
+then {\tt mutex\_destroy(lock->mutex)} is called 
+(for the Solaris thread package)
+or {\tt pthread\_mutex\_destroy(lock->mutex)} is called 
+(for the POSIX thread package),
+The method concludes with a call to {\tt Lock\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt lock} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Lock_free ( Lock *lock ) ;
+\end{verbatim}
+\index{Lock_free@{\tt Lock\_free()}}
+This method releases any storage by a call to 
+{\tt Lock\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt lock} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer method}
+\label{subsection:Lock:proto:initializers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Lock_init ( Lock *lock, int lockflag ) ;
+\end{verbatim}
+\index{Lock_init@{\tt Lock\_init()}}
+This is the basic initializer method.
+Any previous data is cleared with a call to {\tt Lock\_clearData()}.
+If {\tt lockflag = 0}, then no lock is initialized.
+For the Solaris thread package, {\tt lockflag = 1} means the lock
+will be initialized to synchronize only threads in this process,
+while {\tt lockflag = 2} means the lock
+will be initialized to synchronize threads across processes.
+For the POSIX thread package, {\tt lockflag != 0} means the lock
+will be initialized to synchronize only threads in this process.
+\par \noindent {\it Error checking:}
+If {\tt lock} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:Lock:proto:Utility}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Lock_lock ( Lock *lock ) ;
+\end{verbatim}
+\index{Lock_lock@{\tt Lock\_lock()}}
+This method locks the lock.
+\par \noindent {\it Error checking:}
+If {\tt lock} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Lock_unlock ( Lock *lock ) ;
+\end{verbatim}
+\index{Lock_unlock@{\tt Lock\_unlock()}}
+This method unlocks the lock.
+\par \noindent {\it Error checking:}
+If {\tt lock} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}

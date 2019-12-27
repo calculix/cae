@@ -1,0 +1,65 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=latex 97.4.4)  4 DEC 1998 17:26
+**temp
+(temp.tex
+LaTeX2e <1996/12/01> patch level 1
+Babel <v3.6h> and hyphenation patterns for english, german, loaded.
+(/home/tex/teTeX/texmf/tex/latex/base/article.cls
+Document Class: article 1996/10/31 v1.3u Standard LaTeX document class
+(/home/tex/teTeX/texmf/tex/latex/base/leqno.clo
+File: leqno.clo 1996/07/26 v1.1b Standard LaTeX option (left equation numbers)
+)
+(/home/tex/teTeX/texmf/tex/latex/base/size10.clo
+File: size10.clo 1996/10/31 v1.3u Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+\@indexfile=\write3
+
+Writing index file temp.idx
+(/home/tex/teTeX/texmf/tex/generic/local/psfig/psfig.tex
+\@unused=\write4
+\ps@stream=\read1
+\p@intvaluex=\dimen103
+\p@intvaluey=\dimen104
+
+psfig/tex 1.10-dvips
+) (temp.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 878.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 878.
+ [1
+
+] (temp.aux) ) 
+Here is how much of TeX's memory you used:
+ 443 strings out of 10908
+ 4246 string characters out of 72189
+ 96016 words of memory out of 262141
+ 3386 multiletter control sequences out of 9500
+ 3993 words of font info for 15 fonts, out of 150000 for 255
+ 14 hyphenation exceptions out of 607
+ 23i,9n,21p,115b,194s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on temp.dvi (1 page, 17784 bytes).

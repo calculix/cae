@@ -1,0 +1,644 @@
+\par
+\subsection{{\tt DV} : {\tt double} vector methods}
+\label{subsection:Utilities:proto:DV}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * DVinit ( int n, double val ) ;
+\end{verbatim}
+\index{DVinit@{\tt DVinit()}}
+This is the allocator and initializer method for {\tt double} vectors.
+Storage for an array with size {\tt n} is found and each
+entry is filled with {\tt val}.
+A pointer to the array is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * DVinit2 ( int n ) ;
+\end{verbatim}
+\index{DVinit2@{\tt DVinit2()}}
+This is an allocator method for {\tt double} vectors.
+Storage for an array with size {\tt n} is found.
+A pointer to the array is returned.
+Note, on return, there will likely be garbage in the array.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVfree ( int vec[] ) ;
+\end{verbatim}
+\index{DVfree@{\tt DVfree()}}
+This method releases the storage taken by {\tt vec[]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVfprintf ( FILE *fp, int n, double y[] ) ;
+\end{verbatim}
+\index{DVfprintf@{\tt DVfprintf()}}
+This method prints {\tt n} entries in {\tt y[]} to file {\tt fp}.
+The format is new line followed by lines of six {\tt double}'s in
+{\tt "\%12.4e"} format.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVfscanf ( FILE *fp, int n, double y[] ) ;
+\end{verbatim}
+\index{DVfscanf@{\tt DVfscanf()}}
+This method scans in {\tt double}'s from file {\tt fp} and places them
+in the array {\tt y[]}.
+It tries to read in {\tt n} {\tt double}'s, and returns the number
+that were actually read.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVadd ( int n, double y[], double x[] ) ;
+\end{verbatim}
+\index{DVadd@{\tt DVadd()}}
+This method adds {\tt n} entries from {\tt x[]} to {\tt y[]},
+i.e.,
+{\tt y[i] += x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpy ( int n, double y[], double alpha, double x[] ) ;
+\end{verbatim}
+\index{DVaxpy@{\tt DVaxpy()}}
+This method adds a scaled multiple of {\tt n} entries from {\tt x[]} 
+into {\tt y[]},
+i.e.,
+{\tt y[i] += alpha * x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpy2 ( int n, double z[], double a, double x[],
+               double b, double y[] ) ;
+\end{verbatim}
+\index{DVaxpy@{\tt DVaxpy()}}
+This method adds a scaled multiple of two vectors {\tt x[]} 
+and {\tt y[]} to another vector {\tt z[]}, i.e.,
+i.e.,
+{\tt z[i] += a * x[i] + b * y[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpy33 ( int n, double y0[], double y1[], double y2[], 
+                double alpha, double x0[], double x1[], double x2[] ) ;
+\end{verbatim}
+\index{DVaxpy33@{\tt DVaxpy33()}}
+This method computes this computation.
+\begin{verbatim}
+y0[] = y0[] + alpha[0] * x0[] + alpha[1] * x1[] + alpha[2] * x2[]
+y1[] = y1[] + alpha[3] * x0[] + alpha[4] * x1[] + alpha[5] * x2[]
+y2[] = y2[] + alpha[6] * x0[] + alpha[7] * x1[] + alpha[8] * x2[]
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpy32 ( int n, double y0[], double y1[], double y2[], 
+                double alpha, double x0[], double x1[] ) ;
+\end{verbatim}
+\index{DVaxpy32@{\tt DVaxpy32()}}
+This method computes this computation.
+\begin{verbatim}
+y0[] = y0[] + alpha[0] * x0[] + alpha[1] * x1[] 
+y1[] = y1[] + alpha[2] * x0[] + alpha[3] * x1[] 
+y2[] = y2[] + alpha[4] * x0[] + alpha[5] * x1[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpy31 ( int n, double y0[], double y1[], double y2[], 
+                double alpha, double x0[], double x1[] ) ;
+\end{verbatim}
+\index{DVaxpy31@{\tt DVaxpy31()}}
+This method computes this computation.
+\begin{verbatim}
+y0[] = y0[] + alpha[0] * x0[] 
+y1[] = y1[] + alpha[1] * x0[] 
+y2[] = y2[] + alpha[2] * x0[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpy23 ( int n, double y0[], double y1[], 
+                double alpha, double x0[], double x1[], double x2[] ) ;
+\end{verbatim}
+\index{DVaxpy23@{\tt DVaxpy23()}}
+This method computes this computation.
+\begin{verbatim}
+y0[] = y0[] + alpha[0] * x0[] + alpha[1] * x1[] + alpha[2] * x2[]
+y1[] = y1[] + alpha[3] * x0[] + alpha[4] * x1[] + alpha[5] * x2[]
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpy22 ( int n, double y0[], double y1[], 
+                double alpha, double x0[], double x1[] ) ;
+\end{verbatim}
+\index{DVaxpy22@{\tt DVaxpy22()}}
+This method computes this computation.
+\begin{verbatim}
+y0[] = y0[] + alpha[0] * x0[] + alpha[1] * x1[] 
+y1[] = y1[] + alpha[2] * x0[] + alpha[3] * x1[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpy21 ( int n, double y0[], double y1[], double alpha, double x0[] ) ;
+\end{verbatim}
+\index{DVaxpy21@{\tt DVaxpy21()}}
+This method computes this computation.
+\begin{verbatim}
+y0[] = y0[] + alpha[0] * x0[] 
+y1[] = y1[] + alpha[1] * x0[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpy13 ( int n, double y0[], 
+                double alpha, double x0[], double x1[], double x2[] ) ;
+\end{verbatim}
+\index{DVaxpy13@{\tt DVaxpy13()}}
+This method computes this computation.
+\begin{verbatim}
+y0[] = y0[] + alpha[0] * x0[] + alpha[1] * x1[] + alpha[2] * x2[]
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpy12 ( int n, double y0[], double alpha, double x0[], double x1[] ) ;
+\end{verbatim}
+\index{DVaxpy12@{\tt DVaxpy12()}}
+This method computes this computation.
+\begin{verbatim}
+y0[] = y0[] + alpha[0] * x0[] + alpha[1] * x1[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpy11 ( int n, double y0[], double alpha, double x0[] ) ;
+\end{verbatim}
+\index{DVaxpy11@{\tt DVaxpy11()}}
+This method computes this computation.
+\begin{verbatim}
+y0[] = y0[] + alpha[0] * x0[] 
+\end{verbatim}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVaxpyi ( int n, double y[], int index[], double alpha, double x[] ) ;
+\end{verbatim}
+\index{DVaxpyi@{\tt DVaxpyi()}}
+This method scatteradds 
+a scaled multiple of {\tt n} entries from {\tt x[]} 
+into {\tt y[]},
+i.e.,
+{\tt y[index[i]] += alpha * x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVcompress ( int n1, double x1[], double y1[],
+                  int n2, double x2[], double y2[] ) ;
+\end{verbatim}
+\index{DVcompress@{\tt DVcompress()}}
+Given a pair of arrays {\tt x1[n1]} and {\tt y1[n1]},
+fill {\tt x2[n2]} and {\tt y2[n2]} with a subset of the
+{\tt (x1[j],y1[j]} entries whose distribution is an approximation.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVcopy ( int n, double y[], double x[] ) ;
+\end{verbatim}
+\index{DVcopy@{\tt DVcopy()}}
+This method copies {\tt n} entries from {\tt x[]} to {\tt y[]},
+i.e.,
+{\tt y[i] = x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVdot ( int n, double y[], double x[] ) ;
+\end{verbatim}
+\index{DVdot@{\tt DVdot()}}
+This method returns the dot product of the vector {\tt x[]} and
+{\tt y[]},
+i.e., return
+$\sum_{\tt i = 0}^{\tt n-1} ({\tt x[i] * y[i]})$.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVdot33 ( int n, double row0[], double row1[], double row2[], 
+              double col0[], double col1[], double col2[], double sums[] ) ;
+\end{verbatim}
+\index{DVdot33@{\tt DVdot33()}}
+This method computes nine dot products.
+\par
+\begin{tabular}{lll}
+$\displaystyle{\tt sums[0]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ &
+$\displaystyle{\tt sums[2]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col2[i]}$ \\
+$\displaystyle{\tt sums[3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ &
+$\displaystyle{\tt sums[4]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col1[i]}$ &
+$\displaystyle{\tt sums[5]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col2[i]}$ \\
+$\displaystyle{\tt sums[6]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col0[i]}$ &
+$\displaystyle{\tt sums[7]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col1[i]}$ &
+$\displaystyle{\tt sums[8]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col2[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVdot32 ( int n, double row0[], double row1[], double row2[], 
+              double col0[], double col1[], double sums[] ) ;
+\end{verbatim}
+\index{DVdot32@{\tt DVdot32()}}
+This method computes six dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ \\
+$\displaystyle{\tt sums[2]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ &
+$\displaystyle{\tt sums[3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col1[i]}$ \\
+$\displaystyle{\tt sums[4]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col0[i]}$ &
+$\displaystyle{\tt sums[5]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col1[i]}$
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVdot31 ( int n, double row0[], double row1[], double row2[], 
+              double col0[], double sums[] ) ;
+\end{verbatim}
+\index{DVdot31@{\tt DVdot31()}}
+This method computes three dot products.
+\par
+\begin{tabular}{l}
+$\displaystyle{\tt sums[0]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ \\
+$\displaystyle{\tt sums[1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ \\
+$\displaystyle{\tt sums[2]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row2[i] * col0[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVdot23 ( int n, double row0[], double row1[],         
+              double col0[], double col1[], double col2[], double sums[] ) ;
+\end{verbatim}
+\index{DVdot23@{\tt DVdot23()}}
+This method computes six dot products.
+\par
+\begin{tabular}{lll}
+$\displaystyle{\tt sums[0]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ &
+$\displaystyle{\tt sums[2]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col2[i]}$ \\
+$\displaystyle{\tt sums[3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ &
+$\displaystyle{\tt sums[4]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col1[i]}$ &
+$\displaystyle{\tt sums[5]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col2[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVdot22 ( int n, double row0[], double row1[], 
+              double col0[], double col1[], double sums[] ) ;
+\end{verbatim}
+\index{DVdot22@{\tt DVdot22()}}
+This method computes four dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ \\
+$\displaystyle{\tt sums[2]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ &
+$\displaystyle{\tt sums[3]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col1[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVdot21 ( int n, double row0[], double row1[], 
+              double col0[], double sums[] ) ;
+\end{verbatim}
+\index{DVdot21@{\tt DVdot21()}}
+This method computes two dot products.
+\par
+\begin{tabular}{l}
+$\displaystyle{\tt sums[0]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ \\
+$\displaystyle{\tt sums[1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row1[i] * col0[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVdot13 ( int n, double row0[], 
+              double col0[], double col1[], double col2[], double sums[] ) ;
+\end{verbatim}
+\index{DVdot13@{\tt DVdot13()}}
+This method computes six dot products.
+\par
+\begin{tabular}{lll}
+$\displaystyle{\tt sums[0]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ &
+$\displaystyle{\tt sums[2]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col2[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVdot12 ( int n, double row0[], double row1[], 
+              double col0[], double col1[], double sums[] ) ;
+\end{verbatim}
+\index{DVdot12@{\tt DVdot12()}}
+This method computes two dot products.
+\par
+\begin{tabular}{ll}
+$\displaystyle{\tt sums[0]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$ &
+$\displaystyle{\tt sums[1]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col1[i]}$ 
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVdot11 ( int n, double row0[], double col0[], double sums[] ) ;
+\end{verbatim}
+\index{DVdot11@{\tt DVdot11()}}
+This method computes one dot product.
+\par
+\begin{tabular}{l}
+$\displaystyle{\tt sums[0]}
+               = \sum_{\tt i = 0}^{\tt n-1} {\tt row0[i] * col0[i]}$
+\end{tabular}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVdoti ( int n, double y[], int index[], double x[] ) ;
+\end{verbatim}
+\index{DVdoti@{\tt DVdoti()}}
+This method returns the indexed dot product 
+$\displaystyle \sum_{{\tt i=0}}^{{\tt n-1}} {\tt y[index[i]] * x[i]}$.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVfill ( int n, double y[], double val ) ;
+\end{verbatim}
+\index{DVfill@{\tt DVfill()}}
+This method fills {\tt n} entries in {\tt y[]} with {\tt val}, 
+i.e.,
+{\tt y[i] = val} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVgather ( int n, double y[], double x[], int index[] ) ;
+\end{verbatim}
+\index{DVgather@{\tt DVgather()}}
+{\tt y[i] = x[index[i]]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVgatherAddZero ( int n, double y[], double x[], int index[] ) ;
+\end{verbatim}
+\index{DVgatherAddZero@{\tt DVgatherAddZero()}}
+{\tt y[i] += x[index[i]]} and
+{\tt x[index[i]] = 0} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVgatherZero ( int n, double y[], double x[], int index[] ) ;
+\end{verbatim}
+\index{DVgatherZero@{\tt DVgatherZero()}}
+{\tt y[i] = x[index[i]]} and
+{\tt x[index[i]] = 0} 
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVinvPerm ( int n, double y[], int index[] ) ;
+\end{verbatim}
+\index{DVinvPerm@{\tt DVinvPerm()}}
+This method permutes the vector y as follows.
+i.e.,
+{\tt y[index[i]] := y[i]}.
+See {\tt DVperm()} for a similar function.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DVmax ( int n, double y[], int *ploc ) ;
+\end{verbatim}
+\index{DVmax@{\tt DVmax()}}
+This method returns the maximum entry in {\tt y[0:n-1]}
+and puts the first location where it was found into the address
+{\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DVmaxabs ( int n, double y[], int *ploc ) ;
+\end{verbatim}
+\index{DVmaxabs@{\tt DVmaxabs()}}
+This method returns the maximum magnitude of entries in 
+{\tt y[0:n-1]} and puts the first location where 
+it was found into the address {\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DVmin ( int n, double y[], int *ploc ) ;
+\end{verbatim}
+\index{DVmin@{\tt DVmin()}}
+This method returns the minimum entry in {\tt y[0:n-1]}
+and puts the first location where it was found into the address
+{\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DVminabs ( int n, double y[], int *ploc ) ;
+\end{verbatim}
+\index{DVminabs@{\tt DVminabs()}}
+This method returns the minimum magnitude of entries in 
+{\tt y[0:n-1]} and puts the first location where 
+it was found into the address {\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVperm ( int n, double y[], int index[] ) ;
+\end{verbatim}
+\index{DVperm@{\tt DVperm()}}
+This method permutes the vector y as follows.
+i.e.,
+{\tt y[i] := y[index[i]]}.
+See {\tt DVinvPerm()} for a similar function.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVramp ( int n, double y[], double start, double inc ) ;
+\end{verbatim}
+\index{DVramp@{\tt DVramp()}}
+This method fills {\tt n} entries in {\tt y[]} with 
+values 
+{\tt start},
+{\tt start + inc},
+{\tt start + 2*inc},
+{\tt start + 3*inc}, etc.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVscale ( int n, double y[], double alpha ) ;
+\end{verbatim}
+\index{DVscale@{\tt DVscale()}}
+This method scales a vector {\tt y[]} by {\tt alpha},
+i.e.,
+{\tt y[i] *= alpha}.
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVscale2 ( int n, double x[], double y[], 
+                double a, double b, double c, double d ) ;
+\end{verbatim}
+\index{DVscale@{\tt DVscale()}}
+This method scales two vectors {\tt y[]} by a $2 \times 2$ matrix,
+i.e.,
+$$
+\left \lbrack \begin{array}{ccc}
+{\tt x[0]} & \ldots & {\tt x[n-1]} \\
+{\tt y[0]} & \ldots & {\tt y[n-1]} 
+\end{array} \right \rbrack
+:= 
+\left \lbrack \begin{array}{cc}
+{\tt a} & {\tt b} \\
+{\tt c} & {\tt d}
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+{\tt x[0]} & \ldots & {\tt x[n-1]} \\
+{\tt y[0]} & \ldots & {\tt y[n-1]} 
+\end{array} \right \rbrack.
+$$
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVscatter ( int n, double y[], int index[], double x[] ) ;
+\end{verbatim}
+\index{DVscatter@{\tt DVscatter()}}
+This method scatters {\tt n} entries of {\tt x[]} into {\tt y[]} 
+as follows,
+{\tt y[index[i]] = x[i]} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVscatterAdd ( int n, double y[], int index[], double x[] ) ;
+\end{verbatim}
+\index{DVscatterAdd@{\tt DVscatterAdd()}}
+This method scatters/adds {\tt n} entries of {\tt x[]} into {\tt y[]} 
+as follows,
+{\tt y[index[i]] += x[i]} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVscatterAddZero ( int n, double y[], int index[], double x[] ) ;
+\end{verbatim}
+\index{DVscatterAddZero@{\tt DVscatterAddZero()}}
+This method scatters/adds {\tt n} entries of {\tt x[]} into {\tt y[]} 
+as follows,
+{\tt y[index[i]] += x[i]} 
+for {\tt 0 <= i < n},
+and then zeros the entries in {\tt x[*]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVscatterZero ( int n, double y[], int index[], double x[] ) ;
+\end{verbatim}
+\index{DVscatterZero@{\tt DVscatterZero()}}
+This method scatters {\tt n} entries of {\tt x[]} into {\tt y[]} 
+as follows,
+{\tt y[index[i]] = x[i]} 
+for {\tt 0 <= i < n}
+and then zeros the entries in {\tt x[*]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVsub ( int n, double y[], double x[] ) ;
+\end{verbatim}
+\index{DVsub@{\tt DVsub()}}
+This method subtracts {\tt n} entries from {\tt x[]} to {\tt y[]},
+i.e.,
+{\tt y[i] -= x[i]}
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DVsum ( int n, double y[] ) ;
+\end{verbatim}
+\index{DVsum@{\tt DVsum()}}
+This method returns the sum of the first {\tt n} entries 
+in the vector {\tt x[]},
+i.e., return
+$\sum_{\tt i = 0}^{\tt n-1} {\tt x[i]}$.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DVsumabs ( int n, double y[] ) ;
+\end{verbatim}
+\index{DVsumabs@{\tt DVsumabs()}}
+This method returns the sum of the absolute values of the 
+first {\tt n} entries in the vector {\tt x[]},
+i.e., return
+$\sum_{\tt i = 0}^{\tt n-1} {\tt abs(x[i])}$.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVswap ( int n, double y[], double x[] ) ;
+\end{verbatim}
+\index{DVswap@{\tt DVswap()}}
+This method swaps the {\tt x[]} and {\tt y[]} vectors as follows.
+i.e.,
+{\tt y[i] := x[i]} and
+{\tt x[i] := y[i]} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVzero ( int n, double y[] ) ;
+\end{verbatim}
+\index{DVzero@{\tt DVzero()}}
+This method zeroes {\tt n} entries in {\tt y[]},
+i.e.,
+{\tt y[i] = 0} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVshuffle ( int n, double y[], int seed ) ;
+\end{verbatim}
+\index{DVshuffle@{\tt DVshuffle()}}
+This method shuffles the first {\tt n} entries in {\tt y[]}.
+The value {\tt seed} is the seed to a random number generator,
+and one can get repeatable behavior by repeating {\tt seed}.
+%-----------------------------------------------------------------------
+\end{enumerate}

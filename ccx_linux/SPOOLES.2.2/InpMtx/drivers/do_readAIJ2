@@ -1,0 +1,30 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = GRD7x7
+
+set msglvl  = 1
+set msgFile = stdout
+
+set dataType = 1
+set flag     = 0
+
+set matrices     = /local1/DATA
+set matrix       = MAT_1
+
+set inFile  = $matrices/$matrix/AIJ$dataType.raw
+set inFile  = $matrices/$matrix.DAT
+
+set outFile = $matrices/$matrix/AIJ$dataType.inpmtxf
+set outFile = $matrices/$matrix/AIJ$dataType.inpmtxb
+set outFile = /local1/ARPA/matrices/SFTC1/SFTC1.inpmtxb
+
+set inFile  = /local/cleve/ARPA/matrices/R10KV/r10kv.jacdata
+set outFile = /local/cleve/ARPA/matrices/R10KV/orig.inpmtxb
+
+# set inFile  = temp
+# set outFile = temp.inpmtxb
+
+echo inFile $inFile
+echo outFile $outFile
+time readAIJ2 $msglvl $msgFile $inFile $outFile

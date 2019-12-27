@@ -1,0 +1,672 @@
+\par
+\section{Prototypes and descriptions of {\tt IVL} methods}
+\label{section:IVL:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt IVL} object.
+\par
+\subsection{Basic methods}
+\label{subsection:IVL:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * IVL_new ( void ) ;
+\end{verbatim}
+\index{IVL_new@{\tt IVL\_new()}}
+This method simply allocates storage for the {\tt IVL} structure 
+and then sets the default fields by a call to 
+{\tt IVL\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_setDefaultFields ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_setDefaultFields@{\tt IVL\_setDefaultFields()}}
+This method sets the default fields of the object ---
+{\tt type = IVL\_NOTYPE},
+{\tt maxnlist}, {\tt nlist} and {\tt tsize} are zero,
+{\tt incr} is {\tt 1024},
+and {\tt sizes}, {\tt p\_vec} and {\tt chunk} are {\tt NULL}.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_clearData ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_clearData@{\tt IVL\_clearData()}}
+This method clears any data allocated by this object and then sets
+the default fields 
+with a call to {\tt IVL\_setDefaultFields()}.
+Any storage held by the {\tt Ichunk} structures is free'd,
+and if {\tt sizes} or {\tt p\_vec} are not {\tt NULL},
+they are free'd.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_free ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_free@{\tt IVL\_free()}}
+This method releases any storage by a call to 
+{\tt IVL\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\par
+\subsection{Instance methods}
+\label{subsection:IVL:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_type ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_type@{\tt IVL\_type()}}
+This method returns {\tt type}, the storage type.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_maxnlist ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_maxnlist@{\tt IVL\_maxnlist()}}
+This method returns {\tt maxnlist}, the maximum number of lists.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_nlist ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_nlist@{\tt IVL\_nlist()}}
+This method returns {\tt nlist}, the present number of lists.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_tsize ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_tsize@{\tt IVL\_tsize()}}
+This method returns {\tt tsize}, the present number of list entries.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_incr ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_incr@{\tt IVL\_incr()}}
+This method returns {\tt incr}, the storage increment.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_setincr ( IVL *ivl, int incr ) ;
+\end{verbatim}
+\index{IVL_setincr@{\tt IVL\_setincr()}}
+This method sets the storage increment to {\tt incr}.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL} or {\tt incr} is negative,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization and resizing methods}
+\label{subsection:IVL:proto:initializers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_init1 ( IVL *ivl, int type, int maxnlist ) ;
+\end{verbatim}
+\index{IVL_init@{\tt IVL\_init()}}
+This method is used when only the number of lists is known.
+Any previous data is cleared with a call to {\tt IVL\_clearData()}.
+The {\tt type} field is set.
+If {\tt maxnlist > 0},
+storage is allocated for the {\tt sizes[]} and {\tt p\_vec[]}
+arrays and {\tt nlist} is set to {\tt maxnlist}.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL} or {\tt type} is invalid 
+or {\tt maxnlist} is negative, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_init2 ( IVL *ivl, int type, int nlist, int tsize ) ;
+\end{verbatim}
+\index{IVL_init2@{\tt IVL\_init2()}}
+This method is used when the number of lists and their
+total size is known --- {\tt type} must be {\tt IVL\_CHUNKED}.
+The {\tt IVL\_init1()} initializer method is called.
+If {\tt tsize > 0} an {\tt Ichunk} object with {\tt tsize} entries
+is allocated.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL} or {\tt type} is not {\tt IVL\_CHUNKED}
+or if {\tt nlist} or {\tt tsize} are negative,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_init3 ( IVL *ivl, int type, int nlist, int sizes[] ) ;
+\end{verbatim}
+\index{IVL_init3@{\tt IVL\_init3()}}
+This method is used when the number of lists and the size of each
+list is known --- {\tt type} must be {\tt IVL\_CHUNKED} or {\tt
+IVL\_SOLO}.
+If {\tt type} is {\tt IVL\_CHUNKED}, then {\tt IVL\_init2()}
+is called to initialize the object,
+else {\tt type} is {\tt IVL\_SOLO} and {\tt IVL\_init1()}
+is called.
+The size and pointer for each list is then set using the value from
+the {\tt sizes[]} array.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL}, or if {\tt type} is not {\tt IVL\_CHUNKED}
+or {\tt IVL\_SOLO},
+or if {\tt nlist} is nonpositive, or if {\tt sizes[]} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_initFromSubIVL ( IVL *subIVL, IVL *ivl, IV *keeplistIV, IV *keepentriesIV ) ;
+\end{verbatim}
+\index{IVL_initFromSubIVL@{\tt IVL\_initFromSubIVL()}}
+This method initializes the {\tt subIVL} object from the {\tt ivl}
+object.
+The lists found in {\tt keeplistIV} are placed into the {\tt
+subIVL} object; if {\tt keeplistIV} is {\tt NULL}, all lists are
+included.
+The list entries found in {\tt keepentriesIV} are placed into 
+lists in the the {\tt subIVL} object; 
+if {\tt keepentriesIV} is {\tt NULL}, all entries are included.
+\par \noindent {\it Return values:}
+1 is a normal return,
+-1 means {\tt subIVL} is {\tt NULL},
+-2 means {\tt ivl} is {\tt NULL},
+-3 means {\tt keeplistIV} is invalid.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_setMaxnlist ( IVL *ivl, int newmaxnlist ) ;
+\end{verbatim}
+\index{IVL_setMaxnlist@{\tt IVL\_setMaxnlist()}}
+This method is used to resize the object 
+by changing the maximum number of lists. 
+If {\tt newmaxnlist == maxnlist}, nothing is done.
+Otherwise, new storage for {\tt sizes[]} and {\tt p\_vec[]} is
+allocated, the information for the first {\tt nlist} lists
+is copied over, and the old storage free'd.
+Note, {\tt maxnlist} is set to {\tt newmaxnlist} 
+and {\tt nlist} is set to the minimum of {\tt nlist} 
+and {\tt newmaxnlist}.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL} or if {\tt newmaxnlist} is negative,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_setNlist ( IVL *ivl, int newnlist ) ;
+\end{verbatim}
+\index{IVL_setNlist@{\tt IVL\_setNlist()}}
+This method is used to change the number of lists. 
+If {\tt newnlist > maxnlist}, storage for the lists is increased 
+via a call to the {\tt IVL\_setMaxnlist()} method.
+Then {\tt nlist} is set to {\tt newnlist}.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL}, or if {\tt newnlist} is negative,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{List manipulation methods}
+\label{subsection:IVL:proto:listmanip}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_listAndSize ( IVL *ivl, int ilist, int *psize, int **pivec) ;
+\end{verbatim}
+\index{IVL_listAndSize@{\tt IVL\_listAndSize()}}
+This method fills {\tt *psize} with {\tt sizes[ilist]}
+and {\tt *pivec} with {\tt p\_vec[ilist]}.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL},
+or if {\tt ilist < 0} or {\tt ilist >= nlist}
+or if {\tt psize} or {\tt pivec} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * IVL_firstInList ( IVL *ivl, int ilist ) ;
+int * IVL_nextInList ( IVL *ivl, int ilist, int *pi ) ;
+\end{verbatim}
+\index{IVL_firstInList@{\tt IVL\_firstInList()}}
+\index{IVL_nextInList@{\tt IVL\_nextInList()}}
+These two methods are used as iterators, e.g.,
+\begin{verbatim}
+for ( pi = IVL_firstInList(ivl, ilist) ;
+      pi != NULL ;
+      pi = IVL_nextInList(ivl, ilist, pi) ) {
+   do something with entry *pi
+}
+\end{verbatim}
+\par \noindent {\it Error checking:}
+Each method checks to see if {\tt ivl} is {\tt NULL} or {\tt ilist
+< 0} or {\tt ilist >= nlist}, if so an error message is printed and
+the program exits.
+In method {\tt IVL\_firstInList()}, if {\tt sizes[ilist] > 0} and
+{\tt p\_vec[ilist] = NULL}, an error message is printed and
+the program exits.
+In method {\tt IVL\_nextInList()}, if {\tt pi} is not in the valid
+range for list {\tt ilist}, an error message is printed and
+the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_setList ( IVL *ivl, int ilist, int isize, int ivec[] ) ;
+\end{verbatim}
+\index{IVL_setList@{\tt IVL\_setList()}}
+This method sets the size and (possibly) pointer to a list of
+entries.
+The behavior of the method depends on the type of the {\tt ivl} object.
+Here is the flow chart:
+\begin{center}
+\fbox{
+\begin{minipage}{4 in}
+\begin{tabbing}
+XXX \= XXX \= XXX \= \kill
+if {\tt ilist >= maxnlist} then \\
+\> the number of lists is increased via a call 
+   to {\tt IVL\_setMaxnlist()} \\
+endif \\
+if {\tt ilist >= nlist} then \\
+\> {\tt nlist} is increased \\
+endif \\
+if {\tt isize = 0} then \\
+\>   release the storage for that list, reclaim storage if possible\\
+else if {\tt type} is {\tt IVL\_UNKNOWN} then\\
+\>   set the pointer\\
+else\\
+\>   if the present size of list {\tt ilist} is smaller than {\tt isize} then\\
+\> \>     get new storage for a new larger list\\
+\>   endif\\
+\>   set the size \\ 
+\>   if {\tt ivec} is not {\tt NULL} then \\
+\>\>    copy the entries \\
+\>   endif \\
+endif
+\end{tabbing}
+\end{minipage}
+}
+\end{center}
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL} or {\tt ilist < 0} then 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_setPointerToList ( IVL *ivl, int ilist, int size, int ivec[] ) ;
+\end{verbatim}
+\index{IVL_setPointerToList@{\tt IVL\_setPointerToList()}}
+This method is similar to {\tt IVL\_setList()} but is used only
+with {\tt type = IVL\_CHUNKED}.
+It simply sets a size and pointer.
+The maximum number of lists and the number of lists are resized as
+necessary.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL} 
+or {\tt type != IVL\_CHUNKED}.
+or {\tt ilist < 0} then 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:IVL:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_sizeOf ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_sizeOf@{\tt IVL\_sizeOf()}}
+This method returns the number of bytes taken by this object.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_min ( IVL *ivl ) ;
+int IVL_max ( IVL *ivl ) ;
+int IVL_maxListSize ( IVL *ivl ) ;
+int IVL_sum ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_min@{\tt IVL\_min()}}
+\index{IVL_max@{\tt IVL\_max()}}
+\index{IVL_maxListSize@{\tt IVL\_maxListSize()}}
+\index{IVL_sum@{\tt IVL\_sum()}}
+These methods return some simple information about the object.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL} then 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_sortUp ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_sortUp@{\tt IVL\_sortUp()}}
+This method sorts each list into ascending order.
+\par \noindent {\it Error checking:}
+If {\tt ivl} is {\tt NULL} or {\tt nlist < 0} then 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * IVL_equivMap1 ( IVL *ivl ) ;
+IV  * IVL_equivMap2 ( IVL *ivl ) ;
+\end{verbatim}
+\index{IVL_equivMap1@{\tt IVL\_equivMap1()}}
+\index{IVL_equivMap2@{\tt IVL\_equivMap2()}}
+Two lists are equivalent if their contents are identical.
+These methods are used to find the natural compressed graph of a
+matrix \cite{ash95-compressed-graphs}.
+The returned {\tt int} vector or {\tt IV} object 
+has size {\tt ivl->nlist}
+and contains a map from the lists in {\tt ivl} to the lists in the
+new {\tt IVL} object.
+If {\tt nlist} is zero, {\tt NULL} is returned.
+\par \noindent {\it Error checking:}
+As usual, if {\tt ivl} is {\tt NULL} or {\tt nlist < 0} then 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_overwrite ( IVL *ivl, IV *oldToNewIV ) ;
+\end{verbatim}
+\index{IVL_overwrite@{\tt IVL\_overwrite()}}
+This method overwrite the entries in each list using an old-to-new
+vector.
+If an entry in a list is out of range, i.e., 
+it is not in {\tt [0,size-1]}
+where {\tt size} is the size of {\tt oldToNewIV}, 
+the entry is not changed.
+\par \noindent {\it Error checking:}
+If {\tt ivl} or {\tt oldToNewIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * IVL_mapEntries ( IVL *ivl, IV *mapIV ) ;
+\end{verbatim}
+\index{IVL_mapEntries@{\tt IVL\_mapEntries()}}
+This method creates and returns a new {\tt IVL} object.
+List {\tt ilist} in the new {\tt IVL} object contains the image of
+the entries in list {\tt ilist} of the old {\tt IVL} object, i.e.,
+the old entries are mapped using the {\tt mapIV} map vector and
+duplicates are purged.
+\par \noindent {\it Error checking:}
+If {\tt ivl} or {\tt mapIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVL_absorbIVL ( IVL *ivl1, IVL *ivl2, IV *mapIV ) ;
+\end{verbatim}
+\index{IVL_absorbIVL@{\tt IVL\_absorbIVL()}}
+In this method, object {\tt ivl1} absorbs the lists and entries
+of object {\tt ivl2}.
+List {\tt ilist} of object {\tt ivl1} is mapped into list {\tt
+map[ilist]} of object {\tt ivl2}, where {\tt map[]} is the vector
+from the {\tt mapIV} object.
+All {\tt Ichunk} objects once owned by {\tt ivl2}
+are now owned by {\tt ivl1}.
+\par \noindent {\it Error checking:}
+If {\tt ivl1}, {\tt ivl2} or {\tt mapIV} is {\tt NULL},
+or if the size pf {\tt mapIV} is not equal to the number of lists
+in {\tt ivl2}, or if the vector in {\tt mapIV} is {\tt NULL},
+then an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * IVL_expand ( IVL *ivl, IV *eqmapIV ) ;
+\end{verbatim}
+\index{IVL_expand@{\tt IVL\_expand()}}
+This method was created in support of a symbolic factorization.
+An {\tt IVL} object is constructed using a compressed graph.
+it must be expanded to reflect the compressed graph.
+The number of lists does not change (there is one list per front)
+but the size of each list may change. so we create and return a new 
+{\tt IVL} object that contains entries for the uncompressed graph.
+\par \noindent {\it Error checking:}
+If {\tt ivl} or {\tt eqmapIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Miscellaneous methods}
+\label{subsection:IVL:proto:miscellaneous}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * IVL_make9P ( int n1, int n2, int ncomp ) ;
+\end{verbatim}
+\index{IVL_make9P@{\tt IVL\_make9P()}}
+This method returns an {\tt IVL} object that contains the full
+adjacency structure for a 9-point operator on a 
+${\tt n1} \times {\tt n2}$ grid with {\tt ncomp} components at each
+grid point.
+\par \noindent {\it Error checking:}
+If {\tt n1}, {\tt n2} or {\tt ncomp} is less than or equal to zero,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * IVL_make13P ( int n1, int n2 ) ;
+\end{verbatim}
+\index{IVL_make13P@{\tt IVL\_make13P()}}
+This method returns an {\tt IVL} object that contains the full
+adjacency structure for a 13-point two dimensional operator on a 
+${\tt n1} \times {\tt n2}$ grid.
+\par \noindent {\it Error checking:}
+If {\tt n1} or {\tt n2} is less than or equal to zero,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * IVL_make5P ( int n1, int n2 ) ;
+\end{verbatim}
+\index{IVL_make5P@{\tt IVL\_make5P()}}
+This method returns an {\tt IVL} object that contains the full
+adjacency structure for a 5-point two dimensional operator on a 
+${\tt n1} \times {\tt n2}$ grid.
+\par \noindent {\it Error checking:}
+If {\tt n1} or {\tt n2} is less than or equal to zero,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * IVL_make27P ( int n1, int n2, int ncomp ) ;
+\end{verbatim}
+\index{IVL_make27P@{\tt IVL\_make27P()}}
+This method returns an {\tt IVL} object that contains the full
+adjacency structure for a 27-point operator on a 
+${\tt n1} \times {\tt n2} \times {\tt n3}$ grid 
+with {\tt ncomp} components at each grid point.
+\par \noindent {\it Error checking:}
+If {\tt n1}, {\tt n2}, {\tt n3} or {\tt ncomp} 
+is less than or equal to zero,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:IVL:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a {\tt IVL} object is simple:
+{\tt type},
+{\tt nlist} and
+{\tt tsize},
+followed by {\tt sizes[nlist]},
+followed by the lists pointed to by {\tt p\_vec[]}.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_readFromFile ( IVL *ivl, char *fn ) ;
+\end{verbatim}
+\index{IVL_readFromFile@{\tt IVL\_readFromFile()}}
+\par
+This method reads an {\tt IVL} object from a file.
+If the the file can be opened successfully, 
+the method calls {\tt IVL\_readFromFormattedFile()} or
+{\tt IVL\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt ivl} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.ivlf} (for a formatted file) 
+or {\tt *.ivlb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_readFromFormattedFile ( IVL *ivl, FILE *fp ) ;
+\end{verbatim}
+\index{IVL_readFromFormattedFile@{\tt IVL\_readFromFormattedFile()}}
+\par
+This method reads an {\tt IVL} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt ivl} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_readFromBinaryFile ( IVL *ivl, FILE *fp ) ;
+\end{verbatim}
+\index{IVL_readFromBinaryFile@{\tt IVL\_readFromBinaryFile()}}
+\par
+This method reads an {\tt IVL} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt ivl} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_writeToFile ( IVL *ivl, char *fn ) ;
+\end{verbatim}
+\index{IVL_writeToFile@{\tt IVL\_writeToFile()}}
+\par
+This method writes an {\tt IVL} object to a file.
+If the the file can be opened successfully, 
+the method calls {\tt IVL\_writeFromFormattedFile()} or
+{\tt IVL\_writeFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt ivl} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.ivlf} (for a formatted file) 
+or {\tt *.ivlb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_writeToFormattedFile ( IVL *ivl, FILE *fp ) ;
+\end{verbatim}
+\index{IVL_writeToFormattedFile@{\tt IVL\_writeToFormattedFile()}}
+\par
+This method writes an {\tt IVL} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt ivl} or {\tt fp} are {\tt NULL} an error message is printed and
+zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_writeToBinaryFile ( IVL *ivl, FILE *fp ) ;
+\end{verbatim}
+\index{IVL_writeToBinaryFile@{\tt IVL\_writeToBinaryFile()}}
+\par
+This method writes an {\tt IVL} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt ivl} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_writeForHumanEye ( IVL *ivl, FILE *fp ) ;
+\end{verbatim}
+\index{IVL_writeForHumanEye@{\tt IVL\_writeForHumanEye()}}
+\par
+This method writes an {\tt IVL} object to a file in an easily
+readable format.
+The method {\tt IVL\_writeStats()} is called to write out the
+header and statistics. 
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt ivl} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVL_writeStats ( IVL *ivl, FILE *fp ) ;
+\end{verbatim}
+\index{IVL_writeStats@{\tt IVL\_writeStats()}}
+\par
+This method writes some statistics about an {\tt IVL} object to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt ivl} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

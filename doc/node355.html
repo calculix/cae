@@ -1,187 +1,260 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>User-defined mechanical material laws.</TITLE>
-<META NAME="description" CONTENT="User-defined mechanical material laws.">
+<TITLE>*STATIC</TITLE>
+<META NAME="description" CONTENT="*STATIC">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node365.html">
-<LINK REL="previous" HREF="node342.html">
-<LINK REL="up" HREF="node336.html">
+<LINK REL="next" HREF="node356.html">
+<LINK REL="previous" HREF="node354.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node356.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5631"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5704"
   HREF="node356.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5627"
-  HREF="node336.html">
+<A NAME="tex2html5700"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5621"
+<A NAME="tex2html5694"
   HREF="node354.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5629"
+<A NAME="tex2html5702"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5632"
-  HREF="node356.html">The CalculiX interface</A>
-<B> Up:</B> <A NAME="tex2html5628"
-  HREF="node336.html">User subroutines.</A>
-<B> Previous:</B> <A NAME="tex2html5622"
-  HREF="node354.html">Gap heat generation (fricheat.f)</A>
- &nbsp; <B>  <A NAME="tex2html5630"
+<B> Next:</B> <A NAME="tex2html5705"
+  HREF="node356.html">*STEADY STATE DYNAMICS</A>
+<B> Up:</B> <A NAME="tex2html5701"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5695"
+  HREF="node354.html">*SPRING</A>
+ &nbsp; <B>  <A NAME="tex2html5703"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION00095000000000000000"></A><A NAME="user"></A>
+<H2><A NAME="SECTION0009108000000000000000"></A><A NAME="static"></A>
 <BR>
-User-defined mechanical material laws.
+*STATIC
 </H2>
-User-defined mechanical behavior can be implemented using three
-different interfaces:
+
+<P>
+Keyword type: step
+
+<P>
+This procedure is used to perform a static analysis. The load consists of the
+sum of the load of the last *STATIC step and the load specified in the present
+step with replacement of redefined loads. This card is also correct for steady
+state incompressible flow calculations without heat transfer.
+
+<P>
+There are five optional parameters: SOLVER, DIRECT, EXPLICIT, TIME RESET and
+TOTAL TIME AT START. SOLVER determines the
+package used to solve the ensuing system of equations. The following solvers
+can be selected:
+
+<P>
 
 <UL>
-<LI>The  native CalculiX interface.
+<LI>the SGI solver
 </LI>
-<LI>The ABAQUS umat routines for linear materials (small strain
-  analyses).
+<LI>PARDISO
 </LI>
-<LI>The ABAQUSNL umat routines for non linear materials (finite
-  strain analyses).
+<LI>SPOOLES [<A
+ HREF="node487.html#Ashcraft1">3</A>,<A
+ HREF="node487.html#Ashcraft2">4</A>]. 
+</LI>
+<LI>TAUCS 
+</LI>
+<LI>the iterative solver by Rank and Ruecker [<A
+ HREF="node487.html#Rank">70</A>], which is based on
+  the algorithms by Schwarz [<A
+ HREF="node487.html#Schwarz">74</A>]. 
 </LI>
 </UL>
 
 <P>
-There are two ways of introducing user-defined mechanical behavior:
-
-<UL>
-<LI>Modify the CalculiX sources. This option is supported for the
-  three interfaces.
-</LI>
-<LI>Call a behavior defined in shared libraries.
-</LI>
-</UL>
+Default is the first solver which has been installed of the following list:
+SGI, PARDISO, SPOOLES and TAUCS. If none is installed, the default is the iterative solver, which comes with the CalculiX
+package.
 
 <P>
-Each of these approaches has its own advantages and its own
-pitfalls.
+The SGI solver should by now be considered as outdated. SPOOLES is very fast, but has no
+out-of-core capability: the size of systems you can solve is limited by your
+RAM memory. With 2GB of RAM you can solve up to 250,000 equations. TAUCS is
+also good, but my experience is limited to the <SPAN CLASS="MATH"><B><IMG
+ WIDTH="35" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2098.png"
+ ALT="$ LL^T$"></B></SPAN> decomposition, which
+only applies to positive definite systems. It has an out-of-core capability
+and also offers a <SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2099.png"
+ ALT="$ LU$"></B></SPAN> decomposition, however, I was not able to run either of
+them so far. Next comes the iterative solver. If SOLVER=ITERATIVE SCALING is
+selected, the pre-conditioning is limited to a scaling of the diagonal terms,
+SOLVER=ITERATIVE CHOLESKY triggers Incomplete Cholesky
+pre-conditioning. Cholesky pre-conditioning leads to a better convergence and
+maybe to shorter execution times, however, it requires additional storage
+roughly corresponding to the non-zeros in the matrix. If you are short of
+memory, diagonal scaling might be your last resort. The iterative methods
+perform well for truly three-dimensional structures. For instance,
+calculations for a hemisphere were about nine times faster with the ITERATIVE
+SCALING solver, and three times faster with the ITERATIVE CHOLESKY solver than
+with SPOOLES. For two-dimensional structures such as plates or shells, the
+performance might break down drastically and convergence often requires the
+use of Cholesky pre-conditioning. SPOOLES (and any of the other direct solvers)
+performs well in most situations with emphasis on slender structures but
+requires much more storage than the iterative solver. PARDISO is the Intel proprietary solver and is to my knowledge
+presently the fastest.
 
 <P>
-The first one is intrusive and requires a partial recompilation of
-CalculiX, which means having access to the sources and the rights to
-install the executable if it is meant to be deployed on a system-wide
-location.
+The parameter DIRECT is relevant for nonlinear calculations only, and
+indicates that automatic incrementation should be switched off.
 
 <P>
-The second one does not require any modification to CalculiX, is
-generally easier to set up and is very flexible. There is no intrinsic
-limitations on the number of shared libraries and functions that can
-be dynamically loaded. It is thus quite feasible to create mechanical
-behaviours databases by creating a shared library by specific
-material. Such libraries will only be loaded if needed. In such an
-approach, the mechanical behaviour is dedicated to a specific material
-and is self-contained: it has no external parameter. Shared libraries
-can be shared between co-workers by moving them on a shared folder.
-However, experience shows that using shared libraries can be confusing
-for some user as they have to update their environment variables (PATH
-on Windows or LD_LIBRARY_PATH on Unixes) for the libraries to be
-usable. Shared libraries can also be more sensible to system
-updates. A drawback of using shared libraries is that the behaviors
-must be written in C or C++ as the name of the functions implementing
-the behaviors must be upper-cased du to CalculiX internal
-conventions<A NAME="tex2html175"
-  HREF="footnode.html#foot10140"><SUP>1</SUP></A> The reason of such a restriction is detailed below. On
-way of generating such library with the appropriate naming convention
-is to use the MFront code generator:
-<DIV ALIGN="CENTER">
-http://tfel.sourceforge.net
-
-</DIV>
+The parameter EXPLICIT is only important for fluid computations. If present,
+the fluid computation is explicit, else it is semi-implicit. Static structural
+computations are always implicit.
 
 <P>
-<BR><HR>
-<!--Table of Child-Links-->
-<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+The parameter TIME RESET can be used to force the total time at the
+end of the present step to coincide with the total time at the end of the
+previous step. If there is no previous step the targeted total time is
+zero. If this parameter is absent the total time at the end of the present step is the
+total time at the end of the previous step plus the time period of the present
+step (2nd parameter underneath the *STATIC keyword). Consequently, if the time
+at the end of the previous step is 10. and the present time period is 1., the
+total time at the end of the present step is 11. If the TIME RESET parameter
+is used, the total time at the beginning of the present step is 9. and at the
+end of the present step it will be 10. This is sometimes useful if
+thermomechanical calculations are split into transient heat transfer steps
+followed by quasi-static static steps (this can be faster than using the
+*COUPLED TEMPERATURE-DISPLACEMENT option, which forces the same amount of
+iterations for the thermal as for the mechanical calculations and than using
+the *UNCOUPLED TEMPERATURE-DISPLACEMENT option, which forces the same amount
+of increments for the thermal as for the mechanical calculations). In CalculiX the static step needs a
+finite time period, however, the user frequently does not want the quasi-static
+step to change the time count.
 
-<UL>
-<LI><A NAME="tex2html5633"
-  HREF="node356.html">The CalculiX interface</A>
-<UL>
-<LI><A NAME="tex2html5634"
-  HREF="node357.html">Introduction of a new mechanical behaviour by modifying the
-  sources</A>
-<LI><A NAME="tex2html5635"
-  HREF="node358.html">Calling mechanical behaviours defined shared libraries</A>
-</UL>
+<P>
+Finally, the parameter TOTAL TIME AT START can be used to set the total time
+at the start of the step to a specific value.
+
+<P>
+In a static step, loads are by default applied in a linear way. Other loading
+patterns can be defined by an <A HREF="node245.html#amplitude">*AMPLITUDE</A> card.
+
+<P>
+If nonlinearities are present in the model (geometric nonlinearity or material
+nonlinearity), the solution is obtained through iteration. Since the step may
+be too large to obtain convergence, a subdivision of the step in increments is
+usually necessary. The user can define the length of the initial
+increment. This size is kept constant if the parameter DIRECT is selected,
+else it is varied by CalculiX according to the convergence properties of the
+solution. In a purely linear calculation the step size is always 1., no
+iterations are performed and, consequently, no second line underneath *STATIC
+is needed. 
+
+<P>
+Notice that any creep behavior (e.g. by using the keyword
+<A HREF="node274.html#creep">*CREEP</A>) is switched off in a *STATIC step. To include creep
+use the <A HREF="node374.html#visco">*VISCO</A> keyword. The syntax for both keywords is the same.
+
+<P><P>
 <BR>
-<LI><A NAME="tex2html5636"
-  HREF="node359.html">ABAQUS umat routines</A>
+
+<P>
+First line:
+
 <UL>
-<LI><A NAME="tex2html5637"
-  HREF="node360.html">Calling mechanical behaviours defined shared libraries</A>
-<LI><A NAME="tex2html5638"
-  HREF="node361.html">Calling shared libraries</A>
-<LI><A NAME="tex2html5639"
-  HREF="node362.html">Limitations</A>
-<LI><A NAME="tex2html5640"
-  HREF="node363.html">Calling shared libraries</A>
-<LI><A NAME="tex2html5641"
-  HREF="node364.html">Limitations</A>
-</UL></UL>
-<!--End of Table of Child-Links-->
-<HR>
+<LI>*STATIC
+</LI>
+<LI>Enter any needed parameters and their values.
+</LI>
+</UL>
+Second line (only relevant for nonlinear analyses; for linear analyses, the
+step length is always 1)
+
+<UL>
+<LI>Initial time increment. This value will be modified due to automatic incrementation, unless the parameter DIRECT was specified (default 1.).
+</LI>
+<LI>Time period of the step (default 1.).
+</LI>
+<LI>Minimum time increment allowed. Only active if DIRECT is not specified. Default is the initial time increment or 1.e-5 times the time period of the step, whichever is smaller.
+</LI>
+<LI>Maximum time increment allowed. Only active if DIRECT is not specified. Default is 1.e+30.
+</LI>
+<LI>Initial time increment for CFD applications (default 1.e-2)
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*STATIC,DIRECT
+.1,1.
+</PRE>
+
+<P>
+defines a static step and selects the SPOOLES solver as linear equation solver in the step (default). If the step is a linear one, the other parameters are of no importance. If the step is nonlinear, the second line indicates that the initial time increment is .1 and the total step time is 1. Furthermore, the parameter DIRECT leads to a fixed time increment. Thus, if successful, the calculation consists of 10 increments of length 0.1.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beampic, beampis.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html5631"
+<A NAME="tex2html5704"
   HREF="node356.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5627"
-  HREF="node336.html">
+<A NAME="tex2html5700"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5621"
+<A NAME="tex2html5694"
   HREF="node354.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5629"
+<A NAME="tex2html5702"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5632"
-  HREF="node356.html">The CalculiX interface</A>
-<B> Up:</B> <A NAME="tex2html5628"
-  HREF="node336.html">User subroutines.</A>
-<B> Previous:</B> <A NAME="tex2html5622"
-  HREF="node354.html">Gap heat generation (fricheat.f)</A>
- &nbsp; <B>  <A NAME="tex2html5630"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html5705"
+  HREF="node356.html">*STEADY STATE DYNAMICS</A>
+<B> Up:</B> <A NAME="tex2html5701"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5695"
+  HREF="node354.html">*SPRING</A>
+ &nbsp; <B>  <A NAME="tex2html5703"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -1,160 +1,223 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Distribruted load (dload.f)</TITLE>
-<META NAME="description" CONTENT="Distribruted load (dload.f)">
+<TITLE>*RIGID BODY</TITLE>
+<META NAME="description" CONTENT="*RIGID BODY">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node347.html">
 <LINK REL="previous" HREF="node345.html">
-<LINK REL="up" HREF="node342.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node347.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5525"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5596"
   HREF="node347.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5521"
-  HREF="node342.html">
+<A NAME="tex2html5592"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5515"
+<A NAME="tex2html5586"
   HREF="node345.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5523"
+<A NAME="tex2html5594"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5526"
-  HREF="node347.html">Heat convection (film.f)</A>
-<B> Up:</B> <A NAME="tex2html5522"
-  HREF="node342.html">User-defined loading</A>
-<B> Previous:</B> <A NAME="tex2html5516"
-  HREF="node345.html">Distributed flux (dflux.f)</A>
- &nbsp; <B>  <A NAME="tex2html5524"
+<B> Next:</B> <A NAME="tex2html5597"
+  HREF="node347.html">*SECTION PRINT</A>
+<B> Up:</B> <A NAME="tex2html5593"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5587"
+  HREF="node345.html">*RETAINED NODAL DOFS</A>
+ &nbsp; <B>  <A NAME="tex2html5595"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00094400000000000000"></A><A NAME="userdload"></A>
+<H2><A NAME="SECTION000999000000000000000"></A><A NAME="rigidbody"></A>
 <BR>
-Distribruted load (dload.f)
-</H3>
+*RIGID BODY
+</H2>
 
 <P>
-This subroutine is used for nonuniform pressure, characterized by
-distributed load labels of the form PxNUy, cf
-<A HREF="node247.html#dload">*DLOAD</A>. The load label can be up to 20 characters long. In
-particular, y can be used to distinguish different nonuniform loading
-patterns. The header and variable description is as
-follows:
+Keyword type: model definition
+
+<P>
+With this card a rigid body can be defined consisting of nodes
+or elements. Optional parameters are
+REF NODE and ROT NODE. 
+
+<P>
+One of the parameters NSET or ELSET is required. Use NSET to define a
+rigid body consisting of the nodes belonging to a node set and ELSET
+for a rigid body
+consisting of the elements belonging to an element set. In the latter case, the rigid body
+really consists of the nodes belonging to the elements. The parameters
+NSET and ELSET are mutually exclusive. The rigid body
+definition ensures that the distance between any pair of nodes
+belonging to the body does not change during deformation. This
+means that the degrees of freedom are reduced to six: three
+translational and three rotational degrees of freedom. Thus, the motion is reduced
+to a translation of a reference node and a rotation about that
+node. Therefore, the location of the reference node is important since it is
+in this node that the resultant force is applied (this force may be defined by
+the user of may be the result of the calculation).
+
+<P>
+The reference node can be specified by the parameter REF NODE and
+should have been assigned coordinates using the <A HREF="node330.html#node">*NODE</A>
+card. The reference node can belong to the rigid body, but does not
+necessarily have to. Notice, however, that if the reference node belongs to
+the rigid body any forces requested by specifying RF on a *NODE PRINT card
+will not be correct. If no reference node is defined by the user the origin of
+the global coordinate system is taken (default).
+
+<P>
+For the rotational degrees of freedom a dummy rotational node is used
+whose translational degrees of freedom are interpreted as the
+rotations about the reference node. Thus, the first degree of freedom
+is used as the rotation about the x-axis of the rigid body, the second
+as the the rotation about the y-axis and the third as the rotation
+about the z-axis. The
+rotational node can be defined explicitly using the parameter ROT
+NODE. In that case, this node must be been assigned coordinates (their value
+is irrelevant) and
+should not belong to any element of the structure.
+
+<P>
+In the absence of any of the parameters REF NODE or ROT NODE, extra
+nodes are generated internally assuming their tasks. The position of the
+default REF NODE is the origin. However, defining
+the nodes explicitly can be useful if a rotation about a specific
+point is to be defined (using <A HREF="node248.html#boundary">*BOUNDARY</A> or
+<A HREF="node262.html#cload">*CLOAD</A>), or if rigid body values (displacements or
+forces) are to be printed using <A HREF="node333.html#nodeprint">*NODE
+PRINT</A>. Notice that a force defined in a rotational node
+has the meaning of a moment. 
+
+<P>
+Internally, a rigid body is enforced by using nonlinear multiple point
+constraints (MPC).
+
+<P>
+If the participating nodes in a rigid body definition lie on a
+straight line, the rigid body rotation about the line is not defined
+and an error will occur. To remove the rotational degree of freedom,
+specify that the rotation about the axis is zero. If <!-- MATH
+ $\mathbf{a}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2343.png"
+ ALT="$ \mathbf{a}$"></B></SPAN> is a
+unit normal on the axis and <!-- MATH
+ $\mathbf{u}_R$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="24" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2344.png"
+ ALT="$ \mathbf{u}_R$"></B></SPAN> is the displacement of the
+ROT NODE, this results in a linear MPC of the form <!-- MATH
+ $\mathbf{a}.\mathbf{u}_R
+=0$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="67" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2345.png"
+ ALT="$ \mathbf{a}.\mathbf{u}_R
+=0$"></B></SPAN> to be specified by the user by means of a
+<A HREF="node298.html#equation">*EQUATION</A>  card.
+
+<P><P>
+<BR>
+
+<P>
+First and only line:
+
+<UL>
+<LI>*RIGID BODY
+</LI>
+<LI>Enter any needed parameters and their values
+</LI>
+</UL>
 
 <P>
 <PRE>
-      subroutine dload(f,kstep,kinc,time,noel,npt,layer,kspt,
-     &amp;     coords,jltyp,loadtype,vold,co,lakonl,konl,
-     &amp;     ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,iscale,veold,
-     &amp;     rho,amat,mi)
-!
-!     user subroutine dload
-!
-!
-!     INPUT:
-!
-!     kstep              step number
-!     kinc               increment number
-!     time(1)            current step time
-!     time(2)            current total time
-!     noel               element number
-!     npt                integration point number
-!     layer              currently not used
-!     kspt               currently not used
-!     coords(1..3)       global coordinates of the integration point
-!     jltyp              loading face kode:
-!                        21 = face 1 
-!                        22 = face 2 
-!                        23 = face 3 
-!                        24 = face 4 
-!                        25 = face 5 
-!                        26 = face 6
-!     loadtype           load type label
-!     vold(0..4,1..nk)   solution field in all nodes
-!                        0: temperature
-!                        1: displacement in global x-direction
-!                        2: displacement in global y-direction
-!                        3: displacement in global z-direction
-!                        4: static pressure
-!     veold(0..3,1..nk)  derivative of the solution field w.r.t.
-!                        time in all nodes
-!                        0: temperature rate
-!                        1: velocity in global x-direction
-!                        2: velocity in global y-direction
-!                        3: velocity in global z-direction
-!     co(3,1..nk)        coordinates of all nodes
-!                        1: coordinate in global x-direction
-!                        2: coordinate in global y-direction
-!                        3: coordinate in global z-direction
-!     lakonl             element label
-!     konl(1..20)        nodes belonging to the element
-!     ipompc(1..nmpc))   ipompc(i) points to the first term of
-!                        MPC i in field nodempc
-!     nodempc(1,*)       node number of a MPC term
-!     nodempc(2,*)       coordinate direction of a MPC term
-!     nodempc(3,*)       if not 0: points towards the next term
-!                                  of the MPC in field nodempc
-!                        if 0: MPC definition is finished
-!     coefmpc(*)         coefficient of a MPC term
-!     nmpc               number of MPC's
-!     ikmpc(1..nmpc)     ordered global degrees of freedom of the MPC's
-!                        the global degree of freedom is
-!                        8*(node-1)+direction of the dependent term of
-!                        the MPC (direction = 0: temperature;
-!                        1-3: displacements; 4: static pressure;
-!                        5-7: rotations)
-!     ilmpc(1..nmpc)     ilmpc(i) is the MPC number corresponding
-!                        to the reference number in ikmpc(i)   
-!     rho                local density 
-!     amat               material name
-!     mi(1)              max # of integration points per element (max
-!                        over all elements)
-!     mi(2)              max degree of freedomm per node (max over all
-!                        nodes) in fields like v(0:mi(2))...
-!
-!     OUTPUT:
-!
-!     f                  magnitude of the distributed load
-!     iscale             determines whether the flux has to be
-!                        scaled for increments smaller than the 
-!                        step time in static calculations
-!                        0: no scaling
-!                        1: scaling (default)
-!
+Example:
+
+*RIGID BODY,NSET=rigid1,REF NODE=100,ROT NODE=101
 </PRE>
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+defines a rigid body consisting of the nodes belonging to node set
+rigid1 with reference node 100 and rotational node 101.
+
+<P>
+Using
+
+<P>
+<PRE>
+*CLOAD
+101,3,0.1
+</PRE>
+
+<P>
+in the same input deck (see <A HREF="node262.html#cload">*CLOAD</A>) defines a moment about the z-axis of 0.1 acting on the rigid body.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamrb.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5596"
+  HREF="node347.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5592"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5586"
+  HREF="node345.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5594"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5597"
+  HREF="node347.html">*SECTION PRINT</A>
+<B> Up:</B> <A NAME="tex2html5593"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5587"
+  HREF="node345.html">*RETAINED NODAL DOFS</A>
+ &nbsp; <B>  <A NAME="tex2html5595"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

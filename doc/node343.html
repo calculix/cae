@@ -1,75 +1,163 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Concentrated flux (cflux.f)</TITLE>
-<META NAME="description" CONTENT="Concentrated flux (cflux.f)">
+<TITLE>*REFINE MESH</TITLE>
+<META NAME="description" CONTENT="*REFINE MESH">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node344.html">
 <LINK REL="previous" HREF="node342.html">
-<LINK REL="up" HREF="node342.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node344.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5489"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5560"
   HREF="node344.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5485"
-  HREF="node342.html">
+<A NAME="tex2html5556"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5479"
+<A NAME="tex2html5550"
   HREF="node342.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5487"
+<A NAME="tex2html5558"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5490"
-  HREF="node344.html">Concentrated load (cload.f)</A>
-<B> Up:</B> <A NAME="tex2html5486"
-  HREF="node342.html">User-defined loading</A>
-<B> Previous:</B> <A NAME="tex2html5480"
-  HREF="node342.html">User-defined loading</A>
- &nbsp; <B>  <A NAME="tex2html5488"
+<B> Next:</B> <A NAME="tex2html5561"
+  HREF="node344.html">*RESTART</A>
+<B> Up:</B> <A NAME="tex2html5557"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5551"
+  HREF="node342.html">*RADIATE</A>
+ &nbsp; <B>  <A NAME="tex2html5559"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00094100000000000000"></A><A NAME="usercflux"></A>
+<H2><A NAME="SECTION000996000000000000000"></A><A NAME="refinemesh"></A>
 <BR>
-Concentrated flux (cflux.f)
-</H3>
+*REFINE MESH
+</H2>
 
 <P>
-This subroutine is used for user-defined concentrated heat flux, characterized
-by the parameter USER on the <A HREF="node216.html#cflux">*CFLUX</A> card. For the header and
-variable description the reader is referred to cflux.f in the source code.
+Keyword type: step
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+With this keyword the part of the input mesh consisting of C3D4 and C3D10
+elements is refined according to certain criteria and stored in file
+jobname.fin. All other element types in the input mesh are not
+considered. Subsequently, the user can replace the tetrahedral elements in his
+input deck by the newly generated elements and restart a calculation in order
+to get a more accurate results. This has to be done manually.
+
+<P>
+For the refinement the available criteria are the size of the displacements
+(label U), the velocity (label V), the stress (label S), the total strain
+(label E), the mechanical strain (label ME), the equivalent plastic strain
+(label PEEQ), the energy density (label ENER), the heat flux (label HFL), the
+gradient based error estimator (label ERR) or a user-defined function (user
+subroutine ucalculateh.f). The size is defined as the absolute value if it
+concerns a scalar quantity and the norm if it concerns a vector or tensor.
+
+<P>
+With the parameter LIMIT the user defines a positive value above which
+refinement is requested. For instance, if the limit is 50. and the value of
+the selected criterion is 200. a refinement by a factor of 4 is aimed at. The
+refinement is done iteratively (3 times), and each iteration induces a
+maximum refinement by a factor of 2.
+
+<P>
+If the tetrahedral mesh in the input deck contains at least one quadratic
+element, the refined mesh contains C3D10 elements only, else it is a pure C3D4 mesh.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*REFINE MESH.
+</LI>
+<LI>enter the required parameter LIMIT and its value
+</LI>
+</UL>
+
+<P>
+Second line:
+
+<UL>
+<LI>the label of the selected criterion.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Example:
+
+*REFINE MESH,LIMIT=50.
+S
+</PRE>
+
+<P>
+requests a refinement based on the size of the stress and a limit of 50.
+
+<P>
+
+<P><P>
+<BR>
+Example files: circ10p.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5560"
+  HREF="node344.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5556"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5550"
+  HREF="node342.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5558"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5561"
+  HREF="node344.html">*RESTART</A>
+<B> Up:</B> <A NAME="tex2html5557"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5551"
+  HREF="node342.html">*RADIATE</A>
+ &nbsp; <B>  <A NAME="tex2html5559"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

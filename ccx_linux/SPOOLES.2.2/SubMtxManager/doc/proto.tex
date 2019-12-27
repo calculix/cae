@@ -1,0 +1,174 @@
+\par
+\section{Prototypes and descriptions of {\tt SubMtxManager} methods}
+\label{section:SubMtxManager:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt SubMtxManager} object.
+\par
+\subsection{Basic methods}
+\label{subsection:SubMtxManager:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+SubMtxManager * SubMtxManager_new ( void ) ;
+\end{verbatim}
+\index{SubMtxManager_new@{\tt SubMtxManager\_new()}}
+This method simply allocates storage 
+for the {\tt SubMtxManager} structure 
+and then sets the default fields by a call to 
+{\tt SubMtxManager\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxManager_setDefaultFields ( SubMtxManager *manager ) ;
+\end{verbatim}
+\index{SubMtxManager_setDefaultFields@{\tt SubMtxManager\_setDefaultFields()}}
+The structure's fields are set to default values:
+{\tt mode}, 
+{\tt nactive}, 
+{\tt nbytesactive}, 
+{\tt nbytesrequested}, 
+{\tt nbytesalloc}, 
+{\tt nrequests}, 
+{\tt nreleases}, 
+{\tt nlocks} and
+{\tt nunlocks} are set to zero,
+and {\tt head} and {\tt lock} are set to {\tt NULL} .
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxManager_clearData ( SubMtxManager *manager ) ;
+\end{verbatim}
+\index{SubMtxManager_clearData@{\tt SubMtxManager\_clearData()}}
+This method clears the object and free's any owned data
+by calling {\tt SubMtx\_free()} for each object on the free
+list.
+If the lock is not {\tt NULL}, it is destroyed via a call to
+{\tt mutex\_destroy()} and then free'd.
+There is a concluding call to 
+{\tt SubMtxManager\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxManager_free ( SubMtxManager *manager ) ;
+\end{verbatim}
+\index{SubMtxManager_free@{\tt SubMtxManager\_free()}}
+This method releases any storage by a call to 
+{\tt SubMtxManager\_clearData()} 
+and then free the space for {\tt manager}.
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization methods}
+\label{subsection:SubMtxManager:proto:initial}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxManager_init( SubMtxManager *manager, int lockflag, int mode ) ;
+\end{verbatim}
+\index{SubMtxManager_init@{\tt SubMtxManager\_init()}}
+Any data is cleared via a call to
+{\tt SubMtxManager\_clearData()}.
+If {\tt lockflag} is zero, the lock is not initialized.
+If {\tt lockflag} is {\tt 1}, the lock is initialized
+to be able to synchronize threads with the calling process.
+If {\tt lockflag} is {\tt 2}, the lock is initialized
+to be able to synchronize threads across processes.
+The behavior mode is set to {\tt mode}.
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+or if {\tt lockflag} is not in {\tt [0,2]},
+or if {\tt mode} is not in {\tt [0,1]},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:SubMtxManager:proto:utility}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+SubMtx * SubMtxManager_newObjectOfSizeNbytes ( SubMtxManager *manager,
+                                               int nbytesNeeded ) ;
+\end{verbatim}
+\index{SubMtxManager_newObjectOfSizeNbytes@{\tt SubMtxManager\_newObjectOfSizeNbytes()}}
+\par
+This method returns a pointer to a {\tt SubMtx} object that has
+at least {\tt nbytesNeeded} bytes in its workspace.
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+or if ${\tt nbytesNeeded} \le 0$,
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxManager_releaseObject ( SubMtxManager *manager, SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtxManager_releaseObject@{\tt SubMtxManager\_releaseObject()}}
+\par
+This method releases the {\tt mtx} instance, 
+either free'ing it (if {\tt mode = 0}),
+or returning it to the free list (if {\tt mode = 1}).
+\par \noindent {\it Error checking:}
+If {\tt manager} or {\tt mtx} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxManager_releaseListOfObjects ( SubMtxManager *manager, SubMtx *first ) ;
+\end{verbatim}
+\index{SubMtxManager_releaseListOfObjects@{\tt SubMtxManager\_releaseListOfObjects()}}
+\par
+This method releases a list of {\tt SubMtx} objects whose head
+is {\tt first}, 
+either free'ing them (if {\tt mode = 0}),
+or returning them to the free list (if {\tt mode = 1}).
+\par \noindent {\it Error checking:}
+If {\tt manager} or {\tt head} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:SubMtxManager:proto:IO}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxManager_writeForHumanEye ( SubMtxManager *manager, FILE *fp ) ;
+\end{verbatim}
+\index{SubMtxManager_writeForHumanEye@{\tt
+SubMtxManager\_writeForHumanEye()}}
+\par
+This method writes a {\tt SubMtxManager} object to a file in an easily
+readable format.
+\par \noindent {\it Error checking:}
+If {\tt manager} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par

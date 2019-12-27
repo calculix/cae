@@ -1,0 +1,33 @@
+\chapter{{\tt DSTree}: \break A Domain/Separator Tree Object}
+\label{chapter:DSTree:intro}
+\par
+The {\tt DSTree} object represents a recursive partition of a
+graph, as is constructed during a nested dissection procedure.
+The graph is split by a vertex {\it separator} into subgraphs,
+and this process continues recursively up to some point.
+A subgraph which is not split is a {\tt domain}.
+The {\tt DSTree} object is normally created by the {\tt GPart}
+graph partitioning object and then used to determine the 
+stages vector used as input to the {\tt MSMD} multistage minimum
+degree object.
+\par
+The {\tt DSTree} object contains a {\tt Tree} object that stores 
+the natural tree links between separators and domains.
+The top level separator has no parent.
+Once a separator $S$ splits a graph, each subgraph is either split
+again (in this case $S$ is the parent of the separator that splits the
+subgraph) or $S$ is the parent of the subgraph (which is a
+domain).
+The {\tt DSTree} object also contains an {\tt IV} object that stores 
+a map from the vertices to the domains and separators.
+\par
+The {\tt DSTree} object is a natural output from a nested
+dissection or other graph partitioning algorithm that uses vertex
+separators.
+Presently it has only one active function --- it creates a map from
+the vertices to the {\it stages} needed as input for the
+multi-stage minimum degree algorithm (see the {\tt MSMD} object).
+Multisection orders the vertices in two stages: all vertices in the
+domains first, then the vertices in the separators.
+Nested dissection orders the vertices in as many stages as there
+are levels in the {\tt DSTree} object.

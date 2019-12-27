@@ -1,196 +1,274 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*BOUNDARYF</TITLE>
-<META NAME="description" CONTENT="*BOUNDARYF">
+<TITLE>Gamma Method</TITLE>
+<META NAME="description" CONTENT="Gamma Method">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node214.html">
-<LINK REL="previous" HREF="node209.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="previous" HREF="node212.html">
+<LINK REL="up" HREF="node210.html">
 <LINK REL="next" HREF="node214.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3884"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3857"
   HREF="node214.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3880"
-  HREF="node205.html">
+<A NAME="tex2html3853"
+  HREF="node210.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3874"
+<A NAME="tex2html3849"
   HREF="node212.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3882"
+<A NAME="tex2html3855"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3885"
-  HREF="node214.html">*BUCKLE</A>
-<B> Up:</B> <A NAME="tex2html3881"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html3875"
-  HREF="node212.html">Submodel</A>
- &nbsp; <B>  <A NAME="tex2html3883"
+<B> Next:</B> <A NAME="tex2html3858"
+  HREF="node214.html">General approach for solving</A>
+<B> Up:</B> <A NAME="tex2html3854"
+  HREF="node210.html">Convective interpolation</A>
+<B> Previous:</B> <A NAME="tex2html3850"
+  HREF="node212.html">High resolution schemes</A>
+ &nbsp; <B>  <A NAME="tex2html3856"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION00085000000000000000"></A><A NAME="boundaryf"></A>
-<BR>
-*BOUNDARYF
-</H2>
+<H4><A NAME="SECTION00082230000000000000">
+Gamma Method</A>
+</H4>
 
 <P>
-Keyword type: step
+For incompressible flows a scheme was proposed for the convective facial
+values consisting of a linear combination of the upwind scheme and the facial
+values <!-- MATH
+ $\overline{\phi }_f$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1661.png"
+ ALT="$ \overline{\phi }_f$"></B></SPAN> [<A
+ HREF="node487.html#Jasak">36</A>]:
 
 <P>
-This option is used to prescribe boundary conditions for 3D-fluids
-calculations. This includes static temperature, velocity and static pressure.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eqF25"></A><!-- MATH
+ \begin{equation}
+\overrightarrow{\phi }_f = \gamma \overline{\phi }_f + (1- \gamma) \phi_P.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="169" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1699.png"
+ ALT="$\displaystyle \overrightarrow{\phi }_f = \gamma \overline{\phi }_f + (1- \gamma) \phi_P.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">521</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-The following degrees of freedom are being used:
+Here, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img825.png"
+ ALT="$ \gamma$"></B></SPAN> is a piecewise linear function of <!-- MATH
+ $\widetilde{\phi } _P$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="24" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1688.png"
+ ALT="$ \widetilde{\phi }_P$"></B></SPAN>:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><SPAN CLASS="MATH"><IMG
+ WIDTH="107" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1700.png"
+ ALT="$\displaystyle \widetilde{\phi_P} \le 0: \hspace{1 cm}$"></SPAN></TD>
+<TD NOWRAP ALIGN="LEFT"><SPAN CLASS="MATH"><IMG
+ WIDTH="46" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1701.png"
+ ALT="$\displaystyle \gamma=0 \;$">&nbsp; &nbsp;(Upwind Difference)</SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">522</SPAN>)</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><SPAN CLASS="MATH"><IMG
+ WIDTH="149" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1702.png"
+ ALT="$\displaystyle 0 &lt; \widetilde{\phi_P} &lt; \beta_m: \hspace{1 cm}$"></SPAN></TD>
+<TD NOWRAP ALIGN="LEFT"><SPAN CLASS="MATH"><IMG
+ WIDTH="83" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1703.png"
+ ALT="$\displaystyle \gamma=\widetilde{\phi_P}/\beta_m$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">523</SPAN>)</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><SPAN CLASS="MATH"><IMG
+ WIDTH="149" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1704.png"
+ ALT="$\displaystyle \beta_m \le \widetilde{\phi_P} &lt; 1: \hspace{1 cm}$"></SPAN></TD>
+<TD NOWRAP ALIGN="LEFT"><SPAN CLASS="MATH"><IMG
+ WIDTH="46" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1705.png"
+ ALT="$\displaystyle \gamma=1 \;$">&nbsp; &nbsp;(Central Difference)</SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">524</SPAN>)</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><SPAN CLASS="MATH"><IMG
+ WIDTH="107" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1698.png"
+ ALT="$\displaystyle 1 \le \widetilde{\phi_P}: \hspace{1 cm}$"></SPAN></TD>
+<TD NOWRAP ALIGN="LEFT"><SPAN CLASS="MATH"><IMG
+ WIDTH="46" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1701.png"
+ ALT="$\displaystyle \gamma=0 \;$">&nbsp; &nbsp;(Upwind Difference)</SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">525</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Due to the
+second term in the above equation <!-- MATH
+ $\overrightarrow{\phi }_f$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="28" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1706.png"
+ ALT="$ \overrightarrow{\phi }_f$"></B></SPAN> is a nonlinear
+function of <SPAN CLASS="MATH"><B><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1668.png"
+ ALT="$ \phi_P$"></B></SPAN>. <SPAN CLASS="MATH"><B><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1707.png"
+ ALT="$ \beta_m$"></B></SPAN> should be in the range <!-- MATH
+ $0.1 \le \beta_m \le
+0.5$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="108" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1708.png"
+ ALT="$ 0.1 \le \beta_m \le
+0.5$"></B></SPAN>. In CalculiX <!-- MATH
+ $\beta_m=0.1$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="66" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1709.png"
+ ALT="$ \beta_m=0.1$"></B></SPAN>.
+
+<P>
+For the velocity <!-- MATH
+ $\boldsymbol{v}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img299.png"
+ ALT="$ \boldsymbol{v}$"></B></SPAN> the scalar <!-- MATH
+ $||\boldsymbol{v} ||$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="31" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1710.png"
+ ALT="$ \vert\vert\boldsymbol{v} \vert\vert$"></B></SPAN> is used to
+calculate <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img825.png"
+ ALT="$ \gamma$"></B></SPAN>. Since
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+||\boldsymbol{v}||,_j = \frac{v_i}{||\boldsymbol{v}|| }  v_{i,j}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="115" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1711.png"
+ ALT="$\displaystyle \vert\vert\boldsymbol{v}\vert\vert,_j = \frac{v_i}{\vert\vert\boldsymbol{v}\vert\vert } v_{i,j}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">526</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+one obtains
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\widetilde{||\boldsymbol{v}||}_P = 1 - \frac{(||\boldsymbol{v}||_E -
+    ||\boldsymbol{v}||_P) ||\boldsymbol{v}||_P   }{2 \boldsymbol{v}_P \cdot
+    \nabla \boldsymbol{v}_P^T \cdot \boldsymbol{j}_\xi d(P,E)   }  .
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="250" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1712.png"
+ ALT="$\displaystyle \widetilde{\vert\vert\boldsymbol{v}\vert\vert}_P = 1 - \frac{(\ve...
+...symbol{v}_P \cdot \nabla \boldsymbol{v}_P^T \cdot \boldsymbol{j}_\xi d(P,E) } .$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">527</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
 
-<UL>
-<LI>1: velocity in the local x-direction
-</LI>
-<LI>2: velocity in the local y-direction
-</LI>
-<LI>3: velocity in the local z-direction
-</LI>
-<LI>8: static pressure
-</LI>
-<LI>11: static temperature
-</LI>
-</UL>
-
-<P>
-If no
-<A HREF="node328.html#transform">*TRANSFORM</A> card applied to the node at stake, the local
-directions coincide with the global ones.
-
-<P>
-Optional parameters are AMPLITUDE, TIME DELAY, and USER. Their meaning is the same as for the *BOUNDARY card.
-
-<P>
-The main differences with the *BOUNDARY card are:
-
-<P>
-
-<UL>
-<LI>the *BOUNDARYF card can only be used within a step
-</LI>
-<LI>for fluids the boundary
-conditions are applied to element faces and not to nodes. The face labels are
-exactly the same as for the <A HREF="node322.html#surface">*SURFACE</A> card.
-</LI>
-</UL>
-
-<P>
-In order to apply a fluid boundary condition to a surface the element set label
-underneath may be replaced by a surface name. In that case the
-face type label takes the value ``S'' without any number following.
-
-<P>
-Thus, the cards run like:
-
-<P><P>
-<BR>
-
-<P>
-First line:
-
-<UL>
-<LI>*BOUNDARYF
-</LI>
-<LI>Enter any needed parameters and their value.
-</LI>
-</UL>
-
-<P>
-Following line:
-
-<UL>
-<LI>Element number or element set label
-</LI>
-<LI>Local face label of the element
-</LI>
-<LI>First degree of freedom constrained
-</LI>
-<LI>Last degree of freedom constrained. This field may be left blank if only one degree of freedom is constrained.
-</LI>
-<LI>Actual magnitude of the prescribed displacement (default is zero)
-</LI>
-</UL>
-Repeat this line if needed. For the local face numbering the reader is referred to the
-<A HREF="node247.html#dload">*DLOAD</A> card.
-
-<P>
-<PRE>
-Example:
-
-*BOUNDARYF
-22,S3,2,2,.1
-</PRE>
-
-<P>
-assigns to degree of freedom two of local face 3 of element 22 the value
-0.1. If no transformation applies this degree of freedom corresponds to the
-velocity in global y-direction.
-
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html3884"
+<A NAME="tex2html3857"
   HREF="node214.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3880"
-  HREF="node205.html">
+<A NAME="tex2html3853"
+  HREF="node210.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3874"
+<A NAME="tex2html3849"
   HREF="node212.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3882"
+<A NAME="tex2html3855"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3885"
-  HREF="node214.html">*BUCKLE</A>
-<B> Up:</B> <A NAME="tex2html3881"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html3875"
-  HREF="node212.html">Submodel</A>
- &nbsp; <B>  <A NAME="tex2html3883"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html3858"
+  HREF="node214.html">General approach for solving</A>
+<B> Up:</B> <A NAME="tex2html3854"
+  HREF="node210.html">Convective interpolation</A>
+<B> Previous:</B> <A NAME="tex2html3850"
+  HREF="node212.html">High resolution schemes</A>
+ &nbsp; <B>  <A NAME="tex2html3856"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

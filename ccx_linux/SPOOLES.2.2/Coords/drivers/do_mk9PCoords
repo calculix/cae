@@ -1,0 +1,12 @@
+#! /bin/csh -f
+
+set msglvl        = 3
+set msgFile       = stdout
+set n1            = 7
+set n2            = 7
+set matrices      = ../../Matrices
+set matrix        = GRD7x7
+set outCoordsFile = $matrices/$matrix/$matrix.coordsf
+set outCoordsFile = temp.coordsf
+
+mk9PCoords $msglvl $msgFile $n1 $n2 $outCoordsFile

@@ -1,19 +1,18 @@
-© Ihor Mirzov, September 2019  
+© Ihor Mirzov, December 2019  
 Distributed under GNU General Public License v3.0
 
 <br/><br/>
 
 
 
-- [Introduction](#calculix-cae)
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Downloads](#downloads)
-- [How to use](#how-to-use)
-- [Your help](#your-help)
-- [For developers](#for-developers)
-- [What's new](#whats-new)
-- [TODO](#todo)
+[Features](#features) |
+[Screenshots](#screenshots) |
+[Downloads](#downloads) |
+[How to use](#how-to-use) |
+[Your help](#your-help) |
+[For developers](#for-developers) |
+[What's new](#whats-new) |
+[TODO](#todo)
 
 <br/><br/>
 
@@ -23,7 +22,7 @@ Distributed under GNU General Public License v3.0
 
 GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free and open source. Program is based on CalculiX keywords hierarchy. Written in Python3, utilizes PyQt5 and VTK.
 
-It is implied that you have already created geometry and generated mesh in some other software like [Salome-platform](https://www.salome-platform.org/). CacluliX CAE is designed to guide you through the keywords creation sequence and is aimed to help you reach correct input file with no mistakes.
+It is implied that you have already created geometry and generated mesh in some other software like [FreeCAD](https://www.freecadweb.org/) or [Salome-platform](https://www.salome-platform.org/). CacluliX CAE is designed to guide you through the keywords creation sequence and is aimed to help you reach correct input file with no mistakes.
 
 <br/><br/>
 
@@ -41,7 +40,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/VTK.py).
 
-- Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable env-file with Python syntax. The file is automatically overwrited during the workflow.
+- Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable env-file with Python syntax. The file is automatically overwritten during the workflow.
 
 - [Optimal job management](src/job.py):
 
@@ -60,7 +59,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Screenshots
 
-Main window with imported mesh and highlighted node set after job calculation:
+Main window with imported mesh and highlighted node set:
 ![Main window](img/img_social.png "Main window")
 
 "New keyword" dialog with corresponding chapter from HTML manual:
@@ -79,6 +78,8 @@ Calculation result exported to Paraview:
 # Downloads
 
 Both sources and binaries could be found on [the releases page](https://github.com/imirzov/ccx_cae/releases).
+
+Dear users, from now there will be no Windows binary since I'm not using this OS anymore.
 
 <br/><br/>
 
@@ -186,3 +187,5 @@ The source code for the CalculiX solver is taken from the [free_form_fortran pro
 - Menu Help:
     - PDF manual / YouTube videos for beginners.
     - VTK Keyboard Shortcuts and Controls.
+
+- implement CCX version as parameter

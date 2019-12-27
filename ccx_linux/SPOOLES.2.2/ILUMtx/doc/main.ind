@@ -1,0 +1,13 @@
+\begin{theindex}
+
+  \item {\tt ILUMtx\_clearData()}, 3
+  \item {\tt ILUMtx\_factor()}, 3
+  \item {\tt ILUMtx\_fillRandom()}, 4
+  \item {\tt ILUMtx\_free()}, 3
+  \item {\tt ILUMtx\_init()}, 3
+  \item {\tt ILUMtx\_new()}, 2
+  \item {\tt ILUMtx\_setDefaultFields()}, 3
+  \item {\tt ILUMtx\_solveVector()}, 4
+  \item {\tt ILUMtx\_writeForMatlab()}, 5
+
+\end{theindex}

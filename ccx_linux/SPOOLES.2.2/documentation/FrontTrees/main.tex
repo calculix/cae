@@ -1,0 +1,61 @@
+%
+%  main TeX file
+%
+\documentclass[leqno,10pt,twoside]{article}
+
+\textwidth      6.5 in
+\textheight     8.5 in
+\oddsidemargin  0.0 in
+\evensidemargin 0.0 in
+\topmargin      0.0 in
+\baselineskip   20 pt
+\parskip        3 pt plus 1 pt minus 1 pt
+
+\makeindex
+\input psfig
+
+\newcommand{\bfi}{{\bf i}}
+\newcommand{\bfj}{{\bf j}}
+\newcommand{\bnd}[1]{{\partial{#1}}}
+\newcommand\WHILE{{\bf while}}
+\newcommand\IF{{\bf if}}
+\newcommand\END{{\bf end}}
+\newcommand\ELSE{{\bf else}}
+\newcommand\THEN{{\bf then}}
+
+\pagestyle{myheadings}
+% \markboth
+% {\quad \hrulefill \quad {\bf SPOOLES 2.2} : \today \quad \hrulefill}
+% {\quad \hrulefill \quad {\bf SPOOLES 2.2} : \quad \today \hrulefill}
+\markboth
+{\hspace*{0.5 in} Orderings and Front Trees \quad\hrulefill\quad\today}
+{\today \quad\hrulefill\quad Orderings and Front Trees \hspace*{0.5 in}}
+
+\begin{document}
+
+\bibliographystyle{plain}
+
+\title{Ordering Sparse Matrices and Transforming Front Trees}
+
+\author{Cleve Ashcraft,
+        Boeing Shared Services Group\thanks{
+      P. O. Box 24346,
+      Mail Stop 7L-21,
+      Seattle, Washington 98124.
+      This research was supported in part by the DARPA
+      Contract DABT63-95-C-0122 and the DoD High Performance Computing
+      Modernization Program Common HPC Software Support Initiative.}
+}
+
+\date{\today}
+\maketitle
+
+\input intro.tex
+\input ordering.tex
+\input fronttrees.tex
+
+\bibliography{spooles}
+
+\input main.ind
+
+\end{document}

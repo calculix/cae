@@ -1,69 +1,92 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>START OF THE REFINEMENT OF THE INTERNAL EDGES.</TITLE>
-<META NAME="description" CONTENT="START OF THE REFINEMENT OF THE INTERNAL EDGES.">
+<TITLE>Linear static analysis</TITLE>
+<META NAME="description" CONTENT="Linear static analysis">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node442.html">
 <LINK REL="previous" HREF="node440.html">
-<LINK REL="up" HREF="node427.html">
+<LINK REL="up" HREF="node440.html">
 <LINK REL="next" HREF="node442.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6805"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6880"
   HREF="node442.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6801"
-  HREF="node427.html">
+<A NAME="tex2html6876"
+  HREF="node440.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6795"
+<A NAME="tex2html6870"
   HREF="node440.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6803"
+<A NAME="tex2html6878"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6806"
-  HREF="node442.html">.</A>
-<B> Up:</B> <A NAME="tex2html6802"
-  HREF="node427.html">Mesh refining procedure</A>
-<B> Previous:</B> <A NAME="tex2html6796"
-  HREF="node440.html">cavityext.f</A>
- &nbsp; <B>  <A NAME="tex2html6804"
+<B> Next:</B> <A NAME="tex2html6881"
+  HREF="node442.html">Nonlinear calculations</A>
+<B> Up:</B> <A NAME="tex2html6877"
+  HREF="node440.html">Filling and solving the</A>
+<B> Previous:</B> <A NAME="tex2html6871"
+  HREF="node440.html">Filling and solving the</A>
+ &nbsp; <B>  <A NAME="tex2html6879"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H4><A NAME="SECTION00011115140000000000000">
-START OF THE REFINEMENT OF THE INTERNAL EDGES.</A>
-</H4>
+<H3><A NAME="SECTION000126100000000000000">
+Linear static analysis</A>
+</H3>
+
+<P>
+For a linear static analysis (prespooles.c) the structure is as
+follows:
+
+<P>
+
+<UL>
+<LI>determine the loads at the end of the step in routine tempload.f
+</LI>
+<LI>fill the matrix (routine mafillsm)
+</LI>
+<LI>solve the system of equations (routines spooles or preiter)
+</LI>
+<LI>determine the required results for all degrees of freedom, starting from
+  the displacement solution for the active degrees of freedom. This is done in
+  subroutine results.f, including any storage in the .dat file.
+</LI>
+<LI>store the results in the .frd file. For structures not
+  exhibiting cyclic symmetry this is performed in routine out.f, for cyclic
+  symmetric structures routine frdcyc.c is called before calling out. If an
+  error occurred during the matrix fill the output is reduced to the pure
+  geometry. 
+</LI>
+</UL>
+
+<P>
+The different routines in the above listing will be discussed separately,
+since they are common to most types of analysis.
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

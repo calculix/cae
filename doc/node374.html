@@ -1,96 +1,84 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Allocation of the fields</TITLE>
-<META NAME="description" CONTENT="Allocation of the fields">
+<TITLE>*VISCO</TITLE>
+<META NAME="description" CONTENT="*VISCO">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node378.html">
 <LINK REL="previous" HREF="node373.html">
-<LINK REL="up" HREF="node373.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node375.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5940"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5930"
   HREF="node375.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5936"
-  HREF="node373.html">
+<A NAME="tex2html5926"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5930"
+<A NAME="tex2html5922"
   HREF="node373.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5938"
+<A NAME="tex2html5928"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5941"
-  HREF="node375.html">openfile</A>
-<B> Up:</B> <A NAME="tex2html5937"
-  HREF="node373.html">Program structure.</A>
-<B> Previous:</B> <A NAME="tex2html5931"
-  HREF="node373.html">Program structure.</A>
- &nbsp; <B>  <A NAME="tex2html5939"
+<B> Next:</B> <A NAME="tex2html5931"
+  HREF="node375.html">User subroutines.</A>
+<B> Up:</B> <A NAME="tex2html5927"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5923"
+  HREF="node373.html">*VIEWFACTOR</A>
+ &nbsp; <B>  <A NAME="tex2html5929"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000111000000000000000">
-Allocation of the fields</A>
+<H2><A NAME="SECTION0009127000000000000000"></A><A NAME="visco"></A>
+<BR>
+*VISCO
 </H2>
 
 <P>
-This section consists of three subroutine calls:
+Keyword type: step
 
 <P>
+This procedure is used to perform a static analysis for materials with viscous
+behavior. The syntax is identical to the <A HREF="node355.html#static">*STATIC</A>
+syntax, except for the extra parameter CETOL. This parameter is required and
+defines the maximum difference in viscous strain within a time
+increment based on the viscous strain rate at the start and the end of the increment. To get an idea of its size one can divide the stress increase one
+would typically allow within a time increment by the E-modulus.
 
-<UL>
-<LI>openfile
-</LI>
-<LI>readinput
-</LI>
-<LI>allocation
-</LI>
-</UL>
+<P>
+Although the specification of the CETOL parameter is mandatory, it is only
+used so far for materials for which the elastic behavior is linear and isotropic.
+
+<P>
+Notice that the default way of applying loads in a *VISCO step is step
+loading, i.e. the loading is fully applied at the start of the step. This is
+different from a *STATIC step, in which the loading is ramped. Using a *VISCO
+step only makes sense if at least one materials exhibits viscous behavior.
 
 <P>
 <BR><HR>
-<!--Table of Child-Links-->
-<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
 
-<UL>
-<LI><A NAME="tex2html5942"
-  HREF="node375.html">openfile</A>
-<LI><A NAME="tex2html5943"
-  HREF="node376.html">readinput</A>
-<LI><A NAME="tex2html5944"
-  HREF="node377.html">allocate</A>
-</UL>
-<!--End of Table of Child-Links-->
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
 </BODY>
 </HTML>

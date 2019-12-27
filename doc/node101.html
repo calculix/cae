@@ -1,173 +1,135 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Fluid Section Types: Liquids</TITLE>
-<META NAME="description" CONTENT="Fluid Section Types: Liquids">
+<TITLE>Network User Element</TITLE>
+<META NAME="description" CONTENT="Network User Element">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node112.html">
-<LINK REL="previous" HREF="node76.html">
-<LINK REL="up" HREF="node24.html">
+<LINK REL="previous" HREF="node100.html">
+<LINK REL="up" HREF="node76.html">
 <LINK REL="next" HREF="node102.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html2328"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html2391"
   HREF="node102.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2324"
-  HREF="node24.html">
+<A NAME="tex2html2387"
+  HREF="node76.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2318"
+<A NAME="tex2html2383"
   HREF="node100.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2326"
+<A NAME="tex2html2389"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2329"
-  HREF="node102.html">Pipe, Manning</A>
-<B> Up:</B> <A NAME="tex2html2325"
-  HREF="node24.html">Theory</A>
-<B> Previous:</B> <A NAME="tex2html2319"
-  HREF="node100.html">Network User Element</A>
- &nbsp; <B>  <A NAME="tex2html2327"
+<B> Next:</B> <A NAME="tex2html2392"
+  HREF="node102.html">Fluid Section Types: Liquids</A>
+<B> Up:</B> <A NAME="tex2html2388"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2384"
+  HREF="node100.html">Mass Flow Percent</A>
+ &nbsp; <B>  <A NAME="tex2html2390"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION00075000000000000000"></A><A NAME="fluidsectiontypesliquids"></A>
+<H3><A NAME="SECTION000742500000000000000"></A><A NAME="networkuserelement"></A>
 <BR>
-Fluid Section Types: Liquids
-</H2>
+Network User Element
+</H3>
 
 <P>
-A network element is characterized by a type of fluid section. It has to be
-specified on the <A HREF="node264.html#fluidsection">*FLUID SECTION</A> card unless the
-analysis is a pure thermomechanical calculation.
+The user can define and code his/her own gas network element. The process of
+doing so requires the following steps:
 
 <P>
-Typical material properties needed for a liquid network are the density <IMG
- WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img30.png"
- ALT="$ \rho$">
-(temperature dependent, cf. the <A HREF="node241.html#density">*DENSITY</A> card), the
-heat capacity  <IMG
- WIDTH="82" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img636.png"
- ALT="$ c=c_p=c_v$"> and the dynamic viscosity <IMG
- WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img48.png"
- ALT="$ \mu$"> (both
-temperature dependent and to be specified with the <A HREF="node263.html#fluidconstants">FLUID
-  CONSTANTS</A> card). 
-
-<P>
-A special case is the purely thermal liquid network. This applies if:
 
 <UL>
-<LI>no TYPE is specified on any *FLUID SECTION card or
+<LI>decide whether the element should be pipe-like (i.e. the total
+  temperature and static temperature at the end nodes differ) or
+  chamber-connecting-like (i.e. the element connects large chambers and the
+  total and static temperatures at the end nodes are equal).
 </LI>
-<LI>the parameter THERMAL NETWORK is used on the *STEP card or
+<LI>choose a type name. For a pipe-like element the name has to start with
+  &ldquo;UP&rdquo; followed by 5 characters to be choosen freely by the user (UPxxxxx). For a
+  chamber-connecting-like element it has to start with &ldquo;U&rdquo;, followed by a
+  character unequal to &ldquo;P&rdquo; and followed by 5 characters to be choosen freely
+  by the user (Uyxxxxx, y unequal to &ldquo;P&rdquo;).
 </LI>
-<LI>all mass flow is given and either all pressures or given or none.
+<LI>decide on the number of constants to describe the element. This number
+  has to be specified on the <A HREF="node303.html#fluidsection">*FLUID SECTION</A> card with
+  the CONSTANTS parameter. 
+</LI>
+<LI>add an entry in the if-construct in subroutine
+  user_network_element.f. Notice that the type labels in the input deck (just as everything
+  else, except file names) are converted into upper case when being read by CalculiX.
+</LI>
+<LI>write an appropriate user network element subroutine,
+  e.g. user_network_element_pxxxxx.f or
+  user_network_element_yxxxxx.f. Details can be found in Section
+  <A HREF="node409.html#userdefinedelements">9.8</A>. This routine describes how the total pressure at
+  the end nodes,the total temperature at the end nodes and the mass flow
+  through the element are linked.
+</LI>
+<LI>add an entry in the if-construct in subroutine calcgeomelemnet.f (marked
+  by START insert and END insert). This
+  routine is used to determine the cross section area of the element (is used
+  to calculate the static temperature from the total temperature).
+</LI>
+<LI>add an entry in the if-construct in subroutine calcheatnet.f (marked by
+  START insert and END insert). This routine is used to calculate the heat
+  generation e.g. due to centrifugal forces.
 </LI>
 </UL>
-In that case only <IMG
- WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img37.png"
- ALT="$ c_p$"> is needed.
 
 <P>
-For liquids the orifice (only
-for <IMG
- WIDTH="52" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img404.png"
- ALT="$ C_d=1$">), restrictor, 
-branch, and vortex fluid section types of gases can be used by specifying the
-parameter LIQUID on the *FLUID SECTION card. In addition, the following
-types are available as well (the coefficients for the head
-losses are taken from [<A
- HREF="node448.html#Berlamont1">10</A>], unless specified otherwise):
 
-<P>
-<BR><HR>
-<!--Table of Child-Links-->
-<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
-
-<UL>
-<LI><A NAME="tex2html2330"
-  HREF="node102.html">Pipe, Manning</A>
-<LI><A NAME="tex2html2331"
-  HREF="node103.html">Pipe, White-Colebrook</A>
-<LI><A NAME="tex2html2332"
-  HREF="node104.html">Pipe, Sudden Enlargement</A>
-<LI><A NAME="tex2html2333"
-  HREF="node105.html">Pipe, Sudden Contraction</A>
-<LI><A NAME="tex2html2334"
-  HREF="node106.html">Pipe, Entrance</A>
-<LI><A NAME="tex2html2335"
-  HREF="node107.html">Pipe, Diaphragm</A>
-<LI><A NAME="tex2html2336"
-  HREF="node108.html">Pipe, Bend</A>
-<LI><A NAME="tex2html2337"
-  HREF="node109.html">Pipe, Gate Valve</A>
-<LI><A NAME="tex2html2338"
-  HREF="node110.html">Pump</A>
-<LI><A NAME="tex2html2339"
-  HREF="node111.html">In/Out</A>
-</UL>
-<!--End of Table of Child-Links-->
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html2328"
+<A NAME="tex2html2391"
   HREF="node102.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2324"
-  HREF="node24.html">
+<A NAME="tex2html2387"
+  HREF="node76.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2318"
+<A NAME="tex2html2383"
   HREF="node100.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2326"
+<A NAME="tex2html2389"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2329"
-  HREF="node102.html">Pipe, Manning</A>
-<B> Up:</B> <A NAME="tex2html2325"
-  HREF="node24.html">Theory</A>
-<B> Previous:</B> <A NAME="tex2html2319"
-  HREF="node100.html">Network User Element</A>
- &nbsp; <B>  <A NAME="tex2html2327"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html2392"
+  HREF="node102.html">Fluid Section Types: Liquids</A>
+<B> Up:</B> <A NAME="tex2html2388"
+  HREF="node76.html">Fluid Section Types: Gases</A>
+<B> Previous:</B> <A NAME="tex2html2384"
+  HREF="node100.html">Mass Flow Percent</A>
+ &nbsp; <B>  <A NAME="tex2html2390"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

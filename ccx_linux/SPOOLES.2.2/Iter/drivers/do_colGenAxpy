@@ -1,0 +1,19 @@
+#! /bin/csh -f
+#
+set msglvl  = 2
+set msgFile = stdout
+set type    = 2
+set nrow    = 3
+set ncol    = 2
+set inc1    = $ncol
+set inc2    = 1
+set icol    = 0
+set jcol    = 1
+set ralpha  = 1
+set ialpha  = 2
+set rbeta   = 3
+set ibeta   = 1
+set seed    = 10101
+
+test_colGenAxpy $msglvl $msgFile $type $nrow $ncol $inc1 $inc2 \
+           $icol $jcol $ralpha $ialpha $rbeta $ibeta $seed 

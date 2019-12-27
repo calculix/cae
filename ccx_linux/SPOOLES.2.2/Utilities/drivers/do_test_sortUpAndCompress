@@ -1,0 +1,15 @@
+#! /bin/csh -f
+
+set msglvl  = 1
+set msgFile = res
+set msgFile = stdout
+
+set target   = IV
+set n        = 100
+set nrange   = 9999999
+set mod      = 9999999
+set seed     = 10101
+
+foreach target ( IV IV2 IVDV IV2DV IVZV IV2ZV )
+   test_sortUpAndCompress $msglvl $msgFile $target $n $nrange $mod $seed
+end

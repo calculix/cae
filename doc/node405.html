@@ -1,288 +1,252 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Buckling calculations</TITLE>
-<META NAME="description" CONTENT="Buckling calculations">
+<TITLE>User-defined nonlinear equations </TITLE>
+<META NAME="description" CONTENT="User-defined nonlinear equations ">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node406.html">
+<LINK REL="next" HREF="node409.html">
 <LINK REL="previous" HREF="node404.html">
-<LINK REL="up" HREF="node401.html">
+<LINK REL="up" HREF="node375.html">
 <LINK REL="next" HREF="node406.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6332"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6357"
   HREF="node406.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6328"
-  HREF="node401.html">
+<A NAME="tex2html6353"
+  HREF="node375.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6322"
+<A NAME="tex2html6347"
   HREF="node404.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6330"
+<A NAME="tex2html6355"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6333"
-  HREF="node406.html">Modal dynamic calculations</A>
-<B> Up:</B> <A NAME="tex2html6329"
-  HREF="node401.html">Filling and solving the</A>
-<B> Previous:</B> <A NAME="tex2html6323"
-  HREF="node404.html">Frequency calculations</A>
- &nbsp; <B>  <A NAME="tex2html6331"
+<B> Next:</B> <A NAME="tex2html6358"
+  HREF="node406.html">Mean rotation MPC.</A>
+<B> Up:</B> <A NAME="tex2html6354"
+  HREF="node375.html">User subroutines.</A>
+<B> Previous:</B> <A NAME="tex2html6348"
+  HREF="node404.html">User-defined thermal material laws.</A>
+ &nbsp; <B>  <A NAME="tex2html6356"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000116400000000000000">
-Buckling calculations</A>
-</H3>
+<H2><A NAME="SECTION000107000000000000000"></A><A NAME="usermpc"></A>
+<BR>
+User-defined nonlinear equations 
+</H2>
 
 <P>
-To calculate buckling loads routine arpackbu.c is called. The following steps
-are needed in a buckling calculation:
+This user subroutine allows the user to insert his/her own nonlinear
+equations (also called Multiple Point Constraints or MPC's). The
+driver routine is &ldquo;nonlinmpc.f&rdquo;. For each new type of equation the
+user can define a name, e.g. FUN (maximum length 80 characters). To be consistent, the user subroutine should
+be called umpc_fun and stored in &ldquo;umpc_fun.f&rdquo;. In file
+&ldquo;nonlinmpc.f&rdquo; the lines
 
 <P>
+<PRE>
+            elseif(labmpc(ii)(1:4).eq.'USER') then
+               call umpc_user(aux,aux(3*maxlenmpc+1),const,
+     &amp;            aux(6*maxlenmpc+1),iaux,n,fmpc(ii),iit,idiscon)
+</PRE>
 
-<UL>
-<LI>calculation of the stresses due to the buckling load. This implies
-  setting up the equation system in mafillsm.f, solving the system with SPOOLES
-  and determining the stresses in results.f
-</LI>
-<LI>setting up the buckling eigenvalue system consisting of the stiffness
-  matrix <!-- MATH
- $\begin{bmatrix} K \end{bmatrix}$
- -->
-<B><IMG
- WIDTH="43" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1949.png"
- ALT="$ \begin{bmatrix}K \end{bmatrix}$"></B> of the previous static step
-  (including large deformation stiffness and stress stiffness) and the stress
-  stiffness matrix  <!-- MATH
- $\begin{bmatrix} KG \end{bmatrix}$
- -->
-<B><IMG
- WIDTH="32" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1950.png"
- ALT="$ \begin{bmatrix}KG \end{bmatrix}$"></B> of the buckling load [<A
- HREF="node448.html#Dhondt">18</A>].
-</LI>
-<LI>loop with starting value for <B><IMG
- WIDTH="45" HEIGHT="35" ALIGN="BOTTOM" BORDER="0"
- SRC="img1951.png"
- ALT="$ \sigma=1$"></B>
+<P>
+should be duplicated and user (USER) replaced by fun (FUN).
 
-<UL>
-<LI>LU decomposition of <!-- MATH
- $\begin{bmatrix} K - \sigma KG \end{bmatrix}$
+<P>
+It is assumed that the nonlinear equation is a function of the
+displacements only. Then it can generally be written as
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+f(u_1,u_2,u_3,....,u_n)=0
+\end{equation}
  -->
-<B><IMG
- WIDTH="43" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
- SRC="img1952.png"
- ALT="$ \begin{bmatrix}K - \sigma KG \end{bmatrix}$"></B>
-</LI>
-<LI>iterative calculation of the buckling factor with ARPACK
-</LI>
-<LI>determination of the buckling mode
-</LI>
-<LI>if <!-- MATH
- $5 \sigma < \text{buckling factor} < 50000 \sigma$
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="167" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2359.png"
+ ALT="$\displaystyle f(u_1,u_2,u_3,....,u_n)=0$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">760</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2360.png"
+ ALT="$ u_i$"></B></SPAN> represents the displacement in node <SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2361.png"
+ ALT="$ n_i$"></B></SPAN> in direction
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2362.png"
+ ALT="$ l_i$"></B></SPAN>. Nonlinear equations are solved by approximating them
+linearly and using an iterative procedure. It is the linearization
+which must be provided by the user in the subroutine. Assume we
+arrived at an intermediate solution <!-- MATH
+ $u^0_1,u^0_2,....u^0_n$
  -->
-<B><IMG
- WIDTH="89" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1953.png"
- ALT="$ 5 \sigma &lt;$">&nbsp; &nbsp;buckling factor<IMG
- WIDTH="39" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1954.png"
- ALT="$ &lt; 50000 \sigma$"></B> exit loop, else set
-  <!-- MATH
- $\sigma= \text{buckling factor}/500$
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="86" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2363.png"
+ ALT="$ u^0_1,u^0_2,....u^0_n$"></B></SPAN>. Then the
+above equation can be linearly approximated by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+f(u^0_1,u^0_2,....,u^0_n)+\sum_{i=1}^{i=n}\left. \frac{\partial f}{\partial u_i} \right|_0 (u_i-u^0_i)=0
+\end{equation}
  -->
-<B><IMG
- WIDTH="71" HEIGHT="30" ALIGN="BOTTOM" BORDER="0"
- SRC="img1955.png"
- ALT="$ \sigma=$">&nbsp; &nbsp;buckling factor<IMG
- WIDTH="31" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
- SRC="img1956.png"
- ALT="$ /500$"></B> and cycle
-</LI>
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="296" HEIGHT="65" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2364.png"
+ ALT="$\displaystyle f(u^0_1,u^0_2,....,u^0_n)+\sum_{i=1}^{i=n}\left. \frac{\partial f}{\partial u_i} \right\vert _0 (u_i-u^0_i)=0$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">761</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+For more details the user is referred to [<A
+ HREF="node487.html#Dhondt">19</A>]. To use a user-defined equation its name must be specified on the line beneath the keyword <A HREF="node326.html#mpc">*MPC</A>, followed by a list of all the
+nodes involved in the MPC. This list of nodes is transferred to the
+user routine, as specified by the following 
+ header and input/output variables of the umpc_user routine:
+
+<P>
+<PRE>
+      subroutine umpc_user(x,u,f,a,jdof,n,force,iit,idiscon)
+!
+!     updates the coefficients in a user mpc
+!
+!     INPUT:
+!
+!     x(3,n)             Carthesian coordinates of the nodes in the
+!                        user mpc.
+!     u(3,n)             Actual displacements of the nodes in the
+!                        user mpc.     
+!     jdof               Actual degrees of freedom of the mpc terms
+!     n                  number of terms in the user mpc
+!     force              Actual value of the mpc force
+!     iit                iteration number
+!
+!     OUTPUT:
+!
+!     f                  Actual value of the mpc. If the mpc is
+!                        exactly satisfied, this value is zero
+!     a(n)               coefficients of the linearized mpc
+!     jdof               Corrected degrees of freedom of the mpc terms
+!     idiscon            0: no discontinuity
+!                        1: discontinuity
+!                        If a discontinuity arises the previous
+!                        results are not extrapolated at the start of
+!                        a new increment
+!
+</PRE>
+
+<P>
+The subroutine returns the value of f (<!-- MATH
+ $f(u^0_1,u^0_2,....,u^0_n)$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="115" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2365.png"
+ ALT="$ f(u^0_1,u^0_2,....,u^0_n)$"></B></SPAN>),
+the coefficients of the linearization (<!-- MATH
+ $\left. \frac{df}{du_i}
+\right|_0$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="41" HEIGHT="45" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2366.png"
+ ALT="$ \left. \frac{df}{du_i}
+\right\vert _0$"></B></SPAN>) and the degrees of freedom involved. 
+
+<P>
+The parameter idiscon can be used to specify whether a discontinuity took
+place. This usually means that the degrees of freedom in the MPC changed from
+the previous call. An example of this is a gap MPC. If a discontinuity
+occurred in an increment, the results (displacements..) in this increment are
+NOT extrapolated to serve as an initial guess in the next increment.
+
+<P>
+An example is given next.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html6359"
+  HREF="node406.html">Mean rotation MPC.</A>
+<LI><A NAME="tex2html6360"
+  HREF="node407.html">Maximum distance MPC.</A>
+<LI><A NAME="tex2html6361"
+  HREF="node408.html">Network MPC.</A>
 </UL>
-</LI>
-<LI>determine the stresses and any other derived fields
-</LI>
-</UL>
+<!--End of Table of Child-Links-->
 
-<P>
-The buckling mode in ARPACK (Mode 4, cf [<A
- HREF="node448.html#Lehoucq">42</A>]) is used to solve a system of the form
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-\begin{bmatrix} K \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix} = \lambda
-\begin{bmatrix} KG \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix}
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="36" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1957.png"
- ALT="$\displaystyle \begin{bmatrix}K \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix} = \lambda \begin{bmatrix}KG \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix}$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(533)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-where <!-- MATH
- $\begin{bmatrix} K \end{bmatrix}$
- -->
-<B><IMG
- WIDTH="43" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1949.png"
- ALT="$ \begin{bmatrix}K \end{bmatrix}$"></B> is symmetric and positive definite and 
-<!-- MATH
- $\begin{bmatrix} KG \end{bmatrix}$
- -->
-<B><IMG
- WIDTH="32" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1950.png"
- ALT="$ \begin{bmatrix}KG \end{bmatrix}$"></B> is symmetric but indefinite. The iterative
-procedure to find the eigenvalues requires routines to solve
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><A NAME="eq4"></A><!-- MATH
- \begin{equation}
-\begin{bmatrix} K - \sigma KG \end{bmatrix} \begin{Bmatrix} U \end{Bmatrix} =
-\begin{Bmatrix} X_1 \end{Bmatrix}
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="174" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1958.png"
- ALT="$\displaystyle \begin{bmatrix}K - \sigma KG \end{bmatrix} \begin{Bmatrix}U \end{Bmatrix} = \begin{Bmatrix}X_1 \end{Bmatrix}$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(534)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-and to calculate
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><A NAME="eq5"></A><!-- MATH
- \begin{equation}
-\begin{Bmatrix} Y \end{Bmatrix} =
-\begin{bmatrix} K \end{bmatrix} \begin{Bmatrix} X_2 \end{Bmatrix}.
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="183" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1959.png"
- ALT="$\displaystyle \begin{Bmatrix}Y \end{Bmatrix} = \begin{bmatrix}K \end{bmatrix} \begin{Bmatrix}X_2 \end{Bmatrix}.$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(535)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-Similar to the frequency calculations, the LU decomposition (SPOOLES) to solve
-Equation (<A HREF="#eq4">534</A>) is performed before the loop determining the buckling
-factor, since the left hand side of the equation does not vary. The matrix
-multiplication in Equation (<A HREF="#eq5">535</A>) is taken care of by routine op.f.
-
-<P>
-A major difference with the frequency calculations is that an additional
-iteration loop is necessary to guarantee that the value of the buckling
-factor is right. Indeed, experience has shown that the value of <B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1010.png"
- ALT="$ \sigma$"></B> matters
-here and that the inequality <!-- MATH
- $5 \sigma < \text{buckling factor} < 50000 \sigma$
- -->
-<B><IMG
- WIDTH="89" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1953.png"
- ALT="$ 5 \sigma &lt;$">&nbsp; &nbsp;buckling factor<IMG
- WIDTH="39" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1954.png"
- ALT="$ &lt; 50000 \sigma$"></B>
-should be satisfied. If it is not, the whole procedure starting with the LU
-decomposition is repeated with a new value of <!-- MATH
- $\sigma=\text{buckling
-factor}/500$
- -->
-<B><IMG
- WIDTH="71" HEIGHT="30" ALIGN="BOTTOM" BORDER="0"
- SRC="img1955.png"
- ALT="$ \sigma=$">buckling
-factor<IMG
- WIDTH="31" HEIGHT="13" ALIGN="MIDDLE" BORDER="0"
- SRC="img1956.png"
- ALT="$ /500$"></B>. If necessary, up to four such iterations are allowed. 
-
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html6332"
+<A NAME="tex2html6357"
   HREF="node406.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6328"
-  HREF="node401.html">
+<A NAME="tex2html6353"
+  HREF="node375.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6322"
+<A NAME="tex2html6347"
   HREF="node404.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6330"
+<A NAME="tex2html6355"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6333"
-  HREF="node406.html">Modal dynamic calculations</A>
-<B> Up:</B> <A NAME="tex2html6329"
-  HREF="node401.html">Filling and solving the</A>
-<B> Previous:</B> <A NAME="tex2html6323"
-  HREF="node404.html">Frequency calculations</A>
- &nbsp; <B>  <A NAME="tex2html6331"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html6358"
+  HREF="node406.html">Mean rotation MPC.</A>
+<B> Up:</B> <A NAME="tex2html6354"
+  HREF="node375.html">User subroutines.</A>
+<B> Previous:</B> <A NAME="tex2html6348"
+  HREF="node404.html">User-defined thermal material laws.</A>
+ &nbsp; <B>  <A NAME="tex2html6356"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

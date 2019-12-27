@@ -1,0 +1,31 @@
+\par
+\section{Data Structure}
+\label{section:Tree:dataStructure}
+\par
+The {\tt Tree} object has a very simple data structure.
+The value {\tt -1} is used to denote a null pointer
+for the parent, first child and sibling fields.
+\begin{itemize}
+\item
+{\tt int n}    : size of the tree 
+\item
+{\tt int root} : root of the tree, in range {\tt [0,n-1]},
+in the range {\tt [-1,n-1]} 
+\item
+{\tt int *par}  : pointer to parent vector, size {\tt n},
+entries in the range {\tt [-1,n-1]} 
+\item
+{\tt int *fch}  : pointer to first child vector, size {\tt n},
+entries in the range {\tt [-1,n-1]} 
+\item
+{\tt int *sib}  : pointer to sibling vector, size {\tt n},
+entries in the range {\tt [-1,n-1]} 
+\end{itemize}
+The user should rarely if ever change these five fields.
+In particular, throughout the code we assume that the {\tt Tree}
+object was correctly initialized using one of the three initializer
+methods.
+Inside almost every method we check to ensure $n > 0$.
+If $n > 0$ then we assume that the structure was intialized
+correctly and that the {\tt par}, {\tt fch} and {\tt sib} fields
+point to storage that was allocated by the initializer method.

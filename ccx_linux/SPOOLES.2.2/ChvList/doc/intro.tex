@@ -1,0 +1,69 @@
+\par
+\chapter{{\tt ChvList}: {\tt Chv} list object }
+\par
+This object was created to handle a list of lists of {\tt
+Chv} objects during a matrix factorization.
+Its form and function is very close to the {\tt SubMtxList} object
+that handles lists of lists of {\tt SubMtx} objects during the
+forward and backsolves.
+\par
+Here are the main properties.
+\begin{enumerate}
+\item
+There are a fixed number of lists, set when the {\tt ChvList}
+object is initialized.
+\item
+For each list there is an expected count, the number of times an
+object will be added to the list. (Note, a {\tt NULL} object can be
+added to the list. In this case, nothing is added to the list,
+but its count is decremented.)
+\item
+There is one lock for all the lists, but each list can be flagged
+as necessary to lock or not necessary to lock before an insertion, 
+count decrement, or an extraction is made to the list.
+\end{enumerate}
+\par
+The {\tt ChvList} object manages a number of lists that may require
+handling critical sections of code.
+For example, one thread may want to add an object to a particular
+list while another thread is removing objects.
+The critical sections are hidden inside the {\tt ChvList} object.
+Our factorization code does not know about any mutual exclusion
+locks that govern access to the lists.
+\par
+There are four functions of the {\tt ChvList} object.
+\begin{itemize}
+\item
+Is the incoming count for a list nonzero?
+\item
+Is a list nonempty?
+\item
+Add an object to a list (possibly a {\tt NULL} object) and
+decrement the incoming count.
+\item
+Remove a subset of objects from a list.
+\end{itemize}
+The first two operations are queries, and can be done without
+locking the list.
+The third operation needs a lock only when two or more threads will
+be inserting objects into the list.
+The fourth operation requires a lock only when one thread will add
+an object while another thread removes the object and the incoming
+count is not yet zero.
+\par
+Having a lock associated with a {\tt ChvList} object is optional,
+for example, it is not needed during a serial factorization nor a
+MPI factorization. 
+In the latter case there is one {\tt ChvList} per process.
+For a multithreaded factorization there is one {\tt ChvList}
+object that is shared by all threads.
+The mutual exclusion lock that is (optionally) embedded in the {\tt
+ChvList} object is a {\tt Lock} object from this library.
+It is inside the {\tt Lock} object that we have a
+mutual exclusion lock.
+Presently we support the Solaris and POSIX thread packages.
+Porting the multithreaded codes to another platform should be
+simple if the POSIX thread package is present.
+Another type of thread package will require some modifications
+to the {\tt Lock} object, but none to the {\tt ChvList} objects.
+\par

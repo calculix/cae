@@ -1,206 +1,278 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*CONTACT PAIR</TITLE>
-<META NAME="description" CONTENT="*CONTACT PAIR">
+<TITLE>Diffusion term</TITLE>
+<META NAME="description" CONTENT="Diffusion term">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node231.html">
 <LINK REL="previous" HREF="node229.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node227.html">
 <LINK REL="next" HREF="node231.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4088"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4075"
   HREF="node231.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4084"
-  HREF="node205.html">
+<A NAME="tex2html4071"
+  HREF="node227.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4078"
+<A NAME="tex2html4065"
   HREF="node229.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4086"
+<A NAME="tex2html4073"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4089"
-  HREF="node231.html">*CONTACT PRINT</A>
-<B> Up:</B> <A NAME="tex2html4085"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4079"
-  HREF="node229.html">*CONTACT OUTPUT</A>
- &nbsp; <B>  <A NAME="tex2html4087"
+<B> Next:</B> <A NAME="tex2html4076"
+  HREF="node231.html">Dissipation, pressure term and</A>
+<B> Up:</B> <A NAME="tex2html4072"
+  HREF="node227.html">Conservation of Energy (compressible</A>
+<B> Previous:</B> <A NAME="tex2html4066"
+  HREF="node229.html">Convection term</A>
+ &nbsp; <B>  <A NAME="tex2html4074"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000822000000000000000"></A><A NAME="contactpair"></A>
-<BR>
-*CONTACT PAIR
-</H2>
+<H3><A NAME="SECTION00087300000000000000">
+Diffusion term</A>
+</H3>
 
 <P>
-Keyword type: model definition
+For turbulent flow <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \lambda$"></B></SPAN> in the energy equation has to be replaced by
+<!-- MATH
+ $\lambda + \lambda_t$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="47" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1921.png"
+ ALT="$ \lambda + \lambda_t$"></B></SPAN> where
 
 <P>
-This option is used to express that two surfaces can make contact. There are
-two required parameters: INTERACTION and TYPE, and two optional
-parameters: SMALL SLIDING and ADJUST. The dependent surface is called the slave surface,
-the independent surface is the master surface. 
-Surfaces are defined using the <A HREF="node322.html#surface">*SURFACE</A> keyword card. The dependent
-surface can be defined as a nodal surface (option TYPE=NODE on the *SURFACE
-keyword) or as an element face surface (default for the *SURFACE card),
-whereas the independent surface has to be defined as an element face
-surface. If you are using quadratic elements, or if you select face-to-face
-contact, however,
-the slave surface has to be defined based on element faces and not on nodes.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\lambda_t = \frac{c_p \mu_t}{Pr_t},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="77" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1922.png"
+ ALT="$\displaystyle \lambda_t = \frac{c_p \mu_t}{Pr_t},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">647</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-If the master surface is made up of edges of axisymmetric elements make sure
-that none of the edges contains nodes on the axis of symmetry. Indeed, such
-edges are expanded into collapsed quadrilaterals the normals on which cannot
-be determined in the usual way.  
+where <!-- MATH
+ $Pr_t \approx 0.9$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="71" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1923.png"
+ ALT="$ Pr_t \approx 0.9$"></B></SPAN> is the turbulent Prandl number. Therefore, one now
+arrives at:
 
 <P>
-The INTERACTION parameter takes the name of the surface interaction (keyword
-<A HREF="node324.html#surfaceinteraction">*SURFACE INTERACTION</A>) which applies to the
-contact pair. The surface interaction defines the nature of the contact
-(hard versus soft contact..)
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\int_{A}^{} \lambda^T \frac{\partial T}{\partial n} da \approx \sum_{f}^{} \lambda_f^{T(m-1)}
+  A_f \left [ \frac{T_F ^{(m)} - T_P ^{(m)} }{l_{PF}} + \nabla T_f ^{(m-1)}
+    \cdot (\boldsymbol{n}_f - \boldsymbol{j}_f) \right ],
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="491" HEIGHT="63" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1924.png"
+ ALT="$\displaystyle \int_{A}^{} \lambda^T \frac{\partial T}{\partial n} da \approx \s...
+...F}} + \nabla T_f ^{(m-1)} \cdot (\boldsymbol{n}_f - \boldsymbol{j}_f) \right ],$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">648</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-The TYPE parameter can take the value NODE TO SURFACE or SURFACE TO
-SURFACE. NODE TO SURFACE triggers node-to-face penalty contact, SURFACE TO
-SURFACE face-to-face penalty contact. Notice that although several *CONTACT
-PAIR cards can be used within one and the same input deck, all must be of the
-same type. It is not allowed to mix NODE TO SURFACE and SURFACE TO SURFACE
-penalty contact within one and the same input deck.
+where <!-- MATH
+ $\lambda^T := \lambda + \lambda_t$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="92" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1925.png"
+ ALT="$ \lambda^T := \lambda + \lambda_t$"></B></SPAN> and
 
 <P>
-The SMALL SLIDING parameter only applies to node-to-face penalty contact. If it is not active, the
-contact is large sliding. This means that the pairing between the nodes
-belonging to the dependent surface and faces of the independent surface is
-performed anew in every iteration. If the SMALL SLIDING parameter is active,
-the pairing is done once at the start of every increment and kept during the
-complete increment. SMALL SLIDING usually converges better than LARGE SLIDING, since
-changes in the pairing can deteriorate the convergence rate.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+(\lambda_t)_f ^{(m-1)} = \frac{c_p ^{(m-1)} \rho ^{(m-1)} k ^{(m-1)} }{Pr_t \;
+    \omega ^{(m-1)} }.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="238" HEIGHT="63" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1926.png"
+ ALT="$\displaystyle (\lambda_t)_f ^{(m-1)} = \frac{c_p ^{(m-1)} \rho ^{(m-1)} k ^{(m-1)} }{Pr_t \; \omega ^{(m-1)} }.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">649</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-The ADJUST parameter allows the user to move selected slave nodes at
-the start of the calculation (i.e. at the start of the first step) such that they make contact with the master
-surface. This is a change of coordinates, i.e. the geometry of the structure
-at the start of the calculation is changed. This can be helpful if due to
-inaccuracies in the modeling a slave node which should lie on the master
-surface at the start of the calculation actually does not. Especially in
-static calculations this can lead to a failure to detect contact in the first
-increment and large displacements (i.e. acceleration due to a failure to
-establish equilibrium). These large displacements may jeopardize convergence in
-any subsequent iteration. The ADJUST parameter can be used with a node set as
-argument or with a nonnegative real number. If a node set is selected, all
-nodes in the set are adjusted at the start of the calculation. If a real
-number is specified, all nodes for which the clearance is smaller or equal to
-this number are adjusted. Penetration is interpreted as a negative clearance
-and consequently all penetrating nodes are always adjusted, no matter how
-small the adjustment size (which must be nonnegative). Notice that large
-adjustments can lead to deteriorated element quality. The adjustments are done
-along a vector through the slave node and locally orthogonal to the master surface.
-
-<P><P>
-<BR>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img97.png"
+ ALT="$ \omega$"></B></SPAN> is the turbulence frequency. The dynamic turbulent viscosity <SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1730.png"
+ ALT="$ \mu_t$"></B></SPAN>
+can be written as <!-- MATH
+ $\mu_t = \rho k / \omega$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="76" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1927.png"
+ ALT="$ \mu_t = \rho k / \omega$"></B></SPAN>.
 
 <P>
-First line:
+The boundary conditions for the diffusion term amount to:
+
+<P>
 
 <UL>
-<LI>*CONTACT PAIR
+<LI>Inlet: the temperature <!-- MATH
+ $T_f ^{(m)}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1928.png"
+ ALT="$ T_f ^{(m)}$"></B></SPAN> is known, therefore the term
+    reduces to:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\lambda_f^{T(m-1)}
+  A_f \left [ \frac{T_f ^{(m)} - T_P ^{(m)} }{l_{Pf}} + \nabla T_f ^{(m-1)}
+    \cdot (\boldsymbol{n}_f - \boldsymbol{j}_f) \right ]
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="355" HEIGHT="68" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1929.png"
+ ALT="$\displaystyle \lambda_f^{T(m-1)} A_f \left [ \frac{T_f ^{(m)} - T_P ^{(m)} }{l_{Pf}} + \nabla T_f ^{(m-1)} \cdot (\boldsymbol{n}_f - \boldsymbol{j}_f) \right ]$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">650</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
 </LI>
-<LI>enter the required parameter INTERACTION and any optional parameters.
+<LI>Outlet: the temperature gradient in <!-- MATH
+ $\boldsymbol{j}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1279.png"
+ ALT="$ \boldsymbol{ j}$"></B></SPAN>-direction is
+      assumed to be zero and the term now reads:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\lambda_f^{T(m-1)}
+  A_f \left [  \nabla T_f ^{(m-1)}
+    \cdot (\boldsymbol{n}_f - \boldsymbol{j}_f) \right ]
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="241" HEIGHT="45" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1930.png"
+ ALT="$\displaystyle \lambda_f^{T(m-1)} A_f \left [ \nabla T_f ^{(m-1)} \cdot (\boldsymbol{n}_f - \boldsymbol{j}_f) \right ]$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">651</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+</LI>
+<LI>wall or sliding conditions.
+
+<P>
+Either the temperature is given or the heat flux is given (may be zero as
+    for adiabatic conditions). If the temperature is given the treatment is
+    analogous to the case of an inlet, if the heat flux is given the solution
+    is trivial since the diffusion term for an external surface is nothing
+    else than the value of the heat flux through this surface.
+
+<P>
 </LI>
 </UL>
 
 <P>
-Following line:
 
-<UL>
-<LI>Name of the slave surface (can be nodal or element face based).
-</LI>
-<LI>Name of the master surface (must be based on element faces).
-</LI>
-</UL>
-Repeat this line if needed.
-
-<P>
-<PRE>
-Example:
-
-*CONTACT PAIR,INTERACTION=IN1,ADJUST=0.01
-dep,ind
-</PRE>
-
-<P>
-defines a contact pair consisting of the surface dep as dependent
-surface and the element face surface ind as independent surface. The name of
-the surface interaction is IN1. All slave nodes for which the clearance is
-smaller than or equal to 0.01 will be moved onto the master surface.
-
-<P>
-
-<P><P>
-<BR>
-Example files: contact1, contact2.
-
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4088"
+<A NAME="tex2html4075"
   HREF="node231.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4084"
-  HREF="node205.html">
+<A NAME="tex2html4071"
+  HREF="node227.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4078"
+<A NAME="tex2html4065"
   HREF="node229.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4086"
+<A NAME="tex2html4073"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4089"
-  HREF="node231.html">*CONTACT PRINT</A>
-<B> Up:</B> <A NAME="tex2html4085"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4079"
-  HREF="node229.html">*CONTACT OUTPUT</A>
- &nbsp; <B>  <A NAME="tex2html4087"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html4076"
+  HREF="node231.html">Dissipation, pressure term and</A>
+<B> Up:</B> <A NAME="tex2html4072"
+  HREF="node227.html">Conservation of Energy (compressible</A>
+<B> Previous:</B> <A NAME="tex2html4066"
+  HREF="node229.html">Convection term</A>
+ &nbsp; <B>  <A NAME="tex2html4074"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -1,0 +1,86 @@
+\par
+\subsection{{\tt CV} : {\tt char} vector methods}
+\label{subsection:Utilities:proto:CV}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+char * CVinit ( int n, char c ) ;
+\end{verbatim}
+\index{CVinit@{\tt CVinit()}}
+This is the allocator and initializer method for {\tt char} vectors.
+Storage for an array with size {\tt n} is found and each
+entry is filled with character {\tt c}.
+A pointer to the array is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+char * CVinit2 ( int n ) ;
+\end{verbatim}
+\index{CVinit2@{\tt CVinit2()}}
+This is an allocator method for {\tt char} vectors.
+Storage for an array with size {\tt n} is found.
+A pointer to the array is returned.
+Note, on return, there will likely be garbage in the array.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void CVfree ( char cvec[] ) ;
+\end{verbatim}
+\index{CVfree@{\tt CVfree()}}
+This method releases the storage taken by {\tt cvec[]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void CVcopy ( int n, char y[], char x[] ) ;
+\end{verbatim}
+\index{CVcopy@{\tt CVcopy()}}
+This method copies {\tt n} entries from {\tt x[]} to {\tt y[]},
+i.e.,
+{\tt y[i] = x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void CVfill ( int n, char y[], char c ) ;
+\end{verbatim}
+\index{CVfill@{\tt CVfill()}}
+This method fills {\tt n} entries in {\tt y[]} with the
+character {\tt c}, 
+i.e.,
+{\tt y[i] = c} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void CVfprintf ( FILE *fp, int n, char y[] ) ;
+\end{verbatim}
+\index{CVfprintf@{\tt CVfprintf()}}
+This method prints {\tt n} entries in {\tt y[]} to file {\tt fp}.
+The format is new line followed by lines of eighty columns 
+of single characters.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int CVfp80 ( FILE *fp, int n, char y[], int column, int *pierr ) ;
+\end{verbatim}
+\index{CVfp80@{\tt CVfp80()}}
+This method prints {\tt n} entries in {\tt y[]} to file {\tt fp}.
+The method splices vectors together or naturally breaks the large
+vectors into lines. 
+The {\tt column} value is the present location, one can add $(80 -
+\mbox{\tt column})$ more characters before having to form a new line.
+The number of the present character in the line is returned.
+If {\tt *pierr < 0}, an IO error has occured.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int CVfscanf ( FILE *fp, int n, char y[] ) ;
+\end{verbatim}
+\index{CVfscanf@{\tt CVfscanf()}}
+This method scans in characters from file {\tt fp} and places them
+in the array {\tt y[]}.
+It tries to read in {\tt n} characters, and returns the number
+that were actually read.
+%-----------------------------------------------------------------------
+\end{enumerate}

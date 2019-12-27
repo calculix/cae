@@ -1,0 +1,26 @@
+\par
+\section{Data Structure}
+\label{section:IIheap:dataStructure}
+\par
+The {\tt IIheap} object has five fields.
+\begin{itemize}
+\item 
+{\tt int size}    : present size of the heap, {\tt 0 <= size < maxsize} 
+\item 
+{\tt int maxsize} : maximum size of the heap, set on initialization 
+\item 
+{\tt int *heapLoc} : 
+pointer to an {\tt int} vector of size {\tt maxsize}, 
+{\tt heapLoc[i]} contains the location of item {\tt i}, 
+{\tt heapLoc[i] = -1} if item {\tt i} is not in the heap 
+\item 
+{\tt int *keys} : 
+pointer to an {\tt int} vector of size {\tt maxsize}, 
+{\tt keys[loc]} contains the key at location {\tt loc} 
+\item 
+{\tt int *values} : 
+pointer to an {\tt int} vector of size {\tt maxsize}, 
+{\tt values[loc]} contains the value at location {\tt loc} 
+\end{itemize}
+A correctly initialized and nontrivial {\tt IIheap} object 
+will have {\tt maxsize > 0} and {\tt 0 <= size < maxsize}.

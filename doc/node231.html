@@ -1,224 +1,227 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*CONTACT PRINT</TITLE>
-<META NAME="description" CONTENT="*CONTACT PRINT">
+<TITLE>Dissipation, pressure term and heat generation</TITLE>
+<META NAME="description" CONTENT="Dissipation, pressure term and heat generation">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node232.html">
 <LINK REL="previous" HREF="node230.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node227.html">
 <LINK REL="next" HREF="node232.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4100"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4087"
   HREF="node232.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4096"
-  HREF="node205.html">
+<A NAME="tex2html4083"
+  HREF="node227.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4090"
+<A NAME="tex2html4077"
   HREF="node230.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4098"
+<A NAME="tex2html4085"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4101"
-  HREF="node232.html">*CONTROLS</A>
-<B> Up:</B> <A NAME="tex2html4097"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4091"
-  HREF="node230.html">*CONTACT PAIR</A>
- &nbsp; <B>  <A NAME="tex2html4099"
+<B> Next:</B> <A NAME="tex2html4088"
+  HREF="node232.html">Density update</A>
+<B> Up:</B> <A NAME="tex2html4084"
+  HREF="node227.html">Conservation of Energy (compressible</A>
+<B> Previous:</B> <A NAME="tex2html4078"
+  HREF="node230.html">Diffusion term</A>
+ &nbsp; <B>  <A NAME="tex2html4086"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000823000000000000000"></A><A NAME="contactprint"></A>
-<BR>
-*CONTACT PRINT
-</H2>
+<H3><A NAME="SECTION00087400000000000000">
+Dissipation, pressure term and heat generation</A>
+</H3>
 
 <P>
-Keyword type: step
+This term amounts to:
 
 <P>
-This option is used to print selected contact nodal variables in file
-jobname.dat. The following variables can be
-selected:
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\int_{V}^{} (d_{kl}t_{kl} - p \nabla \cdot \boldsymbol{v} + \rho h) dv
+  \approx V_P \left [ (d_{kl}t_{kl}) ^{(m-1)} - p ^{(m)} (\nabla \cdot
+    \boldsymbol{v}) ^{(m)} + \rho ^{(m-1)} h^n \right ] _P,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="556" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1931.png"
+ ALT="$\displaystyle \int_{V}^{} (d_{kl}t_{kl} - p \nabla \cdot \boldsymbol{v} + \rho ...
+... p ^{(m)} (\nabla \cdot \boldsymbol{v}) ^{(m)} + \rho ^{(m-1)} h^n \right ] _P,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">652</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><SPAN CLASS="MATH"><IMG
+ WIDTH="92" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1932.png"
+ ALT="$\displaystyle (d_{kl}t_{kl}) ^{(m-1)}$"></SPAN></TD>
+<TD NOWRAP ALIGN="LEFT"><SPAN CLASS="MATH"><IMG
+ WIDTH="357" HEIGHT="73" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1933.png"
+ ALT="$\displaystyle = \mu ^{(m-1)} \left ( 2 \left [ \left ( \frac{\partial v_1}{\par...
+... \left ( \frac{\partial v_3}{\partial x_3} \right ) ^2 \right ] ^{(m)} \right .$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><SPAN CLASS="MATH"><IMG
+ WIDTH="425" HEIGHT="72" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1934.png"
+ ALT="$\displaystyle + \left [ \left ( \frac{\partial v_1}{\partial x_2} + \frac{\part...
+...}{\partial x_3} + \frac{\partial v_3}{\partial x_2} \right ) ^2 \right ] ^{(m)}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><SPAN CLASS="MATH"><IMG
+ WIDTH="120" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1935.png"
+ ALT="$\displaystyle - \left . \frac{2}{3} (\nabla \cdot \boldsymbol{v} ^{(m)} )^{2} \right )$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+<A NAME="eqF156">(<SPAN CLASS="arabic">653</SPAN>)</A></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+All terms are evaluated at iteration <SPAN CLASS="MATH"><B><IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1715.png"
+ ALT="$ (m)$"></B></SPAN> except for the dynamic
+viscosity. Whether they end up on the right or left hand side of the system of
+equations depends on their sign. It has proven advantageous for the stability
+to include positive source terms on the right hand side and negative source
+terms (sinks) on the left hand side. Consequently, the terms on the first two
+lines in Equation (<A HREF="#eqF156">653</A>) end up on the right hand side, the term on
+the third line on the left hand side. Similarly, if <!-- MATH
+ $-p ^{(m)} (\nabla \cdot
+\boldsymbol{v}) ^{(m)}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="115" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1936.png"
+ ALT="$ -p ^{(m)} (\nabla \cdot
+\boldsymbol{v}) ^{(m)}$"></B></SPAN> and <!-- MATH
+ $\rho ^{(m-1)} h^n$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="68" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1937.png"
+ ALT="$ \rho ^{(m-1)} h^n$"></B></SPAN> are positive they end up on the
+right hand side, else on the left hand side. A term which is moved to the left
+hand side has to be divided by <!-- MATH
+ $T_P ^{(m-1)}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="54" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1938.png"
+ ALT="$ T_P ^{(m-1)} $"></B></SPAN> and multiplied by <!-- MATH
+ $T_P ^{(m)}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1939.png"
+ ALT="$ T_P ^{(m)}$"></B></SPAN>
+in order to fit in the equation system. For instance, if the heat source <SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1940.png"
+ ALT="$ h^n$"></B></SPAN>
+is negative, <!-- MATH
+ $\rho ^{(m-1)} h^n$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="68" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1937.png"
+ ALT="$ \rho ^{(m-1)} h^n$"></B></SPAN> is rewritten as:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\rho ^{(m-1)} h^n \approx \left ( \frac{\rho ^{(m-1)} h^n}{T ^{(m-1)} }
+  \right ) T
+  ^{(m)}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="217" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1941.png"
+ ALT="$\displaystyle \rho ^{(m-1)} h^n \approx \left ( \frac{\rho ^{(m-1)} h^n}{T ^{(m-1)} } \right ) T ^{(m)}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">654</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+at element center P.
 
 <P>
 
-<UL>
-<LI>Relative contact displacements (key=CDIS)
-</LI>
-<LI>Contact stresses (key=CSTR)
-</LI>
-<LI>Contact spring energy (key=CELS)
-</LI>
-<LI>Total number of contact elements (key=CNUM)
-</LI>
-</UL>
-
-<P>
-Contact quantities are stored for all active slave nodes in the model for
-node-to-face penalty contact and for all active integration points in the slave
-face for face-to-face penalty contact. The relative
-contact displacements and the stresses consist of one component normal to the
-master surface and two components tangential to it. Positive values of the normal components
-represent the normal material overlap and the pressure, respectively. The energy is a scalar quantity.
-
-<P>
-There are three parameters, FREQUENCY, TIME POINTS and TOTALS. FREQUENCY and
-TIME POINTS are mutually exclusive. 
-
-<P>
-The parameter FREQUENCY is optional, and applies to
-nonlinear calculations where a step can consist of several
-increments. Default is FREQUENCY=1, which indicates that the results
-of all increments will be stored. FREQUENCY=N with N an integer
-indicates that the results of every Nth increment will be stored. The
-final results of a step are always stored. If you only want the final
-results, choose N very big. 
-The value of N applies to 
-<A HREF="node299.html#output">*OUTPUT</A>,<A HREF="node254.html#elementoutput">*ELEMENT OUTPUT</A>, 
-<A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="node256.html#elprint">*ELPRINT</A>, 
-<A HREF="node293.html#nodeoutput">*NODE OUTPUT</A>,
-<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node294.html#nodeprint">*NODE PRINT</A>,
-<A HREF="node308.html#sectionprint">*SECTION PRINT</A>,<A HREF="node229.html#contactoutput">*CONTACT OUTPUT</A>,
-<A HREF="node228.html#contactfile">*CONTACT FILE</A> and <A HREF="#contactprint">*CONTACT PRINT</A>. 
-If the FREQUENCY parameter is used
-for more than one of these keywords with conflicting values of N, the
-last value applies to all. A frequency parameter stays active across several steps
-until it is overwritten by another FREQUENCY value or the TIME POINTS parameter.
-
-<P>
-With the parameter TIME POINTS a time point sequence can be referenced,
-defined by a 
-<A HREF="node327.html#timepoints">*TIME POINTS</A> keyword. In that case, output will be
-provided for all time points of the sequence within the step and additionally at the end of
-the step. No other output will be stored and the FREQUENCY parameter is not
-taken into account. Within a step only one time point sequence can be active. If more than
-one is specified, the last one defined on any of the keyword cards
-<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="node294.html#nodeprint">*NODE
-  PRINT</A>, <A HREF="node256.html#elprint">*EL PRINT</A> or <A HREF="node308.html#sectionprint">*FACE
-  PRINT</A> will be active. The TIME
-POINTS option should not be used together with the DIRECT option on the
-procedure card. The TIME POINTS parameters stays active across several steps
-until it is replaced by another TIME POINTS value or the FREQUENCY parameter.
-
-<P>
-The first occurrence of an *CONTACT PRINT keyword card within a step wipes
-out all previous contact variable selections for print output. If no
-*CONTACT PRINT card is used within a step the selections of the previous
-step apply, if any.
-
-<P>
-The parameter TOTALS only applies to the energy. If
-TOTALS=YES the sum of the contact spring energy for all contact definitions is
-printed in addition to their value for each active slave node (node-to-face
-contact) or active slave face integration point (face-to-face contact)
-separately. If TOTALS=ONLY is selected the sum is printed but the
-individual contributions are not. If TOTALS=NO (default) the
-individual contributions are printed, but their sum is not.
-
-<P>
-If the model contains axisymmetric elements the spring energy applies to a
-segment of <B><IMG
- WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img260.png"
- ALT="$ 2^\circ$"></B>. So for the total spring energy this value has to be multiplied by
-180. 
-
-<P>
-
-<P><P>
-<BR>
-
-<P>
-First line:
-
-<UL>
-<LI>*CONTACT PRINT
-</LI>
-</UL>
-Second line:
-
-<UL>
-<LI>Identifying keys for the variables to be printed, separated by commas.
-</LI>
-</UL>
-
-<P>
-<PRE>
-Example:
-
-*CONTACT PRINT
-CDIS
-</PRE>
-
-<P>
-requests the storage of the relative displacements in all slave nodes in the .dat file.
-
-<P>
-
-<P><P>
-<BR>
-Example files: beampkin, beamrb.
-
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4100"
+<A NAME="tex2html4087"
   HREF="node232.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4096"
-  HREF="node205.html">
+<A NAME="tex2html4083"
+  HREF="node227.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4090"
+<A NAME="tex2html4077"
   HREF="node230.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4098"
+<A NAME="tex2html4085"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4101"
-  HREF="node232.html">*CONTROLS</A>
-<B> Up:</B> <A NAME="tex2html4097"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4091"
-  HREF="node230.html">*CONTACT PAIR</A>
- &nbsp; <B>  <A NAME="tex2html4099"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html4088"
+  HREF="node232.html">Density update</A>
+<B> Up:</B> <A NAME="tex2html4084"
+  HREF="node227.html">Conservation of Energy (compressible</A>
+<B> Previous:</B> <A NAME="tex2html4078"
+  HREF="node230.html">Diffusion term</A>
+ &nbsp; <B>  <A NAME="tex2html4086"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

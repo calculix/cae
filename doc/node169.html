@@ -1,283 +1,333 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Shallow water motion</TITLE>
-<META NAME="description" CONTENT="Shallow water motion">
+<TITLE>Acoustics</TITLE>
+<META NAME="description" CONTENT="Acoustics">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node170.html">
 <LINK REL="previous" HREF="node168.html">
-<LINK REL="up" HREF="node159.html">
+<LINK REL="up" HREF="node160.html">
 <LINK REL="next" HREF="node170.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3217"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3280"
   HREF="node170.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3213"
-  HREF="node159.html">
+<A NAME="tex2html3276"
+  HREF="node160.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3207"
+<A NAME="tex2html3270"
   HREF="node168.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3215"
+<A NAME="tex2html3278"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3218"
-  HREF="node170.html">Hydrodynamic lubrication</A>
-<B> Up:</B> <A NAME="tex2html3214"
-  HREF="node159.html">Types of analysis</A>
-<B> Previous:</B> <A NAME="tex2html3208"
-  HREF="node168.html">Acoustics</A>
- &nbsp; <B>  <A NAME="tex2html3216"
+<B> Next:</B> <A NAME="tex2html3281"
+  HREF="node170.html">Shallow water motion</A>
+<B> Up:</B> <A NAME="tex2html3277"
+  HREF="node160.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3271"
+  HREF="node168.html">Heat transfer</A>
+ &nbsp; <B>  <A NAME="tex2html3279"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000791000000000000000">
-Shallow water motion</A>
+<H3><A NAME="SECTION00079900000000000000">
+Acoustics</A>
 </H3>
 
 <P>
-For incompressible fluids integration of the governing equations over the
-fluid depth and subsequent linearization leads to the following equation:
+Linear acoustic calculations in gas are very similar to heat transfer
+calculations. Indeed, the pressure variation in a space with uniform basis pressure <SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$ p_0$"></B></SPAN> and
+density <SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1041.png"
+ ALT="$ \rho_0$"></B></SPAN> (and consequently uniform temperature <SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1232.png"
+ ALT="$ T_0$"></B></SPAN> due to the gas law) satisfies
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><A NAME="shallow"></A><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="waveeq"></A><!-- MATH
  \begin{equation}
-\nabla \cdot (-  gH\boldsymbol{I} \cdot \nabla{\eta}) +  \ddot{\eta} = 0,
+\nabla \cdot (- \boldsymbol{I} \cdot \nabla{p}) + \frac{1}{c_0^2} \ddot{p} = -
+\rho_0 \nabla \cdot
+\boldsymbol{f},
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="181" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1194.png"
- ALT="$\displaystyle \nabla \cdot (- gH\boldsymbol{I} \cdot \nabla{\eta}) + \ddot{\eta} = 0,$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(315)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="230" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1238.png"
+ ALT="$\displaystyle \nabla \cdot (- \boldsymbol{I} \cdot \nabla{p}) + \frac{1}{c_0^2} \ddot{p} = - \rho_0 \nabla \cdot \boldsymbol{f},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">343</SPAN>)</TD></TR>
 </TABLE></DIV>
 <BR CLEAR="ALL"><P></P> 
 
 <P>
-where <B><IMG
- WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img675.png"
- ALT="$ g$"></B> is the earth acceleration, H is the fluid depth measured from a
-reference level, <!-- MATH
- $\boldsymbol{I}$
+where <!-- MATH
+ $\boldsymbol{ I}$
  -->
-<B><IMG
- WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img1181.png"
- ALT="$ \boldsymbol{ I}$"></B> is the unit tensor and <B><IMG
- WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$ \boldsymbol{I}$"></B></SPAN> is the second order unit tensor (or, for simplicity,
+unit matrix) and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img805.png"
+ ALT="$ c_0$"></B></SPAN> is the speed of sound satisfying:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+c_0=\sqrt{ \gamma R T_0}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="97" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1239.png"
+ ALT="$\displaystyle c_0=\sqrt{ \gamma R T_0}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">344</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img825.png"
+ ALT="$ \gamma$"></B></SPAN> is the ratio of the heat capacity at constant pressure divided by the
+heat capacity at constant volume (<!-- MATH
+ $\gamma=1.4$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="54" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1240.png"
+ ALT="$ \gamma=1.4$"></B></SPAN> for normal air), <SPAN CLASS="MATH"><B><IMG
+ WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
  SRC="img319.png"
- ALT="$ \eta$"></B> is the fluid height with respect to the
-reference level. Usually the fluid level at rest is taken as reference
-level. The derivation of the equation is described in [<A
- HREF="node448.html#Zienkiewicz">84</A>]. The
-following assumptions are made:
-
-<P>
-
-<UL>
-<LI>no viscosity
-</LI>
-<LI>no Coriolis forces
-</LI>
-<LI>no convective acceleration
-</LI>
-<LI><!-- MATH
- $H+\eta \approx H$
+ ALT="$ R$"></B></SPAN> is the
+specific gas constant (<!-- MATH
+ $R=287 J/(kg K)$
  -->
-<B><IMG
- WIDTH="83" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1195.png"
- ALT="$ H+\eta \approx H$"></B>
-</LI>
-</UL>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="122" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1241.png"
+ ALT="$ R=287 J/(kg K)$"></B></SPAN> for normal air) and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1232.png"
+ ALT="$ T_0$"></B></SPAN> is the
+absolute basis temperature (in K). Furthermore, the balance of momentum reduces to:
 
 <P>
-Due to the integration process the above equation is two-dimensional,
-i.e. only the surface of the fluid has to be meshed. 
-By comparison with the heat equation, the correspondence in Table
-&nbsp;(<A HREF="#t2">10</A>) arises. Therefore, shallow water motion can be simulated using the
-<A HREF="node272.html#heattransfer">*HEAT TRANSFER</A> procedure.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\nabla{p}=\rho_0 ( \boldsymbol{ f} - \boldsymbol{ a}).
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="119" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1242.png"
+ ALT="$\displaystyle \nabla{p}=\rho_0 ( \boldsymbol{ f} - \boldsymbol{ a}).$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">345</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+For details, the reader is referred to [<A
+ HREF="node487.html#Eringen">21</A>] and
+[<A
+ HREF="node487.html#Anderson">2</A>]. Equation&nbsp;(<A HREF="#waveeq">343</A>) is the well-known wave
+equation. By comparison with the heat equation, the correspondence in Table
+&nbsp;(<A HREF="#t1">9</A>) arises. 
 
 <P>
 <BR><P></P>
 <DIV ALIGN="CENTER">
 
 <DIV ALIGN="CENTER">
-<A NAME="12413"></A>
+<A NAME="15468"></A>
 <TABLE CELLPADDING=3 BORDER="1">
-<CAPTION><STRONG>Table 10:</STRONG>
-Correspondence between the heat equation and the shallow water equation.</CAPTION>
+<CAPTION><STRONG>Table 9:</STRONG>
+Correspondence between the heat equation and the gas momentum equation.</CAPTION>
 <TR><TD ALIGN="CENTER">heat quantity</TD>
-<TD ALIGN="CENTER">shallow water quantity</TD>
+<TD ALIGN="CENTER">gas quantity</TD>
 </TR>
 <TR><TD ALIGN="CENTER">T</TD>
-<TD ALIGN="CENTER"><B><IMG
- WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img319.png"
- ALT="$ \eta$"></B></TD>
+<TD ALIGN="CENTER">p</TD>
 </TR>
 <TR><TD ALIGN="CENTER"><!-- MATH
  $\boldsymbol{ q}$
  -->
-<B><IMG
- WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img717.png"
- ALT="$ \boldsymbol{q}$"></B></TD>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img760.png"
+ ALT="$ \boldsymbol{q}$"></B></SPAN></TD>
 <TD ALIGN="CENTER"><!-- MATH
- $\frac{ \partial }{\partial t} (H \overline{
-  \boldsymbol{ v}})$
+ $\rho_0 (\boldsymbol{ a} - \boldsymbol{ f})$
  -->
-<B><IMG
- WIDTH="57" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
- SRC="img1196.png"
- ALT="$ \frac{ \partial }{\partial t} (H \overline{
-\boldsymbol{ v}})$"></B></TD>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="72" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1243.png"
+ ALT="$ \rho_0 (\boldsymbol{ a} - \boldsymbol{ f})$"></B></SPAN></TD>
 </TR>
-<TR><TD ALIGN="CENTER"><B><IMG
- WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1187.png"
- ALT="$ q_n$"></B></TD>
+<TR><TD ALIGN="CENTER"><SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1244.png"
+ ALT="$ q_n$"></B></SPAN></TD>
 <TD ALIGN="CENTER"><!-- MATH
- $H \frac{ \partial }{\partial t} ( \overline{
-  { v}}_n)$
+ $\rho_0 ( a_n - f_n)$
  -->
-<B><IMG
- WIDTH="64" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
- SRC="img1197.png"
- ALT="$ H \frac{ \partial }{\partial t} ( \overline{
-{ v}}_n)$"></B></TD>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="84" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1245.png"
+ ALT="$ \rho_0 ( a_n - f_n)$"></B></SPAN></TD>
 </TR>
 <TR><TD ALIGN="CENTER"><!-- MATH
  $\boldsymbol{ \kappa }$
  -->
-<B><IMG
- WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1171.png"
- ALT="$ \boldsymbol{\kappa}$"></B></TD>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1229.png"
+ ALT="$ \boldsymbol{\kappa}$"></B></SPAN></TD>
 <TD ALIGN="CENTER"><!-- MATH
- $H g \boldsymbol{ I}$
+ $\boldsymbol{ I}$
  -->
-<B><IMG
- WIDTH="37" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1198.png"
- ALT="$ H g \boldsymbol{ I}$"></B></TD>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$ \boldsymbol{I}$"></B></SPAN></TD>
 </TR>
-<TR><TD ALIGN="CENTER"><B><IMG
- WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1189.png"
- ALT="$ \rho h$"></B></TD>
-<TD ALIGN="CENTER"><B><IMG
- WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1199.png"
- ALT="$ -$"></B></TD>
+<TR><TD ALIGN="CENTER"><SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1246.png"
+ ALT="$ \rho h$"></B></SPAN></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $- \rho_0 \nabla \cdot \boldsymbol{ f}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="67" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1247.png"
+ ALT="$ - \rho_0 \nabla \cdot \boldsymbol{ f}$"></B></SPAN></TD>
 </TR>
-<TR><TD ALIGN="CENTER"><B><IMG
- WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1191.png"
- ALT="$ \rho c$"></B></TD>
-<TD ALIGN="CENTER"><B><IMG
- WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1200.png"
- ALT="$ 1$"></B></TD>
+<TR><TD ALIGN="CENTER"><SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1248.png"
+ ALT="$ \rho c$"></B></SPAN></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{ 1}{c_0^2}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1249.png"
+ ALT="$ \frac{ 1}{c_0^2}$"></B></SPAN></TD>
 </TR>
 </TABLE>
 </DIV>
 </DIV>
-<BR>   
+<BR>
 
 <P>
-The quantity <!-- MATH
- $\overline{ \boldsymbol{ v}}$
+Notice, however, that the time derivative in the heat equation is first order,
+in the gas momentum equation it is second order. This means that the transient
+heat transfer capability in CalculiX can NOT be used for the gas
+equation. However, the frequency option can be used and the resulting
+eigenmodes can be taken for a subsequent modal dynamic or steady state
+dynamics analysis. Recall that
+the governing equation for solids also has a second order time derivative
+([<A
+ HREF="node487.html#Dhondt">19</A>]).
+
+<P>
+For the driving terms one obtains:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\int_ A \rho_0 ( a_n -f_n) d A - \int_ V \rho_0 \nabla \cdot \boldsymbol{ f}
+dV = \int_A \rho_0 a_n dA,
+\end{equation}
  -->
-<B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1201.png"
- ALT="$ \overline{ \boldsymbol{ v}}$"></B> is the average velocity over the
-depth and <!-- MATH
- $\overline{ v}_n$
- -->
-<B><IMG
- WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1202.png"
- ALT="$ \overline{ v}_n$"></B> is its component orthogonal to the boundary of the
-domain. Due to the averaging the equations hold for small depths only (shallow
-water approximation). Notice that the equivalence of the heat conduction
-coefficient is proportional to the depth, which is a geometric quantity. For a
-different depth a different conduction coefficient must be defined.
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="341" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1250.png"
+ ALT="$\displaystyle \int_ A \rho_0 ( a_n -f_n) d A - \int_ V \rho_0 \nabla \cdot \boldsymbol{ f} dV = \int_A \rho_0 a_n dA,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">346</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-There is no real two-dimensional element in CalculiX. Therefore, the
-two-dimensional Helmholtz equation has to be simulated by expanding the
-two-dimensional fluid surface to a three-dimensional layer with constant width
-and applying the boundary conditions in such a way that no variation occurs
-over the width. 
+which means that the equivalent of the normal heat flux at the boundary is the
+basis density multiplied with the acceleration. Consequently, at the boundary
+either the pressure must be known or the acceleration.
 
 <P>
-Notice that, similar to the acoustic equations, the shallow water equations
-are of the Helmholtz type leading to a hyperbolic system. For instationary
-applications eigenmodes can be calculated and a modal analysis performed.     
 
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html3217"
+<A NAME="tex2html3280"
   HREF="node170.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3213"
-  HREF="node159.html">
+<A NAME="tex2html3276"
+  HREF="node160.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3207"
+<A NAME="tex2html3270"
   HREF="node168.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3215"
+<A NAME="tex2html3278"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3218"
-  HREF="node170.html">Hydrodynamic lubrication</A>
-<B> Up:</B> <A NAME="tex2html3214"
-  HREF="node159.html">Types of analysis</A>
-<B> Previous:</B> <A NAME="tex2html3208"
-  HREF="node168.html">Acoustics</A>
- &nbsp; <B>  <A NAME="tex2html3216"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html3281"
+  HREF="node170.html">Shallow water motion</A>
+<B> Up:</B> <A NAME="tex2html3277"
+  HREF="node160.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3271"
+  HREF="node168.html">Heat transfer</A>
+ &nbsp; <B>  <A NAME="tex2html3279"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -1,0 +1,102 @@
+\par
+\subsection{{\tt IP} : 
+               {\tt (int, pointer)} singly linked-list methods}
+\label{subsection:Utilities:proto:IP}
+\par
+\hspace{0.5 in}
+\begin{minipage}{2.5 in}
+\begin{verbatim}
+typedef struct _IP IP ;
+struct _IP {
+   int   val   ;
+   IP    *next ;
+} ;
+\end{verbatim}
+\end{minipage}
+
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IP * IP_init ( int n, int flag ) ;
+\end{verbatim}
+\index{IP_init@{\tt IP\_init()}}
+This is the allocator and initializer method for a vector of 
+{\tt (int,pointer)} structures.
+Storage for an array with size {\tt n} is found.
+A pointer to an array {\tt ips[]} is returned
+with {\tt ips[i].val = 0} for {\tt 0 <= i < n}.
+The {\tt flag} parameter determines how the {\tt next} field
+is filled.
+\begin{itemize}
+\item
+If {\tt flag = 0}, the elements are not linked,
+i.e., {\tt ips[i].next = NULL} 
+for {\tt 0 <= i < n}.
+\item
+If {\tt flag = 1}, the elements are linked in a forward manner,
+i.e., {\tt ips[i].next = \&ips[i+1]} 
+for {\tt 0 <= i < n-1} and {\tt ips[n-1].next = NULL}.
+\item
+If {\tt flag = 2}, the elements are linked in a backward manner,
+i.e., {\tt ips[i].next = \&ips[i-1]} 
+for {\tt 0 < i < n} and {\tt ips[0].next = NULL}.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IP_free ( IP *ip ) ;
+\end{verbatim}
+\index{IP_free@{\tt IP\_free()}}
+This method releases the storage based at {\tt *ip}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IP_fprintf ( FILE *fp, IP *ip ) ;
+\end{verbatim}
+\index{IP_fprintf@{\tt IP\_fprintf()}}
+This method prints the singly linked list that starts with {\tt ip}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IP_fp80 ( FILE *fp, int n, int y[], int column, int *pierr ) ;
+\end{verbatim}
+\index{IP_fp80@{\tt IP\_fp80()}}
+This method prints the singly linked list that starts with {\tt ip}.
+See {\tt IVfp80()} for a description of how the entries are placed
+on a line.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IP * IP_mergeUp ( IP *ip1, IP *ip2 ) ;
+\end{verbatim}
+\index{IP_mergeUp@{\tt IP\_mergeUp()}}
+This method merges two singly linked lists into one.
+If the two lists are in ascending order,
+the new list is also in ascending order.
+The head of the new list is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IP * IP_mergeSortUp ( IP *ip ) ;
+\end{verbatim}
+\index{IP_mergeSortUp@{\tt IP\_mergeSortUp()}}
+This method sorts a list into ascending order using a merge sort.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IP * IP_radixSortUp ( IP *ip ) ;
+\end{verbatim}
+\index{IP_radixSortUp@{\tt IP\_radixSortUp()}}
+This method sorts a list into ascending order using a radix sort.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IP * IP_radixSortDown ( IP *ip ) ;
+\end{verbatim}
+\index{IP_radixSortDown@{\tt IP\_radixSortDown()}}
+This method sorts a list into descending order using a radix sort.
+%-----------------------------------------------------------------------
+\end{enumerate}

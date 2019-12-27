@@ -1,0 +1,38 @@
+\newpage
+\centerline{\Large\bf Preface}
+\par
+\medskip
+\par
+Please note that this is an alpha release of the package,
+probably a 0.5 release in anticipation of a 1.0 version that
+will be useful and self-contained.
+\par
+The serial code and the threaded code using the Solaris thread package
+is relatively stable, meaning that every once in a while we shake
+out a bug but the code does factor and solve sparse linear systems
+relatively efficiently and in a fairly easy to use manner.
+The MPI version of the code is still under development, and we are
+reluctant to release the present code because we want the present code 
+base for the three versions --- serial, threaded and MPI --- to be
+coherent. We don't anticipate any major changes to the code base as
+a result of the MPI development, but we offer no guarantees.
+\par
+The {\bf SPOOLES} library depends quite strongly on the objects
+found in the {\bf SMOOTH 1.1} library for ordering sparse matrices.
+The code conventions are the same between the two libraries.
+At some point in the future we will merge the two into one library.
+\par
+This reference document is not complete.
+All the objects are documented, their data structures and
+methods completely so.
+The background on the objects, the ``why'' and ``how'' of the
+design is lacking.
+The reader simply interested using the library should have little
+difficulty.
+The reader wanting to know more will appreciate a later version of
+this document that will contain a much better background discussion 
+on motivation and software and will include a respectable
+bibliography.
+\par
+Please communicate all questions and comments to
+{\tt cleve.ashcraft@boeing.com}.

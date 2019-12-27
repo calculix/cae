@@ -1,141 +1,95 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Applying the SPC's to the expanded structure</TITLE>
-<META NAME="description" CONTENT="Applying the SPC's to the expanded structure">
+<TITLE>Face loading (ufaceload.f)</TITLE>
+<META NAME="description" CONTENT="Face loading (ufaceload.f)">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node392.html">
 <LINK REL="previous" HREF="node390.html">
-<LINK REL="up" HREF="node386.html">
+<LINK REL="up" HREF="node381.html">
 <LINK REL="next" HREF="node392.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6159"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6181"
   HREF="node392.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6155"
-  HREF="node386.html">
+<A NAME="tex2html6177"
+  HREF="node381.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6149"
+<A NAME="tex2html6171"
   HREF="node390.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6157"
+<A NAME="tex2html6179"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6160"
-  HREF="node392.html">Applying the MPC's to</A>
-<B> Up:</B> <A NAME="tex2html6156"
-  HREF="node386.html">Expansion of the one-dimensional</A>
-<B> Previous:</B> <A NAME="tex2html6150"
-  HREF="node390.html">Connecting 1D and 2D</A>
- &nbsp; <B>  <A NAME="tex2html6158"
+<B> Next:</B> <A NAME="tex2html6182"
+  HREF="node392.html">Gap conductance (gapcon.f)</A>
+<B> Up:</B> <A NAME="tex2html6178"
+  HREF="node381.html">User-defined loading</A>
+<B> Previous:</B> <A NAME="tex2html6172"
+  HREF="node390.html">Amplitude (uamplitude.f)</A>
+ &nbsp; <B>  <A NAME="tex2html6180"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000113500000000000000">
-Applying the SPC's to the expanded structure</A>
+<H3><A NAME="SECTION0001041000000000000000"></A><A NAME="userfaceload"></A>
+<BR>
+Face loading (ufaceload.f)
 </H3>
 
 <P>
-Here too, the problem is that the SPC's are applied by the user to the nodes
-belonging the the original 1D and 2D elements. The expanded nodes, however,
-have different numbers and a link must be established with the original
-nodes. This is again performed by multiple point constraints. They are
-generated in subroutine ``gen3dboun.f''.
+This routine is called at the beginning of each step and can be used to
+determine the area of faces on which loading is applied. In that way the flux
+through the face can be calculated and stored in an extra file. This can be
+beneficial for thermal calculations to check the heat flux due to convection
+and radiation.
 
 <P>
-For knots the translational node of the rigid body formulation is the original
-node number. Consequently, translational SPC's are automatically taken into
-account. If a rotational SPC is applied, it must be transferred to the
-rotational node of the knot, e.g. degree of freedom 4 of the original node
-(rotation about the x-axis) is transformed into degree of freedom 1 of the
-rotational node. 
+<PRE>
+      subroutine ufaceload(co,ipkon,kon,lakon,
+     &amp;  nelemload,sideload,nload)
+!
+!
+!     INPUT:
+!
+!     co(0..3,1..nk)     coordinates of the nodes
+!     ipkon(*)           element topology pointer into field kon
+!     kon(*)             topology vector of all elements
+!     lakon(*)           vector with elements labels
+!     nelemload(1..2,*)  1: elements faces of which are loaded
+!                        2: nodes for environmental temperatures
+!     sideload(*)        load label
+!     nload              number of facial distributed loads
+!
+!     user routine called at the start of each step; possible use:
+!     calculation of the area of sets of elements for
+!     further use to calculate film or radiation coefficients.
+!     The areas can be shared using common blocks.
+!
+</PRE>
 
 <P>
-If no knot is generated in the node to which a translational SPC is applied, the way this
-node is connected to the newly generated nodes in the expanded elements
-depends on the type of element. For 1D elements MPC's are generated according to Equation <A HREF="node390.html#eqcon1D">522</A> and
-Figure <A HREF="node390.html#con1D">159</A>. For 2D shell elements the MPC's correspond to Equation <A HREF="node390.html#eqcon2Dshell">523</A> and
-Figure <A HREF="node390.html#con2Dshell">160</A>. Finally, for 2D plane and axisymmetric elements the
-MPC's correspond to Equation <A HREF="node390.html#eqcon2Dplane">524</A> and Figure <A HREF="node390.html#con2Dplane">161</A>.
+<BR><HR>
 
-<P>
-The application of a rotational SPC to a node in which no knot is defined is
-performed by generating a mean rotation MPC (cf. Section
-<A HREF="node367.html#meanrotationmpc">8.7.1</A>) about the rotation axis. The
-rotation axis can be along a global coordinate direction or along a local
-one. Contrary to translational SPC's, rotational SPC's in a local coordinate
-system are not converted into MPC's. Rather, the local rotation axis is taken
-right away as the axis of the mean rotation.
-
-<P>
-For the temperature degrees of freedom in heat transfer calculations the MPC's
-generated in beam and shell nodes in which no knot is defined are not sufficient. Indeed, the
-MPC only specifies the mean of corner nodes (for beams) or the mean of the
-upper and lower node (for shells). In practice, this corresponds to any
-bilinear (for beams) or linear (for
-shells) function across the cross section. In
-CalculiX, it is not possible to specify this gradient, so a constant function
-is defined. This is done by assigning the temperature SPC to nodes 2, 3 and 4
-(for beams, Equation <A HREF="node390.html#eqcon1D">522</A>) and to node 2 (for
-shells, Equation
-<A HREF="node390.html#eqcon2Dshell">523</A>). 
-
-<P>
-<HR>
-<!--Navigation Panel-->
-<A NAME="tex2html6159"
-  HREF="node392.html">
-<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
- SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6155"
-  HREF="node386.html">
-<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
- SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6149"
-  HREF="node390.html">
-<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
- SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6157"
-  HREF="node1.html">
-<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
- SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
-<BR>
-<B> Next:</B> <A NAME="tex2html6160"
-  HREF="node392.html">Applying the MPC's to</A>
-<B> Up:</B> <A NAME="tex2html6156"
-  HREF="node386.html">Expansion of the one-dimensional</A>
-<B> Previous:</B> <A NAME="tex2html6150"
-  HREF="node390.html">Connecting 1D and 2D</A>
- &nbsp; <B>  <A NAME="tex2html6158"
-  HREF="node1.html">Contents</A></B> 
-<!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
 </BODY>
 </HTML>

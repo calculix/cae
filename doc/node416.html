@@ -1,84 +1,134 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Convergence criteria</TITLE>
-<META NAME="description" CONTENT="Convergence criteria">
+<TITLE>allocate</TITLE>
+<META NAME="description" CONTENT="allocate">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="previous" HREF="node415.html">
-<LINK REL="up" HREF="node411.html">
+<LINK REL="up" HREF="node413.html">
 <LINK REL="next" HREF="node417.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6465"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6561"
   HREF="node417.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6461"
-  HREF="node411.html">
+<A NAME="tex2html6557"
+  HREF="node413.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6457"
+<A NAME="tex2html6553"
   HREF="node415.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6463"
+<A NAME="tex2html6559"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6466"
-  HREF="node417.html">Three-Dimensional Navier-Stokes Calculations</A>
-<B> Up:</B> <A NAME="tex2html6462"
-  HREF="node411.html">Aerodynamic and hydraulic networks</A>
-<B> Previous:</B> <A NAME="tex2html6458"
-  HREF="node415.html">Calculating the residual and</A>
- &nbsp; <B>  <A NAME="tex2html6464"
+<B> Next:</B> <A NAME="tex2html6562"
+  HREF="node417.html">Reading the step input</A>
+<B> Up:</B> <A NAME="tex2html6558"
+  HREF="node413.html">Allocation of the fields</A>
+<B> Previous:</B> <A NAME="tex2html6554"
+  HREF="node415.html">readinput</A>
+ &nbsp; <B>  <A NAME="tex2html6560"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000118500000000000000">
-Convergence criteria</A>
+<H3><A NAME="SECTION000121300000000000000">
+allocate</A>
 </H3>
 
 <P>
-Convergence is checked for the total temperature, mass flow, total pressure
-and geometry separately. Convergence is reaches if the change in solution in
-the last iteration does not exceed <!-- MATH
- $10^{-4}x5x10^{-3}$
- -->
-<B><IMG
- WIDTH="17" HEIGHT="30" ALIGN="BOTTOM" BORDER="0"
- SRC="img1964.png"
- ALT="$ 10^{-4}x5x10^{-3}$"></B> of the largest change
-in this network calculation or <B><IMG
- WIDTH="38" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
- SRC="img1623.png"
- ALT="$ 10^{-8}$"></B> times the largest absolute value
-within the network (cf. checkconvnet.c).
+In the subroutine allocate.f the input is read to determine upper bounds for
+the fields in the program. These upper bounds are printed so that the user can
+verify them. These upper bounds are used in the subsequent allocation
+statements in ccx_2.16.c. This procedure might seem slightly awkward, however,
+since the subroutines reading the input later on are in FORTRAN77, a
+reallocation is not possible at that stage. Therefore, upper bounds must have
+been defined.
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+It is important to know where fields are allocated, reallocated and
+deallocated. Most (re-, de-) allocation is done in
+ccx_2.16.c. Table&nbsp;(<A HREF="#talloc">19</A>) gives an overview where the allocation (A),
+reallocation (R) and deallocation (D) is done in file ccx_2.16.c. A
+fundamental mark in this file is the call of subroutine calinput, where the
+input data is interpreted.
+A couple of examples: field kon contains the topology of the elements and is
+allocated with size nkon, which is an upper bound estimate, before all steps. After reading the input up to and including the
+first step in subroutine calinput the field is reallocated with the correct
+size, since at that point all elements are read and the exact size is
+known. This size cannot change in subsequent steps since it is not allowed to
+define new elements within steps.
+The field xforc is allocated with the upper bound estimate nforc_ before
+entering subroutine calinput. After reading the input up to and including the
+first step its size is reallocated with the true size nforc. Before entering
+calinput to read the second step (or any subsequent step) xforc is reallocated with size nforc_, since
+new forces can be defined in step two (and in any subsequent step). After
+reading step two, the field is reallocated with the momentary value of nforc,
+and so on. All field which can change due to step information must be
+reallocated in each step.  
+
+<P>
+<BR>
+<A NAME="talloc"></A><IMG
+ WIDTH="952" HEIGHT="2335" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2390.png"
+ ALT="\begin{landscape}
+% latex2html id marker 13438\footnotesize {
+\begin{longtable...
+...}}
+Note: ithermal(1) and ithermal are in this manual synonymous.
+\end{landscape}">
+<BR>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6561"
+  HREF="node417.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6557"
+  HREF="node413.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6553"
+  HREF="node415.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6559"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6562"
+  HREF="node417.html">Reading the step input</A>
+<B> Up:</B> <A NAME="tex2html6558"
+  HREF="node413.html">Allocation of the fields</A>
+<B> Previous:</B> <A NAME="tex2html6554"
+  HREF="node415.html">readinput</A>
+ &nbsp; <B>  <A NAME="tex2html6560"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

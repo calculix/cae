@@ -1,0 +1,453 @@
+\par
+\section{Prototypes and descriptions of {\tt DSTree} methods}
+\label{section:DSTree:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt DSTree} object.
+\par
+\subsection{Basic methods}
+\label{subsection:DSTree:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+DSTree * DSTree_new ( void ) ;
+\end{verbatim}
+\index{DSTree_new@{\tt DSTree\_new()}}
+This method allocates storage for an instance of 
+the {\tt DSTree} object. 
+The default fields are set by a call to 
+{\tt DSTree\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DSTree_setDefaultFields ( DSTree *dstree ) ;
+\end{verbatim}
+\index{DSTree_setDefaultFields@{\tt DSTree\_setDefaultFields()}}
+This method sets the data fields to default values:
+{\tt tree} and {\tt mapIV} are set to {\tt NULL} ;
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DSTree_clearData ( DSTree *dstree ) ;
+\end{verbatim}
+\index{DSTree_clearData@{\tt DSTree\_clearData()}}
+This method clears the data fields, free'ing storage that has
+been allocated by the object and free'ing objects that it owns.
+This method checks to see whether {\tt dstree} is {\tt NULL}.
+If {\tt tree} is not {\tt NULL}, then {\tt Tree\_free(tree)} is
+called.
+If {\tt mapIV} is not {\tt NULL}, then {\tt IV\_free(mapIV)} is
+called.
+Then the structure's default fields are set
+via a call to {\tt DSTree\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DSTree_free ( DSTree *dstree ) ;
+\end{verbatim}
+\index{DSTree_free@{\tt DSTree\_free()}}
+This method checks to see whether {\tt dstree} is {\tt NULL}.
+If so, an error message is printed and the program exits.
+Otherwise, it releases any storage by a call to 
+{\tt DSTree\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:DSTree:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Tree * DSTree_tree ( DSTree *dstree ) ;
+\end{verbatim}
+\index{DSTree_tree@{\tt DSTree\_tree()}}
+This method returns a pointer to its {\tt Tree} object.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * DSTree_mapIV ( DSTree *dstree ) ;
+\end{verbatim}
+\index{DSTree_mapIV@{\tt DSTree\_mapIV()}}
+This method returns a pointer to its {\tt IV} object
+that maps vertices to domains and separators.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:DSTree:proto:initializers}
+\par
+There are three initializers and two helper functions to set the
+dimensions of the dstree, allocate the three vectors, and fill the
+information.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DSTree_init1 ( DSTree *dstree, int ndomsep, int nvtx ) ;
+\end{verbatim}
+\index{DSTree_init1@{\tt DSTree\_init1()}}
+This method initializes an object given the number of vertices,
+(the dimension of {\tt mapIV})
+and domains and separators (the number of nodes in {\tt tree}).
+It then clears any previous data with a call to 
+{\tt DSTree\_clearData()}. 
+The {\tt tree} field is created and initialized via a call to {\tt
+Tree\_init1()}.
+The {\tt mapIV} field is created and initialized via a call to {\tt
+IV\_init1()}.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL}, 
+or {\tt ndomsep} or {\tt nvtx} are negative, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DSTree_init2 ( DSTree *dstree, Tree *tree, IV *mapIV) ;
+\end{verbatim}
+\index{DSTree_init2@{\tt DSTree\_init2()}}
+Any previous data is cleared with a call to 
+{\tt DSTree\_clearData()}. 
+Then the {\tt tree} and {\tt mapIV} fields are set to the pointers
+in the calling sequence.
+\par \noindent {\it Error checking:}
+If {\tt dstree}, {\tt tree} or {\tt mapIV} are {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Stage methods}
+\label{subsection:DSTree:proto:stages}
+\par
+The only active function of a {\tt DSTree} object is to construct
+the stages vector needed as input to the multi-stage
+minimum degree {\tt MSMD} object.
+Each domain and separator has a particular level associated with it.
+A domain is a leaf of the domain/separator tree, and has level zero.
+Each separator has a level that is one greater than the maximum
+level of its children.
+\par
+%=======================================================================
+\begin{enumerate}
+\item
+\begin{verbatim}
+IV * DSTree_NDstages ( DSTree *dstree )  ;
+\end{verbatim}
+\index{DSTree_NDstages@{\tt DSTree\_NDstages()}}
+This method returns the stages for natural nested dissection.
+The levels of the domains and separators are obtained via a call to
+{\tt Tree\_setHeightImetric()}.
+A {\tt stagesIV} {\tt IV} object is created of size 
+{\tt nvtx = mapIV->size}, filled and then returned.
+The stage of a vertex is the level of the domain or separator which
+contains the vertex.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL},
+or if the object has not been initialized,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * DSTree_ND2stages ( DSTree *dstree )  ;
+\end{verbatim}
+\index{DSTree_ND2stages@{\tt DSTree\_ND2stages()}}
+This method returns the stages for a nested dissection variant,
+separators on two adjacent levels are put into the same stage.
+The levels of the domains and separators are obtained via a call to
+{\tt Tree\_setHeightImetric()}.
+A {\tt stagesIV} {\tt IV} object is created of size 
+{\tt nvtx = mapIV->size}, filled 
+and then returned.
+If a vertex is found in a domain, its stage is zero.
+If a vertex is found in a separator at level k, its stage is
+$\lceil k/2 \rceil$.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL},
+or if the object has not been initialized,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * DSTree_MS2stages ( DSTree *dstree )  ;
+\end{verbatim}
+\index{DSTree_MS2stages@{\tt DSTree\_MS2stages()}}
+This method returns the stages for the standard multisection
+ordering.
+The levels of the domains and separators are obtained via a call to
+{\tt Tree\_setHeightImetric()}.
+A {\tt stagesIV} {\tt IV} object is created of size 
+{\tt nvtx = mapIV->size}, filled 
+and then returned.
+If a vertex is found in a domain, its stage is zero.
+If a vertex is found in a separator, its stage is one.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL},
+or if the object has not been initialized,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * DSTree_MS3stages ( DSTree *dstree )  ;
+\end{verbatim}
+\index{DSTree_MS3stages@{\tt DSTree\_MS3stages()}}
+This method returns the stages for a three-stage variant 
+of the multisection ordering.
+The levels of the domains and separators are obtained via a call to
+{\tt Tree\_setHeightImetric()}.
+A {\tt stagesIV} {\tt IV} object is created of size 
+{\tt nvtx = mapIV->size}, filled 
+and then returned.
+If a vertex is found in a domain, its stage is zero.
+The levels of the separators are split into two sets, the lower
+levels and the upper levels.
+The stage of a vertex that is found in a separator is either 
+one (if the separator is in the lower levels)
+or two (if the separator is in the upper levels).
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL},
+or if the object has not been initialized,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * DSTree_stagesViaDomainWeight ( DSTree *dstree, 
+                                    int *vwghts, DV *cutoffDV )  ;
+\end{verbatim}
+\index{DSTree_stagesViaDomainWeight@{\tt DSTree\_stagesViaDomainWeight()}}
+This method sets the stages vector based on subtree (or domain) weights.
+Each vertex is mapped to a node in the tree.
+We generate the {\it subtree weights} for each subtree, the
+fraction of the total vertex weight (based on {\tt vwghts[]})
+that is contained in the subtree.
+For each node in the tree, its fraction of the node weights lies
+between two consectutive values in the {\tt cutoff[]} vector,
+and that is the stage for all vertices contained in the node.
+\par \noindent {\it Error checking:}
+If {\tt dstree} or {\tt cutoffDV} is {\tt NULL},
+or if the object has not been initialized,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\par
+\subsection{Utility methods}
+\label{subsection:DSTree:proto:utilities}
+\par
+There is one 
+utility method that returns the number of bytes taken by the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DSTree_sizeOf ( DSTree *dstree ) ;
+\end{verbatim}
+\index{DSTree_sizeOf@{\tt DSTree\_sizeOf()}}
+If {\tt dstree} is {\tt NULL},
+an error message is printed and the program exits.
+Otherwise, the number of bytes taken by this object is returned.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DSTree_renumberViaPostOT ( DSTree *dstree ) ;
+\end{verbatim}
+\index{DSTree_renumberViaPostOT@{\tt DSTree\_renumberViaPostOT()}}
+This method renumbers the fronts in the tree via  a post-order
+traversal.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL},
+or if the object has not been initialized,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DSTree_domainWeight ( DSTree *dstree, int vwghts[] ) ;
+\end{verbatim}
+\index{DSTree_domainWeight@{\tt DSTree\_domainWeight()}}
+This method returns the weight of the vertices in the domains.
+If {\tt vwghts} is {\tt NULL}, the vertices have unit weight.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DSTree_separatorWeight ( DSTree *dstree, int vwghts[] ) ;
+\end{verbatim}
+\index{DSTree_separatorWeight@{\tt DSTree\_separatorWeight()}}
+This method returns the weight of the vertices in the separators.
+If {\tt vwghts} is {\tt NULL}, the vertices have unit weight.
+\par \noindent {\it Error checking:}
+If {\tt dstree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:DSTree:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a dstree object is simple:
+the structure for a {\tt Tree} object
+followed by the structure for an {\tt IV} object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DSTree_readFromFile ( DSTree *dstree, char *fn ) ;
+\end{verbatim}
+\index{DSTree_readFromFile@{\tt DSTree\_readFromFile()}}
+\par
+This method reads a {\tt DSTree} object from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt DSTree\_readFromFormattedFile()} or
+{\tt DSTree\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt dstree} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.dstreef} (for a formatted file) 
+or {\tt *.dstreeb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DSTree_readFromFormattedFile ( DSTree *dstree, FILE *fp ) ;
+\end{verbatim}
+\index{DSTree_readFromFormattedFile@{\tt DSTree\_readFromFormattedFile()}}
+\par
+This method reads in a {\tt DSTree} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt dstree} or {\tt fp} is {\tt NULL}, 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DSTree_readFromBinaryFile ( DSTree *dstree, FILE *fp ) ;
+\end{verbatim}
+\index{DSTree_readFromBinaryFile@{\tt DSTree\_readFromBinaryFile()}}
+\par
+This method reads in a {\tt DSTree} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt dstree} or {\tt fp} is {\tt NULL}, 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DSTree_writeToFile ( DSTree *dstree, char *fn ) ;
+\end{verbatim}
+\index{DSTree_writeToFile@{\tt DSTree\_writeToFile()}}
+\par
+This method writes a {\tt DSTree} object to a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt DSTree\_writeFromFormattedFile()} or
+{\tt DSTree\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt dstree} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.dstreef} (for a formatted file) 
+or {\tt *.dstreeb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DSTree_writeToFormattedFile ( DSTree *dstree, FILE *fp ) ;
+\end{verbatim}
+\index{DSTree_writeToFormattedFile@{\tt DSTree\_writeToFormattedFile()}}
+\par
+This method writes a {\tt DSTree} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt dstree} or {\tt fp} is {\tt NULL}, 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DSTree_writeToBinaryFile ( DSTree *dstree, FILE *fp ) ;
+\end{verbatim}
+\index{DSTree_writeToBinaryFile@{\tt DSTree\_writeToBinaryFile()}}
+\par
+This method writes a {\tt DSTree} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt dstree} or {\tt fp} is {\tt NULL}, 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DSTree_writeForHumanEye ( DSTree *dstree, FILE *fp ) ;
+\end{verbatim}
+\index{DSTree_writeForHumanEye@{\tt DSTree\_writeForHumanEye()}}
+\par
+This method writes a {\tt DSTree} object to a file in a human
+readable format.
+The method {\tt DSTree\_writeStats()} is called to write out the
+header and statistics. 
+Then the tree structure is printed via a call to
+{\tt Tree\_writeForHumanEye}, followed by the map structure via a
+call to
+{\tt IV\_writeForHumanEye}.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt dstree} or {\tt fp} is {\tt NULL}, 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DSTree_writeStats ( DSTree *dstree, FILE *fp ) ;
+\end{verbatim}
+\index{DSTree_writeStats@{\tt DSTree\_writeStats()}}
+\par
+This method write the header and statistics to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt dstree} or {\tt fp} is {\tt NULL}, 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

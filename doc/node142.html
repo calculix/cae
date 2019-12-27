@@ -1,169 +1,165 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Tangent contact stiffness</TITLE>
-<META NAME="description" CONTENT="Tangent contact stiffness">
+<TITLE>Normal contact stiffness</TITLE>
+<META NAME="description" CONTENT="Normal contact stiffness">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
+<LINK REL="next" HREF="node143.html">
 <LINK REL="previous" HREF="node141.html">
-<LINK REL="up" HREF="node138.html">
+<LINK REL="up" HREF="node139.html">
 <LINK REL="next" HREF="node143.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html2857"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html2922"
   HREF="node143.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2853"
-  HREF="node138.html">
+<A NAME="tex2html2918"
+  HREF="node139.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2849"
+<A NAME="tex2html2912"
   HREF="node141.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2855"
+<A NAME="tex2html2920"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2858"
-  HREF="node143.html">Materials</A>
-<B> Up:</B> <A NAME="tex2html2854"
-  HREF="node138.html">Face-to-Face Penalty Contact</A>
-<B> Previous:</B> <A NAME="tex2html2850"
-  HREF="node141.html">Normal contact stiffness</A>
- &nbsp; <B>  <A NAME="tex2html2856"
+<B> Next:</B> <A NAME="tex2html2923"
+  HREF="node143.html">Tangent contact stiffness</A>
+<B> Up:</B> <A NAME="tex2html2919"
+  HREF="node139.html">Face-to-Face Penalty Contact</A>
+<B> Previous:</B> <A NAME="tex2html2913"
+  HREF="node141.html">Weak formulation</A>
+ &nbsp; <B>  <A NAME="tex2html2921"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H4><A NAME="SECTION00077640000000000000">
-Tangent contact stiffness</A>
+<H4><A NAME="SECTION00077630000000000000">
+Normal contact stiffness</A>
 </H4>
 
 <P>
-Due to the assumption that the projection of the slave integration point on
-the master surface does not change during and increment, and that the local
-normal on the master surface does not change either, the equations derived in
-the section on node-to-face contact simplity to:
+The traction excerted by the master face on the slave face at a slave
+integration point p can be written analogous to Equation (<A HREF="node137.html#forcn2f">191</A>):
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
-\frac{\partial \boldsymbol{t} }{\partial \boldsymbol{u_p} } = (\boldsymbol{I}
-- \boldsymbol{n} \otimes \boldsymbol{n}) \cdot \frac{\partial
-    \boldsymbol{s}  }{\partial \boldsymbol{u_p} },
+\boldsymbol{t_{(n)}}= f(r) \boldsymbol{n}.
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="190" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
- SRC="img970.png"
- ALT="$\displaystyle \frac{\partial \boldsymbol{t} }{\partial \boldsymbol{u_p} } = (\b...
-...ldsymbol{n}) \cdot \frac{\partial \boldsymbol{s} }{\partial \boldsymbol{u_p} },$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(249)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="98" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1007.png"
+ ALT="$\displaystyle \boldsymbol{t_{(n)}}= f(r) \boldsymbol{n}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">270</SPAN>)</TD></TR>
 </TABLE></DIV>
-<BR CLEAR="ALL"><P></P> 
+<BR CLEAR="ALL"><P></P>
 
 <P>
-where
+For simplicity, in the face-to-face contact formulation it is assumed that
+within an increment the location <!-- MATH
+ $(\xi _{m_k}, \eta _{m_k})$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="76" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1008.png"
+ ALT="$ (\xi _{m_k}, \eta _{m_k})$"></SPAN> of the projection
+of the slave integration points on the master face and the local Jacobian on the
+master face do not change. Consequently (cf. the section <A HREF="node137.html#normalc">6.7.5</A>):
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
-\frac{\partial \boldsymbol{s} }{\partial \boldsymbol{u_p} }= \boldsymbol{I}.
+\frac{\partial \boldsymbol{m} }{\partial \boldsymbol{u_p} }=\frac{\partial \xi
+}{\partial \boldsymbol{u_p} }  = \frac{\partial \eta }{\partial
+  \boldsymbol{u_p} } =\boldsymbol{0}.
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="72" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
- SRC="img971.png"
- ALT="$\displaystyle \frac{\partial \boldsymbol{s} }{\partial \boldsymbol{u_p} }= \boldsymbol{I}.$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(250)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="178" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1009.png"
+ ALT="$\displaystyle \frac{\partial \boldsymbol{m} }{\partial \boldsymbol{u_p} }=\frac...
+...bol{u_p} } = \frac{\partial \eta }{\partial \boldsymbol{u_p} } =\boldsymbol{0}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">271</SPAN>)</TD></TR>
 </TABLE></DIV>
-<BR CLEAR="ALL"><P></P>  
+<BR CLEAR="ALL"><P></P>
 
 <P>
-Equation (<A HREF="node137.html#eq117">223</A>) now reduces to    
+and
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\frac{\partial \boldsymbol{r} }{\partial \boldsymbol{u_p} }= \boldsymbol{I},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="RIGHT"><IMG
- WIDTH="69" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
- SRC="img972.png"
- ALT="$\displaystyle \frac{\partial \boldsymbol{t_{(\tau)}}_{n+1} }{\partial \boldsymbol{u_p}_{n+1} }$"></TD>
-<TD NOWRAP ALIGN="LEFT"><IMG
- WIDTH="203" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
- SRC="img973.png"
- ALT="$\displaystyle = \mu \boldsymbol{\xi }_{n+1} \otimes \left [ -\boldsymbol{n} \cd...
-...c{\partial \boldsymbol{t_{(n)}}_{n+1}}{\partial \boldsymbol{u_p}_{n+1}} \right]$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-&nbsp;&nbsp;&nbsp;</TD></TR>
-<TR VALIGN="MIDDLE">
-<TD>&nbsp;</TD>
-<TD NOWRAP ALIGN="LEFT"><IMG
- WIDTH="316" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
- SRC="img974.png"
- ALT="$\displaystyle + \mu \frac{\Vert\boldsymbol{t_{(n)}}_{n+1} \Vert}{\Vert\boldsymb...
-...ot K_t \frac{\partial \boldsymbol{t}_{n+1} }{\partial \boldsymbol{u_p}_{n+1}. }$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(251)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="71" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1010.png"
+ ALT="$\displaystyle \frac{\partial \boldsymbol{r} }{\partial \boldsymbol{u_p} }= \boldsymbol{I},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">272</SPAN>)</TD></TR>
 </TABLE></DIV>
-<BR CLEAR="ALL"><P></P>      
+<BR CLEAR="ALL"><P></P>
 
 <P>
-Be careful to distinguish <!-- MATH
- $\boldsymbol{t_{(n)}}_{n+1}$
+which leads to
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\frac{\partial
+   \boldsymbol{t_{(n)}}}{\partial  \boldsymbol{u_p} } = \frac{\partial
+   f}{\partial r} \boldsymbol{n} \otimes \boldsymbol{n}.
+\end{equation}
  -->
-<IMG
- WIDTH="57" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img975.png"
- ALT="$ \boldsymbol{t_{(n)}}_{n+1}$"> and
-<!-- MATH
- $\boldsymbol{t_{(\tau)}}_{n+1}$
- -->
-<IMG
- WIDTH="56" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img976.png"
- ALT="$ \boldsymbol{t_{(\tau)}}_{n+1}$">, which are tractions, from
-<!-- MATH
- $\boldsymbol{t}_{n+1}$
- -->
-<IMG
- WIDTH="36" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img977.png"
- ALT="$ \boldsymbol{t}_{n+1}$">, which is a tangential differential displacement.
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="135" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1011.png"
+ ALT="$\displaystyle \frac{\partial \boldsymbol{t_{(n)}}}{\partial \boldsymbol{u_p} } = \frac{\partial f}{\partial r} \boldsymbol{n} \otimes \boldsymbol{n}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">273</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>    
+
+<P>
+This is the normal contact contribution to Equation (<A HREF="node141.html#eq98">269</A>). 
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -1,0 +1,262 @@
+\par
+\section{Prototypes and descriptions of {\tt Pencil} methods}
+\label{section:Pencil:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt Pencil} object.
+\par
+\subsection{Basic methods}
+\label{subsection:Pencil:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Pencil * Pencil_new ( void ) ;
+\end{verbatim}
+\index{Pencil_new@{\tt Pencil\_new()}}
+This method simply allocates storage for the {\tt Pencil} structure 
+and then sets the default fields by a call to 
+{\tt Pencil\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_setDefaultFields ( Pencil *pencil ) ;
+\end{verbatim}
+\index{Pencil_setDefaultFields@{\tt Pencil\_setDefaultFields()}}
+The structure's fields are set to default values:
+{\tt sigma[2] = \{0,0\}},
+{\tt type} = {\tt SPOOLES\_REAL},
+{\tt symflag} = {\tt SPOOLES\_SYMMETRIC},
+and {\tt inpmtxA} = {\tt inpmtxB} = {\tt NULL} .
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_clearData ( Pencil *pencil ) ;
+\end{verbatim}
+\index{Pencil_clearData@{\tt Pencil\_clearData()}}
+This method clears the object and free's any owned data
+by invoking the {\tt InpMtx\_free()} method for 
+the {\tt inpmtxA} and {\tt inpmtxB} objects.
+There is a concluding call to {\tt Pencil\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_free ( Pencil *pencil ) ;
+\end{verbatim}
+\index{Pencil_free@{\tt Pencil\_free()}}
+This method releases any storage by a call to 
+{\tt Pencil\_clearData()} and then free the space for {\tt pencil}.
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization methods}
+\label{subsection:Pencil:proto:initial}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_init( Pencil *pencil, int type, int symflag,
+                   InpMtx *inpmtxA, double sigma[], InpMtx *inpmtxB ) ;
+\end{verbatim}
+\index{Pencil_init@{\tt Pencil\_init()}}
+The fields of the pencil object are set to the input
+parameters.
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:Pencil:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_changeCoordType ( Pencil *pencil, int newType ) ;
+\end{verbatim}
+\index{Pencil_changeCoordType@{\tt Pencil\_changeCoordType()}}
+This method simply calls the {\tt InpMtx\_changeCoordType()}
+method for each of its two matrices.
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_changeStorageMode ( Pencil *pencil, int newMode ) ;
+\end{verbatim}
+\index{Pencil_changeStorageMode@{\tt Pencil\_changeStorageMode()}}
+This method simply calls the {\tt InpMtx\_changeStorageMode()}
+method for each of its two matrices.
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_sortAndCompress ( Pencil *pencil ) ;
+\end{verbatim}
+\index{Pencil_sortAndCompress@{\tt Pencil\_sortAndCompress()}}
+This method simply calls the {\tt InpMtx\_sortAndCompress()}
+method for each of its two matrices.
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_convertToVectors ( Pencil *pencil ) ;
+\end{verbatim}
+\index{Pencil_convertToVectors@{\tt Pencil\_convertToVectors()}}
+This method simply calls the {\tt InpMtx\_sortAndCompress()}
+method for each of its two matrices.
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_mapToLowerTriangle ( Pencil *pencil ) ;
+\end{verbatim}
+\index{Pencil_mapToLowerTriangle@{\tt Pencil\_mapToLowerTriangle()}}
+This method simply calls the {\tt InpMtx\_mapToLowerTriangle()}
+method for each of its two matrices.
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_mapToUpperTriangle ( Pencil *pencil ) ;
+\end{verbatim}
+\index{Pencil_mapToUpperTriangle@{\tt Pencil\_mapToUpperTriangle()}}
+This method simply calls the {\tt InpMtx\_mapToUpperTriangle()}
+method for each of its two matrices.
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_permute ( Pencil *pencil, 
+                       IV *rowOldToNewIV, IV *colOldToNewIV ) ;
+\end{verbatim}
+\index{Pencil_permute@{\tt Pencil\_permute()}}
+This method simply calls the {\tt InpMtx\_permute()}
+method for each of its two matrices.
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_mmm ( Pencil *pencil, DenseMtx *Y, DenseMtx *X ) ;
+\end{verbatim}
+\index{Pencil_mmm@{\tt Pencil\_mmm()}}
+This method is used to compute $X = (A + \sigma B)X$.
+\par \noindent {\it Error checking:}
+If {\tt pencil}, {\tt X} or {\tt Y} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * Pencil_fullAdjacency ( Pencil *pencil ) ;
+\end{verbatim}
+\index{Pencil_fullAdjacency@{\tt Pencil\_fullAdjacency()}}
+This method returns an IVL object that holds the full adjacency
+structure of
+$(A + \sigma B) + (A + \sigma B)^T$.
+\par \noindent {\it Error checking:}
+If {\tt pencil} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:Pencil:proto:IO}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Pencil * Pencil_setup ( int myid, int symflag, char *inpmtxAfile, 
+   double sigma[], char *inpmtxBfile, int randomflag, Drand *drand,
+   int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{Pencil_setup@{\tt Pencil\_setup()}}
+\par
+This method is used to read in the matrices from two files and
+initialize the objects.
+If the file name is ``none'', then no matrix is read.
+If {\tt symflag} is {\tt SPOOLES\_SYMMETRIC} or
+{\tt SPOOLES\_HERMITIAN}, entries in the lower triangle are dropped.
+If {\tt randomflag} is one, the entries are filled with random
+numbers using the {\tt Drand} random number generator {\tt drand}.
+\par
+{\bf Note:} this method was created for an MPI application.
+If {\tt myid} is zero, then the files are read in, otherwise
+just stubs are created for the internal matrix objects.
+In our MPI drivers, process zero reads in the matrices and then
+starts the process to distribute them to the other processes.
+\par \noindent {\it Error checking:}
+If {\tt pencil} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Pencil_readFromFiles ( Pencil *pencil, char *fnA, char *fnB ) ;
+\end{verbatim}
+\index{Pencil_readFromFiles@{\tt Pencil\_readFromFiles()}}
+\par
+This method reads the two {\tt InpMtx} objects from two files.
+If {\tt fnA} is ``{\tt none}'', then $A$ is not read.
+If {\tt fnB} is ``{\tt none}'', then $B$ is not read.
+\par \noindent {\it Error checking:}
+If {\tt pencil} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_writeForHumanEye ( Pencil *pencil, FILE *fp ) ;
+\end{verbatim}
+\index{Pencil_writeForHumanEye@{\tt Pencil\_writeForHumanEye()}}
+\par
+This method writes a {\tt Pencil} object to a file in an easily
+readable format.
+\par \noindent {\it Error checking:}
+If {\tt pencil} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Pencil_writeStats ( Pencil *pencil, FILE *fp ) ;
+\end{verbatim}
+\index{Pencil_writeStats@{\tt Pencil\_writeStats()}}
+\par
+This method writes statistics for  {\tt Pencil} object to a file.
+\par \noindent {\it Error checking:}
+If {\tt pencil} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

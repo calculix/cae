@@ -1,0 +1,46 @@
+\par
+\subsubsection{{\tt PIV} : {\tt int *} vector methods}
+\label{subsubsection:Utilities:proto:PIV}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ** PIVinit ( int n ) ;
+\end{verbatim}
+\index{PIVinit@{\tt PIVinit()}}
+This is the allocator and initializer method for {\tt int*} vectors.
+Storage for an array with size {\tt n} is found and each
+entry is filled with {\tt NULL}.
+A pointer to the array is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PIVfree ( int **p_vec ) ;
+\end{verbatim}
+\index{PIVfree@{\tt PIVfree()}}
+This method releases the storage taken by {\tt p\_vec[]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PIVcopy ( int n, int *p_y[], int *p_x[] ) ;
+\end{verbatim}
+\index{PIVcopy@{\tt PIVcopy()}}
+This method copies {\tt n} entries from {\tt p\_x[]} to {\tt p\_y[]},
+i.e.,
+{\tt p\_y[i] = p\_x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PIVsetup ( int n, int sizes[], int vec[], int *p_vec[] ) ;
+\end{verbatim}
+\index{PIVsetup@{\tt PIVsetup()}}
+This method sets the entries of {\tt p\_vec[]} as pointers into {\tt
+vec[]} given by the {\tt sizes[]} vector,
+i.e.,
+{\tt p\_vec[0] = vec}, and 
+{\tt p\_vec[i] = p\_vec[i-1] + sizes[i-1]} 
+for {\tt 0 < i < n}.
+%-----------------------------------------------------------------------
+\end{enumerate}

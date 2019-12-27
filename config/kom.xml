@@ -468,6 +468,7 @@
 				<argument form='QCheckBox' name='CONTACT ELEMENTS'/>
 			</keyword>
 			<keyword name='*NODE OUTPUT'>
+				<!--TODO DOUBLE-->
 				<argument form='QLineEdit' name='FREQUENCY|TIME POINTS'/>
 			</keyword>
 			<keyword name='*NODE PRINT'>
@@ -590,6 +591,7 @@
 				<argument form='QLineEdit' name='ORIENTATION'/>
 			</keyword>
 			<keyword name='*MODEL CHANGE'>
+				<!--TODO MECHSTRAINTORESIDUAL-->
 				<argument form='QComboBox' name='TYPE' required='1'>ELEMENT|CONTACT PAIR</argument>
 				<argument form='QComboBox' name='ADD'>STRAIN FREE|WITH STRAIN</argument>
 				<argument form='QCheckBox' name='REMOVE'/>
@@ -615,5 +617,5 @@
 		</keyword>
 		<keyword name='*END STEP'/>
 	</keyword>
-	<group name='Job'/>
+	<!--group name='Job'/-->
 </group>

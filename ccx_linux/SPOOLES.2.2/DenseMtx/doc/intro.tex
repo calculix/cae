@@ -1,0 +1,20 @@
+\par
+\chapter{{\tt DenseMtx}: Dense matrix object}
+\par
+The {\tt DenseMtx} object contains a dense matrix along with row and
+column indices.
+The entries in the matrix can be double precision real or double
+precision complex.
+It needs to be able to manage its own storage, much like the {\tt
+Chv} and {\tt SubMtx} objects that are used during the 
+factor and solves, so we include
+this capability via a contained {\tt DV} object.
+A {\tt DenseMtx} object may also be found in a list, so there is
+a {\tt next} field that points to another {\tt DenseMtx} object.
+\par
+The {\tt DenseMtx} object also exists in an MPI environment,
+where it holds the solution and right hand side matrices.
+Since each of these two matrices is distributed, a processor
+{\it owns} only part of the global matrix, and so the need for row
+and column indices to specify which rows and columns are present on
+which processor.

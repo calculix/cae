@@ -1,80 +1,133 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*RETAINED NODAL DOFS</TITLE>
-<META NAME="description" CONTENT="*RETAINED NODAL DOFS">
+<TITLE>*GAP</TITLE>
+<META NAME="description" CONTENT="*GAP">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node307.html">
 <LINK REL="previous" HREF="node305.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node307.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5000"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5116"
   HREF="node307.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4996"
-  HREF="node205.html">
+<A NAME="tex2html5112"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4990"
+<A NAME="tex2html5106"
   HREF="node305.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4998"
+<A NAME="tex2html5114"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5001"
-  HREF="node307.html">*RIGID BODY</A>
-<B> Up:</B> <A NAME="tex2html4997"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4991"
-  HREF="node305.html">*RESTART</A>
- &nbsp; <B>  <A NAME="tex2html4999"
+<B> Next:</B> <A NAME="tex2html5117"
+  HREF="node307.html">*GAP CONDUCTANCE</A>
+<B> Up:</B> <A NAME="tex2html5113"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5107"
+  HREF="node305.html">*FRICTION</A>
+ &nbsp; <B>  <A NAME="tex2html5115"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000898000000000000000"></A><A NAME="retainednodaldofs"></A>
+<H2><A NAME="SECTION000959000000000000000"></A><A NAME="gap"></A>
 <BR>
-*RETAINED NODAL DOFS
+*GAP
 </H2>
 
 <P>
-Keyword type: step
+Keyword type: model definition
 
 <P>
-This option is used to prescribe the nodal degrees of freedom which are kept
-in a <A HREF="node320.html#substructuregenerate">*SUBSTRUCTURE GENERATE</A> analysis. It
-cannot be used in any other sort of analysis.
+This option is used to define a gap geometry. The parameter
+ELSET is required and defines the set of gap elements to which the geometry
+definition applies. Right now, all gap elements must be of the GAPUNI type and
+can be defined by an <A HREF="node292.html#element">*ELEMENT</A> card. The gap geometry is
+defined by its clearance <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img292.png"
+ ALT="$ d$"></B></SPAN> and direction <!-- MATH
+ $\boldsymbol{n}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img293.png"
+ ALT="$ \boldsymbol{n}$"></B></SPAN> (a vector of
+length 1). Let the
+displacement vector of the first node of a GAPUNI element be <!-- MATH
+ $\boldsymbol{u_1}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="23" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img294.png"
+ ALT="$ \boldsymbol{u_1}$"></B></SPAN> and
+the displacement vector of the second node <!-- MATH
+ $\boldsymbol{u_2}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="23" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img295.png"
+ ALT="$ \boldsymbol{u_2}$"></B></SPAN>. Then, the gap
+condition is defined by:
 
 <P>
-There is one optional parameter: SORTED=NO. It is not possible to request a
-sorting of the degrees of freedom entered. The entries in the substructure
-stiffness matrix are in the order introduced by the user.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+d+\boldsymbol{n} \cdot (\boldsymbol{u_2} -\boldsymbol{u_1}) \ge 0.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="157" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img296.png"
+ ALT="$\displaystyle d+\boldsymbol{n} \cdot (\boldsymbol{u_2} -\boldsymbol{u_1}) \ge 0.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">736</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P> 
 
 <P>
-No transformation is allowed. Consequently, the global Carthesian system applies.
+The gap condition is internally simulated by a nonlinear spring of the type
+used in node-to-face contact with a linear pressure-overclosure curve,
+cf. Figure <A HREF="node136.html#contact_lin">132</A> in which the pressure is to be replaced by the
+force. The defaults for the spring stiffness (in units of force/displacement) and the tensile
+force at <SPAN CLASS="MATH"><B><IMG
+ WIDTH="32" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2254.png"
+ ALT="$ - \infty$"></B></SPAN> are <SPAN CLASS="MATH"><B><IMG
+ WIDTH="33" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2255.png"
+ ALT="$ 10^{12}$"></B></SPAN> and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img821.png"
+ ALT="$ 10^{-3}$"></B></SPAN>, respectively. They can be
+changed by the user.
+
+<P>
 
 <P><P>
 <BR>
@@ -83,47 +136,89 @@ No transformation is allowed. Consequently, the global Carthesian system applies
 First line:
 
 <UL>
-<LI>*RETAINED NODAL DOFS
+<LI>*GAP
 </LI>
-<LI>Enter the parameter SORTED=NO (optional).
+<LI>Enter the ELSET parameter and its value.
 </LI>
 </UL>
 
 <P>
-Following line:
+Second line :
 
 <UL>
-<LI>Node number or node set label
+<LI>gap clearance
 </LI>
-<LI>First degree of freedom retained
+<LI>first component of the normalized gap direction
 </LI>
-<LI>Last degree of freedom retained. This field may be left blank if only one degree of freedom is retained.
+<LI>second component of the normalized gap direction
+</LI>
+<LI>third component of the normalized gap direction
+</LI>
+<LI>not used
+</LI>
+<LI>spring stiffness (default <SPAN CLASS="MATH"><B><IMG
+ WIDTH="33" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2255.png"
+ ALT="$ 10^{12}$"></B></SPAN> [force]/[length])
+</LI>
+<LI>tensile force at <SPAN CLASS="MATH"><B><IMG
+ WIDTH="32" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2254.png"
+ ALT="$ - \infty$"></B></SPAN> (default <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img821.png"
+ ALT="$ 10^{-3}$"></B></SPAN> [force]).
 </LI>
 </UL>
-Repeat this line if needed.
 
 <P>
 <PRE>
 Example:
 
-*RETAINED NODAL DOFS
-73,1,3
+*GAP,ELSET=E1
+0.5,0.,1.,0.
 </PRE>
 
 <P>
-retains the degrees of freedom one through three (global) of node 73.
+defines a clearance of 0.5 and the global y-axis as gap direction for all gap
+elements contained in element set E1.
 
 <P>
 
 <P><P>
 <BR>
-Example files: substructure.
+Example files: gap.
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5116"
+  HREF="node307.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5112"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5106"
+  HREF="node305.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5114"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5117"
+  HREF="node307.html">*GAP CONDUCTANCE</A>
+<B> Up:</B> <A NAME="tex2html5113"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5107"
+  HREF="node305.html">*FRICTION</A>
+ &nbsp; <B>  <A NAME="tex2html5115"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

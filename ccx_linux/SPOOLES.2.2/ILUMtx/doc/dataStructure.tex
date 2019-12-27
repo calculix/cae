@@ -1,0 +1,73 @@
+\par
+\section{Data Structure}
+\label{section:ILUMtx:dataStructure}
+\par
+\par
+The {\tt ILUMtx} structure has the following fields.
+\begin{itemize}
+\item
+{\tt int neqns} : number of equations.
+\item
+{\tt int type} : type of entries, {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+\item
+{\tt int symmetryflag} : type of matrix symmetry, 
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN} or
+{\tt SPOOLES\_NONSYMMETRIC}.
+\item
+{\tt int UstorageMode} : type of storage for $U$,
+{\tt SPOOLES\_BY\_ROWS} or {\tt SPOOLES\_BY\_COLUMNS}.
+\item
+{\tt int LstorageMode} : type of storage for $L$,
+{\tt SPOOLES\_BY\_ROWS} or {\tt SPOOLES\_BY\_COLUMNS}.
+\item
+{\tt double *entD} : vector of diagonal entries.
+\item
+{\tt int *sizesL} : vector of sizes of the off-diagonal vectors of $L$,
+not used if the matrix is symmetric or Hermitian.
+\item
+{\tt int **p\_indL} : vector of pointers to the indicies vectors of $L$,
+not used if the matrix is symmetric or Hermitian.
+\item
+{\tt double **p\_entL} : vector of pointers to the entries vectors 
+of $L$, not used if the matrix is symmetric or Hermitian.
+\item
+{\tt int *sizesU} : vector of sizes of the off-diagonal vectors of $U$.
+\item
+{\tt int **p\_indU} : vector of pointers to the indicies vectors of $U$.
+\item
+{\tt double **p\_entU} : vector of pointers to the entries vectors 
+of $U$.
+\end{itemize}
+\par
+One can query the attributes of the object with the following
+macros.
+\begin{itemize}
+\item
+{\tt ILUMTX\_IS\_REAL(mtx)} returns {\tt 1} 
+if the entries are real, and {\tt 0} otherwise.
+\item
+{\tt ILUMTX\_IS\_COMPLEX(mtx)} returns {\tt 1} 
+if the entries are complex, and {\tt 0} otherwise.
+\item
+{\tt ILUMTX\_IS\_SYMMETRIC(mtx)} returns {\tt 1} 
+if the factorization is symmetric, and {\tt 0} otherwise.
+\item
+{\tt ILUMTX\_IS\_HERMITIAN(mtx)} returns {\tt 1} 
+if the factorization is Hermitian, and {\tt 0} otherwise.
+\item
+{\tt ILUMTX\_IS\_NONSYMMETRIC(mtx)} returns {\tt 1} 
+if the factorization is nonsymmetric, and {\tt 0} otherwise.
+\item
+{\tt ILUMTX\_IS\_L\_BY\_ROWS(mtx)} returns {\tt 1} 
+if $L$ is stored by rows, and {\tt 0} otherwise.
+\item
+{\tt ILUMTX\_IS\_L\_BY\_COLUMNS(mtx)} returns {\tt 1} 
+if $L$ is stored by columns, and {\tt 0} otherwise.
+\item
+{\tt ILUMTX\_IS\_U\_BY\_ROWS(mtx)} returns {\tt 1} 
+if $U$ is stored by rows, and {\tt 0} otherwise.
+\item
+{\tt ILUMTX\_IS\_U\_BY\_COLUMNS(mtx)} returns {\tt 1} 
+if $U$ is stored by columns, and {\tt 0} otherwise.
+\end{itemize}

@@ -1,0 +1,36 @@
+#! /bin/csh -f
+
+set msglvl           = 1
+set msgFile          = res3D.64
+set msgFile          = /local1/ARPA/junk/res.grid
+set msgFile          = res.grid
+set msgFile          = res
+set msgFile          = stdout
+
+set mtxFile = ../../../matrices/R2D100/orig.inpmtxb
+set etreeFile = ../../../matrices/R2D100/nd.etreef
+
+set mtxFile = ../../../matrices/R3D13824/orig.inpmtxb
+set etreeFile = ../../../matrices/R3D13824/nd.0.100000.etreef
+
+# set mtxFile   = ../../../matrices/R10KV/orig.inpmtxb
+# set etreeFile = ../../../matrices/R10KV/best0.etreef
+
+# set mtxFile   = ../../../matrices/R2D100/orig.inpmtxb
+# set etreeFile = ../../../matrices/R2D100/nd.etreef
+
+# set mtxFile = /local1/ARPA/matrices/SFTC$n/SFTC1.inpmtxb
+# set etreeFile = /local1/ARPA/matrices/SFTC$n/best0.etreef
+
+set seed             = 10101
+set symmetryflag     = 0
+set sparsityflag     = 0
+set pivotingflag     = 0
+set tau              = 100
+set droptol          = 1.e-50
+set lookahead        = 0
+set nrhs             = 4
+
+testFactor $msglvl $msgFile $mtxFile $etreeFile \
+           $seed $symmetryflag $sparsityflag $pivotingflag\
+           $tau $droptol $lookahead $nrhs 

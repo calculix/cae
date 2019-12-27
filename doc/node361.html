@@ -1,95 +1,314 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Calling shared libraries</TITLE>
-<META NAME="description" CONTENT="Calling shared libraries">
+<TITLE>*SURFACE</TITLE>
+<META NAME="description" CONTENT="*SURFACE">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node362.html">
 <LINK REL="previous" HREF="node360.html">
-<LINK REL="up" HREF="node359.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node362.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5715"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5776"
   HREF="node362.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5711"
-  HREF="node359.html">
+<A NAME="tex2html5772"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5705"
+<A NAME="tex2html5766"
   HREF="node360.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5713"
+<A NAME="tex2html5774"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5716"
-  HREF="node362.html">Limitations</A>
-<B> Up:</B> <A NAME="tex2html5712"
-  HREF="node359.html">ABAQUS umat routines</A>
-<B> Previous:</B> <A NAME="tex2html5706"
-  HREF="node360.html">Calling mechanical behaviours defined</A>
- &nbsp; <B>  <A NAME="tex2html5714"
+<B> Next:</B> <A NAME="tex2html5777"
+  HREF="node362.html">*SURFACE BEHAVIOR</A>
+<B> Up:</B> <A NAME="tex2html5773"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5767"
+  HREF="node360.html">*SUBSTRUCTURE MATRIX OUTPUT</A>
+ &nbsp; <B>  <A NAME="tex2html5775"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H4><A NAME="SECTION00095220000000000000">
-Calling shared libraries</A>
-</H4>
+<H2><A NAME="SECTION0009114000000000000000"></A><A NAME="surface"></A>
+<BR>
+*SURFACE
+</H2>
 
 <P>
-Calling shared libraries is triggered by putting the @ character in
-front material name. The material name is then decomposed into three
-parts, separated by the _ character:
-- The name of the interface (ABAQUS or ABAQUSNL).
-- The base name of the library (see below).
-- The name of the function implementing the behavior.
+Keyword type: model definition
 
 <P>
-For instance, if we want to call a small strain behavior in a linear
-analysis, implemented by the ``CHABOCHE'' function in the
-``libABAQUSBEHAVIOURS.so'' shared library<A NAME="tex2html178"
-  HREF="footnode.html#foot10183"><SUP>4</SUP></A>, one would declare the
-following material name:
-<DIV ALIGN="CENTER">
-ABAQUS_ABAQUSBEHAVIOURS_CHABOCHE
-
-</DIV>
+This option is used to define surfaces made up of nodes or surfaces made up of
+element faces. A mixture of nodes and element faces belonging to one and the
+same surface is not possible. There are
+two parameters: NAME and TYPE. The parameter NAME
+containing the name of the surface is required. The TYPE parameter takes the
+value NODE for nodal surfaces and ELEMENT for element face surfaces. Default
+is TYPE=ELEMENT. 
 
 <P>
-Here, the library name has been stripped from system-specific
-convention (the leading lib and the .so extension). <EM>The base name
-  of the library and the name of the function must be
-  upper-cased</EM>. This is due to the way CalculiX interprets the input
-file.
+At present, surfaces are used to establish cyclic symmetry conditions and to
+define contact (including tied contact). The master and slave surfaces in cyclic symmetry conditions
+must be nodal surfaces. For contact, the slave surface can be a nodal or
+element face
+surface, while the master surface has to be a element face surface.
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+Element faces are identified by the surface label Sx where x is the number of the face. The numbering depends on the element type.
+
+<P>
+For hexahedral elements the faces are numbered as follows (numbers are
+node numbers):
+
+<UL>
+<LI>Face 1: 1-2-3-4
+</LI>
+<LI>Face 2: 5-8-7-6
+</LI>
+<LI>Face 3: 1-5-6-2
+</LI>
+<LI>Face 4: 2-6-7-3
+</LI>
+<LI>Face 5: 3-7-8-4
+</LI>
+<LI>Face 6: 4-8-5-1
+</LI>
+</UL>
+
+<P>
+for tetrahedral elements:
+
+<UL>
+<LI>Face 1: 1-2-3
+</LI>
+<LI>Face 2: 1-4-2
+</LI>
+<LI>Face 3: 2-4-3
+</LI>
+<LI>Face 4: 3-4-1
+</LI>
+</UL>
+and for wedge elements:
+
+<P>
+
+<UL>
+<LI>Face 1: 1-2-3
+</LI>
+<LI>Face 2: 4-5-6
+</LI>
+<LI>Face 3: 1-2-5-4
+</LI>
+<LI>Face 4: 2-3-6-5
+</LI>
+<LI>Face 5: 3-1-4-6
+</LI>
+</UL>
+
+<P>
+for quadrilateral plane stress, plane strain and axisymmetric elements:
+
+<UL>
+<LI>Face 1: 1-2
+</LI>
+<LI>Face 2: 2-3
+</LI>
+<LI>Face 3: 3-4
+</LI>
+<LI>Face 4: 4-1
+</LI>
+<LI>Face N: in negative normal direction (only for plane stress)
+</LI>
+<LI>Face P: in positive normal direction (only for plane stress) 
+</LI>
+</UL>
+
+<P>
+for triangular plane stress, plane strain and axisymmetric elements:
+
+<UL>
+<LI>Face 1: 1-2
+</LI>
+<LI>Face 2: 2-3
+</LI>
+<LI>Face 3: 3-1
+</LI>
+<LI>Face N: in negative normal direction (only for plane stress)
+</LI>
+<LI>Face P: in positive normal direction (only for plane stress) 
+</LI>
+</UL>
+
+<P>
+for quadrilateral shell elements:
+
+<UL>
+<LI>Face NEG or 1: in negative normal direction
+</LI>
+<LI>Face POS or 2: in positive normal direction
+</LI>
+<LI>Face 3: 1-2
+</LI>
+<LI>Face 4: 2-3
+</LI>
+<LI>Face 5: 3-4
+</LI>
+<LI>Face 6: 4-1
+</LI>
+</UL>
+
+<P>
+for triangular shell elements:
+
+<UL>
+<LI>Face NEG or 1: in negative normal direction
+</LI>
+<LI>Face POS or 2: in positive normal direction
+</LI>
+<LI>Face 3: 1-2
+</LI>
+<LI>Face 4: 2-3
+</LI>
+<LI>Face 5: 3-1
+</LI>
+</UL>
+Notice that the labels 1 and 2 correspond to
+the brick face labels of the 3D expansion of the shell (Figure <A HREF="node40.html#2dexpansion">73</A>).
+
+<P>
+for beam elements:
+
+<UL>
+<LI>Face 1: in negative 1-direction
+</LI>
+<LI>Face 2: in positive 1-direction
+</LI>
+<LI>Face 3: in positive 2-direction
+</LI>
+<LI>Face 5: in negative 2-direction
+</LI>
+</UL>
+The beam face numbers correspond to the brick face labels of the 3D
+expansion of the beam (Figure <A HREF="node59.html#c1d">78</A>).
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*SURFACE
+</LI>
+<LI>Enter the parameter NAME and its value, and, if necessary, the TYPE parameter.
+</LI>
+</UL>
+
+<P>
+Following line for nodal surfaces:
+
+<UL>
+<LI>Node or node set to be assigned to this surface (maximum 1 entry per line).
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+Following line for element face surfaces:
+
+<UL>
+<LI>Element or element set (maximum 1 entry per line).
+</LI>
+<LI>Surface label (maximum 1 entry per line).
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+<PRE>
+Example:
+
+*SURFACE,NAME=left,TYPE=NODE
+part,
+1,
+8
+</PRE>
+
+<P>
+assigns the nodes with number 1, and 8 and the nodes belonging to node set part to a surface with name left.
+
+<P>
+<PRE>
+Example:
+
+*SURFACE,NAME=new
+38,S6
+</PRE>
+
+<P>
+assigns the face 6 of element 38 to a surface with name new.
+
+<P>
+
+<P><P>
+<BR>
+Example files: segment, fullseg.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5776"
+  HREF="node362.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html5772"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html5766"
+  HREF="node360.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html5774"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html5777"
+  HREF="node362.html">*SURFACE BEHAVIOR</A>
+<B> Up:</B> <A NAME="tex2html5773"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5767"
+  HREF="node360.html">*SUBSTRUCTURE MATRIX OUTPUT</A>
+ &nbsp; <B>  <A NAME="tex2html5775"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

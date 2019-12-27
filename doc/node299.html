@@ -1,128 +1,282 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*OUTPUT</TITLE>
-<META NAME="description" CONTENT="*OUTPUT">
+<TITLE>*EXPANSION</TITLE>
+<META NAME="description" CONTENT="*EXPANSION">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node300.html">
 <LINK REL="previous" HREF="node298.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node300.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4916"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5032"
   HREF="node300.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4912"
-  HREF="node205.html">
+<A NAME="tex2html5028"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4906"
+<A NAME="tex2html5022"
   HREF="node298.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4914"
+<A NAME="tex2html5030"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4917"
-  HREF="node300.html">*PHYSICAL CONSTANTS</A>
-<B> Up:</B> <A NAME="tex2html4913"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4907"
-  HREF="node298.html">*ORIENTATION</A>
- &nbsp; <B>  <A NAME="tex2html4915"
+<B> Next:</B> <A NAME="tex2html5033"
+  HREF="node300.html">*FILM</A>
+<B> Up:</B> <A NAME="tex2html5029"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5023"
+  HREF="node298.html">*EQUATION</A>
+ &nbsp; <B>  <A NAME="tex2html5031"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000891000000000000000"></A><A NAME="output"></A>
+<H2><A NAME="SECTION000952000000000000000"></A><A NAME="expansion"></A>
 <BR>
-*OUTPUT
+*EXPANSION
 </H2>
 
 <P>
-Keyword type: model definition
+Keyword type: model definition, material
 
 <P>
-This keyword is provided for compatibility with ABAQUS. The only parameters
-are FREQUENCY and FREQUENCYF. They are optional. 
+This option is used to define the thermal expansion coefficients of a material. They are interpreted as total expansion coefficients with respect to a reference temperature <SPAN CLASS="MATH"><B><IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2233.png"
+ ALT="$ T_{ref}$"></B></SPAN>, i.e. the thermal strain <!-- MATH
+ $\epsilon_{th}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="23" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2234.png"
+ ALT="$ \epsilon_{th}$"></B></SPAN> of a material at a final temperature T and with initial temperature <SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2235.png"
+ ALT="$ T_{0}$"></B></SPAN> is determined by 
 
 <P>
-The parameter FREQUENCY applies to
-nonlinear calculations where a step can consist of several
-increments. Default is FREQUENCY=1, which indicates that the results
-of all increments will be stored. FREQUENCY=N with N an integer
-indicates that the results of every Nth increment will be stored. The
-final results of a step are always stored. If you only want the final
-results, choose N very big. 
-The value of N applies to 
-<A HREF="#output">*OUTPUT</A>,<A HREF="node254.html#elementoutput">*ELEMENT OUTPUT</A>, 
-<A HREF="node255.html#elfile">*EL FILE</A>, <A HREF="node256.html#elprint">*ELPRINT</A>, 
-<A HREF="node293.html#nodeoutput">*NODE OUTPUT</A>,
-<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node294.html#nodeprint">*NODE PRINT</A>,
-<A HREF="node308.html#sectionprint">*SECTION PRINT</A>,<A HREF="node229.html#contactoutput">*CONTACT OUTPUT</A>,
-<A HREF="node228.html#contactfile">*CONTACT FILE</A> and <A HREF="node231.html#contactprint">*CONTACT PRINT</A>. 
-If the FREQUENCY parameter is used
-for more than one of these keywords with conflicting values of N, the
-last value applies to all. A frequency parameter stays active across several steps
-until it is overwritten by another FREQUENCY value or the TIME POINTS parameter.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\epsilon_{th}=\alpha(T)(T-T_{ref})-\alpha(T_o)(T_o-T_{ref}),
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="293" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2236.png"
+ ALT="$\displaystyle \epsilon_{th}=\alpha(T)(T-T_{ref})-\alpha(T_o)(T_o-T_{ref}),$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">734</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-The 3D fluid analogue of FREQUENCY is FREQUENCYF. In coupled calculations
-FREQUENCY applies to the thermomechanical output, FREQUENCYF to the 3D fluid output.
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="38" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2237.png"
+ ALT="$ \alpha(T)$"></B></SPAN> is the thermal coefficient at a temperature T. There are two optional parameters TYPE and ZERO. Default for TYPE is TYPE=ISO, other values are TYPE=ORTHO for orthotropic materials and TYPE=ANISO for anisotropic materials. All constants may be temperature dependent. The parameter ZERO is used to determine the reference temperature, default is 0.
+
+<P><P>
+<BR>
 
 <P>
-<HR>
+First line:
+
+<UL>
+<LI>*EXPANSION
+</LI>
+<LI>Enter the TYPE and ZERO parameters and their values, if needed
+</LI>
+</UL>
+
+<P>
+Following line for TYPE=ISO:
+
+<UL>
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B></SPAN>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+Following line for TYPE=ORTHO:
+
+<UL>
+<LI><!-- MATH
+ $\alpha_{11}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2238.png"
+ ALT="$ \alpha_{11}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{22}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2239.png"
+ ALT="$ \alpha_{22}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{33}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2240.png"
+ ALT="$ \alpha_{33}$"></B></SPAN>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+Following line for TYPE=ANISO:
+
+<UL>
+<LI><!-- MATH
+ $\alpha_{11}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2238.png"
+ ALT="$ \alpha_{11}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{22}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2239.png"
+ ALT="$ \alpha_{22}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{33}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2240.png"
+ ALT="$ \alpha_{33}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{12}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2241.png"
+ ALT="$ \alpha_{12}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{13}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2242.png"
+ ALT="$ \alpha_{13}$"></B></SPAN>.
+</LI>
+<LI><!-- MATH
+ $\alpha_{23}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2243.png"
+ ALT="$ \alpha_{23}$"></B></SPAN>.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Repeat this line if needed to define complete temperature dependence.
+
+<P>
+<PRE>
+Example:
+
+*EXPANSION,ZERO=273.
+12.E-6,373.
+20.E-6,573.
+</PRE>
+
+<P>
+tells you that the thermal strain in a body made of this material is
+<!-- MATH
+ $100. \times 12. \times 10^{-6}=12. \times 10^{-4}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="218" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2244.png"
+ ALT="$ 100. \times 12. \times 10^{-6}=12. \times 10^{-4}$"></B></SPAN> if heated from T=273 to T=373, and <!-- MATH
+ $300 \times 20 \times 10^{-6}=60 \times 10^{-4}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="205" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2245.png"
+ ALT="$ 300 \times 20 \times 10^{-6}=60 \times 10^{-4}$"></B></SPAN> if heated from T=273 to T=573.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamt, beamt2.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4916"
+<A NAME="tex2html5032"
   HREF="node300.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4912"
-  HREF="node205.html">
+<A NAME="tex2html5028"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4906"
+<A NAME="tex2html5022"
   HREF="node298.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4914"
+<A NAME="tex2html5030"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4917"
-  HREF="node300.html">*PHYSICAL CONSTANTS</A>
-<B> Up:</B> <A NAME="tex2html4913"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4907"
-  HREF="node298.html">*ORIENTATION</A>
- &nbsp; <B>  <A NAME="tex2html4915"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html5033"
+  HREF="node300.html">*FILM</A>
+<B> Up:</B> <A NAME="tex2html5029"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5023"
+  HREF="node298.html">*EQUATION</A>
+ &nbsp; <B>  <A NAME="tex2html5031"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -1,0 +1,43 @@
+\par
+\section{Data Structure}
+\label{section:I2Ohash:dataStructure}
+\par
+The {\tt I2Ohash} object has a number of lists 
+that contain {\tt <key1,key2,value>} triples.
+Each 
+% {\tt <key1,key2,value>} 
+triple is stored in an {\tt I2OP} object,
+a simple structure found in the {\tt Utilities} directory
+that holds two integer {\it key} fields, 
+a {\tt void *} {\it data} field,
+and a single {\it pointer} field to allow us 
+to use it in singly linked lists.
+\par
+The {\tt I2Ohash} object has six fields.
+\begin{itemize}
+\item 
+{\tt int nlist} : number of lists in the hash table
+\item 
+{\tt int grow} : when no {\tt I2OP} objects are available 
+to insert a new {\tt <key1,key2,value>} triple,
+the object can allocate {\tt grow} more {\tt I2OP} objects
+and put them on the free list.
+\item
+{\tt nitem} : number of items in the hash table.
+\item 
+{\tt I2OP *baseI2OP} : 
+pointer to an {\tt I2OP} object that keeps track of all 
+the {\tt I2OP} objects that have been allocated by the hash table.
+\item
+{\tt I2OP *freeI2OP} :
+pointer to the first {\tt I2OP} object on the free list.
+\item
+{\tt I2OP **heads} :
+pointer to a vector of pointers to {\tt I2OP} objects,
+used to hold a pointer to the first {\tt I2OP} object in each list.
+\end{itemize}
+\par
+A correctly initialized and nontrivial {\tt I2Ohash} object 
+will have {\tt nlist > 0}.
+If {\tt grow} is zero and a new {\tt <key1,key2,value>} triple 
+is given to the hash table to be inserted, a fatal error occurs.

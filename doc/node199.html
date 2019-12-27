@@ -1,143 +1,77 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Convective heat flux</TITLE>
-<META NAME="description" CONTENT="Convective heat flux">
+<TITLE>Distributed heat flux</TITLE>
+<META NAME="description" CONTENT="Distributed heat flux">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node200.html">
 <LINK REL="previous" HREF="node198.html">
-<LINK REL="up" HREF="node189.html">
+<LINK REL="up" HREF="node190.html">
 <LINK REL="next" HREF="node200.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3589"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3652"
   HREF="node200.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3585"
-  HREF="node189.html">
+<A NAME="tex2html3648"
+  HREF="node190.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3579"
+<A NAME="tex2html3642"
   HREF="node198.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3587"
+<A NAME="tex2html3650"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3590"
-  HREF="node200.html">Radiative heat flux</A>
-<B> Up:</B> <A NAME="tex2html3586"
-  HREF="node189.html">Loading</A>
-<B> Previous:</B> <A NAME="tex2html3580"
-  HREF="node198.html">Distributed heat flux</A>
- &nbsp; <B>  <A NAME="tex2html3588"
+<B> Next:</B> <A NAME="tex2html3653"
+  HREF="node200.html">Convective heat flux</A>
+<B> Up:</B> <A NAME="tex2html3649"
+  HREF="node190.html">Loading</A>
+<B> Previous:</B> <A NAME="tex2html3643"
+  HREF="node198.html">Concentrated heat flux</A>
+ &nbsp; <B>  <A NAME="tex2html3651"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION0007111000000000000000">
-Convective heat flux</A>
+<H3><A NAME="SECTION000711900000000000000">
+Distributed heat flux</A>
 </H3>
 
 <P>
-Convective heat flux is a flux depending on the temperature difference between the
-body and the adjacent fluid (liquid or gas) and is triggered by the
-<A HREF="node261.html#film">*FILM</A>  card. It takes the form 
+Distributed heat flux can be defined on element sides by using the
+<A HREF="node283.html#dflux">*DFLUX</A> card. The units are those of power per unit of area, flux entering the
+body is positive, flux leaving the body is negative. Nonuniform flux can be
+defined by using the subroutine dflux.f. 
 
 <P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-q = h(T-T_0)
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="102" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1173.png"
- ALT="$\displaystyle q = h(T-T_0)$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(463)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
+In the absence of a *DFLUX card for a given element face, no distributed heat
+flux will be applied to this face. This seems reasonable, however, this only applies to
+solid structures. Due to the iterative way in which fluid dynamics
+calculations are performed an external element face in a CFD calculation
+exhibits no heat flux only if a *DFLUX card was defined for this surface with
+a heat flux value of zero.
 
 <P>
-where <B><IMG
- WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img318.png"
- ALT="$ q$"></B> is the a flux normal to the surface, <B><IMG
- WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img672.png"
- ALT="$ h$"></B> is the film coefficient, <B><IMG
- WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img342.png"
- ALT="$ T$"></B> is
-the body temperature and <B><IMG
- WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1174.png"
- ALT="$ T_0$"></B> is the environment fluid temperature (also called
-sink temperature). Generally, the sink temperature is known. If it is not, it
-is an unknown in the system. Physically, the convection along the surface can
-be forced or free. Forced convection means that the mass flow rate of the
-adjacent fluid (gas or liquid) is known and its temperature is the result of
-heat exchange between body and fluid. This case can be simulated by CalculiX
-by defining network elements and using the <A HREF="node209.html#boundary">*BOUNDARY</A> card
-for the first degree of freedom in the midside node of the element. Free convection, for which the mass flow rate is a
-n unknown too and a result of temperature differences, cannot be simulated.
+<BR><HR>
 
-<P>
-<HR>
-<!--Navigation Panel-->
-<A NAME="tex2html3589"
-  HREF="node200.html">
-<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
- SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3585"
-  HREF="node189.html">
-<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
- SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3579"
-  HREF="node198.html">
-<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
- SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3587"
-  HREF="node1.html">
-<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
- SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
-<BR>
-<B> Next:</B> <A NAME="tex2html3590"
-  HREF="node200.html">Radiative heat flux</A>
-<B> Up:</B> <A NAME="tex2html3586"
-  HREF="node189.html">Loading</A>
-<B> Previous:</B> <A NAME="tex2html3580"
-  HREF="node198.html">Distributed heat flux</A>
- &nbsp; <B>  <A NAME="tex2html3588"
-  HREF="node1.html">Contents</A></B> 
-<!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
 </BODY>
 </HTML>

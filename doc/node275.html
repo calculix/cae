@@ -1,70 +1,87 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*INCLUDE</TITLE>
-<META NAME="description" CONTENT="*INCLUDE">
+<TITLE>*CYCLIC HARDENING</TITLE>
+<META NAME="description" CONTENT="*CYCLIC HARDENING">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node276.html">
 <LINK REL="previous" HREF="node274.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node276.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4628"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4744"
   HREF="node276.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4624"
-  HREF="node205.html">
+<A NAME="tex2html4740"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4618"
+<A NAME="tex2html4734"
   HREF="node274.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4626"
+<A NAME="tex2html4742"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4629"
-  HREF="node276.html">*INITIAL CONDITIONS</A>
-<B> Up:</B> <A NAME="tex2html4625"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4619"
-  HREF="node274.html">*HYPERFOAM</A>
- &nbsp; <B>  <A NAME="tex2html4627"
+<B> Next:</B> <A NAME="tex2html4745"
+  HREF="node276.html">*CYCLIC SYMMETRY MODEL</A>
+<B> Up:</B> <A NAME="tex2html4741"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4735"
+  HREF="node274.html">*CREEP</A>
+ &nbsp; <B>  <A NAME="tex2html4743"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000867000000000000000"></A><A NAME="include"></A>
+<H2><A NAME="SECTION000928000000000000000"></A><A NAME="cyclichardening"></A>
 <BR>
-*INCLUDE
+*CYCLIC HARDENING
 </H2>
 
 <P>
-Keyword type: step or model definition
+Keyword type: model definition,material
 
 <P>
-The include statement allows to store part of the input deck in another file. There is only one required parameter, INPUT, taking the name of the file in or without double quotes ("). The double quotes are needed if the file name contains one or more blanks.
+This option is used to define the isotropic hardening curves of an incrementally plastic material with combined hardening. All constants may be temperature dependent. The card should be preceded by an <A HREF="node289.html#elastic">*ELASTIC</A> card within the same material definition, defining the isotropic elastic properties of the material.
+
+<P>
+If the elastic data is isotropic, the large strain viscoplastic theory
+treated in [<A
+ HREF="node487.html#Simo3">78</A>] and [<A
+ HREF="node487.html#Simo4">79</A>] is applied. If the elastic
+data is orthotropic, the infinitesimal strain model discussed in
+Section <A HREF="node157.html#s533">6.8.13</A> is used. Accordingly, for an elastically
+orthotropic material 
+the hardening can be at most linear. Furthermore, if the temperature
+data points for the hardening curves do not correspond to the *ELASTIC
+temperature data points, they are interpolated at the latter
+points. Therefore, for an elastically isotropic material, it is
+advisable to define the hardening curves at the same temperatures as
+the elastic data.
+
+<P>
+Please note that, for each temperature, the (von Mises stress,equivalent
+plastic strain) data have to be entered in ascending order of the equivalent
+plastic strain.
 
 <P><P>
 <BR>
@@ -73,33 +90,77 @@ The include statement allows to store part of the input deck in another file. Th
 First line:
 
 <UL>
-<LI>*INCLUDE
-</LI>
-<LI>Enter the parameter and its value.
+<LI>*CYCLIC HARDENING
 </LI>
 </UL>
+
+<P>
+Following sets of lines defines the isotropic hardening curve:
+First line in the first set:
+
+<UL>
+<LI>Von Mises stress.
+</LI>
+<LI>Equivalent plastic strain.
+</LI>
+<LI>Temperature.
+</LI>
+</UL>
+Use as many lines in the first set as needed to define the complete hardening curve for this temperature.
+
+<P>
+Use as many sets as needed to define complete temperature dependence.
 
 <P>
 <PRE>
 Example:
 
-*INCLUDE,INPUT=/home/guido/test/beam.spc
+*CYCLIC HARDENING
+800.,0.,100.
+1000.,.1,100.
+900.,0.,500.
+1050.,.11,500.
 </PRE>
 
 <P>
-is at execution time replaced by the contents of file /home/guido/test/beam.spc.
+defines two (stress,plastic strain) data points at T=100. and two data points at T=500. Notice that the temperature must be listed in ascending order. The same is true for the plastic strain within a temperature block. 
 
 <P>
 
 <P><P>
 <BR>
-Example files: .
+Example files: beampik.
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4744"
+  HREF="node276.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html4740"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html4734"
+  HREF="node274.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html4742"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html4745"
+  HREF="node276.html">*CYCLIC SYMMETRY MODEL</A>
+<B> Up:</B> <A NAME="tex2html4741"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4735"
+  HREF="node274.html">*CREEP</A>
+ &nbsp; <B>  <A NAME="tex2html4743"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

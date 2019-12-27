@@ -1,206 +1,164 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*TIME POINTS</TITLE>
-<META NAME="description" CONTENT="*TIME POINTS">
+<TITLE>*NETWORK MPC</TITLE>
+<META NAME="description" CONTENT="*NETWORK MPC">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node328.html">
 <LINK REL="previous" HREF="node326.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node328.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5252"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5368"
   HREF="node328.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5248"
-  HREF="node205.html">
+<A NAME="tex2html5364"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5242"
+<A NAME="tex2html5358"
   HREF="node326.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5250"
+<A NAME="tex2html5366"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5253"
-  HREF="node328.html">*TRANSFORM</A>
-<B> Up:</B> <A NAME="tex2html5249"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5243"
-  HREF="node326.html">*TIE</A>
- &nbsp; <B>  <A NAME="tex2html5251"
+<B> Next:</B> <A NAME="tex2html5369"
+  HREF="node328.html">*NO ANALYSIS</A>
+<B> Up:</B> <A NAME="tex2html5365"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5359"
+  HREF="node326.html">*MPC</A>
+ &nbsp; <B>  <A NAME="tex2html5367"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION0008119000000000000000"></A><A NAME="timepoints"></A>
+<H2><A NAME="SECTION000980000000000000000"></A><A NAME="networkmpc"></A>
 <BR>
-*TIME POINTS
+*NETWORK MPC
 </H2>
 
 <P>
 Keyword type: model definition
 
 <P>
-This option may be used to specify a sequence of time points. If
-the parameter TIME=TOTAL TIME is used the reference time is the total
-time since the start of the calculation, else it is the local step
-time. The parameter NAME,
-specifying a name for the time point sequence so that it can be referenced by output
-definitions (<A HREF="node292.html#nodefile">*NODE FILE</A>, <A HREF="node255.html#elfile">*EL FILE</A>,
-<A HREF="node294.html#nodeprint">*NODE PRINT</A> or <A HREF="node256.html#elprint">*EL PRINT</A>) is required (maximum
-80 characters).This option makes sense for nonlinear static, nonlinear
-dynamic, modal dynamic, heat transfer and coupled temperature-displacement
-calculations only. In all other procedures, this card is ignored.
+With this option, an equation between variables in a network (total
+temperature and total pressure at the end nodes of a network element, mass
+flow in the middle node) can be created. The corresponding degrees of freedom
+are:
 
 <P>
-In each step, the local step time starts at zero. Its upper limit is
-given by the time period of the step. This time period is specified on
-the <A HREF="node316.html#static">*STATIC</A>, <A HREF="node249.html#dynamic">*DYNAMIC</A>, <A HREF="node272.html#heattransfer">*HEAT TRANSFER</A> or <A HREF="node233.html#coupledtemperaturedisplacement">*COUPLED TEMPERATURE-DISPLACEMENT</A> keyword card. The default step
-time period is 1. 
-
-<P>
-The total time is the time accumulated until the beginning of the actual step augmented
-by the local step time.
-
-<P>
-GENERATE is the second optional parameter. If specified, the user can define a
-regular pattern of time points by specifying the starting time, the end time
-and the time increment. 
-
-<P><P>
-<BR>
-
-<P>
-First line:
 
 <UL>
-<LI>*TIME POINTS
+<LI>total temperature: 0
 </LI>
-<LI>Enter the required parameter NAME, and the optional parameter if needed.
+<LI>mass flow: 1
+</LI>
+<LI>total pressure: 2
 </LI>
 </UL>
 
 <P>
-Following line, using as many entries as needed, if GENERATE is not specified:
-
-<UL>
-<LI>Time.
-</LI>
-<LI>Time.
-</LI>
-<LI>Time.
-</LI>
-<LI>Time.
-</LI>
-<LI>Time.
-</LI>
-<LI>Time.
-</LI>
-<LI>Time.
-</LI>
-<LI>Time.
-</LI>
-</UL>
-Repeat this line if more than eight entries are needed.
+The use of *NETWORK MPC requires the coding of subroutines networkmpc_lhs.f
+and networkmpc_rhs.f by the user. In these routines the user defines the MPC
+(linear or nonlinear)
+using the information entered underneath *NETWORK MPC. The syntax is identical
+to <A HREF="node298.html#equation">*EQUATION</A> except for an additional parameter TYPE
+  specifying the type of MPC. Using this type the user can distinguish between
+  different kinds of MPC in the networkmpc_lhs.f and networkmpc_rhs.f subroutines.
 
 <P>
-Following line, using as many entries as needed, if GENERATE is specified:
+For instance, suppose the user wants to define a network MPC of the form:
 
-<UL>
-<LI>Starting time
-</LI>
-<LI>End time
-</LI>
-<LI>Time increment
-</LI>
-</UL>
-Repeat this line if more than one regular sequence is needed.
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+f:=a p_{t} (node_1) + b p_t^2 (node_2)=0
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="236" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2334.png"
+ ALT="$\displaystyle f:=a p_{t} (node_1) + b p_t^2 (node_2)=0$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">756</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+specifying that the total pressure in node 1 should be (-b/a) times the square
+of the total
+pressure in node 2. There are 2 degrees of freedom involved: dof 2 in node 1
+and dof 2 in node 2. Underneath *NETWORK MPC the user defines the
+coefficients and degrees of freedom of the terms involved:
 
 <P>
 <PRE>
-Example:
-
-*TIME POINTS,NAME=T1
-.2,.3.,.8
+*NETWORK MPC,TYPE=QUADRATIC
+2
+node1,2,a,node2,2,b
 </PRE>
 
 <P>
-defines a time points sequence with name T1 consisting of times .2, .3 and .8
-time units. The time used is the local step time.
-
-<P>
-<PRE>
-Example:
-
-*TIME POINTS,NAME=T1,GENERATE
-0.,3.,1.
-</PRE>
-
-<P>
-defines a time points sequence with name T1 consisting of the time points 0.,
-1., 2., and 3. The time used is the local step time.
+All this information including the type of the MPC is transferred to the
+networkmpc_lhs.f and networkmpc_rhs.f subroutines. In networkmpc_rhs.f the
+user has to code the calculation of -f, in networkmpc_lhs.f the calculation
+of the derivative of f w.r.t. each degree of freedom occurring in the
+MPC. This has been done for TYPE=QUADRATIC and the reader is referred to the source code and
+example networkmpc.inp for further details.  
 
 <P>
 
-<P><P>
-<BR>
-Example files: beamnlptp
-
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html5252"
+<A NAME="tex2html5368"
   HREF="node328.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5248"
-  HREF="node205.html">
+<A NAME="tex2html5364"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5242"
+<A NAME="tex2html5358"
   HREF="node326.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5250"
+<A NAME="tex2html5366"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5253"
-  HREF="node328.html">*TRANSFORM</A>
-<B> Up:</B> <A NAME="tex2html5249"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5243"
-  HREF="node326.html">*TIE</A>
- &nbsp; <B>  <A NAME="tex2html5251"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html5369"
+  HREF="node328.html">*NO ANALYSIS</A>
+<B> Up:</B> <A NAME="tex2html5365"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5359"
+  HREF="node326.html">*MPC</A>
+ &nbsp; <B>  <A NAME="tex2html5367"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

@@ -1,0 +1,280 @@
+This is TeX, Version 3.1415 (C version 6.1) (format=lplain 94.11.14)  6 JUN 1998 15:50
+**main
+(main.tex
+LaTeX Version 2.09 <25 March 1992>
+(/usr/local/lib/texmf/tex/latex209/report.sty
+Standard Document Style `report' <14 Jan 92>.
+(/usr/local/lib/texmf/tex/latex209/rep11.sty)
+\descriptionmargin=\dimen99
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+
+(/usr/local/lib/texmf/tex/latex209/titlepag.sty
+Document Style Option `titlepage' -- Released 16 June 1991.
+)) (/usr/local/lib/texmf/tex/latex209/leqno.sty
+Document style option `leqno' - released 29 Sep 1991
+) (/usr/local/lib/texmf/tex/generic/psfig/psfig.tex
+\@unused=\write3
+\ps@stream=\read1
+\p@intvaluex=\dimen100
+\p@intvaluey=\dimen101
+
+psfig/tex 1.10-dvips
+)
+\@indexfile=\write4
+
+Writing index file main.idx 
+(main.aux) (intro.tex
+Chapter 1.
+LaTeX Warning: No \tt typeface in this size, using \rm on input line 2.
+[1
+
+
+]) (dataStructure.tex [2] [3]) (proto.tex
+Overfull \hbox (47.69849pt too wide) in paragraph at lines 32--40
+[]\elvrm The struc-ture's fields are set to de-fault val-ues: \elvtt type \elvr
+m = \elvtt SPOOLES[]REAL\elvrm , \elvtt mode \elvrm = \elvtt DENSEMTX[]DENSE[]C
+OLUMNS\elvrm ,
+
+\hbox(7.60416+2.43333)x442.37993, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\elvrm T
+.\elvrm h
+.\elvrm e
+.\glue 3.65 plus 1.825 minus 1.21666
+.etc.
+
+[4]
+Overfull \hbox (6.01772pt too wide) in paragraph at lines 147--147
+ []                           \elvtt int **psizes, int **pindices, double **pen
+tries ) ;[] 
+
+\hbox(7.60416+2.43333)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\penalty 10000
+.\glue 5.74869
+.\penalty 10000
+.etc.
+
+
+Overfull \hbox (0.26903pt too wide) in paragraph at lines 169--169
+ []                          \elvtt int **psizes, int **pindices, double **pent
+ries ) ;[] 
+
+\hbox(7.60416+2.43333)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\penalty 10000
+.\glue 5.74869
+.\penalty 10000
+.etc.
+
+[5] [6]
+Overfull \hbox (9.03377pt too wide) in paragraph at lines 268--274
+\elvit Error check-ing: \elvrm If \elvtt mtx\elvrm , \elvtt pncol \elvrm or \el
+vtt pentries \elvrm is \elvtt NULL\elvrm , or if the ma-trix type is not \elvtt
+ SUBMTX[]DIAGONAL\elvrm ,
+
+\hbox(7.60416+2.43333)x442.37993, glue set - 1.0
+.\elvit E
+.\elvit r
+.\elvit r
+.\kern-0.55968
+.\elvit o
+.etc.
+
+[7]
+Overfull \hbox (11.7664pt too wide) in paragraph at lines 416--416
+ [] []\elvtt void SubMtx_initRandom ( SubMtx *mtx, int type, int mode, int rowi
+d, int colid,[] 
+
+\hbox(7.60416+2.43333)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(7.05666+0.0)x0.0
+..\glue 0.0
+..\glue 0.0
+..\glue -21.90005
+..\glue -5.475
+..\hbox(7.05666+0.0)x21.90005, glue set 21.90005fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(7.05666+0.0)x0.0, glue set - 8.51668fil []
+..etc.
+.\penalty 0
+.etc.
+
+
+Overfull \hbox (11.7664pt too wide) in paragraph at lines 438--438
+ []   \elvtt int rowid, int colid, int nrow, int ncol, int nent, int seed, int 
+strict ) ;[] 
+
+\hbox(7.60416+1.52081)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\penalty 10000
+.\glue 5.74869
+.\penalty 10000
+.etc.
+
+
+Overfull \hbox (11.7664pt too wide) in paragraph at lines 438--438
+ []   \elvtt int rowid, int colid, int nrow, int ncol, int nent, int seed, int 
+strict ) ;[] 
+
+\hbox(7.60416+1.52081)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\penalty 10000
+.\glue 5.74869
+.\penalty 10000
+.etc.
+
+[8] [9]
+Overfull \hbox (6.01772pt too wide) in paragraph at lines 621--621
+ [] []\elvtt int SubMtx_nbytesNeeded ( int type, int mode, int nrow, int ncol, 
+int nent ) ;[] 
+
+\hbox(7.60416+2.43333)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(7.05666+0.0)x0.0
+..\glue 0.0
+..\glue 0.0
+..\glue -21.90005
+..\glue -5.475
+..\hbox(7.05666+0.0)x21.90005, glue set 21.90005fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(7.05666+0.0)x0.0, glue set - 8.51668fil []
+..etc.
+.\penalty 0
+.etc.
+
+[10] [11] [12]) (drivers.tex [13]
+Overfull \hbox (42.63402pt too wide) in paragraph at lines 26--31
+\elvtt *.submtxf \elvrm or \elvtt *.submtxb\elvrm . The \elvtt SubMtx \elvrm ob
+-ject is read from the file via the \elvtt SubMtx[]readFromFile()
+
+\hbox(7.60416+2.12917)x418.2899, glue set - 1.0
+.\elvtt *
+.\elvtt .
+.\elvtt s
+.\elvtt u
+.\elvtt b
+.etc.
+
+
+Overfull \hbox (38.37576pt too wide) in paragraph at lines 31--35
+\elvtt *.submtxf \elvrm or \elvtt *.submtxb\elvrm . The \elvtt SubMtx \elvrm ob
+-ject is writ-ten to the file via the \elvtt SubMtx[]writeToFile()
+
+\hbox(7.60416+2.12917)x418.2899, glue set - 1.0
+.\elvtt *
+.\elvtt .
+.\elvtt s
+.\elvtt u
+.\elvtt b
+.etc.
+
+
+Overfull \hbox (11.1399pt too wide) in paragraph at lines 60--65
+[] []\elvrm The \elvtt mode \elvrm pa-ram-e-ter must be one of 7 (\elvtt SUBMTX
+[]DIAGONAL\elvrm ), 8 (\elvtt SUBMTX[]BLOCK[]DIAGONAL[]SYM\elvrm )
+
+\hbox(8.2125+2.73749)x418.2899, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -18.61502
+..\glue -5.475
+..\hbox(4.86667+0.0)x18.61502, glue set 18.61502fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvrm T
+.etc.
+
+[14]
+Overfull \hbox (8.43288pt too wide) in paragraph at lines 97--106
+[] []\elvrm The \elvtt mode \elvrm pa-ram-e-ter must be one of 2 (\elvtt SUBMTX
+[]SPARSE[]ROWS\elvrm ), 3 (\elvtt SUBMTX[]SPARSE[]COLUMNS\elvrm ),
+
+\hbox(8.2125+2.73749)x418.2899, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -18.61502
+..\glue -5.475
+..\hbox(4.86667+0.0)x18.61502, glue set 18.61502fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvrm T
+.etc.
+
+
+Overfull \hbox (8.43288pt too wide) in paragraph at lines 142--148
+[] []\elvrm The \elvtt mode \elvrm pa-ram-e-ter must be one of 2 (\elvtt SUBMTX
+[]SPARSE[]ROWS\elvrm ), 3 (\elvtt SUBMTX[]SPARSE[]COLUMNS\elvrm ),
+
+\hbox(8.2125+2.73749)x418.2899, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -18.61502
+..\glue -5.475
+..\hbox(4.86667+0.0)x18.61502, glue set 18.61502fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvrm T
+.etc.
+
+[15]
+Overfull \hbox (8.43288pt too wide) in paragraph at lines 185--191
+[] []\elvrm The \elvtt mode \elvrm pa-ram-e-ter must be one of 2 (\elvtt SUBMTX
+[]SPARSE[]ROWS\elvrm ), 3 (\elvtt SUBMTX[]SPARSE[]COLUMNS\elvrm ),
+
+\hbox(8.2125+2.73749)x418.2899, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -18.61502
+..\glue -5.475
+..\hbox(4.86667+0.0)x18.61502, glue set 18.61502fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvrm T
+.etc.
+
+[16] [17]) (main.ind [18] [19
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 428 strings out of 11977
+ 4401 string characters out of 87269
+ 39119 words of memory out of 262141
+ 2360 multiletter control sequences out of 9500
+ 19780 words of font info for 75 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 14i,6n,17p,183b,260s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (19 pages, 65852 bytes).

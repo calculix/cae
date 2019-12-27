@@ -1,101 +1,77 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*KINEMATIC</TITLE>
-<META NAME="description" CONTENT="*KINEMATIC">
+<TITLE>*DASHPOT</TITLE>
+<META NAME="description" CONTENT="*DASHPOT">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node279.html">
 <LINK REL="previous" HREF="node277.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node279.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4664"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4780"
   HREF="node279.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4660"
-  HREF="node205.html">
+<A NAME="tex2html4776"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4654"
+<A NAME="tex2html4770"
   HREF="node277.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4662"
+<A NAME="tex2html4778"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4665"
-  HREF="node279.html">*MAGNETIC PERMEABILITY</A>
-<B> Up:</B> <A NAME="tex2html4661"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4655"
-  HREF="node277.html">*INITIAL STRAIN INCREASE</A>
- &nbsp; <B>  <A NAME="tex2html4663"
+<B> Next:</B> <A NAME="tex2html4781"
+  HREF="node279.html">*DEFORMATION PLASTICITY</A>
+<B> Up:</B> <A NAME="tex2html4777"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4771"
+  HREF="node277.html">*DAMPING</A>
+ &nbsp; <B>  <A NAME="tex2html4779"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000870000000000000000"></A><A NAME="kinematic"></A>
+<H2><A NAME="SECTION000931000000000000000"></A><A NAME="dashpot"></A>
 <BR>
-*KINEMATIC
+*DASHPOT
 </H2>
 
 <P>
 Keyword type: model definition
 
 <P>
-With this keyword kinematic constraints can be established between each node
-belonging to an element surface and a reference node. A kinematic constraint
-specifies that the displacement in a certain direction i at a node corresponds to the
-rigid body motion of this node about a reference node. Therefore, the location of the
-reference node is important.
+With this option the force-velocity relationship can be defined for dashpot
+elements. Dashpot elements only make sense for dynamic calculations
+(implicit <A HREF="node288.html#dynamic">*DYNAMIC</A>, <A HREF="node324.html#modaldynamic">*MODAL DYNAMIC</A> and
+<A HREF="node356.html#steadystatedynamics">*STEADY STATE DYNAMICS</A>). For explicit
+<A HREF="node288.html#dynamic">*DYNAMIC</A> calculations they have not been implemented yet. There is one required parameter ELSET. With this parameter the element set is referred to for which the
+dashpot behavior is defined. This element set should contain dashpot elements
+of type DASHPOTA only.
 
 <P>
-This card must be immediately preceded by a <A HREF="node234.html#coupling">*COUPLING</A>
-keyword card. If no ORIENTATION was specified on the *COUPLING card, the
-degrees of freedom entered immediately below the *KINEMATIC card (these are
-the degrees of freedom i which take part in the rigid body motion) apply to the global rectangular system, if an ORIENTATION
-was used, they apply to the local system. If the local system is cylindrical,
-the degrees of freedom 1, 2 and 3 correspond to the displacement in radial
-direction, the circumferential angle and the displacement in axial
-direction, respectively (as defined by the *ORIENTATION card; the position of
-the reference node is immaterial to that respect).
-
-<P>
-The degrees of freedom in the reference node (1 up to 3 for translations, 4 up
-to 6 for rotations; they apply to the global system unless a *TRANSFORM card
-was defined for the reference node) can be constrained by a
-<A HREF="node209.html#boundary">*BOUNDARY</A> card. Alternatively, a force (degrees of
-freedom 1 up to 3) or moment (degrees of freedom 4 up to 6) can be
-applied by a <A HREF="node223.html#cload">*CLOAD</A> card. In the latter case the resulting displacements
-(degrees of freedom 1 up to 3)
- can be printed in the .dat file by selecting U on the <A HREF="node294.html#nodeprint">*NODE
-  PRINT</A> card for the reference node. However, the corresponding selection of RF
-on the *NODE PRINT card does not work for the reference node. Instead, the
-user should use <A HREF="node308.html#sectionprint">*SECTION PRINT</A> to obtain the global
-force and moment on the selected surface.
-
-<P>
+The dashpot constant can depend on frequency and temperature. Frequency dependence only makes sense for
+<A HREF="node356.html#steadystatedynamics">*STEADY STATE DYNAMICS</A> calculations. 
 
 <P><P>
 <BR>
@@ -104,85 +80,119 @@ force and moment on the selected surface.
 First line:
 
 <UL>
-<LI>*KINEMATIC
+<LI>*DASHPOT
+</LI>
+<LI>Enter the parameter ELSET and its value
 </LI>
 </UL>
 
 <P>
-Following line:
+Second line: enter a blank line
+
+<P>
+For each temperature a set of lines can be entered. First line in the first set:
 
 <UL>
-<LI>first degree of freedom (only 1, 2 or 3 allowed)
+<LI>Dashpot constant.
 </LI>
-<LI>last degree of freedom (only 1, 2 or 3 allowed); if left blank the last
-  degree of freedom coincides with the first degree of freedom.
+<LI>Frequency (only for steady state dynamics calculations, else blank).
+</LI>
+<LI>Temperature.
 </LI>
 </UL>
-Repeat this line if needed to constrain other degrees of freedom.
+Use as many lines in the first set as needed to define the complete frequency
+dependence of the dashpot constant (if applicable) for this temperature.
+Use as many sets as needed to define complete temperature dependence.
 
 <P>
 <PRE>
 Example:
 
-*NODE
-262,.5,.5,8.
-*ORIENTATION,NAME=OR1,SYSTEM=CYLINDRICAL
-.5,.5,0.,.5,.5,1.
-*COUPLING,REF NODE=262,SURFACE=S1,ORIENTATION=OR1,CONSTRAINT NAME=CN1
-*KINEMATIC
-2
-*STEP
-*STATIC
-*BOUNDARY
-262,6,6,.01
+*DASHPOT,ELSET=Eall
+1.e-5
 </PRE>
 
 <P>
-specifies a moment of size 0.01 about the z-axis through node 262. The
-rotation (angle) about this axis of each node belonging to
-the facial surface SURF will be identical and such that the resulting moment
-in the structure agrees with the applied moment. Since only local degree of
-freedom 2 takes part in the rigid body motion, the radial and axial
-displacement in the nodes belonging to surface S1 is left completely free.
+defines a dashpot constant with value <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2142.png"
+ ALT="$ 10^{-5}$"></B></SPAN> for all elements in element
+set Eall and all temperatures.
+
+<P>
+<PRE>
+Example:
+
+*DASHPOT,ELSET=Eall
+1.e-5,1000.,273.
+1.e-6,2000.,273.
+1.e-4,,373.
+</PRE>
+
+<P>
+defines a dashpot constant with value <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2142.png"
+ ALT="$ 10^{-5}$"></B></SPAN> at a frequency of <SPAN CLASS="MATH"><B><IMG
+ WIDTH="36" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2178.png"
+ ALT="$ 1000$"></B></SPAN> and
+with value <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2179.png"
+ ALT="$ 10^{-6}$"></B></SPAN> at a frequency of <SPAN CLASS="MATH"><B><IMG
+ WIDTH="36" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2180.png"
+ ALT="$ 2000$"></B></SPAN>, both at a temperature of
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2181.png"
+ ALT="$ 273$"></B></SPAN>. At a temperature of <SPAN CLASS="MATH"><B><IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2182.png"
+ ALT="$ 373$"></B></SPAN> the dashpot constant is frequency independent
+and takes the value  <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2113.png"
+ ALT="$ 10^{-4}$"></B></SPAN>. These constants apply to all dashpot elements
+in set Eall.
 
 <P>
 
 <P><P>
 <BR>
-Example files: coupling2, coupling3.
+Example files: dashpot1, dashpot2, dashpot3.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4664"
+<A NAME="tex2html4780"
   HREF="node279.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4660"
-  HREF="node205.html">
+<A NAME="tex2html4776"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4654"
+<A NAME="tex2html4770"
   HREF="node277.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4662"
+<A NAME="tex2html4778"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4665"
-  HREF="node279.html">*MAGNETIC PERMEABILITY</A>
-<B> Up:</B> <A NAME="tex2html4661"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4655"
-  HREF="node277.html">*INITIAL STRAIN INCREASE</A>
- &nbsp; <B>  <A NAME="tex2html4663"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html4781"
+  HREF="node279.html">*DEFORMATION PLASTICITY</A>
+<B> Up:</B> <A NAME="tex2html4777"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4771"
+  HREF="node277.html">*DAMPING</A>
+ &nbsp; <B>  <A NAME="tex2html4779"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

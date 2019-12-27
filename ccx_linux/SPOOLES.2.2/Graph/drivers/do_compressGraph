@@ -1,0 +1,27 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set matrices     = ../../../matrices
+set matrix       = BCELL14
+
+set inGraphFile  = $matrices/$matrix/orig0.graphf
+set inGraphFile  = $matrices/$matrix/orig0.graphb
+set inGraphFile  = /local1/ARPA/matrices/i4a/orig0.graphb
+
+set coarseType   = 1
+set outGraphFile = none
+set outGraphFile = $matrices/$matrix/orig$coarseType.graphb
+set outGraphFile = /local1/ARPA/matrices/i4a/orig1.graphb
+
+set outMapFile = none
+set outMapFile = $matrices/$matrix/map$coarseType.ivb
+set outMapFile = /local1/ARPA/matrices/i4a/map$coarseType.ivb
+
+set msglvl  = 1
+
+set msgFile = stdout
+
+compressGraph $msglvl $msgFile \
+   $inGraphFile $coarseType $outMapFile $outGraphFile

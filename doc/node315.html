@@ -1,99 +1,122 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*SPRING</TITLE>
-<META NAME="description" CONTENT="*SPRING">
+<TITLE>*INITIAL CONDITIONS</TITLE>
+<META NAME="description" CONTENT="*INITIAL CONDITIONS">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node316.html">
 <LINK REL="previous" HREF="node314.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node316.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5108"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5224"
   HREF="node316.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5104"
-  HREF="node205.html">
+<A NAME="tex2html5220"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5098"
+<A NAME="tex2html5214"
   HREF="node314.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5106"
+<A NAME="tex2html5222"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5109"
-  HREF="node316.html">*STATIC</A>
-<B> Up:</B> <A NAME="tex2html5105"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5099"
-  HREF="node314.html">*SPECIFIC HEAT</A>
- &nbsp; <B>  <A NAME="tex2html5107"
+<B> Next:</B> <A NAME="tex2html5225"
+  HREF="node316.html">*INITIAL STRAIN INCREASE</A>
+<B> Up:</B> <A NAME="tex2html5221"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5215"
+  HREF="node314.html">*INCLUDE</A>
+ &nbsp; <B>  <A NAME="tex2html5223"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION0008107000000000000000"></A><A NAME="spring"></A>
+<H2><A NAME="SECTION000968000000000000000"></A><A NAME="initialconditions"></A>
 <BR>
-*SPRING
+*INITIAL CONDITIONS
 </H2>
 
 <P>
 Keyword type: model definition
 
 <P>
-With this option the force-displacement relationship can be defined for spring
-elements. There is one required parameter ELSET and there are optional parameters
-NONLINEAR and ORIENTATION. With the parameter ELSET the element set is referred to for which the
-spring behavior is defined. This element set should contain spring elements
-only. With the parameter NONLINEAR the user can specify that
-the behavior of the spring is nonlinear, default is a linear
-behavior. Finally, the ORIENTATION parameter can be used to define a local
-orientation of the spring for SPRING1 and SPRING2 elements.
+This option is used to define initial temperatures, initial velocities,
+initial stresses and initial plastic strains. There
+are two parameters: TYPE and USER. The parameter TYPE is required. It can take
+the following values:
 
 <P>
-Please note that for a nonlinear behavior the (force,elongation) pairs have to
-be entered in ascending order of the elongation. The elongation is defined as
-the final length minus the initial length. The elongation can be negative,
-however, it should not be smaller than the initial length of the
-spring. Extrapolation in the force versus elongation graph is done in a
-constant way, i.e. the force is kept constant. This leads to a zero tangent
-and may lead to a singular stiffness matrix. Therefore, the elongation range
-should be defined large enough to avoid this type of problems.
+
+<UL>
+<LI>TYPE=DISPLACEMENT: initial displacements
+</LI>
+<LI>TYPE=FLUID VELOCITY: initial fluid velocities for 3D fluid calculations
+</LI>
+<LI>TYPE=MASS FLOW: initial mass flow for networks
+</LI>
+<LI>TYPE=PLASTIC STRAIN: initial inelastic strains
+</LI>
+<LI>TYPE=PRESSURE: initial static fluid pressures for 3D fluid calculations
+</LI>
+<LI>TYPE=SOLUTION: initial internal variables
+</LI>
+<LI>TYPE=STRESS: initial stresses
+</LI>
+<LI>TYPE=TEMPERATURE: initial temperatures for structural, network or 3D
+  fluid calculations
+</LI>
+<LI>TYPE=TOTAL PRESSURE: initial total pressures for network calculations
+</LI>
+<LI>TYPE=VELOCITY: initial structural velocities (for dynamic calculations)
+</LI>
+</UL>
 
 <P>
-For SPRING1 and SPRING2 elements the degree of freedom in which the spring
-acts is entered immediately underneath the *SPRING card. For a SPRINGA element
-this line is left blank. This is done out of compatibility reasons with
-ABAQUS. Now, CalculiX deletes any blank lines before reading the input
-deck. Therefore,the only way for CalculiX to know whether the first line
-underneath the *SPRING card contains degrees of freedom or spring constant
-information is to inspect whether the numbers on this line are integers or
-reals. Therefore, for the *SPRING card the user should painstakingly take care
-that any real numbers (spring constant, spring force, elongation, temperature)
-contain a decimal point (``.'', which is a good practice anyway).
+For shell elements TYPE=TEMPERATURE can be used to define an initial temperature
+gradient in addition
+to an initial temperature. The temperature applies to nodes in the reference
+surface, the gradient acts in normal direction. For beam elements two
+gradients can be defined: one in 1-direction and one in
+2-direction. Default for the gradients is zero.
+
+<P>
+The plastic strain components defined with this option are subtracted from the
+strain components computed from the displacement field. If thermal strains are
+relevant they are additionally subtracted. The resulting strain is used to
+compute the stress and tangent stiffness matrix using the appropriate
+constitutive equations.  
+
+<P>
+The parameter USER can only be used if TYPE=STRESS or TYPE=SOLUTION is specified. In that case,
+the user must define the initial stresses or internal variables by user routine
+<A HREF="node380.html#usersigini">sigini.f</A> or <A HREF="node379.html#usersdvini">sdvini.f</A>,
+respectively. 
+
+<P>
+Please note that vector and tensor quantities have to be provided in the
+GLOBAL (rectangular) coordinate system, no matter whether an *ORIENTATION card
+or *TRANSFORM card applies to the corresponding element or node, respectively.
 
 <P><P>
 <BR>
@@ -102,138 +125,224 @@ contain a decimal point (``.'', which is a good practice anyway).
 First line:
 
 <UL>
-<LI>*SPRING
+<LI>*INITIAL CONDITIONS
 </LI>
-<LI>Enter the parameter ELSET and its value and any optional parameter, if needed.
-</LI>
-</UL>
-
-<P>
-Second line for SPRINGA type elements: enter a blank line
-
-<P>
-Second line for SPRING1 or SPRING2 type elements:
-
-<UL>
-<LI>first degree of freedom (integer, for SPRING1 and SPRING2 elements)
-</LI>
-<LI>second degree of freedom (integer, only for SPRING2 elements)
+<LI>Enter any needed parameters and their values.
 </LI>
 </UL>
-
-<P>
-Following line if the parameter NONLINEAR is not used:
-
-<UL>
-<LI>Spring constant (real number).
-</LI>
-<LI>not used.
-</LI>
-<LI>Temperature (real number).
-</LI>
-</UL>
-Repeat this line if needed to define complete temperature dependence.
 
 <P>
 
 <P><P>
 <BR>
-
-<P>
-Following sets of lines define the force-displacement curve if the parameter
-NONLINEAR is active:
-First line in the first set:
+Following line for TYPE=DISPLACEMENT:
 
 <UL>
-<LI>Spring force (real number).
+<LI>Node number or node set label.
 </LI>
-<LI>Elongation (real number).
+<LI>Degree of freedom in the GLOBAL coordinate system.
 </LI>
-<LI>Temperature (real number).
+<LI>Magnitude of the displacement.
 </LI>
 </UL>
-Use as many lines in the first set as needed to define the complete force-displacement curve for this temperature.
-
-<P>
-Use as many sets as needed to define complete temperature dependence.
-
-<P>
-<PRE>
-Example:
-
-*SPRING,ELSET=Eall
-blank line
-10.
-</PRE>
-
-<P>
-defines a linear spring constant with value <B><IMG
- WIDTH="25" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1824.png"
- ALT="$ 10.$"></B> for all elements in element
-set Eall and all temperatures.
-
-<P>
-<PRE>
-Example:
-
-*SPRING,ELSET=Eall,NONLINEAR
-0.,0.,293.
-10.,1.,293.
-100.,2.,293.
-0.,0.,393.
-5.,1.,393.
-25.,2.,393.
-</PRE>
-
-<P>
-defines a nonlinear spring characterized by a force-displacement curve through
-(0,0),(10,1),(100,2) for a temperature of 293. and through (0,0),(5,1),(25,2)
-for a temperature of 393. The first scalar in the couples is the force, the
-second is the elongation of the spring. This spring behavior applies to all
-elements in element set Eall.
-Notice that for displacements outside the defined range the force is kept
-constant. For instance, in the example above the force for an elongation of 3
-at a temperature of 293 will be 100.
 
 <P>
 
 <P><P>
 <BR>
-Example files: spring1, spring2, spring3, spring4, spring5.
+Following line for TYPE=PLASTIC STRAIN:
+
+<UL>
+<LI>Element number.
+</LI>
+<LI>Integration point number.
+</LI>
+<LI>Value of first plastic strain component (xx) in the GLOBAL coordinate
+  system x-y-z.
+</LI>
+<LI>Value of second plastic strain component (yy) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of third plastic strain component (zz) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of fourth plastic strain component (xy) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of fifth plastic strain component (xz) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of sixth plastic strain component (yz) in the GLOBAL coordinate system x-y-z.
+</LI>
+</UL>
+Repeat this line if needed. The strain components should be given as Lagrange
+strain components for nonlinear calculations and linearized strain components
+for linear computations. 
 
 <P>
-<HR>
+
+<P><P>
+<BR>
+Following line for TYPE=PRESSURE, TYPE=TOTAL PRESSURE or TYPE=MASS FLOW:
+
+<UL>
+<LI>Node number or node set label.
+</LI>
+<LI>Static pressure, total pressure or mass flow value at the node.
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+
+<P><P>
+<BR>
+Following line for TYPE=SOLUTION if USER is not specified:
+
+<UL>
+<LI>Element number.
+</LI>
+<LI>Integration point number.
+</LI>
+<LI>Value of first internal variable.
+</LI>
+<LI>Value of second internal variable.
+</LI>
+<LI>Etc.
+</LI>
+</UL>
+Repeat this line if needed. Each line should contain exactly 8 entries
+(including the element and integration point number in the first line), except
+for the last line, which can contain less. For instance, if the number of
+internal variables is 11, the first line contains 6 and the second 5. If you
+have 20 internal variables, the first line contains 6, the second 8 and the
+third 6. The number of internal variables must be specified
+by using the <A HREF="node281.html#depvar">*DEPVAR</A> card. 
+
+<P>
+
+<P><P>
+<BR>
+There is no line following the first one for TYPE=SOLUTION,USER.
+
+<P>
+
+<P><P>
+<BR>
+Following line for TYPE=STRESS if USER is not specified:
+
+<UL>
+<LI>Element number.
+</LI>
+<LI>Integration point number.
+</LI>
+<LI>Value of first stress component (xx) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of second stress component (yy) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of third stress component (zz) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of fourth stress component (xy) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of fifth stress component (xz) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Value of sixth stress component (yz) in the GLOBAL coordinate system x-y-z.
+</LI>
+<LI>Etc.
+</LI>
+</UL>
+Repeat this line if needed. The stress components should be given in the form
+of second Piola-Kirchhoff stresses. 
+
+<P>
+There is no line following the first one for TYPE=STRESS,USER.
+
+<P>
+
+<P><P>
+<BR>
+Following line for TYPE=TEMPERATURE:
+
+<UL>
+<LI>Node number or node set label.
+</LI>
+<LI>Initial temperature value at the node.
+</LI>
+<LI>Initial temperature gradient in normal direction (shells) or in
+2-direction (beams).
+</LI>
+<LI>Initial temperature gradient in 1-direction (beams).
+</LI>
+</UL>
+Repeat this line if needed.
+
+<P>
+
+<P><P>
+<BR>
+Following line for TYPE=VELOCITY or TYPE=FLUID VELOCITY:
+
+<UL>
+<LI>Node number or node set label.
+</LI>
+<LI>Degree of freedom in the GLOBAL coordinate system.
+</LI>
+<LI>Magnitude of the velocity.
+</LI>
+</UL>
+
+<P>
+<PRE>
+Examples:
+
+*INITIAL CONDITIONS,TYPE=TEMPERATURE
+Nall,273.
+</PRE>
+
+<P>
+assigns the initial temperature T=273. to all nodes in (node) file Nall.
+
+<P>
+<PRE>
+*INITIAL CONDITIONS,TYPE=VELOCITY
+18,2,3.15
+</PRE>
+
+<P>
+assigns the initial velocity 3.15 to degree of freedom 2 of node 18.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beam20t, beamnlt, beamt3, resstress1, resstress2, resstress3, inistrain.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html5108"
+<A NAME="tex2html5224"
   HREF="node316.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5104"
-  HREF="node205.html">
+<A NAME="tex2html5220"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5098"
+<A NAME="tex2html5214"
   HREF="node314.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5106"
+<A NAME="tex2html5222"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5109"
-  HREF="node316.html">*STATIC</A>
-<B> Up:</B> <A NAME="tex2html5105"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5099"
-  HREF="node314.html">*SPECIFIC HEAT</A>
- &nbsp; <B>  <A NAME="tex2html5107"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html5225"
+  HREF="node316.html">*INITIAL STRAIN INCREASE</A>
+<B> Up:</B> <A NAME="tex2html5221"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5215"
+  HREF="node314.html">*INCLUDE</A>
+ &nbsp; <B>  <A NAME="tex2html5223"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

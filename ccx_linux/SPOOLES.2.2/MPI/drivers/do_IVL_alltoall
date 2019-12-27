@@ -1,0 +1,31 @@
+#! /bin/csh -f
+
+set msglvl  = 4
+set msgFile = stdout
+set msgFile = res
+
+
+set n     = 10
+set seed  = 10101
+set nproc = 4
+
+#
+#  for solaris with mpich
+#
+set pgFile  = IVL_alltoall$nproc.pg
+# /usr/local/mpi/bin/mpirun -p4pg $pgFile \
+/usr/local/mpich-1.0.13/bin/mpirun -p4pg $pgFile \
+   testIVL_alltoall $msglvl $msgFile $n $seed
+ 
+#
+#  for sgi
+#
+# mpirun -np $nproc \
+# testIVL_alltoall $msglvl $msgFile $n $seed
+ 
+#
+#  for hp
+#
+# /opt/mpi/bin/mpirun -np $nproc \
+# testIVL_alltoall $msglvl $msgFile $n $seed
+

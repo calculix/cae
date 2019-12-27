@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
+<HTML>
+<HEAD>
+<TITLE>Mesh refining procedure</TITLE>
+<META NAME="description" CONTENT="Mesh refining procedure">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="previous" HREF="node465.html">
+<LINK REL="up" HREF="node461.html">
+<LINK REL="next" HREF="node467.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html7203"
+  HREF="node467.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html7199"
+  HREF="node461.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html7195"
+  HREF="node465.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html7201"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html7204"
+  HREF="node467.html">cattet.f</A>
+<B> Up:</B> <A NAME="tex2html7200"
+  HREF="node461.html">Mesh refinement</A>
+<B> Previous:</B> <A NAME="tex2html7196"
+  HREF="node465.html">Element fields</A>
+ &nbsp; <B>  <A NAME="tex2html7202"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION0001211500000000000000">
+Mesh refining procedure</A>
+</H3>
+
+<P>
+In this section the procedure how the mesh is refined is explained in
+detail. Figure shows the global picture. The refinemesh.c routine is a
+subroutine of routine frd.c, which is used for the general frd-output. At
+first the following routines are called (in this section &ldquo;element&rdquo; and
+&ldquo;tet&rdquo; are used as synonyms):
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html7205"
+  HREF="node467.html">cattet.f</A>
+<LI><A NAME="tex2html7206"
+  HREF="node468.html">catedges.f</A>
+<LI><A NAME="tex2html7207"
+  HREF="node469.html">determineextern.f</A>
+<LI><A NAME="tex2html7208"
+  HREF="node470.html">midexternaledges.f</A>
+<LI><A NAME="tex2html7209"
+  HREF="node471.html">midexternalfaces.f</A>
+<LI><A NAME="tex2html7210"
+  HREF="node472.html">START OF MAJOR LOOP</A>
+<LI><A NAME="tex2html7211"
+  HREF="node473.html">first loop: calculateh.f</A>
+<LI><A NAME="tex2html7212"
+  HREF="node474.html">first loop: getlocalresults.f</A>
+<LI><A NAME="tex2html7213"
+  HREF="node475.html">all but the first loop: calculated.f</A>
+<LI><A NAME="tex2html7214"
+  HREF="node476.html">START OF THE REFINEMENT OF THE EXTERNAL EDGES</A>
+<LI><A NAME="tex2html7215"
+  HREF="node477.html">edgedivide.f</A>
+<LI><A NAME="tex2html7216"
+  HREF="node478.html">newnodes.f</A>
+<LI><A NAME="tex2html7217"
+  HREF="node479.html">cavityext.f</A>
+<LI><A NAME="tex2html7218"
+  HREF="node480.html">START OF THE REFINEMENT OF THE INTERNAL EDGES.</A>
+<LI><A NAME="tex2html7219"
+  HREF="node481.html">.</A>
+<LI><A NAME="tex2html7220"
+  HREF="node482.html">cavity.f</A>
+<LI><A NAME="tex2html7221"
+  HREF="node483.html">END OF MAJOR LOOP.</A>
+<LI><A NAME="tex2html7222"
+  HREF="node484.html">.</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,348 @@
+\par
+\section{Prototypes and descriptions of {\tt BKL} methods}
+\label{section:BKL:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt BKL} object.
+\par
+\section{Basic methods}
+\label{subsection:BKL:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+BKL * BKL_new ( void ) ;
+\end{verbatim}
+\index{BKL_new@{\tt BKL\_new()}}
+This method simply allocates storage for the {\tt BKL} structure 
+and then sets the default fields by a call to 
+{\tt BKL\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BKL_setDefaultFields ( BKL *bkl ) ;
+\end{verbatim}
+\index{BKL_setDefaultFields@{\tt BKL\_setDefaultFields()}}
+This method sets the fields of the structure to their default
+values:
+{\tt bpg}, {\tt colors} and {\tt regwghts} are set to {\tt NULL},
+the {\tt int} parameters are set to zero,
+and the {\tt cweights} vector is filled with zeros.
+\par \noindent {\it Error checking:}
+If {\tt bkl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BKL_clearData ( BKL *bkl ) ;
+\end{verbatim}
+\index{BKL_clearData@{\tt BKL\_clearData()}}
+This method clears any data allocated by the object,
+namely the {\tt colors} and {\tt regwghts} vectors.
+It then fills the structure's fields with default values
+with a call to {\tt BKL\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt bkl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BKL_free ( BKL *bkl ) ;
+\end{verbatim}
+\index{BKL_free@{\tt BKL\_free()}}
+This method releases any storage by a call to 
+{\tt BKL\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt bkl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:BKL:proto:initializers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BKL_init ( BKL *bkl, BPG *bpg, float alpha ) ;
+\end{verbatim}
+\index{BKL_init@{\tt BKL\_init()}}
+This method initializes the {\tt BKL} object given a bipartite
+graph object and cost function parameter as input.
+Any previous data is cleared with a call to {\tt BKL\_clearData()}.
+The {\tt ndom}, {\tt nseg} and {\tt nreg} scalars are set,
+the {\tt regwghts[]} vector allocated and filled,
+and
+the {\tt colors[]} vector allocated and filled with zeros.
+\par \noindent {\it Error checking:}
+If {\tt bkl} or {\tt bpg} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:BKL:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BKL_setRandomColors ( BKL *bkl, int seed ) ;
+\end{verbatim}
+\index{BKL_setRandomColors@{\tt BKL\_setRandomColors()}}
+If {\tt seed > 0}
+a random number generator is set using {\tt seed}.
+The domains are then colored {\tt 1} or {\tt 2} randomly
+and {\tt BKL\_setColorWeights()} is called to set the segment
+weights.
+\par \noindent {\it Error checking:}
+If {\tt bkl} or {\tt bkl->bpg} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BKL_setColorWeights ( BKL *bkl ) ;
+\end{verbatim}
+\index{BKL_setColorWeights@{\tt BKL\_setColorWeights()}}
+This method sets the color weights for the region.
+It assumes that all domains are colored {\tt 1} or {\tt 2}.
+The segments are then colored.
+If a segment is adjacent only to domains of one color, its color is
+that color, otherwise its color is {\tt 0}.
+\par \noindent {\it Error checking:}
+If {\tt bkl} or {\tt bkl->bpg} is {\tt NULL},
+an error message is printed and the program exits.
+The colors of the domains are checked to ensure they are {\tt 1} or
+{\tt 2}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BKL_segColor ( BKL *bkl, int iseg ) ;
+\end{verbatim}
+\index{BKL_segColor@{\tt BKL\_segColor()}}
+This method returns the color of segment {\tt iseg}.
+\par \noindent {\it Error checking:}
+If {\tt bkl} is {\tt NULL},
+or if {\tt iseg} is not in {\tt [bkl->ndom, bkl->nreg)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BKL_flipDomain ( BKL *bkl, int idom ) ;
+\end{verbatim}
+\index{BKL_flipDomain@{\tt BKL\_flipDomain()}}
+This method flips the color of domain {\tt idom}, 
+adjusts the colors of neighboring segments 
+and the {\tt cweights[]} vector.
+\par \noindent {\it Error checking:}
+If {\tt bkl} is {\tt NULL},
+or if {\tt idom} is not in {\tt [0,bkl->ndom)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BKL_greyCodeDomain ( BKL *bkl, int count ) ;
+\end{verbatim}
+\index{BKL_greyCodeDomain@{\tt BKL\_greyCodeDomain()}}
+This method returns the next domain id in a grey code sequence,
+used to exhaustively search of a subspace of partitions
+defined by set of candidate domains to flip.
+The value {\tt count} ranges from {\tt 1} to $2^{\mbox{\tt ndom}}$.
+\par \noindent {\it Error checking:}
+If {\tt bkl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float BKL_setInitPart ( BKL *bkl, int flag, int seed, int domcolors[] ) ;
+\end{verbatim}
+\index{BKL_setInitPart@{\tt BKL\_setInitPart()}}
+This method sets the initial partition 
+by coloring the domains and segments.
+The {\tt flag} parameter has the following values.
+\begin{itemize}
+\item 
+{\tt flag = 1} $\longrightarrow$ 
+random coloring of the domains
+\item 
+{\tt flag = 2} $\longrightarrow$ 
+one black domain, ({\tt seed} \% {\tt ndom}), rest are white
+\item 
+{\tt flag = 3} $\longrightarrow$ 
+one black pseudoperipheral domain, found using
+domain ({\tt seed} \% {\tt ndom}) as root, rest are white
+\item 
+{\tt flag = 4} $\longrightarrow$ 
+roughly half-half split, breadth first search
+of domains, ({\tt seed} \% {\tt ndom}) as root
+\item 
+{\tt flag = 5} $\longrightarrow$ 
+roughly half-half split, breadth first search
+of domains, ({\tt seed} \% {\tt ndom}) as root to find
+a pseudoperipheral domain as root
+\item 
+{\tt flag = 6} $\longrightarrow$ 
+use {\tt domcolors[]} to seed the {\tt colors[]} array
+\end{itemize}
+The {\tt seed} input parameter is for a random number generator.
+The {\tt domcolors[]} input array is used only for {\tt flag = 6}.
+\par \noindent {\it Error checking:}
+If {\tt bkl} is {\tt NULL},
+or if {\tt flag = 6} and {\tt domcolors} is {\tt NULL},
+or if {\tt flag} is not in {\tt [1,6]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BKL_domAdjToSep ( BKL *bkl, int dom ) ;
+\end{verbatim}
+\index{BKL_domAdjToSep@{\tt BKL\_domAdjToSep()}}
+This method returns {\tt 1} 
+if domain {\tt dom} is adjacent to the separator
+and {\tt 0} otherwise.
+\par \noindent {\it Error checking:}
+If {\tt bkl} is {\tt NULL},
+or if {\tt dom} is not in {\tt [0,ndom)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Partition evaluation methods}
+\label{subsection:BKL:proto:evaluation}
+\par
+There are three functions that evaluate the cost of a partition.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void BKL_evalgain ( BKL *bkl, int dom, int *pdeltaS, int *pdeltaB, int *pdeltaW ) ;
+\end{verbatim}
+\index{BKL_evalgain@{\tt BKL\_evalgain()}}
+This method evaluates the change in the components
+$\Delta S$, $\Delta B$ and $\Delta W$
+that would occur if domain {\tt dom} were to be flipped.
+These {\it gain} values are put into the storage pointed to by
+{\tt pdeltaS}, {\tt pdeltaB} and {\tt pdeltaW}.
+The method checks that {\tt bkl}, {\tt pdeltaS}, {\tt pdeltaB} 
+and {\tt pdeltaW} are not {\tt NULL}
+and that {\tt idom} is in {\tt [0,bkl->ndom)}.
+\par \noindent {\it Error checking:}
+If {\tt bkl}, {\tt pdeltaS}, {\tt pdeltaB} or {\tt pdeltaW}
+is {\tt NULL},
+or if {\tt dom} is not in {\tt [0,ndom)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float BKL_evalfcn ( BKL *bkl ) ;
+\end{verbatim}
+\index{BKL_evalfcn@{\tt BKL\_evalfcn()}}
+The $|S|$, $|B|$ and $|W|$ values are taken from the {\tt
+cweights[]} vector.
+If $\min(|B|,|W|) > 0$, this function returns
+$$
+|S|\left(1 + \alpha * \frac{\max(|B|,|W|)}{\min(|B|,|W|)} \right),
+$$
+otherwise it returns $(|S| + |B| + |W|)^2$.
+\par \noindent {\it Error checking:}
+If {\tt bkl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float BKL_eval ( BKL *bkl, int Sweight, int Bweight, int Wweight ) ;
+\end{verbatim}
+\index{BKL_eval@{\tt BKL\_eval()}}
+The $|S|$, $|B|$ and $|W|$ values are taken from the {\tt
+Sweight}, {\tt Bweight} and {\tt Wweight} parameters.
+If $\min(|B|,|W|) > 0$, this function returns
+$$
+|S|\left(1 + \alpha * \frac{\max(|B|,|W|)}{\min(|B|,|W|)} \right),
+$$
+otherwise it returns $(|S| + |B| + |W|)^2$.
+The method checks that {\tt bkl} is not {\tt NULL}.
+\par \noindent {\it Error checking:}
+If {\tt bkl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Partition improvement methods}
+\label{subsection:BKL:proto:improve}
+\par
+There are two functions that take a given partition and some input
+parameters and return a (hopefully) improved partition.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float BKL_exhSearch ( BKL *bkl, int mdom, int domids[], int tcolors[] ) ;
+\end{verbatim}
+\index{BKL_exhSearch@{\tt BKL\_exhSearch()}}
+This method performs an exhaustive search of a subspace of
+partitions and returns the best partition.
+The starting partition is given by the {\tt BKL} object's {\tt
+colors[]} vector.
+The subspace of domains to flip is defined by the {\tt
+domids[mdom]} vector.
+The {\tt tcolors[]} vector is a work vector.
+There are $2^{\mbox{\tt mdom}}$ distinct partitions in the subspace
+to be explored.
+We flip the domains using a grey code sequence so a total of
+$2^{\mbox{\tt mdom}}$ domain flips are performed.
+The {\tt bkl->colors[]} vector is filled with the colors of
+the best partition and its cost is returned.
+\par \noindent {\it Error checking:}
+If {\tt bkl}, {\tt domids} or {\tt tcolors} is {\tt NULL},
+or if {\tt mdom < 1},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float BKL_fidmat ( BKL *bkl ) ;
+\end{verbatim}
+\index{BKL_fidmat@{\tt BKL\_fidmat()}}
+If the number of domains is eight or less, an exhaustive search is
+made.
+Otherwise, this method finds a good partition using a variant of the
+Fiduccia-Mattheyes algorithm.
+At any step, only the domains that are adjacent to the separator
+are eligible to be flipped.
+For each eligible domain,
+we maintain 
+$\Delta S$, $\Delta B$ and $\Delta W$,
+the change in the three component weights
+if this domain were to be flipped.
+These values must be updated whenever a neighboring domain has been
+flipped, and so is {\it local} information.
+The cost of the partition that would result if a domain were to be
+flipped is a function of the local information
+$\Delta S$, $\Delta B$ and $\Delta W$,
+as well as the present weights of the components
+(global information).
+At each step we evaluate the cost of the resulting partition for each
+domain that is eligible to be flipped. 
+This is relatively expensive when compared to using a heap to contain
+$\Delta S$ for each domain, but we have found the resulting
+partitions to be better.
+The eligible domains are kept on a doubly linked list to allow easy
+insertions and deletions.
+\par \noindent {\it Error checking:}
+If {\tt bkl} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}

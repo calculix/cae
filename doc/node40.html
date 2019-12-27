@@ -1,10 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
 <TITLE>Eight-node shell element (S8 and S8R)</TITLE>
@@ -13,7 +9,7 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
@@ -25,34 +21,35 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html1575"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1637"
   HREF="node41.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1571"
+<A NAME="tex2html1633"
   HREF="node26.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1565"
+<A NAME="tex2html1627"
   HREF="node39.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1573"
+<A NAME="tex2html1635"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1576"
+<B> Next:</B> <A NAME="tex2html1638"
   HREF="node41.html">Three-node membrane element (M3D3)</A>
-<B> Up:</B> <A NAME="tex2html1572"
+<B> Up:</B> <A NAME="tex2html1634"
   HREF="node26.html">Element Types</A>
-<B> Previous:</B> <A NAME="tex2html1566"
+<B> Previous:</B> <A NAME="tex2html1628"
   HREF="node39.html">Six-node shell element (S6)</A>
- &nbsp; <B>  <A NAME="tex2html1574"
+ &nbsp; <B>  <A NAME="tex2html1636"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
 <H3><A NAME="SECTION000721400000000000000"></A><A NAME="S8"></A>
@@ -67,13 +64,13 @@ Figure <A HREF="#c2d8">72</A>.
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="c2d8"></A><A NAME="11828"></A>
+<DIV ALIGN="CENTER"><A NAME="c2d8"></A><A NAME="14866"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 72:</STRONG>
 8-node quadratic element</CAPTION>
 <TR><TD><IMG
- WIDTH="444" HEIGHT="265" BORDER="0"
- SRC="img250.png"
+ WIDTH="445" HEIGHT="266" BORDER="0"
+ SRC="img263.png"
  ALT="\begin{figure}\epsfig{file=C2D8.eps,width=10cm}\end{figure}"></TD></TR>
 </TABLE>
 </DIV>
@@ -88,14 +85,14 @@ a C3D20 element, for a S8R element a C3D20R element.
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="2dexpansion"></A><A NAME="11829"></A>
+<DIV ALIGN="CENTER"><A NAME="2dexpansion"></A><A NAME="14867"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 73:</STRONG>
 Expansion of a 2D 8-node element into a
 3D brick element</CAPTION>
 <TR><TD><IMG
  WIDTH="535" HEIGHT="308" BORDER="0"
- SRC="img251.png"
+ SRC="img264.png"
  ALT="\begin{figure}\epsfig{file=C2D.eps,width=12cm}\end{figure}"></TD></TR>
 </TABLE>
 </DIV>
@@ -103,7 +100,7 @@ Expansion of a 2D 8-node element into a
 <P>
 Since a shell element can be curved, the normal to the shell surface
 is defined in each node separately. For this purpose the
-<A HREF="node295.html#normal">*NORMAL</A> keyword card can be used. If no normal is
+<A HREF="node334.html#normal">*NORMAL</A> keyword card can be used. If no normal is
 defined by the user, it will be calculated automatically by CalculiX
 based on the local geometry. 
 
@@ -121,10 +118,10 @@ normal in
 this set, if any, is taken and used as reference. Its normal is defined as
 reference normal and the element is stored in a new subset. All other
 elements of the same type in the set
-for which the normal has an angle smaller than <IMG
- WIDTH="32" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img252.png"
- ALT="$ 0.5^\circ$"> with the
+for which the normal has an angle smaller than <SPAN CLASS="MATH"><IMG
+ WIDTH="31" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img265.png"
+ ALT="$ 0.5^\circ$"></SPAN> with the
 reference normal and
 which have the same local thickness and offset are also included in this
 subset. The elements in the subset are considered to have the same
@@ -136,10 +133,10 @@ element number of all elements left in the set is used as
 reference. Its normal is defined as
 reference normal and the element is stored in a new subset. All other
 elements left in the set
-for which the normal has an angle smaller than <IMG
- WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img253.png"
- ALT="$ 20^\circ$"> with the
+for which the normal has an angle smaller than <SPAN CLASS="MATH"><IMG
+ WIDTH="27" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img266.png"
+ ALT="$ 20^\circ$"></SPAN> with the
 reference normal and
 which have the same local thickness and offset are also included in this
 subset. The normed mean of all normals
@@ -161,13 +158,13 @@ overlap (Figure <A HREF="#shell">74</A>).
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="shell"></A><A NAME="11830"></A>
+<DIV ALIGN="CENTER"><A NAME="shell"></A><A NAME="14868"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 74:</STRONG>
 Overlapping shell elements at a knot</CAPTION>
 <TR><TD><IMG
  WIDTH="452" HEIGHT="412" BORDER="0"
- SRC="img254.png"
+ SRC="img267.png"
  ALT="\begin{figure}\epsfig{file=shell.eps,width=10cm}\end{figure}"></TD></TR>
 </TABLE>
 </DIV>
@@ -201,7 +198,7 @@ In CalculiX versions prior to and including version 2.7 a knot was also
 introduced as soon as the user applied a rotation or a moment to a
 node. Right now, this is still the case for dynamic calculations (cf. listing
 above). However, in static calculations, starting with version 2.8 this type of loading is handled by using mean
-rotation MPC's (cf. Section <A HREF="node367.html#meanrotationmpc">8.7.1</A>). The mean rotation MPC's
+rotation MPC's (cf. Section <A HREF="node406.html#meanrotationmpc">9.7.1</A>). The mean rotation MPC's
 are generated automatically, so the user does not have to take care of
 that. It generally leads to slightly better results then by use of
 knots. However, the use of mean rotation MPC's prohibits the application of
@@ -229,23 +226,23 @@ axisymmetric elements, respectively).
 
 <P>
 The translational node of the knot (cfr REF NODE in the
-<A HREF="node307.html#rigidbody">*RIGID BODY</A> keyword card) is the knot generating
+<A HREF="node346.html#rigidbody">*RIGID BODY</A> keyword card) is the knot generating
 node, the rotational node is extra generated.
 
 <P>
 The thickness of the shell element can be defined on the
-<A HREF="node311.html#shellsection">*SHELL SECTION</A> keyword card. It applies to the
+<A HREF="node350.html#shellsection">*SHELL SECTION</A> keyword card. It applies to the
 complete element. Alternatively, a nodal thickness in each node
-separately can be defined using <A HREF="node290.html#nodalthickness">*NODAL
+separately can be defined using <A HREF="node329.html#nodalthickness">*NODAL
 THICKNESS</A>. In that way, a shell with variable thickness
 can be modeled. Thicknesses defined by a *NODAL THICKNESS card take
 precedence over thicknesses defined by a *SHELL SECTION card. The
-thickness always applies in normal direction. The <A HREF="node311.html#shellsection">*SHELL
+thickness always applies in normal direction. The <A HREF="node350.html#shellsection">*SHELL
 SECTION</A> card is also used to assign a material to the
 shell elements and is therefore indispensable.
 
 <P>
-The offset of a shell element can be set on the <A HREF="node311.html#shellsection">*SHELL
+The offset of a shell element can be set on the <A HREF="node350.html#shellsection">*SHELL
 SECTION</A> card. Default is zero. The unit of the offset
 is the local shell thickness. An offset of 0.5 means that the user-defined
 shell reference surface is in reality the top surface of the expanded
@@ -260,7 +257,7 @@ the deformation is usually too stiff. Therefore, a different method has been
 coded to treat composites. Right now, it can only be used for 8-node shells
 with reduced integration (S8R) and 6-node shell elements (S6). Instead of defining as many shells as there
 are layers the user only defines one shell element, and uses the option COMPOSITE on
-the <A HREF="node311.html#shellsection">*SHELL SECTION</A> card. Underneath the latter card
+the <A HREF="node350.html#shellsection">*SHELL SECTION</A> card. Underneath the latter card
 the user can define as many layers as needed. Internally, the shell element is
 expanded into only one 3-D brick element but the number of integration points
 across the thickness amounts to twice the number of layers. During the
@@ -268,7 +265,7 @@ calculation the integration points are assigned the material properties
 appropriate for the layer they belong to. In the .dat file the user will find
 the displacements of the global 3-D element and the stresses in all
 integration points (provided the user has requested the corresponding output
-using the <A HREF="node294.html#nodeprint">*NODE PRINT</A> and <A HREF="node256.html#elprint">*EL PRINT</A>
+using the <A HREF="node333.html#nodeprint">*NODE PRINT</A> and <A HREF="node295.html#elprint">*EL PRINT</A>
 card). In the .frd file, however, each layer is expanded independently and the
 displacements and stresses are interpolated/extrapolated accordingly (no
 matter whether the parameter OUTPUT=3D was used). The
@@ -291,7 +288,7 @@ restrictions on this kind of composite element are right now:
 In composite materials it is frequently important to be able to define a local
 element coordinate system. Indeed, composites usually consist of layers of
 anisotropic materials (e.g. fiber reinforced) exhibiting a different
-orientation in each layer. To this end the <A HREF="node298.html#orientation">*ORIENTATION</A>
+orientation in each layer. To this end the <A HREF="node337.html#orientation">*ORIENTATION</A>
 card can be used. 
 
 <P>
@@ -306,29 +303,29 @@ generated consisting of:
 <UL>
 <LI>a local x'-axis defined by the projection of the global x-axis on the
   shell (actually at the location of the shell which corresponds to local
-  coordinates <IMG
+  coordinates <SPAN CLASS="MATH"><IMG
  WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img255.png"
- ALT="$ \xi=0$">, <IMG
- WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img256.png"
- ALT="$ \eta=0$">), or, if the angle between the global x-axis
+ SRC="img268.png"
+ ALT="$ \xi=0$"></SPAN>, <SPAN CLASS="MATH"><IMG
+ WIDTH="41" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img269.png"
+ ALT="$ \eta=0$"></SPAN>), or, if the angle between the global x-axis
   and the normal to the shell is smaller than <!-- MATH
  $0.1^{\circ}$
  -->
-<IMG
- WIDTH="32" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img257.png"
- ALT="$ 0.1^{\circ}$">, by the projection
+<SPAN CLASS="MATH"><IMG
+ WIDTH="31" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img270.png"
+ ALT="$ 0.1^{\circ}$"></SPAN>, by the projection
   of the global z-axis on the shell.
 </LI>
 <LI>a local y'-axis such that <!-- MATH
  $y' = z' \times x'$
  -->
-<IMG
- WIDTH="84" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img258.png"
- ALT="$ y' = z' \times x'$">.
+<SPAN CLASS="MATH"><IMG
+ WIDTH="83" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img271.png"
+ ALT="$ y' = z' \times x'$"></SPAN>.
 </LI>
 <LI>a local z'-axis coinciding with the normal on the shell (defined such
   that the nodes are defined clockwise in the element topology when looking in
@@ -350,30 +347,30 @@ then a local shell coordinate system is generated consisting of:
 <LI>a local x'-axis defined by the projection of the local x-axis defined by
   the orientation on the
   shell (actually at the location of the shell which corresponds to local
-  coordinates <IMG
+  coordinates <SPAN CLASS="MATH"><IMG
  WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img255.png"
- ALT="$ \xi=0$">, <IMG
- WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img256.png"
- ALT="$ \eta=0$">), or, if the angle between the local x-axis
+ SRC="img268.png"
+ ALT="$ \xi=0$"></SPAN>, <SPAN CLASS="MATH"><IMG
+ WIDTH="41" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img269.png"
+ ALT="$ \eta=0$"></SPAN>), or, if the angle between the local x-axis
   defined by the orientation
   and the normal to the shell is smaller than <!-- MATH
  $0.1^{\circ}$
  -->
-<IMG
- WIDTH="32" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img257.png"
- ALT="$ 0.1^{\circ}$">, by the projection
+<SPAN CLASS="MATH"><IMG
+ WIDTH="31" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img270.png"
+ ALT="$ 0.1^{\circ}$"></SPAN>, by the projection
   of the local z-axis as defined by the orientation on the shell.
 </LI>
 <LI>a local y'-axis such that <!-- MATH
  $y' = z' \times x'$
  -->
-<IMG
- WIDTH="84" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img258.png"
- ALT="$ y' = z' \times x'$">.
+<SPAN CLASS="MATH"><IMG
+ WIDTH="83" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img271.png"
+ ALT="$ y' = z' \times x'$"></SPAN>.
 </LI>
 <LI>a local z'-axis coinciding with the normal on the shell (defined such
   that the nodes are defined clockwise in the element topology when looking in
@@ -388,7 +385,7 @@ degree of freedom (DOF 1 through 3) or any rotational DOF (DOF 4
 through 6). Here, DOF 4 is the rotation about the global or local x-axis, DOF 5
 about the global or local y-axis and DOF 6 about the global or local
 z-axis. Local axes apply if the transformation
-(<A HREF="node328.html#transform">*TRANSFORM</A>) has been defined, else the global system
+(<A HREF="node367.html#transform">*TRANSFORM</A>) has been defined, else the global system
 applies. A hinge is defined by fixing the
 translational degrees of freedom only. Recall that it is not allowed to
 constrain a rotation about the drilling axis on a shell, unless the rotations
@@ -406,22 +403,22 @@ is generated (the reference node of the rigid body is the shell node). If no kno
 generated, the point load is divided among the expanded nodes
 according to a 1/2-1/2 ratio for a shell mid-node and a 1/6-2/3-1/6
 ratio for a shell end-node. Concentrated bending moments or torques are
-defined as point loads (<A HREF="node223.html#cload">*CLOAD</A>) acting on degree four
+defined as point loads (<A HREF="node262.html#cload">*CLOAD</A>) acting on degree four
 to six in the node. Their use generates a knot in the node.
 
 <P>
 Distributed loading can be defined by the label P in the
-<A HREF="node247.html#dload">*DLOAD</A> card. A positive value corresponds to a
+<A HREF="node286.html#dload">*DLOAD</A> card. A positive value corresponds to a
 pressure load in normal direction. 
 
 <P>
 In addition to a temperature for the reference surface of the shell, a
 temperature gradient in normal direction can be specified on the
-<A HREF="node325.html#temperature">*TEMPERATURE</A> card. Default is zero.
+<A HREF="node364.html#temperature">*TEMPERATURE</A> card. Default is zero.
 
 <P>
 Concerning the output, nodal quantities requested by the keyword
-<A HREF="node294.html#nodeprint">*NODE PRINT</A> are stored in the shell nodes. They are obtained by averaging the nodal values of the
+<A HREF="node333.html#nodeprint">*NODE PRINT</A> are stored in the shell nodes. They are obtained by averaging the nodal values of the
 expanded element. For instance, the value in local shell node 1 are obtained
 by averaging the nodal value of expanded nodes 1 and 5. Similar relationships
 apply to the other nodes, in 6-node shells:
@@ -468,12 +465,12 @@ In 8-node shells:
 </UL>
 
 <P>
-Element quantities, requested by <A HREF="node256.html#elprint">*EL PRINT</A> are stored in
+Element quantities, requested by <A HREF="node295.html#elprint">*EL PRINT</A> are stored in
 the integration points of the expanded elements.
 
 <P>
-Default storage for quantities requested by the <A HREF="node292.html#nodefile">*NODE FILE</A>
-and <A HREF="node255.html#elfile">*EL FILE</A> is in the expanded nodes. This has the
+Default storage for quantities requested by the <A HREF="node331.html#nodefile">*NODE FILE</A>
+and <A HREF="node294.html#elfile">*EL FILE</A> is in the expanded nodes. This has the
 advantage that the true three-dimensional results can be viewed in the
 expanded structure, however, the nodal numbering is different from the shell
 nodes. By selecting OUTPUT=2D the results are stored in the original shell nodes. The same averaging
@@ -492,40 +489,38 @@ not,
 full integration combined with smaller elements might be necessary.
  Secondly, thin structures can easily
 exhibit large strains and/or rotations. Therefore, most calculations require
-the use of the NLGEOM parameter on the <A HREF="node318.html#step">*STEP</A> card.
+the use of the NLGEOM parameter on the <A HREF="node357.html#step">*STEP</A> card.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html1575"
+<A NAME="tex2html1637"
   HREF="node41.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1571"
+<A NAME="tex2html1633"
   HREF="node26.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1565"
+<A NAME="tex2html1627"
   HREF="node39.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1573"
+<A NAME="tex2html1635"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1576"
+<B> Next:</B> <A NAME="tex2html1638"
   HREF="node41.html">Three-node membrane element (M3D3)</A>
-<B> Up:</B> <A NAME="tex2html1572"
+<B> Up:</B> <A NAME="tex2html1634"
   HREF="node26.html">Element Types</A>
-<B> Previous:</B> <A NAME="tex2html1566"
+<B> Previous:</B> <A NAME="tex2html1628"
   HREF="node39.html">Six-node shell element (S6)</A>
- &nbsp; <B>  <A NAME="tex2html1574"
-  HREF="node1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1636"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

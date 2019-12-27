@@ -1,0 +1,21 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+set matrix      = R2D100
+set inGraphFile = $matrices/$matrix/orig0.graphf
+
+set inDSTreeFile = $matrices/$matrix/nd.dstreef
+
+set inCutoffFile = cutoff.dvf
+
+set outStagesFile = temp.ivf
+
+set msglvl      = 1
+
+set msgFile    = stdout
+
+testDomWeightStages $msglvl $msgFile \
+   $inDSTreeFile \
+   $inGraphFile \
+   $inCutoffFile \
+   $outStagesFile 

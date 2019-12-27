@@ -1,0 +1,18 @@
+\par
+\section{Data Structure}
+\label{section:Ideq:dataStructure}
+\par
+The {\tt Ideq} object has four fields.
+\begin{itemize}
+\item 
+{\tt int maxsize} : maximum size of the dequeue.
+\item 
+{\tt int head}    : head of the list.
+\item 
+{\tt int tail}    : tail of the list.
+\item 
+{\tt IV iv} : an {\tt IV} object to hold the list vector.
+\end{itemize}
+A correctly initialized and nontrivial {\tt Ideq} object 
+will have {\tt maxsize > 0}.
+When the dequeue is empty, {\tt head = tail = -1}.

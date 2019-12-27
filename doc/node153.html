@@ -1,120 +1,206 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Fiber reinforced materials.</TITLE>
-<META NAME="description" CONTENT="Fiber reinforced materials.">
+<TITLE>Tension-only and compression-only materials.</TITLE>
+<META NAME="description" CONTENT="Tension-only and compression-only materials.">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node154.html">
 <LINK REL="previous" HREF="node152.html">
-<LINK REL="up" HREF="node143.html">
+<LINK REL="up" HREF="node144.html">
 <LINK REL="next" HREF="node154.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3004"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3067"
   HREF="node154.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3000"
-  HREF="node143.html">
+<A NAME="tex2html3063"
+  HREF="node144.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2994"
+<A NAME="tex2html3057"
   HREF="node152.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3002"
+<A NAME="tex2html3065"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3005"
-  HREF="node154.html">The Cailletaud single crystal</A>
-<B> Up:</B> <A NAME="tex2html3001"
-  HREF="node143.html">Materials</A>
-<B> Previous:</B> <A NAME="tex2html2995"
-  HREF="node152.html">Tension-only and compression-only materials.</A>
- &nbsp; <B>  <A NAME="tex2html3003"
+<B> Next:</B> <A NAME="tex2html3068"
+  HREF="node154.html">Fiber reinforced materials.</A>
+<B> Up:</B> <A NAME="tex2html3064"
+  HREF="node144.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3058"
+  HREF="node152.html">Incremental (visco)plasticity: additive decomposition</A>
+ &nbsp; <B>  <A NAME="tex2html3066"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000781000000000000000">
-Fiber reinforced materials.</A>
+<H3><A NAME="SECTION00078900000000000000">
+Tension-only and compression-only materials.</A>
 </H3>
 
 <P>
-This is a model which was conceived by G. Holzapfel et al. [<A
- HREF="node448.html#Holzapfel">30</A>]
-to model arterial walls. It is an anisotropic hyperelastic model,
-consisting of an isotropic neo-Hooke potential for the base material,
-complemented by exponential strenghtening terms in fiber
-direction. The mathematical form of the potential satisfies:
+These are material models which can be used to simulate textile behavior
+(tension-only) and concrete (compression-only). In essence, a one-dimensional
+Hooke-type relationship is established between the principal stresses and
+principal strains, thereby suppressing the compressive stress range (tension-only
+materials) or tensile stress range (compression-only materials).
+
+<P>
+The Cauchy-Green tensor can be written as a function of its eigenvalues and
+eigenvectors as follows:
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
-U=C_{10}(\bar{I}_1-3)+\frac{1}{D_1}(J-1)^2+\sum_{i=1}^{n}
-\frac{k_{1i}}{2k_{2i}} \left[ e^{k_{2i}\langle \bar{J}_{4i}-1 \rangle ^2}-1 \right]
+\mathbf{C}=\sum_{i=1}^{3} \Lambda_i \mathbf{M^i},
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="416" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
- SRC="img1031.png"
- ALT="$\displaystyle U=C_{10}(\bar{I}_1-3)+\frac{1}{D_1}(J-1)^2+\sum_{i=1}^{n} \frac{k_{1i}}{2k_{2i}} \left[ e^{k_{2i}\langle \bar{J}_{4i}-1 \rangle ^2}-1 \right]$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(269)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="107" HEIGHT="65" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1066.png"
+ ALT="$\displaystyle \mathbf{C}=\sum_{i=1}^{3} \Lambda_i \mathbf{M^i},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">291</SPAN>)</TD></TR>
 </TABLE></DIV>
 <BR CLEAR="ALL"><P></P>
 
 <P>
-where  <!-- MATH
- $\langle x \rangle=0$
+where <!-- MATH
+ $\mathbf{M^i}$
  -->
-<IMG
- WIDTH="55" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1032.png"
- ALT="$ \langle x \rangle=0$"> for <IMG
- WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1033.png"
- ALT="$ x &lt; 0$"> and <!-- MATH
- $\langle x \rangle=x$
+<SPAN CLASS="MATH"><IMG
+ WIDTH="26" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1067.png"
+ ALT="$ \mathbf{M^i}$"></SPAN> are the structural tensors satisfying
+<!-- MATH
+ $\mathbf{M^i}=\mathbf{N_i}\otimes \mathbf{N^i}$
  -->
-<IMG
- WIDTH="56" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1034.png"
- ALT="$ \langle x \rangle=x$">
-for <IMG
- WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1035.png"
- ALT="$ x \ge 0$">. Thus, the fibers do not take up any force under
-compression. Although the material was originally defined for
-arteries, it is expected to work well for other fiber reinforced
-materials too, such as reinforced nylon. The material model
-implemented thus far can cope with up to 4 different fibers. The material
+<SPAN CLASS="MATH"><IMG
+ WIDTH="105" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1068.png"
+ ALT="$ \mathbf{M^i}=\mathbf{N_i}\otimes \mathbf{N^i}$"></SPAN>, <!-- MATH
+ $\mathbf{N^i}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1069.png"
+ ALT="$ \mathbf{N^i}$"></SPAN> being the
+principal directions [<A
+ HREF="node487.html#Dhondt">19</A>]. From this, the second Piola-Kirchhoff
+stress tensor can be defined by:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\mathbf{S}=\sum_{i=1}^{3} f(\Lambda_i) \mathbf{M^i},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="126" HEIGHT="65" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1070.png"
+ ALT="$\displaystyle \mathbf{S}=\sum_{i=1}^{3} f(\Lambda_i) \mathbf{M^i},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">292</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where, for tension-only materials, 
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+f(\Lambda_i) = E \left( \frac{\Lambda_i -1}{2} \right) \left[ \frac{1}{2} +
+  \frac{1}{\pi} \tan^{-1} \left( \frac{\Lambda_i -1}{2 \epsilon} \right)
+\right],
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="337" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1071.png"
+ ALT="$\displaystyle f(\Lambda_i) = E \left( \frac{\Lambda_i -1}{2} \right) \left[ \fr...
+...\frac{1}{\pi} \tan^{-1} \left( \frac{\Lambda_i -1}{2 \epsilon} \right) \right],$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">293</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1028.png"
+ ALT="$ E$"></SPAN> is an elastic modulus, the term within the first parentheses is a
+Lagrange principal strain and the term within the square brackets is a
+correction term suppressing the negative stresses (pressure). It is a function tending to zero for negative strains (-0.5 being the
+smallest possible Lagrange strain), to one for large positive strains and
+switches between both in a region surrounding zero strain. The extent of this
+region is controlled by the parameter <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></SPAN>: the smaller its value, the
+smaller the transition region (the sharper the switch). It is a monotonically
+increasing function of the strain, thus guaranteeing convergence. The correction term is
+in fact identical to the
+term used to cut off tensile stresses for penalty contact in
+Equation(<A HREF="node136.html#prescleareq">185</A>) and Figure (<A HREF="node136.html#contact_lin">132</A>). Replacing
+&ldquo;overclosure&rdquo; and &ldquo;pressure&rdquo; by &ldquo;principal strain&rdquo; and &ldquo;principal
+stress&rdquo; in that figure yields the function f. Although compressive stresses
+are suppressed, they are not zero altogether. The maximum allowed compressive
+stress (in absolute value) amounts to <!-- MATH
+ $E \epsilon / \pi$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="40" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1072.png"
+ ALT="$ E \epsilon / \pi$"></SPAN>. Instead of chosing <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1028.png"
+ ALT="$ E$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></SPAN> the
+user defines <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1028.png"
+ ALT="$ E$"></SPAN> and the maximum allowed compressive stress, from which
+<SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$ \epsilon$"></SPAN> is determined.
+
+<P>
+The material
 definition consists of a *MATERIAL card defining the name of
-the material. This name HAS TO START WITH ''ELASTIC_FIBER'' but can be
-up to 80 characters long. Thus, the last 67 characters can be freely
-chosen by the user. Within the material definition a <A HREF="node332.html#usermaterial">*USER
+the material. This name HAS TO START WITH &rdquo;TENSION_ONLY&rdquo; but can be
+up to 80 characters long. Thus, the last 68 characters can be freely
+chosen by the user. Within the material definition a <A HREF="node371.html#usermaterial">*USER
 MATERIAL</A> card has to be used satisfying:
 
 <P>
@@ -124,122 +210,63 @@ First line:
 <LI>*USER MATERIAL
 </LI>
 <LI>Enter the CONSTANTS parameter and its value. The value of this
-parameter is 2+4n, where n is the number of fiber directions.
+parameter is 2.
 </LI>
 </UL>
 
 <P>
-Following line if one fiber direction is selected:
+Following line:
 
 <UL>
-<LI><IMG
- WIDTH="29" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1036.png"
- ALT="$ C_{10}$">.
+<LI><SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1028.png"
+ ALT="$ E$"></SPAN>.
 </LI>
-<LI><IMG
- WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1037.png"
- ALT="$ D_{1}$">.
-</LI>
-<LI><IMG
- WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1038.png"
- ALT="$ n_{x1}$">: x-direction cosine of fiber direction.
-</LI>
-<LI><IMG
- WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1039.png"
- ALT="$ n_{y1}$">: y-direction cosine of fiber direction.
-</LI>
-<LI><IMG
- WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1040.png"
- ALT="$ k_{11}$">.
-</LI>
-<LI><IMG
- WIDTH="26" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1041.png"
- ALT="$ k_{21}$">.
+<LI>absolute value of the maximum allowed pressure.
 </LI>
 <LI>Temperature.
 </LI>
 </UL>
 Repeat this line if needed to define complete temperature
-dependence. The z-direction cosine of the fiber direction is
-determined from the x- and y-direction cosine since the direction norm is
-one. If a local axis system is defined for an element consisting of
-this material (with <A HREF="node298.html#orientation">*ORIENTATION</A>)the direction cosines are defined in the local system.
+dependence.
 
 <P>
-If more than one fiber direction is selected (up to a maximum of four), the four
-entries characterizing fiber direction 1 are repeated for the
-subsequent directions. Per line no more than eight entries are
-allowed. If more are
-needed, continue on the next line.
+For a compression-only materials the name of the material has to start with
+&rdquo;COMPRESSION_ONLY&rdquo; (maximum 64 characters left to be chosen by the user)
+and the second constant is the maximum allowed tension. Examples are
+leifer2 and concretebeam in the test example suite. 
 
 <P>
-<PRE>
-Example:
 
-*MATERIAL,NAME=ELASTIC_FIBER
-*USER MATERIAL,CONSTANTS=18
-1.92505,0.026,0.,0.7071,2.3632,0.8393,0,-0.7071,
-2.3632,0.8393,0.7071,0.,2.3632,0.8393,-0.7071,0.,
-2.3632,0.8393
-</PRE>
-
-<P>
-defines an elastic fiber materials with four different fiber
-directions (0,0.7071,0.7071), (0,-0.7071,0.7071), (0.7071,0.,0.7071)
-and (-0.7071,0.,0.7071). The constants are <!-- MATH
- $C_{10}=1.92505,~ D_{1}=0.026$
- -->
-<IMG
- WIDTH="193" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1042.png"
- ALT="$ C_{10}=1.92505,~ D_{1}=0.026$"> and <!-- MATH
- $k_{1i}=2.3632,~ k_{2i}=0.8393~ \forall~ i~ \in~ \lbrace
-1,2,3,4 \rbrace$
- -->
-<IMG
- WIDTH="312" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1043.png"
- ALT="$ k_{1i}=2.3632,~ k_{2i}=0.8393~ \forall~ i~ \in~ \lbrace
-1,2,3,4 \rbrace$">.
-
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html3004"
+<A NAME="tex2html3067"
   HREF="node154.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3000"
-  HREF="node143.html">
+<A NAME="tex2html3063"
+  HREF="node144.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2994"
+<A NAME="tex2html3057"
   HREF="node152.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3002"
+<A NAME="tex2html3065"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3005"
-  HREF="node154.html">The Cailletaud single crystal</A>
-<B> Up:</B> <A NAME="tex2html3001"
-  HREF="node143.html">Materials</A>
-<B> Previous:</B> <A NAME="tex2html2995"
-  HREF="node152.html">Tension-only and compression-only materials.</A>
- &nbsp; <B>  <A NAME="tex2html3003"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html3068"
+  HREF="node154.html">Fiber reinforced materials.</A>
+<B> Up:</B> <A NAME="tex2html3064"
+  HREF="node144.html">Materials</A>
+<B> Previous:</B> <A NAME="tex2html3058"
+  HREF="node152.html">Incremental (visco)plasticity: additive decomposition</A>
+ &nbsp; <B>  <A NAME="tex2html3066"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

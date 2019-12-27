@@ -1,0 +1,21 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set msglvl  = 1
+set msgFile = stdout
+
+set inFile = $matrices/$matrix/orig.inpmtxb
+set inFile = $matrices/$matrix/orig.inpmtxf
+set inFile = /local1/ARPA/matrices/i4a/i4a.inpmtxb
+set n = 5
+set inFile = /local1/ARPA/matrices/SFTC$n/SFTC$n.inpmtxb
+set inFile = ../../../matrices/R10KV/orig.inpmtxb
+set inFile = /local1/ARPA/matrices/SFTC8/SFTC8.inpmtxb
+
+set npts     = 100
+set tausmall = 1.e-20
+set taubig   = 1.e+21
+
+getProfile $msglvl $msgFile $inFile $npts $tausmall $taubig

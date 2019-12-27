@@ -1,0 +1,52 @@
+#! /bin/csh -f
+
+set matrices    = ../../../matrices
+set matrices    = ../../Matrices
+set matrix      = R2D100
+set inGraphFile = $matrices/$matrix/orig.graphb
+set inGraphFile = $matrices/$matrix/orig0.graphf
+
+set msglvl      = 1
+
+set msgFile    = stdout
+
+set inCoordsFile = temp1.coordsf
+set inCoordsFile = $matrices/$matrix/grid.coordsf
+
+set inTagsFile   = $matrices/$matrix/fishnet.ivf
+set outEPSfile   = R2D100fishnet.eps
+
+set inTagsFile   = none
+set outEPSfile   = R2D100notags.eps
+
+set inTagsFile   = $matrices/$matrix/unit.ivf
+set inTagsFile   = none
+set inTagsFile   = $matrices/$matrix/ndOldToNew.ivf
+set outEPSfile   = temp1.eps
+set outEPSfile   = R2D100perm.eps
+
+set linewidth1   = 1
+set linewidth1   = 3
+set linewidth1   = .1
+set linewidth2   = .1
+
+set bbox = '  0  0 400 400 '
+set rect = ' 10 10 380 380 '
+
+set bbox = '  0  0 600 600 '
+set rect = ' 20 20 580 580 '
+
+set bbox = '  0  0 600 600 '
+set rect = ' 50 50 500 500 '
+
+set bbox = '  0  0 300 300 '
+set rect = ' 10 10 280 280 '
+
+set radius = 4
+set radius = 7
+set radius = 2.5
+set radius = 5
+
+drawGraph $msglvl $msgFile $inGraphFile $inCoordsFile $inTagsFile \
+          $outEPSfile $linewidth1 $linewidth2 $bbox $rect $radius
+

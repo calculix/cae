@@ -1,0 +1,36 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%BoundingBox: 0.0 0.0 100.0 100.0
+%%%EndComments
+
+%
+%  center then show a string
+%
+/CSH {
+%
+%  stack
+%    string str
+%
+   dup stringwidth pop 2 div neg 0 rmoveto
+   show
+} def
+
+gsave
+   0.5 setgray
+   25 0 75 75 rectfill
+   1.0 setgray
+   50 0 50 50 rectfill
+   0.0 setgray
+   0 0 100 100 rectstroke
+   25 50 25 25 rectstroke
+   25  0 25 75 rectstroke
+   50 50 50 25 rectstroke
+
+   /Helvetica findfont 10 scalefont setfont
+
+   1.0 setgray
+   37.5 60 moveto (\(1,1\)) CSH
+   75   60 moveto (\(1,2\)) CSH
+   37.5 25 moveto (\(2,1\)) CSH
+grestore
+
+showpage

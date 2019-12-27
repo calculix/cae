@@ -1,0 +1,157 @@
+\par
+\section{Prototypes and descriptions of {\tt IIheap} methods}
+\label{section:IIheap:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt IIheap} object.
+\par
+\subsection{Basic methods}
+\label{subsection:IIheap:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IIheap * IIheap_new ( void ) ;
+\end{verbatim}
+\index{IIheap_new@{\tt IIheap\_new()}}
+This method simply allocates storage for the {\tt IIheap} structure 
+and then sets the default fields by a call to 
+{\tt IIheap\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IIheap_setDefaultFields ( IIheap *heap ) ;
+\end{verbatim}
+\index{IIheap_setDefaultFields@{\tt IIheap\_setDefaultFields()}}
+This method sets the structure's fields to default values:
+{\tt size} and {\tt maxsize} are zero,
+{\tt heapLoc}, {\tt keys} and {\tt values} are {\tt NULL}.
+\par \noindent {\it Error checking:}
+If {\tt heap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IIheap_clearData ( IIheap *heap ) ;
+\end{verbatim}
+\index{IIheap_clearData@{\tt IIheap\_clearData()}}
+This method clears any data owned by the object.
+It releases any storage held by the {\tt heap->heapLoc},
+{\tt heap->keys} and {\tt heap->values} vectors, 
+then sets the structure's default fields 
+with a call to {\tt IIheap\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt heap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IIheap_free ( IIheap *heap ) ;
+\end{verbatim}
+\index{IIheap_free@{\tt IIheap\_free()}}
+This method releases any storage by a call to 
+{\tt IIheap\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt heap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:IIheap:proto:initializers}
+\par
+There is one initializer method.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IIheap_init ( IIheap *heap, int maxsize ) ;
+\end{verbatim}
+\index{IIheap_init@{\tt IIheap\_init()}}
+This method is the basic initializer method.
+It clears any previous data with a call to 
+{\tt IIheap\_clearData()}, 
+and allocates storage for
+the {\tt heapLoc}, {\tt keys} and {\tt values} vectors using 
+{\tt IVinit()}.
+The entries in the three vectors are set to {\tt -1}.
+\par \noindent {\it Error checking:}
+If {\tt heap} is {\tt NULL},
+or if ${\tt maxsize} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:IIheap:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IIheap_sizeOf ( IIheap *heap ) ;
+\end{verbatim}
+\index{IIheap_sizeOf@{\tt IIheap\_sizeOf()}}
+This method returns the number of bytes taken by this object.
+\par \noindent {\it Error checking:}
+If {\tt heap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IIheap_root ( IIheap *heap, int *pkey, int *pvalue ) ;
+\end{verbatim}
+\index{IIheap_root@{\tt IIheap\_root()}}
+This method fills {\tt *pid} and {\tt *pkey} with the key and value, 
+respectively, of the root element, an element with minimum value.
+If {\tt size == 0} then {\tt -1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt heap}, {\tt pkey} or {\tt pvalue} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IIheap_insert ( IIheap *heap, int key, int value ) ;
+\end{verbatim}
+\index{IIheap_insert@{\tt IIheap\_insert()}}
+This method inserts the pair {\tt (key,value)} into the heap.
+\par \noindent {\it Error checking:}
+If {\tt heap} is {\tt NULL},
+of if {\tt key} is out of range,
+or if {\tt key} is already in the heap,
+or if the heap is full,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IIheap_remove ( IIheap *heap, int key ) ;
+\end{verbatim}
+\index{IIheap_remove@{\tt IIheap\_remove()}}
+This method removes {\tt (key,*)} from the heap.
+\par \noindent {\it Error checking:}
+If {\tt heap} is {\tt NULL},
+of if {\tt key} is out of range,
+or if {\tt key} is not in the heap,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IIheap_print ( IIheap *heap, FILE *fp ) ;
+\end{verbatim}
+\index{IIheap_print@{\tt IIheap\_print()}}
+This method prints the heap in a human-readable format.
+\par \noindent {\it Error checking:}
+If {\tt heap} or {\tt fp} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}

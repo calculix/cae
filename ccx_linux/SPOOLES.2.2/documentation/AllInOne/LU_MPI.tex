@@ -1,0 +1,427 @@
+\par
+\vfill \eject
+\section{MPI Solution of $A X = Y$ using an $LU$ factorization}
+\label{section:LU-MPI}
+\par
+Unlike the serial and multithreaded environments where the data
+structures are global, existing under one address space, 
+in the MPI environment, data is local, each process or processor
+has its own distinct address space.
+The MPI step-by-step process to solve a linear system is exactly
+the same as the multithreaded case, with the additional trouble
+that the data structures are distributed and need to be
+re-distributed as needed.
+\par
+The ownership of the factor matrices during the factorization and
+solves is exactly the same as for the multithreaded case -- the
+map from fronts to processors and map from submatrices to
+processors are identical to their counterparts in the multithreaded
+program.
+What is different is the explicit message passing of data
+structures between processors.
+Luckily, most of this is hidden to the user code.
+\par
+We will now begin to work our way through the program 
+found in Section~\ref{section:LU-MPI-driver}
+to illustrate the use of {\bf SPOOLES} to solve a system 
+of linear equations in the MPI environment.
+\par
+\subsection{Reading the input parameters}
+\label{subsection:MPI:input-data}
+\par
+This step is identical to the serial code, as described in
+Section~\ref{subsection:serial:input-data}, with the exception
+that the file names for $A$ and $Y$ are hardcoded in the driver,
+and so are not part of the input parameters.
+\par
+\subsection{Communicating the data for the problem}
+\label{subsection:MPI:communicating-data}
+\par
+This step is identical to the serial code, as described in
+Section~\ref{subsection:serial:communicating-data}
+In the serial and multithreaded codes, the entire matrix $A$ was
+read in from one file and placed into one {\tt InpMtx} object.
+In the MPI environment, this need not be the case that one
+processor holds the entire matrix $A$.
+(In fact, $A$ must be distributed across processors during the
+factorization.)
+\par
+Each processor opens a matrix file, (possibly) reads in matrix
+entries, and creates its {\it local} {\tt InpMtx} object that holds
+the matrix entries it has read in.
+We have hardcoded the file names: processor $q$ reads 
+its matrix entries from file {\tt matrix.}$q${\tt .input}
+and
+its right hand side entries from file {\tt rhs.}$q${\tt .input}.
+The file formats are the same as for the serial and multithreaded
+drivers.
+\par
+The entries needed not be partitioned over the files.
+For example, each processor could read in entries for disjoint sets
+of finite elements.
+Naturally some degrees of freedom will have support on elements
+that are found on different processors.
+When the entries in $A$ and $Y$ are mapped to processors, an
+assembly of the matrix entries will be done automatically.
+\par
+It could be the case that the matrix $A$ and right hand side $Y$
+are read in by one processor. (This was the approach we took with
+the {\tt LinSol} wrapper objects.)
+There still need to be input files for the other processors
+with zeroes on their first (and only) line, 
+to specify that no entries are to be read.  
+\par
+\subsection{Reordering the linear system}
+\label{subsection:MPI:reordering}
+\par
+The first part is very similar to the serial code, as described in
+Section~\ref{subsection:serial:reordering}.
+\begin{verbatim}
+graph = Graph_new() ;
+adjIVL = InpMtx_MPI_fullAdjacency(mtxA, stats, msglvl, msgFile, MPI_COMM_WORLD) ;
+nedges = IVL_tsize(adjIVL) ;
+Graph_init2(graph, 0, neqns, 0, nedges, neqns, nedges, adjIVL, NULL, NULL) ;
+frontETree = orderViaMMD(graph, seed + myid, msglvl, msgFile) ;
+\end{verbatim}
+While the data and computations are distributed across the
+processors, the ordering process is not.
+Therefore we need a global graph on each processor.
+Since the matrix $A$ is distributed across the processors, 
+we use the distributed {\tt InpMtx\_MPI\_fullAdjacency()} method 
+to construct the {\tt IVL} object of the graph of $A + A^T$.
+\par
+At this point, each processor has computed its own minimum degree
+ordering and created a front tree object.
+The orderings will likely be different, because each processors
+input a different random number seed to the ordering method.
+Only one ordering can be used for the factorization, so the
+processors collectively determine which of the orderings is best, 
+which is then broadcast to all the processors, as the code fragment
+below illustrates.
+\begin{verbatim}
+opcounts = DVinit(nproc, 0.0) ;
+opcounts[myid] = ETree_nFactorOps(frontETree, type, symmetryflag) ;
+MPI_Allgather((void *) &opcounts[myid], 1, MPI_DOUBLE,
+              (void *) opcounts, 1, MPI_DOUBLE, MPI_COMM_WORLD) ;
+minops = DVmin(nproc, opcounts, &root) ;
+DVfree(opcounts) ;
+frontETree = ETree_MPI_Bcast(frontETree, root, msglvl, msgFile, MPI_COMM_WORLD) ;
+\end{verbatim}
+\par
+\subsection{Non-numeric work}
+\label{subsection:MPI:non-numeric}
+\par
+Once the front tree is replicated across the processors, we obtain
+the permutation vectors and permute the vertices in the front tree.
+The local matrices for $A$ and $Y$ are also permuted.
+These steps are identical to the serial and multithreaded drivers,
+except the fact local instead of global $A$ and $Y$ matrices 
+are permuted.
+\begin{verbatim}
+oldToNewIV = ETree_oldToNewVtxPerm(frontETree) ;
+newToOldIV = ETree_newToOldVtxPerm(frontETree) ;
+ETree_permuteVertices(frontETree, oldToNewIV) ;
+InpMtx_permute(mtxA, IV_entries(oldToNewIV),
+IV_entries(oldToNewIV)) ;
+if (  symmetryflag == SPOOLES_SYMMETRIC || symmetryflag == SPOOLES_HERMITIAN ) {
+   InpMtx_mapToUpperTriangle(mtxA) ;
+}
+InpMtx_changeCoordType(mtxA, INPMTX_BY_CHEVRONS) ;
+InpMtx_changeStorageMode(mtxA, INPMTX_BY_VECTORS) ;
+DenseMtx_permuteRows(mtxY, oldToNewIV) ;
+\end{verbatim}
+\par
+The next step is to obtain the map from fronts to processors,
+just as was done in the multithreaded driver.
+In addition, we need a map from vertices to processors to be able
+to distribute the matrix $A$ and right hand side $Y$ as necessary.
+Since we have the map from vertices to fronts inside the front tree
+object, the vertex map is easy to determine.
+\begin{verbatim}
+cutoff   = 1./(2*nproc) ;
+cumopsDV = DV_new() ;
+DV_init(cumopsDV, nproc, NULL) ;
+ownersIV = ETree_ddMap(frontETree, type, symmetryflag, cumopsDV, cutoff) ;
+DV_free(cumopsDV) ;
+vtxmapIV = IV_new() ;
+IV_init(vtxmapIV, neqns, NULL) ;
+IVgather(neqns, IV_entries(vtxmapIV), IV_entries(ownersIV), ETree_vtxToFront(frontETree)) ;
+\end{verbatim}
+At this point we are ready to assemble and distribute the entries
+of $A$ and $Y$.
+\begin{verbatim}
+firsttag = 0 ;
+newA = InpMtx_MPI_split(mtxA, vtxmapIV, stats, msglvl, msgFile, firsttag,
+MPI_COMM_WORLD) ;
+InpMtx_free(mtxA) ;
+mtxA = newA ;
+InpMtx_changeStorageMode(mtxA, INPMTX_BY_VECTORS) ;
+newY = DenseMtx_MPI_splitByRows(mtxY, vtxmapIV, stats, msglvl, 
+                                msgFile, firsttag, MPI_COMM_WORLD) ;
+DenseMtx_free(mtxY) ;
+mtxY = newY ;
+\end{verbatim}
+The {\tt InpMtx\_MPI\_split()} method assembles and redistributes
+the matrix entries by the vectors of the local matrix.
+Recall above that the coordinate type was set to chevrons, as is
+needed for the assembly of the entries into the front matrices.
+The method returns a new {\tt InpMtx} object that contains the part
+of $A$ that is needed by the processor.
+The old {\tt InpMtx} object is free'd and the new one takes its place.
+\par
+Now we are ready to compute the symbolic factorization, but it too
+much be done in a distributed manner.
+\begin{verbatim}
+symbfacIVL = SymbFac_MPI_initFromInpMtx(frontETree, ownersIV, mtxA,
+                    stats, msglvl, msgFile, firsttag, MPI_COMM_WORLD) ;
+\end{verbatim}
+The {\tt symbfacIVL} object on a particular processor is only a
+subset of the global symbolic factorization, containing only what
+it needs to know for it to compute its part of the factorization.
+\par
+\subsection{The Matrix Factorization}
+\label{subsection:MPI:factor}
+\par
+In contrast the the multithreaded environment, data structures are
+local to a processor, and so locks are not needed to manage access
+to critical regions of code.
+The initialization of the front matrix and submatrix manager
+objects is much like the serial case, with one exception.
+\par
+\begin{verbatim}
+mtxmanager = SubMtxManager_new() ;
+SubMtxManager_init(mtxmanager, NO_LOCK, 0) ;
+frontmtx = FrontMtx_new() ;
+FrontMtx_init(frontmtx, frontETree, symbfacIVL, type, symmetryflag,
+              FRONTMTX_DENSE_FRONTS, pivotingflag, NO_LOCK, myid,
+              ownersIV, mtxmanager, msglvl, msgFile) ;
+\end{verbatim}
+Note that the nineth and tenth arguments are {\tt myid} and {\tt
+ownersIV}, not {\tt 0} and {\tt NULL} as for the serial and
+multithreaded drivers.
+These arguments tell the front matrix object 
+that it needs to initialize only
+those parts of the factor matrices that it ``owns'', 
+which are given by the map from fronts to processors 
+and the processor id.
+\par
+The numeric factorization is performed by the
+{\tt FrontMtx\_MPI\_factorInpMtx()} method.
+The code segment from the sample program for the numerical
+factorization step is found below.
+\begin{verbatim}
+chvmanager = ChvManager_new() ;
+ChvManager_init(chvmanager, NO_LOCK, 0) ;
+rootchv = FrontMtx_MPI_factorInpMtx(frontmtx, mtxA, tau, droptol,
+                     chvmanager, ownersIV, lookahead, &error, cpus,
+                     stats, msglvl, msgFile, firsttag, MPI_COMM_WORLD) ;
+ChvManager_free(chvmanager) ;
+\end{verbatim}
+Note that the {\tt ChvManager} is not locked.
+The calling sequence is identical to that of 
+the multithreaded factorization except for the addition of the {\tt
+firsttag} and MPI communicator at the end.
+\par
+The post-processing of the factorization is the same in principle
+as in the serial code but differs in that is uses the distributed
+data structures.
+\begin{verbatim}
+FrontMtx_MPI_postProcess(frontmtx, ownersIV, stats, msglvl,
+                         msgFile, firsttag, MPI_COMM_WORLD) ;
+\end{verbatim}
+After the post-processing step, each local {\tt FrontMtx} object 
+contains the $L_{J,I}$, $D_{I,I}$ and $U_{I,J}$ submatrices
+for the fronts that were owned by the particular processor.
+However, the parallel solve is based on the submatrices being
+distributed across the processors, not just the fronts.
+\par
+We must specify which threads own which submatrices, 
+and so perform computations with them.
+This is done by constructing a {\it ``solve--map''} object,
+as we see below.
+\begin{verbatim}
+solvemap = SolveMap_new() ;
+SolveMap_ddMap(solvemap, symmetryflag, FrontMtx_upperBlockIVL(frontmtx),
+               FrontMtx_lowerBlockIVL(frontmtx), nproc, ownersIV,
+               FrontMtx_frontTree(frontmtx), seed, msglvl, msgFile) ;
+\end{verbatim}
+This object also uses a domain decomposition map, the only solve map
+that presently found in the {\bf SPOOLES} library.
+\par
+Once the solve map has been created, (and note that it is identical
+across all the processors), we redistribute the submatrices
+with the following code fragment.
+\begin{verbatim}
+FrontMtx_MPI_split(frontmtx, solvemap, stats, msglvl, msgFile, firsttag, MPI_COMM_WORLD) ;
+\end{verbatim}
+At this point in time, 
+the submatrices that a processor owns are local to that processor.
+\par
+\subsection{The Forward and Backsolves}
+\label{subsection:MPI:solve}
+\par
+If pivoting has been performed for numerical stability, then the
+rows of $PY$ may not be located on the processor that needs them.
+We must perform an additional redistribution of the local
+{\tt DenseMtx} objects that hold $PY$, as the code fragment below
+illustrates.
+\begin{verbatim}
+if ( FRONTMTX_IS_PIVOTING(frontmtx) ) {
+   IV   *rowmapIV ;
+/*
+   ----------------------------------------------------------
+   pivoting has taken place, redistribute the right hand side
+   to match the final rows and columns in the fronts
+   ----------------------------------------------------------
+*/
+   rowmapIV = FrontMtx_MPI_rowmapIV(frontmtx, ownersIV, msglvl,
+                                    msgFile, MPI_COMM_WORLD) ;
+   newY = DenseMtx_MPI_splitByRows(mtxY, rowmapIV, stats, msglvl,
+                                   msgFile, firsttag, MPI_COMM_WORLD) ;
+   DenseMtx_free(mtxY) ;
+   mtxY = newY ;
+   IV_free(rowmapIV) ;
+}
+\end{verbatim}
+\par
+Each processor now must create a local {\tt DenseMtx} object 
+to hold the rows of $PX$ that it owns.
+\begin{verbatim}
+ownedColumnsIV = FrontMtx_ownedColumnsIV(frontmtx, myid, ownersIV,
+                                         msglvl, msgFile) ;
+nmycol = IV_size(ownedColumnsIV) ;
+mtxX = DenseMtx_new() ;
+if ( nmycol > 0 ) {
+   DenseMtx_init(mtxX, type, 0, 0, nmycol, nrhs, 1, nmycol) ;
+   DenseMtx_rowIndices(mtxX, &nrow, &rowind) ;
+   IVcopy(nmycol, rowind, IV_entries(ownedColumnsIV)) ;
+}
+\end{verbatim}
+If $A$ is symmetric, or if pivoting for stability was not used,
+then {\tt mtxX} can just be a pointer to {\tt mtxY}, i.e.,
+$PX$ could overwrite $PY$.
+\par
+The parallel solve is remarkably similar to the serial solve,
+as we see with the code fragment below.
+\begin{verbatim}
+solvemanager = SubMtxManager_new() ;
+SubMtxManager_init(solvemanager, NO_LOCK, 0) ;
+FrontMtx_MPI_solve(frontmtx, mtxX, mtxY, solvemanager, solvemap, cpus,
+                   stats, msglvl, msgFile, firsttag, MPI_COMM_WORLD) ;
+SubMtxManager_free(solvemanager) ;
+\end{verbatim}
+The only difference between the multithreaded and MPI solve
+methods is the presence of the first tag and MPI communicator
+in the latter.
+\par
+The last step is to permute the rows of the local solution matrix
+into the original matrix ordering.
+We also gather all the solution entries into one {\tt DenseMtx}
+object on processor zero.
+\begin{verbatim}
+DenseMtx_permuteRows(mtxX, newToOldIV) ;
+IV_fill(vtxmapIV, 0) ;
+firsttag++ ;
+mtxX = DenseMtx_MPI_splitByRows(mtxX, vtxmapIV, stats, msglvl, msgFile,
+                                firsttag, MPI_COMM_WORLD) ;
+\end{verbatim}
+\par
+\subsection{Sample Matrix and Right Hand Side Files}
+\label{subsection:MPI:input-files}
+\par
+\begin{center}
+\begin{tabular}{|l||l||l||l||}
+\hline
+{\tt matrix.0.input} &
+{\tt matrix.1.input} &
+{\tt matrix.2.input} &
+{\tt matrix.3.input} \\
+\begin{minipage}[t]{1 in}
+\begin{verbatim}
+9 9 6
+0 0  4.0
+0 1 -1.0
+0 3 -1.0
+1 1  4.0
+1 2 -1.0 
+1 4 -1.0
+\end{verbatim}
+\end{minipage}
+&
+\begin{minipage}[t]{1 in}
+\begin{verbatim}
+9 9 5
+2 2  4.0
+2 5 -1.0
+3 3  4.0
+3 4 -1.0
+3 6 -1.0
+\end{verbatim}
+\end{minipage}
+&
+\begin{minipage}[t]{1 in}
+\begin{verbatim}
+9 9 7
+4 4  4.0
+4 5 -1.0
+4 7 -1.0
+5 5  4.0
+5 8 -1.0
+6 6  4.0
+6 7 -1.0
+
+\end{verbatim}
+\end{minipage}
+&
+\begin{minipage}[t]{1 in}
+\begin{verbatim}
+9 9 3
+7 7  4.0
+7 8 -1.0
+8 8  4.0
+\end{verbatim}
+\end{minipage}
+\\
+\hline
+\hline
+{\tt rhs.0.input} &
+{\tt rhs.1.input} &
+{\tt rhs.2.input} &
+{\tt rhs.3.input} \\
+\begin{minipage}[t]{1 in}
+\begin{verbatim}
+2 1
+0 0.0
+1 0.0
+\end{verbatim}
+\end{minipage}
+&
+\begin{minipage}[t]{1 in}
+\begin{verbatim}
+2 1
+2 0.0
+3 0.0
+\end{verbatim}
+\end{minipage}
+&
+\begin{minipage}[t]{1 in}
+\begin{verbatim}
+2 1
+4  1.0
+5  0.0
+\end{verbatim}
+\end{minipage}
+&
+\begin{minipage}[t]{1 in}
+\begin{verbatim}
+3 1
+6  0.0
+7  0.0
+8  0.0
+
+\end{verbatim}
+\end{minipage}
+\\
+\hline
+\end{tabular}
+\end{center}

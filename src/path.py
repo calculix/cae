@@ -38,7 +38,7 @@ class Path:
         self.dialog_xml = os.path.join(self.config, 'dialog.xml')
 
         self.bin = os.path.join(self.app_home_dir, 'bin')
-        self.ccx = os.path.join(self.app_home_dir, 'ccx_' + self.op_sys, 'ccx_free_form_fortran')
+        self.ccx = os.path.join(self.app_home_dir, 'ccx_' + self.op_sys, 'ccx_2.16_ffree_form')
         self.settings = os.path.join(self.config, 'settings_' + self.op_sys + '.env')
         self.doc = os.path.join(self.app_home_dir, 'doc')
         self.examples = os.path.join(self.app_home_dir, 'examples')

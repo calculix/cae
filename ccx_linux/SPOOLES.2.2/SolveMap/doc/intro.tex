@@ -1,0 +1,19 @@
+\chapter{{\tt SolveMap}: Forward and Backsolve Map}
+\par
+The {\tt SolveMap} object is to assign submatrix operations to
+threads or processors in a forward and backsolve.
+\par
+A front is {\it owned} by a single process,
+and this ownership is defined by an {\tt owners[]} vector.
+If process {\tt myid} owns front {\tt J}, then 
+$L_{{\tt J},{\tt J}}$, $D_{{\tt J},{\tt J}}$ and $U_{{\tt J},{\tt J}}$
+are owned by {\tt myid}.
+The off-diagonal submatrices in the upper block 
+and their owners are stored as triples in three vectors.
+The {\tt ii}'th submatrix in the upper triangle has 
+row id {\tt rowidsUpper[ii]},
+column id {\tt colidsUpper[ii]},
+and is owned by thread or process {\tt mapUpper[ii]}.
+A similar situation holds for the lower triangle when the
+factorization is nonsymmetric.
+\par

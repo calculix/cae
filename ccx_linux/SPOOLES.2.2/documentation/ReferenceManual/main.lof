@@ -1,0 +1,49 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {19.1}{\ignorespaces {\sc GRD7x7}: Working storage for the forward sparse factorization of the nested dissection ordering. On the left is the storage required to factor ${\mathaccent "0362\relax J}$ and its update matrix. On the right is the storage required to factor $J$ and all of its ancestors. Both plots have the same scale.}}{158}
+\contentsline {figure}{\numberline {19.2}{\ignorespaces {\sc GRD7x7x7}: Four tree plots for a $7 \times 7 \times 7$ grid matrix ordered using nested dissection. The top left tree measure number of original matrix entries in a front. The top right tree measure number of factor matrix entries in a front. The bottom left tree measure number of factor operations in a front for a forward looking factorization, e.g., forward sparse. The bottom right tree measure number of factor operations in a front for a backward looking factorization, e.g., general sparse.}}{162}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {25.1}{\ignorespaces {\sc R2D100}: domain/separator tree. On the left {\tt heightflag = 'H'} and {\tt coordflag = 'C'}, on the right {\tt heightflag = 'D'} and {\tt coordflag = 'C'}.}}{218}
+\contentsline {figure}{\numberline {25.2}{\ignorespaces {\sc R2D100}: domain/separator tree. On the left {\tt heightflag = 'H'} and {\tt coordflag = 'P'}, on the right {\tt heightflag = 'D'} and {\tt coordflag = 'P'}.}}{218}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {41.1}{\ignorespaces {\sc R2D100}}}{355}
+\contentsline {figure}{\numberline {41.2}{\ignorespaces {\sc R2D100: fishnet domain decomposition}}}{356}
+\addvspace {10\p@ }
+\addvspace {10\p@ }

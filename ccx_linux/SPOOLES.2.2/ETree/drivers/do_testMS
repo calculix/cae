@@ -1,0 +1,30 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set matrices     = ../../../matrices
+set matrix       = R10KV
+
+set inFile = $matrices/$matrix/best0.etreef
+
+set msglvl  = 1
+
+set msgFile = res
+set msgFile = stdout
+
+
+set outFile = none
+set outFile = $matrices/$matrix/ndms.ivf
+
+set flag   = 1
+set cutoff = 4
+set flag   = 2
+set cutoff = 0.015625
+set cutoff = 0.0625
+set cutoff = 0.125
+set cutoff = 0.03125
+
+# foreach cutoff ( 0.5 0.25 0.125 0.0625 0.03125 0.015625 0.0078125 )
+   testMS $msglvl $msgFile $inFile $outFile $flag $cutoff
+# end

@@ -1,0 +1,351 @@
+/*  testMPI.c  */
+
+#include "../BridgeMPI.h"
+
+void JimMatMulMPI ( ) ;
+void JimSolveMPI ( ) ;
+
+/*--------------------------------------------------------------------*/
+
+void main ( int argc, char *argv[] )
+/*
+   -----------------------------------------------------------------
+   MPI environment: read in Harwell-Boeing matrices, using factor, 
+   solve, and multiply routines based on spooles, invoke eigensolver
+
+   created  -- 98mar31, jcp
+   modified -- 98dec18, cca
+   -----------------------------------------------------------------
+*/
+{
+BridgeMPI   bridge ;
+MPI_Comm    comm ;
+
+char      *inFileName_A, *inFileName_B, *parmFileName, *type ;
+char      buffer[20], pbtype[4], which[4] ;
+int       error, fstevl, lfinit, lstevl, msglvl, myid, mxbksz, ncol, 
+          ndiscd, neig, neigvl, nfound, nnonzeros, nproc, nrhs, nrow, 
+          prbtyp, rc, retc, rfinit, seed, warnng ;
+int       c__5 = 5, output = 6 ;
+int       *lanczos_wksp ;
+InpMtx    *inpmtxA, *inpmtxB ;
+FILE      *msgFile, *parmFile ;
+double    lftend, rhtend, center, shfscl, t1, t2 ;
+double    c__1 = 1.0, c__4 = 4.0, tolact = 2.309970868130169e-11 ;
+double    eigval[1000], sigma[2] ;
+double    *evec;
+/*
+   ---------------------------------------------------------------
+   find out the identity of this process and the number of process
+   ---------------------------------------------------------------
+*/
+MPI_Init(&argc, &argv) ;
+MPI_Comm_dup(MPI_COMM_WORLD, &comm) ;
+MPI_Comm_rank(comm, &myid) ;
+MPI_Comm_size(comm, &nproc) ;
+fprintf(stdout, "\n myid = %d", myid) ;
+fflush(stdout) ;
+/*--------------------------------------------------------------------*/
+/*
+   -----------------------------
+   decode the command line input
+   -----------------------------
+*/
+if ( argc != 7 ) {
+   fprintf(stdout, 
+      "\n\n usage : %s msglvl msgFile parmFile seed inFileA inFileB"
+      "\n    msglvl   -- message level"
+      "\n    msgFile  -- message file"
+      "\n    parmFile -- input parameters file"
+      "\n    seed     -- random number seed, used for ordering"
+      "\n    inFileA  -- stiffness matrix, in Harwell-Boeing format"
+      "\n    inFileB  -- mass matrix, in Harwell-Boeing format"
+      "\n                used for prbtyp = 1 or 2"
+      "\n", argv[0]) ;
+   return ;
+}
+msglvl = atoi(argv[1]) ;
+if ( strcmp(argv[2], "stdout") == 0 ) {
+   msgFile = stdout ;
+} else {
+   int    length = strlen(argv[2]) + 1 + 4 ;
+   char   *buffer = CVinit(length, '\0') ;
+   sprintf(buffer, "%s.%d", argv[2], myid) ;
+   if ( (msgFile = fopen(buffer, "w")) == NULL ) {
+      fprintf(stderr, "\n fatal error in %s"
+              "\n unable to open file %s\n",
+              argv[0], buffer) ;
+      return ;
+   }
+   CVfree(buffer) ;
+}
+parmFileName = argv[3] ;
+seed         = atoi(argv[4]) ;
+inFileName_A = argv[5] ;
+inFileName_B = argv[6] ;
+fprintf(msgFile, 
+        "\n %s "
+        "\n msglvl                -- %d" 
+        "\n message file          -- %s" 
+        "\n parameter file        -- %s" 
+        "\n stiffness matrix file -- %s" 
+        "\n mass matrix file      -- %s" 
+        "\n random number seed    -- %d"
+        "\n",
+        argv[0], msglvl, argv[2], parmFileName, inFileName_A, 
+        inFileName_B, seed) ;
+fflush(msgFile) ;
+if ( strcmp(inFileName_A, "none") == 0 ) {
+   fprintf(msgFile, "\n no file to read from") ;
+   exit(0) ;
+}
+/*--------------------------------------------------------------------*/
+if ( myid == 0 ) {
+/*
+   ----------------------------------------------
+   processor zero reads in the matrix header info
+   ----------------------------------------------
+*/
+   MARKTIME(t1) ;
+   readHB_info(inFileName_A, &nrow, &ncol, &nnonzeros, &type, &nrhs) ;
+   MARKTIME(t2) ;
+   fprintf(msgFile, "\n CPU %8.3f : read in harwell-boeing header info",
+           t2 - t1) ;
+   fflush(msgFile) ;
+}
+MPI_Bcast((void *) &nrow, 1, MPI_INT, 0, MPI_COMM_WORLD) ;
+/*--------------------------------------------------------------------*/
+/*
+   ---------------------------------------------------------------
+   read in eigenvalue problem data
+   neigvl -- # of desired eigenvalues
+   which  -- which eigenvalues to compute
+     'l' or 'L' lowest (smallest magnitude)
+     'h' or 'H' highest (largest magnitude)
+     'n' or 'N' nearest to central value
+     'c' or 'C' nearest to central value
+     'a' or 'A' all eigenvalues in interval
+   pbtype -- type of problem
+     'v' or 'V' generalized symmetric problem (K,M)
+                with M positive semidefinite (vibration problem)
+     'b' or 'B' generalized symmetric problem (K,K_s)
+                with K positive semidefinite
+                with K_s posibly indefinite (buckling problem)
+     'o' or 'O' ordinary symmetric eigenproblem
+   lfinit -- if true, lftend is restriction on lower bound of
+             eigenvalues. if false, no restriction on lower bound
+   lftend -- left endpoint of interval
+   rfinit -- if true, rhtend is restriction on upper bound of
+             eigenvalues.  if false, no restriction on upper bound
+   rhtend -- right endpoint of interval
+   center -- center of interval
+   mxbksz -- upper bound on block size for Lanczos recurrence
+   shfscl -- shift scaling parameter, an estimate on the magnitude
+             of the smallest nonzero eigenvalues
+   ---------------------------------------------------------------
+*/
+MARKTIME(t1) ;
+parmFile = fopen(parmFileName, "r");
+fscanf(parmFile, "%d %s %s %d %le %d %le %le %d %le",
+       &neigvl, which, pbtype, &lfinit, &lftend,
+       &rfinit, &rhtend, &center, &mxbksz, &shfscl) ;
+fclose(parmFile);
+MARKTIME(t2) ;
+fprintf(msgFile, "\n CPU %8.3f : read in eigenvalue problem data",
+        t2 - t1) ;
+fflush(msgFile) ;
+/*
+   ----------------------------------------
+   check and set the problem type parameter
+   ----------------------------------------
+*/
+switch ( pbtype[1] ) {
+case 'v' : case 'V' : prbtyp = 1 ; break ;
+case 'b' : case 'B' : prbtyp = 2 ; break ;
+case 'o' : case 'O' : prbtyp = 3 ; break ;
+default :
+   fprintf(stderr, "\n invalid problem type %s", pbtype) ;
+   exit(-1) ;
+}
+/*
+   ----------------------------
+   Initialize Lanczos workspace
+   ----------------------------
+*/
+MARKTIME(t1) ;
+lanczos_init_ ( &lanczos_wksp ) ;
+MARKTIME(t2) ;
+fprintf(msgFile, "\n CPU %8.3f : initialize Lanczos workspace",
+        t2 - t1) ;
+fflush(msgFile) ;
+/*
+   ----------------------------------
+   initialize communication structure
+   ----------------------------------
+*/
+MARKTIME(t1) ;
+lanczos_set_parm( &lanczos_wksp, "order-of-problem", &nrow, &retc );
+lanczos_set_parm( &lanczos_wksp, "accuracy-tolerance", &tolact, &retc );
+lanczos_set_parm( &lanczos_wksp, "max-block-size", &mxbksz, &retc );
+lanczos_set_parm( &lanczos_wksp, "shift-scale", &shfscl, &retc );
+lanczos_set_parm( &lanczos_wksp, "message_level", &msglvl, &retc );
+lanczos_set_parm( &lanczos_wksp, "mpi-communicator", &comm, &retc );
+lanczos_set_parm( &lanczos_wksp, "qfile-pathname", "lqfil", &retc );
+lanczos_set_parm( &lanczos_wksp, "mqfil-pathname", "lmqfil", &retc );
+lanczos_set_parm( &lanczos_wksp, "evfil-pathname", "evcfil", &retc );
+MARKTIME(t2) ;
+fprintf(msgFile, 
+        "\n CPU %8.3f : init the lanczos communication structure",
+        t2 - t1) ;
+fflush(msgFile) ;
+/*--------------------------------------------------------------------*/
+if ( myid == 0 ) {
+/*
+   ------------------------------------
+   processor zero reads in the matrices
+   ------------------------------------
+*/
+   MARKTIME(t1) ;
+   inpmtxA = InpMtx_new() ;
+   InpMtx_readFromHBfile ( inpmtxA, inFileName_A ) ;
+   MARKTIME(t2) ;
+   fprintf(msgFile, "\n CPU %8.3f : read in first matrix", t2 - t1) ;
+   fflush(msgFile) ;
+   if ( msglvl > 2 ) {
+      fprintf(msgFile, "\n\n InpMtx A object after loading") ;
+      InpMtx_writeForHumanEye(inpmtxA, msgFile) ;
+      fflush(msgFile) ;
+   }
+   lanczos_set_parm( &lanczos_wksp, "matrix-type", &c__1, &retc );
+   if ( prbtyp != 3 ) {
+      if ( strcmp(inFileName_B, "none") == 0 ) {
+         fprintf(msgFile, "\n no file to read from") ;
+         exit(0) ;
+      }
+      MARKTIME(t1) ;
+      inpmtxB = InpMtx_new() ;
+      InpMtx_readFromHBfile ( inpmtxB, inFileName_B ) ;
+      MARKTIME(t2) ;
+      fprintf(msgFile, "\n CPU %8.3f : read in first matrix", t2 - t1) ;
+      fflush(msgFile) ;
+      if ( msglvl > 2 ) {
+         fprintf(msgFile, "\n\n InpMtx B object after loading") ;
+         InpMtx_writeForHumanEye(inpmtxB, msgFile) ; 
+         fflush(msgFile) ;
+      }
+   } else {
+      inpmtxB = NULL ;
+      lanczos_set_parm( &lanczos_wksp, "matrix-type", &c__4, &retc );
+   }
+} else {
+/*
+   ------------------------------------------------
+   other processors initialize their local matrices
+   ------------------------------------------------
+*/
+   inpmtxA = InpMtx_new() ;
+   InpMtx_init(inpmtxA, INPMTX_BY_CHEVRONS, SPOOLES_REAL, 0, 0) ;
+   lanczos_set_parm( &lanczos_wksp, "matrix-type", &c__1, &retc );
+   if ( prbtyp == 1 || prbtyp == 2 ) {
+      inpmtxB = InpMtx_new() ;
+      InpMtx_init(inpmtxB, INPMTX_BY_CHEVRONS, SPOOLES_REAL, 0, 0) ;
+   } else {
+      inpmtxB = NULL ;
+      lanczos_set_parm( &lanczos_wksp, "matrix-type", &c__4, &retc );
+   }
+}
+/*
+   -----------------------------
+   set up the solver environment
+   -----------------------------
+*/
+MARKTIME(t1) ;
+rc = SetupMPI((void *) &bridge, &prbtyp, &nrow, &mxbksz, inpmtxA, 
+              inpmtxB, &seed, &msglvl, msgFile, MPI_COMM_WORLD) ;
+MARKTIME(t2) ;
+fprintf(msgFile, "\n CPU %8.3f : set up solver environment", t2 - t1) ;
+fflush(msgFile) ;
+if ( rc != 1 ) {
+   fprintf(stderr, "\n fatal error return %d from SetupMPI()", rc) ;
+   MPI_Finalize() ;
+   exit(-1) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   -----------------------------------------------
+   invoke eigensolver
+   nfound -- # of eigenvalues found and kept
+   ndisc  -- # of additional eigenvalues discarded
+   -----------------------------------------------
+*/
+MARKTIME(t1) ;
+lanczos_run ( &neigvl, &which[1] , &pbtype[1], &lfinit, &lftend, 
+	  &rfinit, &rhtend, &center, &lanczos_wksp, &bridge, &nfound, 
+	  &ndiscd, &warnng, &error, FactorMPI, JimMatMulMPI, 
+	  JimSolveMPI ) ;
+MARKTIME(t2) ;
+fprintf(msgFile, "\n CPU %8.3f : time for lanczos run", t2 - t1) ;
+fflush(msgFile) ;
+if ( myid == 0 ) {
+/*
+   ----------------------------------------------
+   processor 0 deals with eigenvalues and vectors
+   ----------------------------------------------
+*/
+   MARKTIME(t1) ;
+   neig   = nfound + ndiscd ;
+   lstevl = nfound ;
+   lanczos_eigenvalues (&lanczos_wksp, eigval, &neig, &retc);
+   fstevl = 1 ;
+   if ( nfound == 0 ) fstevl = -1 ;
+   if ( ndiscd > 0 ) lstevl = -ndiscd ;
+   hdslp5_ ("computed eigenvalues returned by hdserl",
+            &neig, eigval, &output, 39L ) ;
+   MARKTIME(t2) ;
+   fprintf(msgFile, "\n CPU %8.3f : get and print eigenvalues", 
+           t2 - t1) ;
+   fflush(msgFile) ;
+/*
+   -------------------------
+   get eigenvectors and print
+   -------------------------
+*/
+/*
+   MARKTIME(t1) ;
+   neig = min ( 50, nrow );
+   Lncz_ALLOCATE(evec, double, nrow, retc);
+   for (i = 1; i<= nfound; i++) {
+      lanczos_eigenvector(&lanczos_wksp, &i, &i, newToOld,
+                          evec, &nrow, &retc) ;
+      hdslp5_("computed eigenvector returned by hdserc",
+              &neig, evec, &output, 39L ) ;
+   }
+   MARKTIME(t2) ;
+   fprintf(msgFile, "\n CPU %8.3f : get and print eigenvectors", 
+           t2 - t1) ;
+   fflush(msgFile) ;
+*/
+}
+/*
+   ------------------------
+   free the working storage
+   ------------------------
+*/
+MARKTIME(t1) ;
+lanczos_free(&lanczos_wksp) ;
+MARKTIME(t2) ;
+fprintf(msgFile, "\n CPU %8.3f : free lanczos workspace", t2 - t1) ;
+fflush(msgFile) ;
+MARKTIME(t1) ;
+CleanupMPI(&bridge) ;
+MARKTIME(t2) ;
+fprintf(msgFile, "\n CPU %8.3f : free solver workspace", t2 - t1) ;
+fflush(msgFile) ;
+
+MPI_Finalize() ;
+
+fprintf(msgFile, "\n") ;
+fclose(msgFile) ;
+
+return ; }
+

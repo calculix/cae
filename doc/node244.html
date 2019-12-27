@@ -1,390 +1,424 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*DFLUX</TITLE>
-<META NAME="description" CONTENT="*DFLUX">
+<TITLE>Input deck format</TITLE>
+<META NAME="description" CONTENT="Input deck format">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node245.html">
-<LINK REL="previous" HREF="node243.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="next" HREF="node375.html">
+<LINK REL="previous" HREF="node206.html">
+<LINK REL="up" HREF="ccx.html">
 <LINK REL="next" HREF="node245.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4256"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4241"
   HREF="node245.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4252"
-  HREF="node205.html">
+<A NAME="tex2html4237"
+  HREF="ccx.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4246"
+<A NAME="tex2html4231"
   HREF="node243.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4254"
+<A NAME="tex2html4239"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4257"
-  HREF="node245.html">*DISTRIBUTING</A>
-<B> Up:</B> <A NAME="tex2html4253"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4247"
-  HREF="node243.html">*DESIGN VARIABLES</A>
- &nbsp; <B>  <A NAME="tex2html4255"
+<B> Next:</B> <A NAME="tex2html4242"
+  HREF="node245.html">*AMPLITUDE</A>
+<B> Up:</B> <A NAME="tex2html4238"
+  HREF="ccx.html">CalculiX CrunchiX USER'S MANUAL</A>
+<B> Previous:</B> <A NAME="tex2html4232"
+  HREF="node243.html">Iterative procedure</A>
+ &nbsp; <B>  <A NAME="tex2html4240"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000836000000000000000"></A><A NAME="dflux"></A>
-<BR>
-*DFLUX
-</H2>
+<H1><A NAME="SECTION00090000000000000000">
+Input deck format</A>
+</H1>
 
 <P>
-Keyword type: step
+This section describes the input of CalculiX. 
 
 <P>
-This option allows the specification of distributed heat fluxes. These
-include surface flux (energy per unit of surface per unit of
-time) on element faces and volume flux in bodies (energy per unit of
-volume per unit of time). 
-
-<P>
-In order to specify which face the flux is entering or leaving the
-faces are numbered. The numbering depends on the element type.
-
-<P>
-For hexahedral elements the faces are numbered as follows (numbers are
-node numbers):
-
-<UL>
-<LI>Face 1: 1-2-3-4
-</LI>
-<LI>Face 2: 5-8-7-6
-</LI>
-<LI>Face 3: 1-5-6-2
-</LI>
-<LI>Face 4: 2-6-7-3
-</LI>
-<LI>Face 5: 3-7-8-4
-</LI>
-<LI>Face 6: 4-8-5-1
-</LI>
-</UL>
-
-<P>
-for tetrahedral elements:
-
-<UL>
-<LI>Face 1: 1-2-3
-</LI>
-<LI>Face 2: 1-4-2
-</LI>
-<LI>Face 3: 2-4-3
-</LI>
-<LI>Face 4: 3-4-1
-</LI>
-</UL>
-
-<P>
-for wedge elements:
-
-<UL>
-<LI>Face 1: 1-2-3
-</LI>
-<LI>Face 2: 4-5-6
-</LI>
-<LI>Face 3: 1-2-5-4
-</LI>
-<LI>Face 4: 2-3-6-5
-</LI>
-<LI>Face 5: 3-1-4-6
-</LI>
-</UL>
-
-<P>
-for quadrilateral plane stress, plane strain and axisymmetric elements:
-
-<UL>
-<LI>Face 1: 1-2
-</LI>
-<LI>Face 2: 2-3
-</LI>
-<LI>Face 3: 3-4
-</LI>
-<LI>Face 4: 4-1
-</LI>
-<LI>Face N: in negative normal direction (only for plane stress)
-</LI>
-<LI>Face P: in positive normal direction (only for plane stress) 
-</LI>
-</UL>
-
-<P>
-for triangular plane stress, plane strain and axisymmetric elements:
-
-<UL>
-<LI>Face 1: 1-2
-</LI>
-<LI>Face 2: 2-3
-</LI>
-<LI>Face 3: 3-1
-</LI>
-<LI>Face N: in negative normal direction (only for plane stress)
-</LI>
-<LI>Face P: in positive normal direction (only for plane stress)
-</LI>
-</UL>
-
-<P>
-for quadrilateral shell elements:
-
-<UL>
-<LI>Face NEG or 1: in negative normal direction
-</LI>
-<LI>Face POS or 2: in positive normal direction
-</LI>
-<LI>Face 3: 1-2
-</LI>
-<LI>Face 4: 2-3
-</LI>
-<LI>Face 5: 3-4
-</LI>
-<LI>Face 6: 4-1
-</LI>
-</UL>
-
-<P>
-for triangular shell elements:
-
-<UL>
-<LI>Face NEG or 1: in negative normal direction
-</LI>
-<LI>Face POS or 2: in positive normal direction
-</LI>
-<LI>Face 3: 1-2
-</LI>
-<LI>Face 4: 2-3
-</LI>
-<LI>Face 5: 3-1
-</LI>
-</UL>
-The labels NEG and POS can only be used for uniform flux and are introduced
-for compatibility with ABAQUS. Notice that the labels 1 and 2 correspond to
-the brick face labels of the 3D expansion of the shell (Figure <A HREF="node40.html#2dexpansion">73</A>).
-
-<P>
-for beam elements:
-
-<UL>
-<LI>Face 1: in negative 1-direction
-</LI>
-<LI>Face 2: in positive 1-direction
-</LI>
-<LI>Face 3: in positive 2-direction
-</LI>
-<LI>Face 5: in negative 2-direction
-</LI>
-</UL>
-The beam face numbers correspond to the brick face labels of the 3D
-expansion of the beam (Figure <A HREF="node59.html#c1d">78</A>).
-
-<P>
-The surface flux is entered as a uniform flux with distributed flux
-type label Sx where x is the number of the face. For flux entering the
-body the magnitude of the flux is positive, for flux leaving the body
-it is negative. If the flux is nonuniform the label takes the form
-SxNUy and a user subroutine <A HREF="node345.html#userdflux">dflux.f</A> must be provided specifying the
-value of the flux. The label can be up to 20 characters long. In
-particular, y can be used to distinguish different nonuniform flux
-patterns (maximum 16 characters).
-
-<P>
-For body generated flux (energy per unit of time per unit of volume) the
-distributed flux type label is BF for uniform flux and BFNUy for
-nonuniform flux. For nonuniform flux the user subroutine dflux must be
-provided. Here too, y can be used to distinguish different nonuniform body
-flux patters (maximum 16 characters).
-
-<P>
-Optional parameters are OP, AMPLITUDE and TIME DELAY. OP takes the value NEW or MOD.  OP=MOD is default and implies that the surface fluxes on different faces in previous steps are kept.  Specifying a
-distributed flux on a face for which such a flux was defined in a
-previous step replaces this value, if a flux was defined for the same face within the same step
-it is added. OP=NEW implies that all previous
-surface flux is removed. If multiple *DFLUX cards are present in a
-step this parameter takes effect for the first *DFLUX card only. 
-
-<P>
-The AMPLITUDE parameter allows for the specification of an amplitude
-by which the flux values are scaled (mainly used for dynamic
-calculations). Thus, in that case the values entered on the *DFLUX
-card are interpreted as reference values to be multiplied with the
-(time dependent) amplitude value to obtain the actual value. At the
-end of the step the reference value is replaced by the actual value at
-that time. In subsequent
-steps this value is kept constant unless it is explicitly redefined or the
-amplitude is defined using TIME=TOTAL TIME in which case the amplitude keeps
-its validity. The AMPLITUDE parameter has no
-effect on nonuniform fluxes.
-
-<P>
-The TIME DELAY parameter modifies the AMPLITUDE parameter. As such, TIME DELAY
-must be preceded by an AMPLITUDE name. TIME DELAY is a time shift by which the
-AMPLITUDE definition it refers to is moved in positive time direction. For
-instance, a TIME DELAY of 10 means that for time t the amplitude is taken
-which applies to time t-10. The TIME DELAY parameter must only appear once on
-one and the same keyword card.
-
-<P>
-Notice that in case an element set is used on any line following *DFLUX this
-set should not contain elements from more than one of the following groups:
-{plane stress, plane strain, axisymmetric elements}, {beams, trusses},
-{shells, membranes}, {volumetric elements}.
-
-<P>
-In order to apply a distributed flux to a surface the element set label
-underneath may be replaced by a surface name. In that case the ``x'' in the
-flux type label takes the value zero.
-
-<P>
-If more than one *DFLUX card occurs within the input deck the following rules apply:
-
-<P>
-If a *DFLUX with label S1 up to S6 or BF is
-applied to an element for which a *DFLUX with the SAME label was
-already applied before, then
-
-<UL>
-<LI>if the previous application was in the same step the flux value is
-  added, else it is replaced
-</LI>
-<LI>the new amplitude (including none) overwrites the previous amplitude
-</LI>
-</UL>
-
-<P>
-
-<P><P>
-<BR>
-
-<P>
-First line:
-
-<UL>
-<LI>*DFLUX
-</LI>
-<LI>Enter any needed parameters and their value
-</LI>
-</UL>
-
-<P>
-Following line for surface flux:
-
-<UL>
-<LI>Element number or element set label.
-</LI>
-<LI>Distributed flux type label.
-</LI>
-<LI>Actual magnitude of the load (power per unit of surface).
-</LI>
-</UL>
-Repeat this line if needed.
-
-<P>
-Following line for body flux:
-
-<UL>
-<LI>Element number or element set label.
-</LI>
-<LI>Distributed flux type label (BF or BFNU).
-</LI>
-<LI>Actual magnitude of the load (power per unit of volume).
-</LI>
-</UL>
-Repeat this line if needed.
+The jobname is defined by the argument after the -i flag on the
+command line. When starting CalculiX, it will look for an input file
+with the name jobname.inp. Thus, if you called the executable
+&ldquo;CalculiX&rdquo; and the input deck is &ldquo;beam.inp&rdquo; then the program
+call looks like
 
 <P>
 <PRE>
-Example:
-
-*DFLUX,AMPLITUDE=A1
-20,S1,10.
+  
+CalculiX -i beam
 </PRE>
 
 <P>
-assigns a flux entering the surface with magnitude 10 times
-the value of amplitude 
-A1 to surface 1 of element 20.
+The -i flag can be dropped provided the jobname follows immediately
+after the CalculiX call.
 
 <P>
-<PRE>
-Example:
-
-*DFLUX
-15,BF,10.
-</PRE>
+CalculiX will generate an output file with the name jobname.dat and an output
+file with the name jobname.frd. The latter can be viewed with cgx.
 
 <P>
-assigns a body flux with magnitude 10. to element 15.
+If the step is a *FREQUENCY step or a *HEAT TRANSFER,FREQUENCY step and the
+parameter STORAGE=YES is activated, CalculiX will generate a binary file
+containing the eigenfrequencies, the eigenmodes, the stiffness and the mass
+matrix with the name jobname.eig. If the step is a *MODAL DYNAMIC or *STEADY
+STATE DYNAMICS step, CalculiX will look for a file with that name. If any of the files it needs does not exist, an error message is generated and CalculiX will stop.
 
 <P>
+The input deck basically consists of a set of keywords, followed by
+data required by the keyword on lines underneath the keyword. The
+keywords can be accompanied by parameters on the same line, separated
+by a comma. If the parameters require a value, an equality sign must
+connect parameter and value. Blanks in the input have no significance
+and can be inserted as you like. The keywords and any other
+alphanumeric information can be written in upper
+case, lower case, or any mixture. The input deck is case insensitive:
+internally, all alphanumeric characters are changed into upper
+case. The data do not follow a fixed format and are to be separated by
+a comma. A line can only contain as many data as dictated by the keyword definition. The maximum length for user-defined names, e.g. for materials or sets, is 80 characters, unless specified otherwise.The structure of an input deck consists of geometric, topological and material data before the first step definition, and loading data (mechanical, thermal, or prescribed displacements) in one or more subsequent steps. The user must make sure that all data are given in consistent units (the units do not appear in the calculation).
 
-<P><P>
+<P>
+A keyword can be of type step or model definition. Model Definition
+cards must be used before the first *STEP card. Step keywords can only
+be used within a step. Among the model definition keywords, the
+material ones occupy a special place: they define the properties of a
+material and should be grouped together following a *MATERIAL
+card. 
+
+<P>
+Node and element sets can share the same name. Internally, the names
+are switched to upper case and a 'N' is
+appended after the name of a node set and a 'E' after the name of an
+element set. Therefore, set names printed in error or warning messages
+will be discovered to be written in upper case and to have a 'N' or
+'E' appended.
+
+<P>
+Keyword cards in alphabetical order:
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html4243"
+  HREF="node245.html">*AMPLITUDE</A>
+<LI><A NAME="tex2html4244"
+  HREF="node246.html">*BASE MOTION</A>
+<LI><A NAME="tex2html4245"
+  HREF="node247.html">*BEAM SECTION</A>
+<LI><A NAME="tex2html4246"
+  HREF="node248.html">*BOUNDARY</A>
+<UL>
+<LI><A NAME="tex2html4247"
+  HREF="node249.html">Homogeneous Conditions</A>
+<LI><A NAME="tex2html4248"
+  HREF="node250.html">Inhomogeneous Conditions</A>
+<LI><A NAME="tex2html4249"
+  HREF="node251.html">Submodel</A>
+</UL>
 <BR>
-Example files: oneel20df,beamhtbf.
+<LI><A NAME="tex2html4250"
+  HREF="node252.html">*BOUNDARYF</A>
+<LI><A NAME="tex2html4251"
+  HREF="node253.html">*BUCKLE</A>
+<LI><A NAME="tex2html4252"
+  HREF="node254.html">*CFD</A>
+<LI><A NAME="tex2html4253"
+  HREF="node255.html">*CFLUX</A>
+<LI><A NAME="tex2html4254"
+  HREF="node256.html">*CHANGE FRICTION</A>
+<LI><A NAME="tex2html4255"
+  HREF="node257.html">*CHANGE MATERIAL</A>
+<LI><A NAME="tex2html4256"
+  HREF="node258.html">*CHANGE PLASTIC</A>
+<LI><A NAME="tex2html4257"
+  HREF="node259.html">*CHANGE SURFACE BEHAVIOR</A>
+<LI><A NAME="tex2html4258"
+  HREF="node260.html">*CHANGE SOLID SECTION</A>
+<LI><A NAME="tex2html4259"
+  HREF="node261.html">*CLEARANCE</A>
+<LI><A NAME="tex2html4260"
+  HREF="node262.html">*CLOAD</A>
+<LI><A NAME="tex2html4261"
+  HREF="node263.html">*COMPLEX FREQUENCY</A>
+<LI><A NAME="tex2html4262"
+  HREF="node264.html">*CONDUCTIVITY</A>
+<LI><A NAME="tex2html4263"
+  HREF="node265.html">*CONSTRAINT</A>
+<LI><A NAME="tex2html4264"
+  HREF="node266.html">*CONTACT DAMPING</A>
+<LI><A NAME="tex2html4265"
+  HREF="node267.html">*CONTACT FILE</A>
+<LI><A NAME="tex2html4266"
+  HREF="node268.html">*CONTACT OUTPUT</A>
+<LI><A NAME="tex2html4267"
+  HREF="node269.html">*CONTACT PAIR</A>
+<LI><A NAME="tex2html4268"
+  HREF="node270.html">*CONTACT PRINT</A>
+<LI><A NAME="tex2html4269"
+  HREF="node271.html">*CONTROLS</A>
+<LI><A NAME="tex2html4270"
+  HREF="node272.html">*COUPLED TEMPERATURE-DISPLACEMENT</A>
+<LI><A NAME="tex2html4271"
+  HREF="node273.html">*COUPLING</A>
+<LI><A NAME="tex2html4272"
+  HREF="node274.html">*CREEP</A>
+<LI><A NAME="tex2html4273"
+  HREF="node275.html">*CYCLIC HARDENING</A>
+<LI><A NAME="tex2html4274"
+  HREF="node276.html">*CYCLIC SYMMETRY MODEL</A>
+<LI><A NAME="tex2html4275"
+  HREF="node277.html">*DAMPING</A>
+<LI><A NAME="tex2html4276"
+  HREF="node278.html">*DASHPOT</A>
+<LI><A NAME="tex2html4277"
+  HREF="node279.html">*DEFORMATION PLASTICITY</A>
+<LI><A NAME="tex2html4278"
+  HREF="node280.html">*DENSITY</A>
+<LI><A NAME="tex2html4279"
+  HREF="node281.html">*DEPVAR</A>
+<LI><A NAME="tex2html4280"
+  HREF="node282.html">*DESIGN VARIABLES</A>
+<LI><A NAME="tex2html4281"
+  HREF="node283.html">*DFLUX</A>
+<LI><A NAME="tex2html4282"
+  HREF="node284.html">*DISTRIBUTING</A>
+<LI><A NAME="tex2html4283"
+  HREF="node285.html">*DISTRIBUTING COUPLING</A>
+<LI><A NAME="tex2html4284"
+  HREF="node286.html">*DLOAD</A>
+<LI><A NAME="tex2html4285"
+  HREF="node287.html">*DSLOAD</A>
+<LI><A NAME="tex2html4286"
+  HREF="node288.html">*DYNAMIC</A>
+<LI><A NAME="tex2html4287"
+  HREF="node289.html">*ELASTIC</A>
+<LI><A NAME="tex2html4288"
+  HREF="node290.html">*ELECTRICAL CONDUCTIVITY</A>
+<LI><A NAME="tex2html4289"
+  HREF="node291.html">*ELECTROMAGNETICS</A>
+<LI><A NAME="tex2html4290"
+  HREF="node292.html">*ELEMENT</A>
+<LI><A NAME="tex2html4291"
+  HREF="node293.html">*ELEMENT OUTPUT</A>
+<LI><A NAME="tex2html4292"
+  HREF="node294.html">*EL FILE</A>
+<LI><A NAME="tex2html4293"
+  HREF="node295.html">*EL PRINT</A>
+<LI><A NAME="tex2html4294"
+  HREF="node296.html">*ELSET</A>
+<LI><A NAME="tex2html4295"
+  HREF="node297.html">*END STEP</A>
+<LI><A NAME="tex2html4296"
+  HREF="node298.html">*EQUATION</A>
+<LI><A NAME="tex2html4297"
+  HREF="node299.html">*EXPANSION</A>
+<LI><A NAME="tex2html4298"
+  HREF="node300.html">*FILM</A>
+<LI><A NAME="tex2html4299"
+  HREF="node301.html">*FILTER</A>
+<LI><A NAME="tex2html4300"
+  HREF="node302.html">*FLUID CONSTANTS</A>
+<LI><A NAME="tex2html4301"
+  HREF="node303.html">*FLUID SECTION</A>
+<LI><A NAME="tex2html4302"
+  HREF="node304.html">*FREQUENCY</A>
+<LI><A NAME="tex2html4303"
+  HREF="node305.html">*FRICTION</A>
+<LI><A NAME="tex2html4304"
+  HREF="node306.html">*GAP</A>
+<LI><A NAME="tex2html4305"
+  HREF="node307.html">*GAP CONDUCTANCE</A>
+<LI><A NAME="tex2html4306"
+  HREF="node308.html">*GAP HEAT GENERATION</A>
+<LI><A NAME="tex2html4307"
+  HREF="node309.html">*GREEN</A>
+<LI><A NAME="tex2html4308"
+  HREF="node310.html">*HEADING</A>
+<LI><A NAME="tex2html4309"
+  HREF="node311.html">*HEAT TRANSFER</A>
+<LI><A NAME="tex2html4310"
+  HREF="node312.html">*HYPERELASTIC</A>
+<LI><A NAME="tex2html4311"
+  HREF="node313.html">*HYPERFOAM</A>
+<LI><A NAME="tex2html4312"
+  HREF="node314.html">*INCLUDE</A>
+<LI><A NAME="tex2html4313"
+  HREF="node315.html">*INITIAL CONDITIONS</A>
+<LI><A NAME="tex2html4314"
+  HREF="node316.html">*INITIAL STRAIN INCREASE</A>
+<LI><A NAME="tex2html4315"
+  HREF="node317.html">*KINEMATIC</A>
+<LI><A NAME="tex2html4316"
+  HREF="node318.html">*MAGNETIC PERMEABILITY</A>
+<LI><A NAME="tex2html4317"
+  HREF="node319.html">*MASS</A>
+<LI><A NAME="tex2html4318"
+  HREF="node320.html">*MASS FLOW</A>
+<LI><A NAME="tex2html4319"
+  HREF="node321.html">*MATERIAL</A>
+<LI><A NAME="tex2html4320"
+  HREF="node322.html">*MEMBRANE SECTION</A>
+<LI><A NAME="tex2html4321"
+  HREF="node323.html">*MODAL DAMPING</A>
+<LI><A NAME="tex2html4322"
+  HREF="node324.html">*MODAL DYNAMIC</A>
+<LI><A NAME="tex2html4323"
+  HREF="node325.html">*MODEL CHANGE</A>
+<LI><A NAME="tex2html4324"
+  HREF="node326.html">*MPC</A>
+<LI><A NAME="tex2html4325"
+  HREF="node327.html">*NETWORK MPC</A>
+<LI><A NAME="tex2html4326"
+  HREF="node328.html">*NO ANALYSIS</A>
+<LI><A NAME="tex2html4327"
+  HREF="node329.html">*NODAL THICKNESS</A>
+<LI><A NAME="tex2html4328"
+  HREF="node330.html">*NODE</A>
+<LI><A NAME="tex2html4329"
+  HREF="node331.html">*NODE FILE</A>
+<LI><A NAME="tex2html4330"
+  HREF="node332.html">*NODE OUTPUT</A>
+<LI><A NAME="tex2html4331"
+  HREF="node333.html">*NODE PRINT</A>
+<LI><A NAME="tex2html4332"
+  HREF="node334.html">*NORMAL</A>
+<LI><A NAME="tex2html4333"
+  HREF="node335.html">*NSET</A>
+<LI><A NAME="tex2html4334"
+  HREF="node336.html">*OBJECTIVE</A>
+<LI><A NAME="tex2html4335"
+  HREF="node337.html">*ORIENTATION</A>
+<LI><A NAME="tex2html4336"
+  HREF="node338.html">*OUTPUT</A>
+<LI><A NAME="tex2html4337"
+  HREF="node339.html">*PHYSICAL CONSTANTS</A>
+<LI><A NAME="tex2html4338"
+  HREF="node340.html">*PLASTIC</A>
+<LI><A NAME="tex2html4339"
+  HREF="node341.html">*PRE-TENSION SECTION</A>
+<LI><A NAME="tex2html4340"
+  HREF="node342.html">*RADIATE</A>
+<LI><A NAME="tex2html4341"
+  HREF="node343.html">*REFINE MESH</A>
+<LI><A NAME="tex2html4342"
+  HREF="node344.html">*RESTART</A>
+<LI><A NAME="tex2html4343"
+  HREF="node345.html">*RETAINED NODAL DOFS</A>
+<LI><A NAME="tex2html4344"
+  HREF="node346.html">*RIGID BODY</A>
+<LI><A NAME="tex2html4345"
+  HREF="node347.html">*SECTION PRINT</A>
+<LI><A NAME="tex2html4346"
+  HREF="node348.html">*SELECT CYCLIC SYMMETRY MODES</A>
+<LI><A NAME="tex2html4347"
+  HREF="node349.html">*SENSITIVITY</A>
+<LI><A NAME="tex2html4348"
+  HREF="node350.html">*SHELL SECTION</A>
+<LI><A NAME="tex2html4349"
+  HREF="node351.html">*SOLID SECTION</A>
+<LI><A NAME="tex2html4350"
+  HREF="node352.html">*SPECIFIC GAS CONSTANT</A>
+<LI><A NAME="tex2html4351"
+  HREF="node353.html">*SPECIFIC HEAT</A>
+<LI><A NAME="tex2html4352"
+  HREF="node354.html">*SPRING</A>
+<LI><A NAME="tex2html4353"
+  HREF="node355.html">*STATIC</A>
+<LI><A NAME="tex2html4354"
+  HREF="node356.html">*STEADY STATE DYNAMICS</A>
+<LI><A NAME="tex2html4355"
+  HREF="node357.html">*STEP</A>
+<LI><A NAME="tex2html4356"
+  HREF="node358.html">*SUBMODEL</A>
+<LI><A NAME="tex2html4357"
+  HREF="node359.html">*SUBSTRUCTURE GENERATE</A>
+<LI><A NAME="tex2html4358"
+  HREF="node360.html">*SUBSTRUCTURE MATRIX OUTPUT</A>
+<LI><A NAME="tex2html4359"
+  HREF="node361.html">*SURFACE</A>
+<LI><A NAME="tex2html4360"
+  HREF="node362.html">*SURFACE BEHAVIOR</A>
+<LI><A NAME="tex2html4361"
+  HREF="node363.html">*SURFACE INTERACTION</A>
+<LI><A NAME="tex2html4362"
+  HREF="node364.html">*TEMPERATURE</A>
+<LI><A NAME="tex2html4363"
+  HREF="node365.html">*TIE</A>
+<LI><A NAME="tex2html4364"
+  HREF="node366.html">*TIME POINTS</A>
+<LI><A NAME="tex2html4365"
+  HREF="node367.html">*TRANSFORM</A>
+<LI><A NAME="tex2html4366"
+  HREF="node368.html">*TRANSFORMF</A>
+<LI><A NAME="tex2html4367"
+  HREF="node369.html">*UNCOUPLED TEMPERATURE-DISPLACEMENT</A>
+<LI><A NAME="tex2html4368"
+  HREF="node370.html">*USER ELEMENT</A>
+<LI><A NAME="tex2html4369"
+  HREF="node371.html">*USER MATERIAL</A>
+<LI><A NAME="tex2html4370"
+  HREF="node372.html">*VALUES AT INFINITY</A>
+<LI><A NAME="tex2html4371"
+  HREF="node373.html">*VIEWFACTOR</A>
+<LI><A NAME="tex2html4372"
+  HREF="node374.html">*VISCO</A>
+</UL>
+<!--End of Table of Child-Links-->
 
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4256"
+<A NAME="tex2html4241"
   HREF="node245.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4252"
-  HREF="node205.html">
+<A NAME="tex2html4237"
+  HREF="ccx.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4246"
+<A NAME="tex2html4231"
   HREF="node243.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4254"
+<A NAME="tex2html4239"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4257"
-  HREF="node245.html">*DISTRIBUTING</A>
-<B> Up:</B> <A NAME="tex2html4253"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4247"
-  HREF="node243.html">*DESIGN VARIABLES</A>
- &nbsp; <B>  <A NAME="tex2html4255"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html4242"
+  HREF="node245.html">*AMPLITUDE</A>
+<B> Up:</B> <A NAME="tex2html4238"
+  HREF="ccx.html">CalculiX CrunchiX USER'S MANUAL</A>
+<B> Previous:</B> <A NAME="tex2html4232"
+  HREF="node243.html">Iterative procedure</A>
+ &nbsp; <B>  <A NAME="tex2html4240"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

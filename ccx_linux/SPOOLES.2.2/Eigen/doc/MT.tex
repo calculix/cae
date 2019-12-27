@@ -1,0 +1,376 @@
+\chapter{The Multithreaded Bridge Object and Driver}
+\label{chapter:MT}
+\par
+\section{The \texttt{BridgeMT} Data Structure}
+\label{section:BridgeMT:dataStructure}
+\par
+The {\tt BridgeMT} structure has the following fields.
+\begin{itemize}
+%
+\item
+{\tt int prbtype} : problem type
+\begin{itemize}
+\item {\tt 1} --- vibration, a multiply with $B$ is required.
+\item {\tt 2} --- buckling, a multiply with $A$ is required.
+\item {\tt 3} --- simple, no multiply is required.
+\end{itemize}
+\item
+{\tt int neqns} : number of equations, 
+i.e., number of vertices in the graph.
+\item
+{\tt int mxbsz} : block size for the Lanczos process.
+\item
+{\tt int nthread} : number of threads to use.
+\item
+{\tt int seed} : random number seed used in the ordering.
+\item
+{\tt InpMtx *A} : matrix object for $A$
+\item
+{\tt InpMtx *B} : matrix object for $B$
+\item
+{\tt Pencil *pencil} : object to hold linear combination of $A$ and $B$.
+\item
+{\tt ETree *frontETree} : object that defines the factorizations,
+e.g., the number of fronts, the tree they form, the number of
+internal and external rows for each front, and the map from
+vertices to the front where it is contained.
+\item
+{\tt IVL *symbfacIVL} : object that contains the symbolic
+factorization of the matrix.
+\item
+{\tt SubMtxManager *mtxmanager} : object that manages the
+\texttt{SubMtx} objects that store the factor entries and are used
+in the solves.
+\item
+{\tt FrontMtx *frontmtx} : object that stores the $L$, $D$ and $U$
+factor matrices.
+\item
+{\tt IV *oldToNewIV} : object that stores old-to-new permutation vector.
+\item
+{\tt IV *newToOldIV} : object that stores new-to-old permutation vector.
+\item
+{\tt DenseMtx *X} : dense matrix object that is used during the matrix
+multiples and solves.
+\item
+{\tt DenseMtx *Y} : dense matrix object that is used during the matrix
+multiples and solves.
+\item
+{\tt IV *ownersIV} : object that maps fronts to owning threads
+for the factorization and matrix-multiplies.
+\item
+{\tt SolveMap *solvemap} : object that maps factor submatrices to
+owning threads for the solve.
+\item
+{\tt int msglvl} : message level for output.
+When 0, no output, When 1, just statistics and cpu times.
+When greater than 1, more and more output.
+\item
+{\tt FILE *msgFile} : message file for output.
+When \texttt{msglvl} $>$ 0, \texttt{msgFile} must not be \texttt{NULL}.
+\end{itemize}
+\par
+\section{Prototypes and descriptions of \texttt{BridgeMT} methods}
+\label{section:BridgeMT:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt BridgeMT} object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SetupMT ( void *data, int *pprbtype, int *pneqns, 
+              int *pmxbsz, InpMtx *A, InpMtx *B, int *pseed, 
+              int *pnthread, int *pmsglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{SetupMT@{\tt SetupMT()}}
+\noindent All calling sequence parameters are pointers to more
+easily allow an interface with Fortran.
+\begin{itemize}
+\item {\tt void *data} --- a pointer to the {\tt BridgeMT} object.
+\item {\tt int *pprbtype} --- {\tt *pprbtype} holds the problem type.
+   \begin{itemize}
+   \item {\tt 1} --- vibration, a multiply with $B$ is required.
+   \item {\tt 2} --- buckling, a multiply with $A$ is required.
+   \item {\tt 3} --- simple, no multiply is required.
+   \end{itemize}
+\item {\tt int *pneqns} --- {\tt *pneqns} is the number of equations.
+\item {\tt int *pmxbsz} --- {\tt *pmxbsz} is an upper bound on the
+block size.
+\item {\tt InpMtx *A} --- {\tt A} is a {\bf SPOOLES} object that
+holds the matrix $A$.
+\item {\tt InpMtx *B} --- {\tt B} is a {\bf SPOOLES} object that
+holds the matrix $B$. For an ordinary eigenproblem, $B$ is the
+identity and {\tt B} is {\tt NULL}.
+\item {\tt int *pseed} --- {\tt *pseed} is a random number seed.
+\item {\tt int *pnthread} --- {\tt *pnthread} is the number of
+threads to use during the factorizations, solves and
+matrix-multiplies.
+\item {\tt int *pmsglvl} --- {\tt *pmsglvl} is a message level for
+the bridge methods and the {\bf SPOOLES} methods they call.
+\item {\tt FILE *pmsglvl} --- {\tt msgFile} is the message file
+for the bridge methods and the {\bf SPOOLES} methods they call.
+\end{itemize}
+This method must be called in the driver program prior to invoking
+the eigensolver via a call to {\tt lanczos\_run()}.
+It then follows this sequence of action.
+\begin{itemize}
+\item
+The method begins by checking all the input data,
+and setting the appropriate fields of the {\tt BridgeMT} object.
+\item
+The {\tt pencil} object is initialized with {\tt A} and {\tt B}.
+\item
+{\tt A} and {\tt B} are converted to storage by rows and vector mode.
+\item
+A {\tt Graph} object is created that contains the sparsity pattern of
+the union of {\tt A} and {\tt B}.
+\item
+The graph is ordered by first finding a recursive dissection partition,
+and then evaluating the orderings produced by nested dissection and
+multisection, and choosing the better of the two.
+The {\tt frontETree} object is produced and placed into the {\tt bridge}
+object.
+\item
+Old-to-new and new-to-old permutations are extracted from the front tree
+and loaded into the {\tt BridgeMT} object.
+\item
+The vertices in the front tree are permuted, as well as the entries in 
+{\tt A} and {\tt B}.
+Entries in the lower triangle of {\tt A} and {\tt B} are mapped into the
+upper triangle, and the storage modes of {\tt A} and {\tt B} are changed
+to chevrons and vectors, in preparation for the first factorization.
+\item
+The symbolic factorization is then computed and loaded in the {\tt
+BridgeMT} object.
+\item
+A {\tt FrontMtx} object is created to hold the factorization
+and loaded into the {\tt BridgeMT} object.
+\item
+A {\tt SubMtxManager} object is created to hold the factor's
+submatrices and loaded into the {\tt BridgeMT} object.
+\item
+Two {\tt DenseMtx} objects are created to be used during the matrix
+multiplies and solves.
+\item
+The map from fronts to their owning threads is computed and stored
+in the {\tt ownersIV} object.
+\item
+The map from factor submatrices to their owning threads 
+is computed and stored in the {\tt solvemap} object.
+\end{itemize}
+The {\tt A} and {\tt B} matrices are now in their permuted ordering,
+i.e., $PAP^T$ and $PBP^T$, and all data structures are with respect to
+this ordering. After the Lanczos run completes, any generated
+eigenvectors must be permuted back into their original ordering using
+the {\tt oldToNewIV} and {\tt newToOldIV} objects.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}[t]{rl}
+~1 & normal return \\
+-1 & \texttt{data} is \texttt{NULL} \\
+-2 & \texttt{pprbtype} is \texttt{NULL} \\
+-3 & \texttt{*pprbtype} is invalid \\
+-4 & \texttt{pneqns} is \texttt{NULL} \\
+-5 & \texttt{*pneqns} is invalid \\
+-6 & \texttt{pmxbsz} is \texttt{NULL}
+\end{tabular}
+\begin{tabular}[t]{rl}
+-7 & \texttt{*pmxbsz} is invalid \\
+-8 & \texttt{A} and \texttt{B} are \texttt{NULL} \\
+-9 & \texttt{seed} is \texttt{NULL} \\
+-10 & \texttt{msglvl} is \texttt{NULL} \\
+-11 & $\texttt{msglvl} > 0$ and \texttt{msgFile} is \texttt{NULL} \\
+-12 & \texttt{pnthread} is \texttt{NULL} \\
+-13 & \texttt{*pnthread} is invalid
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FactorMT ( double *psigma, double *ppvttol, void *data, 
+                int *pinertia, int *perror ) ;
+\end{verbatim}
+\index{FactorMT@{\tt FactorMT()}}
+This method computes the factorization of $A - \sigma B$.
+All calling sequence parameters are pointers to more
+easily allow an interface with Fortran.
+\begin{itemize}
+\item {\tt double *psigma} --- the shift parameter $\sigma$ is
+      found in {\tt *psigma}.
+\item {\tt double *ppvttol} --- the pivot tolerance is
+      found in {\tt *ppvttol}. When ${\tt *ppvttol} = 0.0$, 
+      the factorization is computed without pivoting for stability.
+      When ${\tt *ppvttol} > 0.0$, the factorization is computed 
+      with pivoting for stability, and all offdiagonal entries 
+      have magnitudes bounded above by $1/({\tt *ppvttol})$.
+\item {\tt void *data} --- a pointer to the {\tt BridgeMT} object.
+\item {\tt int *pinertia} --- on return, {\tt *pinertia} holds the 
+      number of negative eigenvalues.
+\item {\tt int *perror} --- on return, {\tt *perror} holds an
+      error code.
+      \begin{center}
+      \begin{tabular}[t]{rl}
+      ~1 & error in the factorization \\
+      ~0 & normal return \\
+      -1 & \texttt{psigma} is \texttt{NULL}
+      \end{tabular}
+      \begin{tabular}[t]{rl}
+      -2 & \texttt{ppvttol} is \texttt{NULL} \\
+      -3 & \texttt{data} is \texttt{NULL} \\
+      -4 & \texttt{pinertia} is \texttt{NULL}
+      \end{tabular}
+      \end{center}
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MatMulMT ( int *pnrows, int *pncols, double X[], double Y[],
+                int *pprbtype, void *data ) ;
+\end{verbatim}
+\index{MatMulMT@{\tt MatMulMT()}}
+This method computes a multiply of the form $Y = I X$, $Y = A X$
+or $Y = B X$.
+All calling sequence parameters are pointers to more
+easily allow an interface with Fortran.
+\begin{itemize}
+\item {\tt int *pnrows} --- {\tt *pnrows} contains the number of
+      rows in $X$ and $Y$.
+\item {\tt int *pncols} --- {\tt *pncols} contains the number of
+      columns in $X$ and $Y$.
+\item {\tt double X[]} --- this is the $X$ matrix, stored column
+      major with leading dimension {\tt *pnrows}.
+\item {\tt double Y[]} --- this is the $Y$ matrix, stored column
+      major with leading dimension {\tt *pnrows}.
+\item {\tt int *pprbtype} --- {\tt *pprbtype} holds the problem type.
+   \begin{itemize}
+   \item {\tt 1} --- vibration, a multiply with $B$ is required.
+   \item {\tt 2} --- buckling, a multiply with $A$ is required.
+   \item {\tt 3} --- simple, no multiply is required.
+   \end{itemize}
+\item {\tt void *data} --- a pointer to the {\tt BridgeMT} object.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SolveMT ( int *pnrows, int *pncols, double X[], double Y[],
+               void *data, int *perror ) ;
+\end{verbatim}
+\index{SolveMT@{\tt SolveMT()}}
+This method solves $(A - \sigma B) X = Y$, where 
+$(A - \sigma B)$ has been factored by a previous call to {\tt Factor()}.
+All calling sequence parameters are pointers to more
+easily allow an interface with Fortran.
+\begin{itemize}
+\item {\tt int *pnrows} --- {\tt *pnrows} contains the number of
+      rows in $X$ and $Y$.
+\item {\tt int *pncols} --- {\tt *pncols} contains the number of
+      columns in $X$ and $Y$.
+\item {\tt double X[]} --- this is the $X$ matrix, stored column
+      major with leading dimension {\tt *pnrows}.
+\item {\tt double Y[]} --- this is the $Y$ matrix, stored column
+      major with leading dimension {\tt *pnrows}.
+\item {\tt void *data} --- a pointer to the {\tt BridgeMT} object.
+\item {\tt int *perror} --- on return, {\tt *perror} holds an
+      error code.
+      \begin{center}
+      \begin{tabular}[t]{rl}
+      ~1 & normal return \\
+      -1 & \texttt{pnrows} is \texttt{NULL} \\
+      -2 & \texttt{pncols} is \texttt{NULL}
+      \end{tabular}
+      \begin{tabular}[t]{rl}
+      -3 & \texttt{X} is \texttt{NULL} \\
+      -4 & \texttt{Y} is \texttt{NULL} \\
+      -5 & \texttt{data} is \texttt{NULL}
+      \end{tabular}
+      \end{center}
+      \end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int CleanupMT ( void *data ) ;
+\end{verbatim}
+\index{CleanupMT@{\tt CleanupMT()}}
+This method releases all the storage used by the {\bf SPOOLES}
+library functions.
+\par \noindent {\it Return value:}
+1 for a normal return,
+-1 if a {\tt data} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\section{The \texttt{testMT} Driver Program}
+\label{section:BridgeMT:driver}
+\par
+A complete listing of the multithreaded driver program is
+found in chapter~\ref{chapter:MT_driver}.
+The program is invoked by this command sequence.
+\begin{verbatim}
+testMT msglvl msgFile parmFile seed nthread inFileA inFileB
+\end{verbatim}
+where
+\begin{itemize}
+\item 
+{\tt msglvl} is the message level for the {\tt BridgeMT}
+methods and the {\bf SPOOLES} software.
+\item 
+{\tt msgFile} is the message file for the {\tt BridgeMT}
+methods and the {\bf SPOOLES} software.
+\item 
+{\tt parmFile} is the input file for the parameters of the
+eigensystem to be solved.
+\item 
+{\tt seed} is a random number seed
+used by the {\bf SPOOLES} software.
+\item 
+{\tt nthread} is the number of threads to use in the factors,
+solves and matrix-multiplies.
+\item 
+{\tt inFileA} is the Harwell-Boeing file for the matrix $A$.
+\item 
+{\tt inFileB} is the Harwell-Boeing file for the matrix $B$.
+\end{itemize}
+This program is executed for some sample matrices by the
+{\tt do\_ST\_*} shell scripts in the {\tt drivers} directory.
+\par
+Here is a short description of the steps in the driver program.
+See Chapter~\ref{chapter:serial_driver} for the listing.
+\begin{enumerate}
+\item
+The command line inputs are decoded.
+\item
+The header of the Harwell-Boeing file for $A$ is read.
+This yields the number of equations.
+\item
+The parameters that define the eigensystem to be solved
+are read in from the {\tt parmFile} file.
+\item
+The Lanczos eigensolver workspace is initialized.
+\item
+The Lanczos communication structure is filled with some parameters.
+\item
+The $A$ and possibly $B$ matrices are read in from the
+Harwell-Boeing files and converted into {\tt InpMtx} objects
+from the {\bf SPOOLES} library.
+\item
+The linear solver environment is then initialized via a call to 
+{\tt SetupMT()}.
+\item
+The eigensolver is invoked via a call to {\tt lanczos\_run()}.
+The {\tt FactorMT()}, {\tt SolveMT()} and {\tt MatMulMT()} methods
+are passed to this routine.
+\item
+The eigenvalues are extracted and printed via a call to
+{\tt lanczos\_eigenvalues()}.
+\item
+The eigenvectors are extracted and printed via calls to
+{\tt lanczos\_eigenvector()}.
+\item
+The eigensolver working storage is free'd via a call to
+{\tt lanczos\_free()}.
+\item
+The linear solver working storage is free'd via a call to
+{\tt CleanupMT()}.
+\end{enumerate}

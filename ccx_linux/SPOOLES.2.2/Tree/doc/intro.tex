@@ -1,0 +1,25 @@
+\chapter{{\tt Tree}: A Tree Object}
+\par
+The {\tt Tree} object has very simple functionality, it represents
+the graph of a {\it tree} data structure of fixed size.
+(In reality, it is a ``forest'' object, for the graph need not be
+connected.)
+Trees are used throughout sparse matrix computations.
+The elimination tree \cite{liu90-etree} is the most common example,
+though assembly trees \cite{duf83-multifrontal}, element merge trees
+\cite{eis76-elementModel} and front trees are also common.
+\par
+The {\tt Tree} object is very simple --- there is a size, a root,
+and parent, first child and sibling vectors.
+No information is stored for a node except for its tree
+connections.
+For an elimination tree, each vertex needs to know the number of
+ancestors adjacent in the factor graph.
+For a front tree, each front needs to know the dimensions of the
+front matrix.
+This extra information cannot be stored in the {\tt Tree} object.
+See the {\tt ETree} object in Chapter~\ref{chapter:ETree}; each
+{\tt ETree} object contains a {\tt Tree} object.
+(In a language that supports inheritance, {\tt ETree} could be a
+subclass of {\tt Tree}.)
+\par

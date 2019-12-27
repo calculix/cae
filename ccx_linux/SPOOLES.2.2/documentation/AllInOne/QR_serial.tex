@@ -1,0 +1,249 @@
+\vfill \eject
+\par
+\section{Serial Solution of $A X = Y$ using an $QR$ factorization}
+\label{section:QR-serial}
+\par
+Let us review the steps is solving $A X = Y$ using a $QR$
+factorization.
+\begin{itemize}
+\item 
+{\bf communicate} the data for the problem as $A$, $X$ and $Y$.
+\item 
+{\bf reorder} as
+${\widetilde A} {\widetilde X} = Y$, where
+${\widetilde A} = A P^T$ and
+${\widetilde X} = P X$.
+and $P$ is a permutation matrix.
+\item 
+{\bf factor} $ {\widetilde A} = Q R$,
+where $Q$ is orthogonal and $R$ is upper triangular.
+\item 
+{\bf solve}  $R^T R (P X) = A^T Y$ (if real)
+or {\bf solve}  $R^H R (P X) = A^H Y$ (if complex).
+\end{itemize}
+\par
+A complete listing of a sample program 
+is found in Section~\ref{section:QR-serial-driver}.
+We will now begin to
+work our way through the program to illustrate the use 
+of {\bf SPOOLES} to solve a system of linear equations.  
+\par
+\subsection{Reading the input parameters}
+\label{subsection:QR:input-data}
+\par
+The input parameters are identical to those of the serial $LU$
+driver program described in
+Section~\ref{subsection:serial:input-data}
+with the exception that the {\tt symmetryflag} is not present.
+\par
+\subsection{Communicating the data for the problem}
+\label{subsection:QR:communicating-data}
+\par
+This step is identical to the serial code, as described in
+Section~\ref{subsection:serial:communicating-data}
+\par
+\subsection{Reordering the linear system}
+\label{subsection:QR:reordering}
+For the $LU$ factorization of $A$, we used the graph of $A + A^T$.
+For the $QR$ factorization of $A$, we need the graph of $A^TA$.
+The only difference between the two orderings is how we create
+the {\tt IVL} object for the graph.
+For the $QR$ factorization, we use 
+{\tt InpMtx\_adjForATA()}, as we see below.
+\begin{verbatim}
+adjIVL = InpMtx_adjForATA(mtxA) ;
+nedges = IVL_tsize(adjIVL) ;
+graph = Graph_new() ;
+Graph_init2(graph, 0, neqns, 0, nedges, neqns, nedges, adjIVL,
+            NULL, NULL) ;
+frontETree = orderViaMMD(graph, seed, msglvl, msgFile) ;
+\end{verbatim}
+The minimum degree method is the simplest of the ordering methods
+provided in the {\bf SPOOLES} library.
+For more information on ordering, please see the user document
+{\it ``Ordering Sparse Matrices and Transforming Front Trees''}.
+\par
+\subsection{Non-numeric work}
+\label{subsection:QR:non-numeric}
+\par
+The next phase is to obtain the permutation matrix $P$, (stored
+implicitly in a permutation vector), and apply it to the matrix $A$.
+This is done by the following code fragment.
+\begin{verbatim}
+oldToNewIV = ETree_oldToNewVtxPerm(frontETree) ;
+oldToNew   = IV_entries(oldToNewIV) ;
+newToOldIV = ETree_newToOldVtxPerm(frontETree) ;
+newToOld   = IV_entries(newToOldIV) ;
+InpMtx_permute(mtxA, NULL, oldToNew)) ;
+InpMtx_changeStorageMode(mtxA, INPMTX_BY_VECTORS) ;
+\end{verbatim}
+The {\tt oldToNewIV} and {\tt newToOldIV} variables are {\tt IV}
+objects that represent an integer vector.
+The {\tt oldToNew} and {\tt newToOld} variables are pointers to
+{\tt int}, which point to the base address of the {\tt int} vector
+in an {\tt IV} object.
+Once we have the permutation vector, we apply it to the front tree,
+by the {\tt ETree\_permuteVertices()} method. 
+We need $A P^T$, so we permute the {\tt InpMtx}
+object using a {\tt NULL} pointer for the row permutation (which
+means do not permute the rows) and the {\tt oldToNew} vector for
+the column permutation.
+At this point the {\tt InpMtx} object holds $AP^T$ in the form
+required by the factorization.
+\par
+The final steps are to compute the symbolic factorization,
+which is stored in an {\tt IVL} object, and to permute the vertices
+in the front tree.
+The symbolic factorization differs slightly from the $LU$ case.
+\begin{verbatim}
+symbfacIVL = SymbFac_initFromGraph(frontETree, graph) ;
+IVL_overwrite(symbfacIVL, oldToNewIV) ;
+IVL_sortUp(symbfacIVL) ;
+ETree_permuteVertices(frontETree, oldToNewIV) ;
+\end{verbatim}
+We do not have the $A^TA$ matrix object, so we constuct the
+symbolic factorization using the front tree and the {\tt Graph} object.
+Note, at this point in time, both the graph and front tree are in
+terms of the original ordering, so after the {\tt IVL} object is
+created, its vertices must be mapped into the new permutation and
+sorted into ascending order.
+Then the vertices in the front tree are mapped into the new ordering.
+\par
+\subsection{The Matrix Factorization}
+\label{subsection:QR:factor}
+\par
+The numeric factorization step begins by initializing the {\tt
+FrontMtx} object with the {\tt frontETree} and {\tt symbacIVL} 
+objects created in early steps.
+The {\tt FrontMtx} object holds the actual factorization.
+The code segment for the initialization is found below.
+\begin{verbatim}
+frontmtx = FrontMtx_new() ;
+mtxmanager = SubMtxManager_new() ;
+SubMtxManager_init(mtxmanager, NO_LOCK, 0) ;
+if ( type == SPOOLES_REAL ) {
+   FrontMtx_init(frontmtx, frontETree, symbfacIVL, type, 
+                 SPOOLES_SYMMETRIC, FRONTMTX_DENSE_FRONTS, 
+                 SPOOLES_NO_PIVOTING, NO_LOCK, 0, NULL,
+                 mtxmanager, msglvl, msgFile) ;
+} else {
+   FrontMtx_init(frontmtx, frontETree, symbfacIVL, type, 
+                 SPOOLES_HERMITIAN, FRONTMTX_DENSE_FRONTS, 
+                 SPOOLES_NO_PIVOTING, NO_LOCK, 0, NULL,
+                 mtxmanager, msglvl, msgFile) ;
+}
+\end{verbatim}
+This differs little from the initialization in
+Section~\ref{subsection:serial:factor}, except that the matrix type
+is symmetric or Hermitian, and no pivoting is used for stability.
+\par
+The numeric factorization is performed by the 
+{\tt FrontMtx\_QR\_factor()} method.  
+The code segment from the sample program for the numerical
+factorization step is found below.
+\begin{verbatim}
+chvmanager = ChvManager_new() ;
+ChvManager_init(chvmanager, NO_LOCK, 1) ;
+DVzero(10, cpus) ;
+facops = 0.0 ;
+FrontMtx_QR_factor(frontmtx, mtxA, chvmanager, cpus, &facops, msglvl, msgFile) ;
+ChvManager_free(chvmanager) ;
+\end{verbatim}
+Working storage used during the factorization is found in the form
+of block {\it chevrons}, in a {\tt Chv} object, which hold the partial 
+frontal matrix for a front.
+Much as with the {\tt SubMtx} object, the {\tt FrontMtx} object does
+not concern itself with managing working storage, instead it relies
+on a {\tt ChvManager} object to manage the {\tt Chv} objects.
+On return {\tt facops} contains the number of floating point
+operations performed during the factorization.
+\par
+The factorization is performed using a one-dimensional
+decomposition of the factor matrices.
+Keeping the factor matrices in this form severely limits the amount
+of parallelism for the forward and backsolves.
+We perform a post-processing step to convert the one-dimensional
+data structures to submatrices of a two-dimensional block
+decomposition of the factor matrices.
+The following code fragment performs this operation.
+\begin{verbatim}
+FrontMtx_postProcess(frontmtx, msglvl, msgFile) ;
+\end{verbatim}
+\par
+\subsection{Solving the linear system}
+\label{subsection:QR:solve}
+\par
+The following code fragment solves the linear system 
+$R^T R {\widehat X} = {\widehat A}^T Y$ if real
+or
+$R^H R {\widehat X} = {\widehat A}^H Y$ if complex.
+\begin{verbatim}
+mtxX = DenseMtx_new() ;
+DenseMtx_init(mtxX, type, 0, 0, neqns, nrhs, 1, neqns) ;
+FrontMtx_QR_solve(frontmtx, mtxA, mtxX, mtxB, mtxmanager,
+                  cpus, msglvl, msgFile) ;
+\end{verbatim}
+Last, we permute the rows of ${\tt widehat X}$ back into $X$.
+\begin{verbatim}
+DenseMtx_permuteRows(mtxX, newToOldIV) ;
+\end{verbatim}
+\par
+\subsection{Sample Matrix and Right Hand Side Files}
+\label{subsection:QR:input-files}
+\par
+Immediately below are two sample files:
+{\tt qr.matrix.input} holds the matrix input
+and {\tt qr.rhs.input} holds the right hand side.
+This simple example is an $8 \times 6$ matrix $A$
+and a single right hand side.
+The solution is the vector of all ones.
+Note how the indices are zero-based as for C, instead of one-based
+as for Fortran.
+\begin{center}
+\begin{tabular}{|l|}
+\multicolumn{1}{c}{\tt matrix.input} \\ \hline
+\begin{minipage}[t]{0.5 in}
+\begin{verbatim}
+8 6 18
+0 1 1.0
+0 3 2.0
+1 2 3.0
+1 3 1.0
+1 5 1.0
+2 0 1.0
+2 2 2.0
+3 0 3.0
+3 2 4.0
+3 4 2.0
+4 3 1.0
+5 1 2.0
+5 4 3.0
+5 5 1.0
+6 0 2.0
+6 3 3.0
+7 1 1.0
+7 4 3.0
+\end{verbatim}
+\end{minipage}
+\\ \hline
+\end{tabular}
+\qquad
+\begin{tabular}{|l|}
+\multicolumn{1}{c}{\tt rhs.input} \\ \hline
+\begin{minipage}[t]{0.5 in}
+\begin{verbatim}
+8 1
+0 3.0
+1 5.0
+2 3.0
+3 9.0
+4 1.0
+5 6.0
+6 5.0
+7 4.0
+\end{verbatim}
+\end{minipage}
+\\ \hline
+\end{tabular}
+\end{center}
+\par

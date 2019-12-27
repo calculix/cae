@@ -1,89 +1,70 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*SUBSTRUCTURE MATRIX OUTPUT</TITLE>
-<META NAME="description" CONTENT="*SUBSTRUCTURE MATRIX OUTPUT">
+<TITLE>*MATERIAL</TITLE>
+<META NAME="description" CONTENT="*MATERIAL">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node322.html">
 <LINK REL="previous" HREF="node320.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node322.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5180"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5296"
   HREF="node322.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5176"
-  HREF="node205.html">
+<A NAME="tex2html5292"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5170"
+<A NAME="tex2html5286"
   HREF="node320.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5178"
+<A NAME="tex2html5294"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5181"
-  HREF="node322.html">*SURFACE</A>
-<B> Up:</B> <A NAME="tex2html5177"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5171"
-  HREF="node320.html">*SUBSTRUCTURE GENERATE</A>
- &nbsp; <B>  <A NAME="tex2html5179"
+<B> Next:</B> <A NAME="tex2html5297"
+  HREF="node322.html">*MEMBRANE SECTION</A>
+<B> Up:</B> <A NAME="tex2html5293"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5287"
+  HREF="node320.html">*MASS FLOW</A>
+ &nbsp; <B>  <A NAME="tex2html5295"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION0008113000000000000000"></A><A NAME="substructurematrixoutput"></A>
+<H2><A NAME="SECTION000974000000000000000"></A><A NAME="material"></A>
 <BR>
-*SUBSTRUCTURE MATRIX OUTPUT
+*MATERIAL
 </H2>
 
 <P>
-Keyword type: step
+Keyword type: model definition
 
 <P>
-This option is used to define the name of the file in which the stiffness
-matrix of the substructure is to be stored which was generated within a
-<A HREF="node320.html#substructuregenerate">*SUBSTRUCTURE GENERATE</A> step. This is the only
-procedure in which this keyword card makes sense.
+This option is used to indicate the start of a material definition. A material data block is defined by the options between a *MATERIAL line and either another *MATERIAL line or a keyword line that does not define material properties. All material options within a data block will be assumed to define the same material. If a property is defined more than once for a material, the last definition is used. There is one required parameter, NAME, defining the name of the material with which it can be referenced in element property options (e.g. *SOLID SECTION). The name can contain up to 80 characters.
 
 <P>
-There are two optional parameters STIFFNESS and OUTPUT FILE, and one required
-parameter FILE NAME.
-
-<P>
-The optional parameters can only take a fixed value: STIFFNESS=YES and OUTPUT
-FILE= USER DEFINED. No other value is allowed.
-
-<P>
-The required parameter FILE NAME is used to define the name of the file
- in
-which the stiffness is to be stored. The extension .mtx is default and cannot
-be changed. It is automatically appended to the name given by the user.
-
-<P>
+Material data requests outside the defined ranges are extrapolated in a constant way and a warning is generated. Be aware that this occasionally occurs due to rounding errors.
 
 <P><P>
 <BR>
@@ -92,10 +73,9 @@ be changed. It is automatically appended to the name given by the user.
 First line:
 
 <UL>
-<LI>*SUBSTRUCTURE MATRIX OUTPUT
+<LI>*MATERIAL
 </LI>
-<LI>Enter the parameter FILE NAME and its name, and optionally, the
-  parameters STIFFNESS and OUTPUT FILE with their fixed values.
+<LI>Enter the NAME parameter and its value.
 </LI>
 </UL>
 
@@ -103,50 +83,20 @@ First line:
 <PRE>
 Example:
 
-*SUBSTRUCTURE MATRIX OUTPUT,FILE NAME=substruc
+*MATERIAL,NAME=EL
 </PRE>
 
 <P>
-defines file substruc.mtx for the storage of the substructure stiffness matrix.
+starts a material block with name EL.
 
 <P>
 
 <P><P>
 <BR>
-Example files: substructure.
+Example files: fullseg, beamnldype, beamog.
 
 <P>
-<HR>
-<!--Navigation Panel-->
-<A NAME="tex2html5180"
-  HREF="node322.html">
-<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
- SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5176"
-  HREF="node205.html">
-<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
- SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5170"
-  HREF="node320.html">
-<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
- SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5178"
-  HREF="node1.html">
-<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
- SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
-<BR>
-<B> Next:</B> <A NAME="tex2html5181"
-  HREF="node322.html">*SURFACE</A>
-<B> Up:</B> <A NAME="tex2html5177"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html5171"
-  HREF="node320.html">*SUBSTRUCTURE GENERATE</A>
- &nbsp; <B>  <A NAME="tex2html5179"
-  HREF="node1.html">Contents</A></B> 
-<!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+<BR><HR>
+
 </BODY>
 </HTML>

@@ -1,0 +1,30 @@
+\par
+\section{Data Structure}
+\par
+The {\tt Coords} object has four fields.
+\begin{itemize}
+\item {\tt int type} : coordinate type.
+When {\tt type = 1}, coordinates are stored by tuples,
+$(x_0,y_0,\ldots)$ first,
+$(x_1,y_1,\ldots)$ next, etc.
+% \begin{verbatim}
+% x(icoor, idim) = coors[idim + icoor*ndim]
+% \end{verbatim}
+When {\tt type = 2}, coordinates are stored by $x$-coordinates
+first, $y$-coordinates next, etc.
+% \begin{verbatim}
+% x(icoor, idim) = coors[icoor + idim*ncoor]
+% \end{verbatim}
+\item {\tt int ndim} : 
+number of dimensions for the coordinates, 
+e.g., for $(x,y)$ coordinates {\tt ndim = 2},
+for $(x,y,z)$ coordinates {\tt ndim = 3}.
+\item {\tt int ncoor} : 
+number of coordinates (i.e., number of grid points).
+\item {\tt float *coors} : 
+pointer to a {\tt float} vector that holds the coordinates
+\end{itemize}
+A correctly initialized and nontrivial {\tt Coords} object 
+will have {\tt type} be {\tt 1} or {\tt 2},
+positive {\tt ndim} and {\tt ncoor} values,
+and a non-{\tt NULL} {\tt coors} field.

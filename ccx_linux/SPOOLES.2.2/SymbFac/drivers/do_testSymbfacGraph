@@ -1,0 +1,41 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set matrices     = ../../../matrices
+set matrix       = GRD7x7
+set matrix       = R2D100
+set matrix       = GRD31x31x31
+set matrix       = BCSSTK35
+
+set inETreeFile  = /local1/ARPA/matrices/i4a/best0.etreef
+set inETreeFile  = /local1/ARPA/matrices/i4a/best1.etreef
+set inETreeFile  = $matrices/$matrix/nd.etreef
+set inETreeFile  = $matrices/$matrix/stk35.etreef
+
+set inGraphFile  = /local1/ARPA/matrices/i4a/orig0.graphb
+set inGraphFile  = /local1/ARPA/matrices/i4a/orig1.graphb
+set inGraphFile  = $matrices/$matrix/orig0.graphf
+set inGraphFile  = $matrices/$matrix/orig0.graphb
+
+set outETreeFile = $matrices/$matrix/nd.etreef
+set outETreeFile = $matrices/$matrix/ndnew.etreeb
+set outETreeFile = none
+
+set outIVfile    = $matrices/$matrix/oldToNew.ivf
+set outIVfile    = none
+
+set outIVLfile   = /local1/ARPA/matrices/i4a/symb0.ivlb
+set outIVLfile   = /local1/ARPA/matrices/i4a/symb1.ivlb
+set outIVLfile   = /local1/ARPA/matrices/i4a/symb1.ivlf
+set outIVLfile   = $matrices/$matrix/symbfac.ivlb
+set outIVLfile   = none
+set outIVLfile   = $matrices/$matrix/symbfac.txt
+
+set msglvl  = 1
+
+set msgFile = stdout
+
+testSymbfacGraph $msglvl $msgFile \
+   $inETreeFile $inGraphFile $outETreeFile $outIVfile $outIVLfile

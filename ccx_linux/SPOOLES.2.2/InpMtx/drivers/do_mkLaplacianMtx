@@ -1,0 +1,13 @@
+#! /bin/csh -f
+
+set msglvl  = 5
+
+set msgFile = stdout
+
+set n1   = 7
+set n2   = 7
+set n3   = 7
+
+set outFile = ../../../matrices/GRD7x7x7/laplacian.inpmtxb
+
+mkLaplacianMtx $msglvl $msgFile $n1 $n2 $n3 $outFile

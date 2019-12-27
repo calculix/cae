@@ -1,0 +1,22 @@
+#! /bin/csh -f
+
+set MTX_DIR = /home/pattersn/LANCZOS/test/inp
+
+set pgFile = spooles.pg
+
+echo plat362.mtx
+
+uncompress < $MTX_DIR/plat362.mtx.Z > fort.37
+
+set msglvl   = 0
+set msgFile  = res.plat362
+set parmFile = plat362.inp
+set seed     = 10
+set inFileA  = fort.37
+set inFileB  = none
+set resFile  = res.mtx.plat362
+
+/usr/local/mpi/bin/mpirun -p4pg $pgFile \
+testMPI $msglvl $msgFile $parmFile $seed $inFileA $inFileB 
+
+rm fort.* lmq* lq* evc* res.9*

@@ -25,28 +25,28 @@ class KOM:
     # Read CalculiX keywords hierarchy
     def __init__(self):
 
+        # List of all existing keywords
+        self.keywords = []
+        # All possible keywords nesting variants - needed for parsing INP_doc
+        self.paths = []
+
         try:
             self.root = group() # group 'Model' from kom.xml
-
-            # List of all existing keywords
-            self.keywords = []
 
             # Analyze keywords hierarchy
             p = Path() # calculate absolute paths
             tree = ET.parse(p.kom_xml)
             self.buildKOM(tree.getroot(), self.root)
 
-            # All possible keywords nesting variants - needed for parsing INP_doc
-            self.paths = []
+            # # Regenerate all HTML help pages
+            # from dialog import saveHTML
+            # for item in self.keywords:
+            #     saveHTML(item, p.doc)
+
             self.buildPaths(self.root)
             self.paths.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
             # for path in self.paths:
             #     logging.debug(str([item.name for item in path]))
-
-            # # Regenerate all HTML help pages
-            # for item in self.keywords:
-            #     import dialog
-            #     dialog.saveHTML(item)
 
             logging.info('CalculiX object model generated.')
         except:
@@ -323,7 +323,7 @@ class implementation(item):
 
         self.INP_code = INP_code # INP-code for current implementation - list of strings
         self.parent.items.insert(index, self) # append implementation to keyword's items
-        logging.info(self.name + ' created.')
+        logging.info(self.name + ' created.') # TODO: or updated
 
 
 # Test module
@@ -333,7 +333,7 @@ if __name__ == '__main__':
     from pycallgraph import GlobbingFilter
     from pycallgraph.output import GraphvizOutput
     p = Path()
-    modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['CAE*']
+    modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['MainWindow*']
     config = Config()
     config.trace_filter = GlobbingFilter(
         include=modules, exclude=['logging*', '*FileFinder'])

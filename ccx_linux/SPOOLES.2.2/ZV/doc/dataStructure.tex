@@ -1,0 +1,30 @@
+\par
+\section{Data Structure}
+\label{section:ZV:dataStructure}
+\par
+\par
+The {\tt ZV} structure has three fields.
+\begin{itemize}
+\item
+{\tt int size} : present size of the vector.
+\item
+{\tt int maxsize} : maximum size of the vector.
+\item
+{\tt int owned} : owner flag for the data.
+When {\tt owned = 1}, storage for {\tt owned} {\tt double}'s
+has been allocated by this object and can be free'd by the object.
+When {\tt owned == 0} but {\tt size > 0 }, this object points to
+entries that have been allocated elsewhere, and these entries will
+not be free'd by this object.
+\item
+{\tt double *vec} : 
+pointer to the base address of the {\it double} vector
+\end{itemize}
+The {\tt size}, {\tt maxsize}, {\tt nowned} and {\tt vec} fields 
+need never be accessed directly --- 
+see the 
+{\tt ZV\_size()},
+{\tt ZV\_maxsize()},
+{\tt ZV\_owned()},
+{\tt ZV\_entries()},
+{\tt ZV\_sizeAndEntries()} methods.

@@ -1,138 +1,115 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Calling shared libraries</TITLE>
-<META NAME="description" CONTENT="Calling shared libraries">
+<TITLE>*SURFACE INTERACTION</TITLE>
+<META NAME="description" CONTENT="*SURFACE INTERACTION">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node364.html">
 <LINK REL="previous" HREF="node362.html">
-<LINK REL="up" HREF="node359.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node364.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5739"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html5800"
   HREF="node364.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5735"
-  HREF="node359.html">
+<A NAME="tex2html5796"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5729"
+<A NAME="tex2html5790"
   HREF="node362.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5737"
+<A NAME="tex2html5798"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5740"
-  HREF="node364.html">Limitations</A>
-<B> Up:</B> <A NAME="tex2html5736"
-  HREF="node359.html">ABAQUS umat routines</A>
-<B> Previous:</B> <A NAME="tex2html5730"
-  HREF="node362.html">Limitations</A>
- &nbsp; <B>  <A NAME="tex2html5738"
+<B> Next:</B> <A NAME="tex2html5801"
+  HREF="node364.html">*TEMPERATURE</A>
+<B> Up:</B> <A NAME="tex2html5797"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html5791"
+  HREF="node362.html">*SURFACE BEHAVIOR</A>
+ &nbsp; <B>  <A NAME="tex2html5799"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H4><A NAME="SECTION00095240000000000000">
-Calling shared libraries</A>
-</H4>
+<H2><A NAME="SECTION0009116000000000000000"></A><A NAME="surfaceinteraction"></A>
+<BR>
+*SURFACE INTERACTION
+</H2>
 
 <P>
-Calling shared libraries is triggered by putting the <TT>@</TT>
-character in front material name. The material name is then decomposed
-into three parts, separated by the <TT>_</TT> character:
+Keyword type: model definition
+
+<P>
+This option is used to start a surface interaction
+definition. A surface interaction data block is defined by the options between
+a *SURFACE INTERACTION line and either another *SURFACE INTERACTION line or a
+keyword line that does not define surface interaction properties. All surface
+interaction options within a data block will be assumed to define the same
+surface interaction. If a property is defined more than once for a surface
+interaction, the last definition is used. There is one required parameter,
+NAME, defining the name of the surface interaction with which it can be
+referenced in surface interactions (e.g. *CONTACT PAIR). The name can contain
+up to 80 characters.
+
+<P>
+If used for penalty contact the surface interaction definition must contain
+a <A HREF="node362.html#surfacebehavior">*SURFACE BEHAVIOR</A> card.
+
+<P>
+Surface interaction data requests outside the defined ranges are extrapolated in a constant way. Be aware that this occasionally occurs due to rounding errors.
+
+<P><P>
+<BR>
+
+<P>
+First line:
 
 <UL>
-<LI>The name of the interface (ABAQUS or ABAQUSNL).
+<LI>*SURFACE INTERACTION
 </LI>
-<LI>The base name of the library (see below).
-</LI>
-<LI>The name of the function implementing the behavior. If the
-  function's name is ommitted, the ``umat_'' function name is used.
+<LI>Enter the NAME parameter and its value.
 </LI>
 </UL>
 
 <P>
-For instance, if we want to call a small strain behavior in a linear
-analysis, implemented by the ``CHABOCHE'' function in the
-``libABAQUSBEHAVIOURS.so'' shared library<A NAME="tex2html179"
-  HREF="footnode.html#foot10193"><SUP>5</SUP></A>, one would declare the
-following material name:
-<DIV ALIGN="CENTER">
-@ABAQUS_ABAQUSBEHAVIOURS_CHABOCHE
+<PRE>
+Example:
 
-</DIV>
+*SURFACE INTERACTION,NAME=SI1
+</PRE>
 
 <P>
-Here, the library name has been stripped from system-specific
-convention (the leading lib and the .so extension). <EM>The base name
-  of the library and the name of the function must be
-  upper-cased</EM>. This is due to the way CalculiX interprets the input
-file.
+starts a material block with name SI1.
 
 <P>
-To distinguish two materials using the same external behaviour, one
-may add a unique identifier at the end of the material name. This
-identifier starts with the <TT>@</TT> character.  For example, one may
-use the material names <TT>@ABAQUS_ABAQUSBEHAVIOURS_CHABOCHE@1</TT>
-and <TT>@ABAQUS_ABAQUSBEHAVIOURS_CHABOCHE@2</TT> to create to
-distinct materials (with distinct material properties) which will call
-the same external behaviour.
 
-<P>
-<HR>
-<!--Navigation Panel-->
-<A NAME="tex2html5739"
-  HREF="node364.html">
-<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
- SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5735"
-  HREF="node359.html">
-<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
- SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5729"
-  HREF="node362.html">
-<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
- SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5737"
-  HREF="node1.html">
-<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
- SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<P><P>
 <BR>
-<B> Next:</B> <A NAME="tex2html5740"
-  HREF="node364.html">Limitations</A>
-<B> Up:</B> <A NAME="tex2html5736"
-  HREF="node359.html">ABAQUS umat routines</A>
-<B> Previous:</B> <A NAME="tex2html5730"
-  HREF="node362.html">Limitations</A>
- &nbsp; <B>  <A NAME="tex2html5738"
-  HREF="node1.html">Contents</A></B> 
-<!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+Example files: contact1, contact2.
+
+<P>
+<BR><HR>
+
 </BODY>
 </HTML>

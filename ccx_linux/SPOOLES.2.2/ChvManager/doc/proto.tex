@@ -1,0 +1,170 @@
+\par
+\section{Prototypes and descriptions of {\tt ChvManager} methods}
+\label{section:ChvManager:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt ChvManager} object.
+\par
+\subsection{Basic methods}
+\label{subsection:ChvManager:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ChvManager * ChvManager_new ( void ) ;
+\end{verbatim}
+\index{ChvManager_new@{\tt ChvManager\_new()}}
+This method simply allocates storage 
+for the {\tt ChvManager} structure 
+and then sets the default fields by a call to 
+{\tt ChvManager\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvManager_setDefaultFields ( ChvManager *manager ) ;
+\end{verbatim}
+\index{ChvManager_setDefaultFields@{\tt ChvManager\_setDefaultFields()}}
+The structure's fields are set to default values:
+{\tt mode}, 
+{\tt nactive}, 
+{\tt nbytesactive},
+{\tt nbytesrequested},
+{\tt nbytesalloc},
+{\tt nrequests},
+{\tt nreleases},
+{\tt nlocks} and
+{\tt nunlocks} 
+set to zero,
+and {\tt head} and {\tt lock} 
+are set to {\tt NULL} .
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvManager_clearData ( ChvManager *manager ) ;
+\end{verbatim}
+\index{ChvManager_clearData@{\tt ChvManager\_clearData()}}
+This method clears the object and free's any owned data
+by calling {\tt Chv\_free()} for each object on the free
+list.
+If the lock is not {\tt NULL}, it is destroyed via a call to
+{\tt mutex\_destroy()} and then free'd.
+There is a concluding call to 
+{\tt ChvManager\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvManager_free ( ChvManager *manager ) ;
+\end{verbatim}
+\index{ChvManager_free@{\tt ChvManager\_free()}}
+This method releases any storage by a call to 
+{\tt ChvManager\_clearData()} 
+and then free the space for {\tt manager}.
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization methods}
+\label{subsection:ChvManager:proto:initial}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvManager_init( ChvManager *manager, int lockflag, int mode ) ;
+\end{verbatim}
+\index{ChvManager_init@{\tt ChvManager\_init()}}
+Any data is cleared via a call to
+{\tt ChvManager\_clearData()}.
+If {\tt lockflag} is zero, the lock is not initialized.
+If {\tt lockflag} is {\tt 1}, the lock is initialized
+to be able to synchronize threads with the calling process.
+If {\tt lockflag} is {\tt 2}, the lock is initialized
+to be able to synchronize threads across processes.
+The behavior mode is set to {\tt mode}.
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+or if {\tt lockflag} is not in {\tt [0,2]},
+or if {\tt mode} is not in {\tt [0,1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:ChvManager:proto:utility}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Chv * ChvManager_newObjectOfSizeNbytes ( ChvManager *manager, 
+                                         int nbytesNeeded ) ; 
+\end{verbatim}
+\index{ChvManager_newObjectOfSizeNbytes@{\tt ChvManager\_newObjectOfSizeNbytes()}}
+\par
+This method returns a {\tt Chv} object whose workspace contains at
+least {\tt nbytesNeeded} bytes.
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvManager_releaseObject ( ChvManager *manager, Chv *chv ) ;
+\end{verbatim}
+\index{ChvManager_releaseObject@{\tt ChvManager\_releaseObject()}}
+\par
+This method releases the {\tt chv} instance into the free pool of
+objects.
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvManager_releaseListOfObjects ( ChvManager *manager, Chv *chv ) ;
+\end{verbatim}
+\index{ChvManager_releaseListOfObjects@{\tt ChvManager\_releaseListOfObjects()}}
+\par
+This method releases a list of {\tt Chv} objects into the free pool of
+objects.
+The head of the list is the {\tt chv} instance.
+\par \noindent {\it Error checking:}
+If {\tt manager} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:ChvManager:proto:IO}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ChvManager_writeForHumanEye ( ChvManager *manager, FILE *fp ) ;
+\end{verbatim}
+\index{ChvManager_writeForHumanEye@{\tt ChvManager\_writeForHumanEye()}}
+\par
+This method writes the statistics to a file in user readable form.
+\par \noindent {\it Error checking:}
+If {\tt manager} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

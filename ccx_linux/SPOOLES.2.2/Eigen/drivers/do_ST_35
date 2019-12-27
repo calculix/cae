@@ -1,0 +1,11 @@
+#! /bin/csh -f
+
+set TEST_DIR = /scratch/pattersn/
+
+echo bcsstk35.mtx
+rm fort.*
+cp $TEST_DIR/bcsstk35.mtx.rb fort.37
+cp $TEST_DIR/bcsstm35.mtx.rb fort.38
+cp input.dat.35 input.dat
+time testSerial 0 stdout stdout 10 1 fort.37 fort.38 
+

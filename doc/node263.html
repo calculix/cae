@@ -1,73 +1,80 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*FLUID CONSTANTS</TITLE>
-<META NAME="description" CONTENT="*FLUID CONSTANTS">
+<TITLE>*COMPLEX FREQUENCY</TITLE>
+<META NAME="description" CONTENT="*COMPLEX FREQUENCY">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node264.html">
 <LINK REL="previous" HREF="node262.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node264.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4484"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4600"
   HREF="node264.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4480"
-  HREF="node205.html">
+<A NAME="tex2html4596"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4474"
+<A NAME="tex2html4590"
   HREF="node262.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4482"
+<A NAME="tex2html4598"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4485"
-  HREF="node264.html">*FLUID SECTION</A>
-<B> Up:</B> <A NAME="tex2html4481"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4475"
-  HREF="node262.html">*FILTER</A>
- &nbsp; <B>  <A NAME="tex2html4483"
+<B> Next:</B> <A NAME="tex2html4601"
+  HREF="node264.html">*CONDUCTIVITY</A>
+<B> Up:</B> <A NAME="tex2html4597"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4591"
+  HREF="node262.html">*CLOAD</A>
+ &nbsp; <B>  <A NAME="tex2html4599"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000855000000000000000"></A><A NAME="fluidconstants"></A>
+<H2><A NAME="SECTION000916000000000000000"></A><A NAME="complexfrequency"></A>
 <BR>
-*FLUID CONSTANTS
+*COMPLEX FREQUENCY
 </H2>
 
 <P>
-Keyword type: model definition, material
+Keyword type: step
 
 <P>
-With this option the specific heat at constant pressure and the dynamic
-viscosity of a gas or liquid can be defined. These properties are required for
-fluid dynamic network calculations. They can
-be temperature dependent.
+This procedure card is used to determine frequencies taking into account
+Coriolis forces (cf. Section <A HREF="node163.html#complexfrequencyanalysis">6.9.3</A>). It must be
+preceded by a <A HREF="node304.html#frequency">*FREQUENCY</A> step in which the eigenvalues
+and eigenmodes are calculated without Coriolis (do not forget to use the
+option STORAGE=YES in the frequency step, ensuring that the eigenmodes and
+eigenvalues are stored in a .eig file). The frequency step does not have to be
+in the same input deck. There is one required parameter CORIOLIS.
+
+<P>
+Finally, the number of
+eigenfrequencies requested should not exceed the corresponding number in the
+frequency step.
+
+<P>
 
 <P><P>
 <BR>
@@ -76,74 +83,37 @@ be temperature dependent.
 First line:
 
 <UL>
-<LI>*FLUID CONSTANTS
+<LI>*COMPLEX FREQUENCY
+</LI>
+<LI>use the required parameter CORIOLIS
 </LI>
 </UL>
-
-<P>
-Following line:
+Second line:
 
 <UL>
-<LI>Specific heat at constant pressure.
-</LI>
-<LI>Dynamic viscosity.
-</LI>
-<LI>Temperature.
+<LI>Number of eigenfrequencies desired.
 </LI>
 </UL>
-Repeat this line if needed to define complete temperature dependence.
 
 <P>
 <PRE>
 Example:
 
-*FLUID CONSTANTS
-1.032E9,71.1E-13,100.
+*COMPLEX FREQUENCY,CORIOLIS
+10
 </PRE>
 
 <P>
-defines the specific heat and dynamic viscosity for air at 100 <B><IMG
- WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img292.png"
- ALT="$ K$"></B> in a unit
-system using N, mm, s and K: <!-- MATH
- $c_p=1.032 \times 10^9 \text{mm}^2/\text{s}^2
-\text{K}$
- -->
-<B><IMG
- WIDTH="119" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
- SRC="img1718.png"
- ALT="$ c_p=1.032 \times 10^9$">&nbsp; &nbsp;mm<IMG
- WIDTH="20" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
- SRC="img6.png"
- ALT="$ ^2/$">s<IMG
- WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
- SRC="img3.png"
- ALT="$ ^2$">&nbsp; &nbsp;K</B> and <!-- MATH
- $\mu = 71.1 \times 10^{-13} \text{N} \text{s} / \text{mm}^2$
- -->
-<B><IMG
- WIDTH="122" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
- SRC="img1719.png"
- ALT="$ \mu = 71.1 \times 10^{-13}$">&nbsp; &nbsp;N&nbsp; &nbsp;s<IMG
- WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1.png"
- ALT="$ /$">&nbsp; &nbsp;mm<IMG
- WIDTH="12" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
- SRC="img3.png"
- ALT="$ ^2$"></B>.
+requests the calculation of the 10 lowest eigenfrequencies and corresponding eigenmodes. 
 
 <P>
 
 <P><P>
 <BR>
-Example files: linearnet, branch1, branch2.
+Example files: rotor.
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

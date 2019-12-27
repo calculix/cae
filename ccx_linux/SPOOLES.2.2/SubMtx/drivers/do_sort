@@ -1,0 +1,19 @@
+#! /bin/csh -f
+#
+ 
+set msglvl  =       5
+set msgFile =     res 
+set msgFile =  stdout
+# type = 1 (real), 2 (complex
+set type    =       2
+# mode = 0, 1, 2, 3
+set mode    =       1
+set nrowA   =       8
+set ncolA   =       3
+set nentA   =      10
+set seed    =   666666
+
+test_sort \
+   $msglvl $msgFile $type $mode \
+   $nrowA $ncolA $nentA $seed
+exit

@@ -1,0 +1,29 @@
+\par
+\section{Data Structure}
+\label{section:Graph:dataStructure}
+\par
+The {\tt Graph} structure has nine fields.
+\begin{itemize}
+\item {\tt int type} : type of graph \qquad
+% \begin{center}
+\begin{tabular}{|c|c|c|} \hline
+{\tt type} & vertices weighted? & edges weighted? \\ \hline
+         0 &  no &  no \\
+         1 & yes &  no \\
+         2 &  no & yes \\
+         3 & yes & yes \\ \hline
+\end{tabular}
+% \end{center}
+\item {\tt int nvtx } : number of internal vertices 
+\item {\tt int nvbnd } : number of boundary vertices 
+\item {\tt int nedges } : number of edges 
+\item {\tt int totvwght } : total vertex weight 
+\item {\tt int totewght } : total edge weight 
+\item {\tt IVL *adjIVL} : 
+pointer to {\tt IVL} object to hold adjacency lists
+\item {\tt int *vwghts} : pointer to a vertex to hold vertex weights 
+non-{\tt NULL} if {\tt type \% 2 == 1} 
+\item {\tt IVL *ewghtIVL} : pointer to {\tt IVL} object to hold 
+      edge weight lists, non-{\tt NULL} if {\tt type / 2 == 1} 
+\end{itemize}
+

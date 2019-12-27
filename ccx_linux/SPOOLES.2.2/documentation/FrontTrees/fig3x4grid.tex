@@ -1,0 +1,70 @@
+\begin{figure}[htbp]
+\caption{A $3 \times 4$ 9-point grid with its adjacency structure}
+\label{fig:3x4-grid}
+\begin{center}
+\begin{minipage}{1 in}
+\setlength{\unitlength}{0.40 cm}
+\begin{picture}(10,10)
+%  \multiput(1,1)(0,2){4}{
+%     \multiput(1,1)(2,0){3}{$\bullet$}
+%  }
+%  \multiput(1,1)(0,2){4}{
+%     \put(1.1,1.4){\line(1,0){4}}
+%  }
+%  \multiput(1,1)(2,0){3}{
+%     \put(1.35,1.1){\line(0,1){6}}
+%  }
+   \put(1.35,1.0){\line(1,0){1.25}}
+   \put(3.35,1.0){\line(1,0){1.25}}
+   \put(1.35,3.0){\line(1,0){1.25}}
+   \put(3.35,3.0){\line(1,0){1.25}}
+   \put(1.35,5.0){\line(1,0){1.25}}
+   \put(3.35,5.0){\line(1,0){1.25}}
+   \put(1.35,7.0){\line(1,0){1.25}}
+   \put(3.35,7.0){\line(1,0){1.25}}
+   \put(1.00,1.5){\line(0,1){1.00}}
+   \put(3.00,1.5){\line(0,1){1.00}}
+   \put(5.00,1.5){\line(0,1){1.00}}
+   \put(1.00,3.5){\line(0,1){1.00}}
+   \put(3.00,3.5){\line(0,1){1.00}}
+   \put(5.00,3.5){\line(0,1){1.00}}
+   \put(1.00,5.5){\line(0,1){1.00}}
+   \put(3.00,5.5){\line(0,1){1.00}}
+   \put(5.00,5.5){\line(0,1){1.00}}
+   \put(1,1){\makebox(0,0){0}}
+   \put(3,1){\makebox(0,0){1}}
+   \put(5,1){\makebox(0,0){2}}
+   \put(1,3){\makebox(0,0){3}}
+   \put(3,3){\makebox(0,0){4}}
+   \put(5,3){\makebox(0,0){5}}
+   \put(1,5){\makebox(0,0){6}}
+   \put(3,5){\makebox(0,0){7}}
+   \put(5,5){\makebox(0,0){8}}
+   \put(1,7){\makebox(0,0){9}}
+   \put(3,7){\makebox(0,0){10}}
+   \put(5,7){\makebox(0,0){11}}
+\end{picture}
+\end{minipage}
+\qquad
+\begin{minipage}{4 in}
+\begin{verbatim}
+ IVL : integer vector list object :
+ type 1, chunked storage
+ 12 lists, 12 maximum lists, 70 tsize, 4240 total bytes
+ 1 chunks, 70 active entries, 1024 allocated, 6.84 % used
+     0 : 0 1 3 4
+     1 : 0 1 2 3 4 5
+     2 : 1 2 4 5
+     3 : 0 1 3 4 6 7
+     4 : 0 1 2 3 4 5 6 7 8
+     5 : 1 2 4 5 7 8
+     6 : 3 4 6 7 9 10
+     7 : 3 4 5 6 7 8 9 10 11
+     8 : 4 5 7 8 10 11
+     9 : 6 7 9 10
+    10 : 6 7 8 9 10 11
+    11 : 7 8 10 11
+\end{verbatim}
+\end{minipage}
+\end{center}
+\end{figure}

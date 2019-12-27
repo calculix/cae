@@ -1,116 +1,95 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Homogeneous Conditions</TITLE>
-<META NAME="description" CONTENT="Homogeneous Conditions">
+<TITLE>Convective interpolation</TITLE>
+<META NAME="description" CONTENT="Convective interpolation">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node211.html">
 <LINK REL="previous" HREF="node209.html">
-<LINK REL="up" HREF="node209.html">
+<LINK REL="up" HREF="node208.html">
 <LINK REL="next" HREF="node211.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3850"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3820"
   HREF="node211.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3846"
-  HREF="node209.html">
+<A NAME="tex2html3816"
+  HREF="node208.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3840"
+<A NAME="tex2html3812"
   HREF="node209.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3848"
+<A NAME="tex2html3818"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3851"
-  HREF="node211.html">Inhomogeneous Conditions</A>
-<B> Up:</B> <A NAME="tex2html3847"
-  HREF="node209.html">*BOUNDARY</A>
-<B> Previous:</B> <A NAME="tex2html3841"
-  HREF="node209.html">*BOUNDARY</A>
- &nbsp; <B>  <A NAME="tex2html3849"
+<B> Next:</B> <A NAME="tex2html3821"
+  HREF="node211.html">Upwind scheme</A>
+<B> Up:</B> <A NAME="tex2html3817"
+  HREF="node208.html">Determination of facial values</A>
+<B> Previous:</B> <A NAME="tex2html3813"
+  HREF="node209.html">True interpolation</A>
+ &nbsp; <B>  <A NAME="tex2html3819"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00084100000000000000">
-Homogeneous Conditions</A>
+<H3><A NAME="SECTION00082200000000000000">
+Convective interpolation</A>
 </H3>
 
 <P>
-Homogeneous conditions should be placed before the first *STEP keyword
-card.
-
-<P><P>
-<BR>
-
-<P>
-First line:
-
-<UL>
-<LI>*BOUNDARY
-</LI>
-<LI>Enter any needed parameters and their value.
-</LI>
-</UL>
-
-<P>
-Following line:
-
-<UL>
-<LI>Node number or node set label
-</LI>
-<LI>First degree of freedom constrained
-</LI>
-<LI>Last degree of freedom constrained. This field may be left blank if only one degree of freedom is constrained.
-</LI>
-</UL>
-Repeat this line if needed.
-
-<P>
-<PRE>
-Example:
-
-*BOUNDARY
-73,1,3
-</PRE>
-
-<P>
-fixes the degrees of freedom one through three (global if no transformation was defined for node 73, else local) of node 73.
-
-<P>
-
-<P><P>
-<BR>
-Example files: achteld.
+In the preceding section the problem of finding facial values once the element
+center values are known, was solved in a generic way, independent of the flow
+direction. Using these values in the convective terms of the conservation
+laws, however, may lead to overshoots and ocillatory behavior. Therefore,
+alternative schemes have been developed specifically for these convective
+terms. For details the reader is referred to [<A
+ HREF="node487.html#Moukalled">61</A>] (compressible
+flow) and [<A
+ HREF="node487.html#Jasak">36</A>] (incompressible flow). Here, the schemes used for that
+purpose in CalculiX are briefly discussed. In what follows the facial values
+used in convective schemes are denoted by <!-- MATH
+ $\overrightarrow{\phi_f}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1674.png"
+ ALT="$ \overrightarrow{\phi_f}$"></B></SPAN> for face
+f (so the arrow does NOT denote a vector!). Notice that convective facial values are only relevant for internal faces.
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html3822"
+  HREF="node211.html">Upwind scheme</A>
+<LI><A NAME="tex2html3823"
+  HREF="node212.html">High resolution schemes</A>
+<LI><A NAME="tex2html3824"
+  HREF="node213.html">Gamma Method</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+
 </BODY>
 </HTML>

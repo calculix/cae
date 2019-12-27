@@ -1,130 +1,160 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Contraction</TITLE>
-<META NAME="description" CONTENT="Contraction">
+<TITLE>Reservoir</TITLE>
+<META NAME="description" CONTENT="Reservoir">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node122.html">
 <LINK REL="previous" HREF="node120.html">
-<LINK REL="up" HREF="node112.html">
+<LINK REL="up" HREF="node113.html">
 <LINK REL="next" HREF="node122.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html2589"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html2652"
   HREF="node122.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2585"
-  HREF="node112.html">
+<A NAME="tex2html2648"
+  HREF="node113.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2579"
+<A NAME="tex2html2642"
   HREF="node120.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2587"
+<A NAME="tex2html2650"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2590"
-  HREF="node122.html">Enlargement</A>
-<B> Up:</B> <A NAME="tex2html2586"
-  HREF="node112.html">Fluid Section Types: Open</A>
-<B> Previous:</B> <A NAME="tex2html2580"
-  HREF="node120.html">Reservoir</A>
- &nbsp; <B>  <A NAME="tex2html2588"
+<B> Next:</B> <A NAME="tex2html2653"
+  HREF="node122.html">Contraction</A>
+<B> Up:</B> <A NAME="tex2html2649"
+  HREF="node113.html">Fluid Section Types: Open</A>
+<B> Previous:</B> <A NAME="tex2html2643"
+  HREF="node120.html">Discontinuous Opening</A>
+ &nbsp; <B>  <A NAME="tex2html2651"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION00076900000000000000">
-Contraction</A>
+<H3><A NAME="SECTION00076800000000000000">
+Reservoir</A>
 </H3>
 
 <P>
-
-<DIV ALIGN="CENTER"><A NAME="channelcontraction"></A><A NAME="12051"></A>
-<TABLE>
-<CAPTION ALIGN="BOTTOM"><STRONG>Figure 126:</STRONG>
-Geometry of a contraction</CAPTION>
-<TR><TD><IMG
- WIDTH="321" HEIGHT="171" BORDER="0"
- SRC="img702.png"
- ALT="\begin{figure}\epsfig{file=Channelcontraction.eps,width=9cm}\end{figure}"></TD></TR>
-</TABLE>
-</DIV>
-
-<P>
-The geometry of a contraction is shown in Figure
-<A HREF="#channelcontraction">126</A> (view from above). Although a contraction is really a discontinuity, a
-small fictitious length an a slope have to be assigned. For the slope one can
-take the mean values of the slopes of the adjacent channels. The following constants have to be specified on the
-line beneath the *FLUID SECTION,TYPE=CHANNEL CONTRACTION card:
+A reservoir is a downstream boundary condition. The reservoir element
+represents the part of the channel immediately upstream of the (usually vast)
+reservoir. Since the backwater curve may change substantially in the
+neighborhood of the reservoir it is advisable to choose the length of the
+reservoir element to be small compared to the length of the channel branch it
+is part of. The following constants have to be specified on the
+line beneath the *FLUID SECTION,TYPE=CHANNEL RESERVOIR card:
 
 <P>
 
 <UL>
-<LI>the upstream width <IMG
- WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img703.png"
- ALT="$ b_1$">
+<LI>the width <SPAN CLASS="MATH"><IMG
+ WIDTH="11" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img323.png"
+ ALT="$ b$"></SPAN>
 </LI>
-<LI>the slope <IMG
- WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img689.png"
- ALT="$ S_0$"> (if <IMG
- WIDTH="63" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img681.png"
- ALT="$ S_0&lt;-1$"> zero is taken)
-</LI>
-<LI>the length <IMG
- WIDTH="15" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img288.png"
- ALT="$ L$"> (if <IMG
- WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img690.png"
- ALT="$ L \le 0$"> the length is calculated from the
+<LI>the slope <!-- MATH
+ $S_0 = \sin \phi$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="73" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img724.png"
+ ALT="$ S_0= \sin \phi$"></SPAN> (if <SPAN CLASS="MATH"><IMG
+ WIDTH="62" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img725.png"
+ ALT="$ S_0&lt;-1$"></SPAN> the slope is calculated from the
   coordinates of the end nodes belonging to the element)
 </LI>
-<LI>the downstream width <!-- MATH
- $b_2 \le b_1$
- -->
-<IMG
- WIDTH="54" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img704.png"
- ALT="$ b_2 \le b_1$">
+<LI>the length <SPAN CLASS="MATH"><IMG
+ WIDTH="15" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img301.png"
+ ALT="$ L$"></SPAN> (if <SPAN CLASS="MATH"><IMG
+ WIDTH="44" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img734.png"
+ ALT="$ L \le 0$"></SPAN> the length is calculated from the
+  coordinates of the end nodes belonging to the element)
+</LI>
+<LI>the trapezoid angle <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img178.png"
+ ALT="$ \theta$"></SPAN>
+</LI>
+<LI>the grain diameter <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img460.png"
+ ALT="$ k_s$"></SPAN> for the White-Colebrook law or the Manning
+  constant <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img649.png"
+ ALT="$ n$"></SPAN> for the Manning law (in the latter case the user has to specify
+  the parameter MANNING on the *FLUID SECTION card)
+</LI>
+<LI>the number of the upstream reference element, i.e. the first element of
+  the boundary pair upstream of the channel branch connected to the reservoir.
 </LI>
 </UL>
+
+<P>
+The water depth in the downstream node of a reservoir element must be defined
+by the user by means of a <A HREF="node248.html#boundary">*BOUNDARY</A> card (degree of
+freedom 2).
 
 <P>
 
 <P><P>
 <BR>
-Example files: channel9, channel11.
+Example files: channel1, chanson1.
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2652"
+  HREF="node122.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html2648"
+  HREF="node113.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html2642"
+  HREF="node120.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html2650"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html2653"
+  HREF="node122.html">Contraction</A>
+<B> Up:</B> <A NAME="tex2html2649"
+  HREF="node113.html">Fluid Section Types: Open</A>
+<B> Previous:</B> <A NAME="tex2html2643"
+  HREF="node120.html">Discontinuous Opening</A>
+ &nbsp; <B>  <A NAME="tex2html2651"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

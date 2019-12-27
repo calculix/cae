@@ -1,0 +1,956 @@
+\par
+\section{Prototypes and descriptions of {\tt SubMtx} methods}
+\label{section:SubMtx:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt SubMtx} object.
+\par
+\subsection{Basic methods}
+\label{subsection:SubMtx:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+SubMtx * SubMtx_new ( void ) ;
+\end{verbatim}
+\index{SubMtx_new@{\tt SubMtx\_new()}}
+This method simply allocates storage for the {\tt SubMtx} structure 
+and then sets the default fields by a call to 
+{\tt SubMtx\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_setDefaultFields ( SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtx_setDefaultFields@{\tt SubMtx\_setDefaultFields()}}
+The structure's fields are set to default values:
+{\tt type} = {\tt SPOOLES\_REAL},
+{\tt mode} = {\tt DENSEMTX\_DENSE\_COLUMNS},
+{\tt rowid} = {\tt colid} = {\tt -1}, 
+{\tt type} = {\tt nrow} = {\tt ncol} = {\tt nent} = 0
+and {\tt next} = {\tt NULL} .
+The {\tt wrkDV} object has its default fields set via a call to
+{\tt DV\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_clearData ( SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtx_clearData@{\tt SubMtx\_clearData()}}
+This method clears the object and free's any owned data
+by invoking the {\tt \_clearData()} methods for its internal
+{\tt DV} object.
+There is a concluding call to {\tt SubMtx\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_free ( SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtx_free@{\tt SubMtx\_free()}}
+This method releases any storage by a call to 
+{\tt SubMtx\_clearData()} and then frees the space for {\tt mtx}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:SubMtx:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_ids ( SubMtx *mtx, int *prowid, int *pcolid ) ;
+\end{verbatim}
+\index{SubMtx_ids@{\tt SubMtx\_ids()}}
+This method fills {\tt *prowid} with the row id 
+and {\tt *pcolid} with the column id of the object.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt prowid} or {\tt pcolid} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_setIds ( SubMtx *mtx, int rowid, int colid ) ;
+\end{verbatim}
+\index{SubMtx_setIds@{\tt SubMtx\_setIds()}}
+This method sets the row and column id's of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_dimensions ( SubMtx *mtx, int *pnrow, int *pncol, int *pnent ) ;
+\end{verbatim}
+\index{SubMtx_dimensions@{\tt SubMtx\_dimensions()}}
+This method 
+fills {\tt *pnrow}, {\tt *pncol} and {\tt *pnent}
+with the number of rows, columns and matrix entries, respectively.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pnrow} or {\tt pncol} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_rowIndices ( SubMtx *mtx, int *pnrow, **prowind ) ;
+\end{verbatim}
+\index{SubMtx_rowIndices@{\tt SubMtx\_rowIndices()}}
+This method fills {\tt *pnrow} with the number of rows.
+If {\tt prowind} is not {\tt NULL}, {\tt *prowind} is filled with 
+a pointer to the row indices.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt pnrow} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_columnIndices ( SubMtx *mtx, int *pncol, **colind ) ;
+\end{verbatim}
+\index{SubMtx_columnIndices@{\tt SubMtx\_columnIndices()}}
+This method fills {\tt *pncol} with the number of columns.
+If {\tt pcolind} is not {\tt NULL}, {\tt *pcolind} is filled with 
+a pointer to the column indices.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pncol} or {\tt pcolind} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_denseInfo ( SubMtx *mtx, int *pnrow, int *pncol, 
+                        int *pinc1, int *pinc2, double **pentries ) ;
+\end{verbatim}
+\index{SubMtx_denseInfo@{\tt SubMtx\_denseInfo()}}
+This method is used when the storage mode is dense rows or columns.
+It fills
+{\tt *pnrow} with the number of rows,
+{\tt *pncol} with the number of columns,
+{\tt *pinc1} with the row increment,
+{\tt *pinc2} with the column increment,
+and {\tt *pentries} with the base address of entries vector.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pnrow}, {\tt pncol}, {\tt pinc1}, {\tt pinc2} or
+{\tt pentries} is {\tt NULL},
+or if the matrix type is not {\tt SUBMTX\_DENSE\_ROWS}
+or {\tt SUBMTX\_DENSE\_COLUMNS},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_sparseRowsInfo ( SubMtx *mtx, int *pnrow, int *pnent, 
+                           int **psizes, int **pindices, double **pentries ) ;
+\end{verbatim}
+\index{SubMtx_sparseRowsInfo@{\tt SubMtx\_sparseRowsInfo()}}
+This method is used when the storage mode is sparse rows.
+It fills
+{\tt *pnrow} with the number of rows,
+{\tt *pnent} with the number of matrix entries,
+{\tt *psizes} with the base address of the {\tt sizes[nrow]}
+vector that contains the number of entries in each row,
+{\tt *indices} with the base address of the {\tt indices[nent]}
+vector that contains the column index for each entry,
+and {\tt *pentries} with the base address of {\tt entries[nent]} vector.
+The indices and entries for the rows are stored contiguously.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pnrow}, {\tt pnent}, {\tt psizes}, {\tt pindices} or
+{\tt pentries} is {\tt NULL},
+or if the matrix type is not {\tt SUBMTX\_SPARSE\_ROWS},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_sparseColumnsInfo ( SubMtx *mtx, int *pncol, int *pnent, 
+                          int **psizes, int **pindices, double **pentries ) ;
+\end{verbatim}
+\index{SubMtx_sparseColumnsInfo@{\tt SubMtx\_sparseColumnsInfo()}}
+This method is used when the storage mode is sparse columns.
+It fills
+{\tt *pncol} with the number of columns,
+{\tt *pnent} with the number of matrix entries,
+{\tt *psizes} with the base address of the {\tt sizes[ncol]}
+vector that contains the number of entries in each column,
+{\tt *indices} with the base address of the {\tt indices[nent]}
+vector that contains the row index for each entry,
+and {\tt *pentries} with the base address of {\tt entries[nent]} vector.
+The indices and entries for the columns are stored contiguously.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pncol}, {\tt pnent}, {\tt psizes}, {\tt pindices} or
+{\tt pentries} is {\tt NULL},
+or if the matrix type is not {\tt SUBMTX\_SPARSE\_COLUMNS},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_sparseTriplesInfo ( SubMtx *mtx, int *pnent, int **prowids, 
+                                int **pcolids, double **pentries ) ;
+\end{verbatim}
+\index{SubMtx_sparseTriplesInfo@{\tt SubMtx\_sparseTriplesInfo()}}
+This method is used when the storage mode is sparse triples.
+It fills
+{\tt *pnent} with the number of matrix entries,
+{\tt *prowids} with the base address of the {\tt rowids[nent]}
+vector that contains the row id of each entry,
+{\tt *pcolids} with the base address of the {\tt colids[nent]}
+vector that contains the column id of each entry,
+and {\tt *pentries} with the base address of {\tt entries[nent]} vector.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pnent}, {\tt prowids}, {\tt pcolids} or
+{\tt pentries} is {\tt NULL},
+or if the matrix type is not {\tt SUBMTX\_SPARSE\_TRIPLES},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_denseSubrowsInfo ( SubMtx *mtx, int *pnrow, int *pnent, 
+               int **pfirstlocs, int **plastlocs, double **pentries ) ;
+\end{verbatim}
+\index{SubMtx_denseSubrowsInfo@{\tt SubMtx\_denseSubrowsInfo()}}
+This method is used when the storage mode is dense subrows.
+It fills
+{\tt *pnrow} with the number of rows,
+{\tt *pnent} with the number of matrix entries,
+{\tt *pfirstlocs} with the base address of the {\tt firstlocs[nrow]}
+vector,
+{\tt *plastlocs} with the base address of the {\tt lastlocs[nrow]}
+vector,
+and {\tt *pentries} with the base address of {\tt entries[nent]} vector.
+For row {\tt irow}, the nonzero entries are found in columns
+{\tt [firstlocs[irow],lastlocs[irow]]} 
+when $\mbox{\tt firstlocs[irow]} \ge 0$
+and $\mbox{\tt firstlocs[irow]} \le \mbox{\tt lastlocs[irow]}$.
+The entries for the rows are stored contiguously.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pnrow}, {\tt pnent}, {\tt pfirstlocs}, 
+{\tt plastlocs} or {\tt pentries} is {\tt NULL},
+or if the matrix type is not {\tt SUBMTX\_DENSE\_SUBROWS},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_denseSubcolumnsInfo ( SubMtx *mtx, int *pncol, int *pnent, 
+               int **pfirstlocs, int **plastlocs, double **pentries ) ;
+\end{verbatim}
+\index{SubMtx_denseSubcolumnsInfo@{\tt SubMtx\_denseSubcolumnsInfo()}}
+This method is used when the storage mode is dense subcolumns.
+It fills
+{\tt *pncol} with the number of columns,
+{\tt *pnent} with the number of matrix entries,
+{\tt *pfirstlocs} with the base address of the {\tt firstlocs[ncol]}
+vector,
+{\tt *plastlocs} with the base address of the {\tt lastlocs[ncol]}
+vector,
+and {\tt *pentries} with the base address of {\tt entries[nent]} vector.
+For column {\tt jcol}, the nonzero entries are found in rows
+{\tt [firstlocs[jcol],lastlocs[jcol]]} 
+when $\mbox{\tt firstlocs[jcol]} \ge 0$
+and $\mbox{\tt firstlocs[jcol]} \le \mbox{\tt lastlocs[jcol]}$.
+The entries for the columns are stored contiguously.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pnrow}, {\tt pnent}, {\tt pfirstlocs}, 
+{\tt plastlocs} or {\tt pentries} is {\tt NULL},
+or if the matrix type is not {\tt SUBMTX\_DENSE\_SUBCOLUMNS},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_diagonalInfo ( SubMtx *mtx, int *pncol, double **pentries ) ;
+\end{verbatim}
+\index{SubMtx_diagonalInfo@{\tt SubMtx\_diagonalInfo()}}
+This method is used when the storage mode is diagonal.
+It fills
+{\tt *pncol} with the number of columns
+and {\tt *pentries} with the base address of {\tt entries[]} vector.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pncol} or {\tt pentries} is {\tt NULL},
+or if the matrix type is not {\tt SUBMTX\_DIAGONAL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_blockDiagonalInfo ( SubMtx *mtx, int *pncol, int *pnent,
+                                int **ppivotsizes, double **pentries ) ;
+\end{verbatim}
+\index{SubMtx_blockDiagonalInfo@{\tt SubMtx\_blockDiagonalInfo()}}
+This method is used when the storage mode is block diagonal.
+It fills
+{\tt *pncol} with the number of columns,
+{\tt *pnent} with the number of entries,
+{\tt *ppivotsizes} with the base address of the pivot sizes vector,
+and {\tt *pentries} with the base address of {\tt entries[]} vector.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pncol}, {\tt pnent}, {\tt ppivotsizes}
+or {\tt pentries} is {\tt NULL},
+or if the matrix type is not 
+{\tt SUBMTX\_BLOCK\_DIAGONAL\_SYM},
+or {\tt SUBMTX\_BLOCK\_DIAGONAL\_HERM},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int  SubMtx_realEntry ( SubMtx *mtx, int irow, int jcol, double *pValue ) ;
+\end{verbatim}
+\index{SubMtx_realEntry@{\tt SubMtx\_realEntry()}}
+This method fill {\tt *pValue} with the entry 
+in row {\tt irow} and column{\tt jcol}.
+Note, {\tt irow} and {\tt jcol} are {\it local} indices,
+i.e., $0 \le \mbox{\tt irow} \le \mbox{\tt nrow}$
+and $0 \le \mbox{\tt jcol} \le \mbox{\tt ncol}$.
+If the {\tt (irow,jcol)} entry is present,
+the return value is the offset from the start of the
+{\tt entries} vector. 
+Otherwise, -1 is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt pValue} is {\tt NULL},
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int  SubMtx_complexEntry ( SubMtx *mtx, int irow, int jcol, 
+                           double *pReal, double *pImag ) ;
+\end{verbatim}
+\index{SubMtx_complexEntry@{\tt SubMtx\_complesEntry()}}
+This method fill {\tt *pReal} with the real part and
+{\tt *pImag} with the imaginary part of the the entry 
+in row {\tt irow} and column{\tt jcol}.
+Note, {\tt irow} and {\tt jcol} are {\it local} indices,
+i.e., $0 \le \mbox{\tt irow} \le \mbox{\tt nrow}$
+and $0 \le \mbox{\tt jcol} \le \mbox{\tt ncol}$.
+If the {\tt (irow,jcol)} entry is present,
+the return value is the offset from the start of the
+{\tt entries} vector. (The offset is in terms of complex entries,
+not double entries.) Otherwise, -1 is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pReal} or {\tt pImag} is {\tt NULL},
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void  SubMtx_locationOfRealEntry ( SubMtx *mtx, int irow, int jcol, 
+                                   double **ppValue ) ;
+\end{verbatim}
+\index{SubMtx_locationOfRealEntry@{\tt SubMtx\_locationOfRealEntry()}}
+If the {\tt (irow,jcol)} entry is present,
+this method fills {\tt *ppValue} with a pointer to the entry 
+in row {\tt irow} and column{\tt jcol}.
+Otherwise, {\tt *ppValue} is set to {\tt NULL}.
+Note, {\tt irow} and {\tt jcol} are {\it local} indices,
+i.e., $0 \le \mbox{\tt irow} \le \mbox{\tt nrow}$
+and $0 \le \mbox{\tt jcol} \le \mbox{\tt ncol}$.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt ppValue} is {\tt NULL},
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void  SubMtx_locationOfComplexEntry ( SubMtx *mtx, int irow, int jcol, 
+                                      double **ppReal, double **ppImag ) ;
+\end{verbatim}
+\index{SubMtx_locationOfComplexEntry@{\tt SubMtx\_locationOfComplexEntry()}}
+If the {\tt (irow,jcol)} entry is present,
+this method fills {\tt *ppReal} with a pointer to the real part and
+{\tt *ppImag} with a pointer to the imaginary part of the the entry 
+in row {\tt irow} and column{\tt jcol}.
+Otherwise, {\tt *ppImag} and {\tt *ppReal} are set to {\tt NULL}.
+Note, {\tt irow} and {\tt jcol} are {\it local} indices,
+i.e., $0 \le \mbox{\tt irow} \le \mbox{\tt nrow}$
+and $0 \le \mbox{\tt jcol} \le \mbox{\tt ncol}$.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt ppReal} or {\tt ppImag} is {\tt NULL},
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization methods}
+\label{subsection:SubMtx:proto:initial}
+\par
+There are three initializer methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_init( SubMtx *mtx, int type, int mode, int rowid, int colid,
+                  int nrow, int ncol, int nent ) ;
+\end{verbatim}
+\index{SubMtx_init@{\tt SubMtx\_init()}}
+This is the initializer method used when the {\tt SubMtx}
+object is to use its workspace to store indices and entries.
+The number of bytes required in the workspace is computed,
+the workspace is resized if necessary, the scalar fields are set,
+and the row and column indices are set to {\tt [0,nrow)}
+and {\tt [0,ncol)}, respectively.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if {\tt nrow}, {\tt ncol}, {\tt inc1} or {\tt inc2}
+is less than or equal to zero,
+or if neither {\tt inc1} nor {\tt inc2} are {\tt 1},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_initFromBuffer ( SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtx_initFromBuffer@{\tt SubMtx\_initFromBuffer()}}
+This method initializes the object using information present in the
+workspace buffer.
+This method is used to initialize the {\tt SubMtx} object when
+it has been received as an MPI message.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_initRandom ( SubMtx *mtx, int type, int mode, int rowid, int colid,
+                        int nrow, int ncol, int nent, int seed ) ;
+\end{verbatim}
+\index{SubMtx_initRandom@{\tt SubMtx\_initRandom()}}
+This is used to initialize an object to have random entries
+and (possibly) random structure.
+The object is first initialized via a call to {\tt SubMtx\_init()}.
+Its matrix entries are then filled with random numbers.
+If the matrix is sparse, its sparsity pattern is sparse and random, 
+using {\tt nent} when applicable.
+The row and column indices are ascending starting from zero.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if {\tt nrow}, {\tt ncol}, {\tt inc1} or {\tt inc2}
+is less than or equal to zero,
+or if neither {\tt inc1} nor {\tt inc2} are {\tt 1},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_initRandomLowerTriangle ( SubMtx *mtx, int type, int mode, 
+   int rowid, int colid, int nrow, int ncol, int nent, int seed, int strict ) ;
+void SubMtx_initRandomUpperTriangle ( SubMtx *mtx, int type, int mode,
+   int rowid, int colid, int nrow, int ncol, int nent, int seed, int strict ) ;
+\end{verbatim}
+\index{SubMtx_initRandomLowerTriangle@{\tt SubMtx\_initRandomLowerTriangle()}}
+\index{SubMtx_initRandomUpperTriangle@{\tt SubMtx\_initRandomUpperTriangle()}}
+This is used to initialize an object to have random entries
+and (possibly) random structure.
+The matrix type may not be diagonal, block diagonal, or triples.
+If {\tt strict = 1}, the matrix will be strict lower or upper
+triangular.
+The object is first initialized via a call to {\tt SubMtx\_init()}.
+Its matrix entries are then filled with random numbers.
+If the matrix is sparse, its sparsity pattern is sparse and random, 
+using {\tt nent} when applicable.
+The row and column indices are ascending starting from zero.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if {\tt nrow}, {\tt ncol}, {\tt inc1} or {\tt inc2}
+is less than or equal to zero,
+or if neither {\tt inc1} nor {\tt inc2} are {\tt 1},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Vector scaling methods}
+\label{subsection:SubMtx:proto:scale}
+\par
+These methods are used during the factorization when we compute
+products of the form $-U^TDU$, $-U^HDU$ and $-LDU$.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_scale1vec ( SubMtx *mtxD, double y0[], double x0[] ) ;
+void SubMtx_scale2vec ( SubMtx *mtxD, double y0[], double y1[], 
+                      double x0[], double x1[] ) ;
+void SubMtx_scale3vec ( SubMtx *mtxD, double y0[], double y1[], double y2[],
+                      double x0[], double x1[], double x2[] 
+\end{verbatim}
+\index{SubMtx_scale1vec@{\tt SubMtx\_scale1vec()}}
+\index{SubMtx_scale2vec@{\tt SubMtx\_scale2vec()}}
+\index{SubMtx_scale3vec@{\tt SubMtx\_scale3vec()}}
+These methods compute one of the following
+$$
+y_0 = D x_0, 
+\qquad
+\left \lbrack \begin{array}{cc}
+y_0 & y_1
+\end{array} \right \rbrack
+= D
+\left \lbrack \begin{array}{cc}
+x_0 & x_1
+\end{array} \right \rbrack
+\qquad
+\mbox{or}
+\qquad
+\left \lbrack \begin{array}{ccc}
+y_0 & y_1 & y2
+\end{array} \right \rbrack
+= D
+\left \lbrack \begin{array}{ccc}
+x_0 & x_1 & x2
+\end{array} \right \rbrack
+$$
+where $D$ is stored in the {\tt SubMtx} object {\tt mtxD},
+and the $y_0$, $y_1$, $y_2$, $x_0$, $x_1$ and $x_2$ vectors 
+are stored as simple real or complex vectors.
+This method is only used when {\tt mtxD} is diagonal or block
+diagonal (symmetric or Hermitian).
+\par \noindent {\it Error checking:}
+If {\tt mtxD}, {\tt y0}, {\tt y1}, {\tt y2}, {\tt x0}, {\tt x1}
+or {\tt x2} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Solve methods}
+\label{subsection:SubMtx:proto:solve}
+\par
+These methods are used during the forward and backward solves.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_solve ( SubMtx *mtxA, SubMtx *mtxB ) ;
+\end{verbatim}
+\index{SubMtx_solve@{\tt SubMtx\_solve()}}
+This method is used to solve $(I + A)X = B$ (if $A$ is strict lower
+or upper triangular)
+or $AX = B$ (if $A$ is diagonal or block diagonal).
+The solution $X$ overwrites $B$, and {\tt mtxB} must have dense
+columns.
+If $A$ is strict lower triangular, then {\tt mtxA} must have dense
+subrows or sparse rows.
+If $A$ is strict upper triangular, then {\tt mtxA} must have dense
+subcolumns or sparse columns.
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_solveH ( SubMtx *mtxA, SubMtx *mtxB ) ;
+\end{verbatim}
+\index{SubMtx_solveH@{\tt SubMtx\_solveH()}}
+This method is used to solve $(I + A^H)X = B$, 
+where $A$ is strict lower or upper triangular.
+The solution $X$ overwrites $B$, and {\tt mtxB} must have dense
+columns.
+If $A$ is strict lower triangular, then {\tt mtxA} must have dense
+subrows or sparse rows.
+If $A$ is strict upper triangular, then {\tt mtxA} must have dense
+subcolumns or sparse columns.
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_solveT ( SubMtx *mtxA, SubMtx *mtxB ) ;
+\end{verbatim}
+\index{SubMtx_solveT@{\tt SubMtx\_solveT()}}
+This method is used to solve $(I + A^T)X = B$, 
+where $A$ is strict lower or upper triangular.
+The solution $X$ overwrites $B$, and {\tt mtxB} must have dense
+columns.
+If $A$ is strict lower triangular, then {\tt mtxA} must have dense
+subrows or sparse rows.
+If $A$ is strict upper triangular, then {\tt mtxA} must have dense
+subcolumns or sparse columns.
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_solveupd ( SubMtx *mtxY, SubMtx *mtxA, SubMtx *mtxX ) ;
+\end{verbatim}
+\index{SubMtx_solveupd@{\tt SubMtx\_solveupd()}}
+This method is used to update $Y := Y - A * X$,
+where $A$ has dense or sparse rows or columns.
+{\tt mtxY} and {\tt mtxX} must have dense columns.
+\par \noindent {\it Error checking:}
+If {\tt mtxY}, {\tt mtxA} or {\tt mtxX} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_solveupdH ( SubMtx *mtxY, SubMtx *mtxA, SubMtx *mtxX ) ;
+\end{verbatim}
+\index{SubMtx_solveupdH@{\tt SubMtx\_solveupdH()}}
+This method is used to update $Y := Y - A^H * X$,
+where $A$ has dense or sparse rows or columns.
+{\tt mtxY} and {\tt mtxX} must have dense columns.
+\par \noindent {\it Error checking:}
+If {\tt mtxY}, {\tt mtxA} or {\tt mtxX} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_solveupdT ( SubMtx *mtxY, SubMtx *mtxA, SubMtx *mtxX ) ;
+\end{verbatim}
+\index{SubMtx_solveupdT@{\tt SubMtx\_solveupdT()}}
+This method is used to update $Y := Y - A^T * X$,
+where $A$ has dense or sparse rows or columns.
+{\tt mtxY} and {\tt mtxX} must have dense columns.
+\par \noindent {\it Error checking:}
+If {\tt mtxY}, {\tt mtxA} or {\tt mtxX} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:SubMtx:proto:utility}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtx_nbytesNeeded ( int type, int mode, int nrow, int ncol, int nent ) ;
+\end{verbatim}
+\index{SubMtx_nbytesNeeded@{\tt SubMtx\_nbytesNeeded()}}
+\par
+This method returns the number of bytes required to store the
+object's information in its buffer.
+\par \noindent {\it Error checking:}
+If {\tt nrow} or {\tt ncol} is less than or equal to zero,
+or if {\tt nent} is less than to zero,
+or if {\tt type} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtx_nbytesInUse ( SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtx_nbytesInUse@{\tt SubMtx\_nbytesInUse()}}
+\par
+This method returns the actual number of bytes that are used
+in the workspace owned by this object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtx_nbytesInWorkspace ( SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtx_nbytesInWorkspace@{\tt SubMtx\_nbytesInWorkspace()}}
+\par
+This method returns the number of bytes in the workspace owned by
+this object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_setNbytesInWorkspace ( SubMtx *mtx, int nbytes ) ;
+\end{verbatim}
+\index{SubMtx_setNbytesInWorkspace@{\tt SubMtx\_setNbytesInWorkspace()}}
+\par
+This method sets the number of bytes in the workspace of this object.
+If {\tt nbytes} is less than the present number of bytes, 
+the workspace is not resized.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void * SubMtx_workspace ( SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtx_workspace@{\tt SubMtx\_workspace()}}
+This method returns a pointer to the base address of the workspace.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_setFields( SubMtx *mtx, int type, int mode, int rowid, 
+                       int colid, int nrow, int ncol, int nent ) ;
+\end{verbatim}
+\index{SubMtx_setFields@{\tt SubMtx\_setFields()}}
+This method sets the scalar fields.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if {\tt nrow}, {\tt ncol}, {\tt nent}
+is less than or equal to zero,
+or if {\tt type} or {\tt mode} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_sortRowsUp ( SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtx_sortRowsUp@{\tt SubMtx\_sortRowsUp()}}
+This method sort the rows so the row ids are in ascending order.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_sortColumnsUp ( SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtx_sortColumnsUp@{\tt SubMtx\_sortColumnsUp()}}
+This method sort the rows so the column ids are in ascending order.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_fillRowDV ( SubMtx *mtx, int irow, DV *rowDV ) ;
+\end{verbatim}
+\index{SubMtx_fillRowDV@{\tt SubMtx\_fillRowDV()}}
+This method is used for real submatrices.
+It copies the entries in row {\tt irow} of the {\tt mtx} object
+into the {\tt rowDV} vector object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt rowDV} is {\tt NULL},
+or if {\tt irow} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_fillColumnDV ( SubMtx *mtx, int jcol, DV *rowDV ) ;
+\end{verbatim}
+\index{SubMtx_fillColumnDV@{\tt SubMtx\_fillColumnDV()}}
+This method is used for real submatrices.
+It copies the entries in column {\tt jcol} of the {\tt mtx} object
+into the {\tt colDV} vector object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt colDV} is {\tt NULL},
+or if {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_fillRowZV ( SubMtx *mtx, int irow, ZV *rowZV ) ;
+\end{verbatim}
+\index{SubMtx_fillRowZV@{\tt SubMtx\_fillRowZV()}}
+This method is used for complex submatrices.
+It copies the entries in row {\tt irow} of the {\tt mtx} object
+into the {\tt rowZV} vector object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt rowZV} is {\tt NULL},
+or if {\tt irow} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_fillColumnZV ( SubMtx *mtx, int jcol, ZV *rowZV ) ;
+\end{verbatim}
+\index{SubMtx_fillColumnZV@{\tt SubMtx\_fillColumnZV()}}
+This method is used for complex submatrices.
+It copies the entries in column {\tt jcol} of the {\tt mtx} object
+into the {\tt colZV} vector object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt colZV} is {\tt NULL},
+or if {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double SubMtx_maxabs ( SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtx_maxabs@{\tt SubMtx\_maxabs()}}
+This method returns the magnitude of the element in the matrix
+with the largest magnitude.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_zero ( SubMtx *mtx ) ;
+\end{verbatim}
+\index{SubMtx_zero@{\tt SubMtx\_zero()}}
+This method zeros the entries of the submatrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:SubMtx:proto:IO}
+\par
+The file structure of a {\tt SubMtx} object is exactly that of its
+internal workspace buffer. See the source code for more details.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtx_readFromFile ( SubMtx *mtx, char *fn ) ;
+\end{verbatim}
+\index{SubMtx_readFromFile@{\tt SubMtx\_readFromFile()}}
+\par
+This method reads a {\tt SubMtx} object from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt SubMtx\_readFromFormattedFile()} or
+{\tt SubMtx\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.mtxf} (for a formatted file) 
+or {\tt *.mtxb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtx_readFromFormattedFile ( SubMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{SubMtx_readFromFormattedFile@{\tt SubMtx\_readFromFormattedFile()}}
+\par
+This method reads in a {\tt SubMtx} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+Note, if the mtxutation vectors are one-based (as for Fortran),
+they are converted to zero-based vectors.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtx_readFromBinaryFile ( SubMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{SubMtx_readFromBinaryFile@{\tt SubMtx\_readFromBinaryFile()}}
+\par
+This method reads in a {\tt SubMtx} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+Note, if the mtxutation vectors are one-based (as for Fortran),
+they are converted to zero-based vectors.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtx_writeToFile ( SubMtx *mtx, char *fn ) ;
+\end{verbatim}
+\index{SubMtx_writeToFile@{\tt SubMtx\_writeToFile()}}
+\par
+This method writes a {\tt SubMtx} object to a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt SubMtx\_writeFromFormattedFile()} or
+{\tt SubMtx\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.mtxf} (for a formatted file) 
+or {\tt *.mtxb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtx_writeToFormattedFile ( SubMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{SubMtx_writeToFormattedFile@{\tt SubMtx\_writeToFormattedFile()}}
+\par
+This method writes out a {\tt SubMtx} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtx_writeToBinaryFile ( SubMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{SubMtx_writeToBinaryFile@{\tt SubMtx\_writeToBinaryFile()}}
+\par
+This method writes out a {\tt SubMtx} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtx_writeForHumanEye ( SubMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{SubMtx_writeForHumanEye@{\tt SubMtx\_writeForHumanEye()}}
+\par
+This method writes out a {\tt SubMtx} object to a file in a human
+readable format.
+The method {\tt SubMtx\_writeStats()} 
+is called to write out the
+header and statistics. 
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtx_writeStats ( SubMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{SubMtx_writeStats@{\tt SubMtx\_writeStats()}}
+\par
+This method writes out a header and statistics to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtx_writeForMatlab ( SubMtx *mtx, char *mtxname, FILE *fp ) ;
+\end{verbatim}
+\index{SubMtx_writeForMatlab@{\tt SubMtx\_writeForMatlab()}}
+\par
+This method writes out a {\tt SubMtx} object to a file in a Matlab format.
+A sample line is
+\begin{verbatim}
+a(10,5) =  -1.550328201511e-01 +   1.848033378871e+00*i ;
+\end{verbatim}
+for complex matrices, or
+\begin{verbatim}
+a(10,5) =  -1.550328201511e-01 ;
+\end{verbatim}
+for real matrices, where mtxname = {\tt "a"}.
+The matrix indices come from the {\tt rowind[]} and {\tt colind[]}
+vectors, and are incremented by one to follow the Matlab and
+FORTRAN convention.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt mtxname} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

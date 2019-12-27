@@ -1,0 +1,650 @@
+\par
+\section{Prototypes and descriptions of {\tt GPart} methods}
+\label{section:GPart:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt GPart} object.
+% There are four families: 
+% basics, 
+% IO,
+% initializers 
+% and
+% utilities.
+There are no IO methods.
+\par
+\subsection{Basic methods}
+\label{subsection:GPart:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+GPart * GPart_new ( void ) ;
+\end{verbatim}
+\index{GPart_new@{\tt GPart\_new()}}
+This method simply allocates storage for the {\tt GPart} structure 
+and then sets the default fields by a call to 
+{\tt GPart\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void GPart_setDefaultFields ( GPart *gpart ) ;
+\end{verbatim}
+\index{GPart_setDefaultFields@{\tt GPart\_setDefaultFields()}}
+This method sets the structure's fields to default values:
+{\tt id = -1}, {\tt nvtx = nvbnd = ncomp = 0},
+{\tt g} = {\tt par} = {\tt fch} = {\tt sib} = {\tt NULL},
+and the default fields for {\tt compidsIV}, {\tt cweightsIV}
+and {\tt vtxMapIV} are set via calls to {\tt
+IV\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt gpart} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void GPart_clearData ( GPart *gpart ) ;
+\end{verbatim}
+\index{GPart_clearData@{\tt GPart\_clearData()}}
+The {\tt IV\_clearData()} method is called for the
+{\tt compidsIV}, {\tt cweightsIV} and
+{\tt vtxMapIV} objects.
+The structure's fields are then set
+with a call to {\tt GPart\_setDefaultFields()}.
+Note, storage for the {\tt Graph} object {\tt gpart->graph} 
+is {\bf not} free'd.
+The {\tt GPart} object does not own its {\tt Graph} object,
+it only uses it.
+\par \noindent {\it Error checking:}
+If {\tt gpart} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void GPart_free ( GPart *gpart ) ;
+\end{verbatim}
+\index{GPart_free@{\tt GPart\_free()}}
+This method releases any storage by a call to 
+{\tt GPart\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt gpart} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:GPart:proto:initializers}
+\par
+There are two initializer methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void GPart_init ( GPart *gpart, Graph *graph ) ;
+\end{verbatim}
+\index{GPart_init@{\tt GPart\_init()}}
+This method initializes the {\tt Gpart} object given a {\tt Graph}
+object as input.
+Any previous data is cleared with a call to 
+{\tt GPart\_clearData()}.
+The {\tt graph}, {\tt nvtx}, {\tt nvbnd} fields are set.
+The {\tt compidsIV} and {\tt cweightsIV} {\tt IV} objects are 
+initialized.
+The remaining fields are not changed from their default values.
+\par \noindent {\it Error checking:}
+If {\tt gpart} or {\tt g} is {\tt NULL},
+or if $\mbox{\tt g->nvtx} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void GPart_setMessageInfo ( GPart *gpart, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{GPart_setMessageInfo@{\tt GPart\_setMessageInfo()}}
+This method sets the {\tt msglvl} and {\tt msgFile} fields.
+\par \noindent {\it Error checking:}
+If {\tt gpart} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:GPart:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void GPart_setCweights ( GPart *gpart ) ;
+\end{verbatim}
+\index{GPart_setCweights@{\tt GPart\_setCweights()}}
+This method sets the component weights vector {\tt cweightsIV}.
+We assume that the {\tt compidsIV} vector has been set prior to
+entering this method.
+The weight of a component is not simply the sum of the weights of
+the vertices with that component's id.
+We accept the separator or multisector vertices (those {\tt v} with
+{\tt compids[v] == 0}) but then find the connected components of
+the remaining vertices, renumbering the {\tt compidsIV} vector
+where necessary.
+Thus, {\tt ncomp} and {\tt compidsIV} may be updated, 
+and {\tt cweightsIV} is set.
+\par \noindent {\it Error checking:}
+If {\tt gpart} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int GPart_sizeOf ( GPart *gpart ) ;
+\end{verbatim}
+\index{GPart_sizeOf@{\tt GPart\_sizeOf()}}
+This method returns the number of bytes owned by the object.
+This includes the structure itself, the {\tt compidsIV},
+{\tt cweightsIV} and {\tt vtxMapIV} arrays (if present),
+but {\tt not} the {\tt Graph} object.
+\par \noindent {\it Error checking:}
+If {\tt gpart} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int GPart_validVtxSep ( GPart *gpart ) ;
+\end{verbatim}
+\index{GPart_validVtxSep@{\tt GPart\_validVtxSep()}}
+This method returns 1 if the partition defined by the {\tt
+compidsIV} vector has a valid vertex separator and zero otherwise.
+When there is a valid vertex separator, there are no
+adjacent vertices not in the multisector that belong to different
+components (as defined by the {\tt compidsIV} vector).
+\par \noindent {\it Error checking:}
+If {\tt gpart} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void GPart_split ( GPart *gpart ) ;
+\end{verbatim}
+\index{GPart_split@{\tt GPart\_split()}}
+This method is used to split a subgraph during the nested
+dissection process that builds a tree of {\tt GPart} objects.
+We first generate a valid partition via the
+{\tt GPart\_setCweights()} method,
+and
+then split the graph into its component subgraphs. 
+Each subgraph is
+assigned to a new child {\tt GPart} object.
+The {\tt Graph} object for each subgraph is formed from the parent
+graph using the {\tt Graph\_subGraph()} method.
+This means that the storage for the adjacency lists of the subgraph 
+is taken from the storage for the parent graph --- the lists are
+mapped into the local ordering via the {\tt vtxMap} vector.
+After {\tt GPart\_split(gpart)} is called, the adjacency lists for the
+vertices in {\tt gpart->g} are no longer valid.
+\par \noindent {\it Error checking:}
+If {\tt gpart} or {\tt g} is {\tt NULL},
+or if {\tt gpart->fch} is not {\tt NULL}
+(meaning that the subgraph has already been split),
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int GPart_vtxIsAdjToOneDomain ( GPart *gpart, int v, int *pdomid ) ;
+\end{verbatim}
+\index{GPart_vtxIsAdjToOneDomain@{\tt GPart\_vtxIsAdjToOneDomain()}}
+This method determines whether the vertex {\tt v} is
+adjacent to just one domain or not. 
+We use this method to make a separator or multisector minimal.
+If the vertex is adjacent to only one domain, the return value is
+{\tt 1} and {\tt *pdomid} is set to the domain's id.
+If a vertex is adjacent to zero or two or more domains, the return
+value is zero.
+If a vertex belongs to a domain, it is considered adjacent to that
+domain.
+\par \noindent {\it Error checking:}
+If {\tt gpart}, {\tt g} or {\tt domid} is {\tt NULL},
+or if {\tt v} is out of range
+(i.e., ${\tt v} < 0$ or ${\tt nvtx} \le {\tt v}$),
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * GPart_bndWeightsIV ( GPart *gpart ) ;
+\end{verbatim}
+\index{GPart_bndWeightsIV@{\tt GPart\_bndWeightsIV()}}
+This method returns an {\tt IV} object that contains the weights of
+the vertices on the boundaries of the components.
+\par \noindent {\it Error checking:}
+If {\tt gpart} or {\tt g} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Domain decomposition methods}
+\label{subsection:GPart:proto:domain-decomposition}
+\par
+There are presently two methods that create a domain decomposition 
+of a graph or a subgraph.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void GPart_DDviaFishnet ( GPart *gpart, double frac, int minweight,
+                          int maxweight, int seed ) ;
+\end{verbatim}
+\index{GPart_DDviaFishnet@{\tt GPart\_DDviaFishnet()}}
+This method generates a domain decomposition of a graph using the
+{\it fishnet} algorithm (see \cite{ash97-DDSEP} for details).
+On return, the {\tt compidsIV} vector is filled with component ids
+and {\tt ncomp} is set with the number of domains.
+The {\tt frac} parameter governs the exclusion of nodes of high
+degree from the domain sets.
+We have found this to be useful for some graphs.
+Nodes of very high degree (relative to the average or mean degree)
+can severely distort a domain decomposition.
+We have found that setting {\tt frac} to four works well in
+practice.
+The {\tt minweight} and {\tt maxweight} parameters are the minimum
+target weight and maximum target weight for a domain.
+The {\tt seed} parameter is used to insert a degree of randomness
+into the algorithm.
+This allows us to make several runs and take the best partition.
+\par \noindent {\it Error checking:}
+If {\tt gpart} or {\tt g} is {\tt NULL},
+or if ${\tt freeze} \le 0.0$,
+or if ${\tt minweight} < 0$,
+or if ${\tt maxweight} < 0$,
+or if ${\tt minweight} \ge {\tt maxweight}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void GPart_DDviaProjection ( GPart *gpart, IV *DDmapIV ) ;
+\end{verbatim}
+\index{GPart_DDviaProjection@{\tt GPart\_DDviaProjection()}}
+This method generates a domain decomposition for a subgraph by
+projecting an existing domain decoposition for the original graph
+onto the subgraph.
+Using this method (as opposed to generating a domain decomposition
+for each subgraph) can typically save 15\% of the overall time
+to find the graph decomposition, though the resulting partition is
+usually not as good.
+\par \noindent {\it Error checking:}
+If {\tt gpart} or {\tt DDmapIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Methods to generate a 2-set partition}
+\label{subsection:GPart:proto:2-set}
+\par
+These two methods are used to generate a 2-set partition
+$[S,B,W]$ from a domain decomposition.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double GPart_TwoSetViaBKL ( GPart *gpart, double alpha, int seed,
+                            double cpus[] ) ;
+\end{verbatim}
+\index{GPart_TwoSetViaBKL@{\tt GPart\_TwoSetViaBKL()}}
+This method takes a domain decomposition $\{\Phi, \Omega_1,
+\ldots, \Omega_m\}$ defined by the {\tt compidsIV} vector
+and generates a two set partition $[S,B,W]$.
+We first compute the map from vertices to domains and segments
+(the segments partition the interface nodes $\Phi$).
+We then construct the bipartite graph that represents the
+connectivity of the domains and segments.
+Each segment is an ``edge'' that connects two ``adjacent'' domains.
+This allows us to use a variant of the Kernighan-Lin algorithm to
+find an ``edge'' separator formed of segments, 
+which is really a vertex separator, a subset of $\Phi$.
+The {\tt alpha} parameter is used in the cost function evaluation
+for the partition,
+$\displaystyle
+\mbox{cost}([S,B,W]) = |S|\left(1 + \alpha
+\frac{\max\{|B|,|W|\}}
+{\min\{|B|,|W|\}}
+\right)
+$.
+The {\tt seed} parameter is used to randomize the algorithm.
+One can make several runs with different seeds and chose the best
+partition.
+The {\tt cpus[]} array is used to store execution times for
+segments of the algorithm:
+{\tt cpus[0]} stores the time to compute the domain/segment map;
+{\tt cpus[2]} stores the time to create the domain/segment bipartite
+graph;
+{\tt cpus[3]} stores the time to find the bisector using the block
+Kernighan-Lin algorithm.
+\par \noindent {\it Error checking:}
+If {\tt gpart} or {\tt cpus} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * GPart_domSegMap ( GPart *gpart, int *pndom, int *pnseg ) ;
+\end{verbatim}
+\index{GPart_domSegMap@{\tt GPart\_domSegMap()}}
+This method takes a domain decomposition as defined by the {\tt
+compidsIV} vector and generates the map from the vertices to the
+domains and segments that are used in the Block Kernighan-Lin
+procedure to find an initial separator.
+The map is returned in an {\tt IV} object, and the numbers of
+domains and segments are set in the {\tt pndom} and {\tt pnseg}
+addresses.
+This method is called by {\tt GPart\_TwoSetViaBKL}.
+\par \noindent {\it Error checking:}
+If {\tt gpart}, {\tt g}, {\tt pndom} or {\tt pnseg} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Methods to improve a 2-set partition}
+\label{subsection:GPart:proto:improve}
+\par
+These methods are used to improve a 2-set partition $[S,B,W]$.
+They hinge on finding a {\it wide separator} $Y$ and constructing a
+better separator ${\widehat S} \subseteq Y$.
+The {\tt alpha} parameter is used in the cost function
+$\displaystyle
+\mbox{cost}([S,B,W]) = |S|\left(1 + \alpha
+\frac{\max\{|B|,|W|\}}
+{\min\{|B|,|W|\}}
+\right)
+$.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * GPart_identifyWideSep ( GPart *gpart, int nlayer1, int nlayer2 ) ;
+\end{verbatim}
+\index{GPart_identifyWideSep@{\tt GPart\_identifyWideSep()}}
+This method takes a 2-set partition $[S,B,W]$ and identifies a {\it wide
+separator} $Y$ that contains $S$.
+The portions of $B$ and $W$ that are included in $Y$ are specified
+using the {\tt nlayer1} and {\tt nlayer2} parameters.
+If both are zero, then $Y$ is simply $S$.
+If {\tt nlayer1 > 0}, then $Y$ contains all vertices 
+in the first component whose distance is {\tt nlayer1} or less from
+$S$, and similarly for {\tt nlayer2 > 0}.
+The vertices in $Y$ are placed in an {\tt IV} object which is then
+returned.
+\par \noindent {\it Error checking:}
+If {\tt gpart} or {\tt g} is {\tt NULL},
+or if ${\tt nlevel1} < 0$ or ${\tt nlevel2} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * GPart_makeYCmap ( GPart *gpart, IV *YVmapIV ) ;
+\end{verbatim}
+\index{GPart_makeYCmap@{\tt GPart\_makeYCmap()}}
+This method contructs and returns an {\tt IV} object that is the
+blueprint used to form the network.
+The wide separator $Y$ can be partitioned into four disjoint sets
+(though some may be empty):
+\begin{eqnarray*}
+Y_0 & = & \{y \in Y\ |\ 
+            y \notin Adj(B \setminus Y)
+%           y \cap Adj(B \setminus Y) = \emptyset
+            \mbox{\ and\ }
+            y \notin Adj(W \setminus Y)
+%           y \cap Adj(W \setminus Y) = \emptyset 
+\} \\
+Y_1 & = & \{y \in Y\ |\ 
+            y \in Adj(B \setminus Y)
+%           y \cap Adj(B \setminus Y) \ne \emptyset
+            \mbox{\ and\ }
+            y \notin Adj(W \setminus Y)
+%           y \cap Adj(W \setminus Y) = \emptyset 
+\} \\
+Y_2 & = & \{y \in Y\ |\ 
+            y \notin Adj(B \setminus Y)
+%           y \cap Adj(B \setminus Y) = \emptyset
+            \mbox{\ and\ }
+            y \in Adj(W \setminus Y)
+%           y \cap Adj(W \setminus Y) \ne \emptyset 
+\} \\
+Y_3 & = & \{y \in Y\ |\ 
+            y \in Adj(B \setminus Y)
+%           y \cap Adj(B \setminus Y) \ne \emptyset
+            \mbox{\ and\ }
+            y \in Adj(W \setminus Y)
+%           y \cap Adj(W \setminus Y) \ne \emptyset 
+\}
+\end{eqnarray*}
+The {\tt YVmapIV} object contains the list of vertices in the wide
+separator $Y$.
+The {\tt IV} object that is returned, (called {\tt YCmapIV} in
+the calling method) contains the subscripts of the $Y_0$, $Y_1$,
+$Y_2$ or $Y_3$ sets that contains each vertex.
+\par \noindent {\it Error checking:}
+If {\tt gpart}, {\tt g} or {\tt YVmapIV} is {\tt NULL},
+or if ${\tt nvtx} \le 0$,
+or if {\tt YVmapIV} is empty,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void * GPart_smoothBy2layers ( GPart *gpart, int bipartite, float alpha ) ;
+\end{verbatim}
+\index{GPart_smoothBy2layers@{\tt GPart\_smoothBy2layers()}}
+This method forms the wide separator $Y$ from two layers of
+vertices, either $Y_B = S \cup (Adj(S) \cap B)$ 
+or $Y_W = S \cup (Adj(S) \cap W)$.
+(If $|B| \ge |W|$, we first look at $Y_B$ and if no improvement can
+be made we look at $Y_W$, and the reverse if $|W| > |B|$.)
+The {\tt bipartite} parameter defines the type of network problem
+we solve.
+The network induced by the wide separator $Y$ need not be bipartite,
+and will not be bipartite if $Y_0 \ne \emptyset$ or $Y_3 \ne \emptyset$,
+($Y_0$ and $Y_3$ are defined immediately above).
+The $Y_3$ set is not important, since it must be included in any
+separator ${\widehat S} \subseteq Y$.
+When $Y_0$ is not empty, it forms a layer {\it between} $Y_1$ and $Y_2$,
+and so the network is not bipartite.
+We can force the network to be bipartite 
+(set {\tt bipartite} to {\tt 1}) by moving all nodes in $Y_0$ to
+the appropriate $Y_1$ or $Y_2$.
+When the graph is unit-weight and the network is bipartite, 
+we can use the Dulmage-Mendelsohn decomposition to find one 
+or more separators of minimum weight.
+In general, forcing a non-bipartite network to be bipartite results
+in possibly a larger separator, so we do not recommend this option.
+The capability is there to compare the Dulmage-Mendelsohn
+decomposition smoothers with the more general (and robust) max
+flow smoothers.
+\par \noindent {\it Error checking:}
+If {\tt gpart} is {\tt NULL},
+or if ${\tt alpha} < 0.0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float * GPart_smoothYSep ( GPart *gpart, IV *YVmapIV, 
+                           IV *YCmapIV, float alpha ) ;
+\end{verbatim}
+\index{GPart_smoothYSep@{\tt GPart\_smoothYSep()}}
+This methods takes as input a 2-set partition $[S,B,W]$
+(defined by {\tt gpart->compidsIV}), a wide separator $Y$
+(defined by {\tt YVmapIV}) and a 
+$\langle Y_0, Y_1, Y_2, Y_3 \rangle$ partition of $Y$
+(defined by {\tt YCmapIV}) and attempts to find a better partition.
+A max flow problem is solved on a network induced by
+$\langle Y_0, Y_1, Y_2, Y_3 \rangle$.
+Two min-cuts and the partitions they induce are examined and the
+better partition is accepted if better than $[S,B,W]$.
+The parameter {\tt alpha} is used in the partition's cost function,
+and the cost of the best partition is returned.
+\par \noindent {\it Error checking:}
+If {\tt gpart}, {\tt YVmapIV} or {\tt YCmapIV} is {\tt NULL},
+or if ${\tt alpha} < 0.0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float * GPart_smoothBisector ( GPart *gpart, int nlayer, float alpha ) ;
+\end{verbatim}
+\index{GPart_smoothBisector@{\tt GPart\_smoothBisector()}}
+This method takes a two-set partition $[S,B,W]$ as defined by the
+{\tt compidsIV} vector and improves it (if possible). 
+The methods returns the cost of 
+a (possibly) new two-set partition
+$[{\widehat S}, {\widehat B}, {\widehat W}]$ 
+defined by the {\tt compidsIV} vector.
+The wide separator $Y$ that is constructed is {\it centered} around
+$S$, i.e., $Y$ includes all nodes in $B$ and $W$ that are {\tt
+nlayer} distance or less from $S$.
+This method calls {\tt GPart\_smoothYSep()}.
+\par \noindent {\it Error checking:}
+If {\tt gpart} is {\tt NULL},
+or if ${\tt nlevel} < 0$,
+or if ${\tt alpha} < 0.0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Recursive Bisection method}
+\label{subsection:GPart:proto:RB}
+\par
+There is presently one method to construct the domain/separator tree.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+DSTree * GPart_RBviaDDsep ( GPart *gpart, DDsepInfo *info ) ;
+\end{verbatim}
+\index{GPart_RBviaDDsep@{\tt GPart\_RBviaDDsep()}}
+This method performs a recursive bisection of the graph using the
+{\tt DDSEP} algorithm and returns a {\tt DSTree} object that represents
+the domain/separator tree and the map from vertices to domains and
+separators.
+The {\tt DDsepInfo} structure contains all the parameters to the
+different steps of the {\tt DDSEP} algorithm (the fishnet method to find
+the domain decomposition, the Block Kernighan-Lin method to find an
+initial separator, and solves a max flow problem to
+improve the separator).
+An attempt is made to split a subgraph if the weight of the
+internal vertices of the subgraph exceeds {\tt info->maxcompweight}.
+The cpu times for the different segments of the algorithm are
+accumulated in fields of the {\tt DDsepInfo} object.
+\par \noindent {\it Error checking:}
+If {\tt gpart} or {\tt info} is {\tt NULL},
+or if ${\tt nvtx} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{{\tt DDsepInfo} methods}
+\label{subsection:GPart:proto:DDsepInfo}
+\par
+The {\tt DDsepInfo} {\it helper}-object is used during the
+{\tt DDSEP} recursive bisection process.
+It stores the necessary input parameters for the different stages
+of the {\tt DDSEP} algorithm and collects statistics about the
+resulting partition.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+DDsepInfo * DDsepInfo_new ( void ) ;
+\end{verbatim}
+\index{DDepInfo_new@{\tt DDsepInfo\_new()}}
+This method simply allocates storage for the {\tt DDsepInfo} structure 
+and then sets the default fields by a call to 
+{\tt DDsepInfo\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DDsepInfo_setDefaultFields ( DDsepInfo *info ) ;
+\end{verbatim}
+\index{DDepInfo_setDefaultFields@{\tt DDsepInfo\_setDefaultFields()}}
+This method checks to see whether {\tt info} is {\tt NULL}.
+If so, an error message is printed and the program exits.
+Otherwise, the structure's fields are set to the following 
+default values.
+\begin{verbatim}
+info->seed          =   1 ; info->cpuDD     =    0.0 ;
+info->minweight     =  40 ; info->cpuMap    =    0.0 ;
+info->maxweight     =  80 ; info->cpuBPG    =    0.0 ;
+info->frac          = 4.0 ; info->cpuBKL    =    0.0 ;
+info->alpha         = 1.0 ; info->cpuSmooth =    0.0 ;
+info->maxcompweight = 500 ; info->cpuSplit  =    0.0 ;
+info->ntreeobj      =   0 ; info->cpuTotal  =    0.0 ;
+info->DDoption      =   1 ; info->msglvl    =      0 ;
+info->nlayer        =   3 ; info->msgFile   = stdout ;
+\end{verbatim}
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DDsepInfo_clearData ( DDsepInfo *info ) ;
+\end{verbatim}
+\index{DDepInfo_clearData@{\tt DDsepInfo\_clearData()}}
+This method checks to see whether {\tt info} is {\tt NULL}.
+{\tt DDsepInfo\_setDefaultFields()} is
+called to set the default values.
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DDsepInfo_free ( DDsepInfo *info ) ;
+\end{verbatim}
+\index{DDepInfo_free@{\tt DDsepInfo\_free()}}
+This method checks to see whether {\tt info} is {\tt NULL}.
+If so, an error message is printed and the program exits.
+Otherwise, it releases any storage by a call to 
+{\tt DDsepInfo\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DDsepInfo_writeCpuTimes ( DDsepInfo *info, FILE *msgFile ) ;
+\end{verbatim}
+\index{DDepInfo_writeCpuTimes@{\tt DDsepInfo\_writeCpuTimes()}}
+This method writes a breakdown of the CPU times in a meaningful
+format.
+Here is sample output.
+\begin{verbatim}
+ CPU breakdown for graph partition
+               raw CPU   per cent
+ misc       :      1.61    1.2%
+ Split      :     24.68   17.7%
+ find DD    :     12.13    8.7%
+ DomSeg Map :     13.09    9.4%
+ DomSeg BPG :      4.66    3.3%
+ BKL        :      5.68    4.1%
+ Smooth     :     77.83   55.7%
+ Total      :    139.67  100.0%
+\end{verbatim}
+\par \noindent {\it Error checking:}
+If {\tt info} or {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}

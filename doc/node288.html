@@ -1,169 +1,295 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*NETWORK MPC</TITLE>
-<META NAME="description" CONTENT="*NETWORK MPC">
+<TITLE>*DYNAMIC</TITLE>
+<META NAME="description" CONTENT="*DYNAMIC">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node289.html">
 <LINK REL="previous" HREF="node287.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node289.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4784"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4900"
   HREF="node289.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4780"
-  HREF="node205.html">
+<A NAME="tex2html4896"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4774"
+<A NAME="tex2html4890"
   HREF="node287.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4782"
+<A NAME="tex2html4898"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4785"
-  HREF="node289.html">*NO ANALYSIS</A>
-<B> Up:</B> <A NAME="tex2html4781"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4775"
-  HREF="node287.html">*MPC</A>
- &nbsp; <B>  <A NAME="tex2html4783"
+<B> Next:</B> <A NAME="tex2html4901"
+  HREF="node289.html">*ELASTIC</A>
+<B> Up:</B> <A NAME="tex2html4897"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4891"
+  HREF="node287.html">*DSLOAD</A>
+ &nbsp; <B>  <A NAME="tex2html4899"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000880000000000000000"></A><A NAME="networkmpc"></A>
+<H2><A NAME="SECTION000941000000000000000"></A><A NAME="dynamic"></A>
 <BR>
-*NETWORK MPC
+*DYNAMIC
 </H2>
 
 <P>
-Keyword type: model definition
+Keyword type: step
 
 <P>
-With this option, an equation between variables in a network (total
-temperature and total pressure at the end nodes of a network element, mass
-flow in the middle node) can be created. The corresponding degrees of freedom
-are:
+This procedure is used to calculate the response of a structure subject to
+dynamic loading using a direct integration procedure of the equations of
+motion.  This card is also correct for transient incompressible flow calculations without heat transfer.
+
+<P>
+There are five optional
+parameters: DIRECT, ALPHA, EXPLICIT, SOLVER and RELATIVE TO ABSOLUTE. The parameter DIRECT specifies
+that the user-defined initial time increment should not be changed. In case of
+no convergence with this increment size, the calculation stops with an error
+message. If this parameter is not set, the program will adapt the increment
+size depending on the rate of convergence. The parameter ALPHA takes an
+argument between -1/3 and 0. It controls the dissipation of the high frequency
+response: lower numbers lead to increased numerical damping
+([<A
+ HREF="node487.html#Miranda">56</A>]). The default value is -0.05. 
+
+<P>
+The parameter EXPLICIT can take the following values:
 
 <P>
 
 <UL>
-<LI>total temperature: 0
+<LI>0: implicit structural computation, semi-implicit fluid computation
 </LI>
-<LI>mass flow: 1
+<LI>1: implicit structural computation, explicit fluid computation
 </LI>
-<LI>total pressure: 2
+<LI>2: explicit structural computation, semi-implicit fluid computation
+</LI>
+<LI>3: explicit structural computation, explicit fluid computation
 </LI>
 </UL>
 
 <P>
-The use of *NETWORK MPC requires the coding of subroutines networkmpc_lhs.f
-and networkmpc_rhs.f by the user. In these routines the user defines the MPC
-(linear or nonlinear)
-using the information entered underneath *NETWORK MPC. The syntax is identical
-to <A HREF="node259.html#equation">*EQUATION</A> except for an additional parameter TYPE
-  specifying the type of MPC. Using this type the user can distinguish between
-  different kinds of MPC in the networkmpc_lhs.f and networkmpc_rhs.f subroutines.
+If the value is lacking, 3 is assumed. If the parameter is lacking altogether,
+a zero value is assumed.
 
 <P>
-For instance, suppose the user wants to define a network MPC of the form:
+The parameter SOLVER determines the
+package used to solve the ensuing system of equations. The following solvers
+can be selected:
 
 <P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-f:=a p_{t} (node_1) + b p_t^2 (node_2)=0
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="237" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
- SRC="img1805.png"
- ALT="$\displaystyle f:=a p_{t} (node_1) + b p_t^2 (node_2)=0$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(494)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
+
+<UL>
+<LI>the SGI solver
+</LI>
+<LI>PARDISO
+</LI>
+<LI>SPOOLES [<A
+ HREF="node487.html#Ashcraft1">3</A>,<A
+ HREF="node487.html#Ashcraft2">4</A>]. 
+</LI>
+<LI>TAUCS 
+</LI>
+<LI>the iterative solver by Rank and Ruecker [<A
+ HREF="node487.html#Rank">70</A>], which is based on
+  the algorithms by Schwarz [<A
+ HREF="node487.html#Schwarz">74</A>]. 
+</LI>
+</UL>
 
 <P>
-specifying that the total pressure in node 1 should be (-b/a) times the square
-of the total
-pressure in node 2. There are 2 degrees of freedom involved: dof 2 in node 1
-and dof 2 in node 2. Underneath *NETWORK MPC the user defines the
-coefficients and degrees of freedom of the terms involved:
+Default is the first solver which has been installed of the following list:
+SGI, PARDISO, SPOOLES and TAUCS. If none is installed, the default is the iterative solver, which comes with the CalculiX
+package.
+
+<P>
+The SGI solver should by now be considered as outdated. SPOOLES is very fast, but has no
+out-of-core capability: the size of systems you can solve is limited by your
+RAM memory. With 2GB of RAM you can solve up to 250,000 equations. TAUCS is
+also good, but my experience is limited to the <SPAN CLASS="MATH"><B><IMG
+ WIDTH="35" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2098.png"
+ ALT="$ LL^T$"></B></SPAN> decomposition, which
+only applies to positive definite systems. It has an out-of-core capability
+and also offers a <SPAN CLASS="MATH"><B><IMG
+ WIDTH="27" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2099.png"
+ ALT="$ LU$"></B></SPAN> decomposition, however, I was not able to run either of
+them so far. Next comes the iterative solver. If SOLVER=ITERATIVE SCALING is
+selected, the pre-conditioning is limited to a scaling of the diagonal terms,
+SOLVER=ITERATIVE CHOLESKY triggers Incomplete Cholesky
+pre-conditioning. Cholesky pre-conditioning leads to a better convergence and
+maybe to shorter execution times, however, it requires additional storage
+roughly corresponding to the non-zeros in the matrix. If you are short of
+memory, diagonal scaling might be your last resort. The iterative methods
+perform well for truly three-dimensional structures. For instance,
+calculations for a hemisphere were about nine times faster with the ITERATIVE
+SCALING solver, and three times faster with the ITERATIVE CHOLESKY solver than
+with SPOOLES. For two-dimensional structures such as plates or shells, the
+performance might break down drastically and convergence often requires the
+use of Cholesky pre-conditioning. SPOOLES (and any of the other direct solvers)
+performs well in most situations with emphasis on slender structures but
+requires much more storage than the iterative solver. PARDISO is the Intel proprietary solver and is to my knowledge
+presently the fastest.
+
+<P>
+Finally, the parameter RELATIVE TO ABSOLUTE can be used if the coordinate
+system in the previous step was attached to a rotating system and the
+coordinate system in the present dynamic step should be absolute. In that case, the
+velocity of the rotating system is added to the relative velocity obtained at the end of the
+previous step in all nodes belonging to elements in
+which centrifugal loading was defined. Thereafter, the centrifugal loading is
+deactivated. For instance, suppose that you start a calculation with a *STATIC
+step with a centrifugal load, i.e. all quantities are determined in the
+relative, rotating system. In a subsequent dynamic step you want to continue
+the calculation in the absolute system. In that case you need the parameter
+RELATIVE TO ABSOLUTE.
+
+<P>
+In a dynamic step, loads are by default applied by their full strength at the
+start of the step. Other loading
+patterns can be defined by an <A HREF="node245.html#amplitude">*AMPLITUDE</A> card.
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+First line:
+
+<UL>
+<LI>*DYNAMIC
+</LI>
+<LI>enter any parameters and their values, if needed.
+</LI>
+</UL>
+Second line:
+
+<UL>
+<LI>Initial time increment. This value will be modified due to automatic incrementation, unless the parameter DIRECT was specified.
+</LI>
+<LI>Time period of the step.
+</LI>
+<LI>Minimum time increment allowed. Only active if DIRECT is not specified. Default is the initial time increment or 1.e-5 times the time period of the step, whichever is smaller.
+</LI>
+<LI>Maximum time increment allowed. Only active if DIRECT is not specified. Default is 1.e+30.
+</LI>
+<LI>Initial time increment for CFD applications (default 1.e-2)
+</LI>
+</UL>
 
 <P>
 <PRE>
-*NETWORK MPC,TYPE=QUADRATIC
-2
-node1,2,a,node2,2,b
+Examples:
+
+*DYNAMIC,DIRECT,EXPLICIT
+1.E-7,1.E-5
 </PRE>
 
 <P>
-All this information including the type of the MPC is transferred to the
-networkmpc_lhs.f and networkmpc_rhs.f subroutines. In networkmpc_rhs.f the
-user has to code the calculation of -f, in networkmpc_lhs.f the calculation
-of the derivative of f w.r.t. each degree of freedom occurring in the
-MPC. This has been done for TYPE=QUADRATIC and the reader is referred to the source code and
-example networkmpc.inp for further details.  
+defines an explicit dynamic procedure with fixed time increment <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2186.png"
+ ALT="$ 10^{-7}$"></B></SPAN> for a step of length <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2142.png"
+ ALT="$ 10^{-5}$"></B></SPAN>.
 
 <P>
-<HR>
+<PRE>
+*DYNAMIC,ALPHA=-0.3,SOLVER=ITERATIVE CHOLESKY
+1.E-7,1.E-5,1.E-9,1.E-6
+</PRE>
+
+<P>
+defines an implicit dynamic procedure with variable increment size. The numerical damping was increased (<!-- MATH
+ $\alpha = -0.3$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="68" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2187.png"
+ ALT="$ \alpha = -0.3$"></B></SPAN> instead of the default <!-- MATH
+ $\alpha = -0.05$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="76" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2188.png"
+ ALT="$ \alpha = -0.05$"></B></SPAN>, and the iterative solver with Cholesky pre-conditioning was selected. The starting increment has a size <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2186.png"
+ ALT="$ 10^{-7}$"></B></SPAN>, the subsequent increments should not have a size smaller than <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2189.png"
+ ALT="$ 10^{-9}$"></B></SPAN> or bigger than <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2179.png"
+ ALT="$ 10^{-6}$"></B></SPAN>. The step size is <SPAN CLASS="MATH"><B><IMG
+ WIDTH="37" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2142.png"
+ ALT="$ 10^{-5}$"></B></SPAN>.
+
+<P>
+
+<P><P>
+<BR>
+Example files: beamnldy, beamnldye, beamnldyp, beamnldype.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4784"
+<A NAME="tex2html4900"
   HREF="node289.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4780"
-  HREF="node205.html">
+<A NAME="tex2html4896"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4774"
+<A NAME="tex2html4890"
   HREF="node287.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4782"
+<A NAME="tex2html4898"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4785"
-  HREF="node289.html">*NO ANALYSIS</A>
-<B> Up:</B> <A NAME="tex2html4781"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4775"
-  HREF="node287.html">*MPC</A>
- &nbsp; <B>  <A NAME="tex2html4783"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html4901"
+  HREF="node289.html">*ELASTIC</A>
+<B> Up:</B> <A NAME="tex2html4897"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4891"
+  HREF="node287.html">*DSLOAD</A>
+ &nbsp; <B>  <A NAME="tex2html4899"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

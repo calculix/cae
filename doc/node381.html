@@ -1,84 +1,99 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Concentrated loads</TITLE>
-<META NAME="description" CONTENT="Concentrated loads">
+<TITLE>User-defined loading</TITLE>
+<META NAME="description" CONTENT="User-defined loading">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node382.html">
-<LINK REL="previous" HREF="node380.html">
-<LINK REL="up" HREF="node378.html">
+<LINK REL="next" HREF="node394.html">
+<LINK REL="previous" HREF="node378.html">
+<LINK REL="up" HREF="node375.html">
 <LINK REL="next" HREF="node382.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6032"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6049"
   HREF="node382.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6028"
-  HREF="node378.html">
+<A NAME="tex2html6045"
+  HREF="node375.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6022"
+<A NAME="tex2html6039"
   HREF="node380.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6030"
+<A NAME="tex2html6047"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6033"
-  HREF="node382.html">Facial distributed loads</A>
-<B> Up:</B> <A NAME="tex2html6029"
-  HREF="node378.html">Reading the step input</A>
-<B> Previous:</B> <A NAME="tex2html6023"
-  HREF="node380.html">Homogeneous linear equations</A>
- &nbsp; <B>  <A NAME="tex2html6031"
+<B> Next:</B> <A NAME="tex2html6050"
+  HREF="node382.html">Concentrated flux (cflux.f)</A>
+<B> Up:</B> <A NAME="tex2html6046"
+  HREF="node375.html">User subroutines.</A>
+<B> Previous:</B> <A NAME="tex2html6040"
+  HREF="node380.html">Initial stress field (sigini.f)</A>
+ &nbsp; <B>  <A NAME="tex2html6048"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000112300000000000000">
-Concentrated loads</A>
-</H3>
+<H2><A NAME="SECTION000104000000000000000">
+User-defined loading</A>
+</H2>
 
 <P>
-Concentrated loads are defined by the keyword card
-<A HREF="node223.html#cload">*CLOAD</A>. The internal structure to store concentrated loads is
-very similar to the one for SPC's, only a lot simpler. The corresponding
-one-dimensional field for nodeboun, ndirboun, xboun, iamboun, ikboun and
-ilboun are nodeforc, ndirforc, xforc, iamforc, ikforc and ilforc. The actual
-number of concentrated loads is nforc, an estimated upper bound (calculated in
-subroutine allocation.f) is nforc_. The field xforcold and xforcact are the equivalent of
-xbounold and xbounact, respectively. There is no equivalent to nodebounold,
-ndirbounold, xbounini and
-typeboun. These fields are not needed. Indeed, if the option OP=NEW is
-specified on a *CLOAD card, all values in xboun are set to zero, but the
-entries in nodeforc and ndirforc remain unchanged. Notice that DOF zero (heat
-transfer calculations) has the meaning of concentrated heat source.
+These routines are made available to define nonuniform distributed
+loading. The user can define the loading in each integration point
+separately as a function of position, time etc.
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html6051"
+  HREF="node382.html">Concentrated flux (cflux.f)</A>
+<LI><A NAME="tex2html6052"
+  HREF="node383.html">Concentrated load (cload.f)</A>
+<LI><A NAME="tex2html6053"
+  HREF="node384.html">Distributed flux (dflux.f)</A>
+<LI><A NAME="tex2html6054"
+  HREF="node385.html">Distribruted load (dload.f)</A>
+<LI><A NAME="tex2html6055"
+  HREF="node386.html">Heat convection (film.f)</A>
+<LI><A NAME="tex2html6056"
+  HREF="node387.html">Boundary conditions(uboun.f)</A>
+<LI><A NAME="tex2html6057"
+  HREF="node388.html">Heat radiation (radiate.f)</A>
+<LI><A NAME="tex2html6058"
+  HREF="node389.html">Temperature (utemp.f)</A>
+<LI><A NAME="tex2html6059"
+  HREF="node390.html">Amplitude (uamplitude.f)</A>
+<LI><A NAME="tex2html6060"
+  HREF="node391.html">Face loading (ufaceload.f)</A>
+<LI><A NAME="tex2html6061"
+  HREF="node392.html">Gap conductance (gapcon.f)</A>
+<LI><A NAME="tex2html6062"
+  HREF="node393.html">Gap heat generation (fricheat.f)</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+
 </BODY>
 </HTML>

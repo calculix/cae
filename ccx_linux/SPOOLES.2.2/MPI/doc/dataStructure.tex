@@ -1,0 +1,103 @@
+\par
+\section{Data Structure}
+\label{section:MPI:dataStructure}
+\par
+There is one MPI specific data structure, used in the distributed
+matrix-matrix multiply.
+\par
+\subsection{{\tt MatMulInfo} : 
+            Matrix-matrix multiply information object}
+\label{subsection:MatMulInfo}
+\par
+The distributed matrix-matrix multiply is a very complex operation.
+We want to compute $Y := Y + \alpha A X$, where $Y$, $A$ and $X$
+are distributed matrices.
+Processor $q$ owns the local matrices $Y^q$, $A^q$ and $X^q$.
+The entries of $A^q$ do not travel among the processors, it is the
+entries of $X$ and/or the partial entries of the product $\alpha A X$
+that are communicated.
+Each processor performs the local computation
+$Y_{supp}^q = \alpha A^q X_{supp}^q$,
+where the rows of $X_{supp}^q$ correspond to the columns of $A^q$
+with a nonzero entry,
+and the rows of $Y_{supp}^q$ correspond to the rows of $A^q$
+with a nonzero entry.
+(Something similar holds for the operations
+$Y := Y + \alpha A^T X$ and $Y := Y + \alpha A^T X$.)
+This requires entries of $X$ to be {\it gathered} into $X_{supp}^q$
+and the entries of $Y_{supp}^q$ be {\it scatter/added} into $Y$.
+\par
+The {\tt MatMulInfo} object stores all the necessary information to
+make this happen.
+There is one {\tt MatMulInfo} object per processor.
+It has the following fields.
+\begin{itemize}
+\item
+{\tt symflag} --- symmetry flag for $A$
+\begin{itemize}
+\item 0 ({\tt SPOOLES\_SYMMETRIC}) -- symmetric matrix
+\item 1 ({\tt SPOOLES\_HERMITIAN}) -- hermitian matrix
+\item 2 ({\tt SPOOLES\_NONSYMMETRIC}) -- nonsymmetric matrix
+\end{itemize}
+\item
+{\tt opflag} --- operation flag for the multiply
+\begin{itemize}
+\item 0 ({\tt MMM\_WITH\_A})  --- perform $Y := Y + \alpha A X$
+\item 1 ({\tt MMM\_WITH\_AT}) --- perform $Y := Y + \alpha A^T X$
+\item 2 ({\tt MMM\_WITH\_AH}) --- perform $Y := Y + \alpha A^H X$
+\end{itemize}
+\item
+{\tt IV *XownedIV}  ---
+list of rows of $X$ that are owned by this processor,
+these form the rows of $X^q$.
+\item
+{\tt IV *XsupIV}  ---
+list of rows of $X$ that are accessed by this processor,
+these form the rows of $X_{supp}^q$
+\item
+{\tt IV *XmapIV}  ---
+a map from the global ids of the rows of $X_{supp}^q$
+to their local ids within $X_{supp}^q$
+\item
+{\tt IVL *XsendIVL} ---
+list $r$ holds the local row ids of the owned rows of $X^q$ that must
+be sent from this processor to processor $r$
+\item
+{\tt IVL *XrecvIVL} ---
+list $r$ holds the local row ids of the supported rows of $X_{supp}^q$ 
+that will be received from processor $r$.
+\item
+{\tt IV *YownedIV}  ---
+list of rows of $Y$ that are owned by this processor,
+these form the rows of $Y^q$.
+\item
+{\tt IV *YsupIV}  ---
+list of rows of $Y$ that are updated by this processor,
+these form the rows of $Y_{supp}^q$
+\item
+{\tt IV *YmapIV}  ---
+a map from the global ids of the rows of $Y_{supp}^q$
+to their local ids within $Y_{supp}^q$
+\item
+{\tt IVL *YsendIVL} ---
+list $r$ holds the local row ids of the supported rows of $Y_{supp}^q$ 
+that must be sent from this processor to processor $r$
+\item
+{\tt IVL *YrecvIVL} ---
+list $r$ holds the local row ids of the owned rows of $Y^q$
+that will be received from processor $r$.
+\item
+{\tt DenseMtx *Xsupp} ---
+a temporary data structure to hold $X_{supp}^q$.
+\item
+{\tt DenseMtx *Ysupp} ---
+a temporary data structure to hold $Y_{supp}^q$.
+\end{itemize}
+\par
+See the methods 
+{\tt MatMul\_MPI\_setup()},
+{\tt MatMul\_setLocalIndices()},
+{\tt MatMul\_setGlobalIndices()},
+{\tt MatMul\_MPI\_mmm()} and
+{\tt MatMul\_cleanup()}
+which use the {\tt MatMulInfo} data object.

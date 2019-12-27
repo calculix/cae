@@ -1,0 +1,23 @@
+#! /bin/csh -f
+
+set msglvl           = 1
+set msgFile          = stdout
+
+set seed             = 10101
+
+set matrices = ../../Matrices/
+set matrix   = GRD7x7
+
+set neqns        = 49
+set type         =  1
+set symmetryflag =  0
+
+set mtxFile = $matrices/$matrix/realsym.inpmtxb
+set rhsFile = $matrices/$matrix/realrhs.densemtxb
+set solFile = none
+
+set nthread = 2
+
+testWrapperMT $msglvl $msgFile \
+              $neqns $type $symmetryflag \
+              $mtxFile $rhsFile $solFile $seed $nthread

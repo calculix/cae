@@ -1,459 +1,413 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Turbulent Flow in Open Channels </TITLE>
-<META NAME="description" CONTENT="Turbulent Flow in Open Channels ">
+<TITLE>Hydraulic Networks </TITLE>
+<META NAME="description" CONTENT="Hydraulic Networks ">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node178.html">
 <LINK REL="previous" HREF="node176.html">
-<LINK REL="up" HREF="node159.html">
+<LINK REL="up" HREF="node160.html">
 <LINK REL="next" HREF="node178.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3313"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3376"
   HREF="node178.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3309"
-  HREF="node159.html">
+<A NAME="tex2html3372"
+  HREF="node160.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3303"
+<A NAME="tex2html3366"
   HREF="node176.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3311"
+<A NAME="tex2html3374"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3314"
-  HREF="node178.html">Three-dimensional Navier-Stokes Calculations</A>
-<B> Up:</B> <A NAME="tex2html3310"
-  HREF="node159.html">Types of analysis</A>
-<B> Previous:</B> <A NAME="tex2html3304"
-  HREF="node176.html">Hydraulic Networks</A>
- &nbsp; <B>  <A NAME="tex2html3312"
+<B> Next:</B> <A NAME="tex2html3377"
+  HREF="node178.html">Turbulent Flow in Open</A>
+<B> Up:</B> <A NAME="tex2html3373"
+  HREF="node160.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3367"
+  HREF="node176.html">Aerodynamic Networks</A>
+ &nbsp; <B>  <A NAME="tex2html3375"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000791800000000000000"></A><A NAME="channels"></A>
+<H3><A NAME="SECTION000791700000000000000"></A><A NAME="hydronetworks"></A>
 <BR>
-Turbulent Flow in Open Channels 
+Hydraulic Networks 
 </H3>
 
 <P>
-The turbulent flow in open channels can be approximated by one-dimensional
-network calculations. For the theoretical background the reader is referred to
-[<A
- HREF="node448.html#Chanson">16</A>] and expecially [<A
- HREF="node448.html#Berlamont2">11</A>] (in Dutch). The governing
-equation is the Bresse equation, which is a special form of the Bernoulli equation:
+Hydraulic networks are made of a concatenation of network elements (see
+section <A HREF="node59.html#B32">6.2.33</A>) filled with an incompressible medium. A network element consists of three nodes: in the corner nodes
+the temperature and pressure are the unknowns, in the midside node the mass
+flow is unknown. The corner nodes play the role of crossing points in the
+network, whereas the midside nodes represent the flow within one element. To determine these unknowns, three types of equations are
+available: conservation of mass and conservation of energy in the corner nodes
+and conservation of momentum in the midside node. Right now, only stationary
+flow is considered.
 
 <P>
-
-<DIV ALIGN="CENTER"><A NAME="channelsection"></A><A NAME="12457"></A>
-<TABLE>
-<CAPTION ALIGN="BOTTOM"><STRONG>Figure 139:</STRONG>
-Channel geometry</CAPTION>
-<TR><TD><IMG
- WIDTH="542" HEIGHT="241" BORDER="0"
- SRC="img679.png"
- ALT="\begin{figure}\epsfig{file=channelsection.eps,width=12cm}\end{figure}"></TD></TR>
-</TABLE>
-</DIV>
+The stationary form of the conservation of mass for incompressible fluids is
+expressed by:
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
  \begin{equation}
-\frac{dh}{ds}=\frac{S_0 - S_f + \frac{1}{g} \frac{Q^2}{A^3} \frac {\partial
-    A}{\partial s}}{\sqrt{1 - S_0^2} - \frac{Q^2 B}{g A^3}},
+\mathbf{\nabla} \cdot \mathbf{v} = 0
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="180" HEIGHT="70" ALIGN="MIDDLE" BORDER="0"
- SRC="img1296.png"
- ALT="$\displaystyle \frac{dh}{ds}=\frac{S_0 - S_f + \frac{1}{g} \frac{Q^2}{A^3} \frac {\partial A}{\partial s}}{\sqrt{1 - S_0^2} - \frac{Q^2 B}{g A^3}},$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(363)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="68" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1345.png"
+ ALT="$\displaystyle \mathbf{\nabla} \cdot \mathbf{v} = 0$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">388</SPAN>)</TD></TR>
 </TABLE></DIV>
 <BR CLEAR="ALL"><P></P>
 
 <P>
-where  (Figure <A HREF="#channelsection">139</A>) h is the water depth (measured perpendicular to the channel floor), s is the
-length along the bottom, <!-- MATH
- $S_0= \sin(\phi)$
- -->
-<B><IMG
- WIDTH="84" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1297.png"
- ALT="$ S_0= \sin(\phi)$"></B>, where <B><IMG
- WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1213.png"
- ALT="$ \phi$"></B> is the angle the
-channel floor makes with a horizontal line,  <B><IMG
- WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1298.png"
- ALT="$ S_f$"></B> is a friction term, <B><IMG
- WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img675.png"
- ALT="$ g$"></B> is
-the earth acceleration, <B><IMG
- WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img676.png"
- ALT="$ Q$"></B> is the volumetric flow (mass flow divided by the
-fluid density), <B><IMG
- WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img363.png"
- ALT="$ A$"></B> is the area of the cross section <!-- MATH
- $\frac {\partial
-A}{\partial s}$
- -->
-<B><IMG
- WIDTH="25" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
- SRC="img1299.png"
- ALT="$ \frac {\partial
-A}{\partial s}$"></B> is the change of the
-cross section with <B><IMG
- WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img946.png"
- ALT="$ s$"></B> keeping <B><IMG
- WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img672.png"
- ALT="$ h$"></B> fixed and <B><IMG
- WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img1300.png"
- ALT="$ B$"></B> is the width of
-the channel at the fluid surface. The assumptions used to derive the Bresse
-equation are:
-
-<P>
-
-<OL>
-<LI>steady-state flow
-</LI>
-<LI>each cross section is hydrostatic
-</LI>
-<LI>the velocity is constant across each cross section
-</LI>
-<LI>the velocity vector is perpendicular to each cross section.
-</LI>
-</OL>
-
-<P>
-For <B><IMG
- WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1298.png"
- ALT="$ S_f$"></B> several formulas have been
-proposed. In CalculiX the White-Colebrook and the Manning formula are
-implemented. The White-Colebrook formula reads
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-S_f=\frac{f}{8g} \frac{Q^2 P}{A^3},
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="104" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
- SRC="img1301.png"
- ALT="$\displaystyle S_f=\frac{f}{8g} \frac{Q^2 P}{A^3},$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(364)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-where <B><IMG
- WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img484.png"
- ALT="$ f$"></B> is the friction coefficient determined by Equation
-<A HREF="node103.html#whitecolebrook">126</A>, and <B><IMG
- WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img542.png"
- ALT="$ P$"></B> is the wetted circumference of the cross
-section. The Manning form reads
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-S_f=\frac{n^2 Q^2 P^{4/3}}{A^{10/3}}
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="116" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
- SRC="img1302.png"
- ALT="$\displaystyle S_f=\frac{n^2 Q^2 P^{4/3}}{A^{10/3}}$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(365)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-where <B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img605.png"
- ALT="$ n$"></B> is the Manning coefficient, which has to be determined
-experimentally. 
-
-<P>
-In CalculiX the channel cross section has to be trapezoidal (Figure <A HREF="#channelsection">139</A>). For this geometry
-the following
-relations apply:
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-A=h(b+h \tan\theta),
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="135" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1303.png"
- ALT="$\displaystyle A=h(b+h \tan\theta),$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(366)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-P=b+\frac{2h}{\cos\theta}
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="100" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
- SRC="img1304.png"
- ALT="$\displaystyle P=b+\frac{2h}{\cos\theta}$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(367)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-and
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-B=b+2h \tan\theta.
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="123" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1305.png"
- ALT="$\displaystyle B=b+2h \tan\theta.$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(368)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-Within an element the floor width <B><IMG
- WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img310.png"
- ALT="$ b$"></B> is allowed to change in a linear
-way. All other geometry parameters are invariable. Consequently:
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-\frac{\partial A}{\partial s} = h \frac{\partial b}{\partial s}.
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="85" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
- SRC="img1306.png"
- ALT="$\displaystyle \frac{\partial A}{\partial s} = h \frac{\partial b}{\partial s}.$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(369)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-The elements used in CalculiX for one-dimensional channel networks are regular network elements, in which the
-unknowns are the fluid depth and the temperature at the end nodes and the mass
-flow in the middle nodes. The equations at our disposal are the Bresse
-equation in the middle nodes (conservation of momentum), and the mass and
-energy conservation (Equations <A HREF="node176.html#massconservation">357</A> and
-<A HREF="node176.html#energyconservation">361</A>, respectively) at the end nodes.
-
-<P>
-Channel flow can be supercritical or subcritical. For supercritical flow the
-velocity exceeds the propagation speed <B><IMG
- WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1172.png"
- ALT="$ c$"></B> of a wave, which satisfies <!-- MATH
- $c=\sqrt{g
-h}$
- -->
-<B><IMG
- WIDTH="63" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
- SRC="img1307.png"
- ALT="$ c=\sqrt{g
-h}$"></B>. Defining the Froude number by <B><IMG
- WIDTH="72" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1308.png"
- ALT="$ Fr=U/c$"></B>, where U is the velocity of the
-fluid, supercritical flow corresponds to <B><IMG
- WIDTH="54" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1309.png"
- ALT="$ Fr&gt;1$"></B>. Supercritical flow is
-controlled by upstream boundary conditions. If the flow is subcritical
-(<B><IMG
- WIDTH="54" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1310.png"
- ALT="$ Fr&lt;1$"></B>) it is controlled by downstream boundary conditions. In a subcritical
-flow disturbances propagate upstream and downstream, in a supercritical flow
-they propagation downstream only. A transition from supercritical to
-subcritical flow is called a hydraulic jump, a transition from subcritical to
-supercritical flow is a fall. At a jump the following equation is satisfied
-[<A
- HREF="node448.html#Chanson">16</A>] (conservation of momentum):
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-A_2 \dot{m}^2 + \rho^2 g \sqrt{1 - S_0^2} A_1^2 A_2 {y_G}_1 =
-A_1 \dot{m}^2 + \rho^2 g \sqrt{1 - S_0^2} A_2^2 A_1 {y_G}_2,
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="446" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
- SRC="img1311.png"
- ALT="$\displaystyle A_2 \dot{m}^2 + \rho^2 g \sqrt{1 - S_0^2} A_1^2 A_2 {y_G}_1 = A_1 \dot{m}^2 + \rho^2 g \sqrt{1 - S_0^2} A_2^2 A_1 {y_G}_2,$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(370)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-where <B><IMG
- WIDTH="50" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1312.png"
- ALT="$ A_1, A_2$"></B> are the cross sections before and after the jump, 
-<B><IMG
- WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1313.png"
- ALT="$ {y_G}_1$"></B> and <B><IMG
- WIDTH="30" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1314.png"
- ALT="$ {y_G}_2$"></B> are the centers of gravity of these sections, <B><IMG
- WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
  SRC="img30.png"
- ALT="$ \rho$"></B> is
-the fluid density and <B><IMG
- WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
- SRC="img391.png"
- ALT="$ \dot{m}$"></B> is the mass flow. A fall can only occur at discontinuities in the
-channel geometry, e.g. at a discontinuous increase of the channel floor
-slope <B><IMG
- WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img689.png"
- ALT="$ S_0$"></B>. Available boundary conditions are the sluice gate, the weir and
-the infinite reservoir. They are described in Section
-<A HREF="node112.html#fluidsectiontypeschannels">6.6</A>.
+ ALT="$ \rho$"></B></SPAN> is the density and <!-- MATH
+ $\mathbf{v}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1330.png"
+ ALT="$ \mathbf{v}$"></B></SPAN> the velocity vector. Integration
+over all elements connected to an corner node yields:
 
 <P>
-Output variables are the mass flow (key MF on the <A HREF="node294.html#nodeprint">*NODE
-  PRINT</A> or <A HREF="node292.html#nodefile">*NODE
-  FILE</A> card), the fluid depth (key PN -- network pressure -- on the <A HREF="node294.html#nodeprint">*NODE
-  PRINT</A> card and DEPT on the <A HREF="node292.html#nodefile">*NODE
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="massconservation"></A><!-- MATH
+ \begin{equation}
+\sum_{j \in \text{in}} \dot{m}_{ij} = \sum_{j \in \text{out}} \dot{m}_{ij},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="143" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1331.png"
+ ALT="$\displaystyle \sum_{j \in \text{in}} \dot{m}_{ij} = \sum_{j \in \text{out}} \dot{m}_{ij},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">389</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\dot{m}_{ij}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="29" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1332.png"
+ ALT="$ \dot{m}_{ij}$"></B></SPAN> is the mass flow from node i to node j or vice versa. In
+the above equation  <!-- MATH
+ $\dot{m}_{ij}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="29" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1332.png"
+ ALT="$ \dot{m}_{ij}$"></B></SPAN> is always positive.
+
+<P>
+The conservation of momentum reduces to the Bernoulli equation. It is obtained
+by projecting the general momentum equation on a flow line within an element
+with corner nodes i and j and reads:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="momentumconservation"></A><!-- MATH
+ \begin{equation}
+z_i + \frac{p_i}{\rho g} + \frac{\dot{m}_{ij}^2}{2 \rho^2 A_i^2 g} =
+z_j + \frac{p_j}{\rho g} + \frac{\dot{m}_{ij}^2}{2 \rho^2 A_j^2 g} + \Delta
+F_i^j.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="335" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1346.png"
+ ALT="$\displaystyle z_i + \frac{p_i}{\rho g} + \frac{\dot{m}_{ij}^2}{2 \rho^2 A_i^2 g...
+... + \frac{p_j}{\rho g} + \frac{\dot{m}_{ij}^2}{2 \rho^2 A_j^2 g} + \Delta F_i^j.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">390</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Here, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img718.png"
+ ALT="$ z$"></B></SPAN> is the height of the node, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img330.png"
+ ALT="$ p$"></B></SPAN> the pressure, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B></SPAN> the density, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img719.png"
+ ALT="$ g$"></B></SPAN>
+the gravity acceleration, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img375.png"
+ ALT="$ A$"></B></SPAN> the cross section in the node and <!-- MATH
+ $\Delta F_i^j$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="36" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1347.png"
+ ALT="$ \Delta F_i^j$"></B></SPAN>
+is the head loss across the element. The head loss is positive  if the flow
+runs from i to j, else it is negative (or has to be written on the other side
+of the equation). The head losses for different types of fluid sections are
+described in Section <A HREF="node102.html#fluidsectiontypesliquids">6.5</A>.
+
+<P>
+Notice that the height of the node is important, therefore, for hydraulic
+networks the gravity vector must be defined for each element using a
+<A HREF="node286.html#dload">*DLOAD</A> card.
+
+<P>
+The conservation of energy in stationary form requires ([<A
+ HREF="node487.html#Dhondt">19</A>]):
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+c_p \mathbf{\nabla} \cdot (\rho T \mathbf{v}) = - \mathbf{\nabla} \cdot
+\mathbf{q} + \rho h^{\theta},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="201" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1348.png"
+ ALT="$\displaystyle c_p \mathbf{\nabla} \cdot (\rho T \mathbf{v}) = - \mathbf{\nabla} \cdot \mathbf{q} + \rho h^{\theta},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">391</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\mathbf{q}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1335.png"
+ ALT="$ \mathbf{q}$"></B></SPAN> is the external heat flux, <!-- MATH
+ $h^{\theta}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1336.png"
+ ALT="$ h^{\theta}$"></B></SPAN> is the body flux per
+unit of mass, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"></B></SPAN> is the specific heat at constant pressure (which, for a
+fluid, is also the specific heat at constant specific volume, i.e. <SPAN CLASS="MATH"><B><IMG
+ WIDTH="54" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1349.png"
+ ALT="$ c_p=c_v$"></B></SPAN> [<A
+ HREF="node487.html#Greitzer">26</A>]) and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="15" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img354.png"
+ ALT="$ T$"></B></SPAN> is the
+absolute temperature (in Kelvin). Integration of the energy equation over all elements belonging to end
+node <SPAN CLASS="MATH"><B><IMG
+ WIDTH="9" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img840.png"
+ ALT="$ i$"></B></SPAN> yields:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+c_p (T_i) \sum_{j \in \text{in}} T_j \dot{m}_{ij} - c_p (T_i)
+T_i \sum_{j \in \text{out}}  \dot{m}_{ij} + \overline{h}(T_i,
+T) (T - T_i) + m_i h_i^{\theta}=0,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="476" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1341.png"
+ ALT="$\displaystyle c_p (T_i) \sum_{j \in \text{in}} T_j \dot{m}_{ij} - c_p (T_i) T_i...
+...\text{out}} \dot{m}_{ij} + \overline{h}(T_i, T) (T - T_i) + m_i h_i^{\theta}=0,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">392</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $\overline{h}(T_i,T)$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="58" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1342.png"
+ ALT="$ \overline{h}(T_i,T)$"></B></SPAN> is the convection coefficient with the
+walls.  If one assumes that all flow entering a
+node must also leave it and taking for both the <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"></B></SPAN> value corresponding to
+the mean temperature value of the entering flow, one arrives at:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="energyconservation"></A><!-- MATH
+ \begin{equation}
+\sum_{j \in \text{in}}  c_p (T_m) (T_j-T_i) \dot{m}_{ij} + \overline{h}(T_i,
+T) (T - T_i) + m_i h_i^{\theta}=0.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="388" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1343.png"
+ ALT="$\displaystyle \sum_{j \in \text{in}} c_p (T_m) (T_j-T_i) \dot{m}_{ij} + \overline{h}(T_i, T) (T - T_i) + m_i h_i^{\theta}=0.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">393</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $T_m=(T_i+T_j)/2$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="125" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1344.png"
+ ALT="$ T_m=(T_i+T_j)/2$"></B></SPAN>. 
+
+<P>
+The calculation of hydraulic networks is triggered by the <A HREF="node311.html#heattransfer">*HEAT
+  TRANSFER</A> keyword card. Indeed, such a network frequently
+ produces convective boundary conditions for solid mechanics heat transfer
+ calculations. However, network calculations can also be performed on their
+  own, i.e. it is allowed to do *HEAT TRANSFER calculations without any solid
+  elements. 
+
+<P>
+To determine appropriate boundary conditions for a hydraulic network the same rules
+apply as for aerodynamic networks.
+
+<P>
+Output variables are the mass flow (key MF on the <A HREF="node333.html#nodeprint">*NODE
+  PRINT</A> or <A HREF="node331.html#nodefile">*NODE
+  FILE</A> card), the static pressure (key PN -- network pressure -- on the <A HREF="node333.html#nodeprint">*NODE
+  PRINT</A> card and PS on the <A HREF="node331.html#nodefile">*NODE
   FILE</A> card) and the total temperature
-(key NT  on the <A HREF="node294.html#nodeprint">*NODE
-  PRINT</A> card and TT on the  <A HREF="node292.html#nodefile">*NODE
-  FILE</A> card).  These are the primary variables in the
-network. Internally, in network nodes,
-components one to three of the structural displacement field are used for the
-mass flow, the fluid depth and the critical depth, respectively. So their
-output can also be obtained by requesting
-U on the *NODE PRINT card. This is the only way to get the
-critical depth in the .dat file. In the .frd file the critical depth can be
-obtained by selecting HCRI on the <A HREF="node292.html#nodefile">*NODE
-  FILE</A> card. Notice that for liquids the total temperature virtually coincides
-with the static temperature (cf. previous section; recall that the wave speed in a channel
-with water depth 1 m is <B><IMG
- WIDTH="34" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
- SRC="img1315.png"
- ALT="$ \sqrt{10}$"></B> m/s). If a jump occurs in the network,
-this is reported on the screen listing the element in which the jump takes
-place and its relative location within the element.
+(key NT on the <A HREF="node333.html#nodeprint">*NODE
+  PRINT</A> card and TT on the <A HREF="node331.html#nodefile">*NODE
+  FILE</A> card).  Notice that the labels for the *NODE PRINT keyword
+are more generic in nature, for the *NODE FILE keyword they are more
+specific. These are the primary variables in the network.  Internally, in
+network nodes,
+components one to two of the structural displacement field are used for the
+mass flow and the static pressure, respectively. So their output can
+also be obtained by requesting
+U on the *NODE PRINT or *NODE FILE card. 
 
 <P>
-<HR>
+Notice that for liquids the total
+temperature virtually coincides with the static temperature. Indeed, since
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+T_t-T = v^2/(2c_p),
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="133" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1350.png"
+ ALT="$\displaystyle T_t-T = v^2/(2c_p),$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">394</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+the difference between total and static temperature for a fluid velocity of 5
+m/s and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="71" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1351.png"
+ ALT="$ c_p=4218$"></B></SPAN> J/(kg.K) (water) amounts to 0.0030 K. This is different
+from the gases since typical gas velocities are much higher (speed of sound
+is 340 m/s) and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$ c_p$"></B></SPAN> for gases is usually lower.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html3313"
+<A NAME="tex2html3376"
   HREF="node178.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3309"
-  HREF="node159.html">
+<A NAME="tex2html3372"
+  HREF="node160.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3303"
+<A NAME="tex2html3366"
   HREF="node176.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3311"
+<A NAME="tex2html3374"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3314"
-  HREF="node178.html">Three-dimensional Navier-Stokes Calculations</A>
-<B> Up:</B> <A NAME="tex2html3310"
-  HREF="node159.html">Types of analysis</A>
-<B> Previous:</B> <A NAME="tex2html3304"
-  HREF="node176.html">Hydraulic Networks</A>
- &nbsp; <B>  <A NAME="tex2html3312"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html3377"
+  HREF="node178.html">Turbulent Flow in Open</A>
+<B> Up:</B> <A NAME="tex2html3373"
+  HREF="node160.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3367"
+  HREF="node176.html">Aerodynamic Networks</A>
+ &nbsp; <B>  <A NAME="tex2html3375"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

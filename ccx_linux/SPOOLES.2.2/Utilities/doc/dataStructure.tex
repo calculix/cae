@@ -1,0 +1,37 @@
+\par
+\section{Data Structures}
+\label{section:Utilities:dataStructure}
+\par
+There are two data structures used in singly linked lists.
+\begin{itemize}
+\item
+{\tt IP}: a singly linked list element with an {\tt int} data field.
+\par
+\hspace{0.5 in}
+\begin{minipage}{2.5 in}
+\begin{verbatim}
+typedef struct _IP IP ;
+struct _IP {
+   int   val   ;
+   IP    *next ;
+} ;
+\end{verbatim}
+\end{minipage}
+\item
+{\tt I2OP}: 
+a singly linked list element with two {\tt int} 
+and one {\tt void *} data fields.
+\par
+\hspace{0.5 in}
+\begin{minipage}{2.5 in}
+\begin{verbatim}
+typedef struct _I2OP I2OP ;
+struct _I2OP {
+   int    value0  ;
+   int    value1  ;
+   void   *value2 ;
+   I2OP   *next   ;
+} ;
+\end{verbatim}
+\end{minipage}
+\end{itemize}

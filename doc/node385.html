@@ -1,263 +1,154 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Material description</TITLE>
-<META NAME="description" CONTENT="Material description">
+<TITLE>Distribruted load (dload.f)</TITLE>
+<META NAME="description" CONTENT="Distribruted load (dload.f)">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
+<LINK REL="next" HREF="node386.html">
 <LINK REL="previous" HREF="node384.html">
-<LINK REL="up" HREF="node378.html">
+<LINK REL="up" HREF="node381.html">
 <LINK REL="next" HREF="node386.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6078"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6109"
   HREF="node386.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6074"
-  HREF="node378.html">
+<A NAME="tex2html6105"
+  HREF="node381.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6070"
+<A NAME="tex2html6099"
   HREF="node384.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6076"
+<A NAME="tex2html6107"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6079"
-  HREF="node386.html">Expansion of the one-dimensional</A>
-<B> Up:</B> <A NAME="tex2html6075"
-  HREF="node378.html">Reading the step input</A>
-<B> Previous:</B> <A NAME="tex2html6071"
-  HREF="node384.html">Sets</A>
- &nbsp; <B>  <A NAME="tex2html6077"
+<B> Next:</B> <A NAME="tex2html6110"
+  HREF="node386.html">Heat convection (film.f)</A>
+<B> Up:</B> <A NAME="tex2html6106"
+  HREF="node381.html">User-defined loading</A>
+<B> Previous:</B> <A NAME="tex2html6100"
+  HREF="node384.html">Distributed flux (dflux.f)</A>
+ &nbsp; <B>  <A NAME="tex2html6108"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000112700000000000000">
-Material description</A>
+<H3><A NAME="SECTION000104400000000000000"></A><A NAME="userdload"></A>
+<BR>
+Distribruted load (dload.f)
 </H3>
 
 <P>
-The size of the fields reserved for material description is governed by the
-scalars nmat_, nmat, ncmat_, ntmat_ and npmat_. Their meaning:
-
-<P>
-
-<UL>
-<LI>nmat_: upper estimate of the number of materials
-</LI>
-<LI>nmat: actual number of materials
-</LI>
-<LI>ncmat_: maximum number of (hyper)elastic constants at any temperature
-  for any material
-</LI>
-<LI>ntmat_: maximum number of temperature data points for any material
-  property for any material
-</LI>
-<LI>npmat_: maximum number of stress-strain data points for any temperature
-  for any material for any type of hardening (isotropic or kinematic)
-</LI>
-</UL>
-
-<P>
-An elastic material is described by the two-dimensional integer field nelcon
-and three-dimensional real field elcon. For material i, nelcon(1,i) contains
-for linear elastic materials the number of elastic constants. For hyperelastic
-materials and the elastic regime of viscoplastic materials nelcon(1,i)
-contains an integer code uniquely identifying the material. The code reads a
+This subroutine is used for nonuniform pressure, characterized by
+distributed load labels of the form PxNUy, cf
+<A HREF="node286.html#dload">*DLOAD</A>. The load label can be up to 20 characters long. In
+particular, y can be used to distinguish different nonuniform loading
+patterns. The header and variable description is as
 follows:
 
 <P>
-
-<UL>
-<LI>-1: Arruda-Boyce                                  
-</LI>
-<LI>-2: Mooney-Rivlin                                 
-</LI>
-<LI>-3: Neo-Hooke                                     
-</LI>
-<LI>-4: Ogden (N=1)                                   
-</LI>
-<LI>-5: Ogden (N=2)                                   
-</LI>
-<LI>-6: Ogden (N=3)                                   
-</LI>
-<LI>-7: Polynomial (N=1)                              
-</LI>
-<LI>-8: Polynomial (N=2)                              
-</LI>
-<LI>-9: Polynomial (N=3)                              
-</LI>
-<LI>-10: Reduced Polynomial (N=1)                     
-</LI>
-<LI>-11: Reduced Polynomial (N=2)                     
-</LI>
-<LI>-12: Reduced Polynomial (N=3)                     
-</LI>
-<LI>-13: Van der Waals (not implemented yet)          
-</LI>
-<LI>-14: Yeoh                                         
-</LI>
-<LI>-15: Hyperfoam (N=1)                              
-</LI>
-<LI>-16: Hyperfoam (N=2)                              
-</LI>
-<LI>-17: Hyperfoam (N=3)                              
-</LI>
-<LI>-50: deformation plasticity                       
-</LI>
-<LI>-51: incremental plasticity (no viscosity)        
-</LI>
-<LI>-52: viscoplasticity                              
-</LI>
-<LI><B><IMG
- WIDTH="70" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1865.png"
- ALT="$ &lt;$"></B> -100: user material routine with -kode-100 user    
-               defined constants with keyword *USER MATERIAL
-</LI>
-</UL>
-
-<P>
-Notice that elconloc is also used to store
-
-<P>
-
-<UL>
-<LI>user-defined constants for user-defined materials
-</LI>
-<LI>the creep constants for isotropic viscoplastic materials (after the two
-  elastic constants).
-</LI>
-</UL>
-
-<P>
-Entry nelcon(2,i) contains the number of temperature
-points for material i.
-
-<P>
-The field elcon is used for the storage of the elastic constants: elcon(0,j,i)
-contains the temperature at the (hyper)elastic temperature point j of material
-i, elcon(k,j,i) contains the (hyper)elastic constant k at temperature point j
-of material i. Notice that the first index of field elcon starts at zero.
-
-<P>
-Suppose only one material is defined:
-
-<P>
 <PRE>
-*MATERIAL,NAME=EL
-*ELASTIC
-210000.,.3,293.
-200000.,.29,393.
-180000.,.27,493.
+      subroutine dload(f,kstep,kinc,time,noel,npt,layer,kspt,
+     &amp;     coords,jltyp,loadtype,vold,co,lakonl,konl,
+     &amp;     ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,iscale,veold,
+     &amp;     rho,amat,mi)
+!
+!     user subroutine dload
+!
+!
+!     INPUT:
+!
+!     kstep              step number
+!     kinc               increment number
+!     time(1)            current step time
+!     time(2)            current total time
+!     noel               element number
+!     npt                integration point number
+!     layer              currently not used
+!     kspt               currently not used
+!     coords(1..3)       global coordinates of the integration point
+!     jltyp              loading face kode:
+!                        21 = face 1 
+!                        22 = face 2 
+!                        23 = face 3 
+!                        24 = face 4 
+!                        25 = face 5 
+!                        26 = face 6
+!     loadtype           load type label
+!     vold(0..4,1..nk)   solution field in all nodes
+!                        0: temperature
+!                        1: displacement in global x-direction
+!                        2: displacement in global y-direction
+!                        3: displacement in global z-direction
+!                        4: static pressure
+!     veold(0..3,1..nk)  derivative of the solution field w.r.t.
+!                        time in all nodes
+!                        0: temperature rate
+!                        1: velocity in global x-direction
+!                        2: velocity in global y-direction
+!                        3: velocity in global z-direction
+!     co(3,1..nk)        coordinates of all nodes
+!                        1: coordinate in global x-direction
+!                        2: coordinate in global y-direction
+!                        3: coordinate in global z-direction
+!     lakonl             element label
+!     konl(1..20)        nodes belonging to the element
+!     ipompc(1..nmpc))   ipompc(i) points to the first term of
+!                        MPC i in field nodempc
+!     nodempc(1,*)       node number of a MPC term
+!     nodempc(2,*)       coordinate direction of a MPC term
+!     nodempc(3,*)       if not 0: points towards the next term
+!                                  of the MPC in field nodempc
+!                        if 0: MPC definition is finished
+!     coefmpc(*)         coefficient of a MPC term
+!     nmpc               number of MPC's
+!     ikmpc(1..nmpc)     ordered global degrees of freedom of the MPC's
+!                        the global degree of freedom is
+!                        8*(node-1)+direction of the dependent term of
+!                        the MPC (direction = 0: temperature;
+!                        1-3: displacements; 4: static pressure;
+!                        5-7: rotations)
+!     ilmpc(1..nmpc)     ilmpc(i) is the MPC number corresponding
+!                        to the reference number in ikmpc(i)   
+!     rho                local density 
+!     amat               material name
+!     mi(1)              max # of integration points per element (max
+!                        over all elements)
+!     mi(2)              max degree of freedomm per node (max over all
+!                        nodes) in fields like v(0:mi(2))...
+!
+!     OUTPUT:
+!
+!     f                  magnitude of the distributed load
+!     iscale             determines whether the flux has to be
+!                        scaled for increments smaller than the 
+!                        step time in static calculations
+!                        0: no scaling
+!                        1: scaling (default)
+!
 </PRE>
 
 <P>
-then the fields nelcon and elcon look like:
+<BR><HR>
 
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><!-- MATH
- \begin{equation}
-\text{nelcon}=\begin{bmatrix} 2 & 3 \end{bmatrix},
-\text{elcon}(*,*,1)=\begin{bmatrix} 293. & 393. & 493. \\210000. & 200000. & 180000
-\\.3 & .29 & .27  \end{bmatrix},
-\end{equation}
- -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER">nelcon<IMG
- WIDTH="81" HEIGHT="188" ALIGN="MIDDLE" BORDER="0"
- SRC="img1899.png"
- ALT="$\displaystyle =\begin{bmatrix}2 &amp; 3 \end{bmatrix},$">&nbsp; &nbsp;elcon<IMG
- WIDTH="73" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
- SRC="img1900.png"
- ALT="$\displaystyle (*,*,1)=\begin{bmatrix}293. &amp; 393. &amp; 493. \\ 210000. &amp; 200000. &amp; 180000 \\ .3 &amp; .29 &amp; .27 \end{bmatrix},$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(521)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P>
-
-<P>
-and nmat=1, ntmat_ = 3, ncmat_=2. 
-
-<P>
-Other material properties are stored in a very similar way. The expansion
-coefficients are stored in fields nalcon and alcon, the conductivity
-coefficients in fields ncocon and cocon. The density and specific heat are
-stored in fields nrhcon, rhcon, nshcon and shcon, respectively. Furthermore,
-the specific gas constant is also stored in shcon. The fields
-nrhcon and nshcon are only one-dimensional, since there is only one density
-and one specific heat constant per temperature per material (the specific gas
-constant is temperature independent). 
-
-<P>
-The isotropic hardening curves for viscoplastic materials are stored in the
-two-dimensional integer field nplicon and the three-dimensional real field
-plicon. The entry nplicon(0,i) contains the number of temperature data points
-for the isotropic hardening definition of material i, whereas nplicon(j,i)
-contains the number of stress-strain data points at temperature point j of
-material i. Entry plicon(2*k-1,j,i) contains the stress corresponding to
-stress-plastic strain data point k at temperature data point j of material i,
-plicon(2*k,j,i) contains the plastic strain corresponding to stress-plastic
-strain data point k at temperature data point j of material i. Similar
-definitions apply for the kinematic hardening curves stored in nplkcon and
-plkcon. 
-
-<P>
-<HR>
-<!--Navigation Panel-->
-<A NAME="tex2html6078"
-  HREF="node386.html">
-<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
- SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6074"
-  HREF="node378.html">
-<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
- SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6070"
-  HREF="node384.html">
-<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
- SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6076"
-  HREF="node1.html">
-<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
- SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
-<BR>
-<B> Next:</B> <A NAME="tex2html6079"
-  HREF="node386.html">Expansion of the one-dimensional</A>
-<B> Up:</B> <A NAME="tex2html6075"
-  HREF="node378.html">Reading the step input</A>
-<B> Previous:</B> <A NAME="tex2html6071"
-  HREF="node384.html">Sets</A>
- &nbsp; <B>  <A NAME="tex2html6077"
-  HREF="node1.html">Contents</A></B> 
-<!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
 </BODY>
 </HTML>

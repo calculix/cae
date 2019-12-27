@@ -1,0 +1,18 @@
+#! /bin/csh -f
+
+set MTX_DIR = /local1/cleve/ARPA/matrices/BCSSTK35
+
+echo bcsstk35
+
+set msglvl   = 0
+set msgFile  = res.stk35
+set parmFile = stk35.inp
+set seed     = 10
+set inFileA  = $MTX_DIR/bcsstk35.mtx.rb
+set inFileB  = $MTX_DIR/bcsstm35.mtx.rb
+set resFile  = res.stk35
+
+testSerial $msglvl $msgFile $parmFile 
+           $seed $inFileA $inFileB 
+
+rm fort.* lmq* lq* evc*

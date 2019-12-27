@@ -1,0 +1,134 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=latex 97.4.4)  16 JAN 1999 16:12
+**main
+(main.tex
+LaTeX2e <1996/12/01> patch level 1
+Babel <v3.6h> and hyphenation patterns for english, german, loaded.
+(/home/tex/teTeX/texmf/tex/latex/base/report.cls
+Document Class: report 1996/10/31 v1.3u Standard LaTeX document class
+(/home/tex/teTeX/texmf/tex/latex/base/leqno.clo
+File: leqno.clo 1996/07/26 v1.1b Standard LaTeX option (left equation numbers)
+)
+(/home/tex/teTeX/texmf/tex/latex/base/size10.clo
+File: size10.clo 1996/10/31 v1.3u Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+\@indexfile=\write3
+
+Writing index file main.idx
+(main.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+ (intro.tex
+Chapter 1.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 9.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 9.
+) (dataStructure.tex) (proto.tex [1
+
+
+]
+Overfull \hbox (63.2698pt too wide) in paragraph at lines 11--27
+\OT1/cmr/m/n/10 There are five meth-ods to mul-ti-ply a vec-tor times a dense m
+a-trix. The first three meth-ods, called \OT1/cmtt/m/n/10 InpMtx[]MT[]nonsym[]m
+mm*()\OT1/cmr/m/n/10 ,
+ []
+
+
+Overfull \hbox (34.11732pt too wide) in paragraph at lines 64--75
+\OT1/cmtt/m/n/10 INPMTX[]BY[]CHEVRONS\OT1/cmr/m/n/10 , or if \OT1/cmtt/m/n/10 s
+torageMode \OT1/cmr/m/n/10 is not one of \OT1/cmtt/m/n/10 INPMTX[]RAW[]DATA\OT1
+/cmr/m/n/10 , \OT1/cmtt/m/n/10 INPMTX[]SORTED \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/
+10 INPMTX[]BY[]VECTORS\OT1/cmr/m/n/10 ,
+ []
+
+[2]
+Overfull \hbox (34.11732pt too wide) in paragraph at lines 101--112
+\OT1/cmtt/m/n/10 INPMTX[]BY[]CHEVRONS\OT1/cmr/m/n/10 , or if \OT1/cmtt/m/n/10 s
+torageMode \OT1/cmr/m/n/10 is not one of \OT1/cmtt/m/n/10 INPMTX[]RAW[]DATA\OT1
+/cmr/m/n/10 , \OT1/cmtt/m/n/10 INPMTX[]SORTED \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/
+10 INPMTX[]BY[]VECTORS\OT1/cmr/m/n/10 ,
+ []
+
+
+Overfull \hbox (34.11732pt too wide) in paragraph at lines 130--139
+\OT1/cmtt/m/n/10 INPMTX[]BY[]CHEVRONS\OT1/cmr/m/n/10 , or if \OT1/cmtt/m/n/10 s
+torageMode \OT1/cmr/m/n/10 is not one of \OT1/cmtt/m/n/10 INPMTX[]RAW[]DATA\OT1
+/cmr/m/n/10 , \OT1/cmtt/m/n/10 INPMTX[]SORTED \OT1/cmr/m/n/10 or \OT1/cmtt/m/n/
+10 INPMTX[]BY[]VECTORS\OT1/cmr/m/n/10 ,
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 179.
+
+(/home/tex/teTeX/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1997/01/14 v2.5a Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 179.
+ [3]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 230.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 230.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 230.
+ [4]) (drivers.tex [5]
+[6] [7]
+LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 283
+.
+LaTeX Font Info:    No file OMScmtt.fd. on input line 283.
+
+
+LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textbraceleft' on input line 283.
+
+[8]
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 369.
+
+ (/home/tex/teTeX/texmf/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 1997/01/14 v2.5a Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 369.
+ [9]) (main.ind [10]
+[11
+
+
+]) (main.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 358 strings out of 10908
+ 3706 string characters out of 72189
+ 50228 words of memory out of 262141
+ 3259 multiletter control sequences out of 9500
+ 10349 words of font info for 38 fonts, out of 150000 for 255
+ 14 hyphenation exceptions out of 607
+ 23i,4n,21p,161b,427s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (11 pages, 41428 bytes).

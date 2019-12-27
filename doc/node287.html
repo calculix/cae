@@ -1,110 +1,128 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*MPC</TITLE>
-<META NAME="description" CONTENT="*MPC">
+<TITLE>*DSLOAD</TITLE>
+<META NAME="description" CONTENT="*DSLOAD">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node288.html">
 <LINK REL="previous" HREF="node286.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node288.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4772"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4888"
   HREF="node288.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4768"
-  HREF="node205.html">
+<A NAME="tex2html4884"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4762"
+<A NAME="tex2html4878"
   HREF="node286.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4770"
+<A NAME="tex2html4886"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4773"
-  HREF="node288.html">*NETWORK MPC</A>
-<B> Up:</B> <A NAME="tex2html4769"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4763"
-  HREF="node286.html">*MODEL CHANGE</A>
- &nbsp; <B>  <A NAME="tex2html4771"
+<B> Next:</B> <A NAME="tex2html4889"
+  HREF="node288.html">*DYNAMIC</A>
+<B> Up:</B> <A NAME="tex2html4885"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4879"
+  HREF="node286.html">*DLOAD</A>
+ &nbsp; <B>  <A NAME="tex2html4887"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000879000000000000000"></A><A NAME="mpc"></A>
+<H2><A NAME="SECTION000940000000000000000"></A><A NAME="dsload"></A>
 <BR>
-*MPC
+*DSLOAD
 </H2>
 
 <P>
-Keyword type: model definition
+Keyword type: step
 
 <P>
-With this keyword card a multiple point constraint is defined, usually
-a nonlinear one. Right now, four different MPC's can be selected.
+This option allows for (a) the specification of section stresses on the boundary of
+submodels, cf. the <A HREF="node358.html#submodel">*SUBMODEL</A> card and (b) the application of a
+pressure on a facial surface. 
+
+<P>
+For submodels there are two required
+parameters: SUBMODEL and either STEP or DATA SET. Underneath the *DSLOAD card faces are listed
+for which a section stress will be calculated by interpolation from the global
+model. To this end these faces have to be part of a *SUBMODEL card,
+TYPE=SURFACE. The latter card also lists the name of the global model results
+file.  
+
+<P>
+In case the global
+calculation was a *STATIC calculation the STEP parameter specifies the step in the global model
+which will be used for the interpolation. If results for more than one
+increment within the step are stored, the last increment is taken. 
+
+<P>
+In case the global calculation was a *FREQUENCY calculation the DATA SET parameter
+specifies the mode in the global model which will be used for the
+interpolation. It is the number preceding the string MODAL in the .frd-file
+and it corresponds to the dataset number if viewing the .frd-file with
+CalculiX GraphiX.  Notice that the global frequency calculation is not allowed
+to contain preloading nor cyclic symmetry.
+
+<P>
+The distributed load type label convention is the same as for the
+<A HREF="node286.html#dload">*DLOAD</A> card. Notice that 
 
 <P>
 
 <UL>
-<LI>A plane MPC (name PLANE). This MPC specifies that all nodes
-listed within this MPC card should stay in a plane. The first three
-nodes are the defining nodes and should not lie on a line. For all
-subsequent nodes a nonlinear MPC is generated expressing that they
-stay within the plane. Notice that the plane can move during
-deformation, depending on the motion of the defining nodes.
-
-<P>
+<LI>the section stresses are applied at
+once at the start of the step, no matter the kind of procedure the user has
+selected. For instance, the loads in a <A HREF="node355.html#static">*STATIC</A> procedure are
+usually ramped during the step. This is not the case of the section stresses.
 </LI>
-<LI>A straight line MPC (name STRAIGHT). This MPC expresses that all
-nodes listed within this MPC card should stay on a straight line. The
-first two nodes are the defining nodes and should not coincide. For
-all subsequent nodes two nonlinear MPC's are generated expressing that
-they stay on the straight line. Notice that the straight line can move
-during deformation, depending on the motion of its defining nodes.
-
-<P>
-</LI>
-<LI>A beam MPC (name BEAM). This MPC involves exactly two nodes the distance between
-  which is kept constant during the calculation.
-
-<P>
-</LI>
-<LI>A user MPC (name to be defined by the user). With this option
-the user can define new nonlinear MPC's. Examples are given in Section
-<A HREF="node366.html#usermpc">8.7</A>, e.g. the mean rotation MPC.
+<LI>the section stresses are interpolated from the stress values at the
+  nodes of the global model. These latter stresses have been extrapolated in
+  the global model calculation from the stresses at the integration
+  points. Therefore, the section stresses are not particular accurate and
+  generally the global equilibrium of the submodel will not be well fulfilled,
+  resulting in stress concentrations near the nodes which are fixed in the
+  submodel. Therefore, the use of section stresses is not recommended. A
+  better procedure is the application of nodal forces
+  (<A HREF="node262.html#cload">*CLOAD</A>) at the intersection. These nodal forces may be
+  obtained by performing a preliminary submodel calculation with displacement
+  boundary conditions and requesting nodal force output.
 </LI>
 </UL>
 
 <P>
-A *MPC card automatically triggers the NLGEOM parameter, i.e. a geometrically
-nonlinear calculation is performed, except if the MPC is a mean rotation MPC.
+For the application of a pressure on a facial surface there is one optional
+parameter AMPLITUDE specifying the name of the amplitude by which the pressure
+is to be multiplied (cf. <A HREF="node245.html#amplitude">*AMPLITUDE</A>). The load label for
+pressure is P.
 
 <P>
-There are no parameters for this keyword card.
+If more than one *DSLOAD card occurs in the input deck, or a *DLOAD and at
+least one 
+*DSLOAD card, the rules explained underneath the keyword *DLOAD also apply here.
 
 <P><P>
 <BR>
@@ -113,80 +131,84 @@ There are no parameters for this keyword card.
 First line:
 
 <UL>
-<LI>*MPC
+<LI>*DSLOAD
+</LI>
+<LI>For submodels: enter the parameter SUBMODEL (no argument) and STEP with its argument
 </LI>
 </UL>
 
 <P>
-Second line:
+Following line for surface loading on submodels:
 
 <UL>
-<LI>MPC name
+<LI>Element number or element set label.
 </LI>
-<LI>list of nodes participating in the MPC: maximum 15 entries. Zero
-entries are discarded.
+<LI>Distributed load type label.
 </LI>
 </UL>
+Repeat this line if needed.
 
 <P>
-Following lines (as many as needed):
+Following line for pressure application on a surface:
 
 <UL>
-<LI>list of nodes participating in the MPC: maximum 16 entries. Zero
-entries are discarded.
+<LI>Surface name.
+</LI>
+<LI>Load label (the only available right now is P for pressure)
+</LI>
+<LI>Pressure.
 </LI>
 </UL>
+Repeat this line if needed.
 
 <P>
 <PRE>
 Example:
 
-*MPC
-PLANE,3,8,15,39,14
+*DSLOAD,SUBMODEL,STEP=4
+Se1,P3
 </PRE>
 
 <P>
-specifies that nodes 3, 8, 15, 39 and 14 should stay in a plane. The
-plane is defined by nodes 3, 8 and 15. They should not be co-linear. 
+specifies hat on face 3 of all elements belonging to set Se1 the section
+stress is to be determined by interpolation from step 4 in the global model.
 
 <P>
 
 <P><P>
 <BR>
-Example files: beammr, beamplane, beamstraight.
+Example files: .
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html4772"
+<A NAME="tex2html4888"
   HREF="node288.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4768"
-  HREF="node205.html">
+<A NAME="tex2html4884"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4762"
+<A NAME="tex2html4878"
   HREF="node286.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4770"
+<A NAME="tex2html4886"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4773"
-  HREF="node288.html">*NETWORK MPC</A>
-<B> Up:</B> <A NAME="tex2html4769"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4763"
-  HREF="node286.html">*MODEL CHANGE</A>
- &nbsp; <B>  <A NAME="tex2html4771"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html4889"
+  HREF="node288.html">*DYNAMIC</A>
+<B> Up:</B> <A NAME="tex2html4885"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4879"
+  HREF="node286.html">*DLOAD</A>
+ &nbsp; <B>  <A NAME="tex2html4887"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

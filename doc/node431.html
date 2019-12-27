@@ -1,85 +1,78 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>midexternaledges.f</TITLE>
-<META NAME="description" CONTENT="midexternaledges.f">
+<TITLE>Applying the MPC's to the expanded structure</TITLE>
+<META NAME="description" CONTENT="Applying the MPC's to the expanded structure">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node432.html">
 <LINK REL="previous" HREF="node430.html">
-<LINK REL="up" HREF="node427.html">
+<LINK REL="up" HREF="node425.html">
 <LINK REL="next" HREF="node432.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6685"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6755"
   HREF="node432.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6681"
-  HREF="node427.html">
+<A NAME="tex2html6751"
+  HREF="node425.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6675"
+<A NAME="tex2html6745"
   HREF="node430.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6683"
+<A NAME="tex2html6753"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6686"
-  HREF="node432.html">midexternalfaces.f</A>
-<B> Up:</B> <A NAME="tex2html6682"
-  HREF="node427.html">Mesh refining procedure</A>
-<B> Previous:</B> <A NAME="tex2html6676"
-  HREF="node430.html">determineextern.f</A>
- &nbsp; <B>  <A NAME="tex2html6684"
+<B> Next:</B> <A NAME="tex2html6756"
+  HREF="node432.html">Applying temperatures and temperature</A>
+<B> Up:</B> <A NAME="tex2html6752"
+  HREF="node425.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6746"
+  HREF="node430.html">Applying the SPC's to</A>
+ &nbsp; <B>  <A NAME="tex2html6754"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H4><A NAME="SECTION0001111540000000000000">
-midexternaledges.f</A>
-</H4>
+<H3><A NAME="SECTION000123600000000000000">
+Applying the MPC's to the expanded structure</A>
+</H3>
 
 <P>
-Nodes generated on external edges of the unrefined mesh are after the
-refinement projected onto the unrefined external edges (in projectnodes.f). These edges may be
-quadratic. In routine midexternaledges.f the external edges are stored in
-consecutive order (no gaps in the numbering) in field iedgext(1..3,*). The
-second entry is the middle node, if any, else this entry takes the value
-0. Now, for those edges i for which iexternedg(i)=1 at the start of the
-routine (i.e. the external edges) iexternedg(i) is changed to j, where j is
-the number of the external edge in field iedgext.
-
-<P>
-Field iexternedg is dynamic, i.e. it is changed during the mesh refinement. If
-an edge i is remeshed in two new sub-edges (due to the insertion of a node) and
-if this edge is external, the value of iexternedg(i) is inherited by the
-sub-edges it is split into.
+The procedure applied here (and coded in subroutine &ldquo;gen3dmpc.f&rdquo;) is similar to the one in the previous section. The
+problem consists again of connecting the nodes to which the MPC is applied
+with the newly generated nodes of the expansion. Each term in the MPC is
+considered separately. If a knot is defined in the node of the term at stake,
+nothing needs to be done if a translational degree of freedom is addressed,
+whereas for a rotational degree of freedom the node is replaced by the
+rotational node of the knot. If no knot is defined, MPC's satisfying Equation
+<A HREF="node429.html#eqcon1D">784</A> are generated for 1D elements, MPC's satisfying Equation
+<A HREF="node429.html#eqcon2Dshell">785</A> for 2D shell elements and MPC's described by Equation
+<A HREF="node429.html#eqcon2Dplane">786</A> for plane and axisymmetric elements. For the latter
+elements only the nodes in the zero-z plane are connected, see Figure
+<A HREF="node429.html#con2Dplane">170</A>. No rotational degrees of freedom are allowed in nodes of
+MPC's in which no knot was created.
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

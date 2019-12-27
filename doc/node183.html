@@ -1,87 +1,178 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Convergence criteria </TITLE>
-<META NAME="description" CONTENT="Convergence criteria ">
+<TITLE>Green functions</TITLE>
+<META NAME="description" CONTENT="Green functions">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node189.html">
-<LINK REL="previous" HREF="node159.html">
-<LINK REL="up" HREF="node24.html">
+<LINK REL="previous" HREF="node182.html">
+<LINK REL="up" HREF="node160.html">
 <LINK REL="next" HREF="node184.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3383"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3446"
   HREF="node184.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3379"
-  HREF="node24.html">
+<A NAME="tex2html3442"
+  HREF="node160.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3373"
+<A NAME="tex2html3438"
   HREF="node182.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3381"
+<A NAME="tex2html3444"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3384"
-  HREF="node184.html">Thermomechanical iterations</A>
-<B> Up:</B> <A NAME="tex2html3380"
-  HREF="node24.html">Theory</A>
-<B> Previous:</B> <A NAME="tex2html3374"
-  HREF="node182.html">Green functions</A>
- &nbsp; <B>  <A NAME="tex2html3382"
+<B> Next:</B> <A NAME="tex2html3447"
+  HREF="node184.html">Convergence criteria</A>
+<B> Up:</B> <A NAME="tex2html3443"
+  HREF="node160.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3439"
+  HREF="node182.html">Sensitivity</A>
+ &nbsp; <B>  <A NAME="tex2html3445"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000710000000000000000"></A><A NAME="convcrit"></A>
+<H3><A NAME="SECTION000792300000000000000"></A><A NAME="greenfunctions"></A>
 <BR>
-Convergence criteria 
-</H2>
+Green functions
+</H3>
 
 <P>
-<BR><HR>
-<!--Table of Child-Links-->
-<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+With the <A HREF="node309.html#green">*GREEN</A> keyword card Green functions <SPAN CLASS="MATH"><B><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1516.png"
+ ALT="$ X_j$"></B></SPAN>
+can be calculated satisfying
 
-<UL>
-<LI><A NAME="tex2html3385"
-  HREF="node184.html">Thermomechanical iterations</A>
-<LI><A NAME="tex2html3386"
-  HREF="node185.html">Contact</A>
-<LI><A NAME="tex2html3387"
-  HREF="node186.html">Line search</A>
-<LI><A NAME="tex2html3388"
-  HREF="node187.html">Network iterations</A>
-<LI><A NAME="tex2html3389"
-  HREF="node188.html">Implicit dynamics</A>
-</UL>
-<!--End of Table of Child-Links-->
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+[K-\omega_0^2 M] \cdot X_j = E_j,
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="157" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1517.png"
+ ALT="$\displaystyle [K-\omega_0^2 M] \cdot X_j = E_j,$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">473</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img305.png"
+ ALT="$ K$"></B></SPAN> is the stiffness matrix of the structure, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img476.png"
+ ALT="$ M$"></B></SPAN> the mass matrix,
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1518.png"
+ ALT="$ \omega_0$"></B></SPAN> a scalar frequency and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1519.png"
+ ALT="$ E_j$"></B></SPAN> a unit force at degree of freedom
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1218.png"
+ ALT="$ j$"></B></SPAN>. The degree of freedom <SPAN CLASS="MATH"><B><IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1218.png"
+ ALT="$ j$"></B></SPAN> corresponds to a specific coordinate direction
+in a specific node. For <!-- MATH
+ $\omega_0=0$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="50" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1520.png"
+ ALT="$ \omega_0=0$"></B></SPAN> the Green function is the static answer of a system
+to a unit force at some location in one of the global coordinate directions. Usually, these Green functions are used in
+subsequent calculations. The Green function procedure is a linear perturbation
+procedure, i.e. nonlinear behavior from a previous *STATIC step can be taken
+into account (through the appropriately modified stiffness matrix) using the PERTURBATION parameter on the *STEP card in the Green step.
+
+<P>
+The degrees of freedom in which a unit force is to be applied can be defined
+by use of the <A HREF="node262.html#cload">*CLOAD</A> card (the force value specified by the
+user is immaterial, a unit value is taken). <SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1518.png"
+ ALT="$ \omega_0$"></B></SPAN>
+is a parameter on the *CLOAD card.
+
+<P>
+If the input deck is stored in the file &ldquo;problem.inp&rdquo;, where
+&ldquo;problem&rdquo; stands for any name, the Green functions, the stiffness matrix and
+the mass matrix are stored in binary form in a "problem.eig" file for further
+use (e.g. in a sensitivity step). Furthermore, the Green functions can be
+stored in the &ldquo;problem.frd&rdquo; file, using the standard <A HREF="node331.html#nodefile">*NODE
+  FILE</A> or <A HREF="node332.html#nodeoutput">*NODE OUTPUT</A> card.
+
+<P>
+The sensitivity of the Green functions can be calculated in a subsequent
+<A HREF="node349.html#sensitivity">*SENSITIVITY</A> step in which the objective function is
+set to GREEN (cf. <A HREF="node336.html#objective">*OBJECTIVE</A>).
+
+<P>
+Cyclic symmetry can be taken into account by use of the <A HREF="node276.html#cyclicsymmetrymodel">*CYCLIC
+  SYMMETRY MODEL</A> card to define the cyclic symmetry and the <A HREF="node348.html#selectcyclicsymmetrymodes">*SELECT CYCLIC
+  SYMMETRY MODES</A> card to define the nodal
+diameters. This is analogous to frequency calculations with cyclic symmetry.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3446"
+  HREF="node184.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html3442"
+  HREF="node160.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html3438"
+  HREF="node182.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html3444"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html3447"
+  HREF="node184.html">Convergence criteria</A>
+<B> Up:</B> <A NAME="tex2html3443"
+  HREF="node160.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3439"
+  HREF="node182.html">Sensitivity</A>
+ &nbsp; <B>  <A NAME="tex2html3445"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

@@ -1,0 +1,41 @@
+#! /bin/csh -f
+
+set msglvl  = 1
+set msgFile = stdout
+set msgFile = res
+
+
+set type    =   2
+set type    =   1
+
+set nrow    = 100
+set ncol    =  4
+set inc1    =  1
+set inc2    = $nrow
+set inc1    = $ncol
+set inc2    =  1
+set seed    = 10101
+set nproc   = 4
+
+#
+#  for solaris with mpich
+#
+set pgFile  = splitDenseMtx$nproc.pg
+/usr/local/mpi/bin/mpirun -p4pg $pgFile \
+testSplitDenseMtx \
+   $msglvl $msgFile $type $nrow $ncol $inc1 $inc2 $seed
+ 
+#
+#  for sgi
+#
+# mpirun -np $nproc \
+# testSplitDenseMtx \
+#    $msglvl $msgFile $type $nrow $ncol $inc1 $inc2 $seed
+ 
+#
+#  for hp
+#
+# /opt/mpi/bin/mpirun -np $nproc \
+# testSplitDenseMtx \
+#    $msglvl $msgFile $type $nrow $ncol $inc1 $inc2 $seed
+

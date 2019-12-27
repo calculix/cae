@@ -1,10 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
 <TITLE>Eight-node plane stress element (CPS8 and CPS8R) </TITLE>
@@ -13,7 +9,7 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
@@ -25,34 +21,35 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html1671"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1733"
   HREF="node49.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1667"
+<A NAME="tex2html1729"
   HREF="node26.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1661"
+<A NAME="tex2html1723"
   HREF="node47.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1669"
+<A NAME="tex2html1731"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1672"
+<B> Next:</B> <A NAME="tex2html1734"
   HREF="node49.html">Three-node plane strain element</A>
-<B> Up:</B> <A NAME="tex2html1668"
+<B> Up:</B> <A NAME="tex2html1730"
   HREF="node26.html">Element Types</A>
-<B> Previous:</B> <A NAME="tex2html1662"
+<B> Previous:</B> <A NAME="tex2html1724"
   HREF="node47.html">Six-node plane stress element</A>
- &nbsp; <B>  <A NAME="tex2html1670"
+ &nbsp; <B>  <A NAME="tex2html1732"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
 <H3><A NAME="SECTION000722200000000000000"></A><A NAME="planestresssection"></A>
@@ -84,7 +81,7 @@ nodes in the midplane.
 <LI>The normal is by default (0,0,1)
 </LI>
 <LI>The thickness can vary. It can be defined in the same way as for
-the shell element, except that the <A HREF="node312.html#solidsection">*SOLID
+the shell element, except that the <A HREF="node351.html#solidsection">*SOLID
 SECTION</A> card is used instead of the *SHELL SECTION card.
 </LI>
 <LI>Different offsets do not make sense.
@@ -105,18 +102,18 @@ Distributed loading in plane stress elements is different
 from shell distributed loading: for the plane stress element it is
 in-plane, for the shell element it is out-of-plane. Distributed
 loading in plane stress elements is defined on the
-<A HREF="node247.html#dload">*DLOAD</A> card with the labels P1 up to P4. The number
+<A HREF="node286.html#dload">*DLOAD</A> card with the labels P1 up to P4. The number
 indicates the face as defined in Figure <A HREF="#quadface">75</A>.
 
 <P>
 
-<DIV ALIGN="CENTER"><A NAME="quadface"></A><A NAME="11836"></A>
+<DIV ALIGN="CENTER"><A NAME="quadface"></A><A NAME="14874"></A>
 <TABLE>
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 75:</STRONG>
 Face numbering for quadrilateral elements</CAPTION>
 <TR><TD><IMG
  WIDTH="448" HEIGHT="467" BORDER="0"
- SRC="img259.png"
+ SRC="img272.png"
  ALT="\begin{figure}\epsfig{file=QuadFace.eps,width=10cm}\end{figure}"></TD></TR>
 </TABLE>
 </DIV>
@@ -135,37 +132,35 @@ Notice that structures containing plane stress elements should be defined in the
 global x-y plane, i.e. z=0 for all nodes.
 
 <P>
-<HR>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html1671"
+<A NAME="tex2html1733"
   HREF="node49.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html1667"
+<A NAME="tex2html1729"
   HREF="node26.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html1661"
+<A NAME="tex2html1723"
   HREF="node47.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html1669"
+<A NAME="tex2html1731"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html1672"
+<B> Next:</B> <A NAME="tex2html1734"
   HREF="node49.html">Three-node plane strain element</A>
-<B> Up:</B> <A NAME="tex2html1668"
+<B> Up:</B> <A NAME="tex2html1730"
   HREF="node26.html">Element Types</A>
-<B> Previous:</B> <A NAME="tex2html1662"
+<B> Previous:</B> <A NAME="tex2html1724"
   HREF="node47.html">Six-node plane stress element</A>
- &nbsp; <B>  <A NAME="tex2html1670"
-  HREF="node1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1732"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

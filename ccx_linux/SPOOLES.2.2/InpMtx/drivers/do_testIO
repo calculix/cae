@@ -1,0 +1,19 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrices     = ../../../matrices
+set matrix       = GRD7x7
+
+set inInpMtxFile = $matrices/$matrix/AIJ0.inpmtxf
+set inInpMtxFile = $matrices/$matrix/AIJ0.inpmtxb
+set inInpMtxFile = $matrices/$matrix/AIJ2.inpmtxb
+set inInpMtxFile = $matrices/$matrix/AIJ1.inpmtxb
+
+set outInpMtxFile = $matrices/$matrix/AIJ0.inpmtxf
+set outInpMtxFile = none
+
+set msglvl  = 3
+
+set msgFile = stdout
+
+testIO $msglvl $msgFile $inInpMtxFile $outInpMtxFile

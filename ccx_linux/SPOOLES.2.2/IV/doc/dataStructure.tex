@@ -1,0 +1,29 @@
+\par
+\section{Data Structure}
+\label{section:IV:dataStructure}
+\par
+\par
+The {\tt IV} structure has four fields.
+\begin{itemize}
+\item
+{\tt int size} : present size of the vector.
+\item
+{\tt int maxsize} : maximum size of the vector.
+\item
+{\tt int owned} : owner flag for the data.
+When {\tt owned = 1}, storage for {\tt maxsize} {\tt int}'s
+has been allocated by this object and can be free'd by the object.
+When {\tt nowned = 0} but {\tt maxsize > 0}, this object points to
+entries that have been allocated elsewhere, and these entries will
+not be free'd by this object.
+\item
+{\tt int *vec} : pointer to the base address of the {\it int} vector
+\end{itemize}
+The {\tt size}, {\tt maxsize}, {\tt owned} and {\tt vec} fields 
+need never be accessed directly --- 
+see the 
+{\tt IV\_size()},
+{\tt IV\_maxsize()},
+{\tt IV\_owned()},
+{\tt IV\_entries()},
+{\tt IV\_sizeAndEntries()} methods.

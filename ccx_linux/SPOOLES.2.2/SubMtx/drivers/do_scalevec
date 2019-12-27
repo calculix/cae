@@ -1,0 +1,15 @@
+#! /bin/csh -f
+#
+ 
+set msglvl  =       2
+set msgFile =     res 
+set msgFile =  stdout
+# type = 1 (real) or 2 (complex)
+set type    =       2
+# mode = 7, 8 or 9 (complex only)
+set mode    =       9
+set nrow    =      10
+set seed    =   76661
+
+test_scalevec \
+   $msglvl $msgFile $type $mode $nrow $seed

@@ -1,272 +1,280 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Irrotational incompressible inviscid flow</TITLE>
-<META NAME="description" CONTENT="Irrotational incompressible inviscid flow">
+<TITLE>Hydrodynamic lubrication</TITLE>
+<META NAME="description" CONTENT="Hydrodynamic lubrication">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node172.html">
 <LINK REL="previous" HREF="node170.html">
-<LINK REL="up" HREF="node159.html">
+<LINK REL="up" HREF="node160.html">
 <LINK REL="next" HREF="node172.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3241"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3304"
   HREF="node172.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3237"
-  HREF="node159.html">
+<A NAME="tex2html3300"
+  HREF="node160.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3231"
+<A NAME="tex2html3294"
   HREF="node170.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3239"
+<A NAME="tex2html3302"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3242"
-  HREF="node172.html">Electrostatics</A>
-<B> Up:</B> <A NAME="tex2html3238"
-  HREF="node159.html">Types of analysis</A>
-<B> Previous:</B> <A NAME="tex2html3232"
-  HREF="node170.html">Hydrodynamic lubrication</A>
- &nbsp; <B>  <A NAME="tex2html3240"
+<B> Next:</B> <A NAME="tex2html3305"
+  HREF="node172.html">Irrotational incompressible inviscid flow</A>
+<B> Up:</B> <A NAME="tex2html3301"
+  HREF="node160.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3295"
+  HREF="node170.html">Shallow water motion</A>
+ &nbsp; <B>  <A NAME="tex2html3303"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000791200000000000000">
-Irrotational incompressible inviscid flow</A>
+<H3><A NAME="SECTION000791100000000000000">
+Hydrodynamic lubrication</A>
 </H3>
 
 <P>
-If incompressible flow is irrotational a potential <B><IMG
- WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1213.png"
- ALT="$ \phi$"></B> exists for the
-velocity field such that <!-- MATH
- $\boldsymbol{ v} = -\nabla \phi$
- -->
-<B><IMG
- WIDTH="70" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1214.png"
- ALT="$ \boldsymbol{ v} = -\nabla \phi$"></B>. Furthermore, if the
-flow is inviscid one can prove that if a flow is irrotational at any instant
-in time, it remains irrotational for all subsequent time instants [<A
- HREF="node448.html#Zienkiewicz">84</A>]. The
-continuity equation now reads 
+In hydrodynamic lubrication a thin oil film constitutes the interface between
+a static part and a part rotating at high speed in all kinds of bearings. A
+quantity of major interest to engineers is the load bearing capacity of the
+film, expressed by the pressure. Integrating the hydrodynamic equations over
+the width of the thin film leads to the following equation [<A
+ HREF="node487.html#Hamrock">27</A>]:
 
 <P>
 <P></P>
-<DIV ALIGN="CENTER"><A NAME="irrot1"></A><!-- MATH
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="lubri"></A><!-- MATH
  \begin{equation}
-\nabla \cdot (-  \boldsymbol{ I} \cdot
-\nabla{\phi }) = 0,
+\nabla \cdot (- \frac{ h^3 \overline{ \rho }}{12 \mu_v} \boldsymbol{ I} \cdot
+\nabla{p}) = - \left( \frac{ \boldsymbol{ v}_b+\boldsymbol{ v}_a}{2}\right)
+\cdot \nabla (h \overline{ \rho }) - \frac{ \partial (h \overline{
+    \rho})}{\partial t} - \dot{ m}_{\Omega },
 \end{equation}
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
 <TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="131" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
- SRC="img1215.png"
- ALT="$\displaystyle \nabla \cdot (- \boldsymbol{ I} \cdot \nabla{\phi }) = 0,$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(317)</TD></TR>
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="413" HEIGHT="56" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1260.png"
+ ALT="$\displaystyle \nabla \cdot (- \frac{ h^3 \overline{ \rho }}{12 \mu_v} \boldsymb...
+...ho }) - \frac{ \partial (h \overline{ \rho})}{\partial t} - \dot{ m}_{\Omega },$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">348</SPAN>)</TD></TR>
 </TABLE></DIV>
 <BR CLEAR="ALL"><P></P> 
 
 <P>
-and the balance of momentum for gravitational flow yields
-
-<P>
-<P></P>
-<DIV ALIGN="CENTER"><A NAME="irrot2"></A><!-- MATH
- \begin{equation}
-\frac{ \partial \boldsymbol{ v}}{\partial t} + \nabla \left( \frac{ p}{\rho_0} +
-\frac{ \boldsymbol{ v} \cdot \boldsymbol{ v}}{2} + gz \right) =0,
-\end{equation}
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img716.png"
+ ALT="$ h$"></B></SPAN> is the film thickness, <!-- MATH
+ $\overline{ \rho }$
  -->
-<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
-<TR VALIGN="MIDDLE">
-<TD NOWRAP ALIGN="CENTER"><IMG
- WIDTH="228" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
- SRC="img1216.png"
- ALT="$\displaystyle \frac{ \partial \boldsymbol{ v}}{\partial t} + \nabla \left( \frac{ p}{\rho_0} + \frac{ \boldsymbol{ v} \cdot \boldsymbol{ v}}{2} + gz \right) =0,$"></TD>
-<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
-(318)</TD></TR>
-</TABLE></DIV>
-<BR CLEAR="ALL"><P></P> 
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1261.png"
+ ALT="$ \overline{ \rho }$"></B></SPAN> is the mean density
+across the thickness, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img330.png"
+ ALT="$ p$"></B></SPAN> is the pressure, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1262.png"
+ ALT="$ \mu_v$"></B></SPAN> is the dynamic viscosity of
+the fluid, <!-- MATH
+ $\boldsymbol{ v}_a$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1263.png"
+ ALT="$ \boldsymbol{ v}_a$"></B></SPAN> is the velocity on one side of the film,
+<!-- MATH
+ $\boldsymbol{ v}_b$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="20" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1264.png"
+ ALT="$ \boldsymbol{ v}_b$"></B></SPAN> is the velocity at the other side of the film and <!-- MATH
+ $\dot{
+  m}_{\Omega}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="28" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1265.png"
+ ALT="$ \dot{
+m}_{\Omega}$"></B></SPAN> is the resulting volumetric flux (volume per second and per unit
+of area) leaving the film through the porous walls (positive if leaving the
+fluid). This term is zero if the walls are not porous.
 
 <P>
-where <B><IMG
- WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img675.png"
- ALT="$ g$"></B> is the earth acceleration, <B><IMG
- WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img317.png"
- ALT="$ p$"></B> is the pressure, <B><IMG
- WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img998.png"
- ALT="$ \rho_0$"></B> is the
-density and z is the coordinate in earth direction.
-By comparison with the heat equation, the correspondence in Table
-&nbsp;(<A HREF="#t4">12</A>) arises. 
+For practical calculations the density and thickness of the film is assumed to
+be known, the pressure is the unknown. By comparison with the heat equation, the correspondence in Table
+&nbsp;(<A HREF="#t3">11</A>) arises. <!-- MATH
+ $\overline{ \boldsymbol{ v}}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1258.png"
+ ALT="$ \overline{ \boldsymbol{ v}}$"></B></SPAN> is the mean velocity over
+the film, <!-- MATH
+ $\overline{ v}_n$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1259.png"
+ ALT="$ \overline{ v}_n$"></B></SPAN> its component orthogonal to the boundary. Since
+the governing equation is the result of an integration across the film
+thickness, it is again two-dimensional and applies in the present form to a
+plane film. Furthermore, observe that it is a steady state equation (the time
+change of the density on the right hand side is assumed known) and as such it
+is a Poisson equation. Here too, just like for the shallow water equation, the
+heat transfer equivalent of a
+spatially varying layer thickness is a spatially varying conductivity coefficient.
 
 <P>
 <BR><P></P>
 <DIV ALIGN="CENTER">
 
 <DIV ALIGN="CENTER">
-<A NAME="12428"></A>
+<A NAME="15477"></A>
 <TABLE CELLPADDING=3 BORDER="1">
-<CAPTION><STRONG>Table 12:</STRONG>
-Correspondence between the heat equation and the equation for
-  incompressible irrotational inviscid flow.</CAPTION>
+<CAPTION><STRONG>Table 11:</STRONG>
+Correspondence between the heat equation and the dynamic lubrication equation.</CAPTION>
 <TR><TD ALIGN="CENTER">heat quantity</TD>
-<TD ALIGN="CENTER">irrotational flow quantity</TD>
+<TD ALIGN="CENTER">dynamic lubrication quantity</TD>
 </TR>
 <TR><TD ALIGN="CENTER">T</TD>
-<TD ALIGN="CENTER"><B><IMG
- WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1213.png"
- ALT="$ \phi$"></B></TD>
+<TD ALIGN="CENTER"><SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img330.png"
+ ALT="$ p$"></B></SPAN></TD>
 </TR>
 <TR><TD ALIGN="CENTER"><!-- MATH
  $\boldsymbol{ q}$
  -->
-<B><IMG
- WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img717.png"
- ALT="$ \boldsymbol{q}$"></B></TD>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img760.png"
+ ALT="$ \boldsymbol{q}$"></B></SPAN></TD>
 <TD ALIGN="CENTER"><!-- MATH
- $\boldsymbol{ v}$
+ $\overline{ \rho} h \overline{ \boldsymbol{ v}}$
  -->
-<B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img286.png"
- ALT="$ \boldsymbol{v}$"></B></TD>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="31" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1266.png"
+ ALT="$ \overline{ \rho} h \overline{ \boldsymbol{ v}} $"></B></SPAN></TD>
 </TR>
-<TR><TD ALIGN="CENTER"><B><IMG
- WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1187.png"
- ALT="$ q_n$"></B></TD>
-<TD ALIGN="CENTER"><B><IMG
- WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1217.png"
- ALT="$ v_n$"></B></TD>
+<TR><TD ALIGN="CENTER"><SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1244.png"
+ ALT="$ q_n$"></B></SPAN></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\overline{ \rho} h \overline{ v}_n$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="38" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1267.png"
+ ALT="$ \overline{ \rho} h \overline{ v}_n$"></B></SPAN></TD>
 </TR>
 <TR><TD ALIGN="CENTER"><!-- MATH
  $\boldsymbol{ \kappa }$
  -->
-<B><IMG
- WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img1171.png"
- ALT="$ \boldsymbol{\kappa}$"></B></TD>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1229.png"
+ ALT="$ \boldsymbol{\kappa}$"></B></SPAN></TD>
 <TD ALIGN="CENTER"><!-- MATH
- $\boldsymbol{ I}$
+ $\frac{ h^3 \overline{ \rho}}{12 \mu _v} \boldsymbol{ I}$
  -->
-<B><IMG
- WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img1181.png"
- ALT="$ \boldsymbol{ I}$"></B></TD>
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="44" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1268.png"
+ ALT="$ \frac{ h^3 \overline{ \rho}}{12 \mu _v} \boldsymbol{ I}$"></B></SPAN></TD>
 </TR>
-<TR><TD ALIGN="CENTER"><B><IMG
- WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1189.png"
- ALT="$ \rho h$"></B></TD>
-<TD ALIGN="CENTER"><B>0</B></TD>
+<TR><TD ALIGN="CENTER"><SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1246.png"
+ ALT="$ \rho h$"></B></SPAN></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $- \left( \frac{ \boldsymbol{ v}_b+\boldsymbol{ v}_a}{2}\right)
+\cdot \nabla (h \overline{ \rho }) - \frac{ \partial (h \overline{
+    \rho})}{\partial t} - \dot{ m}_{\Omega }$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="228" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1269.png"
+ ALT="$ - \left( \frac{ \boldsymbol{ v}_b+\boldsymbol{ v}_a}{2}\right)
+\cdot \nabla (h...
+...ho }) - \frac{ \partial (h \overline{
+\rho})}{\partial t} - \dot{ m}_{\Omega }$"></B></SPAN></TD>
 </TR>
-<TR><TD ALIGN="CENTER"><B><IMG
- WIDTH="20" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1191.png"
- ALT="$ \rho c$"></B></TD>
-<TD ALIGN="CENTER"><B><IMG
- WIDTH="17" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1199.png"
- ALT="$ -$"></B></TD>
+<TR><TD ALIGN="CENTER"><SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1248.png"
+ ALT="$ \rho c$"></B></SPAN></TD>
+<TD ALIGN="CENTER"><SPAN CLASS="MATH"><B><IMG
+ WIDTH="16" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1256.png"
+ ALT="$ -$"></B></SPAN></TD>
 </TR>
 </TABLE>
 </DIV>
 </DIV>
-<BR>  
+<BR> 
 
 <P>
-Once <B><IMG
- WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img1213.png"
- ALT="$ \phi$"></B> is determined, the velocity <!-- MATH
- $\boldsymbol{ v}$
- -->
-<B><IMG
- WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
- SRC="img286.png"
- ALT="$ \boldsymbol{v}$"></B> is obtained by
-differentiation and the pressure <B><IMG
- WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
- SRC="img317.png"
- ALT="$ p$"></B> can be calculated through the balance of
-momentum. Although irrotational incompressible inviscid flow sounds very
-special, the application field is rather large. Flow starting from rest is
-irrotational since the initial field is irrotational. Flow at speeds below 0.3
-times the speed of sound can be considered to be incompressible. Finally, the
-flow outside the tiny boundary layer around an object is inviscid. A favorite
-examples is the flow around a wing profile. However, if the boundary
-layer separates and vortices arise the above theory cannot be used any
-more. For further applications see [<A
- HREF="node448.html#Kundu">38</A>].
 
-<P>
-<HR>
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html3241"
+<A NAME="tex2html3304"
   HREF="node172.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3237"
-  HREF="node159.html">
+<A NAME="tex2html3300"
+  HREF="node160.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3231"
+<A NAME="tex2html3294"
   HREF="node170.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3239"
+<A NAME="tex2html3302"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3242"
-  HREF="node172.html">Electrostatics</A>
-<B> Up:</B> <A NAME="tex2html3238"
-  HREF="node159.html">Types of analysis</A>
-<B> Previous:</B> <A NAME="tex2html3232"
-  HREF="node170.html">Hydrodynamic lubrication</A>
- &nbsp; <B>  <A NAME="tex2html3240"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html3305"
+  HREF="node172.html">Irrotational incompressible inviscid flow</A>
+<B> Up:</B> <A NAME="tex2html3301"
+  HREF="node160.html">Types of analysis</A>
+<B> Previous:</B> <A NAME="tex2html3295"
+  HREF="node170.html">Shallow water motion</A>
+ &nbsp; <B>  <A NAME="tex2html3303"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

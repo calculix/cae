@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
+<HTML>
+<HEAD>
+<TITLE>Sensitivity Analysis</TITLE>
+<META NAME="description" CONTENT="Sensitivity Analysis">
+<META NAME="keywords" CONTENT="ccx">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="ccx.css">
+
+<LINK REL="next" HREF="node461.html">
+<LINK REL="previous" HREF="node456.html">
+<LINK REL="up" HREF="node412.html">
+<LINK REL="next" HREF="node458.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html7073"
+  HREF="node458.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html7069"
+  HREF="node412.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html7063"
+  HREF="node456.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html7071"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html7074"
+  HREF="node458.html">Preprocessing the sensitivity</A>
+<B> Up:</B> <A NAME="tex2html7070"
+  HREF="node412.html">Program structure.</A>
+<B> Previous:</B> <A NAME="tex2html7064"
+  HREF="node456.html">Three-Dimensional Navier-Stokes Calculations</A>
+ &nbsp; <B>  <A NAME="tex2html7072"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION0001210000000000000000">
+Sensitivity Analysis</A>
+</H2>
+
+<P>
+The coding for sensitivity analysis is concentrated within the
+sensitivity.c subroutine. The objective functions and the parameters
+describing them are stored in a character*81 field objectset(4,nobject), where
+nobject is the number of objective functions. In the absence of constraints
+there can be an arbitrary number of objective functions specified by the
+user. In the presence of constraints, there is exactly one objective function
+and an arbitrary number of constraints. Regarding the field objectset,
+constraints are treated in exactly the same way as objective
+functions. However, in the presence of constraints, in addition to the
+sensitivity of the objective function and each of the constraints, the
+sensitivity of the constrained objective function is calculated
+too. Therefore, nobject is in that case 1(for the unconstrained objective function) + number
+of constraints + 1 (for the constrained objective function)
+
+<P>
+The structure of the field objectset is as follows:
+
+<UL>
+<LI>objectset(1,*)
+
+<UL>
+<LI>1-18: objective/constraint (e.g. DISPLACEMENT)
+</LI>
+<LI>19-20: LE or GE (for constraints)
+</LI>
+<LI>21-40: boundary weighting distance
+</LI>
+<LI>41-60: relative constraint value
+</LI>
+<LI>61-80: absolute constraint value
+</LI>
+<LI>81-81: R for reading the sensitivities from file jobname.sen, W for
+  writing the sensitivities to file jobname.sen (only stored in objectset(1,1))
+</LI>
+</UL>
+</LI>
+<LI>objectset(2,*)
+
+<UL>
+<LI>1-5: filter type
+</LI>
+<LI>6-8: BOU if boundary weighting is active, else empty
+</LI>
+<LI>10-12: EDG if edge conservation is active, else empty
+</LI>
+<LI>14-16: DIR if direction weighting is active, else empty
+</LI>
+<LI>17-19: MIN for minimization, MAX for maximization
+</LI>
+<LI>21-40: filter radius
+</LI>
+<LI>41-60: <SPAN CLASS="MATH"><B><IMG
+ WIDTH="12" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho$"></B></SPAN> of the Kreisselmeier-Steinhauser function
+</LI>
+<LI>61-80: <!-- MATH
+ $\bar{\sigma}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2112.png"
+ ALT="$ \bar{\sigma}$"></B></SPAN> of the Kreisselmeier-Steinhauser function
+</LI>
+</UL>
+</LI>
+<LI>objectset(3,*)
+
+<UL>
+<LI>1-81: node or element set to which the objective/constraint applies
+</LI>
+</UL>
+</LI>
+<LI>objectset(4,*)
+
+<UL>
+<LI>set of opposite nodes for THICKNESS constraint
+</LI>
+</UL>
+</LI>
+</UL>
+
+<P>
+The structure of subroutine sensitivity.c is made up of a preprocessing part,
+a processing part and a postprocessing part. The preprocessing part is
+executed only once, for frequency sensitivities the processing and
+postprocessing part is executed as many times as there are eigenvalues, else
+they are executed only once.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html7075"
+  HREF="node458.html">Preprocessing the sensitivity</A>
+<LI><A NAME="tex2html7076"
+  HREF="node459.html">Processing the sensitivity</A>
+<LI><A NAME="tex2html7077"
+  HREF="node460.html">Postprocessing the sensitivity</A>
+</UL>
+<!--End of Table of Child-Links-->
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html7073"
+  HREF="node458.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html7069"
+  HREF="node412.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html7063"
+  HREF="node456.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html7071"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html7074"
+  HREF="node458.html">Preprocessing the sensitivity</A>
+<B> Up:</B> <A NAME="tex2html7070"
+  HREF="node412.html">Program structure.</A>
+<B> Previous:</B> <A NAME="tex2html7064"
+  HREF="node456.html">Three-Dimensional Navier-Stokes Calculations</A>
+ &nbsp; <B>  <A NAME="tex2html7072"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

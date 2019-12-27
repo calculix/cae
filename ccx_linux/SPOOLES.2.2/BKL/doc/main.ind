@@ -1,0 +1,21 @@
+\begin{theindex}
+
+  \item {\tt BKL\_clearData()}, 2
+  \item {\tt BKL\_domAdjToSep()}, 4
+  \item {\tt BKL\_eval()}, 5
+  \item {\tt BKL\_evalfcn()}, 4
+  \item {\tt BKL\_evalgain()}, 4
+  \item {\tt BKL\_exhSearch()}, 5
+  \item {\tt BKL\_fidmat()}, 5
+  \item {\tt BKL\_flipDomain()}, 3
+  \item {\tt BKL\_free()}, 2
+  \item {\tt BKL\_greyCodeDomain()}, 3
+  \item {\tt BKL\_init()}, 3
+  \item {\tt BKL\_new()}, 2
+  \item {\tt BKL\_segColor()}, 3
+  \item {\tt BKL\_setColorWeights()}, 3
+  \item {\tt BKL\_setDefaultFields()}, 2
+  \item {\tt BKL\_setInitPart()}, 3
+  \item {\tt BKL\_setRandomColors()}, 3
+
+\end{theindex}

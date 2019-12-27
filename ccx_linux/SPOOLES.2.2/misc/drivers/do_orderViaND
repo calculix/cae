@@ -1,0 +1,54 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+set matrices    = ../../../matrices
+set matrices    = /local1/ARPA/matrices
+set matrix      = R2D100
+set matrix      = R3D13824
+set matrix      = R2D10000
+set matrix      = MN12
+set matrix      = BCSSTK39
+set matrix      = GRD15x15x127
+set matrix      = i4a
+
+set inGraphFile = /local1/ARPA/matrices/i4a/orig1.graphb
+set inGraphFile = ../../../matrices/R10KV/orig0.graphb
+set inGraphFile = $matrices/$matrix/orig0.graphf
+set inGraphFile = $matrices/$matrix/orig1.graphb
+set inGraphFile = $matrices/$matrix/orig0.graphb
+
+set msglvl      = 1
+
+set msgFile    = res.ND.$matrix
+set msgFile    = stdout
+
+set outETreeFile = nd.etreef
+set outETreeFile = /local1/ARPA/matrices/i4a/nd.etreeb
+set outETreeFile = ../../../matrices/R10KV/nd.etreef
+set outETreeFile = none
+set outETreeFile = $matrices/$matrix/nd.etreef
+
+set maxdomainsize = 10
+set maxdomainsize = 500
+set maxdomainsize = 1
+set maxdomainsize = 100
+
+set maxsize  = 64
+set maxsize  = 1000000
+set maxzeros = 1000
+set maxzeros = 0
+
+set seed          = 10102
+set seed          = 10101
+
+set nseed = 1
+
+while ( $nseed > 0 )
+   testOrderViaND \
+      $msglvl $msgFile $inGraphFile \
+      $maxdomainsize $maxsize $maxzeros $seed $outETreeFile
+   @ seed  = $seed + 1
+   @ nseed = $nseed - 1
+   ../../ETree/drivers/testHeight $msglvl $msgFile $outETreeFile
+end
+

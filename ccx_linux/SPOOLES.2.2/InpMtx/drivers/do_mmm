@@ -1,0 +1,46 @@
+#! /bin/csh -f
+
+set msglvl  = 5
+
+set msgFile = res
+set msgFile = stdout
+
+# dataType = 0 --> indices only
+# dataType = 1 --> real entries
+# dataType = 2 --> complex entries
+set dataType = 2
+
+# symflag = 0 --> symmetric
+# symflag = 1 --> hermitian
+# symflag = 2 --> nonsymmetric
+set symflag = 0
+
+# storageMode = 1 --> rows
+# storageMode = 2 --> columns
+# storageMode = 3 --> chevrons
+set storageMode = 1
+
+# transposeflag = 0 --> Y := Y + alpha * A * X
+# transposeflag = 1 --> Y := Y + alpha * A^H * X, nonsymmetric only
+# transposeflag = 2 --> Y := Y + alpha * A^T * X, nonsymmetric only
+set transposeflag = 0
+
+set nrow        = 30
+set ncol        = 30
+set nitem       = 2000
+set nrhs        = 3
+set seed        = 10203
+set alphaReal   = 4.0
+set alphaImag   = 0.0
+
+foreach transposeflag        ( 0 )
+   foreach symflag           ( 0 )
+      foreach dataType       ( 2 )
+         foreach storageMode ( 1 )
+             testMMM $msglvl $msgFile $dataType $symflag $storageMode \
+                     $transposeflag $nrow $ncol $nitem $nrhs $seed \
+                     $alphaReal $alphaImag
+         end
+      end
+   end
+end

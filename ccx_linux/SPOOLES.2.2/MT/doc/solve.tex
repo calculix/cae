@@ -1,0 +1,417 @@
+\section{{\tt DChvMtx}: Double Precision Chevron Matrix Object}
+\par
+Let $A$ be an $n \times n$ matrix to be factored.
+We are going to allow both row and column permutations as the
+factorization proceeds, and our pivot blocks may be larger 
+than $1 \times 1$ pivots.
+After the first step we have
+$$
+A = A_0 
+=
+P_0 
+\left \lbrack \begin{array}{cc}
+I   & 0 \\
+{\hat L}_0 & I
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{cc}
+I   & 0 \\
+0   & {\hat A}_1
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{cc}
+{\hat D}_0 & {\hat U}_0 \\
+ 0  & I
+\end{array} \right \rbrack
+Q_0
+= P_0 \ L_0 \ A_1 \ U_0 \ Q_0 
+$$
+where $P_0$ is the row permutation matrix,
+${\hat D}_0$ is the pivot block,
+$\displaystyle L_0 =
+\left \lbrack \begin{array}{cc}
+I   & 0 \\
+{\hat L}_0 & I
+\end{array} \right \rbrack
+$,
+$\displaystyle A_1 =
+\left \lbrack \begin{array}{cc}
+I   & 0 \\
+0   & {\hat A}_1
+\end{array} \right \rbrack
+$,
+$\displaystyle U_0 =
+\left \lbrack \begin{array}{cc}
+{\hat D}_0 & {\hat U}_0 \\
+ 0  & I
+\end{array} \right \rbrack
+$ and
+$Q_0$ is the column permutation matrix.
+Now $A_1$ can be factored in the same manner,
+$$
+A_1 
+=
+P_1 
+\left \lbrack \begin{array}{cc}
+I   & 0 \\
+{\hat L}_1 & I
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{cc}
+I   & 0 \\
+0   & {\hat A}_2
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{cc}
+{\hat D}_1 & {\hat U}_1 \\
+ 0  & I
+\end{array} \right \rbrack
+Q_1
+= P_1 \ L_1 \ A_2 \ U_1 \ Q_1
+$$
+so we can expand $A_0$ to find
+$A = P_0 \ L_0 \ P_1 \ L_1 \ A_2 \ U_1 \ Q_1 \ U_0 \ Q_0$.
+Eventually the factorization proceeds to completion and we have
+$$
+A = (P_0 \ L_0 \ P_1 \ L_1 \ \cdots \ P_k \ L_k)
+    (U_K \ Q_k \ \cdots \ U_1 \ Q_1 \ U_0\ Q_0)
+$$
+Note, $L_0, L_1, \ldots, L_k$ are all lower triangular,
+for it is the row permutation matrices that are responsible.
+Note that ${\tilde L}_i = P_i L_i$ is not a lower triangular
+matrix, but one can solve a linear system involving ${\tilde L}_i$
+without any difficulty.
+A similar statement holds for ${\tilde U}_i = U_i Q_i$,
+except we have the presence of a block pivot ${\hat D}_i$.
+\par
+The key to understanding how we factor and solve linear systems
+using the {\tt DChvMtx} object is that the permutation matrices
+$P_i$ and $Q_i$ are held implicitly in 
+${\tilde L}_i$ 
+and 
+${\tilde U}_i$, 
+and we solve any linear system with
+${\tilde L}_i$ 
+and 
+${\tilde U}_i$ correctly,
+even though they are not triangular.
+We can write $A$ as
+$$
+A =
+{\tilde L}_0 \ 
+{\tilde L}_1 \ 
+\cdots \ 
+{\tilde L}_k \ 
+{\tilde U}_k \ 
+\cdots \ 
+{\tilde U}_1 \ 
+{\tilde U}_0
+$$
+and thus $A y = b$ by solving a sequence of linear systems
+${\tilde L}_0 \ x^0 = b$,
+${\tilde L}_1 \ x^1 = x^0$,
+$\cdots$,
+${\tilde L}_k \ x^k = x^{k-1}$,
+${\tilde U}_k \ y^k = x^k$,
+${\tilde U}_{k-1} \ y^{k-1} = y^k$,
+$\cdots$,
+${\tilde U}_1 \ y^1 = y^2$,
+${\tilde U}_0 \ y = y^1$.
+% Here is a crucial point:
+% solving a linear system with ${\tilde L}_i$ requires 
+% information about the row permutation at the $i$-th step,
+% but does not require any knowledge about the column permutation
+% at that or any other step.
+% A similar point holds for systems with ${\tilde U}_i$.
+\par
+Let us clarify the process with an example.
+At the first step we permute a $3 \times 3$ matrix so that the
+$a_{1,2}$ element is the pivot. 
+\begin{eqnarray*}
+A & = & 
+\left \lbrack \begin{array}{ccc}
+a_{0,0} & a_{0,1} & a_{0,2} \\
+a_{1,0} & a_{1,1} & a_{1,2} \\
+a_{2,0} & a_{2,1} & a_{2,2}
+\end{array} \right \rbrack
+ =
+\left \lbrack \begin{array}{ccc}
+0 & 1 & 0 \\
+1 & 0 & 0 \\
+0 & 0 & 1
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+a_{1,2} & a_{1,0} & a_{1,1} \\
+a_{0,2} & a_{0,0} & a_{0,1} \\
+a_{2,2} & a_{2,0} & a_{2,1}
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+0 & 0 & 1 \\
+1 & 0 & 0 \\
+0 & 1 & 0
+\end{array} \right \rbrack \\
+& = &
+\left \lbrack \begin{array}{ccc}
+0 & 1 & 0 \\
+1 & 0 & 0 \\
+0 & 0 & 1
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+l_{0,2} & 1 & 0 \\
+l_{2,2} & 0 & 1
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & {\hat a}_{0,0} & {\hat a}_{0,1} \\
+0 & {\hat a}_{2,0} & {\hat a}_{2,1}
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+d_{1,2} & u_{1,0} & u_{1,1} \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+0 & 0 & 1 \\
+1 & 0 & 0 \\
+0 & 1 & 0
+\end{array} \right \rbrack \\
+& = &
+{\tilde L}_0 \ A_1 \ {\tilde U}_0
+=
+\left \lbrack \begin{array}{ccc}
+l_{0,2} & 1 & 0 \\
+1 & 0 & 0 \\
+l_{2,2} & 0 & 1
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & {\hat a}_{0,0} & {\hat a}_{0,1} \\
+0 & {\hat a}_{2,0} & {\hat a}_{2,1}
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+u_{1,0} & u_{1,1} & d_{1,2} \\
+1 & 0 & 0 \\
+0 & 1 & 0
+\end{array} \right \rbrack
+\end{eqnarray*}
+We then do the same for $A_1$, using ${\hat a}_{2,1}$ as the pivot.
+\begin{eqnarray*}
+A_1 & = & 
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & {\hat a}_{0,0} & {\hat a}_{0,1} \\
+0 & {\hat a}_{2,0} & {\hat a}_{2,1}
+\end{array} \right \rbrack
+ =
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 0 & 1 \\
+0 & 1 & 0
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & {\hat a}_{2,1} & {\hat a}_{2,0} \\
+0 & {\hat a}_{0,1} & {\hat a}_{0,0}
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 0 & 1 \\
+0 & 1 & 0
+\end{array} \right \rbrack \\
+& = &
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 0 & 1 \\
+0 & 1 & 0
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & l_{0,1} & 1
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & {\hat a}_{2,1} & {\hat a}_{2,0} \\
+0 & {\hat a}_{0,1} & {\hat a}_{0,0}
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & d_{2,1} & u_{2,0} \\
+0 & 0 & 1
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 0 & 1 \\
+0 & 1 & 0
+\end{array} \right \rbrack \\
+& = &
+{\tilde L}_1 \ A_2 \ {\tilde U}_1
+=
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & l_{0,1} & 1 \\
+0 & 1 & 0
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & {\tilde a}_{0,0}
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & u_{2,0} & d_{2,1} \\
+0 & 1 & 0
+\end{array} \right \rbrack
+\end{eqnarray*}
+Finally, we have the factorization of $A_2$.
+$$
+A_2 
+= 
+P_2 \ L_2 \ U_2 \ Q_2
+=
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & d_{0,0}
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{array} \right \rbrack
+$$
+Written on one line we have the factorization of $A$ given below
+where ${\tilde L}_2 = I$ is omitted.
+\begin{eqnarray*}
+A 
+& = & 
+{\tilde L}_0 \ 
+{\tilde L}_1 \ 
+{\tilde U}_2 \ 
+{\tilde U}_1 \ 
+{\tilde U}_0 \\
+& = &
+\left \lbrack \begin{array}{ccc}
+l_{0,2} & 1 & 0 \\
+1 & 0 & 0 \\
+l_{2,2} & 0 & 1
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & l_{0,1} & 1 \\
+0 & 1 & 0
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & d_{0,0}
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & u_{2,0} & d_{2,1} \\
+0 & 1 & 0
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{ccc}
+u_{1,0} & u_{1,1} & d_{1,2} \\
+1 & 0 & 0 \\
+0 & 1 & 0
+\end{array} \right \rbrack
+\end{eqnarray*}
+At best this equation looks awkward, but take heart, it really
+doesn't describe how we store the entries or use them to solve a
+linear system.
+The entries can be logically grouped in terms of chevrons.
+$$
+A^0 = 
+\left \lbrack \begin{array}{ccc}
+d_{1,2} & u_{1,0} & u_{1,1} \\
+l_{0,2} & 0 & 0 \\
+l_{2,2} & 0 & 0
+\end{array} \right \rbrack,
+\qquad
+A^1 = 
+\left \lbrack \begin{array}{ccc}
+0 & 0 & 0 \\
+0 & d_{2,1} & u_{2,0} \\
+0 & l_{0,1} & 0
+\end{array} \right \rbrack,
+\qquad
+A^2 = 
+\left \lbrack \begin{array}{ccc}
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 0 & d_{0,0}
+\end{array} \right \rbrack,
+\qquad
+$$
+For each chevron we store 
+the indices of the rows and columns that are nonzero,
+and the entries in the diagonal, lower triangular and
+upper triangular block.
+Note, the row indices and the column indices need not be the same.
+\par
+Let us show how we solve a linear system.
+To solve $A x = b$ we first solve $L y = b$ and then solve $U x = y$
+where $L = {\tilde L}_0 {\tilde L}_1 {\tilde L}_2$
+and $U = {\tilde U}_2 {\tilde U}_1 {\tilde U}_0$.
+Note that there are no permutation matrices anywhere.
+\begin{itemize}
+\item 
+To solve with ${\tilde L}_0$ we set $y_1 = b_1$, 
+$b_0 := b_0 - l_{0,2} y_1$ and
+$b_2 := b_2 - l_{2,2} y_1$.
+\item 
+To solve with ${\tilde L}_1$ we set $y_2 = b_2$ and
+$b_0 := b_0 - l_{0,1} y_2$.
+\item 
+To solve with ${\tilde L}_2$ we set $y_0 = b_0$.
+\item 
+To solve with ${\tilde U}_2$ we set $x_0 = y_0/d_{0,0}$.
+\item 
+To solve with ${\tilde U}_1$ we set $x_1 = (y_2 - u_{2,0}x_0)/d_{2,1}$.
+\item 
+To solve with ${\tilde U}_0$ 
+we set $x_2 = (y_1 - u_{1,0}x_0 - u_{1,1} x_1)/d_{1,2}$.
+\end{itemize}
+
+In general, let us write the $k$-th chevron as
+$$
+A^2 = 
+\left \lbrack \begin{array}{cc}
+D_{\alpha_k,\beta_k} & U_{\alpha_k,\delta_k} \\
+L_{\gamma_k,\beta_k} & 0
+\end{array} \right \rbrack
+$$
+where $\alpha_k$ and $\gamma_k$ form the row index set
+and $\beta_k$ and $\delta_k$ form the column index set.
+Since the pivots partition the rows and columns, we have
+$$
+\gamma_k \cap \bigcup_{i < k} \alpha_i = \emptyset
+\quad \mbox{and} \quad
+\delta_k \cap \bigcup_{i < k} \beta_i = \emptyset.
+$$
+The forward solve and backward solve are executed by
+\begin{center}
+\begin{minipage}{3 in}
+\begin{tabbing}
+XXX\=XXX\=XXX\=\kill
+for $k = 1, \ldots, \mbox{\# of pivots}$ \\
+\> $y_{\alpha_k} = b_{\alpha_k}$ \\
+\> $b_{\gamma_k} := b_{\gamma_k} 
+                 - L_{\gamma_k, \beta_k} y_{\alpha_k}$ \\
+end for \\
+for $k = \mbox{\# of pivots}, \ldots, 1$ \\
+\> $y_{\alpha_k} = b_{\alpha_k}$ \\
+\> $x_{\beta_k} := D_{\alpha_k, \beta_k}^{-1}
+(y_{\alpha_k} - U_{\alpha_k, \delta_k} x_{\delta_k})$ 
+end for
+\end{tabbing}
+\end{minipage}
+\end{center}

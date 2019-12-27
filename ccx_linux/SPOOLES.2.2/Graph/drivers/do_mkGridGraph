@@ -1,0 +1,21 @@
+#! /bin/csh -f
+
+set msglvl  = 3
+set msgFile = stdout
+
+set stencil = 9
+set n1 = 10
+set n2 = 1
+set n3 = 1
+
+set matrices     = ../../Matrices
+set matrix       = GRD15x15x15
+set matrix       = GRD7x7x7
+
+set matrices     = ../../../matrices
+set matrix       = TRI10
+
+set outFile = none
+set outFile = $matrices/$matrix/orig0.graphf
+
+mkGridGraph $msglvl $msgFile $stencil $n1 $n2 $n3 $outFile

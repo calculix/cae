@@ -1,0 +1,950 @@
+\chapter{The MPI Wrapper Object and Driver}
+\label{section:MPI}
+\par
+The goal is to solve $AX = Y$ in a distributed environment using MPI.
+Section 9 of the User's Manual presents a listing of the 
+{\tt AllInOneMPI} driver program for solving $AX =Y$.
+There are thirteen steps, and each requires ``mid-level'' knowledge 
+of several objects of the {\bf SPOOLES} library.
+To reduce the complexity of using the library, 
+we created the {\tt BridgeMPI} object.
+The term ``bridge'' symbolizes spanning the distance between the
+{\bf SPOOLES} library and the CSAR Nastran application code.
+The ten steps of the {\tt allInOneMPI} driver program is reduced to
+five using the {\tt BridgeMPI} object.
+\begin{itemize}
+\item Initialization and setup step.
+\par
+Here the {\tt BridgeMPI} object is allocated via a call to 
+{\tt BridgeMPI\_new()}.
+Parameters are set using {\tt BridgeMPI\_set*()} methods.
+The setup phase orders the matrix and prepares all the necessary 
+{\bf SPOOLES} data structures for the factorization and solve 
+that follows.
+\item Setup the numerical factorization.
+\par
+In this step, 
+{\tt BridgeMPI\_factorSetup()} is called
+to define the parallelism for the factorization,
+and all data structures for the parallel execution are created.
+\item Factorization step.
+\par
+The matrix is factored via a call to {\tt BridgeMPI\_factor()}.
+\item Setup the numerical solves.
+\par
+{\tt BridgeMPI\_solveSetup()} is called to set up the parallel solves.
+This must be called {\it once} after a factorization,
+one or more solves may follow.
+\item Solution step.
+\par
+The linear system is solved via a call to {\tt BridgeMPI\_solve()}.
+\end{itemize}
+\par
+The {\tt BridgeMPI} object 
+has many parameters that control the ordering of the matrix,
+the pivoting tolerance (if pivoting is requested),
+the drop tolerance (for an approximate factorization),
+and so on.
+Rather than burden the user with the knowledge of and setting these
+parameters, there are decent default values built into the object.
+Using the {\tt BridgeMPI} object to solve a linear system of equations 
+can be broken down into three steps.
+\par
+Section~\ref{section:BridgeMPI:quick-look-MPI-driver} takes a quick
+look at the {\tt BridgeMPI} driver program (whose complete listing is
+found in Appendix~\ref{chapter:MPI_driver}).
+Section~\ref{section:BridgeMPI:dataStructure} describes the internal 
+data fields of the {\tt BridgeMPI} object.
+Section~\ref{section:Bridge:proto} contains the prototypes and
+descriptions of all {\tt Bridge} methods.
+\par
+\section{A quick look at the MPI driver program}
+\label{section:BridgeMPI:quick-look-MPI-driver}
+\par
+The entire listing of this MPI driver is found in
+Appendix~\ref{chapter:MPI_driver}.
+We now extract parts of the code.
+\begin{itemize}
+\item Decode the input.
+\par
+\begin{verbatim}
+msglvl       = atoi(argv[1]) ;
+msgFileName  = argv[6] ;
+neqns        = atoi(argv[3]) ;
+type         = atoi(argv[4]) ;
+symmetryflag = atoi(argv[5]) ;
+mtxFileName  = argv[6] ;
+rhsFileName  = argv[7] ;
+solFileName  = argv[8] ;
+seed         = atoi(argv[9]) ;
+\end{verbatim}
+Here is a description of the input parameters.
+
+\begin{itemize}
+\item {\tt msglvl} is the message level.
+\item {\tt msgFile} is the message file name
+\item {\tt neqns} is the number of equations.
+\item {\tt type} is the type of entries:
+1 ({\tt SPOOLES\_REAL}) or
+2 ({\tt SPOOLES\_COMPLEX}).
+\item {\tt symmetryflag} is the type of matrix symmetry:
+0 ({\tt SPOOLES\_SYMMETRIC}),
+1 ({\tt SPOOLES\_HERMITIAN}) or
+2 ({\tt SPOOLES\_NONSYMMETRIC}).
+\item {\tt mtxFile} is the name of the file from which to read the {\tt
+InpMtx} object for $A$.
+The file name must have the form {\tt *.inpmtxb} for a binary file or
+{\tt *.inpmtxf} for a formatted file.
+\item {\tt rhsFile} is the name of the file from which to read the {\tt
+DenseMtx} object for the right hand side $Y$.
+The file name must have the form {\tt *.densemtxb} for a binary file or
+{\tt *.densemtxf} for a formatted file.
+\item {\tt solFile} is the name of the file to write the {\tt
+DenseMtx} object for the solution $X$.
+The file name must have the form {\tt *.densemtxb} for a binary file or
+{\tt *.densemtxf} for a formatted file, {\tt "none"} for no output,
+or any other name for a human-readable listing.
+\item {\tt seed} is a random number seed used in the ordering process.
+\end{itemize}
+%
+\item Processor 0 reads in the {\tt InpMtx} object for $A$.
+\begin{verbatim}
+mtxA = InpMtx_new() ;
+rc = InpMtx_readFromFile(mtxA, mtxFileName) ;
+\end{verbatim}
+The {\tt rc} parameter is the error return. 
+Processor 0 then broadcasts the error return to the other processors.
+If an error occured reading in the matrix, all processors call
+\texttt{MPI\_Finalize()} and exit.
+%
+\item Processor 0 reads in the {\tt DenseMtx} object for $Y$.
+\begin{verbatim}
+mtxY = DenseMtx_new() ;
+rc = DenseMtx_readFromFile(mtxY, mtxFileName) ;
+DenseMtx_dimensions(mtxY, &nrow, &nrhs) ;
+\end{verbatim}
+The {\tt nrhs} parameter contains the number of right hand sides,
+or equivalently, the number of columns in $Y$.
+Processor 0 then broadcasts the error return to the other processors.
+If an error occured reading in the matrix, all processors call
+\texttt{MPI\_Finalize()} and exit.
+%
+\item Create and setup the {\tt BridgeMPI} object.
+\begin{verbatim}
+bridge = BridgeMPI_new() ;
+BridgeMPI_setMPIparams(bridge, nproc, myid, MPI_COMM_WORLD) ;
+BridgeMPI_setMatrixParams(bridge, neqns, type, symmetryflag) ;
+BridgeMPI_setMessageInfo(bridge, msglvl, msgFile) ;
+rc = BridgeMPI_setup(bridge, mtxA) ;
+\end{verbatim}
+The {\tt BridgeMPI} object is allocated by {\tt BridgeMPI\_new()},
+and various parameters are set.
+The actual ordering of the matrix, symbolic factorization,
+and permutation creation are performed inside the 
+{\tt BridgeMPI\_setup()} method.
+%
+\item Setup the numerical factorization.
+\begin{verbatim}
+rc = BridgeMPI_factorSetup(bridge, 0, 0.0) ;
+\end{verbatim}
+This step tells the \texttt{BridgeMPI} object the number of threads
+to be used in the factorization and solve.
+The second and third parameters define the particular type 
+of map of the computations to processors.
+When the second parameter is zero, the defaults map is used.
+If {\tt rc = 1}, the setup completed without any error.
+%
+\item Compute the matrix factorization.
+\begin{verbatim}
+permuteflag = 1 ;
+rc = BridgeMPI_factor(bridge, mtxA, permuteflag, &error) ;
+\end{verbatim}
+When {\tt permuteflag} is {\tt 1}, it means that the matrix in {\tt
+mtxA} has not yet been permuted into the new ordering and so is
+done inside the method.
+The {\tt error} flag is filled with an error code that tells how far the
+factorization was able to proceed.
+If {\tt rc = 1}, the factorization completed without any error.
+%
+\item Setup the solve.
+\begin{verbatim}
+rc = BridgeMPI_solveSetup(bridge) ;
+\end{verbatim}
+This method sets up the environment for a parallel solve.
+It is called once per factorization, not once per solve.
+If {\tt rc = 1}, the setup completed without any error.
+%
+\item Solve the linear system.
+Processor 0 initializes the \texttt{DenseMtx} object {\tt mtxX} to
+hold the global solution $X$.
+Its entries are explicitly zeroed (this is not necessary but is a good
+idea in general).
+The solution is then solved.
+\begin{verbatim}
+mtxX = DenseMtx_new() ;
+DenseMtx_init(mtxX, type, 0, 0, neqns, nrhs, 1, neqns) ;
+DenseMtx_zero(mtxX) ;
+\end{verbatim}
+All processors then cooperate to compute the solution $X$.
+\begin{verbatim}
+rc = BridgeMPI_solve(bridge, permuteflag, mtxX, mtxY) ;
+\end{verbatim}
+Again, note the presence of {\tt permuteflag}.
+When {\tt 1}, \texttt{mtxY} needs to be permuted into the new ordering,
+and \texttt{mtxX} is returned in the original ordering.
+\end{itemize}
+\par
+\section{The \texttt{BridgeMPI} Data Structure}
+\label{section:BridgeMPI:dataStructure}
+\par
+The {\tt BridgeMPI} structure has the following fields.
+\begin{itemize}
+%
+\item Graph parameters:
+\begin{itemize} 
+\item
+{\tt int neqns} : number of equations, 
+i.e., number of vertices in the graph.
+\item
+{\tt int nedges} : number of edges 
+(includes $(u,v)$, $(v,u)$ and $(u,u)$).
+\item
+{\tt int Neqns} : number of equations in the compressed graph.
+\item
+{\tt int Nedges} : number of edges in the compressed graph.
+\end{itemize}
+%
+\item Ordering parameters:
+\begin{itemize}
+\item
+{\tt int maxdomainsize} : maximum size of a subgraph to not split any
+further during the nested dissection process.
+\item
+{\tt int maxnzeros} : maximum number of zeros to allow in a front 
+during the supernode amalgamation process.
+\item
+{\tt int maxsize} : maximum size of a front when the fronts are split.
+\item
+{\tt int seed} : random number seed.
+\item
+{\tt double compressCutoff} : if the \texttt{Neqns} $<$
+\texttt{compressCutoff} $*$ \texttt{neqns}, then the compressed
+graph is formed, ordered and used to create the symbolic
+factorization.
+\end{itemize}
+%
+\item Matrix parameters:
+\begin{itemize}
+\item
+{\tt int type} : type of entries,
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX},
+default value is {\tt SPOOLES\_REAL}.
+\item
+{\tt int symmetryflag} : type of symmetry for the matrix,
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN}
+or {\tt SPOOLES\_NONSYMMETRIC},
+default value is {\tt SPOOLES\_SYMMETRIC}.
+\end{itemize}
+%
+\item Factorization parameters:
+\begin{itemize}
+\item
+{\tt int sparsityflag} : 
+{\tt SPOOLES\_DENSE\_FRONTS} for a direct factorization,
+or {\tt SPOOLES\_SPARSE\_FRONTS} for an approximate factorization,
+default value is {\tt SPOOLES\_DENSE\_FRONTS}.
+\item
+{\tt int pivotingflag} : 
+{\tt SPOOLES\_PIVOTING} for pivoting enabled,
+or {\tt SPOOLES\_NO\_PIVOTING} for no pivoting,
+default value is {\tt SPOOLES\_NO\_PIVOTING}.
+\item
+{\tt double tau} : used when pivoting is enabled,
+all entries in $L$ and $U$ have magnitude less than or equal to
+\texttt{tau},
+default value is 100.
+\item
+{\tt double droptol} : used for an approximation,
+all entries in $L$ and $U$ that are kept 
+have magnitude greater than or equal to \texttt{droptol}.
+default value is 0.001.
+\item
+{\tt PatchAndGoInfo *patchinfo} : pointer to an object that
+controls special factorizations for optimization matrices
+and singular matrices from structural analysis,
+default value is \texttt{NULL} which means no special action is taken.
+See the Reference Manual for more information.
+\item
+{\tt int lookahead} : this parameter is used to possibly reduce the
+idle time of threads during the factorization.
+When {\tt lookahead} is 0, the factorization uses the least amount
+of working storage but threads can be idle.
+Larger values of {\tt lookahead} tend to increase the working
+storage but may decrease the execution time.
+Values of {\tt lookahead} greater than {\tt nthread} are not useful.
+\end{itemize}
+%
+\item Pointers to objects:
+\begin{itemize}
+\item
+{\tt ETree *frontETree} : object that defines the factorizations,
+e.g., the number of fronts, the tree they form, the number of
+internal and external rows for each front, and the map from
+vertices to the front where it is contained.
+\item
+{\tt IVL *symbfacIVL} : object that contains the symbolic
+factorization of the matrix.
+\item
+{\tt SubMtxManager *mtxmanager} : object that manages the
+\texttt{SubMtx} objects that store the factor entries and are used
+in the solves.
+\item
+{\tt FrontMtx *frontmtx} : object that stores the $L$, $D$ and $U$
+factor matrices.
+\item
+{\tt IV *oldToNewIV} : object that stores old-to-new permutation vector.
+\item
+{\tt IV *newToOldIV} : object that stores new-to-old permutation vector.
+\end{itemize}
+%
+\item MPI information:
+\begin{itemize}
+\item
+{\tt int nproc} : number of processors.
+\item
+{\tt int myid} : id of this processor.
+\item
+{\tt MPI\_Comm} : MPI communicator.
+\item
+{\tt IV *ownersIV} : this object contains the map from fronts to
+their owning processors.
+\item
+{\tt SolveMap *solvemap} : this object contains the map from factor
+submatrices to their owning processors.
+\item
+{\tt DV *cumopsDV} : this object is formed when the map from
+fronts to owning processors is created.
+Its size is {\tt nthread} and contains the operations that each
+thread will perform during a direct factorization without pivoting.
+\item
+{\tt IV *vtxmapIV} : this object contains the map from vertices
+to their owning processors.
+\item
+{\tt IV *rowmapIV} : this object contains the map from rows
+to their owning processors during the solve. This may be different
+from {\tt vtxmapIV} if pivoting is enabled.
+\item
+{\tt IV *ownedColumnsIV} : this object contains the columns of the
+matrix that are owned by this processor during the solve.
+\item
+{\tt InpMtx *Aloc} : this object contains the entries of $A$ that
+are local to this processor during the factorization.
+\item
+{\tt DenseMtx *Xloc} : this object contains the local solution
+during the solve.
+\item
+{\tt DenseMtx *Yloc} : this object contains the local right hand
+side during the solve.
+\end{itemize}
+%
+\item Message information, statistics and cpu times:
+\begin{itemize}
+\item
+{\tt int msglvl} : message level for output.
+When 0, no output, When 1, just statistics and cpu times.
+When greater than 1, more and more output.
+\item
+{\tt FILE *msgFile} : message file for output.
+When \texttt{msglvl} $>$ 0, \texttt{msgFile} must not be \texttt{NULL}.
+\item
+{\tt int stats[6]} : statistics for the factorization.
+\begin{center}
+\begin{tabular}{ll}
+\texttt{stats[0]} : & \# of pivots \\
+\texttt{stats[1]} : & \# of pivot tests \\
+\texttt{stats[2]} : & \# of delayed rows and columns
+\end{tabular}
+\begin{tabular}{ll}
+\texttt{stats[3]} : & \# of entries in $D$ \\
+\texttt{stats[4]} : & \# of entries in $L$ \\
+\texttt{stats[5]} : & \# of entries in $U$
+\end{tabular}
+\end{center}
+\item
+{\tt double cpus[22]} : cpus for the different functions.
+\begin{center}
+\begin{tabular}{ll}
+\texttt{cpus[0]} : & construct \texttt{Graph} \\
+\texttt{cpus[1]} : & compress \texttt{Graph} \\
+\texttt{cpus[2]} : & order \texttt{Graph} \\
+\texttt{cpus[3]} : & symbolic factorization \\
+\texttt{cpus[4]} : & broadcast the front tree \\
+\texttt{cpus[5]} : & broadcast symbolic factor \\
+\texttt{cpus[6]} : & total setup time \\
+\texttt{cpus[7]} : & setup the factorization \\
+\texttt{cpus[8]} : & permute matrix \\
+\texttt{cpus[9]} : & distribute matrix \\
+\texttt{cpus[10]} : & initialize front matrix 
+\end{tabular}
+\begin{tabular}{ll}
+\texttt{cpus[11]} : & factor matrix \\
+\texttt{cpus[12]} : & post-process matrix \\
+\texttt{cpus[13]} : & total factor time \\
+\texttt{cpus[14]} : & setup the parallel solve \\
+\texttt{cpus[15]} : & permute rhs \\
+\texttt{cpus[16]} : & distribute rhs \\
+\texttt{cpus[17]} : & create solution matrix \\
+\texttt{cpus[18]} : & solve \\
+\texttt{cpus[19]} : & gather solution \\
+\texttt{cpus[20]} : & permute solution \\
+\texttt{cpus[21]} : & total solve time
+\end{tabular}
+\end{center}
+\end{itemize}
+\end{itemize}
+\par
+\section{Prototypes and descriptions of \texttt{BridgeMPI} methods}
+\label{section:BridgeMPI:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt BridgeMPI} object.
+\par
+\subsection{Basic methods}
+\label{subsection:BridgeMPI:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+BridgeMPI * BridgeMPI_new ( void ) ;
+\end{verbatim}
+\index{BridgeMPI_new@{\tt BridgeMPI\_new()}}
+This method simply allocates storage for the {\tt BridgeMPI} structure 
+and then sets the default fields by a call to 
+{\tt BridgeMPI\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_setDefaultFields ( BridgeMPI *bridge ) ;
+\end{verbatim}
+\index{BridgeMPI_setDefaultFields@{\tt BridgeMPI\_setDefaultFields()}}
+The structure's fields are set to default values:
+\begin{itemize}
+\item
+\texttt{neqns} = \texttt{nedges} = \texttt{Neqns} =
+\texttt{Nedges} = 0.
+\item
+\texttt{maxdomainsize} = \texttt{maxnzeros} 
+   = \texttt{maxsize} = \texttt{seed} = -1.
+\texttt{compressCutoff} = 0.
+\item
+\texttt{type} = \texttt{SPOOLES\_REAL}.
+\item
+\texttt{symmetryflag} = \texttt{SPOOLES\_SYMMETRIC}.
+\item
+\texttt{sparsityflag} = \texttt{SPOOLES\_DENSE\_FRONTS}.
+\item
+\texttt{pivotingflag} = \texttt{SPOOLES\_NO\_PIVOTING}.
+\item
+\texttt{tau} = 100., \texttt{droptol} = 0.001.
+\item
+\texttt{lookahead} = \texttt{nproc} = 0.
+\item
+\texttt{myid} = -1.
+\item
+\texttt{patchinfo},
+\texttt{frontETree},
+\texttt{symbfacIVL},
+\texttt{mtxmanager},
+\texttt{frontmtx},
+\texttt{oldToNewIV},
+\texttt{newToOldIV},
+\texttt{ownersIV},
+\texttt{solvemap},
+\texttt{cumopsDV},
+\texttt{vtxmapIV},
+\texttt{rowmapIV},
+\texttt{ownedColumnsIV},
+\texttt{Aloc},
+\texttt{Xloc},
+\texttt{Yloc} and
+\texttt{comm}
+are all set to \texttt{NULL}.
+\end{itemize}
+The \texttt{stats[6]} and \texttt{cpus[22]} vectors are filled 
+with zeros.
+\par \noindent {\it Return value:}
+1 for a normal return, -1 if \texttt{bridge} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_clearData ( BridgeMPI *bridge ) ;
+\end{verbatim}
+\index{BridgeMPI_clearData@{\tt BridgeMPI\_clearData()}}
+This method clears the object and free's any owned data.
+It then calls {\tt BridgeMPI\_setDefaultFields()}.
+\par \noindent {\it Return value:}
+1 for a normal return, -1 if \texttt{bridge} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_free ( BridgeMPI *bridge ) ;
+\end{verbatim}
+\index{BridgeMPI_free@{\tt BridgeMPI\_free()}}
+This method releases any storage by a call to
+{\tt BridgeMPI\_clearData()} and then free the space for {\tt bridge}.
+\par \noindent {\it Return value:}
+1 for a normal return, -1 if \texttt{bridge} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:BridgeMPI:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_oldToNewIV ( BridgeMPI *bridge, IV **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_oldToNewIV@{\tt BridgeMPI\_oldToNewIV()}}
+This method fills \texttt{*pobj} with its \texttt{oldToNewIV} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_newToOldIV ( BridgeMPI *bridge, IV **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_newToOldIV@{\tt BridgeMPI\_newToOldIV()}}
+This method fills \texttt{*pobj} with its \texttt{newToOldIV} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_frontETree ( BridgeMPI *bridge, ETree **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_frontETree@{\tt BridgeMPI\_frontETree()}}
+This method fills \texttt{*pobj} with its \texttt{frontETree} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_symbfacIVL ( BridgeMPI *bridge, IVL **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_symbfacIVL@{\tt BridgeMPI\_symbfacIVL()}}
+This method fills \texttt{*pobj} with its \texttt{symbfacIVL} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_mtxmanager ( BridgeMPI *bridge, SubMtxManager **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_mtxmanager@{\tt BridgeMPI\_mtxmanager()}}
+This method fills \texttt{*pobj} with its \texttt{mtxmanager} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_frontmtx ( BridgeMPI *bridge, FrontMtx **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_frontmtx@{\tt BridgeMPI\_frontmtx()}}
+This method fills \texttt{*pobj} with its \texttt{frontmtx} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_ownersIV ( BridgeMPI *bridge, IV **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_ownersIV@{\tt BridgeMPI\_ownersIV()}}
+This method fills \texttt{*pobj} with its \texttt{ownersIV} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_solvemap ( BridgeMPI *bridge, SolveMap **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_solvemap@{\tt BridgeMPI\_solvemap()}}
+This method fills \texttt{*pobj} with its \texttt{solvemap} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_vtxmapIV ( BridgeMPI *bridge, IV **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_vtxmapIV@{\tt BridgeMPI\_vtxmapIV()}}
+This method fills \texttt{*pobj} with its \texttt{vtxmapIV} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_rowmapIV ( BridgeMPI *bridge, IV **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_rowmapIV@{\tt BridgeMPI\_rowmapIV()}}
+This method fills \texttt{*pobj} with its \texttt{rowmapIV} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_ownedColumns ( BridgeMPI *bridge, IV **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_ownedColumns@{\tt BridgeMPI\_ownedColumns()}}
+This method fills \texttt{*pobj} with its \texttt{ownedColumnsIV} 
+pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_Xloc ( BridgeMPI *bridge, DenseMtx **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_Xloc@{\tt BridgeMPI\_Xloc()}}
+This method fills \texttt{*pobj} with its \texttt{Xloc} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_Yloc ( BridgeMPI *bridge, DenseMtx **pobj ) ;
+\end{verbatim}
+\index{BridgeMPI_Yloc@{\tt BridgeMPI\_Yloc()}}
+This method fills \texttt{*pobj} with its \texttt{Yloc} pointer.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pobj} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_nproc ( BridgeMPI *bridge, int *pnproc ) ;
+\end{verbatim}
+\index{BridgeMPI_nproc@{\tt BridgeMPI\_nproc()}}
+This method fills \texttt{*pobj} with the number of processors.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pnproc} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_myid ( BridgeMPI *bridge, int *pmyid ) ;
+\end{verbatim}
+\index{BridgeMPI_myid@{\tt BridgeMPI\_myid()}}
+This method fills \texttt{*pobj} with the id of this processor.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{pmyid} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_lookahead ( BridgeMPI *bridge, int *plookahead ) ;
+\end{verbatim}
+\index{BridgeMPI_lookahead@{\tt BridgeMPI\_lookahead()}}
+This method fills \texttt{*pobj} with the lookahead parameter.
+\par \noindent {\it Return value:}
+1 for a normal return, 
+-1 if \texttt{bridge} is \texttt{NULL}.
+-2 if \texttt{plookahead} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Parameter methods}
+\label{subsection:BridgeMPI:proto:parameters}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_setMatrixParams ( BridgeMPI *bridge, int neqns, int type, int symmetryflag ) ;
+\end{verbatim}
+\index{BridgeMPI_setMatrixParams@{\tt BridgeMPI\_setMatrixParams()}}
+This method sets the number of equations, type of entries, 
+and symmetry type of the matrix.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{neqns} $\le$ 0
+\end{tabular}
+\begin{tabular}{ll}
+-3 & \texttt{type} is invalid \\
+-4 & \texttt{symmetryflag} is invalid \\
+-5 & symmetry flag is Hermitian but type is real
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_setMPIparams ( BridgeMPI *bridge, int nproc, int myid, MPI_Comm comm ) ;
+\end{verbatim}
+\index{BridgeMPI_setMPIparams@{\tt BridgeMPI\_setMPIparams()}}
+This method sets the MPI environment parameters.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL}
+\end{tabular}
+\begin{tabular}{ll}
+-2 & \texttt{nproc} $\le$ 0 \\
+-3 & \texttt{myid} $<$ 0 or $>=$ \texttt{nproc}
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_setOrderingParams ( BridgeMPI *bridge, int maxdomainsize, int maxnzeros, 
+                               int maxsize, int seed, double compressCutoff ) ;
+\end{verbatim}
+\index{BridgeMPI_setOrderingParams@{\tt BridgeMPI\_setOrderingParams()}}
+This method sets parameters needed for the ordering.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{maxdomainsize} $\le$ 0
+\end{tabular}
+\begin{tabular}{ll}
+-3 & \texttt{maxsize} $\le$ 0 \\
+-4 & \texttt{compressCutoff} $>$ 1
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_setFactorParams ( BridgeMPI *bridge, int sparsityflag, int pivotingflag, 
+              double tau, double droptol, int lookahead, PatchAndGoInfo *patchinfo ) ;
+\end{verbatim}
+\index{BridgeMPI_setFactorParams@{\tt BridgeMPI\_setFactorParams()}}
+This method sets parameters needed for the factorization.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{sparsityflag} is invalid \\
+-3 & \texttt{pivotingflag} is invalid 
+\end{tabular}
+\begin{tabular}{ll}
+-4 & \texttt{tau} $<$ 2.0 \\
+-5 & \texttt{droptol} $<$ 0.0 \\
+-6 & \texttt{lookahead} $<$ 0
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_setMessagesInfo ( BridgeMPI *bridge, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{BridgeMPI_setMessagesInfo@{\tt BridgeMPI\_setMessagesInfo()}}
+This method sets the message level and file.
+\par \noindent {\it Return value:}
+1 for a  normal return,
+-1 if \texttt{bridge} is \texttt{NULL},
+-2 if \texttt{msglvl} $>$ 0 and \texttt{msgFile} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Setup methods}
+\label{subsection:BridgeMPI:proto:setup}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_setup ( BridgeMPI *bridge, InpMtx *mtxA ) ;
+\end{verbatim}
+\index{BridgeMPI_setup@{\tt BridgeMPI\_setup()}}
+This method orders the graph, generates the front tree, computes
+the symbolic factorization, and creates the two permutation vectors.
+\par \noindent {\it Return value:}
+1 for a  normal return,
+-1 if \texttt{bridge} is \texttt{NULL},
+-2 if \texttt{mtxA} is \texttt{NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_factorStats ( BridgeMPI *bridge, int type, int symmetryflag, int *pnfront,
+      int *pnfactorind, int *pnfactorent, int *pnsolveops, double *pnfactorops ) ;
+\end{verbatim}
+\index{BridgeMPI_factorStats@{\tt BridgeMPI\_factorStats()}}
+This method takes as input the type and symmetry of the matrix,
+and fills the pointer fields with the number of fronts, factor
+indices, factor entries, forward and back solve operations,
+and factor operations.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{type} is invalid \\
+-3 & \texttt{symmetryflag} is invalid \\
+-4 & \texttt{type} is real but \texttt{symmetryflag} is Hermitian \\
+-5 & front tree is not present
+\end{tabular}
+\begin{tabular}{ll}
+~-6 & \texttt{pnfront} is \texttt{NULL}  \\
+~-7 & \texttt{pnfactorind} is \texttt{NULL}  \\
+~-8 & \texttt{pnfactorent} is \texttt{NULL}  \\
+~-9 & \texttt{pnsolveops} is \texttt{NULL}  \\
+-10 & \texttt{pnfactorops} is \texttt{NULL} 
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Factor methods}
+\label{subsection:BridgeMPI:proto:factor}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_factorSetup ( BridgeMPI *bridge, int maptype, double cutoff ) ;
+\end{verbatim}
+\index{BridgeMPI_factorSetup@{\tt BridgeMPI\_factorSetup()}}
+This method constructs the map from fronts to owning processors, and
+computes the number of factor operations that each thread will execute.
+The \texttt{maptype} parameter can be one of four values:
+\begin{itemize}
+\item 1 --- wrap map
+\item 2 --- balanced map
+\item 3 --- subtree-subset map
+\item 4 --- domain decomposition map
+\end{itemize}
+The wrap map and balanced map are not recommended.
+The subtree-subset map is a good map with a very well balanced
+nested dissection ordering.
+The domain decomposition map is recommended when the nested
+dissection tree is imbalanced or for the multisection ordering.
+The domain decomposition map requires a \texttt{cutoff} parameter
+in $\left \lbrack0,1\right \rbrack$ 
+which specifies the relative size of a subtree that forms a domain.
+If \texttt{maptype} is not one of 1, 2, 3 or 4, the default map is
+used: domain decomposition with
+\texttt{cutoff} = 1/(2*\texttt{nthread}).
+\par \noindent {\it Return value:}
+1 normal return, factorization did complete,
+-1 \texttt{bridge} is \texttt{NULL},
+-2 \texttt{frontETree} is not present.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_factor ( BridgeMPI *bridge, InpMtx *mtxA, int permuteflag, int *perror ) ;
+\end{verbatim}
+\index{BridgeMPI_factor@{\tt BridgeMPI\_factor()}}
+This method permutes the matrix into the new ordering (if
+\texttt{permuteflag} is 1), factors the matrix, and then
+post-processes the factors.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return, factorization did complete \\
+~0 & factorization did not complete \\
+\end{tabular}
+\begin{tabular}{ll}
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{mtxA} is \texttt{NULL} \\
+-3 & \texttt{perror} is \texttt{NULL} \\
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Solve methods}
+\label{subsection:BridgeMPI:proto:solve}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_solveSetup ( BridgeMPI *bridge ) ;
+\end{verbatim}
+\index{BridgeMPI_solveSetup@{\tt BridgeMPI\_solveSetup()}}
+This method creates the {\tt SolveMap} object that governs the
+parallel solve.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL}
+\end{tabular}
+\begin{tabular}{ll}
+-2 & \texttt{frontMtx} is \texttt{NULL} \\
+-3 & \texttt{frontMtx} needs to be postprocessed
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int BridgeMPI_solve ( BridgeMPI *bridge, int permuteflag, DenseMtx *mtxX, DenseMtx *mtxY ) ;
+\end{verbatim}
+\index{BridgeMPI_solve@{\tt BridgeMPI\_solve()}}
+If \texttt{permuteflag} is 1, then \texttt{mtxY} is permuted into
+the new ordering.
+The linear system $AX = Y$ is solved.
+If \texttt{permuteflag} is 1, then \texttt{mtxX} is permuted into
+the old ordering.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & \texttt{bridge} is \texttt{NULL} \\
+-2 & \texttt{X} is \texttt{NULL} \\
+-3 & \texttt{Y} is \texttt{NULL} \\
+\end{tabular}
+\begin{tabular}{ll}
+-4 & \texttt{frontmtx} is \texttt{NULL} \\
+-5 & \texttt{mtxmanager} is \texttt{NULL} \\
+-6 & \texttt{oldToNewIV} needed, but not available \\
+-7 & \texttt{newToOldIV} needed, but not available \\
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}

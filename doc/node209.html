@@ -1,294 +1,696 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*BOUNDARY</TITLE>
-<META NAME="description" CONTENT="*BOUNDARY">
+<TITLE>True interpolation</TITLE>
+<META NAME="description" CONTENT="True interpolation">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
-<LINK REL="next" HREF="node213.html">
+<LINK REL="next" HREF="node210.html">
 <LINK REL="previous" HREF="node208.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node208.html">
 <LINK REL="next" HREF="node210.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html3835"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html3810"
   HREF="node210.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3831"
-  HREF="node205.html">
+<A NAME="tex2html3806"
+  HREF="node208.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3825"
+<A NAME="tex2html3800"
   HREF="node208.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3833"
+<A NAME="tex2html3808"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3836"
-  HREF="node210.html">Homogeneous Conditions</A>
-<B> Up:</B> <A NAME="tex2html3832"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html3826"
-  HREF="node208.html">*BEAM SECTION</A>
- &nbsp; <B>  <A NAME="tex2html3834"
+<B> Next:</B> <A NAME="tex2html3811"
+  HREF="node210.html">Convective interpolation</A>
+<B> Up:</B> <A NAME="tex2html3807"
+  HREF="node208.html">Determination of facial values</A>
+<B> Previous:</B> <A NAME="tex2html3801"
+  HREF="node208.html">Determination of facial values</A>
+ &nbsp; <B>  <A NAME="tex2html3809"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION00084000000000000000"></A><A NAME="boundary"></A>
-<BR>
-*BOUNDARY
-</H2>
+<H3><A NAME="SECTION00082100000000000000">
+True interpolation</A>
+</H3>
 
 <P>
-Keyword type: step or model definition
-
-<P>
-This option is used to prescribe boundary conditions. This includes:
-
-<P>
-
-<UL>
-<LI>temperature, displacements and rotations for structures
-</LI>
-<LI>total temperature, mass flow and total pressure for gas networks
-</LI>
-<LI>temperature, mass flow and static pressure for liquid networks
-</LI>
-<LI>temperature, mass flow and fluid depth for channels
-</LI>
-</UL>
-
-<P>
-For liquids and structures the total and static temperature virtually
-coincide, therefore both are represented by the term temperature.
-
-<P>
-The following degrees of freedom are being used:
+Although the primary variables are determined at the element centers the
+governing equations require their values at the element faces, as well as
+their gradient at the centers and faces. Let us have a look
+at a typical element P and one of its neighbors F (Figure <A HREF="#F1">152</A>; P and F will be used to
+denote the elements as well as their centers).
 
 <P>
 
-<UL>
-<LI>for structures:
-
-<UL>
-<LI>1: translation in the local x-direction
-</LI>
-<LI>2: translation in the local y-direction
-</LI>
-<LI>3: translation in the local z-direction
-</LI>
-<LI>4: rotation about the local x-axis (only for nodes belonging to beams or shells)
-</LI>
-<LI>5: rotation about the local y-axis (only for nodes belonging to beams or shells)
-</LI>
-<LI>6: rotation about the local z-axis (only for nodes belonging to beams or shells)
-</LI>
-<LI>11: temperature
-</LI>
-</UL>
-</LI>
-<LI>for gas networks:
-
-<UL>
-<LI>1: mass flow
-</LI>
-<LI>2: total pressure
-</LI>
-<LI>11: total temperature
-</LI>
-</UL>
-</LI>
-<LI>for liquid networks:
-
-<UL>
-<LI>1: mass flow
-</LI>
-<LI>2: static pressure
-</LI>
-<LI>11: temperature
-</LI>
-</UL>
-</LI>
-<LI>for liquid channels:
-
-<UL>
-<LI>1: mass flow
-</LI>
-<LI>2: fluid depth
-</LI>
-<LI>11: temperature
-</LI>
-</UL>
-</LI>
-</UL>
+<DIV ALIGN="CENTER"><A NAME="F1"></A><A NAME="15667"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 152:</STRONG>
+Mesh parameters</CAPTION>
+<TR><TD><IMG
+ WIDTH="541" HEIGHT="374" BORDER="0"
+ SRC="img1633.png"
+ ALT="\begin{figure}\epsfig{file=figF1.eps,width=12cm}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
 
 <P>
-If no
-<A HREF="node328.html#transform">*TRANSFORM</A> card applied to the node at stake, the local
-directions coincide with the global ones. Notice that a *TRANSFORM card is not
-allowed for nodes in which boundary conditions are applied to rotations.
+Based on the values of a variable <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ \phi$"></B></SPAN> at the element centers P and F the
+value in the center f of face f is looked for. To that end the following
+vectors are defined: <!-- MATH
+ $\boldsymbol{i}_{\xi}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="17" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1634.png"
+ ALT="$ \boldsymbol{i}_{\xi}$"></B></SPAN> is a unit vector connecting P with
+f, while <!-- MATH
+ $\boldsymbol{n}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img293.png"
+ ALT="$ \boldsymbol{n}$"></B></SPAN> is the normal vector on face f at its center f
+(pointing way from the element). The angle between both is
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="$ \alpha$"></B></SPAN>. Furthermore, <!-- MATH
+ $\boldsymbol{j}_{\xi}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1635.png"
+ ALT="$ \boldsymbol{j}_{\xi}$"></B></SPAN> is a vector connecting P with F,
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img540.png"
+ ALT="$ \beta$"></B></SPAN> is the angle between <!-- MATH
+ $\boldsymbol{n}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="15" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img293.png"
+ ALT="$ \boldsymbol{n}$"></B></SPAN> and <!-- MATH
+ $\boldsymbol{j}_{\xi}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="19" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1635.png"
+ ALT="$ \boldsymbol{j}_{\xi}$"></B></SPAN>, Q
+is the orthogonal projection of f on the straight line connecting P with F and
+<!-- MATH
+ $\boldsymbol{r}_f$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1636.png"
+ ALT="$ \boldsymbol{r}_f$"></B></SPAN> connects Q to f. The value <SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1637.png"
+ ALT="$ \phi_f$"></B></SPAN> can now be approximated
+by
 
 <P>
-Optional parameters are OP, AMPLITUDE, TIME DELAY, LOAD CASE, USER, MASS FLOW,
-FIXED, SUBMODEL, STEP and DATA SET. OP can take the value NEW or
-MOD. OP=MOD is default and implies that previously prescribed
-displacements remain active in subsequent steps. Specifying a
-displacement in the same node and direction for which a displacement
-was defined in a previous step replaces this  value. OP=NEW implies
-that previously prescribed displacements are removed. If multiple
-*BOUNDARY cards are present in a step this parameter takes effect for the first *BOUNDARY card only. 
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eqF1"></A><!-- MATH
+ \begin{equation}
+\phi_f \approx \phi _Q \approx \frac{[\phi_P d(Q,F) + \phi_F d(Q,P)]}{d(P,F)},
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="266" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1638.png"
+ ALT="$\displaystyle \phi_f \approx \phi _Q \approx \frac{[\phi_P d(Q,F) + \phi_F d(Q,P)]}{d(P,F)},$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">497</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-The AMPLITUDE parameter allows for the specification of an amplitude by which the boundary values are scaled (mainly used for nonlinear static and dynamic calculations). This only makes sense for nonzero boundary values. Thus, in that case the values entered on the *BOUNDARY card are interpreted as reference values to be multiplied with the (time dependent) amplitude value to obtain the actual value. At the end of the step the reference value is replaced by the actual value at that time. In subsequent
-steps this value is kept constant unless it is explicitly redefined or the
-amplitude is defined using TIME=TOTAL TIME in which case the amplitude keeps
-its validity.
+where <SPAN CLASS="MATH"><B><IMG
+ WIDTH="57" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1639.png"
+ ALT="$ d(Q,F)$"></B></SPAN> is the Euclidean distance between Q and F. The next better
+approximation takes <!-- MATH
+ $\boldsymbol{r}_f$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="21" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1636.png"
+ ALT="$ \boldsymbol{r}_f$"></B></SPAN> into account:
 
 <P>
-The TIME DELAY parameter modifies the AMPLITUDE parameter. As such, TIME DELAY
-must be preceded by an AMPLITUDE name. TIME DELAY is a time shift by which the
-AMPLITUDE definition it refers to is moved in positive time direction. For
-instance, a TIME DELAY of 10 means that for time t the amplitude is taken
-which applies to time t-10. The TIME DELAY parameter must only appear once on
-one and the same keyword card.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eqF2"></A><!-- MATH
+ \begin{equation}
+\phi_f \approx \phi_Q + (\nabla \phi)_Q \cdot \boldsymbol{r}_f.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="161" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1640.png"
+ ALT="$\displaystyle \phi_f \approx \phi_Q + (\nabla \phi)_Q \cdot \boldsymbol{r}_f.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">498</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-The LOAD CASE parameter is only active in <A HREF="node317.html#steadystatedynamics">*STEADY STATE
-DYNAMICS</A> calculations. LOAD CASE = 1 means that the
-loading is real or in-phase.  LOAD CASE = 2 indicates that the load is
-imaginary or equivalently phase-shifted by <B><IMG
- WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
- SRC="img570.png"
- ALT="$ 90 ^\circ$"></B>. Default is LOAD CASE =
-1.
+To this end the gradient is approximated by
 
 <P>
-If the USER parameter is selected the boundary values are determined by
-calling the user subroutine <A HREF="node348.html#userboundary">uboun.f</A>, which
-must be provided by the user. This applies to all nodes listed
-beneath the *BOUNDARY keyword. Any boundary values specified behind the
-degrees of freedom are not taken into account. If the USER parameter is selected,
-the AMPLITUDE parameter has no effect and should not be used.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eqF3"></A><!-- MATH
+ \begin{equation}
+(\nabla \phi)_Q \approx \frac{(\nabla \phi)_P d(Q,F)+(\nabla \phi)_F
+    d(Q,P)}{d(P,F)}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="296" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1641.png"
+ ALT="$\displaystyle (\nabla \phi)_Q \approx \frac{(\nabla \phi)_P d(Q,F)+(\nabla \phi)_F d(Q,P)}{d(P,F)}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">499</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-The MASS FLOW parameter specifies that the *BOUNDARY keyword is used
-to define mass flow rates in convective problems. A mass flow rate can only be
-applied to the first degree of freedom of the midside node of network elements. 
+The value of the gradient at the element centers can be obtained from the
+facial values. Indeed, by Gauss the following applies:
 
 <P>
-Next, the FIXED parameter freezes the deformation from the previous step,
-or, if there is no previous step, sets it to zero.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\int_{V}^{} \nabla \cdot \boldsymbol{a} d V = \int_{A}^{} \boldsymbol{a}
+  \cdot
+  \boldsymbol{n} d A
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="178" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1642.png"
+ ALT="$\displaystyle \int_{V}^{} \nabla \cdot \boldsymbol{a} d V = \int_{A}^{} \boldsymbol{a} \cdot \boldsymbol{n} d A$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">500</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-Finally, the SUBMODEL parameter specifies that the displacements in the nodes
-listed underneath will be obtained by interpolation from a global model. To
-this end these nodes have to be part of a
-<A HREF="node319.html#submodel">*SUBMODEL</A>,TYPE=NODE card. On the latter card the result
-file (frd file) of the global model is defined. The use of the SUBMODEL
-parameter requires the STEP or the DATA SET parameter. 
+for an arbitrary vector <!-- MATH
+ $\boldsymbol{a}$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="14" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img949.png"
+ ALT="$ \boldsymbol{a}$"></B></SPAN>. Setting <!-- MATH
+ $\boldsymbol{a}=\phi \cdot
+\boldsymbol{i}_k$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="70" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1643.png"
+ ALT="$ \boldsymbol{a}=\phi \cdot
+\boldsymbol{i}_k$"></B></SPAN>, where <!-- MATH
+ $\boldsymbol{i}_k$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="18" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1644.png"
+ ALT="$ \boldsymbol{i}_k$"></B></SPAN> is a unit vector in carthesian
+direction k, one obtains   
 
 <P>
-In case the global
-calculation was a *STATIC calculation the STEP parameter specifies the step in the global model
-which will be used for the interpolation. If results for more than one
-increment within the step are stored, the last increment is taken. 
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\int_{V}^{} \nabla \cdot (\phi \boldsymbol{i}_k) d V =
+  \int_{A}^{} \phi \boldsymbol{i}_k \cdot \boldsymbol{n} dA \approx
+  \sum_{f}^{} \phi_f \boldsymbol{i}_k \cdot \boldsymbol{n}_f A_f =
+  \sum_{f}^{} \phi_f (n_k)_f A_f.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="475" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1645.png"
+ ALT="$\displaystyle \int_{V}^{} \nabla \cdot (\phi \boldsymbol{i}_k) d V = \int_{A}^{...
+...f \boldsymbol{i}_k \cdot \boldsymbol{n}_f A_f = \sum_{f}^{} \phi_f (n_k)_f A_f.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">501</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-In case the global calculation was a *FREQUENCY calculation the DATA SET parameter
-specifies the mode in the global model which will be used for the
-interpolation. It is the number preceding the string MODAL in the .frd-file
-and it corresponds to the dataset number if viewing the .frd-file with
-CalculiX GraphiX.  Notice that the global frequency calculation is not allowed
-to contain preloading nor cyclic symmetry.
+and
 
 <P>
-Notice that the displacements
-interpolated from
-the global model are not transformed, no matter what coordinate system is
-applied to the nodes in the submodel. Consequently, if the displacements of the global model
-are stored in a local coordinate system, this local system also applies to the
-submodel nodes in which these displacements are interpolated. So
-the submodel nodes in which the displacements of the global model are
-interpolated, inherit the coordinate system in which the displacements of the
-global model were stored. The SUBMODEL parameter and the AMPLITUDE parameter
-are mutually exclusive.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\int_{V}^{} \nabla \cdot (\phi \boldsymbol{i}_k) d V =
+  \int_{V}^{} (\nabla \phi) \cdot \boldsymbol{i}_k d V =
+  \int_{V}^{} \phi,_k d V \approx
+  (\phi,_k)_P V_P.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="413" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1646.png"
+ ALT="$\displaystyle \int_{V}^{} \nabla \cdot (\phi \boldsymbol{i}_k) d V = \int_{V}^{...
+...) \cdot \boldsymbol{i}_k d V = \int_{V}^{} \phi,_k d V \approx (\phi,_k)_P V_P.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">502</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-If more than one *BOUNDARY card occurs in the input deck, the following rule
-applies: if the *BOUNDARY is applied to the same node AND in the same
-direction as in a previous application then the previous value and previous
-amplitude are replaced.
+From which one obtains
 
 <P>
-A distinction is made whether the conditions are homogeneous (fixed
-conditions),  inhomogeneous (prescribed displacements) or of the submodel type.
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eqF4"></A><!-- MATH
+ \begin{equation}
+(\phi,_k)_P \approx \frac{1}{V_P} \left [ \sum_{f}^{} \phi_f
+    (n_k)_f A_f \right],
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="229" HEIGHT="73" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1647.png"
+ ALT="$\displaystyle (\phi,_k)_P \approx \frac{1}{V_P} \left [ \sum_{f}^{} \phi_f (n_k)_f A_f \right],$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">503</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
 
 <P>
-<BR><HR>
-<!--Table of Child-Links-->
-<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+where the sum is over all faces f belonging to element P, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1637.png"
+ ALT="$ \phi_f$"></B></SPAN> is the
+value of <SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img553.png"
+ ALT="$ \phi$"></B></SPAN> at the center of face f, <SPAN CLASS="MATH"><B><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1648.png"
+ ALT="$ A_f$"></B></SPAN> is the area of face f and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1649.png"
+ ALT="$ V_P$"></B></SPAN>
+is the volume of element P.
 
-<UL>
-<LI><A NAME="tex2html3837"
-  HREF="node210.html">Homogeneous Conditions</A>
-<LI><A NAME="tex2html3838"
-  HREF="node211.html">Inhomogeneous Conditions</A>
-<LI><A NAME="tex2html3839"
-  HREF="node212.html">Submodel</A>
-</UL>
-<!--End of Table of Child-Links-->
-<HR>
+<P>
+The calculation of <SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1637.png"
+ ALT="$ \phi_f$"></B></SPAN> is usually done
+iteratively using the following steps:
+
+<P>
+
+<OL>
+<LI>use Equation (<A HREF="#eqF1">497</A>) to determine <SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1637.png"
+ ALT="$ \phi_f$"></B></SPAN> except if <SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1637.png"
+ ALT="$ \phi_f$"></B></SPAN> is
+  known by a boundary condition (BC). In the latter case take the value of the
+  BC.
+</LI>
+<LI>use Equation (<A HREF="#eqF4">503</A>) to determine <!-- MATH
+ $(\nabla \phi)_P$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="49" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1650.png"
+ ALT="$ (\nabla \phi)_P$"></B></SPAN> and <!-- MATH
+ $(\nabla \phi)_F$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="49" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1651.png"
+ ALT="$ (\nabla \phi)_F$"></B></SPAN>.
+</LI>
+<LI>by Equation (<A HREF="#eqF3">499</A>) determine <!-- MATH
+ $(\nabla \phi)_Q$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="50" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1652.png"
+ ALT="$ (\nabla \phi)_Q$"></B></SPAN>.
+</LI>
+<LI>Use  Equation (<A HREF="#eqF2">498</A>) to improve <SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1637.png"
+ ALT="$ \phi_f$"></B></SPAN> except if <SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1637.png"
+ ALT="$ \phi_f$"></B></SPAN> is
+    know from a BC (in that case take the value of the BC).
+</LI>
+</OL>
+
+<P>
+Steps 2 up to 4 can be repeated to improve the value of <SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1637.png"
+ ALT="$ \phi_f$"></B></SPAN>
+further. Usually one such extra iteration is sufficient. Notice that <!-- MATH
+ $(\nabla
+\phi)_Q$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="50" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1652.png"
+ ALT="$ (\nabla \phi)_Q$"></B></SPAN> can be used as an approximation of <!-- MATH
+ $(\nabla \phi)_f$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="47" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1653.png"
+ ALT="$ (\nabla \phi)_f$"></B></SPAN>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="F2"></A><A NAME="15668"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 153:</STRONG>
+Mesh parameters for a boundary element</CAPTION>
+<TR><TD><IMG
+ WIDTH="450" HEIGHT="461" BORDER="0"
+ SRC="img1654.png"
+ ALT="\begin{figure}\begin{center}
+\epsfig{file=figF2.eps,width=10cm}\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+For a boundary element (Figure <A HREF="#F2">153</A>) the situation is slightly
+different. The value at Q is now extrapolated from the center value at the
+neighboring element W (if any) bordering the face opposite to face f:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1655.png"
+ ALT="$\displaystyle \phi_Q$"></SPAN></TD>
+<TD NOWRAP ALIGN="LEFT"><SPAN CLASS="MATH"><IMG
+ WIDTH="178" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1656.png"
+ ALT="$\displaystyle = \phi_P + \frac{\phi_P - \phi_W}{d(P,W)} d(P,Q)$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">504</SPAN>)</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><SPAN CLASS="MATH"><IMG
+ WIDTH="261" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1657.png"
+ ALT="$\displaystyle = \phi_P \left ( 1 + \frac{d(P,Q)}{d(P,W)} \right) - \phi_W \frac{d(P,Q)}{d(P,W)}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">505</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Apart from this, the situation is completely analogous. If no element on the
+opposite side exists the center value is taken, i.e. <!-- MATH
+ $\phi_f=\phi_P$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="63" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1658.png"
+ ALT="$ \phi_f=\phi_P$"></B></SPAN>. This
+also amounts to <!-- MATH
+ $(\nabla \phi)_f \cdot \boldsymbol{i}_\xi =0$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="101" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1659.png"
+ ALT="$ (\nabla \phi)_f \cdot \boldsymbol{i}_\xi =0$"></B></SPAN>. Notice also that for a
+boundary element <!-- MATH
+ $\boldsymbol{i}_\xi = \boldsymbol{j}_\xi$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="54" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1660.png"
+ ALT="$ \boldsymbol{i}_\xi = \boldsymbol{j}_\xi$"></B></SPAN>.
+
+<P>
+The preceding discourse is generic and, although explained here for
+2-dimensional elements applies in 3 dimensions equally well. In fact, CalculiX
+only knows three-dimensional hexahedral, pentahedral and tetrahedral fluid
+elements. In the following the values of <SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1637.png"
+ ALT="$ \phi_f$"></B></SPAN> and <!-- MATH
+ $(\nabla \phi)_f$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="47" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1653.png"
+ ALT="$ (\nabla \phi)_f$"></B></SPAN>
+obtained in the above way will be denoted by <!-- MATH
+ $\overline{\phi }_f$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1661.png"
+ ALT="$ \overline{\phi }_f$"></B></SPAN> and
+<!-- MATH
+ $(\overline{\nabla \phi })_f$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="47" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1662.png"
+ ALT="$ (\overline{\nabla \phi })_f$"></B></SPAN>, respectively.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="F3"></A><A NAME="15669"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 154:</STRONG>
+Contributing elements if performing steps 1-2-3</CAPTION>
+<TR><TD><IMG
+ WIDTH="451" HEIGHT="381" BORDER="0"
+ SRC="img1663.png"
+ ALT="\begin{figure}\begin{center}
+\epsfig{file=figF3.eps,width=10cm}\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<!-- MATH
+ $(\overline{\nabla \phi })_f$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="47" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1662.png"
+ ALT="$ (\overline{\nabla \phi })_f$"></B></SPAN>, however, can be further improved. The value of
+<!-- MATH
+ $(\overline{\nabla \phi })_e$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="46" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1664.png"
+ ALT="$ (\overline{\nabla \phi })_e$"></B></SPAN> (Figure <A HREF="#F3">154</A>), as calculated in step 3 above,
+depends on <!-- MATH
+ $(\nabla \phi)_P$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="49" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1650.png"
+ ALT="$ (\nabla \phi)_P$"></B></SPAN> and <!-- MATH
+ $(\nabla \phi)_E$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="50" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$ (\nabla \phi)_E$"></B></SPAN>. These depend on the values
+<!-- MATH
+ $\overline{\phi}_f$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1661.png"
+ ALT="$ \overline{\phi }_f$"></B></SPAN> of all faces belonging to elements P and E, respectively
+(step 2). Each of these depends on the neighboring element values,
+e.g. <!-- MATH
+ $\overline{\phi }_n$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="22" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1666.png"
+ ALT="$ \overline{\phi }_n$"></B></SPAN> depends on <SPAN CLASS="MATH"><B><IMG
+ WIDTH="25" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1667.png"
+ ALT="$ \phi_N$"></B></SPAN> and <SPAN CLASS="MATH"><B><IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1668.png"
+ ALT="$ \phi_P$"></B></SPAN> (step 1). Overall,
+all dashed elements in addition of element P and E in the figure contribute to <!-- MATH
+ $(\overline{\nabla \phi
+})_e$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="46" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1664.png"
+ ALT="$ (\overline{\nabla \phi })_e$"></B></SPAN>. If, instead of just performing steps 1 through 3, steps 1-2-3-4-2-3 are
+taken, the values in the vertically dashed elements in Figure <A HREF="#F4">155</A> will
+also contribute.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="F4"></A><A NAME="15670"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 155:</STRONG>
+Contributing elements if performing steps 1-2-3-4-2-3</CAPTION>
+<TR><TD><IMG
+ WIDTH="451" HEIGHT="381" BORDER="0"
+ SRC="img1669.png"
+ ALT="\begin{figure}\begin{center}
+\epsfig{file=figF4.eps,width=10cm}\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+However, for consistency it has proven vital that the simple neighbor
+relationship
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+(\nabla \phi)_e \cdot \boldsymbol{j}_{PE} = \frac{\phi_E-\phi_P}{l_{PE}}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="171" HEIGHT="51" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1670.png"
+ ALT="$\displaystyle (\nabla \phi)_e \cdot \boldsymbol{j}_{PE} = \frac{\phi_E-\phi_P}{l_{PE}}$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">506</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+be satisfied (<!-- MATH
+ $l_{PE}=d(P,E)$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="101" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1671.png"
+ ALT="$ l_{PE}=d(P,E)$"></B></SPAN>). This can be obtained by setting
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+(\nabla \phi)_e = (\overline{\nabla \phi })_e + \left (
+  \frac{\phi_E-\phi_P}{l_{PE}}- (\overline{\nabla \phi })_e \cdot
+  \boldsymbol{j}_{PE} \right ) \boldsymbol{j}_{PE}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="353" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1672.png"
+ ALT="$\displaystyle (\nabla \phi)_e = (\overline{\nabla \phi })_e + \left ( \frac{\ph...
+...erline{\nabla \phi })_e \cdot \boldsymbol{j}_{PE} \right ) \boldsymbol{j}_{PE}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">507</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<!-- MATH
+ $(\nabla \phi)_e$
+ -->
+<SPAN CLASS="MATH"><B><IMG
+ WIDTH="46" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1673.png"
+ ALT="$ (\nabla \phi)_e$"></B></SPAN> is an improved value of the facial gradient. It will be
+denoted without bar on top.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
 <!--Navigation Panel-->
-<A NAME="tex2html3835"
+<A NAME="tex2html3810"
   HREF="node210.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html3831"
-  HREF="node205.html">
+<A NAME="tex2html3806"
+  HREF="node208.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html3825"
+<A NAME="tex2html3800"
   HREF="node208.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html3833"
+<A NAME="tex2html3808"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html3836"
-  HREF="node210.html">Homogeneous Conditions</A>
-<B> Up:</B> <A NAME="tex2html3832"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html3826"
-  HREF="node208.html">*BEAM SECTION</A>
- &nbsp; <B>  <A NAME="tex2html3834"
-  HREF="node1.html">Contents</A></B> 
+<B> Next:</B> <A NAME="tex2html3811"
+  HREF="node210.html">Convective interpolation</A>
+<B> Up:</B> <A NAME="tex2html3807"
+  HREF="node208.html">Determination of facial values</A>
+<B> Previous:</B> <A NAME="tex2html3801"
+  HREF="node208.html">Determination of facial values</A>
+ &nbsp; <B>  <A NAME="tex2html3809"
+  HREF="node1.html">Contents</A></B> </DIV>
 <!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

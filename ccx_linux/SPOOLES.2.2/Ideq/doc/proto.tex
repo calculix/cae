@@ -1,0 +1,223 @@
+\par
+\section{Prototypes and descriptions of {\tt Ideq} methods}
+\label{section:Ideq:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt Ideq} object.
+\par
+\subsection{Basic methods}
+\label{subsection:Ideq:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Ideq * Ideq_new ( void ) ;
+\end{verbatim}
+\index{Ideq_new@{\tt Ideq\_new()}}
+This method simply allocates storage for the {\tt Ideq} structure 
+and then sets the default fields by a call to 
+{\tt Ideq\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Ideq_setDefaultFields ( Ideq *deq ) ;
+\end{verbatim}
+\index{Ideq_setDefaultFields@{\tt Ideq\_setDefaultFields()}}
+This method sets the structure's fields to default values:
+{\tt head} and {\tt tail} are set to {\tt -1}, {\tt maxsize} is set
+to zero, and the fields for {\tt iv} are set via a call to
+{\tt IV\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt deq} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Ideq_clearData ( Ideq *deq ) ;
+\end{verbatim}
+\index{Ideq_clearData@{\tt Ideq\_clearData()}}
+This method clears any data owned by the object.
+It releases any storage held by the {\tt deq->iv} object
+with a call to {\tt IV\_clearData()}.
+It then calls {\tt Ideq\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt deq} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Ideq_free ( Ideq *deq ) ;
+\end{verbatim}
+\index{Ideq_free@{\tt Ideq\_free()}}
+This method releases any storage by a call to 
+{\tt Ideq\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt deq} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:Ideq:proto:initializers}
+\par
+There is one initializer method.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Ideq_resize ( Ideq *deq, int newsize ) ;
+\end{verbatim}
+\index{Ideq_resize@{\tt Ideq\_resize()}}
+This method resizes the dequeue list, either increasing the size
+or decreasing the size (if possible).
+Since after {\tt Ideq\_new()} the size of the list is zero,
+this method also serves as an initializer.
+\par
+If the present size of the list (the number of entries between 
+{\tt head} and {\tt tail} inclusive) is larger than {\tt newsize},
+the method returns {\tt -1}.
+Otherwise, a new {\tt int} vector is allocated and filled with the
+entries in the list.
+The old {\tt int} vector is free'd, the new vector is spliced
+into the {\tt IV} object, and the {\tt head}, {\tt tail} and
+{\tt maxsize} fields are set.
+The method then returns {\tt 1}.
+\par \noindent {\it Error checking:}
+If {\tt deq} is {\tt NULL},
+or if ${\tt newsize} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:Ideq:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Ideq_clear ( Ideq *deq ) ;
+\end{verbatim}
+\index{Ideq_clear@{\tt Ideq\_clear()}}
+This method clears the dequeue. 
+The {\tt head} and {\tt tail} fields are set to {\tt -1}.
+\par \noindent {\it Error checking:}
+If {\tt deq} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Ideq_head ( Ideq *deq ) ;
+\end{verbatim}
+\index{Ideq_head@{\tt Ideq\_head()}}
+This method returns the value at the head of the list without
+removing that value.
+If {\tt head == -1} then {\tt -1} is returned.
+Note, the list may be nonempty and the first value may be {\tt -1},
+so {\tt -1} may signal an empty list or a terminating element.
+\par \noindent {\it Error checking:}
+If {\tt deq} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Ideq_removeFromHead ( Ideq *deq ) ;
+\end{verbatim}
+\index{Ideq_removeFromHead@{\tt Ideq\_removeFromHead()}}
+This method returns the value at the head of the list and
+removes that value.
+If {\tt head == -1} then {\tt -1} is returned.
+Note, the list may be nonempty and the first value may be {\tt -1},
+so {\tt -1} may signal an empty list or a terminating element.
+\par \noindent {\it Error checking:}
+If {\tt deq} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Ideq_insertAtHead ( Ideq *deq, int val ) ;
+\end{verbatim}
+\index{Ideq_insertAtHead@{\tt Ideq\_insertAtHead()}}
+This method inserts a value {\tt val} into the list at the head of
+the list.
+If there is no room in the list, {\tt -1} is returned and the
+dequeue must be resized using the {\tt Ideq\_resize()} method.
+Otherwise, the item is placed into the list and {\tt 1} is
+returned.
+\par \noindent {\it Error checking:}
+If {\tt deq} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Ideq_tail ( Ideq *deq ) ;
+\end{verbatim}
+\index{Ideq_tail@{\tt Ideq\_tail()}}
+This method returns the value at the tail of the list without
+removing that value.
+If {\tt tail == -1} then {\tt -1} is returned.
+Note, the list may be nonempty and the first value may be {\tt -1},
+so {\tt -1} may signal an empty list or a terminating element.
+\par \noindent {\it Error checking:}
+If {\tt deq} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Ideq_removeFromTail ( Ideq *deq ) ;
+\end{verbatim}
+\index{Ideq_removeFromTail@{\tt Ideq\_removeFromTail()}}
+This method returns the value at the tail of the list and
+removes that value.
+If {\tt tail == -1} then {\tt -1} is returned.
+Note, the list may be nonempty and the first value may be {\tt -1},
+so {\tt -1} may signal an empty list or a terminating element.
+\par \noindent {\it Error checking:}
+If {\tt deq} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Ideq_insertAtTail ( Ideq *deq, int val ) ;
+\end{verbatim}
+\index{Ideq_insertAtTail@{\tt Ideq\_insertAtTail()}}
+This method inserts a value {\tt val} into the list at the tail of
+the list.
+If there is no room in the list, {\tt -1} is returned and the
+dequeue must be resized using the {\tt Ideq\_resize()} method.
+Otherwise, the item is placed into the list and {\tt 1} is
+returned.
+\par \noindent {\it Error checking:}
+If {\tt deq} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:Ideq:proto:IO}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Ideq_writeForHumanEye ( Ideq *deq ) ;
+\end{verbatim}
+\index{Ideq_writeForHumanEye@{\tt Ideq\_writeForHumanEye()}}
+This method write the state of the object, (the size, head and
+tail) and the list of entries to a file.
+\par \noindent {\it Error checking:}
+If {\tt deq} or {\tt fp} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}

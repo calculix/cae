@@ -1,0 +1,18 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = almond.9
+
+set inAdjFile    = $matrices/$matrix/orig0.adj
+
+set outGraphFile = temp.graphf
+
+set flag = 1
+
+set msglvl  = 5
+
+set msgFile = res.$matrix
+set msgFile = res
+set msgFile = stdout
+
+adjToGraph $msglvl $msgFile $inAdjFile $outGraphFile $flag

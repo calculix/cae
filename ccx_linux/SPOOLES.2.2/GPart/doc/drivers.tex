@@ -1,0 +1,288 @@
+\par
+\section{Driver programs for the {\tt GPart} object}
+\label{section:GPart:drivers}
+\par
+This section contains brief descriptions of four driver programs.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testDDviaFishnet msglvl msgFile inGraphFile freeze minweight maxweight
+                 seed outIVfile
+\end{verbatim}
+This driver program constructs a domain decomposition via the {\it
+fishnet} algorithm \cite{ash97-DDSEP}.
+It reads in a {\tt Graph} object from a file, finds the domain
+decomposition using the four input parameters, then optionally
+writes out the map from vertices to components to a file.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the output file --- if {\tt
+msgFile} is {\tt stdout}, then the output file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inGraphFile} parameter is the input file for the {\tt Graph}
+object. It must be of the form {\tt *.graphf} or {\tt *.graphb}.
+The {\tt Graph} object is read from the file via the
+{\tt Graph\_readFromFile()} method.
+\item
+The {\tt freeze} parameter is used to place nodes of high degree
+into the multisector.
+If the external degree of a vertex is {\tt freeze} times the
+average degree, then it is placed in the multisector.
+\item
+The {\it target} minimum weight for a domain is {\tt minweight}.
+\item
+The {\it target} maximum weight for a domain is {\tt maxweight}.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt outIVfile} parameter is the output file for the {\tt IV}
+object that contains the map from vertices to components. 
+If {\tt outIVfile} is {\tt "none"}, then there is no output,
+otherwise {\tt outIVfile} 
+must be of the form {\tt *.ivf} or {\tt *.ivb}.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testTwoSetViaBKL msglvl msgFile inGraphFile inIVfile 
+                 seed alpha outIVfile
+\end{verbatim}
+This driver program constructs a two-set partition via the 
+Block Kernighan-Lin algorithm \cite{ash97-DDSEP}.
+It reads in a {\tt Graph} object and an {\tt IV} object that holds
+the map from vertices to components (e.g., the output from the
+driver program {\tt testDDviaFishet}) from two files, 
+constructs the domain-segment graph and finds an initial
+separator, then optionally
+writes out the new map from vertices to components to a file.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the output file --- if {\tt
+msgFile} is {\tt stdout}, then the output file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inGraphFile} parameter is the input file for the {\tt Graph}
+object. It must be of the form {\tt *.graphf} or {\tt *.graphb}.
+The {\tt Graph} object is read from the file via the
+{\tt Graph\_readFromFile()} method.
+\item
+The {\tt inIVfile} parameter is the input file for the {\tt IV}
+object that contains the map from vertices to domains and multisector. 
+It {\tt inIVfile} must be of the form {\tt *.ivf} or {\tt *.ivb}.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt alpha} parameter controls the partition evaluation function.
+\item
+The {\tt outIVfile} parameter is the output file for the {\tt IV}
+object that contains the map from vertices to separator and the 
+two components. 
+If {\tt outIVfile} is {\tt "none"}, then there is no output,
+otherwise {\tt outIVfile} 
+must be of the form {\tt *.ivf} or {\tt *.ivb}.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testSmoothBisector msglvl msgFile inGraphFile inIVfile 
+                   option alpha outIVfile
+\end{verbatim}
+This driver program smooths a bisector of a graph by solving a
+sequence of max-flow network problems.
+It reads in a {\tt Graph} object and an {\tt IV} object that holds
+the map from vertices to components (e.g., the output from the
+driver program {\tt testTwoSetViaBKL}) from two files, 
+smooths the separator and
+then optionally writes out the new component ids map to a file.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the output file --- if {\tt
+msgFile} is {\tt stdout}, then the output file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inGraphFile} parameter is the input file for the {\tt Graph}
+object. It must be of the form {\tt *.graphf} or {\tt *.graphb}.
+The {\tt Graph} object is read from the file via the
+{\tt Graph\_readFromFile()} method.
+\item
+The {\tt inIVfile} parameter is the input file for the {\tt IV}
+object that contains the map from vertices to domains and multisector. 
+It {\tt inIVfile} must be of the form {\tt *.ivf} or {\tt *.ivb}.
+\item
+The {\tt option} parameter specifies the type of network
+optimization problem that will be solved.
+\begin{itemize}
+\item
+{\tt option = 1} --- each network has two layers and is bipartite.
+\item
+{\tt option = 2} 
+--- each network has two layers but need not be bipartite.
+\item
+{\tt option = 2} --- each network has {\tt option/2} layers
+on each side of the separator.
+\end{itemize}
+\item
+The {\tt alpha} parameter controls the partition evaluation function.
+\item
+The {\tt outIVfile} parameter is the output file for the {\tt IV}
+object that contains the map from vertices to separator and the 
+two components. 
+If {\tt outIVfile} is {\tt "none"}, then there is no output,
+otherwise {\tt outIVfile} 
+must be of the form {\tt *.ivf} or {\tt *.ivb}.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testRBviaDDsep msglvl msgFile inGraphFile seed minweight maxweight
+               freeze alpha maxdomweight DDoption nlayer
+testRBviaDDsep2 msglvl msgFile inGraphFile nruns seed minweight maxweight
+               freeze alpha maxdomweight DDoption nlayer
+\end{verbatim}
+These driver programs construct a multisector via recursive 
+bisection and orders the graph using nested dissection and 
+multisection using the multisector.
+{\tt testRBviaDDsep} executes only one run while
+{\tt testRBviaDDsep2} executes {\tt nruns} runs with random
+permutations of the graph.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the output file --- if {\tt
+msgFile} is {\tt stdout}, then the output file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inGraphFile} parameter is the input file for the {\tt Graph}
+object. It must be of the form {\tt *.graphf} or {\tt *.graphb}.
+The {\tt Graph} object is read from the file via the
+{\tt Graph\_readFromFile()} method.
+\item
+The {\tt nruns} parameter is the number of runs made with the
+graph randomly permuted.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\it target} minimum weight for a domain is {\tt minweight}.
+\item
+The {\it target} maximum weight for a domain is {\tt maxweight}.
+\item
+The {\tt freeze} parameter is used to place nodes of high degree
+into the multisector.
+If the external degree of a vertex is {\tt freeze} times the
+average degree, then it is placed in the multisector.
+\item
+The {\tt alpha} parameter controls the partition evaluation function.
+\item
+The {\tt maxdomweight} parameter controls the recursive bisection
+--- no subgraph with weight less than {\tt maxdomweight} is
+further split.
+\item
+The {\tt DDoption} parameter controls the initial domain/segment
+partition on each subgraph.
+When {\tt DDDoption = 1} we use the fishnet algorithm for each
+subgraph.
+When {\tt DDDoption = 1} we use the fishnet algorithm once for the
+entire graph and this is then projected down onto each subgraph.
+\item
+The {\tt nlayer} parameter governs the smoothing process by specifying 
+the type of network optimization problem that will be solved.
+\begin{itemize}
+\item
+{\tt nlayer = 1} --- each network has two layers and is bipartite.
+\item
+{\tt nlayer = 2} 
+--- each network has two layers but need not be bipartite.
+\item
+{\tt nlayer > 2} --- each network has {\tt option/2} layers
+on each side of the separator.
+\end{itemize}
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+mkDSTree msglvl msgFile inGraphFile seed minweight maxweight
+         freeze alpha maxdomweight DDoption nlayer outDSTreeFile
+\end{verbatim}
+This driver program constructs a domain/separator tree using
+recursive bisection. 
+The {\tt DSTree} object is optionally written to a file.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the output file --- if {\tt
+msgFile} is {\tt stdout}, then the output file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inGraphFile} parameter is the input file for the {\tt Graph}
+object. It must be of the form {\tt *.graphf} or {\tt *.graphb}.
+The {\tt Graph} object is read from the file via the
+{\tt Graph\_readFromFile()} method.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\it target} minimum weight for a domain is {\tt minweight}.
+\item
+The {\it target} maximum weight for a domain is {\tt maxweight}.
+\item
+The {\tt freeze} parameter is used to place nodes of high degree
+into the multisector.
+If the external degree of a vertex is {\tt freeze} times the
+average degree, then it is placed in the multisector.
+\item
+The {\tt alpha} parameter controls the partition evaluation function.
+\item
+The {\tt maxdomweight} parameter controls the recursive bisection
+--- no subgraph with weight less than {\tt maxdomweight} is
+further split.
+\item
+The {\tt DDoption} parameter controls the initial domain/segment
+partition on each subgraph.
+When {\tt DDDoption = 1} we use the fishnet algorithm for each
+subgraph.
+When {\tt DDDoption = 1} we use the fishnet algorithm once for the
+entire graph and this is then projected down onto each subgraph.
+\item
+The {\tt nlayer} parameter governs the smoothing process by specifying 
+the type of network optimization problem that will be solved.
+\begin{itemize}
+\item
+{\tt nlayer = 1} --- each network has two layers and is bipartite.
+\item
+{\tt nlayer = 2} 
+--- each network has two layers but need not be bipartite.
+\item
+{\tt nlayer > 2} --- each network has {\tt option/2} layers
+on each side of the separator.
+\end{itemize}
+\item
+The {\tt outDSTreeFile} parameter is the output file 
+for the {\tt DSTree} object. 
+It must be of the form {\tt *.dstreef} or {\tt *.dstreeb}.
+If {\tt outDSTreeFile} is not {\tt "none"}, 
+the {\tt DSTree} object is written to the file via the
+{\tt DSTree\_writeToFile()} method.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

@@ -1,0 +1,1517 @@
+\par
+\section{Prototypes and descriptions of {\tt ETree} methods}
+\label{section:ETree:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt ETree} object.
+\par
+\subsection{Basic methods}
+\label{subsection:ETree:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * ETree_new ( void ) ;
+\end{verbatim}
+\index{ETree_new@{\tt ETree\_new()}}
+This method simply allocates storage for the {\tt ETree} structure 
+and then sets the default fields by a call to 
+{\tt ETree\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_setDefaultFields ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_setDefaultFields@{\tt ETree\_setDefaultFields()}}
+This method sets the structure's fields are set to default values:
+{\tt nfront = nvtx = 0}, {\tt tree = nodwghtsIV = bndwghtsIV =
+vtxToFrontIV = NULL}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_clearData ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_clearData@{\tt ETree\_clearData()}}
+This method clears data and releases any storage allocated by the
+object.
+If {\tt tree} is not {\tt NULL}, 
+then {\tt Tree\_free(tree)} is called to free the {\tt Tree}
+object.
+It releases any storage held by the 
+{\tt nodwghtsIV}, {\tt bndwghtsIV} 
+and {\tt vtxToFrontIV} {\tt IV} objects
+via calls to {\tt IV\_free()}.
+It then sets the structure's default fields 
+with a call to {\tt ETree\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_free ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_free@{\tt ETree\_free()}}
+This method releases any storage by a call to 
+{\tt ETree\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:ETree:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_nfront ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_nfront@{\tt ETree\_nfront()}}
+This method returns the number of fronts.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_nvtx ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_nvtx@{\tt ETree\_nvtx()}}
+This method returns the number of vertices.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Tree * ETree_tree ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_tree@{\tt ETree\_tree()}}
+This method returns a pointer to the {\tt Tree} object.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int  ETree_root ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_root@{\tt ETree\_root()}}
+This method returns the id of the root node.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt etree->tree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int *  ETree_par ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_par@{\tt ETree\_par()}}
+This method returns the pointer to the parent vector.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt etree->tree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int *  ETree_fch ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_fch@{\tt ETree\_fch()}}
+This method returns the pointer to the first child vector.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt etree->tree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int *  ETree_sib ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_sib@{\tt ETree\_sib()}}
+This method returns the pointer to the sibling vector.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt etree->tree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_nodwghtsIV ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_nodwghtsIV@{\tt ETree\_nodwghtsIV()}}
+This method returns a pointer to the {\tt nodwghtsIV} object.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * ETree_nodwghts ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_nodwghts@{\tt ETree\_nodwghts()}}
+This method returns a pointer to the {\tt nodwghts} vector.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt etree->nodwghtsIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_bndwghtsIV ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_bndwghtsIV@{\tt ETree\_bndwghtsIV()}}
+This method returns a pointer to the {\tt bndwghtsIV} object.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * ETree_bndwghts ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_bndwghts@{\tt ETree\_bndwghts()}}
+This method returns a pointer to the {\tt bndwghts} vector.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt etree->bndwghtsIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_vtxToFrontIV ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_vtxToFrontIV@{\tt ETree\_vtxToFrontIV()}}
+This method returns a pointer to the {\tt vtxToFrontIV} object.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * ETree_vtxToFront ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_vtxToFront@{\tt ETree\_vtxToFront()}}
+This method returns a pointer to the {\tt vtxToFront} vector.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt etree->vtxToFrontIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_frontSize ( ETree *etree, int J ) ;
+\end{verbatim}
+\index{ETree_frontSize@{\tt ETree\_frontSize()}}
+This method returns the number of internal degrees of freedom
+in front {\tt J}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if {\tt J} is out of range, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_frontBoundarySize ( ETree *etree, int J ) ;
+\end{verbatim}
+\index{ETree_frontBoundarySize@{\tt ETree\_frontBoundarySize()}}
+This method returns the number of external or
+boundary degrees of freedom in front {\tt J}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if {\tt J} is out of range, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_maxNindAndNent ( ETree *etree, int symflag,
+                            int *pmaxnind, int *pmaxnent ) ;
+\end{verbatim}
+\index{ETree_maxNindAndNent@{\tt ETree\_maxNindAndNent()}}
+This method fills 
+{\tt *pmaxnind} with the maximum number of
+indices for a front (just column indices if symmetric front,
+row and column indices if nonsymmetric front)
+and {\tt *pmaxnent} with the maximum number of
+entries for a front (just upper entries if symmetric front,
+all entries if nonsymmetric front).
+The {\tt symflag} parameter must be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+The entries in the (2,2) block of the front are not counted.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:ETree:proto:initializers}
+\par
+There are four initializer methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_init1 ( ETree *etree, int nfront, int nvtx ) ;
+\end{verbatim}
+\index{ETree_init1@{\tt ETree\_init1()}}
+This method initializes an {\tt ETree} object given the number of
+fronts and number of vertices.
+Any previous data is cleared with a call to 
+{\tt ETree\_clearData()}, 
+The {\tt Tree} object is initialized with a call to {\tt Tree\_init1()}.
+The {\tt nodwghtsIV}, {\tt bndwghtsIV} and {\tt vtxToFrontIV} objects 
+are initialized with calls to {\tt IV\_init()}.
+The entries in {\tt nodwghtsIV} and {\tt bndwghtsIV} are set to {\tt 0},
+while the entries in {\tt vtxToFrontIV} are set to {\tt -1}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL}, or if {\tt nfront} is negative, 
+or if {\tt nvtx < nfront},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_initFromGraph ( ETree *etree, Graph *g ) ;
+\end{verbatim}
+\index{ETree_initFromGraph@{\tt ETree\_initFromGraph()}}
+This method generates an elimination tree from a graph.
+The {\tt nodwghtsIV} vector object is filled with the weights of the
+vertices in the graph.
+The {\tt tree->par} vector and {\tt bndwghtsIV} vector object 
+are filled using the simple $O(|L|)$ algorithm from \cite{liu90-etree}.
+The {\tt fch[]}, {\tt sib[]} and {\tt root} fields of the included
+{\tt Tree} object are then set.
+{\tt vtxToFrontIV}, the {\tt IV} object that holds the map from 
+vertices to fronts, is set to the identity.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt g} is {\tt NULL} or {\tt g->nvtx} is negative, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_initFromGraphWithPerms ( ETree *etree, Graph *g ) ;
+                                    int newToOld[], int oldToNew[] ) ;
+\end{verbatim}
+\index{ETree_initFromGraphWithPerms@{\tt ETree\_initFromGraphWithPerms()}}
+This method generates an elimination tree from a graph using two
+permutation vectors.
+The behavior of the method is exactly the same as the initializer
+{\tt ETree\_initFromGraph()}, with the exception that 
+{\tt vtxToFrontIV}, the {\tt IV} object that holds the map from 
+vertices to fronts, is set to the {\tt oldToNew[]} map.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt g} is {\tt NULL} or {\tt g->nvtx} is negative, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_initFromDenseMatrix ( ETree *etree, int n, int option, int param ) ;
+\end{verbatim}
+\index{ETree_initFromDenseMatrix@{\tt ETree\_initFromDenseMatrix()}}
+This method initializes a front tree to factor 
+a {\tt n x n} dense matrix.
+If {\tt option == 1}, then all fronts (save possibly the last) have
+the same number of internal vertices, namely {\tt param}.
+If {\tt option == 2}, then we try to make all fronts have the same
+number of entries in their (1,1), (1,2) and (2,1) blocks, namely
+{\tt param} entries.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL} or if ${\tt n} <= 0$,
+or if ${\tt option} < 1$,
+or if $2 < {\tt option}$ ,
+or if ${\tt param} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_initFromFile ( ETree *etree, char *inETreeFileName,
+                          int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{ETree_initFromFile@{\tt ETree\_initFromFile()}}
+This method reads in an {\tt ETree} object from a file, gets the
+old-to-new vertex permutation, permutes to vertex-to-front map,
+and returns an {\tt IV} object that contains the old-to-new
+permutation.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL} 
+or {\tt inETreeFileName} is ``{\tt none}'',
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_initFromSubtree ( ETree *subtree, IV *nodeidsIV, ETree *etree, IV *vtxIV ) ;
+\end{verbatim}
+\index{ETree_initFromSubtree@{\tt ETree\_initFromSubtree()}}
+This method initializes {\tt subtree} from {\tt tree} using the
+nodes of {\tt etree} that are found in {\tt nodeidsIV}.
+The map from nodes in {\tt subtree} to nodes in {\tt etree}
+is returned in {\tt vtxIV}.
+\par \noindent {\it Return code: }
+1 for a normal return,
+-1 if {\tt subtree} is {\tt NULL},
+-2 if {\tt nodeidsIV} is {\tt NULL},
+-3 if {\tt etree} is {\tt NULL},
+-4 if {\tt nodeidsIV} is invalid,
+-5 if {\tt vtxIV} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:ETree:proto:utilities}
+\par
+The utility methods return the number of bytes taken by the object,
+or the number of factor indices, entries or operations required by
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_sizeOf ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_sizeOf@{\tt ETree\_sizeOf()}}
+This method returns the number of bytes taken by this object 
+(which includes the bytes taken by the internal {\tt Tree}
+structure).
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_nFactorIndices ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_nFactorIndices@{\tt ETree\_nFactorIndices()}}
+This method returns the number of indices taken by the factor matrix 
+that the tree represents.
+Note, if the {\tt ETree} object is a vertex elimination tree,
+the number of indices is equal to the number of entries.
+If the number of compressed indices is required, create an {\tt
+ETree} object to represent the tree of fundamental supernodes
+and then call this method with this compressed tree.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt tree} is {\tt NULL} 
+or if $\mbox{\tt nfront} < 1$,
+or if $\mbox{\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_nFactorEntries ( ETree *etree, int symflag ) ;
+\end{verbatim}
+\index{ETree_nFactorEntries@{\tt ETree\_nFactorEntries()}}
+This method returns the number of entries taken by the factor matrix 
+that the tree represents.
+The {\tt symflag} parameter can be one of 
+{\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or
+{\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt tree} is {\tt NULL},
+or if $\mbox{\tt nfront} < 1$,
+or if $\mbox{\tt nvtx} < 1$,
+or if {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double ETree_nFactorOps ( ETree *etree, int type, int symflag ) ;
+\end{verbatim}
+\index{ETree_nFactorOps@{\tt ETree\_nFactorOps()}}
+This method returns the number of operations taken by the factor matrix 
+that the tree represents.
+The {\tt type} parameter can be one of {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+The {\tt symflag} parameter can be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt tree} is {\tt NULL},
+or if $\mbox{\tt nfront} < 1$,
+or if $\mbox{\tt nvtx} < 1$,
+or if {\tt type} or {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double ETree_nFactorEntriesInFront ( ETree *etree, int symflag, int J ) ;
+\end{verbatim}
+\index{ETree_nFactorEntriesInFront@{\tt ETree\_nFactorEntriesInFront()}}
+This method returns the number of entries in front {\tt J} for an
+$LU$ factorization.
+The {\tt symflag} parameter can be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt tree} is {\tt NULL},
+or if $\mbox{\tt nfront} < 1$,
+or if {\tt symflag} is invalid,
+or if ${\tt J} < 0$,
+or if ${\tt J} \ge {\tt nfront}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double ETree_nInternalOpsInFront ( ETree *etree, int type, int symflag, int J ) ;
+\end{verbatim}
+\index{ETree_nInternalOpsInFront@{\tt ETree\_nInternalOpsInFront()}}
+This method returns the number of internal operations performed 
+by front {\tt J} on its $(1,1)$, $(2,1)$, and $(1,2)$ blocks
+during a factorization.
+The {\tt type} parameter can be one of {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+{\tt symflag} must be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt tree} is {\tt NULL},
+or if $\mbox{\tt nfront} < 1$,
+or if {\tt type} or {\tt symflag} is invalid,
+or if ${\tt J} < 0$,
+or if ${\tt J} \ge {\tt nfront}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double ETree_nExternalOpsInFront ( ETree *etree, int type, int symflag, int J ) ;
+\end{verbatim}
+\index{ETree_nExternalOpsInFront@{\tt ETree\_nExternalOpsInFront()}}
+This method returns the number of operations performed by front 
+{\tt J} on its $(2,2)$ block for an $LU$ factorization.
+The {\tt type} parameter can be one of {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+{\tt symflag} must be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt tree} is {\tt NULL},
+or if $\mbox{\tt nfront} < 1$,
+or if {\tt type} or {\tt symflag} is invalid,
+or if ${\tt J} < 0$,
+or if ${\tt J} \ge {\tt nfront}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_factorEntriesIV ( ETree *etree, int symflag ) ;
+\end{verbatim}
+\index{ETree_factorEntriesIV@{\tt ETree\_factorEntriesIV()}}
+This method creates and returns an {\tt IV} object that is filled
+with the number of entries for the fronts.
+The {\tt symflag} parameter can be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+DV * ETree_backwardOps ( ETree *etree, int type, int symflag,
+                         int vwghts[], IV *symbfacIVL ) ;
+\end{verbatim}
+\index{ETree_backwardOps@{\tt ETree\_backwardOps()}}
+This method creates and returns a {\tt DV} object that is filled
+with the backward operations (left-looking) for the fronts.
+The {\tt type} parameter can be one of {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+{\tt symflag} must be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt symbfacIVL} is {\tt NULL},
+or if {\tt type} or {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+DV * ETree_forwardOps ( ETree *etree, int type, int symflag ) ;
+\end{verbatim}
+\index{ETree_forwardOps@{\tt ETree\_forwardOps()}}
+This method creates and returns a {\tt DV} object that is filled
+with the forward operations (right-looking) for the fronts.
+The {\tt type} parameter can be one of {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+{\tt symflag} must be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if {\tt type} or {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * ETree_expand ( ETree *etree, IV *eqmapIV ) ;
+\end{verbatim}
+\index{ETree_expand@{\tt ETree\_expand()}}
+This method creates and returns an {\tt ETree} object 
+for an uncompressed graph.
+The map from compressed vertices to uncompressed vertices
+is found in the {\tt eqmapIV} object.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt eqmapIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * ETree_spliceTwoEtrees ( ETree *etree0, Graph *graph, IV *mapIV, ETree *etree1 ) ;
+\end{verbatim}
+\index{ETree_spliceTwoEtrees@{\tt ETree\_spliceTwoEtrees()}}
+This method creates and returns an {\tt ETree} object that is
+formed by splicing together two front trees, 
+{\tt etree0} for the vertices the eliminated domains,
+{\tt etree1} for the vertices the Schur complement.
+The {\tt mapIV} object maps vertices to domains or the Schur
+complement --- if the entry is {\tt 0}, the vertex is in the Schur
+complement, otherwise it is in a domain.
+\par \noindent {\it Error checking:}
+If {\tt etree0}, {\tt graph}, {\tt mapIV} or {\tt etree1} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\subsection{Metrics methods}
+\label{subsection:ETree:proto:metrics}
+\par
+Many operations need to know some {\it metric} defined on the nodes
+in a etree.
+Here are three examples: 
+\begin{itemize}
+\item
+the weight of each front in the tree (this is just the {\tt
+nodwghtsIV} object);
+\item
+the number of factor entries in each front
+\item
+the number of factor operations associated with each front in a
+forward looking factorization.
+\end{itemize}
+Other metrics based on height, depth or subtree accumulation
+can be evaluated using the {\tt Tree} metric methods on the
+{\tt Tree} object contained in the {\tt ETree} object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_nvtxMetric ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_nvtxMetric@{\tt ETree\_nvtxMetric()}}
+An {\tt IV} object of size {\tt nvtx} is created,
+filled with the entries from {\tt etree->nodwghtsIV},
+and returned.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_nentMetric ( ETree *etree, int symflag ) ;
+\end{verbatim}
+\index{ETree_nentMetric@{\tt ETree\_nentMetric()}}
+An {\tt IV} object of size {\tt nfront} is created and returned.
+Each entry of the vector is filled with the number of factor
+entries associated with the corresponding front.
+The {\tt symflag} parameter can be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+DV * ETree_nopsMetric ( ETree *etree, int type, int symflag ) ;
+\end{verbatim}
+\index{ETree_nopsMetric@{\tt ETree\_nopsMetric()}}
+An {\tt DV} object of size {\tt nfront} is created and returned.
+Each entry of the vector is filled with the number of factor
+operations associated with the corresponding front.
+The {\tt type} parameter can be one of {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+The {\tt symflag} parameter can be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+or if {\tt type} or {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Compression methods}
+\label{subsection:ETree:proto:compression}
+\par
+Frequently an {\tt ETree} object will need to be compressed 
+in some manner.
+Elimination trees usually have long chains of vertices at the higher
+levels, where each chain of vertices corresponds to a supernode.
+Liu's generalized row envelope methods partition the vertices by
+longest chains \cite{liu91-generalizedEnvelope}.
+In both cases, we can construct a map from each node to a set of 
+nodes to define a smaller, more compact {\tt ETree} object.
+Given such a map, we construct the smaller etree.
+\par
+A fundamental chain is a set of vertices $v_1, \ldots, v_m$ such that
+\begin{enumerate}
+\item
+$v_1$ is a leaf or has two or more children,
+\item
+$v_i$ is the only child of $v_{i+1}$ for $1 \le i < m$,
+\item
+$v_m$ is either a root or has a sibling.
+\end{enumerate}
+The set of fundamental chains is uniquely defined.
+In the context of elimination etrees, a fundamental chain is very
+close to a fundamental supernode, and in many cases, 
+fundamental chains can be used to contruct the fronts with little 
+added fill and factor operations.
+\par
+A fundamental supernode \cite{ash89-relaxed} is a set of vertices 
+$v_1, \ldots, v_m$ such that
+\begin{enumerate}
+\item
+ $v_1$ is a leaf or has two or more children,
+\item
+ $v_i$ is the only child of $v_{i+1}$ for $1 \le i < m$,
+\item
+$v_m$ is either a root or has a sibling, and
+\item
+the structures of $v_i$ and $v_{i+1}$ are nested,
+i.e.,
+{\tt bndwght[$v_i$] =
+nodwght[$v_{i+1}$] + bndwght[$v_{i+1}$]} for $1 \le i < m$.
+\end{enumerate}
+The set of fundamental supernodes is uniquely defined.
+\par
+Once a map from the nodes in a tree to nodes in a compressed tree
+is known, the compressed tree can be created using the {\tt
+ETree\_compress()} method.
+In this way, a vertex elimination tree can be used to generate a
+front tree.
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_fundChainMap ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_fundChainMap@{\tt ETree\_fundChainMap()}}
+An {\tt IV} object of size {\tt nfront} is created, 
+filled via a call to {\tt Tree\_fundChainMap},
+then returned.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt tree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_fundSupernodeMap ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_fundSupernodeMap@{\tt ETree\_fundSupernodeMap()}}
+An {\tt IV} object of size {\tt nfront} is created, 
+filled with the map from vertices to fundamental supernodes,
+then returned.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt tree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * ETree_compress ( ETree *etree, IV *frontMapIV ) ;
+\end{verbatim}
+\index{ETree_compress@{\tt ETree\_compress()}}
+Using {\tt frontMapIV}, a new {\tt ETree} object is created
+and returned.
+If {\tt frontMapIV} does not define each inverse map of a new node
+to be connected set of nodes in the old {\tt ETree} object,
+the new {\tt ETree} object will not be well defined.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt frontMapIV} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Justification methods}
+\label{subsection:ETree:proto:justify}
+\par
+Given an {\tt ETree} object, 
+how should the children of a node be ordered?
+This ``justification'' can have a large impact in the working
+storage for the front etree in the multifrontal algorithm
+\cite{liu85-mfstorage}.
+Justification also is useful when displaying trees.
+These methods simply check for errors and then call the appropriate
+{\tt Tree} method.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_leftJustify ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_leftJustify@{\tt ETree\_leftJustify()}}
+If {\tt u} and {\tt v} are siblings, and {\tt u} comes
+before {\tt v} in a post-order traversal, then the size of the
+subtree rooted at {\tt u} is as large or larger than the size of
+the subtree rooted at {\tt v}.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt tree} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_leftJustifyI ( ETree *etree, IV *metricIV ) ;
+void ETree_leftJustifyD ( ETree *etree, DV *metricDV ) ;
+\end{verbatim}
+\index{ETree_leftJustifyI@{\tt ETree\_leftJustifyI()}}
+\index{ETree_leftJustifyD@{\tt ETree\_leftJustifyD()}}
+Otherwise, if {\tt u} and {\tt v} are siblings, and {\tt u} comes
+before {\tt v} in a post-order traversal, then the weight of the
+subtree rooted at {\tt u} is as large or larger than the weight of
+the subtree rooted at {\tt v}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+or if {\tt metricIV} is {\tt NULL} 
+or invalid (wrong size or {\tt NULL} vector inside),
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Permutation methods}
+\label{subsection:ETree:proto:permutation}
+\par
+Often we need to extract a permutation from an {\tt ETree} object, 
+e.g., a post-order traversal of a front tree gives an ordering of the
+fronts for a factorization or forward solve, the inverse
+gives an ordering for a backward solve.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_newToOldFrontPerm ( ETree *etree ) ;
+IV * ETree_oldToNewFrontPerm ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_newToOldFrontPerm@{\tt ETree\_newToOldFrontPerm()}}
+\index{ETree_oldToNewFrontPerm@{\tt ETree\_oldToNewFrontPerm()}}
+An {\tt IV} object is created with size {\tt nfront}.
+A post-order traversal of the {\tt Tree} object fills 
+the new-to-old permutation. 
+A reversal of the new-to-old permutation gives the
+old-to-new permutation. 
+Both methods are simply wrappers around the respective 
+{\tt Tree} methods.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_newToOldVtxPerm ( ETree *etree ) ;
+IV * ETree_oldToNewVtxPerm ( ETree *etree ) ;
+\end{verbatim}
+\index{ETree_newToOldVtxPerm@{\tt ETree\_newToOldVtxPerm()}}
+\index{ETree_oldToNewVtxPerm@{\tt ETree\_oldToNewVtxPerm()}}
+An {\tt IV} object is created with size {\tt nvtx}.
+First we find a new-to-old permutation of the fronts.
+Then we search over the fronts in their new order to
+fill the vertex new-to-old permutation vector.
+The old-to-new vertex permutation vector is found by first finding
+the new-to-old vertex permutation vector, then inverting it.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_permuteVertices ( ETree *etree, IV *vtxOldToNewIV ) ;
+\end{verbatim}
+\index{ETree_permuteVertices@{\tt ETree\_permuteVertices()}}
+This method permutes the vertices --- the {\tt vtxToFrontIV} map is
+updated to reflect the new vertex numbering.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt vtxOldToNewIV} is {\tt NULL},
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Multisector methods}
+\label{subsection:ETree:proto:multisector}
+One of our goals is to improve a matrix ordering using the
+multisection ordering algorithm.
+To do this, we need to extract a multisector from the vertices,
+i.e., a set of nodes that when removed from the graph, break the
+remaining vertices into more than one (typically many) components.
+The following two methods create and return an {\tt IV} integer
+vector object that contains the nodes in the multisector.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_msByDepth ( ETree *etree, int depth ) ;
+\end{verbatim}
+\index{ETree_msByDepth@{\tt ETree\_msByDepth()}}
+An {\tt IV} object is created to hold the multisector nodes
+and returned.
+Multisector nodes have their component id zero,
+domain nodes have their component id one.
+A vertex is in the multisector if the depth of the front to which 
+it belongs is less than or equal to {\tt depth}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+or if ${\tt depth} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_msByNvtxCutoff ( ETree *etree, double cutoff ) ;
+\end{verbatim}
+\index{ETree_msByNvtxCutoff@{\tt ETree\_msByNvtxCutoff()}}
+An {\tt IV} object is created to hold the multisector nodes
+and returned.
+Multisector nodes have their component id zero,
+domain nodes have their component id one.
+Inclusion in the multisector is based on the number of vertices
+in the subtree that a vertex belongs, or strictly speaking, the
+number of vertices in the subtree of the front to which a vertex
+belongs.
+If weight of the subtree is more than {\tt cutoff} times the vertex
+weight, the vertex is in the multisector.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_msByNentCutoff ( ETree *etree, double cutoff, int symflag ) ;
+\end{verbatim}
+\index{ETree_msByNentCutoff@{\tt ETree\_msByNentCutoff()}}
+An {\tt IV} object is created to hold the multisector nodes
+and returned.
+Multisector nodes have their component id zero,
+domain nodes have their component id one.
+Inclusion in the multisector is based on the number of factor
+entries in the subtree that a vertex belongs, or strictly speaking, 
+the number of factor entries in the subtree of the front to which 
+a vertex belongs.
+If weight of the subtree is more than {\tt cutoff} times the number
+of factor entries, the vertex is in the multisector.
+The {\tt symflag} parameter can be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+or if {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_msByNopsCutoff ( ETree *etree, double cutoff, int type, int symflag ) ;
+\end{verbatim}
+\index{ETree_msByNopsCutoff@{\tt ETree\_msByNopsCutoff()}}
+An {\tt IV} object is created to hold the multisector nodes
+and returned.
+Multisector nodes have their component id zero,
+domain nodes have their component id one.
+Inclusion in the multisector is based on the number of right-looking
+factor operations in the subtree that a vertex belongs, 
+or strictly speaking, the number of factor operations 
+in the subtree of the front to which a vertex belongs.
+If weight of the subtree is more than {\tt cutoff} times the number
+of factor operations, the vertex is in the multisector.
+The {\tt type} parameter can be one of {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+The {\tt symflag} parameter can be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+or if {\tt type} or {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_msStats ( ETree *etree, IV *msIV, IV *nvtxIV, IV *nzfIV, 
+                     DV *opsDV, int type, int symflag ) ;
+\end{verbatim}
+\index{ETree_msStats@{\tt ETree\_msStats()}}
+This method is used to generate some statistics about a domain
+decomposition.
+On input, {\tt msIV} is a flag vector,
+i.e., {\tt ms[v] = 0} means that {\tt v} is in the Schur
+complement, otherwise {\tt v} is in domain.
+On output, {\tt msIV} is a map from nodes to regions,
+i.e., {\tt ms[v] = 0} means that {\tt v} is in the Schur
+complement, otherwise {\tt v} is in domain {\tt ms[v]}.
+On output, {\tt nvtxIV} contains the number of vertices in each of
+the regions,
+{\tt nzfIV} contains the number of factor entries in each of
+the regions, and
+{\tt opsIV} contains the number of factor operations in each of
+the regions.
+The {\tt type} parameter can be one of {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+The {\tt symflag} parameter can be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree}, {\tt msIV}, {\tt nvtxIV}, {\tt nzfIV} 
+or {\tt opsIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_optPart ( ETree *etree, Graph *graph, IVL *symbfacIVL,
+                     double alpha, int *ptotalgain, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{ETree_optPart@{\tt ETree\_optPart()}}
+This method is used to find the optimal domain/Schur complement
+partition for a semi-implicit factorization.
+The gain of a subtree ${\widehat J}$ is equal to
+$|L_{\partial{J},{\widehat J}}|
+- |A_{\partial{J},{\widehat J}}|
+- \alpha |L_{{\widehat J},{\widehat J}}|$.
+When $\alpha = 0$, we minimize active storage,
+when $\alpha = 1$, we minimize solve operations.
+On return, {\tt *ptotalgain} is filled with the total gain.
+The return value is a pointer to {\tt compidsIV},
+where {\tt compids[J] = 0} means that {\tt J} is in the Schur
+complement,
+and {\tt compids[J] != 0} means that {\tt J} is in 
+domain {\tt compids[J]}.
+\par \noindent {\it Error checking:}
+If {\tt etree}, {\tt graph} or {\tt symbfacIVL}
+is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Transformation methods}
+\label{subsection:ETree:proto:transformation}
+Often the elimination tree or front tree that we obtain from an
+ordering of the graph is not as appropriate for a factorization as
+we would like.
+There are two important cases.
+\begin{itemize}
+\item
+Near the leaves of the tree the fronts are typically small in size.
+There is an overhead associated with each front, and though the
+overhead varies with regard to the factorization algorithm, it can
+be beneficial to group small subtrees together into one front.
+The expense is added storage for the logically zero entries and the
+factor operations on them.
+In this library, the technique we use to merge fronts together is 
+{\it node amalgamation} \cite{duf83-multifrontal}, 
+or more specifically {\it supernode relaxation} \cite{ash89-relaxed}.
+\item
+Near the root of the tree the fronts can be very large, large
+enough that special techniques are necessary to handle the large
+dense frontal matrices that might not be able to exist in-core.
+Another consideration is a parallel setting where the design
+decision is to have each front be factored by a single thread of
+computation.
+Large fronts dictate a long critical path in the factorization task
+graph. 
+We try to split a large front into two or more smaller fronts
+that form a chain in the front tree.
+Breaking the front into smaller fronts will reduce core storage
+requirements and have better cache reuse and reduce the critical
+path through the task graph.
+\end{itemize}
+We provide three methods to merge fronts together and one method to
+break fronts apart, and one method that is a wrapper around all these.
+Let us describe the differences between the methods that merge 
+fronts together.
+Each method performs a post-order traversal of the front tree.
+They differ on the decision process when visiting a front.
+\begin{itemize}
+\item
+The method {\tt ETree\_mergeFrontsAny()} is taken from 
+\cite{ash89-relaxed}. 
+When visiting a front it tries to merge that front
+with one of its children if it will not add too many zero entries
+to that front. If successful, it tries to merge the front with
+another child.
+This approach has served well for over a decade in a serial
+environment, but we discovered that it has a negative effect
+on nested dissection orderings when we want a parallel
+factorization.
+Often it merges the top level separator with {\it one} of its
+children, and thus reduces parallelism in the front tree.
+\item
+The method {\tt ETree\_mergeFrontsOne()} 
+only tries to merge a front when it has only one child.
+This method is very useful if one has a vertex elimination tree
+(where the number of fronts is equal to the number of vertices),
+for the fundamental supernode tree can be created using
+{\tt maxzeros = 0}.
+This method has some affect for minimum degree or fill orderings,
+where chains of nodes can occur in two ways: aggregation (where a
+vertex is eliminated that is adjacent to only one subtree) or when
+the indistinguishabilty test fails.
+In general, this method does not effectively reduce the number
+of fronts because it has the ``parent-only child'' restriction.
+\item
+The method {\tt ETree\_mergeFrontsAll()} tries to merge a front
+with {\it all} of its children, if the resulting front does not
+contain too many zero entries.
+This has the effect of merging small bushy subtrees, but will not
+merge a top level separator with one of its children.
+\end{itemize}
+For a serial application, {\tt ETree\_mergeFrontsAny()} is suitable.
+For a parallel application, we recommend first using
+{\tt ETree\_mergeFrontsOne()}
+followed by
+{\tt ETree\_mergeFrontsAll()}.
+See the driver programs {\tt testTransform} and {\tt mkNDETree}
+for examples of how to call the methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * ETree_mergeFrontsOne ( ETree *etree, int maxzeros, IV *nzerosIV ) ;
+\end{verbatim}
+\index{ETree_mergeFrontsOne@{\tt ETree\_mergeFrontsOne()}}
+This method only tries to merge a front with its only child.
+It returns an {\tt ETree} object where one or more 
+subtrees that contain multiple fronts 
+have been merged into single fronts.
+The parameter that governs the merging process is {\tt maxzeros},
+the number of zero entries that can be introduced by merging
+a child and parent front together.
+On input, {\tt nzerosIV} contains the number of zeros presently in
+each front.
+It is modified on output to correspond with the new front tree.
+This method only tries to merge a front with its only child.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * ETree_mergeFrontsAll ( ETree *etree, int maxzeros ) ;
+\end{verbatim}
+\index{ETree_mergeFrontsAll@{\tt ETree\_mergeFrontsAll()}}
+This method only tries to merge a front with all of its children.
+It returns an {\tt ETree} object where a front
+has either been merged with none or all of its children.
+The parameter that governs the merging process is {\tt maxzeros},
+the number of zero entries that can be introduced by merging
+the children and parent front together.
+On input, {\tt nzerosIV} contains the number of zeros presently in
+each front.
+It is modified on output to correspond with the new front tree.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * ETree_mergeFrontsAny ( ETree *etree, int maxzeros ) ;
+\end{verbatim}
+\index{ETree_mergeFrontsAny@{\tt ETree\_mergeFrontsAny()}}
+This method only tries to merge a front with any subset of its children.
+It returns an {\tt ETree} object where a front has
+possibly merged with any of its children.
+The parameter that governs the merging process is {\tt maxzeros},
+the number of zero entries that can be introduced by merging
+the children and parent front together.
+On input, {\tt nzerosIV} contains the number of zeros presently in
+each front.
+It is modified on output to correspond with the new front tree.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * ETree_splitFronts ( ETree *etree, int vwghts[], 
+                            int maxfrontsize, int seed ) ;
+\end{verbatim}
+\index{ETree_splitFronts@{\tt ETree\_splitFronts()}}
+This method returns an {\tt ETree} object where one or more large
+fronts have been split into smaller fronts.
+Only an interior front (a front that is not a leaf in the tree)
+can be split.
+No front in the returned {\tt ETree} object has more than 
+{\tt maxfrontsize} rows and columns.
+The {\tt vwghts[]} vector stores the number of degrees of freedom
+associated with a vertex; if {\tt vwghts} is {\tt NULL}, then the
+vertices have unit weight.
+The way the vertices in a front to be split are assigned to smaller
+fronts is random; the {\tt seed} parameter is a seed to a random
+number generator that permutes the vertices in a front.
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+or if ${\tt maxfrontsize} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * ETree_transform  ( ETree *etree, int vwghts[], int maxzeros,
+                           int maxfrontsize, int seed ) ;
+ETree * ETree_transform2 ( ETree *etree, int vwghts[], int maxzeros,
+                           int maxfrontsize, int seed ) ;
+\end{verbatim}
+\index{ETree_transform@{\tt ETree\_transform()}}
+\index{ETree_transform2@{\tt ETree\_transform2()}}
+These methods returns an {\tt ETree} object where one or more subtrees 
+that contain multiple fronts have been merged into single fronts and
+where one or more large fronts have been split into smaller fronts.
+The two methods differ slightly.
+{\tt ETree\_transform2()} is better suited for parallel computing
+because it tends to preserve the tree branching properties.
+(A front is merged with either an only child or all children.
+{\tt ETree\_transform()} can merge a front with any subset of its
+children.)
+\par \noindent {\it Error checking:}
+If {\tt etree} is {\tt NULL},
+or if ${\tt nfront} < 1$,
+or if ${\tt nvtx} < 1$,
+or if ${\tt maxfrontsize} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Parallel factorization map methods}
+\label{subsection:ETree:proto:map}
+This family of methods create a map from the fronts to processors
+or threads, used in a parallel factorization.
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * ETree_wrapMap ( ETree *etree, int type, int symflag, DV *cumopsDV ) ;
+IV * ETree_balancedMap ( ETree *etree, int type, 
+                         int symflag, DV *cumopsDV ) ;
+IV * ETree_subtreeSubsetMap ( ETree *etree, int type, 
+                              int symflag,DV *cumopsDV ) ;
+IV * ETree_ddMap ( ETree *etree, int type, int symflag, 
+                   DV *cumopsDV, double cutoff ) ;
+IV * ETree_ddMapNew ( ETree *etree, int type, int symflag, 
+                      IV *msIV, DV *cumopsDV ) ;
+\end{verbatim}
+\index{ETree_wrapMap@{\tt ETree\_wrapMap()}}
+\index{ETree_balancedMap@{\tt ETree\_balancedMap()}}
+\index{ETree_subtreeSubsetMap@{\tt ETree\_subtreeSubsetMap()}}
+\index{ETree_ddMap@{\tt ETree\_ddMap()}}
+\index{ETree_ddMapNew@{\tt ETree\_ddMapNew()}}
+These methods construct and return an {\tt IV} object that contains 
+the map from fronts to threads.
+The size of the input {\tt cumopsDV} object is the number of
+threads or processors.
+On output, {\tt cumopsDV} contains the number of factor operations
+performed by the threads or processors for a fan-in factorization.
+The {\tt type} parameter can be one of {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+{\tt symflag} must be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par
+\begin{itemize}
+\item
+The simplest map is the {\it wrap map}, where front {\tt J} is
+assigned to thread or processor {\tt J \% nthread}.
+\item
+The {\it balanced map} attempts to balance the computations across the
+threads or processes, where the fronts are visited in a post-order
+traversal of the tree and a front is assigned to a thread or
+processor with the least number of accumulated operations thus far.
+\item
+The {\it subtree-subset map} is the most complex, where subsets of
+threads or processors are assigned to subtrees via a pre-order
+traversal of the tree. (Each root of the tree can be assigned to
+all processors.)
+The tree is then visited in a post-order traversal, and each front
+is assigned to an eligible thread or processor with the least
+number of accumulated ops so far.
+\item
+The {\it domain decomposition map} is also complex, 
+where domains are mapped to threads, then the fronts in the schur
+complement are mapped to threads, both using independent balanced maps.
+The method {\tt ETree\_ddMapNew()} is more robust than {\tt
+ETree\_ddMap()}, and is more general in the sense that it takes 
+a multisector vector as input.
+The {\tt msIV} object is a map from the vertices to $\{0,1\}$.
+A vertex mapped to 0 lies in the Schur complement,
+a vertex mapped to 1 lies in a domain.
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt cumopsDV} is {\tt NULL},
+or if {\tt type} or {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Storage profile methods}
+\label{subsection:ETree:proto:storage}
+\par
+These methods fill a vector with the total amount of working
+storage necessary during the factor and solves.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_MFstackProfile ( ETree *etree, int type, double dvec[] ) ;
+\end{verbatim}
+\index{ETree_MFstackProfile@{\tt ETree\_MFstackProfile()}}
+\par
+On return, {\tt dvec[J]} contains the amount of active storage to
+eliminate {\tt J} using the multifrontal method and the natural
+post-order traversal.
+The {\tt symflag} parameter can be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt dvec} are {\tt NULL}, 
+or if {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_GSstorageProfile ( ETree *etree, int type, IVL *symbfacIVL,
+                              int *vwghts, double dvec[] ) ;
+\end{verbatim}
+\index{ETree_GSstorageProfile@{\tt ETree\_GSstorageProfile()}}
+\par
+On return, {\tt dvec[J]} contains the amount of active storage to
+eliminate {\tt J} using the left-looking general sparse method 
+and the natural post-order traversal.
+The {\tt symflag} parameter can be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt dvec} are {\tt NULL}, 
+or if {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_FSstorageProfile ( ETree *etree, int type, IVL *symbfacIVL,
+                              double dvec[] ) ;
+\end{verbatim}
+\index{ETree_FSstorageProfile@{\tt ETree\_FSstorageProfile()}}
+\par
+On return, {\tt dvec[J]} contains the amount of active storage to
+eliminate {\tt J} using the right-looking forward sparse method 
+and the natural post-order traversal.
+The {\tt symflag} parameter can be one of {\tt SPOOLES\_SYMMETRIC},
+{\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt dvec} are {\tt NULL}, 
+or if {\tt symflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_forwSolveProfile ( ETree *etree, double dvec[] ) ;
+\end{verbatim}
+\index{ETree_forwSolveProfile@{\tt ETree\_forwSolveProfile()}}
+\par
+On return, {\tt dvec[J]} contains the amount of stack storage to
+solve for {\tt J} using the multifrontal-based forward solve.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt dvec} are {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ETree_backSolveProfile ( ETree *etree, double dvec[] ) ;
+\end{verbatim}
+\index{ETree_backSolveProfile@{\tt ETree\_backSolveProfile()}}
+\par
+On return, {\tt dvec[J]} contains the amount of stack storage to
+solve for {\tt J} using the multifrontal-based backward solve.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt dvec} are {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:ETree:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a tree object is simple:
+{\tt nfront}, {\tt nvtx},
+a {\tt Tree} object followed by the
+{\tt nodwghtsIV},
+{\tt bndwghtsIV} and
+{\tt vtxToFrontIV} objects.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_readFromFile ( ETree *etree, char *fn ) ;
+\end{verbatim}
+\index{ETree_readFromFile@{\tt ETree\_readFromFile()}}
+\par
+This method reads an {\tt ETree} object from a file
+whose name is stored in {\tt *fn}.
+It tries to open the file and if it is successful, 
+it then calls {\tt ETree\_readFromFormattedFile()} or
+{\tt ETree\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.etreef} (for a formatted file) 
+or {\tt *.etreeb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_readFromFormattedFile ( ETree *etree, FILE *fp ) ;
+\end{verbatim}
+\index{ETree_readFromFormattedFile@{\tt ETree\_readFromFormattedFile()}}
+\par
+This method reads an {\tt ETree} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_readFromBinaryFile ( ETree *etree, FILE *fp ) ;
+\end{verbatim}
+\index{ETree_readFromBinaryFile@{\tt ETree\_readFromBinaryFile()}}
+\par
+This method reads an {\tt ETree} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_writeToFile ( ETree *etree, char *fn ) ;
+\end{verbatim}
+\index{ETree_writeToFile@{\tt ETree\_writeToFile()}}
+\par
+This method writes an {\tt ETree} object to a file
+whose name is stored in {\tt *fn}.
+An attempt is made to open the file and if successful, 
+it then calls {\tt ETree\_writeFromFormattedFile()} 
+for a formatted file, or
+{\tt ETree\_writeFromBinaryFile()} for a binary file.
+The method then closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.etreef} (for a formatted file) 
+or {\tt *.etreeb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_writeToFormattedFile ( ETree *etree, FILE *fp ) ;
+\end{verbatim}
+\index{ETree_writeToFormattedFile@{\tt ETree\_writeToFormattedFile()}}
+\par
+This method writes an {\tt ETree} object to a formatted file.
+Otherwise, the data is written to the file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_writeToBinaryFile ( ETree *etree, FILE *fp ) ;
+\end{verbatim}
+\index{ETree_writeToBinaryFile@{\tt ETree\_writeToBinaryFile()}}
+\par
+This method writes an {\tt ETree} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_writeForHumanEye ( ETree *etree, FILE *fp ) ;
+\end{verbatim}
+\index{ETree_writeForHumanEye@{\tt ETree\_writeForHumanEye()}}
+\par
+This method writes an {\tt ETree} object to a file in a readable
+format.
+Otherwise, the method {\tt ETree\_writeStats()} 
+is called to write out the
+header and statistics. 
+Then the parent, first child, sibling, node weight and boundary
+weight values are printed out in five columns.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ETree_writeStats ( ETree *etree, FILE *fp ) ;
+\end{verbatim}
+\index{ETree_writeStats@{\tt ETree\_writeStats()}}
+\par
+This method write a header and some statistics to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt etree} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

@@ -1,19 +1,15 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>Mass Flow Percent</TITLE>
-<META NAME="description" CONTENT="Mass Flow Percent">
+<TITLE>In/Out</TITLE>
+<META NAME="description" CONTENT="In/Out">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
@@ -25,89 +21,50 @@ original version by:  Nikos Drakos, CBLU, University of Leeds
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html2306"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html2369"
   HREF="node100.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html2302"
+<A NAME="tex2html2365"
   HREF="node76.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html2296"
+<A NAME="tex2html2359"
   HREF="node98.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html2304"
+<A NAME="tex2html2367"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html2307"
-  HREF="node100.html">Network User Element</A>
-<B> Up:</B> <A NAME="tex2html2303"
+<B> Next:</B> <A NAME="tex2html2370"
+  HREF="node100.html">Mass Flow Percent</A>
+<B> Up:</B> <A NAME="tex2html2366"
   HREF="node76.html">Fluid Section Types: Gases</A>
-<B> Previous:</B> <A NAME="tex2html2297"
-  HREF="node98.html">In/Out</A>
- &nbsp; <B>  <A NAME="tex2html2305"
+<B> Previous:</B> <A NAME="tex2html2360"
+  HREF="node98.html">Change absolute/relative system</A>
+ &nbsp; <B>  <A NAME="tex2html2368"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
 <H3><A NAME="SECTION000742300000000000000">
-Mass Flow Percent</A>
+In/Out</A>
 </H3>
 
 <P>
-This is a loss-less element specifying that the mass flow through the element
-should be a certain percentage of the sum of the mass flow through up to 10
-other elements. This element may be handy if measurement data are available
-which have to be matched. 
-
-<P>
-The following constants must be entered (to be specified in
-that order on the line beneath the <A HREF="node264.html#fluidsection">*FLUID SECTION</A>,
-TYPE=MASSFLOW PERCENT card):
-
-<P>
-
-<UL>
-<LI>value in per cent
-</LI>
-<LI>first element
-</LI>
-<LI>second element (if appropriate)
-</LI>
-<LI>third element (if appropriate)
-</LI>
-<LI>fourth element (if appropriate)
-</LI>
-<LI>fifth element (if appropriate)
-</LI>
-<LI>sixth element (if appropriate)
-</LI>
-<LI>seventh element (if appropriate)
-</LI>
-<LI>eighth element (if appropriate)
-</LI>
-<LI>ninth element (if appropriate)
-</LI>
-<LI>tenth element (if appropriate)
-</LI>
-</UL>
-
-<P>
-
-<P><P>
-<BR>
-Example files: .
+At locations where mass flow can enter or leave the network an element with
+node label 0 at the entry and exit, respectively, has to be specified. Its
+fluid section type for gas networks must be INOUT, to be specified on the
+<A HREF="node303.html#fluidsection">*FLUID SECTION</A> card. For this type there are no extra
+parameters. 
 
 <P>
 <BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+
 </BODY>
 </HTML>

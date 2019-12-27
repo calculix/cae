@@ -1,0 +1,550 @@
+\par
+\section{Prototypes and descriptions of {\tt ZV} methods}
+\label{section:ZV:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt ZV} object.
+\par
+\subsection{Basic methods}
+\label{subsection:ZV:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ZV * ZV_new ( void ) ;
+\end{verbatim}
+\index{ZV_new@{\tt ZV\_new()}}
+This method simply allocates storage for the {\tt ZV} structure 
+and then sets the default fields by a call to 
+{\tt ZV\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_setDefaultFields ( ZV *zv ) ;
+\end{verbatim}
+\index{ZV_setDefaultFields@{\tt ZV\_setDefaultFields()}}
+This method sets the default fields of the object,
+{\tt size = maxsize = owned = 0} and {\tt vec = NULL}.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_clearData ( ZV *zv ) ;
+\end{verbatim}
+\index{ZV_clearData@{\tt ZV\_clearData()}}
+This method releases any data owned by the object. 
+If {\tt vec} is not {\tt NULL} and {\tt owned = 1},
+then the storage for {\tt vec} is free'd by a call to
+{\tt ZVfree()}.
+The structure's default fields are then set 
+with a call to {\tt ZV\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_free ( ZV *zv ) ;
+\end{verbatim}
+\index{ZV_free@{\tt ZV\_free()}}
+This method releases any storage by a call to 
+{\tt ZV\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:ZV:proto:Instance}
+\par
+These method allow access to information in the data fields without
+explicitly following pointers.
+There is overhead involved with these method due to the function
+call and error checking inside the methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_owned ( ZV *zv ) ;
+\end{verbatim}
+\index{ZV_owned@{\tt ZV\_owned()}}
+This method returns the value of {\tt owned}.
+If {\tt owned > 0}, 
+then the object owns the data pointed to by {\tt vec}
+and will free this data with a call to {\tt ZVfree()} when its data
+is cleared by a call to {\tt ZV\_free()} or {\tt ZV\_clearData()}.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_size ( ZV *zv ) ;
+\end{verbatim}
+\index{ZV_size@{\tt ZV\_size()}}
+This method returns the value of {\tt size},
+the present size of the vector.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_maxsize ( ZV *zv ) ;
+\end{verbatim}
+\index{ZV_maxsize@{\tt ZV\_size()}}
+This method returns the value of {\tt size},
+the maximum size of the vector.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_entry ( ZV *zv, int loc, double *pReal, double *pImag ) ;
+\end{verbatim}
+\index{ZV_entry@{\tt ZV\_entry()}}
+This method fills {\tt *pReal} with the real part and
+{\tt *pImag} with the imaginary part of the {\tt loc}'th entry
+in the vector.
+If {\tt loc < 0} or {\tt loc >= size}, i.e., if the location is
+out of range, we return {\tt 0.0}.
+This design {\tt feature} is handy when a list terminates with a
+{\tt 0.0} value.
+\par \noindent {\it Error checking:}
+If {\tt zv}, {\tt pReal} or {\tt pImag} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_pointersToEntry ( ZV *zv, int loc, double **ppReal, double **ppImag ) ;
+\end{verbatim}
+\index{ZV_pointersToEntry@{\tt ZV\_pointersToEntry()}}
+This method fills {\tt **ppReal} with a pointer to the real part and
+{\tt **ppImag} with a pointer to the imaginary part 
+of the {\tt loc}'th entry in the vector.
+If {\tt loc < 0} or {\tt loc >= size}, i.e., if the location is
+out of range, we return {\tt 0.0}.
+This design {\tt feature} is handy when a list terminates with a
+{\tt 0.0} value.
+\par \noindent {\it Error checking:}
+If {\tt zv}, {\tt pReal} or {\tt pImag} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * ZV_entries ( ZV *zv ) ;
+\end{verbatim}
+\index{ZV_entries@{\tt ZV\_entries()}}
+This method returns {\tt vec},
+a pointer to the base address of the vector.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_sizeAndEntries ( ZV *zv, int *psize, double **pentries ) ;
+\end{verbatim}
+\index{ZV_sizeAndEntries@{\tt ZV\_sizeAndEntries()}}
+This method fills {\tt *psize} with the size of the vector
+and {\tt **pentries} with the base address of the vector.
+\par \noindent {\it Error checking:}
+If {\tt zv}, {\tt psize} or {\tt pentries} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_setEntry ( ZV *zv, int loc, double real, double imag ) ;
+\end{verbatim}
+\index{ZV_setEntry@{\tt ZV\_setEntry()}}
+This method sets the {\tt loc}'th entry of the vector 
+to {\tt (real,imag)}.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL} or {\tt loc < 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:ZV:proto:initializers}
+\par
+There are three initializer methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_init ( ZV *zv, int size, double *entries ) ;
+\end{verbatim}
+\index{ZV_init@{\tt ZV\_init()}}
+This method initializes the object given a size for the vector
+and a possible pointer to the vectors' storage.
+Any previous data is cleared with a call to {\tt ZV\_clearData()}.
+If {\tt entries != NULL} then the {\tt vec} field is set to {\tt
+entries}, the {\tt size} and {\tt maxsize} fields are set to 
+{\tt size}, and {\tt owned} is set to zero
+because the object does not own the entries.
+If {\tt entries} is {\tt NULL} and {\tt size > 0} then a vector 
+is allocated by the object, and the object owns this storage.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL} or {\tt size < 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_init1 ( ZV *zv, int size ) ;
+\end{verbatim}
+\index{ZV_init1@{\tt ZV\_init1()}}
+This method initializes the object given a size size for the vector
+via a call to {\tt ZV\_init()}.
+\par \noindent {\it Error checking:}
+Error checking is done with the call to {\t ZV\_init()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_init2 ( ZV *zv, int size, int maxsize, int owned, double *vec ) ;
+\end{verbatim}
+\index{ZV_init2@{\tt ZV\_init2()}}
+This is the total initialization method.
+The data is cleared with a call to {\tt ZV\_clearData()}.
+If {\tt vec} is {\tt NULL}, the object is initialized via a call
+to {\tt ZV\_init1()}.
+Otherwise, the objects remaining fields are set to the input
+parameters.
+and if {\tt owned} is not {\tt 1}, the data is not owned, so the
+object cannot grow.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}, 
+or if {\tt size < 0},
+or if {\tt maxsize < size},
+or if {\tt owned} is not equal to {\tt 0} or {\tt 1},
+of if { \tt owned = 1} and {\tt vec = NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_setMaxsize ( ZV *zv, int newmaxsize ) ;
+\end{verbatim}
+\index{ZV_setMaxsize@{\tt ZV\_setMaxsize()}}
+This method sets the maximum size of the vector.
+If {\tt maxsize}, the present maximum size of the vector,
+is not equal to {\tt newmaxsize}, then new storage is allocated.
+Only {\tt size}
+entries of the old data are copied into the new
+storage, so if {\tt size > newmaxsize} then data will be lost.
+The {\tt size} field is set to the minimum of {\tt size} 
+and {\tt newmaxsize}.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL} or {\tt newmaxsize < 0},
+or if {\tt 0 < maxsize} and {\tt owned == 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_setSize ( ZV *zv, int newsize ) ;
+\end{verbatim}
+\index{ZV_setSize@{\tt ZV\_setSize()}}
+This method sets the size of the vector.
+If {\tt newsize > maxsize}, the length of the vector is increased
+with a call to {\tt ZV\_setMaxsize()}.
+The {\tt size} field is set to {\tt newsize}.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}, or {\tt newsize < 0},
+or if {\tt 0 < maxsize < newsize} and {\tt owned = 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:ZV:proto:utilities}
+\par
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_shiftBase ( ZV *zv, int offset ) ;
+\end{verbatim}
+\index{ZV_shiftBase@{\tt ZV\_shiftBase()}}
+This method shifts the base entries of the vector and decrements
+the present size and maximum size of the vector by {\tt offset}.
+This is a dangerous method to use because the state of the vector
+is lost, namely {\tt vec}, the base of the entries, is corrupted.
+If the object owns its entries and {\tt ZV\_free()}, 
+{\tt ZV\_setSize()} or {\tt ZV\_setMaxsize()} is called before 
+the base has been shifted back to
+its original position, a segmentation violation will likely result.
+This is a very useful method, but use with caution.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_push ( ZV *zv, double val ) ;
+\end{verbatim}
+\index{ZV_push@{\tt ZV\_push()}}
+This method pushes an entry onto the vector.
+If the vector is full, i.e., if {\tt size == maxsize - 1},
+then the size of the vector is doubled if possible.
+If the storage cannot grow, i.e., if the object does not own its
+storage, an error message is printed and the program exits.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double ZV_minabs ( ZV *zv ) ;
+double ZV_maxabs ( ZV *zv ) ;
+\end{verbatim}
+\index{ZV_minabs@{\tt ZV\_minabs()}}
+\index{ZV_maxabs@{\tt ZV\_maxabs()}}
+This method simply returns the minimum and maximum magnitudes of
+entries in the vector.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}, {\tt size <= 0} or if {\tt vec == NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_sizeOf ( ZV *zv ) ;
+\end{verbatim}
+\index{ZV_sizeOf@{\tt ZV\_sizeOf()}}
+This method returns the number of bytes taken by the object.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_fill ( ZV *zv, double real, double imag ) ;
+\end{verbatim}
+\index{ZV_fill@{\tt ZV\_fill()}}
+This method fills the vector with a scalar value.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_zero ( ZV *zv ) ;
+\end{verbatim}
+\index{ZV_zero@{\tt ZV\_zero()}}
+This method fills the vector with zeros.
+\par \noindent {\it Error checking:}
+If {\tt zv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_copy ( ZV *zv1, ZV *zv2 ) ;
+\end{verbatim}
+\index{ZV_copy@{\tt ZV\_copy()}}
+This method fills the {\tt zv1} object with entries in the {\tt
+iv2} object.
+Note, this is a {\it mapped} copy, {\tt zv1} and {\tt zv2} need not
+have the same size.
+The number of entries that are copied is the smaller of the two sizes.
+\par \noindent {\it Error checking:}
+If {\tt zv1} or {\tt zv2} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void ZV_log10profile ( ZV *zv, int npts, DV *xDV, DV *yDV, double tausmall, 
+                       double taubig, int *pnzero, int *pnsmall, int *pnbig ) ;
+\end{verbatim}
+\index{ZV_log10profile@{\tt ZV\_log10profile()}}
+This method scans the entries in the {\tt ZV} object and fills {\tt
+xDV} and {\tt yDV} with data that allows a simple $\log_{10}$ 
+distribution plot.
+Only entries whose magnitudes lie in the range {\tt [tausmall, taubig]}
+contribute to the distribution.
+The number of entries whose magnitudes are zero, 
+smaller than {\tt tausmall},
+or larger than {\tt taubig} 
+are placed into {\tt pnzero}, {\tt *pnsmall} and {\tt *pnbig},
+respectively.
+On return, the size of the {\tt xDV} and {\tt yDV} objects 
+is {\tt npts}.
+\par \noindent {\it Error checking:}
+If {\tt zv}, {\tt xDV}, {\tt yDV}, {\tt pnsmall} or {\tt pnbig} are
+{\tt NULL}, or if ${\tt npts} \le 0$, 
+or if ${\tt taubig} < 0.0$
+or if ${\tt tausmall} > {\tt taubig}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:ZV:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a {\tt ZV} object is simple:
+the first entry is {\tt size}, followed by the {\tt size} entries
+found in {\tt vec[]}.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_readFromFile ( ZV *zv, char *fn ) ;
+\end{verbatim}
+\index{ZV_readFromFile@{\tt ZV\_readFromFile()}}
+\par
+This method reads a {\tt ZV} object from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt ZV\_readFromFormattedFile()} or
+{\tt ZV\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt zv} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.zvf} (for a formatted file) 
+or {\tt *.zvb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_readFromFormattedFile ( ZV *zv, FILE *fp ) ;
+\end{verbatim}
+\index{ZV_readFromFormattedFile@{\tt ZV\_readFromFormattedFile()}}
+\par
+This method reads in a {\tt ZV} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt zv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_readFromBinaryFile ( ZV *zv, FILE *fp ) ;
+\end{verbatim}
+\index{ZV_readFromBinaryFile@{\tt ZV\_readFromBinaryFile()}}
+\par
+This method reads in a {\tt ZV} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt zv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_writeToFile ( ZV *zv, char *fn ) ;
+\end{verbatim}
+\index{ZV_writeToFile@{\tt ZV\_writeToFile()}}
+\par
+This method writes a {\tt ZV} object from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt ZV\_writeFromFormattedFile()} or
+{\tt ZV\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt zv} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.zvf} (for a formatted file) 
+or {\tt *.zvb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_writeToFormattedFile ( ZV *zv, FILE *fp ) ;
+\end{verbatim}
+\index{ZV_writeToFormattedFile@{\tt ZV\_writeToFormattedFile()}}
+\par
+This method writes a {\tt ZV} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt zv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_writeToBinaryFile ( ZV *zv, FILE *fp ) ;
+\end{verbatim}
+\index{ZV_writeToBinaryFile@{\tt ZV\_writeToBinaryFile()}}
+\par
+This method writes a {\tt ZV} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt zv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_writeForHumanEye ( ZV *zv, FILE *fp ) ;
+\end{verbatim}
+\index{ZV_writeForHumanEye@{\tt ZV\_writeForHumanEye()}}
+\par
+This method writes a {\tt ZV} object to a file in a human
+readable format.
+is called to write out the
+header and statistics. 
+The entries of the vector then follow in eighty column format
+using the {\tt ZVfprintf()} method.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt zv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_writeStats ( ZV *zv, FILE *fp ) ;
+\end{verbatim}
+\index{ZV_writeStats@{\tt ZV\_writeStats()}}
+\par
+This method writes the header and statistics to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt zv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ZV_writeForMatlab ( ZV *zv, char *name, FILE *fp ) ;
+\end{verbatim}
+\index{ZV_writeForMatlab@{\tt ZV\_writeForMatlab()}}
+\par
+This method writes the entries of the vector to a file
+suitable to be read by Matlab.
+The character string {\tt name} is the name of the vector,
+e.g, if {\tt name = "A"}, then we have lines of the form
+\begin{verbatim}
+A(1) = 1.000000000000e0 + 2.000000000000e0*i;
+A(2) = 3.463738459493e0 + 2.728482384840e0*i;
+\end{verbatim}
+for each entry in the vector.
+Note, the output indexing is 1-based, not 0-based.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt zv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

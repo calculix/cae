@@ -1,131 +1,95 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>allocate</TITLE>
-<META NAME="description" CONTENT="allocate">
+<TITLE>Hardening (uhardening.f)</TITLE>
+<META NAME="description" CONTENT="Hardening (uhardening.f)">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
+<LINK REL="next" HREF="node378.html">
 <LINK REL="previous" HREF="node376.html">
-<LINK REL="up" HREF="node374.html">
+<LINK REL="up" HREF="node375.html">
 <LINK REL="next" HREF="node378.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html5977"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6001"
   HREF="node378.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5973"
-  HREF="node374.html">
+<A NAME="tex2html5997"
+  HREF="node375.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5969"
+<A NAME="tex2html5991"
   HREF="node376.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5975"
+<A NAME="tex2html5999"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html5978"
-  HREF="node378.html">Reading the step input</A>
-<B> Up:</B> <A NAME="tex2html5974"
-  HREF="node374.html">Allocation of the fields</A>
-<B> Previous:</B> <A NAME="tex2html5970"
-  HREF="node376.html">readinput</A>
- &nbsp; <B>  <A NAME="tex2html5976"
+<B> Next:</B> <A NAME="tex2html6002"
+  HREF="node378.html">User-defined initial conditions</A>
+<B> Up:</B> <A NAME="tex2html5998"
+  HREF="node375.html">User subroutines.</A>
+<B> Previous:</B> <A NAME="tex2html5992"
+  HREF="node376.html">Creep (creep.f)</A>
+ &nbsp; <B>  <A NAME="tex2html6000"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H3><A NAME="SECTION000111300000000000000">
-allocate</A>
-</H3>
+<H2><A NAME="SECTION000102000000000000000">
+Hardening (uhardening.f)</A>
+</H2>
 
 <P>
-In the subroutine allocate.f the input is read to determine upper bounds for
-the fields in the program. These upper bounds are printed so that the user can
-verify them. These upper bounds are used in the subsequent allocation
-statements in ccx_2.15.c. This procedure might seem slightly awkward, however,
-since the subroutines reading the input later on are in FORTRAN77, a
-reallocation is not possible at that stage. Therefore, upper bounds must have
-been defined.
+In subroutine &ldquo;uhardening.f&rdquo;, the user can insert his own isotropic and/or kinematic hardening laws for (visco)plastic behavior governed by the keyword sequence *PLASTIC,HARDENING=USER. The header and variable description is as follows:
 
 <P>
-It is important to know where fields are allocated, reallocated and
-deallocated. Most (re-, de-) allocation is done in
-ccx_2.15.c. Table&nbsp;(<A HREF="#talloc">19</A>) gives an overview where the allocation (A),
-reallocation (R) and deallocation (D) is done in file ccx_2.15.c. A
-fundamental mark in this file is the call of subroutine calinput, where the
-input data is interpreted.
-A couple of examples: field kon contains the topology of the elements and is
-allocated with size nkon, which is an upper bound estimate, before all steps. After reading the input up to and including the
-first step in subroutine calinput the field is reallocated with the correct
-size, since at that point all elements are read and the exact size is
-known. This size cannot change in subsequent steps since it is not allowed to
-define new elements within steps.
-The field xforc is allocated with the upper bound estimate nforc_ before
-entering subroutine calinput. After reading the input up to and including the
-first step its size is reallocated with the true size nforc. Before entering
-calinput to read the second step (or any subsequent step) xforc is reallocated with size nforc_, since
-new forces can be defined in step two (and in any subsequent step). After
-reading step two, the field is reallocated with the momentary value of nforc,
-and so on. All field which can change due to step information must be
-reallocated in each step.  
+<PRE>
+      subroutine uhardening(amat,iel,iint,t1l,epini,ep,dtime,fiso,dfiso,
+     &amp;                      fkin,dfkin)
+!
+!     INPUT:
+!
+!     amat:    material name (maximum 80 characters)
+!     iel:     element number
+!     iint:    integration point number
+!     t1l:     temperature at the end of the increment
+!     epini:   equivalent irreversible strain at the start 
+!              of the increment
+!     ep:      present equivalent irreversible strain
+!     dtime:   time increment
+!
+!     OUTPUT:
+!
+!     fiso:    present isotropic hardening Von Mises stress
+!     dfiso:   present isotropic hardening tangent (derivative
+!              of the Von Mises stress with respect to the
+!              equivalent irreversible strain)
+!     fkin:    present kinematic hardening Von Mises stress
+!     dfkin:   present kinematic hardening tangent (derivative
+!              of the Von Mises stress with respect to the
+!              equivalent irreversible strain)
+!
+</PRE>
 
 <P>
-<BR>
-<A NAME="talloc"></A>
-<BR>
+<BR><HR>
 
-<P>
-<HR>
-<!--Navigation Panel-->
-<A NAME="tex2html5977"
-  HREF="node378.html">
-<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
- SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html5973"
-  HREF="node374.html">
-<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
- SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html5969"
-  HREF="node376.html">
-<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
- SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html5975"
-  HREF="node1.html">
-<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
- SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
-<BR>
-<B> Next:</B> <A NAME="tex2html5978"
-  HREF="node378.html">Reading the step input</A>
-<B> Up:</B> <A NAME="tex2html5974"
-  HREF="node374.html">Allocation of the fields</A>
-<B> Previous:</B> <A NAME="tex2html5970"
-  HREF="node376.html">readinput</A>
- &nbsp; <B>  <A NAME="tex2html5976"
-  HREF="node1.html">Contents</A></B> 
-<!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
 </BODY>
 </HTML>

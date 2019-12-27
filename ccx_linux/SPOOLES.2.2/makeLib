@@ -1,0 +1,77 @@
+#! /usr/local/gnu/bin/perl
+#
+#-----------------------------------------------------------------------
+#
+# purpose : to help create the spooles.a library from scratch
+#
+# the spooles.a library is a global library and contains all spooles 
+# methods. (this is in contrast to local libraries that contain 
+# methods for only one object, e.g., A2/src/A2.a) 
+#
+# the spooles.a library is usually created once, by executing
+# "make global" in the spooles directory, which compiles each
+# and every source file in all the object/src directories.
+# (not quite true, just every src file that is found in 
+# object/src/makefile, which is considered as gospel.)
+# the "make global" command goes into each object's src directory,
+# calls this perl script to create a makefile that will compile
+# each src file and load into the spooles.a library, and then
+# executes that makefile and removes it.
+#
+# for those systems that do not have perl installed, we have a
+# makeGlobalLib makefile in each object's src directory.
+# typing "make Global" in the spooles directory will use
+# this makefile. unfortunately, each object's /src/makefile
+# and /src/makeGlobalLib are separate and must be kept up to date
+# manually. (i.e., add another src file to /src/makefile and you
+# must add the same to /src/makeGlobalLib).
+#
+# this is my second perl script, so don't laugh, 
+# just send me comments and suggestions.
+#
+# created -- 98dec16, cca
+#
+#-----------------------------------------------------------------------
+#
+#  open the makefile to extract out the src file names
+#
+$makefile = "makefile" ;
+open( MAKEFILE, $makefile ) or die "Cannot open $makefile" ;
+#
+#  read in each line, look for $(OBJ).a(srcname.o)
+#  put srcname into the @srcnames array
+#
+while ( $line = <MAKEFILE> ) {
+   chop($line) ;
+   if ( $line =~ /OBJ =/ ) {
+      ($first, $objname) = split /OBJ = /, $line
+   }
+   if ( $line =~ /\$\(OBJ\)\.a\(/ ) {
+      ($first, $second) = split /\$\(OBJ\)\.a\(/, $line ;
+      ($srcname, $remainder) = split /\.o\)/, $second ;
+      $srcname = $srcname . ".c" ;
+      push @srcnames, $srcname
+   }
+}
+#
+# now start printing the makefile to stdout
+#
+print "\ninclude ../../Make.inc" ;
+print "\n" ;
+print "\nOBJ = $objname" ;
+print "\n\nSRC = " ;
+foreach $src ( @srcnames ) {
+   $srcname = " \\\n     " . $src ;
+   print $srcname ;
+}
+print "\n\nOBJ_FILES = \$\{SRC:.c=.o\}" ;
+print "\n\n" ;
+print <<'EOF' ;
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a
+EOF

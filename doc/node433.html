@@ -1,69 +1,119 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>START OF MAJOR LOOP</TITLE>
-<META NAME="description" CONTENT="START OF MAJOR LOOP">
+<TITLE>Applying concentrated forces to the expanded structure</TITLE>
+<META NAME="description" CONTENT="Applying concentrated forces to the expanded structure">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node434.html">
 <LINK REL="previous" HREF="node432.html">
-<LINK REL="up" HREF="node427.html">
+<LINK REL="up" HREF="node425.html">
 <LINK REL="next" HREF="node434.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html6709"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html6779"
   HREF="node434.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html6705"
-  HREF="node427.html">
+<A NAME="tex2html6775"
+  HREF="node425.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html6699"
+<A NAME="tex2html6769"
   HREF="node432.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html6707"
+<A NAME="tex2html6777"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html6710"
-  HREF="node434.html">first loop: calculateh.f</A>
-<B> Up:</B> <A NAME="tex2html6706"
-  HREF="node427.html">Mesh refining procedure</A>
-<B> Previous:</B> <A NAME="tex2html6700"
-  HREF="node432.html">midexternalfaces.f</A>
- &nbsp; <B>  <A NAME="tex2html6708"
+<B> Next:</B> <A NAME="tex2html6780"
+  HREF="node434.html">Integrating the stresses in</A>
+<B> Up:</B> <A NAME="tex2html6776"
+  HREF="node425.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6770"
+  HREF="node432.html">Applying temperatures and temperature</A>
+ &nbsp; <B>  <A NAME="tex2html6778"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H4><A NAME="SECTION0001111560000000000000">
-START OF MAJOR LOOP</A>
-</H4>
+<H3><A NAME="SECTION000123800000000000000">
+Applying concentrated forces to the expanded structure</A>
+</H3>
 
 <P>
-<BR><HR>
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+This is similar to the application of SPC's: if a knot is defined in the node
+nothing is done for applied translational forces. For moments (which can be
+considered as rotational forces) their values are applied to the rotational
+node of the knot, i.e. the node number is changed in the force application.
+
+<P>
+If no knot is defined in a node in which a force is applied MPC's are generated between the node at stake and the
+new nodes in the expanded structure in the case of 1D elements and 2D
+shells. For 2D plane and axisymmetric elements the force is applied to the
+zero-z node in the expanded structure. If a moment is applied (only applicable
+to shells and beams) a mean rotation
+MPC is generated. 
+
+<P>
+For axisymmetric structures the concentrated forces are assumed to apply for
+the whole <SPAN CLASS="MATH"><B><IMG
+ WIDTH="35" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img281.png"
+ ALT="$ 360^\circ$"></B></SPAN>. Since the expansion is done for a small sector only
+(must be small to keep enough accuracy with only one layer of elements, the
+size of the sector is specified by the user underneath the <A HREF="node351.html#solidsection">*SOLID
+  SECTION</A> card) the
+force is scaled down appropriately. 
+
+<P>
+Application of nodal forces is done in subroutine &ldquo;gen3dforc.f&rdquo;.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html6779"
+  HREF="node434.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html6775"
+  HREF="node425.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html6769"
+  HREF="node432.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html6777"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html6780"
+  HREF="node434.html">Integrating the stresses in</A>
+<B> Up:</B> <A NAME="tex2html6776"
+  HREF="node425.html">Expansion of the one-dimensional</A>
+<B> Previous:</B> <A NAME="tex2html6770"
+  HREF="node432.html">Applying temperatures and temperature</A>
+ &nbsp; <B>  <A NAME="tex2html6778"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
 </BODY>
 </HTML>

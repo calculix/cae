@@ -1,0 +1,38 @@
+include ../../Make.inc
+ 
+#-----------------------------------------------------------------------
+ 
+OBJ = Iter
+
+SRC = 	bicgstabl.c \
+	bicgstabr.c \
+	mlbicgstabl.c \
+	mlbicgstabr.c \
+	pcgl.c \
+	pcgr.c \
+	bgmresr.c \
+	bgmresl.c \
+	tfqmrl.c \
+	tfqmrr.c \
+	zbicgstabl.c \
+	zbicgstabr.c \
+	zmlbicgstabl.c \
+	zmlbicgstabr.c \
+	zpcgl.c \
+	zpcgr.c \
+	ztfqmrl.c \
+	ztfqmrr.c \
+	DenseMtx_mmm.c \
+	util.c
+
+
+OBJ_FILES = ${SRC:.c=.o}
+
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a
+	

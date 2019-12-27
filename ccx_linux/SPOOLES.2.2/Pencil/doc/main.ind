@@ -1,0 +1,22 @@
+\begin{theindex}
+
+  \item {\tt Pencil\_changeCoordType()}, 2
+  \item {\tt Pencil\_changeStorageMode()}, 2
+  \item {\tt Pencil\_clearData()}, 2
+  \item {\tt Pencil\_convertToVectors()}, 3
+  \item {\tt Pencil\_free()}, 2
+  \item {\tt Pencil\_fullAdjacency()}, 3
+  \item {\tt Pencil\_init()}, 2
+  \item {\tt Pencil\_mapToLowerTriangle()}, 3
+  \item {\tt Pencil\_mapToUpperTriangle()}, 3
+  \item {\tt Pencil\_mmm()}, 3
+  \item {\tt Pencil\_new()}, 2
+  \item {\tt Pencil\_permute()}, 3
+  \item {\tt Pencil\_readFromFiles()}, 4
+  \item {\tt Pencil\_setDefaultFields()}, 2
+  \item {\tt Pencil\_setup()}, 3
+  \item {\tt Pencil\_sortAndCompress()}, 3
+  \item {\tt Pencil\_writeForHumanEye()}, 4
+  \item {\tt Pencil\_writeStats()}, 4
+
+\end{theindex}

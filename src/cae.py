@@ -2,12 +2,20 @@
 
 
 """
-    © Ihor Mirzov, September 2019
+    © Ihor Mirzov, December 2019
     Distributed under GNU General Public License v3.0
 
-    CalculiX CAE - main window.
+    CalculiX CAE - main function.
     How to run:
         python3 cae.py -inp model.inp
+
+
+    Что почитать:
+    https://habr.com/ru/post/276593/
+    https://fktpm.ru/file/84-sovershennyj-kod.pdf
+    Google:
+        model view controller python
+        шаблоны проектирования python
 """
 
 
@@ -19,10 +27,10 @@ p.append_to_PATH([p.app_home_dir, p.src])
 # Main imports
 import os, sys, argparse, logging, shutil, subprocess
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
-from cae_tree import tree
+from tree import tree
 from VTK import VTK
 from kom import KOM
-from cae_ie import IE
+from ie import IE
 from settings import Settings
 from job import Job
 from log import myLoggingHandler
@@ -30,29 +38,28 @@ from clean import cleanCache
 
 
 # Main window
-class CAE(QtWidgets.QMainWindow):
+class MainWindow(QtWidgets.QMainWindow):
 
 
     # Create main window
     def __init__(self, settings, path_start_model):
-        self.settings = settings
         QtWidgets.QMainWindow.__init__(self) # create main window
         uic.loadUi(p.cae_xml, self) # load form
 
         # Configure logs to be shown in window
         logging.getLogger().addHandler(myLoggingHandler(self.textEdit))
-        logging.getLogger().setLevel(self.settings.logging_level)
+        logging.getLogger().setLevel(settings.logging_level)
 
         # When logger is ready - check if settings read correctly
-        if hasattr(self.settings, 'error_path'):
-            logging.error('Error path in settings file: ' + self.settings.error_path + '. Loading default values.')
+        if hasattr(settings, 'error_path'):
+            logging.error('Error path in settings file: ' + settings.error_path + '. Loading default values.')
 
         # Abs. path to the path_start_model
         if len(path_start_model):
             path_start_model = os.path.join(p.app_home_dir, path_start_model)
 
         # Create VTK widget
-        if self.settings.show_vtk:
+        if settings.show_vtk:
             self.VTK = VTK() # create everything for model visualization
             self.h_splitter.addWidget(self.VTK.widget)
             self.setMinimumSize(1280, 600)
@@ -60,12 +67,12 @@ class CAE(QtWidgets.QMainWindow):
         else:
             self.toolBar.setParent(None) # hide toolbar
 
-        self.mesh = None # mesh from .inp-file - will be parsed in cae_ie.py
-        self.IE = IE(self, self.settings) # import/export of .inp-file
+        self.mesh = None # mesh from .inp-file - will be parsed in ie.py
+        self.IE = IE(self, settings) # import/export of .inp-file
         self.KOM = KOM() # empty KOM w/o implementations
         # TODO try to reorder to omit double job calling/renaming
-        self.job = Job(self.settings, path_start_model) # create job object
-        self.tree = tree(self, self.settings) # create treeView items based on KOM
+        self.job = Job(settings, path_start_model) # create job object
+        self.tree = tree(self, settings) # create treeView items based on KOM
         if len(path_start_model):
             self.IE.importFile(path_start_model) # import default start model
 
@@ -75,19 +82,19 @@ class CAE(QtWidgets.QMainWindow):
 
             # File actions
             self.action_file_import.triggered.connect(self.IE.importFile)
-            self.action_file_settings.triggered.connect(self.settings.open)
+            self.action_file_settings.triggered.connect(settings.open)
             self.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
             # Job actions
             self.action_job_write_input.triggered.connect(self.IE.writeInput)
-            self.action_job_edit_inp.triggered.connect(self.job.editINP)
-            self.action_job_open_subroutine.triggered.connect(self.job.openSubroutine)
-            self.action_job_rebuild_ccx.triggered.connect(self.job.rebuildCCX)
-            self.action_job_submit.triggered.connect(self.job.submit)
-            self.action_job_view_log.triggered.connect(self.job.viewLog)
-            self.action_job_open_cgx.triggered.connect(self.job.openCGX)
+            self.action_job_edit_inp.triggered.connect(lambda: self.job.editINP(settings))
+            self.action_job_open_subroutine.triggered.connect(lambda: self.job.openSubroutine(settings))
+            self.action_job_rebuild_ccx.triggered.connect(lambda: self.job.rebuildCCX(settings))
+            self.action_job_submit.triggered.connect(lambda: self.job.submit(settings))
+            self.action_job_view_log.triggered.connect(lambda: self.job.viewLog(settings))
+            self.action_job_open_cgx.triggered.connect(lambda: self.job.openCGX(settings))
             self.action_job_export_vtu.triggered.connect(self.job.exportVTU)
-            self.action_job_open_paraview.triggered.connect(self.job.openParaView)
+            self.action_job_open_paraview.triggered.connect(lambda: self.job.openParaView(settings))
 
             # Help actions
             self.action_help_readme.triggered.connect(lambda:
@@ -132,11 +139,12 @@ class CAE(QtWidgets.QMainWindow):
 
 
 if __name__ == '__main__':
+    # TODO: have a look at https://github.com/davidfraser/pyan
     # from pycallgraph import PyCallGraph
     # from pycallgraph import Config
     # from pycallgraph import GlobbingFilter
     # from pycallgraph.output import GraphvizOutput
-    # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['CAE*']
+    # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['MainWindow*']
     # config = Config()
     # config.trace_filter = GlobbingFilter(
     #     include=modules, exclude=['logging*', '*FileFinder'])
@@ -155,12 +163,14 @@ if __name__ == '__main__':
                             default=settings.path_start_model)
         args = parser.parse_args()
 
+
+
         # Create and show main window
-        window = CAE(settings, args.inp)
+        mw = MainWindow(settings, args.inp)
         if settings.show_maximized:
-            window.showMaximized()
+            mw.showMaximized()
         else:
-            window.show()
+            mw.show()
 
         # Execute application
         a = app.exec()

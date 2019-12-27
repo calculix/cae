@@ -1,95 +1,70 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
-original version by:  Nikos Drakos, CBLU, University of Leeds
-* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
-* with significant contributions from:
-  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<!--Converted with LaTeX2HTML 2017.2 (Released Jan 23, 2017) -->
 <HTML>
 <HEAD>
-<TITLE>*NODAL THICKNESS</TITLE>
-<META NAME="description" CONTENT="*NODAL THICKNESS">
+<TITLE>*ELECTRICAL CONDUCTIVITY</TITLE>
+<META NAME="description" CONTENT="*ELECTRICAL CONDUCTIVITY">
 <META NAME="keywords" CONTENT="ccx">
 <META NAME="resource-type" CONTENT="document">
 <META NAME="distribution" CONTENT="global">
 
-<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2017.2">
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 
 <LINK REL="STYLESHEET" HREF="ccx.css">
 
 <LINK REL="next" HREF="node291.html">
 <LINK REL="previous" HREF="node289.html">
-<LINK REL="up" HREF="node205.html">
+<LINK REL="up" HREF="node244.html">
 <LINK REL="next" HREF="node291.html">
 </HEAD>
 
 <BODY >
-<!--Navigation Panel-->
-<A NAME="tex2html4808"
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html4924"
   HREF="node291.html">
 <IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
  SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4804"
-  HREF="node205.html">
+<A NAME="tex2html4920"
+  HREF="node244.html">
 <IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
  SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4798"
+<A NAME="tex2html4914"
   HREF="node289.html">
 <IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
  SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4806"
+<A NAME="tex2html4922"
   HREF="node1.html">
 <IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
  SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
 <BR>
-<B> Next:</B> <A NAME="tex2html4809"
-  HREF="node291.html">*NODE</A>
-<B> Up:</B> <A NAME="tex2html4805"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4799"
-  HREF="node289.html">*NO ANALYSIS</A>
- &nbsp; <B>  <A NAME="tex2html4807"
+<B> Next:</B> <A NAME="tex2html4925"
+  HREF="node291.html">*ELECTROMAGNETICS</A>
+<B> Up:</B> <A NAME="tex2html4921"
+  HREF="node244.html">Input deck format</A>
+<B> Previous:</B> <A NAME="tex2html4915"
+  HREF="node289.html">*ELASTIC</A>
+ &nbsp; <B>  <A NAME="tex2html4923"
   HREF="node1.html">Contents</A></B> 
 <BR>
-<BR>
+<BR></DIV>
 <!--End of Navigation Panel-->
 
-<H2><A NAME="SECTION000882000000000000000"></A><A NAME="nodalthickness"></A>
+<H2><A NAME="SECTION000943000000000000000"></A><A NAME="electricalconductivity"></A>
 <BR>
-*NODAL THICKNESS
+*ELECTRICAL CONDUCTIVITY
 </H2>
 
 <P>
-Keyword type: model definition
+Keyword type: model definition, material
 
 <P>
-This option is used to assign a thickness to a node or to a node
-set. There are no parameters. This keyword only makes sense for nodes
-belonging to plane stress elements,  shell
-elements and beam elements. For all of these except for the beam
-elements one thickness value should be given. For plane stress and
-shell elements this is the thickness in normal direction. The normal
-direction can be defined by using the <A HREF="node295.html#normal">*NORMAL</A>
-keyword card. If none is defined, the normal is calculated based on
-the geometrical data. For beam
-elements two thicknesses can be defined: one in 1-direction and one in
-2-direction. The 1-direction can be defined on the <A HREF="node208.html#beamsection">*BEAM
-SECTION</A> card, the 2-direction by the
-<A HREF="node295.html#normal">*NORMAL</A> card. 
-
-<P>
-The *NODAL THICKNESS card takes precedence over any other thickness
-definitions if the NODAL THICKNESS parameter was selected on the <A HREF="node208.html#beamsection">*BEAM SECTION</A> or
-<A HREF="node311.html#shellsection">*SHELL SECTION</A> card. Right now, it cannot be used for
-composite materials.
-
-<P>
-For structures in which axisymmetric elements (type CAX*) are present any
-thickness defined on the present card for plane stress and shell elements applies to 360<B><IMG
- WIDTH="12" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
- SRC="img302.png"
- ALT="$ ^\circ$"></B>.
+This option is used to define the electrical conductivity of a
+material. There are no parameters. The material is supposed to be isotropic. The constant may be temperature
+dependent. The unit of the electrical conductivity coefficient is one divided
+by the unit of resistivity (in SI-units: ohm) times the unit of length.
 
 <P><P>
 <BR>
@@ -98,7 +73,7 @@ thickness defined on the present card for plane stress and shell elements applie
 First line:
 
 <UL>
-<LI>*NODAL THICKNESS
+<LI>*ELECTRICAL CONDUCTIVITY
 </LI>
 </UL>
 
@@ -106,67 +81,36 @@ First line:
 Following line:
 
 <UL>
-<LI>Node or set of nodes previously defined
+<LI><SPAN CLASS="MATH"><B><IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1053.png"
+ ALT="$ \sigma$"></B></SPAN>.
 </LI>
-<LI>Thickness 1
-</LI>
-<LI>Thickness 2
+<LI>Temperature.
 </LI>
 </UL>
+Repeat this line if needed to define complete temperature dependence.
 
 <P>
 <PRE>
 Example:
 
-*NODAL THICKNESS
-22,0.05,0.08
+*ELECTRICAL CONDUCTIVITY
+5.96E7
 </PRE>
 
 <P>
-assigns to node 22 the thickness 0.05 and 0.08. Any plane stress or
-shell element containing node 22 will have a local thickness of 0.05
-unit lengths at node 22. Any beam element containing
-node 22 will have a thickness of 0.05 unit length in local 1-direction
-and a thickness of 0.08 unit length in local 2-direction.
+tells you that the electrical conductivity coefficient is 5.96E7, independent
+of temperature (if SI-units are used this is the electrical conductivity of copper).
 
 <P>
 
 <P><P>
 <BR>
-Example files: shell1.
+Example files: induction.
 
 <P>
-<HR>
-<!--Navigation Panel-->
-<A NAME="tex2html4808"
-  HREF="node291.html">
-<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
- SRC="file:/usr/share/latex2html/icons/next.png"></A> 
-<A NAME="tex2html4804"
-  HREF="node205.html">
-<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
- SRC="file:/usr/share/latex2html/icons/up.png"></A> 
-<A NAME="tex2html4798"
-  HREF="node289.html">
-<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
- SRC="file:/usr/share/latex2html/icons/prev.png"></A> 
-<A NAME="tex2html4806"
-  HREF="node1.html">
-<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
- SRC="file:/usr/share/latex2html/icons/contents.png"></A>  
-<BR>
-<B> Next:</B> <A NAME="tex2html4809"
-  HREF="node291.html">*NODE</A>
-<B> Up:</B> <A NAME="tex2html4805"
-  HREF="node205.html">Input deck format</A>
-<B> Previous:</B> <A NAME="tex2html4799"
-  HREF="node289.html">*NO ANALYSIS</A>
- &nbsp; <B>  <A NAME="tex2html4807"
-  HREF="node1.html">Contents</A></B> 
-<!--End of Navigation Panel-->
-<ADDRESS>
-guido dhondt
-2018-12-15
-</ADDRESS>
+<BR><HR>
+
 </BODY>
 </HTML>

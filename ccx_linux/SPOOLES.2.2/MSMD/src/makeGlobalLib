@@ -1,0 +1,29 @@
+include ../../Make.inc
+ 
+#-----------------------------------------------------------------------
+ 
+OBJ = MSMD
+
+SRC = basics.c \
+      cleanReachSet.c \
+      eliminate.c \
+      fillPerms.c \
+      findInodes.c \
+      frontETree.c \
+      init.c \
+      makeSchurComplement.c \
+      MSMDinfo.c \
+      MSMDvtx.c \
+      order.c \
+      update.c
+
+OBJ_FILES = ${SRC:.c=.o}
+
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a
+	
