@@ -1,0 +1,15 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inFile = $matrices/$matrix/orig.egraphf
+
+set outFile = $matrices/$matrix/orig0.graphf
+set outFile = temp.graphf
+
+set msglvl  = 3
+
+set msgFile = stdout
+
+mkGraph $msglvl $msgFile $inFile $outFile

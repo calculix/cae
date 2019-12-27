@@ -1,0 +1,16 @@
+#! /bin/csh -f
+#
+ 
+set msglvl       =       2
+set msgFile      =     res 
+set msgFile      =  stdout
+set type         =       2
+set symflag      =       2
+set nDJ          =       10
+set nUJ          =       12
+set nDI          =       7
+set nUI          =       8
+set seed         =     7387788
+
+test_assmbChv \
+   $msglvl $msgFile $nDJ $nUJ $nDI $nUI $type $symflag $seed

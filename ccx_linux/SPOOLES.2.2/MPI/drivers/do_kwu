@@ -1,0 +1,90 @@
+#! /bin/csh -f
+
+set msglvl           = 1
+set msgFile          = res3D.64
+set msgFile          = res3D
+set msgFile          = stdout
+set msgFile          = res
+
+set n1       =   15
+set n2       =   15
+set n3       =   15
+set maxzeros =    0
+set maxzeros = 1000
+set maxsize  = 1000
+set maxsize  =   64
+
+set seed             = 10101
+set type             = 1
+set symmetryflag     = 0
+set sparsityflag     = 0
+set pivotingflag     = 0
+set tau              = 10
+set droptol          = 1.e-50
+set randomFlag       = 1
+set nrhs             = 4
+set profile          = 0
+set nproc            = 4
+set maptype          = 3
+set cutoff           = 0.125
+set lookahead        = 0
+
+#
+#  for solaris with mpich
+#
+set type = 1
+echo ' real symmetric tests'
+foreach nproc ( 2 4 6 8 )
+   echo '    ' $nproc ' processors'
+   set pgFile = gridMPI$nproc.pg
+   foreach n ( 31 33 35 37 39 41 43 45 47 49 51 )
+      set n1 = $n
+      set n2 = $n
+      set n3 = $n
+      echo '       ' $n1 ' x ' $n2 ' x ' $n3 ' grids'
+      set msgFile = real.$n.$nproc
+      /usr/local/mpi/bin/mpirun -p4pg $pgFile \
+      testGridMPI \
+         $msglvl $msgFile $n1 $n2 $n3 $maxzeros $maxsize $seed \
+         $type $symmetryflag $sparsityflag $pivotingflag $tau $droptol \
+         $lookahead $nrhs $maptype $cutoff
+   end
+end
+set type = 2
+echo ' complex symmetric tests'
+foreach nproc ( 2 4 6 8 )
+   echo '    ' $nproc ' processors'
+   set pgFile = gridMPI$nproc.pg
+   foreach n ( 31 33 35 37 39 41 43 45 47 49 51 )
+      set n1 = $n
+      set n2 = $n
+      set n3 = $n
+      echo '       ' $n1 ' x ' $n2 ' x ' $n3 ' grids'
+      set msgFile = complex.$n.$nproc
+      /usr/local/mpi/bin/mpirun -p4pg $pgFile \
+      testGridMPI \
+         $msglvl $msgFile $n1 $n2 $n3 $maxzeros $maxsize $seed \
+         $type $symmetryflag $sparsityflag $pivotingflag $tau $droptol \
+         $lookahead $nrhs $maptype $cutoff
+   end
+end
+ 
+#
+# for sgi
+#
+# mpirun -np $nproc \
+# testGridMPI \
+#    $msglvl $msgFile $n1 $n2 $n3 $maxzeros $maxsize $seed \
+#    $type $symmetryflag $sparsityflag $pivotingflag $tau $droptol \
+#    $lookahead $nrhs $maptype $cutoff
+ 
+ 
+#
+# for hp
+#
+# /opt/mpi/bin/mpirun -np $nproc \
+# testGridMPI \
+#    $msglvl $msgFile $n1 $n2 $n3 $maxzeros $maxsize $seed \
+#    $type $symmetryflag $sparsityflag $pivotingflag $tau $droptol \
+#    $lookahead $nrhs $maptype $cutoff
+

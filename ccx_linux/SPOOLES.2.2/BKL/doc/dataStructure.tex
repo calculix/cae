@@ -1,0 +1,52 @@
+\par
+\section{Data Structure}
+\label{section:BKL:dataStructure}
+\par
+The {\tt BKL} object has the following fields.
+\begin{itemize}
+\item 
+{\tt BPG *bpg} : pointer to a {\tt BPG} bipartite graph object,
+not owned by the {\tt BKL} object.
+\item 
+{\tt int ndom} : number of domains, domain ids are in {\tt [0,ndom)}
+\item 
+{\tt int nseg} : number of segments, 
+             segment ids are in {\tt [ndom,ndom + nseg)}
+\item 
+{\tt int nreg} : number of regions, equal to {\tt ndom + nseg}
+\item 
+{\tt int totweight} : total weight of the domains and segments
+\item 
+{\tt int npass} : number of Fiduccia-Mattheyes passes
+\item 
+{\tt int npatch} : number of patches evaluated, not used during the
+Fiduccia-Mattheyes algorithm
+\item 
+{\tt int nflips} : number of domains that were flipped
+\item 
+{\tt int nimprove} : number of improvements in the partition
+\item 
+{\tt int ngaineval} : number of gain evaluations, roughly equivalent to
+the number of degree evaluations in the minimum degree algorithm
+\item 
+{\tt int *colors} : pointer to an {\tt int} vector of size {\tt nreg}, 
+{\tt colors[idom]} is {\tt 1} or {\tt 2} for domain {\tt idom},
+{\tt colors[iseg]} is {\tt 0}, {\tt 1} or {\tt 2} 
+  for segment {\tt iseg}.
+\item 
+{\tt int *cweights} : pointer to an {\tt int} vector of size 3, 
+                 {\tt cweights[0]} contains the weight of the separator,
+                 {\tt cweights[1]} and {\tt cweights[2]} contains the 
+                 weights of the two components
+\item 
+{\tt int *regwghts} : 
+pointer to an {\tt int} vector of size {\tt nreg}, 
+used to store the weights of the domains and segments
+\item 
+{\tt float alpha} : number used to store the partition
+evaluation parameter, the cost of the partition is
+\begin{verbatim}
+balance = max(cweights[1], cweights[2])/min(cweights[1], cweights[2]) ;
+cost    = cweights[0]*(1. + alpha*balance) ;
+\end{verbatim}
+\end{itemize}

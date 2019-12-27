@@ -1,0 +1,32 @@
+#! /bin/csh -f
+ 
+set msglvl     = 1
+set msgFile    = stdout
+
+# type -- type of entries
+#   1 -- real entries
+#   2 -- complex entries
+set type = 1
+ 
+# symmetryflag -- type of symmetry in the matrix
+#   0 -- symmetric
+#   1 -- hermitian
+#   2 -- nonsymmetric
+set symmetryflag = 0
+ 
+# pivotingflag -- type of pivoting in the factorization
+#   0 -- no pivoting
+#   1 -- pivoting
+set pivotingflag = 0
+ 
+set matrixFileName = matrix.input
+ 
+set rhsFileName = rhs.input
+ 
+set seed = 10101
+ 
+set nthread =  4
+ 
+allInOneMT $msglvl $msgFile $type $symmetryflag $pivotingflag \
+           $matrixFileName $rhsFileName $seed $nthread
+

@@ -1,0 +1,21 @@
+\par
+\section{Data Structure}
+\label{section:Perm:dataStructure}
+\par
+The {\tt Perm} object can contain two permutation vectors,
+an {\it old-to-new} and a {\it new-to-old} permutation.
+One or both may be present in the structure.
+\par
+The {\tt Perm} structure has four fields.
+\begin{itemize}
+\item {\tt int isPresent} : flag to tell which vectors are present 
+\begin{itemize}
+\item 0 $\longrightarrow$ neither is present 
+\item 1 $\longrightarrow$ {\tt newToOld} is present, {\tt oldToNew} is not
+\item 2 $\longrightarrow$ {\tt oldToNew} is present, {\tt newToOld} is not
+\item 3 $\longrightarrow$ both {\tt newToOld} and {\tt oldToNew} are present 
+\end{itemize}
+\item {\tt int size} : dimension of the vectors 
+\item {\tt int *newToOld} : pointer to the new-to-old vector 
+\item {\tt int *oldToNew} : pointer to the old-to-new vector 
+\end{itemize}

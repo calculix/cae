@@ -1,0 +1,36 @@
+include ../../Make.inc
+ 
+#-----------------------------------------------------------------------
+ 
+OBJ = FrontMtx
+
+SRC = basics.c \
+      factor.c \
+      factorUtil.c \
+      init.c \
+      instance.c \
+      IO.c \
+      loadEntries.c \
+      permute.c \
+      postponed.c \
+      postProcess.c \
+      QRfactor.c \
+      QRsolve.c \
+      QRutil.c \
+      solve.c \
+      solveUtil.c \
+      split.c \
+      storeFront.c \
+      update.c \
+      util.c
+
+OBJ_FILES = ${SRC:.c=.o}
+
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a
+	

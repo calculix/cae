@@ -1,0 +1,314 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=latex 97.4.4)  25 JAN 1999 11:23
+**main
+(main.tex
+LaTeX2e <1996/12/01> patch level 1
+Babel <v3.6h> and hyphenation patterns for english, german, loaded.
+(/home/tex/teTeX/texmf/tex/latex/base/report.cls
+Document Class: report 1996/10/31 v1.3u Standard LaTeX document class
+(/home/tex/teTeX/texmf/tex/latex/base/leqno.clo
+File: leqno.clo 1996/07/26 v1.1b Standard LaTeX option (left equation numbers)
+)
+(/home/tex/teTeX/texmf/tex/latex/base/size11.clo
+File: size11.clo 1996/10/31 v1.3u Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+\@indexfile=\write3
+
+Writing index file main.idx
+(/home/tex/teTeX/texmf/tex/generic/local/psfig/psfig.tex
+\@unused=\write4
+\ps@stream=\read1
+\p@intvaluex=\dimen103
+\p@intvaluey=\dimen104
+
+psfig/tex 1.10-dvips
+) (main.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+ (intro.tex
+Chapter 1.
+) (dataStructure.tex
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 6.
+ (/home/tex/teTeX/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1997/01/14 v2.5a Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 6.
+ [1
+
+
+])
+(proto.tex [2] [3] [4]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 292.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 292.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 292.
+
+
+LaTeX Warning: Citation `liu90-etree' on page 5 undefined on input line 292.
+
+
+Overfull \hbox (11.7664pt too wide) in paragraph at lines 320--320
+ []\OT1/cmtt/m/n/10.95 void ETree_initFromDenseMatrix ( ETree *etree, int n, in
+t option, int param ) ;[] 
+ []
+
+
+Overfull \hbox (52.00722pt too wide) in paragraph at lines 354--354
+ []\OT1/cmtt/m/n/10.95 int ETree_initFromSubtree ( ETree *subtree, IV *nodeidsI
+V, ETree *etree, IV *vtxIV ) ;[] 
+ []
+
+[5]
+Overfull \hbox (0.18552pt too wide) in paragraph at lines 433--439
+\OT1/cmr/m/n/10.95 pa-ram-e-ter can be one of \OT1/cmtt/m/n/10.95 SPOOLES[]SYMM
+ETRIC\OT1/cmr/m/n/10.95 , \OT1/cmtt/m/n/10.95 SPOOLES[]HERMITIAN \OT1/cmr/m/n/1
+0.95 or \OT1/cmtt/m/n/10.95 SPOOLES[]NONSYMMETRIC\OT1/cmr/m/n/10.95 . 
+ []
+
+
+Overfull \hbox (23.26378pt too wide) in paragraph at lines 466--466
+ []\OT1/cmtt/m/n/10.95 double ETree_nInternalOpsInFront ( ETree *etree, int typ
+e, int symflag, int J ) ;[] 
+ []
+
+[6]
+Overfull \hbox (23.26378pt too wide) in paragraph at lines 486--486
+ []\OT1/cmtt/m/n/10.95 double ETree_nExternalOpsInFront ( ETree *etree, int typ
+e, int symflag, int J ) ;[] 
+ []
+
+
+Overfull \hbox (69.25328pt too wide) in paragraph at lines 565--565
+ []\OT1/cmtt/m/n/10.95 ETree * ETree_spliceTwoEtrees ( ETree *etree0, Graph *gr
+aph, IV *mapIV, ETree *etree1 ) ;[] 
+ []
+
+[7]
+
+LaTeX Warning: Citation `liu91-generalizedEnvelope' on page 8 undefined on inpu
+t line 661.
+
+[8]
+
+LaTeX Warning: Citation `ash89-relaxed' on page 9 undefined on input line 681.
+
+
+Overfull \hbox (0.29208pt too wide) in paragraph at lines 691--695
+[]\OT1/cmr/m/n/10.95 the struc-tures of $\OML/cmm/m/it/10.95 v[]$ \OT1/cmr/m/n/
+10.95 and $\OML/cmm/m/it/10.95 v[]$ \OT1/cmr/m/n/10.95 are nested, i.e., \OT1/c
+mtt/m/n/10.95 bndwght[$\OML/cmm/m/it/10.95 v[]$\OT1/cmtt/m/n/10.95 ] = nodwght[
+$\OML/cmm/m/it/10.95 v[]$\OT1/cmtt/m/n/10.95 ] + bndwght[$\OML/cmm/m/it/10.95 v
+[]$\OT1/cmtt/m/n/10.95 ]
+ []
+
+[9]
+
+LaTeX Warning: Citation `liu85-mfstorage' on page 10 undefined on input line 75
+9.
+
+[10] [11]
+Overfull \hbox (29.01247pt too wide) in paragraph at lines 944--944
+ []\OT1/cmtt/m/n/10.95 IV * ETree_msByNopsCutoff ( ETree *etree, double cutoff,
+ int type, int symflag ) ;[] 
+ []
+
+
+Overfull \hbox (23.26378pt too wide) in paragraph at lines 1000--1000
+ []                     \OT1/cmtt/m/n/10.95 double alpha, int *ptotalgain, int 
+msglvl, FILE *msgFile ) ;[] 
+ []
+
+[12]
+
+LaTeX Warning: Citation `duf83-multifrontal' on page 13 undefined on input line
+ 1038.
+
+
+LaTeX Warning: Citation `ash89-relaxed' on page 13 undefined on input line 1039
+.
+
+
+LaTeX Warning: Citation `ash89-relaxed' on page 13 undefined on input line 1064
+.
+
+[13] [14] [15] [16] [17]) (drivers.tex
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 31--36
+\OT1/cmtt/m/n/10.95 *.graphf \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.graphb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 Graph \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 Graph[]readFromFile()
+ []
+
+[18]
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 81--86
+\OT1/cmtt/m/n/10.95 *.etreef \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.etreeb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 ETree \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 ETree[]readFromFile()
+ []
+
+[19] [20]
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 258--263
+\OT1/cmtt/m/n/10.95 *.etreef \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.etreeb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 ETree \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 ETree[]readFromFile()
+ []
+
+[21]
+Overfull \hbox (0.26903pt too wide) in paragraph at lines 333--333
+ []\OT1/cmtt/m/n/10.95 testFS msglvl msgFile inETreeFile labelflag radius first
+EPSfile secondEPSfile[] 
+ []
+
+
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 358--363
+\OT1/cmtt/m/n/10.95 *.etreef \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.etreeb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 ETree \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 ETree[]readFromFile()
+ []
+
+psfig: searching ../../ETree/doc/FS1.eps for bounding box
+psfig: including ../../ETree/doc/FS1.eps 
+psfig: searching ../../ETree/doc/FS2.eps for bounding box
+psfig: including ../../ETree/doc/FS2.eps 
+[22]
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 411--415
+\OT1/cmtt/m/n/10.95 *.etreef \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.etreeb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 ETree \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 ETree[]readFromFile()
+ []
+
+[23]
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 437--442
+\OT1/cmtt/m/n/10.95 *.etreef \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.etreeb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 ETree \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 ETree[]readFromFile()
+ []
+
+
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 472--477
+\OT1/cmtt/m/n/10.95 *.etreef \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.etreeb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 ETree \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 ETree[]readFromFile()
+ []
+
+[24]
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 573--578
+\OT1/cmtt/m/n/10.95 *.etreef \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.etreeb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 ETree \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 ETree[]readFromFile()
+ []
+
+[25]
+Overfull \hbox (17.51509pt too wide) in paragraph at lines 617--617
+ []\OT1/cmtt/m/n/10.95 testStats msglvl msgFile inETreeFile labelflag radius fi
+rstEPSfile secondEPSfile[] 
+ []
+
+
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 653--658
+\OT1/cmtt/m/n/10.95 *.etreef \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.etreeb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 ETree \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 ETree[]readFromFile()
+ []
+
+
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 658--663
+\OT1/cmtt/m/n/10.95 *.graphf \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.graphb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 Graph \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 Graph[]readFromFile()
+ []
+
+[26]
+
+LaTeX Warning: Reference `subsection:Tree:proto:drawing' on page 27 undefined o
+n input line 670.
+
+psfig: searching ../../ETree/doc/GRD7x7x7_nzA.eps for bounding box
+psfig: including ../../ETree/doc/GRD7x7x7_nzA.eps 
+psfig: searching ../../ETree/doc/GRD7x7x7_nzF.eps for bounding box
+psfig: including ../../ETree/doc/GRD7x7x7_nzF.eps 
+psfig: searching ../../ETree/doc/GRD7x7x7_forwops.eps for bounding box
+psfig: including ../../ETree/doc/GRD7x7x7_forwops.eps 
+psfig: searching ../../ETree/doc/GRD7x7x7_backops.eps for bounding box
+psfig: including ../../ETree/doc/GRD7x7x7_backops.eps 
+psfig: searching ../../ETree/doc/workingStorage.eps for bounding box
+psfig: including ../../ETree/doc/workingStorage.eps 
+
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 732--737
+\OT1/cmtt/m/n/10.95 *.etreef \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.etreeb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 ETree \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 ETree[]readFromFile()
+ []
+
+
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 737--741
+\OT1/cmtt/m/n/10.95 *.graphf \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.graphb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 Graph \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 Graph[]readFromFile()
+ []
+
+
+LaTeX Warning: Citation `ash89-relaxed' on page 27 undefined on input line 752.
+
+
+
+LaTeX Warning: Citation `duf83-multifrontal' on page 27 undefined on input line
+ 752.
+
+[27] [28]
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 798--803
+\OT1/cmtt/m/n/10.95 *.etreef \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.etreeb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 ETree \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 ETree[]readFromFile()
+ []
+
+
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 803--808
+\OT1/cmtt/m/n/10.95 *.graphf \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 *.graphb
+\OT1/cmr/m/n/10.95 . The \OT1/cmtt/m/n/10.95 Graph \OT1/cmr/m/n/10.95 ob-ject i
+s read from the file via the \OT1/cmtt/m/n/10.95 Graph[]readFromFile()
+ []
+
+) (main.ind [29] [30
+
+] [31
+
+]) (main.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 599 strings out of 10908
+ 6400 string characters out of 72189
+ 53984 words of memory out of 262141
+ 3465 multiletter control sequences out of 9500
+ 10951 words of font info for 40 fonts, out of 150000 for 255
+ 14 hyphenation exceptions out of 607
+ 23i,6n,22p,612b,426s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (31 pages, 106436 bytes).

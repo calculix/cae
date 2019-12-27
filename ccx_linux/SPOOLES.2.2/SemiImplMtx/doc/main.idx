@@ -1,0 +1,9 @@
+\indexentry{SemiImplMtx_new@{\tt SemiImplMtx\_new()}}{2}
+\indexentry{SemiImplMtx_setDefaultFields@{\tt SemiImplMtx\_setDefaultFields()}}{2}
+\indexentry{SemiImplMtx_clearData@{\tt SemiImplMtx\_clearData()}}{2}
+\indexentry{SemiImplMtx_free@{\tt SemiImplMtx\_free()}}{3}
+\indexentry{SemiImplMtx_initFromFrontMtx@{\tt SemiImplMtx\_initFromFrontMtx()}}{3}
+\indexentry{FrontMtx_initFromSubMtx@{\tt FrontMtx\_initFromSubMtx()}}{3}
+\indexentry{SemiImplMtx_solve@{\tt SemiImplMtx\_solve()}}{3}
+\indexentry{SemiImplMtx_stats@{\tt SemiImplMtx\_stats()}}{4}
+\indexentry{SemiImplMtx_writeForHumanEye@{\tt SemiImplMtx\_writeForHumanEye()}}{4}

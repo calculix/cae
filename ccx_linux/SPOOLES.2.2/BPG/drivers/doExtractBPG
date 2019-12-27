@@ -1,0 +1,35 @@
+#! /bin/csh -f
+
+set matrices        = ../../Matrices
+set matrix          = BCSSTK24
+set inGraphFile     = $matrices/$matrix/orig1.graphf
+set inCompidsIVfile = $matrices/$matrix/bkl.ivf
+
+set msglvl      = 5
+
+set msgFile    = stdout
+
+set firstseed = 1
+set lastseed  = 2
+set lastseed  = 21
+set lastseed  =  6
+set lastseed  = 51
+set lastseed  = 11
+set lastseed  =  1
+
+set alpha = 1.0
+
+foreach icomp ( 1 2 )
+   echo ' matrix = ' $matrix
+   set outMapIVfile    = temp.ivf
+   set outMapIVfile    = none
+   set outBPGfile      = temp.bpgf
+   set outBPGfile      = none
+   set msgFile         = stdout
+   @ seed = $firstseed
+   while ( $seed <= $lastseed )
+      extractBPG $msglvl $msgFile $inGraphFile \
+                 $inCompidsIVfile $icomp $outMapIVfile $outBPGfile
+      @ seed = $seed + 1
+   end
+end

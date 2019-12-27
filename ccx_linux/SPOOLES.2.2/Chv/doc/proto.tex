@@ -1,0 +1,1273 @@
+\par
+\section{Prototypes and descriptions of {\tt Chv} methods}
+\label{section:Chv:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt Chv} object.
+\par
+\subsection{Basic methods}
+\label{subsection:Chv:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Chv * Chv_new ( void ) ;
+\end{verbatim}
+\index{Chv_new@{\tt Chv\_new()}}
+This method simply allocates storage for the {\tt Chv} structure 
+and then sets the default fields by a call to 
+{\tt Chv\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_setDefaultFields ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_setDefaultFields@{\tt Chv\_setDefaultFields()}}
+The structure's fields are set to default values:
+{\tt id} = {\tt -1}, {\tt nD} = {\tt nL} = {\tt nU} = 0,
+{\tt type} = {\tt SPOOLES\_REAL},
+{\tt symflag} = {\tt SPOOLES\_SYMMETRIC},
+and {\tt rowind} = {\tt colind} = {\tt entries} = {\tt next} 
+= {\tt NULL} .
+The {\tt wrkDV} object has its default fields set via a call to
+{\tt DV\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_clearData ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_clearData@{\tt Chv\_clearData()}}
+This method clears the object and free's any owned data
+by invoking the {\tt \_clearData()} methods for its internal
+{\tt DV} object.
+There is a concluding call to {\tt Chv\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_free ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_free@{\tt Chv\_free()}}
+This method releases any storage by a call to 
+{\tt Chv\_clearData()} and then free the space for {\tt chv}.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:Chv:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_id ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_id@{\tt Chv\_id()}}
+This method returns the {\it id} of the object.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_type ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_type@{\tt Chv\_type()}}
+This method returns the {\it type} of the object.
+\begin{itemize}
+\item
+{\tt SPOOLES\_REAL} $\Longrightarrow$ real entries
+\item
+{\tt SPOOLES\_COMPLEX} $\Longrightarrow$ complex entries
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_symmetryFlag ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_symmetryFlag@{\tt Chv\_symmetryFlag()}}
+This method returns the {\it symmetry flag} of the object.
+\begin{itemize}
+\item
+{\tt SPOOLES\_SYMMETRIC} $\Longrightarrow$ 
+symmetric entries, i.e., $a_{i,j} = a_{j,i}$.
+\item
+{\tt SPOOLES\_HERMITIAN} $\Longrightarrow$ 
+hermitian entries, i.e., $a_{i,j} = \overline{a_{j,i}}$.
+\item
+{\tt SPOOLES\_NONSYMMETRIC} $\Longrightarrow$ 
+nonsymmetric entries.
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_dimensions ( Chv *chv, int *pnD, int *pnL, *pnU ) ;
+\end{verbatim}
+\index{Chv_dimensions@{\tt Chv\_dimensions()}}
+This method 
+fills {\tt *pnD}, {\tt *pnL} and {\tt *pnU}
+with {\tt nD}, {\tt nL} and {\tt nU}.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_rowIndices ( Chv *chv, int *pnrow, **prowind ) ;
+\end{verbatim}
+\index{Chv_rowIndices@{\tt Chv\_rowIndices()}}
+This method fills {\tt *pnrow} with the number of rows ({\tt nD + nL})
+and {\tt *prowind} with a pointer to the row indices.
+\par \noindent {\it Error checking:}
+If {\tt chv}, {\tt pnrow} or {\tt prowind} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_columnIndices ( Chv *chv, int *pncol, **pcolind ) ;
+\end{verbatim}
+\index{Chv_columnIndices@{\tt Chv\_columnIndices()}}
+This method fills {\tt *pncol} with the number of columns 
+({\tt nD + nU})
+and {\tt *pcolind} with a pointer to the column indices.
+\par \noindent {\it Error checking:}
+If {\tt chv}, {\tt pncol} or {\tt pcolind} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int  Chv_nent ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_nent@{\tt Chv\_nent()}}
+This method returns number of matrix entries that the object contains.
+Note, for a complex chevron,
+this is the number of {\it double precision complex} entries,
+equal to one half the number of double precision entries 
+that are stored.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * Chv_entries ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_entries@{\tt Chv\_entries()}}
+This method returns the {\it entries} field of the object,
+a pointer to the base location of the double precision array that
+stores the complex data.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * Chv_diagLocation ( Chv *chv, int ichv ) ;
+\end{verbatim}
+\index{Chv_diagLocation@{\tt Chv\_diagLocation()}}
+This method returns a pointer to the address of the entry in
+the {\tt ichv}'th diagonal location.
+For a real chevron,
+to find the entry {\tt k} places to the right of the diagonal entry, 
+add {\tt k} to the address.
+To find an entry {\tt k} places below the diagonal entry, 
+subtract {\tt k} from the address.
+For a complex chevron,
+to find the entry {\tt k} places to the right of the diagonal entry, 
+add {\tt 2*k} to the address.
+To find an entry {\tt k} places below the diagonal entry, 
+subtract {\tt 2*k} from the address.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void * Chv_workspace ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_workspace@{\tt Chv\_workspace()}}
+This method returns a pointer to the base address of the workspace.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void  Chv_realEntry ( Chv *chv, int irow, int jcol, double *pValue ) ;
+\end{verbatim}
+\index{Chv_realEntry@{\tt Chv\_realEntry()}}
+This method fills {\tt *pValue} with the entry 
+in row {\tt irow} and column {\tt jcol}.
+Note, {\tt irow} and {\tt jcol} are {\it local} indices,
+i.e., $0 \le \mbox{\tt irow} < \mbox{\tt nD} + \mbox{\tt nL}$
+and $0 \le \mbox{\tt jcol} < \mbox{\tt nD} + \mbox{\tt nU}$.
+\par \noindent {\it Error checking:}
+If {\tt chv} or {\tt pValue} is {\tt NULL},
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Chv_locationOfRealEntry ( Chv *chv, int irow, int jcol, double **ppValue ) ;
+\end{verbatim}
+\index{Chv_locationOfRealEntry@{\tt Chv\_locationOfRealEntry()}}
+This method fills {\tt *ppValue} with a pointer to the 
+entry in row {\tt irow} and column {\tt jcol}.
+Note, {\tt irow} and {\tt jcol} are {\it local} indices,
+i.e., $0 \le \mbox{\tt irow} < \mbox{\tt nD} + \mbox{\tt nL}$
+and $0 \le \mbox{\tt jcol} < \mbox{\tt nD} + \mbox{\tt nU}$.
+\par \noindent {\it Error checking:}
+If {\tt chv} or {\tt ppValue} is {\tt NULL},
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void  Chv_setRealEntry ( Chv *chv, int irow, int jcol, double value ) ;
+\end{verbatim}
+\index{Chv_setRealEntry@{\tt Chv\_setRealEntry()}}
+This method sets the entry in row {\tt irow} and column {\tt jcol} 
+to be {\tt value}.
+Note, {\tt irow} and {\tt jcol} are {\it local} indices,
+i.e., $0 \le \mbox{\tt irow} < \mbox{\tt nD} + \mbox{\tt nL}$
+and $0 \le \mbox{\tt jcol} < \mbox{\tt nD} + \mbox{\tt nU}$.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void  Chv_complexEntry ( Chv *chv, int irow, int jcol, 
+                         double *pReal, double *pImag ) ;
+\end{verbatim}
+\index{Chv_complexEntry@{\tt Chv\_complexEntry()}}
+This method fills {\tt *pReal} with the real part and
+{\tt *pImag} with the imaginary part of the the entry 
+in row {\tt irow} and column {\tt jcol}.
+Note, {\tt irow} and {\tt jcol} are {\it local} indices,
+i.e., $0 \le \mbox{\tt irow} < \mbox{\tt nD} + \mbox{\tt nL}$
+and $0 \le \mbox{\tt jcol} < \mbox{\tt nD} + \mbox{\tt nU}$.
+\par \noindent {\it Error checking:}
+If {\tt chv}, {\tt pReal} or {\tt pImag} is {\tt NULL},
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Chv_locationOfComplexEntry ( Chv *chv, int irow, int jcol,
+                             double **ppReal, double **ppImag ) ;
+\end{verbatim}
+\index{Chv_locationOfComplexEntry@{\tt Chv\_locationOfComplexEntry()}}
+This method fills {\tt *ppReal} with a pointer to the real part
+and {\tt *ppImag} with a pointer to the imaginary part of
+the entry in row {\tt irow} and column {\tt jcol}.
+Note, {\tt irow} and {\tt jcol} are {\it local} indices,
+i.e., $0 \le \mbox{\tt irow} < \mbox{\tt nD} + \mbox{\tt nL}$
+and $0 \le \mbox{\tt jcol} < \mbox{\tt nD} + \mbox{\tt nU}$.
+\par \noindent {\it Error checking:}
+If {\tt chv}, {\tt ppReal} or {\tt ppImag} is {\tt NULL},
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void  Chv_setComplexEntry ( Chv *chv, int irow, int jcol, 
+                            double real, double imag ) ;
+\end{verbatim}
+\index{Chv_setComplexEntry@{\tt Chv\_setComplexEntry()}}
+This method sets the real and imaginary parts and the entry 
+in row {\tt irow} and column {\tt jcol} to be {\tt real} and {\tt
+imag}, respectively.
+Note, {\tt irow} and {\tt jcol} are {\it local} indices,
+i.e., $0 \le \mbox{\tt irow} < \mbox{\tt nD} + \mbox{\tt nL}$
+and $0 \le \mbox{\tt jcol} < \mbox{\tt nD} + \mbox{\tt nU}$.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization methods}
+\label{subsection:Chv:proto:initial}
+\par
+There are three initializer methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_init( Chv *chv, int id, int nD, int nL, int nU, int type, int symflag ) ;
+\end{verbatim}
+\index{Chv_init@{\tt Chv\_init()}}
+This is the initializer method used when the {\tt Chv}
+object is to use its owned workspace to store indices and entries.
+The number of indices and entries is computed,
+the work space is set up via calls to {\tt Chv\_nbytesNeeded()}
+and {\tt Chv\_setNbytesInWorkspace()},
+and the scalars, pointers and buffer are set up via a call to
+{\tt Chv\_setFields()}.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+or if ${\tt nD} \le 0$,
+or if {\tt nL} or ${\tt nU} < 0$,
+or if {\tt type} or if {\tt symflag} is not valid,
+% or if {\tt type} is not {\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX},
+% or if {\tt symflag} is not {\tt SPOOLES\_SYMMETRIC},
+% {\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_initWithPointers ( Chv *chv, int id, int nD, int nL, int nU, int type, 
+                    int symflag, int *rowind, int *colind, double *entries ) ;
+\end{verbatim}
+\index{Chv_initWithPointers@{\tt Chv\_initWithPointers()}}
+This initializer method is used when the {\tt Chv}
+object does not own the storage for its indices and entries,
+but points into some other storage.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+or if ${\tt nD} \le 0$,
+or if {\tt nL} or ${\tt nU} < 0$,
+or if {\tt type} or if {\tt symflag} is not valid,
+% or if {\tt type} is not {\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX},
+% or if {\tt symflag} is not {\tt SPOOLES\_SYMMETRIC},
+% {\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC}
+or if {\tt entries} or {\tt colind} is {\tt NULL},
+or if {\tt symflag = SPOOLES\_NONSYMMETRIC} 
+and {\tt rowind} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_initFromBuffer ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_initFromBuffer@{\tt Chv\_initFromBuffer()}}
+This initializer method is used to set the scalar and pointer fields
+when the object's buffer is already preloaded.
+This functionality is used in the MPI factorization where a {\tt
+Chv} object is sent and received, more precisely, the workspace
+buffer owned by the {\tt Chv} object is sent and received.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Search methods}
+\label{subsection:Chv:proto:search}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_maxabsInDiagonal11 ( Chv *chv, int mark[], int tag, double *pmaxval ) ;
+\end{verbatim}
+\index{Chv_maxabsInDiagonal11@{\tt Chv\_maxabsInDiagonal11()}}
+This method returns the location of the first tagged element with the
+largest magnitude in the diagonal of the (1,1) block.
+Element {\tt jj} must have {\tt mark[jj] = tag} to be eligible.
+Its magnitude is returned in {\tt *pmaxval}.
+Note, if the chevron is complex, the location is in terms 
+of the complex entries, not in the real entries, 
+i.e., if {\tt k = Chv\_maxabsDiagonal11(chv,...)},
+then the complex entry is found in {\tt chv->entries[2*kk:2*kk+1]}.
+\par \noindent {\it Error checking:}
+If {\tt chv}, {\tt mark} or {\tt pmaxval} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_maxabsInRow11 ( Chv *chv, int irow, int colmark[],
+                        int tag, double *pmaxval ) ;
+\end{verbatim}
+\index{Chv_maxabsInRow11@{\tt Chv\_maxabsInRow11()}}
+This method returns the location of the first element with the
+largest magnitude in row {\tt irow} of the (1,1) block.
+Element {\tt jj} must have {\tt colmark[jj] = tag} to be eligible.
+Its magnitude is returned in {\tt *pmaxval}.
+Note, if the chevron is complex,
+the location is in terms of the complex entries, not in the
+real entries, i.e., if {\tt k = Chv\_maxabsRow11(chv,...)},
+then the complex entry is found in {\tt chv->entries[2*kk:2*kk+1]}.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL} or {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_maxabsInColumn11 ( Chv *chv, int jcol, int rowmark[],
+                           int tag, double *pmaxval ) ;
+\end{verbatim}
+\index{Chv_maxabsInColumn11@{\tt Chv\_maxabsInColumn11()}}
+This method returns the location of the first element with the
+largest magnitude in column {\tt jcol} of the (1,1) block.
+Element {\tt jj} must have {\tt rowmark[jj] = tag} to be eligible.
+Its magnitude is returned in {\tt *pmaxval}.
+Note, if the chevron is complex,
+the location is in terms of the complex entries, not in the
+real entries, i.e., if {\tt k = Chv\_maxabsColumn11(chv,...)},
+then the complex entry is found in {\tt chv->entries[2*kk:2*kk+1]}.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL} or {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_maxabsInRow ( Chv *chv, int irow, int colmark[],
+                      int tag, double *pmaxval ) ;
+\end{verbatim}
+\index{Chv_maxabsInRow@{\tt Chv\_maxabsInRow()}}
+This method returns the location of the first element with the
+largest magnitude in row {\tt irow}.
+Element {\tt jj} must have {\tt colmark[jj] = tag} to be eligible.
+Its magnitude is returned in {\tt *pmaxval}.
+Note, if the chevron is complex,
+the location is in terms of the complex entries, not in the
+real entries, i.e., if {\tt k = Chv\_maxabsRow(chv,...)},
+then the complex entry is found in {\tt chv->entries[2*kk:2*kk+1]}.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL} or {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_maxabsInColumn ( Chv *chv, int jcol, int rowmark[],
+                         int tag, double *pmaxval ) ;
+\end{verbatim}
+\index{Chv_maxabsInColumn@{\tt Chv\_maxabsInColumn()}}
+This method returns the location of the first element with the
+largest magnitude in column {\tt jcol}.
+Element {\tt jj} must have {\tt rowmark[jj] = tag} to be eligible.
+Its magnitude is returned in {\tt *pmaxval}.
+Note, if the chevron is complex,
+the location is in terms of the complex entries, not in the
+real entries, i.e., if {\tt k = Chv\_maxabsColumn11(chv,...)},
+then the complex entry is found in {\tt chv->entries[2*kk:2*kk+1]}.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL} or {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double Chv_quasimax ( Chv *chv, int rowmark[], int colmark[]
+                      int tag, int *pirow, int *pjcol ) ;
+\end{verbatim}
+\index{Chv_quasimax@{\tt Chv\_quasimax()}}
+This method searches for a {\it quasimax} entry in the $(1,1)$
+block, an entry $a_{i,j}$ that has largest magnitude 
+of the tagged entries in row $i$ and column $j$.
+An entry $a_{i,j}$ is {\it tagged} when {\tt rowmark[i] = tag}
+and {\tt colmark[j] = tag}.
+On return, 
+{\tt *pirow} is filled with the row id and
+{\tt *pjcol} is filled with the column id of the quasimax entry.
+The return value is the magnitude of the entry.
+\par \noindent {\it Error checking:}
+If {\tt chv}, {\tt rowmark}, {\tt colmark}, {\tt pirow} or {\tt pjcol}
+is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_fastBunchParlettPivot ( Chv *chv, int mark[], int tag, 
+                                 int *pirow, int *pjcol ) ;
+\end{verbatim}
+\index{Chv_fastBunchParlettPivot@{\tt Chv\_fastBunchParlettPivot()}}
+This method is used only for a symmetric or hermitian object and 
+finds a $1 \times 1$ or $2 \times 2$ pivot 
+that is suitable for elimination.
+Only pivots from the $(1,1)$ block can be chosen.
+A diagonal element $a_{r,r}$ with maximum magnitude is first found 
+using the {\tt Chv\_maxabsInDiagonal11()} method.
+We then find the element $a_{r,k}$ in that row that has 
+a maximum magnitude.
+If $|a_{r,r}| > 0.6404 |a_{r,k}|$ 
+then we accept the $1 \times 1$ pivot element.
+Otherwise we look for an offdiagonal element that is largest in its
+row and column and return it as a $2 \times 2$ pivot.
+\par \noindent {\it Error checking:}
+If {\tt chv}, {\tt mark}, {\tt pirow} or {\tt pjcol} is {\tt NULL}, 
+an error message is printed and the method returns.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Pivot methods}
+\label{subsection:Chv:proto:pivot}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_findPivot ( Chv *chv, DV *workDV, double tau, int ndelay,
+                    int *pirow, int *pjcol, int *pntest ) ;
+\end{verbatim}
+\index{Chv_findPivot@{\tt Chv\_findPivot()}}
+This method finds and tests a pivot, where if it were used at the
+next elimination step, each entry in $L$ and $U$ would have
+magnitude less than or equal to {\tt tau}.
+The {\tt workDV} object is used for workspace,
+it is resized as necessary.
+The {\tt ndelay} parameter allows one to specify the number of leading
+rows and columns to ignore, useful when delayed rows and columns
+have been placed in the leading portion of the chevron.
+The {\tt pirow}, {\tt pjcol} and {\tt pntest} addresses are filled
+with the pivot row, pivot column, and number of pivot tests
+performed to find the pivot.
+If no pivot was found, {\tt pirow} and {\tt pjcol} are filled with
+{\tt -1}.
+The return value is the size of the pivot.
+If the chevron is symmetric, we can find a 
+$1 \times 1$ or $2 \times 2$ pivot.
+If the chevron is nonsymmetric, we only find a $1 \times 1$ pivot.
+A return value of zero means that no pivot was found.
+\par \noindent {\it Error checking:}
+If {\tt chv}, {\tt workDV}, {\tt pirow}, {\tt pjcol} or {\tt pntest}
+is {\tt NULL},
+or if ${\tt tau} < 1.0$, or if ${\tt ndelay} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Update methods}
+\label{subsection:Chv:proto:updates}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_updateS ( Chv *chv, SubMtx *mtxD, SubMtx *mtxU, DV *tempDV ) ;
+void Chv_updateH ( Chv *chv, SubMtx *mtxD, SubMtx *mtxU, DV *tempDV ) ;
+void Chv_updateN ( Chv *chv, SubMtx *mtxL, SubMtx *mtxD, SubMtx *mtxU, 
+                   DV *tempDV ) ;
+\end{verbatim}
+\index{Chv_updateS@{\tt Chv\_updateS()}}
+\index{Chv_updateH@{\tt Chv\_updateH()}}
+\index{Chv_updateN@{\tt Chv\_updateN()}}
+These methods perform an update to a chevron during the factorization.
+For a symmetric chevron, we compute
+\begin{eqnarray*}
+T_{J \cap \bnd{I},J \cap \bnd{I}} 
+& := & T_{J \cap \bnd{I},J \cap \bnd{I}} 
+- U_{I,J \cap \bnd{I}}^T D_{I,I} U_{I, J \cap \bnd{I}} \\
+T_{J \cap \bnd{I},\bnd{J} \cap \bnd{I}} 
+& := & T_{J \cap \bnd{I},\bnd{J} \cap \bnd{I}} 
+- U_{I,J \cap \bnd{I}}^T D_{I,I} U_{I, \bnd{J} \cap \bnd{I}}
+\end{eqnarray*}
+where $D$ is diagonal or block diagonal with $1 \times 1$ and/or
+symmetric $2 \times 2$ pivots. 
+$U$ is stored by sparse or dense columns.
+For a Hermitian chevron, we compute
+\begin{eqnarray*}
+T_{J \cap \bnd{I},J \cap \bnd{I}} 
+& := & T_{J \cap \bnd{I},J \cap \bnd{I}} 
+- U_{I,J \cap \bnd{I}}^H D_{I,I} U_{I, J \cap \bnd{I}} \\
+T_{J \cap \bnd{I},\bnd{J} \cap \bnd{I}} 
+& := & T_{J \cap \bnd{I},\bnd{J} \cap \bnd{I}} 
+- U_{I,J \cap \bnd{I}}^H D_{I,I} U_{I, \bnd{J} \cap \bnd{I}}
+\end{eqnarray*}
+where $D$ is diagonal or block diagonal with $1 \times 1$ and/or
+Hermitian $2 \times 2$ pivots. 
+$U$ is stored by sparse or dense columns.
+For a nonsymmetric chevron, we compute
+\begin{eqnarray*}
+T_{J \cap \bnd{I},J \cap \bnd{I}} 
+& := & T_{J \cap \bnd{I},J \cap \bnd{I}} 
+- L_{J \cap \bnd{I},I} D_{I,I} U_{I, J \cap \bnd{I}} \\
+T_{J \cap \bnd{I},\bnd{J} \cap \bnd{I}} 
+& := & T_{J \cap \bnd{I},\bnd{J} \cap \bnd{I}} 
+- L_{J \cap \bnd{I},I} D_{I,I} U_{I, \bnd{J} \cap \bnd{I}} \\
+T_{\bnd{J} \cap \bnd{I},J \cap \bnd{I}} 
+& := & T_{\bnd{J} \cap \bnd{I},J \cap \bnd{I}} 
+- L_{\bnd{J} \cap \bnd{I},I} D_{I,I} U_{I, J \cap \bnd{I}} 
+\end{eqnarray*}
+where $D$ is diagonal,
+$L$ is stored by sparse or dense rows, and
+$U$ is stored by sparse or dense columns.
+{\tt tempDV} is a temporary working vector whose storage 
+is resized as necessary.
+\par \noindent {\it Error checking:}
+If {\tt chvT}, {\tt mtxL}, {\tt mtxD}, {\tt mtxU} or {\tt tempDV}
+is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Assembly methods}
+\label{subsection:Chv:proto:assembly}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_addChevron ( Chv *chv, double alpha[], int ichv, int chvsize,
+                      int chvind[], double chvent[] ) ;
+\end{verbatim}
+\index{Chv_addChevron@{\tt Chv\_addChevron()}}
+This method is used to assemble entries from the matrix pencil
+$A + \sigma B$ into the block chevron object.
+Typically the entries from $A$ or $B$ will come from a {\tt InpMtx} 
+object, one of whose modes of storage is by single {\tt chevrons}.
+The value {\tt ichv} is the row and column location of the diagonal
+entry.
+The indices found in {\tt chvind[]} are {\it offsets}.
+Let {\tt off = chvind[ii]} be the offset for one of the chevron's
+entries.
+If $\mbox{\tt off} \ge 0$, then the entry is found in location 
+{\tt (ichv, ichv+off)} of the matrix.
+If $\mbox{\tt off} < 0$, then the entry is found in location 
+{\tt (ichv-off, ichv)} of the matrix.
+The value(s) in {\tt alpha[]} form a scalar 
+used to scale the entire chevron for its assembly.
+A call to assemble entries in $A$ (from the pencil $A + \sigma B$)
+would have {\tt alpha[] = (1.0,0.0)};
+to assemble entries in $B$ (from the pencil $A + \sigma B$)
+would have $\mbox{\tt alpha[]} = (Real(\sigma),Imag(\sigma))$.
+\par \noindent {\it Error checking:}
+If {\tt chv}, {\tt chvind}, {\tt chvent} or {\tt alpha} is {\tt NULL},
+or if {\tt ichv} or  {\tt chvsize} are less than zero,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_assembleChv ( Chv *chvJ, Chv *chvI ) ;
+\end{verbatim}
+\index{Chv_assembleChv@{\tt Chv\_assembleChv()}}
+This method is used to assemble entries from one {\tt Chv} object
+into another.
+The application is during a factorization with pivoting,
+postponed entries from the children are stored in the {\tt chvI Chv}
+object and need to be assembled into the final working front,
+along with all updates from the descendents (which are stored in
+the {\tt chvJ Chv} object.
+Note, the row and column indices of {\tt chvI} {\it must nest}
+with those of {\tt chvJ}.
+\par \noindent {\it Error checking:}
+If {\tt chvI} or {\tt chvJ} is {\tt NULL},
+or if their {\tt symflag} fields are not identical,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_assemblePostponedData ( Chv *newchv, Chv *oldchv, Chv *firstchild ) ;
+\end{verbatim}
+\index{Chv_assemblePostponedData@{\tt Chv\_assemblePostponedData()}}
+This method is used to assemble a {\tt Chv} object for a front
+({\tt oldchv})
+along with any postponed data from the children
+(objects are held in a list where {\tt firstchild} is the head)
+into a {\tt Chv} object {\tt newchv}.
+The return value is the number of delayed rows and columns from the
+children fronts which are found in the leading rows and columns of
+the chevron.
+\par \noindent {\it Error checking:}
+If {\tt newchv}, {\tt oldchv} or {\tt firstchild} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Factorization methods}
+\label{subsection:Chv:proto:factor}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_factorWithPivoting ( Chv *chv, int ndelay, int pivotflag, 
+                IV *pivotsizesIV, DV *workDV, double tau, int *pntest ) ;
+\end{verbatim}
+\index{Chv_factorWithPivoting@{\tt Chv\_factorWithPivoting()}}
+This method factors a front using pivoting for numerical stability.
+The number of rows and columns that have been delayed (assembled
+from the children) is given by {\tt ndelay}, this allows the method
+that finds the pivots to skip over these rows and columns since no
+pivot can be found there.
+When pivoting is enabled ({\tt pivotflag} is {\tt SPOOLES\_PIVOTING}), 
+the {\tt workDV}
+object used during the search process for pivots
+must be non-{\tt NULL}, 
+{\tt tau} is the upper bound on factor entries, and {\tt pivotsizesIV}
+must be non-{\tt NULL} when the front is symmetric or Hermitian.
+The address {\tt pntest} is incremented with the number of pivot
+tests by the {\tt Chv\_findPivot()} method.
+The return value is the number of eliminated rows and columns.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+or if  {\tt pivotflag} is not valid,
+or if {\tt ndelay} is negative,
+or if {\tt pivotflag == SPOOLES\_PIVOTING} 
+and {\tt workDV} is {\tt NULL} or {\tt tau} is less than {\tt 1.0},
+or if the chevron is symmetric or Hermitian, 
+{\tt pivotflag == SPOOLES\_PIVOTING} and
+{\tt pivotsizesIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_factorWithNoPivoting ( Chv *chv, PatchAndGoInfo *info ) ;
+\end{verbatim}
+\index{Chv_factorWithNoPivoting@{\tt Chv\_factorWithNoPivoting()}}
+This method factors a front without using pivoting 
+for numerical stability.
+It does support ``patch-and-go'' functionality, where if a small or
+zero entry is found in the diagonal element that is to be
+eliminated, some action can be taken.
+The return value is the number of eliminated rows and columns.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_r1upd ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_r1upd@{\tt Chv\_r1upd()}}
+This method is used during the factorization of a front,
+performing a rank-one update of the chevron.
+The return value is {\tt 1} if the pivot is nonzero,
+{\tt 0} otherwise.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_r2upd ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_r2upd@{\tt Chv\_r2upd()}}
+This method is used during the factorization of a front,
+performing a rank-two update of the chevron.
+The return value is {\tt 1} if the pivot is nonsingular,
+{\tt 0} otherwise.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+or if the chevron is nonsymmetric,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_maxabsInChevron ( Chv *chv, int ichv, 
+                           double *pdiagmaxabs, *prowmaxabs, *pcolmaxabs ) ;
+\end{verbatim}
+\index{Chv_maxabsInChevron@{\tt Chv\_maxabsInChevron()}}
+This method is used during the factorization of a front
+with a ``patch-and-go'' strategy.
+On return, 
+{\tt *pdiagmaxabs} contains the magnitude of the diagonal
+entry for the chevron,
+{\tt *prowmaxabs} contains the maximum magnitude of the entries
+in the row of the chevron,
+and {\tt *pcolmaxabs} contains the maximum magnitude of the entries
+in the column of the chevron.
+\par \noindent {\it Error checking:}
+If {\tt chv}, {\tt pdiagmaxabs}, {\tt prowmaxabs} or {\tt pcolmaxabs}
+is {\tt NULL},
+or if {\tt ichv} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_zeroOffdiagonalOfChevron ( Chv *chv, int ichv ) ;
+\end{verbatim}
+\index{Chv_zeroOffdiagonalOfChevron@{\tt Chv\_zeroOffdiagonalOfChevron()}}
+This method is used during the factorization of a front
+with a ``patch-and-go'' strategy.
+On return, 
+the offdiagonal entries of chevron {\tt ichv} have been set to zero.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+or if {\tt ichv} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Copy methods}
+\label{subsection:Chv:proto:copy}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_countEntries ( Chv *chv, int npivot, int pivotsizes[],
+                       int countflag ) ;
+\end{verbatim}
+\index{Chv_countEntries@{\tt Chv\_countEntries()}}
+This method counts the number of entries in the chevron that are
+larger in magnitude than {\tt droptol}.
+{\tt countflag} has the following meaning.
+\begin{itemize}
+\item {\tt CHV\_STRICT\_LOWER} $\Longrightarrow$ 
+      count strict lower entries
+\item {\tt CHV\_DIAGONAL} $\Longrightarrow$ count diagonal entries
+\item {\tt CHV\_STRICT\_UPPER} $\Longrightarrow$ 
+      count strict upper entries
+\item {\tt CHV\_STRICT\_LOWER\_11} $\Longrightarrow$ 
+              count strict lower entries in the (1,1) block
+\item {\tt CHV\_LOWER\_21} $\Longrightarrow$ 
+              count lower entries in the (2,1) block
+\item {\tt CHV\_STRICT\_UPPER\_11} $\Longrightarrow$ 
+              count strict upper entries in the (1,1) block
+\item {\tt CHV\_UPPER\_12} $\Longrightarrow$ 
+              count upper entries in the (1,2) block
+\end{itemize}
+This method is used to compute the necessary storage to store a
+chevron as a dense front.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL}
+or if {\tt countflag} is not valid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_countBigEntries ( Chv *chv, int npivot, int pivotsizes[],
+                          int countflag, double droptol ) ;
+\end{verbatim}
+\index{Chv_countBigEntries@{\tt Chv\_countBigEntries()}}
+This method counts the number of entries in the chevron that are
+larger in magnitude than {\tt droptol}.
+{\tt countflag} has the following meaning.
+\begin{itemize}
+\item {\tt CHV\_STRICT\_LOWER} $\Longrightarrow$ 
+      count strict lower entries
+\item {\tt CHV\_STRICT\_UPPER} $\Longrightarrow$ 
+      count strict upper entries
+\item {\tt CHV\_STRICT\_LOWER\_11} $\Longrightarrow$ 
+              count strict lower entries in the (1,1) block
+\item {\tt CHV\_LOWER\_21} $\Longrightarrow$ 
+              count lower entries in the (2,1) block
+\item {\tt CHV\_STRICT\_UPPER\_11} $\Longrightarrow$ 
+              count strict upper entries in the (1,1) block
+\item {\tt CHV\_UPPER\_12} $\Longrightarrow$ 
+              count upper entries in the (1,2) block
+\end{itemize}
+This method is used to compute the necessary storage to store a
+chevron as a sparse front.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL}
+or if {\tt countflag} is not valid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_copyEntriesToVector ( Chv *chv, int npivot, int pivotsizes[],
+               int length, double dvec[], int copyflag, int storeflag) ;
+\end{verbatim}
+\index{Chv_copyEntriesToVector@{\tt Chv\_copyEntriesToVector()}}
+This method copies some entries the chevron object into a double
+precision vector.
+This method is called after a front has been factored and 
+is used to store the factor entries into the
+storage for the factor matrix.
+If the front is nonsymmetric, the front contains entries
+of $L$, $D$ and $U$, where $D$ is diagonal.
+If the front is symmetric or Hermitian, the front contains entries
+of $D$ and $U$, and $D$ is diagonal if {\tt pivotsizesIV} is {\tt
+NULL} or may contain a mixture of $1 \times 1$ and $2 \times 2$
+pivots otherwise.
+{\tt copyflag} has the following meaning.
+\begin{itemize}
+\item {\tt CHV\_STRICT\_LOWER} $\Longrightarrow$ 
+      copy strict lower entries
+\item {\tt CHV\_DIAGONAL} $\Longrightarrow$ copy diagonal entries
+\item {\tt CHV\_STRICT\_UPPER} $\Longrightarrow$ 
+      copy strict upper entries
+\item {\tt CHV\_STRICT\_LOWER\_11} $\Longrightarrow$ 
+              copy strict lower entries in the (1,1) block
+\item {\tt CHV\_LOWER\_21} $\Longrightarrow$ 
+              copy lower entries in the (2,1) block
+\item {\tt CHV\_STRICT\_UPPER\_11} $\Longrightarrow$ 
+              copy strict upper entries in the (1,1) block
+\item {\tt CHV\_UPPER\_12} $\Longrightarrow$ 
+              copy upper entries in the (1,2) block
+\end{itemize}
+\par
+%% The {\tt DFrontMtx} object presently stores the entries in $U$ 
+%% by columns and the entries in $L$ by rows. 
+%% This allows us to use dot product kernels during the factorization.
+%% On other architectures it may be more efficient to have {\tt axpy}
+%% kernels, in which the entries in $U$ would be stored by rows and
+%% the entries in $L$ stored by columns.
+%% This method supports both formats, where 
+If {\tt storeflag} is {\tt CHV\_BY\_ROWS}, 
+the entries are stored by rows
+and if {\tt storeflag} is {\tt CHV\_BY\_COLUMNS}, 
+the entries are stored by columns.
+\par \noindent {\it Error checking:}
+If {\tt chv} or {\tt dvec} is {\tt NULL}
+or if {\tt length} is less than the number of entries to be copied,
+or if {\tt copyflag} or {\tt storeflag} is valid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_copyBigEntriesToVector ( Chv *chv, int npivot, int pivotsizes[],
+                         int sizes[], int ivec[], double dvec[], 
+                         int copyflag, int storeflag, double droptol ) ;
+\end{verbatim}
+\index{Chv_copyBigEntriesToVector@{\tt Chv\_copyBigEntriesToVector()}}
+This method also copies some entries the chevron object into a double
+precision vector, but only those entries whose magnitude is
+greater than or equal to {\tt droptol} are copied.
+This method is called after a front has been factored and 
+is used to store the factor entries of large magnitude into the
+storage for the factor matrix.
+If the front is nonsymmetric, the front contains entries
+of $L$, $D$ and $U$, where $D$ is diagonal.
+If the front is symmetric, the front contains entries
+of $D$ and $U$, and $D$ is diagonal if {\tt pivotsizesIV} is {\tt
+NULL} or may contain a mixture of $1 \times 1$ and $2 \times 2$
+pivots otherwise.
+{\tt copyflag} has the following meaning.
+\begin{itemize}
+\item {\tt CHV\_STRICT\_LOWER} $\Longrightarrow$ 
+      copy strict lower entries
+\item {\tt CHV\_STRICT\_UPPER} $\Longrightarrow$ 
+      copy strict upper entries
+\item {\tt CHV\_STRICT\_LOWER\_11} $\Longrightarrow$ 
+              copy strict lower entries in the (1,1) block
+\item {\tt CHV\_LOWER\_21} $\Longrightarrow$ 
+              copy lower entries in the (2,1) block
+\item {\tt CHV\_STRICT\_UPPER\_11} $\Longrightarrow$ 
+              copy strict upper entries in the (1,1) block
+\item {\tt CHV\_UPPER\_12} $\Longrightarrow$ 
+              copy upper entries in the (1,2) block
+\end{itemize}
+\par
+% The {\tt DFrontMtx} object presently stores the entries in $U$ 
+% by columns and the entries in $L$ by rows. 
+% This allows us to use dot product kernels during the factorization.
+% On other architectures it may be more efficient to have {\tt axpy}
+% kernels, in which the entries in $U$ would be stored by rows and
+% the entries in $L$ stored by columns.
+% This method supports both formats, where 
+If {\tt storeflag} is {\tt CHV\_BY\_ROWS}, 
+the entries are stored by rows
+and if {\tt storeflag} is {\tt CHV\_BY\_COLUMNS}, 
+the entries are stored by columns.
+\par
+When we store the large entries in the columns of $U$,
+{\tt sizes[jcol]} contains the number of large entries in column
+{\tt jcol}.
+The vectors {\tt ivec[]} and {\tt dvec[]} contain the row indices
+and the entries that are stored.
+When we store the large entries in the rows of $L$,
+{\tt sizes[irow]} contains the number of large entries in column
+{\tt irow}.
+The vectors {\tt ivec[]} and {\tt dvec[]} contain the column indices
+and the entries that are stored.
+Presently there is no checking that {\tt sizes[]}, {\tt ivec[]} and
+{\tt dvec[]} are large enough to store the sizes, indices and entries.
+The large entry count can be obtained using the method
+{\tt Chv\_countBigEntries()}.
+\par \noindent {\it Error checking:}
+If {\tt chv} or {\tt dvec} is {\tt NULL}
+or if {\tt length} is less than the number of entries to be copied,
+or if {\tt copyflag} or {\tt storeflag} is not valid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_copyTrailingPortion ( Chv *chvI, Chv *chvJ, int offset ) ;
+\end{verbatim}
+\index{Chv_copyTrailingPortion@{\tt Chv\_copyTrailingPortion()}}
+This method copies the trailing portion of {\tt chvJ} into {\tt chvI}.
+The first {\tt offsets} chevrons are not copied, the remainder are
+copied.
+This method is used to extract the delayed entries from a front
+which has been factored.
+\par \noindent {\it Error checking:}
+If {\tt chvI} or {\tt chvJ} is {\tt NULL},
+or if ${\tt offset} < 0$ or {\tt offset} is greater than the number
+of chevrons in {\tt chvJ},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Swap methods}
+\label{subsection:Chv:proto:swap}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_swapRows ( Chv *chv, int irow, int jrow ) ;
+\end{verbatim}
+\index{Chv_swapRows@{\tt Chv\_swapRows()}}
+This method swaps rows {\tt irow} and {\tt jrow} of the chevron.
+Both rows must be less than the width {\tt nD} of the chevron.
+The row ids of the two rows are also swapped.
+If the chevron is symmetric, then the method
+{\tt Chv\_swapRowsAndColumns()} is called.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL}
+or if {\tt irow} or {\tt jrow} are less than 0 or greater than or equal
+to {\tt nD},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_swapColumns ( Chv *chv, int icol, int jcol ) ;
+\end{verbatim}
+\index{Chv_swapColumns@{\tt Chv\_swapColumns()}}
+This method swaps columns {\tt icol} and {\tt jcol} of the chevron.
+Both columns must be less than the width {\tt nD} of the chevron.
+The column ids of the two columns are also swapped.
+If the chevron is symmetric, then the method
+{\tt Chv\_swapRowsAndColumns()} is called.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL}
+or if {\tt icol} or {\tt jcol} are less than 0 or greater than or equal
+to {\tt nD},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_swapRowsAndColumns ( Chv *chv, int ii, int jj ) ;
+\end{verbatim}
+\index{Chv_swapRowsAndColumns@{\tt Chv\_swapRowsAndColumns()}}
+This method swaps rows and columns {\tt ii} and {\tt jj} of the chevron.
+Both must be less than the width {\tt nD} of the chevron.
+The row and/or column ids are also swapped.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL}
+or if {\tt ii} or {\tt jj} are less than 0 or greater than or equal
+to {\tt nD},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:Chv:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_nbytesNeeded ( int nD, int nL, int nU, int type, int symflag ) ;
+\end{verbatim}
+\index{Chv_nbytesNeeded@{\tt Chv\_nbytesNeeded()}}
+This method returns the number of bytes necessary to store an
+object with the given dimensions and type in its workspace.
+\par \noindent {\it Error checking:}
+If {\tt nD}, {\tt nL}, or {\tt nU} is less than zero,
+or if {\tt type} or {\tt symflag} are not valid,
+% or if {\tt type} is not {\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX},
+% or if {\tt symflag} is not {\tt SPOOLES\_SYMMETRIC},
+% {\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Chv_nbytesInWorkspace ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_nbytesInWorkspace@{\tt Chv\_nbytesInWorkspace()}}
+This method returns the number of bytes in the workspace.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_setNbytesInWorkspace ( Chv *chv, int nbytes ) ;
+\end{verbatim}
+\index{Chv_setNbytesInWorkspace@{\tt Chv\_setNbytesInWorkspace()}}
+This method sets the number of bytes in the workspace.
+If {\tt nbytes} is less than the number of present bytes in the
+workspace, the workspace is not shrunk.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_setFields ( Chv *chv, int id, int nD, int nL, int nU, 
+                     int type, int symflag ) ;
+\end{verbatim}
+\index{Chv_setFields@{\tt Chv\_setFields()}}
+This method sets the scalar fields and {\tt rowind}, {\tt colind}
+and {\tt entries} pointers.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+or if ${\tt nD} \le 0$,
+or if {\tt nL} or {\tt nU} are less than zero,
+or if {\tt type} or {\tt symflag} are not valid,
+% or if {\tt type} is not {\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX},
+% or if {\tt symflag} is not {\tt SPOOLES\_SYMMETRIC},
+% {\tt SPOOLES\_HERMITIAN} or {\tt SPOOLES\_NONSYMMETRIC},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_shift ( Chv *chv, int shift ) ;
+\end{verbatim}
+\index{Chv_shift@{\tt Chv\_shift()}}
+This method is used to shift the base of the entries and adjust
+dimensions of the {\tt Chv} object.
+If {\tt shift} is positive,
+the first {\tt shift} chevrons are removed from the chevron.
+If {\tt shift} is negative,
+the {\tt shift} previous chevrons are prepended to the chevron.
+This is a dangerous method as it changes the state of the object.
+We use it during the factorization of a front, where one {\tt Chv}
+object points to the entire chevron in order to swap rows and
+columns, while another chevron points to the uneliminated rows
+and columns of the front.
+It is the latter chevron that is shifted during the factorization. 
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_fill11block ( Chv *chv, A2 *mtx ) ;
+\end{verbatim}
+\index{Chv_fill11block@{\tt Chv\_fill11block()}}
+This method is used to fill a {\tt A2} dense matrix object with
+the entries in the $(1,1)$ block of the chevron.
+\par \noindent {\it Error checking:}
+If {\tt chv} or {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_fill12block ( Chv *chv, A2 *mtx ) ;
+\end{verbatim}
+\index{Chv_fill12block@{\tt Chv\_fill12block()}}
+This method is used to fill a {\tt A2} dense matrix object with
+the entries in the $(1,2)$ block of the chevron.
+\par \noindent {\it Error checking:}
+If {\tt chv} or {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_fill21block ( Chv *chv, A2 *mtx ) ;
+\end{verbatim}
+\index{Chv_fill21block@{\tt Chv\_fill21block()}}
+This method is used to fill a {\tt A2} dense matrix object with
+the entries in the $(2,1)$ block of the chevron.
+\par \noindent {\it Error checking:}
+If {\tt chv} or {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double Chv_maxabs ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_maxabs@{\tt Chv\_maxabs()}}
+This method returns the magnitude of the entry of largest magnitude
+in the object.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double Chv_frobNorm ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_frobNorm@{\tt Chv\_frobNorm()}}
+This method returns the Frobenius norm of the chevron.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_sub ( Chv *chvJ, Chv *chvI ) ;
+\end{verbatim}
+\index{Chv_sub@{\tt Chv\_sub()}}
+This method subtracts {\tt chvI} from {\tt chvJ}.
+\par \noindent {\it Error checking:}
+If {\tt chvJ} or {\tt chvI} is {\tt NULL},
+or if their dimensions are not the same,
+or if either of their {\tt entries} fields are {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_zero ( Chv *chv ) ;
+\end{verbatim}
+\index{Chv_zero@{\tt Chv\_zero()}}
+This method zeroes the entries in the chevron.
+\par \noindent {\it Error checking:}
+If {\tt chv} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:Chv:proto:IO}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_writeForHumanEye ( Chv *chv, FILE *fp ) ;
+\end{verbatim}
+\index{Chv_writeForHumanEye@{\tt Chv\_writeForHumanEye()}}
+\par
+This method writes a {\tt Chv} object to a file in an easily
+readable format.
+\par \noindent {\it Error checking:}
+If {\tt chv} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Chv_writeForMatlab ( Chv *chv, char *chvname, FILE *fp ) ;
+\end{verbatim}
+\index{Chv_writeForMatlab@{\tt Chv\_writeForMatlab()}}
+\par
+This method writes a {\tt Chv} object to a file in a matlab format.
+For a real chevron, a sample line is
+\begin{verbatim}
+a(10,5) =  -1.550328201511e-01 ;
+\end{verbatim}
+where chvname = {\tt "a"}.
+For a complex chevron, a sample line is
+\begin{verbatim}
+a(10,5) =  -1.550328201511e-01 +   1.848033378871e+00*i;
+\end{verbatim}
+where chvname = {\tt "a"}.
+The matrix indices come from the {\tt rowind[]} and {\tt colind[]}
+vectors, and are incremented by one to follow the Matlab and
+FORTRAN convention.
+\par \noindent {\it Error checking:}
+If {\tt chv}, {\tt chvname} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par

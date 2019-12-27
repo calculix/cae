@@ -1,0 +1,12 @@
+\chapter{{\tt IIheap}: 
+% \break (Integer Key, Integer Value) Heap}
+(Key, Value) Heap}
+\par
+The {\tt IIheap} is a object that manages a heap of data.
+Both the {\it key} and the {\it value} are of type {\tt int}.
+The heap has fixed size, each item must be in {\tt [0,maxsize-1]},
+where {\tt maxsize} is set on initialization.
+The {\tt IIheap} object requires three vectors of size {\tt maxsize}.
+Three methods are supported: {\it find\_min}, {\it insert} and {\it
+delete} which take $O(1)$, $O(\log_2 n)$ and $O(\log_2 n)$ time, 
+respectively, where $n$ is the present size of the heap.

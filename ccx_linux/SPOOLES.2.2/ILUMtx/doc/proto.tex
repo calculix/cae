@@ -1,0 +1,327 @@
+\par
+\section{Prototypes and descriptions of {\tt ILUMtx} methods}
+\label{section:ILUMtx:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt ILUMtx} object.
+\par
+\subsection{Basic methods}
+\label{subsection:ILUMtx:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ILUMtx * ILUMtx_new ( void ) ;
+\end{verbatim}
+\index{ILUMtx_new@{\tt ILUMtx\_new()}}
+This method simply allocates storage for the {\tt ILUMtx} structure 
+and then sets the default fields by a call to 
+{\tt ILUMtx\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ILUMtx_setDefaultFields ( ILUMtx *mtx ) ;
+\end{verbatim}
+\index{ILUMtx_setDefaultFields@{\tt ILUMtx\_setDefaultFields()}}
+This method sets the structure's fields to default values:
+{\tt neqns = 0},
+{\tt type} = {\tt SPOOLES\_REAL}, 
+{\tt symmetryflag} = {\tt SPOOLES\_SYMMETRIC}, 
+{\tt UstorageMode} = {\tt SPOOLES\_BY\_ROWS}, 
+{\tt LstorageMode} = {\tt SPOOLES\_BY\_COLUMNS}, 
+and {\tt entD}, {\tt sizesL}, {\tt p\_indL}, {\tt p\_entL},
+{\tt sizesU}, {\tt p\_indU} and {\tt p\_entU} are all set to {\tt NULL}.
+\par \noindent {\it Return codes:}
+{\tt 1} means a normal return,
+{\tt -1} means {\tt mtx} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ILUMtx_clearData ( ILUMtx *mtx ) ;
+\end{verbatim}
+\index{ILUMtx_clearData@{\tt ILUMtx\_clearData()}}
+This method releases all storage held by the object.
+\par \noindent {\it Return codes:}
+{\tt 1} means a normal return,
+{\tt -1} means {\tt mtx} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ILUMtx_free ( ILUMtx *mtx ) ;
+\end{verbatim}
+\index{ILUMtx_free@{\tt ILUMtx\_free()}}
+This method releases all storage held by the object via a call to
+{\tt ILUMtx\_clearData()}, then free'd the storage for the
+object.
+\par \noindent {\it Return codes:}
+{\tt 1} means a normal return,
+{\tt -1} means {\tt mtx} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization Methods}
+\label{subsection:ILUMtx:proto:initializers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ILUMtx_init ( ILUMtx *mtx, int neqns, int type, int symmetryflag,
+                  int LstorageMode, int UstorageMode ) ;
+\end{verbatim}
+\index{ILUMtx_init@{\tt ILUMtx\_init()}}
+This is the initializer method that should be called immediately
+after {\tt ILUMtx\_new()}.
+It first clears any previous data with a call to 
+{\tt ILUMtx\_clearData()}.
+The object's scalar fields are then set.
+The {\tt sizesU} (and {\tt sizesL} if nonsymmetric) vector(s) are
+then initialized and filled with zeros.
+The {\tt p\_indU}, {\tt p\_entU}
+(and {\tt p\_indL} and {\tt p\_entL} if nonsymmetric)
+vectors of pointers are initialized and filled with {\tt NULL}
+values.
+The {\tt entD} vector is initialized and filled with zeros.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+ 1 & normal return \\
+-1 & {\tt mtx} is {\tt NULL} \\
+-2 & ${\tt neqns} <= 0$ \\
+-3 & {\tt type} is invalid \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-4 & {\tt symmetryflag} is invalid \\
+-5 & {\tt LstorageMode} is invalid \\
+-6 & {\tt UstorageMode} is invalid \\
+-7 & {\tt type} and storage modes do not match
+\end{tabular}
+\end{center}
+\end{enumerate}
+\par
+%=======================================================================
+\par
+\subsection{Factorization Methods}
+\label{subsection:ILUMtx:proto:factor}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ILUMtx_factor ( ILUMtx *mtx, InpMtx *mtxA, double sigma,
+                    double *pops, int msglvl, FILE  *msgFile ) ;
+\end{verbatim}
+\index{ILUMtx_factor@{\tt ILUMtx\_factor()}}
+This methods computes a drop tolerance
+$A = (L + I)D(I + U)$, $A = (U^T + I)D(I + U)$ or
+$A = (U^H + I)D(I + U)$ factorization.
+An $L_{j,i}$ entry is kept if
+$
+|L_{j,i} D_{i,i}| \ge \sigma \sqrt{|D_{i,i}| \ |A_{j,j}|},
+$
+where $\sigma$ is a user supplied drop tolerance,
+and similarly for $U_{i,j}$.
+If {\tt pops} is not {\tt NULL}, then
+on return {\tt *pops} holds the number of floating point operations
+that was performed during the factorization.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+ 1 & normal return \\
+-1 & {\tt mtx} is {\tt NULL} \\
+-2 & ${\tt neqns} <= 0$ \\
+-3 & {\tt type} is invalid \\
+-4 & {\tt symmetryflag} is invalid \\
+-5 & {\tt LstorageMode} is invalid \\
+-6 & {\tt UstorageMode} is invalid \\
+-7 & {\tt sizesL} is {\tt NULL} \\
+-8 & {\tt sizesU} is {\tt NULL} \\
+-9 & {\tt p\_indL} is {\tt NULL} \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-10 & {\tt p\_indU} is {\tt NULL} \\
+-11 & {\tt entD} is {\tt NULL} \\
+-12 & {\tt p\_entL} is {\tt NULL} \\
+-13 & {\tt p\_entU} is {\tt NULL} \\
+-14 & {\tt mtxA} is {\tt NULL} \\
+-15 & types of {\tt mtxLDU} and {\tt mtxA} do not match \\
+-16 & {\tt mtxA} is not in chevron mode \\
+-17 & $sigma < 0$ \\
+-18 & {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL} \\
+-19 & singular pivot found
+\end{tabular}
+\end{center}
+\end{enumerate}
+\par
+%=======================================================================
+\par
+\subsection{Solve Methods}
+\label{subsection:ILUMtx:proto:solve}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ILUMtx_solveVector ( ILUMtx *mtx, DV *X, DV *B, DV *workDV,
+                         double *pops, int msglvl, FILE  *msgFile ) ;
+\end{verbatim}
+\index{ILUMtx_solveVector@{\tt ILUMtx\_solveVector()}}
+This methods solves a linear system
+$(L + I)D(I + U)x = b$, $(U^T + I)D(I + U)x = b$ or
+$(U^H + I)D(I + U)x = b$.
+{\tt workDV} is a work vector.
+If {\tt workDV} is different that {\tt B}, then {\tt B} is
+unchanged on return.
+One can have {\tt X}, {\tt B} and {\tt workDV} point to the same
+object.
+If {\tt pops} is not {\tt NULL}, then
+on return {\tt *pops} holds the number of floating point operations
+that was performed during the solve.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+ 1 & normal return \\
+-1 & {\tt mtx} is {\tt NULL} \\
+-2 & ${\tt neqns} <= 0$ \\
+-3 & {\tt type} is invalid \\
+-4 & {\tt symmetryflag} is invalid \\
+-5 & {\tt LstorageMode} is invalid \\
+-6 & {\tt UstorageMode} is invalid \\
+-7 & {\tt sizesL} is {\tt NULL} \\
+-8 & {\tt sizesU} is {\tt NULL} \\
+-9 & {\tt p\_indL} is {\tt NULL} \\
+-10 & {\tt p\_indU} is {\tt NULL} \\
+-11 & {\tt entD} is {\tt NULL} \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-12 & {\tt p\_entL} is {\tt NULL} \\
+-13 & {\tt p\_entU} is {\tt NULL} \\
+-14 & {\tt X} is {\tt NULL} \\
+-15 & size of {\tt X} is incorrect \\
+-16 & entries of {\tt X} are {\tt NULL} \\
+-17 & {\tt B} is {\tt NULL} \\
+-18 & size of {\tt B} is incorrect \\
+-19 & entries of {\tt B} are {\tt NULL} \\
+-20 & {\tt workDV} is {\tt NULL} \\
+-21 & size of {\tt workDV} is incorrect \\
+-22 & entries of {\tt workDV} are {\tt NULL} \\
+-23 & {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL} \\
+\end{tabular}
+\end{center}
+\end{enumerate}
+\par
+%=======================================================================
+\subsection{Utility methods}
+\label{subsection:ILUMtx:proto:utility}
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ILUMtx_fillRandom ( ILUMtx *mtx, int seed ) ;
+\end{verbatim}
+\index{ILUMtx_fillRandom@{\tt ILUMtx\_fillRandom()}}
+This method fills the {\tt mtx} object with a random nonzero
+pattern and random matrix entries.
+The matrix must have already been initialized using the 
+{\tt ILUMtx\_init()} method.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+ 1 & normal return \\
+-1 & {\tt mtx} is {\tt NULL} \\
+-2 & ${\tt neqns} <= 0$ \\
+-3 & {\tt type} is invalid \\
+-4 & {\tt symmetryflag} is invalid \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-5 & {\tt LstorageMode} is invalid \\
+-6 & {\tt UstorageMode} is invalid \\
+-7 & {\tt sizesL} is {\tt NULL} \\
+-8 & {\tt sizesU} is {\tt NULL} \\
+-9 & {\tt p\_indL} is {\tt NULL} \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-10 & {\tt p\_indU} is {\tt NULL} \\
+-11 & {\tt entD} is {\tt NULL} \\
+-12 & {\tt p\_entL} is {\tt NULL} \\
+-13 & {\tt p\_entU} is {\tt NULL} \\
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:ILUMtx:proto:IO}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ILUMtx_writeForMatlab ( ILUMtx *mtx, char *Lname, char *Dname,
+                            char *Uname, FILE *fp ) ;
+\end{verbatim}
+\index{ILUMtx_writeForMatlab@{\tt ILUMtx\_writeForMatlab()}}
+\par
+This method writes out a {\tt ILUMtx} object to a file in a Matlab
+format.
+The entries in $L$ use the {\tt Lname} string,
+the entries in $D$ use the {\tt Dname} string,
+and the entries in $U$ use the {\tt Uname} string,
+A sample line is
+\begin{verbatim}
+L(10,5) =  -1.550328201511e-01 +   1.848033378871e+00*i ;
+\end{verbatim}
+for complex matrices, or
+\begin{verbatim}
+L(10,5) =  -1.550328201511e-01 ;
+\end{verbatim}
+for real matrices, where {\tt Lname} = {\tt "L"}.
+The matrix indices are incremented by one to follow the Matlab and
+FORTRAN convention.
+\par \noindent {\it Return codes:}
+\begin{center}
+\begin{tabular}{rl}
+ 1 & normal return \\
+-1 & {\tt mtx} is {\tt NULL} \\
+-2 & ${\tt neqns} <= 0$ \\
+-3 & {\tt type} is invalid \\
+-4 & {\tt symmetryflag} is invalid \\
+-5 & {\tt LstorageMode} is invalid \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-6 & {\tt UstorageMode} is invalid \\
+-7 & {\tt sizesL} is {\tt NULL} \\
+-8 & {\tt sizesU} is {\tt NULL} \\
+-9 & {\tt p\_indL} is {\tt NULL} \\
+-10 & {\tt p\_indU} is {\tt NULL} \\
+-11 & {\tt entD} is {\tt NULL} \\
+\end{tabular}
+\quad
+\begin{tabular}{rl}
+-12 & {\tt p\_entL} is {\tt NULL} \\
+-13 & {\tt p\_entU} is {\tt NULL} \\
+-14 & {\tt Lname} is {\tt NULL} \\
+-15 & {\tt Dname} is {\tt NULL} \\
+-16 & {\tt Uname} is {\tt NULL} \\
+-17 & {\tt fp} is {\tt NULL} 
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\end{enumerate}

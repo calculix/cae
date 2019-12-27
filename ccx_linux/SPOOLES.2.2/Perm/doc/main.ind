@@ -1,0 +1,24 @@
+\begin{theindex}
+
+  \item {\tt Perm\_checkPerm()}, 4
+  \item {\tt Perm\_clearData()}, 3
+  \item {\tt Perm\_compress()}, 4
+  \item {\tt Perm\_fillNewToOld()}, 4
+  \item {\tt Perm\_fillOldToNew()}, 4
+  \item {\tt Perm\_free()}, 3
+  \item {\tt Perm\_initWithTypeAndSize()}, 3
+  \item {\tt Perm\_new()}, 3
+  \item {\tt Perm\_readFromBinaryFile()}, 5
+  \item {\tt Perm\_readFromFile()}, 5
+  \item {\tt Perm\_readFromFormattedFile()}, 5
+  \item {\tt Perm\_releaseNewToOld()}, 4
+  \item {\tt Perm\_releaseOldToNew()}, 4
+  \item {\tt Perm\_setDefaultFields()}, 3
+  \item {\tt Perm\_sizeOf()}, 3
+  \item {\tt Perm\_writeForHumanEye()}, 5
+  \item {\tt Perm\_writeStats()}, 6
+  \item {\tt Perm\_writeToBinaryFile()}, 5
+  \item {\tt Perm\_writeToFile()}, 5
+  \item {\tt Perm\_writeToFormattedFile()}, 5
+
+\end{theindex}

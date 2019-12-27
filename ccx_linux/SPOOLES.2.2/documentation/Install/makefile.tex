@@ -1,0 +1,61 @@
+\par
+\section{Makefiles}
+\par
+Each object's {\tt src/} and (possibly) {\tt drivers/} directories
+have their own makefile.
+Each of these makefiles ``includes'' (via an include statement)
+the file {\tt Make.inc} from the top level directory.\footnote{
+Many thanks go to Clay Breshears from CEWES, 
+{\tt clay@turing.wes.hpc.mil},
+for the prototype {\tt Make.inc} file.
+}
+This is the file where one sets the following parameters.
+\begin{itemize}
+\item
+{\tt CC} is your favorite C compiler.
+\item
+{\tt OPTLEVEL} is the compiler's optimization level.
+\item
+{\tt CFLAGS} is the compiler's compilation flags,
+which normally includes the {\tt OPTLEVEL} data.
+\item
+{\tt LDFLAGS} are load flags for executables.
+\item
+{\tt THREAD\_LIBS} are system dependent libraries for multithreaded
+programs.
+\item
+{\tt PURIFY} and {\tt PURIFY\_GCC\_VERSION} deal with the Purify
+program from PureAtria.
+This is a handy program that detects memory leaks, overwriting of
+storage, and the like.
+Most of the code at one point or another has been run through
+Purify.
+\item
+{\tt AR} and {\tt ARFLAGS} are the loader and its flags.
+\item
+{\tt RANLIB} is used when the library must be postprocessed to get
+a symbol table.
+(Some systems still use {\tt ranlib}.)
+% including my ancient home NeXTStation where a
+% good deal of development was done.)
+If {\tt ranlib} is not needed (as on most systems), {\tt RANLIB} is
+set to {\tt echo} to echo out the library name
+during the {\tt make} process.
+\item
+The {\tt .c.o} and {\tt .c.a} suffix rules are defined.
+\item
+{\tt MPI\_INSTALL\_DIR} is the installation directory for MPI.
+\item
+{\tt MPI\_LIB\_PATH} is the library path for MPI.
+\item
+{\tt MPI\_LIBS} are the libraries needed for MPI programs.
+\item
+{\tt MPI\_INCLUDE\_DIR} is the include directory for MPI.
+\end{itemize}
+The {\tt Make.inc} file contains several different values for each
+of the parameters along with some comments about which lines are
+for which system.
+We have found most of this to be fairly straightforward, but
+getting the thread libraries and MPI libraries correct may take a
+bit of doing. Contact your local system administrator for help.
+\par

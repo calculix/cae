@@ -1,0 +1,1041 @@
+\par
+\section{Prototypes and descriptions of {\tt A2} methods}
+\label{section:A2:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt A2} object.
+\par
+\subsection{Basic methods}
+\label{subsection:A2:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+A2 * A2_new ( void ) ;
+\end{verbatim}
+\index{A2_new@{\tt A2\_new()}}
+This method simply allocates storage for the {\tt A2} structure 
+and then sets the default fields by a call to 
+{\tt A2\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_setDefaultFields ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_setDefaultFields@{\tt A2\_setDefaultFields()}}
+The structure's fields are set to default values:
+{\tt type} = {\tt SPOOLES\_REAL},
+{\tt n1} = {\tt inc1} = {\tt n2} = {\tt inc2} = {\tt nowned} = 0 and 
+{\tt entries} = {\tt NULL} .
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_clearData ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_clearData@{\tt A2\_clearData()}}
+This method clears the object and free's any owned data.
+If {\tt nowned > 0} and {\tt entries} is not {\tt NULL}, 
+then {\tt DVfree(entries)} is called to free the storage.
+It calls {\tt A2\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_free ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_free@{\tt A2\_free()}}
+This method releases any storage by a call to 
+{\tt A2\_clearData()} and then free the space for {\tt mtx}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:A2:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_nrow ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_nrow@{\tt A2\_nrow()}}
+This method returns the number of rows in the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_ncol ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_ncol@{\tt A2\_ncol()}}
+This method returns the number of columns in the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_inc1 ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_inc1@{\tt A2\_inc1()}}
+This method returns the primary increment, the stride in memory
+(with respect to real or complex entries)
+between adjacent entries in the same column.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_inc2 ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_inc2@{\tt A2\_inc2()}}
+This method returns the secondary increment, the stride in memory
+(with respect to real or complex entries)
+between adjacent entries in the same row.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * A2_entries ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_entries@{\tt A2\_entries()}}
+This method returns a pointer to the base address of the entries.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * A2_row ( A2 *mtx, int irow ) ;
+\end{verbatim}
+\index{A2_row@{\tt A2\_row()}}
+This method returns a pointer to the leading element of row {\tt irow}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt entries} is {\tt NULL}, 
+or if {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * A2_column ( A2 *mtx, int jcol ) ;
+\end{verbatim}
+\index{A2_column@{\tt A2\_column()}}
+This method returns a pointer to the leading element 
+of column {\tt jcol}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt entries} is {\tt NULL}, 
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_realEntry ( A2 *mtx, int irow, int jcol, double *pValue ) ;
+\end{verbatim}
+\index{A2_realEntry@{\tt A2\_realEntry()}}
+This method fills {\tt *pValue} with the entry in 
+location {\tt (irow, jcol)}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt pValue} is {\tt NULL},
+or if the matrix is not real,
+or {\tt irow} is not in {\tt [0,n1-1]}, 
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_complexEntry ( A2 *mtx, int irow, int jcol, 
+                       double *pReal, double *pImag ) ;
+\end{verbatim}
+\index{A2_complexEntry@{\tt A2\_complexEntry()}}
+This method fills {\tt (*pReal,*pImag)} with the entry in 
+location {\tt (irow, jcol)}.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pReal} or {\tt pImag} is {\tt NULL},
+or if the matrix is not complex,
+or {\tt irow} is not in {\tt [0,n1-1]}, 
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_setRealEntry ( A2 *mtx, int irow, int jcol, double value ) ;
+\end{verbatim}
+\index{A2_setRealEntry@{\tt A2\_setRealEntry()}}
+This method sets entry {\tt (irow,jcol)} to {\tt value}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if the matrix is not real,
+or {\tt irow} is not in {\tt [0,n1-1]}
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_setComplexEntry ( A2 *mtx, int irow, int jcol, 
+                          double real, double imag ) ;
+\end{verbatim}
+\index{A2_setComplexEntry@{\tt A2\_setComplexEntry()}}
+This method sets entry {\tt (irow,jcol)} to {\tt (real,imag)}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if the matrix is not complex,
+or {\tt irow} is not in {\tt [0,n1-1]}
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_pointerToRealEntry ( A2 *mtx, int irow, int jcol, double **ppValue ) ;
+\end{verbatim}
+\index{A2_pointerToRealEntry@{\tt A2\_pointerToRealEntry()}}
+This method sets {\tt *ppValue} to the pointer 
+of the {\tt (irow,jcol)} entry.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt ppValue} is {\tt NULL}, 
+or if the matrix is not real,
+or if {\tt irow} is not in {\tt [0,n1-1]},
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_pointerToComplexEntry ( A2 *mtx, int irow, int jcol, 
+                                double **ppReal, double **ppImag ) ;
+\end{verbatim}
+\index{A2_pointerToComplexEntry@{\tt A2\_pointerToComplexEntry()}}
+This method sets {\tt *ppReal} to the pointer to the real part
+of the {\tt (irow,jcol)} entry,
+and sets {\tt *ppImag} to the pointer to the imaginary part
+of the {\tt (irow,jcol)} entry.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt ppReal} or {\tt ppImag} is {\tt NULL}, 
+or if the matrix is not complex,
+or if {\tt irow} is not in {\tt [0,n1-1]},
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialize methods}
+\label{subsection:A2:proto:initial}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_init ( A2 *mtx, int type, int n1, int n2, int inc1, int inc2, 
+               double *entries ) ;
+\end{verbatim}
+\index{A2_init@{\tt A2\_init()}}
+This is the basic initializer method.
+We require that {\tt mtx} not be {\tt NULL}, 
+{\tt type} be either {\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX},
+{\tt n1} and {\tt n2} both be positive, 
+and both {\tt inc1} and {\tt inc2} both be
+positive and that one of them be equal to one.
+Also, we only initialize a full matrix, i.e.,
+one of
+{\tt inc1 = 1} and {\tt inc2 = nrow}
+or
+{\tt inc1 = ncol} and {\tt inc2 = 1}
+must hold.
+\par
+The object is first cleared with a call to {\tt A2\_clearData()}.
+If {\tt entries} is {\tt NULL} then {\tt n1*n2} new entries 
+are found, {\tt mtx->entries} is set to this address and {\tt nowned}
+is set to {\tt n1*n2}.
+If {\tt entries} is not {\tt NULL}, then {\tt mtx->entries} is set
+to {\tt entries} and {\tt nowned} is set to zero.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if {\tt n1}, {\tt n2}, {\tt inc1} or {\tt inc2} are 
+less than or equal to zero,
+or if the matrix is not full matrix
+(i.e., {\tt inc1} must be {\tt 1} and {\tt inc2} must be {\tt n1},
+{\it or}
+{\tt inc1} must be {\tt n2} and {\tt inc2} must be {\tt 1}),
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_subA2 ( A2 *mtxA, A2 *mtxB, 
+                int firstrow, int lastrow, int firstcol, int lastcol ) ;
+\end{verbatim}
+\index{A2_subA2@{\tt A2\_subA2()}}
+This initializer method makes the object {\tt mtxA} point into a
+submatrix of object {\tt mtxB}, as 
+\begin{verbatim}
+A(0:lastrow-firstrow,0:lastcol-firstcol) = B(firstrow:lastrow, firstcol:lastcol)
+\end{verbatim}
+Note, {\tt firstrow}, {\tt lastrow}, {\tt firstcol} and {\tt lastcol}
+must satisfy {\tt 0 <= firstrow <= lastrow < mtxB->n1}
+and {\tt 0 <= firstcol <= lastcol < mtxB->n2}.
+Object {\tt mtxA} does not own its entries, but points into the
+entries of {\tt mtxB}.
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} are {\tt NULL},
+or if {\tt firstrow} or {\tt lastrow} are out of range,
+or if {\tt firstcol} or {\tt lastcol} are out of range,
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Methods used in the $QR$ factorization}
+\label{subsection:A2:proto:QR}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_makeStaircase ( A2 *A ) ;
+\end{verbatim}
+\index{A2_makeStaircase@{\tt A2\_makeStaircase()}}
+This method permutes the rows of {\tt A} by the location of the
+leading nonzero of each row.
+Upon return, the matrix is in {\it staircase} form.
+\par \noindent {\it Error checking:}
+If {\tt A} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double A2_QRreduce ( A2 *A, DV *workDV, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{A2_QRreduce@{\tt A2\_QRreduce()}}
+This method computes $A = QR$ factorization.
+On return, the matrix $Q$ is not available, and $R$ is found in the
+upper triangle or upper trapezoid of {\tt A}.
+The Householder vectors are stored in the lower triangle of {\tt
+mtxA}, with $v_j(j) = 1.0$.
+The return value is the number of floating point operations that
+were executed.
+\par \noindent {\it Error checking:}
+If {\tt A} or {\tt workDV} is {\tt NULL}, 
+or if {\tt msglvl > 0} and {\tt msgFile} if {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_computeQ ( A2 *Q, A2 *A, DV *workDV, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{A2_computeQ@{\tt A2\_computeQ()}}
+This method computes $Q$ from the $A = QR$ factorization computed
+in {\tt A2\_QRreduce()}.
+Note: {\tt A} and {\tt Q} must be column major.
+\par \noindent {\it Error checking:}
+If {\tt Q}, {\tt A} or {\tt workDV} is {\tt NULL}, 
+or if {\tt msglvl > 0} and {\tt msgFile} if {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_applyQT ( A2 *Y, A2 *A, A2 *X, DV *workDV, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{A2_applyQT@{\tt A2\_applyQT()}}
+This method computes $Y = Q^T X$ (if real) or $Y = Q^H X$ (if
+complex), where $Q$ is stored in Householder vectors inside $A$.
+We assume that $A2\_reduce()$ has been previously called with $A$
+as an argument.
+Since $Y$ is computed column-by-column, $X$ and $Y$ can be the same
+{\tt A2} object.
+The {\tt workDV} object is resized as necessary.
+Note: {\tt Y}, {\tt A} and {\tt X} must be column major.
+\par \noindent {\it Error checking:}
+If {\tt Y}, {\tt A}, {\tt X} or {\tt workDV} is {\tt NULL}, 
+or if {\tt msglvl > 0} and {\tt msgFile} if {\tt NULL},
+or if {\tt Y}, {\tt A} or {\tt X} is not column major,
+or if the types of {\tt Y}, {\tt A} and {\tt X} are not the same,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Norm methods}
+\label{subsection:A2:proto:norms}
+\par
+These methods return a norm of a row or a column, or the easily
+computable norms of the matrix.
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double A2_maxabs ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_maxabs@{\tt A2\_maxabs()}}
+This method returns magnitude of the entry with largest magnitude.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double A2_frobNorm ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_frobNorm@{\tt A2\_frobNorm()}}
+This method returns the Frobenius norm of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double A2_oneNorm ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_oneNorm@{\tt A2\_oneNorm()}}
+This method returns the one norm of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double A2_infinityNorm ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_infinityNorm@{\tt A2\_infinityNorm()}}
+This method returns the infinity norm of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double A2_oneNormOfColumn ( A2 *mtx, int jcol ) ;
+\end{verbatim}
+\index{A2_oneNormOfColumn@{\tt A2\_oneNormOfColumn()}}
+This method returns the one-norm of column {\tt jcol} of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, or {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double A2_twoNormOfColumn ( A2 *mtx, int jcol ) ;
+\end{verbatim}
+\index{A2_twoNormOfColumn@{\tt A2\_twoNormOfColumn()}}
+This method returns the two-norm of column {\tt jcol} of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, or {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double A2_infinityNormOfColumn ( A2 *mtx, int jcol ) ;
+\end{verbatim}
+\index{A2_infinityNormOfColumn@{\tt A2\_infinityNormOfColumn()}}
+This method returns the infinity-norm of column {\tt jcol} 
+of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, or {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double A2_oneNormOfRow ( A2 *mtx, int irow ) ;
+\end{verbatim}
+\index{A2_oneNormOfRow@{\tt A2\_oneNormOfRow()}}
+This method returns the one-norm of row {\tt irow} of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, or {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double A2_twoNormOfRow ( A2 *mtx, int irow ) ;
+\end{verbatim}
+\index{A2_twoNormOfRow@{\tt A2\_twoNormOfRow()}}
+This method returns the two-norm of row {\tt irow} of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, or {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double A2_infinityNormOfRow ( A2 *mtx, int irow ) ;
+\end{verbatim}
+\index{A2_infinityNormOfRow@{\tt A2\_infinityNormOfRow()}}
+This method returns the infinity-norm of row {\tt irow} 
+of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, or {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Sort methods}
+\label{subsection:A2:proto:sort}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_permuteRows ( A2 *mtx, int nrow, int index[] ) ;
+\end{verbatim}
+\index{A2_permuteRows@{\tt A2\_permuteRows()}}
+The {\tt index[]} vector contains the {\it row ids} of the leading
+{\tt nrow} rows.
+This method permutes the leading {\tt nrow} rows of the matrix 
+so that the {\tt index[]} vector is in ascending order.
+This method calls {\tt A2\_permuteRows()} but does not overwrite
+the {\tt index[]} vector.
+\par
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt index[]} is {\tt NULL},
+or if {\tt nrow < 0} or {\tt nrow > n1},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_permuteColumns ( A2 *mtx, int nrow, int index[] ) ;
+\end{verbatim}
+\index{A2_permuteColumns@{\tt A2\_permuteColumns()}}
+The {\tt index[]} vector contains the {\it column ids} of the leading
+{\tt ncol} rows.
+This method permutes the leading {\tt ncol} columns of the matrix 
+so that the {\tt index[]} vector is in ascending order.
+This method calls {\tt A2\_permuteColumns()} but does not overwrite
+the {\tt index[]} vector.
+\par
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt index[]} is {\tt NULL},
+or if {\tt ncol < 0} or {\tt ncol > n2},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_sortRowsUp ( A2 *mtx, int nrow, int rowids[] ) ;
+\end{verbatim}
+\index{A2_sortRowsUp@{\tt A2\_sortRowsUp()}}
+This method sorts the leading {\tt nrow} rows of the matrix 
+into ascending order with respect to the {\tt rowids[]} vector.
+The return value is the number of row swaps made.
+\par
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt rowids} is {\tt NULL},
+or if {\tt nrow < 0} or {\tt nrow > n1},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_sortColumnsUp ( A2 *mtx, int ncol, int colids[] ) ;
+\end{verbatim}
+\index{A2_sortColumnsUp@{\tt A2\_sortColumnsUp()}}
+This method sorts the leading {\tt ncol} columnss of the matrix 
+into ascending order with respect to the {\tt colids[]} vector.
+The return value is the number of column swaps made.
+\par
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt colids} is {\tt NULL},
+or if {\tt ncol < 0} or {\tt ncol > n2},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:A2:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_sizeOf ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_sizeOf@{\tt A2\_sizeOf()}}
+This method returns the number of bytes owned by this object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_shiftBase ( A2 *mtx, int rowoff, int coloff ) ;
+\end{verbatim}
+\index{A2_shiftbase@{\tt A2\_shiftBase()}}
+This method is used to shift the base of the entries and adjust
+dimensions of the  {\tt A2} object.
+\begin{verbatim}
+mtx(0:n1-rowoff-1,0:n2-coloff-1) := mtx(rowoff:n1-1,coloff:n2-1) 
+\end{verbatim}
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_rowMajor ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_rowMajor@{\tt A2\_rowMajor()}}
+This method returns 1 if the storage is row major, 
+otherwise it returns zero.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_columnMajor ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_columnMajor@{\tt A2\_columnMajor()}}
+This method returns 1 if the storage is column major, 
+otherwise it returns zero.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_transpose ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_transpose@{\tt A2\_transpose()}}
+This method replaces {\tt mtx} with its transpose.
+Note, this takes $O(1)$ operations since we just swap dimensions and
+increments.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_extractRow ( A2 *mtx, double row[], int irow ) ;
+\end{verbatim}
+\index{A2_extractRow@{\tt A2\_extractRow()}}
+This method fills the {\tt row[]} vector with row {\tt irow} of the
+matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt entries} or {\tt row} are {\tt NULL},
+or if {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_extractRowDV ( A2 *mtx, DV *rowDV, int irow ) ;
+\end{verbatim}
+\index{A2_extractRowDV@{\tt A2\_extractRowDV()}}
+This method fills the {\tt rowDV} object with row {\tt irow} of the
+matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt rowDV} are {\tt NULL},
+or if  the matrix is not real,
+or if {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_extractRowZV ( A2 *mtx, ZV *rowZV, int irow ) ;
+\end{verbatim}
+\index{A2_extractRowZV@{\tt A2\_extractRowZV()}}
+This method fills the {\tt rowZV} object with row {\tt irow} of the
+matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt rowZV} are {\tt NULL},
+or if  the matrix is not complex,
+or if {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_extractColumn ( A2 *mtx, double col[], int jcol ) ;
+\end{verbatim}
+\index{A2_extractColumn@{\tt A2\_extractColumn()}}
+This method fills the {\tt col[]} vector 
+with column {\tt jcol} of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt entries} or {\tt col} are {\tt NULL},
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_extractColumnDV ( A2 *mtx, DV *colDV, int jcol ) ;
+\end{verbatim}
+\index{A2_extractColumnDV@{\tt A2\_extractColumnDV()}}
+This method fills the {\tt colDV} object 
+with column {\tt jcol} of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt colDV} are {\tt NULL},
+or if the matrix is not complex,
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_extractColumnZV ( A2 *mtx, ZV *colZV, int jcol ) ;
+\end{verbatim}
+\index{A2_extractColumnZV@{\tt A2\_extractColumnZV()}}
+This method fills the {\tt colZV} object 
+with column {\tt jcol} of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt colZV} are {\tt NULL},
+or if the matrix is not complex,
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_setRow ( A2 *mtx, double row[], int irow ) ;
+\end{verbatim}
+\index{A2_setRow@{\tt A2\_setRow()}}
+This method fills row {\tt irow} of the matrix 
+with the entries in the {\tt row[]} vector.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt entries} or {\tt row[]} are {\tt NULL},
+or if {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_setRowDV ( A2 *mtx, DV rowDV, int irow ) ;
+\end{verbatim}
+\index{A2_setRowDV@{\tt A2\_setRowDV()}}
+This method fills row {\tt irow} of the matrix 
+with the entries in the {\tt rowDV} object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt rowDV} are {\tt NULL},
+or if the matrix is not real,
+or if {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_setRowZV ( A2 *mtx, ZV rowZV, int irow ) ;
+\end{verbatim}
+\index{A2_setRowZV@{\tt A2\_setRowZV()}}
+This method fills row {\tt irow} of the matrix 
+with the entries in the {\tt rowZV} object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt rowZV} are {\tt NULL},
+or if the matrix is not complex,
+or if {\tt irow} is not in {\tt [0,n1-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_setColumn ( A2 *mtx, double col[], int jcol ) ;
+\end{verbatim}
+\index{A2_setColumn@{\tt A2\_setColumn()}}
+This method fills column {\tt jcol} of the matrix with
+the entries in the {\tt col[]} vector.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt colZV} are {\tt NULL},
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_setColumnDV ( A2 *mtx, DV colDV, int jcol ) ;
+\end{verbatim}
+\index{A2_setColumnDV@{\tt A2\_setColumnDV()}}
+This method fills column {\tt jcol} of the matrix with
+the entries in the {\tt colDV} object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt colDV} are {\tt NULL},
+or if the matrix is not complex,
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_setColumnZV ( A2 *mtx, ZV colZV, int jcol ) ;
+\end{verbatim}
+\index{A2_setColumnZV@{\tt A2\_setColumnZV()}}
+This method fills column {\tt jcol} of the matrix with
+the entries in the {\tt colZV} object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt colZV} are {\tt NULL},
+or if the matrix is not complex,
+or if {\tt jcol} is not in {\tt [0,n2-1]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_fillRandomUniform ( A2 *mtx, double lower, double upper, int seed ) ;
+\end{verbatim}
+\index{A2_fillRandomUniform@{\tt A2\_fillRandomUniform()}}
+This method fills the matrix with random numbers taken from a
+uniform distribution on {\tt [lower,upper]} using the {\tt Drand}
+object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_fillRandomNormal ( A2 *mtx, double mean, double variance, int seed ) ;
+\end{verbatim}
+\index{A2_fillRandomNormal@{\tt A2\_fillRandomNormal()}}
+This method fills the matrix with random numbers taken from a
+normal distribution with mean {\tt mean} and variance {\tt
+variance} using the {\tt Drand} object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_fillWithIdentity ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_fillWithIdentity@{\tt A2\_fillWithIdentity()}}
+This method fills the matrix with the identity matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL} or if {\tt n1 != n2},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_zero ( A2 *mtx ) ;
+\end{verbatim}
+\index{A2_zero@{\tt A2\_zero()}}
+This method fills the matrix with zeros.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_copy ( A2 *mtxA, A2 *mtxB ) ;
+\end{verbatim}
+\index{A2_copy@{\tt A2\_copy()}}
+This method copies entries from matrix {\tt mtxB} 
+into matrix {\tt mtxA}.
+Note, {\tt mtxA} and {\tt mtxB} need not be of the same size,
+the leading {\tt min(mtxA->n1,mtxB->n1)} rows
+and {\tt min(mtxA->n2,mtxB->n2)} columns are copied.
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} is {\tt NULL},
+or if the matrices are not of the same type,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_sub ( A2 *mtxA, A2 *mtxB ) ;
+\end{verbatim}
+\index{A2_sub@{\tt A2\_sub()}}
+This method subtracts entries in matrix {\tt mtxB} 
+from entries in matrix {\tt mtxA}.
+Note, {\tt mtxA} and {\tt mtxB} need not be of the same size,
+the leading {\tt min(mtxA->n1,mtxB->n1)} rows
+and {\tt min(mtxA->n2,mtxB->n2)} columns are subtracted.
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} is {\tt NULL},
+or if the matrices are not of the same type,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_swapRows ( A2 *mtx, int irow1, int irow2 ) ;
+\end{verbatim}
+\index{A2_swapRows@{\tt A2\_swapRows()}}
+This method swaps rows {\tt irow1} and {\tt irow2} of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} is {\tt NULL},
+or if {\tt irow1} or {\tt irow2} are out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_swapColumns ( A2 *mtx, int irow1, int irow2 ) ;
+\end{verbatim}
+\index{A2_swapColumns@{\tt A2\_swapColumns()}}
+This method swaps columns {\tt jcol1} and {\tt jcol2} of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} is {\tt NULL},
+or if {\tt jcol1} or {\tt jcol1} are out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_copyEntriesToVector ( A2 *mtx, int length, double dvec[],
+                             int copyflag, int storeflag ) ;
+\end{verbatim}
+\index{A2_copyEntriesToVector@{\tt A2\_copyEntriesToVector()}}
+This method copies selected entries from {\tt mtx} into the vector
+{\tt dvec[]} with length {\tt length}.
+The return value is the number of entries copied.
+This method is used during the $QR$ factorization to extract factor
+entries and update matrix entries from a front.
+All entries may be copied, or
+only the diagonal, lower or upper entries,
+and the entries may be copied to {\tt dvec[]} by rows or by
+columns.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt dvec} is {\tt NULL},
+or if {\tt length} is not as large as the number of entries to be
+copied,
+or if {\tt copyflag} is not one of {\tt A2\_STRICT\_LOWER},
+{\tt A2\_LOWER}, {\tt A2\_DIAGONAL}, {\tt A2\_UPPER},
+{\tt A2\_STRICT\_UPPER} or {\tt A2\_ALL\_ENTRIES},
+or if {\tt storeflag} is not one of {\tt A2\_BY\_ROWS}
+or {\tt A2\_BY\_COLUMNS},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:A2:proto:IO}
+\par
+There are the usual eight IO routines plus a method to write the
+object to a Matlab file.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_readFromFile ( A2 *mtx, char *fn ) ;
+\end{verbatim}
+\index{A2_readFromFile@{\tt A2\_readFromFile()}}
+\par
+This method reads a {\tt A2} object from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt A2\_readFromFormattedFile()} or
+{\tt A2\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.a2f} (for a formatted file) 
+or {\tt *.a2b} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_readFromFormattedFile ( A2 *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{A2_readFromFormattedFile@{\tt A2\_readFromFormattedFile()}}
+\par
+This method reads a {\tt A2} object from a formatted file
+whose pointer is {\tt fp}.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_readFromBinaryFile ( A2 *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{A2_readFromBinaryFile@{\tt A2\_readFromBinaryFile()}}
+\par
+This method reads a {\tt A2} object from a binary file
+whose pointer is {\tt fp}.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_writeToFile ( A2 *mtx, char *fn ) ;
+\end{verbatim}
+\index{A2_writeToFile@{\tt A2\_writeToFile()}}
+\par
+This method writes a {\tt A2} object to a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt A2\_writeFromFormattedFile()} or
+{\tt A2\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.a2f} (for a formatted file) 
+or {\tt *.a2b} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_writeToFormattedFile ( A2 *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{A2_writeToFormattedFile@{\tt A2\_writeToFormattedFile()}}
+\par
+This method writes a {\tt A2} object to a formatted file
+whose pointer is {\tt fp}.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int A2_writeToBinaryFile ( A2 *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{A2_writeToBinaryFile@{\tt A2\_writeToBinaryFile()}}
+\par
+This method writes a {\tt A2} object to a binary file
+whose pointer is {\tt fp}.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_writeForHumanEye ( A2 *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{A2_writeForHumanEye@{\tt A2\_writeForHumanEye()}}
+\par
+This method writes a {\tt A2} object to a file in an easily
+readable format.
+The method {\tt A2\_writeStats()} is called to write out the
+header and statistics. 
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_writeStats ( A2 *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{A2_writeStats@{\tt A2\_writeStats()}}
+\par
+This method writes a header and some statistics to a file.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void A2_writeForMatlab ( A2 *mtx, char *mtxname, FILE *fp ) ;
+\end{verbatim}
+\index{A2_writeForMatlab@{\tt A2\_writeForMatlab()}}
+\par
+This method writes the entries of the matrix to a file
+in Matlab format.
+The name of the matrix is {\tt mtxname}.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt mtxname} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+

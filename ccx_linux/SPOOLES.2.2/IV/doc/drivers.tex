@@ -1,0 +1,42 @@
+\par
+\section{Driver programs for the {\tt IV object}}
+\label{section:IV:drivers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testIO msglvl msgFile inFile outFile
+\end{verbatim}
+This driver program tests the {\tt IV} IO methods,
+and is useful for translating between the formatted {\tt *.ivf}
+and binary {\tt *.ivb} files.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inFile} parameter is the name of the file 
+from which to read in the object.
+{\tt inFile} must be of the form {\tt *.ivf} for a formatted file
+or {\tt *.ivb} for a binary file.
+\item
+The {\tt outFile} parameter is the name of the file 
+to which to write out the object.
+If {\tt outfile} is of the form {\tt *.ivf}, the object is written
+to a formatted file.
+If {\tt outfile} is of the form {\tt *.ivb}, the object is written
+to a binary file.
+When {\tt outFile} is {\it not} {\tt "none"}, 
+the object is written to the file in a human readable format.
+When {\tt outFile} is {\tt "none"}, the object is not written out.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

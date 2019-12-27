@@ -1,0 +1,21 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inInpMtxFile = $matrices/$matrix/orig.inpmtxb
+set inInpMtxFile = $matrices/$matrix/orig.inpmtxf
+set inInpMtxFile = temp.inpmtxb
+set inInpMtxFile = /local1/ARPA/matrices/i4a/i4a.inpmtxb
+set inInpMtxFile = ../../../matrices/R10KV/orig.inpmtxb
+
+set outGraphFile = $matrices/$matrix/orig0.graphf
+set outGraphFile = temp.graphf
+set outGraphFile = /local1/ARPA/matrices/i4a/orig0.graphb
+set outGraphFile = ../../../matrices/R10KV/orig0.graphb
+
+set msglvl  = 1
+
+set msgFile = stdout
+
+createGraph $msglvl $msgFile $inInpMtxFile $outGraphFile

@@ -1,0 +1,302 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%BoundingBox: 0.000 0.000 550.000 550.000
+%%EndComments
+
+/MainFont /Helvetica findfont 8 scalefont def
+MainFont setfont
+%-----------------------------------------------------------------------
+%
+% utility procedures
+%
+%-----------------------------------------------------------------------
+%
+% procedure to produce a filled circle
+%
+/circle { % stack : x y size
+%
+%  store input data
+%
+   /size exch def
+   /y    exch def
+   /x    exch def
+   gsave
+   newpath
+   x y moveto
+   x size add y size 0 360 arc
+   fill
+   grestore
+} def
+%-----------------------------------------------------------------------
+%
+% procedure to draw the outline of the matrix
+%
+/draw_outline { % stack : xnw ynw dx dy nrow ncol
+   /ncol exch def % number of columns
+   /nrow exch def % number of rows
+   /dy   exch def % column spacing
+   /dx   exch def % row spacing
+   /ynw  exch def % northwest y coordinate
+   /xnw  exch def % northwest x coordinated
+   /width  ncol 1 add dx mul def
+   /height nrow 1 add dy mul def
+   newpath
+   xnw dx sub ynw dy add moveto 
+   currentpoint width 0 rlineto
+   0 height neg rlineto
+   width neg 0 rlineto
+   closepath
+   stroke 
+} def
+%-----------------------------------------------------------------------
+% procedure to draw matrix adjacency structure
+%
+/draw_matrix { % stack : xnw ynw dx dy adjncy 
+%
+%  store input data
+%
+   /adjncy exch def % adjacency structure
+   /dy     exch def % column spacing
+   /dx     exch def % row spacing
+   /ynw    exch def % northwest y coordinate
+   /xnw    exch def % northwest x coordinated
+%
+%  loop over the columns
+%
+   0 1 adjncy length 1 sub {
+%
+%     pop and store the column id and set the x coordinate
+%
+      /j exch def
+      adjncy j get /column exch def 
+      column 0 get /jcol exch def
+      /xj xnw jcol dx mul add def
+%
+%     loop over the row entries
+%
+      0 1 column length 1 sub {
+%
+%        pop the row id, set the y coordinate and draw the tick
+%
+         /i exch def
+         column i get /irow exch def
+         xj ynw irow dy mul sub 1 circle
+      } for
+   } for
+} def
+
+%-----------------------------------------------------------------------
+%
+%  procedures to draw the supernode partition 
+%
+/draw_sn_overlay { % stack xnw ynw dx dy nrow ncol sninfo
+%
+%  store input data
+%
+   /sninfo exch def % supernode information
+   /ncol   exch def % # of columns
+   /nrow   exch def % # of rows
+   /dy     exch def % column spacing
+   /dx     exch def % row spacing
+   /ynw    exch def % northwest y coordinate
+   /xnw    exch def % northwest x coordinated
+%
+%  draw the left and bottom border
+%
+   0.1 dx mul setlinewidth
+   newpath
+   xnw dx 0.4 mul sub ynw dy 0.5 mul add moveto
+   0 nrow dy mul neg rlineto
+   ncol dx mul 0 rlineto
+   stroke
+%
+%  loop over the columns
+%
+   0 1 sninfo length 1 sub {
+%
+%     pop and store the column id and set the x coordinate
+%
+      /J exch def
+      sninfo J get /Jinfo exch def 
+      Jinfo 0 get /vJ exch def
+      Jinfo 1 get /nJ exch def
+%
+%     get location of first diagonal element
+%
+      /xj xnw vJ dx mul add def
+      /yj ynw vJ dx mul sub def
+%
+      newpath
+      xj dx 0.25 mul sub yj dx 0.5 mul add moveto
+      nJ dx mul 0 rlineto     
+      0 nJ dy mul neg rlineto     
+      nJ dx mul neg 0 rlineto     
+      nJ dx mul 0 rmoveto     
+      0 nrow vJ nJ add sub dy mul neg rlineto
+      stroke
+   } for
+} def
+%-----------------------------------------------------------------------
+%
+/xnw  40 def
+/ynw 510 def
+/dx    4 def
+/dy    4 def
+%
+%-----------------------------------------------------------------------
+%
+% factor matrix for R2D100
+%
+ /adjncyL [
+ [ 0 1 2 19 20 ]
+ [ 1 2 18 19 20 96 ]
+ [ 2 18 19 20 96 99 ]
+ [ 3 4 5 15 19 ]
+ [ 4 5 15 17 19 20 ]
+ [ 5 15 16 17 19 20 ]
+ [ 6 9 21 94 ]
+ [ 7 8 15 ]
+ [ 8 9 15 16 ]
+ [ 9 15 16 21 94 ]
+ [ 10 11 17 18 95 ]
+ [ 11 14 17 18 95 97 ]
+ [ 12 13 14 21 86 97 ]
+ [ 13 14 16 17 21 86 97 ]
+ [ 14 16 17 18 21 86 95 97 ]
+ [ 15 16 17 18 19 20 21 86 90 94 95 96 97 99 ]
+ [ 16 17 18 19 20 21 86 90 94 95 96 97 99 ]
+ [ 17 18 19 20 21 86 90 94 95 96 97 99 ]
+ [ 18 19 20 21 86 90 94 95 96 97 99 ]
+ [ 19 20 96 99 ]
+ [ 20 96 99 ]
+ [ 21 86 90 94 95 97 ]
+ [ 22 27 41 93 ]
+ [ 23 24 25 27 32 88 ]
+ [ 24 25 26 27 31 32 88 ]
+ [ 25 26 27 31 32 42 43 88 ]
+ [ 26 27 31 32 42 43 88 95 96 ]
+ [ 27 31 32 41 42 43 83 88 93 95 96 ]
+ [ 28 29 30 31 95 97 ]
+ [ 29 30 31 32 84 89 95 97 ]
+ [ 30 31 32 84 85 87 89 95 97 ]
+ [ 31 32 41 42 43 83 84 85 87 88 89 93 95 96 97 ]
+ [ 32 41 42 43 83 84 85 87 88 89 93 95 96 97 ]
+ [ 33 34 35 ]
+ [ 34 35 36 38 ]
+ [ 35 36 37 38 ]
+ [ 36 37 38 39 40 ]
+ [ 37 38 39 40 41 ]
+ [ 38 39 40 41 99 ]
+ [ 39 40 41 42 96 99 ]
+ [ 40 41 42 43 96 99 ]
+ [ 41 42 43 83 84 85 87 88 89 93 95 96 97 99 ]
+ [ 42 43 83 84 85 87 88 89 93 95 96 97 99 ]
+ [ 43 83 84 85 87 88 89 93 95 96 97 99 ]
+ [ 44 45 49 ]
+ [ 45 47 48 49 ]
+ [ 46 47 51 63 ]
+ [ 47 48 49 51 63 ]
+ [ 48 49 51 63 64 ]
+ [ 49 51 62 63 64 65 ]
+ [ 50 51 63 66 90 94 ]
+ [ 51 62 63 64 65 66 90 94 ]
+ [ 52 53 54 55 98 ]
+ [ 53 54 55 60 91 98 ]
+ [ 54 55 60 61 91 98 ]
+ [ 55 60 61 62 65 91 98 ]
+ [ 56 58 59 63 66 86 87 ]
+ [ 57 58 59 60 61 ]
+ [ 58 59 60 61 63 64 66 86 87 ]
+ [ 59 60 61 63 64 66 85 86 87 92 ]
+ [ 60 61 62 63 64 65 66 85 86 87 91 92 98 ]
+ [ 61 62 63 64 65 66 85 86 87 91 92 98 ]
+ [ 62 63 64 65 66 85 86 87 90 91 92 94 98 ]
+ [ 63 64 65 66 85 86 87 90 91 92 94 98 ]
+ [ 64 65 66 85 86 87 90 91 92 94 98 ]
+ [ 65 66 85 86 87 90 91 92 94 98 ]
+ [ 66 85 86 87 90 91 92 94 98 ]
+ [ 67 68 80 ]
+ [ 68 70 80 81 ]
+ [ 69 70 82 91 98 ]
+ [ 70 80 81 82 91 98 ]
+ [ 71 74 79 84 89 91 92 ]
+ [ 72 73 74 78 79 81 ]
+ [ 73 74 78 79 81 82 91 ]
+ [ 74 78 79 81 82 84 89 91 92 ]
+ [ 75 76 77 78 80 ]
+ [ 76 77 78 80 83 93 ]
+ [ 77 78 79 80 83 93 ]
+ [ 78 79 80 81 82 83 84 89 91 92 93 ]
+ [ 79 80 81 82 83 84 88 89 91 92 93 ]
+ [ 80 81 82 83 84 88 89 91 92 93 98 ]
+ [ 81 82 83 84 88 89 91 92 93 98 ]
+ [ 82 83 84 88 89 91 92 93 98 ]
+ [ 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 ]
+ [ 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 ]
+ [ 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 ]
+ [ 86 87 88 89 90 91 92 93 94 95 96 97 98 99 ]
+ [ 87 88 89 90 91 92 93 94 95 96 97 98 99 ]
+ [ 88 89 90 91 92 93 94 95 96 97 98 99 ]
+ [ 89 90 91 92 93 94 95 96 97 98 99 ]
+ [ 90 91 92 93 94 95 96 97 98 99 ]
+ [ 91 92 93 94 98 ]
+ [ 92 93 94 98 ]
+ [ 93 94 95 96 97 98 99 ]
+ [ 94 95 96 97 98 99 ]
+ [ 95 96 97 99 ]
+ [ 96 97 99 ]
+ [ 97 99 ]
+ [ 98 ]
+ [ 99 ]
+ ] def
+ /sn_info [
+ [ 0 3 ]
+ [ 3 3 ]
+ [ 6 4 ]
+ [ 10 5 ]
+ [ 15 4 ]
+ [ 19 3 ]
+ [ 22 1 ]
+ [ 23 4 ]
+ [ 27 1 ]
+ [ 28 3 ]
+ [ 31 2 ]
+ [ 33 6 ]
+ [ 39 2 ]
+ [ 41 3 ]
+ [ 44 5 ]
+ [ 49 3 ]
+ [ 52 4 ]
+ [ 56 4 ]
+ [ 60 2 ]
+ [ 62 3 ]
+ [ 65 2 ]
+ [ 67 4 ]
+ [ 71 4 ]
+ [ 75 3 ]
+ [ 78 2 ]
+ [ 80 3 ]
+ [ 83 4 ]
+ [ 87 4 ]
+ [ 91 4 ]
+ [ 95 4 ]
+ [ 99 1 ]
+ ] def
+
+
+%-----------------------------------------------------------------------
+/nrow 100 def
+/ncol 100 def
+
+/row_ids [ 0  1  2  3  4  5  6  7  8  9
+          10 11 12 13 14 15 16 17 18 19
+          20 21 22 23 24 25 26 27 28 29
+          30 31 32 33 34 35 36 37 38 39
+          40 41 42 43 44 45 46 47 48] def
+
+%-----------------------------------------------------------------------
+%
+% draw outline and gridlines
+%
+xnw ynw dx dy nrow ncol draw_outline
+xnw ynw dx dy adjncyL draw_matrix
+xnw ynw dx dy nrow ncol sn_info draw_sn_overlay

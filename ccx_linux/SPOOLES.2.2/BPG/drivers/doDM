@@ -1,0 +1,16 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+set matrix      = BCSSTK24
+
+set msglvl      = 1
+
+set msgFile    = stdout
+
+foreach icomp ( 1 2 )
+   echo ' matrix = ' $matrix
+   set inBPGfile = $matrices/$matrix/sep$icomp.bpgf
+   set msgFile   = stats.$matrix
+   set msgFile   = stdout
+   testDM $msglvl $msgFile $inBPGfile
+end

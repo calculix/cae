@@ -1,0 +1,14 @@
+#! /bin/csh -f
+
+set msglvl  = 3
+set msgFile = stdout
+
+set n1 = 7
+set n2 = 7
+set n3 = 1
+
+set permFile = temp.permf
+set permFile = none
+
+testNDperm $msglvl $msgFile $n1 $n2 $n3 $permFile
+

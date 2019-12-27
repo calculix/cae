@@ -1,0 +1,120 @@
+\par
+\section{Modifying source code and new development}
+\par
+One of the strengths of the {\bf SPOOLES} library is its open design.
+Objects manage much of the complexity of 140,000 lines of source code.
+There is a great deal of compartmentalization or encapsulation of
+data structures that make it relatively easy to replace modules
+or extend the functionality.
+\par
+To make a new object, simply copy over the directory structure of a
+similar object, and then modify the header, source, documentation
+and drivers files as necessary.
+Let us call this new object {\tt NewObj}.
+When in {\tt NewObj/src},
+typing {\tt make updateLib} or {\tt make -f makeGlobalLib} will
+load the new source files into the global {\tt spooles.a} library.
+Or one can make a local library by typing {\tt make NewObj.a}.
+In the {\tt NewObj/drivers} directory, modify {\tt makefile} as
+necessary.
+If the {\tt NewObj} source code has been loaded into {\tt
+spooles.a}, then the line
+\begin{verbatim}
+LIBS = ../../spooles.a -lm
+\end{verbatim}
+will be fine.
+(Of course, if {\tt NewObj} has multithreaded or MPI code,
+see the {\tt makefile}'s in the {\tt MT/drivers} or {\tt MPI/drivers}
+directories.)
+If instead you have created the {\tt NewObj/src/NewObj.a} library,
+modify the library line to 
+\begin{verbatim}
+LIBS = ../src/NewObj.a ../../spooles.a -lm
+\end{verbatim}
+so the new source code can be linked.
+As changes are made to the {\tt NewObj} source files, they need to
+be recompiled via {\tt make updateLib} (for the global {\tt
+spooles.a} library) or via {\tt make NewObj.a} (for the local
+{\tt NewObj.a} library).
+\par
+Any driver programs will have to be re-linked after changes to the
+{\tt NewObj} source code, whether it lies in the global or local
+library.
+There is currently no connection in the {\tt driver/makefile} between
+the drivers and the accompanying source code.
+That can be easily added by the user.
+\par
+The flat directory structure and the relative independence of the
+objects is not without its faults.
+It makes keeping libraries current in an efficient matter difficult
+to do.
+We now explain some of the details that hopefully will save time
+and confusion later.
+We focus on the situation where some change has been made to an
+objects source file(s), and the new source must be loaded into the
+global {\tt spooles.a} library.
+There are three choices.
+\begin{itemize}
+\item
+If your system does not have Perl, you must call
+{\tt make -f makeGlobalLib} inside the {\tt src} directory.
+The {\tt makeGlobalLib} compiles and loads {\it all} source files
+in the {\tt src} directory, at least that is what it should do.
+The {\tt makeGlobalLib} file contains a list of source files,
+which {\bf should} be the same as in the {\tt makefile} file.
+It is the user's responsibility to keep these two files current
+--- add or remove a file to/from one, add or remove it to/from 
+the other.
+This approach can be quite cumbersome if only one file in the 
+{\tt src} directory has been modified, for all the source files
+will be compiled.
+Alternatively, 
+you can edit the {\tt SRC =} line (or preferably, add a second
+line below the first) to reflect only those files that need loading.
+\item
+If your system does have Perl, you have more flexibility.
+\begin{itemize}
+\item
+To compile all source files into the {\tt spooles.a} library, 
+type {\tt make makeLib} while in the {\tt spooles} directory. 
+Execution proceeds in each of the objects' {\tt src/} directories
+in turn.
+The Perl script {\tt makeLib}
+found in the top level {\tt spooles} directory is executed,
+which scans the {\tt makefile} for all source code names,
+compiles them and loads them into the library.
+\item
+Inside an object's {\tt src/} directory,
+you can compile the newly modified source files 
+into the {\tt spooles.a} 
+library by typing {\tt make updateLib}. 
+The Perl script {\tt updLib}
+found in the top level {\tt spooles} directory is executed,
+which scans the {\tt makefile} for {\it all} source code names,
+compares their modification time against the {\tt spooles.a}
+library, compiles the newer ones and loads them into the library.
+This last step can be somewhat tricky, at least when changes are
+being made to source files in two or more objects.
+\par
+Consider the case where we are running the {\tt testGrid} program
+in the {\tt FrontMtx/drivers} directory, and we have made some
+modifications to some source files for the {\tt Chv} and {\tt
+SubMtx} objects.
+We change directories to {\tt Chv/src} and type
+{\tt make updateLib}, and the modified files are compiled and
+loaded into {\tt spooles.a}.
+We then change directories to {\tt SubMtx/src} and type
+{\tt make updateLib}, but nothing happens, our newly modified files
+are not compiled nor loaded into {\tt spooles.a}.
+The problem is that the {\tt spooles.a} directory was modified when
+the new {\tt Chv/src} files were compiled and loaded, and so is
+newer than the modified {\tt SubMtx} files.
+\par
+The solution is to modify files in the {\tt Chv/src} directory, 
+type {\tt make updateLib}, 
+then modify the files in the {\tt SubMtx/src} directory, 
+again type {\tt make updateLib}, 
+and then type {\tt make testgrid} in the {\tt FrontMtx/drivers}
+directory.
+\end{itemize}
+\end{itemize}

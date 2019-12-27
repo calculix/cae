@@ -1,0 +1,85 @@
+\par
+\section{Driver programs for the {\tt A2 object}}
+\label{section:A2:drivers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_norms msglvl msgFile type nrow ncol inc1 inc2 seed
+\end{verbatim}
+This driver program tests the {\tt A2} norm methods.
+Use the script file {\tt do\_norms} for testing.
+When the output file is loaded into matlab,
+the last two lines contain matrices whose
+entries should all be around machine epsilon.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt nrow} parameter is the number of rows.
+\item
+The {\tt ncol} parameter is the number of rows.
+\item
+The {\tt inc1} parameter is the row increment.
+\item
+The {\tt inc2} parameter is the column increment.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_QR msglvl msgFile type nrow ncol inc1 inc2 seed
+\end{verbatim}
+This driver program tests the {\tt A2\_QRreduce()} and
+{\tt A2\_QRreduce2()} methods which reduce $A$ to $QR$
+via rank-1 and rank-2 updates.
+Use the script file {\tt do\_QR} for testing.
+When {\tt msglvl > 1}, the matrix $A$ and matrices $R1$ and $R2$
+(computed from {\tt A2\_QRreduce()} and
+{\tt A2\_QRreduce2()}, respectively)
+are printed to the message file.
+When the output file is loaded into matlab,
+the errors $A^TA - R_1^TR_1$ and $A^TA - R_2^TR_2$
+(if $A$ is real) 
+or
+the errors $A^HA - R_1^HR_1$ and $A^HA - R_2^HR_2$
+(if $A$ is complex) are computed.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter denotes the type of entries ---
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX} 
+\item
+The {\tt nrow} parameter is the number of rows.
+\item
+The {\tt ncol} parameter is the number of rows.
+\item
+The {\tt inc1} parameter is the row increment.
+\item
+The {\tt inc2} parameter is the column increment.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

@@ -2,7 +2,7 @@
 
 
 """
-    © Ihor Mirzov, October 2019
+    © Ihor Mirzov, December 2019
     Distributed under GNU General Public License v3.0
 
     CalculiX CAE - main function.
@@ -25,7 +25,7 @@ p = Path() # calculate absolute paths
 p.append_to_PATH([p.app_home_dir, p.src])
 
 # Main imports
-import os, sys, argparse, shutil, subprocess
+import os, sys, argparse
 from PyQt5 import QtWidgets
 from settings import Settings
 from mainwindow import MainWindow
@@ -89,15 +89,14 @@ if __name__ == '__main__':
 
             # Job actions
             mw.action_job_write_input.triggered.connect(writeInput)
-            mw.action_job_edit_inp.triggered.connect(m.job.editINP)
-            mw.action_job_open_subroutine.triggered.connect(m.job.openSubroutine)
-            mw.action_job_rebuild_ccx.triggered.connect(m.job.rebuildCCX)
-            mw.action_job_submit.triggered.connect(m.job.submit)
-            mw.action_job_view_log.triggered.connect(m.job.viewLog)
-            mw.action_job_open_cgx.triggered.connect(m.job.openCGX)
+            mw.action_job_edit_inp.triggered.connect(lambda: m.job.editINP(settings))
+            mw.action_job_open_subroutine.triggered.connect(lambda: m.job.openSubroutine(settings))
+            mw.action_job_rebuild_ccx.triggered.connect(lambda: m.job.rebuildCCX(settings))
+            mw.action_job_submit.triggered.connect(lambda: m.job.submit(settings))
+            mw.action_job_view_log.triggered.connect(lambda: m.job.viewLog(settings))
+            mw.action_job_open_cgx.triggered.connect(lambda: m.job.openCGX(settings))
             mw.action_job_export_vtu.triggered.connect(m.job.exportVTU)
-            mw.action_job_open_paraview.triggered.connect(m.job.openParaView)
-
+            mw.action_job_open_paraview.triggered.connect(lambda: m.job.openParaView(settings))
 
 
         # Execute application

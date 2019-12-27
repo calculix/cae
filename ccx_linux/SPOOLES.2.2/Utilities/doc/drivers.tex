@@ -1,0 +1,92 @@
+\par
+\section{Driver programs }
+\label{section:Utilities:drivers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_sort msglvl msgFile target sortType n range mod seed
+\end{verbatim}
+This driver program tests the sort methods.
+Use the script file {\tt do\_test\_sort} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt target} parameter denotes the type of vector(s) to be
+sorted.
+\begin{itemize}
+\item {\tt IV} --- {\tt int} vector sort
+\item {\tt IV2} --- {(\tt int, int)} vector sort
+\item {\tt IVDV} --- {(\tt int, double)} vector sort
+\item {\tt IV2DV} --- {(\tt int, int, double)} vector sort
+\item {\tt IVZV} --- {(\tt int, complex)} vector sort
+\item {\tt IV2ZV} --- {(\tt int, int, complex)} vector sort
+\item {\tt DV} --- {\tt double} vector sort
+\item {\tt DV2} --- {(\tt double, double)} vector sort
+\item {\tt DVIV} --- {(\tt double, int)} vector sort
+\end{itemize}
+\item
+The {\tt sortType} parameter denotes the type of sort.
+\begin{itemize}
+\item {\tt IU} --- ascending insert sort
+\item {\tt ID} --- descending insert sort
+\item {\tt QU} --- ascending quick sort
+\item {\tt QD} --- descending quick sort
+\end{itemize}
+\item
+The {\tt n} parameter is the length of the vector(s).
+\item
+Integer entries are of the form {\tt k} mod {\tt mod},
+where {\tt k} in {\tt [0,range]}.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+test_sortUpAndCompress msglvl msgFile target n range mod seed
+\end{verbatim}
+This driver program tests the ``sort in ascending order and
+compress'' methods.
+Use the script file {\tt do\_test\_sortUpAndCompress} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt target} parameter denotes the type of vector(s) to be
+sorted.
+\begin{itemize}
+\item {\tt IV} --- {\tt int} vector sort
+\item {\tt IV2} --- {(\tt int, int)} vector sort
+\item {\tt IVDV} --- {(\tt int, double)} vector sort
+\item {\tt IV2DV} --- {(\tt int, int, double)} vector sort
+\item {\tt IVZV} --- {(\tt int, complex)} vector sort
+\item {\tt IV2ZV} --- {(\tt int, int, complex)} vector sort
+\end{itemize}
+\item
+The {\tt n} parameter is the length of the vector(s).
+\item
+Integer entries are of the form {\tt k} mod {\tt mod},
+where {\tt k} in {\tt [0,range]}.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

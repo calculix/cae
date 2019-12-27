@@ -1,0 +1,68 @@
+\documentclass[10pt]{report}
+
+\textwidth      6.5 in
+\textheight     8.5 in
+\oddsidemargin  0.0 in
+\evensidemargin 0.0 in
+\topmargin      0.0 in
+\baselineskip   20 pt
+\parskip        3 pt plus 1 pt minus 1 pt
+
+\makeindex
+\input psfig
+ 
+\pagestyle{myheadings}
+\markboth
+{\quad \hrulefill \quad {\bf SPOOLES 2.2 Wrapper Objects} : \today \quad
+\hrulefill}
+{\quad \hrulefill \quad {\bf SPOOLES 2.2 Wrapper Objects} : \quad \today
+\hrulefill}
+ 
+\begin{document}
+ 
+\bibliographystyle{plain}
+
+\title{Integrating the {\bf SPOOLES} 2.2 Sparse Linear Algebra Library 
+       \break 
+       into the {\bf LANCZOS} Block-shifted Lanczos Eigensolver }
+ 
+\author{
+Cleve Ashcraft\\
+Boeing Phantom Works\thanks{
+  P. O. Box 24346,
+  Mail Stop 7L-22,
+  Seattle, Washington 98124,
+  {\tt cleve.ashcraft@boeing.com}.
+  This research was supported in part by the DARPA
+  Contract DABT63-95-C-0122 and the DoD High Performance Computing
+  Modernization Program Common HPC Software Support Initiative.}
+\and
+Jim Patterson\\
+Boeing Phantom Works\thanks{
+  P. O. Box 24346,
+  Mail Stop 7L-22,
+  Seattle, Washington 98124,
+  {\tt pattersn@redwood.rt.cs.boeing.com}.
+  This research was supported in part by the DARPA
+  Contract DABT63-95-C-0122 and the DoD High Performance Computing
+  Modernization Program Common HPC Software Support Initiative.}
+}
+ 
+\date{\today}
+\maketitle
+ 
+\tableofcontents
+
+  \input intro.tex
+  \input serial.tex
+  \input MT.tex
+  \input MPI.tex
+
+\appendix
+  \input serial_driver.tex
+  \input MT_driver.tex
+  \input MPI_driver.tex
+
+\input main.ind
+
+\end{document}

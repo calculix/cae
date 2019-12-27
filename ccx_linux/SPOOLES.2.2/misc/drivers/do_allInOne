@@ -1,0 +1,43 @@
+#! /bin/csh -f
+
+set msglvl     = 1
+set msgFile    = stdout
+
+# type -- type of entries
+#   1 -- real entries
+#   2 -- complex entries
+set type = 2
+
+# symmetryflag -- type of symmetry in the matrix
+#   0 -- symmetric
+#   1 -- hermitian
+#   2 -- nonsymmetric
+set symmetryflag = 0
+
+# pivotingflag -- type of pivoting in the factorization
+#   0 -- no pivoting
+#   1 -- pivoting
+set pivotingflag = 0
+
+set matrixFileName = complex.sym.mtx.input
+set matrixFileName = complex.herm.mtx.input
+set matrixFileName = complex.nonsym.mtx.input
+set matrixFileName = matrix.input
+set matrixFileName = haggar.matrix.input
+
+set rhsFileName = complex.herm.rhs.input
+set rhsFileName = complex.nonsym.rhs.input
+set rhsFileName = rhs.input
+set rhsFileName = haggar.rhs.input
+
+set msgFile = complex.sym.sol.output
+set msgFile = complex.herm.sol.output
+set msgFile = complex.nonsym.sol.output
+set msgFile = real.sym.sol.output
+set msgFile = haggar.output
+
+set seed = 10101
+
+allInOne $msglvl $msgFile $type $symmetryflag $pivotingflag \
+         $matrixFileName $rhsFileName $seed
+

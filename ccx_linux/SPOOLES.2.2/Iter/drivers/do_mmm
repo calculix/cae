@@ -1,0 +1,25 @@
+#! /bin/csh -f
+#
+set msglvl  = 2
+set msgFile = stdout
+set type    = 2
+set nrow    = 2
+set nk      = 3
+set ncol    = 2
+set ainc1   = 1
+set ainc2   = $nrow
+set binc1   = 1
+set binc2   = $nk
+set cinc1   = 1
+set cinc2   = $ncol
+set a_opt   = "n"
+set b_opt   = "n"
+set ralpha  = 1.0
+set ialpha  = 2.0
+set rbeta   = 1.0
+set ibeta   = -1.0
+set seed    = 10101
+ 
+test_DenseMtx_mmm $msglvl $msgFile $type $nrow $nk $ncol $ainc1 \
+           $ainc2 $binc1 $binc2 $cinc1 $cinc2 $a_opt $b_opt $ralpha \
+           $ialpha $rbeta $ibeta $seed

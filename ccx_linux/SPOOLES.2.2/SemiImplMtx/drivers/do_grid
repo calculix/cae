@@ -1,0 +1,37 @@
+#! /bin/csh -f
+
+set msglvl           = 1
+set msgFile          = res3D.64
+set msgFile          = res
+set msgFile          = /local1/ARPA/junk/res.grid
+set msgFile          = res.31.grid
+set msgFile          = stdout
+set msgFile          = res.grid
+
+set n1       =   31
+set n2       =   31
+set n3       =   31
+set maxzeros =  500
+set maxzeros =  250
+set maxzeros =  750
+set maxzeros =    0
+set maxzeros = 1000
+set maxsize  = 1000
+set maxsize  =   64
+
+set seed             = 10101
+set type             = 1
+set symmetryflag     = 0
+set sparsityflag     = 0
+set pivotingflag     = 0
+set tau              = 5
+set droptol          = 1.e-50
+set nrhs             = 1
+set depth            = 1
+
+foreach depth ( 1 2 3 4 5 6 7 8 9 )
+   echo depth = $depth
+   testGrid $msglvl $msgFile $n1 $n2 $n3 $maxzeros $maxsize \
+            $seed $type $symmetryflag $sparsityflag $pivotingflag\
+            $tau $droptol $nrhs $depth
+end

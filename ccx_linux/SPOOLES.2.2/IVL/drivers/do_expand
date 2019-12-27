@@ -1,0 +1,20 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inETreeFile = $matrices/$matrix/nd.etreef
+set inETreeFile = nd.etreef
+set inETreeFile = /local1/ARPA/matrices/i4a/symb1.ivlb
+
+set inEqmapFile = /local1/ARPA/matrices/i4a/map1.ivb
+
+set outETreeFile = $matrices/$matrix/nd.etreeb
+set outETreeFile = /local1/ARPA/matrices/i4a/symb0.ivlf
+set outETreeFile = none
+
+set msglvl  = 1
+
+set msgFile = stdout
+
+testExpand $msglvl $msgFile $inETreeFile $inEqmapFile $outETreeFile

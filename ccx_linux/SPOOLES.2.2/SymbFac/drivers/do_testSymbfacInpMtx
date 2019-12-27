@@ -1,0 +1,26 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inETreeFile   = $matrices/$matrix/nd.etreef
+set inETreeFile   = /local1/ARPA/matrices/i4a/best0.etreef
+
+set inInpMtxFile = $matrices/$matrix/orig.dinpmtxf
+set inInpMtxFile = /local1/ARPA/matrices/i4a/i4a.inpmtxb
+
+set outETreeFile   = $matrices/$matrix/nd.etreef
+set outETreeFile   = none
+
+set outIVfile   = $matrices/$matrix/oldToNew.ivf
+set outIVfile   = none
+
+set outIVLfile   = $matrices/$matrix/symbfac.ivlf
+set outIVLfile   = none
+
+set msglvl  = 1
+
+set msgFile = stdout
+
+testSymbfacInpMtx $msglvl $msgFile \
+   $inETreeFile $inInpMtxFile $outETreeFile $outIVfile $outIVLfile

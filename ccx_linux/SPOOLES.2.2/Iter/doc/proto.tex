@@ -1,0 +1,502 @@
+\par
+\section{Prototypes and descriptions of {\tt Iter} methods}
+\label{section:Iter:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods found in the {\tt Iter} source directory.
+\par
+
+%
+% in util.c
+%
+\subsection{Utility methods}
+\label{subsection:Iter:proto:utility}
+\par
+\begin{enumerate}
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DenseMtx_frobNorm ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_frobNorm@{\tt DenseMtx\_frobNorm()}}
+\par
+This method returns the Frobenius norm of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DenseMtx_twoNormOfColumn ( DenseMtx *mtx, int jcol ) ;
+\end{verbatim}
+\index{DenseMtx_twoNormOfColumn@{\tt DenseMtx\_twoNormOfColumn()}}
+\par
+This method returns the two-norm of column {\tt jcol} of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL}, or {\tt jcol} is not in {\tt [0,ncol-1]},
+an error message is printed and the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_colCopy ( DenseMtx *mtxB, int jcol, 
+                        DenseMtx *mtxA, int icol ) ;
+\end{verbatim}
+\index{DenseMtx_colCopy@{\tt DenseMtx\_colCopy()}}
+\par
+This method copies the column {\tt icol} of the matrix {\tt mtxA}
+to the column {\tt jcol} of the matrix {\tt mtxB}.
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} is {\tt NULL}, {\tt jcol} is not in 
+{\tt [0,ncolB-1]}, or {\tt icol} is not in {\tt [0,ncolA-1]} 
+an error message is printed and the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_colDotProduct ( DenseMtx *mtxA, int icol,
+                         DenseMtx *mtxB, int jcol, double *prod ) ;
+\end{verbatim}
+\index{DenseMtx_colDotProduct@{\tt DenseMtx\_colDotProduct()}}
+\par
+This method computes dot product of column {\tt icol} of 
+the matrix {\tt mtxA} and column {\tt jcol} of the matrix {\tt mtxB}.  
+Note that the  column {\tt icol} of the matrix {\tt mtxA} will be
+transported and conjugated for complex entries.
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} is {\tt NULL}, {\tt jcol} is not in 
+{\tt [0,ncolB-1]}, or {\tt icol} is not in {\tt [0,ncolA-1]} 
+an error message is printed and the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_colGenAxpy ( double *alpha, DenseMtx *mtxA, int icol,   
+                           double *beta,  DenseMtx *mtxB, int jcol ) ;
+\end{verbatim}
+\index{DenseMtx_colGenAxpy@{\tt DenseMtx\_colGenAxpy()}}
+\par
+This method replaces column {\tt icol} of the matrix {\tt mtxA} by
+{\tt alpha} times itself plus {\tt beta} times column {\tt jcol}
+of {\tt mtxB}.
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} is {\tt NULL}, {\tt jcol} is not in 
+{\tt [0,ncolB-1]}, or {\tt icol} is not in {\tt [0,ncolA-1]} 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_mmm ( char *A_opt, char *B_opt, double *beta, DenseMtx *mtxC,
+   double *alpha, DenseMtx *mtxA, DenseMtx *mtxB );
+\end{verbatim}
+\index{DenseMtx_mmm@{\tt DenseMtx\_mmm()}}
+This method computes the matrix-matrix multiplication 
+$C := \beta C + \alpha AB$,
+where $A$, $B$ and $C$ are found in the {\tt C DenseMtx} object,
+$\beta$ and $\alpha$ are real or complex in {\tt beta[]} and {\tt alpha[]}.
+If any of the input objects are {\tt NULL}, an error message is
+printed and the program exits.
+{\tt A}, {\tt B} and {\tt C} must all be real or all be complex.
+When {\tt A and \tt B} are real, then $\alpha$ = {\tt alpha[0]}.
+When {\tt A and \tt B} are complex, then $\alpha$ =
+{\tt alpha[0]} + i* {\tt alpha[1]}.
+When {\tt C} is real, then $\beta$ = {\tt beta[0]}.
+When {\tt C} is complex, then $\beta$ =
+{\tt beta[0]} + i* {\tt beta[1]}.
+This means that one cannot call the method with a constant as the
+third and fifth parameter, e.g.,
+{\tt DenseMtx\_mmm(a\_opt, b\_opt, beta, C, alpha, A, B)},
+for this may result in a segmentation violation.
+The values of $\alpha$ and $\beta$ must be loaded into an array of length 1 or 2
+.
+\par \noindent {\it Error checking:}
+If {\tt beta}, {\tt alpha}, {\tt C}, {\tt A}, {\tt B} are {\tt NULL},
+or if {\tt C}, {\tt A} and {\tt B} do not have the same data type
+({\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX}),
+or if {\tt A\_opt} or {\tt B\_opt} is invalid, or 
+the number of column of {\tt A} and the number of row of {\tt B} is not match, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_solveOneColumn ( FrontMtx *frontmtx, DenseMtx *solmtx,
+   int jcol, DenseMtx *rhsmtx, int icol, SubMtxManager *mtxmanager,
+   double cpus[], int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_solveOneColumn@{\tt FrontMtx\_solveOneColumn()}}
+\par
+This method is used to solve one of three linear systems of equations
+---
+$(U^T + I)D(I + U) X = B$,
+$(U^H + I)D(I + U) X = B$ or
+$(L + I)D(I + U) X = B$.
+Entries of $B$ are read from column {\tt icol} of {\tt rhsmtx} and
+entries of $X$ are written to column {\tt jcol} of {\tt solmtx}.
+Therefore, {\tt rhsmtx} and {\tt solmtx} can be the same object.
+(Note, this does not hold true for an MPI factorization with pivoting.)
+The {\tt mtxmanager} object manages the working storage using the solve.
+On return the {\tt cpus[]} vector is filled with the following.
+\begin{itemize}
+\item
+{\tt cpus[0]} --- set up the solves
+\item
+{\tt cpus[1]} --- fetch right hand side and store solution
+\item
+{\tt cpus[2]} --- forward solve
+\item
+{\tt cpus[3]} --- diagonal solve
+\item
+{\tt cpus[4]} --- backward solve
+\item
+{\tt cpus[5]} --- total time in the method.
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt rhsmtx} or {\tt cpus}
+is {\tt NULL},
+or if {\tt msglvl} $>$ 0 and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%========================================================================
+\end{enumerate}
+
+%
+% iterative methods
+%
+\subsection{Iterative methods}
+A collection of iterative methods is provided to solve a sparse
+linear system $AX=B$, where $A$ is an {\tt InpMtx} object and
+$X$ and $B$ are {\tt DenseMtx} objects.  
+This includes left and right preconditioning BiCGStab,
+MLBiCGStab, TFQMR, PCG, and BGMRES.
+All methods have similar input arguments:
+\par
+\begin{itemize}
+\item
+{\tt n\_matrixSize} is order of the matrix $A$.
+\item
+{\tt type} is the type of entries, {\tt 0} for real, {\tt 1} for complex.
+\item
+The {\tt symmetryflag} parameter specifies the symmetry of the matrix $A$.
+\begin{itemize}
+\item
+{\tt type = 0 (SPOOLES\_SYMMETRIC)} for $A$ real or complex symmetric,
+\item
+{\tt type = 1 (SPOOLES\_HERMITIAN)} for $A$ complex Hermitian,
+\item
+{\tt type = 2 (SPOOLES\_NONSYMMETRIC)} for $A$ real or complex nonsymmetric.
+\end{itemize}
+\item
+{\tt mtxA} is the matrix $A$.
+\item
+{\tt Precond} is the preconditioner.
+\item
+{\tt mtxX} is the solution vectors $X$ saved as a {\tt DenseMtx} object.
+\item
+{\tt mtxB} is the right-hand-side vectors $B$ saved as a {\tt DenseMtx} object.
+\item
+{\tt itermax} is the maximum iterations number. 
+\item
+{\tt convergetol}  parameter is a stop criterion for iterative algorithms.
+\item
+{\tt maxninner} is the maximum number of inner iterations in BGMRES method.
+\item
+{\tt maxnouter} is the maximum number of outer iterations in BGMRES method.
+\item
+{\tt pninner} is last number of inner iterations executed in BGMRES method.
+\item
+{\tt pnouter} is last number of outer iterations executed in BGMRES method.
+\item
+{\tt mtxQ} is the starting vectors saved as a {\tt DenseMtx} object
+  for MLBiCGStab method.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt msglvl} parameter determines the amount of output ---
+taking {\tt msglvl >= 3} means most of the objects are written
+to the message file.
+
+\end{itemize}
+
+
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int bicgstabr ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{bicgstabr@{\tt bicgstabr()}}
+\par
+This method solves a real linear system using BiCGStab algorithm with right 
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int bicgstabl ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ; 
+\end{verbatim}
+\index{bicgstabl@{\tt bicgstabl()}}
+\par
+This method solves a real linear system using BiCGStab algorithm with left 
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int mlbicgstabr ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxQ, DenseMtx *mtxB,
+   int itermax, double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{mlbicgstabr@{\tt mlbicgstabr()}}
+\par
+This method solves a real linear system using MLBiCGStab algorithm with right 
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int mlbicgstabl ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxQ, DenseMtx *mtxB,
+   int itermax, double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{mlbicgstabl@{\tt mlbicgstabl()}}
+\par
+This method solves a real linear system using MLBiCGStab algorithm with left 
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int tfqmrr ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{tfqmrr@{\tt tfqmrr()}}
+\par
+This method solves a real linear system using TFQMR algorithm with right 
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int tfqmrl ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{tfqmrl@{\tt tfqmrl()}}
+\par
+This method solves a real linear system using TFQMR algorithm with left
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int pcgr ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{pcgr@{\tt pcgr()}}
+\par
+This method solves a real symmetric position definite linear 
+system using PCG algorithm with right preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int pcgl ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{pcgl@{\tt pcgl()}}
+\par
+This method solves a real symmetric position definite linear system 
+using PCG algorithm with left preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int bgmresr ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int maxnouter,
+   int maxninner, int *pnouter, int *pninner, double convergetol, 
+   int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{pcgl@{\tt pcgl()}}
+\par
+This method solves a real  linear system 
+using BGMRES algorithm with right preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int bgmresl ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int maxnouter,
+   int maxninner, int *pnouter, int *pninner, double convergetol, 
+   int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{pcgl@{\tt pcgl()}}
+\par
+This method solves a real  linear system 
+using BGMRES algorithm with left preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int zbicgstabr ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{zbicgstabr@{\tt zbicgstabr()}}
+\par
+This method solves a complex linear system using BiCGStab algorithm with right 
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int zbicgstabl ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ; 
+\end{verbatim}
+\index{zbicgstabl@{\tt zbicgstabl()}}
+\par
+This method solves a complex linear system using BiCGStab algorithm with left 
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int zmlbicgstabr ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxQ, DenseMtx *mtxB,
+   int itermax, double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{zmlbicgstabr@{\tt zmlbicgstabr()}}
+\par
+This method solves a complex linear system using MLBiCGStab algorithm with right 
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int zmlbicgstabl ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxQ, DenseMtx *mtxB,
+   int itermax, double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{zmlbicgstabl@{\tt zmlbicgstabl()}}
+\par
+This method solves a complex linear system using MLBiCGStab algorithm with left 
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ztfqmrr ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{ztfqmrr@{\tt ztfqmrr()}}
+\par
+This method solves a complex linear system using TFQMR algorithm with right 
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int ztfqmrl ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{ztfqmrl@{\tt ztfqmrl()}}
+\par
+This method solves a complex linear system using TFQMR algorithm with left
+preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int zpcgr ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{zpcgr@{\tt zpcgr()}}
+\par
+This method solves a complex hermitian position definite linear 
+system using PCG algorithm with right preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int zpcgl ( int n_matrixSize, int type, int symmetryflag, InpMtx *mtxA,
+   FrontMtx *Precond, DenseMtx *mtxX, DenseMtx *mtxB, int itermax,
+   double convergetol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{zpcgl@{\tt zpcgl()}}
+\par
+This method solves a complex hermitian position definite linear system 
+using PCG algorithm with left preconditioner. 
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return.  Otherwise, an error message is printed and 
+the program exits.
+
+\end{enumerate}
+
+

@@ -1,0 +1,70 @@
+\chapter{{\tt PatchAndGoInfo}: Pivot Modification Object}
+\par
+On occasion, an application will demand specific behavior 
+during a factorization.
+We have written the {\tt PatchAndGoInfo} object to communicate
+information to the {\tt Chv} object during a factorization of a front.
+Most users can ignore this object.
+However, if a different type of behavior is required, one could
+extend this object by adding a new strategy to it and modifying the
+{\tt Chv} methods that factor a front.
+\par
+Let us describe two strategies that we presently support.
+\begin{itemize}
+\item
+Primal-dual linear programming may require repeated factorizations
+of matrices of the form $AD^2A^T$, where $A$ comes from constraint
+equations and $D$ is a diagonal matrix.
+As the optimization proceeds,
+$AD^2A^T$ becomes increasingly ill-conditioned because the
+entries in $D$ go to zero or infinity.
+Normally, when a small or zero pivot element is detected, we would
+either signal an error (if we expected the matrix to be positive
+definite) or pivot for stability.
+However, in the primal-dual pivot context, a small or zero element
+on the diagonal is not a calamity.
+It signals that the variable associated with the small entry can be
+``skipped'' in the solution process.
+There are several ways to implement this behavior.
+We have chosen a simple way: the diagonal entry is set to 1.0
+and all off-diagonal entries in the corresponding column of $L$
+are set to zero.
+\item
+In structural analysis, ``multi-point constraints'' are often
+applied to a linear system. At times, applying these constraints
+generates a matrix that is essentially singular. The singularity
+may be benign, as in the following case.
+$$
+\left \lbrack \begin{array}{cc}
+A_{1,1} & 0 \\
+0 & A_{2,2}
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{c}
+X_1 \\
+X_2
+\end{array} \right \rbrack
+=
+\left \lbrack \begin{array}{c}
+0 \\
+B_2
+\end{array} \right \rbrack
+$$
+If $A_{1,1}$ is singular, the solution $X_1 = 0$ and
+$X_2 = A_{2,2}^{-1} B_2$ is perfectly acceptable.
+In other cases, the location of the singularity can be
+communicated back to the user to supply useful information
+about the finite element model.
+One common practice is to not use pivoting, but to check the 
+magnitude of the diagonal entry as a row and column is to be eliminated.
+If the magnitude is smaller than a user-supplied parameter,
+the diagonal entry is set to some multiple of the largest
+offdiagonal entry in that row and column of the front,
+the location and perturbation is noted, 
+and the factorization proceeds.
+\end{itemize}
+\par
+Other strategies can be added to the {\tt PatchAndGoInfo} object.
+For example, if a matrix is being factored that is believed to be
+positive definite, and a negative value is found in a pivot
+element, one could abort the factorization, or perturb the element
+so that it is positive.

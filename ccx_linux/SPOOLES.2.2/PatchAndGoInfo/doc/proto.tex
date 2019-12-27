@@ -1,0 +1,103 @@
+\par
+\section{Prototypes and descriptions of {\tt PatchAndGoInfo} methods}
+\label{section:PatchAndGoInfo:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt PatchAndGoInfo} object.
+\par
+\subsection{Basic methods}
+\label{subsection:PatchAndGoInfo:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+PatchAndGoInfo * PatchAndGoInfo_new ( void ) ;
+\end{verbatim}
+\index{PatchAndGoInfo_new@{\tt PatchAndGoInfo\_new()}}
+This method simply allocates storage for the {\tt PatchAndGoInfo} structure 
+and then sets the default fields by a call to 
+{\tt PatchAndGoInfo\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PatchAndGoInfo_setDefaultFields ( PatchAndGoInfo *info ) ;
+\end{verbatim}
+\index{PatchAndGoInfo_setDefaultFields@{\tt PatchAndGoInfo\_setDefaultFields()}}
+This method sets the structure's fields to default values:
+{\tt strategy} = -1, 
+{\tt toosmall} = {\tt fudge} = 0.0,
+and {\tt fudgeIV} = {\tt fudgeDV} = {\tt NULL} .
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PatchAndGoInfo_clearData ( PatchAndGoInfo *info ) ;
+\end{verbatim}
+\index{PatchAndGoInfo_clearData@{\tt PatchAndGoInfo\_clearData()}}
+This method clears any data owned by the object.
+If {\tt fudgeIV} is not {\tt NULL} it is free'd
+by a call to {\tt IV\_free()}.
+If {\tt fudgeDV} is not {\tt NULL} it is free'd
+by a call to {\tt DV\_free()}.
+The structure's default fields are then set 
+with a call to {\tt PatchAndGoInfo\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PatchAndGoInfo_free ( PatchAndGoInfo *info ) ;
+\end{verbatim}
+\index{PatchAndGoInfo_free@{\tt PatchAndGoInfo\_free()}}
+This method releases any storage by a call to 
+{\tt PatchAndGoInfo\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:PatchAndGoInfo:proto:initializers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void PatchAndGoInfo_init ( PatchAndGoInfo *info, int strategy, double toosmall, 
+                           double fudge, int storeids, int storevalues ) ;
+\end{verbatim}
+\index{PatchAndGoInfo_init@{\tt PatchAndGoInfo\_init()}}
+This method initializes the object.
+Presently, two strategies are supported: 
+{\tt strategy = 1} for optimization matrices
+and
+{\tt strategy = 2} for structural analysis matrices.
+{\tt toosmall} is the cutoff for diagonal entry modification, if an
+entry has magnitude less than {\tt toosmall} some action is taken.
+For the second strategy, the {\tt fudge} parameter contributes
+to the perturbation.
+When {\tt storeids} is not zero, 
+the {\tt fudgeIV} object is created to accumulate the locations of
+the perturbations.
+When {\tt storevalues} is not zero, 
+the {\tt fudgeDV} object is created to accumulate information on
+the perturbations themselves.
+\par \noindent {\it Error checking:}
+If {\tt info} is {\tt NULL} 
+or {\tt strategy} is not 1 or 2,
+or {\tt toosmall} or {\tt fudge} are less than zero,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}

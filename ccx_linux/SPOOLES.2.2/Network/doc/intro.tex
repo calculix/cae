@@ -1,0 +1,97 @@
+\chapter{{\tt Network}: Simple Max-flow solver}
+\par
+First, some background on how the {\tt Network} object is used 
+to find a minimal weight separator.
+The process is rather complex.
+\par
+We are given a partition of the vertices $V$ into three disjoint sets,
+$B$, $Y$ and $W$, where $Y$ is a ``wide'' separator (i.e., not a
+minimal separator).
+We construct a network from this vertex partition, solve a max flow
+problem on this network, and then find one or more mincuts that
+correspond to a separator $S \subset Y$ with minimal vertex weight.
+\par
+Here are the steps by which the {\tt GPart} object contructs the
+network.
+\begin{itemize}
+\item
+All nodes in $B$ are collapsed into the source $s$.
+\item
+All nodes in $W$ are collapsed into the sink $t$.
+\item
+$Y$ is partitioned into four sets:
+\begin{itemize}
+\item
+$Y_B$ are those nodes adjacent to $B$ but not adjacent to $W$.
+\item
+$Y_W$ are those nodes adjacent to $W$ but not adjacent to $B$.
+\item
+$Y_I$ are those nodes adjacent to neither $W$ nor $B$.
+\item
+$Y_{B,W}$ are those nodes adjacent to both $W$ and $B$.
+\end{itemize}
+Normally, by construction, 
+$Y_{B,W} = \emptyset$, but the code should work fine otherwise.
+\item
+Each $y \in Y_B$ becomes one node $y$ in the network, 
+and the edge $(s,y)$ has capacity $weight(y)$.
+\item
+Each $y \in Y_W$ becomes one node $y$ in the network, 
+and the edge $(y,t)$ has capacity $weight(y)$.
+\item
+Each $y \in Y_I$ becomes two nodes in the network, $y^-$ and $y^+$.
+The edge $(y^-,y^+)$ has capacity $weight(y)$.
+\item
+An edge $(x,y)$ where $x \in Y_B$ and $y \in Y_B$ is not found in
+the network. (It is not necessary.)
+Similarly,
+an edge $(x,y)$ where $x \in Y_W$ and $y \in Y_W$ is not found in
+the network. 
+\item
+An edge $(x,y)$ where $x \in Y_B$ and $y \in Y_I$ becomes two edges,
+$(x,y^-)$ and $(y^+,x)$, both with infinite capacity.
+\item
+An edge $(y,z)$ where $y \in Y_I$ and $z \in Y_W$ becomes two edges,
+$(y^+,z)$ and $(z,y^-)$, both with infinite capacity.
+\item
+An edge $(x,y)$ where $x \in Y_I$ and $y \in Y_I$ becomes two edges,
+$(x^+,y^-)$ and $(y^+,x^-)$, both with infinite capacity.
+\end{itemize}
+\par
+The {\tt Network} object can be constructed fairly simply.
+It is initialized by specifying the number of nodes in the network,
+including the source and sink.
+Arcs can be added one at a time and it is not necessary to know
+the total number of arcs ahead of time.
+To specify an arc one needs to provide the first and second
+vertices, the capacity and the present flow.
+\par
+Once we have constructed the network, we solve the max flow problem
+in a very simple manner, basically the Ford-Fulkerson algorithm
+that generates augmenting paths.
+No doubt this can be improved, and it would be welcome because for
+large three dimensional finite element graphs, up to sixty per cent
+of the time is spent smoothing the separators, and most of this
+time is spent solving a max flow problem.
+\par
+However, the network we generate in practice have 
+two special properties:
+\begin{itemize}
+\item
+The networks are very shallow, i.e., the distance from the source
+to the sink is generally 3-6 in practice.
+This reduces the potential improvement of a pre-push algorithm.
+\item
+The maximum capacity of an edge is small, usually 6-12.
+Therefore scaling algorithms have little applicability.
+\end{itemize}
+Finding a minimal separator gives rise to networks of a special
+nature and that may require specialized solution techniques.
+In fact, there is a more straightforward approach that generates a
+network where each vertex in $Y$ becomes {\it one} node in the
+network (as opposed to two network nodes for a vertex in $Y_I$).
+For this special network, all edges have infinite capacity and it
+is the vertices that have finite capacity.
+In any case, the {\tt Network} object is but a naive and
+straightforward implementation of the simplest max flow solution
+scheme and will no doubt be improved.

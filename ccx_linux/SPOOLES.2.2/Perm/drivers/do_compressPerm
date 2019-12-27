@@ -1,0 +1,17 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = BCSSTK24
+
+set inPermFile  = $matrices/$matrix/mmd0.permf
+
+set inMapFile  = $matrices/$matrix/eqmap.ivf
+
+set outPermFile = none
+set outPermFile = $matrices/$matrix/mmd1.permf
+
+set msglvl  = 3
+
+set msgFile = stdout
+
+compressPerm $msglvl $msgFile $inPermFile $inMapFile $outPermFile

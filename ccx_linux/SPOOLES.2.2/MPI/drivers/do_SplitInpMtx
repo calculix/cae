@@ -1,0 +1,36 @@
+#! /bin/csh -f
+
+set msglvl     = 1
+set msgFile    = res.serial
+set msgFile    = stdout
+set msgFile    = res
+
+set neqns      = 20
+set nent       = 100
+
+set seed       = 10101
+set coordType  = 3
+set inputMode  = 2
+set nproc      = 4
+
+#
+# for solaris with mpich
+#
+set pgFile     = splitInpMtx$nproc.pg
+/usr/local/mpi/bin/mpirun -p4pg $pgFile \
+testSplitInpMtx \
+   $msglvl $msgFile $neqns $nent $seed $coordType $inputMode 
+ 
+#
+# for sgi
+#
+# mpirun -np $nproc \
+# testSplitInpMtx \
+#    $msglvl $msgFile $neqns $nent $seed $coordType $inputMode
+ 
+#
+# for hp
+#
+# /opt/mpi/bin/mpirun -np $nproc \
+# testSplitInpMtx \
+#    $msglvl $msgFile $neqns $nent $seed $coordType $inputMode 

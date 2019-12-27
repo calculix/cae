@@ -1,4 +1,4 @@
-© Ihor Mirzov, September 2019  
+© Ihor Mirzov, December 2019  
 Distributed under GNU General Public License v3.0
 
 <br/><br/>
@@ -40,7 +40,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/VTK.py).
 
-- Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable env-file with Python syntax. The file is automatically overwrited during the workflow.
+- Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable env-file with Python syntax. The file is automatically overwritten during the workflow.
 
 - [Optimal job management](src/job.py):
 
@@ -59,7 +59,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Screenshots
 
-Main window with imported mesh and highlighted node set after job calculation:
+Main window with imported mesh and highlighted node set:
 ![Main window](img/img_social.png "Main window")
 
 "New keyword" dialog with corresponding chapter from HTML manual:
@@ -187,3 +187,5 @@ The source code for the CalculiX solver is taken from the [free_form_fortran pro
 - Menu Help:
     - PDF manual / YouTube videos for beginners.
     - VTK Keyboard Shortcuts and Controls.
+
+- implement CCX version as parameter

@@ -1,0 +1,9 @@
+\indexentry{ILUMtx_new@{\tt ILUMtx\_new()}}{2}
+\indexentry{ILUMtx_setDefaultFields@{\tt ILUMtx\_setDefaultFields()}}{3}
+\indexentry{ILUMtx_clearData@{\tt ILUMtx\_clearData()}}{3}
+\indexentry{ILUMtx_free@{\tt ILUMtx\_free()}}{3}
+\indexentry{ILUMtx_init@{\tt ILUMtx\_init()}}{3}
+\indexentry{ILUMtx_factor@{\tt ILUMtx\_factor()}}{3}
+\indexentry{ILUMtx_solveVector@{\tt ILUMtx\_solveVector()}}{4}
+\indexentry{ILUMtx_fillRandom@{\tt ILUMtx\_fillRandom()}}{4}
+\indexentry{ILUMtx_writeForMatlab@{\tt ILUMtx\_writeForMatlab()}}{5}

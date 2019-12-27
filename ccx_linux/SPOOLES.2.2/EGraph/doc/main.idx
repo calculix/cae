@@ -1,0 +1,16 @@
+\indexentry{EGraph_new@{\tt EGraph\_new()}}{2}
+\indexentry{EGraph_setDefaultFields@{\tt EGraph\_setDefaultFields()}}{2}
+\indexentry{EGraph_clearData@{\tt EGraph\_clearData()}}{2}
+\indexentry{EGraph_free@{\tt EGraph\_free()}}{2}
+\indexentry{EGraph_init@{\tt EGraph\_init()}}{2}
+\indexentry{EGraph_mkAdjGraph@{\tt EGraph\_mkAdjGraph()}}{3}
+\indexentry{EGraph_make9P@{\tt EGraph\_make9P()}}{3}
+\indexentry{EGraph_make27P@{\tt EGraph\_make27P()}}{3}
+\indexentry{EGraph_readFromFile@{\tt EGraph\_readFromFile()}}{3}
+\indexentry{EGraph_readFromFormattedFile@{\tt EGraph\_readFromFormattedFile()}}{3}
+\indexentry{EGraph_readFromBinaryFile@{\tt EGraph\_readFromBinaryFile()}}{3}
+\indexentry{EGraph_writeToFile@{\tt EGraph\_writeToFile()}}{4}
+\indexentry{EGraph_writeToFormattedFile@{\tt EGraph\_writeToFormattedFile()}}{4}
+\indexentry{EGraph_writeToBinaryFile@{\tt EGraph\_writeToBinaryFile()}}{4}
+\indexentry{EGraph_writeForHumanEye@{\tt EGraph\_writeForHumanEye()}}{4}
+\indexentry{EGraph_writeStats@{\tt EGraph\_writeStats()}}{4}

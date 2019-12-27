@@ -1,0 +1,10 @@
+\indexentry{IIheap_new@{\tt IIheap\_new()}}{2}
+\indexentry{IIheap_setDefaultFields@{\tt IIheap\_setDefaultFields()}}{2}
+\indexentry{IIheap_clearData@{\tt IIheap\_clearData()}}{2}
+\indexentry{IIheap_free@{\tt IIheap\_free()}}{2}
+\indexentry{IIheap_init@{\tt IIheap\_init()}}{2}
+\indexentry{IIheap_sizeOf@{\tt IIheap\_sizeOf()}}{2}
+\indexentry{IIheap_root@{\tt IIheap\_root()}}{3}
+\indexentry{IIheap_insert@{\tt IIheap\_insert()}}{3}
+\indexentry{IIheap_remove@{\tt IIheap\_remove()}}{3}
+\indexentry{IIheap_print@{\tt IIheap\_print()}}{3}

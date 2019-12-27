@@ -1,0 +1,1336 @@
+\par
+\section{Prototypes and descriptions of {\tt FrontMtx} methods}
+\label{section:FrontMtx:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt FrontMtx} object.
+\par
+\subsection{Basic methods}
+\label{subsection:FrontMtx:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+FrontMtx * FrontMtx_new ( void ) ;
+\end{verbatim}
+\index{FrontMtx_new@{\tt FrontMtx\_new()}}
+This method simply allocates storage for the {\tt FrontMtx} structure 
+and then sets the default fields by a call to 
+{\tt FrontMtx\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_setDefaultFields ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_setDefaultFields@{\tt FrontMtx\_setDefaultFields()}}
+The structure's fields are set to default values:
+{\tt nfront}, {\tt neqns}, {\tt nentD}, {\tt nentL}, {\tt nentU}  and
+{\tt nlocks} are set to zero.
+Five scalars are set to their default values,
+\begin{center}
+\begin{tabular}{lcl}
+{\tt type}         & = &  {\tt SPOOLES\_REAL} \\
+{\tt symmetryflag} & = &  {\tt SPOOLES\_SYMMETRIC} \\
+{\tt sparsityflag} & = &  {\tt FRONTMTX\_DENSE\_FRONTS} \\
+{\tt pivotingflag} & = &  {\tt SPOOLES\_NO\_PIVOTING} \\
+{\tt dataMode}     & = &  {\tt FRONTMTX\_1D\_MODE}
+\end{tabular}
+\end{center}
+and the structure's pointers are set to {\tt NULL}.
+% {\tt tree},
+% {\tt frontETree},
+% {\tt symbfacIVL},
+% {\tt frontsizesIV},
+% {\tt rowadjIVL},
+% {\tt coladjIVL},
+% {\tt lowerblockIVL},
+% {\tt upperblockIVL},
+% {\tt p\_mtxDJJ},
+% {\tt p\_mtxUJJ},
+% {\tt p\_mtxUJN},
+% {\tt p\_mtxLJJ},
+% {\tt p\_mtxLNJ},
+% {\tt lowerhash},
+% {\tt upperhash} and
+% {\tt lock}
+% are set to {\tt NULL} .
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_clearData ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_clearData@{\tt FrontMtx\_clearData()}}
+This method clears the object and free's any owned data
+by invoking the {\tt \_clearData()} methods for its internal
+{\tt IV} and {\tt IVL} objects, ({\it not} including
+the {\tt frontETree} and {\tt symbfacIVL} objects that are not
+owned by this {\tt FrontMtx} object).
+If the {\tt lock} pointer is not {\tt NULL}, the lock is destroyed
+via a call to {\tt Lock\_free()} and its storage is then
+free'd.
+There is a concluding call to {\tt FrontMtx\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_free ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_free@{\tt FrontMtx\_free()}}
+This method releases any storage by a call to 
+{\tt FrontMtx\_clearData()} and then free the space for {\tt frontmtx}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:FrontMtx:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_nfront ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_nfront@{\tt FrontMtx\_nfront()}}
+This method returns the number of fronts in the matrix.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_neqns ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_neqns@{\tt FrontMtx\_neqns()}}
+This method returns the number of equations in the matrix.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Tree * FrontMtx_frontTree ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_frontTree@{\tt FrontMtx\_frontTree()}}
+This method returns the {\tt Tree} object for the fronts.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_initialFrontDimensions ( FrontMtx *frontmtx, int J,
+                          int *pnD, int *pnL, int *pnU, int *pnbytes ) ;
+\end{verbatim}
+\index{FrontMtx_initialFrontDimensions@{\tt FrontMtx\_initialFrontDimensions()}}
+This method fills the four pointer arguments with the number of 
+internal rows and columns, number of rows in the lower block,
+number of columns in the upper block, and number of bytes for a
+{\tt Chv} object to hold the front.
+in front {\tt J}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+or if {\tt J} is not in {\tt [0,nfront)},
+or if any of the four pointer arguments are NULL,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_frontSize ( FrontMtx *frontmtx, int J ) ;
+\end{verbatim}
+\index{FrontMtx_frontSize@{\tt FrontMtx\_frontSize()}}
+This method returns the number of internal rows and columns
+in front {\tt J}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt frontsizesIV} is {\tt NULL},
+or if {\tt J} is not in {\tt [0,nfront)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_setFrontSize ( FrontMtx *frontmtx, int J, int size ) ;
+\end{verbatim}
+\index{FrontMtx_setFrontsize@{\tt FrontMtx\_setFrontSize()}}
+This method sets the number of internal rows and columns
+in front {\tt J} to be {\tt size}.
+This method is used during factorizations with pivoting enabled
+since we cannot tell ahead of time how many rows and columns in a
+front will be eliminated.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt frontsizesIV} is {\tt NULL},
+or if {\tt J} is not in {\tt [0,nfront)},
+or if ${\tt size} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_columnIndices ( FrontMtx *frontmtx, int J,
+                              int *pncol, int **pindices ) ;
+\end{verbatim}
+\index{FrontMtx_columnIndices@{\tt FrontMtx\_columnIndices()}}
+This method fills {\tt *pncol} with the number of columns
+and {\tt *pindices} with a pointer to the column indices for front
+{\tt J}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt pncol} or {\tt pindices} is {\tt NULL},
+or if {\tt J} is not in {\tt [0,nfront)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_rowIndices ( FrontMtx *frontmtx, int J,
+                           int *pnrow, int **pindices ) ;
+\end{verbatim}
+\index{FrontMtx_rowIndices@{\tt FrontMtx\_rowIndices()}}
+This method fills {\tt *pnrow} with the number of rows
+and {\tt *pindices} with a pointer to the row indices for front
+{\tt J}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt pnrow} or {\tt pindices} is {\tt NULL},
+or if {\tt J} is not in {\tt [0,nfront)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+SubMtx * FrontMtx_diagMtx ( FrontMtx *frontmtx, int J ) ;
+\end{verbatim}
+\index{FrontMtx_diagMtx@{\tt FrontMtx\_diagMtx()}}
+This method returns a pointer to the object that contains
+submatrix $D_{J,J}$.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+or if {\tt J} is not in {\tt [0,nfront)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+SubMtx * FrontMtx_upperMtx ( FrontMtx *frontmtx, int J, int K ) ;
+\end{verbatim}
+\index{FrontMtx_upperMtx@{\tt FrontMtx\_upperMtx()}}
+This method returns a pointer to the object that contains
+submatrix $U_{J,K}$.
+If $K = nfront$, then the object containing $U_{J,\bnd{J}}$ is
+returned.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+or if {\tt J} is not in {\tt [0,nfront)},
+or if {\tt K} is not in {\tt [0,nfront]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+SubMtx * FrontMtx_lowerMtx ( FrontMtx *frontmtx, int K, int J ) ;
+\end{verbatim}
+\index{FrontMtx_lowerMtx@{\tt FrontMtx\_lowerMtx()}}
+This method returns a pointer to the object that contains
+submatrix $L_{K,J}$.
+If $K = nfront$, then the object containing $L_{\bnd{J},J}$ is
+returned.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+or if {\tt J} is not in {\tt [0,nfront)},
+or if {\tt K} is not in {\tt [0,nfront]},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_lowerAdjFronts ( FrontMtx *frontmtx, int J, 
+                               int *pnadj, int **padj ) ;
+\end{verbatim}
+\index{FrontMtx_lowerAdjFronts@{\tt FrontMtx\_lowerAdjFronts()}}
+This method fills {\tt *pnadj} with the number of fronts adjacent to 
+{\tt J} in $L$ and fills {\tt *padj} with a pointer to the first
+entry of a vector containing the ids of the adjacent fronts.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt pnadj} or {\tt ppadj} is {\tt NULL},
+or if {\tt J} is not in {\tt [0,nfront)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_upperAdjFronts ( FrontMtx *frontmtx, int J, 
+                               int *pnadj, int **padj ) ;
+\end{verbatim}
+\index{FrontMtx_upperAdjFronts@{\tt FrontMtx\_upperAdjFronts()}}
+This method fills {\tt *pnadj} with the number of fronts adjacent to 
+{\tt J} in $U$ and fills {\tt *padj} with a pointer to the first
+entry of a vector containing the ids of the adjacent fronts.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt pnadj} or {\tt ppadj} is {\tt NULL},
+or if {\tt J} is not in {\tt [0,nfront)},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_nLowerBlocks ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_nLowerBlocks@{\tt FrontMtx\_nLowerBlocks()}}
+This method returns the number of nonzero $L_{K,J}$ submatrices.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_nUpperBlocks ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_nUpperBlocks@{\tt FrontMtx\_nUpperBlocks()}}
+This method returns the number of nonzero $U_{J,K}$ submatrices.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * FrontMtx_upperBlockIVL ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_upperBlockIVL@{\tt FrontMtx\_upperBlockIVL()}}
+This method returns a pointer to the {\tt IVL} object that holds
+the upper blocks.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * FrontMtx_lowerBlockIVL ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_lowerBlockIVL@{\tt FrontMtx\_lowerBlockIVL()}}
+This method returns a pointer to the {\tt IVL} object that holds
+the lower blocks.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization methods}
+\label{subsection:FrontMtx:proto:initialization}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_init ( FrontMtx *frontmtx, ETree *frontETree, 
+          IVL *symbfacIVL, int type, int symmetryflag, int sparsityflag,
+          int pivotingflag, int lockflag, int myid, IV *ownersIV, 
+          SubMtxManager *manager, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_init@{\tt FrontMtx\_init()}}
+This method initializes the object, allocating and initializing the 
+internal objects as necessary.
+See the previous section on data structures for the meanings of the
+{\tt type}, {\tt symmetryflag}, {\tt sparsityflag} and 
+{\tt pivotingflag} parameters.
+The {\tt lockflag} parameter has the following meaning.
+\begin{itemize}
+\item {\tt 0} --- the {\tt Lock} object is not allocated 
+                  or initialized.
+\item {\tt 1} --- the {\tt Lock} object is allocated and initialized 
+                  to synchronize only threads in this process.
+\item {\tt 2} --- the {\tt Lock} object is allocated and initialized 
+                  to synchronize threads in this and other processes.
+\end{itemize}
+If {\tt lockflag} is not {\tt 0}, the lock is allocated and
+initialized.
+\par
+This method allocates as much storage as possible.
+When pivoting is not enabled and dense fronts are stored 
+the structure of the factor matrix is fixed and given by the 
+{\tt frontETree} object.
+The diagonal $D_{J,J}$, 
+upper triangular $U_{J,J}$ and $U_{J,\bnd{J}}$ matrices,
+and lower triangular $L_{J,J}$ and $L_{\bnd{J},J}$ matrices
+are allocated.
+\par
+The {\tt myid} and {\tt ownersIV} parameters are used in
+a distributed environment where we specify which process
+owns each front. When we can preallocate data structures
+(when there is no pivoting and dense fronts are stored) we
+need each process to determine what parts of the data it
+can allocate and set up. In a serial or multithreaded 
+environment, use {\tt ownersIV = NULL}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt frontETree} or {\tt symbfacIVL} is {\tt NULL},
+or if {\tt type}, {\tt symmetryflag}, {\tt sparsityflag} 
+or {\tt pivotingflag} are not valid,
+or if {\tt lockflag} is not {\tt 0}, {\tt 1} or {\tt 2},
+or if {\tt ownersIV} is not {\tt NULL} and {\tt myid < 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility Factorization methods}
+\label{subsection:FrontMtx:proto:utility-factor}
+\par
+The following methods are called by all the factor methods
+--- serial, multithreaded and MPI.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_initializeFront ( FrontMtx *frontmtx, Chv *frontJ, int J ) ;
+\end{verbatim}
+\index{FrontMtx_initializeFront@{\tt FrontMtx\_initializeFront()}}
+This method is called to initialize a front.
+The number of internal rows and columns is found from the front
+{\tt ETree} object and the row and column indices are obtained 
+from the symbolic factorization {\tt IVL} object.
+The front {\tt Chv} object is initialized via a call to 
+{\tt Chv\_init()}, and the column indices and row indices (when
+nonsymemtric) are copied.
+Finally the front's entries are zeroed via a call to 
+{\tt Chv\_zero()}.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+char FrontMtx_factorVisit ( FrontMtx *frontmtx, Pencil *pencil, int J,
+   int myid, int owners[], Chv *fronts[], int lookahead, double tau,
+   double droptol, char status[], IP *heads[], IV *pivotsizesIV, DV *workDV, 
+   int parent[], ChvList *aggList, ChvList *postList, ChvManager *chvmanager, 
+   int stats[], double cpus[], int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_factorVisit@{\tt FrontMtx\_factorVisit()}}
+This method is called during the serial, multithreaded and MPI
+factorizations when front {\tt J} is visited during the bottom-up
+traversal of the tree.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Chv * FrontMtx_setupFront ( FrontMtx *frontmtx, Pencil *pencil, int J,
+                         int myid, int owners[], ChvManager *chvmanager,
+                         double cpus[], int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_setupFront@{\tt FrontMtx\_setupFront()}}
+This method is called by {\tt FrontMtx\_visitFront()} to initialize
+the front's {\tt Chv} object and load original entries if applicable.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IP ** FrontMtx_factorSetup ( FrontMtx *frontmtx, IV *frontOwnersIV,
+                             int myid, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_factorSetup@{\tt FrontMtx\_factorSetup()}}
+This method is called by the serial, multithreaded and MPI
+factorizations methods to initialize a data structure that contains
+the front-to-front updates that this thread or processor will perform.
+The data structure is a vector of pointers to {\tt IP} objects that
+holds the heads of list of updates for each front.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * FrontMtx_nactiveChild ( FrontMtx *frontmtx, char *status, int myid ) ;
+\end{verbatim}
+\index{FrontMtx_nactiveChild@{\tt FrontMtx\_nactiveChild()}}
+This method is called by the multithreaded and MPI factorizations
+to create an integer vector that contains the number of active
+children of each front with respect to this thread or processor.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt status} is {\tt NULL},
+or if ${\tt myid} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Ideq * FrontMtx_setUpDequeue ( FrontMtx *frontmtx, int owners[], int myid, 
+                               char status[], IP *heads[], char activeFlag,
+                               char inactiveFlag, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_nactiveChild@{\tt FrontMtx\_nactiveChild()}}
+This method is called by the multithreaded and MPI factorizations
+to create and return an integer dequeue object to schedule the bottom-up
+traversal of the front tree.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt owners} or {\tt status} is {\tt NULL},
+or if ${\tt myid} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_loadActiveLeaves ( FrontMtx *frontmtx, char status[],
+                                 char activeFlag, Ideq *dequeue ) ;
+\end{verbatim}
+\index{FrontMtx_loadActiveLeaves@{\tt FrontMtx\_loadActiveLeaves()}}
+This method is called by the multithreaded and MPI factor and solve
+methods to load the dequeue with the active leaves in the front
+tree with respect to the thread or processor.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ChvList * FrontMtx_postList ( FrontMtx *frontmtx, IV *frontOwnersIV,
+                              int lockflag ) ;
+\end{verbatim}
+\index{FrontMtx_postList@{\tt FrontMtx\_postList()}}
+This method is called by the multithreaded and MPI factor 
+methods to create and return a list object to hold postponed
+chevrons and help synchronize the factorization.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ChvList * FrontMtx_aggregateList ( FrontMtx *frontmtx,
+                                   IV *frontOwnersIV, int lockflag ) ;
+\end{verbatim}
+\index{FrontMtx_aggregateList@{\tt FrontMtx\_aggregateList()}}
+This method is called by the multithreaded factor 
+methods to create and return a list object to hold aggregate
+fronts and help synchronize the factorization.
+There is an analogous {\tt FrontMtx\_MPI\_aggregateList()} method
+for the MPI environment.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt frontOwnersIV} is {\tt NULL},
+or if {\tt lockflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_loadEntries ( Chv *frontJ, DPencil *pencil, 
+                            int msglvl, FILE *msgFile) ;
+\end{verbatim}
+\index{FrontMtx_loadEntries@{\tt FrontMtx\_loadEntries()}}
+This method is called to load the original entries into a front.
+\par \noindent {\it Error checking:}
+If {\tt frontJ} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_update ( FrontMtx *frontmtx, Chv *frontJ, IP *heads[], 
+                       char status[], DV *tempDV, int msglvl, FILE *msgFile) ;
+\end{verbatim}
+\index{FrontMtx_update@{\tt FrontMtx\_update()}}
+This method is called to update the current front stored in {\tt frontJ}
+from all descendent fronts.
+(For the multithreaded and MPI factorizations, updates come from
+all owned descendent fronts.)
+The {\tt heads[]} vector maintains the linked list of completed 
+fronts that still have ancestors to update.
+The {\tt tempDV} object is used as working storage by the {\tt Chv}
+update methods, its size is automatically resized.
+When pivoting is disabled, the maximum size of the {\tt tempDV}
+object is three times the maximum number of internal rows and columns
+in a front.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Chv * FrontMtx_assemblePostponedData ( FrontMtx *frontmtx, Chv *frontJ, 
+           ChvList *postponedlist, ChvManager *chvmanager, int *pndelay) ;
+\end{verbatim}
+\index{FrontMtx_assemblePostponedData@{\tt FrontMtx\_assemblePostponedData()}}
+This method is called to assemble any postponed data 
+from its children fronts into the current front.
+{\tt frontJ} contains the updates from the descendents.
+Any postponed data is found in the list in {\tt postponedlist}.
+If this list is empty, a new front is created to hold the aggregate
+updates and the postponed data, and 
+the {\tt chvmanager} object receives the aggregate and postponed {\tt
+Chv} objects.
+The number of delayed rows and columns is returned in {\tt *pndelay}
+--- this is used during the factorization of the front that
+follows immediately.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+FrontMtx_storePostponedData ( FrontMtx *frontmtx, Chv *frontJ, 
+    int npost, int K, ChvList *postponedlist, ChvManager *chvmanager ) ;
+\end{verbatim}
+\index{FrontMtx_storePostponedData@{\tt FrontMtx\_storePostponedData()}}
+This method is used to store any postponed rows and columns from
+the current front {\tt frontJ} into a {\tt Chv} object obtained
+from the {\tt chvmanager} object and place it into the list of
+postponed objects for {\tt K}, its parent, found in the {\tt
+postponedlist} object.
+The {\tt frontJ} object is unchanged by this method.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+FrontMtx_storeFront ( FrontMtx *frontmtx, Chv *frontJ, IV *pivotsizesIV,
+                      double droptol, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_storeFront@{\tt FrontMtx\_storeFront()}}
+This method is used to store the eliminated rows and columns of the
+current front {\tt frontJ} into the factor matrix storage.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Serial Factorization method}
+\label{subsection:FrontMtx:proto:factor}
+There are two factorization methods: the first is for factoring
+a matrix $A$ stored in a {\tt DInpMtx} object, the second factors
+a linear combination $A + \sigma B$ stored in a {\tt DPencil} object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Chv * FrontMtx_factorInpMtx ( FrontMtx *frontmtx, InpMtx *inpmtx, double tau, 
+                   double droptol, ChvManager *chvmanager, int *perror, 
+                   double cpus[], int stats[],  int msglvl, FILE *msgFile ) ;
+Chv * FrontMtx_factorPencil ( FrontMtx *frontmtx, Pencil *pencil, double tau, 
+                   double droptol, ChvManager *chvmanager, int *perror, 
+                   double cpus[], int stats[],  int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_factorInpMtx@{\tt FrontMtx\_factorInpMtx()}}
+\index{FrontMtx_factorPencil@{\tt FrontMtx\_factorPencil()}}
+These two serial factorization methods factor a matrix $A$ 
+(stored in {\tt inpmtx}) or
+a matrix pencil $A + \sigma B$ (stored in {\tt pencil}).
+The {\tt tau} parameter is used when pivoting is enabled, each
+entry in $U$ and $L$ (when nonsymmetric) will have magnitude less
+than or equal to {\tt tau}.
+The {\tt droptol} parameter is used when the fronts are stored in
+a sparse format, each entry in $U$ and $L$ (when nonsymmetric) 
+will have magnitude greater than or equal to {\tt droptol}.
+\par
+The return value is a pointer to the first element in a list of
+{\tt Chv} objects that contain the rows and columns that were
+not able to be eliminated.
+In all present cases, this should be {\tt NULL}; we have left this
+return value as a hook to future factorizations via stages.
+The {\tt perror} parameter is an address that is filled with an
+error code on return.
+If the factorization has completed, then {\tt *perror} is a
+negative number.
+If {\tt *perror} is in the range {\tt [0,nfront)}, then an error
+has been detected at front {\tt *perror}.
+On return, the {\tt cpus[]} vector is filled with the following
+information.
+\begin{itemize}
+\item
+{\tt cpus[0]} --- time spent initializing the fronts.
+\item
+{\tt cpus[1]} --- time spent loading the original entries.
+\item
+{\tt cpus[2]} --- time spent accumulating updates from descendents.
+\item
+{\tt cpus[3]} --- time spent assembling postponed data.
+\item
+{\tt cpus[4]} --- time spent to factor the fronts.
+\item
+{\tt cpus[5]} --- time spent to extract postponed data.
+\item
+{\tt cpus[6]} --- time spent to store the factor entries.
+\item
+{\tt cpus[7]} --- miscellaneous time.
+\item
+{\tt cpus[8]} --- total time in the method.
+\end{itemize}
+On return, the {\tt stats[]} vector is filled with the following
+information.
+\begin{itemize}
+\item
+{\tt stats[0]} --- number of pivots.
+\item
+{\tt stats[1]} --- number of pivot tests.
+\item
+{\tt stats[2]} --- number of delayed rows and columns.
+\item
+{\tt stats[3]} --- number of entries in $D$.
+\item
+{\tt stats[4]} --- number of entries in $L$.
+\item
+{\tt stats[5]} --- number of entries in $U$.
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt pencil}, {\tt cpus} or {\tt stats} 
+is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{QR factorization utility methods}
+\label{subsection:FrontMtx:proto:utilityQR}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_QR_setup ( FrontMtx *frontmtx, InpMtx *mtxA, IVL **prowsIVL,
+                         int **pfirstnz, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_QR_setup@{\tt FrontMtx\_QR\_setup()}}
+This method sets up the {\tt rowsIVL} and {\tt firstnz[]} data
+structures.
+The address of {\tt rowsIVL} is placed in {\tt *prowsIVL}
+and the address of {\tt firstnz} is placed in {\tt *pfirstnz}.
+List {\tt J} of {\tt rowsIVL} contains the rows of $A$ that will be
+assembled into front {\tt J}.
+The leading column with a nonzero entry in row {\tt j} is found in
+{\tt firstnz[j]}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt mtxA}, {\tt prowsIVL} or {\tt pfirstnz} 
+is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_QR_factorVisit ( FrontMtx *frontmtx, int J, InpMtx *mtxA, 
+     IVL *rowsIVL, int firstnz[], ChvList *updList, ChvManager *chvmanager,
+     char status[], int colmap[], DV *workDV, double cpus[], 
+     double *pfacops, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_QR_factorVisit@{\tt FrontMtx\_QR\_factorVisit()}}
+This method visits front {\tt J} during the $QR$ factorization.
+The number of operations to reduce the staircase matrix to upper
+trapezoidal or triangular form is incremented in {\tt *pfacops}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt mtxA}, {\tt rowsIVL}, {\tt firstnz},
+{\tt updlist}, {\tt chvmanager}, {\tt status}, {\tt colmap},
+{\tt workDV}, {\tt cpus} or {\tt pfacops} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+A2 * FrontMtx_QR_assembleFront ( FrontMtx *frontmtx, int J, InpMtx *mtxA, 
+             IVL *rowsIVL, int firstnz[], int colmap[], Chv *firstchild,
+             DV *workDV, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_QR_assembleFront@{\tt FrontMtx\_QR\_assembleFront()}}
+This method creates an {\tt A2} object to hold the front,
+assembles any original rows of $A$ and any update
+matrices from the children into the front,
+and then returns the front.
+The rows and update matrices are assembled into staircase form,
+so no subsequent permutations of the rows is necessary.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt mtxA}, {\tt rowsIVL}, {\tt firstnz},
+{\tt colmap} or {\tt workDV} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_QR_storeFront ( FrontMtx *frontmtx, int J, A2 *frontJ,
+                              int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_QR_storeFront@{\tt FrontMtx\_QR\_storeFront()}}
+This method takes as input {\tt frontJ}, the front in trapezoidal
+or triangular form.
+It scales the strict upper triangle or trapezoid by the diagonal
+entries, then squares the diagonal entries.
+(This transforms $R^TR$ into $(U^T + I)D(I+U)$
+or $R^HR$ into $(U^H + I)D(I+U)$ for our solves.)
+It then stores the entries into the factor matrix.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt frontJ} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Chv * FrontMtx_QR_storeUpdate ( FrontMtx *frontmtx, int J, A2 *frontJ,
+                                ChvManager *chvmanager, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_QR_storeUpdate@{\tt FrontMtx\_QR\_storeUpdate()}}
+This method takes as input {\tt frontJ}, the front in trapezoidal
+or triangular form.
+It extracts the update matrix, stores the entries in a {\tt Chv} object,
+and returns the {\tt Chv} object.
+entries, then squares the diagonal entries.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt frontJ} or {\tt chvmanager} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Serial $QR$ Factorization method}
+\label{subsection:FrontMtx:proto:factorQR}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_QR_factor ( FrontMtx *frontmtx, InpMtx *mtxA, 
+                          ChvManager *chvmanager, double cpus[], 
+                          double *pfacops,  int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_QR_factor@{\tt FrontMtx\_QR\_factor()}}
+This method computes the
+$(U^T+I)D(I+U)$ factorization of $A^TA$ if $A$ is real
+or
+$(U^H+I)D(I+U)$ factorization of $A^HA$ if $A$ is complex.
+The {\tt chvmanager} object manages the working storage.
+On return, the {\tt cpus[]} vector is filled as follows.
+\begin{itemize}
+\item 
+{\tt cpus[0]} -- setup time, time to compute the {\tt rowsIVL} 
+and {\tt firstnz[]} objects
+\item 
+{\tt cpus[1]} -- time to initialize and load the staircase matrices
+\item 
+{\tt cpus[2]} -- time to factor the matrices
+\item 
+{\tt cpus[3]} -- time to scale and store the factor entries
+\item 
+{\tt cpus[4]} -- time to store the update entries
+\item 
+{\tt cpus[5]} -- miscellaneous time
+\item 
+{\tt cpus[6]} -- total time
+\end{itemize}
+On return, {\tt *pfacops} contains the number of floating point
+operations done by the factorization.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt frontJ} or {\tt chvmanager} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Postprocessing methods}
+\label{subsection:FrontMtx:proto:postprocess}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_postProcess ( FrontMtx *frontmtx, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_postProcess@{\tt FrontMtx\_postProcess()}}
+This method does post-processing chores after the factorization is
+complete.
+If pivoting was enabled, the method
+permutes the row and column adjacency objects,
+permutes the lower and upper matrices,
+and updates the block adjacency objects.
+The chevron submatrices $L_{\bnd{J},J}$ and $U_{J,\bnd{J}}$
+are split into $L_{K,J}$ and $U_{J,K}$ 
+where $K \cap \bnd{J} \ne \emptyset$.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+or if {\tt msglvl} > 0 and {\tt msgFile} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_permuteUpperAdj ( FrontMtx *frontmtx, 
+                                int msglvl, FILE *msgFile ) ;
+void FrontMtx_permuteLowerAdj ( FrontMtx *frontmtx, 
+                                int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_permuteUpperAdj@{\tt FrontMtx\_permuteUpperAdj()}}
+\index{FrontMtx_permuteLowerAdj@{\tt FrontMtx\_permuteLowerAdj()}}
+These methods are called during the postprocessing step, 
+where they permute the upper and lower adjacency structures so that
+vertices in $\bnd{J}$ are in ascending order with respect to the
+indices in $K \cup \bnd{K}$, where $K$ is the parent of $J$.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+or if {\tt msglvl} > 0 and {\tt msgFile} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_permuteUpperMatrices ( FrontMtx *frontmtx, 
+                                     int msglvl, FILE *msgFile ) ;
+void FrontMtx_permuteLowerMatrices ( FrontMtx *frontmtx, 
+                                     int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_permuteUpperMatrices@{\tt FrontMtx\_permuteUpperMatrices()}}
+\index{FrontMtx_permuteLowerMatrices@{\tt FrontMtx\_permuteLowerMatrices()}}
+These methods are called during the postprocessing step, 
+where they permute the upper $U_{J,\bnd{J}}$ and lower $L_{\bnd{J},J}$
+submatrices so that
+the columns in $U_{J,\bnd{J}}$ and rows in $L_{\bnd{J},J}$
+are in ascending order with the columns and rows of the final
+matrix.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+or if {\tt msglvl} > 0 and {\tt msgFile} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_splitUpperMatrices ( FrontMtx *frontmtx, int msglvl, FILE *msgFile ) ;
+void FrontMtx_splitLowerMatrices ( FrontMtx *frontmtx, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_splitUpperMatrices@{\tt FrontMtx\_splitUpperMatrices()}}
+\index{FrontMtx_splitLowerMatrices@{\tt FrontMtx\_splitLowerMatrices()}}
+These methods are called during the postprocessing step, 
+where they split the chevron submatrices $L_{\bnd{J},J}$ 
+and $U_{J,\bnd{J}}$ into $L_{K,J}$ and $U_{J,K}$ 
+where $K \cap \bnd{J} \ne \emptyset$.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL},
+or if {\tt msglvl} > 0 and {\tt msgFile} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility Solve methods}
+\label{subsection:FrontMtx:proto:utility-solve}
+\par
+The following methods are called by all the solve methods
+--- serial, multithreaded and MPI.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+SubMtx ** FrontMtx_loadRightHandSide ( FrontMtx *frontmtx, DenseMtx *mtxB, 
+                      int owners[], int myid, SubMtxManager *mtxmanager,
+                      int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_loadRightHandSide@{\tt FrontMtx\_loadRightHandSide()}}
+This method creates and returns a vector of pointers to {\tt
+SubMtx} objects that hold pointers to the right hand side
+submatrices owned by the thread or processor.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_forwardVisit ( FrontMtx *frontmtx, int J, int nrhs, 
+   int *owners, int myid, SubMtxManager *mtxmanager, SubMtxList *aggList,
+   SubMtx *p_mtx[], char frontIsDone[], IP *heads[], SubMtx *p_agg[],
+   char status[], int msglvl, FILE *msgFile) ;
+\end{verbatim}
+\index{FrontMtx_forwardVisit@{\tt FrontMtx\_forwardVisit()}}
+This method is used to visit front {\tt J} during the forward solve,
+$(U^T + I)Y = B$, $(U^H + I)Y = B$ or $(L + I)Y = B$.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_diagonalVisit ( FrontMtx *frontmtx, int J, int owners[],
+   int myid, SubMtx *p_mtx[], char frontIsDone[], SubMtx *p_agg[],
+   int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_diagonalVisit@{\tt FrontMtx\_diagonalVisit()}}
+This method is used to visit front {\tt J} during the diagonal solve,
+$DZ = Y$.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_backwardVisit ( FrontMtx *frontmtx, int J, int nrhs,
+   int *owners, int myid, SubMtxManager *mtxmanager, SubMtxList *aggList,
+   SubMtx *p_mtx[], char frontIsDone[], IP *heads[], SubMtx *p_agg[],
+   char status[], int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_backwardVisit@{\tt FrontMtx\_backwardVisit()}}
+This method is used to visit front {\tt J} during the backward solve,
+$(U + I)Y = B$.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_storeSolution ( FrontMtx *frontmtx, int owners[], int myid, 
+                              SubMtxManager *mtxmanager, SubMtx *p_mtx[],
+                              DenseMtx *mtxX, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_storeSolution@{\tt FrontMtx\_storeSolution()}}
+This method stores the solution in the {\tt solmtx} dense matrix object.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IP ** FrontMtx_forwardSetup ( FrontMtx *frontmtx, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_forwardSetup@{\tt FrontMtx\_forwardSetup()}}
+This method is used to set up a data structure of {\tt IP} objects
+that hold the updates of the form
+$Y_J := Y_J - U_{I,J}^T X_I$,
+$Y_J := Y_J - U_{I,J}^H X_I$ or
+$Y_J := Y_J - L_{J,I} X_I$
+that will be performed by this thread or processor.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IP ** FrontMtx_backwardSetup ( FrontMtx *frontmtx, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_backwardSetup@{\tt FrontMtx\_backwardSetup()}}
+This method is used to set up a data structure of {\tt IP} objects
+that hold the updates of the form
+$Z_J := Z_J - U_{J,K} X_K$
+that will be performed by this thread or processor.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_loadActiveRoots ( FrontMtx *frontmtx, char status[],
+                                char activeFlag, Ideq *dequeue ) ;
+\end{verbatim}
+\index{FrontMtx_loadActiveRoots@{\tt FrontMtx\_loadActiveRoots()}}
+This method loads the active roots for a thread or a processor into
+the dequeue for the backward solve.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Serial Solve method}
+\label{subsection:FrontMtx:proto:solve-serial}
+\par
+\begin{enumerate}
+%=======================================================================
+\item
+\begin{verbatim}
+void FrontMtx_solve ( FrontMtx *frontmtx, DenseMtx *mtxX, DenseMtx *mtxB, 
+         SubMtxManager *mtxmanager, double cpus[], int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_solve@{\tt FrontMtx\_solve()}}
+This method is used to solve one of three linear systems of equations
+---
+$(U^T + I)D(I + U) X = B$,
+$(U^H + I)D(I + U) X = B$ or
+$(L + I)D(I + U) X = B$.
+Entries of $B$ are {\it read} from {\tt mtxB} and 
+entries of $X$ are written to {\tt mtxX}.
+Therefore, {\tt mtxX} and {\tt mtxB} can be the same object.
+(Note, this does not hold true for an MPI factorization with pivoting.)
+The {\tt mtxmanager} object manages the working storage using the solve.
+On return the {\tt cpus[]} vector is filled with the following.
+\begin{itemize}
+\item
+{\tt cpus[0]} --- set up the solves
+\item
+{\tt cpus[1]} --- fetch right hand side and store solution
+\item
+{\tt cpus[2]} --- forward solve
+\item
+{\tt cpus[3]} --- diagonal solve
+\item
+{\tt cpus[4]} --- backward solve
+\item
+{\tt cpus[5]} --- total time in the method.
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt mtxB} or {\tt cpus} 
+is {\tt NULL},
+or if {\tt msglvl} > 0 and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%=======================================================================
+\end{enumerate}
+\par
+\subsection{Serial $QR$ Solve method}
+\label{subsection:FrontMtx:proto:QRsolve-serial}
+\par
+\begin{enumerate}
+%=======================================================================
+\item
+\begin{verbatim}
+void FrontMtx_QR_solve ( FrontMtx *frontmtx, InpMtx *mtxA, DenseMtx *mtxX, 
+                         DenseMtx *mtxB, SubMtxManager *mtxmanager,
+                         double cpus[], int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_QR_solve@{\tt FrontMtx\_QR\_solve()}}
+This method is used to minimize $\|B - AX\|_F$, where
+$A$ is stored in {\tt mtxA},
+$B$ is stored in {\tt mtxB},
+and $X$ will be stored in {\tt mtxX}.
+The {\tt frontmtx} object contains a
+$(U^T+I)D(I+U)$ factorization of $A^TA$ if $A$ is real
+or
+$(U^H+I)D(I+U)$ factorization of $A^HA$ if $A$ is complex.
+We solve the seminormal equations
+$(U^T+I)D(I+U)X = A^TB$ or $(U^H+I)D(I+U)X = A^HB$
+for $X$.
+The {\tt mtxmanager} object manages the working storage 
+used in the solves.
+On return the {\tt cpus[]} vector is filled with the following.
+\begin{itemize}
+\item
+{\tt cpus[0]} --- set up the solves
+\item
+{\tt cpus[1]} --- fetch right hand side and store solution
+\item
+{\tt cpus[2]} --- forward solve
+\item
+{\tt cpus[3]} --- diagonal solve
+\item
+{\tt cpus[4]} --- backward solve
+\item
+{\tt cpus[5]} --- total time in the solve method.
+\item
+{\tt cpus[6]} --- time to compute $A^TB$ or $A^HB$.
+\item
+{\tt cpus[7]} --- total time.
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt mtxA}, {\tt mtxX}, {\tt mtxB} or {\tt cpus} 
+is {\tt NULL},
+or if {\tt msglvl} > 0 and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%=======================================================================
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:FrontMtx:proto:utility}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * FrontMtx_colmapIV ( FrontMtx *frontmtx ) ;
+IV * FrontMtx_rowmapIV ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_colmapIV@{\tt FrontMtx\_colmapIV()}}
+\index{FrontMtx_rowmapIV@{\tt FrontMtx\_rowmapIV()}}
+These methods construct and return an {\tt IV} object that map the
+rows and columns to the fronts that contains them.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * FrontMtx_ownedRowsIV ( FrontMtx *frontmtx, int myid, IV *ownersIV,
+                            int msglvl, FILE *msgFile ) ;
+IV * FrontMtx_ownedColumnsIV ( FrontMtx *frontmtx, int myid, IV *ownersIV,
+                            int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_ownedColumns@{\tt FrontMtx\_ownedColumns()}}
+\index{FrontMtx_ownedRows@{\tt FrontMtx\_ownedRows()}}
+These methods construct and return {\tt IV} objects that 
+contain the ids of the rows and columns that belong to fronts that
+are owned by processor {\tt myid}.
+If {\tt ownersIV} is {\tt NULL}, an {\tt IV} object is returned
+that contains {\tt \{0,1,2,3, ..., nfront-1\}}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * FrontMtx_makeUpperBlockIVL ( FrontMtx *frontmtx, IV *colmapIV ) ;
+IVL * FrontMtx_makeLowerBlockIVL ( FrontMtx *frontmtx, IV *rowmapIV ) ;
+\end{verbatim}
+\index{FrontMtx_makeUpperBlockIVL@{\tt FrontMtx\_makeUpperBlockIVL()}}
+\index{FrontMtx_makeLowerBlockIVL@{\tt FrontMtx\_makeLowerBlockIVL()}}
+These methods construct and return {\tt IVL} objects that 
+contain the submatrix structure of the lower and upper factors.
+The {\tt IV} objects map the rows and columns of the matrix to the
+fronts in the factor matrix that contain them.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt colmapIV} or {\tt rowmapIV} are {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_inertia ( FrontMtx *frontmtx, int *pnneg, int *pnzero, int *pnpos ) ;
+\end{verbatim}
+\index{FrontMtx_inertia@{\tt FrontMtx\_inertia()}}
+This method determines the inertia of a symmetric matrix
+based on the $(U^T + I)D(I + U)$ factorization.
+The number of negative eigenvalues is returned in {\tt *pnneg},
+the number of zero eigenvalues is returned in {\tt *pnzero},
+and the number of positive eigenvalues is returned in {\tt *pnpos}.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt pnneg}, {\tt pnzero} 
+or {\tt pnpos} is {\tt NULL}, 
+or if ${\tt symmetryflag} \ne 0$
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_nSolveOps ( FrontMtx *frontmtx ) ;
+\end{verbatim}
+\index{FrontMtx_nSolveOps@{\tt FrontMtx\_nSolveOps()}}
+This method computes and return the number of floating point
+operations for a solve with a single right hand side.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} is {\tt NULL}, 
+or if {\tt type} or {\tt symmetryflag} are invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:FrontMtx:proto:IO}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_readFromFile ( FrontMtx *frontmtx, char *fn ) ;
+\end{verbatim}
+\index{FrontMtx_readFromFile@{\tt FrontMtx\_readFromFile()}}
+\par
+This method reads a {\tt FrontMtx object} from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt FrontMtx\_readFromFormattedFile()} or
+{\tt FrontMtx\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.frontmtxf} (for a formatted file) 
+or {\tt *.frontmtxb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_readFromFormattedFile ( FrontMtx *frontmtx, FILE *fp ) ;
+\end{verbatim}
+\index{FrontMtx_readFromFormattedFile@{\tt FrontMtx\_readFromFormattedFile()}}
+\par
+This method reads a {\tt FrontMtx} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_readFromBinaryFile ( FrontMtx *frontmtx, FILE *fp ) ;
+\end{verbatim}
+\index{FrontMtx_readFromBinaryFile@{\tt FrontMtx\_readFromBinaryFile()}}
+This method reads a {\tt FrontMtx} object from a binary file.
+If there are no errors in reading the data,
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt fp} are {\tt NULL} an error message
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_writeToFile ( FrontMtx *frontmtx, char *fn ) ;
+\end{verbatim}
+\index{FrontMtx_writeToFile@{\tt FrontMtx\_writeToFile()}}
+\par
+This method writes a {\tt FrontMtx object} to a file.
+It tries to open the file and if it is successful,
+it then calls {\tt FrontMtx\_writeFromFormattedFile()} or
+{\tt FrontMtx\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt fn} are {\tt NULL},
+or if {\tt fn} is not of the form
+{\tt *.frontmtxf} (for a formatted file)
+or {\tt *.frontmtxb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_writeToFormattedFile ( FrontMtx *frontmtx, FILE *fp ) ;
+\end{verbatim}
+\index{FrontMtx_writeToFormattedFile@{\tt FrontMtx\_writeToFormattedFile()}}
+\par
+This method writes a {\tt FrontMtx} object to a formatted file.
+If there are no errors in writing the data,
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt fp} are {\tt NULL} an error message
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_writeToBinaryFile ( FrontMtx *frontmtx, FILE *fp ) ;
+\end{verbatim}
+\index{FrontMtx_writeToBinaryFile@{\tt FrontMtx\_writeToBinaryFile()}}
+\par
+This method writes a {\tt FrontMtx} object to a binary file.
+If there are no errors in writing the data,
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt fp} are {\tt NULL} an error message
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_writeForHumanEye ( FrontMtx *frontmtx, FILE *fp ) ;
+\end{verbatim}
+\index{FrontMtx_writeForHumanEye@{\tt FrontMtx\_writeForHumanEye()}}
+\par
+This method writes a {\tt FrontMtx} object to a file in a human
+readable format.
+The method {\tt FrontMtx\_writeStats()} is called to write out the
+header and statistics.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt fp} are {\tt NULL} an error message
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_writeStats ( FrontMtx *frontmtx, FILE *fp ) ;
+\end{verbatim}
+\index{FrontMtx_writeStats@{\tt FrontMtx\_writeStats()}}
+\par
+The header and statistics are written to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx} or {\tt fp} are {\tt NULL} an error message
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FrontMtx_writeForMatlab ( FrontMtx *frontmtx, char *Lname, char *Dname,
+                              char *Uname, FILE *fp ) ;
+\end{verbatim}
+\index{FrontMtx_writeForMatlab@{\tt FrontMtx\_writeForMatlab()}}
+\par
+This method writes out the factor matrix entries in a
+Matlab-readable form.
+{\tt Lname} is a string for the lower triangular matrix,
+{\tt Dname} is a string for the diagonal matrix,
+and {\tt Uname} is a string for the upper triangular matrix.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt Lname}, {\tt Dname}, {\tt Uname} 
+or {\tt fp} are {\tt NULL},
+ an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par

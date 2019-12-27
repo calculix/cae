@@ -1,0 +1,105 @@
+\chapter{Introduction}
+\par
+The {\bf SPOOLES} library is based on three concepts: pivoting for
+numerical stability, approximation techniques, and BLAS3 data
+structures and computational kernels. 
+We now discuss each in more detail.
+\par
+\begin{enumerate}
+\item {\bf Pivoting}
+\par
+Let a matrix $A$ have the factorization
+$P(L+I)D(I+U)Q^T$,
+where $P$ and $Q$ are permutation matrices,
+$L$ is strict lower triangular,
+$D$ is diagonal or block diagonal,
+$U$ is strict upper triangular,
+and the nonzero structures of $L$, $D$ and $U$ are disjoint.
+The entries or blocks that lie on the diagonal of $D$ are 
+the pivots.
+When $A$ is symmetric, $Q = P$ and $L = U^T$.
+\par
+Any nonzero entry can be a pivot.
+Some are better choices than others.
+What we really have is the equation
+$A = A_E + E$,
+where $E$ is an error matrix and
+$A_E = P(L+I)D(I+U)Q^T$.
+Not pivoting, where both $P$ and $Q$ are the identity matrix,
+may be impossible (due to dividing by zero or a singular pivot block)
+or inaccurate (where $\|E\|$ is large).
+\par
+Here are four examples.
+\begin{itemize}
+\item Partial pivoting has $Q = I$ and $|L_{j,i}| \le 1$.
+\item Complete pivoting has $|L_{j,i}| \le 1$ and $|U_{i,j}| \le 1$.
+\item Bunch-Kaufman pivoting has no bound on $|L_{j,i}|$.
+\item Bunch-Parlett pivoting has $|L_{j,i}| \le 2.7808$.
+\end{itemize}
+Our strategy to control $\|E\|$ is to bound the magnitudes of the
+entries in $L$ and $U$.
+\par
+\item {\bf Approximation}
+\par
+What if you were offered an approximate factorization,
+not exact but accurate enough, whose footprint (the total working
+storage during the factorization and/or solve) was small 
+enough to justify the decrease in accuracy?
+Where would this be useful?
+One example is a very large problem where one simply cannot store 
+the factor entries.
+A second example is where the solution to a linear system does not need
+more than so many significant digits.
+\par
+% Let $A = A_E + E$.
+Here are four different factorizations, in relatively increasing
+order of accuracy. 
+In each case it is the $P(L + I)D(I + U)Q^T$ product that we will
+use to solve a linear system.
+\begin{itemize}
+\item 
+Fill $E_1 = A - {\widehat A}$ with entries of $A$ to drop.
+Factor ${\widehat A} = A_E + E_2 = P(L + I)D(I + U)Q^T + E_2$.
+\item 
+Factor $A$ approximately, i.e., construct $E$ on the fly.
+\item 
+Factor $A = {\widehat A} + E_1 
+          = P({\widehat L} + I)D(I + {\widehat L})Q^T + E_1$ 
+then drop entries from 
+${\widehat L}$ and ${\widehat U}$ to create $L$ and $U$,
+and set $A_E = P(L + I)D(I + U)Q^T$.
+The error matrix is $E = A - A_E = {\widehat A} + E_1 - A_E
+= E_1 + P({\widehat L} - L)D(I + U)Q^T 
++ P({\widehat L} + I)D({\widehat U} - U)Q^T$.
+\item 
+Factor $A = A_E + E = P(L + I)D(I + U)Q^T + E$.
+\end{itemize}
+Some of this functionality is in the present release of the
+software.
+The rest is easily built using the objects and their code.
+\par
+\item {\bf BLAS3 design}
+\par
+Matrix-matrix operations have secured their place
+in dense matrix computations, 
+and to a certain extent in sparse matrix computations.
+But are they appropriate when pivoting and/or approximation take place?
+\par
+The {\bf SPOOLES} code is firmly based on BLAS3 kernels.
+The fundamental data structures for $L$ and $U$ 
+are not rows or columns, 
+but submatrices.
+The fundamental pivot element for $D$ is not a matrix entry, 
+but a submatrix.
+The algorithms we use are true {\it block} algorithms,
+not {\it partitioned} algorithms \cite{hig96-asna},
+inverses of matrices are actually computed and used.
+\par
+There is a price to be paid for this strategy.
+On matrices where there is not a lot of available block structure,
+the BLAS3 data structures and kernels are not efficient.
+But for matrices that have good block structure --- multiple degrees
+of freedom per grid point, large matrices from three-dimensional
+applications --- the BLAS3 codes outperform older codes that are
+based on rows and columns and BLAS2 kernels.
+\end{enumerate}

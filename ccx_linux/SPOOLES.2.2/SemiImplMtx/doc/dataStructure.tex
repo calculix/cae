@@ -1,0 +1,46 @@
+\par
+\section{Data Structure}
+\label{section:SemiImplMtx:dataStructure}
+\par
+\par
+The {\tt SemiImplMtx} structure has the following fields.
+\begin{itemize}
+\item
+{\tt int neqns} : number of equations.
+\item
+{\tt int type} : type of entries, {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX}.
+\item
+{\tt int symmetryflag} : type of matrix symmetry, 
+{\tt SPOOLES\_SYMMETRIC}, {\tt SPOOLES\_HERMITIAN} or
+{\tt SPOOLES\_NONSYMMETRIC}.
+\item
+{\tt int ndomeqns} : number of equations in the domains,
+or (1,1) block.
+\item
+{\tt int nschureqns} : number of equations in the Schur complement,
+or (2,2) block.
+\item
+{\tt FrontMtx *domainMtx} : matrix object for 
+$L_{1,1}$, $D_{1,1}$ and $U_{1,1}$.
+\item
+{\tt FrontMtx *schurMtx} : matrix object for 
+$L_{2,2}$, $D_{2,2}$ and $U_{2,2}$.
+\item
+{\tt InpMtx *A21} : matrix object for ${\widehat A}_{2,1}$.
+\item
+{\tt InpMtx *A12} : matrix object for ${\widehat A}_{1,2}$.
+\item
+{\tt IV *domRowsIV} : object that holds the global ids of the rows
+in ${\widehat A}_{1,1}$.
+\item
+{\tt IV *schurRowsIV} : object that holds the global ids of the rows
+in ${\widehat A}_{2,2}$.
+\item
+{\tt IV *domColumnsIV} : object that holds the global ids of the 
+columns in ${\widehat A}_{1,1}$.
+\item
+{\tt IV *schurColumnsIV} : object that holds the global ids of the 
+columns in ${\widehat A}_{2,2}$.
+\end{itemize}
+\par

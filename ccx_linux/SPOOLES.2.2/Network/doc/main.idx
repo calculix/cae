@@ -1,0 +1,14 @@
+\indexentry{Network_new@{\tt Network\_new()}}{4}
+\indexentry{Network_setDefaultFields@{\tt Network\_setDefaultFields()}}{4}
+\indexentry{Network_clearData@{\tt Network\_clearData()}}{4}
+\indexentry{Network_free@{\tt Network\_free()}}{4}
+\indexentry{Network_init@{\tt Network\_init()}}{4}
+\indexentry{Network_setMessageInfo@{\tt Network\_setMessageInfo()}}{4}
+\indexentry{Network_addArc@{\tt Network\_addArc()}}{4}
+\indexentry{Network_findMaxFlow@{\tt Network\_findMaxFlow()}}{5}
+\indexentry{Network_findAugmentingPath@{\tt Network\_findAugmentingPath()}}{5}
+\indexentry{Network_augmentPath@{\tt Network\_augmentPath()}}{5}
+\indexentry{Network_findMincutFromSource@{\tt Network\_findMincutFromSource()}}{5}
+\indexentry{Network_findMincutFromSink@{\tt Network\_findMincutFromSink()}}{5}
+\indexentry{Network_writeForHumanEye@{\tt Network\_writeForHumanEye()}}{6}
+\indexentry{Network_writeStats@{\tt Network\_writeStats()}}{6}

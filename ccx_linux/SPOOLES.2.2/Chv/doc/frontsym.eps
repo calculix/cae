@@ -1,0 +1,198 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%BoundingBox: 0.0 0.0 500.0 500.0
+%%%EndComments
+
+/nD 10 def
+/nL 15 def
+/nU 15 def
+/margin 50 def
+/xscale 500 margin 2 mul sub nD nL add div def
+/yscale 500 margin 2 mul sub nD nU add div def
+xscale yscale le { % true action -- if else
+   /yscale xscale def
+} { % false action -- if else
+   /xscale yscale def
+} ifelse
+(xscale) == xscale ==
+(yscale) == yscale ==
+
+% 50 50 400 400 rectstroke
+gsave
+%
+%  translate, scale and rotate
+%
+   50 50 translate
+   xscale yscale scale
+   0.05 setlinewidth
+   0 nD nL add translate
+   -90 rotate
+%
+% draw the outlines of the three DA2 objects
+%
+   0.0  setgray
+   0  0 nD nD rectstroke
+   nD 0 nL nD rectstroke
+   0 nD nD nU rectstroke
+%
+%  draw the pivot elements
+%  1x1, 2x2, 2x2, 1x1, 1x1, 1x1, 2x2
+%
+/first [ -1 0 0 2 2 4 5 6 7 7 ] def
+   0 0  1  1 rectstroke
+   1 1  2  2 rectstroke
+   3 3  2  2 rectstroke
+   5 5  1  1 rectstroke
+   6 6  1  1 rectstroke
+   7 7  1  1 rectstroke
+   8 8  2  2 rectstroke
+%
+%  draw the solid edges for diagonal entries
+%
+currentlinewidth 2.0 mul setlinewidth
+newpath
+0.5 0.5 moveto
+1 1 rlineto
+0 1 rlineto
+1 0 rlineto
+1 1 rlineto
+0 1 rlineto
+1 0 rlineto
+1 1 rlineto
+1 1 rlineto
+1 1 rlineto
+1 1 rlineto
+0 1 rlineto
+1 0 rlineto
+stroke
+%
+%  draw the thick edges for L_{J,J}
+%
+2 1 nD 1 sub {
+   /ix exch def
+   newpath
+   ix 0.5 add 0.5 moveto
+   0 1 first ix get 1 sub {
+      /iy exch def
+      0.0 1.0 rlineto
+   } for
+   stroke
+} for
+%
+%  draw the thick edges for L_{bnd{J},J}
+%
+nD 1 nD nL add 1 sub {
+   /ix exch def
+   newpath
+   ix 0.5 add 0.5 moveto
+   0 1 nD 2 sub {
+      /iy exch def
+      0.0 1.0 rlineto
+   } for
+   stroke
+} for
+%
+%  draw the thin edges for L_{J,J} and L_{bnd{J},J}
+%
+currentlinewidth 0.5 mul setlinewidth
+newpath
+1.5 0.5 moveto
+2 1 nD 1 sub {
+   /ix exch def
+   ix 0.5 add 0.5 lineto
+   ix 0.5 add first ix get 0.5 add moveto
+} for
+stroke
+newpath
+nD 0.5 sub first nD 1 sub get 0.5 add moveto
+nD 1 nD nL add 1 sub {
+   /ix exch def
+   ix 0.5 add 0.5 lineto
+   ix 0.5 add nD 0.5 sub moveto
+} for
+stroke
+%
+%  draw the thick edges for U_{J,J}
+%
+currentlinewidth 2.0 mul setlinewidth
+2 1 nD 1 sub {
+   /iy exch def
+   newpath
+   0.5 iy 0.5 add moveto
+   0 1 first iy get 1 sub {
+      /ix exch def
+      1.0 0.0 rlineto
+   } for
+   stroke
+} for
+%
+%  draw the thick edges for U_{bnd{J},J}
+%
+nD 1 nD nU add 1 sub {
+   /iy exch def
+   newpath
+   0.5 iy 0.5 add moveto
+   0 1 nD 2 sub {
+      /ix exch def
+      1.0 0.0 rlineto
+   } for
+   stroke
+} for
+%
+%  draw the thin edges for U_{J,J} and U_{bnd{J},J}
+%
+currentlinewidth 0.5 mul setlinewidth
+newpath
+0.5 1.5 moveto
+2 1 nD 1 sub {
+   /iy exch def
+   0.5 iy 0.5 add lineto
+   first iy get 0.5 add iy 0.5 add moveto
+} for
+stroke
+newpath
+first nD 1 sub get 0.5 add nD 0.5 sub moveto
+nD 1 nD nU add 1 sub {
+   /iy exch def
+   0.5 iy 0.5 add lineto
+   nD 0.5 sub iy 0.5 add moveto
+} for
+stroke
+%
+% draw the circles that represent entries
+%
+/r 0.2 def
+/x 0.5 def
+0 1 nD 1 sub {
+   /y 0.5 def
+   0 1 nD nU add 1 sub {
+      newpath
+      1.0 setgray
+      pop x r add y moveto x y r 0 360 arc
+      fill
+      newpath
+      0.0 setgray
+      x r add y moveto x y r 0 360 arc
+      stroke
+      /y y 1 add def
+   } for
+   /x x 1 add def
+} for
+/x nD 0.5 add def
+0 1 nL 1 sub {
+   /y 0.5 def
+   0 1 nD 1 sub {
+      pop 
+      newpath
+      1.0 setgray
+      x r add y moveto x y r 0 360 arc
+      fill
+      newpath
+      0.0 setgray
+      x r add y moveto x y r 0 360 arc
+      stroke
+      /y y 1 add def
+   } for
+   /x x 1 add def
+} for
+stroke
+grestore

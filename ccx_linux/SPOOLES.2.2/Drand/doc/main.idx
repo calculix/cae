@@ -1,0 +1,12 @@
+\indexentry{Drand_new@{\tt Drand\_new()}}{2}
+\indexentry{Drand_setDefaultFields@{\tt Drand\_setDefaultFields()}}{2}
+\indexentry{Drand_clearData@{\tt Drand\_clearData()}}{2}
+\indexentry{Drand_free@{\tt Drand\_free()}}{2}
+\indexentry{Drand_init@{\tt Drand\_init()}}{2}
+\indexentry{Drand_setSeed@{\tt Drand\_setSeed()}}{2}
+\indexentry{Drand_setSeeds@{\tt Drand\_setSeeds()}}{3}
+\indexentry{Drand_setNormal@{\tt Drand\_setNormal()}}{3}
+\indexentry{Drand_setUniform@{\tt Drand\_setUniform()}}{3}
+\indexentry{Drand_value@{\tt Drand\_value()}}{3}
+\indexentry{Drand_fillDvector@{\tt Drand\_fillDvector()}}{3}
+\indexentry{Drand_fillIvector@{\tt Drand\_fillIvector()}}{3}

@@ -1,0 +1,138 @@
+\par
+\section{Driver programs }
+\label{section:SymbFac:drivers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testSymbFacInpMtx msglvl msgFile inETreeFile inDInpMtxFile
+                  outETreeFile outIVfile outIVLfile
+\end{verbatim}
+This driver program reads in an {\tt ETree} object and a {\tt InpMtx}
+object and computes the symbolic factorization.
+The {\tt ETree} object is updated (the front sizes and boundary
+sizes may change) and is optionally written out to {\tt outETreeFile}.
+The old-to-new {\tt IV} object is optionally written to
+{\tt outIVfile}.
+The {\tt IVL} object that contains the symbolic factorization is
+optionally written to {\tt outIVLfile}.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inETreeFile} parameter is the input file 
+for the {\tt ETree} object. 
+It must be of the form {\tt *.etreef} or {\tt *.etreeb}.
+The {\tt ETree} object is read from the file via the
+{\tt ETree\_readFromFile()} method.
+\item
+The {\tt inInpMtxFile} parameter is the input file 
+for the {\tt InpMtx} object. 
+It must be of the form {\tt *.inpmtxf} or {\tt *.inpmtxb}.
+The {\tt InpMtx} object is read from the file via the
+{\tt InpMtx\_readFromFile()} method.
+\item
+The {\tt outETreeFile} parameter is the output file for the 
+{\tt ETree} object. 
+If {\tt outETreeFile} is {\tt none} then the {\tt ETree} object is not
+written to a file. 
+Otherwise, the {\tt ETree\_writeToFile()} method is called to write
+the object to 
+a formatted file (if {\tt outETreeFile} is of the form 
+{\tt *.etreef}),
+or
+a binary file (if {\tt outETreeFile} is of the form {\tt *.etreeb}).
+\item
+The {\tt outIVfile} parameter is the output file for the 
+vertex-to-front map {\tt IV} object. 
+If {\tt outIVfile} is {\tt none} then the {\tt IV} object is not
+written to a file. 
+Otherwise, the {\tt IV\_writeToFile()} method is called to write
+the object to a formatted file (if {\tt outIVfile} is of the form 
+{\tt *.ivf}), or
+a binary file (if {\tt outIVfile} is of the form {\tt *.ivb}).
+\item
+The {\tt outIVLfile} parameter is the output file for the 
+symbolic factorization {\tt IVL} object. 
+If {\tt outIVLfile} is {\tt none} then the {\tt IVL} object is not
+written to a file. 
+Otherwise, the {\tt IVL\_writeToFile()} method is called to write
+the object to a formatted file (if {\tt outIVLfile} is of the form 
+{\tt *.ivlf}), or
+a binary file (if {\tt outIVLfile} is of the form {\tt *.ivlb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testSymbFacGraph msglvl msgFile inETreeFile inGraphFile
+                 outETreeFile outIVfile outIVLfile
+\end{verbatim}
+This driver program reads in an {\tt ETree} object and a {\tt Graph}
+object and computes the symbolic factorization.
+The {\tt ETree} object is updated (the front sizes and boundary
+sizes may change) and is optionally written out to {\tt outETreeFile}.
+The old-to-new {\tt IV} object is optionally written to
+{\tt outIVfile}.
+The {\tt IVL} object that contains the symbolic factorization is
+optionally written to {\tt outIVLfile}.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inETreeFile} parameter is the input file 
+for the {\tt ETree} object. 
+It must be of the form {\tt *.etreef} or {\tt *.etreeb}.
+The {\tt ETree} object is read from the file via the
+{\tt ETree\_readFromFile()} method.
+\item
+The {\tt inGraphFile} parameter is the input file 
+for the {\tt Graph} object. 
+It must be of the form {\tt *.graphf} or {\tt *.graphb}.
+The {\tt Graph} object is read from the file via the
+{\tt Graph\_readFromFile()} method.
+\item
+The {\tt outETreeFile} parameter is the output file for the 
+{\tt ETree} object. 
+If {\tt outETreeFile} is {\tt none} then the {\tt ETree} object is not
+written to a file. 
+Otherwise, the {\tt ETree\_writeToFile()} method is called to write
+the object to 
+a formatted file (if {\tt outETreeFile} is of the form 
+{\tt *.etreef}),
+or
+a binary file (if {\tt outETreeFile} is of the form {\tt *.etreeb}).
+\item
+The {\tt outIVfile} parameter is the output file for the 
+vertex-to-front map {\tt IV} object. 
+If {\tt outIVfile} is {\tt none} then the {\tt IV} object is not
+written to a file. 
+Otherwise, the {\tt IV\_writeToFile()} method is called to write
+the object to a formatted file (if {\tt outIVfile} is of the form 
+{\tt *.ivf}), or
+a binary file (if {\tt outIVfile} is of the form {\tt *.ivb}).
+\item
+The {\tt outIVLfile} parameter is the output file for the 
+symbolic factorization {\tt IVL} object. 
+If {\tt outIVLfile} is {\tt none} then the {\tt IVL} object is not
+written to a file. 
+Otherwise, the {\tt IVL\_writeToFile()} method is called to write
+the object to a formatted file (if {\tt outIVLfile} is of the form 
+{\tt *.ivlf}), or
+a binary file (if {\tt outIVLfile} is of the form {\tt *.ivlb}).
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

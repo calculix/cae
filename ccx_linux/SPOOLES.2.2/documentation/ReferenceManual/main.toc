@@ -1,0 +1,419 @@
+\contentsline {part}{\uppercase {i}\hspace {1em}Introduction}{15}
+\contentsline {chapter}{\numberline {1}Introduction}{17}
+\contentsline {section}{\numberline {1.1}Software Design}{18}
+\contentsline {section}{\numberline {1.2}Changes from Release 1.0}{21}
+\contentsline {section}{\numberline {1.3}Changes from Release 2.0}{21}
+\contentsline {part}{\uppercase {ii}\hspace {1em}Utility Objects and Methods}{23}
+\contentsline {chapter}{\numberline {2}{\tt A2}: Real or complex 2-D array}{25}
+\contentsline {section}{\numberline {2.1}Data Structure}{25}
+\contentsline {section}{\numberline {2.2}Prototypes and descriptions of {\tt A2} methods}{25}
+\contentsline {subsection}{\numberline {2.2.1}Basic methods}{26}
+\contentsline {subsection}{\numberline {2.2.2}Instance methods}{26}
+\contentsline {subsection}{\numberline {2.2.3}Initialize methods}{28}
+\contentsline {subsection}{\numberline {2.2.4}Methods used in the $QR$ factorization}{28}
+\contentsline {subsection}{\numberline {2.2.5}Norm methods}{29}
+\contentsline {subsection}{\numberline {2.2.6}Sort methods}{30}
+\contentsline {subsection}{\numberline {2.2.7}Utility methods}{30}
+\contentsline {subsection}{\numberline {2.2.8}IO methods}{33}
+\contentsline {section}{\numberline {2.3}Driver programs for the {\tt A2 object}}{34}
+\contentsline {chapter}{\numberline {3}{\tt Coords}: Coordinates Object}{36}
+\contentsline {section}{\numberline {3.1}Data Structure}{36}
+\contentsline {section}{\numberline {3.2}Prototypes and descriptions of {\tt Coords} methods}{36}
+\contentsline {subsection}{\numberline {3.2.1}Basic methods}{36}
+\contentsline {subsection}{\numberline {3.2.2}Initializer methods}{37}
+\contentsline {subsection}{\numberline {3.2.3}Utility methods}{38}
+\contentsline {subsection}{\numberline {3.2.4}IO methods}{38}
+\contentsline {section}{\numberline {3.3}Driver programs for the {\tt Coords} object}{39}
+\contentsline {chapter}{\numberline {4}{\tt DV}: Double Vector Object}{41}
+\contentsline {section}{\numberline {4.1}Data Structure}{41}
+\contentsline {section}{\numberline {4.2}Prototypes and descriptions of {\tt DV} methods}{42}
+\contentsline {subsection}{\numberline {4.2.1}Basic methods}{42}
+\contentsline {subsection}{\numberline {4.2.2}Instance methods}{42}
+\contentsline {subsection}{\numberline {4.2.3}Initializer methods}{43}
+\contentsline {subsection}{\numberline {4.2.4}Utility methods}{44}
+\contentsline {subsection}{\numberline {4.2.5}IO methods}{45}
+\contentsline {section}{\numberline {4.3}Driver programs for the {\tt DV object}}{47}
+\contentsline {chapter}{\numberline {5}{\tt Drand}: \penalty -\@M Simple Random Number Generator}{48}
+\contentsline {section}{\numberline {5.1}Data Structure}{48}
+\contentsline {section}{\numberline {5.2}Prototypes and descriptions of {\tt Drand} methods}{48}
+\contentsline {subsection}{\numberline {5.2.1}Basic methods}{49}
+\contentsline {subsection}{\numberline {5.2.2}Initializer methods}{49}
+\contentsline {subsection}{\numberline {5.2.3}Utility methods}{50}
+\contentsline {section}{\numberline {5.3}Driver programs for the {\tt Drand} object}{50}
+\contentsline {chapter}{\numberline {6}{\tt I2Ohash}: Two Key Hash Table}{52}
+\contentsline {section}{\numberline {6.1}Data Structure}{52}
+\contentsline {section}{\numberline {6.2}Prototypes and descriptions of {\tt I2Ohash} methods}{53}
+\contentsline {subsection}{\numberline {6.2.1}Basic methods}{53}
+\contentsline {subsection}{\numberline {6.2.2}Initializer methods}{53}
+\contentsline {subsection}{\numberline {6.2.3}Utility methods}{54}
+\contentsline {subsection}{\numberline {6.2.4}IO methods}{54}
+\contentsline {section}{\numberline {6.3}Driver programs for the {\tt I2Ohash object}}{54}
+\contentsline {chapter}{\numberline {7}{\tt IIheap}: (Key, Value) Heap}{56}
+\contentsline {section}{\numberline {7.1}Data Structure}{56}
+\contentsline {section}{\numberline {7.2}Prototypes and descriptions of {\tt IIheap} methods}{56}
+\contentsline {subsection}{\numberline {7.2.1}Basic methods}{56}
+\contentsline {subsection}{\numberline {7.2.2}Initializer methods}{57}
+\contentsline {subsection}{\numberline {7.2.3}Utility methods}{57}
+\contentsline {chapter}{\numberline {8}{\tt IV}: Integer Vector Object}{58}
+\contentsline {section}{\numberline {8.1}Data Structure}{58}
+\contentsline {section}{\numberline {8.2}Prototypes and descriptions of {\tt IV} methods}{59}
+\contentsline {subsection}{\numberline {8.2.1}Basic methods}{59}
+\contentsline {subsection}{\numberline {8.2.2}Instance methods}{59}
+\contentsline {subsection}{\numberline {8.2.3}Initializer methods}{60}
+\contentsline {subsection}{\numberline {8.2.4}Utility methods}{61}
+\contentsline {subsection}{\numberline {8.2.5}IO methods}{63}
+\contentsline {section}{\numberline {8.3}Driver programs for the {\tt IV object}}{65}
+\contentsline {chapter}{\numberline {9}{\tt IVL}: Integer Vector List Object}{66}
+\contentsline {section}{\numberline {9.1}Data Structure}{66}
+\contentsline {section}{\numberline {9.2}Prototypes and descriptions of {\tt IVL} methods}{67}
+\contentsline {subsection}{\numberline {9.2.1}Basic methods}{67}
+\contentsline {subsection}{\numberline {9.2.2}Instance methods}{68}
+\contentsline {subsection}{\numberline {9.2.3}Initialization and resizing methods}{68}
+\contentsline {subsection}{\numberline {9.2.4}List manipulation methods}{69}
+\contentsline {subsection}{\numberline {9.2.5}Utility methods}{70}
+\contentsline {subsection}{\numberline {9.2.6}Miscellaneous methods}{71}
+\contentsline {subsection}{\numberline {9.2.7}IO methods}{72}
+\contentsline {section}{\numberline {9.3}Driver programs for the {\tt IVL} object}{73}
+\contentsline {chapter}{\numberline {10}{\tt Ideq}: Integer Dequeue}{74}
+\contentsline {section}{\numberline {10.1}Data Structure}{74}
+\contentsline {section}{\numberline {10.2}Prototypes and descriptions of {\tt Ideq} methods}{74}
+\contentsline {subsection}{\numberline {10.2.1}Basic methods}{74}
+\contentsline {subsection}{\numberline {10.2.2}Initializer methods}{75}
+\contentsline {subsection}{\numberline {10.2.3}Utility methods}{75}
+\contentsline {subsection}{\numberline {10.2.4}IO methods}{76}
+\contentsline {chapter}{\numberline {11}{\tt Lock}: Mutual Exclusion Lock object}{77}
+\contentsline {section}{\numberline {11.1}Data Structure}{77}
+\contentsline {section}{\numberline {11.2}Prototypes and descriptions of {\tt Lock} methods}{77}
+\contentsline {subsection}{\numberline {11.2.1}Basic methods}{77}
+\contentsline {subsection}{\numberline {11.2.2}Initializer method}{78}
+\contentsline {subsection}{\numberline {11.2.3}Utility methods}{78}
+\contentsline {chapter}{\numberline {12}{\tt Perm}: Permutation Object}{79}
+\contentsline {section}{\numberline {12.1}Data Structure}{79}
+\contentsline {section}{\numberline {12.2}Prototypes and descriptions of {\tt Perm} methods}{79}
+\contentsline {subsection}{\numberline {12.2.1}Basic methods}{79}
+\contentsline {subsection}{\numberline {12.2.2}Initializer methods}{80}
+\contentsline {subsection}{\numberline {12.2.3}Utility methods}{80}
+\contentsline {subsection}{\numberline {12.2.4}IO methods}{81}
+\contentsline {chapter}{\numberline {13}{\tt Utilities } directory }{83}
+\contentsline {section}{\numberline {13.1}Data Structures}{83}
+\contentsline {section}{\numberline {13.2}Prototypes and descriptions of {\tt Utilities} methods}{83}
+\contentsline {subsection}{\numberline {13.2.1}{\tt CV} : {\tt char} vector methods}{84}
+\contentsline {subsection}{\numberline {13.2.2}{\tt DV} : {\tt double} vector methods}{84}
+\contentsline {subsection}{\numberline {13.2.3}{\tt ZV} : {\tt double complex } vector methods}{90}
+\contentsline {subsection}{\numberline {13.2.4}{\tt IV} : {\tt int} vector methods}{96}
+\contentsline {subsection}{\numberline {13.2.5}{\tt FV} : {\tt float} vector methods}{98}
+\contentsline {subsection}{\numberline {13.2.6}{\tt PCV} : {\tt char *} vector methods}{101}
+\contentsline {subsection}{\numberline {13.2.7}{\tt PDV} : {\tt double *} vector methods}{101}
+\contentsline {subsubsection}{{\tt PIV} : {\tt int *} vector methods}{101}
+\contentsline {subsection}{\numberline {13.2.8}{\tt PFV} : {\tt float *} vector methods}{102}
+\contentsline {subsection}{\numberline {13.2.9}Sorting routines}{102}
+\contentsline {subsubsection}{Validation routines}{102}
+\contentsline {subsubsection}{Insert sort routines}{102}
+\contentsline {subsubsection}{Quicksort routines}{103}
+\contentsline {subsection}{\numberline {13.2.10}Sort and compress routines}{104}
+\contentsline {subsection}{\numberline {13.2.11}{\tt IP} : {\tt (int, pointer)} singly linked-list methods}{105}
+\contentsline {subsection}{\numberline {13.2.12}{\tt I2OP} : {\tt (int, int, void*, pointer)} singly linked-list methods}{106}
+\contentsline {section}{\numberline {13.3}Driver programs }{107}
+\contentsline {chapter}{\numberline {14}{\tt ZV}: Double Complex Vector Object}{108}
+\contentsline {section}{\numberline {14.1}Data Structure}{108}
+\contentsline {section}{\numberline {14.2}Prototypes and descriptions of {\tt ZV} methods}{109}
+\contentsline {subsection}{\numberline {14.2.1}Basic methods}{109}
+\contentsline {subsection}{\numberline {14.2.2}Instance methods}{109}
+\contentsline {subsection}{\numberline {14.2.3}Initializer methods}{110}
+\contentsline {subsection}{\numberline {14.2.4}Utility methods}{111}
+\contentsline {subsection}{\numberline {14.2.5}IO methods}{112}
+\contentsline {section}{\numberline {14.3}Driver programs for the {\tt ZV object}}{113}
+\contentsline {part}{\uppercase {iii}\hspace {1em}Ordering Objects and Methods}{115}
+\contentsline {chapter}{\numberline {15}{\tt BKL}: Block Kernighan-Lin Object}{117}
+\contentsline {section}{\numberline {15.1}Data Structure}{117}
+\contentsline {section}{\numberline {15.2}Prototypes and descriptions of {\tt BKL} methods}{118}
+\contentsline {section}{\numberline {15.3}Basic methods}{118}
+\contentsline {subsection}{\numberline {15.3.1}Initializer methods}{118}
+\contentsline {subsection}{\numberline {15.3.2}Utility methods}{119}
+\contentsline {subsection}{\numberline {15.3.3}Partition evaluation methods}{120}
+\contentsline {subsection}{\numberline {15.3.4}Partition improvement methods}{120}
+\contentsline {chapter}{\numberline {16}{\tt BPG}: Bipartite Graph Object}{122}
+\contentsline {section}{\numberline {16.1}Data Structure}{124}
+\contentsline {section}{\numberline {16.2}Prototypes and descriptions of {\tt BPG} methods}{124}
+\contentsline {subsection}{\numberline {16.2.1}Basic methods}{124}
+\contentsline {subsection}{\numberline {16.2.2}Initializer methods}{125}
+\contentsline {subsection}{\numberline {16.2.3}Generate induced graphs}{125}
+\contentsline {subsection}{\numberline {16.2.4}Utility methods}{125}
+\contentsline {subsection}{\numberline {16.2.5}Dulmage-Mendelsohn decomposition method}{126}
+\contentsline {subsection}{\numberline {16.2.6}IO methods}{126}
+\contentsline {section}{\numberline {16.3}Driver programs for the {\tt BPG} object}{127}
+\contentsline {chapter}{\numberline {17}{\tt DSTree}: \penalty -\@M A Domain/Separator Tree Object}{129}
+\contentsline {section}{\numberline {17.1}Data Structure}{129}
+\contentsline {section}{\numberline {17.2}Prototypes and descriptions of {\tt DSTree} methods}{129}
+\contentsline {subsection}{\numberline {17.2.1}Basic methods}{130}
+\contentsline {subsection}{\numberline {17.2.2}Instance methods}{130}
+\contentsline {subsection}{\numberline {17.2.3}Initializer methods}{130}
+\contentsline {subsection}{\numberline {17.2.4}Stage methods}{131}
+\contentsline {subsection}{\numberline {17.2.5}Utility methods}{132}
+\contentsline {subsection}{\numberline {17.2.6}IO methods}{132}
+\contentsline {section}{\numberline {17.3}Driver programs for the {\tt DSTree} object}{133}
+\contentsline {chapter}{\numberline {18}{\tt EGraph}: Element Graph Object}{135}
+\contentsline {section}{\numberline {18.1}Data Structure}{135}
+\contentsline {section}{\numberline {18.2}Prototypes and descriptions of {\tt EGraph} methods}{135}
+\contentsline {subsection}{\numberline {18.2.1}Basic methods}{136}
+\contentsline {subsection}{\numberline {18.2.2}Initializer methods}{136}
+\contentsline {subsection}{\numberline {18.2.3}Utility methods}{136}
+\contentsline {subsection}{\numberline {18.2.4}IO methods}{137}
+\contentsline {section}{\numberline {18.3}Driver programs for the {\tt EGraph} object}{138}
+\contentsline {chapter}{\numberline {19}{\tt ETree}: Elimination and Front Trees}{140}
+\contentsline {section}{\numberline {19.1}Data Structure}{140}
+\contentsline {section}{\numberline {19.2}Prototypes and descriptions of {\tt ETree} methods}{141}
+\contentsline {subsection}{\numberline {19.2.1}Basic methods}{141}
+\contentsline {subsection}{\numberline {19.2.2}Instance methods}{141}
+\contentsline {subsection}{\numberline {19.2.3}Initializer methods}{143}
+\contentsline {subsection}{\numberline {19.2.4}Utility methods}{144}
+\contentsline {subsection}{\numberline {19.2.5}Metrics methods}{146}
+\contentsline {subsection}{\numberline {19.2.6}Compression methods}{146}
+\contentsline {subsection}{\numberline {19.2.7}Justification methods}{147}
+\contentsline {subsection}{\numberline {19.2.8}Permutation methods}{148}
+\contentsline {subsection}{\numberline {19.2.9}Multisector methods}{148}
+\contentsline {subsection}{\numberline {19.2.10}Transformation methods}{150}
+\contentsline {subsection}{\numberline {19.2.11}Parallel factorization map methods}{151}
+\contentsline {subsection}{\numberline {19.2.12}Storage profile methods}{152}
+\contentsline {subsection}{\numberline {19.2.13}IO methods}{153}
+\contentsline {section}{\numberline {19.3}Driver programs for the {\tt ETree} object}{154}
+\contentsline {chapter}{\numberline {20}{\tt GPart}: Graph Partitioning Object}{165}
+\contentsline {section}{\numberline {20.1}Data Structures}{166}
+\contentsline {section}{\numberline {20.2}Prototypes and descriptions of {\tt GPart} methods}{167}
+\contentsline {subsection}{\numberline {20.2.1}Basic methods}{167}
+\contentsline {subsection}{\numberline {20.2.2}Initializer methods}{168}
+\contentsline {subsection}{\numberline {20.2.3}Utility methods}{168}
+\contentsline {subsection}{\numberline {20.2.4}Domain decomposition methods}{169}
+\contentsline {subsection}{\numberline {20.2.5}Methods to generate a 2-set partition}{170}
+\contentsline {subsection}{\numberline {20.2.6}Methods to improve a 2-set partition}{170}
+\contentsline {subsection}{\numberline {20.2.7}Recursive Bisection method}{172}
+\contentsline {subsection}{\numberline {20.2.8}{\tt DDsepInfo} methods}{172}
+\contentsline {section}{\numberline {20.3}Driver programs for the {\tt GPart} object}{173}
+\contentsline {chapter}{\numberline {21}{\tt Graph}: A Graph object}{177}
+\contentsline {section}{\numberline {21.1}Data Structure}{178}
+\contentsline {section}{\numberline {21.2}Prototypes and descriptions of {\tt Graph} methods}{178}
+\contentsline {subsection}{\numberline {21.2.1}Basic methods}{178}
+\contentsline {subsection}{\numberline {21.2.2}Initializer methods}{179}
+\contentsline {subsection}{\numberline {21.2.3}Compress and Expand methods}{180}
+\contentsline {subsection}{\numberline {21.2.4}Wirebasket domain decomposition ordering}{180}
+\contentsline {subsection}{\numberline {21.2.5}Utility methods}{181}
+\contentsline {subsection}{\numberline {21.2.6}IO methods}{182}
+\contentsline {section}{\numberline {21.3}Driver programs for the {\tt Graph} object}{183}
+\contentsline {chapter}{\numberline {22}{\tt MSMD}: \penalty -\@M {\tt M}ulti-{\tt S}tage {\tt M}inimum {\tt D}egree Object}{187}
+\contentsline {section}{\numberline {22.1}Data Structure}{188}
+\contentsline {subsection}{\numberline {22.1.1}{\tt MSMDinfo} : define your algorithm}{189}
+\contentsline {subsection}{\numberline {22.1.2}{\tt MSMD} : driver object}{190}
+\contentsline {subsection}{\numberline {22.1.3}{\tt MSMDstageInfo} : statistics object for a stage of the elimination}{190}
+\contentsline {subsection}{\numberline {22.1.4}{\tt MSMDvtx} : vertex object}{191}
+\contentsline {section}{\numberline {22.2}Prototypes and descriptions of {\tt MSMDinfo} methods}{191}
+\contentsline {subsection}{\numberline {22.2.1}Basic methods}{191}
+\contentsline {subsection}{\numberline {22.2.2}Utility methods}{192}
+\contentsline {section}{\numberline {22.3}Prototypes and descriptions of {\tt MSMD} methods}{192}
+\contentsline {subsection}{\numberline {22.3.1}Basic methods --- public}{192}
+\contentsline {subsection}{\numberline {22.3.2}Initialization methods --- public}{193}
+\contentsline {subsection}{\numberline {22.3.3}Ordering methods --- public}{193}
+\contentsline {subsection}{\numberline {22.3.4}Extraction methods --- public}{193}
+\contentsline {subsection}{\numberline {22.3.5}Internal methods --- private}{194}
+\contentsline {section}{\numberline {22.4}Prototypes and descriptions of {\tt MSMDvtx} methods}{195}
+\contentsline {section}{\numberline {22.5}Driver programs for the {\tt MSMD} object}{195}
+\contentsline {chapter}{\numberline {23}{\tt Network}: Simple Max-flow solver}{198}
+\contentsline {section}{\numberline {23.1}Data Structure}{199}
+\contentsline {section}{\numberline {23.2}Prototypes and descriptions of {\tt Network} methods}{200}
+\contentsline {subsection}{\numberline {23.2.1}Basic methods}{200}
+\contentsline {subsection}{\numberline {23.2.2}Initializer methods}{201}
+\contentsline {subsection}{\numberline {23.2.3}Utility methods}{201}
+\contentsline {subsection}{\numberline {23.2.4}IO methods}{202}
+\contentsline {chapter}{\numberline {24}{\tt SolveMap}: Forward and Backsolve Map}{203}
+\contentsline {section}{\numberline {24.1}Data Structure}{203}
+\contentsline {section}{\numberline {24.2}Prototypes and descriptions of {\tt SolveMap} methods}{204}
+\contentsline {subsection}{\numberline {24.2.1}Basic methods}{204}
+\contentsline {subsection}{\numberline {24.2.2}Instance methods}{204}
+\contentsline {subsection}{\numberline {24.2.3}Initialization method}{205}
+\contentsline {subsection}{\numberline {24.2.4}Map creation methods}{206}
+\contentsline {subsection}{\numberline {24.2.5}Solve setup methods}{206}
+\contentsline {subsection}{\numberline {24.2.6}Utility methods}{206}
+\contentsline {subsection}{\numberline {24.2.7}IO methods}{207}
+\contentsline {chapter}{\numberline {25}{\tt Tree}: A Tree Object}{209}
+\contentsline {section}{\numberline {25.1}Data Structure}{209}
+\contentsline {section}{\numberline {25.2}Prototypes and descriptions of {\tt Tree} methods}{209}
+\contentsline {subsection}{\numberline {25.2.1}Basic methods}{210}
+\contentsline {subsection}{\numberline {25.2.2}Instance methods}{210}
+\contentsline {subsection}{\numberline {25.2.3}Initializer methods}{211}
+\contentsline {subsection}{\numberline {25.2.4}Utility methods}{211}
+\contentsline {subsection}{\numberline {25.2.5}Metrics methods}{213}
+\contentsline {subsection}{\numberline {25.2.6}Compression methods}{214}
+\contentsline {subsection}{\numberline {25.2.7}Justification methods}{214}
+\contentsline {subsection}{\numberline {25.2.8}Permutation methods}{214}
+\contentsline {subsection}{\numberline {25.2.9}Drawing method}{215}
+\contentsline {subsection}{\numberline {25.2.10}IO methods}{216}
+\contentsline {section}{\numberline {25.3}Driver programs for the {\tt Tree} object}{217}
+\contentsline {part}{\uppercase {iv}\hspace {1em}Numeric Objects and Methods}{219}
+\contentsline {chapter}{\numberline {26}{\tt Chv}: Block chevron}{221}
+\contentsline {section}{\numberline {26.1}Data Structure}{223}
+\contentsline {section}{\numberline {26.2}Prototypes and descriptions of {\tt Chv} methods}{223}
+\contentsline {subsection}{\numberline {26.2.1}Basic methods}{224}
+\contentsline {subsection}{\numberline {26.2.2}Instance methods}{224}
+\contentsline {subsection}{\numberline {26.2.3}Initialization methods}{226}
+\contentsline {subsection}{\numberline {26.2.4}Search methods}{227}
+\contentsline {subsection}{\numberline {26.2.5}Pivot methods}{228}
+\contentsline {subsection}{\numberline {26.2.6}Update methods}{228}
+\contentsline {subsection}{\numberline {26.2.7}Assembly methods}{229}
+\contentsline {subsection}{\numberline {26.2.8}Factorization methods}{229}
+\contentsline {subsection}{\numberline {26.2.9}Copy methods}{230}
+\contentsline {subsection}{\numberline {26.2.10}Swap methods}{232}
+\contentsline {subsection}{\numberline {26.2.11}Utility methods}{233}
+\contentsline {subsection}{\numberline {26.2.12}IO methods}{234}
+\contentsline {section}{\numberline {26.3}Driver programs for the {\tt Chv object}}{235}
+\contentsline {chapter}{\numberline {27}{\tt ChvList}: {\tt Chv} list object }{240}
+\contentsline {section}{\numberline {27.1}Data Structure}{241}
+\contentsline {section}{\numberline {27.2}Prototypes and descriptions of {\tt ChvList} methods}{241}
+\contentsline {subsection}{\numberline {27.2.1}Basic methods}{241}
+\contentsline {subsection}{\numberline {27.2.2}Initialization methods}{242}
+\contentsline {subsection}{\numberline {27.2.3}Utility methods}{242}
+\contentsline {subsection}{\numberline {27.2.4}IO methods}{242}
+\contentsline {chapter}{\numberline {28}{\tt ChvManager}: {\tt Chv} manager object }{243}
+\contentsline {section}{\numberline {28.1}Data Structure}{244}
+\contentsline {section}{\numberline {28.2}Prototypes and descriptions of {\tt ChvManager} methods}{244}
+\contentsline {subsection}{\numberline {28.2.1}Basic methods}{244}
+\contentsline {subsection}{\numberline {28.2.2}Initialization methods}{245}
+\contentsline {subsection}{\numberline {28.2.3}Utility methods}{245}
+\contentsline {subsection}{\numberline {28.2.4}IO methods}{245}
+\contentsline {chapter}{\numberline {29}{\tt DenseMtx}: Dense matrix object}{246}
+\contentsline {section}{\numberline {29.1}Data Structure}{246}
+\contentsline {section}{\numberline {29.2}Prototypes and descriptions of {\tt DenseMtx} methods}{247}
+\contentsline {subsection}{\numberline {29.2.1}Basic methods}{247}
+\contentsline {subsection}{\numberline {29.2.2}Instance methods}{247}
+\contentsline {subsection}{\numberline {29.2.3}Initialization methods}{249}
+\contentsline {subsection}{\numberline {29.2.4}Utility methods}{250}
+\contentsline {subsection}{\numberline {29.2.5}IO methods}{252}
+\contentsline {chapter}{\numberline {30}{\tt FrontMtx}: Front matrix}{254}
+\contentsline {section}{\numberline {30.1}Data Structures}{257}
+\contentsline {section}{\numberline {30.2}Prototypes and descriptions of {\tt FrontMtx} methods}{259}
+\contentsline {subsection}{\numberline {30.2.1}Basic methods}{259}
+\contentsline {subsection}{\numberline {30.2.2}Instance methods}{259}
+\contentsline {subsection}{\numberline {30.2.3}Initialization methods}{261}
+\contentsline {subsection}{\numberline {30.2.4}Utility Factorization methods}{262}
+\contentsline {subsection}{\numberline {30.2.5}Serial Factorization method}{264}
+\contentsline {subsection}{\numberline {30.2.6}QR factorization utility methods}{265}
+\contentsline {subsection}{\numberline {30.2.7}Serial $QR$ Factorization method}{266}
+\contentsline {subsection}{\numberline {30.2.8}Postprocessing methods}{266}
+\contentsline {subsection}{\numberline {30.2.9}Utility Solve methods}{267}
+\contentsline {subsection}{\numberline {30.2.10}Serial Solve method}{268}
+\contentsline {subsection}{\numberline {30.2.11}Serial $QR$ Solve method}{269}
+\contentsline {subsection}{\numberline {30.2.12}Utility methods}{269}
+\contentsline {subsection}{\numberline {30.2.13}IO methods}{270}
+\contentsline {section}{\numberline {30.3}Driver programs for the {\tt DFrontMtx} object}{271}
+\contentsline {chapter}{\numberline {31}{\tt ILUMtx}: Incomplete $LU$ Matrix Object}{273}
+\contentsline {section}{\numberline {31.1}Data Structure}{273}
+\contentsline {section}{\numberline {31.2}Prototypes and descriptions of {\tt ILUMtx} methods}{274}
+\contentsline {subsection}{\numberline {31.2.1}Basic methods}{274}
+\contentsline {subsection}{\numberline {31.2.2}Initialization Methods}{275}
+\contentsline {subsection}{\numberline {31.2.3}Factorization Methods}{275}
+\contentsline {subsection}{\numberline {31.2.4}Solve Methods}{275}
+\contentsline {subsection}{\numberline {31.2.5}Utility methods}{276}
+\contentsline {subsection}{\numberline {31.2.6}IO methods}{276}
+\contentsline {section}{\numberline {31.3}Driver programs for the {\tt ILUMtx} object}{277}
+\contentsline {chapter}{\numberline {32}{\tt InpMtx}: Input Matrix Object}{278}
+\contentsline {section}{\numberline {32.1}Data Structure}{279}
+\contentsline {section}{\numberline {32.2}Prototypes and descriptions of {\tt InpMtx} methods}{281}
+\contentsline {subsection}{\numberline {32.2.1}Basic methods}{281}
+\contentsline {subsection}{\numberline {32.2.2}Instance Methods}{281}
+\contentsline {subsection}{\numberline {32.2.3}Methods to initialize and change state}{284}
+\contentsline {subsection}{\numberline {32.2.4}Input methods}{285}
+\contentsline {subsection}{\numberline {32.2.5}Permutation, map and support methods}{286}
+\contentsline {subsection}{\numberline {32.2.6}Matrix-matrix multiply methods}{287}
+\contentsline {subsection}{\numberline {32.2.7}Graph construction methods}{289}
+\contentsline {subsection}{\numberline {32.2.8}Submatrix extraction method}{290}
+\contentsline {subsection}{\numberline {32.2.9}Utility methods}{290}
+\contentsline {subsection}{\numberline {32.2.10}IO methods}{292}
+\contentsline {section}{\numberline {32.3}Driver programs for the {\tt InpMtx} object}{293}
+\contentsline {chapter}{\numberline {33}{\tt Iter}: Iterative Methods}{301}
+\contentsline {section}{\numberline {33.1}Data Structure}{301}
+\contentsline {section}{\numberline {33.2}Prototypes and descriptions of {\tt Iter} methods}{301}
+\contentsline {subsection}{\numberline {33.2.1}Utility methods}{301}
+\contentsline {subsection}{\numberline {33.2.2}Iterative methods}{303}
+\contentsline {section}{\numberline {33.3}Driver programs}{306}
+\contentsline {chapter}{\numberline {34}{\tt PatchAndGoInfo}: Pivot Modification Object}{311}
+\contentsline {section}{\numberline {34.1}Data Structure}{312}
+\contentsline {section}{\numberline {34.2}Prototypes and descriptions of {\tt PatchAndGoInfo} methods}{312}
+\contentsline {subsection}{\numberline {34.2.1}Basic methods}{312}
+\contentsline {subsection}{\numberline {34.2.2}Initializer methods}{313}
+\contentsline {chapter}{\numberline {35}{\tt Pencil}: Matrix pencil}{314}
+\contentsline {section}{\numberline {35.1}Data Structure}{314}
+\contentsline {section}{\numberline {35.2}Prototypes and descriptions of {\tt Pencil} methods}{314}
+\contentsline {subsection}{\numberline {35.2.1}Basic methods}{314}
+\contentsline {subsection}{\numberline {35.2.2}Initialization methods}{315}
+\contentsline {subsection}{\numberline {35.2.3}Utility methods}{315}
+\contentsline {subsection}{\numberline {35.2.4}IO methods}{316}
+\contentsline {chapter}{\numberline {36}{\tt SemiImplMtx}: Semi-Implicit Factorization}{317}
+\contentsline {section}{\numberline {36.1}Data Structure}{318}
+\contentsline {section}{\numberline {36.2}Prototypes and descriptions of {\tt SemiImplMtx} methods}{318}
+\contentsline {subsection}{\numberline {36.2.1}Basic methods}{318}
+\contentsline {subsection}{\numberline {36.2.2}Initialization Methods}{319}
+\contentsline {subsection}{\numberline {36.2.3}Solve Methods}{319}
+\contentsline {subsection}{\numberline {36.2.4}Utility methods}{320}
+\contentsline {subsection}{\numberline {36.2.5}IO methods}{320}
+\contentsline {section}{\numberline {36.3}Driver programs for the {\tt SemiImplMtx} object}{320}
+\contentsline {chapter}{\numberline {37}{\tt SubMtx}: Submatrix object}{322}
+\contentsline {section}{\numberline {37.1}Data Structure}{323}
+\contentsline {section}{\numberline {37.2}Prototypes and descriptions of {\tt SubMtx} methods}{324}
+\contentsline {subsection}{\numberline {37.2.1}Basic methods}{325}
+\contentsline {subsection}{\numberline {37.2.2}Instance methods}{325}
+\contentsline {subsection}{\numberline {37.2.3}Initialization methods}{328}
+\contentsline {subsection}{\numberline {37.2.4}Vector scaling methods}{329}
+\contentsline {subsection}{\numberline {37.2.5}Solve methods}{329}
+\contentsline {subsection}{\numberline {37.2.6}Utility methods}{330}
+\contentsline {subsection}{\numberline {37.2.7}IO methods}{331}
+\contentsline {section}{\numberline {37.3}Driver programs for the {\tt SubMtx object}}{333}
+\contentsline {chapter}{\numberline {38}{\tt SubMtxList}: {\tt SubMtx} list object }{337}
+\contentsline {section}{\numberline {38.1}Data Structure}{338}
+\contentsline {section}{\numberline {38.2}Prototypes and descriptions of {\tt SubMtxList} methods}{338}
+\contentsline {subsection}{\numberline {38.2.1}Basic methods}{338}
+\contentsline {subsection}{\numberline {38.2.2}Initialization methods}{339}
+\contentsline {subsection}{\numberline {38.2.3}Utility methods}{339}
+\contentsline {subsection}{\numberline {38.2.4}IO methods}{339}
+\contentsline {chapter}{\numberline {39}{\tt SubMtxManager}: {\tt SubMtx} object manager}{340}
+\contentsline {section}{\numberline {39.1}Data Structure}{341}
+\contentsline {section}{\numberline {39.2}Prototypes and descriptions of {\tt SubMtxManager} methods}{341}
+\contentsline {subsection}{\numberline {39.2.1}Basic methods}{341}
+\contentsline {subsection}{\numberline {39.2.2}Initialization methods}{342}
+\contentsline {subsection}{\numberline {39.2.3}Utility methods}{342}
+\contentsline {subsection}{\numberline {39.2.4}IO methods}{342}
+\contentsline {chapter}{\numberline {40}{\tt SymbFac}: Symbolic Factorization}{343}
+\contentsline {section}{\numberline {40.1}Data Structure}{343}
+\contentsline {section}{\numberline {40.2}Prototypes and descriptions of {\tt SymbFac} methods}{343}
+\contentsline {subsection}{\numberline {40.2.1}Symbolic factorization methods}{343}
+\contentsline {section}{\numberline {40.3}Driver programs }{344}
+\contentsline {part}{\uppercase {v}\hspace {1em}Miscellaneous Methods}{346}
+\contentsline {chapter}{\numberline {41}{\tt Misc} directory}{348}
+\contentsline {section}{\numberline {41.1}Prototypes and descriptions of methods in the {\tt Misc} directory}{348}
+\contentsline {subsection}{\numberline {41.1.1}Theoretical nested dissection methods}{348}
+\contentsline {subsection}{\numberline {41.1.2}Multiple minimum degree, Nested dissection and multisection wrapper methods}{350}
+\contentsline {subsection}{\numberline {41.1.3}Graph drawing method}{351}
+\contentsline {subsection}{\numberline {41.1.4}Linear system construction}{351}
+\contentsline {section}{\numberline {41.2}Driver programs found in the {\tt Misc} directory}{352}
+\contentsline {part}{\uppercase {vi}\hspace {1em}Multithreaded Methods}{361}
+\contentsline {chapter}{\numberline {42}{\tt MT} directory}{363}
+\contentsline {section}{\numberline {42.1}Data Structure}{364}
+\contentsline {section}{\numberline {42.2}Prototypes and descriptions of {\tt MT} methods}{364}
+\contentsline {subsection}{\numberline {42.2.1}Matrix-matrix multiply methods}{364}
+\contentsline {subsection}{\numberline {42.2.2}Multithreaded Factorization methods}{365}
+\contentsline {subsection}{\numberline {42.2.3}Multithreaded $QR$ Factorization method}{366}
+\contentsline {subsection}{\numberline {42.2.4}Multithreaded Solve method}{366}
+\contentsline {subsection}{\numberline {42.2.5}Multithreaded $QR$ Solve method}{367}
+\contentsline {section}{\numberline {42.3}Driver programs for the multithreaded functions}{367}
+\contentsline {part}{\uppercase {vii}\hspace {1em}MPI Methods}{373}
+\contentsline {chapter}{\numberline {43}{\tt MPI} directory}{375}
+\contentsline {section}{\numberline {43.1}Data Structure}{375}
+\contentsline {subsection}{\numberline {43.1.1}{\tt MatMulInfo} : Matrix-matrix multiply information object}{375}
+\contentsline {section}{\numberline {43.2}Prototypes and descriptions of {\tt MPI} methods}{376}
+\contentsline {subsection}{\numberline {43.2.1}Split and redistribution methods}{376}
+\contentsline {subsection}{\numberline {43.2.2}Gather and scatter methods}{379}
+\contentsline {subsection}{\numberline {43.2.3}Symbolic Factorization methods}{379}
+\contentsline {subsection}{\numberline {43.2.4}Numeric Factorization methods}{380}
+\contentsline {subsection}{\numberline {43.2.5}Post-processing methods}{381}
+\contentsline {subsection}{\numberline {43.2.6}Numeric Solve methods}{382}
+\contentsline {subsection}{\numberline {43.2.7}Matrix-matrix multiply methods}{383}
+\contentsline {subsection}{\numberline {43.2.8}Broadcast methods}{384}
+\contentsline {subsection}{\numberline {43.2.9}Utility methods}{385}
+\contentsline {section}{\numberline {43.3}Driver programs}{386}

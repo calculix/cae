@@ -9,7 +9,7 @@
     Keep in mind that CalculiX expands shell elements
     In vtk elements nodes are numbered starting from 0, not from 1
 
-    For frd see http://www.dhondt.de/cgx_2.15.pdf pages 117-123 (chapter 10)
+    For frd see http://www.dhondt.de/cgx_2.16.pdf pages 123-129 (chapter 10)
     For vtk see https://vtk.org/wp-content/uploads/2015/04/file-formats.pdf pages 9-10
 
      _________________________________________________________________

@@ -1,0 +1,409 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%BoundingBox: 0.0 0.0 600.0 600.0
+ /radius 10.000 def
+ /Helvetica findfont 12.500 scalefont setfont
+ /M {moveto} def
+ /L {lineto} def
+ /ACF { % stack : x y radius
+    newpath 0 360 arc closepath fill 
+ } def
+ /str 6 string def
+ /drawLabel { % x y label radius
+    /radius exch def
+    /label  exch def
+    /y      exch def
+    /x      exch def
+    gsave
+       1.0 setgray
+       x radius add y moveto
+       x y radius 0 360 arc
+       fill
+       0.0 setgray
+       x radius add y moveto
+       x y radius 0 360 arc
+       stroke
+       x y moveto
+       label stringwidth pop 2 div neg radius 2 div neg rmoveto
+       label show
+    grestore
+ } def 
+ gsave
+   3.000 setlinewidth
+   0.0 setgray
+    newpath
+       82.2 20 M 20 20 L
+       269 20 M 207 20 L
+       331 20 M 269 20 L
+       393 20 M 331 20 L
+       456 20 M 393 20 L
+       518 20 M 456 20 L
+       580 20 M 518 20 L
+       82.2 580 M 20 580 L
+       144 580 M 82.2 580 L
+       207 580 M 144 580 L
+       269 580 M 207 580 L
+       331 580 M 269 580 L
+       393 580 M 331 580 L
+       518 580 M 456 580 L
+       20 82.2 M 20 20 L
+       20 82.2 M 82.2 20 L
+       20 144 M 20 82.2 L
+       20 207 M 20 144 L
+       20 269 M 20 207 L
+       20 331 M 20 269 L
+       20 393 M 20 331 L
+       20 518 M 20 580 L
+       20 518 M 82.2 580 L
+       580 82.2 M 518 20 L
+       580 82.2 M 580 20 L
+       580 144 M 580 82.2 L
+       580 331 M 580 269 L
+       580 393 M 580 331 L
+       580 456 M 580 393 L
+       580 518 M 518 580 L
+       510 90 M 456 20 L
+       510 90 M 518 20 L
+       510 90 M 580 82.2 L
+       510 90 M 580 144 L
+       90 230 M 20 207 L
+       90 230 M 20 269 L
+       370 510 M 456 580 L
+       195 195 M 90 230 L
+       55 335 M 20 331 L
+       55 335 M 20 393 L
+       335 55 M 269 20 L
+       335 55 M 331 20 L
+       335 55 M 393 20 L
+       125 545 M 82.2 580 L
+       125 545 M 144 580 L
+       125 545 M 20 518 L
+       405 265 M 300 300 L
+       265 125 M 335 55 L
+       545 405 M 580 393 L
+       545 405 M 580 456 L
+       143 72.5 M 82.2 20 L
+       423 353 M 405 265 L
+       72.5 283 M 20 269 L
+       72.5 283 M 20 331 L
+       72.5 283 M 90 230 L
+       72.5 283 M 55 335 L
+       213 423 M 160 440 L
+       213 423 M 283 493 L
+       493 143 M 580 207 L
+       493 143 M 440 160 L
+       107 317 M 90 230 L
+       107 317 M 55 335 L
+       107 317 M 72.5 283 L
+       527 457 M 580 456 L
+       527 457 M 475 475 L
+       527 457 M 545 405 L
+       177 107 M 247 177 L
+       457 387 M 475 475 L
+       457 387 M 545 405 L
+       457 387 M 423 353 L
+       457 387 M 527 457 L
+       317 247 M 300 300 L
+       317 247 M 405 265 L
+       169 361 M 230 370 L
+       449 81.3 M 393 20 L
+       449 81.3 M 456 20 L
+       449 81.3 M 510 90 L
+       309 501 M 331 580 L
+       309 501 M 283 493 L
+       98.7 151 M 90 230 L
+       519 291 M 580 269 L
+       519 291 M 580 331 L
+       63.7 466 M 20 456 L
+       344 186 M 317 247 L
+       484 326 M 405 265 L
+       484 326 M 457 387 L
+       484 326 M 519 291 L
+       274 256 M 300 300 L
+       274 256 M 317 247 L
+       134 396 M 169 361 L
+       414 116 M 393 20 L
+       414 116 M 335 55 L
+       414 116 M 449 81.3 L
+       151 169 M 90 230 L
+       151 169 M 195 195 L
+       151 169 M 98.7 151 L
+       431 449 M 475 475 L
+       431 449 M 457 387 L
+       431 449 M 379 431 L
+       291 309 M 300 300 L
+    stroke
+    newpath
+       291 309 M 274 256 L
+       221 519 M 144 580 L
+       221 519 M 207 580 L
+       221 519 M 269 580 L
+       221 519 M 160 440 L
+       221 519 M 125 545 L
+       221 519 M 283 493 L
+       221 519 M 213 423 L
+       501 239 M 580 269 L
+       501 239 M 405 265 L
+       501 239 M 519 291 L
+       501 239 M 484 326 L
+       81.3 98.7 M 82.2 20 L
+       81.3 98.7 M 20 82.2 L
+       81.3 98.7 M 20 144 L
+       81.3 98.7 M 143 72.5 L
+       81.3 98.7 M 98.7 151 L
+       361 379 M 300 300 L
+       361 379 M 405 265 L
+       361 379 M 423 353 L
+       361 379 M 379 431 L
+       361 379 M 291 309 L
+       256 63.7 M 207 20 L
+       256 63.7 M 269 20 L
+       256 63.7 M 335 55 L
+       256 63.7 M 265 125 L
+       536 344 M 580 331 L
+       536 344 M 580 393 L
+       536 344 M 545 405 L
+       536 344 M 457 387 L
+       536 344 M 519 291 L
+       536 344 M 484 326 L
+       116 484 M 20 518 L
+       116 484 M 160 440 L
+       116 484 M 125 545 L
+       116 484 M 221 519 L
+       396 204 M 405 265 L
+       396 204 M 317 247 L
+       396 204 M 344 186 L
+       396 204 M 501 239 L
+       186 274 M 90 230 L
+       186 274 M 195 195 L
+       186 274 M 107 317 L
+       243 269 M 247 177 L
+       103 409 M 63.7 466 L
+       103 409 M 134 396 L
+       383 129 M 440 160 L
+       383 129 M 326 134 L
+       313 199 M 247 177 L
+       313 199 M 326 134 L
+       173 59.4 M 144 20 L
+       173 59.4 M 177 107 L
+       453 339 M 405 265 L
+       453 339 M 423 353 L
+       453 339 M 457 387 L
+       453 339 M 484 326 L
+       138 94.4 M 143 72.5 L
+       138 94.4 M 98.7 151 L
+       138 94.4 M 151 169 L
+       138 94.4 M 81.3 98.7 L
+       418 374 M 423 353 L
+       418 374 M 457 387 L
+       418 374 M 379 431 L
+       418 374 M 431 449 L
+       418 374 M 361 379 L
+       278 514 M 269 580 L
+       278 514 M 331 580 L
+       278 514 M 283 493 L
+       278 514 M 309 501 L
+       278 514 M 221 519 L
+       208 304 M 230 370 L
+       208 304 M 169 361 L
+       208 304 M 243 269 L
+       68.1 164 M 20 144 L
+       68.1 164 M 20 207 L
+       68.1 164 M 90 230 L
+       68.1 164 M 98.7 151 L
+       68.1 164 M 81.3 98.7 L
+       348 444 M 230 370 L
+       348 444 M 370 510 L
+    stroke
+ grestore
+ gsave
+   0.100 setlinewidth
+   0.0 setgray
+    newpath
+       144 20 M 82.2 20 L
+       207 20 M 144 20 L
+       456 580 M 393 580 L
+       580 580 M 518 580 L
+       20 456 M 20 393 L
+       20 518 M 20 456 L
+       580 207 M 580 144 L
+       580 269 M 580 207 L
+       580 518 M 580 580 L
+       580 518 M 580 456 L
+       370 510 M 331 580 L
+       370 510 M 393 580 L
+       475 475 M 456 580 L
+       475 475 M 518 580 L
+       475 475 M 580 518 L
+       475 475 M 370 510 L
+       143 72.5 M 144 20 L
+       213 423 M 230 370 L
+       493 143 M 580 144 L
+       493 143 M 510 90 L
+       247 177 M 195 195 L
+       247 177 M 265 125 L
+       527 457 M 580 518 L
+       177 107 M 195 195 L
+       177 107 M 265 125 L
+       177 107 M 143 72.5 L
+       169 361 M 160 440 L
+       169 361 M 213 423 L
+       169 361 M 107 317 L
+       449 81.3 M 440 160 L
+       449 81.3 M 493 143 L
+       309 501 M 370 510 L
+       379 431 M 370 510 L
+       63.7 466 M 20 393 L
+       63.7 466 M 20 518 L
+       274 256 M 247 177 L
+       134 396 M 160 440 L
+       134 396 M 107 317 L
+       414 116 M 440 160 L
+       151 169 M 177 107 L
+       431 449 M 370 510 L
+       291 309 M 230 370 L
+       501 239 M 580 207 L
+       501 239 M 440 160 L
+       501 239 M 493 143 L
+       361 379 M 230 370 L
+       256 63.7 M 177 107 L
+       116 484 M 63.7 466 L
+       396 204 M 440 160 L
+       326 134 M 335 55 L
+       326 134 M 265 125 L
+       326 134 M 344 186 L
+       186 274 M 169 361 L
+       243 269 M 195 195 L
+       243 269 M 274 256 L
+       243 269 M 291 309 L
+       243 269 M 186 274 L
+       103 409 M 20 393 L
+       103 409 M 160 440 L
+       103 409 M 55 335 L
+       103 409 M 107 317 L
+       103 409 M 116 484 L
+       383 129 M 335 55 L
+       383 129 M 344 186 L
+       383 129 M 414 116 L
+       383 129 M 396 204 L
+       313 199 M 265 125 L
+       313 199 M 317 247 L
+       313 199 M 344 186 L
+       313 199 M 274 256 L
+       173 59.4 M 207 20 L
+       173 59.4 M 143 72.5 L
+       173 59.4 M 256 63.7 L
+       138 94.4 M 177 107 L
+       208 304 M 291 309 L
+       208 304 M 186 274 L
+       348 444 M 283 493 L
+       348 444 M 213 423 L
+       348 444 M 309 501 L
+       348 444 M 379 431 L
+       348 444 M 361 379 L
+    stroke
+ grestore
+ gsave
+   0.1 setlinewidth
+   0.0 setgray
+ 20.000 20.000 (2) radius drawLabel
+ 82.222 20.000 (2) radius drawLabel
+ 144.444 20.000 (0) radius drawLabel
+ 206.667 20.000 (4) radius drawLabel
+ 268.889 20.000 (4) radius drawLabel
+ 331.111 20.000 (4) radius drawLabel
+ 393.333 20.000 (4) radius drawLabel
+ 455.556 20.000 (4) radius drawLabel
+ 517.778 20.000 (4) radius drawLabel
+ 580.000 20.000 (4) radius drawLabel
+ 20.000 580.000 (3) radius drawLabel
+ 82.222 580.000 (3) radius drawLabel
+ 144.444 580.000 (3) radius drawLabel
+ 206.667 580.000 (3) radius drawLabel
+ 268.889 580.000 (3) radius drawLabel
+ 331.111 580.000 (3) radius drawLabel
+ 393.333 580.000 (3) radius drawLabel
+ 455.556 580.000 (0) radius drawLabel
+ 517.778 580.000 (0) radius drawLabel
+ 580.000 580.000 (5) radius drawLabel
+ 20.000 82.222 (2) radius drawLabel
+ 20.000 144.444 (2) radius drawLabel
+ 20.000 206.667 (2) radius drawLabel
+ 20.000 268.889 (2) radius drawLabel
+ 20.000 331.111 (2) radius drawLabel
+ 20.000 393.333 (2) radius drawLabel
+ 20.000 455.556 (0) radius drawLabel
+ 20.000 517.778 (3) radius drawLabel
+ 580.000 82.222 (4) radius drawLabel
+ 580.000 144.444 (4) radius drawLabel
+ 580.000 206.667 (0) radius drawLabel
+ 580.000 268.889 (1) radius drawLabel
+ 580.000 331.111 (1) radius drawLabel
+ 580.000 393.333 (1) radius drawLabel
+ 580.000 455.556 (1) radius drawLabel
+ 580.000 517.778 (0) radius drawLabel
+ 300.000 300.000 (1) radius drawLabel
+ 160.000 440.000 (3) radius drawLabel
+ 440.000 160.000 (0) radius drawLabel
+ 230.000 370.000 (0) radius drawLabel
+ 510.000 90.000 (4) radius drawLabel
+ 90.000 230.000 (2) radius drawLabel
+ 370.000 510.000 (0) radius drawLabel
+ 195.000 195.000 (2) radius drawLabel
+ 475.000 475.000 (1) radius drawLabel
+ 55.000 335.000 (2) radius drawLabel
+ 335.000 55.000 (4) radius drawLabel
+ 125.000 545.000 (3) radius drawLabel
+ 405.000 265.000 (1) radius drawLabel
+ 265.000 125.000 (4) radius drawLabel
+ 545.000 405.000 (1) radius drawLabel
+ 282.503 492.503 (3) radius drawLabel
+ 142.503 72.500 (2) radius drawLabel
+ 422.503 352.503 (1) radius drawLabel
+ 72.500 282.503 (2) radius drawLabel
+ 212.503 422.503 (3) radius drawLabel
+ 492.503 142.503 (0) radius drawLabel
+ 107.497 317.497 (2) radius drawLabel
+ 247.497 177.497 (0) radius drawLabel
+ 527.497 457.497 (1) radius drawLabel
+ 177.497 107.497 (0) radius drawLabel
+ 457.497 387.497 (1) radius drawLabel
+ 317.497 247.497 (1) radius drawLabel
+ 168.748 361.252 (0) radius drawLabel
+ 448.748 81.250 (4) radius drawLabel
+ 308.748 501.252 (3) radius drawLabel
+ 98.748 151.252 (2) radius drawLabel
+ 378.748 431.252 (1) radius drawLabel
+ 518.748 291.252 (1) radius drawLabel
+ 63.750 466.252 (0) radius drawLabel
+ 343.748 186.252 (1) radius drawLabel
+ 483.748 326.252 (1) radius drawLabel
+ 273.748 256.252 (1) radius drawLabel
+ 133.748 396.252 (0) radius drawLabel
+ 413.748 116.252 (4) radius drawLabel
+ 151.252 168.748 (2) radius drawLabel
+ 431.252 448.748 (1) radius drawLabel
+ 291.252 308.748 (1) radius drawLabel
+ 221.252 518.748 (3) radius drawLabel
+ 501.252 238.748 (1) radius drawLabel
+ 81.250 98.748 (2) radius drawLabel
+ 361.252 378.748 (1) radius drawLabel
+ 256.252 63.750 (4) radius drawLabel
+ 536.252 343.748 (1) radius drawLabel
+ 116.252 483.748 (3) radius drawLabel
+ 396.252 203.748 (1) radius drawLabel
+ 326.252 133.748 (0) radius drawLabel
+ 186.252 273.748 (2) radius drawLabel
+ 243.123 269.374 (0) radius drawLabel
+ 103.123 409.374 (0) radius drawLabel
+ 383.123 129.374 (0) radius drawLabel
+ 313.123 199.374 (0) radius drawLabel
+ 173.123 59.375 (0) radius drawLabel
+ 453.123 339.374 (1) radius drawLabel
+ 138.123 94.374 (2) radius drawLabel
+ 418.123 374.374 (1) radius drawLabel
+ 278.123 514.374 (3) radius drawLabel
+ 208.123 304.374 (0) radius drawLabel
+ 68.125 164.374 (2) radius drawLabel
+ 348.123 444.374 (0) radius drawLabel
+ grestore
+ showpage

@@ -22,7 +22,7 @@ class Job:
 
     # Create job object
     def __init__(self, settings, file_name):
-        self.p = Path() # get as argument
+        self.p = Path() # TODO get as argument
         logging.info('Application\'s home directory is: ' + self.p.app_home_dir)
 
         if not len(file_name):
@@ -100,9 +100,9 @@ class Job:
             # Send command to build CalculiX
             send1 = '/bin/make -f Makefile_MT -C {}'.format(ccx)
 
-            # Move built binary
-            cmd2 = 'C:\\cygwin64\\bin\\mv.exe ' + \
-                    ccx + '/ccx_2.15_MT ' + settings.path_ccx
+            # Copy binary
+            cmd2 = 'C:\\cygwin64\\bin\\cp.exe ' + \
+                    ccx + '/ccx_2.16_MT ' + settings.path_ccx
 
             self.run([(cmd1, send1), (cmd2, '')], msg='Compiled!')
 
@@ -112,8 +112,8 @@ class Job:
             # Build CalculiX
             cmd1 = ['make', '-f', 'Makefile_MT', '-C', self.p.ccx]
 
-            # Move binary
-            cmd2 = ['mv', self.p.ccx + '/ccx_2.15_MT',
+            # Copy binary
+            cmd2 = ['cp', self.p.ccx + '/ccx_2.16_MT',
                     settings.path_ccx]
 
             self.run([(cmd1, ''), (cmd2, '')], msg='Compiled!')

@@ -1,0 +1,61 @@
+#! /bin/csh -f
+
+set msglvl     = 1
+set msgFile    = res.serial
+set msgFile    = stdout
+set msgFile    = res
+
+set nrowA      = 30
+set ncolA      = 30
+set nentA      = 200
+set ncolX      = 4
+
+# coordType = 1 --> store by rows
+# coordType = 2 --> store by columns
+# coordType = 3 --> store by chevrons
+set coordType = 2
+
+# inputMode = 1 --> indices and real entries
+# inputMode = 2 --> indices and complex entries
+set inputMode = 2
+
+# symflag = 0 --> symmetric matrix
+# symflag = 1 --> Hermitian matrix
+# symflag = 2 --> nonsymmetric matrix
+set symflag  = 2
+
+# opflag = 0 --> multiply with A
+# opflag = 1 --> multiply with A^T
+# opflag = 2 --> multiply with A^H
+set opflag  = 2
+
+set real = 0.5
+set imag = 2.0
+
+set seed  = 10101
+set nproc = 4
+
+#
+# for solaris with mpich
+#
+set pgFile     = MMM$nproc.pg
+/usr/local/mpi/bin/mpirun -p4pg $pgFile \
+testMMM \
+   $msglvl $msgFile $nrowA $ncolA $nentA $ncolX $coordType $inputMode \
+   $symflag $opflag $seed $real $imag
+ 
+#
+# for sgi
+#
+# mpirun -np $nproc \
+# testMMM \
+#  $msglvl $msgFile $nrowA $ncolA $nentA $ncolX $coordType $inputMode \
+#  $symflag $opflag $seed $real $imag
+ 
+#
+# for hp
+#
+# /opt/mpi/bin/mpirun -np $nproc \
+# testMMM \
+#  $msglvl $msgFile $nrowA $ncolA $nentA $ncolX $coordType $inputMode \
+#  $symflag $opflag $seed $real $imag

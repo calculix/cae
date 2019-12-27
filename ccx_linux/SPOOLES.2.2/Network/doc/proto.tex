@@ -1,0 +1,253 @@
+\par
+\section{Prototypes and descriptions of {\tt Network} methods}
+\label{section:Network:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt Network} object.
+\par
+\subsection{Basic methods}
+\label{subsection:Network:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Network * Network_new ( void ) ;
+\end{verbatim}
+\index{Network_new@{\tt Network\_new()}}
+This method simply allocates storage for the {\tt Network} structure 
+and then sets the default fields by a call to 
+{\tt Network\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_setDefaultFields ( Network *network ) ;
+\end{verbatim}
+\index{Network_setDefaultFields@{\tt Network\_setDefaultFields()}}
+This method sets the structure's fields to default values.
+\par \noindent {\it Error checking:}
+If {\tt network} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_clearData ( Network *network ) ;
+\end{verbatim}
+\index{Network_clearData@{\tt Network\_clearData()}}
+This method releases any storage held by the object,
+e.g., it free's the {\tt inheads} and {\tt outheads} vectors
+and one by one it releases the storage held in the list of {\tt
+ArcChunk} structures.
+It then sets the structure's default fields 
+with a call to {\tt Network\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt network} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_free ( Network *network ) ;
+\end{verbatim}
+\index{Network_free@{\tt Network\_free()}}
+Thismethod releases any storage by a call to 
+{\tt Network\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt network} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:Network:proto:initializers}
+\par
+There are three initializer methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_init ( Network *network, int nnode, int narc ) ;
+\end{verbatim}\
+\index{Network_init@{\tt Network\_init()}}
+This method initializes an {\tt Network} object given the number of
+nodes and number of arcs.
+(The latter may be zero since we allow the storage for the arcs to
+grow dynamically.)
+\par \noindent {\it Error checking:}
+If {\tt network} is {\tt NULL},
+or if ${\tt nnode} \le 2$,
+or if ${\tt narc} < 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_setMessageInfo ( Network *network, int msglvl, FILE *msgFile) ;
+\end{verbatim}
+\index{Network_setMessageInfo@{\tt Network\_setMessageInfo()}}
+This method sets the message level and message file pointer for the
+object.
+\par \noindent {\it Error checking:}
+If {\tt network} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_addArc ( Network *network, int firstNode, secondNode,
+                      int capacity, int flow ) ;
+\end{verbatim}
+\index{Network_addArc@{\tt Network\_addArc()}}
+This method adds an arc from {\tt firstNode} to {\tt secondNode}
+with flow {\tt flow} and capacity {\tt capacity}.
+The arc is inserted in the out-list for {\tt firstNode} and the
+in-list for {\tt secondNode}.
+\par \noindent {\it Error checking:}
+If {\tt network} is {\tt NULL},
+or if ${\tt nnode} \le 0$,
+or if ${\tt firstNode} \le 0$,
+or if ${\tt nnode} \le {\tt firstNode}$,
+or if ${\tt secondNode} \le 0$,
+or if ${\tt nnode} \le {\tt secondNode}$,
+or if ${\tt capacity} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+%=======================================================================
+\subsection{Utility methods}
+\label{subsection:Network:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_findMaxFlow ( Network *network ) ;
+\end{verbatim}
+\index{Network_findMaxFlow@{\tt Network\_findMaxFlow()}}
+This method finds a maximum flow over the network by repeatedly
+calling the method to find an augmenting path and then the method
+to augment the path.
+It uses an {\tt Ideq} object to maintain a priority dequeue.
+\par \noindent {\it Error checking:}
+If {\tt network} is {\tt NULL},
+or if ${\tt nnode} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Network_findAugmentingPath ( Network *network, int node, int delta, 
+    int tag, Ideq *deq, int tags[], int deltas[], int pres[] ) ;
+\end{verbatim}
+\index{Network_findAugmentingPath@{\tt Network\_findAugmentingPath()}}
+This methods tries to find an augmenting path.
+If successful, the return value is the additional flow that can
+flow down the path.
+The start node is {\tt node}, adjacent to the source and for which
+the edge {\tt (source, node)} is not saturated.
+The input parameter {\tt delta} is the difference between the
+capacity and the flow along this initial edge.
+The {\tt Ideq} object holds the priority dequeue to store the nodes
+ids that are visited  during the search.
+The {\tt tags[]} vector is used to tag nodes that have been
+visited --- if {\tt tags[v] = tag}, then {\tt v} has been visited.
+The {\tt deltas[v]} value maintains the largest admissible flow in
+the path from the source to {\tt v}.
+The {\tt pred[]} vector holds the tree links for the nodes.
+\par \noindent {\it Error checking:}
+If {\tt network}, {\tt deq}, {\tt tags}, {\tt deltas} or
+{\tt pred} is {\tt NULL},
+or if ${\tt nnode} \le 0$,
+or if ${\tt node} \le 0$,
+or if ${\tt nnode - 1} \le {\tt node}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_augmentPath ( Network *network, int delta, int pred[] ) ;
+\end{verbatim}
+\index{Network_augmentPath@{\tt Network\_augmentPath()}}
+This method augments the flow along the path defined by the {\tt
+pred[]} vector by {\tt delta} units.
+\par \noindent {\it Error checking:}
+If {\tt network} or {\tt pred} is {\tt NULL},
+or if ${\tt nnode} \le 0$,
+or if ${\tt delta} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_findMincutFromSource ( Network *network, Ideq deq, int mark[]) ;
+\end{verbatim}
+\index{Network_findMincutFromSource@{\tt Network\_findMincutFromSource()}}
+This method finds the min-cut closest to the source by traversing a
+tree of flow-alternating paths from the source.
+On return, {\tt mark[v] = 1} if the node {\tt v} is in the
+component that contains the source.
+If the node {\tt v} is in the component that contains the sink, 
+then {\tt mark[v] = 2}.
+\par \noindent {\it Error checking:}
+If {\tt network}, {\tt deq} or {\tt mark} is {\tt NULL},
+or if ${\tt nnode} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_findMincutFromSink ( Network *network, Ideq deq, int mark[]) ;
+\end{verbatim}
+\index{Network_findMincutFromSink@{\tt Network\_findMincutFromSink()}}
+This method finds the min-cut closest to the sink by traversing a
+tree of flow-alternating paths into the sink.
+On return, {\tt mark[v] = 1} if the node {\tt v} is in the
+component that contains the source.
+If the node {\tt v} is in the component that contains the sink, 
+then {\tt mark[v] = 2}.
+\par \noindent {\it Error checking:}
+If {\tt network}, {\tt deq} or {\tt mark} is {\tt NULL},
+or if ${\tt nnode} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:Network:proto:IO}
+\par
+There are two IO routines for debugging purposes.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_writeForHumanEye ( Network *network, FILE *fp ) ;
+\end{verbatim}
+\index{Network_writeForHumanEye@{\tt Network\_writeForHumanEye()}}
+\par
+This method writes the network to a file in a human readable format.
+The method {\tt Network\_writeStats()} 
+is called to write out the
+header and statistics. 
+Then the in-list and out-lists for the nodes in the network are
+printed.
+\par \noindent {\it Error checking:}
+If {\tt network} or {\tt fp} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Network_writeStats ( Network *network, FILE *fp ) ;
+\end{verbatim}
+\index{Network_writeStats@{\tt Network\_writeStats()}}
+\par
+This method writes a header and statistics to a file.
+\par \noindent {\it Error checking:}
+If {\tt network} or {\tt fp} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}

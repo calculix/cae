@@ -1,0 +1,25 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inEGraphFile = $matrices/$matrix/orig.egraphf
+
+set inCoordsFile = $matrices/$matrix/grid.coordsf
+
+set coordType    = 1
+
+set seed         = 1
+
+set outDInpMtxFile = temp.inpmtxf
+set outDInpMtxFile = $matrices/$matrix/orig.inpmtxb
+set outDInpMtxFile = $matrices/$matrix/orig.inpmtxf
+
+set msglvl  = 1
+
+set msgFile = res.$matrix
+set msgFile = res
+set msgFile = stdout
+
+testR2D $msglvl $msgFile $inEGraphFile $inCoordsFile \
+        $coordType $seed $outDInpMtxFile

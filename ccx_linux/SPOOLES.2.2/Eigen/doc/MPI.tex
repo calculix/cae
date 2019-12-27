@@ -1,0 +1,504 @@
+\chapter{The MPI Bridge Object and Driver}
+\label{chapter:MPI}
+\par
+\section{The \texttt{BridgeMPI} Data Structure}
+\label{section:BridgeMPI:dataStructure}
+\par
+The {\tt BridgeMPI} structure has the following fields.
+\begin{itemize}
+%
+\item
+{\tt int prbtype} : problem type
+\begin{itemize}
+\item {\tt 1} --- vibration, a multiply with $B$ is required.
+\item {\tt 2} --- buckling, a multiply with $A$ is required.
+\item {\tt 3} --- simple, no multiply is required.
+\end{itemize}
+\item
+{\tt int neqns} : number of equations, 
+i.e., number of vertices in the graph.
+\item
+{\tt int mxbsz} : block size for the Lanczos process.
+\item
+{\tt int nproc} : number of processors.
+\item
+{\tt int myid} : id (rank) of this processor.
+\item
+{\tt int seed} : random number seed used in the ordering.
+\item
+{\tt int coordFlag} : coordinate flag for local $A$ and $B$ matrices.
+\begin{itemize}
+\item 1 ({\tt LOCAL}) for local indices, needed for matrix-multiplies.
+\item 2 ({\tt GLOBAL}) for global indices, needed for factorizations.
+\end{itemize}
+\item
+{\tt InpMtx *A} : matrix object for $A$
+\item
+{\tt InpMtx *B} : matrix object for $B$
+\item
+{\tt Pencil *pencil} : object to hold linear combination of $A$ and $B$.
+\item
+{\tt ETree *frontETree} : object that defines the factorizations,
+e.g., the number of fronts, the tree they form, the number of
+internal and external rows for each front, and the map from
+vertices to the front where it is contained.
+\item
+{\tt IVL *symbfacIVL} : object that contains the symbolic
+factorization of the matrix.
+\item
+{\tt SubMtxManager *mtxmanager} : object that manages the
+\texttt{SubMtx} objects that store the factor entries and are used
+in the solves.
+\item
+{\tt FrontMtx *frontmtx} : object that stores the $L$, $D$ and $U$
+factor matrices.
+\item
+{\tt IV *oldToNewIV} : object that stores old-to-new permutation vector.
+\item
+{\tt IV *newToOldIV} : object that stores new-to-old permutation vector.
+\item
+{\tt DenseMtx *Xloc} : dense {\it local} matrix object that is used 
+during the matrix multiples and solves.
+\item
+{\tt DenseMtx *Yloc} : dense {\it local} matrix object that is used 
+during the matrix multiples and solves.
+\item
+{\tt IV *vtxmapIV} : object that maps vertices to owning processors
+for the factorization and matrix-multiplies.
+\item
+{\tt IV *myownedIV} : object that contains a list of all vertices
+owned by this processor.
+\item
+{\tt IV *ownersIV} : object that maps fronts to owning processors
+for the factorization and matrix-multiplies.
+\item
+{\tt IV *rowmapIV} : if pivoting was performed for numerical
+stability, this object maps rows of the factor to processors.
+\item
+{\tt SolveMap *solvemap} : object that maps factor submatrices to
+owning threads for the solve.
+\item
+{\tt MatMulInfo *info} : object that holds all the communication
+information for a distributed matrix-multiply.
+\item
+{\tt int msglvl} : message level for output.
+When 0, no output, When 1, just statistics and cpu times.
+When greater than 1, more and more output.
+\item
+{\tt FILE *msgFile} : message file for output.
+When \texttt{msglvl} $>$ 0, \texttt{msgFile} must not be \texttt{NULL}.
+\item
+{\tt MPI\_Comm comm} : MPI communicator.
+\end{itemize}
+\par
+\section{Prototypes and descriptions of \texttt{BridgeMPI} methods}
+\label{section:BridgeMPI:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt BridgeMPI} object.
+\par
+In contrast to the serial and MT bridge objects, there are seven
+methods instead of five.
+In a distributed environment, data structures should be partitioned
+across processors.
+On the {\bf SPOOLES} side, the factor entries, and the $X$ and $Y$
+matrices that take part in the solves and matrix-multiplies, are
+partitioned among the processors according to the ``front structure'' 
+and vertex map of the factor matrices.
+The {\bf SPOOLES} solve and matrix-multiply bridge methods expect 
+the {\it local} $X$ and $Y$ matrices.
+On the {\bf LANCZOS} side, the Krylov blocks and eigenvectors are
+partitioned across processors in a simple block manner.
+(The first of $p$ processors has the first $n/p$ rows, etc.)
+\par
+At the present time, the {\bf SPOOLES} and {\bf LANCZOS} software
+have no agreement on how the data should be partitioned.
+(For example, {\bf SPOOLES} could tell {\bf LANCZOS} how it wants
+the data to be partitioned, 
+or {\bf LANCZOS} could tell {\bf SPOOLES} how it wants
+the data to be partitioned.)
+Therefore, inside the {\bf LANCZOS} software a global Krylov block
+is assembled on each processor prior to calling the solve or 
+matrix-multiply methods.
+To ``translate'' between the global blocks to local blocks, and
+then back to global blocks, we have written two wrapper methods,
+{\tt JimMatMulMPI()} and {\tt JimSolveMPI()}.
+Each takes the global input block, compresses it into a local
+block, call the bridge matrix-multiply or solve method,
+then takes the local output blocks and gathers them on all the
+processors into each of their global output blocks.
+These operations add a considerable cost to the solve and
+matrix-multiplies, but the next release of the {\bf LANCZOS}
+software will remove these steps. 
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SetupMPI ( void *data, int *pprbtype, int *pneqns, 
+              int *pmxbsz, InpMtx *A, InpMtx *B, int *pseed, 
+              int *pmsglvl, FILE *msgFile, MPI_Comm comm ) ;
+\end{verbatim}
+\index{SetupMPI@{\tt SetupMPI()}}
+\noindent All calling sequence parameters are pointers to more
+easily allow an interface with Fortran.
+\begin{itemize}
+\item {\tt void *data} --- a pointer to the {\tt BridgeMPI} object.
+\item {\tt int *pprbtype} --- {\tt *pprbtype} holds the problem type.
+   \begin{itemize}
+   \item {\tt 1} --- vibration, a multiply with $B$ is required.
+   \item {\tt 2} --- buckling, a multiply with $A$ is required.
+   \item {\tt 3} --- simple, no multiply is required.
+   \end{itemize}
+\item {\tt int *pneqns} --- {\tt *pneqns} is the number of equations.
+\item {\tt int *pmxbsz} --- {\tt *pmxbsz} is an upper bound on the
+block size.
+\item {\tt InpMtx *A} --- {\tt A} is a {\bf SPOOLES} object that
+holds the matrix $A$.
+\item {\tt InpMtx *B} --- {\tt B} is a {\bf SPOOLES} object that
+holds the matrix $B$. For an ordinary eigenproblem, $B$ is the
+identity and {\tt B} is {\tt NULL}.
+\item {\tt int *pseed} --- {\tt *pseed} is a random number seed.
+\item {\tt int *pmsglvl} --- {\tt *pmsglvl} is a message level for
+the bridge methods and the {\bf SPOOLES} methods they call.
+\item {\tt FILE *pmsglvl} --- {\tt msgFile} is the message file
+for the bridge methods and the {\bf SPOOLES} methods they call.
+\item {\tt MPI\_Comm comm} --- MPI communicator.
+matrix-multiplies.
+\end{itemize}
+This method must be called in the driver program prior to invoking
+the eigensolver via a call to {\tt lanczos\_run()}.
+It then follows this sequence of action.
+\begin{itemize}
+\item
+The method begins by checking all the input data,
+and setting the appropriate fields of the {\tt BridgeMPI} object.
+\item
+The {\tt pencil} object is initialized with {\tt A} and {\tt B}.
+\item
+{\tt A} and {\tt B} are converted to storage by rows and vector mode.
+\item
+A {\tt Graph} object is created that contains the sparsity pattern of
+the union of {\tt A} and {\tt B}.
+\item
+The graph is ordered by first finding a recursive dissection partition,
+and then evaluating the orderings produced by nested dissection and
+multisection, and choosing the better of the two.
+The {\tt frontETree} object is produced and placed into the {\tt bridge}
+object.
+\item
+Old-to-new and new-to-old permutations are extracted from the front tree
+and loaded into the {\tt BridgeMPI} object.
+\item
+The vertices in the front tree are permuted, as well as the entries in 
+{\tt A} and {\tt B}.
+Entries in the lower triangle of {\tt A} and {\tt B} are mapped into the
+upper triangle, and the storage modes of {\tt A} and {\tt B} are changed
+to chevrons and vectors, in preparation for the first factorization.
+\item
+The {\tt ownersIV}, {\tt vtxmapIV} and {\tt myownedIV} objects are
+created, that map fronts and vertices to processors.
+\item
+The entries in {\tt A} and {\tt B} are permuted.
+Entries in the permuted lower triangle are mapped into the upper
+triangle.
+The storage modes of {\tt A} and {\tt B} are changed
+to chevrons and vectors,
+and the entries of {\tt A} and {\tt B} are redistributed to the
+processors that own them.
+\item
+The symbolic factorization is then computed and loaded in the {\tt
+BridgeMPI} object.
+\item
+A {\tt FrontMtx} object is created to hold the factorization
+and loaded into the {\tt BridgeMPI} object.
+\item
+A {\tt SubMtxManager} object is created to hold the factor's
+submatrices and loaded into the {\tt BridgeMPI} object.
+\item
+The map from factor submatrices to their owning threads 
+is computed and stored in the {\tt solvemap} object.
+\item
+The distributed matrix-multiplies are set up.
+\end{itemize}
+The {\tt A} and {\tt B} matrices are now in their permuted ordering,
+i.e., $PAP^T$ and $PBP^T$, and all data structures are with respect to
+this ordering. After the Lanczos run completes, any generated
+eigenvectors must be permuted back into their original ordering using
+the {\tt oldToNewIV} and {\tt newToOldIV} objects.
+\par \noindent {\it Return value:}
+\begin{center}
+\begin{tabular}[t]{rl}
+~1 & normal return \\
+-1 & \texttt{data} is \texttt{NULL} \\
+-2 & \texttt{pprbtype} is \texttt{NULL} \\
+-3 & \texttt{*pprbtype} is invalid \\
+-4 & \texttt{pneqns} is \texttt{NULL} \\
+-5 & \texttt{*pneqns} is invalid \\
+-6 & \texttt{pmxbsz} is \texttt{NULL}
+\end{tabular}
+\begin{tabular}[t]{rl}
+-7 & \texttt{*pmxbsz} is invalid \\
+-8 & \texttt{A} and \texttt{B} are \texttt{NULL} \\
+-9 & \texttt{seed} is \texttt{NULL} \\
+-10 & \texttt{msglvl} is \texttt{NULL} \\
+-11 & $\texttt{msglvl} > 0$ and \texttt{msgFile} is \texttt{NULL} \\
+-12 & \texttt{comm} is \texttt{NULL} 
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FactorMPI ( double *psigma, double *ppvttol, void *data, 
+                int *pinertia, int *perror ) ;
+\end{verbatim}
+\index{FactorMPI@{\tt FactorMPI()}}
+This method computes the factorization of $A - \sigma B$.
+All calling sequence parameters are pointers to more
+easily allow an interface with Fortran.
+\begin{itemize}
+\item {\tt double *psigma} --- the shift parameter $\sigma$ is
+      found in {\tt *psigma}.
+\item {\tt double *ppvttol} --- the pivot tolerance is
+      found in {\tt *ppvttol}. When ${\tt *ppvttol} = 0.0$, 
+      the factorization is computed without pivoting for stability.
+      When ${\tt *ppvttol} > 0.0$, the factorization is computed 
+      with pivoting for stability, and all offdiagonal entries 
+      have magnitudes bounded above by $1/({\tt *ppvttol})$.
+\item {\tt void *data} --- a pointer to the {\tt BridgeMPI} object.
+\item {\tt int *pinertia} --- on return, {\tt *pinertia} holds the 
+      number of negative eigenvalues.
+\item {\tt int *perror} --- on return, {\tt *perror} holds an
+      error code.
+      \begin{center}
+      \begin{tabular}[t]{rl}
+      ~1 & error in the factorization \\
+      ~0 & normal return \\
+      -1 & \texttt{psigma} is \texttt{NULL}
+      \end{tabular}
+      \begin{tabular}[t]{rl}
+      -2 & \texttt{ppvttol} is \texttt{NULL} \\
+      -3 & \texttt{data} is \texttt{NULL} \\
+      -4 & \texttt{pinertia} is \texttt{NULL}
+      \end{tabular}
+      \end{center}
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void JimMatMulMPI ( int *pnrows, int *pncols, double X[], double Y[],
+                int *pprbtype, void *data ) ;
+\end{verbatim}
+\index{JimMatMulMPI@{\tt JimMatMulMPI()}}
+This method computes a multiply of the form $Y = I X$, $Y = A X$
+or $Y = B X$.
+All calling sequence parameters are pointers to more
+easily allow an interface with Fortran.
+\begin{itemize}
+\item {\tt int *pnrows} --- {\tt *pnrows} contains the number of
+      {\it global} rows in $X$ and $Y$.
+\item {\tt int *pncols} --- {\tt *pncols} contains the number of
+      {\it global} columns in $X$ and $Y$.
+\item {\tt double X[]} --- this is the {\it global} $X$ matrix, 
+      stored column major with leading dimension {\tt *pnrows}.
+\item {\tt double Y[]} --- this is the {\it global} $Y$ matrix, 
+      stored column major with leading dimension {\tt *pnrows}.
+\item {\tt int *pprbtype} --- {\tt *pprbtype} holds the problem type.
+   \begin{itemize}
+   \item {\tt 1} --- vibration, a multiply with $B$ is required.
+   \item {\tt 2} --- buckling, a multiply with $A$ is required.
+   \item {\tt 3} --- simple, no multiply is required.
+   \end{itemize}
+\item {\tt void *data} --- a pointer to the {\tt BridgeMPI} object.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void MatMulMPI ( int *pnrows, int *pncols, double X[], double Y[],
+                int *pprbtype, void *data ) ;
+\end{verbatim}
+\index{MatMulMPI@{\tt MatMulMPI()}}
+This method computes a multiply of the form $Y = I X$, $Y = A X$
+or $Y = B X$.
+All calling sequence parameters are pointers to more
+easily allow an interface with Fortran.
+\begin{itemize}
+\item {\tt int *pnrows} --- {\tt *pnrows} contains the number of
+      {\it local} rows in $X$ and $Y$.
+\item {\tt int *pncols} --- {\tt *pncols} contains the number of
+      {\it local} columns in $X$ and $Y$.
+\item {\tt double X[]} --- this is the {\it local} $X$ matrix, 
+      stored column major with leading dimension {\tt *pnrows}.
+\item {\tt double Y[]} --- this is the {\it local} $Y$ matrix, 
+      stored column major with leading dimension {\tt *pnrows}.
+\item {\tt int *pprbtype} --- {\tt *pprbtype} holds the problem type.
+   \begin{itemize}
+   \item {\tt 1} --- vibration, a multiply with $B$ is required.
+   \item {\tt 2} --- buckling, a multiply with $A$ is required.
+   \item {\tt 3} --- simple, no multiply is required.
+   \end{itemize}
+\item {\tt void *data} --- a pointer to the {\tt BridgeMPI} object.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void JimSolveMPI ( int *pnrows, int *pncols, double X[], double Y[],
+               void *data, int *perror ) ;
+\end{verbatim}
+\index{JimSolveMPI@{\tt JimSolveMPI()}}
+This method solves $(A - \sigma B) X = Y$, where 
+$(A - \sigma B)$ has been factored by a previous call to {\tt Factor()}.
+All calling sequence parameters are pointers to more
+easily allow an interface with Fortran.
+\begin{itemize}
+\item {\tt int *pnrows} --- {\tt *pnrows} contains the number of
+      {\it global} rows in $X$ and $Y$.
+\item {\tt int *pncols} --- {\tt *pncols} contains the number of
+      {\it global} columns in $X$ and $Y$.
+\item {\tt double X[]} --- this is the {\it global} $X$ matrix, 
+      stored column major with leading dimension {\tt *pnrows}.
+\item {\tt double Y[]} --- this is the {\it global} $Y$ matrix, 
+      stored column major with leading dimension {\tt *pnrows}.
+\item {\tt void *data} --- a pointer to the {\tt BridgeMPI} object.
+\item {\tt int *perror} --- on return, {\tt *perror} holds an
+      error code.
+      \begin{center}
+      \begin{tabular}[t]{rl}
+      ~1 & normal return \\
+      -1 & \texttt{pnrows} is \texttt{NULL} \\
+      -2 & \texttt{pncols} is \texttt{NULL}
+      \end{tabular}
+      \begin{tabular}[t]{rl}
+      -3 & \texttt{X} is \texttt{NULL} \\
+      -4 & \texttt{Y} is \texttt{NULL} \\
+      -5 & \texttt{data} is \texttt{NULL}
+      \end{tabular}
+      \end{center}
+      \end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SolveMPI ( int *pnrows, int *pncols, double X[], double Y[],
+               void *data, int *perror ) ;
+\end{verbatim}
+\index{SolveMPI@{\tt SolveMPI()}}
+This method solves $(A - \sigma B) X = Y$, where 
+$(A - \sigma B)$ has been factored by a previous call to {\tt Factor()}.
+All calling sequence parameters are pointers to more
+easily allow an interface with Fortran.
+\begin{itemize}
+\item {\tt int *pnrows} --- {\tt *pnrows} contains the number of
+      {\it local} rows in $X$ and $Y$.
+\item {\tt int *pncols} --- {\tt *pncols} contains the number of
+      {\it local} columns in $X$ and $Y$.
+\item {\tt double X[]} --- this is the {\it local} $X$ matrix, 
+      stored column major with leading dimension {\tt *pnrows}.
+\item {\tt double Y[]} --- this is the {\it local} $Y$ matrix, 
+      stored column major with leading dimension {\tt *pnrows}.
+\item {\tt void *data} --- a pointer to the {\tt BridgeMPI} object.
+\item {\tt int *perror} --- on return, {\tt *perror} holds an
+      error code.
+      \begin{center}
+      \begin{tabular}[t]{rl}
+      ~1 & normal return \\
+      -1 & \texttt{pnrows} is \texttt{NULL} \\
+      -2 & \texttt{pncols} is \texttt{NULL}
+      \end{tabular}
+      \begin{tabular}[t]{rl}
+      -3 & \texttt{X} is \texttt{NULL} \\
+      -4 & \texttt{Y} is \texttt{NULL} \\
+      -5 & \texttt{data} is \texttt{NULL}
+      \end{tabular}
+      \end{center}
+      \end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int CleanupMPI ( void *data ) ;
+\end{verbatim}
+\index{CleanupMPI@{\tt CleanupMPI()}}
+This method releases all the storage used by the {\bf SPOOLES}
+library functions.
+\par \noindent {\it Return value:}
+1 for a normal return,
+-1 if a {\tt data} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\section{The \texttt{testMPI} Driver Program}
+\label{section:BridgeMPI:driver}
+\par
+A complete listing of the multithreaded driver program is
+found in chapter~\ref{chapter:MPI_driver}.
+The program is invoked by this command sequence.
+\begin{verbatim}
+testMPI msglvl msgFile parmFile seed inFileA inFileB
+\end{verbatim}
+where
+\begin{itemize}
+\item 
+{\tt msglvl} is the message level for the {\tt BridgeMPI}
+methods and the {\bf SPOOLES} software.
+\item 
+{\tt msgFile} is the message file for the {\tt BridgeMPI}
+methods and the {\bf SPOOLES} software.
+\item 
+{\tt parmFile} is the input file for the parameters of the
+eigensystem to be solved.
+\item 
+{\tt seed} is a random number seed
+used by the {\bf SPOOLES} software.
+\item 
+{\tt inFileA} is the Harwell-Boeing file for the matrix $A$.
+\item 
+{\tt inFileB} is the Harwell-Boeing file for the matrix $B$.
+\end{itemize}
+This program is executed for some sample matrices by the
+{\tt do\_ST\_*} shell scripts in the {\tt drivers} directory.
+\par
+Here is a short description of the steps in the driver program.
+See Chapter~\ref{chapter:serial_driver} for the listing.
+\begin{enumerate}
+\item
+Each processor determines the number of processors and its rank.
+\item
+Each processor decodes the command line inputs.
+\item
+Processor {\tt 0} reads the
+header of the Harwell-Boeing file for $A$
+and broadcasts the number of equations to all processors.
+\item
+Each processor reads from the {\tt parmFile} file
+the parameters that define the eigensystem to be solved.
+\item
+Each processor initializes its Lanczos eigensolver workspace.
+\item
+Each processor fills its
+Lanczos communication structure with some parameters.
+\item
+Processor {\tt 0} reads in the $A$ and possibly $B$ matrices from the
+Harwell-Boeing files and converts them into {\tt InpMtx} objects
+from the {\bf SPOOLES} library.
+The other processors initialize their local {\tt InpMtx} objects.
+\item
+Each processor initializes its linear solver environment 
+via a call to {\tt SetupMPI()}.
+\item
+Each processor invokes
+the eigensolver via a call to {\tt lanczos\_run()}.
+The {\tt FactorMPI()}, {\tt JimSolveMPI()} 
+and {\tt JimMatMulMPI()} methods are passed to this routine.
+\item
+Processor zero extracts the eigenvalues via a call to
+{\tt lanczos\_eigenvalues()} and prints them out.
+\item
+Processor zero extracts the eigenvectors via a call to
+{\tt lanczos\_eigenvectors()} and prints them out.
+\item
+Each processor free's
+the eigensolver working storage via a call to {\tt lanczos\_free()}.
+\item
+Each processor free's
+the linear solver working storage via a call to {\tt CleanupMPI()}.
+\end{enumerate}

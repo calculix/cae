@@ -1,0 +1,38 @@
+#! /bin/csh -f
+
+set msglvl     = 1
+set msgFile    = res.serial
+set msgFile    = stdout
+set msgFile    = res
+
+set neqns      = 2000
+set nent       = 10000
+
+set seed       = 10101
+set coordType  = 3
+set inputMode  = 2
+set root       = 1
+
+set nproc      = 4
+
+#
+# for solaris with mpich
+#
+set pgFile     = scatterInpMtx$nproc.pg
+/usr/local/mpi/bin/mpirun -p4pg $pgFile \
+testScatterInpMtx \
+   $msglvl $msgFile $neqns $nent $seed $coordType $inputMode $root
+ 
+#
+# for sgi
+#
+# mpirun -np $nproc \
+# testScatterInpMtx \
+#    $msglvl $msgFile $neqns $nent $seed $coordType $inputMode $root
+ 
+#
+# for hp
+#
+# /opt/mpi/bin/mpirun -np $nproc \
+# testScatterInpMtx \
+#    $msglvl $msgFile $neqns $nent $seed $coordType $inputMode $root

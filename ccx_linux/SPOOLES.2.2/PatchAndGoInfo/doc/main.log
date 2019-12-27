@@ -1,0 +1,130 @@
+This is TeX, Version 3.1415 (C version 6.1) (format=latex 96.6.20)  29 AUG 1998 13:39
+**main
+(main.tex
+LaTeX2e <1996/06/01>
+Hyphenation patterns for english, german, loaded.
+(/usr/local/lib/texmf/tex/latex2e/base/latex209.def
+File: latex209.def 1996/05/21 v0.51 Standard LaTeX file
+
+Entering LaTeX 2.09 compatibility mode.
+\footheight=\dimen102
+\@maxsep=\dimen103
+\@dblmaxsep=\dimen104
+\@cla=\count79
+\@clb=\count80
+\mscount=\count81
+(/usr/local/lib/texmf/tex/latex2e/base/tracefnt.sty
+Package: tracefnt 1996/05/08 v3.0h Standard LaTeX package (font tracing)
+\tracingfonts=\count82
+LaTeX Info: Redefining \selectfont on input line 139.
+)
+\symbold=\mathgroup4
+\symsans=\mathgroup5
+\symtypewriter=\mathgroup6
+\symitalic=\mathgroup7
+\symsmallcaps=\mathgroup8
+\symslanted=\mathgroup9
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 307.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 308.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 309.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 315.
+LaTeX Info: Redefining \em on input line 325.
+
+(/usr/local/lib/texmf/tex/latex2e/base/latexsym.sty
+Package: latexsym 1995/11/28 v2.2c Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup10
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 86.
+)
+LaTeX Font Info:    Redeclaring math delimiter \lgroup on input line 389.
+LaTeX Font Info:    Redeclaring math delimiter \rgroup on input line 391.
+LaTeX Font Info:    Redeclaring math delimiter \bracevert on input line 393.
+)
+(/usr/local/lib/texmf/tex/latex2e/base/report.cls
+Document Class: report 1996/05/26 v1.3r Standard LaTeX document class
+(/usr/local/lib/texmf/tex/latex2e/base/leqno.clo
+File: leqno.clo 1996/03/25 v1.1a Standard LaTeX option (left equation numbers)
+)
+(/usr/local/lib/texmf/tex/latex2e/base/size11.clo
+File: size11.clo 1996/05/26 v1.3r Standard LaTeX file (size option)
+)
+\c@part=\count83
+\c@chapter=\count84
+\c@section=\count85
+\c@subsection=\count86
+\c@subsubsection=\count87
+\c@paragraph=\count88
+\c@subparagraph=\count89
+\c@figure=\count90
+\c@table=\count91
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+Compatibility mode: definition of \rm ignored.
+Compatibility mode: definition of \sf ignored.
+Compatibility mode: definition of \tt ignored.
+Compatibility mode: definition of \bf ignored.
+Compatibility mode: definition of \it ignored.
+Compatibility mode: definition of \sl ignored.
+Compatibility mode: definition of \sc ignored.
+LaTeX Info: Redefining \cal on input line 620.
+LaTeX Info: Redefining \mit on input line 621.
+\bibindent=\dimen105
+)
+\@indexfile=\write3
+
+Writing index file main.idx
+(main.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+ (intro.tex
+Chapter 1.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 15.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 15.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 15.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 15.
+(/usr/local/lib/texmf/tex/latex2e/base/Ulasy.fd
+File: Ulasy.fd 1995/11/28 v2.2cLaTeX symbol font definitions
+) [1
+
+
+]) (dataStructure.tex
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 25.
+
+(/usr/local/lib/texmf/tex/latex2e/base/OMLcmr.fd
+File: OMLcmr.fd 1996/05/19 v2.4h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 25.
+) (proto.tex [2]
+Overfull \hbox (11.7664pt too wide) in paragraph at lines 80--80
+ [][]\OT1/cmtt/m/n/10.95 void PatchAndGoInfo_init ( PatchAndGoInfo *info, int s
+trategy, double toosmall,[] 
+ []
+
+) (main.ind [3] [4
+
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 444 strings out of 10922
+ 4657 string characters out of 73125
+ 49119 words of memory out of 262141
+ 3311 multiletter control sequences out of 9500
+ 14802 words of font info for 54 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 24i,7n,22p,228b,219s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (4 pages, 9484 bytes).

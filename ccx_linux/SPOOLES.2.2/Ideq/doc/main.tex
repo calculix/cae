@@ -1,0 +1,32 @@
+%
+%  main TeX file
+%
+\documentclass[leqno,11pt,twoside]{report}
+
+\textwidth      6.5 in
+\textheight     8.5 in
+\oddsidemargin  0.0 in
+\evensidemargin 0.0 in
+\topmargin      0.0 in
+\baselineskip   20 pt
+\parskip        3 pt plus 1 pt minus 1 pt
+
+\makeindex
+
+\begin{document}
+
+\pagestyle{myheadings}
+\markboth
+{\quad \hrulefill \quad {\tt Ideq} : {\it DRAFT} \today \quad \hrulefill}
+{\quad \hrulefill \quad {\tt Ideq} : {\it DRAFT} \quad \today \hrulefill}
+
+% \section{{\tt Ideq}: Integer Dequeue}
+\par
+
+\input intro.tex
+\input dataStructure.tex
+\input proto.tex
+
+\input main.ind
+
+\end{document}

@@ -1,0 +1,16 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inFrontMtxFile = ../../FrontMtx/drivers/temp.frontmtxb
+
+set inInpMtxFile   = ../../FrontMtx/drivers/temp.inpmtxb
+
+set inIVfile       = ../../FrontMtx/drivers/frontmap.ivf
+
+set msglvl  = 3
+
+set msgFile = stdout
+
+testSimple $msglvl $msgFile $inFrontMtxFile $inInpMtxFile $inIVfile

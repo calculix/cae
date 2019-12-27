@@ -1,0 +1,86 @@
+#! /bin/csh -f
+
+set TEST_DIR = ../../../inp
+
+echo plat362.mtx
+rm fort.*
+uncompress < $TEST_DIR/plat362.mtx.Z > fort.37
+cp $TEST_DIR/jcp.plat362.inp  input.dat
+testMT 0 junk stdout 10 3 3 fort.37 > res.mtx.plat362
+
+echo matrices.3
+rm fort.*
+uncompress < $TEST_DIR/matrix.3A.Z > fort.37
+uncompress < $TEST_DIR/matrix.3B.Z > fort.38
+cp $TEST_DIR/jcp.inp.vib.3 input.dat
+testMT 0 junk stdout 10 1 3 fort.37 fort.38  > res.mtx.3
+  
+echo matrices.4
+rm fort.*
+uncompress < $TEST_DIR/matrix.4A.Z > fort.37
+uncompress < $TEST_DIR/matrix.4B.Z > fort.38
+cp  $TEST_DIR/jcp.inp.vib.4 input.dat
+testMT 0 junk stdout 10 1 3 fort.37 fort.38  > res.mtx.4
+
+echo matrices.5
+rm fort.*
+uncompress < $TEST_DIR/matrix.5A.Z > fort.37
+uncompress < $TEST_DIR/matrix.5B.Z > fort.38
+cp $TEST_DIR/jcp.inp.vib.5  input.dat
+testMT 0 junk stdout 10 1 3 fort.37 fort.38 > res.mtx.5
+
+echo matrices.6
+rm fort.*
+uncompress < $TEST_DIR/matrix.6A.Z > fort.37
+uncompress < $TEST_DIR/matrix.6B.Z > fort.38
+cp $TEST_DIR/jcp.inp.vib.6  input.dat
+testMT 0 junk stdout 10 1 3 fort.37 fort.38  > res.mtx.6
+
+echo matrices.7
+rm fort.*
+uncompress < $TEST_DIR/matrix.7A.Z > fort.37
+uncompress < $TEST_DIR/matrix.7B.Z > fort.38
+cp  $TEST_DIR/jcp.inp.vib.7 input.dat
+testMT 0 junk stdout 10 1 3 fort.37 fort.38  > res.mtx.7
+
+echo matrices.8
+rm fort.*
+uncompress < $TEST_DIR/matrix.8A.Z > fort.37
+uncompress < $TEST_DIR/matrix.8B.Z > fort.38
+cp $TEST_DIR/jcp.inp.vib.8 input.dat
+testMT 0 junk stdout 10 1 3 fort.37 fort.38   > res.mtx.8
+
+echo matrices.9
+rm fort.*
+uncompress < $TEST_DIR/matrix.9A.Z > fort.37
+uncompress < $TEST_DIR/matrix.9B.Z > fort.38
+cp  $TEST_DIR/jcp.inp.vib.9 input.dat
+testMT 0 junk stdout 10 1 3 fort.37 fort.38  > res.mtx.9
+
+echo matrices.10
+rm fort.*
+uncompress < $TEST_DIR/matrix.10A.Z > fort.37
+uncompress < $TEST_DIR/matrix.10B.Z > fort.38
+cp  $TEST_DIR/jcp.inp.vib.10 input.dat
+testMT 0 junk stdout 10 1 3 fort.37 fort.38  > res.mtx.10
+
+
+echo matrices.11
+rm fort.*
+uncompress < $TEST_DIR/matrix.11A.Z > fort.37
+uncompress < $TEST_DIR/matrix.11B.Z > fort.38
+cp  $TEST_DIR/jcp.inp.buck.11 input.dat
+testMT 0 junk stdout 10 2 3 fort.37 fort.38  > res.mtx.11
+
+
+echo matrices.3_fiddle
+#rm fort.*
+#uncompress < $TEST_DIR/matrix.fid.3A.Z > fort.37
+#uncompress < $TEST_DIR/matrix.fid.3B.Z > fort.38
+#cp  $TEST_DIR/jcp.inp.buck.3fid  input.dat
+#testMT  0 junk stdout 10 2 3 fort.37 fort.38  > res.mtx.3_fiddle
+
+quick_diff
+
+rm -f fort.* junk* res* *.dat /tmp/*fil* 
+

@@ -1,0 +1,14 @@
+\begin{theindex}
+
+  \item {\tt IIheap\_clearData()}, 2
+  \item {\tt IIheap\_free()}, 2
+  \item {\tt IIheap\_init()}, 2
+  \item {\tt IIheap\_insert()}, 3
+  \item {\tt IIheap\_new()}, 2
+  \item {\tt IIheap\_print()}, 3
+  \item {\tt IIheap\_remove()}, 3
+  \item {\tt IIheap\_root()}, 3
+  \item {\tt IIheap\_setDefaultFields()}, 2
+  \item {\tt IIheap\_sizeOf()}, 2
+
+\end{theindex}

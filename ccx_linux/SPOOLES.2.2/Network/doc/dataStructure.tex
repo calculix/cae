@@ -1,0 +1,95 @@
+\par
+\section{Data Structure}
+\par
+There are three structures associated with the {\tt Network} object.
+\begin{itemize}
+\item
+{\tt Network} -- the main object
+\item
+{\tt Arc} -- a structure that represents an edge in the network. 
+\item
+{\tt ArcChunk} -- a structure that holds the storage for a number
+of arcs.
+Since we do not require the number of arcs to be known in advance
+when initializing the {\tt Network} object, we allocate chunks of
+space to hold the arcs as necessary.
+Each chunks holds space for {\tt nnode} arc structures.
+\end{itemize}
+\par
+The {\tt Network} object has six fields.
+\begin{itemize}
+\item 
+{\tt int nnode} ---
+the number of nodes in the network, 
+including the source (node {0}) and the sink (node {\tt nnode-1}).
+\item 
+{\tt int narc} ---
+the number of arcs in the network
+\item 
+{\tt int ntrav} ---
+the number of arc traversals that we made to find a max flow.
+\item 
+{\tt Arc **inheads} ---
+pointer to a vector of pointers to {\tt Arc},
+{\tt inheads[v]} points to the first arc in the in-list 
+for node {\tt v}.
+\item 
+{\tt Arc **outheads} ---
+pointer to a vector of pointers to {\tt Arc},
+{\tt outheads[v]} points to the first arc in the out-list 
+for node {\tt v}.
+\item 
+{\tt ArcChunk *chunk} ---
+pointer to the first {\tt ArcChunk} structure.
+\item 
+{\tt int msglvl} ---
+message level for debugging and diagnostics.
+Setting {\tt msglvl = 0} means no output.
+\item 
+{\tt FILE *msgFile} ---
+message file for debugging and diagnostics.
+\end{itemize}
+A correctly initialized and nontrivial {\tt Network} object 
+will have positive {\tt nnode} and {\tt narc} values,
+and non-{\tt NULL} {\tt inheads}, {\tt outheads}
+and {\tt chunk} fields.
+\par
+The {\tt Arc} object has six fields.
+\begin{itemize}
+\item
+{\tt int first} ---
+the first node in the arc.
+\item
+{\tt int second} ---
+the second node in the arc.
+\item
+{\tt int capacity} ---
+the capacity of the arc.
+\item
+{\tt int flow} ---
+the flow along the arc.
+\item
+{\tt Arc *nextOut} ---
+a pointer to the next {\tt Arc} structure in the out-list for node
+{\tt first}.
+\item
+{\tt Arc *nextIn} ---
+a pointer to the next {\tt Arc} structure in the in-list for node
+{\tt second}.
+\end{itemize}
+\par
+The {\tt ArcChunk} object has four fields.
+\begin{itemize}
+\item
+{\tt int size} ---
+the total number of {\tt Arc} structures in this chunk.
+\item
+{\tt int inuse} ---
+the number of active {\tt Arc} structures in this chunk.
+\item
+{\tt Arc *base} ---
+pointer to the first {\tt Arc} structure in this chunk.
+\item
+{\tt ArcChunk *next} ---
+pointer to the next {\tt ArcChunk} structure in the list of chunks.
+\end{itemize}

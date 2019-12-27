@@ -1,0 +1,32 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+set matrix      = BCSSTK24
+set inGraphFile = $matrices/$matrix/orig1.graphf
+
+set msglvl      = 2
+
+set msgFile    = stdout
+
+set firstseed = 1
+set lastseed  = 2
+set lastseed  = 21
+set lastseed  =  6
+set lastseed  = 51
+set lastseed  = 11
+set lastseed  =  1
+
+set minweight  =  100
+set maxweight  =  200
+set freeze     = 4.0
+
+set outIVfile   = none
+set outIVfile   = $matrices/$matrix/fishnet.ivf
+
+@ seed = $firstseed
+while ( $seed <= $lastseed )
+   testDDviaFishnet $msglvl $msgFile $inGraphFile \
+                    $freeze $minweight $maxweight $seed \
+                    $outIVfile
+   @ seed = $seed + 1
+end

@@ -1,0 +1,565 @@
+\par
+\section{Prototypes and descriptions of {\tt Graph} methods}
+\label{section:Graph:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt Graph} object.
+\par
+\subsection{Basic methods}
+\label{subsection:Graph:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Graph * Graph_new ( void ) ;
+\end{verbatim}
+\index{Graph_new@{\tt Graph\_new()}}
+This method simply allocates storage for the {\tt Graph} structure 
+and then sets the default fields by a call to 
+{\tt Graph\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Graph_setDefaultFields ( Graph *graph ) ;
+\end{verbatim}
+\index{Graph_setDefaultFields@{\tt Graph\_setDefaultFields()}}
+This method sets the structure's fields to default values:
+{\tt type}, {\tt nvtx}, {\tt nvbnd}, {\tt nedges}, {\tt totwght} and
+{\tt totewght} are all zero, and {\tt adjIVL}, {\tt vwghts} and
+{\tt ewghtIVL} are all {\tt NULL}.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Graph_clearData ( Graph *graph ) ;
+\end{verbatim}
+\index{Graph_clearData@{\tt Graph\_clearData()}}
+This method clears the data for the object.
+If {\tt adjIVL} is not {\tt NULL}, 
+then {\tt IVL\_free(adjIVL)} is called to free the {\tt IVL}
+object.
+If {\tt ewghtIVL} is not {\tt NULL}, 
+then {\tt IVL\_free(ewghtIVL)} is called to free the {\tt IVL}
+object.
+If {\tt vwghts} is not {\tt NULL}, 
+then {\tt IVfree(vwghts)} is called to free the {\tt int}
+vector.
+The structure's fields are then set to their default values
+with a call to {\tt Graph\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Graph_free ( Graph *graph ) ;
+\end{verbatim}
+\index{Graph_free@{\tt Graph\_free()}}
+This method releases any storage by a call to 
+{\tt Graph\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:Graph:proto:initializers}
+\par
+There are three initializer methods.
+The first is most commonly used, the second is used within the IO
+routines, and the third is used to create a {\tt Graph} object from
+the {\tt offsets[]/adjncy[]} format for the adjacency structure.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Graph_init1 ( Graph *graph, int type, int nvtx, int nvbnd, int nedges,
+                   int adjType, int ewghtType ) ;
+\end{verbatim}
+\index{Graph_init1@{\tt Graph\_init1()}}
+This is the basic initializer method.
+Any previous data is cleared with a call to {\tt Graph\_clearData()}.
+Then the scalar fields are set and the {\tt adjIVL} object is
+initialized.
+If {\tt type} is {\tt 1} or {\tt 3}, the {\tt vwghts} vector is
+initialized to zeros.
+If {\tt type} is {\tt 2} or {\tt 3}, the {\tt ewghtIVL} object
+is initialized.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+{\tt type} is invalid ({\tt type} must be in {\tt [0,3]}),
+{\tt nvtx} is non-positive,
+{\tt nvbnd} or {\tt nedges} is negative, or
+{\tt adjType} of {\tt ewghtType} is invalid (they must be
+{\tt IVL\_CHUNKED},
+{\tt IVL\_SOLO} or
+{\tt IVL\_UNKNOWN}).
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Graph_init2 ( Graph *graph, int type, int nvtx, int nvbnd, int nedges,
+     int totvwght, int totewght, IVL *adjIVL, int *vwghts, IVL *ewghtIVL)
+\end{verbatim}
+\index{Graph_init2@{\tt Graph\_init2()}}
+This method is used by the IO read methods.
+When a {\tt Graph} object is read from a file, the {\tt IVL}
+object(s) must be initialized and then read in from the file.
+Therefore, we need an initialization method that allows us to set
+pointers to the {\tt IVL} objects and the {\tt vwghts} vector.
+Note, {\tt adjIVL}, {\tt vwghts} and {\tt ewghtIVL} are owned by
+the {\tt Graph} object and will be free'd when the {\tt Graph}
+object is free'd.
+\par \noindent {\it Error checking:}
+If {\tt graph} or {\tt adjIVL} is {\tt NULL},
+{\tt type} is invalid ({\tt type} must be in {\tt [0,3]}),
+{\tt nvtx} is non-positive,
+{\tt nvbnd} or {\tt nedges} is negative, 
+or if {\tt type \% 2 = 1} and {\tt vwghts} is {\tt NULL},
+or if ${\tt type} \ge 2$ and {\tt ewghtIVL} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Graph_fillFromOffsets ( Graph *graph, int neqns, int offsets[],
+                             int adjncy[], int flag )
+\end{verbatim}
+\index{Graph_fillFromOffsets@{\tt Graph\_fillFromOffsets()}}
+This method initializes the {\tt Graph} object using an adjacency
+structure, as is the storage format for a Harwell-Boeing matrix.
+The entries in list {\tt v} are found in {\tt adjncy[i1:i2]}, where 
+{\tt i1 = offsets[v]} and {\tt i2 = offsets[v+1]-1}.
+The {\tt offsets[]} and {\tt adjncy[]} arrays are assumed to be
+zero-based (as are C-arrays), not one-based (as are Fortran arrays).
+If {\tt flag == 0} then the lists are simply loaded 
+into the {\tt Graph} object.
+If {\tt flag == 1}, the adjacency structure must be upper, meaning
+that the list for {\tt v} contains entries that are greater than or
+equal to {\tt v}.
+The {\tt Graph} will have a full adjacency
+structure, including the {\tt (v,v)} edges.
+\par \noindent {\it Error checking:}
+If {\tt graph}, {\tt offsets} or {\tt adjncy} is {\tt NULL},
+or if ${\tt neqns} \le 0$,
+or if ${\tt flag} < 0$ or if ${\tt flag} > 1$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Graph_setListsFromOffsets ( Graph *graph, int neqns, 
+                                 int offsets[], int adjncy[] ) ;
+\end{verbatim}
+\index{Graph_setListsFromOffsets@{\tt Graph\_setListsFromOffsets()}}
+This method initializes the {\tt Graph} object using a {\it full}
+adjacency structure.
+The entries in list {\tt v} are found in {\tt adjncy[i1:i2]}, where 
+{\tt i1 = offsets[v]} and {\tt i2 = offsets[v+1]-1}.
+The {\tt offsets[]} and {\tt adjncy[]} arrays are assumed to be
+zero-based (as are C-arrays), not one-based (as are Fortran arrays).
+Use this method with caution --- the adjacency list for vertex 
+{\tt v} must contain {\tt v} and {\it all} vertices it is adjacent to.
+Note, new storage for the adjacency lists is not allocated, the
+{\tt Graph} object's {\tt IVL} object points into the storage
+in {\tt adjncy[]}.
+\par \noindent {\it Error checking:}
+If {\tt graph}, {\tt offsets} or {\tt adjncy} is {\tt NULL},
+or if ${\tt neqns} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Compress and Expand methods}
+\label{subsection:Graph:proto:compress}
+\par
+These three methods find an equivalence map for the natural
+compressed graph, compress a graph, and expand a graph.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * Graph_equivMap ( Graph *graph ) ;
+\end{verbatim}
+\index{Graph_equivMap@{\tt Graph\_equivMap()}}
+This method constructs the equivalence map from the graph to its
+natural compressed graph.
+The map $\phi : V \mapsto {\bf V}$ is then constructed 
+(see the Introduction in this section) 
+and put into an {\tt IV} object that is then returned.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL} or {\tt nvtx <= 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Graph * Graph_compress  ( Graph *graph, int map[], int coarseType ) ;
+Graph * Graph_compress2 ( Graph *graph, IV *mapIV, int coarseType ) ;
+\end{verbatim}
+\index{Graph_compress@{\tt Graph\_compress()}}
+\index{Graph_compress2@{\tt Graph\_compress2()}}
+This {\tt Graph} and map objects ({\tt map[]} or {\tt mapIV}) are
+checked and if any errors are found, the appropriate message is
+printed and the program exits.
+The compressed graph object is constructed and returned.
+Note, the compressed graph does not have a boundary, even though
+the original graph may have one.
+\par \noindent {\it Error checking:}
+If {\tt graph}, {\tt map} or {\tt mapIV} is {\tt NULL},
+or if ${\tt nvtx} \le 0$,
+or if ${\tt coarseType} < 0$,
+or if $ 3 < {\tt coarseType}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Graph * Graph_expand  ( Graph *graph, int nvtxbig, int map[] ) ;
+Graph * Graph_expand2 ( Graph *graph, IV *mapIV ) ;
+\end{verbatim}
+\index{Graph_expand@{\tt Graph\_expand()}}
+\index{Graph_expand2@{\tt Graph\_expand2()}}
+This {\tt Graph} and map objects ({\tt map[]} or {\tt mapIV}) are
+checked and if any errors are found, the appropriate message is
+printed and the program exits.
+The expanded unit weight graph object is constructed and returned.
+\par \noindent {\it Error checking:}
+If {\tt graph}, {\tt map} or {\tt mapIV} is {\tt NULL},
+or if ${\tt nvtxbig} \le 0$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Wirebasket domain decomposition ordering}
+\label{subsection:Graph:proto:wirebasket}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Graph_wirebasketStages ( Graph *graph, IV *stagesIV, int radius ) ;
+\end{verbatim}
+\index{Graph_wirebasketStages@{\tt Graph\_wirebasketStages()}}
+This method is used to group the vertices into stages that is
+suitable for a wirebasket domain decomposition of a general graph.
+On input, {\tt stages[v] = 0} means that {\tt v} is in a domain.
+On output, {\tt stages[v]} contains the stage of elimination ---
+zero is for all vertices in the domains.
+If {\tt stages[v] > 0}, then it is the number of domains that 
+are found within {\tt radius} edges of {\tt v}.
+\par \noindent {\it Error checking:}
+If {\tt graph} or {\tt stagesIV} is {\tt NULL},
+or if {\tt radius < 0},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:Graph:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_sizeOf ( Graph *graph ) ;
+\end{verbatim}
+\index{Graph_sizeOf@{\tt Graph\_sizeOf()}}
+This method returns the number of bytes taken by this object.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Graph_externalDegree ( Graph *graph, int v ) ;
+\end{verbatim}
+\index{Graph_externalDegree@{\tt Graph\_externalDegree()}}
+This method returns the weight of $\mbox{adj}(\mbox{\tt v})$.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+or {\tt v} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_adjAndSize ( Graph *graph, int u, int *pusize, int **puadj) ;
+\end{verbatim}
+\index{Graph_adjAndSize@{\tt Graph\_adjAndSize()}}
+This method fills {\tt *pusize} with the size of the adjacency
+list for {\tt u} 
+and {\tt *puadj} points to the start of the list vector.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+or if {\tt u < 0} or {\tt u >= nvtx}
+or if {\tt pusize} or {\tt puadj} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_adjAndEweights ( Graph *graph, int u, int *pusize, 
+                           int **puadj, int **puewghts) ;
+\end{verbatim}
+\index{Graph_adjAndEweights@{\tt Graph\_adjAndEweights()}}
+This method fills {\tt *psize} with the size of the adjacency
+list, {\tt *puadj} points to the start of the list vector
+and {\tt *puewghts} points to the start of the edge weights vector.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+or if {\tt u < 0} or {\tt u >= nvtx}
+or if {\tt pusize}, {\tt puadj} or {\tt puewghts} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * Graph_componentMap ( Graph *graph ) ;
+\end{verbatim}
+\index{Graph_componentMap@{\tt Graph\_componentMap()}}
+This method computes and returns an IV object that holds a
+map from vertices to components.
+The values of the map vector are in the range 
+{\tt [0, number of components)}.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL} then 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Graph_componentStats ( Graph *graph, int map[], 
+                            int counts[], int weights[] ) ;
+\end{verbatim}
+\index{Graph_componentStats@{\tt Graph\_componentStats()}}
+This method computes some statistics about the components.
+The length of {\tt map} is {\tt nvtx}.
+The number of components is {\tt 1 + max(map)},
+and the length of {\tt counts[]} and {\tt weights[]} must be as
+large as the number of components.
+On return, {\tt counts[icomp]} and {\tt weights[icomp]} are filled 
+with the number of vertices and weight of the vertices in component 
+{\tt icomp}, respectively.
+\par \noindent {\it Error checking:}
+If {\tt graph}, {\tt map}, {\tt counts} or {\tt weights}
+is {\tt NULL}, then 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Graph * Graph_subGraph ( Graph *graph, int icomp, int compids[], int **pmap ) ;
+\end{verbatim}
+\index{Graph_subGraph@{\tt Graph\_subGraph()}}
+This method is used by the graph partitioning methods.
+For a graph $G(V,E)$, a vertex separator $S \subset V$ is found
+which separates the subgraph induced by $V \setminus S$ 
+into two or more connected components.
+We construct a new graph object for each component using this method.
+The {\tt compids[]} vector maps the internal vertices
+of the parent graph into components.
+This method extracts the subgraph associated with component {\tt
+icomp}.
+\par
+There is one key design feature.
+{\it Most of the storage for the adjacency lists of the subgraph is
+the same as its parent graph.}
+This keeps us from replicating too much storage.
+The subgraph has internal vertices and boundary vertices
+(the latter contain at least part of $S$.)
+Each adjacency list for an internal vertex of the subgraph points 
+to the corresponding adjacency list for the vertex in the parent graph.
+Each adjacency list for a boundary vertex of the subgraph is new 
+storage, and only these lists are free'd when the subgraph is free'd. 
+A map vector is created that maps the subgraphs's vertices (both
+internal and boundary) into the parent graph's vertices; the
+address of the map vector is put into {\tt *pmap}.
+The adjacency lists for the subgraph are overwritten by the {\tt map[]}
+vector.
+This renders the graph object invalid.
+The graph partitioning methods map the vertices back to their
+original values.
+Presently, only graphs with unit edge weights are allowed as input.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL} or {\tt icomp < 0} 
+or {\tt compids} or {\tt pmap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_isSymmetric ( Graph *graph ) ;
+\end{verbatim}
+\index{Graph_isSymmetric@{\tt Graph\_isSymmetric()}}
+This method returns {\tt 1} 
+if the graph is symmetric (i.e., edge {\tt (i,j)} is
+present if and only if edge {\tt (j,i)} is present) and {\tt 0}
+otherwise.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:Graph:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a {\tt Graph} object is simple:
+The six scalar fields come first:
+{\tt type},
+{\tt nvtx},
+{\tt nvbnd},
+{\tt nedges},
+{\tt totvwght} and
+{\tt totewght}.
+The adjacency {\tt IVL} structure {\tt adjIVL} follows.
+If the graph has non-unit vertex weights, i.e., {\tt type \% 2 == 1}, 
+the {\tt vwghts} vector follows.
+If the graph has non-unit edge weights, i.e., {\tt type / 2 == 1}, 
+the {\tt IVL} structure {\tt ewghtIVL} follows.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_readFromFile ( Graph *graph, char *fn ) ;
+\end{verbatim}
+\index{Graph_readFromFile@{\tt Graph\_readFromFile()}}
+\par
+This method reads a {\tt Graph object} from a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt Graph\_readFromFormattedFile()} or
+{\tt Graph\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt graph} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.graphf} (for a formatted file) 
+or {\tt *.graphb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_readFromFormattedFile ( Graph *graph, FILE *fp ) ;
+\end{verbatim}
+\index{Graph_readFromFormattedFile@{\tt Graph\_readFromFormattedFile()}}
+\par
+This method reads a {\tt Graph} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt graph} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_readFromBinaryFile ( Graph *graph, FILE *fp ) ;
+\end{verbatim}
+\index{Graph_readFromBinaryFile@{\tt Graph\_readFromBinaryFile()}}
+This method reads a {\tt Graph} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt graph} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_writeToFile ( Graph *graph, char *fn ) ;
+\end{verbatim}
+\index{Graph_writeToFile@{\tt Graph\_writeToFile()}}
+\par
+This method writes a {\tt Graph object} to a file.
+It tries to open the file and if it is successful, 
+it then calls {\tt Graph\_writeFromFormattedFile()} or
+{\tt Graph\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt graph} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.graphf} (for a formatted file) 
+or {\tt *.graphb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_writeToFormattedFile ( Graph *graph, FILE *fp ) ;
+\end{verbatim}
+\index{Graph_writeToFormattedFile@{\tt Graph\_writeToFormattedFile()}}
+\par
+This method writes a {\tt Graph} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt graph} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_writeToBinaryFile ( Graph *graph, FILE *fp ) ;
+\end{verbatim}
+\index{Graph_writeToBinaryFile@{\tt Graph\_writeToBinaryFile()}}
+\par
+This method writes a {\tt Graph} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt graph} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_writeForHumanEye ( Graph *graph, FILE *fp ) ;
+\end{verbatim}
+\index{Graph_writeForHumanEye@{\tt Graph\_writeForHumanEye()}}
+\par
+This method writes a {\tt Graph} object to a file in a human
+readable format.
+The method {\tt Graph\_writeStats()} is called to write out the
+header and statistics. 
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt graph} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_writeStats ( Graph *graph, FILE *fp ) ;
+\end{verbatim}
+\index{Graph_writeStats@{\tt Graph\_writeStats()}}
+\par
+The header and statistics are written to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt graph} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Graph_writeToMetisFile ( Graph *graph, FILE *fp ) ;
+\end{verbatim}
+\index{Graph_writeToMetisFile@{\tt Graph\_writeToMetisFile()}}
+\par
+This method writes a {\tt Graph} object to a file in the format of
+the {\bf METIS} or {\bf CHACO} packages.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt graph} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

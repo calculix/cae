@@ -1,0 +1,305 @@
+This is TeX, Version 3.1415 (C version 6.1) (format=lplain 94.11.14)  4 JUN 1998 13:47
+**main
+(main.tex
+LaTeX Version 2.09 <25 March 1992>
+(/usr/local/lib/texmf/tex/latex209/report.sty
+Standard Document Style `report' <14 Jan 92>.
+(/usr/local/lib/texmf/tex/latex209/rep11.sty)
+\descriptionmargin=\dimen99
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+
+(/usr/local/lib/texmf/tex/latex209/titlepag.sty
+Document Style Option `titlepage' -- Released 16 June 1991.
+)) (/usr/local/lib/texmf/tex/latex209/leqno.sty
+Document style option `leqno' - released 29 Sep 1991
+)
+\@indexfile=\write3
+
+Writing index file main.idx 
+(main.aux) (intro.tex
+Chapter 1.
+LaTeX Warning: No \tt typeface in this size, using \rm on input line 1.
+LaTeX Warning: Citation `bent93-sort' on page 1 undefined on input line 9.
+) (dataStructure.tex) (proto.tex (../../Utilities/doc/CV.tex [1
+
+
+])
+(../../Utilities/doc/DV.tex [2]
+Overfull \hbox (35.5438pt too wide) in paragraph at lines 132--154
+[][] 
+
+\hbox(51.7376+46.2626)x442.37993
+.\hbox(0.0+0.0)x0.0
+.\hbox(51.7376+46.2626)x477.92372
+..\mathon
+..\vbox(51.7376+46.2626)x477.92372
+...\hbox(19.23752+13.42921)x477.92372 []
+...\glue(\lineskip) 0.0
+...\hbox(19.23752+13.42921)x477.92372 []
+...\glue(\lineskip) 0.0
+...\hbox(19.23752+13.42921)x477.92372 []
+..\mathoff
+.\penalty 10000
+.\glue(\parfillskip) 0.0 plus 1.0fil
+.\glue(\rightskip) 0.0
+
+[3]
+Overfull \hbox (35.5438pt too wide) in paragraph at lines 201--217
+[][] 
+
+\hbox(35.40422+29.92924)x442.37993
+.\hbox(0.0+0.0)x0.0
+.\hbox(35.40422+29.92924)x477.92372
+..\mathon
+..\vbox(35.40422+29.92924)x477.92372
+...\hbox(19.23752+13.42921)x477.92372 []
+...\glue(\lineskip) 0.0
+...\hbox(19.23752+13.42921)x477.92372 []
+..\mathoff
+.\penalty 10000
+.\glue(\parfillskip) 0.0 plus 1.0fil
+.\glue(\rightskip) 0.0
+
+[4]
+Overfull \hbox (35.5438pt too wide) in paragraph at lines 258--268
+[][] 
+
+\hbox(19.07086+13.59587)x442.37993
+.\hbox(0.0+0.0)x0.0
+.\hbox(19.07086+13.59587)x477.92372
+..\mathon
+..\vbox(19.07086+13.59587)x477.92372
+...\hbox(19.23752+13.42921)x477.92372 []
+..\mathoff
+.\penalty 10000
+.\glue(\parfillskip) 0.0 plus 1.0fil
+.\glue(\rightskip) 0.0
+
+[5] [6]) (../../Utilities/doc/ZV.tex [7]
+Overfull \hbox (0.26903pt too wide) in paragraph at lines 62--62
+ []              \elvtt double *pereal, double *peimag, double *pfreal, double 
+*pfimag,[] 
+
+\hbox(6.69167+2.43333)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\penalty 10000
+.\glue 5.74869
+.\penalty 10000
+.etc.
+
+
+Overfull \hbox (17.51509pt too wide) in paragraph at lines 62--62
+ []              \elvtt double *pgreal, double *pgimag, double *phreal, double 
+*phimag ) ;[] 
+
+\hbox(7.60416+2.43333)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\penalty 10000
+.\glue 5.74869
+.\penalty 10000
+.etc.
+
+
+Overfull \hbox (7.11615pt too wide) in paragraph at lines 90--96
+[]\elvrm This method adds a scaled mul-ti-ple of \elvtt n \elvrm en-tries from 
+\elvtt x[] \elvrm into \elvtt y[]\elvrm , i.e., \elvtt y[i] += (areal,aimag)
+
+\hbox(7.60416+2.43333)x442.37993, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\elvrm T
+.\elvrm h
+.\elvrm i
+.\elvrm s
+.etc.
+
+
+Overfull \hbox (0.26903pt too wide) in paragraph at lines 118--118
+ [] []\elvtt void ZVdotU ( int n, double y[], double x[], double *prdot, double
+ *pidot ) ;[] 
+
+\hbox(7.60416+2.43333)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(7.05666+0.0)x0.0
+..\glue 0.0
+..\glue 0.0
+..\glue -21.90005
+..\glue -5.475
+..\hbox(7.05666+0.0)x21.90005, glue set 21.90005fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(7.05666+0.0)x0.0, glue set - 8.51668fil []
+..etc.
+.\penalty 0
+.etc.
+
+
+Overfull \hbox (0.26903pt too wide) in paragraph at lines 127--127
+ [] []\elvtt void ZVdotC ( int n, double y[], double x[], double *prdot, double
+ *pidot ) ;[] 
+
+\hbox(7.60416+2.43333)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(7.05666+0.0)x0.0
+..\glue 0.0
+..\glue 0.0
+..\glue -21.90005
+..\glue -5.475
+..\hbox(7.05666+0.0)x21.90005, glue set 21.90005fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(7.05666+0.0)x0.0, glue set - 13.99168fil []
+..etc.
+.\penalty 0
+.etc.
+
+[8] [9] [10] [11] [12]) (../../Utilities/doc/IV.tex [13] [14] [15])
+(../../Utilities/doc/FV.tex [16] [17]) (../../Utilities/doc/PCV.tex [18])
+(../../Utilities/doc/PDV.tex) (../../Utilities/doc/PIV.tex)
+(../../Utilities/doc/PFV.tex [19]) (../../Utilities/doc/sort.tex [20] [21]
+[22]
+Overfull \hbox (11.7664pt too wide) in paragraph at lines 318--318
+ [] []\elvtt int IV2DVsortUpAndCompress ( int n, int ivec1[], int ivec2[], doub
+le dvec[] ) ;[] 
+
+\hbox(7.60416+2.43333)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(7.05666+0.0)x0.0
+..\glue 0.0
+..\glue 0.0
+..\glue -21.90005
+..\glue -5.475
+..\hbox(7.05666+0.0)x21.90005, glue set 21.90005fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(7.05666+0.0)x0.0, glue set - 8.51668fil []
+..etc.
+.\penalty 0
+.etc.
+
+
+Overfull \hbox (11.7664pt too wide) in paragraph at lines 335--335
+ [] []\elvtt int IV2ZVsortUpAndCompress ( int n, int ivec1[], int ivec2[], doub
+le dvec[] ) ;[] 
+
+\hbox(7.60416+2.43333)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(7.05666+0.0)x0.0
+..\glue 0.0
+..\glue 0.0
+..\glue -21.90005
+..\glue -5.475
+..\hbox(7.05666+0.0)x21.90005, glue set 21.90005fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(7.05666+0.0)x0.0, glue set - 8.51668fil []
+..etc.
+.\penalty 0
+.etc.
+
+) (../../Utilities/doc/IP.tex [23]
+Overfull \hbox (4.46968pt too wide) in paragraph at lines 39--43
+[] []\elvrm If \elvtt flag = 1\elvrm , the el-e-ments are linked in a for-ward 
+man-ner, i.e., \elvtt ips[i].next = &ips[i+1]
+
+\hbox(7.60416+2.43333)x418.2899, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -18.61502
+..\glue -5.475
+..\hbox(4.86667+0.0)x18.61502, glue set 18.61502fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvrm I
+.etc.
+
+
+Overfull \hbox (13.2601pt too wide) in paragraph at lines 43--46
+[] []\elvrm If \elvtt flag = 2\elvrm , the el-e-ments are linked in a back-ward
+ man-ner, i.e., \elvtt ips[i].next = &ips[i-1]
+
+\hbox(7.60416+2.43333)x418.2899, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -18.61502
+..\glue -5.475
+..\hbox(4.86667+0.0)x18.61502, glue set 18.61502fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvrm I
+.etc.
+
+) (../../Utilities/doc/I2OP.tex [24]
+Overfull \hbox (11.40714pt too wide) in paragraph at lines 46--50
+[] []\elvrm If \elvtt flag = I2OP[]BACKWARD\elvrm , the el-e-ments are linked i
+n a back-ward man-ner, i.e., \elvtt ips[i].next
+
+\hbox(7.60416+2.43333)x418.2899, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -18.61502
+..\glue -5.475
+..\hbox(4.86667+0.0)x18.61502, glue set 18.61502fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvrm I
+.etc.
+
+
+Overfull \hbox (11.40714pt too wide) in paragraph at lines 73--77
+[] []\elvrm If \elvtt flag = I2OP[]BACKWARD\elvrm , the el-e-ments are linked i
+n a back-ward man-ner, i.e., \elvtt ips[i].next
+
+\hbox(7.60416+2.43333)x418.2899, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -18.61502
+..\glue -5.475
+..\hbox(4.86667+0.0)x18.61502, glue set 18.61502fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvrm I
+.etc.
+
+)) (drivers.tex [25] [26]) (main.ind [27] [28
+
+] [29] [30]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 270 strings out of 11977
+ 3272 string characters out of 87269
+ 35940 words of memory out of 262141
+ 2156 multiletter control sequences out of 9500
+ 19780 words of font info for 75 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 14i,8n,17p,224b,306s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (30 pages, 86888 bytes).

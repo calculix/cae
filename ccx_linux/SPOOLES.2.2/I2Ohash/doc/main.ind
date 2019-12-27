@@ -1,0 +1,14 @@
+\begin{theindex}
+
+  \item {\tt I2Ohash\_clearData()}, 2
+  \item {\tt I2Ohash\_free()}, 2
+  \item {\tt I2Ohash\_init()}, 3
+  \item {\tt I2Ohash\_insert()}, 3
+  \item {\tt I2Ohash\_locate()}, 3
+  \item {\tt I2Ohash\_measure()}, 3
+  \item {\tt I2Ohash\_new()}, 2
+  \item {\tt I2Ohash\_remove()}, 3
+  \item {\tt I2Ohash\_setDefaultFields()}, 2
+  \item {\tt I2Ohash\_writeForHumanEye()}, 3
+
+\end{theindex}

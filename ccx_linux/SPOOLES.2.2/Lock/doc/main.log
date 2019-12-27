@@ -1,0 +1,96 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=latex 97.4.4)  18 JAN 1999 08:10
+**main
+(main.tex
+LaTeX2e <1996/12/01> patch level 1
+Babel <v3.6h> and hyphenation patterns for english, german, loaded.
+(/home/tex/teTeX/texmf/tex/latex/base/report.cls
+Document Class: report 1996/10/31 v1.3u Standard LaTeX document class
+(/home/tex/teTeX/texmf/tex/latex/base/leqno.clo
+File: leqno.clo 1996/07/26 v1.1b Standard LaTeX option (left equation numbers)
+)
+(/home/tex/teTeX/texmf/tex/latex/base/size11.clo
+File: size11.clo 1996/10/31 v1.3u Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+\@indexfile=\write3
+
+Writing index file main.idx
+(/home/tex/teTeX/texmf/tex/generic/local/psfig/psfig.tex
+\@unused=\write4
+\ps@stream=\read1
+\p@intvaluex=\dimen103
+\p@intvaluey=\dimen104
+
+psfig/tex 1.10-dvips
+) (main.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+ (intro.tex
+Chapter 1.
+) (dataStructure.tex
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 7.
+ (/home/tex/teTeX/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1997/01/14 v2.5a Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 7.
+)
+(proto.tex [1
+
+
+]
+Overfull \hbox (64.38225pt too wide) in paragraph at lines 40--47
+[]\OT1/cmr/m/n/10.95 This method clears the data for the ob-ject. If \OT1/cmtt/
+m/n/10.95 lock->mutex \OT1/cmr/m/n/10.95 is not \OT1/cmtt/m/n/10.95 NULL\OT1/cm
+r/m/n/10.95 , then \OT1/cmtt/m/n/10.95 mutex[]destroy(lock->mutex)
+ []
+
+
+Overfull \hbox (16.63823pt too wide) in paragraph at lines 40--47
+\OT1/cmr/m/n/10.95 (for the POSIX thread pack-age), The method con-cludes with 
+a call to \OT1/cmtt/m/n/10.95 Lock[]setDefaultFields()\OT1/cmr/m/n/10.95 . 
+ []
+
+
+Overfull \hbox (16.3256pt too wide) in paragraph at lines 76--85
+[]\OT1/cmr/m/n/10.95 This is the ba-sic ini-tial-izer method. Any pre-vi-ous da
+ta is cleared with a call to \OT1/cmtt/m/n/10.95 Lock[]clearData()\OT1/cmr/m/n/
+10.95 .
+ []
+
+[2]) (main.ind [3] [4
+
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 513 strings out of 10908
+ 5184 string characters out of 72189
+ 51716 words of memory out of 262141
+ 3433 multiletter control sequences out of 9500
+ 7824 words of font info for 29 fonts, out of 150000 for 255
+ 14 hyphenation exceptions out of 607
+ 22i,5n,21p,176b,281s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (4 pages, 6792 bytes).

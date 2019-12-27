@@ -2,7 +2,7 @@
 
 
 """
-    © Ihor Mirzov, October 2019
+    © Ihor Mirzov, December 2019
     Distributed under GNU General Public License v3.0
 
     Methods to work with main window's treeView widget.
@@ -159,6 +159,7 @@ class tree:
                         tree_element.setData(impl)
 
             else:
+                # TODO WARNING, tree: Please, create 'Analysis type' first - here shoul be *STEP
                 logging.warning('Please, create ' + item.parent.name + ' first.')
 
 

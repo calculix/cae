@@ -1,0 +1,45 @@
+\begin{theindex}
+
+  \item {\tt DV\_clearData()}, 2
+  \item {\tt DV\_copy()}, 6
+  \item {\tt DV\_entries()}, 3
+  \item {\tt DV\_entry()}, 3
+  \item {\tt DV\_fill()}, 6
+  \item {\tt DV\_first()}, 6
+  \item {\tt DV\_free()}, 2
+  \item {\tt DV\_init()}, 4
+  \item {\tt DV\_init1()}, 4
+  \item {\tt DV\_init2()}, 4
+  \item {\tt DV\_log10profile()}, 6
+  \item {\tt DV\_max()}, 5
+  \item {\tt DV\_size()}, 3
+  \item {\tt DV\_min()}, 5
+  \item {\tt DV\_new()}, 2
+  \item {\tt DV\_next()}, 6
+  \item {\tt DV\_owned()}, 3
+  \item {\tt DV\_push()}, 5
+  \item {\tt DV\_ramp()}, 5
+  \item {\tt DV\_readFromBinaryFile()}, 7
+  \item {\tt DV\_readFromFile()}, 7
+  \item {\tt DV\_readFromFormattedFile()}, 7
+  \item {\tt DV\_setDefaultFields()}, 2
+  \item {\tt DV\_setEntry()}, 3
+  \item {\tt DV\_setMaxsize()}, 4
+  \item {\tt DV\_setSize()}, 4
+  \item {\tt DV\_shiftBase()}, 4
+  \item {\tt DV\_shuffle()}, 5
+  \item {\tt DV\_size()}, 3
+  \item {\tt DV\_sizeAndEntries()}, 3
+  \item {\tt DV\_sizeOf()}, 5
+  \item {\tt DV\_sortDown()}, 5
+  \item {\tt DV\_sortUp()}, 5
+  \item {\tt DV\_sum()}, 5
+  \item {\tt DV\_writeForHumanEye()}, 7
+  \item {\tt DV\_writeForMatlab()}, 8
+  \item {\tt DV\_writeStats()}, 7
+  \item {\tt DV\_writeToBinaryFile()}, 7
+  \item {\tt DV\_writeToFile()}, 7
+  \item {\tt DV\_writeToFormattedFile()}, 7
+  \item {\tt DV\_zero()}, 6
+
+\end{theindex}

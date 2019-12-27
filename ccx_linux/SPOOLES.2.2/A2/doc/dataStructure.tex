@@ -1,0 +1,54 @@
+\par
+\section{Data Structure}
+\label{section:A2:dataStructure}
+\par
+\par
+The {\tt A2} structure has six fields.
+\begin{itemize}
+\item
+{\tt int type} : type of entries,
+{\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX}
+\item
+{\tt int n1} : size in first dimension, number of rows
+\item
+{\tt int n2} : size in second dimension, number of columns
+\item
+{\tt int inc1} : increment or stride in first dimension
+\item
+{\tt int inc2} : increment or stride in second dimension
+\item
+{\tt int nowned} : the number of entries that are ``owned'' by this
+object. 
+When {\tt nowned > 0}, 
+{\tt entries} points to storage for {\tt nowned} entries,
+({\tt nowned} {\tt double}'s for the real case,
+{\tt 2*nowned} {\tt double}'s for the complex case),
+that have been allocated by this object and can be free'd by the object.
+When {\tt nowned == 0} but {\tt n1 > 0} and {\tt n2 > 0}, 
+this object points to entries that have been allocated elsewhere, 
+and these entries will not be free'd by this object.
+\item
+{\tt double *entries} : 
+pointer to the base address of the {\it double} vector
+\end{itemize}
+One can query the properties of the front matrix object 
+using these simple macros.
+\begin{itemize}
+\item
+{\tt A2\_IS\_REAL(mtx)} is {\tt 1} if {\tt mtx} 
+has real entries and {\tt 0} otherwise.
+\item
+{\tt A2\_IS\_COMPLEX(mtx)} is {\tt 1} if {\tt mtx} 
+has complex entries and {\tt 0} otherwise.
+\end{itemize}
+The {\tt A2\_copyEntriesToVector()} method
+uses the following constants: 
+{\tt A2\_STRICT\_LOWER},
+{\tt A2\_LOWER},
+{\tt A2\_DIAGONAL},
+{\tt A2\_UPPER},
+{\tt A2\_STRICT\_UPPER},
+{\tt A2\_ALL\_ENTRIES},
+{\tt A2\_BY\_ROWS} and
+{\tt A2\_BY\_COLUMNS}.
+

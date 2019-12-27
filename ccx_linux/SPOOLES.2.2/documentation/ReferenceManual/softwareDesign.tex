@@ -1,0 +1,224 @@
+\par
+\section{Software Design}
+\label{chapter:softwareDesign}
+\par
+The {\tt SPOOLES} library is written in the C language and uses
+object oriented design.
+There are some routines that manipulate native C data types such as
+vectors, but the vast bulk of the code is centered around objects,
+data objects and algorithm objects.
+By necessity, the implementation of an object is through the C {\tt
+struct} data type.
+We use the following naming convention --- a method (i.e., function)
+associated with an object of type {\tt Object} has the form
+
+\centerline{{\it (return value type)}
+{\tt Object\_}{\it methodName}{\tt (Object * obj}, $\ldots${\tt )};}
+
+The method's name begins with the name of the object it is
+associated with and the first parameter in the calling sequence is
+a pointer to the instance of the object. 
+Virtually the only exception to this rule is the {\it constructor} 
+method.
+
+\centerline{\tt Object * Object\_new(void) ;}
+
+Two objects, the {\tt Chv} and {\tt DenseMtx} objects, have
+methods that return the number of bytes needed to hold their data,
+e.g.,
+
+\centerline{\tt 
+int Chv\_nbytesNeeded(int nD, int nL, int nU, int type, int symflag) ;}
+\par
+Scan the directory structure of the source code and you will notice
+a number of subdirectories --- each deals with an object.
+For example, 
+the {\tt Graph} directory holds code and documentation for an
+object that represents a graph:
+its {\tt doc} subdirectory holds \LaTeX files with documentation;
+its {\tt src} subdirectory holds C files that contain methods
+associated with the object ;
+% (each method is a C function of the form {\tt Graph\_*}); 
+and its {\tt driver} subdirectory holds driver programs to test or
+validate some behavior of the object.
+\par
+The directory structure is fairly flat --- no object directory
+contains another --- because the C language does not support
+inheritance.
+This can be inelegant at times.
+For example, a bipartite graph (a {\tt BPG} object) 
+{\it is--a} graph (a {\tt Graph} object), but instead of {\tt BPG}
+inheriting from {\tt Graph} data fields and methods from {\tt Graph},
+we must use the {\it has--a} relation.
+A {\tt BPG} object contains a pointer to a {\tt Graph} object
+that represents the adjacency structure.
+The situation is even more cumbersome for the objects that deal
+with trees of one form or another: an elimination tree {\tt ETree}
+and a domain/separator tree {\tt DSTree} each contain a pointer to
+a generic tree object {\tt Tree} in their structure.
+\par
+Predecessors to this library were written in C++ and 
+Objective-C.\footnote{The knowledgeable reader is encouraged to
+peruse the source to discover the prejudices both pro and con
+towards these two languages.}
+The port to the present C library was painless, almost mechanical.
+We expect the port back to C++ and/or Objective-C to be simple.
+\par
+Objects are one of two types: 
+{\it data objects} whose primary function is to store data
+and
+{\it algorithm objects} whose function is to manipulate some data
+object(s) and return new information.
+Naturally this distinction can be fuzzy --- algorithm objects have
+their own data that may be persistent and data objects can execute
+some simple functionality --- but it holds in general.
+To be more explicit, data objects have the following properties:
+\begin{itemize}
+\item
+There is a delicate balance between encapsulation and openness.
+The C language does not support any private or protected data
+fields, so the C {\tt struct} that holds the data for an object
+is completely open.
+As an example, the {\tt Graph} object has a function to return the
+size of and pointers to a vector that contains an adjacency list,
+namely
+\begin{verbatim}
+     void Graph_adjAndSize(Graph *g, int v, int *pvsize, int **padj)
+\end{verbatim}
+where the pointers {\tt psize} and {\tt padj} are filled with the
+size of the adjacency structure and a pointer to its vector.
+One can get this same information by chasing pointers as follows.
+\begin{verbatim}
+     vsize = g->adjIVL->sizes[v] ;
+     vadj  = g->adjIVL->p_ind[v] ;
+\end{verbatim}
+One can do the latter but we encourage the former.
+As an experiment we replaced every instance of 
+{\tt Graph\_adjAndSize()} with the appropriate pointer chasing
+(and a similar operation for the {\tt IVL} object) and achieved
+around a ten per cent reduction in the ordering time.
+For a production code, this savings might drive the change in code,
+but for our research code we kept the function call.
+\item
+Persistent storage needs to be supported.
+% Currently this means file storage, but in the future we expect to
+% need to ``bundle'' a data object into a block of storage to be
+% passed or communicated to a different processor.
+Each data object has eight different methods to deal with file I/O.
+Two methods deal with reading from and writing to a file whose
+suffix is associated with the object name, e.g., {\tt *graph\{f,b\}}
+for a formatted or binary file to hold a {\tt Graph} object.
+Four methods deal with reading and writing objects from and to a
+file that is already opened and positioned, necessary for composite
+objects (e.g., a {\tt Graph} object contains an {\tt IVL} object).
+Two methods deal with writing the objects to a formatted file to be
+examined by the user.
+We strongly encourage any new data object added to the library to 
+supply this functionality.
+\item
+Some data objects need to have compact storage requirements.
+Two examples are our {\tt Chv} and {\tt SubMtx} objects.
+Both objects need to be communicated between processes
+in the MPI implementation, the former during the factorization,
+the latter during the solve.
+Each has a workspace buffer that contains all the information
+needed to {\it regenerate} the object upon reception by another
+process.
+\item
+By and large, data objects have simple methods.
+A {\tt Graph} object does {\bf not} have methods to find a good
+bisector; this is a sufficiently sophisticated function that it
+should be implemented by an algorithm object.
+The major exception to this rule is that our {\tt FrontMtx} object
+{\it contains} the factorization data but also {\it performs} the
+factorization, forward and backsolves.
+In the future we intend to separate these two functionalities.
+For example, one can implement an alternative forward and backsolve
+by using methods to {\it access} the factor data stored in the {\tt
+FrontMtx} object.
+As a second example, massive changes to the storage format,
+e.g., in an out-of-core implementation, can be encapsulated in the
+access methods for the data, and any changes to the factorization
+or solve functions could be minimal.
+\end{itemize}
+Algorithm objects have these properties.
+\begin{itemize}
+\item
+Algorithm objects use data objects.
+Some data objects are created within an algorithm objects method; 
+these are owned by the algorithm object and free'd by that object.
+Data objects that are passed to algorithm objects can be queried
+or {\it temporarily} changed.
+\item
+They do not destroy or free data objects that are passed to them.
+Any side effects on the data objects should be innocent, e.g.,
+when a {\tt Graph} object is passed to the graph partitioning
+object ({\tt GPart}) or the multistage minimum degree object
+({\tt MSMD}), on return the adjacency lists may not be in the input
+order, but they contain the values they had on input.
+\item
+Algorithm objects should support diagnostic, logfile and debug output.
+This convention is not entirely thought out or supported at present. 
+The rationale is that an algorithm object should be able to respond
+to its environment to a greater degree than a data object.
+\end{itemize}
+\par
+Data and algorithm objects share two common properties.
+\begin{itemize}
+\item
+Each object has four basic methods: to allocate storage for an
+object, set the default fields of an object, 
+clear the data fields of an object,
+and free the storage occupied and owned by an object.
+\item
+Ownership of data is very rigidly defined.
+In most cases,
+an object owns all data that is allocated inside one of its
+methods, 
+and when this does not hold it is very plainly documented.
+For example, the bipartite graph object {\tt BPG} has a data field
+that points to a {\tt Graph} object.
+One of its initialization methods has a {\tt Graph} pointer in its
+calling sequence.
+The {\tt BPG} object then owns the {\tt Graph} object and when it
+is free'd or has its data cleared, the {\tt Graph} object is free'd
+by a call to its appropriate method.
+\end{itemize}
+\par
+By and large these conventions hold throughout the library.
+There are fuzzy areas and objects still ``under construction''.
+Here are two examples.
+\begin{itemize}
+\item
+We have an {\tt IIheap} object that maintains integer 
+$\langle$ key, value $\rangle$ pairs in a priority heap.
+Normally we think of a heap as a data structure, but another 
+perspective is that of a continuously running algorithm that
+supports insert, delete and identification of a minimum pair.
+\item
+Our {\tt BPG} bipartite graph object is a data object, 
+but it has a method to find the Dulmage-Mendelsohn decomposition, 
+a fairly involved algorithm used to refine a separator of a graph.
+At present, we are not willing to create a new algorithm object
+just to find the Dulmage-Mendelsohn decomposition, so we leave
+this method to the domain of the data object.
+The desired functionality, identifying minimal
+weight separators for a region of a graph, can be modeled using
+max flow techniques from network optimization.
+We also provide a {\tt BPG} method that finds this
+Dulmage-Mendelsohn decomposition by solving a max flow problem on
+a bipartite network.
+Both these methods have been superceded by the {\tt Network} object
+that contains a method to find a max flow and one or more min-cuts 
+of a network (not necessarily bipartite).
+\end{itemize}
+\par
+The {\tt SPOOLES} software library is continuously evolving in an
+almost organic fashion.
+Growth and change are to be expected, and welcomed, but some
+discipline is required to keep the complexity, both code and human
+understanding, under control.
+The guidelines we have just presented have two purposes:
+to let the user and researcher get a better understanding of
+the design of the library, and to point out some conventions 
+to be used in extending the library.

@@ -1,0 +1,14 @@
+\begin{theindex}
+
+  \item {\tt SubMtxList\_addObjectToList()}, 4
+  \item {\tt SubMtxList\_clearData()}, 3
+  \item {\tt SubMtxList\_free()}, 3
+  \item {\tt SubMtxList\_getList()}, 4
+  \item {\tt SubMtxList\_init()}, 3
+  \item {\tt SubMtxList\_isCountZero()}, 3
+  \item {\tt SubMtxList\_isListNonempty()}, 3
+  \item {\tt SubMtxList\_new()}, 2
+  \item {\tt SubMtxList\_setDefaultFields()}, 2
+  \item {\tt SubMtxList\_writeForHumanEye()}, 4
+
+\end{theindex}

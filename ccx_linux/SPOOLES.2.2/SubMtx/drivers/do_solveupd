@@ -1,0 +1,102 @@
+#! /bin/csh -f
+#
+ 
+set msglvl  =       1
+set msgFile =     res 
+set msgFile =  stdout
+set type    =       1
+set mode    =       1
+set nrowY   =      25
+set ncolY   =      11
+set nrowA   =       $nrowY
+set nrowA   =      23
+set ncolA   =      13
+set nentA   =       9
+set nrowX   =      $ncolA
+set nrowX   =      15
+set seed    =   666666
+
+# set m = 17
+# set n = 13
+# set c = 10
+# @ a = $m - 0
+# @ b = $c - 0
+# set nrowY = $m
+# set ncolY = $n
+# set nrowA = $a
+# set ncolA = $b
+# set nrowX = $c
+
+foreach type ( 1 2 )
+#
+#  loop over the cases
+#
+foreach mode ( 0 1 2 3 )
+#
+#     first subcase: # rows Y = # rows A and # cols A = # rows X
+#
+   set nrowY = 25 ; set ncolY = 15
+   set nrowA = 25 ; set ncolA = 10
+   set nrowX = 10 ; 
+   foreach ncolY ( 10 11 12 )
+      set nrowA = $nrowY
+      foreach ncolA ( 10 11 12 )
+         set nrowX = $ncolA
+         @ nentA = $nrowA * $ncolA - 1
+         test_solveupd \
+            $msglvl $msgFile $type $mode \
+            $nrowY $ncolY $nrowA $ncolA $nentA $nrowX $seed
+      end
+   end
+#
+#     second subcase: # rows Y = # rows A and # cols A != # rows X
+#
+   set nrowY = 25 ; set ncolY = 15
+   set nrowA = 25 ; set ncolA = 10
+   set nrowX = 10 ; 
+   foreach ncolY ( 10 11 12 )
+      set nrowA = $nrowY
+      foreach ncolA ( 10 11 12 )
+         set nrowX = 15
+         @ nentA = $nrowA * $ncolA - 1
+         test_solveupd \
+            $msglvl $msgFile $type $mode \
+            $nrowY $ncolY $nrowA $ncolA $nentA $nrowX $seed
+      end
+   end
+#
+#     first subcase: # rows Y != # rows A and # cols A = # rows X
+#
+   set nrowY = 25 ; set ncolY = 15
+   set nrowA = 25 ; set ncolA = 10
+   set nrowX = 10 ; 
+   foreach ncolY ( 10 11 12 )
+      foreach nrowA ( 10 11 12 )
+         foreach ncolA ( 10 11 12 )
+            set nrowX = $ncolA
+            @ nentA = $nrowA * $ncolA - 1
+            test_solveupd \
+               $msglvl $msgFile $type $mode \
+               $nrowY $ncolY $nrowA $ncolA $nentA $nrowX $seed
+         end
+      end
+   end
+#
+#     second subcase: # rows Y != # rows A and # cols A != # rows X
+#
+   set nrowY = 25 ; set ncolY = 15
+   set nrowA = 25 ; set ncolA = 10
+   set nrowX = 10 ; 
+   foreach ncolY ( 10 11 12 )
+      foreach nrowA ( 10 11 12 )
+         foreach ncolA ( 10 11 12 )
+            set nrowX = 15
+            @ nentA = $nrowA * $ncolA - 1
+            test_solveupd \
+               $msglvl $msgFile $type $mode \
+               $nrowY $ncolY $nrowA $ncolA $nentA $nrowX $seed
+         end
+      end
+   end
+end
+end

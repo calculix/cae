@@ -1,0 +1,19 @@
+\chapter{{\tt Utilities } directory }
+\label{chapter:Utilities}
+\par
+The {\tt Utilities} directory contains a multitude of routines that
+manipulate vectors: {\tt char}, {\tt int}, {\tt float}, {\tt double}
+and {\tt double} vectors that are used to contain double precision
+complex entries.
+There are a variety of routines to sort vectors with and without
+companion vectors. Our sort routines are based on \cite{bent93-sort},
+a quicksort algorithm that uses the ``nither'' function (a median
+of three medians) to select the partition element, and tripartite
+partitioning.
+\par
+Aside from vector routines, the {\tt Utilities} directory contains
+some methods used to manipulate elements in singly linked lists.
+The {\tt IP} structure (an {\tt int} data element and a pointer)
+is used by several objects to manage singly linked lists.
+The {\tt I2OP} structure (two {\tt int} and one {\tt void *} data
+elements) is used in a two-keyed hash table.

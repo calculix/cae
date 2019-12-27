@@ -1,0 +1,53 @@
+\par
+\section{Data Structure}
+\label{section:DenseMtx:dataStructure}
+\par
+\par
+The {\tt DenseMtx} structure has the following fields.
+\begin{itemize}
+\item
+{\tt int type} : type of entries, {\tt SPOOLES\_REAL} 
+or {\tt SPOOLES\_COMPLEX}.
+\item
+{\tt int rowid} : object's row id, default value is {\tt -1}.
+\item
+{\tt int colid} : object's column id, default value is {\tt -1}.
+\item
+{\tt int nrow} : number of rows 
+\item
+{\tt int ncol} : number of columns 
+\item
+{\tt int inc1} : row increment, 
+   difference in addresses between entries in the same column
+\item
+{\tt int inc2} : column increment, 
+   difference in addresses between entries in the same row
+\item
+{\tt int *rowind} : 
+pointer to the base address of the {\tt int} vector 
+that contains row indices.
+\item
+{\tt int *colind} : 
+pointer to the base address of the {\tt int} vector 
+that contains column indices.
+\item
+{\tt double *entries} : 
+pointer to the base address of the {\tt double} vector that
+contains the entries.
+\item
+{\tt DV wrkDV} : 
+object that manages the owned working storage.
+\item
+{\tt DenseMtx *next} : 
+link to a next object in a singly linked list.
+\end{itemize}
+\par
+One can query the type of entries via two macros.
+\begin{itemize}
+\item
+{\tt DENSEMTX\_IS\_REAL(mtx)} returns {\tt 1} if the matrix has
+real entries, and {\tt 0} otherwise.
+\item
+{\tt DENSEMTX\_IS\_COMPLEX(mtx)} returns {\tt 1} if the matrix has
+complex entries, and {\tt 0} otherwise.
+\end{itemize}

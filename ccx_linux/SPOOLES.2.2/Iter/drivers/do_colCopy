@@ -1,0 +1,15 @@
+#! /bin/csh -f
+#
+set msglvl  = 2
+set msgFile = stdout
+set type    = 2
+set nrow    = 4
+set ncol    = 2
+set inc1    = 1
+set inc2    = $nrow
+set icol    = 0
+set jcol    = 1
+set seed    = 10101
+
+test_colCopy $msglvl $msgFile $type $nrow $ncol $inc1 $inc2 \
+           $icol $jcol $seed 

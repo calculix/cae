@@ -1,0 +1,20 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = GRD7x7
+set inGraphFile = $matrices/$matrix/orig0.graphf
+set inPermFile  = $matrices/$matrix/nd.permf
+
+set outIVfile    = temp.ivf
+set outIVfile    = none
+
+set outETreeFile = $matrices/$matrix/nd.etreeb
+set outETreeFile = temp.etreef
+set outETreeFile = none
+
+set msglvl  = 1
+
+set msgFile = stdout
+
+createETree $msglvl $msgFile \
+            $inGraphFile $inPermFile $outIVfile $outETreeFile

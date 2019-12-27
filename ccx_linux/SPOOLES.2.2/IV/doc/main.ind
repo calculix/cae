@@ -1,0 +1,49 @@
+\begin{theindex}
+
+  \item {\tt IV\_clearData()}, 2
+  \item {\tt IV\_copy()}, 6
+  \item {\tt IV\_decrement()}, 6
+  \item {\tt IV\_entries()}, 3
+  \item {\tt IV\_entry()}, 3
+  \item {\tt IV\_fill()}, 6
+  \item {\tt IV\_filterKeep()}, 5
+  \item {\tt IV\_filterPurge()}, 6
+  \item {\tt IV\_findValue()}, 7
+  \item {\tt IV\_findValueAscending()}, 7
+  \item {\tt IV\_findValueDescending()}, 7
+  \item {\tt IV\_first()}, 6
+  \item {\tt IV\_fp80()}, 8
+  \item {\tt IV\_free()}, 2
+  \item {\tt IV\_increment()}, 6
+  \item {\tt IV\_init()}, 4
+  \item {\tt IV\_init1()}, 4
+  \item {\tt IV\_init2()}, 4
+  \item {\tt IV\_max()}, 5
+  \item {\tt IV\_maxsize()}, 3
+  \item {\tt IV\_min()}, 5
+  \item {\tt IV\_new()}, 2
+  \item {\tt IV\_next()}, 6
+  \item {\tt IV\_owned()}, 3
+  \item {\tt IV\_push()}, 5
+  \item {\tt IV\_ramp()}, 5
+  \item {\tt IV\_readFromBinaryFile()}, 7
+  \item {\tt IV\_readFromFile()}, 7
+  \item {\tt IV\_readFromFormattedFile()}, 7
+  \item {\tt IV\_setDefaultFields()}, 2
+  \item {\tt IV\_setEntry()}, 3
+  \item {\tt IV\_setMaxsize()}, 4
+  \item {\tt IV\_setSize()}, 4
+  \item {\tt IV\_shiftBase()}, 4
+  \item {\tt IV\_shuffle()}, 5
+  \item {\tt IV\_size()}, 3
+  \item {\tt IV\_sizeAndEntries()}, 3
+  \item {\tt IV\_sizeOf()}, 5
+  \item {\tt IV\_sortDown()}, 5
+  \item {\tt IV\_sortUp()}, 5
+  \item {\tt IV\_writeForHumanEye()}, 8
+  \item {\tt IV\_writeStats()}, 8
+  \item {\tt IV\_writeToBinaryFile()}, 8
+  \item {\tt IV\_writeToFile()}, 7
+  \item {\tt IV\_writeToFormattedFile()}, 8
+
+\end{theindex}

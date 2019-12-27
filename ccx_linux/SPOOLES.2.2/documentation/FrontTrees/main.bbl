@@ -1,0 +1,154 @@
+\begin{thebibliography}{10}
+
+\bibitem{ame96-amd}
+P.~Amestoy, T.~Davis, and I.~Duff.
+\newblock An approximate minimum degree ordering algorithm.
+\newblock {\em SIAM J. Matrix Anal. Appl.}, 17:886--905, 1996.
+
+\bibitem{ash89-relaxed}
+C.~Ashcraft and R.~Grimes.
+\newblock The influence of relaxed supernode partitions on the multifrontal
+  method.
+\newblock {\em ACM Trans. Math. Software}, 15:291--309, 1989.
+
+\bibitem{ash97-partition}
+C.~Ashcraft and J.~W.~H. Liu.
+\newblock Using domain decomposition to find graph bisectors.
+\newblock {\em BIT}, 37, 1997.
+
+\bibitem{ash98-multisection}
+C.~Ashcraft and J.~W.~H. Liu.
+\newblock Robust ordering of sparse matrices using multisection.
+\newblock {\em SIAM J. Matrix. Anal.}, 19:816--832, 1998.
+
+\bibitem{ash98-maxflow}
+C.~Ashcraft and J.~W.~H. Liu.
+\newblock Applications of the {D}ulmage-{M}endelsohn decomposition and network
+  flow to graph bisection improvement.
+\newblock {\em SIAM J. Matrix. Anal.}, 19:325--354, 1999.
+
+\bibitem{bar93-partition}
+S.~T. Barnard and H.~D. Simon.
+\newblock A fast multilevel implementation of recursive spectral bisection for
+  partitioning unstructured problems.
+\newblock In {\em Proceedings of the Sixth SIAM Conference on Parallel
+  Processing for Scientific Computing}, pages 711--718, 1993.
+
+\bibitem{ber90-mindeg}
+P.~Berman and G.~Schnitger.
+\newblock On the performance of the minimum degree ordering for {G}aussian
+  elimination.
+\newblock {\em SIAM J. Matrix Analysis and Applic.}, 11:83--88, 1990.
+
+\bibitem{bui93-partition}
+T.~Bui and C.~Jones.
+\newblock A heuristic for reducing fill-in in sparse matrix factorization.
+\newblock In {\em Proceedings of Sixth SIAM Conference on Parallel Processing},
+  pages 445--452, 1993.
+
+\bibitem{duf83-multifrontal}
+I.~Duff and J.~Reid.
+\newblock The multifrontal solution of indefinite sparse symmetric linear
+  equations.
+\newblock {\em ACM Trans. Math. Software}, 6:302--325, 1983.
+
+\bibitem{geo73-nested}
+J.~A. George.
+\newblock Nested dissection of a regular finite element mesh.
+\newblock {\em SIAM J. Numer. Anal.}, 10:345--363, 1973.
+
+\bibitem{geo81-book}
+J.~A. George and J.~W.~H. Liu.
+\newblock {\em Computer Solution of Large Sparse Positive Definite Systems}.
+\newblock Prentice-Hall, Englewood Cliffs, NJ, 1981.
+
+\bibitem{gup96-WGPP}
+A.~Gupta.
+\newblock {WGPP}: {W}atson {G}raph {P}artitioning and sparse matrix ordering
+  {P}ackage.
+\newblock Technical Report Users Manual, IBM T.J. Watson Research Center, New
+  York, 1996.
+
+\bibitem{hen92-partition}
+B.~Hendrickson and R.~Leland.
+\newblock An improved spectral graph partitioning algorithm for mapping
+  parallel computations.
+\newblock Technical Report SAND92-1460, Sandia National Laboratories,
+  Albuquerque, NM, 1992.
+
+\bibitem{hen93-chaco}
+B.~Hendrickson and R.~Leland.
+\newblock The {C}haco user's guide.
+\newblock Technical Report SAND93-2339, Sandia National Laboratories,
+  Albuquerque, NM, 1993.
+
+\bibitem{hr98-msnd}
+B.~Hendrickson and E.~Rothberg.
+\newblock Improving the runtime and quality of nested dissection ordering.
+\newblock {\em SIAM J. Sci. Comput.}, 20:468--489, 1998.
+
+\bibitem{kar95-multilevel}
+G.~Karypis and V.~Kumar.
+\newblock A fast and high quality multilevel scheme for partitioning irregular
+  graphs.
+\newblock Technical Report TR 95-035, Department of Computer Science,
+  University of Minnesota, Minnesota, 1995.
+
+\bibitem{karypis98metis}
+G.~Karypis and V.~Kumar.
+\newblock Metis~4.0: Unstructured graph partitioning and sparse matrix ordering
+  system.
+\newblock Technical report, Department of Computer Science, University of
+  Minnesota, 1998.
+\newblock Available on the WWW at URL {\em http://www.cs.umn.edu/\~{}metis}.
+
+\bibitem{lei89-fidmat}
+C.~E. Leiserson and J.~G. Lewis.
+\newblock Orderings for parallel sparse symmetric factorization.
+\newblock In {\em Parallel Processing for Scientific Computing}, pages 27--31,
+  1989.
+
+\bibitem{liu85-mmd}
+J.~W.~H. Liu.
+\newblock Modification of the minimum degree algorithm by multiple elimination.
+\newblock {\em ACM Trans. on Math. Software}, 11:141--153, 1985.
+
+\bibitem{liu90-etree}
+J.~W.~H. Liu.
+\newblock The role of elimination trees in sparse factorization.
+\newblock {\em SIAM J. Matrix Analysis and Applic.}, 11:134--172, 1990.
+
+\bibitem{ng96-mindefIdaho}
+E.~Ng and P.~Raghavan.
+\newblock Minimum deficiency ordering.
+\newblock In {\em Second SIAM Conference on Sparse Matrices}, 1996.
+\newblock Conference presentation.
+
+\bibitem{pot90-partition}
+A.~Pothen, H.~Simon, and K.P. Liou.
+\newblock Partitioning sparse matrices with eigenvectors of graphs.
+\newblock {\em SIAM J. Matrix Analysis and Applic.}, 11:430--452, 1990.
+
+\bibitem{rag95-PCO}
+P.~Raghavan.
+\newblock Parallel ordering using edge contraction.
+\newblock Technical Report CS-95-293, Dept. of Computer Science, The University
+  of Tennessee, Knoxville, Tennessee, 1995.
+
+\bibitem{ro95-hybrid}
+E.~Rothberg.
+\newblock Robust ordering of sparse matrices: a minimum degree, nested
+  dissection hybrid.
+\newblock unpublished, 1995.
+
+\bibitem{roth98-minfill}
+E.~Rothberg and S.~C. Eisenstat.
+\newblock Node selection strategies for bottom-up sparse matrix ordering.
+\newblock {\em SIAM J. Matrix Anal.}, 19:682--695, 1998.
+
+\bibitem{sch82-etree}
+R.~Schreiber.
+\newblock A new implementation of sparse {G}aussian elimination.
+\newblock {\em ACM Trans. Math. Soft.}, pages 256--276, 1982.
+
+\end{thebibliography}

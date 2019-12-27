@@ -1,0 +1,37 @@
+\begin{theindex}
+
+  \item {\tt SolveMap\_backwardSetup()}, 5
+  \item {\tt SolveMap\_clearData()}, 2
+  \item {\tt SolveMap\_colidsLower()}, 4
+  \item {\tt SolveMap\_colidsUpper()}, 3
+  \item {\tt SolveMap\_ddMap()}, 4
+  \item {\tt SolveMap\_forwardSetup()}, 5
+  \item {\tt SolveMap\_free()}, 2
+  \item {\tt SolveMap\_init()}, 4
+  \item {\tt SolveMap\_lowerAggregateIV()}, 5
+  \item {\tt SolveMap\_lowerSolveIVL()}, 5
+  \item {\tt SolveMap\_mapLower()}, 4
+  \item {\tt SolveMap\_mapUpper()}, 3
+  \item {\tt SolveMap\_nblockLower()}, 3
+  \item {\tt SolveMap\_nblockUpper()}, 3
+  \item {\tt SolveMap\_new()}, 2
+  \item {\tt SolveMap\_nfront()}, 3
+  \item {\tt SolveMap\_nproc()}, 3
+  \item {\tt SolveMap\_owners()}, 3, 5
+  \item {\tt SolveMap\_randomMap()}, 4
+  \item {\tt SolveMap\_readFromBinaryFile()}, 6
+  \item {\tt SolveMap\_readFromFile()}, 6
+  \item {\tt SolveMap\_readFromFormattedFile()}, 6
+  \item {\tt SolveMap\_rowidsLower()}, 3
+  \item {\tt SolveMap\_rowidsUpper()}, 3
+  \item {\tt SolveMap\_setDefaultFields()}, 2
+  \item {\tt SolveMap\_symmetryflag()}, 2
+  \item {\tt SolveMap\_upperAggregateIV()}, 5
+  \item {\tt SolveMap\_upperSolveIVL()}, 5
+  \item {\tt SolveMap\_writeForHumanEye()}, 7
+  \item {\tt SolveMap\_writeStats()}, 7
+  \item {\tt SolveMap\_writeToBinaryFile()}, 7
+  \item {\tt SolveMap\_writeToFile()}, 6
+  \item {\tt SolveMap\_writeToFormattedFile()}, 6
+
+\end{theindex}

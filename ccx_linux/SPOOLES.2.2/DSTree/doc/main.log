@@ -1,0 +1,72 @@
+This is TeX, Version 3.1415 (C version 6.1) (format=lplain 94.11.14)  5 JUN 1998 06:33
+**main
+(main.tex
+LaTeX Version 2.09 <25 March 1992>
+(/usr/local/lib/texmf/tex/latex209/report.sty
+Standard Document Style `report' <14 Jan 92>.
+(/usr/local/lib/texmf/tex/latex209/rep11.sty)
+\descriptionmargin=\dimen99
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+
+(/usr/local/lib/texmf/tex/latex209/titlepag.sty
+Document Style Option `titlepage' -- Released 16 June 1991.
+)) (/usr/local/lib/texmf/tex/latex209/leqno.sty
+Document style option `leqno' - released 29 Sep 1991
+)
+\@indexfile=\write3
+
+Writing index file main.idx 
+(main.aux) (intro.tex
+Chapter 1.
+LaTeX Warning: No \tt typeface in this size, using \rm on input line 1.
+) (dataStructure.tex) (proto.tex [1
+
+
+] [2] [3] [4] [5]) (drivers.tex [6]
+Overfull \hbox (42.63402pt too wide) in paragraph at lines 64--69
+\elvtt *.dstreef \elvrm or \elvtt *.dstreeb\elvrm . The \elvtt DSTree \elvrm ob
+-ject is read from the file via the \elvtt DSTree[]readFromFile()
+
+\hbox(7.60416+2.12917)x418.2899, glue set - 1.0
+.\elvtt *
+.\elvtt .
+.\elvtt d
+.\elvtt s
+.\elvtt t
+.etc.
+
+
+Overfull \hbox (19.63927pt too wide) in paragraph at lines 114--119
+\elvtt *.graphf \elvrm or \elvtt *.graphb\elvrm . The \elvtt Graph \elvrm ob-je
+ct is read from the file via the \elvtt Graph[]readFromFile()
+
+\hbox(7.60416+2.43333)x418.2899, glue set - 1.0
+.\elvtt *
+.\elvtt .
+.\elvtt g
+.\elvtt r
+.\elvtt a
+.etc.
+
+) (main.ind [7] [8
+
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 211 strings out of 11977
+ 2251 string characters out of 87269
+ 33543 words of memory out of 262141
+ 2145 multiletter control sequences out of 9500
+ 19780 words of font info for 75 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 13i,5n,17p,188b,257s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (8 pages, 25216 bytes).

@@ -1,0 +1,32 @@
+#! /bin/csh -f
+#
+#  test the ZChv_copyEntriesToVector() method
+#
+#  created -- 98apr22, cca
+#
+ 
+set msglvl       =       4
+set msgFile      =    res 
+set msgFile      =  stdout
+set type         =       1
+set symflag      =       0
+set nD           =       6
+set nU           =       5
+
+set pivotingflag =  1
+set copyflag     =  3
+set storeflag    =  0
+set seed         =  1
+set droptol      =  7.5e-1
+
+foreach type               ( 2 )
+   foreach symflag         ( 2 )
+      foreach pivotingflag ( 1 )
+         foreach storeflag ( 1 )
+            test_copyBigEntriesToVector \
+               $msglvl $msgFile $nD $nU $type $symflag \
+               $pivotingflag $storeflag $seed $droptol
+         end
+      end
+   end
+end

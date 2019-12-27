@@ -1,0 +1,340 @@
+\section{Sparse matrix orderings}
+\label{section:ordering}
+\par
+The past few years have seen a resurgence of interest and
+accompanying improvement in algorithms and software to order sparse
+matrices.
+The minimum degree algorithm, specifically the multiple external
+minimum degree algorithm \cite{liu85-mmd},
+was the preferred algorithm of choice for
+the better part of a decade.
+Alternative minimum priority codes have recently pushed multiple
+minimum degree aside,
+including approximate minimum degree \cite{ame96-amd} and
+approximate deficiency \cite{ng96-mindefIdaho},
+\cite{roth98-minfill}.
+They offer improved quality or improved run time, and on occasion,
+both. 
+\par
+Nested dissection for regular grids \cite{geo73-nested} is within a
+factor of optimal with respect to factor entries and operation counts.
+One of the earliest attempts, automatic nested dissection 
+\cite{geo81-book} used a simple profile algorithm to find separators.
+It rarely performed as well as minimum degree.
+Better heuristics to find separators were brought in from the
+electrical device simulation area \cite{lei89-fidmat} and while
+these algorithms produced better orderings, the run times kept
+them from practical application.
+Nested dissection came on its own with two developments.
+The first was the application of spectral analysis of graphs to
+find separators \cite{pot90-partition}.
+The eigenvector associated with the smallest nonzero eigenvalue of
+the Laplacian of a graph generates a spectrum of separators.
+While the ordering times for spectral nested dissection were still
+on the order of ten or more times the cost of a minimum degree ordering,
+the ordering quality sometimes made the cost worthwhile.
+\par
+The key that made nested dissection a competitive and practical
+alternative to minimum degree was the introduction of multilevel
+ideas ---
+to find a separator on a graph, first find a separator on a coarse
+graph and project back to the original.
+Early implementations include \cite{bar93-partition}
+and \cite{bui93-partition}.
+Multilevel algorithms are very popular in current software
+including
+{\bf CHACO}
+\cite{hen93-chaco},
+\cite{hen92-partition},
+{\bf METIS}
+\cite{kar95-multilevel},
+\cite{karypis98metis},
+{\bf BEND}
+\cite{hr98-msnd},
+{\bf WGGP}
+\cite{gup96-WGPP}
+and
+{\bf PCO}
+\cite{rag95-PCO}.
+\par
+{\bf SPOOLES} also includes a hybrid ordering approach called
+multi-section 
+\cite{ash97-partition},
+\cite{ash98-maxflow},
+\cite{ash98-multisection} and
+\cite{ro95-hybrid}.
+For some types of graphs, nested dissection does much better than
+minimum degree, for others much worse.
+Multisection is an ordering that uses both nested dissection and
+minimum degree to create an ordering that is almost always as good
+or better than the better of nested dissection or minimum degree
+and rarely much worse.
+\par
+\subsection{The {\tt Graph} object}
+\label{subsection:graph}
+\par
+Our goal is to find a permutation matrix $P$ such that the
+factorization of $PAP^T$ has low-fill.
+This is a symbolic step, we do not need to know the numerical
+entries in $A$, but we do need to know the structure of $A$.
+More specifically, since 
+when computing $LDU$, $U^TDU$ or $U^HDU$ factorizations
+we consider $A$ to have symmetric structure.
+We need to know the structure of $A + A^T$,
+and so we need to construct the graph of $A+A^T$.
+The way that {\bf SPOOLES} deals with the graph of $A + A^T$ is 
+via a {\tt Graph} object.
+There are several ways to construct a {\tt Graph} object,
+some are high level, some are low level.
+\par
+Inside each {\tt Graph} object is an {\tt IVL} object.
+{\tt IVL} stands for {\tt I}nteger {\tt V}ector {\tt L}ist,
+and stores the adjacency lists for the vertices.
+For example, consider a $3 \times 4$ grid with a nine point operator.
+The adjacency lists for this graph are stored in the {\tt IVL}
+object, displayed in Figure~\ref{fig:3x4-grid}.
+(The listing comes from the {\tt IVL\_writeForHumanEye()} method.)
+\par
+\input fig3x4grid.tex
+\par
+One can construct the {\tt IVL} object directly.
+There are methods to set the number of lists,
+to set the size of a list,
+to copy entries in a list into the object.
+It resizes itself as necessary.
+However, if one already has the matrix entries of $A$ stored in an
+{\tt InpMtx} object (which is the way that {\bf SPOOLES} deals with
+sparse matrices), there is an easier way.
+One can create an {\tt IVL} object from the {\tt InpMtx} object,
+as follows.
+\begin{verbatim}
+InpMtx   *A ;
+IVL      *adjIVL ;
+
+adjIVL = InpMtx_fullAdjacency(A) ;
+\end{verbatim}
+During a block shifted Lanczos eigenanalysis, one needs the graph
+of $A + \sigma B$ for a pair of matrices.
+There is a method to construct the {\tt IVL} object for this case.
+\begin{verbatim}
+InpMtx   *A, *B ;
+IVL      *adjIVL ;
+
+adjIVL = InpMtx_fullAdjacency2(A, B) ;
+\end{verbatim}
+Recall, we actually construct the adjacency structure of $A + A^T$
+(or $A + A^T + B + B^T$), because the graph object is undirected,
+and so needs a symmetric structure.
+\par
+Once we have an {\tt IVL} object, we can construct a {\tt Graph}
+object as follows.
+\begin{verbatim}
+Graph   *graph ;
+IVL     *adjIVL ;
+int     nedges, neqns ;
+
+nedges = IVL_tsize(adjIVL) ;
+graph = Graph_new() ;
+Graph_init2(graph, 0, neqns, 0, nedges, neqns, nedges, adjIVL, NULL, NULL) ;
+\end{verbatim}
+This is an initializer for the {\tt Graph} object, one that
+takes as input a complete {\tt IVL} adjacency object.
+The {\tt 0} and {\tt NULL} fields are not applicable here.
+(The {\tt Graph} object is sophisticated --- it can have weighted or
+unweighted vertices, weighted or unweighted edges, or both, and it
+can have boundary vertices. Neither is relevant now.)
+\par
+\subsection{Constructing an ordering}
+\label{subsection:order}
+\par
+Once we have a {\tt Graph} object, we can construct an ordering.
+There are four choices:
+\begin{itemize}
+\item
+minimum degree, (actually multiple external minimum degree,
+from \cite{liu85-mmd}),
+\item
+generalized nested dissection,
+\item
+multisection, and
+\item
+the better of generalized nested dissection and multisection.
+\end{itemize}
+Minimum degree takes the least amount of CPU time.
+Generalized nested dissection and multisection both require the
+a partition of the graph, which can be much more expensive to compute 
+than a minimum degree ordering.
+By and large, for larger graphs nested dissection generates 
+better orderings than minimum degree, and the difference in quality
+increases as the graph size increases.
+Multisection is an ordering which almost all the time does about as
+well as the better of nested dissection and minimum degree.
+The user should know their problem and choose the ordering.
+Here are some rules of thumb.
+\begin{itemize}
+\item
+If the matrix size is small to moderate in size, say up to 10,000
+rows and columns, use minimum degree.
+The extra ordering time for nested dissection or multisection may
+not make up for any decrease in factor or solve time.
+\item
+If the matrix size comes from a partial differential equation that
+has several degrees of freedom at a grid point, use multisection or
+nested dissection, no matter the size.
+\item
+If the target is a parallel factorization, use nested dissection.
+\item
+For 2-D problems, minimum degree is usually good enough, for 3-D
+problems, use nested dissection or multisection.
+\item
+To be safe, use the better of the nested dissection and
+multisection methods.
+The additional ordering time is not much more than using either of
+them alone.
+\end{itemize}
+Before we discuss the different ordering methods found in {\tt
+SPOOLES}, what is the output of the ordering?
+\par
+One normally thinks of a permutation matrix $P$ as represented by a
+permutation vector, a map from old vertices to new vertices, or
+vice versa.
+That is sufficient if one is just concerned with permuting a
+matrix, but there is much more information needed for the factor
+and solves.
+The {\tt SPOOLES} ordering methods construct and return an {\tt
+ETree} object that holds the {\it front tree}.
+We will discuss this object in the next section.
+Let us now look at the four different wrapper methods for the
+orderings.
+\begin{verbatim}
+ETree   *etree ;
+Graph   *graph ;
+int     maxdomainsize, maxsize, maxzeros, msglvl, seed ;
+FILE    *msgFile ;
+
+etree = orderViaMMD(graph, seed, msglvl, msgFile) ;
+etree = orderViaND(graph, maxdomainsize, seed, msglvl, msgFile) ;
+etree = orderViaMS(graph, maxdomainsize, seed, msglvl, msgFile) ;
+etree = orderViaBestOfNDandMS(graph, maxdomainsize, maxzeros, 
+                              maxsize, seed, msglvl, msgFile) ;
+\end{verbatim}
+Now let us describe the different parameters.
+\begin{itemize}
+\item
+The {\tt msglvl} and {\tt msgFile} parameters are used to control
+output.
+When {\tt msglvl = 0}, there is no output.
+When {\tt msglvl > 0}, output goes to the {\tt msgFile} file.
+The {\bf SPOOLES} library is a research code, we have left a great
+deal of monitoring and debug code in the software.
+Large values of {\tt msglvl} may result in large message files.
+To see the statistics generated during the ordering, use
+{\tt msglvl = 1}.
+\item
+The {\tt seed} parameter is used as a random number seed.
+(There are many places in the graph partitioning and minimum degree
+algorithms where randomness plays a part.
+Using a random number seed ensures repeatability.)
+\item
+{\tt maxdomainsize} is used for the nested dissection and
+multisection orderings.
+This parameter is used during the graph partition.
+Any subgraph that is larger than {\tt maxdomainsize} is split.
+We recommend using a value of {\tt neqns/16} or {\tt neqns/32}.
+Note: {\tt maxdomainsize} must be greater than zero.
+\item
+{\tt maxzeros} and {\tt maxsize} are used to transform the front tree.
+In effect, we have placed the ordering functionality as well as the
+transformation of the front tree into this method.
+So let's wait until the next section to learn about the
+{\tt maxzeros} and {\tt maxsize} parameters.
+\end{itemize}
+There is also the capability to create a front tree from a graph
+using any permutation vectors, e.g., a permutation that came from
+another graph partitioning or ordering library.
+\begin{verbatim}
+ETree   *etree ;
+Graph   *graph ;
+int     newToOld[], oldToNew[] ;
+
+etree = ETree_new() ;
+ETree_initFromGraphWithPerms(etree, graph, newToOld, oldToNew) ;
+\end{verbatim}
+The output from this method is a {\it vertex} elimination tree,
+there has been no merging of rows and columns into fronts.
+But we are getting ahead of ourselves.
+\par
+\subsection{Results}
+\label{subsection:results}
+\par
+Let us look at the four different orderings and compare the
+ordering time, the number of factor entries, and number of
+operations in the factorization.
+(The latter two are for a real, symmetric matrix.)
+\par
+The {\tt R2D10000} matrix is a randomly triangulated grid on the
+unit square. There are 10000 grid points, 100 points are equally
+spaced along each boundary.
+The remainder of the vertices are placed in the interior using 
+quasi-random points, and the Delauney triangulation is computed.
+\begin{center}
+\begin{tabular}{rrrrrrr}
+& \multicolumn{3}{c}{minimum degree} 
+& \multicolumn{3}{c}{nested dissection} \\
+seed & CPU & \# entries & \# ops & CPU & \# entries & \# ops \\
+10101 & 1.4 & 212811 & 11600517 & 4.8 & 213235 & 11092015 \\
+10102 & 1.5 & 211928 & 11654848 & 4.6 & 216555 & 11665187 \\
+10103 & 1.5 & 222119 & 13492499 & 4.9 & 217141 & 11606103 \\
+10104 & 1.5 & 214151 & 11849181 & 5.0 & 217486 & 11896366 \\
+10105 & 1.5  & 216176 & 12063326 & 4.8 & 216404 & 11638612 \\
+& \multicolumn{3}{c}{multisection} 
+& \multicolumn{3}{c}{better of ND and MS} \\
+seed & CPU & \# entries & \# ops & CPU & \# entries & \# ops \\
+10101 & 4.6 & 207927 & 10407553 & 6.2 & 208724 & 10612824 \\
+10102 & 4.6 & 210364 & 10651916 & 6.2 & 211089 & 10722231 \\
+10103 & 4.6 & 215795 & 11760095 & 6.4 & 217141 & 11606103 \\
+10104 & 4.6 & 210989 & 10842091 & 6.1 & 212828 & 11168728 \\
+10105 & 4.8 & 209201 & 10335761 & 6.1 & 210468 & 10582750
+\end{tabular}
+\end{center}
+For the nested dissection and multisection orderings, we used
+{\tt maxdomainsize = 100}.
+We see that there is really little difference in ordering quality,
+while the minimum degree ordering takes much less time than the
+other orderings.
+\par
+Let us now look at a random triangulation of a unit cube.
+This matrix has 13824 rows and columns.
+Each face of the cube has a $22 \times 22$ regular grid of points.
+The remainder of the vertices are placed in the interior using 
+quasi-random points, and the Delauney triangulation is computed.
+\begin{center}
+\begin{tabular}{rrrrrrr}
+& \multicolumn{3}{c}{minimum degree} 
+& \multicolumn{3}{c}{nested dissection} \\
+seed & CPU & \# entries & \# ops & CPU & \# entries & \# ops \\
+10101 & 9.2 & 5783892 & 6119141542 & 27.8 & 3410222 & 1921402246 \\
+10102 & 8.8 & 5651678 & 5959584620 & 31.4 & 3470063 & 1998795621 \\
+10103 & 8.8 & 6002897 & 6724035555 & 25.8 & 3456887 & 1986837981 \\
+10104 & 8.6 & 5888698 & 6652391434 & 29.6 & 3459432 & 1977133474 \\
+10105 & 8.5 & 5749469 & 6074040475 & 30.1 & 3567956 & 2223250836 \\
+& \multicolumn{3}{c}{multisection} 
+& \multicolumn{3}{c}{better of ND and MS} \\
+seed & CPU & \# entries & \# ops & CPU & \# entries & \# ops \\
+10101 & 26.9 & 3984032 & 2807531148 & 34.3 & 3410222 & 1921402246 \\
+10102 & 29.7 & 4209860 & 3266381908 & 37.0 & 3470063 & 1998795621 \\
+10103 & 23.5 & 4044399 & 2963782415 & 31.7 & 3456887 & 1986837981 \\
+10104 & 25.9 & 4239568 & 3325299298 & 34.8 & 3459432 & 1977133474 \\
+10105 & 27.2 & 4039078 & 2945539836 & 35.9 & 3567956 & 2223250836
+\end{tabular}
+\end{center}
+Again there is about a factor of three in CPU time comparing
+minimum degree against the others,
+but unlike R2D10000, the minimum degree requires far
+fewer operations than the others.
+Note how the multisection ordering requires about 50\% more
+operations than nested dissection.
+The situation can be reversed in other cases.
+That is the reason that we recommend using the wrapper that
+generates the better of the nested dissection and multisection
+orderings.

@@ -1,0 +1,25 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+set matrix      = BCSSTK16
+set inGraphFile = $matrices/$matrix/orig1.graphb
+
+set inIVfile    = $matrices/$matrix/bkl.ivf
+
+set msglvl      = 1
+
+set smoothOption = 2
+set smoothOption = 1
+set smoothOption = 3
+
+set msgFile    = stdout
+
+set alpha      = 1.0
+
+echo ' inGraphFile = ' $inGraphFile
+foreach smoothOption ( 1 2 3 4 5 )
+   set outIVfile    = $matrices/$matrix/bkl$smoothOption.ivf
+   set outIVfile    = none
+   testSmoothBisector $msglvl $msgFile $inGraphFile $inIVfile \
+                      $smoothOption $alpha $outIVfile
+end

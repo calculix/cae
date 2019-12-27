@@ -1,0 +1,117 @@
+\chapter{{\tt MSMD}: \break
+        {\tt M}ulti-{\tt S}tage {\tt M}inimum {\tt D}egree Object}
+\par
+We need an ordering for a sparse matrix.
+The {\tt MSMD} object will provide one of three orderings:
+\begin{itemize}
+\item
+a minimum degree ordering, or
+\item
+a multisection ordering if given with a domain/Schur-complement 
+partition, or 
+\item
+a nested dissection ordering if given a domain/separator tree.
+\end{itemize}
+\par
+But in what form do we want our ordering?
+If all we want is a permutation vector,
+there is a {\tt MSMD} method that will fill them.
+If we want more information, a method returns the {\tt ETree}
+object that is a front tree\footnote{
+The {\tt ETree} object has the {\tt Tree} object that defines the
+connectivity of the fronts, knows the internal and external size of
+each front, and has a map from the vertices to the fronts.
+}
+for the ordering.
+\par
+The {\tt MSMD object} is complex, at least in its functionality.
+However, its component methods are simple; one can put them together 
+in different ways to get a wide variety of algorithms.
+\par
+There are methods to eliminate a vertex or set of vertices in one
+of three ways:
+\begin{itemize}
+\item
+a single vertex, or
+\item
+a {\it step} of vertices, i.e., an independent set of vertices, or
+\item
+a {\it stage} of vertices, i.e., a set of vertices defined in 
+a number of consecutive steps.
+\end{itemize}
+How to choose a vertex to eliminate is based on a {\it priority},
+currently one of:
+\begin{itemize}
+\item
+external degree, or
+\item
+approximate external degree, (${\hat d}$ from
+\cite{ame96-amd}) and \cite{sparsematlab}, or
+\item
+half external and half approximate,
+(${\tilde d}$ from \cite{ame96-amd}),
+or
+\item
+a constant priority (to induce maximal independent set
+elimination).
+\end{itemize}
+We intend to add more priorities, 
+e.g., approximate deficiency from
+\cite{ng96-mindefIdaho},
+\cite{rot96-mindefIdaho}
+and \cite{rot98-mindef}.
+\par
+Choose a priority, then specify the definition of a {\it step},
+how to choose an independent set of vertices to eliminate at a time.
+Then provide a map from each vertex to the {\it stage} at which it
+will be eliminated.
+\par
+Presently there is one ordering method, {\tt MSMD\_order()}.
+It orders the vertices by {\it stages}, i.e. vertices in stage $k$ will
+be ordered before vertices in stage $k+1$.
+Inside each {\it stage} the vertices are ordered by {\it steps}.
+At each step an independent set of vertices is eliminated, 
+and the choice is based on their priorities.
+When the ordering is finished one can extract permutation vectors
+of a front tree.
+\par
+Here are three examples of how stages define an ordering method.
+(These methods are supported by the present {\tt MSMD} object).
+\begin{itemize}
+\item
+Set the stage of each vertex to be zero and we have a simple minimum
+degree (priority) ordering.
+\item
+Given a domain/Schur complement partition or a domain/separator tree, 
+we can find a multisection ordering by setting the stage of a vertex 
+to be zero if it is a domain or one if it is in a separator.
+\item
+Given a domain/separator tree, we can find an incomplete nested
+dissection ordering by specifying the stage of a vertex to be 
+the level of the separator or domain that contains it.
+\end{itemize}
+Here are three slightly more complicated examples. 
+\begin{itemize}
+\item
+Order the vertices in the domains, then order the
+Schur complement graph both by nested dissection and minimum degree,
+and then splice the better of the two orderings together with the
+ordering of the domain vertices. 
+\item
+Apply the above algorithm to the Schur complement graph
+recursively.
+\item
+% By and large, multisection is consistently better than nested 
+% dissection, but there are graphs where the reverse holds, 
+% e.g., 3-d cubes.
+Since multisection is nothing more than applying minimum degree to
+the Schur complement graph, randomly permute the graph and apply
+the minimum degree ordering. Repeat several times and take the best
+ordering.
+(Ordering the Schur complement graph is much, much less time
+consuming than ordering the vertices in the domains.)
+\end{itemize}
+Any of these three algorithms is bound to be better than both nested
+dissection and multisection.
+The tools are largely written so any of these three algorithms can
+be prototyped in a small amount of time and effort.

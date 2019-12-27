@@ -1,0 +1,777 @@
+\par
+\section{Driver programs}
+\label{section:MPI:drivers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+allInOne msglvl msgFile type symmetryflag pivotingflag seed
+\end{verbatim}
+This driver program is an example program for reading in a linear
+system and right hand side, ordering the matrix, 
+factoring the matrix, and solving the system.
+Use the script file {\tt do\_AllInOne} for testing.
+\par
+The files names for the matrix and right hand side entries are
+hardcoded.
+Processor $q$ reads in matrix entries from file 
+$\mbox{\tt matrix.}q\mbox{\tt .input}$
+and right hand side entries from file
+$\mbox{\tt rhs.}q\mbox{\tt .input}$.
+The format for the matrix files is as follows:
+\begin{verbatim}
+neqns neqns nent
+irow jcol entry
+...  ...  ...
+\end{verbatim}
+where {\tt neqns} is the global number of equations and {\tt nent}
+is the number of entries in this file.
+There follows {\tt nent} lines, each containing a row index, a
+column index and one or two floating point numbers, one if real,
+two if complex.
+The format for the right hand side file is similar:
+\begin{verbatim}
+nrow nrhs
+irow entry ... entry
+...  ...   ... ...
+\end{verbatim}
+where {\tt nrow} is the number of rows in this file
+and {\tt nrhs} is the number of rigght and sides.
+There follows {\tt nrow} lines, each containing a row index
+and either {\tt nrhs} or {\tt 2*nrhs} floating point numbers, 
+the first if real, the second if complex.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter specifies whether the linear system is
+real ({\tt type} = 1) or complex ({\tt type} = 2).
+\item
+The {\tt symmetryflag} parameter specifies whether the matrix is
+symmetric ({\tt symmetryflag} = 0),
+Hermitian ({\tt symmetryflag} = 1) or
+nonsymmetric ({\tt symmetryflag} = 2)
+\item
+The {\tt pivotingflag} parameter specifies whether pivoting will be
+performed during the factorization,
+yes ({\tt symmetryflag} = 0) or
+no ({\tt symmetryflag} = 2).
+The pivot tolerance is hardcoded as {\tt tau = 100.0}.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+patchAndGoMPI msglvl msgFile type symmetryflag patchAndGoFlag 
+              fudge toosmall storeids storevalues seed 
+\end{verbatim}
+This driver program is used to test the ``patch-and-go''
+functionality for a factorization without pivoting.
+When small diagonal pivot elements are found, 
+one of three actions are taken.
+See the {\tt PatchAndGoInfo} object for more information.
+\par
+The program reads in a matrix $A$ and right hand side $B$,
+generates the graph for $A$ and orders the matrix,
+factors $A$ and solves the linear system $AX = B$ for $X$.
+\par
+The files names for the matrix and right hand side entries are
+hardcoded.
+Processor $q$ reads in matrix entries from file 
+$\mbox{\tt patchMatrix.}q\mbox{\tt .input}$
+and right hand side entries from file
+$\mbox{\tt patchRhs.}q\mbox{\tt .input}$.
+The format for the matrix files is as follows:
+\begin{verbatim}
+neqns neqns nent
+irow jcol entry
+...  ...  ...
+\end{verbatim}
+where {\tt neqns} is the global number of equations and {\tt nent}
+is the number of entries in this file.
+There follows {\tt nent} lines, each containing a row index, a
+column index and one or two floating point numbers, one if real,
+two if complex.
+The format for the right hand side file is similar:
+\begin{verbatim}
+nrow nrhs
+irow entry ... entry
+...  ...   ... ...
+\end{verbatim}
+where {\tt nrow} is the number of rows in this file
+and {\tt nrhs} is the number of rigght and sides.
+There follows {\tt nrow} lines, each containing a row index
+and either {\tt nrhs} or {\tt 2*nrhs} floating point numbers, 
+the first if real, the second if complex.
+Use the script file {\tt do\_patchAndGo} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter specifies a real or complex linear system.
+\begin{itemize}
+\item
+{\tt type = 1 (SPOOLES\_REAL)} for real,
+\item
+{\tt type = 2 (SPOOLES\_COMPLEX)} for complex.
+\end{itemize}
+\item
+The {\tt symmetryflag} parameter specifies the symmetry of the matrix.
+\begin{itemize}
+\item
+{\tt type = 0 (SPOOLES\_SYMMETRIC)} for $A$ real or complex symmetric,
+\item
+{\tt type = 1 (SPOOLES\_HERMITIAN)} for $A$ complex Hermitian,
+\item
+{\tt type = 2 (SPOOLES\_NONSYMMETRIC)}
+\end{itemize}
+for $A$ real or complex nonsymmetric.
+\item
+The {\tt patchAndGoFlag} specifies the ``patch-and-go'' strategy.
+\begin{itemize}
+\item
+{\tt patchAndGoFlag = 0} --- if a zero pivot is detected, stop
+computing the factorization, set the error flag and return.
+\item
+{\tt patchAndGoFlag = 1} --- if a small or zero pivot is detected,
+set the diagonal entry to 1 and the offdiagonal entries to zero.
+\item
+{\tt patchAndGoFlag = 2} --- if a small or zero pivot is detected,
+perturb the diagonal entry.
+\end{itemize}
+\item
+The {\tt fudge} parameter is used to perturb a diagonal entry.
+\item
+The {\tt toosmall} parameter is judge when a diagonal entry is small.
+\item
+If {\tt storeids = 1}, then the locations where action was taken is
+stored in an {\tt IV} object.
+\item
+If {\tt storevalues = 1}, then the perturbations are
+stored in an {\tt DV} object.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testGather msglvl msgFile type nrow ncol inc1 inc2 seed
+\end{verbatim}
+This driver program test the {\tt DenseMtx\_MPI\_gatherRows()} method.
+Each processor creates part of a distributed matrix $X$ and fills
+its entries with entries known to all processors.
+($X_{j,k} = j + k*\mbox{nproc}$ if real and
+$X_{j,k} = j + k*\mbox{nproc} +
+i*2*(j + k*\mbox{nproc})$) if complex.
+The mapping from rows of $X$ to processors is random.
+Each processor then generates a random vector that contains its rows
+in a local $Y$, which will be filled with the corresponding rows of
+$X$.
+The rows of $X$ are then gathered into $Y$, and the local errors
+are computed.
+The global error is written to the results file by processor zero.
+\par
+Use the script file {\tt do\_gather} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter specifies whether the linear system is
+real ({\tt type} = 1) or complex ({\tt type} = 2).
+\item
+{\tt nrow} is the number of rows in {\tt X}.
+\item
+{\tt ncol} is the number of columns in {\tt X}.
+\item
+{\tt inc1} is the row increment for {\tt X}.
+\item
+{\tt inc2} is the column increment for {\tt X}.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testGraph_Bcast msglvl msgFile type nvtx nitem root seed 
+\end{verbatim}
+This driver program tests the distributed 
+{\tt Graph\_MPI\_Bcast()} method.
+Processor {\tt root} generates a random graph of type {\tt type}
+(see the documentation for the {\tt Graph} object in
+chapter~\ref{chapter:Graph}) with {\tt nvtx} vertices.
+The random graph is constructed via an {\tt InpMtx} object
+using {\tt nitem} edges.
+Processor {\tt root} then sends its {\tt Graph} object to the other
+processors.
+Each processor computes a checksum for its object, and the error
+are collected on processor 0.
+Use the script file {\tt do\_Graph\_Bcast} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt type} parameter specifies the type of the graph,
+unweighted, weighted vertices, weighted edges, and combinations.
+\item
+The {\tt nvtx} parameter specifies the number of vertices in the
+graph.
+\item
+The {\tt nitem} parameter is used to specify the number of edges
+that form the graph. An upper bound on the number of edges is
+{\tt nvtx + 2*nitem}.
+\item
+{\tt root} is the root processor for the broadcast.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testGridMPI msglvl msgFile n1 n2 n3 maxzeros maxsize seed type
+   symmetryflag sparsityflag pivotingflag tau droptol lookahead 
+   nrhs maptype cutoff
+\end{verbatim}
+This driver program creates and solves the linear system $AX = Y$
+where the structure of $A$ is from a 
+${\tt n1} \times {\tt n2} \times {\tt n3}$ 
+regular grid operator and is
+ordered using nested dissection.
+The front tree is formed allowing {\tt maxzeros} in a front with a
+maximum of {\tt maxsize} vertices in a non-leaf front.
+Process {\tt 0} generates the linear system and broadcasts the front
+tree to the other processes.
+Using {\tt maptype}, the processes generate the owners map 
+for the factorization in parallel.
+The $A$, $X$ and $Y$ matrices are then distributed among the
+processes.
+The symbolic factorization is then computed in parallel,
+the front matrix is initialized, and the factorization is computed
+in parallel.
+If pivoting has taken place, the solution and right hand side
+matrices are redistributed as necessary.
+The matrix is post-processed where it is converted 
+to a submatrix storage format.
+Each processor computes the identical solve map, and the front
+matrix is split among the processes.
+The linear system is then solved in parallel and the error is
+computed.
+Use the script file {\tt do\_gridMPI} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt n1} parameter is the number of grid points in the first
+direction.
+\item
+The {\tt n2} parameter is the number of grid points in the second
+direction.
+\item
+The {\tt n3} parameter is the number of grid points in the third
+direction.
+\item
+The {\tt maxzeros} parameter is the maximum number of zero entries
+allowed in a front.
+\item
+The {\tt maxsize} parameter is the maximum number of internal rows 
+and columns allowed in a front.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt type} parameter specifies whether the linear system is
+real or complex.
+Use {\tt 1} for real and {\tt 2} for complex.
+\item
+The {\tt symmetryflag} parameter denotes the presence or absence of
+symmetry.
+\begin{itemize}
+\item
+Use {\tt 0} for a real or complex symmetric matrix $A$.
+A $(U^T + I)D(I + U)$ factorization is computed.
+\item
+Use {\tt 1} for a complex Hermitian matrix $A$.
+A $(U^H + I)D(I + U)$ factorization is computed.
+\item
+Use {\tt 2} for a real or complex nonsymmetric matrix $A$.
+A $(L + I)D(I + U)$ factorization is computed.
+\end{itemize}
+\item
+The {\tt sparsityflag} parameter denotes a direct or approximate
+factorization.
+Valid values are {\tt 0} for a direct factorization
+and {\tt 1} is for an approximate factorization.
+\item
+The {\tt pivotingflag} parameter denotes whether pivoting is to be
+used in the factorization.
+Valid values are {\tt 0} for no pivoting
+and {\tt 1} to enable pivoting.
+\item
+The {\tt tau} parameter is used when pivoting is enabled,
+in which case it is an upper bound on the magnitude of an entry in
+the triangular factors $L$ and $U$.
+\item
+The {\tt droptol} parameter is used when an approximate
+factorization is requested, in which it is a lower bound on the
+magnitude of an entry in $L$ and $U$.
+\item
+The {\tt lookahead} parameter governs the
+``upward--looking'' nature of the factorization.
+Choosing {\tt lookahead = 0} is usually the most conservative with
+respect to working storage, while positive values increase the
+working storage and sometimes decrease the factorization time.
+\item
+The {\tt nrhs} parameter is the number of right hand sides.
+\item
+The {\tt maptype} parameter is the type of factorization map.
+\begin{itemize}
+\item {\tt 1} --- a wrap map via a post-order traversal
+\item {\tt 2} --- a balanced map via a post-order traversal
+\item {\tt 3} --- a subtree--subset map
+\item {\tt 4} --- a domain decomposition map
+\end{itemize}
+\item
+The {\tt cutoff} parameter is used with the domain decomposition
+map, and specifies the maximum fraction of the vertices to be
+included into a domain. Try {\tt cutoff} = {\tt 1/nproc}
+or {\tt 1/(2*nproc)}.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testIV_allgather msglvl msgFile n seed 
+\end{verbatim}
+This driver program tests the distributed 
+{\tt IV\_MPI\_allgather()} method.
+Each processor generates the same {\tt owners[]} map
+and fills an {\tt IV} object with random entries for the entries
+which it owns.
+The processors all-gather the entries of the vector so each
+processor has a copy of the global vector.
+Each processor computes a checksum of the vector to detect errors.
+Use the script file {\tt do\_IVallgather} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt n} parameter is the length of the vector.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testIVL_alltoall msglvl msgFile n seed
+\end{verbatim}
+This driver program tests the distributed {\tt IVL\_MPI\_alltoall()}
+method.
+This is used by the {\tt makeSendRecvIVLs} method when setting up
+the distributed matrix-matrix multiply.
+Each processor constructs a ``receive'' {\tt IVL} object with 
+{\tt nproc} lists.
+List {\tt iproc} contains a set of ids of items that this processor
+will receive from processor {\tt iproc}.
+The processors then call {\tt IVL\_MPI\_allgather} to create their
+``send'' {\tt IVL} object,
+where list {\tt iproc} contains a set of ids of items that 
+this processor will send to processor {\tt iproc}.
+The set of lists in all the ``receive'' {\tt IVL} objects is
+exactly the same as the set of lists in all the ``send'' objects.
+This is an ``all-to-all'' scatter/gather operation.
+Had the lists be stored contiguously or at least in one block of
+storage, we could have used the {\tt MPI\_Alltoallv()} method.
+\par
+Use the script file {\tt do\_IVL\_alltoall} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt n} parameter is an upper bound on list size and element value.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testIVL_allgather msglvl msgFile nlist seed 
+\end{verbatim}
+This driver program tests the distributed 
+{\tt IVL\_MPI\_allgather()} method.
+Each processor generates the same {\tt owners[]} map
+and fills an {\tt IVL} object with random entries for the lists
+which it owns.
+The processors all-gather the entries of the {\tt IVL} object so each
+processor has a copy of the global object.
+Each processor computes a checksum of the lists to detect errors.
+Use the script file {\tt do\_IVLallgather} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nlist} parameter is the number of lists.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testIVL_Bcast msglvl msgFile nlist maxlistsize root seed 
+\end{verbatim}
+This driver program tests the distributed 
+{\tt IVL\_MPI\_Bcast()} method.
+Processor {\tt root} generates a random {\tt IVL} object
+with {\tt nlist} lists.
+The size of each list is bounded above by {\tt maxlistsize}.
+Processor {\tt root} then sends its {\tt IVL} object to the other
+processors.
+Each processor computes a checksum for its object, and the error
+are collected on processor 0.
+Use the script file {\tt do\_IVL\_Bcast} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nlist} parameter specifies the number of lists.
+\item
+The {\tt maxlist} parameter is an upper bound on the size of each list.
+\item
+{\tt root} is the root processor for the broadcast.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testMMM msglvl msgFile nrowA ncolA nentA ncolX coordType
+        inputMode symflag opflag seed real imag
+\end{verbatim}
+This driver program tests the distributed matrix-matrix multiply
+$Y := Y + \alpha A X$,
+$Y := Y + \alpha A^T X$ or
+$Y := Y + \alpha A^H X$.
+Process zero creates $Y$, $A$ and $X$ and computes
+$Z = Y + \alpha A X$,
+$Z = Y + \alpha A^T X$ or
+$Z = Y + \alpha A^H X$.
+Using random maps, it distributes $A$, $X$ and $Y$ among the other
+processors.
+The information structure is created using
+{\tt MatMul\_MPI\_setup()}.
+The local matrix $A^q$ is mapped to local coordinates.
+The matrix-matrix multiply is computed,
+and then all the $Y^q$ local matrices are gathered onto processor
+zero into $Y$, which is then compared with $Z$ that was computed
+using a serial matrix-matrix multiply.
+The error is written to the message file by processor zero.
+Use the script file {\tt do\_MMM} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nrowA} parameter is the number of rows in $A$.
+\item
+The {\tt ncolA} parameter is the number of columns in $A$.
+\item
+The {\tt nentA} parameter is the number of entries to be put into $A$.
+\item
+The {\tt nrowX} parameter is the number of rows in $X$.
+\item
+The {\tt coordType} parameter defines the coordinate type that will
+be used during the redistribution. Valid values are {\tt 1} for rows,
+{\tt 2} for columns and {\tt 3} for chevrons.
+\item
+The {\tt inputMode} parameter defines the mode of input.
+Valid values are {\tt 1} for real entries 
+and {\tt 2} for complex entries.
+\item
+The {\tt symflag} parameter specifies whether the matrix is
+symmetric ({\tt symflag} = 0),
+Hermitian ({\tt symflag} = 1) or
+nonsymmetric ({\tt symflag} = 2)
+\item
+The {\tt opflag} parameter specifies the type of multiply,
+{\tt 0} for $Y := Y + \alpha A X$,
+{\tt 1} for $Y := Y + \alpha A^T X$ or
+{\tt 2} for $Y := Y + \alpha A^H X$.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt real} parameter is the real part of the scalar $\alpha$.
+\item
+The {\tt imag} parameter is the imaginary part of the scalar $\alpha$,
+ignored for real entries.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testScatterDenseMtx msglvl msgFile nrow ncol inc1 inc2 seed root
+\end{verbatim}
+This driver program exercises the
+{\tt DenseMtx\_MPI\_splitFromGlobalByRows()}
+method to split or redistribute by rows
+a {\tt DenseMtx} dense matrix object.
+Process {\tt root} generates the {\tt DenseMtx} object.
+A random map is generated (the same map on all processes) and the
+object is redistributed using this random map.
+The local matrices are then gathered into a second global matrix on
+processor {\tt root} and the two are compared.
+Use the script file {\tt do\_ScatterDenseMtx} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nrow} parameter is the number of rows for the matrix.
+\item
+The {\tt ncol} parameter is the number of columns for the matrix.
+\item
+The {\tt inc1} parameter is the row increment  for the matrix.
+Valid values are {\tt 1} for column major and {\tt ncol} for row
+major.
+\item
+The {\tt inc2} parameter is the column increment  for the matrix.
+Valid values are {\tt 1} for row major and {\tt nrow} for column
+major.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt root} parameter is the root processor for the scatter and
+gather.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testScatterInpMtx msglvl msgFile neqns seed 
+                  coordType inputMode inInpMtxFile root
+\end{verbatim}
+This driver program tests the distributed 
+{\tt InpMtx\_MPI\_splitFromGlobal()}
+method to split a {\tt InpMtx} sparse matrix object.
+Process {\tt root} reads in the {\tt InpMtx} object.
+A random map is generated (the same map on all processes) and the
+object is scattered from processor {\tt root} to the other processors.
+Use the script file {\tt do\_ScatterInpMtx} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt neqns} parameter is the number of equations for the matrix.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt coordType} parameter defines the coordinate type that will
+be used during the redistribution. Valid values are {\tt 1} for rows,
+{\tt 2} for columns and {\tt 3} for chevrons.
+\item
+The {\tt inputMode} parameter defines the mode of input.
+Valid values are {\tt 0} for indices only,
+{\tt 1} for real entries 
+and {\tt 2} for complex entries.
+\item
+The {\tt inInpMtxFile} parameter is the name of the file that
+contain the {\tt InpMtx} object.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testSplitDenseMtx msglvl msgFile nrow ncol inc1 inc2 seed
+\end{verbatim}
+This driver program tests the distributed 
+{\tt DenseMtx\_MPI\_splitByRows()}
+method to split or redistribute by rows
+a {\tt DenseMtx} dense matrix object.
+Process zero generates the {\tt DenseMtx} object.
+It is then split among the processes using a wrap map.
+A random map is generated (the same map on all processes) and the
+object is redistributed using this random map.
+Use the script file {\tt do\_SplitDenseMtx} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt nrow} parameter is the number of rows for the matrix.
+\item
+The {\tt ncol} parameter is the number of columns for the matrix.
+\item
+The {\tt inc1} parameter is the row increment  for the matrix.
+Valid values are {\tt 1} for column major and {\tt ncol} for row
+major.
+\item
+The {\tt inc2} parameter is the column increment  for the matrix.
+Valid values are {\tt 1} for row major and {\tt nrow} for column
+major.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testSplitInpMtx msglvl msgFile neqns seed coordType inputMode inInpMtxFile
+\end{verbatim}
+This driver program tests the distributed {\tt InpMtx\_MPI\_split()}
+method to split or redistribute a {\tt InpMtx} sparse matrix object.
+Process zero reads in the {\tt InpMtx} object.
+It is then split among the processes using a wrap map.
+A random map is generated (the same map on all processes) and the
+object is redistributed using this random map.
+Use the script file {\tt do\_SplitInpMtx} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt neqns} parameter is the number of equations for the matrix.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt coordType} parameter defines the coordinate type that will
+be used during the redistribution. Valid values are {\tt 1} for rows,
+{\tt 2} for columns and {\tt 3} for chevrons.
+\item
+The {\tt inputMode} parameter defines the mode of input.
+Valid values are {\tt 0} for indices only,
+{\tt 1} for real entries 
+and {\tt 2} for complex entries.
+\item
+The {\tt inInpMtxFile} parameter is the name of the file that
+contain the {\tt InpMtx} object.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testSymbFac msglvl msgFile inGraphFile inETreeFile seed 
+\end{verbatim}
+This driver program tests the distributed 
+{\tt SymbFac\_MPI\_initFromInpMtx()} method
+that forms a {\tt IVL} object that contains the necessary parts of
+a symbolic factorization for each processor.
+The program reads in the global {\tt Graph} and {\tt ETree}
+objects.
+Each processor creates a global {\tt InpMtx} object from the
+structure of the graph and computes a global symbolic factorization
+object using the serial {\tt SymbFac\_initFromInpMtx()} method.
+The processors then compute a map from fronts to processors, and
+each processor throws away the unowned matrix entries from the {\tt
+InpMtx} object.
+The processors then compute their necessary symbolic factorizations
+in parallel.
+For a check, they compare the two symbolic factorizations for error.
+Use the script file {\tt do\_symbfac} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+The {\tt inGraphFile} parameter is the input file for the {\tt
+Graph} object.
+\item
+The {\tt inETreeFile} parameter is the input file for the {\tt
+ETree} object.
+\item
+The {\tt seed} parameter is a random number seed.
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

@@ -1,0 +1,14 @@
+#! /bin/csh -f
+
+set msglvl           = 3
+set msgFile          = res.serial
+set msgFile          = stdout
+
+set inFile     = B.submtxf
+set outFile    = temp.submtxb
+set outFile    = B.res
+set outFile    = B2.submtxf
+set matlabFile = sol.m
+set matlabFile = none
+
+testIO $msglvl $msgFile $inFile $outFile $matlabFile

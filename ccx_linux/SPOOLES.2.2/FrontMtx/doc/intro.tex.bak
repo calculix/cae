@@ -1,0 +1,258 @@
+\par
+\chapter{{\tt FrontMtx}: \break Front matrix}
+\par
+This object computes, stores and solves linear
+systems using two types of factorizations:
+\begin{enumerate}
+\item 
+$(A + \sigma B) = P(U^T + I)D(I + U)P^T$ for a symmetric matrix $A$.
+If pivoting is not enabled, $D$ is a diagonal matrix.
+If pivoting is enabled, $D$ has $1 \times 1$ and $2 \times 2$
+blocks on its diagonal.
+$U$ is strictly upper triangular, and the nonzero structures
+of $U$ and $D$ are disjoint.
+$P$ is a permutation matrix.
+\item
+$(A + \sigma B) = P(L + I)D(I + U)Q^T$ for a nonsymmetric matrix $A$
+with symmetric structure.
+$D$ is a diagonal matrix.
+$U$ is strictly upper triangular.
+$L$ is strictly lower triangular.
+$P$ and $Q$ are permutation matrices.
+\end{enumerate}
+Pivoting for numerical stability is an optional feature, 
+and the storage of the factors $L$ and $U$ may be sparse, 
+i.e., entries of small magnitude can be dropped from the matrix.
+\par
+Let us take a quick look at the necessary data structures.
+\begin{itemize}
+\item
+There is a pointer to a {\tt ETree} object that contains the front
+tree that governs the factorization and solve.
+Inside this object are the dimensions of each front (the number of
+internal and external rows and columns), the tree connectivity of
+the fronts, and a map from each vertex to the front that contains
+it as an internal row and column.
+\item
+There is a pointer to an {\tt IVL} object that contains the
+symbolic factorization.
+For each front, it gives the list of internal and external rows and
+columns, used to initialize a front prior to its factorization.
+For a factorization without pivoting, this object stores the index
+information for the factors, and so is used during the forward and
+backsolves.
+For a factorization with pivoting, the index information for a
+front may change, so this object is not used during the solves.
+\item
+For a factorization with pivoting, the composition of a front
+(its dimensions and the row and column indices) may change, so we
+need additional data structures to store this information.
+We use an {\tt IV} object to store the front size --- the number of
+rows and columns that were eliminated when the front was factored.
+We use an {\tt IVL} object to store the column indices --- internal
+and external --- and if the matrix is nonsymmetric, another {\tt
+IVL} object to store the row indices.
+\item
+If we have a multithreaded factorization and use pivoting or an
+approximate factorization, we need exclusive access
+to the {\tt IV} object that stores the final front size,
+and the {\tt IVL} object(s) that store the final row and column 
+indices for the front.
+Therefore we use a {\tt Lock} object to govern exclusive
+access to these objects.
+\end{itemize}
+\par
+The $(L+I)D(I+U)$ and $(U^T+I)D(I+U)$ factorizations are computed
+using a {\it 1-dimensional} decomposition of the matrix.
+Consider a matrix partitioned into eight fronts.
+\begin{center}
+\setlength{\unitlength}{0.04in}
+\begin{picture}(80,80)
+\put(-10,40){\makebox(0,0){$A = $}}
+\put(0,0){\framebox(80,80){}}
+% \put(0,0){\framebox(10,70){}}
+% \put(10,0){\framebox(10,60){}}
+% \put(20,0){\framebox(10,50){}}
+% \put(30,0){\framebox(10,40){}}
+% \put(40,0){\framebox(10,30){}}
+% \put(50,0){\framebox(10,20){}}
+% \put(60,0){\framebox(10,10){}}
+\put( 0, 70){\line(1,0){80}}
+\put(10, 60){\line(1,0){70}}
+\put(20, 50){\line(1,0){60}}
+\put(30, 40){\line(1,0){50}}
+\put(40, 30){\line(1,0){40}}
+\put(50, 20){\line(1,0){30}}
+\put(60, 10){\line(1,0){20}}
+\put(10, 80){\line(0,-1){80}}
+\put(20, 70){\line(0,-1){70}}
+\put(30, 60){\line(0,-1){60}}
+\put(40, 50){\line(0,-1){50}}
+\put(50, 40){\line(0,-1){40}}
+\put(60, 30){\line(0,-1){30}}
+\put(70, 20){\line(0,-1){20}}
+\put( 5, 75){\makebox(0,0){$A_{0,0}$}}
+\put(15, 65){\makebox(0,0){$A_{1,1}$}}
+\put(25, 55){\makebox(0,0){$A_{2,2}$}}
+\put(35, 45){\makebox(0,0){$A_{3,3}$}}
+\put(45, 35){\makebox(0,0){$A_{4,4}$}}
+\put(55, 25){\makebox(0,0){$A_{5,5}$}}
+\put(65, 15){\makebox(0,0){$A_{6,6}$}}
+\put(75,  5){\makebox(0,0){$A_{7,7}$}}
+
+\put( 5, 35){\makebox(0,0){$A_{*,0}$}}
+\put(15, 30){\makebox(0,0){$A_{*,1}$}}
+\put(25, 25){\makebox(0,0){$A_{*,2}$}}
+\put(35, 20){\makebox(0,0){$A_{*,3}$}}
+\put(45, 15){\makebox(0,0){$A_{*,4}$}}
+\put(55, 10){\makebox(0,0){$A_{*,5}$}}
+\put(65,  5){\makebox(0,0){$A_{*,6}$}}
+
+\put(45, 75){\makebox(0,0){$A_{0,*}$}}
+\put(50, 65){\makebox(0,0){$A_{1,*}$}}
+\put(55, 55){\makebox(0,0){$A_{2,*}$}}
+\put(60, 45){\makebox(0,0){$A_{3,*}$}}
+\put(65, 35){\makebox(0,0){$A_{4,*}$}}
+\put(70, 25){\makebox(0,0){$A_{5,*}$}}
+\put(75, 15){\makebox(0,0){$A_{6,*}$}}
+\end{picture}
+\end{center}
+The $A_{i,i}$ matrices on the diagonal are square, but they need
+not be the same size.
+The off-diagonal matrices $A_{*,i}$ and $A_{i,*}$ use a $*$
+notation for their rows and columns, respectively, where $*$ means
+all indices that follow the $i$'th block.
+We shall associate with each front a set of row and column indices,
+so we write $A_{J,J}$ for $A_{i,i}$, where $J$ is the set of row
+and column indices for front $i$.
+\par
+Consider the case where $A$ is structurally symmetric.
+We factor $A$ into $(L + I)D(I + U)$, where $L$ is strictly lower
+triangular, $D $ is diagonal, and $U$ is strictly upper triangular.
+$L$, $D$ and $U$ inherit the block structure of $A$, so we have
+$L_{*,J}$, $L_{J,J}$, $D_{J,J}$, $U_{J,J}$ and $U_{J,*}$ matrices.
+\par
+The off-diagonal matrices of $A$, $L$ and $U$ are usually very sparse. 
+We use special notation to define their nonzero rows and columns.
+% We write $A_{\bnd{J},J}$ for $A_{*,J}$ and $A_{J,\bnd{J}}$ for
+% $A_{J,*}$, and similar notation for $L$ and $U$.
+The set $\bnd{J}$ is the set of indices $k$ such that 
+$l_{k,j} \ne 0$ or $u_{j,k} \ne 0$ for some $j \in J$.
+$U_{J,*}$ and $U_{J,\bnd{J}}$ are related by some permutation matrix
+$A$ where 
+$
+U_{J,*} Q =
+\left \lbrack \begin{array}{cc}
+U_{J,\bnd{J}} & 0 
+\end{array} \right \rbrack
+$.
+Similar relations hold for $A_{J,*}$, $A_{*,J}$ and $L_{*,J}$.
+We never operate on or store $U_{J,*}$, for this would waste
+storage and operations.
+Rather we store and operate on $U_{J,\bnd{J}}$ instead.
+\par
+By multiplying the matrices on the right of
+$A = (L + I)D(I + U)$, we arrive at the three equations that define
+the factorization.
+\begin{eqnarray*}
+A_{J,J} & = & (L_{J,J}+I) D_{J,J} (I+U_{J,J})
+  + \sum_{I < J} L_{\bnd{I} \cap J, I} D_{I, I} U_{I, \bnd{I} \cap J} \\
+A_{J,\bnd{J}} & = & (L_{J,J}+I) D_{J,J} U_{J, \bnd{J}}
+  + \sum_{I < J} L_{\bnd{I} \cap J, I} 
+                 D_{I, I} U_{I, \bnd{I} \cap \bnd{J}} \\
+A_{\bnd{J},J} & = & L_{\bnd{J},J} D_{J,J} (I+U_{J,J})
+  + \sum_{I < J} L_{\bnd{I} \cap \bnd{J}, I} 
+                 D_{I, I} U_{I, \bnd{I} \cap J}
+\end{eqnarray*}
+Since we are somewhat informal with our notation above, let us take
+a moment to make it more precise.
+\begin{itemize}
+\item
+In the summation $\sum_{I < J}$, $I$ and $J$ are index sets.
+We use the convention that $I < J$ when the front that has index
+set $I$ is numbered before the front that has index set $J$.
+In the following we will use $I$ to refer to the front with index
+set $I$, as well as the index set itself.
+\item
+The row index set for $L_{\bnd{I} \cap J,I}$ is the intersection of
+the indices in $\bnd{I}$ with those of $J$.
+The index set $\bnd{I} \cap \bnd{J}$ is similarly defined.
+\item
+The multiplication 
+$L_{\bnd{I} \cap J, I} D_{I, I} U_{I, \bnd{I} \cap J}$
+generates a matrix whose rows are 
+$\bnd{I} \cap J$ and whose columns are $\bnd{I} \cap J$,
+and this matrix is to be added into a matrix whose rows and columns
+are $J$.
+If $\bnd{I} \cap J \ne J$, then this operation is not well defined.
+We use the convention that the entries in
+$L_{\bnd{I} \cap J, I} D_{I, I} U_{I, \bnd{I} \cap J}$
+are {\it scatter/add}'ed into their proper location.
+This is a generalization of an indexed {\tt axpy} operation
+applied to matrices.
+\end{itemize}
+Just because front $I$ precedes front $J$ does not mean the there
+is any nonempty intersection between $\bnd{I}$ and $J$.
+(A sparse matrix should also have a sparse block structure!)
+If $\bnd{I} \cap J = \emptyset$, then
+$L_{\bnd{I} \cap J,I}$ and $U_{I,\bnd{I} \cap J}$
+are zero matrices.
+We can rewrite the above equations to take advantage of this
+ohservation.
+\begin{eqnarray*}
+A_{J,J} & = & (L_{J,J}+I) D_{J,J} (I+U_{J,J})
+  + \sum_{\bnd{I} \cap J \ne \emptyset} 
+       L_{\bnd{I} \cap J, I} D_{I, I} U_{I, \bnd{I} \cap J} \\
+A_{J,\bnd{J}} & = & (L_{J,J}+I) D_{J,J} U_{J, \bnd{J}}
+  + \sum_{\bnd{I} \cap J \ne \emptyset} 
+       L_{\bnd{I} \cap J, I} D_{I, I} U_{I, \bnd{I} \cap \bnd{J}} \\
+A_{\bnd{J},J} & = & L_{\bnd{J},J} D_{J,J} (I+U_{J,J}) 
+  + \sum_{\bnd{I} \cap J \ne \emptyset} 
+       L_{\bnd{I} \cap \bnd{J}, I} D_{I, I} U_{I, \bnd{I} \cap J}
+\end{eqnarray*}
+These are the defining equations to compute an $A = (L+I)D(I+U)$
+factorization without pivoting. We can rearrange the terms and
+order the steps to give the factorization algorithm.
+\begin{figure}
+\caption{Serial factorization without pivoting}
+\label{figure:serial-factorization}
+\begin{center}
+\fbox{
+\begin{minipage}{4 in}
+\begin{tabbing}
+XXX\=XXX\=XXX\=\kill
+for $I$ = 0, $\ldots$, \# of fronts \\
+\> compute
+$\displaystyle
+T_{J,J} = A_{J,J}
+  - \sum_{\bnd{I} \cap J \ne \emptyset} 
+       L_{\bnd{I} \cap J, I} D_{I, I} U_{I, \bnd{I} \cap J}$ \\
+\> compute
+$\displaystyle
+T_{J,\bnd{J}} = A_{J,\bnd{J}} 
+  - \sum_{\bnd{I} \cap J \ne \emptyset} 
+       L_{\bnd{I} \cap J, I} D_{I, I} U_{I, \bnd{I} \cap \bnd{J}}$ \\
+\> compute
+$\displaystyle
+T_{\bnd{J},J} = A_{\bnd{J},J} 
+  - \sum_{\bnd{I} \cap J \ne \emptyset} 
+       L_{\bnd{I} \cap \bnd{J}, I} D_{I, I} U_{I, \bnd{I} \cap J}$ \\
+\> solve
+$
+\left \lbrack \begin{array}{cc}
+(L_{J,J}+I) D_{J,J} (I+U_{J,J}) & (L_{J,J}+I) D_{J,J} U_{J, \bnd{J}} \\
+L_{\bnd{J},J} D_{J,J} (I+U_{J,J}) & 0
+\end{array} \right \rbrack
+=
+\left \lbrack \begin{array}{cc}
+T_{J,J} & T_{J,\bnd{J}} \\
+T_{\bnd{J},J} & 0 \\
+\end{array} \right \rbrack
+$ \\
+\>\> for $D_{J,J}$, $L_{J,J}$, $L_{\bnd{J},J}$,
+   $U_{J,J}$ and $U_{J,\bnd{J}}$
+\end{tabbing}
+\end{minipage}
+}
+\end{center}
+\end{figure}

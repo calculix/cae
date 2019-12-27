@@ -1,0 +1,17 @@
+\begin{theindex}
+
+  \item {\tt FrontMtx\_MT\_factorInpMtx()}, 3
+  \item {\tt FrontMtx\_MT\_factorPencil()}, 3
+  \item {\tt FrontMtx\_MT\_QR\_factor()}, 4
+  \item {\tt FrontMtx\_MT\_QR\_solve()}, 5
+  \item {\tt FrontMtx\_MT\_solve()}, 4
+
+  \indexspace
+
+  \item {\tt InpMtx\_MT\_herm\_mmm()}, 2
+  \item {\tt InpMtx\_MT\_nonsym\_mmm()}, 2
+  \item {\tt InpMtx\_MT\_nonsym\_mmm\_H()}, 3
+  \item {\tt InpMtx\_MT\_nonsym\_mm\_Tm()}, 2
+  \item {\tt InpMtx\_MT\_sym\_mmm()}, 2
+
+\end{theindex}

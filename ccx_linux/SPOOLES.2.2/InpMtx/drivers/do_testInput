@@ -1,0 +1,15 @@
+#! /bin/csh -f
+
+set msglvl  = 1
+set msgFile = stdout
+
+set type   =   2
+set n1     =  31
+set n2     =  31
+set n3     =  31
+set estpar = 0.95
+set estpar = 1.00
+set growth = 2.00
+set growth = 1.25
+
+testInput $msglvl $msgFile $type $n1 $n2 $n3 $estpar $growth

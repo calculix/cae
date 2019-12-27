@@ -1,0 +1,170 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=latex 97.4.4)  31 OCT 1998 09:22
+**main
+(main.tex
+LaTeX2e <1996/12/01> patch level 1
+Babel <v3.6h> and hyphenation patterns for english, german, loaded.
+(/home/tex/teTeX/texmf/tex/latex/base/latex209.def
+File: latex209.def 1996/05/21 v0.51 Standard LaTeX file
+
+Entering LaTeX 2.09 compatibility mode.
+\footheight=\dimen102
+\@maxsep=\dimen103
+\@dblmaxsep=\dimen104
+\@cla=\count79
+\@clb=\count80
+\mscount=\count81
+(/home/tex/teTeX/texmf/tex/latex/base/tracefnt.sty
+Package: tracefnt 1996/07/26 v3.0i Standard LaTeX package (font tracing)
+\tracingfonts=\count82
+LaTeX Info: Redefining \selectfont on input line 139.
+)
+\symbold=\mathgroup4
+\symsans=\mathgroup5
+\symtypewriter=\mathgroup6
+\symitalic=\mathgroup7
+\symsmallcaps=\mathgroup8
+\symslanted=\mathgroup9
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 306.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 307.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 308.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 314.
+LaTeX Info: Redefining \em on input line 324.
+
+(/home/tex/teTeX/texmf/tex/latex/base/latexsym.sty
+Package: latexsym 1996/11/20 v2.2d Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup10
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 85.
+)
+LaTeX Font Info:    Redeclaring math delimiter \lgroup on input line 388.
+LaTeX Font Info:    Redeclaring math delimiter \rgroup on input line 390.
+LaTeX Font Info:    Redeclaring math delimiter \bracevert on input line 392.
+
+(/home/tex/teTeX/texmf/tex/latex/config/latex209.cfg
+(/home/tex/teTeX/texmf/tex/latex/tools/rawfonts.sty
+Compatibility mode: package `' requested, but `rawfonts' provided.
+Package: rawfonts 1994/05/08 Low-level LaTeX 2.09 font compatibility
+
+(/home/tex/teTeX/texmf/tex/latex/tools/somedefs.sty
+Package: somedefs 1994/06/01 Toolkit for optional definitions
+)
+LaTeX Font Info:    Try loading font information for U+lasy on input line 36.
+
+(/home/tex/teTeX/texmf/tex/latex/base/ulasy.fd
+File: ulasy.fd 1996/11/20 v2.2dLaTeX symbol font definitions
+))))
+(/home/tex/teTeX/texmf/tex/latex/base/report.cls
+Document Class: report 1996/10/31 v1.3u Standard LaTeX document class
+(/home/tex/teTeX/texmf/tex/latex/base/leqno.clo
+File: leqno.clo 1996/07/26 v1.1b Standard LaTeX option (left equation numbers)
+)
+(/home/tex/teTeX/texmf/tex/latex/base/size11.clo
+File: size11.clo 1996/10/31 v1.3u Standard LaTeX file (size option)
+)
+\c@part=\count83
+\c@chapter=\count84
+\c@section=\count85
+\c@subsection=\count86
+\c@subsubsection=\count87
+\c@paragraph=\count88
+\c@subparagraph=\count89
+\c@figure=\count90
+\c@table=\count91
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+Compatibility mode: definition of \rm ignored.
+Compatibility mode: definition of \sf ignored.
+Compatibility mode: definition of \tt ignored.
+Compatibility mode: definition of \bf ignored.
+Compatibility mode: definition of \it ignored.
+Compatibility mode: definition of \sl ignored.
+Compatibility mode: definition of \sc ignored.
+LaTeX Info: Redefining \cal on input line 622.
+LaTeX Info: Redefining \mit on input line 623.
+\bibindent=\dimen105
+)
+\@indexfile=\write3
+
+Writing index file main.idx
+(main.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+ (intro.tex
+Chapter 1.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 9.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 9.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 9.
+) (dataStructure.tex
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 8.
+ (/home/tex/teTeX/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1997/01/14 v2.5a Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 8.
+ [1
+
+
+])
+(proto.tex [2] [3]
+Overfull \hbox (6.01772pt too wide) in paragraph at lines 244--244
+ []                          \OT1/cmtt/m/n/10.95 IV *ownersIV, int seed, int ms
+glvl, FILE *msgFile) ;[] 
+ []
+
+[4] [5]
+Overfull \hbox (12.09367pt too wide) in paragraph at lines 391--404
+\OT1/cmr/m/n/10.95 There are the usual eight IO rou-tines. The file struc-ture 
+of a \OT1/cmtt/m/n/10.95 SolveMap \OT1/cmr/m/n/10.95 ob-ject is sim-ple: \OT1/c
+mtt/m/n/10.95 symmetryflag\OT1/cmr/m/n/10.95 ,
+ []
+
+
+Overfull \hbox (38.8074pt too wide) in paragraph at lines 391--404
+\OT1/cmtt/m/n/10.95 nfront\OT1/cmr/m/n/10.95 , \OT1/cmtt/m/n/10.95 nproc\OT1/cm
+r/m/n/10.95 , \OT1/cmtt/m/n/10.95 nblockUpper \OT1/cmr/m/n/10.95 and \OT1/cmtt/
+m/n/10.95 nblockLower\OT1/cmr/m/n/10.95 , fol-lowed by \OT1/cmtt/m/n/10.95 owne
+rs[*]\OT1/cmr/m/n/10.95 , \OT1/cmtt/m/n/10.95 rowidsUpper[*]\OT1/cmr/m/n/10.95 
+, \OT1/cmtt/m/n/10.95 colidsUpper[*]
+ []
+
+
+Overfull \hbox (9.06282pt too wide) in paragraph at lines 391--404
+\OT1/cmr/m/n/10.95 and \OT1/cmtt/m/n/10.95 mapidsUpper[*]\OT1/cmr/m/n/10.95 , a
+nd if \OT1/cmtt/m/n/10.95 symmetryflag = SPOOLES[]NONSYMMETRIC\OT1/cmr/m/n/10.9
+5 , fol-lowed by \OT1/cmtt/m/n/10.95 rowidsLower[*]\OT1/cmr/m/n/10.95 ,
+ []
+
+
+Overfull \hbox (2.1913pt too wide) in paragraph at lines 414--420
+\OT1/cmr/m/n/10.95 the method calls \OT1/cmtt/m/n/10.95 SolveMap[]readFromForma
+ttedFile() \OT1/cmr/m/n/10.95 or \OT1/cmtt/m/n/10.95 SolveMap[]readFromBinaryFi
+le()\OT1/cmr/m/n/10.95 ,
+ []
+
+[6]) (main.ind [7] [8
+
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 591 strings out of 10908
+ 6152 string characters out of 72189
+ 50903 words of memory out of 262141
+ 3448 multiletter control sequences out of 9500
+ 23452 words of font info for 88 fonts, out of 150000 for 255
+ 14 hyphenation exceptions out of 607
+ 22i,5n,21p,313b,383s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (8 pages, 22284 bytes).

@@ -1,0 +1,29 @@
+\par
+\section{Data Structure}
+\label{section:PatchAndGoInfo:dataStructure}
+\par
+\par
+The {\tt PatchAndGoInfo} structure has five fields.
+\begin{itemize}
+\item
+{\tt int strategy} : type of patch-and-go strategy
+\begin{itemize}
+\item {\tt 1} --- used with optimization matrices,
+if $|A_{i,i}| \le \mbox{\tt toosmall}$ then set
+$A_{i,i} = 1$ and $L_{j,i} = 0$ for $j > i$.
+\item {\tt 2} --- used with structural analysis matrices,
+if $|A_{i,i}| \le \mbox{\tt fudge}$ then
+set $A_{i,i} = \mbox{\tt fudge} \cdot
+\max\{1, \max_{j>i}\{ |A_{i,j}|, |A_{j,i}| \} \}$
+\end{itemize}
+\item
+{\tt double toosmall} : cutoff for diagonal entry magnitude
+\item
+{\tt double fudge} : pertubation multiplier for modification
+\item
+{\tt IV *fudgeIV} : vector to collect locations of perturbations,
+may be {\tt NULL}.
+\item
+{\tt DV *fudgeDV} : vector to collect perturbations,
+may be {\tt NULL}.
+\end{itemize}
