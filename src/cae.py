@@ -30,8 +30,9 @@ from PyQt5 import QtWidgets
 from settings import Settings
 from mainwindow import MainWindow
 from model import Model
-from tree import tree
+from tree import Tree
 from ie import importFile, writeInput
+from actions import Actions
 from clean import cleanCache
 
 
@@ -73,30 +74,14 @@ if __name__ == '__main__':
         m = Model(settings, args.inp)
 
         # Create treeView items based on KOM
-        t = tree(p, settings, mw.treeView, mw.VTK, m.KOM)
-
+        t = Tree(p, settings, mw, m)
         # Abs. path to INP file
         if len(args.inp):
             path_to_inp = os.path.join(p.app_home_dir, args.inp)
-            importFile(p, settings, m, mw, t, path_to_inp) # import default start model
+            importFile(settings, mw, m, t, path_to_inp) # import default start model
 
         # MainWindow actions
-        if True:
-
-            # File actions
-            mw.action_file_import.triggered.connect(
-                lambda: importFile(p, settings, m, mw, t))
-
-            # Job actions
-            mw.action_job_write_input.triggered.connect(writeInput)
-            mw.action_job_edit_inp.triggered.connect(lambda: m.job.editINP(settings))
-            mw.action_job_open_subroutine.triggered.connect(lambda: m.job.openSubroutine(settings))
-            mw.action_job_rebuild_ccx.triggered.connect(lambda: m.job.rebuildCCX(settings))
-            mw.action_job_submit.triggered.connect(lambda: m.job.submit(settings))
-            mw.action_job_view_log.triggered.connect(lambda: m.job.viewLog(settings))
-            mw.action_job_open_cgx.triggered.connect(lambda: m.job.openCGX(settings))
-            mw.action_job_export_vtu.triggered.connect(m.job.exportVTU)
-            mw.action_job_open_paraview.triggered.connect(lambda: m.job.openParaView(settings))
+        Actions(settings, mw, m, t)
 
 
         # Execute application

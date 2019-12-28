@@ -33,6 +33,9 @@ class Job:
     # Rename job
     def rename(self, file_name):
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
+        """ TODO
+        INFO, job: Work directory is: /run/user/1000/doc/4b7507b8
+        INFO, ie: Loading /run/user/1000/doc/4b7507b8/baffle2D.inp. """
         logging.info('Work directory is: ' + self.dir)
         self.name = os.path.basename(file_name) # INP file name
         self.inp = os.path.abspath(file_name) # full path to INP file with extension

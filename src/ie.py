@@ -23,7 +23,7 @@ from mesh import Parse, readLines
 
 
 # Menu File -> Import
-def importFile(p, settings, m, mw, t, file_name=None):
+def importFile(settings, mw, m, t, file_name=None):
     clear_textEdit = False
     if not file_name:
         clear_textEdit = True
@@ -65,7 +65,7 @@ def importFile(p, settings, m, mw, t, file_name=None):
 
 
         # Add parsed implementations to the tree
-        t.generateTreeView(p, settings, m.KOM, mw.treeView)
+        t.generateTreeView(m)
 
         # Parse mesh
         m.mesh = Parse(m.job.inp) # parse mesh
@@ -157,13 +157,14 @@ def writeInput(m, file_name=None):
     if file_name:
         with open(file_name, 'w') as f:
             writer(m.KOM.root, f, 0)
+        """ TODO
+        INFO, ie: Input written to /run/user/1000/doc/60c6e9ea/qwe.inp
+        INFO, job: Work directory is: /run/user/1000/doc/60c6e9ea """
         logging.info('Input written to ' + file_name)
 
         # Rename job and update treeView if new INP-file name was selected
         old_job_name = m.job.name
         m.job.rename(file_name)
-        # if m.job.name != old_job_name:
-        #     tree.appendJobName()
 
 
 # Recursively write implementation's INP_code to output .inp-file
