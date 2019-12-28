@@ -11,11 +11,11 @@
 """
 
 
-from path import Path
+from Path import Path
 from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtWebEngineWidgets
 import sys, os, re, logging
-from kom import item_type
-from settings import Settings
+from model.KOM import item_type
+from Settings import Settings
 
 
 

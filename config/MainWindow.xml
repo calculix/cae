@@ -165,7 +165,6 @@
     </property>
     <addaction name="action_help_readme"/>
     <addaction name="action_help_issues"/>
-    <addaction name="action_help_yahoo"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuJob"/>

@@ -11,8 +11,8 @@
 
 
 import logging, os
-from kom import KOM
-from job import Job
+from model.KOM import KOM
+from model.Job import Job
 
 
 class Model:

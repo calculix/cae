@@ -11,10 +11,10 @@
 """
 
 
-from path import Path
+from Path import Path
 import os, logging, subprocess, queue
 from PyQt5 import QtWidgets
-from log import logLine
+from gui.MyLoggingHandler import logLine
 
 
 class Job:

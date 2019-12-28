@@ -6,14 +6,14 @@
 
     Test for all CalculiX examples.
     Run with command:
-        python3 tests.py > tests.log
+        python3 Tests.py > Tests.log
 """
 
 
-from path import Path
+from Path import Path
 import os, sys, time, logging, shutil
-import VTK
-from mesh import Parse
+from gui.VTK import VTK
+from model.parsers.Mesh import Mesh
 from PyQt5 import QtWidgets
 
 
@@ -28,7 +28,7 @@ class myHandler(logging.Handler):
         print(msg_text)
 
 
-class Tester:
+class Tests:
 
 
     def __init__(self):
@@ -56,7 +56,7 @@ class Tester:
         app = QtWidgets.QApplication(sys.argv)
 
         # Create VTK widget
-        VTK = VTK.VTK()
+        VTK = VTK()
 
         # Parse mesh and convert it to ugrid
         mesh = Parse(file_name) # parse mesh
@@ -70,7 +70,7 @@ class Tester:
 
 if __name__ == '__main__':
 
-    Tester()
+    Tests()
 
     # Delete cached files
     if os.path.isdir('__pycache__'):

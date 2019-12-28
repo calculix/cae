@@ -5,6 +5,8 @@ Distributed under GNU General Public License v3.0
 
 
 
+# CalculiX CAE
+
 [Features](#features) |
 [Screenshots](#screenshots) |
 [Downloads](#downloads) |
@@ -14,11 +16,7 @@ Distributed under GNU General Public License v3.0
 [What's new](#whats-new) |
 [TODO](#todo)
 
-<br/><br/>
-
-
-
-# CalculiX CAE
+---
 
 GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free and open source. Program is based on CalculiX keywords hierarchy. Written in Python3, utilizes PyQt5 and VTK.
 
@@ -36,7 +34,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by CalculiX.
 
-- [Solid mesh parser](src/mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](src/tests.log).
+- [Solid mesh parser](src/mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [Tests.log](src/Tests.log).
 
 - Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/VTK.py).
 
@@ -149,6 +147,14 @@ CalculiX CAE uses external converters:
 - [unv2ccx](https://github.com/imirzov/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
 
 The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/imirzov/ccx_free_form_fortran) - this version has much better code folding and readability.
+
+<br/><br/>
+
+
+
+# What's new
+
+- Better/simpler app's architecture.
 
 <br/><br/>
 

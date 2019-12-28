@@ -32,10 +32,10 @@ class Path:
                 os.path.join(os.path.dirname(sys.argv[0]), '..'))
 
         self.config = os.path.join(self.app_home_dir, 'config')
-        self.cae_xml = os.path.join(self.config, 'cae.xml')
+        self.cae_xml = os.path.join(self.config, 'MainWindow.xml')
         self.kom_xml = os.path.join(self.config, 'kom.xml')
-        self.settings_xml = os.path.join(self.config, 'settings.xml')
-        self.dialog_xml = os.path.join(self.config, 'dialog.xml')
+        self.settings_xml = os.path.join(self.config, 'SettingsDialog.xml')
+        self.dialog_xml = os.path.join(self.config, 'KeywordDialog.xml')
 
         self.bin = os.path.join(self.app_home_dir, 'bin')
         self.ccx = os.path.join(self.app_home_dir, 'ccx_' + self.op_sys, 'ccx_2.16_ffree_form')

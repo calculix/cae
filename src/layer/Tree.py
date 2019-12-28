@@ -10,11 +10,11 @@
 """
 
 
-from path import Path
+from Path import Path
 import re, os, sys, logging
 from PyQt5 import QtWidgets, QtCore, QtGui
-from dialog import KeywordDialog
-from kom import item_type, implementation
+from gui.KeywordDialog import KeywordDialog
+from model.KOM import item_type, implementation
 
 
 class Tree:

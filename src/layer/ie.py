@@ -18,8 +18,8 @@
 
 from PyQt5.QtWidgets import QFileDialog
 import os, logging
-from kom import item_type, implementation, KOM
-from mesh import Parse, readLines
+from model.KOM import item_type, implementation, KOM
+from model.parsers.Mesh import Mesh, readLines
 
 
 # Menu File -> Import
@@ -68,7 +68,7 @@ def importFile(settings, mw, m, t, file_name=None):
         t.generateTreeView(m)
 
         # Parse mesh
-        m.mesh = Parse(m.job.inp) # parse mesh
+        m.mesh = Mesh(m.job.inp) # parse mesh
 
         # Create ugrid from mesh
         if settings.show_vtk:

@@ -68,7 +68,7 @@ def readByteLine(f):
     return line.strip()
 
 
-class Parse:
+class Mesh:
 
 
     # Initialization

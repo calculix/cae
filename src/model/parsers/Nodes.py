@@ -12,7 +12,7 @@
 import re, logging
 
 
-class Parse:
+class Nodes:
 
 
     # Initialization

@@ -11,8 +11,8 @@
 
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import logging
-from VTK import VTK
-from log import myLoggingHandler
+from gui.VTK import VTK
+from gui.MyLoggingHandler import MyLoggingHandler
 
 
 # Main window
@@ -25,7 +25,7 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi(p.cae_xml, self) # load form
 
         # Configure logs to be shown in window
-        logging.getLogger().addHandler(myLoggingHandler(self.textEdit))
+        logging.getLogger().addHandler(MyLoggingHandler(self.textEdit))
         logging.getLogger().setLevel(settings.logging_level)
 
         # When logger is ready - check if settings read correctly

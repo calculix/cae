@@ -14,7 +14,7 @@ from PyQt5 import QtGui
 
 
 # Logging handler
-class myLoggingHandler(logging.Handler):
+class MyLoggingHandler(logging.Handler):
 
 
     # Initialization

@@ -11,11 +11,11 @@
 """
 
 
-from path import Path
+from Path import Path
 import re, logging, copy, os, sys, time
 from enum import Enum
 import xml.etree.ElementTree as ET
-from settings import Settings
+from Settings import Settings
 
 
 # Keyword Object Model

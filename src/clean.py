@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 """
     © Ihor Mirzov, August 2019
     Distributed under GNU General Public License v3.0
@@ -9,7 +8,9 @@
 """
 
 
+
 import os, sys, shutil
+
 
 
 # Clean screen
@@ -17,13 +18,21 @@ def cleanScreen():
     os.system('cls' if os.name=='nt' else 'clear')
 
 
+
 # Delete cached files from folder
 def cleanCache(folder=None):
-    path = '__pycache__'
-    if folder:
-        path = os.path.join(folder, path)
-    if os.path.isdir(path):
-        shutil.rmtree(path) # works in Linux as in Windows
+    if not folder:
+        folder = os.getcwd()
+    pycache = os.path.join(folder, '__pycache__')
+    if os.path.isdir(pycache):
+        shutil.rmtree(pycache) # works in Linux as in Windows
+
+    # Recursively clear cache in child folders
+    for f in os.listdir(folder):
+        f = os.path.join(folder, f)
+        if os.path.isdir(f):
+            cleanCache(f)
+
 
 
 # Cleaup trash files in startFolder and all subfolders
@@ -45,6 +54,7 @@ def cleanFiles(startFolder=None):
                 sys.__stdout__.write(f + ': ' + sys.exc_info()[1][1] + '\n')
 
 
+
 # Cleaup old result files
 def cleanResults():
     extensions = ('.frd', '.vtk', '.vtu')
@@ -55,4 +65,3 @@ def cleanResults():
                 sys.__stdout__.write('Delelted: ' + f + '\n')
             except:
                 sys.__stdout__.write(f + ': ' + sys.exc_info()[1][1] + '\n')
-
