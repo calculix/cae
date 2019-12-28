@@ -35,8 +35,8 @@ class KOM:
 
             # Analyze keywords hierarchy
             p = Path() # calculate absolute paths
-            tree = ET.parse(p.kom_xml)
-            self.buildKOM(tree.getroot(), self.root)
+            t = ET.parse(p.kom_xml)
+            self.buildKOM(t.getroot(), self.root)
 
             # # Regenerate all HTML help pages
             # from dialog import saveHTML

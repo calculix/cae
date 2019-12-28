@@ -17,32 +17,26 @@ from dialog import KeywordDialog
 from kom import item_type, implementation
 
 
-class tree:
+class Tree:
 
 
-    def __init__(self, MainWindow, settings):
-        self.MainWindow = MainWindow
+    def __init__(self, p, settings, mw, m):
+        self.p = p
         self.settings = settings
-        self.p = Path()
+        self.mw = mw
+        self.m = m
 
         # Now generate treeView items
         self.model = QtGui.QStandardItemModel()
-        self.MainWindow.treeView.setModel(self.model)
-        self.generateTreeView()
-
-        # Actions
-        self.MainWindow.treeView.doubleClicked.connect(self.doubleClicked)
-        self.MainWindow.treeView.clicked.connect(self.clicked)
-        self.MainWindow.treeView.customContextMenuRequested.connect(self.rightClicked)
-        self.MainWindow.treeView.expanded.connect(self.treeViewExpanded)
-        self.MainWindow.treeView.collapsed.connect(self.treeViewCollapsed)
+        self.mw.treeView.setModel(self.model)
+        self.generateTreeView(m)
 
 
     # Recursively generate treeView widget items based on KOM
-    def generateTreeView(self):
+    def generateTreeView(self, m):
         self.model.clear() # remove all items and data from tree
         parent_element = self.model.invisibleRootItem() # top element in QTreeView
-        self.addToTree(parent_element, self.MainWindow.KOM.root.items) # pass top level groups
+        self.addToTree(parent_element, self.m.KOM.root.items) # pass top level groups
 
 
     # Used with generateTreeView() - implements recursion
@@ -82,9 +76,9 @@ class tree:
 
                 # Expand / collapse
                 if item.expanded:
-                    self.MainWindow.treeView.expand(tree_element.index())
+                    self.mw.treeView.expand(tree_element.index())
                 else:
-                    self.MainWindow.treeView.collapse(tree_element.index())
+                    self.mw.treeView.collapse(tree_element.index())
 
                 # Add icon to each keyword in tree
                 icon_name = item.name.replace('*', '') + '.png'
@@ -94,10 +88,11 @@ class tree:
                 icon = QtGui.QIcon(icon_path)
                 tree_element.setIcon(icon)
 
-                # Append job name
-                if item.name == 'Job':
-                    self.job_element = tree_element
-                    self.appendJobName()
+                # TODO Why comments?
+                # # Append job name
+                # if item.name == 'Job':
+                #     self.job_element = tree_element
+                #     self.appendJobName()
 
                 # Organize recursion
                 impls = item.getImplementations()
@@ -107,20 +102,21 @@ class tree:
                     self.addToTree(tree_element, item.items)
 
 
-    def appendJobName(self):
+    # TODO Why comments?
+    # def appendJobName(self):
 
-        # Remove old job name element
-        if self.job_element.hasChildren():
-            self.model.removeRow(0, self.job_element.index())
+    #     # Remove old job name element
+    #     if self.job_element.hasChildren():
+    #         self.model.removeRow(0, self.job_element.index())
 
-        # Append new job name element
-        job_name_element = QtGui.QStandardItem(self.MainWindow.job.name)
-        self.job_element.appendRow(job_name_element)
+    #     # Append new job name element
+    #     job_name_element = QtGui.QStandardItem(self.m.job.name)
+    #     self.job_element.appendRow(job_name_element)
 
 
     # Double click on treeView item: edit the keyword via dialog
     def doubleClicked(self):
-        index = self.MainWindow.treeView.selectedIndexes()[0] # selected item index
+        index = self.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
@@ -131,7 +127,7 @@ class tree:
             if item.active:
 
                 # Create dialog window and pass item
-                dialog = KeywordDialog(self.MainWindow.KOM, item)
+                dialog = KeywordDialog(self.m.KOM, item)
 
                 # Get response from dialog window
                 if dialog.exec() == KeywordDialog.Accepted: # if user pressed 'OK'
@@ -166,13 +162,13 @@ class tree:
     # Highlight node sets, element sets or surfaces
     def clicked(self):
         if self.settings.show_vtk:
-            self.MainWindow.VTK.actionSelectionClear() # clear selection
+            self.mw.VTK.actionSelectionClear() # clear selection
 
         # Debug for Ctrl+Click
-        if not len(self.MainWindow.treeView.selectedIndexes()):
+        if not len(self.mw.treeView.selectedIndexes()):
             return
 
-        index = self.MainWindow.treeView.selectedIndexes()[0] # selected item index
+        index = self.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
@@ -190,16 +186,18 @@ class tree:
                 match = re.search('NSET\s*=\s*([\w\-]*)', lead_line.upper())
                 if match: # if there is NSET attribute
                     name = lead_line[match.start(1):match.end(1)] # node set name
-                    if name in self.MainWindow.mesh.nsets:
-                        _set = [n.num for n in self.MainWindow.mesh.nsets[name].nodes]
-                        self.MainWindow.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
+                    # TODO Why comments?
+                    # if name in self.m.mesh.nsets:
+                    #     _set = [n.num for n in self.m.mesh.nsets[name].nodes]
+                    #     self.mw.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
             elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
                 match = re.search('ELSET\s*=\s*([\w\-]*)', lead_line.upper())
                 if match: # if there is ELSET attribute
                     name = lead_line[match.start(1):match.end(1)] # element set name
-                    if name in self.MainWindow.mesh.elsets:
-                        _set = [e.num for e in self.MainWindow.mesh.elsets[name].elements]
-                        self.MainWindow.VTK.highlight(_set, 0) # 0 = vtk.vtkSelectionNode.CELL
+                    # TODO Why comments?
+                    # if name in self.m.mesh.elsets:
+                    #     _set = [e.num for e in self.m.mesh.elsets[name].elements]
+                    #     self.mw.VTK.highlight(_set, 0) # 0 = vtk.vtkSelectionNode.CELL
             elif ipn_up == '*SURFACE':
 
                 # Surface type - optional attribute
@@ -210,12 +208,13 @@ class tree:
 
                 match = re.search('NAME\s*=\s*([\w\-]*)', lead_line.upper())
                 name = lead_line[match.start(1):match.end(1)] # surface name
-                if stype == 'ELEMENT':
-                    _set = self.MainWindow.mesh.surfaces[name + stype].set
-                    self.MainWindow.VTK.highlightSURFACE(_set)
-                elif stype=='NODE':
-                    _set = [n.num for n in self.MainWindow.mesh.surfaces[name + stype].set]
-                    self.MainWindow.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
+                # TODO Why comments?
+                # if stype == 'ELEMENT':
+                #     _set = self.m.mesh.surfaces[name + stype].set
+                #     self.mw.VTK.highlightSURFACE(_set)
+                # elif stype=='NODE':
+                #     _set = [n.num for n in self.m.mesh.surfaces[name + stype].set]
+                #     self.mw.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
 
             # Hightlight Loads & BC
             elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
@@ -227,16 +226,18 @@ class tree:
                         _set.append(int(n))
                     except ValueError as err:
                         # Nodes in node set
-                        _set.extend([n.num for n in self.MainWindow.mesh.nsets[n].nodes])
-                self.MainWindow.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
+                        # TODO Why comments?
+                        # _set.extend([n.num for n in self.m.mesh.nsets[n].nodes])
+                        pass
+                self.mw.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
 
 
     # Context menu for right click
     def rightClicked(self):
-        self.myMenu = QtWidgets.QMenu('Menu', self.MainWindow.treeView)
+        self.myMenu = QtWidgets.QMenu('Menu', self.mw.treeView)
 
         try:
-            index = self.MainWindow.treeView.selectedIndexes()[0] # selected item index
+            index = self.mw.treeView.selectedIndexes()[0] # selected item index
             tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
             item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
@@ -245,29 +246,29 @@ class tree:
                 if item.item_type == item_type.IMPLEMENTATION:
 
                     # 'Edit' action
-                    action_edit_implementation = QtWidgets.QAction('Edit', self.MainWindow.treeView)
+                    action_edit_implementation = QtWidgets.QAction('Edit', self.mw.treeView)
                     self.myMenu.addAction(action_edit_implementation)
                     action_edit_implementation.triggered.connect(self.doubleClicked)
 
                     # 'Delete' action
-                    action_delete_implementation = QtWidgets.QAction('Delete', self.MainWindow.treeView)
+                    action_delete_implementation = QtWidgets.QAction('Delete', self.mw.treeView)
                     self.myMenu.addAction(action_delete_implementation)
                     action_delete_implementation.triggered.connect(self.actionDeleteImplementation)
 
                 if item.item_type == item_type.KEYWORD:
 
                     # 'Create' action
-                    action_create_implementation = QtWidgets.QAction('Create', self.MainWindow.treeView)
+                    action_create_implementation = QtWidgets.QAction('Create', self.mw.treeView)
                     self.myMenu.addAction(action_create_implementation)
                     action_create_implementation.triggered.connect(self.doubleClicked)
 
-            # Context menu for Job
-            elif tree_element.text() == self.MainWindow.job.name:
+            # # Context menu for Job
+            # elif tree_element.text() == self.m.job.name:
 
-                # Write input file & submit job
-                action = QtWidgets.QAction('Write input && Submit', self.MainWindow.treeView)
-                self.myMenu.addAction(action)
-                action.triggered.connect(self.writeInputAndSubmit)
+            #     # Write input file & submit job
+            #     action = QtWidgets.QAction('Write input && Submit', self.mw.treeView)
+            #     self.myMenu.addAction(action)
+            #     action.triggered.connect(self.writeInputAndSubmit)
 
             # Add splitter
             self.myMenu.addSeparator()
@@ -277,50 +278,50 @@ class tree:
 
         # Context menu elements which always present
         if self.settings.show_empty_keywords:
-            action_show_hide = QtWidgets.QAction('Hide empty containers', self.MainWindow.treeView)
+            action_show_hide = QtWidgets.QAction('Hide empty containers', self.mw.treeView)
         else:
-            action_show_hide = QtWidgets.QAction('Show empty containers', self.MainWindow.treeView)
+            action_show_hide = QtWidgets.QAction('Show empty containers', self.mw.treeView)
         self.myMenu.addAction(action_show_hide)
         action_show_hide.triggered.connect(self.actionShowHide)
 
-        action_expand_collapse = QtWidgets.QAction('Collapse all', self.MainWindow.treeView)
+        action_expand_collapse = QtWidgets.QAction('Collapse all', self.mw.treeView)
         self.myMenu.addAction(action_expand_collapse)
         action_expand_collapse.triggered.connect(self.actionCollapseAll)
 
-        action_expand_collapse = QtWidgets.QAction('Expand all', self.MainWindow.treeView)
+        action_expand_collapse = QtWidgets.QAction('Expand all', self.mw.treeView)
         self.myMenu.addAction(action_expand_collapse)
         action_expand_collapse.triggered.connect(self.actionExpandAll)
 
         self.myMenu.exec_(QtGui.QCursor.pos())
 
 
-    # Write input and submit job
-    def writeInputAndSubmit(self):
-        self.MainWindow.IE.writeInput(file_name=self.MainWindow.job.inp)
-        self.MainWindow.job.submit()
+    # # Write input and submit job
+    # def writeInputAndSubmit(self):
+    #     self.mw.IE.writeInput(file_name=self.m.job.inp)
+    #     self.m.job.submit()
 
 
     # Show/Hide empty treeView items
     def actionShowHide(self):
         self.settings.show_empty_keywords = not(self.settings.show_empty_keywords)
         self.settings.save() # save 'show_empty_keywords' value in settings
-        self.generateTreeView()
+        self.generateTreeView(self.m)
 
 
     # Expand or collapse all treeView items
     def actionCollapseAll(self):
-        self.MainWindow.treeView.collapseAll()
+        self.mw.treeView.collapseAll()
         self.settings.expanded = False
         self.settings.save()
     def actionExpandAll(self):
-        self.MainWindow.treeView.expandAll()
+        self.mw.treeView.expandAll()
         self.settings.expanded = True
         self.settings.save()
 
 
     # Delete keyword's implementation from KOM
     def actionDeleteImplementation(self):
-        index = self.MainWindow.treeView.selectedIndexes()[0] # selected item index
+        index = self.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 

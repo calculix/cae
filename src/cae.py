@@ -25,117 +25,15 @@ p = Path() # calculate absolute paths
 p.append_to_PATH([p.app_home_dir, p.src])
 
 # Main imports
-import os, sys, argparse, logging, shutil, subprocess
-from PyQt5 import QtWidgets, uic, QtCore, QtGui
-from tree import tree
-from VTK import VTK
-from kom import KOM
-from ie import IE
+import os, sys, argparse
+from PyQt5 import QtWidgets
 from settings import Settings
-from job import Job
-from log import myLoggingHandler
+from mainwindow import MainWindow
+from model import Model
+from tree import Tree
+from ie import importFile, writeInput
+from actions import Actions
 from clean import cleanCache
-
-
-# Main window
-class MainWindow(QtWidgets.QMainWindow):
-
-
-    # Create main window
-    def __init__(self, settings, path_start_model):
-        QtWidgets.QMainWindow.__init__(self) # create main window
-        uic.loadUi(p.cae_xml, self) # load form
-
-        # Configure logs to be shown in window
-        logging.getLogger().addHandler(myLoggingHandler(self.textEdit))
-        logging.getLogger().setLevel(settings.logging_level)
-
-        # When logger is ready - check if settings read correctly
-        if hasattr(settings, 'error_path'):
-            logging.error('Error path in settings file: ' + settings.error_path + '. Loading default values.')
-
-        # Abs. path to the path_start_model
-        if len(path_start_model):
-            path_start_model = os.path.join(p.app_home_dir, path_start_model)
-
-        # Create VTK widget
-        if settings.show_vtk:
-            self.VTK = VTK() # create everything for model visualization
-            self.h_splitter.addWidget(self.VTK.widget)
-            self.setMinimumSize(1280, 600)
-            self.resize(1280, 720)
-        else:
-            self.toolBar.setParent(None) # hide toolbar
-
-        self.mesh = None # mesh from .inp-file - will be parsed in ie.py
-        self.IE = IE(self, settings) # import/export of .inp-file
-        self.KOM = KOM() # empty KOM w/o implementations
-        # TODO try to reorder to omit double job calling/renaming
-        self.job = Job(settings, path_start_model) # create job object
-        self.tree = tree(self, settings) # create treeView items based on KOM
-        if len(path_start_model):
-            self.IE.importFile(path_start_model) # import default start model
-
-        # Actions
-        if True:
-            self.treeView.keyPressEvent = self.keyPressEvent
-
-            # File actions
-            self.action_file_import.triggered.connect(self.IE.importFile)
-            self.action_file_settings.triggered.connect(settings.open)
-            self.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
-
-            # Job actions
-            self.action_job_write_input.triggered.connect(self.IE.writeInput)
-            self.action_job_edit_inp.triggered.connect(lambda: self.job.editINP(settings))
-            self.action_job_open_subroutine.triggered.connect(lambda: self.job.openSubroutine(settings))
-            self.action_job_rebuild_ccx.triggered.connect(lambda: self.job.rebuildCCX(settings))
-            self.action_job_submit.triggered.connect(lambda: self.job.submit(settings))
-            self.action_job_view_log.triggered.connect(lambda: self.job.viewLog(settings))
-            self.action_job_open_cgx.triggered.connect(lambda: self.job.openCGX(settings))
-            self.action_job_export_vtu.triggered.connect(self.job.exportVTU)
-            self.action_job_open_paraview.triggered.connect(lambda: self.job.openParaView(settings))
-
-            # Help actions
-            self.action_help_readme.triggered.connect(lambda:
-                    self.help('https://github.com/imirzov/ccx_cae#calculix-cae'))
-            self.action_help_yahoo.triggered.connect(lambda:
-                    self.help('https://groups.yahoo.com/neo/groups/CALCULIX/conversations/topics/15616'))
-            self.action_help_issues.triggered.connect(lambda:
-                    self.help('https://github.com/imirzov/ccx_cae/issues'))
-
-            # VTK actions
-            if settings.show_vtk:
-                # self.actionSelectionNodes.triggered.connect(self.VTK.actionSelectionNodes)
-                # self.actionSelectionElements.triggered.connect(self.VTK.actionSelectionElements)
-                # self.actionSelectionClear.triggered.connect(self.VTK.actionSelectionClear)
-                self.actionViewParallel.triggered.connect(self.VTK.actionViewParallel)
-                self.actionViewPerspective.triggered.connect(self.VTK.actionViewPerspective)
-                self.actionViewFront.triggered.connect(self.VTK.actionViewFront)
-                self.actionViewBack.triggered.connect(self.VTK.actionViewBack)
-                self.actionViewTop.triggered.connect(self.VTK.actionViewTop)
-                self.actionViewBottom.triggered.connect(self.VTK.actionViewBottom)
-                self.actionViewLeft.triggered.connect(self.VTK.actionViewLeft)
-                self.actionViewRight.triggered.connect(self.VTK.actionViewRight)
-                self.actionViewIso.triggered.connect(self.VTK.actionViewIso)
-                self.actionViewFit.triggered.connect(self.VTK.actionViewFit)
-                self.actionViewWireframe.triggered.connect(self.VTK.actionViewWireframe)
-                self.actionViewSurface.triggered.connect(self.VTK.actionViewSurface)
-                self.actionViewSurfaceWithEdges.triggered.connect(self.VTK.actionViewSurfaceWithEdges)
-
-
-    # Delete keyword's implementation in the treeView by pressing 'Delete' button
-    def keyPressEvent(self, e):
-        if e.key() == QtCore.Qt.Key_Delete:
-            self.tree.actionDeleteImplementation()
-
-
-    # Open README.md on the GitHub
-    def help(self, link):
-        url = QtCore.QUrl(link)
-        logging.info('Going to ' + link)
-        if not QtGui.QDesktopServices.openUrl(url):
-            logging.warning('Can\'t open url: ' + link)
 
 
 if __name__ == '__main__':
@@ -166,11 +64,25 @@ if __name__ == '__main__':
 
 
         # Create and show main window
-        mw = MainWindow(settings, args.inp)
+        mw = MainWindow(p, settings)
         if settings.show_maximized:
             mw.showMaximized()
         else:
             mw.show()
+
+        # Generate FEM model
+        m = Model(settings, args.inp)
+
+        # Create treeView items based on KOM
+        t = Tree(p, settings, mw, m)
+        # Abs. path to INP file
+        if len(args.inp):
+            path_to_inp = os.path.join(p.app_home_dir, args.inp)
+            importFile(settings, mw, m, t, path_to_inp) # import default start model
+
+        # MainWindow actions
+        Actions(settings, mw, m, t)
+
 
         # Execute application
         a = app.exec()
