@@ -5,7 +5,7 @@
     Distributed under GNU General Public License v3.0
 
     Prepare binaries for publishing:
-        python3 release_binaries.py
+        python3 make_release.py
 """
 
 

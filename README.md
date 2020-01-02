@@ -5,8 +5,7 @@ Distributed under GNU General Public License v3.0
 
 
 
-# CalculiX CAE
-
+---
 [Features](#features) |
 [Screenshots](#screenshots) |
 [Downloads](#downloads) |
@@ -17,6 +16,12 @@ Distributed under GNU General Public License v3.0
 [TODO](#todo)
 
 ---
+
+<br/><br/>
+
+
+
+# CalculiX CAE
 
 GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free and open source. Program is based on CalculiX keywords hierarchy. Written in Python3, utilizes PyQt5 and VTK.
 

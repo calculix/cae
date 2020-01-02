@@ -33,13 +33,13 @@ class Path:
 
         self.config = os.path.join(self.app_home_dir, 'config')
         self.cae_xml = os.path.join(self.config, 'MainWindow.xml')
-        self.kom_xml = os.path.join(self.config, 'kom.xml')
+        self.kom_xml = os.path.join(self.config, 'KOM.xml')
         self.settings_xml = os.path.join(self.config, 'SettingsDialog.xml')
         self.dialog_xml = os.path.join(self.config, 'KeywordDialog.xml')
 
         self.bin = os.path.join(self.app_home_dir, 'bin')
         self.ccx = os.path.join(self.app_home_dir, 'ccx_' + self.op_sys, 'ccx_2.16_ffree_form')
-        self.settings = os.path.join(self.config, 'settings_' + self.op_sys + '.env')
+        self.settings = os.path.join(self.config, 'Settings_' + self.op_sys + '.env')
         self.doc = os.path.join(self.app_home_dir, 'doc')
         self.examples = os.path.join(self.app_home_dir, 'examples')
         self.img = os.path.join(self.app_home_dir, 'img')

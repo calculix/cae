@@ -480,7 +480,7 @@ class style_select_elements(vtk.vtkInteractorStyleTrackballCamera):
 
             extract_selection = vtk.vtkExtractSelection()
             extract_selection.PreserveTopologyOn()
-            # extract_selection.SetInputData(0, self.ugrid) # TODO somehow plot original ugrid
+            # extract_selection.SetInputData(0, self.ugrid)
             extract_selection.SetInputData(0, selection)
             # extract_selection.SetInputData(1, selection)
             extract_selection.Update()

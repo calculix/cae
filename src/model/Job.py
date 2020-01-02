@@ -21,21 +21,18 @@ class Job:
 
 
     # Create job object
-    def __init__(self, settings, file_name):
-        self.p = Path() # TODO get as argument
+    def __init__(self, p, s, file_name):
+        self.p = p
         logging.info('Application\'s home directory is: ' + self.p.app_home_dir)
 
         if not len(file_name):
-            file_name = settings.path_start_model
+            file_name = s.path_start_model
         self.rename(file_name)
 
 
     # Rename job
     def rename(self, file_name):
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
-        """ TODO
-        INFO, job: Work directory is: /run/user/1000/doc/4b7507b8
-        INFO, ie: Loading /run/user/1000/doc/4b7507b8/baffle2D.inp. """
         logging.info('Work directory is: ' + self.dir)
         self.name = os.path.basename(file_name) # INP file name
         self.inp = os.path.abspath(file_name) # full path to INP file with extension
@@ -46,7 +43,7 @@ class Job:
         # Log each job into file
         if len(logging.getLogger().handlers) > 1:
             logging.getLogger().handlers.pop()
-        fh = logging.FileHandler(self.log, mode='a')
+        fh = logging.FileHandler(self.log, mode='w')
         fmt = logging.Formatter('%(module)s, %(levelname)s: %(message)s')
         fh.setFormatter(fmt)
         logging.getLogger().addHandler(fh)

@@ -6,15 +6,14 @@
     Distributed under GNU General Public License v3.0
 
     Application's settings.
-    Attributes values are maintained through the settings ENV file.
-    User dialog form is maintained through the settings.XML file.
-    You may edit settings.XML from Qt Designer.
+    Attributes values are maintained in config/Settings_linux.env.
+    User dialog form is config/SettingsDialog.xml - use Qt Designer to edit.
 """
 
 
 from Path import Path
 import os, sys, logging
-from gui.SettingsDialog import SettingsDialog
+from PyQt5 import QtWidgets, uic
 
 
 # Session settings object used everywhere in the code
@@ -34,7 +33,6 @@ class Settings():
 
         # Apply default values
         except:
-            print('Error reading ENV settings. Applying default values.')
             self.path_start_model = os.path.join(self.p.examples, 'default.inp')
 
             # Windows
@@ -53,7 +51,7 @@ class Settings():
 
             self.logging_level = 'INFO'
             self.vtk_view = 'WithEdges'
-            self.show_maximized = True
+            self.show_maximized = False
             self.show_empty_keywords = True
             self.expanded = True
             self.vtk_show_axes = True
@@ -65,15 +63,15 @@ class Settings():
     # Open dialog window and pass settings
     def open(self):
         self.__init__() # re-read settings from file
-        dialog = SettingsDialog(settings=self)
+        sd = SettingsDialog(settings=self)
 
         # Warning about Cygwin DLLs
         if os.name=='nt':
             logging.warning('In Windows ccx binary may not work if placed outside \'bin\' directory. It needs Cygwin DLLs!')
 
         # Get response from dialog window
-        if dialog.exec(): # == 1 if user pressed 'OK'
-            dialog.save()
+        if sd.exec(): # == 1 if user pressed 'OK'
+            sd.save()
             self.__init__() # read settings from file
             logging.warning('For some settings to take effect application\'s restart may be needed.')
 
@@ -81,8 +79,67 @@ class Settings():
     # Automatic save current settings during the workflow
     def save(self):
         # Pass values to dialog and save
-        settings = SettingsDialog(settings=self)
-        settings.save()
+        sd = SettingsDialog(settings=self)
+        sd.save()
+
+
+
+# User dialog window with all setting attributes: menu File->Settings
+class SettingsDialog(QtWidgets.QDialog):
+
+
+    # Create dialog window
+    def __init__(self, settings=None):
+
+        # Load UI form
+        QtWidgets.QDialog.__init__(self)
+        self.p = Path() # calculate absolute paths
+        uic.loadUi(self.p.settings_xml, self) # load default settings from
+
+        # Push settings values to the form
+        if settings:
+            for attr, value in settings.__dict__.items():
+                try:
+                    widget = self.findChild(QtWidgets.QCheckBox, attr)
+                    widget.setChecked(value)
+                except:
+                    try:
+                        widget = self.findChild(QtWidgets.QLineEdit, attr)
+                        widget.setText(value)
+                    except:
+                        try:
+                            widget = self.findChild(QtWidgets.QComboBox, attr)
+                            widget.setCurrentText(value)
+                        except:
+                            pass
+
+
+    # Save settings updated via or passed to dialog
+    def save(self):
+        with open(self.p.settings, 'w') as f:
+
+            # Iterate over class attributes
+            for attr, value in self.__dict__.items():
+                class_name = value.__class__.__name__
+                if class_name in ['QCheckBox', 'QLineEdit', 'QComboBox']:
+
+                    # Write settings to file
+                    if class_name == 'QCheckBox':
+                        text = str(value.isChecked())
+                    elif class_name == 'QLineEdit':
+                        text = value.text()
+                        text = '\'' + self.p.abspath(text) + '\'' # covert path to absolute
+                        if '\\' in text: # reconstruct path for Windows
+                            text = '\\\\'.join(text.split('\\'))
+                        value = self.__dict__['label_' + attr]
+                    elif class_name == 'QComboBox':
+                        text = '\'' + value.currentText() + '\''
+                        value = self.__dict__['label_' + attr]
+
+                    line = 'self.{} = {}'.format(attr, text)
+                    comment = value.text()
+                    f.write('# ' + comment + '\n')
+                    f.write(line + '\n\n')
 
 
 

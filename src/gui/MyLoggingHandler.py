@@ -49,6 +49,11 @@ class MyLoggingHandler(logging.Handler):
         self.textEdit.moveCursor(QtGui.QTextCursor.End) # scroll text to the end
 
 
+    # Clears textEdit area
+    def flush(self):
+        self.textEdit.setText('')
+
+
 # Process one stdout message
 def logLine(line):
     logging_level = {

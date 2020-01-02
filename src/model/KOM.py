@@ -48,9 +48,9 @@ class KOM:
             # for path in self.paths:
             #     logging.debug(str([item.name for item in path]))
 
-            logging.info('CalculiX object model generated.')
+            logging.info('Keywords object model generated.')
         except:
-            logging.error('Can\'t generate keyword object model!')
+            logging.error('Can\'t generate keywords object model!')
 
 
     # Recursively build Keyword Object Model
@@ -268,6 +268,15 @@ class item:
                 return item
 
 
+    # Returns first active preceding/parent keyword (not group)
+    def getParentKeyword(self):
+        if (self.parent.item_type == self.item_type.KEYWORD or \
+            self.parent.name == 'Model') and self.parent.active:
+                return self.parent.name
+        else:
+            return self.parent.getParentKeyword()
+
+
 # Group of keywords, like 'Properties', 'Constraints', etc.
 class group(item):
 
@@ -323,7 +332,10 @@ class implementation(item):
 
         self.INP_code = INP_code # INP-code for current implementation - list of strings
         self.parent.items.insert(index, self) # append implementation to keyword's items
-        logging.info(self.name + ' created.') # TODO: or updated
+        if name:
+            logging.info(self.name + ' updated.')
+        else:
+            logging.info(self.name + ' created.')
 
 
 # Test module

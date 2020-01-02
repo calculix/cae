@@ -485,15 +485,6 @@
     <string>Post issue</string>
    </property>
   </action>
-  <action name="action_help_yahoo">
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/action_help_yahoo.png</normaloff>../img/action_help_yahoo.png</iconset>
-   </property>
-   <property name="text">
-    <string>Discussion on Yahoo</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections/>

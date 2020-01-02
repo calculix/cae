@@ -1,22 +1,16 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, December 2019
+    © Ihor Mirzov, January 2020
     Distributed under GNU General Public License v3.0
 
-    CalculiX CAE - main function.
+    CalculiX CAE - main module.
+    Creates main objects and starts the application.
+
     How to run:
+        python3 cae.py
         python3 cae.py -inp model.inp
-
-
-    Что почитать:
-    https://habr.com/ru/post/276593/
-    https://fktpm.ru/file/84-sovershennyj-kod.pdf
-    Google:
-        model view controller python
-        шаблоны проектирования python
 """
-
 
 
 # Pyinstaller bug in Windows: append 'app_home_dir' and 'src' directories to PATH
@@ -31,14 +25,13 @@ from Settings import Settings
 from actions import actions
 from gui.MainWindow import MainWindow
 from model.Model import Model
-from layer.ie import importFile
-from layer.Tree import Tree
+from model.Job import Job
+from ie import importFile
+from Tree import Tree
 from clean import cleanCache
 
 
-
 if __name__ == '__main__':
-    # TODO: have a look at https://github.com/davidfraser/pyan
     # from pycallgraph import PyCallGraph
     # from pycallgraph import Config
     # from pycallgraph import GlobbingFilter
@@ -54,35 +47,35 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
     # Read application's global settings
-    settings = Settings()
+    s = Settings()
 
     # Default start model could be chosen with command line parameter
     parser = argparse.ArgumentParser()
     parser.add_argument('-inp', type=str, help='your .inp file',
-                        default=settings.path_start_model)
+                        default=s.path_start_model)
     args = parser.parse_args()
 
 
 
     # Create and show main window
-    mw = MainWindow(p, settings)
-    if settings.show_maximized:
-        mw.showMaximized()
+    w = MainWindow(p, s)
+    if s.show_maximized:
+        w.showMaximized()
     else:
-        mw.show()
+        w.show()
 
-    # Generate FEM model
-    m = Model(settings, args.inp)
+    m = Model() # generate FEM model
+    j = Job(p, s, args.inp) # create job object
+    t = Tree(p, s, w, m) # create treeView items based on KOM
 
-    # Create treeView items based on KOM
-    t = Tree(p, settings, mw, m)
     # Abs. path to INP file
     if len(args.inp):
         path_to_inp = os.path.join(p.app_home_dir, args.inp)
-        importFile(settings, mw, m, t, path_to_inp) # import default start model
+        importFile(s, w, m, t, j, path_to_inp) # import default start model
+
 
     # MainWindow actions
-    actions(settings, mw, m, t)
+    actions(s, w, m, t, j)
 
 
     # Execute application
