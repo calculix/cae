@@ -132,7 +132,13 @@ class Mesh:
                             try:
                                 # Single node number
                                 node = self.old.nodes[int(n)]
-                                nodes.append(node)
+
+                                # Check duplicates
+                                if node in nodes:
+                                    msg_text = 'Duplicated node {}.'.format(n)
+                                    logging.warning(msg_text)
+                                else:
+                                    nodes.append(node)
                             except ValueError:
                                 # Node set name
                                 nodes.extend(self.old.nsets[n].items)
@@ -230,7 +236,13 @@ class Mesh:
                             try:
                                 # Single element number
                                 element = self.old.elements[int(e)]
-                                elements.append(element)
+
+                                # Check duplicates
+                                if element in elements:
+                                    msg_text = 'Duplicated element {}.'.format(e)
+                                    logging.warning(msg_text)
+                                else:
+                                    elements.append(element)
                             except ValueError:
                                 # Element set name
                                 elements.extend(self.old.elsets[e].items)

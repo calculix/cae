@@ -82,8 +82,6 @@ Calculation result exported to Paraview:
 
 Both sources and binaries could be found on [the releases page](https://github.com/imirzov/ccx_cae/releases).
 
-Dear users, from now there will be no Windows binary since I'm not using this OS anymore.
-
 <br/><br/>
 
 
@@ -124,7 +122,6 @@ Please, you may:
 - Share your models and screenshots.
 - Report problems by [posting issues](https://github.com/imirzov/ccx_cae/issues).
 - Do something from the [TODO-list](#TODO).
-- Follow discussion in the [Yahoo CalculiX Group](https://groups.yahoo.com/neo/groups/CALCULIX/conversations/topics/15616).
 
 <br/><br/>
 
@@ -160,6 +157,7 @@ The source code for the CalculiX solver is taken from the [free_form_fortran pro
 # What's new
 
 - Better/simpler app's architecture.
+- Mesh object is reparsed after edit in the treeView.
 
 <br/><br/>
 
@@ -173,7 +171,7 @@ The source code for the CalculiX solver is taken from the [free_form_fortran pro
 
 - Better surface highlight: remove original face for pure color.
 
-- During keyword's edit parse arguments and pass them to Dialog. Reparse mesh objects after edit.
+- During keyword's edit parse arguments and pass them to Dialog.
 
 ## New features
 
