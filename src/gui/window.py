@@ -42,8 +42,8 @@ class Window(QtWidgets.QMainWindow):
         if s.show_vtk:
             self.VTK = VTK() # create everything for model visualization
             self.h_splitter.addWidget(self.VTK.widget)
-            self.setMinimumSize(1280, 600)
-            self.resize(1280, 720)
+            self.setMinimumSize(1280, 640)
+            self.resize(1280, 640)
         else:
             self.toolBar.setParent(None) # hide toolbar
 

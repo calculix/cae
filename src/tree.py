@@ -161,7 +161,6 @@ class Tree:
                         tree_element.setData(impl)
 
                         # Reparse mesh or constraints
-                        # self.m.Mesh.reparse(INP_code)
                         reparsed = Mesh(INP_code=INP_code, old=self.m.Mesh)
                         self.m.Mesh.updateWith(reparsed)
                         self.clicked() # rehighlight

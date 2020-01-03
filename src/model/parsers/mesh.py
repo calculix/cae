@@ -35,9 +35,6 @@ class Mesh:
         self.elsets = {} # element sets
         self.surfaces = {} # with corresponding nodes and element faces
 
-        # Mesh bounds to avoid camera flying to infinity
-        self.bounds = [1e+6,-1e+6]*3 # Xmin,Xmax, Ymin,Ymax, Zmin,Zmax
-
         # Mesh being reparsed
         self.old = old
         if not old:
@@ -66,6 +63,9 @@ class Mesh:
                     logging.info(msg_text)
                 except:
                     logging.error('Can\'t parse {}'.format(attrName))
+
+        # Mesh bounds to avoid camera flying to infinity
+        self.bounds = getBounds(self.nodes)
 
 
     # Parse nodes with coordinates - *NODE keyword
@@ -102,13 +102,6 @@ class Mesh:
                         if len(coords):
                             nodes.append(node)
                             self.nodes[num] = node
-
-                            # Bounding box
-                            for j,coord in enumerate(coords):
-                                if coord < self.bounds[j*2]:
-                                    self.bounds[j*2] = coord # update min coords values
-                                if coord > self.bounds[j*2+1]:
-                                    self.bounds[j*2+1] = coord # update max coords values
                         else:
                             msg_text = 'Node {} has no coordinates and will be removed.'.format(num)
                             logging.warning(msg_text)
@@ -406,6 +399,11 @@ class Mesh:
 
 
     # Replace current mesh attributes with reparsed mesh ones
+    """
+    Delete/add nodes
+    Update NSETs, elements, ELSETs, surfaces
+    Rebuild ugrid
+    """
     def updateWith(self, reparsedMesh):
         for attrName, attrValue in reparsedMesh.__dict__.items():
             if type(attrValue) == dict and len(attrValue):
@@ -418,6 +416,18 @@ class Mesh:
     # Parse INP_code and update current Mesh
     def reparse(self, INP_code):
         pass
+
+
+# Bounding box for all nodes
+def getBounds(nodes):
+    bounds = [1e+6,-1e+6]*3 # Xmin,Xmax, Ymin,Ymax, Zmin,Zmax
+    for n in nodes.values(): # type(n) = NODE
+        for j,coord in enumerate(n.coords):
+            if coord < bounds[j*2]:
+                bounds[j*2] = coord # update min coords values
+            if coord > bounds[j*2+1]:
+                bounds[j*2+1] = coord # update max coords values
+    return bounds
 
 
 # Before modification checks if sets have set with the same name
