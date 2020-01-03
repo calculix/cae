@@ -39,13 +39,13 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by CalculiX.
 
-- [Solid mesh parser](src/mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [Tests.log](src/Tests.log).
+- [Solid mesh parser](src/model/parsers/mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](src/tests.log).
 
-- Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/VTK.py).
+- Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/gui/vtk.py).
 
 - Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable env-file with Python syntax. The file is automatically overwritten during the workflow.
 
-- [Optimal job management](src/job.py):
+- [Optimal job management](src/model/job.py):
 
     - if you use subroutines, CalculiX sources could be automatically recompiled from GUI;
     - run analysis directly from GUI - you'll be notified on job completion;
