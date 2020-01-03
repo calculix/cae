@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
@@ -6,15 +7,15 @@
     Distributed under GNU General Public License v3.0
 
     Job submition and convertion. Run a detached process and
-    send messages to queue. This scheme doesn't freeze MainWindow
+    send messages to queue. This scheme doesn't freeze Window
     while analysis is running or files are converting.
 """
 
 
-from Path import Path
+from path import Path
 import os, logging, subprocess, queue
 from PyQt5 import QtWidgets
-from gui.MyLoggingHandler import logLine
+from gui.log import logLine
 
 
 class Job:
@@ -288,4 +289,4 @@ def path2cygwin(path):
 
 #     # Remove cached files
 #     import clean
-#     clean.cleanCache()
+#     clean.cache()

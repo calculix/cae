@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
@@ -11,12 +12,11 @@
 """
 
 
-from Path import Path
-from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtWebEngineWidgets
 import sys, os, re, logging
-from model.KOM import item_type
-from Settings import Settings
-
+from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtWebEngineWidgets
+from path import Path
+from settings import Settings
+from model.kom import item_type
 
 
 # Load HTML help into QWebEngineView
@@ -75,7 +75,6 @@ def saveHTML(item, doc):
             f.write(html)
 
     return url
-
 
 
 class KeywordDialog(QtWidgets.QDialog):

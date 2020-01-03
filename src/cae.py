@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -14,21 +15,21 @@
 
 
 # Pyinstaller bug in Windows: append 'app_home_dir' and 'src' directories to PATH
-from Path import Path
+from path import Path
 p = Path() # calculate absolute paths
 p.append_to_PATH([p.app_home_dir, p.src])
 
 # Main imports
 import os, sys, argparse
 from PyQt5 import QtWidgets
-from Settings import Settings
+from settings import Settings
 from actions import actions
-from gui.MainWindow import MainWindow
-from model.Model import Model
-from model.Job import Job
+from gui.window import Window
+from model.model import Model
+from model.job import Job
 from ie import importFile
-from Tree import Tree
-from clean import cleanCache
+from tree import Tree
+import clean
 
 
 if __name__ == '__main__':
@@ -36,7 +37,7 @@ if __name__ == '__main__':
     # from pycallgraph import Config
     # from pycallgraph import GlobbingFilter
     # from pycallgraph.output import GraphvizOutput
-    # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['MainWindow*']
+    # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
     # config = Config()
     # config.trace_filter = GlobbingFilter(
     #     include=modules, exclude=['logging*', '*FileFinder'])
@@ -58,7 +59,7 @@ if __name__ == '__main__':
 
 
     # Create and show main window
-    w = MainWindow(p, s)
+    w = Window(p, s)
     if s.show_maximized:
         w.showMaximized()
     else:
@@ -74,7 +75,7 @@ if __name__ == '__main__':
         importFile(s, w, m, t, j, path_to_inp) # import default start model
 
 
-    # MainWindow actions
+    # Window actions
     actions(s, w, m, t, j)
 
 
@@ -82,7 +83,7 @@ if __name__ == '__main__':
     a = app.exec()
 
     # Recursively clean cached files in all subfolders
-    cleanCache(p.src)
+    clean.cache(p.src)
 
     # Exit application
     sys.exit(a)

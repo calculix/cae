@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
@@ -11,11 +12,11 @@
 """
 
 
-from Path import Path
+from path import Path
 import re, logging, copy, os, sys, time
 from enum import Enum
 import xml.etree.ElementTree as ET
-from Settings import Settings
+from settings import Settings
 
 
 # Keyword Object Model
@@ -237,30 +238,6 @@ class item:
         return items
 
 
-    # Print all the branch KOM elements starting from current item
-    def writeAll(self, f, level=0):
-
-        # How many implementations has group or keyword
-        has = ''
-        counter = self.countImplementations()
-        if counter:
-            has = ' ' + str(counter)
-
-        # Name of parent for current item
-        parent = ''
-        if self.parent:
-            parent = ' parent=' + self.parent.name
-
-        # String to write to file for debug purposes
-        string = '\t'*level + self.name + has
-        f.write(string + '\n')
-
-        # Organize recursion
-        for item in self.items:
-            if item.item_type != item_type.ARGUMENT:
-                item.writeAll(f, level+1)
-
-
     # Search item by name among children
     def getItemByName(self, name):
         for item in self.items:
@@ -269,12 +246,21 @@ class item:
 
 
     # Returns first active preceding/parent keyword (not group)
-    def getParentKeyword(self):
+    def getParentKeywordName(self):
         if (self.parent.item_type == self.item_type.KEYWORD or \
             self.parent.name == 'Model') and self.parent.active:
                 return self.parent.name
         else:
-            return self.parent.getParentKeyword()
+            return self.parent.getParentKeywordName()
+
+
+    # # Returns preceding/parent group (not keyword)
+    # def getParentGroupName(self):
+    #     if (self.parent.item_type == self.item_type.GROUP or \
+    #         self.parent.name == 'Model'):
+    #             return self.parent.name
+    #     else:
+    #         return self.parent.getParentGroupName()
 
 
 # Group of keywords, like 'Properties', 'Constraints', etc.
@@ -333,9 +319,9 @@ class implementation(item):
         self.INP_code = INP_code # INP-code for current implementation - list of strings
         self.parent.items.insert(index, self) # append implementation to keyword's items
         if name:
-            logging.info(self.name + ' updated.')
+            logging.info('{} {} updated.'.format(keyword.name, self.name))
         else:
-            logging.info(self.name + ' created.')
+            logging.info('{} {} created.'.format(keyword.name, self.name))
 
 
 # Test module
@@ -345,7 +331,7 @@ if __name__ == '__main__':
     from pycallgraph import GlobbingFilter
     from pycallgraph.output import GraphvizOutput
     p = Path()
-    modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['MainWindow*']
+    modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
     config = Config()
     config.trace_filter = GlobbingFilter(
         include=modules, exclude=['logging*', '*FileFinder'])

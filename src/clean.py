@@ -1,26 +1,25 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
     © Ihor Mirzov, August 2019
     Distributed under GNU General Public License v3.0
 
-    Routine methods for cleaning up temporary/unused files/folders.
+    Methods for cleaning up temporary/unused files/folders.
 """
-
 
 
 import os, sys, shutil
 
 
-
 # Clean screen
-def cleanScreen():
+def screen():
     os.system('cls' if os.name=='nt' else 'clear')
 
 
 
 # Delete cached files from folder
-def cleanCache(folder=None):
+def cache(folder=None):
     if not folder:
         folder = os.getcwd()
     pycache = os.path.join(folder, '__pycache__')
@@ -31,12 +30,12 @@ def cleanCache(folder=None):
     for f in os.listdir(folder):
         f = os.path.join(folder, f)
         if os.path.isdir(f):
-            cleanCache(f)
+            cache(f)
 
 
 
 # Cleaup trash files in startFolder and all subfolders
-def cleanFiles(startFolder=None):
+def files(startFolder=None):
     extensions = (  '.12d', '.cvg', '.dat', '.vwf', '.out', '.nam', '.inp1', '.inp2',
                     '.sta', '.log', '.equ', '.eig', '.stm', '.mtx', '.net', '.inp0',
                     '.rin', '.fcv'  )
@@ -56,7 +55,7 @@ def cleanFiles(startFolder=None):
 
 
 # Cleaup old result files
-def cleanResults():
+def results():
     extensions = ('.frd', '.vtk', '.vtu')
     for f in os.listdir('.'):
         if f.endswith(extensions):

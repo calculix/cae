@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -9,14 +10,14 @@
 
 
 
-from ie import importFile, writeInput
 from PyQt5 import QtWidgets
+from ie import importFile, writeInput
 
 
 
 """
 s - Settings
-w - MainWindow
+w - Window
 m - Model
 t - Tree
 j - Job

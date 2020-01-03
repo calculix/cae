@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -10,7 +11,7 @@
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 import vtk, logging
 from gui.frd2vtk import convert_elem_type
-from Settings import Settings
+from settings import Settings
 
 
 class VTK:
@@ -130,6 +131,14 @@ class VTK:
         return ugrid
 
 
+    # Convert mesh to ugrid and plot it
+    def plotMesh(self, mesh):
+        ugrid = self.mesh2ugrid(mesh)
+        if ugrid:
+            self.mapper.SetInputData(ugrid)
+            self.actionViewIso() # iso view after import
+
+
     # View toolbar
 
     def actionViewParallel(self, save_settings=True):
@@ -244,6 +253,8 @@ class VTK:
 
     # Highlight node sets, element sets and surfaces
     def highlight(self, _set, field_type):
+        # print(_set)
+
         # Clear selection
         self.actionSelectionClear()
 

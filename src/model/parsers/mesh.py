@@ -1,143 +1,71 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
 """
-    © Ihor Mirzov, August 2019
+    © Ihor Mirzov, December 2020
     Distributed under GNU General Public License v3.0
 
     Parses finite element mesh from the CalculiX .inp-file.
-    Reads nodes coordinates, elements composition, node and element sets, surfaces.
+    Reads nodes coordinates, elements composition,
+    node and element sets and surfaces.
 """
 
 
-import os, re, logging
-
-
-# Recurcively read all the lines of the file and its includes
-def readLines(inp_file, include=False):
-    lines = []
-    inp_file = os.path.abspath(inp_file) # full path
-    if os.path.isfile(inp_file):
-        with open(inp_file, 'rb') as f:
-            line = readByteLine(f)
-            while line != None:
-
-                # Skip comments and empty lines
-                if (not line.startswith('**')) and len(line):
-                    lines.append(line)
-
-                    # Append lines from include file
-                    if include and line.upper().startswith('*INCLUDE'):
-                        inc_file = line.split('=')[1].strip()
-                        inc_file = os.path.join(os.path.dirname(inp_file),
-                                        os.path.basename(inc_file)) # file name with path
-                        lines.extend(readLines(inc_file))
-
-                line = readByteLine(f)
-    else:
-        msg_text = 'File not found: ' + inp_file
-        logging.error(msg_text)
-
-    return lines
-
-
-# Read byte line and decode: return None after EOF
-def readByteLine(f):
-
-    # Check EOF
-    byte = f.read(1)
-    if not byte:
-        return None
-
-    # Convert first byte
-    try:
-        line = byte.decode()
-    except UnicodeDecodeError:
-        line = ' ' # replace endecoded symbols with space
-
-    # Continue reading until EOF or new line
-    while byte != b'\n':
-        byte = f.read(1)
-        if not byte:
-            return line.strip() # EOF
-        try:
-            line += byte.decode()
-        except UnicodeDecodeError:
-            line += ' ' # replace endecoded symbols with space
-
-    return line.strip()
-
+import re, logging
+try:
+    # Normal run
+    import file_tools
+    from settings import Settings
+except:
+    # Test run
+    import os
+    os.sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../..')
+    import file_tools, clean
+    from settings import Settings
 
 class Mesh:
 
 
     # Initialization
-    def __init__(self, inp_file):
+    def __init__(self, INP_file=None, INP_code=None, old=None):
         self.nodes = {} # all mesh nodes with coordinates
-        self.elements = {} # all mesh elements composition
         self.nsets = {} # node sets
+        self.elements = {} # all mesh elements composition
         self.elsets = {} # element sets
-        self.surfaces = {} # surfaces with corresponding nodes and element faces
+        self.surfaces = {} # with corresponding nodes and element faces
 
         # Mesh bounds to avoid camera flying to infinity
         self.bounds = [1e+6,-1e+6]*3 # Xmin,Xmax, Ymin,Ymax, Zmin,Zmax
 
-        # Open and read whole the .inp-file
-        lines = readLines(inp_file, include=True)
+        # Mesh being reparsed
+        self.old = old
+        if not old:
+            self.old = self
 
-        # Parse nodes
-        try:
-            self.parse_nodes(lines)
+        # Get lines from INP source
+        if INP_file and not INP_code:
+            # Open and read whole the .inp-file
+            lines = file_tools.readLines(INP_file, include=True)
+        elif INP_code and not INP_file:
+            # Parse some piece of INP code
+            lines = INP_code
+        else:
+            logging.warning('Nothing to parse!')
+            return
 
-            msg_text = '{} nodes'.format(len(self.nodes))
-            # msg_text += ': ' + str(list(self.nodes.keys()))
-            logging.info(msg_text)
-        except:
-            logging.error('Can\'t parse nodes')
-
-        # Parse node sets
-        try:
-            self.parse_nsets(lines)
-
-            msg_text = '{} nsets'.format(len(self.nsets))
-            msg_text += ': ' + ', '.join(self.nsets.keys())
-            # for k,v in self.nsets.items():
-            #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
-            logging.info(msg_text)
-        except:
-            logging.error('Can\'t parse nsets')
-
-        # Parse elements
-        try:
-            self.parse_elements(lines)
-
-            msg_text = '{} elements'.format(len(self.elements))
-            # msg_text += ': ' + str(list(self.elements.keys()))
-            logging.info(msg_text)
-        except:
-            logging.error('Can\'t parse elements')
-
-        # Parse element sets
-        try:
-            self.parse_elsets(lines)
-
-            msg_text = '{} elsets'.format(len(self.elsets))
-            msg_text += ': ' + ', '.join(self.elsets.keys())
-            # for k,v in self.elsets.items():
-            #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
-            logging.info(msg_text)
-        except:
-            logging.error('Can\'t parse elsets')
-
-        # Parse surfaces
-        try:
-            self.parse_surfaces(lines)
-
-            msg_text = '{} surfaces'.format(len(self.surfaces))
-            # msg_text += ': ' + str(self.surfaces.keys())
-            logging.info(msg_text)
-        except:
-            logging.error('Can\'t parse surfaces')
+        # Call parse methods for everything
+        for attrName, attrValue in self.__dict__.items():
+            if type(attrValue) == dict:
+                try:
+                    getattr(self, 'parse_' + attrName)(lines)
+                    msg_text = '{} {} '.format(len(attrValue), attrName)
+                    # msg_text += str([v.name for v in attrValue.values()])
+                    # for k,v in attrValue.items():
+                    #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
+                    logging.info(msg_text)
+                except:
+                    logging.error('Can\'t parse {}'.format(attrName))
 
 
     # Parse nodes with coordinates - *NODE keyword
@@ -191,7 +119,7 @@ class Mesh:
                 # If all nodes are named as a set
                 if match:
                     name = lead_line[match.start(1):match.end(1)]
-                    self.create_or_extend_nset(name, nodes)
+                    create_or_extend_set(self.nsets, name, nodes, NSET)
 
                 # do not return to parse few *NODE sections
 
@@ -210,11 +138,11 @@ class Mesh:
                         for n in a:
                             try:
                                 # Single node number
-                                node = self.nodes[int(n)]
+                                node = self.old.nodes[int(n)]
                                 nodes.append(node)
                             except ValueError:
                                 # Node set name
-                                nodes.extend(self.nsets[n].nodes)
+                                nodes.extend(self.old.nsets[n].items)
                             except KeyError:
                                 msg_text = 'NSET {} - there is no node {} in the mesh.'.format(name, n)
                                 logging.warning(msg_text)
@@ -227,22 +155,14 @@ class Mesh:
                         step = 1
                     for n in list(range(int(start), int(stop)+1, int(step))):
                         try:
-                            node = self.nodes[n]
+                            node = self.old.nodes[n]
                             nodes.append(node)
                         except KeyError:
                             msg_text = 'NSET {} - there is no node {} in the mesh.'.format(name, n)
                             logging.warning(msg_text)
 
-                self.create_or_extend_nset(name, nodes)
+                create_or_extend_set(self.nsets, name, nodes, NSET)
                 # do not return to parse few *NSET sections
-
-
-    def create_or_extend_nset(self, name, nodes):
-        if name in self.nsets: # check duplicates
-            self.nsets[name].nodes.extend(nodes) # append to existing node set
-            logging.warning('Duplicated nset name {}!'.format(name))
-        else:
-            self.nsets[name] = NSET(name, nodes) # create new node set
 
 
     # Parse elements composition - *ELEMENT keyword
@@ -272,7 +192,7 @@ class Mesh:
                         if int(n) == 0: # it is possible in network element, type=D
                             n = int(a[2]) # take middle node to display in VTK
                         try:
-                            node = self.nodes[int(n)]
+                            node = self.old.nodes[int(n)]
                             nodes.append(node)
                         except KeyError:
                             msg_text = 'Element {} has no node {} and will be removed.'.format(num, n)
@@ -297,7 +217,7 @@ class Mesh:
                 # If all elements are named as a set
                 if match:
                     name = lead_line[match.start(1):match.end(1)]
-                    self.create_or_extend_elset(name, elements)
+                    create_or_extend_set(self.elsets, name, elements, ELSET)
 
                 # do not return to parse few *ELEMENT sections
 
@@ -316,11 +236,11 @@ class Mesh:
                         for e in a:
                             try:
                                 # Single element number
-                                element = self.elements[int(e)]
+                                element = self.old.elements[int(e)]
                                 elements.append(element)
                             except ValueError:
                                 # Element set name
-                                elements.extend(self.elsets[e].elements)
+                                elements.extend(self.old.elsets[e].items)
                             except KeyError:
                                 msg_text = 'ELSET {} - there is no element {} in the mesh.'.format(name, e)
                                 logging.warning(msg_text)
@@ -333,22 +253,15 @@ class Mesh:
                         step = 1
                     for e in list(range(int(start), int(stop)+1, int(step))):
                         try:
-                            element = self.elements[e]
+                            element = self.old.elements[e]
                             elements.append(element)
                         except KeyError:
                             msg_text = 'ELSET {} - there is no element {} in the mesh.'.format(name, e)
                             logging.warning(msg_text)
 
-                self.create_or_extend_elset(name, elements)
+                create_or_extend_set(self.elsets, name, elements, ELSET)
+
                 # do not return to parse few *ELSET sections
-
-
-    def create_or_extend_elset(self, name, elements):
-        if name in self.elsets: # check duplicates
-            self.elsets[name].elements.extend(elements) # append to existing element set
-            logging.warning('Duplicated elset name {}!'.format(name))
-        else:
-            self.elsets[name] = ELSET(name, elements) # create new node set
 
 
     # Parse surfaces - *SURFACE keyword
@@ -373,7 +286,7 @@ class Mesh:
                 if name + stype in self.surfaces:
                     msg_text = 'Duplicated surface name {}.'.format(name)
                     logging.warning(msg_text)
-                _set = []
+                items = []
 
                 while i+1<len(lines) and not lines[i+1].startswith('*'):
                     _list = re.split(',\s*', lines[i+1])
@@ -391,7 +304,7 @@ class Mesh:
                         if re.match('^\d+,\s*S\d', lines[i+1]):
                             elem_num = int(_list[0])
                             surf_name = _list[1]
-                            _set.append((elem_num, surf_name))
+                            items.append((elem_num, surf_name))
 
                         # Surface with elset and face number
                         #   elset1, S1
@@ -399,8 +312,8 @@ class Mesh:
                         elif re.match('^[\w\-]+,\s*S\d', lines[i+1]):
                             elset_name = _list[0]
                             surf_name = _list[1]
-                            for element in self.elsets[elset_name].elements:
-                                _set.append((element.num, surf_name))
+                            for element in self.old.elsets[elset_name].items:
+                                items.append((element.num, surf_name))
 
                     elif stype == 'NODE':
                         """
@@ -412,16 +325,16 @@ class Mesh:
                             if len(n):
                                 try:
                                     # Single node number
-                                    node = self.nodes[int(n)]
-                                    _set.append(node)
+                                    node = self.old.nodes[int(n)]
+                                    items.append(node)
                                 except ValueError:
                                     # Node set name
-                                    _set.extend(self.nsets[n].nodes)
+                                    items.extend(self.old.nsets[n].items)
 
                     i += 1
 
                 # Create new SURFACE and append to list
-                self.surfaces[name + stype] = SURFACE(name, _set, stype)
+                self.surfaces[name + stype] = SURFACE(name, items, stype)
 
 
     # Get amount of nodes by CalculiX element type
@@ -492,6 +405,30 @@ class Mesh:
             return 2 # minimum possible
 
 
+    # Replace current mesh attributes with reparsed mesh ones
+    def updateWith(self, reparsedMesh):
+        for attrName, attrValue in reparsedMesh.__dict__.items():
+            if type(attrValue) == dict and len(attrValue):
+                # print('Another mesh:', attrName, attrValue)
+                for _setName, _setValue in attrValue.items():
+                    # print('Nodes:', _setValue.items)
+                    getattr(self, attrName)[_setName] = _setValue
+
+
+    # Parse INP_code and update current Mesh
+    def reparse(self, INP_code):
+        pass
+
+
+# Before modification checks if sets have set with the same name
+def create_or_extend_set(sets, name, items, klass):
+    if name in sets: # check duplicates
+        sets[name].items.extend(items) # append to existing set
+        logging.warning('Duplicated set name {}!'.format(name))
+    else:
+        sets[name] = klass(name, items) # create new set
+
+
 class NODE:
     """
         1: [ 0.0, -1742.5, 0.0],
@@ -500,6 +437,7 @@ class NODE:
     """
     def __init__(self, num, coords):
         self.num = num
+        self.name = str(num)
         self.coords = coords
 
 
@@ -511,7 +449,7 @@ class NSET:
     """
     def __init__(self, name, nodes):
         self.name = name
-        self.nodes = nodes
+        self.items = nodes
 
 
 class ELEMENT:
@@ -525,6 +463,7 @@ class ELEMENT:
     """
     def __init__(self, num, etype, nodes):
         self.num = num
+        self.name = str(num)
         self.type = etype
         self.nodes = nodes
 
@@ -543,7 +482,7 @@ class ELSET:
     """
     def __init__(self, name, elements):
         self.name = name
-        self.elements = elements
+        self.items = elements
 
 
 class SURFACE:
@@ -556,10 +495,21 @@ class SURFACE:
         'surf3: [(1, S1), (2, S1), ...]'
         'surf4: [(elset1, S2), (elset2, S2), ...]'
     """
-    def __init__(self, name, _set, stype=None):
+    def __init__(self, name, items, stype=None):
         self.name = name
-        self.set = _set
+        self.items = items
         if stype:
             self.type = stype
         else:
             self.type = 'ELEMENT'
+
+
+# Test
+if __name__ == '__main__':
+    logging.info = print
+    INP_file = os.path.dirname(os.path.abspath(__file__)) \
+                    + '../../../../examples/default.inp'
+    Mesh(INP_file=INP_file)
+
+    # Recursively clean cached files in all subfolders
+    clean.cache()

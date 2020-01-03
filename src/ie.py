@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
@@ -18,14 +19,15 @@
 
 from PyQt5.QtWidgets import QFileDialog
 import os, logging
-from model.KOM import item_type, implementation, KOM
-from model.parsers.Mesh import Mesh, readLines
+from model.kom import item_type, implementation, KOM
+from model.parsers.mesh import Mesh
+import file_tools
 
 
 # Menu File -> Import
 """
 s - Settings
-w - MainWindow
+w - Window
 m - Model
 t - Tree
 j - Job
@@ -68,7 +70,7 @@ def importFile(s, w, m, t, j, file_name=None):
 
         # Parse INP and enrich KOM with parsed objects
         logging.info('Loading ' + j.inp + '.')
-        lines = readLines(j.inp)
+        lines = file_tools.readLines(j.inp)
         def importer(INP_doc, KOM):
             keyword_chain = []
             impl_counter = {}
@@ -140,17 +142,10 @@ def importFile(s, w, m, t, j, file_name=None):
         # Add parsed implementations to the tree
         t.generateTreeView(m)
 
-        # Parse mesh
-        m.mesh = Mesh(j.inp) # parse mesh
-
-        # Create ugrid from mesh
+        # Parse mesh and plot it
+        m.Mesh = Mesh(INP_file=j.inp) # parse mesh
         if s.show_vtk:
-            ugrid = w.VTK.mesh2ugrid(m.mesh)
-
-            # Plot ugrid in VTK
-            if ugrid:
-                w.VTK.mapper.SetInputData(ugrid)
-                w.VTK.actionViewIso() # iso view after import
+            w.VTK.plotMesh(m.Mesh)
         
         return True
     else:

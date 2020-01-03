@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
@@ -25,7 +26,7 @@ class MyLoggingHandler(logging.Handler):
         self.setFormatter(fmt)
 
 
-    # Sends log messages to MainWindow's textEdit widget
+    # Sends log messages to Window's textEdit widget
     def emit(self, LogRecord):
 
         # Message color depending on logging level

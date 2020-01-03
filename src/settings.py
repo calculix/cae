@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
@@ -11,9 +12,10 @@
 """
 
 
-from Path import Path
+from path import Path
 import os, sys, logging
 from PyQt5 import QtWidgets, uic
+import clean
 
 
 # Session settings object used everywhere in the code
@@ -146,9 +148,6 @@ class SettingsDialog(QtWidgets.QDialog):
 # Test module
 if __name__ == '__main__':
 
-    from PyQt5 import QtWidgets
-    from clean import cleanCache
-
     # Create application
     app = QtWidgets.QApplication(sys.argv)
 
@@ -158,4 +157,4 @@ if __name__ == '__main__':
 
     # Clean cached files
     p = Path() # calculate absolute paths
-    cleanCache(p.src)
+    clean.cache(p.src)

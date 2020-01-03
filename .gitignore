@@ -4,3 +4,5 @@
 .frd
 .log
 .sta
+__pycache__
+default.log

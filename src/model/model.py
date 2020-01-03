@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
@@ -11,7 +12,7 @@
 
 
 import logging, os
-from model.KOM import KOM
+from model.kom import KOM
 
 
 class Model:
@@ -19,6 +20,8 @@ class Model:
 
     def __init__(self):
         self.KOM = KOM() # empty KOM w/o implementations
-        self.mesh = None # FE mesh
-        self.interactions = None
-        self.constraints = None
+
+        # Variable names below should exactly represent KOM group names
+        self.Mesh = None
+        self.Interactions = None
+        self.Constraints = None

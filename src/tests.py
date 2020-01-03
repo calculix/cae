@@ -1,8 +1,9 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
     © Ihor Mirzov, September 2019
-    Distributed under GNU General Public License, version 2.
+    Distributed under GNU General Public License v3.0
 
     Test for all CalculiX examples.
     Run with command:
@@ -10,10 +11,10 @@
 """
 
 
-from Path import Path
+from path import Path
 import os, sys, time, logging, shutil
-from gui.VTK import VTK
-from model.parsers.Mesh import Mesh
+from gui.vtk import VTK
+from model.parsers.mesh import Mesh
 from PyQt5 import QtWidgets
 
 
@@ -56,16 +57,17 @@ class Tests:
         app = QtWidgets.QApplication(sys.argv)
 
         # Create VTK widget
-        VTK = VTK()
+        v = VTK()
 
-        # Parse mesh and convert it to ugrid
-        mesh = Parse(file_name) # parse mesh
-        ugrid = VTK.mesh2ugrid(mesh)
+        # Parse mesh and plot it in VTK
+        mesh = Mesh(INP_file=file_name) # parse mesh
+        v.plotMesh(mesh)
+        # ugrid = VTK.mesh2ugrid(mesh)
 
-        # Plot ugrid in VTK
-        if ugrid:
-            VTK.mapper.SetInputData(ugrid) # ugrid is our mesh data
-            VTK.actionViewIso() # iso view after import
+        # # 
+        # if ugrid:
+        #     VTK.mapper.SetInputData(ugrid) # ugrid is our mesh data
+        #     VTK.actionViewIso() # iso view after import
 
 
 if __name__ == '__main__':

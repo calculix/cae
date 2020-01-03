@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
@@ -11,12 +12,12 @@
 
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import logging
-from gui.VTK import VTK
-from gui.MyLoggingHandler import MyLoggingHandler
+from gui.vtk import VTK
+from gui.log import MyLoggingHandler
 
 
 # Main window
-class MainWindow(QtWidgets.QMainWindow):
+class Window(QtWidgets.QMainWindow):
 
 
     # Create main window
