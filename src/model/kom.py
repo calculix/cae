@@ -154,6 +154,31 @@ class KOM:
                 return kw
 
 
+    # Recursively get whole model's INP_code as list of strings (lines)
+    # Parent is KOM item, level defines code folding/padding
+    def get_INP_code_as_lines(self, parent=None, level=0):
+        lines = []
+        if not parent:
+            parent = self.root
+        if parent.item_type == item_type.IMPLEMENTATION:
+            level += 1
+
+        # For each group/keyword from KOM
+        for item in parent.items:
+            if item.item_type == item_type.ARGUMENT:
+                continue
+            if item.item_type == item_type.IMPLEMENTATION:
+                # INP_code is stripped
+                lines.append(' '*4*level + item.INP_code[0] + '\n')
+                for line in item.INP_code[1:]:
+                    lines.append(' '*4*(level+1) + line + '\n')
+
+            # Continue call iterator until dig to implementation
+            lines.extend(self.get_INP_code_as_lines(item, level))
+
+        return lines
+
+
 # Enums for 'item_type' variable
 class item_type(Enum):
     GROUP = 0

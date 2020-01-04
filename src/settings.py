@@ -39,14 +39,16 @@ class Settings():
 
             # Windows
             if os.name=='nt':
-                self.path_ccx = os.path.join(self.p.bin, 'ccx_2.16_MT.exe')
+                self.path_ccx = os.path.join(self.p.bin,
+                                    'ccx_' + self.p.ccx_version + '_MT.exe')
                 self.path_cgx = 'C:\\cgx.exe'
                 self.path_paraview = 'C:\\Program Files\\ParaView\\bin\\paraview.exe'
                 self.path_editor = 'C:\\Windows\\System32\\notepad.exe'
 
             # Linux
             else:
-                self.path_ccx = os.path.join(self.p.bin, 'ccx_2.16_MT')
+                self.path_ccx = os.path.join(self.p.bin,
+                                    'ccx_' + self.p.ccx_version + '_MT')
                 self.path_cgx = '/usr/local/bin/cgx'
                 self.path_paraview = '/opt/ParaView/bin/paraview'
                 self.path_editor = '/snap/bin/code'

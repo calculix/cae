@@ -1,9 +1,8 @@
 .vscode
-.cvg
-.dat
-.frd
-.log
-.sta
-.env
 __pycache__
 default.log
+*.cvg
+*.dat
+*.frd
+*.sta
+*.env

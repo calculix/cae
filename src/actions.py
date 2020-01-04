@@ -31,7 +31,7 @@ def actions(s, w, m, t, j):
 
     # Job actions
     w.action_job_write_input.triggered.connect(
-        lambda: ie.writeInput(j, ie.get_INP_code_as_lines(m.KOM.root)))
+        lambda: ie.writeInput(j, m.KOM.get_INP_code_as_lines()))
     w.action_job_write_input.triggered.connect(
         lambda: w.setWindowTitle('CalculiX CAE - ' + j.name))
     w.action_job_edit_inp.triggered.connect(lambda: j.editINP(s))

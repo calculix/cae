@@ -103,8 +103,9 @@ class Job:
             send1 = '/bin/make -f Makefile_MT -C {}'.format(ccx)
 
             # Copy binary
-            cmd2 = 'C:\\cygwin64\\bin\\cp.exe ' + \
-                    ccx + '/ccx_2.16_MT ' + settings.path_ccx
+            cmd2 = 'C:\\cygwin64\\bin\\cp.exe ' \
+                    + ccx + '/ccx_' + self.p.ccx_version + '_MT ' \
+                    + settings.path_ccx
 
             self.run([(cmd1, send1), (cmd2, '')], msg='Compiled!')
 
@@ -115,7 +116,7 @@ class Job:
             cmd1 = ['make', '-f', 'Makefile_MT', '-C', self.p.ccx]
 
             # Copy binary
-            cmd2 = ['cp', self.p.ccx + '/ccx_2.16_MT',
+            cmd2 = ['cp', self.p.ccx + '/ccx_' + self.p.ccx_version + '_MT',
                     settings.path_ccx]
 
             self.run([(cmd1, ''), (cmd2, '')], msg='Compiled!')
