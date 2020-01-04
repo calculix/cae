@@ -6,18 +6,21 @@
     Distributed under GNU General Public License v3.0
 
     Test for all CalculiX examples.
+
     Run with command:
-        python3 Tests.py > Tests.log
+        python3 src/tests.py > src/tests.log
 """
 
 
-from path import Path
-import os, sys, time, logging, shutil
-from gui.vtk import VTK
-from model.parsers.mesh import Mesh
 from PyQt5 import QtWidgets
+import time, logging, glob, os
+
+from gui import vtk_widget
+from model.parsers import mesh
+import clean
 
 
+# Configure logging to emit messages via 'print' method
 class myHandler(logging.Handler):
 
     def __init__(self):
@@ -29,51 +32,37 @@ class myHandler(logging.Handler):
         print(msg_text)
 
 
-class Tests:
+# Parse mesh and plot it in VTK
+def test(file_name):
+    app = QtWidgets.QApplication([])
+    m = mesh.Mesh(INP_file=file_name) # parse mesh
+    vtk_widget.VTK().plotMesh(m)
 
 
-    def __init__(self):
-
-        # Configure logging
-        logging.getLogger().addHandler(myHandler())
-        logging.getLogger().setLevel(logging.DEBUG) # control the logging level
-
-        p = Path()
-        start = time.perf_counter() # start time
-
-        file_list = [file_name for file_name in os.listdir(p.examples) if file_name.lower().endswith('.inp')]
-        for i, file_name in enumerate(file_list):
-            print('\n' + '='*50 + '\n{0}: {1}'.format(i+1, file_name))
-
-            self.test(os.path.join(p.examples, file_name))
-
-            # break # one file only
-            # if i==50: break # 10 files only
-
-        print('\nTotal {:.1f} seconds'.format(time.perf_counter()-start)) # end time
+# Redefine print method to write logs to file
+def print(line):
+    with open('src/tests.log', 'a') as f:
+        f.write(line + '\n')
 
 
-    def test(self, file_name):
-        app = QtWidgets.QApplication(sys.argv)
-
-        # Create VTK widget
-        v = VTK()
-
-        # Parse mesh and plot it in VTK
-        mesh = Mesh(INP_file=file_name) # parse mesh
-        v.plotMesh(mesh)
-        # ugrid = VTK.mesh2ugrid(mesh)
-
-        # # 
-        # if ugrid:
-        #     VTK.mapper.SetInputData(ugrid) # ugrid is our mesh data
-        #     VTK.actionViewIso() # iso view after import
-
-
+# Test
 if __name__ == '__main__':
+    os.remove('src/tests.log')
+    start_time = time.perf_counter()
+    logging.getLogger().addHandler(myHandler())
+    logging.getLogger().setLevel(logging.DEBUG)
+    file_list = glob.glob('examples/**/*.inp', recursive=True)
+    file_list = sorted(file_list)
 
-    Tests()
+    for i, file_name in enumerate(file_list):
+        if 'materials.inp' in file_name:
+            file_list.pop(i)
 
-    # Delete cached files
-    if os.path.isdir('__pycache__'):
-        shutil.rmtree('__pycache__') # works in Linux as in Windows
+    for i, file_name in enumerate(file_list):
+        # if i==10: break # 10 files only
+        print('\n' + '='*50 + '\n{0}: {1}'.format(i+1, file_name))
+        test(file_name)
+
+    print('\nTotal {:.1f} seconds.'
+        .format(time.perf_counter() - start_time))
+    clean.cache()

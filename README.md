@@ -196,5 +196,3 @@ The source code for the CalculiX solver is taken from the [free_form_fortran pro
 - Menu Help:
     - PDF manual / YouTube videos for beginners.
     - VTK Keyboard Shortcuts and Controls.
-
-- implement CCX version as parameter

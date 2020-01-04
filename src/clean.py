@@ -18,7 +18,7 @@ def screen():
 
 
 
-# Delete cached files from folder
+# Recursively delete cached files in all subfolders
 def cache(folder=None):
     if not folder:
         folder = os.getcwd()

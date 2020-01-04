@@ -24,7 +24,7 @@ import os, sys, argparse
 from PyQt5 import QtWidgets
 from settings import Settings
 from actions import actions
-from gui.window import Window
+from gui import window
 from model.model import Model
 from model.job import Job
 from ie import importFile
@@ -59,7 +59,7 @@ if __name__ == '__main__':
 
 
     # Create and show main window
-    w = Window(p, s)
+    w = window.Window(p, s)
     if s.show_maximized:
         w.showMaximized()
     else:

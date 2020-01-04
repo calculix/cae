@@ -12,7 +12,7 @@
 
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import logging
-from gui.vtk import VTK
+from gui import vtk_widget
 from gui.log import MyLoggingHandler
 
 
@@ -40,7 +40,7 @@ class Window(QtWidgets.QMainWindow):
 
         # Create VTK widget
         if s.show_vtk:
-            self.VTK = VTK() # create everything for model visualization
+            self.VTK = vtk_widget.VTK() # create everything for model visualization
             self.h_splitter.addWidget(self.VTK.widget)
             self.setMinimumSize(1280, 640)
             self.resize(1280, 640)
