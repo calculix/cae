@@ -5,14 +5,13 @@
     © Ihor Mirzov, December 2019
     Distributed under GNU General Public License v3.0
 
-    Main window actions.
+    Main window actions - all processed signals.
 """
 
 
 
 from PyQt5 import QtWidgets
-from ie import importFile, writeInput
-
+import ie
 
 
 """
@@ -26,12 +25,15 @@ def actions(s, w, m, t, j):
     w.keyPressEvent = t.keyPressEvent
 
     # File actions
-    w.action_file_import.triggered.connect(lambda: importFile(s, w, m, t, j))
+    w.action_file_import.triggered.connect(lambda: ie.importFile(s, w, m, t, j))
     w.action_file_settings.triggered.connect(s.open)
     w.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
     # Job actions
-    w.action_job_write_input.triggered.connect(lambda: writeInput(m, j))
+    w.action_job_write_input.triggered.connect(
+        lambda: ie.writeInput(j, ie.get_INP_code_as_lines(m.KOM.root)))
+    w.action_job_write_input.triggered.connect(
+        lambda: w.setWindowTitle('CalculiX CAE - ' + j.name))
     w.action_job_edit_inp.triggered.connect(lambda: j.editINP(s))
     w.action_job_open_subroutine.triggered.connect(lambda: j.openSubroutine(s))
     w.action_job_rebuild_ccx.triggered.connect(lambda: j.rebuildCCX(s))
@@ -42,10 +44,10 @@ def actions(s, w, m, t, j):
     w.action_job_open_paraview.triggered.connect(lambda: j.openParaView(s))
 
     # Help actions
-    w.action_help_readme.triggered.connect(lambda:
-            w.help('https://github.com/imirzov/ccx_cae#calculix-cae'))
-    w.action_help_issues.triggered.connect(lambda:
-            w.help('https://github.com/imirzov/ccx_cae/issues'))
+    w.action_help_readme.triggered.connect(
+        lambda: w.help('https://github.com/imirzov/ccx_cae#calculix-cae'))
+    w.action_help_issues.triggered.connect(
+        lambda: w.help('https://github.com/imirzov/ccx_cae/issues'))
 
     # VTK actions
     if s.show_vtk:

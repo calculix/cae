@@ -143,48 +143,46 @@ def importFile(s, w, m, t, j, file_name=None):
         t.generateTreeView(m)
 
         # Parse mesh and plot it
-        m.Mesh = Mesh(INP_file=j.inp) # parse mesh
+        m.Mesh = Mesh(INP_file=j.inp)
         if s.show_vtk:
             w.VTK.plotMesh(m.Mesh)
-        
+
         return True
     else:
         return False
 
 
-# Menu File -> Write INP file
-def writeInput(m, j, file_name=None):
-    if not file_name:
-        file_name = QFileDialog.getSaveFileName(None, \
-            'Write INP file', j.dir, \
-            'Input files (*.inp)')[0]
+# Write whole model's INP_code to file
+# Is called from menu 'Job -> Write input'
+def writeInput(j, lines):
+    file_name = QFileDialog.getSaveFileName(None, \
+        'Write INP file', j.dir, \
+        'Input files (*.inp)')[0]
     if file_name:
-
-        # Recursively write implementation's INP_code to output .inp-file
-        def writer(parent, f, level):
-
-            # Level is used for padding
-            if parent.item_type == item_type.IMPLEMENTATION:
-                level += 1
-
-            # For each group/keyword from KOM
-            for item in parent.items:
-
-                if item.item_type == item_type.ARGUMENT:
-                    continue
-
-                if item.item_type == item_type.IMPLEMENTATION:
-                    # INP_code is stripped
-                    f.write(' '*4*level + item.INP_code[0] + '\n')
-                    for line in item.INP_code[1:]:
-                        f.write(' '*4*(level+1) + line + '\n')
-
-                # Continue call iterator until dig to implementation
-                writer(item, f, level)
-
         with open(file_name, 'w') as f:
-            writer(m.KOM.root, f, 0)
+            f.writelines(lines)
+        j.rename(file_name)
         logging.info('Input written to ' + file_name)
 
-        # Rename job and update treeView if new INP-file name was selected
-        j.rename(file_name)
+
+# Recursively get whole model's INP_code as list of strings (lines)
+# Parent is KOM item, level defines code folding/padding
+def get_INP_code_as_lines(parent, level=0):
+    lines = []
+    if parent.item_type == item_type.IMPLEMENTATION:
+        level += 1
+
+    # For each group/keyword from KOM
+    for item in parent.items:
+        if item.item_type == item_type.ARGUMENT:
+            continue
+        if item.item_type == item_type.IMPLEMENTATION:
+            # INP_code is stripped
+            lines.append(' '*4*level + item.INP_code[0] + '\n')
+            for line in item.INP_code[1:]:
+                lines.append(' '*4*(level+1) + line + '\n')
+
+        # Continue call iterator until dig to implementation
+        lines.extend(get_INP_code_as_lines(item, level))
+
+    return lines

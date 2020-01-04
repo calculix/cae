@@ -16,6 +16,7 @@ from path import Path
 import os, logging, subprocess, queue
 from PyQt5 import QtWidgets
 from gui.log import logLine
+import time, threading
 
 
 class Job:
@@ -210,7 +211,6 @@ class Job:
 
     # Run multiple commands and log stdout without blocking GUI
     def run(self, commands, msg=None):
-        import time, threading
 
         start = time.perf_counter() # start time
         os.chdir(self.dir)

@@ -4,5 +4,6 @@
 .frd
 .log
 .sta
+.env
 __pycache__
 default.log

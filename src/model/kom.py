@@ -7,8 +7,9 @@
     Distributed under GNU General Public License v3.0
 
     CalculiX Keyword Object Model (hierarchy).
-    Keywords with all arguments are parsed from kom.xml.
     Parser supposts mutually exclusive parameters for keywords.
+    Keywords with all arguments are parsed from config/kom.xml.
+    On INP import KOM is enriched with keyword implementations.
 """
 
 
@@ -28,6 +29,7 @@ class KOM:
 
         # List of all existing keywords
         self.keywords = []
+
         # All possible keywords nesting variants - needed for parsing INP_doc
         self.paths = []
 
