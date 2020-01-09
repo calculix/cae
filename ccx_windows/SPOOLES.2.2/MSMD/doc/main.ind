@@ -1,0 +1,31 @@
+\begin{theindex}
+
+  \item {\tt MSMD\_approxDegree()}, 10
+  \item {\tt MSMD\_cleanEdgeList()}, 10
+  \item {\tt MSMD\_cleanReachSet()}, 9
+  \item {\tt MSMD\_cleanSubtreeList()}, 10
+  \item {\tt MSMD\_clearData()}, 7
+  \item {\tt MSMD\_eliminateStage()}, 9
+  \item {\tt MSMD\_eliminateStep()}, 9
+  \item {\tt MSMD\_eliminateVtx()}, 9
+  \item {\tt MSMD\_exactDegree2()}, 10
+  \item {\tt MSMD\_exactDegree3()}, 10
+  \item {\tt MSMD\_fillPerms()}, 8
+  \item {\tt MSMD\_findInodes()}, 9
+  \item {\tt MSMD\_free()}, 7
+  \item {\tt MSMD\_frontETree()}, 9
+  \item {\tt MSMD\_init()}, 8
+  \item {\tt MSMD\_makeSchurComplement()}, 10
+  \item {\tt MSMD\_new()}, 7
+  \item {\tt MSMD\_order()}, 8
+  \item {\tt MSMD\_setDefaultFields()}, 7
+  \item {\tt MSMD\_update()}, 10
+  \item {\tt MSMDinfo\_clearData()}, 6
+  \item {\tt MSMDinfo\_free()}, 6
+  \item {\tt MSMDinfo\_isValid()}, 7
+  \item {\tt MSMDinfo\_new()}, 6
+  \item {\tt MSMDinfo\_print()}, 7
+  \item {\tt MSMDinfo\_setDefaultFields()}, 6
+  \item {\tt MSMDvtx\_print()}, 10
+
+\end{theindex}

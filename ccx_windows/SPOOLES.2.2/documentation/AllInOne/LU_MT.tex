@@ -1,0 +1,208 @@
+\vfill \eject
+\par
+\section{Multithreaded Solution of $A X = Y$ 
+         using an $LU$ factorization}
+\label{section:LU-MT}
+\par
+The only computations that are multithreaded are the factorization
+and forward and backsolves.
+Therefore, this section will describe only the differences between
+the serial driver in Section~\ref{section:LU-serial-driver} and the
+multithreaded driver whose complete listing is found in
+Section~\ref{section:LU-MT-driver}.
+This section will refer the reader to subsections in
+Section~\ref{section:LU-serial} for the parts of the code where the
+two drivers are identical.
+\par
+The shared memory parallel version of {\bf SPOOLES} is implemented
+using thread based parallelism.  
+The multi-threaded code uses much of
+the serial code --- the basic steps are the same and use
+the serial methods.  
+The usage of {\bf SPOOLES} for communicating 
+the data for the problem and reordering the linear system 
+is identical in the serial and multi-threaded versions.
+Only the numeric factorization and solve steps are
+parallelized using threads.
+What is different between the serial and threaded versions of the
+numeric computations is how the computations are scheduled.
+\par
+While the storage for the factor matrices lies in one global
+{\tt FrontMtx} object, all processes access the data in a disjoint way.
+During the factorization, front $J$ is {\it owned} by one process 
+that is responsible for factoring the front and computing its updates 
+to all other fronts.  
+In other words, only the process that owns 
+front $J$ performs computations with that data.
+During the solve, all $L_{J,I}$, $D_{I,I}$ and $U_{I,J}$
+submatrices are stored in the front matrix object,
+but the computations with them are mapped to different threads,
+i.e., each thread {\it owns} a subset of the factor submatrices,
+and performs computations with it.
+We will now begin to work our way through the program 
+found in Section~\ref{section:LU-MT-driver}
+to illustrate the use of {\bf SPOOLES} to solve a system 
+of linear equations using multithreaded factor and solves.  
+\par
+\subsection{Reading the input parameters}
+\label{subsection:MT:input-data}
+\par
+This step is identical to the serial code, as described in
+Section~\ref{subsection:serial:input-data}, with the exception
+that {\tt nthread}, the number of threads, is also input.
+\par
+\subsection{Communicating the data for the problem}
+\label{subsection:MT:communicating-data}
+\par
+This step is identical to the serial code, as described in
+Section~\ref{subsection:serial:communicating-data}
+\par
+\subsection{Reordering the linear system}
+\label{subsection:MT:reordering}
+This step is identical to the serial code, as described in
+Section~\ref{subsection:serial:reordering}
+\par
+\subsection{Non-numeric work}
+\label{subsection:MT:non-numeric}
+This step is identical to the serial code, as described in
+Section~\ref{subsection:serial:non-numeric}, with one addition.
+We need to map factor computations to threads.
+The {\tt ownersIV} vector object 
+specifies which thread {\it owns} a front.
+The {\bf SPOOLES} library has four ways to do this.
+Two are of academic interest --- the wrap map and the balanced map
+-- for these maps yield too much interaction between the threads.
+The subtree-subset map is suited for extremely well balanced front
+trees from nested dissection orderings.
+The domain decomposition map is more robust over a range of
+orderings, and this is what we recommend, as we see in the code
+fragment below.
+\begin{verbatim}
+if ( nthread > (nfront = FrontMtx_nfront(frontmtx)) ) {
+   nthread = nfront ;
+}
+cumopsDV = DV_new() ;
+DV_init(cumopsDV, nthread, NULL) ;
+ownersIV = ETree_ddMap(frontETree, type, symmetryflag, cumopsDV, 1./(2.*nthread)) ;
+\end{verbatim}
+The first step is to ensure that each thread has a front to own,
+decreasing the number of threads if necessary.
+We then construct the owners map using the front tree object.
+The {\tt cumopsDV} object is a double precision vector object
+whose length is the number of threads.
+On return from the map call, it contains the number of factor
+operations that will be performed by each thread when pivoting for
+stability is not enabled.
+\par
+\subsection{The Matrix Factorization}
+\label{subsection:MT:factor}
+\par
+During the factorization and solves, the threads access data 
+and modify the state of the {\tt FrontMtx} and {\tt SubMtxManager} 
+objects in a concurrent fashion,
+so there must be some way to control this access for critical
+sections of code.
+Inside each of the two objects we have placed a {\tt Lock} object.
+The {\bf SPOOLES} {\tt Lock} object is little more than a wrapper
+around a mutual exclusion lock.
+It provides a simple abstract interface so that other objects which
+contain locks need not know about the particular thread package we use,
+be it Solaris threads, or POSIX threads, or another.
+\par
+To notify the {\tt FrontMtx} and {\tt SubMtxManager} objects that
+they must have a lock, their initialization method calls differ
+slightly from the serial version.
+See Section~\ref{subsection:serial:factor} for a
+discussion of the similar features.
+The code fragment below shows their initialization calls.
+\par
+\begin{verbatim}
+frontmtx   = FrontMtx_new() ;
+mtxmanager = SubMtxManager_new() ;
+SubMtxManager_init(mtxmanager, LOCK_IN_PROCESS, 0) ;
+FrontMtx_init(frontmtx, frontETree, symbfacIVL, type, symmetryflag,
+              FRONTMTX_DENSE_FRONTS, pivotingflag, LOCK_IN_PROCESS,
+              0, NULL, mtxmanager, msglvl, msgFile) ;
+\end{verbatim}
+The difference is that the {\tt SubMtxManager} and {\tt FrontMtx}
+objects are initialized with a {\tt LOCK\_IN\_PROCESS} flag instead 
+of a {\tt NO\_LOCK} flag.
+The scope of the mutual exclusion lock is for threads within the
+same process, not across the system.
+\par
+The numeric factorization is performed by the
+{\tt FrontMtx\_factorInpMtx()} method.
+The code segment from the sample program for the numerical
+factorization step is found below.
+\begin{verbatim}
+chvmanager = ChvManager_new() ;
+ChvManager_init(chvmanager, LOCK_IN_PROCESS, 1) ;
+DVfill(10, cpus, 0.0) ;
+IVfill(20, stats, 0) ;
+rootchv = FrontMtx_MT_factorInpMtx(frontmtx, mtxA, tau, droptol, chvmanager, ownersIV, 
+                                   lookahead, &error, cpus, stats, msglvl, msgFile) ;
+ChvManager_free(chvmanager) ;
+\end{verbatim}
+Note that the {\tt ChvManager} is also locked.
+There are two additional parameters in the calling sequence of
+the multithreaded factorization.
+\begin{itemize}
+\item
+The {\tt ownersIV} object maps the fronts to threads.
+\item
+The {\tt lookahead} parameter controls the flow of execution during
+the factorization.
+Since the threads work cooperatively to compute the factor
+matrices, there is idle time while one thread waits on another.
+The {\tt lookahead} parameter controls the ability of the thread to
+look past the present idle point and perform work that is not so
+immediate.
+Unfortunately, while a thread is off doing this work, it may block
+a thread at a more crucial point.
+When {\tt lookahead = 0}, each processor tries to do only
+``immediate'' work.
+Moderate speedups in the factorization have been for values of {\tt
+lookahead} up to the number of threads.
+For nonzero {\tt lookahead} values, the amount of working storage
+can increase, sometimes appreciably.
+\end{itemize}
+The post-processing of the factorization is exactly the same as the
+serial code.
+Note, this step can be trivially parallelized, but is not done at
+present.
+\par
+After the post-processing step, the {\tt FrontMtx} object contains
+the $L_{J,I}$, $D_{I,I}$ and $U_{I,J}$ submatrices.
+What remains to be done is to specify which threads own which
+submatrices, and thus perform computations with them.
+This is done by constructing a {\it ``solve--map''} object,
+as we see below.
+\begin{verbatim}
+solvemap = SolveMap_new() ;
+SolveMap_ddMap(solvemap, symmetryflag, FrontMtx_upperBlockIVL(frontmtx),
+               FrontMtx_lowerBlockIVL(frontmtx), nthread, ownersIV,
+               FrontMtx_frontTree(frontmtx), seed, msglvl, msgFile) ;
+\end{verbatim}
+This object also uses a domain decomposition map, the only solve map
+that presently found in the {\bf SPOOLES} library.
+\par
+\subsection{The Forward and Backsolves}
+\label{subsection:MT:solve}
+\par
+The parallel solve is remarkably similar to the serial solve,
+as we see with the code fragment below.
+\begin{verbatim}
+mtxX = DenseMtx_new() ;
+DenseMtx_init(mtxX, type, 0, 0, neqns, nrhs, 1, neqns) ;
+DenseMtx_zero(mtxX) ;
+FrontMtx_MT_solve(frontmtx, mtxX, mtxY, mtxmanager, solvemap, cpus, msglvl, msgFile) ;
+DenseMtx_permuteRows(mtxX, newToOldIV) ;
+\end{verbatim}
+The only difference between the serial and multithreaded solve
+methods is the presence of the solve--map object in the latter.
+\par
+\subsection{Sample Matrix and Right Hand Side Files}
+\label{subsection:MT:input-files}
+\par
+The multithreaded driver uses the same input files as found in 
+Section~\ref{subsection:serial:input-files}.

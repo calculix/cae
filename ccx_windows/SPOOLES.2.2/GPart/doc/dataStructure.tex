@@ -1,0 +1,111 @@
+\par
+\section{Data Structures}
+\label{section:GPart:dataStructure}
+\par
+The {\tt GPart} structure has a pointer to a {\tt Graph} object
+and other fields that contain information about the partition
+of the graph.
+\par
+The following fields are always active.
+\begin{itemize}
+\item 
+{\tt Graph *graph} : pointer to the {\tt Graph} object
+\item 
+{\tt int nvtx} : number of internal vertices of the graph
+\item 
+{\tt int nvbnd} : number of boundary vertices of the graph
+\item 
+{\tt int ncomp} : number of components in the graph
+\item 
+{\tt IV compidsIV} : an {\tt IV} object that holds the component
+ids of the internal vertices --- {\tt compids[v] == 0}
+means that the vertex is in the separator or multisector.
+\item 
+{\tt IV cweightsIV} : an {\tt IV} object that holds the component
+weights --- {\tt cweights[icomp]} stores the weight 
+of component {\tt icomp}, {\tt cweights[0]} is the separator 
+or multisector weight.
+\item
+{\tt int msglvl} : message level parameter. 
+When {\tt msglvl = 0}, no output is produced.
+When {\tt msglvl = 1}, only ``scalar'' output is provided,
+no vectors are printed or any print statements in a loop.
+When {\tt msglvl > 1}, beware, there can be a fair amount of output.
+\item
+{\tt FILE *msgFile} 
+: message file pointer, default value is {\tt stdout}.
+\end{itemize}
+The following fields are used when building a domain/separator tree
+during the recursive dissection process.
+\begin{itemize}
+\item {\tt int id}  : id of the partition object
+\item {\tt GPart *par} : pointer to a parent {\tt GPart} object
+\item {\tt GPart *fch} : pointer to a first child {\tt GPart} object
+\item {\tt GPart *sib} : pointer to a sibling {\tt GPart} object
+\item {\tt IV vtxMapIV} : an {\tt IV} object of size
+      {\tt nvtx + nvbnd}, contains a map from the vertices of the graph 
+      to either the vertices of its parent or to the vertices 
+      of the root graph 
+\end{itemize}
+\par
+The {\tt DDsepInfo} {\it helper}-object is used during the {\tt DDSEP}
+recursive bisection process.
+It contains input parameters for the different stages of the {\tt
+DDSEP} algorithm, and collects statistics about the CPU time spent
+in each stage.
+\par
+\begin{itemize}
+\item These parameters are used to generate the domain decomposition.
+   \begin{itemize}
+   \item {\tt int minweight}: minimum target weight for a domain
+   \item {\tt int maxweight}: maximum target weight for a domain
+   \item {\tt double freeze}: multiplier used to freeze vertices of high
+         degree into the multisector. If the degree of {\tt v} is more
+         than {\tt freeze} times the median degree, {\tt v} is placed 
+         into the multisector.
+   \item {\tt int seed}: random number seed
+   \item {\tt int DDoption}: If {\tt 1}, a new domain decomposition is
+         constructed for each subgraph. If {\tt 2}, a domain
+         decomposition is constructed for the original graph,
+         and its projection onto a subgraph is used to define the
+         domain decomposition on the subgraph.
+   \end{itemize}
+\item These parameters are used to find the initial and final bisectors.
+   \begin{itemize}
+   \item {\tt double alpha}: cost function parameter
+   \item {\tt int seed}: random number seed
+   \item {\tt int nlayer}: number of layers to use to form a wide
+         separator $Y$ from a 2-set partition $[S,B,W]$.
+         If {\tt nlayer = 1} or {\tt 2}, 
+         $Y = S \cup (Adj(S) \cap B)$
+         or $Y = S \cup (Adj(S) \cap W)$.
+         When {\tt nlayer = 1} the network is forced to be bipartite.
+         If {\tt nlayer = 3}, $Y_3 = S \cup Adj(S)$,
+         and for {\tt nlayer = 2k+1},
+         $Y_{2k+1} = Y_{2k-1} \cup Adj(Y_{2k-1})$.
+   \end{itemize}
+\item These parameters accumulate CPU times.
+   \begin{itemize}
+   \item {\tt double cpuDD}: time to construct the domain decompositions
+   \item {\tt double cpuMap}: time to construct the maps from vertices
+         to domains and segments
+   \item {\tt double cpuBPG}: time to construct the domain/segment
+         bipartite graphs
+   \item {\tt double cpuBKL}: time to find the initial separators via the
+         Block Kernighan-Lin algorithm on the domain/segment graphs
+   \item {\tt double cpuSmooth}: time to smooth the bisectors 
+   \item {\tt double cpuSplit}: time to split the subgraphs
+   \item {\tt double cpuTotal}: total cpu time
+   \end{itemize}
+\item Miscellaneous parameters.
+   \begin{itemize}
+   \item {\tt int maxcompweight}: 
+         an attempt is made to split any subgraph 
+         that has weight greater than {\tt maxcompweight}.
+   \item {\tt int ntreeobj}: number of tree objects in the tree, used
+         to set {\tt gpart->id} and used to initialize the {\tt DSTree}
+         object.
+   \item {\tt int msglvl} : message level
+   \item {\tt FILE *msgFile} : message file pointer
+   \end{itemize}
+\end{itemize}

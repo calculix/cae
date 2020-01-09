@@ -1,0 +1,416 @@
+\chapter{Setting up the linear system}
+\label{section:setup-linear-system}
+\par
+Our typical user is interested in solving $A X = Y$,
+where $A$ is square, large and sparse,
+and $X$ and $Y$ are dense matrices with one or more columns.
+{\bf SPOOLES} is a very large sophisticated library with 
+a commensurate learning curve to master its functionality.
+But what is the bare minimum a user has to know to obtain a
+solution to their linear system?
+\begin{itemize}
+\item
+They need to construct an {\tt InpMtx} object that holds
+the entries of $A$. ({\tt InpMtx} stands for 
+{\tt Inp}ut {\tt m}a{\tt t}ri{\tt x},
+for it is an easy to use object that one uses to input, 
+assemble, sort and manipulate entries in a sparse matrix.)
+\item
+They need to construct a {\tt DenseMtx} object that holds
+the entries of $Y$.
+\item
+They need to construct a {\tt DenseMtx} object to hold
+the entries of $X$.
+\end{itemize}
+These two objects encapsulate the minimal interface to the 
+{\bf SPOOLES} library.
+the application program needs to know how to construct
+the {\tt InpMtx} and {\tt DenseMtx} objects, either directly inside
+an application program, or by reading in a custom matrix file.
+This is what we now describe.
+\par
+\section{Constructing an {\tt InpMtx} object}
+\label{subsection:construct-InpMtx}
+\par
+The {\tt InpMtx} object is more of an ``Input'' object 
+than a ``Matrix'' object.
+It descended from an out-of-core assembly code that assembled and
+sorted entries of a sparse matrix.
+Simplicity and functionality are its goals, at some expense of 
+efficiency in storage and computation.
+{\it Note: all indices are zero-based as in C, not 1-based as in
+FORTRAN.}
+\par
+The {\tt InpMtx} object is simplest understood as a ``bag'' of
+triples $\langle r(i,j),c(i,j),a_{i,j}\rangle$, 
+where $r()$ and $c()$ are some
+functions that define the first and second coordinates.
+Each {\tt InpMtx} object has a ``coordinate type'', one of
+\begin{itemize}
+\item
+{\tt INPMTX\_BY\_ROWS}, where $r(i,j) = i$, $c(i,j) = j$.
+\item
+{\tt INPMTX\_BY\_COLUMNS}, where $r(i,j) = j$, $c(i,j) = i$.
+\item
+{\tt INPMTX\_BY\_CHEVRONS}, 
+where $r(i,j) = \min(i,j)$, $c(i,j) = j - i$.
+\end{itemize}
+Rows and columns are self-explanatory, the first coordinate
+$r(i,j)$ is either the row or column of $a_{i,j}$.
+The $j$-th ``chevron'' is composed of the diagonal entry $a_{j,j}$,
+entries in the $j$-th row of the upper triangle,
+and entries in the $j$-th column of the lower triangle.
+It is the natural data structure for the assembly of the matrix
+entries into the ``fronts'' used to factor the matrix.
+\par
+% ``Entries'' of the {\tt InpMtx} object can be one of three types.
+The {\tt InpMtx} object can hold one of three types of entries as
+``indices only'' (no entries are present),
+real entries, or complex entries.
+The type is specified by the {\tt inputMode}
+parameter to the {\tt InpMtx\_init()} method.
+\begin{itemize}
+\item
+{\tt INPMTX\_INDICES\_ONLY} where the triples
+$langle r(i,j),c(i,j),-\rangle$ are really only pairs,
+i.e., no numerical values are present.
+This mode is useful for assembling graphs.
+\item
+{\tt SPOOLES\_REAL} where $a_{i,j}$ is a real number,
+a {\tt double} value.
+\item
+{\tt SPOOLES\_COMPLEX} where $a_{i,j}$ is a complex number,
+really two consecutive {\tt double} values.
+\end{itemize}
+``Coodinate type'' and ``input mode'' (equivalently, the type of
+entries) are the two parameters that must be specified when
+initializing an {\tt InpMtx} object.
+\begin{verbatim}
+InpMtx   *mtxA = InpMtx_new() ;
+InpMtx_init(mtxA, coordType, inputMode, 0, 0) ;
+\end{verbatim}
+Every object in the {\bf SPOOLES} library is initialized
+via an {\tt {\it ObjectName}\_new()} method, which allocates space
+for the object and sets its fields to default values.
+If you wish to use an {\it automatic} variable, then one must
+explicitly set the default fields, as follows.
+\begin{verbatim}
+InpMtx   mtxA ;
+InpMtx_setDefaultFields(&mtxA) ;
+InpMtx_init(&mtxA, coordType, inputMode, 0, 0) ;
+\end{verbatim}
+Only the coordinate type and input mode are necessary.
+The fourth and fifth arguments are upper bounds on the number of
+entries and vectors for the object. (More on vectors in just a
+moment.) The user does not need to know values for the number of
+entries or vectors, for the object resizes itself as necessary 
+as information is placed into it.
+\par
+``Vectors'' is one way that the entries can be stored.
+There are actually three ways, specified by the 
+{\tt storageMode} field of the {\tt InpMtx} object.
+\begin{itemize}
+\item
+{\tt INPMTX\_RAW\_DATA}, where the pairs or triples are stored in
+unordered form.
+\item
+{\tt INPMTX\_SORTED}, where the pairs or triples are stored in
+ascending lexicographic order of the first two coordinates.
+\item
+{\tt INPMTX\_BY\_VECTORS}, where the pairs or triples are sorted
+and stored in vectors defined by their first coordinate.
+\end{itemize}
+The storage mode can be changed via a call to
+{\tt InpMtx\_changeStorageMode()}.
+\par
+The user does not really need to know about this 
+``storage mode''. Fill the {\tt InpMtx} object with data in any way
+at all (we will describe this shortly). 
+The wrapper method will check that the data is in the form it needs. 
+If is isn't, the object will be transformed as necessary.
+The ``sort'' operation is really ``sort-and-compress'', the pairs
+or triples are sorted into ascending order, and then the list is
+scanned duplicates are ``merged'' together, i.e., if real or
+complex entries are present, they are added together.
+(This allows us to assemble finite element matrices.)
+The knowledgeable user can change the storage mode as necessary,
+and thus avoiding expensive sorts when possible.
+For example, after reading in the matrix data from the CSAR-Nastran 
+file,
+the entries are already in sorted form, and the explicit sort
+can be avoided.
+\par
+Now let us see how we ``input'' information into the {\tt InpMtx}
+object.
+There are several input methods, e.g., single entries, rows,
+columns, and submatrices, and each input method has three types of
+input, e.g, indices only, real entries, or complex entries.
+Here are the prototypes below.
+\begin{itemize}
+\item Input methods for ``indices only'' mode.
+\begin{verbatim}
+void InpMtx_inputEntry ( InpMtx *mtxA, int row, int col ) ;
+void InpMtx_inputRow ( InpMtx *mtxA, int row, int rowsize, int rowind[] ) ;
+void InpMtx_inputColumn ( InpMtx *mtxA, int col, int colsize, int colind[] ) ;
+void InpMtx_inputMatrix ( InpMtx *mtxA, int nrow, int ncol, int rowstride, 
+                          int colstride, int rowind[], colind[] ) ;
+\end{verbatim}
+\item Input methods for real entries.
+\begin{verbatim}
+void InpMtx_inputRealEntry ( InpMtx *mtxA, int row, int col, double value ) ;
+void InpMtx_inputRealRow ( InpMtx *mtxA, int row, int rowsize, 
+                           int rowind[], double rowent[] ) ;
+void InpMtx_inputRealColumn ( InpMtx *mtxA, int col, int colsize, 
+                              int colind[], double colent[] ) ;
+void InpMtx_inputRealMatrix ( InpMtx *mtxA, int nrow, int ncol, int rowstride, 
+                    int colstride, int rowind[], colind[], double mtxent[] ) ;
+\end{verbatim}
+\item Input methods for complex entries.
+\begin{verbatim}
+void InpMtx_inputComplexEntry ( InpMtx *mtxA, int row, int col, 
+                                double real, double imag ) ;
+void InpMtx_inputComplexRow ( InpMtx *mtxA, int row, int rowsize, 
+                               int rowind[], double rowent[] ) ;
+void InpMtx_inputComplexColumn ( InpMtx *mtxA, int col, int colsize, 
+                                 int colind[], double colent[] ) ;
+void InpMtx_inputComplexMatrix ( InpMtx *mtxA, int nrow, int ncol, int rowstride, 
+              int colstride, int rowind[], colind[], double mtxent[] ) ;
+\end{verbatim}
+\end{itemize}
+The {\tt rowind[]} row indices and {\tt colind[]} column indices 
+are precisely that. 
+Don't worry about what coordinate type the {\tt InpMtx} object has,
+the translation from row and column indices into the particular
+coordinate is done inside the input methods.
+\par
+Let us look at a particular example, where we have a 
+${\tt n1} \times {\tt n2}$ grid and we want to have a
+$\left \lbrack \begin{array}{ccc}
+   & -1 &    \\
+-1 &  4 & -1 \\
+   & -1 & 
+\end{array} \right \rbrack$ 
+5-point operator at each grid point.
+Note, this matrix is symmetric, so we need input only the upper
+triangle (or the lower triangle) of the matrix.
+\begin{verbatim}
+mtxA = InpMtx_new() ;
+InpMtx_init(mtxA, INPMTX_BY_ROWS, SPOOLES_REAL, 0, 0) ;
+for ( ii = 0 ; ii < n1 ; ii++ ) {
+   for ( jj = 0 ; jj < n2 ; jj++ ) {
+      ij = ii + jj*n1 ;
+      indices[0] = ij ;
+      entries[0] = 4.0 ;
+      count = 1 ;
+      if ( ii < n1 ) {
+         indices[count] = ij + 1 ;
+         entries[count] = -1.0 ;
+         count++ ;
+      }
+      if ( jj < n2 ) {
+         indices[count] = ij + n1 ;
+         entries[count] = -1.0 ;
+         count++ ;
+      }
+      InpMtx_inputRealRow(mtxA, ij, count, indices, entries) ;
+   }
+}
+InpMtx_changeStorageMode(mtxA, INPMTX_BY_VECTORS) ;
+\end{verbatim}
+The process begins by allocating an {\tt InpMtx} object {\tt mtxA}
+using the {\tt InpMtx\_new()} method,
+initializing it with the {\tt InpMtx\_init()} method, 
+and filling it with matrix entries with the {\tt
+InpMtx\_inputRealRow()} method.
+The last method, {\tt InpMtx\_changeStorageMode()},
+``assembles'' the data (not really necessary because the entries
+are disjoint, 
+``sorts'' the data (again not necessary since the entries were
+input in ascending order,
+and creates a vector structure inside the {\tt InpMtx} object that
+allows easy access to each individual row.
+\par
+We could have input all the entries and treated it as a
+nonsymmetric matrix, but that would not be efficient with respect
+to storage or factorization cost.
+Alternatively, we could have input all the entries and called the 
+{\tt InpMtx\_dropLowerTriangle()} method to drop the lower
+triangular entries.
+\par
+\section{Constructing an {\tt DenseMtx} object}
+\label{subsection:construct-DenseMtx}
+\par
+The {\tt DenseMtx} stores a real or complex dense matrix.
+It is not just an array of numbers, it also has row indices and
+column indices.
+This allows it to exist in a distributed MPI environment where each
+processors has only a submatrix of the matrix.
+Here is how to initialize a {\tt DenseMtx} object.
+\begin{verbatim}
+int        type, rowid, colid, nrow, ncol, inc1, inc2 ;
+DenseMtx   *mtx = DenseMtx_new() ;
+DenseMtx_init(mtx, type, rowid, colid, nrow, ncol, inc1, inc2) ;
+\end{verbatim}
+\begin{itemize}
+\item
+The {\tt type} is either {\tt SPOOLES\_REAL} 
+or {\tt SPOOLES\_COMPLEX}.
+\item
+The {\tt rowid} and {\tt colid} values are used to identify a 
+{\tt DenseMtx} as a submatrix of a larger matrix.
+Any values are suitable.
+\item
+{\tt nrow} and {\tt ncol} are the number of rows and columns in the
+matrix, respectively.
+\item
+The entries of the matrix can be stored in either row major or
+column major form.
+For row major, use {\tt inc1 = ncol} and {\tt inc2 = 1}.
+For column major, use {\tt inc1 = 1} and {\tt inc2 = nrow}.
+Note, all solve and matrix-matrix multiply methods require that the
+{\tt DenseMtx} object be column major.
+\end{itemize}
+For example, here is the call to initialize a {\tt DenseMtx} object 
+to have real entries, 100 rows and 5 columns, entries column major.
+\begin{verbatim}
+DenseMtx_init(mtx, SPOOLES_REAL, 0, 0, 100, 5, 1, 100) ;
+\end{verbatim}
+During the initialization, 
+the row indices are set to $0, 1, \dots, \mathtt{nrow - 1}$
+and the column indices are set to $0, 1, \dots, \mathtt{ncol - 1}$.
+The entries are {\bf not} initialized.
+Zero the entries with a call to {\tt DenseMtx\_zero()}.
+(This is crucial when loading a sparse right hand side into
+the {\tt DenseMtx} object.)
+\par
+Once we have the {\tt DenseMtx} object initialized, we want to be
+able to access the row indices, the column indices and the entries.
+We do this through instance methods.
+\begin{verbatim}
+void DenseMtx_rowIndices ( DenseMtx *mtx, int *pnrow, int *prowind ) ;
+void DenseMtx_columnIndices ( DenseMtx *mtx, int *pncol, int *pcolind ) ;
+double * DenseMtx_entries ( DenseMtx *mtx ) ;
+\end{verbatim}
+We would use them as follows.
+\begin{verbatim}
+double   *entries ;
+int      ncol, nrow, *colind, *rowind ;
+
+DenseMtx_rowIndices(mtx, &nrow, &rowind) ;
+DenseMtx_columnIndices(mtx, &ncol, &colind) ;
+entries = DenseMtx_entries(mtx) ;
+\end{verbatim}
+We can now fill the indices or the entries.
+The location of the {\tt (irow,jcol)} entry is found
+at {\tt offset = irow*inc1 + jcol*inc2}.
+The row and column increments can be found as follows.
+\begin{verbatim}
+int inc1 = DenseMtx_rowIncrement(mtx) ;
+int inc2 = DenseMtx_columnIncrement(mtx) ;
+\end{verbatim}
+\par
+To avoid dealing with row and column increments, 
+we can retrieve and set values of a particular entry.
+\begin{verbatim}
+double   value, real, imag ;
+int      irow, jcol ;
+
+DenseMtx_realEntry(mtx, irow, jcol, &value) ;
+DenseMtx_complexEntry(mtx, irow, jcol, &real, &imag) ;
+DenseMtx_setRealEntry(mtx, irow, jcol, value + 10.) ;
+DenseMtx_setComplexEntry(mtx, irow, jcol, real + 1., imag + 2.) ;
+\end{verbatim}
+As a real example, consider the ${\tt n1} \times {\tt n2}$ grid
+from the previous subsection, where we assembled a finite
+difference matrix. 
+Assume that the right hand side is zero except for points where
+{\tt (n1-1,0:n2-1)}, where a unit load is applied.
+Here is the code to generate the {\tt DenseMtx} object.
+\begin{verbatim}
+mtxY = DenseMtx_new();
+DenseMtx_init(mtxY, SPOOLES_REAL, 0, 0, n1*n2, 1, 1, n1*n2) ;
+DenseMtx_zero(mtxY) ;
+ii = n1 - 1 ;
+for ( jj = 0 ; jj < n2 ; jj++ ) {
+   ij = ii + jj*n1 ;
+   DenseMtx_setRealEntry(mtxY, ij, 1, 1.0) ;
+}
+\end{verbatim}
+Do not forget to zero the entries in {\tt mtxY} before setting any
+entries.
+\par
+\section{IO for the {\tt InpMtx} and {\tt DenseMtx} objects}
+\label{subsection:IO}
+\par
+The three driver programs that we describe in the next sections
+read $A$ and $Y$ from files and write $X$ to a file. 
+So the first thing we know is that the {\tt InpMtx} and {\tt
+DenseMtx} objects can read and write themselves from and to files.
+This convention is supported by most of the objects in the 
+{\bf SPOOLES} library. 
+In fact, there is a common {\it protocol} that is followed.
+Let us take a look at the common IO methods for the {\tt InpMtx}.
+\begin{itemize}
+\item
+{\tt int InpMtx\_readFromFile ( InpMtx *obj, char *filename ) ;}
+\item
+{\tt int InpMtx\_readFromFormattedFile ( InpMtx *obj, FILE *fp ) ;}
+\item
+{\tt int InpMtx\_readFromBinaryFile ( InpMtx *obj, FILE *fp ) ;}
+\item
+{\tt int InpMtx\_writeToFile ( InpMtx *obj, char *filename ) ;}
+\item
+{\tt int InpMtx\_writeToFormattedFile ( InpMtx *obj, FILE *fp ) ;}
+\item
+{\tt int InpMtx\_writeToBinaryFile ( InpMtx *obj, FILE *fp ) ;}
+\item
+{\tt int InpMtx\_writeForHumanEye ( InpMtx *obj, FILE *fp ) ;}
+\end{itemize}
+There are corresponding methods for the {\tt DenseMtx} object,
+just replace ``{\tt Inp}'' by ``{\tt Dense}'' in the above prototypes.
+\par
+Two methods take as input {\tt char *} file names. Each object can
+be archived in its own file with a particular suffix.
+For example, {\tt InpMtx} objects can be read from and written to
+files of the form {\tt *.inpmtxf} for a formatted file and
+{\tt *.inpmtxb} for a binary file.
+For a {\tt DenseMtx} object, the file names are
+{\tt *.densemtxf} and {\tt *.densemtxb}.
+The {\tt InpMtx\_readFromFile()} method looks at the {\tt filename}
+argument, and calls the binary or formatted read methods, depending on
+the suffix of {\tt filename}. 
+A normal return code is {\tt 1}.
+If the suffix does not match either {\tt *.inpmtxf} or {\tt *.inpmtxb},
+an error message is printed and the return code is {\tt 0}.
+Something similar works for writing an {\tt InpMtx} object to a
+file using {\tt InpMtx\_writeToFile()}, except if {\tt filename}'s
+suffix does not match, the {\tt InpMtx\_writeForHumanEye()} method
+is called.
+\par
+Here are three approaches to link $A$ and $Y$ from an application
+code to the {\tt InpMtx} and {\tt DenseMtx} objects demanded by the
+{\bf SPOOLES} application.
+\begin{itemize}
+\item
+An application could take the simple approach of creating an {\tt
+InpMtx} and {\tt DenseMtx} object to hold $A$ and $Y$, write them
+to a file, and then call a totally separate code that functions
+much like our drivers, reading in $A$ and $Y$, computing $X$ and
+writing $X$ to a file, which is then read in by the application code.
+\item
+A second approach, one that was taken during the first integration 
+of the {\bf SPOOLES} library into CSAR-Nastran, was to have the
+CSAR-Nastran code generate two files for $A$ and $Y$ in CSAR-Nastran 
+format.
+(This way CSAR-Nastran did not need to know any of the {\bf SPOOLES}
+interface.)
+Two custom routines were written to read in the entries of $A$ and 
+$Y$ from the CSAR-Nastran files and construct {\tt InpMtx} and {\tt
+DenseMtx} objects.
+The wrapper routines we describe in the next three chapters were
+called to solve for $X$ which was then written to a CSAR-Nastran file.
+\item
+A third approach would be to generate the {\tt InpMtx} and {\tt
+DenseMtx} objects in the application program, and then call the
+wrapper methods to solve for $X$, i.e., no IO would be necessary.
+\end{itemize}

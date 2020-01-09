@@ -1,0 +1,11 @@
+\begin{theindex}
+
+  \item {\tt Lock\_clearData()}, 2
+  \item {\tt Lock\_free()}, 2
+  \item {\tt Lock\_init()}, 2
+  \item {\tt Lock\_lock()}, 2
+  \item {\tt Lock\_new()}, 2
+  \item {\tt Lock\_setDefaultFields()}, 2
+  \item {\tt Lock\_unlock()}, 3
+
+\end{theindex}

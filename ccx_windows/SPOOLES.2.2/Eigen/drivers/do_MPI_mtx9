@@ -1,0 +1,23 @@
+#! /bin/csh -f
+
+set MTX_DIR = /home/pattersn/LANCZOS/test/inp
+
+set pgFile = spooles.pg
+
+echo matrix9
+
+uncompress < $MTX_DIR/matrix.9A.Z > fort.37
+uncompress < $MTX_DIR/matrix.9B.Z > fort.38
+
+set msglvl   = 0
+set msgFile  = res.mtx9
+set parmFile = mtx9.inp
+set seed     = 10
+set inFileA  = fort.37
+set inFileB  = fort.38
+set resFile  = res.mtx9
+
+/usr/local/mpi/bin/mpirun -p4pg $pgFile \
+testMPI $msglvl $msgFile $parmFile $seed $inFileA $inFileB 
+
+rm fort.* lmq* lq* evc* res.9*

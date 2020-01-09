@@ -1,0 +1,9 @@
+\indexentry{SubMtxManager_new@{\tt SubMtxManager\_new()}}{2}
+\indexentry{SubMtxManager_setDefaultFields@{\tt SubMtxManager\_setDefaultFields()}}{3}
+\indexentry{SubMtxManager_clearData@{\tt SubMtxManager\_clearData()}}{3}
+\indexentry{SubMtxManager_free@{\tt SubMtxManager\_free()}}{3}
+\indexentry{SubMtxManager_init@{\tt SubMtxManager\_init()}}{3}
+\indexentry{SubMtxManager_newObjectOfSizeNbytes@{\tt SubMtxManager\_newObjectOfSizeNbytes()}}{3}
+\indexentry{SubMtxManager_releaseObject@{\tt SubMtxManager\_releaseObject()}}{3}
+\indexentry{SubMtxManager_releaseListOfObjects@{\tt SubMtxManager\_releaseListOfObjects()}}{4}
+\indexentry{SubMtxManager_writeForHumanEye@{\tt SubMtxManager\_writeForHumanEye()}}{4}

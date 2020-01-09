@@ -1,0 +1,30 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = GRD3x2
+set matrix       = GRD15x15
+
+set msglvl  = 1
+set msgFile = nd.res
+set msgFile = stdout
+
+set n1 = 15
+set n2 = 15
+set n3 = 15
+
+set maxzeros = 1000
+set maxsize  = 32
+
+set outETreeFile = none
+set outETreeFile = $matrices/$matrix/nd.etreef
+
+set nthread = 4
+
+set maptype = 4
+set cutoff  = 0.125
+
+set outOwnersFile = $matrices/$matrix/ndowners.ivf
+set outOwnersFile = none
+
+mkNDoutput $msglvl $msgFile $n1 $n2 $n3 $maxzeros $maxsize \
+           $nthread $maptype $cutoff $outETreeFile $outOwnersFile

@@ -1,0 +1,118 @@
+This is TeX, Version 3.1415 (C version 6.1) (format=lplain 94.11.14)  5 JUN 1998 06:38
+**main
+(main.tex
+LaTeX Version 2.09 <25 March 1992>
+(/usr/local/lib/texmf/tex/latex209/report.sty
+Standard Document Style `report' <14 Jan 92>.
+(/usr/local/lib/texmf/tex/latex209/rep11.sty)
+\descriptionmargin=\dimen99
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+
+(/usr/local/lib/texmf/tex/latex209/titlepag.sty
+Document Style Option `titlepage' -- Released 16 June 1991.
+)) (/usr/local/lib/texmf/tex/latex209/leqno.sty
+Document style option `leqno' - released 29 Sep 1991
+)
+\@indexfile=\write3
+
+Writing index file main.idx 
+(main.aux) (intro.tex
+Chapter 1.
+LaTeX Warning: No \tt typeface in this size, using \rm on input line 1.
+) (dataStructure.tex) (proto.tex [1
+
+
+]
+Overfull \hbox (12.76239pt too wide) in paragraph at lines 43--53
+\elvrm is not \elvtt NULL\elvrm , then \elvtt IVL[]free(egraph->adjIVL) \elvrm 
+is called to free the \elvtt IVL \elvrm ob-ject. If \elvtt egraph->vwghts
+
+\hbox(7.60416+2.43333)x442.37993, glue set - 1.0
+.\elvrm i
+.\elvrm s
+.\glue 3.65 plus 1.825 minus 1.21666
+.\elvrm n
+.\elvrm o
+.etc.
+
+[2]
+Overfull \hbox (3.0602pt too wide) in paragraph at lines 138--145
+\elvrm the grid points. The re-sult-ing graph has \elvtt n1*n2*n3*ncomp \elvrm 
+ver-tices and \elvtt (n1-1)*(n2-1)*(n3-1)
+
+\hbox(7.60416+2.43333)x442.37993, glue set - 1.0
+.\elvrm t
+.\elvrm h
+.\elvrm e
+.\glue 3.65 plus 1.825 minus 1.21666
+.\elvrm g
+.etc.
+
+[3]) (drivers.tex
+Overfull \hbox (42.63402pt too wide) in paragraph at lines 30--35
+\elvtt *.egraphf \elvrm or \elvtt *.egraphb\elvrm . The \elvtt EGraph \elvrm ob
+-ject is read from the file via the \elvtt EGraph[]readFromFile()
+
+\hbox(7.60416+2.43333)x418.2899, glue set - 1.0
+.\elvtt *
+.\elvtt .
+.\elvtt e
+.\elvtt g
+.\elvtt r
+.etc.
+
+[4]
+Overfull \hbox (1.44826pt too wide) in paragraph at lines 114--122
+[] []\elvrm The \elvtt outEGraphFile \elvrm pa-ram-e-ter is the out-put file fo
+r the \elvtt EGraph \elvrm ob-ject. If \elvtt outEGraphFile
+
+\hbox(7.60416+2.43333)x418.2899, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -18.61502
+..\glue -5.475
+..\hbox(4.86667+0.0)x18.61502, glue set 18.61502fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvrm T
+.etc.
+
+
+Overfull \hbox (18.78839pt too wide) in paragraph at lines 114--122
+\elvrm is \elvtt none \elvrm then the \elvtt EGraph \elvrm ob-ject is not writ-
+ten to a file. Oth-er-wise, the \elvtt EGraph[]writeToFile()
+
+\hbox(7.60416+2.43333)x418.2899, glue set - 1.0
+.\elvrm i
+.\elvrm s
+.\glue 3.65 plus 1.825 minus 1.21666
+.\elvtt n
+.\elvtt o
+.etc.
+
+[5]) (main.ind [6] [7
+
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 207 strings out of 11977
+ 2133 string characters out of 87269
+ 33495 words of memory out of 262141
+ 2141 multiletter control sequences out of 9500
+ 19780 words of font info for 75 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 14i,4n,17p,183b,260s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (7 pages, 18668 bytes).

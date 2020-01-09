@@ -1,0 +1,31 @@
+#! /bin/csh -f
+
+set msglvl  = 1
+
+set msgFile = res
+set msgFile = stdout
+
+#   neqns --> # of equations
+set neqns = 100
+
+#   nitem --> # of entries
+set nitem = 1000
+
+#   type = 1 --> real entries
+#   type = 2 --> complex entries
+set type = 2
+
+#   symflag = 0 --> symmetric
+#   symflag = 1 --> hermitian
+#   symflag = 2 --> nonsymmetric
+set symflag = 2
+
+set seed = 10223
+
+set droptol = 0.0
+
+set matlabFile = res.m
+set matlabFile = none
+
+testFactor $msglvl $msgFile $type $symflag $neqns $nitem \
+           $seed $droptol $matlabFile

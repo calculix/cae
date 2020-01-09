@@ -1,0 +1,16 @@
+\begin{theindex}
+
+  \item {\tt FrontMtx\_initFromSubMtx()}, 3
+
+  \indexspace
+
+  \item {\tt SemiImplMtx\_clearData()}, 2
+  \item {\tt SemiImplMtx\_free()}, 3
+  \item {\tt SemiImplMtx\_initFromFrontMtx()}, 3
+  \item {\tt SemiImplMtx\_new()}, 2
+  \item {\tt SemiImplMtx\_setDefaultFields()}, 2
+  \item {\tt SemiImplMtx\_solve()}, 3
+  \item {\tt SemiImplMtx\_stats()}, 4
+  \item {\tt SemiImplMtx\_writeForHumanEye()}, 4
+
+\end{theindex}

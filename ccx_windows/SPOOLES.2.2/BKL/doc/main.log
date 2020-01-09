@@ -1,0 +1,80 @@
+This is TeX, Version 3.1415 (C version 6.1) (format=lplain 94.11.14)  5 JUN 1998 06:26
+**main
+(main.tex
+LaTeX Version 2.09 <25 March 1992>
+(/usr/local/lib/texmf/tex/latex209/report.sty
+Standard Document Style `report' <14 Jan 92>.
+(/usr/local/lib/texmf/tex/latex209/rep11.sty)
+\descriptionmargin=\dimen99
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+
+(/usr/local/lib/texmf/tex/latex209/titlepag.sty
+Document Style Option `titlepage' -- Released 16 June 1991.
+)) (/usr/local/lib/texmf/tex/latex209/leqno.sty
+Document style option `leqno' - released 29 Sep 1991
+)
+\@indexfile=\write3
+
+Writing index file main.idx 
+(main.aux) (intro.tex
+Chapter 1.
+LaTeX Warning: No \tt typeface in this size, using \rm on input line 1.
+) (dataStructure.tex [1
+
+
+]) (proto.tex
+Overfull \hbox (15.59521pt too wide) in paragraph at lines 46--50
+\elvrm tors. It then fills the struc-ture's fields with de-fault val-ues with a
+ call to \elvtt BKL[]setDefaultFields()\elvrm . 
+
+\hbox(7.60416+0.91246)x442.37993, glue set - 1.0
+.\elvrm t
+.\elvrm o
+.\elvrm r
+.\elvrm s
+.\elvrm .
+.etc.
+
+[2] [3]
+Overfull \hbox (34.76115pt too wide) in paragraph at lines 231--231
+ [] []\elvtt void BKL_evalgain ( BKL *bkl, int dom, int *pdeltaS, int *pdeltaB,
+ int *pdeltaW ) ;[] 
+
+\hbox(7.60416+2.43333)x469.75499
+.\glue(\leftskip) 27.37506
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(7.05666+0.0)x0.0
+..\glue 0.0
+..\glue 0.0
+..\glue -21.90005
+..\glue -5.475
+..\hbox(7.05666+0.0)x21.90005, glue set 21.90005fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(7.05666+0.0)x0.0, glue set - 8.51668fil []
+..etc.
+.\penalty 0
+.etc.
+
+[4]) (main.ind [5] [6
+
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 206 strings out of 11977
+ 2150 string characters out of 87269
+ 33248 words of memory out of 262141
+ 2143 multiletter control sequences out of 9500
+ 19780 words of font info for 75 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 13i,6n,17p,180b,228s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (6 pages, 16376 bytes).

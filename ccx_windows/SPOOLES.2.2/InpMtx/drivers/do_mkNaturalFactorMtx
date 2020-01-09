@@ -1,0 +1,14 @@
+#! /bin/csh -f
+
+set msglvl  = 5
+
+set msgFile = stdout
+
+set n1   = 3
+set n2   = 3
+set n3   = 1
+set seed = 1
+
+set outFile = natfac.$n1.$n2.$n3.inpmtxf
+
+mkNaturalFactorMtx $msglvl $msgFile $n1 $n2 $n3 $seed $outFile

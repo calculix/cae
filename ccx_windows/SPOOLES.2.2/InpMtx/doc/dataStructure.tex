@@ -1,0 +1,129 @@
+\par
+\section{Data Structure}
+\label{section:InpMtx:dataStructure}
+\par
+\par
+The {\tt InpMtx} structure has the following fields.
+\begin{itemize}
+\item
+{\tt int coordType} : coordinate type. The following types are
+supported.
+\begin{itemize}
+\item {\tt INPMTX\_BY\_ROWS} --- row triples, 
+                  the coordinates for $a_{i,j}$ is $(i,j)$.
+\item {\tt INPMTX\_BY\_COLUMNS} --- column triples, 
+                  the coordinates for $a_{i,j}$ is $(j,i)$.
+\item {\tt INPMTX\_BY\_CHEVRONS} --- chevron triples, 
+                  the coordinates for $a_{i,j}$ is $(\min(i,j), j-i)$.
+(Chevron $j$ contains $a_{j,j}$, $a_{j,k} \ne 0$ and $a_{k,j} \ne 0$
+for $k > j$.)
+\item {\tt INPMTX\_CUSTOM} --- custom coordinates.
+\end{itemize}
+\item
+{\tt int storageMode} : mode of storage
+\begin{itemize}
+\item {\tt INPMTX\_RAW\_DATA} --- 
+data is raw pairs or triples, two coordinates and (optionally)
+one or two double precision values. 
+\item {\tt INPMTX\_SORTED} --- data is sorted and distinct triples, 
+                  the primary key is the first coordinate,
+                  the secondary key is the second coordinate.
+\item {\tt INPMTX\_BY\_VECTORS} --- data is sorted and distinct vectors.
+All entries in a vector share something in common. 
+For example, when {\tt coordType} is {\tt INPMTX\_BY\_ROWS}, 
+{\tt INPMTX\_BY\_COLUMNS} or {\tt INPMTX\_BY\_CHEVRONS},
+row vectors, column vectors, or chevron vectors are stored,
+respectively.
+When {\tt coordType} is {\tt INPMTX\_CUSTOM}, 
+a custom type, entries in the same
+vector have something in common but it need not be a common row,
+column or chevron coordinate.
+\end{itemize}
+\item
+{\tt int inputMode} : mode of data input
+\begin{itemize}
+\item {\tt INPMTX\_INDICES\_ONLY} 
+--- only indices are stored, not entries.
+\item {\tt SPOOLES\_REAL} 
+--- indices and real entries are stored.
+\item {\tt SPOOLES\_COMPLEX} 
+--- indices and complex entries are stored.
+\end{itemize}
+\item
+{\tt int maxnent} -- present maximum number of entries in the object.
+This quantity is initialized by the {\tt InpMtx\_init()} method,
+but will be changed as the object resizes itself as necessary. 
+\item
+{\tt int nent} -- present number of entries in the object.
+This quantity changes as data is input or when the raw triples are
+sorted and compressed.
+\item
+{\tt double resizeMultiple} -- governs how the workspace grows as
+necessary. The default value is 1.25.
+\item
+{\tt IV ivec1IV} -- an {\tt IV} vector object 
+of size {\tt mxnent} that holds first coordinates.
+\item
+{\tt IV ivec2IV} -- an {\tt IV} vector object
+of size {\tt mxnent} that holds second coordinates.
+\item
+{\tt DV dvecDV} -- a {\tt DV} vector object of size {\tt mxnent}
+that holds double precision entries. Used only when {\tt inputMode} 
+is {\tt SPOOLES\_REAL} or {\tt SPOOLES\_COMPLEX}.
+\item
+{\tt int maxnvector} -- present maximum number of vectors. 
+This quantity is initialized by the {\tt InpMtx\_init()} method,
+but will be changed as the object resizes itself as necessary. 
+Used only when {\tt storageMode} is {\tt INPMTX\_BY\_VECTORS}.
+\item
+{\tt int nvector} -- present number of vectors. Used only when {\tt
+storageMode} is {\tt INPMTX\_BY\_VECTORS}.
+\item
+{\tt IV vecidsIV} -- an {\tt IV} vector object of size {\tt nvector} 
+to hold the id of each vector. 
+Used only when {\tt storageMode} is {\tt INPMTX\_BY\_VECTORS}.
+\item
+{\tt IV sizesIV} -- an {\tt IV} vector object of size {\tt nvector} 
+to hold the size of each vector. 
+Used only when {\tt storageMode} is {\tt INPMTX\_BY\_VECTORS}.
+\item
+{\tt IV offsetsIV} -- an {\tt IV} vector object of size {\tt
+nvector} to hold the offset of each vector into the {\tt ivec1IV},
+{\tt ivec2IV} and {\tt dvecDV} vector objects.
+Used only when {\tt storageMode} is {\tt INPMTX\_BY\_VECTORS}.
+\end{itemize}
+\par
+One can query the attributes of the object with the following
+macros.
+\begin{itemize}
+\item
+{\tt INPMTX\_IS\_BY\_ROWS(mtx)} returns {\tt 1} if the entries are
+stored by rows, and {\tt 0} otherwise.
+\item
+{\tt INPMTX\_IS\_BY\_COLUMNS(mtx)} returns {\tt 1} if the entries are
+stored by columns, and {\tt 0} otherwise.
+\item
+{\tt INPMTX\_IS\_BY\_CHEVRONS(mtx)} returns {\tt 1} if the entries are
+stored by chevrons, and {\tt 0} otherwise.
+\item
+{\tt INPMTX\_IS\_BY\_CUSTOM(mtx)} returns {\tt 1} if the entries are
+stored by some custom coordinate, and {\tt 0} otherwise.
+\item
+{\tt INPMTX\_IS\_RAW\_DATA(mtx)} returns {\tt 1} if the entries are
+stored as unsorted pairs or triples, and {\tt 0} otherwise.
+\item
+{\tt INPMTX\_IS\_SORTED(mtx)} returns {\tt 1} if the entries are
+stored as sorted pairs or triples, and {\tt 0} otherwise.
+\item
+{\tt INPMTX\_IS\_BY\_VECTORS(mtx)} returns {\tt 1} if the entries are
+stored as vectors, and {\tt 0} otherwise.
+\item
+{\tt INPMTX\_IS\_INDICES\_ONLY(mtx)} returns {\tt 1} if the entries are
+not stored, and {\tt 0} otherwise.
+\item
+{\tt INPMTX\_IS\_REAL\_ENTRIES(mtx)} returns {\tt 1} 
+if the entries are real, and {\tt 0} otherwise.
+\item
+{\tt INPMTX\_IS\_COMPLEX\_ENTRIES(mtx)} returns {\tt 1} 
+if the entries are complex, and {\tt 0} otherwise.
+\end{itemize}

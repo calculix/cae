@@ -1,0 +1,30 @@
+\chapter{{\tt I2Ohash}: 
+% \break Integer 
+% (key1, key2, value) 
+Two Key Hash Table}
+\par
+The {\tt I2Ohash} is a object that manages a hash table
+where there are two integer keys and the data to be stored 
+is {\tt void *} pointer.
+This object was created to support a block sparse matrix, where
+each block has two keys, a row and column id, and the value is a
+pointer to a {\tt SubMtx} object.
+\par
+This is a very simple implementation.
+Each {\tt <key1,key2>} is mapped to a list.
+Each list contains {\tt <key1,key2,value>} triples 
+whose keys are mapped to the list, 
+and the triples are in lexicographic order 
+of their {\tt <key1,key2>} fields.
+The size of the hash table (the number of lists)
+is fixed upon initialization.
+The number of allowable {\tt <key1,key2,value>} triples 
+can either be fixed (upon initialization) 
+or can grow by a user supplied amount.
+\par
+The methods that are supported are
+\begin{itemize}
+\item insert a {\tt <key1,key2,value>} triple
+\item locate a {\tt <key1,key2,*>} triple and return the value
+\item remove a {\tt <key1,key2,*>} triple and return the value
+\end{itemize}

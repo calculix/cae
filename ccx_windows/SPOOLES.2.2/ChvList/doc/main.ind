@@ -1,0 +1,14 @@
+\begin{theindex}
+
+  \item {\tt ChvList\_addObjectToList()}, 4
+  \item {\tt ChvList\_clearData()}, 3
+  \item {\tt ChvList\_free()}, 3
+  \item {\tt ChvList\_getList()}, 4
+  \item {\tt ChvList\_init()}, 3
+  \item {\tt ChvList\_isCountZero()}, 3
+  \item {\tt ChvList\_isListNonempty()}, 3
+  \item {\tt ChvList\_new()}, 2
+  \item {\tt ChvList\_setDefaultFields()}, 2
+  \item {\tt ChvList\_writeForHumanEye()}, 4
+
+\end{theindex}

@@ -1,0 +1,10 @@
+\indexentry{InpMtx_MT_nonsym_mmm@{\tt InpMtx\_MT\_nonsym\_mmm()}}{2}
+\indexentry{InpMtx_MT_sym_mmm@{\tt InpMtx\_MT\_sym\_mmm()}}{2}
+\indexentry{InpMtx_MT_herm_mmm@{\tt InpMtx\_MT\_herm\_mmm()}}{2}
+\indexentry{InpMtx_MT_nonsym_mmm_T@{\tt InpMtx\_MT\_nonsym\_mm\_Tm()}}{2}
+\indexentry{InpMtx_MT_nonsym_mmm_H@{\tt InpMtx\_MT\_nonsym\_mmm\_H()}}{3}
+\indexentry{FrontMtx_MT_factorInpMtx@{\tt FrontMtx\_MT\_factorInpMtx()}}{3}
+\indexentry{FrontMtx_MT_factorPencil@{\tt FrontMtx\_MT\_factorPencil()}}{3}
+\indexentry{FrontMtx_MT_QR_factor@{\tt FrontMtx\_MT\_QR\_factor()}}{4}
+\indexentry{FrontMtx_MT_solve@{\tt FrontMtx\_MT\_solve()}}{4}
+\indexentry{FrontMtx_MT_QR_solve@{\tt FrontMtx\_MT\_QR\_solve()}}{5}

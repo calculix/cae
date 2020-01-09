@@ -1,0 +1,29 @@
+\begin{theindex}
+
+  \item {\tt DSTree\_clearData()}, 2
+  \item {\tt DSTree\_domainWeight()}, 5
+  \item {\tt DSTree\_free()}, 2
+  \item {\tt DSTree\_init1()}, 3
+  \item {\tt DSTree\_init2()}, 3
+  \item {\tt DSTree\_mapIV()}, 2
+  \item {\tt DSTree\_MS2stages()}, 4
+  \item {\tt DSTree\_MS3stages()}, 4
+  \item {\tt DSTree\_ND2stages()}, 3
+  \item {\tt DSTree\_NDstages()}, 3
+  \item {\tt DSTree\_new()}, 2
+  \item {\tt DSTree\_readFromBinaryFile()}, 5
+  \item {\tt DSTree\_readFromFile()}, 5
+  \item {\tt DSTree\_readFromFormattedFile()}, 5
+  \item {\tt DSTree\_renumberViaPostOT()}, 4
+  \item {\tt DSTree\_separatorWeight()}, 5
+  \item {\tt DSTree\_setDefaultFields()}, 2
+  \item {\tt DSTree\_sizeOf()}, 4
+  \item {\tt DSTree\_stagesViaDomainWeight()}, 4
+  \item {\tt DSTree\_tree()}, 2
+  \item {\tt DSTree\_writeForHumanEye()}, 6
+  \item {\tt DSTree\_writeStats()}, 6
+  \item {\tt DSTree\_writeToBinaryFile()}, 6
+  \item {\tt DSTree\_writeToFile()}, 5
+  \item {\tt DSTree\_writeToFormattedFile()}, 6
+
+\end{theindex}

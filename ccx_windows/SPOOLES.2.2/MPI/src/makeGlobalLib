@@ -1,0 +1,41 @@
+include ../../Make.inc
+ 
+#-----------------------------------------------------------------------
+ 
+OBJ = MPI
+
+SRC = aggListMPI.c \
+      colmapMPI.c \
+      DenseMtx_gather.c \
+      DenseMtx_scatterAdd.c \
+      ETree_Bcast.c \
+      factorMPI.c \
+      fullAdjMPI.c \
+      Graph_Bcast.c \
+      IVallgather.c \
+      IVLallgather.c \
+      IVL_alltoall.c \
+      IVL_Bcast.c \
+      makeSendRecvIVLs.c \
+      MMM.c \
+      postProcess.c \
+      rowmapMPI.c \
+      solveMPI.c \
+      splitDenseMtx.c \
+      splitFrontMtx.c \
+      splitInpMtx.c \
+      splitPencil.c \
+      symbfacMPI.c \
+      utilities.c
+
+OBJ_FILES = ${SRC:.c=.o}
+OBJ_FILES = MMM.o makeSendRecvIVLs.o
+
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $(MPI_INCLUDE_DIR) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a
+	

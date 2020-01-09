@@ -1,0 +1,17 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inFile = $matrices/$matrix/symb.ivlf
+set inFile = symb.ivlf
+set inFile = /local1/ARPA/matrices/i4a/symb0.ivlb
+
+set outFile = $matrices/$matrix/symb.ivlb
+set outFile = none
+
+set msglvl  = 3
+
+set msgFile = stdout
+
+testIO $msglvl $msgFile $inFile $outFile

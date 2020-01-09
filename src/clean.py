@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 """
     © Ihor Mirzov, August 2019
     Distributed under GNU General Public License v3.0
@@ -17,7 +18,6 @@ def screen():
     os.system('cls' if os.name=='nt' else 'clear')
 
 
-
 # Recursively delete cached files in all subfolders
 def cache(folder=None):
     if not folder:
@@ -31,7 +31,6 @@ def cache(folder=None):
         f = os.path.join(folder, f)
         if os.path.isdir(f):
             cache(f)
-
 
 
 # Cleaup trash files in startFolder and all subfolders
@@ -51,7 +50,6 @@ def files(startFolder=None):
                 sys.__stdout__.write('Delelted: ' + f + '\n')
             except:
                 sys.__stdout__.write(f + ': ' + sys.exc_info()[1][1] + '\n')
-
 
 
 # Cleaup old result files

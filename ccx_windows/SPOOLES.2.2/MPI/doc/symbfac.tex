@@ -1,0 +1,130 @@
+\par
+\subsection{Distributed Symbolic Factorization}
+\label{subsection:DChvMtx:symbolic-factorization}
+\par
+The symbolic factorization takes very little time when compared to the
+numeric factorization or a solve, but it can still be necessary to
+compute it in a distributed manner.
+For example, consider the case when the entries in the
+original matrix do not fit on one processor.
+\par
+Here is what we assume that can be present on one processor.
+\begin{enumerate}
+\item 
+An {\tt ETree} front tree object 
+contains five vectors whose length is the number of fronts
+(three tree vectors and two vectors to hold the number of internal
+and external vertices in a front)
+and one vector whose length is the number of vertices
+(that maps vertices to fronts).
+\item
+An {\tt IV} object that holds the map from a front to its owner.
+\item
+A {\tt DInpMtx} object that holds only those entries in the
+original matrix that will be mapped to fronts owned by the process.
+\end{enumerate}
+\par
+A process does not need to know about every front in the tree,
+only those that it owns, that it will update during the
+factorization, and those that it will interact with during the
+forward and backsolves.
+We {\it could} design a front tree data structure that holds 
+only information about the fronts that a process needs to know about.
+However, it is quite likely that the overhead to store the entire
+front tree on each processor is acceptable.
+\par
+It is not so clear that we can afford to store the entire symbolic
+factorization on the front tree, so we have designed a strategy
+that each process computes and holds only the indices for the
+fronts that it needs.
+Actually, this is not true, for we store a bit more than the
+bare minimum, as we now explain.
+\par
+If a process owns front $J$, then it will compute the factor
+entries in this front, and will compute updates to all ancestor
+fronts $K$ such that $\bnd{J} \cap K \ne \emptyset$.
+Let the set of {\it active} fronts be the active fronts 
+unioned with those fronts that will be updated by an owned front.
+% Let us call the set of {\it owned} fronts and those fronts that
+% will be updated by an owned front the {\it set of active fronts}.
+\par
+It is not necessarily true that an owned front $J$ will update 
+{\it all} of its ancestors.
+However, to determine what ancestors of owned fronts will be updated 
+by the owned fronts, we need to know the boundary indices for each
+front, and that is what we are trying to determine by computing the
+symbolic factorization.
+So we settle for a superset that is (hopefully) not too much larger
+than the active fronts.
+To use a different term, we will easily find a set of 
+{\it supported fronts} that contains the active fronts.
+These supported fronts consists of the owned fronts and all
+ancestors of owned fronts, and we can determine this set just by
+using the front tree and the owners map vector.
+\par
+To compute the factorization, a process will need to have the
+indices for each of its active fronts, so at the end of the
+symbolic factorization, each process must contain an {\tt IVL}
+object that contains the front indices for all supported
+processors.
+\par
+How do we compute the front indices for the supported fronts?
+There are four steps.
+\begin{enumerate}
+\item
+From the front tree we know the number of internal and number of
+external indices in each front via the {\tt nodwghts[]} and {\tt
+bndwghts[]} vectors.
+So we initialize the {\tt IVL} object that will hold the supported
+portions of the symbolic factorization.
+\item
+For each owned front, we load the internal vertices using the
+{\tt vtxToFront[]} vector from the front tree.
+\item
+For each owned front $J$ we add some of the indices in $\bnd{J}$ by 
+examining the entries in the local {\tt DInpMtx} object.
+\item
+Now we need to cooperate with the other processes.
+First we compute the number of messages that we expect to receive
+from other processes.
+There will be one message for each supported but unowned front,
+and one message for each unsupported front whose parent is owned.
+We keep track of the number of missing indices for each owned front.
+When all indices for an owned front are present (after step 2
+any root front has this property, and after step 3 all leaf fronts
+have this property), we put the front into a list of {\it ready}
+fronts.
+\begin{tabbing}
+XXX\=XXX\=XXX\=XXX\=XXX\=\kill
+\WHILE\ the ready list is not empty or there are messages remaining \\
+\> \WHILE\ the ready list is not empty \\
+\>\> remove owned front $J$ from the ready list \\
+\>\> store $J \cup \bnd{J}$ in the {\tt IVL} object \\
+\>\> send $J \cup \bnd{J}$ to all processes that contain $J$ in
+     their support sets \\
+\>\> \IF\ the $J$ has a parent $K$ \THEN\ \\
+\>\>\> \IF\ $K$ is owned and not complete \THEN\ \\
+\>\>\>\> merge $\bnd{J}$ into $K \cup \bnd{K}$ \\
+\>\>\>\> \IF\ $K \cup \bnd{K}$ is complete \THEN\ \\
+\>\>\>\>\> put $K$ on the ready list \\
+\>\>\>\> \END\ \IF \\
+\>\>\> \ELSE\ \IF\ $J$ not supported by the owner of $K$ \THEN\ \\
+\>\>\>\> send $J \cup \bnd{J}$ to the owner of $K$ \\
+\>\>\> \END\ \IF \\
+\>\> \END\ \IF\ \\
+\> \END\ \WHILE\ \\
+\> \WHILE\ there are messages waiting to be received \\
+\>\> receive $J \cup \bnd{J}$ \\
+\>\> \IF\ $J$ is supported \THEN\ \\
+\>\>\> store $J \cup \bnd{J}$ in the {\tt IVL} object \\
+\>\> \END\ \IF \\
+\>\> \IF\ $J$ has a parent $K$, $K$ is owned and not complete \THEN\ \\
+\>\>\> merge $\bnd{J}$ into $K \cup \bnd{K}$ \\
+\>\>\> \IF\ $K \cup \bnd{K}$ is complete \THEN\ \\
+\>\>\>\> put $K$ on the ready list \\
+\>\>\> \END\ \IF \\
+\>\> \END\ \IF \\
+\> \END\ \WHILE \\
+end \WHILE\ 
+\end{tabbing}
+\end{enumerate}

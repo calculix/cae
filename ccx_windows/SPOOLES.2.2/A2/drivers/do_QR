@@ -1,0 +1,18 @@
+#! /bin/csh -f
+#
+set msglvl  = 2
+set msgFile = stdout
+set type    = 2
+set nrow    = 10
+set ncol    =  5
+set inc1    = $ncol
+set inc1    = 1
+set inc2    = 1
+set inc2    = $nrow
+set seed    = 1
+set ncolX   = $ncol
+set ncolX   = 6
+
+set type    = 2
+
+testQR $msglvl $msgFile $type $nrow $ncol $inc1 $inc2 $seed $ncolX

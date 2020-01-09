@@ -1,0 +1,42 @@
+\par
+\section{Data Structure}
+\label{section:SubMtxManager:dataStructure}
+\par
+\par
+The {\tt SubMtxManager} structure has the following fields.
+\begin{itemize}
+\item
+{\tt SubMtx *head} : 
+     head of the free list of {\tt SubMtx} objects.
+\item
+{\tt Lock *lock} : mutual exclusion lock.
+\item
+{\tt int mode} : behavior mode. 
+When {\tt mode = 0}, the object calls {\tt SubMtx\_new()}
+and {\tt SubMtx\_free()} to create and release objects.
+When {\tt mode = 1}, the object recycles the objects.
+\item
+{\tt int nactive} : number of active {\tt SubMtx} objects.
+\item
+{\tt int nbytesactive} : 
+number of bytes in the active {\tt SubMtx} objects.
+\item
+{\tt int nbytesrequested} : 
+total number of bytes in the requested {\tt SubMtx} objects.
+\item
+{\tt int nbytesalloc} : 
+total number of bytes that were actually allocated in the workspace
+of the {\tt SubMtx} objects.
+\item
+{\tt int nrequests} : 
+total number of requests for {\tt SubMtx} objects.
+\item
+{\tt int nreleases} : 
+total number of releases of {\tt SubMtx} objects.
+\item
+{\tt int nlocks} : 
+total number of locks made on the mutual exclusion lock.
+\item
+{\tt int nunlocks} : 
+total number of unlocks made on the mutual exclusion lock.
+\end{itemize}

@@ -1,0 +1,146 @@
+\par
+\section{Driver programs for the {\tt DFrontMtx} object}
+\label{section:DFrontMtx:drivers}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testGrid msglvl msgFile n1 n2 n3 maxzeros maxsize seed type
+         symmetryflag sparsityflag pivotingflag tau droptol
+         lockflag nrhs 
+\end{verbatim}
+This driver program tests the serial {\tt FrontMtx\_factor()}
+and {\tt FrontMtx\_solve()} methods for the linear system $AX = B$.
+Use the script file {\tt do\_grid} for testing.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt n1} is the number of points in the first grid direction.
+\item
+{\tt n2} is the number of points in the second grid direction.
+\item
+{\tt n3} is the number of points in the third grid direction.
+\item
+{\tt maxzeros} is used to merge small fronts together into larger
+fronts.
+Look at the {\tt ETree} object for
+the {\tt ETree\_mergeFronts\{One,All,Any\}()} methods.
+\item
+{\tt maxsize} is used to split large fronts into smaller
+fronts.
+See the {\tt ETree\_splitFronts()} method.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt type} parameter specifies a real or complex linear system.
+\begin{itemize}
+\item
+{\tt type = 1 (SPOOLES\_REAL)} for real,
+\item
+{\tt type = 2 (SPOOLES\_COMPLEX)} for complex.
+\end{itemize}
+\item
+The {\tt symmetryflag} parameter specifies the symmetry of the matrix.
+\begin{itemize}
+\item
+{\tt type = 0 (SPOOLES\_SYMMETRIC)} for $A$ real or complex symmetric,
+\item
+{\tt type = 1 (SPOOLES\_HERMITIAN)} for $A$ complex Hermitian,
+\item
+{\tt type = 2 (SPOOLES\_NONSYMMETRIC)} 
+\end{itemize}
+for $A$ real or complex nonsymmetric.
+\item
+The {\tt sparsityflag} parameter signals a direct or approximate
+factorization.
+\begin{itemize}
+\item
+{\tt sparsityflag = 0 (FRONTMTX\_DENSE\_FRONTS)} implies a direct
+factorization, the fronts will be stored as dense submatrices.
+\item
+{\tt sparsityflag = 1 (FRONTMTX\_SPARSE\_FRONTS)} implies an
+approximate factorization.
+The fronts will be stored as sparse submatrices, where
+the entries in the triangular factors will be
+subjected to a drop tolerance test --- if the magnitude of an entry
+is {\tt droptol} or larger, it will be stored, otherwise it will be
+dropped.
+\end{itemize}
+\item
+The {\tt pivotingflag} parameter signals whether pivoting for
+stability will be enabled or not.
+\begin{itemize}
+\item
+If {\tt pivotingflag = 0 (SPOOLES\_NO\_PIVOTING)}, 
+no pivoting will be done.
+\item
+If {\tt pivotingflag = 1 (SPOOLES\_PIVOTING)}, 
+pivoting will be done to ensure that all
+entries in $U$ and $L$ have magnitude less than {\tt tau}.
+\end{itemize}
+\item
+The {\tt tau} parameter is an upper bound on the magnitude of the
+entries in $L$ and $U$ when pivoting is enabled.
+\item
+The {\tt droptol} parameter is a lower bound on the magnitude of the
+entries in $L$ and $U$ when the approximate factorization is enabled.
+\item
+When {\tt lockflag} is zero, the mutual exclusion lock for the
+factor matrix is not enabled.
+When {\tt lockflag} is not zero, the mutual exclusion lock is set.
+This capability is here to test the overhead for the locks for a
+serial factorization.
+\item
+The {\tt nrhs} parameter is the number of right hand sides to solve
+as one block.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+testQRgrid msglvl msgFile n1 n2 n3 seed nrhs type
+\end{verbatim}
+This driver program tests the serial {\tt FrontMtx\_QR\_factor()}
+and {\tt FrontMtx\_QR\_solve()} methods for the least squares problem
+$ \min_X \| F - A X \|_F$.
+\par
+\begin{itemize}
+\item
+The {\tt msglvl} parameter determines the amount of output.
+Use {\tt msglvl = 1} for just timing output.
+\item
+The {\tt msgFile} parameter determines the message file --- if {\tt
+msgFile} is {\tt stdout}, then the message file is {\it stdout},
+otherwise a file is opened with {\it append} status to receive any
+output data.
+\item
+{\tt n1} is the number of points in the first grid direction.
+\item
+{\tt n2} is the number of points in the second grid direction.
+\item
+{\tt n3} is the number of points in the third grid direction.
+\item
+The {\tt seed} parameter is a random number seed.
+\item
+The {\tt nrhs} parameter is the number of right hand sides to solve
+as one block.
+\item
+The {\tt type} parameter specifies a real or complex linear system.
+\begin{itemize}
+\item
+{\tt type = 1 (SPOOLES\_REAL)} for real,
+\item
+{\tt type = 2 (SPOOLES\_COMPLEX)} for complex.
+\end{itemize}
+\end{itemize}
+%-----------------------------------------------------------------------
+\end{enumerate}

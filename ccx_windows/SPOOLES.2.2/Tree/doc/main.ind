@@ -1,0 +1,56 @@
+\begin{theindex}
+
+  \item {\tt Tree\_clearData()}, 2
+  \item {\tt Tree\_compress()}, 7
+  \item {\tt Tree\_drawToEPS()}, 8
+  \item {\tt Tree\_fch()}, 3
+  \item {\tt Tree\_fillBothPerms()}, 8
+  \item {\tt Tree\_fillNewToOldPerm()}, 8
+  \item {\tt Tree\_fillOldToNewPerm()}, 8
+  \item {\tt Tree\_free()}, 2
+  \item {\tt Tree\_fundChainMap()}, 7
+  \item {\tt Tree\_getSimpleCoords()}, 8
+  \item {\tt Tree\_height()}, 5
+  \item {\tt Tree\_init1()}, 3
+  \item {\tt Tree\_init2()}, 3
+  \item {\tt Tree\_init3()}, 3
+  \item {\tt Tree\_initFromSubtree()}, 3
+  \item {\tt Tree\_leftJustify()}, 7
+  \item {\tt Tree\_leftJustifyD()}, 7
+  \item {\tt Tree\_leftJustifyI()}, 7
+  \item {\tt Tree\_maximizeGainIV()}, 5
+  \item {\tt Tree\_maxNchild()}, 5
+  \item {\tt Tree\_nchild()}, 5
+  \item {\tt Tree\_nchildIV()}, 5
+  \item {\tt Tree\_new()}, 2
+  \item {\tt Tree\_nleaves()}, 5
+  \item {\tt Tree\_nnodes()}, 2
+  \item {\tt Tree\_nroots()}, 5
+  \item {\tt Tree\_par()}, 2
+  \item {\tt Tree\_permute()}, 8
+  \item {\tt Tree\_postOTfirst()}, 4
+  \item {\tt Tree\_postOTnext()}, 4
+  \item {\tt Tree\_preOTfirst()}, 4
+  \item {\tt Tree\_preOTnext()}, 4
+  \item {\tt Tree\_readFromBinaryFile()}, 9
+  \item {\tt Tree\_readFromFile()}, 9
+  \item {\tt Tree\_readFromFormattedFile()}, 9
+  \item {\tt Tree\_root()}, 2
+  \item {\tt Tree\_setDefaultFields()}, 2
+  \item {\tt Tree\_setDepthDmetric()}, 6
+  \item {\tt Tree\_setDepthImetric()}, 6
+  \item {\tt Tree\_setFchSibRoot()}, 4
+  \item {\tt Tree\_setHeightDmetric()}, 6
+  \item {\tt Tree\_setHeightImetric()}, 6
+  \item {\tt Tree\_setRoot()}, 4
+  \item {\tt Tree\_setSubtreeDmetric()}, 6
+  \item {\tt Tree\_setSubtreeImetric()}, 6
+  \item {\tt Tree\_sib()}, 3
+  \item {\tt Tree\_sizeOf()}, 4
+  \item {\tt Tree\_writeForHumanEye()}, 10
+  \item {\tt Tree\_writeStats()}, 10
+  \item {\tt Tree\_writeToBinaryFile()}, 10
+  \item {\tt Tree\_writeToFile()}, 9
+  \item {\tt Tree\_writeToFormattedFile()}, 10
+
+\end{theindex}

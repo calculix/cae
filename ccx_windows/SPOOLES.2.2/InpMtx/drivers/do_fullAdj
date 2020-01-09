@@ -1,0 +1,10 @@
+#! /bin/csh -f
+
+set msglvl  = 1
+set msgFile = stdout
+
+set nvtx =  10
+set nent =  50
+set seed =  10101
+
+testFullAdj $msglvl $msgFile $nvtx $nent $seed

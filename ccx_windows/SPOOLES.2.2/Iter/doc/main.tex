@@ -1,0 +1,36 @@
+%
+%  main TeX file
+%
+% \documentstyle[leqno,11pt,twoside]{report}
+\documentclass[leqno,10pt,twoside]{report}
+
+\newcommand{\bnd}[1]{{\partial{#1}}}
+
+\textwidth      6.5 in
+\textheight     8.5 in
+\oddsidemargin  0.0 in
+\evensidemargin 0.0 in
+\topmargin      0.0 in
+\baselineskip   20 pt
+\parskip        3 pt plus 1 pt minus 1 pt
+
+\input psfig
+
+\makeindex
+
+\begin{document}
+
+\pagestyle{myheadings}
+\markboth
+{\quad \hrulefill \quad {\tt Iter} : {\it DRAFT} \today \quad \hrulefill}
+{\quad \hrulefill \quad {\tt Iter} : {\it DRAFT} \quad \today \hrulefill}
+
+\par
+\input intro.tex
+\input dataStructure.tex
+\input proto.tex
+\input drivers.tex
+
+\input main.ind
+
+\end{document}

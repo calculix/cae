@@ -1,0 +1,41 @@
+#! /bin/csh -f
+
+set msglvl  = 1
+
+set msgFile = res
+set msgFile = stdout
+
+# dataType = 1 --> real entries
+# dataType = 2 --> complex entries
+set dataType = 1
+
+# symmetryflag = 0 --> symmetric
+# symmetryflag = 1 --> hermitian
+# symmetryflag = 2 --> nonsymmetric
+set symmetryflag = 2
+
+# coordType = 1 --> rows
+# coordType = 2 --> columns
+# coordType = 3 --> chevrons
+set coordType = 1
+
+set nrowA       = 20
+set ncolA       = 30
+set nitem       = 100
+
+set nrow1 =  5
+set nrow2 = 15
+set ncol1 = 10
+set ncol2 = 20
+
+set seed        = 10203
+
+foreach symmetryflag ( 2 )
+   foreach dataType ( 2 )
+      foreach storageMode ( 3 )
+          testExtract $msglvl $msgFile $dataType $symmetryflag \
+                      $coordType $nrowA $ncolA $nitem \
+                      $nrow1 $nrow2 $ncol1 $ncol2 $seed
+      end
+   end
+end

@@ -1,0 +1,85 @@
+\par
+\chapter{{\tt SubMtxManager}: {\tt SubMtx} object manager}
+\par
+This object was created to manage a number of instances of {\tt
+SubMtx} double precision matrix objects. 
+Its form and functionality is almost identical to that of the 
+{\tt ChvManager} object.
+\par
+% During the forward and backsolves of a linear system $A X = B$,
+% where the solution $X$ and the right hand side $B$ may be matrices
+% as opposed to a single vector, the multifrontal approach to solvng
+% the systems does not make much use of the global $X$ and $B$ data
+% structures.
+% Rather there are a number of smaller dense matrices, 
+% e.g., $B_{J,*}$, $B_{\bnd{J},*}$ and $X_{J \cup \bnd{J},*}$,
+% where $J$ and $\bnd{J}$ are row index sets,
+% that are active during the solves.
+% \par
+% These temporary matrices reside in one address space, whether it be
+% a serial or multithreaded computation. 
+% It is necessary to {\it recycle} the instances, i.e., when the
+% useful scope of one object is over, we can use the object for
+% another instance.
+% \par
+The {\tt SubMtxManager} object is very simple.
+It has two functions.
+\begin{itemize}
+\item
+When asked for a {\tt SubMtx} object of a certain size,
+it returns one.
+\item
+When given a {\tt SubMtx} object (or a list of objects connected via
+their {\tt next} fields) that is (are) no longer necessary for the
+calling program, it takes some action with it (them).
+\end{itemize}
+There are presently two {\it modes} of behavior :
+the first is a wrapper around calls to
+{\tt SubMtx\_new()} and {\tt SubMtx\_free()}
+(which contain calls to {\tt malloc()} and {\tt free()}),
+the second can {\it recycle} instances to be used later.
+\par
+Both behaviors are appropriate in certain circumstances.
+When one needs a large number of objects (though not all
+at the same time) whose workspace requirements are roughly equal,
+recycling the objects can be cost effective.
+On the other hand, consider a scenario which arises in the
+factorization of {\tt FrontMtx} objects. 
+At first one needs a moderate number of large {\tt SubMtx} objects
+which store the $U_{J,\bnd{J}}$ and $L_{\bnd{J},J}$ 
+submatrices.
+We then replace them with a larger number of smaller objects
+that store the $U_{J,K}$ and $L_{K,J}$ matrices.
+In this case recycling is {\it not} cost-effective for the large
+objects are recycled as smaller objects and much of their workspace
+is inactive and therefore wasted.
+The total storage footprint can be almost twice as large as
+necessary.
+\par
+Our recycling mode is a very simple implementation.
+The manager object maintains a free list of objects, 
+sorting in ascending order of
+the number of bytes in their workspace.
+When asked for an object with a certain amount of workspace,
+the manager performs a linear search of the list and returns the first
+object that has sufficient space.
+If no such object exists, i.e., if the list is empty or there is no
+object large enough, the manager allocates a new {\tt SubMtx} object, 
+initializes it with sufficient work space, 
+and returns a pointer to the object.
+When a {\tt SubMtx} object is no longer necessary, it is
+{\it released} to the manager object, which then
+inserts it into the free list.
+A list of {\tt SubMtx} objects can be released in one call.
+\par
+One can specify whether the object is to be locked via a mutual
+exclusion lock.
+This is not necessary for a serial or MPI factorization or solve 
+(where there is one {\tt SubMtxManager} object for each processor),
+but it is necessary for in a multithreaded environment.
+\par
+Each manager object keeps track of certain statistics,
+% e.g., the number of active {\tt SubMtx} objects, the number of
+bytes in their workspaces, the total number of bytes requested,
+the number of requests for a {\tt SubMtx} objects, the number of
+releases, and the number of locks and unlocks.

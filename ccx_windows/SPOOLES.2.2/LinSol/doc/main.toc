@@ -1,0 +1,38 @@
+\contentsline {chapter}{\numberline {1}Introduction}{3}
+\contentsline {chapter}{\numberline {2}Setting up the linear system}{5}
+\contentsline {section}{\numberline {2.1}Constructing an {\tt InpMtx} object}{5}
+\contentsline {section}{\numberline {2.2}Constructing an {\tt DenseMtx} object}{8}
+\contentsline {section}{\numberline {2.3}IO for the {\tt InpMtx} and {\tt DenseMtx} objects}{9}
+\contentsline {chapter}{\numberline {3}The Serial Wrapper Object and Driver}{11}
+\contentsline {section}{\numberline {3.1}A quick look at serial driver program}{11}
+\contentsline {section}{\numberline {3.2}The \texttt {Bridge} Data Structure}{13}
+\contentsline {section}{\numberline {3.3}Prototypes and descriptions of \texttt {Bridge} methods}{15}
+\contentsline {subsection}{\numberline {3.3.1}Basic methods}{15}
+\contentsline {subsection}{\numberline {3.3.2}Instance methods}{15}
+\contentsline {subsection}{\numberline {3.3.3}Parameter methods}{16}
+\contentsline {subsection}{\numberline {3.3.4}Setup methods}{17}
+\contentsline {subsection}{\numberline {3.3.5}Factor method}{17}
+\contentsline {subsection}{\numberline {3.3.6}Solve method}{17}
+\contentsline {chapter}{\numberline {4}The Multithreaded Wrapper Object and Driver}{18}
+\contentsline {section}{\numberline {4.1}A quick look at the multithreaded driver program}{19}
+\contentsline {section}{\numberline {4.2}The \texttt {BridgeMT} Data Structure}{21}
+\contentsline {section}{\numberline {4.3}Prototypes and descriptions of \texttt {BridgeMT} methods}{22}
+\contentsline {subsection}{\numberline {4.3.1}Basic methods}{22}
+\contentsline {subsection}{\numberline {4.3.2}Instance methods}{23}
+\contentsline {subsection}{\numberline {4.3.3}Parameter methods}{24}
+\contentsline {subsection}{\numberline {4.3.4}Setup methods}{25}
+\contentsline {subsection}{\numberline {4.3.5}Factor methods}{25}
+\contentsline {subsection}{\numberline {4.3.6}Solve methods}{26}
+\contentsline {chapter}{\numberline {5}The MPI Wrapper Object and Driver}{27}
+\contentsline {section}{\numberline {5.1}A quick look at the MPI driver program}{28}
+\contentsline {section}{\numberline {5.2}The \texttt {BridgeMPI} Data Structure}{30}
+\contentsline {section}{\numberline {5.3}Prototypes and descriptions of \texttt {BridgeMPI} methods}{32}
+\contentsline {subsection}{\numberline {5.3.1}Basic methods}{32}
+\contentsline {subsection}{\numberline {5.3.2}Instance methods}{33}
+\contentsline {subsection}{\numberline {5.3.3}Parameter methods}{34}
+\contentsline {subsection}{\numberline {5.3.4}Setup methods}{35}
+\contentsline {subsection}{\numberline {5.3.5}Factor methods}{35}
+\contentsline {subsection}{\numberline {5.3.6}Solve methods}{36}
+\contentsline {chapter}{\numberline {A}{\tt testWrapper.c} --- A Serial Driver Program}{37}
+\contentsline {chapter}{\numberline {B}{\tt testWrapperMT.c} --- A Multithreaded Driver Program}{43}
+\contentsline {chapter}{\numberline {C}{\tt testWrapperMPI.c} --- A MPI Driver Program}{50}

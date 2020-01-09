@@ -1,0 +1,572 @@
+\par
+\subsection{Prototypes and descriptions of {\tt Tree} methods}
+\label{subsection:Tree:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt Tree} object.
+\par
+\subsubsection{Basic methods}
+\label{subsubsection:Tree:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Tree * Tree_new ( void ) ;
+\end{verbatim}
+\index{Tree_new@{\tt Tree\_new()}}
+This method simply allocates storage for the {\tt Tree} structure 
+and then sets the default fields by a call to 
+{\tt Tree\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_setDefaultFields ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_setDefaultFields@{\tt Tree\_setDefaultFields()}}
+This method checks to see whether {\tt tree} is {\tt NULL}.
+If so, an error message is printed and the program exits.
+Otherwise, the structure's fields are set to default values:
+{\tt n} is zero, {\tt root} is {\tt -1}, and {\tt par}, {\tt fch}
+and {\tt sib} are all {\tt NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_clearData ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_clearData@{\tt Tree\_clearData()}}
+This method checks to see whether {\tt tree} is {\tt NULL}.
+If so, an error message is printed and the program exits.
+Otherwise, it releases any storage held by the parent, first child
+and sibling vectors, then sets the structure's default fields 
+with a call to {\tt Tree\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_free ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_free@{\tt Tree\_free()}}
+This method checks to see whether {\tt tree} is {\tt NULL}.
+If so, an error message is printed and the program exits.
+Otherwise, it releases any storage by a call to 
+{\tt Tree\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\subsubsection{IO methods}
+\label{subsubsection:Tree:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a tree object is simple:
+{\tt size},
+{\tt root},
+{\tt par[size]},
+{\tt fch[size]} and
+{\tt sib[size]}.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_readFromFile ( Tree *tree, char *fn ) ;
+\end{verbatim}
+\index{Tree_readFromFile@{\tt Tree\_readFromFile()}}
+\par
+If {\tt tree} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.treef} (for a formatted file) 
+or {\tt *.treeb} (for a binary file),
+an error message is printed and the method returns zero.
+Otherwise, it tries to open the file and if it is successful, 
+it then calls {\tt Tree\_readFromFormattedFile()} or
+{\tt Tree\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_readFormattedFile ( Tree *tree, FILE *fp ) ;
+\end{verbatim}
+\index{Tree_readFormattedFile@{\tt Tree\_readFormattedFile()}}
+\par
+If {\tt tree} or {\tt fp} are {\tt NULL} an error message is printed and
+zero is returned.
+Otherwise, the data is read in from the file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_readBinaryFile ( Tree *tree, FILE *fp ) ;
+\end{verbatim}
+\index{Tree_readBinaryFile@{\tt Tree\_readBinaryFile()}}
+\par
+If {\tt tree} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+Otherwise, the data is read in from the file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_writeToFile ( Tree *tree, char *fn ) ;
+\end{verbatim}
+\index{Tree_writeToFile@{\tt Tree\_writeToFile()}}
+\par
+If {\tt tree} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.treef} (for a formatted file) 
+or {\tt *.treeb} (for a binary file),
+an error message is printed and the method returns zero.
+Otherwise, it tries to open the file and if it is successful, 
+it then calls {\tt Tree\_writeFromFormattedFile()} or
+{\tt Tree\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_writeFormattedFile ( Tree *tree, FILE *fp ) ;
+\end{verbatim}
+\index{Tree_writeFormattedFile@{\tt Tree\_writeFormattedFile()}}
+\par
+If {\tt tree} or {\tt fp} are {\tt NULL} an error message is printed and
+zero is returned.
+Otherwise, the data is written to the file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_writeBinaryFile ( Tree *tree, FILE *fp ) ;
+\end{verbatim}
+\index{Tree_writeBinaryFile@{\tt Tree\_writeBinaryFile()}}
+\par
+If {\tt tree} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+Otherwise, the data is written to the file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_writeForHumanEye ( Tree *tree, FILE *fp ) ;
+\end{verbatim}
+\index{Tree_writeForHumanEye@{\tt Tree\_writeForHumanEye()}}
+\par
+If {\tt tree} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+Otherwise, the method {\tt Tree\_writeStats()} 
+is called to write out the
+header and statistics. 
+Then the parent, first child and sibling
+values are printed out in three columns.
+The value {\tt 1} is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_writeStats ( Tree *tree, FILE *fp ) ;
+\end{verbatim}
+\index{Tree_writeStats@{\tt Tree\_writeStats()}}
+\par
+If {\tt tree} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+Otherwise, the header and statistics are written.
+The value {\tt 1} is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsubsection{Initializer methods}
+\label{subsubsection:Tree:proto:initializers}
+\par
+There are three initializers and two helper functions to set the
+dimensions of the tree, allocate the three vectors, and fill the
+information.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_init1 ( Tree *tree, int size ) ;
+\end{verbatim}
+\index{Tree_init1@{\tt Tree\_init1()}}
+If {\tt tree} is {\tt NULL} or {\tt size} is negative, 
+an error message is printed and the program exits.
+It then clears any previous data with a call to 
+{\tt Tree\_clearData()}, sets the size and allocates storage for
+the three tree vectors using {\tt IVinit()}.
+All entries in the three vectors are set to {\tt -1}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_init2 ( Tree *tree, int size, int par[] ) ;
+\end{verbatim}
+\index{Tree_init2@{\tt Tree\_init2()}}
+If {\tt tree} is {\tt NULL} or {\tt size} is negative, 
+an error message is printed and the program exits.
+Otherwise, the simple initializer {\tt Tree\_init1()} is called
+and the entries in {\tt par[]} are copied into the parent vector.
+The helper method {\tt Tree\_setFchSibRoot()} is then called to set
+the other fields.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_init3 ( Tree *tree, int size, int par[], int fch[], int sib[] ) ;
+\end{verbatim}
+\index{Tree_init3@{\tt Tree\_init3()}}
+If {\tt tree} is {\tt NULL} or {\tt size} is negative, 
+an error message is printed and the program exits.
+Otherwise, the simple initializer {\tt Tree\_init1()} is called
+and the entries in {\tt par[]}, {\tt fch[]} and {\tt sib[]} 
+are copied into their respective vectors.
+The helper method {\tt Tree\_setRoot()} is then called to set
+the root field.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_setFchSibRoot ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_setFchSibRoot@{\tt Tree\_setFchSibRoot()}}
+If {\tt tree} is {\tt NULL} or {\tt tree->n < 1},
+an error message is printed and the program exits.
+Otherwise, the root and the entries in the {\tt fch[]} and {\tt sib[]} 
+vectors are set using the entries in the {\tt par[]} vector.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_setRoot ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_setRoot@{\tt Tree\_setRoot()}}
+If {\tt tree} is {\tt NULL} or {\tt tree->n < 1},
+an error message is printed and the program exits.
+Otherwise, the vertices that are roots in the tree are linked by
+their {\tt sib[]} field and the root of the tree is set to the head
+of the list.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsubsection{Utility methods}
+\label{subsubsection:Tree:proto:utilities}
+\par
+The utility methods return the number of bytes taken by the object,
+aid in performing pre-order and post-order traversals, and return
+statistics about the tree (e.g.,
+the number of roots or leaves in the tree, or the number of
+children of a node in the tree).
+This functionality can be easily had by direct manipulation or
+inquiry of the object, but these methods insulate the user from the
+internals and allow us to change and improve the internals if
+necessary.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_sizeOf ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_sizeOf@{\tt Tree\_sizeOf()}}
+If {\tt tree} is {\tt NULL},
+an error message is printed and the program exits.
+Otherwise, the number of bytes taken by this object is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_postOTfirst ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_postOTfirst@{\tt Tree\_postOTfirst()}}
+If {\tt tree} is {\tt NULL} or {\tt tree->n < 1}, 
+an error message is printed and the program exits.
+Otherwise, the first node in a post-order traversal is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_postOTnext ( Tree *tree, int v ) ;
+\end{verbatim}
+\index{Tree_postOTnext@{\tt Tree\_postOTnext()}}
+If {\tt tree} is {\tt NULL}, {\tt tree->n < 1} 
+or {\tt v} is not in {\tt [0,tree->n-1]},
+an error message is printed and the program exits.
+Otherwise, the node that follows {\tt v}
+in a post-order traversal is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_preOTfirst ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_preOTfirst@{\tt Tree\_preOTfirst()}}
+If {\tt tree} is {\tt NULL} or {\tt tree->n < 1}, 
+an error message is printed and the program exits.
+Otherwise, the first node in a pre-order traversal is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_preOTnext ( Tree *tree, int v ) ;
+\end{verbatim}
+\index{Tree_preOTnext@{\tt Tree\_preOTnext()}}
+If {\tt tree} is {\tt NULL}, {\tt tree->n < 1} 
+or {\tt v} is not in {\tt [0,tree->n-1]},
+an error message is printed and the program exits.
+Otherwise, the node that follows {\tt v}
+in a pre-order traversal is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_nleaves ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_nleaves@{\tt Tree\_nleaves()}}
+If {\tt tree} is {\tt NULL} or {\tt tree->n < 1}, 
+an error message is printed and the program exits.
+Otherwise, the number of leaves of the tree is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_nroots ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_nroots@{\tt Tree\_nroots()}}
+If {\tt tree} is {\tt NULL} or {\tt tree->n < 1}, 
+an error message is printed and the program exits.
+Otherwise, the number of roots of the tree (really a forest)
+is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_nchild ( Tree *tree, int v ) ;
+\end{verbatim}
+\index{Tree_nchild@{\tt Tree\_nchild()}}
+If {\tt tree} is {\tt NULL} or {\tt tree->n < 1}, 
+an error message is printed and the program exits.
+Otherwise, the number of children of {\tt v} is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_maxNchild ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_maxNchild@{\tt Tree\_maxNchild()}}
+If {\tt tree} is {\tt NULL} or {\tt tree->n < 1}, 
+an error message is printed and the program exits.
+Otherwise, the maximum number of children of any vertex is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_height ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_height@{\tt Tree\_height()}}
+If {\tt tree} is {\tt NULL} or {\tt tree->n < 1}, 
+an error message is printed and the program exits.
+Otherwise, the height of the tree is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\subsubsection{Metrics methods}
+\label{subsubsection:Tree:proto:metrics}
+\par
+Many operations need to know some {\it metric} defined on the nodes
+in a tree.
+Here are three examples: 
+the height of a node (the minimum distance from a descendant leaf),
+the depth of a node (the distance from its root ancestor), or
+the weight associated with a subtree rooted at a node.
+Of course, a weight could be associated with each node, so the
+height or depth becomes the weight of the nodes on the path.
+\par
+Metrics can be {\tt int}, {\tt float} or {\tt double}.
+Because of the limitations of C, we need three separate methods for
+each of the height, depth and subtree functions.
+Each trio of methods differs only in the type of the vector
+argument.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_setSubtreeImetric ( Tree *tree, int vmetric[], int tmetric[] ) ;
+void Tree_setSubtreeFmetric ( Tree *tree, float vmetric[], float tmetric[] ) ;
+void Tree_setSubtreeDmetric ( Tree *tree, double vmetric[], double tmetric[] ) ;
+\end{verbatim}
+\index{Tree_setSubtreeImetric@{\tt Tree\_setSubtreeImetric()}}
+\index{Tree_setSubtreeFmetric@{\tt Tree\_setSubtreeFmetric()}}
+\index{Tree_setSubtreeDmetric@{\tt Tree\_setSubtreeDmetric()}}
+If {\tt tree}, {\tt vmetric} or {\tt tmetric} are {\tt NULL}
+or if {\tt tree->n < 1}, 
+an error message is printed and the program exits.
+The vector {\tt vmetric[]} contains weights for each node.
+On return, {\tt tmetric[v]} contains the weight of the subtree
+rooted at {\tt v}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_setDepthImetric ( Tree *tree, int vmetric[], int dmetric[] ) ;
+void Tree_setDepthFmetric ( Tree *tree, float vmetric[], float dmetric[] ) ;
+void Tree_setDepthDmetric ( Tree *tree, double vmetric[], double dmetric[] ) ;
+\end{verbatim}
+\index{Tree_setDepthImetric@{\tt Tree\_setDepthImetric()}}
+\index{Tree_setDepthFmetric@{\tt Tree\_setDepthFmetric()}}
+\index{Tree_setDepthDmetric@{\tt Tree\_setDepthDmetric()}}
+If {\tt tree}, {\tt vmetric} or {\tt dmetric} are {\tt NULL}
+or if {\tt tree->n < 1}, 
+an error message is printed and the program exits.
+The vector {\tt vmetric[]} contains weights for each node.
+On return, {\tt dmetric[v]} contains the depth of {\tt v} measured
+as the weight of nodes on the path from {\tt v} to its root.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_setHeightImetric ( Tree *tree, int vmetric[], int hmetric[] ) ;
+void Tree_setHeightFmetric ( Tree *tree, float vmetric[], float hmetric[] ) ;
+void Tree_setHeightDmetric ( Tree *tree, double vmetric[], double hmetric[] ) ;
+\end{verbatim}
+\index{Tree_setHeightImetric@{\tt Tree\_setHeightImetric()}}
+\index{Tree_setHeightFmetric@{\tt Tree\_setHeightFmetric()}}
+\index{Tree_setHeightDmetric@{\tt Tree\_setHeightDmetric()}}
+If {\tt tree}, {\tt vmetric} or {\tt hmetric} are {\tt NULL}
+or if {\tt tree->n < 1}, 
+an error message is printed and the program exits.
+The vector {\tt vmetric[]} contains weights for each node.
+On return, {\tt hmetric[v]} contains the height of {\tt v} measured
+as the minimum path weight from {\tt v} to one of its descendant
+leaves.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsubsection{Compression methods}
+\label{subsubsection:Tree:proto:compression}
+\par
+Frequently a tree will need to be compressed in some manner.
+Elimination trees usually have long chains of nodes at the higher
+levels, where each chain of nodes corresponds to a supernode.
+Liu's generalized row envelope methods partition the vertices by
+longest chains \cite{liu91-generalizedEnvelope}.
+In both cases, we can construct a map from each node to a set of 
+nodes to define a smaller, more compact tree.
+Given such a map, we construct the smaller tree.
+\par
+A fundamental chain is a set of nodes $v_1, \ldots, v_m$ such that
+(1) $v_1$ is a leaf or has two or more children,
+(2) $v_{i+1}$ is the parent of $v_i$ for $1 \le i < m$,
+and 
+(3) $v_m$ is either a root or has a sibling.
+The set of fundamental chains is uniquely defined.
+In the context of elimination trees, a fundamental chain is very
+close to a fundamental supernode, and in many cases, 
+fundamental chains can be used to contruct the fronts with little 
+added fill and factor operations.
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int Tree_fundChainMap ( Tree *tree, int map[] ) ;
+\end{verbatim}
+\index{Tree_fundChainMap@{\tt Tree\_fundChainMap()}}
+If {\tt tree} is {\tt NULL}, {\tt tree->n < 1} or if {\tt map} is
+{\tt NULL}, an error message is printed and the program exits.
+On return, {\tt map[v]} contains the id of the fundamental chain
+that contains {\tt v}.
+If {\tt u} is a descendant of {\tt v}, then {\tt map[u] <=
+map[v]}.
+The number of fundamental chains is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Tree * Tree_compress ( Tree *tree, int map[] ) ;
+\end{verbatim}
+\index{Tree_compress@{\tt Tree\_compress()}}
+If {\tt tree} is {\tt NULL}, {\tt tree->n < 1} or if {\tt map} is
+{\tt NULL}, an error message is printed and the program exits.
+The compressed tree is constructed and returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsubsection{Justification methods}
+\label{subsubsection:Tree:proto:justify}
+\par
+Given a tree, how should the children of a node be ordered?
+This ``justification'' can have a large impact in the working
+storage for the front tree in the multifrontal algorithm.
+Justification also is useful when displaying trees.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_leftJustify ( Tree *tree ) ;
+\end{verbatim}
+\index{Tree_leftJustify@{\tt Tree\_leftJustify()}}
+If {\tt tree} is {\tt NULL} or {\tt tree->n < 1},
+an error message is printed and the program exits.
+Otherwise, if {\tt u} and {\tt v} are siblings, and {\tt u} comes
+before {\tt v} in a post-order traversal, then the size of the
+subtree rooted at {\tt u} is as large or larger than the size of
+the subtree rooted at {\tt v}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_leftJustifyI ( Tree *tree, int metric[] ) ;
+void Tree_leftJustifyF ( Tree *tree, float metric[] ) ;
+void Tree_leftJustifyD ( Tree *tree, double metric[] ) ;
+\end{verbatim}
+\index{Tree_leftJustifyI@{\tt Tree\_leftJustifyI()}}
+\index{Tree_leftJustifyF@{\tt Tree\_leftJustifyF()}}
+\index{Tree_leftJustifyD@{\tt Tree\_leftJustifyD()}}
+If {\tt tree} is {\tt NULL}, {\tt tree->n < 1} 
+or {\tt metric} is {\tt NULL},
+an error message is printed and the program exits.
+Otherwise, if {\tt u} and {\tt v} are siblings, and {\tt u} comes
+before {\tt v} in a post-order traversal, then the weight of the
+subtree rooted at {\tt u} is as large or larger than the weight of
+the subtree rooted at {\tt v}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsubsection{Permutation methods}
+\label{subsubsection:Tree:proto:permutation}
+\par
+Often we need to extract a permutation from a tree, e.g., a
+post-order traversal of an elimination tree gives an ordering for a
+sparse matrix.
+On other occasions, we need to permute a tree, i.e. re-label
+the nodes.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void Tree_fillNewToOldPerm ( Tree *tree, int newToOld[] ) ;
+void Tree_fillOldToNewPerm ( Tree *tree, int oldToNew[] ) ;
+void Tree_fillBothPerms ( Tree *tree, int newToOld[], int oldToNew[] ) ;
+\end{verbatim}
+\index{Tree_fillNewToOldPerm@{\tt Tree\_fillNewToOldPerm()}}
+\index{Tree_fillOldToNewPerm@{\tt Tree\_fillOldToNewPerm()}}
+\index{Tree_fillBothPerms@{\tt Tree\_fillBothPerms()}}
+If {\tt tree} is {\tt NULL}, 
+{\tt tree->n < 1} or a permutation vector is {\tt NULL},
+an error message is printed and the program exits.
+Otherwise, the permutation vector(s) is (are) filled with the
+ordering of the nodes in a post-order traversal.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Tree * Tree_permute ( Tree *tree, int newToOld[], int oldToNew[] ) ;
+\end{verbatim}
+\index{Tree_permute@{\tt Tree\_permute()}}
+If {\tt tree} is {\tt NULL}, 
+{\tt tree->n < 1} or a permutation vector is {\tt NULL},
+an error message is printed and the program exits.
+Otherwise, a new tree is created with the same connectivity as the
+old but the nodes are relabeled.
+%-----------------------------------------------------------------------
+\end{enumerate}

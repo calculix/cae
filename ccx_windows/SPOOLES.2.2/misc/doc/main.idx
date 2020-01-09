@@ -1,0 +1,12 @@
+\indexentry{mkNDperm@{\tt mkNDperm()}}{1}
+\indexentry{mkNDperm2@{\tt mkNDperm2()}}{2}
+\indexentry{localND2D@{\tt localND2D()}}{2}
+\indexentry{localND3D@{\tt localND3D()}}{2}
+\indexentry{fp2DGrid@{\tt fp2DGrid()}}{3}
+\indexentry{fp3DGrid@{\tt fp3DGrid()}}{3}
+\indexentry{orderViaMMD@{\tt orderViaMMD()}}{3}
+\indexentry{orderViaND@{\tt orderViaND()}}{3}
+\indexentry{orderViaMS@{\tt orderViaMS()}}{4}
+\indexentry{drawGraphEPS@{\tt drawGraphEPS()}}{4}
+\indexentry{mkNDlinsys@{\tt mkNDlinsys()}}{5}
+\indexentry{mkNDlinsysQR@{\tt mkNDlinsysQR()}}{5}

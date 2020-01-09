@@ -1,0 +1,17 @@
+\par
+\section{Data Structure}
+\label{section:Lock:dataStructure}
+\par
+The {\tt Lock} structure has three fields.
+\begin{itemize}
+\item {\tt int nlocks} : number of locks made.
+\item {\tt int nunlocks} : number of unlocks made.
+\item the mutual exclusion lock
+\par
+For Solaris threads we have {\tt mutex\_t *mutex}.
+\par
+For POSIX threads we have {\tt pthread\_mutex\_t *mutex}.
+\par
+For no threads we have {\tt void *mutex}.
+\end{itemize}
+

@@ -1,0 +1,18 @@
+#! /bin/csh -f
+
+set msglvl     = 1
+set msgFile    = stdout
+
+# type -- type of entries
+#   1 -- real entries
+#   2 -- complex entries
+set type = 1
+
+set matrixFileName = qr.matrix.input
+
+set rhsFileName = qr.rhs.input
+
+set seed = 10101
+
+QRallInOne $msglvl $msgFile $type $matrixFileName $rhsFileName $seed
+

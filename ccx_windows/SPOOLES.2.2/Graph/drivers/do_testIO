@@ -1,0 +1,20 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inFile  = $matrices/$matrix/orig0.graphf
+
+set outFile = $matrices/$matrix/orig0.graphb
+set outFile = none
+
+set matrix  = BCSSTK24
+set inFile  = $matrices/$matrix/orig1.graphb
+set outFile = $matrices/$matrix/orig1.graphf
+set outFile = none
+
+set msglvl  = 1
+
+set msgFile = stdout
+
+testIO $msglvl $msgFile $inFile $outFile

@@ -1,0 +1,22 @@
+#! /bin/csh -f
+
+set msglvl  = 1
+set msgFile = res
+set msgFile = stdout
+
+set n1   =  7
+set n2   =  7
+set n3   =  7
+set seed = 10101
+set nrhs = 4
+set type = 1
+
+foreach n ( 7 )
+   set n1 = $n
+   set n2 = $n
+   set n3 = 1
+   set n3 = $n
+   echo $n1 x $n2 x $n3 grid
+   testQRgrid \
+      $msglvl $msgFile $n1 $n2 $n3 $seed $nrhs $type
+end

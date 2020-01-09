@@ -1,0 +1,18 @@
+\begin{theindex}
+
+  \item {\tt Network\_addArc()}, 4
+  \item {\tt Network\_augmentPath()}, 5
+  \item {\tt Network\_clearData()}, 4
+  \item {\tt Network\_findAugmentingPath()}, 5
+  \item {\tt Network\_findMaxFlow()}, 5
+  \item {\tt Network\_findMincutFromSink()}, 5
+  \item {\tt Network\_findMincutFromSource()}, 5
+  \item {\tt Network\_free()}, 4
+  \item {\tt Network\_init()}, 4
+  \item {\tt Network\_new()}, 4
+  \item {\tt Network\_setDefaultFields()}, 4
+  \item {\tt Network\_setMessageInfo()}, 4
+  \item {\tt Network\_writeForHumanEye()}, 6
+  \item {\tt Network\_writeStats()}, 6
+
+\end{theindex}

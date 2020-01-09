@@ -1,0 +1,34 @@
+\begin{theindex}
+
+  \item {\tt Graph\_adjAndEweights()}, 6
+  \item {\tt Graph\_adjAndSize()}, 6
+  \item {\tt Graph\_clearData()}, 3
+  \item {\tt Graph\_componentMap()}, 6
+  \item {\tt Graph\_componentStats()}, 6
+  \item {\tt Graph\_compress()}, 5
+  \item {\tt Graph\_compress2()}, 5
+  \item {\tt Graph\_equivMap()}, 4
+  \item {\tt Graph\_expand()}, 5
+  \item {\tt Graph\_expand2()}, 5
+  \item {\tt Graph\_externalDegree()}, 5
+  \item {\tt Graph\_fillFromOffsets()}, 4
+  \item {\tt Graph\_free()}, 3
+  \item {\tt Graph\_init1()}, 3
+  \item {\tt Graph\_init2()}, 4
+  \item {\tt Graph\_isSymmetric()}, 7
+  \item {\tt Graph\_new()}, 3
+  \item {\tt Graph\_readFromBinaryFile()}, 7
+  \item {\tt Graph\_readFromFile()}, 7
+  \item {\tt Graph\_readFromFormattedFile()}, 7
+  \item {\tt Graph\_setDefaultFields()}, 3
+  \item {\tt Graph\_setListsFromOffsets()}, 4
+  \item {\tt Graph\_sizeOf()}, 5
+  \item {\tt Graph\_subGraph()}, 6
+  \item {\tt Graph\_wirebasketStages()}, 5
+  \item {\tt Graph\_writeForHumanEye()}, 8
+  \item {\tt Graph\_writeStats()}, 8
+  \item {\tt Graph\_writeToBinaryFile()}, 8
+  \item {\tt Graph\_writeToFile()}, 7
+  \item {\tt Graph\_writeToFormattedFile()}, 7
+
+\end{theindex}

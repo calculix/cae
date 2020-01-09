@@ -1,0 +1,377 @@
+\par
+\section{Prototypes and descriptions of {\tt MT} methods}
+\label{section:MT:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods found in the {\tt MT} source directory.
+\par
+\subsection{Matrix-matrix multiply methods}
+\label{subsection:MT:proto:mvm}
+\par
+There are five methods to multiply a vector times a dense matrix.
+The first three methods, called {\tt InpMtx\_MT\_nonsym\_mmm*()}, 
+are straightforward,
+$y := y + \alpha A x$, where $A$ is nonsymmetric, and $\alpha$ is
+real (if $A$ is real) and complex (if $A$ is complex).
+The fourth method, {\tt InpMtx\_MT\_sym\_mmm()}, 
+is used when the matrix is real symmetric or complex symmetric, 
+though it is not necessary that only the lower or upper
+triangular entries are stored.
+(If one fills the {\tt InpMtx} object with only the entries in
+the lower triangle of $A$, and then permute the matrix $PAP^T$,
+the entries will not generally be found in only the lower or upper
+triangle. However, the code is still correct.)
+The last method, 
+{\tt InpMtx\_MT\_herm\_mmm()}, is used when the matrix is
+complex hermitian.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_MT_nonsym_mmm ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X,
+                            int nthread, int msglvl, int msgFile ) ;
+void InpMtx_MT_sym_mmm ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X,
+                            int nthread, int msglvl, int msgFile ) ;
+void InpMtx_MT_herm_mmm ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X,
+                            int nthread, int msglvl, int msgFile ) ;
+\end{verbatim}
+\index{InpMtx_MT_nonsym_mmm@{\tt InpMtx\_MT\_nonsym\_mmm()}}
+\index{InpMtx_MT_sym_mmm@{\tt InpMtx\_MT\_sym\_mmm()}}
+\index{InpMtx_MT_herm_mmm@{\tt InpMtx\_MT\_herm\_mmm()}}
+These methods compute the matrix-vector product $y := y + \alpha A x$,
+where $y$ is found in the {\tt Y DenseMtx} object,
+$\alpha$ is real or complex in {\tt alpha[]},
+$A$ is found in the {\tt A Inpmtx} object, and
+$x$ is found in the {\tt X DenseMtx} object.
+If any of the input objects are {\tt NULL}, an error message is
+printed and the program exits.
+{\tt A}, {\tt X} and {\tt Y} must all be real or all be complex.
+When {\tt A} is real, then $\alpha$ = {\tt alpha[0]}.
+When {\tt A} is complex, then $\alpha$ = 
+{\tt alpha[0]} + i* {\tt alpha[1]}.
+This means that one cannot call the methods with a constant as the
+third parameter, e.g.,
+{\tt InpMtx\_MT\_nonsym\_mmm(A, Y, 3.22, X, nthread, msglvl, msgFile)},
+for this may result in a segmentation violation.
+The values of $\alpha$ must be loaded into an array of length 1 or 2.
+The number of threads is specified by the {\tt nthread} parameter;
+if, {\tt nthread} is {\tt 1}, the serial method is called.
+The {\tt msglvl} and {\tt msgFile} parameters are used for
+diagnostics during the creation of the threads' individual data
+structures.
+\par \noindent {\it Error checking:}
+If {\tt A}, {\tt Y} or {\tt X} are {\tt NULL},
+or if {\tt coordType} is not {\tt INPMTX\_BY\_ROWS},
+{\tt INPMTX\_BY\_COLUMNS} or {\tt INPMTX\_BY\_CHEVRONS},
+or if {\tt storageMode} is not one of {\tt INPMTX\_RAW\_DATA},
+{\tt INPMTX\_SORTED} or {\tt INPMTX\_BY\_VECTORS},
+or if {\tt inputMode} is not {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_MT_nonsym_mmm_T ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X,
+                            int nthread, int msglvl, int msgFile ) ;
+\end{verbatim}
+\index{InpMtx_MT_nonsym_mmm_T@{\tt InpMtx\_MT\_nonsym\_mm\_Tm()}}
+This method computes the matrix-vector product $y := y + \alpha A^T x$,
+where $y$ is found in the {\tt Y DenseMtx} object,
+$\alpha$ is real or complex in {\tt alpha[]},
+$A$ is found in the {\tt A Inpmtx} object, and
+$x$ is found in the {\tt X DenseMtx} object.
+If any of the input objects are {\tt NULL}, an error message is
+printed and the program exits.
+{\tt A}, {\tt X} and {\tt Y} must all be real or all be complex.
+When {\tt A} is real, then $\alpha$ = {\tt alpha[0]}.
+When {\tt A} is complex, then $\alpha$ = 
+{\tt alpha[0]} + i* {\tt alpha[1]}.
+This means that one cannot call the methods with a constant as the
+third parameter, e.g.,
+{\tt InpMtx\_MT\_nonsym\_mmm(A, Y, 3.22, X, nthread, msglvl, msgFile)},
+for this may result in a segmentation violation.
+The values of $\alpha$ must be loaded into an array of length 1 or 2.
+The number of threads is specified by the {\tt nthread} parameter;
+if, {\tt nthread} is {\tt 1}, the serial method is called.
+The {\tt msglvl} and {\tt msgFile} parameters are used for
+diagnostics during the creation of the threads' individual data
+structures.
+\par \noindent {\it Error checking:}
+If {\tt A}, {\tt Y} or {\tt X} are {\tt NULL},
+or if {\tt coordType} is not {\tt INPMTX\_BY\_ROWS},
+{\tt INPMTX\_BY\_COLUMNS} or {\tt INPMTX\_BY\_CHEVRONS},
+or if {\tt storageMode} is not one of {\tt INPMTX\_RAW\_DATA},
+{\tt INPMTX\_SORTED} or {\tt INPMTX\_BY\_VECTORS},
+or if {\tt inputMode} is not {\tt SPOOLES\_REAL} or
+{\tt SPOOLES\_COMPLEX},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void InpMtx_MT_nonsym_mmm_H ( InpMtx *A, DenseMtx *Y, double alpha[], DenseMtx *X,
+                            int nthread, int msglvl, int msgFile ) ;
+\end{verbatim}
+\index{InpMtx_MT_nonsym_mmm_H@{\tt InpMtx\_MT\_nonsym\_mmm\_H()}}
+This method computes the matrix-vector product $y := y + \alpha A^H x$,
+where $y$ is found in the {\tt Y DenseMtx} object,
+$\alpha$ is complex in {\tt alpha[]},
+$A$ is found in the {\tt A Inpmtx} object, and
+$x$ is found in the {\tt X DenseMtx} object.
+If any of the input objects are {\tt NULL}, an error message is
+printed and the program exits.
+{\tt A}, {\tt X} and {\tt Y} must all be complex.
+The number of threads is specified by the {\tt nthread} parameter;
+if, {\tt nthread} is {\tt 1}, the serial method is called.
+The {\tt msglvl} and {\tt msgFile} parameters are used for
+diagnostics during the creation of the threads' individual data
+structures.
+\par \noindent {\it Error checking:}
+If {\tt A}, {\tt Y} or {\tt X} are {\tt NULL},
+or if {\tt coordType} is not {\tt INPMTX\_BY\_ROWS},
+{\tt INPMTX\_BY\_COLUMNS} or {\tt INPMTX\_BY\_CHEVRONS},
+or if {\tt storageMode} is not one of {\tt INPMTX\_RAW\_DATA},
+{\tt INPMTX\_SORTED} or {\tt INPMTX\_BY\_VECTORS},
+or if {\tt inputMode} is not {\tt SPOOLES\_COMPLEX},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Multithreaded Factorization methods}
+\label{subsection:FrontMtx:proto:factorMT}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+Chv * FrontMtx_MT_factorInpMtx ( FrontMtx *frontmtx, InpMtx *inpmtx, 
+             double tau, double droptol, ChvManager *chvmanager,
+             IV *ownersIV, int lookahead, double cpus[], int stats[],  
+             int msglvl, FILE *msgFile ) ;
+Chv * FrontMtx_MT_factorPencil ( FrontMtx *frontmtx, Pencil *pencil, 
+             double tau, double droptol, ChvManager *chvmanager,
+             IV *ownersIV, int lookahead, double cpus[], int stats[],  
+             int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_MT_factorInpMtx@{\tt FrontMtx\_MT\_factorInpMtx()}}
+\index{FrontMtx_MT_factorPencil@{\tt FrontMtx\_MT\_factorPencil()}}
+These two methods compute a multithreaded factorization for a matrix
+$A$ (stored in {\tt inpmtx}) or a matrix pencil
+$A + \sigma B$ (stored in {\tt pencil}).
+The {\tt tau} parameter is used when pivoting is enabled, each
+entry in $U$ and $L$ (when nonsymmetric) will have magnitude less
+than or equal to {\tt tau}.
+The {\tt droptol} parameter is used when the fronts are stored in
+a sparse format, each entry in $U$ and $L$ (when nonsymmetric) 
+will have magnitude greater than or equal to {\tt droptol}.
+The map from fronts to owning processes is found in {\tt ownersIV}.
+The {\tt lookahead} parameter governs the
+``upward--looking'' nature of the computations.
+Choosing {\tt lookahead = 0} is usually the most conservative with
+respect to working storage, while positive values increase the
+working storage and sometimes decrease the factorization time.
+On return, the {\tt cpus[]} vector is filled with the following
+information.
+\begin{itemize}
+\item
+{\tt cpus[0]} --- time spent managing working storage.
+\item
+{\tt cpus[1]} --- time spent initializing the fronts
+                  and loading the original entries.
+\item
+{\tt cpus[2]} --- time spent accumulating updates from descendents.
+\item
+{\tt cpus[3]} --- time spent inserting aggregate fronts.
+\item
+{\tt cpus[4]} --- time spent removing and assembling aggregate fronts.
+\item
+{\tt cpus[5]} --- time spent assembling postponed data.
+\item
+{\tt cpus[6]} --- time spent to factor the fronts.
+\item
+{\tt cpus[7]} --- time spent to extract postponed data.
+\item
+{\tt cpus[8]} --- time spent to store the factor entries.
+\item
+{\tt cpus[9]} --- miscellaneous time.
+\end{itemize}
+On return, the {\tt stats[]} vector is filled with the following
+information.
+\begin{itemize}
+\item
+{\tt stats[0]} --- number of pivots.
+\item
+{\tt stats[1]} --- number of pivot tests.
+\item
+{\tt stats[2]} --- number of delayed rows and columns.
+\item
+{\tt stats[3]} --- number of entries in $D$.
+\item
+{\tt stats[4]} --- number of entries in $L$.
+\item
+{\tt stats[5]} --- number of entries in $U$.
+\item
+{\tt stats[6]} --- number of locks of the {\tt FrontMtx} object.
+\item
+{\tt stats[7]} --- number of locks of aggregate list.
+\item
+{\tt stats[8]} --- number of locks of postponed list.
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt inpmtxA}, {\tt cpus} or {\tt stats}
+is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Multithreaded $QR$ Factorization method}
+\label{subsection:FrontMtx:proto:factorQR_MT}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FrontMtx_MT_QR_factor ( FrontMtx *frontmtx, InpMtx *mtxA,
+                             ChvManager *chvmanager, IV *ownersIV, double cpus[],
+                             double *pfacops,  int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_MT_QR_factor@{\tt FrontMtx\_MT\_QR\_factor()}}
+This method computes the
+$(U^T+I)D(I+U)$ factorization of $A^TA$ if $A$ is real
+or
+$(U^H+I)D(I+U)$ factorization of $A^HA$ if $A$ is complex.
+The {\tt chvmanager} object manages the working storage.
+The map from fronts to threads is found in {\tt ownersIV}.
+On return, the {\tt cpus[]} vector is filled as follows.
+\begin{itemize}
+\item
+{\tt cpus[0]} -- time to set up the factorization.
+\item
+{\tt cpus[1]} -- time to set up the fronts.
+\item
+{\tt cpus[2]} -- time to factor the matrices.
+\item
+{\tt cpus[3]} -- time to scale and store the factor entries.
+\item
+{\tt cpus[4]} -- time to store the update entries
+\item
+{\tt cpus[5]} -- miscellaneous time
+\item
+{\tt cpus[6]} -- total time
+\end{itemize}
+On return, {\tt *pfacops} contains the number of floating point
+operations done by the factorization.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt frontJ} or {\tt chvmanager} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Multithreaded Solve method}
+\label{subsection:FrontMtx:proto:solve-multithreaded}
+\par
+\begin{enumerate}
+%=======================================================================
+\item
+\begin{verbatim}
+void FrontMtx_MT_solve ( FrontMtx *frontmtx, DenseMtx *mtxX, DenseMtx *mtxB,
+                         SubMtxManager *mtxmanager, SolveMap *solvemap,
+                         double cpus[], int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_MT_solve@{\tt FrontMtx\_MT\_solve()}}
+This method is used to solve one of three linear systems of equations
+using a multithreaded solve
+---
+$(U^T + I)D(I + U) X = B$,
+$(U^H + I)D(I + U) X = B$ or
+$(L + I)D(I + U) X = B$.
+Entries of $B$ are {\it read} from {\tt mtxB} and
+entries of $X$ are written to {\tt mtxX}.
+Therefore, {\tt mtxX} and {\tt mtxB} can be the same object.
+(Note, this does not hold true for an MPI factorization with pivoting.)
+The submatrix manager object manages the working storage.
+The {\tt solvemap} object contains the map from submatrices to
+threads.
+The map from fronts to processes that own them is given in the {\tt
+ownersIV} object.
+On return the {\tt cpus[]} vector is filled with the following.
+The {\tt stats[]} vector is not currently used.
+\begin{itemize}
+\item
+{\tt cpus[0]} --- set up the solves
+\item
+{\tt cpus[1]} --- fetch right hand side and store solution
+\item
+{\tt cpus[2]} --- forward solve
+\item
+{\tt cpus[3]} --- diagonal solve
+\item
+{\tt cpus[4]} --- backward solve
+\item
+{\tt cpus[5]} --- total time in the method.
+\end{itemize}
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt rhsmtx}, {\tt mtxmanager},
+{\tt solvemap}, {\tt cpus} or {\tt stats} is {\tt NULL},
+or if {\tt msglvl} > 0 and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Multithreaded $QR$ Solve method}
+\label{subsection:FrontMtx:proto:QRsolve-MT}
+\par
+\begin{enumerate}
+%=======================================================================
+\item
+\begin{verbatim}
+void FrontMtx_MT_QR_solve ( FrontMtx *frontmtx, InpMtx *mtxA, DenseMtx *mtxX,
+              DenseMtx *mtxB, SubMtxManager *mtxmanager, SolveMap *solvemap,
+              double cpus[], int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{FrontMtx_MT_QR_solve@{\tt FrontMtx\_MT\_QR\_solve()}}
+This method is used to minimize $\|B - AX\|_F$, where
+$A$ is stored in {\tt mtxA},
+$B$ is stored in {\tt mtxB},
+and $X$ will be stored in {\tt mtxX}.
+The {\tt frontmtx} object contains a
+$(U^T+I)D(I+U)$ factorization of $A^TA$ if $A$ is real
+or
+$(U^H+I)D(I+U)$ factorization of $A^HA$ if $A$ is complex.
+We solve the seminormal equations
+$(U^T+I)D(I+U)X = A^TB$ or $(U^H+I)D(I+U)X = A^HB$
+for $X$.
+On return the {\tt cpus[]} vector is filled with the following.
+\begin{itemize}
+\item
+{\tt cpus[0]} --- set up the solves
+\item
+{\tt cpus[1]} --- fetch right hand side and store solution
+\item
+{\tt cpus[2]} --- forward solve
+\item
+{\tt cpus[3]} --- diagonal solve
+\item
+{\tt cpus[4]} --- backward solve
+\item
+{\tt cpus[5]} --- total time in the solve method.
+\item
+{\tt cpus[6]} --- time to compute $A^TB$ or $A^HB$.
+\item
+{\tt cpus[7]} --- total time.
+\end{itemize}
+Only the solve is presently done in parallel.
+\par \noindent {\it Error checking:}
+If {\tt frontmtx}, {\tt mtxA}, {\tt mtxX}, {\tt mtxB}, {\tt mtxmanager},
+{\tt solvemap} or {\tt cpus} is {\tt NULL},
+or if {\tt msglvl} > 0 and {\tt msgFile} is {\tt NULL},
+an error message is printed and the program exits.
+%=======================================================================
+\end{enumerate}
+
+

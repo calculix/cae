@@ -1,0 +1,27 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D10000
+
+set matrices     = ../../../matrices
+set matrix       = GRD7x7
+set matrix       = R2D100
+set matrix       = GRD31x31x31
+
+set msglvl  = 1
+set msgFile = stdout
+
+set inFile = nd.etreef
+set inFile = $matrices/$matrix/nd.1024.64.etreef
+set inFile = $matrices/$matrix/ndnew.etreef
+
+set outFile = temp.ivf
+set outFile = $matrices/$matrix/nd.1024.64.dd4.ivf
+set outFile = none
+set outFile = $matrices/$matrix/ndowners.ivf
+
+set nthread = 16
+set type    = 3
+set cutoff  = 0.031250
+
+testMaps $msglvl $msgFile $inFile $outFile $nthread $type $cutoff

@@ -1,0 +1,199 @@
+\par
+\section{Prototypes and descriptions of {\tt SubMtxList} methods}
+\label{section:SubMtxList:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt SubMtxList} object.
+\par
+\subsection{Basic methods}
+\label{subsection:SubMtxList:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+SubMtxList * SubMtxList_new ( void ) ;
+\end{verbatim}
+\index{SubMtxList_new@{\tt SubMtxList\_new()}}
+This method simply allocates storage 
+for the {\tt SubMtxList} structure 
+and then sets the default fields by a call to 
+{\tt SubMtxList\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxList_setDefaultFields ( SubMtxList *list ) ;
+\end{verbatim}
+\index{SubMtxList_setDefaultFields@{\tt SubMtxList\_setDefaultFields()}}
+The structure's fields are set to default values:
+{\tt nlist} and {\tt nlocks} set to zero,
+and {\tt heads}, {\tt counts}, {\tt lock} and {\tt flags} 
+are set to {\tt NULL} .
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxList_clearData ( SubMtxList *list ) ;
+\end{verbatim}
+\index{SubMtxList_clearData@{\tt SubMtxList\_clearData()}}
+This method clears the object and free's any owned data
+by calling {\tt SubMtx\_free()} for each object on the free
+list.
+If {\tt heads} is not {\tt NULL}, it is free'd.
+If {\tt counts} is not {\tt NULL}, 
+it is free'd via a call to {\tt IVfree()}.
+If {\tt flags} is not {\tt NULL}, 
+it is free'd via a call to {\tt CVfree()}.
+If the lock is not {\tt NULL}, it is destroyed via a call to
+{\tt mutex\_destroy()} and then free'd.
+There is a concluding call to 
+{\tt SubMtxList\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxList_free ( SubMtxList *list ) ;
+\end{verbatim}
+\index{SubMtxList_free@{\tt SubMtxList\_free()}}
+This method releases any storage by a call to 
+{\tt SubMtxList\_clearData()} 
+and then free the space for {\tt list}.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization methods}
+\label{subsection:SubMtxList:proto:initial}
+\par
+There are three initializer methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxList_init( SubMtxList *list, int nlist, int counts[], 
+                      int lockflag, char flags[] ) ;
+\end{verbatim}
+\index{SubMtxList_init@{\tt SubMtxList\_init()}}
+Any data is cleared via a call to
+{\tt SubMtxList\_clearData()}.
+The number of lists is set and the {\tt heads[]} vector is
+initialized.
+If {\tt counts} is not {\tt NULL}, the object's {\tt counts[]}
+vector is allocated and filled with the incoming entries.
+If {\tt lockflag} is zero, the lock is not initialized.
+If {\tt lockflag} is {\tt 1}, the lock is initialized
+to be able to synchronize threads with the calling process.
+If {\tt lockflag} is {\tt 2}, the lock is initialized
+to be able to synchronize threads across processes.
+If {\tt flags} is not {\tt NULL}, the object's {\tt flags[]}
+vector is allocated and filled with the incoming entries.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+or if ${\tt nlist} \le 0$,
+or if {\tt lockflag} is not in {\tt [0,2]},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:SubMtxList:proto:utility}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtxList_isListNonempty ( SubMtxList *list, int ilist ) ;
+\end{verbatim}
+\index{SubMtxList_isListNonempty@{\tt SubMtxList\_isListNonempty()}}
+\par
+If list {\tt ilist} is empty, the method returns 0.
+Otherwise, the method returns 1.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+or if {\tt ilist} is not in the range {\tt [0,nlist)},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SubMtxList_isCountZero ( SubMtxList *list, int ilist ) ;
+\end{verbatim}
+\index{SubMtxList_isCountZero@{\tt SubMtxList\_isCountZero()}}
+\par
+If {\tt counts} is {\tt NULL}, 
+or if {\tt counts[ilist]} equal to zero, the method returns 1.
+Otherwise, the method returns 0.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+or if {\tt ilist} is not in the range {\tt [0,nlist)},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+SubMtx * SubMtxList_getList ( SubMtxList *list, int ilist ) ;
+\end{verbatim}
+\index{SubMtxList_getList@{\tt SubMtxList\_getList()}}
+\par
+If list {\tt ilist} is empty, the method returns {\tt NULL}.
+Otherwise, if the list needs to be locked, the lock is locked.
+The head of the list is saved to a pointer and then the head is set
+to {\tt NULL}.
+If the list was locked, the number of locks is incremented and the
+lock unlocked.
+The saved pointer is returned.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+or if {\tt ilist} is not in the range {\tt [0,nlist)},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxList_addObjectToList ( SubMtxList *list,
+                                     SubMtx *mtx, int ilist ) ;
+\end{verbatim}
+\index{SubMtxList_addObjectToList@{\tt SubMtxList\_addObjectToList()}}
+\par
+If the list needs to be locked, the lock is locked.
+If {\tt mtx} is not {\tt NULL}, it is added to the head of the list.
+If {\tt counts} is not {\tt NULL}, then {\tt counts[ilist]} is
+decremented.
+If the lock was locked, the number of locks is incremented
+and it is now unlocked.
+\par \noindent {\it Error checking:}
+If {\tt list} is {\tt NULL},
+or if {\tt ilist} is not in the range {\tt [0,nlist)},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:SubMtxList:proto:IO}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SubMtxList_writeForHumanEye ( SubMtxList *list, FILE *fp ) ;
+\end{verbatim}
+\index{SubMtxList_writeForHumanEye@{\tt SubMtxList\_writeForHumanEye()}}
+\par
+This method write the list to a file in user readable form.
+\par \noindent {\it Error checking:}
+If {\tt list} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

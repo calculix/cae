@@ -1,0 +1,13 @@
+#! /bin/csh -f
+
+set msglvl  = 3
+set msgFile = stdout
+
+set n1    = 3
+set n2    = 3
+set n3    = 3
+set ncomp = 1
+
+set outFile = temp.egraphf
+
+mkGridEGraph $msglvl $msgFile $n1 $n2 $n3 $ncomp $outFile

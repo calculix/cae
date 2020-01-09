@@ -1,0 +1,529 @@
+\par
+\section{Prototypes and descriptions of {\tt SolveMap} methods}
+\label{section:SolveMap:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt SolveMap} object.
+\par
+\subsection{Basic methods}
+\label{subsection:SolveMap:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+SolveMap * SolveMap_new ( void ) ;
+\end{verbatim}
+\index{SolveMap_new@{\tt SolveMap\_new()}}
+This method simply allocates storage for the {\tt SolveMap} structure 
+and then sets the default fields by a call to 
+{\tt SolveMap\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SolveMap_setDefaultFields ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_setDefaultFields@{\tt SolveMap\_setDefaultFields()}}
+This method sets the default fields of the object ---
+{\tt symmetryflag = SPOOLES\_SYMMETRIC},
+{\tt nfront}, {\tt nproc}, {\tt nblockUpper} 
+and {\tt nblockLower} are set to zero,
+and {\tt owners}, {\tt rowidsUpper}, {\tt colidsUpper}, {\tt mapUpper}, 
+{\tt rowidsLower}, {\tt colidsLower} and {\tt mapLower} are 
+set to {\tt NULL}.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SolveMap_clearData ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_clearData@{\tt SolveMap\_clearData()}}
+This method clears any data allocated by this object and then sets
+the default fields 
+with a call to {\tt SolveMap\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SolveMap_free ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_free@{\tt SolveMap\_free()}}
+This method releases any storage by a call to 
+{\tt SolveMap\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\par
+\subsection{Instance methods}
+\label{subsection:SolveMap:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_symmetryflag ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_symmetryflag@{\tt SolveMap\_symmetryflag()}}
+This method returns {\tt symmetryflag}, the symmetry flag.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_nfront ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_nfront@{\tt SolveMap\_nfront()}}
+This method returns {\tt nfront}, the number of fronts.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_nproc ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_nproc@{\tt SolveMap\_nproc()}}
+This method returns {\tt nproc}, the number of threads or processes.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_nblockUpper ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_nblockUpper@{\tt SolveMap\_nblockUpper()}}
+This method returns {\tt nblockUpper}, 
+the number of off-diagonal submatrices in the upper triangle.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_nblockLower ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_nblockLower@{\tt SolveMap\_nblockLower()}}
+This method returns {\tt nblockLower}, 
+the number of off-diagonal submatrices in the lower triangle.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * SolveMap_owners ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_owners@{\tt SolveMap\_owners()}}
+This method returns {\tt owners}, a pointer to the map from fronts
+to owning threads or processes.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * SolveMap_rowidsUpper ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_rowidsUpper@{\tt SolveMap\_rowidsUpper()}}
+This method returns {\tt rowidsUpper}, a pointer to the vector of
+row ids of the submatrices in the upper triangle.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * SolveMap_colidsUpper ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_colidsUpper@{\tt SolveMap\_colidsUpper()}}
+This method returns {\tt colidsUpper}, a pointer to the vector of
+column ids of the submatrices in the upper triangle.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * SolveMap_mapUpper ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_mapUpper@{\tt SolveMap\_mapUpper()}}
+This method returns {\tt mapUpper}, a pointer to the vector that
+maps the submatrices in the upper triangle to threads or processes.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * SolveMap_rowidsLower ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_rowidsLower@{\tt SolveMap\_rowidsLower()}}
+This method returns {\tt rowidsLower}, a pointer to the vector of
+row ids of the submatrices in the lower triangle.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * SolveMap_colidsLower ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_colidsLower@{\tt SolveMap\_colidsLower()}}
+This method returns {\tt colidsLower}, a pointer to the vector of
+column ids of the submatrices in the upper triangle.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * SolveMap_mapLower ( SolveMap *solvemap ) ;
+\end{verbatim}
+\index{SolveMap_mapLower@{\tt SolveMap\_mapLower()}}
+This method returns {\tt mapLower}, a pointer to the vector that
+maps the submatrices in the upper triangle to threads or processes.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization method}
+\label{subsection:SolveMap:proto:init}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SolveMap_init ( SolveMap *solvemap, int symmetryflag, int nfront,
+                     int nproc, int nblockUpper, nblockLower ) ;
+\end{verbatim}
+\index{SolveMap_init@{\tt SolveMap\_init()}}
+Any previously owned data is cleared via a call to {\tt
+SolveMap\_clearData()}.
+The five scalars are then set and the vectors are allocated and
+initialized.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL}, 
+or {\tt symmetryflag} is invalid,
+or {\tt nfront}, {\tt nblockUpper}, {\tt nblockLower} 
+or {\tt nproc} is negative, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\par
+\subsection{Map creation methods}
+\label{subsection:SolveMap:proto:maps}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SolveMap_randomMap ( SolveMap *solvemap, int symmetryflag, 
+                          IVL *upperBlockIVL, IVL *lowerBlockIVL, int nproc, 
+                          IV *ownersIV, int seed, int msglvl, FILE *msgFile) ;
+\end{verbatim}
+\index{SolveMap_randomMap@{\tt SolveMap\_randomMap()}}
+This method maps offdiagonal submatrices 
+to threads or processes in a random fashion.
+\par \noindent {\it Error checking:}
+If {\tt solvemap}, {\tt upperBlockIVL} or {\tt ownersIV} is {\tt NULL}, 
+or if {\tt symmetryflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void SolveMap_ddMap ( SolveMap *solvemap, int symmetryflag, 
+                      IVL *upperBlockIVL, IVL *lowerBlockIVL, int nproc,
+                      IV *ownersIV, int seed, int msglvl, FILE *msgFile) ;
+\end{verbatim}
+\index{SolveMap_ddMap@{\tt SolveMap\_ddMap()}}
+This method maps offdiagonal submatrices 
+to threads or processes in a domain decomposition fashion.
+A {\it domain} is a subtree of fronts that are owned by the same
+thread or process.
+Furthermore, a domain is {\it maximal}, i.e., the parent of the
+root domain (if it exists) is owned by a different process.
+If $J$ belongs to a domain, then for all $K$, 
+$L_{K,J}$ and $U_{J,K}$ are owned
+by the thread or process that owns the domain.
+All other submatrices are mapped to threads or processes in a
+random fashion.
+\par \noindent {\it Error checking:}
+If {\tt solvemap}, {\tt upperBlockIVL} or {\tt ownersIV} is {\tt NULL}, 
+or if {\tt symmetryflag} is invalid,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Solve setup methods}
+\label{subsection:SolveMap:proto:setup}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IP ** SolveMap_forwardSetup ( SolveMap *solvemap, int myid, 
+                              int msglvl, FILE *msgFile ) ;
+IP ** SolveMap_backwardSetup ( SolveMap *solvemap, int myid, 
+                              int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{SolveMap_forwardSetup@{\tt SolveMap\_forwardSetup()}}
+\index{SolveMap_backwardSetup@{\tt SolveMap\_backwardSetup()}}
+These two methods return a vector of pointers to {\tt IP} objects
+that contain the list of submatrices that thread or process
+{\tt myid} will use during the forward or backward solves.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+or if {\tt myid < 0} or {\tt myid >= solvemap->nproc},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:SolveMap:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_owners ( SolveMap *solvemap, int rowid, int colid ) ;
+\end{verbatim}
+\index{SolveMap_owners@{\tt SolveMap\_owners()}}
+If {\tt rowid = colid}, this method returns the owner of front {\tt
+rowid}.
+Otherwise,
+this method returns the thread or process of the owner of
+$L_{{\tt rowid},{\tt colid}}$ if ${\tt rowid} \ge {\tt colid}$
+or
+$U_{{\tt rowid},{\tt colid}}$ if ${\tt rowid} < {\tt colid}$.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * SolveMap_upperSolveIVL ( SolveMap *solvemap, int myid,
+                               int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{SolveMap_upperSolveIVL@{\tt SolveMap\_upperSolveIVL()}}
+This method returns an IVL object whose list {\tt K} contains all
+processes that do not own {\tt K} but who own an $U_{\tt J,K}$ for
+some ${\tt J} < {\tt K}$.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL} then 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IVL * SolveMap_lowerSolveIVL ( SolveMap *solvemap, int myid,
+                               int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{SolveMap_lowerSolveIVL@{\tt SolveMap\_lowerSolveIVL()}}
+This method returns an IVL object whose list {\tt J} contains all
+processes that do not own {\tt J} but who own an $L_{\tt K,J}$ for
+some ${\tt K} > {\tt J}$.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL} then 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * SolveMap_upperAggregateIV ( SolveMap *solvemap, int myid
+                               int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{SolveMap_upperAggregateIV@{\tt SolveMap\_upperAggregateIV()}}
+This method returns an {\tt IV} object that contains the aggregate
+count for a backward solve.
+If {\tt myid} owns front {\tt J}, then entry {\tt J} of the returned 
+{\tt IV} object contains the number of processes (other than {\tt
+myid}) that own an $U_{\tt J,K}$ submatrix, and so is the number of
+incoming aggregate submatrices process {\tt myid} expects for front
+{\tt J}.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL} or {\tt nlist < 0} then 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+IV * SolveMap_lowerAggregateIV ( SolveMap *solvemap, int myid
+                               int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{SolveMap_lowerAggregateIV@{\tt SolveMap\_lowerAggregateIV()}}
+This method returns an {\tt IV} object that contains the aggregate
+count for a forward solve.
+If {\tt myid} owns front {\tt J}, then entry {\tt J} of the returned 
+{\tt IV} object contains the number of processes (other than {\tt
+myid}) that own an $L_{\tt J,I}$ submatrix, (or $U_{\tt I,J}$ submatrix
+if symmetric or hermitian) and so is the number of
+incoming aggregate submatrices process {\tt myid} expects for front
+{\tt J}.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} is {\tt NULL} or {\tt nlist < 0} then 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:SolveMap:proto:IO}
+\par
+There are the usual eight IO routines.
+The file structure of a {\tt SolveMap} object is simple:
+{\tt symmetryflag}, {\tt nfront}, {\tt nproc}, {\tt nblockUpper}
+and {\tt nblockLower},
+followed by {\tt owners[*]},
+{\tt rowidsUpper[*]},
+{\tt colidsUpper[*]} and
+{\tt mapidsUpper[*]},
+and if {\tt symmetryflag = SPOOLES\_NONSYMMETRIC},
+followed by 
+{\tt rowidsLower[*]},
+{\tt colidsLower[*]} and
+{\tt mapidsLower[*]}.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_readFromFile ( SolveMap *solvemap, char *fn ) ;
+\end{verbatim}
+\index{SolveMap_readFromFile@{\tt SolveMap\_readFromFile()}}
+\par
+This method reads an {\tt SolveMap} object from a file.
+If the the file can be opened successfully, 
+the method calls {\tt SolveMap\_readFromFormattedFile()} or
+{\tt SolveMap\_readFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.solvemapf} (for a formatted file) 
+or {\tt *.solvemapb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_readFromFormattedFile ( SolveMap *solvemap, FILE *fp ) ;
+\end{verbatim}
+\index{SolveMap_readFromFormattedFile@{\tt SolveMap\_readFromFormattedFile()}}
+\par
+This method reads an {\tt SolveMap} object from a formatted file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} or {\tt fp} are {\tt NULL} 
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_readFromBinaryFile ( SolveMap *solvemap, FILE *fp ) ;
+\end{verbatim}
+\index{SolveMap_readFromBinaryFile@{\tt SolveMap\_readFromBinaryFile()}}
+\par
+This method reads an {\tt SolveMap} object from a binary file.
+If there are no errors in reading the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_writeToFile ( SolveMap *solvemap, char *fn ) ;
+\end{verbatim}
+\index{SolveMap_writeToFile@{\tt SolveMap\_writeToFile()}}
+\par
+This method writes an {\tt SolveMap} object to a file.
+If the the file can be opened successfully, 
+the method calls {\tt SolveMap\_writeFromFormattedFile()} or
+{\tt SolveMap\_writeFromBinaryFile()}, 
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} or {\tt fn} are {\tt NULL}, 
+or if {\tt fn} is not of the form
+{\tt *.solvemapf} (for a formatted file) 
+or {\tt *.solvemapb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_writeToFormattedFile ( SolveMap *solvemap, FILE *fp ) ;
+\end{verbatim}
+\index{SolveMap_writeToFormattedFile@{\tt SolveMap\_writeToFormattedFile()}}
+\par
+This method writes an {\tt SolveMap} object to a formatted file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} or {\tt fp} are {\tt NULL} an error message is printed and
+zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_writeToBinaryFile ( SolveMap *solvemap, FILE *fp ) ;
+\end{verbatim}
+\index{SolveMap_writeToBinaryFile@{\tt SolveMap\_writeToBinaryFile()}}
+\par
+This method writes an {\tt SolveMap} object to a binary file.
+If there are no errors in writing the data, 
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_writeForHumanEye ( SolveMap *solvemap, FILE *fp ) ;
+\end{verbatim}
+\index{SolveMap_writeForHumanEye@{\tt SolveMap\_writeForHumanEye()}}
+\par
+This method writes an {\tt SolveMap} object to a file in an easily
+readable format.
+The method {\tt SolveMap\_writeStats()} is called to write out the
+header and statistics. 
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} or {\tt fp} are {\tt NULL} an error message 
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int SolveMap_writeStats ( SolveMap *solvemap, FILE *fp ) ;
+\end{verbatim}
+\index{SolveMap_writeStats@{\tt SolveMap\_writeStats()}}
+\par
+This method writes some statistics about an {\tt SolveMap} object to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt solvemap} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

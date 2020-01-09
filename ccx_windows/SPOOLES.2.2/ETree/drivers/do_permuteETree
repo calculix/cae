@@ -1,0 +1,18 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inETreeFile = $matrices/$matrix/nd.etreef
+set inEqmapFile = none
+
+set outETreeFile = $matrices/$matrix/nd.etreeb
+set outETreeFile = none
+set outIVfile    = none
+
+set msglvl  = 3
+
+set msgFile = stdout
+
+permuteETree $msglvl $msgFile \
+    $inETreeFile $inEqmapFile $outETreeFile $outIVfile

@@ -1,0 +1,26 @@
+\chapter{{\tt EGraph}: Element Graph Object}
+\par
+The {\tt EGraph} object is used to model a graph that has a natural
+element structure (as from finite elements) or a natural covering
+clique structure (e.g., the rows of $A$ are natural cliques for
+the graph of $A^TA$).
+\par
+Translating an element graph {\tt EGraph} object 
+into an adjacency list {\tt Graph} object is an easy task ---
+we provide a method to do so --- but the process in reverse is much
+more difficult.
+Given a {\tt Graph} object, it is simple to construct a trivial 
+element graph object, simply take each $(i,j)$ edge to be an element.
+Constructing an element graph with a smaller number of elements 
+is more difficult.
+\par
+Element graphs, when they arise naturally or are constructed from
+an adjacency graph, have great potential. 
+The element model for sparse elimination {\it appears} to be more
+powerful than the vertex adjacency list model in the sense that
+concepts like indistinguishability, outmatching and deficiency are
+more naturally defined with elements.
+An element graph might be a more natural vehicle for partitioning
+graphs, because if one consider elements as the ``nodes'' in a
+Kernighan-Lin type algorithm, then the ``edge'' separators are
+formed of vertices of the original graph.

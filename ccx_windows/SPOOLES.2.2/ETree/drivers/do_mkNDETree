@@ -1,0 +1,54 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrices     = ../../../matrices
+set matrix       = GRD3x2
+set matrix       = GRD15x15x15
+set matrix       = GRD7x7x7
+set matrix       = GRD31x31x31
+
+set msglvl  = 1
+set msgFile = nd.res
+set msgFile = stdout
+
+set n1 =  33
+set n2 =  33
+set n3 =  33
+
+set maxzeros = 16384
+set maxzeros = 64
+set maxsize  = 32
+set maxzeros =  0
+set maxzeros =  1000
+set maxsize  = 100000
+set maxsize  =  64
+
+set outFile = none
+set outFile = $matrices/$matrix/nd2.etreef
+set outFile = nd.etreef
+
+# foreach n ( 10 12 14 17 20 24 28 34 40 48 56 )
+foreach n ( 31 )
+   set n1 = $n
+   set n2 = $n
+   set n3 = 1
+   set n3 = $n
+   mkNDETree $msglvl $msgFile $n1 $n2 $n3 $maxzeros $maxsize $outFile
+end
+
+exit
+
+# foreach maxzeros ( 0 1 2 4 8 16 32 64 128 256 512 1024 2048 4096 8192 16384 )
+   mkNDETree $msglvl $msgFile $n1 $n2 $n3 $maxzeros $maxsize $outFile
+# end
+
+exit
+
+set nmax = 70
+set nmin = 66
+@ n = $nmin
+while ( $n <= $nmax )
+   echo n = $n
+   mkNDETree $msglvl $msgFile $n $n $n $maxzeros $maxsize $outFile
+   @ n = $n + 1
+end

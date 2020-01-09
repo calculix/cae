@@ -1,0 +1,44 @@
+#! /bin/csh -f
+
+set matrices    = ../../Matrices
+set matrices    = /local1/ARPA/matrices
+set matrices    = ../../../matrices
+set matrix      = R2D100
+set matrix      = BCSSTK16
+set matrix      = R3D13824
+set matrix      = R2D10000
+set matrix      = i4a
+set matrix      = MN12
+set matrix      = BCSSTK39
+set matrix      = GRD15x15x127
+set inGraphFile = $matrices/$matrix/orig1.graphf
+set inGraphFile = $matrices/$matrix/orig0.graphf
+set inGraphFile = $matrices/$matrix/orig1.graphb
+set inGraphFile = $matrices/$matrix/orig0.graphb
+
+set msglvl      = 1
+
+set msgFile    = stdout
+
+set outETreeFile = mmd.etreef
+set outETreeFile = none
+set outETreeFile = $matrices/$matrix/mmd.etreef
+
+set maxsize       = 64
+set maxzeros      = 0
+set maxzeros      = 1000
+
+set seed          = 10101
+set seed          = 10103
+
+set nseed = 3
+
+while ( $nseed > 0 )
+   testOrderViaMMD \
+      $msglvl $msgFile $inGraphFile \
+      $maxsize $maxzeros $seed $outETreeFile
+   @ seed  = $seed  + 1
+   @ nseed = $nseed - 1
+   ../../ETree/drivers/testHeight $msglvl $msgFile $outETreeFile
+end
+

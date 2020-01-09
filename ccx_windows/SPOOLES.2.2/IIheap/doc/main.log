@@ -1,0 +1,46 @@
+This is TeX, Version 3.1415 (C version 6.1) (format=lplain 94.11.14)  2 JUN 1998 13:40
+**main
+(main.tex
+LaTeX Version 2.09 <25 March 1992>
+(/usr/local/lib/texmf/tex/latex209/report.sty
+Standard Document Style `report' <14 Jan 92>.
+(/usr/local/lib/texmf/tex/latex209/rep11.sty)
+\descriptionmargin=\dimen99
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+
+(/usr/local/lib/texmf/tex/latex209/titlepag.sty
+Document Style Option `titlepage' -- Released 16 June 1991.
+)) (/usr/local/lib/texmf/tex/latex209/leqno.sty
+Document style option `leqno' - released 29 Sep 1991
+)
+\@indexfile=\write3
+
+Writing index file main.idx 
+(main.aux) (intro.tex
+Chapter 1.
+LaTeX Warning: No \tt typeface in this size, using \rm on input line 3.
+) (dataStructure.tex) (proto.tex [1
+
+
+] [2]) (main.ind [3] [4
+
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 203 strings out of 11977
+ 2089 string characters out of 87269
+ 32158 words of memory out of 262141
+ 2140 multiletter control sequences out of 9500
+ 19780 words of font info for 75 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 13i,4n,17p,183b,199s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (4 pages, 7400 bytes).

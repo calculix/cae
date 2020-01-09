@@ -1,0 +1,18 @@
+\chapter{{\tt Ideq}: Integer Dequeue}
+\par
+The {\tt Ideq} is a object that manages a {\it dequeue},
+a list data structure that supports inserts and deletes
+at both the head and the tail of the list.
+We wrote this application in support of a max flow code
+where visiting an out-edge put a vertex on the head of the list
+and visiting an in-edge put a vertex on the tail of the list.
+The goal was to be close to a depth first traversal of the network.
+This object is also used in multithreaded and MPI factorizations
+and forward and back solves, where each process must perform a
+bottom-up or top-down traversal of a tree.
+The {\tt Ideq} object is used to specify which nodes of the tree to
+visit (possibly repeatedly) in which order.
+\par
+The dequeue has fixed size though it can grow using the
+{\tt Ideq\_resize()} method.
+\par

@@ -1,0 +1,350 @@
+\par
+\subsection{Sorting routines}
+\label{subsection:Utilities:proto:sort}
+\par
+\subsubsection{Validation routines}
+\label{subsubsection:Utilities:proto:sort:validate}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVisascending ( int n, int ivec[] ) ;
+int IVisdescending ( int n, int ivec[] ) ;
+\end{verbatim}
+\index{IVisascending@{\tt IVisascending()}}
+\index{IVisdescending@{\tt IVisdescending()}}
+These methods returns {\tt 1} if the array {\tt ivec[]} is in ascending
+or descending order and returns {\tt 0} otherwise.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DVisascending ( int n, double dvec[] ) ;
+int DVisdescending ( int n, double dvec[] ) ;
+\end{verbatim}
+\index{DVisascending@{\tt DVisascending()}}
+\index{DVisdescending@{\tt DVisdescending()}}
+These methods returns {\tt 1} if the array {\tt dvec[]} is in ascending
+or descending order and returns {\tt 0} otherwise.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsubsection{Insert sort routines}
+\label{subsubsection:Utilities:proto:sort:insert}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVisortUp ( int n, int ivec[] ) ;
+void IVisortDown ( int n, int ivec[] ) ;
+\end{verbatim}
+\index{IVisortUp@{\tt IVisortUp()}}
+\index{IVisortDown@{\tt IVisortDown()}}
+These methods sort an {\tt int} array into ascending or descending
+order using an insertion sort.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV2isortUp ( int n, int ivec1[], int ivec2[] ) ;
+void IV2isortDown ( int n, int ivec1[], int ivec2[] ) ;
+\end{verbatim}
+\index{IV2isortUp@{\tt IV2isortUp()}}
+\index{IV2isortDown@{\tt IV2isortDown()}}
+These methods sort the array {\tt ivec1[]} into ascending or
+descending order using an insertion sort and permutes 
+the {\tt int} companion array {\tt ivec2[]} in the same fashion.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVDVisortUp ( int n, int ivec[], double dvec[] ) ;
+void IVDVisortDown ( int n, int ivec[], double dvec[] ) ;
+\end{verbatim}
+\index{IVDVisortUp@{\tt IVDVisortUp()}}
+\index{IVDVisortDown@{\tt IVDVisortDown()}}
+This sorts the array {\tt ivec[]} into ascending or descending order 
+using an insertion sort and permutes the companion array {\tt dvec[]}
+in the same fashion.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV2DVisortUp ( int n, int ivec1[], int ivec2[], double dvec[] ) ;
+void IV2DVisortDown ( int n, int ivec1[], int ivec2[], double dvec[] ) ;
+\end{verbatim}
+\index{IV2DVisortUp@{\tt IV2DVisortUp()}}
+\index{IV2DVisortDown@{\tt IV2DVisortDown()}}
+These methods sort the array {\tt ivec1[]} into ascending or
+descending order using an insertion sort and permutes 
+the {\tt int} and {\tt double} companion array
+{\tt ivec2[]} and {\tt dvec[]} in the same fashion.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVZVisortUp ( int n, int ivec[], double dvec[] ) ;
+void IVZVisortDown ( int n, int ivec[], double dvec[] ) ;
+\end{verbatim}
+\index{IVZVisortUp@{\tt IVZVisortUp()}}
+\index{IVZVisortDown@{\tt IVZVisortDown()}}
+This sorts the array {\tt ivec[]} into ascending or descending order 
+using an insertion sort and permutes the double precision complex
+companion array {\tt dvec[]} in the same fashion.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV2ZVisortUp ( int n, int ivec1[], int ivec2[], double dvec[] ) ;
+void IV2ZVisortDown ( int n, int ivec1[], int ivec2[], double dvec[] ) ;
+\end{verbatim}
+\index{IV2ZVisortUp@{\tt IV2ZVisortUp()}}
+\index{IV2ZVisortDown@{\tt IV2ZVisortDown()}}
+These methods sort the array {\tt ivec1[]} into ascending 
+or descending order 
+using an insertion sort and permutes the companion arrays
+{\tt ivec2[]} and {\tt dvec[]} in the same fashion.
+The {\tt dvec[]} array is double precision complex.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVisortUp ( int n, double dvec[] ) ;
+void DVisortDown ( int n, double dvec[] ) ;
+\end{verbatim}
+\index{DVisortUp@{\tt DVisortUp()}}
+\index{DVisortDown@{\tt DVisortDown()}}
+These methods sort a {\tt double} array into ascending 
+or descending order using an insertion sort.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV2isortUp ( int n, double dvec1[], double dvec2[] ) ;
+void DV2isortDown ( int n, double dvec1[], double dvec2[] ) ;
+\end{verbatim}
+\index{DV2isortUp@{\tt DV2isortUp()}}
+\index{DV2isortDown@{\tt DV2isortDown()}}
+These methods sort the array {\tt dvec1[]} into ascending or
+descending order 
+using an insertion sort and permutes the companion array {\tt dvec2[]}
+in the same fashion.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVIVisortUp ( int n, double dvec[], int ivec[] ) ;
+void DVIVisortDown ( int n, double dvec[], int ivec[] ) ;
+\end{verbatim}
+\index{DVIVisortUp@{\tt DVIVisortUp()}}
+\index{DVIVisortDown@{\tt DVIVisortDown()}}
+These methods sort the array {\tt dvec[]} into ascending or
+descending order using an insertion sort and permutes 
+the companion array {\tt ivec[]} in the same fashion.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsubsection{Quicksort routines}
+\label{subsubsection:Utilities:proto:sort:quicksort}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVqsortUp ( int n, int ivec[] ) ;
+void IVqsortDown ( int n, int ivec[] ) ;
+\end{verbatim}
+\index{IVqsortUp@{\tt IVqsortUp()}}
+\index{IVqsortDown@{\tt IVqsortDown()}}
+These methods sort an {\tt int} array into ascending or descending
+order using a quick sort.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV2qsortUp ( int n, int ivec1[], int ivec2[] ) ;
+void IV2qsortDown ( int n, int ivec1[], int ivec2[] ) ;
+\end{verbatim}
+\index{IV2qsortUp@{\tt IV2qsortUp()}}
+\index{IV2qsortDown@{\tt IV2qsortDown()}}
+These methods sort the array {\tt ivec1[]} into ascending or
+descending order using a quick sort and permutes 
+the companion array {\tt ivec2[]} in the same fashion.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVDVqsortUp ( int n, int ivec[], double dvec[] ) ;
+void IVDVqsortDown ( int n, int ivec[], double dvec[] ) ;
+\end{verbatim}
+\index{IVDVqsortUp@{\tt IVDVqsortUp()}}
+\index{IVDVqsortDown@{\tt IVDVqsortDown()}}
+These methods sort the array {\tt ivec[]} into ascending or
+descending order using a quick sort and permutes 
+the companion array {\tt dvec[]} in the same fashion.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV2DVqsortUp ( int n, int ivec1[], int ivec2[], double dvec[] ) ;
+void IV2DVqsortDown ( int n, int ivec1[], int ivec2[], double dvec[] ) ;
+\end{verbatim}
+\index{IV2DVqsortUp@{\tt IV2DVqsortUp()}}
+\index{IV2DVqsortDown@{\tt IV2DVqsortDown()}}
+These methods sort the array {\tt ivec1[]} into ascending 
+or descending order using a quick sort and permutes the companion arrays
+{\tt ivec2[]} and {\tt dvec[]} in the same fashion.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVZVqsortUp ( int n, int ivec[], double dvec[] ) ;
+void IVZVqsortDown ( int n, int ivec[], double dvec[] ) ;
+\end{verbatim}
+\index{IVZVqsortUp@{\tt IVZVqsortUp()}}
+\index{IVZVqsortDown@{\tt IVZVqsortDown()}}
+These methods sort the array {\tt ivec[]} into ascending or
+descending order using a quick sort and permutes 
+the double precision complex companion array 
+{\tt dvec[]} in the same fashion.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IV2ZVqsortUp ( int n, int ivec1[], int ivec2[], double dvec[] ) ;
+void IV2ZVqsortDown ( int n, int ivec1[], int ivec2[], double dvec[] ) ;
+\end{verbatim}
+\index{IV2ZVqsortUp@{\tt IV2ZVqsortUp()}}
+\index{IV2ZVqsortDown@{\tt IV2ZVqsortDown()}}
+These methods sort the array {\tt ivec1[]} into ascending 
+or descending order using a quick sort and permutes the companion arrays
+{\tt ivec2[]} and {\tt dvec[]} in the same fashion.
+The {\tt dvec[]} array is double precision complex.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVqsortUp ( int n, double dvec[] ) ;
+void DVqsortDown ( int n, double dvec[] ) ;
+\end{verbatim}
+\index{DVqsortUp@{\tt DVqsortUp()}}
+\index{DVqsortDown@{\tt DVqsortDown()}}
+Thes methods sort a {\tt double} array into ascending or
+descending order using a quick sort.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DV2qsortUp ( int n, double dvec1[], double dvec2[] ) ;
+void DV2qsortDown ( int n, double dvec1[], double dvec2[] ) ;
+\end{verbatim}
+\index{DV2qsortUp@{\tt DV2qsortUp()}}
+\index{DV2qsortDown@{\tt DV2qsortDown()}}
+These methods sort the array {\tt dvec1[]} into ascending or
+descending order using a quick sort and permutes 
+the companion array {\tt dvec2[]} in the same fashion.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DVIVqsortUp ( int n, double dvec[], int ivec[] ) ;
+void DVIVqsortDown ( int n, double dvec[], int ivec[] ) ;
+\end{verbatim}
+\index{DVIVqsortUp@{\tt DVIVqsortUp()}}
+\index{DVIVqsortDown@{\tt DVIVqsortDown()}}
+These methods sort the array {\tt dvec[]} into ascending or
+descending order using a quick sort and permutes 
+the companion array {\tt ivec[]} in the same fashion.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Sort and compress routines}
+\label{subsection:Utilities:proto:sortAndCompress}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVsortUpAndCompress ( int n, int ivec[] ) ;
+\end{verbatim}
+\index{IVsortUpAndCompress@{\tt IVsortUpAndCompress()}}
+This method sorts {\tt ivec[]} into ascending order,
+and removes (compresses) any duplicate entries.
+The return value is the number of unique entries
+stored in the leading locations of the vector {\tt ivec[]}.
+\par \noindent {\it Error checking:}
+If {\tt n < 0} or {\tt ivec} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVDVsortUpAndCompress ( int n, int ivec[], double dvec[] ) ;
+\end{verbatim}
+\index{IVDVsortUpAndCompress@{\tt IVDVsortUpAndCompress()}}
+This method sorts {\tt ivec[]} into ascending order with {\tt dvec[]} 
+as a companion vector.
+It then compresses the pairs, adding the {\tt dvec[]} entries
+together when their {\tt ivec[]} values are identical.
+The return value is the number of unique entries stored in the 
+leading locations of the vectors {\tt ivec[]} and {\tt dvec[]}.
+\par \noindent {\it Error checking:}
+If {\tt n < 0},
+or if {\tt ivec} or {\tt dvec} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVZVsortUpAndCompress ( int n, int ivec[], double dvec[] ) ;
+\end{verbatim}
+\index{IVZVsortUpAndCompress@{\tt IVZVsortUpAndCompress()}}
+This method sorts {\tt ivec[]} into ascending order with the
+double precision complex {\tt dvec[]} companion vector.
+It then compresses the pairs, adding the complex {\tt dvec[]} entries
+together when their {\tt ivec[]} values are identical.
+The return value is the number of unique entries stored in the 
+leading locations of the vectors {\tt ivec[]} and {\tt dvec[]}.
+\par \noindent {\it Error checking:}
+If {\tt n < 0},
+or if {\tt ivec} or {\tt dvec} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV2sortUpAndCompress ( int n, int ivec1[], int ivec2[] ) ;
+\end{verbatim}
+\index{IV2sortUpAndCompress@{\tt IV2sortUpAndCompress()}}
+This method sorts {\tt ivec1[]} into ascending order 
+with {\tt ivec2[]} as a companion vector.
+It then compresses the pairs, dropping all but one of identical pairs.
+The return value is the number of unique entries stored in the 
+leading locations of the vectors {\tt ivec1[]} and {\tt ivec2[]}.
+\par \noindent {\it Error checking:}
+If {\tt n < 0},
+or if {\tt ivec1} or {\tt ivec2} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV2DVsortUpAndCompress ( int n, int ivec1[], int ivec2[], double dvec[] ) ;
+\end{verbatim}
+\index{IV2DVsortUpAndCompress@{\tt IV2DVsortUpAndCompress()}}
+This method sorts {\tt ivec1[]} into ascending order 
+with {\tt ivec2[]} and {\tt dvec[]} as companion vectors.
+It then compresses the pairs, summing the {\tt dvec[]} entries for
+identical {\tt (ivec1[], ivec2[])} pairs.
+The return value is the number of unique entries stored in the 
+leading locations of the vectors {\tt ivec1[]}, {\tt ivec2[]}
+and {\tt dvec[]}.
+\par \noindent {\it Error checking:}
+If {\tt n < 0},
+or if {\tt ivec1}, {\tt ivec2} or {\tt dvec} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IV2ZVsortUpAndCompress ( int n, int ivec1[], int ivec2[], double dvec[] ) ;
+\end{verbatim}
+\index{IV2ZVsortUpAndCompress@{\tt IV2ZVsortUpAndCompress()}}
+This method sorts {\tt ivec1[]} into ascending order 
+with {\tt ivec2[]} and the double precision {\tt dvec[]} 
+as companion vectors.
+It then compresses the pairs, summing the complex {\tt dvec[]} entries 
+for identical {\tt (ivec1[], ivec2[])} pairs.
+The return value is the number of unique entries stored in the 
+leading locations of the vectors {\tt ivec1[]}, {\tt ivec2[]}
+and {\tt dvec[]}.
+\par \noindent {\it Error checking:}
+If {\tt n < 0},
+or if {\tt ivec1}, {\tt ivec2} or {\tt dvec} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}

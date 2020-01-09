@@ -1,0 +1,133 @@
+%
+%  main TeX file
+%
+\documentstyle[leqno,11pt,twoside]{report}
+
+\textwidth      6.5 in
+\textheight     8.5 in
+\oddsidemargin  0.0 in
+\evensidemargin 0.0 in
+\topmargin      0.0 in
+\baselineskip   20 pt
+\parskip        3 pt plus 1 pt minus 1 pt
+
+\newcommand{\bnd}{{\partial}}
+\renewcommand{\Re}{{\mbox{Re}}}
+\renewcommand{\Im}{{\mbox{Im}}}
+
+\input psfig
+
+\makeindex
+
+\begin{document}
+
+$$
+\left \lbrack \begin{array}{cc}
+x & y \\
+\overline{y} & z
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{c}
+u_{1,j} \\
+u_{2,j}
+\end{array} \right \rbrack
+=
+\left \lbrack \begin{array}{c}
+a_{1,j} \\
+a_{2,j}
+\end{array} \right \rbrack
+$$
+Multiply on the left by the inverse of the pivot block.
+$$
+\left \lbrack \begin{array}{c}
+u_{1,j} \\
+u_{2,j}
+\end{array} \right \rbrack
+=
+\frac{1}{xz - y\overline{y}}
+\left \lbrack \begin{array}{cc}
+z & -y \\
+-\overline{y} & x
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{c}
+a_{1,j} \\
+a_{2,j}
+\end{array} \right \rbrack
+=
+\frac{1}{xz - y\overline{y}}
+\left \lbrack \begin{array}{c}
+z a_{1,j} - y a_{2,j} \\
+- \overline{y} a_{1,j} + x a_{2,j}
+\end{array} \right \rbrack
+$$
+Look at each of the two entries in the rightmost vector.
+\begin{eqnarray*}
+z a_{1,j} - y a_{2,j} 
+& = & 
+\Re(z) ( \Re(a_{1,j}) + i\  \Im(a_{1,j}) )
+- ( \Re(y) + i\  \Im(y) )( \Re(a_{2,j}) + i\  \Im(a_{2,I}) )
+\\
+& = & 
+( 
+\Re(z) \Re(a_{1,j}) - \Re(y) \Re(a_{2,j}) + \Im(y) \Im(a_{2,I}) 
+) \\
+& & 
+\qquad +\  i( 
+\Re(z) \Im(a_{1,j}) - \Re(y) \Im(a_{2,I}) - \Im(y) \Re(a_{2,j})
+)
+\\
+- \overline{y} a_{1,j} + x a_{2,j} 
+& = &
+-( \Re(y) - i \Im(y) ) ( \Re(a_{1,j}) + i \Im(a_{1,j}) )
++ \Re(x) ( \Re(a_{2,j}) + i \Im(a_{2,I}) )
+\\
+& = & 
+(
+-\Re(y) \Re(a_{1,j}) - \Im(y) \Im(a_{1,j}) + x \Re(a_{2,j})
+) \\
+& & 
+\qquad + i\  (
+-\Re(y) \Im(a_{1,j}) + \Im(y) \Re(a_{1,j}) + x \Im(a_{2,I})
+)
+\end{eqnarray*}
+\begin{eqnarray*}
+\Re(u_{1,j}) 
+& = &
+\frac{ \Re(z) \Re(a_{1,j}) - \Re(y) \Re(a_{2,j}) 
++ \Im(y) \Im(a_{2,j}) }
+{ xz - y\overline{y} }
+\\
+\Im(u_{1,j}) 
+& = &
+\frac{ \Re(z) \Im(a_{1,j}) - \Re(y) \Im(a_{2,I}) - \Im(y) \Re(a_{2,j}) }
+{ xz - y\overline{y} }
+\end{eqnarray*}
+Taking absolute values and use the triangle inequality.
+\begin{eqnarray*}
+\Re(u_{1,j}) 
+& = &
+\left |
+\frac{ \Re(z) \Re(a_{1,j}) - \Re(y) \Re(a_{2,j}) 
++ \Im(y) \Im(a_{2,j}) }
+{ xz - y\overline{y} }
+\right |
+\\
+& \le &
+\frac{
+|\Re(z)|\ |\Re(a_{1,j})| + |\Re(y)|\ |\Re(a_{2,j})|
++ |\Im(y)|\ |\Im(a_{2,j})|
+} {
+\left | xz - y\overline{y} \right |
+}
+\\
+\max_{j} |\Re(u_{1,j})|
+& \le &
+\frac{
+|\Re(z)|\ \max_j|\Re(a_{1,j})| + |\Re(y)|\ \max_j|\Re(a_{2,j})|
++ |\Im(y)|\ \max_j|\Im(a_{2,j})|
+} {
+\left | xz - y\overline{y} \right |
+}
+\\
+\end{eqnarray*}
+
+\end{document}

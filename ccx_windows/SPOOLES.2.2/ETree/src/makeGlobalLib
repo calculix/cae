@@ -1,0 +1,31 @@
+include ../../Make.inc
+ 
+#-----------------------------------------------------------------------
+ 
+OBJ = ETree
+
+SRC = IO.c \
+      basics.c \
+      compress.c \
+      init.c \
+      instance.c \
+      justify.c \
+      maps.c \
+      metrics.c \
+      ms.c \
+      permute.c \
+      semi.c \
+      storage.c \
+      transform.c \
+      util.c
+
+OBJ_FILES = ${SRC:.c=.o}
+
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a
+	

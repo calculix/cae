@@ -1,0 +1,32 @@
+\par
+\chapter{{\tt Lock}: Mutual Exclusion Lock object}
+\label{chapter:Lock}
+\par
+The {\tt Lock} object is an object that is used to insulate the
+rest of the library from the particular thread package that is
+active.
+The {\tt FrontMtx}, {\tt ChvList}, {\tt ChvManager},
+{\tt SubMtxList} and {\tt SubMtxManager} objects all
+may contain a mutual exclusion lock to govern access to their
+critical sections of code in a multithreaded environment.
+Instead of putting the raw code that is specific to a particular
+thread library into each of these objects, 
+each has a {\tt Lock} object.
+It is this {\tt Lock} object that contains the code and data
+structures for the different thread libraries.
+\par
+At present we have the Solaris and POSIX thread libraries supported
+by the {\tt Lock} object.
+The header file {\tt Lock.h} contains {\tt \#if/\#endif} statements
+that switch over the supported libraries.
+The {\tt THREAD\_TYPE} parameter is used to make the switch.
+Porting the library to another thread package requires making
+changes to the {\tt Lock} object.
+The parallel factor and solve methods that belong to the 
+{\tt FrontMtx} object also need to have additional code inserted into
+them to govern thread creation, joining, etc, but the switch is
+made by the {\tt THREAD\_TYPE} definition found in the header file
+{\tt Lock.h}.
+It is possible to use the code without any thread package ---
+simply set {\tt THREAD\_TYPE} to {\tt TT\_NONE} in the {\tt Lock.h}
+file.

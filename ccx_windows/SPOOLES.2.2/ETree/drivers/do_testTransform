@@ -1,0 +1,37 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D10000
+
+set matrices = ../../../matrices
+set matrix       = R3D13824
+
+set msglvl  = 1
+set msgFile = $matrix.mmd.old
+set msgFile = $matrix.nd.old
+set msgFile = stdout
+
+set inGraphFile  = $matrices/$matrix/orig1.graphb
+set inGraphFile  = $matrices/$matrix/orig0.graphf
+set inGraphFile  = $matrices/$matrix/orig0.graphb
+
+set inETreeFile  = $matrices/$matrix/nd.etreef
+
+set outETreeFile = none
+
+set maxzeros = 10
+set maxsize  = 100000
+set seed     = 10101
+
+set outETreeFile = none
+set outETreeFile = $matrices/$matrix/nd.$maxzeros.$maxsize.etreef
+
+foreach maxzeros ( 0 )
+   echo maxzeros = $maxzeros
+foreach maxsize ( 100000 )
+   echo maxsize = $maxsize
+   set outETreeFile = $matrices/$matrix/nd.$maxzeros.$maxsize.etreef
+   testTransform $msglvl $msgFile $inETreeFile $inGraphFile \
+      $outETreeFile $maxzeros $maxsize $seed
+end
+end

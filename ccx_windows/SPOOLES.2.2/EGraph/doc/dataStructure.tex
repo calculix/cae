@@ -1,0 +1,27 @@
+\par
+\section{Data Structure}
+\par
+The {\tt EGraph} object has five fields.
+\begin{itemize}
+\item {\tt int type} : 
+type of graph. 
+When {\tt type = 0}, the vertices have unit weight
+When {\tt type = 1}, the vertices have possibly non-unit weight
+and the {\tt vwghts} field is not {\tt NULL}.
+\item {\tt int nelem} : 
+number of elements in the graph
+\item {\tt int nvtx} : 
+number of vertices in the graph
+\item {\tt IVL *adjIVL} : 
+pointer to a {\tt IVL} structure that holds the vertex lists for
+the elements.
+\item {\tt int  *vwghts} : 
+when {\tt type = 1}, {\tt vwghts}
+points to an {\tt int} vector of size {\tt nvtx}
+that holds the
+node weights.
+\end{itemize}
+A correctly initialized and nontrivial {\tt EGraph} object 
+will have positive {\tt nelem} and {\tt nvtx} values,
+a valid {\tt adjIVL} field.
+If {\tt type = 1}, the {\tt vwghts} will be non-{\tt NULL}.

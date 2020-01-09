@@ -1,0 +1,762 @@
+\par
+\section{Prototypes and descriptions of {\tt DenseMtx} methods}
+\label{section:DenseMtx:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt DenseMtx} object.
+\par
+\subsection{Basic methods}
+\label{subsection:DenseMtx:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+DenseMtx * DenseMtx_new ( void ) ;
+\end{verbatim}
+\index{DenseMtx_new@{\tt DenseMtx\_new()}}
+This method simply allocates storage for the {\tt DenseMtx} structure 
+and then sets the default fields by a call to 
+{\tt DenseMtx\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_setDefaultFields ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_setDefaultFields@{\tt DenseMtx\_setDefaultFields()}}
+The structure's fields are set to default values:
+{\tt type} = {\tt SPOOLES\_REAL}, 
+{\tt rowid} = {\tt colid} = {\tt -1}, 
+{\tt nrow} = {\tt ncol} = {\tt inc1} = {\tt inc2} = 0
+and {\tt rowind} = {\tt colind} = {\tt entries} = {\tt next} 
+= {\tt NULL} .
+The {\tt wrkDV} object has its default fields set via a call to
+{\tt DV\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_clearData ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_clearData@{\tt DenseMtx\_clearData()}}
+This method clears the object and free's any owned data
+by invoking the {\tt \_clearData()} methods for its internal
+{\tt DV} object.
+There is a concluding call to {\tt DenseMtx\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_free ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_free@{\tt DenseMtx\_free()}}
+This method releases any storage by a call to 
+{\tt DenseMtx\_clearData()} and then free the space for {\tt mtx}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Instance methods}
+\label{subsection:DenseMtx:proto:instance}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_rowid ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_rowid@{\tt DenseMtx\_rowid()}}
+This method returns the {\it rowid} field of the object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_colid ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_colid@{\tt DenseMtx\_colid()}}
+This method returns the {\it colid} field of the object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_dimensions ( DenseMtx *mtx, int *pnrow, int *pncol ) ;
+\end{verbatim}
+\index{DenseMtx_dimensions@{\tt DenseMtx\_dimensions()}}
+This method 
+fills {\tt *pnrow} and {\tt *pncol}
+with {\tt nrow} and {\tt ncol}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_columnIncrement ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_columnIncrement@{\tt DenseMtx\_columnIncrement()}}
+This method returns the row increment of the object, the difference
+in memory locations of two entries in consecutive columns in the same
+row.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_rowIncrement ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_rowIncrement@{\tt DenseMtx\_rowIncrement()}}
+This method returns the row increment of the object, the difference
+in memory locations of two entries in consecutive rows in the same
+column.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_rowIndices ( DenseMtx *mtx, int *pnrow, **prowind ) ;
+\end{verbatim}
+\index{DenseMtx_rowIndices@{\tt DenseMtx\_rowIndices()}}
+This method fills {\tt *pnrow} with {\tt nrow}, the number of rows,
+and {\tt *prowind} with {\tt rowind},
+a pointer to the row indices.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pnrow} or {\tt prowind} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_columnIndices ( DenseMtx *mtx, int *pncol, **colind ) ;
+\end{verbatim}
+\index{DenseMtx_columnIndices@{\tt DenseMtx\_columnIndices()}}
+This method fills {\tt *pncol} with {\tt ncol}, the number of columns,
+and {\tt *pcolind} with {\tt colind},
+a pointer to the column indices.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pncol} or {\tt pcolind} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double * DenseMtx_entries ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_entries@{\tt DenseMtx\_entries()}}
+This method returns the {\it entries} field of the object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void * DenseMtx_workspace ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_workspace@{\tt DenseMtx\_workspace()}}
+This method returns a pointer to the base address of the object's
+workspace.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void  DenseMtx_realEntry ( DenseMtx *mtx, int irow, int jcol, double *pValue ) ;
+\end{verbatim}
+\index{DenseMtx_realEntry@{\tt DenseMtx\_realEntry()}}
+This method fills {\tt *pValue} with the entry 
+in row {\tt irow} and column {\tt jcol}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt pValue} is {\tt NULL},
+or if the matrix is not real,
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void  DenseMtx_complexEntry ( DenseMtx *mtx, int irow, int jcol,
+                              double *pReal, double *pImag ) ;
+\end{verbatim}
+\index{DenseMtx_complexEntry@{\tt DenseMtx\_complexEntry()}}
+This method fills {\tt *pReal} with the real part and
+{\tt *pImag} with the imaginary part of the the entry
+in row {\tt irow} and column {\tt jcol}.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt pReal} or {\tt pImag} is {\tt NULL},
+or if the matrix is not complex,
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_setRealEntry ( DenseMtx *mtx, int irow, int jcol, double value) ;
+\end{verbatim}
+\index{DenseMtx_setRealEntry@{\tt DenseMtx\_setRealEntry()}}
+This method sets the entry in row {\tt irow} and column {\tt jcol}
+to be {\tt value}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if the matrix is not real,
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_setComplexEntry ( DenseMtx *mtx, int irow, int jcol, 
+                                double real, double imag ) ;
+\end{verbatim}
+\index{DenseMtx_setComplexEntry@{\tt DenseMtx\_setComplexEntry()}}
+This method sets the real and imaginary parts of the entry in row
+{\tt irow} and column {\tt jcol} to be {\tt (real,imag)}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if the matrix is not complex,
+or if {\tt irow} or {\tt jcol} is out of range,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_row ( DenseMtx *mtx, int irow, double **prowent ) ;
+\end{verbatim}
+\index{DenseMtx_row@{\tt DenseMtx\_row()}}
+This method fills {\tt *prowent} with the first location of the
+entries in row {\tt irow}.
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return,
+{\tt -1} means {\tt mtx} is {\tt NULL},
+{\tt -2} means invalid type for {\tt mtx},
+{\tt -3} means {\tt irow} is out-of-range,
+{\tt -4} means {\tt prowent} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_column ( DenseMtx *mtx, int jcol, double **pcolent ) ;
+\end{verbatim}
+\index{DenseMtx_column@{\tt DenseMtx\_column()}}
+This method fills {\tt *pcolent} with the first location of the
+entries in column {\tt jcol}.
+\par \noindent {\it Return codes:}
+{\tt 1} is a normal return,
+{\tt -1} means {\tt mtx} is {\tt NULL},
+{\tt -2} means invalid type for {\tt mtx},
+{\tt -3} means {\tt jcol} is out-of-range,
+{\tt -4} means {\tt pcolent} is {\tt NULL}.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initialization methods}
+\label{subsection:DenseMtx:proto:initial}
+\par
+There are three initializer methods.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_init( DenseMtx *mtx, int type, int rowid, int colid,
+                    int nrow, int ncol, int inc1, int inc2 ) ;
+\end{verbatim}
+\index{DenseMtx_init@{\tt DenseMtx\_init()}}
+This is the initializer method used when the {\tt DenseMtx}
+object is to use its workspace to store indices and entries.
+The number of bytes required in the workspace is computed,
+the workspace is resized if necessary, and the scalar and pointer
+fields are set.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if {\tt type} is neither {\tt SPOOLES\_REAL}
+nor {\tt SPOOLES\_COMPLEX},
+or if {\tt nrow}, {\tt ncol}, {\tt inc1} or {\tt inc2}
+is less than or equal to zero,
+or if neither {\tt inc1} nor {\tt inc2} are {\tt 1},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_initWithPointers ( DenseMtx *mtx, int type, int rowid, int colid, 
+         int nD, int nL, int nU, int *rowind, int *colind, double *entries ) ;
+\end{verbatim}
+\index{DenseMtx_initWithPointers@{\tt DenseMtx\_initWithPointers()}}
+This is the initializer method used when the {\tt DenseMtx}
+object does not own the storage for its indices and entries,
+but points into some other storage.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if {\tt type} is neither {\tt SPOOLES\_REAL}
+nor {\tt SPOOLES\_COMPLEX},
+or if {\tt nrow}, {\tt ncol}, {\tt inc1} or {\tt inc2}
+is less than or equal to zero,
+or if neither {\tt inc1} nor {\tt inc2} are {\tt 1},
+or if {\tt rowind}, {\tt colind} or {\tt entries} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_initAsSubmatrix ( DenseMtx *B, DenseMtx *A, int firstrow, int lastrow,
+                               int firstcol, int lastcol ) ;
+\end{verbatim}
+\index{DenseMtx_initAsSubmatrix@{\tt DenseMtx\_initAsSubmatrix()}}
+This method initializes {\tt B} to contain rows {\tt firstrow:lastrow} 
+and columns {\tt firstcol:lastcol} of {\tt A}.
+Note, the {\tt rowind}, {\tt colind} and {\tt entries} fields of
+{\tt B} point into the indices and entries for {\tt A}.
+\par \noindent {\it Return codes:}
+{\tt 1} is the normal return,
+{\tt -1} means {\tt B} is {\tt NULL},
+{\tt -2} means {\tt A} is {\tt NULL},
+{\tt -3} means {\tt A} has invalid type
+\begin{center}
+\begin{tabular}{ll}
+~1 & normal return \\
+-1 & {\tt B} is {\tt NULL} \\
+-2 & {\tt A} is {\tt NULL}
+\end{tabular}
+\begin{tabular}{ll}
+-3 & {\tt A} has invalid type \\
+-4 & requested rows are out-of-range \\
+-5 & requested columns are out-of-range
+\end{tabular}
+\end{center}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_initFromBuffer ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_initFromBuffer@{\tt DenseMtx\_initFromBuffer()}}
+This method initializes the object using information present in the
+workspace buffer.
+This method is used to initialize the {\tt DenseMtx} object when
+it has been received as an MPI message.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_setA2 ( DenseMtx *mtx, A2 *a2 ) ;
+\end{verbatim}
+\index{DenseMtx_setA2@{\tt DenseMtx\_setA2()}}
+This method initializes the {\tt a2} object to point
+into the entries of the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt a2} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:DenseMtx:proto:utility}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_nbytesNeeded ( int type, int nrow, int ncol ) ;
+\end{verbatim}
+\index{DenseMtx_nbytesNeeded@{\tt DenseMtx\_nbytesNeeded()}}
+\par
+This method returns the number of bytes required to store the
+object's information in its buffer.
+\par \noindent {\it Error checking:}
+If {\tt type} is neither {\tt SPOOLES\_REAL}
+nor {\tt SPOOLES\_COMPLEX},
+or if {\tt nrow} or {\tt ncol} is less than zero,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_nbytesInWorkspace ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_nbytesInWorkspace@{\tt DenseMtx\_nbytesInWorkspace()}}
+\par
+This method returns the number of bytes in the workspace owned by
+this object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_setNbytesInWorkspace ( DenseMtx *mtx, int nbytes ) ;
+\end{verbatim}
+\index{DenseMtx_setNbytesInWorkspace@{\tt DenseMtx\_setNbytesInWorkspace()}}
+\par
+This method sets the number of bytes in the workspace of this object.
+If {\tt nbytes} is less than the present number of bytes, 
+the workspace is not resized.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_setFields( DenseMtx *mtx, int type, int rowid, int colid,
+                         int nrow, int ncol, int inc1, int inc2 ) ;
+\end{verbatim}
+\index{DenseMtx_setFields@{\tt DenseMtx\_setFields()}}
+This method sets the scalar and pointer fields.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+or if {\tt type} is neither {\tt SPOOLES\_REAL}
+nor {\tt SPOOLES\_COMPLEX},
+or if {\tt nrow}, {\tt ncol}, {\tt inc1} or {\tt inc2}
+is less than or equal to zero,
+or if neither {\tt inc1} nor {\tt inc2} are {\tt 1},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_permuteRows ( DenseMtx *mtx, IV *oldToNewIV ) ;
+void DenseMtx_permuteColumns ( DenseMtx *mtx, IV *oldToNewIV ) ;
+\end{verbatim}
+\index{DenseMtx_permuteRows@{\tt DenseMtx\_permuteRows()}}
+\index{DenseMtx_permuteColumns@{\tt DenseMtx\_permuteColumns()}}
+These methods permute the rows or columns using an old-to-new
+permutation vector.
+The row or column ids are overwritten using the permutation vector,
+and then the rows or columns are sorted into ascending order.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt oldToNewIV} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_sort ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_sort@{\tt DenseMtx\_sort()}}
+This method sort the rows so the row ids are in ascending order
+and sorts the columns so the column ids are in ascending order.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_copyRow ( DenseMtx *mtxB, int irowB, DenseMtx *mtxA, int irowA  ) ;
+\end{verbatim}
+\index{DenseMtx_copyRow@{\tt DenseMtx\_copyRow()}}
+This method copies row {\tt irowA} from matrix {\tt mtxA}
+into row {\tt irowB} of matrix {\tt mtxB}.
+\par \noindent {\it Error checking:}
+If {\tt mtxB} is {\tt NULL},
+or if {\tt irowB} is out of range,
+or if {\tt mtxA} is {\tt NULL},
+or if {\tt irowA} is out of range,
+or if the number of columns in {\tt mtxB} and {\tt mtxA} are not
+the same,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_copyRowAndIndex ( DenseMtx *mtxB, int irowB, 
+                                DenseMtx *mtxA, int irowA  ) ;
+\end{verbatim}
+\index{DenseMtx_copyRowAndIndex@{\tt DenseMtx\_copyRowAndIndex()}}
+This method copies row {\tt irowA} from matrix {\tt mtxA}
+into row {\tt irowB} of matrix {\tt mtxB}, and copies the index of row 
+{\tt irowA} of {\tt mtxA} into location {\tt irowB} of the row indices 
+for {\tt mtxB}.
+\par \noindent {\it Error checking:}
+If {\tt mtxB} is {\tt NULL},
+or if {\tt irowB} is out of range,
+or if {\tt mtxA} is {\tt NULL},
+or if {\tt irowA} is out of range,
+or if the number of columns in {\tt mtxB} and {\tt mtxA} are not
+the same,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_addRow ( DenseMtx *mtxB, int irowB, DenseMtx *mtxA, int irowA  ) ;
+\end{verbatim}
+\index{DenseMtx_addRow@{\tt DenseMtx\_addRow()}}
+This method adds row {\tt irowA} from matrix {\tt mtxA}
+into row {\tt irowB} of matrix {\tt mtxB}.
+\par \noindent {\it Error checking:}
+If {\tt mtxB} is {\tt NULL},
+or if {\tt irowB} is out of range,
+or if {\tt mtxA} is {\tt NULL},
+or if {\tt irowA} is out of range,
+or if the number of columns in {\tt mtxB} and {\tt mtxA} are not
+the same,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_zero ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_zero@{\tt DenseMtx\_zero()}}
+This method zeros the entries in the matrix.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_fillRandomEntries ( DenseMtx *mtx, Drand *drand ) ;
+\end{verbatim}
+\index{DenseMtx_fillRandomEntries@{\tt DenseMtx\_fillRandomEntries()}}
+This method the entries in the matrix with random numbers using the
+{\tt drand} object.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt drand} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_checksums ( DenseMtx *mtx, double sums[3] ) ;
+\end{verbatim}
+\index{DenseMtx_checksums@{\tt DenseMtx\_checksums()}}
+This method fills {\tt sums[0]} with the sum of the row indices,
+{\tt sums[1]} with the sum of the column indices,
+and
+{\tt sums[2]} with the sum of the magnitudes of the entries.
+This method is used to check the MPI method where a distributed
+matrix is re-distributed.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt sums} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_scale ( DenseMtx *mtx, double alpha[] ) ;
+\end{verbatim}
+\index{DenseMtx_scale@{\tt DenseMtx\_scale()}}
+This method scales the entries in {\tt mtx} by {\tt alpha}.
+\par \noindent {\it Return values:}
+1 for a normal return,
+-1 if {\tt mtx} is NULL,
+-2 if {\tt mtx} has an invalid type,
+-3 if {\tt alpha} is NULL.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DenseMtx_maxabs ( DenseMtx *mtx ) ;
+\end{verbatim}
+\index{DenseMtx_maxabs@{\tt DenseMtx\_maxabs()}}
+This method returns the entry of maximum magnitude of the entries.
+\par \noindent {\it Error checking:}
+If {\tt mtx} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DenseMtx_sub ( DenseMtx *mtxB, *DenseMtx *mtxA ) ;
+\end{verbatim}
+\index{DenseMtx_sub@{\tt DenseMtx\_sub()}}
+This method subtracts matrix {\tt mtxA} from {\tt mtxB} .
+\par \noindent {\it Error checking:}
+If {\tt mtxA} or {\tt mtxB} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DenseMtx_copyRowIntoVector ( DenseMtx *mtx, int irow, double vec[] ) ;
+\end{verbatim}
+\index{DenseMtx_copyRowIntoVector@{\tt DenseMtx\_copyRowIntoVector()}}
+This method copies row {\tt irow} of  matrix {\tt mtx} into vector
+{\tt vec[]}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt vec} is {\tt NULL},
+or if ${\tt irow} < 0$ or ${\tt irow} \ge {\tt nrow}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DenseMtx_copyVectorIntoRow ( DenseMtx *mtx, int irow, double vec[] ) ;
+\end{verbatim}
+\index{DenseMtx_copyVectorIntoRow@{\tt DenseMtx\_copyVectorIntoRow()}}
+This method copies vector {\tt vec[]} into row {\tt irow} 
+of  matrix {\tt mtx}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt vec} is {\tt NULL},
+or if ${\tt irow} < 0$ or ${\tt irow} \ge {\tt nrow}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double DenseMtx_addVectorIntoRow ( DenseMtx *mtx, int irow, double vec[] ) ;
+\end{verbatim}
+\index{DenseMtx_addVectorIntoRow@{\tt DenseMtx\_addVectorIntoRow()}}
+This method adds vector {\tt vec[]} into row {\tt irow} 
+of  matrix {\tt mtx}.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt vec} is {\tt NULL},
+or if ${\tt irow} < 0$ or ${\tt irow} \ge {\tt nrow}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:DenseMtx:proto:IO}
+\par
+The file structure of a {\tt DenseMtx} object is simple.
+First comes seven scalars, {\tt type}, {\tt rowid}, {\tt colid},
+{\tt nrow}, {\tt ncol}, {\tt inc1} and {\tt inc2},
+followed by the row indices,
+followed by the column indices, and then
+followed by the matrix entries.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_readFromFile ( DenseMtx *mtx, char *fn ) ;
+\end{verbatim}
+\index{DenseMtx_readFromFile@{\tt DenseMtx\_readFromFile()}}
+\par
+This method reads an {\tt DenseMtx} object from a file.
+If the the file can be opened successfully,
+the method calls {\tt DenseMtx\_readFromFormattedFile()} or
+{\tt DenseMtx\_readFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fn} are {\tt NULL},
+or if {\tt fn} is not of the form
+{\tt *.densemtxf} (for a formatted file)
+or {\tt *.densemtxb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_readFromFormattedFile ( DenseMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{DenseMtx_readFromFormattedFile@{\tt DenseMtx\_readFromFormattedFile()}}
+\par
+This method reads an {\tt DenseMtx} object from a formatted file.
+If there are no errors in reading the data,
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fscanf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL}
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_readFromBinaryFile ( DenseMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{DenseMtx_readFromBinaryFile@{\tt DenseMtx\_readFromBinaryFile()}}
+\par
+This method reads an {\tt DenseMtx} object from a binary file.
+If there are no errors in reading the data,
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fread}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL} an error message
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_writeToFile ( DenseMtx *mtx, char *fn ) ;
+\end{verbatim}
+\index{DenseMtx_writeToFile@{\tt DenseMtx\_writeToFile()}}
+\par
+This method writes an {\tt DenseMtx} object to a file.
+If the the file can be opened successfully,
+the method calls {\tt DenseMtx\_writeFromFormattedFile()} or
+{\tt DenseMtx\_writeFromBinaryFile()},
+closes the file
+and returns the value returned from the called routine.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fn} are {\tt NULL},
+or if {\tt fn} is not of the form
+{\tt *.densemtxf} (for a formatted file)
+or {\tt *.densemtxb} (for a binary file),
+an error message is printed and the method returns zero.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_writeToFormattedFile ( DenseMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{DenseMtx_writeToFormattedFile@{\tt DenseMtx\_writeToFormattedFile()}}
+\par
+This method writes an {\tt DenseMtx} object to a formatted file.
+If there are no errors in writing the data,
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fprintf}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL} an error message is printed and
+zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_writeToBinaryFile ( DenseMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{DenseMtx_writeToBinaryFile@{\tt DenseMtx\_writeToBinaryFile()}}
+\par
+This method writes an {\tt DenseMtx} object to a binary file.
+If there are no errors in writing the data,
+the value {\tt 1} is returned.
+If an IO error is encountered from {\tt fwrite}, zero is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL} an error message
+is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int DenseMtx_writeStats ( DenseMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{DenseMtx_writeStats@{\tt DenseMtx\_writeStats()}}
+\par
+This method writes out a header and statistics to a file.
+The value {\tt 1} is returned.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_writeForHumanEye ( DenseMtx *mtx, FILE *fp ) ;
+\end{verbatim}
+\index{DenseMtx_writeForHumanEye@{\tt DenseMtx\_writeForHumanEye()}}
+\par
+This method writes a {\tt DenseMtx} object to a file in an easily
+readable format.
+\par \noindent {\it Error checking:}
+If {\tt mtx} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void DenseMtx_writeForMatlab ( DenseMtx *mtx, char *mtxname, FILE *fp ) ;
+\end{verbatim}
+\index{DenseMtx_writeForMatlab@{\tt DenseMtx\_writeForMatlab()}}
+\par
+This method writes out a {\tt DenseMtx} object to a file in a Matlab
+format.
+A sample line is
+\begin{verbatim}
+a(10,5) =  -1.550328201511e-01 +   1.848033378871e+00*i ;
+\end{verbatim}
+for complex matrices, or
+\begin{verbatim}
+a(10,5) =  -1.550328201511e-01 ;
+\end{verbatim}
+for real matrices, where mtxname = {\tt "a"}.
+The matrix indices come from the {\tt rowind[]} and {\tt colind[]}
+vectors, and are incremented by one to follow the Matlab and
+FORTRAN convention.
+\par \noindent {\it Error checking:}
+If {\tt mtx}, {\tt mtxname} or {\tt fp} are {\tt NULL},
+an error message is printed and zero is returned.
+%-----------------------------------------------------------------------
+\end{enumerate}

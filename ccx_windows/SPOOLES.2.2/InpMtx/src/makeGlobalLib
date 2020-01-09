@@ -1,0 +1,33 @@
+include ../../Make.inc
+ 
+#-----------------------------------------------------------------------
+ 
+OBJ = InpMtx
+
+SRC = adjForATA.c \
+      basics.c \
+      extract.c \
+      fullAdj.c \
+      gmmm.c \
+      gmvm.c \
+      init.c \
+      input.c \
+      instance.c \
+      IO.c \
+      map.c \
+      mvm.c \
+      mvmVector.c \
+      permute.c \
+      profile.c \
+      support.c \
+      util.c
+
+OBJ_FILES = ${SRC:.c=.o}
+
+.c.o :
+	$(PURIFY) $(CC) -c $(CFLAGS) $*.c -o $(OBJ)_$*.o
+
+../../spooles.a : ${OBJ_FILES}
+	$(AR) $(ARFLAGS) ../../spooles.a $(OBJ)_*.o
+	rm -f $(OBJ)_*.o
+	$(RANLIB) ../../spooles.a

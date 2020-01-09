@@ -1,0 +1,45 @@
+\begin{theindex}
+
+  \item {\tt bicgstabl()}, 4
+  \item {\tt bicgstabr()}, 4
+
+  \indexspace
+
+  \item {\tt DenseMtx\_colCopy()}, 2
+  \item {\tt DenseMtx\_colDotProduct()}, 2
+  \item {\tt DenseMtx\_colGenAxpy()}, 2
+  \item {\tt DenseMtx\_frobNorm()}, 1
+  \item {\tt DenseMtx\_mmm()}, 2
+  \item {\tt DenseMtx\_twoNormOfColumn()}, 2
+
+  \indexspace
+
+  \item {\tt FrontMtx\_solveOneColumn()}, 2
+
+  \indexspace
+
+  \item {\tt mlbicgstabl()}, 4
+  \item {\tt mlbicgstabr()}, 4
+
+  \indexspace
+
+  \item {\tt pcgl()}, 4, 5
+  \item {\tt pcgr()}, 4
+
+  \indexspace
+
+  \item {\tt tfqmrl()}, 4
+  \item {\tt tfqmrr()}, 4
+
+  \indexspace
+
+  \item {\tt zbicgstabl()}, 5
+  \item {\tt zbicgstabr()}, 5
+  \item {\tt zmlbicgstabl()}, 5
+  \item {\tt zmlbicgstabr()}, 5
+  \item {\tt zpcgl()}, 6
+  \item {\tt zpcgr()}, 6
+  \item {\tt ztfqmrl()}, 5
+  \item {\tt ztfqmrr()}, 5
+
+\end{theindex}

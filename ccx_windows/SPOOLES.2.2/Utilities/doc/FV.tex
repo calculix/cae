@@ -1,0 +1,314 @@
+\par
+\subsection{{\tt FV} : {\tt float} vector methods}
+\label{subsection:Utilities:proto:FV}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float * FVinit ( int n, float val ) ;
+\end{verbatim}
+\index{FVinit@{\tt FVinit()}}
+This is the allocator and initializer method for {\tt float} vectors.
+Storage for an array with size {\tt n} is found and each
+entry is filled with {\tt val}.
+A pointer to the array is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float * FVinit2 ( int n ) ;
+\end{verbatim}
+\index{FVinit2@{\tt FVinit2()}}
+This is an allocator method for {\tt float} vectors.
+Storage for an array with size {\tt n} is found.
+A pointer to the array is returned.
+Note, on return, there will likely be garbage in the array.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVfree ( int vec[] ) ;
+\end{verbatim}
+\index{FVfree@{\tt FVfree()}}
+This method releases the storage taken by {\tt vec[]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVfprintf ( FILE *fp, int n, float y[] ) ;
+\end{verbatim}
+\index{FVfprintf@{\tt FVfprintf()}}
+This method prints {\tt n} entries in {\tt y[]} to file {\tt fp}.
+The format is new line followed by lines of six {\tt float}'s in
+{\tt " \%12.4e"} format.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int FVfscanf ( FILE *fp, int n, float y[] ) ;
+\end{verbatim}
+\index{FVfscanf@{\tt FVfscanf()}}
+This method scans in {\tt float}'s from file {\tt fp} and places them
+in the array {\tt y[]}.
+It tries to read in {\tt n} {\tt float}'s, and returns the number
+that were actually read.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVadd ( int n, float y[], float x[] ) ;
+\end{verbatim}
+\index{FVadd@{\tt FVadd()}}
+This method adds {\tt n} entries from {\tt x[]} to {\tt y[]},
+i.e.,
+{\tt y[i] += x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVaxpy ( int n, float y[], float alpha, float x[] ) ;
+\end{verbatim}
+\index{FVaxpy@{\tt FVaxpy()}}
+This method adds a scaled multiple of {\tt n} entries from {\tt x[]} 
+into {\tt y[]},
+i.e.,
+{\tt y[i] += alpha * x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVaxpyi ( int n, float y[], int index[], float alpha, float x[] ) ;
+\end{verbatim}
+\index{FVaxpyi@{\tt FVaxpyi()}}
+This method scatteradds 
+a scaled multiple of {\tt n} entries from {\tt x[]} 
+into {\tt y[]},
+i.e.,
+{\tt y[index[i]] += alpha * x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVcompress ( int n1, double x1[], double y1[],
+                  int n2, double x2[], double y2[] ) ;
+\end{verbatim}
+\index{FVcompress@{\tt FVcompress()}}
+Given a pair of arrays {\tt x1[n1]} and {\tt y1[n1]},
+fill {\tt x2[n2]} and {\tt y2[n2]} with a subset of the
+{\tt (x1[j],y1[j]} entries whose distribution is an approximation.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVcopy ( int n, float y[], float x[] ) ;
+\end{verbatim}
+\index{FVcopy@{\tt FVcopy()}}
+This method copies {\tt n} entries from {\tt x[]} to {\tt y[]},
+i.e.,
+{\tt y[i] = x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float FVdot ( int n, float y[], float x[] ) ;
+\end{verbatim}
+\index{FVdot@{\tt FVdot()}}
+This method returns the dot product of the vector {\tt x[]} and
+{\tt y[]},
+i.e., return
+$\sum_{\tt i = 0}^{\tt n-1} ({\tt x[i]*y[i]})$.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVfill ( int n, float y[], float val ) ;
+\end{verbatim}
+\index{FVfill@{\tt FVfill()}}
+This method fills {\tt n} entries in {\tt y[]} with {\tt val}, 
+i.e.,
+{\tt y[i] = val} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVgather ( int n, float y[], float x[], int index[] ) ;
+\end{verbatim}
+\index{FVgather@{\tt FVgather()}}
+{\tt y[i] = x[index[i]]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVgatherAddZero ( int n, float y[], float x[], int index[] ) ;
+\end{verbatim}
+\index{FVgatherAddZero@{\tt FVgatherAddZero()}}
+{\tt y[i] += x[index[i]]} and
+{\tt x[index[i]] = 0} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVgatherZero ( int n, float y[], float x[], int index[] ) ;
+\end{verbatim}
+\index{FVgatherZero@{\tt FVgatherZero()}}
+{\tt y[i] = x[index[i]]} and
+{\tt x[index[i]] = 0} 
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVinvPerm ( int n, float y[], int index[] ) ;
+\end{verbatim}
+\index{FVinvPerm@{\tt FVinvPerm()}}
+This method permutes the vector y as follows.
+i.e.,
+{\tt y[index[i]] := y[i]}.
+See {\tt FVperm()} for a similar function.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float FVmax ( int n, float y[], int *ploc ) ;
+\end{verbatim}
+\index{FVmax@{\tt FVmax()}}
+This method returns the maximum entry in {\tt y[0:n-1]}
+and puts the first location where it was found into the address
+{\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float FVmaxabs ( int n, float y[], int *ploc ) ;
+\end{verbatim}
+\index{FVmaxabs@{\tt FVmaxabs()}}
+This method returns the maximum magnitude of entries in 
+{\tt y[0:n-1]} and puts the first location where 
+it was found into the address {\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float FVmin ( int n, float y[], int *ploc ) ;
+\end{verbatim}
+\index{FVmin@{\tt FVmin()}}
+This method returns the minimum entry in {\tt y[0:n-1]}
+and puts the first location where it was found into the address
+{\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float FVminabs ( int n, float y[], int *ploc ) ;
+\end{verbatim}
+\index{FVminabs@{\tt FVminabs()}}
+This method returns the minimum magnitude of entries in 
+{\tt y[0:n-1]} and puts the first location where 
+it was found into the address {\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVperm ( int n, float y[], int index[] ) ;
+\end{verbatim}
+\index{FVperm@{\tt FVperm()}}
+This method permutes the vector y as follows.
+i.e.,
+{\tt y[i] := y[index[i]]}.
+See {\tt FVinvPerm()} for a similar function.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVramp ( int n, float y[], float start, float inc ) ;
+\end{verbatim}
+\index{FVramp@{\tt FVramp()}}
+This method fills {\tt n} entries in {\tt y[]} with 
+values 
+{\tt start},
+{\tt start + inc},
+{\tt start + 2*inc},
+{\tt start + 3*inc}, etc.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVscale ( int n, float y[], float alpha ) ;
+\end{verbatim}
+\index{FVscale@{\tt FVscale()}}
+This method scales a vector {\tt y[]} by {\tt alpha},
+i.e.,
+{\tt y[i] *= alpha}.
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVscatter ( int n, float y[], int index[], float x[] ) ;
+\end{verbatim}
+\index{FVscatter@{\tt FVscatter()}}
+This method scatters {\tt n} entries of {\tt x[]} into {\tt y[]} 
+as follows,
+{\tt y[index[i]] = x[i]} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVscatterAddZero ( int n, float y[], int index[], float x[] ) ;
+\end{verbatim}
+\index{FVscatterAddZero@{\tt FVscatterAddZero()}}
+This method scatters/adds {\tt n} entries of {\tt x[]} into {\tt y[]} 
+as follows,
+{\tt y[index[i]] += x[i]} and {\tt x[i]} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVscatterZero ( int n, float y[], int index[], float x[] ) ;
+\end{verbatim}
+\index{FVscatterZero@{\tt FVscatterZero()}}
+This method scatters {\tt n} entries of {\tt x[]} into {\tt y[]} 
+as follows,
+{\tt y[index[i]] = x[i]} and {\tt x[i]} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVsub ( int n, float y[], float x[] ) ;
+\end{verbatim}
+\index{FVsub@{\tt FVsub()}}
+This method subtracts {\tt n} entries from {\tt x[]} to {\tt y[]},
+i.e.,
+{\tt y[i] -= x[i]}
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float FVsum ( int n, float y[] ) ;
+\end{verbatim}
+\index{FVsum@{\tt FVsum()}}
+This method returns the sum of the first {\tt n} entries 
+in the vector {\tt x[]},
+i.e., return
+$\sum_{\tt i = 0}^{\tt n-1} {\tt x[i]}$.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+float FVsumabs ( int n, float y[] ) ;
+\end{verbatim}
+\index{FVsumabs@{\tt FVsumabs()}}
+This method returns the sum of the absolute values of the 
+first {\tt n} entries in the vector {\tt x[]},
+i.e., return
+$\sum_{\tt i = 0}^{\tt n-1} {\tt abs(x[i])}$.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVswap ( int n, float y[], float x[] ) ;
+\end{verbatim}
+\index{FVswap@{\tt FVswap()}}
+This method swaps the {\tt x[]} and {\tt y[]} vectors as follows.
+i.e.,
+{\tt y[i] := x[i]} and
+{\tt x[i] := y[i]} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVzero ( int n, float y[] ) ;
+\end{verbatim}
+\index{FVzero@{\tt FVzero()}}
+This method zeroes {\tt n} entries in {\tt y[]},
+i.e.,
+{\tt y[i] = 0} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void FVshuffle ( int n, float y[], int seed ) ;
+\end{verbatim}
+\index{FVshuffle@{\tt FVshuffle()}}
+This method shuffles the first {\tt n} entries in {\tt y[]}.
+The value {\tt seed} is the seed to a random number generator,
+and one can get repeatable behavior by repeating {\tt seed}.
+%-----------------------------------------------------------------------
+\end{enumerate}

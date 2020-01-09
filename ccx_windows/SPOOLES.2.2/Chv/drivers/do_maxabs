@@ -1,0 +1,14 @@
+#! /bin/csh -f
+#
+ 
+set msglvl       =       1
+set msgFile      =     res 
+set msgFile      =  stdout
+set type         =       2
+set symflag      =       2
+set nD           =       6
+set nU           =       5
+set seed         =     7777
+
+test_maxabs \
+   $msglvl $msgFile $nD $nU $type $symflag $seed

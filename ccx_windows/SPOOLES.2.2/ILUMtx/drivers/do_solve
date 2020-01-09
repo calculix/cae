@@ -1,0 +1,34 @@
+#! /bin/csh -f
+
+set msglvl  = 1
+
+set msgFile = res
+set msgFile = stdout
+
+#   neqns --> # of equations
+set neqns = 100
+
+#   type = 1 --> real entries
+#   type = 2 --> complex entries
+set type = 1
+
+#   symflag = 0 --> symmetric
+#   symflag = 1 --> hermitian
+#   symflag = 2 --> nonsymmetric
+set symflag = 2
+
+#   LstorageMode = 1 --> rows
+#   LstorageMode = 2 --> columns
+set LstorageMode = 2
+
+#   UstorageMode = 1 --> rows
+#   UstorageMode = 2 --> columns
+set UstorageMode = 1
+
+set seed = 10203
+
+set matlabFile = res.m
+set matlabFile = none
+
+testSolve $msglvl $msgFile $neqns $type $symflag \
+          $LstorageMode $UstorageMode $seed $matlabFile

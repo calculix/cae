@@ -1,0 +1,10 @@
+\indexentry{SubMtxList_new@{\tt SubMtxList\_new()}}{2}
+\indexentry{SubMtxList_setDefaultFields@{\tt SubMtxList\_setDefaultFields()}}{2}
+\indexentry{SubMtxList_clearData@{\tt SubMtxList\_clearData()}}{3}
+\indexentry{SubMtxList_free@{\tt SubMtxList\_free()}}{3}
+\indexentry{SubMtxList_init@{\tt SubMtxList\_init()}}{3}
+\indexentry{SubMtxList_isListNonempty@{\tt SubMtxList\_isListNonempty()}}{3}
+\indexentry{SubMtxList_isCountZero@{\tt SubMtxList\_isCountZero()}}{3}
+\indexentry{SubMtxList_getList@{\tt SubMtxList\_getList()}}{4}
+\indexentry{SubMtxList_addObjectToList@{\tt SubMtxList\_addObjectToList()}}{4}
+\indexentry{SubMtxList_writeForHumanEye@{\tt SubMtxList\_writeForHumanEye()}}{4}

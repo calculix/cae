@@ -1,0 +1,48 @@
+\begin{theindex}
+
+  \item {\tt IVL\_absorbIVL()}, 7
+  \item {\tt IVL\_clearData()}, 3
+  \item {\tt IVL\_equivMap1()}, 6
+  \item {\tt IVL\_equivMap2()}, 6
+  \item {\tt IVL\_expand()}, 7
+  \item {\tt IVL\_firstInList()}, 5
+  \item {\tt IVL\_free()}, 3
+  \item {\tt IVL\_incr()}, 3
+  \item {\tt IVL\_init()}, 4
+  \item {\tt IVL\_init2()}, 4
+  \item {\tt IVL\_init3()}, 4
+  \item {\tt IVL\_listAndSize()}, 4
+  \item {\tt IVL\_make13P()}, 7
+  \item {\tt IVL\_make27P()}, 8
+  \item {\tt IVL\_make5P()}, 7
+  \item {\tt IVL\_make9P()}, 7
+  \item {\tt IVL\_mapEntries()}, 7
+  \item {\tt IVL\_max()}, 6
+  \item {\tt IVL\_maxListSize()}, 6
+  \item {\tt IVL\_maxnlist()}, 3
+  \item {\tt IVL\_min()}, 6
+  \item {\tt IVL\_new()}, 2
+  \item {\tt IVL\_nextInList()}, 5
+  \item {\tt IVL\_nlist()}, 3
+  \item {\tt IVL\_overwrite()}, 6
+  \item {\tt IVL\_readFromBinaryFile()}, 8
+  \item {\tt IVL\_readFromFile()}, 8
+  \item {\tt IVL\_readFromFormattedFile()}, 8
+  \item {\tt IVL\_setDefaultFields()}, 2
+  \item {\tt IVL\_setincr()}, 3
+  \item {\tt IVL\_setList()}, 5
+  \item {\tt IVL\_setMaxnlist()}, 4
+  \item {\tt IVL\_setNlist()}, 4
+  \item {\tt IVL\_setPointerToList()}, 6
+  \item {\tt IVL\_sizeOf()}, 6
+  \item {\tt IVL\_sortUp()}, 6
+  \item {\tt IVL\_sum()}, 6
+  \item {\tt IVL\_tsize()}, 3
+  \item {\tt IVL\_type()}, 3
+  \item {\tt IVL\_writeForHumanEye()}, 9
+  \item {\tt IVL\_writeStats()}, 9
+  \item {\tt IVL\_writeToBinaryFile()}, 8
+  \item {\tt IVL\_writeToFile()}, 8
+  \item {\tt IVL\_writeToFormattedFile()}, 8
+
+\end{theindex}

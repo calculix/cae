@@ -1,0 +1,33 @@
+\begin{theindex}
+
+  \item {\tt DDsepInfo\_clearData()}, 9
+  \item {\tt DDsepInfo\_free()}, 10
+  \item {\tt DDsepInfo\_new()}, 9
+  \item {\tt DDsepInfo\_setDefaultFields()}, 9
+
+  \indexspace
+
+  \item {\tt GPart\_bndWeightsIV()}, 6
+  \item {\tt GPart\_clearData()}, 4
+  \item {\tt GPart\_DDviaFishnet()}, 6
+  \item {\tt GPart\_DDviaProjection()}, 6
+  \item {\tt GPart\_domSegMap()}, 7
+  \item {\tt GPart\_free()}, 4
+  \item {\tt GPart\_identifyWideSep()}, 7
+  \item {\tt GPart\_init()}, 4
+  \item {\tt GPart\_makeYCmap()}, 7
+  \item {\tt GPart\_new()}, 4
+  \item {\tt GPart\_RBviaDDsep()}, 9
+  \item {\tt GPart\_setCweights()}, 5
+  \item {\tt GPart\_setDefaultFields()}, 4
+  \item {\tt GPart\_setMessageInfo()}, 4
+  \item {\tt GPart\_sizeOf()}, 5
+  \item {\tt GPart\_smoothBisector()}, 8
+  \item {\tt GPart\_smoothBy2layers()}, 8
+  \item {\tt GPart\_smoothYSep()}, 8
+  \item {\tt GPart\_split()}, 5
+  \item {\tt GPart\_TwoSetViaBKL()}, 6
+  \item {\tt GPart\_validVtxSep()}, 5
+  \item {\tt GPart\_vtxIsAdjToOneDomain()}, 5
+
+\end{theindex}

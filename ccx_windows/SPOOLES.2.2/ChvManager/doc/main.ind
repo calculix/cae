@@ -1,0 +1,13 @@
+\begin{theindex}
+
+  \item {\tt ChvManager\_clearData()}, 3
+  \item {\tt ChvManager\_free()}, 3
+  \item {\tt ChvManager\_init()}, 3
+  \item {\tt ChvManager\_new()}, 2
+  \item {\tt ChvManager\_newObjectOfSizeNbytes()}, 3
+  \item {\tt ChvManager\_releaseListOfObjects()}, 3
+  \item {\tt ChvManager\_releaseObject()}, 3
+  \item {\tt ChvManager\_setDefaultFields()}, 3
+  \item {\tt ChvManager\_writeForHumanEye()}, 4
+
+\end{theindex}

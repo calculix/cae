@@ -1,0 +1,25 @@
+\par
+\section{Data Structure}
+\label{section:ChvList:dataStructure}
+\par
+\par
+The {\tt ChvList} structure has the following fields.
+\begin{itemize}
+\item
+{\tt int nlist} : number of lists.
+\item
+{\tt Chv **heads} : 
+vector of pointers to the heads of the list of {\tt Chv} objects.
+\item
+{\tt int *counts} : vector of incoming counts for the lists.
+\item
+{\tt Lock *lock} : mutual exclusion lock.
+\item
+{\tt char *flags} : vector of lock flags for the lists.
+If {\tt flags[ilist] == 'N'}, the list does not need to be locked.
+If {\tt flags[ilist] == 'Y'}, the list does need to be locked.
+Used only when {\tt lock} is not {\tt NULL}.
+\item
+{\tt int nlocks} : 
+total number of locks made on the mutual exclusion lock.
+\end{itemize}

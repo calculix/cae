@@ -1,0 +1,13 @@
+\indexentry{Ideq_new@{\tt Ideq\_new()}}{2}
+\indexentry{Ideq_setDefaultFields@{\tt Ideq\_setDefaultFields()}}{2}
+\indexentry{Ideq_clearData@{\tt Ideq\_clearData()}}{2}
+\indexentry{Ideq_free@{\tt Ideq\_free()}}{2}
+\indexentry{Ideq_resize@{\tt Ideq\_resize()}}{2}
+\indexentry{Ideq_clear@{\tt Ideq\_clear()}}{3}
+\indexentry{Ideq_head@{\tt Ideq\_head()}}{3}
+\indexentry{Ideq_removeFromHead@{\tt Ideq\_removeFromHead()}}{3}
+\indexentry{Ideq_insertAtHead@{\tt Ideq\_insertAtHead()}}{3}
+\indexentry{Ideq_tail@{\tt Ideq\_tail()}}{3}
+\indexentry{Ideq_removeFromTail@{\tt Ideq\_removeFromTail()}}{3}
+\indexentry{Ideq_insertAtTail@{\tt Ideq\_insertAtTail()}}{3}
+\indexentry{Ideq_writeForHumanEye@{\tt Ideq\_writeForHumanEye()}}{4}

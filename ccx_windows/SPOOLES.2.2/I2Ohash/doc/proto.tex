@@ -1,0 +1,185 @@
+\par
+\section{Prototypes and descriptions of {\tt I2Ohash} methods}
+\label{section:I2Ohash:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods that belong to the {\tt I2Ohash} object.
+\par
+\subsection{Basic methods}
+\label{subsection:I2Ohash:proto:basics}
+\par
+As usual, there are four basic methods to support object creation,
+setting default fields, clearing any allocated data, and free'ing
+the object.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+I2Ohash * I2Ohash_new ( void ) ;
+\end{verbatim}
+\index{I2Ohash_new@{\tt I2Ohash\_new()}}
+This method simply allocates storage for the {\tt I2Ohash} structure 
+and then sets the default fields by a call to 
+{\tt I2Ohash\_setDefaultFields()}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void I2Ohash_setDefaultFields ( I2Ohash *hashtable ) ;
+\end{verbatim}
+\index{I2Ohash_setDefaultFields@{\tt I2Ohash\_setDefaultFields()}}
+This method sets the structure's fields to default values:
+{\tt nlist}, {\tt grow} and {\tt nitem} are zero,
+{\tt baseI2OP}, {\tt freeI2OP} and {\tt heads} are {\tt NULL}.
+\par \noindent {\it Error checking:}
+If {\tt hashtable} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void I2Ohash_clearData ( I2Ohash *hashtable ) ;
+\end{verbatim}
+\index{I2Ohash_clearData@{\tt I2Ohash\_clearData()}}
+This method clears any data owned by the object.
+It releases any {\tt I2OP} objects that have been allocated by the
+hash table, and then free's the {\tt heads[]} vector.
+It then sets the structure's default fields 
+with a call to {\tt I2Ohash\_setDefaultFields()}.
+\par \noindent {\it Error checking:}
+If {\tt hashtable} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void I2Ohash_free ( I2Ohash *hashtable ) ;
+\end{verbatim}
+\index{I2Ohash_free@{\tt I2Ohash\_free()}}
+This method releases any storage by a call to 
+{\tt I2Ohash\_clearData()} then free's the storage for the 
+structure with a call to {\tt free()}.
+\par \noindent {\it Error checking:}
+If {\tt hashtable} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Initializer methods}
+\label{subsection:I2Ohash:proto:initializers}
+\par
+There is one initializer method.
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void I2Ohash_init ( I2Ohash *hashtable, int nlist, int nobj, int grow ) ;
+\end{verbatim}
+\index{I2Ohash_init@{\tt I2Ohash\_init()}}
+This method is the basic initializer method.
+It clears any previous data with a call to 
+{\tt I2Ohash\_clearData()}. 
+It allocates storage for {\tt nlist} lists
+and if {\tt nobj} is positive, it loads the free list
+with {\tt nobj} {\tt I2OP} objects.
+\par \noindent {\it Error checking:}
+If {\tt hashtable} is {\tt NULL},
+or if ${\tt nlist} \le 0$,
+or if {\tt nobj} and {\tt grow} are both zero,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{Utility methods}
+\label{subsection:I2Ohash:proto:utilities}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void I2Ohash_insert ( I2Ohash *hashtable, int key1, int key2, void * value ) ;
+\end{verbatim}
+\index{I2Ohash_insert@{\tt I2Ohash\_insert()}}
+This method inserts the triple {\tt (key1,key2,value)} 
+into the hash table.
+\par \noindent {\it Error checking:}
+If {\tt hashtable} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int I2Ohash_locate ( I2Ohash *hashtable, int key1, int key2, void **pvalue ) ;
+\end{verbatim}
+\index{I2Ohash_locate@{\tt I2Ohash\_locate()}}
+If there is a {\tt <key1,key2,value>} triple in the hash table,
+{\tt *pvalue} is set to the value, 
+and {\tt 1} is returned.
+If there is no {\tt <key1,key2,value>} triple in the hash table,
+{\tt 0} is returned.
+\par \noindent {\it Error checking:}
+If {\tt hashtable} or {\tt pvalue} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int I2Ohash_remove ( I2Ohash *hashtable, int key1, int key2, void **pvalue ) ;
+\end{verbatim}
+\index{I2Ohash_remove@{\tt I2Ohash\_remove()}}
+If there is a {\tt <key1,key2,value>} triple in the hash table,
+{\tt *pvalue} is set to the value, the triple is removed and its
+{\tt I2OP} structure is placed on the free list,
+and {\tt 1} is returned.
+If there is no {\tt <key1,key2,value>} triple in the hash table,
+{\tt 0} is returned.
+\par \noindent {\it Error checking:}
+If {\tt hashtable} or {\tt pvalue} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+double I2Ohash_measure ( I2Ohash *hashtable ) ;
+\end{verbatim}
+\index{I2Ohash_measure@{\tt I2Ohash\_measure()}}
+This method returns a floating point number that is some measure of
+how even a distribution of the {\tt <key1,key2,value>} triples 
+are made to the lists.
+We measure the imbalance using 
+$\sqrt{\sum_{i} \mbox{\tt count}_i^2}$,
+where $i$ ranges over the lists and $\mbox{\tt count}_i$ is the number
+of triples in list $i$.
+If the triples were perfectly evenly distributed, then each list would
+have {\tt nitem/nlist} triples, and this value is
+$\mbox{\tt nitem}/\sqrt{\mbox{\tt nlist}}$.
+We return the ratio of 
+$\sqrt{\sum_{i} \mbox{\tt count}_i^2}$ over
+$\mbox{\tt nitem}/\sqrt{\mbox{\tt nlist}}$.
+A value of 1.0 means that the triples are perfectly distributed.
+A value of $\sqrt{\mbox{\tt nlist}}$ means that the triples are 
+distributed in the worst possible way (all are found in one list).
+In general, if the triples are evenly distributed among {\tt nlist/k}
+lists, the value is $\sqrt{\mbox{\tt k}}$.
+\par \noindent {\it Error checking:}
+If {\tt hashtable} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+\subsection{IO methods}
+\label{subsection:I2Ohash:proto:IO}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void I2Ohash_writeForHumanEye ( I2Ohash *hashtable, FILE *fp ) ;
+\end{verbatim}
+\index{I2Ohash_writeForHumanEye@{\tt I2Ohash\_writeForHumanEye()}}
+This method prints the hash table in a human-readable format.
+\par \noindent {\it Error checking:}
+If {\tt hashtable} or {\tt fp} is {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}

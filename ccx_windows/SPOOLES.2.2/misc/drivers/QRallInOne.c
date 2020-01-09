@@ -1,0 +1,293 @@
+/*  QRallInOne.c  */
+
+#include "../../misc.h"
+#include "../../FrontMtx.h"
+#include "../../SymbFac.h"
+
+/*--------------------------------------------------------------------*/
+int
+main ( int argc, char *argv[] ) {
+/*
+   --------------------------------------------------
+   QR all-in-one program
+   (1) read in matrix entries and form InpMtx object
+       of A and A^TA
+   (2) form Graph object of A^TA
+   (3) order matrix and form front tree
+   (4) get the permutation, permute the matrix and 
+       front tree and get the symbolic factorization
+   (5) compute the numeric factorization
+   (6) read in right hand side entries
+   (7) compute the solution
+
+   created -- 98jun11, cca
+   --------------------------------------------------
+*/
+/*--------------------------------------------------------------------*/
+char            *matrixFileName, *rhsFileName ;
+ChvManager      *chvmanager ;
+DenseMtx        *mtxB, *mtxX ;
+double          facops, imag, real, value ;
+double          cpus[10] ;
+ETree           *frontETree ;
+FILE            *inputFile, *msgFile ;
+FrontMtx        *frontmtx ;
+Graph           *graph ;
+int             ient, irow, jcol, jrhs, jrow, msglvl, neqns,
+                nedges, nent, nrhs, nrow, seed, type ;
+InpMtx          *mtxA ;
+IV              *newToOldIV, *oldToNewIV ;
+IVL             *adjIVL, *symbfacIVL ;
+SubMtxManager   *mtxmanager ;
+/*--------------------------------------------------------------------*/
+/*
+   --------------------
+   get input parameters
+   --------------------
+*/
+if ( argc != 7 ) {
+   fprintf(stdout, 
+      "\n usage: %s msglvl msgFile type matrixFileName rhsFileName seed"
+      "\n    msglvl -- message level"
+      "\n    msgFile -- message file"
+      "\n    type    -- type of entries"
+      "\n      1 (SPOOLES_REAL)    -- real entries"
+      "\n      2 (SPOOLES_COMPLEX) -- complex entries"
+      "\n    matrixFileName -- matrix file name, format"
+      "\n       nrow ncol nent"
+      "\n       irow jcol entry"
+      "\n        ..."
+      "\n        note: indices are zero based"
+      "\n    rhsFileName -- right hand side file name, format"
+      "\n       nrow "
+      "\n       entry[0]"
+      "\n       ..."
+      "\n       entry[nrow-1]"
+      "\n    seed -- random number seed, used for ordering"
+      "\n", argv[0]) ;
+   return(0) ;
+}
+msglvl = atoi(argv[1]) ;
+if ( strcmp(argv[2], "stdout") == 0 ) {
+   msgFile = stdout ;
+} else if ( (msgFile = fopen(argv[2], "a")) == NULL ) {
+   fprintf(stderr, "\n fatal error in %s"
+           "\n unable to open file %s\n",
+           argv[0], argv[2]) ;
+   return(-1) ;
+}
+type           = atoi(argv[3]) ;
+matrixFileName = argv[4] ;
+rhsFileName    = argv[5] ;
+seed           = atoi(argv[6]) ;
+/*--------------------------------------------------------------------*/
+/*
+   --------------------------------------------
+   STEP 1: read the entries from the input file 
+   and create the InpMtx object of A
+   --------------------------------------------
+*/
+inputFile = fopen(matrixFileName, "r") ;
+fscanf(inputFile, "%d %d %d", &nrow, &neqns, &nent) ;
+mtxA = InpMtx_new() ;
+InpMtx_init(mtxA, INPMTX_BY_ROWS, type, nent, 0) ;
+if ( type == SPOOLES_REAL ) {
+   for ( ient = 0 ; ient < nent ; ient++ ) {
+      fscanf(inputFile, "%d %d %le", &irow, &jcol, &value) ;
+      InpMtx_inputRealEntry(mtxA, irow, jcol, value) ;
+   }
+} else {
+   for ( ient = 0 ; ient < nent ; ient++ ) {
+      fscanf(inputFile, "%d %d %le %le", &irow, &jcol, &real, &imag) ;
+      InpMtx_inputComplexEntry(mtxA, irow, jcol, real, imag) ;
+   }
+}
+fclose(inputFile) ;
+if ( msglvl > 1 ) {
+   fprintf(msgFile, "\n\n input matrix") ;
+   InpMtx_writeForHumanEye(mtxA, msgFile) ;
+   fflush(msgFile) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   ----------------------------------------
+   STEP 2: read the right hand side entries
+   ----------------------------------------
+*/
+inputFile = fopen(rhsFileName, "r") ;
+fscanf(inputFile, "%d %d", &nrow, &nrhs) ;
+mtxB = DenseMtx_new() ;
+DenseMtx_init(mtxB, type, 0, 0, nrow, nrhs, 1, nrow) ;
+DenseMtx_zero(mtxB) ;
+if ( type == SPOOLES_REAL ) {
+   for ( irow = 0 ; irow < nrow ; irow++ ) {
+      fscanf(inputFile, "%d", &jrow) ;
+      for ( jrhs = 0 ; jrhs < nrhs ; jrhs++ ) {
+         fscanf(inputFile, "%le", &value) ;
+         DenseMtx_setRealEntry(mtxB, jrow, jrhs, value) ;
+      }
+   }
+} else {
+   for ( irow = 0 ; irow < nrow ; irow++ ) {
+      fscanf(inputFile, "%d", &jrow) ;
+      for ( jrhs = 0 ; jrhs < nrhs ; jrhs++ ) {
+         fscanf(inputFile, "%le %le", &real, &imag) ;
+         DenseMtx_setComplexEntry(mtxB, jrow, jrhs, real, imag) ;
+      }
+   }
+}
+fclose(inputFile) ;
+if ( msglvl > 1 ) {
+   fprintf(msgFile, "\n\n rhs matrix in original ordering") ;
+   DenseMtx_writeForHumanEye(mtxB, msgFile) ;
+   fflush(msgFile) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   -------------------------------------------------
+   STEP 3 : find a low-fill ordering
+   (1) create the Graph object for A^TA or A^HA
+   (2) order the graph using multiple minimum degree
+   -------------------------------------------------
+*/
+graph = Graph_new() ;
+adjIVL = InpMtx_adjForATA(mtxA) ;
+nedges = IVL_tsize(adjIVL) ;
+Graph_init2(graph, 0, neqns, 0, nedges, neqns, nedges, adjIVL,
+            NULL, NULL) ;
+if ( msglvl > 1 ) {
+   fprintf(msgFile, "\n\n graph of A^T A") ;
+   Graph_writeForHumanEye(graph, msgFile) ;
+   fflush(msgFile) ;
+}
+frontETree = orderViaMMD(graph, seed, msglvl, msgFile) ;
+if ( msglvl > 1 ) {
+   fprintf(msgFile, "\n\n front tree from ordering") ;
+   ETree_writeForHumanEye(frontETree, msgFile) ;
+   fflush(msgFile) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   -----------------------------------------------------
+   STEP 4: get the permutation, permute the matrix and 
+           front tree and get the symbolic factorization
+   -----------------------------------------------------
+*/
+oldToNewIV = ETree_oldToNewVtxPerm(frontETree) ;
+newToOldIV = ETree_newToOldVtxPerm(frontETree) ;
+InpMtx_permute(mtxA, NULL, IV_entries(oldToNewIV)) ;
+InpMtx_changeStorageMode(mtxA, INPMTX_BY_VECTORS) ;
+symbfacIVL = SymbFac_initFromGraph(frontETree, graph) ;
+IVL_overwrite(symbfacIVL, oldToNewIV) ;
+IVL_sortUp(symbfacIVL) ;
+ETree_permuteVertices(frontETree, oldToNewIV) ;
+if ( msglvl > 1 ) {
+   fprintf(msgFile, "\n\n old-to-new permutation vector") ;
+   IV_writeForHumanEye(oldToNewIV, msgFile) ;
+   fprintf(msgFile, "\n\n new-to-old permutation vector") ;
+   IV_writeForHumanEye(newToOldIV, msgFile) ;
+   fprintf(msgFile, "\n\n front tree after permutation") ;
+   ETree_writeForHumanEye(frontETree, msgFile) ;
+   fprintf(msgFile, "\n\n input matrix after permutation") ;
+   InpMtx_writeForHumanEye(mtxA, msgFile) ;
+   fprintf(msgFile, "\n\n symbolic factorization") ;
+   IVL_writeForHumanEye(symbfacIVL, msgFile) ;
+   fflush(msgFile) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   ------------------------------------------
+   STEP 5: initialize the front matrix object
+   ------------------------------------------
+*/
+frontmtx = FrontMtx_new() ;
+mtxmanager = SubMtxManager_new() ;
+SubMtxManager_init(mtxmanager, NO_LOCK, 0) ;
+if ( type == SPOOLES_REAL ) {
+   FrontMtx_init(frontmtx, frontETree, symbfacIVL, type, 
+                 SPOOLES_SYMMETRIC, FRONTMTX_DENSE_FRONTS, 
+                 SPOOLES_NO_PIVOTING, NO_LOCK, 0, NULL,
+                 mtxmanager, msglvl, msgFile) ;
+} else {
+   FrontMtx_init(frontmtx, frontETree, symbfacIVL, type, 
+                 SPOOLES_HERMITIAN, FRONTMTX_DENSE_FRONTS, 
+                 SPOOLES_NO_PIVOTING, NO_LOCK, 0, NULL,
+                 mtxmanager, msglvl, msgFile) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   -----------------------------------------
+   STEP 6: compute the numeric factorization
+   -----------------------------------------
+*/
+chvmanager = ChvManager_new() ;
+ChvManager_init(chvmanager, NO_LOCK, 1) ;
+DVzero(10, cpus) ;
+facops = 0.0 ;
+FrontMtx_QR_factor(frontmtx, mtxA, chvmanager, 
+                   cpus, &facops, msglvl, msgFile) ;
+ChvManager_free(chvmanager) ;
+if ( msglvl > 1 ) {
+   fprintf(msgFile, "\n\n factor matrix") ;
+   fprintf(msgFile, "\n facops = %9.2f", facops) ;
+   FrontMtx_writeForHumanEye(frontmtx, msgFile) ;
+   fflush(msgFile) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   --------------------------------------
+   STEP 7: post-process the factorization
+   --------------------------------------
+*/
+FrontMtx_postProcess(frontmtx, msglvl, msgFile) ;
+if ( msglvl > 1 ) {
+   fprintf(msgFile, "\n\n factor matrix after post-processing") ;
+   FrontMtx_writeForHumanEye(frontmtx, msgFile) ;
+   fflush(msgFile) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   -------------------------------
+   STEP 8: solve the linear system
+   -------------------------------
+*/
+mtxX = DenseMtx_new() ;
+DenseMtx_init(mtxX, type, 0, 0, neqns, nrhs, 1, neqns) ;
+FrontMtx_QR_solve(frontmtx, mtxA, mtxX, mtxB, mtxmanager,
+                  cpus, msglvl, msgFile) ;
+if ( msglvl > 1 ) {
+   fprintf(msgFile, "\n\n solution matrix in new ordering") ;
+   DenseMtx_writeForHumanEye(mtxX, msgFile) ;
+   fflush(msgFile) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   -------------------------------------------------------
+   STEP 9: permute the solution into the original ordering
+   -------------------------------------------------------
+*/
+DenseMtx_permuteRows(mtxX, newToOldIV) ;
+if ( msglvl > 0 ) {
+   fprintf(msgFile, "\n\n solution matrix in original ordering") ;
+   DenseMtx_writeForHumanEye(mtxX, msgFile) ;
+   fflush(msgFile) ;
+}
+/*--------------------------------------------------------------------*/
+/*
+   ------------------------
+   free the working storage
+   ------------------------
+*/
+InpMtx_free(mtxA) ;
+FrontMtx_free(frontmtx) ;
+Graph_free(graph) ;
+DenseMtx_free(mtxX) ;
+DenseMtx_free(mtxB) ;
+ETree_free(frontETree) ;
+IV_free(newToOldIV) ;
+IV_free(oldToNewIV) ;
+IVL_free(symbfacIVL) ;
+SubMtxManager_free(mtxmanager) ;
+/*--------------------------------------------------------------------*/
+return(1) ; }
+/*--------------------------------------------------------------------*/

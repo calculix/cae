@@ -1,0 +1,15 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inFile  = $matrices/$matrix/nd.dstreef
+
+set outFile = $matrices/$matrix/nd.dstreeb
+set outFile = none
+
+set msglvl  = 3
+
+set msgFile = stdout
+
+testIO $msglvl $msgFile $inFile $outFile

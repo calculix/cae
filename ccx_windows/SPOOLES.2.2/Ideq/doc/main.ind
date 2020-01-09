@@ -1,0 +1,17 @@
+\begin{theindex}
+
+  \item {\tt Ideq\_clear()}, 3
+  \item {\tt Ideq\_clearData()}, 2
+  \item {\tt Ideq\_free()}, 2
+  \item {\tt Ideq\_head()}, 3
+  \item {\tt Ideq\_insertAtHead()}, 3
+  \item {\tt Ideq\_insertAtTail()}, 3
+  \item {\tt Ideq\_new()}, 2
+  \item {\tt Ideq\_removeFromHead()}, 3
+  \item {\tt Ideq\_removeFromTail()}, 3
+  \item {\tt Ideq\_resize()}, 2
+  \item {\tt Ideq\_setDefaultFields()}, 2
+  \item {\tt Ideq\_tail()}, 3
+  \item {\tt Ideq\_writeForHumanEye()}, 4
+
+\end{theindex}

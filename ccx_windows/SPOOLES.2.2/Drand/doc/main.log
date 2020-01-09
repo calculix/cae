@@ -1,0 +1,87 @@
+This is TeX, Version 3.1415 (C version 6.1) (format=lplain 94.11.14)  2 JUN 1998 12:36
+**main
+(main.tex
+LaTeX Version 2.09 <25 March 1992>
+(/usr/local/lib/texmf/tex/latex209/report.sty
+Standard Document Style `report' <14 Jan 92>.
+(/usr/local/lib/texmf/tex/latex209/rep11.sty)
+\descriptionmargin=\dimen99
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+
+(/usr/local/lib/texmf/tex/latex209/titlepag.sty
+Document Style Option `titlepage' -- Released 16 June 1991.
+)) (/usr/local/lib/texmf/tex/latex209/leqno.sty
+Document style option `leqno' - released 29 Sep 1991
+)
+\@indexfile=\write3
+
+Writing index file main.idx 
+(main.aux) (intro.tex
+Chapter 1.
+LaTeX Warning: No \tt typeface in this size, using \rm on input line 1.
+LaTeX Warning: Citation `and90-random' on page 1 undefined on input line 6.
+) (dataStructure.tex) (proto.tex [1
+
+
+] [2]) (drivers.tex [3]
+Overfull \hbox (10.7556pt too wide) in paragraph at lines 29--34
+[] []\elvrm When \elvtt distribution = 1\elvrm , \elvtt param1 \elvrm is the lo
+wer bound for the in-ter-val. When \elvtt distribution
+
+\hbox(7.60416+2.43333)x418.2899, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -18.61502
+..\glue -5.475
+..\hbox(4.86667+0.0)x18.61502, glue set 18.61502fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvrm W
+.etc.
+
+
+Overfull \hbox (13.49315pt too wide) in paragraph at lines 34--39
+[] []\elvrm When \elvtt distribution = 1\elvrm , \elvtt param2 \elvrm is the up
+-per bound for the in-ter-val. When \elvtt distribution
+
+\hbox(7.60416+2.43333)x418.2899, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -18.61502
+..\glue -5.475
+..\hbox(4.86667+0.0)x18.61502, glue set 18.61502fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvrm W
+.etc.
+
+) (main.ind [4] [5
+
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 208 strings out of 11977
+ 2143 string characters out of 87269
+ 33040 words of memory out of 262141
+ 2142 multiletter control sequences out of 9500
+ 19780 words of font info for 75 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 13i,4n,17p,187b,254s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (5 pages, 9336 bytes).

@@ -1,0 +1,5 @@
+\indexentry{PatchAndGoInfo_new@{\tt PatchAndGoInfo\_new()}}{2}
+\indexentry{PatchAndGoInfo_setDefaultFields@{\tt PatchAndGoInfo\_setDefaultFields()}}{2}
+\indexentry{PatchAndGoInfo_clearData@{\tt PatchAndGoInfo\_clearData()}}{3}
+\indexentry{PatchAndGoInfo_free@{\tt PatchAndGoInfo\_free()}}{3}
+\indexentry{PatchAndGoInfo_init@{\tt PatchAndGoInfo\_init()}}{3}

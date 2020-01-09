@@ -1,0 +1,29 @@
+#! /bin/csh -f
+
+set msglvl           = 1
+set msgFile          = res3D.64
+set msgFile          = res3D
+set msgFile          = /local1/ARPA/junk/res.grid.MT
+set msgFile          = stdout
+
+set mtxFile   = /local1/ARPA/matrices/i4a/i4a.inpmtxb
+set etreeFile = /local1/ARPA/matrices/i4a/best0.etreef
+
+set mtxFile   = ../../Matrices/R2D100/orig.inpmtxf
+set etreeFile = ../../Matrices/R2D100/nd.etreef
+
+set seed             = 10101
+set symmetryflag     = 0
+set sparsityflag     = 0
+set pivotingflag     = 0
+set tau              = 5
+set droptol          = 1.e-10
+set nrhs             = 4
+set nthread          = 4
+set maptype          = 3
+set cutoff           = 0.25
+set lookahead        = 0
+
+testFactorMT $msglvl $msgFile $mtxFile $etreeFile \
+             $seed $symmetryflag $sparsityflag $pivotingflag \
+             $tau $droptol $nrhs $nthread $maptype $cutoff $lookahead

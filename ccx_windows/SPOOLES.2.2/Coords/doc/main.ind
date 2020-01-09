@@ -1,0 +1,24 @@
+\begin{theindex}
+
+  \item {\tt Coords\_clearData()}, 2
+  \item {\tt Coords\_free()}, 2
+  \item {\tt Coords\_init()}, 2
+  \item {\tt Coords\_init27P()}, 2
+  \item {\tt Coords\_init9P()}, 2
+  \item {\tt Coords\_max()}, 3
+  \item {\tt Coords\_min()}, 3
+  \item {\tt Coords\_new()}, 2
+  \item {\tt Coords\_readFromBinaryFile()}, 4
+  \item {\tt Coords\_readFromFile()}, 4
+  \item {\tt Coords\_readFromFormattedFile()}, 4
+  \item {\tt Coords\_setDefaultFields()}, 2
+  \item {\tt Coords\_setValue()}, 3
+  \item {\tt Coords\_sizeOf()}, 3
+  \item {\tt Coords\_value()}, 3
+  \item {\tt Coords\_writeForHumanEye()}, 5
+  \item {\tt Coords\_writeStats()}, 5
+  \item {\tt Coords\_writeToBinaryFile()}, 4
+  \item {\tt Coords\_writeToFile()}, 4
+  \item {\tt Coords\_writeToFormattedFile()}, 4
+
+\end{theindex}

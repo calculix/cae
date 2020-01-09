@@ -1,0 +1,88 @@
+This is TeX, Version 3.1415 (C version 6.1) (format=lplain 94.11.14)  6 JUN 1998 15:48
+**main
+(main.tex
+LaTeX Version 2.09 <25 March 1992>
+(/usr/local/lib/texmf/tex/latex209/report.sty
+Standard Document Style `report' <14 Jan 92>.
+(/usr/local/lib/texmf/tex/latex209/rep11.sty)
+\descriptionmargin=\dimen99
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+
+(/usr/local/lib/texmf/tex/latex209/titlepag.sty
+Document Style Option `titlepage' -- Released 16 June 1991.
+)) (/usr/local/lib/texmf/tex/latex209/leqno.sty
+Document style option `leqno' - released 29 Sep 1991
+) (/usr/local/lib/texmf/tex/generic/psfig/psfig.tex
+\@unused=\write3
+\ps@stream=\read1
+\p@intvaluex=\dimen100
+\p@intvaluey=\dimen101
+
+psfig/tex 1.10-dvips
+)
+\@indexfile=\write4
+
+Writing index file main.idx 
+(main.aux) (intro.tex
+Chapter 1.
+LaTeX Warning: No \tt typeface in this size, using \rm on input line 2.
+LaTeX Warning: No \tt typeface in this size, using \rm on input line 2.
+[1
+
+
+]) (dataStructure.tex
+Overfull \hbox (8.41794pt too wide) in paragraph at lines 14--19
+[] []\elvtt int mode \elvrm : be-hav-ior mode. When \elvtt mode = 0\elvrm , the
+ ob-ject calls \elvtt SubMtx[]new() \elvrm and \elvtt SubMtx[]free()
+
+\hbox(7.60416+2.12917)x442.37993, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\glue 0.0
+.\hbox(4.86667+0.0)x0.0
+..\glue 0.0
+..\glue -21.90005
+..\glue -5.475
+..\hbox(4.86667+0.0)x21.90005, glue set 21.90005fil
+...\glue 0.0 plus 1.0fil minus 1.0fil
+...\hbox(4.86667+0.0)x0.0, glue set - 5.475fil []
+..\glue 5.475
+.\penalty 0
+.\elvtt i
+.etc.
+
+) (proto.tex
+Overfull \hbox (14.44592pt too wide) in paragraph at lines 33--46
+[]\elvrm The struc-ture's fields are set to de-fault val-ues: \elvtt mode\elvrm
+ , \elvtt nactive\elvrm , \elvtt nbytesactive\elvrm , \elvtt nbytesrequested\el
+vrm ,
+
+\hbox(7.60416+2.43333)x442.37993, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\elvrm T
+.\elvrm h
+.\elvrm e
+.\glue 3.65 plus 1.825 minus 1.21666
+.etc.
+
+[2] [3]) (main.ind [4] [5
+
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 421 strings out of 11977
+ 4283 string characters out of 87269
+ 38079 words of memory out of 262141
+ 2356 multiletter control sequences out of 9500
+ 19780 words of font info for 75 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 13i,5n,17p,187b,258s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (5 pages, 10720 bytes).

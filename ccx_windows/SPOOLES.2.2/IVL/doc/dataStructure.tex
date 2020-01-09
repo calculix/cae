@@ -1,0 +1,89 @@
+\par
+\section{Data Structure}
+\label{section:IVL:dataStructure}
+\par
+The {\tt IVL} structure has seven fields.
+\begin{itemize}
+\item
+{\tt int type} : 
+           storage type, one of {\tt IVL\_CHUNKED}, {\tt IVL\_SOLO},
+           {\tt IVL\_UNKNOWN}, 
+             and {\tt IVL\_NOTYPE} (which means 
+           the object has not yet been initialized.) 
+   Here is a description of the three types of storage management.
+   \begin{itemize}
+   \item {\tt IVL\_CHUNKED} 
+   \par
+   A chunk of data is allocated by the object and each list occupies
+   contiguous entries in a chunk.
+   More than one chunk may exist at one time, but only one contains
+   free entries to be used for a new list.
+   If there is not enough space in the chunk to contain the entries
+   in a new list, another chunk is allocated to hold the list.
+   When the {\tt IVL} object is free'd, all the chunks of data are
+   free'd.
+   The number of entries in a chunk can be set by the user by changing 
+   the {\tt incr} field, whose default value is 1024.
+   This type of storage is used most often.
+   \item {\tt IVL\_SOLO}
+   \par
+   Each list is allocated separately using the {\tt IVinit()} function.
+   When the {\tt IVL} object is free'd, each list is free'd separately
+   using the {\tt IVfree()} function.
+   \item {\tt IVL\_UNKNOWN}
+   \par
+   This storage mode is available for the cases where storage for a
+   list is aliased to another location.
+   Absolutely no free'ing of data is done when the {\tt IVL} object is
+   free'd.
+   \end{itemize}
+   The storage management is handled by {\tt IVL\_setList()}
+   and {\tt IVL\_setPointerToList()}.
+\item
+{\tt int maxnlist} : maximum number of lists.
+\par
+{\tt int nlist} : number of lists.
+\par
+We may not know how many lists we will need for the object --- 
+{\tt maxnlist} is the dimension of the {\tt sizes[]} and {\tt p\_vec[]}
+arrays and {\tt nlist} is the present number of active lists.
+When we initialize the object
+using one of the {\tt IVL\_init\{1,2,3\}()} methods,
+we set {\tt nlist} equal to {\tt maxnlist}.
+We resize the object using {\tt IVL\_setMaxnlist()}.
+\item
+{\tt int tsize} : total number of list entries.
+\item
+{\tt int *sizes} : pointer to an {\tt int} vector of size 
+{\tt maxnlist}.
+\par
+{\tt int **p\_vec} : 
+pointer to an {\tt int*} vector of size {\tt maxnlist}.
+\par
+The size of list {\tt ilist} is found in {\tt sizes[ilist]} 
+and {\tt p\_vec[ilist]} points to the start of the list.
+The {\tt sizes} and {\tt p\_vec} fields need never be accessed
+directly --- see the {\tt IVL\_listAndSize()}, {\tt IVL\_setList()} 
+and {\tt IVL\_setPointerToList()} methods.
+\item
+{\tt int incr} : increment for a new chunk of data, used for type {\tt
+IVL\_CHUNKED} 
+\item
+{\tt Ichunk *chunk} : pointer to the active {\tt Ichunk} structure,
+a helper object to manage the allocated storage. 
+It has the following fields.
+\begin{itemize}
+\item
+{\tt int size} : number of entries in the chunk, also the dimension
+of the array {\tt base[]}.
+\item
+{\tt int inuse} : number of entries in use from this chunk, the number
+of available entries in {\tt size - inuse}.
+\item
+{\tt int *base} : base address of the {\tt int} vector of size {\tt
+size} from which we find storage for the individual lists.
+\item
+{\tt Ichunk *next} : pointer to the next {\tt Ichunk} object in the
+list of active {\tt Ichunk} objects.
+\end{itemize}
+\end{itemize}

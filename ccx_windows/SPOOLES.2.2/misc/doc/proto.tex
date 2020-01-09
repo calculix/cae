@@ -1,0 +1,412 @@
+\par
+\section{Prototypes and descriptions of methods in the {\tt
+Misc} directory}
+\label{section:Misc:proto}
+\par
+This section contains brief descriptions including prototypes
+of all methods in the {\tt Misc} directory.
+\par
+%=======================================================================
+\subsection{Theoretical nested dissection methods}
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void mkNDperm ( int n1, int n2, int n3, int newToOld[], int west, 
+                int east, int south, int north, int bottom, int top ) ;
+\end{verbatim}
+\index{mkNDperm@{\tt mkNDperm()}}
+This method this vector fills a permutation vector with the
+nested dissection
+new-to-old ordering of the vertices for the subgrid defined by
+nodes whose coordinates lie in
+\begin{verbatim}
+[west, east] x [south, north] x [bottom, top].
+\end{verbatim}
+The method calls itself recursively.
+To find the permutation for an {\tt n1 x n2 x n3} grid, call
+\begin{verbatim}
+mkNDperm(n1, n2, n3, newToOld, 0, n1-1, 0, n2-1, 0, n3-1) ;
+\end{verbatim}
+from a driver program.
+\par \noindent {\it Error checking:}
+If {\tt n1}, {\tt n2} or {\tt n3} are less than or equal to zero,
+or if {\tt newToOld} is {\tt NULL},
+or if {\tt west}, {\tt south} or {\tt bottom} 
+are less than or equal to zero,
+of if ${\tt east} \ge {\tt n1}$,
+of if ${\tt north} \ge {\tt n2}$,
+of if ${\tt top} \ge {\tt n3}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void mkNDperm2 ( int n1, int n2, int n3, int newToOld[], int west, 
+                 int east, int south, int north, int bottom, int top ) ;
+\end{verbatim}
+\index{mkNDperm2@{\tt mkNDperm2()}}
+This method this vector fills a permutation vector with the
+nested dissection
+new-to-old ordering of the vertices for the subgrid defined by
+nodes whose coordinates lie in
+\begin{verbatim}
+[west, east] x [south, north] x [bottom, top].
+\end{verbatim}
+There is one important difference between this method and {\tt
+mkNDperm()} above; this method finds {\it double-wide} separators,
+necessary for an operator with more than nearest neighbor grid
+point coupling.
+The method calls itself recursively.
+To find the permutation for an {\tt n1 x n2 x n3} grid, call
+\begin{verbatim}
+mkNDperm(n1, n2, n3, newToOld, 0, n1-1, 0, n2-1, 0, n3-1) ;
+\end{verbatim}
+from a driver program.
+\par \noindent {\it Error checking:}
+If {\tt n1}, {\tt n2} or {\tt n3} are less than or equal to zero,
+or if {\tt newToOld} is {\tt NULL},
+or if {\tt west}, {\tt south} or {\tt bottom} 
+are less than or equal to zero,
+of if ${\tt east} \ge {\tt n1}$,
+of if ${\tt north} \ge {\tt n2}$,
+of if ${\tt top} \ge {\tt n3}$,
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void localND2D ( int n1, int n2, int p1, int p2, 
+                 int dsizes1[], int dsizes2[], int oldToNew[] ) ;
+\end{verbatim}
+\index{localND2D@{\tt localND2D()}}
+This method finds a local nested dissection ordering 
+\cite{bha93-localND} for an {\tt n1 x n2} 2-D grid.
+There are {\tt p1 x p2} domains in the grid.
+The {\tt dsizes1[]} and {\tt dsizes2[]} vectors are optional;
+they allow the user to explicitly input domain sizes.
+If {\tt dsizes1[]} and {\tt dsizes2[]} are not {\tt NULL},
+the {\tt q = q1 + q2*p1}'th domain contains a
+{\tt dsizes1[q1] x dsizes2[q2]} subgrid of points.
+\par \noindent {\it Error checking:}
+If {\tt n1} or {\tt n2} are less than or equal to zero,
+or if {\tt p1} or {\tt p2} are less than or equal to zero,
+or if $2{\tt p1} - 1 > {\tt n1}$,
+or if $2{\tt p2} - 1 > {\tt n2}$,
+or if {\tt oldToNew} is {\tt NULL},
+or if {\tt dsizes1[]} and {\tt dsizes2[]} are not {\tt NULL} 
+but have invalid entries (all entries must be positive, 
+entries in {\tt dsizes1[]} must sum to {\tt n1 - p1 + 1},
+and
+entries in {\tt dsizes2[]} must sum to {\tt n2 - p2 + 1},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void localND3D ( int n1, int n2, int n3, int p1, int p2, int p3,
+                 int dsizes1[], int dsizes2[], int dsizes3[],
+                 int oldToNew[] ) ;
+\end{verbatim}
+\index{localND3D@{\tt localND3D()}}
+This method finds a local nested dissection ordering 
+\cite{bha93-localND} for an {\tt n1 x n2 x n3} 3-D grid.
+There are {\tt p1 x p2 x p3} domains in the grid.
+The {\tt q}'th domain contains a
+{\tt dsizes1[q] x dsizes2[q] x dsizes3[q]} 
+subgrid of points.
+The {\tt dsizes1[]}, {\tt dsizes2[]} and {\tt dsizes3[]} vectors 
+are optional;
+they allow the user to explicitly input domain sizes.
+If {\tt dsizes1[]}, {\tt dsizes2[]} and {\tt dsizes3[]} 
+are not {\tt NULL},
+the {\tt q = q1 + q2*p1+ q3*p1*p2}'th domain contains a
+{\tt dsizes1[q1] x dsizes2[q2] x disizes3[q3]} subgrid of points.
+\par \noindent {\it Error checking:}
+If {\tt n1}, {\tt n2} or {\tt n3} are less than or equal to zero,
+or if {\tt p1}, {\tt p2} or {\tt p3} are less than or equal to zero,
+or if $2{\tt p1} - 1 > {\tt n1}$,
+or if $2{\tt p2} - 1 > {\tt n2}$,
+or if $2{\tt p3} - 1 > {\tt n3}$,
+or if {\tt oldToNew} is {\tt NULL},
+or if {\tt dsizes1[]}, {\tt disizes2[]} and {\tt dsizes3[]} 
+are not {\tt NULL} 
+but have invalid entries (all entries must be positive, 
+entries in {\tt dsizes1[]} must sum to {\tt n1 - p1 + 1},
+entries in {\tt dsizes2[]} must sum to {\tt n2 - p2 + 1},
+and
+entries in {\tt dsizes3[]} must sum to {\tt n3 - p3 + 1},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void fp2DGrid ( int n1, int n2, int ivec[], FILE *fp ) ;
+\end{verbatim}
+\index{fp2DGrid@{\tt fp2DGrid()}}
+This method writes the {\tt ivec[]} vector onto an {\tt n1 x n2}
+grid to file {\tt fp}.
+This is useful to visualize an ordering or a metric on a grid.
+\par \noindent {\it Error checking:}
+If {\tt n1} or {\tt n2} are less than or equal to zero,
+or if {\tt ivec} or {\tt fp} are {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void fp3DGrid ( int n1, int n2, int n3, int ivec[], FILE *fp ) ;
+\end{verbatim}
+\index{fp3DGrid@{\tt fp3DGrid()}}
+This method writes the {\tt ivec[]} vector onto an {\tt n1 x n2 x n3}
+grid to file {\tt fp}.
+This is useful to visualize an ordering or a metric on a grid.
+\par \noindent {\it Error checking:}
+If {\tt n1}, {\tt n2} or {\tt n3} are less than or equal to zero, 
+or if {\tt ivec} or {\tt fp} are {\tt NULL},
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+%=======================================================================
+\subsection{Multiple minimum degree, Nested dissection 
+            and multisection wrapper methods}
+\par
+There are three simple methods to find minimum degree, nested
+dissection and multisection orderings.
+In addition, there is one method that finds the better of two
+methods -- nested dissection and multisection.
+(Much of the work to find either nested dissection or multisection
+is identical, so this method takes little more time than either of
+the two separately.)
+\par
+To properly specify these methods there are many parameters
+--- these three wrapper methods insulate the user from all but one
+or two of the parameters.
+As a result, the quality of the ordering may not be as good as can
+be found by using non-default settings of the parameters.
+\par
+One wrapper method computes a minimum degree ordering --- the only
+input parameter is a random number seed.
+Two wrappers methods compute the nested dissection and multisection
+orderings --- in addition to a random number seed there is a upper
+bound on the subgraph size used during the graph partition.
+This is the most sensitive of the parameters.
+\par
+The user interested in more customized orderings should consult the
+chapters on the 
+the {\tt GPart}, {\tt DSTree} and {\tt MSMD} objects
+that perform the three steps of the ordering process:
+perform an incomplete nested dissection of the graph,
+construct the map from vertices to stages in which they will be
+eliminated, and perform the multi-stage minimum degree ordering.
+The driver programs in the {\tt GPart} and {\tt MSMD} directories
+fully exercise the graph partition and ordering strategies by
+giving the user access to all input parameters.
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * orderViaMMD ( Graph *graph, int seed, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{orderViaMMD@{\tt orderViaMMD()}}
+This method returns a front tree {\tt ETree} object for a multiple
+minimum degree ordering of the graph {\tt graph}.
+The {\tt seed} parameter is a random number seed.
+The {\tt msglvl} and {\tt msgFile} parameters govern the
+diagnostics output.
+Use {\tt msglvl = 0} for no output, {\tt msglvl = 1} for timings
+and scalar statistics, and use {\tt msglvl > 1} with care, for it
+can generate huge amounts of output.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * orderViaND ( Graph *graph, int maxdomainsize, int seed, 
+                     int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{orderViaND@{\tt orderViaND()}}
+This method returns a front tree {\tt ETree} object for a nested
+dissection ordering of the graph {\tt graph}.
+If a subgraph has more vertices than the {\tt maxdomainsize} parameter,
+it is split.
+The {\tt seed} parameter is a random number seed.
+The {\tt msglvl} and {\tt msgFile} parameters govern the
+diagnostics output.
+Use {\tt msglvl = 0} for no output, {\tt msglvl = 1} for timings
+and scalar statistics, and use {\tt msglvl > 1} with care, for it
+can generate huge amounts of output.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+or if ${\tt maxdomainsize} \le 0$,
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * orderViaMS ( Graph *graph, int maxdomainsize, int seed, 
+                     int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{orderViaMS@{\tt orderViaMS()}}
+This method returns a front tree {\tt ETree} object for a 
+multisection ordering of the graph {\tt graph}.
+If a subgraph has more vertices than the {\tt maxdomainsize} parameter,
+it is split.
+The {\tt seed} parameter is a random number seed.
+The {\tt msglvl} and {\tt msgFile} parameters govern the
+diagnostics output.
+Use {\tt msglvl = 0} for no output, {\tt msglvl = 1} for timings
+and scalar statistics, and use {\tt msglvl > 1} with care, for it
+can generate huge amounts of output.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+or if ${\tt maxdomainsize} \le 0$,
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+ETree * orderViaBestOfNDandMS ( Graph *graph, int maxdomainsize, int maxzeros,
+                                int maxsize, int seed, int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{orderViaBestOfNDandMS@{\tt orderViaBestOfNDandMS()}}
+This method returns a front tree {\tt ETree} object for a 
+better of two orderings, a nested dissection 
+and multisection ordering.
+If a subgraph has more vertices than the {\tt maxdomainsize} parameter,
+it is split.
+The {\tt seed} parameter is a random number seed.
+This method also transforms the front tree using the {\tt maxzeros}
+and {\tt maxsize} parameters.
+See the {\tt ETree\_transform()} method 
+in Section~\ref{subsection:ETree:proto:transformation}.
+The {\tt msglvl} and {\tt msgFile} parameters govern the
+diagnostics output.
+Use {\tt msglvl = 0} for no output, {\tt msglvl = 1} for timings
+and scalar statistics, and use {\tt msglvl > 1} with care, for it
+can generate huge amounts of output.
+\par \noindent {\it Error checking:}
+If {\tt graph} is {\tt NULL},
+or if ${\tt maxdomainsize} \le 0$,
+or if {\tt msglvl > 0} and {\tt msgFile} is {\tt NULL}, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+%=======================================================================
+\subsection{Graph drawing method}
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void drawGraphEPS ( Graph *graph, Coords *coords, IV *tagsIV, 
+                    double bbox[4], double rect[4], double linewidth1,
+                    double linewidth2, double radius, char *epsFileName,
+                    int msglvl, FILE *msgFile ) ;
+\end{verbatim}
+\index{drawGraphEPS@{\tt drawGraphEPS()}}
+This method is used to create an EPS (Encapsulated Postscript) file
+that contains a picture of a graph in two dimensions.
+We use this to visualize separators and domain decompositions,
+mostly of regular grids and triangulations of a planar region.
+\par
+The {\tt graph} object defines the connectivity of the
+vertices.
+The {\tt coords} object defines the locations of the vertices.
+The {\tt tagsIV} object is used to define whether or not an edge
+is drawn between two vertices adjacent in the graph.
+When {\tt tagsIV} is not {\tt NULL}, 
+if there is an edge {\tt (u,v)} in the graph and 
+{\tt tags[u] = tags[v]}, then the edge with width {\tt linewidth1}
+is drawn.
+For edges {\tt (u,v)} in the graph and 
+{\tt tags[u] != tags[v]}, then the edge with width {\tt linewidth2}
+is drawn, assuming ${\tt linewidth2} > 0$.
+If {\tt tagsIV} is {\tt NULL}, than all edges are drawn with 
+width {\tt linewidth1}.
+Each vertex is draw with a filled circle with radius {\tt radius}.
+\par
+The graph and its {\tt Coords} object occupy a certain area in 2-D
+space.
+We try to plot the graph inside the area defined by the {\tt
+rect[]} array in such a manner that the relative scales are
+preserved (the graph is not stretched in either the $x$ or $y$
+direction) and that the larger of the width and height of the graph
+fills the area defined by the {\tt rect[]} rectangle.
+{\it Note}: hacking postscript is {\it not} an area of expertise of
+either author.
+Some Postscript viewers give us messages that we are not obeying
+the format conventions (this we do not doubt), but we have never
+failed to view or print one of these files.
+\par \noindent {\it Error checking:}
+If the method is unable to open the file, 
+an error message is printed and the program exits.
+%-----------------------------------------------------------------------
+\end{enumerate}
+\par
+%=======================================================================
+\subsection{Linear system construction}
+\par
+Our driver programs test linear systems where the matrices come
+from regular grids using nested dissection orderings.
+There are two methods that generate linear systems of this form
+along with the front tree and symbolic factorization.
+\par
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void mkNDlinsys ( int n1, int n2, int n3, int maxzeros, int maxsize,
+                  int type, int symmetryflag, int nrhs, int seed, int msglvl, 
+                  FILE *msgFile, ETree **pfrontETree, IVL **psymbfacIVL, 
+                  InpMtx **pmtxA, DenseMtx **pmtxX, DenseMtx **pmtxB ) ;
+\end{verbatim}
+\index{mkNDlinsys@{\tt mkNDlinsys()}}
+This method creates a linear system $AX = B$ for a
+${\tt n1} \times {\tt n2} \times {\tt n3}$ grid.
+The entries in $A$ and $X$ are random numbers,
+$B$ is computed as the product of $A$ with $X$.
+$A$ can be real ({\tt type = 1}) or complex ({\tt type = 2}),
+and can be symmetric ({\tt symmetryflag = 0}),
+Hermitian ({\tt symmetryflag = 1}) or
+nonsymmetric ({\tt symmetryflag = 2}).
+The number of columns of $X$ is given by {\tt nrhs}.
+The linear system is ordered using theoretical nested dissection,
+and the front tree is transformed using the {\tt maxzeros} and {\tt
+maxsize} parameters.
+The addresses of the front tree, symbolic factorization, and three
+matrix objects are returned in the last five arguments of the
+calling sequence.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void mkNDlinsysQR ( int n1, int n2, int n3, int type, int nrhs, int seed,
+               int msglvl, FILE *msgFile, ETree **pfrontETree, IVL **psymbfacIVL, 
+               InpMtx **pmtxA, DenseMtx **pmtxX, DenseMtx **pmtxB ) ;
+\end{verbatim}
+\index{mkNDlinsysQR@{\tt mkNDlinsysQR()}}
+This method creates a linear system $AX = B$ for a
+natural factor formulation of a
+${\tt n1} \times {\tt n2} \times {\tt n3}$ grid.
+If {\tt n1}, {\tt n2} and {\tt n3} are all greater than 1,
+the grid is formed of linear hexahedral elements and
+the matrix $A$ has {\tt 8*n1*n2*n3} rows.
+If one of {\tt n1}, {\tt n2} and {\tt n3} is equal to 1,
+the grid is formed of linear quadrilateral elements and
+the matrix $A$ has {\tt 4*n1*n2*n3} rows.
+The entries in $A$ and $X$ are random numbers,
+$B$ is computed as the product of $A$ with $X$.
+$A$ can be real ({\tt type = 1}) or complex ({\tt type = 2}).
+The number of columns of $X$ is given by {\tt nrhs}.
+The linear system is ordered using theoretical nested dissection,
+and the front tree is transformed using the {\tt maxzeros} and {\tt
+maxsize} parameters.
+The addresses of the front tree, symbolic factorization, and three
+matrix objects are returned in the last five arguments of the
+calling sequence.
+\par \noindent {\it Error checking:}
+None presently.
+%-----------------------------------------------------------------------
+\end{enumerate}

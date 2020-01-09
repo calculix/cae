@@ -1,4 +1,4 @@
-© Ihor Mirzov, December 2019  
+© Ihor Mirzov, January 2020  
 Distributed under GNU General Public License v3.0
 
 <br/><br/>
@@ -6,6 +6,7 @@ Distributed under GNU General Public License v3.0
 
 
 ---
+
 [Features](#features) |
 [Screenshots](#screenshots) |
 [Downloads](#downloads) |
@@ -106,10 +107,6 @@ Edit default startup model name in in File->Settings or you can pass it as an ar
     in Windows:     cae.bat -inp model.inp
                     cae.bat -inp model.unv
 
-To compile CalculiX sources from CAE in Windows you'll need *cygwin* with *gcc*, *gfortran* and *make*. Install it to 'C:\\cygwin64'.
-
-Attention! In Windows CCX may not work if placed outside 'bin' directory. It needs Cygwin DLLs! So, if you change path to CCX, place there Cygwin DLLs from 'bin' directory.
-
 <br/><br/>
 
 
@@ -149,6 +146,14 @@ CalculiX CAE uses external converters:
 - [unv2ccx](https://github.com/imirzov/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
 
 The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/imirzov/ccx_free_form_fortran) - this version has much better code folding and readability.
+
+In Windows to work with subroutines and to recompile CalculiX sources from CAE you'll need *cygwin*. Install it to 'C:\\cygwin64' with:
+- gcc-g++ 7.3.0-3
+- gcc-fortran 7.3.0-3
+- make 4.2.1-2
+- perl 5.26.3-2
+
+**Attention!** In Windows CCX may not work if placed outside 'bin' directory. It needs Cygwin DLLs! So, if you change path to CCX, place there Cygwin DLLs from 'bin' directory.
 
 <br/><br/>
 

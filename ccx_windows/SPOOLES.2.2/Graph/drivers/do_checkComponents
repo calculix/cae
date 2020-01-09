@@ -1,0 +1,13 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inFile  = $matrices/$matrix/orig0.graphf
+set inFile  = /local1/ARPA/matrices/i4a/orig1.graphb
+
+set msglvl  = 1
+
+set msgFile = stdout
+
+checkComponents $msglvl $msgFile $inFile

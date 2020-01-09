@@ -1,0 +1,113 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%BoundingBox: 0 0 300 200
+ /CSH {
+ %
+ % center show a string
+ %
+ %  stack
+ %     string str
+ %
+ dup stringwidth pop 2 div neg 0 rmoveto
+ show
+ } def
+ /ML {
+ %
+ % moveto lineto
+ %
+ %  stack
+ %     x0 y0 x1 y1
+ %
+ moveto lineto
+ } def
+ /FC {
+ %
+ % draw filled circle
+ %
+ %  stack
+ %     x y r
+ %
+ newpath 2 index 1 index add 2 index moveto 0 360 arc fill
+ } def
+ /OC {
+ %
+ % draw open circle
+ %
+ %  stack
+ %     x y r
+ %
+ newpath 2 index 1 index add 2 index moveto 0 360 arc stroke
+ } def
+
+ % 20 20 280 180 rectstroke
+ newpath
+   280 30 280 80 ML
+   280 80 264 130 ML
+   249 80 264 130 ML
+   264 130 151 180 ML
+   218 80 186 130 ML
+   186 80 186 130 ML
+   155 80 186 130 ML
+   186 130 151 180 ML
+   124 80 108 130 ML
+   92.5 30 92.5 80 ML
+   92.5 80 108 130 ML
+   108 130 151 180 ML
+   61.2 80 45.6 130 ML
+   30 80 45.6 130 ML
+   45.6 130 151 180 ML
+ stroke
+
+ gsave
+    /Helvetica-Bold findfont 12.5 scalefont setfont
+    1.0 setgray 280 30 10 FC
+    0.0 setgray 280 30 10 OC
+   280 25 moveto  (0) CSH
+    1.0 setgray 280 80 10 FC
+    0.0 setgray 280 80 10 OC
+   280 75 moveto  (1) CSH
+    1.0 setgray 249 80 10 FC
+    0.0 setgray 249 80 10 OC
+   249 75 moveto  (2) CSH
+    1.0 setgray 264 130 10 FC
+    0.0 setgray 264 130 10 OC
+   264 125 moveto  (3) CSH
+    1.0 setgray 218 80 10 FC
+    0.0 setgray 218 80 10 OC
+   218 75 moveto  (4) CSH
+    1.0 setgray 186 80 10 FC
+    0.0 setgray 186 80 10 OC
+   186 75 moveto  (5) CSH
+    1.0 setgray 155 80 10 FC
+    0.0 setgray 155 80 10 OC
+   155 75 moveto  (6) CSH
+    1.0 setgray 186 130 10 FC
+    0.0 setgray 186 130 10 OC
+   186 125 moveto  (7) CSH
+    1.0 setgray 124 80 10 FC
+    0.0 setgray 124 80 10 OC
+   124 75 moveto  (8) CSH
+    1.0 setgray 92.5 30 10 FC
+    0.0 setgray 92.5 30 10 OC
+   92.5 25 moveto  (9) CSH
+    1.0 setgray 92.5 80 10 FC
+    0.0 setgray 92.5 80 10 OC
+   92.5 75 moveto  (10) CSH
+    1.0 setgray 108 130 10 FC
+    0.0 setgray 108 130 10 OC
+   108 125 moveto  (11) CSH
+    1.0 setgray 61.2 80 10 FC
+    0.0 setgray 61.2 80 10 OC
+   61.2 75 moveto  (12) CSH
+    1.0 setgray 30 80 10 FC
+    0.0 setgray 30 80 10 OC
+   30 75 moveto  (13) CSH
+    1.0 setgray 45.6 130 10 FC
+    0.0 setgray 45.6 130 10 OC
+   45.6 125 moveto  (14) CSH
+    1.0 setgray 151 180 10 FC
+    0.0 setgray 151 180 10 OC
+   151 175 moveto  (15) CSH
+
+ grestore
+
+ showpage

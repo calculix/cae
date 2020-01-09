@@ -1,0 +1,247 @@
+\par
+\section{Data Structure}
+\par
+There are four typed objects.
+\begin{itemize}
+\item
+{\tt MSMD} : the main object.
+\item
+{\tt MSMDinfo} : an object that communicate parameter choices from
+the caller to the {\tt MSMD} object and information and statistics 
+from the {\tt MSMD} object to the caller.
+\item
+{\tt MSMDstageInfo} : an object that contains statistics for a
+stage of elimination, e.g., number of steps, number of vertices
+eliminated, weight of vertices eliminated, etc.
+\item
+{\tt MSMDvtx} : an object that models a vertex.
+\end{itemize}
+A user needs to understand the {\tt MSMDinfo} object, 
+so this is where we will start our description.
+\par
+%-----------------------------------------------------------------------
+\par
+\subsection{{\tt MSMDinfo} : define your algorithm}
+\par
+\begin{itemize}
+\item
+{\tt int compressFlag} -- define initial and subsequent compressions of
+the graph.
+\par
+We compress a graph using a checksum technique.
+At some point in the elimination, vertices in the reach set (those
+adjacent to vertices just eliminated) have a checksum based on
+their adjacencies computed, and then vertices with the same
+checksum are compared to see if they are indistinguishable.
+This operation has a cost, and there are classes of vertices for
+which there is a large amount of compression, and for other
+classes there is little.
+Compression is a powerful tool, but we need a way to control it.
+\begin{itemize}
+\item
+{\tt compressFlag \% 4 == 0} 
+--- do not perform any compression after each elimination step.
+\item
+{\tt compressFlag \% 4 == 1} 
+--- after each elimination step, consider only those nodes that are
+{\it 2-adjacent}, adjacent to two eliminated subtrees and having no
+uncovered adjacent edges.
+\item
+{\tt compressFlag \% 4 == 2} 
+--- after each elimination step, consider all nodes.
+\item
+{\tt compressFlag / 4 >= 1} --- compress at stage zero before any
+elimination.
+\end{itemize}
+The default value is {\tt 1}, no initial compression and
+consider only 2-adjacent nodes after each elimination step.
+\item
+{\tt int prioType} --- 
+define the priority to choose a vertex to eliminate.
+\begin{itemize}
+\item
+{\tt prioType == 0} 
+--- zero priority
+\item
+{\tt prioType == 1} 
+--- exact external degree for each vertex
+\item
+{\tt prioType == 2} 
+--- approximate external degree for each vertex
+(${\hat d}$ from \cite{ame96-amd})
+\item
+{\tt prioType == 3} 
+--- exact external degree for 2-adjacent vertices, approximate
+external degree for the others
+\end{itemize}
+The default value is {\tt 1}, exact external degree for each vertex.
+\item
+{\tt double stepType} --- define the elimination steps.
+\begin{itemize}
+\item
+{\tt stepType == 0} 
+--- only one vertex of minimum priority is eliminated at each step,
+    e.g., as used in SPARSPAK's {\tt GENQMD}, YSMP's ordering,
+    and {\tt AMD} \cite{ame96-amd}.
+\item
+{\tt stepType == 1} 
+--- an independent set of vertices of minimum priority is eliminated
+at each step, e.g., as used in GENMMD, multiple minimum degree.
+\item
+{\tt stepType > 1} 
+--- an independent set of vertices is eliminated whose priorities
+lie between the minimum priority and the minimum priority
+multiplied by {\tt stepType}.
+\end{itemize}
+The default value is {\tt 1}, multiple elimination of vertices with
+minimum priority.
+\item
+{\tt int seed} --- a seed used for a random number generator, this
+introduces a necessary random element to the ordering.
+\item
+{\tt int msglvl} -- message level for statistics, diagnostics and
+monitoring. The default value is zero, no statistics.
+Set {\tt msglvl} to one and get elimination monitoring.
+Increase {\tt msglvl} slowly to get more mostly debug information.
+\item
+{\tt FILE *msgFile} -- message file, default is {\tt stdout}.
+\item
+{\tt int maxnbytes} -- maximum number of bytes used during the ordering.
+\item
+{\tt int nbytes} -- present number of bytes used during the ordering.
+\item
+{\tt int istage} -- present stage of elimination.
+\item
+{\tt int nstage} -- number of stages of elimination.
+\item
+{\tt MSMDstageInfo *stageInfo} -- pointer to vector of
+{\tt MSMDstageInfo} structures that hold information about each
+stage of the elimination.
+\item
+{\tt double totalCPU} -- total CPU to find the ordering.
+\end{itemize}
+%-----------------------------------------------------------------------
+\par
+\subsection{{\tt MSMD} : driver object}
+\par
+A user need not know anything about the internals of this object,
+just the methods to initialize it, order the graph, and extract the
+permutation vectors and/or a front tree.
+\par
+\begin{itemize}
+\item
+{\tt int nvtx} --- number of internal vertices in the graph.
+\item
+{\tt IIheap *heap} -- 
+pointer to a {\tt IIheap} object that maintains the priority queue.
+\item
+{\tt IP *baseIP} -- pointer to the base {\tt IP} objects, used to hold
+subtree lists 
+\item
+{\tt IP *freeIP} -- pointer to the list of free {\tt IP} objects
+\item
+{\tt int incrIP} -- integer that holds the increment factor for the
+{\tt IP} objects.
+\item
+{\tt MSMDvtx *vertices} -- pointer to vector of {\tt MSMDvtx}
+objects that represent the vertices.
+\item
+{\tt IV ivtmpIV} -- {\tt IV} object that holds an integer temporary
+vector.
+\item
+{\tt IV reachIV} -- {\tt IV} object that holds the reach vector.
+\end{itemize}
+\par
+%-----------------------------------------------------------------------
+\par
+\subsection{{\tt MSMDstageInfo} : statistics object for a stage of
+the elimination}
+\par
+This object stores information about the elimination process at a
+stage of the elimination.
+\par
+\begin{itemize}
+\item
+{\tt int nstep} --- number of elimination steps in this stage
+\item
+{\tt int nfront} --- number of fronts created at this stage
+\item
+{\tt int welim} --- weight of the vertices eliminated at this stage
+\item
+{\tt int nfind} --- number of front indices 
+\item
+{\tt int nzf} --- 
+number of factor entries (for a Cholesky factorization)
+\item
+{\tt double ops} --- 
+number of factor operations (for a Cholesky factorization)
+\item
+{\tt int nexact2} --- 
+number of exact degree updates to 2-adjacent vertices
+\item
+{\tt int nexact3} --- number of exact degree updates 
+to non-2-adjacent vertices
+\item
+{\tt int napprox} --- number of approximate degree updates
+\item
+{\tt int ncheck} --- number of comparisons of vertices with the same
+checksum during the process to find indistinguishable nodes
+\item
+{\tt int nindst} --- number of indistinguishable nodes that were
+detected.
+\item
+{\tt int noutmtch} --- number of nodes that were outmatched
+\item
+{\tt double cpu} --- elapsed CPU time for this stage of the elimination.
+\end{itemize}
+\par
+%-----------------------------------------------------------------------
+\par
+\subsection{{\tt MSMDvtx} : vertex object}
+\par
+This object stores information for a vertex during the elimination.
+\par
+\begin{itemize}
+\item
+{\tt int id} --- id of the vertex, in range {\tt [0,nvtx)}
+\item
+{\tt char mark} --- character mark flag, {\tt 'O'} or {\tt 'X'}
+\item
+{\tt char status} --- character status of the vertex
+\begin{itemize}
+\item {\tt 'L'} -- eliminated leaf vertex
+\item {\tt 'E'} -- eliminated interior vertex
+\item {\tt 'O'} -- outmatched vertex
+\item {\tt 'D'} -- vertex on degree (priority) heap
+\item {\tt 'R'} -- vertex on reach set
+\item {\tt 'I'} -- vertex found to be indistinguishable to another
+\item {\tt 'B'} -- boundary vertex, to be eliminated in another stage
+\end{itemize}
+\item
+{\tt int stage} --- stage of the vertex. Stage 0 nodes are
+eliminated before stage 1 nodes, etc.
+\item
+{\tt int wght} --- weight of the vertex
+\item
+{\tt int nadj} --- size of the {\tt adj} vector
+\item
+{\tt int *adj} --- 
+for an uneliminated vertex, {\tt adj} points to a list
+of uncovered adjacent edges; for an eliminated vertex, {\tt adj}
+points points to a list of its boundary vertices (only valid when
+the vertex is a leaf of the elimination tree or a root of a subtree
+of uneliminated vertices).
+\item
+{\tt int bndwght} --- for an eliminated vertex, the weight of the
+vertices on its boundary.
+\item
+{\tt MSMDvtx *par} --- for an eliminated vertex, 
+{\tt par} points to its parent vertex in the front tree
+({\tt NULL} if the vertex is the root of a subtree).
+For an indistinguishable vertex, {\tt par} points to its
+representative vertex (which may have also been found to be
+indistinguishable to another).
+\item
+{\tt IP *subtrees} --- pointer to a list of {\tt IP} objects to store
+the adjacent subtrees, valid only for uneliminated vertices.
+\end{itemize}

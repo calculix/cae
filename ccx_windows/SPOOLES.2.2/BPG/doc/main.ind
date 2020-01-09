@@ -1,0 +1,24 @@
+\begin{theindex}
+
+  \item {\tt BPG\_clearData()}, 4
+  \item {\tt BPG\_DMdecomposition()}, 5
+  \item {\tt BPG\_DMviaMaxFlow()}, 6
+  \item {\tt BPG\_free()}, 4
+  \item {\tt BPG\_init()}, 4
+  \item {\tt BPG\_initFromColoring()}, 4
+  \item {\tt BPG\_levelStructure()}, 5
+  \item {\tt BPG\_makeGraphXbyX()}, 5
+  \item {\tt BPG\_makeGraphYbyY()}, 5
+  \item {\tt BPG\_new()}, 4
+  \item {\tt BPG\_pseudoperipheralnode()}, 5
+  \item {\tt BPG\_readFromBinaryFile()}, 7
+  \item {\tt BPG\_readFromFile()}, 6
+  \item {\tt BPG\_readFromFormattedFile()}, 6
+  \item {\tt BPG\_setDefaultFields()}, 4
+  \item {\tt BPG\_writeForHumanEye()}, 7
+  \item {\tt BPG\_writeStats()}, 7
+  \item {\tt BPG\_writeToBinaryFile()}, 7
+  \item {\tt BPG\_writeToFile()}, 7
+  \item {\tt BPG\_writeToFormattedFile()}, 7
+
+\end{theindex}

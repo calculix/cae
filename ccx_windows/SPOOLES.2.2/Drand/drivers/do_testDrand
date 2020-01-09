@@ -1,0 +1,17 @@
+#! /bin/csh -f
+
+set msglvl  = 5
+set msgFile = stdout
+
+set distribution  =  2
+set param1        =  0
+set param2        =  10
+set distribution  =  1
+set param1        = -10
+set param2        =  10
+set seed1         =  10101
+set seed2         =  20304
+set n             =  100
+
+testDrand $msglvl $msgFile \
+          $distribution $param1 $param2 $seed1 $seed2 $n

@@ -1,0 +1,55 @@
+#! /bin/csh -f
+
+set msglvl           = 1
+set msgFile          = res3D.64
+set msgFile          = res
+set msgFile          = /local1/ARPA/junk/res.grid
+set msgFile          = res.grid
+set msgFile          = stdout
+
+set n1       =    7
+set n2       =    7
+set n3       =    1
+set maxzeros = 1000
+set maxzeros =  500
+set maxzeros =  250
+set maxzeros =  750
+set maxzeros =    0
+set maxsize  = 1000
+set maxsize  =   64
+
+set seed             = 10101
+set type             = 1
+set symmetryflag     = 0
+set sparsityflag     = 0
+set pivotingflag     = 0
+set tau              = 5
+set droptol          = 1.e-50
+set lookahead        = 0
+set nrhs             = 4
+
+foreach nrhs ( 1 )
+# foreach nrhs ( 1 2 3 4 5 6 8 16 )
+   echo ' nrhs ' $nrhs
+# foreach n1 ( 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 )
+# foreach maxzeros ( 400 800 1600 )
+# foreach maxsize ( 16 32 48 64 80 )
+# set msgFile          = res3D.$maxsize.$maxzeros
+  echo $maxzeros $maxsize
+# foreach n1 ( 5 7 9 11 13 15 17 19 21 23 25 27 29 31 )
+#  set n2 = $n1
+#  set n3 = $n1
+# foreach sparsityflag ( 0 1 )
+#  foreach pivotingflag ( 0 1 )
+#     foreach symmetryflag ( 0 2 )
+  echo $n1 $n2 $n3
+         testGrid $msglvl $msgFile $n1 $n2 $n3 $maxzeros $maxsize \
+                  $seed $type $symmetryflag $sparsityflag $pivotingflag\
+                  $tau $droptol $lookahead $nrhs 
+#     end
+#  end
+# end
+# end
+# end
+# end
+end

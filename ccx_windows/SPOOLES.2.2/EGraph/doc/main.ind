@@ -1,0 +1,20 @@
+\begin{theindex}
+
+  \item {\tt EGraph\_clearData()}, 2
+  \item {\tt EGraph\_free()}, 2
+  \item {\tt EGraph\_init()}, 2
+  \item {\tt EGraph\_make27P()}, 3
+  \item {\tt EGraph\_make9P()}, 3
+  \item {\tt EGraph\_mkAdjGraph()}, 3
+  \item {\tt EGraph\_new()}, 2
+  \item {\tt EGraph\_readFromBinaryFile()}, 3
+  \item {\tt EGraph\_readFromFile()}, 3
+  \item {\tt EGraph\_readFromFormattedFile()}, 3
+  \item {\tt EGraph\_setDefaultFields()}, 2
+  \item {\tt EGraph\_writeForHumanEye()}, 4
+  \item {\tt EGraph\_writeStats()}, 4
+  \item {\tt EGraph\_writeToBinaryFile()}, 4
+  \item {\tt EGraph\_writeToFile()}, 4
+  \item {\tt EGraph\_writeToFormattedFile()}, 4
+
+\end{theindex}

@@ -1,0 +1,804 @@
+\par
+\chapter{Algorithm Design}
+\label{chapter:algorithmDesign}
+\par
+Let us begin with a very quick description of the sparse
+factorizations we will use.
+We assume that the matrix $A$ has symmetric structure, or more
+generally, if $a_{i,j} \ne 0$, then we treat $a_{j,i}$ as nonzero.
+\par
+Let us ignore pivoting for a moment.
+The matrix will be factored as $A = (L+I)D(I+U)$.
+The rows and columns of $A$ are partitioned into {\it fronts}.
+We use the upper case Roman letters $I$ and $J$ to refer to
+index sets for a front.
+We use $\bnd{J}$ to represent the {\it boundary} of front $J$,
+namely those rows and columns $k \notin J$ 
+such that $l_{k,j} \ne 0$ and or $u_{j,k} \ne 0$.
+\par
+There are two steps to compute the entries in a front.
+The first is to form the temporary matrix
+\begin{equation}
+\label{alg:eqn:1}
+\left \lbrack \begin{array}{cc}
+T_{J,J} & T_{J, \bnd{J}} \\
+T_{\bnd{J},J} & T_{\bnd{J},\bnd{J}}
+\end{array} \right \rbrack
+=
+\left \lbrack \begin{array}{cc}
+A_{J,J} & A_{J, \bnd{J}} \\
+A_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+-
+\left \lbrack \begin{array}{c}
+L_{J,*} \\
+L_{\bnd{J},*}
+\end{array} \right \rbrack
+D_{*,*} 
+\left \lbrack \begin{array}{cc}
+U_{*,J} & U_{*,\bnd{J}}
+\end{array} \right \rbrack.
+\end{equation}
+The $*$ subscript means all rows and columns that precede $J$.
+We think of the temporary matrix on the left
+as {\it fully assembled}, i.e.,
+the original entries are present plus all updates from rows and
+columns that precede the front.
+\par
+The second step is to factor the front as
+\begin{equation}
+\label{alg:eqn:2}
+\left \lbrack \begin{array}{cc}
+T_{J,J} & T_{J, \bnd{J}} \\
+T_{\bnd{J},J} & T_{\bnd{J},\bnd{J}}
+\end{array} \right \rbrack
+=
+\left \lbrack \begin{array}{cc}
+L_{J,J} + I & 0 \\
+L_{\bnd{J},J} & I
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{cc}
+D_{J,J} & 0 \\
+0 & H_{\bnd{J},\bnd{J}}^J
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{cc}
+I + U_{J,J} & U_{J,\bnd{J}} \\
+0 & I
+\end{array} \right \rbrack.
+\end{equation}
+\par
+In equation~(\ref{alg:eqn:1}) there will likely be many columns $i$ such
+that $L_{J,i}$ and $U_{i,J}$ are zero, in which case they need not
+take part in the first equation.
+Since all preceding rows and columns are found in fronts
+themselves, we can rewrite equation~(\ref{alg:eqn:1}) as
+\begin{equation}
+\label{alg:eqn:3}
+\left \lbrack \begin{array}{cc}
+T_{J,J} & T_{J, \bnd{J}} \\
+T_{\bnd{J},J} & T_{\bnd{J},\bnd{J}}
+\end{array} \right \rbrack
+=
+\left \lbrack \begin{array}{cc}
+A_{J,J} & A_{J, \bnd{J}} \\
+A_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+-
+\sum_{\bnd{I} \cap J \ne \emptyset}
+\left \lbrack \begin{array}{c}
+L_{J,I} \\
+L_{\bnd{J},I}
+\end{array} \right \rbrack
+D_{I,I} 
+\left \lbrack \begin{array}{cc}
+U_{I,J} & U_{I,\bnd{J}}
+\end{array} \right \rbrack.
+\end{equation}
+\par
+The fronts can be grouped into a {\it front tree} using a {\it
+parent} relation: $par(I) = J$ means that $J$ is the parent of $I$
+in the front tree.
+There is one special property that relates the boundaries of fronts
+and the front tree: if $\bnd{I} \cap J \ne \emptyset$, then $I$ is
+a descendent of $J$, or conversely, $J$ is an ancestor of $I$.
+Front $I$ need not update all of its ancestors, nor does front $J$
+need to be updated by all of its descendents, but when an update
+does occur, it is between two fronts that have a
+ancestor-descendent relationship.
+The front tree is defined by the parent relation:
+the {\it parent} of $I$ is the front that contains the first row
+and column in $\bnd{I}$, in other words, the closest supported
+ancestor to $I$.
+(Of course, if $\bnd{I} = \emptyset$, then its parent does not
+exist, and $I$ is a root of the tree, actually a forest if $A$ is
+reducible.)
+There is one important property that relates the boundary sets of a
+front and its parent: 
+if $par(I) = J$, then $\bnd{I} \subseteq J \cup \bnd{J}$.
+\par
+Using the front tree, let us describe the fronts that are
+descendents of a front.
+We use the ${\widehat {\ }}$ operator to denote a subtree.
+${\widehat J}$, the subtree rooted at $J$,
+is the set of fronts that contains $J$ and all of its descendents.
+We can write the subtree relation in a recursive form.
+$$
+{\widehat J} = J \cup \bigcup_{par(I) = J} {\widehat I}
+$$
+Using these two relations, we can rewrite
+equation~(\ref{alg:eqn:3}) as follows.
+\begin{eqnarray}
+\label{alg:eqn:4}
+\left \lbrack \begin{array}{cc}
+T_{J,J} & T_{J, \bnd{J}} \\
+T_{\bnd{J},J} & T_{\bnd{J},\bnd{J}}
+\end{array} \right \rbrack
+& = &
+\left \lbrack \begin{array}{cc}
+A_{J,J} & A_{J, \bnd{J}} \\
+A_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+-
+\sum_{par(I) = J}
+\left \lbrack \begin{array}{c}
+L_{J,{\widehat I}} \nonumber \\
+L_{\bnd{J},{\widehat I}}
+\end{array} \right \rbrack
+D_{{\widehat I},{\widehat I}} 
+\left \lbrack \begin{array}{cc}
+U_{{\widehat I},J} & U_{{\widehat I},\bnd{J}}
+\end{array} \right \rbrack \\
+& = & 
+\left \lbrack \begin{array}{cc}
+A_{J,J} & A_{J, \bnd{J}} \\
+A_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+- 
+\sum_{par(I) = J}
+L_{\bnd{I}, {\widehat I}}
+D_{{\widehat I}, {\widehat I}}
+U_{{\widehat I}, \bnd{I}}
+\end{eqnarray}
+One more trick is necessary.
+Recall equation~(\ref{alg:eqn:2}).
+Once we have assembled the temporary matrix, we factor into the
+$L$, $D$ and $U$ portions plus an additional matrix
+$H_{\bnd{J},\bnd{J}}^J$ which we call the update matrix.
+Using the update matrices of the children, we can rewrite 
+equation~(\ref{alg:eqn:4}) as follows.
+\begin{equation}
+\label{alg:eqn:mf}
+\left \lbrack \begin{array}{cc}
+T_{J,J} & T_{J, \bnd{J}} \\
+T_{\bnd{J},J} & T_{\bnd{J},\bnd{J}}
+\end{array} \right \rbrack
+= 
+\left \lbrack \begin{array}{cc}
+A_{J,J} & A_{J, \bnd{J}} \\
+A_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+- 
+\sum_{par(I) = J}
+H_{\bnd{I},\bnd{I}}^I
+\end{equation}
+This is the defining equation for the multifrontal method
+\cite{duf83-multifrontal}.
+The matrix on the left is the {\it frontal matrix} for front $J$,
+and is usually dense and almost always treated as if it were dense.
+The first matrix on the right consists of original entries and is
+usually sparse.
+Each of the $H_{\bnd{I},\bnd{I}}^I$ update matrices are treated as
+if they were dense.
+\par
+There are many advantages to the multifrontal method.
+The computations are almost all dense matrix operations.
+In a serial environment, the temporary storage for the update
+matrices can be handled as a stack, a last-in first-out list
+structure.
+This makes the transition to an out-of-core implementation very easy.
+But, the one disadvantage is that the frontal matrices can take up
+an immense amount of space for the largest fronts, typically near
+the top of the tree.
+This is the main reason that we do not use this algorithm
+in the {\bf SPOOLES} library.
+\par
+Return to equation~(\ref{alg:eqn:3}) for a moment.
+A left-looking block general sparse algorithm computes three of the
+four submatrices on the left.
+\begin{eqnarray*}
+T_{J,J} & = & A_{J,J}
+- \sum_{\bnd{I} \cap J \ne \emptyset} 
+L_{\bnd{I} \cap J, I} D_{I, I} U_{I, \bnd{I} \cap J}
+\\
+T_{\bnd{J},J} & = & A_{\bnd{J},J}
+- \sum_{\bnd{I} \cap J \ne \emptyset} 
+L_{\bnd{I} \cap \bnd{J}, I} D_{I, I} U_{I, \bnd{I} \cap J}
+\\
+T_{J,\bnd{J}} & = & A_{J,\bnd{J}}
+- \sum_{\bnd{I} \cap J \ne \emptyset} 
+L_{\bnd{I} \cap J, I} D_{I, I} U_{I, \bnd{I} \cap \bnd{J}}
+\end{eqnarray*}
+and then factors the three as follows.
+\begin{eqnarray*}
+T_{J,J}       & = & (L_{J,J} + I)D_{J,J}(I + U_{J,J}) \\
+T_{\bnd{J},J} & = & L_{\bnd{J},J}D_{J,J}(I + U_{J,J}) \\
+T_{J,\bnd{J}} & = & (L_{J,J} + I)D_{J,J}U_{J,\bnd{J}}
+\end{eqnarray*}
+If the fronts are large there are good computational kernels to be had.
+The disadvantage lies in the irregular access patterns for the
+computed factor submatrices; this makes an out-of-core
+implementation problematic.
+On the other hand, working storage is modest, for there are no
+update matrices waiting to be assembled.
+\par \bigskip \par
+\noindent {\large\bf Pivoting and delayed rows and columns}
+\par \bigskip \par
+Let us now turn to pivoting during the factorization.
+It is not the actual swapping of rows and columns that gives
+problems --- one must merely keep track
+of indices and permute rows and columns.
+What does complicate matters is when rows and columns cannot be
+eliminated from a front due to stability reasons.
+(The remaining lower right matrix in $T_{J,J}$ may be zero, or
+eliminating rows and columns may result in large entries in
+$L_{\bnd{J},J}$ or $U_{J,\bnd{J}}$.)
+The delayed rows and columns must be {\it passed} up to the parent
+front, enlarging the parent front where an attempt will be made
+to eliminate them with the rows and columns in the parent's front.
+\par
+Let us assume symmetric pivoting for the moment, where the row and
+column permutation matrices are identical.
+Let the rows and columns in front $I$ be partitioned into two sets,
+$I_e$ contains the eliminated rows and columns
+and
+$I_d$ contains the delayed rows and columns.
+Let us look first at the multifrontal method for it is easier to
+understand.
+\begin{equation}
+\label{alg:eqn:mf-delayed}
+\left \lbrack \begin{array}{cc}
+T_{I,I} & T_{I, \bnd{I}} \\
+T_{\bnd{I},I} & T_{\bnd{I},\bnd{J}}
+\end{array} \right \rbrack
+=
+\left \lbrack \begin{array}{cc}
+L_{I_e,I_e} + I & 0 \\
+L_{I_d \cup \bnd{J},I_e}  & I
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{cc}
+D_{I_e,I_e} & 0 \\
+0           & H_{I_d \cup \bnd{I},I_d \cup \bnd{I}}^I
+\end{array} \right \rbrack
+\left \lbrack \begin{array}{cc}
+I + U_{I_e,I_e} & U_{I_e,I_d \cup \bnd{J}} \\
+0 & I \\
+\end{array} \right \rbrack.
+% \left \lbrack \begin{array}{cc}
+% T_{I,I} & T_{I, \bnd{I}} \\
+% T_{\bnd{I},I} & T_{\bnd{I},\bnd{J}}
+% \end{array} \right \rbrack
+% =
+% \left \lbrack \begin{array}{ccc}
+% L_{I_e,I_e} + I & 0 & 0 \\
+% L_{I_d,I_e}     & I & 0 \\
+% L_{\bnd{J},I_e}   & 0 & I
+% \end{array} \right \rbrack
+% \left \lbrack \begin{array}{ccc}
+% D_{I_e,I_e} & 0                 & 0 \\
+% 0           & H_{I_d,I_d}^I     & H_{I_d,\bnd{I}}^I \\
+% 0           & H_{\bnd{I},I_d}^I & H_{\bnd{I},\bnd{I}}^I
+% \end{array} \right \rbrack
+% \left \lbrack \begin{array}{ccc}
+% I + U_{I_e,I_e} & U_{I_e,I_d}, & U_{I_e,\bnd{J}} \\
+% 0 & I & 0 \\
+% 0 & o & I \\
+% \end{array} \right \rbrack.
+\end{equation}
+\par
+The update matrix for $I$ contains the delayed rows and columns
+as well as the usual update matrix $H^I_{\bnd{I},\bnd{I}}$
+that would normally occur.
+$$
+H^I_{I_d \cup \bnd{I}, I_d \cup \bnd{I}} 
+=
+\left \lbrack \begin{array}{cc}
+H^I_{I_d,I_d}     & H^I_{I_d, \bnd{I}} \\
+H^I_{\bnd{I},I_d} & H^I_{\bnd{I},\bnd{I}}
+\end{array} \right \rbrack
+$$
+Recall, the $I_e$ rows and columns are fully assembled, so they can
+be merged into the parent front. Let us define the new front after
+merging all delayed rows and columns from the children as
+$$
+{\widetilde J} = J \cup \bigcup_{par(I) = J } I_d.
+$$
+We can now write the multifrontal equation with pivoting as follows.
+\begin{equation}
+\label{alg:eqn:mf-pivoting}
+\left \lbrack \begin{array}{cc}
+T_{{\widetilde J},{\widetilde J}} & T_{{\widetilde J}, \bnd{J}} \\
+T_{\bnd{J},{\widetilde J}} & T_{\bnd{J},\bnd{J}}
+\end{array} \right \rbrack
+= 
+\left \lbrack \begin{array}{cc}
+A_{J,J} & A_{J, \bnd{J}} \\
+A_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+- 
+\sum_{par(I) = J}
+H_{I_d \cup \bnd{I}, I_d \cup \bnd{I}}^I
+\end{equation}
+Delaying rows and columns from one front to its parent really
+doesn't change the multifrontal algorithm very much.
+This is the reason that a factorization with pivoting has usually
+been implemented by a multifrontal algorithm.
+\par
+Now let us return to a left-looking general sparse factorization
+and try to incorporate pivoting.
+The equations that accumulate updates from the descendent fronts
+must be modifed to include the delayed rows and columns from the
+children.
+\begin{eqnarray*}
+T_{{\widetilde J},{\widetilde J}} & = & A_{J,J}
+- \sum_{\bnd{I} \cap J \ne \emptyset} 
+L_{\bnd{I} \cap J, I_e} 
+D_{I_e, I_e} 
+U_{I_e, \bnd{I} \cap J}
++ \sum_{par(I) = J} 
+\left \lbrack \begin{array}{cc}
+H_{I_d, I_d} & H_{I_d, \bnd{I} \cap J} \\
+H_{\bnd{I} \cap J, I_d} & 0 \\
+\end{array} \right \rbrack
+\\
+T_{\bnd{J},{\widetilde J}} & = & A_{\bnd{J},J}
+- \sum_{\bnd{I} \cap J \ne \emptyset} 
+L_{\bnd{I} \cap \bnd{J}, I_e} D_{I_e, I_e} U_{I_e, \bnd{I} \cap J}
++ \sum_{par(I) = J} H_{\bnd{I} \cap \bnd{J}, I_d}
+\\
+T_{{\widetilde J},\bnd{J}} & = & A_{J,\bnd{J}}
+- \sum_{\bnd{I} \cap J \ne \emptyset} 
+L_{\bnd{I} \cap J, I_e} D_{I_e, I_e} U_{I_e, \bnd{I} \cap \bnd{J}}
++ \sum_{par(I) = J} H_{I_d, \bnd{I} \cap \bnd{J}}
+\end{eqnarray*}
+It appears that since we do not know the structure of ${\widetilde J}$
+until the delayed rows and columns of the children of $J$ are known, 
+we cannot start the computation until the children of $J$ are finished.
+This is not quite true.
+Write the above equations as follows, marking the ${\widetilde T}$ 
+matrices on the left as distinct from the $T$ matrices on the right.
+\begin{eqnarray*}
+{\widetilde T}_{{\widetilde J},{\widetilde J}} & = & T_{J,J}
++ \sum_{par(I) = J} 
+\left \lbrack \begin{array}{cc}
+H_{I_d, I_d} & H_{I_d, \bnd{I} \cap J} \\
+H_{\bnd{I} \cap J, I_d} & 0 \\
+\end{array} \right \rbrack
+\\
+{\widetilde T}_{\bnd{J},{\widetilde J}} & = & T_{\bnd{J},J}
++ \sum_{par(I) = J} H_{\bnd{I} \cap \bnd{J}, I_d}
+\\
+{\widetilde T}_{{\widetilde J},\bnd{J}} & = & T_{J,\bnd{J}}
++ \sum_{par(I) = J} H_{I_d, \bnd{I} \cap \bnd{J}}
+\end{eqnarray*}
+The $T$ matrices have the following form.
+\begin{eqnarray*}
+T_{J,J} & = & A_{J,J}
+- \sum_{\bnd{I} \cap J \ne \emptyset} 
+L_{\bnd{I} \cap J, I_e} 
+D_{I_e, I_e} 
+U_{I_e, \bnd{I} \cap J}
+\\
+T_{\bnd{J},J} & = & A_{\bnd{J},J}
+- \sum_{\bnd{I} \cap J \ne \emptyset} 
+L_{\bnd{I} \cap \bnd{J}, I_e} D_{I_e, I_e} U_{I_e, \bnd{I} \cap J}
+\\
+T_{J,\bnd{J}} & = & A_{J,\bnd{J}}
+- \sum_{\bnd{I} \cap J \ne \emptyset} 
+L_{\bnd{I} \cap J, I_e} D_{I_e, I_e} U_{I_e, \bnd{I} \cap \bnd{J}}
+\end{eqnarray*}
+The computation of $T_{J,J}$, $T_{\bnd{J},J}$ and $T_{J,\bnd{J}}$
+does not depend on any delayed rows and columns from the children,
+and so it can begin to execute before the children are complete.
+It is key to note that $J$ and $\bnd{J}$ are known before the
+factorization starts and do not change due to any delayed rows or
+columns.
+It is true that we do not know $I_e$ for each descendent of $J$
+{\it until} front $I$ is complete, but in some sense that does not
+matter.
+All that is necessary is to keep track of which descendent fronts $I$ 
+have $I_e \ne \emptyset$ and $\bnd{I} \cap J \ne \emptyset$.
+The three equations with ${\widetilde T}$ on the left
+are simply an assembly of matrices ---
+one matrix comes from the updates from the descendents,
+one matrix from delayed rows and columns.
+\par \bigskip \par
+\noindent {\bf A serial factorization}
+\par \bigskip \par
+There are five simple steps to a serial factorization:
+initialize the front, load original entries, accumulate updates
+from descendents, assemble any delayed rows and columns from the
+children, then factor the front and update any delayed rows and
+columns. 
+Here is the algorithm step by step.
+\par
+\noindent Loop over the fronts in a post-order traversal
+\begin{enumerate}
+\item
+Initialize 
+$\displaystyle
+\left \lbrack \begin{array}{cc}
+T_{J,J} & T_{J, \bnd{J}} \\
+T_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+= 0.
+$
+\item
+Load with original entries 
+\par
+$\displaystyle
+\mbox{\qquad} 
+\left \lbrack \begin{array}{cc}
+T_{J,J} & T_{J, \bnd{J}} \\
+T_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+\mbox{\tt +=}
+\left \lbrack \begin{array}{cc}
+A_{J,J} & A_{J, \bnd{J}} \\
+A_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+$
+\item
+Accumulate updates from descendents.
+\par
+For $I_e \ne \emptyset$ and $\bnd{I} \cap J \ne \emptyset$.
+\par
+$\mbox{\qquad}\displaystyle
+\left \lbrack \begin{array}{cc}
+T_{J,J} & T_{J, \bnd{J}} \\
+T_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+\mbox{\tt -=}
+\left \lbrack \begin{array}{c}
+L_{\bnd{I}\cap J,I_e} \\
+L_{\bnd{I}\cap \bnd{J},I_e} 
+\end{array} \right \rbrack
+D_{I_e,I_e}
+\left \lbrack \begin{array}{cc}
+U_{I_e, \bnd{I} \cap J} & U_{I_e, \bnd{I}\cap \bnd{J}} 
+\end{array} \right \rbrack
+$
+\item
+Assemble postponed rows and columns.
+\par $\widetilde J = J$.
+\par for $par(I) = J$ and $I_d \ne \emptyset$
+\par
+$\mbox{\qquad} {\widetilde J} := {\widetilde J} \cup I_d$
+\par
+$\mbox{\qquad} \displaystyle
+\left \lbrack \begin{array}{cc}
+T_{{\widetilde J},{\widetilde J}} & T_{{\widetilde J}, \bnd{{\widetilde J}}} \\
+T_{\bnd{{\widetilde J}},{\widetilde J}} & 0
+\end{array} \right \rbrack
+\mbox{\tt +=}
+\left \lbrack \begin{array}{cc}
+H_{I_d \cup (\bnd{I} \cap J), I_d \cup (\bnd{I} \cap J)}
+& H_{I_d \cup (\bnd{I} \cap J), \bnd{I} \cap \bnd{J}} \\
+H_{\bnd{I} \cap \bnd{J}), I_d \cup (\bnd{I} \cap J)} & 0
+\end{array} \right \rbrack
+$
+\item
+Factor the front.
+\par
+$T_{J_e,J_e} 
+    =  (L_{J_e,J_e} + I)D_{J_e,J_e} (I + U_{J_e,J_e})$
+\par
+$T_{J_d \cup \bnd{J},J_e} 
+   = L_{J_d \cup \bnd{J},J_e} D_{J_e,J_e} (I + U_{J_e,J_e}) $
+\par
+$T_{J_e,J_d \cup \bnd{J}} 
+   = (L_{J_e,J_e} + I)D_{J_e,J_e} U_{J_e,J_d \cup \bnd{J}})$
+\par
+$H_{J_d,J_d}^J 
+   = T_{J_d,J_d} - L_{J_d, J_e} D_{J_e,J_e} U_{J_e,J_d}$
+\par
+$H_{J_d,\bnd{J}}^J 
+   = T_{J_d,\bnd{J}} - L_{J_d, J_e} D_{J_e,J_e} U_{J_e,\bnd{J}}$
+\par
+$H_{\bnd{J},J_d}^J 
+   = T_{\bnd{J},J_d} - L_{\bnd{J}, J_e} D_{J_e,J_e} U_{J_e,J_d}$
+\end{enumerate}
+The last step needs a bit of elaboration. 
+The factorization of a front is a complex process.
+The matrix $D_{J_e,J_e}$ is diagonal or block diagonal.
+Our codes try to detect large block pivots as a way of taking
+advantage of the speed of BLAS3 kernels.
+\par
+Consider symmetric pivoting for now. (Nonsymmetric pivoting is much
+the same but the notation gets more complicated.)
+\begin{center}
+\begin{minipage}{3.5 in}
+\begin{tabbing}
+XXX\=XXX\=XXX\=XXX\=XXX\kill
+$J_e = J_d = \emptyset$ \\
+while a pivot block $(\bfj, \bfj)$ can be found \\
+\> $J_e := J_e \cup \bfj$,
+   ${\widetilde J} := {\widetilde J} \setminus \bfj$ \\
+\> $D_{\bfj,\bfj} = T_{\bfj,\bfj}$\\
+\> $L_{{\widetilde J}\cup\bnd{J},\bfj} 
+      = A_{{\widetilde J}\cup\bnd{J},\bfj} D_{\bfj,\bfj}^{-1}$\\
+\> $U_{{\widetilde J}\cup\bnd{J},\bfj} 
+      = D_{\bfj,\bfj}^{-1} A_{\bfj,{\widetilde J}\cup\bnd{J}} $ \\
+\> $T_{{\widetilde J}, {\widetilde J}}
+   := T_{{\widetilde J}, {\widetilde J}}
+    - L_{{\widetilde J}, \bfj} D_{\bfj,\bfj} U_{\bfj,{\widetilde J}}$ \\
+\> $T_{\bnd{J}, {\widetilde J}}
+   := T_{\bnd{J}, {\widetilde J}}
+    - L_{\bnd{J}, \bfj} D_{\bfj,\bfj} U_{\bfj,{\widetilde J}}$ \\
+\> $T_{{\widetilde J}, \bnd{J}}
+   := T_{{\widetilde J}, \bnd{J}}
+    - L_{{\widetilde J}, \bfj} D_{\bfj,\bfj} U_{\bfj,\bnd{J}}$\\
+end while \\
+$J_d = {\widetilde J}$
+\end{tabbing}
+\end{minipage}
+\end{center}
+Note the matrix-matrix multiply with the explicit inverse
+of $D_{\bfj,\bfj}$.
+We actually compute the inverse
+$D_{\bfj,\bfj}^{-1}$ as part of the test for acceptability 
+of the pivot block.
+(See Section~\ref{section:PivotFinder} for more details.)
+\par \bigskip \par
+\noindent {\bf Parallel factorization }
+\par \bigskip \par
+We have one major assumption as we move towards a parallel
+algorithm. {\it 
+Once a front is complete (all updates from descendent fronts
+have been made and any postponed rows and columns from the children
+have been assembled), the its factorization takes place inside
+one thread or processor.}
+This does not lead to a {\it scalable} algorithm
+\cite{sch93-scalability}, but it is important for efficiency to
+have the pivot selection process inside one thread of computation.
+\par
+In light of this constraint, let us look at the five steps of the
+factorization.
+Steps 1, 2, 4 and 5 must be done by one thread, the owner of the
+front $J$.
+It is Step 3 that must be parallelized across the processors.
+Now for the major question: if front $I$ updates front $J$,
+who performs the computation? There are three possibilities.
+\begin{itemize}
+\item
+The owner of front $I$. (The fan-in method 
+\cite{ash90-fan-in}.)
+\item
+The owner of front $J$. (The fan-out method 
+\cite{geo87-fan-out}.)
+\item
+Some other processor. (The fan-both method
+\cite{ash93-fan-both}.)
+\end{itemize}
+We have chosen the fan-in paradigm for this library.
+It is a simple method, fairly efficient and can take advantage of
+subtree-subcube mappings \cite{geo87-fan-out} better than either
+the fan-out or fan-both methods.
+Any algorithm will distribute the factor entries among the threads,
+but there can be only one owner that computes
+the factor pivots of a given front.
+Furthermore, the fan-in algorithm features no exchange of factor
+entries among the threads, rather it is partial updates, or
+{\it aggregate} updates that are exchanged.
+\par
+Step 3 needs some modification for thread $q$.
+\begin{itemize}
+\item[$3^\prime.$]
+For $I$ owned by thread $q$, 
+$I_e \ne \emptyset$
+and $\bnd{I} \cap J \ne \emptyset$
+\par
+$\mbox{\qquad}\displaystyle
+\left \lbrack \begin{array}{cc}
+T^q_{J,J} & T^q_{J, \bnd{J}} \\
+T^q_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+\mbox{\tt -=}
+\left \lbrack \begin{array}{c}
+L_{\bnd{I}\cap J,I_e} \\
+L_{\bnd{I}\cap \bnd{J},I_e} 
+\end{array} \right \rbrack
+D_{I_e,I_e}
+\left \lbrack \begin{array}{cc}
+U_{I_e, \bnd{I} \cap J} & U_{I_e, \bnd{I}\cap \bnd{J}} 
+\end{array} \right \rbrack
+$
+\begin{tabbing}
+XXX\=XXX\=XXX\=XXX\=\kill
+If $J$ is owned by thread $q$ then \\
+\> for each supporting thread $r$ \\
+\>\> $\displaystyle
+\left \lbrack \begin{array}{cc}
+T^q_{J,J} & T^q_{J, \bnd{J}} \\
+T^q_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+\mbox{\tt +=}
+\left \lbrack \begin{array}{cc}
+T^r_{J,J} & T^r_{J, \bnd{J}} \\
+T^r_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+$ \\
+\> end for \\
+% else \\
+% \> send
+% $\displaystyle
+% \left \lbrack \begin{array}{cc}
+% T^q_{J,J} & T^q_{J, \bnd{J}} \\
+% T^q_{\bnd{J},J} & 0
+% \end{array} \right \rbrack
+% $ to the owner of $J$ \\
+end if
+\end{tabbing}
+\end{itemize}
+Of course we are omitting the rendevous (in a threaded context)
+or send/receive (in a distributed context) logic in the algorithm
+description. It should be clear that the aggregate updates
+(on the left)
+and the delayed rows and columns 
+(on the right)
+$$
+T_J^q =
+\left \lbrack \begin{array}{cc}
+T^q_{J,J} & T^q_{J, \bnd{J}} \\
+T^q_{\bnd{J},J} & 0
+\end{array} \right \rbrack
+\qquad \qquad
+H^I =
+\left \lbrack \begin{array}{cc}
+H_{I_d \cup (\bnd{I} \cap J), I_d \cup (\bnd{I} \cap J)}
+& H_{I_d \cup (\bnd{I} \cap J), \bnd{I} \cap \bnd{J}} \\
+H_{\bnd{I} \cap \bnd{J}), I_d \cup (\bnd{I} \cap J)} & 0
+\end{array} \right \rbrack
+$$
+must be made available to the threads 
+or communicated to the processors that need them.
+\par
+The presence of pivoting, and thus the possibility that a front may
+not have any eliminated rows and columns, makes an implementation
+somewhat tricky.
+This is a key point and needs to be explained further.
+It is simple to determine {\it prior to the factorization}
+which threads will support which fronts, but it is possible that a
+none of the fronts owned by a thread will have any eliminated rows
+and columns that support some given front $J$. 
+The aggregate matrix $T_J^q$ would never been created but the owner
+of front $J$ will be expecting it.
+In short, the communication patterns of the factorization without
+pivoting must be obeyed for the process to terminate satisfactorily.
+If an aggregate matrix is indeed empty, meaning that due to delayed
+rows and columns the updates that would have been performed will
+not be forthcoming, the entries are not actually transfered,
+but the notification is made.
+\par \bigskip \par
+\noindent {\bf Parallel solve }
+\par \bigskip \par
+Let us now consider the forward and backsolves.
+We make one assumption: the data partition of the factors $L$, $D$
+and $U$ will be maintained during the solve.
+In other words, the entries in $L$, $D$ and $U$
+are found in basic submatrices,
+$L_{J_d \cup \bnd{J}, J_e}$, 
+$D_{J_e, J_e}$ and
+$L_{J_e, J_d \cup \bnd{J}}$, 
+and these submatrices are not split
+up across threads or processors.
+There is still the concept of a thread or processor owning a front.
+In the threaded code we do allow for different maps from fronts
+to owners.\footnote{
+For example, the forward and backsolves could be done with fewer
+threads than the factorization.
+}
+\par
+We do not actually compute $A = (L + I)D(I + U)$, instead we
+compute $(L + I)(D + {\widehat U})$ where ${\widehat U} = DU$.
+Recall, the eliminated rows and columns for a front, $J_e$,
+are split into pivot blocks that we denote by $\bfj$.
+By convention, let the boundary of $\bfj$ be
+$$
+\bnd{\bfj} = \{k\ |\ l_{k,j} \ne 0 \mbox{\ for some\ }j \in \bfj\}.
+$$
+Note, $\bnd{\bfj} \subset J_e \cup J_d \cup \bnd{J}$.
+The serial solve $(I+L)(D+U)x = b$ is found in
+Figure~\ref{fig:serial-solve}.
+\begin{figure}
+\caption{Serial forward and back solve}
+\label{fig:serial-solve}
+\begin{center}
+\begin{minipage}{3.5 in}
+\begin{tabbing}
+XXX\=XXX\=XXX\=XXX\=XXX\=\kill
+for $J$ in a post-order traversal \\
+\> for $\bfj \in J_e$ in ascending order \\
+\>\> $y_{\bfj} = b_{\bfj}$ \\
+\>\> $b_{\bnd{\bfj}} :=
+      b_{\bnd{\bfj}} - L_{\bnd{\bfj},\bfj} y_{\bfj}$ \\
+\> end for\\
+end for\\
+for $J$ in a pre-order traversal \\
+\> for $\bfj \in J_e$ in descending order \\
+\>\> $y_{\bfj} := y_{\bfj} 
+        - {\widehat U}_{\bfj,\bnd{\bfj}} x_{\bnd{\bfj}}$ \\
+\>\> $x_{\bfj} = D_{\bfj,\bfj}^{-1} y_{\bfj}$ \\
+\> end for\\
+end for
+\end{tabbing}
+\end{minipage}
+\end{center}
+\end{figure}
+\par
+As we distribute the forward solve across threads or processors,
+we see that the right hand side vector $b$ accumulates updates of
+the form $L_{\bnd{\bfj},\bfj} y_{\bfj}$ from descendents of $J$.
+Since these updates are made in a distributed fashion, each thread
+or processor needs a copy of $b$, or at least of copy of the
+entries in $b$ that it will interact with.
+The same holds in a slightly different sense for the backward solve.
+Instead of a vector $b$ that needs to be gathered and accumulated,
+it is a solution vector $x$ that needs to be scattered to threads
+or processors that need it.
+\par
+A well designed map of fronts to threads or processors will no
+doubt take advantage of locality within the front tree, e.g.,
+a subtree-subcube map.
+In these cases, the entries that {\it active} on a thread or
+processor will be a fraction of the total entries.
+It thus pays to take have local vectors $b^q$ and $x^q$ for thread $q$.
+These vectors should contain only those entries that are active
+on thread $q$.
+This is particularly important when we are solving several right
+hand sides at once.
+\par
+Figure~\ref{fig:parallel-solve} describes the
+the parallel solve $(I+L)(D+U)x = b$ as done by thread $q$.
+\begin{figure}
+\caption{Parallel forward and back solve}
+\label{fig:parallel-solve}
+\begin{center}
+\begin{minipage}{3.5 in}
+\begin{tabbing}
+XXX\=XXX\=XXX\=XXX\=XXX\=\kill
+for $J$ in a post-order traversal \\
+\> if  $J$ owned by $q$ then \\
+\>\> gather $b_{J_e} = \sum_r b_{J_e}^r$ \\
+\>\> for $\bfj \in J_e$ in ascending order \\
+\>\>\> $y_{\bfj} = b_{\bfj}$ \\
+\>\>\> $b^q_{\bnd{\bfj}} :=
+      b^q_{\bnd{\bfj}} - L_{\bnd{\bfj},\bfj} y_{\bfj}$ \\
+\>\> end for\\
+\> else if $b_{J_e}^q \ne 0$ then \\
+\>\> communicate $b_{J_e}^q$ to $b_{J_e}$ somehow \\
+\> end if\\
+end for\\
+for $J$ in a pre-order traversal \\
+\> if  $J$ owned by $q$ then \\
+\>\> for $\bfj \in J_e$ in descending order \\
+\>\>\> $y_{\bfj} := y_{\bfj} 
+        - {\widehat U}_{\bfj,\bnd{\bfj}} x^q_{\bnd{\bfj}}$ \\
+\>\>\> $x_{\bfj} = D_{\bfj,\bfj}^{-1} y_{\bfj}$ \\
+\>\> end for\\
+\>\> store $x_{J_e}$ in $x^q_{J_e}$ \\
+\>\> communicate $x_{J_e}$ to those who need it \\
+\> else if $x_{J_e}$ needed by thread $q$ then \\
+\>\> obtain $x_{J_e}$ and store in $x^q_{J_e}$ \\
+\> end if \\
+end for
+\end{tabbing}
+\end{minipage}
+\end{center}
+\end{figure}
+\par
+The interplay between local and global information can take many
+forms.
+In our present threaded solves there are global right hand side and
+solution vectors that are protected by locks.
+In the MPI version explicit messages will communicate information
+among the processors.

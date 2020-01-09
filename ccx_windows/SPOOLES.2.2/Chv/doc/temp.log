@@ -1,0 +1,46 @@
+This is TeX, Version 3.1415 (C version 6.1) (format=lplain 94.11.14)  24 JAN 1998 13:38
+**temp
+(temp.tex
+LaTeX Version 2.09 <25 March 1992>
+(/usr/local/lib/texmf/tex/latex209/report.sty
+Standard Document Style `report' <14 Jan 92>.
+(/usr/local/lib/texmf/tex/latex209/rep11.sty)
+\descriptionmargin=\dimen99
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+
+(/usr/local/lib/texmf/tex/latex209/titlepag.sty
+Document Style Option `titlepage' -- Released 16 June 1991.
+)) (/usr/local/lib/texmf/tex/latex209/leqno.sty
+Document style option `leqno' - released 29 Sep 1991
+) (/usr/local/lib/texmf/tex/generic/psfig/psfig.tex
+\@unused=\write3
+\ps@stream=\read1
+\p@intvaluex=\dimen100
+\p@intvaluey=\dimen101
+
+psfig/tex 1.10-dvips
+)
+\@indexfile=\write4
+
+Writing index file temp.idx 
+(temp.aux) [1
+
+] (temp.aux) ) 
+Here is how much of TeX's memory you used:
+ 397 strings out of 11977
+ 3945 string characters out of 87269
+ 37241 words of memory out of 262141
+ 2344 multiletter control sequences out of 9500
+ 18996 words of font info for 72 fonts, out of 100000 for 255
+ 14 hyphenation exceptions out of 607
+ 12i,9n,17p,149b,94s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on temp.dvi (1 page, 4344 bytes).

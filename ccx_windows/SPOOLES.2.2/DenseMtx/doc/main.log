@@ -1,0 +1,78 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=latex 97.4.4)  14 NOV 1998 11:49
+**main
+(main.tex
+LaTeX2e <1996/12/01> patch level 1
+Babel <v3.6h> and hyphenation patterns for english, german, loaded.
+(/home/tex/teTeX/texmf/tex/latex/base/report.cls
+Document Class: report 1996/10/31 v1.3u Standard LaTeX document class
+(/home/tex/teTeX/texmf/tex/latex/base/size10.clo
+File: size10.clo 1996/10/31 v1.3u Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/home/tex/teTeX/texmf/tex/generic/local/psfig/psfig.tex
+\@unused=\write3
+\ps@stream=\read1
+\p@intvaluex=\dimen103
+\p@intvaluey=\dimen104
+
+psfig/tex 1.10-dvips
+)
+\@indexfile=\write4
+
+Writing index file main.idx
+(main.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+ (intro.tex
+Chapter 1.
+) (dataStructure.tex
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 9.
+ (/home/tex/teTeX/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1997/01/14 v2.5a Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 9.
+)
+(proto.tex [1
+
+
+] [2] [3]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 325.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 325.
+ [4] [5] [6] [7]) (main.ind [8] [9
+
+]) (main.aux) ) 
+Here is how much of TeX's memory you used:
+ 512 strings out of 10908
+ 5200 string characters out of 72189
+ 53614 words of memory out of 262141
+ 3436 multiletter control sequences out of 9500
+ 7603 words of font info for 29 fonts, out of 150000 for 255
+ 14 hyphenation exceptions out of 607
+ 23i,6n,21p,158b,399s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (9 pages, 30248 bytes).

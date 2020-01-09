@@ -1,0 +1,11 @@
+\chapter{{\tt BKL}: Block Kernighan-Lin Object}
+\label{chapter:BKL}
+\par
+Our {\tt BKL} object is used to find an initial separator of a
+graph.
+Its input is a {\tt BPG} bipartite graph object that represents the
+domain-segment graph of a domain decomposition of the graph.
+After a call to the {\tt BKL\_fidmat()} method, the object contains
+a two-color partition of the graph that is accessible via the
+{\tt colors[]} and {\tt cweights[]} vectors of the object.
+

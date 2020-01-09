@@ -1,0 +1,75 @@
+\chapter{{\tt MT} directory}
+\label{chapter:MT}
+\par
+All methods that use multithreaded function calls 
+are found in this directory.
+Three functionalities are presently supported:
+matrix-matrix multiplies, sparse factorizations, and solves.
+\par
+The multithreaded methods to compute $Y := Y + \alpha A X$,
+$Y := Y + \alpha A^T X$ and $Y := Y + \alpha A^H X$
+are simple.
+Their calling sequences are almost identical to their 
+serial counterparts: global data structures for $Y$,
+$\alpha$, $A$ and $X$ are followed by the number of threads,
+a message level and file.
+Thread $q$ accesses part of $A$, part of $X$, and computes its own
+$Y^q = \alpha A X$ using those entries of $A$ that it is
+responsible for.
+This work is done independently by all threads.
+The global summation $Y := Y + \sum_q Y^q$ is done in serial mode
+by the calling process.
+\par
+This approach is not scalable.
+A better approach would be to explicitly partition $A$ into local
+$A^q$ matrices, and use local $X^q$ and $Y^q$ to hold rows of $X$
+and $Y$ that have support with $A^q$, as is done with the
+distributed MPI matrix-matrix multiplies.
+(With MPI there is added complexity since $X$ and $Y$ are distributed
+among processors.)
+\par
+A matrix-matrix multiply does not exist in isolation.
+For example, a block shifted eigensolver requires factorizations of
+$A - \sigma B$ and multiplies using $A$ or $B$.
+The data structure for the matrix that takes part in the multiply
+needs to toggle back and for between its forms for the factor and
+multiply.
+Managing this in a distributed environment is actually easier than
+a multithreaded environment, for $A$ and $B$ are already
+distributed.
+Our multithreaded factorization expects $A$ and $B$ in global form.
+Insisting that $A$ and $B$ be partitioned as $A^q$ and $B^q$
+matrices is too great a burden for the user that has no need for a
+multithreaded matrix-matrix multiply.
+Allowing the $A^q$ matrices to overlap or point into the global $A$
+matrix in a persistent fashion is not cleanly possible, but
+requires changes to the {\tt InpMtx} object.
+\par
+In the future we intend to provide a scalable multithreaded
+matrix-matrix multiply.
+It requires a more in-depth consideration of the issues involved
+than we are able to give it at the present time.
+\par
+The multithreaded factorizations $A = LU$ and $A = QR$
+are very similar to the serial factorizations, 
+in both the calling sequence visible to the user and
+in the underlying code structure.
+The only additional parameters in the calling sequence is a map
+from the fronts to the threads that defines who does what
+computation, and a {\it lookahead} parameter that allows some
+ability to control and reduce the idle time during the factorization.
+Inside the code, the deterministic post-order traversal of the
+serial factorization is replaced by independent topological
+traversals of the front tree.
+It is the list and working storage data structures 
+(the {\tt ChvList}, {\tt ChvManager} and {\tt SubMtxManager} objects)
+that have locks.
+{\it What} is done is common code between the serial and
+multithreaded environments, it is the choreography, i.e.,
+{\it who} does what, that differs.
+\par
+Most of these same comments apply to the multithreaded solve methods.
+The calling sequences between the serial and multithreaded solves
+differs by one parameter, a {\tt SolveMap} object that maps the
+submatrices of the factor matrix to the threads that will compute
+with them.

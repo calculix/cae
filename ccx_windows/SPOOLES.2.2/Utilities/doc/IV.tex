@@ -1,0 +1,254 @@
+\par
+\subsection{{\tt IV} : {\tt int} vector methods}
+\label{subsection:Utilities:proto:IV}
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * IVinit ( int n, int val ) ;
+\end{verbatim}
+\index{IVinit@{\tt IVinit()}}
+This is the allocator and initializer method for {\tt int} vectors.
+Storage for an array with size {\tt n} is found and each
+entry is filled with {\tt val}.
+A pointer to the array is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * IVinit2 ( int n ) ;
+\end{verbatim}
+\index{IVinit2@{\tt IVinit2()}}
+This is an allocator method for {\tt int} vectors.
+Storage for an array with size {\tt n} is found.
+A pointer to the array is returned.
+Note, on return, there will likely be garbage in the array.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVfree ( int vec[] ) ;
+\end{verbatim}
+\index{IVfree@{\tt IVfree()}}
+This method releases the storage taken by {\tt vec[]}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVfprintf ( FILE *fp, int n, int y[] ) ;
+\end{verbatim}
+\index{IVfprintf@{\tt IVfprintf()}}
+This method prints {\tt n} entries in {\tt y[]} to file {\tt fp}.
+The format is new line followed by lines of five {\tt int}'s in
+{\tt " \%4d"} format.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVfp80 ( FILE *fp, int n, int y[], int column, int *pierr ) ;
+\end{verbatim}
+\index{IVfp80@{\tt IVfp80()}}
+This method prints {\tt n} entries in {\tt y[]} to file {\tt fp}.
+The method splices vectors together or naturally breaks the large
+vectors into lines. 
+The {\tt column} value is the present location. 
+If the printed value of an array entry will not fit within the eighty
+columns of the present line, a newline character is written and the
+value starts a new line.
+The number of the present column in the line is returned.
+If {\tt *pierr < 0}, an IO error has occured.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVfscanf ( FILE *fp, int n, int y[] ) ;
+\end{verbatim}
+\index{IVfscanf@{\tt IVfscanf()}}
+This method scans in {\tt int}'s from file {\tt fp} and places them
+in the array {\tt y[]}.
+It tries to read in {\tt n} {\tt int}'s, and returns the number
+that were actually read.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVcompress ( int n1, int x1[], int y1[],
+                  int n2, int x2[], int y2[] ) ;
+\end{verbatim}
+\index{IVcompress@{\tt IVcompress()}}
+Given a pair of arrays {\tt x1[n1]} and {\tt y1[n1]},
+fill {\tt x2[n2]} and {\tt y2[n2]} with a subset of the
+{\tt (x1[j],y1[j]} entries whose distribution is an approximation.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVcopy ( int n, int y[], int x[] ) ;
+\end{verbatim}
+\index{IVcopy@{\tt IVcopy()}}
+This method copies {\tt n} entries from {\tt x[]} to {\tt y[]},
+i.e.,
+{\tt y[i] = x[i]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVfill ( int n, int y[], int val ) ;
+\end{verbatim}
+\index{IVfill@{\tt IVfill()}}
+This method fills {\tt n} entries in {\tt y[]} with {\tt val}, 
+i.e.,
+{\tt y[i] = val} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVgather ( int n, int y[], int x[], int index[] ) ;
+\end{verbatim}
+\index{IVgather@{\tt IVgather()}}
+{\tt y[i] = x[index[i]]} for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int * IVinverse ( int n, int y[] ) ;
+\end{verbatim}
+\index{IVinverse@{\tt IVinverse()}}
+This method allocates and returns a vector of size {\tt n}
+that it is the inverse of {\tt y[]}, a permutation vector.
+The new vector {\tt x[]} has the property that
+{\tt x[y[i]] = y[x[i]] = i};
+If {\tt y[]} is not truly a permutation vector, an error message
+will be printed and the program exits.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVinvPerm ( int n, int y[], int index[] ) ;
+\end{verbatim}
+\index{IVinvPerm@{\tt IVinvPerm()}}
+This method permutes the vector y as follows.
+i.e.,
+{\tt y[index[i]] := y[i]}.
+See {\tt IVperm()} for a similar function.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVlocateViaBinarySearch ( int n, int y[], int target ) ;
+\end{verbatim}
+\index{IVlocateViaBinarySearch@{\tt IVlocateViaBinarySearch()}}
+The {\tt n} entries of {\tt y[]} must be in nondecreasing order.
+If {\tt target} is found in {\tt y[]},
+this method returns a location where {\tt target} is found.
+If {\tt target} is not in {\tt y[]}, {\tt -1} is returned.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVmax ( int n, int y[], int *ploc ) ;
+\end{verbatim}
+\index{IVmax@{\tt IVmax()}}
+This method returns the maximum entry in {\tt y[0:n-1]}
+and puts the first location where it was found into the address
+{\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVmaxabs ( int n, int y[], int *ploc ) ;
+\end{verbatim}
+\index{IVmaxabs@{\tt IVmaxabs()}}
+This method returns the maximum magnitude of entries in 
+{\tt y[0:n-1]} and puts the first location where 
+it was found into the address {\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVmin ( int n, int y[], int *ploc ) ;
+\end{verbatim}
+\index{IVmin@{\tt IVmin()}}
+This method returns the minimum entry in {\tt y[0:n-1]}
+and puts the first location where it was found into the address
+{\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVminabs ( int n, int y[], int *ploc ) ;
+\end{verbatim}
+\index{IVminabs@{\tt IVminabs()}}
+This method returns the minimum magnitude of entries in 
+{\tt y[0:n-1]} and puts the first location where 
+it was found into the address {\tt ploc}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVperm ( int n, int y[], int index[] ) ;
+\end{verbatim}
+\index{IVperm@{\tt IVperm()}}
+This method permutes the vector y as follows.
+i.e.,
+{\tt y[i] := y[index[i]]}.
+See {\tt IVinvPerm()} for a similar function.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVramp ( int n, int y[], int start, int inc ) ;
+\end{verbatim}
+\index{IVramp@{\tt IVramp()}}
+This method fills {\tt n} entries in {\tt y[]} with 
+values 
+{\tt start},
+{\tt start + inc},
+{\tt start + 2*inc},
+{\tt start + 3*inc}, etc.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVscatter ( int n, int y[], int index[], int x[] ) ;
+\end{verbatim}
+\index{IVscatter@{\tt IVscatter()}}
+This method scatters {\tt n} entries of {\tt x[]} into {\tt y[]} 
+as follows,
+{\tt y[index[i]] = x[i]} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVsum ( int n, int y[] ) ;
+\end{verbatim}
+\index{IVsum@{\tt IVsum()}}
+This method returns the sum of the first {\tt n} entries 
+in the vector {\tt x[]},
+i.e., return
+$\sum_{\tt i = 0}^{\tt n-1} {\tt x[i]}$.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+int IVsumabs ( int n, int y[] ) ;
+\end{verbatim}
+\index{IVsumabs@{\tt IVsumabs()}}
+This method returns the sum of the absolute values of the 
+first {\tt n} entries in the vector {\tt x[]},
+i.e., return
+$\sum_{\tt i = 0}^{\tt n-1} {\tt abs(x[i])}$.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVswap ( int n, int y[], int x[] ) ;
+\end{verbatim}
+\index{IVswap@{\tt IVswap()}}
+This method swaps the {\tt x[]} and {\tt y[]} vectors as follows.
+i.e.,
+{\tt y[i] := x[i]} and
+{\tt x[i] := y[i]} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVzero ( int n, int y[] ) ;
+\end{verbatim}
+\index{IVzero@{\tt IVzero()}}
+This method zeroes {\tt n} entries in {\tt y[]},
+i.e.,
+{\tt y[i] = 0} 
+for {\tt 0 <= i < n}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void IVshuffle ( int n, int y[], int seed ) ;
+\end{verbatim}
+\index{IVshuffle@{\tt IVshuffle()}}
+This method shuffles the first {\tt n} entries in {\tt y[]}.
+The value {\tt seed} is the seed to a random number generator,
+and one can get repeatable behavior by repeating {\tt seed}.
+%-----------------------------------------------------------------------
+\end{enumerate}

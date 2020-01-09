@@ -1,0 +1,15 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = R2D100
+
+set inDInpMtxFile = $matrices/$matrix/orig.inpmtxb
+set inDInpMtxFile = $matrices/$matrix/orig.inpmtxf
+
+set outGraphFile = temp.graphf
+
+set msglvl  = 3
+
+set msgFile = stdout
+
+createGraphForATA $msglvl $msgFile $inDInpMtxFile $outGraphFile

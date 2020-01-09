@@ -1,0 +1,93 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=latex 97.4.4)  13 JAN 1999 13:21
+**main
+(main.tex
+LaTeX2e <1996/12/01> patch level 1
+Babel <v3.6h> and hyphenation patterns for english, german, loaded.
+(/home/tex/teTeX/texmf/tex/latex/base/report.cls
+Document Class: report 1996/10/31 v1.3u Standard LaTeX document class
+(/home/tex/teTeX/texmf/tex/latex/base/leqno.clo
+File: leqno.clo 1996/07/26 v1.1b Standard LaTeX option (left equation numbers)
+)
+(/home/tex/teTeX/texmf/tex/latex/base/size10.clo
+File: size10.clo 1996/10/31 v1.3u Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+\@indexfile=\write3
+
+Writing index file main.idx
+(main.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+ (intro.tex
+Chapter 1.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 12.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 12.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 27.
+(/home/tex/teTeX/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1997/01/14 v2.5a Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 27.
+
+
+LaTeX Warning: Citation `ash95-DDSEP' on page 1 undefined on input line 34.
+
+
+LaTeX Warning: Citation `ash96-maxflow' on page 1 undefined on input line 46.
+
+[1
+
+
+]
+
+LaTeX Warning: Citation `ash96-maxflow' on page 2 undefined on input line 83.
+
+[2]) (dataStructure.tex) (proto.tex [3] [4]
+Overfull \hbox (66.05252pt too wide) in paragraph at lines 260--262
+[]\OT1/cmr/m/n/10 This method has the same func-tion-al-ity, call-ing se-quence
+ and re-turned val-ues as the pre-ced-ing \OT1/cmtt/m/n/10 BPG[]DMdecomposition
+()
+ []
+
+[5]) (drivers.tex [6]) (main.ind [7] [8
+
+
+]) (main.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 310 strings out of 10908
+ 3219 string characters out of 72189
+ 50228 words of memory out of 262141
+ 3227 multiletter control sequences out of 9500
+ 7911 words of font info for 30 fonts, out of 150000 for 255
+ 14 hyphenation exceptions out of 607
+ 23i,7n,22p,164b,341s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on main.dvi (8 pages, 32148 bytes).

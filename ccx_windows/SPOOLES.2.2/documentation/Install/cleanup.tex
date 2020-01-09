@@ -1,0 +1,53 @@
+\par
+\section{Cleaning up and packaging}
+\label{section:cleanup}
+\par
+Let's say we've just created the {\tt spooles.a} library and then
+typed {\tt make all\_drivers} when in the {\tt spooles} directory.
+All the executable programs are now on disk, 
+and taking up a lot of space.
+To remove all the executable programs, we don't need to go into
+each object's {\tt driver} program and remove them one by one.
+We can do this from the top level directory by typing
+{\tt make clean}.
+\par
+This process visits each of the objects' {\tt src/}, {\tt doc/} and
+{\tt drivers/} directories one by one.
+In the {\tt src/} directories, any {\tt *.o} and {\tt *.a} files
+are removed.
+In the {\tt doc/} directories, any {\tt *.dvi} files are removed.
+In the {\tt drivers/} directories, any {\tt *.o} and {\tt *.a} files 
+are removed, as well as all driver program executables.
+(The {\tt makefile} in a drivers directory keeps track of the
+driver programs in the {\tt DRIVERS} variable.
+Modify this as necessary if you add a driver program to the
+directory.)
+\par
+Let's say you've got {\bf SPOOLES} working on one system and you
+want to move it to another system.
+Even after cleanup (via the {\tt make clean} call) there may be a
+large number of files that don't need to be moved.
+Or perhaps you'd like to {\tt tar} everything that is necessary without
+removing your {\tt spooles.a} library and executables that took so
+long to compile.
+\par
+The {\tt dotar} shell script is used to package up everything that
+is necessary into one tar file.
+You should modify this as necessary.
+Here are the lines from {\tt dotar} that archive what is necessary
+from the {\tt A2} object.
+\begin{verbatim}
+   A2.h \
+      A2/{*.h,makefile} \
+      A2/src/{makefile,makeGlobalLib,*.c} \
+      A2/drivers/{do*,makefile,*.c} \
+      A2/doc \
+\end{verbatim}
+This {\tt tar}'s the header file and middle level makefile,
+then goes into the {\tt src/} directory and {\tt tar}'s the makefiles
+and source code,
+then goes into the {\tt drivers/} directory 
+and {\tt tar}'s the makefiles, driver programs and shell scripts,
+and then {\tt tar}'s everything in the {\tt doc/} directory.
+This happens for every object, with a few minor exceptions.
+\par

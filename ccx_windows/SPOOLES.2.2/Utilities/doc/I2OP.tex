@@ -1,0 +1,93 @@
+\par
+\subsection{{\tt I2OP} : 
+           {\tt (int, int, void*, pointer)} singly linked-list methods}
+\label{subsection:Utilities:proto:I2OP}
+\par
+\hspace{0.5 in}
+\begin{minipage}{2.5 in}
+\begin{verbatim}
+typedef struct _I2OP I2OP ;
+struct _I2OP {
+   int    value0 ;
+   int    value1 ;
+   void   value2 ;
+   I2OP   *next  ;
+} ;
+\end{verbatim}
+\end{minipage}
+
+\par
+%=======================================================================
+\begin{enumerate}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+I2OP * I2OP_init ( int n, int flag ) ;
+\end{verbatim}
+\index{I2OP_init@{\tt I2OP\_init()}}
+This is the allocator and initializer method for a vector of 
+{\tt I2OP} structures.
+Storage for an array with size {\tt n} is found.
+A pointer to an array {\tt ips[]} is returned
+with {\tt ips[i].val = 0} for {\tt 0 <= i < n}.
+The {\tt flag} parameter determines how the {\tt next} field
+is filled.
+\begin{itemize}
+\item
+If {\tt flag = I2OP\_NULL}, the elements are not linked,
+i.e., {\tt ips[i].next = NULL} 
+for {\tt 0 <= i < n}.
+\item
+If {\tt flag = I2OP\_FORWARD}, 
+the elements are linked in a forward manner,
+i.e., {\tt ips[i].next = \&ips[i+1]} 
+for {\tt 0 <= i < n-1} and {\tt ips[n-1].next = NULL}.
+\item
+If {\tt flag = I2OP\_BACKWARD}, 
+the elements are linked in a backward manner,
+i.e., {\tt ips[i].next = \&ips[i-1]} 
+for {\tt 0 < i < n} and {\tt ips[0].next = NULL}.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+I2OP * I2OP_initStorage ( int n, int flag, I2OP *base ) ;
+\end{verbatim}
+\index{I2OP_initStorage@{\tt I2OP\_initStorage()}}
+This is an initializer method for a vector of 
+{\tt I2OP} structures.
+We set {\tt base[i].value0 = base[i].value1 = -1}.
+The {\tt flag} parameter determines how the {\tt next} field
+is filled.
+\begin{itemize}
+\item
+If {\tt flag = I2OP\_NULL}, the elements are not linked,
+i.e., {\tt ips[i].next = NULL} 
+for {\tt 0 <= i < n}.
+\item
+If {\tt flag = I2OP\_FORWARD}, 
+the elements are linked in a forward manner,
+i.e., {\tt ips[i].next = \&ips[i+1]} 
+for {\tt 0 <= i < n-1} and {\tt ips[n-1].next = NULL}.
+\item
+If {\tt flag = I2OP\_BACKWARD}, 
+the elements are linked in a backward manner,
+i.e., {\tt ips[i].next = \&ips[i-1]} 
+for {\tt 0 < i < n} and {\tt ips[0].next = NULL}.
+\end{itemize}
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void I2OP_free ( I2OP *i2op ) ;
+\end{verbatim}
+\index{I2OP_free@{\tt I2OP\_free()}}
+This method releases the storage based at {\tt *i2op}.
+%-----------------------------------------------------------------------
+\item
+\begin{verbatim}
+void I2OP_fprintf ( FILE *fp, I2OP *i2op ) ;
+\end{verbatim}
+\index{I2OP_fprintf@{\tt I2OP\_fprintf()}}
+This method prints the singly linked list that starts with {\tt i2op}.
+%-----------------------------------------------------------------------
+\end{enumerate}

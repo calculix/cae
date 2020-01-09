@@ -1,0 +1,35 @@
+#! /bin/csh -f
+
+set msglvl           = 1
+set msgFile          = res.serial
+set msgFile          = stdout
+set msgFile          = res
+
+set type             = 2
+set symmetryflag     = 0
+set pivotingflag     = 0
+set seed             = 10101
+
+set nproc = 4
+
+#
+# for solaris with mpich
+#
+set pgFile = allInOneMPI.$nproc.pg
+/usr/local/mpi/bin/mpirun -p4pg $pgFile \
+allInOneMPI $msglvl $msgFile \
+      $type $symmetryflag $pivotingflag $seed
+ 
+#
+# for sgi
+#
+# mpirun -np $nproc \
+# allInOneMPI $msglvl $msgFile \
+#             $type $symmetryflag $pivotingflag $seed
+ 
+#
+# for hp
+#
+# /opt/mpi/bin/mpirun -np $nproc \
+# allInOneMPI $msglvl $msgFile \
+# $type $symmetryflag $pivotingflag $seed

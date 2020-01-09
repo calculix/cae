@@ -1,0 +1,34 @@
+#! /bin/csh -f
+ 
+set msglvl     = 1
+set msgFile    = stdout
+
+# type -- type of entries
+#   1 -- real entries
+#   2 -- complex entries
+set type = 1
+ 
+# symmetryflag -- type of symmetry in the matrix
+#   0 -- symmetric
+#   1 -- hermitian
+#   2 -- nonsymmetric
+set symmetryflag = 0
+
+set patchAndGoFlag = 2
+set toosmall       = 1.e-9
+set fudge          = 1.e-9
+set storeids       = 1
+set storevalues    = 1
+ 
+set matrixFileName = singularMatrix.input
+ 
+set rhsFileName = singularRhs.input
+ 
+set seed = 10101
+ 
+set nthread =  4
+ 
+patchAndGoMT $msglvl $msgFile $type $symmetryflag \
+           $patchAndGoFlag $toosmall $fudge $storeids $storevalues \
+           $matrixFileName $rhsFileName $seed $nthread
+

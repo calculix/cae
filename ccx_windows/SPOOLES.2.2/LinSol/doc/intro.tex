@@ -1,0 +1,103 @@
+\chapter{Introduction}
+\label{chapter:introduction}
+\par
+One common task for the {\bf SPOOLES} library is to solve a linear
+system of equations $AX = Y$.
+The matrix $A$ is large and sparse,
+and the right hand side $Y$ and solution $X$ will have one or more
+columns.
+The matrices may be real or complex.
+We will consider the case where $A$ is square, and could be
+symmetric, Hermitian, or nonsymmetric.
+\par
+The first step is the find a permutation matrix $P$ such that
+$\widehat A = PAP^T$ has a \textit{low-fill} factorization, i.e.,
+after $\widehat A$ has been factored into 
+$(U^T+I)D(I+U)$ (if $\widehat A$ is symmetric),
+$(U^H+I)D(I+U)$ (if $\widehat A$ is Hermitian),
+or
+$(L+I)D(I+U)$ (if $\widehat A$ is nonsymmetric),
+the factor matrices $L$ and $U$ have relatively few entries.
+The {\bf SPOOLES} library can compute three types of low-fill
+orderings: minimum degree, generalized nested dissection,
+and multisection.
+\par
+The second step is to permute $A$ into $\widehat A$ and compute the
+factorization.
+The {\bf SPOOLES} library has a great deal of flexiblity in this step.
+The \textit{choreography}, (what data structures exist, what block
+computations take place), can be specified and tuned by the
+knowledgeable user.
+Pivoting for numerical stability is supported, i.e.,
+the user can specify
+an upper bound on the magnitudes of the entries in $L$ and $U$.
+The factorization can be exact (up to roundoff) or approximate,
+where entries that are small in magnitude are dropped, neither
+stored nor used in computations.
+\par
+The last step is to solve $\widehat A \widehat X = \widehat Y$, where
+$\widehat Y = P Y$, and $X = P \widehat X$.
+The matrix $Y$ needs to be permuted to form $\widehat Y$,
+and $X$ is obtained from $\widehat X$ by a permutation.
+\par
+Needless to say, the complex process outlined above can be 
+intimidating to the first time user.
+The complete step-by-step process for serial, multithreaded and MPI
+environments is described at length in the {\bf SPOOLES} User's
+Manual.
+The purpose of this document is to present a {\it vastly} simplified
+approach for the first-time user.
+We describe three \textit{wrapper} objects that we wrote for the
+integration of the {\bf SPOOLES} library into CSAR-Nastran.
+Bewarned, while the wrapper objects insulate the user from many of
+the details, they also restrict the ability of the user to tune the
+code to the particular linear system.
+We hope that these wrapper methods will provide a gentle
+introduction to the library, and be a good example from which the
+user can tune as necessary.
+\par
+The user's application program must interface with the {\bf SPOOLES}
+library in some manner.
+The serial, multithreaded and MPI wrapper objects we describe in
+sections~\ref{section:serial}, ~\ref{section:MT} and~\ref{section:MPI}.
+But first the user must communicate the matrix $A$ and right hand
+side $Y$ to the library, and receive back the solution $X$.
+To do this the user must generate two {\bf SPOOLES} objects 
+--- a {\tt InpMtx} object for $A$ and {\tt DenseMtx} objects for
+$Y$ and $X$.
+This process is described in section~\ref{section:setup-linear-system}.
+\par
+Serial code has one process and one address space.
+Multithreaded code can have multiple threads sharing one address
+space.
+The {\bf SPOOLES} library utilizes multiple threads only in the
+factorization and solve steps.
+All other operations act on the global data structures using serial
+methods.
+In the MPI environment, the data structures for $A$, $X$ and $Y$
+may be distributed, and all working data structures that contain
+the factor matrices and their supporting information are distributed.
+The MPI code is much more complex than the serial or multithreaded
+codes, for not only are the factor and solves parallel and
+distributed (as is the symbolic factorization), but there is a
+great deal of support code necessary because of the distributed
+data structures.
+\par
+The wrapper methods described in this paper do not exercise all the
+functionality of the MPI environment.
+This is due to the present state of the CSAR-Nastran code from CSAR,
+where the matrix $A$ and right hand side $Y$ are generated on one
+processor. We chose to do all the serial preprocessing 
+\begin{itemize}
+\item generate a graph of the matrix,
+\item order the graph,
+\item compute the symbolic factorization,
+\item and construct the permutations
+\end{itemize}
+on processor 0 that reads in $A$ and $Y$ from the CSAR-Nastran files.
+Since the bulk of the overall time for a CSAR-Nastran run is dominated
+by the factor and solves, this approach was considered acceptable.
+For the user who is interested in using the MPI environment for the
+entire process, e.g., when $A$ and $Y$ cannot fit on one processor,
+see the {\bf SPOOLES} User Manual for driver programs.
+

@@ -1,0 +1,72 @@
+\chapter{{\tt SemiImplMtx}: Semi-Implicit Factorization}
+\label{chapter:SemiImplMtx}
+\par
+The {\tt SemiImplMtx} object contains a semi-implicit
+representation of a sparse matrix factorization.
+Assume that the matrix $A$ has been factored as
+$PAQ = LDU$, where $L$ is unit lower triangular
+and $U$ is unit upper triangular.
+Now consider $PAQ$ (and so $L$, $D$ and $U$) partitioned as
+follows.
+$$
+{\widehat A} = PAQ =
+\begin{bmatrix}
+{\widehat A}_{1,1} & {\widehat A}_{1,2} \\
+{\widehat A}_{2,1} & {\widehat A}_{2,2}
+\end{bmatrix}
+=
+\begin{bmatrix}
+L_{1,1} &   0     \\
+L_{2,1} & L_{2,2}
+\end{bmatrix}
+\begin{bmatrix}
+D_{1,1} &    0    \\
+   0    & D_{2,2}
+\end{bmatrix}
+\begin{bmatrix}
+U_{1,1} & U_{1,2} \\
+   0    & U_{2,2}
+\end{bmatrix}
+$$
+After some algebra we can arrive at the following identities.
+$$
+L_{2,1} = {\widehat A}_{2,1} D_{1,1}^{-1}
+\text{\qquad and \qquad}
+U_{1,2} = D_{1,1}^{-1} {\widehat A}_{1,2} 
+$$
+The straightforward solution of $AX = B$ can be done as follows,
+as we solve the permuted linear system
+${\widehat A} {\widehat X} = {\widehat B}$,
+where ${\widehat X} = Q^T X$ and ${\widehat B} = P B$.
+\begin{itemize}
+\item solve $L_{1,1} Y_1 = {\widehat B}_1$.
+\item solve $L_{2,2} Y_2 = {\widehat B}_2 - L_{2,1} Y_1$.
+\item solve $D_{1,1} Z_1 = Y_1$.
+\item solve $D_{2,2} Z_2 = Y_2$.
+\item solve $U_{2,2} {\widehat X}_2 = Z_2$.
+\item solve $U_{1,1} {\widehat X}_1 = Z_1 - U_{1,2} Z_2$.
+\end{itemize}
+An equivalent process does not requires $L_{2,1}$ and $U_{1,2}$,
+but instead uses the ${\widehat A}_{1,2}$ and ${\widehat A}_{2,1}$
+matrices.
+\begin{itemize}
+\item 
+solve $L_{1,1} D_{1,1} U_{1,1} T_1 = {\widehat B}_1$.
+\item 
+solve $L_{2,2} D_{2,2} U_{2,2} {\widehat X}_2 = {\widehat B}_2 - A_{2,1} T_1$.
+\item 
+solve $L_{1,1} D_{1,1} U_{1,1} {\widehat X}_1 
+       = {\widehat B}_1 - A_{1,2} {\widehat X}_2$.
+\end{itemize}
+In effect, we have traded multiplies with $L_{2,1}$ and $U_{1,2}$
+for multiplies with $A_{1,2}$ and $A_{2,1}$ and
+two extra solves with $D_{1,1}$.
+In some cases this {\it semi-implicit} procedure
+(so named because $L_{2,1}$ and $U_{1,2}$ are stored in a
+semi-implicit form) can pay off ---
+storage can be saved when the number of entries in
+$L_{2,1}$ and $U_{1,2}$ are larger than the number of entries in
+$A_{2,1}$ and $A_{1,2}$.
+The number of solve operations is reduced by 
+$|L_{2,1}| + |U_{1,2}| - 2|D_{1,1}| -|A_{2,1}| - |A_{1,2}|$,
+where $|\cdot|$ denotes the number of nonzeroes in a matrix.

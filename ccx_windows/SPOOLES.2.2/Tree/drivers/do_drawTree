@@ -1,0 +1,83 @@
+#! /bin/csh -f
+
+set Matrices    = ../../Matrices
+set matrix      = R2D100
+
+set matrices    = ../../../matrices
+set matrix      = GRD15x15x127
+
+set matrices    = /local1/ARPA/matrices
+set matrix      = i4a
+
+set inTreeFile = $matrices/$matrix/nd.treef
+set inTreeFile = $matrices/$matrix/ms.treef
+set inTreeFile = jim.treef
+set inTreeFile = /local1/ARPA/matrices/i4a/best0.treef
+set inTreeFile = /local1/ARPA/matrices/SFTC1/best0.treef
+set inTreeFile = bcell2.treef
+set inTreeFile = stk35.treef
+set inTreeFile = ms.treef
+set inTreeFile = haggar.treef
+set inTreeFile = mmd.treef
+set inTreeFile = nd.treef
+set inTreeFile = $Matrices/R2D100/nd.treef
+
+set inTagsFile = $matrices/$matrix/ndowners.ivf
+set inTagsFile = jim.ivf
+set inTagsFile = bcell2.ivf
+set inTagsFile = owners.ivf
+set inTagsFile = haggar.ivf
+set inTagsFile = none
+
+set outEPSfile = ndtree.eps
+set outEPSfile = mstree.eps
+set outEPSfile = jim.eps
+set outEPSfile = jimowners.eps
+set outEPSfile = i4a.eps
+set outEPSfile = sftc1.eps
+set outEPSfile = bcell2.eps
+set outEPSfile = stk35.eps
+set outEPSfile = nd.eps
+set outEPSfile = ms.eps
+set outEPSfile = mmd.eps
+set outEPSfile = haggar2.eps
+set outEPSfile = temp.eps
+
+set msglvl      = 1
+
+set msgFile    = stdout
+
+set heightFlag = D
+set heightFlag = H
+set coordFlag  = C
+set coordFlag  = P
+set radius     = 12.5
+set radius     = 10
+set radius     = 3
+set radius     = 6
+
+set bbox       = '  0  0 300 200 '
+set rect       = ' 20 20 280 180 '
+
+set bbox       = '  0  0 600 300 '
+set rect       = ' 20 20 580 280 '
+
+set bbox       = '  0  0 400 400 '
+set rect       = ' 20 20 380 380 '
+
+set bbox       = '  0  0 600 600 '
+set rect       = ' 20 20 580 580 '
+
+set fontsize   = 8
+set tagsflag   = 1
+
+drawTree $msglvl $msgFile \
+   $inTreeFile \
+   $inTagsFile \
+   $outEPSfile \
+   $heightFlag \
+   $coordFlag \
+   $radius \
+   $bbox $rect \
+   $fontsize \
+   $tagsflag

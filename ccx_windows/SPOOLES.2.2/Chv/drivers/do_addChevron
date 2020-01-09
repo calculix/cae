@@ -1,0 +1,18 @@
+#! /bin/csh -f
+#
+ 
+set msglvl       =       2
+set msgFile      =     res 
+set msgFile      =  stdout
+set type         =       2
+set symflag      =       0
+set nD           =       9
+set nU           =       5
+set alphareal    =     1.0
+set alphareal    =     9.0
+set alphaimag    =      0.0
+set alphaimag    =      4.0
+set seed         =     7377
+
+test_addChevron \
+   $msglvl $msgFile $nD $nU $type $symflag $seed $alphareal $alphaimag

@@ -1,0 +1,29 @@
+#! /bin/csh -f
+
+set matrices     = ../../Matrices
+set matrix       = BCSSTK24
+
+set matrices     = ../../../matrices
+set matrix       = R10KV
+
+set msglvl  = 1
+set msgFile = stdout
+
+set inGraphFile   = $matrices/$matrix/orig1.graphf
+set inGraphFile   = $matrices/$matrix/orig0.graphf
+set inGraphFile   = $matrices/$matrix/orig0.graphb
+
+set inStagesFile = $matrices/$matrix/bkl.ivf
+set inStagesFile = $matrices/$matrix/ddstages0.ivf
+set inStagesFile = $matrices/$matrix/fishnet.ivf
+set inStagesFile = $matrices/$matrix/ndms.ivf
+
+set outStagesFile = $matrices/$matrix/stages.ivf
+set outStagesFile = none
+
+set radius = 2
+
+set outStagesFile = $matrices/$matrix/wirebasket$radius.ivf
+
+testWirebasket $msglvl $msgFile \
+     $inGraphFile $inStagesFile $outStagesFile $radius
