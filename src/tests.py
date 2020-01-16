@@ -2,13 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-    © Ihor Mirzov, September 2019
+    © Ihor Mirzov, January 2020
     Distributed under GNU General Public License v3.0
 
     Test for all CalculiX examples.
-
-    Run with command:
-        python3 src/tests.py > src/tests.log
+    Ctrl + F5 to Run.
 """
 
 
@@ -40,28 +38,35 @@ def test(file_name):
 
 
 # Redefine print method to write logs to file
-def print(line):
+def print(*args):
+    line = ' '.join([str(arg) for arg in args])
     with open('src/tests.log', 'a') as f:
-        f.write(line + '\n')
+        f.write(str(line) + '\n')
 
 
 # Test
 if __name__ == '__main__':
-    os.remove('src/tests.log')
+    try: os.remove('src/tests.log')
+    except: pass
     start_time = time.perf_counter()
     logging.getLogger().addHandler(myHandler())
     logging.getLogger().setLevel(logging.DEBUG)
     file_list = glob.glob('examples/**/*.inp', recursive=True)
     file_list = sorted(file_list)
 
-    for i, file_name in enumerate(file_list):
-        if 'materials.inp' in file_name:
-            file_list.pop(i)
+    i = 0
+    for file_name in file_list:
 
-    for i, file_name in enumerate(file_list):
-        # if i==10: break # 10 files only
+        # Skip some files
+        if 'mkraska' in file_name:
+            continue
+        if 'materials.inp' in file_name:
+            continue
+
         print('\n' + '='*50 + '\n{0}: {1}'.format(i+1, file_name))
         test(file_name)
+        i += 1
+        # if i==10: break # 10 files only
 
     print('\nTotal {:.1f} seconds.'
         .format(time.perf_counter() - start_time))

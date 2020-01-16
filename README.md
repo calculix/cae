@@ -161,7 +161,7 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 # What's new
 
-- Better/simpler app's architecture.
+- CalculiX 2.16
 - Mesh object is reparsed after edit in the treeView.
 
 <br/><br/>
@@ -200,4 +200,3 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - Menu Help:
     - PDF manual / YouTube videos for beginners.
-    - VTK Keyboard Shortcuts and Controls.

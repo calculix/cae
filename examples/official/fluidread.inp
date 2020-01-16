@@ -1,0 +1,13 @@
+**
+**   Structure: Couette flow, steady state, compressible
+**   Test objective: restart capability (reading part).
+**   Before running this example, please run example fluidwrite
+**   and copy fluidwrite.rout to fluidread.rin
+**
+*RESTART,READ
+*STEP,INCF=1
+*CFD,STEADY STATE,COMPRESSIBLE,2D
+1.,1.,,,0.01
+*NODE FILE,FREQUENCYF=1
+VF,PSF,TSF
+*END STEP

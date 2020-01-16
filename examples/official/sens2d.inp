@@ -1,0 +1,45 @@
+**
+**   Structure: one element.
+**   Test objective: sensitivity: internal energy w.r.t. coordinates.
+**
+*NODE, NSET=NALL
+         1,  100.0          ,  0.0            ,  0.0          
+         2,  0.0            ,  0.0            ,  0.0          
+         3,  0.0            ,  100.0          ,  0.0          
+         4,  100.0          ,  100.0          ,  0.0          
+*ELEMENT,TYPE=CPE4,ELSET=EALL
+         1,         2,1,4,3
+*NSET, NSET=DESIGNNODES
+      1,4
+*DESIGNVARIABLES,TYPE=COORDINATE
+DESIGNNODES
+*MATERIAL,NAME=EL
+*ELASTIC
+210000.,.0
+*DENSITY
+7.8E-9
+*SOLID SECTION, ELSET=EALL, MATERIAL=EL
+100.
+*INITIAL CONDITIONS, TYPE=TEMPERATURE
+NALL, 293.15
+*BOUNDARY
+2,1,2
+3,1,2
+1,1,1
+4,1,1
+*STEP
+*STATIC
+*DLOAD
+EALL,GRAV,1.e10,0.,-1.,0.
+*NODE FILE
+U
+*EL FILE
+S
+*END STEP
+*STEP
+*SENSITIVITY
+*OBJECTIVE
+STRAIN ENERGY,EALL
+*NODE FILE
+SEN
+*END STEP

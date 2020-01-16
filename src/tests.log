@@ -15,7 +15,7 @@ DEBUG: Camera's ParallelScale is 5.2.
 DEBUG: Camera's ClippingRange is (9.6, 33.3).
 
 ==================================================
-2: examples/official-examples/achtel2.inp
+2: examples/official/achtel2.inp
 INFO: 98 nodes 
 WARNING: NSET SET1 - there is no node 82 in the mesh.
 WARNING: NSET SET1 - there is no node 83 in the mesh.
@@ -112,7 +112,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-3: examples/official-examples/achtel29.inp
+3: examples/official/achtel29.inp
 INFO: 98 nodes 
 WARNING: NSET SET1 - there is no node 82 in the mesh.
 WARNING: NSET SET1 - there is no node 83 in the mesh.
@@ -209,7 +209,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-4: examples/official-examples/achtel9.inp
+4: examples/official/achtel9.inp
 INFO: 98 nodes 
 WARNING: NSET SET1 - there is no node 82 in the mesh.
 WARNING: NSET SET1 - there is no node 83 in the mesh.
@@ -306,7 +306,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-5: examples/official-examples/achtelc.inp
+5: examples/official/achtelc.inp
 INFO: 81 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -321,7 +321,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-6: examples/official-examples/achtelcas.inp
+6: examples/official/achtelcas.inp
 INFO: 98 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -336,7 +336,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-7: examples/official-examples/achteld.inp
+7: examples/official/achteld.inp
 INFO: 81 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -351,7 +351,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-8: examples/official-examples/achtelg.inp
+8: examples/official/achtelg.inp
 INFO: 81 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -366,7 +366,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-9: examples/official-examples/achtelp.inp
+9: examples/official/achtelp.inp
 INFO: 81 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -381,7 +381,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-10: examples/official-examples/acou1.inp
+10: examples/official/acou1.inp
 INFO: 262 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -396,7 +396,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-11: examples/official-examples/acou2.inp
+11: examples/official/acou2.inp
 INFO: 262 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -411,7 +411,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-12: examples/official-examples/acou3.inp
+12: examples/official/acou3.inp
 INFO: 262 nodes 
 INFO: 7 nsets 
 INFO: 32 elements 
@@ -426,7 +426,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-13: examples/official-examples/acou4.inp
+13: examples/official/acou4.inp
 INFO: 262 nodes 
 INFO: 7 nsets 
 INFO: 32 elements 
@@ -441,7 +441,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-14: examples/official-examples/aircolumn.inp
+14: examples/official/aircolumn.inp
 INFO: 262 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -456,7 +456,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-15: examples/official-examples/anipla.inp
+15: examples/official/anipla.inp
 INFO: 20 nodes 
 INFO: 3 nsets 
 INFO: 1 elements 
@@ -471,7 +471,7 @@ DEBUG: Camera's ParallelScale is 0.6.
 DEBUG: Camera's ClippingRange is (1.2, 3.9).
 
 ==================================================
-16: examples/official-examples/aniso.inp
+16: examples/official/aniso.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -486,7 +486,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-17: examples/official-examples/artery1.inp
+17: examples/official/artery1.inp
 INFO: 13 nodes 
 INFO: 1 nsets 
 INFO: 4 elements 
@@ -501,7 +501,7 @@ DEBUG: Camera's ParallelScale is 6.1.
 DEBUG: Camera's ClippingRange is (16.2, 32.9).
 
 ==================================================
-18: examples/official-examples/artery2.inp
+18: examples/official/artery2.inp
 INFO: 13 nodes 
 INFO: 1 nsets 
 INFO: 4 elements 
@@ -516,7 +516,7 @@ DEBUG: Camera's ParallelScale is 6.1.
 DEBUG: Camera's ClippingRange is (16.2, 32.9).
 
 ==================================================
-19: examples/official-examples/artery3.inp
+19: examples/official/artery3.inp
 INFO: 14 nodes 
 INFO: 1 nsets 
 INFO: 4 elements 
@@ -531,7 +531,7 @@ DEBUG: Camera's ParallelScale is 6.2.
 DEBUG: Camera's ClippingRange is (16.1, 33.8).
 
 ==================================================
-20: examples/official-examples/artery4.inp
+20: examples/official/artery4.inp
 INFO: 14 nodes 
 INFO: 1 nsets 
 INFO: 4 elements 
@@ -546,7 +546,7 @@ DEBUG: Camera's ParallelScale is 6.2.
 DEBUG: Camera's ClippingRange is (16.1, 33.8).
 
 ==================================================
-21: examples/official-examples/artery5.inp
+21: examples/official/artery5.inp
 INFO: 14 nodes 
 INFO: 1 nsets 
 INFO: 4 elements 
@@ -561,7 +561,7 @@ DEBUG: Camera's ParallelScale is 6.2.
 DEBUG: Camera's ClippingRange is (16.1, 33.8).
 
 ==================================================
-22: examples/official-examples/ax6.inp
+22: examples/official/ax6.inp
 INFO: 85 nodes 
 INFO: 1 nsets 
 INFO: 32 elements 
@@ -576,7 +576,7 @@ DEBUG: Camera's ParallelScale is 4.0.
 DEBUG: Camera's ClippingRange is (10.0, 22.6).
 
 ==================================================
-23: examples/official-examples/ax6ht.inp
+23: examples/official/ax6ht.inp
 INFO: 85 nodes 
 INFO: 1 nsets 
 INFO: 32 elements 
@@ -591,7 +591,7 @@ DEBUG: Camera's ParallelScale is 4.0.
 DEBUG: Camera's ClippingRange is (10.0, 22.6).
 
 ==================================================
-24: examples/official-examples/axial.inp
+24: examples/official/axial.inp
 INFO: 13 nodes 
 INFO: 1 nsets 
 INFO: 2 elements 
@@ -606,7 +606,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.1, 2.5).
 
 ==================================================
-25: examples/official-examples/axiplane.inp
+25: examples/official/axiplane.inp
 INFO: 13 nodes 
 INFO: 1 nsets 
 INFO: 2 elements 
@@ -621,7 +621,7 @@ DEBUG: Camera's ParallelScale is 1.1.
 DEBUG: Camera's ClippingRange is (2.6, 6.5).
 
 ==================================================
-26: examples/official-examples/axrad.inp
+26: examples/official/axrad.inp
 INFO: 53 nodes 
 INFO: 3 nsets 
 INFO: 10 elements 
@@ -636,7 +636,7 @@ DEBUG: Camera's ParallelScale is 1.5.
 DEBUG: Camera's ClippingRange is (4.3, 7.7).
 
 ==================================================
-27: examples/official-examples/axrad2.inp
+27: examples/official/axrad2.inp
 INFO: 3876 nodes 
 INFO: 5 nsets 
 INFO: 1140 elements 
@@ -651,7 +651,7 @@ DEBUG: Camera's ParallelScale is 0.1.
 DEBUG: Camera's ClippingRange is (0.3, 0.8).
 
 ==================================================
-28: examples/official-examples/b31.inp
+28: examples/official/b31.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -666,7 +666,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-29: examples/official-examples/b31nodthi.inp
+29: examples/official/b31nodthi.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -681,7 +681,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-30: examples/official-examples/ball.inp
+30: examples/official/ball.inp
 INFO: 1025 nodes 
 INFO: 3 nsets 
 INFO: 769 elements 
@@ -696,7 +696,7 @@ DEBUG: Camera's ParallelScale is 95.5.
 DEBUG: Camera's ClippingRange is (175.7, 613.4).
 
 ==================================================
-31: examples/official-examples/beam10p.inp
+31: examples/official/beam10p.inp
 INFO: 90 nodes 
 INFO: 3 nsets 
 INFO: 31 elements 
@@ -711,7 +711,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-32: examples/official-examples/beam20p.inp
+32: examples/official/beam20p.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -726,7 +726,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-33: examples/official-examples/beam20t.inp
+33: examples/official/beam20t.inp
 INFO: 261 nodes 
 INFO: 7 nsets 
 INFO: 32 elements 
@@ -741,7 +741,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-34: examples/official-examples/beam8b.inp
+34: examples/official/beam8b.inp
 INFO: 425 nodes 
 INFO: 3 nsets 
 WARNING: Duplicated set name Eall!
@@ -1011,7 +1011,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-35: examples/official-examples/beam8f.inp
+35: examples/official/beam8f.inp
 INFO: 425 nodes 
 INFO: 3 nsets 
 WARNING: Duplicated set name Eall!
@@ -1281,7 +1281,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-36: examples/official-examples/beam8p.inp
+36: examples/official/beam8p.inp
 INFO: 425 nodes 
 INFO: 3 nsets 
 WARNING: Duplicated set name Eall!
@@ -1551,7 +1551,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-37: examples/official-examples/beam8t.inp
+37: examples/official/beam8t.inp
 INFO: 425 nodes 
 INFO: 2 nsets 
 WARNING: Duplicated set name Eall!
@@ -1821,7 +1821,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-38: examples/official-examples/beam_sens_freq_coord1.inp
+38: examples/official/beam_sens_freq_coord1.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -1836,7 +1836,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-39: examples/official-examples/beam_sens_freq_coord2.inp
+39: examples/official/beam_sens_freq_coord2.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -1851,7 +1851,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-40: examples/official-examples/beam_sens_freq_coord3.inp
+40: examples/official/beam_sens_freq_coord3.inp
 INFO: 270 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -1866,7 +1866,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-41: examples/official-examples/beam_sens_stress_coord1.inp
+41: examples/official/beam_sens_stress_coord1.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -1881,7 +1881,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-42: examples/official-examples/beam_sens_stress_coord2.inp
+42: examples/official/beam_sens_stress_coord2.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -1896,7 +1896,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-43: examples/official-examples/beamabq.inp
+43: examples/official/beamabq.inp
 INFO: 261 nodes 
 INFO: 6 nsets 
 INFO: 32 elements 
@@ -1911,7 +1911,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-44: examples/official-examples/beamb.inp
+44: examples/official/beamb.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -1926,7 +1926,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-45: examples/official-examples/beamcom.inp
+45: examples/official/beamcom.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 4 elements 
@@ -1941,7 +1941,7 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (2.6, 5.5).
 
 ==================================================
-46: examples/official-examples/beamcontact.inp
+46: examples/official/beamcontact.inp
 INFO: 277 nodes 
 INFO: 2 nsets 
 WARNING: Duplicated set name Eall!
@@ -1957,7 +1957,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (9.9, 26.6).
 
 ==================================================
-47: examples/official-examples/beamcr.inp
+47: examples/official/beamcr.inp
 INFO: 261 nodes 
 INFO: 9 nsets 
 INFO: 32 elements 
@@ -1972,7 +1972,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-48: examples/official-examples/beamcr2.inp
+48: examples/official/beamcr2.inp
 INFO: 261 nodes 
 INFO: 9 nsets 
 INFO: 32 elements 
@@ -1987,7 +1987,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-49: examples/official-examples/beamd.inp
+49: examples/official/beamd.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2002,7 +2002,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-50: examples/official-examples/beamd2.inp
+50: examples/official/beamd2.inp
 INFO: 262 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2017,7 +2017,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-51: examples/official-examples/beamdelay.inp
+51: examples/official/beamdelay.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2032,7 +2032,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-52: examples/official-examples/beamdy1.inp
+52: examples/official/beamdy1.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2047,7 +2047,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-53: examples/official-examples/beamdy10.inp
+53: examples/official/beamdy10.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2062,7 +2062,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-54: examples/official-examples/beamdy10bm.inp
+54: examples/official/beamdy10bm.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2077,7 +2077,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-55: examples/official-examples/beamdy11.inp
+55: examples/official/beamdy11.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2092,7 +2092,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-56: examples/official-examples/beamdy12.inp
+56: examples/official/beamdy12.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2107,7 +2107,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-57: examples/official-examples/beamdy13.inp
+57: examples/official/beamdy13.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2122,7 +2122,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-58: examples/official-examples/beamdy14.inp
+58: examples/official/beamdy14.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2137,7 +2137,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-59: examples/official-examples/beamdy15.inp
+59: examples/official/beamdy15.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2152,7 +2152,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-60: examples/official-examples/beamdy16.inp
+60: examples/official/beamdy16.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2167,7 +2167,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-61: examples/official-examples/beamdy17.inp
+61: examples/official/beamdy17.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2182,7 +2182,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-62: examples/official-examples/beamdy18.inp
+62: examples/official/beamdy18.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2197,7 +2197,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-63: examples/official-examples/beamdy19.inp
+63: examples/official/beamdy19.inp
 INFO: 261 nodes 
 WARNING: Duplicated set name N1!
 INFO: 3 nsets 
@@ -2213,7 +2213,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-64: examples/official-examples/beamdy2.inp
+64: examples/official/beamdy2.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2228,7 +2228,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-65: examples/official-examples/beamdy20.inp
+65: examples/official/beamdy20.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2243,7 +2243,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-66: examples/official-examples/beamdy3.inp
+66: examples/official/beamdy3.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2258,7 +2258,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-67: examples/official-examples/beamdy4.inp
+67: examples/official/beamdy4.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2273,7 +2273,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-68: examples/official-examples/beamdy5.inp
+68: examples/official/beamdy5.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2288,7 +2288,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-69: examples/official-examples/beamdy6.inp
+69: examples/official/beamdy6.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2303,7 +2303,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-70: examples/official-examples/beamdy7.inp
+70: examples/official/beamdy7.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -2318,7 +2318,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-71: examples/official-examples/beamdy7bm.inp
+71: examples/official/beamdy7bm.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -2333,7 +2333,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-72: examples/official-examples/beamdy8.inp
+72: examples/official/beamdy8.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2348,7 +2348,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-73: examples/official-examples/beamdy9.inp
+73: examples/official/beamdy9.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2363,7 +2363,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-74: examples/official-examples/beamdynamic.inp
+74: examples/official/beamdynamic.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -2378,7 +2378,22 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-75: examples/official-examples/beamf.inp
+75: examples/official/beamexpdy1.inp
+INFO: 261 nodes 
+INFO: 3 nsets 
+INFO: 32 elements 
+INFO: 2 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.5, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.8, 4.0).
+DEBUG: Camera's position is (10.3, 8.3, 13.8).
+DEBUG: Camera's distance is 15.8.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.4, 24.0).
+
+==================================================
+76: examples/official/beamf.inp
 INFO: 261 nodes 
 INFO: 1 nsets 
 INFO: 32 elements 
@@ -2393,7 +2408,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-76: examples/official-examples/beamf2.inp
+77: examples/official/beamf2.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2408,7 +2423,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-77: examples/official-examples/beamf3.inp
+78: examples/official/beamf3.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2423,7 +2438,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-78: examples/official-examples/beamf3submodel.inp
+79: examples/official/beamf3submodel.inp
 INFO: 111 nodes 
 INFO: 2 nsets 
 INFO: 12 elements 
@@ -2438,7 +2453,22 @@ DEBUG: Camera's ParallelScale is 1.8.
 DEBUG: Camera's ClippingRange is (3.5, 10.9).
 
 ==================================================
-79: examples/official-examples/beamfsh1.inp
+80: examples/official/beamfrdread.inp
+INFO: 261 nodes 
+INFO: 2 nsets 
+INFO: 32 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
+DEBUG: Camera's position is (10.2, 8.0, 13.7).
+DEBUG: Camera's distance is 15.7.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.5, 23.5).
+
+==================================================
+81: examples/official/beamfsh1.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 34 elements 
@@ -2453,7 +2483,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-80: examples/official-examples/beamfstrucdamp.inp
+82: examples/official/beamfstrucdamp.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2468,7 +2498,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-81: examples/official-examples/beamfsubmodel.inp
+83: examples/official/beamfsubmodel.inp
 INFO: 111 nodes 
 INFO: 2 nsets 
 INFO: 12 elements 
@@ -2483,7 +2513,7 @@ DEBUG: Camera's ParallelScale is 1.8.
 DEBUG: Camera's ClippingRange is (3.5, 10.9).
 
 ==================================================
-82: examples/official-examples/beamft.inp
+84: examples/official/beamft.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2498,7 +2528,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-83: examples/official-examples/beamheatplas.inp
+85: examples/official/beamheatplas.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -2513,7 +2543,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-84: examples/official-examples/beamhf.inp
+86: examples/official/beamhf.inp
 INFO: 261 nodes 
 INFO: 9 nsets 
 INFO: 32 elements 
@@ -2528,7 +2558,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-85: examples/official-examples/beamhtbf.inp
+87: examples/official/beamhtbf.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2543,7 +2573,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-86: examples/official-examples/beamhtbo.inp
+88: examples/official/beamhtbo.inp
 INFO: 262 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2558,7 +2588,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-87: examples/official-examples/beamhtcr.inp
+89: examples/official/beamhtcr.inp
 INFO: 495 nodes 
 INFO: 3 nsets 
 INFO: 48 elements 
@@ -2573,7 +2603,7 @@ DEBUG: Camera's ParallelScale is 6.2.
 DEBUG: Camera's ClippingRange is (14.3, 36.2).
 
 ==================================================
-88: examples/official-examples/beamhtcr2.inp
+90: examples/official/beamhtcr2.inp
 INFO: 495 nodes 
 INFO: 3 nsets 
 INFO: 48 elements 
@@ -2588,7 +2618,7 @@ DEBUG: Camera's ParallelScale is 6.2.
 DEBUG: Camera's ClippingRange is (14.3, 36.2).
 
 ==================================================
-89: examples/official-examples/beamhtfc.inp
+91: examples/official/beamhtfc.inp
 INFO: 279 nodes 
 INFO: 4 nsets 
 INFO: 40 elements 
@@ -2603,7 +2633,7 @@ DEBUG: Camera's ParallelScale is 4.3.
 DEBUG: Camera's ClippingRange is (10.0, 25.3).
 
 ==================================================
-90: examples/official-examples/beamhtfc2.inp
+92: examples/official/beamhtfc2.inp
 INFO: 279 nodes 
 INFO: 4 nsets 
 INFO: 40 elements 
@@ -2618,7 +2648,7 @@ DEBUG: Camera's ParallelScale is 4.3.
 DEBUG: Camera's ClippingRange is (10.0, 25.3).
 
 ==================================================
-91: examples/official-examples/beamhtfcaero.inp
+93: examples/official/beamhtfcaero.inp
 INFO: 279 nodes 
 INFO: 4 nsets 
 INFO: 40 elements 
@@ -2633,7 +2663,7 @@ DEBUG: Camera's ParallelScale is 4.3.
 DEBUG: Camera's ClippingRange is (10.0, 25.3).
 
 ==================================================
-92: examples/official-examples/beamhtfcaerothne.inp
+94: examples/official/beamhtfcaerothne.inp
 INFO: 279 nodes 
 INFO: 4 nsets 
 INFO: 40 elements 
@@ -2648,7 +2678,7 @@ DEBUG: Camera's ParallelScale is 4.3.
 DEBUG: Camera's ClippingRange is (10.0, 25.3).
 
 ==================================================
-93: examples/official-examples/beamhtfcnu.inp
+95: examples/official/beamhtfcnu.inp
 INFO: 279 nodes 
 INFO: 4 nsets 
 INFO: 40 elements 
@@ -2663,7 +2693,7 @@ DEBUG: Camera's ParallelScale is 4.3.
 DEBUG: Camera's ClippingRange is (10.0, 25.3).
 
 ==================================================
-94: examples/official-examples/beamidset.inp
+96: examples/official/beamidset.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2678,7 +2708,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-95: examples/official-examples/beamimpdy1.inp
+97: examples/official/beamimpdy1.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2693,7 +2723,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-96: examples/official-examples/beamimpdy1nodirect.inp
+98: examples/official/beamimpdy1nodirect.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2708,7 +2738,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-97: examples/official-examples/beamimpdy2.inp
+99: examples/official/beamimpdy2.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2723,7 +2753,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-98: examples/official-examples/beamlin.inp
+100: examples/official/beamlin.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 2 elements 
@@ -2738,7 +2768,7 @@ DEBUG: Camera's ParallelScale is 75.0.
 DEBUG: Camera's ClippingRange is (194.2, 410.8).
 
 ==================================================
-99: examples/official-examples/beammix.inp
+101: examples/official/beammix.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 2 elements 
@@ -2753,7 +2783,7 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (2.6, 5.5).
 
 ==================================================
-100: examples/official-examples/beammpc.inp
+102: examples/official/beammpc.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -2768,7 +2798,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-101: examples/official-examples/beammr.inp
+103: examples/official/beammr.inp
 INFO: 262 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2783,7 +2813,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-102: examples/official-examples/beammrco.inp
+104: examples/official/beammrco.inp
 INFO: 262 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -2798,7 +2828,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-103: examples/official-examples/beammrlin.inp
+105: examples/official/beammrlin.inp
 INFO: 262 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2813,7 +2843,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-104: examples/official-examples/beamnh.inp
+106: examples/official/beamnh.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -2828,7 +2858,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-105: examples/official-examples/beamnld.inp
+107: examples/official/beamnld.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -2843,7 +2873,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-106: examples/official-examples/beamnldy.inp
+108: examples/official/beamnldy.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -2858,7 +2888,22 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-107: examples/official-examples/beamnldye.inp
+109: examples/official/beamnldye.inp
+INFO: 261 nodes 
+INFO: 2 nsets 
+INFO: 32 elements 
+INFO: 2 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.5, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.8, 4.0).
+DEBUG: Camera's position is (10.3, 8.3, 13.8).
+DEBUG: Camera's distance is 15.8.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.4, 24.0).
+
+==================================================
+110: examples/official/beamnldye20.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2873,7 +2918,22 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-108: examples/official-examples/beamnldynodirect.inp
+111: examples/official/beamnldyems.inp
+INFO: 261 nodes 
+INFO: 2 nsets 
+INFO: 32 elements 
+INFO: 2 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.5, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.8, 4.0).
+DEBUG: Camera's position is (10.3, 8.3, 13.8).
+DEBUG: Camera's distance is 15.8.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.4, 24.0).
+
+==================================================
+112: examples/official/beamnldynodirect.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -2888,7 +2948,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-109: examples/official-examples/beamnldyp.inp
+113: examples/official/beamnldyp.inp
 INFO: 261 nodes 
 INFO: 7 nsets 
 INFO: 32 elements 
@@ -2903,9 +2963,9 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-110: examples/official-examples/beamnldype.inp
+114: examples/official/beamnldype.inp
 INFO: 261 nodes 
-INFO: 7 nsets 
+INFO: 2 nsets 
 INFO: 32 elements 
 INFO: 2 elsets 
 INFO: 0 surfaces 
@@ -2918,7 +2978,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-111: examples/official-examples/beamnlmpc.inp
+115: examples/official/beamnlmpc.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2933,7 +2993,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-112: examples/official-examples/beamnlp.inp
+116: examples/official/beamnlp.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2948,7 +3008,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-113: examples/official-examples/beamnlptp.inp
+117: examples/official/beamnlptp.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2963,7 +3023,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-114: examples/official-examples/beamnlt.inp
+118: examples/official/beamnlt.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2978,7 +3038,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-115: examples/official-examples/beamnoan.inp
+119: examples/official/beamnoan.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -2993,7 +3053,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-116: examples/official-examples/beamog.inp
+120: examples/official/beamog.inp
 INFO: 261 nodes 
 INFO: 9 nsets 
 INFO: 32 elements 
@@ -3008,7 +3068,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-117: examples/official-examples/beamp.inp
+121: examples/official/beamp.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3023,7 +3083,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-118: examples/official-examples/beamp1rotate.inp
+122: examples/official/beamp1rotate.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -3038,7 +3098,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-119: examples/official-examples/beamp2.inp
+123: examples/official/beamp2.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3053,7 +3113,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-120: examples/official-examples/beamp2rotate.inp
+124: examples/official/beamp2rotate.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -3068,7 +3128,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-121: examples/official-examples/beamp2stage.inp
+125: examples/official/beamp2stage.inp
 INFO: 261 nodes 
 WARNING: Duplicated set name LOAD!
 INFO: 3 nsets 
@@ -3084,37 +3144,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-122: examples/official-examples/beampd.inp
-INFO: 261 nodes 
-INFO: 4 nsets 
-INFO: 32 elements 
-INFO: 2 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
-DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
-DEBUG: Camera's position is (10.2, 8.0, 13.7).
-DEBUG: Camera's distance is 15.7.
-DEBUG: Camera's ParallelScale is 4.1.
-DEBUG: Camera's ClippingRange is (9.5, 23.5).
-
-==================================================
-123: examples/official-examples/beampdepmpc.inp
-INFO: 261 nodes 
-INFO: 3 nsets 
-INFO: 32 elements 
-INFO: 1 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
-DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
-DEBUG: Camera's position is (10.2, 8.0, 13.7).
-DEBUG: Camera's distance is 15.7.
-DEBUG: Camera's ParallelScale is 4.1.
-DEBUG: Camera's ClippingRange is (9.5, 23.5).
-
-==================================================
-124: examples/official-examples/beamperror.inp
+126: examples/official/beamp_ciarlet.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3129,7 +3159,22 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-125: examples/official-examples/beampfix.inp
+127: examples/official/beampd.inp
+INFO: 261 nodes 
+INFO: 4 nsets 
+INFO: 32 elements 
+INFO: 2 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
+DEBUG: Camera's position is (10.2, 8.0, 13.7).
+DEBUG: Camera's distance is 15.7.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.5, 23.5).
+
+==================================================
+128: examples/official/beampdepmpc.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3144,7 +3189,37 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-126: examples/official-examples/beampic.inp
+129: examples/official/beamperror.inp
+INFO: 261 nodes 
+INFO: 3 nsets 
+INFO: 32 elements 
+INFO: 1 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
+DEBUG: Camera's position is (10.2, 8.0, 13.7).
+DEBUG: Camera's distance is 15.7.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.5, 23.5).
+
+==================================================
+130: examples/official/beampfix.inp
+INFO: 261 nodes 
+INFO: 3 nsets 
+INFO: 32 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
+DEBUG: Camera's position is (10.2, 8.0, 13.7).
+DEBUG: Camera's distance is 15.7.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.5, 23.5).
+
+==================================================
+131: examples/official/beampic.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3159,7 +3234,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-127: examples/official-examples/beampik.inp
+132: examples/official/beampik.inp
 INFO: 261 nodes 
 INFO: 9 nsets 
 INFO: 32 elements 
@@ -3174,7 +3249,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-128: examples/official-examples/beampis.inp
+133: examples/official/beampis.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3189,7 +3264,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-129: examples/official-examples/beampiso.inp
+134: examples/official/beampiso.inp
 INFO: 261 nodes 
 INFO: 9 nsets 
 INFO: 32 elements 
@@ -3204,7 +3279,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-130: examples/official-examples/beampiso2.inp
+135: examples/official/beampiso2.inp
 INFO: 261 nodes 
 INFO: 9 nsets 
 INFO: 32 elements 
@@ -3219,7 +3294,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-131: examples/official-examples/beampisof.inp
+136: examples/official/beampisof.inp
 INFO: 261 nodes 
 INFO: 9 nsets 
 INFO: 32 elements 
@@ -3234,7 +3309,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-132: examples/official-examples/beampkin.inp
+137: examples/official/beampkin.inp
 INFO: 261 nodes 
 INFO: 9 nsets 
 INFO: 32 elements 
@@ -3249,7 +3324,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-133: examples/official-examples/beampl.inp
+138: examples/official/beampl.inp
 INFO: 261 nodes 
 INFO: 9 nsets 
 INFO: 32 elements 
@@ -3264,7 +3339,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-134: examples/official-examples/beamplane.inp
+139: examples/official/beamplane.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3279,7 +3354,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-135: examples/official-examples/beampo1.inp
+140: examples/official/beampo1.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3294,7 +3369,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-136: examples/official-examples/beampo2.inp
+141: examples/official/beampo2.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3309,7 +3384,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-137: examples/official-examples/beampo3.inp
+142: examples/official/beampo3.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3324,7 +3399,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-138: examples/official-examples/beamprand.inp
+143: examples/official/beamprand.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -3339,7 +3414,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-139: examples/official-examples/beamprb.inp
+144: examples/official/beamprb.inp
 INFO: 263 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -3354,7 +3429,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-140: examples/official-examples/beampset.inp
+145: examples/official/beampset.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -3369,7 +3444,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-141: examples/official-examples/beampt.inp
+146: examples/official/beampt.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3384,7 +3459,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-142: examples/official-examples/beamptied1.inp
+147: examples/official/beamptied1.inp
 INFO: 282 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -3399,7 +3474,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-143: examples/official-examples/beamptied1noadjust.inp
+148: examples/official/beamptied1noadjust.inp
 INFO: 282 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -3414,7 +3489,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-144: examples/official-examples/beamptied2.inp
+149: examples/official/beamptied2.inp
 INFO: 282 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -3429,7 +3504,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-145: examples/official-examples/beamptied3.inp
+150: examples/official/beamptied3.inp
 INFO: 282 nodes 
 INFO: 5 nsets 
 INFO: 32 elements 
@@ -3444,7 +3519,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-146: examples/official-examples/beamptied4.inp
+151: examples/official/beamptied4.inp
 INFO: 282 nodes 
 INFO: 5 nsets 
 INFO: 32 elements 
@@ -3459,7 +3534,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-147: examples/official-examples/beamptied5.inp
+152: examples/official/beamptied5.inp
 INFO: 282 nodes 
 INFO: 5 nsets 
 INFO: 32 elements 
@@ -3474,7 +3549,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-148: examples/official-examples/beamptied6.inp
+153: examples/official/beamptied6.inp
 INFO: 282 nodes 
 INFO: 5 nsets 
 INFO: 32 elements 
@@ -3489,7 +3564,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-149: examples/official-examples/beamptied7.inp
+154: examples/official/beamptied7.inp
 INFO: 282 nodes 
 INFO: 5 nsets 
 INFO: 32 elements 
@@ -3504,7 +3579,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-150: examples/official-examples/beamptrans.inp
+155: examples/official/beamptrans.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3519,7 +3594,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-151: examples/official-examples/beamrb.inp
+156: examples/official/beamrb.inp
 INFO: 263 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3534,7 +3609,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-152: examples/official-examples/beamrb2.inp
+157: examples/official/beamrb2.inp
 INFO: 263 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3549,7 +3624,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-153: examples/official-examples/beamread.inp
+158: examples/official/beamread.inp
 INFO: 0 nodes 
 INFO: 0 nsets 
 INFO: 0 elements 
@@ -3564,7 +3639,7 @@ DEBUG: Camera's ParallelScale is 1732050.8.
 DEBUG: Camera's ClippingRange is (3202117.5, 11101479.5).
 
 ==================================================
-154: examples/official-examples/beamread2.inp
+159: examples/official/beamread2.inp
 INFO: 0 nodes 
 INFO: 0 nsets 
 INFO: 0 elements 
@@ -3579,7 +3654,7 @@ DEBUG: Camera's ParallelScale is 1732050.8.
 DEBUG: Camera's ClippingRange is (3202117.5, 11101479.5).
 
 ==================================================
-155: examples/official-examples/beamread3.inp
+160: examples/official/beamread3.inp
 INFO: 0 nodes 
 INFO: 0 nsets 
 INFO: 0 elements 
@@ -3594,7 +3669,22 @@ DEBUG: Camera's ParallelScale is 1732050.8.
 DEBUG: Camera's ClippingRange is (3202117.5, 11101479.5).
 
 ==================================================
-156: examples/official-examples/beamstraight.inp
+161: examples/official/beamread4.inp
+INFO: 0 nodes 
+INFO: 0 nsets 
+INFO: 0 elements 
+INFO: 0 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-1000000.0, 1000000.0, -1000000.0, 1000000.0, -1000000.0, 1000000.0].
+DEBUG: Camera's focal point is (0.0, 0.0, 0.0).
+DEBUG: Camera's position is (4156910.7, 3197623.6, 4156910.7).
+DEBUG: Camera's distance is 6692130.4.
+DEBUG: Camera's ParallelScale is 1732050.8.
+DEBUG: Camera's ClippingRange is (3202117.5, 11101479.5).
+
+==================================================
+162: examples/official/beamstraight.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -3609,7 +3699,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-157: examples/official-examples/beamt.inp
+163: examples/official/beamt.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -3624,7 +3714,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-158: examples/official-examples/beamt2.inp
+164: examples/official/beamt2.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -3639,7 +3729,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-159: examples/official-examples/beamt3.inp
+165: examples/official/beamt3.inp
 INFO: 261 nodes 
 INFO: 12 nsets 
 INFO: 32 elements 
@@ -3654,7 +3744,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-160: examples/official-examples/beamt4.inp
+166: examples/official/beamt4.inp
 INFO: 261 nodes 
 INFO: 7 nsets 
 INFO: 32 elements 
@@ -3669,7 +3759,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-161: examples/official-examples/beamt6.inp
+167: examples/official/beamt6.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3684,7 +3774,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-162: examples/official-examples/beamth.inp
+168: examples/official/beamth.inp
 INFO: 262 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3699,7 +3789,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-163: examples/official-examples/beamtor.inp
+169: examples/official/beamtor.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 2 elements 
@@ -3714,7 +3804,7 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (2.6, 5.5).
 
 ==================================================
-164: examples/official-examples/beamu.inp
+170: examples/official/beamu.inp
 INFO: 261 nodes 
 INFO: 6 nsets 
 INFO: 32 elements 
@@ -3729,7 +3819,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-165: examples/official-examples/beamuamp.inp
+171: examples/official/beamuamp.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -3744,7 +3834,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-166: examples/official-examples/beamwrite.inp
+172: examples/official/beamwrite.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -3759,7 +3849,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-167: examples/official-examples/beamwrite2.inp
+173: examples/official/beamwrite2.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -3774,7 +3864,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-168: examples/official-examples/beamwrite3.inp
+174: examples/official/beamwrite3.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -3789,7 +3879,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-169: examples/official-examples/bifur.inp
+175: examples/official/bifur.inp
 INFO: 13 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -3804,7 +3894,7 @@ DEBUG: Camera's ParallelScale is 1.8.
 DEBUG: Camera's ClippingRange is (4.1, 10.6).
 
 ==================================================
-170: examples/official-examples/bolt.inp
+176: examples/official/bolt.inp
 INFO: 1203 nodes 
 INFO: 2 nsets 
 INFO: 352 elements 
@@ -3819,7 +3909,7 @@ DEBUG: Camera's ParallelScale is 14.9.
 DEBUG: Camera's ClippingRange is (34.3, 86.8).
 
 ==================================================
-171: examples/official-examples/boxprofile.inp
+177: examples/official/boxprofile.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 5 elements 
@@ -3834,7 +3924,7 @@ DEBUG: Camera's ParallelScale is 500.0.
 DEBUG: Camera's ClippingRange is (1294.5, 2738.8).
 
 ==================================================
-172: examples/official-examples/boxprofile2.inp
+178: examples/official/boxprofile2.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 5 elements 
@@ -3849,7 +3939,7 @@ DEBUG: Camera's ParallelScale is 500.0.
 DEBUG: Camera's ClippingRange is (1294.5, 2738.8).
 
 ==================================================
-173: examples/official-examples/branch1.inp
+179: examples/official/branch1.inp
 INFO: 10 nodes 
 INFO: 1 nsets 
 INFO: 6 elements 
@@ -3864,7 +3954,7 @@ DEBUG: Camera's ParallelScale is 3.6.
 DEBUG: Camera's ClippingRange is (8.2, 21.2).
 
 ==================================================
-174: examples/official-examples/branch2.inp
+180: examples/official/branch2.inp
 INFO: 8 nodes 
 INFO: 1 nsets 
 INFO: 5 elements 
@@ -3879,7 +3969,7 @@ DEBUG: Camera's ParallelScale is 2.8.
 DEBUG: Camera's ClippingRange is (6.4, 16.6).
 
 ==================================================
-175: examples/official-examples/branchjoint1.inp
+181: examples/official/branchjoint1.inp
 INFO: 14 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -3894,7 +3984,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (10.3, 26.2).
 
 ==================================================
-176: examples/official-examples/branchjoint2.inp
+182: examples/official/branchjoint2.inp
 INFO: 14 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -3909,7 +3999,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (10.3, 26.2).
 
 ==================================================
-177: examples/official-examples/branchjoint3.inp
+183: examples/official/branchjoint3.inp
 INFO: 14 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -3924,7 +4014,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (10.3, 26.2).
 
 ==================================================
-178: examples/official-examples/branchjoint4.inp
+184: examples/official/branchjoint4.inp
 INFO: 14 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -3939,7 +4029,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (10.3, 26.2).
 
 ==================================================
-179: examples/official-examples/branchsplit1.inp
+185: examples/official/branchsplit1.inp
 INFO: 14 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -3954,7 +4044,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (10.3, 26.2).
 
 ==================================================
-180: examples/official-examples/branchsplit2.inp
+186: examples/official/branchsplit2.inp
 INFO: 14 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -3969,7 +4059,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (10.3, 26.2).
 
 ==================================================
-181: examples/official-examples/branchsplit3.inp
+187: examples/official/branchsplit3.inp
 INFO: 14 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -3984,7 +4074,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (10.3, 26.2).
 
 ==================================================
-182: examples/official-examples/c3d15.inp
+188: examples/official/c3d15.inp
 INFO: 127 nodes 
 INFO: 1 nsets 
 INFO: 24 elements 
@@ -3999,7 +4089,7 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (1.9, 6.6).
 
 ==================================================
-183: examples/official-examples/c3d6.inp
+189: examples/official/c3d6.inp
 INFO: 16 nodes 
 INFO: 1 nsets 
 INFO: 6 elements 
@@ -4014,7 +4104,7 @@ DEBUG: Camera's ParallelScale is 0.8.
 DEBUG: Camera's ClippingRange is (1.7, 5.1).
 
 ==================================================
-184: examples/official-examples/capacitor.inp
+190: examples/official/capacitor.inp
 INFO: 108 nodes 
 INFO: 3 nsets 
 INFO: 10 elements 
@@ -4029,7 +4119,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.5, 28.1).
 
 ==================================================
-185: examples/official-examples/carbonseal.inp
+191: examples/official/carbonseal.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -4044,7 +4134,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-186: examples/official-examples/centheat1.inp
+192: examples/official/centheat1.inp
 INFO: 29 nodes 
 INFO: 1 nsets 
 INFO: 15 elements 
@@ -4059,7 +4149,7 @@ DEBUG: Camera's ParallelScale is 10.4.
 DEBUG: Camera's ClippingRange is (24.7, 60.1).
 
 ==================================================
-187: examples/official-examples/changefric.inp
+193: examples/official/changefric.inp
 INFO: 16 nodes 
 INFO: 3 nsets 
 INFO: 2 elements 
@@ -4074,7 +4164,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-188: examples/official-examples/changesolidsection.inp
+194: examples/official/changesolidsection.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -4089,7 +4179,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-189: examples/official-examples/changesurfbeh.inp
+195: examples/official/changesurfbeh.inp
 INFO: 16 nodes 
 INFO: 3 nsets 
 INFO: 2 elements 
@@ -4104,7 +4194,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-190: examples/official-examples/channel1.inp
+196: examples/official/channel1.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 6 elements 
@@ -4119,7 +4209,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-191: examples/official-examples/channel10.inp
+197: examples/official/channel10.inp
 INFO: 19 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -4134,7 +4224,7 @@ DEBUG: Camera's ParallelScale is 9.0.
 DEBUG: Camera's ClippingRange is (23.3, 49.3).
 
 ==================================================
-192: examples/official-examples/channel11.inp
+198: examples/official/channel11.inp
 INFO: 19 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -4149,7 +4239,7 @@ DEBUG: Camera's ParallelScale is 9.0.
 DEBUG: Camera's ClippingRange is (23.3, 49.3).
 
 ==================================================
-193: examples/official-examples/channel12.inp
+199: examples/official/channel12.inp
 INFO: 19 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -4164,7 +4254,7 @@ DEBUG: Camera's ParallelScale is 9.0.
 DEBUG: Camera's ClippingRange is (23.3, 49.3).
 
 ==================================================
-194: examples/official-examples/channel2.inp
+200: examples/official/channel2.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 6 elements 
@@ -4179,7 +4269,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-195: examples/official-examples/channel3.inp
+201: examples/official/channel3.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 6 elements 
@@ -4194,7 +4284,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-196: examples/official-examples/channel4.inp
+202: examples/official/channel4.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 6 elements 
@@ -4209,7 +4299,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-197: examples/official-examples/channel5.inp
+203: examples/official/channel5.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 6 elements 
@@ -4224,7 +4314,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-198: examples/official-examples/channel6.inp
+204: examples/official/channel6.inp
 INFO: 55 nodes 
 INFO: 1 nsets 
 INFO: 27 elements 
@@ -4239,7 +4329,7 @@ DEBUG: Camera's ParallelScale is 30.2.
 DEBUG: Camera's ClippingRange is (78.1, 165.2).
 
 ==================================================
-199: examples/official-examples/channel7.inp
+205: examples/official/channel7.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 6 elements 
@@ -4254,7 +4344,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-200: examples/official-examples/channel9.inp
+206: examples/official/channel9.inp
 INFO: 19 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -4269,7 +4359,7 @@ DEBUG: Camera's ParallelScale is 9.0.
 DEBUG: Camera's ClippingRange is (23.3, 49.3).
 
 ==================================================
-201: examples/official-examples/chanson1.inp
+207: examples/official/chanson1.inp
 INFO: 31 nodes 
 INFO: 1 nsets 
 INFO: 15 elements 
@@ -4284,7 +4374,7 @@ DEBUG: Camera's ParallelScale is 100.2.
 DEBUG: Camera's ClippingRange is (257.1, 551.6).
 
 ==================================================
-202: examples/official-examples/characteristic.inp
+208: examples/official/characteristic.inp
 INFO: 7 nodes 
 INFO: 1 nsets 
 INFO: 4 elements 
@@ -4299,7 +4389,7 @@ DEBUG: Camera's ParallelScale is 3.0.
 DEBUG: Camera's ClippingRange is (7.8, 16.4).
 
 ==================================================
-203: examples/official-examples/circ10p.inp
+209: examples/official/circ10p.inp
 INFO: 90 nodes 
 INFO: 3 nsets 
 INFO: 31 elements 
@@ -4314,7 +4404,7 @@ DEBUG: Camera's ParallelScale is 4.3.
 DEBUG: Camera's ClippingRange is (9.5, 25.9).
 
 ==================================================
-204: examples/official-examples/circ10pfin.inp
+210: examples/official/circ10pfin.inp
 INFO: 3190 nodes 
 INFO: 2 nsets 
 INFO: 1849 elements 
@@ -4329,7 +4419,7 @@ DEBUG: Camera's ParallelScale is 4.3.
 DEBUG: Camera's ClippingRange is (9.5, 25.9).
 
 ==================================================
-205: examples/official-examples/concretebeam.inp
+211: examples/official/concretebeam.inp
 INFO: 53 nodes 
 INFO: 3 nsets 
 INFO: 10 elements 
@@ -4344,7 +4434,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.6, 28.1).
 
 ==================================================
-206: examples/official-examples/contact1.inp
+212: examples/official/contact1.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -4359,7 +4449,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-207: examples/official-examples/contact10.inp
+213: examples/official/contact10.inp
 INFO: 40 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -4374,7 +4464,7 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (1.9, 6.6).
 
 ==================================================
-208: examples/official-examples/contact11.inp
+214: examples/official/contact11.inp
 INFO: 11 nodes 
 INFO: 3 nsets 
 INFO: 2 elements 
@@ -4389,7 +4479,22 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-209: examples/official-examples/contact2.inp
+215: examples/official/contact12.inp
+INFO: 40 nodes 
+INFO: 5 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 1.5].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.8).
+DEBUG: Camera's position is (3.0, 2.4, 3.2).
+DEBUG: Camera's distance is 4.0.
+DEBUG: Camera's ParallelScale is 1.0.
+DEBUG: Camera's ClippingRange is (1.9, 6.6).
+
+==================================================
+216: examples/official/contact2.inp
 INFO: 522 nodes 
 INFO: 2 nsets 
 INFO: 64 elements 
@@ -4404,7 +4509,7 @@ DEBUG: Camera's ParallelScale is 4.2.
 DEBUG: Camera's ClippingRange is (9.4, 25.0).
 
 ==================================================
-210: examples/official-examples/contact3.inp
+217: examples/official/contact3.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -4419,7 +4524,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-211: examples/official-examples/contact4.inp
+218: examples/official/contact4.inp
 INFO: 40 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -4434,37 +4539,22 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (1.9, 6.6).
 
 ==================================================
-212: examples/official-examples/contact5.inp
-INFO: 522 nodes 
+219: examples/official/contact5.inp
+INFO: 40 nodes 
 INFO: 3 nsets 
-INFO: 64 elements 
+INFO: 2 elements 
 INFO: 1 elsets 
 INFO: 2 surfaces 
 INFO: VTK ugrid is built.
-DEBUG: Data bounds are [-7.45058e-09, 1.0, -1.49012e-08, 2.5, -5.96046e-08, 8.0].
-DEBUG: Camera's focal point is (0.5, 1.2, 4.0).
-DEBUG: Camera's position is (10.6, 9.0, 14.1).
-DEBUG: Camera's distance is 16.3.
-DEBUG: Camera's ParallelScale is 4.2.
-DEBUG: Camera's ClippingRange is (9.4, 25.0).
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 1.5].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.8).
+DEBUG: Camera's position is (3.0, 2.4, 3.2).
+DEBUG: Camera's distance is 4.0.
+DEBUG: Camera's ParallelScale is 1.0.
+DEBUG: Camera's ClippingRange is (1.9, 6.6).
 
 ==================================================
-213: examples/official-examples/contact5lin.inp
-INFO: 522 nodes 
-INFO: 3 nsets 
-INFO: 64 elements 
-INFO: 1 elsets 
-INFO: 2 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [-7.45058e-09, 1.0, -1.49012e-08, 2.5, -5.96046e-08, 8.0].
-DEBUG: Camera's focal point is (0.5, 1.2, 4.0).
-DEBUG: Camera's position is (10.6, 9.0, 14.1).
-DEBUG: Camera's distance is 16.3.
-DEBUG: Camera's ParallelScale is 4.2.
-DEBUG: Camera's ClippingRange is (9.4, 25.0).
-
-==================================================
-214: examples/official-examples/contact6.inp
+220: examples/official/contact6.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -4479,7 +4569,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-215: examples/official-examples/contact7.inp
+221: examples/official/contact7.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -4494,7 +4584,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-216: examples/official-examples/contact8.inp
+222: examples/official/contact8.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -4509,7 +4599,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 6.0).
 
 ==================================================
-217: examples/official-examples/contact9.inp
+223: examples/official/contact9.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -4524,7 +4614,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 6.0).
 
 ==================================================
-218: examples/official-examples/contactenergy.inp
+224: examples/official/contactenergy.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -4539,7 +4629,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-219: examples/official-examples/contdamp1.inp
+225: examples/official/contdamp1.inp
 INFO: 18 nodes 
 INFO: 4 nsets 
 INFO: 3 elements 
@@ -4554,7 +4644,7 @@ DEBUG: Camera's ParallelScale is 0.6.
 DEBUG: Camera's ClippingRange is (1.4, 3.6).
 
 ==================================================
-220: examples/official-examples/contdamp2.inp
+226: examples/official/contdamp2.inp
 INFO: 18 nodes 
 INFO: 4 nsets 
 INFO: 3 elements 
@@ -4569,7 +4659,7 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (2.4, 5.8).
 
 ==================================================
-221: examples/official-examples/cou.inp
+227: examples/official/cou.inp
 INFO: 242 nodes 
 INFO: 1 nsets 
 INFO: 100 elements 
@@ -4584,7 +4674,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (11.2, 25.4).
 
 ==================================================
-222: examples/official-examples/cou2d.inp
+228: examples/official/cou2d.inp
 INFO: 242 nodes 
 INFO: 1 nsets 
 INFO: 100 elements 
@@ -4599,7 +4689,7 @@ DEBUG: Camera's ParallelScale is 3.0.
 DEBUG: Camera's ClippingRange is (7.4, 17.3).
 
 ==================================================
-223: examples/official-examples/coucss.inp
+229: examples/official/coucss.inp
 INFO: 242 nodes 
 INFO: 1 nsets 
 INFO: 100 elements 
@@ -4614,7 +4704,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (11.2, 25.4).
 
 ==================================================
-224: examples/official-examples/couctr.inp
+230: examples/official/couctr.inp
 INFO: 242 nodes 
 INFO: 1 nsets 
 INFO: 100 elements 
@@ -4629,7 +4719,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (11.2, 25.4).
 
 ==================================================
-225: examples/official-examples/couette1.inp
+231: examples/official/couette1.inp
 INFO: 84 nodes 
 INFO: 1 nsets 
 INFO: 20 elements 
@@ -4644,7 +4734,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.3, 2.7).
 
 ==================================================
-226: examples/official-examples/couette2.inp
+232: examples/official/couette2.inp
 INFO: 84 nodes 
 INFO: 1 nsets 
 INFO: 20 elements 
@@ -4659,7 +4749,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.3, 2.7).
 
 ==================================================
-227: examples/official-examples/couettecyl.inp
+233: examples/official/couettecyl.inp
 INFO: 320 nodes 
 INFO: 1 nsets 
 INFO: 128 elements 
@@ -4674,7 +4764,7 @@ DEBUG: Camera's ParallelScale is 1.4.
 DEBUG: Camera's ClippingRange is (3.2, 8.4).
 
 ==================================================
-228: examples/official-examples/couettecyl4.inp
+234: examples/official/couettecyl4.inp
 INFO: 50 nodes 
 INFO: 1 nsets 
 INFO: 16 elements 
@@ -4689,7 +4779,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.0, 2.9).
 
 ==================================================
-229: examples/official-examples/couettecylcent.inp
+235: examples/official/couettecylcent.inp
 INFO: 320 nodes 
 INFO: 1 nsets 
 INFO: 128 elements 
@@ -4704,7 +4794,7 @@ DEBUG: Camera's ParallelScale is 1.4.
 DEBUG: Camera's ClippingRange is (3.2, 8.4).
 
 ==================================================
-230: examples/official-examples/couettecylcomp.inp
+236: examples/official/couettecylcomp.inp
 INFO: 320 nodes 
 INFO: 1 nsets 
 INFO: 128 elements 
@@ -4719,7 +4809,7 @@ DEBUG: Camera's ParallelScale is 1.4.
 DEBUG: Camera's ClippingRange is (3.2, 8.4).
 
 ==================================================
-231: examples/official-examples/coupling1.inp
+237: examples/official/coupling1.inp
 INFO: 262 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -4734,7 +4824,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-232: examples/official-examples/coupling2.inp
+238: examples/official/coupling2.inp
 INFO: 262 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -4749,7 +4839,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-233: examples/official-examples/coupling3.inp
+239: examples/official/coupling3.inp
 INFO: 262 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -4764,7 +4854,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-234: examples/official-examples/coupling4.inp
+240: examples/official/coupling4.inp
 INFO: 262 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -4779,7 +4869,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-235: examples/official-examples/coupling5.inp
+241: examples/official/coupling5.inp
 INFO: 262 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -4794,7 +4884,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-236: examples/official-examples/coupling6.inp
+242: examples/official/coupling6.inp
 INFO: 262 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -4809,7 +4899,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-237: examples/official-examples/coupling7.inp
+243: examples/official/coupling7.inp
 INFO: 262 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -4824,7 +4914,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-238: examples/official-examples/cube2.inp
+244: examples/official/cube2.inp
 INFO: 40 nodes 
 INFO: 1 nsets 
 INFO: 2 elements 
@@ -4839,7 +4929,7 @@ DEBUG: Camera's ParallelScale is 1.7.
 DEBUG: Camera's ClippingRange is (3.4, 10.2).
 
 ==================================================
-239: examples/official-examples/cubef2f1.inp
+245: examples/official/cubef2f1.inp
 INFO: 2961 nodes 
 WARNING: Duplicated set name Nbottom!
 WARNING: Duplicated set name Ntop!
@@ -4857,7 +4947,7 @@ DEBUG: Camera's ParallelScale is 1.2.
 DEBUG: Camera's ClippingRange is (2.4, 7.7).
 
 ==================================================
-240: examples/official-examples/cubef2f2.inp
+246: examples/official/cubef2f2.inp
 INFO: 2961 nodes 
 WARNING: Duplicated set name Nbottom!
 WARNING: Duplicated set name Ntop!
@@ -4875,7 +4965,7 @@ DEBUG: Camera's ParallelScale is 1.2.
 DEBUG: Camera's ClippingRange is (2.4, 7.7).
 
 ==================================================
-241: examples/official-examples/cubef2f3.inp
+247: examples/official/cubef2f3.inp
 INFO: 2961 nodes 
 WARNING: Duplicated set name Nbottom!
 WARNING: Duplicated set name Ntop!
@@ -4893,7 +4983,7 @@ DEBUG: Camera's ParallelScale is 1.2.
 DEBUG: Camera's ClippingRange is (2.4, 7.7).
 
 ==================================================
-242: examples/official-examples/cubenewt.inp
+248: examples/official/cubenewt.inp
 INFO: 40 nodes 
 INFO: 3 nsets 
 INFO: 2 elements 
@@ -4908,7 +4998,7 @@ DEBUG: Camera's ParallelScale is 1.7.
 DEBUG: Camera's ClippingRange is (3.4, 10.2).
 
 ==================================================
-243: examples/official-examples/cubespring.inp
+249: examples/official/cubespring.inp
 INFO: 128 nodes 
 INFO: 3 nsets 
 INFO: 54 elements 
@@ -4923,7 +5013,7 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (1.9, 6.6).
 
 ==================================================
-244: examples/official-examples/cyl.inp
+250: examples/official/cyl.inp
 INFO: 1201 nodes 
 INFO: 2 nsets 
 INFO: 160 elements 
@@ -4938,7 +5028,7 @@ DEBUG: Camera's ParallelScale is 11.3.
 DEBUG: Camera's ClippingRange is (24.3, 68.4).
 
 ==================================================
-245: examples/official-examples/dam.inp
+251: examples/official/dam.inp
 INFO: 1045 nodes 
 INFO: 3 nsets 
 INFO: 320 elements 
@@ -4953,26 +5043,71 @@ DEBUG: Camera's ParallelScale is 31.4.
 DEBUG: Camera's ClippingRange is (74.2, 180.6).
 
 ==================================================
-246: examples/official-examples/damper1.inp
-INFO: 42 nodes 
+252: examples/official/dashpot1.inp
+INFO: 10 nodes 
+INFO: 3 nsets 
+INFO: 3 elements 
+INFO: 3 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.2, -0.1, 0.1, -0.1, 0.1].
+DEBUG: Camera's focal point is (0.6, 0.0, 0.0).
+DEBUG: Camera's position is (2.1, 1.1, 1.5).
+DEBUG: Camera's distance is 2.4.
+DEBUG: Camera's ParallelScale is 0.6.
+DEBUG: Camera's ClippingRange is (1.4, 3.6).
+
+==================================================
+253: examples/official/dashpot2.inp
+INFO: 10 nodes 
 INFO: 4 nsets 
+INFO: 3 elements 
+INFO: 3 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.2, -0.1, 0.1, -0.1, 0.1].
+DEBUG: Camera's focal point is (0.6, 0.0, 0.0).
+DEBUG: Camera's position is (2.1, 1.1, 1.5).
+DEBUG: Camera's distance is 2.4.
+DEBUG: Camera's ParallelScale is 0.6.
+DEBUG: Camera's ClippingRange is (1.4, 3.6).
+
+==================================================
+254: examples/official/dashpot3.inp
+INFO: 10 nodes 
+INFO: 3 nsets 
+INFO: 3 elements 
+INFO: 3 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.2, -0.1, 0.1, -0.1, 0.1].
+DEBUG: Camera's focal point is (0.6, 0.0, 0.0).
+DEBUG: Camera's position is (2.1, 1.1, 1.5).
+DEBUG: Camera's distance is 2.4.
+DEBUG: Camera's ParallelScale is 0.6.
+DEBUG: Camera's ClippingRange is (1.4, 3.6).
+
+==================================================
+255: examples/official/dashpot5.inp
+INFO: 10 nodes 
+INFO: 3 nsets 
+INFO: 3 elements 
+INFO: 3 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.2, -0.1, 0.1, -0.1, 0.1].
+DEBUG: Camera's focal point is (0.6, 0.0, 0.0).
+DEBUG: Camera's position is (2.1, 1.1, 1.5).
+DEBUG: Camera's distance is 2.4.
+DEBUG: Camera's ParallelScale is 0.6.
+DEBUG: Camera's ClippingRange is (1.4, 3.6).
+
+==================================================
+256: examples/official/dashpot6.inp
+INFO: 10 nodes 
+INFO: 3 nsets 
 INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 3.0, 0.0, 1.0, 0.0, 1.0].
-DEBUG: Camera's focal point is (1.5, 0.5, 0.5).
-DEBUG: Camera's position is (5.5, 3.6, 4.5).
-DEBUG: Camera's distance is 6.4.
-DEBUG: Camera's ParallelScale is 1.7.
-DEBUG: Camera's ClippingRange is (3.4, 10.2).
-
-==================================================
-247: examples/official-examples/dashpot1.inp
-INFO: 10 nodes 
-INFO: 3 nsets 
-INFO: 3 elements 
-INFO: 3 elsets 
+INFO: 2 elsets 
 INFO: 0 surfaces 
 INFO: VTK ugrid is built.
 DEBUG: Data bounds are [0.0, 1.2, -0.1, 0.1, -0.1, 0.1].
@@ -4983,52 +5118,7 @@ DEBUG: Camera's ParallelScale is 0.6.
 DEBUG: Camera's ClippingRange is (1.4, 3.6).
 
 ==================================================
-248: examples/official-examples/dashpot2.inp
-INFO: 10 nodes 
-INFO: 4 nsets 
-INFO: 3 elements 
-INFO: 3 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.2, -0.1, 0.1, -0.1, 0.1].
-DEBUG: Camera's focal point is (0.6, 0.0, 0.0).
-DEBUG: Camera's position is (2.1, 1.1, 1.5).
-DEBUG: Camera's distance is 2.4.
-DEBUG: Camera's ParallelScale is 0.6.
-DEBUG: Camera's ClippingRange is (1.4, 3.6).
-
-==================================================
-249: examples/official-examples/dashpot3.inp
-INFO: 10 nodes 
-INFO: 3 nsets 
-INFO: 3 elements 
-INFO: 3 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.2, -0.1, 0.1, -0.1, 0.1].
-DEBUG: Camera's focal point is (0.6, 0.0, 0.0).
-DEBUG: Camera's position is (2.1, 1.1, 1.5).
-DEBUG: Camera's distance is 2.4.
-DEBUG: Camera's ParallelScale is 0.6.
-DEBUG: Camera's ClippingRange is (1.4, 3.6).
-
-==================================================
-250: examples/official-examples/dashpot5.inp
-INFO: 10 nodes 
-INFO: 3 nsets 
-INFO: 3 elements 
-INFO: 3 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.2, -0.1, 0.1, -0.1, 0.1].
-DEBUG: Camera's focal point is (0.6, 0.0, 0.0).
-DEBUG: Camera's position is (2.1, 1.1, 1.5).
-DEBUG: Camera's distance is 2.4.
-DEBUG: Camera's ParallelScale is 0.6.
-DEBUG: Camera's ClippingRange is (1.4, 3.6).
-
-==================================================
-251: examples/official-examples/disk2.inp
+257: examples/official/disk2.inp
 INFO: 102 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -5043,7 +5133,7 @@ DEBUG: Camera's ParallelScale is 1.1.
 DEBUG: Camera's ClippingRange is (2.6, 6.6).
 
 ==================================================
-252: examples/official-examples/dist.inp
+258: examples/official/dist.inp
 INFO: 262 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -5058,7 +5148,7 @@ DEBUG: Camera's ParallelScale is 5.4.
 DEBUG: Camera's ClippingRange is (10.8, 33.6).
 
 ==================================================
-253: examples/official-examples/distcoup.inp
+259: examples/official/distcoup.inp
 INFO: 262 nodes 
 INFO: 3 nsets 
 INFO: 33 elements 
@@ -5073,7 +5163,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-254: examples/official-examples/distcoup2.inp
+260: examples/official/distcoup2.inp
 INFO: 263 nodes 
 INFO: 4 nsets 
 INFO: 34 elements 
@@ -5088,7 +5178,22 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-255: examples/official-examples/dloadlinI.inp
+261: examples/official/dloadlin20f.inp
+INFO: 188 nodes 
+INFO: 2 nsets 
+INFO: 15 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 300.0, 0.0, 30.0, 0.0, 1.0].
+DEBUG: Camera's focal point is (150.0, 15.0, 0.5).
+DEBUG: Camera's position is (511.8, 293.3, 362.3).
+DEBUG: Camera's distance is 582.4.
+DEBUG: Camera's ParallelScale is 150.7.
+DEBUG: Camera's ClippingRange is (376.3, 843.3).
+
+==================================================
+262: examples/official/dloadlinI.inp
 INFO: 188 nodes 
 INFO: 3 nsets 
 INFO: 15 elements 
@@ -5103,7 +5208,7 @@ DEBUG: Camera's ParallelScale is 150.7.
 DEBUG: Camera's ClippingRange is (376.3, 843.3).
 
 ==================================================
-256: examples/official-examples/dloadlinIf.inp
+263: examples/official/dloadlinIf.inp
 INFO: 188 nodes 
 INFO: 3 nsets 
 INFO: 15 elements 
@@ -5118,7 +5223,37 @@ DEBUG: Camera's ParallelScale is 150.7.
 DEBUG: Camera's ClippingRange is (376.3, 843.3).
 
 ==================================================
-257: examples/official-examples/edgeload.inp
+264: examples/official/dyncube.inp
+INFO: 8 nodes 
+INFO: 1 nsets 
+INFO: 1 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 1.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.5).
+DEBUG: Camera's position is (2.6, 2.1, 2.6).
+DEBUG: Camera's distance is 3.3.
+DEBUG: Camera's ParallelScale is 0.9.
+DEBUG: Camera's ClippingRange is (1.6, 5.6).
+
+==================================================
+265: examples/official/dyncubeexp.inp
+INFO: 8 nodes 
+INFO: 1 nsets 
+INFO: 1 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 1.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.5).
+DEBUG: Camera's position is (2.6, 2.1, 2.6).
+DEBUG: Camera's distance is 3.3.
+DEBUG: Camera's ParallelScale is 0.9.
+DEBUG: Camera's ClippingRange is (1.6, 5.6).
+
+==================================================
+266: examples/official/edgeload.inp
 INFO: 744 nodes 
 INFO: 9 nsets 
 INFO: 233 elements 
@@ -5133,7 +5268,7 @@ DEBUG: Camera's ParallelScale is 5.7.
 DEBUG: Camera's ClippingRange is (13.1, 33.5).
 
 ==================================================
-258: examples/official-examples/equrem1.inp
+267: examples/official/equrem1.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -5148,7 +5283,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-259: examples/official-examples/equrem2.inp
+268: examples/official/equrem2.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -5163,7 +5298,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-260: examples/official-examples/equrem3.inp
+269: examples/official/equrem3.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -5178,7 +5313,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-261: examples/official-examples/equrem4.inp
+270: examples/official/equrem4.inp
 INFO: 175 nodes 
 INFO: 4 nsets 
 INFO: 34 elements 
@@ -5193,7 +5328,7 @@ DEBUG: Camera's ParallelScale is 0.3.
 DEBUG: Camera's ClippingRange is (0.7, 1.3).
 
 ==================================================
-262: examples/official-examples/fluidread.inp
+271: examples/official/fluidread.inp
 INFO: 0 nodes 
 INFO: 0 nsets 
 INFO: 0 elements 
@@ -5208,7 +5343,7 @@ DEBUG: Camera's ParallelScale is 1732050.8.
 DEBUG: Camera's ClippingRange is (3202117.5, 11101479.5).
 
 ==================================================
-263: examples/official-examples/fluidwrite.inp
+272: examples/official/fluidwrite.inp
 INFO: 286 nodes 
 INFO: 1 nsets 
 INFO: 120 elements 
@@ -5223,7 +5358,7 @@ DEBUG: Camera's ParallelScale is 3.0.
 DEBUG: Camera's ClippingRange is (7.4, 17.3).
 
 ==================================================
-264: examples/official-examples/fricloop.inp
+273: examples/official/fricloop.inp
 INFO: 16 nodes 
 INFO: 3 nsets 
 INFO: 2 elements 
@@ -5238,7 +5373,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-265: examples/official-examples/friction1.inp
+274: examples/official/friction1.inp
 INFO: 250 nodes 
 INFO: 3 nsets 
 INFO: 128 elements 
@@ -5253,7 +5388,7 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (1.9, 6.6).
 
 ==================================================
-266: examples/official-examples/friction2.inp
+275: examples/official/friction2.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -5268,7 +5403,7 @@ DEBUG: Camera's ParallelScale is 2.3.
 DEBUG: Camera's ClippingRange is (4.5, 14.9).
 
 ==================================================
-267: examples/official-examples/friction3.inp
+276: examples/official/friction3.inp
 INFO: 16 nodes 
 INFO: 4 nsets 
 INFO: 2 elements 
@@ -5283,7 +5418,7 @@ DEBUG: Camera's ParallelScale is 2.3.
 DEBUG: Camera's ClippingRange is (4.5, 14.9).
 
 ==================================================
-268: examples/official-examples/fullseg.inp
+277: examples/official/fullseg.inp
 INFO: 1013 nodes 
 INFO: 3 nsets 
 INFO: 160 elements 
@@ -5298,7 +5433,7 @@ DEBUG: Camera's ParallelScale is 0.6.
 DEBUG: Camera's ClippingRange is (1.3, 3.3).
 
 ==================================================
-269: examples/official-examples/furnace.inp
+278: examples/official/furnace.inp
 INFO: 613 nodes 
 INFO: 3 nsets 
 INFO: 305 elements 
@@ -5313,7 +5448,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.4, 4.8).
 
 ==================================================
-270: examples/official-examples/gap.inp
+279: examples/official/gap.inp
 INFO: 522 nodes 
 INFO: 3 nsets 
 INFO: 65 elements 
@@ -5328,7 +5463,7 @@ DEBUG: Camera's ParallelScale is 4.2.
 DEBUG: Camera's ClippingRange is (9.4, 25.0).
 
 ==================================================
-271: examples/official-examples/gap2.inp
+280: examples/official/gap2.inp
 INFO: 16 nodes 
 INFO: 3 nsets 
 INFO: 6 elements 
@@ -5343,7 +5478,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.7, 5.9).
 
 ==================================================
-272: examples/official-examples/gaspipe-cfd-pressure.inp
+281: examples/official/gaspipe-cfd-pressure.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5358,7 +5493,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-273: examples/official-examples/gaspipe-fanno10.inp
+282: examples/official/gaspipe-fanno10.inp
 INFO: 23 nodes 
 INFO: 1 nsets 
 INFO: 12 elements 
@@ -5373,7 +5508,7 @@ DEBUG: Camera's ParallelScale is 11.0.
 DEBUG: Camera's ClippingRange is (28.5, 60.3).
 
 ==================================================
-274: examples/official-examples/gaspipe-fanno8-oil.inp
+283: examples/official/gaspipe-fanno8-oil.inp
 INFO: 21 nodes 
 INFO: 1 nsets 
 INFO: 11 elements 
@@ -5388,7 +5523,7 @@ DEBUG: Camera's ParallelScale is 10.0.
 DEBUG: Camera's ClippingRange is (25.9, 54.8).
 
 ==================================================
-275: examples/official-examples/gaspipe-fanno9.inp
+284: examples/official/gaspipe-fanno9.inp
 INFO: 21 nodes 
 INFO: 2 nsets 
 WARNING: Duplicated set name PIPE7!
@@ -5411,7 +5546,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.8, 2.1).
 
 ==================================================
-276: examples/official-examples/gaspipe1-oil.inp
+285: examples/official/gaspipe1-oil.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5426,7 +5561,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-277: examples/official-examples/gaspipe1.inp
+286: examples/official/gaspipe1.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5441,7 +5576,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-278: examples/official-examples/gaspipe11.inp
+287: examples/official/gaspipe11.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5456,7 +5591,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-279: examples/official-examples/gaspipe12.inp
+288: examples/official/gaspipe12.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5471,7 +5606,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-280: examples/official-examples/gaspipe13.inp
+289: examples/official/gaspipe13.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5486,7 +5621,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-281: examples/official-examples/gaspipe14.inp
+290: examples/official/gaspipe14.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5501,7 +5636,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-282: examples/official-examples/gaspipe2.inp
+291: examples/official/gaspipe15.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5516,7 +5651,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-283: examples/official-examples/gaspipe3.inp
+292: examples/official/gaspipe2.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5531,7 +5666,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-284: examples/official-examples/gaspipe4.inp
+293: examples/official/gaspipe3.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5546,7 +5681,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-285: examples/official-examples/gaspipe5.inp
+294: examples/official/gaspipe4.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5561,7 +5696,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-286: examples/official-examples/gaspipe6.inp
+295: examples/official/gaspipe5.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5576,7 +5711,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-287: examples/official-examples/gaspipe7.inp
+296: examples/official/gaspipe6.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5591,7 +5726,22 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-288: examples/official-examples/gaspipe8-cfd-massflow.inp
+297: examples/official/gaspipe7.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 3 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 5.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (3.0, 0.0, 0.0).
+DEBUG: Camera's position is (7.8, 3.7, 4.8).
+DEBUG: Camera's distance is 7.7.
+DEBUG: Camera's ParallelScale is 2.0.
+DEBUG: Camera's ClippingRange is (5.2, 11.0).
+
+==================================================
+298: examples/official/gaspipe8-cfd-massflow.inp
 INFO: 19 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -5606,7 +5756,7 @@ DEBUG: Camera's ParallelScale is 9.0.
 DEBUG: Camera's ClippingRange is (23.3, 49.3).
 
 ==================================================
-289: examples/official-examples/gaspipe8-cfd-pressure-split.inp
+299: examples/official/gaspipe8-cfd-pressure-split.inp
 INFO: 22 nodes 
 INFO: 1 nsets 
 INFO: 12 elements 
@@ -5621,7 +5771,7 @@ DEBUG: Camera's ParallelScale is 9.1.
 DEBUG: Camera's ClippingRange is (22.6, 50.7).
 
 ==================================================
-290: examples/official-examples/gaspipe8-cfd-pressure.inp
+300: examples/official/gaspipe8-cfd-pressure.inp
 INFO: 19 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -5636,7 +5786,7 @@ DEBUG: Camera's ParallelScale is 9.0.
 DEBUG: Camera's ClippingRange is (23.3, 49.3).
 
 ==================================================
-291: examples/official-examples/gaspipe8-oil.inp
+301: examples/official/gaspipe8-oil.inp
 INFO: 21 nodes 
 INFO: 1 nsets 
 INFO: 11 elements 
@@ -5651,7 +5801,7 @@ DEBUG: Camera's ParallelScale is 10.0.
 DEBUG: Camera's ClippingRange is (25.9, 54.8).
 
 ==================================================
-292: examples/official-examples/gaspipe8.inp
+302: examples/official/gaspipe8.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5666,7 +5816,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-293: examples/official-examples/gaspipe9.inp
+303: examples/official/gaspipe9.inp
 INFO: 21 nodes 
 INFO: 1 nsets 
 INFO: 11 elements 
@@ -5681,7 +5831,7 @@ DEBUG: Camera's ParallelScale is 10.0.
 DEBUG: Camera's ClippingRange is (25.9, 54.8).
 
 ==================================================
-294: examples/official-examples/gaspres.inp
+304: examples/official/gaspres.inp
 INFO: 13 nodes 
 INFO: 1 nsets 
 INFO: 4 elements 
@@ -5696,7 +5846,7 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (2.8, 5.2).
 
 ==================================================
-295: examples/official-examples/green1.inp
+305: examples/official/green1.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -5711,7 +5861,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-296: examples/official-examples/green2.inp
+306: examples/official/green2.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -5726,7 +5876,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-297: examples/official-examples/green3.inp
+307: examples/official/green3.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -5741,7 +5891,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-298: examples/official-examples/green4.inp
+308: examples/official/green4.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -5756,7 +5906,37 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-299: examples/official-examples/hinge.inp
+309: examples/official/greencyc1.inp
+INFO: 661 nodes 
+INFO: 6 nsets 
+INFO: 96 elements 
+INFO: 2 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-7.45058e-09, 0.1, 0.0866, 1.0, -3.72529e-09, 0.5].
+DEBUG: Camera's focal point is (0.0, 0.5, 0.2).
+DEBUG: Camera's position is (1.3, 1.5, 1.5).
+DEBUG: Camera's distance is 2.0.
+DEBUG: Camera's ParallelScale is 0.5.
+DEBUG: Camera's ClippingRange is (1.2, 3.1).
+
+==================================================
+310: examples/official/greencyc2.inp
+INFO: 661 nodes 
+INFO: 6 nsets 
+INFO: 96 elements 
+INFO: 2 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-7.45058e-09, 0.1, 0.0866, 1.0, -3.72529e-09, 0.5].
+DEBUG: Camera's focal point is (0.0, 0.5, 0.2).
+DEBUG: Camera's position is (1.3, 1.5, 1.5).
+DEBUG: Camera's distance is 2.0.
+DEBUG: Camera's ParallelScale is 0.5.
+DEBUG: Camera's ClippingRange is (1.2, 3.1).
+
+==================================================
+311: examples/official/hinge.inp
 INFO: 262 nodes 
 INFO: 1 nsets 
 INFO: 32 elements 
@@ -5771,7 +5951,7 @@ DEBUG: Camera's ParallelScale is 6.4.
 DEBUG: Camera's ClippingRange is (13.0, 39.8).
 
 ==================================================
-300: examples/official-examples/hueeber1.inp
+312: examples/official/hueeber1.inp
 INFO: 17524 nodes 
 INFO: 10 nsets 
 INFO: 8500 elements 
@@ -5786,7 +5966,7 @@ DEBUG: Camera's ParallelScale is 0.0.
 DEBUG: Camera's ClippingRange is (0.0, 0.2).
 
 ==================================================
-301: examples/official-examples/hueeber2.inp
+313: examples/official/hueeber2.inp
 INFO: 17524 nodes 
 INFO: 10 nsets 
 INFO: 8500 elements 
@@ -5801,7 +5981,7 @@ DEBUG: Camera's ParallelScale is 0.0.
 DEBUG: Camera's ClippingRange is (0.0, 0.2).
 
 ==================================================
-302: examples/official-examples/hueeber3.inp
+314: examples/official/hueeber3.inp
 INFO: 17524 nodes 
 INFO: 10 nsets 
 INFO: 8500 elements 
@@ -5816,7 +5996,7 @@ DEBUG: Camera's ParallelScale is 0.0.
 DEBUG: Camera's ClippingRange is (0.0, 0.2).
 
 ==================================================
-303: examples/official-examples/hueeber4.inp
+315: examples/official/hueeber4.inp
 INFO: 17524 nodes 
 INFO: 10 nsets 
 INFO: 8500 elements 
@@ -5831,7 +6011,22 @@ DEBUG: Camera's ParallelScale is 0.0.
 DEBUG: Camera's ClippingRange is (0.0, 0.2).
 
 ==================================================
-304: examples/official-examples/induction.inp
+316: examples/official/impdyn.inp
+INFO: 2658 nodes 
+INFO: 2 nsets 
+INFO: 368 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-5.0, 5.0, -5.0, 5.0, -1.42108547152e-14, 100.25].
+DEBUG: Camera's focal point is (0.0, 0.0, 50.1).
+DEBUG: Camera's position is (121.5, 93.5, 171.6).
+DEBUG: Camera's distance is 195.6.
+DEBUG: Camera's ParallelScale is 50.6.
+DEBUG: Camera's ClippingRange is (120.7, 290.3).
+
+==================================================
+317: examples/official/induction.inp
 INFO: 3013 nodes 
 INFO: 3 nsets 
 WARNING: Duplicated set name Eall!
@@ -5847,7 +6042,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-305: examples/official-examples/induction2.inp
+318: examples/official/induction2.inp
 INFO: 3199 nodes 
 INFO: 7 nsets 
 INFO: 1712 elements 
@@ -5862,7 +6057,22 @@ DEBUG: Camera's ParallelScale is 1.7.
 DEBUG: Camera's ClippingRange is (3.2, 11.1).
 
 ==================================================
-306: examples/official-examples/inistrain.inp
+319: examples/official/induction3.inp
+INFO: 3199 nodes 
+INFO: 7 nsets 
+INFO: 1712 elements 
+INFO: 3 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-1.0, 1.0, -1.0, 1.0, -1.0, 1.0].
+DEBUG: Camera's focal point is (0.0, 0.0, 0.0).
+DEBUG: Camera's position is (4.2, 3.2, 4.2).
+DEBUG: Camera's distance is 6.7.
+DEBUG: Camera's ParallelScale is 1.7.
+DEBUG: Camera's ClippingRange is (3.2, 11.1).
+
+==================================================
+320: examples/official/inistrain.inp
 INFO: 20 nodes 
 INFO: 2 nsets 
 INFO: 1 elements 
@@ -5877,7 +6087,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-307: examples/official-examples/inistrain2.inp
+321: examples/official/inistrain2.inp
 INFO: 20 nodes 
 INFO: 2 nsets 
 INFO: 1 elements 
@@ -5892,7 +6102,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-308: examples/official-examples/labyrinth1fin.inp
+322: examples/official/labyrinth1fin.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5907,7 +6117,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-309: examples/official-examples/labyrinthstepped.inp
+323: examples/official/labyrinthstepped.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5922,7 +6132,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-310: examples/official-examples/labyrinthstraight.inp
+324: examples/official/labyrinthstraight.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -5937,7 +6147,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-311: examples/official-examples/largerot1.inp
+325: examples/official/largerot1.inp
 INFO: 261 nodes 
 INFO: 0 nsets 
 INFO: 32 elements 
@@ -5952,7 +6162,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-312: examples/official-examples/largerot2.inp
+326: examples/official/largerot2.inp
 INFO: 261 nodes 
 INFO: 0 nsets 
 INFO: 32 elements 
@@ -5967,7 +6177,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-313: examples/official-examples/largerot3.inp
+327: examples/official/largerot3.inp
 INFO: 261 nodes 
 INFO: 0 nsets 
 INFO: 32 elements 
@@ -5982,7 +6192,37 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-314: examples/official-examples/leifer1.inp
+328: examples/official/largerot4.inp
+INFO: 261 nodes 
+INFO: 0 nsets 
+INFO: 32 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
+DEBUG: Camera's position is (10.2, 8.0, 13.7).
+DEBUG: Camera's distance is 15.7.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.5, 23.5).
+
+==================================================
+329: examples/official/largerot5.inp
+INFO: 261 nodes 
+INFO: 0 nsets 
+INFO: 32 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
+DEBUG: Camera's position is (10.2, 8.0, 13.7).
+DEBUG: Camera's distance is 15.7.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.5, 23.5).
+
+==================================================
+330: examples/official/leifer1.inp
 INFO: 341 nodes 
 INFO: 3 nsets 
 INFO: 100 elements 
@@ -5997,7 +6237,7 @@ DEBUG: Camera's ParallelScale is 161.9.
 DEBUG: Camera's ClippingRange is (369.0, 950.2).
 
 ==================================================
-315: examples/official-examples/leifer2.inp
+331: examples/official/leifer2.inp
 INFO: 341 nodes 
 INFO: 3 nsets 
 INFO: 100 elements 
@@ -6012,7 +6252,7 @@ DEBUG: Camera's ParallelScale is 161.9.
 DEBUG: Camera's ClippingRange is (369.0, 950.2).
 
 ==================================================
-316: examples/official-examples/linearnet.inp
+332: examples/official/linearnet.inp
 INFO: 7 nodes 
 INFO: 1 nsets 
 INFO: 4 elements 
@@ -6027,7 +6267,22 @@ DEBUG: Camera's ParallelScale is 3.0.
 DEBUG: Camera's ClippingRange is (7.8, 16.4).
 
 ==================================================
-317: examples/official-examples/mass1.inp
+333: examples/official/load1.inp
+INFO: 40 nodes 
+INFO: 2 nsets 
+INFO: 2 elements 
+INFO: 2 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 1.5].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.8).
+DEBUG: Camera's position is (3.0, 2.4, 3.2).
+DEBUG: Camera's distance is 4.0.
+DEBUG: Camera's ParallelScale is 1.0.
+DEBUG: Camera's ClippingRange is (1.9, 6.6).
+
+==================================================
+334: examples/official/mass1.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 33 elements 
@@ -6042,7 +6297,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-318: examples/official-examples/mass2.inp
+335: examples/official/mass2.inp
 INFO: 261 nodes 
 INFO: 1 nsets 
 INFO: 33 elements 
@@ -6057,7 +6312,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-319: examples/official-examples/mass3.inp
+336: examples/official/mass3.inp
 INFO: 13 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -6072,7 +6327,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.1, 2.5).
 
 ==================================================
-320: examples/official-examples/massflow_percent_ccx.inp
+337: examples/official/massflow_percent_ccx.inp
 INFO: 12 nodes 
 INFO: 1 nsets 
 INFO: 7 elements 
@@ -6087,7 +6342,7 @@ DEBUG: Camera's ParallelScale is 4.5.
 DEBUG: Camera's ClippingRange is (10.3, 26.2).
 
 ==================================================
-321: examples/official-examples/membrane1.inp
+338: examples/official/membrane1.inp
 INFO: 9 nodes 
 INFO: 2 nsets 
 INFO: 4 elements 
@@ -6102,7 +6357,7 @@ DEBUG: Camera's ParallelScale is 1.4.
 DEBUG: Camera's ClippingRange is (3.2, 8.3).
 
 ==================================================
-322: examples/official-examples/membrane2.inp
+339: examples/official/membrane2.inp
 INFO: 9 nodes 
 INFO: 2 nsets 
 INFO: 4 elements 
@@ -6117,7 +6372,7 @@ DEBUG: Camera's ParallelScale is 1.4.
 DEBUG: Camera's ClippingRange is (3.2, 8.3).
 
 ==================================================
-323: examples/official-examples/membrane3.inp
+340: examples/official/membrane3.inp
 INFO: 21 nodes 
 INFO: 2 nsets 
 INFO: 4 elements 
@@ -6132,7 +6387,7 @@ DEBUG: Camera's ParallelScale is 1.4.
 DEBUG: Camera's ClippingRange is (3.2, 8.3).
 
 ==================================================
-324: examples/official-examples/metalforming.inp
+341: examples/official/metalforming.inp
 INFO: 2032 nodes 
 INFO: 22 nsets 
 INFO: 848 elements 
@@ -6163,38 +6418,7 @@ DEBUG: Camera's ParallelScale is 13.1.
 DEBUG: Camera's ClippingRange is (29.6, 76.9).
 
 ==================================================
-325: examples/official-examples/metalformingmortar.inp
-INFO: 2032 nodes 
-INFO: 22 nsets 
-INFO: 848 elements 
-WARNING: Duplicated set name Grsheet_Volumes!
-WARNING: Duplicated set name Grmatrize_Volumes!
-WARNING: Duplicated set name Grstempel_Volumes!
-WARNING: Duplicated set name Grstempel_FacesF5!
-WARNING: Duplicated set name Grstempel_FacesF1!
-WARNING: Duplicated set name Grstempel_FacesF2!
-WARNING: Duplicated set name Grstempel_FacesF5!
-WARNING: Duplicated set name Grsheet_FacesF2!
-WARNING: Duplicated set name Grsheet_FacesF5!
-WARNING: Duplicated set name Grsheet_FacesF1!
-WARNING: Duplicated set name Grsheet_FacesF5!
-WARNING: Duplicated set name Grsheet_FacesF6!
-WARNING: Duplicated set name Grmatrize_FacesF4!
-WARNING: Duplicated set name Grmatrize_FacesF5!
-WARNING: Duplicated set name Grmatrize_FacesF4!
-WARNING: Duplicated set name Grmatrize_FacesF5!
-INFO: 39 elsets 
-INFO: 8 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [-1.74512e-15, 16.5, -10.0, 10.25, -0.863543, 0.0].
-DEBUG: Camera's focal point is (8.2, 0.1, -0.4).
-DEBUG: Camera's position is (39.6, 24.2, 30.9).
-DEBUG: Camera's distance is 50.5.
-DEBUG: Camera's ParallelScale is 13.1.
-DEBUG: Camera's ClippingRange is (29.6, 76.9).
-
-==================================================
-326: examples/official-examples/modelchel.inp
+342: examples/official/modelchel.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -6209,7 +6433,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-327: examples/official-examples/modelchel2.inp
+343: examples/official/modelchel2.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -6224,7 +6448,22 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-328: examples/official-examples/moehring.inp
+344: examples/official/modelchel3.inp
+INFO: 261 nodes 
+INFO: 4 nsets 
+INFO: 32 elements 
+INFO: 2 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
+DEBUG: Camera's position is (10.2, 8.0, 13.7).
+DEBUG: Camera's distance is 15.7.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.5, 23.5).
+
+==================================================
+345: examples/official/moehring.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 6 elements 
@@ -6239,7 +6478,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-329: examples/official-examples/mpcforce.inp
+346: examples/official/mpcforce.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 32 elements 
@@ -6254,7 +6493,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-330: examples/official-examples/multistage.inp
+347: examples/official/multistage.inp
 INFO: 1156 nodes 
 INFO: 9 nsets 
 INFO: 140 elements 
@@ -6269,7 +6508,7 @@ DEBUG: Camera's ParallelScale is 51.8.
 DEBUG: Camera's ClippingRange is (116.9, 305.7).
 
 ==================================================
-331: examples/official-examples/networkmpc.inp
+348: examples/official/networkmpc.inp
 INFO: 6 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -6284,7 +6523,7 @@ DEBUG: Camera's ParallelScale is 2.1.
 DEBUG: Camera's ClippingRange is (4.9, 11.8).
 
 ==================================================
-332: examples/official-examples/networkmpc2.inp
+349: examples/official/networkmpc2.inp
 INFO: 10 nodes 
 INFO: 1 nsets 
 INFO: 6 elements 
@@ -6299,7 +6538,7 @@ DEBUG: Camera's ParallelScale is 2.1.
 DEBUG: Camera's ClippingRange is (4.9, 11.8).
 
 ==================================================
-333: examples/official-examples/oneel.inp
+350: examples/official/oneel.inp
 INFO: 8 nodes 
 INFO: 1 nsets 
 INFO: 1 elements 
@@ -6314,7 +6553,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-334: examples/official-examples/oneel20cf.inp
+351: examples/official/oneel20cf.inp
 INFO: 20 nodes 
 INFO: 2 nsets 
 INFO: 1 elements 
@@ -6329,7 +6568,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-335: examples/official-examples/oneel20df.inp
+352: examples/official/oneel20df.inp
 INFO: 20 nodes 
 INFO: 2 nsets 
 INFO: 1 elements 
@@ -6344,7 +6583,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-336: examples/official-examples/oneel20fi.inp
+353: examples/official/oneel20fi.inp
 INFO: 20 nodes 
 INFO: 2 nsets 
 INFO: 1 elements 
@@ -6359,7 +6598,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-337: examples/official-examples/oneel20rs.inp
+354: examples/official/oneel20rs.inp
 INFO: 20 nodes 
 INFO: 2 nsets 
 INFO: 1 elements 
@@ -6374,7 +6613,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-338: examples/official-examples/oneel8ra.inp
+355: examples/official/oneel8ra.inp
 INFO: 8 nodes 
 INFO: 2 nsets 
 INFO: 1 elements 
@@ -6389,7 +6628,22 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-339: examples/official-examples/opt1.inp
+356: examples/official/oneeltruss.inp
+INFO: 9 nodes 
+INFO: 1 nsets 
+INFO: 3 elements 
+INFO: 2 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.5, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.5, 0.8, 0.0).
+DEBUG: Camera's position is (2.7, 2.4, 2.2).
+DEBUG: Camera's distance is 3.5.
+DEBUG: Camera's ParallelScale is 0.9.
+DEBUG: Camera's ClippingRange is (2.1, 5.2).
+
+==================================================
+357: examples/official/opt1.inp
 INFO: 261 nodes 
 INFO: 1 nsets 
 INFO: 32 elements 
@@ -6404,8 +6658,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-340: examples/official-examples/opt2.inp
-ERROR: File not found: /media/ihor/WORK/Calculix/ccx_cae/examples/official-examples/opt1.equ
+358: examples/official/opt2.inp
 INFO: 261 nodes 
 INFO: 0 nsets 
 INFO: 32 elements 
@@ -6420,7 +6673,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-341: examples/official-examples/opt3.inp
+359: examples/official/opt3.inp
 INFO: 261 nodes 
 INFO: 1 nsets 
 INFO: 32 elements 
@@ -6435,7 +6688,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 23.8).
 
 ==================================================
-342: examples/official-examples/pendel.inp
+360: examples/official/pendel.inp
 INFO: 6 nodes 
 INFO: 2 nsets 
 INFO: 2 elements 
@@ -6450,7 +6703,7 @@ DEBUG: Camera's ParallelScale is 165.0.
 DEBUG: Camera's ClippingRange is (427.2, 903.8).
 
 ==================================================
-343: examples/official-examples/pipe.inp
+361: examples/official/pipe.inp
 INFO: 25 nodes 
 INFO: 1 nsets 
 INFO: 13 elements 
@@ -6465,7 +6718,7 @@ DEBUG: Camera's ParallelScale is 10.3.
 DEBUG: Camera's ClippingRange is (21.5, 63.3).
 
 ==================================================
-344: examples/official-examples/pipe2.inp
+362: examples/official/pipe2.inp
 INFO: 9 nodes 
 INFO: 1 nsets 
 INFO: 5 elements 
@@ -6480,7 +6733,7 @@ DEBUG: Camera's ParallelScale is 101.0.
 DEBUG: Camera's ClippingRange is (261.5, 553.2).
 
 ==================================================
-345: examples/official-examples/pipempc1.inp
+363: examples/official/pipempc1.inp
 INFO: 8 nodes 
 INFO: 1 nsets 
 INFO: 5 elements 
@@ -6495,7 +6748,7 @@ DEBUG: Camera's ParallelScale is 1.4.
 DEBUG: Camera's ClippingRange is (3.2, 8.3).
 
 ==================================================
-346: examples/official-examples/pipempc2.inp
+364: examples/official/pipempc2.inp
 INFO: 8 nodes 
 INFO: 1 nsets 
 INFO: 5 elements 
@@ -6510,7 +6763,7 @@ DEBUG: Camera's ParallelScale is 1.4.
 DEBUG: Camera's ClippingRange is (3.2, 8.3).
 
 ==================================================
-347: examples/official-examples/pipempc3.inp
+365: examples/official/pipempc3.inp
 INFO: 12 nodes 
 INFO: 1 nsets 
 INFO: 7 elements 
@@ -6525,7 +6778,7 @@ DEBUG: Camera's ParallelScale is 1.4.
 DEBUG: Camera's ClippingRange is (3.2, 8.3).
 
 ==================================================
-348: examples/official-examples/piperestrictor.inp
+366: examples/official/piperestrictor.inp
 INFO: 25 nodes 
 INFO: 1 nsets 
 INFO: 13 elements 
@@ -6540,7 +6793,7 @@ DEBUG: Camera's ParallelScale is 10.3.
 DEBUG: Camera's ClippingRange is (21.5, 63.3).
 
 ==================================================
-349: examples/official-examples/planestrain.inp
+367: examples/official/planestrain.inp
 INFO: 4 nodes 
 INFO: 1 nsets 
 INFO: 1 elements 
@@ -6555,7 +6808,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-350: examples/official-examples/planestrain2.inp
+368: examples/official/planestrain2.inp
 INFO: 8 nodes 
 INFO: 1 nsets 
 INFO: 1 elements 
@@ -6570,7 +6823,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-351: examples/official-examples/planestress.inp
+369: examples/official/planestress.inp
 INFO: 21 nodes 
 INFO: 2 nsets 
 INFO: 4 elements 
@@ -6585,7 +6838,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-352: examples/official-examples/planestress2.inp
+370: examples/official/planestress2.inp
 INFO: 21 nodes 
 INFO: 2 nsets 
 INFO: 4 elements 
@@ -6600,7 +6853,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-353: examples/official-examples/planestress3.inp
+371: examples/official/planestress3.inp
 WARNING: Node 1 has no coordinates and will be removed.
 INFO: 8 nodes 
 WARNING: NSET NRAND - there is no node 1 in the mesh.
@@ -6618,472 +6871,22 @@ DEBUG: Camera's ParallelScale is 11.2.
 DEBUG: Camera's ClippingRange is (25.7, 65.4).
 
 ==================================================
-354: examples/official-examples/plate.inp
-INFO: 16 nodes 
+372: examples/official/planestress3dsens.inp
+INFO: 18 nodes 
 INFO: 4 nsets 
-INFO: 2 elements 
-INFO: 2 elsets 
-INFO: 2 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [181.225, 185.05, -4.0, 4.0, 0.0, 0.0].
-DEBUG: Camera's focal point is (183.1, 0.0, 0.0).
-DEBUG: Camera's position is (193.8, 8.2, 10.6).
-DEBUG: Camera's distance is 17.1.
-DEBUG: Camera's ParallelScale is 4.4.
-DEBUG: Camera's ClippingRange is (10.8, 25.2).
-
-==================================================
-355: examples/official-examples/poi2d.inp
-INFO: 462 nodes 
-INFO: 1 nsets 
-INFO: 200 elements 
+INFO: 4 elements 
 INFO: 1 elsets 
-INFO: 1 surfaces 
+INFO: 0 surfaces 
 INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 6.0, 0.0, 1.0, 0.0, 0.1].
-DEBUG: Camera's focal point is (3.0, 0.5, 0.1).
-DEBUG: Camera's position is (10.3, 6.1, 7.4).
-DEBUG: Camera's distance is 11.8.
-DEBUG: Camera's ParallelScale is 3.0.
-DEBUG: Camera's ClippingRange is (7.4, 17.3).
-
-==================================================
-356: examples/official-examples/poi2d2.inp
-INFO: 462 nodes 
-INFO: 1 nsets 
-INFO: 200 elements 
-INFO: 1 elsets 
-INFO: 5 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 6.0, 0.0, 1.0, 0.0, 0.1].
-DEBUG: Camera's focal point is (3.0, 0.5, 0.1).
-DEBUG: Camera's position is (10.3, 6.1, 7.4).
-DEBUG: Camera's distance is 11.8.
-DEBUG: Camera's ParallelScale is 3.0.
-DEBUG: Camera's ClippingRange is (7.4, 17.3).
-
-==================================================
-357: examples/official-examples/potied.inp
-INFO: 461 nodes 
-INFO: 2 nsets 
-INFO: 61 elements 
-INFO: 1 elsets 
-INFO: 2 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [-2.22044604925e-16, 1.0, -2.22044604925e-16, 1.0, -1.7763568394e-15, 8.0].
-DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
-DEBUG: Camera's position is (10.2, 8.0, 13.7).
-DEBUG: Camera's distance is 15.7.
-DEBUG: Camera's ParallelScale is 4.1.
-DEBUG: Camera's ClippingRange is (9.5, 23.5).
-
-==================================================
-358: examples/official-examples/pret1.inp
-INFO: 161 nodes 
-INFO: 2 nsets 
-INFO: 14 elements 
-INFO: 1 elsets 
-INFO: 1 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 0.3].
-DEBUG: Camera's focal point is (0.5, 0.5, 0.1).
-DEBUG: Camera's position is (2.2, 1.8, 1.9).
-DEBUG: Camera's distance is 2.8.
+DEBUG: Data bounds are [-7.450579986301e-09, 1.0, -7.450579986301e-09, 1.0, -0.005, 0.005].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.0).
+DEBUG: Camera's position is (2.2, 1.8, 1.7).
+DEBUG: Camera's distance is 2.7.
 DEBUG: Camera's ParallelScale is 0.7.
-DEBUG: Camera's ClippingRange is (1.5, 4.4).
+DEBUG: Camera's ClippingRange is (1.6, 4.2).
 
 ==================================================
-359: examples/official-examples/pret2.inp
-INFO: 14 nodes 
-INFO: 3 nsets 
-INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 1 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.1, 0.0, 2.0, 0.0, 0.0].
-DEBUG: Camera's focal point is (0.6, 1.0, 0.0).
-DEBUG: Camera's position is (3.3, 3.1, 2.7).
-DEBUG: Camera's distance is 4.4.
-DEBUG: Camera's ParallelScale is 1.1.
-DEBUG: Camera's ClippingRange is (2.7, 6.5).
-
-==================================================
-360: examples/official-examples/pret3.inp
-INFO: 101 nodes 
-INFO: 4 nsets 
-INFO: 11 elements 
-INFO: 4 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [-1.0, 1.0, 0.0, 1.0, -1.0, 1.0].
-DEBUG: Camera's focal point is (0.0, 0.5, 0.0).
-DEBUG: Camera's position is (3.6, 3.3, 3.6).
-DEBUG: Camera's distance is 5.8.
-DEBUG: Camera's ParallelScale is 1.5.
-DEBUG: Camera's ClippingRange is (2.8, 9.6).
-
-==================================================
-361: examples/official-examples/pret4.inp
-INFO: 161 nodes 
-INFO: 2 nsets 
-INFO: 14 elements 
-INFO: 1 elsets 
-INFO: 1 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 0.3].
-DEBUG: Camera's focal point is (0.5, 0.5, 0.1).
-DEBUG: Camera's position is (2.2, 1.8, 1.9).
-DEBUG: Camera's distance is 2.8.
-DEBUG: Camera's ParallelScale is 0.7.
-DEBUG: Camera's ClippingRange is (1.5, 4.4).
-
-==================================================
-362: examples/official-examples/pret5.inp
-INFO: 7 nodes 
-INFO: 0 nsets 
-INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 1 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 2.0, 0.0, 1.0, 0.0, 0.0].
-DEBUG: Camera's focal point is (1.0, 0.5, 0.0).
-DEBUG: Camera's position is (3.7, 2.6, 2.7).
-DEBUG: Camera's distance is 4.3.
-DEBUG: Camera's ParallelScale is 1.1.
-DEBUG: Camera's ClippingRange is (2.6, 6.5).
-
-==================================================
-363: examples/official-examples/pret6.inp
-INFO: 14 nodes 
-INFO: 0 nsets 
-INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 1 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 2.0, 0.0, 1.0, 0.0, 0.0].
-DEBUG: Camera's focal point is (1.0, 0.5, 0.0).
-DEBUG: Camera's position is (3.7, 2.6, 2.7).
-DEBUG: Camera's distance is 4.3.
-DEBUG: Camera's ParallelScale is 1.1.
-DEBUG: Camera's ClippingRange is (2.6, 6.5).
-
-==================================================
-364: examples/official-examples/pret7.inp
-INFO: 14 nodes 
-INFO: 4 nsets 
-INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 1 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.1, 0.0, 2.0, 0.0, 0.0].
-DEBUG: Camera's focal point is (0.6, 1.0, 0.0).
-DEBUG: Camera's position is (3.3, 3.1, 2.7).
-DEBUG: Camera's distance is 4.4.
-DEBUG: Camera's ParallelScale is 1.1.
-DEBUG: Camera's ClippingRange is (2.7, 6.5).
-
-==================================================
-365: examples/official-examples/primaryair.inp
-INFO: 13 nodes 
-INFO: 0 nsets 
-INFO: 7 elements 
-INFO: 7 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.5, 6.5, 0.0, 0.0, 0.0, 0.0].
-DEBUG: Camera's focal point is (3.5, 0.0, 0.0).
-DEBUG: Camera's position is (10.7, 5.5, 7.2).
-DEBUG: Camera's distance is 11.6.
-DEBUG: Camera's ParallelScale is 3.0.
-DEBUG: Camera's ClippingRange is (7.8, 16.4).
-
-==================================================
-366: examples/official-examples/punch1.inp
-INFO: 416 nodes 
-INFO: 4 nsets 
-INFO: 54 elements 
-INFO: 1 elsets 
-INFO: 2 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 1.38268].
-DEBUG: Camera's focal point is (0.5, 0.5, 0.7).
-DEBUG: Camera's position is (2.9, 2.3, 3.1).
-DEBUG: Camera's distance is 3.8.
-DEBUG: Camera's ParallelScale is 1.0.
-DEBUG: Camera's ClippingRange is (1.8, 6.3).
-
-==================================================
-367: examples/official-examples/punch2.inp
-INFO: 416 nodes 
-INFO: 5 nsets 
-INFO: 54 elements 
-INFO: 1 elsets 
-INFO: 2 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 1.38268].
-DEBUG: Camera's focal point is (0.5, 0.5, 0.7).
-DEBUG: Camera's position is (2.9, 2.3, 3.1).
-DEBUG: Camera's distance is 3.8.
-DEBUG: Camera's ParallelScale is 1.0.
-DEBUG: Camera's ClippingRange is (1.8, 6.3).
-
-==================================================
-368: examples/official-examples/resstress1.inp
-INFO: 261 nodes 
-INFO: 3 nsets 
-INFO: 32 elements 
-INFO: 1 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
-DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
-DEBUG: Camera's position is (10.2, 8.0, 13.7).
-DEBUG: Camera's distance is 15.7.
-DEBUG: Camera's ParallelScale is 4.1.
-DEBUG: Camera's ClippingRange is (9.5, 23.5).
-
-==================================================
-369: examples/official-examples/resstress2.inp
-INFO: 261 nodes 
-INFO: 3 nsets 
-INFO: 32 elements 
-INFO: 1 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
-DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
-DEBUG: Camera's position is (10.2, 8.0, 13.7).
-DEBUG: Camera's distance is 15.7.
-DEBUG: Camera's ParallelScale is 4.1.
-DEBUG: Camera's ClippingRange is (9.5, 23.5).
-
-==================================================
-370: examples/official-examples/resstress3.inp
-INFO: 261 nodes 
-INFO: 3 nsets 
-INFO: 32 elements 
-INFO: 1 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
-DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
-DEBUG: Camera's position is (10.2, 8.0, 13.7).
-DEBUG: Camera's distance is 15.7.
-DEBUG: Camera's ParallelScale is 4.1.
-DEBUG: Camera's ClippingRange is (9.5, 23.5).
-
-==================================================
-371: examples/official-examples/restrictor-oil.inp
-INFO: 23 nodes 
-INFO: 1 nsets 
-INFO: 12 elements 
-INFO: 10 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [1.0, 23.0, 0.0, 0.0, 0.0, 0.0].
-DEBUG: Camera's focal point is (12.0, 0.0, 0.0).
-DEBUG: Camera's position is (38.4, 20.3, 26.4).
-DEBUG: Camera's distance is 42.5.
-DEBUG: Camera's ParallelScale is 11.0.
-DEBUG: Camera's ClippingRange is (28.5, 60.3).
-
-==================================================
-372: examples/official-examples/restrictor.inp
-INFO: 23 nodes 
-INFO: 1 nsets 
-INFO: 12 elements 
-INFO: 10 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [1.0, 23.0, 0.0, 0.0, 0.0, 0.0].
-DEBUG: Camera's focal point is (12.0, 0.0, 0.0).
-DEBUG: Camera's position is (38.4, 20.3, 26.4).
-DEBUG: Camera's distance is 42.5.
-DEBUG: Camera's ParallelScale is 11.0.
-DEBUG: Camera's ClippingRange is (28.5, 60.3).
-
-==================================================
-373: examples/official-examples/ring1.inp
-INFO: 16 nodes 
-INFO: 4 nsets 
-INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 2 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.95, 1.15, 0.0, 0.1, 0.0, 0.0].
-DEBUG: Camera's focal point is (1.0, 0.1, 0.0).
-DEBUG: Camera's position is (1.3, 0.3, 0.3).
-DEBUG: Camera's distance is 0.4.
-DEBUG: Camera's ParallelScale is 0.1.
-DEBUG: Camera's ClippingRange is (0.3, 0.7).
-
-==================================================
-374: examples/official-examples/ring2.inp
-INFO: 16 nodes 
-INFO: 4 nsets 
-INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 2 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.9501, 1.15, 0.0, 0.1, 0.0, 0.0].
-DEBUG: Camera's focal point is (1.1, 0.1, 0.0).
-DEBUG: Camera's position is (1.3, 0.3, 0.3).
-DEBUG: Camera's distance is 0.4.
-DEBUG: Camera's ParallelScale is 0.1.
-DEBUG: Camera's ClippingRange is (0.3, 0.7).
-
-==================================================
-375: examples/official-examples/ring3.inp
-INFO: 16 nodes 
-INFO: 5 nsets 
-INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 2 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.9501, 1.15, 0.0, 0.1, 0.0, 0.0].
-DEBUG: Camera's focal point is (1.1, 0.1, 0.0).
-DEBUG: Camera's position is (1.3, 0.3, 0.3).
-DEBUG: Camera's distance is 0.4.
-DEBUG: Camera's ParallelScale is 0.1.
-DEBUG: Camera's ClippingRange is (0.3, 0.7).
-
-==================================================
-376: examples/official-examples/ring4.inp
-INFO: 16 nodes 
-INFO: 5 nsets 
-INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 2 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.9501, 1.15, 0.0, 0.1, 0.0, 0.0].
-DEBUG: Camera's focal point is (1.1, 0.1, 0.0).
-DEBUG: Camera's position is (1.3, 0.3, 0.3).
-DEBUG: Camera's distance is 0.4.
-DEBUG: Camera's ParallelScale is 0.1.
-DEBUG: Camera's ClippingRange is (0.3, 0.7).
-
-==================================================
-377: examples/official-examples/ringfcontact1.inp
-INFO: 720 nodes 
-INFO: 7 nsets 
-INFO: 100 elements 
-INFO: 3 elsets 
-INFO: 6 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [-1.0, 0.0, 0.8660254037844, 2.0, 0.0, 0.1].
-DEBUG: Camera's focal point is (-0.5, 1.4, 0.1).
-DEBUG: Camera's position is (1.3, 2.8, 1.9).
-DEBUG: Camera's distance is 2.9.
-DEBUG: Camera's ParallelScale is 0.8.
-DEBUG: Camera's ClippingRange is (1.7, 4.5).
-
-==================================================
-378: examples/official-examples/ringfcontact2.inp
-INFO: 720 nodes 
-INFO: 7 nsets 
-INFO: 100 elements 
-INFO: 3 elsets 
-INFO: 6 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [-1.0, 0.0, 0.8660254037844, 2.0, 0.0, 0.1].
-DEBUG: Camera's focal point is (-0.5, 1.4, 0.1).
-DEBUG: Camera's position is (1.3, 2.8, 1.9).
-DEBUG: Camera's distance is 2.9.
-DEBUG: Camera's ParallelScale is 0.8.
-DEBUG: Camera's ClippingRange is (1.7, 4.5).
-
-==================================================
-379: examples/official-examples/ringfcontact3.inp
-INFO: 720 nodes 
-INFO: 7 nsets 
-INFO: 100 elements 
-INFO: 3 elsets 
-INFO: 6 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [-1.0, 0.0, 0.8660254037844, 2.0, 0.0, 0.1].
-DEBUG: Camera's focal point is (-0.5, 1.4, 0.1).
-DEBUG: Camera's position is (1.3, 2.8, 1.9).
-DEBUG: Camera's distance is 2.9.
-DEBUG: Camera's ParallelScale is 0.8.
-DEBUG: Camera's ClippingRange is (1.7, 4.5).
-
-==================================================
-380: examples/official-examples/ringfcontact4.inp
-INFO: 720 nodes 
-INFO: 7 nsets 
-INFO: 100 elements 
-INFO: 3 elsets 
-INFO: 6 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [-1.0, 0.0, 0.8660254037844, 2.0, 0.0, 0.1].
-DEBUG: Camera's focal point is (-0.5, 1.4, 0.1).
-DEBUG: Camera's position is (1.3, 2.8, 1.9).
-DEBUG: Camera's distance is 2.9.
-DEBUG: Camera's ParallelScale is 0.8.
-DEBUG: Camera's ClippingRange is (1.7, 4.5).
-
-==================================================
-381: examples/official-examples/ringfcontact5.inp
-INFO: 720 nodes 
-INFO: 7 nsets 
-INFO: 100 elements 
-INFO: 3 elsets 
-INFO: 6 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [-1.0, 0.0, 0.8660254037844, 2.0, 0.0, 0.1].
-DEBUG: Camera's focal point is (-0.5, 1.4, 0.1).
-DEBUG: Camera's position is (1.3, 2.8, 1.9).
-DEBUG: Camera's distance is 2.9.
-DEBUG: Camera's ParallelScale is 0.8.
-DEBUG: Camera's ClippingRange is (1.7, 4.5).
-
-==================================================
-382: examples/official-examples/rot1.inp
-INFO: 5 nodes 
-INFO: 1 nsets 
-INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 0.8, 0.0, 0.0, 0.0, 0.0].
-DEBUG: Camera's focal point is (0.4, 0.0, 0.0).
-DEBUG: Camera's position is (1.4, 0.7, 1.0).
-DEBUG: Camera's distance is 1.5.
-DEBUG: Camera's ParallelScale is 0.4.
-DEBUG: Camera's ClippingRange is (1.0, 2.2).
-
-==================================================
-383: examples/official-examples/rot2.inp
-INFO: 5 nodes 
-INFO: 1 nsets 
-INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 0.8, 0.0, 0.0, 0.0, 0.0].
-DEBUG: Camera's focal point is (0.4, 0.0, 0.0).
-DEBUG: Camera's position is (1.4, 0.7, 1.0).
-DEBUG: Camera's distance is 1.5.
-DEBUG: Camera's ParallelScale is 0.4.
-DEBUG: Camera's ClippingRange is (1.0, 2.2).
-
-==================================================
-384: examples/official-examples/rot3.inp
-INFO: 5 nodes 
-INFO: 1 nsets 
-INFO: 2 elements 
-INFO: 1 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 0.8, 0.0, 0.0, 0.0, 0.0].
-DEBUG: Camera's focal point is (0.4, 0.0, 0.0).
-DEBUG: Camera's position is (1.4, 0.7, 1.0).
-DEBUG: Camera's distance is 1.5.
-DEBUG: Camera's ParallelScale is 0.4.
-DEBUG: Camera's ClippingRange is (1.0, 2.2).
-
-==================================================
-385: examples/official-examples/rot4.inp
+373: examples/official/planestress4.inp
 INFO: 21 nodes 
 INFO: 4 nsets 
 INFO: 4 elements 
@@ -7098,8 +6901,533 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-386: examples/official-examples/rotor.inp
+374: examples/official/planestressquadsens.inp
+INFO: 21 nodes 
+INFO: 3 nsets 
+INFO: 4 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-7.45058e-09, 1.0, -7.45058e-09, 1.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.0).
+DEBUG: Camera's position is (2.2, 1.8, 1.7).
+DEBUG: Camera's distance is 2.7.
+DEBUG: Camera's ParallelScale is 0.7.
+DEBUG: Camera's ClippingRange is (1.6, 4.1).
+
+==================================================
+375: examples/official/planestresssens.inp
+INFO: 21 nodes 
+INFO: 3 nsets 
+INFO: 4 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-7.45058e-09, 1.0, -7.45058e-09, 1.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.0).
+DEBUG: Camera's position is (2.2, 1.8, 1.7).
+DEBUG: Camera's distance is 2.7.
+DEBUG: Camera's ParallelScale is 0.7.
+DEBUG: Camera's ClippingRange is (1.6, 4.1).
+
+==================================================
+376: examples/official/plate.inp
+INFO: 16 nodes 
+INFO: 4 nsets 
+INFO: 2 elements 
+INFO: 2 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [181.225, 185.05, -4.0, 4.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (183.1, 0.0, 0.0).
+DEBUG: Camera's position is (193.8, 8.2, 10.6).
+DEBUG: Camera's distance is 17.1.
+DEBUG: Camera's ParallelScale is 4.4.
+DEBUG: Camera's ClippingRange is (10.8, 25.2).
+
+==================================================
+377: examples/official/poi2d.inp
+INFO: 462 nodes 
+INFO: 1 nsets 
+INFO: 200 elements 
+INFO: 1 elsets 
+INFO: 1 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 6.0, 0.0, 1.0, 0.0, 0.1].
+DEBUG: Camera's focal point is (3.0, 0.5, 0.1).
+DEBUG: Camera's position is (10.3, 6.1, 7.4).
+DEBUG: Camera's distance is 11.8.
+DEBUG: Camera's ParallelScale is 3.0.
+DEBUG: Camera's ClippingRange is (7.4, 17.3).
+
+==================================================
+378: examples/official/poi2d2.inp
+INFO: 462 nodes 
+INFO: 1 nsets 
+INFO: 200 elements 
+INFO: 1 elsets 
+INFO: 5 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 6.0, 0.0, 1.0, 0.0, 0.1].
+DEBUG: Camera's focal point is (3.0, 0.5, 0.1).
+DEBUG: Camera's position is (10.3, 6.1, 7.4).
+DEBUG: Camera's distance is 11.8.
+DEBUG: Camera's ParallelScale is 3.0.
+DEBUG: Camera's ClippingRange is (7.4, 17.3).
+
+==================================================
+379: examples/official/potied.inp
+INFO: 461 nodes 
+INFO: 2 nsets 
+INFO: 61 elements 
+INFO: 1 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-2.22044604925e-16, 1.0, -2.22044604925e-16, 1.0, -1.7763568394e-15, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
+DEBUG: Camera's position is (10.2, 8.0, 13.7).
+DEBUG: Camera's distance is 15.7.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.5, 23.5).
+
+==================================================
+380: examples/official/pret1.inp
+INFO: 161 nodes 
+INFO: 2 nsets 
+INFO: 14 elements 
+INFO: 1 elsets 
+INFO: 1 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 0.3].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.1).
+DEBUG: Camera's position is (2.2, 1.8, 1.9).
+DEBUG: Camera's distance is 2.8.
+DEBUG: Camera's ParallelScale is 0.7.
+DEBUG: Camera's ClippingRange is (1.5, 4.4).
+
+==================================================
+381: examples/official/pret2.inp
+INFO: 14 nodes 
+INFO: 3 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 1 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.1, 0.0, 2.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.6, 1.0, 0.0).
+DEBUG: Camera's position is (3.3, 3.1, 2.7).
+DEBUG: Camera's distance is 4.4.
+DEBUG: Camera's ParallelScale is 1.1.
+DEBUG: Camera's ClippingRange is (2.7, 6.5).
+
+==================================================
+382: examples/official/pret3.inp
+INFO: 101 nodes 
+INFO: 4 nsets 
+INFO: 11 elements 
+INFO: 4 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-1.0, 1.0, 0.0, 1.0, -1.0, 1.0].
+DEBUG: Camera's focal point is (0.0, 0.5, 0.0).
+DEBUG: Camera's position is (3.6, 3.3, 3.6).
+DEBUG: Camera's distance is 5.8.
+DEBUG: Camera's ParallelScale is 1.5.
+DEBUG: Camera's ClippingRange is (2.8, 9.6).
+
+==================================================
+383: examples/official/pret4.inp
+INFO: 161 nodes 
+INFO: 2 nsets 
+INFO: 14 elements 
+INFO: 1 elsets 
+INFO: 1 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 0.3].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.1).
+DEBUG: Camera's position is (2.2, 1.8, 1.9).
+DEBUG: Camera's distance is 2.8.
+DEBUG: Camera's ParallelScale is 0.7.
+DEBUG: Camera's ClippingRange is (1.5, 4.4).
+
+==================================================
+384: examples/official/pret5.inp
+INFO: 7 nodes 
+INFO: 0 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 1 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 2.0, 0.0, 1.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (1.0, 0.5, 0.0).
+DEBUG: Camera's position is (3.7, 2.6, 2.7).
+DEBUG: Camera's distance is 4.3.
+DEBUG: Camera's ParallelScale is 1.1.
+DEBUG: Camera's ClippingRange is (2.6, 6.5).
+
+==================================================
+385: examples/official/pret6.inp
+INFO: 14 nodes 
+INFO: 0 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 1 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 2.0, 0.0, 1.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (1.0, 0.5, 0.0).
+DEBUG: Camera's position is (3.7, 2.6, 2.7).
+DEBUG: Camera's distance is 4.3.
+DEBUG: Camera's ParallelScale is 1.1.
+DEBUG: Camera's ClippingRange is (2.6, 6.5).
+
+==================================================
+386: examples/official/pret7.inp
+INFO: 14 nodes 
+INFO: 4 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 1 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.1, 0.0, 2.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.6, 1.0, 0.0).
+DEBUG: Camera's position is (3.3, 3.1, 2.7).
+DEBUG: Camera's distance is 4.4.
+DEBUG: Camera's ParallelScale is 1.1.
+DEBUG: Camera's ClippingRange is (2.7, 6.5).
+
+==================================================
+387: examples/official/primaryair.inp
+INFO: 13 nodes 
+INFO: 0 nsets 
+INFO: 7 elements 
+INFO: 7 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.5, 6.5, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (3.5, 0.0, 0.0).
+DEBUG: Camera's position is (10.7, 5.5, 7.2).
+DEBUG: Camera's distance is 11.6.
+DEBUG: Camera's ParallelScale is 3.0.
+DEBUG: Camera's ClippingRange is (7.8, 16.4).
+
+==================================================
+388: examples/official/punch1.inp
+INFO: 416 nodes 
+INFO: 4 nsets 
+INFO: 54 elements 
+INFO: 1 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 1.38268].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.7).
+DEBUG: Camera's position is (2.9, 2.3, 3.1).
+DEBUG: Camera's distance is 3.8.
+DEBUG: Camera's ParallelScale is 1.0.
+DEBUG: Camera's ClippingRange is (1.8, 6.3).
+
+==================================================
+389: examples/official/punch2.inp
+INFO: 416 nodes 
+INFO: 5 nsets 
+INFO: 54 elements 
+INFO: 1 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 1.38268].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.7).
+DEBUG: Camera's position is (2.9, 2.3, 3.1).
+DEBUG: Camera's distance is 3.8.
+DEBUG: Camera's ParallelScale is 1.0.
+DEBUG: Camera's ClippingRange is (1.8, 6.3).
+
+==================================================
+390: examples/official/resstress1.inp
+INFO: 261 nodes 
+INFO: 3 nsets 
+INFO: 32 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
+DEBUG: Camera's position is (10.2, 8.0, 13.7).
+DEBUG: Camera's distance is 15.7.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.5, 23.5).
+
+==================================================
+391: examples/official/resstress2.inp
+INFO: 261 nodes 
+INFO: 3 nsets 
+INFO: 32 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
+DEBUG: Camera's position is (10.2, 8.0, 13.7).
+DEBUG: Camera's distance is 15.7.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.5, 23.5).
+
+==================================================
+392: examples/official/resstress3.inp
+INFO: 261 nodes 
+INFO: 3 nsets 
+INFO: 32 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 8.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 4.0).
+DEBUG: Camera's position is (10.2, 8.0, 13.7).
+DEBUG: Camera's distance is 15.7.
+DEBUG: Camera's ParallelScale is 4.1.
+DEBUG: Camera's ClippingRange is (9.5, 23.5).
+
+==================================================
+393: examples/official/restrictor-oil.inp
+INFO: 23 nodes 
+INFO: 1 nsets 
+INFO: 12 elements 
+INFO: 10 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 23.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (12.0, 0.0, 0.0).
+DEBUG: Camera's position is (38.4, 20.3, 26.4).
+DEBUG: Camera's distance is 42.5.
+DEBUG: Camera's ParallelScale is 11.0.
+DEBUG: Camera's ClippingRange is (28.5, 60.3).
+
+==================================================
+394: examples/official/restrictor.inp
+INFO: 23 nodes 
+INFO: 1 nsets 
+INFO: 12 elements 
+INFO: 10 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 23.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (12.0, 0.0, 0.0).
+DEBUG: Camera's position is (38.4, 20.3, 26.4).
+DEBUG: Camera's distance is 42.5.
+DEBUG: Camera's ParallelScale is 11.0.
+DEBUG: Camera's ClippingRange is (28.5, 60.3).
+
+==================================================
+395: examples/official/ring1.inp
+INFO: 16 nodes 
+INFO: 4 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.95, 1.15, 0.0, 0.1, 0.0, 0.0].
+DEBUG: Camera's focal point is (1.0, 0.1, 0.0).
+DEBUG: Camera's position is (1.3, 0.3, 0.3).
+DEBUG: Camera's distance is 0.4.
+DEBUG: Camera's ParallelScale is 0.1.
+DEBUG: Camera's ClippingRange is (0.3, 0.7).
+
+==================================================
+396: examples/official/ring2.inp
+INFO: 16 nodes 
+INFO: 4 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.9501, 1.15, 0.0, 0.1, 0.0, 0.0].
+DEBUG: Camera's focal point is (1.1, 0.1, 0.0).
+DEBUG: Camera's position is (1.3, 0.3, 0.3).
+DEBUG: Camera's distance is 0.4.
+DEBUG: Camera's ParallelScale is 0.1.
+DEBUG: Camera's ClippingRange is (0.3, 0.7).
+
+==================================================
+397: examples/official/ring3.inp
+INFO: 16 nodes 
+INFO: 5 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.9501, 1.15, 0.0, 0.1, 0.0, 0.0].
+DEBUG: Camera's focal point is (1.1, 0.1, 0.0).
+DEBUG: Camera's position is (1.3, 0.3, 0.3).
+DEBUG: Camera's distance is 0.4.
+DEBUG: Camera's ParallelScale is 0.1.
+DEBUG: Camera's ClippingRange is (0.3, 0.7).
+
+==================================================
+398: examples/official/ring4.inp
+INFO: 16 nodes 
+INFO: 5 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.9501, 1.15, 0.0, 0.1, 0.0, 0.0].
+DEBUG: Camera's focal point is (1.1, 0.1, 0.0).
+DEBUG: Camera's position is (1.3, 0.3, 0.3).
+DEBUG: Camera's distance is 0.4.
+DEBUG: Camera's ParallelScale is 0.1.
+DEBUG: Camera's ClippingRange is (0.3, 0.7).
+
+==================================================
+399: examples/official/ringfcontact1.inp
+INFO: 720 nodes 
+INFO: 7 nsets 
+INFO: 100 elements 
+INFO: 3 elsets 
+INFO: 6 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-1.0, 0.0, 0.8660254037844, 2.0, 0.0, 0.1].
+DEBUG: Camera's focal point is (-0.5, 1.4, 0.1).
+DEBUG: Camera's position is (1.3, 2.8, 1.9).
+DEBUG: Camera's distance is 2.9.
+DEBUG: Camera's ParallelScale is 0.8.
+DEBUG: Camera's ClippingRange is (1.7, 4.5).
+
+==================================================
+400: examples/official/ringfcontact2.inp
+INFO: 720 nodes 
+INFO: 7 nsets 
+INFO: 100 elements 
+INFO: 3 elsets 
+INFO: 6 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-1.0, 0.0, 0.8660254037844, 2.0, 0.0, 0.1].
+DEBUG: Camera's focal point is (-0.5, 1.4, 0.1).
+DEBUG: Camera's position is (1.3, 2.8, 1.9).
+DEBUG: Camera's distance is 2.9.
+DEBUG: Camera's ParallelScale is 0.8.
+DEBUG: Camera's ClippingRange is (1.7, 4.5).
+
+==================================================
+401: examples/official/ringfcontact3.inp
+INFO: 720 nodes 
+INFO: 7 nsets 
+INFO: 100 elements 
+INFO: 3 elsets 
+INFO: 6 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-1.0, 0.0, 0.8660254037844, 2.0, 0.0, 0.1].
+DEBUG: Camera's focal point is (-0.5, 1.4, 0.1).
+DEBUG: Camera's position is (1.3, 2.8, 1.9).
+DEBUG: Camera's distance is 2.9.
+DEBUG: Camera's ParallelScale is 0.8.
+DEBUG: Camera's ClippingRange is (1.7, 4.5).
+
+==================================================
+402: examples/official/ringfcontact4.inp
+INFO: 720 nodes 
+INFO: 7 nsets 
+INFO: 100 elements 
+INFO: 3 elsets 
+INFO: 6 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-1.0, 0.0, 0.8660254037844, 2.0, 0.0, 0.1].
+DEBUG: Camera's focal point is (-0.5, 1.4, 0.1).
+DEBUG: Camera's position is (1.3, 2.8, 1.9).
+DEBUG: Camera's distance is 2.9.
+DEBUG: Camera's ParallelScale is 0.8.
+DEBUG: Camera's ClippingRange is (1.7, 4.5).
+
+==================================================
+403: examples/official/ringfcontact5.inp
+INFO: 720 nodes 
+INFO: 7 nsets 
+INFO: 100 elements 
+INFO: 3 elsets 
+INFO: 6 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-1.0, 0.0, 0.8660254037844, 2.0, 0.0, 0.1].
+DEBUG: Camera's focal point is (-0.5, 1.4, 0.1).
+DEBUG: Camera's position is (1.3, 2.8, 1.9).
+DEBUG: Camera's distance is 2.9.
+DEBUG: Camera's ParallelScale is 0.8.
+DEBUG: Camera's ClippingRange is (1.7, 4.5).
+
+==================================================
+404: examples/official/rot1.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 0.8, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.4, 0.0, 0.0).
+DEBUG: Camera's position is (1.4, 0.7, 1.0).
+DEBUG: Camera's distance is 1.5.
+DEBUG: Camera's ParallelScale is 0.4.
+DEBUG: Camera's ClippingRange is (1.0, 2.2).
+
+==================================================
+405: examples/official/rot2.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 0.8, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.4, 0.0, 0.0).
+DEBUG: Camera's position is (1.4, 0.7, 1.0).
+DEBUG: Camera's distance is 1.5.
+DEBUG: Camera's ParallelScale is 0.4.
+DEBUG: Camera's ClippingRange is (1.0, 2.2).
+
+==================================================
+406: examples/official/rot3.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 0.8, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.4, 0.0, 0.0).
+DEBUG: Camera's position is (1.4, 0.7, 1.0).
+DEBUG: Camera's distance is 1.5.
+DEBUG: Camera's ParallelScale is 0.4.
+DEBUG: Camera's ClippingRange is (1.0, 2.2).
+
+==================================================
+407: examples/official/rot4.inp
+INFO: 21 nodes 
+INFO: 4 nsets 
+INFO: 4 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-7.45058e-09, 1.0, -7.45058e-09, 1.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.0).
+DEBUG: Camera's position is (2.2, 1.8, 1.7).
+DEBUG: Camera's distance is 2.7.
+DEBUG: Camera's ParallelScale is 0.7.
+DEBUG: Camera's ClippingRange is (1.6, 4.1).
+
+==================================================
+408: examples/official/rotor.inp
 INFO: 2656 nodes 
+INFO: 2 nsets 
+INFO: 368 elements 
+INFO: 2 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-5.0, 5.0, -5.0, 5.0, -1.42108547152e-14, 100.25].
+DEBUG: Camera's focal point is (0.0, 0.0, 50.1).
+DEBUG: Camera's position is (121.5, 93.5, 171.6).
+DEBUG: Camera's distance is 195.6.
+DEBUG: Camera's ParallelScale is 50.6.
+DEBUG: Camera's ClippingRange is (120.7, 290.3).
+
+==================================================
+409: examples/official/rotor2.inp
+INFO: 2658 nodes 
 INFO: 2 nsets 
 INFO: 368 elements 
 INFO: 1 elsets 
@@ -7113,7 +7441,157 @@ DEBUG: Camera's ParallelScale is 50.6.
 DEBUG: Camera's ClippingRange is (120.7, 290.3).
 
 ==================================================
-387: examples/official-examples/sc123.inp
+410: examples/official/rotor3.inp
+INFO: 2658 nodes 
+INFO: 3 nsets 
+INFO: 368 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-5.0, 5.0, -5.0, 5.0, -1.42108547152e-14, 100.25].
+DEBUG: Camera's focal point is (0.0, 0.0, 50.1).
+DEBUG: Camera's position is (121.5, 93.5, 171.6).
+DEBUG: Camera's distance is 195.6.
+DEBUG: Camera's ParallelScale is 50.6.
+DEBUG: Camera's ClippingRange is (120.7, 290.3).
+
+==================================================
+411: examples/official/rotpipe1.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 3 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 5.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (3.0, 0.0, 0.0).
+DEBUG: Camera's position is (7.8, 3.7, 4.8).
+DEBUG: Camera's distance is 7.7.
+DEBUG: Camera's ParallelScale is 2.0.
+DEBUG: Camera's ClippingRange is (5.2, 11.0).
+
+==================================================
+412: examples/official/rotpipe2.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 3 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 5.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (3.0, 0.0, 0.0).
+DEBUG: Camera's position is (7.8, 3.7, 4.8).
+DEBUG: Camera's distance is 7.7.
+DEBUG: Camera's ParallelScale is 2.0.
+DEBUG: Camera's ClippingRange is (5.2, 11.0).
+
+==================================================
+413: examples/official/rotpipe3.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 3 elements 
+INFO: 2 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 5.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (3.0, 0.0, 0.0).
+DEBUG: Camera's position is (7.8, 3.7, 4.8).
+DEBUG: Camera's distance is 7.7.
+DEBUG: Camera's ParallelScale is 2.0.
+DEBUG: Camera's ClippingRange is (5.2, 11.0).
+
+==================================================
+414: examples/official/rotpipe3inv.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 3 elements 
+INFO: 2 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 5.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (3.0, 0.0, 0.0).
+DEBUG: Camera's position is (7.8, 3.7, 4.8).
+DEBUG: Camera's distance is 7.7.
+DEBUG: Camera's ParallelScale is 2.0.
+DEBUG: Camera's ClippingRange is (5.2, 11.0).
+
+==================================================
+415: examples/official/rotpipe4.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 3 elements 
+INFO: 2 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 5.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (3.0, 0.0, 0.0).
+DEBUG: Camera's position is (7.8, 3.7, 4.8).
+DEBUG: Camera's distance is 7.7.
+DEBUG: Camera's ParallelScale is 2.0.
+DEBUG: Camera's ClippingRange is (5.2, 11.0).
+
+==================================================
+416: examples/official/rotpipe5.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 3 elements 
+INFO: 2 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 5.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (3.0, 0.0, 0.0).
+DEBUG: Camera's position is (7.8, 3.7, 4.8).
+DEBUG: Camera's distance is 7.7.
+DEBUG: Camera's ParallelScale is 2.0.
+DEBUG: Camera's ClippingRange is (5.2, 11.0).
+
+==================================================
+417: examples/official/rotpipe6.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 3 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 5.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (3.0, 0.0, 0.0).
+DEBUG: Camera's position is (7.8, 3.7, 4.8).
+DEBUG: Camera's distance is 7.7.
+DEBUG: Camera's ParallelScale is 2.0.
+DEBUG: Camera's ClippingRange is (5.2, 11.0).
+
+==================================================
+418: examples/official/rotpipe7.inp
+INFO: 5 nodes 
+INFO: 1 nsets 
+INFO: 3 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 5.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (3.0, 0.0, 0.0).
+DEBUG: Camera's position is (7.8, 3.7, 4.8).
+DEBUG: Camera's distance is 7.7.
+DEBUG: Camera's ParallelScale is 2.0.
+DEBUG: Camera's ClippingRange is (5.2, 11.0).
+
+==================================================
+419: examples/official/rotpipeu.inp
+INFO: 7 nodes 
+INFO: 1 nsets 
+INFO: 4 elements 
+INFO: 3 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [1.0, 7.0, 0.0, 0.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (4.0, 0.0, 0.0).
+DEBUG: Camera's position is (11.2, 5.5, 7.2).
+DEBUG: Camera's distance is 11.6.
+DEBUG: Camera's ParallelScale is 3.0.
+DEBUG: Camera's ClippingRange is (7.8, 16.4).
+
+==================================================
+420: examples/official/sc123.inp
 INFO: 20 nodes 
 INFO: 3 nsets 
 INFO: 1 elements 
@@ -7128,7 +7606,7 @@ DEBUG: Camera's ParallelScale is 0.6.
 DEBUG: Camera's ClippingRange is (1.2, 3.9).
 
 ==================================================
-388: examples/official-examples/sc123creep.inp
+421: examples/official/sc123creep.inp
 INFO: 20 nodes 
 INFO: 3 nsets 
 INFO: 1 elements 
@@ -7143,7 +7621,7 @@ DEBUG: Camera's ParallelScale is 0.6.
 DEBUG: Camera's ClippingRange is (1.2, 3.9).
 
 ==================================================
-389: examples/official-examples/scheibe.inp
+422: examples/official/scheibe.inp
 INFO: 10 nodes 
 WARNING: NSET N1 - there is no node 29 in the mesh.
 INFO: 3 nsets 
@@ -7159,7 +7637,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-390: examples/official-examples/scheibe2f2f.inp
+423: examples/official/scheibe2f2f.inp
 INFO: 1156 nodes 
 INFO: 11 nsets 
 INFO: 512 elements 
@@ -7174,7 +7652,7 @@ DEBUG: Camera's ParallelScale is 0.4.
 DEBUG: Camera's ClippingRange is (0.8, 2.5).
 
 ==================================================
-391: examples/official-examples/scheibe2n2f.inp
+424: examples/official/scheibe2n2f.inp
 INFO: 1156 nodes 
 INFO: 10 nsets 
 INFO: 512 elements 
@@ -7189,7 +7667,7 @@ DEBUG: Camera's ParallelScale is 0.4.
 DEBUG: Camera's ClippingRange is (0.8, 2.5).
 
 ==================================================
-392: examples/official-examples/section.inp
+425: examples/official/section.inp
 INFO: 41 nodes 
 INFO: 1 nsets 
 INFO: 20 elements 
@@ -7204,7 +7682,7 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (2.6, 5.5).
 
 ==================================================
-393: examples/official-examples/section4.inp
+426: examples/official/section4.inp
 INFO: 41 nodes 
 INFO: 1 nsets 
 INFO: 20 elements 
@@ -7219,7 +7697,7 @@ DEBUG: Camera's ParallelScale is 1.0.
 DEBUG: Camera's ClippingRange is (2.6, 5.5).
 
 ==================================================
-394: examples/official-examples/segdyn.inp
+427: examples/official/segdyn.inp
 INFO: 661 nodes 
 INFO: 5 nsets 
 INFO: 96 elements 
@@ -7234,7 +7712,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.2, 3.1).
 
 ==================================================
-395: examples/official-examples/segment.inp
+428: examples/official/segment.inp
 INFO: 661 nodes 
 INFO: 3 nsets 
 INFO: 96 elements 
@@ -7249,7 +7727,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.2, 3.1).
 
 ==================================================
-396: examples/official-examples/segment1.inp
+429: examples/official/segment1.inp
 INFO: 81 nodes 
 INFO: 2 nsets 
 INFO: 8 elements 
@@ -7264,7 +7742,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.4, 4.5).
 
 ==================================================
-397: examples/official-examples/segment2.inp
+430: examples/official/segment2.inp
 INFO: 81 nodes 
 INFO: 2 nsets 
 INFO: 8 elements 
@@ -7279,7 +7757,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.4, 4.5).
 
 ==================================================
-398: examples/official-examples/segmentbeam.inp
+431: examples/official/segmentbeam.inp
 INFO: 661 nodes 
 INFO: 3 nsets 
 INFO: 97 elements 
@@ -7294,7 +7772,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.2, 3.1).
 
 ==================================================
-399: examples/official-examples/segmentbeam2.inp
+432: examples/official/segmentbeam2.inp
 INFO: 661 nodes 
 INFO: 4 nsets 
 INFO: 97 elements 
@@ -7309,7 +7787,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.2, 3.1).
 
 ==================================================
-400: examples/official-examples/segmentf.inp
+433: examples/official/segmentf.inp
 INFO: 81 nodes 
 INFO: 3 nsets 
 INFO: 8 elements 
@@ -7324,7 +7802,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.4, 4.5).
 
 ==================================================
-401: examples/official-examples/segmentface.inp
+434: examples/official/segmentface.inp
 INFO: 661 nodes 
 INFO: 3 nsets 
 INFO: 96 elements 
@@ -7339,7 +7817,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.2, 3.1).
 
 ==================================================
-402: examples/official-examples/segmentm.inp
+435: examples/official/segmentm.inp
 INFO: 81 nodes 
 INFO: 2 nsets 
 INFO: 8 elements 
@@ -7354,7 +7832,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.4, 4.5).
 
 ==================================================
-403: examples/official-examples/segmenttet.inp
+436: examples/official/segmenttet.inp
 INFO: 2756 nodes 
 INFO: 3 nsets 
 INFO: 1489 elements 
@@ -7369,7 +7847,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.2, 3.1).
 
 ==================================================
-404: examples/official-examples/segststate.inp
+437: examples/official/segststate.inp
 INFO: 661 nodes 
 INFO: 4 nsets 
 INFO: 96 elements 
@@ -7384,82 +7862,22 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.2, 3.1).
 
 ==================================================
-405: examples/official-examples/sens_disp_orien.inp
-INFO: 12 nodes 
-INFO: 1 nsets 
-INFO: 2 elements 
-INFO: 3 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 200.0, 0.0, 100.0, -100.0, 0.0].
-DEBUG: Camera's focal point is (100.0, 50.0, -50.0).
-DEBUG: Camera's position is (393.9, 276.1, 243.9).
-DEBUG: Camera's distance is 473.2.
-DEBUG: Camera's ParallelScale is 122.5.
-DEBUG: Camera's ClippingRange is (235.5, 773.6).
-
-==================================================
-406: examples/official-examples/sens_disp_orien_nlgeom.inp
-INFO: 12 nodes 
-INFO: 1 nsets 
-INFO: 2 elements 
-INFO: 3 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 200.0, 0.0, 100.0, -100.0, 0.0].
-DEBUG: Camera's focal point is (100.0, 50.0, -50.0).
-DEBUG: Camera's position is (393.9, 276.1, 243.9).
-DEBUG: Camera's distance is 473.2.
-DEBUG: Camera's ParallelScale is 122.5.
-DEBUG: Camera's ClippingRange is (235.5, 773.6).
-
-==================================================
-407: examples/official-examples/sens_freq_disp_cyc.inp
-INFO: 1001 nodes 
-INFO: 3 nsets 
-INFO: 624 elements 
-INFO: 1 elsets 
-INFO: 2 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [-20.0, 10.0, -28.46204, 2.6441, 59.77168, 201.9980803282].
-DEBUG: Camera's focal point is (-5.0, -12.9, 130.9).
-DEBUG: Camera's position is (173.4, 124.3, 309.3).
-DEBUG: Camera's distance is 287.2.
-DEBUG: Camera's ParallelScale is 74.3.
-DEBUG: Camera's ClippingRange is (163.1, 444.1).
-
-==================================================
-408: examples/official-examples/sens_freq_orien.inp
-INFO: 12 nodes 
-INFO: 1 nsets 
-INFO: 2 elements 
-INFO: 3 elsets 
-INFO: 0 surfaces 
-INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 200.0, 0.0, 100.0, -100.0, 0.0].
-DEBUG: Camera's focal point is (100.0, 50.0, -50.0).
-DEBUG: Camera's position is (393.9, 276.1, 243.9).
-DEBUG: Camera's distance is 473.2.
-DEBUG: Camera's ParallelScale is 122.5.
-DEBUG: Camera's ClippingRange is (235.5, 773.6).
-
-==================================================
-409: examples/official-examples/sensitivity_I.inp
-INFO: 12 nodes 
+438: examples/official/sens2d.inp
+INFO: 4 nodes 
 INFO: 2 nsets 
-INFO: 2 elements 
+INFO: 1 elements 
 INFO: 1 elsets 
 INFO: 0 surfaces 
 INFO: VTK ugrid is built.
-DEBUG: Data bounds are [0.0, 200.0, 0.0, 100.0, -100.0, 0.0].
-DEBUG: Camera's focal point is (100.0, 50.0, -50.0).
-DEBUG: Camera's position is (393.9, 276.1, 243.9).
-DEBUG: Camera's distance is 473.2.
-DEBUG: Camera's ParallelScale is 122.5.
-DEBUG: Camera's ClippingRange is (235.5, 773.6).
+DEBUG: Data bounds are [0.0, 100.0, 0.0, 100.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (50.0, 50.0, 0.0).
+DEBUG: Camera's position is (219.7, 180.5, 169.7).
+DEBUG: Camera's distance is 273.2.
+DEBUG: Camera's ParallelScale is 70.7.
+DEBUG: Camera's ClippingRange is (161.1, 415.0).
 
 ==================================================
-410: examples/official-examples/sensitivity_V.inp
+439: examples/official/sens3d.inp
 INFO: 8 nodes 
 INFO: 2 nsets 
 INFO: 1 elements 
@@ -7474,7 +7892,67 @@ DEBUG: Camera's ParallelScale is 86.6.
 DEBUG: Camera's ClippingRange is (160.1, 555.1).
 
 ==================================================
-411: examples/official-examples/sensitivity_VI.inp
+440: examples/official/sens_disp_orien.inp
+INFO: 12 nodes 
+INFO: 1 nsets 
+INFO: 2 elements 
+INFO: 3 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 200.0, 0.0, 100.0, -100.0, 0.0].
+DEBUG: Camera's focal point is (100.0, 50.0, -50.0).
+DEBUG: Camera's position is (393.9, 276.1, 243.9).
+DEBUG: Camera's distance is 473.2.
+DEBUG: Camera's ParallelScale is 122.5.
+DEBUG: Camera's ClippingRange is (235.5, 773.6).
+
+==================================================
+441: examples/official/sens_disp_orien_nlgeom.inp
+INFO: 12 nodes 
+INFO: 1 nsets 
+INFO: 2 elements 
+INFO: 3 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 200.0, 0.0, 100.0, -100.0, 0.0].
+DEBUG: Camera's focal point is (100.0, 50.0, -50.0).
+DEBUG: Camera's position is (393.9, 276.1, 243.9).
+DEBUG: Camera's distance is 473.2.
+DEBUG: Camera's ParallelScale is 122.5.
+DEBUG: Camera's ClippingRange is (235.5, 773.6).
+
+==================================================
+442: examples/official/sens_freq_disp_cyc.inp
+INFO: 1001 nodes 
+INFO: 3 nsets 
+INFO: 624 elements 
+INFO: 1 elsets 
+INFO: 2 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-20.0, 10.0, -28.46204, 2.6441, 59.77168, 201.9980803282].
+DEBUG: Camera's focal point is (-5.0, -12.9, 130.9).
+DEBUG: Camera's position is (173.4, 124.3, 309.3).
+DEBUG: Camera's distance is 287.2.
+DEBUG: Camera's ParallelScale is 74.3.
+DEBUG: Camera's ClippingRange is (163.1, 444.1).
+
+==================================================
+443: examples/official/sens_freq_orien.inp
+INFO: 12 nodes 
+INFO: 1 nsets 
+INFO: 2 elements 
+INFO: 3 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 200.0, 0.0, 100.0, -100.0, 0.0].
+DEBUG: Camera's focal point is (100.0, 50.0, -50.0).
+DEBUG: Camera's position is (393.9, 276.1, 243.9).
+DEBUG: Camera's distance is 473.2.
+DEBUG: Camera's ParallelScale is 122.5.
+DEBUG: Camera's ClippingRange is (235.5, 773.6).
+
+==================================================
+444: examples/official/sensitivity_I.inp
 INFO: 12 nodes 
 INFO: 2 nsets 
 INFO: 2 elements 
@@ -7489,7 +7967,37 @@ DEBUG: Camera's ParallelScale is 122.5.
 DEBUG: Camera's ClippingRange is (235.5, 773.6).
 
 ==================================================
-412: examples/official-examples/sensitivity_VII.inp
+445: examples/official/sensitivity_V.inp
+INFO: 8 nodes 
+INFO: 2 nsets 
+INFO: 1 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 100.0, 0.0, 100.0, 0.0, 100.0].
+DEBUG: Camera's focal point is (50.0, 50.0, 50.0).
+DEBUG: Camera's position is (257.8, 209.9, 257.8).
+DEBUG: Camera's distance is 334.6.
+DEBUG: Camera's ParallelScale is 86.6.
+DEBUG: Camera's ClippingRange is (160.1, 555.1).
+
+==================================================
+446: examples/official/sensitivity_VI.inp
+INFO: 12 nodes 
+INFO: 2 nsets 
+INFO: 2 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 200.0, 0.0, 100.0, -100.0, 0.0].
+DEBUG: Camera's focal point is (100.0, 50.0, -50.0).
+DEBUG: Camera's position is (393.9, 276.1, 243.9).
+DEBUG: Camera's distance is 473.2.
+DEBUG: Camera's ParallelScale is 122.5.
+DEBUG: Camera's ClippingRange is (235.5, 773.6).
+
+==================================================
+447: examples/official/sensitivity_VII.inp
 INFO: 12 nodes 
 INFO: 3 nsets 
 INFO: 2 elements 
@@ -7504,7 +8012,7 @@ DEBUG: Camera's ParallelScale is 122.5.
 DEBUG: Camera's ClippingRange is (235.5, 773.6).
 
 ==================================================
-413: examples/official-examples/shell1.inp
+448: examples/official/shell1.inp
 INFO: 21 nodes 
 INFO: 4 nsets 
 INFO: 4 elements 
@@ -7519,7 +8027,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-414: examples/official-examples/shell1lin.inp
+449: examples/official/shell1lin.inp
 INFO: 21 nodes 
 INFO: 4 nsets 
 INFO: 4 elements 
@@ -7534,7 +8042,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-415: examples/official-examples/shell2.inp
+450: examples/official/shell2.inp
 INFO: 16 nodes 
 INFO: 2 nsets 
 INFO: 2 elements 
@@ -7549,7 +8057,7 @@ DEBUG: Camera's ParallelScale is 0.9.
 DEBUG: Camera's ClippingRange is (1.6, 5.6).
 
 ==================================================
-416: examples/official-examples/shell3.inp
+451: examples/official/shell3.inp
 INFO: 21 nodes 
 INFO: 2 nsets 
 INFO: 4 elements 
@@ -7564,7 +8072,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.3, 2.8).
 
 ==================================================
-417: examples/official-examples/shell4.inp
+452: examples/official/shell4.inp
 INFO: 529 nodes 
 INFO: 3 nsets 
 INFO: 242 elements 
@@ -7579,7 +8087,7 @@ DEBUG: Camera's ParallelScale is 707.1.
 DEBUG: Camera's ClippingRange is (1611.2, 4149.5).
 
 ==================================================
-418: examples/official-examples/shell5.inp
+453: examples/official/shell5.inp
 INFO: 21 nodes 
 INFO: 4 nsets 
 INFO: 4 elements 
@@ -7594,7 +8102,82 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-419: examples/official-examples/shellbeam.inp
+454: examples/official/shell6.inp
+INFO: 21 nodes 
+INFO: 2 nsets 
+INFO: 4 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-7.45058e-09, 1.0, -7.45058e-09, 1.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.0).
+DEBUG: Camera's position is (2.2, 1.8, 1.7).
+DEBUG: Camera's distance is 2.7.
+DEBUG: Camera's ParallelScale is 0.7.
+DEBUG: Camera's ClippingRange is (1.6, 4.1).
+
+==================================================
+455: examples/official/shell6rot2.inp
+INFO: 21 nodes 
+INFO: 2 nsets 
+INFO: 4 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-0.2500000089936, 0.9571067811866, 0.1464466041384, 0.8535533905933, -0.9571067849118, 0.2500000052684].
+DEBUG: Camera's focal point is (0.4, 0.5, -0.4).
+DEBUG: Camera's position is (2.6, 2.2, 1.9).
+DEBUG: Camera's distance is 3.6.
+DEBUG: Camera's ParallelScale is 0.9.
+DEBUG: Camera's ClippingRange is (1.7, 5.9).
+
+==================================================
+456: examples/official/shell7.inp
+INFO: 21 nodes 
+INFO: 2 nsets 
+INFO: 4 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-7.45058e-09, 1.0, -7.45058e-09, 1.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.0).
+DEBUG: Camera's position is (2.2, 1.8, 1.7).
+DEBUG: Camera's distance is 2.7.
+DEBUG: Camera's ParallelScale is 0.7.
+DEBUG: Camera's ClippingRange is (1.6, 4.1).
+
+==================================================
+457: examples/official/shell7rot.inp
+INFO: 21 nodes 
+INFO: 2 nsets 
+INFO: 4 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-7.450579986301e-09, 1.0, 0.1464466041384, 0.8535533905933, -0.3535533958616, 0.3535533905933].
+DEBUG: Camera's focal point is (0.5, 0.5, -0.0).
+DEBUG: Camera's position is (2.2, 1.8, 1.7).
+DEBUG: Camera's distance is 2.7.
+DEBUG: Camera's ParallelScale is 0.7.
+DEBUG: Camera's ClippingRange is (1.3, 4.5).
+
+==================================================
+458: examples/official/shell7rot2.inp
+INFO: 21 nodes 
+INFO: 2 nsets 
+INFO: 4 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-0.2500000089936, 0.9571067811866, 0.1464466041384, 0.8535533905933, -0.9571067849118, 0.2500000052684].
+DEBUG: Camera's focal point is (0.4, 0.5, -0.4).
+DEBUG: Camera's position is (2.6, 2.2, 1.9).
+DEBUG: Camera's distance is 3.6.
+DEBUG: Camera's ParallelScale is 0.9.
+DEBUG: Camera's ClippingRange is (1.7, 5.9).
+
+==================================================
+459: examples/official/shellbeam.inp
 INFO: 15 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -7609,7 +8192,7 @@ DEBUG: Camera's ParallelScale is 1.2.
 DEBUG: Camera's ClippingRange is (2.4, 7.7).
 
 ==================================================
-420: examples/official-examples/shellf.inp
+460: examples/official/shellf.inp
 INFO: 21 nodes 
 INFO: 5 nsets 
 INFO: 4 elements 
@@ -7624,7 +8207,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-421: examples/official-examples/shellf2.inp
+461: examples/official/shellf2.inp
 INFO: 21 nodes 
 INFO: 5 nsets 
 INFO: 4 elements 
@@ -7639,7 +8222,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.1).
 
 ==================================================
-422: examples/official-examples/shellnor.inp
+462: examples/official/shellnor.inp
 INFO: 13 nodes 
 INFO: 2 nsets 
 INFO: 2 elements 
@@ -7654,7 +8237,37 @@ DEBUG: Camera's ParallelScale is 1.1.
 DEBUG: Camera's ClippingRange is (2.4, 6.8).
 
 ==================================================
-423: examples/official-examples/simplebeam.inp
+463: examples/official/shellquadsens.inp
+INFO: 21 nodes 
+INFO: 3 nsets 
+INFO: 4 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-7.45058e-09, 1.0, -7.45058e-09, 1.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.0).
+DEBUG: Camera's position is (2.2, 1.8, 1.7).
+DEBUG: Camera's distance is 2.7.
+DEBUG: Camera's ParallelScale is 0.7.
+DEBUG: Camera's ClippingRange is (1.6, 4.1).
+
+==================================================
+464: examples/official/shellsens.inp
+INFO: 21 nodes 
+INFO: 3 nsets 
+INFO: 4 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [-7.45058e-09, 1.0, -7.45058e-09, 1.0, 0.0, 0.0].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.0).
+DEBUG: Camera's position is (2.2, 1.8, 1.7).
+DEBUG: Camera's distance is 2.7.
+DEBUG: Camera's ParallelScale is 0.7.
+DEBUG: Camera's ClippingRange is (1.6, 4.1).
+
+==================================================
+465: examples/official/simplebeam.inp
 INFO: 3 nodes 
 INFO: 1 nsets 
 INFO: 1 elements 
@@ -7669,7 +8282,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-424: examples/official-examples/simplebeampipe1.inp
+466: examples/official/simplebeampipe1.inp
 INFO: 21 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -7684,7 +8297,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-425: examples/official-examples/simplebeampipe2.inp
+467: examples/official/simplebeampipe2.inp
 INFO: 21 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -7699,7 +8312,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-426: examples/official-examples/simplebeampipe3.inp
+468: examples/official/simplebeampipe3.inp
 INFO: 21 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -7714,7 +8327,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-427: examples/official-examples/simplebeampipe4.inp
+469: examples/official/simplebeampipe4.inp
 INFO: 21 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -7729,7 +8342,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-428: examples/official-examples/simplebeampipe5.inp
+470: examples/official/simplebeampipe5.inp
 INFO: 21 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -7744,7 +8357,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-429: examples/official-examples/slant.inp
+471: examples/official/slant.inp
 INFO: 286 nodes 
 INFO: 1 nsets 
 INFO: 120 elements 
@@ -7759,7 +8372,7 @@ DEBUG: Camera's ParallelScale is 3.0.
 DEBUG: Camera's ClippingRange is (7.4, 17.3).
 
 ==================================================
-430: examples/official-examples/small_pressure_gradient.inp
+472: examples/official/small_pressure_gradient.inp
 INFO: 19 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -7774,7 +8387,7 @@ DEBUG: Camera's ParallelScale is 9.0.
 DEBUG: Camera's ClippingRange is (23.3, 49.3).
 
 ==================================================
-431: examples/official-examples/solidshell1.inp
+473: examples/official/solidshell1.inp
 INFO: 97 nodes 
 INFO: 3 nsets 
 INFO: 12 elements 
@@ -7789,7 +8402,7 @@ DEBUG: Camera's ParallelScale is 1.2.
 DEBUG: Camera's ClippingRange is (2.4, 7.7).
 
 ==================================================
-432: examples/official-examples/solidshell2.inp
+474: examples/official/solidshell2.inp
 INFO: 97 nodes 
 INFO: 3 nsets 
 INFO: 16 elements 
@@ -7804,7 +8417,7 @@ DEBUG: Camera's ParallelScale is 1.2.
 DEBUG: Camera's ClippingRange is (2.4, 7.7).
 
 ==================================================
-433: examples/official-examples/spring1.inp
+475: examples/official/spring1.inp
 INFO: 2 nodes 
 INFO: 1 nsets 
 INFO: 1 elements 
@@ -7819,7 +8432,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.3, 2.7).
 
 ==================================================
-434: examples/official-examples/spring2.inp
+476: examples/official/spring2.inp
 INFO: 2 nodes 
 INFO: 1 nsets 
 INFO: 1 elements 
@@ -7834,7 +8447,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.3, 2.7).
 
 ==================================================
-435: examples/official-examples/spring3.inp
+477: examples/official/spring3.inp
 INFO: 10 nodes 
 INFO: 2 nsets 
 INFO: 2 elements 
@@ -7849,7 +8462,7 @@ DEBUG: Camera's ParallelScale is 0.6.
 DEBUG: Camera's ClippingRange is (1.4, 3.6).
 
 ==================================================
-436: examples/official-examples/spring4.inp
+478: examples/official/spring4.inp
 INFO: 9 nodes 
 INFO: 2 nsets 
 INFO: 2 elements 
@@ -7864,7 +8477,7 @@ DEBUG: Camera's ParallelScale is 0.6.
 DEBUG: Camera's ClippingRange is (1.5, 3.4).
 
 ==================================================
-437: examples/official-examples/spring5.inp
+479: examples/official/spring5.inp
 INFO: 10 nodes 
 INFO: 3 nsets 
 INFO: 2 elements 
@@ -7879,7 +8492,7 @@ DEBUG: Camera's ParallelScale is 0.6.
 DEBUG: Camera's ClippingRange is (1.4, 3.6).
 
 ==================================================
-438: examples/official-examples/spring6.inp
+480: examples/official/spring6.inp
 INFO: 2 nodes 
 INFO: 1 nsets 
 INFO: 1 elements 
@@ -7894,7 +8507,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.3, 2.7).
 
 ==================================================
-439: examples/official-examples/spring7.inp
+481: examples/official/spring7.inp
 INFO: 2 nodes 
 INFO: 1 nsets 
 INFO: 1 elements 
@@ -7909,7 +8522,7 @@ DEBUG: Camera's ParallelScale is 0.5.
 DEBUG: Camera's ClippingRange is (1.3, 2.7).
 
 ==================================================
-440: examples/official-examples/square.inp
+482: examples/official/square.inp
 INFO: 341 nodes 
 INFO: 3 nsets 
 INFO: 100 elements 
@@ -7924,7 +8537,7 @@ DEBUG: Camera's ParallelScale is 161.9.
 DEBUG: Camera's ClippingRange is (369.0, 950.2).
 
 ==================================================
-441: examples/official-examples/submodelbeamp.inp
+483: examples/official/submodelbeamp.inp
 INFO: 261 nodes 
 INFO: 2 nsets 
 INFO: 32 elements 
@@ -7939,7 +8552,22 @@ DEBUG: Camera's ParallelScale is 0.8.
 DEBUG: Camera's ClippingRange is (1.5, 5.2).
 
 ==================================================
-442: examples/official-examples/submodeltwobeam.inp
+484: examples/official/submodelbeampdouble.inp
+INFO: 261 nodes 
+INFO: 2 nsets 
+INFO: 32 elements 
+INFO: 1 elsets 
+INFO: 0 surfaces 
+INFO: VTK ugrid is built.
+DEBUG: Data bounds are [0.0, 1.0, 0.0, 1.0, 0.0, 0.8].
+DEBUG: Camera's focal point is (0.5, 0.5, 0.4).
+DEBUG: Camera's position is (2.4, 2.0, 2.3).
+DEBUG: Camera's distance is 3.1.
+DEBUG: Camera's ParallelScale is 0.8.
+DEBUG: Camera's ClippingRange is (1.5, 5.2).
+
+==================================================
+485: examples/official/submodeltwobeam.inp
 INFO: 40 nodes 
 INFO: 3 nsets 
 INFO: 2 elements 
@@ -7954,7 +8582,7 @@ DEBUG: Camera's ParallelScale is 1.1.
 DEBUG: Camera's ClippingRange is (2.3, 6.4).
 
 ==================================================
-443: examples/official-examples/submodeltwobeamnlgeom.inp
+486: examples/official/submodeltwobeamnlgeom.inp
 INFO: 40 nodes 
 INFO: 3 nsets 
 INFO: 2 elements 
@@ -7969,7 +8597,7 @@ DEBUG: Camera's ParallelScale is 1.1.
 DEBUG: Camera's ClippingRange is (2.3, 6.4).
 
 ==================================================
-444: examples/official-examples/substructure.inp
+487: examples/official/substructure.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -7984,7 +8612,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-445: examples/official-examples/swing.inp
+488: examples/official/swing.inp
 INFO: 41 nodes 
 INFO: 1 nsets 
 INFO: 20 elements 
@@ -7999,7 +8627,7 @@ DEBUG: Camera's ParallelScale is 1.9.
 DEBUG: Camera's ClippingRange is (3.7, 11.6).
 
 ==================================================
-446: examples/official-examples/tempdiscon.inp
+489: examples/official/tempdiscon.inp
 INFO: 261 nodes 
 INFO: 4 nsets 
 INFO: 3 elements 
@@ -8014,7 +8642,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.5, 23.5).
 
 ==================================================
-447: examples/official-examples/thermomech.inp
+490: examples/official/thermomech.inp
 INFO: 522 nodes 
 INFO: 4 nsets 
 INFO: 64 elements 
@@ -8029,7 +8657,7 @@ DEBUG: Camera's ParallelScale is 4.3.
 DEBUG: Camera's ClippingRange is (9.2, 26.0).
 
 ==================================================
-448: examples/official-examples/thermomech2.inp
+491: examples/official/thermomech2.inp
 INFO: 522 nodes 
 INFO: 4 nsets 
 INFO: 64 elements 
@@ -8044,7 +8672,7 @@ DEBUG: Camera's ParallelScale is 4.3.
 DEBUG: Camera's ClippingRange is (9.2, 26.0).
 
 ==================================================
-449: examples/official-examples/thread.inp
+492: examples/official/thread.inp
 INFO: 2389 nodes 
 INFO: 1 nsets 
 INFO: 718 elements 
@@ -8059,7 +8687,7 @@ DEBUG: Camera's ParallelScale is 17.6.
 DEBUG: Camera's ClippingRange is (44.7, 97.7).
 
 ==================================================
-450: examples/official-examples/transition.inp
+493: examples/official/transition.inp
 INFO: 261 nodes 
 INFO: 3 nsets 
 INFO: 32 elements 
@@ -8074,7 +8702,7 @@ DEBUG: Camera's ParallelScale is 4.1.
 DEBUG: Camera's ClippingRange is (9.4, 24.0).
 
 ==================================================
-451: examples/official-examples/truss.inp
+494: examples/official/truss.inp
 INFO: 3 nodes 
 INFO: 1 nsets 
 INFO: 2 elements 
@@ -8089,7 +8717,7 @@ DEBUG: Camera's ParallelScale is 5.6.
 DEBUG: Camera's ClippingRange is (12.1, 33.6).
 
 ==================================================
-452: examples/official-examples/truss2.inp
+495: examples/official/truss2.inp
 INFO: 21 nodes 
 INFO: 1 nsets 
 INFO: 10 elements 
@@ -8104,7 +8732,7 @@ DEBUG: Camera's ParallelScale is 10.0.
 DEBUG: Camera's ClippingRange is (25.9, 54.8).
 
 ==================================================
-453: examples/official-examples/unet1.inp
+496: examples/official/unet1.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -8119,7 +8747,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-454: examples/official-examples/unetp1.inp
+497: examples/official/unetp1.inp
 INFO: 5 nodes 
 INFO: 1 nsets 
 INFO: 3 elements 
@@ -8134,7 +8762,7 @@ DEBUG: Camera's ParallelScale is 2.0.
 DEBUG: Camera's ClippingRange is (5.2, 11.0).
 
 ==================================================
-455: examples/official-examples/uprofile.inp
+498: examples/official/uprofile.inp
 INFO: 11 nodes 
 INFO: 1 nsets 
 INFO: 5 elements 
@@ -8149,7 +8777,7 @@ DEBUG: Camera's ParallelScale is 500.0.
 DEBUG: Camera's ClippingRange is (1294.5, 2738.8).
 
 ==================================================
-456: examples/official-examples/userbeam.inp
+499: examples/official/userbeam.inp
 INFO: 2 nodes 
 INFO: 1 nsets 
 INFO: 1 elements 
@@ -8164,7 +8792,7 @@ DEBUG: Camera's ParallelScale is 5.0.
 DEBUG: Camera's ClippingRange is (12.9, 27.4).
 
 ==================================================
-457: examples/official-examples/vortex1.inp
+500: examples/official/vortex1.inp
 INFO: 15 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -8179,7 +8807,7 @@ DEBUG: Camera's ParallelScale is 7.0.
 DEBUG: Camera's ClippingRange is (18.1, 38.3).
 
 ==================================================
-458: examples/official-examples/vortex2.inp
+501: examples/official/vortex2.inp
 INFO: 15 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -8194,7 +8822,7 @@ DEBUG: Camera's ParallelScale is 7.0.
 DEBUG: Camera's ClippingRange is (18.1, 38.3).
 
 ==================================================
-459: examples/official-examples/vortex3.inp
+502: examples/official/vortex3.inp
 INFO: 15 nodes 
 INFO: 1 nsets 
 INFO: 8 elements 
@@ -8209,7 +8837,7 @@ DEBUG: Camera's ParallelScale is 7.0.
 DEBUG: Camera's ClippingRange is (18.1, 38.3).
 
 ==================================================
-460: examples/official-examples/wire.inp
+503: examples/official/wire.inp
 INFO: 107 nodes 
 INFO: 2 nsets 
 WARNING: Duplicated set name Eall!
@@ -8225,7 +8853,7 @@ DEBUG: Camera's ParallelScale is 0.7.
 DEBUG: Camera's ClippingRange is (1.6, 4.2).
 
 ==================================================
-461: examples/users/Jan_Lukas_explicit_dynamic.inp
+504: examples/users/Jan_Lukas_explicit_dynamic.inp
 INFO: 189 nodes 
 INFO: 3 nsets 
 INFO: 80 elements 
@@ -8240,7 +8868,7 @@ DEBUG: Camera's ParallelScale is 0.1.
 DEBUG: Camera's ClippingRange is (0.1, 0.3).
 
 ==================================================
-462: examples/users/Jan_Lukas_modal_dynamic_beammodal.inp
+505: examples/users/Jan_Lukas_modal_dynamic_beammodal.inp
 INFO: 1221 nodes 
 INFO: 3 nsets 
 INFO: 160 elements 
@@ -8255,7 +8883,7 @@ DEBUG: Camera's ParallelScale is 0.1.
 DEBUG: Camera's ClippingRange is (0.2, 0.6).
 
 ==================================================
-463: examples/users/Jan_Lukas_modal_dynamic_beammodal2.inp
+506: examples/users/Jan_Lukas_modal_dynamic_beammodal2.inp
 INFO: 1371 nodes 
 INFO: 3 nsets 
 INFO: 180 elements 
@@ -8270,7 +8898,7 @@ DEBUG: Camera's ParallelScale is 0.2.
 DEBUG: Camera's ClippingRange is (0.4, 0.8).
 
 ==================================================
-464: examples/users/Jan_Lukas_modal_dynamic_staticbe.inp
+507: examples/users/Jan_Lukas_modal_dynamic_staticbe.inp
 INFO: 22 nodes 
 INFO: 2 nsets 
 INFO: 21 elements 
@@ -8285,7 +8913,7 @@ DEBUG: Camera's ParallelScale is 0.1.
 DEBUG: Camera's ClippingRange is (0.1, 0.3).
 
 ==================================================
-465: examples/users/Jan_Lukas_modal_dynamic_staticbeam2.inp
+508: examples/users/Jan_Lukas_modal_dynamic_staticbeam2.inp
 INFO: 321 nodes 
 INFO: 4 nsets 
 INFO: 40 elements 
@@ -8300,7 +8928,7 @@ DEBUG: Camera's ParallelScale is 0.1.
 DEBUG: Camera's ClippingRange is (0.1, 0.3).
 
 ==================================================
-466: examples/users/Jan_Lukas_static_structural.inp
+509: examples/users/Jan_Lukas_static_structural.inp
 INFO: 321 nodes 
 INFO: 4 nsets 
 INFO: 40 elements 
@@ -8315,7 +8943,7 @@ DEBUG: Camera's ParallelScale is 0.1.
 DEBUG: Camera's ClippingRange is (0.1, 0.3).
 
 ==================================================
-467: examples/users/John_Mannisto_blade_sector_demo.inp
+510: examples/users/John_Mannisto_blade_sector_demo.inp
 INFO: 216 nodes 
 INFO: 0 nsets 
 INFO: 104 elements 
@@ -8329,4 +8957,4 @@ DEBUG: Camera's distance is 4.2.
 DEBUG: Camera's ParallelScale is 1.1.
 DEBUG: Camera's ClippingRange is (2.5, 6.4).
 
-Total 108.8 seconds.
+Total 95.9 seconds.
