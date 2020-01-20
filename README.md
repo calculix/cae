@@ -194,9 +194,11 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), Abaqus INP and ODB.
 
-- Prool's INP-templates and snippets.
+- [meshio converter](https://github.com/nschloe/meshio)
 
-- Include Martin Kraska examples.
+- [Martin Kraska examples](https://github.com/mkraska/CalculiX-Examples)
+
+- Prool's INP-templates and snippets.
 
 - Menu Help:
     - PDF manual / YouTube videos for beginners.
