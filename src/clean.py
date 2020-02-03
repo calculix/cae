@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+""" © Ihor Mirzov, January 2020
+Distributed under GNU General Public License v3.0
+Methods for cleaning up temporary/unused files/folders """
 
-"""
-    © Ihor Mirzov, August 2019
-    Distributed under GNU General Public License v3.0
-
-    Methods for cleaning up temporary/unused files/folders.
-"""
-
-
-import os, sys, shutil
+import os
+import sys
+import shutil
 
 
 # Clean screen
@@ -27,38 +24,36 @@ def cache(folder=None):
         shutil.rmtree(pycache) # works in Linux as in Windows
 
     # Recursively clear cache in child folders
-    for f in os.listdir(folder):
-        f = os.path.join(folder, f)
-        if os.path.isdir(f):
-            cache(f)
+    for f in os.scandir(folder):
+        if f.is_dir():
+            cache(f.path)
 
 
 # Cleaup trash files in startFolder and all subfolders
 def files(startFolder=None):
     extensions = (  '.12d', '.cvg', '.dat', '.vwf', '.out', '.nam', '.inp1', '.inp2',
-                    '.sta', '.log', '.equ', '.eig', '.stm', '.mtx', '.net', '.inp0',
-                    '.rin', '.fcv'  )
+                    '.sta', '.equ', '.eig', '.stm', '.mtx', '.net', '.inp0', '.rin',
+                    '.fcv', 'dummy' )
     if not startFolder:
         startFolder = os.getcwd()
-    for f in os.listdir(startFolder):
-        f = os.path.join(startFolder, f)
-        if os.path.isdir(f): # if folder
-            files(f)
-        elif f.endswith(extensions):
+    for f in os.scandir(startFolder):
+        if f.is_dir(): # if folder
+            files(f.path)
+        elif f.is_file() and f.name.endswith(extensions):
             try:
-                os.remove(f)
-                sys.__stdout__.write('Delelted: ' + f + '\n')
+                os.remove(f.path)
+                sys.__stdout__.write('Delelted: ' + f.path + '\n')
             except:
-                sys.__stdout__.write(f + ': ' + sys.exc_info()[1][1] + '\n')
+                sys.__stdout__.write(f.path + ': ' + sys.exc_info()[1][1] + '\n')
 
 
 # Cleaup old result files
 def results():
     extensions = ('.frd', '.vtk', '.vtu')
-    for f in os.listdir('.'):
-        if f.endswith(extensions):
+    for f in os.scandir('.'):
+        if f.name.endswith(extensions):
             try:
-                os.remove(f)
-                sys.__stdout__.write('Delelted: ' + f + '\n')
+                os.remove(f.path)
+                sys.__stdout__.write('Delelted: ' + f.path + '\n')
             except:
-                sys.__stdout__.write(f + ': ' + sys.exc_info()[1][1] + '\n')
+                sys.__stdout__.write(f.path + ': ' + sys.exc_info()[1][1] + '\n')
