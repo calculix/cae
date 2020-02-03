@@ -91,7 +91,7 @@ class Job:
     def rebuildCCX(self, settings):
 
         # Windows
-        if os.name=='nt':
+        if os.name == 'nt':
 
             # Path to ccx sources
             ccx = path2cygwin(self.p.ccx)
