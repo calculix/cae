@@ -9,7 +9,8 @@
 """
 
 from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
-import vtk, logging
+import vtk
+import logging
 from gui.frd2vtk import convert_elem_type
 from settings import Settings
 

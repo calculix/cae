@@ -2,17 +2,17 @@
 # -*- coding: utf-8 -*-
 
 
-"""
-    © Ihor Mirzov, December 2020
-    Distributed under GNU General Public License v3.0
+""" © Ihor Mirzov, February 2020
+Distributed under GNU General Public License v3.0
 
-    Parses finite element mesh from the CalculiX .inp-file.
-    Reads nodes coordinates, elements composition,
-    node and element sets and surfaces.
-"""
+Parses finite element mesh from the CalculiX .inp-file.
+Reads nodes coordinates, elements composition,
+node and element sets and surfaces """
 
 
-import re, logging
+import re
+import logging
+import textwrap
 try:
     # Normal run
     import file_tools
@@ -20,9 +20,11 @@ try:
 except:
     # Test run
     import os
-    os.sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../..')
-    import file_tools, clean
+    os.sys.path.append(os.path.dirname(__file__) + '/../..')
+    import file_tools
+    import clean
     from settings import Settings
+
 
 class Mesh:
 
@@ -80,10 +82,13 @@ class Mesh:
 
             if keyword_name.upper() == '*NODE':
                 nodes = []
+                duplicated_nodes = []
+                no_coordinates_nodes = []
                 lead_line = lines[i]
                 match = re.search('NSET\s*=\s*([\w\-]*)', lead_line.upper())
 
-                while i+1<len(lines) and not lines[i+1].startswith('*'): # read the whole block and return
+                # Read the whole block - there will be no comments
+                while i+1<len(lines) and not lines[i+1].startswith('*'):
                     a = lines[i+1].replace(',', ' ').split() # to avoid redundant commas in the end of line
                     num = int(a[0]) # node number
                     coords = [float(coord) for coord in a[1:]] # node coordinates
@@ -93,21 +98,31 @@ class Mesh:
                     # Create NODE
                     node = NODE(num, coords)
 
-                    # Check duplicates
+                    # Check duplicates and nodes without coordinates
                     if num in self.nodes:
-                        msg_text = 'Duplicated node {}.'.format(num)
-                        logging.warning(msg_text)
+                        duplicated_nodes.append(num)
                         del node
                     else:
                         if len(coords):
                             nodes.append(node)
                             self.nodes[num] = node
                         else:
-                            msg_text = 'Node {} has no coordinates and will be removed.'.format(num)
-                            logging.warning(msg_text)
+                            no_coordinates_nodes.append(num)
                             del node
 
                     i += 1
+
+                # Warn about duplicated nodes
+                if len(duplicated_nodes):
+                    msg_text = 'Duplicated nodes: {}.'.format(duplicated_nodes)
+                    for msg_line in textwrap.wrap(msg_text, width=40):
+                        logging.warning(msg_line)
+
+                # Warn about nodes without coordinates
+                if len(no_coordinates_nodes):
+                    msg_text = 'Nodes without coordinates: {}.'.format(no_coordinates_nodes)
+                    for msg_line in textwrap.wrap(msg_text, width=40):
+                        logging.warning(msg_line)
 
                 # If all nodes are named as a set
                 if match:
@@ -124,7 +139,8 @@ class Mesh:
             if match:
                 name = lines[i][match.start(2):match.end(2)] # node set name
                 nodes = []
-
+                sets_with_non_existent_nodes = {}
+                duplicated_nodes = []
                 if not 'GENERATE' in lines[i].upper():
                     while i+1<len(lines) and not lines[i+1].startswith('*'):
                         a = lines[i+1].replace(',', ' ').split()
@@ -135,16 +151,18 @@ class Mesh:
 
                                 # Check duplicates
                                 if node in nodes:
-                                    msg_text = 'Duplicated node {}.'.format(n)
-                                    logging.warning(msg_text)
+                                    duplicated_nodes.append(int(n))
                                 else:
                                     nodes.append(node)
                             except ValueError:
                                 # Node set name
                                 nodes.extend(self.old.nsets[n].items)
                             except KeyError:
-                                msg_text = 'NSET {} - there is no node {} in the mesh.'.format(name, n)
-                                logging.warning(msg_text)
+                                # Collect non-existent nodes by sets
+                                if not name in sets_with_non_existent_nodes: 
+                                    sets_with_non_existent_nodes[name] = []
+                                sets_with_non_existent_nodes[name].append(int(n))
+
                         i += 1
                 else:
                     try:
@@ -157,8 +175,22 @@ class Mesh:
                             node = self.old.nodes[n]
                             nodes.append(node)
                         except KeyError:
-                            msg_text = 'NSET {} - there is no node {} in the mesh.'.format(name, n)
-                            logging.warning(msg_text)
+                            # Collect non-existent nodes by sets
+                            if not name in sets_with_non_existent_nodes: 
+                                sets_with_non_existent_nodes[name] = []
+                            sets_with_non_existent_nodes[name].append(n)
+
+                # Warn about duplicated nodes in the mesh
+                if len(duplicated_nodes):
+                    msg_text = 'Duplicated nodes {}.'.format(duplicated_nodes)
+                    for msg_line in textwrap.wrap(msg_text, width=40):
+                        logging.warning(msg_line)
+
+                # Warn about non-existent nodes in the mesh
+                for s, nodes in sets_with_non_existent_nodes.items():
+                    msg_text = 'NSET {} - mesh hasn\'t nodes {}.'.format(s, nodes)
+                    for msg_line in textwrap.wrap(msg_text, width=40):
+                        logging.warning(msg_line)
 
                 create_or_extend_set(self.nsets, name, nodes, NSET)
                 # do not return to parse few *NSET sections
@@ -173,9 +205,11 @@ class Mesh:
                 etype = lead_line[match.start(1):match.end(1)] # element type
                 amount = self.amount_of_nodes(etype)
                 elements = []
+                duplicated_elements = []
                 match = re.search('ELSET\s*=\s*([\w\-]*)', lead_line.upper()) # if all elements are united in a set
 
-                while i+1<len(lines) and not lines[i+1].startswith('*'): # there will be no comments
+                # Read the whole block - there will be no comments
+                while i+1<len(lines) and not lines[i+1].startswith('*'):
 
                     # Element nodes could be splitted into few lines
                     a = lines[i+1].replace(',', ' ').split()
@@ -204,14 +238,19 @@ class Mesh:
 
                         # Check duplicates
                         if num in self.elements:
-                            msg_text = 'Duplicated element {}.'.format(num)
-                            logging.warning(msg_text)
+                            duplicated_elements.append(num)
                             del element
                         else:
                             elements.append(element)
                             self.elements[num] = element
 
                     i += 1
+
+                # Warn about duplicated nodes
+                if len(duplicated_elements):
+                    msg_text = 'Duplicated elements {}.'.format(duplicated_elements)
+                    for msg_line in textwrap.wrap(msg_text, width=40):
+                        logging.warning(msg_line)
 
                 # If all elements are named as a set
                 if match:
@@ -228,6 +267,7 @@ class Mesh:
             if match:
                 name = lines[i][match.start(2):match.end(2)] # element set name
                 elements = []
+                sets_with_non_existent_elements = {}
 
                 if not 'GENERATE' in lines[i].upper():
                     while i+1<len(lines) and not lines[i+1].startswith('*'):
@@ -239,6 +279,7 @@ class Mesh:
 
                                 # Check duplicates
                                 if element in elements:
+                                    # TODO
                                     msg_text = 'Duplicated element {}.'.format(e)
                                     logging.warning(msg_text)
                                 else:
@@ -247,8 +288,10 @@ class Mesh:
                                 # Element set name
                                 elements.extend(self.old.elsets[e].items)
                             except KeyError:
-                                msg_text = 'ELSET {} - there is no element {} in the mesh.'.format(name, e)
-                                logging.warning(msg_text)
+                                # Collect non-existent elements by sets
+                                if not name in sets_with_non_existent_elements: 
+                                    sets_with_non_existent_elements[name] = []
+                                sets_with_non_existent_elements[name].append(int(e))
                         i += 1
                 else:
                     try:
@@ -261,11 +304,18 @@ class Mesh:
                             element = self.old.elements[e]
                             elements.append(element)
                         except KeyError:
-                            msg_text = 'ELSET {} - there is no element {} in the mesh.'.format(name, e)
-                            logging.warning(msg_text)
+                            # Collect non-existent elements by sets
+                            if not name in sets_with_non_existent_elements: 
+                                sets_with_non_existent_elements[name] = []
+                            sets_with_non_existent_elements[name].append(e)
+
+                # Warn about non-existent elements in the mesh
+                for s, elements in sets_with_non_existent_elements.items():
+                    msg_text = 'ELSET {} - mesh hasn\'t elements {}.'.format(s, elements)
+                    for msg_line in textwrap.wrap(msg_text, width=40):
+                        logging.warning(msg_line)
 
                 create_or_extend_set(self.elsets, name, elements, ELSET)
-
                 # do not return to parse few *ELSET sections
 
 
