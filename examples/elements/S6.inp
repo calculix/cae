@@ -1,0 +1,17 @@
+*Node
+	1, 6.0, 6.0, 0.
+	2, 5.0, 9.0, 0.
+	3, 3.0, 7.0, 0.
+	4, 5.5, 7.5, 0.
+	5, 4.0, 8.0, 0.
+	6, 4.5, 6.5, 0.
+*Element, type=S6, ELSET=ALL
+	1, 1, 2, 3, 4, 5, 6
+*MATERIAL, NAME=STEEL
+	*ELASTIC
+		2e+5, 0.3
+*SHELL SECTION, ELSET=ALL, MATERIAL=STEEL
+	0.1
+*STEP
+	*NO ANALYSIS
+*END STEP
