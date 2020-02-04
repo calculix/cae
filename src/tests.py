@@ -5,19 +5,21 @@
     © Ihor Mirzov, January 2020
     Distributed under GNU General Public License v3.0
 
-    Test for all CalculiX examples.
+    Test mesh parser on all CalculiX examples.
     Ctrl + F5 to Run.
 """
 
 
-from PyQt5 import QtWidgets
-import time, logging, os
+import os
+import time
+import logging
+import PyQt5
 
 from gui import vtk_widget
 from model.parsers import mesh
-import clean
 from log import myHandler
 from log import print
+import clean
 
 
 # How many files to process
@@ -44,6 +46,7 @@ if __name__ == '__main__':
     logging.getLogger().addHandler(myHandler())
     logging.getLogger().setLevel(logging.INFO)
 
+    print('MESH PARSER TEST\n\n')
     counter = 0
     for file_name in scan_all_files_in('examples', '.inp'):
 
@@ -54,12 +57,16 @@ if __name__ == '__main__':
             continue
 
         counter += 1
-        print('\n{}\n{}: {}'.format('='*50, counter, file_name))
+        relpath = os.path.relpath(file_name, start=os.getcwd())
+        print('\n{}\n{}: {}'.format('='*50, counter, relpath))
 
         # Parse mesh and plot it in VTK
-        app = QtWidgets.QApplication([])
+        app = PyQt5.QtWidgets.QApplication([])
         m = mesh.Mesh(INP_file=file_name) # parse mesh
-        # vtk_widget.VTK().plotMesh(m)
+
+        # TODO Doesn't work!
+        # VTK = vtk_widget.VTK()
+        # VTK.plotMesh(m)
 
     print('\nTotal {:.1f} seconds.'
         .format(time.perf_counter() - start_time))

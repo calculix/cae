@@ -1,3 +1,4 @@
+MESH PARSER TEST
 
 ==================================================
 1: examples/ccx_2.16.test/achtel2.inp
@@ -5110,4 +5111,4 @@ INFO: 30 elements
 INFO: 3 elsets
 INFO: 0 surfaces
 
-Total 22.5 seconds.
+Total 23.0 seconds.
