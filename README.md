@@ -42,7 +42,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - [Solid mesh parser](src/model/parsers/mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](src/tests.log).
 
-- Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/gui/vtk.py).
+- Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/gui/vtk_widget.py).
 
 - Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable env-file with Python syntax. The file is automatically overwritten during the workflow.
 
@@ -81,7 +81,7 @@ Calculation result exported to Paraview:
 
 # Downloads
 
-Both sources and binaries could be found on [the releases page](https://github.com/imirzov/ccx_cae/releases).
+Both sources and binaries could be found on [the releases page](https://github.com/calculix/cae/releases).
 
 <br/><br/>
 
@@ -94,7 +94,7 @@ CacluliX CAE is portable software and doesn't need to be installed. Just extract
 The intended workflow is:
 
 - create geometry and mesh in [Salome-platform](https://www.salome-platform.org/),
-- save mesh as UNV or export it to INP with [salome2ccx GUI tool](https://github.com/imirzov/salome2ccx),
+- save mesh as UNV or export it to INP with [Salome to CalculiX mesh exporter](https://github.com/psicofil/SalomeToCalculix),
 - import INP or UNV mesh to CAE and continue creating model,
 - if needed, edit Fortran subroutines and rebuild ccx (Job->Rebuild CalculiX),
 - submit job from CAE,
@@ -117,7 +117,7 @@ Please, you may:
 
 - Simply use this software and ask questions.
 - Share your models and screenshots.
-- Report problems by [posting issues](https://github.com/imirzov/ccx_cae/issues).
+- Report problems by [posting issues](https://github.com/calculix/cae/issues).
 - Do something from the [TODO-list](#TODO).
 
 <br/><br/>
@@ -142,10 +142,10 @@ Use [make_release.py](make_release.py) to create releases:
 
 CalculiX CAE uses external converters:
 
-- [ccx2paraview](https://github.com/imirzov/ccx2paraview) - CalculiX to Paraview converter (frd to vtk/vtu)
-- [unv2ccx](https://github.com/imirzov/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
+- [ccx2paraview](https://github.com/calculix/ccx2paraview) - CalculiX to Paraview converter (frd to vtk/vtu)
+- [unv2ccx](https://github.com/calculix/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
 
-The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/imirzov/ccx_free_form_fortran) - this version has much better code folding and readability.
+The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/calculix/free_form_fortran) - this version has much better code folding and readability.
 
 In Windows to work with subroutines and to recompile CalculiX sources from CAE you'll need *cygwin*. Install it to 'C:\\cygwin64' with:
 - gcc-g++ 7.3.0-3
