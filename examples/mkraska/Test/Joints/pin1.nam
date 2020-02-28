@@ -1,0 +1,5 @@
+** Names based on pin1
+*NSET,NSET=Npin1 
+4505, 
+*ELSET,ELSET=Epin1 
+2335, 

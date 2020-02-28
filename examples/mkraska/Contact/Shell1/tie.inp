@@ -1,0 +1,61 @@
+** includes
+*include, input=all.msh
+*include, input=top.sur
+*include, input=bottom.sur
+*include, input=c_bottom.sur
+*include, input=c_top.sur
+*include, input=core.nam
+*include, input=top.nam
+*include, input=bottom.nam
+*include, input=top_edge.nam
+*include, input=bot_edge.nam
+*include, input=topneg.sur
+*include, input=ind.sur
+*include, input=ind.nam
+** constraints
+*boundary
+Nbot_edge,1,3
+Nind,1,3
+** material
+*MATERIAL, NAME=Aluminium
+*ELASTIC
+70000, 0.34
+*DENSITY
+2.7e-9
+** sections
+*SHELL SECTION, ELSET=Ecore,MATERIAL=Aluminium
+1
+*SHELL SECTION, ELSET=Ebottom,MATERIAL=Aluminium, offset=0.5
+1
+*SHELL SECTION, ELSET=Etop,MATERIAL=Aluminium, offset=0.5
+1
+*SHELL SECTION, ELSET=Eind,MATERIAL=Aluminium, offset=0.5
+1
+** ties
+*tie,name=t1,position tolerance=0.1
+Sc_bottom,Sbottom
+*tie,name=t2,position tolerance=0.1
+Sc_top,Stop
+** penalty
+*surface interaction, name=tool
+*surface behavior, pressure-overclosure=linear
+100000
+*contact pair, interaction=tool, type=surface to surface
+Stopneg,Sind
+** step
+*STEP,nlgeom
+*static
+** load
+*boundary
+nind,3,3,-2
+** output
+*NODE FILE
+U
+*el file
+S
+*section print, surface=Sind, name=ind
+SOF
+*section print, surface=Stopneg, name=top
+SOF
+** endstep
+*END STEP

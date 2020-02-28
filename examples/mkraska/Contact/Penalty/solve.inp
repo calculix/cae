@@ -1,0 +1,43 @@
+*include, input=all.msh
+*include, input=gw.nam
+*include, input=kw.nam
+*include, input=cgw.sur
+*include, input=ckw.sur
+*include, input=hist.nam
+*boundary
+Ngw, 1,3
+Nkw, 2,3
+*MATERIAL, NAME=Aluminium
+*ELASTIC
+70000, 0.34
+*DENSITY
+2.7e-6
+*SOLID SECTION, ELSET=Eall, MATERIAL=Aluminium
+** Kontakt:
+*include, input=contact.inc
+** Berechnungsart definieren:
+*STEP,nlgeom
+*STATIC,direct
+1,1
+*boundary
+Nkw,1,1,-0.1
+** these output requests must be in the first step
+*node FILE
+U
+*contact file,CONTACT ELEMENTS
+CDIS,CELS
+*end step
+*STEP,nlgeom
+*STATIC,direct
+0.02,1
+*boundary
+Nkw,1,1,0.1
+*NODE FILE
+U
+*contact file,CONTACT ELEMENTS
+CDIS,CELS
+*node print,nset=Nkw,totals=only
+RF
+*contact print, totals=yes
+CDIS, CSTR, CELS, CNUM
+*END STEP
