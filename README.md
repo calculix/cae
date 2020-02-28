@@ -188,6 +188,8 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - Python code (*PYTHON keyword) in INP_code for step repetition and other kind of model generation.
 
+- M.Kraska: support the param.py parametrization mechanism.
+
 - Import certain keyword with descendants (tree branch) from INP-file.
 
 - Interface for materials import. Enrich Materials library.
