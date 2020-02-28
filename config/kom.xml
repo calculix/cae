@@ -538,6 +538,9 @@
 				<argument form='QComboBox' name='LOAD CASE'>1|2</argument>
 				<argument form='QLineEdit' name='SECTOR'/>
 			</keyword>
+			<keyword name='*DSLOAD'>
+				<argument form='QLineEdit' name='AMPLITUDE'/>
+			</keyword>
 			<keyword name='*CFLUX'>
 				<argument form='QComboBox' name='OP'>NEW|MOD</argument>
 				<argument form='QLineEdit' name='AMPLITUDE'/>
