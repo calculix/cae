@@ -65,7 +65,7 @@
          <item>
           <widget class="QLineEdit" name="path_ccx">
            <property name="text">
-            <string>bin/ccx_2.15_MT</string>
+            <string>bin/ccx</string>
            </property>
           </widget>
          </item>
@@ -99,7 +99,7 @@
          <item>
           <widget class="QLineEdit" name="path_cgx">
            <property name="text">
-            <string>/usr/local/bin/cgx</string>
+            <string>bin/cgx</string>
            </property>
           </widget>
          </item>
@@ -271,6 +271,9 @@
            </item>
            <item>
             <widget class="QComboBox" name="vtk_view">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <item>
               <property name="text">
                <string>WithEdges</string>
@@ -294,29 +297,6 @@
        </item>
        <item>
         <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>338</width>
-           <height>18</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="show_maximized">
-         <property name="text">
-          <string>Maximize window on startup</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -376,6 +356,9 @@
        </item>
        <item>
         <widget class="QCheckBox" name="vtk_show_axes">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Show orientation axes in VTK</string>
          </property>
@@ -399,6 +382,9 @@
        </item>
        <item>
         <widget class="QCheckBox" name="vtk_parallel_view">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Default VTK view is parallel</string>
          </property>
@@ -445,6 +431,9 @@
        </item>
        <item>
         <widget class="QCheckBox" name="show_vtk">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Show VTK widget (app. restart required)</string>
          </property>
