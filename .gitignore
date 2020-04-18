@@ -1,5 +1,6 @@
 .vscode
 __pycache__
+backup
 releases
 default.log
 *.cvg
