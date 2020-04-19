@@ -4,3 +4,5 @@ PyQtWebEngine
 qttools5-dev-tools
 pyinstaller
 pycallgraph
+psutil
+Xlib
