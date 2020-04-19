@@ -2,21 +2,27 @@
 # -*- coding: utf-8 -*-
 
 
-"""
-    © Ihor Mirzov, September 2019
-    Distributed under GNU General Public License v3.0
+""" © Ihor Mirzov, September 2019
+Distributed under GNU General Public License v3.0
 
-    Job submition and convertion. Run a detached process and
-    send messages to queue. This scheme doesn't freeze Window
-    while analysis is running or files are converting.
-"""
+Job submition and convertion. Run a detached process and
+send messages to queue. This scheme doesn't freeze Window
+while analysis is running or files are converting. """
 
 
-from path import Path
-import os, logging, subprocess, queue
+# Standard modules
+import os
+import time
+import logging
+import subprocess
+import queue
+import threading
+
+# External modules
 from PyQt5 import QtWidgets
-from gui.log import logLine
-import time, threading
+
+# My modules
+import gui
 
 
 class Job:
@@ -25,30 +31,26 @@ class Job:
     # Create job object
     def __init__(self, p, s, file_name):
         self.p = p
-        logging.info('Application\'s home directory is: ' + self.p.app_home_dir)
+        logging.info('Application\'s home directory is:\n'\
+            + self.p.app_home_dir)
 
         if not len(file_name):
-            file_name = s.path_start_model
+            file_name = s.start_model
         self.rename(file_name)
 
 
     # Rename job
     def rename(self, file_name):
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
-        logging.info('Work directory is: ' + self.dir)
+        logging.info('Work directory is:\n' + self.dir)
         self.name = os.path.basename(file_name) # INP file name
         self.inp = os.path.abspath(file_name) # full path to INP file with extension
         self.path = self.inp[:-4] # full path to INP without extension
         self.frd = self.path + '.frd' # full path to job results file
         self.log = self.path + '.log' # full path to job log file
 
-        # Log each job into file
-        if len(logging.getLogger().handlers) > 1:
-            logging.getLogger().handlers.pop()
-        fh = logging.FileHandler(self.log, mode='w')
-        fmt = logging.Formatter('%(module)s, %(levelname)s: %(message)s')
-        fh.setFormatter(fmt)
-        logging.getLogger().addHandler(fh)
+        # Handler to write the job's log file
+        gui.log.add_file_handler(self.log)
 
 
     # Convert UNV to INP
@@ -65,12 +67,12 @@ class Job:
                 command = [settings.path_editor, self.inp]
                 subprocess.Popen(command)
             else:
-                logging.error('File not found: ' + self.inp)
+                logging.error('File not found:\n' + self.inp)
                 logging.error('Write input first.')
         else:
-            logging.error('Wrong path to text editor: ' + \
-                settings.path_editor +\
-                '. Configure it in File->Settings.')
+            logging.error('Wrong path to text editor:\n' \
+                + settings.path_editor \
+                + '\nConfigure it in File->Settings.')
 
 
     # Dialog window to filter fortran subroutines
@@ -82,9 +84,9 @@ class Job:
                 command = [settings.path_editor, file_name]
                 subprocess.Popen(command)
         else:
-            logging.error('Wrong path to text editor: ' + \
-                settings.path_editor +\
-                '. Configure it in File->Settings.')
+            logging.error('Wrong path to text editor:\n' \
+                + settings.path_editor \
+                + '\nConfigure it in File->Settings.')
 
 
     # Recompile CalculiX sources with updated subroutines
@@ -130,12 +132,12 @@ class Job:
                 cmd1 = [settings.path_ccx, '-i', self.path]
                 self.run([(cmd1, ''), ])
             else:
-                logging.error('File not found: ' + self.inp)
+                logging.error('File not found:\n' + self.inp)
                 logging.error('Write input first.')
         else:
-            logging.error('Wrong path to CCX: ' + \
-                settings.path_ccx +\
-                '. Configure it in File->Settings.')
+            logging.error('Wrong path to CCX:\n' \
+                + settings.path_ccx \
+                + '\nConfigure it in File->Settings.')
 
 
     # Open log file in external text editor
@@ -145,27 +147,21 @@ class Job:
                 command = [settings.path_editor, self.log]
                 subprocess.Popen(command)
             else:
-                logging.error('File not found: ' + self.log)
+                logging.error('File not found:\n' + self.log)
                 logging.error('Submit analysis first.')
         else:
-            logging.error('Wrong path to text editor: ' + \
-                settings.path_editor +\
-                '. Configure it in File->Settings.')
+            logging.error('Wrong path to text editor:\n' \
+                + settings.path_editor \
+                + '\nConfigure it in File->Settings.')
 
 
     # Open FRD in GraphiX
-    def openCGX(self, settings):
-        if os.path.isfile(settings.path_cgx):
-            if os.path.isfile(self.frd):
-                    command = [settings.path_cgx, '-o', self.frd]
-                    subprocess.Popen(command)
-            else:
-                logging.error('File not found: ' + self.frd)
-                logging.error('Submit analysis first.')
+    def openCGX(self, settings, w):
+        if os.path.isfile(self.frd):
+            w.run_cgx(settings.path_cgx + ' -o ' + self.frd)
         else:
-            logging.error('Wrong path to CGX: ' + \
-                settings.path_cgx +\
-                '. Configure it in File->Settings.')
+            logging.error('File not found:\n' + self.frd)
+            logging.error('Submit analysis first.')
 
 
     # Convert FRD to VTU
@@ -176,7 +172,7 @@ class Job:
             cmd1 = [converter_path, self.frd, 'vtu']
             self.run([(cmd1, ''), ], msg='Finished!')
         else:
-            logging.error('File not found: ' + self.frd)
+            logging.error('File not found:\n' + self.frd)
             logging.error('Submit analysis first.')
 
 
@@ -205,9 +201,9 @@ class Job:
             command = [settings.path_paraview, '--data=' + vtu_path]
             subprocess.Popen(command)
         else:
-            logging.error('Wrong path to ParaView: ' + \
-                settings.path_paraview +\
-                '. Configure it in File->Settings.')
+            logging.error('Wrong path to ParaView:\n' \
+                + settings.path_paraview \
+                + '\nConfigure it in File->Settings.')
 
 
     # Run multiple commands and log stdout without blocking GUI
@@ -238,7 +234,7 @@ class Job:
                     line = q.get_nowait()
                     if line == 'END':
                         break
-                    logLine(line)
+                    gui.log.logLine(line)
                 except queue.Empty:
                     QtWidgets.qApp.processEvents() # do not block GUI
                     time.sleep(0.1) # reduce CPU usage
@@ -246,7 +242,8 @@ class Job:
         os.chdir(self.p.app_home_dir)
 
         # Total time passed
-        total_time = 'Total {:.0f} seconds.'.format(time.perf_counter() - start)
+        total_time = 'Total {:.0f} seconds.'\
+            .format(time.perf_counter() - start)
         logging.info(total_time)
 
         # Post final message
@@ -254,13 +251,13 @@ class Job:
             logging.info(msg)
 
 
-# Put stdout lines to queue
-def enqueue_output(stdout, queue):
-    for line in iter(stdout.readline, b''):
+# Put pipe lines to queue
+def enqueue_output(pipe, queue):
+    for line in iter(pipe.readline, b''):
         line = line.decode().strip()
         queue.put(line)
     queue.put('END') # mark to break while loop
-    stdout.close()
+    pipe.close()
 
 
 # Converts Windows path to Cygwin path
