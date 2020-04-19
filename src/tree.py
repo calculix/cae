@@ -2,17 +2,18 @@
 # -*- coding: utf-8 -*-
 
 
-"""
-    © Ihor Mirzov, December 2019
-    Distributed under GNU General Public License v3.0
+""" © Ihor Mirzov, December 2019
+Distributed under GNU General Public License v3.0
 
-    Methods to work with main window's treeView widget.
-"""
+Methods to work with main window's treeView widget. """
 
 
-from path import Path
-import re, os, sys, logging
+import re
+import os
+import sys
+import logging
 from PyQt5 import QtWidgets, QtCore, QtGui
+
 from gui.keyword_dialog import KeywordDialog
 from model.kom import item_type, implementation
 from model.parsers.mesh import Mesh
@@ -171,8 +172,6 @@ class Tree:
 
     # Highlight node sets, element sets or surfaces
     def clicked(self):
-        if self.s.show_vtk:
-            self.w.VTK.actionSelectionClear() # clear selection
 
         # Debug for Ctrl+Click
         if not len(self.w.treeView.selectedIndexes()):
@@ -182,11 +181,8 @@ class Tree:
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
-        if not item:
-            return
-
-        # Highlight entities in VTK
-        if self.s.show_vtk and item.item_type == item_type.IMPLEMENTATION:
+        # Highlight entities
+        if item and item.item_type == item_type.IMPLEMENTATION:
             ipn_up = item.parent.name.upper()
             lead_line = item.INP_code[0]
             _set = []
@@ -197,15 +193,13 @@ class Tree:
                 if match: # if there is NSET attribute
                     name = lead_line[match.start(1):match.end(1)] # node set name
                     if name in self.m.Mesh.nsets:
-                        _set = [n.num for n in self.m.Mesh.nsets[name].items]
-                        self.w.VTK.highlight(_set, 1) # 1 = vtk.vtkSelectionNode.POINT
+                        self.w.post('plot n ' + name)
             elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
                 match = re.search('ELSET\s*=\s*([\w\-]*)', lead_line.upper())
                 if match: # if there is ELSET attribute
                     name = lead_line[match.start(1):match.end(1)] # element set name
                     if name in self.m.Mesh.elsets:
-                        _set = [e.num for e in self.m.Mesh.elsets[name].items]
-                        self.w.VTK.highlight(_set, 0) # 0 = vtk.vtkSelectionNode.CELL
+                        self.w.post('plot e ' + name)
             elif ipn_up == '*SURFACE':
 
                 # Surface type - optional attribute
@@ -217,11 +211,9 @@ class Tree:
                 match = re.search('NAME\s*=\s*([\w\-]*)', lead_line.upper())
                 name = lead_line[match.start(1):match.end(1)] # surface name
                 if stype == 'ELEMENT':
-                    items = self.m.Mesh.surfaces[name + stype].items
-                    self.w.VTK.highlightSURFACE(items)
+                    self.w.post('plot f ' + name)
                 elif stype=='NODE':
-                    items = [n.num for n in self.m.Mesh.surfaces[name + stype].items]
-                    self.w.VTK.highlight(items, 1) # 1 = vtk.vtkSelectionNode.POINT
+                    self.w.post('plot f ' + name)
 
             # Highlight Loads & BC
             elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
@@ -235,7 +227,11 @@ class Tree:
                         # Nodes in node set
                         _set.extend([n.num for n in self.m.Mesh.nsets[n].items])
                         pass
-                self.w.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
+                # self.w.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
+
+        else:
+            # Clear selection
+            self.w.post('plot e all')
 
 
     # Context menu for right click

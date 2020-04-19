@@ -2,22 +2,27 @@
 # -*- coding: utf-8 -*-
 
 
-"""
-    © Ihor Mirzov, September 2019
-    Distributed under GNU General Public License v3.0
+""" © Ihor Mirzov, September 2019
+Distributed under GNU General Public License v3.0
 
-    CalculiX Keyword Object Model (hierarchy).
-    Parser supposts mutually exclusive parameters for keywords.
-    Keywords with all arguments are parsed from config/kom.xml.
-    On INP import KOM is enriched with keyword implementations.
-"""
+CalculiX Keyword Object Model (hierarchy).
+Parser supposts mutually exclusive parameters for keywords.
+Keywords with all arguments are parsed from config/kom.xml.
+On INP import KOM is enriched with keyword implementations. """
 
-
-from path import Path
-import re, logging, copy, os, sys, time
+# Standard modules
+import re
+import os
+import sys
+import time
+import logging
+import copy
 from enum import Enum
 import xml.etree.ElementTree as ET
-from settings import Settings
+
+# My modules
+import path
+import settings
 
 
 # Keyword Object Model
@@ -37,7 +42,7 @@ class KOM:
             self.root = group() # group 'Model' from kom.xml
 
             # Analyze keywords hierarchy
-            p = Path() # calculate absolute paths
+            p = path.Path() # calculate absolute paths
             t = ET.parse(p.kom_xml)
             self.buildKOM(t.getroot(), self.root)
 
@@ -194,7 +199,7 @@ class item:
     items = []              # list of children
     parent = None           # item's parent item
     active = False
-    settings = Settings() # read application's global settings
+    settings = settings.Settings() # read application's global settings
     expanded = settings.expanded
 
 

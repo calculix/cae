@@ -2,12 +2,10 @@
 # -*- coding: utf-8 -*-
 
 
-"""
-    © Ihor Mirzov, September 2019
-    Distributed under GNU General Public License v3.0
+""" © Ihor Mirzov, September 2019
+Distributed under GNU General Public License v3.0
 
-    Utility to calculate absolute paths to the application's main folders.
-"""
+Utility to calculate absolute paths to the application's main folders. """
 
 
 import os, sys
@@ -31,7 +29,7 @@ class Path:
 
         # Application's home directory - the one with README.md and LICENSE
         self.app_home_dir = os.path.abspath(
-                os.path.join(os.path.dirname(sys.argv[0]), '..'))
+            os.path.join(os.path.dirname(sys.argv[0]), '..'))
 
         self.config = os.path.join(self.app_home_dir, 'config')
         self.cae_xml = os.path.join(self.config, 'Window.xml')
