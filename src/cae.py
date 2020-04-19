@@ -1,38 +1,58 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-    © Ihor Mirzov, January 2020
-    Distributed under GNU General Public License v3.0
+""" © Ihor Mirzov, January 2020
+Distributed under GNU General Public License v3.0
 
-    CalculiX CAE - main module.
-    Creates main objects and starts the application.
+CalculiX CAE - main module.
+Creates main objects and starts the application.
 
-    How to run:
-        python3 cae.py
-        python3 cae.py -inp model.inp
-"""
+How to run:
+python3 cae.py
+python3 cae.py -inp model.inp """
 
 
-# Pyinstaller bug in Windows: append 'app_home_dir' and 'src' directories to PATH
-from path import Path
-p = Path() # calculate absolute paths
-p.append_to_PATH([p.app_home_dir, p.src])
+# System imports
+import os
+import sys
+import time
+import argparse
+import logging
 
-# Main imports
-import os, sys, argparse
-from PyQt5 import QtWidgets
-from settings import Settings
-from actions import actions
-from gui import window
-from model.model import Model
-from model.job import Job
-from ie import importFile
-from tree import Tree
+# Requirements
+try:
+    from PyQt5 import QtWidgets
+except:
+    msg = 'Please, install PyQt5 with command:\n'\
+        + 'pip3 install PyQt5'
+    sys.exit(msg)
+
+# My modules
+import settings
+import actions
+import gui
+import model
+import ie
+import tree
 import clean
+import path
+
+
+# Pyinstaller bug in Windows:
+# append 'app_home_dir' and 'src' directories to PATH
+p = path.Path() # calculate absolute paths
+p.append_to_PATH([p.app_home_dir, p.src])
 
 
 if __name__ == '__main__':
+    clean.screen()
+
+    # Exit if OS is not Linux or Windows
+    if os.name not in ['nt', 'posix']:
+        msg = 'SORRY, {} OS is not supported.'
+        sys.exit(msg.format(os.name))
+
+    # # Draw apps architecture
     # from pycallgraph import PyCallGraph
     # from pycallgraph import Config
     # from pycallgraph import GlobbingFilter
@@ -48,42 +68,46 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
     # Read application's global settings
-    s = Settings()
+    s = settings.Settings()
 
-    # Default start model could be chosen with command line parameter
+    # Configure global logging level
+    logging.getLogger().setLevel(s.logging_level)
+
+    # Default start model (INP file)
+    # could be chosen with command line parameter
     parser = argparse.ArgumentParser()
-    parser.add_argument('-inp', type=str, help='your .inp file',
-                        default=s.path_start_model)
+    parser.add_argument('-inp',
+        type=str, help='your .inp file',
+        default=s.start_model)
     args = parser.parse_args()
-
-
-
-    # Create and show main window
-    w = window.Window(p, s)
-    if s.show_maximized:
-        w.showMaximized()
-    else:
-        w.show()
-
-    m = Model() # generate FEM model
-    j = Job(p, s, args.inp) # create job object
-    t = Tree(p, s, w, m) # create treeView items based on KOM
-
-    # Abs. path to INP file
+    start_model = ''
     if len(args.inp):
-        path_to_inp = os.path.join(p.app_home_dir, args.inp)
-        importFile(s, w, m, t, j, path_to_inp) # import default start model
+        start_model = os.path.join(p.app_home_dir, args.inp)
 
+    # Show CAE and get window ID
+    if os.name=='nt':
+        w = gui.window.Windows_window(p, s)
+    else:
+        w = gui.window.Linux_window(p, s)
+    w.show()
+    w.initialize()
+    w.wid1 = w.get_wid(w.windowTitle())
+    if w.wid1 is None:
+        msg = 'ERROR! Can\'t get {} window ID.'
+        sys.exit(msg.format(w.windowTitle()))
 
-    # Window actions
-    actions(s, w, m, t, j)
-
+    # Main block
+    m = model.model.Model() # generate FEM model
+    j = model.job.Job(p, s, args.inp) # create job object
+    t = tree.Tree(p, s, w, m) # create treeView items based on KOM
+    ie.importFile(s, w, m, t, j, start_model) # import default model
+    actions.actions(s, w, m, t, j) # window actions
 
     # Execute application
-    a = app.exec()
+    app.exec()
 
     # Recursively clean cached files in all subfolders
     clean.cache(p.src)
 
-    # Exit application
-    sys.exit(a)
+    # Kill CGX after CAE exit
+    gui.cgx.kill()

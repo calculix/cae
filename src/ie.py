@@ -2,29 +2,31 @@
 # -*- coding: utf-8 -*-
 
 
-"""
-    © Ihor Mirzov, December 2019
-    Distributed under GNU General Public License v3.0
+""" © Ihor Mirzov, December 2019
+Distributed under GNU General Public License v3.0
 
-    INP importer:
-        Enrich KOM with implementations from parsed file.
-        Generate new tree with keyword implementations.
-        Parse mesh and build ugrid
-        Display ugrid in the VTK widget
+INP importer:
+- Enrich KOM with implementations from parsed file.
+- Generate new tree with keyword implementations.
+- Parse mesh and build ugrid.
+- Open model in CGX.
 
-    INP exporter:
-        Recursively write implementation's INP_code to output .inp-file
-"""
+INP exporter:
+- Recursively write implementation's INP_code to output .inp-file. """
 
 
+import os
+import logging
 from PyQt5.QtWidgets import QFileDialog
-import os, logging
+
 from model.kom import item_type, implementation, KOM
 from model.parsers.mesh import Mesh
+from gui import cgx
 import file_tools
 
 
-# Menu File -> Import
+# We can get here via Menu File -> Import
+# or directly after application start.
 """
 s - Settings
 w - Window
@@ -33,43 +35,31 @@ t - Tree
 j - Job
 """
 def importFile(s, w, m, t, j, file_name=None):
-    clear_textEdit = False
-    if not file_name:
-        clear_textEdit = True
+    if file_name is None or len(file_name)==0:
         file_name = QFileDialog.getOpenFileName(None, \
             'Import INP/UNV file', j.dir, \
             'INP (*.inp);;UNV (*.unv)')[0]
 
-    if file_name:
-
-        # Clear log window before new import
-        if clear_textEdit:
-            for h in logging.getLogger().handlers:
-                h.flush()
-
-        # Clear selection before import new model
-        if s.show_vtk:
-            w.VTK.actionSelectionClear()
-
-        # Generate new KOM without implementations
-        m.KOM = KOM()
+    if file_name is not None and len(file_name):
 
         # Rename job before tree regeneration
         j.rename(file_name[:-4] + '.inp')
+
+        # Generate new KOM without implementations
+        m.KOM = KOM()
 
         # Convert UNV to INP
         if file_name.lower().endswith('.unv'):
             j.convertUNV()
             if not os.path.isfile(j.inp):
-                logging.error('Error converting ' + j.unv)
+                logging.error('Error converting\n' + j.unv)
                 return
 
         # Show model name in window's title
         w.setWindowTitle('CalculiX CAE - ' + j.name)
 
-
         # Parse INP and enrich KOM with parsed objects
-        logging.info('Loading ' + j.inp + '.')
+        logging.info('Loading model\n{}'.format(j.inp))
         lines = file_tools.readLines(j.inp)
         def importer(INP_doc, KOM):
             keyword_chain = []
@@ -138,14 +128,16 @@ def importFile(s, w, m, t, j, file_name=None):
                         logging.warning('Wrong keyword {}.'.format(keyword_name))
         importer(lines, m.KOM) # pass whole INP-file to the parser
 
-
         # Add parsed implementations to the tree
         t.generateTreeView(m)
 
         # Parse mesh and plot it
         m.Mesh = Mesh(INP_file=j.inp)
-        if s.show_vtk:
-            w.VTK.plotMesh(m.Mesh)
+
+        # Open model in CGX and paint sets
+        w.run_cgx(s.path_cgx + ' -c ' + j.inp)
+        # elsets = list(m.Mesh.elsets.keys())
+        # cgx.paint_elsets(w, elsets)
 
         return True
     else:
@@ -162,4 +154,4 @@ def writeInput(j, lines):
         with open(file_name, 'w') as f:
             f.writelines(lines)
         j.rename(file_name)
-        logging.info('Input written to ' + file_name)
+        logging.info('Input written to:\n' + file_name)
