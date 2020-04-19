@@ -161,8 +161,10 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 # What's new
 
-- CalculiX 2.16
-- Mesh object is reparsed after edit in the treeView.
++ CalculiX solver v. 2.16.
++ From now CGX is embed into CAE! CAE sends commands to CGX to highlight surfaces, node and element sets.
++ INP example models are excluded from distribution. Please, download examples from https://github.com/calculix/examples
++ Mesh object is reparsed after edit in the treeView.
 
 <br/><br/>
 
@@ -172,11 +174,9 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 ## Improvements and bugfixes
 
-- Better ViewSurfaceWithEdges - implement it manually without EdgeVisibilityOn().
-
-- Better surface highlight: remove original face for pure color.
-
 - During keyword's edit parse arguments and pass them to Dialog.
+- autoclose CAE if CGX is closed
+- send CGX output to the treeView
 
 ## New features
 
@@ -184,11 +184,7 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - treeView: show implementations only.
 
-- Visualize BC's, constraints and loads in VTK.
-
 - Python code (*PYTHON keyword) in INP_code for step repetition and other kind of model generation.
-
-- M.Kraska: support the param.py parametrization mechanism.
 
 - Import certain keyword with descendants (tree branch) from INP-file.
 
@@ -199,6 +195,8 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - [meshio converter](https://github.com/nschloe/meshio)
 
 - [Martin Kraska examples](https://github.com/mkraska/CalculiX-Examples)
+
+- M.Kraska: support the param.py parametrization mechanism.
 
 - Prool's INP-templates and snippets.
 
