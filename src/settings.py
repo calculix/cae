@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+""" © Ihor Mirzov, December 2019
+Distributed under GNU General Public License v3.0
 
-"""
-    © Ihor Mirzov, December 2019
-    Distributed under GNU General Public License v3.0
-
-    Application's settings.
-    Attributes values are maintained in config/Settings_linux.env.
-    User dialog form is config/SettingsDialog.xml - use Qt Designer to edit.
-"""
+Application's settings.
+Attributes values are maintained in config/Settings_linux.env.
+User dialog form is config/SettingsDialog.xml - use Qt Designer to edit. """
 
 
 from path import Path
@@ -35,14 +32,14 @@ class Settings():
 
         # Apply default values
         except:
-            self.path_start_model = os.path.join(self.p.examples, 'default.inp')
+            self.start_model = os.path.join(self.p.examples, 'default.inp')
 
             # Windows
             if os.name=='nt':
                 # self.path_ccx = os.path.join(self.p.bin,
                 #                     'ccx_' + self.p.ccx_version + '_MT.exe')
                 self.path_ccx = os.path.join(self.p.bin, 'ccx.exe')
-                self.path_cgx = 'C:\\cgx.exe'
+                self.path_cgx = os.path.join(self.p.bin, 'cgx.exe')
                 self.path_paraview = 'C:\\Program Files\\ParaView\\bin\\paraview.exe'
                 self.path_editor = 'C:\\Windows\\System32\\notepad.exe'
 
@@ -51,19 +48,18 @@ class Settings():
                 # self.path_ccx = os.path.join(self.p.bin,
                 #                     'ccx_' + self.p.ccx_version + '_MT')
                 self.path_ccx = os.path.join(self.p.bin, 'ccx')
-                self.path_cgx = '/usr/local/bin/cgx'
+                self.path_cgx = os.path.join(self.p.bin, 'cgx')
                 self.path_paraview = '/opt/ParaView/bin/paraview'
                 self.path_editor = '/snap/bin/code'
 
             self.logging_level = 'INFO'
-            self.vtk_view = 'WithEdges'
-            self.show_maximized = False
+            # self.vtk_view = 'WithEdges'
             self.show_empty_keywords = True
             self.expanded = True
-            self.vtk_show_axes = True
-            self.vtk_parallel_view = True
+            # self.vtk_show_axes = True
+            # self.vtk_parallel_view = True
             self.show_help = True
-            self.show_vtk = True
+            # self.show_vtk = False
 
 
     # Open dialog window and pass settings
@@ -83,11 +79,10 @@ class Settings():
 
 
     # Automatic save current settings during the workflow
+    # Pass values to dialog and save
     def save(self):
-        # Pass values to dialog and save
         sd = SettingsDialog(settings=self)
         sd.save()
-
 
 
 # User dialog window with all setting attributes: menu File->Settings
@@ -146,7 +141,6 @@ class SettingsDialog(QtWidgets.QDialog):
                     comment = value.text()
                     f.write('# ' + comment + '\n')
                     f.write(line + '\n\n')
-
 
 
 # Test module
