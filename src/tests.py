@@ -1,29 +1,54 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-    © Ihor Mirzov, January 2020
-    Distributed under GNU General Public License v3.0
+""" © Ihor Mirzov, January 2020
+Distributed under GNU General Public License v3.0
 
-    Test mesh parser on all CalculiX examples.
-    Ctrl + F5 to Run.
-"""
+Test mesh parser on all CalculiX examples.
+Ctrl + F5 to Run. """
 
-
+# Standard modules
 import os
+import sys
 import time
 import logging
 import PyQt5
 
-from gui import vtk_widget
+# My modules
 from model.parsers import mesh
-from log import myHandler
-from log import print
 import clean
 
 
 # How many files to process
 limit = 50000000
+
+
+log_file = os.path.join(os.path.dirname(__file__), 'tests.log')
+
+
+# Configure logging to emit messages via 'print' method
+class myHandler(logging.Handler):
+
+    def __init__(self):
+        super().__init__()
+        fmt = logging.Formatter('%(levelname)s: %(message)s')
+        self.setFormatter(fmt)
+
+        # Remove old log file
+        if os.path.isfile(log_file):
+            os.remove(log_file)
+
+    def emit(self, LogRecord):
+        print(self.format(LogRecord))
+
+
+# Redefine print method to write logs to file
+def print(*args):
+    line = ' '.join([str(arg) for arg in args])
+    line = line.rstrip() + '\n'
+    with open(log_file, 'a') as f:
+        f.write(line)
+    sys.stdout.write(line)
 
 
 # List all .ext-files here and in all subdirectories
@@ -63,10 +88,6 @@ if __name__ == '__main__':
         # Parse mesh and plot it in VTK
         app = PyQt5.QtWidgets.QApplication([])
         m = mesh.Mesh(INP_file=file_name) # parse mesh
-
-        # TODO Doesn't work!
-        # VTK = vtk_widget.VTK()
-        # VTK.plotMesh(m)
 
     print('\nTotal {:.1f} seconds.'
         .format(time.perf_counter() - start_time))
