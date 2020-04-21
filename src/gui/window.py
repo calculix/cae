@@ -13,6 +13,7 @@ import sys
 import time
 import logging
 import subprocess
+# import threading
 import math
 if 'nt' in os.name:
     import ctypes
@@ -64,18 +65,22 @@ class Window(QtWidgets.QMainWindow):
     # open a new one and get window ID
     def run_cgx(self, cmd):
         if os.path.isfile(self.s.path_cgx):
-            self.post('quit')
-            time.sleep(0.3)
-            self.process = subprocess.Popen(cmd.split())
-            # TODO CGX output should go to textEdit.
-            time.sleep(0.5)
+            gui.cgx.kill()
+            self.process = subprocess.Popen(cmd.split(),
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT)
+
             self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
             if self.wid2 is None:
                 msg = 'ERROR! Can\'t get {} window ID.'\
                     .format('CalculiX GraphiX')
                 logging.error(msg)
                 sys.exit(msg)
+            time.sleep(0.3)
             self.align()
+
+            gui.log.read_output(self.process.stdout, 'window')
         else:
             logging.error('Wrong path to CGX: ' + \
                 self.s.path_cgx +\
@@ -103,7 +108,7 @@ def wid_wrapper(w):
                         .format(title))
                     return None
             msg = '{} WID={}'.format(title, wid)
-            logging.info(msg)
+            logging.debug(msg)
             return wid
         return fcn
     return wrap
@@ -120,8 +125,6 @@ def post_wrapper(w):
                     return method(w, cmd)
                 else:
                     logging.warning('Empty command.')
-            # else:
-            #     logging.warning('CGX window is closed.')
         return fcn
     return wrap
 
@@ -239,12 +242,15 @@ class Linux_window(Window):
         def get_window_by_title(title, window=None):
             if window is None:
                 window = self.root
-            for w in window.query_tree().children:
-                if w.get_wm_name() == title:
-                    return w
-                w = get_window_by_title(title, w)
-                if w is not None:
-                    return w
+            try:
+                for w in window.query_tree().children:
+                    if w.get_wm_name() == title:
+                        return w
+                    w = get_window_by_title(title, w)
+                    if w is not None:
+                        return w
+            except:
+                pass
             return None
 
         w = get_window_by_title(title)

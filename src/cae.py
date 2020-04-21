@@ -106,8 +106,8 @@ if __name__ == '__main__':
     # Execute application
     app.exec()
 
-    # Recursively clean cached files in all subfolders
-    clean.cache(p.src)
-
     # Kill CGX after CAE exit
     gui.cgx.kill()
+
+    # Recursively clean cached files in all subfolders
+    clean.cache(p.src)
