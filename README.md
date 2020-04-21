@@ -117,8 +117,8 @@ Please, you may:
 
 - Simply use this software and ask questions.
 - Share your models and screenshots.
-- Report problems by [posting issues](https://github.com/calculix/cae/issues).
 - Do something from the [TODO-list](#TODO).
+- Report problems by [posting issues](https://github.com/calculix/cae/issues). If any error accured, please, in the settings dialog change the Logging level to 'DEBUG', then repeat actions leading to the error. In such a way you'll obtain much more detailed log - attach it to the problem report.
 
 <br/><br/>
 
