@@ -161,13 +161,14 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="action_job_write_input"/>
     <addaction name="action_job_edit_inp"/>
-    <addaction name="action_job_open_subroutine"/>
+    <addaction name="action_job_cgx_inp"/>
+    <addaction name="action_job_subroutine"/>
     <addaction name="action_job_rebuild_ccx"/>
     <addaction name="action_job_submit"/>
     <addaction name="action_job_view_log"/>
-    <addaction name="action_job_open_cgx"/>
+    <addaction name="action_job_cgx_frd"/>
     <addaction name="action_job_export_vtu"/>
-    <addaction name="action_job_open_paraview"/>
+    <addaction name="action_job_paraview"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -432,13 +433,13 @@ p, li { white-space: pre-wrap; }
     <string>View log</string>
    </property>
   </action>
-  <action name="action_job_open_cgx">
+  <action name="action_job_cgx_frd">
    <property name="icon">
     <iconset>
-     <normaloff>../img/action_job_open_cgx.png</normaloff>../img/action_job_open_cgx.png</iconset>
+     <normaloff>../img/action_job_cgx_frd.png</normaloff>../img/action_job_cgx_frd.png</iconset>
    </property>
    <property name="text">
-    <string>Open in GraphiX</string>
+    <string>Open results in CGX</string>
    </property>
   </action>
   <action name="action_job_export_vtu">
@@ -450,19 +451,19 @@ p, li { white-space: pre-wrap; }
     <string>Export VTU results</string>
    </property>
   </action>
-  <action name="action_job_open_paraview">
+  <action name="action_job_paraview">
    <property name="icon">
     <iconset>
      <normaloff>../img/action_job_paraview.png</normaloff>../img/action_job_paraview.png</iconset>
    </property>
    <property name="text">
-    <string>Open VTU in Paraview</string>
+    <string>Open VTU in ParaView</string>
    </property>
   </action>
-  <action name="action_job_open_subroutine">
+  <action name="action_job_subroutine">
    <property name="icon">
     <iconset>
-     <normaloff>../img/action_job_open_subroutine.png</normaloff>../img/action_job_open_subroutine.png</iconset>
+     <normaloff>../img/action_job_subroutine.png</normaloff>../img/action_job_subroutine.png</iconset>
    </property>
    <property name="text">
     <string>Open a subroutine</string>
@@ -493,6 +494,15 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Post issue</string>
+   </property>
+  </action>
+  <action name="action_job_cgx_inp">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_job_cgx_inp.png</normaloff>../img/action_job_cgx_inp.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open INP in CGX</string>
    </property>
   </action>
  </widget>
