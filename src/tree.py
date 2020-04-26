@@ -8,15 +8,19 @@ Distributed under GNU General Public License v3.0
 Methods to work with main window's treeView widget. """
 
 
+# Standard modules
 import re
 import os
 import sys
 import logging
+
+# External modules
 from PyQt5 import QtWidgets, QtCore, QtGui
 
-from gui.keyword_dialog import KeywordDialog
+# My modules
+import gui
+import model
 from model.kom import item_type, implementation
-from model.parsers.mesh import Mesh
 
 
 class Tree:
@@ -128,10 +132,10 @@ class Tree:
             if item.active:
 
                 # Create dialog window and pass item
-                dialog = KeywordDialog(self.m.KOM, item)
+                dialog = gui.keyword_dialog.KeywordDialog(self.m.KOM, item)
 
                 # Get response from dialog window
-                if dialog.exec() == KeywordDialog.Accepted: # if user pressed 'OK'
+                if dialog.exec() == gui.keyword_dialog.KeywordDialog.Accepted: # if user pressed 'OK'
 
                     # The generated piece of .inp code for the CalculiX input file
                     INP_code = dialog.onOk() # list of strings
@@ -146,7 +150,7 @@ class Tree:
 
                         # Reparse mesh or constraints
                         # self.m.Mesh.reparse(INP_code)
-                        reparsed = Mesh(INP_code=INP_code, old=self.m.Mesh)
+                        reparsed = model.parsers.mesh.Mesh(INP_code=INP_code, old=self.m.Mesh)
                         self.m.Mesh.updateWith(reparsed)
                         self.clicked() # rehighlight
 
@@ -162,7 +166,7 @@ class Tree:
                         tree_element.setData(impl)
 
                         # Reparse mesh or constraints
-                        reparsed = Mesh(INP_code=INP_code, old=self.m.Mesh)
+                        reparsed = model.parsers.mesh.Mesh(INP_code=INP_code, old=self.m.Mesh)
                         self.m.Mesh.updateWith(reparsed)
                         self.clicked() # rehighlight
 
@@ -194,12 +198,16 @@ class Tree:
                     name = lead_line[match.start(1):match.end(1)] # node set name
                     if name in self.m.Mesh.nsets:
                         self.w.post('plot n ' + name)
+                        gui.log.flush_cache(self.w)
+
             elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
                 match = re.search('ELSET\s*=\s*([\w\-]*)', lead_line.upper())
                 if match: # if there is ELSET attribute
                     name = lead_line[match.start(1):match.end(1)] # element set name
                     if name in self.m.Mesh.elsets:
                         self.w.post('plot e ' + name)
+                        gui.log.flush_cache(self.w)
+
             elif ipn_up == '*SURFACE':
 
                 # Surface type - optional attribute
@@ -212,8 +220,10 @@ class Tree:
                 name = lead_line[match.start(1):match.end(1)] # surface name
                 if stype == 'ELEMENT':
                     self.w.post('plot f ' + name)
+                    gui.log.flush_cache(self.w)
                 elif stype=='NODE':
                     self.w.post('plot f ' + name)
+                    gui.log.flush_cache(self.w)
 
             # Highlight Loads & BC
             elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
@@ -231,7 +241,9 @@ class Tree:
 
         else:
             # Clear selection
+            # TODO Deselct with 'minus _last_item_name_'
             self.w.post('plot e all')
+            gui.log.flush_cache(self.w)
 
 
     # Context menu for right click
