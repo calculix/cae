@@ -25,7 +25,7 @@ import gui
 class Job:
 
     # Create job object
-    def __init__(self, p, s, file_name):
+    def __init__(self, p, file_name):
         self.p = p
         logging.info('Application\'s home directory is:\n'\
             + self.p.app_home_dir)
@@ -48,13 +48,26 @@ class Job:
         gui.log.add_file_handler(self.log)
 
     # Convert UNV to INP
-    def convertUNV(self):
+    def convert_unv(self):
         converter_path = os.path.join(self.p.bin, 'unv2ccx' + self.p.extension)
         cmd1 = [converter_path, self.path + '.unv']
         self.run([(cmd1, ''), ])
 
+    # Recursively write the whole model's INP_code
+    # into the output .inp-file.
+    # Is called from menu 'Job -> Write input'
+    def write_input(self, lines):
+        file_name = QtWidgets.QFileDialog.getSaveFileName(None, \
+            'Write INP file', self.dir, \
+            'Input files (*.inp)')[0]
+        if file_name:
+            with open(file_name, 'w') as f:
+                f.writelines(lines)
+            self.rename(file_name)
+            logging.info('Input written to:\n' + file_name)
+
     # Open INP file in external text editor
-    def editINP(self, settings):
+    def edit_inp(self, settings):
         if os.path.isfile(settings.path_editor):
             if os.path.isfile(self.inp):
                 command = [settings.path_editor, self.inp]
@@ -68,7 +81,7 @@ class Job:
                 + '\nConfigure it in File->Settings.')
 
     # Dialog window to filter fortran subroutines
-    def openSubroutine(self, settings):
+    def open_subroutine(self, settings):
         if os.path.isfile(settings.path_editor):
             file_name = QtWidgets.QFileDialog.getOpenFileName(None,
                 'Open a subroutine', self.p.ccx, 'FORTRAN (*.f)')[0]
@@ -81,7 +94,7 @@ class Job:
                 + '\nConfigure it in File->Settings.')
 
     # Recompile CalculiX sources with updated subroutines
-    def rebuildCCX(self, settings):
+    def rebuild_ccx(self, settings):
 
         # Windows
         if os.name == 'nt':
@@ -130,7 +143,7 @@ class Job:
                 + '\nConfigure it in File->Settings.')
 
     # Open log file in external text editor
-    def viewLog(self, settings):
+    def view_log(self, settings):
         if os.path.isfile(settings.path_editor):
             if os.path.isfile(self.log):
                 command = [settings.path_editor, self.log]
@@ -143,8 +156,15 @@ class Job:
                 + settings.path_editor \
                 + '\nConfigure it in File->Settings.')
 
+    # Open INP in GraphiX
+    def cgx_inp(self, settings, w):
+        if os.path.isfile(self.inp):
+            w.run_cgx(settings.path_cgx + ' -c ' + self.inp)
+        else:
+            logging.error('File not found:\n' + self.inp)
+
     # Open FRD in GraphiX
-    def openCGX(self, settings, w):
+    def cgx_frd(self, settings, w):
         if os.path.isfile(self.frd):
             w.run_cgx(settings.path_cgx + ' -o ' + self.frd)
         else:
@@ -152,7 +172,7 @@ class Job:
             logging.error('Submit analysis first.')
 
     # Convert FRD to VTU
-    def exportVTU(self):
+    def export_vtu(self):
         if os.path.isfile(self.frd):
             converter_path = os.path.join(self.p.bin,
                     'ccx2paraview' + self.p.extension)
@@ -163,7 +183,7 @@ class Job:
             logging.error('Submit analysis first.')
 
     # Open VTU in ParaView
-    def openParaView(self, settings):
+    def open_paraview(self, settings):
         if os.path.isfile(settings.path_paraview):
 
             # Count result VTU files
@@ -206,6 +226,8 @@ class Job:
                 process.stdin.close()
             gui.log.read_output(process.stdout, 'job')
         os.chdir(self.p.app_home_dir)
+
+        # TODO Time and final msg are printed before logging is finished
 
         # Total time passed
         total_time = 'Total {:.0f} seconds.'\
