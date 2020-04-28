@@ -8,18 +8,19 @@ Distributed under GNU General Public License v3.0
 Main window class. """
 
 
+# Standard modules
 import os
 import sys
 import time
 import logging
 import subprocess
-# import threading
+import threading
 import math
 if 'nt' in os.name:
     import ctypes
-from PyQt5 import QtWidgets, uic, QtCore, QtGui
 
-# Check if requirements are fulfilled
+# External modules
+from PyQt5 import QtWidgets, uic, QtCore, QtGui
 if 'posix' in os.name:
     try:
         from Xlib import display, protocol, X, XK
@@ -58,14 +59,15 @@ class Window(QtWidgets.QMainWindow):
         self.wid2 = None # cgx window
         self.process = None # running process to send commands to
         self.keyboardMapping = None
+        self.last_command = None
 
         self.toolBar.setParent(None) # hide toolbar
 
     # Close opened CGX (if any)
     # open a new one and get window ID
     def run_cgx(self, cmd):
-        if os.path.isfile(self.s.path_cgx):
-            gui.cgx.kill()
+
+        def start_cgx(cmd):    
             self.process = subprocess.Popen(cmd.split(),
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
@@ -77,14 +79,30 @@ class Window(QtWidgets.QMainWindow):
                     .format('CalculiX GraphiX')
                 logging.error(msg)
                 sys.exit(msg)
-            time.sleep(0.3)
+            gui.log.read_output(self.process.stdout)
             self.align()
+            self.flush_cgx_cache()
 
-            gui.log.read_output(self.process.stdout, 'window')
+        if os.path.isfile(self.s.path_cgx):
+            gui.cgx.kill()
+
+            # Without Thread align() doesn't work. Do not join()!
+            # t = threading.Thread(target=start_cgx, args=(cmd, ),
+            #     name='start_cgx', daemon=True)
+            start_cgx(cmd)
         else:
             logging.error('Wrong path to CGX: ' + \
                 self.s.path_cgx +\
                 '. Configure it in File->Settings.')
+
+    # TODO No immediate reaction on manual writing into CGX window
+    def flush_cgx_cache(self):
+        self.post(' ')
+
+    # Clear selection in CGX
+    def deselect_cgx_sets(self):
+        if self.last_command != 'view surf':
+            self.post('view surf')
 
     # Open links from the Help menu
     def help(self, link):
@@ -122,7 +140,11 @@ def post_wrapper(w):
                 and w.process.poll() is None\
                 and w.wid2 is not None:
                 if len(cmd):
-                    return method(w, cmd)
+                    if cmd != ' ':
+                        w.last_command = cmd
+                    method(w, cmd)
+                    method(w, ' ')
+                    return
                 else:
                     logging.warning('Empty command.')
         return fcn
@@ -314,10 +336,11 @@ class Linux_window(Window):
         w2.configure(x=math.ceil(width/3), y=0,
             width=math.floor(width*2/3), height=height)
         self.d.sync()
+        # time.sleep(1)
 
+    # TODO colormaps for CGX
     def change_colormap(self):
         pass
-        # TODO
         # self.colormap = self.screen.default_colormap
         # col = self.colormap.alloc_color(0, 0, 0)
         # print(col)
@@ -425,3 +448,4 @@ class Windows_window(Window):
         ctypes.windll.user32.MoveWindow(self.wid2,
             math.ceil(width/3), 0,
             math.floor(width*2/3), height, True)
+        # time.sleep(1)

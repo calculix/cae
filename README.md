@@ -175,8 +175,9 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 ## Improvements and bugfixes
 
 - During keyword's edit parse arguments and pass them to Dialog.
-- autoclose CAE if CGX is closed
-- send CGX output to the treeView
+- Autoclose CAE if CGX is closed.
+- Send CGX output to the treeView.
+- Settings Dialog: add buttons to Pathes to open files.
 
 ## New features
 
@@ -202,3 +203,11 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - Menu Help:
     - PDF manual / YouTube videos for beginners.
+
+- Handle all logs in textEdit.
+
+- CAE should be independent and be able to be embeded into FreeCAD.
+
+- Forward .fbd/.fbl to CGX.
+
+- Change CGX colormaps via Xlib

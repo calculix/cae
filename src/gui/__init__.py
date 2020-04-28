@@ -4,3 +4,4 @@
 from . import cgx
 from . import log
 from . import window
+from . import keyword_dialog

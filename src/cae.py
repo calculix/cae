@@ -11,14 +11,6 @@ How to run:
 python3 cae.py
 python3 cae.py -inp model.inp """
 
-# TODO Learn threads. Joining.
-# TODO Sequential threaded logging?
-
-# TODO new CGX window freezes on INP model import (Windows)
-# or on Job -> Open INP in CGX. On the same time FRD is
-# opened without problems. Logs aren't written until kill CGX.
-# CAE is OK.
-
 # Standard modules
 import os
 import sys
@@ -166,7 +158,6 @@ def import_file(s, w, m, t, j, file_name=None):
         m.Mesh = model.parsers.mesh.Mesh(INP_file=j.inp)
 
         # Open model in CGX and paint sets
-        # w.run_cgx(s.path_cgx + ' -c ' + j.inp)
         j.cgx_inp(s, w)
         # elsets = list(m.Mesh.elsets.keys())
         # gui.cgx.paint_elsets(w, elsets)

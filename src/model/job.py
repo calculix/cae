@@ -11,7 +11,6 @@ while analysis is running or files are converting. """
 
 # Standard modules
 import os
-import time
 import logging
 import subprocess
 
@@ -113,7 +112,7 @@ class Job:
                     + ccx + '/ccx_' + self.p.ccx_version + '_MT ' \
                     + settings.path_ccx
 
-            self.run([(cmd1, send1), (cmd2, '')], msg='Compiled!')
+            self.run([(cmd1, send1), (cmd2, '')])
 
         # Linux
         else:
@@ -125,7 +124,7 @@ class Job:
             cmd2 = ['cp', self.p.ccx + '/ccx_' + self.p.ccx_version + '_MT',
                     settings.path_ccx]
 
-            self.run([(cmd1, ''), (cmd2, '')], msg='Compiled!')
+            self.run([(cmd1, ''), (cmd2, '')])
 
     # Submit INP to CalculiX
     def submit(self, settings):
@@ -177,7 +176,7 @@ class Job:
             converter_path = os.path.join(self.p.bin,
                     'ccx2paraview' + self.p.extension)
             cmd1 = [converter_path, self.frd, 'vtu']
-            self.run([(cmd1, ''), ], msg='Finished!')
+            self.run([(cmd1, ''), ])
         else:
             logging.error('File not found:\n' + self.frd)
             logging.error('Submit analysis first.')
@@ -212,8 +211,7 @@ class Job:
                 + '\nConfigure it in File->Settings.')
 
     # Run multiple commands and log stdout without blocking GUI
-    def run(self, commands, msg=None):
-        start = time.perf_counter()
+    def run(self, commands):
         os.chdir(self.dir)
         for cmd1, cmd2 in commands:
             logging.info(' '.join(cmd1) + ' ' + cmd2)
@@ -226,17 +224,6 @@ class Job:
                 process.stdin.close()
             gui.log.read_output(process.stdout, 'job')
         os.chdir(self.p.app_home_dir)
-
-        # TODO Time and final msg are printed before logging is finished
-
-        # Total time passed
-        total_time = 'Total {:.0f} seconds.'\
-            .format(time.perf_counter() - start)
-        logging.info(total_time)
-
-        # Post final message
-        if msg:
-            logging.info(msg)
 
 
 # Converts Windows path to Cygwin path

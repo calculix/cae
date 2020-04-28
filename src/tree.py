@@ -198,7 +198,6 @@ class Tree:
                     name = lead_line[match.start(1):match.end(1)] # node set name
                     if name in self.m.Mesh.nsets:
                         self.w.post('plot n ' + name)
-                        gui.log.flush_cache(self.w)
 
             elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
                 match = re.search('ELSET\s*=\s*([\w\-]*)', lead_line.upper())
@@ -206,7 +205,6 @@ class Tree:
                     name = lead_line[match.start(1):match.end(1)] # element set name
                     if name in self.m.Mesh.elsets:
                         self.w.post('plot e ' + name)
-                        gui.log.flush_cache(self.w)
 
             elif ipn_up == '*SURFACE':
 
@@ -220,10 +218,8 @@ class Tree:
                 name = lead_line[match.start(1):match.end(1)] # surface name
                 if stype == 'ELEMENT':
                     self.w.post('plot f ' + name)
-                    gui.log.flush_cache(self.w)
                 elif stype=='NODE':
                     self.w.post('plot f ' + name)
-                    gui.log.flush_cache(self.w)
 
             # Highlight Loads & BC
             elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
@@ -240,10 +236,7 @@ class Tree:
                 # self.w.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
 
         else:
-            # Clear selection
-            # TODO Deselct with 'minus _last_item_name_'
-            self.w.post('plot e all')
-            gui.log.flush_cache(self.w)
+            self.w.deselect_cgx_sets()
 
 
     # Context menu for right click

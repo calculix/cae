@@ -8,7 +8,6 @@ Distributed under GNU General Public License v3.0
 Methods for CGX window. """
 
 import os
-import signal
 try:
     import psutil
 except:
@@ -16,10 +15,14 @@ except:
         + 'pip3 install psutil'
     sys.exit(msg)
 
-def kill():
-    current_process = psutil.Process()
-    for chp in current_process.children(recursive=True):
-        os.kill(chp.pid, signal.SIGTERM)
+def kill(parent=None):
+    if parent is None:
+        parent = psutil.Process()
+    for ch in parent.children():
+        kill(parent=ch)
+        ch.terminate()
+        if not ch.pid in psutil.pids():
+            print('Killed PID', ch.pid)
 
 def paint_elsets(w, elsets):
     colors = 'rgbymntk'
@@ -32,4 +35,3 @@ def paint_elsets(w, elsets):
         for elset in elsets:
             w.post('plus e {} {}'.format(elset, colors[i]))
             i = (i + 1) % len(colors)
-

@@ -279,7 +279,6 @@ class Mesh:
 
                                 # Check duplicates
                                 if element in elements:
-                                    # TODO
                                     msg_text = 'Duplicated element {}.'.format(e)
                                     logging.warning(msg_text)
                                 else:

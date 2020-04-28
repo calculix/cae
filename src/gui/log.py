@@ -10,16 +10,12 @@ and prints into CAE's textEdit.
 The File handler is created any time you open a model.
 Log file has the same name as model. """
 
-
 # Standard modules
 import os
-import sys
 import re
 import time
 import logging
-import queue
 import threading
-import multiprocessing
 
 # External modules
 from PyQt5 import QtGui, QtWidgets
@@ -71,7 +67,7 @@ class MyTextLoggingHandler(MyLoggingHandler):
         # Print message and scroll it to the end
         self.target.append(msg)
         self.target.moveCursor(QtGui.QTextCursor.End)
-        self.flush()
+        # self.flush()
 
 
 # Handler to write the job's log file
@@ -92,7 +88,7 @@ class MyFileLoggingHandler(MyLoggingHandler):
         # Write message to the log file
         with open(self.target, 'a') as f:
             f.write(msg + '\n')
-        self.flush()
+        # self.flush()
 
 
 def add_text_handler(textEdit):
@@ -111,8 +107,12 @@ def add_file_handler(log_file):
 
 
 # Process one non-empty stdout message
-def logLine(line):
+def log_line(line):
     if not len(line.strip()):
+        return
+    if line == 'key: from string   not known':
+        return
+    if line == 'key: from string   ? not known':
         return
     logging_levels = {
         'NOTSET': 0,
@@ -131,69 +131,37 @@ def logLine(line):
         logging.log(25, line)
 
 
-# Read and log pipe lines
-# TODO Time spent is printed before logging is finished
-# TODO CGX prints logs after close or after reopen
-# TODO pplploplotplot plot eplot e plot e Oplot e OUplot e OUTplot e OUT-plot e OUT-Splot e OUT-S3
-# TODO join old threads
-def read_output(pipe, name):
+# Read and log processes stdout
+# Attention: it's infinite pipe reader!
+def read_output(pipe):
 
-    # Put pipe lines into queue while process is running
-    def enqueue_output_1(pipe):
+    # Posting to CGX window outputs to std line with backspaces:
+    # pplploplotplot plot eplot e plot e Oplot e OUplot e OUTplot e OUT-plot e OUT-Splot e OUT-S3
+    def filter_backspaces(line):
+        if 8 in line:
+            l = bytearray()
+            i = 1
+            b = line[-i]
+            while b != 8:
+                l.insert(0, b)
+                i += 1
+                b = line[-i]
+            return l
+        else:
+            return line
+
+    # Infininte cycle to read process'es stdout
+    def read_pipe_and_log(pipe):
         while True:
             line = pipe.readline()
             if line != b'':
+                line = filter_backspaces(line)
                 line = line.decode().strip()
-                logLine(line)
-                time.sleep(0.04)
-                pipe.flush()
-                sys.stdout.flush()
+                log_line(line)
+                # time.sleep(0.03)
             else:
-                time.sleep(0.1)
-        pipe.close()
+                time.sleep(0.3) # reduce CPU usage
 
-    def enqueue_output_2(pipe, q):
-        line = ''
-        prev = ''
-        for char in iter(pipe.read, b''):
-            char = char.decode()
-            if prev + char != '\n':
-                line += char
-                # print(char, end='')
-            else:
-                # print()
-                q.put_nowait(line[:-1])
-                line = ''
-            prev = char
-        q.put_nowait('END') # a mark to break while loop
-        pipe.close()
-        # print('END')
-
-    def log_output(pipe, q):
-        while True:
-            try:
-                # time.sleep(0.05)
-                line = q.get_nowait()
-                if line == 'END':
-                    break
-                logLine(line)
-            except queue.Empty:
-                QtWidgets.qApp.processEvents() # do not block GUI
-                time.sleep(0.1) # reduce CPU usage
-
-    # for t in threading.enumerate():
-    #     if t.name != 'MainThread':
-    #         t.join(timeout=5)
-    t = threading.Thread(target=enqueue_output_1,
-        args=(pipe, ), name=name, daemon=True)
+    t = threading.Thread(target=read_pipe_and_log, 
+        args=(pipe, ), name='read_output', daemon=True)
     t.start()
-    # list_threads()
-
-
-# def list_threads():
-#     n = threading.active_count()
-#     t = threading.current_thread()
-#     print('n={}, current thread is {}'.format(n, t.name))
-#     for t in threading.enumerate():
-#         print(t.name)
-#     print()
