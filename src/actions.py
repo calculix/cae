@@ -45,9 +45,11 @@ def actions(s, w, m, t, j):
 
     # Help actions
     w.action_help_readme.triggered.connect(
-        lambda: w.help('https://github.com/imirzov/ccx_cae#calculix-cae'))
+        lambda: w.help('https://github.com/calculix/cae#calculix-cae'))
+    w.action_help_examples.triggered.connect(
+        lambda: w.help('https://github.com/calculix/examples'))
     w.action_help_issues.triggered.connect(
-        lambda: w.help('https://github.com/imirzov/ccx_cae/issues'))
+        lambda: w.help('https://github.com/calculix/cae/issues'))
 
     # treeView actions
     w.treeView.doubleClicked.connect(t.doubleClicked)
