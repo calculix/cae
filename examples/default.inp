@@ -1,5 +1,5 @@
 *Heading
-    Default model for CalculiX CAE
+    Default_model_for_CalculiX_CAE
 *Node, nset=ALL
     1,          -3.,          -1.,           0.
     2,          -3.,          -1.,          -1.
