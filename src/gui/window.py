@@ -23,6 +23,7 @@ if 'nt' in os.name:
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 if 'posix' in os.name:
     try:
+        import Xlib
         from Xlib import display, protocol, X, XK
     except:
         msg = 'Please, install Xlib with command:\n' \
@@ -83,26 +84,26 @@ class Window(QtWidgets.QMainWindow):
             self.align()
             self.flush_cgx_cache()
 
-        if os.path.isfile(self.s.path_cgx):
-            gui.cgx.kill()
+        if not os.path.isfile(self.s.path_cgx):
+            msg = 'Wrong path to CGX:\n{}\n' \
+                + 'Configure it in File->Settings.'
+            logging.error(msg.format(self.s.path_cgx))
+            return
 
-            # Without Thread align() doesn't work. Do not join()!
-            # t = threading.Thread(target=start_cgx, args=(cmd, ),
-            #     name='start_cgx', daemon=True)
-            start_cgx(cmd)
-        else:
-            logging.error('Wrong path to CGX: ' + \
-                self.s.path_cgx +\
-                '. Configure it in File->Settings.')
+        gui.cgx.kill()
+        # Without Thread align() doesn't work. Do not join()!
+        # t = threading.Thread(target=start_cgx, args=(cmd, ),
+        #     name='start_cgx', daemon=True)
+        start_cgx(cmd)
 
     # TODO No immediate reaction on manual writing into CGX window
     def flush_cgx_cache(self):
         self.post(' ')
 
-    # Clear selection in CGX
-    def deselect_cgx_sets(self):
-        if self.last_command != 'view surf':
-            self.post('view surf')
+    # # Clear selection in CGX
+    # def deselect_cgx_sets(self):
+    #     if self.last_command != 'view surf':
+    #         self.post('view surf')
 
     # Open links from the Help menu
     def help(self, link):
@@ -313,17 +314,23 @@ class Linux_window(Window):
         def get_window_by_id(wid, window=None):
             if window is None:
                 window = self.root
-            for w in window.query_tree().children:
-                if w.id == wid:
-                    return w
-                w = get_window_by_id(wid, w)
-                if w is not None:
-                    return w
+            try:
+                for w in window.query_tree().children:
+                    if w.id == wid:
+                        return w
+                    w = get_window_by_id(wid, w)
+                    if w is not None:
+                        return w
+            except Xlib.error.BadWindow:
+                logging.error('Bad window')
             return None
 
         w1 = get_window_by_id(self.wid1)
-        self.d.set_input_focus(w1, X.RevertToNone, X.CurrentTime)
-        self.d.sync()
+        if w1 is not None:
+            self.d.set_input_focus(w1, X.RevertToNone, X.CurrentTime)
+            self.d.sync()
+        else:
+            print('ERROR! Window is None.')
 
     # Align CAE and CGX windows
     def align(self):
@@ -336,7 +343,7 @@ class Linux_window(Window):
         w2.configure(x=math.ceil(width/3), y=0,
             width=math.floor(width*2/3), height=height)
         self.d.sync()
-        # time.sleep(1)
+        time.sleep(0.3)
 
     # TODO colormaps for CGX
     def change_colormap(self):
@@ -448,4 +455,4 @@ class Windows_window(Window):
         ctypes.windll.user32.MoveWindow(self.wid2,
             math.ceil(width/3), 0,
             math.floor(width*2/3), height, True)
-        # time.sleep(1)
+        time.sleep(0.3)

@@ -66,10 +66,7 @@ def import_file(s, w, m, t, j, file_name=None):
     if file_name is not None and len(file_name):
 
         # Rename job before tree regeneration
-        j.rename(file_name[:-4] + '.inp')
-
-        # Generate new KOM without implementations
-        m.KOM = model.kom.KOM()
+        j.initialize(file_name[:-4] + '.inp')
 
         # Convert UNV to INP
         if file_name.lower().endswith('.unv'):
@@ -78,8 +75,14 @@ def import_file(s, w, m, t, j, file_name=None):
                 logging.error('Error converting\n' + j.unv)
                 return
 
+        # Open model in CGX
+        j.cgx_inp(s, w)
+
         # Show model name in window's title
         w.setWindowTitle('CalculiX CAE - ' + j.name)
+
+        # Generate new KOM without implementations
+        m.KOM = model.kom.KOM()
 
         # Parse INP and enrich KOM with parsed objects
         logging.info('Loading model\n{}'.format(j.inp))
@@ -157,13 +160,13 @@ def import_file(s, w, m, t, j, file_name=None):
         # Parse mesh
         m.Mesh = model.parsers.mesh.Mesh(INP_file=j.inp)
 
-        # Open model in CGX and paint sets
-        j.cgx_inp(s, w)
+        # Paint sets in CGX
         # elsets = list(m.Mesh.elsets.keys())
         # gui.cgx.paint_elsets(w, elsets)
 
 
 if __name__ == '__main__':
+    start_time = time.perf_counter()
     clean.screen()
 
     # Exit if OS is not Linux or Windows
@@ -217,10 +220,12 @@ if __name__ == '__main__':
 
     # Main block
     m = model.Model() # generate FEM model
-    j = model.job.Job(p, args.inp) # create job object
     t = tree.Tree(p, s, w, m) # create treeView items based on KOM
-    import_file(s, w, m, t, j, start_model) # import default model
+    j = model.job.Job(p) # create job object
     actions.actions(s, w, m, t, j) # window actions
+    import_file(s, w, m, t, j, start_model) # import default model
+    logging.info('Started in {:.1f} seconds.'
+        .format(time.perf_counter() - start_time))
 
     # Execute application
     app.exec()
