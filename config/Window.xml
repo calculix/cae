@@ -175,6 +175,7 @@ p, li { white-space: pre-wrap; }
      <string>Help</string>
     </property>
     <addaction name="action_help_readme"/>
+    <addaction name="action_help_examples"/>
     <addaction name="action_help_issues"/>
    </widget>
    <addaction name="menuFile"/>
@@ -484,7 +485,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>../img/action_help_readme.png</normaloff>../img/action_help_readme.png</iconset>
    </property>
    <property name="text">
-    <string>README.md</string>
+    <string>Readme</string>
    </property>
   </action>
   <action name="action_help_issues">
@@ -503,6 +504,15 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Open INP in CGX</string>
+   </property>
+  </action>
+  <action name="action_help_examples">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_help_examples.png</normaloff>../img/action_help_examples.png</iconset>
+   </property>
+   <property name="text">
+    <string>Get examples</string>
    </property>
   </action>
  </widget>
