@@ -53,7 +53,7 @@ class MyTextLoggingHandler(MyLoggingHandler):
         # Move newlines before the levelname
         msg = LogRecord.getMessage()
         while msg.startswith('\n'):
-            self.log_msg('<p></p>')
+            self.target.append('<p></p>')
             msg = msg[1:]
 
         # Keep all newlines in message
@@ -78,7 +78,8 @@ class MyFileLoggingHandler(MyLoggingHandler):
         # Move newlines before the levelname
         msg = LogRecord.getMessage()
         while msg.startswith('\n'):
-            self.log_msg('')
+            with open(self.target, 'a') as f:
+                f.write('\n')
             msg = msg[1:]
 
         msg = '{}: {}'.format(LogRecord.levelname, msg)
