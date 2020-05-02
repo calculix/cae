@@ -11,6 +11,7 @@
 
 from PyQt5 import QtWidgets
 import cae
+import gui
 
 
 """
@@ -29,6 +30,10 @@ def actions(s, w, m, t, j):
     w.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
     # Job actions
+    w.action_job_paint_elsets.triggered.connect(
+        lambda: gui.cgx.paint_elsets(w, m))
+    w.action_job_paint_surfaces.triggered.connect(
+        lambda: gui.cgx.paint_surfaces(w, m))
     w.action_job_write_input.triggered.connect(
         lambda: j.write_input(m.KOM.get_INP_code_as_lines()))
     w.action_job_write_input.triggered.connect(

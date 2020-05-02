@@ -159,6 +159,8 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Job</string>
     </property>
+    <addaction name="action_job_paint_elsets"/>
+    <addaction name="action_job_paint_surfaces"/>
     <addaction name="action_job_write_input"/>
     <addaction name="action_job_edit_inp"/>
     <addaction name="action_job_cgx_inp"/>
@@ -513,6 +515,24 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Get examples</string>
+   </property>
+  </action>
+  <action name="action_job_paint_elsets">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_job_paint_sets.png</normaloff>../img/action_job_paint_sets.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paint elsets</string>
+   </property>
+  </action>
+  <action name="action_job_paint_surfaces">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_job_paint_surfaces.png</normaloff>../img/action_job_paint_surfaces.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paint surfaces</string>
    </property>
   </action>
  </widget>

@@ -91,19 +91,43 @@ class Window(QtWidgets.QMainWindow):
             return
 
         gui.cgx.kill()
-        # Without Thread align() doesn't work. Do not join()!
-        # t = threading.Thread(target=start_cgx, args=(cmd, ),
-        #     name='start_cgx', daemon=True)
         start_cgx(cmd)
+        self.register_cgx_colors()
 
     # TODO No immediate reaction on manual writing into CGX window
     def flush_cgx_cache(self):
         self.post(' ')
 
-    # # Clear selection in CGX
-    # def deselect_cgx_sets(self):
-    #     if self.last_command != 'view surf':
-    #         self.post('view surf')
+    # Register new colors to use in CGX
+    # https://colourco.de/
+    def register_cgx_colors(self):
+
+        # Convert HTML color notation to RGB
+        def hex_to_rgb(value):
+            value = value.lstrip('#')
+            rgb = []
+            for i in range(0, 6, 2):
+                amp = int(value[i:i+2], 16) / 255
+                rgb.append(round(amp, 2))
+            return rgb
+
+        blue = [
+            '#19324A',
+            '#254C71',
+            '#306699',
+            '#3B80C1',
+            '#6099CF']
+        pink = [
+            '#331132',
+            '#5A1D58',
+            '#81297E',
+            '#A934A5',
+            '#C848C4']
+        for i in range(5):
+            self.post('col blue{} {} {} {}'\
+                .format(i, *hex_to_rgb(blue[i])))
+            self.post('col pink{} {} {} {}'\
+                .format(i, *hex_to_rgb(pink[i])))
 
     # Open links from the Help menu
     def help(self, link):
@@ -333,16 +357,19 @@ class Linux_window(Window):
             print('ERROR! Window is None.')
 
     # Align CAE and CGX windows
+    # NOTE CGX 'wpos' and 'wsize' works better than 'w2configure'
     def align(self):
         width = self.screen.width_in_pixels
         height = self.screen.height_in_pixels
         w1 = self.d.create_resource_object('window', self.wid1)
         w1.configure(x=0, y=0,
             width=math.ceil(width/3), height=height)
-        w2 = self.d.create_resource_object('window', self.wid2)
-        w2.configure(x=math.ceil(width/3), y=0,
-            width=math.floor(width*2/3), height=height)
+        # w2 = self.d.create_resource_object('window', self.wid2)
+        # w2.configure(x=math.ceil(width/3), y=0,
+        #     width=math.floor(width*2/3), height=height)
         self.d.sync()
+        self.post('wpos {} {}'.format(math.ceil(width/3), 0))
+        self.post('wsize {} {}'.format(math.floor(width*2/3), height))
         time.sleep(0.3)
 
     # TODO colormaps for CGX
@@ -446,6 +473,7 @@ class Windows_window(Window):
         ctypes.windll.user32.SetForegroundWindow(self.wid1)
 
     # Align CAE and CGX windows
+    # NOTE CGX 'wpos' and 'wsize' works worse than 'ctypes'
     def align(self):
         width = ctypes.windll.user32.GetSystemMetrics(0)
         height = ctypes.windll.user32.GetSystemMetrics(1) - 56

@@ -46,14 +46,36 @@ def kill():
 #         if not pid in psutil.pids():
 #             print('Killed PID', pid)
 
-def paint_elsets(w, elsets):
-    colors = 'rgbymntk'
+# def paint_elsets_old(w, elsets):
+#     colors = 'rgbymntk'
+#     i = 0
+#     for i in range(len(elsets)):
+#         if elsets[i].upper() == 'ALL':
+#             elsets.pop(i)
+#             break
+#     if len(elsets) > 1:
+#         for elset in elsets:
+#             w.post('plus e {} {}'.format(elset, colors[i]))
+#             i = (i + 1) % len(colors)
+
+# Paint element sets in CGX
+def paint_elsets(w, m):
+    w.post('plot n all')
+    elsets = [e.name for e in m.Mesh.elsets.values()]
     i = 0
-    for i in range(len(elsets)):
-        if elsets[i].upper() == 'ALL':
-            elsets.pop(i)
-            break
-    if len(elsets) > 1:
-        for elset in elsets:
-            w.post('plus e {} {}'.format(elset, colors[i]))
-            i = (i + 1) % len(colors)
+    for elset in elsets:
+        if elset.upper() == 'ALL':
+            continue
+        w.post('plus e {} blue{}'.format(elset, i))
+        i = (i + 1) % 10
+
+# Paint surfaces in CGX
+def paint_surfaces(w, m):
+    w.post('plot n all')
+    surfaces = [s.name for s in m.Mesh.surfaces.values()]
+    i = 0
+    for surf in surfaces:
+        if surf.upper() == 'ALL':
+            continue
+        w.post('plus f {} pink{}'.format(surf, i))
+        i = (i + 1) % 10

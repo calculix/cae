@@ -160,10 +160,6 @@ def import_file(s, w, m, t, j, file_name=None):
         # Parse mesh
         m.Mesh = model.parsers.mesh.Mesh(INP_file=j.inp)
 
-        # Paint sets in CGX
-        # elsets = list(m.Mesh.elsets.keys())
-        # gui.cgx.paint_elsets(w, elsets)
-
 
 if __name__ == '__main__':
     start_time = time.perf_counter()
