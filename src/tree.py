@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 """ © Ihor Mirzov, December 2019
 Distributed under GNU General Public License v3.0
 
 Methods to work with main window's treeView widget. """
-
 
 # Standard modules
 import re
@@ -22,9 +20,7 @@ import gui
 import model
 from model.kom import item_type, implementation
 
-
 class Tree:
-
 
     """
     p - Path
@@ -37,25 +33,19 @@ class Tree:
         self.s = s
         self.w = w
         self.m = m
-
-        # Now generate treeView items
         self.model = QtGui.QStandardItemModel()
         self.w.treeView.setModel(self.model)
-        self.generateTreeView(m)
-
 
     # Delete keyword's implementation in the treeView by pressing 'Delete' button
     def keyPressEvent(self, e):
         if e.key() == QtCore.Qt.Key_Delete:
             self.actionDeleteImplementation()
 
-
     # Recursively generate treeView widget items based on KOM
     def generateTreeView(self, m):
         self.model.clear() # remove all items and data from tree
         parent_element = self.model.invisibleRootItem() # top element in QTreeView
         self.addToTree(parent_element, self.m.KOM.root.items) # pass top level groups
-
 
     # Used with generateTreeView() - implements recursion
     def addToTree(self, parent_element, items):
@@ -118,7 +108,6 @@ class Tree:
                 else:
                     self.addToTree(tree_element, item.items)
 
-
     # Double click on treeView item: edit the keyword via dialog
     def doubleClicked(self):
         index = self.w.treeView.selectedIndexes()[0] # selected item index
@@ -172,7 +161,6 @@ class Tree:
 
             else:
                 logging.warning('Please, create ' + item.getParentKeywordName() + ' first.')
-
 
     # Highlight node sets, element sets or surfaces
     def clicked(self):
@@ -235,9 +223,8 @@ class Tree:
                         pass
                 # self.w.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
 
-        else:
-            self.w.deselect_cgx_sets()
-
+        # else:
+        #     self.w.deselect_cgx_sets()
 
     # Context menu for right click
     def rightClicked(self):
@@ -293,13 +280,11 @@ class Tree:
 
         self.myMenu.exec_(QtGui.QCursor.pos())
 
-
     # Show/Hide empty treeView items
     def actionShowHide(self):
         self.s.show_empty_keywords = not(self.s.show_empty_keywords)
         self.s.save() # save 'show_empty_keywords' value in settings
         self.generateTreeView(self.m)
-
 
     # Expand or collapse all treeView items
     def actionCollapseAll(self):
@@ -310,7 +295,6 @@ class Tree:
         self.w.treeView.expandAll()
         self.s.expanded = True
         self.s.save()
-
 
     # Delete keyword's implementation from KOM
     def actionDeleteImplementation(self):
@@ -354,7 +338,6 @@ class Tree:
 
             if parent != self.model.invisibleRootItem():
                 self.hideParent(parent)
-
 
     # Change KOM item's 'expanded' variable when user interacts with treeView
     def treeViewExpanded(self, index):

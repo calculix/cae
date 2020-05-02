@@ -24,17 +24,15 @@ import gui
 class Job:
 
     # Create job object
-    def __init__(self, p, file_name):
+    def __init__(self, p):
         self.p = p
-        logging.info('Application\'s home directory is:\n'\
-            + self.p.app_home_dir)
-
-        if not len(file_name):
-            file_name = s.start_model
-        self.rename(file_name)
+        msg = 'Application\'s home directory is:\n' + p.app_home_dir
+        logging.info(msg)
 
     # Rename job
-    def rename(self, file_name):
+    def initialize(self, file_name):
+        if not len(file_name):
+            file_name = s.start_model
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
         logging.info('Work directory is:\n' + self.dir)
         self.name = os.path.basename(file_name) # INP file name
@@ -62,7 +60,7 @@ class Job:
         if file_name:
             with open(file_name, 'w') as f:
                 f.writelines(lines)
-            self.rename(file_name)
+            self.initialize(file_name)
             logging.info('Input written to:\n' + file_name)
 
     # Open INP file in external text editor

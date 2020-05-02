@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 """ © Ihor Mirzov, September 2019
 Distributed under GNU General Public License v3.0
 
 Utility to calculate absolute paths to the application's main folders. """
 
-
-import os, sys
-
+import os
+import sys
 
 class Path:
-
 
     def __init__(self):
         self.ccx_version = '2.16'
@@ -47,7 +44,6 @@ class Path:
         self.img = os.path.join(self.app_home_dir, 'img')
         self.src = os.path.join(self.app_home_dir, 'src')
 
-
     # Pyinstaller bug in Windows: append 'app_home_dir' and 'src' directories to PATH
     def append_to_PATH(self, paths):
         if not os.environ['PATH'].endswith(os.pathsep):
@@ -56,7 +52,6 @@ class Path:
             if path not in os.environ['PATH']:
                 os.environ['PATH'] += path
                 os.environ['PATH'] += os.pathsep
-
 
     # Convert relative path to absolute and check
     def abspath(self, rel):
