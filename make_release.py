@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
-"""
-    © Ihor Mirzov, September 2019
-    Distributed under GNU General Public License v3.0
+""" © Ihor Mirzov, September 2019
+Distributed under GNU General Public License v3.0
 
-    Prepare binaries for publishing:
-        python3 make_release.py
-"""
+Prepare binaries for publishing:
+- python3 make_release.py
+or 'Ctrl+F5' from VSCode """
 
 
-import os, shutil, datetime, subprocess
+import os
+import shutil
+import datetime
 import PyInstaller.__main__
 
 
@@ -44,7 +45,7 @@ if __name__ == '__main__':
     PROJECT_NAME = os.path.split(os.getcwd())[-1] # name of project's folder
     DIRECTORY = os.path.join(os.path.abspath('dist'), 'cae')
     DATE = '_' + datetime.datetime.now().strftime('%Y%m%d')
-    ARCH = os.path.join('..', PROJECT_NAME + DATE + op_sys)
+    ARCH = os.path.join('./releases', PROJECT_NAME + DATE + op_sys)
 
     # Remove prev. trash
     if os.path.isdir('./dist'):
@@ -71,6 +72,7 @@ if __name__ == '__main__':
 
     # Copy files and folders from sources to 'dist'
     skip += ('dist', '.git', '.vscode', '.py', '.gitignore',
+            'releases', 'backup',
             'requirements.txt', 'default.log')
     copy('.', 'dist', skip)
 
