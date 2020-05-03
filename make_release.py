@@ -30,7 +30,6 @@ def copy(src, dst, skip):
 
 
 if __name__ == '__main__':
-
     if os.name=='nt':
         op_sys = '_windows'
         skip = ('_linux', '_linux.env', '.sh', '.desktop')
@@ -70,10 +69,16 @@ if __name__ == '__main__':
     # Rename ./dist/cae to ./dist/src
     shutil.move('./dist/cae', './dist/src')
 
+    # Prepare skip list
+    with open('.gitignore', 'r') as f:
+        lines = f.readlines()
+    for i in range(len(lines)):
+        skip += (lines[i].rstrip().lstrip('*'), )
+    skip += ('.git', '.gitignore', '.py',
+        'tests.log', 'requirements.txt',
+        'dist', 'gui', 'model')
+
     # Copy files and folders from sources to 'dist'
-    skip += ('dist', '.git', '.vscode', '.py', '.gitignore',
-            'releases', 'backup',
-            'requirements.txt', 'default.log')
     copy('.', 'dist', skip)
 
     # Make archive
