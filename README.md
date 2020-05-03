@@ -64,16 +64,16 @@ It is implied that you have already created geometry and generated mesh in some 
 # Screenshots
 
 CAE and CGX windows with imported mesh and painted surfaces:
-![Main window](img/img_surfaces.png "CAE and CGX windows")
+![img1](img/img_surfaces.png "Painted surfaces")
 
 "New keyword" dialog with corresponding chapter from HTML manual:
-![Create keyword dialog](img/img_dialog.png "Create keyword dialog")
+![img2](img/img_dialog.png "Keyword dialog")
 
 CAE and CGX windows with calculated model:
-![Main window](img/img_social.png "Calculation results")
+![img3](img/img_social.png "Calculation results")
 
 Calculation result exported to Paraview:
-![Results in Paraview](img/img_paraview.png "Results in Paraview")
+![img4](img/img_paraview.png "Results in Paraview")
 
 <br/><br/>
 
