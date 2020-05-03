@@ -3,6 +3,8 @@ __pycache__
 backup
 releases
 default.log
+architecture.odp
+architecture.png
 *.cvg
 *.dat
 *.frd
