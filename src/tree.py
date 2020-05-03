@@ -168,6 +168,11 @@ class Tree:
         # Debug for Ctrl+Click
         if not len(self.w.treeView.selectedIndexes()):
             return
+        
+        # Do not highlight when FRD is opened
+        # TODO Check if sets could be outputted to FRD
+        if self.w.mode == 'cgx_frd':
+            return
 
         index = self.w.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'

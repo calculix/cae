@@ -15,6 +15,7 @@ import time
 import logging
 import subprocess
 import threading
+import inspect
 import math
 if 'nt' in os.name:
     import ctypes
@@ -62,6 +63,9 @@ class Window(QtWidgets.QMainWindow):
         self.keyboardMapping = None
         self.last_command = None
 
+        # INP | FRD - corresponds to opened file
+        self.mode = None
+
         # self.toolBar.setParent(None) # hide toolbar
 
     # Close opened CGX (if any)
@@ -94,6 +98,9 @@ class Window(QtWidgets.QMainWindow):
         gui.cgx.kill()
         start_cgx(cmd)
         self.register_cgx_colors()
+
+        # Caller fuction name: cgx_inp | cgx_frd
+        self.mode = inspect.stack()[1].function
 
     # TODO No immediate reaction on manual writing into CGX window
     def flush_cgx_cache(self):
