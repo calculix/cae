@@ -24,7 +24,7 @@ Distributed under GNU General Public License v3.0
 
 # CalculiX CAE
 
-GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free and open source. Program is based on CalculiX keywords hierarchy. Written in Python3, utilizes PyQt5 and VTK.
+GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free and open source. Program is based on CalculiX keywords hierarchy. Written in Python3 and utilizes PyQt5.
 
 It is implied that you have already created geometry and generated mesh in some other software like [FreeCAD](https://www.freecadweb.org/) or [Salome-platform](https://www.salome-platform.org/). CacluliX CAE is designed to guide you through the keywords creation sequence and is aimed to help you reach correct input file with no mistakes.
 
@@ -34,22 +34,22 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Features
 
+- CalculiX CAE goes with the latest CGX and CCX compiled for Linux and Windows. Windows version of CGX is taken from [CalculiX Launcher v3.4](http://www.calculixforwin.com/) 
+
+- INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated with CCX.
+
+- Official [HTML documentation](doc) is natively integrated into the keyword edit dialogs.
+
 - Calculix keywords hierarchy with all attributes is maintaned in [editable XML file](config/kom.xml).
 
-- "New keyword" dialog shows apropriate chapter of the official [HTML documentation](doc).
-
-- INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated by CalculiX.
-
 - [Solid mesh parser](src/model/parsers/mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](src/tests.log).
-
-- Surfaces and sets of the imported mesh could be highlighted in the [VTK module](src/gui/vtk_widget.py).
 
 - Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable env-file with Python syntax. The file is automatically overwritten during the workflow.
 
 - [Optimal job management](src/model/job.py):
 
     - if you use subroutines, CalculiX sources could be automatically recompiled from GUI;
-    - run analysis directly from GUI - you'll be notified on job completion;
+    - run analysis directly from GUI;
     - open results in GraphiX or convert to VTU format and open them in [Paraview](https://www.paraview.org).
 
 - Supports UNV mesh import.
@@ -63,14 +63,14 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Screenshots
 
-Main window with imported mesh and highlighted node set:
-![Main window](img/img_social.png "Main window")
+CAE and CGX windows with imported mesh and painted surfaces:
+![Main window](img/img_surfaces.png "CAE and CGX windows")
 
 "New keyword" dialog with corresponding chapter from HTML manual:
 ![Create keyword dialog](img/img_dialog.png "Create keyword dialog")
 
-Main window and "new keyword" dialog in a simple view mode with hidden VTK widget and HTML help:
-![Simple view mode](img/img_simple.png "Simple view mode")
+CAE and CGX windows with calculated model:
+![Main window](img/img_social.png "Calculation results")
 
 Calculation result exported to Paraview:
 ![Results in Paraview](img/img_paraview.png "Results in Paraview")
@@ -89,14 +89,14 @@ Both sources and binaries could be found on [the releases page](https://github.c
 
 # How to use
 
-CacluliX CAE is portable software and doesn't need to be installed. Just extract archive, make binary executable and run it with double click. **To view results in GraphiX and Paraview configure pathes in File->Settings**.
+CacluliX CAE is portable software and doesn't need to be installed. Just extract archive, make binary executable and run it with double click. **To view results in Paraview configure path in File->Settings**.
 
 The intended workflow is:
 
 - create geometry and mesh in [Salome-platform](https://www.salome-platform.org/),
 - save mesh as UNV or export it to INP with [Salome to CalculiX mesh exporter](https://github.com/psicofil/SalomeToCalculix),
-- import INP or UNV mesh to CAE and continue creating model,
-- if needed, edit Fortran subroutines and rebuild ccx (Job->Rebuild CalculiX),
+- import INP or UNV mesh into CAE and continue creating model,
+- if needed, edit Fortran subroutines and rebuild CCX (Job->Rebuild CalculiX),
 - submit job from CAE,
 - export job result to the Paraview post-processor or view it in GraphiX.
 
@@ -162,9 +162,12 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 # What's new
 
 + CalculiX solver v. 2.16.
-+ From now CGX is embed into CAE! CAE sends commands to CGX to highlight surfaces, node and element sets.
++ From now CGX is embed into CAE!
++ CAE sends commands to CGX to highlight surfaces, node and element sets.
++ All logs are handled in the textEdit (including CGX messages).
 + INP example models are excluded from distribution. Please, download examples from https://github.com/calculix/examples
 + Mesh object is reparsed after edit in the treeView.
++ Elsets and surfaces could be painted in different colors. See menu Job.
 
 <br/><br/>
 
@@ -172,42 +175,27 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 # TODO
 
-## Improvements and bugfixes
-
 - During keyword's edit parse arguments and pass them to Dialog.
-- Autoclose CAE if CGX is closed.
-- Send CGX output to the treeView.
 - Settings Dialog: add buttons to Pathes to open files.
 
-## New features
+- Python code (*PYTHON keyword) in the INP_code for step repetition and other kind of model generation. Invent some kind of Python API for CAE.
 
-- It would be nice if different ELSETS were assigned different colors for visualization.
-
+- treeView: import certain keyword with descendants (tree branch) from INP-file.
 - treeView: show implementations only.
 
-- Python code (*PYTHON keyword) in INP_code for step repetition and other kind of model generation.
-
-- Import certain keyword with descendants (tree branch) from INP-file.
-
 - Interface for materials import. Enrich Materials library.
-
-- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), Abaqus INP and ODB.
-
-- [meshio converter](https://github.com/nschloe/meshio)
-
-- [Martin Kraska examples](https://github.com/mkraska/CalculiX-Examples)
-
-- M.Kraska: support the param.py parametrization mechanism.
-
 - Prool's INP-templates and snippets.
 
-- Menu Help:
-    - PDF manual / YouTube videos for beginners.
+- [meshio converter](https://github.com/nschloe/meshio)
+- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), Abaqus INP and ODB.
 
-- Handle all logs in textEdit.
-
-- CAE should be independent and be able to be embeded into FreeCAD.
 
 - Forward .fbd/.fbl to CGX.
+- [Martin Kraska examples](https://github.com/mkraska/CalculiX-Examples)
+- M.Kraska: support the param.py parametrization mechanism.
+
+- Menu Help: PDF manual / YouTube videos for beginners.
+
+- CAE should be independent and be able to be embeded into FreeCAD.
 
 - Change CGX colormaps via Xlib
