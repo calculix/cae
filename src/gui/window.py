@@ -62,7 +62,7 @@ class Window(QtWidgets.QMainWindow):
         self.keyboardMapping = None
         self.last_command = None
 
-        self.toolBar.setParent(None) # hide toolbar
+        # self.toolBar.setParent(None) # hide toolbar
 
     # Close opened CGX (if any)
     # open a new one and get window ID
@@ -81,7 +81,8 @@ class Window(QtWidgets.QMainWindow):
                 logging.error(msg)
                 sys.exit(msg)
             gui.log.read_output(self.process.stdout)
-            self.align()
+            if self.s.align_windows:
+                self.align()
             self.flush_cgx_cache()
 
         if not os.path.isfile(self.s.path_cgx):

@@ -36,8 +36,6 @@ class Settings():
 
             # Windows
             if os.name=='nt':
-                # self.path_ccx = os.path.join(self.p.bin,
-                #                     'ccx_' + self.p.ccx_version + '_MT.exe')
                 self.path_ccx = os.path.join(self.p.bin, 'ccx.exe')
                 self.path_cgx = os.path.join(self.p.bin, 'cgx.exe')
                 self.path_paraview = 'C:\\Program Files\\ParaView\\bin\\paraview.exe'
@@ -45,21 +43,18 @@ class Settings():
 
             # Linux
             else:
-                # self.path_ccx = os.path.join(self.p.bin,
-                #                     'ccx_' + self.p.ccx_version + '_MT')
                 self.path_ccx = os.path.join(self.p.bin, 'ccx')
                 self.path_cgx = os.path.join(self.p.bin, 'cgx')
                 self.path_paraview = '/opt/ParaView/bin/paraview'
                 self.path_editor = '/snap/bin/code'
 
             self.logging_level = 'INFO'
-            # self.vtk_view = 'WithEdges'
+            self.model_view = 'view fill'
             self.show_empty_keywords = True
             self.expanded = True
-            # self.vtk_show_axes = True
-            # self.vtk_parallel_view = True
             self.show_help = True
-            # self.show_vtk = False
+            self.run_cgx_on_start = True
+            self.align_windows = True
 
 
     # Open dialog window and pass settings
@@ -69,13 +64,13 @@ class Settings():
 
         # Warning about Cygwin DLLs
         if os.name=='nt':
-            logging.warning('In Windows ccx binary may not work if placed outside \'bin\' directory. It needs Cygwin DLLs!')
+            logging.warning('In Windows CCX/CGX binaries may not work if placed outside \'bin\' directory. They need Cygwin DLLs!')
 
         # Get response from dialog window
         if sd.exec(): # == 1 if user pressed 'OK'
             sd.save()
             self.__init__() # read settings from file
-            logging.warning('For some settings to take effect application\'s restart may be needed.')
+            # logging.warning('For some settings to take effect application\'s restart may be needed.')
 
 
     # Automatic save current settings during the workflow

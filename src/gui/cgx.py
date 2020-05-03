@@ -60,7 +60,8 @@ def kill():
 
 # Paint element sets in CGX
 def paint_elsets(w, m):
-    w.post('plot n all')
+    w.post('plot e all')
+    w.post('minus e all')
     elsets = [e.name for e in m.Mesh.elsets.values()]
     i = 0
     for elset in elsets:
@@ -71,7 +72,8 @@ def paint_elsets(w, m):
 
 # Paint surfaces in CGX
 def paint_surfaces(w, m):
-    w.post('plot n all')
+    w.post('plot e all')
+    w.post('minus e all')
     surfaces = [s.name for s in m.Mesh.surfaces.values()]
     i = 0
     for surf in surfaces:

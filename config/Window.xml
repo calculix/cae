@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>640</height>
+    <height>672</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -203,19 +203,17 @@ p, li { white-space: pre-wrap; }
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionViewParallel"/>
-   <addaction name="actionViewPerspective"/>
-   <addaction name="actionViewFront"/>
-   <addaction name="actionViewBack"/>
-   <addaction name="actionViewTop"/>
-   <addaction name="actionViewBottom"/>
-   <addaction name="actionViewLeft"/>
-   <addaction name="actionViewRight"/>
-   <addaction name="actionViewIso"/>
-   <addaction name="actionViewFit"/>
-   <addaction name="actionViewWireframe"/>
-   <addaction name="actionViewSurface"/>
-   <addaction name="actionViewSurfaceWithEdges"/>
+   <addaction name="action_view_line"/>
+   <addaction name="action_view_fill"/>
+   <addaction name="action_view_elem"/>
+   <addaction name="action_view_frame"/>
+   <addaction name="action_view_plus_x"/>
+   <addaction name="action_view_minus_x"/>
+   <addaction name="action_view_plus_y"/>
+   <addaction name="action_view_minus_y"/>
+   <addaction name="action_view_plus_z"/>
+   <addaction name="action_view_minus_z"/>
+   <addaction name="action_view_iso"/>
   </widget>
   <action name="action_file_import">
    <property name="icon">
@@ -226,115 +224,97 @@ p, li { white-space: pre-wrap; }
     <string>Import</string>
    </property>
   </action>
-  <action name="actionViewFit">
+  <action name="action_view_frame">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
-     <normaloff>../img/toolBar_viewFit.png</normaloff>../img/toolBar_viewFit.png</iconset>
+     <normaloff>../img/action_view_frame.png</normaloff>../img/action_view_frame.png</iconset>
    </property>
    <property name="text">
-    <string>Fit view</string>
+    <string>frame</string>
    </property>
   </action>
-  <action name="actionViewParallel">
+  <action name="action_view_minus_x">
    <property name="icon">
     <iconset>
-     <normaloff>../img/toolBar_viewParallel.png</normaloff>../img/toolBar_viewParallel.png</iconset>
+     <normaloff>../img/action_view_minus_x.png</normaloff>../img/action_view_minus_x.png</iconset>
    </property>
    <property name="text">
-    <string>Parallel View</string>
+    <string>rot -x</string>
    </property>
    <property name="toolTip">
-    <string>Parallel View</string>
+    <string>rot -x</string>
    </property>
   </action>
-  <action name="actionViewPerspective">
+  <action name="action_view_minus_y">
    <property name="icon">
     <iconset>
-     <normaloff>../img/toolBar_viewPerspective.png</normaloff>../img/toolBar_viewPerspective.png</iconset>
+     <normaloff>../img/action_view_minus_y.png</normaloff>../img/action_view_minus_y.png</iconset>
    </property>
    <property name="text">
-    <string>Perspective View</string>
+    <string>rot -y</string>
    </property>
    <property name="toolTip">
-    <string>Perspective View</string>
+    <string>rot -y</string>
    </property>
   </action>
-  <action name="actionViewFront">
+  <action name="action_view_minus_z">
    <property name="icon">
     <iconset>
-     <normaloff>../img/toolBar_viewFront.png</normaloff>../img/toolBar_viewFront.png</iconset>
+     <normaloff>../img/action_view_minus_z.png</normaloff>../img/action_view_minus_z.png</iconset>
    </property>
    <property name="text">
-    <string>Front View</string>
+    <string>rot -z</string>
    </property>
    <property name="toolTip">
-    <string>Front View</string>
+    <string>rot -z</string>
    </property>
   </action>
-  <action name="actionViewBack">
+  <action name="action_view_plus_x">
    <property name="icon">
     <iconset>
-     <normaloff>../img/toolBar_viewBack.png</normaloff>../img/toolBar_viewBack.png</iconset>
+     <normaloff>../img/action_view_plus_x.png</normaloff>../img/action_view_plus_x.png</iconset>
    </property>
    <property name="text">
-    <string>Back View</string>
+    <string>rot x</string>
    </property>
    <property name="toolTip">
-    <string>Back View</string>
+    <string>rot x</string>
    </property>
   </action>
-  <action name="actionViewTop">
+  <action name="action_view_plus_y">
    <property name="icon">
     <iconset>
-     <normaloff>../img/toolBar_viewTop.png</normaloff>../img/toolBar_viewTop.png</iconset>
+     <normaloff>../img/action_view_plus_y.png</normaloff>../img/action_view_plus_y.png</iconset>
    </property>
    <property name="text">
-    <string>Top View</string>
+    <string>rot y</string>
    </property>
    <property name="toolTip">
-    <string>Top View</string>
+    <string>rot y</string>
    </property>
   </action>
-  <action name="actionViewBottom">
+  <action name="action_view_plus_z">
    <property name="icon">
     <iconset>
-     <normaloff>../img/toolBar_viewBottom.png</normaloff>../img/toolBar_viewBottom.png</iconset>
+     <normaloff>../img/action_view_plus_z.png</normaloff>../img/action_view_plus_z.png</iconset>
    </property>
    <property name="text">
-    <string>Bottom View</string>
+    <string>rot z</string>
    </property>
    <property name="toolTip">
-    <string>Bottom View</string>
+    <string>rot z</string>
    </property>
   </action>
-  <action name="actionViewLeft">
+  <action name="action_view_iso">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
-     <normaloff>../img/toolBar_viewLeft.png</normaloff>../img/toolBar_viewLeft.png</iconset>
-   </property>
-   <property name="text">
-    <string>Left View</string>
-   </property>
-   <property name="toolTip">
-    <string>Left View</string>
-   </property>
-  </action>
-  <action name="actionViewRight">
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/toolBar_viewRight.png</normaloff>../img/toolBar_viewRight.png</iconset>
-   </property>
-   <property name="text">
-    <string>Right View</string>
-   </property>
-   <property name="toolTip">
-    <string>Right View</string>
-   </property>
-  </action>
-  <action name="actionViewIso">
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/toolBar_viewIso.png</normaloff>../img/toolBar_viewIso.png</iconset>
+     <normaloff>../img/action_view_iso.png</normaloff>../img/action_view_iso.png</iconset>
    </property>
    <property name="text">
     <string>Iso View</string>
@@ -343,40 +323,49 @@ p, li { white-space: pre-wrap; }
     <string>Iso View</string>
    </property>
   </action>
-  <action name="actionViewWireframe">
+  <action name="action_view_line">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
-     <normaloff>../img/toolBar_viewWireframe.png</normaloff>../img/toolBar_viewWireframe.png</iconset>
+     <normaloff>../img/action_view_line.png</normaloff>../img/action_view_line.png</iconset>
    </property>
    <property name="text">
-    <string>Wireframe View</string>
+    <string>view line</string>
    </property>
    <property name="toolTip">
-    <string>Wireframe View</string>
+    <string>view line</string>
    </property>
   </action>
-  <action name="actionViewSurface">
+  <action name="action_view_fill">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
-     <normaloff>../img/toolBar_viewSurface.png</normaloff>../img/toolBar_viewSurface.png</iconset>
+     <normaloff>../img/action_view_fill.png</normaloff>../img/action_view_fill.png</iconset>
    </property>
    <property name="text">
-    <string>Surface View</string>
+    <string>view fill</string>
    </property>
    <property name="toolTip">
-    <string>Surface View</string>
+    <string>view fill</string>
    </property>
   </action>
-  <action name="actionViewSurfaceWithEdges">
+  <action name="action_view_elem">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
-     <normaloff>../img/toolBar_viewSurfaceWithEdges.png</normaloff>../img/toolBar_viewSurfaceWithEdges.png</iconset>
+     <normaloff>../img/action_view_elem.png</normaloff>../img/action_view_elem.png</iconset>
    </property>
    <property name="text">
-    <string>Surface View With Edges</string>
+    <string>view elem</string>
    </property>
    <property name="toolTip">
-    <string>Surface View With Edges</string>
+    <string>view elem</string>
    </property>
   </action>
   <action name="action_file_settings">

@@ -159,7 +159,7 @@ def read_output(pipe):
                 line = filter_backspaces(line)
                 line = line.decode().strip()
                 log_line(line)
-                # time.sleep(0.03)
+                time.sleep(0.03) # CAE dies during fast logging
             else:
                 time.sleep(0.3) # reduce CPU usage
 

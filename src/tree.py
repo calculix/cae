@@ -297,6 +297,7 @@ class Tree:
         self.s.save()
 
     # Delete keyword's implementation from KOM
+    # TODO reparse mesh
     def actionDeleteImplementation(self):
         index = self.w.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'

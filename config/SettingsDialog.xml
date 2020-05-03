@@ -218,59 +218,90 @@
         <number>6</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <property name="spacing">
-          <number>6</number>
+        <widget class="QLabel" name="label_logging_level">
+         <property name="text">
+          <string>Logging level:</string>
          </property>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout">
-           <item>
-            <widget class="QLabel" name="label_logging_level">
-             <property name="text">
-              <string>Logging level:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="logging_level">
-             <property name="currentText">
-              <string>INFO</string>
-             </property>
-             <item>
-              <property name="text">
-               <string>INFO</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>DEBUG</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>WARNING</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>ERROR</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
+        </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
+        <widget class="QComboBox" name="logging_level">
+         <property name="currentText">
+          <string>INFO</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>INFO</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>DEBUG</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WARNING</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ERROR</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_9">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>300</width>
+           <height>10</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_model_view">
+         <property name="text">
+          <string>Default model view:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="model_view">
+         <property name="currentText">
+          <string>view fill</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>view fill</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>view line</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>view elem</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_7">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
            <width>338</width>
-           <height>18</height>
+           <height>30</height>
           </size>
          </property>
         </spacer>
@@ -286,19 +317,6 @@
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>338</width>
-           <height>18</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <widget class="QCheckBox" name="expanded">
          <property name="text">
           <string>Expand treeView branches</string>
@@ -309,22 +327,29 @@
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer_10">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>338</width>
-           <height>18</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <widget class="QCheckBox" name="show_help">
          <property name="text">
           <string>Show HTML help with keywords dialog</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="run_cgx_on_start">
+         <property name="text">
+          <string>Run CGX on start</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="align_windows">
+         <property name="text">
+          <string>Align windows</string>
          </property>
          <property name="checked">
           <bool>true</bool>

@@ -220,7 +220,7 @@ class Job:
             if len(cmd2):
                 process.stdin.write(bytes(cmd2, 'utf8'))
                 process.stdin.close()
-            gui.log.read_output(process.stdout, 'job')
+            gui.log.read_output(process.stdout)
         os.chdir(self.p.app_home_dir)
 
 

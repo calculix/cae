@@ -62,3 +62,23 @@ def actions(s, w, m, t, j):
     w.treeView.customContextMenuRequested.connect(t.rightClicked)
     w.treeView.expanded.connect(t.treeViewExpanded)
     w.treeView.collapsed.connect(t.treeViewCollapsed)
+
+    # ToolBar actions
+    w.action_view_minus_x.triggered.connect(lambda: w.post('rot -x'))
+    w.action_view_minus_y.triggered.connect(lambda: w.post('rot -y'))
+    w.action_view_minus_z.triggered.connect(lambda: w.post('rot -z'))
+    w.action_view_plus_x.triggered.connect(lambda: w.post('rot x'))
+    w.action_view_plus_y.triggered.connect(lambda: w.post('rot y'))
+    w.action_view_plus_z.triggered.connect(lambda: w.post('rot z'))
+    w.action_view_frame.triggered.connect(lambda: w.post('frame'))
+
+    w.action_view_iso.triggered.connect(lambda: w.post('rot -z'))
+    w.action_view_iso.triggered.connect(lambda: w.post('rot r 45'))
+    w.action_view_iso.triggered.connect(lambda: w.post('rot u 45'))
+
+    w.action_view_line.triggered.connect(lambda: w.post('view elem off'))
+    w.action_view_line.triggered.connect(lambda: w.post('view line'))
+    w.action_view_fill.triggered.connect(lambda: w.post('view elem off'))
+    w.action_view_fill.triggered.connect(lambda: w.post('view fill'))
+    w.action_view_elem.triggered.connect(lambda: w.post('view fill'))
+    w.action_view_elem.triggered.connect(lambda: w.post('view elem'))

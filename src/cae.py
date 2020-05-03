@@ -76,7 +76,8 @@ def import_file(s, w, m, t, j, file_name=None):
                 return
 
         # Open model in CGX
-        j.cgx_inp(s, w)
+        if s.run_cgx_on_start:
+            j.cgx_inp(s, w)
 
         # Show model name in window's title
         w.setWindowTitle('CalculiX CAE - ' + j.name)
@@ -220,6 +221,11 @@ if __name__ == '__main__':
     j = model.job.Job(p) # create job object
     actions.actions(s, w, m, t, j) # window actions
     import_file(s, w, m, t, j, start_model) # import default model
+
+    if s.run_cgx_on_start:
+        w.post(s.model_view)
+    if not s.run_cgx_on_start and s.align_windows:
+        w.align()
     logging.info('Started in {:.1f} seconds.'
         .format(time.perf_counter() - start_time))
 
