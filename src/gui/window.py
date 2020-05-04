@@ -102,7 +102,7 @@ class Window(QtWidgets.QMainWindow):
         # Caller fuction name: cgx_inp | cgx_frd
         self.mode = inspect.stack()[1].function
 
-    # TODO No immediate reaction on manual writing into CGX window
+    # The only way to get last output from CGX
     def flush_cgx_cache(self):
         self.post(' ')
 
@@ -380,25 +380,23 @@ class Linux_window(Window):
         self.post('wsize {} {}'.format(math.floor(width*2/3), height))
         time.sleep(0.3)
 
-    # TODO colormaps for CGX
-    def change_colormap(self):
-        pass
-        # self.colormap = self.screen.default_colormap
-        # col = self.colormap.alloc_color(0, 0, 0)
-        # print(col)
-        # self.colormap.store_colors([col])
-        # for c in self.colormap.query_colors([0, 1, 2, 3, 4, 5, 6, 7]):
-        #     print(c)
-        # DefaultVisual
-        # print(self.screen.default_colormap)
-        # c = w1.create_colormap() # Xlib.xobject.colormap.Colormap
-        # w1.change_attributes(colormap=c)
-        # w1.configure(colormap=c)
-        # w1.set_wm_colormap_windows()
-        # for cmap in w1.list_installed_colormaps():
-        #     print(cmap)
-        # for cmap in w2.list_installed_colormaps():
-        #     print(cmap)
+    # def change_colormap(self):
+    #     self.colormap = self.screen.default_colormap
+    #     col = self.colormap.alloc_color(0, 0, 0)
+    #     print(col)
+    #     self.colormap.store_colors([col])
+    #     for c in self.colormap.query_colors([0, 1, 2, 3, 4, 5, 6, 7]):
+    #         print(c)
+    #     DefaultVisual
+    #     print(self.screen.default_colormap)
+    #     c = w1.create_colormap() # Xlib.xobject.colormap.Colormap
+    #     w1.change_attributes(colormap=c)
+    #     w1.configure(colormap=c)
+    #     w1.set_wm_colormap_windows()
+    #     for cmap in w1.list_installed_colormaps():
+    #         print(cmap)
+    #     for cmap in w2.list_installed_colormaps():
+    #         print(cmap)
 
 
 class Windows_window(Window):

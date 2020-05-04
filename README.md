@@ -198,4 +198,6 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - CAE should be independent and be able to be embeded into FreeCAD.
 
-- Change CGX colormaps via Xlib
+- Change CGX colormaps via Xlib.
+
+- Reparse mesh/model after tree.actionDeleteImplementation.

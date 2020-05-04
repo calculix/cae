@@ -170,7 +170,6 @@ class Tree:
             return
         
         # Do not highlight when FRD is opened
-        # TODO Check if sets could be outputted to FRD
         if self.w.mode == 'cgx_frd':
             return
 
@@ -302,7 +301,6 @@ class Tree:
         self.s.save()
 
     # Delete keyword's implementation from KOM
-    # TODO reparse mesh
     def actionDeleteImplementation(self):
         index = self.w.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
