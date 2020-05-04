@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-""" © Ihor Mirzov, December 2019
+""" © Ihor Mirzov, May 2020
 Distributed under GNU General Public License v3.0
 
 Main window class. """

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, September 2019
+""" © Ihor Mirzov, May 2020
 Distributed under GNU General Public License v3.0
 
 Job submition and convertion. Run a detached process and

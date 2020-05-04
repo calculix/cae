@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
-""" © Ihor Mirzov, February 2020
+""" © Ihor Mirzov, May 2020
 Distributed under GNU General Public License v3.0
 
 Parses finite element mesh from the CalculiX .inp-file.
 Reads nodes coordinates, elements composition,
 node and element sets and surfaces """
-
 
 import re
 import logging

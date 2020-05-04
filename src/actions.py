@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-    © Ihor Mirzov, December 2019
-    Distributed under GNU General Public License v3.0
+""" © Ihor Mirzov, May 2020
+Distributed under GNU General Public License v3.0
 
-    Main window actions - all processed signals.
-"""
-
+Main window actions - all processed signals. """
 
 from PyQt5 import QtWidgets
 import cae

@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+""" © Ihor Mirzov, May 2020
+Distributed under GNU General Public License v3.0
 
-"""
-    © Ihor Mirzov, September 2019
-    Distributed under GNU General Public License v3.0
-
-    Dialog window to create/edit keyword's implementation.
-    Called via double click on keyword in the treeView.
-    Here we define a keyword's implementation: its name and INP_code.
-"""
+Dialog window to create/edit keyword's implementation.
+Called via double click on keyword in the treeView.
+Here we define a keyword's implementation: its name and INP_code. """
 
 
 import sys, os, re, logging

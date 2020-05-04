@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 7 June 2019 - April 2020
+""" © Ihor Mirzov, May 2020
 Distributed under GNU General Public License v3.0
 
 CalculiX CAE - main module.

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 """ © Ihor Mirzov, April 2020
 Distributed under GNU General Public License v3.0
 
