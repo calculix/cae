@@ -1,4 +1,4 @@
-© Ihor Mirzov, May 2020
+© Ihor Mirzov, May 2020  
 Distributed under GNU General Public License v3.0
 
 <br/><br/>
@@ -162,10 +162,11 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 # What's new
 
 + CalculiX solver v. 2.16.
-+ From now CGX is embed into CAE!
++ UNV2CCX converter v. 1.1.
++ From now CGX is embed into the distribution!
 + CAE sends commands to CGX to highlight surfaces, node and element sets.
 + All logs are handled in the textEdit (including CGX messages).
-+ INP example models are excluded from distribution. Please, download examples from https://github.com/calculix/examples
++ INP example models are excluded from distribution. See menu Help. Download examples from https://github.com/calculix/examples
 + Mesh object is reparsed after edit in the treeView.
 + Elsets and surfaces could be painted in different colors. See menu Job.
 
@@ -201,3 +202,5 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - Change CGX colormaps via Xlib.
 
 - Reparse mesh/model after tree.actionDeleteImplementation.
+
+- Merge tests.py and model.parsers.mesh.py

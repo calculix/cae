@@ -7,12 +7,10 @@ Prepare binaries for publishing:
 - python3 make_release.py
 or 'Ctrl+F5' from VSCode """
 
-
 import os
 import shutil
 import datetime
 import PyInstaller.__main__
-
 
 def copy(src, dst, skip):
     for f in os.listdir(src):
@@ -28,11 +26,11 @@ def copy(src, dst, skip):
             if os.path.isfile(src_path):
                 shutil.copy2(src_path, dst_path)
 
-
 if __name__ == '__main__':
     if os.name=='nt':
         op_sys = '_windows'
-        skip = ('_linux', '_linux.env', '.sh', '.desktop')
+        skip = ('_linux', '_linux.env', '.sh', '.desktop',
+            'ccx', 'cgx', 'unv2ccx', 'ccx2paraview')
         extension = '.exe' # binary extension in OS
         TEMP = 'C:\\Windows\\Temp\\'
     else:
@@ -42,7 +40,6 @@ if __name__ == '__main__':
         TEMP = '/tmp/'
 
     PROJECT_NAME = os.path.split(os.getcwd())[-1] # name of project's folder
-    DIRECTORY = os.path.join(os.path.abspath('dist'), 'cae')
     DATE = '_' + datetime.datetime.now().strftime('%Y%m%d')
     ARCH = os.path.join('./releases', PROJECT_NAME + DATE + op_sys)
 
