@@ -10,54 +10,38 @@ import os
 import logging
 
 # Recurcively read all the lines of the file and its includes
-def readLines(INP_file, include=False):
-    lines = []
-    INP_file = os.path.abspath(INP_file) # full path
-    if os.path.isfile(INP_file):
-        with open(INP_file, 'rb') as f:
-            line = readByteLine(f)
-            while line != None:
-
-                # Skip comments and empty lines
-                if (not line.startswith('**')) and len(line):
-                    lines.append(line)
-
-                    # Append lines from include file
-                    if include and line.upper().startswith('*INCLUDE'):
-                        inc_file = line.split('=')[1].strip()
-                        inc_file = os.path.join(os.path.dirname(INP_file),
-                                        os.path.basename(inc_file)) # file name with path
-                        lines.extend(readLines(inc_file))
-
-                line = readByteLine(f)
-    else:
+def read_lines(INP_file):
+    INP_file = os.path.abspath(INP_file)
+    if not os.path.isfile(INP_file):
         msg_text = 'File not found: ' + INP_file
         logging.error(msg_text)
+        return []
+
+    lines = []
+    with open(INP_file, 'r') as f:
+        for line in f.readlines():
+            line = line.strip()
+
+            # Skip comments and empty lines
+            if line.startswith('**') and len(line)==0:
+                continue
+
+            lines.append(line)
+
+            # Append lines from include file
+            if line.upper().startswith('*INCLUDE'):
+                inc_file = line.split('=')[1].strip()
+                inc_file = os.path.normpath(
+                    os.path.join(os.path.dirname(INP_file), inc_file))
+                lines.extend(read_lines(inc_file))
 
     return lines
 
-# Read byte line and decode: return None after EOF
-def readByteLine(f):
-
-    # Check EOF
-    byte = f.read(1)
-    if not byte:
-        return None
-
-    # Convert first byte
-    try:
-        line = byte.decode()
-    except UnicodeDecodeError:
-        line = ' ' # replace endecoded symbols with space
-
-    # Continue reading until EOF or new line
-    while byte != b'\n':
-        byte = f.read(1)
-        if not byte:
-            return line.strip() # EOF
-        try:
-            line += byte.decode()
-        except UnicodeDecodeError:
-            line += ' ' # replace endecoded symbols with space
-
-    return line.strip()
+# Test run
+if __name__=='__main__':
+    d = os.path.dirname(__file__)
+    d = os.path.join(d, '..', 'examples')
+    INP_file = os.path.join(d, 'Ihor_Mirzov_baffle_2D.inp')
+    INP_file = os.path.normpath(INP_file)
+    print(os.path.dirname(INP_file))
+    read_lines(INP_file)
