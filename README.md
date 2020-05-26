@@ -9,7 +9,7 @@ Distributed under GNU General Public License v3.0
 
 [Features](#features) |
 [Screenshots](#screenshots) |
-[Downloads](#downloads) |
+[Downloads](https://github.com/calculix/cae/releases) |
 [How to use](#how-to-use) |
 [Your help](#your-help) |
 [For developers](#for-developers) |
@@ -34,11 +34,11 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Features
 
-- CalculiX CAE goes with the latest CGX and CCX compiled for Linux and Windows. Windows version of CGX is taken from [CalculiX Launcher v3.4](http://www.calculixforwin.com/) 
+- CalculiX CAE comes with the latest CGX and CCX compiled for Linux and Windows. Windows version of CGX is taken from [CalculiX Launcher v3.4](http://www.calculixforwin.com/) 
 
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated with CCX.
 
-- Official [HTML documentation](doc) is natively integrated into the keyword edit dialogs.
+- Official [HTML documentation](doc) is natively integrated into the keyword edit dialogs (Help button).
 
 - Calculix keywords hierarchy with all attributes is maintaned in [editable XML file](config/kom.xml).
 
@@ -74,14 +74,6 @@ CAE and CGX windows with calculated model:
 
 Calculation result exported to Paraview:
 ![img4](img/img_paraview.png "Results in Paraview")
-
-<br/><br/>
-
-
-
-# Downloads
-
-Both sources and binaries could be found on [the releases page](https://github.com/calculix/cae/releases).
 
 <br/><br/>
 
@@ -161,14 +153,7 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 # What's new
 
-+ CalculiX solver v. 2.16.
-+ UNV2CCX converter v. 1.1.
-+ From now CGX is embed into the distribution!
-+ CAE sends commands to CGX to highlight surfaces, node and element sets.
-+ All logs are handled in the textEdit (including CGX messages).
-+ INP example models are excluded from distribution. See menu Help. Download examples from https://github.com/calculix/examples
-+ Mesh object is reparsed after edit in the treeView.
-+ Elsets and surfaces could be painted in different colors. See menu Job.
++ Now help on CalculiX keywords is opened in the default web browser. Embeded QWebEngineView was removed. It led to relatively lightweight distribution.
 
 <br/><br/>
 
@@ -203,4 +188,8 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - Reparse mesh/model after tree.actionDeleteImplementation.
 
-- Merge tests.py and model.parsers.mesh.py
+- Merge tests.py and model.parsers.mesh.py.
+
+- Collapse/expand treeView items with left/right buttons.
+
+- Rebuild documentation for version 2.16. Make a tool.

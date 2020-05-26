@@ -8,95 +8,54 @@ Dialog window to create/edit keyword's implementation.
 Called via double click on keyword in the treeView.
 Here we define a keyword's implementation: its name and INP_code. """
 
+# TODO Align windows: dialog and web browser
+# TODO: List already created implementations in the dialog fields
 
-import sys, os, re, logging
-from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtWebEngineWidgets
-from path import Path
-from settings import Settings
+# Standard modules
+import os
+import sys
+import re
+import time
+import logging
+import webbrowser
+
+# External modules
+try:
+    from PyQt5 import QtWidgets, uic, QtCore, QtGui
+except:
+    msg = 'Please, install PyQt5 with command:\n'\
+        + 'pip3 install PyQt5'
+    sys.exit(msg)
+
+# My modules
 from model.kom import item_type
-
-
-# Load HTML help into QWebEngineView
-def saveHTML(item, doc):
-    USE_CACHED_HTML = True # if False cached html will NOT be used
-
-    # Get keyword name
-    if item.item_type == item_type.KEYWORD:
-        keyword_name = item.name[1:] # cut star
-    if item.item_type == item_type.IMPLEMENTATION:
-        keyword_name = item.parent.name[1:] # cut star
-
-    # Avoid spaces in html page names
-    html_page_name = keyword_name.replace(' ', '_')
-
-    # folder = os.path.dirname(sys.argv[0])
-    # folder = os.path.abspath(folder)
-    # folder = os.path.join(folder, '../doc')
-    url = os.path.join(doc, html_page_name + '.html')
-
-    # Generate html file if it wasn't created previously
-    if not os.path.isfile(url) or not USE_CACHED_HTML:
-
-        # Open 'ccx.html' and find link to keyword's page
-        href = 'ccx.html'
-        with open(os.path.join(doc, href), 'r') as f:
-            for line in f.readlines():
-                match = re.search('node\d{3}\.html.{3}' + keyword_name, line) # regex to match href
-                if match:
-                    href = match.group(0)[:12]
-                    break
-
-        # Read html of the keyword's page
-        html = '<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body>'
-        with open(os.path.join(doc, href), 'r') as f:
-            append = False
-            cut_breakline = True
-            for line in f.readlines():
-                if '<!--End of Navigation Panel-->' in line:
-                    append = True
-                    continue
-                if '<HR>' in  line:
-                    break
-                if '<PRE>' in line:
-                    cut_breakline = False
-                if '</PRE>' in line:
-                    cut_breakline = True
-                if append:
-                    if cut_breakline:
-                        line = line[:-1] + ' ' # replace '\n' with space
-                    html += line
-        html += '</body></html>'
-        html = re.sub('<A.+?\">', '', html) # '?' makes it not greedy
-        html = html.replace('</A>', '')
-        with open(url, 'w') as f:
-            f.write(html)
-
-    return url
-
 
 class KeywordDialog(QtWidgets.QDialog):
 
-
-    def __init__(self, KOM, item):
-
-        # Create dialog window
-        super(KeywordDialog, self).__init__()
-
-        # Read application's global settings
-        self.settings = Settings()
-
-        # Load basic form
-        p = Path() # calculate absolute paths
-        uic.loadUi(p.dialog_xml, self)
-
-        self.widgets = [] # list of created widgets
+    """
+    p - Path
+    s - Settings
+    w - Window
+    """
+    def __init__(self, p, s, w, KOM, item):
+        self.p = p
+        self.s = s
+        self.w = w
         self.item = item # needed to pass to other functions
+        self.widgets = [] # list of created widgets
+
+        # Create dialog, load form and align window
+        super(KeywordDialog, self).__init__()
+        uic.loadUi(self.p.dialog_xml, self)
+        if self.s.align_windows:
+            size = QtWidgets.QDesktopWidget().screenGeometry(-1)
+            self.setGeometry(0, 0, size.width()/3, size.height())
 
         # Add window icon (different for each keyword)
         icon_name = item.name.replace('*', '') + '.png'
         icon_name = icon_name.replace(' ', '_')
         icon_name = icon_name.replace('-', '_')
-        icon_path = os.path.join(p.img, 'icon_' + icon_name.lower())
+        icon_path = os.path.join(self.p.img, 'icon_' + icon_name.lower())
         icon = QtGui.QIcon(icon_path)
         self.setWindowIcon(icon)
 
@@ -212,20 +171,10 @@ class KeywordDialog(QtWidgets.QDialog):
             for line in self.item.INP_code:
                 self.textEdit.append(line)
 
-        # Generate html help page from official manual
-        self.doc = QtWebEngineWidgets.QWebEngineView()
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding,
-                QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(1) # expand horizontally
-        self.doc.setSizePolicy(sizePolicy)
-
-        self.showHideHelp(False, p)
-
         # Actions
         self.buttonBox.accepted.connect(self.onOk)
         self.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.onReset)
-        self.helpButton.clicked.connect(lambda: self.showHideHelp(True, p))
-
+        self.buttonBox.helpRequested.connect(self.onHelp)
 
     # Update piece of INP-code in the textEdit widget
     def onChange(self, event):
@@ -274,7 +223,6 @@ class KeywordDialog(QtWidgets.QDialog):
 
         self.textEdit.setText(string)
 
-
     # Reset textEdit widget to initial state
     def onReset(self):
         for i, widget in enumerate(self.widgets):
@@ -287,34 +235,80 @@ class KeywordDialog(QtWidgets.QDialog):
                     widget.setChecked(False) # uncheck is default
         self.onChange(None)
 
-
     # Return piece of created code for the .inp-file
     def onOk(self):
         super(KeywordDialog, self).accept()
         return self.textEdit.toPlainText().strip().split('\n')
 
-
-    # Show / Hide HTML help
-    def showHideHelp(self, button_click, p):
-
-        # If called from button click
-        if button_click:
-            self.settings.show_help = not self.settings.show_help
-            self.settings.save()
-
-        # Show or not show
-        if self.settings.show_help:
-            url = saveHTML(self.item, p.doc)
-            self.doc.load(QtCore.QUrl.fromLocalFile(url)) # load help document
-
-            self.horizontal_layout.addWidget(self.doc)
-            self.helpButton.setText('Hide help')
-            self.setMaximumSize(10000, 10000)
-            self.setMinimumSize(1280, 640)
-            self.resize(1280, 640)
+    # Open HTML help document in the default web browser
+    def onHelp(self):
+        url = self.get_url()
+        if not webbrowser.open(url, new=0):
+            logging.warning('Can\'t open\n' + url)
         else:
-            self.horizontal_layout.removeWidget(self.doc)
-            self.helpButton.setText('Show help')
-            self.setMaximumSize(500, 10000)
-            self.setMinimumSize(500, 640)
-            self.resize(500, 640)
+            time.sleep(0.3)
+            for title in reversed(webbrowser._tryorder):
+                title = title.replace('-browser', '')
+                self.w.wid3 = self.w.get_wid(title)
+                if self.w.wid3 is not None and self.s.align_windows:
+                    self.w.align()
+                    break
+
+    # Load HTML help into QWebEngineView
+    def get_url(self):
+        USE_CACHED_HTML = True # if False HTML will be regenerated
+
+        # Get keyword name
+        if self.item.item_type == item_type.KEYWORD:
+            keyword_name = self.item.name[1:] # cut star
+        if self.item.item_type == item_type.IMPLEMENTATION:
+            keyword_name = self.item.parent.name[1:] # cut star
+
+        # Avoid spaces in html page names
+        html_page_name = keyword_name.replace(' ', '_')
+        url = os.path.join(self.p.doc, html_page_name + '.html')
+
+        # Regenerate HTML file
+        if not os.path.isfile(url) or not USE_CACHED_HTML:
+            self.save_html(self.p.doc, url)
+
+        return 'file://' + url
+
+    # Regenerate HTML file
+    def save_html(self, url):
+
+        # Open 'ccx.html' and find link to keyword's page
+        href = 'ccx.html'
+        with open(os.path.join(self.p.doc, href), 'r') as f:
+            for line in f.readlines():
+                match = re.search('node\d{3}\.html.{3}' + keyword_name, line) # regex to match href
+                if match:
+                    href = match.group(0)[:12]
+                    break
+
+        # Read html of the keyword's page
+        html = '<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body>'
+        with open(os.path.join(self.p.doc, href), 'r') as f:
+            append = False
+            cut_breakline = True
+            for line in f.readlines():
+                if '<!--End of Navigation Panel-->' in line:
+                    append = True
+                    continue
+                if '<HR>' in  line:
+                    break
+                if '<PRE>' in line:
+                    cut_breakline = False
+                if '</PRE>' in line:
+                    cut_breakline = True
+                if append:
+                    if cut_breakline:
+                        line = line[:-1] + ' ' # replace '\n' with space
+                    html += line
+        html += '</body></html>'
+        html = re.sub('<A.+?\">', '', html) # '?' makes it not greedy
+        html = html.replace('</A>', '')
+        with open(url, 'w') as f:
+            f.write(html)
+
+    # TODO Tool to regenerate all documentation

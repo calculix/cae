@@ -327,16 +327,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="show_help">
-         <property name="text">
-          <string>Show HTML help with keywords dialog</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QCheckBox" name="run_cgx_on_start">
          <property name="text">
           <string>Run CGX on start</string>
@@ -349,7 +339,7 @@
        <item>
         <widget class="QCheckBox" name="align_windows">
          <property name="text">
-          <string>Align windows</string>
+          <string>Align all windows</string>
          </property>
          <property name="checked">
           <bool>true</bool>

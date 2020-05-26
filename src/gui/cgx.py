@@ -32,7 +32,7 @@ def kill():
                 if count > 10:
                     logging.error('Can not kill CGX, PID={}.'.format(pid))
                     break
-            if not psutil.pid_exists(pid): 
+            if not psutil.pid_exists(pid):
                 logging.info('Killed PID={}.'.format(pid))
 
 # Kill child CGX processes

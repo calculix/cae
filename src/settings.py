@@ -9,9 +9,16 @@ Attributes values are maintained in config/Settings_linux.env.
 User dialog form is config/SettingsDialog.xml - use Qt Designer to edit. """
 
 
-from path import Path
-import os, sys, logging
+# Standard modules
+import os
+import sys
+import logging
+
+# External modules
 from PyQt5 import QtWidgets, uic
+
+# My modules
+from path import Path
 import clean
 
 
@@ -32,7 +39,6 @@ class Settings():
 
         # Apply default values
         except:
-            self.start_model = os.path.join(self.p.examples, 'default.inp')
 
             # Windows
             if os.name=='nt':
@@ -48,11 +54,11 @@ class Settings():
                 self.path_paraview = '/opt/ParaView/bin/paraview'
                 self.path_editor = '/snap/bin/code'
 
+            self.start_model = os.path.join(self.p.examples, 'default.inp')
             self.logging_level = 'INFO'
             self.model_view = 'view fill'
             self.show_empty_keywords = True
             self.expanded = True
-            self.show_help = True
             self.run_cgx_on_start = True
             self.align_windows = True
 
@@ -70,7 +76,7 @@ class Settings():
         if sd.exec(): # == 1 if user pressed 'OK'
             sd.save()
             self.__init__() # read settings from file
-            # logging.warning('For some settings to take effect application\'s restart may be needed.')
+            logging.warning('For some settings to take effect application\'s restart may be needed.')
 
 
     # Automatic save current settings during the workflow

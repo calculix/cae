@@ -10,3 +10,4 @@ architecture.png
 *.frd
 *.sta
 *.env
+get_web_browser.py

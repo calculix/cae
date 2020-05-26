@@ -72,7 +72,7 @@ def import_file(s, w, m, t, j, file_name=None):
         if file_name.lower().endswith('.unv'):
             j.convertUNV()
             if not os.path.isfile(j.inp):
-                logging.error('Error converting\n' + j.unv)
+                logging.error('Can not convert\n' + j.unv)
                 return
 
         # Open model in CGX
@@ -87,7 +87,7 @@ def import_file(s, w, m, t, j, file_name=None):
 
         # Parse INP and enrich KOM with parsed objects
         logging.info('Loading model\n{}'.format(j.inp))
-        lines = file_tools.readLines(j.inp)
+        lines = file_tools.read_lines(j.inp)
         def importer(INP_doc, KOM):
             keyword_chain = []
             impl_counter = {}
@@ -210,10 +210,6 @@ if __name__ == '__main__':
         w = gui.window.Linux_window(p, s)
     w.show()
     w.initialize()
-    w.wid1 = w.get_wid(w.windowTitle())
-    if w.wid1 is None:
-        msg = 'ERROR! Can\'t get {} window ID.'
-        sys.exit(msg.format(w.windowTitle()))
 
     # Main block
     m = model.Model() # generate FEM model
