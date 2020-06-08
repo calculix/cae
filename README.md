@@ -122,13 +122,19 @@ Suppose you already have [Python 3](https://www.python.org/downloads/). Open ter
 
     pip3 install -r requirements.txt
 
+You may also need libraries:
+
+    qttools5-dev-tools
+    pyinstaller
+    pycallgraph
+
 From 'src' directory run source code with one of the commands:
 
     python3 cae.py
     python3 cae.py -inp model.inp
     python3 cae.py -inp model.unv
 
-Use [make_release.py](make_release.py) to create releases:
+Use [make_release.py](make_release.py) to create releases (pyinstaller needed):
 
     python3 make_release.py
 
