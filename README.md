@@ -81,7 +81,7 @@ Calculation result exported to Paraview:
 
 # How to use
 
-First, [download released binaries](https://github.com/calculix/cae/releases), unpack them and allow all files to be executed (give permissions).
+Running this software from source is not recommended, because sources are under development and may contain bugs. So, first, [download released binaries](https://github.com/calculix/cae/releases), unpack them and allow to be executed (give permissions).
 
 The intended workflow is:
 
