@@ -1,4 +1,4 @@
-© Ihor Mirzov, May 2020  
+© Ihor Mirzov, June 2020  
 Distributed under GNU General Public License v3.0
 
 <br/><br/>
@@ -26,7 +26,7 @@ Distributed under GNU General Public License v3.0
 
 GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free and open source. Program is based on CalculiX keywords hierarchy. Written in Python3 and utilizes PyQt5.
 
-It is implied that you have already created geometry and generated mesh in some other software like [FreeCAD](https://www.freecadweb.org/) or [Salome-platform](https://www.salome-platform.org/). CacluliX CAE is designed to guide you through the keywords creation sequence and is aimed to help you reach correct input file with no mistakes.
+It is implied that you have already created geometry and generated mesh in some other software like [FreeCAD](https://www.freecadweb.org/) or [Salome-platform](https://www.salome-platform.org/). CalculiX CAE is designed to guide you through the keywords creation sequence and is aimed to help you reach correct input file with no mistakes.
 
 <br/><br/>
 
@@ -42,7 +42,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Calculix keywords hierarchy with all attributes is maintaned in [editable XML file](config/kom.xml).
 
-- [Solid mesh parser](src/model/parsers/mesh.py) supports includes in the input file. Tested on the all official CacluliX examples. See [tests.log](src/tests.log).
+- [Solid mesh parser](src/model/parsers/mesh.py) supports includes in the input file. Tested on the all official CalculiX examples. See [tests.log](src/tests.log).
 
 - Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable env-file with Python syntax. The file is automatically overwritten during the workflow.
 
@@ -81,7 +81,7 @@ Calculation result exported to Paraview:
 
 # How to use
 
-CacluliX CAE is portable software and doesn't need to be installed. Just extract archive, make binary executable and run it with double click. **To view results in Paraview configure path in File->Settings**.
+First, [download released binaries](https://github.com/calculix/cae/releases), unpack them and allow all files to be executed (give permissions).
 
 The intended workflow is:
 
@@ -90,14 +90,19 @@ The intended workflow is:
 - import INP or UNV mesh into CAE and continue creating model,
 - if needed, edit Fortran subroutines and rebuild CCX (Job->Rebuild CalculiX),
 - submit job from CAE,
-- export job result to the Paraview post-processor or view it in GraphiX.
+- view job result in GraphiX or export it to the Paraview post-processor.
 
-Edit default startup model name in in File->Settings or you can pass it as an argument to open at start:
+Run the software with command:
 
-    in Linux:       ./cae.sh -inp model.inp
-                    ./cae.sh -inp model.unv
-    in Windows:     cae.bat -inp model.inp
-                    cae.bat -inp model.unv
+    in Linux:       ./cae.sh
+    in Windows:     cae.bat
+
+You can edit default startup model name in File->Settings or pass it as an argument to open on startup:
+
+    in Linux:       ./cae.sh -inp yourmodel.inp
+                    ./cae.sh -inp yourmodel.unv
+    in Windows:     cae.bat -inp yourmodel.inp
+                    cae.bat -inp yourmodel.unv
 
 <br/><br/>
 
