@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, May 2020
+""" © Ihor Mirzov, June 2020
 Distributed under GNU General Public License v3.0
 
 CalculiX CAE - main module.
 Creates main objects and starts the application.
 
 How to run:
-python3 cae.py
-python3 cae.py -inp model.inp """
+python3 ./src/cae.py
+python3 ./src/cae.py -inp model.inp """
 
 # Standard modules
 import os
@@ -210,6 +210,8 @@ if __name__ == '__main__':
         w = gui.window.Linux_window(p, s)
     w.show()
     w.initialize()
+    if s.align_windows:
+        w.align()
 
     # Main block
     m = model.Model() # generate FEM model
@@ -220,8 +222,6 @@ if __name__ == '__main__':
 
     if s.run_cgx_on_start:
         w.post(s.model_view)
-    if not s.run_cgx_on_start and s.align_windows:
-        w.align()
     logging.info('Started in {:.1f} seconds.'
         .format(time.perf_counter() - start_time))
 
