@@ -11,17 +11,16 @@ node and element sets and surfaces """
 import re
 import logging
 import textwrap
+
 try:
     # Normal run
     import file_tools
-    from settings import Settings
 except:
     # Test run
     import os
     os.sys.path.append(os.path.dirname(__file__) + '/../..')
     import file_tools
     import clean
-    from settings import Settings
 
 
 class Mesh:
@@ -43,7 +42,7 @@ class Mesh:
         # Get lines from INP source
         if INP_file and not INP_code:
             # Open and read whole the .inp-file
-            lines = file_tools.readLines(INP_file, include=True)
+            lines = file_tools.read_lines(INP_file)
         elif INP_code and not INP_file:
             # Parse some piece of INP code
             lines = INP_code
@@ -83,7 +82,7 @@ class Mesh:
                 duplicated_nodes = []
                 no_coordinates_nodes = []
                 lead_line = lines[i]
-                match = re.search('NSET\s*=\s*([\w\-]*)', lead_line.upper())
+                match = re.search('NSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
 
                 # Read the whole block - there will be no comments
                 while i+1<len(lines) and not lines[i+1].startswith('*'):
@@ -133,7 +132,7 @@ class Mesh:
     # Parse node sets - *NSET keyword
     def parse_nsets(self, lines):
         for i in range(len(lines)):
-            match = re.search('(\*NSET)\s*,.*NSET\s*=\s*([\w\-]*)', lines[i].upper())
+            match = re.search('(\*NSET)\s*,.*NSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lines[i].upper())
             if match:
                 name = lines[i][match.start(2):match.end(2)] # node set name
                 nodes = []
@@ -204,7 +203,7 @@ class Mesh:
                 amount = self.amount_of_nodes(etype)
                 elements = []
                 duplicated_elements = []
-                match = re.search('ELSET\s*=\s*([\w\-]*)', lead_line.upper()) # if all elements are united in a set
+                match = re.search('ELSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper()) # if all elements are united in a set
 
                 # Read the whole block - there will be no comments
                 while i+1<len(lines) and not lines[i+1].startswith('*'):
@@ -261,7 +260,7 @@ class Mesh:
     # Parse element sets - *ELSET keyword
     def parse_elsets(self, lines):
         for i in range(len(lines)):
-            match = re.search('(\*ELSET)\s*,.*ELSET\s*=\s*([\w\-]*)', lines[i].upper())
+            match = re.search('(\*ELSET)\s*,.*ELSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lines[i].upper())
             if match:
                 name = lines[i][match.start(2):match.end(2)] # element set name
                 elements = []
@@ -323,7 +322,7 @@ class Mesh:
 
             # Surface name - required attribute
             name = ''
-            match = re.search('\*SURFACE\s*,.*NAME\s*=\s*([\w\-]*)', lines[i].upper())
+            match = re.search('\*SURFACE\s*,.*NAME\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lines[i].upper())
             if match:
                 name = lines[i][match.start(1):match.end(1)]
                 skip = False
@@ -576,8 +575,9 @@ class SURFACE:
 # Test
 if __name__ == '__main__':
     logging.info = print
-    INP_file = os.path.dirname(os.path.abspath(__file__)) \
-                    + '../../../../examples/default.inp'
+    INP_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        *['..']*3, 'examples', 'default.inp')
     Mesh(INP_file=INP_file)
 
     # Recursively clean cached files in all subfolders
