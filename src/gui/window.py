@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, May 2020
+""" © Ihor Mirzov, June 2020
 Distributed under GNU General Public License v3.0
 
 Main window class. Get windows names and align them.
@@ -23,6 +23,7 @@ import math
 import webbrowser
 if 'nt' in os.name:
     import ctypes
+    from ctypes import wintypes
 
 # External modules
 from PyQt5 import QtWidgets, uic
@@ -52,30 +53,27 @@ class Window(QtWidgets.QMainWindow):
         self.s = s
         QtWidgets.QMainWindow.__init__(self) # create main window
         uic.loadUi(p.cae_xml, self) # load form
-        if self.s.align_windows:
-            size = QtWidgets.QDesktopWidget().screenGeometry(-1)
-            self.setGeometry(0, 0, size.width()/3, size.height())
+        self.size = QtWidgets.QDesktopWidget().availableGeometry()
 
         # Handler to show logs in the CAE's textEdit
         gui.log.add_text_handler(self.textEdit)
 
         # When logger is ready - check if settings read correctly
         if hasattr(s, 'error_path'):
-            logging.error('Error path in settings file: ' +\
+            logging.error('Erroneous path in settings file: ' +\
                 s.error_path + '. Loading default values.')
 
         # Window ID - to pass keycodes to
         self.wid1 = None # cae window
         self.wid2 = None # cgx window
-        self.wid3 = None # help (web browser)
+        self.wid3 = None # keyword dialog # TODO remove
+        self.wid4 = None # help (web browser)
         self.process = None # running process to send commands to
         self.keyboardMapping = None
         self.last_command = None
 
         # INP | FRD - corresponds to opened file
         self.mode = None
-
-        # self.toolBar.setParent(None) # hide toolbar
 
     # Close opened CGX (if any)
     # open a new one and get window ID
@@ -160,7 +158,7 @@ def wid_wrapper(w):
             start = time.perf_counter() # start time
             wid = None
             while wid is None:
-                time.sleep(0.1)
+                time.sleep(0.1) # wait for window to start
                 wid = method(w, title)
                 if time.perf_counter() - start > 1:
                     logging.error('Can\'t get \'{}\' window.'\
@@ -255,6 +253,8 @@ class Linux_window(Window):
         for c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
             self.keyboardMapping[c] = (c, 1)
 
+        self.wid1 = self.get_wid('CalculiX CAE')
+
     # Get window by title and return its ID
     @wid_wrapper(Window)
     def get_wid(self, title):
@@ -336,56 +336,71 @@ class Linux_window(Window):
         for symbol in cmd + '\n':
             sendkey(w2, symbol)
 
-        def get_window_by_id(wid, window=None):
-            if window is None:
-                window = self.root
-            try:
-                for w in window.query_tree().children:
-                    if w.id == wid:
-                        return w
-                    w = get_window_by_id(wid, w)
-                    if w is not None:
-                        return w
-            except Xlib.error.BadWindow:
-                logging.error('Bad window')
-            return None
+        """
+            def get_window_by_id(wid, window=None):
+                print('get_window_by_id', wid, self.wid1)
+                if window is None:
+                    window = self.root
+                try:
+                    for w in window.query_tree().children:
+                        if w.id == wid:
+                            return w
+                        w = get_window_by_id(wid, w)
+                        if w is not None:
+                            return w
+                except Xlib.error.BadWindow:
+                    logging.error('Bad window')
+                return None
 
-        w1 = get_window_by_id(self.wid1)
-        if w1 is not None:
-            self.d.set_input_focus(w1, Xlib.X.RevertToNone, Xlib.X.CurrentTime)
-            self.d.sync()
+            w1 = get_window_by_id(self.wid1)
+            if w1 is not None:
+                self.d.set_input_focus(w1, Xlib.X.RevertToNone, Xlib.X.CurrentTime)
+        """
+        self.d.sync()
 
     # Key press + release
-    def send_key_combination(self, key1, key2):
-        c1 = self.keyboardMapping[key1][0]
-        keysym1 = XK.string_to_keysym(c1)
-        code1 = self.d.keysym_to_keycode(keysym1)
-
-        c2 = self.keyboardMapping[key2][0]
-        keysym2 = XK.string_to_keysym(c2)
-        code2 = self.d.keysym_to_keycode(keysym2)
-
-        fake_input(self.d, X.KeyPress, code1)
-        fake_input(self.d, X.KeyPress, code2)
-        fake_input(self.d, X.KeyRelease, code2)
-        fake_input(self.d, X.KeyRelease, code1)
+    def send_hotkey(self, *keys):
+        for key in keys:
+            if key not in self.keyboardMapping:
+                logging.warning('WARNING! Symbol {} is not supported.'.format(key))
+                return
+        for key in keys:
+            c = self.keyboardMapping[key][0]
+            keysym = XK.string_to_keysym(c)
+            code = self.d.keysym_to_keycode(keysym)
+            fake_input(self.d, X.KeyPress, code)
+        for key in reversed(keys):
+            c = self.keyboardMapping[key][0]
+            keysym = XK.string_to_keysym(c)
+            code = self.d.keysym_to_keycode(keysym)
+            fake_input(self.d, X.KeyRelease, code)
         time.sleep(0.3)
         self.d.sync()
 
     # Align CGX and browser windows
+    # CAE window is already aligned in __init__()
     # NOTE CGX 'wpos' and 'wsize' works better than 'w2configure'
     def align(self):
-        width = self.screen.width_in_pixels
-        height = self.screen.height_in_pixels
+        for wid in [self.wid1, self.wid3]:
+            if wid is not None:
+                w1 = self.d.create_resource_object('window', wid)
+                w1.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
+                self.send_hotkey('Super_L', 'Down') # restore window
+                w1.configure(x=0, y=0,
+                    width=math.floor(self.size.width()/3),
+                    height=self.size.height())
         if self.wid2 is not None:
-            self.post('wpos {} {}'.format(math.ceil(width/3), 0))
-            self.post('wsize {} {}'.format(math.floor(width*2/3), height))
-        if self.wid3 is not None:
-            w3 = self.d.create_resource_object('window', self.wid3)
-            w3.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
-            self.send_key_combination('Super_L', 'Down')
-            w3.configure(x=math.ceil(width/3), y=0,
-                width=math.floor(width*2/3), height=height)
+            self.post('wpos {} {}'\
+                .format(math.ceil(self.size.width()/3), 0))
+            self.post('wsize {} {}'\
+                .format(math.floor(self.size.width()*2/3), self.size.height()))
+        if self.wid4 is not None:
+            w4 = self.d.create_resource_object('window', self.wid4)
+            w4.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
+            self.send_hotkey('Super_L', 'Down') # restore window
+            w4.configure(x=math.ceil(self.size.width()/3), y=0,
+                width=math.floor(self.size.width()*2/3),
+                height=self.size.height())
         time.sleep(0.3)
         self.d.sync()
 
@@ -409,6 +424,7 @@ class Linux_window(Window):
             for cmap in w2.list_installed_colormaps():
                 print(cmap)
     """
+
 
 class Windows_window(Window):
 
@@ -463,12 +479,42 @@ class Windows_window(Window):
         for c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
             self.keyboardMapping[c] = (ord(c), 1)
 
+        self.wid1 = self.get_wid('CalculiX CAE')
+
     # If window found, its ID is returned
     @wid_wrapper(Window)
     def get_wid(self, title):
-        hwnd = ctypes.windll.user32.FindWindowW(None, title)
-        if hwnd: return int(hwnd)
-        else: return None
+        self.wid = None
+        WNDENUMPROC = ctypes.WINFUNCTYPE(
+            wintypes.BOOL,
+            wintypes.HWND,    # _In_ hwnd
+            wintypes.LPARAM,) # _In_ lParam
+
+        @WNDENUMPROC
+        def enum_proc(hwnd, lParam):
+            if ctypes.windll.user32.IsWindowVisible(hwnd):
+                pid = wintypes.DWORD()
+                tid = ctypes.windll.user32.GetWindowThreadProcessId(
+                            hwnd, ctypes.byref(pid))
+                length = ctypes.windll.user32.GetWindowTextLengthW(hwnd) + 1
+                buff = ctypes.create_unicode_buffer(length)
+                ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
+                if title in buff.value:
+                    self.wid = hwnd
+            return True
+
+        ctypes.windll.user32.EnumWindows(enum_proc, 0)
+        return self.wid
+
+    """
+        @wid_wrapper(Window)
+        def get_wid(self, title):
+            hwnd = ctypes.windll.user32.FindWindowW(None, title)
+            if hwnd:
+                print(int(hwnd), title)
+                return int(hwnd)
+            else: return None
+    """
 
     # Activate window, send message to CGX, deactivate
     @post_wrapper(Window)
@@ -495,12 +541,20 @@ class Windows_window(Window):
         ctypes.windll.user32.SetForegroundWindow(self.wid1)
 
     # Align CGX and browser windows
+    # CAE window is already aligned in __init__()
     # NOTE CGX 'wpos' and 'wsize' works worse than 'ctypes'
     def align(self):
-        width = ctypes.windll.user32.GetSystemMetrics(0)
-        height = ctypes.windll.user32.GetSystemMetrics(1) - 56
-        if self.wid2 is not None:
-            ctypes.windll.user32.MoveWindow(self.wid2,
-                math.ceil(width/3), 0,
-                math.floor(width*2/3), height, True)
+        ctypes.windll.user32.SetProcessDPIAware() # account for scaling
+        for wid in [self.wid1, self.wid3]:
+            if wid is not None:
+                ctypes.windll.user32.ShowWindow(wid, 9) # restore window
+                ctypes.windll.user32.MoveWindow(wid, 0, 0,
+                    math.floor(self.size.width()/3), self.size.height(), True)
+        for wid in [self.wid2, self.wid4]:
+            if wid is not None:
+                ctypes.windll.user32.ShowWindow(wid, 9) # restore window
+                ctypes.windll.user32.MoveWindow(wid,
+                    math.ceil(self.size.width()/3), 0,
+                    math.floor(self.size.width()*2/3),
+                    self.size.height(), True)
         time.sleep(0.3)

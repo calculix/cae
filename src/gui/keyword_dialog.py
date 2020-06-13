@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, May 2020
+""" © Ihor Mirzov, June 2020
 Distributed under GNU General Public License v3.0
 
 Dialog window to create/edit keyword's implementation.
 Called via double click on keyword in the treeView.
 Here we define a keyword's implementation: its name and INP_code. """
 
-# TODO Align windows: dialog and web browser
 # TODO: List already created implementations in the dialog fields
 
 # Standard modules
@@ -47,9 +46,15 @@ class KeywordDialog(QtWidgets.QDialog):
         # Create dialog, load form and align window
         super(KeywordDialog, self).__init__()
         uic.loadUi(self.p.dialog_xml, self)
+        self.size = QtWidgets.QDesktopWidget().availableGeometry()
         if self.s.align_windows:
-            size = QtWidgets.QDesktopWidget().screenGeometry(-1)
-            self.setGeometry(0, 0, size.width()/3, size.height())
+            if os.name=='nt': # just bug with window border padding
+                width = self.size.width()/3 - 22
+                height = self.size.height() - 55
+            else:
+                width = self.size.width()/3
+                height = self.size.height()
+            self.setGeometry(0, 0, width, height)
 
         # Add window icon (different for each keyword)
         icon_name = item.name.replace('*', '') + '.png'
@@ -247,12 +252,18 @@ class KeywordDialog(QtWidgets.QDialog):
             logging.warning('Can\'t open\n' + url)
         else:
             time.sleep(0.3)
-            for title in reversed(webbrowser._tryorder):
-                title = title.replace('-browser', '')
-                self.w.wid3 = self.w.get_wid(title)
-                if self.w.wid3 is not None and self.s.align_windows:
+            if 'posix' in os.name:
+                for title in reversed(webbrowser._tryorder):
+                    title = title.replace('-browser', '')
+                    self.w.wid4 = self.w.get_wid(title)
+                    if self.w.wid4 is not None and self.s.align_windows:
+                        self.w.align()
+                        break
+            else:
+                title = self.item.name[1:] + '.html'
+                self.w.wid4 = self.w.get_wid(title)
+                if self.w.wid4 is not None and self.s.align_windows:
                     self.w.align()
-                    break
 
     # Load HTML help into QWebEngineView
     def get_url(self):
