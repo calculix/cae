@@ -1,6 +1,6 @@
 *Heading
     Default_model_for_CalculiX_CAE
-*Node, nset=ALL
+*Node, nset=ALL_n
     1,          -3.,          -1.,           0.
     2,          -3.,          -1.,          -1.
     3,          -3.,          -1.,           1.
@@ -226,16 +226,16 @@
 *Element, type=C3D20, elset=C3D20
     3, 44, 36, 33, 42, 69, 86, 63, 94, 37, 34, 35, 43, 92, 84, 91,
     95, 68, 64, 62, 67
-*Elset, elset=ALL, generate
+*Elset, elset=ALL_e, generate
     1, 75, 1
 *Surface, type=ELEMENT, name=S1
-    ALL, S1
+    ALL_e, S1
 *Surface, type=ELEMENT, name=S2
-    ALL, S2
+    ALL_e, S2
 *Surface, type=ELEMENT, name=S3
-    ALL, S3
+    ALL_e, S3
 *Surface, type=ELEMENT, name=S4
-    ALL, S4
+    ALL_e, S4
 *Surface, type=ELEMENT, name=S5
     C3D6, S5
     C3D8, S5
@@ -249,7 +249,7 @@
         7800
     *ELASTIC, TYPE=ISO
         2e+11, 0.3
-*SOLID SECTION, ELSET=ALL, MATERIAL=default
+*SOLID SECTION, ELSET=ALL_e, MATERIAL=default
 *STEP, AMPLITUDE=RAMP
     *NO ANALYSIS
     *EL FILE, GLOBAL=YES, OUTPUT=3D
