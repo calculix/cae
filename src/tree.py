@@ -121,10 +121,17 @@ class Tree:
             if item.active:
 
                 # Create dialog window and pass item
-                dialog = gui.keyword_dialog.KeywordDialog(self.m.KOM, item)
+                dialog = gui.keyword_dialog.KeywordDialog(
+                    self.p, self.s, self.w, self.m.KOM, item)
+            
+                # Get dialog window ID and align it
+                # dialog.show()
+                # self.w.wid3 = self.w.get_wid(item.name)
+                # if self.s.align_windows:
+                #     self.w.align()
 
-                # Get response from dialog window
-                if dialog.exec() == gui.keyword_dialog.KeywordDialog.Accepted: # if user pressed 'OK'
+                # Process response from dialog window if user pressed 'OK'
+                if dialog.exec() == gui.keyword_dialog.KeywordDialog.Accepted:
 
                     # The generated piece of .inp code for the CalculiX input file
                     INP_code = dialog.onOk() # list of strings
@@ -185,14 +192,14 @@ class Tree:
 
             # Highlight mesh entities
             if ipn_up == '*NSET' or ipn_up == '*NODE':
-                match = re.search('NSET\s*=\s*([\w\-]*)', lead_line.upper())
+                match = re.search('NSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
                 if match: # if there is NSET attribute
                     name = lead_line[match.start(1):match.end(1)] # node set name
                     if name in self.m.Mesh.nsets:
                         self.w.post('plot n ' + name)
 
             elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
-                match = re.search('ELSET\s*=\s*([\w\-]*)', lead_line.upper())
+                match = re.search('ELSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
                 if match: # if there is ELSET attribute
                     name = lead_line[match.start(1):match.end(1)] # element set name
                     if name in self.m.Mesh.elsets:
@@ -206,7 +213,7 @@ class Tree:
                 if match:
                     stype = lead_line[match.start(1):match.end(1)]
 
-                match = re.search('NAME\s*=\s*([\w\-]*)', lead_line.upper())
+                match = re.search('NAME\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
                 name = lead_line[match.start(1):match.end(1)] # surface name
                 if stype == 'ELEMENT':
                     self.w.post('plot f ' + name)
