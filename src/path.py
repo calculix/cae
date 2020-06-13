@@ -38,7 +38,7 @@ class Path:
         self.ccx = os.path.join(self.app_home_dir,
                                 'ccx_' + self.op_sys,
                                 'ccx_' + self.ccx_version + '_ffree_form')
-        self.settings = os.path.join(self.config, 'Settings_' + self.op_sys + '.env')
+        self.settings = os.path.join(self.config, 'Settings_' + self.op_sys + '.py')
         self.doc = os.path.join(self.app_home_dir, 'doc')
         self.examples = os.path.join(self.app_home_dir, 'examples')
         self.img = os.path.join(self.app_home_dir, 'img')

@@ -5,9 +5,8 @@
 Distributed under GNU General Public License v3.0
 
 Application's settings.
-Attributes values are maintained in config/Settings_linux.env.
+Attributes values are maintained in config/Settings_*.py.
 User dialog form is config/SettingsDialog.xml - use Qt Designer to edit. """
-
 
 # Standard modules
 import os
@@ -42,18 +41,18 @@ class Settings():
 
             # Windows
             if os.name=='nt':
-                self.path_ccx = os.path.join(self.p.bin, 'ccx.exe')
-                self.path_cgx = os.path.join(self.p.bin, 'cgx.exe')
+                ext = '.exe'
                 self.path_paraview = 'C:\\Program Files\\ParaView\\bin\\paraview.exe'
                 self.path_editor = 'C:\\Windows\\System32\\notepad.exe'
 
             # Linux
             else:
-                self.path_ccx = os.path.join(self.p.bin, 'ccx')
-                self.path_cgx = os.path.join(self.p.bin, 'cgx')
+                ext = ''
                 self.path_paraview = '/opt/ParaView/bin/paraview'
                 self.path_editor = '/snap/bin/code'
 
+            self.path_ccx = os.path.join(self.p.bin, 'ccx' + ext)
+            self.path_cgx = os.path.join(self.p.bin, 'cgx' + ext)
             self.start_model = os.path.join(self.p.examples, 'default.inp')
             self.logging_level = 'INFO'
             self.model_view = 'view fill'

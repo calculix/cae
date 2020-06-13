@@ -44,7 +44,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - [Solid mesh parser](src/model/parsers/mesh.py) supports includes in the input file. Tested on the all official CalculiX examples. See [tests.log](src/tests.log).
 
-- Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable env-file with Python syntax. The file is automatically overwritten during the workflow.
+- Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable Python file - it is automatically overwritten during the workflow.
 
 - [Optimal job management](src/model/job.py):
 
@@ -85,10 +85,10 @@ Running this software from source is not recommended, because sources are under 
 
 The intended workflow is:
 
-- create geometry and mesh in [Salome-platform](https://www.salome-platform.org/),
+- create geometry and mesh in [FreeCAD](https://www.freecadweb.org/) or [Salome-platform](https://www.salome-platform.org/),
 - save mesh as UNV or export it to INP with [Salome to CalculiX mesh exporter](https://github.com/psicofil/SalomeToCalculix),
 - import INP or UNV mesh into CAE and continue creating model,
-- if needed, edit Fortran subroutines and rebuild CCX (Job->Rebuild CalculiX),
+- if needed, edit Fortran subroutines and rebuild CCX (menu Job->Rebuild CalculiX),
 - submit job from CAE,
 - view job result in GraphiX or export it to the Paraview post-processor.
 
@@ -136,8 +136,8 @@ You may also need libraries:
 From 'src' directory run source code with one of the commands:
 
     python3 cae.py
-    python3 cae.py -inp model.inp
-    python3 cae.py -inp model.unv
+    python3 cae.py -inp yourmodel.inp
+    python3 cae.py -inp yourmodel.unv
 
 Use [make_release.py](make_release.py) to create releases (pyinstaller needed):
 
@@ -150,7 +150,7 @@ CalculiX CAE uses external converters:
 
 The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/calculix/free_form_fortran) - this version has much better code folding and readability.
 
-In Windows to work with subroutines and to recompile CalculiX sources from CAE you'll need *cygwin*. Install it to 'C:\\cygwin64' with:
+In Windows to work with subroutines and to recompile CalculiX sources from CAE you'll need [cygwin](https://www.cygwin.com/). Install it to 'C:\\cygwin64' with:
 - gcc-g++ 7.3.0-3
 - gcc-fortran 7.3.0-3
 - make 4.2.1-2
@@ -164,7 +164,9 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 # What's new
 
-+ Now help on CalculiX keywords is opened in the default web browser. Embeded QWebEngineView was removed. It led to relatively lightweight distribution.
++ Now help on CalculiX keywords is opened in the default web browser. Embeded QWebEngineView was removed. It led to relatively lightweight distribution (203 MB -> 123 MB).
+
++ Improved communication between windows. Fixed [issue 7](https://github.com/calculix/cae/issues/7).
 
 <br/><br/>
 
