@@ -227,16 +227,16 @@
        <item>
         <widget class="QComboBox" name="logging_level">
          <property name="currentText">
-          <string>INFO</string>
+          <string>DEBUG</string>
          </property>
          <item>
           <property name="text">
-           <string>INFO</string>
+           <string>DEBUG</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>DEBUG</string>
+           <string>INFO</string>
           </property>
          </item>
          <item>

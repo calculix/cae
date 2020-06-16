@@ -54,7 +54,7 @@ class Settings():
             self.path_ccx = os.path.join(self.p.bin, 'ccx' + ext)
             self.path_cgx = os.path.join(self.p.bin, 'cgx' + ext)
             self.start_model = os.path.join(self.p.examples, 'default.inp')
-            self.logging_level = 'INFO'
+            self.logging_level = 'DEBUG'
             self.model_view = 'view fill'
             self.show_empty_keywords = True
             self.expanded = True
