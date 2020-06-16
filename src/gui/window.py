@@ -87,9 +87,6 @@ class Window(QtWidgets.QMainWindow):
 
             self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
             if self.wid2 is None:
-                msg = 'ERROR! Can\'t get {} window ID.'\
-                    .format('CalculiX GraphiX')
-                logging.error(msg)
                 sys.exit(msg)
             gui.log.read_output(self.process.stdout)
             if self.s.align_windows:
