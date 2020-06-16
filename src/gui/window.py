@@ -269,6 +269,8 @@ class Linux_window(Window):
             logging.debug('0x{} {: 6d} {}'\
                 .format(hex(wid)[2:].zfill(8), pid, wname))
             if title.lower() in wname.lower():
+                # TODO It also could be, for example, a browser window
+                # with opened web page about CalculiX CAE
                 return wid
         return None
 
@@ -491,14 +493,15 @@ class Windows_window(Window):
             if ctypes.windll.user32.IsWindowVisible(hwnd):
                 pid = wintypes.DWORD()
                 tid = ctypes.windll.user32.GetWindowThreadProcessId(
-                            hwnd, ctypes.byref(pid))
+                    hwnd, ctypes.byref(pid))
                 length = ctypes.windll.user32.GetWindowTextLengthW(hwnd) + 1
                 buff = ctypes.create_unicode_buffer(length)
                 ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
-                logging.debug('0x{} {: 6d} {}'\
-                    .format(hex(hwnd)[2:].zfill(8), pid, buff.value))
-                # logging.debug(hwnd, pid, buff.value)
+                logging.debug('0x{} {:>6s} {}'\
+                    .format(hex(hwnd)[2:].zfill(8), str(pid)[8:-1], buff.value))
                 if title in buff.value:
+                    # TODO It also could be, for example, a browser window
+                    # with opened web page about CalculiX CAE
                     self.wid = hwnd
             return True
 

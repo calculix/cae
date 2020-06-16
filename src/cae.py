@@ -162,6 +162,9 @@ def import_file(s, w, m, t, j, file_name=None):
         m.Mesh = model.parsers.mesh.Mesh(INP_file=j.inp)
 
 
+# TODO Try to define how the application
+# is executed: from source code or as binary.
+
 if __name__ == '__main__':
     start_time = time.perf_counter()
     clean.screen()
