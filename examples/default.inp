@@ -255,5 +255,5 @@
     *EL FILE, GLOBAL=YES, OUTPUT=3D
     *NODE FILE, GLOBAL=YES, OUTPUT=3D
     *BOUNDARY, OP=NEW
-        ALL, 1, 6
+        ALL_n, 1, 6
     *END STEP
