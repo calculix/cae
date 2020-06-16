@@ -116,8 +116,7 @@ class KOM:
         if len(keyword_chain) > 1 and \
             keyword_chain[-1] == keyword_chain[-2]:
             del keyword_chain[-2]
-        logging.debug('')
-        logging.debug('keyword_chain: ' + str(keyword_chain))
+        logging.debug('\nkeyword_chain: ' + str(keyword_chain))
 
         # Now compare keyword_chain with all self.paths
         for path in self.paths:

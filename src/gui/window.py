@@ -86,8 +86,6 @@ class Window(QtWidgets.QMainWindow):
                 stderr=subprocess.STDOUT)
 
             self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
-            if self.wid2 is None:
-                sys.exit(msg)
             gui.log.read_output(self.process.stdout)
             if self.s.align_windows:
                 self.align()
@@ -157,11 +155,11 @@ def wid_wrapper(w):
             while wid is None:
                 time.sleep(0.1) # wait for window to start
                 wid = method(w, title)
-                if time.perf_counter() - start > 1:
-                    logging.error('Can\'t get \'{}\' window.'\
-                        .format(title))
-                    return None
-            msg = '{} WID={}'.format(title, wid)
+                if time.perf_counter() - start > 5:
+                    msg = 'Can\'t get \'{}\' window.'.format(title)
+                    logging.error(msg)
+                    sys.exit(msg)
+            msg = '{} WID=0x{}'.format(title, hex(wid)[2:].zfill(8))
             logging.debug(msg)
             return wid
         return fcn
@@ -268,8 +266,9 @@ class Linux_window(Window):
             except:
                 wname = w.get_wm_name()
                 pid = 0
+            logging.debug('0x{} {: 6d} {}'\
+                .format(hex(wid)[2:].zfill(8), pid, wname))
             if title.lower() in wname.lower():
-                logging.debug('0x{} {: 6d} {}'.format(hex(wid)[2:].zfill(8), pid, wname))
                 return wid
         return None
 
@@ -496,6 +495,9 @@ class Windows_window(Window):
                 length = ctypes.windll.user32.GetWindowTextLengthW(hwnd) + 1
                 buff = ctypes.create_unicode_buffer(length)
                 ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
+                logging.debug('0x{} {: 6d} {}'\
+                    .format(hex(hwnd)[2:].zfill(8), pid, buff.value))
+                # logging.debug(hwnd, pid, buff.value)
                 if title in buff.value:
                     self.wid = hwnd
             return True

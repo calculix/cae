@@ -132,16 +132,16 @@ def import_file(s, w, m, t, j, file_name=None):
                             if j == len(path) - 1: # last item is always keyword
                                 # Create implementation (for example, MATERIAL-1)
                                 impl = model.kom.implementation(item, INP_code)
-                                logging.debug('1')
+                                # logging.debug('1')
                             elif item.item_type == model.kom.item_type.KEYWORD:
                                 # If for this keyword implementation was created previously
                                 counter = impl_counter[path_as_string] - 1
                                 impl = item.items[counter] # first implementation, for example, STEP-1
                                 path_as_string += '/' + impl.name
-                                logging.debug('2')
+                                # logging.debug('2')
                             else:
                                 impl = item
-                                logging.debug('3')
+                                # logging.debug('3')
 
                         # Count implementation
                         if path_as_string in impl_counter:
