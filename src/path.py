@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, May 2020
+""" © Ihor Mirzov, June 2020
 Distributed under GNU General Public License v3.0
 
 Utility to calculate absolute paths to the application's main folders. """
 
 import os
-import sys
+
 
 class Path:
 
@@ -26,7 +26,7 @@ class Path:
 
         # Application's home directory - the one with README.md and LICENSE
         self.app_home_dir = os.path.abspath(
-            os.path.join(os.path.dirname(sys.argv[0]), '..'))
+            os.path.join(os.path.dirname(__file__), '..'))
 
         self.config = os.path.join(self.app_home_dir, 'config')
         self.cae_xml = os.path.join(self.config, 'Window.xml')
@@ -63,3 +63,19 @@ class Path:
         # If rel is absolute path - return as is
         else:
             return rel
+
+
+# Test all paths in the class
+def test():
+    import clean
+
+    clean.screen()
+    p = Path()
+    for attr in dir(p):
+        a = getattr(p, attr)
+        if type(a) is str:
+            print('p.{} = {}'.format(attr, a))
+
+# Run test
+if __name__ == '__main__':
+    test()
