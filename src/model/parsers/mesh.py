@@ -18,7 +18,8 @@ try:
 except:
     # Test run
     import os
-    os.sys.path.append(os.path.dirname(__file__) + '/../..')
+    sys_path = os.path.join(os.path.dirname(__file__), '..', '..')
+    os.sys.path.append(sys_path)
     import file_tools
     import clean
 
