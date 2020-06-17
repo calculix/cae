@@ -207,3 +207,5 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - Collapse/expand treeView items with left/right buttons.
 
 - Rebuild documentation for version 2.16. Make a tool.
+
+- logging.error(traceback.format_exc()) for all exceptions
