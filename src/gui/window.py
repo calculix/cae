@@ -10,6 +10,7 @@ http://python-xlib.sourceforge.net/doc/html/python-xlib_21.html
 https://github.com/python-xlib/python-xlib
 https://github.com/asweigart/pyautogui """
 
+# TODO Allow app to run even without wids
 
 # Standard modules
 import os

@@ -177,7 +177,8 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - During keyword's edit parse arguments and pass them to Dialog.
 - Settings Dialog: add buttons to Pathes to open files.
 
-- Python code (*PYTHON keyword) in the INP_code for step repetition and other kind of model generation. Invent some kind of Python API for CAE.
+- Invent some kind of Python API for CAE or use pycalculix.
+- Python code (*PYTHON keyword) in the INP_code for step repetition and other kind of model generation.
 
 - treeView: import certain keyword with descendants (tree branch) from INP-file.
 - treeView: show implementations only.
