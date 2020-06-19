@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, May 2020
+""" © Ihor Mirzov, June 2020
 Distributed under GNU General Public License v3.0
 
 CalculiX Keyword Object Model (hierarchy).
@@ -18,6 +18,7 @@ import logging
 import copy
 from enum import Enum
 import xml.etree.ElementTree as ET
+import traceback
 
 # My modules
 import path
@@ -53,6 +54,7 @@ class KOM:
             logging.info('Keywords object model generated.')
         except:
             logging.error('Can\'t generate keywords object model!')
+            logging.error(traceback.format_exc())
 
 
     # Recursively build Keyword Object Model

@@ -165,6 +165,11 @@ def import_file(s, w, m, t, j, file_name=None):
 # TODO Try to define how the application
 # is executed: from source code or as binary.
 
+""" TODO ./cae.sh
+[70447] Error loading Python lib 'cae/src/libpython3.6m.so.1.0':
+dlopen: /lib64/libc.so.6: version `GLIBC_2.25' not found
+(required by cae/src/libpython3.6m.so.1.0)
+"""
 if __name__ == '__main__':
     start_time = time.perf_counter()
     clean.screen()

@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, April 2020
+""" © Ihor Mirzov, June 2020
 Distributed under GNU General Public License v3.0
 
 Methods for CGX window. """
 
+# Standard modules
 import os
 import time
 import logging
+import traceback
+
+# External modules
 try:
     import psutil
 except:
@@ -26,7 +30,7 @@ def kill():
                 try:
                     p.kill()
                 except:
-                    pass
+                    logging.error(traceback.format_exc())
                 time.sleep(0.1)
                 count += 1
                 if count > 10:

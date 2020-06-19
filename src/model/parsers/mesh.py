@@ -1,23 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, May 2020
+""" © Ihor Mirzov, June 2020
 Distributed under GNU General Public License v3.0
 
 Parses finite element mesh from the CalculiX .inp-file.
 Reads nodes coordinates, elements composition,
 node and element sets and surfaces """
 
+# Standard modules
+import os
 import re
 import logging
 import textwrap
+import traceback
 
+# My modules
 try:
     # Normal run
     import file_tools
 except:
     # Test run
-    import os
     sys_path = os.path.join(os.path.dirname(__file__), '..', '..')
     os.sys.path.append(sys_path)
     import file_tools
@@ -63,6 +66,7 @@ class Mesh:
                     logging.info(msg_text)
                 except:
                     logging.error('Can\'t parse {}'.format(attrName))
+                    logging.error(traceback.format_exc())
 
         # Mesh bounds to avoid camera flying to infinity
         self.bounds = getBounds(self.nodes)

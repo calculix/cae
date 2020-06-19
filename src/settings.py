@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, May 2020
+""" © Ihor Mirzov, June 2020
 Distributed under GNU General Public License v3.0
 
 Application's settings.
@@ -12,6 +12,7 @@ User dialog form is config/SettingsDialog.xml - use Qt Designer to edit. """
 import os
 import sys
 import logging
+import traceback
 
 # External modules
 from PyQt5 import QtWidgets, uic
@@ -112,7 +113,7 @@ class SettingsDialog(QtWidgets.QDialog):
                             widget = self.findChild(QtWidgets.QComboBox, attr)
                             widget.setCurrentText(value)
                         except:
-                            pass
+                            logging.error(traceback.format_exc())
 
 
     # Save settings updated via or passed to dialog
