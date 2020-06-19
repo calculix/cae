@@ -8,8 +8,10 @@ CalculiX CAE - main module.
 Creates main objects and starts the application.
 
 How to run:
+Ctrl+F5 from VSCode
+or:
 python3 ./src/cae.py
-python3 ./src/cae.py -inp model.inp """
+python3 ./src/cae.py -inp yourmodel.inp """
 
 # Standard modules
 import os

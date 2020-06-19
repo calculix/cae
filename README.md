@@ -166,7 +166,19 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 + Now help on CalculiX keywords is opened in the default web browser. Embeded QWebEngineView was removed. It led to relatively lightweight distribution (203 MB -> 123 MB).
 
-+ Improved communication between windows. Fixed [issue 7](https://github.com/calculix/cae/issues/7).
++ Improved communication between windows.
+
++ Added support for special symbols in sets and surfaces. Fixed [issue 7](https://github.com/calculix/cae/issues/7).
+
++ Settings file format changed to .py
+
++ DEBUG is default logging level. Better debug messages.
+
++ A tool to update and cleanup /doc. Removed over 2200 unused files.
+
++ Logging of error's traceback added
+
++ Test for Path class
 
 <br/><br/>
 
@@ -182,6 +194,7 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - treeView: import certain keyword with descendants (tree branch) from INP-file.
 - treeView: show implementations only.
+- treeView: collapse/expand items with left/right buttons.
 
 - Interface for materials import. Enrich Materials library.
 - Prool's INP-templates and snippets.
@@ -204,8 +217,6 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - Merge tests.py and model.parsers.mesh.py.
 
-- Collapse/expand treeView items with left/right buttons.
+- Think about Tk. PyQt5 is 100 MB heavy.
 
-- Rebuild documentation for version 2.16. Make a tool.
-
-- logging.error(traceback.format_exc()) for all exceptions
+- Is it possible to make release binaries without pyinstaller?
