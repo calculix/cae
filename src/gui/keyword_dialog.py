@@ -27,7 +27,16 @@ except:
     sys.exit(msg)
 
 # My modules
-from model.kom import item_type
+try:
+    # Normal run
+    from model.kom import item_type
+except:
+    # Test run
+    sys_path = os.path.join(os.path.dirname(__file__), '..')
+    os.sys.path.append(sys_path)
+    import clean
+    import path
+    from model import kom
 
 class KeywordDialog(QtWidgets.QDialog):
 
@@ -245,10 +254,17 @@ class KeywordDialog(QtWidgets.QDialog):
         super(KeywordDialog, self).accept()
         return self.textEdit.toPlainText().strip().split('\n')
 
-    # Open HTML help document in the default web browser
+    # Open HTML help page in a web browser
     def onHelp(self):
         url = self.get_url()
-        if not webbrowser.open(url, new=0):
+        if not os.path.isfile(url):
+            msg = 'Help page does not exist:\n{}'.format(
+                os.path.relpath(url, start=self.p.app_home_dir))
+            logging.error(msg)
+            return
+
+        # If help page exists
+        if not webbrowser.open('file://' + url, new=0):
             logging.warning('Can\'t open\n' + url)
         else:
             time.sleep(0.3)
@@ -265,61 +281,14 @@ class KeywordDialog(QtWidgets.QDialog):
                 if self.w.wid4 is not None and self.s.align_windows:
                     self.w.align()
 
-    # Load HTML help into QWebEngineView
+    # Get URL to the local help page
     def get_url(self):
-        USE_CACHED_HTML = True # if False HTML will be regenerated
-
-        # Get keyword name
         if self.item.item_type == item_type.KEYWORD:
             keyword_name = self.item.name[1:] # cut star
         if self.item.item_type == item_type.IMPLEMENTATION:
             keyword_name = self.item.parent.name[1:] # cut star
 
         # Avoid spaces in html page names
-        html_page_name = keyword_name.replace(' ', '_')
+        html_page_name = re.sub(r'[ -]', '_', keyword_name)
         url = os.path.join(self.p.doc, html_page_name + '.html')
-
-        # Regenerate HTML file
-        if not os.path.isfile(url) or not USE_CACHED_HTML:
-            self.save_html(self.p.doc, url)
-
-        return 'file://' + url
-
-    # Regenerate HTML file
-    def save_html(self, url):
-
-        # Open 'ccx.html' and find link to keyword's page
-        href = 'ccx.html'
-        with open(os.path.join(self.p.doc, href), 'r') as f:
-            for line in f.readlines():
-                match = re.search('node\d{3}\.html.{3}' + keyword_name, line) # regex to match href
-                if match:
-                    href = match.group(0)[:12]
-                    break
-
-        # Read html of the keyword's page
-        html = '<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body>'
-        with open(os.path.join(self.p.doc, href), 'r') as f:
-            append = False
-            cut_breakline = True
-            for line in f.readlines():
-                if '<!--End of Navigation Panel-->' in line:
-                    append = True
-                    continue
-                if '<HR>' in  line:
-                    break
-                if '<PRE>' in line:
-                    cut_breakline = False
-                if '</PRE>' in line:
-                    cut_breakline = True
-                if append:
-                    if cut_breakline:
-                        line = line[:-1] + ' ' # replace '\n' with space
-                    html += line
-        html += '</body></html>'
-        html = re.sub('<A.+?\">', '', html) # '?' makes it not greedy
-        html = html.replace('</A>', '')
-        with open(url, 'w') as f:
-            f.write(html)
-
-    # TODO Tool to regenerate all documentation
+        return url

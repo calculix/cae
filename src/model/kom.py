@@ -45,11 +45,6 @@ class KOM:
             t = ET.parse(p.kom_xml)
             self.buildKOM(t.getroot(), self.root)
 
-            # # Regenerate all HTML help pages
-            # from dialog import saveHTML
-            # for item in self.keywords:
-            #     saveHTML(item, p.doc)
-
             self.buildPaths(self.root)
             self.paths.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
             # for path in self.paths:
@@ -354,19 +349,19 @@ class implementation(item):
             logging.info('{} {} created.'.format(keyword.name, self.name))
 
 
-# Test module
-if __name__ == '__main__':
-    from pycallgraph import PyCallGraph
-    from pycallgraph import Config
-    from pycallgraph import GlobbingFilter
-    from pycallgraph.output import GraphvizOutput
-    p = Path()
-    modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
-    config = Config()
-    config.trace_filter = GlobbingFilter(
-        include=modules, exclude=['logging*', '*FileFinder'])
-    graphviz = GraphvizOutput(output_file=__file__[:-3]+'.png')
-    with PyCallGraph(output=graphviz, config=config):
-        start = time.perf_counter() # start time
-        KOM()
-        print('\nTotal {:.1e} seconds'.format(time.perf_counter()-start)) # end time
+# TODO Test module
+# if __name__ == '__main__':
+#     from pycallgraph import PyCallGraph
+#     from pycallgraph import Config
+#     from pycallgraph import GlobbingFilter
+#     from pycallgraph.output import GraphvizOutput
+#     p = Path()
+#     modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
+#     config = Config()
+#     config.trace_filter = GlobbingFilter(
+#         include=modules, exclude=['logging*', '*FileFinder'])
+#     graphviz = GraphvizOutput(output_file=__file__[:-3]+'.png')
+#     with PyCallGraph(output=graphviz, config=config):
+#         start = time.perf_counter() # start time
+#         KOM()
+#         print('\nTotal {:.1e} seconds'.format(time.perf_counter()-start)) # end time
