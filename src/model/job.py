@@ -70,8 +70,9 @@ class Job:
                 command = [settings.path_editor, self.inp]
                 subprocess.Popen(command)
             else:
-                logging.error('File not found:\n' + self.inp)
-                logging.error('Write input first.')
+                logging.error('File not found:\n' \
+                    + self.inp \
+                    + '\nWrite input first.')
         else:
             logging.error('Wrong path to text editor:\n' \
                 + settings.path_editor \
@@ -132,8 +133,9 @@ class Job:
                 cmd1 = [settings.path_ccx, '-i', self.path]
                 self.run([(cmd1, ''), ])
             else:
-                logging.error('File not found:\n' + self.inp)
-                logging.error('Write input first.')
+                logging.error('File not found:\n' \
+                    + self.inp \
+                    + '\nWrite input first.')
         else:
             logging.error('Wrong path to CCX:\n' \
                 + settings.path_ccx \
@@ -146,8 +148,9 @@ class Job:
                 command = [settings.path_editor, self.log]
                 subprocess.Popen(command)
             else:
-                logging.error('File not found:\n' + self.log)
-                logging.error('Submit analysis first.')
+                logging.error('File not found:\n' \
+                    + self.log \
+                    + '\nSubmit analysis first.')
         else:
             logging.error('Wrong path to text editor:\n' \
                 + settings.path_editor \
@@ -165,8 +168,9 @@ class Job:
         if os.path.isfile(self.frd):
             w.run_cgx(settings.path_cgx + ' -o ' + self.frd)
         else:
-            logging.error('File not found:\n' + self.frd)
-            logging.error('Submit analysis first.')
+            logging.error('File not found:\n' \
+                + self.frd \
+                + '\nSubmit analysis first.')
 
     # Convert FRD to VTU
     def export_vtu(self):
@@ -176,8 +180,9 @@ class Job:
             cmd1 = [converter_path, self.frd, 'vtu']
             self.run([(cmd1, ''), ])
         else:
-            logging.error('File not found:\n' + self.frd)
-            logging.error('Submit analysis first.')
+            logging.error('File not found:\n' \
+                + self.frd \
+                + '\nSubmit analysis first.')
 
     # Open VTU in ParaView
     def open_paraview(self, settings):
@@ -197,8 +202,7 @@ class Job:
             elif len(file_list) == 1:
                 vtu_path = self.path + '.vtu'
             else:
-                logging.error('VTU file not found.')
-                logging.error('Export VTU results first.')
+                logging.error('VTU file not found.\nExport VTU results first.')
                 return
 
             command = [settings.path_paraview, '--data=' + vtu_path]
