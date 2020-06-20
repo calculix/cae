@@ -1,8 +1,9 @@
 .vscode
 __pycache__
 /backup
+/dist
 /releases
-/examples/default.log
+/examples/*.log
 /src/architecture.odp
 /src/architecture.png
 /config/*.py

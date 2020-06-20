@@ -29,13 +29,14 @@ def copy(src, dst, skip):
 if __name__ == '__main__':
     if os.name=='nt':
         op_sys = '_windows'
-        skip = ('_linux', '_linux.env', '.sh', '.desktop',
-            'ccx', 'cgx', 'unv2ccx', 'ccx2paraview')
+        skip = ('_linux', 'Settings_linux.py', '.sh',
+            '.desktop', 'ccx', 'cgx', 'unv2ccx', 'ccx2paraview')
         extension = '.exe' # binary extension in OS
         TEMP = 'C:\\Windows\\Temp\\'
     else:
         op_sys = '_linux'
-        skip = ('_windows', '_windows.env', '.bat', '.exe', '.dll')
+        skip = ('_windows', 'Settings_windows.py',
+            '.bat', '.exe', '.dll')
         extension = '' # binary extension in OS
         TEMP = '/tmp/'
 
@@ -67,16 +68,28 @@ if __name__ == '__main__':
     shutil.move('./dist/cae', './dist/src')
 
     # Prepare skip list
-    with open('.gitignore', 'r') as f:
-        lines = f.readlines()
-    for i in range(len(lines)):
-        skip += (lines[i].rstrip().lstrip('*'), )
-    skip += ('.git', '.gitignore', '.py',
-        'tests.log', 'requirements.txt',
-        'dist', 'gui', 'model')
+    skip += ('.git', '.gitignore', '.py', 'tests.log',
+        'dist', 'gui', 'model', 'backup', 'releases',
+        'default.log', 'materials.log', 'ARPACK', 
+        'SPOOLES.2.2')
 
     # Copy files and folders from sources to 'dist'
     copy('.', 'dist', skip)
+
+    # Copy ARPACK library to 'dist'
+    lib = os.path.join('ccx'+op_sys, 'ARPACK', 'libarpack_INTEL.a')
+    dst = os.path.join('dist', 'ccx'+op_sys, 'ARPACK')
+    os.makedirs(dst)
+    shutil.copy(lib, dst)
+
+    # Copy SPOOLES libraries to 'dist'
+    lib = os.path.join('ccx'+op_sys, 'SPOOLES.2.2', 'MT', 'src', 'spoolesMT.a')
+    dst = os.path.join('dist', 'ccx'+op_sys, 'SPOOLES.2.2', 'MT', 'src')
+    os.makedirs(dst)
+    shutil.copy(lib, dst)
+    lib = os.path.join('ccx'+op_sys, 'SPOOLES.2.2', 'spooles.a')
+    dst = os.path.join('dist', 'ccx'+op_sys, 'SPOOLES.2.2')
+    shutil.copy(lib, dst)
 
     # Make archive
     if os.path.isfile(ARCH + '.zip'):

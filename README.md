@@ -115,7 +115,7 @@ Please, you may:
 - Simply use this software and ask questions.
 - Share your models and screenshots.
 - Do something from the [TODO-list](#TODO).
-- Report problems by [posting issues](https://github.com/calculix/cae/issues). If any error accured, please, in the settings dialog change the Logging level to 'DEBUG', then repeat actions leading to the error. In such a way you'll obtain much more detailed log - attach it to the problem report.
+- Report problems by [posting issues](https://github.com/calculix/cae/issues). Please, attach ./examples/default.log to the problem report.
 
 <br/><br/>
 
@@ -164,7 +164,9 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 # What's new
 
-+ Now help on CalculiX keywords is opened in the default web browser. Embeded QWebEngineView was removed. It led to relatively lightweight distribution (203 MB -> 123 MB).
++ Weight of the distribution reduced by ~90 MB.
+
++ Now help on CalculiX keywords is opened in the default web browser. Embeded QWebEngineView was removed.
 
 + Improved communication between windows.
 
