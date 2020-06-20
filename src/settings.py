@@ -101,19 +101,20 @@ class SettingsDialog(QtWidgets.QDialog):
         # Push settings values to the form
         if settings:
             for attr, value in settings.__dict__.items():
-                try:
-                    widget = self.findChild(QtWidgets.QCheckBox, attr)
+                widget = self.findChild(QtWidgets.QCheckBox, attr)
+                if widget is not None:
                     widget.setChecked(value)
-                except:
-                    try:
-                        widget = self.findChild(QtWidgets.QLineEdit, attr)
-                        widget.setText(value)
-                    except:
-                        try:
-                            widget = self.findChild(QtWidgets.QComboBox, attr)
-                            widget.setCurrentText(value)
-                        except:
-                            logging.error(traceback.format_exc())
+                    continue
+
+                widget = self.findChild(QtWidgets.QLineEdit, attr)
+                if widget is not None:
+                    widget.setText(value)
+                    continue
+
+                widget = self.findChild(QtWidgets.QComboBox, attr)
+                if widget is not None:
+                    widget.setCurrentText(value)
+                    continue
 
 
     # Save settings updated via or passed to dialog
