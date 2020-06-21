@@ -61,7 +61,7 @@ t - Tree
 j - Job """
 def import_file(s, w, m, t, j, file_name=None):
     if file_name is None or len(file_name)==0:
-        file_name = QtWidgets.QFileDialog.getOpenFileName(None, \
+        file_name = QtWidgets.QFileDialog.getOpenFileName(w, \
             'Import INP/UNV file', j.dir, \
             'INP (*.inp);;UNV (*.unv)')[0]
 
@@ -97,7 +97,9 @@ def import_file(s, w, m, t, j, file_name=None):
                 line = INP_doc[i]
 
                 # Parse keyword
+                # TODO comments (**) could be met here
                 if line.startswith('*'):
+                    # logging.debug(line)
 
                     # Distinguish 'NODE' and 'NODE PRINT'
                     if ',' in line:
