@@ -166,9 +166,6 @@ def import_file(s, w, m, t, j, file_name=None):
         m.Mesh = model.parsers.mesh.Mesh(INP_file=j.inp)
 
 
-# TODO Try to define how the application
-# is executed: from source code or as binary.
-
 """ TODO ./cae.sh
 [70447] Error loading Python lib 'cae/src/libpython3.6m.so.1.0':
 dlopen: /lib64/libc.so.6: version `GLIBC_2.25' not found
@@ -224,6 +221,13 @@ if __name__ == '__main__':
     w.initialize()
     if s.align_windows:
         w.align()
+
+    # How the application is executed:
+    # from source code or as binary
+    if sys.argv[0].endswith('.py'):
+        logging.info('Running from sources.')
+    else:
+        logging.info('Running from binaries.')
 
     # Main block
     m = model.Model() # generate FEM model
