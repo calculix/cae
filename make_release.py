@@ -71,7 +71,7 @@ if __name__ == '__main__':
     skip += ('.git', '.gitignore', '.py', 'tests.log',
         'dist', 'gui', 'model', 'backup', 'releases',
         'default.log', 'materials.log', 'ARPACK', 
-        'SPOOLES.2.2')
+        'SPOOLES.2.2', '.md')
 
     # Copy files and folders from sources to 'dist'
     copy('.', 'dist', skip)

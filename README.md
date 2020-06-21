@@ -168,6 +168,10 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 + Fixed hiding File -> Import dialog.
 
++ Logging.info: running from source code or as binary.
+
++ Menu Help: README.pdf.
+
 <br/><br/>
 
 
@@ -194,7 +198,7 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - [Martin Kraska examples](https://github.com/mkraska/CalculiX-Examples)
 - M.Kraska: support the param.py parametrization mechanism.
 
-- Menu Help: PDF manual / YouTube videos for beginners. Convert Readme.md to PDF.
+- Menu Help: wiki, YouTube videos for beginners. 
 
 - CAE should be independent and be able to be embeded into FreeCAD.
 

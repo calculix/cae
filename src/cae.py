@@ -233,7 +233,7 @@ if __name__ == '__main__':
     m = model.Model() # generate FEM model
     t = tree.Tree(p, s, w, m) # create treeView items based on KOM
     j = model.job.Job(p) # create job object
-    actions.actions(s, w, m, t, j) # window actions
+    actions.actions(p, s, w, m, t, j) # window actions
     import_file(s, w, m, t, j, start_model) # import default model
 
     if s.run_cgx_on_start:

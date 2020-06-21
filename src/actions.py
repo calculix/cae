@@ -18,7 +18,7 @@ m - Model
 t - Tree
 j - Job
 """
-def actions(s, w, m, t, j):
+def actions(p, s, w, m, t, j):
     w.keyPressEvent = t.keyPressEvent
 
     # File actions
@@ -47,7 +47,7 @@ def actions(s, w, m, t, j):
 
     # Help actions
     w.action_help_readme.triggered.connect(
-        lambda: w.help('https://github.com/calculix/cae#calculix-cae'))
+        lambda: w.help('file://{}/README.pdf'.format(p.app_home_dir)))
     w.action_help_examples.triggered.connect(
         lambda: w.help('https://github.com/calculix/examples'))
     w.action_help_issues.triggered.connect(
