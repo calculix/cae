@@ -87,6 +87,7 @@ class Window(QtWidgets.QMainWindow):
                 stderr=subprocess.STDOUT)
 
             self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
+            logging.info('CalculiX GraphiX:')
             gui.log.read_output(self.process.stdout)
             if self.s.align_windows:
                 self.align()
@@ -257,8 +258,10 @@ class Linux_window(Window):
         ids = self.root.get_full_property(
             self.d.intern_atom('_NET_CLIENT_LIST'),
             X.AnyPropertyType).value
-        for wid in ids:
-            w = self.d.create_resource_object('window', wid)
+        wid = None
+        msg = 'Window list:'
+        for _id in ids:
+            w = self.d.create_resource_object('window', _id)
             try:
                 wname = w.get_full_property(
                     self.d.intern_atom('_NET_WM_NAME'), X.AnyPropertyType).value.decode()
@@ -267,14 +270,16 @@ class Linux_window(Window):
             except:
                 wname = w.get_wm_name()
                 pid = 0
-            logging.debug('0x{} {: 6d} {}'\
-                .format(hex(wid)[2:].zfill(8), pid, wname))
+            msg += '\n0x{} {: 6d} {}'\
+                .format(hex(_id)[2:].zfill(8), pid, wname)
             if title.lower() in wname.lower():
                 # TODO It also could be, for example, a browser window
                 # with opened web page about CalculiX CAE
-                return wid
-        return None
-
+                wid = _id
+                break
+        logging.debug(msg)
+        return wid
+        
     """
         def get_wid_old(self, title):
             def get_window_by_title(title, window=None):
@@ -355,6 +360,8 @@ class Linux_window(Window):
             if w1 is not None:
                 self.d.set_input_focus(w1, Xlib.X.RevertToNone, Xlib.X.CurrentTime)
         """
+        w1 = self.d.create_resource_object('window', self.wid1)
+        w1.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
         self.d.sync()
 
     # Key press + release
