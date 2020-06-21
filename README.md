@@ -164,23 +164,9 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 # What's new
 
-+ Weight of the distribution reduced by ~90 MB.
++ treeView: collapse/expand items with left/right buttons.
 
-+ Now help on CalculiX keywords is opened in the default web browser. Embeded QWebEngineView was removed.
-
-+ Improved communication between windows.
-
-+ Added support for special symbols in sets and surfaces. Fixed [issue 7](https://github.com/calculix/cae/issues/7).
-
-+ Settings file format changed to .py
-
-+ DEBUG is default logging level. Better debug messages.
-
-+ A tool to update and cleanup /doc. Removed over 2200 unused files.
-
-+ Logging of error's traceback added
-
-+ Test for Path class
++ Fixed hiding File -> Import dialog.
 
 <br/><br/>
 
@@ -189,14 +175,13 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 # TODO
 
 - During keyword's edit parse arguments and pass them to Dialog.
+- Implement keyword dialog as tab on main window.
 - Settings Dialog: add buttons to Pathes to open files.
 
 - Invent some kind of Python API for CAE or use pycalculix.
 - Python code (*PYTHON keyword) in the INP_code for step repetition and other kind of model generation.
 
 - treeView: import certain keyword with descendants (tree branch) from INP-file.
-- treeView: show implementations only.
-- treeView: collapse/expand items with left/right buttons.
 
 - Interface for materials import. Enrich Materials library.
 - Prool's INP-templates and snippets.
@@ -209,16 +194,17 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - [Martin Kraska examples](https://github.com/mkraska/CalculiX-Examples)
 - M.Kraska: support the param.py parametrization mechanism.
 
-- Menu Help: PDF manual / YouTube videos for beginners.
+- Menu Help: PDF manual / YouTube videos for beginners. Convert Readme.md to PDF.
 
 - CAE should be independent and be able to be embeded into FreeCAD.
 
 - Change CGX colormaps via Xlib.
 
-- Reparse mesh/model after tree.actionDeleteImplementation.
+- Parser: reparse mesh/model after tree.actionDeleteImplementation.
+- Parser: "WARNING: Wrong keyword **" - does not support comments.
 
 - Merge tests.py and model.parsers.mesh.py.
 
-- Think about Tk. PyQt5 is 100 MB heavy.
+- Think about Tk. PyQt5 is 45-65 MB heavy.
 
 - Is it possible to make release binaries without pyinstaller?
