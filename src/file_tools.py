@@ -23,7 +23,7 @@ def read_lines(INP_file):
             line = line.strip()
 
             # Skip comments and empty lines
-            if line.startswith('**') and len(line)==0:
+            if line.startswith('**') or len(line)==0:
                 continue
 
             lines.append(line)

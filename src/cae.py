@@ -38,12 +38,10 @@ import file_tools
 import clean
 import path
 
-
 # Pyinstaller bug in Windows:
 # append 'app_home_dir' and 'src' directories to PATH
 p = path.Path() # calculate absolute paths
 p.append_to_PATH([p.app_home_dir, p.src])
-
 
 """ INP importer:
 - Enrich KOM with implementations from parsed file.
@@ -97,9 +95,8 @@ def import_file(s, w, m, t, j, file_name=None):
                 line = INP_doc[i]
 
                 # Parse keyword
-                # TODO comments (**) could be met here
                 if line.startswith('*'):
-                    # logging.debug(line)
+                    logging.debug(line)
 
                     # Distinguish 'NODE' and 'NODE PRINT'
                     if ',' in line:
@@ -165,12 +162,6 @@ def import_file(s, w, m, t, j, file_name=None):
         # Parse mesh
         m.Mesh = model.parsers.mesh.Mesh(INP_file=j.inp)
 
-
-""" TODO ./cae.sh
-[70447] Error loading Python lib 'cae/src/libpython3.6m.so.1.0':
-dlopen: /lib64/libc.so.6: version `GLIBC_2.25' not found
-(required by cae/src/libpython3.6m.so.1.0)
-"""
 if __name__ == '__main__':
     start_time = time.perf_counter()
     clean.screen()
