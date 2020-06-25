@@ -57,8 +57,8 @@ w - Window
 m - Model
 t - Tree
 j - Job """
-def import_file(s, w, m, t, j, file_name=None):
-    if file_name is None or len(file_name)==0:
+def import_file(s, w, m, t, j, file_name=''):
+    if len(file_name) == 0:
         file_name = QtWidgets.QFileDialog.getOpenFileName(w, \
             'Import INP/UNV file', j.dir, \
             'INP (*.inp);;UNV (*.unv)')[0]
@@ -74,10 +74,6 @@ def import_file(s, w, m, t, j, file_name=None):
             if not os.path.isfile(j.inp):
                 logging.error('Can not convert\n' + j.unv)
                 return
-
-        # Open model in CGX
-        if s.run_cgx_on_start:
-            j.cgx_inp(s, w)
 
         # Show model name in window's title
         w.setWindowTitle('CalculiX CAE - ' + j.name)
@@ -162,6 +158,10 @@ def import_file(s, w, m, t, j, file_name=None):
         # Parse mesh
         m.Mesh = model.parsers.mesh.Mesh(INP_file=j.inp)
 
+        # Open model in CGX
+        if s.run_cgx_on_start:
+            j.cgx_inp(s, w)
+
 if __name__ == '__main__':
     start_time = time.perf_counter()
     clean.screen()
@@ -199,9 +199,7 @@ if __name__ == '__main__':
         type=str, help='your .inp file',
         default=s.start_model)
     args = parser.parse_args()
-    start_model = ''
-    if len(args.inp):
-        start_model = os.path.join(p.app_home_dir, args.inp)
+    start_model = os.path.join(p.app_home_dir, args.inp)
 
     # Show CAE and get window ID
     if os.name=='nt':
@@ -227,8 +225,6 @@ if __name__ == '__main__':
     actions.actions(p, s, w, m, t, j) # window actions
     import_file(s, w, m, t, j, start_model) # import default model
 
-    if s.run_cgx_on_start:
-        w.post(s.model_view)
     logging.info('Started in {:.1f} seconds.'
         .format(time.perf_counter() - start_time))
 

@@ -86,8 +86,6 @@ def remove_png_trash():
     regex = r'img\d+\.png'
     for line in lines:
         while True:
-            # if len(images) >= 10:
-            #     break
             match = re.search(regex, line)
             if match is not None:
                 img = match.group(0)
