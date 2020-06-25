@@ -134,6 +134,7 @@ def log_line(line):
 
 # Read and log processes stdout
 # Attention: it's infinite pipe reader!
+# An old reader quits if a new one is started
 def read_output(pipe):
 
     # Posting to CGX window outputs to std line with backspaces:
@@ -163,6 +164,22 @@ def read_output(pipe):
             else:
                 time.sleep(0.3) # reduce CPU usage
 
+                # Quit the cycle and finish the thread if it's outdated
+                if threading.active_count() > 2:
+                    t_names = [t.name for t in threading.enumerate() \
+                        if t.name.startswith('read_output')]
+                    t_names = sorted(t_names)
+                    if threading.current_thread().name == t_names[0]:
+                        logging.debug('Thread {} stopped.'.format(t_names[0]))
+                        return
+
+    t_name = 'read_output_{}'.format(time.time()).split('.')[0]
     t = threading.Thread(target=read_pipe_and_log, 
-        args=(pipe, ), name='read_output', daemon=True)
+        args=(pipe,), name=t_name, daemon=True)
     t.start()
+
+    # List all running threads
+    msg = 'Running threads:\n{}\n'
+    t_names = [t.name for t in threading.enumerate()]
+    t_names = ', '.join(sorted(t_names))
+    logging.debug(msg.format(t_names))

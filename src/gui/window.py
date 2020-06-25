@@ -4,7 +4,10 @@
 """ © Ihor Mirzov, June 2020
 Distributed under GNU General Public License v3.0
 
-Main window class. Get windows names and align them.
+Main window class. Here also we keep links to another
+app windows like CGX and web browser. Those links (WIDs)
+are needed to align application windows.
+
 For documentation on used functions refer to:
 http://python-xlib.sourceforge.net/doc/html/python-xlib_21.html
 https://github.com/python-xlib/python-xlib
@@ -18,7 +21,6 @@ import sys
 import time
 import logging
 import subprocess
-import threading
 import inspect
 import math
 import webbrowser
@@ -59,19 +61,13 @@ class Window(QtWidgets.QMainWindow):
         # Handler to show logs in the CAE's textEdit
         gui.log.add_text_handler(self.textEdit)
 
-        # When logger is ready - check if settings read correctly
-        if hasattr(s, 'error_path'):
-            logging.error('Erroneous path in settings file: ' +\
-                s.error_path + '. Loading default values.')
-
         # Window ID - to pass keycodes to
         self.wid1 = None # cae window
         self.wid2 = None # cgx window
-        self.wid3 = None # keyword dialog # TODO remove
+        self.wid3 = None # keyword dialog
         self.wid4 = None # help (web browser)
         self.process = None # running process to send commands to
         self.keyboardMapping = None
-        self.last_command = None
 
         # INP | FRD - corresponds to opened file
         self.mode = None
@@ -79,20 +75,6 @@ class Window(QtWidgets.QMainWindow):
     # Close opened CGX (if any)
     # open a new one and get window ID
     def run_cgx(self, cmd):
-
-        def start_cgx(cmd):    
-            self.process = subprocess.Popen(cmd.split(),
-                stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT)
-
-            self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
-            logging.info('CalculiX GraphiX:')
-            gui.log.read_output(self.process.stdout)
-            if self.s.align_windows:
-                self.align()
-            self.flush_cgx_cache()
-
         if not os.path.isfile(self.s.path_cgx):
             msg = 'Wrong path to CGX:\n{}\n' \
                 + 'Configure it in File->Settings.'
@@ -100,15 +82,22 @@ class Window(QtWidgets.QMainWindow):
             return
 
         gui.cgx.kill()
-        start_cgx(cmd)
+        self.process = subprocess.Popen(cmd.split(),
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT)
+        gui.log.read_output(self.process.stdout)
+        self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
+        if self.s.align_windows:
+            self.align()
         self.register_cgx_colors()
+        self.post(self.s.model_view)
+        self.post('rot -z')
+        self.post('rot r 45')
+        self.post('rot u 45')
 
         # Caller fuction name: cgx_inp | cgx_frd
         self.mode = inspect.stack()[1].function
-
-    # The only way to get last output from CGX
-    def flush_cgx_cache(self):
-        self.post(' ')
 
     # Register new colors to use in CGX
     # https://colourco.de/
@@ -176,10 +165,11 @@ def post_wrapper(w):
                 and w.process.poll() is None\
                 and w.wid2 is not None:
                 if len(cmd):
-                    if cmd != ' ':
-                        w.last_command = cmd
                     method(w, cmd)
-                    method(w, ' ')
+
+                    # The only way to get last output from CGX
+                    method(w, ' ') # flush logs
+
                     return
                 else:
                     logging.warning('Empty command.')
@@ -279,31 +269,6 @@ class Linux_window(Window):
                 break
         logging.debug(msg)
         return wid
-        
-    """
-        def get_wid_old(self, title):
-            def get_window_by_title(title, window=None):
-                if window is None:
-                    window = self.root
-                try:
-                    for w in window.query_tree().children:
-                        wm_name = w.get_wm_name()
-                        # print(title, wm_name, w.get_wm_class())
-                        if wm_name is not None \
-                            and len(wm_name) \
-                            and title in wm_name:
-                                return w
-                        w = get_window_by_title(title, w)
-                        if w is not None:
-                            return w
-                except:
-                    pass
-                return None
-
-            w = get_window_by_title(title)
-            try: return int(w.id)
-            except: return None
-    """
 
     # Activate window, send message to CGX, deactivate
     @post_wrapper(Window)
@@ -332,43 +297,19 @@ class Linux_window(Window):
                 w.send_event(e, propagate=True)
                 e = event(w, Xlib.protocol.event.KeyRelease, code, case)
                 w.send_event(e, propagate=True)
-
             else:
                 logging.warning('WARNING! Symbol {} is not supported.'.format(symbol))
 
-        w2 = self.d.create_resource_object('window', self.wid2)
+        win = self.d.create_resource_object('window', self.wid2)
         for symbol in cmd + '\n':
-            sendkey(w2, symbol)
-
-        """
-            def get_window_by_id(wid, window=None):
-                print('get_window_by_id', wid, self.wid1)
-                if window is None:
-                    window = self.root
-                try:
-                    for w in window.query_tree().children:
-                        if w.id == wid:
-                            return w
-                        w = get_window_by_id(wid, w)
-                        if w is not None:
-                            return w
-                except Xlib.error.BadWindow:
-                    logging.error('Bad window')
-                return None
-
-            w1 = get_window_by_id(self.wid1)
-            if w1 is not None:
-                self.d.set_input_focus(w1, Xlib.X.RevertToNone, Xlib.X.CurrentTime)
-        """
-        w1 = self.d.create_resource_object('window', self.wid1)
-        w1.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
+            sendkey(win, symbol)
         self.d.sync()
 
     # Key press + release
     def send_hotkey(self, *keys):
         for key in keys:
             if key not in self.keyboardMapping:
-                logging.warning('WARNING! Symbol {} is not supported.'.format(key))
+                logging.warning('WARNING! Key {} is not supported.'.format(key))
                 return
         for key in keys:
             c = self.keyboardMapping[key][0]
@@ -385,33 +326,35 @@ class Linux_window(Window):
 
     # Align CGX and browser windows
     # CAE window is already aligned in __init__()
-    # NOTE CGX 'wpos' and 'wsize' works better than 'w2configure'
     def align(self):
-        for wid in [self.wid1, self.wid3]:
+        for wid in [self.wid1, self.wid3]: # align CAE and keyword dialog
             if wid is not None:
-                w1 = self.d.create_resource_object('window', wid)
-                w1.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
+                win = self.d.create_resource_object('window', wid)
+                win.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
                 self.send_hotkey('Super_L', 'Down') # restore window
-                w1.configure(x=0, y=0,
+                win.configure(x=0, y=0,
                     width=math.floor(self.size.width()/3),
                     height=self.size.height())
-        if self.wid2 is not None:
-            self.post('wpos {} {}'\
-                .format(math.ceil(self.size.width()/3), 0))
-            self.post('wsize {} {}'\
-                .format(math.floor(self.size.width()*2/3), self.size.height()))
-        if self.wid4 is not None:
-            w4 = self.d.create_resource_object('window', self.wid4)
-            w4.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
-            self.send_hotkey('Super_L', 'Down') # restore window
-            w4.configure(x=math.ceil(self.size.width()/3), y=0,
-                width=math.floor(self.size.width()*2/3),
-                height=self.size.height())
+        # if self.wid2 is not None:
+        #     self.post('wpos {} {}'\
+        #         .format(math.ceil(self.size.width()/3), 0))
+        #     self.post('wsize {} {}'\
+        #         .format(math.floor(self.size.width()*2/3), self.size.height()))
+        for wid in [self.wid2, self.wid4]: # align CGX and webbrowser
+            if wid is not None:
+                win = self.d.create_resource_object('window', wid)
+                win.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
+                self.send_hotkey('Super_L', 'Down') # restore window
+                win.configure(x=math.ceil(self.size.width()/3), y=0,
+                    width=math.floor(self.size.width()*2/3),
+                    height=self.size.height())
         time.sleep(0.3)
         self.d.sync()
 
-    # TODO w.get_attributes('colormap'):
     """
+        # TODO w.get_attributes('colormap'):
+        # self.d.create_resource_object('colormap', ...)
+
         def change_colormap(self):
             self.colormap = self.screen.default_colormap
             col = self.colormap.alloc_color(0, 0, 0)
@@ -421,13 +364,13 @@ class Linux_window(Window):
                 print(c)
             DefaultVisual
             print(self.screen.default_colormap)
-            c = w1.create_colormap() # Xlib.xobject.colormap.Colormap
-            w1.change_attributes(colormap=c)
-            w1.configure(colormap=c)
-            w1.set_wm_colormap_windows()
-            for cmap in w1.list_installed_colormaps():
+            c = win.create_colormap() # Xlib.xobject.colormap.Colormap
+            win.change_attributes(colormap=c)
+            win.configure(colormap=c)
+            win.set_wm_colormap_windows()
+            for cmap in win.list_installed_colormaps():
                 print(cmap)
-            for cmap in w2.list_installed_colormaps():
+            for cmap in win.list_installed_colormaps():
                 print(cmap)
     """
 

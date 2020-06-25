@@ -172,6 +172,10 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 + Menu Help: README.pdf.
 
++ Ignore comments on INP import.
+
++ Logger: killing old output reading threads.
+
 <br/><br/>
 
 
@@ -212,3 +216,6 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - Think about Tk. PyQt5 is 45-65 MB heavy.
 
 - Is it possible to make release binaries without pyinstaller?
+
+- One of processor's core eats 100%.
+
