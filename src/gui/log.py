@@ -155,6 +155,22 @@ def read_output(pipe):
     # Infininte cycle to read process'es stdout
     def read_pipe_and_log(pipe):
         while True:
+            if threading.active_count() > 2:
+                t_names = [t.name for t in threading.enumerate() \
+                    if t.name.startswith('read_output')]
+                t_names = sorted(t_names)
+
+                # Quit the cycle and finish the thread if it's outdated
+                if threading.current_thread().name == t_names[0]:
+                    logging.debug('Thread {} stopped.'.format(t_names[0]))
+                    return
+
+                # Wait until an old thread finishes
+                else:
+                    time.sleep(1)
+                    continue
+
+            # TODO Pack/group log messages
             line = pipe.readline()
             if line != b'':
                 line = filter_backspaces(line)
@@ -162,16 +178,7 @@ def read_output(pipe):
                 log_line(line)
                 time.sleep(0.03) # CAE dies during fast logging
             else:
-                time.sleep(0.3) # reduce CPU usage
-
-                # Quit the cycle and finish the thread if it's outdated
-                if threading.active_count() > 2:
-                    t_names = [t.name for t in threading.enumerate() \
-                        if t.name.startswith('read_output')]
-                    t_names = sorted(t_names)
-                    if threading.current_thread().name == t_names[0]:
-                        logging.debug('Thread {} stopped.'.format(t_names[0]))
-                        return
+                time.sleep(1) # reduce CPU usage
 
     t_name = 'read_output_{}'.format(time.time()).split('.')[0]
     t = threading.Thread(target=read_pipe_and_log, 
@@ -179,7 +186,7 @@ def read_output(pipe):
     t.start()
 
     # List all running threads
-    msg = 'Running threads:\n{}\n'
+    msg = 'Running threads:\n{}'
     t_names = [t.name for t in threading.enumerate()]
     t_names = ', '.join(sorted(t_names))
     logging.debug(msg.format(t_names))
