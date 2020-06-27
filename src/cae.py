@@ -64,6 +64,7 @@ def import_file(s, w, m, t, j, file_name=''):
             'INP (*.inp);;UNV (*.unv)')[0]
 
     if file_name is not None and len(file_name):
+        gui.cgx.kill(w.process) # close old CGX
 
         # Rename job before tree regeneration
         j.initialize(file_name[:-4] + '.inp')
@@ -158,9 +159,14 @@ def import_file(s, w, m, t, j, file_name=''):
         # Parse mesh
         m.Mesh = model.parsers.mesh.Mesh(INP_file=j.inp)
 
-        # Open model in CGX
-        if s.run_cgx_on_start:
-            j.cgx_inp(s, w)
+        # Open a new non-empty model in CGX
+        if not s.start_cgx_by_default:
+            logging.warning('"Settings -> Start CGX by default" is unchecked.')
+            return
+        if not len(m.Mesh.nodes):
+            logging.warning('Empty mesh, CGX will not start!')
+            return
+        j.cgx_inp(s, w, m)
 
 if __name__ == '__main__':
     start_time = time.perf_counter()
@@ -199,7 +205,6 @@ if __name__ == '__main__':
         type=str, help='your .inp file',
         default=s.start_model)
     args = parser.parse_args()
-    start_model = os.path.join(p.app_home_dir, args.inp)
 
     # Show CAE and get window ID
     if os.name=='nt':
@@ -223,7 +228,17 @@ if __name__ == '__main__':
     t = tree.Tree(p, s, w, m) # create treeView items based on KOM
     j = model.job.Job(p) # create job object
     actions.actions(p, s, w, m, t, j) # window actions
-    import_file(s, w, m, t, j, start_model) # import default model
+
+    # Import default model
+    if len(args.inp):
+        start_model = os.path.join(p.app_home_dir, args.inp)
+        import_file(s, w, m, t, j, start_model)
+
+    # Or start empty
+    else:
+        logging.warning('No default start model specified.')
+        m.KOM = model.kom.KOM()
+        t.generateTreeView(m)
 
     logging.info('Started in {:.1f} seconds.'
         .format(time.perf_counter() - start_time))
@@ -232,7 +247,7 @@ if __name__ == '__main__':
     app.exec()
 
     # Kill CGX after CAE exit
-    gui.cgx.kill()
+    gui.cgx.kill(w.process)
 
     # Recursively clean cached files in all subfolders
     clean.cache(p.src)
