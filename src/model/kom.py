@@ -29,9 +29,8 @@ except:
     sys_path = os.path.join(os.path.dirname(__file__), '..')
     os.sys.path.append(sys_path)
     import path
+    import clean
     import settings
-
-# TODO rename methods to follow PEP
 
 
 # Keyword Object Model
@@ -99,7 +98,6 @@ class KOM:
                 if len(values):
                     values = values.split('|')
                     item.items.extend(values)
-                    # print(parent.name, ":", item.name, values)
 
             self.build(xml_child, item)
 
@@ -360,7 +358,13 @@ if __name__ == '__main__':
     # from pycallgraph import Config
     # from pycallgraph import GlobbingFilter
     # from pycallgraph.output import GraphvizOutput
-    # p = Path()
+
+    clean.screen()
+    logging.basicConfig(level=0, format='%(message)s')
+    start = time.perf_counter() # start time
+    p = path.Path()
+    s = settings.Settings(p)
+
     # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
     # config = Config()
     # config.trace_filter = GlobbingFilter(
@@ -368,10 +372,6 @@ if __name__ == '__main__':
     # graphviz = GraphvizOutput(output_file=__file__[:-3]+'.png')
     # with PyCallGraph(output=graphviz, config=config):
 
-    logging.basicConfig(level=0, format='%(message)s')
-    start = time.perf_counter() # start time
-    s = settings.Settings()
-    p = path.Path()
     KOM(p, s)
     print('\nTotal {:.1e} seconds'\
         .format(time.perf_counter()-start)) # spent time
