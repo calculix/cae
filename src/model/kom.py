@@ -21,8 +21,18 @@ import xml.etree.ElementTree as ET
 import traceback
 
 # My modules
-import path
-import settings
+try:
+    # Normal run
+    import path
+    import settings
+except:
+    # Test run
+    sys_path = os.path.join(os.path.dirname(__file__), '..')
+    os.sys.path.append(sys_path)
+    import path
+    import settings
+
+# TODO rename methods to follow PEP
 
 
 # Keyword Object Model
@@ -60,15 +70,16 @@ class KOM:
     # Recursively build Keyword Object Model
     def buildKOM(self, xml_branch, parent):
         for xml_child in xml_branch:
-            # logging.debug(xml_child.tag + ', ' + str(xml_child.attrib))
+            logging.log(5, xml_child.tag + ', ' + str(xml_child.attrib))
             """
-                xml_child.tag, xml_child.attrib:
+            xml_child.tag, xml_child.attrib:
 
-                keyword, {'name': '*RESTART'}
-                keyword, {'name': '*TIME POINTS'}
-                group, {'name': 'Interactions'}
-                group, {'name': 'Constraints'}
+            keyword, {'name': '*RESTART'}
+            keyword, {'name': '*TIME POINTS'}
+            group, {'name': 'Interactions'}
+            group, {'name': 'Constraints'}
             """
+
             # Create item: group, keyword or argument
             klass = globals()[xml_child.tag]
             item = klass()
@@ -194,6 +205,7 @@ class item:
     items = []              # list of children
     parent = None           # item's parent item
     active = False
+    # TODO Remove it. Transfer here Settings object from cae.py
     settings = settings.Settings() # read application's global settings
     expanded = settings.expanded
 
@@ -351,19 +363,22 @@ class implementation(item):
             logging.info('{} {} created.'.format(keyword.name, self.name))
 
 
-# TODO Test module
-# if __name__ == '__main__':
-#     from pycallgraph import PyCallGraph
-#     from pycallgraph import Config
-#     from pycallgraph import GlobbingFilter
-#     from pycallgraph.output import GraphvizOutput
-#     p = Path()
-#     modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
-#     config = Config()
-#     config.trace_filter = GlobbingFilter(
-#         include=modules, exclude=['logging*', '*FileFinder'])
-#     graphviz = GraphvizOutput(output_file=__file__[:-3]+'.png')
-#     with PyCallGraph(output=graphviz, config=config):
-#         start = time.perf_counter() # start time
-#         KOM()
-#         print('\nTotal {:.1e} seconds'.format(time.perf_counter()-start)) # end time
+# Run test
+if __name__ == '__main__':
+    # from pycallgraph import PyCallGraph
+    # from pycallgraph import Config
+    # from pycallgraph import GlobbingFilter
+    # from pycallgraph.output import GraphvizOutput
+    # p = Path()
+    # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
+    # config = Config()
+    # config.trace_filter = GlobbingFilter(
+    #     include=modules, exclude=['logging*', '*FileFinder'])
+    # graphviz = GraphvizOutput(output_file=__file__[:-3]+'.png')
+    # with PyCallGraph(output=graphviz, config=config):
+
+    logging.basicConfig(level=0, format='%(message)s')
+    start = time.perf_counter() # start time
+    KOM()
+    print('\nTotal {:.1e} seconds'\
+        .format(time.perf_counter()-start)) # spent time
