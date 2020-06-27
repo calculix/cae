@@ -18,17 +18,16 @@ import traceback
 from PyQt5 import QtWidgets, uic
 
 # My modules
-from path import Path
+import path
 import clean
 
 
 # Session settings object used everywhere in the code
 class Settings():
 
-
     # Read settings from file
-    def __init__(self):
-        self.p = Path() # calculate absolute paths
+    def __init__(self, p):
+        self.p = p
 
         # Try to read settings file
         try:
@@ -62,11 +61,10 @@ class Settings():
             self.start_cgx_by_default = True
             self.align_windows = True
 
-
     # Open dialog window and pass settings
     def open(self):
-        self.__init__() # re-read settings from file
-        sd = SettingsDialog(settings=self)
+        self.__init__(self.p) # re-read settings from file
+        sd = SettingsDialog(self.p, settings=self)
 
         # Warning about Cygwin DLLs
         if os.name=='nt':
@@ -75,27 +73,37 @@ class Settings():
         # Get response from dialog window
         if sd.exec(): # == 1 if user pressed 'OK'
             sd.save()
-            self.__init__() # read settings from file
+            self.__init__(self.p) # read settings from file
             logging.warning('For some settings to take effect application\'s restart may be needed.')
 
-
-    # Automatic save current settings during the workflow
-    # Pass values to dialog and save
-    def save(self):
-        sd = SettingsDialog(settings=self)
+    # Automatic saving of current settings during the workflow
+    def save_old(self):
+        """ Pass values to dialog and save
+        This method produces redundant PyQt debug logging
+        save() is better though removes comments from setting file """
+        sd = SettingsDialog(self.p, settings=self)
         sd.save()
+    def save(self):
+        with open(self.p.settings, 'w') as f:
+            for attr, value in self.__dict__.items():
+                if attr == 'p':
+                    continue
+                if type(value) ==  str:
+                    line = 'self.{} = \'{}\''.format(attr, value)
+                else:
+                    line = 'self.{} = {}'.format(attr, value)
+                f.write(line + '\n\n')
 
 
 # User dialog window with all setting attributes: menu File->Settings
 class SettingsDialog(QtWidgets.QDialog):
 
-
     # Create dialog window
-    def __init__(self, settings=None):
+    def __init__(self, p, settings=None):
+        self.p = p
 
         # Load UI form
         QtWidgets.QDialog.__init__(self)
-        self.p = Path() # calculate absolute paths
         uic.loadUi(self.p.settings_xml, self) # load default settings from
 
         # Push settings values to the form
@@ -115,7 +123,6 @@ class SettingsDialog(QtWidgets.QDialog):
                 if widget is not None:
                     widget.setCurrentText(value)
                     continue
-
 
     # Save settings updated via or passed to dialog
     def save(self):
@@ -147,14 +154,16 @@ class SettingsDialog(QtWidgets.QDialog):
 
 # Run test
 if __name__ == '__main__':
+    clean.screen()
 
     # Create application
     app = QtWidgets.QApplication(sys.argv)
 
     # Create and open settings window
-    settings = Settings()
-    settings.open()
+    p = path.Path()
+    s = Settings(p)
+    s.save()
+    s.open()
 
     # Clean cached files
-    p = Path() # calculate absolute paths
     clean.cache(p.src)
