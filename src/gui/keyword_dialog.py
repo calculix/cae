@@ -86,7 +86,7 @@ class KeywordDialog(QtWidgets.QDialog):
                 logging.debug('Argument ' + argument.name)
 
                 # Try to get existing implementations for argument.name
-                keyword = KOM.getKeywordByName('*' + argument.name)
+                keyword = KOM.get_keyword_by_name('*' + argument.name)
                 argument_values_items = argument.items
                 if keyword:
                     """

@@ -63,7 +63,7 @@ def scan_all_files_in(start_folder, ext):
     return sorted(all_files)[:limit]
 
 
-# Test
+# Run test
 if __name__ == '__main__':
     start_time = time.perf_counter()
 

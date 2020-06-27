@@ -37,8 +37,8 @@ def read_lines(INP_file):
 
     return lines
 
-# Test run
-if __name__=='__main__':
+# Run test
+if __name__ == '__main__':
     d = os.path.dirname(__file__)
     d = os.path.join(d, '..', 'examples')
     INP_file = os.path.join(d, 'Ihor_Mirzov_baffle_2D.inp')

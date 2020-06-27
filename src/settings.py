@@ -145,7 +145,7 @@ class SettingsDialog(QtWidgets.QDialog):
                     f.write(line + '\n\n')
 
 
-# Test module
+# Run test
 if __name__ == '__main__':
 
     # Create application

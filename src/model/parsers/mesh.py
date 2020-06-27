@@ -577,7 +577,7 @@ class SURFACE:
             self.type = 'ELEMENT'
 
 
-# Test
+# Run test
 if __name__ == '__main__':
     logging.info = print
     INP_file = os.path.join(

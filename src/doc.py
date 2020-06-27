@@ -121,7 +121,7 @@ def check(p, KOM):
 
 if __name__ == '__main__':
     clean.screen()
-    p = path.Path()
+    # p = path.Path()
     KOM = kom.KOM()
     # regenerate_documentation(p, KOM)
     # remove_html_trash(p, KOM)

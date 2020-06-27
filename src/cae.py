@@ -103,7 +103,7 @@ def import_file(s, w, m, t, j, file_name=''):
 
                     # Find KOM keyword path corresponding to keyword_chain
                     keyword_chain.append(keyword_name)
-                    path = KOM.getPath(keyword_chain)
+                    path = KOM.get_path(keyword_chain)
                     if path:
                         logging.debug('path found: ' + str([item.name for item in path]))
 

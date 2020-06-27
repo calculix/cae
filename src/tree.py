@@ -61,9 +61,8 @@ class Tree:
 
             # Check if there are keywords with implementations
             if self.s.show_empty_keywords \
-                    or item.name == 'Job' \
-                    or item.countImplementations() \
-                    or item.item_type == item_type.IMPLEMENTATION:
+                or item.countImplementations() \
+                or item.item_type == item_type.IMPLEMENTATION:
 
                 # Create tree_element
                 tree_element = QtGui.QStandardItem(item.name)
@@ -95,11 +94,6 @@ class Tree:
                 icon_path = os.path.join(self.p.img, 'icon_' + icon_name.lower())
                 icon = QtGui.QIcon(icon_path)
                 tree_element.setIcon(icon)
-
-                # # Append job name
-                # if item.name == 'Job':
-                #     self.job_element = tree_element
-                #     self.appendJobName()
 
                 # Organize recursion
                 impls = item.getImplementations()

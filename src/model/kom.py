@@ -54,9 +54,9 @@ class KOM:
             # Analyze keywords hierarchy
             p = path.Path() # calculate absolute paths
             t = ET.parse(p.kom_xml)
-            self.buildKOM(t.getroot(), self.root)
+            self.build(t.getroot(), self.root)
 
-            self.buildPaths(self.root)
+            self.build_paths(self.root)
             self.paths.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
             # for path in self.paths:
             #     logging.debug(str([item.name for item in path]))
@@ -68,7 +68,7 @@ class KOM:
 
 
     # Recursively build Keyword Object Model
-    def buildKOM(self, xml_branch, parent):
+    def build(self, xml_branch, parent):
         for xml_child in xml_branch:
             logging.log(5, xml_child.tag + ', ' + str(xml_child.attrib))
             """
@@ -102,23 +102,23 @@ class KOM:
                     item.items.extend(values)
                     # print(parent.name, ":", item.name, values)
 
-            self.buildKOM(xml_child, item)
+            self.build(xml_child, item)
 
 
     # Recursively builds all possible paths to nested keywords in KOM
-    def buildPaths(self, parent, path=None):
+    def build_paths(self, parent, path=None):
         if not path:
             path = [] # list of groups, keywords and implementations
         for item in parent.items:
             if item.item_type != item_type.ARGUMENT:
-                self.buildPaths(item, path + [item])
+                self.build_paths(item, path + [item])
         if len(path):
             if path not in self.paths:
                 self.paths.append(path)
 
 
     # Get nesting path for each of the parsed keyword
-    def getPath(self, keyword_chain):
+    def get_path(self, keyword_chain):
 
         # Duplicated words in the end of keyword_chain play no role
         if len(keyword_chain) > 1 and \
@@ -159,7 +159,7 @@ class KOM:
 
 
     # Get keyword from self.keywords by its name
-    def getKeywordByName(self, name, parent=None):
+    def get_keyword_by_name(self, name, parent=None):
         for kw in self.keywords:
             if kw.name == name:
                 return kw
@@ -167,7 +167,7 @@ class KOM:
 
     # Recursively get whole model's INP_code as list of strings (lines)
     # Parent is KOM item, level defines code folding/padding
-    def get_INP_code_as_lines(self, parent=None, level=0):
+    def get_inp_code_as_lines(self, parent=None, level=0):
         lines = []
         if not parent:
             parent = self.root
@@ -185,7 +185,7 @@ class KOM:
                     lines.append(' '*4*(level+1) + line + '\n')
 
             # Continue call iterator until dig to implementation
-            lines.extend(self.get_INP_code_as_lines(item, level))
+            lines.extend(self.get_inp_code_as_lines(item, level))
 
         return lines
 

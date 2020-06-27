@@ -241,7 +241,7 @@ def path2cygwin(path):
             path[2:].replace('\\', '/')
 
 
-# Tests
+# Run test
 # if __name__ == '__main__':
 #     from settings import Settings
 

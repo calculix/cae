@@ -32,7 +32,7 @@ def actions(p, s, w, m, t, j):
     w.action_job_paint_surfaces.triggered.connect(
         lambda: gui.cgx.paint_surfaces(w, m))
     w.action_job_write_input.triggered.connect(
-        lambda: j.write_input(m.KOM.get_INP_code_as_lines()))
+        lambda: j.write_input(m.KOM.get_inp_code_as_lines()))
     w.action_job_write_input.triggered.connect(
         lambda: w.setWindowTitle('CalculiX CAE - ' + j.name))
     w.action_job_edit_inp.triggered.connect(lambda: j.edit_inp(s))
