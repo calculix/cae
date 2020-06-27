@@ -10,6 +10,7 @@ __pycache__
 *.cvg
 *.dat
 *.frd
+*.fbd
 *.sta
 get_web_browser.py
 README.pdf
