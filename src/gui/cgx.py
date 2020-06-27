@@ -12,42 +12,23 @@ import time
 import logging
 import traceback
 
-# External modules
-try:
-    import psutil
-except:
-    msg = 'Please, install psutil with command:\n'\
-        + 'pip3 install psutil'
-    sys.exit(msg)
-
 # Kill all CGX processes
-def kill():
-    for p in psutil.process_iter():
-        if p.name() in ['cgx', 'cgx.exe']:
-            pid = p.pid
-            count = 1
-            while psutil.pid_exists(pid):
-                try:
-                    p.kill()
-                except:
-                    logging.error(traceback.format_exc())
-                time.sleep(0.1)
-                count += 1
-                if count > 10:
-                    logging.error('Can not kill CGX, PID={}.'.format(pid))
-                    break
-            if not psutil.pid_exists(pid):
-                logging.info('Killed PID={}.'.format(pid))
-
-# Kill child CGX processes
-# def kill(parent=None):
-#     if parent is None:
-#         parent = psutil.Process()
-#     for ch in parent.children(recursive=True):
-#         pid = ch.pid
-#         ch.terminate()
-#         if not pid in psutil.pids():
-#             print('Killed PID', pid)
+def kill(p):
+    if p is not None:
+        count = 0
+        while p.poll() is None:
+            try:
+                p.kill()
+            except:
+                logging.error(traceback.format_exc())
+            time.sleep(0.1)
+            count += 1
+            if count >= 10:
+                break
+        if p.poll() is None:
+            logging.warning('Can not kill CGX, PID={}.'.format(p.pid))
+        else:
+            logging.info('Killed CGX, PID={}.'.format(p.pid))
 
 # def paint_elsets_old(w, elsets):
 #     colors = 'rgbymntk'
