@@ -40,7 +40,7 @@ def actions(p, s, w, m, t, j):
     w.action_job_rebuild_ccx.triggered.connect(lambda: j.rebuild_ccx(s))
     w.action_job_submit.triggered.connect(lambda: j.submit(s))
     w.action_job_view_log.triggered.connect(lambda: j.view_log(s))
-    w.action_job_cgx_inp.triggered.connect(lambda: j.cgx_inp(s, w))
+    w.action_job_cgx_inp.triggered.connect(lambda: j.cgx_inp(s, w, m))
     w.action_job_cgx_frd.triggered.connect(lambda: j.cgx_frd(s, w))
     w.action_job_export_vtu.triggered.connect(j.export_vtu)
     w.action_job_paraview.triggered.connect(lambda: j.open_paraview(s))

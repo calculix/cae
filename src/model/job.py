@@ -26,6 +26,7 @@ class Job:
     # Create job object
     def __init__(self, p):
         self.p = p
+        self.dir = p.examples
         msg = 'Application\'s home directory is:\n' + p.app_home_dir
         logging.info(msg)
 
@@ -34,7 +35,6 @@ class Job:
         if not len(file_name):
             file_name = s.start_model
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
-        logging.info('Work directory is:\n' + self.dir)
         self.name = os.path.basename(file_name) # INP file name
         self.inp = os.path.abspath(file_name) # full path to INP file with extension
         self.path = self.inp[:-4] # full path to INP without extension
@@ -43,6 +43,7 @@ class Job:
 
         # Handler to write the job's log file
         gui.log.add_file_handler(self.log)
+        logging.info('Work directory is:\n' + self.dir)
 
     # Convert UNV to INP
     def convert_unv(self):
@@ -53,6 +54,7 @@ class Job:
     # Recursively write the whole model's INP_code
     # into the output .inp-file.
     # Is called from menu 'Job -> Write input'
+    # TODO Doesn't write comments present in initial model
     def write_input(self, lines):
         file_name = QtWidgets.QFileDialog.getSaveFileName(None, \
             'Write INP file', self.dir, \
@@ -157,8 +159,12 @@ class Job:
                 + '\nConfigure it in File->Settings.')
 
     # Open INP in GraphiX
-    def cgx_inp(self, settings, w):
+    def cgx_inp(self, settings, w, m):
         if os.path.isfile(self.inp):
+            if not len(m.Mesh.nodes):
+                gui.cgx.kill(w.process) # close old CGX
+                logging.warning('Empty mesh, CGX will not start!')
+                return
             w.run_cgx(settings.path_cgx + ' -c ' + self.inp)
         else:
             logging.error('File not found:\n' + self.inp)
