@@ -14,6 +14,7 @@ https://github.com/python-xlib/python-xlib
 https://github.com/asweigart/pyautogui """
 
 # TODO Allow app to run even without wids
+# TODO Too long pause for logs after CGX startup
 
 # Standard modules
 import os
@@ -81,11 +82,12 @@ class Window(QtWidgets.QMainWindow):
             logging.error(msg.format(self.s.path_cgx))
             return
 
-        gui.cgx.kill()
+        gui.cgx.kill(self.process)
         self.process = subprocess.Popen(cmd.split(),
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT)
+        logging.debug('CAE PID={}'.format(self.process.pid))
         gui.log.read_output(self.process.stdout)
         self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
         if self.s.align_windows:
@@ -149,6 +151,7 @@ def wid_wrapper(w):
                 if time.perf_counter() - start > 5:
                     msg = 'Can\'t get \'{}\' window.'.format(title)
                     logging.error(msg)
+                    w.log_window_list()
                     sys.exit(msg)
             msg = '{} WID=0x{}'.format(title, hex(wid)[2:].zfill(8))
             logging.debug(msg)
@@ -169,7 +172,6 @@ def post_wrapper(w):
 
                     # The only way to get last output from CGX
                     method(w, ' ') # flush logs
-
                     return
                 else:
                     logging.warning('Empty command.')
@@ -249,26 +251,38 @@ class Linux_window(Window):
             self.d.intern_atom('_NET_CLIENT_LIST'),
             X.AnyPropertyType).value
         wid = None
-        msg = 'Window list:'
         for _id in ids:
             w = self.d.create_resource_object('window', _id)
             try:
                 wname = w.get_full_property(
                     self.d.intern_atom('_NET_WM_NAME'), X.AnyPropertyType).value.decode()
-                pid = w.get_full_property(
-                    self.d.intern_atom('_NET_WM_PID'), X.AnyPropertyType).value[0]
             except:
                 wname = w.get_wm_name()
-                pid = 0
-            msg += '\n0x{} {: 6d} {}'\
-                .format(hex(_id)[2:].zfill(8), pid, wname)
+            # TODO It also could be, for example, a browser window
+            # with opened web page about CalculiX CAE
             if title.lower() in wname.lower():
-                # TODO It also could be, for example, a browser window
-                # with opened web page about CalculiX CAE
                 wid = _id
                 break
-        logging.debug(msg)
         return wid
+
+    def log_window_list(self):
+        ids = self.root.get_full_property(
+            self.d.intern_atom('_NET_CLIENT_LIST'),
+            X.AnyPropertyType).value
+        msg = 'Window list:'
+        for _id in ids:
+            w = self.d.create_resource_object('window', _id)
+            try:
+                pid = w.get_full_property(
+                    self.d.intern_atom('_NET_WM_PID'), X.AnyPropertyType).value[0]
+                wname = w.get_full_property(
+                    self.d.intern_atom('_NET_WM_NAME'), X.AnyPropertyType).value.decode()
+            except:
+                pid = 0
+                wname = w.get_wm_name()
+            msg += '\n0x{} {: 6d} {}'\
+                .format(hex(_id)[2:].zfill(8), pid, wname)
+        logging.debug(msg)
 
     # Activate window, send message to CGX, deactivate
     @post_wrapper(Window)
@@ -321,7 +335,7 @@ class Linux_window(Window):
             keysym = XK.string_to_keysym(c)
             code = self.d.keysym_to_keycode(keysym)
             fake_input(self.d, X.KeyRelease, code)
-        time.sleep(0.3)
+        # time.sleep(0.3)
         self.d.sync()
 
     # Align CGX and browser windows
@@ -348,7 +362,7 @@ class Linux_window(Window):
                 win.configure(x=math.ceil(self.size.width()/3), y=0,
                     width=math.floor(self.size.width()*2/3),
                     height=self.size.height())
-        time.sleep(0.3)
+        # time.sleep(0.3)
         self.d.sync()
 
     """
@@ -459,15 +473,26 @@ class Windows_window(Window):
         ctypes.windll.user32.EnumWindows(enum_proc, 0)
         return self.wid
 
-    """
-        @wid_wrapper(Window)
-        def get_wid(self, title):
-            hwnd = ctypes.windll.user32.FindWindowW(None, title)
-            if hwnd:
-                print(int(hwnd), title)
-                return int(hwnd)
-            else: return None
-    """
+    def log_window_list(self):
+        WNDENUMPROC = ctypes.WINFUNCTYPE(
+            wintypes.BOOL,
+            wintypes.HWND,    # _In_ hwnd
+            wintypes.LPARAM,) # _In_ lParam
+
+        @WNDENUMPROC
+        def enum_proc(hwnd, lParam):
+            if ctypes.windll.user32.IsWindowVisible(hwnd):
+                pid = wintypes.DWORD()
+                tid = ctypes.windll.user32.GetWindowThreadProcessId(
+                    hwnd, ctypes.byref(pid))
+                length = ctypes.windll.user32.GetWindowTextLengthW(hwnd) + 1
+                buff = ctypes.create_unicode_buffer(length)
+                ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
+                logging.debug('0x{} {:>6s} {}'\
+                    .format(hex(hwnd)[2:].zfill(8), str(pid)[8:-1], buff.value))
+            return True
+
+        ctypes.windll.user32.EnumWindows(enum_proc, 0)
 
     # Activate window, send message to CGX, deactivate
     @post_wrapper(Window)
@@ -510,4 +535,4 @@ class Windows_window(Window):
                     math.ceil(self.size.width()/3), 0,
                     math.floor(self.size.width()*2/3),
                     self.size.height(), True)
-        time.sleep(0.3)
+        # time.sleep(0.3)
