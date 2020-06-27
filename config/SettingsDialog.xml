@@ -327,9 +327,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="run_cgx_on_start">
+        <widget class="QCheckBox" name="start_cgx_by_default">
          <property name="text">
-          <string>Run CGX on start</string>
+          <string>Start CGX by default</string>
          </property>
          <property name="checked">
           <bool>true</bool>

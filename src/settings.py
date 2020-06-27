@@ -59,7 +59,7 @@ class Settings():
             self.model_view = 'view fill'
             self.show_empty_keywords = True
             self.expanded = True
-            self.run_cgx_on_start = True
+            self.start_cgx_by_default = True
             self.align_windows = True
 
 
