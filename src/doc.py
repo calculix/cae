@@ -14,6 +14,7 @@ import shutil
 # My modules
 import clean
 import path
+import settings
 from model import kom
 
 # Open 'ccx.html',
@@ -121,8 +122,9 @@ def check(p, KOM):
 
 if __name__ == '__main__':
     clean.screen()
-    # p = path.Path()
-    KOM = kom.KOM()
+    p = path.Path()
+    s = settings.Settings(p)
+    KOM = kom.KOM(p, s)
     # regenerate_documentation(p, KOM)
     # remove_html_trash(p, KOM)
     # remove_png_trash()

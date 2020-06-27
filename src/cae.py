@@ -57,7 +57,7 @@ w - Window
 m - Model
 t - Tree
 j - Job """
-def import_file(s, w, m, t, j, file_name=''):
+def import_file(p, s, w, m, t, j, file_name=''):
     if len(file_name) == 0:
         file_name = QtWidgets.QFileDialog.getOpenFileName(w, \
             'Import INP/UNV file', j.dir, \
@@ -80,12 +80,12 @@ def import_file(s, w, m, t, j, file_name=''):
         w.setWindowTitle('CalculiX CAE - ' + j.name)
 
         # Generate new KOM without implementations
-        m.KOM = model.kom.KOM()
+        m.KOM = model.kom.KOM(p, s)
 
         # Parse INP and enrich KOM with parsed objects
         logging.info('Loading model\n{}'.format(j.inp))
         lines = file_tools.read_lines(j.inp)
-        def importer(INP_doc, KOM):
+        def importer(s, INP_doc, KOM):
             keyword_chain = []
             impl_counter = {}
             for i in range(len(INP_doc)):
@@ -129,7 +129,7 @@ def import_file(s, w, m, t, j, file_name=''):
                             path_as_string += '/' + item.name
                             if j == len(path) - 1: # last item is always keyword
                                 # Create implementation (for example, MATERIAL-1)
-                                impl = model.kom.implementation(item, INP_code)
+                                impl = model.kom.implementation(s, item, INP_code)
                                 # logging.debug('1')
                             elif item.item_type == model.kom.item_type.KEYWORD:
                                 # If for this keyword implementation was created previously
@@ -151,7 +151,7 @@ def import_file(s, w, m, t, j, file_name=''):
 
                     else:
                         logging.warning('Wrong keyword {}.'.format(keyword_name))
-        importer(lines, m.KOM) # pass whole INP-file to the parser
+        importer(s, lines, m.KOM) # pass whole INP-file to the parser
 
         # Add parsed implementations to the tree
         t.generateTreeView(m)
@@ -193,7 +193,7 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
     # Read application's global settings
-    s = settings.Settings()
+    s = settings.Settings(p)
 
     # Configure global logging level
     logging.getLogger().setLevel(s.logging_level)
@@ -232,12 +232,12 @@ if __name__ == '__main__':
     # Import default model
     if len(args.inp):
         start_model = os.path.join(p.app_home_dir, args.inp)
-        import_file(s, w, m, t, j, start_model)
+        import_file(p, s, w, m, t, j, start_model)
 
     # Or start empty
     else:
         logging.warning('No default start model specified.')
-        m.KOM = model.kom.KOM()
+        m.KOM = model.kom.KOM(p, s)
         t.generateTreeView(m)
 
     logging.info('Started in {:.1f} seconds.'

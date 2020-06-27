@@ -24,7 +24,6 @@ import traceback
 try:
     # Normal run
     import path
-    import settings
 except:
     # Test run
     sys_path = os.path.join(os.path.dirname(__file__), '..')
@@ -40,7 +39,8 @@ class KOM:
 
 
     # Read CalculiX keywords hierarchy
-    def __init__(self):
+    def __init__(self, p, s):
+        self.s = s
 
         # List of all existing keywords
         self.keywords = []
@@ -49,10 +49,9 @@ class KOM:
         self.paths = []
 
         try:
-            self.root = group() # group 'Model' from kom.xml
+            self.root = group(s) # group 'Model' from kom.xml
 
-            # Analyze keywords hierarchy
-            p = path.Path() # calculate absolute paths
+            # Parse keywords hierarchy and build KOM
             t = ET.parse(p.kom_xml)
             self.build(t.getroot(), self.root)
 
@@ -82,7 +81,7 @@ class KOM:
 
             # Create item: group, keyword or argument
             klass = globals()[xml_child.tag]
-            item = klass()
+            item = klass(self.s)
             parent.items.append(item)
 
             # Set fields for object
@@ -205,10 +204,6 @@ class item:
     items = []              # list of children
     parent = None           # item's parent item
     active = False
-    # TODO Remove it. Transfer here Settings object from cae.py
-    settings = settings.Settings() # read application's global settings
-    expanded = settings.expanded
-
 
     # Define if item is active
     def isActive(self):
@@ -233,7 +228,6 @@ class item:
             self.active = False
             return False
 
-
     # Recursive function to count keyword implementations in item's descendants
     def countImplementations(self):
         if self.item_type == item_type.ARGUMENT:
@@ -247,7 +241,6 @@ class item:
                 counter += i.countImplementations()
         return counter
 
-
     # Get list of keywords implementations
     def getImplementations(self):
         imps = []
@@ -256,11 +249,9 @@ class item:
                 imps.append(item)
         return imps
 
-
     # Add child item to 'items' list
     def addItem(self, item):
         self.items.append(item)
-
 
     # Get list of items - non implementations
     def copyItems(self):
@@ -276,13 +267,11 @@ class item:
                 items.append(item)
         return items
 
-
     # Search item by name among children
     def getItemByName(self, name):
         for item in self.items:
             if item.name == name:
                 return item
-
 
     # Returns first active preceding/parent keyword (not group)
     def getParentKeywordName(self):
@@ -291,7 +280,6 @@ class item:
                 return self.parent.name
         else:
             return self.parent.getParentKeywordName()
-
 
     # # Returns preceding/parent group (not keyword)
     # def getParentGroupName(self):
@@ -305,26 +293,28 @@ class item:
 # Group of keywords, like 'Properties', 'Constraints', etc.
 class group(item):
 
-    def __init__(self):
+    def __init__(self, s):
         self.item_type = item_type.GROUP
         self.items = [] # list of groups and keywords
         self.name = 'Model' # default name (root group)
+        self.expanded = s.expanded
 
 
 # *AMPLITUDE, *BOUNDARY, *STEP etc.
 class keyword(item):
 
-    def __init__(self):
+    def __init__(self, s):
         self.item_type = item_type.KEYWORD
         self.items = [] # list of arguments
         self.name = ''
         self.from_new_line = False # start all arguments from the next line?
+        self.expanded = s.expanded
 
 
 # Keyword's argument
 class argument(item):
 
-    def __init__(self):
+    def __init__(self, s):
         self.item_type = item_type.ARGUMENT
         self.items = [] # list of strings
         self.name = ''
@@ -335,13 +325,14 @@ class argument(item):
 # Keyword implementation - a piece of INP-code for CalculiX input file
 class implementation(item):
 
-    def __init__(self, keyword, INP_code, name=None):
+    def __init__(self, s, keyword, INP_code, name=None):
         self.item_type = item_type.IMPLEMENTATION
         self.items = keyword.copyItems() # newer use deepcopy!
         for item in self.items:
             item.parent = self
         self.parent = keyword
         self.active = True
+        self.expanded = s.expanded
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
         index = len(self.parent.getImplementations())
@@ -379,6 +370,8 @@ if __name__ == '__main__':
 
     logging.basicConfig(level=0, format='%(message)s')
     start = time.perf_counter() # start time
-    KOM()
+    s = settings.Settings()
+    p = path.Path()
+    KOM(p, s)
     print('\nTotal {:.1e} seconds'\
         .format(time.perf_counter()-start)) # spent time

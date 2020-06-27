@@ -22,7 +22,7 @@ def actions(p, s, w, m, t, j):
     w.keyPressEvent = t.keyPressEvent
 
     # File actions
-    w.action_file_import.triggered.connect(lambda: cae.import_file(s, w, m, t, j))
+    w.action_file_import.triggered.connect(lambda: cae.import_file(p, s, w, m, t, j))
     w.action_file_settings.triggered.connect(s.open)
     w.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 

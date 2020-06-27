@@ -132,7 +132,7 @@ class Tree:
 
                     # Create implementation object for keyword
                     if item.item_type == item_type.KEYWORD:
-                        impl = implementation(item, INP_code) # create keyword's implementation
+                        impl = implementation(self.s, item, INP_code) # create keyword's implementation
 
                         # Regenerate tree_element's children
                         tree_element.removeRows(0, tree_element.rowCount()) # remove all children
@@ -152,7 +152,7 @@ class Tree:
                         keyword.items.remove(item) # remove implementation from keyword's items
 
                         # Add new one
-                        impl = implementation(keyword, INP_code, name=item.name)
+                        impl = implementation(self.s, keyword, INP_code, name=item.name)
                         tree_element.setData(impl)
 
                         # Reparse mesh or constraints
