@@ -24,8 +24,10 @@ import gui
 class Job:
 
     # Create job object
-    def __init__(self, p):
+    def __init__(self, p, s, w):
         self.p = p
+        self.s = s
+        self.w = w
         self.dir = p.examples
         msg = 'Application\'s home directory is:\n' + p.app_home_dir
         logging.info(msg)
@@ -33,7 +35,7 @@ class Job:
     # Rename job
     def initialize(self, file_name):
         if not len(file_name):
-            file_name = s.start_model
+            file_name = self.s.start_model
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
         self.name = os.path.basename(file_name) # INP file name
         self.inp = os.path.abspath(file_name) # full path to INP file with extension
@@ -66,10 +68,10 @@ class Job:
             logging.info('Input written to:\n' + file_name)
 
     # Open INP file in external text editor
-    def edit_inp(self, settings):
-        if os.path.isfile(settings.path_editor):
+    def edit_inp(self):
+        if os.path.isfile(self.s.path_editor):
             if os.path.isfile(self.inp):
-                command = [settings.path_editor, self.inp]
+                command = [self.s.path_editor, self.inp]
                 subprocess.Popen(command)
             else:
                 logging.error('File not found:\n' \
@@ -77,24 +79,24 @@ class Job:
                     + '\nWrite input first.')
         else:
             logging.error('Wrong path to text editor:\n' \
-                + settings.path_editor \
+                + self.s.path_editor \
                 + '\nConfigure it in File->Settings.')
 
     # Dialog window to filter fortran subroutines
-    def open_subroutine(self, settings):
-        if os.path.isfile(settings.path_editor):
+    def open_subroutine(self):
+        if os.path.isfile(self.s.path_editor):
             file_name = QtWidgets.QFileDialog.getOpenFileName(None,
                 'Open a subroutine', self.p.ccx, 'FORTRAN (*.f)')[0]
             if file_name:
-                command = [settings.path_editor, file_name]
+                command = [self.s.path_editor, file_name]
                 subprocess.Popen(command)
         else:
             logging.error('Wrong path to text editor:\n' \
-                + settings.path_editor \
+                + self.s.path_editor \
                 + '\nConfigure it in File->Settings.')
 
     # Recompile CalculiX sources with updated subroutines
-    def rebuild_ccx(self, settings):
+    def rebuild_ccx(self):
 
         # Windows
         if os.name == 'nt':
@@ -111,7 +113,7 @@ class Job:
             # Copy binary
             cmd2 = 'C:\\cygwin64\\bin\\cp.exe ' \
                     + ccx + '/ccx_' + self.p.ccx_version + '_MT ' \
-                    + settings.path_ccx
+                    + self.s.path_ccx
 
             self.run([(cmd1, send1), (cmd2, '')])
 
@@ -123,16 +125,16 @@ class Job:
 
             # Copy binary
             cmd2 = ['cp', self.p.ccx + '/ccx_' + self.p.ccx_version + '_MT',
-                    settings.path_ccx]
+                    self.s.path_ccx]
 
             self.run([(cmd1, ''), (cmd2, '')])
 
     # Submit INP to CalculiX
-    def submit(self, settings):
-        if os.path.isfile(settings.path_ccx):
+    def submit(self):
+        if os.path.isfile(self.s.path_ccx):
             if os.path.isfile(self.inp):
                 os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
-                cmd1 = [settings.path_ccx, '-i', self.path]
+                cmd1 = [self.s.path_ccx, '-i', self.path]
                 self.run([(cmd1, ''), ])
             else:
                 logging.error('File not found:\n' \
@@ -140,14 +142,14 @@ class Job:
                     + '\nWrite input first.')
         else:
             logging.error('Wrong path to CCX:\n' \
-                + settings.path_ccx \
+                + self.s.path_ccx \
                 + '\nConfigure it in File->Settings.')
 
     # Open log file in external text editor
-    def view_log(self, settings):
-        if os.path.isfile(settings.path_editor):
+    def view_log(self):
+        if os.path.isfile(self.s.path_editor):
             if os.path.isfile(self.log):
-                command = [settings.path_editor, self.log]
+                command = [self.s.path_editor, self.log]
                 subprocess.Popen(command)
             else:
                 logging.error('File not found:\n' \
@@ -155,24 +157,24 @@ class Job:
                     + '\nSubmit analysis first.')
         else:
             logging.error('Wrong path to text editor:\n' \
-                + settings.path_editor \
+                + self.s.path_editor \
                 + '\nConfigure it in File->Settings.')
 
     # Open INP in GraphiX
-    def cgx_inp(self, settings, w, m):
+    def cgx_inp(self, m):
         if os.path.isfile(self.inp):
             if not len(m.Mesh.nodes):
-                gui.cgx.kill(w.process) # close old CGX
+                gui.cgx.kill(self.w) # close old CGX
                 logging.warning('Empty mesh, CGX will not start!')
                 return
-            w.run_cgx(settings.path_cgx + ' -c ' + self.inp)
+            self.w.run_cgx(self.s.path_cgx + ' -c ' + self.inp)
         else:
             logging.error('File not found:\n' + self.inp)
 
     # Open FRD in GraphiX
-    def cgx_frd(self, settings, w):
+    def cgx_frd(self):
         if os.path.isfile(self.frd):
-            w.run_cgx(settings.path_cgx + ' -o ' + self.frd)
+            self.w.run_cgx(self.s.path_cgx + ' -o ' + self.frd)
         else:
             logging.error('File not found:\n' \
                 + self.frd \
@@ -191,8 +193,8 @@ class Job:
                 + '\nSubmit analysis first.')
 
     # Open VTU in ParaView
-    def open_paraview(self, settings):
-        if os.path.isfile(settings.path_paraview):
+    def open_paraview(self):
+        if os.path.isfile(self.s.path_paraview):
 
             # Count result VTU files
             file_list = []
@@ -211,11 +213,11 @@ class Job:
                 logging.error('VTU file not found.\nExport VTU results first.')
                 return
 
-            command = [settings.path_paraview, '--data=' + vtu_path]
+            command = [self.s.path_paraview, '--data=' + vtu_path]
             subprocess.Popen(command)
         else:
             logging.error('Wrong path to ParaView:\n' \
-                + settings.path_paraview \
+                + self.s.path_paraview \
                 + '\nConfigure it in File->Settings.')
 
     # Run multiple commands and log stdout without blocking GUI
@@ -230,7 +232,7 @@ class Job:
             if len(cmd2):
                 process.stdin.write(bytes(cmd2, 'utf8'))
                 process.stdin.close()
-            gui.log.read_output(process.stdout)
+            gui.log.read_output(process.stdout, self.w.cgx_process)
         os.chdir(self.p.app_home_dir)
 
 
@@ -243,7 +245,6 @@ def path2cygwin(path):
 
 # Run test
 # if __name__ == '__main__':
-#     from settings import Settings
 
 #     # Configure logging
 #     logging.log = print
@@ -251,10 +252,10 @@ def path2cygwin(path):
 #     logging.info = print
 #     logging.warning = print
 
-#     settings = Settings()
+#     s = Settings()
 
 #     # Create job
-#     j = Job(settings, '')
+#     j = Job(...)
 
 #     # Rebuild CCX
 #     j.rebuildCCX()

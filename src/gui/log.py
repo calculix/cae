@@ -137,7 +137,7 @@ def log_line(line):
 # Read and log processes stdout
 # Attention: it's infinite pipe reader!
 # An old reader quits if a new one is started
-def read_output(pipe):
+def read_output(pipe, cgx_process):
 
     # Posting to CGX window outputs to std line with backspaces:
     # pplploplotplot plot eplot e plot e Oplot e OUplot e OUTplot e OUT-plot e OUT-Splot e OUT-S3
@@ -155,8 +155,14 @@ def read_output(pipe):
             return line
 
     # Infininte cycle to read process'es stdout
-    def read_pipe_and_log(pipe):
+    def read_pipe_and_log(pipe, cgx_process):
+        time.sleep(3)
         while True:
+
+            # Stop logging if CGX is closed
+            if cgx_process is None:
+                return
+
             t_names = sorted([t.name for t in threading.enumerate() \
                 if t.name.startswith('read_output')])
             if len(t_names) >= 2:
@@ -168,7 +174,7 @@ def read_output(pipe):
 
                 # Wait until an old thread finishes
                 else:
-                    time.sleep(1)
+                    time.sleep(0.3)
                     continue
 
             # TODO Pack/group log messages
@@ -179,16 +185,15 @@ def read_output(pipe):
                 log_line(line)
                 time.sleep(0.03) # CAE dies during fast logging
             else:
-                time.sleep(1) # reduce CPU usage
+                time.sleep(0.3) # reduce CPU usage
 
     t_name = 'read_output_{}'.format(time.time()).split('.')[0]
-    t = threading.Thread(target=read_pipe_and_log, 
-        args=(pipe,), name=t_name, daemon=True)
+    t = threading.Thread(target=read_pipe_and_log,
+        args=(pipe, cgx_process), name=t_name, daemon=True)
     t.start()
 
     # List already running threads
-    msg = 'Output reading threads:\n{}'
     t_names = sorted([t.name for t in threading.enumerate() \
         if t.name.startswith('read_output')])
-    t_names = ', '.join(t_names)
-    logging.debug(msg.format(t_names))
+    msg = 'Output reading threads:\n' + ', '.join(t_names)
+    logging.debug(msg)

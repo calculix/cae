@@ -168,13 +168,15 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 + Fixed hiding File -> Import dialog.
 
-+ Logging.info: running from source code or as binary.
++ Logging of how the app is running: from source code or as binary.
+
++ Logger: killing old output reading threads.
 
 + Menu Help: README.pdf.
 
 + Ignore comments on INP import.
 
-+ Logger: killing old output reading threads.
++ Materials library: https://github.com/calculix/examples/tree/master/materials
 
 <br/><br/>
 
@@ -191,7 +193,7 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - treeView: import certain keyword with descendants (tree branch) from INP-file.
 
-- Interface for materials import. Enrich Materials library.
+- Interface for materials import: right click on *Material -> Import.
 - Prool's INP-templates and snippets.
 
 - [meshio converter](https://github.com/nschloe/meshio)
@@ -216,6 +218,3 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - Think about Tk. PyQt5 is 45-65 MB heavy.
 
 - Is it possible to make release binaries without pyinstaller?
-
-- One of processor's core eats 100%.
-

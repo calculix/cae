@@ -35,15 +35,15 @@ def actions(p, s, w, m, t, j):
         lambda: j.write_input(m.KOM.get_inp_code_as_lines()))
     w.action_job_write_input.triggered.connect(
         lambda: w.setWindowTitle('CalculiX CAE - ' + j.name))
-    w.action_job_edit_inp.triggered.connect(lambda: j.edit_inp(s))
-    w.action_job_subroutine.triggered.connect(lambda: j.open_subroutine(s))
-    w.action_job_rebuild_ccx.triggered.connect(lambda: j.rebuild_ccx(s))
-    w.action_job_submit.triggered.connect(lambda: j.submit(s))
-    w.action_job_view_log.triggered.connect(lambda: j.view_log(s))
-    w.action_job_cgx_inp.triggered.connect(lambda: j.cgx_inp(s, w, m))
-    w.action_job_cgx_frd.triggered.connect(lambda: j.cgx_frd(s, w))
+    w.action_job_edit_inp.triggered.connect(lambda: j.edit_inp())
+    w.action_job_subroutine.triggered.connect(lambda: j.open_subroutine())
+    w.action_job_rebuild_ccx.triggered.connect(lambda: j.rebuild_ccx())
+    w.action_job_submit.triggered.connect(lambda: j.submit())
+    w.action_job_view_log.triggered.connect(lambda: j.view_log())
+    w.action_job_cgx_inp.triggered.connect(lambda: j.cgx_inp(m))
+    w.action_job_cgx_frd.triggered.connect(lambda: j.cgx_frd())
     w.action_job_export_vtu.triggered.connect(j.export_vtu)
-    w.action_job_paraview.triggered.connect(lambda: j.open_paraview(s))
+    w.action_job_paraview.triggered.connect(lambda: j.open_paraview())
 
     # Help actions
     w.action_help_readme.triggered.connect(

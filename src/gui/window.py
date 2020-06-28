@@ -67,14 +67,14 @@ class Window(QtWidgets.QMainWindow):
         self.wid2 = None # cgx window
         self.wid3 = None # keyword dialog
         self.wid4 = None # help (web browser)
-        self.process = None # running process to send commands to
+        self.cgx_process = None # running CGX process to send commands to
         self.keyboardMapping = None
 
         # INP | FRD - corresponds to opened file
         self.mode = None
 
-    # Close opened CGX (if any)
-    # open a new one and get window ID
+    # Close opened CGX (if any) and open a new one
+    # Get window ID, align windows and post to CGX
     def run_cgx(self, cmd):
         if not os.path.isfile(self.s.path_cgx):
             msg = 'Wrong path to CGX:\n{}\n' \
@@ -82,13 +82,12 @@ class Window(QtWidgets.QMainWindow):
             logging.error(msg.format(self.s.path_cgx))
             return
 
-        gui.cgx.kill(self.process)
-        self.process = subprocess.Popen(cmd.split(),
+        gui.cgx.kill(self)
+        self.cgx_process = subprocess.Popen(cmd.split(),
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT)
-        logging.debug('CAE PID={}'.format(self.process.pid))
-        gui.log.read_output(self.process.stdout)
+        logging.debug('CGX PID={}'.format(self.cgx_process.pid))
         self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
         if self.s.align_windows:
             self.align()
@@ -97,6 +96,7 @@ class Window(QtWidgets.QMainWindow):
         self.post('rot -z')
         self.post('rot r 45')
         self.post('rot u 45')
+        gui.log.read_output(self.cgx_process.stdout, self.cgx_process)
 
         # Caller fuction name: cgx_inp | cgx_frd
         self.mode = inspect.stack()[1].function
@@ -164,8 +164,8 @@ def wid_wrapper(w):
 def post_wrapper(w):
     def wrap(method):
         def fcn(w, cmd):
-            if w.process is not None \
-                and w.process.poll() is None\
+            if w.cgx_process is not None \
+                and w.cgx_process.poll() is None\
                 and w.wid2 is not None:
                 if len(cmd):
                     method(w, cmd)
@@ -251,8 +251,8 @@ class Linux_window(Window):
             self.d.intern_atom('_NET_CLIENT_LIST'),
             X.AnyPropertyType).value
         wid = None
-        for _id in ids:
-            w = self.d.create_resource_object('window', _id)
+        for _id_ in ids:
+            w = self.d.create_resource_object('window', _id_)
             try:
                 wname = w.get_full_property(
                     self.d.intern_atom('_NET_WM_NAME'), X.AnyPropertyType).value.decode()
@@ -261,7 +261,7 @@ class Linux_window(Window):
             # TODO It also could be, for example, a browser window
             # with opened web page about CalculiX CAE
             if title.lower() in wname.lower():
-                wid = _id
+                wid = _id_
                 break
         return wid
 
@@ -270,8 +270,8 @@ class Linux_window(Window):
             self.d.intern_atom('_NET_CLIENT_LIST'),
             X.AnyPropertyType).value
         msg = 'Window list:'
-        for _id in ids:
-            w = self.d.create_resource_object('window', _id)
+        for _id_ in ids:
+            w = self.d.create_resource_object('window', _id_)
             try:
                 pid = w.get_full_property(
                     self.d.intern_atom('_NET_WM_PID'), X.AnyPropertyType).value[0]
@@ -281,7 +281,7 @@ class Linux_window(Window):
                 pid = 0
                 wname = w.get_wm_name()
             msg += '\n0x{} {: 6d} {}'\
-                .format(hex(_id)[2:].zfill(8), pid, wname)
+                .format(hex(_id_)[2:].zfill(8), pid, wname)
         logging.debug(msg)
 
     # Activate window, send message to CGX, deactivate
@@ -289,28 +289,28 @@ class Linux_window(Window):
     def post(self, cmd):
 
         # Create X event
-        def event(w, e, keycode, case):
+        def event(win, e, keycode, case):
             return e(
                 time=Xlib.X.CurrentTime,
                 root=self.root,
-                window=w,
+                window=win,
                 same_screen=0, child=Xlib.X.NONE,
                 root_x=0, root_y=0, event_x=0, event_y=0,
                 state=case, # 0=lowercase, 1=uppercase
                 detail=keycode)
 
         # Key press + release
-        def sendkey(w, symbol):
+        def sendkey(win, symbol):
             if symbol in self.keyboardMapping:
                 c = self.keyboardMapping[symbol][0]
                 keysym = XK.string_to_keysym(c)
                 code = self.d.keysym_to_keycode(keysym)
                 case = self.keyboardMapping[symbol][1]
 
-                e = event(w, Xlib.protocol.event.KeyPress, code, case)
-                w.send_event(e, propagate=True)
-                e = event(w, Xlib.protocol.event.KeyRelease, code, case)
-                w.send_event(e, propagate=True)
+                e = event(win, Xlib.protocol.event.KeyPress, code, case)
+                win.send_event(e, propagate=True)
+                e = event(win, Xlib.protocol.event.KeyRelease, code, case)
+                win.send_event(e, propagate=True)
             else:
                 logging.warning('WARNING! Symbol {} is not supported.'.format(symbol))
 
@@ -335,7 +335,6 @@ class Linux_window(Window):
             keysym = XK.string_to_keysym(c)
             code = self.d.keysym_to_keycode(keysym)
             fake_input(self.d, X.KeyRelease, code)
-        # time.sleep(0.3)
         self.d.sync()
 
     # Align CGX and browser windows
@@ -362,7 +361,6 @@ class Linux_window(Window):
                 win.configure(x=math.ceil(self.size.width()/3), y=0,
                     width=math.floor(self.size.width()*2/3),
                     height=self.size.height())
-        # time.sleep(0.3)
         self.d.sync()
 
     """
@@ -535,4 +533,3 @@ class Windows_window(Window):
                     math.ceil(self.size.width()/3), 0,
                     math.floor(self.size.width()*2/3),
                     self.size.height(), True)
-        # time.sleep(0.3)

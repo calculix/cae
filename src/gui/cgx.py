@@ -31,6 +31,7 @@ def kill(w):
             logging.warning(msg)
         else:
             logging.info('Killed CGX, PID={}.'.format(w.cgx_process.pid))
+            w.cgx_process = None
 
 # def paint_elsets_old(w, elsets):
 #     colors = 'rgbymntk'

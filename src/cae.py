@@ -67,7 +67,7 @@ def import_file(p, s, w, m, t, j, file_name=''):
         gui.cgx.kill(w) # close old CGX
         
         # Clear logs in the textEdit
-        # w.textEdit.clear()
+        w.textEdit.clear()
 
         # Rename job before tree regeneration
         j.initialize(file_name[:-4] + '.inp')
@@ -170,7 +170,7 @@ def import_file(p, s, w, m, t, j, file_name=''):
         if not len(m.Mesh.nodes):
             logging.warning('Empty mesh, CGX will not start!')
             return
-        j.cgx_inp(s, w, m)
+        j.cgx_inp(m)
 
 if __name__ == '__main__':
     start_time = time.perf_counter()
@@ -230,7 +230,7 @@ if __name__ == '__main__':
     # Main block
     m = model.Model() # generate FEM model
     t = tree.Tree(p, s, w, m) # create treeView items based on KOM
-    j = model.job.Job(p) # create job object
+    j = model.job.Job(p, s, w) # create job object
     actions.actions(p, s, w, m, t, j) # window actions
 
     # Import default model
