@@ -92,12 +92,14 @@ class MyFileLoggingHandler(MyLoggingHandler):
         # self.flush()
 
 
+# Called only once on startup
 def add_text_handler(textEdit):
     logging.getLogger().handlers = []
     h = MyTextLoggingHandler(textEdit)
     logging.getLogger().addHandler(h)
 
 
+# Called at each file import
 def add_file_handler(log_file):
     if len(logging.getLogger().handlers) > 1:
         logging.getLogger().handlers.pop()
@@ -155,10 +157,9 @@ def read_output(pipe):
     # Infininte cycle to read process'es stdout
     def read_pipe_and_log(pipe):
         while True:
-            if threading.active_count() > 2:
-                t_names = [t.name for t in threading.enumerate() \
-                    if t.name.startswith('read_output')]
-                t_names = sorted(t_names)
+            t_names = sorted([t.name for t in threading.enumerate() \
+                if t.name.startswith('read_output')])
+            if len(t_names) >= 2:
 
                 # Quit the cycle and finish the thread if it's outdated
                 if threading.current_thread().name == t_names[0]:
@@ -185,8 +186,9 @@ def read_output(pipe):
         args=(pipe,), name=t_name, daemon=True)
     t.start()
 
-    # List all running threads
-    msg = 'Running threads:\n{}'
-    t_names = [t.name for t in threading.enumerate()]
-    t_names = ', '.join(sorted(t_names))
+    # List already running threads
+    msg = 'Output reading threads:\n{}'
+    t_names = sorted([t.name for t in threading.enumerate() \
+        if t.name.startswith('read_output')])
+    t_names = ', '.join(t_names)
     logging.debug(msg.format(t_names))
