@@ -52,9 +52,18 @@ class KeywordDialog(QtWidgets.QDialog):
         self.item = item # needed to pass to other functions
         self.widgets = [] # list of created widgets
 
+        # Switch off logging
+        hh = logging.getLogger().handlers
+        logging.getLogger().handlers = []
+
         # Create dialog, load form and align window
         super(KeywordDialog, self).__init__()
         uic.loadUi(self.p.dialog_xml, self)
+
+        # Switch on logging
+        for h in hh:
+            logging.getLogger().addHandler(h)
+
         self.size = QtWidgets.QDesktopWidget().availableGeometry()
         if self.s.align_windows:
             if os.name=='nt': # just bug with window border padding
@@ -79,11 +88,10 @@ class KeywordDialog(QtWidgets.QDialog):
 
             # For each keyword's argument create name and value widgets
             row_number = 0 # row number for vertical layout
-            logging.debug('')
             for argument in self.item.items:
                 if argument.item_type != item_type.ARGUMENT:
                     continue
-                logging.debug('Argument ' + argument.name)
+                logging.debug('\nArgument ' + argument.name)
 
                 # Try to get existing implementations for argument.name
                 keyword = KOM.get_keyword_by_name('*' + argument.name)
