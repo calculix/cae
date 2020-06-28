@@ -14,3 +14,4 @@ __pycache__
 *.sta
 get_web_browser.py
 README.pdf
+/img/Thumbs.db*
