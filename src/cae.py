@@ -65,7 +65,7 @@ def import_file(p, s, w, m, t, j, file_name=''):
 
     if file_name is not None and len(file_name):
         gui.cgx.kill(w) # close old CGX
-        
+
         # Clear logs in the textEdit
         w.textEdit.clear()
 

@@ -102,7 +102,7 @@ class SettingsDialog(QtWidgets.QDialog):
     def __init__(self, p, settings=None):
         self.p = p
 
-        # Switch of logging
+        # Switch off logging
         hh = logging.getLogger().handlers
         logging.getLogger().handlers = []
 
