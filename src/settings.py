@@ -55,7 +55,7 @@ class Settings():
             self.path_cgx = os.path.join(self.p.bin, 'cgx' + ext)
             self.start_model = os.path.join(self.p.examples, 'default.inp')
             self.logging_level = 'DEBUG'
-            self.model_view = 'view fill'
+            self.model_view = 'view elem'
             self.show_empty_keywords = True
             self.expanded = True
             self.start_cgx_by_default = True
@@ -77,13 +77,13 @@ class Settings():
             logging.warning('For some settings to take effect application\'s restart may be needed.')
 
     # Automatic saving of current settings during the workflow
-    def save_old(self):
+    def save(self):
         """ Pass values to dialog and save
-        This method produces redundant PyQt debug logging
-        save() is better though removes comments from setting file """
+        This method could produce redundant PyQt debug logging """
         sd = SettingsDialog(self.p, settings=self)
         sd.save()
-    def save(self):
+    def save_bad(self):
+        """ This method erases comments from the settings file """
         with open(self.p.settings, 'w') as f:
             for attr, value in self.__dict__.items():
                 if attr == 'p':
@@ -102,9 +102,18 @@ class SettingsDialog(QtWidgets.QDialog):
     def __init__(self, p, settings=None):
         self.p = p
 
+        # Switch of logging
+        hh = logging.getLogger().handlers
+        logging.getLogger().handlers = []
+
         # Load UI form
+        # Produces huge amount of redundant debug logs
         QtWidgets.QDialog.__init__(self)
-        uic.loadUi(self.p.settings_xml, self) # load default settings from
+        uic.loadUi(self.p.settings_xml, self) # load default settings
+
+        # Switch on logging
+        for h in hh:
+            logging.getLogger().addHandler(h)
 
         # Push settings values to the form
         if settings:
@@ -155,6 +164,7 @@ class SettingsDialog(QtWidgets.QDialog):
 # Run test
 if __name__ == '__main__':
     clean.screen()
+    logging.basicConfig(level=0, format='%(message)s')
 
     # Create application
     app = QtWidgets.QApplication(sys.argv)
