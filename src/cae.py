@@ -244,7 +244,7 @@ if __name__ == '__main__':
         m.KOM = model.kom.KOM(p, s)
         t.generateTreeView(m)
 
-    logging.info('Started in {:.1f} seconds.'
+    logging.info('Started in {:.1f} seconds.\n'
         .format(time.perf_counter() - start_time))
 
     # Execute application

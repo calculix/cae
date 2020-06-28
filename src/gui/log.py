@@ -48,7 +48,7 @@ class MyTextLoggingHandler(MyLoggingHandler):
         if LogRecord.levelname in color:
             color = color[LogRecord.levelname]
         else:
-            color = 'Brown'
+            color = '#2F4F4F' # DARKSLATEGRAY
 
         # Move newlines before the levelname
         msg = LogRecord.getMessage()
@@ -59,15 +59,17 @@ class MyTextLoggingHandler(MyLoggingHandler):
         # Keep all newlines in message
         msg = msg.replace('\n', '<br/>')
 
-        if LogRecord.levelname != 'Level 25':
-            msg = '<span style=\'color:{};\'>{}</span>: {}'\
+        if LogRecord.levelname == 'Level 25':
+            msg = '<p style=\"margin:0px; color:{};\">{}</p>'\
+                .format(color, msg)
+        else:
+            msg = '<span style=\"color:{};\">{}</span>: {}'\
                 .format(color, LogRecord.levelname, msg)
-        msg = '<p style=\'margin:0px;\'>{}</p>'.format(msg)
+            msg = '<p style=\"margin:0px;\">{}</p>'.format(msg)
 
         # Print message and scroll it to the end
         self.target.append(msg)
         self.target.moveCursor(QtGui.QTextCursor.End)
-        # self.flush()
 
 
 # Handler to write the job's log file
@@ -156,13 +158,14 @@ def read_output(pipe, cgx_process):
 
     # Infininte cycle to read process'es stdout
     def read_pipe_and_log(pipe, cgx_process):
-        time.sleep(3)
+        time.sleep(3) # save from 100% CPU bug
         while True:
 
             # Stop logging if CGX is closed
             if cgx_process is None:
                 return
 
+            # Stop logging is a new thread created
             t_names = sorted([t.name for t in threading.enumerate() \
                 if t.name.startswith('read_output')])
             if len(t_names) >= 2:
@@ -172,12 +175,12 @@ def read_output(pipe, cgx_process):
                     logging.debug('Thread {} stopped.'.format(t_names[0]))
                     return
 
-                # Wait until an old thread finishes
+                # A new thread shouldn't log until an old one finishes
                 else:
                     time.sleep(0.3)
                     continue
 
-            # TODO Pack/group log messages
+            # Pack/group log messages
             line = pipe.readline()
             if line != b'':
                 line = filter_backspaces(line)
@@ -192,7 +195,7 @@ def read_output(pipe, cgx_process):
         args=(pipe, cgx_process), name=t_name, daemon=True)
     t.start()
 
-    # List already running threads
+    # List currently running threads
     t_names = sorted([t.name for t in threading.enumerate() \
         if t.name.startswith('read_output')])
     msg = 'Output reading threads:\n' + ', '.join(t_names)
