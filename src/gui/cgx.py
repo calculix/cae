@@ -55,7 +55,7 @@ def paint_elsets(w, m):
         if elset.upper() == 'ALL':
             continue
         w.post('plus e {} blue{}'.format(elset, i))
-        i = (i + 1) % 10
+        i = (i + 1) % 5
 
 # Paint surfaces in CGX
 def paint_surfaces(w, m):
@@ -67,4 +67,4 @@ def paint_surfaces(w, m):
         if surf.upper() == 'ALL':
             continue
         w.post('plus f {} pink{}'.format(surf, i))
-        i = (i + 1) % 10
+        i = (i + 1) % 5
