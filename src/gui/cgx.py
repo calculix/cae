@@ -13,22 +13,24 @@ import logging
 import traceback
 
 # Kill all CGX processes
-def kill(p):
-    if p is not None:
+def kill(w):
+    w.wid2 = None
+    if w.cgx_process is not None:
         count = 0
-        while p.poll() is None:
+        while w.cgx_process.poll() is None:
             try:
-                p.kill()
+                w.cgx_process.kill()
             except:
                 logging.error(traceback.format_exc())
             time.sleep(0.1)
             count += 1
             if count >= 10:
                 break
-        if p.poll() is None:
-            logging.warning('Can not kill CGX, PID={}.'.format(p.pid))
+        if w.cgx_process.poll() is None:
+            msg = 'Can not kill CGX, PID={}.'.format(w.cgx_process.pid)
+            logging.warning(msg)
         else:
-            logging.info('Killed CGX, PID={}.'.format(p.pid))
+            logging.info('Killed CGX, PID={}.'.format(w.cgx_process.pid))
 
 # def paint_elsets_old(w, elsets):
 #     colors = 'rgbymntk'
