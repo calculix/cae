@@ -55,18 +55,19 @@ class Mesh:
             return
 
         # Call parse methods for everything
+        msg_text = 'Mesh parser:'
         for attrName, attrValue in self.__dict__.items():
             if type(attrValue) == dict:
                 try:
                     getattr(self, 'parse_' + attrName)(lines)
-                    msg_text = '{} {} '.format(len(attrValue), attrName)
+                    msg_text += '\n{} {}'.format(len(attrValue), attrName)
                     # msg_text += str([v.name for v in attrValue.values()])
                     # for k,v in attrValue.items():
                     #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
-                    logging.info(msg_text)
                 except:
                     logging.error('Can\'t parse {}'.format(attrName))
                     logging.error(traceback.format_exc())
+        logging.info(msg_text)
 
         # Mesh bounds to avoid camera flying to infinity
         self.bounds = getBounds(self.nodes)
