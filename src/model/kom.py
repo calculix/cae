@@ -121,7 +121,7 @@ class KOM:
         if len(keyword_chain) > 1 and \
             keyword_chain[-1] == keyword_chain[-2]:
             del keyword_chain[-2]
-        logging.debug('\nkeyword_chain: ' + str(keyword_chain))
+        msg = 'keyword_chain: ' + ', '.join(keyword_chain)
 
         # Now compare keyword_chain with all self.paths
         for path in self.paths:
@@ -141,9 +141,11 @@ class KOM:
 
             # If we found all words from path in keyword_chain = if needed path is found
             if matches >= self.keyword_counter(path):
-                # logging.debug(str([item.name for item in path]) + '\n')
+                # msg += str([item.name for item in path]) + '\n'
                 del keyword_chain[:minimum_j]
-                return path
+                return path, msg
+
+        return None, msg
 
 
     # Count keywords in path
@@ -347,9 +349,9 @@ class implementation(item):
         self.INP_code = INP_code # INP-code for current implementation - list of strings
         self.parent.items.insert(index, self) # append implementation to keyword's items
         if name:
-            logging.info('{} {} updated.'.format(keyword.name, self.name))
+            logging.info('{} \"{}\" updated.'.format(keyword.name, self.name))
         else:
-            logging.info('{} {} created.'.format(keyword.name, self.name))
+            logging.info('{} \"{}\" created.'.format(keyword.name, self.name))
 
 
 # Run test

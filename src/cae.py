@@ -64,7 +64,10 @@ def import_file(p, s, w, m, t, j, file_name=''):
             'INP (*.inp);;UNV (*.unv)')[0]
 
     if file_name is not None and len(file_name):
-        gui.cgx.kill(w.process) # close old CGX
+        gui.cgx.kill(w) # close old CGX
+        
+        # Clear logs in the textEdit
+        # w.textEdit.clear()
 
         # Rename job before tree regeneration
         j.initialize(file_name[:-4] + '.inp')
@@ -93,7 +96,7 @@ def import_file(p, s, w, m, t, j, file_name=''):
 
                 # Parse keyword
                 if line.startswith('*'):
-                    logging.debug(line)
+                    logging.debug('\n' + line)
 
                     # Distinguish 'NODE' and 'NODE PRINT'
                     if ',' in line:
@@ -103,9 +106,10 @@ def import_file(p, s, w, m, t, j, file_name=''):
 
                     # Find KOM keyword path corresponding to keyword_chain
                     keyword_chain.append(keyword_name)
-                    path = KOM.get_path(keyword_chain)
-                    if path:
-                        logging.debug('path found: ' + str([item.name for item in path]))
+                    path, msg = KOM.get_path(keyword_chain)
+                    logging.debug(msg)
+                    if path is not None:
+                        logging.debug('path found: ' + ', '.join([item.name for item in path]))
 
                         # Read INP_code for the current keyword
                         INP_code = [line] # line is stripped in mesh.py
@@ -247,7 +251,7 @@ if __name__ == '__main__':
     app.exec()
 
     # Kill CGX after CAE exit
-    gui.cgx.kill(w.process)
+    gui.cgx.kill(w)
 
     # Recursively clean cached files in all subfolders
     clean.cache(p.src)
