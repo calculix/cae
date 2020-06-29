@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>452</height>
+    <height>430</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -252,56 +252,14 @@
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer_9">
+        <spacer name="verticalSpacer_8">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>300</width>
-           <height>10</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_model_view">
-         <property name="text">
-          <string>Default model view:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="model_view">
-         <property name="currentText">
-          <string>view fill</string>
-         </property>
-         <item>
-          <property name="text">
-           <string>view fill</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>view line</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>view elem</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>338</width>
-           <height>30</height>
+           <width>20</width>
+           <height>80</height>
           </size>
          </property>
         </spacer>
@@ -317,6 +275,19 @@
         </widget>
        </item>
        <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QCheckBox" name="expanded">
          <property name="text">
           <string>Expand treeView branches</string>
@@ -327,6 +298,19 @@
         </widget>
        </item>
        <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QCheckBox" name="start_cgx_by_default">
          <property name="text">
           <string>Start CGX by default</string>
@@ -335,6 +319,19 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QCheckBox" name="align_windows">

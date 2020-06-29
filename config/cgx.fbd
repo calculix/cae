@@ -1,0 +1,16 @@
+view elem
+rot -z
+rot r 45
+rot u 45
+#
+# Those colors are needed to paint sets and surfaces
+col blue0 0.1 0.2 0.29
+col pink0 0.2 0.07 0.2
+col blue1 0.15 0.3 0.44
+col pink1 0.35 0.11 0.35
+col blue2 0.19 0.4 0.6
+col pink2 0.51 0.16 0.49
+col blue3 0.23 0.5 0.76
+col pink3 0.66 0.2 0.65
+col blue4 0.38 0.6 0.81
+col pink4 0.78 0.28 0.77

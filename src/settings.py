@@ -55,7 +55,6 @@ class Settings():
             self.path_cgx = os.path.join(self.p.bin, 'cgx' + ext)
             self.start_model = os.path.join(self.p.examples, 'default.inp')
             self.logging_level = 'DEBUG'
-            self.model_view = 'view elem'
             self.show_empty_keywords = True
             self.expanded = True
             self.start_cgx_by_default = True

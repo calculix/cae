@@ -14,7 +14,6 @@ https://github.com/python-xlib/python-xlib
 https://github.com/asweigart/pyautogui """
 
 # TODO Allow app to run even without wids
-# TODO Too long pause for logs after CGX startup
 
 # Standard modules
 import os
@@ -54,6 +53,7 @@ class Window(QtWidgets.QMainWindow):
     s - Settings
     """
     def __init__(self, p, s):
+        self.p = p
         self.s = s
         QtWidgets.QMainWindow.__init__(self) # create main window
         uic.loadUi(p.cae_xml, self) # load form
@@ -89,48 +89,17 @@ class Window(QtWidgets.QMainWindow):
             stderr=subprocess.STDOUT)
         logging.debug('CGX PID={}'.format(self.cgx_process.pid))
         self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
+        gui.log.read_output(self.cgx_process.stdout, self.cgx_process)
         if self.s.align_windows:
             self.align()
-        self.register_cgx_colors()
-        self.post(self.s.model_view)
-        self.post('rot -z')
-        self.post('rot r 45')
-        self.post('rot u 45')
-        gui.log.read_output(self.cgx_process.stdout, self.cgx_process)
+        
+        # Read config to align model and register colors
+        file_name = os.path.join(self.p.config, 'cgx.fbd')
+        if os.path.isfile(file_name):
+            self.post('read ' + file_name)
 
         # Caller fuction name: cgx_inp | cgx_frd
         self.mode = inspect.stack()[1].function
-
-    # Register new colors to use in CGX
-    # https://colourco.de/
-    def register_cgx_colors(self):
-
-        # Convert HTML color notation to RGB
-        def hex_to_rgb(value):
-            value = value.lstrip('#')
-            rgb = []
-            for i in range(0, 6, 2):
-                amp = int(value[i:i+2], 16) / 255
-                rgb.append(round(amp, 2))
-            return rgb
-
-        blue = [
-            '#19324A',
-            '#254C71',
-            '#306699',
-            '#3B80C1',
-            '#6099CF']
-        pink = [
-            '#331132',
-            '#5A1D58',
-            '#81297E',
-            '#A934A5',
-            '#C848C4']
-        for i in range(5):
-            self.post('col blue{} {} {} {}'\
-                .format(i, *hex_to_rgb(blue[i])))
-            self.post('col pink{} {} {} {}'\
-                .format(i, *hex_to_rgb(pink[i])))
 
     # Open links from the Help menu
     def help(self, url):
@@ -454,14 +423,9 @@ class Windows_window(Window):
         @WNDENUMPROC
         def enum_proc(hwnd, lParam):
             if ctypes.windll.user32.IsWindowVisible(hwnd):
-                pid = wintypes.DWORD()
-                tid = ctypes.windll.user32.GetWindowThreadProcessId(
-                    hwnd, ctypes.byref(pid))
                 length = ctypes.windll.user32.GetWindowTextLengthW(hwnd) + 1
                 buff = ctypes.create_unicode_buffer(length)
                 ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
-                logging.debug('0x{} {:>6s} {}'\
-                    .format(hex(hwnd)[2:].zfill(8), str(pid)[8:-1], buff.value))
                 if title in buff.value:
                     # TODO It also could be, for example, a browser window
                     # with opened web page about CalculiX CAE
@@ -481,8 +445,6 @@ class Windows_window(Window):
         def enum_proc(hwnd, lParam):
             if ctypes.windll.user32.IsWindowVisible(hwnd):
                 pid = wintypes.DWORD()
-                tid = ctypes.windll.user32.GetWindowThreadProcessId(
-                    hwnd, ctypes.byref(pid))
                 length = ctypes.windll.user32.GetWindowTextLengthW(hwnd) + 1
                 buff = ctypes.create_unicode_buffer(length)
                 ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
