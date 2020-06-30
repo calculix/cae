@@ -93,10 +93,19 @@ class Window(QtWidgets.QMainWindow):
         if self.s.align_windows:
             self.align()
         
-        # Read config to align model and register colors
-        file_name = os.path.join(self.p.config, 'cgx.fbd')
+        # Read config to align model to iso view
+        file_name = os.path.join(self.p.config, 'iso.fbd')
         if os.path.isfile(file_name):
             self.post('read ' + file_name)
+        else:
+            logging.error('No config file iso.fbd')
+
+        # Read config to register additional colors
+        file_name = os.path.join(self.p.config, 'colors.fbd')
+        if os.path.isfile(file_name):
+            self.post('read ' + file_name)
+        else:
+            logging.error('No config file colors.fbd')
 
         # Caller fuction name: cgx_inp | cgx_frd
         self.mode = inspect.stack()[1].function
