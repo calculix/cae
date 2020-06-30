@@ -6,10 +6,12 @@ Distributed under GNU General Public License v3.0
 
 Main window actions - all processed signals. """
 
+import os
+import logging
+
 from PyQt5 import QtWidgets
 import cae
 import gui
-
 
 """
 s - Settings
@@ -69,10 +71,16 @@ def actions(p, s, w, m, t, j):
     w.action_view_plus_z.triggered.connect(lambda: w.post('rot z'))
     w.action_view_frame.triggered.connect(lambda: w.post('frame'))
 
-    w.action_view_iso.triggered.connect(lambda: w.post('rot -z'))
-    w.action_view_iso.triggered.connect(lambda: w.post('rot r 45'))
-    w.action_view_iso.triggered.connect(lambda: w.post('rot u 45'))
-
+    # Workaround for iso view
+    # Three rotation posts to CGX window doesn't work in Windows
+    # So one may use .fbd commands
+    def action_view_iso():
+        file_name = os.path.join(p.config, 'iso.fbd')
+        if not os.path.isfile(file_name):
+            logging.error('No config file iso.fbd')
+            return
+        w.post('read ' + file_name)
+    w.action_view_iso.triggered.connect(action_view_iso)
     w.action_view_line.triggered.connect(lambda: w.post('view elem off'))
     w.action_view_line.triggered.connect(lambda: w.post('view line'))
     w.action_view_fill.triggered.connect(lambda: w.post('view elem off'))
