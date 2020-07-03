@@ -4,6 +4,7 @@ __pycache__
 /dist
 /releases
 /examples/*.log
+/examples/*.12d
 /examples/*.cvg
 /examples/*.dat
 /examples/*.frd
@@ -15,3 +16,6 @@ __pycache__
 get_web_browser.py
 README.pdf
 /img/Thumbs.db*
+*.gnu
+*.out
+*.ps
