@@ -369,8 +369,12 @@ class Mesh:
                         elif re.match('^[\w\-]+,\s*S\d', lines[i+1]):
                             elset_name = _list[0]
                             surf_name = _list[1]
-                            for element in self.old.elsets[elset_name].items:
-                                items.append((element.num, surf_name))
+                            if elset_name in self.old.elsets: 
+                                for elem_num in self.old.elsets[elset_name].items:
+                                    items.append((elem_num, surf_name))
+                            else:
+                                logging.warning('In *SURFACE {} set {} not defined.'\
+                                    .format(surf_name, elset_name))
 
                     elif stype == 'NODE':
                         """
