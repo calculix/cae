@@ -1,9 +1,3 @@
-view elem
-rot -z
-rot r 45
-rot u 45
-#
-# Those colors are needed to paint sets and surfaces
 col blue0 0.1 0.2 0.29
 col pink0 0.2 0.07 0.2
 col blue1 0.15 0.3 0.44

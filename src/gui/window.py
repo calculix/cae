@@ -101,6 +101,7 @@ class Window(QtWidgets.QMainWindow):
             logging.error('No config file iso.fbd')
 
         # Read config to register additional colors
+        # Those colors are needed to paint sets and surfaces
         file_name = os.path.join(self.p.config, 'colors.fbd')
         if os.path.isfile(file_name):
             self.post('read ' + file_name)
