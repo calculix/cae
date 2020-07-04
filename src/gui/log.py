@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, May 2020
+""" © Ihor Mirzov, July 2020
 Distributed under GNU General Public License v3.0
 
 Custon logging handlers for catching CCX and CGX output.
@@ -91,7 +91,6 @@ class MyFileLoggingHandler(MyLoggingHandler):
         # Write message to the log file
         with open(self.target, 'a') as f:
             f.write(msg + '\n')
-        # self.flush()
 
 
 # Called only once on startup
@@ -115,9 +114,9 @@ def add_file_handler(log_file):
 def log_line(line):
     if not len(line.strip()):
         return
-    if line == 'key: from string   not known':
+    if line.strip() == 'key: from string   not known':
         return
-    if line == 'key: from string   ? not known':
+    if line.strip() == 'key: from string   ? not known':
         return
     logging_levels = {
         'NOTSET': 0,
@@ -126,8 +125,8 @@ def log_line(line):
         'WARNING': 30,
         'ERROR': 40,
         'CRITICAL': 50}
-    if line.startswith(tuple(logging_levels.keys())):
-        match = re.search('(^\w+): (.+)', line) # levelname and message
+    if line.strip().startswith(tuple(logging_levels.keys())):
+        match = re.search('^\s*(\w+):*(.+)', line) # levelname and message
         if match: # skip logging of empty strings
             level = match.group(1)
             line = match.group(2)
@@ -137,9 +136,9 @@ def log_line(line):
 
 
 # Read and log processes stdout
-# Attention: it's infinite pipe reader!
+# Attention: it's infinite stdout reader!
 # An old reader quits if a new one is started
-def read_output(pipe, cgx_process):
+def read_output(stdout, w=None):
 
     # Posting to CGX window outputs to std line with backspaces:
     # pplploplotplot plot eplot e plot e Oplot e OUplot e OUTplot e OUT-plot e OUT-Splot e OUT-S3
@@ -157,15 +156,13 @@ def read_output(pipe, cgx_process):
             return line
 
     # Infininte cycle to read process'es stdout
-    def read_pipe_and_log(pipe, cgx_process):
+    def read_and_log(stdout):
         time.sleep(3) # save from 100% CPU bug
+        if w is not None:
+            w.post(' ')
         while True:
 
-            # Stop logging if CGX is closed
-            if cgx_process is None:
-                return
-
-            # Stop logging is a new thread created
+            # Stop logging if a new thread created
             t_names = sorted([t.name for t in threading.enumerate() \
                 if t.name.startswith('read_output')])
             if len(t_names) >= 2:
@@ -177,22 +174,31 @@ def read_output(pipe, cgx_process):
 
                 # A new thread shouldn't log until an old one finishes
                 else:
+                    logging.debug(msg)
                     time.sleep(0.3)
                     continue
 
-            # Pack/group log messages
-            line = pipe.readline()
+            # Read and log output
+            line = stdout.readline()
+            line = line.replace(b'\r', b'') # for Windows
+            if line == b' \n':
+                continue
+            if b'key: from string' in line:
+                continue
             if line != b'':
                 line = filter_backspaces(line)
-                line = line.decode().strip()
-                log_line(line)
+                line = line.decode().rstrip()
+                logging.log(25, line)
                 time.sleep(0.03) # CAE dies during fast logging
             else:
-                time.sleep(0.3) # reduce CPU usage
+                # Here we get if CGX is closed
+                time.sleep(3)
+                logging.debug('Thread {} stopped.'.format(t_names[0]))
+                break
 
     t_name = 'read_output_{}'.format(time.time()).split('.')[0]
-    t = threading.Thread(target=read_pipe_and_log,
-        args=(pipe, cgx_process), name=t_name, daemon=True)
+    t = threading.Thread(target=read_and_log,
+        args=(stdout, ), name=t_name, daemon=True)
     t.start()
 
     # List currently running threads
