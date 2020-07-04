@@ -89,10 +89,10 @@ class Window(QtWidgets.QMainWindow):
             stderr=subprocess.STDOUT)
         logging.debug('CGX PID={}'.format(self.cgx_process.pid))
         self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
-        gui.log.read_output(self.cgx_process.stdout, self.cgx_process)
+        gui.log.read_output(self.cgx_process.stdout, self)
         if self.s.align_windows:
             self.align()
-        
+
         # Read config to align model to iso view
         file_name = os.path.join(self.p.config, 'iso.fbd')
         if os.path.isfile(file_name):
@@ -146,14 +146,17 @@ def post_wrapper(w):
             if w.cgx_process is not None \
                 and w.cgx_process.poll() is None\
                 and w.wid2 is not None:
-                if len(cmd):
-                    method(w, cmd)
 
-                    # The only way to get last output from CGX
-                    method(w, ' ') # flush logs
-                    return
-                else:
-                    logging.warning('Empty command.')
+                # Drop previously pressed keys
+                method(w, '\n')
+
+                # Post command
+                method(w, cmd + '\n')
+
+                # Flush CGX buffer to get continuous output
+                method(w, ' ')
+
+                return
         return fcn
     return wrap
 
@@ -294,7 +297,7 @@ class Linux_window(Window):
                 logging.warning('WARNING! Symbol {} is not supported.'.format(symbol))
 
         win = self.d.create_resource_object('window', self.wid2)
-        for symbol in cmd + '\n':
+        for symbol in cmd:
             sendkey(win, symbol)
         self.d.sync()
 
@@ -483,7 +486,7 @@ class Windows_window(Window):
                 logging.warning('WARNING! Symbol {} is not supported.'.format(symbol))
 
         ctypes.windll.user32.SetForegroundWindow(self.wid2)
-        for symbol in cmd + '\n':
+        for symbol in cmd:
             time.sleep(0.001) # BUG doesn't work otherwise
             sendkey(symbol)
         ctypes.windll.user32.SetForegroundWindow(self.wid1)
