@@ -49,7 +49,7 @@ class Settings():
             else:
                 ext = ''
                 self.path_paraview = '/opt/ParaView/bin/paraview'
-                self.path_editor = '/snap/bin/code'
+                self.path_editor = '/usr/bin/gedit'
 
             self.path_ccx = os.path.join(self.p.bin, 'ccx' + ext)
             self.path_cgx = os.path.join(self.p.bin, 'cgx' + ext)
