@@ -351,7 +351,7 @@ class implementation(item):
         if name:
             logging.info('{} \"{}\" updated.'.format(keyword.name, self.name))
         else:
-            logging.info('{} \"{}\" created.'.format(keyword.name, self.name))
+            logging.info('{} {} created.'.format(keyword.name, self.name))
 
 
 # Run test
