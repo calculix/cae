@@ -201,7 +201,7 @@ class Job:
             for f in os.listdir(self.dir):
                 f = os.path.basename(f)
                 if f.lower() == self.name[:-4] + '.vtu':
-                    file_list = []
+                    file_list = [f]
                     break
                 if f.lower().endswith('.vtu') and f.startswith(self.name[:-4]):
                     file_list.append(f)
@@ -214,6 +214,7 @@ class Job:
                 return
 
             command = [self.s.path_paraview, '--data=' + vtu_path]
+            logging.info(' '.join(command))
             subprocess.Popen(command)
         else:
             logging.error('Wrong path to ParaView:\n' \
@@ -235,7 +236,7 @@ class Job:
 
             # Start stdout reading and logging thread
             if read_output:
-                sr = gui.log.StdoutReader(process.stdout, 'read_stdout_')
+                sr = gui.log.StdoutReader(process.stdout, 'read_stdout')
                 sr.start()
 
         os.chdir(self.p.app_home_dir)
