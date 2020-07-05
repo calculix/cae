@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>430</height>
+    <width>650</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -79,7 +79,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>208</width>
-           <height>18</height>
+           <height>20</height>
           </size>
          </property>
         </spacer>
@@ -113,7 +113,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>208</width>
-           <height>18</height>
+           <height>20</height>
           </size>
          </property>
         </spacer>
@@ -147,7 +147,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>208</width>
-           <height>18</height>
+           <height>20</height>
           </size>
          </property>
         </spacer>
@@ -173,19 +173,16 @@
          </item>
         </layout>
        </item>
-       <item>
-        <spacer name="verticalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>208</width>
-           <height>18</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <property name="leftMargin">
+        <number>6</number>
+       </property>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_8">
          <property name="spacing">
@@ -207,49 +204,59 @@
          </item>
         </layout>
        </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="spacing">
-        <number>6</number>
-       </property>
-       <property name="leftMargin">
-        <number>6</number>
-       </property>
        <item>
-        <widget class="QLabel" name="label_logging_level">
-         <property name="text">
-          <string>Logging level:</string>
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>208</width>
+           <height>12</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
-        <widget class="QComboBox" name="logging_level">
-         <property name="currentText">
-          <string>DEBUG</string>
+        <layout class="QVBoxLayout" name="verticalLayout_9">
+         <property name="spacing">
+          <number>0</number>
          </property>
          <item>
-          <property name="text">
-           <string>DEBUG</string>
-          </property>
+          <widget class="QLabel" name="label_logging_level">
+           <property name="text">
+            <string>Default logging level:</string>
+           </property>
+          </widget>
          </item>
          <item>
-          <property name="text">
-           <string>INFO</string>
-          </property>
+          <widget class="QComboBox" name="logging_level">
+           <property name="currentText">
+            <string>DEBUG</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>DEBUG</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>INFO</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>WARNING</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ERROR</string>
+            </property>
+           </item>
+          </widget>
          </item>
-         <item>
-          <property name="text">
-           <string>WARNING</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>ERROR</string>
-          </property>
-         </item>
-        </widget>
+        </layout>
        </item>
        <item>
         <spacer name="verticalSpacer_8">
@@ -259,7 +266,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>80</height>
+           <height>12</height>
           </size>
          </property>
         </spacer>
@@ -267,7 +274,7 @@
        <item>
         <widget class="QCheckBox" name="show_empty_keywords">
          <property name="text">
-          <string>Show empty keywords in the treeView</string>
+          <string>Show empty keywords</string>
          </property>
          <property name="checked">
           <bool>true</bool>
@@ -282,7 +289,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>40</height>
+           <height>12</height>
           </size>
          </property>
         </spacer>
@@ -305,7 +312,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>40</height>
+           <height>12</height>
           </size>
          </property>
         </spacer>
@@ -328,7 +335,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>40</height>
+           <height>12</height>
           </size>
          </property>
         </spacer>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, June 2020
+""" © Ihor Mirzov, July 2020
 Distributed under GNU General Public License v3.0
 
 CalculiX CAE - main module.
@@ -70,11 +70,15 @@ def import_file(p, s, w, m, t, j, file_name=''):
         w.textEdit.clear()
 
         # Rename job before tree regeneration
+        # A new logger's handler is created here
+        # TODO One method for both logging handler addition
+        # TODO Add both logs on model's import
+        # TODO Kill all logging thread on import
         j.initialize(file_name[:-4] + '.inp')
 
         # Convert UNV to INP
         if file_name.lower().endswith('.unv'):
-            j.convertUNV()
+            j.convert_unv()
             if not os.path.isfile(j.inp):
                 logging.error('Can not convert\n' + j.unv)
                 return
@@ -210,7 +214,8 @@ if __name__ == '__main__':
         default=s.start_model)
     args = parser.parse_args()
 
-    # Show CAE and get window ID
+    # Show CAE window and get window ID
+    # A new logger's handler is created here
     if os.name=='nt':
         w = gui.window.Windows_window(p, s)
     else:

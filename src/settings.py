@@ -42,16 +42,20 @@ class Settings():
             # Windows
             if os.name=='nt':
                 ext = '.exe'
+                self.path_ccx = os.path.join(self.p.ccx, 'ccx_{}_MT{}'\
+                    .format(self.p.ccx_version, ext))
                 self.path_paraview = 'C:\\Program Files\\ParaView\\bin\\paraview.exe'
                 self.path_editor = 'C:\\Windows\\System32\\notepad.exe'
 
             # Linux
             else:
                 ext = ''
+                self.path_ccx = os.path.join(self.p.ccx, 'ccx_{}_MT{}'\
+                    .format(self.p.ccx_version, ext))
                 self.path_paraview = '/opt/ParaView/bin/paraview'
                 self.path_editor = '/usr/bin/gedit'
 
-            self.path_ccx = os.path.join(self.p.bin, 'ccx' + ext)
+            # self.path_ccx = os.path.join(self.p.bin, 'ccx' + ext)
             self.path_cgx = os.path.join(self.p.bin, 'cgx' + ext)
             self.start_model = os.path.join(self.p.examples, 'default.inp')
             self.logging_level = 'DEBUG'

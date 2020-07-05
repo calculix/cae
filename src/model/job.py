@@ -50,8 +50,8 @@ class Job:
     # Convert UNV to INP
     def convert_unv(self):
         converter_path = os.path.join(self.p.bin, 'unv2ccx' + self.p.extension)
-        cmd1 = [converter_path, self.path + '.unv']
-        self.run([(cmd1, ''), ])
+        cmd = [converter_path, self.path + '.unv']
+        self.run(cmd, '')
 
     # Write the whole model's INP_code
     # into the output .inp-file.
@@ -105,37 +105,27 @@ class Job:
             ccx = path2cygwin(self.p.ccx)
 
             # Open bash
-            cmd1 = 'C:\\cygwin64\\bin\\bash.exe --login'
+            cmd = 'C:\\cygwin64\\bin\\bash.exe --login'
 
             # Send command to build CalculiX
-            send1 = '/bin/make -f Makefile_MT -C {}'.format(ccx)
-
-            # Copy binary
-            cmd2 = 'C:\\cygwin64\\bin\\cp.exe ' \
-                    + ccx + '/ccx_' + self.p.ccx_version + '_MT ' \
-                    + self.s.path_ccx
-
-            self.run([(cmd1, send1), (cmd2, '')])
+            send = '/bin/make -f Makefile_MT -C {}'.format(ccx)
 
         # Linux
         else:
 
             # Build CalculiX
-            cmd1 = ['make', '-f', 'Makefile_MT', '-C', self.p.ccx]
+            cmd = ['make', '-f', 'Makefile_MT', '-C', self.p.ccx]
+            send = ''
 
-            # Copy binary
-            cmd2 = ['cp', self.p.ccx + '/ccx_' + self.p.ccx_version + '_MT',
-                    self.s.path_ccx]
-
-            self.run([(cmd1, ''), (cmd2, '')])
+        self.run(cmd, send)
 
     # Submit INP to CalculiX
     def submit(self):
         if os.path.isfile(self.s.path_ccx):
             if os.path.isfile(self.inp):
                 os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
-                cmd1 = [self.s.path_ccx, '-i', self.path]
-                self.run([(cmd1, ''), ], False)
+                cmd = [self.s.path_ccx, '-i', self.path]
+                self.run(cmd, '', False)
             else:
                 logging.error('File not found:\n' \
                     + self.inp \
@@ -185,8 +175,8 @@ class Job:
         if os.path.isfile(self.frd):
             converter_path = os.path.join(self.p.bin,
                     'ccx2paraview' + self.p.extension)
-            cmd1 = [converter_path, self.frd, 'vtu']
-            self.run([(cmd1, ''), ])
+            cmd = [converter_path, self.frd, 'vtu']
+            self.run(cmd, '')
         else:
             logging.error('File not found:\n' \
                 + self.frd \
@@ -221,23 +211,23 @@ class Job:
                 + self.s.path_paraview \
                 + '\nConfigure it in File->Settings.')
 
-    # Run multiple commands and log stdout without blocking GUI
-    def run(self, commands, read_output=True):
+    # Run single command and log stdout without blocking GUI
+    def run(self, cmd, send, read_output=True):
         os.chdir(self.dir)
-        for cmd1, cmd2 in commands:
-            logging.info(' '.join(cmd1) + ' ' + cmd2)
-            process = subprocess.Popen(cmd1,
-                stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT)
-            if len(cmd2):
-                process.stdin.write(bytes(cmd2, 'utf8'))
-                process.stdin.close()
+        logging.info(' '.join(cmd) + ' ' + send)
+        process = subprocess.Popen(cmd,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT)
 
-            # Start stdout reading and logging thread
-            if read_output:
-                sr = gui.log.StdoutReader(process.stdout, 'read_stdout')
-                sr.start()
+        if len(send):
+            process.stdin.write(bytes(send, 'utf8'))
+            process.stdin.close()
+
+        # Start stdout reading and logging thread
+        if read_output:
+            sr = gui.log.StdoutReader(process.stdout, 'read_stdout')
+            sr.start()
 
         os.chdir(self.p.app_home_dir)
 
