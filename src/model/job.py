@@ -53,7 +53,7 @@ class Job:
         cmd1 = [converter_path, self.path + '.unv']
         self.run([(cmd1, ''), ])
 
-    # Recursively write the whole model's INP_code
+    # Write the whole model's INP_code
     # into the output .inp-file.
     # Is called from menu 'Job -> Write input'
     # TODO Doesn't write comments present in initial model
@@ -135,7 +135,7 @@ class Job:
             if os.path.isfile(self.inp):
                 os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
                 cmd1 = [self.s.path_ccx, '-i', self.path]
-                self.run([(cmd1, ''), ])
+                self.run([(cmd1, ''), ], False)
             else:
                 logging.error('File not found:\n' \
                     + self.inp \
@@ -221,7 +221,7 @@ class Job:
                 + '\nConfigure it in File->Settings.')
 
     # Run multiple commands and log stdout without blocking GUI
-    def run(self, commands):
+    def run(self, commands, read_output=True):
         os.chdir(self.dir)
         for cmd1, cmd2 in commands:
             logging.info(' '.join(cmd1) + ' ' + cmd2)
@@ -232,7 +232,12 @@ class Job:
             if len(cmd2):
                 process.stdin.write(bytes(cmd2, 'utf8'))
                 process.stdin.close()
-            gui.log.read_output(process.stdout, self.w.cgx_process)
+
+            # Start stdout reading and logging thread
+            if read_output:
+                sr = gui.log.StdoutReader(process.stdout, 'read_stdout_')
+                sr.start()
+
         os.chdir(self.p.app_home_dir)
 
 

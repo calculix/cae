@@ -110,39 +110,101 @@ def add_file_handler(log_file):
         os.remove(log_file)
 
 
-# Process one non-empty stdout message
-def log_line(line):
-    if not len(line.strip()):
-        return
-    if line.strip() == 'key: from string   not known':
-        return
-    if line.strip() == 'key: from string   ? not known':
-        return
-    logging_levels = {
-        'NOTSET': 0,
-        'DEBUG': 10,
-        'INFO': 20,
-        'WARNING': 30,
-        'ERROR': 40,
-        'CRITICAL': 50}
-    if line.strip().startswith(tuple(logging_levels.keys())):
-        match = re.search('^\s*(\w+):*(.+)', line) # levelname and message
-        if match: # skip logging of empty strings
-            level = match.group(1)
-            line = match.group(2)
-            logging.log(logging_levels[level], line)
-    else:
+class StdoutReader:
+
+    def __init__(self, stdout, prefix, w=None):
+        self.stdout = stdout
+        self.prefix = prefix
+        self.w = w
+
+    # Process one non-empty stdout message
+    def log_line(self, line):
+        if not len(line.strip()):
+            return # TODO We may need empty lines
+        logging_levels = {
+            'NOTSET': 0,
+            'DEBUG': 10,
+            'INFO': 20,
+            'WARNING': 30,
+            'ERROR': 40,
+            'CRITICAL': 50}
+        if line.strip().startswith(tuple(logging_levels.keys())):
+            match = re.search('^\s*(\w+):*(.+)', line) # levelname and message
+            if match: # skip logging of empty strings
+                level = match.group(1)
+                line = match.group(2)
+                logging.log(logging_levels[level], line)
+        else:
+            logging.log(25, line)
+
+    def filter_backspaces(self, line):
+        return line
+
+    # Infininte cycle to read process'es stdout
+    def read_and_log(self):
+        time.sleep(3) # save from 100% CPU bug
+        if self.w is not None:
+            self.w.post(' ')
+        while True:
+
+            # # Stop logging if a new thread created
+            # t_names = sorted([t.name for t in threading.enumerate() \
+            #     if t.name.startswith(self.prefix)])
+            # if len(t_names) >= 2:
+
+            #     # Quit the cycle and finish the thread if it's outdated
+            #     if threading.current_thread().name == t_names[0]:
+            #         logging.debug('Thread {} stopped.'.format(t_names[0]))
+            #         return
+
+            #     # A new thread shouldn't log until an old one finishes
+            #     else:
+            #         time.sleep(0.3)
+            #         continue
+
+            # Read and log output
+            line = self.stdout.readline()
+            line = line.replace(b'\r', b'') # for Windows
+            if line == b' \n':
+                continue
+            if b'key: from string' in line:
+                continue
+            if line != b'':
+                line = self.filter_backspaces(line)
+                line = line.decode().rstrip()
+                self.log_line(line)
+                time.sleep(0.03) # CAE dies during fast logging
+            else:
+                # Here we get if CGX is closed
+                # Do not exit function - it crashes app on textEdit scrolling!
+                time.sleep(10)
+                # logging.debug('Thread {} stopped.'.format(t_names[0]))
+                # break
+
+    # Read and log CGX stdout
+    # Attention: it's infinite stdout reader!
+    # An old reader quits if a new one is started
+    def start(self):
+        t_name = '{}{}'.format(self.prefix, time.time()).split('.')[0]
+        t = threading.Thread(target=self.read_and_log,
+            args=(), name=t_name, daemon=True)
+        t.start()
+
+        # List currently running threads
+        t_names = sorted([t.name for t in threading.enumerate() \
+            if t.name.startswith(self.prefix)])
+        msg = 'Logging threads:\n' + ', '.join(t_names)
+        logging.debug(msg)
+
+
+class CgxStdoutReader(StdoutReader):
+
+    def log_line(self, line):
         logging.log(25, line)
-
-
-# Read and log processes stdout
-# Attention: it's infinite stdout reader!
-# An old reader quits if a new one is started
-def read_output(stdout, w=None):
 
     # Posting to CGX window outputs to std line with backspaces:
     # pplploplotplot plot eplot e plot e Oplot e OUplot e OUTplot e OUT-plot e OUT-Splot e OUT-S3
-    def filter_backspaces(line):
+    def filter_backspaces(self, line):
         if 8 in line:
             l = bytearray()
             i = 1
@@ -154,55 +216,3 @@ def read_output(stdout, w=None):
             return l
         else:
             return line
-
-    # Infininte cycle to read process'es stdout
-    def read_and_log(stdout):
-        time.sleep(3) # save from 100% CPU bug
-        if w is not None:
-            w.post(' ')
-        while True:
-
-            # Stop logging if a new thread created
-            t_names = sorted([t.name for t in threading.enumerate() \
-                if t.name.startswith('read_output')])
-            if len(t_names) >= 2:
-
-                # Quit the cycle and finish the thread if it's outdated
-                if threading.current_thread().name == t_names[0]:
-                    logging.debug('Thread {} stopped.'.format(t_names[0]))
-                    return
-
-                # A new thread shouldn't log until an old one finishes
-                else:
-                    logging.debug(msg)
-                    time.sleep(0.3)
-                    continue
-
-            # Read and log output
-            line = stdout.readline()
-            line = line.replace(b'\r', b'') # for Windows
-            if line == b' \n':
-                continue
-            if b'key: from string' in line:
-                continue
-            if line != b'':
-                line = filter_backspaces(line)
-                line = line.decode().rstrip()
-                logging.log(25, line)
-                time.sleep(0.03) # CAE dies during fast logging
-            else:
-                # Here we get if CGX is closed
-                time.sleep(3)
-                logging.debug('Thread {} stopped.'.format(t_names[0]))
-                break
-
-    t_name = 'read_output_{}'.format(time.time()).split('.')[0]
-    t = threading.Thread(target=read_and_log,
-        args=(stdout, ), name=t_name, daemon=True)
-    t.start()
-
-    # List currently running threads
-    t_names = sorted([t.name for t in threading.enumerate() \
-        if t.name.startswith('read_output')])
-    msg = 'Output reading threads:\n' + ', '.join(t_names)
-    logging.debug(msg)

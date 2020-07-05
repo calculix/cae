@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, June 2020
+""" © Ihor Mirzov, July 2020
 Distributed under GNU General Public License v3.0
 
 Main window class. Here also we keep links to another
@@ -89,7 +89,12 @@ class Window(QtWidgets.QMainWindow):
             stderr=subprocess.STDOUT)
         logging.debug('CGX PID={}'.format(self.cgx_process.pid))
         self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
-        gui.log.read_output(self.cgx_process.stdout, self)
+        
+        # Start stdout reading and logging thread
+        csr = gui.log.CgxStdoutReader(
+            self.cgx_process.stdout, 'read_cgx_stdout_', self)
+        csr.start()
+
         if self.s.align_windows:
             self.align()
 
