@@ -142,27 +142,16 @@ class StdoutReader:
 
     # Infininte cycle to read process'es stdout
     def read_and_log(self):
-        time.sleep(3) # save from 100% CPU bug
+
+        # Save from 100% CPU bug
+        time.sleep(3)
+        
+        # Flush CGX buffer
         if self.w is not None:
             self.w.post(' ')
+
+        # Read and log output
         while True:
-
-            # # Stop logging if a new thread created
-            # t_names = sorted([t.name for t in threading.enumerate() \
-            #     if t.name.startswith(self.prefix)])
-            # if len(t_names) >= 2:
-
-            #     # Quit the cycle and finish the thread if it's outdated
-            #     if threading.current_thread().name == t_names[0]:
-            #         logging.debug('Thread {} stopped.'.format(t_names[0]))
-            #         return
-
-            #     # A new thread shouldn't log until an old one finishes
-            #     else:
-            #         time.sleep(0.3)
-            #         continue
-
-            # Read and log output
             line = self.stdout.readline()
             line = line.replace(b'\r', b'') # for Windows
             if line == b' \n':
@@ -176,24 +165,27 @@ class StdoutReader:
                 time.sleep(0.03) # CAE dies during fast logging
             else:
                 # Here we get if CGX is closed
-                # Do not exit function - it crashes app on textEdit scrolling!
-                time.sleep(10)
-                # logging.debug('Thread {} stopped.'.format(t_names[0]))
-                # break
+                logging.info('END')
+                break
+
+        # Exit from function crashes app on textEdit scrolling!
+        while True:
+            time.sleep(60)
 
     # Read and log CGX stdout
     # Attention: it's infinite stdout reader!
     # An old reader quits if a new one is started
     def start(self):
-        t_name = '{}{}'.format(self.prefix, time.time()).split('.')[0]
+        t_name = 'thread_{}_{}'\
+            .format(threading.active_count(), self.prefix)
         t = threading.Thread(target=self.read_and_log,
             args=(), name=t_name, daemon=True)
         t.start()
 
         # List currently running threads
         t_names = sorted([t.name for t in threading.enumerate() \
-            if t.name.startswith(self.prefix)])
-        msg = 'Logging threads:\n' + ', '.join(t_names)
+            if t.name != threading.main_thread().name])
+        msg = '\nLogging threads:\n' + '\n'.join(t_names) + '\n'
         logging.debug(msg)
 
 

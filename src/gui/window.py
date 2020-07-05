@@ -89,10 +89,10 @@ class Window(QtWidgets.QMainWindow):
             stderr=subprocess.STDOUT)
         logging.debug('CGX PID={}'.format(self.cgx_process.pid))
         self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
-        
+
         # Start stdout reading and logging thread
         csr = gui.log.CgxStdoutReader(
-            self.cgx_process.stdout, 'read_cgx_stdout_', self)
+            self.cgx_process.stdout, 'read_cgx_stdout', self)
         csr.start()
 
         if self.s.align_windows:
