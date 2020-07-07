@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, June 2020
+""" © Ihor Mirzov, July 2020
 Distributed under GNU General Public License v3.0
 
 Utility to calculate absolute paths to the application's main folders. """
@@ -43,6 +43,8 @@ class Path:
         self.examples = os.path.join(self.app_home_dir, 'examples')
         self.img = os.path.join(self.app_home_dir, 'img')
         self.src = os.path.join(self.app_home_dir, 'src')
+        self.path_ccx = os.path.join(self.bin, 'ccx' + self.extension)
+        self.path_cgx = os.path.join(self.bin, 'cgx' + self.extension)
 
     # Pyinstaller bug in Windows: append 'app_home_dir' and 'src' directories to PATH
     def append_to_PATH(self, paths):
