@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, May 2020
+""" © Ihor Mirzov, July 2020
 Distributed under GNU General Public License v3.0
 
 Job submition and convertion. Run a detached process and
@@ -11,8 +11,10 @@ while analysis is running or files are converting. """
 
 # Standard modules
 import os
+import time
 import logging
 import subprocess
+import threading
 
 # External modules
 from PyQt5 import QtWidgets
@@ -51,7 +53,8 @@ class Job:
     def convert_unv(self):
         converter_path = os.path.join(self.p.bin, 'unv2ccx' + self.p.extension)
         cmd = [converter_path, self.path + '.unv']
-        self.run(cmd, '')
+        logging.info(' '.join(cmd))
+        self.run(cmd)
 
     # Write the whole model's INP_code
     # into the output .inp-file.
@@ -104,36 +107,66 @@ class Job:
             # Path to ccx sources
             ccx = path2cygwin(self.p.ccx)
 
-            # Open bash
-            cmd = 'C:\\cygwin64\\bin\\bash.exe --login'
+            # Open bash and send command to build CalculiX
+            cmd1 = 'C:\\cygwin64\\bin\\bash.exe --login'
+            send1 = '/bin/make -f Makefile_MT -C {}'.format(ccx)
 
-            # Send command to build CalculiX
-            send = '/bin/make -f Makefile_MT -C {}'.format(ccx)
+            # Move binary
+            cmd2 = 'C:\\cygwin64\\bin\\mv.exe -T ' \
+                    + ccx + '/ccx_' + self.p.ccx_version + '_MT ' \
+                    + self.p.bin + '/ccx'
 
         # Linux
         else:
 
             # Build CalculiX
-            cmd = ['make', '-f', 'Makefile_MT', '-C', self.p.ccx]
-            send = ''
+            cmd1 = ['make', '-f', 'Makefile_MT', '-C', self.p.ccx]
+            send1 = ''
 
-        self.run(cmd, send)
+            # Move binary
+            cmd2 = ['mv', '-T', self.p.ccx + '/ccx_' + self.p.ccx_version + '_MT',
+                    self.p.bin + '/ccx']
+
+        # Build CalculiX
+        if type(cmd1) == str:
+            logging.info(cmd1 + ' ' + send1)
+        else:
+            logging.info(' '.join(cmd1) + ' ' + send1)
+        t_name = 'thread_{}_rebuild_ccx'\
+            .format(threading.active_count())
+        t = threading.Thread(target=self.run,
+            args=(cmd1, send1), name=t_name, daemon=True)
+        t.start()
+
+        # Move binary
+        t_name = 'thread_{}_rebuild_ccx'\
+            .format(threading.active_count())
+        t = threading.Thread(target=self.run,
+            args=(cmd2, '', False), name=t_name, daemon=True)
+        t.start()
 
     # Submit INP to CalculiX
     def submit(self):
-        if os.path.isfile(self.s.path_ccx):
-            if os.path.isfile(self.inp):
-                os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
-                cmd = [self.s.path_ccx, '-i', self.path]
-                self.run(cmd, '', False)
-            else:
-                logging.error('File not found:\n' \
-                    + self.inp \
-                    + '\nWrite input first.')
+        if not os.path.isfile(self.p.path_ccx):
+            logging.error('CCX not found:\n' \
+                + self.p.path_ccx)
+            return
+
+        if os.path.isfile(self.inp):
+            os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
+            cmd = [self.p.path_ccx, '-i', self.path]
+            logging.info(' '.join(cmd))
+            # TODO Submit via thread + notify on job completion
+            # t_name = 'thread_{}_submit'\
+            #     .format(threading.active_count())
+            # t = threading.Thread(target=self.run,
+            #     args=(cmd, '', True), name=t_name, daemon=True)
+            # t.start()
+            self.run(cmd, '', False)
         else:
-            logging.error('Wrong path to CCX:\n' \
-                + self.s.path_ccx \
-                + '\nConfigure it in File->Settings.')
+            logging.error('File not found:\n' \
+                + self.inp \
+                + '\nWrite input first.')
 
     # Open log file in external text editor
     def view_log(self):
@@ -157,14 +190,14 @@ class Job:
                 gui.cgx.kill(self.w) # close old CGX
                 logging.warning('Empty mesh, CGX will not start!')
                 return
-            self.w.run_cgx(self.s.path_cgx + ' -c ' + self.inp)
+            self.w.run_cgx(self.p.path_cgx + ' -c ' + self.inp)
         else:
             logging.error('File not found:\n' + self.inp)
 
     # Open FRD in GraphiX
     def cgx_frd(self):
         if os.path.isfile(self.frd):
-            self.w.run_cgx(self.s.path_cgx + ' -o ' + self.frd)
+            self.w.run_cgx(self.p.path_cgx + ' -o ' + self.frd)
         else:
             logging.error('File not found:\n' \
                 + self.frd \
@@ -176,7 +209,8 @@ class Job:
             converter_path = os.path.join(self.p.bin,
                     'ccx2paraview' + self.p.extension)
             cmd = [converter_path, self.frd, 'vtu']
-            self.run(cmd, '')
+            logging.info(' '.join(cmd))
+            self.run(cmd)
         else:
             logging.error('File not found:\n' \
                 + self.frd \
@@ -211,25 +245,39 @@ class Job:
                 + self.s.path_paraview \
                 + '\nConfigure it in File->Settings.')
 
-    # Run single command and log stdout without blocking GUI
-    def run(self, cmd, send, read_output=True):
+    # Run a single command, wait for its completion and log stdout
+    # Doesn't block GUI if called via thread
+    def run(self, cmd, send='', read_output=True):
+
+        # Wait for previous thread to finish
+        while True:
+            t_name = threading.current_thread().name
+            t_names = sorted([t.name for t in threading.enumerate() \
+                if '_rebuild_ccx' in t.name])
+            if not len(t_names) or t_name == t_names[0]:
+                break
+            else:
+                time.sleep(1)
+
+        # Run command
         os.chdir(self.dir)
-        logging.info(' '.join(cmd) + ' ' + send)
         process = subprocess.Popen(cmd,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT)
-
         if len(send):
             process.stdin.write(bytes(send, 'utf8'))
             process.stdin.close()
+        os.chdir(self.p.app_home_dir)
 
         # Start stdout reading and logging thread
         if read_output:
             sr = gui.log.StdoutReader(process.stdout, 'read_stdout')
             sr.start()
 
-        os.chdir(self.p.app_home_dir)
+        # Do not finish thread until the process end up
+        while process.poll() is None:
+            time.sleep(1)
 
 
 # Converts Windows path to Cygwin path
