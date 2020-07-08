@@ -170,7 +170,9 @@ def post_wrapper(w):
 
 class Linux_window(Window):
 
-    def initialize(self):
+    def __init__(self, p, s):
+        super(Linux_window, self).__init__(p, s)
+
         self.d = Xlib.display.Display()
         self.screen = self.d.screen()
         self.root = self.screen.root
@@ -230,8 +232,6 @@ class Linux_window(Window):
             self.keyboardMapping[c] = (c, 0)
         for c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
             self.keyboardMapping[c] = (c, 1)
-
-        self.wid1 = self.get_wid('CalculiX CAE')
 
     # Get window by title and return its ID
     @wid_wrapper(Window)
@@ -378,7 +378,9 @@ class Linux_window(Window):
 
 class Windows_window(Window):
 
-    def initialize(self):
+    def __init__(self, p, s):
+        super(Windows_window, self).__init__(p, s)
+
         # 0:lowercase, 1:shifted
         self.keyboardMapping = {
             '\t':(9, 0),
@@ -428,8 +430,6 @@ class Windows_window(Window):
             self.keyboardMapping[c] = (ord(c)-32, 0)
         for c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
             self.keyboardMapping[c] = (ord(c), 1)
-
-        self.wid1 = self.get_wid('CalculiX CAE')
 
     # If window found, its ID is returned
     @wid_wrapper(Window)

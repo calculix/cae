@@ -88,7 +88,7 @@ if __name__ == '__main__':
     else:
         w = gui.window.Linux_window(p, s)
     w.show()
-    w.initialize() # TODO use __init__ and call to parent
+    w.wid1 = w.get_wid('CalculiX CAE')
     if s.align_windows:
         w.align()
 
