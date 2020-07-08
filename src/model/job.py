@@ -273,6 +273,7 @@ class Job:
         # Start stdout reading and logging thread
         if read_output:
             sr = gui.log.StdoutReader(process.stdout, 'read_stdout')
+            self.w.stdout_readers.append(sr)
             sr.start()
 
         # Do not finish thread until the process end up

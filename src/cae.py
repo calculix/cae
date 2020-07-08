@@ -73,8 +73,9 @@ def import_file(p, s, w, m, t, j, file_name=''):
         # A new logger's handler is created here
         # TODO One method for both logging handler addition
         # TODO Add both logs on model's import
-        # TODO Kill all logging thread on import
         j.initialize(file_name[:-4] + '.inp')
+
+        gui.log.stop_stdout_readers(w)
 
         # Convert UNV to INP
         if file_name.lower().endswith('.unv'):
@@ -221,7 +222,7 @@ if __name__ == '__main__':
     else:
         w = gui.window.Linux_window(p, s)
     w.show()
-    w.initialize()
+    w.initialize() # TODO use __init__ and call to parent
     if s.align_windows:
         w.align()
 

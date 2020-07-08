@@ -55,6 +55,8 @@ class Window(QtWidgets.QMainWindow):
     def __init__(self, p, s):
         self.p = p
         self.s = s
+        self.stdout_readers = []
+
         QtWidgets.QMainWindow.__init__(self) # create main window
         uic.loadUi(p.cae_xml, self) # load form
         self.size = QtWidgets.QDesktopWidget().availableGeometry()
@@ -90,9 +92,10 @@ class Window(QtWidgets.QMainWindow):
         self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
 
         # Start stdout reading and logging thread
-        csr = gui.log.CgxStdoutReader(
+        sr = gui.log.CgxStdoutReader(
             self.cgx_process.stdout, 'read_cgx_stdout', self)
-        csr.start()
+        self.stdout_readers.append(sr)
+        sr.start()
 
         if self.s.align_windows:
             self.align()

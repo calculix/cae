@@ -116,6 +116,10 @@ class StdoutReader:
         self.stdout = stdout
         self.prefix = prefix
         self.w = w
+        self.active = True
+    
+    def stop(self):
+        self.active = False
 
     # Process one non-empty stdout message
     def log_line(self, line):
@@ -151,7 +155,7 @@ class StdoutReader:
             self.w.post(' ')
 
         # Read and log output
-        while True:
+        while self.active:
             line = self.stdout.readline()
             line = line.replace(b'\r', b'') # for Windows
             if line == b' \n':
@@ -169,8 +173,8 @@ class StdoutReader:
                 break
 
         # Exit from function crashes app on textEdit scrolling!
-        while True:
-            time.sleep(60)
+        while self.active:
+            time.sleep(1)
 
     # Read and log CGX stdout
     # Attention: it's infinite stdout reader!
@@ -208,3 +212,23 @@ class CgxStdoutReader(StdoutReader):
             return l
         else:
             return line
+
+
+def stop_stdout_readers(w):
+    if threading.active_count() > 1:
+        msg = 'Threads before:\n'
+        for th in threading.enumerate():
+            msg += th.name + '\n'
+        logging.debug(msg)
+
+        sleep = False
+        for sr in w.stdout_readers:
+            sr.stop()
+            sleep = True
+        if sleep:
+            time.sleep(1)
+
+        msg = 'Threads after:\n'
+        for th in threading.enumerate():
+            msg += th.name + '\n'
+        logging.debug(msg)
