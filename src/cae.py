@@ -95,7 +95,7 @@ if __name__ == '__main__':
     # Main block
     m = model.Model() # generate FEM model
     t = tree.Tree(p, s, w, m) # create treeView items based on KOM
-    j = model.job.Job(p, s, w) # create job object
+    j = model.job.Job(p, s, w, m) # create job object
     actions.actions(p, s, w, m, t, j) # window actions
 
     # Import default model

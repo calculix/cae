@@ -110,13 +110,13 @@ def import_file(p, s, w, m, t, j, file_name=''):
             'INP (*.inp);;UNV (*.unv)')[0]
 
     if file_name is not None and len(file_name):
-        gui.cgx.kill(w) # close old CGX
-        w.textEdit.clear() # clear logs in the textEdit
-        gui.log.stop_stdout_readers(w)
+        w.textEdit.clear()
 
         # Rename job before tree regeneration
         # A new logger's handler is created here
-        j.initialize(file_name[:-4] + '.inp')
+        j.__init__(p, s, w, m, file_name[:-4] + '.inp')
+
+        w.stop_stdout_readers()
 
         # Convert UNV to INP
         if file_name.lower().endswith('.unv'):
@@ -149,4 +149,6 @@ def import_file(p, s, w, m, t, j, file_name=''):
         if not len(m.Mesh.nodes):
             logging.warning('Empty mesh, CGX will not start!')
             return
-        j.cgx_inp(m)
+
+        # gui.cgx.kill(w)
+        gui.cgx.open_inp(p, w, m, j)
