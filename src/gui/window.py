@@ -118,6 +118,16 @@ class Window(QtWidgets.QMainWindow):
         # Caller fuction name: cgx_inp | cgx_frd
         self.mode = inspect.stack()[1].function
 
+    def stop_stdout_readers(self):
+        readers = [sr for sr in self.stdout_readers if sr.active]
+        if len(readers):
+            msg = 'Stopping threads:\n'
+            for sr in readers:
+                msg += sr.name + '\n'
+                sr.stop()
+            logging.debug(msg)
+            time.sleep(1)
+
     # Open links from the Help menu
     def help(self, url):
         logging.info('Going to\n' + url)

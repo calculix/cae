@@ -117,6 +117,7 @@ class StdoutReader:
         self.prefix = prefix
         self.w = w
         self.active = True
+        self.name = None
     
     def stop(self):
         self.active = False
@@ -178,10 +179,11 @@ class StdoutReader:
     # Attention: it's infinite stdout reader!
     # An old reader quits if a new one is started
     def start(self):
-        t_name = 'thread_{}_{}'\
-            .format(threading.active_count(), self.prefix)
+        self.name = 'thread_{}_{}_{}'\
+            .format(threading.active_count(),
+                self.prefix, int(time.time()))
         t = threading.Thread(target=self.read_and_log,
-            args=(), name=t_name, daemon=True)
+            args=(), name=self.name, daemon=True)
         t.start()
 
         # List currently running threads
@@ -210,23 +212,3 @@ class CgxStdoutReader(StdoutReader):
             return l
         else:
             return line
-
-
-def stop_stdout_readers(w):
-    if threading.active_count() > 1:
-        msg = 'Threads before:\n'
-        for th in threading.enumerate():
-            msg += th.name + '\n'
-        logging.debug(msg)
-
-        sleep = False
-        for sr in w.stdout_readers:
-            sr.stop()
-            sleep = True
-        if sleep:
-            time.sleep(1)
-
-        msg = 'Threads after:\n'
-        for th in threading.enumerate():
-            msg += th.name + '\n'
-        logging.debug(msg)
