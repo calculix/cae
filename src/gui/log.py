@@ -123,8 +123,6 @@ class StdoutReader:
 
     # Process one non-empty stdout message
     def log_line(self, line):
-        if not len(line.strip()):
-            return # TODO We may need empty lines
         logging_levels = {
             'NOTSET': 0,
             'DEBUG': 10,
