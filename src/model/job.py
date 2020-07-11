@@ -27,15 +27,11 @@ import gui
 class Job:
 
     # Create job object
-    def __init__(self, p, s, w):
+    def __init__(self, p, s, w, m, file_name=''):
         self.p = p
         self.s = s
         self.w = w
-        self.dir = p.examples
-
-    # Rename job
-    # TODO Avoid such architechture. Use __init__ instead.
-    def initialize(self, file_name):
+        self.m = m
         if not len(file_name):
             file_name = self.s.start_model
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
@@ -66,6 +62,7 @@ class Job:
     # Write the whole model's INP_code
     # into the output .inp-file.
     # Is called from menu 'Job -> Write input'
+    # Reinitialize job because of possible file_name change
     # TODO Doesn't write comments present in initial model
     def write_input(self, lines):
         file_name = QtWidgets.QFileDialog.getSaveFileName(None, \
@@ -74,8 +71,13 @@ class Job:
         if file_name:
             with open(file_name, 'w') as f:
                 f.writelines(lines)
-            self.initialize(file_name)
             logging.info('Input written to:\n' + file_name)
+            self.__init__(self.p, self.s, self.w,\
+                self.m, file_name[:-4] + '.inp')
+
+            # Reopen CGX
+            # gui.cgx.kill(self.w)
+            gui.cgx.open_inp(self.p, self.w, self.m, self)
 
     # Open INP file in external text editor
     def edit_inp(self):
@@ -189,26 +191,6 @@ class Job:
             logging.error('Wrong path to text editor:\n' \
                 + self.s.path_editor \
                 + '\nConfigure it in File->Settings.')
-
-    # Open INP in GraphiX
-    def cgx_inp(self, m):
-        if os.path.isfile(self.inp):
-            if not len(m.Mesh.nodes):
-                gui.cgx.kill(self.w) # close old CGX
-                logging.warning('Empty mesh, CGX will not start!')
-                return
-            self.w.run_cgx(self.p.path_cgx + ' -c ' + self.inp)
-        else:
-            logging.error('File not found:\n' + self.inp)
-
-    # Open FRD in GraphiX
-    def cgx_frd(self):
-        if os.path.isfile(self.frd):
-            self.w.run_cgx(self.p.path_cgx + ' -o ' + self.frd)
-        else:
-            logging.error('File not found:\n' \
-                + self.frd \
-                + '\nSubmit analysis first.')
 
     # Convert FRD to VTU
     def export_vtu(self):

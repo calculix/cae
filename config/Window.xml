@@ -164,12 +164,10 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="action_job_write_input"/>
     <addaction name="action_job_edit_inp"/>
-    <addaction name="action_job_cgx_inp"/>
     <addaction name="action_job_subroutine"/>
     <addaction name="action_job_rebuild_ccx"/>
     <addaction name="action_job_submit"/>
     <addaction name="action_job_view_log"/>
-    <addaction name="action_job_cgx_frd"/>
     <addaction name="action_job_export_vtu"/>
     <addaction name="action_job_paraview"/>
    </widget>
@@ -187,6 +185,8 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="action_cgx_paint_elsets"/>
     <addaction name="action_cgx_paint_surfaces"/>
+    <addaction name="action_cgx_inp"/>
+    <addaction name="action_cgx_frd"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuJob"/>
@@ -434,13 +434,13 @@ p, li { white-space: pre-wrap; }
     <string>View log</string>
    </property>
   </action>
-  <action name="action_job_cgx_frd">
+  <action name="action_cgx_frd">
    <property name="icon">
     <iconset>
-     <normaloff>../img/action_job_cgx_frd.png</normaloff>../img/action_job_cgx_frd.png</iconset>
+     <normaloff>../img/action_cgx_frd.png</normaloff>../img/action_cgx_frd.png</iconset>
    </property>
    <property name="text">
-    <string>Open results in CGX</string>
+    <string>Open FRD results</string>
    </property>
   </action>
   <action name="action_job_export_vtu">
@@ -497,13 +497,13 @@ p, li { white-space: pre-wrap; }
     <string>Post issue</string>
    </property>
   </action>
-  <action name="action_job_cgx_inp">
+  <action name="action_cgx_inp">
    <property name="icon">
     <iconset>
-     <normaloff>../img/action_job_cgx_inp.png</normaloff>../img/action_job_cgx_inp.png</iconset>
+     <normaloff>../img/action_cgx_inp.png</normaloff>../img/action_cgx_inp.png</iconset>
    </property>
    <property name="text">
-    <string>Open INP in CGX</string>
+    <string>Open INP model</string>
    </property>
   </action>
   <action name="action_help_examples">

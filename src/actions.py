@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, May 2020
+""" © Ihor Mirzov, July 2020
 Distributed under GNU General Public License v3.0
 
 Main window actions - all processed signals. """
@@ -30,10 +30,6 @@ def actions(p, s, w, m, t, j):
     w.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
     # Job actions
-    w.action_cgx_paint_elsets.triggered.connect(
-        lambda: gui.cgx.paint_elsets(w, m))
-    w.action_cgx_paint_surfaces.triggered.connect(
-        lambda: gui.cgx.paint_surfaces(w, m))
     w.action_job_write_input.triggered.connect(
         lambda: j.write_input(m.KOM.get_inp_code_as_lines()))
     w.action_job_write_input.triggered.connect(
@@ -43,10 +39,16 @@ def actions(p, s, w, m, t, j):
     w.action_job_rebuild_ccx.triggered.connect(lambda: j.rebuild_ccx())
     w.action_job_submit.triggered.connect(lambda: j.submit())
     w.action_job_view_log.triggered.connect(lambda: j.view_log())
-    w.action_job_cgx_inp.triggered.connect(lambda: j.cgx_inp(m))
-    w.action_job_cgx_frd.triggered.connect(lambda: j.cgx_frd())
     w.action_job_export_vtu.triggered.connect(j.export_vtu)
     w.action_job_paraview.triggered.connect(lambda: j.open_paraview())
+
+    # CGX actions
+    w.action_cgx_paint_elsets.triggered.connect(
+        lambda: gui.cgx.paint_elsets(w, m))
+    w.action_cgx_paint_surfaces.triggered.connect(
+        lambda: gui.cgx.paint_surfaces(w, m))
+    w.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(p, w, m, j))
+    w.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(p, w, j))
 
     # Help actions
     w.action_help_readme.triggered.connect(

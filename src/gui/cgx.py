@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, June 2020
+""" © Ihor Mirzov, July 2020
 Distributed under GNU General Public License v3.0
 
-Methods for CGX window. """
+Methods for GraphiX window. """
 
 # Standard modules
 import os
 import time
 import logging
 import traceback
+
+# TODO Write a class and move w.run_cgx() here
 
 # Kill all CGX processes
 def kill(w):
@@ -30,20 +32,23 @@ def kill(w):
             msg = 'Can not kill CGX, PID={}.'.format(w.cgx_process.pid)
             logging.warning(msg)
         else:
-            logging.info('Killed CGX, PID={}.'.format(w.cgx_process.pid))
+            logging.debug('Killed CGX, PID={}.'.format(w.cgx_process.pid))
             w.cgx_process = None
 
-# def paint_elsets_old(w, elsets):
-#     colors = 'rgbymntk'
-#     i = 0
-#     for i in range(len(elsets)):
-#         if elsets[i].upper() == 'ALL':
-#             elsets.pop(i)
-#             break
-#     if len(elsets) > 1:
-#         for elset in elsets:
-#             w.post('plus e {} {}'.format(elset, colors[i]))
-#             i = (i + 1) % len(colors)
+"""
+    # Paint element sets in default CGX colors
+    def paint_elsets_old(w, elsets):
+        colors = 'rgbymntk'
+        i = 0
+        for i in range(len(elsets)):
+            if elsets[i].upper() == 'ALL':
+                elsets.pop(i)
+                break
+        if len(elsets) > 1:
+            for elset in elsets:
+                w.post('plus e {} {}'.format(elset, colors[i]))
+                i = (i + 1) % len(colors)
+"""
 
 # Paint element sets in CGX
 def paint_elsets(w, m):
@@ -68,3 +73,23 @@ def paint_surfaces(w, m):
             continue
         w.post('plus f {} pink{}'.format(surf, i))
         i = (i + 1) % 5
+
+# Open INP model in GraphiX
+def open_inp(p, w, m, j):
+    if os.path.isfile(j.inp):
+        kill(w) # close old CGX
+        if not len(m.Mesh.nodes):
+            logging.warning('Empty mesh, CGX will not start!')
+            return
+        w.run_cgx(p.path_cgx + ' -c ' + j.inp)
+    else:
+        logging.error('File not found:\n' + j.inp)
+
+# Open FRD results in GraphiX
+def open_frd(p, w, j):
+    if os.path.isfile(j.frd):
+        w.run_cgx(p.path_cgx + ' -o ' + j.frd)
+    else:
+        logging.error('File not found:\n' \
+            + j.frd \
+            + '\nSubmit analysis first.')
