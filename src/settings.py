@@ -12,7 +12,6 @@ User dialog form is config/SettingsDialog.xml - use Qt Designer to edit. """
 import os
 import sys
 import logging
-import traceback
 
 # External modules
 from PyQt5 import QtWidgets, uic
@@ -63,10 +62,6 @@ class Settings():
         self.__init__(self.p) # re-read settings from file
         sd = SettingsDialog(self.p, settings=self)
 
-        # Warning about Cygwin DLLs
-        if os.name=='nt':
-            logging.warning('In Windows CCX/CGX binaries may not work if placed outside \'bin\' directory. They need Cygwin DLLs!')
-
         # Get response from dialog window
         if sd.exec(): # == 1 if user pressed 'OK'
             sd.save()
@@ -75,21 +70,8 @@ class Settings():
 
     # Automatic saving of current settings during the workflow
     def save(self):
-        """ Pass values to dialog and save
-        This method could produce redundant PyQt debug logging """
         sd = SettingsDialog(self.p, settings=self)
         sd.save()
-    def save_bad(self):
-        """ This method erases comments from the settings file """
-        with open(self.p.settings, 'w') as f:
-            for attr, value in self.__dict__.items():
-                if attr == 'p':
-                    continue
-                if type(value) ==  str:
-                    line = 'self.{} = \'{}\''.format(attr, value)
-                else:
-                    line = 'self.{} = {}'.format(attr, value)
-                f.write(line + '\n\n')
 
 
 # User dialog window with all setting attributes: menu File->Settings
@@ -169,7 +151,6 @@ if __name__ == '__main__':
     # Create and open settings window
     p = path.Path()
     s = Settings(p)
-    s.save()
     s.open()
 
     # Clean cached files
