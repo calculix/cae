@@ -162,8 +162,6 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Job</string>
     </property>
-    <addaction name="action_job_paint_elsets"/>
-    <addaction name="action_job_paint_surfaces"/>
     <addaction name="action_job_write_input"/>
     <addaction name="action_job_edit_inp"/>
     <addaction name="action_job_cgx_inp"/>
@@ -183,8 +181,16 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_help_examples"/>
     <addaction name="action_help_issues"/>
    </widget>
+   <widget class="QMenu" name="menuCGX">
+    <property name="title">
+     <string>CGX</string>
+    </property>
+    <addaction name="action_cgx_paint_elsets"/>
+    <addaction name="action_cgx_paint_surfaces"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuJob"/>
+   <addaction name="menuCGX"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -509,19 +515,19 @@ p, li { white-space: pre-wrap; }
     <string>Get examples</string>
    </property>
   </action>
-  <action name="action_job_paint_elsets">
+  <action name="action_cgx_paint_elsets">
    <property name="icon">
     <iconset>
-     <normaloff>../img/action_job_paint_sets.png</normaloff>../img/action_job_paint_sets.png</iconset>
+     <normaloff>../img/action_cgx_paint_sets.png</normaloff>../img/action_cgx_paint_sets.png</iconset>
    </property>
    <property name="text">
     <string>Paint elsets</string>
    </property>
   </action>
-  <action name="action_job_paint_surfaces">
+  <action name="action_cgx_paint_surfaces">
    <property name="icon">
     <iconset>
-     <normaloff>../img/action_job_paint_surfaces.png</normaloff>../img/action_job_paint_surfaces.png</iconset>
+     <normaloff>../img/action_cgx_paint_surfaces.png</normaloff>../img/action_cgx_paint_surfaces.png</iconset>
    </property>
    <property name="text">
     <string>Paint surfaces</string>
