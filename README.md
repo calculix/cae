@@ -164,19 +164,51 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 # What's new
 
-+ treeView: collapse/expand items with left/right buttons.
-
-+ Fixed hiding File -> Import dialog.
++ Stdout reading class for better logging of child processes.
 
 + Logging of how the app is running: from source code or as binary.
 
-+ Logger: killing old output reading threads.
++ Improved logging for mesh and keywords parsers.
+
++ Switch off redundant logging in keyword dialog.
+
++ Flush CGX buffer on startup.
+
++ Paint CGX logs with #darkslategray.
+
++ Filter accidental key presses on CGX.
+
++ Kill old output reading threads on file import - app doesn't die on logs scrolling.
+
++ treeView: collapse/expand items with left/right buttons.
+
++ Fixed problem with QFileDialog visibility.
 
 + Menu Help: README.pdf.
+
++ New menu - "CGX" devoted to GraphiX.
+
++ Do not start CGX with no mesh.
+
++ Allow to start CAE with empty model.
+
++ No psutil dependency.
+
++ Log window list on error getting WID.
+
++ Test for KOM class.
 
 + Ignore comments on INP import.
 
 + Materials library: https://github.com/calculix/examples/tree/master/materials
+
++ Fixed Jobs. Now they run via thread and doesn't block GUI.
+
++ Fixed small bug in surface parser.
+
++ Updated surfaces in the default.inp
+
++ Workaround for iso view in Windows.
 
 <br/><br/>
 
@@ -188,7 +220,7 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - Implement keyword dialog as tab on main window.
 - Settings Dialog: add buttons to Pathes to open files.
 
-- Invent some kind of Python API for CAE or use pycalculix.
+- Invent some kind of Python API for CAE. Possibly use [pycalculix](https://github.com/spacether/pycalculix) and [pyccx](https://github.com/drlukeparry/pyccx).
 - Python code (*PYTHON keyword) in the INP_code for step repetition and other kind of model generation.
 
 - treeView: import certain keyword with descendants (tree branch) from INP-file.
@@ -207,14 +239,14 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - Menu Help: wiki, YouTube videos for beginners. 
 
 - CAE should be independent and be able to be embeded into FreeCAD.
+- Connector for FreeCAD: listen to port and obtain meshed geometry.
 
 - Change CGX colormaps via Xlib.
 
 - Parser: reparse mesh/model after tree.actionDeleteImplementation.
-- Parser: "WARNING: Wrong keyword **" - does not support comments.
 
 - Merge tests.py and model.parsers.mesh.py.
 
-- Think about Tk. PyQt5 is 45-65 MB heavy.
-
 - Is it possible to make release binaries without pyinstaller?
+
+- Allow to run source code via cae.bat and cae.sh.
