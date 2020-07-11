@@ -111,17 +111,12 @@ def import_file(p, s, w, m, t, j, file_name=''):
 
     if file_name is not None and len(file_name):
         gui.cgx.kill(w) # close old CGX
-
-        # Clear logs in the textEdit
-        w.textEdit.clear()
+        w.textEdit.clear() # clear logs in the textEdit
+        gui.log.stop_stdout_readers(w)
 
         # Rename job before tree regeneration
         # A new logger's handler is created here
-        # TODO One method for both logging handler addition
-        # TODO Add both logs on model's import
         j.initialize(file_name[:-4] + '.inp')
-
-        gui.log.stop_stdout_readers(w)
 
         # Convert UNV to INP
         if file_name.lower().endswith('.unv'):

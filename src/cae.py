@@ -92,13 +92,6 @@ if __name__ == '__main__':
     if s.align_windows:
         w.align()
 
-    # How the application is executed:
-    # from source code or as binary
-    if sys.argv[0].endswith('.py'):
-        logging.info('Running from sources.')
-    else:
-        logging.info('Running from binaries.')
-
     # Main block
     m = model.Model() # generate FEM model
     t = tree.Tree(p, s, w, m) # create treeView items based on KOM

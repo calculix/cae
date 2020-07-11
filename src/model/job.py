@@ -11,6 +11,7 @@ while analysis is running or files are converting. """
 
 # Standard modules
 import os
+import sys
 import time
 import logging
 import subprocess
@@ -31,10 +32,9 @@ class Job:
         self.s = s
         self.w = w
         self.dir = p.examples
-        msg = 'Application\'s home directory is:\n' + p.app_home_dir
-        logging.info(msg)
 
     # Rename job
+    # TODO Avoid such architechture. Use __init__ instead.
     def initialize(self, file_name):
         if not len(file_name):
             file_name = self.s.start_model
@@ -47,6 +47,13 @@ class Job:
 
         # Handler to write the job's log file
         gui.log.add_file_handler(self.log)
+
+        if sys.argv[0].endswith('.py'):
+            logging.debug('Running from sources.')
+        else:
+            logging.debug('Running from binaries.')
+        logging.info('Application\'s home directory is:\n'\
+            + self.p.app_home_dir)
         logging.info('Work directory is:\n' + self.dir)
 
     # Convert UNV to INP
