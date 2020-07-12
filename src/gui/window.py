@@ -17,6 +17,7 @@ https://github.com/asweigart/pyautogui """
 
 # Standard modules
 import os
+import re
 import sys
 import time
 import logging
@@ -257,9 +258,8 @@ class Linux_window(Window):
                     self.d.intern_atom('_NET_WM_NAME'), X.AnyPropertyType).value.decode()
             except:
                 wname = w.get_wm_name()
-            # TODO It also could be, for example, a browser window
-            # with opened web page about CalculiX CAE
-            if title.lower() in wname.lower():
+            regex = '(\S+ - )*' + title.lower() + '( - \S+)*'
+            if re.fullmatch(regex, wname.lower()) is not None:
                 wid = _id_
                 break
         return wid
@@ -334,6 +334,7 @@ class Linux_window(Window):
             keysym = XK.string_to_keysym(c)
             code = self.d.keysym_to_keycode(keysym)
             fake_input(self.d, X.KeyRelease, code)
+        time.sleep(0.3)
         self.d.sync()
 
     # Align CGX and browser windows
@@ -361,29 +362,6 @@ class Linux_window(Window):
                     width=math.floor(self.size.width()*2/3),
                     height=self.size.height())
         self.d.sync()
-
-    """
-        # TODO w.get_attributes('colormap'):
-        # self.d.create_resource_object('colormap', ...)
-
-        def change_colormap(self):
-            self.colormap = self.screen.default_colormap
-            col = self.colormap.alloc_color(0, 0, 0)
-            print(col)
-            self.colormap.store_colors([col])
-            for c in self.colormap.query_colors([0, 1, 2, 3, 4, 5, 6, 7]):
-                print(c)
-            DefaultVisual
-            print(self.screen.default_colormap)
-            c = win.create_colormap() # Xlib.xobject.colormap.Colormap
-            win.change_attributes(colormap=c)
-            win.configure(colormap=c)
-            win.set_wm_colormap_windows()
-            for cmap in win.list_installed_colormaps():
-                print(cmap)
-            for cmap in win.list_installed_colormaps():
-                print(cmap)
-    """
 
 
 class Windows_window(Window):
@@ -456,9 +434,8 @@ class Windows_window(Window):
                 length = ctypes.windll.user32.GetWindowTextLengthW(hwnd) + 1
                 buff = ctypes.create_unicode_buffer(length)
                 ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
-                if title in buff.value:
-                    # TODO It also could be, for example, a browser window
-                    # with opened web page about CalculiX CAE
+                regex = '(\S+ - )*' + title.lower() + '( - \S+)*'
+                if re.fullmatch(regex, buff.value.lower()) is not None:
                     self.wid = hwnd
             return True
 
@@ -516,11 +493,13 @@ class Windows_window(Window):
         for wid in [self.wid1, self.wid3]:
             if wid is not None:
                 ctypes.windll.user32.ShowWindow(wid, 9) # restore window
+                time.sleep(0.3)
                 ctypes.windll.user32.MoveWindow(wid, 0, 0,
                     math.floor(self.size.width()/3), self.size.height(), True)
         for wid in [self.wid2, self.wid4]:
             if wid is not None:
                 ctypes.windll.user32.ShowWindow(wid, 9) # restore window
+                time.sleep(0.3)
                 ctypes.windll.user32.MoveWindow(wid,
                     math.ceil(self.size.width()/3), 0,
                     math.floor(self.size.width()*2/3),
