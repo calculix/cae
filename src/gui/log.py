@@ -112,9 +112,10 @@ def add_file_handler(log_file):
 
 class StdoutReader:
 
-    def __init__(self, stdout, prefix, w=None):
+    def __init__(self, stdout, prefix, read_output=True, w=None):
         self.stdout = stdout
         self.prefix = prefix
+        self.read_output = read_output
         self.w = w
         self.active = True
         self.name = None
@@ -124,21 +125,22 @@ class StdoutReader:
 
     # Process one non-empty stdout message
     def log_line(self, line):
-        logging_levels = {
-            'NOTSET': 0,
-            'DEBUG': 10,
-            'INFO': 20,
-            'WARNING': 30,
-            'ERROR': 40,
-            'CRITICAL': 50}
-        if line.strip().startswith(tuple(logging_levels.keys())):
-            match = re.search('^\s*(\w+):*(.+)', line) # levelname and message
-            if match: # skip logging of empty strings
-                level = match.group(1)
-                line = match.group(2)
-                logging.log(logging_levels[level], line)
-        else:
-            logging.log(25, line)
+        if self.read_output:
+            logging_levels = {
+                'NOTSET': 0,
+                'DEBUG': 10,
+                'INFO': 20,
+                'WARNING': 30,
+                'ERROR': 40,
+                'CRITICAL': 50}
+            if line.strip().startswith(tuple(logging_levels.keys())):
+                match = re.search('^\s*(\w+):*(.+)', line) # levelname and message
+                if match: # skip logging of empty strings
+                    level = match.group(1)
+                    line = match.group(2)
+                    logging.log(logging_levels[level], line)
+            else:
+                logging.log(25, line)
 
     def filter_backspaces(self, line):
         return line

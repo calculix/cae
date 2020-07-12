@@ -165,7 +165,7 @@ class Job:
             os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
             cmd = [self.p.path_ccx, '-i', self.path]
             logging.info(' '.join(cmd))
-            # TODO Notify on job completion
+
             t_name = 'thread_{}_submit_{}'\
                 .format(threading.active_count(), int(time.time()))
             t = threading.Thread(target=self.run,
@@ -259,10 +259,9 @@ class Job:
         os.chdir(self.p.app_home_dir)
 
         # Start stdout reading and logging thread
-        if read_output:
-            sr = gui.log.StdoutReader(process.stdout, 'read_stdout')
-            self.w.stdout_readers.append(sr)
-            sr.start()
+        sr = gui.log.StdoutReader(process.stdout, 'read_stdout', read_output)
+        self.w.stdout_readers.append(sr)
+        sr.start()
 
         # Do not finish thread until the process end up
         while process.poll() is None:
