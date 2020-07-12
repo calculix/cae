@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, June 2020
+""" © Ihor Mirzov, July 2020
 Distributed under GNU General Public License v3.0
 
 Dialog window to create/edit keyword's implementation.
 Called via double click on keyword in the treeView.
 Here we define a keyword's implementation: its name and INP_code. """
-
-# TODO: List already created implementations in the dialog fields
 
 # Standard modules
 import os
@@ -91,25 +89,31 @@ class KeywordDialog(QtWidgets.QDialog):
             for argument in self.item.items:
                 if argument.item_type != item_type.ARGUMENT:
                     continue
-                logging.debug('\nArgument ' + argument.name)
 
-                # Try to get existing implementations for argument.name
-                keyword = KOM.get_keyword_by_name('*' + argument.name)
                 argument_values_items = argument.items
-                if keyword:
-                    """
-                        For example, add names of *AMPLITUDE implementations,
-                            if argument.name is 'AMPLITUDE'
-                    """
-                    # Example: ELSET argument in *ELSET keyword
-                    if argument.name.upper() != keyword.name.upper()[1:]:
-                        implementations = [item.name for item in keyword.getImplementations()]
-                        logging.debug('\tKeyword ' + keyword.name)
-                        logging.debug('\t\tImplementations ' + str(implementations))
-                        logging.debug('\t\tArgument items ' + str(argument.items))
-                        if len(implementations) and not len(argument.items):
-                            argument.form = 'QComboBox'
-                            argument_values_items = [''] + implementations
+                for ag in argument.name.split('|'):
+                    logging.debug('\nArgument ' + ag)
+
+                    # Try to get existing implementations for argument.name
+                    keyword = KOM.get_keyword_by_name('*' + ag)
+                    if keyword is not None:
+                        """
+                            For example, add names of *AMPLITUDE implementations,
+                                if argument.name is 'AMPLITUDE'
+                        """
+                        argument_values_items = ['']
+                        # Example: ELSET argument in *ELSET keyword
+                        if ag != self.item.name.upper()[1:]:
+                            implementations = [item.name for item in keyword.getImplementations()]
+                            logging.debug('\tKeyword ' + keyword.name)
+                            logging.debug('\t\tImplementations ' + str(implementations))
+                            logging.debug('\t\tArgument items ' + str(argument.items))
+                            if len(implementations) and not len(argument.items):
+                                argument.form = 'QComboBox'
+                                if len(implementations) == 1:
+                                    argument_values_items = implementations
+                                if len(implementations) > 1:
+                                    argument_values_items.extend(implementations)
 
                 # Argument's values
                 if argument.form == 'QComboBox':
