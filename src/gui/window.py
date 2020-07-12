@@ -13,7 +13,6 @@ http://python-xlib.sourceforge.net/doc/html/python-xlib_21.html
 https://github.com/python-xlib/python-xlib
 https://github.com/asweigart/pyautogui """
 
-# TODO Allow app to run even without wids
 
 # Standard modules
 import os
@@ -149,7 +148,9 @@ def wid_wrapper(w):
                     msg = 'Can\'t get \'{}\' window.'.format(title)
                     logging.error(msg)
                     w.log_window_list()
-                    sys.exit(msg)
+                    msg = 'Communication with {} will not work.'
+                    logging.error(msg.format(title))
+                    return None
             msg = '{} WID=0x{}'.format(title, hex(wid)[2:].zfill(8))
             logging.debug(msg)
             return wid
