@@ -6,7 +6,7 @@ Distributed under GNU General Public License v3.0
 
 Dialog window to create/edit keyword's implementation.
 Called via double click on keyword in the treeView.
-Here we define a keyword's implementation: its name and INP_code. """
+Here we define a keyword's implementation: its name and inp_code. """
 
 # Standard modules
 import os
@@ -194,7 +194,7 @@ class KeywordDialog(QtWidgets.QDialog):
         # Edit implementation: draw only textEdit
         if self.item.item_type == item_type.IMPLEMENTATION:
             self.setWindowTitle('Edit ' + self.item.name)
-            for line in self.item.INP_code:
+            for line in self.item.inp_code:
                 self.textEdit.append(line)
 
         # Actions

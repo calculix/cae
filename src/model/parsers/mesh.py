@@ -31,7 +31,7 @@ class Mesh:
 
 
     # Initialization
-    def __init__(self, INP_file=None, INP_code=None, old=None):
+    def __init__(self, INP_file=None, inp_code=None, old=None):
         self.nodes = {} # all mesh nodes with coordinates
         self.nsets = {} # node sets
         self.elements = {} # all mesh elements composition
@@ -44,12 +44,12 @@ class Mesh:
             self.old = self
 
         # Get lines from INP source
-        if INP_file and not INP_code:
+        if INP_file and not inp_code:
             # Open and read whole the .inp-file
             lines = file_tools.read_lines(INP_file)
-        elif INP_code and not INP_file:
+        elif inp_code and not INP_file:
             # Parse some piece of INP code
-            lines = INP_code
+            lines = inp_code
         else:
             logging.warning('Nothing to parse!')
             return
@@ -71,7 +71,6 @@ class Mesh:
 
         # Mesh bounds to avoid camera flying to infinity
         self.bounds = getBounds(self.nodes)
-
 
     # Parse nodes with coordinates - *NODE keyword
     def parse_nodes(self, lines):
@@ -481,8 +480,8 @@ class Mesh:
                     getattr(self, attrName)[_setName] = _setValue
 
 
-    # Parse INP_code and update current Mesh
-    def reparse(self, INP_code):
+    # Parse inp_code and update current Mesh
+    def reparse(self, inp_code):
         pass
 
 

@@ -59,11 +59,10 @@ class Job:
         logging.info(' '.join(cmd))
         self.run(cmd)
 
-    # Write the whole model's INP_code
+    # Write the whole model's inp_code
     # into the output .inp-file.
     # Is called from menu 'Job -> Write input'
     # Reinitialize job because of possible file_name change
-    # TODO Doesn't write comments present in initial model
     def write_input(self, lines):
         file_name = QtWidgets.QFileDialog.getSaveFileName(None, \
             'Write INP file', self.dir, \

@@ -35,73 +35,93 @@ import gui
 import model
 import file_tools
 
-def import_inp(s, INP_doc, KOM):
+# TODO Move comment to the next block
+
+# Split inp_doc on blocks
+def split_on_blocks(inp_doc, KOM):
+    keyword_blocks = []
+    i = 0
+    while i < len(inp_doc):
+        inp_code = [inp_doc[i], ]
+        while i+1 < len(inp_doc):
+            if inp_doc[i+1].upper().startswith(KOM.keyword_names):
+                break
+            i += 1
+            inp_code.append(inp_doc[i])
+        keyword_blocks.append(inp_code)
+        i += 1
+
+    # print_blocks(keyword_blocks)
+    return keyword_blocks
+
+def print_blocks(keyword_blocks):
+    for inp_code in keyword_blocks:
+        for i in range(len(inp_code)):
+            print(inp_code[i])
+            if i == 5:
+                break
+        print()
+
+def import_inp(s, inp_doc, KOM):
     keyword_chain = []
     impl_counter = {}
-    for i in range(len(INP_doc)):
-        line = INP_doc[i]
 
-        # Parse keyword
-        if line.startswith('*'):
-            logging.debug('\n' + line)
+    for inp_code in split_on_blocks(inp_doc, KOM):
+        for line in inp_code:
+            if line.upper().startswith(KOM.keyword_names):
 
-            # Distinguish 'NODE' and 'NODE PRINT'
-            if ',' in line:
-                keyword_name = line.split(',')[0]
-            else:
-                keyword_name = line
-
-            # Find KOM keyword path corresponding to keyword_chain
-            keyword_chain.append(keyword_name)
-            path, msg = KOM.get_path(keyword_chain)
-            logging.debug(msg)
-            if path is not None:
-                logging.debug('path found: ' + ', '.join([item.name for item in path]))
-
-                # Read INP_code for the current keyword
-                INP_code = [line] # line is stripped in mesh.py
-                while i+1 < len(INP_doc) and \
-                    not INP_doc[i+1].startswith('*'): # here will be no comments - they are removed in mesh.py
-                    INP_code.append(INP_doc[i+1])
-                    i += 1
-
-                # Create keyword implementations
-                impl = None
-                path_as_string = '' # string representation of 'path' accounting for implementations
-                for j in range(len(path)):
-                    # Choose where to create implementation
-                    if impl:
-                        # Implementation will be created inside another implementation
-                        item = impl.getItemByName(path[j].name)
-                    else:
-                        # Implementation will be created inside keyword or group
-                        item = path[j]
-
-                    path_as_string += '/' + item.name
-                    if j == len(path) - 1: # last item is always keyword
-                        # Create implementation (for example, MATERIAL-1)
-                        impl = model.kom.implementation(s, item, INP_code)
-                        # logging.debug('1')
-                    elif item.item_type == model.kom.item_type.KEYWORD:
-                        # If for this keyword implementation was created previously
-                        counter = impl_counter[path_as_string] - 1
-                        impl = item.items[counter] # first implementation, for example, STEP-1
-                        path_as_string += '/' + impl.name
-                        # logging.debug('2')
-                    else:
-                        impl = item
-                        # logging.debug('3')
-
-                # Count implementation
-                if path_as_string in impl_counter:
-                    # If current keyword already has implementations
-                    impl_counter[path_as_string] += 1
+                # Distinguish 'NODE' and 'NODE PRINT'
+                if ',' in line:
+                    keyword_name = line.split(',')[0]
                 else:
-                    # If first implementation was created for current keyword
-                    impl_counter[path_as_string] = 1
+                    keyword_name = line
 
+                logging.debug('\n' + line)
+                break
+
+        # Find KOM keyword path corresponding to keyword_chain
+        keyword_chain.append(keyword_name)
+        path, msg = KOM.get_path(keyword_chain)
+        logging.debug(msg)
+        if path is None:
+            logging.warning('Wrong keyword {}.'.format(keyword_name))
+        else:
+            logging.debug('path found: ' + ', '.join([item.name for item in path]))
+
+            # Create keyword implementations
+            impl = None
+            path_as_string = '' # string representation of 'path' accounting for implementations
+            for j in range(len(path)):
+                # Choose where to create implementation
+                if impl:
+                    # Implementation will be created inside another implementation
+                    item = impl.getItemByName(path[j].name)
+                else:
+                    # Implementation will be created inside keyword or group
+                    item = path[j]
+
+                path_as_string += '/' + item.name
+                if j == len(path) - 1: # last item is always keyword
+                    # Create implementation (for example, MATERIAL-1)
+                    impl = model.kom.implementation(s, item, inp_code)
+                    # logging.debug('1')
+                elif item.item_type == model.kom.item_type.KEYWORD:
+                    # If for this keyword implementation was created previously
+                    counter = impl_counter[path_as_string] - 1
+                    impl = item.items[counter] # first implementation, for example, STEP-1
+                    path_as_string += '/' + impl.name
+                    # logging.debug('2')
+                else:
+                    impl = item
+                    # logging.debug('3')
+
+            # Count implementation
+            if path_as_string in impl_counter:
+                # If current keyword already has implementations
+                impl_counter[path_as_string] += 1
             else:
-                logging.warning('Wrong keyword {}.'.format(keyword_name))
+                # If first implementation was created for current keyword
+                impl_counter[path_as_string] = 1
 
 def import_file(p, s, w, m, t, j, file_name=''):
     if len(file_name) == 0:

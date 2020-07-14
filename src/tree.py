@@ -128,19 +128,19 @@ class Tree:
                 if dialog.exec() == gui.keyword_dialog.KeywordDialog.Accepted:
 
                     # The generated piece of .inp code for the CalculiX input file
-                    INP_code = dialog.onOk() # list of strings
+                    inp_code = dialog.onOk() # list of strings
 
                     # Create implementation object for keyword
                     if item.item_type == item_type.KEYWORD:
-                        impl = implementation(self.s, item, INP_code) # create keyword's implementation
+                        impl = implementation(self.s, item, inp_code) # create keyword's implementation
 
                         # Regenerate tree_element's children
                         tree_element.removeRows(0, tree_element.rowCount()) # remove all children
                         self.addToTree(tree_element, item.getImplementations()) # add only implementations
 
                         # Reparse mesh or constraints
-                        # self.m.Mesh.reparse(INP_code)
-                        reparsed = model.parsers.mesh.Mesh(INP_code=INP_code, old=self.m.Mesh)
+                        # self.m.Mesh.reparse(inp_code)
+                        reparsed = model.parsers.mesh.Mesh(inp_code=inp_code, old=self.m.Mesh)
                         self.m.Mesh.updateWith(reparsed)
                         self.clicked() # rehighlight
 
@@ -152,11 +152,11 @@ class Tree:
                         keyword.items.remove(item) # remove implementation from keyword's items
 
                         # Add new one
-                        impl = implementation(self.s, keyword, INP_code, name=item.name)
+                        impl = implementation(self.s, keyword, inp_code, name=item.name)
                         tree_element.setData(impl)
 
                         # Reparse mesh or constraints
-                        reparsed = model.parsers.mesh.Mesh(INP_code=INP_code, old=self.m.Mesh)
+                        reparsed = model.parsers.mesh.Mesh(inp_code=inp_code, old=self.m.Mesh)
                         self.m.Mesh.updateWith(reparsed)
                         self.clicked() # rehighlight
 
@@ -181,7 +181,7 @@ class Tree:
         # Highlight entities
         if item and item.item_type == item_type.IMPLEMENTATION:
             ipn_up = item.parent.name.upper()
-            lead_line = item.INP_code[0]
+            lead_line = item.inp_code[0]
             _set = []
 
             # Highlight mesh entities
@@ -216,7 +216,7 @@ class Tree:
 
             # Highlight Loads & BC
             elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
-                for line in item.INP_code[1:]:
+                for line in item.inp_code[1:]:
                     line = line.strip()
                     n = line.replace(',', ' ').split()[0]
                     try:

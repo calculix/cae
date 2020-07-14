@@ -43,8 +43,9 @@ class KOM:
 
         # List of all existing keywords
         self.keywords = []
+        self.keyword_names = ()
 
-        # All possible keywords nesting variants - needed for parsing INP_doc
+        # All possible keywords nesting variants - needed for parsing inp_doc
         self.paths = []
 
         try:
@@ -91,6 +92,7 @@ class KOM:
             # Fill self.keywords
             if xml_child.tag=='keyword':
                 self.keywords.append(item)
+                self.keyword_names += (item.name, )
 
             # Argument values for QComboBox
             if xml_child.tag=='argument' and xml_child.text:
@@ -164,7 +166,7 @@ class KOM:
                 return kw
 
 
-    # Recursively get whole model's INP_code as list of strings (lines)
+    # Recursively get whole model's inp_code as list of strings (lines)
     # Parent is KOM item, level defines code folding/padding
     def get_inp_code_as_lines(self, parent=None, level=0):
         lines = []
@@ -178,10 +180,16 @@ class KOM:
             if item.item_type == item_type.ARGUMENT:
                 continue
             if item.item_type == item_type.IMPLEMENTATION:
-                # INP_code is stripped
-                lines.append(' '*4*level + item.INP_code[0] + '\n')
-                for line in item.INP_code[1:]:
-                    lines.append(' '*4*(level+1) + line + '\n')
+
+                # inp_code is stripped
+                for line in item.inp_code:
+                    if line.upper().startswith(self.keyword_names):
+                        padding = ' '*4*level
+                    else:
+                        padding = ' '*4*(level+1)
+                    if line.startswith('**'):
+                        padding = ''
+                    lines.append(padding + line + '\n')
 
             # Continue call iterator until dig to implementation
             lines.extend(self.get_inp_code_as_lines(item, level))
@@ -325,7 +333,7 @@ class argument(item):
 # Keyword implementation - a piece of INP-code for CalculiX input file
 class implementation(item):
 
-    def __init__(self, s, keyword, INP_code, name=None):
+    def __init__(self, s, keyword, inp_code, name=None):
         self.item_type = item_type.IMPLEMENTATION
         self.items = keyword.copyItems() # newer use deepcopy!
         for item in self.items:
@@ -339,14 +347,14 @@ class implementation(item):
         if name:
             self.name = name # it will be used in edit Dialog
         else:
-            lead_line = INP_code[0]
+            lead_line = inp_code[0]
             match = re.search('(NAME|ELSET|NSET)\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
             if match:
                 self.name = lead_line[match.start(2):match.end(2)]
             else:
                 self.name = self.parent.name[1:] + '-' + str(index + 1)
 
-        self.INP_code = INP_code # INP-code for current implementation - list of strings
+        self.inp_code = inp_code # INP-code for current implementation - list of strings
         self.parent.items.insert(index, self) # append implementation to keyword's items
         if name:
             logging.info('{} \"{}\" updated.'.format(keyword.name, self.name))
