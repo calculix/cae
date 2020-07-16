@@ -35,8 +35,6 @@ import gui
 import model
 import file_tools
 
-# TODO Move comment to the next block
-
 # Split inp_doc on blocks
 def split_on_blocks(inp_doc, KOM):
     keyword_blocks = []
