@@ -347,7 +347,11 @@ class implementation(item):
         if name:
             self.name = name # it will be used in edit Dialog
         else:
-            lead_line = inp_code[0]
+            i = 0
+            while inp_code[i].startswith('**'):
+                i += 1
+            lead_line = inp_code[i]
+
             match = re.search('(NAME|ELSET|NSET)\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
             if match:
                 self.name = lead_line[match.start(2):match.end(2)]

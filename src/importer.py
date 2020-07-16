@@ -51,6 +51,14 @@ def split_on_blocks(inp_doc, KOM):
         keyword_blocks.append(inp_code)
         i += 1
 
+
+    # Omit adding comments to the end of block
+    for i in range(len(keyword_blocks) - 1):
+        inp_code = keyword_blocks[i]
+        while inp_code[-1].startswith('**'):
+            line = inp_code.pop()
+            keyword_blocks[i+1].insert(0, line)
+
     # print_blocks(keyword_blocks)
     return keyword_blocks
 

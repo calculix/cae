@@ -181,8 +181,12 @@ class Tree:
         # Highlight entities
         if item and item.item_type == item_type.IMPLEMENTATION:
             ipn_up = item.parent.name.upper()
-            lead_line = item.inp_code[0]
             _set = []
+
+            i = 0
+            while item.inp_code[i].startswith('**'):
+                i += 1
+            lead_line = item.inp_code[i]
 
             # Highlight mesh entities
             if ipn_up == '*NSET' or ipn_up == '*NODE':
