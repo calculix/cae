@@ -1,6 +1,13 @@
 @echo off
-IF "%~1" == "-inp" (
-    start "" "%~dp0\src\cae.exe" -inp %2
-) ELSE (
-    start "" "%~dp0\src\cae.exe" %*
+
+set DIR=%~dp0%
+set CAE=%DIR%src\cae.exe
+
+if exist %CAE% (
+    echo Running binary.
+) else (
+    echo Binary does not exist. Running source code.
+    set CAE=%DIR%src\cae.py
 )
+
+start "" pythonw %CAE% %*
