@@ -46,27 +46,34 @@ def split_on_blocks(inp_doc, KOM):
                 break
             i += 1
             inp_code.append(inp_doc[i])
-        keyword_blocks.append(inp_code)
+        if len(inp_code):
+            keyword_blocks.append(inp_code)
         i += 1
-
 
     # Omit adding comments to the end of block
     for i in range(len(keyword_blocks) - 1):
         inp_code = keyword_blocks[i]
-        while inp_code[-1].startswith('**'):
+        while len(inp_code) and inp_code[-1].startswith('**'):
             line = inp_code.pop()
             keyword_blocks[i+1].insert(0, line)
+        if not len(inp_code):
+            keyword_blocks.pop(i)
 
     # print_blocks(keyword_blocks)
     return keyword_blocks
 
+def print_block(inp_code):
+    for i in range(len(inp_code)):
+        print(inp_code[i])
+        if i == 5:
+            break
+    print()
+    print(len(inp_code), '---')
+    print()
+
 def print_blocks(keyword_blocks):
     for inp_code in keyword_blocks:
-        for i in range(len(inp_code)):
-            print(inp_code[i])
-            if i == 5:
-                break
-        print()
+        print_block(inp_code)
 
 def import_inp(s, inp_doc, KOM):
     keyword_chain = []
