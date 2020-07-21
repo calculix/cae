@@ -20,26 +20,14 @@ from enum import Enum
 import xml.etree.ElementTree as ET
 import traceback
 
-# My modules
-try:
-    # Normal run
-    import path
-except:
-    # Test run
-    sys_path = os.path.join(os.path.dirname(__file__), '..')
-    os.sys.path.append(sys_path)
-    import path
-    import clean
-    import settings
-
 
 # Keyword Object Model
 class KOM:
 
 
     # Read CalculiX keywords hierarchy
-    def __init__(self, p, s):
-        self.s = s
+    def __init__(self, p=None, s=None, kom_xml=None):
+        self.s = s # could be None
 
         # List of all existing keywords
         self.keywords = []
@@ -48,11 +36,17 @@ class KOM:
         # All possible keywords nesting variants - needed for parsing inp_doc
         self.paths = []
 
+        # Group 'Model' from kom.xml
+        self.root = group(self.s)
+
         try:
-            self.root = group(s) # group 'Model' from kom.xml
+            if p is not None:
+                kom_xml = p.kom_xml
+            if kom_xml is None:
+                raise Exception
 
             # Parse keywords hierarchy and build KOM
-            t = ET.parse(p.kom_xml)
+            t = ET.parse(kom_xml)
             self.build(t.getroot(), self.root)
 
             self.build_paths(self.root)
@@ -305,7 +299,10 @@ class group(item):
         self.item_type = item_type.GROUP
         self.items = [] # list of groups and keywords
         self.name = 'Model' # default name (root group)
-        self.expanded = s.expanded
+        if s is not None:
+            self.expanded = s.expanded
+        else:
+            self.expanded = True
 
 
 # *AMPLITUDE, *BOUNDARY, *STEP etc.
@@ -316,8 +313,10 @@ class keyword(item):
         self.items = [] # list of arguments
         self.name = ''
         self.from_new_line = False # start all arguments from the next line?
-        self.expanded = s.expanded
-
+        if s is not None:
+            self.expanded = s.expanded
+        else:
+            self.expanded = True
 
 # Keyword's argument
 class argument(item):
@@ -340,7 +339,10 @@ class implementation(item):
             item.parent = self
         self.parent = keyword
         self.active = True
-        self.expanded = s.expanded
+        if s is not None:
+            self.expanded = s.expanded
+        else:
+            self.expanded = True
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
         index = len(self.parent.getImplementations())
@@ -373,11 +375,11 @@ if __name__ == '__main__':
     # from pycallgraph import GlobbingFilter
     # from pycallgraph.output import GraphvizOutput
 
-    clean.screen()
+    # Clean screen
+    os.system('cls' if os.name=='nt' else 'clear')
+
     logging.basicConfig(level=0, format='%(message)s')
     start = time.perf_counter() # start time
-    p = path.Path()
-    s = settings.Settings(p)
 
     # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
     # config = Config()
@@ -386,6 +388,10 @@ if __name__ == '__main__':
     # graphviz = GraphvizOutput(output_file=__file__[:-3]+'.png')
     # with PyCallGraph(output=graphviz, config=config):
 
-    KOM(p, s)
+    os.chdir(os.path.dirname(__file__))
+    kom_xml = '../../config/kom.xml'
+
+    # KOM(None, None)
+    KOM(None, None, kom_xml)
     print('\nTotal {:.1e} seconds'\
         .format(time.perf_counter()-start)) # spent time
