@@ -1,8 +1,7 @@
 MESH PARSER TEST
 
 ==================================================
-1: examples/ccx_2.16.test/achtel2.inp
-INFO: 98 nodes
+1: ../examples/ccx_2.16.test/achtel2.inp
 WARNING: NSET SET1 - mesh hasn't nodes [82, 83,
 WARNING: 84, 85, 86, 87, 88, 89, 90, 91, 92, 93,
 WARNING: 94, 95, 96, 97, 98, 99, 100, 101, 102,
@@ -14,14 +13,15 @@ WARNING: 135, 136, 137, 138, 139, 140, 141, 142,
 WARNING: 143, 144, 145, 146, 147, 148, 149, 150,
 WARNING: 151, 152, 153, 154, 155, 159, 160, 164,
 WARNING: 165, 169, 170, 174, 175].
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+98 nodes
+1 nsets
+8 elements
+2 elsets
+0 surfaces
 
 ==================================================
-2: examples/ccx_2.16.test/achtel29.inp
-INFO: 98 nodes
+2: ../examples/ccx_2.16.test/achtel29.inp
 WARNING: NSET SET1 - mesh hasn't nodes [82, 83,
 WARNING: 84, 85, 86, 87, 88, 89, 90, 91, 92, 93,
 WARNING: 94, 95, 96, 97, 98, 99, 100, 101, 102,
@@ -33,14 +33,15 @@ WARNING: 135, 136, 137, 138, 139, 140, 141, 142,
 WARNING: 143, 144, 145, 146, 147, 148, 149, 150,
 WARNING: 151, 152, 153, 154, 155, 159, 160, 164,
 WARNING: 165, 169, 170, 174, 175].
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+98 nodes
+1 nsets
+8 elements
+2 elsets
+0 surfaces
 
 ==================================================
-3: examples/ccx_2.16.test/achtel9.inp
-INFO: 98 nodes
+3: ../examples/ccx_2.16.test/achtel9.inp
 WARNING: NSET SET1 - mesh hasn't nodes [82, 83,
 WARNING: 84, 85, 86, 87, 88, 89, 90, 91, 92, 93,
 WARNING: 94, 95, 96, 97, 98, 99, 100, 101, 102,
@@ -52,247 +53,276 @@ WARNING: 135, 136, 137, 138, 139, 140, 141, 142,
 WARNING: 143, 144, 145, 146, 147, 148, 149, 150,
 WARNING: 151, 152, 153, 154, 155, 159, 160, 164,
 WARNING: 165, 169, 170, 174, 175].
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+98 nodes
+1 nsets
+8 elements
+2 elsets
+0 surfaces
 
 ==================================================
-4: examples/ccx_2.16.test/achtelc.inp
-INFO: 81 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+4: ../examples/ccx_2.16.test/achtelc.inp
+INFO: Mesh parser:
+81 nodes
+1 nsets
+8 elements
+2 elsets
+0 surfaces
 
 ==================================================
-5: examples/ccx_2.16.test/achtelcas.inp
-INFO: 98 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+5: ../examples/ccx_2.16.test/achtelcas.inp
+INFO: Mesh parser:
+98 nodes
+1 nsets
+8 elements
+2 elsets
+0 surfaces
 
 ==================================================
-6: examples/ccx_2.16.test/achteld.inp
-INFO: 81 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+6: ../examples/ccx_2.16.test/achteld.inp
+INFO: Mesh parser:
+81 nodes
+1 nsets
+8 elements
+1 elsets
+0 surfaces
 
 ==================================================
-7: examples/ccx_2.16.test/achtelg.inp
-INFO: 81 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+7: ../examples/ccx_2.16.test/achtelg.inp
+INFO: Mesh parser:
+81 nodes
+1 nsets
+8 elements
+2 elsets
+0 surfaces
 
 ==================================================
-8: examples/ccx_2.16.test/achtelp.inp
-INFO: 81 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+8: ../examples/ccx_2.16.test/achtelp.inp
+INFO: Mesh parser:
+81 nodes
+1 nsets
+8 elements
+2 elsets
+0 surfaces
 
 ==================================================
-9: examples/ccx_2.16.test/acou1.inp
-INFO: 262 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+9: ../examples/ccx_2.16.test/acou1.inp
+INFO: Mesh parser:
+262 nodes
+4 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-10: examples/ccx_2.16.test/acou2.inp
-INFO: 262 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+10: ../examples/ccx_2.16.test/acou2.inp
+INFO: Mesh parser:
+262 nodes
+4 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-11: examples/ccx_2.16.test/acou3.inp
-INFO: 262 nodes
-INFO: 7 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+11: ../examples/ccx_2.16.test/acou3.inp
+INFO: Mesh parser:
+262 nodes
+7 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-12: examples/ccx_2.16.test/acou4.inp
-INFO: 262 nodes
-INFO: 7 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+12: ../examples/ccx_2.16.test/acou4.inp
+INFO: Mesh parser:
+262 nodes
+7 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-13: examples/ccx_2.16.test/aircolumn.inp
-INFO: 262 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+13: ../examples/ccx_2.16.test/aircolumn.inp
+INFO: Mesh parser:
+262 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-14: examples/ccx_2.16.test/anipla.inp
-INFO: 20 nodes
-INFO: 3 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+14: ../examples/ccx_2.16.test/anipla.inp
+INFO: Mesh parser:
+20 nodes
+3 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-15: examples/ccx_2.16.test/aniso.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+15: ../examples/ccx_2.16.test/aniso.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-16: examples/ccx_2.16.test/artery1.inp
-INFO: 13 nodes
-INFO: 1 nsets
-INFO: 4 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+16: ../examples/ccx_2.16.test/artery1.inp
+INFO: Mesh parser:
+13 nodes
+1 nsets
+4 elements
+2 elsets
+0 surfaces
 
 ==================================================
-17: examples/ccx_2.16.test/artery2.inp
-INFO: 13 nodes
-INFO: 1 nsets
-INFO: 4 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+17: ../examples/ccx_2.16.test/artery2.inp
+INFO: Mesh parser:
+13 nodes
+1 nsets
+4 elements
+2 elsets
+0 surfaces
 
 ==================================================
-18: examples/ccx_2.16.test/artery3.inp
-INFO: 14 nodes
-INFO: 1 nsets
-INFO: 4 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+18: ../examples/ccx_2.16.test/artery3.inp
+INFO: Mesh parser:
+14 nodes
+1 nsets
+4 elements
+2 elsets
+0 surfaces
 
 ==================================================
-19: examples/ccx_2.16.test/artery4.inp
-INFO: 14 nodes
-INFO: 1 nsets
-INFO: 4 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+19: ../examples/ccx_2.16.test/artery4.inp
+INFO: Mesh parser:
+14 nodes
+1 nsets
+4 elements
+2 elsets
+0 surfaces
 
 ==================================================
-20: examples/ccx_2.16.test/artery5.inp
-INFO: 14 nodes
-INFO: 1 nsets
-INFO: 4 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+20: ../examples/ccx_2.16.test/artery5.inp
+INFO: Mesh parser:
+14 nodes
+1 nsets
+4 elements
+2 elsets
+0 surfaces
 
 ==================================================
-21: examples/ccx_2.16.test/ax6.inp
-INFO: 85 nodes
-INFO: 1 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+21: ../examples/ccx_2.16.test/ax6.inp
+INFO: Mesh parser:
+85 nodes
+1 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-22: examples/ccx_2.16.test/ax6ht.inp
-INFO: 85 nodes
-INFO: 1 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+22: ../examples/ccx_2.16.test/ax6ht.inp
+INFO: Mesh parser:
+85 nodes
+1 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-23: examples/ccx_2.16.test/axial.inp
-INFO: 13 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+23: ../examples/ccx_2.16.test/axial.inp
+INFO: Mesh parser:
+13 nodes
+1 nsets
+2 elements
+1 elsets
+0 surfaces
 
 ==================================================
-24: examples/ccx_2.16.test/axiplane.inp
-INFO: 13 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+24: ../examples/ccx_2.16.test/axiplane.inp
+INFO: Mesh parser:
+13 nodes
+1 nsets
+2 elements
+3 elsets
+0 surfaces
 
 ==================================================
-25: examples/ccx_2.16.test/axrad.inp
-INFO: 53 nodes
-INFO: 3 nsets
-INFO: 10 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+25: ../examples/ccx_2.16.test/axrad.inp
+INFO: Mesh parser:
+53 nodes
+3 nsets
+10 elements
+1 elsets
+0 surfaces
 
 ==================================================
-26: examples/ccx_2.16.test/axrad2.inp
-INFO: 3876 nodes
-INFO: 5 nsets
-INFO: 1140 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+26: ../examples/ccx_2.16.test/axrad2.inp
+INFO: Mesh parser:
+3876 nodes
+5 nsets
+1140 elements
+1 elsets
+0 surfaces
 
 ==================================================
-27: examples/ccx_2.16.test/b31.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+27: ../examples/ccx_2.16.test/b31.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+10 elements
+1 elsets
+0 surfaces
 
 ==================================================
-28: examples/ccx_2.16.test/b31nodthi.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+28: ../examples/ccx_2.16.test/b31nodthi.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+10 elements
+2 elsets
+0 surfaces
 
 ==================================================
-29: examples/ccx_2.16.test/ball.inp
-INFO: 1025 nodes
-INFO: 3 nsets
-INFO: 769 elements
-INFO: 2 elsets
-INFO: 2 surfaces
+29: ../examples/ccx_2.16.test/ball.inp
+INFO: Mesh parser:
+1025 nodes
+3 nsets
+769 elements
+2 elsets
+2 surfaces
 
 ==================================================
-30: examples/ccx_2.16.test/beam10p.inp
-INFO: 90 nodes
-INFO: 3 nsets
-INFO: 31 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+30: ../examples/ccx_2.16.test/beam10p.inp
+INFO: Mesh parser:
+90 nodes
+3 nsets
+31 elements
+1 elsets
+0 surfaces
 
 ==================================================
-31: examples/ccx_2.16.test/beam20p.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+31: ../examples/ccx_2.16.test/beam20p.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-32: examples/ccx_2.16.test/beam20t.inp
-INFO: 261 nodes
-INFO: 7 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+32: ../examples/ccx_2.16.test/beam20t.inp
+INFO: Mesh parser:
+261 nodes
+7 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-33: examples/ccx_2.16.test/beam8b.inp
-INFO: 425 nodes
-INFO: 3 nsets
+33: ../examples/ccx_2.16.test/beam8b.inp
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
@@ -548,14 +578,15 @@ WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
-INFO: 256 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+425 nodes
+3 nsets
+256 elements
+1 elsets
+0 surfaces
 
 ==================================================
-34: examples/ccx_2.16.test/beam8f.inp
-INFO: 425 nodes
-INFO: 3 nsets
+34: ../examples/ccx_2.16.test/beam8f.inp
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
@@ -811,14 +842,15 @@ WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
-INFO: 256 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+425 nodes
+3 nsets
+256 elements
+1 elsets
+0 surfaces
 
 ==================================================
-35: examples/ccx_2.16.test/beam8p.inp
-INFO: 425 nodes
-INFO: 3 nsets
+35: ../examples/ccx_2.16.test/beam8p.inp
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
@@ -1074,14 +1106,15 @@ WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
-INFO: 256 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+425 nodes
+3 nsets
+256 elements
+1 elsets
+0 surfaces
 
 ==================================================
-36: examples/ccx_2.16.test/beam8t.inp
-INFO: 425 nodes
-INFO: 2 nsets
+36: ../examples/ccx_2.16.test/beam8t.inp
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
@@ -1337,1994 +1370,2241 @@ WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
 WARNING: Duplicated set name Eall!
-INFO: 256 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+425 nodes
+2 nsets
+256 elements
+3 elsets
+0 surfaces
 
 ==================================================
-37: examples/ccx_2.16.test/beam_sens_freq_coord1.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+37: ../examples/ccx_2.16.test/beam_sens_freq_coord1.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-38: examples/ccx_2.16.test/beam_sens_freq_coord2.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+38: ../examples/ccx_2.16.test/beam_sens_freq_coord2.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-39: examples/ccx_2.16.test/beam_sens_freq_coord3.inp
-INFO: 270 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+39: ../examples/ccx_2.16.test/beam_sens_freq_coord3.inp
+INFO: Mesh parser:
+270 nodes
+2 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-40: examples/ccx_2.16.test/beam_sens_stress_coord1.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+40: ../examples/ccx_2.16.test/beam_sens_stress_coord1.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-41: examples/ccx_2.16.test/beam_sens_stress_coord2.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+41: ../examples/ccx_2.16.test/beam_sens_stress_coord2.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-42: examples/ccx_2.16.test/beamabq.inp
-INFO: 261 nodes
-INFO: 6 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+42: ../examples/ccx_2.16.test/beamabq.inp
+INFO: Mesh parser:
+261 nodes
+6 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-43: examples/ccx_2.16.test/beamb.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+43: ../examples/ccx_2.16.test/beamb.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-44: examples/ccx_2.16.test/beamcom.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 4 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+44: ../examples/ccx_2.16.test/beamcom.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+4 elements
+3 elsets
+0 surfaces
 
 ==================================================
-45: examples/ccx_2.16.test/beamcontact.inp
-INFO: 277 nodes
-INFO: 2 nsets
+45: ../examples/ccx_2.16.test/beamcontact.inp
 WARNING: Duplicated set name Eall!
-INFO: 34 elements
-INFO: 1 elsets
-INFO: 4 surfaces
+INFO: Mesh parser:
+277 nodes
+2 nsets
+34 elements
+1 elsets
+4 surfaces
 
 ==================================================
-46: examples/ccx_2.16.test/beamcr.inp
-INFO: 261 nodes
-INFO: 9 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+46: ../examples/ccx_2.16.test/beamcr.inp
+INFO: Mesh parser:
+261 nodes
+9 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-47: examples/ccx_2.16.test/beamcr2.inp
-INFO: 261 nodes
-INFO: 9 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+47: ../examples/ccx_2.16.test/beamcr2.inp
+INFO: Mesh parser:
+261 nodes
+9 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-48: examples/ccx_2.16.test/beamd.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+48: ../examples/ccx_2.16.test/beamd.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+3 elsets
+0 surfaces
 
 ==================================================
-49: examples/ccx_2.16.test/beamd2.inp
-INFO: 262 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+49: ../examples/ccx_2.16.test/beamd2.inp
+INFO: Mesh parser:
+262 nodes
+2 nsets
+32 elements
+3 elsets
+0 surfaces
 
 ==================================================
-50: examples/ccx_2.16.test/beamdelay.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+50: ../examples/ccx_2.16.test/beamdelay.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-51: examples/ccx_2.16.test/beamdy1.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+51: ../examples/ccx_2.16.test/beamdy1.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-52: examples/ccx_2.16.test/beamdy10.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+52: ../examples/ccx_2.16.test/beamdy10.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-53: examples/ccx_2.16.test/beamdy10bm.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+53: ../examples/ccx_2.16.test/beamdy10bm.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-54: examples/ccx_2.16.test/beamdy11.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+54: ../examples/ccx_2.16.test/beamdy11.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-55: examples/ccx_2.16.test/beamdy12.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+55: ../examples/ccx_2.16.test/beamdy12.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-56: examples/ccx_2.16.test/beamdy13.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+56: ../examples/ccx_2.16.test/beamdy13.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-57: examples/ccx_2.16.test/beamdy14.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+57: ../examples/ccx_2.16.test/beamdy14.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-58: examples/ccx_2.16.test/beamdy15.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+58: ../examples/ccx_2.16.test/beamdy15.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-59: examples/ccx_2.16.test/beamdy16.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+59: ../examples/ccx_2.16.test/beamdy16.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-60: examples/ccx_2.16.test/beamdy17.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+60: ../examples/ccx_2.16.test/beamdy17.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-61: examples/ccx_2.16.test/beamdy18.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+61: ../examples/ccx_2.16.test/beamdy18.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-62: examples/ccx_2.16.test/beamdy19.inp
-INFO: 261 nodes
+62: ../examples/ccx_2.16.test/beamdy19.inp
 WARNING: Duplicated set name N1!
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-63: examples/ccx_2.16.test/beamdy2.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+63: ../examples/ccx_2.16.test/beamdy2.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-64: examples/ccx_2.16.test/beamdy20.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+64: ../examples/ccx_2.16.test/beamdy20.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-65: examples/ccx_2.16.test/beamdy3.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+65: ../examples/ccx_2.16.test/beamdy3.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-66: examples/ccx_2.16.test/beamdy4.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+66: ../examples/ccx_2.16.test/beamdy4.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-67: examples/ccx_2.16.test/beamdy5.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+67: ../examples/ccx_2.16.test/beamdy5.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-68: examples/ccx_2.16.test/beamdy6.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+68: ../examples/ccx_2.16.test/beamdy6.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-69: examples/ccx_2.16.test/beamdy7.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+69: ../examples/ccx_2.16.test/beamdy7.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-70: examples/ccx_2.16.test/beamdy7bm.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+70: ../examples/ccx_2.16.test/beamdy7bm.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-71: examples/ccx_2.16.test/beamdy8.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+71: ../examples/ccx_2.16.test/beamdy8.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-72: examples/ccx_2.16.test/beamdy9.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+72: ../examples/ccx_2.16.test/beamdy9.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-73: examples/ccx_2.16.test/beamdynamic.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+73: ../examples/ccx_2.16.test/beamdynamic.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-74: examples/ccx_2.16.test/beamexpdy1.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+74: ../examples/ccx_2.16.test/beamexpdy1.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-75: examples/ccx_2.16.test/beamf.inp
-INFO: 261 nodes
-INFO: 1 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+75: ../examples/ccx_2.16.test/beamf.inp
+INFO: Mesh parser:
+261 nodes
+1 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-76: examples/ccx_2.16.test/beamf2.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+76: ../examples/ccx_2.16.test/beamf2.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-77: examples/ccx_2.16.test/beamf3.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+77: ../examples/ccx_2.16.test/beamf3.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-78: examples/ccx_2.16.test/beamf3submodel.inp
-INFO: 111 nodes
-INFO: 2 nsets
-INFO: 12 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+78: ../examples/ccx_2.16.test/beamf3submodel.inp
+INFO: Mesh parser:
+111 nodes
+2 nsets
+12 elements
+1 elsets
+0 surfaces
 
 ==================================================
-79: examples/ccx_2.16.test/beamfrdread.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+79: ../examples/ccx_2.16.test/beamfrdread.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-80: examples/ccx_2.16.test/beamfsh1.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 34 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+80: ../examples/ccx_2.16.test/beamfsh1.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+34 elements
+3 elsets
+0 surfaces
 
 ==================================================
-81: examples/ccx_2.16.test/beamfstrucdamp.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+81: ../examples/ccx_2.16.test/beamfstrucdamp.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-82: examples/ccx_2.16.test/beamfsubmodel.inp
-INFO: 111 nodes
-INFO: 2 nsets
-INFO: 12 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+82: ../examples/ccx_2.16.test/beamfsubmodel.inp
+INFO: Mesh parser:
+111 nodes
+2 nsets
+12 elements
+1 elsets
+0 surfaces
 
 ==================================================
-83: examples/ccx_2.16.test/beamft.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+83: ../examples/ccx_2.16.test/beamft.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-84: examples/ccx_2.16.test/beamheatplas.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+84: ../examples/ccx_2.16.test/beamheatplas.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-85: examples/ccx_2.16.test/beamhf.inp
-INFO: 261 nodes
-INFO: 9 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+85: ../examples/ccx_2.16.test/beamhf.inp
+INFO: Mesh parser:
+261 nodes
+9 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-86: examples/ccx_2.16.test/beamhtbf.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+86: ../examples/ccx_2.16.test/beamhtbf.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-87: examples/ccx_2.16.test/beamhtbo.inp
-INFO: 262 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+87: ../examples/ccx_2.16.test/beamhtbo.inp
+INFO: Mesh parser:
+262 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-88: examples/ccx_2.16.test/beamhtcr.inp
-INFO: 495 nodes
-INFO: 3 nsets
-INFO: 48 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+88: ../examples/ccx_2.16.test/beamhtcr.inp
+INFO: Mesh parser:
+495 nodes
+3 nsets
+48 elements
+1 elsets
+0 surfaces
 
 ==================================================
-89: examples/ccx_2.16.test/beamhtcr2.inp
-INFO: 495 nodes
-INFO: 3 nsets
-INFO: 48 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+89: ../examples/ccx_2.16.test/beamhtcr2.inp
+INFO: Mesh parser:
+495 nodes
+3 nsets
+48 elements
+1 elsets
+0 surfaces
 
 ==================================================
-90: examples/ccx_2.16.test/beamhtfc.inp
-INFO: 279 nodes
-INFO: 4 nsets
-INFO: 40 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+90: ../examples/ccx_2.16.test/beamhtfc.inp
+INFO: Mesh parser:
+279 nodes
+4 nsets
+40 elements
+3 elsets
+0 surfaces
 
 ==================================================
-91: examples/ccx_2.16.test/beamhtfc2.inp
-INFO: 279 nodes
-INFO: 4 nsets
-INFO: 40 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+91: ../examples/ccx_2.16.test/beamhtfc2.inp
+INFO: Mesh parser:
+279 nodes
+4 nsets
+40 elements
+3 elsets
+0 surfaces
 
 ==================================================
-92: examples/ccx_2.16.test/beamhtfcaero.inp
-INFO: 279 nodes
-INFO: 4 nsets
-INFO: 40 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+92: ../examples/ccx_2.16.test/beamhtfcaero.inp
+INFO: Mesh parser:
+279 nodes
+4 nsets
+40 elements
+3 elsets
+0 surfaces
 
 ==================================================
-93: examples/ccx_2.16.test/beamhtfcaerothne.inp
-INFO: 279 nodes
-INFO: 4 nsets
-INFO: 40 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+93: ../examples/ccx_2.16.test/beamhtfcaerothne.inp
+INFO: Mesh parser:
+279 nodes
+4 nsets
+40 elements
+3 elsets
+0 surfaces
 
 ==================================================
-94: examples/ccx_2.16.test/beamhtfcnu.inp
-INFO: 279 nodes
-INFO: 4 nsets
-INFO: 40 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+94: ../examples/ccx_2.16.test/beamhtfcnu.inp
+INFO: Mesh parser:
+279 nodes
+4 nsets
+40 elements
+3 elsets
+0 surfaces
 
 ==================================================
-95: examples/ccx_2.16.test/beamidset.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+95: ../examples/ccx_2.16.test/beamidset.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-96: examples/ccx_2.16.test/beamimpdy1.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+96: ../examples/ccx_2.16.test/beamimpdy1.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-97: examples/ccx_2.16.test/beamimpdy1nodirect.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+97: ../examples/ccx_2.16.test/beamimpdy1nodirect.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-98: examples/ccx_2.16.test/beamimpdy2.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+98: ../examples/ccx_2.16.test/beamimpdy2.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-99: examples/ccx_2.16.test/beamlin.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+99: ../examples/ccx_2.16.test/beamlin.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+2 elements
+3 elsets
+0 surfaces
 
 ==================================================
-100: examples/ccx_2.16.test/beammix.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+100: ../examples/ccx_2.16.test/beammix.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+2 elements
+3 elsets
+0 surfaces
 
 ==================================================
-101: examples/ccx_2.16.test/beammpc.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+101: ../examples/ccx_2.16.test/beammpc.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+1 elsets
+2 surfaces
 
 ==================================================
-102: examples/ccx_2.16.test/beammr.inp
-INFO: 262 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+102: ../examples/ccx_2.16.test/beammr.inp
+INFO: Mesh parser:
+262 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-103: examples/ccx_2.16.test/beammrco.inp
-INFO: 262 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+103: ../examples/ccx_2.16.test/beammrco.inp
+INFO: Mesh parser:
+262 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-104: examples/ccx_2.16.test/beammrlin.inp
-INFO: 262 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+104: ../examples/ccx_2.16.test/beammrlin.inp
+INFO: Mesh parser:
+262 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-105: examples/ccx_2.16.test/beamnh.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+105: ../examples/ccx_2.16.test/beamnh.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-106: examples/ccx_2.16.test/beamnld.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+106: ../examples/ccx_2.16.test/beamnld.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-107: examples/ccx_2.16.test/beamnldy.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+107: ../examples/ccx_2.16.test/beamnldy.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-108: examples/ccx_2.16.test/beamnldye.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+108: ../examples/ccx_2.16.test/beamnldye.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-109: examples/ccx_2.16.test/beamnldye20.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+109: ../examples/ccx_2.16.test/beamnldye20.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-110: examples/ccx_2.16.test/beamnldyems.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+110: ../examples/ccx_2.16.test/beamnldyems.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-111: examples/ccx_2.16.test/beamnldynodirect.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+111: ../examples/ccx_2.16.test/beamnldynodirect.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-112: examples/ccx_2.16.test/beamnldyp.inp
-INFO: 261 nodes
-INFO: 7 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+112: ../examples/ccx_2.16.test/beamnldyp.inp
+INFO: Mesh parser:
+261 nodes
+7 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-113: examples/ccx_2.16.test/beamnldype.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+113: ../examples/ccx_2.16.test/beamnldype.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-114: examples/ccx_2.16.test/beamnlmpc.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+114: ../examples/ccx_2.16.test/beamnlmpc.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-115: examples/ccx_2.16.test/beamnlp.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+115: ../examples/ccx_2.16.test/beamnlp.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-116: examples/ccx_2.16.test/beamnlptp.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+116: ../examples/ccx_2.16.test/beamnlptp.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-117: examples/ccx_2.16.test/beamnlt.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+117: ../examples/ccx_2.16.test/beamnlt.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-118: examples/ccx_2.16.test/beamnoan.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+118: ../examples/ccx_2.16.test/beamnoan.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-119: examples/ccx_2.16.test/beamog.inp
-INFO: 261 nodes
-INFO: 9 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+119: ../examples/ccx_2.16.test/beamog.inp
+INFO: Mesh parser:
+261 nodes
+9 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-120: examples/ccx_2.16.test/beamp.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+120: ../examples/ccx_2.16.test/beamp.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+2 surfaces
 
 ==================================================
-121: examples/ccx_2.16.test/beamp1rotate.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+121: ../examples/ccx_2.16.test/beamp1rotate.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-122: examples/ccx_2.16.test/beamp2.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+122: ../examples/ccx_2.16.test/beamp2.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+2 surfaces
 
 ==================================================
-123: examples/ccx_2.16.test/beamp2rotate.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+123: ../examples/ccx_2.16.test/beamp2rotate.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-124: examples/ccx_2.16.test/beamp2stage.inp
-INFO: 261 nodes
+124: ../examples/ccx_2.16.test/beamp2stage.inp
 WARNING: Duplicated set name LOAD!
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-125: examples/ccx_2.16.test/beamp_ciarlet.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-126: examples/ccx_2.16.test/beampd.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-127: examples/ccx_2.16.test/beampdepmpc.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-128: examples/ccx_2.16.test/beamperror.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-129: examples/ccx_2.16.test/beampfix.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-130: examples/ccx_2.16.test/beampic.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-131: examples/ccx_2.16.test/beampik.inp
-INFO: 261 nodes
-INFO: 9 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-132: examples/ccx_2.16.test/beampis.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-133: examples/ccx_2.16.test/beampiso.inp
-INFO: 261 nodes
-INFO: 9 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-134: examples/ccx_2.16.test/beampiso2.inp
-INFO: 261 nodes
-INFO: 9 nsets
-INFO: 32 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-135: examples/ccx_2.16.test/beampisof.inp
-INFO: 261 nodes
-INFO: 9 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-136: examples/ccx_2.16.test/beampkin.inp
-INFO: 261 nodes
-INFO: 9 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-137: examples/ccx_2.16.test/beampl.inp
-INFO: 261 nodes
-INFO: 9 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-138: examples/ccx_2.16.test/beamplane.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-139: examples/ccx_2.16.test/beampo1.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-140: examples/ccx_2.16.test/beampo2.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-141: examples/ccx_2.16.test/beampo3.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-142: examples/ccx_2.16.test/beamprand.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-143: examples/ccx_2.16.test/beamprb.inp
-INFO: 263 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-144: examples/ccx_2.16.test/beampset.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-145: examples/ccx_2.16.test/beampt.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-146: examples/ccx_2.16.test/beamptied1.inp
-INFO: 282 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 3 surfaces
-
-==================================================
-147: examples/ccx_2.16.test/beamptied1noadjust.inp
-INFO: 282 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 3 surfaces
-
-==================================================
-148: examples/ccx_2.16.test/beamptied2.inp
-INFO: 282 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 3 surfaces
-
-==================================================
-149: examples/ccx_2.16.test/beamptied3.inp
-INFO: 282 nodes
-INFO: 5 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 3 surfaces
-
-==================================================
-150: examples/ccx_2.16.test/beamptied4.inp
-INFO: 282 nodes
-INFO: 5 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 3 surfaces
-
-==================================================
-151: examples/ccx_2.16.test/beamptied5.inp
-INFO: 282 nodes
-INFO: 5 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 3 surfaces
-
-==================================================
-152: examples/ccx_2.16.test/beamptied6.inp
-INFO: 282 nodes
-INFO: 5 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 3 surfaces
-
-==================================================
-153: examples/ccx_2.16.test/beamptied7.inp
-INFO: 282 nodes
-INFO: 5 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 3 surfaces
-
-==================================================
-154: examples/ccx_2.16.test/beamptrans.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-155: examples/ccx_2.16.test/beamrb.inp
-INFO: 263 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-156: examples/ccx_2.16.test/beamrb2.inp
-INFO: 263 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-157: examples/ccx_2.16.test/beamread.inp
-INFO: 0 nodes
-INFO: 0 nsets
-INFO: 0 elements
-INFO: 0 elsets
-INFO: 0 surfaces
-
-==================================================
-158: examples/ccx_2.16.test/beamread2.inp
-INFO: 0 nodes
-INFO: 0 nsets
-INFO: 0 elements
-INFO: 0 elsets
-INFO: 0 surfaces
-
-==================================================
-159: examples/ccx_2.16.test/beamread3.inp
-INFO: 0 nodes
-INFO: 0 nsets
-INFO: 0 elements
-INFO: 0 elsets
-INFO: 0 surfaces
-
-==================================================
-160: examples/ccx_2.16.test/beamread4.inp
-INFO: 0 nodes
-INFO: 0 nsets
-INFO: 0 elements
-INFO: 0 elsets
-INFO: 0 surfaces
-
-==================================================
-161: examples/ccx_2.16.test/beamstraight.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-162: examples/ccx_2.16.test/beamt.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-163: examples/ccx_2.16.test/beamt2.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 4 elsets
-INFO: 0 surfaces
-
-==================================================
-164: examples/ccx_2.16.test/beamt3.inp
-INFO: 261 nodes
-INFO: 12 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-165: examples/ccx_2.16.test/beamt4.inp
-INFO: 261 nodes
-INFO: 7 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-166: examples/ccx_2.16.test/beamt6.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-167: examples/ccx_2.16.test/beamth.inp
-INFO: 262 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-168: examples/ccx_2.16.test/beamtor.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-169: examples/ccx_2.16.test/beamu.inp
-INFO: 261 nodes
-INFO: 6 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-170: examples/ccx_2.16.test/beamuamp.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-171: examples/ccx_2.16.test/beamwrite.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-172: examples/ccx_2.16.test/beamwrite2.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-173: examples/ccx_2.16.test/beamwrite3.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-174: examples/ccx_2.16.test/bifur.inp
-INFO: 13 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-175: examples/ccx_2.16.test/bolt.inp
-INFO: 1203 nodes
-INFO: 2 nsets
-INFO: 352 elements
-INFO: 3 elsets
-INFO: 6 surfaces
-
-==================================================
-176: examples/ccx_2.16.test/boxprofile.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 5 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-177: examples/ccx_2.16.test/boxprofile2.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 5 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-178: examples/ccx_2.16.test/branch1.inp
-INFO: 10 nodes
-INFO: 1 nsets
-INFO: 6 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-179: examples/ccx_2.16.test/branch2.inp
-INFO: 8 nodes
-INFO: 1 nsets
-INFO: 5 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-180: examples/ccx_2.16.test/branchjoint1.inp
-INFO: 14 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 4 elsets
-INFO: 0 surfaces
-
-==================================================
-181: examples/ccx_2.16.test/branchjoint2.inp
-INFO: 14 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 4 elsets
-INFO: 0 surfaces
-
-==================================================
-182: examples/ccx_2.16.test/branchjoint3.inp
-INFO: 14 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 4 elsets
-INFO: 0 surfaces
-
-==================================================
-183: examples/ccx_2.16.test/branchjoint4.inp
-INFO: 14 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 4 elsets
-INFO: 0 surfaces
-
-==================================================
-184: examples/ccx_2.16.test/branchsplit1.inp
-INFO: 14 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 4 elsets
-INFO: 0 surfaces
-
-==================================================
-185: examples/ccx_2.16.test/branchsplit2.inp
-INFO: 14 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 4 elsets
-INFO: 0 surfaces
-
-==================================================
-186: examples/ccx_2.16.test/branchsplit3.inp
-INFO: 14 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 4 elsets
-INFO: 0 surfaces
-
-==================================================
-187: examples/ccx_2.16.test/c3d15.inp
-INFO: 127 nodes
-INFO: 1 nsets
-INFO: 24 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-188: examples/ccx_2.16.test/c3d6.inp
-INFO: 16 nodes
-INFO: 1 nsets
-INFO: 6 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-189: examples/ccx_2.16.test/capacitor.inp
-INFO: 108 nodes
-INFO: 3 nsets
-INFO: 10 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-190: examples/ccx_2.16.test/carbonseal.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-191: examples/ccx_2.16.test/centheat1.inp
-INFO: 29 nodes
-INFO: 1 nsets
-INFO: 15 elements
-INFO: 8 elsets
-INFO: 0 surfaces
-
-==================================================
-192: examples/ccx_2.16.test/changefric.inp
-INFO: 16 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 2 surfaces
-
-==================================================
-193: examples/ccx_2.16.test/changesolidsection.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-194: examples/ccx_2.16.test/changesurfbeh.inp
-INFO: 16 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 2 surfaces
-
-==================================================
-195: examples/ccx_2.16.test/channel1.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 6 elements
-INFO: 6 elsets
-INFO: 0 surfaces
-
-==================================================
-196: examples/ccx_2.16.test/channel10.inp
-INFO: 19 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 10 elsets
-INFO: 0 surfaces
-
-==================================================
-197: examples/ccx_2.16.test/channel11.inp
-INFO: 19 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 10 elsets
-INFO: 0 surfaces
-
-==================================================
-198: examples/ccx_2.16.test/channel12.inp
-INFO: 19 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 10 elsets
-INFO: 0 surfaces
-
-==================================================
-199: examples/ccx_2.16.test/channel2.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 6 elements
-INFO: 6 elsets
-INFO: 0 surfaces
-
-==================================================
-200: examples/ccx_2.16.test/channel3.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 6 elements
-INFO: 6 elsets
-INFO: 0 surfaces
-
-==================================================
-201: examples/ccx_2.16.test/channel4.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 6 elements
-INFO: 6 elsets
-INFO: 0 surfaces
-
-==================================================
-202: examples/ccx_2.16.test/channel5.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 6 elements
-INFO: 6 elsets
-INFO: 0 surfaces
-
-==================================================
-203: examples/ccx_2.16.test/channel6.inp
-INFO: 55 nodes
-INFO: 1 nsets
-INFO: 27 elements
-INFO: 9 elsets
-INFO: 0 surfaces
-
-==================================================
-204: examples/ccx_2.16.test/channel7.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 6 elements
-INFO: 6 elsets
-INFO: 0 surfaces
-
-==================================================
-205: examples/ccx_2.16.test/channel9.inp
-INFO: 19 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 10 elsets
-INFO: 0 surfaces
-
-==================================================
-206: examples/ccx_2.16.test/chanson1.inp
-INFO: 31 nodes
-INFO: 1 nsets
-INFO: 15 elements
-INFO: 6 elsets
-INFO: 0 surfaces
-
-==================================================
-207: examples/ccx_2.16.test/characteristic.inp
-INFO: 7 nodes
-INFO: 1 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-208: examples/ccx_2.16.test/circ10p.inp
-INFO: 90 nodes
-INFO: 3 nsets
-INFO: 31 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-209: examples/ccx_2.16.test/circ10pfin.inp
-INFO: 3190 nodes
-INFO: 2 nsets
-INFO: 1849 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-210: examples/ccx_2.16.test/concretebeam.inp
-INFO: 53 nodes
-INFO: 3 nsets
-INFO: 10 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-211: examples/ccx_2.16.test/contact1.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-212: examples/ccx_2.16.test/contact10.inp
-INFO: 40 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-213: examples/ccx_2.16.test/contact11.inp
-INFO: 11 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-214: examples/ccx_2.16.test/contact12.inp
-INFO: 40 nodes
-INFO: 5 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-215: examples/ccx_2.16.test/contact2.inp
-INFO: 522 nodes
-INFO: 2 nsets
-INFO: 64 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-216: examples/ccx_2.16.test/contact3.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-217: examples/ccx_2.16.test/contact4.inp
-INFO: 40 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-218: examples/ccx_2.16.test/contact5.inp
-INFO: 40 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-219: examples/ccx_2.16.test/contact6.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-220: examples/ccx_2.16.test/contact7.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-221: examples/ccx_2.16.test/contact8.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-222: examples/ccx_2.16.test/contact9.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-223: examples/ccx_2.16.test/contactenergy.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-224: examples/ccx_2.16.test/contdamp1.inp
-INFO: 18 nodes
-INFO: 4 nsets
-INFO: 3 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-225: examples/ccx_2.16.test/contdamp2.inp
-INFO: 18 nodes
-INFO: 4 nsets
-INFO: 3 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-226: examples/ccx_2.16.test/cou.inp
-INFO: 242 nodes
-INFO: 1 nsets
-INFO: 100 elements
-INFO: 1 elsets
-INFO: 5 surfaces
-
-==================================================
-227: examples/ccx_2.16.test/cou2d.inp
-INFO: 242 nodes
-INFO: 1 nsets
-INFO: 100 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-228: examples/ccx_2.16.test/coucss.inp
-INFO: 242 nodes
-INFO: 1 nsets
-INFO: 100 elements
-INFO: 1 elsets
-INFO: 5 surfaces
-
-==================================================
-229: examples/ccx_2.16.test/couctr.inp
-INFO: 242 nodes
-INFO: 1 nsets
-INFO: 100 elements
-INFO: 1 elsets
-INFO: 5 surfaces
-
-==================================================
-230: examples/ccx_2.16.test/couette1.inp
-INFO: 84 nodes
-INFO: 1 nsets
-INFO: 20 elements
-INFO: 2 elsets
-INFO: 3 surfaces
-
-==================================================
-231: examples/ccx_2.16.test/couette2.inp
-INFO: 84 nodes
-INFO: 1 nsets
-INFO: 20 elements
-INFO: 2 elsets
-INFO: 3 surfaces
-
-==================================================
-232: examples/ccx_2.16.test/couettecyl.inp
-INFO: 320 nodes
-INFO: 1 nsets
-INFO: 128 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-233: examples/ccx_2.16.test/couettecyl4.inp
-INFO: 50 nodes
-INFO: 1 nsets
-INFO: 16 elements
-INFO: 1 elsets
-INFO: 3 surfaces
-
-==================================================
-234: examples/ccx_2.16.test/couettecylcent.inp
-INFO: 320 nodes
-INFO: 1 nsets
-INFO: 128 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-235: examples/ccx_2.16.test/couettecylcomp.inp
-INFO: 320 nodes
-INFO: 1 nsets
-INFO: 128 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-236: examples/ccx_2.16.test/coupling1.inp
-INFO: 262 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-237: examples/ccx_2.16.test/coupling2.inp
-INFO: 262 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-238: examples/ccx_2.16.test/coupling3.inp
-INFO: 262 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-239: examples/ccx_2.16.test/coupling4.inp
-INFO: 262 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-240: examples/ccx_2.16.test/coupling5.inp
-INFO: 262 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-241: examples/ccx_2.16.test/coupling6.inp
-INFO: 262 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-242: examples/ccx_2.16.test/coupling7.inp
-INFO: 262 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 1 surfaces
-
-==================================================
-243: examples/ccx_2.16.test/cube2.inp
-INFO: 40 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-244: examples/ccx_2.16.test/cubef2f1.inp
-INFO: 2961 nodes
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+125: ../examples/ccx_2.16.test/beamp_ciarlet.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+2 surfaces
+
+==================================================
+126: ../examples/ccx_2.16.test/beampd.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+127: ../examples/ccx_2.16.test/beampdepmpc.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+128: ../examples/ccx_2.16.test/beamperror.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+2 surfaces
+
+==================================================
+129: ../examples/ccx_2.16.test/beampfix.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+130: ../examples/ccx_2.16.test/beampic.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+131: ../examples/ccx_2.16.test/beampik.inp
+INFO: Mesh parser:
+261 nodes
+9 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+132: ../examples/ccx_2.16.test/beampis.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+133: ../examples/ccx_2.16.test/beampiso.inp
+INFO: Mesh parser:
+261 nodes
+9 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+134: ../examples/ccx_2.16.test/beampiso2.inp
+INFO: Mesh parser:
+261 nodes
+9 nsets
+32 elements
+3 elsets
+0 surfaces
+
+==================================================
+135: ../examples/ccx_2.16.test/beampisof.inp
+INFO: Mesh parser:
+261 nodes
+9 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+136: ../examples/ccx_2.16.test/beampkin.inp
+INFO: Mesh parser:
+261 nodes
+9 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+137: ../examples/ccx_2.16.test/beampl.inp
+INFO: Mesh parser:
+261 nodes
+9 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+138: ../examples/ccx_2.16.test/beamplane.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+139: ../examples/ccx_2.16.test/beampo1.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+140: ../examples/ccx_2.16.test/beampo2.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+141: ../examples/ccx_2.16.test/beampo3.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+142: ../examples/ccx_2.16.test/beamprand.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+143: ../examples/ccx_2.16.test/beamprb.inp
+INFO: Mesh parser:
+263 nodes
+4 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+144: ../examples/ccx_2.16.test/beampset.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+145: ../examples/ccx_2.16.test/beampt.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+146: ../examples/ccx_2.16.test/beamptied1.inp
+INFO: Mesh parser:
+282 nodes
+4 nsets
+32 elements
+1 elsets
+3 surfaces
+
+==================================================
+147: ../examples/ccx_2.16.test/beamptied1noadjust.inp
+INFO: Mesh parser:
+282 nodes
+4 nsets
+32 elements
+1 elsets
+3 surfaces
+
+==================================================
+148: ../examples/ccx_2.16.test/beamptied2.inp
+INFO: Mesh parser:
+282 nodes
+4 nsets
+32 elements
+1 elsets
+3 surfaces
+
+==================================================
+149: ../examples/ccx_2.16.test/beamptied3.inp
+INFO: Mesh parser:
+282 nodes
+5 nsets
+32 elements
+1 elsets
+3 surfaces
+
+==================================================
+150: ../examples/ccx_2.16.test/beamptied4.inp
+INFO: Mesh parser:
+282 nodes
+5 nsets
+32 elements
+1 elsets
+3 surfaces
+
+==================================================
+151: ../examples/ccx_2.16.test/beamptied5.inp
+INFO: Mesh parser:
+282 nodes
+5 nsets
+32 elements
+1 elsets
+3 surfaces
+
+==================================================
+152: ../examples/ccx_2.16.test/beamptied6.inp
+INFO: Mesh parser:
+282 nodes
+5 nsets
+32 elements
+1 elsets
+3 surfaces
+
+==================================================
+153: ../examples/ccx_2.16.test/beamptied7.inp
+INFO: Mesh parser:
+282 nodes
+5 nsets
+32 elements
+1 elsets
+3 surfaces
+
+==================================================
+154: ../examples/ccx_2.16.test/beamptrans.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+155: ../examples/ccx_2.16.test/beamrb.inp
+INFO: Mesh parser:
+263 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+156: ../examples/ccx_2.16.test/beamrb2.inp
+INFO: Mesh parser:
+263 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+157: ../examples/ccx_2.16.test/beamread.inp
+INFO: Mesh parser:
+0 nodes
+0 nsets
+0 elements
+0 elsets
+0 surfaces
+
+==================================================
+158: ../examples/ccx_2.16.test/beamread2.inp
+INFO: Mesh parser:
+0 nodes
+0 nsets
+0 elements
+0 elsets
+0 surfaces
+
+==================================================
+159: ../examples/ccx_2.16.test/beamread3.inp
+INFO: Mesh parser:
+0 nodes
+0 nsets
+0 elements
+0 elsets
+0 surfaces
+
+==================================================
+160: ../examples/ccx_2.16.test/beamread4.inp
+INFO: Mesh parser:
+0 nodes
+0 nsets
+0 elements
+0 elsets
+0 surfaces
+
+==================================================
+161: ../examples/ccx_2.16.test/beamstraight.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+162: ../examples/ccx_2.16.test/beamt.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+163: ../examples/ccx_2.16.test/beamt2.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+4 elsets
+0 surfaces
+
+==================================================
+164: ../examples/ccx_2.16.test/beamt3.inp
+INFO: Mesh parser:
+261 nodes
+12 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+165: ../examples/ccx_2.16.test/beamt4.inp
+INFO: Mesh parser:
+261 nodes
+7 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+166: ../examples/ccx_2.16.test/beamt6.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+167: ../examples/ccx_2.16.test/beamth.inp
+INFO: Mesh parser:
+262 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+168: ../examples/ccx_2.16.test/beamtor.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+2 elements
+1 elsets
+0 surfaces
+
+==================================================
+169: ../examples/ccx_2.16.test/beamu.inp
+INFO: Mesh parser:
+261 nodes
+6 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+170: ../examples/ccx_2.16.test/beamuamp.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+171: ../examples/ccx_2.16.test/beamwrite.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+172: ../examples/ccx_2.16.test/beamwrite2.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+173: ../examples/ccx_2.16.test/beamwrite3.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+174: ../examples/ccx_2.16.test/bifur.inp
+INFO: Mesh parser:
+13 nodes
+1 nsets
+8 elements
+2 elsets
+0 surfaces
+
+==================================================
+175: ../examples/ccx_2.16.test/bolt.inp
+INFO: Mesh parser:
+1203 nodes
+2 nsets
+352 elements
+3 elsets
+6 surfaces
+
+==================================================
+176: ../examples/ccx_2.16.test/boxprofile.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+5 elements
+1 elsets
+0 surfaces
+
+==================================================
+177: ../examples/ccx_2.16.test/boxprofile2.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+5 elements
+1 elsets
+0 surfaces
+
+==================================================
+178: ../examples/ccx_2.16.test/branch1.inp
+INFO: Mesh parser:
+10 nodes
+1 nsets
+6 elements
+1 elsets
+0 surfaces
+
+==================================================
+179: ../examples/ccx_2.16.test/branch2.inp
+INFO: Mesh parser:
+8 nodes
+1 nsets
+5 elements
+1 elsets
+0 surfaces
+
+==================================================
+180: ../examples/ccx_2.16.test/branchjoint1.inp
+INFO: Mesh parser:
+14 nodes
+1 nsets
+8 elements
+4 elsets
+0 surfaces
+
+==================================================
+181: ../examples/ccx_2.16.test/branchjoint2.inp
+INFO: Mesh parser:
+14 nodes
+1 nsets
+8 elements
+4 elsets
+0 surfaces
+
+==================================================
+182: ../examples/ccx_2.16.test/branchjoint3.inp
+INFO: Mesh parser:
+14 nodes
+1 nsets
+8 elements
+4 elsets
+0 surfaces
+
+==================================================
+183: ../examples/ccx_2.16.test/branchjoint4.inp
+INFO: Mesh parser:
+14 nodes
+1 nsets
+8 elements
+4 elsets
+0 surfaces
+
+==================================================
+184: ../examples/ccx_2.16.test/branchsplit1.inp
+INFO: Mesh parser:
+14 nodes
+1 nsets
+8 elements
+4 elsets
+0 surfaces
+
+==================================================
+185: ../examples/ccx_2.16.test/branchsplit2.inp
+INFO: Mesh parser:
+14 nodes
+1 nsets
+8 elements
+4 elsets
+0 surfaces
+
+==================================================
+186: ../examples/ccx_2.16.test/branchsplit3.inp
+INFO: Mesh parser:
+14 nodes
+1 nsets
+8 elements
+4 elsets
+0 surfaces
+
+==================================================
+187: ../examples/ccx_2.16.test/c3d15.inp
+INFO: Mesh parser:
+127 nodes
+1 nsets
+24 elements
+2 elsets
+0 surfaces
+
+==================================================
+188: ../examples/ccx_2.16.test/c3d6.inp
+INFO: Mesh parser:
+16 nodes
+1 nsets
+6 elements
+2 elsets
+0 surfaces
+
+==================================================
+189: ../examples/ccx_2.16.test/capacitor.inp
+INFO: Mesh parser:
+108 nodes
+3 nsets
+10 elements
+1 elsets
+1 surfaces
+
+==================================================
+190: ../examples/ccx_2.16.test/carbonseal.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
+
+==================================================
+191: ../examples/ccx_2.16.test/centheat1.inp
+INFO: Mesh parser:
+29 nodes
+1 nsets
+15 elements
+8 elsets
+0 surfaces
+
+==================================================
+192: ../examples/ccx_2.16.test/changefric.inp
+INFO: Mesh parser:
+16 nodes
+3 nsets
+2 elements
+3 elsets
+2 surfaces
+
+==================================================
+193: ../examples/ccx_2.16.test/changesolidsection.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+194: ../examples/ccx_2.16.test/changesurfbeh.inp
+INFO: Mesh parser:
+16 nodes
+3 nsets
+2 elements
+3 elsets
+2 surfaces
+
+==================================================
+195: ../examples/ccx_2.16.test/channel1.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+6 elements
+6 elsets
+0 surfaces
+
+==================================================
+196: ../examples/ccx_2.16.test/channel10.inp
+INFO: Mesh parser:
+19 nodes
+1 nsets
+10 elements
+10 elsets
+0 surfaces
+
+==================================================
+197: ../examples/ccx_2.16.test/channel11.inp
+INFO: Mesh parser:
+19 nodes
+1 nsets
+10 elements
+10 elsets
+0 surfaces
+
+==================================================
+198: ../examples/ccx_2.16.test/channel12.inp
+INFO: Mesh parser:
+19 nodes
+1 nsets
+10 elements
+10 elsets
+0 surfaces
+
+==================================================
+199: ../examples/ccx_2.16.test/channel2.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+6 elements
+6 elsets
+0 surfaces
+
+==================================================
+200: ../examples/ccx_2.16.test/channel3.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+6 elements
+6 elsets
+0 surfaces
+
+==================================================
+201: ../examples/ccx_2.16.test/channel4.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+6 elements
+6 elsets
+0 surfaces
+
+==================================================
+202: ../examples/ccx_2.16.test/channel5.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+6 elements
+6 elsets
+0 surfaces
+
+==================================================
+203: ../examples/ccx_2.16.test/channel6.inp
+INFO: Mesh parser:
+55 nodes
+1 nsets
+27 elements
+9 elsets
+0 surfaces
+
+==================================================
+204: ../examples/ccx_2.16.test/channel7.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+6 elements
+6 elsets
+0 surfaces
+
+==================================================
+205: ../examples/ccx_2.16.test/channel9.inp
+INFO: Mesh parser:
+19 nodes
+1 nsets
+10 elements
+10 elsets
+0 surfaces
+
+==================================================
+206: ../examples/ccx_2.16.test/chanson1.inp
+INFO: Mesh parser:
+31 nodes
+1 nsets
+15 elements
+6 elsets
+0 surfaces
+
+==================================================
+207: ../examples/ccx_2.16.test/characteristic.inp
+INFO: Mesh parser:
+7 nodes
+1 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+208: ../examples/ccx_2.16.test/circ10p.inp
+INFO: Mesh parser:
+90 nodes
+3 nsets
+31 elements
+1 elsets
+1 surfaces
+
+==================================================
+209: ../examples/ccx_2.16.test/circ10pfin.inp
+INFO: Mesh parser:
+3190 nodes
+2 nsets
+1849 elements
+1 elsets
+1 surfaces
+
+==================================================
+210: ../examples/ccx_2.16.test/concretebeam.inp
+INFO: Mesh parser:
+53 nodes
+3 nsets
+10 elements
+1 elsets
+0 surfaces
+
+==================================================
+211: ../examples/ccx_2.16.test/contact1.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+2 elsets
+2 surfaces
+
+==================================================
+212: ../examples/ccx_2.16.test/contact10.inp
+INFO: Mesh parser:
+40 nodes
+4 nsets
+2 elements
+1 elsets
+2 surfaces
+
+==================================================
+213: ../examples/ccx_2.16.test/contact11.inp
+INFO: Mesh parser:
+11 nodes
+3 nsets
+2 elements
+2 elsets
+2 surfaces
+
+==================================================
+214: ../examples/ccx_2.16.test/contact12.inp
+INFO: Mesh parser:
+40 nodes
+5 nsets
+2 elements
+1 elsets
+2 surfaces
+
+==================================================
+215: ../examples/ccx_2.16.test/contact2.inp
+INFO: Mesh parser:
+522 nodes
+2 nsets
+64 elements
+1 elsets
+2 surfaces
+
+==================================================
+216: ../examples/ccx_2.16.test/contact3.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+2 elsets
+2 surfaces
+
+==================================================
+217: ../examples/ccx_2.16.test/contact4.inp
+INFO: Mesh parser:
+40 nodes
+4 nsets
+2 elements
+1 elsets
+2 surfaces
+
+==================================================
+218: ../examples/ccx_2.16.test/contact5.inp
+INFO: Mesh parser:
+40 nodes
+3 nsets
+2 elements
+1 elsets
+2 surfaces
+
+==================================================
+219: ../examples/ccx_2.16.test/contact6.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+2 elsets
+2 surfaces
+
+==================================================
+220: ../examples/ccx_2.16.test/contact7.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+2 elsets
+2 surfaces
+
+==================================================
+221: ../examples/ccx_2.16.test/contact8.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+2 elsets
+2 surfaces
+
+==================================================
+222: ../examples/ccx_2.16.test/contact9.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+2 elsets
+2 surfaces
+
+==================================================
+223: ../examples/ccx_2.16.test/contactenergy.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+2 elsets
+2 surfaces
+
+==================================================
+224: ../examples/ccx_2.16.test/contdamp1.inp
+INFO: Mesh parser:
+18 nodes
+4 nsets
+3 elements
+2 elsets
+2 surfaces
+
+==================================================
+225: ../examples/ccx_2.16.test/contdamp2.inp
+INFO: Mesh parser:
+18 nodes
+4 nsets
+3 elements
+2 elsets
+2 surfaces
+
+==================================================
+226: ../examples/ccx_2.16.test/cou.inp
+INFO: Mesh parser:
+242 nodes
+1 nsets
+100 elements
+1 elsets
+5 surfaces
+
+==================================================
+227: ../examples/ccx_2.16.test/cou2d.inp
+INFO: Mesh parser:
+242 nodes
+1 nsets
+100 elements
+1 elsets
+1 surfaces
+
+==================================================
+228: ../examples/ccx_2.16.test/coucss.inp
+INFO: Mesh parser:
+242 nodes
+1 nsets
+100 elements
+1 elsets
+5 surfaces
+
+==================================================
+229: ../examples/ccx_2.16.test/couctr.inp
+INFO: Mesh parser:
+242 nodes
+1 nsets
+100 elements
+1 elsets
+5 surfaces
+
+==================================================
+230: ../examples/ccx_2.16.test/couette1.inp
+INFO: Mesh parser:
+84 nodes
+1 nsets
+20 elements
+2 elsets
+3 surfaces
+
+==================================================
+231: ../examples/ccx_2.16.test/couette2.inp
+INFO: Mesh parser:
+84 nodes
+1 nsets
+20 elements
+2 elsets
+3 surfaces
+
+==================================================
+232: ../examples/ccx_2.16.test/couettecyl.inp
+INFO: Mesh parser:
+320 nodes
+1 nsets
+128 elements
+1 elsets
+1 surfaces
+
+==================================================
+233: ../examples/ccx_2.16.test/couettecyl4.inp
+INFO: Mesh parser:
+50 nodes
+1 nsets
+16 elements
+1 elsets
+3 surfaces
+
+==================================================
+234: ../examples/ccx_2.16.test/couettecylcent.inp
+INFO: Mesh parser:
+320 nodes
+1 nsets
+128 elements
+1 elsets
+1 surfaces
+
+==================================================
+235: ../examples/ccx_2.16.test/couettecylcomp.inp
+INFO: Mesh parser:
+320 nodes
+1 nsets
+128 elements
+1 elsets
+1 surfaces
+
+==================================================
+236: ../examples/ccx_2.16.test/coupling1.inp
+INFO: Mesh parser:
+262 nodes
+4 nsets
+32 elements
+1 elsets
+1 surfaces
+
+==================================================
+237: ../examples/ccx_2.16.test/coupling2.inp
+INFO: Mesh parser:
+262 nodes
+4 nsets
+32 elements
+1 elsets
+1 surfaces
+
+==================================================
+238: ../examples/ccx_2.16.test/coupling3.inp
+INFO: Mesh parser:
+262 nodes
+3 nsets
+32 elements
+1 elsets
+1 surfaces
+
+==================================================
+239: ../examples/ccx_2.16.test/coupling4.inp
+INFO: Mesh parser:
+262 nodes
+4 nsets
+32 elements
+1 elsets
+1 surfaces
+
+==================================================
+240: ../examples/ccx_2.16.test/coupling5.inp
+INFO: Mesh parser:
+262 nodes
+4 nsets
+32 elements
+1 elsets
+1 surfaces
+
+==================================================
+241: ../examples/ccx_2.16.test/coupling6.inp
+INFO: Mesh parser:
+262 nodes
+4 nsets
+32 elements
+1 elsets
+1 surfaces
+
+==================================================
+242: ../examples/ccx_2.16.test/coupling7.inp
+INFO: Mesh parser:
+262 nodes
+4 nsets
+32 elements
+1 elsets
+1 surfaces
+
+==================================================
+243: ../examples/ccx_2.16.test/cube2.inp
+INFO: Mesh parser:
+40 nodes
+1 nsets
+2 elements
+3 elsets
+0 surfaces
+
+==================================================
+244: ../examples/ccx_2.16.test/cubef2f1.inp
 WARNING: Duplicated set name Nbottom!
 WARNING: Duplicated set name Ntop!
-INFO: 2 nsets
 WARNING: Duplicated set name auto1!
-INFO: 632 elements
-INFO: 2 elsets
-INFO: 2 surfaces
+INFO: Mesh parser:
+2961 nodes
+2 nsets
+632 elements
+2 elsets
+2 surfaces
 
 ==================================================
-245: examples/ccx_2.16.test/cubef2f2.inp
-INFO: 2961 nodes
+245: ../examples/ccx_2.16.test/cubef2f2.inp
 WARNING: Duplicated set name Nbottom!
 WARNING: Duplicated set name Ntop!
-INFO: 2 nsets
 WARNING: Duplicated set name auto1!
-INFO: 632 elements
-INFO: 2 elsets
-INFO: 2 surfaces
+INFO: Mesh parser:
+2961 nodes
+2 nsets
+632 elements
+2 elsets
+2 surfaces
 
 ==================================================
-246: examples/ccx_2.16.test/cubef2f3.inp
-INFO: 2961 nodes
+246: ../examples/ccx_2.16.test/cubef2f3.inp
 WARNING: Duplicated set name Nbottom!
 WARNING: Duplicated set name Ntop!
-INFO: 2 nsets
 WARNING: Duplicated set name auto1!
-INFO: 632 elements
-INFO: 2 elsets
-INFO: 2 surfaces
+INFO: Mesh parser:
+2961 nodes
+2 nsets
+632 elements
+2 elsets
+2 surfaces
 
 ==================================================
-247: examples/ccx_2.16.test/cubenewt.inp
-INFO: 40 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+247: ../examples/ccx_2.16.test/cubenewt.inp
+INFO: Mesh parser:
+40 nodes
+3 nsets
+2 elements
+1 elsets
+0 surfaces
 
 ==================================================
-248: examples/ccx_2.16.test/cubespring.inp
-INFO: 128 nodes
-INFO: 3 nsets
-INFO: 54 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+248: ../examples/ccx_2.16.test/cubespring.inp
+INFO: Mesh parser:
+128 nodes
+3 nsets
+54 elements
+1 elsets
+2 surfaces
 
 ==================================================
-249: examples/ccx_2.16.test/cyl.inp
-INFO: 1201 nodes
-INFO: 2 nsets
-INFO: 160 elements
-INFO: 1 elsets
-INFO: 1 surfaces
+249: ../examples/ccx_2.16.test/cyl.inp
+INFO: Mesh parser:
+1201 nodes
+2 nsets
+160 elements
+1 elsets
+1 surfaces
 
 ==================================================
-250: examples/ccx_2.16.test/dam.inp
-INFO: 1045 nodes
-INFO: 3 nsets
-INFO: 320 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+250: ../examples/ccx_2.16.test/dam.inp
+INFO: Mesh parser:
+1045 nodes
+3 nsets
+320 elements
+3 elsets
+0 surfaces
 
 ==================================================
-251: examples/ccx_2.16.test/dashpot1.inp
-INFO: 10 nodes
-INFO: 3 nsets
-INFO: 3 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+251: ../examples/ccx_2.16.test/dashpot1.inp
+INFO: Mesh parser:
+10 nodes
+3 nsets
+3 elements
+3 elsets
+0 surfaces
 
 ==================================================
-252: examples/ccx_2.16.test/dashpot2.inp
-INFO: 10 nodes
-INFO: 4 nsets
-INFO: 3 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+252: ../examples/ccx_2.16.test/dashpot2.inp
+INFO: Mesh parser:
+10 nodes
+4 nsets
+3 elements
+3 elsets
+0 surfaces
 
 ==================================================
-253: examples/ccx_2.16.test/dashpot3.inp
-INFO: 10 nodes
-INFO: 3 nsets
-INFO: 3 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+253: ../examples/ccx_2.16.test/dashpot3.inp
+INFO: Mesh parser:
+10 nodes
+3 nsets
+3 elements
+3 elsets
+0 surfaces
 
 ==================================================
-254: examples/ccx_2.16.test/dashpot5.inp
-INFO: 10 nodes
-INFO: 3 nsets
-INFO: 3 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+254: ../examples/ccx_2.16.test/dashpot5.inp
+INFO: Mesh parser:
+10 nodes
+3 nsets
+3 elements
+3 elsets
+0 surfaces
 
 ==================================================
-255: examples/ccx_2.16.test/dashpot6.inp
-INFO: 10 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+255: ../examples/ccx_2.16.test/dashpot6.inp
+INFO: Mesh parser:
+10 nodes
+3 nsets
+2 elements
+2 elsets
+0 surfaces
 
 ==================================================
-256: examples/ccx_2.16.test/disk2.inp
-INFO: 102 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+256: ../examples/ccx_2.16.test/disk2.inp
+INFO: Mesh parser:
+102 nodes
+1 nsets
+8 elements
+3 elsets
+0 surfaces
 
 ==================================================
-257: examples/ccx_2.16.test/dist.inp
-INFO: 262 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+257: ../examples/ccx_2.16.test/dist.inp
+INFO: Mesh parser:
+262 nodes
+4 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-258: examples/ccx_2.16.test/distcoup.inp
-INFO: 262 nodes
-INFO: 3 nsets
-INFO: 33 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+258: ../examples/ccx_2.16.test/distcoup.inp
+INFO: Mesh parser:
+262 nodes
+3 nsets
+33 elements
+2 elsets
+0 surfaces
 
 ==================================================
-259: examples/ccx_2.16.test/distcoup2.inp
-INFO: 263 nodes
-INFO: 4 nsets
-INFO: 34 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+259: ../examples/ccx_2.16.test/distcoup2.inp
+INFO: Mesh parser:
+263 nodes
+4 nsets
+34 elements
+3 elsets
+0 surfaces
 
 ==================================================
-260: examples/ccx_2.16.test/dloadlin20f.inp
-INFO: 188 nodes
-INFO: 2 nsets
-INFO: 15 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+260: ../examples/ccx_2.16.test/dloadlin20f.inp
+INFO: Mesh parser:
+188 nodes
+2 nsets
+15 elements
+1 elsets
+0 surfaces
 
 ==================================================
-261: examples/ccx_2.16.test/dloadlinI.inp
-INFO: 188 nodes
-INFO: 3 nsets
-INFO: 15 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+261: ../examples/ccx_2.16.test/dloadlinI.inp
+INFO: Mesh parser:
+188 nodes
+3 nsets
+15 elements
+1 elsets
+0 surfaces
 
 ==================================================
-262: examples/ccx_2.16.test/dloadlinIf.inp
-INFO: 188 nodes
-INFO: 3 nsets
-INFO: 15 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+262: ../examples/ccx_2.16.test/dloadlinIf.inp
+INFO: Mesh parser:
+188 nodes
+3 nsets
+15 elements
+1 elsets
+0 surfaces
 
 ==================================================
-263: examples/ccx_2.16.test/dyncube.inp
-INFO: 8 nodes
-INFO: 1 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+263: ../examples/ccx_2.16.test/dyncube.inp
+INFO: Mesh parser:
+8 nodes
+1 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-264: examples/ccx_2.16.test/dyncubeexp.inp
-INFO: 8 nodes
-INFO: 1 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+264: ../examples/ccx_2.16.test/dyncubeexp.inp
+INFO: Mesh parser:
+8 nodes
+1 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-265: examples/ccx_2.16.test/edgeload.inp
-INFO: 744 nodes
-INFO: 9 nsets
-INFO: 233 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+265: ../examples/ccx_2.16.test/edgeload.inp
+INFO: Mesh parser:
+744 nodes
+9 nsets
+233 elements
+2 elsets
+0 surfaces
 
 ==================================================
-266: examples/ccx_2.16.test/equrem1.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+266: ../examples/ccx_2.16.test/equrem1.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+1 elsets
+0 surfaces
 
 ==================================================
-267: examples/ccx_2.16.test/equrem2.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+267: ../examples/ccx_2.16.test/equrem2.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+1 elsets
+0 surfaces
 
 ==================================================
-268: examples/ccx_2.16.test/equrem3.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+268: ../examples/ccx_2.16.test/equrem3.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+1 elsets
+0 surfaces
 
 ==================================================
-269: examples/ccx_2.16.test/equrem4.inp
-INFO: 175 nodes
-INFO: 4 nsets
-INFO: 34 elements
-INFO: 2 elsets
-INFO: 1 surfaces
+269: ../examples/ccx_2.16.test/equrem4.inp
+INFO: Mesh parser:
+175 nodes
+4 nsets
+34 elements
+2 elsets
+1 surfaces
 
 ==================================================
-270: examples/ccx_2.16.test/fluidread.inp
-INFO: 0 nodes
-INFO: 0 nsets
-INFO: 0 elements
-INFO: 0 elsets
-INFO: 0 surfaces
+270: ../examples/ccx_2.16.test/fluidread.inp
+INFO: Mesh parser:
+0 nodes
+0 nsets
+0 elements
+0 elsets
+0 surfaces
 
 ==================================================
-271: examples/ccx_2.16.test/fluidwrite.inp
-INFO: 286 nodes
-INFO: 1 nsets
-INFO: 120 elements
-INFO: 1 elsets
-INFO: 5 surfaces
+271: ../examples/ccx_2.16.test/fluidwrite.inp
+INFO: Mesh parser:
+286 nodes
+1 nsets
+120 elements
+1 elsets
+5 surfaces
 
 ==================================================
-272: examples/ccx_2.16.test/fricloop.inp
-INFO: 16 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 2 surfaces
+272: ../examples/ccx_2.16.test/fricloop.inp
+INFO: Mesh parser:
+16 nodes
+3 nsets
+2 elements
+3 elsets
+2 surfaces
 
 ==================================================
-273: examples/ccx_2.16.test/friction1.inp
-INFO: 250 nodes
-INFO: 3 nsets
-INFO: 128 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+273: ../examples/ccx_2.16.test/friction1.inp
+INFO: Mesh parser:
+250 nodes
+3 nsets
+128 elements
+1 elsets
+2 surfaces
 
 ==================================================
-274: examples/ccx_2.16.test/friction2.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+274: ../examples/ccx_2.16.test/friction2.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+1 elsets
+2 surfaces
 
 ==================================================
-275: examples/ccx_2.16.test/friction3.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+275: ../examples/ccx_2.16.test/friction3.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+1 elsets
+2 surfaces
 
 ==================================================
-276: examples/ccx_2.16.test/fullseg.inp
-INFO: 1013 nodes
-INFO: 3 nsets
-INFO: 160 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+276: ../examples/ccx_2.16.test/fullseg.inp
+INFO: Mesh parser:
+1013 nodes
+3 nsets
+160 elements
+1 elsets
+2 surfaces
 
 ==================================================
-277: examples/ccx_2.16.test/furnace.inp
-INFO: 613 nodes
-INFO: 3 nsets
-INFO: 305 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+277: ../examples/ccx_2.16.test/furnace.inp
+INFO: Mesh parser:
+613 nodes
+3 nsets
+305 elements
+2 elsets
+0 surfaces
 
 ==================================================
-278: examples/ccx_2.16.test/gap.inp
-INFO: 522 nodes
-INFO: 3 nsets
-INFO: 65 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+278: ../examples/ccx_2.16.test/gap.inp
+INFO: Mesh parser:
+522 nodes
+3 nsets
+65 elements
+2 elsets
+0 surfaces
 
 ==================================================
-279: examples/ccx_2.16.test/gap2.inp
-INFO: 16 nodes
-INFO: 3 nsets
-INFO: 6 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+279: ../examples/ccx_2.16.test/gap2.inp
+INFO: Mesh parser:
+16 nodes
+3 nsets
+6 elements
+2 elsets
+0 surfaces
 
 ==================================================
-280: examples/ccx_2.16.test/gaspipe-cfd-pressure.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+280: ../examples/ccx_2.16.test/gaspipe-cfd-pressure.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-281: examples/ccx_2.16.test/gaspipe-fanno10.inp
-INFO: 23 nodes
-INFO: 1 nsets
-INFO: 12 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+281: ../examples/ccx_2.16.test/gaspipe-fanno10.inp
+INFO: Mesh parser:
+23 nodes
+1 nsets
+12 elements
+1 elsets
+0 surfaces
 
 ==================================================
-282: examples/ccx_2.16.test/gaspipe-fanno8-oil.inp
-INFO: 21 nodes
-INFO: 1 nsets
-INFO: 11 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+282: ../examples/ccx_2.16.test/gaspipe-fanno8-oil.inp
+INFO: Mesh parser:
+21 nodes
+1 nsets
+11 elements
+1 elsets
+0 surfaces
 
 ==================================================
-283: examples/ccx_2.16.test/gaspipe-fanno9.inp
-INFO: 21 nodes
-INFO: 2 nsets
+283: ../examples/ccx_2.16.test/gaspipe-fanno9.inp
 WARNING: Duplicated set name PIPE7!
 WARNING: Duplicated set name PIPE7!
 WARNING: Duplicated set name PIPE7!
@@ -3333,464 +3613,527 @@ WARNING: Duplicated set name PIPE7!
 WARNING: Duplicated set name PIPE7!
 WARNING: Duplicated set name PIPE7!
 WARNING: Duplicated set name PIPE7!
-INFO: 11 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+21 nodes
+2 nsets
+11 elements
+3 elsets
+0 surfaces
 
 ==================================================
-284: examples/ccx_2.16.test/gaspipe1-oil.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+284: ../examples/ccx_2.16.test/gaspipe1-oil.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-285: examples/ccx_2.16.test/gaspipe1.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+285: ../examples/ccx_2.16.test/gaspipe1.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-286: examples/ccx_2.16.test/gaspipe11.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+286: ../examples/ccx_2.16.test/gaspipe11.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-287: examples/ccx_2.16.test/gaspipe12.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+287: ../examples/ccx_2.16.test/gaspipe12.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-288: examples/ccx_2.16.test/gaspipe13.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+288: ../examples/ccx_2.16.test/gaspipe13.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-289: examples/ccx_2.16.test/gaspipe14.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+289: ../examples/ccx_2.16.test/gaspipe14.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-290: examples/ccx_2.16.test/gaspipe15.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+290: ../examples/ccx_2.16.test/gaspipe15.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-291: examples/ccx_2.16.test/gaspipe2.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+291: ../examples/ccx_2.16.test/gaspipe2.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-292: examples/ccx_2.16.test/gaspipe3.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+292: ../examples/ccx_2.16.test/gaspipe3.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-293: examples/ccx_2.16.test/gaspipe4.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+293: ../examples/ccx_2.16.test/gaspipe4.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-294: examples/ccx_2.16.test/gaspipe5.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+294: ../examples/ccx_2.16.test/gaspipe5.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-295: examples/ccx_2.16.test/gaspipe6.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+295: ../examples/ccx_2.16.test/gaspipe6.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-296: examples/ccx_2.16.test/gaspipe7.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+296: ../examples/ccx_2.16.test/gaspipe7.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-297: examples/ccx_2.16.test/gaspipe8-cfd-massflow.inp
-INFO: 19 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+297: ../examples/ccx_2.16.test/gaspipe8-cfd-massflow.inp
+INFO: Mesh parser:
+19 nodes
+1 nsets
+10 elements
+3 elsets
+0 surfaces
 
 ==================================================
-298: examples/ccx_2.16.test/gaspipe8-cfd-pressure-split.inp
-INFO: 22 nodes
-INFO: 1 nsets
-INFO: 12 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+298: ../examples/ccx_2.16.test/gaspipe8-cfd-pressure-split.inp
+INFO: Mesh parser:
+22 nodes
+1 nsets
+12 elements
+3 elsets
+0 surfaces
 
 ==================================================
-299: examples/ccx_2.16.test/gaspipe8-cfd-pressure.inp
-INFO: 19 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+299: ../examples/ccx_2.16.test/gaspipe8-cfd-pressure.inp
+INFO: Mesh parser:
+19 nodes
+1 nsets
+10 elements
+3 elsets
+0 surfaces
 
 ==================================================
-300: examples/ccx_2.16.test/gaspipe8-oil.inp
-INFO: 21 nodes
-INFO: 1 nsets
-INFO: 11 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+300: ../examples/ccx_2.16.test/gaspipe8-oil.inp
+INFO: Mesh parser:
+21 nodes
+1 nsets
+11 elements
+1 elsets
+0 surfaces
 
 ==================================================
-301: examples/ccx_2.16.test/gaspipe8.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+301: ../examples/ccx_2.16.test/gaspipe8.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-302: examples/ccx_2.16.test/gaspipe9.inp
-INFO: 21 nodes
-INFO: 1 nsets
-INFO: 11 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+302: ../examples/ccx_2.16.test/gaspipe9.inp
+INFO: Mesh parser:
+21 nodes
+1 nsets
+11 elements
+1 elsets
+0 surfaces
 
 ==================================================
-303: examples/ccx_2.16.test/gaspres.inp
-INFO: 13 nodes
-INFO: 1 nsets
-INFO: 4 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+303: ../examples/ccx_2.16.test/gaspres.inp
+INFO: Mesh parser:
+13 nodes
+1 nsets
+4 elements
+2 elsets
+0 surfaces
 
 ==================================================
-304: examples/ccx_2.16.test/green1.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+304: ../examples/ccx_2.16.test/green1.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-305: examples/ccx_2.16.test/green2.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+305: ../examples/ccx_2.16.test/green2.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-306: examples/ccx_2.16.test/green3.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+306: ../examples/ccx_2.16.test/green3.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-307: examples/ccx_2.16.test/green4.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+307: ../examples/ccx_2.16.test/green4.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-308: examples/ccx_2.16.test/greencyc1.inp
-INFO: 661 nodes
-INFO: 6 nsets
-INFO: 96 elements
-INFO: 2 elsets
-INFO: 2 surfaces
+308: ../examples/ccx_2.16.test/greencyc1.inp
+INFO: Mesh parser:
+661 nodes
+6 nsets
+96 elements
+2 elsets
+2 surfaces
 
 ==================================================
-309: examples/ccx_2.16.test/greencyc2.inp
-INFO: 661 nodes
-INFO: 6 nsets
-INFO: 96 elements
-INFO: 2 elsets
-INFO: 2 surfaces
+309: ../examples/ccx_2.16.test/greencyc2.inp
+INFO: Mesh parser:
+661 nodes
+6 nsets
+96 elements
+2 elsets
+2 surfaces
 
 ==================================================
-310: examples/ccx_2.16.test/hinge.inp
-INFO: 262 nodes
-INFO: 1 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 1 surfaces
+310: ../examples/ccx_2.16.test/hinge.inp
+INFO: Mesh parser:
+262 nodes
+1 nsets
+32 elements
+1 elsets
+1 surfaces
 
 ==================================================
-311: examples/ccx_2.16.test/hueeber1.inp
-INFO: 17524 nodes
-INFO: 10 nsets
-INFO: 8500 elements
-INFO: 3 elsets
-INFO: 2 surfaces
+311: ../examples/ccx_2.16.test/hueeber1.inp
+INFO: Mesh parser:
+17524 nodes
+10 nsets
+8500 elements
+3 elsets
+2 surfaces
 
 ==================================================
-312: examples/ccx_2.16.test/hueeber2.inp
-INFO: 17524 nodes
-INFO: 10 nsets
-INFO: 8500 elements
-INFO: 3 elsets
-INFO: 2 surfaces
+312: ../examples/ccx_2.16.test/hueeber2.inp
+INFO: Mesh parser:
+17524 nodes
+10 nsets
+8500 elements
+3 elsets
+2 surfaces
 
 ==================================================
-313: examples/ccx_2.16.test/hueeber3.inp
-INFO: 17524 nodes
-INFO: 10 nsets
-INFO: 8500 elements
-INFO: 3 elsets
-INFO: 2 surfaces
+313: ../examples/ccx_2.16.test/hueeber3.inp
+INFO: Mesh parser:
+17524 nodes
+10 nsets
+8500 elements
+3 elsets
+2 surfaces
 
 ==================================================
-314: examples/ccx_2.16.test/hueeber4.inp
-INFO: 17524 nodes
-INFO: 10 nsets
-INFO: 8500 elements
-INFO: 3 elsets
-INFO: 2 surfaces
+314: ../examples/ccx_2.16.test/hueeber4.inp
+INFO: Mesh parser:
+17524 nodes
+10 nsets
+8500 elements
+3 elsets
+2 surfaces
 
 ==================================================
-315: examples/ccx_2.16.test/impdyn.inp
-INFO: 2658 nodes
-INFO: 2 nsets
-INFO: 368 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+315: ../examples/ccx_2.16.test/impdyn.inp
+INFO: Mesh parser:
+2658 nodes
+2 nsets
+368 elements
+1 elsets
+0 surfaces
 
 ==================================================
-316: examples/ccx_2.16.test/induction.inp
-INFO: 3013 nodes
-INFO: 3 nsets
+316: ../examples/ccx_2.16.test/induction.inp
 WARNING: Duplicated set name Eall!
-INFO: 612 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+3013 nodes
+3 nsets
+612 elements
+3 elsets
+0 surfaces
 
 ==================================================
-317: examples/ccx_2.16.test/induction2.inp
-INFO: 3199 nodes
-INFO: 7 nsets
-INFO: 1712 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+317: ../examples/ccx_2.16.test/induction2.inp
+INFO: Mesh parser:
+3199 nodes
+7 nsets
+1712 elements
+3 elsets
+0 surfaces
 
 ==================================================
-318: examples/ccx_2.16.test/induction3.inp
-INFO: 3199 nodes
-INFO: 7 nsets
-INFO: 1712 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+318: ../examples/ccx_2.16.test/induction3.inp
+INFO: Mesh parser:
+3199 nodes
+7 nsets
+1712 elements
+3 elsets
+0 surfaces
 
 ==================================================
-319: examples/ccx_2.16.test/inistrain.inp
-INFO: 20 nodes
-INFO: 2 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+319: ../examples/ccx_2.16.test/inistrain.inp
+INFO: Mesh parser:
+20 nodes
+2 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-320: examples/ccx_2.16.test/inistrain2.inp
-INFO: 20 nodes
-INFO: 2 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+320: ../examples/ccx_2.16.test/inistrain2.inp
+INFO: Mesh parser:
+20 nodes
+2 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-321: examples/ccx_2.16.test/labyrinth1fin.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+321: ../examples/ccx_2.16.test/labyrinth1fin.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-322: examples/ccx_2.16.test/labyrinthstepped.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+322: ../examples/ccx_2.16.test/labyrinthstepped.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-323: examples/ccx_2.16.test/labyrinthstraight.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+323: ../examples/ccx_2.16.test/labyrinthstraight.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-324: examples/ccx_2.16.test/largerot1.inp
-INFO: 261 nodes
-INFO: 0 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+324: ../examples/ccx_2.16.test/largerot1.inp
+INFO: Mesh parser:
+261 nodes
+0 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-325: examples/ccx_2.16.test/largerot2.inp
-INFO: 261 nodes
-INFO: 0 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+325: ../examples/ccx_2.16.test/largerot2.inp
+INFO: Mesh parser:
+261 nodes
+0 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-326: examples/ccx_2.16.test/largerot3.inp
-INFO: 261 nodes
-INFO: 0 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+326: ../examples/ccx_2.16.test/largerot3.inp
+INFO: Mesh parser:
+261 nodes
+0 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-327: examples/ccx_2.16.test/largerot4.inp
-INFO: 261 nodes
-INFO: 0 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+327: ../examples/ccx_2.16.test/largerot4.inp
+INFO: Mesh parser:
+261 nodes
+0 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-328: examples/ccx_2.16.test/largerot5.inp
-INFO: 261 nodes
-INFO: 0 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+328: ../examples/ccx_2.16.test/largerot5.inp
+INFO: Mesh parser:
+261 nodes
+0 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-329: examples/ccx_2.16.test/leifer1.inp
-INFO: 341 nodes
-INFO: 3 nsets
-INFO: 100 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+329: ../examples/ccx_2.16.test/leifer1.inp
+INFO: Mesh parser:
+341 nodes
+3 nsets
+100 elements
+1 elsets
+0 surfaces
 
 ==================================================
-330: examples/ccx_2.16.test/leifer2.inp
-INFO: 341 nodes
-INFO: 3 nsets
-INFO: 100 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+330: ../examples/ccx_2.16.test/leifer2.inp
+INFO: Mesh parser:
+341 nodes
+3 nsets
+100 elements
+1 elsets
+0 surfaces
 
 ==================================================
-331: examples/ccx_2.16.test/linearnet.inp
-INFO: 7 nodes
-INFO: 1 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+331: ../examples/ccx_2.16.test/linearnet.inp
+INFO: Mesh parser:
+7 nodes
+1 nsets
+4 elements
+1 elsets
+0 surfaces
 
 ==================================================
-332: examples/ccx_2.16.test/load1.inp
-INFO: 40 nodes
-INFO: 2 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 2 surfaces
+332: ../examples/ccx_2.16.test/load1.inp
+INFO: Mesh parser:
+40 nodes
+2 nsets
+2 elements
+2 elsets
+2 surfaces
 
 ==================================================
-333: examples/ccx_2.16.test/mass1.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 33 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+333: ../examples/ccx_2.16.test/mass1.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+33 elements
+2 elsets
+0 surfaces
 
 ==================================================
-334: examples/ccx_2.16.test/mass2.inp
-INFO: 261 nodes
-INFO: 1 nsets
-INFO: 33 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+334: ../examples/ccx_2.16.test/mass2.inp
+INFO: Mesh parser:
+261 nodes
+1 nsets
+33 elements
+3 elsets
+0 surfaces
 
 ==================================================
-335: examples/ccx_2.16.test/mass3.inp
-INFO: 13 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+335: ../examples/ccx_2.16.test/mass3.inp
+INFO: Mesh parser:
+13 nodes
+1 nsets
+3 elements
+2 elsets
+0 surfaces
 
 ==================================================
-336: examples/ccx_2.16.test/massflow_percent_ccx.inp
-INFO: 12 nodes
-INFO: 1 nsets
-INFO: 7 elements
-INFO: 7 elsets
-INFO: 0 surfaces
+336: ../examples/ccx_2.16.test/massflow_percent_ccx.inp
+INFO: Mesh parser:
+12 nodes
+1 nsets
+7 elements
+7 elsets
+0 surfaces
 
 ==================================================
-337: examples/ccx_2.16.test/membrane1.inp
-INFO: 9 nodes
-INFO: 2 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+337: ../examples/ccx_2.16.test/membrane1.inp
+INFO: Mesh parser:
+9 nodes
+2 nsets
+4 elements
+1 elsets
+0 surfaces
 
 ==================================================
-338: examples/ccx_2.16.test/membrane2.inp
-INFO: 9 nodes
-INFO: 2 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+338: ../examples/ccx_2.16.test/membrane2.inp
+INFO: Mesh parser:
+9 nodes
+2 nsets
+4 elements
+1 elsets
+0 surfaces
 
 ==================================================
-339: examples/ccx_2.16.test/membrane3.inp
-INFO: 21 nodes
-INFO: 2 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+339: ../examples/ccx_2.16.test/membrane3.inp
+INFO: Mesh parser:
+21 nodes
+2 nsets
+4 elements
+1 elsets
+0 surfaces
 
 ==================================================
-340: examples/ccx_2.16.test/metalforming.inp
-INFO: 2032 nodes
-INFO: 22 nsets
-INFO: 848 elements
+340: ../examples/ccx_2.16.test/metalforming.inp
+ERROR: Can't parse nodes
+ERROR: Traceback (most recent call last):
+  File "/media/ihor/WORK/Calculix/cae/src/model/parsers/mesh.py", line 62, in __init__
+    getattr(self, 'parse_' + attrName)(lines)
+  File "/media/ihor/WORK/Calculix/cae/src/model/parsers/mesh.py", line 95, in parse_nodes
+    num = int(a[0]) # node number
+IndexError: list index out of range
 WARNING: Duplicated set name Grsheet_Volumes!
 WARNING: Duplicated set name Grmatrize_Volumes!
 WARNING: Duplicated set name Grstempel_Volumes!
@@ -3807,1308 +4150,1473 @@ WARNING: Duplicated set name Grmatrize_FacesF4!
 WARNING: Duplicated set name Grmatrize_FacesF5!
 WARNING: Duplicated set name Grmatrize_FacesF4!
 WARNING: Duplicated set name Grmatrize_FacesF5!
-INFO: 39 elsets
-INFO: 8 surfaces
+INFO: Mesh parser:
+21 nsets
+848 elements
+39 elsets
+8 surfaces
 
 ==================================================
-341: examples/ccx_2.16.test/modelchel.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+341: ../examples/ccx_2.16.test/modelchel.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-342: examples/ccx_2.16.test/modelchel2.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+342: ../examples/ccx_2.16.test/modelchel2.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-343: examples/ccx_2.16.test/modelchel3.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+343: ../examples/ccx_2.16.test/modelchel3.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+2 elsets
+0 surfaces
 
 ==================================================
-344: examples/ccx_2.16.test/moehring.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 6 elements
-INFO: 6 elsets
-INFO: 0 surfaces
+344: ../examples/ccx_2.16.test/moehring.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+6 elements
+6 elsets
+0 surfaces
 
 ==================================================
-345: examples/ccx_2.16.test/mpcforce.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 32 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+345: ../examples/ccx_2.16.test/mpcforce.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+32 elements
+3 elsets
+0 surfaces
 
 ==================================================
-346: examples/ccx_2.16.test/multistage.inp
-INFO: 1156 nodes
-INFO: 9 nsets
-INFO: 140 elements
-INFO: 3 elsets
-INFO: 6 surfaces
+346: ../examples/ccx_2.16.test/multistage.inp
+INFO: Mesh parser:
+1156 nodes
+9 nsets
+140 elements
+3 elsets
+6 surfaces
 
 ==================================================
-347: examples/ccx_2.16.test/networkmpc.inp
-INFO: 6 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+347: ../examples/ccx_2.16.test/networkmpc.inp
+INFO: Mesh parser:
+6 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-348: examples/ccx_2.16.test/networkmpc2.inp
-INFO: 10 nodes
-INFO: 1 nsets
-INFO: 6 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+348: ../examples/ccx_2.16.test/networkmpc2.inp
+INFO: Mesh parser:
+10 nodes
+1 nsets
+6 elements
+1 elsets
+0 surfaces
 
 ==================================================
-349: examples/ccx_2.16.test/oneel.inp
-INFO: 8 nodes
-INFO: 1 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+349: ../examples/ccx_2.16.test/oneel.inp
+INFO: Mesh parser:
+8 nodes
+1 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-350: examples/ccx_2.16.test/oneel20cf.inp
-INFO: 20 nodes
-INFO: 2 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+350: ../examples/ccx_2.16.test/oneel20cf.inp
+INFO: Mesh parser:
+20 nodes
+2 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-351: examples/ccx_2.16.test/oneel20df.inp
-INFO: 20 nodes
-INFO: 2 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+351: ../examples/ccx_2.16.test/oneel20df.inp
+INFO: Mesh parser:
+20 nodes
+2 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-352: examples/ccx_2.16.test/oneel20fi.inp
-INFO: 20 nodes
-INFO: 2 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+352: ../examples/ccx_2.16.test/oneel20fi.inp
+INFO: Mesh parser:
+20 nodes
+2 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-353: examples/ccx_2.16.test/oneel20rs.inp
-INFO: 20 nodes
-INFO: 2 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+353: ../examples/ccx_2.16.test/oneel20rs.inp
+INFO: Mesh parser:
+20 nodes
+2 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-354: examples/ccx_2.16.test/oneel8ra.inp
-INFO: 8 nodes
-INFO: 2 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+354: ../examples/ccx_2.16.test/oneel8ra.inp
+INFO: Mesh parser:
+8 nodes
+2 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-355: examples/ccx_2.16.test/oneeltruss.inp
-INFO: 9 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+355: ../examples/ccx_2.16.test/oneeltruss.inp
+INFO: Mesh parser:
+9 nodes
+1 nsets
+3 elements
+2 elsets
+0 surfaces
 
 ==================================================
-356: examples/ccx_2.16.test/opt1.inp
-INFO: 261 nodes
-INFO: 1 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+356: ../examples/ccx_2.16.test/opt1.inp
+INFO: Mesh parser:
+261 nodes
+1 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-357: examples/ccx_2.16.test/opt2.inp
-INFO: 261 nodes
-INFO: 0 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+357: ../examples/ccx_2.16.test/opt2.inp
+INFO: Mesh parser:
+261 nodes
+0 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-358: examples/ccx_2.16.test/opt3.inp
-INFO: 261 nodes
-INFO: 1 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+358: ../examples/ccx_2.16.test/opt3.inp
+INFO: Mesh parser:
+261 nodes
+1 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-359: examples/ccx_2.16.test/pendel.inp
-INFO: 6 nodes
-INFO: 2 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+359: ../examples/ccx_2.16.test/pendel.inp
+INFO: Mesh parser:
+6 nodes
+2 nsets
+2 elements
+1 elsets
+0 surfaces
 
 ==================================================
-360: examples/ccx_2.16.test/pipe.inp
-INFO: 25 nodes
-INFO: 1 nsets
-INFO: 13 elements
-INFO: 11 elsets
-INFO: 0 surfaces
+360: ../examples/ccx_2.16.test/pipe.inp
+INFO: Mesh parser:
+25 nodes
+1 nsets
+13 elements
+11 elsets
+0 surfaces
 
 ==================================================
-361: examples/ccx_2.16.test/pipe2.inp
-INFO: 9 nodes
-INFO: 1 nsets
-INFO: 5 elements
-INFO: 4 elsets
-INFO: 0 surfaces
+361: ../examples/ccx_2.16.test/pipe2.inp
+INFO: Mesh parser:
+9 nodes
+1 nsets
+5 elements
+4 elsets
+0 surfaces
 
 ==================================================
-362: examples/ccx_2.16.test/pipempc1.inp
-INFO: 8 nodes
-INFO: 1 nsets
-INFO: 5 elements
-INFO: 4 elsets
-INFO: 0 surfaces
+362: ../examples/ccx_2.16.test/pipempc1.inp
+INFO: Mesh parser:
+8 nodes
+1 nsets
+5 elements
+4 elsets
+0 surfaces
 
 ==================================================
-363: examples/ccx_2.16.test/pipempc2.inp
-INFO: 8 nodes
-INFO: 1 nsets
-INFO: 5 elements
-INFO: 4 elsets
-INFO: 0 surfaces
+363: ../examples/ccx_2.16.test/pipempc2.inp
+INFO: Mesh parser:
+8 nodes
+1 nsets
+5 elements
+4 elsets
+0 surfaces
 
 ==================================================
-364: examples/ccx_2.16.test/pipempc3.inp
-INFO: 12 nodes
-INFO: 1 nsets
-INFO: 7 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+364: ../examples/ccx_2.16.test/pipempc3.inp
+INFO: Mesh parser:
+12 nodes
+1 nsets
+7 elements
+3 elsets
+0 surfaces
 
 ==================================================
-365: examples/ccx_2.16.test/piperestrictor.inp
-INFO: 25 nodes
-INFO: 1 nsets
-INFO: 13 elements
-INFO: 11 elsets
-INFO: 0 surfaces
+365: ../examples/ccx_2.16.test/piperestrictor.inp
+INFO: Mesh parser:
+25 nodes
+1 nsets
+13 elements
+11 elsets
+0 surfaces
 
 ==================================================
-366: examples/ccx_2.16.test/planestrain.inp
-INFO: 4 nodes
-INFO: 1 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+366: ../examples/ccx_2.16.test/planestrain.inp
+INFO: Mesh parser:
+4 nodes
+1 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-367: examples/ccx_2.16.test/planestrain2.inp
-INFO: 8 nodes
-INFO: 1 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+367: ../examples/ccx_2.16.test/planestrain2.inp
+INFO: Mesh parser:
+8 nodes
+1 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-368: examples/ccx_2.16.test/planestress.inp
-INFO: 21 nodes
-INFO: 2 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+368: ../examples/ccx_2.16.test/planestress.inp
+INFO: Mesh parser:
+21 nodes
+2 nsets
+4 elements
+1 elsets
+0 surfaces
 
 ==================================================
-369: examples/ccx_2.16.test/planestress2.inp
-INFO: 21 nodes
-INFO: 2 nsets
-INFO: 4 elements
-INFO: 5 elsets
-INFO: 0 surfaces
+369: ../examples/ccx_2.16.test/planestress2.inp
+INFO: Mesh parser:
+21 nodes
+2 nsets
+4 elements
+5 elsets
+0 surfaces
 
 ==================================================
-370: examples/ccx_2.16.test/planestress3.inp
+370: ../examples/ccx_2.16.test/planestress3.inp
 WARNING: Nodes without coordinates: [1].
-INFO: 8 nodes
 WARNING: NSET NRAND - mesh hasn't nodes [1].
-INFO: 2 nsets
 WARNING: Element 1 has no node 1 and will be removed.
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+8 nodes
+2 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-371: examples/ccx_2.16.test/planestress3dsens.inp
-INFO: 18 nodes
-INFO: 4 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+371: ../examples/ccx_2.16.test/planestress3dsens.inp
+INFO: Mesh parser:
+18 nodes
+4 nsets
+4 elements
+1 elsets
+0 surfaces
 
 ==================================================
-372: examples/ccx_2.16.test/planestress4.inp
-INFO: 21 nodes
-INFO: 4 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+372: ../examples/ccx_2.16.test/planestress4.inp
+INFO: Mesh parser:
+21 nodes
+4 nsets
+4 elements
+1 elsets
+0 surfaces
 
 ==================================================
-373: examples/ccx_2.16.test/planestressquadsens.inp
-INFO: 21 nodes
-INFO: 3 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+373: ../examples/ccx_2.16.test/planestressquadsens.inp
+INFO: Mesh parser:
+21 nodes
+3 nsets
+4 elements
+1 elsets
+0 surfaces
 
 ==================================================
-374: examples/ccx_2.16.test/planestresssens.inp
-INFO: 21 nodes
-INFO: 3 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+374: ../examples/ccx_2.16.test/planestresssens.inp
+INFO: Mesh parser:
+21 nodes
+3 nsets
+4 elements
+1 elsets
+0 surfaces
 
 ==================================================
-375: examples/ccx_2.16.test/plate.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 2 surfaces
+375: ../examples/ccx_2.16.test/plate.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+2 elsets
+2 surfaces
 
 ==================================================
-376: examples/ccx_2.16.test/poi2d.inp
-INFO: 462 nodes
-INFO: 1 nsets
-INFO: 200 elements
-INFO: 1 elsets
-INFO: 1 surfaces
+376: ../examples/ccx_2.16.test/poi2d.inp
+INFO: Mesh parser:
+462 nodes
+1 nsets
+200 elements
+1 elsets
+1 surfaces
 
 ==================================================
-377: examples/ccx_2.16.test/poi2d2.inp
-INFO: 462 nodes
-INFO: 1 nsets
-INFO: 200 elements
-INFO: 1 elsets
-INFO: 5 surfaces
+377: ../examples/ccx_2.16.test/poi2d2.inp
+INFO: Mesh parser:
+462 nodes
+1 nsets
+200 elements
+1 elsets
+5 surfaces
 
 ==================================================
-378: examples/ccx_2.16.test/potied.inp
-INFO: 461 nodes
-INFO: 2 nsets
-INFO: 61 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+378: ../examples/ccx_2.16.test/potied.inp
+INFO: Mesh parser:
+461 nodes
+2 nsets
+61 elements
+1 elsets
+2 surfaces
 
 ==================================================
-379: examples/ccx_2.16.test/pret1.inp
-INFO: 161 nodes
-INFO: 2 nsets
-INFO: 14 elements
-INFO: 1 elsets
-INFO: 1 surfaces
+379: ../examples/ccx_2.16.test/pret1.inp
+INFO: Mesh parser:
+161 nodes
+2 nsets
+14 elements
+1 elsets
+1 surfaces
 
 ==================================================
-380: examples/ccx_2.16.test/pret2.inp
-INFO: 14 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 1 surfaces
+380: ../examples/ccx_2.16.test/pret2.inp
+INFO: Mesh parser:
+14 nodes
+3 nsets
+2 elements
+1 elsets
+1 surfaces
 
 ==================================================
-381: examples/ccx_2.16.test/pret3.inp
-INFO: 101 nodes
-INFO: 4 nsets
-INFO: 11 elements
-INFO: 4 elsets
-INFO: 0 surfaces
+381: ../examples/ccx_2.16.test/pret3.inp
+INFO: Mesh parser:
+101 nodes
+4 nsets
+11 elements
+4 elsets
+0 surfaces
 
 ==================================================
-382: examples/ccx_2.16.test/pret4.inp
-INFO: 161 nodes
-INFO: 2 nsets
-INFO: 14 elements
-INFO: 1 elsets
-INFO: 1 surfaces
+382: ../examples/ccx_2.16.test/pret4.inp
+INFO: Mesh parser:
+161 nodes
+2 nsets
+14 elements
+1 elsets
+1 surfaces
 
 ==================================================
-383: examples/ccx_2.16.test/pret5.inp
-INFO: 7 nodes
-INFO: 0 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 1 surfaces
+383: ../examples/ccx_2.16.test/pret5.inp
+INFO: Mesh parser:
+7 nodes
+0 nsets
+2 elements
+1 elsets
+1 surfaces
 
 ==================================================
-384: examples/ccx_2.16.test/pret6.inp
-INFO: 14 nodes
-INFO: 0 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 1 surfaces
+384: ../examples/ccx_2.16.test/pret6.inp
+INFO: Mesh parser:
+14 nodes
+0 nsets
+2 elements
+1 elsets
+1 surfaces
 
 ==================================================
-385: examples/ccx_2.16.test/pret7.inp
-INFO: 14 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 1 surfaces
+385: ../examples/ccx_2.16.test/pret7.inp
+INFO: Mesh parser:
+14 nodes
+4 nsets
+2 elements
+1 elsets
+1 surfaces
 
 ==================================================
-386: examples/ccx_2.16.test/primaryair.inp
-INFO: 13 nodes
-INFO: 0 nsets
-INFO: 7 elements
-INFO: 7 elsets
-INFO: 0 surfaces
+386: ../examples/ccx_2.16.test/primaryair.inp
+INFO: Mesh parser:
+13 nodes
+0 nsets
+7 elements
+7 elsets
+0 surfaces
 
 ==================================================
-387: examples/ccx_2.16.test/punch1.inp
-INFO: 416 nodes
-INFO: 4 nsets
-INFO: 54 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+387: ../examples/ccx_2.16.test/punch1.inp
+INFO: Mesh parser:
+416 nodes
+4 nsets
+54 elements
+1 elsets
+2 surfaces
 
 ==================================================
-388: examples/ccx_2.16.test/punch2.inp
-INFO: 416 nodes
-INFO: 5 nsets
-INFO: 54 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+388: ../examples/ccx_2.16.test/punch2.inp
+INFO: Mesh parser:
+416 nodes
+5 nsets
+54 elements
+1 elsets
+2 surfaces
 
 ==================================================
-389: examples/ccx_2.16.test/resstress1.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+389: ../examples/ccx_2.16.test/resstress1.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-390: examples/ccx_2.16.test/resstress2.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+390: ../examples/ccx_2.16.test/resstress2.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-391: examples/ccx_2.16.test/resstress3.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+391: ../examples/ccx_2.16.test/resstress3.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
 
 ==================================================
-392: examples/ccx_2.16.test/restrictor-oil.inp
-INFO: 23 nodes
-INFO: 1 nsets
-INFO: 12 elements
-INFO: 10 elsets
-INFO: 0 surfaces
+392: ../examples/ccx_2.16.test/restrictor-oil.inp
+INFO: Mesh parser:
+23 nodes
+1 nsets
+12 elements
+10 elsets
+0 surfaces
 
 ==================================================
-393: examples/ccx_2.16.test/restrictor.inp
-INFO: 23 nodes
-INFO: 1 nsets
-INFO: 12 elements
-INFO: 10 elsets
-INFO: 0 surfaces
+393: ../examples/ccx_2.16.test/restrictor.inp
+INFO: Mesh parser:
+23 nodes
+1 nsets
+12 elements
+10 elsets
+0 surfaces
 
 ==================================================
-394: examples/ccx_2.16.test/ring1.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+394: ../examples/ccx_2.16.test/ring1.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+1 elsets
+2 surfaces
 
 ==================================================
-395: examples/ccx_2.16.test/ring2.inp
-INFO: 16 nodes
-INFO: 4 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+395: ../examples/ccx_2.16.test/ring2.inp
+INFO: Mesh parser:
+16 nodes
+4 nsets
+2 elements
+1 elsets
+2 surfaces
 
 ==================================================
-396: examples/ccx_2.16.test/ring3.inp
-INFO: 16 nodes
-INFO: 5 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+396: ../examples/ccx_2.16.test/ring3.inp
+INFO: Mesh parser:
+16 nodes
+5 nsets
+2 elements
+1 elsets
+2 surfaces
 
 ==================================================
-397: examples/ccx_2.16.test/ring4.inp
-INFO: 16 nodes
-INFO: 5 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 2 surfaces
+397: ../examples/ccx_2.16.test/ring4.inp
+INFO: Mesh parser:
+16 nodes
+5 nsets
+2 elements
+1 elsets
+2 surfaces
 
 ==================================================
-398: examples/ccx_2.16.test/ringfcontact1.inp
-INFO: 720 nodes
-INFO: 7 nsets
-INFO: 100 elements
-INFO: 3 elsets
-INFO: 6 surfaces
+398: ../examples/ccx_2.16.test/ringfcontact1.inp
+INFO: Mesh parser:
+720 nodes
+7 nsets
+100 elements
+3 elsets
+6 surfaces
 
 ==================================================
-399: examples/ccx_2.16.test/ringfcontact2.inp
-INFO: 720 nodes
-INFO: 7 nsets
-INFO: 100 elements
-INFO: 3 elsets
-INFO: 6 surfaces
+399: ../examples/ccx_2.16.test/ringfcontact2.inp
+INFO: Mesh parser:
+720 nodes
+7 nsets
+100 elements
+3 elsets
+6 surfaces
 
 ==================================================
-400: examples/ccx_2.16.test/ringfcontact3.inp
-INFO: 720 nodes
-INFO: 7 nsets
-INFO: 100 elements
-INFO: 3 elsets
-INFO: 6 surfaces
+400: ../examples/ccx_2.16.test/ringfcontact3.inp
+INFO: Mesh parser:
+720 nodes
+7 nsets
+100 elements
+3 elsets
+6 surfaces
 
 ==================================================
-401: examples/ccx_2.16.test/ringfcontact4.inp
-INFO: 720 nodes
-INFO: 7 nsets
-INFO: 100 elements
-INFO: 3 elsets
-INFO: 6 surfaces
+401: ../examples/ccx_2.16.test/ringfcontact4.inp
+INFO: Mesh parser:
+720 nodes
+7 nsets
+100 elements
+3 elsets
+6 surfaces
 
 ==================================================
-402: examples/ccx_2.16.test/ringfcontact5.inp
-INFO: 720 nodes
-INFO: 7 nsets
-INFO: 100 elements
-INFO: 3 elsets
-INFO: 6 surfaces
+402: ../examples/ccx_2.16.test/ringfcontact5.inp
+INFO: Mesh parser:
+720 nodes
+7 nsets
+100 elements
+3 elsets
+6 surfaces
 
 ==================================================
-403: examples/ccx_2.16.test/rot1.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+403: ../examples/ccx_2.16.test/rot1.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+2 elements
+1 elsets
+0 surfaces
 
 ==================================================
-404: examples/ccx_2.16.test/rot2.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+404: ../examples/ccx_2.16.test/rot2.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+2 elements
+1 elsets
+0 surfaces
 
 ==================================================
-405: examples/ccx_2.16.test/rot3.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+405: ../examples/ccx_2.16.test/rot3.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+2 elements
+1 elsets
+0 surfaces
 
 ==================================================
-406: examples/ccx_2.16.test/rot4.inp
-INFO: 21 nodes
-INFO: 4 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+406: ../examples/ccx_2.16.test/rot4.inp
+INFO: Mesh parser:
+21 nodes
+4 nsets
+4 elements
+1 elsets
+0 surfaces
 
 ==================================================
-407: examples/ccx_2.16.test/rotor.inp
-INFO: 2656 nodes
-INFO: 2 nsets
-INFO: 368 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+407: ../examples/ccx_2.16.test/rotor.inp
+INFO: Mesh parser:
+2656 nodes
+2 nsets
+368 elements
+2 elsets
+0 surfaces
 
 ==================================================
-408: examples/ccx_2.16.test/rotor2.inp
-INFO: 2658 nodes
-INFO: 2 nsets
-INFO: 368 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+408: ../examples/ccx_2.16.test/rotor2.inp
+INFO: Mesh parser:
+2658 nodes
+2 nsets
+368 elements
+1 elsets
+0 surfaces
 
 ==================================================
-409: examples/ccx_2.16.test/rotor3.inp
-INFO: 2658 nodes
-INFO: 3 nsets
-INFO: 368 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+409: ../examples/ccx_2.16.test/rotor3.inp
+INFO: Mesh parser:
+2658 nodes
+3 nsets
+368 elements
+1 elsets
+0 surfaces
 
 ==================================================
-410: examples/ccx_2.16.test/rotpipe1.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+410: ../examples/ccx_2.16.test/rotpipe1.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-411: examples/ccx_2.16.test/rotpipe2.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+411: ../examples/ccx_2.16.test/rotpipe2.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-412: examples/ccx_2.16.test/rotpipe3.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+412: ../examples/ccx_2.16.test/rotpipe3.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+2 elsets
+0 surfaces
 
 ==================================================
-413: examples/ccx_2.16.test/rotpipe3inv.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+413: ../examples/ccx_2.16.test/rotpipe3inv.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+2 elsets
+0 surfaces
 
 ==================================================
-414: examples/ccx_2.16.test/rotpipe4.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+414: ../examples/ccx_2.16.test/rotpipe4.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+2 elsets
+0 surfaces
 
 ==================================================
-415: examples/ccx_2.16.test/rotpipe5.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 2 elsets
-INFO: 0 surfaces
+415: ../examples/ccx_2.16.test/rotpipe5.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+2 elsets
+0 surfaces
 
 ==================================================
-416: examples/ccx_2.16.test/rotpipe6.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+416: ../examples/ccx_2.16.test/rotpipe6.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-417: examples/ccx_2.16.test/rotpipe7.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+417: ../examples/ccx_2.16.test/rotpipe7.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
 
 ==================================================
-418: examples/ccx_2.16.test/rotpipeu.inp
-INFO: 7 nodes
-INFO: 1 nsets
-INFO: 4 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+418: ../examples/ccx_2.16.test/rotpipeu.inp
+INFO: Mesh parser:
+7 nodes
+1 nsets
+4 elements
+3 elsets
+0 surfaces
 
 ==================================================
-419: examples/ccx_2.16.test/sc123.inp
-INFO: 20 nodes
-INFO: 3 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+419: ../examples/ccx_2.16.test/sc123.inp
+INFO: Mesh parser:
+20 nodes
+3 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-420: examples/ccx_2.16.test/sc123creep.inp
-INFO: 20 nodes
-INFO: 3 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
+420: ../examples/ccx_2.16.test/sc123creep.inp
+INFO: Mesh parser:
+20 nodes
+3 nsets
+1 elements
+1 elsets
+0 surfaces
 
 ==================================================
-421: examples/ccx_2.16.test/scheibe.inp
-INFO: 10 nodes
+421: ../examples/ccx_2.16.test/scheibe.inp
 WARNING: NSET N1 - mesh hasn't nodes [29].
-INFO: 3 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-422: examples/ccx_2.16.test/scheibe2f2f.inp
-INFO: 1156 nodes
-INFO: 11 nsets
-INFO: 512 elements
-INFO: 4 elsets
-INFO: 6 surfaces
-
-==================================================
-423: examples/ccx_2.16.test/scheibe2n2f.inp
-INFO: 1156 nodes
-INFO: 10 nsets
-INFO: 512 elements
-INFO: 4 elsets
-INFO: 6 surfaces
-
-==================================================
-424: examples/ccx_2.16.test/section.inp
-INFO: 41 nodes
-INFO: 1 nsets
-INFO: 20 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-425: examples/ccx_2.16.test/section4.inp
-INFO: 41 nodes
-INFO: 1 nsets
-INFO: 20 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-426: examples/ccx_2.16.test/segdyn.inp
-INFO: 661 nodes
-INFO: 5 nsets
-INFO: 96 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-427: examples/ccx_2.16.test/segment.inp
-INFO: 661 nodes
-INFO: 3 nsets
-INFO: 96 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-428: examples/ccx_2.16.test/segment1.inp
-INFO: 81 nodes
-INFO: 2 nsets
-INFO: 8 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-429: examples/ccx_2.16.test/segment2.inp
-INFO: 81 nodes
-INFO: 2 nsets
-INFO: 8 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-430: examples/ccx_2.16.test/segmentbeam.inp
-INFO: 661 nodes
-INFO: 3 nsets
-INFO: 97 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-431: examples/ccx_2.16.test/segmentbeam2.inp
-INFO: 661 nodes
-INFO: 4 nsets
-INFO: 97 elements
-INFO: 2 elsets
-INFO: 2 surfaces
-
-==================================================
-432: examples/ccx_2.16.test/segmentf.inp
-INFO: 81 nodes
-INFO: 3 nsets
-INFO: 8 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-433: examples/ccx_2.16.test/segmentface.inp
-INFO: 661 nodes
-INFO: 3 nsets
-INFO: 96 elements
-INFO: 1 elsets
-INFO: 4 surfaces
-
-==================================================
-434: examples/ccx_2.16.test/segmentm.inp
-INFO: 81 nodes
-INFO: 2 nsets
-INFO: 8 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-435: examples/ccx_2.16.test/segmenttet.inp
-INFO: 2756 nodes
-INFO: 3 nsets
-INFO: 1489 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-436: examples/ccx_2.16.test/segststate.inp
-INFO: 661 nodes
-INFO: 4 nsets
-INFO: 96 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-437: examples/ccx_2.16.test/sens2d.inp
-INFO: 4 nodes
-INFO: 2 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-438: examples/ccx_2.16.test/sens3d.inp
-INFO: 8 nodes
-INFO: 2 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-439: examples/ccx_2.16.test/sens_disp_orien.inp
-INFO: 12 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-440: examples/ccx_2.16.test/sens_disp_orien_nlgeom.inp
-INFO: 12 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-441: examples/ccx_2.16.test/sens_freq_disp_cyc.inp
-INFO: 1001 nodes
-INFO: 3 nsets
-INFO: 624 elements
-INFO: 1 elsets
-INFO: 2 surfaces
-
-==================================================
-442: examples/ccx_2.16.test/sens_freq_orien.inp
-INFO: 12 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-443: examples/ccx_2.16.test/sensitivity_I.inp
-INFO: 12 nodes
-INFO: 2 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-444: examples/ccx_2.16.test/sensitivity_V.inp
-INFO: 8 nodes
-INFO: 2 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-445: examples/ccx_2.16.test/sensitivity_VI.inp
-INFO: 12 nodes
-INFO: 2 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-446: examples/ccx_2.16.test/sensitivity_VII.inp
-INFO: 12 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-447: examples/ccx_2.16.test/shell1.inp
-INFO: 21 nodes
-INFO: 4 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-448: examples/ccx_2.16.test/shell1lin.inp
-INFO: 21 nodes
-INFO: 4 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-449: examples/ccx_2.16.test/shell2.inp
-INFO: 16 nodes
-INFO: 2 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-450: examples/ccx_2.16.test/shell3.inp
-INFO: 21 nodes
-INFO: 2 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-451: examples/ccx_2.16.test/shell4.inp
-INFO: 529 nodes
-INFO: 3 nsets
-INFO: 242 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-452: examples/ccx_2.16.test/shell5.inp
-INFO: 21 nodes
-INFO: 4 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-453: examples/ccx_2.16.test/shell6.inp
-INFO: 21 nodes
-INFO: 2 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-454: examples/ccx_2.16.test/shell6rot2.inp
-INFO: 21 nodes
-INFO: 2 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-455: examples/ccx_2.16.test/shell7.inp
-INFO: 21 nodes
-INFO: 2 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-456: examples/ccx_2.16.test/shell7rot.inp
-INFO: 21 nodes
-INFO: 2 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-457: examples/ccx_2.16.test/shell7rot2.inp
-INFO: 21 nodes
-INFO: 2 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-458: examples/ccx_2.16.test/shellbeam.inp
-INFO: 15 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-459: examples/ccx_2.16.test/shellf.inp
-INFO: 21 nodes
-INFO: 5 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-460: examples/ccx_2.16.test/shellf2.inp
-INFO: 21 nodes
-INFO: 5 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-461: examples/ccx_2.16.test/shellnor.inp
-INFO: 13 nodes
-INFO: 2 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-462: examples/ccx_2.16.test/shellquadsens.inp
-INFO: 21 nodes
-INFO: 3 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-463: examples/ccx_2.16.test/shellsens.inp
-INFO: 21 nodes
-INFO: 3 nsets
-INFO: 4 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-464: examples/ccx_2.16.test/simplebeam.inp
-INFO: 3 nodes
-INFO: 1 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-465: examples/ccx_2.16.test/simplebeampipe1.inp
-INFO: 21 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-466: examples/ccx_2.16.test/simplebeampipe2.inp
-INFO: 21 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-467: examples/ccx_2.16.test/simplebeampipe3.inp
-INFO: 21 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-468: examples/ccx_2.16.test/simplebeampipe4.inp
-INFO: 21 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-469: examples/ccx_2.16.test/simplebeampipe5.inp
-INFO: 21 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-470: examples/ccx_2.16.test/slant.inp
-INFO: 286 nodes
-INFO: 1 nsets
-INFO: 120 elements
-INFO: 1 elsets
-INFO: 5 surfaces
-
-==================================================
-471: examples/ccx_2.16.test/small_pressure_gradient.inp
-INFO: 19 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-472: examples/ccx_2.16.test/solidshell1.inp
-INFO: 97 nodes
-INFO: 3 nsets
-INFO: 12 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-473: examples/ccx_2.16.test/solidshell2.inp
-INFO: 97 nodes
-INFO: 3 nsets
-INFO: 16 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-474: examples/ccx_2.16.test/spring1.inp
-INFO: 2 nodes
-INFO: 1 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-475: examples/ccx_2.16.test/spring2.inp
-INFO: 2 nodes
-INFO: 1 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-476: examples/ccx_2.16.test/spring3.inp
-INFO: 10 nodes
-INFO: 2 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-477: examples/ccx_2.16.test/spring4.inp
-INFO: 9 nodes
-INFO: 2 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-478: examples/ccx_2.16.test/spring5.inp
-INFO: 10 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-479: examples/ccx_2.16.test/spring6.inp
-INFO: 2 nodes
-INFO: 1 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-480: examples/ccx_2.16.test/spring7.inp
-INFO: 2 nodes
-INFO: 1 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-481: examples/ccx_2.16.test/square.inp
-INFO: 341 nodes
-INFO: 3 nsets
-INFO: 100 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-482: examples/ccx_2.16.test/submodelbeamp.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-483: examples/ccx_2.16.test/submodelbeampdouble.inp
-INFO: 261 nodes
-INFO: 2 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-484: examples/ccx_2.16.test/submodeltwobeam.inp
-INFO: 40 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-485: examples/ccx_2.16.test/submodeltwobeamnlgeom.inp
-INFO: 40 nodes
-INFO: 3 nsets
-INFO: 2 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-486: examples/ccx_2.16.test/substructure.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-487: examples/ccx_2.16.test/swing.inp
-INFO: 41 nodes
-INFO: 1 nsets
-INFO: 20 elements
-INFO: 3 elsets
-INFO: 0 surfaces
-
-==================================================
-488: examples/ccx_2.16.test/tempdiscon.inp
-INFO: 261 nodes
-INFO: 4 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-489: examples/ccx_2.16.test/thermomech.inp
-INFO: 522 nodes
-INFO: 4 nsets
-INFO: 64 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-490: examples/ccx_2.16.test/thermomech2.inp
-INFO: 522 nodes
-INFO: 4 nsets
-INFO: 64 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-491: examples/ccx_2.16.test/thread.inp
-INFO: 2389 nodes
-INFO: 1 nsets
-INFO: 718 elements
-INFO: 13 elsets
-INFO: 7 surfaces
-
-==================================================
-492: examples/ccx_2.16.test/transition.inp
-INFO: 261 nodes
-INFO: 3 nsets
-INFO: 32 elements
-INFO: 2 elsets
-INFO: 0 surfaces
-
-==================================================
-493: examples/ccx_2.16.test/truss.inp
-INFO: 3 nodes
-INFO: 1 nsets
-INFO: 2 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-494: examples/ccx_2.16.test/truss2.inp
-INFO: 21 nodes
-INFO: 1 nsets
-INFO: 10 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-495: examples/ccx_2.16.test/unet1.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-496: examples/ccx_2.16.test/unetp1.inp
-INFO: 5 nodes
-INFO: 1 nsets
-INFO: 3 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-497: examples/ccx_2.16.test/uprofile.inp
-INFO: 11 nodes
-INFO: 1 nsets
-INFO: 5 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-498: examples/ccx_2.16.test/userbeam.inp
-INFO: 2 nodes
-INFO: 1 nsets
-INFO: 1 elements
-INFO: 1 elsets
-INFO: 0 surfaces
-
-==================================================
-499: examples/ccx_2.16.test/vortex1.inp
-INFO: 15 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 8 elsets
-INFO: 0 surfaces
-
-==================================================
-500: examples/ccx_2.16.test/vortex2.inp
-INFO: 15 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 8 elsets
-INFO: 0 surfaces
-
-==================================================
-501: examples/ccx_2.16.test/vortex3.inp
-INFO: 15 nodes
-INFO: 1 nsets
-INFO: 8 elements
-INFO: 8 elsets
-INFO: 0 surfaces
-
-==================================================
-502: examples/ccx_2.16.test/wire.inp
-INFO: 107 nodes
-INFO: 2 nsets
+INFO: Mesh parser:
+10 nodes
+3 nsets
+1 elements
+1 elsets
+0 surfaces
+
+==================================================
+422: ../examples/ccx_2.16.test/scheibe2f2f.inp
+INFO: Mesh parser:
+1156 nodes
+11 nsets
+512 elements
+4 elsets
+6 surfaces
+
+==================================================
+423: ../examples/ccx_2.16.test/scheibe2n2f.inp
+INFO: Mesh parser:
+1156 nodes
+10 nsets
+512 elements
+4 elsets
+6 surfaces
+
+==================================================
+424: ../examples/ccx_2.16.test/section.inp
+INFO: Mesh parser:
+41 nodes
+1 nsets
+20 elements
+1 elsets
+0 surfaces
+
+==================================================
+425: ../examples/ccx_2.16.test/section4.inp
+INFO: Mesh parser:
+41 nodes
+1 nsets
+20 elements
+1 elsets
+0 surfaces
+
+==================================================
+426: ../examples/ccx_2.16.test/segdyn.inp
+INFO: Mesh parser:
+661 nodes
+5 nsets
+96 elements
+1 elsets
+2 surfaces
+
+==================================================
+427: ../examples/ccx_2.16.test/segment.inp
+INFO: Mesh parser:
+661 nodes
+3 nsets
+96 elements
+1 elsets
+2 surfaces
+
+==================================================
+428: ../examples/ccx_2.16.test/segment1.inp
+INFO: Mesh parser:
+81 nodes
+2 nsets
+8 elements
+1 elsets
+0 surfaces
+
+==================================================
+429: ../examples/ccx_2.16.test/segment2.inp
+INFO: Mesh parser:
+81 nodes
+2 nsets
+8 elements
+1 elsets
+0 surfaces
+
+==================================================
+430: ../examples/ccx_2.16.test/segmentbeam.inp
+INFO: Mesh parser:
+661 nodes
+3 nsets
+97 elements
+2 elsets
+2 surfaces
+
+==================================================
+431: ../examples/ccx_2.16.test/segmentbeam2.inp
+INFO: Mesh parser:
+661 nodes
+4 nsets
+97 elements
+2 elsets
+2 surfaces
+
+==================================================
+432: ../examples/ccx_2.16.test/segmentf.inp
+INFO: Mesh parser:
+81 nodes
+3 nsets
+8 elements
+1 elsets
+0 surfaces
+
+==================================================
+433: ../examples/ccx_2.16.test/segmentface.inp
+INFO: Mesh parser:
+661 nodes
+3 nsets
+96 elements
+1 elsets
+4 surfaces
+
+==================================================
+434: ../examples/ccx_2.16.test/segmentm.inp
+INFO: Mesh parser:
+81 nodes
+2 nsets
+8 elements
+1 elsets
+0 surfaces
+
+==================================================
+435: ../examples/ccx_2.16.test/segmenttet.inp
+INFO: Mesh parser:
+2756 nodes
+3 nsets
+1489 elements
+1 elsets
+2 surfaces
+
+==================================================
+436: ../examples/ccx_2.16.test/segststate.inp
+INFO: Mesh parser:
+661 nodes
+4 nsets
+96 elements
+1 elsets
+2 surfaces
+
+==================================================
+437: ../examples/ccx_2.16.test/sens2d.inp
+INFO: Mesh parser:
+4 nodes
+2 nsets
+1 elements
+1 elsets
+0 surfaces
+
+==================================================
+438: ../examples/ccx_2.16.test/sens3d.inp
+INFO: Mesh parser:
+8 nodes
+2 nsets
+1 elements
+1 elsets
+0 surfaces
+
+==================================================
+439: ../examples/ccx_2.16.test/sens_disp_orien.inp
+INFO: Mesh parser:
+12 nodes
+1 nsets
+2 elements
+3 elsets
+0 surfaces
+
+==================================================
+440: ../examples/ccx_2.16.test/sens_disp_orien_nlgeom.inp
+INFO: Mesh parser:
+12 nodes
+1 nsets
+2 elements
+3 elsets
+0 surfaces
+
+==================================================
+441: ../examples/ccx_2.16.test/sens_freq_disp_cyc.inp
+INFO: Mesh parser:
+1001 nodes
+3 nsets
+624 elements
+1 elsets
+2 surfaces
+
+==================================================
+442: ../examples/ccx_2.16.test/sens_freq_orien.inp
+INFO: Mesh parser:
+12 nodes
+1 nsets
+2 elements
+3 elsets
+0 surfaces
+
+==================================================
+443: ../examples/ccx_2.16.test/sensitivity_I.inp
+INFO: Mesh parser:
+12 nodes
+2 nsets
+2 elements
+1 elsets
+0 surfaces
+
+==================================================
+444: ../examples/ccx_2.16.test/sensitivity_V.inp
+INFO: Mesh parser:
+8 nodes
+2 nsets
+1 elements
+1 elsets
+0 surfaces
+
+==================================================
+445: ../examples/ccx_2.16.test/sensitivity_VI.inp
+INFO: Mesh parser:
+12 nodes
+2 nsets
+2 elements
+1 elsets
+0 surfaces
+
+==================================================
+446: ../examples/ccx_2.16.test/sensitivity_VII.inp
+INFO: Mesh parser:
+12 nodes
+3 nsets
+2 elements
+1 elsets
+0 surfaces
+
+==================================================
+447: ../examples/ccx_2.16.test/shell1.inp
+INFO: Mesh parser:
+21 nodes
+4 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+448: ../examples/ccx_2.16.test/shell1lin.inp
+INFO: Mesh parser:
+21 nodes
+4 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+449: ../examples/ccx_2.16.test/shell2.inp
+INFO: Mesh parser:
+16 nodes
+2 nsets
+2 elements
+1 elsets
+0 surfaces
+
+==================================================
+450: ../examples/ccx_2.16.test/shell3.inp
+INFO: Mesh parser:
+21 nodes
+2 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+451: ../examples/ccx_2.16.test/shell4.inp
+INFO: Mesh parser:
+529 nodes
+3 nsets
+242 elements
+3 elsets
+0 surfaces
+
+==================================================
+452: ../examples/ccx_2.16.test/shell5.inp
+INFO: Mesh parser:
+21 nodes
+4 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+453: ../examples/ccx_2.16.test/shell6.inp
+INFO: Mesh parser:
+21 nodes
+2 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+454: ../examples/ccx_2.16.test/shell6rot2.inp
+INFO: Mesh parser:
+21 nodes
+2 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+455: ../examples/ccx_2.16.test/shell7.inp
+INFO: Mesh parser:
+21 nodes
+2 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+456: ../examples/ccx_2.16.test/shell7rot.inp
+INFO: Mesh parser:
+21 nodes
+2 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+457: ../examples/ccx_2.16.test/shell7rot2.inp
+INFO: Mesh parser:
+21 nodes
+2 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+458: ../examples/ccx_2.16.test/shellbeam.inp
+INFO: Mesh parser:
+15 nodes
+1 nsets
+3 elements
+3 elsets
+0 surfaces
+
+==================================================
+459: ../examples/ccx_2.16.test/shellf.inp
+INFO: Mesh parser:
+21 nodes
+5 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+460: ../examples/ccx_2.16.test/shellf2.inp
+INFO: Mesh parser:
+21 nodes
+5 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+461: ../examples/ccx_2.16.test/shellnor.inp
+INFO: Mesh parser:
+13 nodes
+2 nsets
+2 elements
+1 elsets
+0 surfaces
+
+==================================================
+462: ../examples/ccx_2.16.test/shellquadsens.inp
+INFO: Mesh parser:
+21 nodes
+3 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+463: ../examples/ccx_2.16.test/shellsens.inp
+INFO: Mesh parser:
+21 nodes
+3 nsets
+4 elements
+1 elsets
+0 surfaces
+
+==================================================
+464: ../examples/ccx_2.16.test/simplebeam.inp
+INFO: Mesh parser:
+3 nodes
+1 nsets
+1 elements
+1 elsets
+0 surfaces
+
+==================================================
+465: ../examples/ccx_2.16.test/simplebeampipe1.inp
+INFO: Mesh parser:
+21 nodes
+1 nsets
+10 elements
+1 elsets
+0 surfaces
+
+==================================================
+466: ../examples/ccx_2.16.test/simplebeampipe2.inp
+INFO: Mesh parser:
+21 nodes
+1 nsets
+10 elements
+1 elsets
+0 surfaces
+
+==================================================
+467: ../examples/ccx_2.16.test/simplebeampipe3.inp
+INFO: Mesh parser:
+21 nodes
+1 nsets
+10 elements
+1 elsets
+0 surfaces
+
+==================================================
+468: ../examples/ccx_2.16.test/simplebeampipe4.inp
+INFO: Mesh parser:
+21 nodes
+1 nsets
+10 elements
+1 elsets
+0 surfaces
+
+==================================================
+469: ../examples/ccx_2.16.test/simplebeampipe5.inp
+INFO: Mesh parser:
+21 nodes
+1 nsets
+10 elements
+1 elsets
+0 surfaces
+
+==================================================
+470: ../examples/ccx_2.16.test/slant.inp
+INFO: Mesh parser:
+286 nodes
+1 nsets
+120 elements
+1 elsets
+5 surfaces
+
+==================================================
+471: ../examples/ccx_2.16.test/small_pressure_gradient.inp
+INFO: Mesh parser:
+19 nodes
+1 nsets
+10 elements
+3 elsets
+0 surfaces
+
+==================================================
+472: ../examples/ccx_2.16.test/solidshell1.inp
+INFO: Mesh parser:
+97 nodes
+3 nsets
+12 elements
+3 elsets
+0 surfaces
+
+==================================================
+473: ../examples/ccx_2.16.test/solidshell2.inp
+INFO: Mesh parser:
+97 nodes
+3 nsets
+16 elements
+3 elsets
+0 surfaces
+
+==================================================
+474: ../examples/ccx_2.16.test/spring1.inp
+INFO: Mesh parser:
+2 nodes
+1 nsets
+1 elements
+1 elsets
+0 surfaces
+
+==================================================
+475: ../examples/ccx_2.16.test/spring2.inp
+INFO: Mesh parser:
+2 nodes
+1 nsets
+1 elements
+1 elsets
+0 surfaces
+
+==================================================
+476: ../examples/ccx_2.16.test/spring3.inp
+INFO: Mesh parser:
+10 nodes
+2 nsets
+2 elements
+2 elsets
+0 surfaces
+
+==================================================
+477: ../examples/ccx_2.16.test/spring4.inp
+INFO: Mesh parser:
+9 nodes
+2 nsets
+2 elements
+2 elsets
+0 surfaces
+
+==================================================
+478: ../examples/ccx_2.16.test/spring5.inp
+INFO: Mesh parser:
+10 nodes
+3 nsets
+2 elements
+2 elsets
+0 surfaces
+
+==================================================
+479: ../examples/ccx_2.16.test/spring6.inp
+INFO: Mesh parser:
+2 nodes
+1 nsets
+1 elements
+1 elsets
+0 surfaces
+
+==================================================
+480: ../examples/ccx_2.16.test/spring7.inp
+INFO: Mesh parser:
+2 nodes
+1 nsets
+1 elements
+1 elsets
+0 surfaces
+
+==================================================
+481: ../examples/ccx_2.16.test/square.inp
+INFO: Mesh parser:
+341 nodes
+3 nsets
+100 elements
+1 elsets
+0 surfaces
+
+==================================================
+482: ../examples/ccx_2.16.test/submodelbeamp.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+483: ../examples/ccx_2.16.test/submodelbeampdouble.inp
+INFO: Mesh parser:
+261 nodes
+2 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+484: ../examples/ccx_2.16.test/submodeltwobeam.inp
+INFO: Mesh parser:
+40 nodes
+3 nsets
+2 elements
+3 elsets
+0 surfaces
+
+==================================================
+485: ../examples/ccx_2.16.test/submodeltwobeamnlgeom.inp
+INFO: Mesh parser:
+40 nodes
+3 nsets
+2 elements
+3 elsets
+0 surfaces
+
+==================================================
+486: ../examples/ccx_2.16.test/substructure.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+1 elsets
+0 surfaces
+
+==================================================
+487: ../examples/ccx_2.16.test/swing.inp
+INFO: Mesh parser:
+41 nodes
+1 nsets
+20 elements
+3 elsets
+0 surfaces
+
+==================================================
+488: ../examples/ccx_2.16.test/tempdiscon.inp
+INFO: Mesh parser:
+261 nodes
+4 nsets
+3 elements
+1 elsets
+0 surfaces
+
+==================================================
+489: ../examples/ccx_2.16.test/thermomech.inp
+INFO: Mesh parser:
+522 nodes
+4 nsets
+64 elements
+1 elsets
+0 surfaces
+
+==================================================
+490: ../examples/ccx_2.16.test/thermomech2.inp
+INFO: Mesh parser:
+522 nodes
+4 nsets
+64 elements
+1 elsets
+0 surfaces
+
+==================================================
+491: ../examples/ccx_2.16.test/thread.inp
+INFO: Mesh parser:
+2389 nodes
+1 nsets
+718 elements
+13 elsets
+7 surfaces
+
+==================================================
+492: ../examples/ccx_2.16.test/transition.inp
+INFO: Mesh parser:
+261 nodes
+3 nsets
+32 elements
+2 elsets
+0 surfaces
+
+==================================================
+493: ../examples/ccx_2.16.test/truss.inp
+INFO: Mesh parser:
+3 nodes
+1 nsets
+2 elements
+1 elsets
+0 surfaces
+
+==================================================
+494: ../examples/ccx_2.16.test/truss2.inp
+INFO: Mesh parser:
+21 nodes
+1 nsets
+10 elements
+1 elsets
+0 surfaces
+
+==================================================
+495: ../examples/ccx_2.16.test/unet1.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
+
+==================================================
+496: ../examples/ccx_2.16.test/unetp1.inp
+INFO: Mesh parser:
+5 nodes
+1 nsets
+3 elements
+1 elsets
+0 surfaces
+
+==================================================
+497: ../examples/ccx_2.16.test/uprofile.inp
+INFO: Mesh parser:
+11 nodes
+1 nsets
+5 elements
+1 elsets
+0 surfaces
+
+==================================================
+498: ../examples/ccx_2.16.test/userbeam.inp
+INFO: Mesh parser:
+2 nodes
+1 nsets
+1 elements
+1 elsets
+0 surfaces
+
+==================================================
+499: ../examples/ccx_2.16.test/vortex1.inp
+INFO: Mesh parser:
+15 nodes
+1 nsets
+8 elements
+8 elsets
+0 surfaces
+
+==================================================
+500: ../examples/ccx_2.16.test/vortex2.inp
+INFO: Mesh parser:
+15 nodes
+1 nsets
+8 elements
+8 elsets
+0 surfaces
+
+==================================================
+501: ../examples/ccx_2.16.test/vortex3.inp
+INFO: Mesh parser:
+15 nodes
+1 nsets
+8 elements
+8 elsets
+0 surfaces
+
+==================================================
+502: ../examples/ccx_2.16.test/wire.inp
 WARNING: Duplicated set name Eall!
-INFO: 30 elements
-INFO: 3 elsets
-INFO: 0 surfaces
+INFO: Mesh parser:
+107 nodes
+2 nsets
+30 elements
+3 elsets
+0 surfaces
 
-Total 23.0 seconds.
+Total 17.4 seconds.
