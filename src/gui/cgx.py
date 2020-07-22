@@ -21,7 +21,10 @@ def kill(w):
         count = 0
         while w.cgx_process.poll() is None:
             try:
-                w.cgx_process.kill()
+                if os.name == 'nt':
+                    os.system('TASKKILL /F /PID {} /T'.format(w.cgx_process.pid))
+                else:
+                    w.cgx_process.kill()
             except:
                 logging.error(traceback.format_exc())
             time.sleep(0.1)
