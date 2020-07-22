@@ -120,6 +120,7 @@ def check(p, KOM):
         print('Those keywords have no HTML pages:')
         print(keywords)
 
+# Run test
 if __name__ == '__main__':
     clean.screen()
     p = path.Path()

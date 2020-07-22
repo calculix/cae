@@ -1,0 +1,1061 @@
+IMPORTER (KEYWORDS PARSER) TEST
+
+1 ../../examples/ccx_2.16.test/achtel2.inp
+
+2 ../../examples/ccx_2.16.test/achtel29.inp
+
+3 ../../examples/ccx_2.16.test/achtel9.inp
+
+4 ../../examples/ccx_2.16.test/achtelc.inp
+
+5 ../../examples/ccx_2.16.test/achtelcas.inp
+
+6 ../../examples/ccx_2.16.test/achteld.inp
+
+7 ../../examples/ccx_2.16.test/achtelg.inp
+
+8 ../../examples/ccx_2.16.test/achtelp.inp
+
+9 ../../examples/ccx_2.16.test/acou1.inp
+
+10 ../../examples/ccx_2.16.test/acou2.inp
+
+11 ../../examples/ccx_2.16.test/acou3.inp
+
+12 ../../examples/ccx_2.16.test/acou4.inp
+
+13 ../../examples/ccx_2.16.test/aircolumn.inp
+
+14 ../../examples/ccx_2.16.test/anipla.inp
+
+15 ../../examples/ccx_2.16.test/aniso.inp
+
+16 ../../examples/ccx_2.16.test/artery1.inp
+
+17 ../../examples/ccx_2.16.test/artery2.inp
+
+18 ../../examples/ccx_2.16.test/artery3.inp
+
+19 ../../examples/ccx_2.16.test/artery4.inp
+
+20 ../../examples/ccx_2.16.test/artery5.inp
+
+21 ../../examples/ccx_2.16.test/ax6.inp
+
+22 ../../examples/ccx_2.16.test/ax6ht.inp
+
+23 ../../examples/ccx_2.16.test/axial.inp
+
+24 ../../examples/ccx_2.16.test/axiplane.inp
+
+25 ../../examples/ccx_2.16.test/axrad.inp
+
+26 ../../examples/ccx_2.16.test/axrad2.inp
+
+27 ../../examples/ccx_2.16.test/b31.inp
+
+28 ../../examples/ccx_2.16.test/b31nodthi.inp
+
+29 ../../examples/ccx_2.16.test/ball.inp
+
+30 ../../examples/ccx_2.16.test/beam10p.inp
+
+31 ../../examples/ccx_2.16.test/beam20p.inp
+
+32 ../../examples/ccx_2.16.test/beam20t.inp
+
+33 ../../examples/ccx_2.16.test/beam8b.inp
+
+34 ../../examples/ccx_2.16.test/beam8f.inp
+
+35 ../../examples/ccx_2.16.test/beam8p.inp
+
+36 ../../examples/ccx_2.16.test/beam8t.inp
+
+37 ../../examples/ccx_2.16.test/beam_sens_freq_coord1.inp
+
+38 ../../examples/ccx_2.16.test/beam_sens_freq_coord2.inp
+
+39 ../../examples/ccx_2.16.test/beam_sens_freq_coord3.inp
+
+40 ../../examples/ccx_2.16.test/beam_sens_stress_coord1.inp
+
+41 ../../examples/ccx_2.16.test/beam_sens_stress_coord2.inp
+
+42 ../../examples/ccx_2.16.test/beamabq.inp
+
+43 ../../examples/ccx_2.16.test/beamb.inp
+
+44 ../../examples/ccx_2.16.test/beamcom.inp
+
+45 ../../examples/ccx_2.16.test/beamcontact.inp
+
+46 ../../examples/ccx_2.16.test/beamcr.inp
+
+47 ../../examples/ccx_2.16.test/beamcr2.inp
+
+48 ../../examples/ccx_2.16.test/beamd.inp
+
+49 ../../examples/ccx_2.16.test/beamd2.inp
+
+50 ../../examples/ccx_2.16.test/beamdelay.inp
+
+51 ../../examples/ccx_2.16.test/beamdy1.inp
+
+52 ../../examples/ccx_2.16.test/beamdy10.inp
+
+53 ../../examples/ccx_2.16.test/beamdy10bm.inp
+ERROR: Traceback (most recent call last):
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 223, in <module>
+    k = import_inp(None, inp_doc, k)
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 127, in import_inp
+    counter = impl_counter[path_as_string] - 1
+KeyError: '/*STEP/STEP-2/Analysis type/*MODAL DYNAMIC'
+
+54 ../../examples/ccx_2.16.test/beamdy11.inp
+
+55 ../../examples/ccx_2.16.test/beamdy12.inp
+
+56 ../../examples/ccx_2.16.test/beamdy13.inp
+
+57 ../../examples/ccx_2.16.test/beamdy14.inp
+
+58 ../../examples/ccx_2.16.test/beamdy15.inp
+
+59 ../../examples/ccx_2.16.test/beamdy16.inp
+
+60 ../../examples/ccx_2.16.test/beamdy17.inp
+
+61 ../../examples/ccx_2.16.test/beamdy18.inp
+
+62 ../../examples/ccx_2.16.test/beamdy19.inp
+
+63 ../../examples/ccx_2.16.test/beamdy2.inp
+
+64 ../../examples/ccx_2.16.test/beamdy20.inp
+
+65 ../../examples/ccx_2.16.test/beamdy3.inp
+
+66 ../../examples/ccx_2.16.test/beamdy4.inp
+
+67 ../../examples/ccx_2.16.test/beamdy5.inp
+
+68 ../../examples/ccx_2.16.test/beamdy6.inp
+
+69 ../../examples/ccx_2.16.test/beamdy7.inp
+
+70 ../../examples/ccx_2.16.test/beamdy7bm.inp
+
+71 ../../examples/ccx_2.16.test/beamdy8.inp
+
+72 ../../examples/ccx_2.16.test/beamdy9.inp
+
+73 ../../examples/ccx_2.16.test/beamdynamic.inp
+
+74 ../../examples/ccx_2.16.test/beamexpdy1.inp
+
+75 ../../examples/ccx_2.16.test/beamf.inp
+
+76 ../../examples/ccx_2.16.test/beamf2.inp
+
+77 ../../examples/ccx_2.16.test/beamf3.inp
+
+78 ../../examples/ccx_2.16.test/beamf3submodel.inp
+
+79 ../../examples/ccx_2.16.test/beamfrdread.inp
+
+80 ../../examples/ccx_2.16.test/beamfsh1.inp
+ERROR: Traceback (most recent call last):
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 223, in <module>
+    k = import_inp(None, inp_doc, k)
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 100, in import_inp
+    keyword_chain.append(keyword_name)
+UnboundLocalError: local variable 'keyword_name' referenced before assignment
+
+81 ../../examples/ccx_2.16.test/beamfstrucdamp.inp
+
+82 ../../examples/ccx_2.16.test/beamfsubmodel.inp
+
+83 ../../examples/ccx_2.16.test/beamft.inp
+
+84 ../../examples/ccx_2.16.test/beamheatplas.inp
+
+85 ../../examples/ccx_2.16.test/beamhf.inp
+
+86 ../../examples/ccx_2.16.test/beamhtbf.inp
+
+87 ../../examples/ccx_2.16.test/beamhtbo.inp
+
+88 ../../examples/ccx_2.16.test/beamhtcr.inp
+
+89 ../../examples/ccx_2.16.test/beamhtcr2.inp
+
+90 ../../examples/ccx_2.16.test/beamhtfc.inp
+
+91 ../../examples/ccx_2.16.test/beamhtfc2.inp
+
+92 ../../examples/ccx_2.16.test/beamhtfcaero.inp
+
+93 ../../examples/ccx_2.16.test/beamhtfcaerothne.inp
+
+94 ../../examples/ccx_2.16.test/beamhtfcnu.inp
+
+95 ../../examples/ccx_2.16.test/beamidset.inp
+
+96 ../../examples/ccx_2.16.test/beamimpdy1.inp
+
+97 ../../examples/ccx_2.16.test/beamimpdy1nodirect.inp
+
+98 ../../examples/ccx_2.16.test/beamimpdy2.inp
+
+99 ../../examples/ccx_2.16.test/beamlin.inp
+
+100 ../../examples/ccx_2.16.test/beammix.inp
+
+101 ../../examples/ccx_2.16.test/beammpc.inp
+
+102 ../../examples/ccx_2.16.test/beammr.inp
+
+103 ../../examples/ccx_2.16.test/beammrco.inp
+
+104 ../../examples/ccx_2.16.test/beammrlin.inp
+
+105 ../../examples/ccx_2.16.test/beamnh.inp
+
+106 ../../examples/ccx_2.16.test/beamnld.inp
+
+107 ../../examples/ccx_2.16.test/beamnldy.inp
+
+108 ../../examples/ccx_2.16.test/beamnldye.inp
+
+109 ../../examples/ccx_2.16.test/beamnldye20.inp
+
+110 ../../examples/ccx_2.16.test/beamnldyems.inp
+
+111 ../../examples/ccx_2.16.test/beamnldynodirect.inp
+
+112 ../../examples/ccx_2.16.test/beamnldyp.inp
+
+113 ../../examples/ccx_2.16.test/beamnldype.inp
+
+114 ../../examples/ccx_2.16.test/beamnlmpc.inp
+
+115 ../../examples/ccx_2.16.test/beamnlp.inp
+
+116 ../../examples/ccx_2.16.test/beamnlptp.inp
+
+117 ../../examples/ccx_2.16.test/beamnlt.inp
+
+118 ../../examples/ccx_2.16.test/beamnoan.inp
+
+119 ../../examples/ccx_2.16.test/beamog.inp
+
+120 ../../examples/ccx_2.16.test/beamp.inp
+
+121 ../../examples/ccx_2.16.test/beamp1rotate.inp
+
+122 ../../examples/ccx_2.16.test/beamp2.inp
+
+123 ../../examples/ccx_2.16.test/beamp2rotate.inp
+
+124 ../../examples/ccx_2.16.test/beamp2stage.inp
+
+125 ../../examples/ccx_2.16.test/beamp_ciarlet.inp
+
+126 ../../examples/ccx_2.16.test/beampd.inp
+
+127 ../../examples/ccx_2.16.test/beampdepmpc.inp
+
+128 ../../examples/ccx_2.16.test/beamperror.inp
+
+129 ../../examples/ccx_2.16.test/beampfix.inp
+
+130 ../../examples/ccx_2.16.test/beampic.inp
+
+131 ../../examples/ccx_2.16.test/beampik.inp
+
+132 ../../examples/ccx_2.16.test/beampis.inp
+
+133 ../../examples/ccx_2.16.test/beampiso.inp
+
+134 ../../examples/ccx_2.16.test/beampiso2.inp
+
+135 ../../examples/ccx_2.16.test/beampisof.inp
+
+136 ../../examples/ccx_2.16.test/beampkin.inp
+
+137 ../../examples/ccx_2.16.test/beampl.inp
+
+138 ../../examples/ccx_2.16.test/beamplane.inp
+
+139 ../../examples/ccx_2.16.test/beampo1.inp
+
+140 ../../examples/ccx_2.16.test/beampo2.inp
+
+141 ../../examples/ccx_2.16.test/beampo3.inp
+
+142 ../../examples/ccx_2.16.test/beamprand.inp
+
+143 ../../examples/ccx_2.16.test/beamprb.inp
+
+144 ../../examples/ccx_2.16.test/beampset.inp
+
+145 ../../examples/ccx_2.16.test/beampt.inp
+
+146 ../../examples/ccx_2.16.test/beamptied1.inp
+
+147 ../../examples/ccx_2.16.test/beamptied1noadjust.inp
+
+148 ../../examples/ccx_2.16.test/beamptied2.inp
+
+149 ../../examples/ccx_2.16.test/beamptied3.inp
+
+150 ../../examples/ccx_2.16.test/beamptied4.inp
+
+151 ../../examples/ccx_2.16.test/beamptied5.inp
+
+152 ../../examples/ccx_2.16.test/beamptied6.inp
+
+153 ../../examples/ccx_2.16.test/beamptied7.inp
+
+154 ../../examples/ccx_2.16.test/beamptrans.inp
+
+155 ../../examples/ccx_2.16.test/beamrb.inp
+
+156 ../../examples/ccx_2.16.test/beamrb2.inp
+
+157 ../../examples/ccx_2.16.test/beamread.inp
+
+158 ../../examples/ccx_2.16.test/beamread2.inp
+
+159 ../../examples/ccx_2.16.test/beamread3.inp
+
+160 ../../examples/ccx_2.16.test/beamread4.inp
+WARNING: Wrong keyword *DLOAD.
+WARNING: Wrong keyword *DLOAD.
+WARNING: Wrong keyword *END STEP.
+
+161 ../../examples/ccx_2.16.test/beamstraight.inp
+
+162 ../../examples/ccx_2.16.test/beamt.inp
+
+163 ../../examples/ccx_2.16.test/beamt2.inp
+
+164 ../../examples/ccx_2.16.test/beamt3.inp
+
+165 ../../examples/ccx_2.16.test/beamt4.inp
+
+166 ../../examples/ccx_2.16.test/beamt6.inp
+
+167 ../../examples/ccx_2.16.test/beamth.inp
+
+168 ../../examples/ccx_2.16.test/beamtor.inp
+
+169 ../../examples/ccx_2.16.test/beamu.inp
+
+170 ../../examples/ccx_2.16.test/beamuamp.inp
+
+171 ../../examples/ccx_2.16.test/beamwrite.inp
+
+172 ../../examples/ccx_2.16.test/beamwrite2.inp
+
+173 ../../examples/ccx_2.16.test/beamwrite3.inp
+
+174 ../../examples/ccx_2.16.test/bifur.inp
+
+175 ../../examples/ccx_2.16.test/bolt.inp
+
+176 ../../examples/ccx_2.16.test/boxprofile.inp
+
+177 ../../examples/ccx_2.16.test/boxprofile2.inp
+
+178 ../../examples/ccx_2.16.test/branch1.inp
+
+179 ../../examples/ccx_2.16.test/branch2.inp
+
+180 ../../examples/ccx_2.16.test/branchjoint1.inp
+
+181 ../../examples/ccx_2.16.test/branchjoint2.inp
+
+182 ../../examples/ccx_2.16.test/branchjoint3.inp
+
+183 ../../examples/ccx_2.16.test/branchjoint4.inp
+
+184 ../../examples/ccx_2.16.test/branchsplit1.inp
+
+185 ../../examples/ccx_2.16.test/branchsplit2.inp
+
+186 ../../examples/ccx_2.16.test/branchsplit3.inp
+
+187 ../../examples/ccx_2.16.test/c3d15.inp
+
+188 ../../examples/ccx_2.16.test/c3d6.inp
+
+189 ../../examples/ccx_2.16.test/capacitor.inp
+
+190 ../../examples/ccx_2.16.test/carbonseal.inp
+
+191 ../../examples/ccx_2.16.test/centheat1.inp
+
+192 ../../examples/ccx_2.16.test/changefric.inp
+
+193 ../../examples/ccx_2.16.test/changesolidsection.inp
+
+194 ../../examples/ccx_2.16.test/changesurfbeh.inp
+WARNING: Wrong keyword *SURFACE BEHAVIOR.
+
+195 ../../examples/ccx_2.16.test/channel1.inp
+
+196 ../../examples/ccx_2.16.test/channel10.inp
+
+197 ../../examples/ccx_2.16.test/channel11.inp
+
+198 ../../examples/ccx_2.16.test/channel12.inp
+
+199 ../../examples/ccx_2.16.test/channel2.inp
+
+200 ../../examples/ccx_2.16.test/channel3.inp
+
+201 ../../examples/ccx_2.16.test/channel4.inp
+
+202 ../../examples/ccx_2.16.test/channel5.inp
+
+203 ../../examples/ccx_2.16.test/channel6.inp
+
+204 ../../examples/ccx_2.16.test/channel7.inp
+
+205 ../../examples/ccx_2.16.test/channel9.inp
+
+206 ../../examples/ccx_2.16.test/chanson1.inp
+
+207 ../../examples/ccx_2.16.test/characteristic.inp
+
+208 ../../examples/ccx_2.16.test/circ10p.inp
+
+209 ../../examples/ccx_2.16.test/circ10pfin.inp
+
+210 ../../examples/ccx_2.16.test/concretebeam.inp
+
+211 ../../examples/ccx_2.16.test/contact1.inp
+
+212 ../../examples/ccx_2.16.test/contact10.inp
+
+213 ../../examples/ccx_2.16.test/contact11.inp
+
+214 ../../examples/ccx_2.16.test/contact12.inp
+
+215 ../../examples/ccx_2.16.test/contact2.inp
+
+216 ../../examples/ccx_2.16.test/contact3.inp
+
+217 ../../examples/ccx_2.16.test/contact4.inp
+
+218 ../../examples/ccx_2.16.test/contact5.inp
+ERROR: Traceback (most recent call last):
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 223, in <module>
+    k = import_inp(None, inp_doc, k)
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 100, in import_inp
+    keyword_chain.append(keyword_name)
+UnboundLocalError: local variable 'keyword_name' referenced before assignment
+
+219 ../../examples/ccx_2.16.test/contact6.inp
+
+220 ../../examples/ccx_2.16.test/contact7.inp
+
+221 ../../examples/ccx_2.16.test/contact8.inp
+
+222 ../../examples/ccx_2.16.test/contact9.inp
+
+223 ../../examples/ccx_2.16.test/contactenergy.inp
+
+224 ../../examples/ccx_2.16.test/contdamp1.inp
+
+225 ../../examples/ccx_2.16.test/contdamp2.inp
+
+226 ../../examples/ccx_2.16.test/cou.inp
+
+227 ../../examples/ccx_2.16.test/cou2d.inp
+
+228 ../../examples/ccx_2.16.test/coucss.inp
+
+229 ../../examples/ccx_2.16.test/couctr.inp
+
+230 ../../examples/ccx_2.16.test/couette1.inp
+
+231 ../../examples/ccx_2.16.test/couette2.inp
+
+232 ../../examples/ccx_2.16.test/couettecyl.inp
+
+233 ../../examples/ccx_2.16.test/couettecyl4.inp
+
+234 ../../examples/ccx_2.16.test/couettecylcent.inp
+
+235 ../../examples/ccx_2.16.test/couettecylcomp.inp
+
+236 ../../examples/ccx_2.16.test/coupling1.inp
+
+237 ../../examples/ccx_2.16.test/coupling2.inp
+
+238 ../../examples/ccx_2.16.test/coupling3.inp
+
+239 ../../examples/ccx_2.16.test/coupling4.inp
+
+240 ../../examples/ccx_2.16.test/coupling5.inp
+
+241 ../../examples/ccx_2.16.test/coupling6.inp
+
+242 ../../examples/ccx_2.16.test/coupling7.inp
+
+243 ../../examples/ccx_2.16.test/cube2.inp
+
+244 ../../examples/ccx_2.16.test/cubef2f1.inp
+
+245 ../../examples/ccx_2.16.test/cubef2f2.inp
+
+246 ../../examples/ccx_2.16.test/cubef2f3.inp
+
+247 ../../examples/ccx_2.16.test/cubenewt.inp
+
+248 ../../examples/ccx_2.16.test/cubespring.inp
+
+249 ../../examples/ccx_2.16.test/cyl.inp
+
+250 ../../examples/ccx_2.16.test/dam.inp
+
+251 ../../examples/ccx_2.16.test/dashpot1.inp
+
+252 ../../examples/ccx_2.16.test/dashpot2.inp
+
+253 ../../examples/ccx_2.16.test/dashpot3.inp
+
+254 ../../examples/ccx_2.16.test/dashpot5.inp
+
+255 ../../examples/ccx_2.16.test/dashpot6.inp
+
+256 ../../examples/ccx_2.16.test/disk2.inp
+
+257 ../../examples/ccx_2.16.test/dist.inp
+
+258 ../../examples/ccx_2.16.test/distcoup.inp
+
+259 ../../examples/ccx_2.16.test/distcoup2.inp
+
+260 ../../examples/ccx_2.16.test/dloadlin20f.inp
+
+261 ../../examples/ccx_2.16.test/dloadlinI.inp
+
+262 ../../examples/ccx_2.16.test/dloadlinIf.inp
+
+263 ../../examples/ccx_2.16.test/dyncube.inp
+
+264 ../../examples/ccx_2.16.test/dyncubeexp.inp
+
+265 ../../examples/ccx_2.16.test/edgeload.inp
+
+266 ../../examples/ccx_2.16.test/equrem1.inp
+
+267 ../../examples/ccx_2.16.test/equrem2.inp
+
+268 ../../examples/ccx_2.16.test/equrem3.inp
+
+269 ../../examples/ccx_2.16.test/equrem4.inp
+
+270 ../../examples/ccx_2.16.test/fluidread.inp
+
+271 ../../examples/ccx_2.16.test/fluidwrite.inp
+WARNING: Wrong keyword *MASSFLOW.
+
+272 ../../examples/ccx_2.16.test/fricloop.inp
+
+273 ../../examples/ccx_2.16.test/friction1.inp
+
+274 ../../examples/ccx_2.16.test/friction2.inp
+
+275 ../../examples/ccx_2.16.test/friction3.inp
+
+276 ../../examples/ccx_2.16.test/fullseg.inp
+
+277 ../../examples/ccx_2.16.test/furnace.inp
+
+278 ../../examples/ccx_2.16.test/gap.inp
+
+279 ../../examples/ccx_2.16.test/gap2.inp
+
+280 ../../examples/ccx_2.16.test/gaspipe-cfd-pressure.inp
+
+281 ../../examples/ccx_2.16.test/gaspipe-fanno10.inp
+
+282 ../../examples/ccx_2.16.test/gaspipe-fanno8-oil.inp
+
+283 ../../examples/ccx_2.16.test/gaspipe-fanno9.inp
+WARNING: Wrong keyword *FLUID SECTIONS.
+WARNING: Wrong keyword *FLUID SECTIONS.
+WARNING: Wrong keyword *FLUID SECTIONS.
+
+284 ../../examples/ccx_2.16.test/gaspipe1-oil.inp
+
+285 ../../examples/ccx_2.16.test/gaspipe1.inp
+
+286 ../../examples/ccx_2.16.test/gaspipe11.inp
+
+287 ../../examples/ccx_2.16.test/gaspipe12.inp
+
+288 ../../examples/ccx_2.16.test/gaspipe13.inp
+
+289 ../../examples/ccx_2.16.test/gaspipe14.inp
+
+290 ../../examples/ccx_2.16.test/gaspipe15.inp
+
+291 ../../examples/ccx_2.16.test/gaspipe2.inp
+
+292 ../../examples/ccx_2.16.test/gaspipe3.inp
+
+293 ../../examples/ccx_2.16.test/gaspipe4.inp
+
+294 ../../examples/ccx_2.16.test/gaspipe5.inp
+
+295 ../../examples/ccx_2.16.test/gaspipe6.inp
+
+296 ../../examples/ccx_2.16.test/gaspipe7.inp
+
+297 ../../examples/ccx_2.16.test/gaspipe8-cfd-massflow.inp
+
+298 ../../examples/ccx_2.16.test/gaspipe8-cfd-pressure-split.inp
+
+299 ../../examples/ccx_2.16.test/gaspipe8-cfd-pressure.inp
+
+300 ../../examples/ccx_2.16.test/gaspipe8-oil.inp
+
+301 ../../examples/ccx_2.16.test/gaspipe8.inp
+
+302 ../../examples/ccx_2.16.test/gaspipe9.inp
+
+303 ../../examples/ccx_2.16.test/gaspres.inp
+
+304 ../../examples/ccx_2.16.test/green1.inp
+
+305 ../../examples/ccx_2.16.test/green2.inp
+
+306 ../../examples/ccx_2.16.test/green3.inp
+
+307 ../../examples/ccx_2.16.test/green4.inp
+
+308 ../../examples/ccx_2.16.test/greencyc1.inp
+WARNING: Wrong keyword *SELECT CYCLIC SYMMETRY MODES.
+
+309 ../../examples/ccx_2.16.test/greencyc2.inp
+WARNING: Wrong keyword *SELECT CYCLIC SYMMETRY MODES.
+
+310 ../../examples/ccx_2.16.test/hinge.inp
+
+311 ../../examples/ccx_2.16.test/hueeber1.inp
+
+312 ../../examples/ccx_2.16.test/hueeber2.inp
+
+313 ../../examples/ccx_2.16.test/hueeber3.inp
+
+314 ../../examples/ccx_2.16.test/hueeber4.inp
+
+315 ../../examples/ccx_2.16.test/impdyn.inp
+
+316 ../../examples/ccx_2.16.test/induction.inp
+
+317 ../../examples/ccx_2.16.test/induction2.inp
+
+318 ../../examples/ccx_2.16.test/induction3.inp
+
+319 ../../examples/ccx_2.16.test/inistrain.inp
+
+320 ../../examples/ccx_2.16.test/inistrain2.inp
+
+321 ../../examples/ccx_2.16.test/labyrinth1fin.inp
+
+322 ../../examples/ccx_2.16.test/labyrinthstepped.inp
+
+323 ../../examples/ccx_2.16.test/labyrinthstraight.inp
+
+324 ../../examples/ccx_2.16.test/largerot1.inp
+
+325 ../../examples/ccx_2.16.test/largerot2.inp
+
+326 ../../examples/ccx_2.16.test/largerot3.inp
+
+327 ../../examples/ccx_2.16.test/largerot4.inp
+
+328 ../../examples/ccx_2.16.test/largerot5.inp
+
+329 ../../examples/ccx_2.16.test/leifer1.inp
+
+330 ../../examples/ccx_2.16.test/leifer2.inp
+
+331 ../../examples/ccx_2.16.test/linearnet.inp
+
+332 ../../examples/ccx_2.16.test/load1.inp
+
+333 ../../examples/ccx_2.16.test/mass1.inp
+
+334 ../../examples/ccx_2.16.test/mass2.inp
+
+335 ../../examples/ccx_2.16.test/mass3.inp
+
+336 ../../examples/ccx_2.16.test/massflow_percent_ccx.inp
+WARNING: Wrong keyword *FLUID SECTIONS.
+WARNING: Wrong keyword *FLUID SECTIONS.
+WARNING: Wrong keyword *FLUID SECTIONS.
+WARNING: Wrong keyword *FLUID SECTIONS.
+WARNING: Wrong keyword *FLUID SECTIONS.
+WARNING: Wrong keyword *FLUID SECTIONS.
+WARNING: Wrong keyword *FLUID SECTIONS.
+
+337 ../../examples/ccx_2.16.test/membrane1.inp
+
+338 ../../examples/ccx_2.16.test/membrane2.inp
+
+339 ../../examples/ccx_2.16.test/membrane3.inp
+
+340 ../../examples/ccx_2.16.test/metalforming.inp
+
+341 ../../examples/ccx_2.16.test/modelchel.inp
+
+342 ../../examples/ccx_2.16.test/modelchel2.inp
+
+343 ../../examples/ccx_2.16.test/modelchel3.inp
+
+344 ../../examples/ccx_2.16.test/moehring.inp
+
+345 ../../examples/ccx_2.16.test/mpcforce.inp
+
+346 ../../examples/ccx_2.16.test/multistage.inp
+
+347 ../../examples/ccx_2.16.test/networkmpc.inp
+
+348 ../../examples/ccx_2.16.test/networkmpc2.inp
+
+349 ../../examples/ccx_2.16.test/oneel.inp
+
+350 ../../examples/ccx_2.16.test/oneel20cf.inp
+
+351 ../../examples/ccx_2.16.test/oneel20df.inp
+
+352 ../../examples/ccx_2.16.test/oneel20fi.inp
+
+353 ../../examples/ccx_2.16.test/oneel20rs.inp
+
+354 ../../examples/ccx_2.16.test/oneel8ra.inp
+
+355 ../../examples/ccx_2.16.test/oneeltruss.inp
+
+356 ../../examples/ccx_2.16.test/opt1.inp
+
+357 ../../examples/ccx_2.16.test/opt2.inp
+
+358 ../../examples/ccx_2.16.test/opt3.inp
+
+359 ../../examples/ccx_2.16.test/pendel.inp
+WARNING: Wrong keyword *nodefile.
+
+360 ../../examples/ccx_2.16.test/pipe.inp
+
+361 ../../examples/ccx_2.16.test/pipe2.inp
+
+362 ../../examples/ccx_2.16.test/pipempc1.inp
+
+363 ../../examples/ccx_2.16.test/pipempc2.inp
+
+364 ../../examples/ccx_2.16.test/pipempc3.inp
+
+365 ../../examples/ccx_2.16.test/piperestrictor.inp
+
+366 ../../examples/ccx_2.16.test/planestrain.inp
+
+367 ../../examples/ccx_2.16.test/planestrain2.inp
+
+368 ../../examples/ccx_2.16.test/planestress.inp
+
+369 ../../examples/ccx_2.16.test/planestress2.inp
+
+370 ../../examples/ccx_2.16.test/planestress3.inp
+
+371 ../../examples/ccx_2.16.test/planestress3dsens.inp
+
+372 ../../examples/ccx_2.16.test/planestress4.inp
+
+373 ../../examples/ccx_2.16.test/planestressquadsens.inp
+
+374 ../../examples/ccx_2.16.test/planestresssens.inp
+
+375 ../../examples/ccx_2.16.test/plate.inp
+
+376 ../../examples/ccx_2.16.test/poi2d.inp
+
+377 ../../examples/ccx_2.16.test/poi2d2.inp
+
+378 ../../examples/ccx_2.16.test/potied.inp
+
+379 ../../examples/ccx_2.16.test/pret1.inp
+
+380 ../../examples/ccx_2.16.test/pret2.inp
+
+381 ../../examples/ccx_2.16.test/pret3.inp
+
+382 ../../examples/ccx_2.16.test/pret4.inp
+
+383 ../../examples/ccx_2.16.test/pret5.inp
+
+384 ../../examples/ccx_2.16.test/pret6.inp
+
+385 ../../examples/ccx_2.16.test/pret7.inp
+
+386 ../../examples/ccx_2.16.test/primaryair.inp
+WARNING: Wrong keyword *fluid sections.
+WARNING: Wrong keyword *fluid sections.
+WARNING: Wrong keyword *fluid sections.
+WARNING: Wrong keyword *fluid sections.
+WARNING: Wrong keyword *fluid sections.
+WARNING: Wrong keyword *fluid sections.
+WARNING: Wrong keyword *fluid sections.
+
+387 ../../examples/ccx_2.16.test/punch1.inp
+
+388 ../../examples/ccx_2.16.test/punch2.inp
+
+389 ../../examples/ccx_2.16.test/resstress1.inp
+
+390 ../../examples/ccx_2.16.test/resstress2.inp
+
+391 ../../examples/ccx_2.16.test/resstress3.inp
+
+392 ../../examples/ccx_2.16.test/restrictor-oil.inp
+
+393 ../../examples/ccx_2.16.test/restrictor.inp
+
+394 ../../examples/ccx_2.16.test/ring1.inp
+
+395 ../../examples/ccx_2.16.test/ring2.inp
+
+396 ../../examples/ccx_2.16.test/ring3.inp
+
+397 ../../examples/ccx_2.16.test/ring4.inp
+
+398 ../../examples/ccx_2.16.test/ringfcontact1.inp
+
+399 ../../examples/ccx_2.16.test/ringfcontact2.inp
+
+400 ../../examples/ccx_2.16.test/ringfcontact3.inp
+
+401 ../../examples/ccx_2.16.test/ringfcontact4.inp
+
+402 ../../examples/ccx_2.16.test/ringfcontact5.inp
+
+403 ../../examples/ccx_2.16.test/rot1.inp
+
+404 ../../examples/ccx_2.16.test/rot2.inp
+
+405 ../../examples/ccx_2.16.test/rot3.inp
+
+406 ../../examples/ccx_2.16.test/rot4.inp
+
+407 ../../examples/ccx_2.16.test/rotor.inp
+
+408 ../../examples/ccx_2.16.test/rotor2.inp
+
+409 ../../examples/ccx_2.16.test/rotor3.inp
+
+410 ../../examples/ccx_2.16.test/rotpipe1.inp
+
+411 ../../examples/ccx_2.16.test/rotpipe2.inp
+ERROR: Traceback (most recent call last):
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 223, in <module>
+    k = import_inp(None, inp_doc, k)
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 100, in import_inp
+    keyword_chain.append(keyword_name)
+UnboundLocalError: local variable 'keyword_name' referenced before assignment
+
+412 ../../examples/ccx_2.16.test/rotpipe3.inp
+ERROR: Traceback (most recent call last):
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 223, in <module>
+    k = import_inp(None, inp_doc, k)
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 100, in import_inp
+    keyword_chain.append(keyword_name)
+UnboundLocalError: local variable 'keyword_name' referenced before assignment
+
+413 ../../examples/ccx_2.16.test/rotpipe3inv.inp
+
+414 ../../examples/ccx_2.16.test/rotpipe4.inp
+
+415 ../../examples/ccx_2.16.test/rotpipe5.inp
+
+416 ../../examples/ccx_2.16.test/rotpipe6.inp
+
+417 ../../examples/ccx_2.16.test/rotpipe7.inp
+
+418 ../../examples/ccx_2.16.test/rotpipeu.inp
+
+419 ../../examples/ccx_2.16.test/sc123.inp
+
+420 ../../examples/ccx_2.16.test/sc123creep.inp
+
+421 ../../examples/ccx_2.16.test/scheibe.inp
+
+422 ../../examples/ccx_2.16.test/scheibe2f2f.inp
+
+423 ../../examples/ccx_2.16.test/scheibe2n2f.inp
+
+424 ../../examples/ccx_2.16.test/section.inp
+
+425 ../../examples/ccx_2.16.test/section4.inp
+
+426 ../../examples/ccx_2.16.test/segdyn.inp
+
+427 ../../examples/ccx_2.16.test/segment.inp
+
+428 ../../examples/ccx_2.16.test/segment1.inp
+
+429 ../../examples/ccx_2.16.test/segment2.inp
+
+430 ../../examples/ccx_2.16.test/segmentbeam.inp
+
+431 ../../examples/ccx_2.16.test/segmentbeam2.inp
+
+432 ../../examples/ccx_2.16.test/segmentf.inp
+
+433 ../../examples/ccx_2.16.test/segmentface.inp
+
+434 ../../examples/ccx_2.16.test/segmentm.inp
+
+435 ../../examples/ccx_2.16.test/segmenttet.inp
+
+436 ../../examples/ccx_2.16.test/segststate.inp
+
+437 ../../examples/ccx_2.16.test/sens2d.inp
+
+438 ../../examples/ccx_2.16.test/sens3d.inp
+
+439 ../../examples/ccx_2.16.test/sens_disp_orien.inp
+
+440 ../../examples/ccx_2.16.test/sens_disp_orien_nlgeom.inp
+
+441 ../../examples/ccx_2.16.test/sens_freq_disp_cyc.inp
+
+442 ../../examples/ccx_2.16.test/sens_freq_orien.inp
+
+443 ../../examples/ccx_2.16.test/sensitivity_I.inp
+
+444 ../../examples/ccx_2.16.test/sensitivity_V.inp
+
+445 ../../examples/ccx_2.16.test/sensitivity_VI.inp
+
+446 ../../examples/ccx_2.16.test/sensitivity_VII.inp
+
+447 ../../examples/ccx_2.16.test/shell1.inp
+
+448 ../../examples/ccx_2.16.test/shell1lin.inp
+
+449 ../../examples/ccx_2.16.test/shell2.inp
+
+450 ../../examples/ccx_2.16.test/shell3.inp
+
+451 ../../examples/ccx_2.16.test/shell4.inp
+
+452 ../../examples/ccx_2.16.test/shell5.inp
+
+453 ../../examples/ccx_2.16.test/shell6.inp
+
+454 ../../examples/ccx_2.16.test/shell6rot2.inp
+
+455 ../../examples/ccx_2.16.test/shell7.inp
+
+456 ../../examples/ccx_2.16.test/shell7rot.inp
+
+457 ../../examples/ccx_2.16.test/shell7rot2.inp
+
+458 ../../examples/ccx_2.16.test/shellbeam.inp
+
+459 ../../examples/ccx_2.16.test/shellf.inp
+
+460 ../../examples/ccx_2.16.test/shellf2.inp
+
+461 ../../examples/ccx_2.16.test/shellnor.inp
+
+462 ../../examples/ccx_2.16.test/shellquadsens.inp
+
+463 ../../examples/ccx_2.16.test/shellsens.inp
+
+464 ../../examples/ccx_2.16.test/simplebeam.inp
+
+465 ../../examples/ccx_2.16.test/simplebeampipe1.inp
+
+466 ../../examples/ccx_2.16.test/simplebeampipe2.inp
+
+467 ../../examples/ccx_2.16.test/simplebeampipe3.inp
+
+468 ../../examples/ccx_2.16.test/simplebeampipe4.inp
+
+469 ../../examples/ccx_2.16.test/simplebeampipe5.inp
+
+470 ../../examples/ccx_2.16.test/slant.inp
+WARNING: Wrong keyword *MASSFLOW.
+
+471 ../../examples/ccx_2.16.test/small_pressure_gradient.inp
+
+472 ../../examples/ccx_2.16.test/solidshell1.inp
+
+473 ../../examples/ccx_2.16.test/solidshell2.inp
+
+474 ../../examples/ccx_2.16.test/spring1.inp
+
+475 ../../examples/ccx_2.16.test/spring2.inp
+
+476 ../../examples/ccx_2.16.test/spring3.inp
+
+477 ../../examples/ccx_2.16.test/spring4.inp
+
+478 ../../examples/ccx_2.16.test/spring5.inp
+
+479 ../../examples/ccx_2.16.test/spring6.inp
+
+480 ../../examples/ccx_2.16.test/spring7.inp
+
+481 ../../examples/ccx_2.16.test/square.inp
+
+482 ../../examples/ccx_2.16.test/submodelbeamp.inp
+
+483 ../../examples/ccx_2.16.test/submodelbeampdouble.inp
+
+484 ../../examples/ccx_2.16.test/submodeltwobeam.inp
+
+485 ../../examples/ccx_2.16.test/submodeltwobeamnlgeom.inp
+
+486 ../../examples/ccx_2.16.test/substructure.inp
+
+487 ../../examples/ccx_2.16.test/swing.inp
+
+488 ../../examples/ccx_2.16.test/tempdiscon.inp
+
+489 ../../examples/ccx_2.16.test/thermomech.inp
+
+490 ../../examples/ccx_2.16.test/thermomech2.inp
+
+491 ../../examples/ccx_2.16.test/thread.inp
+
+492 ../../examples/ccx_2.16.test/transition.inp
+
+493 ../../examples/ccx_2.16.test/truss.inp
+
+494 ../../examples/ccx_2.16.test/truss2.inp
+
+495 ../../examples/ccx_2.16.test/unet1.inp
+
+496 ../../examples/ccx_2.16.test/unetp1.inp
+
+497 ../../examples/ccx_2.16.test/uprofile.inp
+
+498 ../../examples/ccx_2.16.test/userbeam.inp
+
+499 ../../examples/ccx_2.16.test/vortex1.inp
+
+500 ../../examples/ccx_2.16.test/vortex2.inp
+
+501 ../../examples/ccx_2.16.test/vortex3.inp
+
+502 ../../examples/ccx_2.16.test/wire.inp

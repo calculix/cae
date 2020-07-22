@@ -70,7 +70,7 @@ if __name__ == '__main__':
     # Prepare skip list
     skip += ('.git', '.gitignore', '.py', 'tests.log',
         'dist', 'gui', 'model', 'backup', 'releases',
-        'default.log', 'materials.log', 'ARPACK', 
+        'default.log', 'importer.log', 'ARPACK', 
         'SPOOLES.2.2', '.md')
 
     # Copy files and folders from sources to 'dist'

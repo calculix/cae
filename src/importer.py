@@ -21,6 +21,8 @@ j - Job """
 
 # Standard modules
 import logging
+import traceback
+import os
 
 # External modules
 try:
@@ -31,9 +33,11 @@ except:
     sys.exit(msg)
 
 # My modules
-import gui
 import model
+import gui
 import file_tools
+import clean
+import tests
 
 # Split inp_doc on blocks
 def split_on_blocks(inp_doc, KOM):
@@ -62,6 +66,10 @@ def split_on_blocks(inp_doc, KOM):
     # print_blocks(keyword_blocks)
     return keyword_blocks
 
+def print_blocks(keyword_blocks):
+    for inp_code in keyword_blocks:
+        print_block(inp_code)
+
 def print_block(inp_code):
     for i in range(len(inp_code)):
         print(inp_code[i])
@@ -70,10 +78,6 @@ def print_block(inp_code):
     print()
     print(len(inp_code), '---')
     print()
-
-def print_blocks(keyword_blocks):
-    for inp_code in keyword_blocks:
-        print_block(inp_code)
 
 def import_inp(s, inp_doc, KOM):
     keyword_chain = []
@@ -136,6 +140,8 @@ def import_inp(s, inp_doc, KOM):
                 # If first implementation was created for current keyword
                 impl_counter[path_as_string] = 1
 
+    return KOM
+
 def import_file(p, s, w, m, t, j, file_name=''):
     if len(file_name) == 0:
         file_name = QtWidgets.QFileDialog.getOpenFileName(w, \
@@ -185,3 +191,38 @@ def import_file(p, s, w, m, t, j, file_name=''):
 
         # gui.cgx.kill(w)
         gui.cgx.open_inp(p, w, m, j)
+
+# Run test
+if __name__ == '__main__':
+    clean.screen()
+    os.chdir(os.path.dirname(__file__))
+    print = tests.print
+
+    # Prepare logging
+    log_file = __file__[:-3] + '.log'
+    logging.getLogger().addHandler(tests.myHandler(log_file))
+    logging.getLogger().setLevel(logging.WARNING)
+
+    limit = 3000 # how many files to process
+    counter = 1
+    kom_xml = '../config/kom.xml'
+    # examples_dir = '../../examples/abaqus/eif'
+    examples_dir = '../../examples/ccx_2.16.test'
+
+    print(log_file, 'IMPORTER (KEYWORDS PARSER) TEST\n\n')
+    examples = tests.scan_all_files_in(examples_dir, '.inp', limit)
+    for file_name in examples:
+        print(log_file, '\n{} {}'.format(counter, file_name))
+        inp_doc = file_tools.read_lines(file_name)
+
+        # Build new clean/empty keyword object model
+        k = model.kom.KOM(None, None, kom_xml)
+
+        try:
+            # Parse inp_doc end enrich existing KOM
+            k = import_inp(None, inp_doc, k)
+        except:
+            logging.error(traceback.format_exc())
+        counter += 1
+
+    clean.cache()
