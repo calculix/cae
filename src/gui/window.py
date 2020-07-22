@@ -84,10 +84,19 @@ class Window(QtWidgets.QMainWindow):
             return
 
         gui.cgx.kill(self)
-        self.cgx_process = subprocess.Popen(cmd.split(),
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT)
+
+        # Open CGX without terminal/cmd window
+        if self.p.op_sys == 'windows':
+            self.cgx_process = subprocess.Popen(cmd.split(),
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                shell=True)
+        if self.p.op_sys == 'linux':
+            self.cgx_process = subprocess.Popen(cmd.split(),
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT)
         logging.debug('CGX PID={}'.format(self.cgx_process.pid))
         self.wid2 = self.get_wid('CalculiX GraphiX') # could be None
 
