@@ -65,8 +65,9 @@ class Mesh:
                     # for k,v in attrValue.items():
                     #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
                 except:
-                    logging.error('Can\'t parse {}'.format(attrName))
-                    logging.error(traceback.format_exc())
+                    msg = 'Can\'t parse {}\n'.format(attrName) \
+                        + traceback.format_exc()
+                    logging.error(msg)
         logging.info(msg_text)
 
         # Mesh bounds to avoid camera flying to infinity

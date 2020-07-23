@@ -84,7 +84,10 @@ def import_inp(s, inp_doc, KOM):
     impl_counter = {}
 
     for inp_code in split_on_blocks(inp_doc, KOM):
+        keyword_name = None
+        msg = 'Error parsing INP code:\n'
         for line in inp_code:
+            msg += line + '\n'
             if line.upper().startswith(KOM.keyword_names):
 
                 # Distinguish 'NODE' and 'NODE PRINT'
@@ -95,6 +98,9 @@ def import_inp(s, inp_doc, KOM):
 
                 logging.debug('\n' + line)
                 break
+        if keyword_name is None:
+            logging.error(msg)
+            continue
 
         # Find KOM keyword path corresponding to keyword_chain
         keyword_chain.append(keyword_name)
@@ -112,7 +118,7 @@ def import_inp(s, inp_doc, KOM):
                 # Choose where to create implementation
                 if impl:
                     # Implementation will be created inside another implementation
-                    item = impl.getItemByName(path[j].name)
+                    item = impl.get_item_by_name(path[j].name)
                 else:
                     # Implementation will be created inside keyword or group
                     item = path[j]
@@ -120,9 +126,9 @@ def import_inp(s, inp_doc, KOM):
                 path_as_string += '/' + item.name
                 if j == len(path) - 1: # last item is always keyword
                     # Create implementation (for example, MATERIAL-1)
-                    impl = model.kom.implementation(s, item, inp_code)
+                    impl = model.kom.Implementation(s, item, inp_code)
                     # logging.debug('1')
-                elif item.item_type == model.kom.item_type.KEYWORD:
+                elif item.itype == model.kom.ItemType.KEYWORD:
                     # If for this keyword implementation was created previously
                     counter = impl_counter[path_as_string] - 1
                     impl = item.items[counter] # first implementation, for example, STEP-1

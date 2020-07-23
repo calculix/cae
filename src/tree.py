@@ -18,7 +18,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 # My modules
 import gui
 import model
-from model.kom import item_type, implementation
+from model.kom import ItemType, Implementation
 
 class Tree:
 
@@ -53,16 +53,16 @@ class Tree:
         for item in items:
 
             # Add to the tree only needed item_types
-            if item.item_type not \
-                in [item_type.GROUP,
-                    item_type.KEYWORD,
-                    item_type.IMPLEMENTATION]:
+            if item.itype not \
+                in [ItemType.GROUP,
+                    ItemType.KEYWORD,
+                    ItemType.IMPLEMENTATION]:
                 continue
 
             # Check if there are keywords with implementations
             if self.s.show_empty_keywords \
-                or item.countImplementations() \
-                or item.item_type == item_type.IMPLEMENTATION:
+                or item.count_implementations() \
+                or item.itype == ItemType.IMPLEMENTATION:
 
                 # Create tree_element
                 tree_element = QtGui.QStandardItem(item.name)
@@ -72,10 +72,10 @@ class Tree:
                 # Set text color for tree_element
                 brush = QtGui.QBrush()
                 brush.setColor(QtCore.Qt.gray)
-                if item.isActive():
+                if item.is_active():
                     brush.setColor(QtCore.Qt.black)
                     # Bold font for implementations
-                    if item.item_type == item_type.IMPLEMENTATION:
+                    if item.itype == ItemType.IMPLEMENTATION:
                         font = QtGui.QFont()
                         font.setBold(True)
                         tree_element.setFont(font)
@@ -96,7 +96,7 @@ class Tree:
                 tree_element.setIcon(icon)
 
                 # Organize recursion
-                impls = item.getImplementations()
+                impls = item.get_implementations()
                 if len(impls):
                     self.addToTree(tree_element, impls)
                 else:
@@ -109,8 +109,8 @@ class Tree:
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
         # Double click on GROUP doesn't create dialog
-        if item and item.item_type in \
-            [item_type.KEYWORD, item_type.IMPLEMENTATION]:
+        if item and item.itype in \
+            [ItemType.KEYWORD, ItemType.IMPLEMENTATION]:
 
             if item.active:
 
@@ -131,12 +131,12 @@ class Tree:
                     inp_code = dialog.onOk() # list of strings
 
                     # Create implementation object for keyword
-                    if item.item_type == item_type.KEYWORD:
-                        impl = implementation(self.s, item, inp_code) # create keyword's implementation
+                    if item.itype == ItemType.KEYWORD:
+                        impl = Implementation(self.s, item, inp_code) # create keyword's implementation
 
                         # Regenerate tree_element's children
                         tree_element.removeRows(0, tree_element.rowCount()) # remove all children
-                        self.addToTree(tree_element, item.getImplementations()) # add only implementations
+                        self.addToTree(tree_element, item.get_implementations()) # add only implementations
 
                         # Reparse mesh or constraints
                         # self.m.Mesh.reparse(inp_code)
@@ -145,14 +145,14 @@ class Tree:
                         self.clicked() # rehighlight
 
                     # Replace implementation object with a new one
-                    elif item.item_type == item_type.IMPLEMENTATION:
+                    elif item.itype == ItemType.IMPLEMENTATION:
                         # Remove old one
                         parent = tree_element.parent() # parent treeView item
                         keyword = parent.data() # parent keyword for implementation
                         keyword.items.remove(item) # remove implementation from keyword's items
 
                         # Add new one
-                        impl = implementation(self.s, keyword, inp_code, name=item.name)
+                        impl = Implementation(self.s, keyword, inp_code, name=item.name)
                         tree_element.setData(impl)
 
                         # Reparse mesh or constraints
@@ -161,7 +161,7 @@ class Tree:
                         self.clicked() # rehighlight
 
             else:
-                logging.warning('Please, create ' + item.getParentKeywordName() + ' first.')
+                logging.warning('Please, create ' + item.get_parent_keyword_name() + ' first.')
 
     # Highlight node sets, element sets or surfaces
     def clicked(self):
@@ -179,7 +179,7 @@ class Tree:
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
         # Highlight entities
-        if item and item.item_type == item_type.IMPLEMENTATION:
+        if item and item.itype == ItemType.IMPLEMENTATION:
             ipn_up = item.parent.name.upper()
             _set = []
 
@@ -246,7 +246,7 @@ class Tree:
 
             # Context menu for any keyword and implementations
             if item:
-                if item.item_type == item_type.IMPLEMENTATION:
+                if item.itype == ItemType.IMPLEMENTATION:
 
                     # 'Edit' action
                     action_edit_implementation = QtWidgets.QAction('Edit', self.w.treeView)
@@ -258,7 +258,7 @@ class Tree:
                     self.myMenu.addAction(action_delete_implementation)
                     action_delete_implementation.triggered.connect(self.actionDeleteImplementation)
 
-                if item.item_type == item_type.KEYWORD:
+                if item.itype == ItemType.KEYWORD:
 
                     # 'Create' action
                     action_create_implementation = QtWidgets.QAction('Create', self.w.treeView)
@@ -311,7 +311,7 @@ class Tree:
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
-        if item and item.item_type == item_type.IMPLEMENTATION:
+        if item and item.itype == ItemType.IMPLEMENTATION:
 
             # Confirmation dialog to delete implementation
             answer = QtWidgets.QMessageBox.question(None,
@@ -337,7 +337,7 @@ class Tree:
         # To hide current item/brunch it should be empty 'keyword' or 'group'
         if not self.s.show_empty_keywords \
             and not tree_element.hasChildren() \
-            and tree_element.data().item_type != item_type.IMPLEMENTATION:
+            and tree_element.data().itype != ItemType.IMPLEMENTATION:
 
             # Hide current item/brunch from tree via calling parent.removeRow
             parent = tree_element.parent()

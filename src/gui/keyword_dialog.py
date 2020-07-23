@@ -27,7 +27,7 @@ except:
 # My modules
 try:
     # Normal run
-    from model.kom import item_type
+    from model.kom import ItemType
 except:
     # Test run
     sys_path = os.path.join(os.path.dirname(__file__), '..')
@@ -81,13 +81,13 @@ class KeywordDialog(QtWidgets.QDialog):
         self.setWindowIcon(icon)
 
         # New implementation: draw full form for keyword's arguments
-        if self.item.item_type == item_type.KEYWORD:
+        if self.item.itype == ItemType.KEYWORD:
             self.setWindowTitle('New ' + self.item.name)
 
             # For each keyword's argument create name and value widgets
             row_number = 0 # row number for vertical layout
             for argument in self.item.items:
-                if argument.item_type != item_type.ARGUMENT:
+                if argument.itype != ItemType.ARGUMENT:
                     continue
 
                 argument_values_items = argument.items
@@ -104,7 +104,7 @@ class KeywordDialog(QtWidgets.QDialog):
                         argument_values_items = ['']
                         # Example: ELSET argument in *ELSET keyword
                         if ag != self.item.name.upper()[1:]:
-                            implementations = [item.name for item in keyword.getImplementations()]
+                            implementations = [item.name for item in keyword.get_implementations()]
                             logging.debug('\tKeyword ' + keyword.name)
                             logging.debug('\t\tImplementations ' + str(implementations))
                             logging.debug('\t\tArgument items ' + str(argument.items))
@@ -192,7 +192,7 @@ class KeywordDialog(QtWidgets.QDialog):
             self.onChange(None)
 
         # Edit implementation: draw only textEdit
-        if self.item.item_type == item_type.IMPLEMENTATION:
+        if self.item.itype == ItemType.IMPLEMENTATION:
             self.setWindowTitle('Edit ' + self.item.name)
             for line in self.item.inp_code:
                 self.textEdit.append(line)
@@ -237,14 +237,14 @@ class KeywordDialog(QtWidgets.QDialog):
                         arguments[name.strip()] = value
 
         # Generate text for textEdit widget
-        if self.item.item_type == item_type.KEYWORD:
+        if self.item.itype == ItemType.KEYWORD:
             string = self.item.name
             for name, value in arguments.items():
                 if self.item.from_new_line:
                     string += '\n' + name + value # argument goes from new line
                 else:
                     string += ', ' + name + value # argument goes inline
-        if self.item.item_type == item_type.IMPLEMENTATION:
+        if self.item.itype == ItemType.IMPLEMENTATION:
             string = self.item.parent.name
 
         self.textEdit.setText(string)
@@ -295,9 +295,9 @@ class KeywordDialog(QtWidgets.QDialog):
 
     # Get URL to the local help page
     def get_url(self):
-        if self.item.item_type == item_type.KEYWORD:
+        if self.item.itype == ItemType.KEYWORD:
             keyword_name = self.item.name[1:] # cut star
-        if self.item.item_type == item_type.IMPLEMENTATION:
+        if self.item.itype == ItemType.IMPLEMENTATION:
             keyword_name = self.item.parent.name[1:] # cut star
 
         # Avoid spaces in html page names
