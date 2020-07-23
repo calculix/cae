@@ -1,4 +1,4 @@
-© Ihor Mirzov, June 2020  
+© Ihor Mirzov, July 2020  
 Distributed under GNU General Public License v3.0
 
 <br/><br/>
@@ -22,11 +22,11 @@ Distributed under GNU General Public License v3.0
 
 
 
-# CalculiX CAE
+# CalculiX Adanced Environment (CAE)
 
-GUI/pre-processor for [CalculiX CrunchiX](http://dhondt.de/). Very simple, free and open source. Program is based on CalculiX keywords hierarchy. Written in Python3 and utilizes PyQt5.
+CAE is a software package mainly consisting of CalculiX [GraphiX](http://calculix.de/), [CrunchiX](http://dhondt.de/) and keyword editor. The last one - is a very simple, free and open source GUI/pre-processor for CalculiX. Program is based on the keywords hierarchy, is designed to guide you through the keywords creation process and is aimed to help you reach correct input file with no mistakes. Keyword editor is written in Python3 and utilizes PyQt5.
 
-It is implied that you have already created geometry and generated mesh in some other software like [FreeCAD](https://www.freecadweb.org/) or [Salome-platform](https://www.salome-platform.org/). CalculiX CAE is designed to guide you through the keywords creation sequence and is aimed to help you reach correct input file with no mistakes.
+It is implied that you have already created geometry and generated mesh in some other software like [FreeCAD](https://www.freecadweb.org/) or [Salome-platform](https://www.salome-platform.org/).
 
 <br/><br/>
 
@@ -34,7 +34,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Features
 
-- CalculiX CAE comes with the latest CGX and CCX compiled for Linux and Windows. Windows version of CGX is taken from [CalculiX Launcher v3.4](http://www.calculixforwin.com/) 
+- CAE comes with the latest CGX and CCX compiled for both Linux and Windows. Windows version of CGX is taken from [CalculiX Launcher v3.4](http://www.calculixforwin.com/) 
 
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated with CCX.
 
@@ -63,13 +63,13 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Screenshots
 
-CAE and CGX windows with imported mesh and painted surfaces:
+Keyword editor and CGX windows with imported mesh and painted surfaces:
 ![img1](img/img_surfaces.png "Painted surfaces")
 
 "New keyword" dialog with corresponding chapter from HTML manual:
 ![img2](img/img_dialog.png "Keyword dialog")
 
-CAE and CGX windows with calculated model:
+Keyword editor and CGX windows with calculated model:
 ![img3](img/img_social.png "Calculation results")
 
 Calculation result exported to Paraview:
@@ -81,7 +81,7 @@ Calculation result exported to Paraview:
 
 # How to use
 
-Running this software from source is not recommended, because sources are under development and may contain bugs. So, first, [download released binaries](https://github.com/calculix/cae/releases), unpack them and allow to be executed (give permissions).
+[Download latest release](https://github.com/calculix/cae/releases) (binaries or source code), unpack it and allow to be executed (give permissions).
 
 The intended workflow is:
 
@@ -92,17 +92,25 @@ The intended workflow is:
 - submit job from CAE,
 - view job result in GraphiX or export it to the Paraview post-processor.
 
-Run the software with command:
+Run the software with command (works both for binaries and source code):
 
     in Linux:       ./cae.sh
     in Windows:     cae.bat
 
-You can edit default startup model name in File->Settings or pass it as an argument to open on startup:
+**Attention!** To run sources you'll need Python3 with PyQt5. Linux also needs Xlib. See [requirements.txt](./requirements.txt).
+
+You can edit default startup model name in File->Settings or leave it empty or even pass it as an argument to open on startup:
 
     in Linux:       ./cae.sh -inp yourmodel.inp
                     ./cae.sh -inp yourmodel.unv
     in Windows:     cae.bat -inp yourmodel.inp
                     cae.bat -inp yourmodel.unv
+
+Another way to run CAE is (from 'src' directory):
+
+    python3 cae.py
+    python3 cae.py -inp yourmodel.inp
+    python3 cae.py -inp yourmodel.unv
 
 <br/><br/>
 
@@ -133,17 +141,11 @@ You may also need libraries:
     pyinstaller
     pycallgraph
 
-From 'src' directory run source code with one of the commands:
-
-    python3 cae.py
-    python3 cae.py -inp yourmodel.inp
-    python3 cae.py -inp yourmodel.unv
-
 Use [make_release.py](make_release.py) to create releases (pyinstaller needed):
 
     python3 make_release.py
 
-CalculiX CAE uses external converters:
+CAE uses converters:
 
 - [ccx2paraview](https://github.com/calculix/ccx2paraview) - CalculiX to Paraview converter (frd to vtk/vtu)
 - [unv2ccx](https://github.com/calculix/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
@@ -156,7 +158,7 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - make 4.2.1-2
 - perl 5.26.3-2
 
-**Attention!** In Windows CCX may not work if placed outside 'bin' directory. It needs Cygwin DLLs! So, if you change path to CCX, place there Cygwin DLLs from 'bin' directory.
+**Attention!** Do not move CCX or CGX from 'bin' directory!
 
 <br/><br/>
 
@@ -245,8 +247,12 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - Parser: reparse mesh/model after tree.actionDeleteImplementation.
 
-- Merge tests.py and model.parsers.mesh.py.
-
 - Is it possible to make release binaries without pyinstaller?
 
-- Allow to run source code via cae.bat and cae.sh.
+- Run CAE even if can't get CGX WID. Thread for periodic checking of CGX WID. Connect/disconnect CGX automatically in the background.
+
+- https://mechanicalhacks.wordpress.com/2011/03/29/building-calculix-to-run-native-on-64-bit-windows/
+
+- Merge tests.py and model.parsers.mesh.py.
+
+- Replace binaries into code version for unv2ccx and ccx2paraview.
