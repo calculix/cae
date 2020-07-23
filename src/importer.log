@@ -106,9 +106,9 @@ IMPORTER (KEYWORDS PARSER) TEST
 
 53 ../../examples/ccx_2.16.test/beamdy10bm.inp
 ERROR: Traceback (most recent call last):
-  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 223, in <module>
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 235, in <module>
     k = import_inp(None, inp_doc, k)
-  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 127, in import_inp
+  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 134, in import_inp
     counter = impl_counter[path_as_string] - 1
 KeyError: '/*STEP/STEP-2/Analysis type/*MODAL DYNAMIC'
 
@@ -165,12 +165,8 @@ KeyError: '/*STEP/STEP-2/Analysis type/*MODAL DYNAMIC'
 79 ../../examples/ccx_2.16.test/beamfrdread.inp
 
 80 ../../examples/ccx_2.16.test/beamfsh1.inp
-ERROR: Traceback (most recent call last):
-  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 223, in <module>
-    k = import_inp(None, inp_doc, k)
-  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 100, in import_inp
-    keyword_chain.append(keyword_name)
-UnboundLocalError: local variable 'keyword_name' referenced before assignment
+ERROR: Error parsing INP code:
+>**
 
 81 ../../examples/ccx_2.16.test/beamfstrucdamp.inp
 
@@ -451,12 +447,8 @@ WARNING: Wrong keyword *SURFACE BEHAVIOR.
 217 ../../examples/ccx_2.16.test/contact4.inp
 
 218 ../../examples/ccx_2.16.test/contact5.inp
-ERROR: Traceback (most recent call last):
-  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 223, in <module>
-    k = import_inp(None, inp_doc, k)
-  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 100, in import_inp
-    keyword_chain.append(keyword_name)
-UnboundLocalError: local variable 'keyword_name' referenced before assignment
+ERROR: Error parsing INP code:
+>**
 
 219 ../../examples/ccx_2.16.test/contact6.inp
 
@@ -864,20 +856,12 @@ WARNING: Wrong keyword *fluid sections.
 410 ../../examples/ccx_2.16.test/rotpipe1.inp
 
 411 ../../examples/ccx_2.16.test/rotpipe2.inp
-ERROR: Traceback (most recent call last):
-  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 223, in <module>
-    k = import_inp(None, inp_doc, k)
-  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 100, in import_inp
-    keyword_chain.append(keyword_name)
-UnboundLocalError: local variable 'keyword_name' referenced before assignment
+ERROR: Error parsing INP code:
+>**
 
 412 ../../examples/ccx_2.16.test/rotpipe3.inp
-ERROR: Traceback (most recent call last):
-  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 223, in <module>
-    k = import_inp(None, inp_doc, k)
-  File "/media/ihor/WORK/Calculix/cae/src/importer.py", line 100, in import_inp
-    keyword_chain.append(keyword_name)
-UnboundLocalError: local variable 'keyword_name' referenced before assignment
+ERROR: Error parsing INP code:
+>**
 
 413 ../../examples/ccx_2.16.test/rotpipe3inv.inp
 
@@ -1059,3 +1043,5 @@ WARNING: Wrong keyword *MASSFLOW.
 501 ../../examples/ccx_2.16.test/vortex3.inp
 
 502 ../../examples/ccx_2.16.test/wire.inp
+
+Total 5.6 seconds.

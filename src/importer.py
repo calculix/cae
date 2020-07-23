@@ -20,9 +20,10 @@ t - Tree
 j - Job """
 
 # Standard modules
+import os
+import time
 import logging
 import traceback
-import os
 
 # External modules
 try:
@@ -199,27 +200,31 @@ def import_file(p, s, w, m, t, j, file_name=''):
         has_nodes = len(m.Mesh.nodes)
         gui.cgx.open_inp(w, j.inp, has_nodes)
 
-# Run test
+# Test importer on all CalculiX examples
 if __name__ == '__main__':
     clean.screen()
     os.chdir(os.path.dirname(__file__))
+    start_time = time.perf_counter()
     print = tests.print
 
     # Prepare logging
     log_file = __file__[:-3] + '.log'
-    logging.getLogger().addHandler(tests.myHandler(log_file))
+    h = tests.myHandler(log_file)
+    logging.getLogger().addHandler(h)
     logging.getLogger().setLevel(logging.WARNING)
 
     limit = 3000 # how many files to process
-    counter = 1
-    kom_xml = '../config/kom.xml'
-    # examples_dir = '../../examples/abaqus/eif'
     examples_dir = '../../examples/ccx_2.16.test'
+    # examples_dir = '../../examples/abaqus/eif'
+    counter = 0
+    kom_xml = '../config/kom.xml'
 
     print(log_file, 'IMPORTER (KEYWORDS PARSER) TEST\n\n')
     examples = tests.scan_all_files_in(examples_dir, '.inp', limit)
     for file_name in examples:
-        print(log_file, '\n{} {}'.format(counter, file_name))
+        counter += 1
+        relpath = os.path.relpath(file_name, start=os.getcwd())
+        print(log_file, '\n{} {}'.format(counter, relpath))
         inp_doc = file_tools.read_lines(file_name)
 
         # Build new clean/empty keyword object model
@@ -230,6 +235,7 @@ if __name__ == '__main__':
             k = import_inp(None, inp_doc, k)
         except:
             logging.error(traceback.format_exc())
-        counter += 1
 
+    print(log_file, '\nTotal {:.1f} seconds.'
+        .format(time.perf_counter() - start_time))
     clean.cache()
