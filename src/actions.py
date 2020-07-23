@@ -47,8 +47,8 @@ def actions(p, s, w, m, t, j):
         lambda: gui.cgx.paint_elsets(w, m))
     w.action_cgx_paint_surfaces.triggered.connect(
         lambda: gui.cgx.paint_surfaces(w, m))
-    w.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(p, w, m, j))
-    w.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(p, w, j))
+    w.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(w, j.inp, len(m.Mesh.nodes)))
+    w.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(w, j.frd))
 
     # Help actions
     w.action_help_readme.triggered.connect(

@@ -77,13 +77,14 @@ class Window(QtWidgets.QMainWindow):
 
     # Close opened CGX (if any) and open a new one
     # Get window ID, align windows and post to CGX
-    def run_cgx(self, cmd):
+    def run_cgx(self, params):
         if not os.path.isfile(self.p.path_cgx):
             logging.error('CGX not found:\n' \
                 + self.p.path_cgx)
             return
 
         gui.cgx.kill(self)
+        cmd = self.p.path_cgx + ' ' + params
 
         # Open CGX without terminal/cmd window
         if self.p.op_sys == 'windows':

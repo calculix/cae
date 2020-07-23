@@ -196,7 +196,8 @@ def import_file(p, s, w, m, t, j, file_name=''):
             return
 
         # gui.cgx.kill(w)
-        gui.cgx.open_inp(p, w, m, j)
+        has_nodes = len(m.Mesh.nodes)
+        gui.cgx.open_inp(w, j.inp, has_nodes)
 
 # Run test
 if __name__ == '__main__':

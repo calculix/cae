@@ -78,21 +78,21 @@ def paint_surfaces(w, m):
         i = (i + 1) % 5
 
 # Open INP model in GraphiX
-def open_inp(p, w, m, j):
-    if os.path.isfile(j.inp):
+def open_inp(w, inp_file, has_nodes=0):
+    if os.path.isfile(inp_file):
         kill(w) # close old CGX
-        if not len(m.Mesh.nodes):
+        if not has_nodes:
             logging.warning('Empty mesh, CGX will not start!')
             return
-        w.run_cgx(p.path_cgx + ' -c ' + j.inp)
+        w.run_cgx('-c ' + inp_file)
     else:
-        logging.error('File not found:\n' + j.inp)
+        logging.error('File not found:\n' + inp_file)
 
 # Open FRD results in GraphiX
-def open_frd(p, w, j):
-    if os.path.isfile(j.frd):
-        w.run_cgx(p.path_cgx + ' -o ' + j.frd)
+def open_frd(w, frd_file):
+    if os.path.isfile(frd_file):
+        w.run_cgx('-o ' + frd_file)
     else:
         logging.error('File not found:\n' \
-            + j.frd \
+            + frd_file \
             + '\nSubmit analysis first.')
