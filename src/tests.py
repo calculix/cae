@@ -1,22 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, May 2020
+""" © Ihor Mirzov, July 2020
 Distributed under GNU General Public License v3.0
 
-Test mesh parser on all CalculiX examples.
-Ctrl + F5 to Run. """
+Utilities for testing """
+
 
 # Standard modules
 import os
 import sys
-import time
 import logging
-import PyQt5
-
-# My modules
-from model.parsers import mesh
-import clean
 
 
 # Configure logging to emit messages via 'print' method
@@ -55,36 +49,3 @@ def scan_all_files_in(start_folder, ext, limit=1000000):
         elif f.is_file() and f.name.endswith(ext):
             all_files.append(f.path)
     return sorted(all_files)[:limit]
-
-
-# Run test
-if __name__ == '__main__':
-    start_time = time.perf_counter()
-
-    # Prepare logging
-    log_file = __file__[:-3] + '.log'
-    logging.getLogger().addHandler(myHandler(log_file))
-    logging.getLogger().setLevel(logging.INFO)
-
-    limit = 3000 # how many files to process
-    examples_dir = '../examples/ccx_2.16.test'
-
-    print(log_file, 'MESH PARSER TEST\n\n')
-    counter = 0
-    for file_name in scan_all_files_in(examples_dir, '.inp', limit):
-
-        # Skip some files
-        if 'default.inp' in file_name:
-            continue
-
-        counter += 1
-        relpath = os.path.relpath(file_name, start=os.getcwd())
-        print(log_file, '\n{}\n{}: {}'.format('='*50, counter, relpath))
-
-        # Parse mesh and plot it in VTK
-        app = PyQt5.QtWidgets.QApplication([])
-        m = mesh.Mesh(INP_file=file_name) # parse mesh
-
-    print(log_file, '\nTotal {:.1f} seconds.'
-        .format(time.perf_counter() - start_time))
-    clean.cache()

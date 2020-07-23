@@ -42,7 +42,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Calculix keywords hierarchy with all attributes is maintaned in [editable XML file](config/kom.xml).
 
-- [Solid mesh parser](src/model/parsers/mesh.py) supports includes in the input file. Tested on the all official CalculiX examples. See [tests.log](src/tests.log).
+- [Solid mesh parser](src/model/parsers/mesh.py) supports includes in the input file. Tested on the all official CalculiX examples. See [mesh.log](src/model/parsers/mesh.log).
 
 - Application's global settings could be set up in the File->Settings menu. Settings are maintained in editable Python file - it is automatically overwritten during the workflow.
 

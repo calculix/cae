@@ -11,6 +11,7 @@ node and element sets and surfaces """
 # Standard modules
 import os
 import re
+import time
 import logging
 import textwrap
 import traceback
@@ -24,6 +25,7 @@ except:
     sys_path = os.path.join(os.path.dirname(__file__), '..', '..')
     os.sys.path.append(sys_path)
     import file_tools
+    import tests
     import clean
 
 
@@ -582,13 +584,33 @@ class SURFACE:
             self.type = 'ELEMENT'
 
 
-# Run test
+# Test mesh parser on all CalculiX examples
 if __name__ == '__main__':
-    logging.info = print
-    INP_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        *['..']*3, 'examples', 'default.inp')
-    Mesh(INP_file=INP_file)
+    clean.screen()
+    os.chdir(os.path.dirname(__file__))
+    start_time = time.perf_counter()
+    print = tests.print
 
-    # Recursively clean cached files in all subfolders
+    # Prepare logging
+    log_file = __file__[:-3] + '.log'
+    h = tests.myHandler(log_file)
+    logging.getLogger().addHandler(h)
+    logging.getLogger().setLevel(logging.INFO)
+
+    limit = 3000 # how many files to process
+    examples_dir = '../../../../examples/ccx_2.16.test'
+    counter = 0
+
+    print(log_file, 'MESH PARSER TEST\n\n')
+    examples = tests.scan_all_files_in(examples_dir, '.inp', limit)
+    for file_name in examples:
+        counter += 1
+        relpath = os.path.relpath(file_name, start=os.getcwd())
+        print(log_file, '\n{}\n{}: {}'.format('='*50, counter, relpath))
+
+        # Parse mesh
+        m = Mesh(INP_file=file_name)
+
+    print(log_file, '\nTotal {:.1f} seconds.'
+        .format(time.perf_counter() - start_time))
     clean.cache()
