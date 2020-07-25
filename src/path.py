@@ -46,7 +46,8 @@ class Path:
         self.path_ccx = os.path.join(self.bin, 'ccx' + self.extension)
         self.path_cgx = os.path.join(self.bin, 'cgx' + self.extension)
 
-    # Pyinstaller bug in Windows: append 'app_home_dir' and 'src' directories to PATH
+    # Pyinstaller bug in Windows:
+    # append 'app_home_dir' and 'src' directories to PATH
     def append_to_PATH(self, paths):
         if not os.environ['PATH'].endswith(os.pathsep):
             os.environ['PATH'] += os.pathsep

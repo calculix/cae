@@ -95,7 +95,7 @@ if __name__ == '__main__':
     if os.path.isfile(ARCH + '.zip'):
         os.remove(ARCH + '.zip') # delete old
 
-    # Complress whole directory
+    # Compress whole directory
     shutil.make_archive(ARCH, 'zip', 'dist')
 
     # Remove unneeded files and folders
