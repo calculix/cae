@@ -4,7 +4,7 @@
 """ © Ihor Mirzov, July 2020
 Distributed under GNU General Public License v3.0
 
-CalculiX CAE file importer:
+File importer:
 - Enrich KOM with implementations from parsed file.
 - Generate new tree with keyword implementations.
 - Parse mesh.
@@ -172,7 +172,7 @@ def import_file(p, s, w, m, t, j, file_name=''):
                 return
 
         # Show model name in window's title
-        w.setWindowTitle('CalculiX CAE - ' + j.name)
+        w.setWindowTitle('CalculiX Advanced Environment - ' + j.name)
 
         # Generate new KOM without implementations
         m.KOM = model.kom.KOM(p, s)

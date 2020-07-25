@@ -4,7 +4,7 @@
 """ © Ihor Mirzov, July 2020
 Distributed under GNU General Public License v3.0
 
-CalculiX CAE - main module.
+Main module.
 Creates main objects and starts the application.
 
 How to run:
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     else:
         w = gui.window.Linux_window(p, s)
     w.show()
-    w.wid1 = w.get_wid('CalculiX CAE')
+    w.wid1 = w.get_wid('CalculiX Advanced Environment')
     if s.align_windows:
         w.align()
 
