@@ -131,7 +131,7 @@ Please, you may:
 
 # For developers
 
-Suppose you already have [Python 3](https://www.python.org/downloads/). Open terminal in CAE directory and install dependancies with command:
+Suppose you already have [Python 3](https://www.python.org/downloads/). Open terminal in CAE directory and install dependencies with command:
 
     pip3 install -r requirements.txt
 
@@ -166,51 +166,71 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 # What's new
 
-+ Stdout reading class for better logging of child processes.
+[Materials library](https://github.com/calculix/examples/tree/master/materials)!
 
-+ Logging of how the app is running: from source code or as binary.
+Do not skip comments while parsing the INP file. Keep comments on file save.
 
-+ Improved logging for mesh and keywords parsers.
+Replaced converters binaries with source code version. It reduced distro weight from 15 to 30 MB. 
 
-+ Switch off redundant logging in keyword dialog.
+Both source code and binaries could be started via cae.sh and cae.bat.
 
-+ Flush CGX buffer on startup.
-
-+ Paint CGX logs with #darkslategray.
-
-+ Filter accidental key presses on CGX.
-
-+ Kill old output reading threads on file import - app doesn't die on logs scrolling.
-
+Interface and usability:
++ Notify on job completion
 + treeView: collapse/expand items with left/right buttons.
-
-+ Fixed problem with QFileDialog visibility.
-
-+ Menu Help: README.pdf.
-
-+ New menu - "CGX" devoted to GraphiX.
-
++ Run CGX without cmd in Windows
 + Do not start CGX with no mesh.
-
 + Allow to start CAE with empty model.
++ Paint CGX logs with #darkslategray.
++ Updated a few images, brighter logo icon.
++ Menu Help: README.pdf.
++ New menu - "CGX" - devoted to GraphiX. Moved CGX actions from Job to CGX menu.
 
-+ No psutil dependency.
+Settings:
++ New setting "Start CGX by default".
++ Made Gedit default text editor for Linux.
++ Now a user can't choose path to CGX and CCX - only embed version should be used.
 
-+ Log window list on error getting WID.
+Default model - default.inp:
++ Updated surfaces.
++ Added some comments.
 
-+ Test for KOM class.
-
-+ Ignore comments on INP import.
-
-+ Materials library: https://github.com/calculix/examples/tree/master/materials
-
+Bugfixes:
++ Allow app to run even without WIDs. Now CAE should always start.
++ Stop all stdout reading threads on file import - app doesn't die on logs scrolling.
++ Fixed hiding Import dialog (QFileDialog visibility).
 + Fixed Jobs. Now they run via thread and doesn't block GUI.
-
 + Fixed small bug in surface parser.
++ Fixed Job -> open_paraview.
++ Fixed command CGX -> Paint sets.
 
-+ Updated surfaces in the default.inp
+Logging system:
++ Stdout reading class for better logging of child processes.
++ Logging of how the app is running: from source code or as binary.
++ Improved logging for mesh and keywords parsers.
++ Switch off redundant logging in keyword dialog.
++ Flush CGX buffer on startup - it enforces logging to start without unwanted delay.
++ Log window list on error getting WID.
++ Allow to log empty lines - for some space between messages.
 
-+ Workaround for iso view in Windows.
+CGX:
++ Correctly kill CGX in Windows.
++ Filter accidental key presses on CGX.
++ Reduced methods dependencies in cgx.py.
++ Register additional colors in CGX on startup via .fbd commands.
++ Workaround for iso view in Windows (with .fbd commands).
++ Slightly more precise colors for surfaces and sets.
+
+General code improvements:
++ Simplified stop_stdout_readers().
++ Job class without initialize() method.
++ Better window match by title.
++ Submit job via thread.
++ No psutil dependency.
++ Make KOM independent on Path and Settings.
++ Renamed KOM items to follow PEP8.
++ Correctly initialize window's parent class.
++ New save method for Settings.
++ New tests for KOM class and Importer. Updated test for mesh parser.
 
 <br/><br/>
 
@@ -218,7 +238,6 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 # TODO
 
-- During keyword's edit parse arguments and pass them to Dialog.
 - Implement keyword dialog as tab on main window.
 - Settings Dialog: add buttons to Pathes to open files.
 
@@ -249,6 +268,6 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 - Is it possible to make release binaries without pyinstaller?
 
-- Run CAE even if can't get CGX WID. Thread for periodic checking of CGX WID. Connect/disconnect CGX automatically in the background.
+- Thread for periodic checking of CGX WID. Connect/disconnect CGX automatically in the background.
 
 - https://mechanicalhacks.wordpress.com/2011/03/29/building-calculix-to-run-native-on-64-bit-windows/
