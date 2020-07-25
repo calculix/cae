@@ -170,7 +170,7 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 Do not skip comments while parsing the INP file. Keep comments on file save.
 
-Replaced converters binaries with source code version. It reduced distro weight from 15 to 30 MB. 
+Replaced converters binaries with source code version. It reduced distro weight up to 13 MB. 
 
 Both source code and binaries could be started via cae.sh and cae.bat.
 

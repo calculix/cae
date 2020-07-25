@@ -17,7 +17,7 @@ http://www.dhondt.de/ccx_2.15.pdf """
 import logging
 import math
 
-import frd2vtk
+from utils.ccx2paraview import frd2vtk
 
 
 # Write element connectivity with renumbered nodes

@@ -15,11 +15,9 @@ import sys
 import argparse
 import logging
 
-sys_path = os.path.dirname(__file__)
-sys.path.append(sys_path)
+from utils.unv2ccx import UNVParser
+from utils.unv2ccx import INPWriter
 import clean
-import UNVParser
-import INPWriter
 
 
 class Converter:
@@ -31,15 +29,13 @@ class Converter:
     def run(self):
 
         # Parse UNV file
-        relpath = os.path.relpath(self.unv_file_name,
-            start=os.path.dirname(__file__))
-        logging.info('Parsing ' + relpath)
+        base_name = os.path.basename(self.unv_file_name)
+        logging.info('Parsing ' + base_name)
         fem = UNVParser.UNVParser(self.unv_file_name).parse()
 
         # Write INP file
-        relpath = os.path.relpath(self.inp_file_name,
-            start=os.path.dirname(__file__))
-        logging.info('Writing ' + relpath)
+        base_name = os.path.basename(self.inp_file_name)
+        logging.info('Writing ' + base_name)
         INPWriter.write(fem, self.inp_file_name)
 
 

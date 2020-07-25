@@ -24,12 +24,10 @@ import sys
 import logging
 import argparse
 
-sys_path = os.path.dirname(__file__)
-sys.path.append(sys_path)
-import FRDParser
-import VTKWriter
-import VTUWriter
-import PVDWriter
+from utils.ccx2paraview import FRDParser
+from utils.ccx2paraview import VTKWriter
+from utils.ccx2paraview import VTUWriter
+from utils.ccx2paraview import PVDWriter
 import clean
 
 
@@ -42,9 +40,8 @@ class Converter:
     def run(self):
 
         # Parse FRD-file
-        relpath = os.path.relpath(self.file_name,
-            start=os.path.dirname(__file__))
-        logging.info('Parsing ' + relpath)
+        base_name = os.path.basename(self.file_name)
+        logging.info('Parsing ' + base_name)
         p = FRDParser.Parse(self.file_name)
 
         # If file contains mesh data
@@ -74,9 +71,8 @@ class Converter:
                 # For each time increment generate separate .vt* file
                 # Output file name will be the same as input
                 for t, file_name in times_names.items():
-                    relpath = os.path.relpath(file_name,
-                        start=os.path.dirname(__file__))
-                    logging.info('Writing ' + relpath)
+                    base_name = os.path.basename(file_name)
+                    logging.info('Writing ' + base_name)
                     if self.fmt == 'vtk':
                         VTKWriter.writeVTK(p, file_name, t)
                     if self.fmt == 'vtu':
