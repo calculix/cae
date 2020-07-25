@@ -166,13 +166,11 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 # What's new
 
-[Materials library](https://github.com/calculix/examples/tree/master/materials)!
-
-Do not skip comments while parsing the INP file. Keep comments on file save.
-
-Replaced converters binaries with source code version. It reduced distro weight up to 13 MB. 
-
-Both source code and binaries could be started via cae.sh and cae.bat.
+General improvements:
++ [Materials library](https://github.com/calculix/examples/tree/master/materials)!
++ INP parser does not skip comments. It keeps comments on file save.
++ Replaced converters binaries with source code version. It reduced distro weight up to 13 MB. 
++ Both source code and binaries could be started via cae.sh and cae.bat.
 
 Interface and usability:
 + Notify on job completion
@@ -220,7 +218,7 @@ CGX:
 + Workaround for iso view in Windows (with .fbd commands).
 + Slightly more precise colors for surfaces and sets.
 
-General code improvements:
+Code improvements:
 + Simplified stop_stdout_readers().
 + Job class without initialize() method.
 + Better window match by title.
@@ -231,6 +229,7 @@ General code improvements:
 + Correctly initialize window's parent class.
 + New save method for Settings.
 + New tests for KOM class and Importer. Updated test for mesh parser.
+
 
 <br/><br/>
 
