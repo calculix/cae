@@ -131,7 +131,7 @@ Please, you may:
 
 # For developers
 
-Suppose you already have [Python 3](https://www.python.org/downloads/). Open terminal in CalculiX CAE directory and install dependancies with command:
+Suppose you already have [Python 3](https://www.python.org/downloads/). Open terminal in CAE directory and install dependancies with command:
 
     pip3 install -r requirements.txt
 
@@ -252,7 +252,3 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 - Run CAE even if can't get CGX WID. Thread for periodic checking of CGX WID. Connect/disconnect CGX automatically in the background.
 
 - https://mechanicalhacks.wordpress.com/2011/03/29/building-calculix-to-run-native-on-64-bit-windows/
-
-- Merge tests.py and model.parsers.mesh.py.
-
-- Replace binaries into code version for unv2ccx and ccx2paraview.

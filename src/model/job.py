@@ -21,8 +21,13 @@ import threading
 from PyQt5 import QtWidgets
 
 # My modules
+sys_path = os.path.dirname(__file__)
+sys_path = os.path.join(sys_path, '..')
+sys_path = os.path.normpath(sys_path)
+sys.path.append(sys_path)
 import gui
-
+from utils.ccx2paraview import ccx2paraview
+from utils.unv2ccx import unv2ccx
 
 class Job:
 
@@ -54,10 +59,11 @@ class Job:
 
     # Convert UNV to INP
     def convert_unv(self):
-        converter_path = os.path.join(self.p.bin, 'unv2ccx' + self.p.extension)
-        cmd = [converter_path, self.path + '.unv']
-        logging.info(' '.join(cmd))
-        self.run(cmd)
+        # converter_path = os.path.join(self.p.bin, 'unv2ccx' + self.p.extension)
+        # cmd = [converter_path, self.path + '.unv']
+        # logging.info(' '.join(cmd))
+        # self.run(cmd)
+        unv2ccx.Converter(self.path + '.unv').run()
 
     # Write the whole model's inp_code
     # into the output .inp-file.
@@ -194,11 +200,7 @@ class Job:
     # Convert FRD to VTU
     def export_vtu(self):
         if os.path.isfile(self.frd):
-            converter_path = os.path.join(self.p.bin,
-                    'ccx2paraview' + self.p.extension)
-            cmd = [converter_path, self.frd, 'vtu']
-            logging.info(' '.join(cmd))
-            self.run(cmd)
+            ccx2paraview.Converter(self.frd, 'vtu').run()
         else:
             logging.error('File not found:\n' \
                 + self.frd \
