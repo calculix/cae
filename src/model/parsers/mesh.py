@@ -70,9 +70,6 @@ class Mesh:
                     logging.error(msg)
         logging.info(msg_text)
 
-        # Mesh bounds to avoid camera flying to infinity
-        self.bounds = getBounds(self.nodes)
-
     # Parse nodes with coordinates - *NODE keyword
     def parse_nodes(self, lines):
         for i in range(len(lines)):
@@ -484,18 +481,6 @@ class Mesh:
     # Parse inp_code and update current Mesh
     def reparse(self, inp_code):
         pass
-
-
-# Bounding box for all nodes
-def getBounds(nodes):
-    bounds = [1e+6,-1e+6]*3 # Xmin,Xmax, Ymin,Ymax, Zmin,Zmax
-    for n in nodes.values(): # type(n) = NODE
-        for j,coord in enumerate(n.coords):
-            if coord < bounds[j*2]:
-                bounds[j*2] = coord # update min coords values
-            if coord > bounds[j*2+1]:
-                bounds[j*2+1] = coord # update max coords values
-    return bounds
 
 
 # Before modification checks if sets have set with the same name
