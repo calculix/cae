@@ -29,7 +29,6 @@ import clean
 
 class Mesh:
 
-
     # Initialization
     def __init__(self, INP_file=None, inp_code=None, old=None):
         self.nodes = {} # all mesh nodes with coordinates
@@ -131,7 +130,6 @@ class Mesh:
 
                 # do not return to parse few *NODE sections
 
-
     # Parse node sets - *NSET keyword
     def parse_nsets(self, lines):
         for i in range(len(lines)):
@@ -194,7 +192,6 @@ class Mesh:
 
                 create_or_extend_set(self.nsets, name, nodes, NSET)
                 # do not return to parse few *NSET sections
-
 
     # Parse elements composition - *ELEMENT keyword
     def parse_elements(self, lines):
@@ -259,7 +256,6 @@ class Mesh:
 
                 # do not return to parse few *ELEMENT sections
 
-
     # Parse element sets - *ELSET keyword
     def parse_elsets(self, lines):
         for i in range(len(lines)):
@@ -316,7 +312,6 @@ class Mesh:
 
                 create_or_extend_set(self.elsets, name, elements, ELSET)
                 # do not return to parse few *ELSET sections
-
 
     # Parse surfaces - *SURFACE keyword
     def parse_surfaces(self, lines):
@@ -394,7 +389,6 @@ class Mesh:
                 # Create new SURFACE and append to list
                 self.surfaces[name + stype] = SURFACE(name, items, stype)
 
-
     # Get amount of nodes by CalculiX element type
     def amount_of_nodes(self, etype):
         try:
@@ -462,13 +456,10 @@ class Mesh:
         except:
             return 2 # minimum possible
 
-
     # Replace current mesh attributes with reparsed mesh ones
-    """
-    Delete/add nodes
+    """ Delete/add nodes
     Update NSETs, elements, ELSETs, surfaces
-    Rebuild ugrid
-    """
+    Rebuild ugrid """
     def updateWith(self, reparsedMesh):
         for attrName, attrValue in reparsedMesh.__dict__.items():
             if type(attrValue) == dict and len(attrValue):
@@ -476,7 +467,6 @@ class Mesh:
                 for _setName, _setValue in attrValue.items():
                     # print('Nodes:', _setValue.items)
                     getattr(self, attrName)[_setName] = _setValue
-
 
     # Parse inp_code and update current Mesh
     def reparse(self, inp_code):
