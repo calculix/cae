@@ -10,6 +10,7 @@ node and element sets and surfaces """
 
 # Standard modules
 import os
+import sys
 import re
 import time
 import logging
@@ -17,16 +18,13 @@ import textwrap
 import traceback
 
 # My modules
-try:
-    # Normal run
-    import file_tools
-except:
-    # Test run
-    sys_path = os.path.join(os.path.dirname(__file__), '..', '..')
-    os.sys.path.append(sys_path)
-    import file_tools
-    import tests
-    import clean
+sys_path = os.path.dirname(__file__)
+sys_path = os.path.join(sys_path, '..', '..')
+sys_path = os.path.normpath(sys_path)
+sys.path.append(sys_path)
+import file_tools
+import tests
+import clean
 
 
 class Mesh:
