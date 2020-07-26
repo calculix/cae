@@ -24,7 +24,7 @@ Distributed under GNU General Public License v3.0
 
 # CalculiX Adanced Environment (CAE)
 
-CAE is a software package mainly consisting of CalculiX [GraphiX](http://calculix.de/), [CrunchiX](http://dhondt.de/) and keyword editor. The last one - is a very simple, free and open source GUI/pre-processor for CalculiX. Program is based on the keywords hierarchy, is designed to guide you through the keywords creation process and is aimed to help you reach correct input file with no mistakes. Keyword editor is written in Python3 and utilizes PyQt5.
+CAE is a software package mainly consisting of CalculiX [GraphiX](http://calculix.de/), [CrunchiX](http://dhondt.de/) and keyword editor. The last one - is a very simple, free and open source GUI/pre-processor for CalculiX. Program is based on the keywords hierarchy, is designed to guide you through the keywords creation process and is aimed to help you reach the correct input file with no mistakes. Keyword editor is written in Python3 and utilizes PyQt5.
 
 It is implied that you have already created geometry and generated mesh in some other software like [FreeCAD](https://www.freecadweb.org/) or [Salome-platform](https://www.salome-platform.org/).
 
@@ -123,7 +123,7 @@ Please, you may:
 - Simply use this software and ask questions.
 - Share your models and screenshots.
 - Do something from the [TODO-list](#TODO).
-- Report problems by [posting issues](https://github.com/calculix/cae/issues). Please, attach ./examples/default.log to the problem report.
+- Report problems by [posting issues](https://github.com/calculix/cae/issues). Please, attach ./examples/default.log (or other logs) to the problem report.
 
 <br/><br/>
 
@@ -164,7 +164,7 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 
 
-# What's new
+# What's new in v0.8.0
 
 General improvements:
 + [Materials library](https://github.com/calculix/examples/tree/master/materials)!
@@ -237,36 +237,38 @@ Code improvements:
 
 # TODO
 
-- Implement keyword dialog as tab on main window.
-- Settings Dialog: add buttons to Pathes to open files.
-
-- Invent some kind of Python API for CAE. Possibly use [pycalculix](https://github.com/spacether/pycalculix) and [pyccx](https://github.com/drlukeparry/pyccx).
-- Python code (*PYTHON keyword) in the INP_code for step repetition and other kind of model generation.
-
-- treeView: import certain keyword with descendants (tree branch) from INP-file.
-
-- Interface for materials import: right click on *Material -> Import.
+Examples and training materials:
 - Prool's INP-templates and snippets.
-
-- [meshio converter](https://github.com/nschloe/meshio)
-- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), Abaqus INP and ODB.
-
-
-- Forward .fbd/.fbl to CGX.
-- [Martin Kraska examples](https://github.com/mkraska/CalculiX-Examples)
-- M.Kraska: support the param.py parametrization mechanism.
-
+- Interface for [Martin Kraska examples](https://github.com/mkraska/CalculiX-Examples).
 - Menu Help: wiki, YouTube videos for beginners. 
 
-- CAE should be independent and be able to be embeded into FreeCAD.
+Python API:
+- Invent some kind of Python API. Possibly use [pycalculix](https://github.com/spacether/pycalculix) and [pyccx](https://github.com/drlukeparry/pyccx).
+- Python code (*PYTHON keyword) in the INP_code for step repetition and other kind of model generation.
+- Martin Kraska: support the param.py parametrization mechanism.
+
+FreeCAD:
+- Embeded CAE into FreeCAD.
 - Connector for FreeCAD: listen to port and obtain meshed geometry.
 
-- Change CGX colormaps via Xlib.
-
-- Parser: reparse mesh/model after tree.actionDeleteImplementation.
-
-- Is it possible to make release binaries without pyinstaller?
-
+CGX:
+- Change colormaps via Xlib.
+- Highlight loads and boundary conditions.
 - Thread for periodic checking of CGX WID. Connect/disconnect CGX automatically in the background.
 
-- https://mechanicalhacks.wordpress.com/2011/03/29/building-calculix-to-run-native-on-64-bit-windows/
+Parsers:
+- Peparse mesh/model after tree.actionDeleteImplementation.
+- Parsers for loads and boundary conditions.
+
+Importer:
+- treeView: import certain keyword with descendants (tree branch) from INP-file.
+- Interface for materials import: right click on *Material -> Import.
+- [Meshio converter](https://github.com/nschloe/meshio).
+- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), Abaqus INP and ODB.
+- Open .fbd/.fbl and forward to CGX. Then import generated model.
+
+Other:
+- Implement keyword dialog as tab on main window.
+- Settings Dialog: add buttons to Pathes to open files.
+- Try to [build CalculiX with mingw-w64](https://mechanicalhacks.wordpress.com/2011/03/29/building-calculix-to-run-native-on-64-bit-windows/).
+- Folder 'tests': move all logs and architecture schemes there.
