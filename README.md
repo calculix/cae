@@ -259,6 +259,7 @@ CGX:
 Parsers:
 - Peparse mesh/model after tree.actionDeleteImplementation.
 - Parsers for loads and boundary conditions.
+- Have a look at [INP parser](https://github.com/crmccreary/AbqParse): My parser does not support keyword line continuation.
 
 Importer:
 - treeView: import certain keyword with descendants (tree branch) from INP-file.
@@ -270,5 +271,5 @@ Importer:
 Other:
 - Implement keyword dialog as tab on main window.
 - Settings Dialog: add buttons to Pathes to open files.
-- Try to [build CalculiX with mingw-w64](https://mechanicalhacks.wordpress.com/2011/03/29/building-calculix-to-run-native-on-64-bit-windows/).
+- Try to [build CalculiX with mingw-w64](https://mechanicalhacks.wordpress.com/2011/03/29/building-calculix-to-run-native-on-64-bit-windows/). [Attention!](http://hillyuan.blogspot.com/2013/10/build-calculix261-in-mingw64.html)
 - Folder 'tests': move all logs and architecture schemes there.

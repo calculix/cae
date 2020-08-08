@@ -128,7 +128,7 @@ class Job:
 
             # Move binary
             cmd2 = 'C:\\cygwin64\\bin\\mv.exe -T ' \
-                    + ccx + '/ccx_' + self.p.ccx_version + '_MT ' \
+                    + ccx + '/ccx ' \
                     + self.p.bin + '/ccx'
 
         # Linux
@@ -139,7 +139,7 @@ class Job:
             send1 = ''
 
             # Move binary
-            cmd2 = ['mv', '-T', self.p.ccx + '/ccx_' + self.p.ccx_version + '_MT',
+            cmd2 = ['mv', '-T', self.p.ccx + '/ccx',
                     self.p.bin + '/ccx']
 
         # Build CalculiX

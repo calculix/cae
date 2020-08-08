@@ -25,7 +25,7 @@
 # | other than your home directory.      |
 # %--------------------------------------%
 #
-home = /media/ihor/WORK/Calculix/ccx_free_form_fortran/ccx_linux/ARPACK
+home = .
 #
 #  %--------------------------------------%
 #  | The platform identifier to suffix to |

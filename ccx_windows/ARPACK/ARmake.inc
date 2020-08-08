@@ -25,7 +25,7 @@
 # | other than your home directory.      |
 # %--------------------------------------%
 #
-home = /cygdrive/z/ccx_free_form_fortran/ccx_windows/ARPACK
+home = /cygdrive/c/ccx_windows/ARPACK
 #
 #  %--------------------------------------%
 #  | The platform identifier to suffix to |

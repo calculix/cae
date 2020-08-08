@@ -1,0 +1,34 @@
+
+DIR=../SPOOLES.2.2
+
+CFLAGS = -Wall -O2 -fopenmp -I $(DIR) -DARCH="Linux" -DSPOOLES -DARPACK -DMATRIXSTORAGE -DUSE_MT=1 
+FFLAGS = -Wall -O2 -fopenmp
+
+CC=cc
+FC=gfortran
+
+.c.o :
+	$(CC) $(CFLAGS) -c $<
+.f.o :
+	$(FC) $(FFLAGS) -c $<
+
+include Makefile.inc
+
+SCCXMAIN = ccx_2.17.c
+
+OCCXF = $(SCCXF:.f=.o)
+OCCXC = $(SCCXC:.c=.o)
+OCCXMAIN = $(SCCXMAIN:.c=.o)
+
+LIBS = \
+       $(DIR)/MT/src/spoolesMT.a \
+       $(DIR)/spooles.a \
+       ../ARPACK/libarpack_INTEL.a \
+       -lpthread -lm
+
+ccx.exe: $(OCCXMAIN) ccx.a  $(LIBS)
+	./date.pl; $(CC) $(CFLAGS) -c $(SCCXMAIN); $(FC) -fopenmp -Wall -O2 -o $@ $(OCCXMAIN) ccx.a $(LIBS)
+
+ccx.a: $(OCCXF) $(OCCXC)
+	ar vr $@ $?
+                                                                               

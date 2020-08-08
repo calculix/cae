@@ -6,7 +6,7 @@
 	CalculiX Keywords Object Model
 -->
 <Group name='Model'>
-	<Group name='Parameters'>
+	<Group name='Attributes'>
 		<Keyword name='*HEADING'/>
 		<Keyword name='*DESIGN VARIABLES'>
 			<Argument form='QComboBox' name='TYPE' required='1'>COORDINATE|ORIENTATION</Argument>

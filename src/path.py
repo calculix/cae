@@ -12,7 +12,6 @@ import os
 class Path:
 
     def __init__(self):
-        self.ccx_version = '2.16'
 
         # Windows
         if os.name=='nt':
@@ -35,9 +34,7 @@ class Path:
         self.dialog_xml = os.path.join(self.config, 'KeywordDialog.xml')
 
         self.bin = os.path.join(self.app_home_dir, 'bin')
-        self.ccx = os.path.join(self.app_home_dir,
-                                'ccx_' + self.op_sys,
-                                'ccx_' + self.ccx_version + '_ffree_form')
+        self.ccx = os.path.join(self.app_home_dir, 'ccx_' + self.op_sys, 'src')
         self.settings = os.path.join(self.config, 'Settings_' + self.op_sys + '.py')
         self.doc = os.path.join(self.app_home_dir, 'doc')
         self.examples = os.path.join(self.app_home_dir, 'examples')
