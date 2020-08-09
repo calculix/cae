@@ -34,7 +34,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Features
 
-- CAE comes with the latest CGX and CCX compiled for both Linux and Windows. Windows version of CGX is taken from [CalculiX Launcher v3.4](http://www.calculixforwin.com/) 
+- CAE comes with the latest CGX and CCX compiled for both Linux and Windows.
 
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated with CCX.
 
@@ -72,6 +72,9 @@ Keyword editor and CGX windows with imported mesh and painted surfaces:
 Keyword editor and CGX windows with calculated model:
 ![img3](img/img_social.png "Calculation results")
 
+New CGX colormaps:  
+![inferno](img/cmap_inferno.png "Inferno colormap")![viridis](img/cmap_viridis.png "Viridis colormap")![turbo](img/cmap_turbo.png "Turbo colormap")
+
 Calculation result exported to Paraview:
 ![img4](img/img_paraview.png "Results in Paraview")
 
@@ -81,23 +84,26 @@ Calculation result exported to Paraview:
 
 # How to use
 
-[Download latest release](https://github.com/calculix/cae/releases) (binaries or source code), unpack it and allow to be executed (give permissions).
+Get [Python >3.6](https://www.python.org/downloads/) and install it.
 
-The intended workflow is:
+[Download latest release](https://github.com/calculix/cae/releases) (source code) and unpack it.
 
-- create geometry and mesh in [FreeCAD](https://www.freecadweb.org/) or [Salome-platform](https://www.salome-platform.org/),
-- save mesh as UNV or export it to INP with [Salome to CalculiX mesh exporter](https://github.com/psicofil/SalomeToCalculix),
-- import INP or UNV mesh into CAE and continue creating model,
-- if needed, edit Fortran subroutines and rebuild CCX (menu Job->Rebuild CalculiX),
-- submit job from CAE,
-- view job result in GraphiX or export it to the Paraview post-processor.
+Open terminal in a directory where you've unpacked CAE.
 
-Run the software with command (works both for binaries and source code):
+In linux allow all files to be executed:
+
+    sudo chmod -R 777 ./*
+
+Install dependencies with command:
+
+    pip3 install -r requirements.txt
+
+It's OK if Xlib installation fail in Windows.
+
+That's all! Now run the software with command:
 
     in Linux:       ./cae.sh
     in Windows:     cae.bat
-
-**Attention!** To run sources you'll need Python3 with PyQt5. Linux also needs Xlib. See [requirements.txt](./requirements.txt).
 
 You can edit default startup model name in File->Settings or leave it empty or even pass it as an argument to open on startup:
 
@@ -106,11 +112,20 @@ You can edit default startup model name in File->Settings or leave it empty or e
     in Windows:     cae.bat -inp yourmodel.inp
                     cae.bat -inp yourmodel.unv
 
-Another way to run CAE is (from 'src' directory):
+Another way to run CAE directly from 'src' directory:
 
-    python3 cae.py
-    python3 cae.py -inp yourmodel.inp
-    python3 cae.py -inp yourmodel.unv
+    python3 ./src/cae.py
+    python3 ./src/cae.py -inp yourmodel.inp
+    python3 ./src/cae.py -inp yourmodel.unv
+
+The intended workflow is:
+
+- create geometry and mesh in [FreeCAD](https://www.freecadweb.org/) or [Salome-platform](https://www.salome-platform.org/),
+- save mesh as UNV or export it to INP with [Salome to CalculiX mesh exporter](https://github.com/psicofil/SalomeToCalculix),
+- import INP or UNV mesh into CAE and continue creating model,
+- if needed, edit Fortran subroutines and rebuild CCX (menu Job),
+- submit job from CAE,
+- view job result in GraphiX or export it to post-process in Paraview.
 
 <br/><br/>
 
@@ -131,19 +146,15 @@ Please, you may:
 
 # For developers
 
-Suppose you already have [Python 3](https://www.python.org/downloads/). Open terminal in CAE directory and install dependencies with command:
-
-    pip3 install -r requirements.txt
-
 You may also need libraries:
 
     qttools5-dev-tools
     pyinstaller
     pycallgraph
 
-Use [make_release.py](make_release.py) to create releases (pyinstaller needed):
+Use [release.py](release.py) to create releases (pyinstaller needed):
 
-    python3 make_release.py
+    python3 release.py
 
 CAE uses converters:
 
