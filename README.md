@@ -73,10 +73,10 @@ Keyword editor and CGX windows with calculated model:
 ![img3](img/img_social.png "Calculation results")
 
 New CGX colormaps:  
-![inferno](img/cmap_inferno.png "Inferno colormap")![viridis](img/cmap_viridis.png "Viridis colormap")![turbo](img/cmap_turbo.png "Turbo colormap")
+![img4](img/img_cmaps.png "New CGX colormaps")
 
 Calculation result exported to Paraview:
-![img4](img/img_paraview.png "Results in Paraview")
+![img5](img/img_paraview.png "Results in Paraview")
 
 <br/><br/>
 
