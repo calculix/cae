@@ -164,72 +164,11 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 
 
-# What's new in v0.8.0
+# What's new in v0.9.0
 
-General improvements:
-+ [Materials library](https://github.com/calculix/examples/tree/master/materials)!
-+ INP parser does not skip comments. It keeps comments on file save.
-+ Replaced converters binaries with source code version. It reduced distro weight up to 13 MB. 
-+ Both source code and binaries could be started via cae.sh and cae.bat.
-
-Interface and usability:
-+ Notify on job completion
-+ treeView: collapse/expand items with left/right buttons.
-+ Run CGX without cmd in Windows
-+ Do not start CGX with no mesh.
-+ Allow to start CAE with empty model.
-+ Paint CGX logs with #darkslategray.
-+ Updated a few images, brighter logo icon.
-+ Menu Help: README.pdf.
-+ New menu - "CGX" - devoted to GraphiX. Moved CGX actions from Job to CGX menu.
-
-Settings:
-+ New setting "Start CGX by default".
-+ Made Gedit default text editor for Linux.
-+ Now a user can't choose path to CGX and CCX - only embed version should be used.
-
-Default model - default.inp:
-+ Updated surfaces.
-+ Added some comments.
-
-Bugfixes:
-+ Allow app to run even without WIDs. Now CAE should always start.
-+ Stop all stdout reading threads on file import - app doesn't die on logs scrolling.
-+ Fixed hiding Import dialog (QFileDialog visibility).
-+ Fixed Jobs. Now they run via thread and doesn't block GUI.
-+ Fixed small bug in surface parser.
-+ Fixed Job -> open_paraview.
-+ Fixed command CGX -> Paint sets.
-
-Logging system:
-+ Stdout reading class for better logging of child processes.
-+ Logging of how the app is running: from source code or as binary.
-+ Improved logging for mesh and keywords parsers.
-+ Switch off redundant logging in keyword dialog.
-+ Flush CGX buffer on startup - it enforces logging to start without unwanted delay.
-+ Log window list on error getting WID.
-+ Allow to log empty lines - for some space between messages.
-
-CGX:
-+ Correctly kill CGX in Windows.
-+ Filter accidental key presses on CGX.
-+ Reduced methods dependencies in cgx.py.
-+ Register additional colors in CGX on startup via .fbd commands.
-+ Workaround for iso view in Windows (with .fbd commands).
-+ Slightly more precise colors for surfaces and sets.
-
-Code improvements:
-+ Simplified stop_stdout_readers().
-+ Job class without initialize() method.
-+ Better window match by title.
-+ Submit job via thread.
-+ No psutil dependency.
-+ Make KOM independent on Path and Settings.
-+ Renamed KOM items to follow PEP8.
-+ Correctly initialize window's parent class.
-+ New save method for Settings.
-+ New tests for KOM class and Importer. Updated test for mesh parser.
-
+- CalculiX 2.17.
+- Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo.
+- Using external python packages ccx2paraview and unv2ccx.
 
 <br/><br/>
 
@@ -252,7 +191,6 @@ FreeCAD:
 - Connector for FreeCAD: listen to port and obtain meshed geometry.
 
 CGX:
-- Change colormaps via Xlib.
 - Highlight loads and boundary conditions.
 - Thread for periodic checking of CGX WID. Connect/disconnect CGX automatically in the background.
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, July 2020
+""" © Ihor Mirzov, August 2020
 Distributed under GNU General Public License v3.0
 
 Job submition and convertion. Run a detached process and
@@ -19,6 +19,8 @@ import threading
 
 # External modules
 from PyQt5 import QtWidgets
+import ccx2paraview
+import unv2ccx
 
 # My modules
 sys_path = os.path.dirname(__file__)
@@ -26,8 +28,6 @@ sys_path = os.path.join(sys_path, '..')
 sys_path = os.path.normpath(sys_path)
 sys.path.append(sys_path)
 import gui
-from utils.ccx2paraview import ccx2paraview
-from utils.unv2ccx import unv2ccx
 
 class Job:
 
