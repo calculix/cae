@@ -12,6 +12,8 @@ import shutil
 import datetime
 import PyInstaller.__main__
 
+from src import clean
+
 def copy(src, dst, skip):
     for f in os.listdir(src):
         if f!='dist' and not f.endswith(skip):
@@ -47,6 +49,13 @@ if __name__ == '__main__':
     # Remove prev. trash
     if os.path.isdir('./dist'):
         shutil.rmtree('./dist')
+    
+    # Remove trash from examples
+    for f in os.listdir('examples'):
+        f = os.path.basename(f)
+        if f not in ['README.md', 'README.pdf', 'default.inp']:
+            f = os.path.join('examples', f)
+            os.remove(f)
 
     # Run pyinstaller to create binaries
     args = [
@@ -57,8 +66,9 @@ if __name__ == '__main__':
     PyInstaller.__main__.run(args)
 
     # Delete cached files
-    if os.path.isdir('./src/__pycache__'):
-        shutil.rmtree('./src/__pycache__') # works in Linux as in Windows
+    clean.cache()
+    # if os.path.isdir('./src/__pycache__'):
+    #     shutil.rmtree('./src/__pycache__') # works in Linux as in Windows
 
     # Delete .spec file
     if os.path.isfile('cae.spec'):
