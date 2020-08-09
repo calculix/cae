@@ -72,7 +72,7 @@ Keyword editor and CGX windows with imported mesh and painted surfaces:
 Keyword editor and CGX windows with calculated model:
 ![img3](img/img_social.png "Calculation results")
 
-New CGX colormaps:  
+New CGX colormaps - viridis, inferno, turbo:
 ![img4](img/img_cmaps.png "New CGX colormaps")
 
 Calculation result exported to Paraview:
@@ -84,13 +84,13 @@ Calculation result exported to Paraview:
 
 # How to use
 
-Get [Python >3.6](https://www.python.org/downloads/) and install it.
+Get [Python3](https://www.python.org/downloads/) (>3.6) and install it.
 
 [Download latest release](https://github.com/calculix/cae/releases) (source code) and unpack it.
 
 Open terminal in a directory where you've unpacked CAE.
 
-In linux allow all files to be executed:
+In Linux allow all files to be executed:
 
     sudo chmod -R 777 ./*
 
@@ -112,7 +112,7 @@ You can edit default startup model name in File->Settings or leave it empty or e
     in Windows:     cae.bat -inp yourmodel.inp
                     cae.bat -inp yourmodel.unv
 
-Another way to run CAE directly from 'src' directory:
+Another way to run CAE - is directly from 'src' directory:
 
     python3 ./src/cae.py
     python3 ./src/cae.py -inp yourmodel.inp
