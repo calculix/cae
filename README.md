@@ -52,7 +52,10 @@ It is implied that you have already created geometry and generated mesh in some 
     - run analysis directly from GUI;
     - open results in GraphiX or convert to VTU format and open them in [Paraview](https://www.paraview.org).
 
-- Supports UNV mesh import.
+- CAE uses converters:
+
+    - [ccx2paraview](https://github.com/calculix/ccx2paraview) - CalculiX to Paraview converter (frd to vtk/vtu)
+    - [unv2ccx](https://github.com/calculix/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
 
 - Cute modern design with [nice icons](img).
 
@@ -127,6 +130,14 @@ The intended workflow is:
 - submit job from CAE,
 - view job result in GraphiX or export it to post-process in Paraview.
 
+In Windows to work with subroutines and to recompile CalculiX sources from CAE you'll need [cygwin](https://www.cygwin.com/). Install it to 'C:\\cygwin64' with:
+- gcc-g++ 7.3.0-3
+- gcc-fortran 7.3.0-3
+- make 4.2.1-2
+- perl 5.26.3-2
+
+**Attention!** Do not move CCX or CGX from 'bin' directory!
+
 <br/><br/>
 
 
@@ -155,21 +166,6 @@ You may also need libraries:
 Use [release.py](release.py) to create releases (pyinstaller needed):
 
     python3 release.py
-
-CAE uses converters:
-
-- [ccx2paraview](https://github.com/calculix/ccx2paraview) - CalculiX to Paraview converter (frd to vtk/vtu)
-- [unv2ccx](https://github.com/calculix/unv2ccx) - Salome universal to CalculiX converter (unv to inp)
-
-The source code for the CalculiX solver is taken from the [free_form_fortran project](https://github.com/calculix/free_form_fortran) - this version has much better code folding and readability.
-
-In Windows to work with subroutines and to recompile CalculiX sources from CAE you'll need [cygwin](https://www.cygwin.com/). Install it to 'C:\\cygwin64' with:
-- gcc-g++ 7.3.0-3
-- gcc-fortran 7.3.0-3
-- make 4.2.1-2
-- perl 5.26.3-2
-
-**Attention!** Do not move CCX or CGX from 'bin' directory!
 
 <br/><br/>
 
@@ -206,6 +202,7 @@ CGX:
 - Thread for periodic checking of CGX WID. Connect/disconnect CGX automatically in the background.
 
 Parsers:
+- Check in includes are opened correctly.
 - Peparse mesh/model after tree.actionDeleteImplementation.
 - Parsers for loads and boundary conditions.
 - Have a look at [INP parser](https://github.com/crmccreary/AbqParse): My parser does not support keyword line continuation.
