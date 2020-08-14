@@ -93,7 +93,7 @@ Get [Python3](https://www.python.org/downloads/) (>3.6) and install it.
 
 Open terminal in a directory where you've unpacked CAE.
 
-In Linux allow all files to be executed:
+Allow all files to be executed (Linux only):
 
     sudo chmod -R 777 ./*
 
@@ -101,9 +101,9 @@ Install dependencies with command:
 
     pip3 install -r requirements.txt
 
-It's OK if Xlib installation fail in Windows.
+It's OK if Xlib installation will fail in Windows.
 
-That's all! Now run the software with command:
+Run the software with command (or double click those files):
 
     in Linux:       ./cae.sh
     in Windows:     cae.bat
