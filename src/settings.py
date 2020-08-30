@@ -47,7 +47,7 @@ class Settings():
             # Linux
             else:
                 ext = ''
-                self.path_paraview = '/opt/ParaView/bin/paraview'
+                self.path_paraview = '/usr/bin/paraview'
                 self.path_editor = '/usr/bin/gedit'
 
             self.start_model = os.path.join(self.p.examples, 'default.inp')
