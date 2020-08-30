@@ -30,8 +30,12 @@ try:
     from model.kom import ItemType
 except:
     # Test run
-    sys_path = os.path.join(os.path.dirname(__file__), '..')
-    os.sys.path.append(sys_path)
+    sys_path = os.path.abspath(__file__)
+    sys_path = os.path.dirname(sys_path)
+    sys_path = os.path.join(sys_path, '..')
+    sys_path = os.path.normpath(sys_path)
+    sys_path = os.path.realpath(sys_path)
+    sys.path.insert(0, sys_path)
     import clean
     import path
     from model import kom

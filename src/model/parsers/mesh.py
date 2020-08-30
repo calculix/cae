@@ -21,7 +21,7 @@ import traceback
 sys_path = os.path.dirname(__file__)
 sys_path = os.path.join(sys_path, '..', '..')
 sys_path = os.path.normpath(sys_path)
-sys.path.append(sys_path)
+sys.path.insert(0, sys_path)
 import file_tools
 import tests
 import clean

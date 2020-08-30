@@ -26,7 +26,7 @@ import unv2ccx
 sys_path = os.path.dirname(__file__)
 sys_path = os.path.join(sys_path, '..')
 sys_path = os.path.normpath(sys_path)
-sys.path.append(sys_path)
+sys.path.insert(0, sys_path)
 import gui
 
 class Job:
@@ -200,7 +200,7 @@ class Job:
     # Convert FRD to VTU
     def export_vtu(self):
         if os.path.isfile(self.frd):
-            ccx2paraview.Converter(self.frd, 'vtu').run()
+            ccx2paraview.Converter(self.frd, ['vtu']).run()
         else:
             logging.error('File not found:\n' \
                 + self.frd \
