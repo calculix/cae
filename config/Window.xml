@@ -230,7 +230,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>../img/action_file_import.png</normaloff>../img/action_file_import.png</iconset>
    </property>
    <property name="text">
-    <string>Import</string>
+    <string>Import model</string>
    </property>
   </action>
   <action name="action_view_frame">
@@ -503,7 +503,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>../img/action_cgx_inp.png</normaloff>../img/action_cgx_inp.png</iconset>
    </property>
    <property name="text">
-    <string>Open INP model</string>
+    <string>Reopen INP model</string>
    </property>
   </action>
   <action name="action_help_examples">
