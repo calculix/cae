@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	© Ihor Mirzov, August 2019
+	© Ihor Mirzov, 2019-2020
 	Distributed under GNU General Public License v3.0
 
-	CalculiX Keywords Object Model
+	CalculiX Keyword Object Model
 -->
 <Group name='Model'>
 	<Group name='Attributes'>
@@ -151,6 +151,9 @@
 			</Keyword>
 		</Group>
 	</Group>
+	<Keyword name='*DISTRIBUTION'>
+		<Argument form='QLineEdit' name='NAME' required='1'/>
+	</Keyword>
 	<Keyword name='*ORIENTATION'>
 		<Argument form='QLineEdit' name='NAME' required='1'/>
 		<Argument form='QComboBox' name='SYSTEM'>RECTANGULAR|CYLINDRICAL</Argument>
