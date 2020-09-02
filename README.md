@@ -171,7 +171,7 @@ Use [release.py](release.py) to create releases (pyinstaller needed):
 
 
 
-# What's new in v0.9.0
+# What's new in future v0.9.0
 
 - CalculiX 2.17.
 - Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo.
@@ -202,8 +202,8 @@ CGX:
 - Thread for periodic checking of CGX WID. Connect/disconnect CGX automatically in the background.
 
 Parsers:
-- Check in includes are opened correctly.
-- Peparse mesh/model after tree.actionDeleteImplementation.
+- Check if includes are opened correctly.
+- Reparse mesh/model after tree.actionDeleteImplementation.
 - Parsers for loads and boundary conditions.
 - Have a look at [INP parser](https://github.com/crmccreary/AbqParse): My parser does not support keyword line continuation.
 
@@ -216,6 +216,5 @@ Importer:
 
 Other:
 - Implement keyword dialog as tab on main window.
-- Settings Dialog: add buttons to Pathes to open files.
 - Try to [build CalculiX with mingw-w64](https://mechanicalhacks.wordpress.com/2011/03/29/building-calculix-to-run-native-on-64-bit-windows/). [Attention!](http://hillyuan.blogspot.com/2013/10/build-calculix261-in-mingw64.html)
 - Folder 'tests': move all logs and architecture schemes there.

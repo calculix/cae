@@ -45,27 +45,41 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <property name="spacing">
-        <number>6</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
         <number>6</number>
        </property>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_6">
+        <widget class="QLabel" name="label_path_paraview">
+         <property name="text">
+          <string>Path to Paraview:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
          <property name="spacing">
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="label_path_paraview">
-           <property name="text">
-            <string>Path to Paraview:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QLineEdit" name="path_paraview">
            <property name="text">
             <string>/opt/ParaView/bin/paraview</string>
+           </property>
+          </widget>
+         </item>
+         <item alignment="Qt::AlignRight">
+          <widget class="QToolButton" name="path_paraview_button">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../img/action_file_import.png</normaloff>../img/action_file_import.png</iconset>
            </property>
           </widget>
          </item>
@@ -85,21 +99,35 @@
         </spacer>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_7">
+        <widget class="QLabel" name="label_path_editor">
+         <property name="text">
+          <string>Path to text editor:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
          <property name="spacing">
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="label_path_editor">
-           <property name="text">
-            <string>Path to text editor:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QLineEdit" name="path_editor">
            <property name="text">
             <string>/snap/bin/code</string>
+           </property>
+          </widget>
+         </item>
+         <item alignment="Qt::AlignRight">
+          <widget class="QToolButton" name="path_editor_button">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../img/action_file_import.png</normaloff>../img/action_file_import.png</iconset>
            </property>
           </widget>
          </item>
@@ -119,21 +147,41 @@
         </spacer>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_8">
+        <widget class="QLabel" name="label_start_model">
+         <property name="text">
+          <string>Default start model:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="spacing">
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="label_start_model">
-           <property name="text">
-            <string>Default start model:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QLineEdit" name="start_model">
            <property name="text">
             <string>examples/default.inp</string>
+           </property>
+          </widget>
+         </item>
+         <item alignment="Qt::AlignRight">
+          <widget class="QToolButton" name="start_model_button">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../img/action_file_import.png</normaloff>../img/action_file_import.png</iconset>
+           </property>
+           <property name="autoRaise">
+            <bool>false</bool>
            </property>
           </widget>
          </item>

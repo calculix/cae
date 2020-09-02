@@ -94,6 +94,14 @@ class SettingsDialog(QtWidgets.QDialog):
         for h in hh:
             logging.getLogger().addHandler(h)
 
+        # Actions
+        self.path_paraview_button.clicked.connect(
+            lambda: self.select_path(self.path_paraview))
+        self.path_editor_button.clicked.connect(
+            lambda: self.select_path(self.path_editor))
+        self.start_model_button.clicked.connect(
+            lambda: self.select_path(self.start_model))
+
         # Push settings values to the form
         if settings:
             for attr, value in settings.__dict__.items():
@@ -138,6 +146,13 @@ class SettingsDialog(QtWidgets.QDialog):
                     comment = value.text()
                     f.write('# ' + comment + '\n')
                     f.write(line + '\n\n')
+
+    # Open file dialog to select path
+    def select_path(self, path_edit):
+        file_name = QtWidgets.QFileDialog.getOpenFileName(
+            self, 'Select path', '', '*')[0]
+        if len(file_name):
+            path_edit.setText(file_name)
 
 
 # Run test
