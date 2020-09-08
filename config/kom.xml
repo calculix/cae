@@ -355,6 +355,9 @@
 				<Argument form='QComboBox' name='DIRECT'>NO|YES</Argument>
 				<Argument form='QLineEdit' name='DELTMX'/>
 				<Argument form='QCheckBox' name='STEADY STATE'/>
+				<Keyword name='*MODAL DAMPING'>
+					<Argument form='QCheckBox' name='MODAL=DIRECT|RAYLEIGH'/>
+				</Keyword>
 				<Keyword name='*BASE MOTION'>
 					<Argument form='QLineEdit' name='DOF' required='1'/>
 					<Argument form='QLineEdit' name='AMPLITUDE' required='1'/>
@@ -409,6 +412,9 @@
 			<Keyword name='*STEADY STATE DYNAMICS'>
 				<Argument form='QComboBox' name='HARMONIC'>YES|NO</Argument>
 				<Argument form='QComboBox' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
+				<Keyword name='*MODAL DAMPING'>
+					<Argument form='QCheckBox' name='MODAL=DIRECT|RAYLEIGH'/>
+				</Keyword>
 				<Keyword name='*BASE MOTION'>
 					<Argument form='QLineEdit' name='DOF' required='1'/>
 					<Argument form='QLineEdit' name='AMPLITUDE' required='1'/>
@@ -571,9 +577,6 @@
 				<Argument form='QLineEdit' name='TIME DELAY'/>
 				<Argument form='QLineEdit' name='FILM AMPLITUDE'/>
 				<Argument form='QLineEdit' name='FILM TIME DELAY'/>
-			</Keyword>
-			<Keyword name='*MODAL DAMPING'>
-				<Argument form='QCheckBox' name='MODAL=DIRECT|RAYLEIGH'/>
 			</Keyword>
 		</Group>
 		<Group name='Change'>
