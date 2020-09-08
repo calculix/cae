@@ -320,10 +320,6 @@
 				<Argument form='QComboBox' name='STORAGE'>YES|NO</Argument>
 				<Argument form='QComboBox' name='GLOBAL'>YES|NO</Argument>
 				<Argument form='QComboBox' name='CYCMPC'>ACTIVE|INACTIVE</Argument>
-				<Keyword name='*SELECT CYCLIC SYMMETRY MODES'>
-					<Argument form='QLineEdit' name='NMIN'/>
-					<Argument form='QLineEdit' name='NMAX'/>
-				</Keyword>
 			</Keyword>
 			<Keyword name='*COMPLEX FREQUENCY'>
 				<Argument form='QCheckBox' name='CORIOLIS' required='1'/>
@@ -626,6 +622,10 @@
 			<Argument form='QCheckBox' name='WRITE' required='1'/>
 			<Argument form='QLineEdit' name='FREQUENCY'/>
 			<Argument form='QCheckBox' name='OVERLAY'/>
+		</Keyword>
+		<Keyword name='*SELECT CYCLIC SYMMETRY MODES'>
+			<Argument form='QLineEdit' name='NMIN'/>
+			<Argument form='QLineEdit' name='NMAX'/>
 		</Keyword>
 		<Keyword name='*END STEP'/>
 	</Keyword>
