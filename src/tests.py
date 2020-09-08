@@ -47,5 +47,6 @@ def scan_all_files_in(start_folder, ext, limit=1000000):
             for ff in scan_all_files_in(f.path, ext):
                 all_files.append(ff)
         elif f.is_file() and f.name.endswith(ext):
-            all_files.append(f.path)
+            ff = os.path.normpath(f.path)
+            all_files.append(ff)
     return sorted(all_files)[:limit]
