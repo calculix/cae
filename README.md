@@ -176,6 +176,8 @@ Use [release.py](release.py) to create releases (pyinstaller needed):
 - CalculiX 2.17.
 - Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo.
 - Using external python packages ccx2paraview and unv2ccx.
+- Add buttons to select paths in Settings dialog
+
 
 <br/><br/>
 
@@ -205,7 +207,11 @@ Parsers:
 - Check if includes are opened correctly.
 - Reparse mesh/model after tree.actionDeleteImplementation.
 - Parsers for loads and boundary conditions.
-- Have a look at [INP parser](https://github.com/crmccreary/AbqParse): My parser does not support keyword line continuation.
+- Have a look at [INP parser](https://github.com/crmccreary/AbqParse): my parser does not support keyword line continuation. Another parsers:
+
+    https://www.dabeaz.com/ply/
+
+    https://github.com/dabeaz/sly
 
 Importer:
 - treeView: import certain keyword with descendants (tree branch) from INP-file.
