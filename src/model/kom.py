@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, July 2020
+""" © Ihor Mirzov, 2019-2020
 Distributed under GNU General Public License v3.0
 
 CalculiX Keyword Object Model (hierarchy).
@@ -24,7 +24,6 @@ import traceback
 # Keyword Object Model
 class KOM:
 
-
     # Read CalculiX keywords hierarchy
     def __init__(self, p=None, s=None, kom_xml=None):
         self.s = s # could be None
@@ -32,9 +31,6 @@ class KOM:
         # List of all existing keywords
         self.keywords = []
         self.keyword_names = ()
-
-        # All possible keywords nesting variants - needed for parsing inp_doc
-        self.paths = []
 
         # Group 'Model' from kom.xml
         self.root = Group(self.s)
@@ -49,17 +45,11 @@ class KOM:
             t = ET.parse(kom_xml)
             self.build(t.getroot(), self.root)
 
-            self.build_paths(self.root)
-            self.paths.sort(key=self.keyword_counter, reverse=True) # maximum nesting first
-            # for path in self.paths:
-            #     logging.debug(str([item.name for item in path]))
-
             logging.info('Keywords object model generated.')
         except:
             msg = 'Can\'t generate keywords object model!\n' \
                 + traceback.format_exc()
             logging.error(msg)
-
 
     # Recursively build Keyword Object Model
     def build(self, xml_branch, parent):
@@ -98,68 +88,11 @@ class KOM:
 
             self.build(xml_child, item)
 
-
-    # Recursively builds all possible paths to nested keywords in KOM
-    def build_paths(self, parent, path=None):
-        if not path:
-            path = [] # list of groups, keywords and implementations
-        for item in parent.items:
-            if item.itype != ItemType.ARGUMENT:
-                self.build_paths(item, path + [item])
-        if len(path):
-            if path not in self.paths:
-                self.paths.append(path)
-
-
-    # Get nesting path for each of the parsed keyword
-    def get_path(self, keyword_chain):
-
-        # Duplicated words in the end of keyword_chain play no role
-        if len(keyword_chain) > 1 and \
-            keyword_chain[-1] == keyword_chain[-2]:
-            del keyword_chain[-2]
-        msg = 'keyword_chain: ' + ', '.join(keyword_chain)
-
-        # Now compare keyword_chain with all self.paths
-        for path in self.paths:
-
-            # Compare last words
-            if path[-1].name.upper() != keyword_chain[-1].upper():
-                continue
-
-            matches = 0
-            minimum_j = 0
-            for i in range(1, len(path)+1):
-                for j in range(1, len(keyword_chain)+1):
-                    if path[-i].name.upper() == keyword_chain[-j].upper():
-                        matches += 1
-                        minimum_j = len(keyword_chain)-j
-                        continue
-
-            # If we found all words from path in keyword_chain = if needed path is found
-            if matches >= self.keyword_counter(path):
-                # msg += str([item.name for item in path]) + '\n'
-                del keyword_chain[:minimum_j]
-                return path, msg
-
-        return None, msg
-
-
-    # Count keywords in path
-    def keyword_counter(self, path):
-        keyword_counter = 0
-        for item in path:
-            if item.name.startswith('*'):
-                keyword_counter += 1
-        return keyword_counter
-
-
     # Get keyword from self.keywords by its name
     def get_keyword_by_name(self, name, parent=None):
         for kw in self.keywords:
             if kw.name == name:
                 return kw
-
 
     # Recursively get whole model's inp_code as list of strings (lines)
     # Parent is KOM item, level defines code folding/padding
@@ -191,6 +124,38 @@ class KOM:
 
         return lines
 
+    def get_top_keyword_by_name(self, parent, kw_name):
+        kw = None
+        for item in parent.items:
+            if item.itype == ItemType.ARGUMENT:
+                continue
+            if item.itype == ItemType.KEYWORD \
+                and item.name == kw_name.upper():
+                return item
+            else:
+                kw = self.get_top_keyword_by_name(item, kw_name)
+                if kw is not None:
+                    return kw
+
+    # Test parent-child relations in all tree items
+    # Print item's paths top-downwards and bottom-upwards
+    def test(self, parent=None, path=None):
+        if parent is None:
+            parent = self.root
+            path = self.root.name
+        for item in parent.items:
+            if item.itype == ItemType.ARGUMENT:
+                continue
+            path_downwards = path + ' -> ' + item.name
+            path_upwards = ' -> '.join(item.get_path())
+            if path_downwards != path_upwards:
+                all_the_same = False
+                msg = 'KOM is built with mistakes!\n{}\n{}'\
+                    .format(path_downwards, path_upwards)
+                logging.error(msg)
+                return
+            self.test(item, path_downwards)
+
 
 # Enums for 'itype' variable
 class ItemType(Enum):
@@ -202,7 +167,7 @@ class ItemType(Enum):
 
 # Needed for inheritance by further classes
 class Item:
-    itype = ''          # item's type: group/keyword/argument/implementation
+    itype = ''              # item's type: group/keyword/argument/implementation
     name = ''               # name of item, string
     items = []              # list of children
     parent = None           # item's parent item
@@ -231,6 +196,20 @@ class Item:
             self.active = False
             return False
 
+    # Recursively copy tree branch to implementation
+    def copy_items_to(self, another_item):
+        another_item.items = []
+        for item in self.items:
+            if item.itype in [ItemType.GROUP, ItemType.KEYWORD]:
+                copied_item = copy.copy(item) # newer use deepcopy!
+                copied_item.parent = another_item
+                copied_item.active = True
+                another_item.items.append(copied_item)
+                item.copy_items_to(copied_item)
+            if item.itype == ItemType.ARGUMENT:
+                copied_item = copy.copy(item)
+                another_item.items.append(copied_item)
+
     # Recursive function to count keyword implementations in item's descendants
     def count_implementations(self):
         if self.itype == ItemType.ARGUMENT:
@@ -252,22 +231,8 @@ class Item:
                 imps.append(item)
         return imps
 
-    # Get list of items - non implementations
-    def copy_items(self):
-        items = []
-        for item in self.items:
-            item.active = True
-            if item.itype in [ItemType.GROUP, ItemType.KEYWORD]:
-                item = copy.copy(item)
-                item.items = item.copy_items()
-                items.append(item)
-            if item.itype == ItemType.ARGUMENT:
-                item = copy.copy(item)
-                items.append(item)
-        return items
-
     # Search item by name among children
-    def get_item_by_name(self, name):
+    def get_child_by_name(self, name):
         for item in self.items:
             if item.name == name:
                 return item
@@ -280,13 +245,14 @@ class Item:
         else:
             return self.parent.get_parent_keyword_name()
 
-    # # Returns preceding/parent group (not keyword)
-    # def get_parent_group_name(self):
-    #     if (self.parent.itype == ItemType.GROUP or \
-    #         self.parent.name == 'Model'):
-    #             return self.parent.name
-    #     else:
-    #         return self.parent.get_parent_group_name()
+    # Get item's path bottom-upwards
+    def get_path(self):
+        path = []
+        while self.parent is not None: # root has None parent
+            path.insert(0, self)
+            self = self.parent
+        path.insert(0, self) # insert root
+        return [p.name for p in path]
 
 
 # Group of keywords, like 'Properties', 'Constraints', etc.
@@ -332,9 +298,7 @@ class Implementation(Item):
 
     def __init__(self, s, keyword, inp_code, name=None):
         self.itype = ItemType.IMPLEMENTATION
-        self.items = keyword.copy_items() # newer use deepcopy!
-        for item in self.items:
-            item.parent = self
+        keyword.copy_items_to(self)
         self.parent = keyword
         self.active = True
         if s is not None:
@@ -364,6 +328,7 @@ class Implementation(Item):
             logging.info('{} \"{}\" updated.'.format(keyword.name, self.name))
         else:
             logging.info('{} {} created.'.format(keyword.name, self.name))
+            # logging.debug(' > '.join(self.get_path()))
 
 
 # Run test
@@ -391,7 +356,8 @@ if __name__ == '__main__':
 
     # KOM(None, None)
     k = KOM(None, None, kom_xml)
-    print('\nTotal {:.1e} seconds'\
+    print('\nTotal {:.1e} seconds.\n'\
         .format(time.perf_counter()-start)) # spent time
 
-    print(k.keyword_names)
+    # print(k.keyword_names)
+    k.test()

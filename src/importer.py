@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, July 2020
+""" © Ihor Mirzov, 2019-2020
 Distributed under GNU General Public License v3.0
 
 File importer:
@@ -18,6 +18,9 @@ w - Window
 m - Model
 t - Tree
 j - Job """
+
+# TODO Fix import:
+# *Material, name=MATERIAL
 
 # Standard modules
 import os
@@ -81,10 +84,12 @@ def print_block(inp_code):
     print()
 
 def import_inp(s, inp_doc, KOM):
-    keyword_chain = []
+    parent = KOM.root
     impl_counter = {}
 
     for inp_code in split_on_blocks(inp_doc, KOM):
+
+        # Get keyword name
         keyword_name = None
         msg = 'Error parsing INP code:\n'
         for line in inp_code:
@@ -97,56 +102,25 @@ def import_inp(s, inp_doc, KOM):
                 else:
                     keyword_name = line
 
-                logging.debug('\n' + line)
+                # logging.debug('\n' + line)
                 break
         if keyword_name is None:
             logging.error(msg)
             continue
 
-        # Find KOM keyword path corresponding to keyword_chain
-        keyword_chain.append(keyword_name)
-        path, msg = KOM.get_path(keyword_chain)
-        logging.debug(msg)
-        if path is None:
-            logging.warning('Wrong keyword {}.'.format(keyword_name))
-        else:
-            logging.debug('path found: ' + ', '.join([item.name for item in path]))
-
-            # Create keyword implementations
-            impl = None
-            path_as_string = '' # string representation of 'path' accounting for implementations
-            for j in range(len(path)):
-                # Choose where to create implementation
-                if impl:
-                    # Implementation will be created inside another implementation
-                    item = impl.get_item_by_name(path[j].name)
-                else:
-                    # Implementation will be created inside keyword or group
-                    item = path[j]
-
-                path_as_string += '/' + item.name
-                if j == len(path) - 1: # last item is always keyword
-                    # Create implementation (for example, MATERIAL-1)
-                    impl = model.kom.Implementation(s, item, inp_code)
-                    # logging.debug('1')
-                elif item.itype == model.kom.ItemType.KEYWORD:
-                    # If for this keyword implementation was created previously
-                    counter = impl_counter[path_as_string] - 1
-                    impl = item.items[counter] # first implementation, for example, STEP-1
-                    path_as_string += '/' + impl.name
-                    # logging.debug('2')
-                else:
-                    impl = item
-                    # logging.debug('3')
-
-            # Count implementation
-            if path_as_string in impl_counter:
-                # If current keyword already has implementations
-                impl_counter[path_as_string] += 1
+        # Create implementations (for example, MATERIAL-1)
+        kw = None
+        while kw is None and parent is not None: # root has None parent
+            kw = KOM.get_top_keyword_by_name(parent, keyword_name)
+            if kw is not None:
+                parent = model.kom.Implementation(s, kw, inp_code)
             else:
-                # If first implementation was created for current keyword
-                impl_counter[path_as_string] = 1
+                parent = parent.parent
+        if kw is None:
+            parent = KOM.root
+            logging.warning('Misplaced or wrong keyword {}.'.format(keyword_name))
 
+    # KOM.test()
     return KOM
 
 def import_file(p, s, w, m, t, j, file_name=''):
@@ -203,7 +177,7 @@ def import_file(p, s, w, m, t, j, file_name=''):
 # Test importer on all CalculiX examples
 if __name__ == '__main__':
     clean.screen()
-    os.chdir(os.path.dirname(__file__))
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
     start_time = time.perf_counter()
     print = tests.print
 
@@ -214,7 +188,7 @@ if __name__ == '__main__':
     logging.getLogger().setLevel(logging.WARNING)
 
     limit = 3000 # how many files to process
-    examples_dir = '../../examples/ccx_2.16.test'
+    examples_dir = '../../examples/ccx/test'
     # examples_dir = '../../examples/abaqus/eif'
     counter = 0
     kom_xml = '../config/kom.xml'
