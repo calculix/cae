@@ -593,6 +593,9 @@
 			</Keyword>
 			<Keyword name='*CHANGE SURFACE BEHAVIOR'>
 				<Argument form='QLineEdit' name='INTERACTION' required='1'/>
+				<Keyword name='*SURFACE BEHAVIOR'>
+					<Argument form='QComboBox' name='PRESSURE-OVERCLOSURE' required='1'>EXPONENTIAL|LINEAR|TABULAR|TIED|HARD</Argument>
+				</Keyword>
 			</Keyword>
 			<Keyword name='*CHANGE SOLID SECTION'>
 				<Argument form='QLineEdit' name='ELSET' required='1'/>
