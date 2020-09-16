@@ -10,6 +10,7 @@ Utilities for testing """
 # Standard modules
 import os
 import sys
+import time
 import logging
 
 
@@ -50,3 +51,9 @@ def scan_all_files_in(start_folder, ext, limit=1000000):
             ff = os.path.normpath(f.path)
             all_files.append(ff)
     return sorted(all_files)[:limit]
+
+
+# Convert seconds to format hh:mm:ss
+def time_delta(start_time):
+    delta = time.perf_counter() - start_time
+    return time.strftime('%M:%S', time.gmtime(delta))
