@@ -36,7 +36,8 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - CAE comes with the latest CGX and CCX compiled for both Linux and Windows.
 
-- INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated with CCX.
+- INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated with CCX. Robust INP importer algorithm is tested on over 20 000 INP files, including Abaqus models ([see log](src/importer.log)).
+
 
 - Official [HTML documentation](doc) is natively integrated into the keyword edit dialogs (Help button).
 
