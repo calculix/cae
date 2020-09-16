@@ -24,6 +24,9 @@ j - Job """
 
 # Standard modules
 import os
+import io
+import re
+import sys
 import time
 import logging
 import traceback
@@ -34,7 +37,8 @@ try:
 except:
     msg = 'Please, install PyQt5 with command:\n'\
         + 'pip3 install PyQt5'
-    sys.exit(msg)
+    print(msg)
+    raise SystemExit # the best way to exit
 
 # My modules
 import model
@@ -43,82 +47,83 @@ import file_tools
 import clean
 import tests
 
+
+class KeywordBlock:
+
+    def __init__(self, keyword_name, inp_code):
+        self.inp_code = inp_code
+        self.keyword_name = keyword_name
+
+    def print_debug_info(self):
+        i = 0
+        for j in range(len(self.inp_code)):
+            if not self.inp_code[j].startswith('**'):
+                break
+            else:
+                i += 1
+        if i > 0:
+            comment = '\n'.join(self.inp_code[:i])
+            logging.debug(comment)
+        self.inp_code = '\n'.join(self.inp_code[i:i+1])
+        logging.debug(self.inp_code + '\n')
+
+
 # Split inp_doc on blocks
-def split_on_blocks(inp_doc, KOM):
+def split_on_blocks(inp_doc):
     keyword_blocks = []
     i = 0
+    regex = r'^\*[\w\s-]+'
     while i < len(inp_doc):
-        inp_code = [inp_doc[i], ]
-        while i+1 < len(inp_doc):
-            if inp_doc[i+1].upper().startswith(KOM.keyword_names):
-                break
+        match = re.match(regex, inp_doc[i])
+        if match is not None:
+            keyword_name = match.group(0).strip()
+
+            # Comments before the block
+            j = 0
+            while i > j and inp_doc[i-j-1].startswith('**'):
+                j += 1
+            start = i - j # index of block start
+
             i += 1
-            inp_code.append(inp_doc[i])
-        if len(inp_code):
-            keyword_blocks.append(inp_code)
+            while i < len(inp_doc):
+                match = re.match(regex, inp_doc[i])
+                if match is not None:
+                    i -= 1
+                    break
+                i += 1
+
+            # Comments after the block (if not EOF)
+            if i < len(inp_doc) - 1:
+                while inp_doc[i].startswith('**'):
+                    i -= 1
+            end = i # index of block end
+
+            inp_code = inp_doc[start:end+1]
+            kwb = KeywordBlock(keyword_name, inp_code)
+            keyword_blocks.append(kwb)
+
         i += 1
 
-    # Omit adding comments to the end of block
-    for i in range(len(keyword_blocks) - 1):
-        inp_code = keyword_blocks[i]
-        while len(inp_code) and inp_code[-1].startswith('**'):
-            line = inp_code.pop()
-            keyword_blocks[i+1].insert(0, line)
-        if not len(inp_code):
-            keyword_blocks.pop(i)
-
-    # print_blocks(keyword_blocks)
     return keyword_blocks
-
-def print_blocks(keyword_blocks):
-    for inp_code in keyword_blocks:
-        print_block(inp_code)
-
-def print_block(inp_code):
-    for i in range(len(inp_code)):
-        print(inp_code[i])
-        if i == 5:
-            break
-    print()
-    print(len(inp_code), '---')
-    print()
 
 def import_inp(s, inp_doc, KOM):
     parent = KOM.root
     impl_counter = {}
 
-    for inp_code in split_on_blocks(inp_doc, KOM):
-
-        # Get keyword name
-        keyword_name = None
-        msg = 'Error parsing INP code:\n'
-        for line in inp_code:
-            msg += line + '\n'
-            if line.upper().startswith(KOM.keyword_names):
-
-                # Distinguish 'NODE' and 'NODE PRINT'
-                if ',' in line:
-                    keyword_name = line.split(',')[0]
-                else:
-                    keyword_name = line
-
-                # logging.debug('\n' + line)
-                break
-        if keyword_name is None:
-            logging.error(msg)
-            continue
+    for kwb in split_on_blocks(inp_doc):
 
         # Create implementations (for example, MATERIAL-1)
         kw = None
         while kw is None and parent is not None: # root has None parent
-            kw = KOM.get_top_keyword_by_name(parent, keyword_name)
+            kw = KOM.get_top_keyword_by_name(parent, kwb.keyword_name)
             if kw is not None:
-                parent = model.kom.Implementation(s, kw, inp_code)
+                parent = model.kom.Implementation(s, kw, kwb.inp_code)
             else:
                 parent = parent.parent
         if kw is None:
             parent = KOM.root
-            logging.warning('Misplaced or wrong keyword {}.'.format(keyword_name))
+            logging.warning('Misplaced or wrong keyword {}.'\
+                .format(kwb.keyword_name))
 
     # KOM.test()
     return KOM
@@ -183,22 +188,29 @@ if __name__ == '__main__':
 
     # Prepare logging
     log_file = __file__[:-3] + '.log'
-    h = tests.myHandler(log_file)
-    logging.getLogger().addHandler(h)
-    logging.getLogger().setLevel(logging.WARNING)
+    h = tests.myHandler(log_file) # remove old log file
+    log_capture_string = io.StringIO()
+    ch = logging.StreamHandler(log_capture_string)
+    ch.setLevel(logging.DEBUG)
+    fmt = logging.Formatter('%(levelname)s: %(message)s')
+    ch.setFormatter(fmt)
+    logging.getLogger().addHandler(ch)
 
-    limit = 3000 # how many files to process
-    examples_dir = '../../examples/ccx/test'
+    limit = 50000 # how many files to process
+    # examples_dir = '../../examples/ccx/test'
     # examples_dir = '../../examples/abaqus/eif'
+    # examples_dir = '../../examples/yahoo'
+    examples_dir = '../../examples'
     counter = 0
     kom_xml = '../config/kom.xml'
 
     print(log_file, 'IMPORTER (KEYWORDS PARSER) TEST\n\n')
     examples = tests.scan_all_files_in(examples_dir, '.inp', limit)
+
+    lines_count = 0
     for file_name in examples:
         counter += 1
         relpath = os.path.relpath(file_name, start=os.getcwd())
-        print(log_file, '\n{} {}'.format(counter, relpath))
         inp_doc = file_tools.read_lines(file_name)
 
         # Build new clean/empty keyword object model
@@ -210,6 +222,16 @@ if __name__ == '__main__':
         except:
             logging.error(traceback.format_exc())
 
-    print(log_file, '\nTotal {:.1f} seconds.'
-        .format(time.perf_counter() - start_time))
+        # Log only problematic INP files
+        log_contents = log_capture_string.getvalue()
+        if len(log_contents) != lines_count:
+            log_contents = log_contents[lines_count:]
+            lines_count = log_capture_string.tell()
+            print(log_file, '\n{} {}'.format(counter, relpath))
+            print(log_file, log_contents)
+    log_capture_string.close()
+
+    msg = '\n{} INP files. Total time {}.'
+    delta = tests.time_delta(start_time)
+    print(log_file, msg.format(len(examples), delta))
     clean.cache()

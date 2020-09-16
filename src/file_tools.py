@@ -18,14 +18,9 @@ def read_lines(INP_file):
         return []
 
     lines = []
-    with open(INP_file, 'r') as f:
+    with open(INP_file, 'r', errors='ignore') as f:
         for line in f.readlines():
             line = line.strip()
-
-            # # Skip comments and empty lines
-            # if line.startswith('**') or len(line)==0:
-            #     continue
-
             lines.append(line)
 
             # Append lines from include file

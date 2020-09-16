@@ -173,9 +173,9 @@ Use [release.py](release.py) to create releases (pyinstaller needed):
 
 # What's new in future v0.9.0
 
-- CalculiX 2.17.
-- Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo.
+- CalculiX 2.17.1. Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo.
 - Using external python packages ccx2paraview and unv2ccx.
+- Significantly improved INP importer algorithm tested on over 20 000 INP files, including Abaqus models. 
 - Add buttons to select paths in Settings dialog
 
 
