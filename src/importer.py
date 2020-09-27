@@ -59,15 +59,22 @@ class Block:
     
     def get_inp_code(self):
         inp_code = []
-        # if len(self.comments):
         inp_code.extend(self.comments)
         inp_code.append(self.lead_line)
-        # if len(self.data_lines):
         inp_code.extend(self.data_lines)
         return inp_code
 
     def print_debug_info(self):
-        for line in self.get_inp_code():
+
+        sys.stdout.write('\nCOMMENTS:\n')
+        for line in self.comments:
+            sys.stdout.write(line + '\n')
+
+        sys.stdout.write('LEAD:\n')
+        sys.stdout.write(self.lead_line + '\n')
+
+        sys.stdout.write('DATA:\n')
+        for line in self.data_lines:
             sys.stdout.write(line + '\n')
 
 
@@ -96,7 +103,7 @@ class Importer:
                 j = 0 # amount of comment lines
                 while i > j and inp_doc[i-j-1].startswith('**'):
                     j += 1
-                    comments.insert(0, inp_doc[i-j-1])
+                    comments.insert(0, inp_doc[i-j])
 
                 # Lead line - a line(s) with keyword
                 lead_line = inp_doc[i].rstrip()
@@ -121,6 +128,7 @@ class Importer:
 
                 data_lines = inp_doc[start:end+1]
                 b = Block(keyword_name, comments, lead_line, data_lines)
+                b.print_debug_info()
                 self.keyword_blocks.append(b)
 
             i += 1
