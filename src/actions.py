@@ -21,11 +21,11 @@ m - Model
 t - Tree
 j - Job
 """
-def actions(p, s, w, m, t, j):
+def actions(p, s, w, m, t, j, i):
     w.keyPressEvent = t.keyPressEvent
 
     # File actions
-    w.action_file_import.triggered.connect(lambda: importer.import_file(p, s, w, m, t, j))
+    w.action_file_import.triggered.connect(lambda: i.import_file(None))
     w.action_file_settings.triggered.connect(s.open)
     w.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 

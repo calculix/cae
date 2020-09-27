@@ -48,136 +48,162 @@ import clean
 import tests
 
 
-class KeywordBlock:
+# Keyword block
+class Block:
 
-    def __init__(self, keyword_name, inp_code):
-        self.inp_code = inp_code
-        self.keyword_name = keyword_name
+    def __init__(self, keyword_name, comments, lead_line, data_lines):
+        self.keyword_name = keyword_name # string
+        self.comments = comments # list
+        self.lead_line = lead_line # string
+        self.data_lines = data_lines # list
+    
+    def get_inp_code(self):
+        inp_code = []
+        # if len(self.comments):
+        inp_code.extend(self.comments)
+        inp_code.append(self.lead_line)
+        # if len(self.data_lines):
+        inp_code.extend(self.data_lines)
+        return inp_code
 
     def print_debug_info(self):
+        for line in self.get_inp_code():
+            sys.stdout.write(line + '\n')
+
+
+class Importer:
+
+    def __init__(self, p, s, w, m, t, j):
+        self.p = p # path
+        self.s = s # settings
+        self.w = w # window
+        self.m = m # model
+        self.t = t # tree
+        self.j = j # job
+        self.keyword_blocks = []
+
+    # Split inp_doc on blocks
+    def split_on_blocks(self, inp_doc):
         i = 0
-        for j in range(len(self.inp_code)):
-            if not self.inp_code[j].startswith('**'):
-                break
-            else:
+        regex = r'^\*[\w\s-]+'
+        while i < len(inp_doc):
+            match = re.match(regex, inp_doc[i])
+            if match is not None:
+                keyword_name = match.group(0).strip()
+
+                # Comments before the block
+                comments = []
+                j = 0 # amount of comment lines
+                while i > j and inp_doc[i-j-1].startswith('**'):
+                    j += 1
+                    comments.insert(0, inp_doc[i-j-1])
+
+                # Lead line - a line(s) with keyword
+                lead_line = inp_doc[i].rstrip()
+                while lead_line.endswith(','):
+                    i += 1
+                    lead_line = lead_line + ' ' + inp_doc[i].rstrip()
+
                 i += 1
-        if i > 0:
-            comment = '\n'.join(self.inp_code[:i])
-            logging.debug(comment)
-        self.inp_code = '\n'.join(self.inp_code[i:i+1])
-        logging.debug(self.inp_code + '\n')
+                start = i # start of data lines
+                while i < len(inp_doc):
+                    match = re.match(regex, inp_doc[i])
+                    if match is not None:
+                        i -= 1
+                        break # reached next keyword
+                    i += 1
 
+                # Comments after the block (if not EOF)
+                if i < len(inp_doc) - 1:
+                    while inp_doc[i].startswith('**'):
+                        i -= 1
+                end = i # index of block end
 
-# Split inp_doc on blocks
-def split_on_blocks(inp_doc):
-    keyword_blocks = []
-    i = 0
-    regex = r'^\*[\w\s-]+'
-    while i < len(inp_doc):
-        match = re.match(regex, inp_doc[i])
-        if match is not None:
-            keyword_name = match.group(0).strip()
-
-            # Comments before the block
-            j = 0
-            while i > j and inp_doc[i-j-1].startswith('**'):
-                j += 1
-            start = i - j # index of block start
+                data_lines = inp_doc[start:end+1]
+                b = Block(keyword_name, comments, lead_line, data_lines)
+                self.keyword_blocks.append(b)
 
             i += 1
-            while i < len(inp_doc):
-                match = re.match(regex, inp_doc[i])
-                if match is not None:
-                    i -= 1
-                    break
-                i += 1
 
-            # Comments after the block (if not EOF)
-            if i < len(inp_doc) - 1:
-                while inp_doc[i].startswith('**'):
-                    i -= 1
-            end = i # index of block end
+    def import_inp(self):
+        parent = self.m.KOM.root
+        impl_counter = {}
 
-            inp_code = inp_doc[start:end+1]
-            kwb = KeywordBlock(keyword_name, inp_code)
-            keyword_blocks.append(kwb)
+        for kwb in self.keyword_blocks:
 
-        i += 1
+            # Create implementations (for example, MATERIAL-1)
+            kw = None
+            while kw is None and parent is not None: # root has None parent
+                kw = self.m.KOM.get_top_keyword_by_name(parent, kwb.keyword_name)
+                if kw is not None:
+                    parent = model.kom.Implementation(self.s, kw, kwb.get_inp_code())
+                else:
+                    parent = parent.parent
+            if kw is None:
+                parent = self.m.KOM.root
+                logging.warning('Misplaced or wrong keyword {}.'\
+                    .format(kwb.keyword_name))
 
-    return keyword_blocks
+        # self.m.KOM.test()
+        # return self.m.KOM
 
-def import_inp(s, inp_doc, KOM):
-    parent = KOM.root
-    impl_counter = {}
+    def import_file(self, file_name):
+        if file_name is None:
+            file_name = QtWidgets.QFileDialog.getOpenFileName(self.w, \
+                'Import INP/UNV file', self.j.dir, \
+                'INP (*.inp);;UNV (*.unv)')[0]
 
-    for kwb in split_on_blocks(inp_doc):
+        if file_name is not None and len(file_name):
+            self.w.textEdit.clear()
 
-        # Create implementations (for example, MATERIAL-1)
-        kw = None
-        while kw is None and parent is not None: # root has None parent
-            kw = KOM.get_top_keyword_by_name(parent, kwb.keyword_name)
-            if kw is not None:
-                parent = model.kom.Implementation(s, kw, kwb.inp_code)
-            else:
-                parent = parent.parent
-        if kw is None:
-            parent = KOM.root
-            logging.warning('Misplaced or wrong keyword {}.'\
-                .format(kwb.keyword_name))
+            # Rename job before tree regeneration
+            # A new logger's handler is created here
+            self.j.__init__(self.p, self.s, self.w,
+                self.m, file_name[:-4] + '.inp')
 
-    # KOM.test()
-    return KOM
+            self.w.stop_stdout_readers()
 
-def import_file(p, s, w, m, t, j, file_name=''):
-    if len(file_name) == 0:
-        file_name = QtWidgets.QFileDialog.getOpenFileName(w, \
-            'Import INP/UNV file', j.dir, \
-            'INP (*.inp);;UNV (*.unv)')[0]
+            # Convert UNV to INP
+            if file_name.lower().endswith('.unv'):
+                self.j.convert_unv()
+                if not os.path.isfile(self.j.inp):
+                    logging.error('Can not convert\n' + self.j.unv)
+                    return
 
-    if file_name is not None and len(file_name):
-        w.textEdit.clear()
+            # Show model name in window's title
+            self.w.setWindowTitle('CalculiX Advanced Environment - ' \
+                + self.j.name)
 
-        # Rename job before tree regeneration
-        # A new logger's handler is created here
-        j.__init__(p, s, w, m, file_name[:-4] + '.inp')
+            # Generate new KOM without implementations
+            self.m.KOM = model.kom.KOM(self.p, self.s)
 
-        w.stop_stdout_readers()
+            # Get INP code and split it on blocks
+            logging.info('Loading model\n{}'.format(self.j.inp))
+            inp_doc = file_tools.read_lines(self.j.inp)
+            self.split_on_blocks(inp_doc) # fill keyword_blocks
 
-        # Convert UNV to INP
-        if file_name.lower().endswith('.unv'):
-            j.convert_unv()
-            if not os.path.isfile(j.inp):
-                logging.error('Can not convert\n' + j.unv)
+            # Parse INP and enrich KOM with parsed objects
+            self.import_inp()
+
+            # Add parsed implementations to the tree
+            self.t.generateTreeView(self.m)
+
+            # Parse mesh
+            # self.m.Mesh = model.parsers.mesh.Mesh(ifile=self.j.inp)
+            self.m.Mesh = model.parsers.mesh.Mesh(blocks=self.keyword_blocks)
+
+            # Open a new non-empty model in CGX
+            if not self.s.start_cgx_by_default:
+                logging.warning('"Settings -> Start CGX by default" is unchecked.')
+                return
+            if not len(self.m.Mesh.nodes):
+                logging.warning('Empty mesh, CGX will not start!')
                 return
 
-        # Show model name in window's title
-        w.setWindowTitle('CalculiX Advanced Environment - ' + j.name)
+            # gui.cgx.kill(w)
+            has_nodes = len(self.m.Mesh.nodes)
+            gui.cgx.open_inp(self.w, self.j.inp, has_nodes)
 
-        # Generate new KOM without implementations
-        m.KOM = model.kom.KOM(p, s)
-
-        # Parse INP and enrich KOM with parsed objects
-        logging.info('Loading model\n{}'.format(j.inp))
-        lines = file_tools.read_lines(j.inp)
-        import_inp(s, lines, m.KOM) # pass whole INP-file to the parser
-
-        # Add parsed implementations to the tree
-        t.generateTreeView(m)
-
-        # Parse mesh
-        m.Mesh = model.parsers.mesh.Mesh(INP_file=j.inp)
-
-        # Open a new non-empty model in CGX
-        if not s.start_cgx_by_default:
-            logging.warning('"Settings -> Start CGX by default" is unchecked.')
-            return
-        if not len(m.Mesh.nodes):
-            logging.warning('Empty mesh, CGX will not start!')
-            return
-
-        # gui.cgx.kill(w)
-        has_nodes = len(m.Mesh.nodes)
-        gui.cgx.open_inp(w, j.inp, has_nodes)
 
 # Test importer on all CalculiX examples
 if __name__ == '__main__':
@@ -211,14 +237,16 @@ if __name__ == '__main__':
     for file_name in examples:
         counter += 1
         relpath = os.path.relpath(file_name, start=os.getcwd())
-        inp_doc = file_tools.read_lines(file_name)
+        # inp_doc = file_tools.read_lines(file_name)
 
         # Build new clean/empty keyword object model
         k = model.kom.KOM(None, None, kom_xml)
+        i = importer.Importer(p, s, w, m, t, j)
+        i.import_file(file_name)
 
         try:
             # Parse inp_doc end enrich existing KOM
-            k = import_inp(None, inp_doc, k)
+            i.import_inp()
         except:
             logging.error(traceback.format_exc())
 

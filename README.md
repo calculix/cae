@@ -161,12 +161,7 @@ Please, you may:
 You may also need libraries:
 
     qttools5-dev-tools
-    pyinstaller
     pycallgraph
-
-Use [release.py](release.py) to create releases (pyinstaller needed):
-
-    python3 release.py
 
 <br/><br/>
 
@@ -175,9 +170,9 @@ Use [release.py](release.py) to create releases (pyinstaller needed):
 # What's new in future v0.9.0
 
 - CalculiX 2.17.1. Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo.
-- Using external python packages ccx2paraview and unv2ccx.
-- Significantly improved INP importer algorithm tested on over 20 000 INP files, including Abaqus models. 
+- Significantly improved INP importer algorithm. Now parser supports keyword line continuation. Tested on over 20 000 INP files, including Abaqus models.
 - Add buttons to select paths in Settings dialog
+- Using external python packages ccx2paraview and unv2ccx.
 
 
 <br/><br/>
@@ -208,11 +203,6 @@ Parsers:
 - Check if includes are opened correctly.
 - Reparse mesh/model after tree.actionDeleteImplementation.
 - Parsers for loads and boundary conditions.
-- Have a look at [INP parser](https://github.com/crmccreary/AbqParse): my parser does not support keyword line continuation. Another parsers:
-
-    https://www.dabeaz.com/ply/
-
-    https://github.com/dabeaz/sly
 
 Importer:
 - treeView: import certain keyword with descendants (tree branch) from INP-file.

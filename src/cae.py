@@ -96,12 +96,13 @@ if __name__ == '__main__':
     m = model.Model() # generate FEM model
     t = tree.Tree(p, s, w, m) # create treeView items based on KOM
     j = model.job.Job(p, s, w, m) # create job object
-    actions.actions(p, s, w, m, t, j) # window actions
+    i = importer.Importer(p, s, w, m, t, j)
+    actions.actions(p, s, w, m, t, j, i) # window actions
 
     # Import default model
     if len(args.inp):
         start_model = os.path.join(p.app_home_dir, args.inp)
-        importer.import_file(p, s, w, m, t, j, start_model)
+        i.import_file(start_model)
 
     # Or start empty
     else:
