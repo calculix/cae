@@ -4,12 +4,17 @@
 """ © Ihor Mirzov, 2019-2020
 Distributed under GNU General Public License v3.0
 
-Methods to read files. """
+Method to read files. """
+
+# TODO Merge with importer
 
 import os
 import logging
 
-# Recurcively read all the lines of the file and its includes
+import clean
+
+# Recurcively reads all the file lines and its includes
+# Does not omit comments and empty lines.
 def read_lines(INP_file):
     INP_file = os.path.abspath(INP_file)
     if not os.path.isfile(INP_file):
@@ -34,9 +39,13 @@ def read_lines(INP_file):
 
 # Run test
 if __name__ == '__main__':
+    clean.screen()
     d = os.path.dirname(__file__)
     d = os.path.join(d, '..', 'examples')
-    INP_file = os.path.join(d, 'Ihor_Mirzov_baffle_2D.inp')
+    INP_file = os.path.join(d, 'default.inp')
     INP_file = os.path.normpath(INP_file)
-    print(os.path.dirname(INP_file))
-    read_lines(INP_file)
+
+    print(INP_file)
+    print()
+    for line in read_lines(INP_file):
+        print(line)

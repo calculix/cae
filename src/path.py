@@ -4,7 +4,7 @@
 """ © Ihor Mirzov, 2019-2020
 Distributed under GNU General Public License v3.0
 
-Utility to calculate absolute paths to the application's main folders. """
+Absolute paths to the application's main folders. """
 
 import os
 
@@ -24,8 +24,9 @@ class Path:
             self.extension = '' # file extension in OS
 
         # Application's home directory - the one with README.md and LICENSE
-        self.app_home_dir = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), '..'))
+        self.app_home_dir = os.path.normpath(
+            os.path.join(os.path.dirname(
+                os.path.realpath(__file__)), '..'))
 
         self.config = os.path.join(self.app_home_dir, 'config')
         self.cae_xml = os.path.join(self.config, 'Window.xml')

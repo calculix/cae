@@ -22,7 +22,7 @@ import clean
 
 
 # Session settings object used everywhere in the code
-class Settings():
+class Settings:
 
     # Read settings from file
     def __init__(self, p):
