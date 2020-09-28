@@ -29,7 +29,6 @@ import re
 import sys
 import time
 import logging
-import traceback
 
 # External modules
 try:
@@ -128,7 +127,7 @@ class Importer:
 
                 data_lines = inp_doc[start:end+1]
                 b = Block(keyword_name, comments, lead_line, data_lines)
-                b.print_debug_info()
+                # b.print_debug_info()
                 self.keyword_blocks.append(b)
 
             i += 1
@@ -136,6 +135,7 @@ class Importer:
     def import_inp(self):
         parent = self.m.KOM.root
         impl_counter = {}
+        messages = []
 
         for kwb in self.keyword_blocks:
 
@@ -149,13 +149,20 @@ class Importer:
                     parent = parent.parent
             if kw is None:
                 parent = self.m.KOM.root
-                logging.warning('Misplaced or wrong keyword {}.'\
-                    .format(kwb.keyword_name))
+                msg = 'Misplaced or wrong keyword {}.'\
+                    .format(kwb.keyword_name)
+                if msg not in messages:
+                    messages.append(msg)
+                    logging.warning(msg)
 
         # self.m.KOM.test()
         # return self.m.KOM
 
     def import_file(self, file_name):
+        if file_name is None and \
+            (self.w is None or self.j is None):
+            raise SystemExit
+
         if file_name is None:
             file_name = QtWidgets.QFileDialog.getOpenFileName(self.w, \
                 'Import INP/UNV file', self.j.dir, \
@@ -197,15 +204,16 @@ class Importer:
             self.t.generateTreeView(self.m)
 
             # Parse mesh
-            # self.m.Mesh = model.parsers.mesh.Mesh(ifile=self.j.inp)
             self.m.Mesh = model.parsers.mesh.Mesh(blocks=self.keyword_blocks)
 
             # Open a new non-empty model in CGX
             if not self.s.start_cgx_by_default:
-                logging.warning('"Settings -> Start CGX by default" is unchecked.')
+                msg = '"Settings -> Start CGX by default" is unchecked.'
+                logging.warning(msg)
                 return
             if not len(self.m.Mesh.nodes):
-                logging.warning('Empty mesh, CGX will not start!')
+                msg = 'Empty mesh, CGX will not start!'
+                logging.warning(msg)
                 return
 
             # gui.cgx.kill(w)
@@ -219,6 +227,7 @@ if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
     start_time = time.perf_counter()
     print = tests.print
+    m = model.Model() # generate FEM model
 
     # Prepare logging
     log_file = __file__[:-3] + '.log'
@@ -236,7 +245,6 @@ if __name__ == '__main__':
     # examples_dir = '../../examples/yahoo'
     examples_dir = '../../examples'
     counter = 0
-    kom_xml = '../config/kom.xml'
 
     print(log_file, 'IMPORTER (KEYWORDS PARSER) TEST\n\n')
     examples = tests.scan_all_files_in(examples_dir, '.inp', limit)
@@ -244,25 +252,23 @@ if __name__ == '__main__':
     lines_count = 0
     for file_name in examples:
         counter += 1
-        relpath = os.path.relpath(file_name, start=os.getcwd())
-        # inp_doc = file_tools.read_lines(file_name)
 
         # Build new clean/empty keyword object model
-        k = model.kom.KOM(None, None, kom_xml)
-        i = importer.Importer(p, s, w, m, t, j)
-        i.import_file(file_name)
+        m.KOM = model.kom.KOM(None, None,
+            kom_xml='../config/kom.xml')
 
-        try:
-            # Parse inp_doc end enrich existing KOM
-            i.import_inp()
-        except:
-            logging.error(traceback.format_exc())
+        # Parse inp_doc end enrich existing KOM
+        i = Importer(None, None, None, m, None, None)
+        inp_doc = file_tools.read_lines(file_name)
+        i.split_on_blocks(inp_doc) # fill keyword_blocks
+        i.import_inp()
 
         # Log only problematic INP files
         log_contents = log_capture_string.getvalue()
         if len(log_contents) != lines_count:
             log_contents = log_contents[lines_count:]
             lines_count = log_capture_string.tell()
+            relpath = os.path.relpath(file_name, start=os.getcwd())
             print(log_file, '\n{} {}'.format(counter, relpath))
             print(log_file, log_contents)
     log_capture_string.close()
