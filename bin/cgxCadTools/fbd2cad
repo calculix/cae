@@ -1,0 +1,9 @@
+#!/bin/bash
+clear
+
+OCCT=/usr/local/opencascade-7.1.0/bin/lin64/gcc/lib
+FBDREADER=/usr/local/cgxCadTools/FbdReader/src/
+export LD_LIBRARY_PATH=$OCCT:$LD_LIBRARY_PATH
+export FBDREADER
+
+exec $FBDREADER/tmain $@
