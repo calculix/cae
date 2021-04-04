@@ -83,10 +83,10 @@ if __name__ == '__main__':
 
     # Show CAE window and get window ID
     # A new logger's handler is created here
-    if os.name=='nt':
-        w = gui.window.Windows_window(p, s)
+    if os.name == 'nt':
+        w = gui.window.WindowsWindow(p, s)
     else:
-        w = gui.window.Linux_window(p, s)
+        w = gui.window.LinuxWindow(p, s)
     w.show()
     w.wid1 = w.get_wid('CalculiX Advanced Environment')
     if s.align_windows:

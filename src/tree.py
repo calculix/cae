@@ -140,7 +140,7 @@ class Tree:
 
                         # Reparse mesh or constraints
                         # self.m.Mesh.reparse(inp_code)
-                        reparsed = model.parsers.mesh.Mesh(inp_code=inp_code, old=self.m.Mesh)
+                        reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=self.m.Mesh)
                         self.m.Mesh.updateWith(reparsed)
                         self.clicked() # rehighlight
 
@@ -156,7 +156,7 @@ class Tree:
                         tree_element.setData(impl)
 
                         # Reparse mesh or constraints
-                        reparsed = model.parsers.mesh.Mesh(inp_code=inp_code, old=self.m.Mesh)
+                        reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=self.m.Mesh)
                         self.m.Mesh.updateWith(reparsed)
                         self.clicked() # rehighlight
 

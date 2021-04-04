@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2020
+""" © Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 Main window class. Here also we keep links to another
@@ -58,7 +58,7 @@ class Window(QtWidgets.QMainWindow):
         self.stdout_readers = []
 
         QtWidgets.QMainWindow.__init__(self) # create main window
-        uic.loadUi(p.cae_xml, self) # load form
+        uic.loadUi(p.main_xml, self) # load form
         self.size = QtWidgets.QDesktopWidget().availableGeometry()
 
         # Handler to show logs in the CAE's textEdit
@@ -190,10 +190,10 @@ def post_wrapper(w):
     return wrap
 
 
-class Linux_window(Window):
+class LinuxWindow(Window):
 
     def __init__(self, p, s):
-        super(Linux_window, self).__init__(p, s)
+        super(LinuxWindow, self).__init__(p, s)
 
         self.d = Xlib.display.Display()
         self.screen = self.d.screen()
@@ -297,6 +297,7 @@ class Linux_window(Window):
     # Activate window, send message to CGX, deactivate
     @post_wrapper(Window)
     def post(self, cmd):
+        # cmd = '!"#$%&\'()*+,-./1234567890:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~'
 
         # Create X event
         def event(win, e, keycode, case):
@@ -375,10 +376,10 @@ class Linux_window(Window):
         self.d.sync()
 
 
-class Windows_window(Window):
+class WindowsWindow(Window):
 
     def __init__(self, p, s):
-        super(Windows_window, self).__init__(p, s)
+        super(WindowsWindow, self).__init__(p, s)
 
         # 0:lowercase, 1:shifted
         self.keyboardMapping = {
@@ -475,6 +476,7 @@ class Windows_window(Window):
     # Activate window, send message to CGX, deactivate
     @post_wrapper(Window)
     def post(self, cmd):
+        # cmd = '!"#$%&\'()*+,-./1234567890:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~'
 
         # Key press (0) + release (2)
         def sendkey(symbol):
