@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2020
+""" © Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 Main module.
@@ -13,6 +13,15 @@ or:
 python3 ./src/cae.py
 python3 ./src/cae.py -inp yourmodel.inp """
 
+# Check before start
+# TODO Log check results into text file
+import clean
+import checks
+checks.check_os()
+clean.screen()
+checks.check_python()
+checks.check_requirements()
+
 # Standard modules
 import os
 import sys
@@ -21,12 +30,7 @@ import argparse
 import logging
 
 # External modules
-try:
-    from PyQt5 import QtWidgets
-except:
-    msg = 'Please, install PyQt5 with command:\n'\
-        + 'pip3 install PyQt5'
-    sys.exit(msg)
+from PyQt5 import QtWidgets
 
 # My modules
 import settings
@@ -34,7 +38,6 @@ import actions
 import gui
 import model
 import tree
-import clean
 import path
 import importer
 
@@ -45,12 +48,6 @@ p.append_to_PATH([p.app_home_dir, p.src])
 
 if __name__ == '__main__':
     start_time = time.perf_counter()
-    clean.screen()
-
-    # Exit if OS is not Linux or Windows
-    if os.name not in ['nt', 'posix']:
-        msg = 'SORRY, {} OS is not supported.'
-        sys.exit(msg.format(os.name))
 
     # # Draw apps architecture
     # from pycallgraph import PyCallGraph
@@ -84,13 +81,10 @@ if __name__ == '__main__':
     # Show CAE window and get window ID
     # A new logger's handler is created here
     if os.name == 'nt':
-        w = gui.window.WindowsWindow(p, s)
+        w = gui.window.MainWindowWindows(p, s)
     else:
-        w = gui.window.LinuxWindow(p, s)
+        w = gui.window.MainWindowLinux(p, s)
     w.show()
-    w.wid1 = w.get_wid('CalculiX Advanced Environment')
-    if s.align_windows:
-        w.align()
 
     # Main block
     m = model.Model() # generate FEM model
