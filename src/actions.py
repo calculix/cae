@@ -66,13 +66,13 @@ def actions(p, s, w, m, t, j, i):
     w.treeView.collapsed.connect(t.treeViewCollapsed)
 
     # ToolBar actions
-    w.action_view_minus_x.triggered.connect(lambda: w.post('rot -x'))
-    w.action_view_minus_y.triggered.connect(lambda: w.post('rot -y'))
-    w.action_view_minus_z.triggered.connect(lambda: w.post('rot -z'))
-    w.action_view_plus_x.triggered.connect(lambda: w.post('rot x'))
-    w.action_view_plus_y.triggered.connect(lambda: w.post('rot y'))
-    w.action_view_plus_z.triggered.connect(lambda: w.post('rot z'))
-    w.action_view_frame.triggered.connect(lambda: w.post('frame'))
+    w.action_view_minus_x.triggered.connect(lambda: w.wc.post('rot -x'))
+    w.action_view_minus_y.triggered.connect(lambda: w.wc.post('rot -y'))
+    w.action_view_minus_z.triggered.connect(lambda: w.wc.post('rot -z'))
+    w.action_view_plus_x.triggered.connect(lambda: w.wc.post('rot x'))
+    w.action_view_plus_y.triggered.connect(lambda: w.wc.post('rot y'))
+    w.action_view_plus_z.triggered.connect(lambda: w.wc.post('rot z'))
+    w.action_view_frame.triggered.connect(lambda: w.wc.post('frame'))
 
     # Workaround for iso view
     # Three rotation posts to CGX window doesn't work in Windows
@@ -82,11 +82,11 @@ def actions(p, s, w, m, t, j, i):
         if not os.path.isfile(file_name):
             logging.error('No config file iso.fbd')
             return
-        w.post('read ' + file_name)
+        w.wc.post('read ' + file_name)
     w.action_view_iso.triggered.connect(action_view_iso)
-    w.action_view_line.triggered.connect(lambda: w.post('view elem off'))
-    w.action_view_line.triggered.connect(lambda: w.post('view line'))
-    w.action_view_fill.triggered.connect(lambda: w.post('view elem off'))
-    w.action_view_fill.triggered.connect(lambda: w.post('view fill'))
-    w.action_view_elem.triggered.connect(lambda: w.post('view fill'))
-    w.action_view_elem.triggered.connect(lambda: w.post('view elem'))
+    w.action_view_line.triggered.connect(lambda: w.wc.post('view elem off'))
+    w.action_view_line.triggered.connect(lambda: w.wc.post('view line'))
+    w.action_view_fill.triggered.connect(lambda: w.wc.post('view elem off'))
+    w.action_view_fill.triggered.connect(lambda: w.wc.post('view fill'))
+    w.action_view_elem.triggered.connect(lambda: w.wc.post('view fill'))
+    w.action_view_elem.triggered.connect(lambda: w.wc.post('view elem'))

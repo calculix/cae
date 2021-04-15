@@ -122,7 +122,7 @@ class Tree:
                 # dialog.show()
                 # self.w.wid3 = self.w.get_wid(item.name)
                 # if self.s.align_windows:
-                #     self.w.align()
+                #     self.w.wc.align()
 
                 # Process response from dialog window if user pressed 'OK'
                 if dialog.exec() == gui.keyword_dialog.KeywordDialog.Accepted:
@@ -194,14 +194,14 @@ class Tree:
                 if match: # if there is NSET attribute
                     name = lead_line[match.start(1):match.end(1)] # node set name
                     if name in self.m.Mesh.nsets:
-                        self.w.post('plot n ' + name)
+                        self.w.wc.post('plot n ' + name)
 
             elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
                 match = re.search('ELSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
                 if match: # if there is ELSET attribute
                     name = lead_line[match.start(1):match.end(1)] # element set name
                     if name in self.m.Mesh.elsets:
-                        self.w.post('plot e ' + name)
+                        self.w.wc.post('plot e ' + name)
 
             elif ipn_up == '*SURFACE':
 
@@ -214,9 +214,9 @@ class Tree:
                 match = re.search('NAME\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
                 name = lead_line[match.start(1):match.end(1)] # surface name
                 if stype == 'ELEMENT':
-                    self.w.post('plot f ' + name)
+                    self.w.wc.post('plot f ' + name)
                 elif stype=='NODE':
-                    self.w.post('plot f ' + name)
+                    self.w.wc.post('plot f ' + name)
 
             # Highlight Loads & BC
             elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:

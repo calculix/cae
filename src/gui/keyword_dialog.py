@@ -287,15 +287,17 @@ class KeywordDialog(QtWidgets.QDialog):
             if 'posix' in os.name:
                 for title in reversed(webbrowser._tryorder):
                     title = title.replace('-browser', '')
+                    # TODO There is no wid4 anymore
                     self.w.wid4 = self.w.get_wid(title)
                     if self.w.wid4 is not None and self.s.align_windows:
-                        self.w.align()
+                        self.w.wc.align()
                         break
             else:
                 title = self.item.name[1:] + '.html'
+                # TODO There is no wid4 anymore
                 self.w.wid4 = self.w.get_wid(title)
                 if self.w.wid4 is not None and self.s.align_windows:
-                    self.w.align()
+                    self.w.wc.align()
 
     # Get URL to the local help page
     def get_url(self):
