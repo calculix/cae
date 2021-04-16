@@ -352,12 +352,13 @@ if __name__ == '__main__':
     # with PyCallGraph(output=graphviz, config=config):
 
     os.chdir(os.path.dirname(__file__))
-    kom_xml = '../../config/kom.xml'
-
-    # KOM(None, None)
-    k = KOM(None, None, kom_xml)
+    k = KOM(None, None, kom_xml='../../config/kom.xml')
     print('\nTotal {:.1e} seconds.\n'\
         .format(time.perf_counter()-start)) # spent time
 
-    # print(k.keyword_names)
-    k.test()
+    # Print all CalculiX keywords
+    for kw in k.keyword_names:
+        print(kw)
+
+    # Test KOM
+    # k.test()
