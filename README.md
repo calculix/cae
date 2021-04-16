@@ -175,6 +175,8 @@ You may also need libraries:
 - Significantly improved INP importer algorithm. Now parser supports keyword line continuation. Tested on over 20 000 INP files, including Abaqus models.
 - Add buttons to select paths in Settings dialog
 - Using external python packages ccx2paraview and unv2ccx.
+- Dependencies are automatically installed and tested on startup.
+- Python version and OS name are checked at startup.
 
 
 <br/><br/>
@@ -213,8 +215,11 @@ Importer:
 - Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), Abaqus INP and ODB.
 - Open .fbd/.fbl and forward to CGX. Then import generated model.
 
-Other:
+Logging and tests:
 - Log app version on startup.
+- 'Debug' menu to test each module. 
+
+Other:
 - Implement keyword dialog as tab on main window.
 - Try to [build CalculiX with mingw-w64](https://mechanicalhacks.wordpress.com/2011/03/29/building-calculix-to-run-native-on-64-bit-windows/). [Attention!](http://hillyuan.blogspot.com/2013/10/build-calculix261-in-mingw64.html)
 - Folder 'tests': move all logs and architecture schemes there.
