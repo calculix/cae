@@ -1,4 +1,4 @@
-© Ihor Mirzov, July 2020  
+© Ihor Mirzov, 2019-2021  
 Distributed under GNU General Public License v3.0
 
 <br/><br/>
@@ -92,9 +92,7 @@ Get [Python3](https://www.python.org/downloads/) (>3.6) and install it.
 
 [Download latest release](https://github.com/calculix/cae/releases) (source code) and unpack it.
 
-Open terminal in a directory where you've unpacked CAE.
-
-Allow all files to be executed (Linux only):
+Open terminal in a directory where you've unpacked CAE. Allow all files to be executed (Linux only):
 
     sudo chmod -R 777 ./*
 
