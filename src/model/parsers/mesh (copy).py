@@ -60,9 +60,7 @@ class Mesh:
 
         # Get lines from INP source
         lines = []
-        if ifile is not None: # whole the .inp-file
-            lines = file_tools.read_lines(ifile)
-        elif icode is not None:
+        if icode is not None:
             lines = icode # some piece of INP code
         elif blocks is not None:
             for b in blocks:
@@ -218,9 +216,7 @@ class Mesh:
                             if n.upper() in self.old.nsets:
                                 nodes.extend(self.old.nsets[n.upper()].items)
                             else:
-                                msg = 'There is no NSET {}.'.format(n)
-                                self.warn(msg)
-                                # logging.error(msg)
+                                logging.error('There is no NSET {}.'.format(n))
                         except KeyError:
                             # Collect non-existent nodes by sets
                             if not name in sets_with_non_existent_nodes: 
@@ -375,9 +371,7 @@ class Mesh:
                             if e.upper() in self.old.elsets:
                                 elements.extend(self.old.elsets[e.upper()].items)
                             else:
-                                msg = 'There is no ELSET {}.'.format(e)
-                                self.warn(msg)
-                                # logging.error(msg)
+                                logging.error('There is no ELSET {}.'.format(e))
                         except KeyError:
                             # Collect non-existent elements by sets
                             if not name in sets_with_non_existent_elements: 
@@ -488,9 +482,7 @@ class Mesh:
                                     if n.upper() in self.old.nsets:
                                         items.extend(self.old.nsets[n.upper()].items)
                                     else:
-                                        msg = 'There is no NSET {}.'.format(n)
-                                        self.warn(msg)
-                                        # logging.error(msg)
+                                        logging.error('There is no NSET {}.'.format(n))
 
                     i += 1
 
