@@ -19,9 +19,6 @@ m - Model
 t - Tree
 j - Job """
 
-# TODO Fix import:
-# *Material, name=MATERIAL
-
 # Standard modules
 import os
 import io
@@ -31,13 +28,7 @@ import time
 import logging
 
 # External modules
-try:
-    from PyQt5 import QtWidgets
-except:
-    msg = 'Please, install PyQt5 with command:\n'\
-        + 'pip3 install PyQt5'
-    print(msg)
-    raise SystemExit # the best way to exit
+from PyQt5 import QtWidgets
 
 # My modules
 import model
@@ -90,6 +81,7 @@ class Importer:
 
     # Split inp_doc on blocks
     def split_on_blocks(self, inp_doc):
+        self.keyword_blocks = []
         i = 0
         regex = r'^\*[\w\s-]+'
         while i < len(inp_doc):
@@ -132,6 +124,7 @@ class Importer:
 
             i += 1
 
+    # Create keyword implementations
     def import_inp(self):
         parent = self.m.KOM.root
         impl_counter = {}
@@ -154,9 +147,6 @@ class Importer:
                 if msg not in messages:
                     messages.append(msg)
                     logging.warning(msg)
-
-        # self.m.KOM.test()
-        # return self.m.KOM
 
     def import_file(self, file_name):
         if file_name is None and \
@@ -254,8 +244,7 @@ if __name__ == '__main__':
         counter += 1
 
         # Build new clean/empty keyword object model
-        m.KOM = model.kom.KOM(None, None,
-            kom_xml='../config/kom.xml')
+        m.KOM = model.kom.KOM(None, None, kom_xml='../config/kom.xml')
 
         # Parse inp_doc end enrich existing KOM
         i = Importer(None, None, None, m, None, None)
