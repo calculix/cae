@@ -167,7 +167,6 @@ class MainWindow(QtWidgets.QMainWindow):
             time.sleep(1)
 
     # Open links from the Help menu
-    # TODO test it
     def help(self, url):
         logging.info('Going to\n' + url)
         if not webbrowser.open(url, new=2):
