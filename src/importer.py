@@ -33,7 +33,6 @@ from PyQt5 import QtWidgets
 # My modules
 import model
 import gui
-import file_tools
 import clean
 import tests
 
@@ -148,6 +147,7 @@ class Importer:
                     messages.append(msg)
                     logging.warning(msg)
 
+    # Main method in the class
     def import_file(self, file_name):
         if file_name is None and \
             (self.w is None or self.j is None):
@@ -184,7 +184,7 @@ class Importer:
 
             # Get INP code and split it on blocks
             logging.info('Loading model\n{}'.format(self.j.inp))
-            inp_doc = file_tools.read_lines(self.j.inp)
+            inp_doc = read_lines(self.j.inp)
             self.split_on_blocks(inp_doc) # fill keyword_blocks
 
             # Parse INP and enrich KOM with parsed objects
@@ -210,9 +210,47 @@ class Importer:
             gui.cgx.open_inp(self.w, self.j.inp, has_nodes)
 
 
-# Test importer on all CalculiX examples
-if __name__ == '__main__':
+# Recurcively reads all the file lines and its includes.
+# Does not omit comments and empty lines.
+def read_lines(INP_file):
+    INP_file = os.path.abspath(INP_file)
+    if not os.path.isfile(INP_file):
+        msg_text = 'File not found: ' + INP_file
+        logging.error(msg_text)
+        return []
+
+    lines = []
+    with open(INP_file, 'r', errors='ignore') as f:
+        for line in f.readlines():
+            line = line.strip()
+            lines.append(line)
+
+            # Append lines from include file
+            if line.upper().startswith('*INCLUDE'):
+                inc_file = line.split('=')[1].strip()
+                inc_file = os.path.normpath(
+                    os.path.join(os.path.dirname(INP_file), inc_file))
+                lines.extend(read_lines(inc_file))
+
+    return lines
+
+
+# Run test
+def test1():
     clean.screen()
+    d = os.path.dirname(__file__)
+    d = os.path.join(d, '..', 'examples')
+    INP_file = os.path.join(d, 'default.inp')
+    INP_file = os.path.normpath(INP_file)
+
+    print(INP_file)
+    print()
+    for line in read_lines(INP_file):
+        print(line)
+
+
+# Test importer on all CalculiX examples
+def test2():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
     start_time = time.perf_counter()
     print = tests.print
@@ -247,7 +285,7 @@ if __name__ == '__main__':
 
         # Parse inp_doc end enrich existing KOM
         i = Importer(None, None, None, m, None, None)
-        inp_doc = file_tools.read_lines(file_name)
+        inp_doc = read_lines(file_name)
         i.split_on_blocks(inp_doc) # fill keyword_blocks
         i.import_inp()
 
@@ -264,4 +302,10 @@ if __name__ == '__main__':
     msg = '\n{} INP files. Total time {}.'
     delta = tests.time_delta(start_time)
     print(log_file, msg.format(len(examples), delta))
+
+
+if __name__ == '__main__':
+    clean.screen()
+    test1()
+    # test2()
     clean.cache()

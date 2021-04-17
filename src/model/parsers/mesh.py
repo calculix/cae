@@ -25,7 +25,7 @@ sys_path = os.path.dirname(__file__)
 sys_path = os.path.join(sys_path, '..', '..')
 sys_path = os.path.normpath(sys_path)
 sys.path.insert(0, sys_path)
-import file_tools
+import importer
 import tests
 import clean
 
@@ -61,7 +61,7 @@ class Mesh:
         # Get lines from INP source
         lines = []
         if ifile is not None: # whole the .inp-file
-            lines = file_tools.read_lines(ifile)
+            lines = importer.read_lines(ifile)
         elif icode is not None:
             lines = icode # some piece of INP code
         elif blocks is not None:
