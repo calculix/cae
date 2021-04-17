@@ -33,8 +33,7 @@ class myHandler(logging.Handler):
 
 # Redefine print method to write logs to file
 def print(log_file, *args):
-    line = ' '.join([str(arg) for arg in args])
-    line = line.rstrip() + '\n'
+    line = ' '.join([str(arg) for arg in args]) + '\n'
     with open(log_file, 'a') as f:
         f.write(line)
     sys.stdout.write(line)

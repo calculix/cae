@@ -914,7 +914,7 @@ if __name__ == '__main__':
     examples_dir = '../../../../examples'
     counter = 0
 
-    print(log_file, 'MESH PARSER TEST\n\n')
+    print(log_file, 'MESH PARSER TEST')
     examples = tests.scan_all_files_in(examples_dir, '.inp', limit)
     for file_name in examples:
         counter += 1

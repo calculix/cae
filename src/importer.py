@@ -236,7 +236,7 @@ if __name__ == '__main__':
     examples_dir = '../../examples'
     counter = 0
 
-    print(log_file, 'IMPORTER (KEYWORDS PARSER) TEST\n\n')
+    print(log_file, 'IMPORTER (KEYWORDS PARSER) TEST\n')
     examples = tests.scan_all_files_in(examples_dir, '.inp', limit)
 
     lines_count = 0
@@ -258,7 +258,7 @@ if __name__ == '__main__':
             log_contents = log_contents[lines_count:]
             lines_count = log_capture_string.tell()
             relpath = os.path.relpath(file_name, start=os.getcwd())
-            print(log_file, '\n{} {}'.format(counter, relpath))
+            print(log_file, '{} {}'.format(counter, relpath))
             print(log_file, log_contents)
     log_capture_string.close()
 

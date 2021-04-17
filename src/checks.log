@@ -1,0 +1,9 @@
+STARTUP TESTS
+
+INFO: Python version is (3, 8, 5).
+INFO: PyQt5 OK
+INFO: Xlib OK
+INFO: ccx2paraview OK
+INFO: unv2ccx OK
+INFO: numpy OK
+INFO: vtk OK
