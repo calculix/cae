@@ -206,7 +206,6 @@ class Importer:
                 logging.warning(msg)
                 return
 
-            # gui.cgx.kill(w)
             has_nodes = len(self.m.Mesh.nodes)
             gui.cgx.open_inp(self.w, self.j.inp, has_nodes)
 

@@ -77,7 +77,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Kill previous slave window
         self.kill_slave()
-        # gui.cgx.kill(self)
 
         cmd = self.p.path_cgx + ' ' + params
 

@@ -111,7 +111,7 @@ logging.info('Started in {:.1f} seconds.\n'
 app.exec()
 
 # Kill CGX after CAE exit
-gui.cgx.kill(w)
+w.kill_slave()
 
 # Recursively clean cached files in all subfolders
 clean.cache(p.src)

@@ -81,7 +81,6 @@ class Job:
                 self.m, file_name[:-4] + '.inp')
 
             # Reopen CGX
-            # gui.cgx.kill(self.w)
             has_nodes = len(self.m.Mesh.nodes)
             gui.cgx.open_inp(self.w, self.inp, has_nodes)
 
