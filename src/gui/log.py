@@ -153,7 +153,7 @@ class StdoutReader:
         
         # Flush CGX buffer
         if self.w is not None:
-            self.w.wc.post(' ')
+            self.w.connections[1].post(' ')
 
         # Read and log output
         while self.active:

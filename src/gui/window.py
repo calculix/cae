@@ -47,7 +47,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.stdout_readers = []
         self.slave_title = None
         self.slave_process = None # running process to send commands to
-        self.wc = None
+        self.connections = {} # 1:wc1, 2:wc2...
 
         QtWidgets.QMainWindow.__init__(self) # create main window
         uic.loadUi(p.main_xml, self) # load form
@@ -97,13 +97,7 @@ class MainWindow(QtWidgets.QMainWindow):
         logging.debug(msg)
 
         # Create connection between master and slave windows
-        if os.name == 'nt':
-            self.wc = gui.connection.WindowConnectionWindows(self, slave_title)
-        else:
-            self.wc = gui.connection.WindowConnectionLinux(self, slave_title)
-        self.wc.connect()
-        if self.s.align_windows:
-            self.wc.align()
+        self.create_connection(1, slave_title)
 
         # Start stdout reading and logging thread
         sr = gui.log.CgxStdoutReader(
@@ -114,7 +108,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Read config to align model to iso view
         file_name = os.path.join(self.p.config, 'iso.fbd')
         if os.path.isfile(file_name):
-            self.wc.post('read ' + file_name)
+            self.connections[1].post('read ' + file_name)
         else:
             logging.error('No config file iso.fbd')
 
@@ -122,7 +116,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Those colors are needed to paint sets and surfaces
         file_name = os.path.join(self.p.config, 'colors.fbd')
         if os.path.isfile(file_name):
-            self.wc.post('read ' + file_name)
+            self.connections[1].post('read ' + file_name)
         else:
             logging.error('No config file colors.fbd')
 
@@ -132,7 +126,7 @@ class MainWindow(QtWidgets.QMainWindow):
     # Kill all slave processes
     def kill_slave(self):
         if self.slave_process is not None:
-            self.wc.wid2 = None
+            self.connections[1].wid2 = None
             count = 0
             while self.slave_process.poll() is None:
                 try:
@@ -155,6 +149,17 @@ class MainWindow(QtWidgets.QMainWindow):
                     .format(self.slave_title, self.slave_process.pid)
                 logging.debug(msg)
                 self.slave_process = None
+
+    # Create connection between master and slave windows
+    def create_connection(self, _id, slave_title):
+        if os.name == 'nt':
+            wc = gui.connection.WindowConnectionWindows(self, slave_title)
+        else:
+            wc = gui.connection.WindowConnectionLinux(self, slave_title)
+        self.connections[_id] = wc
+        wc.connect()
+        if self.s.align_windows:
+            wc.align()
 
     def stop_stdout_readers(self):
         readers = [sr for sr in self.stdout_readers if sr.active]

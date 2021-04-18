@@ -8,11 +8,7 @@ Methods for GraphiX window. """
 
 # Standard modules
 import os
-import time
 import logging
-import traceback
-
-# TODO Write a class and move w.run_slave() here
 
 """
     # Paint element sets in default CGX colors
@@ -25,32 +21,32 @@ import traceback
                 break
         if len(elsets) > 1:
             for elset in elsets:
-                w.wc.post('plus e {} {}'.format(elset, colors[i]))
+                w.connections[1].post('plus e {} {}'.format(elset, colors[i]))
                 i = (i + 1) % len(colors)
 """
 
 # Paint element sets in CGX
 def paint_elsets(w, m):
-    w.wc.post('plot e all')
-    w.wc.post('minus e all')
+    w.connections[1].post('plot e all')
+    w.connections[1].post('minus e all')
     elsets = [e.name for e in m.Mesh.elsets.values()]
     i = 0
     for elset in elsets:
         if elset.upper() == 'ALL':
             continue
-        w.wc.post('plus e {} blue{}'.format(elset, i))
+        w.connections[1].post('plus e {} blue{}'.format(elset, i))
         i = (i + 1) % 5
 
 # Paint surfaces in CGX
 def paint_surfaces(w, m):
-    w.wc.post('plot e all')
-    w.wc.post('minus e all')
+    w.connections[1].post('plot e all')
+    w.connections[1].post('minus e all')
     surfaces = [s.name for s in m.Mesh.surfaces.values()]
     i = 0
     for surf in surfaces:
         if surf.upper() == 'ALL':
             continue
-        w.wc.post('plus f {} pink{}'.format(surf, i))
+        w.connections[1].post('plus f {} pink{}'.format(surf, i))
         i = (i + 1) % 5
 
 # Open INP model in GraphiX
