@@ -33,8 +33,6 @@ from PyQt5 import QtWidgets
 # My modules
 import model
 import gui
-import clean
-import tests
 
 
 # Keyword block
@@ -236,21 +234,8 @@ def read_lines(INP_file):
 
 
 # Run test
-def test1():
-    clean.screen()
-    d = os.path.dirname(__file__)
-    d = os.path.join(d, '..', 'examples')
-    INP_file = os.path.join(d, 'default.inp')
-    INP_file = os.path.normpath(INP_file)
-
-    print(INP_file)
-    print()
-    for line in read_lines(INP_file):
-        print(line)
-
-
 # Test importer on all CalculiX examples
-def test2():
+def test():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
     start_time = time.perf_counter()
     print = tests.print
@@ -305,7 +290,9 @@ def test2():
 
 
 if __name__ == '__main__':
+    import clean
+    import tests
+
     clean.screen()
-    test1()
-    # test2()
+    test()
     clean.cache()
