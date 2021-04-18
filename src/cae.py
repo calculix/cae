@@ -14,9 +14,9 @@ python3 ./src/cae.py
 python3 ./src/cae.py -inp yourmodel.inp """
 
 # Run checks before start
-import checks
+import tests
 import logging
-ch = checks.Check()
+ch = tests.Check()
 ch.check_os()
 ch.check_python()
 ch.check_requirements()

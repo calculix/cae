@@ -4,14 +4,20 @@
 """ © Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Utilities for testing """
+Utilities for testing.
 
+Class Check tests user system configuration.
+Run test: Ctrl+F5 from VSCode """
+
+# TODO Use unittest
 
 # Standard modules
 import os
 import sys
 import time
 import logging
+import importlib
+import subprocess
 
 
 # Configure logging to emit messages via 'print' method
@@ -56,3 +62,80 @@ def scan_all_files_in(start_folder, ext, limit=1000000):
 def time_delta(start_time):
     delta = time.perf_counter() - start_time
     return time.strftime('%M:%S', time.gmtime(delta))
+
+
+# Tests user system configuration
+class Check:
+
+    # Prepare logging
+    def __init__(self):
+        log_file = __file__[:-3] + '.log'
+        h = myHandler(log_file)
+        logging.getLogger().addHandler(h)
+        logging.getLogger().setLevel(logging.DEBUG)
+        print(log_file, 'STARTUP TESTS\n')
+
+    # Exit if OS is not Linux or Windows
+    def check_os(self):
+        if os.name not in ['nt', 'posix']:
+            msg = 'SORRY, {} OS is not supported.'.format(os.name)
+            logging.warning(msg)
+            raise SystemExit # the best way to exit
+
+    # Check python version
+    def check_python(self):
+        """ sys.version_info:
+        (3, 5, 2, 'final', 0) """
+        v1 = sys.version_info[:3]
+        v2 = (3, 4)
+        if sys.version_info < v2:
+            msg = 'You have Python {}.\n'.format(v1) \
+                + 'Required version is {} or newer.'.format(v2)
+            logging.error(msg)
+            raise SystemExit # the best way to exit
+        else:
+            msg = 'Python version is {}.'.format(v1)
+            logging.info(msg)
+
+    # Check each package from requirements.txt
+    def check_requirements(self):
+        path = os.path.normpath(os.path.join(
+            os.path.dirname(__file__),
+            '..', 'requirements.txt'))
+        with open(path) as f:
+            requirements = f.readlines()
+            for name in requirements:
+                name = name.strip()
+                if len(name):
+                    self.check_package(name)
+
+    # Check if package is installed
+    def check_package(self, name):
+        try:
+            importlib.import_module(name)
+            logging.info(name + ' OK')
+        except ImportError:
+            msg = 'Required package \'' + name \
+                + '\' is not installed. Trying to fix...'
+            logging.warning(msg)
+            self.install_package(name)
+
+    # Install package from code
+    def install_package(self, name):
+        try:
+            cmd = [sys.executable, '-m', 'pip', 'install', name]
+            subprocess.check_call(cmd)
+        except:
+            msg = 'Can not install required package \'' \
+                + name + '\'. ' \
+                + 'Please, install it manually.'
+            logging.error(msg)
+            raise SystemExit # the best way to exit
+
+
+if __name__ == '__main__':
+    ch = Check()
+    ch.check_os()
+    ch.check_python()
+    ch.check_requirements()
+    ch.check_package('qwe')
