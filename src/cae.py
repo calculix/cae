@@ -13,6 +13,8 @@ or:
 python3 ./src/cae.py
 python3 ./src/cae.py -inp yourmodel.inp """
 
+# TODO Test everything on Windows 10
+
 # Run checks before start
 import tests
 import logging

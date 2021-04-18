@@ -12,6 +12,7 @@ Here we define a keyword's implementation: its name and inp_code. """
 import os
 import sys
 import re
+import math
 import time
 import logging
 import webbrowser
@@ -50,7 +51,7 @@ class KeywordDialog(QtWidgets.QDialog):
     def __init__(self, p, s, w, KOM, item):
         self.p = p
         self.s = s
-        self.w = w
+        self.master_window = w
         self.item = item # needed to pass to other functions
         self.widgets = [] # list of created widgets
 
@@ -66,14 +67,15 @@ class KeywordDialog(QtWidgets.QDialog):
         for h in hh:
             logging.getLogger().addHandler(h)
 
-        self.size = QtWidgets.QDesktopWidget().availableGeometry()
         if self.s.align_windows:
+            size = QtWidgets.QDesktopWidget().availableGeometry()
+            # TODO check this bug in Windows 10
             if os.name=='nt': # just bug with window border padding
-                width = self.size.width()/3 - 22
-                height = self.size.height() - 55
+                width = math.floor(size.width() / 3) - 22
+                height = size.height() - 55
             else:
-                width = self.size.width()/3
-                height = self.size.height()
+                width = math.floor(size.width() / 3)
+                height = size.height()
             self.setGeometry(0, 0, width, height)
 
         # Add window icon (different for each keyword)
@@ -282,22 +284,25 @@ class KeywordDialog(QtWidgets.QDialog):
         # If help page exists
         if not webbrowser.open('file://' + url, new=0):
             logging.warning('Can\'t open\n' + url)
-        else:
-            time.sleep(0.3)
-            if 'posix' in os.name:
-                for title in reversed(webbrowser._tryorder):
-                    title = title.replace('-browser', '')
-                    # TODO There is no wid4 anymore
-                    self.w.wid4 = self.w.get_wid(title)
-                    if self.w.wid4 is not None and self.s.align_windows:
-                        self.w.wc.align()
-                        break
-            else:
-                title = self.item.name[1:] + '.html'
-                # TODO There is no wid4 anymore
-                self.w.wid4 = self.w.get_wid(title)
-                if self.w.wid4 is not None and self.s.align_windows:
-                    self.w.wc.align()
+        
+        # TODO Web-browser is not connected and not aligned
+        # else:
+        #     time.sleep(0.3)
+        #     if 'posix' in os.name:
+        #         for slave_title in reversed(webbrowser._tryorder):
+        #             slave_title = slave_title.replace('-browser', '')
+        #             logging.debug('Checking ' + slave_title)
+        #             self.master_window.create_connection(2, slave_title)
+        #             if self.master_window.connections[2].wid2 is not None and self.s.align_windows:
+        #                 self.master_window.wc.align()
+        #                 break
+        #     else:
+        #         # TODO Check on Windows 10 webbrowser._tryorder
+        #         slave_title = self.item.name[1:] + '.html'
+        #         logging.debug('Checking ' + slave_title)
+        #         self.master_window.create_connection(2, slave_title)
+        #         if self.master_window.connections[2].wid2 is not None and self.s.align_windows:
+        #             self.master_window.wc.align()
 
     # Get URL to the local help page
     def get_url(self):
@@ -310,3 +315,6 @@ class KeywordDialog(QtWidgets.QDialog):
         html_page_name = re.sub(r'[ -]', '_', keyword_name)
         url = os.path.join(self.p.doc, html_page_name + '.html')
         return url
+
+
+# TODO Write test based on get_web_browser
