@@ -170,6 +170,8 @@ You may also need libraries:
 # What's new in future v0.9.0
 
 - CalculiX 2.17.1. Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo.
+- Switch colormaps from menu CGX.
+
 - Significantly improved INP importer algorithm. Now parser supports keyword line continuation. Tested on over 20 000 INP files, including Abaqus models.
 - Add buttons to select paths in Settings dialog
 - Using external python packages ccx2paraview and unv2ccx.

@@ -144,7 +144,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>31</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -187,6 +187,10 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_cgx_paint_surfaces"/>
     <addaction name="action_cgx_inp"/>
     <addaction name="action_cgx_frd"/>
+    <addaction name="action_cgx_cmap_classic"/>
+    <addaction name="action_cgx_cmap_inferno"/>
+    <addaction name="action_cgx_cmap_turbo"/>
+    <addaction name="action_cgx_cmap_viridis"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuJob"/>
@@ -531,6 +535,42 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Paint surfaces</string>
+   </property>
+  </action>
+  <action name="action_cgx_cmap_classic">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_cgx_cmap_classic.png</normaloff>../img/action_cgx_cmap_classic.png</iconset>
+   </property>
+   <property name="text">
+    <string>cmap Classic</string>
+   </property>
+  </action>
+  <action name="action_cgx_cmap_inferno">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_cgx_cmap_inferno.png</normaloff>../img/action_cgx_cmap_inferno.png</iconset>
+   </property>
+   <property name="text">
+    <string>cmap Inferno</string>
+   </property>
+  </action>
+  <action name="action_cgx_cmap_turbo">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_cgx_cmap_turbo.png</normaloff>../img/action_cgx_cmap_turbo.png</iconset>
+   </property>
+   <property name="text">
+    <string>cmap Turbo</string>
+   </property>
+  </action>
+  <action name="action_cgx_cmap_viridis">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/action_cgx_cmap_viridis.png</normaloff>../img/action_cgx_cmap_viridis.png</iconset>
+   </property>
+   <property name="text">
+    <string>cmap Viridis</string>
    </property>
   </action>
  </widget>
