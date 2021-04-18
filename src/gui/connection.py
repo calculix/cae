@@ -43,7 +43,6 @@ def wid_wrapper(wc):
                     wc.log_window_list()
                     msg = 'Communication with {} will not work.'
                     logging.warning(msg.format(title))
-                    # TODO Make thread and check CGX availability periodically
                     return None
             msg = '{} WID=0x{}'.format(title, hex(wid)[2:].zfill(8))
             logging.debug(msg)
@@ -82,7 +81,6 @@ def post_wrapper(wc):
 
 
 # Pair master and slave windows together to enable keycodes sending
-# TODO improve architecture
 class WindowConnection:
 
     def __init__(self, master_window, slave_title):
@@ -266,14 +264,16 @@ class WindowConnectionLinux(WindowConnection):
     # Align CGX and browser windows
     # CAE window is already aligned in __init__()
     def align(self):
-        if self.wid1 is not None:
-            win = self.d.create_resource_object('window', self.wid1)
-            win.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
-            self.send_hotkey('Super_L', 'Down') # restore window
-            win.configure(x=0, y=0,
-                width=math.floor(self.w/3), height=self.h)
-        else:
-            logging.error('Master WID is None.')
+        # Align master
+        self.master_window.setGeometry(0, 0, math.floor(self.w/3), self.h)
+        # if self.wid1 is not None:
+        #     win = self.d.create_resource_object('window', self.wid1)
+        #     win.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
+        #     self.send_hotkey('Super_L', 'Down') # restore window
+        #     win.configure(x=0, y=0,
+        #         width=math.floor(self.w/3), height=self.h)
+        # else:
+        #     logging.error('Master WID is None.')
 
         # if self.wid2 is not None:
         #     self.post('wpos {} {}'\
@@ -281,6 +281,7 @@ class WindowConnectionLinux(WindowConnection):
         #     self.post('wsize {} {}'\
         #         .format(math.floor(self.w*2/3), self.h))
 
+        # Align slave
         if self.wid2 is not None:
             win = self.d.create_resource_object('window', self.wid2)
             win.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
@@ -421,17 +422,18 @@ class WindowConnectionWindows(WindowConnection):
     def align(self):
 
         # Align master
-        ctypes.windll.user32.SetProcessDPIAware() # account for scaling
-        if self.wid1 is not None:
-            ok = forceFocus(self.wid1)
-            logging.debug(str(ok))
+        self.master_window.setGeometry(0, 0, math.floor(self.w/3), self.h)
+        # ctypes.windll.user32.SetProcessDPIAware() # account for scaling
+        # if self.wid1 is not None:
+        #     ok = forceFocus(self.wid1)
+        #     logging.debug(str(ok))
 
-            ctypes.windll.user32.ShowWindow(self.wid1, 9) # restore window
-            time.sleep(0.3)
-            ctypes.windll.user32.MoveWindow(self.wid1, 0, 0,
-                math.floor(self.w/3), self.h, True)
-        else:
-            logging.error('Master WID is None.')
+        #     ctypes.windll.user32.ShowWindow(self.wid1, 9) # restore window
+        #     time.sleep(0.3)
+        #     ctypes.windll.user32.MoveWindow(self.wid1, 0, 0,
+        #         math.floor(self.w/3), self.h, True)
+        # else:
+        #     logging.error('Master WID is None.')
 
         # Align slave
         if self.wid2 is not None:
