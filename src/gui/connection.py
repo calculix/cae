@@ -9,24 +9,37 @@ Classes for keycodes sending from master window to slave.
 
 # Standard modules
 import os
+import sys
 import re
 import time
 import math
 import logging
-if 'nt' in os.name:
+import webbrowser
+if os.name == 'nt':
     import ctypes
     from ctypes import wintypes
 
 # External modules
-if 'posix' in os.name:
+from PyQt5 import QtWidgets
+if os.name == 'posix':
     import Xlib
     from Xlib import display, protocol, X, XK
     from Xlib.ext.xtest import fake_input
 
 # My modules
-if 'nt' in os.name:
-    import gui
-    from gui.forcefocus import forceFocus
+sys_path = os.path.abspath(__file__)
+sys_path = os.path.dirname(__file__)
+sys_path = os.path.join(sys_path, '..')
+sys_path = os.path.normpath(sys_path)
+sys_path = os.path.realpath(sys_path)
+sys.path.insert(0, sys_path)
+import clean
+import path
+import settings
+import gui
+from gui import window
+# if os.name == 'nt':
+#     from gui.forcefocus import forceFocus
 
 # Common wrapper for WindowConnection.get_wid()
 def wid_wrapper(wc):
@@ -83,15 +96,21 @@ def post_wrapper(wc):
 # Pair master and slave windows together to enable keycodes sending
 class WindowConnection:
 
-    def __init__(self, master_window, slave_title):
+    def __init__(self, master_window=None, slave_title=None):
         self.master_window = master_window
-        self.slave_process = master_window.slave_process
-        self.master_title = master_window.windowTitle()
         self.slave_title = slave_title
         self.wid1 = None # main window - CAE
         self.wid2 = None # slave window - CGX, text editor, web browser
-        self.w = master_window.size.width()
-        self.h = master_window.size.height()
+        self.slave_process = None
+        self.master_title = None
+        self.w = 100
+        self.h = 100
+
+        if master_window is not None:
+            self.slave_process = master_window.slave_process
+            self.master_title = master_window.windowTitle()
+            self.w = master_window.size.width()
+            self.h = master_window.size.height()
 
     def connect(self):
         self.wid1 = self.get_wid(self.master_title)
@@ -181,10 +200,18 @@ class WindowConnectionLinux(WindowConnection):
                     self.d.intern_atom('_NET_WM_NAME'), X.AnyPropertyType).value.decode()
             except:
                 wname = w.get_wm_name()
-            regex = '(\S+ - )*' + title.lower() + '( - \S+)*'
+            
+            # Chromium
+            regex = '(\S+ - )*' + re.escape(title.lower()) + '( - \S+)*'
             if re.fullmatch(regex, wname.lower()) is not None:
                 wid = _id_
                 break
+
+            # Firefox
+            # if 'new ' + title.lower() in wname.lower():
+            #     wid = _id_
+            #     break
+
         return wid
 
     # Activate window, send message to slave, deactivate
@@ -364,7 +391,7 @@ class WindowConnectionWindows(WindowConnection):
                 length = ctypes.windll.user32.GetWindowTextLengthW(hwnd) + 1
                 buff = ctypes.create_unicode_buffer(length)
                 ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
-                regex = '(\S+ - )*' + title.lower() + '( - \S+)*'
+                regex = '(\S+ - )*' + re.escape(title.lower()) + '( - \S+)*'
                 if re.fullmatch(regex, buff.value.lower()) is not None:
                     self.wid = hwnd
             return True
@@ -444,3 +471,63 @@ class WindowConnectionWindows(WindowConnection):
                 math.floor(self.w*2/3), self.h, True)
         else:
             logging.error('Slave WID is None.')
+
+
+# Print current windows list
+def test1():
+    if os.name == 'posix':
+        wc = WindowConnectionLinux(None, None)
+    elif os.name == 'nt':
+        wc = WindowConnectionWindows(None, None)
+    else:
+        logging.error('Unsupported OS.')
+        raise SystemExit
+
+    wc.log_window_list()
+
+# Open web-browser, get its wid and align
+def test2():
+    app = QtWidgets.QApplication(sys.argv) # create application
+    p = path.Path()
+    s = settings.Settings(p)
+
+    url = 'file://' + p.doc + '/NODE.html'
+    webbrowser.open(url, 1)
+    browsers = webbrowser._tryorder
+    if browsers is None:
+        print('ERROR! No web browsers!')
+        return
+
+    if os.name == 'nt':
+        master_window = window.MainWindowWindows(p, s)
+    if os.name == 'posix':
+        master_window = window.MainWindowLinux(p, s)
+    else:
+        msg = 'SORRY, {} OS is not supported.'.format(os.name)
+        print(msg)
+        raise SystemExit # the best way to exit
+
+    for slave_title in reversed(browsers):
+        slave_title = slave_title.replace('-browser', '')
+        master_window.create_connection(2, slave_title)
+        wid2 = master_window.connections[2].wid2
+        msg = '{} {}'.format(slave_title, wid2)
+        print(msg)
+        if wid2 is not None and s.align_windows:
+            master_window.connections[2].align()
+            break
+
+    app.exec() # execute application
+
+# Run test
+if __name__ == '__main__':
+    start = time.perf_counter() # start time
+    logging.basicConfig(level=logging.NOTSET, format='%(message)s')
+    clean.screen()
+
+    test1()
+    test2()
+
+    clean.cache()
+    print('\nTotal {:.1e} seconds.\n'\
+        .format(time.perf_counter()-start)) # spent time
