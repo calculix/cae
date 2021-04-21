@@ -16,12 +16,13 @@ https://github.com/asweigart/pyautogui """
 
 # Standard modules
 import os
+import sys
 import time
 import logging
 import subprocess
 import inspect
 import webbrowser
-if 'nt' in os.name:
+if os.name == 'nt':
     import ctypes
     from ctypes import wintypes
 
@@ -29,8 +30,21 @@ if 'nt' in os.name:
 from PyQt5 import QtWidgets, uic
 
 # My modules
-import gui
-import gui.connection
+try:
+    # Normal run
+    import gui
+    import gui.connection
+except:
+    # Test run
+    sys_path = os.path.abspath(__file__)
+    sys_path = os.path.dirname(sys_path)
+    sys_path = os.path.join(sys_path, '..')
+    sys_path = os.path.normpath(sys_path)
+    sys_path = os.path.realpath(sys_path)
+    sys.path.insert(0, sys_path)
+    import clean
+    import gui
+    import gui.connection
 
 
 # Main window
@@ -190,3 +204,21 @@ class MainWindowWindows(MainWindow):
     # Initialize variables and map methods to GUI buttons
     def __init__(self, p, s):
         super(MainWindowWindows, self).__init__(p, s)
+
+
+# TODO
+class SlaveWindow:
+    pass
+
+
+# Run test
+if __name__ == '__main__':
+    clean.screen()
+    logging.basicConfig(level=0, format='%(message)s')
+    start = time.perf_counter() # start time
+
+    # TODO Invent some tests
+    pass
+
+    print('\nTotal {:.1e} seconds.\n'\
+        .format(time.perf_counter()-start)) # spent time
