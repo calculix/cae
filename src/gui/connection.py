@@ -53,7 +53,7 @@ def wid_wrapper(wc):
                 if time.perf_counter() - start > 5:
                     msg = 'Can\'t get \'{}\' window.'.format(title)
                     logging.error(msg)
-                    wc.log_window_list()
+                    wc.log_opened_windows()
                     msg = 'Communication with {} will not work.'
                     logging.warning(msg.format(title))
                     return None
@@ -93,11 +93,13 @@ def post_wrapper(wc):
     return wrap
 
 
-# Pair master and slave windows together to enable keycodes sending
+# Pair master and slave windows together
+# to align and enable keycodes sending
+# TODO make possible to use QtWidgets.QDialog as master
 class WindowConnection:
 
     def __init__(self, master_window=None, slave_title=None):
-        self.master_window = master_window
+        self.master_window = master_window # QtWidgets.QMainWindow
         self.slave_title = slave_title
         self.wid1 = None # main window - CAE
         self.wid2 = None # slave window - CGX, text editor, web browser
@@ -105,6 +107,7 @@ class WindowConnection:
         self.master_title = None
         self.w = 100
         self.h = 100
+        self.opened_windows = {} # {wid:(pid, wname)}
 
         if master_window is not None:
             self.slave_process = master_window.slave_process
@@ -119,6 +122,15 @@ class WindowConnection:
     def disconnect(self):
         self.wid1 = None
         self.wid2 = None
+
+    def log_opened_windows(self):
+        msg = 'Window list:'
+        if not len(self.opened_windows):
+            self.get_opened_windows()
+        for _id_, (pid, wname) in self.opened_windows.items():
+            msg += '\n0x{} {: 6d} {}'\
+                .format(hex(_id_)[2:].zfill(8), pid, wname)
+        logging.debug(msg)
 
 
 class WindowConnectionLinux(WindowConnection):
@@ -200,8 +212,6 @@ class WindowConnectionLinux(WindowConnection):
                     self.d.intern_atom('_NET_WM_NAME'), X.AnyPropertyType).value.decode()
             except:
                 wname = w.get_wm_name()
-            
-            # Chromium
             regex = '(\S+ - )*' + re.escape(title.lower()) + '( - \S+)*'
             if re.fullmatch(regex, wname.lower()) is not None:
                 wid = _id_
@@ -250,11 +260,12 @@ class WindowConnectionLinux(WindowConnection):
             sendkey(win, symbol)
         self.d.sync()
 
-    def log_window_list(self):
+    # Get dictionary with windows id, pid and wname
+    def get_opened_windows(self):
+        self.opened_windows.clear()
         ids = self.root.get_full_property(
             self.d.intern_atom('_NET_CLIENT_LIST'),
             X.AnyPropertyType).value
-        msg = 'Window list:'
         for _id_ in ids:
             w = self.d.create_resource_object('window', _id_)
             try:
@@ -265,10 +276,9 @@ class WindowConnectionLinux(WindowConnection):
             except:
                 pid = 0
                 wname = w.get_wm_name()
-            msg += '\n0x{} {: 6d} {}'\
-                .format(hex(_id_)[2:].zfill(8), pid, wname)
-        logging.debug(msg)
-
+            self.opened_windows[_id_] = (pid, wname)
+        return self.opened_windows
+    
     # Key press + release
     def send_hotkey(self, *keys):
         for key in keys:
@@ -424,7 +434,8 @@ class WindowConnectionWindows(WindowConnection):
             sendkey(symbol)
         ctypes.windll.user32.SetForegroundWindow(self.wid1)
 
-    def log_window_list(self):
+    def get_opened_windows(self):
+        self.opened_windows.clear()
         WNDENUMPROC = ctypes.WINFUNCTYPE(
             wintypes.BOOL,
             wintypes.HWND,    # _In_ hwnd
@@ -437,11 +448,13 @@ class WindowConnectionWindows(WindowConnection):
                 length = ctypes.windll.user32.GetWindowTextLengthW(hwnd) + 1
                 buff = ctypes.create_unicode_buffer(length)
                 ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
-                logging.debug('0x{} {:>6s} {}'\
-                    .format(hex(hwnd)[2:].zfill(8), str(pid)[8:-1], buff.value))
+                self.opened_windows[hwnd] = (str(pid)[8:-1], buff.value)
+                # logging.debug('0x{} {:>6s} {}'\
+                #     .format(hex(hwnd)[2:].zfill(8), str(pid)[8:-1], buff.value))
             return True
 
         ctypes.windll.user32.EnumWindows(enum_proc, 0)
+        return self.opened_windows
 
     # Align CGX and browser windows
     # CAE window is already aligned
@@ -483,7 +496,7 @@ def test1():
         logging.error('Unsupported OS.')
         raise SystemExit
 
-    wc.log_window_list()
+    wc.log_opened_windows()
 
 # Open web-browser, get its wid and align
 def test2():
