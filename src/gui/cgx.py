@@ -56,15 +56,39 @@ def open_inp(w, inp_file, has_nodes=0):
         if not has_nodes:
             logging.warning('Empty mesh, CGX will not start!')
             return
-        w.run_slave('-c ' + inp_file, 'CalculiX GraphiX')
+        cmd = w.p.path_cgx + ' -c ' + inp_file
+        title = 'CalculiX GraphiX'
+        w.run_slave(cmd, title)
+        align_model_to_iso_view(w)
+        register_additional_colors(w)
     else:
         logging.error('File not found:\n' + inp_file)
 
 # Open FRD results in GraphiX
 def open_frd(w, frd_file):
     if os.path.isfile(frd_file):
-        w.run_slave('-o ' + frd_file, 'CalculiX GraphiX')
+        cmd = w.p.path_cgx + ' -o ' + frd_file
+        title = 'CalculiX GraphiX'
+        w.run_slave(cmd, title)
+        align_model_to_iso_view(w)
     else:
         logging.error('File not found:\n' \
             + frd_file \
             + '\nSubmit analysis first.')
+
+# Read config to align model to iso view
+def align_model_to_iso_view(w):
+    file_name = os.path.join(w.p.config, 'iso.fbd')
+    if os.path.isfile(file_name):
+        w.connections[1].post('read ' + file_name)
+    else:
+        logging.error('No config file iso.fbd')
+
+# Read config to register additional colors
+# Those colors are needed to paint sets and surfaces
+def register_additional_colors(w):
+    file_name = os.path.join(w.p.config, 'colors.fbd')
+    if os.path.isfile(file_name):
+        w.connections[1].post('read ' + file_name)
+    else:
+        logging.error('No config file colors.fbd')

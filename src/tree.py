@@ -171,7 +171,7 @@ class Tree:
             return
         
         # Do not highlight when FRD is opened
-        if self.w.mode == 'cgx_frd':
+        if 'frd' in self.w.mode:
             return
 
         index = self.w.treeView.selectedIndexes()[0] # selected item index

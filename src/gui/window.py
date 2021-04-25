@@ -4,7 +4,7 @@
 """ © Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-MainWindow class. Here also we keep links to another
+MasterWindow class. Here also we keep links to another
 app windows like CGX and web browser. Those links (WIDs)
 are needed to align application windows.
 
@@ -22,6 +22,7 @@ import logging
 import subprocess
 import inspect
 import webbrowser
+from shutil import which
 if os.name == 'nt':
     import ctypes
     from ctypes import wintypes
@@ -45,10 +46,13 @@ except:
     import clean
     import gui
     import gui.connection
+    import path
+    import settings
+    import window
 
 
 # Main window
-class MainWindow(QtWidgets.QMainWindow):
+class MasterWindow(QtWidgets.QMainWindow):
 
     # Create main window
     """
@@ -56,57 +60,48 @@ class MainWindow(QtWidgets.QMainWindow):
     s - Settings
     """
     def __init__(self, p, s):
-        self.p = p
-        self.s = s
-        self.stdout_readers = []
+        self.p = p # global paths
+        self.s = s # global settings
+        self.stdout_readers = [] # for slave window
         self.slave_title = None
         self.slave_process = None # running process to send commands to
         self.connections = {} # 1:wc1, 2:wc2...
 
         QtWidgets.QMainWindow.__init__(self) # create main window
         uic.loadUi(p.main_xml, self) # load form
-        self.size = QtWidgets.QDesktopWidget().availableGeometry()
+
+        # TODO Wrond architecture - its not window property
+        self.desktopSize = QtWidgets.QDesktopWidget().availableGeometry()
 
         # Handler to show logs in the CAE's textEdit
-        gui.log.add_text_handler(self.textEdit)
+        if hasattr(self, 'textEdit'): # skip for test_sendkeys
+            gui.log.add_text_handler(self.textEdit)
 
-        # Window ID - to pass keycodes to
-        # self.wid1 = None # cae window
-        # self.wid2 = None # cgx window
-        # self.wid3 = None # keyword dialog
-        # self.wid4 = None # help (web browser)
-        self.keyboardMapping = None
-
-        # INP | FRD - corresponds to opened file
+        # Caller fuction name:
+        # cgx.open_inp | cgx.open_frd | other
         self.mode = None
 
     # Run slave process
     # Close opened CGX (if any) and open a new one
     # Get window ID, align windows and post to CGX
-    def run_slave(self, params, slave_title):
-        if not os.path.isfile(self.p.path_cgx):
-            logging.error('CGX not found:\n' \
-                + self.p.path_cgx)
-            return
+    # TODO Move it to the SlaveWindow
+    def run_slave(self, cmd, slave_title):
+        self.slave_title = slave_title
 
         # Kill previous slave window
         self.kill_slave()
 
-        cmd = self.p.path_cgx + ' ' + params
-
         # Run command - open new slave window - text editor or CGX
         # Open CGX without terminal/cmd window
         if self.p.op_sys == 'windows':
-            self.slave_process = subprocess.Popen(cmd.split(),
-                stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                shell=True)
+            shell=True
         if self.p.op_sys == 'linux':
-            self.slave_process = subprocess.Popen(cmd.split(),
-                stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT)
+            shell=False
+        self.slave_process = subprocess.Popen(cmd.split(),
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            shell=shell)
         msg = '{} PID={}'.format(slave_title, self.slave_process.pid)
         logging.debug(msg)
 
@@ -114,27 +109,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.create_connection(1, slave_title)
 
         # Start stdout reading and logging thread
+        # if hasattr(self, 'textEdit'): # skip for test_sendkeys
         sr = gui.log.CgxStdoutReader(
             self.slave_process.stdout, 'read_cgx_stdout', self)
         self.stdout_readers.append(sr)
         sr.start()
 
-        # Read config to align model to iso view
-        file_name = os.path.join(self.p.config, 'iso.fbd')
-        if os.path.isfile(file_name):
-            self.connections[1].post('read ' + file_name)
-        else:
-            logging.error('No config file iso.fbd')
-
-        # Read config to register additional colors
-        # Those colors are needed to paint sets and surfaces
-        file_name = os.path.join(self.p.config, 'colors.fbd')
-        if os.path.isfile(file_name):
-            self.connections[1].post('read ' + file_name)
-        else:
-            logging.error('No config file colors.fbd')
-
-        # Caller fuction name: cgx_inp | cgx_frd
+        # Caller fuction name:
+        # cgx.open_inp | cgx.open_frd | other
         self.mode = inspect.stack()[1].function
 
     # Kill all slave processes
@@ -175,6 +157,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if self.s.align_windows:
             wc.align()
 
+    # Kill logging threads
     def stop_stdout_readers(self):
         readers = [sr for sr in self.stdout_readers if sr.active]
         if len(readers):
@@ -192,33 +175,67 @@ class MainWindow(QtWidgets.QMainWindow):
             logging.warning('Can\'t open url: ' + url)
 
 
-class MainWindowLinux(MainWindow):
-
-    # Initialize variables and map methods to GUI buttons
-    def __init__(self, p, s):
-        super(MainWindowLinux, self).__init__(p, s)
-
-
-class MainWindowWindows(MainWindow):
-
-    # Initialize variables and map methods to GUI buttons
-    def __init__(self, p, s):
-        super(MainWindowWindows, self).__init__(p, s)
-
-
 # TODO
 class SlaveWindow:
-    pass
+    
+    def __init__(self, slave_title):
+        self.slave_title = slave_title
 
+
+# Keycodes sending to text editor and CGX
+def test_sendkeys():
+
+    # Create application
+    app = QtWidgets.QApplication([])
+    p = path.Path()
+    p.main_xml = os.path.join(p.config, 'sendkeys.xml')
+    s = settings.Settings(p)
+
+    # Create master window and assign methods for buttons
+    w = MasterWindow(p, s)
+    w.show()
+
+    # Configure global logging level
+    logging.getLogger().setLevel(s.logging_level)
+    fmt = '%(levelname)s: %(message)s'
+    logging.basicConfig(format=fmt)
+
+    # Map methods to GUI buttons
+    if os.name == 'nt':
+        cmd1 = 'notepad.exe'
+        title1 = 'Untitled - Notepad'
+    else:
+        cmd1 = 'gedit'
+        title1 = 'Untitled Document 1 - gedit'
+        if which(cmd1) is None:
+            cmd1 = 'kate'
+            title1 = 'Untitled Document 1 - Kate'
+            if which(cmd1) is None:
+                cmd1 = ''
+                msg = 'Neither gedit nor kate is available!'
+                logging.error(msg)
+    if len(cmd1):
+        w.b0.clicked.connect(lambda: w.run_slave(cmd1, title1))
+    else:
+        w.b0.setDisabled(True)
+    w.b1.clicked.connect(lambda: gui.cgx.open_inp(w, s.start_model, 1))
+    w.b2.clicked.connect(lambda: w.connections[1].post('plot n all'))
+    w.b3.clicked.connect(lambda: w.connections[1].post('plot e all'))
+    w.customSend.clicked.connect(
+        lambda: w.connections[1].post(w.customEdit.text()))
+    w.customSend.clicked.connect(
+        lambda: w.customEdit.clear())
+    all_symbols = '!"#$%&\'()*+,-./1234567890:;<=>?@' \
+        + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`' \
+        + 'abcdefghijklmnopqrstuvwxyz{|}~'
+    w.testAllSymbols.clicked.connect(lambda: w.connections[1].post(all_symbols))
+
+    # Execute application + exit
+    a = app.exec()
+    w.kill_slave()
 
 # Run test
 if __name__ == '__main__':
     clean.screen()
-    logging.basicConfig(level=0, format='%(message)s')
-    start = time.perf_counter() # start time
-
-    # TODO Invent some tests
-    pass
-
-    print('\nTotal {:.1e} seconds.\n'\
-        .format(time.perf_counter()-start)) # spent time
+    test_sendkeys()
+    clean.cache()

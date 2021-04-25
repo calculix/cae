@@ -56,6 +56,7 @@ def wid_wrapper(wc):
                     wc.log_opened_windows()
                     msg = 'Communication with {} will not work.'
                     logging.warning(msg.format(title))
+                    # TODO Make thread and check CGX availability periodically
                     return None
             msg = '{} WID=0x{}'.format(title, hex(wid)[2:].zfill(8))
             logging.debug(msg)
@@ -101,7 +102,7 @@ class WindowConnection:
     def __init__(self, master_window=None, slave_title=None):
         self.master_window = master_window # QtWidgets.QMainWindow
         self.slave_title = slave_title
-        self.wid1 = None # main window - CAE
+        self.wid1 = None # master window - CAE
         self.wid2 = None # slave window - CGX, text editor, web browser
         self.slave_process = None
         self.master_title = None
@@ -112,8 +113,8 @@ class WindowConnection:
         if master_window is not None:
             self.slave_process = master_window.slave_process
             self.master_title = master_window.windowTitle()
-            self.w = master_window.size.width()
-            self.h = master_window.size.height()
+            self.w = master_window.desktopSize.width()
+            self.h = master_window.desktopSize.height()
 
     def connect(self):
         self.wid1 = self.get_wid(self.master_title)
@@ -512,9 +513,9 @@ def test2():
         return
 
     if os.name == 'nt':
-        master_window = window.MainWindowWindows(p, s)
+        master_window = window.MasterWindowWindows(p, s)
     if os.name == 'posix':
-        master_window = window.MainWindowLinux(p, s)
+        master_window = window.MasterWindowLinux(p, s)
     else:
         msg = 'SORRY, {} OS is not supported.'.format(os.name)
         print(msg)
