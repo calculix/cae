@@ -64,16 +64,23 @@ def time_delta(start_time):
     return time.strftime('%M:%S', time.gmtime(delta))
 
 
-# Tests user system configuration
+# Tests user system configuration etc.
 class Check:
 
     # Prepare logging
     def __init__(self):
-        log_file = __file__[:-3] + '.log'
-        h = myHandler(log_file)
+        self.log_file = __file__[:-3] + '.log'
+        print(self.log_file, 'STARTUP TESTS\n')
+
+    # Initialize logging
+    def start_logging(self):
+        h = myHandler(self.log_file)
         logging.getLogger().addHandler(h)
-        logging.getLogger().setLevel(logging.DEBUG)
-        print(log_file, 'STARTUP TESTS\n')
+        logging.getLogger().setLevel(logging.NOTSET) # 0
+
+    # After all tests stop logging into tests.log
+    def stop_logging(self):
+        logging.getLogger().handlers = []
 
     # Exit if OS is not Linux or Windows
     def check_os(self):
@@ -132,6 +139,15 @@ class Check:
             logging.error(msg)
             raise SystemExit # the best way to exit
 
+
+# Test if CGX is present in the cae/bin folder
+def test_cgx(p):
+    if os.path.isfile(p.path_cgx):
+        logging.info('CGX found.')
+    else:
+        logging.error('CGX not found:\n' \
+            + p.path_cgx)
+        raise SystemExit # the best way to exit
 
 if __name__ == '__main__':
     ch = Check()

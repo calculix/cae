@@ -15,26 +15,29 @@ python3 ./src/cae.py -inp yourmodel.inp """
 
 # TODO Test everything on Windows 10
 
-# Run checks before start
+# Run some checks before start
+import path
 import tests
-import logging
+p = path.Path() # calculate absolute paths
 ch = tests.Check()
+ch.start_logging()
 ch.check_os()
 ch.check_python()
 ch.check_requirements()
-logging.getLogger().handlers = [] # stop logging into checks.log
+tests.test_cgx(p)
+ch.stop_logging()
 
 # Standard modules
 import os
 import sys
 import time
 import argparse
+import logging
 
 # External modules
 from PyQt5 import QtWidgets
 
 # My modules
-import path
 import clean
 import settings
 import gui
@@ -45,11 +48,7 @@ import actions
 
 # Pyinstaller bug in Windows:
 # append 'app_home_dir' and 'src' directories to PATH
-p = path.Path() # calculate absolute paths
-p.append_to_PATH([p.app_home_dir, p.src])
-
-start_time = time.perf_counter()
-clean.screen()
+# p.append_to_PATH([p.app_home_dir, p.src])
 
 # # Draw apps architecture
 # from pycallgraph import PyCallGraph
@@ -62,6 +61,9 @@ clean.screen()
 #     include=modules, exclude=['logging*', '*FileFinder'])
 # graphviz = GraphvizOutput(output_file='architecture.png')
 # with PyCallGraph(output=graphviz, config=config):
+
+clean.screen()
+start_time = time.perf_counter()
 
 # Create application
 app = QtWidgets.QApplication(sys.argv)
@@ -82,10 +84,7 @@ args = parser.parse_args()
 
 # Show CAE window and get window ID
 # A new logger's handler is created here
-if os.name == 'nt':
-    w = gui.window.MainWindowWindows(p, s)
-else:
-    w = gui.window.MainWindowLinux(p, s)
+w = gui.window.MasterWindow(p, s)
 w.show()
 
 # Main block
