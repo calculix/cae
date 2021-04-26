@@ -6,4 +6,4 @@ from . import forcefocus
 from . import connection
 from . import log
 from . import window
-from . import keyword_dialog
+from . import dialog

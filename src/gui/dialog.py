@@ -31,6 +31,7 @@ try:
     from model.kom import ItemType
 except:
     # Test run
+    # TODO Use it everywhere
     sys_path = os.path.abspath(__file__)
     sys_path = os.path.dirname(sys_path)
     sys_path = os.path.join(sys_path, '..')
@@ -40,6 +41,7 @@ except:
     import clean
     import path
     from model import kom
+
 
 class KeywordDialog(QtWidgets.QDialog):
 
@@ -281,28 +283,39 @@ class KeywordDialog(QtWidgets.QDialog):
             logging.error(msg)
             return
 
-        # If help page exists
-        if not webbrowser.open('file://' + url, new=0):
+        error = True
+        wb = webbrowser.get() # initialize _tryorder
+        wb_name = None
+        for name in webbrowser._tryorder:
+            wb = webbrowser.get(name)
+            if wb.open_new('file://' + url):
+                wb_name = name
+                error = False
+                break
+        if error:
             logging.warning('Can\'t open\n' + url)
-        
-        # TODO Web-browser is not connected and not aligned
-        # else:
-        #     time.sleep(0.3)
-        #     if 'posix' in os.name:
-        #         for slave_title in reversed(webbrowser._tryorder):
-        #             slave_title = slave_title.replace('-browser', '')
-        #             logging.debug('Checking ' + slave_title)
-        #             self.master_window.create_connection(2, slave_title)
-        #             if self.master_window.connections[2].wid2 is not None and self.s.align_windows:
-        #                 self.master_window.wc.align()
-        #                 break
-        #     else:
-        #         # TODO Check on Windows 10 webbrowser._tryorder
-        #         slave_title = self.item.name[1:] + '.html'
-        #         logging.debug('Checking ' + slave_title)
-        #         self.master_window.create_connection(2, slave_title)
-        #         if self.master_window.connections[2].wid2 is not None and self.s.align_windows:
-        #             self.master_window.wc.align()
+        else:
+            if self.s.align_windows:
+                # TODO Web-browser is not connected and not aligned
+                time.sleep(0.3)
+                if os.name == 'posix':
+                    # slave_title = wb_name.replace('-browser', '') # chromium
+                    slave_title = self.item.name
+                    logging.debug('Checking \'' + slave_title + '\'')
+                    self.master_window.create_connection(2, slave_title)
+                    if self.master_window.connections[2].wid2 is not None:
+                        self.master_window.connections[2].align()
+                        # break
+                elif os.name == 'nt':
+                    # TODO Check on Windows 10 webbrowser._tryorder
+                    slave_title = self.item.name[1:] + '.html'
+                    logging.debug('Checking ' + slave_title)
+                    self.master_window.create_connection(2, slave_title)
+                    if self.master_window.connections[2].wid2 is not None and self.s.align_windows:
+                        self.master_window.connections[2].align()
+                else:
+                    logging.error('Unsupported OS.')
+                    raise SystemExit
 
     # Get URL to the local help page
     def get_url(self):
@@ -317,4 +330,9 @@ class KeywordDialog(QtWidgets.QDialog):
         return url
 
 
-# TODO Write test based on get_web_browser
+def test():
+    pass
+
+# Run test
+if __name__ == '__main__':
+    test()

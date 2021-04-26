@@ -115,20 +115,20 @@ class Tree:
             if item.active:
 
                 # Create dialog window and pass item
-                dialog = gui.keyword_dialog.KeywordDialog(
+                d = gui.dialog.KeywordDialog(
                     self.p, self.s, self.w, self.m.KOM, item)
             
                 # Get dialog window ID and align it
-                # dialog.show()
+                # d.show()
                 # self.w.wid3 = self.w.get_wid(item.name)
                 # if self.s.align_windows:
                 #     self.w.connections[1].align()
 
                 # Process response from dialog window if user pressed 'OK'
-                if dialog.exec() == gui.keyword_dialog.KeywordDialog.Accepted:
+                if d.exec() == gui.dialog.KeywordDialog.Accepted:
 
                     # The generated piece of .inp code for the CalculiX input file
-                    inp_code = dialog.onOk() # list of strings
+                    inp_code = d.onOk() # list of strings
 
                     # Create implementation object for keyword
                     if item.itype == ItemType.KEYWORD:
