@@ -57,8 +57,8 @@ def open_inp(w, inp_file, has_nodes=0):
             logging.warning('Empty mesh, CGX will not start!')
             return
         cmd = w.p.path_cgx + ' -c ' + inp_file
-        title = 'CalculiX GraphiX'
-        w.run_slave(cmd, title)
+        slave_title = 'CalculiX GraphiX'
+        w.run_slave(cmd, slave_title)
         align_model_to_iso_view(w)
         register_additional_colors(w)
     else:
@@ -68,8 +68,8 @@ def open_inp(w, inp_file, has_nodes=0):
 def open_frd(w, frd_file):
     if os.path.isfile(frd_file):
         cmd = w.p.path_cgx + ' -o ' + frd_file
-        title = 'CalculiX GraphiX'
-        w.run_slave(cmd, title)
+        slave_title = 'CalculiX GraphiX'
+        w.run_slave(cmd, slave_title)
         align_model_to_iso_view(w)
     else:
         logging.error('File not found:\n' \

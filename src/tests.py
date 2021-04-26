@@ -85,9 +85,8 @@ class Check:
     # Exit if OS is not Linux or Windows
     def check_os(self):
         if os.name not in ['nt', 'posix']:
-            msg = 'SORRY, {} OS is not supported.'.format(os.name)
-            logging.warning(msg)
-            raise SystemExit # the best way to exit
+            msg = 'Sorry, {} OS is not supported.'.format(os.name)
+            raise SystemExit(msg) # the best way to exit
 
     # Check python version
     def check_python(self):

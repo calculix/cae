@@ -14,14 +14,17 @@ class Path:
     def __init__(self):
 
         # Windows
-        if os.name=='nt':
+        if os.name == 'nt':
             self.op_sys = 'windows' # OS name
             self.extension = '.exe' # file extension in OS
 
         # Linux
-        else:
+        elif os.name == 'posix':
             self.op_sys = 'linux' # OS name
             self.extension = '' # file extension in OS
+        else:
+            msg = 'Sorry, {} OS is not supported.'.format(os.name)
+            raise SystemExit(msg)
 
         # Application's home directory - the one with README.md and LICENSE
         self.app_home_dir = os.path.normpath(
