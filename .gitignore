@@ -6,13 +6,16 @@ __pycache__
 /examples
 !/examples/README.md
 !/examples/default.inp
+!/examples/default.frd
 /img/Thumbs.db*
 /src/architecture.odp
 /src/architecture.png
 /config/*.py
-get_web_browser.py
 README.pdf
 *.gnu
 *.out
 *.ps
 jobwatch.py
+
+200016200902_323448.jpg
+200049400302_220132.jpg
