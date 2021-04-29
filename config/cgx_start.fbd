@@ -1,0 +1,7 @@
+# Startup commands for CGX
+ALLOW_SYS
+cmap viridis
+steps 7
+view elem
+view sh
+frame
