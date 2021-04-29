@@ -77,22 +77,21 @@ logging.getLogger().setLevel(s.logging_level)
 # Default start model (INP file)
 # could be chosen with command line parameter
 parser = argparse.ArgumentParser()
-parser.add_argument('-inp',
-    type=str, help='your .inp file',
-    default=s.start_model)
+parser.add_argument('-inp', type=str,
+    help='your .inp file', default=s.start_model)
 args = parser.parse_args()
 
 # Show CAE window and get window ID
 # A new logger's handler is created here
-w = gui.window.MasterWindow(p, s)
-w.show()
+f = gui.window.Factory(p, s)
+f.mw.run()
 
 # Main block
 m = model.Model() # generate FEM model
-t = tree.Tree(p, s, w, m) # create treeView items based on KOM
-j = model.job.Job(p, s, w, m) # create job object
-i = importer.Importer(p, s, w, m, t, j)
-actions.actions(p, s, w, m, t, j, i) # window actions
+t = tree.Tree(p, s, f, m) # create treeView items based on KOM
+j = model.job.Job(p, s, f, m) # create job object
+i = importer.Importer(p, s, f, m, t, j)
+actions.actions(p, s, f, m, t, j, i) # window actions
 
 # Import default model
 if len(args.inp):
@@ -112,7 +111,7 @@ logging.info('Started in {:.1f} seconds.\n'
 app.exec()
 
 # Kill CGX after CAE exit
-w.kill_slave()
+f.kill_slave()
 
 # Recursively clean cached files in all subfolders
 clean.cache(p.src)

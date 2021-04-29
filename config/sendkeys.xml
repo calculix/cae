@@ -87,14 +87,14 @@
      <widget class="QLineEdit" name="customEdit"/>
     </item>
     <item>
-     <widget class="QPushButton" name="customSend">
+     <widget class="QPushButton" name="b4">
       <property name="text">
        <string>Send cutom command</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="testAllSymbols">
+     <widget class="QPushButton" name="b5">
       <property name="text">
        <string>Test all symbols</string>
       </property>

@@ -51,69 +51,39 @@ except:
     import window
 
 
-# Main window
-class MasterWindow(QtWidgets.QMainWindow):
+""" Window factory class - used to create master and slave windows
+and bind/connect therm together. Logging facility as killing methods
+for slave window are also maintained here. """
+class Factory:
 
-    # Create main window
-    """
-    p - Path
-    s - Settings
-    """
     def __init__(self, p, s):
         self.p = p # global paths
         self.s = s # global settings
+        self.mw = MasterWindow(self.p.main_xml)
+        self.sw = None # slave window
         self.stdout_readers = [] # for slave window
-        self.slave_title = None
-        self.slave_process = None # running process to send commands to
-        self.connections = {} # 1:wc1, 2:wc2...
+        wc1 = gui.connection.WindowConnection(None)
+        wc2 = gui.connection.WindowConnection(None)
+        self.connections = {1:wc1, 2:wc2}
+        self.w = QtWidgets.QDesktopWidget().availableGeometry().width()
+        self.h = QtWidgets.QDesktopWidget().availableGeometry().height()
 
-        QtWidgets.QMainWindow.__init__(self) # create main window
-        uic.loadUi(p.main_xml, self) # load form
-
-        # TODO Wrond architecture - its not window property
-        self.desktopSize = QtWidgets.QDesktopWidget().availableGeometry()
-
-        # Handler to show logs in the CAE's textEdit
-        if hasattr(self, 'textEdit'): # skip for test_sendkeys
-            gui.log.add_text_handler(self.textEdit)
-
-        # Caller fuction name:
-        # cgx.open_inp | cgx.open_frd | other
-        self.mode = None
+        # Caller fuction name: cgx.open_inp | cgx.open_frd | other
+        self.mode = None # TODO test it
 
     # Run slave process
     # Close opened CGX (if any) and open a new one
     # Get window ID, align windows and post to CGX
-    # TODO Move it to the SlaveWindow
-    def run_slave(self, cmd, slave_title):
-        self.slave_title = slave_title
-
-        # Kill previous slave window
+    def run_slave(self, cmd, title):
         self.kill_slave()
-
-        # Run command - open new slave window - text editor or CGX
-        # Open CGX without terminal/cmd window
-        if self.p.op_sys == 'windows':
-            shell=True
-        if self.p.op_sys == 'linux':
-            shell=False
-        self.slave_process = subprocess.Popen(cmd.split(),
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            shell=shell)
-        msg = '{} PID={}'.format(slave_title, self.slave_process.pid)
-        logging.debug(msg)
+        self.sw = SlaveWindow(cmd, title)
+        self.sw.run()
 
         # Create connection between master and slave windows
-        self.create_connection(1, slave_title)
+        self.create_connection(1)
 
         # Start stdout reading and logging thread
-        # if hasattr(self, 'textEdit'): # skip for test_sendkeys
-        sr = gui.log.CgxStdoutReader(
-            self.slave_process.stdout, 'read_cgx_stdout', self)
-        self.stdout_readers.append(sr)
-        sr.start()
+        self.start_stdout_reader('read_cgx_stdout')
 
         # Caller fuction name:
         # cgx.open_inp | cgx.open_frd | other
@@ -121,41 +91,44 @@ class MasterWindow(QtWidgets.QMainWindow):
 
     # Kill all slave processes
     def kill_slave(self):
-        if self.slave_process is not None:
-            self.connections[1].wid2 = None
-            count = 0
-            while self.slave_process.poll() is None:
-                try:
-                    if os.name == 'nt':
-                        os.system('TASKKILL /F /PID {} /T'.format(self.slave_process.pid))
-                    else:
-                        self.slave_process.kill()
-                except:
-                    logging.error(traceback.format_exc())
-                time.sleep(0.1)
-                count += 1
-                if count >= 10:
-                    break
-            if self.slave_process.poll() is None:
-                msg = 'Can not kill {}, PID={}.'\
-                    .format(self.slave_title, self.slave_process.pid)
-                logging.warning(msg)
-            else:
-                msg = 'Killed {}, PID={}.'\
-                    .format(self.slave_title, self.slave_process.pid)
-                logging.debug(msg)
-                self.slave_process = None
+        if self.sw is None:
+            return
+        if self.sw.process is None:
+            return
 
-    # Create connection between master and slave windows
-    def create_connection(self, _id, slave_title):
-        if os.name == 'nt':
-            wc = gui.connection.WindowConnectionWindows(self, slave_title)
+        self.stop_stdout_readers()
+
+        self.connections[1].wid2 = None
+        count = 0
+        while self.sw.process.poll() is None:
+            try:
+                if os.name == 'nt':
+                    os.system('TASKKILL /F /PID {} /T'.format(self.sw.process.pid))
+                else:
+                    self.sw.process.kill()
+            except:
+                logging.error(traceback.format_exc())
+            time.sleep(0.1)
+            count += 1
+            if count >= 10:
+                break
+        if self.sw.process.poll() is None:
+            msg = 'Can not kill {}, PID={}.'\
+                .format(self.sw.title, self.sw.process.pid)
+            logging.warning(msg)
         else:
-            wc = gui.connection.WindowConnectionLinux(self, slave_title)
-        self.connections[_id] = wc
-        wc.connect()
-        if self.s.align_windows:
-            wc.align()
+            msg = 'Killed {}, PID={}.'\
+                .format(self.sw.title, self.sw.process.pid)
+            logging.debug(msg)
+            self.sw.process = None
+
+    # Start stdout reading and logging thread
+    # TODO BUG It logs prev command, not the last one
+    def start_stdout_reader(self, aim):
+        sr = gui.log.CgxStdoutReader(self.sw.process.stdout,
+            aim, self)
+        self.stdout_readers.append(sr)
+        sr.start()
 
     # Kill logging threads
     def stop_stdout_readers(self):
@@ -168,6 +141,36 @@ class MasterWindow(QtWidgets.QMainWindow):
             logging.debug(msg)
             time.sleep(1)
 
+    # Create connection between master and slave windows
+    def create_connection(self, _id):
+        if os.name == 'nt':
+            wc = gui.connection.WindowConnectionWindows(self)
+        elif os.name == 'posix':
+            wc = gui.connection.WindowConnectionLinux(self)
+        else:
+            msg = 'Sorry, {} OS is not supported.'.format(os.name)
+            raise SystemExit(msg) # the best way to exit
+        self.connections[_id] = wc
+        wc.connect()
+
+
+# Left application's window - CAE
+class MasterWindow(QtWidgets.QMainWindow):
+
+    def __init__(self, xml):
+        self.xml = xml
+
+    # Load for and show the window
+    def run(self):
+        QtWidgets.QMainWindow.__init__(self) # create main window
+        uic.loadUi(self.xml, self) # load form
+
+        # Handler to show logs in the CAE's textEdit
+        if hasattr(self, 'textEdit'): # skip for test_sendkeys
+            gui.log.add_text_handler(self.textEdit)
+        
+        self.show()
+
     # Open links from the Help menu
     def help(self, url):
         logging.info('Going to\n' + url)
@@ -175,11 +178,31 @@ class MasterWindow(QtWidgets.QMainWindow):
             logging.warning('Can\'t open url: ' + url)
 
 
-# TODO
+# Right application's window - CGX, text editor, web browser
 class SlaveWindow:
-    
-    def __init__(self, slave_title):
-        self.slave_title = slave_title
+
+    # Run command - open new slave window - text editor or CGX
+    def __init__(self, cmd, title):
+        self.cmd = cmd
+        self.title = title
+
+        if os.name == 'nt':
+            self.shell = True
+        elif os.name == 'posix':
+            self.shell = False
+        else:
+            msg = 'Sorry, {} OS is not supported.'.format(os.name)
+            raise SystemExit(msg) # the best way to exit
+
+    # Run slave process without terminal/cmd window
+    def run(self):
+        self.process = subprocess.Popen(self.cmd.split(),
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            shell=self.shell)
+        msg = '{} PID={}'.format(self.title, self.process.pid)
+        logging.debug(msg)
 
 
 # Keycodes sending to text editor and CGX
@@ -191,9 +214,9 @@ def test_sendkeys():
     p.main_xml = os.path.join(p.config, 'sendkeys.xml')
     s = settings.Settings(p)
 
-    # Create master window and assign methods for buttons
-    w = MasterWindow(p, s)
-    w.show()
+    # Create master window
+    f = Factory(p, s)
+    f.mw.run()
 
     # Configure global logging level
     logging.getLogger().setLevel(s.logging_level)
@@ -214,25 +237,21 @@ def test_sendkeys():
                 cmd1 = ''
                 msg = 'Neither gedit nor kate is available!'
                 logging.error(msg)
-    if len(cmd1):
-        w.b0.clicked.connect(lambda: w.run_slave(cmd1, title1))
-    else:
-        w.b0.setDisabled(True)
-    w.b1.clicked.connect(lambda: gui.cgx.open_inp(w, s.start_model, 1))
-    w.b2.clicked.connect(lambda: w.connections[1].post('plot n all'))
-    w.b3.clicked.connect(lambda: w.connections[1].post('plot e all'))
-    w.customSend.clicked.connect(
-        lambda: w.connections[1].post(w.customEdit.text()))
-    w.customSend.clicked.connect(
-        lambda: w.customEdit.clear())
+                f.mw.b0.setDisabled(True)
+    f.mw.b0.clicked.connect(lambda: f.run_slave(cmd1, title1))
+    f.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(f, s.start_model, 1))
+    f.mw.b2.clicked.connect(lambda: f.connections[1].post('plot n all'))
+    f.mw.b3.clicked.connect(lambda: f.connections[1].post('plot e all'))
+    f.mw.b4.clicked.connect(lambda: f.connections[1].post(f.mw.customEdit.text()))
+    f.mw.b4.clicked.connect(lambda: f.mw.customEdit.clear())
     all_symbols = '!"#$%&\'()*+,-./1234567890:;<=>?@' \
         + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`' \
         + 'abcdefghijklmnopqrstuvwxyz{|}~'
-    w.testAllSymbols.clicked.connect(lambda: w.connections[1].post(all_symbols))
+    f.mw.b5.clicked.connect(lambda: f.connections[1].post(all_symbols))
 
     # Execute application + exit
     a = app.exec()
-    w.kill_slave()
+    f.kill_slave()
 
 # Run test
 if __name__ == '__main__':

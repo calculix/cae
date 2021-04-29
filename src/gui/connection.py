@@ -5,6 +5,8 @@
 Distributed under GNU General Public License v3.0
 
 Classes for keycodes sending from master window to slave.
+    mw = master window
+    sw = slave window
 """
 
 # Standard modules
@@ -68,20 +70,20 @@ def wid_wrapper(wc):
 def post_wrapper(wc):
     def wrap(method):
         def fcn(wc, cmd):
-            if wc.slave_process is not None \
-                and wc.slave_process.poll() is None\
+            if wc.sw.process is not None \
+                and wc.sw.process.poll() is None\
                 and wc.wid2 is not None:
 
                 if len(cmd):
                     # Drop previously pressed keys
-                    if 'cgx' in wc.slave_title:
+                    if 'cgx' in wc.sw.title:
                         method(wc, '\n')
 
                     # Post command
                     method(wc, cmd + '\n')
 
                     # Flush CGX buffer to get continuous output
-                    if 'cgx' in wc.slave_title:
+                    if 'cgx' in wc.sw.title:
                         method(wc, ' ')
 
                     return
@@ -99,27 +101,27 @@ def post_wrapper(wc):
 # TODO make possible to use QtWidgets.QDialog as master
 class WindowConnection:
 
-    def __init__(self, master_window=None, slave_title=None):
-        self.master_window = master_window # QtWidgets.QMainWindow
-        self.slave_title = slave_title
-        self.wid1 = None # master window - CAE
-        self.wid2 = None # slave window - CGX, text editor, web browser
-        self.slave_process = None
-        self.master_title = None
-        self.w = 100
-        self.h = 100
+    def __init__(self, f):
+        if f is None:
+            return
+
+        # TODO Pass all these arguemtns, not Factory
+        self.mw = f.mw # master window
+        self.sw = f.sw # slave window
+        self.w = f.w
+        self.h = f.h
+        self.s = f.s # global settings
+
+        self.wid1 = None # master window id
+        self.wid2 = None # slave window id
         self.opened_windows = {} # {wid:(pid, wname)}
 
-        if master_window is not None:
-            self.slave_process = master_window.slave_process
-            self.master_title = master_window.windowTitle()
-            self.w = master_window.desktopSize.width()
-            self.h = master_window.desktopSize.height()
-
     def connect(self):
-        self.wid1 = self.get_wid(self.master_title)
-        self.wid2 = self.get_wid(self.slave_title)
-    
+        self.wid1 = self.get_wid(self.mw.windowTitle())
+        self.wid2 = self.get_wid(self.sw.title)
+        if self.s.align_windows:
+            self.align()
+
     def disconnect(self):
         self.wid1 = None
         self.wid2 = None
@@ -136,8 +138,8 @@ class WindowConnection:
 
 class WindowConnectionLinux(WindowConnection):
 
-    def __init__(self, master_window, slave_title):
-        super(WindowConnectionLinux, self).__init__(master_window, slave_title)
+    def __init__(self, f):
+        super(WindowConnectionLinux, self).__init__(f)
 
         self.d = Xlib.display.Display()
         self.screen = self.d.screen()
@@ -303,7 +305,7 @@ class WindowConnectionLinux(WindowConnection):
     # CAE window is already aligned in __init__()
     def align(self):
         # Align master
-        self.master_window.setGeometry(0, 0, math.floor(self.w/3), self.h)
+        self.mw.setGeometry(0, 0, math.floor(self.w/3), self.h)
         # if self.wid1 is not None:
         #     win = self.d.create_resource_object('window', self.wid1)
         #     win.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
@@ -334,8 +336,8 @@ class WindowConnectionLinux(WindowConnection):
 
 class WindowConnectionWindows(WindowConnection):
 
-    def __init__(self, master_window, slave_title):
-        super(WindowConnectionWindows, self).__init__(master_window, slave_title)
+    def __init__(self, f):
+        super(WindowConnectionWindows, self).__init__(f)
 
         # 0:lowercase, 1:shifted
         self.keyboardMapping = {
@@ -463,7 +465,7 @@ class WindowConnectionWindows(WindowConnection):
     def align(self):
 
         # Align master
-        self.master_window.setGeometry(0, 0, math.floor(self.w/3), self.h)
+        self.mw.setGeometry(0, 0, math.floor(self.w/3), self.h)
         # ctypes.windll.user32.SetProcessDPIAware() # account for scaling
         # if self.wid1 is not None:
         #     ok = forceFocus(self.wid1)
@@ -512,23 +514,15 @@ def test2():
         print('ERROR! No web browsers!')
         return
 
-    if os.name == 'nt':
-        master_window = window.MasterWindowWindows(p, s)
-    if os.name == 'posix':
-        master_window = window.MasterWindowLinux(p, s)
-    else:
-        msg = 'SORRY, {} OS is not supported.'.format(os.name)
-        print(msg)
-        raise SystemExit # the best way to exit
-
+    mw = window.MasterWindow(p, s)
     for slave_title in reversed(browsers):
         slave_title = slave_title.replace('-browser', '')
-        master_window.create_connection(2, slave_title)
-        wid2 = master_window.connections[2].wid2
+        mw.create_connection(2, slave_title)
+        wid2 = mw.connections[2].wid2
         msg = '{} {}'.format(slave_title, wid2)
         print(msg)
         if wid2 is not None and s.align_windows:
-            master_window.connections[2].align()
+            mw.connections[2].align()
             break
 
     app.exec() # execute application

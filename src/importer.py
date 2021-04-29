@@ -67,10 +67,14 @@ class Block:
 
 class Importer:
 
-    def __init__(self, p, s, w, m, t, j):
+    def __init__(self, p, s, f, m, t, j):
         self.p = p # path
         self.s = s # settings
-        self.w = w # window
+        self.f = f # window factory
+        if f is not None:
+            self.w = f.mw # master window
+        else:
+            self.w = None
         self.m = m # model
         self.t = t # tree
         self.j = j # job
@@ -161,10 +165,10 @@ class Importer:
 
             # Rename job before tree regeneration
             # A new logger's handler is created here
-            self.j.__init__(self.p, self.s, self.w,
+            self.j.__init__(self.p, self.s, self.f,
                 self.m, file_name[:-4] + '.inp')
 
-            self.w.stop_stdout_readers()
+            self.f.stop_stdout_readers()
 
             # Convert UNV to INP
             if file_name.lower().endswith('.unv'):
@@ -205,7 +209,7 @@ class Importer:
                 return
 
             has_nodes = len(self.m.Mesh.nodes)
-            gui.cgx.open_inp(self.w, self.j.inp, has_nodes)
+            gui.cgx.open_inp(self.f, self.j.inp, has_nodes)
 
 
 # Recurcively reads all the file lines and its includes.

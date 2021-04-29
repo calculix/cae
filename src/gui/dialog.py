@@ -48,12 +48,13 @@ class KeywordDialog(QtWidgets.QDialog):
     """
     p - Path
     s - Settings
-    w - Window
+    f - Window Factory
     """
-    def __init__(self, p, s, w, KOM, item):
+    def __init__(self, p, s, f, KOM, item):
         self.p = p
         self.s = s
-        self.master_window = w
+        self.f = f
+        self.mw = f.mw
         self.item = item # needed to pass to other functions
         self.widgets = [] # list of created widgets
 
@@ -302,17 +303,17 @@ class KeywordDialog(QtWidgets.QDialog):
                     # slave_title = wb_name.replace('-browser', '') # chromium
                     slave_title = self.item.name
                     logging.debug('Checking \'' + slave_title + '\'')
-                    self.master_window.create_connection(2, slave_title)
-                    if self.master_window.connections[2].wid2 is not None:
-                        self.master_window.connections[2].align()
+                    self.f.create_connection(2, slave_title)
+                    if self.f.connections[2].wid2 is not None:
+                        self.f.connections[2].align()
                         # break
                 elif os.name == 'nt':
                     # TODO Check on Windows 10 webbrowser._tryorder
                     slave_title = self.item.name[1:] + '.html'
                     logging.debug('Checking ' + slave_title)
-                    self.master_window.create_connection(2, slave_title)
-                    if self.master_window.connections[2].wid2 is not None and self.s.align_windows:
-                        self.master_window.connections[2].align()
+                    self.f.create_connection(2, slave_title)
+                    if self.f.connections[2].wid2 is not None and self.s.align_windows:
+                        self.f.connections[2].align()
                 else:
                     logging.error('Unsupported OS.')
                     raise SystemExit

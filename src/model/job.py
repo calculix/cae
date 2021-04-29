@@ -32,10 +32,11 @@ import gui
 class Job:
 
     # Create job object
-    def __init__(self, p, s, w, m, file_name=''):
+    def __init__(self, p, s, f, m, file_name=''):
         self.p = p
         self.s = s
-        self.w = w
+        self.f = f
+
         self.m = m
         if not len(file_name):
             file_name = self.s.start_model
@@ -77,12 +78,12 @@ class Job:
             with open(file_name, 'w') as f:
                 f.writelines(lines)
             logging.info('Input written to:\n' + file_name)
-            self.__init__(self.p, self.s, self.w,\
+            self.__init__(self.p, self.s, self.f,\
                 self.m, file_name[:-4] + '.inp')
 
             # Reopen CGX
             has_nodes = len(self.m.Mesh.nodes)
-            gui.cgx.open_inp(self.w, self.inp, has_nodes)
+            gui.cgx.open_inp(self.f, self.inp, has_nodes)
 
     # Open INP file in external text editor
     def edit_inp(self):
@@ -261,7 +262,7 @@ class Job:
 
         # Start stdout reading and logging thread
         sr = gui.log.StdoutReader(process.stdout, 'read_stdout', read_output)
-        self.w.stdout_readers.append(sr)
+        self.f.stdout_readers.append(sr)
         sr.start()
 
         # Do not finish thread until the process end up

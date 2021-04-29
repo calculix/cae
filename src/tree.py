@@ -25,16 +25,16 @@ class Tree:
     """
     p - Path
     s - Settings
-    w - Window
+    f - Window Factory
     m - Model
     """
-    def __init__(self, p, s, w, m):
+    def __init__(self, p, s, f, m):
         self.p = p
         self.s = s
-        self.w = w
+        self.f = f
         self.m = m
         self.model = QtGui.QStandardItemModel()
-        self.w.treeView.setModel(self.model)
+        self.f.mw.treeView.setModel(self.model)
 
     # Delete keyword's implementation in the treeView by pressing 'Delete' button
     def keyPressEvent(self, e):
@@ -83,9 +83,9 @@ class Tree:
 
                 # Expand / collapse
                 if item.expanded:
-                    self.w.treeView.expand(tree_element.index())
+                    self.f.mw.treeView.expand(tree_element.index())
                 else:
-                    self.w.treeView.collapse(tree_element.index())
+                    self.f.mw.treeView.collapse(tree_element.index())
 
                 # Add icon to each keyword in tree
                 icon_name = item.name.replace('*', '') + '.png'
@@ -104,7 +104,7 @@ class Tree:
 
     # Double click on treeView item: edit the keyword via dialog
     def doubleClicked(self):
-        index = self.w.treeView.selectedIndexes()[0] # selected item index
+        index = self.f.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
@@ -116,13 +116,13 @@ class Tree:
 
                 # Create dialog window and pass item
                 d = gui.dialog.KeywordDialog(
-                    self.p, self.s, self.w, self.m.KOM, item)
+                    self.p, self.s, self.f, self.m.KOM, item)
             
                 # Get dialog window ID and align it
                 # d.show()
-                # self.w.wid3 = self.w.get_wid(item.name)
+                # self.f.mw.wid3 = self.f.mw.get_wid(item.name)
                 # if self.s.align_windows:
-                #     self.w.connections[1].align()
+                #     self.f.mw.connections[1].align()
 
                 # Process response from dialog window if user pressed 'OK'
                 if d.exec() == gui.dialog.KeywordDialog.Accepted:
@@ -167,14 +167,14 @@ class Tree:
     def clicked(self):
 
         # Debug for Ctrl+Click
-        if not len(self.w.treeView.selectedIndexes()):
+        if not len(self.f.mw.treeView.selectedIndexes()):
             return
         
         # Do not highlight when FRD is opened
-        if 'frd' in self.w.mode:
+        if 'frd' in self.f.mode:
             return
 
-        index = self.w.treeView.selectedIndexes()[0] # selected item index
+        index = self.f.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
@@ -194,14 +194,14 @@ class Tree:
                 if match: # if there is NSET attribute
                     name = lead_line[match.start(1):match.end(1)] # node set name
                     if name in self.m.Mesh.nsets:
-                        self.w.connections[1].post('plot n ' + name)
+                        self.f.connections[1].post('plot n ' + name)
 
             elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
                 match = re.search('ELSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
                 if match: # if there is ELSET attribute
                     name = lead_line[match.start(1):match.end(1)] # element set name
                     if name in self.m.Mesh.elsets:
-                        self.w.connections[1].post('plot e ' + name)
+                        self.f.connections[1].post('plot e ' + name)
 
             elif ipn_up == '*SURFACE':
 
@@ -214,9 +214,9 @@ class Tree:
                 match = re.search('NAME\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
                 name = lead_line[match.start(1):match.end(1)] # surface name
                 if stype == 'ELEMENT':
-                    self.w.connections[1].post('plot f ' + name)
+                    self.f.connections[1].post('plot f ' + name)
                 elif stype=='NODE':
-                    self.w.connections[1].post('plot f ' + name)
+                    self.f.connections[1].post('plot f ' + name)
 
             # Highlight Loads & BC
             elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
@@ -230,17 +230,17 @@ class Tree:
                         # Nodes in node set
                         _set.extend([n.num for n in self.m.Mesh.nsets[n].items])
                         pass
-                # self.w.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
+                # self.f.mw.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
 
         # else:
-        #     self.w.deselect_cgx_sets()
+        #     self.f.mw.deselect_cgx_sets()
 
     # Context menu for right click
     def rightClicked(self):
-        self.myMenu = QtWidgets.QMenu('Menu', self.w.treeView)
+        self.myMenu = QtWidgets.QMenu('Menu', self.f.mw.treeView)
 
         try:
-            index = self.w.treeView.selectedIndexes()[0] # selected item index
+            index = self.f.mw.treeView.selectedIndexes()[0] # selected item index
             tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
             item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
@@ -249,19 +249,19 @@ class Tree:
                 if item.itype == ItemType.IMPLEMENTATION:
 
                     # 'Edit' action
-                    action_edit_implementation = QtWidgets.QAction('Edit', self.w.treeView)
+                    action_edit_implementation = QtWidgets.QAction('Edit', self.f.mw.treeView)
                     self.myMenu.addAction(action_edit_implementation)
                     action_edit_implementation.triggered.connect(self.doubleClicked)
 
                     # 'Delete' action
-                    action_delete_implementation = QtWidgets.QAction('Delete', self.w.treeView)
+                    action_delete_implementation = QtWidgets.QAction('Delete', self.f.mw.treeView)
                     self.myMenu.addAction(action_delete_implementation)
                     action_delete_implementation.triggered.connect(self.actionDeleteImplementation)
 
                 if item.itype == ItemType.KEYWORD:
 
                     # 'Create' action
-                    action_create_implementation = QtWidgets.QAction('Create', self.w.treeView)
+                    action_create_implementation = QtWidgets.QAction('Create', self.f.mw.treeView)
                     self.myMenu.addAction(action_create_implementation)
                     action_create_implementation.triggered.connect(self.doubleClicked)
 
@@ -273,17 +273,17 @@ class Tree:
 
         # Context menu elements which always present
         if self.s.show_empty_keywords:
-            action_show_hide = QtWidgets.QAction('Hide empty containers', self.w.treeView)
+            action_show_hide = QtWidgets.QAction('Hide empty containers', self.f.mw.treeView)
         else:
-            action_show_hide = QtWidgets.QAction('Show empty containers', self.w.treeView)
+            action_show_hide = QtWidgets.QAction('Show empty containers', self.f.mw.treeView)
         self.myMenu.addAction(action_show_hide)
         action_show_hide.triggered.connect(self.actionShowHide)
 
-        action_expand_collapse = QtWidgets.QAction('Collapse all', self.w.treeView)
+        action_expand_collapse = QtWidgets.QAction('Collapse all', self.f.mw.treeView)
         self.myMenu.addAction(action_expand_collapse)
         action_expand_collapse.triggered.connect(self.actionCollapseAll)
 
-        action_expand_collapse = QtWidgets.QAction('Expand all', self.w.treeView)
+        action_expand_collapse = QtWidgets.QAction('Expand all', self.f.mw.treeView)
         self.myMenu.addAction(action_expand_collapse)
         action_expand_collapse.triggered.connect(self.actionExpandAll)
 
@@ -297,17 +297,17 @@ class Tree:
 
     # Expand or collapse all treeView items
     def actionCollapseAll(self):
-        self.w.treeView.collapseAll()
+        self.f.mw.treeView.collapseAll()
         self.s.expanded = False
         self.s.save()
     def actionExpandAll(self):
-        self.w.treeView.expandAll()
+        self.f.mw.treeView.expandAll()
         self.s.expanded = True
         self.s.save()
 
     # Delete keyword's implementation from KOM
     def actionDeleteImplementation(self):
-        index = self.w.treeView.selectedIndexes()[0] # selected item index
+        index = self.f.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
