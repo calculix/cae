@@ -3,11 +3,11 @@ __pycache__
 /backup
 /dist
 /releases
-/examples
-!/examples/README.md
-!/examples/default.inp
-!/examples/default.frd
 /img/Thumbs.db*
+/examples/*
+!/examples/README.md
+!/examples/default.frd
+!/examples/default.inp
 /src/architecture.odp
 /src/architecture.png
 /config/*.py

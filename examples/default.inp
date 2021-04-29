@@ -149,6 +149,12 @@
 *Nset, nset=C3D20
     33, 34, 35, 36, 37, 42, 43, 44, 62, 63, 64, 67, 68, 69, 84, 86
     91, 92, 94, 95
+*Nset, nset=T1
+    1,   2,   3,   4,   5,   6,   7,   8, 104, 105, 106, 110, 111, 112, 114, 115
+*Nset, nset=T2
+    23,  24,  25,  49,  51,  53,  55,  56,  57,  72,  73,  74,  77,  78,  99, 101
+*Nset, nset=T3
+    13, 20, 31, 32, 39, 40, 45, 47, 60, 65, 66, 71, 82, 88, 89, 93
 **
 ** ELEMENTS
 **
@@ -270,19 +276,70 @@
 **
 ** MATERIAL
 **
-*MATERIAL, NAME=default
+*MATERIAL, NAME=Steel_08Cr18Ni10Ti
     *DENSITY
-        7800
+        ** t / mm3
+        7.900e-9,  20
+        7.862e-9, 100
+        7.821e-9, 200
+        7.778e-9, 300
+        7.732e-9, 400
+        7.684e-9, 500
+        7.634e-9, 600
+    *CONDUCTIVITY, TYPE=ISO
+        ** W / (mm * K)
+        16.6,  20
+        17.2, 100
+        18.0, 200
+        18.7, 300
+        19.4, 400
+        20.1, 500
+        20.8, 600
+    *SPECIFIC HEAT
+        ** J / (t * K)
+        4.78e+8,  20
+        4.95e+8, 100
+        5.16e+8, 200
+        5.37e+8, 300
+        5.58e+8, 400
+        5.79e+8, 500
+        6.00e+8, 600
     *ELASTIC, TYPE=ISO
-        2e+11, 0.3
-*SOLID SECTION, ELSET=ALL_e, MATERIAL=default
+        ** MPa
+        196000, 0.3,  20
+        190206, 0.3, 100
+        182964, 0.3, 200
+        175722, 0.3, 300
+        167624, 0.3, 400
+        158030, 0.3, 500
+        148436, 0.3, 600
+    *EXPANSION, ZERO=25
+        ** 1 / K
+        1.63e-05,  20
+        1.66e-05, 100
+        1.70e-05, 200
+        1.74e-05, 300
+        1.78e-05, 400
+        1.82e-05, 500
+        1.85e-05, 600
+*SOLID SECTION, ELSET=ALL_e, MATERIAL=Steel_08Cr18Ni10Ti
+*Initial Conditions, type=TEMPERATURE
+    ALL_n, 0
 **
 ** STEP
 **
 *STEP, AMPLITUDE=RAMP
-    *NO ANALYSIS
-    *EL FILE, GLOBAL=YES, OUTPUT=3D
-    *NODE FILE, GLOBAL=YES, OUTPUT=3D
-    *BOUNDARY, OP=NEW
-        ALL_n, 1, 6
+    *COUPLED TEMPERATURE-DISPLACEMENT, STEADY STATE
+        1.,1.
+        *BOUNDARY
+            T1, 1, 1
+            T2, 2, 2
+            T3, 3, 3
+            T1, 11, 11, 10
+            T2, 11, 11, 20
+            T3, 11, 11, 30
+        *EL FILE
+            S
+        *NODE FILE
+            NT, U
     *END STEP
