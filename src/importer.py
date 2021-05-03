@@ -209,7 +209,7 @@ class Importer:
                 return
 
             has_nodes = len(self.m.Mesh.nodes)
-            gui.cgx.open_inp(self.f, self.j.inp, has_nodes)
+            gui.cgx.open_inp(self.p, self.f, self.j.inp, has_nodes)
 
 
 # Recurcively reads all the file lines and its includes.

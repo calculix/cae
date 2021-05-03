@@ -85,7 +85,7 @@ class Job:
 
             # Reopen CGX
             has_nodes = len(self.m.Mesh.nodes)
-            gui.cgx.open_inp(self.f, self.inp, has_nodes)
+            gui.cgx.open_inp(self.p, self.f, self.inp, has_nodes)
 
     # Open INP file in external text editor
     def edit_inp(self):

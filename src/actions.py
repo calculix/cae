@@ -49,8 +49,8 @@ def actions(p, s, f, m, t, j, i):
         lambda: gui.cgx.paint_elsets(f, m))
     w.action_cgx_paint_surfaces.triggered.connect(
         lambda: gui.cgx.paint_surfaces(f, m))
-    w.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(f, j.inp, len(m.Mesh.nodes)))
-    w.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(f, j.frd))
+    w.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(p, f, j.inp, len(m.Mesh.nodes)))
+    w.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(p, f, j.frd))
     w.action_cgx_cmap_classic.triggered.connect(lambda: f.connections[1].post('cmap classic'))
     w.action_cgx_cmap_inferno.triggered.connect(lambda: f.connections[1].post('cmap inferno'))
     w.action_cgx_cmap_turbo.triggered.connect(lambda: f.connections[1].post('cmap turbo'))

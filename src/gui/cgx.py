@@ -50,36 +50,36 @@ def paint_surfaces(f, m):
         i = (i + 1) % 5
 
 # Open INP model in GraphiX
-def open_inp(f, inp_file, has_nodes=0):
+def open_inp(p, f, inp_file, has_nodes=0):
     if os.path.isfile(inp_file):
         f.kill_slave() # close old CGX
         if not has_nodes:
             logging.warning('Empty mesh, CGX will not start!')
             return
-        cmd = f.p.path_cgx + ' -c ' + inp_file
+        cmd = p.path_cgx + ' -c ' + inp_file
         slave_title = 'CalculiX GraphiX'
         f.run_slave(cmd, slave_title)
-        read_fbd_file(f, 'cgx_start.fbd')
-        read_fbd_file(f, 'cgx_iso.fbd')
-        read_fbd_file(f, 'cgx_colors.fbd')
+        read_fbd_file(p, f, 'cgx_start.fbd')
+        read_fbd_file(p, f, 'cgx_iso.fbd')
+        read_fbd_file(p, f, 'cgx_colors.fbd')
     else:
         logging.error('File not found:\n' + inp_file)
 
 # Open FRD results in GraphiX
-def open_frd(f, frd_file):
+def open_frd(p, f, frd_file):
     if os.path.isfile(frd_file):
-        cmd = f.p.path_cgx + ' -o ' + frd_file
+        cmd = p.path_cgx + ' -o ' + frd_file
         slave_title = 'CalculiX GraphiX'
         f.run_slave(cmd, slave_title)
-        read_fbd_file(f, 'cgx_start.fbd')
-        read_fbd_file(f, 'cgx_iso.fbd')
+        read_fbd_file(p, f, 'cgx_start.fbd')
+        read_fbd_file(p, f, 'cgx_iso.fbd')
     else:
         logging.error('File not found:\n' \
             + frd_file \
             + '\nSubmit analysis first.')
 
-def read_fbd_file(f, basename):
-    file_name = os.path.join(f.p.config, basename)
+def read_fbd_file(p, f, basename):
+    file_name = os.path.join(p.config, basename)
     if os.path.isfile(file_name):
         f.connections[1].post('read ' + file_name)
     else:

@@ -54,10 +54,9 @@ and bind/connect therm together. Logging facility as killing methods
 for slave window are also maintained here. """
 class Factory:
 
-    def __init__(self, p, s):
-        self.p = p # global paths
+    def __init__(self, s, master_xml):
         self.s = s # global settings
-        self.mw = MasterWindow(self.p.main_xml)
+        self.mw = MasterWindow(master_xml)
         self.sw = None # slave window
         self.stdout_readers = [] # for slave window
         wc1 = gui.connection.WindowConnection(None)
@@ -138,7 +137,7 @@ class Factory:
             logging.debug(msg)
             time.sleep(1)
 
-    # Create connection between master and slave windows
+    # Connect master and slave windows and align them
     def create_connection(self, _id):
         if os.name == 'nt':
             wc = gui.connection.WindowConnectionWindows(self)
@@ -149,6 +148,8 @@ class Factory:
             raise SystemExit(msg) # the best way to exit
         self.connections[_id] = wc
         wc.connect()
+        if self.s.align_windows:
+            wc.align()
 
 
 # Left application's window - CAE
@@ -204,15 +205,15 @@ class SlaveWindow:
 
 # Keycodes sending to text editor and CGX
 def test_sendkeys():
+    p = path.Path()
+    s = settings.Settings(p)
+    master_xml = os.path.join(p.config, 'sendkeys.xml')
 
     # Create application
     app = QtWidgets.QApplication([])
-    p = path.Path()
-    p.main_xml = os.path.join(p.config, 'sendkeys.xml')
-    s = settings.Settings(p)
 
     # Create master window
-    f = Factory(p, s)
+    f = Factory(s, master_xml)
     f.mw.run()
 
     # Configure global logging level
@@ -236,7 +237,7 @@ def test_sendkeys():
                 logging.error(msg)
                 f.mw.b0.setDisabled(True)
     f.mw.b0.clicked.connect(lambda: f.run_slave(cmd1, title1))
-    f.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(f, s.start_model, 1))
+    f.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(p, f, s.start_model, 1))
     f.mw.b2.clicked.connect(lambda: f.connections[1].post('plot n all'))
     f.mw.b3.clicked.connect(lambda: f.connections[1].post('plot e all'))
     f.mw.b4.clicked.connect(lambda: f.connections[1].post(f.mw.customEdit.text()))

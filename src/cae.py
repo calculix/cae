@@ -83,7 +83,7 @@ args = parser.parse_args()
 
 # Show CAE window and get window ID
 # A new logger's handler is created here
-f = gui.window.Factory(p, s)
+f = gui.window.Factory(s, p.main_xml)
 f.mw.run()
 
 # Main block
