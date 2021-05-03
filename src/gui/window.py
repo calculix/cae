@@ -32,11 +32,9 @@ from PyQt5 import QtWidgets, uic
 
 # My modules
 try:
-    # Normal run
     import gui
     import gui.connection
 except:
-    # Test run
     sys_path = os.path.abspath(__file__)
     sys_path = os.path.dirname(sys_path)
     sys_path = os.path.join(sys_path, '..')

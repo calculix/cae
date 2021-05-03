@@ -27,11 +27,8 @@ except:
 
 # My modules
 try:
-    # Normal run
     from model.kom import ItemType
 except:
-    # Test run
-    # TODO Use it everywhere
     sys_path = os.path.abspath(__file__)
     sys_path = os.path.dirname(sys_path)
     sys_path = os.path.join(sys_path, '..')

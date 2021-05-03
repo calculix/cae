@@ -20,6 +20,15 @@ from enum import Enum
 import xml.etree.ElementTree as ET
 import traceback
 
+# My modules
+sys_path = os.path.abspath(__file__)
+sys_path = os.path.dirname(sys_path)
+sys_path = os.path.join(sys_path, '..')
+sys_path = os.path.normpath(sys_path)
+sys_path = os.path.realpath(sys_path)
+sys.path.insert(0, sys_path)
+import clean
+
 
 # Keyword Object Model
 class KOM:
@@ -339,7 +348,7 @@ if __name__ == '__main__':
     # from pycallgraph.output import GraphvizOutput
 
     # Clean screen
-    os.system('cls' if os.name=='nt' else 'clear')
+    clean.screen()
 
     logging.basicConfig(level=0, format='%(message)s')
     start = time.perf_counter() # start time

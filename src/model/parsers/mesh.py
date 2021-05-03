@@ -21,11 +21,15 @@ import textwrap
 import traceback
 
 # My modules
-sys_path = os.path.dirname(__file__)
+sys_path = os.path.abspath(__file__)
+sys_path = os.path.dirname(sys_path)
 sys_path = os.path.join(sys_path, '..', '..')
 sys_path = os.path.normpath(sys_path)
+sys_path = os.path.realpath(sys_path)
 sys.path.insert(0, sys_path)
 import importer
+import clean
+import tests
 
 """
 ifile - path to input file
@@ -927,9 +931,6 @@ def test():
 
 
 if __name__ == '__main__':
-    import clean
-    import tests
-
     clean.screen()
     test()
     clean.cache()

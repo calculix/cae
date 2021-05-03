@@ -23,9 +23,11 @@ import ccx2paraview
 import unv2ccx
 
 # My modules
-sys_path = os.path.dirname(__file__)
+sys_path = os.path.abspath(__file__)
+sys_path = os.path.dirname(sys_path)
 sys_path = os.path.join(sys_path, '..')
 sys_path = os.path.normpath(sys_path)
+sys_path = os.path.realpath(sys_path)
 sys.path.insert(0, sys_path)
 import gui
 

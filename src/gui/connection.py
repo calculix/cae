@@ -29,8 +29,9 @@ if os.name == 'posix':
     from Xlib.ext.xtest import fake_input
 
 # My modules
+import window
 sys_path = os.path.abspath(__file__)
-sys_path = os.path.dirname(__file__)
+sys_path = os.path.dirname(sys_path)
 sys_path = os.path.join(sys_path, '..')
 sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
@@ -38,8 +39,6 @@ sys.path.insert(0, sys_path)
 import clean
 import path
 import settings
-import gui
-from gui import window
 # if os.name == 'nt':
 #     from gui.forcefocus import forceFocus
 
@@ -102,6 +101,10 @@ def post_wrapper(wc):
 class WindowConnection:
 
     def __init__(self, f):
+        self.wid1 = None # master window id
+        self.wid2 = None # slave window id
+        self.opened_windows = {} # {wid:(pid, wname)}
+
         if f is None:
             return
 
@@ -111,10 +114,6 @@ class WindowConnection:
         self.w = f.w
         self.h = f.h
         self.s = f.s # global settings
-
-        self.wid1 = None # master window id
-        self.wid2 = None # slave window id
-        self.opened_windows = {} # {wid:(pid, wname)}
 
     def connect(self):
         self.wid1 = self.get_wid(self.mw.windowTitle())
@@ -492,9 +491,9 @@ class WindowConnectionWindows(WindowConnection):
 # Print current windows list
 def test1():
     if os.name == 'posix':
-        wc = WindowConnectionLinux(None, None)
+        wc = WindowConnectionLinux(None)
     elif os.name == 'nt':
-        wc = WindowConnectionWindows(None, None)
+        wc = WindowConnectionWindows(None)
     else:
         logging.error('Unsupported OS.')
         raise SystemExit
@@ -533,7 +532,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.NOTSET, format='%(message)s')
     clean.screen()
 
-    test1()
+    # test1()
     test2()
 
     clean.cache()
