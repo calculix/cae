@@ -171,7 +171,7 @@ class Tree:
             return
         
         # Do not highlight when FRD is opened
-        if 'frd' in self.f.mode:
+        if not 'open_inp' in self.f.mode:
             return
 
         index = self.f.mw.treeView.selectedIndexes()[0] # selected item index

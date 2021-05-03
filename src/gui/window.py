@@ -69,7 +69,7 @@ class Factory:
         self.h = QtWidgets.QDesktopWidget().availableGeometry().height()
 
         # Caller fuction name: cgx.open_inp | cgx.open_frd | other
-        self.mode = None # TODO test it
+        self.mode = None
 
     # Run slave process
     # Close opened CGX (if any) and open a new one
@@ -85,8 +85,7 @@ class Factory:
         # Start stdout reading and logging thread
         self.start_stdout_reader('read_cgx_stdout')
 
-        # Caller fuction name:
-        # cgx.open_inp | cgx.open_frd | other
+        # Caller fuction name: open_inp, open_frd or other
         self.mode = inspect.stack()[1].function
 
     # Kill all slave processes
