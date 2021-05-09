@@ -48,6 +48,38 @@ except:
     import settings
     import window
 
+# Common wrapper for MasterWindow/SlaveWindow run() method
+def run_wrapper():
+    def wrap(method):
+        def fcn(self):
+            before = get_opened_windows()
+
+            method(self)
+
+            # Wait for window to open ang get its info
+            new_window = []
+            start = time.perf_counter() # start time
+            while not len(new_window):
+                after = get_opened_windows()
+                time.sleep(0.3)
+                new_window = get_new_window(before, after)
+                if time.perf_counter() - start > 3:
+                    msg = 'New slave window starts too slowly.'
+                    logging.error(msg)
+                    break
+
+            if len(new_window):
+                wi = new_window[0]
+                msg = wi.to_string()
+                logging.info(msg)
+                self.info = wi
+                return wi
+            else:
+                return None
+
+        return fcn
+    return wrap
+    
 
 """ Window factory class - used to create master and slave windows
 and bind/connect therm together. Logging facility as killing methods
@@ -71,11 +103,12 @@ class Factory:
     # Run slave process
     # Close opened CGX (if any) and open a new one
     # Get window ID, align windows and post to CGX
-    # TODO Return slave wid
     def run_slave(self, cmd, title):
         self.kill_slave()
         self.sw = SlaveWindow(cmd, title)
         self.sw.run()
+        # if self.sw.info is not None:
+        #     print(self.sw.info.to_string())
 
         # Create connection between master and slave windows
         self.create_connection(1)
@@ -158,8 +191,10 @@ class MasterWindow(QtWidgets.QMainWindow):
 
     def __init__(self, xml):
         self.xml = xml
+        self.info = None
 
     # Load for and show the window
+    @run_wrapper()
     def run(self):
         QtWidgets.QMainWindow.__init__(self) # create main window
         uic.loadUi(self.xml, self) # load form
@@ -182,8 +217,10 @@ class SlaveWindow:
 
     # Run command - open new slave window - text editor or CGX
     def __init__(self, cmd, title):
+        # TODO Use WindowInfo everywhere
         self.cmd = cmd
         self.title = title
+        self.info = None
 
         if os.name == 'nt':
             self.shell = True
@@ -194,14 +231,13 @@ class SlaveWindow:
             raise SystemExit(msg) # the best way to exit
 
     # Run slave process without terminal/cmd window
+    @run_wrapper()
     def run(self):
         self.process = subprocess.Popen(self.cmd.split(),
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             shell=self.shell)
-        msg = '{} PID={}'.format(self.title, self.process.pid)
-        logging.debug(msg)
 
 
 # Keycodes sending to text editor and CGX
@@ -252,8 +288,40 @@ def test_sendkeys():
     a = app.exec()
     f.kill_slave()
 
+# Snapshot window list
+def get_opened_windows():
+    if os.name == 'posix':
+        wc = gui.connection.WindowConnectionLinux(None)
+    elif os.name == 'nt':
+        wc = gui.connection.WindowConnectionWindows(None)
+    else:
+        logging.error('Unsupported OS.')
+        raise SystemExit
+    return wc.get_opened_windows()
+
+# Gets two dictionaries with opened windows,
+# compares and returns info for newly opened window.
+# Only one new window is allowed.
+def get_new_window(opened_windows_before, opened_windows_after):
+    new_window = []
+    for wi in opened_windows_after:
+        if wi.wid not in [i.wid for i in opened_windows_before]:
+            new_window.append(wi)
+    if len(new_window) > 1:
+        msg = 'Can\'t define slave WID: there is more than one newly opened window.'
+        logging.error(msg)
+        raise SystemExit
+    return new_window
+
 # Run test
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.NOTSET, format='%(message)s')
     clean.screen()
+
     test_sendkeys()
+
+    # p = path.Path()
+    # url = 'file://' + p.doc + '/NODE.html'
+    # run_web_browser(url)
+
     clean.cache()

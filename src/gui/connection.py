@@ -52,9 +52,8 @@ class WindowInfo:
         self.wname = wname # window title
     
     def to_string(self):
-        return '{} {: 6d} {}'\
+        return '{}  {: 8d}  {}'\
             .format(self.hex_wid, self.pid, self.wname)
-
 
 
 # Common wrapper for WindowConnection.get_wid()
@@ -131,12 +130,10 @@ class WindowConnection:
         self.s = f.s # global settings
 
     def connect(self):
-        self.wid1 = self.get_wid(self.mw.windowTitle())
-        self.wid2 = self.get_wid(self.sw.title)
-
-    def disconnect(self):
-        self.wid1 = None
-        self.wid2 = None
+        # self.wid1 = self.get_wid(self.mw.windowTitle())
+        # self.wid2 = self.get_wid(self.sw.title)
+        self.wid1 = self.mw.info.wid
+        self.wid2 = self.sw.info.wid
 
     def log_opened_windows(self):
         msg = 'Window list:'
@@ -501,60 +498,6 @@ class WindowConnectionWindows(WindowConnection):
             logging.error('Nothing to align - slave WID is None.')
 
 
-# Snapshot window list
-def get_opened_windows():
-    if os.name == 'posix':
-        wc = WindowConnectionLinux(None)
-    elif os.name == 'nt':
-        wc = WindowConnectionWindows(None)
-    else:
-        logging.error('Unsupported OS.')
-        raise SystemExit
-    return wc.get_opened_windows()
-
-# Gets two dictionaries with opened windows,
-# compares and returns info for newly opened window.
-# Only one new window is allowed.
-def get_new_window(opened_windows_before, opened_windows_after):
-    new_window = []
-    for wi in opened_windows_after:
-        if wi.wid not in [i.wid for i in opened_windows_before]:
-            new_window.append(wi)
-    if len(new_window) > 1:
-        msg = 'Can\'t define slave WID: there is more than one newly opened window.'
-        logging.error(msg)
-        raise SystemExit
-    return new_window
-
-# Open web-browser and get its WindowInfo
-def run_web_browser():
-    before = get_opened_windows()
-
-    # Open default web browser
-    p = path.Path()
-    url = 'file://' + p.doc + '/NODE.html'
-    webbrowser.open(url, 1) # open in a new window
-
-    # Wait for window to open ang get its info
-    new_window = []
-    start = time.perf_counter() # start time
-    while not len(new_window):
-        after = get_opened_windows()
-        time.sleep(0.3)
-        new_window = get_new_window(before, after)
-        if time.perf_counter() - start > 1:
-            msg = 'New slave window starts too slowly.'
-            logging.error(msg)
-            break
-
-    if len(new_window):
-        wi = new_window[0]
-        msg = wi.to_string()
-        logging.info(msg)
-        return wi
-    else:
-        return None
-
 """
 def test():
     app = QtWidgets.QApplication(sys.argv) # create application
@@ -591,7 +534,6 @@ if __name__ == '__main__':
     clean.screen()
 
     # test()
-    run_web_browser()
 
     clean.cache()
     print('\nTotal {:.1f} seconds.\n'\
