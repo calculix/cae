@@ -5,8 +5,8 @@
 Distributed under GNU General Public License v3.0
 
 Classes for keycodes sending from master window to slave.
-    mw = master window
-    sw = slave window
+It is a layer between system libraries Xlib/ctypes and GUI.
+mw = master window, sw = slave window
 """
 
 # Standard modules
@@ -29,7 +29,6 @@ if os.name == 'posix':
     from Xlib.ext.xtest import fake_input
 
 # My modules
-import window
 sys_path = os.path.abspath(__file__)
 sys_path = os.path.dirname(sys_path)
 sys_path = os.path.join(sys_path, '..')
@@ -39,8 +38,24 @@ sys.path.insert(0, sys_path)
 import clean
 import path
 import settings
+import gui
 # if os.name == 'nt':
 #     from gui.forcefocus import forceFocus
+
+
+class WindowInfo:
+
+    def __init__(self, wid, pid, wname):
+        self.wid = wid # window identificator
+        self.hex_wid = '0x{}'.format(hex(wid)[2:].zfill(8))
+        self.pid = pid # process ID
+        self.wname = wname # window title
+    
+    def to_string(self):
+        return '{} {: 6d} {}'\
+            .format(self.hex_wid, self.pid, self.wname)
+
+
 
 # Common wrapper for WindowConnection.get_wid()
 def wid_wrapper(wc):
@@ -75,14 +90,14 @@ def post_wrapper(wc):
 
                 if len(cmd):
                     # Drop previously pressed keys
-                    if 'cgx' in wc.sw.title:
+                    if 'CalculiX GraphiX' in wc.sw.title:
                         method(wc, '\n')
 
                     # Post command
                     method(wc, cmd + '\n')
 
                     # Flush CGX buffer to get continuous output
-                    if 'cgx' in wc.sw.title:
+                    if 'CalculiX GraphiX' in wc.sw.title:
                         method(wc, ' ')
 
                     return
@@ -103,23 +118,21 @@ class WindowConnection:
     def __init__(self, f):
         self.wid1 = None # master window id
         self.wid2 = None # slave window id
-        self.opened_windows = {} # {wid:(pid, wname)}
+        self.opened_windows = [] # list of WindowInfo objects
 
         if f is None:
             return
 
-        # TODO Pass all these arguemtns, not Factory
+        # TODO Pass all these arguments, not Factory
         self.mw = f.mw # master window
         self.sw = f.sw # slave window
-        self.w = f.w
-        self.h = f.h
+        self.w = f.w # desktop width
+        self.h = f.h # desktop height
         self.s = f.s # global settings
 
     def connect(self):
         self.wid1 = self.get_wid(self.mw.windowTitle())
         self.wid2 = self.get_wid(self.sw.title)
-        if self.s.align_windows:
-            self.align()
 
     def disconnect(self):
         self.wid1 = None
@@ -129,9 +142,8 @@ class WindowConnection:
         msg = 'Window list:'
         if not len(self.opened_windows):
             self.get_opened_windows()
-        for _id_, (pid, wname) in self.opened_windows.items():
-            msg += '\n0x{} {: 6d} {}'\
-                .format(hex(_id_)[2:].zfill(8), pid, wname)
+        for wi in self.opened_windows:
+            msg += wi.to_string()
         logging.debug(msg)
 
 
@@ -278,7 +290,8 @@ class WindowConnectionLinux(WindowConnection):
             except:
                 pid = 0
                 wname = w.get_wm_name()
-            self.opened_windows[_id_] = (pid, wname)
+            wi = WindowInfo(_id_, pid, wname)
+            self.opened_windows.append(wi)
         return self.opened_windows
     
     # Key press + release
@@ -328,7 +341,7 @@ class WindowConnectionLinux(WindowConnection):
             win.configure(x=math.ceil(self.w/3), y=0,
                 width=math.floor(self.w*2/3), height=self.h)
         else:
-            logging.error('Slave WID is None.')
+            logging.error('Nothing to align - slave WID is None.')
 
         self.d.sync()
 
@@ -450,9 +463,9 @@ class WindowConnectionWindows(WindowConnection):
                 length = ctypes.windll.user32.GetWindowTextLengthW(hwnd) + 1
                 buff = ctypes.create_unicode_buffer(length)
                 ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
-                self.opened_windows[hwnd] = (str(pid)[8:-1], buff.value)
-                # logging.debug('0x{} {:>6s} {}'\
-                #     .format(hex(hwnd)[2:].zfill(8), str(pid)[8:-1], buff.value))
+                wi = WindowInfo(hwnd, int(str(pid)[8:-1]), buff.value)
+                self.opened_windows.append(wi)
+                # logging.debug(wi.to_string())
             return True
 
         ctypes.windll.user32.EnumWindows(enum_proc, 0)
@@ -485,11 +498,11 @@ class WindowConnectionWindows(WindowConnection):
                 math.ceil(self.w/3), 0,
                 math.floor(self.w*2/3), self.h, True)
         else:
-            logging.error('Slave WID is None.')
+            logging.error('Nothing to align - slave WID is None.')
 
 
-# Print current windows list
-def test1():
+# Snapshot window list
+def get_opened_windows():
     if os.name == 'posix':
         wc = WindowConnectionLinux(None)
     elif os.name == 'nt':
@@ -497,34 +510,79 @@ def test1():
     else:
         logging.error('Unsupported OS.')
         raise SystemExit
+    return wc.get_opened_windows()
 
-    wc.log_opened_windows()
+# Gets two dictionaries with opened windows,
+# compares and returns info for newly opened window.
+# Only one new window is allowed.
+def get_new_window(opened_windows_before, opened_windows_after):
+    new_window = []
+    for wi in opened_windows_after:
+        if wi.wid not in [i.wid for i in opened_windows_before]:
+            new_window.append(wi)
+    if len(new_window) > 1:
+        msg = 'Can\'t define slave WID: there is more than one newly opened window.'
+        logging.error(msg)
+        raise SystemExit
+    return new_window
 
-# Open web-browser, get its wid and align
-def test2():
-    app = QtWidgets.QApplication(sys.argv) # create application
+# Open web-browser and get its WindowInfo
+def run_web_browser():
+    before = get_opened_windows()
+
+    # Open default web browser
     p = path.Path()
-    s = settings.Settings(p)
-
     url = 'file://' + p.doc + '/NODE.html'
-    webbrowser.open(url, 1)
-    browsers = webbrowser._tryorder
-    if browsers is None:
-        print('ERROR! No web browsers!')
-        return
+    webbrowser.open(url, 1) # open in a new window
 
-    mw = window.MasterWindow(p, s)
-    for slave_title in reversed(browsers):
-        slave_title = slave_title.replace('-browser', '')
-        mw.create_connection(2, slave_title)
-        wid2 = mw.connections[2].wid2
-        msg = '{} {}'.format(slave_title, wid2)
-        print(msg)
-        if wid2 is not None and s.align_windows:
-            mw.connections[2].align()
+    # Wait for window to open ang get its info
+    new_window = []
+    start = time.perf_counter() # start time
+    while not len(new_window):
+        after = get_opened_windows()
+        time.sleep(0.3)
+        new_window = get_new_window(before, after)
+        if time.perf_counter() - start > 1:
+            msg = 'New slave window starts too slowly.'
+            logging.error(msg)
             break
 
+    if len(new_window):
+        wi = new_window[0]
+        msg = wi.to_string()
+        logging.info(msg)
+        return wi
+    else:
+        return None
+
+"""
+def test():
+    app = QtWidgets.QApplication(sys.argv) # create application
+
+    # Switch off logging
+    hh = logging.getLogger().handlers
+    logging.getLogger().handlers = []
+
+    s = settings.Settings(p)
+    f = gui.window.Factory(s, p.main_xml)
+    f.mw.run()
+
+    # Switch on logging
+    for h in hh:
+        logging.getLogger().addHandler(h)
+
+    wb = webbrowser.get()
+    cmd = wb.name
+    slave_title = wb.name
+    f.run_slave(cmd, slave_title)
+
+    wc = f.create_connection(_id=2)
+    wid2 = f.connections[2].wid2
+    msg = '{} {}'.format(slave_title, wid2)
+    print(msg)
+
     app.exec() # execute application
+"""
 
 # Run test
 if __name__ == '__main__':
@@ -532,9 +590,9 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.NOTSET, format='%(message)s')
     clean.screen()
 
-    # test1()
-    test2()
+    # test()
+    run_web_browser()
 
     clean.cache()
-    print('\nTotal {:.1e} seconds.\n'\
+    print('\nTotal {:.1f} seconds.\n'\
         .format(time.perf_counter()-start)) # spent time
