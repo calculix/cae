@@ -71,6 +71,7 @@ class Factory:
     # Run slave process
     # Close opened CGX (if any) and open a new one
     # Get window ID, align windows and post to CGX
+    # TODO Return slave wid
     def run_slave(self, cmd, title):
         self.kill_slave()
         self.sw = SlaveWindow(cmd, title)
@@ -119,7 +120,6 @@ class Factory:
             self.sw.process = None
 
     # Start stdout reading and logging thread
-    # TODO BUG It logs prev command, not the last one
     def start_stdout_reader(self, aim):
         sr = gui.log.CgxStdoutReader(self.sw.process.stdout,
             aim, self)
@@ -150,6 +150,7 @@ class Factory:
         wc.connect()
         if self.s.align_windows:
             wc.align()
+        return wc
 
 
 # Left application's window - CAE
