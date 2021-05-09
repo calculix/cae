@@ -28,6 +28,7 @@ except:
 # My modules
 try:
     from model.kom import ItemType
+    import gui
 except:
     sys_path = os.path.abspath(__file__)
     sys_path = os.path.dirname(sys_path)
@@ -37,7 +38,7 @@ except:
     sys.path.insert(0, sys_path)
     import clean
     import path
-    from model import kom
+    import gui
 
 
 class KeywordDialog(QtWidgets.QDialog):
@@ -272,7 +273,8 @@ class KeywordDialog(QtWidgets.QDialog):
         super(KeywordDialog, self).accept()
         return self.textEdit.toPlainText().strip().split('\n')
 
-    # Open HTML help page in a web browser
+    # Open HTML help page in a default web browser
+    # TODO Works with Chrome and Firefox - check others
     def onHelp(self):
         url = self.get_url()
         if not os.path.isfile(url):
@@ -280,40 +282,11 @@ class KeywordDialog(QtWidgets.QDialog):
                 os.path.relpath(url, start=self.p.app_home_dir))
             logging.error(msg)
             return
-
-        error = True
-        wb = webbrowser.get() # initialize _tryorder
-        wb_name = None
-        for name in webbrowser._tryorder:
-            wb = webbrowser.get(name)
-            if wb.open_new('file://' + url):
-                wb_name = name
-                error = False
-                break
-        if error:
-            logging.warning('Can\'t open\n' + url)
-        else:
-            if self.s.align_windows:
-                # TODO Web-browser is not connected and not aligned
-                time.sleep(0.3)
-                if os.name == 'posix':
-                    # slave_title = wb_name.replace('-browser', '') # chromium
-                    slave_title = self.item.name
-                    logging.debug('Checking \'' + slave_title + '\'')
-                    self.f.create_connection(2, slave_title)
-                    if self.f.connections[2].wid2 is not None:
-                        self.f.connections[2].align()
-                        # break
-                elif os.name == 'nt':
-                    # TODO Check on Windows 10 webbrowser._tryorder
-                    slave_title = self.item.name[1:] + '.html'
-                    logging.debug('Checking ' + slave_title)
-                    self.f.create_connection(2, slave_title)
-                    if self.f.connections[2].wid2 is not None and self.s.align_windows:
-                        self.f.connections[2].align()
-                else:
-                    logging.error('Unsupported OS.')
-                    raise SystemExit
+        wb = webbrowser.get()
+        cmd = wb.name + ' --new-window ' + url
+        self.f.sw = gui.window.SlaveWindow(cmd, wb.name)
+        self.f.sw.run()
+        self.f.create_connection(2)
 
     # Get URL to the local help page
     def get_url(self):
@@ -328,9 +301,25 @@ class KeywordDialog(QtWidgets.QDialog):
         return url
 
 
+# TODO Get default web browser in Windows:
+# https://stackoverflow.com/questions/19037216/how-to-get-a-name-of-default-browser-using-python
+# from winreg import *
+# with OpenKey(HKEY_CURRENT_USER, r"Software\\Microsoft\\Windows\\Shell\\Associations\\UrlAssociations\\http\\UserChoice") as key:
+#     browser = QueryValueEx(key, 'Progid')[0]
+
+# Get default web browser
+# TODO Log web browser during startup tests
 def test():
-    pass
+    print('Primary web browser:')
+    wb = webbrowser.get()
+    print(wb.name, wb.basename)
+
+    print('\nAll:')
+    for wb in webbrowser._tryorder:
+        print(wb)
 
 # Run test
 if __name__ == '__main__':
+    clean.screen()
     test()
+    clean.cache()
