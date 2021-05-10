@@ -15,17 +15,16 @@ python3 ./src/cae.py -inp yourmodel.inp """
 
 # TODO Test everything on Windows 10
 
-# Run some checks before start
+import clean
+clean.screen()
+
+# Calculate absolute paths
 import path
+p = path.Path()
+
+# Run some checks before start
 import tests
-p = path.Path() # calculate absolute paths
-ch = tests.Check()
-ch.start_logging()
-ch.check_os()
-ch.check_python()
-ch.check_requirements()
-tests.test_cgx(p)
-ch.stop_logging()
+tests.run(p)
 
 # Standard modules
 import os
@@ -38,17 +37,12 @@ import logging
 from PyQt5 import QtWidgets
 
 # My modules
-import clean
 import settings
 import gui
 import model
 import tree
 import importer
 import actions
-
-# Pyinstaller bug in Windows:
-# append 'app_home_dir' and 'src' directories to PATH
-# p.append_to_PATH([p.app_home_dir, p.src])
 
 # # Draw apps architecture
 # from pycallgraph import PyCallGraph
@@ -81,8 +75,7 @@ parser.add_argument('-inp', type=str,
     help='your .inp file', default=s.start_model)
 args = parser.parse_args()
 
-# Show CAE window and get window ID
-# A new logger's handler is created here
+# Show main CAE window
 f = gui.window.Factory(s, p.main_xml)
 f.mw.run()
 

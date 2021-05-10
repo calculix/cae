@@ -18,6 +18,11 @@ import time
 import logging
 import importlib
 import subprocess
+import webbrowser
+
+# My modules
+import path
+import clean
 
 
 # Configure logging to emit messages via 'print' method
@@ -59,6 +64,7 @@ def scan_all_files_in(start_folder, ext, limit=1000000):
 
 
 # Convert seconds to format hh:mm:ss
+# TODO get_time_delta, log_time_delta
 def time_delta(start_time):
     delta = time.perf_counter() - start_time
     return time.strftime('%M:%S', time.gmtime(delta))
@@ -68,15 +74,16 @@ def time_delta(start_time):
 class Check:
 
     # Prepare logging
-    def __init__(self):
+    def __init__(self, p):
+        self.p = p
         self.log_file = __file__[:-3] + '.log'
-        print(self.log_file, 'STARTUP TESTS\n')
 
     # Initialize logging
     def start_logging(self):
         h = myHandler(self.log_file)
         logging.getLogger().addHandler(h)
         logging.getLogger().setLevel(logging.NOTSET) # 0
+        print(self.log_file, 'STARTUP TESTS\n')
 
     # After all tests stop logging into tests.log
     def stop_logging(self):
@@ -103,54 +110,86 @@ class Check:
             msg = 'Python version is {}.'.format(v1)
             logging.info(msg)
 
+    # Get default web browser
+    def check_default_web_browser(self):
+        wb = webbrowser.get()
+        logging.info('Default web browser is {}.'.format(wb.name))
+
     # Check each package from requirements.txt
     def check_requirements(self):
         path = os.path.normpath(os.path.join(
             os.path.dirname(__file__),
             '..', 'requirements.txt'))
+        requirements = []
         with open(path) as f:
             requirements = f.readlines()
-            for name in requirements:
-                name = name.strip()
-                if len(name):
-                    self.check_package(name)
+        for name in requirements:
+            name = name.strip()
+            if len(name) and not self.check_required_package(name):
+                raise SystemExit # the best way to exit
 
     # Check if package is installed
     def check_package(self, name):
         try:
             importlib.import_module(name)
             logging.info(name + ' OK')
+            return True
         except ImportError:
-            msg = 'Required package \'' + name \
-                + '\' is not installed. Trying to fix...'
+            msg = 'Package \'' + name \
+                + '\' is not installed.'
             logging.warning(msg)
-            self.install_package(name)
+            return False
 
-    # Install package from code
+    # Check if required package is installed
+    def check_required_package(self, name):
+        if self.check_package(name):
+            return True
+        else:
+            logging.warning('Trying to fix...')
+            return self.install_package(name)
+
+    # Automatically install package
     def install_package(self, name):
         try:
             cmd = [sys.executable, '-m', 'pip', 'install', name]
             subprocess.check_call(cmd)
+            return True
         except:
             msg = 'Can not install required package \'' \
                 + name + '\'. ' \
                 + 'Please, install it manually.'
             logging.error(msg)
+            return False
+
+    # Test if CGX is present in the cae/bin folder
+    def check_cgx(self):
+        if os.path.isfile(self.p.path_cgx):
+            logging.info('CGX found in ' + self.p.path_cgx)
+        else:
+            logging.error('CGX not found in ' + self.p.path_cgx)
             raise SystemExit # the best way to exit
 
+    # Run all checks
+    def check_all(self):
+        self.check_os()
+        self.check_python()
+        self.check_default_web_browser()
+        self.check_requirements() # containts SystemExit
+        self.check_cgx() # containts SystemExit
 
-# Test if CGX is present in the cae/bin folder
-def test_cgx(p):
-    if os.path.isfile(p.path_cgx):
-        logging.info('CGX found.')
-    else:
-        logging.error('CGX not found:\n' \
-            + p.path_cgx)
-        raise SystemExit # the best way to exit
+
+def run(p):
+    ch = Check(p)
+    ch.start_logging()
+    ch.check_all()
+    ch.stop_logging()
 
 if __name__ == '__main__':
-    ch = Check()
-    ch.check_os()
-    ch.check_python()
-    ch.check_requirements()
+    clean.screen()
+    p = path.Path() # calculate absolute paths
+    ch = Check(p)
+    ch.start_logging()
+    ch.check_all()
     ch.check_package('qwe')
+    ok = ch.check_required_package('rty')
+    clean.cache()

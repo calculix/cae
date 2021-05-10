@@ -307,17 +307,6 @@ class KeywordDialog(QtWidgets.QDialog):
 # with OpenKey(HKEY_CURRENT_USER, r"Software\\Microsoft\\Windows\\Shell\\Associations\\UrlAssociations\\http\\UserChoice") as key:
 #     browser = QueryValueEx(key, 'Progid')[0]
 
-# Get default web browser
-# TODO Log web browser during startup tests
-def test():
-    print('Primary web browser:')
-    wb = webbrowser.get()
-    print(wb.name, wb.basename)
-
-    print('\nAll:')
-    for wb in webbrowser._tryorder:
-        print(wb)
-
 # Run test
 if __name__ == '__main__':
     clean.screen()
