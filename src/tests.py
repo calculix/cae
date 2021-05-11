@@ -49,7 +49,6 @@ def print(log_file, *args):
         f.write(line)
     sys.stdout.write(line)
 
-
 # List all .ext-files here and in all subdirectories
 def scan_all_files_in(start_folder, ext, limit=1000000):
     all_files = []
@@ -62,13 +61,16 @@ def scan_all_files_in(start_folder, ext, limit=1000000):
             all_files.append(ff)
     return sorted(all_files)[:limit]
 
-
-# Convert seconds to format hh:mm:ss
-# TODO get_time_delta, log_time_delta
-def time_delta(start_time):
+# Convert seconds to format hh:mm:ss.s
+def get_time_delta(start_time):
     delta = time.perf_counter() - start_time
-    return time.strftime('%M:%S', time.gmtime(delta))
+    return '{:02d}:{:02d}:{:04.1f}'\
+        .format(int(delta/3600), int(delta%3600/60), delta%3600%60)
 
+# Log spent time delta
+def log_time_delta(start_time):
+    msg = 'Total ' + get_time_delta(start_time)
+    logging.info(msg)
 
 # Tests user system configuration etc.
 class Check:
@@ -185,6 +187,7 @@ def run(p):
     ch.stop_logging()
 
 if __name__ == '__main__':
+    start_time = time.perf_counter()
     clean.screen()
     p = path.Path() # calculate absolute paths
     ch = Check(p)
@@ -193,3 +196,4 @@ if __name__ == '__main__':
     ch.check_package('qwe')
     ok = ch.check_required_package('rty')
     clean.cache()
+    log_time_delta(start_time)

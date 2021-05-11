@@ -289,7 +289,7 @@ def test():
     log_capture_string.close()
 
     msg = '\n{} INP files. Total time {}.'
-    delta = tests.time_delta(start_time)
+    delta = tests.get_time_delta(start_time)
     print(log_file, msg.format(len(examples), delta))
 
 
