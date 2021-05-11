@@ -18,7 +18,7 @@ import logging
 import threading
 
 # External modules
-from PyQt5 import QtGui, QtWidgets
+from PyQt5 import QtGui
 
 
 class MyLoggingHandler(logging.Handler):

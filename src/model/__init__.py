@@ -7,9 +7,6 @@ Distributed under GNU General Public License v3.0
 Model unites KOM object and parsers.
 See scheme on architecture.odp. """
 
-import os
-import logging
-
 from . import parsers
 from . import job
 from . import kom

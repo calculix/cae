@@ -9,7 +9,6 @@ Methods to work with main window's treeView widget. """
 # Standard modules
 import re
 import os
-import sys
 import logging
 
 # External modules

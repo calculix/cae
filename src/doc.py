@@ -9,7 +9,6 @@ A tool to prepare new release of CrunchiX HTML help pages """
 # Standard modules
 import os
 import re
-import shutil
 
 # My modules
 import clean

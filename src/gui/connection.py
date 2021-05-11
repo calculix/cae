@@ -16,17 +16,16 @@ import re
 import time
 import math
 import logging
-import webbrowser
-if os.name == 'nt':
+# import webbrowser
+try:
     import ctypes
     from ctypes import wintypes
-
-# External modules
-from PyQt5 import QtWidgets
-if os.name == 'posix':
-    import Xlib
+except:
     from Xlib import display, protocol, X, XK
     from Xlib.ext.xtest import fake_input
+
+# External modules
+# from PyQt5 import QtWidgets
 
 # My modules
 sys_path = os.path.abspath(__file__)
@@ -149,7 +148,7 @@ class WindowConnectionLinux(WindowConnection):
     def __init__(self, f):
         super(WindowConnectionLinux, self).__init__(f)
 
-        self.d = Xlib.display.Display()
+        self.d = display.Display()
         self.screen = self.d.screen()
         self.root = self.screen.root
 
@@ -242,10 +241,10 @@ class WindowConnectionLinux(WindowConnection):
         # Create X event
         def event(win, e, keycode, case):
             return e(
-                time=Xlib.X.CurrentTime,
+                time=X.CurrentTime,
                 root=self.root,
                 window=win,
-                same_screen=0, child=Xlib.X.NONE,
+                same_screen=0, child=X.NONE,
                 root_x=0, root_y=0, event_x=0, event_y=0,
                 state=case, # 0=lowercase, 1=uppercase
                 detail=keycode)
@@ -258,9 +257,9 @@ class WindowConnectionLinux(WindowConnection):
                 code = self.d.keysym_to_keycode(keysym)
                 case = self.keyboardMapping[symbol][1]
 
-                e = event(win, Xlib.protocol.event.KeyPress, code, case)
+                e = event(win, protocol.event.KeyPress, code, case)
                 win.send_event(e, propagate=True)
-                e = event(win, Xlib.protocol.event.KeyRelease, code, case)
+                e = event(win, protocol.event.KeyRelease, code, case)
                 win.send_event(e, propagate=True)
             else:
                 msg = 'Symbol {} is not supported.'.format(symbol)
@@ -317,7 +316,7 @@ class WindowConnectionLinux(WindowConnection):
         self.mw.setGeometry(0, 0, math.floor(self.w/3), self.h)
         # if self.wid1 is not None:
         #     win = self.d.create_resource_object('window', self.wid1)
-        #     win.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
+        #     win.set_input_focus(X.RevertToNone, X.CurrentTime)
         #     self.send_hotkey('Super_L', 'Down') # restore window
         #     win.configure(x=0, y=0,
         #         width=math.floor(self.w/3), height=self.h)
@@ -333,7 +332,7 @@ class WindowConnectionLinux(WindowConnection):
         # Align slave
         if self.wid2 is not None:
             win = self.d.create_resource_object('window', self.wid2)
-            win.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
+            win.set_input_focus(X.RevertToNone, X.CurrentTime)
             self.send_hotkey('Super_L', 'Down') # restore window
             win.configure(x=math.ceil(self.w/3), y=0,
                 width=math.floor(self.w*2/3), height=self.h)
@@ -530,7 +529,8 @@ def test():
 # Run test
 if __name__ == '__main__':
     start = time.perf_counter() # start time
-    logging.basicConfig(level=logging.NOTSET, format='%(message)s')
+    fmt = '%(levelname)s: %(message)s'
+    logging.basicConfig(level=logging.NOTSET, format=fmt)
     clean.screen()
 
     # test()

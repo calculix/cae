@@ -22,6 +22,7 @@ import logging
 import subprocess
 import inspect
 import webbrowser
+import traceback
 from shutil import which
 if os.name == 'nt':
     import ctypes
@@ -46,7 +47,6 @@ except:
     import gui.connection
     import path
     import settings
-    import window
 
 # Common wrapper for MasterWindow/SlaveWindow run() method
 def run_wrapper():

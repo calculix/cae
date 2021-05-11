@@ -6,13 +6,15 @@ Distributed under GNU General Public License v3.0
 
 Main window actions - all processed signals. """
 
+# Standard modules
 import os
 import logging
 
+# External modules
 from PyQt5 import QtWidgets
 
+# My modules
 import gui
-import importer
 
 """
 s - Settings

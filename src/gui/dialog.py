@@ -37,7 +37,7 @@ except:
     sys_path = os.path.realpath(sys_path)
     sys.path.insert(0, sys_path)
     import clean
-    import path
+    import tests
     import gui
 
 
@@ -301,14 +301,14 @@ class KeywordDialog(QtWidgets.QDialog):
         return url
 
 
-# TODO Get default web browser in Windows:
-# https://stackoverflow.com/questions/19037216/how-to-get-a-name-of-default-browser-using-python
-# from winreg import *
-# with OpenKey(HKEY_CURRENT_USER, r"Software\\Microsoft\\Windows\\Shell\\Associations\\UrlAssociations\\http\\UserChoice") as key:
-#     browser = QueryValueEx(key, 'Progid')[0]
+# TODO Invent some test
+def test():
+    pass
 
 # Run test
 if __name__ == '__main__':
+    start_time = time.perf_counter()
     clean.screen()
     test()
     clean.cache()
+    tests.log_time_delta(start_time)
