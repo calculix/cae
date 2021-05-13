@@ -18,13 +18,9 @@ python3 ./src/cae.py -inp yourmodel.inp """
 import clean
 clean.screen()
 
-# Calculate absolute paths
-import path
-p = path.Path()
-
-# Run some checks before start
+# Run some important checks before start
 import tests
-tests.run(p)
+tests.run()
 
 # Standard modules
 import os
@@ -37,6 +33,7 @@ import logging
 from PyQt5 import QtWidgets
 
 # My modules
+import path
 import settings
 import gui
 import model
@@ -62,6 +59,9 @@ start_time = time.perf_counter()
 # Create application
 app = QtWidgets.QApplication(sys.argv)
 
+# Calculate absolute paths
+p = path.Path()
+
 # Read application's global settings
 s = settings.Settings(p)
 
@@ -75,15 +75,15 @@ parser.add_argument('-inp', type=str,
     help='your .inp file', default=s.start_model)
 args = parser.parse_args()
 
-# Show main CAE window
-f = gui.window.Factory(s, p.main_xml)
-f.mw.run()
+# Show main window
+f = gui.window.Factory(s)
+f.run_master(p.main_xml)
 
 # Main block
 m = model.Model() # generate FEM model
 t = tree.Tree(p, s, f, m) # create treeView items based on KOM
 j = model.job.Job(p, s, f, m) # create job object
-i = importer.Importer(p, s, f, m, t, j)
+i = importer.Importer(p, s, f, m, t, j) # prepare to import model
 actions.actions(p, s, f, m, t, j, i) # window actions
 
 # Import default model

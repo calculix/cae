@@ -19,12 +19,9 @@ class Path:
             self.extension = '.exe' # file extension in OS
 
         # Linux
-        elif os.name == 'posix':
+        else:
             self.op_sys = 'linux' # OS name
             self.extension = '' # file extension in OS
-        else:
-            msg = 'Sorry, {} OS is not supported.'.format(os.name)
-            raise SystemExit(msg)
 
         # Application's home directory - the one with README.md and LICENSE
         self.app_home_dir = os.path.normpath(

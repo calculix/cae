@@ -45,8 +45,9 @@ class myHandler(logging.Handler):
 # Redefine print method to write logs to file
 def print(log_file, *args):
     line = ' '.join([str(arg) for arg in args]) + '\n'
-    with open(log_file, 'a') as f:
-        f.write(line)
+    if log_file is not None:
+        with open(log_file, 'a') as f:
+            f.write(line)
     sys.stdout.write(line)
 
 # List all .ext-files here and in all subdirectories
@@ -61,23 +62,23 @@ def scan_all_files_in(start_folder, ext, limit=1000000):
             all_files.append(ff)
     return sorted(all_files)[:limit]
 
-# Convert seconds to format hh:mm:ss.s
-def get_time_delta(start_time):
-    delta = time.perf_counter() - start_time
+# Return spent time delta in format hh:mm:ss.s
+def get_time_delta(start):
+    delta = time.perf_counter() - start
     return '{:02d}:{:02d}:{:04.1f}'\
         .format(int(delta/3600), int(delta%3600/60), delta%3600%60)
 
-# Log spent time delta
-def log_time_delta(start_time):
-    msg = 'Total ' + get_time_delta(start_time)
-    logging.info(msg)
+# Log spent time delta in format hh:mm:ss.s
+def log_time_delta(start, log_file=None):
+    msg = '\nTotal ' + get_time_delta(start)
+    print(log_file, msg)
+
 
 # Tests user system configuration etc.
 class Check:
 
     # Prepare logging
-    def __init__(self, p):
-        self.p = p
+    def __init__(self):
         self.log_file = __file__[:-3] + '.log'
 
     # Initialize logging
@@ -163,37 +164,27 @@ class Check:
             logging.error(msg)
             return False
 
-    # Test if CGX is present in the cae/bin folder
-    def check_cgx(self):
-        if os.path.isfile(self.p.path_cgx):
-            logging.info('CGX found in ' + self.p.path_cgx)
-        else:
-            logging.error('CGX not found in ' + self.p.path_cgx)
-            raise SystemExit # the best way to exit
-
     # Run all checks
     def check_all(self):
         self.check_os()
         self.check_python()
         self.check_default_web_browser()
         self.check_requirements() # containts SystemExit
-        self.check_cgx() # containts SystemExit
 
 
-def run(p):
-    ch = Check(p)
+def run():
+    ch = Check()
     ch.start_logging()
     ch.check_all()
     ch.stop_logging()
 
 if __name__ == '__main__':
-    start_time = time.perf_counter()
+    start = time.perf_counter()
     clean.screen()
-    p = path.Path() # calculate absolute paths
-    ch = Check(p)
+    ch = Check()
     ch.start_logging()
     ch.check_all()
     ch.check_package('qwe')
     ok = ch.check_required_package('rty')
     clean.cache()
-    log_time_delta(start_time)
+    log_time_delta(start)
