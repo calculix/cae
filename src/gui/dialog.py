@@ -131,7 +131,7 @@ class KeywordDialog(QtWidgets.QDialog):
                     argument_values_widget.addItems(argument_values_items)
 
                     # Assign event to update textEdit widget
-                    argument_values_widget.currentIndexChanged.connect(self.onChange)
+                    argument_values_widget.currentIndexChanged.connect(self.change)
 
                     # QComboBox doesn't expand by default
                     sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
@@ -145,7 +145,7 @@ class KeywordDialog(QtWidgets.QDialog):
                     argument_values_widget = QtWidgets.QLineEdit()
 
                     # Assign event to update textEdit widget
-                    argument_values_widget.textChanged.connect(self.onChange)
+                    argument_values_widget.textChanged.connect(self.change)
 
                 elif argument.form == 'QCheckBox':
                     argument_name_text = argument.name + ' ' # shift checkbox a little bit for nice view
@@ -154,7 +154,7 @@ class KeywordDialog(QtWidgets.QDialog):
                     argument_values_widget = QtWidgets.QCheckBox()
 
                     # Assign event to update textEdit widget
-                    argument_values_widget.clicked.connect(self.onChange)
+                    argument_values_widget.clicked.connect(self.change)
 
                 # Mark required argument
                 if argument.required:
@@ -174,7 +174,7 @@ class KeywordDialog(QtWidgets.QDialog):
                     argument_name_widget.addItems(arg_names)
 
                     # Assign event to update textEdit widget
-                    argument_name_widget.currentIndexChanged.connect(self.onChange)
+                    argument_name_widget.currentIndexChanged.connect(self.change)
 
                 else:
                     argument_name_widget = QtWidgets.QLabel()
@@ -187,7 +187,7 @@ class KeywordDialog(QtWidgets.QDialog):
                 horizontal_layout.addWidget(argument_values_widget)
                 horizontal_layout.setAlignment(QtCore.Qt.AlignLeft)
 
-                # Save name and values for processing in self.onChange()
+                # Save name and values for processing in self.change()
                 self.widgets.append(argument_name_widget)
                 self.widgets.append(argument_values_widget)
 
@@ -196,7 +196,7 @@ class KeywordDialog(QtWidgets.QDialog):
                 row_number += 1 # second time
 
             # Fill textEdit widget with default keyword's configuration
-            self.onChange(None)
+            self.change(None)
 
         # Edit implementation: draw only textEdit
         if self.item.itype == ItemType.IMPLEMENTATION:
@@ -205,12 +205,12 @@ class KeywordDialog(QtWidgets.QDialog):
                 self.textEdit.append(line)
 
         # Actions
-        self.buttonBox.accepted.connect(self.onOk)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.onReset)
-        self.buttonBox.helpRequested.connect(self.onHelp)
+        self.buttonBox.accepted.connect(self.ok)
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.reset)
+        self.buttonBox.helpRequested.connect(self.help)
 
     # Update piece of INP-code in the textEdit widget
-    def onChange(self, event):
+    def change(self, event):
         arguments = {} # name:value
         for i, widget in enumerate(self.widgets):
 
@@ -257,7 +257,7 @@ class KeywordDialog(QtWidgets.QDialog):
         self.textEdit.setText(string)
 
     # Reset textEdit widget to initial state
-    def onReset(self):
+    def reset(self):
         for i, widget in enumerate(self.widgets):
             if (i % 2) == 1: # iterate over values not labels
                 if widget.__class__.__name__ == 'QLineEdit':
@@ -266,17 +266,17 @@ class KeywordDialog(QtWidgets.QDialog):
                     widget.setCurrentIndex(0) # this row is default
                 elif widget.__class__.__name__ == 'QCheckBox':
                     widget.setChecked(False) # uncheck is default
-        self.onChange(None)
+        self.change(None)
 
     # Return piece of created code for the .inp-file
-    def onOk(self):
+    def ok(self):
         super(KeywordDialog, self).accept()
         return self.textEdit.toPlainText().strip().split('\n')
 
     # Open HTML help page in a default web browser
     # TODO Works with Chrome and Firefox - check others
-    def onHelp(self):
-        url = self.get_url()
+    def help(self):
+        url = self.get_url_from_keyword()
         if not os.path.isfile(url):
             msg = 'Help page does not exist:\n{}'.format(
                 os.path.relpath(url, start=self.p.app_home_dir))
@@ -284,18 +284,17 @@ class KeywordDialog(QtWidgets.QDialog):
             return
         wb = webbrowser.get()
         cmd = wb.name + ' --new-window ' + url
-        self.f.sw = gui.window.SlaveWindow(cmd, wb.name)
-        self.f.sw.run()
+        self.f.run_slave(cmd)
         self.f.create_connection(2)
 
     # Get URL to the local help page
-    def get_url(self):
+    def get_url_from_keyword(self):
         if self.item.itype == ItemType.KEYWORD:
             keyword_name = self.item.name[1:] # cut star
         if self.item.itype == ItemType.IMPLEMENTATION:
             keyword_name = self.item.parent.name[1:] # cut star
 
-        # Avoid spaces in html page names
+        # Avoid spaces and hyphens in html page names
         html_page_name = re.sub(r'[ -]', '_', keyword_name)
         url = os.path.join(self.p.doc, html_page_name + '.html')
         return url
