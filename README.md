@@ -201,7 +201,6 @@ FreeCAD:
 
 CGX:
 - Highlight loads and boundary conditions.
-- Thread for periodic checking of CGX WID. Connect/disconnect CGX automatically in the background.
 
 Parsers:
 - Check if includes are opened correctly.
@@ -217,9 +216,10 @@ Importer:
 
 Logging and tests:
 - Log app version on startup.
-- 'Debug' menu to test each module. 
+- 'Debug' menu to test each module.
 
 Other:
+- cae.bat and sae.sh - check python version and run source
 - Implement keyword dialog as tab on main window.
-- Try to [build CalculiX with mingw-w64](https://mechanicalhacks.wordpress.com/2011/03/29/building-calculix-to-run-native-on-64-bit-windows/). [Attention!](http://hillyuan.blogspot.com/2013/10/build-calculix261-in-mingw64.html)
+- Take binaries for Windows from https://www.meil.pw.edu.pl/add/ADD/Teaching/Software/Calculix
 - Folder 'tests': move all logs and architecture schemes there.
