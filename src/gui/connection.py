@@ -25,7 +25,7 @@ except:
     from Xlib.ext.xtest import fake_input
 
 # External modules
-# from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, uic
 
 # My modules
 sys_path = os.path.abspath(__file__)
@@ -33,11 +33,13 @@ sys_path = os.path.dirname(sys_path)
 sys_path = os.path.join(sys_path, '..')
 sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
-sys.path.insert(0, sys_path)
+if sys_path not in sys.path:
+    sys.path.insert(0, sys_path)
 import clean
-import path
-import settings
-import gui
+import tests
+# import path
+# import settings
+# import gui
 # if os.name == 'nt':
 #     from gui.forcefocus import forceFocus
 
@@ -49,53 +51,30 @@ class WindowInfo:
         self.hex_wid = '0x{}'.format(hex(wid)[2:].zfill(8))
         self.pid = pid # process ID
         self.wname = wname # window title
-    
+
     def to_string(self):
         return '{}  {: 8d}  {}'\
             .format(self.hex_wid, self.pid, self.wname)
 
 
-# Common wrapper for WindowConnection.get_wid()
-def wid_wrapper(wc):
-    def wrap(method):
-        def fcn(wc, title):
-            start = time.perf_counter() # start time
-            wid = None
-            while wid is None:
-                time.sleep(0.1) # wait for window to start
-                wid = method(wc, title)
-                if time.perf_counter() - start > 5:
-                    msg = 'Can\'t get \'{}\' window.'.format(title)
-                    logging.error(msg)
-                    wc.log_opened_windows()
-                    msg = 'Communication with {} will not work.'
-                    logging.warning(msg.format(title))
-                    # TODO Make thread and check CGX availability periodically
-                    return None
-            msg = '{} WID=0x{}'.format(title, hex(wid)[2:].zfill(8))
-            logging.debug(msg)
-            return wid
-        return fcn
-    return wrap
-
 # Common wrapper for WindowConnection.post()
 def post_wrapper(wc):
     def wrap(method):
         def fcn(wc, cmd):
-            if wc.sw.process is not None \
-                and wc.sw.process.poll() is None\
+            if wc.get_slave_process() is not None \
+                and wc.get_slave_process().poll() is None\
                 and wc.wid2 is not None:
 
                 if len(cmd):
                     # Drop previously pressed keys
-                    if 'CalculiX GraphiX' in wc.sw.title:
+                    if 'CalculiX GraphiX' in wc.get_slave_title():
                         method(wc, '\n')
 
                     # Post command
                     method(wc, cmd + '\n')
 
                     # Flush CGX buffer to get continuous output
-                    if 'CalculiX GraphiX' in wc.sw.title:
+                    if 'CalculiX GraphiX' in wc.get_slave_title():
                         method(wc, ' ')
 
                     return
@@ -110,29 +89,21 @@ def post_wrapper(wc):
 
 # Pair master and slave windows together
 # to align and enable keycodes sending
-# TODO make possible to use QtWidgets.QDialog as master
+# TODO Make possible to use QtWidgets.QDialog as master
 class WindowConnection:
 
-    def __init__(self, f):
-        self.wid1 = None # master window id
-        self.wid2 = None # slave window id
+    def __init__(self, mw, sw):
         self.opened_windows = [] # list of WindowInfo objects
+        self.w = QtWidgets.QDesktopWidget().availableGeometry().width()
+        self.h = QtWidgets.QDesktopWidget().availableGeometry().height()
 
-        if f is None:
+        if mw is None or sw is None:
             return
 
-        # TODO Pass all these arguments, not Factory
-        self.mw = f.mw # master window
-        self.sw = f.sw # slave window
-        self.w = f.w # desktop width
-        self.h = f.h # desktop height
-        self.s = f.s # global settings
-
-    def connect(self):
-        # self.wid1 = self.get_wid(self.mw.windowTitle())
-        # self.wid2 = self.get_wid(self.sw.title)
-        self.wid1 = self.mw.info.wid
-        self.wid2 = self.sw.info.wid
+        self.mw = mw # master window
+        self.sw = sw # slave window
+        self.wid1 = self.get_master_wid() # master window id
+        self.wid2 = self.get_slave_wid() # slave window id
 
     def log_opened_windows(self):
         msg = 'Window list:'
@@ -142,11 +113,39 @@ class WindowConnection:
             msg += wi.to_string()
         logging.debug(msg)
 
+    def get_slave_title(self):
+        try:
+            return self.sw.info.wname
+        except:
+            logging.error('Can not get slave title.')
+            return ""
+
+    def get_slave_process(self):
+        try:
+            return self.sw.process
+        except:
+            logging.error('Can not get slave process.')
+            return None
+
+    def get_slave_wid(self):
+        try:
+            return self.sw.info.wid
+        except:
+            logging.error('Can not get slave wid.')
+            return None
+
+    def get_master_wid(self):
+        try:
+            return self.mw.info.wid
+        except:
+            logging.error('Can not get master wid.')
+            return None
+
 
 class WindowConnectionLinux(WindowConnection):
 
-    def __init__(self, f):
-        super(WindowConnectionLinux, self).__init__(f)
+    def __init__(self, mw, sw):
+        super(WindowConnectionLinux, self).__init__(mw, sw)
 
         self.d = display.Display()
         self.screen = self.d.screen()
@@ -208,32 +207,6 @@ class WindowConnectionLinux(WindowConnection):
         for c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
             self.keyboardMapping[c] = (c, 1)
 
-    # Get window by title and return its ID
-    @wid_wrapper(WindowConnection)
-    def get_wid(self, title):
-        ids = self.root.get_full_property(
-            self.d.intern_atom('_NET_CLIENT_LIST'),
-            X.AnyPropertyType).value
-        wid = None
-        for _id_ in ids:
-            w = self.d.create_resource_object('window', _id_)
-            try:
-                wname = w.get_full_property(
-                    self.d.intern_atom('_NET_WM_NAME'), X.AnyPropertyType).value.decode()
-            except:
-                wname = w.get_wm_name()
-            regex = '(\S+ - )*' + re.escape(title.lower()) + '( - \S+)*'
-            if re.fullmatch(regex, wname.lower()) is not None:
-                wid = _id_
-                break
-
-            # Firefox
-            # if 'new ' + title.lower() in wname.lower():
-            #     wid = _id_
-            #     break
-
-        return wid
-
     # Activate window, send message to slave, deactivate
     @post_wrapper(WindowConnection)
     def post(self, cmd):
@@ -289,7 +262,7 @@ class WindowConnectionLinux(WindowConnection):
             wi = WindowInfo(_id_, pid, wname)
             self.opened_windows.append(wi)
         return self.opened_windows
-    
+
     # Key press + release
     def send_hotkey(self, *keys):
         for key in keys:
@@ -344,8 +317,8 @@ class WindowConnectionLinux(WindowConnection):
 
 class WindowConnectionWindows(WindowConnection):
 
-    def __init__(self, f):
-        super(WindowConnectionWindows, self).__init__(f)
+    def __init__(self, mw, sw):
+        super(WindowConnectionWindows, self).__init__(mw, sw)
 
         # 0:lowercase, 1:shifted
         self.keyboardMapping = {
@@ -397,29 +370,6 @@ class WindowConnectionWindows(WindowConnection):
         for c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
             self.keyboardMapping[c] = (ord(c), 1)
 
-    # If window found, its ID is returned
-    @wid_wrapper(WindowConnection)
-    def get_wid(self, title):
-        self.wid = None
-        WNDENUMPROC = ctypes.WINFUNCTYPE(
-            wintypes.BOOL,
-            wintypes.HWND,    # _In_ hwnd
-            wintypes.LPARAM,) # _In_ lParam
-
-        @WNDENUMPROC
-        def enum_proc(hwnd, lParam):
-            if ctypes.windll.user32.IsWindowVisible(hwnd):
-                length = ctypes.windll.user32.GetWindowTextLengthW(hwnd) + 1
-                buff = ctypes.create_unicode_buffer(length)
-                ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
-                regex = '(\S+ - )*' + re.escape(title.lower()) + '( - \S+)*'
-                if re.fullmatch(regex, buff.value.lower()) is not None:
-                    self.wid = hwnd
-            return True
-
-        ctypes.windll.user32.EnumWindows(enum_proc, 0)
-        return self.wid
-
     # Activate window, send message to slave, deactivate
     @post_wrapper(WindowConnection)
     def post(self, cmd):
@@ -461,7 +411,6 @@ class WindowConnectionWindows(WindowConnection):
                 ctypes.windll.user32.GetWindowTextW(hwnd, buff, length)
                 wi = WindowInfo(hwnd, int(str(pid)[8:-1]), buff.value)
                 self.opened_windows.append(wi)
-                # logging.debug(wi.to_string())
             return True
 
         ctypes.windll.user32.EnumWindows(enum_proc, 0)
@@ -497,34 +446,11 @@ class WindowConnectionWindows(WindowConnection):
             logging.error('Nothing to align - slave WID is None.')
 
 
-"""
+# TODO Invent some test
+# Run dialog as MasterWindow
+# Start webbrowser from it
 def test():
-    app = QtWidgets.QApplication(sys.argv) # create application
-
-    # Switch off logging
-    hh = logging.getLogger().handlers
-    logging.getLogger().handlers = []
-
-    s = settings.Settings(p)
-    f = gui.window.Factory(s, p.main_xml)
-    f.mw.run()
-
-    # Switch on logging
-    for h in hh:
-        logging.getLogger().addHandler(h)
-
-    wb = webbrowser.get()
-    cmd = wb.name
-    slave_title = wb.name
-    f.run_slave(cmd, slave_title)
-
-    wc = f.create_connection(_id=2)
-    wid2 = f.connections[2].wid2
-    msg = '{} {}'.format(slave_title, wid2)
-    print(msg)
-
-    app.exec() # execute application
-"""
+    pass
 
 # Run test
 if __name__ == '__main__':
@@ -533,8 +459,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.NOTSET, format=fmt)
     clean.screen()
 
-    # test()
+    test()
 
     clean.cache()
-    print('\nTotal {:.1f} seconds.\n'\
-        .format(time.perf_counter()-start)) # spent time
+    tests.log_time_delta(start)
