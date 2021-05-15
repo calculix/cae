@@ -124,7 +124,7 @@ class WindowConnection:
         try:
             return self.sw.process
         except:
-            logging.error('Can not get slave process.')
+            logging.warning('Can not get slave process.')
             return None
 
     def get_slave_wid(self):
@@ -455,6 +455,4 @@ def test():
 
 # Run test
 if __name__ == '__main__':
-    fmt = '%(levelname)s: %(message)s'
-    logging.basicConfig(level=logging.NOTSET, format=fmt)
     test()

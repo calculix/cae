@@ -184,6 +184,8 @@ def test_wrapper():
     def wrap(method):
         def fcn():
             start = time.perf_counter()
+            fmt = '%(levelname)s: %(message)s'
+            logging.basicConfig(level=logging.NOTSET, format=fmt)
             clean.screen()
             method()
             clean.cache()

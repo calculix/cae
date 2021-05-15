@@ -90,9 +90,15 @@ class Factory:
         self.sw = None # slave window
         self.stdout_readers = [] # for slave window
         args = [None, None]
+        if os.name == 'nt':
+            wc1 = gui.connection.WindowConnectionWindows(*args)
+            wc2 = gui.connection.WindowConnectionWindows(*args)
+        else:
+            wc1 = gui.connection.WindowConnectionLinux(*args)
+            wc2 = gui.connection.WindowConnectionLinux(*args)
         self.connections = {
-            1:gui.connection.WindowConnection(*args), # Main Window + CGX
-            2:gui.connection.WindowConnection(*args), # Dialog + web browser
+            1:wc1, # Main Window + CGX
+            2:wc2, # Dialog + web browser
             }
 
         # Caller fuction name: cgx.open_inp | cgx.open_frd | other
@@ -268,11 +274,6 @@ def test_sendkeys():
     f = Factory(s)
     f.run_master(xml)
 
-    # Configure global logging level
-    logging.getLogger().setLevel(s.logging_level)
-    fmt = '%(levelname)s: %(message)s'
-    logging.basicConfig(format=fmt)
-
     # Map methods to GUI buttons
     if os.name == 'nt':
         cmd1 = 'notepad.exe'
@@ -306,5 +307,4 @@ def test_sendkeys():
 
 # Run test
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.NOTSET, format='%(message)s')
     test_sendkeys()

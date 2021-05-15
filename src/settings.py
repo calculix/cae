@@ -157,7 +157,6 @@ class SettingsDialog(QtWidgets.QDialog):
 
 @tests.test_wrapper()
 def test():
-    logging.basicConfig(level=0, format='%(message)s')
 
     # Create application
     app = QtWidgets.QApplication(sys.argv)
@@ -169,7 +168,4 @@ def test():
 
 # Run test
 if __name__ == '__main__':
-    # clean.screen()
     test()
-    # # Clean cached files
-    # clean.cache(p.src)

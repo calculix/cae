@@ -365,8 +365,4 @@ def test():
 
 # Run test
 if __name__ == '__main__':
-    # TODO What to do with test logging?
-    fmt = '%(levelname)s: %(message)s'
-    logging.basicConfig(level=logging.NOTSET, format=fmt)
-
     test()

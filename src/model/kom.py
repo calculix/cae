@@ -353,7 +353,6 @@ def test():
     # from pycallgraph.output import GraphvizOutput
 
     p = path.Path()
-    logging.basicConfig(level=0, format='%(message)s')
 
     # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
     # config = Config()
