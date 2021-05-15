@@ -10,6 +10,7 @@ Methods to work with main window's treeView widget. """
 import re
 import os
 import logging
+import time
 
 # External modules
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -18,6 +19,9 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 import gui
 import model
 from model.kom import ItemType, Implementation
+import clean
+import tests
+
 
 class Tree:
 
@@ -352,3 +356,20 @@ class Tree:
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
         if item:
             item.expanded = False
+
+
+# TODO Invent some test
+def test():
+    pass
+
+# Run test
+if __name__ == '__main__':
+    start = time.perf_counter() # start time
+    fmt = '%(levelname)s: %(message)s'
+    logging.basicConfig(level=logging.NOTSET, format=fmt)
+    clean.screen()
+
+    test()
+
+    clean.cache()
+    tests.log_time_delta(start)
