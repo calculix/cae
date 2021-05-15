@@ -116,7 +116,8 @@ class Check:
     # Get default web browser
     def check_default_web_browser(self):
         wb = webbrowser.get()
-        logging.info('Default web browser is {}.'.format(wb.name))
+        msg = 'Default web browser is {}.'.format(wb.name)
+        logging.info(msg)
 
     # Check each package from requirements.txt
     def check_requirements(self):

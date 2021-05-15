@@ -170,7 +170,7 @@ class StdoutReader:
                 time.sleep(0.03) # CAE dies during fast logging
             else:
                 # Here we get if CGX is closed
-                logging.info('END')
+                logging.debug('END')
                 break
 
         # Exit from function crashes app on textEdit scrolling!
