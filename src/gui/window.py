@@ -32,22 +32,18 @@ if os.name == 'nt':
 from PyQt5 import QtWidgets, uic
 
 # My modules
-try:
-    import gui
-    import gui.connection
-except:
-    sys_path = os.path.abspath(__file__)
-    sys_path = os.path.dirname(sys_path)
-    sys_path = os.path.join(sys_path, '..')
-    sys_path = os.path.normpath(sys_path)
-    sys_path = os.path.realpath(sys_path)
-    if sys_path not in sys.path:
-        sys.path.insert(0, sys_path)
-    import clean
-    import gui
-    import gui.connection
-    import path
-    import settings
+sys_path = os.path.abspath(__file__)
+sys_path = os.path.dirname(sys_path)
+sys_path = os.path.join(sys_path, '..')
+sys_path = os.path.normpath(sys_path)
+sys_path = os.path.realpath(sys_path)
+if sys_path not in sys.path:
+    sys.path.insert(0, sys_path)
+import tests
+import gui
+import gui.connection
+import path
+import settings
 
 # Common wrapper for MasterWindow/SlaveWindow __init__() method
 def init_wrapper():
@@ -259,6 +255,7 @@ def get_new_windows_infos(opened_windows_before, opened_windows_after):
     return new_windows_infos
 
 # Keycodes sending to text editor and CGX
+@tests.test_wrapper()
 def test_sendkeys():
     p = path.Path()
     s = settings.Settings(p)
@@ -310,6 +307,4 @@ def test_sendkeys():
 # Run test
 if __name__ == '__main__':
     logging.basicConfig(level=logging.NOTSET, format='%(message)s')
-    clean.screen()
     test_sendkeys()
-    clean.cache()

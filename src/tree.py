@@ -359,17 +359,14 @@ class Tree:
 
 
 # TODO Invent some test
+@tests.test_wrapper()
 def test():
     pass
 
 # Run test
 if __name__ == '__main__':
-    start = time.perf_counter() # start time
+    # TODO What to do with test logging?
     fmt = '%(levelname)s: %(message)s'
     logging.basicConfig(level=logging.NOTSET, format=fmt)
-    clean.screen()
 
     test()
-
-    clean.cache()
-    tests.log_time_delta(start)

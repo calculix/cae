@@ -4,17 +4,19 @@
 """ © Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-A tool to prepare new release of CrunchiX HTML help pages """
+A tool to prepare new release of CrunchiX HTML help pages.
+Extract official documentation into /doc/ folder, 
+then run prepare_documentation() method. """
 
 # Standard modules
 import os
 import re
 
 # My modules
-import clean
 import path
 import settings
-from model import kom
+import model
+import tests
 
 # Open 'ccx.html',
 # find link to keyword's help page
@@ -64,6 +66,7 @@ def regenerate_documentation(p, KOM):
         save_html(p.doc, keyword_name, url)
         print(keyword_name, url)
 
+# Deletes unneeded html files
 def remove_html_trash(p, KOM):
     rm_list = ('ccx', 'footnode', 'index', 'node')
     for file_name in os.listdir(p.doc):
@@ -73,7 +76,8 @@ def remove_html_trash(p, KOM):
             print(file_name)
             os.remove(file_name)
 
-def remove_png_trash():
+# Deletes unneeded images
+def remove_png_trash(p):
 
     # Read contents of all HTML files in doc directory
     lines = []
@@ -103,7 +107,21 @@ def remove_png_trash():
                 # print(file_name)
                 os.remove(file_name)
 
-def check(p, KOM):
+def prepare_documentation():
+    p = path.Path()
+    s = settings.Settings(p)
+    KOM = model.kom.KOM(p, s)
+    regenerate_documentation(p, KOM)
+    remove_html_trash(p, KOM)
+    remove_png_trash(p)
+
+# Checks if HTML pages are generated for all keywords
+@tests.test_wrapper()
+def test():
+    p = path.Path()
+    s = settings.Settings(p)
+    KOM = model.kom.KOM(p, s)
+
     keywords = [re.sub(r'[ -]', '_', kw.name[1:]) for kw in KOM.keywords]
     keywords = sorted(set(keywords))
     # print(keywords)
@@ -121,11 +139,5 @@ def check(p, KOM):
 
 # Run test
 if __name__ == '__main__':
-    clean.screen()
-    p = path.Path()
-    s = settings.Settings(p)
-    KOM = kom.KOM(p, s)
-    # regenerate_documentation(p, KOM)
-    # remove_html_trash(p, KOM)
-    # remove_png_trash()
-    # check(p, KOM)
+    test()
+    # prepare_documentation()

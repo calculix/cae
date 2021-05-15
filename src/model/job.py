@@ -31,6 +31,7 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import gui
+import tests
 
 class Job:
 
@@ -279,24 +280,29 @@ def path2cygwin(path):
             path[0].lower() + \
             path[2:].replace('\\', '/')
 
+# TODO Invent some test
+@tests.test_wrapper()
+def test():
+    pass
+
+    # # Configure logging
+    # logging.log = print
+    # logging.debug = print
+    # logging.info = print
+    # logging.warning = print
+
+    # s = Settings()
+
+    # # Create job
+    # j = Job(...)
+
+    # # Rebuild CCX
+    # j.rebuildCCX()
+
+    # # Remove cached files
+    # import clean
+    # clean.cache()
 
 # Run test
-# if __name__ == '__main__':
-
-#     # Configure logging
-#     logging.log = print
-#     logging.debug = print
-#     logging.info = print
-#     logging.warning = print
-
-#     s = Settings()
-
-#     # Create job
-#     j = Job(...)
-
-#     # Rebuild CCX
-#     j.rebuildCCX()
-
-#     # Remove cached files
-#     import clean
-#     clean.cache()
+if __name__ == '__main__':
+    test()

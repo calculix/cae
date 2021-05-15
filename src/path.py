@@ -7,6 +7,7 @@ Distributed under GNU General Public License v3.0
 Absolute paths to the application's main folders. """
 
 import os
+import tests
 
 
 class Path:
@@ -67,10 +68,8 @@ class Path:
 
 
 # Test all paths in the class
+@tests.test_wrapper()
 def test():
-    import clean
-
-    clean.screen()
     p = Path()
     for attr in dir(p):
         a = getattr(p, attr)

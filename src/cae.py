@@ -20,7 +20,7 @@ clean.screen()
 
 # Run some important checks before start
 import tests
-tests.run()
+tests.run_startup_tests()
 
 # Standard modules
 import os

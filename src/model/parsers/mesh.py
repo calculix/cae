@@ -29,7 +29,6 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import importer
-import clean
 import tests
 
 """
@@ -901,9 +900,9 @@ class SURFACE:
 
 # Run test
 # Test mesh parser on all CalculiX examples
+@tests.test_wrapper()
 def test():
     os.chdir(os.path.dirname(__file__))
-    start_time = time.perf_counter()
     print = tests.print
 
     # Prepare logging
@@ -927,11 +926,5 @@ def test():
         # Parse mesh
         m = Mesh(ifile=file_name)
 
-    print(log_file, '\nTotal {:.1f} seconds.'
-        .format(time.perf_counter() - start_time))
-
-
 if __name__ == '__main__':
-    clean.screen()
     test()
-    clean.cache()

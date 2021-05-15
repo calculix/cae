@@ -33,6 +33,7 @@ from PyQt5 import QtWidgets
 # My modules
 import model
 import gui
+import tests
 
 
 # Keyword block
@@ -236,9 +237,8 @@ def read_lines(INP_file):
 
     return lines
 
-
-# Run test
 # Test importer on all CalculiX examples
+@tests.test_wrapper()
 def test():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
     start_time = time.perf_counter()
@@ -288,15 +288,9 @@ def test():
             print(log_file, log_contents)
     log_capture_string.close()
 
-    msg = '\n{} INP files. Total time {}.'
-    delta = tests.get_time_delta(start_time)
-    print(log_file, msg.format(len(examples), delta))
+    msg = '\n{} INP files.'
+    print(log_file, msg.format(len(examples)))
 
-
+# Run test
 if __name__ == '__main__':
-    import clean
-    import tests
-
-    clean.screen()
     test()
-    clean.cache()

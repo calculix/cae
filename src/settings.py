@@ -18,7 +18,7 @@ from PyQt5 import QtWidgets, uic
 
 # My modules
 import path
-import clean
+import tests
 
 
 # Session settings object used everywhere in the code
@@ -155,9 +155,8 @@ class SettingsDialog(QtWidgets.QDialog):
             path_edit.setText(file_name)
 
 
-# Run test
-if __name__ == '__main__':
-    clean.screen()
+@tests.test_wrapper()
+def test():
     logging.basicConfig(level=0, format='%(message)s')
 
     # Create application
@@ -168,5 +167,9 @@ if __name__ == '__main__':
     s = Settings(p)
     s.open()
 
-    # Clean cached files
-    clean.cache(p.src)
+# Run test
+if __name__ == '__main__':
+    # clean.screen()
+    test()
+    # # Clean cached files
+    # clean.cache(p.src)

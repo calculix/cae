@@ -344,17 +344,14 @@ class Implementation(Item):
             # logging.debug(' > '.join(self.get_path()))
 
 
-# Run test
-if __name__ == '__main__':
+# Test all CalculiX keywords 
+@tests.test_wrapper()
+def test():
     # from pycallgraph import PyCallGraph
     # from pycallgraph import Config
     # from pycallgraph import GlobbingFilter
     # from pycallgraph.output import GraphvizOutput
 
-    # Clean screen
-    clean.screen()
-
-    start = time.perf_counter() # start time
     p = path.Path()
     logging.basicConfig(level=0, format='%(message)s')
 
@@ -375,4 +372,6 @@ if __name__ == '__main__':
     # Test KOM
     # k.test()
 
-    tests.log_time_delta(start)
+# Run test
+if __name__ == '__main__':
+    test()

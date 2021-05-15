@@ -21,7 +21,6 @@ import subprocess
 import webbrowser
 
 # My modules
-import path
 import clean
 
 
@@ -173,19 +172,34 @@ class Check:
         self.check_requirements() # containts SystemExit
 
 
-def run():
+# Tests running before the app start
+def run_startup_tests():
     ch = Check()
     ch.start_logging()
     ch.check_all()
     ch.stop_logging()
 
-if __name__ == '__main__':
-    start = time.perf_counter()
-    clean.screen()
+# Common wrapper for test() method in different modules
+def test_wrapper():
+    def wrap(method):
+        def fcn():
+            start = time.perf_counter()
+            clean.screen()
+            method()
+            clean.cache()
+            log_time_delta(start)
+        return fcn
+    return wrap
+
+# Run some checks
+@test_wrapper()
+def test():
     ch = Check()
     ch.start_logging()
     ch.check_all()
     ch.check_package('qwe')
     ok = ch.check_required_package('rty')
-    clean.cache()
-    log_time_delta(start)
+
+# Run test
+if __name__ == '__main__':
+    test()

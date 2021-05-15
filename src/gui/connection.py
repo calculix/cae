@@ -449,17 +449,12 @@ class WindowConnectionWindows(WindowConnection):
 # TODO Invent some test
 # Run dialog as MasterWindow
 # Start webbrowser from it
+@tests.test_wrapper()
 def test():
     pass
 
 # Run test
 if __name__ == '__main__':
-    start = time.perf_counter() # start time
     fmt = '%(levelname)s: %(message)s'
     logging.basicConfig(level=logging.NOTSET, format=fmt)
-    clean.screen()
-
     test()
-
-    clean.cache()
-    tests.log_time_delta(start)
