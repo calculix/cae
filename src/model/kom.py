@@ -26,8 +26,11 @@ sys_path = os.path.dirname(sys_path)
 sys_path = os.path.join(sys_path, '..')
 sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
-sys.path.insert(0, sys_path)
+if sys_path not in sys.path:
+    sys.path.insert(0, sys_path)
 import clean
+import path
+import tests
 
 
 # Keyword Object Model
@@ -176,6 +179,7 @@ class ItemType(Enum):
 
 # Needed for inheritance by further classes
 class Item:
+    # TODO What's the fuck if it?
     itype = ''              # item's type: group/keyword/argument/implementation
     name = ''               # name of item, string
     items = []              # list of children
@@ -350,8 +354,9 @@ if __name__ == '__main__':
     # Clean screen
     clean.screen()
 
-    logging.basicConfig(level=0, format='%(message)s')
     start = time.perf_counter() # start time
+    p = path.Path()
+    logging.basicConfig(level=0, format='%(message)s')
 
     # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
     # config = Config()
@@ -361,9 +366,7 @@ if __name__ == '__main__':
     # with PyCallGraph(output=graphviz, config=config):
 
     os.chdir(os.path.dirname(__file__))
-    k = KOM(None, None, kom_xml='../../config/kom.xml')
-    print('\nTotal {:.1e} seconds.\n'\
-        .format(time.perf_counter()-start)) # spent time
+    k = KOM(None, None, kom_xml=p.kom_xml)
 
     # Print all CalculiX keywords
     for kw in k.keyword_names:
@@ -371,3 +374,5 @@ if __name__ == '__main__':
 
     # Test KOM
     # k.test()
+
+    tests.log_time_delta(start)

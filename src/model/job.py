@@ -28,7 +28,8 @@ sys_path = os.path.dirname(sys_path)
 sys_path = os.path.join(sys_path, '..')
 sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
-sys.path.insert(0, sys_path)
+if sys_path not in sys.path:
+    sys.path.insert(0, sys_path)
 import gui
 
 class Job:
@@ -79,7 +80,7 @@ class Job:
         if file_name:
             with open(file_name, 'w') as f:
                 f.writelines(lines)
-            logging.info('Input written to:\n' + file_name)
+            logging.info('Input written to\n' + file_name)
             self.__init__(self.p, self.s, self.f,\
                 self.m, file_name[:-4] + '.inp')
 
