@@ -17,6 +17,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 
 # My modules
 import gui
+from gui import dialog
 import model
 from model.kom import ItemType, Implementation
 import clean
@@ -26,13 +27,12 @@ import tests
 class Tree:
 
     """
-    p - Path
     s - Settings
     f - Window Factory
     m - Model
     """
-    def __init__(self, p, s, f, m):
-        self.p = p
+    def __init__(self, s, f, m):
+        self.p = s.getp()
         self.s = s
         self.f = f
         self.m = m
@@ -112,53 +112,54 @@ class Tree:
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
 
         # Double click on GROUP doesn't create dialog
-        if item and item.itype in \
-            [ItemType.KEYWORD, ItemType.IMPLEMENTATION]:
+        allowed_types = [ItemType.KEYWORD, ItemType.IMPLEMENTATION]
+        if not item or item.itype not in allowed_types:
+            return
 
-            if item.active:
+        if not item.active:
+            kw_name = item.get_parent_keyword_name()
+            msg = 'Please, create {} first.'.format(kw_name)
+            logging.warning(msg)
+            return
 
-                # Create dialog window and pass item
-                d = gui.dialog.KeywordDialog(
-                    self.p, self.s, self.f, self.m.KOM, item)
+        # Exec dialog and recieve answer
+        f = gui.window.Factory(self.s)
 
-                # Process response from dialog window if user pressed 'OK'
-                if d.exec() == gui.dialog.KeywordDialog.Accepted:
+        # Process response from dialog window if user pressed 'OK'
+        if f.run_master_dialog(self.s, self.m.KOM, item): # 0 = cancel, 1 = ok
 
-                    # The generated piece of .inp code for the CalculiX input file
-                    inp_code = d.ok() # list of strings
+            # The generated piece of .inp code for the CalculiX input file
+            inp_code = f.mw.ok() # list of strings
 
-                    # Create implementation object for keyword
-                    if item.itype == ItemType.KEYWORD:
-                        impl = Implementation(self.s, item, inp_code) # create keyword's implementation
+            # Create implementation object for keyword
+            if item.itype == ItemType.KEYWORD:
+                impl = Implementation(self.s, item, inp_code) # create keyword's implementation
 
-                        # Regenerate tree_element's children
-                        tree_element.removeRows(0, tree_element.rowCount()) # remove all children
-                        self.addToTree(tree_element, item.get_implementations()) # add only implementations
+                # Regenerate tree_element's children
+                tree_element.removeRows(0, tree_element.rowCount()) # remove all children
+                self.addToTree(tree_element, item.get_implementations()) # add only implementations
 
-                        # Reparse mesh or constraints
-                        # self.m.Mesh.reparse(inp_code)
-                        reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=self.m.Mesh)
-                        self.m.Mesh.updateWith(reparsed)
-                        self.clicked() # rehighlight
+                # Reparse mesh or constraints
+                # self.m.Mesh.reparse(inp_code)
+                reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=self.m.Mesh)
+                self.m.Mesh.updateWith(reparsed)
+                self.clicked() # rehighlight
 
-                    # Replace implementation object with a new one
-                    elif item.itype == ItemType.IMPLEMENTATION:
-                        # Remove old one
-                        parent = tree_element.parent() # parent treeView item
-                        keyword = parent.data() # parent keyword for implementation
-                        keyword.items.remove(item) # remove implementation from keyword's items
+            # Replace implementation object with a new one
+            elif item.itype == ItemType.IMPLEMENTATION:
+                # Remove old one
+                parent = tree_element.parent() # parent treeView item
+                keyword = parent.data() # parent keyword for implementation
+                keyword.items.remove(item) # remove implementation from keyword's items
 
-                        # Add new one
-                        impl = Implementation(self.s, keyword, inp_code, name=item.name)
-                        tree_element.setData(impl)
+                # Add new one
+                impl = Implementation(self.s, keyword, inp_code, name=item.name)
+                tree_element.setData(impl)
 
-                        # Reparse mesh or constraints
-                        reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=self.m.Mesh)
-                        self.m.Mesh.updateWith(reparsed)
-                        self.clicked() # rehighlight
-
-            else:
-                logging.warning('Please, create ' + item.get_parent_keyword_name() + ' first.')
+                # Reparse mesh or constraints
+                reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=self.m.Mesh)
+                self.m.Mesh.updateWith(reparsed)
+                self.clicked() # rehighlight
 
     # Highlight node sets, element sets or surfaces
     def clicked(self):
@@ -166,9 +167,9 @@ class Tree:
         # Debug for Ctrl+Click
         if not len(self.f.mw.treeView.selectedIndexes()):
             return
-        
-        # Do not highlight when FRD is opened
-        if not 'open_inp' in self.f.mode:
+
+        # Highlight only when INP is opened
+        if not (self.p.path_cgx + ' -c ') in self.f.sw.cmd:
             return
 
         index = self.f.mw.treeView.selectedIndexes()[0] # selected item index
@@ -191,14 +192,14 @@ class Tree:
                 if match: # if there is NSET attribute
                     name = lead_line[match.start(1):match.end(1)] # node set name
                     if name in self.m.Mesh.nsets:
-                        self.f.connections[1].post('plot n ' + name)
+                        self.f.connection.post('plot n ' + name)
 
             elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
                 match = re.search('ELSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
                 if match: # if there is ELSET attribute
                     name = lead_line[match.start(1):match.end(1)] # element set name
                     if name in self.m.Mesh.elsets:
-                        self.f.connections[1].post('plot e ' + name)
+                        self.f.connection.post('plot e ' + name)
 
             elif ipn_up == '*SURFACE':
 
@@ -211,9 +212,9 @@ class Tree:
                 match = re.search('NAME\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
                 name = lead_line[match.start(1):match.end(1)] # surface name
                 if stype == 'ELEMENT':
-                    self.f.connections[1].post('plot f ' + name)
+                    self.f.connection.post('plot f ' + name)
                 elif stype=='NODE':
-                    self.f.connections[1].post('plot f ' + name)
+                    self.f.connection.post('plot f ' + name)
 
             # Highlight Loads & BC
             elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:

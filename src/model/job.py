@@ -36,8 +36,8 @@ import tests
 class Job:
 
     # Create job object
-    def __init__(self, p, s, f, m, file_name=''):
-        self.p = p
+    def __init__(self, s, f, m, file_name=''):
+        self.p = s.getp()
         self.s = s
         self.f = f
 
@@ -82,7 +82,7 @@ class Job:
             with open(file_name, 'w') as f:
                 f.writelines(lines)
             logging.info('Input written to\n' + file_name)
-            self.__init__(self.p, self.s, self.f,\
+            self.__init__(self.s, self.f,\
                 self.m, file_name[:-4] + '.inp')
 
             # Reopen CGX

@@ -191,7 +191,7 @@ Examples and training materials:
 - Menu Help: wiki, YouTube videos for beginners. 
 
 Python API:
-- Invent some kind of Python API. Possibly use [pycalculix](https://github.com/spacether/pycalculix) and [pyccx](https://github.com/drlukeparry/pyccx).
+- Invent some kind of Python API. Possibly use [pycalculix](https://github.com/spacether/pycalculix), [pyccx](https://github.com/drlukeparry/pyccx) and [pycgx](https://github.com/zagl/pycgx). Here are [pycgx examples](https://github.com/zagl/ccx-user).
 - Python code (*PYTHON keyword) in the INP_code for step repetition and other kind of model generation.
 - Martin Kraska: support the param.py parametrization mechanism.
 

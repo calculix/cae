@@ -68,8 +68,8 @@ class Block:
 
 class Importer:
 
-    def __init__(self, p, s, f, m, t, j):
-        self.p = p # path
+    def __init__(self, s, f, m, t, j):
+        self.p = s.getp() # path
         self.s = s # settings
         self.f = f # window factory
         if f is not None:
@@ -166,7 +166,7 @@ class Importer:
 
             # Rename job before tree regeneration
             # A new logger's handler is created here
-            self.j.__init__(self.p, self.s, self.f,
+            self.j.__init__(self.s, self.f,
                 self.m, file_name[:-4] + '.inp')
 
             self.f.stop_stdout_readers()
@@ -183,7 +183,7 @@ class Importer:
                 + self.j.name)
 
             # Generate new KOM without implementations
-            self.m.KOM = model.kom.KOM(self.p, self.s)
+            self.m.KOM = model.kom.KOM(self.s)
 
             # Get INP code and split it on blocks
             logging.info('Loading model\n{}'.format(self.j.inp))

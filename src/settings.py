@@ -19,6 +19,7 @@ from PyQt5 import QtWidgets, uic
 # My modules
 import path
 import tests
+import gui
 
 
 # Session settings object used everywhere in the code
@@ -57,6 +58,11 @@ class Settings:
             self.start_cgx_by_default = True
             self.align_windows = True
 
+    # Method is needed to avoid passing to all classes
+    # both Settings and Path as parameters
+    def getp(self):
+        return self.p
+
     # Open dialog window and pass settings
     def open(self):
         self.__init__(self.p) # re-read settings from file
@@ -81,18 +87,11 @@ class SettingsDialog(QtWidgets.QDialog):
     def __init__(self, p, settings=None):
         self.p = p
 
-        # Switch off logging
-        hh = logging.getLogger().handlers
-        logging.getLogger().handlers = []
-
-        # Load UI form
-        # Produces huge amount of redundant debug logs
-        QtWidgets.QDialog.__init__(self)
+        # Load UI form - produces huge amount of redundant debug logs
+        hh = gui.log.switch_off_logging()
+        super().__init__() # create dialog window
         uic.loadUi(self.p.settings_xml, self) # load default settings
-
-        # Switch on logging
-        for h in hh:
-            logging.getLogger().addHandler(h)
+        gui.log.switch_on_logging(hh)
 
         # Actions
         self.path_paraview_button.clicked.connect(

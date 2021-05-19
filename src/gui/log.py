@@ -93,12 +93,28 @@ class MyFileLoggingHandler(MyLoggingHandler):
             f.write(msg + '\n')
 
 
+# Switch off logging
+def switch_off_logging():
+    hh = logging.getLogger().handlers
+    logging.getLogger().handlers = []
+    return hh
+
+# Switch on logging
+def switch_on_logging(hh):
+    for h in hh:
+        logging.getLogger().addHandler(h)
+
 # Called only once on startup
 def add_text_handler(textEdit):
     logging.getLogger().handlers = []
     h = MyTextLoggingHandler(textEdit)
     logging.getLogger().addHandler(h)
 
+# TODO Revealed old bug - CAE dies on scrolling logs up.
+# TODO Only one thread have to write to textEdit.
+# TODO Into file can write several handlers at once - its OK. 
+def remove_text_handler():
+    pass
 
 # Called at each file import
 def add_file_handler(log_file):
@@ -108,6 +124,12 @@ def add_file_handler(log_file):
     logging.getLogger().addHandler(h)
     if os.path.exists(log_file):
         os.remove(log_file)
+
+# TODO Revealed old bug - CAE dies on scrolling logs up.
+# TODO Only one thread have to write to textEdit.
+# TODO Into file can write several handlers at once - its OK. 
+def remove_file_handler():
+    pass
 
 
 class StdoutReader:

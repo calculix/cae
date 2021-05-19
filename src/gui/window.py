@@ -80,12 +80,13 @@ def init_wrapper():
 
 
 """ Window factory class - used to create master and slave windows
-and bind/connect therm together. Logging facility as killing methods
+and bind/connect them together. Logging facility as killing methods
 for slave window are also maintained here. """
 class Factory:
 
     def __init__(self, s):
         self.s = s # global settings
+        self.p = s.getp() # Path
         self.mw = None # master window
         self.sw = None # slave window
         self.stdout_readers = [] # for slave window
@@ -96,40 +97,61 @@ class Factory:
         else:
             wc1 = gui.connection.WindowConnectionLinux(*args)
             wc2 = gui.connection.WindowConnectionLinux(*args)
-        self.connections = {
-            1:wc1, # Main Window + CGX
-            2:wc2, # Dialog + web browser
-            }
+        self.connection = None
 
-        # Caller fuction name: cgx.open_inp | cgx.open_frd | other
-        self.mode = None
-
+    # Draw window form described in xml UI file
     def run_master(self, xml):
         self.mw = MasterWindow(xml)
 
-    # Run slave process
-    # Close opened CGX (if any) and open a new one
-    # Get window ID, align windows and post to CGX
+    # Generate dialog window and show it
+    def run_master_dialog(self, s, k, i):
+        args = [s, k, i]
+        self.mw = gui.dialog.KeywordDialog(args) # one argument for init_wrapper()
+        
+        # Actions
+        self.mw.buttonBox.accepted.connect(self.mw.ok)
+        self.mw.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.mw.reset)
+        self.mw.buttonBox.helpRequested.connect(self.open_web_browser)
+
+        d = self.mw.exec()
+        self.kill_slave()
+        return d
+
+    # Open HTML help page in a default web browser
+    # TODO Opens Chrome and Firefox - check others
+    def open_web_browser(self):
+        url = self.mw.get_help_url()
+        if not os.path.isfile(url):
+            msg = 'Help page does not exist:\n{}'.format(
+                os.path.relpath(url, start=self.p.app_home_dir))
+            logging.error(msg)
+            return
+        wb = webbrowser.get()
+        cmd = wb.name + ' --new-window ' + url
+        logging.info('Going to\n' + url)
+        self.run_slave(cmd)
+        self.create_connection()
+
+    # Close opened slave window and open a new one
     def run_slave(self, cmd):
         self.kill_slave()
         self.sw = SlaveWindow(cmd)
 
         # Start stdout reading and logging thread
-        self.start_stdout_reader('read_cgx_stdout')
-
-        # Caller fuction name: open_inp, open_frd or other
-        self.mode = inspect.stack()[1].function
+        if self.p.path_cgx in cmd:
+            self.start_stdout_reader('read_cgx_stdout')
 
     # Kill all slave processes
+    # TODO Firefox process is being killed correctly, but window remains
     def kill_slave(self):
         if self.sw is None:
             return
         if self.sw.process is None:
             return
 
-        self.stop_stdout_readers()
+        if self.p.path_cgx in self.sw.cmd:
+            self.stop_stdout_readers()
 
-        # self.connections[1].wid2 = None
         count = 0
         while self.sw.process.poll() is None:
             try:
@@ -172,7 +194,7 @@ class Factory:
             time.sleep(1)
 
     # Connect master and slave windows and align them
-    def create_connection(self, _id):
+    def create_connection(self):
         if self.mw is None:
             logging.error('No master window.')
             return
@@ -182,14 +204,12 @@ class Factory:
 
         args = [self.mw, self.sw]
         if os.name == 'nt':
-            wc = gui.connection.WindowConnectionWindows(*args)
+            self.connection = gui.connection.WindowConnectionWindows(*args)
         else:
-            wc = gui.connection.WindowConnectionLinux(*args)
+            self.connection = gui.connection.WindowConnectionLinux(*args)
 
-        self.connections[_id] = wc
         if self.s.align_windows:
-            wc.align()
-        return wc
+            self.connection.align_windows()
 
 
 # Left window - main window of the app
@@ -198,10 +218,9 @@ class MasterWindow(QtWidgets.QMainWindow):
     # Load form and show the window
     @init_wrapper()
     def __init__(self, xml):
-        self.info = None
+        self.info = None # WindowInfo will be set in @init_wrapper
 
-        # QtWidgets.QMainWindow.__init__(self) # create main window
-        super(MasterWindow, self).__init__()
+        super().__init__() # create main window
         uic.loadUi(xml, self) # load form
 
         # Handler to show logs in the CAE's textEdit
@@ -226,6 +245,7 @@ class SlaveWindow:
     @init_wrapper()
     def __init__(self, cmd):
         self.info = None # WindowInfo will be set in @init_wrapper
+        self.cmd = cmd
         shell = (os.name == 'nt') # True or False
         self.process = subprocess.Popen(cmd.split(),
             stdin=subprocess.PIPE,
@@ -257,6 +277,8 @@ def get_new_windows_infos(opened_windows_before, opened_windows_after):
     if len(new_windows_infos) > 1:
         msg = 'Can\'t define slave WID: there is more than one newly opened window.'
         logging.error(msg)
+        for wi in new_windows_infos:
+            logging.debug(wi.to_string())
         raise SystemExit
     return new_windows_infos
 
@@ -290,16 +312,16 @@ def test_sendkeys():
                 logging.error(msg)
                 f.mw.b0.setDisabled(True)
     f.mw.b0.clicked.connect(lambda: f.run_slave(cmd1))
-    f.mw.b0.clicked.connect(lambda: f.create_connection(1))
+    f.mw.b0.clicked.connect(lambda: f.create_connection())
     f.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(p, f, s.start_model, 1))
-    f.mw.b2.clicked.connect(lambda: f.connections[1].post('plot n all'))
-    f.mw.b3.clicked.connect(lambda: f.connections[1].post('plot e all'))
-    f.mw.b4.clicked.connect(lambda: f.connections[1].post(f.mw.customEdit.text()))
+    f.mw.b2.clicked.connect(lambda: f.connection.post('plot n all'))
+    f.mw.b3.clicked.connect(lambda: f.connection.post('plot e all'))
+    f.mw.b4.clicked.connect(lambda: f.connection.post(f.mw.customEdit.text()))
     f.mw.b4.clicked.connect(lambda: f.mw.customEdit.clear())
     all_symbols = '!"#$%&\'()*+,-./1234567890:;<=>?@' \
         + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`' \
         + 'abcdefghijklmnopqrstuvwxyz{|}~'
-    f.mw.b5.clicked.connect(lambda: f.connections[1].post(all_symbols))
+    f.mw.b5.clicked.connect(lambda: f.connection.post(all_symbols))
 
     # Execute application + exit
     a = app.exec()

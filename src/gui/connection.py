@@ -89,7 +89,6 @@ def post_wrapper(wc):
 
 # Pair master and slave windows together
 # to align and enable keycodes sending
-# TODO Make possible to use QtWidgets.QDialog as master
 class WindowConnection:
 
     def __init__(self, mw, sw):
@@ -102,6 +101,7 @@ class WindowConnection:
 
         self.mw = mw # master window
         self.sw = sw # slave window
+        # TODO Do we need self.wid?
         self.wid1 = self.get_master_wid() # master window id
         self.wid2 = self.get_slave_wid() # slave window id
 
@@ -145,7 +145,7 @@ class WindowConnection:
 class WindowConnectionLinux(WindowConnection):
 
     def __init__(self, mw, sw):
-        super(WindowConnectionLinux, self).__init__(mw, sw)
+        super().__init__(mw, sw)
 
         self.d = display.Display()
         self.screen = self.d.screen()
@@ -284,7 +284,8 @@ class WindowConnectionLinux(WindowConnection):
 
     # Align CGX and browser windows
     # CAE window is already aligned in __init__()
-    def align(self):
+    # TODO Improve robustness - sometimes doesn't work correctly
+    def align_windows(self):
         # Align master
         self.mw.setGeometry(0, 0, math.floor(self.w/3), self.h)
         # if self.wid1 is not None:
@@ -318,7 +319,7 @@ class WindowConnectionLinux(WindowConnection):
 class WindowConnectionWindows(WindowConnection):
 
     def __init__(self, mw, sw):
-        super(WindowConnectionWindows, self).__init__(mw, sw)
+        super().__init__(mw, sw)
 
         # 0:lowercase, 1:shifted
         self.keyboardMapping = {
@@ -389,10 +390,12 @@ class WindowConnectionWindows(WindowConnection):
                 msg = 'Symbol {} is not supported.'.format(symbol)
                 logging.warning(msg)
 
+        # TODO Check if it's needed:
         ctypes.windll.user32.SetForegroundWindow(self.wid2)
         for symbol in cmd:
             time.sleep(0.001) # BUG doesn't work otherwise
             sendkey(symbol)
+        # TODO Check if it's needed:
         ctypes.windll.user32.SetForegroundWindow(self.wid1)
 
     def get_opened_windows(self):
@@ -419,7 +422,8 @@ class WindowConnectionWindows(WindowConnection):
     # Align CGX and browser windows
     # CAE window is already aligned
     # NOTE CGX 'wpos' and 'wsize' works worse than 'ctypes'
-    def align(self):
+    # TODO Improve robustness - sometimes doesn't work correctly
+    def align_windows(self):
 
         # Align master
         self.mw.setGeometry(0, 0, math.floor(self.w/3), self.h)

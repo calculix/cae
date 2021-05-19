@@ -81,10 +81,10 @@ f.run_master(p.main_xml)
 
 # Main block
 m = model.Model() # generate FEM model
-t = tree.Tree(p, s, f, m) # create treeView items based on KOM
-j = model.job.Job(p, s, f, m) # create job object
-i = importer.Importer(p, s, f, m, t, j) # prepare to import model
-actions.actions(p, s, f, m, t, j, i) # window actions
+t = tree.Tree(s, f, m) # create treeView items based on KOM
+j = model.job.Job(s, f, m) # create job object
+i = importer.Importer(s, f, m, t, j) # prepare to import model
+actions.actions(s, f, m, t, j, i) # window actions
 
 # Import default model
 if len(args.inp):
@@ -94,7 +94,7 @@ if len(args.inp):
 # Or start empty
 else:
     logging.warning('No default start model specified.')
-    m.KOM = model.kom.KOM(p, s)
+    m.KOM = model.kom.KOM(s)
     t.generateTreeView(m)
 
 logging.info('Started in {:.1f} seconds.\n'

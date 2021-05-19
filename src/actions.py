@@ -24,7 +24,8 @@ m - Model
 t - Tree
 j - Job
 """
-def actions(p, s, f, m, t, j, i):
+def actions(s, f, m, t, j, i):
+    p = s.getp()
     w = f.mw
     w.keyPressEvent = t.keyPressEvent
 
@@ -53,10 +54,10 @@ def actions(p, s, f, m, t, j, i):
         lambda: gui.cgx.paint_surfaces(f, m))
     w.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(p, f, j.inp, len(m.Mesh.nodes)))
     w.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(p, f, j.frd))
-    w.action_cgx_cmap_classic.triggered.connect(lambda: f.connections[1].post('cmap classic'))
-    w.action_cgx_cmap_inferno.triggered.connect(lambda: f.connections[1].post('cmap inferno'))
-    w.action_cgx_cmap_turbo.triggered.connect(lambda: f.connections[1].post('cmap turbo'))
-    w.action_cgx_cmap_viridis.triggered.connect(lambda: f.connections[1].post('cmap viridis'))
+    w.action_cgx_cmap_classic.triggered.connect(lambda: f.connection.post('cmap classic'))
+    w.action_cgx_cmap_inferno.triggered.connect(lambda: f.connection.post('cmap inferno'))
+    w.action_cgx_cmap_turbo.triggered.connect(lambda: f.connection.post('cmap turbo'))
+    w.action_cgx_cmap_viridis.triggered.connect(lambda: f.connection.post('cmap viridis'))
 
     # Help actions
     w.action_help_readme.triggered.connect(
@@ -74,13 +75,13 @@ def actions(p, s, f, m, t, j, i):
     w.treeView.collapsed.connect(t.treeViewCollapsed)
 
     # ToolBar actions
-    w.action_view_minus_x.triggered.connect(lambda: f.connections[1].post('rot -x'))
-    w.action_view_minus_y.triggered.connect(lambda: f.connections[1].post('rot -y'))
-    w.action_view_minus_z.triggered.connect(lambda: f.connections[1].post('rot -z'))
-    w.action_view_plus_x.triggered.connect(lambda: f.connections[1].post('rot x'))
-    w.action_view_plus_y.triggered.connect(lambda: f.connections[1].post('rot y'))
-    w.action_view_plus_z.triggered.connect(lambda: f.connections[1].post('rot z'))
-    w.action_view_frame.triggered.connect(lambda: f.connections[1].post('frame'))
+    w.action_view_minus_x.triggered.connect(lambda: f.connection.post('rot -x'))
+    w.action_view_minus_y.triggered.connect(lambda: f.connection.post('rot -y'))
+    w.action_view_minus_z.triggered.connect(lambda: f.connection.post('rot -z'))
+    w.action_view_plus_x.triggered.connect(lambda: f.connection.post('rot x'))
+    w.action_view_plus_y.triggered.connect(lambda: f.connection.post('rot y'))
+    w.action_view_plus_z.triggered.connect(lambda: f.connection.post('rot z'))
+    w.action_view_frame.triggered.connect(lambda: f.connection.post('frame'))
 
     # Workaround for iso view
     # Three rotation posts to CGX window doesn't work in Windows
@@ -90,11 +91,11 @@ def actions(p, s, f, m, t, j, i):
         if not os.path.isfile(file_name):
             logging.error('No config file cgx_iso.fbd')
             return
-        f.connections[1].post('read ' + file_name)
+        f.connection.post('read ' + file_name)
     w.action_view_iso.triggered.connect(action_view_iso)
-    w.action_view_line.triggered.connect(lambda: f.connections[1].post('view elem off'))
-    w.action_view_line.triggered.connect(lambda: f.connections[1].post('view line'))
-    w.action_view_fill.triggered.connect(lambda: f.connections[1].post('view elem off'))
-    w.action_view_fill.triggered.connect(lambda: f.connections[1].post('view fill'))
-    w.action_view_elem.triggered.connect(lambda: f.connections[1].post('view fill'))
-    w.action_view_elem.triggered.connect(lambda: f.connections[1].post('view elem'))
+    w.action_view_line.triggered.connect(lambda: f.connection.post('view elem off'))
+    w.action_view_line.triggered.connect(lambda: f.connection.post('view line'))
+    w.action_view_fill.triggered.connect(lambda: f.connection.post('view elem off'))
+    w.action_view_fill.triggered.connect(lambda: f.connection.post('view fill'))
+    w.action_view_elem.triggered.connect(lambda: f.connection.post('view fill'))
+    w.action_view_elem.triggered.connect(lambda: f.connection.post('view elem'))

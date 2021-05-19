@@ -110,7 +110,7 @@ def remove_png_trash(p):
 def prepare_documentation():
     p = path.Path()
     s = settings.Settings(p)
-    KOM = model.kom.KOM(p, s)
+    KOM = model.kom.KOM(s)
     regenerate_documentation(p, KOM)
     remove_html_trash(p, KOM)
     remove_png_trash(p)
@@ -120,7 +120,7 @@ def prepare_documentation():
 def test():
     p = path.Path()
     s = settings.Settings(p)
-    KOM = model.kom.KOM(p, s)
+    KOM = model.kom.KOM(s)
 
     keywords = [re.sub(r'[ -]', '_', kw.name[1:]) for kw in KOM.keywords]
     keywords = sorted(set(keywords))

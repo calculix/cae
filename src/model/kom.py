@@ -37,7 +37,7 @@ import tests
 class KOM:
 
     # Read CalculiX keywords hierarchy
-    def __init__(self, p=None, s=None, kom_xml=None):
+    def __init__(self, s=None, kom_xml=None):
         self.s = s # could be None
 
         # List of all existing keywords
@@ -48,7 +48,8 @@ class KOM:
         self.root = Group(self.s)
 
         try:
-            if p is not None:
+            if s is not None:
+                p = s.getp()
                 kom_xml = p.kom_xml
             if kom_xml is None:
                 raise Exception
@@ -179,12 +180,13 @@ class ItemType(Enum):
 
 # Needed for inheritance by further classes
 class Item:
-    # TODO What's the fuck if it?
-    itype = ''              # item's type: group/keyword/argument/implementation
-    name = ''               # name of item, string
-    items = []              # list of children
-    parent = None           # item's parent item
-    active = False
+
+    def __init__(self):
+        self.itype = ''      # item's type: group/keyword/argument/implementation
+        self.name = ''       # name of item, string
+        self.items = []      # list of children
+        self.parent = None   # item's parent item
+        self.active = False
 
     # Define if item is active
     def is_active(self):
@@ -272,6 +274,8 @@ class Item:
 class Group(Item):
 
     def __init__(self, s):
+        super().__init__()
+
         self.itype = ItemType.GROUP
         self.items = [] # list of groups and keywords
         self.name = 'Model' # default name (root group)
@@ -285,6 +289,8 @@ class Group(Item):
 class Keyword(Item):
 
     def __init__(self, s):
+        super().__init__()
+
         self.itype = ItemType.KEYWORD
         self.items = [] # list of arguments
         self.name = ''
@@ -299,6 +305,8 @@ class Keyword(Item):
 class Argument(Item):
 
     def __init__(self, s):
+        super().__init__()
+
         self.itype = ItemType.ARGUMENT
         self.items = [] # list of strings
         self.name = ''
@@ -310,6 +318,8 @@ class Argument(Item):
 class Implementation(Item):
 
     def __init__(self, s, keyword, inp_code, name=None):
+        super().__init__()
+
         self.itype = ItemType.IMPLEMENTATION
         keyword.copy_items_to(self)
         self.parent = keyword

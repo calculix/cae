@@ -8,8 +8,9 @@ Parses finite element mesh from the CalculiX .inp-file.
 Reads nodes coordinates, elements composition,
 node and element sets and surfaces """
 
-# TODO possible comments and empty lines
-# TODO parse mesh from INCLUDEs
+# TODO Possible comments and empty lines
+# TODO Parse mesh from INCLUDEs
+# TODO Newly created elset is not highlighted
 
 # Standard modules
 import os

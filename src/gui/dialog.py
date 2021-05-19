@@ -6,72 +6,63 @@ Distributed under GNU General Public License v3.0
 
 Dialog window to create/edit keyword's implementation.
 Called via double click on keyword in the treeView.
-Here we define a keyword's implementation: its name and inp_code. """
+Here we define a keyword's implementation: its name and inp_code.
+It is created via Factory class, run_master_dialog() method.
+So this dialog is a master, help webbrowser is a slave. """
 
 # Standard modules
 import os
 import sys
 import re
 import math
-import time
 import logging
-import webbrowser
 
 # External modules
-try:
-    from PyQt5 import QtWidgets, uic, QtCore, QtGui
-except:
-    msg = 'Please, install PyQt5 with command:\n'\
-        + 'pip3 install PyQt5'
-    sys.exit(msg)
+from PyQt5 import QtWidgets, uic, QtCore, QtGui
 
 # My modules
-try:
-    from model.kom import ItemType
-    import gui
-except:
-    sys_path = os.path.abspath(__file__)
-    sys_path = os.path.dirname(sys_path)
-    sys_path = os.path.join(sys_path, '..')
-    sys_path = os.path.normpath(sys_path)
-    sys_path = os.path.realpath(sys_path)
+sys_path = os.path.abspath(__file__)
+sys_path = os.path.dirname(sys_path)
+sys_path = os.path.join(sys_path, '..')
+sys_path = os.path.normpath(sys_path)
+sys_path = os.path.realpath(sys_path)
+if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-    import clean
-    import tests
-    import gui
+import tests
+import path
+import settings
+import tests
+import gui
+from model.kom import ItemType, KOM
 
 
 class KeywordDialog(QtWidgets.QDialog):
 
-    """
-    p - Path
-    s - Settings
-    f - Window Factory
-    """
-    def __init__(self, p, s, f, KOM, item):
-        self.p = p
-        self.s = s
-        self.f = f
-        self.mw = f.mw
-        self.item = item # needed to pass to other functions
+    # Load form and show the dialog
+    @gui.window.init_wrapper()
+    def __init__(self, args):
+        self.info = None # WindowInfo will be set in @init_wrapper
+        self.s = args[0]
+        self.p = self.s.getp() # Path
+        KOM = args[1]
+        self.item = args[2] # needed to pass to other functions
         self.widgets = [] # list of created widgets
 
-        # Switch off logging
-        hh = logging.getLogger().handlers
-        logging.getLogger().handlers = []
-
-        # Create dialog, load form and align window
-        super(KeywordDialog, self).__init__()
-        uic.loadUi(self.p.dialog_xml, self)
+        # Load UI form - produces huge amount of redundant debug logs
+        hh = gui.log.switch_off_logging()
+        super().__init__() # create dialog window
+        uic.loadUi(self.p.dialog_xml, self) # load empty dialog form
+        gui.log.switch_on_logging(hh)
 
         # Switch on logging
         for h in hh:
             logging.getLogger().addHandler(h)
 
+        # Align dialog
         if self.s.align_windows:
             size = QtWidgets.QDesktopWidget().availableGeometry()
             # TODO check this bug in Windows 10
-            if os.name=='nt': # just bug with window border padding
+            if os.name == 'nt': # just bug with window border padding
                 width = math.floor(size.width() / 3) - 22
                 height = size.height() - 55
             else:
@@ -80,7 +71,7 @@ class KeywordDialog(QtWidgets.QDialog):
             self.setGeometry(0, 0, width, height)
 
         # Add window icon (different for each keyword)
-        icon_name = item.name.replace('*', '') + '.png'
+        icon_name = self.item.name.replace('*', '') + '.png'
         icon_name = icon_name.replace(' ', '_')
         icon_name = icon_name.replace('-', '_')
         icon_path = os.path.join(self.p.img, 'icon_' + icon_name.lower())
@@ -204,10 +195,7 @@ class KeywordDialog(QtWidgets.QDialog):
             for line in self.item.inp_code:
                 self.textEdit.append(line)
 
-        # Actions
-        self.buttonBox.accepted.connect(self.ok)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.reset)
-        self.buttonBox.helpRequested.connect(self.help)
+        self.show()
 
     # Update piece of INP-code in the textEdit widget
     def change(self, event):
@@ -270,25 +258,11 @@ class KeywordDialog(QtWidgets.QDialog):
 
     # Return piece of created code for the .inp-file
     def ok(self):
-        super(KeywordDialog, self).accept()
+        super().accept()
         return self.textEdit.toPlainText().strip().split('\n')
 
-    # Open HTML help page in a default web browser
-    # TODO Works with Chrome and Firefox - check others
-    def help(self):
-        url = self.get_url_from_keyword()
-        if not os.path.isfile(url):
-            msg = 'Help page does not exist:\n{}'.format(
-                os.path.relpath(url, start=self.p.app_home_dir))
-            logging.error(msg)
-            return
-        wb = webbrowser.get()
-        cmd = wb.name + ' --new-window ' + url
-        self.f.run_slave(cmd)
-        self.f.create_connection(2)
-
-    # Get URL to the local help page
-    def get_url_from_keyword(self):
+    # Get URL to the local doc page
+    def get_help_url(self):
         if self.item.itype == ItemType.KEYWORD:
             keyword_name = self.item.name[1:] # cut star
         if self.item.itype == ItemType.IMPLEMENTATION:
@@ -300,14 +274,22 @@ class KeywordDialog(QtWidgets.QDialog):
         return url
 
 
-# TODO Invent some test
+# Run dialog as MasterWindow
+# Start webbrowser from it
+@tests.test_wrapper()
 def test():
-    pass
+    app = QtWidgets.QApplication(sys.argv)
+    p = path.Path()
+    s = settings.Settings(p)
+    f = gui.window.Factory(s)
+    k = KOM(s, kom_xml=p.kom_xml)
+    i = k.get_keyword_by_name('*NODE')
+
+    # Create and show dialog window
+    d = f.run_master_dialog(s, k, i) # 0 = cancel, 1 = ok
+    print(d)
+
 
 # Run test
 if __name__ == '__main__':
-    start_time = time.perf_counter()
-    clean.screen()
     test()
-    clean.cache()
-    tests.log_time_delta(start_time)

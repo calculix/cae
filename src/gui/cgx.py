@@ -21,32 +21,46 @@ import logging
                 break
         if len(elsets) > 1:
             for elset in elsets:
-                f.connections[1].post('plus e {} {}'.format(elset, colors[i]))
+                f.connection.post('plus e {} {}'.format(elset, colors[i]))
                 i = (i + 1) % len(colors)
 """
 
 # Paint element sets in CGX
 def paint_elsets(f, m):
-    f.connections[1].post('plot e all')
-    f.connections[1].post('minus e all')
+
+    # Paint only when INP is opened
+    if not (f.p.path_cgx + ' -c ') in f.sw.cmd:
+        msg = 'Please, open INP model to paint elsets.'
+        logging.warning(msg)
+        return
+
+    f.connection.post('plot e all')
+    f.connection.post('minus e all')
     elsets = [e.name for e in m.Mesh.elsets.values()]
     i = 0
     for elset in elsets:
         if elset.upper() == 'ALL':
             continue
-        f.connections[1].post('plus e {} blue{}'.format(elset, i))
+        f.connection.post('plus e {} blue{}'.format(elset, i))
         i = (i + 1) % 5
 
 # Paint surfaces in CGX
 def paint_surfaces(f, m):
-    f.connections[1].post('plot e all')
-    f.connections[1].post('minus e all')
+
+    # Paint only when INP is opened
+    if not (f.p.path_cgx + ' -c ') in f.sw.cmd:
+        msg = 'Please, open INP model to paint surfaces.'
+        logging.warning(msg)
+        return
+
+    f.connection.post('plot e all')
+    f.connection.post('minus e all')
     surfaces = [s.name for s in m.Mesh.surfaces.values()]
     i = 0
     for surf in surfaces:
         if surf.upper() == 'ALL':
             continue
-        f.connections[1].post('plus f {} pink{}'.format(surf, i))
+        f.connection.post('plus f {} pink{}'.format(surf, i))
         i = (i + 1) % 5
 
 # Open INP model in GraphiX
@@ -62,7 +76,7 @@ def open_inp(p, f, inp_file, has_nodes=0):
             return
         cmd = p.path_cgx + ' -c ' + inp_file
         f.run_slave(cmd)
-        f.create_connection(1)
+        f.create_connection()
         read_fbd_file(p, f, 'cgx_start.fbd')
         read_fbd_file(p, f, 'cgx_iso.fbd')
         read_fbd_file(p, f, 'cgx_colors.fbd')
@@ -78,7 +92,7 @@ def open_frd(p, f, frd_file):
     if os.path.isfile(frd_file):
         cmd = p.path_cgx + ' -o ' + frd_file
         f.run_slave(cmd)
-        f.create_connection(1)
+        f.create_connection()
         read_fbd_file(p, f, 'cgx_start.fbd')
         read_fbd_file(p, f, 'cgx_iso.fbd')
     else:
@@ -89,6 +103,6 @@ def open_frd(p, f, frd_file):
 def read_fbd_file(p, f, basename):
     file_name = os.path.join(p.config, basename)
     if os.path.isfile(file_name):
-        f.connections[1].post('read ' + file_name)
+        f.connection.post('read ' + file_name)
     else:
         logging.error('No config file ' + basename)

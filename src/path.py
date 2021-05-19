@@ -4,7 +4,9 @@
 """ © Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Absolute paths to the application's main folders. """
+Absolute paths to the application's main folders.
+Static class whos fields shouldn't change on the run.
+It's initialized on the app start - and that's all. """
 
 import os
 import tests
