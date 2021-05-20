@@ -87,7 +87,6 @@ def open_inp(p, f, inp_file, has_nodes=0):
             return
         cmd = p.path_cgx + ' -c ' + inp_file
         f.run_slave(cmd)
-        f.create_connection()
         read_fbd_file(p, f, 'cgx_start.fbd')
         read_fbd_file(p, f, 'cgx_iso.fbd')
         read_fbd_file(p, f, 'cgx_colors.fbd')
@@ -103,7 +102,6 @@ def open_frd(p, f, frd_file):
     if os.path.isfile(frd_file):
         cmd = p.path_cgx + ' -o ' + frd_file
         f.run_slave(cmd)
-        f.create_connection()
         read_fbd_file(p, f, 'cgx_start.fbd')
         read_fbd_file(p, f, 'cgx_iso.fbd')
     else:

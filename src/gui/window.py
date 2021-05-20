@@ -70,7 +70,7 @@ def init_wrapper():
                     wi.pid = self.process.pid
                 except:
                     pass # MasterWindow has no process variable
-                msg = wi.to_string()
+                msg = 'Starting new window:\n' + wi.to_string()
                 logging.debug(msg)
                 self.info = wi
 
@@ -129,12 +129,12 @@ class Factory:
         cmd = wb.name + ' --new-window ' + url
         logging.info('Going to\n' + url)
         self.run_slave(cmd)
-        self.create_connection()
 
     # Close opened slave window and open a new one
     def run_slave(self, cmd):
         self.kill_slave()
         self.sw = SlaveWindow(cmd)
+        self.create_connection()
 
         # Start stdout reading and logging thread
         if self.p.path_cgx in cmd:
@@ -177,9 +177,13 @@ class Factory:
 
     # Start stdout reading and logging thread
     def start_stdout_reader(self, aim):
-        sr = gui.log.CgxStdoutReader(self.sw.process.stdout, aim, self)
-        self.stdout_readers.append(sr)
-        sr.start()
+        if self.connection is not None:
+            sr = gui.log.CgxStdoutReader(self.sw.process.stdout, aim, True, self.connection)
+            self.stdout_readers.append(sr)
+            sr.start()
+        else:
+            msg = 'Window connection not established.'
+            logging.error(msg)
 
     # Kill logging threads
     def stop_stdout_readers(self):
@@ -314,7 +318,6 @@ def test_sendkeys():
                 logging.error(msg)
                 f.mw.b0.setDisabled(True)
     f.mw.b0.clicked.connect(lambda: f.run_slave(cmd1))
-    f.mw.b0.clicked.connect(lambda: f.create_connection())
     f.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(p, f, s.start_model, 1))
     f.mw.b2.clicked.connect(lambda: f.connection.post('plot n all'))
     f.mw.b3.clicked.connect(lambda: f.connection.post('plot e all'))
