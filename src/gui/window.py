@@ -20,7 +20,6 @@ import sys
 import time
 import logging
 import subprocess
-import inspect
 import webbrowser
 import traceback
 from shutil import which
@@ -220,8 +219,11 @@ class MasterWindow(QtWidgets.QMainWindow):
     def __init__(self, xml):
         self.info = None # WindowInfo will be set in @init_wrapper
 
+        # Load UI form - produces huge amount of redundant debug logs
+        hh = gui.log.switch_off_logging()
         super().__init__() # create main window
         uic.loadUi(xml, self) # load form
+        gui.log.switch_on_logging(hh)
 
         # Handler to show logs in the CAE's textEdit
         if hasattr(self, 'textEdit'): # skip for test_sendkeys
