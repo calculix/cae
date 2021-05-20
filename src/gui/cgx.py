@@ -63,6 +63,17 @@ def paint_surfaces(f, m):
         f.connection.post('plus f {} pink{}'.format(surf, i))
         i = (i + 1) % 5
 
+# Set custom colormap
+def cmap(f, colormap):
+
+    # Set colormap only when FRD is opened
+    if not (f.p.path_cgx + ' -o ') in f.sw.cmd:
+        msg = 'Please, open FRD model to set colormap.'
+        logging.warning(msg)
+        return
+
+    f.connection.post('cmap ' + colormap)
+
 # Open INP model in GraphiX
 def open_inp(p, f, inp_file, has_nodes=0):
     if not os.path.isfile(p.path_cgx):
