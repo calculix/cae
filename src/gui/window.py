@@ -138,6 +138,9 @@ class Factory:
 
         # Start stdout reading and logging thread
         if self.p.path_cgx in cmd:
+            html = self.mw.textEdit.toHtml()
+            self.mw.textEdit.clear()
+            self.mw.textEdit.setHtml(html)
             self.start_stdout_reader('read_cgx_stdout')
 
     # Kill all slave processes

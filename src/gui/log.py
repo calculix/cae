@@ -8,17 +8,31 @@ Custon logging handlers for catching CCX and CGX output.
 The Text handler is created once per session
 and prints into CAE's textEdit.
 The File handler is created any time you open a model.
-Log file has the same name as model. """
+Log file has the same name as a model. """
 
 # Standard modules
 import os
+import sys
 import re
 import time
 import logging
 import threading
 
 # External modules
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtWidgets
+
+# My modules
+sys_path = os.path.abspath(__file__)
+sys_path = os.path.dirname(sys_path)
+sys_path = os.path.join(sys_path, '..')
+sys_path = os.path.normpath(sys_path)
+sys_path = os.path.realpath(sys_path)
+if sys_path not in sys.path:
+    sys.path.insert(0, sys_path)
+import tests
+import gui
+import settings
+import path
 
 
 class MyLoggingHandler(logging.Handler):
@@ -31,7 +45,8 @@ class MyLoggingHandler(logging.Handler):
         self.setFormatter(fmt)
 
 
-# Handler to show logs in the CAE's textEdit
+# Called only once on startup
+# Handler to show logs in master window's textEdit
 class MyTextLoggingHandler(MyLoggingHandler):
 
     # Sends log messages to Window's textEdit widget
@@ -72,7 +87,8 @@ class MyTextLoggingHandler(MyLoggingHandler):
         self.target.moveCursor(QtGui.QTextCursor.End)
 
 
-# Handler to write the job's log file
+# Called at each file import
+# Handler to write logs into file
 class MyFileLoggingHandler(MyLoggingHandler):
 
     def emit(self, LogRecord):
@@ -93,6 +109,9 @@ class MyFileLoggingHandler(MyLoggingHandler):
             f.write(msg + '\n')
 
 
+# Only 2 logging hadlers are allowed
+allowed_handlers = 2
+
 # Switch off logging
 def switch_off_logging():
     hh = logging.getLogger().handlers
@@ -104,41 +123,54 @@ def switch_on_logging(hh):
     for h in hh:
         logging.getLogger().addHandler(h)
 
-# Called only once on startup
+"""
+# Emit error log if there are too many handlers
+def check_amount_of_handlers():
+    amount = len(logging.getLogger().handlers)
+    if amount > allowed_handlers:
+        msg = 'Exceeded amount of allowed logging handlers (2).'
+        logging.error(msg)
+        switch_off_logging()
+    return amount
+"""
+
+# Handler to show logs in master window's textEdit
 def add_text_handler(textEdit):
-    logging.getLogger().handlers = []
+    remove_text_handler()
     h = MyTextLoggingHandler(textEdit)
     logging.getLogger().addHandler(h)
 
-# TODO Revealed old bug - CAE dies on scrolling logs up.
-# TODO Only one thread have to write to textEdit.
-# TODO Into file can write several handlers at once - its OK. 
+# Remove all textEdit handlers
 def remove_text_handler():
-    pass
+    hh = logging.getLogger().handlers
+    for h in hh:
+        if h.target.__class__.__name__ == 'QTextEdit':
+            hh.remove(h)
 
-# Called at each file import
+# Handler to write logs into file
 def add_file_handler(log_file):
-    if len(logging.getLogger().handlers) > 1:
-        logging.getLogger().handlers.pop()
+    remove_file_handler()
     h = MyFileLoggingHandler(log_file)
     logging.getLogger().addHandler(h)
     if os.path.exists(log_file):
         os.remove(log_file)
 
-# TODO Revealed old bug - CAE dies on scrolling logs up.
-# TODO Only one thread have to write to textEdit.
-# TODO Into file can write several handlers at once - its OK. 
+# Remove all file handlers
 def remove_file_handler():
-    pass
+    hh = logging.getLogger().handlers
+    for h in hh:
+        if h.target.__class__.__name__ == 'str':
+            hh.remove(h)
 
 
+# Reads CCX and CGX outputs
 class StdoutReader:
 
-    def __init__(self, stdout, prefix, read_output=True, w=None):
+    def __init__(self, stdout, prefix, read_output=True, connection=None):
         self.stdout = stdout
         self.prefix = prefix
         self.read_output = read_output
-        self.w = w
+        self.connection = connection
         self.active = True
         self.name = None
     
@@ -174,8 +206,8 @@ class StdoutReader:
         time.sleep(3)
         
         # Flush CGX buffer
-        if self.w is not None:
-            self.w.connections[1].post(' ')
+        if self.connection is not None:
+            self.connection.post(' ')
 
         # Read and log output
         while self.active:
@@ -192,7 +224,7 @@ class StdoutReader:
                 time.sleep(0.03) # CAE dies during fast logging
             else:
                 # Here we get if CGX is closed
-                logging.debug('END')
+                logging.debug('StdoutReader stopped')
                 break
 
         # Exit from function crashes app on textEdit scrolling!
@@ -236,3 +268,32 @@ class CgxStdoutReader(StdoutReader):
             return l
         else:
             return line
+
+
+# Run app's main window and test loggers
+@tests.test_wrapper()
+def test():
+
+    # Create application
+    app = QtWidgets.QApplication(sys.argv)
+
+    # Calculate absolute paths
+    p = path.Path()
+
+    # Read application's global settings
+    s = settings.Settings(p)
+
+    # Configure global logging level
+    switch_off_logging() # remove StreamHandler
+    logging.getLogger().setLevel(s.logging_level)
+
+    # Show main window
+    f = gui.window.Factory(s)
+    f.run_master(p.main_xml)
+
+    # Execute application
+    app.exec()
+
+# Run test
+if __name__ == '__main__':
+    test()
