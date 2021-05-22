@@ -192,6 +192,7 @@ Examples and training materials:
 
 Python API:
 - Invent some kind of Python API. Possibly use [pycalculix](https://github.com/spacether/pycalculix), [pyccx](https://github.com/drlukeparry/pyccx) and [pycgx](https://github.com/zagl/pycgx). Here are [pycgx examples](https://github.com/zagl/ccx-user).
+- Pay attention to [pyvista](https://www.pyvista.org/) and [Python tetgen interface](https://tetgen.pyvista.org/).
 - Python code (*PYTHON keyword) in the INP_code for step repetition and other kind of model generation.
 - Martin Kraska: support the param.py parametrization mechanism.
 
