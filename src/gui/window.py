@@ -150,10 +150,16 @@ class Factory:
             return
         if self.sw.process is None:
             return
-
+        if self.connection is None:
+            return
         if self.p.path_cgx in self.sw.cmd:
             self.stop_stdout_readers()
 
+        # First try to close window
+        # TODO Test Alt+F4 in Windows
+        self.connection.send_hotkey('Alt_L', 'F4')
+
+        # Then kill its process
         count = 0
         while self.sw.process.poll() is None:
             try:

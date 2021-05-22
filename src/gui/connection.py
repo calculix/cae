@@ -282,32 +282,18 @@ class WindowConnectionLinux(WindowConnection):
         time.sleep(0.3)
         self.d.sync()
 
-    # Align CGX and browser windows
-    # CAE window is already aligned in __init__()
-    # TODO Improve robustness - sometimes doesn't work correctly
+    # Align master and slave windows
     def align_windows(self):
+
         # Align master
         self.mw.setGeometry(0, 0, math.floor(self.w/3), self.h)
-        # if self.wid1 is not None:
-        #     win = self.d.create_resource_object('window', self.wid1)
-        #     win.set_input_focus(X.RevertToNone, X.CurrentTime)
-        #     self.send_hotkey('Super_L', 'Down') # restore window
-        #     win.configure(x=0, y=0,
-        #         width=math.floor(self.w/3), height=self.h)
-        # else:
-        #     logging.error('Master WID is None.')
-
-        # if self.wid2 is not None:
-        #     self.post('wpos {} {}'\
-        #         .format(math.ceil(self.w/3), 0))
-        #     self.post('wsize {} {}'\
-        #         .format(math.floor(self.w*2/3), self.h))
 
         # Align slave
         if self.wid2 is not None:
             win = self.d.create_resource_object('window', self.wid2)
             win.set_input_focus(X.RevertToNone, X.CurrentTime)
             self.send_hotkey('Super_L', 'Down') # restore window
+            time.sleep(0.3)
             win.configure(x=math.ceil(self.w/3), y=0,
                 width=math.floor(self.w*2/3), height=self.h)
         else:
@@ -358,11 +344,13 @@ class WindowConnectionWindows(WindowConnection):
             '}': (0xDD, 1),
             '\'':(0xDE, 0),
             '\"':(0xDE, 1),
-            'VK_LWIN':  (0x5B, 0),
-            'VK_LEFT':  (0x25, 0),
-            'VK_UP':    (0x26, 0),
-            'VK_RIGHT': (0x27, 0),
-            'VK_DOWN':  (0x28, 0),
+            'F4':(0x73, 0),
+            'Alt_L': (0x12, 0),
+            # 'VK_LWIN': (0x5B, 0),
+            # 'VK_LEFT': (0x25, 0),
+            # 'VK_UP':   (0x26, 0),
+            # 'VK_RIGHT':(0x27, 0),
+            # 'VK_DOWN': (0x28, 0),
             }
         for c in '0123456789':
             self.keyboardMapping[c] = (ord(c), 0)
@@ -377,18 +365,18 @@ class WindowConnectionWindows(WindowConnection):
 
         # Key press (0) + release (2)
         def sendkey(symbol):
-            if symbol in self.keyboardMapping:
-                code = self.keyboardMapping[symbol][0]
-                case = self.keyboardMapping[symbol][1]
-                if case == 1: # press Shift
-                    ctypes.windll.user32.keybd_event(0x10, 0, 0, 0)
-                ctypes.windll.user32.keybd_event(code, 0, 0, 0)
-                ctypes.windll.user32.keybd_event(code, 0, 2, 0)
-                if case == 1: # release Shift
-                    ctypes.windll.user32.keybd_event(0x10, 0, 2, 0)
-            else:
+            if symbol not in self.keyboardMapping:
                 msg = 'Symbol {} is not supported.'.format(symbol)
                 logging.warning(msg)
+                return
+            code = self.keyboardMapping[symbol][0]
+            case = self.keyboardMapping[symbol][1]
+            if case == 1: # press Shift
+                ctypes.windll.user32.keybd_event(0x10, 0, 0, 0)
+            ctypes.windll.user32.keybd_event(code, 0, 0, 0) # key press
+            ctypes.windll.user32.keybd_event(code, 0, 2, 0) # key release
+            if case == 1: # release Shift
+                ctypes.windll.user32.keybd_event(0x10, 0, 2, 0)
 
         # TODO Check if it's needed:
         ctypes.windll.user32.SetForegroundWindow(self.wid2)
@@ -419,25 +407,27 @@ class WindowConnectionWindows(WindowConnection):
         ctypes.windll.user32.EnumWindows(enum_proc, 0)
         return self.opened_windows
 
-    # Align CGX and browser windows
-    # CAE window is already aligned
+    # Key press + release
+    # TODO Test Alt+F4 in Windows
+    def send_hotkey(self, *keys):
+        for key in keys:
+            if key not in self.keyboardMapping:
+                logging.warning('WARNING! Key {} is not supported.'.format(key))
+                return
+        for key in keys:
+            code = self.keyboardMapping[key][0]
+            ctypes.windll.user32.keybd_event(code, 0, 0, 0) # key press
+        for key in reversed(keys):
+            code = self.keyboardMapping[key][0]
+            ctypes.windll.user32.keybd_event(code, 0, 2, 0) # key release
+        time.sleep(0.3)
+
+    # Align master and slave windows
     # NOTE CGX 'wpos' and 'wsize' works worse than 'ctypes'
-    # TODO Improve robustness - sometimes doesn't work correctly
     def align_windows(self):
 
         # Align master
         self.mw.setGeometry(0, 0, math.floor(self.w/3), self.h)
-        # ctypes.windll.user32.SetProcessDPIAware() # account for scaling
-        # if self.wid1 is not None:
-        #     ok = forceFocus(self.wid1)
-        #     logging.debug(str(ok))
-
-        #     ctypes.windll.user32.ShowWindow(self.wid1, 9) # restore window
-        #     time.sleep(0.3)
-        #     ctypes.windll.user32.MoveWindow(self.wid1, 0, 0,
-        #         math.floor(self.w/3), self.h, True)
-        # else:
-        #     logging.error('Master WID is None.')
 
         # Align slave
         if self.wid2 is not None:
