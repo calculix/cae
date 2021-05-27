@@ -25,10 +25,8 @@ import logging
                 i = (i + 1) % len(colors)
 """
 
-# Paint element sets in CGX
+# Paint element sets in CGX when INP is opened
 def paint_elsets(f, m):
-
-    # Paint only when INP is opened
     if not (f.p.path_cgx + ' -c ') in f.sw.cmd:
         msg = 'Please, open INP model to paint elsets.'
         logging.warning(msg)
@@ -44,10 +42,8 @@ def paint_elsets(f, m):
         f.connection.post('plus e {} blue{}'.format(elset, i))
         i = (i + 1) % 5
 
-# Paint surfaces in CGX
+# Paint surfaces in CGX when INP is opened
 def paint_surfaces(f, m):
-
-    # Paint only when INP is opened
     if not (f.p.path_cgx + ' -c ') in f.sw.cmd:
         msg = 'Please, open INP model to paint surfaces.'
         logging.warning(msg)
@@ -63,15 +59,12 @@ def paint_surfaces(f, m):
         f.connection.post('plus f {} pink{}'.format(surf, i))
         i = (i + 1) % 5
 
-# Set custom colormap
+# Set custom colormap when FRD is opened
 def cmap(f, colormap):
-
-    # Set colormap only when FRD is opened
     if not (f.p.path_cgx + ' -o ') in f.sw.cmd:
         msg = 'Please, open FRD model to set colormap.'
         logging.warning(msg)
         return
-
     f.connection.post('cmap ' + colormap)
 
 # Open INP model in GraphiX

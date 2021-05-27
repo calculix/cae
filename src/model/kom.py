@@ -13,7 +13,6 @@ On INP import KOM is enriched with keyword implementations. """
 import re
 import os
 import sys
-import time
 import logging
 import copy
 from enum import Enum
@@ -28,7 +27,6 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-import clean
 import path
 import tests
 
@@ -372,7 +370,7 @@ def test():
     # with PyCallGraph(output=graphviz, config=config):
 
     os.chdir(os.path.dirname(__file__))
-    k = KOM(None, None, kom_xml=p.kom_xml)
+    k = KOM(None, kom_xml=p.kom_xml)
 
     # Print all CalculiX keywords
     for kw in k.keyword_names:

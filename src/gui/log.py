@@ -115,6 +115,8 @@ allowed_handlers = 2
 # Switch off logging
 def switch_off_logging():
     hh = logging.getLogger().handlers
+    msg = 'Switching off {} logging handlers'.format(len(hh))
+    logging.debug(msg)
     logging.getLogger().handlers = []
     return hh
 
@@ -122,6 +124,8 @@ def switch_off_logging():
 def switch_on_logging(hh):
     for h in hh:
         logging.getLogger().addHandler(h)
+    msg = 'Switching on {} logging handlers'.format(len(hh))
+    logging.debug(msg)
 
 """
 # Emit error log if there are too many handlers
@@ -144,6 +148,8 @@ def add_text_handler(textEdit):
 def remove_text_handler():
     hh = logging.getLogger().handlers
     for h in hh:
+        if not hasattr(h, 'target'):
+            return
         if h.target.__class__.__name__ == 'QTextEdit':
             hh.remove(h)
 
@@ -282,10 +288,6 @@ def test():
 
     # Read application's global settings
     s = settings.Settings(p)
-
-    # Configure global logging level
-    switch_off_logging() # remove StreamHandler
-    logging.getLogger().setLevel(s.logging_level)
 
     # Show main window
     f = gui.window.Factory(s)

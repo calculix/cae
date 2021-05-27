@@ -54,10 +54,6 @@ class KeywordDialog(QtWidgets.QDialog):
         uic.loadUi(self.p.dialog_xml, self) # load empty dialog form
         gui.log.switch_on_logging(hh)
 
-        # Switch on logging
-        for h in hh:
-            logging.getLogger().addHandler(h)
-
         # Align dialog
         if self.s.align_windows:
             size = QtWidgets.QDesktopWidget().availableGeometry()
