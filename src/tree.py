@@ -9,18 +9,18 @@ Methods to work with main window's treeView widget. """
 # Standard modules
 import re
 import os
+import sys
 import logging
-import time
 
 # External modules
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 # My modules
 import gui
-from gui import dialog
+import path
+import settings
 import model
 from model.kom import ItemType, Implementation
-import clean
 import tests
 
 
@@ -52,58 +52,57 @@ class Tree:
 
     # Used with generateTreeView() - implements recursion
     def addToTree(self, parent_element, items):
-
         for item in items:
 
             # Add to the tree only needed item_types
-            if item.itype not \
-                in [ItemType.GROUP,
-                    ItemType.KEYWORD,
-                    ItemType.IMPLEMENTATION]:
+            allowed = [ItemType.GROUP, ItemType.KEYWORD,
+                ItemType.IMPLEMENTATION]
+            if item.itype not in allowed:
                 continue
 
             # Check if there are keywords with implementations
-            if self.s.show_empty_keywords \
-                or item.count_implementations() \
-                or item.itype == ItemType.IMPLEMENTATION:
+            if not self.s.show_empty_keywords \
+                and not item.count_implementations() \
+                and item.itype != ItemType.IMPLEMENTATION:
+                continue
 
-                # Create tree_element
-                tree_element = QtGui.QStandardItem(item.name)
-                tree_element.setData(item)
-                parent_element.appendRow(tree_element)
+            # Create tree_element
+            tree_element = QtGui.QStandardItem(item.name)
+            tree_element.setData(item)
+            parent_element.appendRow(tree_element)
 
-                # Set text color for tree_element
-                brush = QtGui.QBrush()
-                brush.setColor(QtCore.Qt.gray)
-                if item.is_active():
-                    brush.setColor(QtCore.Qt.black)
-                    # Bold font for implementations
-                    if item.itype == ItemType.IMPLEMENTATION:
-                        font = QtGui.QFont()
-                        font.setBold(True)
-                        tree_element.setFont(font)
-                tree_element.setForeground(brush)
+            # Set text color for tree_element
+            brush = QtGui.QBrush()
+            brush.setColor(QtCore.Qt.gray)
+            if item.is_active():
+                brush.setColor(QtCore.Qt.black)
+                # Bold font for implementations
+                if item.itype == ItemType.IMPLEMENTATION:
+                    font = QtGui.QFont()
+                    font.setBold(True)
+                    tree_element.setFont(font)
+            tree_element.setForeground(brush)
 
-                # Expand / collapse
-                if item.expanded:
-                    self.f.mw.treeView.expand(tree_element.index())
-                else:
-                    self.f.mw.treeView.collapse(tree_element.index())
+            # Expand / collapse
+            if item.expanded:
+                self.f.mw.treeView.expand(tree_element.index())
+            else:
+                self.f.mw.treeView.collapse(tree_element.index())
 
-                # Add icon to each keyword in tree
-                icon_name = item.name.replace('*', '') + '.png'
-                icon_name = icon_name.replace(' ', '_')
-                icon_name = icon_name.replace('-', '_')
-                icon_path = os.path.join(self.p.img, 'icon_' + icon_name.lower())
-                icon = QtGui.QIcon(icon_path)
-                tree_element.setIcon(icon)
+            # Add icon to each keyword in tree
+            icon_name = item.name.replace('*', '') + '.png'
+            icon_name = icon_name.replace(' ', '_')
+            icon_name = icon_name.replace('-', '_')
+            icon_path = os.path.join(self.p.img, 'icon_' + icon_name.lower())
+            icon = QtGui.QIcon(icon_path)
+            tree_element.setIcon(icon)
 
-                # Organize recursion
-                impls = item.get_implementations()
-                if len(impls):
-                    self.addToTree(tree_element, impls)
-                else:
-                    self.addToTree(tree_element, item.items)
+            # Organize recursion
+            impls = item.get_implementations()
+            if len(impls):
+                self.addToTree(tree_element, impls)
+            else:
+                self.addToTree(tree_element, item.items)
 
     # Double click on treeView item: edit the keyword via dialog
     def doubleClicked(self):
@@ -359,10 +358,42 @@ class Tree:
             item.expanded = False
 
 
-# TODO Invent some test
+# Start keyword editor and generate the tree
 @tests.test_wrapper()
 def test():
-    pass
+
+    # Create application
+    app = QtWidgets.QApplication(sys.argv)
+
+    # Calculate absolute paths
+    p = path.Path()
+
+    # Read application's global settings
+    s = settings.Settings(p)
+
+    # Show main window
+    f = gui.window.Factory(s)
+    f.run_master(p.main_xml)
+
+    # Generate FEM model
+    m = model.Model()
+
+    # Create treeView items based on KOM
+    t = Tree(s, f, m)
+
+    # Actions
+    f.mw.treeView.doubleClicked.connect(t.doubleClicked)
+    f.mw.treeView.clicked.connect(t.clicked)
+    f.mw.treeView.customContextMenuRequested.connect(t.rightClicked)
+    f.mw.treeView.expanded.connect(t.treeViewExpanded)
+    f.mw.treeView.collapsed.connect(t.treeViewCollapsed)
+
+    gui.log.switch_off_logging()
+    m.KOM = model.kom.KOM(s)
+    t.generateTreeView(m)
+
+    # Execute application
+    app.exec()
 
 # Run test
 if __name__ == '__main__':
