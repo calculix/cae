@@ -31,6 +31,7 @@ if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import importer
 import tests
+import log
 
 """
 ifile - path to input file
@@ -904,11 +905,11 @@ class SURFACE:
 @tests.test_wrapper()
 def test():
     os.chdir(os.path.dirname(__file__))
-    print = tests.print
+    print = log.print
 
     # Prepare logging
     log_file = __file__[:-3] + '.log'
-    h = tests.myHandler(log_file)
+    h = log.myHandler(log_file)
     logging.getLogger().addHandler(h)
     logging.getLogger().setLevel(logging.DEBUG)
 

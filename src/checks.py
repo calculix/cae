@@ -19,6 +19,7 @@ import webbrowser
 
 # My modules
 import tests
+import log
 
 # Tests user system configuration etc.
 class Check:
@@ -29,12 +30,12 @@ class Check:
 
     # Initialize logging
     def start_logging(self):
-        h = tests.myHandler(self.log_file)
+        h = log.myHandler(self.log_file)
         logging.getLogger().addHandler(h)
         logging.getLogger().setLevel(logging.NOTSET) # 0
         print(self.log_file, 'STARTUP TESTS\n')
 
-    # After all tests stop logging into tests.log
+    # Stop logging into checks.log
     def stop_logging(self):
         logging.getLogger().handlers = []
 
@@ -120,7 +121,7 @@ class Check:
 
 
 # Tests running before the app start
-def run_startup_tests():
+def run_startup_checks():
     ch = Check()
     ch.start_logging()
     ch.check_all()

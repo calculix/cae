@@ -24,7 +24,6 @@ import os
 import io
 import re
 import sys
-import time
 import logging
 
 # External modules
@@ -33,6 +32,7 @@ from PyQt5 import QtWidgets
 # My modules
 import model
 import gui
+import log
 import tests
 
 
@@ -241,13 +241,12 @@ def read_lines(INP_file):
 @tests.test_wrapper()
 def test():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    start_time = time.perf_counter()
-    print = tests.print
+    print = log.print
     m = model.Model() # generate FEM model
 
     # Prepare logging
     log_file = __file__[:-3] + '.log'
-    h = tests.myHandler(log_file) # remove old log file
+    h = log.myHandler(log_file) # remove old log file
     log_capture_string = io.StringIO()
     ch = logging.StreamHandler(log_capture_string)
     ch.setLevel(logging.DEBUG)
