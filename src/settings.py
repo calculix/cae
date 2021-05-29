@@ -19,7 +19,7 @@ from PyQt5 import QtWidgets, uic
 # My modules
 import path
 import tests
-import gui
+import log
 
 
 # Session settings object used everywhere in the code
@@ -88,10 +88,10 @@ class SettingsDialog(QtWidgets.QDialog):
         self.p = p
 
         # Load UI form - produces huge amount of redundant debug logs
-        hh = gui.log.switch_off_logging()
+        hh = log.switch_off_logging()
         super().__init__() # create dialog window
         uic.loadUi(self.p.settings_xml, self) # load default settings
-        gui.log.switch_on_logging(hh)
+        log.switch_on_logging(hh)
 
         # Actions
         self.path_paraview_button.clicked.connect(

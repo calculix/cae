@@ -10,6 +10,11 @@ and prints into CAE's textEdit.
 The File handler is created any time you open a model.
 Log file has the same name as a model. """
 
+# TODO There is StreamHandler in import.py
+
+# TODO Logging can't be switched off completely - 
+# - see test() in tree.py for example.
+
 # Standard modules
 import os
 import sys
@@ -33,6 +38,32 @@ import tests
 import gui
 import settings
 import path
+
+
+# Configure logging to emit messages via 'print' method
+class myHandler(logging.Handler):
+
+    def __init__(self, log_file):
+        super().__init__()
+        fmt = logging.Formatter('%(levelname)s: %(message)s')
+        self.setFormatter(fmt)
+        self.log_file = log_file
+
+        # Remove old log file
+        if os.path.isfile(log_file):
+            os.remove(log_file)
+
+    def emit(self, LogRecord):
+        print(self.log_file, self.format(LogRecord))
+
+
+# Redefine print method to write logs to file
+def print(log_file, *args):
+    line = ' '.join([str(arg) for arg in args]) + '\n'
+    if log_file is not None:
+        with open(log_file, 'a') as f:
+            f.write(line)
+    sys.stdout.write(line)
 
 
 class MyLoggingHandler(logging.Handler):
@@ -142,21 +173,21 @@ def check_amount_of_handlers():
 def add_text_handler(textEdit):
     remove_text_handler()
     h = MyTextLoggingHandler(textEdit)
+    h.set_name = 'MyTextLoggingHandler'
     logging.getLogger().addHandler(h)
 
 # Remove all textEdit handlers
 def remove_text_handler():
     hh = logging.getLogger().handlers
     for h in hh:
-        if not hasattr(h, 'target'):
-            return
-        if h.target.__class__.__name__ == 'QTextEdit':
+        if h.name == 'MyTextLoggingHandler':
             hh.remove(h)
 
 # Handler to write logs into file
 def add_file_handler(log_file):
     remove_file_handler()
     h = MyFileLoggingHandler(log_file)
+    h.set_name = 'MyFileLoggingHandler'
     logging.getLogger().addHandler(h)
     if os.path.exists(log_file):
         os.remove(log_file)
@@ -165,7 +196,7 @@ def add_file_handler(log_file):
 def remove_file_handler():
     hh = logging.getLogger().handlers
     for h in hh:
-        if h.target.__class__.__name__ == 'str':
+        if h.name == 'MyFileLoggingHandler':
             hh.remove(h)
 
 

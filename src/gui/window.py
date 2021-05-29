@@ -40,7 +40,7 @@ if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import tests
 import gui
-import gui.connection
+import log
 import path
 import settings
 
@@ -157,7 +157,8 @@ class Factory:
 
         # First try to close window
         # TODO Test Alt+F4 in Windows
-        self.connection.send_hotkey('Alt_L', 'F4')
+        # TODO Dangerous method - closes everything
+        # self.connection.send_hotkey('Alt_L', 'F4')
 
         # Then kill its process
         count = 0
@@ -187,7 +188,7 @@ class Factory:
     # Start stdout reading and logging thread
     def start_stdout_reader(self, aim):
         if self.connection is not None:
-            sr = gui.log.CgxStdoutReader(self.sw.process.stdout, aim, True, self.connection)
+            sr = log.CgxStdoutReader(self.sw.process.stdout, aim, True, self.connection)
             self.stdout_readers.append(sr)
             sr.start()
         else:
@@ -233,14 +234,14 @@ class MasterWindow(QtWidgets.QMainWindow):
         self.info = None # WindowInfo will be set in @init_wrapper
 
         # Load UI form - produces huge amount of redundant debug logs
-        hh = gui.log.switch_off_logging()
+        hh = log.switch_off_logging()
         super().__init__() # create main window
         uic.loadUi(xml, self) # load form
-        gui.log.switch_on_logging(hh)
+        log.switch_on_logging(hh)
 
         # Handler to show logs in the CAE's textEdit
         if hasattr(self, 'textEdit'): # skip for test_sendkeys
-            gui.log.add_text_handler(self.textEdit)
+            log.add_text_handler(self.textEdit)
 
         self.show()
 

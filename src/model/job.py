@@ -31,6 +31,7 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import gui
+import log
 import tests
 
 class Job:
@@ -52,7 +53,7 @@ class Job:
         self.log = self.path + '.log' # full path to job log file
 
         # Handler to write the job's log file
-        gui.log.add_file_handler(self.log)
+        log.add_file_handler(self.log)
 
         if sys.argv[0].endswith('.py'):
             logging.debug('Running from sources.')
@@ -265,7 +266,7 @@ class Job:
         os.chdir(self.p.app_home_dir)
 
         # Start stdout reading and logging thread
-        sr = gui.log.StdoutReader(process.stdout, 'read_stdout', read_output)
+        sr = log.StdoutReader(process.stdout, 'read_stdout', read_output)
         self.f.stdout_readers.append(sr)
         sr.start()
 

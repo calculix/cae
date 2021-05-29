@@ -31,8 +31,8 @@ if sys_path not in sys.path:
 import tests
 import path
 import settings
-import tests
 import gui
+import log
 from model.kom import ItemType, KOM
 
 
@@ -49,10 +49,10 @@ class KeywordDialog(QtWidgets.QDialog):
         self.widgets = [] # list of created widgets
 
         # Load UI form - produces huge amount of redundant debug logs
-        hh = gui.log.switch_off_logging()
+        hh = log.switch_off_logging()
         super().__init__() # create dialog window
         uic.loadUi(self.p.dialog_xml, self) # load empty dialog form
-        gui.log.switch_on_logging(hh)
+        log.switch_on_logging(hh)
 
         # Align dialog
         if self.s.align_windows:

@@ -17,6 +17,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 
 # My modules
 import gui
+import log
 import path
 import settings
 import model
@@ -388,7 +389,8 @@ def test():
     f.mw.treeView.expanded.connect(t.treeViewExpanded)
     f.mw.treeView.collapsed.connect(t.treeViewCollapsed)
 
-    gui.log.switch_off_logging()
+    # TODO Logging doesn't switched off
+    log.switch_off_logging()
     m.KOM = model.kom.KOM(s)
     t.generateTreeView(m)
 
