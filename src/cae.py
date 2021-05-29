@@ -19,8 +19,8 @@ import clean
 clean.screen()
 
 # Run some important checks before start
-import tests
-tests.run_startup_tests()
+import checks
+checks.run_startup_checks()
 
 # Standard modules
 import os
