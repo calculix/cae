@@ -39,7 +39,7 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import tests
-import gui
+import gui.connection
 import log
 import path
 import settings

@@ -34,10 +34,10 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-import tests
-import gui
 import settings
 import path
+import tests
+import gui.window
 
 
 # Configure logging to emit messages via 'print' method
