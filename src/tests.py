@@ -15,6 +15,7 @@ Run test: Ctrl+F5 from VSCode """
 import os
 import time
 import logging
+import inspect
 
 # My modules
 import clean
@@ -41,19 +42,33 @@ def get_time_delta(start):
 # Log spent time delta in format hh:mm:ss.s
 def log_time_delta(start, log_file=None):
     msg = '\nTotal ' + get_time_delta(start)
-    print(log_file, msg)
+    if log_file is None:
+        print(msg)
+    else:
+        import log
+        log.print(log_file, msg)
 
 # Common wrapper for test() method in different modules
 def test_wrapper():
     def wrap(method):
         def fcn():
             start = time.perf_counter()
+
+            caller = os.path.realpath(inspect.stack()[1][1])
+            os.chdir(os.path.dirname(caller))
+
+            # Remove old log file
+            log_file = caller[:-3] + '.log'
+            if os.path.isfile(log_file):
+                os.remove(log_file)
+
             fmt = '%(levelname)s: %(message)s'
             logging.basicConfig(level=logging.NOTSET, format=fmt)
             clean.screen()
             method()
             clean.cache()
-            log_time_delta(start)
+
+            log_time_delta(start, log_file)
         return fcn
     return wrap
 
