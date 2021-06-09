@@ -4,17 +4,15 @@
 """ © Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Methods for cleaning up temporary/unused files/folders """
+Methods for cleaning up temporary/unused files/folders etc """
 
 import os
 import sys
 import shutil
 
-
 # Clean screen
 def screen():
     os.system('cls' if os.name=='nt' else 'clear')
-
 
 # Recursively delete cached files in all subfolders
 def cache(folder=None):
@@ -28,7 +26,6 @@ def cache(folder=None):
     for f in os.scandir(folder):
         if f.is_dir():
             cache(f.path)
-
 
 # Cleaup trash files in startFolder and all subfolders
 def files(startFolder=None):
@@ -46,7 +43,6 @@ def files(startFolder=None):
                 sys.__stdout__.write('Delelted: ' + f.path + '\n')
             except:
                 sys.__stdout__.write(f.path + ': ' + sys.exc_info()[1][1] + '\n')
-
 
 # Cleaup old result files
 def results():
