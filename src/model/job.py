@@ -6,7 +6,10 @@ Distributed under GNU General Public License v3.0
 
 Job submition and convertion. Run a detached process and
 send messages to queue. This scheme doesn't freeze Window
-while analysis is running or files are converting. """
+while analysis is running or files are converting.
+
+Job creation indicates start of the new session.
+Old log file is erased and a new one is created. """
 
 
 # Standard modules
@@ -51,6 +54,10 @@ class Job:
         self.path = self.inp[:-4] # full path to INP without extension
         self.frd = self.path + '.frd' # full path to job results file
         self.log = self.path + '.log' # full path to job log file
+
+        # Remove old log_file
+        if os.path.exists(self.log):
+            os.remove(self.log)
 
         # Handler to write the job's log file
         log.add_file_handler(self.log)

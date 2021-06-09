@@ -21,7 +21,6 @@ j - Job """
 
 # Standard modules
 import os
-import io
 import re
 import sys
 import logging
@@ -30,8 +29,10 @@ import logging
 from PyQt5 import QtWidgets
 
 # My modules
+import path
+import settings
 import model
-import gui
+import gui.cgx
 import log
 import tests
 
@@ -69,8 +70,8 @@ class Block:
 class Importer:
 
     def __init__(self, s, f, m, t, j):
-        self.p = s.getp() # path
-        self.s = s # settings
+        self.p = path.p
+        self.s = settings.s
         self.f = f # window factory
         if f is not None:
             self.w = f.mw # master window
@@ -240,55 +241,38 @@ def read_lines(INP_file):
 # Test importer on all CalculiX examples
 @tests.test_wrapper()
 def test():
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    print = log.print
     m = model.Model() # generate FEM model
 
     # Prepare logging
     log_file = __file__[:-3] + '.log'
-    h = log.myHandler(log_file) # remove old log file
-    log_capture_string = io.StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.DEBUG)
-    fmt = logging.Formatter('%(levelname)s: %(message)s')
-    ch.setFormatter(fmt)
-    logging.getLogger().addHandler(ch)
+    log.stop_logging()
+    log.add_my_handler(logging.WARNING)
+    log.print(log_file, 'IMPORTER (KEYWORDS PARSER) TEST')
 
     limit = 50000 # how many files to process
+    examples_dir = '../../examples'
     # examples_dir = '../../examples/ccx/test'
     # examples_dir = '../../examples/abaqus/eif'
     # examples_dir = '../../examples/yahoo'
-    examples_dir = '../../examples'
-    counter = 0
-
-    print(log_file, 'IMPORTER (KEYWORDS PARSER) TEST\n')
     examples = tests.scan_all_files_in(examples_dir, '.inp', limit)
 
-    lines_count = 0
+    counter = 0
     for file_name in examples:
         counter += 1
+        relpath = os.path.relpath(file_name, start=os.getcwd())
+        log.print(log_file, '\n{} {}'.format(counter, relpath))
 
         # Build new clean/empty keyword object model
-        m.KOM = model.kom.KOM(None, None, kom_xml='../config/kom.xml')
+        m.KOM = model.kom.KOM(None, kom_xml='../config/kom.xml')
 
         # Parse inp_doc end enrich existing KOM
-        i = Importer(None, None, None, m, None, None)
+        i = Importer(None, None, m, None, None)
         inp_doc = read_lines(file_name)
         i.split_on_blocks(inp_doc) # fill keyword_blocks
         i.import_inp()
 
-        # Log only problematic INP files
-        log_contents = log_capture_string.getvalue()
-        if len(log_contents) != lines_count:
-            log_contents = log_contents[lines_count:]
-            lines_count = log_capture_string.tell()
-            relpath = os.path.relpath(file_name, start=os.getcwd())
-            print(log_file, '{} {}'.format(counter, relpath))
-            print(log_file, log_contents)
-    log_capture_string.close()
-
     msg = '\n{} INP files.'
-    print(log_file, msg.format(len(examples)))
+    log.print(log_file, msg.format(len(examples)))
 
 # Run test
 if __name__ == '__main__':

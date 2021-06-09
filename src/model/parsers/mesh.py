@@ -904,26 +904,23 @@ class SURFACE:
 # Test mesh parser on all CalculiX examples
 @tests.test_wrapper()
 def test():
-    os.chdir(os.path.dirname(__file__))
-    print = log.print
 
     # Prepare logging
     log_file = __file__[:-3] + '.log'
-    h = log.myHandler(log_file)
-    logging.getLogger().addHandler(h)
-    logging.getLogger().setLevel(logging.DEBUG)
+    log.stop_logging()
+    log.add_my_handler(logging.DEBUG)
+    log.print(log_file, 'MESH PARSER TEST')
 
     limit = 50000 # how many files to process
     # examples_dir = '../../../../examples/ccx/test'
     examples_dir = '../../../../examples'
     counter = 0
 
-    print(log_file, 'MESH PARSER TEST')
     examples = tests.scan_all_files_in(examples_dir, '.inp', limit)
     for file_name in examples:
         counter += 1
         relpath = os.path.relpath(file_name, start=os.getcwd())
-        print(log_file, '\n{}\n{}: {}'.format('='*50, counter, relpath))
+        log.print(log_file, '\n{}\n{}: {}'.format('='*50, counter, relpath))
 
         # Parse mesh
         m = Mesh(ifile=file_name)

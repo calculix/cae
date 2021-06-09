@@ -62,8 +62,10 @@ def test_wrapper():
             if os.path.isfile(log_file):
                 os.remove(log_file)
 
-            fmt = '%(levelname)s: %(message)s'
-            logging.basicConfig(level=logging.NOTSET, format=fmt)
+            # TODO logging handler not added
+            # fmt = '%(levelname)s: %(message)s'
+            logging.basicConfig(level=logging.NOTSET)
+
             clean.screen()
             method()
             clean.cache()

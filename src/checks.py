@@ -21,29 +21,17 @@ import webbrowser
 import tests
 import log
 
+# TODO checks.log is empty when run from cae.py
+
 # Tests user system configuration etc.
 class Check:
-
-    # Prepare logging
-    def __init__(self):
-        self.log_file = __file__[:-3] + '.log'
-
-    # Initialize logging
-    def start_logging(self):
-        h = log.myHandler(self.log_file)
-        logging.getLogger().addHandler(h)
-        logging.getLogger().setLevel(logging.NOTSET) # 0
-        print(self.log_file, 'STARTUP TESTS\n')
-
-    # Stop logging into checks.log
-    def stop_logging(self):
-        logging.getLogger().handlers = []
 
     # Exit if OS is not Linux or Windows
     def check_os(self):
         if os.name not in ['nt', 'posix']:
             msg = 'Sorry, {} OS is not supported.'.format(os.name)
-            raise SystemExit(msg) # the best way to exit
+            logging.error(msg)
+            raise SystemExit # the best way to exit
 
     # Check python version
     def check_python(self):
@@ -122,19 +110,23 @@ class Check:
 
 # Tests running before the app start
 def run_startup_checks():
+    log.stop_logging()
+    log.add_my_handler()
+    log_file = __file__[:-3] + '.log'
+    log.print(log_file, 'STARTUP TESTS\n')
     ch = Check()
-    ch.start_logging()
     ch.check_all()
-    ch.stop_logging()
+    log.stop_logging()
 
 # Run some checks
 @tests.test_wrapper()
 def test():
+    log.stop_logging()
+    log.add_my_handler()
     ch = Check()
-    ch.start_logging()
     ch.check_all()
     ch.check_package('qwe')
-    ok = ch.check_required_package('rty')
+    ch.check_required_package('rty')
 
 # Run test
 if __name__ == '__main__':

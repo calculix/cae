@@ -10,8 +10,6 @@ and prints into CAE's textEdit.
 The File handler is created any time you open a model.
 Log file has the same name as a model. """
 
-# TODO There is StreamHandler in import.py
-
 # TODO Logging can't be switched off completely - 
 # - see test() in tree.py for example.
 
@@ -21,6 +19,7 @@ import sys
 import re
 import time
 import logging
+import inspect
 import threading
 
 # External modules
@@ -39,8 +38,21 @@ import path
 import tests
 import gui.window
 
+mh = 'MyHandler'
+mtlh = 'MyTextLoggingHandler'
+mflh = 'MyFileLoggingHandler'
+mslh = 'MyStreamLoggingHandler'
 
-# Configure logging to emit messages via 'print' method
+# Redefine print method to write logs to file and stdout
+def print(log_file, *args):
+    line = ' '.join([str(arg) for arg in args]) + '\n'
+    if log_file is not None:
+        with open(log_file, 'a') as f:
+            f.write(line)
+    sys.stdout.write(line)
+
+
+# Handler to emit messages via 'print' method
 class myHandler(logging.Handler):
 
     def __init__(self, log_file):
@@ -55,15 +67,6 @@ class myHandler(logging.Handler):
 
     def emit(self, LogRecord):
         print(self.log_file, self.format(LogRecord))
-
-
-# Redefine print method to write logs to file
-def print(log_file, *args):
-    line = ' '.join([str(arg) for arg in args]) + '\n'
-    if log_file is not None:
-        with open(log_file, 'a') as f:
-            f.write(line)
-    sys.stdout.write(line)
 
 
 class MyLoggingHandler(logging.Handler):
@@ -135,13 +138,10 @@ class MyFileLoggingHandler(MyLoggingHandler):
         if msg.startswith('Level 25: '):
             msg = msg[10:]
 
-        # Write message to the log file
+        # Append message to the log file
         with open(self.target, 'a') as f:
             f.write(msg + '\n')
 
-
-# Only 2 logging hadlers are allowed
-allowed_handlers = 2
 
 # Switch off logging
 def switch_off_logging():
@@ -158,46 +158,106 @@ def switch_on_logging(hh):
     msg = 'Switching on {} logging handlers'.format(len(hh))
     logging.debug(msg)
 
+# Stop all logging handlers, even default stdout
+def stop_logging():
+    logging.getLogger().handlers = []
+
 """
-# Emit error log if there are too many handlers
-def check_amount_of_handlers():
-    amount = len(logging.getLogger().handlers)
-    if amount > allowed_handlers:
-        msg = 'Exceeded amount of allowed logging handlers (2).'
-        logging.error(msg)
-        switch_off_logging()
-    return amount
+    # Only 2 logging hadlers are allowed
+    allowed_handlers = 2
+
+    # Emit error log if there are too many handlers
+    def check_amount_of_handlers():
+        amount = len(logging.getLogger().handlers)
+        if amount > allowed_handlers:
+            msg = 'Exceeded amount of allowed logging handlers (2).'
+            logging.error(msg)
+            switch_off_logging()
+        return amount
 """
 
+def remove_handler_by_name(name):
+    hh = logging.getLogger().handlers
+    for h in hh:
+        if h.name == name:
+            hh.remove(h)
+
+# Handler to emit messages via 'print' method
+# Combination of file and stream handlers
+def add_my_handler(level=None):
+    caller = os.path.realpath(inspect.stack()[1][1])
+    log_file = caller[:-3] + '.log'
+    h = myHandler(log_file)
+    h.set_name(mh)
+    if level is None:
+        level = settings.s.logging_level
+    h.setLevel(level)
+    logging.getLogger().addHandler(h)
+
+# Remove all MyHandler handlers
+def remove_my_handler():
+    remove_handler_by_name(mh)
+
 # Handler to show logs in master window's textEdit
-def add_text_handler(textEdit):
-    remove_text_handler()
+def add_text_handler(textEdit, level=None):
     h = MyTextLoggingHandler(textEdit)
-    h.set_name = 'MyTextLoggingHandler'
+    h.set_name(mtlh)
+    if level is None:
+        level = settings.s.logging_level
+    h.setLevel(level)
     logging.getLogger().addHandler(h)
 
 # Remove all textEdit handlers
 def remove_text_handler():
-    hh = logging.getLogger().handlers
-    for h in hh:
-        if h.name == 'MyTextLoggingHandler':
-            hh.remove(h)
+    remove_handler_by_name(mtlh)
 
 # Handler to write logs into file
-def add_file_handler(log_file):
-    remove_file_handler()
+def add_file_handler(log_file, level=None):
     h = MyFileLoggingHandler(log_file)
-    h.set_name = 'MyFileLoggingHandler'
+    h.set_name(mflh)
+    if level is None:
+        level = settings.s.logging_level
+    h.setLevel(level)
     logging.getLogger().addHandler(h)
-    if os.path.exists(log_file):
-        os.remove(log_file)
+    """
+    TODO Doesn't write to file system messages and uncatched errors
+
+    h = log.myHandler(log_file) # remove old log file
+    log_capture_string = io.StringIO()
+    ch = logging.StreamHandler(log_capture_string)
+    ch.setLevel(logging.DEBUG)
+    fmt = logging.Formatter('%(levelname)s: %(message)s')
+    ch.setFormatter(fmt)
+    logging.getLogger().addHandler(ch)
+
+    log_contents = log_capture_string.getvalue()
+    if len(log_contents) != lines_count:
+        log_contents = log_contents[lines_count:]
+        lines_count = log_capture_string.tell()
+        relpath = os.path.relpath(file_name, start=os.getcwd())
+        print(log_file, '{} {}'.format(counter, relpath))
+        print(log_file, log_contents)
+    log_capture_string.close()
+    """
 
 # Remove all file handlers
 def remove_file_handler():
-    hh = logging.getLogger().handlers
-    for h in hh:
-        if h.name == 'MyFileLoggingHandler':
-            hh.remove(h)
+    remove_handler_by_name(mflh)
+
+# Handler to write logs into stream
+def add_stream_handler(level=None):
+    h = logging.StreamHandler()
+    h.set_name(mslh)
+    if level is None:
+        level = settings.s.logging_level
+    h.setLevel(level)
+    fmt = logging.Formatter('%(levelname)s: %(message)s')
+    h.setFormatter(fmt)
+    logging.getLogger().addHandler(h)
+
+# Remove all stream handlers
+def remove_stream_handler():
+    remove_handler_by_name(mslh)
 
 
 # Reads CCX and CGX outputs
