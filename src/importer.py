@@ -13,7 +13,6 @@ File importer:
 We can get here via menu File -> Import
 or directly after application start.
 
-s - Settings
 w - Window
 m - Model
 t - Tree
@@ -69,9 +68,7 @@ class Block:
 
 class Importer:
 
-    def __init__(self, s, f, m, t, j):
-        self.p = path.p
-        self.s = settings.s
+    def __init__(self, f, m, t, j):
         self.f = f # window factory
         if f is not None:
             self.w = f.mw # master window
@@ -140,7 +137,7 @@ class Importer:
             while kw is None and parent is not None: # root has None parent
                 kw = self.m.KOM.get_top_keyword_by_name(parent, kwb.keyword_name)
                 if kw is not None:
-                    parent = model.kom.Implementation(self.s, kw, kwb.get_inp_code())
+                    parent = model.kom.Implementation(kw, kwb.get_inp_code())
                 else:
                     parent = parent.parent
             if kw is None:
@@ -166,8 +163,8 @@ class Importer:
             self.w.textEdit.clear()
 
             # Rename job before tree regeneration
-            # A new logger's handler is created here
-            self.j.__init__(self.s, self.f,
+            # A new logger handler is created here
+            self.j.__init__(self.f,
                 self.m, file_name[:-4] + '.inp')
 
             self.f.stop_stdout_readers()
@@ -179,12 +176,12 @@ class Importer:
                     logging.error('Can not convert\n' + self.j.unv)
                     return
 
-            # Show model name in window's title
+            # Show model name in window title
             self.w.setWindowTitle('CalculiX Advanced Environment - ' \
                 + self.j.name)
 
             # Generate new KOM without implementations
-            self.m.KOM = model.kom.KOM(self.s)
+            self.m.KOM = model.kom.KOM()
 
             # Get INP code and split it on blocks
             logging.info('Loading model\n{}'.format(self.j.inp))
@@ -201,7 +198,7 @@ class Importer:
             self.m.Mesh = model.parsers.mesh.Mesh(blocks=self.keyword_blocks)
 
             # Open a new non-empty model in CGX
-            if not self.s.start_cgx_by_default:
+            if not settings.s.start_cgx_by_default:
                 msg = '"Settings -> Start CGX by default" is unchecked.'
                 logging.warning(msg)
                 return
@@ -211,7 +208,7 @@ class Importer:
                 return
 
             has_nodes = len(self.m.Mesh.nodes)
-            gui.cgx.open_inp(self.p, self.f, self.j.inp, has_nodes)
+            gui.cgx.open_inp(self.f, self.j.inp, has_nodes)
 
 
 # Recurcively reads all the file lines and its includes.
@@ -263,7 +260,7 @@ def test():
         log.print(log_file, '\n{} {}'.format(counter, relpath))
 
         # Build new clean/empty keyword object model
-        m.KOM = model.kom.KOM(None, kom_xml='../config/kom.xml')
+        m.KOM = model.kom.KOM(kom_xml='../config/kom.xml')
 
         # Parse inp_doc end enrich existing KOM
         i = Importer(None, None, m, None, None)

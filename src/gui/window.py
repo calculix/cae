@@ -38,11 +38,12 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-import tests
-import gui.connection
-import log
 import path
 import settings
+import tests
+import gui.cgx
+import gui.connection
+import log
 
 # Common wrapper for MasterWindow/SlaveWindow __init__() method
 def init_wrapper():
@@ -83,9 +84,7 @@ and bind/connect them together. Logging facility as killing methods
 for slave window are also maintained here. """
 class Factory:
 
-    def __init__(self, s):
-        self.s = s # global settings
-        self.p = s.getp() # Path
+    def __init__(self):
         self.mw = None # master window
         self.sw = None # slave window
         self.stdout_readers = [] # for slave window
@@ -99,14 +98,15 @@ class Factory:
         self.connection = None
 
     # Draw window form described in xml UI file
-    def run_master(self, xml):
+    def run_master(self, xml=path.p.main_xml):
         self.mw = MasterWindow(xml)
 
     # Generate dialog window and show it
-    def run_master_dialog(self, s, k, i):
-        args = [s, k, i]
+    def run_master_dialog(self, k, i):
+        args = [k, i]
+        import gui.dialog
         self.mw = gui.dialog.KeywordDialog(args) # one argument for init_wrapper()
-        
+
         # Actions
         self.mw.buttonBox.accepted.connect(self.mw.ok)
         self.mw.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.mw.reset)
@@ -122,7 +122,7 @@ class Factory:
         url = self.mw.get_help_url()
         if not os.path.isfile(url):
             msg = 'Help page does not exist:\n{}'.format(
-                os.path.relpath(url, start=self.p.app_home_dir))
+                os.path.relpath(url, start=path.p.app_home_dir))
             logging.error(msg)
             return
         wb = webbrowser.get()
@@ -137,7 +137,7 @@ class Factory:
         self.create_connection()
 
         # Start stdout reading and logging thread
-        if self.p.path_cgx in cmd:
+        if path.p.path_cgx in cmd and hasattr(self.mw, 'textEdit'):
             html = self.mw.textEdit.toHtml()
             self.mw.textEdit.clear()
             self.mw.textEdit.setHtml(html)
@@ -152,7 +152,7 @@ class Factory:
             return
         if self.connection is None:
             return
-        if self.p.path_cgx in self.sw.cmd:
+        if path.p.path_cgx in self.sw.cmd:
             self.stop_stdout_readers()
 
         # First try to close window
@@ -221,7 +221,7 @@ class Factory:
         else:
             self.connection = gui.connection.WindowConnectionLinux(*args)
 
-        if self.s.align_windows:
+        if settings.s.align_windows:
             self.connection.align_windows()
 
 
@@ -230,7 +230,7 @@ class MasterWindow(QtWidgets.QMainWindow):
 
     # Load form and show the window
     @init_wrapper()
-    def __init__(self, xml):
+    def __init__(self, xml=path.p.main_xml):
         self.info = None # WindowInfo will be set in @init_wrapper
 
         # Load UI form - produces huge amount of redundant debug logs
@@ -239,7 +239,7 @@ class MasterWindow(QtWidgets.QMainWindow):
         uic.loadUi(xml, self) # load form
         log.switch_on_logging(hh)
 
-        # Handler to show logs in the CAE's textEdit
+        # Handler to show logs in the CAE textEdit
         if hasattr(self, 'textEdit'): # skip for test_sendkeys
             log.add_text_handler(self.textEdit)
 
@@ -253,7 +253,7 @@ class MasterWindow(QtWidgets.QMainWindow):
             logging.warning('Can not open url\n' + url)
 
 
-""" Right application's window - CGX, text editor,
+""" Right application window - CGX, text editor,
 web browser. Starts as a separate process """
 class SlaveWindow:
 
@@ -301,15 +301,13 @@ def get_new_windows_infos(opened_windows_before, opened_windows_after):
 # Keycodes sending to text editor and CGX
 @tests.test_wrapper()
 def test_sendkeys():
-    p = path.Path()
-    s = settings.Settings(p)
-    xml = os.path.join(p.config, 'sendkeys.xml')
 
     # Create application
     app = QtWidgets.QApplication([])
 
     # Create master window
-    f = Factory(s)
+    f = Factory()
+    xml = os.path.join(path.p.config, 'sendkeys.xml')
     f.run_master(xml)
 
     # Map methods to GUI buttons
@@ -328,7 +326,7 @@ def test_sendkeys():
                 logging.error(msg)
                 f.mw.b0.setDisabled(True)
     f.mw.b0.clicked.connect(lambda: f.run_slave(cmd1))
-    f.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(p, f, s.start_model, 1))
+    f.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(f, settings.s.start_model, 1))
     f.mw.b2.clicked.connect(lambda: f.connection.post('plot n all'))
     f.mw.b3.clicked.connect(lambda: f.connection.post('plot e all'))
     f.mw.b4.clicked.connect(lambda: f.connection.post(f.mw.customEdit.text()))

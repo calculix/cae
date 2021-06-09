@@ -19,7 +19,7 @@ import model
 import tests
 
 # Open 'ccx.html',
-# find link to keyword's help page
+# find link to keyword help page
 # and regenerate its HTML file
 def save_html(doc_root, keyword_name, url):
     href = os.path.join(doc_root, 'ccx.html')
@@ -31,7 +31,7 @@ def save_html(doc_root, keyword_name, url):
                     href = match.group(0)[:12]
                     break
 
-        # Read html of the keyword's page
+        # Read html of the keyword page
         html = '<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body>'
         with open(os.path.join(doc_root, href), 'r') as f:
             append = False
@@ -109,8 +109,7 @@ def remove_png_trash(p):
 
 def prepare_documentation():
     p = path.Path()
-    s = settings.Settings(p)
-    KOM = model.kom.KOM(s)
+    KOM = model.kom.KOM()
     regenerate_documentation(p, KOM)
     remove_html_trash(p, KOM)
     remove_png_trash(p)
@@ -119,8 +118,7 @@ def prepare_documentation():
 @tests.test_wrapper()
 def test():
     p = path.Path()
-    s = settings.Settings(p)
-    KOM = model.kom.KOM(s)
+    KOM = model.kom.KOM()
 
     keywords = [re.sub(r'[ -]', '_', kw.name[1:]) for kw in KOM.keywords]
     keywords = sorted(set(keywords))

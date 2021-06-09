@@ -59,42 +59,38 @@ start_time = time.perf_counter()
 # Create application
 app = QtWidgets.QApplication(sys.argv)
 
-# Calculate absolute paths
-p = path.Path()
-
-# Read application's global settings
-s = settings.Settings(p)
-
 # Configure global logging level
-logging.getLogger().setLevel(s.logging_level)
+# TODO handlers not added
+logging.getLogger().setLevel(settings.s.logging_level)
 
 # Default start model (INP file)
 # could be chosen with command line parameter
 parser = argparse.ArgumentParser()
 parser.add_argument('-inp', type=str,
-    help='your .inp file', default=s.start_model)
+    help='your .inp file',
+    default=settings.s.start_model)
 args = parser.parse_args()
 
-# Show main window
-f = gui.window.Factory(s)
-f.run_master(p.main_xml)
+# Show main window with text logging handler
+f = gui.window.Factory()
+f.run_master(path.p.main_xml)
 
 # Main block
 m = model.Model() # generate FEM model
-t = tree.Tree(s, f, m) # create treeView items based on KOM
-j = model.job.Job(s, f, m) # create job object
-i = importer.Importer(s, f, m, t, j) # prepare to import model
-actions.actions(s, f, m, t, j, i) # window actions
+t = tree.Tree(f, m) # create treeView items based on KOM
+j = model.job.Job(f, m) # create job object with file logging handler
+i = importer.Importer(f, m, t, j) # prepare to import model
+actions.actions(f, m, t, j, i) # window actions
 
 # Import default model
 if len(args.inp):
-    start_model = os.path.join(p.app_home_dir, args.inp)
+    start_model = os.path.join(path.p.app_home_dir, args.inp)
     i.import_file(start_model)
 
 # Or start empty
 else:
     logging.warning('No default start model specified.')
-    m.KOM = model.kom.KOM(s)
+    m.KOM = model.kom.KOM()
     t.generateTreeView(m)
 
 logging.info('Started in {:.1f} seconds.\n'
@@ -107,4 +103,4 @@ app.exec()
 f.kill_slave()
 
 # Recursively clean cached files in all subfolders
-clean.cache(p.src)
+clean.cache(path.p.src)

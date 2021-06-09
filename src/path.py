@@ -4,9 +4,9 @@
 """ © Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Absolute paths to the application's main folders.
+Absolute paths to the application main folders.
 Static class whos fields shouldn't change on the run.
-It's initialized on the app start - and that's all. """
+It is initialized on the app start - and that's all. """
 
 import os
 import tests
@@ -26,7 +26,7 @@ class Path:
             self.op_sys = 'linux' # OS name
             self.extension = '' # file extension in OS
 
-        # Application's home directory - the one with README.md and LICENSE
+        # Application home directory - the one with README.md and LICENSE
         self.app_home_dir = os.path.normpath(
             os.path.join(os.path.dirname(
                 os.path.realpath(__file__)), '..'))
@@ -81,3 +81,5 @@ def test():
 # Run test
 if __name__ == '__main__':
     test()
+else:
+    p = Path()

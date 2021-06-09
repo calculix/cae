@@ -4,9 +4,9 @@
 """ © Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Dialog window to create/edit keyword's implementation.
+Dialog window to create/edit keyword implementation.
 Called via double click on keyword in the treeView.
-Here we define a keyword's implementation: its name and inp_code.
+Here we define a keyword implementation: its name and inp_code.
 It is created via Factory class, run_master_dialog() method.
 So this dialog is a master, help webbrowser is a slave. """
 
@@ -32,6 +32,7 @@ import tests
 import path
 import settings
 import gui
+import gui.window
 import log
 from model.kom import ItemType, KOM
 
@@ -42,20 +43,18 @@ class KeywordDialog(QtWidgets.QDialog):
     @gui.window.init_wrapper()
     def __init__(self, args):
         self.info = None # WindowInfo will be set in @init_wrapper
-        self.s = args[0]
-        self.p = self.s.getp() # Path
-        KOM = args[1]
-        self.item = args[2] # needed to pass to other functions
+        KOM = args[0]
+        self.item = args[1] # needed to pass to other functions
         self.widgets = [] # list of created widgets
 
         # Load UI form - produces huge amount of redundant debug logs
         hh = log.switch_off_logging()
         super().__init__() # create dialog window
-        uic.loadUi(self.p.dialog_xml, self) # load empty dialog form
+        uic.loadUi(path.p.dialog_xml, self) # load empty dialog form
         log.switch_on_logging(hh)
 
         # Align dialog
-        if self.s.align_windows:
+        if settings.s.align_windows:
             size = QtWidgets.QDesktopWidget().availableGeometry()
             # TODO check this bug in Windows 10
             if os.name == 'nt': # just bug with window border padding
@@ -70,15 +69,15 @@ class KeywordDialog(QtWidgets.QDialog):
         icon_name = self.item.name.replace('*', '') + '.png'
         icon_name = icon_name.replace(' ', '_')
         icon_name = icon_name.replace('-', '_')
-        icon_path = os.path.join(self.p.img, 'icon_' + icon_name.lower())
+        icon_path = os.path.join(path.p.img, 'icon_' + icon_name.lower())
         icon = QtGui.QIcon(icon_path)
         self.setWindowIcon(icon)
 
-        # New implementation: draw full form for keyword's arguments
+        # New implementation: draw full form for keyword arguments
         if self.item.itype == ItemType.KEYWORD:
             self.setWindowTitle('New ' + self.item.name)
 
-            # For each keyword's argument create name and value widgets
+            # For each keyword argument create name and value widgets
             row_number = 0 # row number for vertical layout
             for argument in self.item.items:
                 if argument.itype != ItemType.ARGUMENT:
@@ -109,7 +108,7 @@ class KeywordDialog(QtWidgets.QDialog):
                                 if len(implementations) > 1:
                                     argument_values_items.extend(implementations)
 
-                # Argument's values
+                # Argument values
                 if argument.form == 'QComboBox':
                     argument_name_text = argument.name + '='
 
@@ -182,7 +181,7 @@ class KeywordDialog(QtWidgets.QDialog):
                 self.vertical_layout.insertLayout(row_number, horizontal_layout)
                 row_number += 1 # second time
 
-            # Fill textEdit widget with default keyword's configuration
+            # Fill textEdit widget with default keyword configuration
             self.change(None)
 
         # Edit implementation: draw only textEdit
@@ -198,7 +197,7 @@ class KeywordDialog(QtWidgets.QDialog):
         arguments = {} # name:value
         for i, widget in enumerate(self.widgets):
 
-            # Get text from widget: argument's name and value
+            # Get text from widget: argument name and value
             text = '' # clear text from prev. iteration
             if widget.__class__.__name__ == 'QLabel':
                 text = widget.text()
@@ -215,10 +214,10 @@ class KeywordDialog(QtWidgets.QDialog):
             value = '' # clear value from prev. iteration
             if not 'Required' in text:
                 if (i % 2) == 0:
-                    # Argument's name
+                    # Argument name
                     name = text # name is always present
                 else:
-                    # Argument's value
+                    # Argument value
                     value = text
 
                     # Flag goes without value, only flag name
@@ -266,7 +265,7 @@ class KeywordDialog(QtWidgets.QDialog):
 
         # Avoid spaces and hyphens in html page names
         html_page_name = re.sub(r'[ -]', '_', keyword_name)
-        url = os.path.join(self.p.doc, html_page_name + '.html')
+        url = os.path.join(path.p.doc, html_page_name + '.html')
         return url
 
 
@@ -275,16 +274,13 @@ class KeywordDialog(QtWidgets.QDialog):
 @tests.test_wrapper()
 def test():
     app = QtWidgets.QApplication(sys.argv)
-    p = path.Path()
-    s = settings.Settings(p)
-    f = gui.window.Factory(s)
-    k = KOM(s, kom_xml=p.kom_xml)
+    f = gui.window.Factory()
+    k = KOM() # TODO switch off logging
     i = k.get_keyword_by_name('*NODE')
 
     # Create and show dialog window
-    d = f.run_master_dialog(s, k, i) # 0 = cancel, 1 = ok
+    d = f.run_master_dialog(k, i) # 0 = cancel, 1 = ok
     print(d)
-
 
 # Run test
 if __name__ == '__main__':

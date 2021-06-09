@@ -28,6 +28,7 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import path
+import settings
 import tests
 
 
@@ -35,27 +36,19 @@ import tests
 class KOM:
 
     # Read CalculiX keywords hierarchy
-    def __init__(self, s=None, kom_xml=None):
-        self.s = s # could be None
+    def __init__(self, kom_xml=path.p.kom_xml):
 
         # List of all existing keywords
         self.keywords = []
         self.keyword_names = ()
 
         # Group 'Model' from kom.xml
-        self.root = Group(self.s)
+        self.root = Group()
 
+        # Parse keywords hierarchy and build KOM
         try:
-            if s is not None:
-                p = s.getp()
-                kom_xml = p.kom_xml
-            if kom_xml is None:
-                raise Exception
-
-            # Parse keywords hierarchy and build KOM
             t = ET.parse(kom_xml)
             self.build(t.getroot(), self.root)
-
             logging.info('Keywords object model generated.')
         except:
             msg = 'Can\'t generate keywords object model!\n' \
@@ -77,7 +70,7 @@ class KOM:
 
             # Create item: group, keyword or argument
             klass = globals()[xml_child.tag]
-            item = klass(self.s)
+            item = klass()
             parent.items.append(item)
 
             # Set fields for object
@@ -105,7 +98,7 @@ class KOM:
             if kw.name == name:
                 return kw
 
-    # Recursively get whole model's inp_code as list of strings (lines)
+    # Recursively get whole model inp_code as list of strings (lines)
     # Parent is KOM item, level defines code folding/padding
     def get_inp_code_as_lines(self, parent=None, level=0):
         lines = []
@@ -149,7 +142,7 @@ class KOM:
                     return kw
 
     # Test parent-child relations in all tree items
-    # Print item's paths top-downwards and bottom-upwards
+    # Print item paths top-downwards and bottom-upwards
     def test(self, parent=None, path=None):
         if parent is None:
             parent = self.root
@@ -180,10 +173,10 @@ class ItemType(Enum):
 class Item:
 
     def __init__(self):
-        self.itype = ''      # item's type: group/keyword/argument/implementation
+        self.itype = ''      # item type: group/keyword/argument/implementation
         self.name = ''       # name of item, string
         self.items = []      # list of children
-        self.parent = None   # item's parent item
+        self.parent = None   # item parent item
         self.active = False
 
     # Define if item is active
@@ -223,7 +216,7 @@ class Item:
                 copied_item = copy.copy(item)
                 another_item.items.append(copied_item)
 
-    # Recursive function to count keyword implementations in item's descendants
+    # Recursive function to count keyword implementations in item descendants
     def count_implementations(self):
         if self.itype == ItemType.ARGUMENT:
             return 0
@@ -258,7 +251,7 @@ class Item:
         else:
             return self.parent.get_parent_keyword_name()
 
-    # Get item's path bottom-upwards
+    # Get item path bottom-upwards
     def get_path(self):
         path = []
         while self.parent is not None: # root has None parent
@@ -271,40 +264,31 @@ class Item:
 # Group of keywords, like 'Properties', 'Constraints', etc.
 class Group(Item):
 
-    def __init__(self, s):
+    def __init__(self):
         super().__init__()
-
         self.itype = ItemType.GROUP
         self.items = [] # list of groups and keywords
         self.name = 'Model' # default name (root group)
-        if s is not None:
-            self.expanded = s.expanded
-        else:
-            self.expanded = True
+        self.expanded = settings.s.expanded
 
 
 # *AMPLITUDE, *BOUNDARY, *STEP etc.
 class Keyword(Item):
 
-    def __init__(self, s):
+    def __init__(self):
         super().__init__()
-
         self.itype = ItemType.KEYWORD
         self.items = [] # list of arguments
         self.name = ''
         self.from_new_line = False # start all arguments from the next line?
-        if s is not None:
-            self.expanded = s.expanded
-        else:
-            self.expanded = True
+        self.expanded = settings.s.expanded
 
 
-# Keyword's argument
+# Keyword argument
 class Argument(Item):
 
-    def __init__(self, s):
+    def __init__(self):
         super().__init__()
-
         self.itype = ItemType.ARGUMENT
         self.items = [] # list of strings
         self.name = ''
@@ -315,17 +299,14 @@ class Argument(Item):
 # Keyword implementation - a piece of INP-code for CalculiX input file
 class Implementation(Item):
 
-    def __init__(self, s, keyword, inp_code, name=None):
+    def __init__(self, keyword, inp_code, name=None):
         super().__init__()
 
         self.itype = ItemType.IMPLEMENTATION
         keyword.copy_items_to(self)
         self.parent = keyword
         self.active = True
-        if s is not None:
-            self.expanded = s.expanded
-        else:
-            self.expanded = True
+        self.expanded = settings.s.expanded
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
         index = len(self.parent.get_implementations())
@@ -344,7 +325,7 @@ class Implementation(Item):
                 self.name = self.parent.name[1:] + '-' + str(index + 1)
 
         self.inp_code = inp_code # INP-code for current implementation - list of strings
-        self.parent.items.insert(index, self) # append implementation to keyword's items
+        self.parent.items.insert(index, self) # append implementation to keyword items
         if name:
             logging.info('{} \"{}\" updated.'.format(keyword.name, self.name))
         else:
@@ -360,8 +341,6 @@ def test():
     # from pycallgraph import GlobbingFilter
     # from pycallgraph.output import GraphvizOutput
 
-    p = path.Path()
-
     # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
     # config = Config()
     # config.trace_filter = GlobbingFilter(
@@ -370,7 +349,7 @@ def test():
     # with PyCallGraph(output=graphviz, config=config):
 
     os.chdir(os.path.dirname(__file__))
-    k = KOM(None, kom_xml=p.kom_xml)
+    k = KOM()
 
     # Print all CalculiX keywords
     for kw in k.keyword_names:

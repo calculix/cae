@@ -8,7 +8,18 @@ Methods for GraphiX window. """
 
 # Standard modules
 import os
+import sys
 import logging
+
+# My modules
+sys_path = os.path.abspath(__file__)
+sys_path = os.path.dirname(sys_path)
+sys_path = os.path.join(sys_path, '..')
+sys_path = os.path.normpath(sys_path)
+sys_path = os.path.realpath(sys_path)
+if sys_path not in sys.path:
+    sys.path.insert(0, sys_path)
+import path
 
 """
     # Paint element sets in default CGX colors
@@ -27,7 +38,7 @@ import logging
 
 # Paint element sets in CGX when INP is opened
 def paint_elsets(f, m):
-    if not (f.p.path_cgx + ' -c ') in f.sw.cmd:
+    if not (path.p.path_cgx + ' -c ') in f.sw.cmd:
         msg = 'Please, open INP model to paint elsets.'
         logging.warning(msg)
         return
@@ -44,7 +55,7 @@ def paint_elsets(f, m):
 
 # Paint surfaces in CGX when INP is opened
 def paint_surfaces(f, m):
-    if not (f.p.path_cgx + ' -c ') in f.sw.cmd:
+    if not (path.p.path_cgx + ' -c ') in f.sw.cmd:
         msg = 'Please, open INP model to paint surfaces.'
         logging.warning(msg)
         return
@@ -61,16 +72,16 @@ def paint_surfaces(f, m):
 
 # Set custom colormap when FRD is opened
 def cmap(f, colormap):
-    if not (f.p.path_cgx + ' -o ') in f.sw.cmd:
+    if not (path.p.path_cgx + ' -o ') in f.sw.cmd:
         msg = 'Please, open FRD model to set colormap.'
         logging.warning(msg)
         return
     f.connection.post('cmap ' + colormap)
 
 # Open INP model in GraphiX
-def open_inp(p, f, inp_file, has_nodes=0):
-    if not os.path.isfile(p.path_cgx):
-        logging.error('CGX not found in ' + p.path_cgx)
+def open_inp(f, inp_file, has_nodes=0):
+    if not os.path.isfile(path.p.path_cgx):
+        logging.error('CGX not found in ' + path.p.path_cgx)
         raise SystemExit # the best way to exit
 
     if os.path.isfile(inp_file):
@@ -78,32 +89,32 @@ def open_inp(p, f, inp_file, has_nodes=0):
         if not has_nodes:
             logging.warning('Empty mesh, CGX will not start!')
             return
-        cmd = p.path_cgx + ' -c ' + inp_file
+        cmd = path.p.path_cgx + ' -c ' + inp_file
         f.run_slave(cmd)
-        read_fbd_file(p, f, 'cgx_start.fbd')
-        read_fbd_file(p, f, 'cgx_iso.fbd')
-        read_fbd_file(p, f, 'cgx_colors.fbd')
+        read_fbd_file(f, 'cgx_start.fbd')
+        read_fbd_file(f, 'cgx_iso.fbd')
+        read_fbd_file(f, 'cgx_colors.fbd')
     else:
         logging.error('File not found:\n' + inp_file)
 
 # Open FRD results in GraphiX
-def open_frd(p, f, frd_file):
-    if not os.path.isfile(p.path_cgx):
-        logging.error('CGX not found in ' + p.path_cgx)
+def open_frd(f, frd_file):
+    if not os.path.isfile(path.p.path_cgx):
+        logging.error('CGX not found in ' + path.p.path_cgx)
         raise SystemExit # the best way to exit
 
     if os.path.isfile(frd_file):
-        cmd = p.path_cgx + ' -o ' + frd_file
+        cmd = path.p.path_cgx + ' -o ' + frd_file
         f.run_slave(cmd)
-        read_fbd_file(p, f, 'cgx_start.fbd')
-        read_fbd_file(p, f, 'cgx_iso.fbd')
+        read_fbd_file(f, 'cgx_start.fbd')
+        read_fbd_file(f, 'cgx_iso.fbd')
     else:
         logging.error('File not found:\n' \
             + frd_file \
             + '\nSubmit analysis first.')
 
-def read_fbd_file(p, f, basename):
-    file_name = os.path.join(p.config, basename)
+def read_fbd_file(f, basename):
+    file_name = os.path.join(path.p.config, basename)
     if os.path.isfile(file_name):
         f.connection.post('read ' + file_name)
     else:

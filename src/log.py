@@ -6,7 +6,7 @@ Distributed under GNU General Public License v3.0
 
 Custon logging handlers for catching CCX and CGX output.
 The Text handler is created once per session
-and prints into CAE's textEdit.
+and prints into CAE textEdit.
 The File handler is created any time you open a model.
 Log file has the same name as a model. """
 
@@ -33,10 +33,8 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-import settings
 import path
 import tests
-import gui.window
 
 mh = 'MyHandler'
 mtlh = 'MyTextLoggingHandler'
@@ -80,10 +78,10 @@ class MyLoggingHandler(logging.Handler):
 
 
 # Called only once on startup
-# Handler to show logs in master window's textEdit
+# Handler to show logs in master window textEdit
 class MyTextLoggingHandler(MyLoggingHandler):
 
-    # Sends log messages to Window's textEdit widget
+    # Sends log messages to Window textEdit widget
     def emit(self, LogRecord):
 
         # Message color depending on logging level
@@ -185,12 +183,13 @@ def remove_handler_by_name(name):
 # Handler to emit messages via 'print' method
 # Combination of file and stream handlers
 def add_my_handler(level=None):
+    if level is None:
+        import settings
+        level = settings.s.logging_level
     caller = os.path.realpath(inspect.stack()[1][1])
     log_file = caller[:-3] + '.log'
     h = myHandler(log_file)
     h.set_name(mh)
-    if level is None:
-        level = settings.s.logging_level
     h.setLevel(level)
     logging.getLogger().addHandler(h)
 
@@ -198,12 +197,13 @@ def add_my_handler(level=None):
 def remove_my_handler():
     remove_handler_by_name(mh)
 
-# Handler to show logs in master window's textEdit
+# Handler to show logs in master window textEdit
 def add_text_handler(textEdit, level=None):
+    if level is None:
+        import settings
+        level = settings.s.logging_level
     h = MyTextLoggingHandler(textEdit)
     h.set_name(mtlh)
-    if level is None:
-        level = settings.s.logging_level
     h.setLevel(level)
     logging.getLogger().addHandler(h)
 
@@ -213,10 +213,11 @@ def remove_text_handler():
 
 # Handler to write logs into file
 def add_file_handler(log_file, level=None):
+    if level is None:
+        import settings
+        level = settings.s.logging_level
     h = MyFileLoggingHandler(log_file)
     h.set_name(mflh)
-    if level is None:
-        level = settings.s.logging_level
     h.setLevel(level)
     logging.getLogger().addHandler(h)
     """
@@ -246,10 +247,11 @@ def remove_file_handler():
 
 # Handler to write logs into stream
 def add_stream_handler(level=None):
+    if level is None:
+        import settings
+        level = settings.s.logging_level
     h = logging.StreamHandler()
     h.set_name(mslh)
-    if level is None:
-        level = settings.s.logging_level
     h.setLevel(level)
     fmt = logging.Formatter('%(levelname)s: %(message)s')
     h.setFormatter(fmt)
@@ -367,22 +369,17 @@ class CgxStdoutReader(StdoutReader):
             return line
 
 
-# Run app's main window and test loggers
+# Run main window and test loggers
 @tests.test_wrapper()
 def test():
 
     # Create application
     app = QtWidgets.QApplication(sys.argv)
 
-    # Calculate absolute paths
-    p = path.Path()
-
-    # Read application's global settings
-    s = settings.Settings(p)
-
     # Show main window
-    f = gui.window.Factory(s)
-    f.run_master(p.main_xml)
+    import gui.window
+    f = gui.window.Factory()
+    f.run_master(path.p.main_xml)
 
     # Execute application
     app.exec()

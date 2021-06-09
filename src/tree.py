@@ -4,7 +4,7 @@
 """ © Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Methods to work with main window's treeView widget. """
+Methods to work with main window treeView widget. """
 
 # Standard modules
 import re
@@ -28,19 +28,16 @@ import tests
 class Tree:
 
     """
-    s - Settings
     f - Window Factory
     m - Model
     """
-    def __init__(self, s, f, m):
-        self.p = s.getp()
-        self.s = s
+    def __init__(self, f, m):
         self.f = f
         self.m = m
         self.model = QtGui.QStandardItemModel()
         self.f.mw.treeView.setModel(self.model)
 
-    # Delete keyword's implementation in the treeView by pressing 'Delete' button
+    # Delete keyword implementation in the treeView by pressing 'Delete' button
     def keyPressEvent(self, e):
         if e.key() == QtCore.Qt.Key_Delete:
             self.actionDeleteImplementation()
@@ -62,7 +59,7 @@ class Tree:
                 continue
 
             # Check if there are keywords with implementations
-            if not self.s.show_empty_keywords \
+            if not settings.s.show_empty_keywords \
                 and not item.count_implementations() \
                 and item.itype != ItemType.IMPLEMENTATION:
                 continue
@@ -94,7 +91,7 @@ class Tree:
             icon_name = item.name.replace('*', '') + '.png'
             icon_name = icon_name.replace(' ', '_')
             icon_name = icon_name.replace('-', '_')
-            icon_path = os.path.join(self.p.img, 'icon_' + icon_name.lower())
+            icon_path = os.path.join(path.p.img, 'icon_' + icon_name.lower())
             icon = QtGui.QIcon(icon_path)
             tree_element.setIcon(icon)
 
@@ -123,19 +120,19 @@ class Tree:
             return
 
         # Exec dialog and recieve answer
-        f = gui.window.Factory(self.s)
+        f = gui.window.Factory()
 
         # Process response from dialog window if user pressed 'OK'
-        if f.run_master_dialog(self.s, self.m.KOM, item): # 0 = cancel, 1 = ok
+        if f.run_master_dialog(self.m.KOM, item): # 0 = cancel, 1 = ok
 
             # The generated piece of .inp code for the CalculiX input file
             inp_code = f.mw.ok() # list of strings
 
             # Create implementation object for keyword
             if item.itype == ItemType.KEYWORD:
-                impl = Implementation(self.s, item, inp_code) # create keyword's implementation
+                impl = Implementation(item, inp_code) # create keyword implementation
 
-                # Regenerate tree_element's children
+                # Regenerate tree_element children
                 tree_element.removeRows(0, tree_element.rowCount()) # remove all children
                 self.addToTree(tree_element, item.get_implementations()) # add only implementations
 
@@ -150,10 +147,10 @@ class Tree:
                 # Remove old one
                 parent = tree_element.parent() # parent treeView item
                 keyword = parent.data() # parent keyword for implementation
-                keyword.items.remove(item) # remove implementation from keyword's items
+                keyword.items.remove(item) # remove implementation from keyword items
 
                 # Add new one
-                impl = Implementation(self.s, keyword, inp_code, name=item.name)
+                impl = Implementation(keyword, inp_code, name=item.name)
                 tree_element.setData(impl)
 
                 # Reparse mesh or constraints
@@ -169,7 +166,7 @@ class Tree:
             return
 
         # Highlight only when INP is opened
-        if not (self.p.path_cgx + ' -c ') in self.f.sw.cmd:
+        if not (path.p.path_cgx + ' -c ') in self.f.sw.cmd:
             return
 
         index = self.f.mw.treeView.selectedIndexes()[0] # selected item index
@@ -270,7 +267,7 @@ class Tree:
             pass
 
         # Context menu elements which always present
-        if self.s.show_empty_keywords:
+        if settings.s.show_empty_keywords:
             action_show_hide = QtWidgets.QAction('Hide empty containers', self.f.mw.treeView)
         else:
             action_show_hide = QtWidgets.QAction('Show empty containers', self.f.mw.treeView)
@@ -289,21 +286,21 @@ class Tree:
 
     # Show/Hide empty treeView items
     def actionShowHide(self):
-        self.s.show_empty_keywords = not(self.s.show_empty_keywords)
-        self.s.save() # save 'show_empty_keywords' value in settings
+        settings.s.show_empty_keywords = not(settings.s.show_empty_keywords)
+        settings.s.save() # save 'show_empty_keywords' value in settings
         self.generateTreeView(self.m)
 
     # Expand or collapse all treeView items
     def actionCollapseAll(self):
         self.f.mw.treeView.collapseAll()
-        self.s.expanded = False
-        self.s.save()
+        settings.s.expanded = False
+        settings.s.save()
     def actionExpandAll(self):
         self.f.mw.treeView.expandAll()
-        self.s.expanded = True
-        self.s.save()
+        settings.s.expanded = True
+        settings.s.save()
 
-    # Delete keyword's implementation from KOM
+    # Delete keyword implementation from KOM
     def actionDeleteImplementation(self):
         index = self.f.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
@@ -322,18 +319,18 @@ class Tree:
 
                 parent = tree_element.parent() # parent treeView item
                 keyword = parent.data() # parent keyword for implementation
-                keyword.items.remove(item) # remove implementation from keyword's items
+                keyword.items.remove(item) # remove implementation from keyword items
 
-                # Regenerate parent's children
+                # Regenerate parent children
                 parent.removeRows(0, parent.rowCount()) # remove all children
                 self.addToTree(parent, keyword.items)
 
-                if not self.s.show_empty_keywords:
+                if not settings.s.show_empty_keywords:
                     self.hideParent(parent)
     def hideParent(self, tree_element):
 
         # To hide current item/brunch it should be empty 'keyword' or 'group'
-        if not self.s.show_empty_keywords \
+        if not settings.s.show_empty_keywords \
             and not tree_element.hasChildren() \
             and tree_element.data().itype != ItemType.IMPLEMENTATION:
 
@@ -346,7 +343,7 @@ class Tree:
             if parent != self.model.invisibleRootItem():
                 self.hideParent(parent)
 
-    # Change KOM item's 'expanded' variable when user interacts with treeView
+    # Change KOM item 'expanded' variable when user interacts with treeView
     def treeViewExpanded(self, index):
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
@@ -366,21 +363,15 @@ def test():
     # Create application
     app = QtWidgets.QApplication(sys.argv)
 
-    # Calculate absolute paths
-    p = path.Path()
-
-    # Read application's global settings
-    s = settings.Settings(p)
-
     # Show main window
-    f = gui.window.Factory(s)
-    f.run_master(p.main_xml)
+    f = gui.window.Factory()
+    f.run_master()
 
     # Generate FEM model
     m = model.Model()
 
     # Create treeView items based on KOM
-    t = Tree(s, f, m)
+    t = Tree(f, m)
 
     # Actions
     f.mw.treeView.doubleClicked.connect(t.doubleClicked)
@@ -391,7 +382,7 @@ def test():
 
     # TODO Logging doesn't switched off
     log.switch_off_logging()
-    m.KOM = model.kom.KOM(s)
+    m.KOM = model.kom.KOM()
     t.generateTreeView(m)
 
     # Execute application

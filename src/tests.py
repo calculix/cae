@@ -9,7 +9,7 @@ Utilities for testing.
 Class Check tests user system configuration.
 Run test: Ctrl+F5 from VSCode """
 
-# TODO Use unittest in all module's tests
+# TODO Use unittest in all module tests
 
 # Standard modules
 import os
@@ -31,7 +31,6 @@ def scan_all_files_in(start_folder, ext, limit=1000000):
             ff = os.path.normpath(f.path)
             all_files.append(ff)
     return sorted(all_files)[:limit]
-
 
 # Return spent time delta in format hh:mm:ss.s
 def get_time_delta(start):

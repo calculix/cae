@@ -33,21 +33,20 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
+import path
+import settings
 import gui
+import gui.window
 import log
 import tests
+
 
 class Job:
 
     # Create job object
-    def __init__(self, s, f, m, file_name=''):
-        self.p = s.getp()
-        self.s = s
+    def __init__(self, f, m, file_name=settings.s.start_model):
         self.f = f
-
         self.m = m
-        if not len(file_name):
-            file_name = self.s.start_model
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
         self.name = os.path.basename(file_name) # INP file name
         self.inp = os.path.abspath(file_name) # full path to INP file with extension
@@ -59,26 +58,26 @@ class Job:
         if os.path.exists(self.log):
             os.remove(self.log)
 
-        # Handler to write the job's log file
+        # Handler to write the job log file
         log.add_file_handler(self.log)
 
         if sys.argv[0].endswith('.py'):
             logging.debug('Running from sources.')
         else:
             logging.debug('Running from binaries.')
-        logging.info('Application\'s home directory is:\n'\
-            + self.p.app_home_dir)
+        logging.info('Application home directory is:\n'\
+            + path.p.app_home_dir)
         logging.info('Work directory is:\n' + self.dir)
 
     # Convert UNV to INP
     def convert_unv(self):
-        # converter_path = os.path.join(self.p.bin, 'unv2ccx' + self.p.extension)
+        # converter_path = os.path.join(path.p.bin, 'unv2ccx' + path.p.extension)
         # cmd = [converter_path, self.path + '.unv']
         # logging.info(' '.join(cmd))
         # self.run(cmd)
         unv2ccx.Converter(self.path + '.unv').run()
 
-    # Write the whole model's inp_code
+    # Write the whole model inp_code
     # into the output .inp-file.
     # Is called from menu 'Job -> Write input'
     # Reinitialize job because of possible file_name change
@@ -90,18 +89,18 @@ class Job:
             with open(file_name, 'w') as f:
                 f.writelines(lines)
             logging.info('Input written to\n' + file_name)
-            self.__init__(self.s, self.f,\
+            self.__init__(self.f,\
                 self.m, file_name[:-4] + '.inp')
 
             # Reopen CGX
             has_nodes = len(self.m.Mesh.nodes)
-            gui.cgx.open_inp(self.p, self.f, self.inp, has_nodes)
+            gui.cgx.open_inp(self.f, self.inp, has_nodes)
 
     # Open INP file in external text editor
     def edit_inp(self):
-        if os.path.isfile(self.s.path_editor):
+        if os.path.isfile(settings.s.path_editor):
             if os.path.isfile(self.inp):
-                command = [self.s.path_editor, self.inp]
+                command = [settings.s.path_editor, self.inp]
                 subprocess.Popen(command)
             else:
                 logging.error('File not found:\n' \
@@ -109,20 +108,20 @@ class Job:
                     + '\nWrite input first.')
         else:
             logging.error('Wrong path to text editor:\n' \
-                + self.s.path_editor \
+                + settings.s.path_editor \
                 + '\nConfigure it in File->Settings.')
 
     # Dialog window to filter fortran subroutines
     def open_subroutine(self):
-        if os.path.isfile(self.s.path_editor):
+        if os.path.isfile(settings.s.path_editor):
             file_name = QtWidgets.QFileDialog.getOpenFileName(None,
-                'Open a subroutine', self.p.ccx, 'FORTRAN (*.f)')[0]
+                'Open a subroutine', path.p.ccx, 'FORTRAN (*.f)')[0]
             if file_name:
-                command = [self.s.path_editor, file_name]
+                command = [settings.s.path_editor, file_name]
                 subprocess.Popen(command)
         else:
             logging.error('Wrong path to text editor:\n' \
-                + self.s.path_editor \
+                + settings.s.path_editor \
                 + '\nConfigure it in File->Settings.')
 
     # Recompile CalculiX sources with updated subroutines
@@ -132,7 +131,7 @@ class Job:
         if os.name == 'nt':
 
             # Path to ccx sources
-            ccx = path2cygwin(self.p.ccx)
+            ccx = path2cygwin(path.p.ccx)
 
             # Open bash and send command to build CalculiX
             cmd1 = 'C:\\cygwin64\\bin\\bash.exe --login'
@@ -141,18 +140,18 @@ class Job:
             # Move binary
             cmd2 = 'C:\\cygwin64\\bin\\mv.exe -T ' \
                     + ccx + '/ccx ' \
-                    + self.p.bin + '/ccx'
+                    + path.p.bin + '/ccx'
 
         # Linux
         else:
 
             # Build CalculiX
-            cmd1 = ['make', '-f', 'Makefile_MT', '-C', self.p.ccx]
+            cmd1 = ['make', '-f', 'Makefile_MT', '-C', path.p.ccx]
             send1 = ''
 
             # Move binary
-            cmd2 = ['mv', '-T', self.p.ccx + '/ccx',
-                    self.p.bin + '/ccx']
+            cmd2 = ['mv', '-T', path.p.ccx + '/ccx',
+                    path.p.bin + '/ccx']
 
         # Build CalculiX
         if type(cmd1) == str:
@@ -174,14 +173,14 @@ class Job:
 
     # Submit INP to CalculiX
     def submit(self):
-        if not os.path.isfile(self.p.path_ccx):
+        if not os.path.isfile(path.p.path_ccx):
             logging.error('CCX not found:\n' \
-                + self.p.path_ccx)
+                + path.p.path_ccx)
             return
 
         if os.path.isfile(self.inp):
             os.environ['OMP_NUM_THREADS'] = str(os.cpu_count()) # enable multithreading
-            cmd = [self.p.path_ccx, '-i', self.path]
+            cmd = [path.p.path_ccx, '-i', self.path]
             logging.info(' '.join(cmd))
 
             t_name = 'thread_{}_submit_{}'\
@@ -196,9 +195,9 @@ class Job:
 
     # Open log file in external text editor
     def view_log(self):
-        if os.path.isfile(self.s.path_editor):
+        if os.path.isfile(settings.s.path_editor):
             if os.path.isfile(self.log):
-                command = [self.s.path_editor, self.log]
+                command = [settings.s.path_editor, self.log]
                 subprocess.Popen(command)
             else:
                 logging.error('File not found:\n' \
@@ -206,7 +205,7 @@ class Job:
                     + '\nSubmit analysis first.')
         else:
             logging.error('Wrong path to text editor:\n' \
-                + self.s.path_editor \
+                + settings.s.path_editor \
                 + '\nConfigure it in File->Settings.')
 
     # Convert FRD to VTU
@@ -220,7 +219,7 @@ class Job:
 
     # Open VTU in ParaView
     def open_paraview(self):
-        if os.path.isfile(self.s.path_paraview):
+        if os.path.isfile(settings.s.path_paraview):
 
             # Count result VTU files
             file_list = []
@@ -239,12 +238,12 @@ class Job:
                 logging.error('VTU file not found.\nExport VTU results first.')
                 return
 
-            command = [self.s.path_paraview, '--data=' + vtu_path]
+            command = [settings.s.path_paraview, '--data=' + vtu_path]
             logging.info(' '.join(command))
             subprocess.Popen(command)
         else:
             logging.error('Wrong path to ParaView:\n' \
-                + self.s.path_paraview \
+                + settings.s.path_paraview \
                 + '\nConfigure it in File->Settings.')
 
     # Run a single command, wait for its completion and log stdout
@@ -270,7 +269,7 @@ class Job:
         if len(send):
             process.stdin.write(bytes(send, 'utf8'))
             process.stdin.close()
-        os.chdir(self.p.app_home_dir)
+        os.chdir(path.p.app_home_dir)
 
         # Start stdout reading and logging thread
         sr = log.StdoutReader(process.stdout, 'read_stdout', read_output)
@@ -288,28 +287,10 @@ def path2cygwin(path):
             path[0].lower() + \
             path[2:].replace('\\', '/')
 
-# TODO Invent some test
 @tests.test_wrapper()
 def test():
-    pass
-
-    # # Configure logging
-    # logging.log = print
-    # logging.debug = print
-    # logging.info = print
-    # logging.warning = print
-
-    # s = Settings()
-
-    # # Create job
-    # j = Job(...)
-
-    # # Rebuild CCX
-    # j.rebuildCCX()
-
-    # # Remove cached files
-    # import clean
-    # clean.cache()
+    j = Job(None, None)
+    j.view_log()
 
 # Run test
 if __name__ == '__main__':

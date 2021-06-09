@@ -302,7 +302,7 @@ class Mesh:
 
                 nodes = []
                 create_element = True
-                for n in a[1:]: # iterate over element's node numbers
+                for n in a[1:]: # iterate over element node numbers
                     if int(n) == 0: # it is possible in network element, type=D
                         n = int(a[2]) # take middle node to display in VTK
                     try:
@@ -867,7 +867,7 @@ class ELEMENT:
         x = sum([node.coords[0] for node in self.nodes]) / len(nodes)
         y = sum([node.coords[1] for node in self.nodes]) / len(nodes)
         z = sum([node.coords[2] for node in self.nodes]) / len(nodes)
-        self.centroid = [x, y, z] # coordinates of element's center
+        self.centroid = [x, y, z] # coordinates of element center
 
 
 class ELSET:

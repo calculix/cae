@@ -14,24 +14,24 @@ import logging
 from PyQt5 import QtWidgets
 
 # My modules
+import path
+import settings
 import gui
 
 """
-s - Settings
 f - Window factory
 w - Master window
 m - Model
 t - Tree
 j - Job
 """
-def actions(s, f, m, t, j, i):
-    p = s.getp()
+def actions(f, m, t, j, i):
     w = f.mw
     w.keyPressEvent = t.keyPressEvent
 
     # File actions
     w.action_file_import.triggered.connect(lambda: i.import_file(None))
-    w.action_file_settings.triggered.connect(s.open)
+    w.action_file_settings.triggered.connect(settings.s.open)
     w.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
     # Job actions
@@ -52,8 +52,8 @@ def actions(s, f, m, t, j, i):
         lambda: gui.cgx.paint_elsets(f, m))
     w.action_cgx_paint_surfaces.triggered.connect(
         lambda: gui.cgx.paint_surfaces(f, m))
-    w.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(p, f, j.inp, len(m.Mesh.nodes)))
-    w.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(p, f, j.frd))
+    w.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(f, j.inp, len(m.Mesh.nodes)))
+    w.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(f, j.frd))
     w.action_cgx_cmap_classic.triggered.connect(lambda: gui.cgx.cmap(f, 'classic'))
     w.action_cgx_cmap_inferno.triggered.connect(lambda: gui.cgx.cmap(f, 'inferno'))
     w.action_cgx_cmap_turbo.triggered.connect(lambda: gui.cgx.cmap(f, 'turbo'))
@@ -61,7 +61,7 @@ def actions(s, f, m, t, j, i):
 
     # Help actions
     w.action_help_readme.triggered.connect(
-        lambda: w.help('file://{}/README.pdf'.format(p.app_home_dir)))
+        lambda: w.help('file://{}/README.pdf'.format(path.p.app_home_dir)))
     w.action_help_examples.triggered.connect(
         lambda: w.help('https://github.com/calculix/examples'))
     w.action_help_issues.triggered.connect(
@@ -87,7 +87,7 @@ def actions(s, f, m, t, j, i):
     # Three rotation posts to CGX window doesn't work in Windows
     # So one may use .fbd commands
     def action_view_iso():
-        file_name = os.path.join(p.config, 'cgx_iso.fbd')
+        file_name = os.path.join(path.p.config, 'cgx_iso.fbd')
         if not os.path.isfile(file_name):
             logging.error('No config file cgx_iso.fbd')
             return

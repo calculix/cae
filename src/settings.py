@@ -4,7 +4,7 @@
 """ © Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Application's settings.
+Application settings.
 Attributes values are maintained in config/Settings_*.py.
 User dialog form is config/SettingsDialog.xml - use Qt Designer to edit. """
 
@@ -26,12 +26,11 @@ import log
 class Settings:
 
     # Read settings from file
-    def __init__(self, p):
-        self.p = p
+    def __init__(self):
 
         # Try to read settings file
         try:
-            with open(self.p.settings, 'r') as f:
+            with open(path.p.settings, 'r') as f:
                 exec(f.read())
             if len(self.__dict__) < 2:
                 raise Exception
@@ -51,32 +50,27 @@ class Settings:
                 self.path_paraview = '/usr/bin/paraview'
                 self.path_editor = '/usr/bin/gedit'
 
-            self.start_model = os.path.join(self.p.examples, 'default.inp')
+            self.start_model = os.path.join(path.p.examples, 'default.inp')
             self.logging_level = 'DEBUG'
             self.show_empty_keywords = True
             self.expanded = True
             self.start_cgx_by_default = True
             self.align_windows = True
 
-    # Method is needed to avoid passing to all classes
-    # both Settings and Path as parameters
-    def getp(self):
-        return self.p
-
     # Open dialog window and pass settings
     def open(self):
-        self.__init__(self.p) # re-read settings from file
-        sd = SettingsDialog(self.p, settings=self)
+        self.__init__() # re-read settings from file
+        sd = SettingsDialog(settings=self)
 
         # Get response from dialog window
         if sd.exec(): # == 1 if user pressed 'OK'
             sd.save()
-            self.__init__(self.p) # read settings from file
+            self.__init__() # read settings from file
             logging.warning('For some settings to take effect application\'s restart may be needed.')
 
     # Automatic saving of current settings during the workflow
     def save(self):
-        sd = SettingsDialog(self.p, settings=self)
+        sd = SettingsDialog(settings=self)
         sd.save()
 
 
@@ -84,13 +78,12 @@ class Settings:
 class SettingsDialog(QtWidgets.QDialog):
 
     # Create dialog window
-    def __init__(self, p, settings=None):
-        self.p = p
+    def __init__(self, settings=None):
 
         # Load UI form - produces huge amount of redundant debug logs
         hh = log.switch_off_logging()
         super().__init__() # create dialog window
-        uic.loadUi(self.p.settings_xml, self) # load default settings
+        uic.loadUi(path.p.settings_xml, self) # load default settings
         log.switch_on_logging(hh)
 
         # Actions
@@ -121,7 +114,7 @@ class SettingsDialog(QtWidgets.QDialog):
 
     # Save settings updated via or passed to dialog
     def save(self):
-        with open(self.p.settings, 'w') as f:
+        with open(path.p.settings, 'w') as f:
 
             # Iterate over class attributes
             for attr, value in self.__dict__.items():
@@ -133,7 +126,7 @@ class SettingsDialog(QtWidgets.QDialog):
                         text = str(value.isChecked())
                     elif class_name == 'QLineEdit':
                         text = value.text()
-                        text = '\'' + self.p.abspath(text) + '\'' # covert path to absolute
+                        text = '\'' + path.p.abspath(text) + '\'' # covert path to absolute
                         if '\\' in text: # reconstruct path for Windows
                             text = '\\\\'.join(text.split('\\'))
                         value = self.__dict__['label_' + attr]
@@ -161,10 +154,10 @@ def test():
     app = QtWidgets.QApplication(sys.argv)
 
     # Create and open settings window
-    p = path.Path()
-    s = Settings(p)
+    s = Settings()
     s.open()
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test
+else:
+    s = Settings()
