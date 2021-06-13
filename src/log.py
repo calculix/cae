@@ -146,7 +146,7 @@ def switch_off_logging():
     hh = logging.getLogger().handlers
     msg = 'Switching off {} logging handlers'.format(len(hh))
     logging.debug(msg)
-    logging.getLogger().handlers = []
+    stop_logging()
     return hh
 
 # Switch on logging
