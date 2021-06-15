@@ -110,6 +110,8 @@ class Checks:
     # Run all checks
     @staticmethod
     def check_all():
+        log_file = __file__[:-3] + '.log'
+        log.print(log_file, 'STARTUP TESTS\n')
         Checks.check_os()
         Checks.check_python()
         Checks.check_default_web_browser()
@@ -118,11 +120,9 @@ class Checks:
 
 # Tests running before the app start
 def run_startup_checks():
-    logging.basicConfig(level=logging.NOTSET)
     log.stop_logging()
-    log_file = __file__[:-3] + '.log'
+    logging.disable(logging.NOTSET) # switch on logging
     log.add_my_handler()
-    log.print(log_file, 'STARTUP TESTS\n')
     Checks.check_all()
     log.remove_my_handler()
 
@@ -130,6 +130,7 @@ def run_startup_checks():
 @tests.test_wrapper()
 def test():
     log.stop_logging()
+    logging.disable(logging.NOTSET) # switch on logging
     log.add_my_handler()
     Checks.check_all()
     Checks.check_package('qwe')

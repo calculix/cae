@@ -234,10 +234,10 @@ class MasterWindow(QtWidgets.QMainWindow):
         self.info = None # WindowInfo will be set in @init_wrapper
 
         # Load UI form - produces huge amount of redundant debug logs
-        hh = log.switch_off_logging()
+        logging.disable() # switch off logging
         super().__init__() # create main window
         uic.loadUi(xml, self) # load form
-        log.switch_on_logging(hh)
+        logging.disable(logging.NOTSET) # switch on logging
 
         # Handler to show logs in the CAE textEdit
         if hasattr(self, 'textEdit'): # skip for test_sendkeys

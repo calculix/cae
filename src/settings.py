@@ -81,10 +81,10 @@ class SettingsDialog(QtWidgets.QDialog):
     def __init__(self, settings=None):
 
         # Load UI form - produces huge amount of redundant debug logs
-        hh = log.switch_off_logging()
+        logging.disable() # switch off logging
         super().__init__() # create dialog window
         uic.loadUi(path.p.settings_xml, self) # load default settings
-        log.switch_on_logging(hh)
+        logging.disable(logging.NOTSET) # switch on logging
 
         # Actions
         self.path_paraview_button.clicked.connect(
@@ -154,10 +154,10 @@ def test():
     app = QtWidgets.QApplication(sys.argv)
 
     # Create and open settings window
-    s = Settings()
+    global s
     s.open()
+
+s = Settings()
 
 if __name__ == '__main__':
     test() # run test
-else:
-    s = Settings()

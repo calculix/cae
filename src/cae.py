@@ -18,6 +18,10 @@ python3 ./src/cae.py -inp yourmodel.inp """
 import clean
 clean.screen()
 
+# First time logging configure
+import logging
+logging.basicConfig(level=logging.NOTSET)
+
 # Run some important checks before start
 import checks
 checks.run_startup_checks()
@@ -27,7 +31,6 @@ import os
 import sys
 import time
 import argparse
-import logging
 
 # External modules
 from PyQt5 import QtWidgets
@@ -59,10 +62,6 @@ start_time = time.perf_counter()
 # Create application
 app = QtWidgets.QApplication(sys.argv)
 
-# Configure global logging level
-# TODO handlers not added
-logging.getLogger().setLevel(settings.s.logging_level)
-
 # Default start model (INP file)
 # could be chosen with command line parameter
 parser = argparse.ArgumentParser()
@@ -70,6 +69,9 @@ parser.add_argument('-inp', type=str,
     help='your .inp file',
     default=settings.s.start_model)
 args = parser.parse_args()
+
+# Configure global logging level
+logging.basicConfig(level=settings.s.logging_level)
 
 # Show main window with text logging handler
 f = gui.window.Factory()

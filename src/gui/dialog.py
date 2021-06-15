@@ -33,7 +33,6 @@ import path
 import settings
 import gui
 import gui.window
-import log
 from model.kom import ItemType, KOM
 
 
@@ -48,10 +47,10 @@ class KeywordDialog(QtWidgets.QDialog):
         self.widgets = [] # list of created widgets
 
         # Load UI form - produces huge amount of redundant debug logs
-        hh = log.switch_off_logging()
+        logging.disable() # switch off logging
         super().__init__() # create dialog window
         uic.loadUi(path.p.dialog_xml, self) # load empty dialog form
-        log.switch_on_logging(hh)
+        logging.disable(logging.NOTSET) # switch on logging
 
         # Align dialog
         if settings.s.align_windows:
@@ -275,7 +274,9 @@ class KeywordDialog(QtWidgets.QDialog):
 def test():
     app = QtWidgets.QApplication(sys.argv)
     f = gui.window.Factory()
-    k = KOM() # TODO switch off logging
+    logging.disable() # switch off logging
+    k = KOM()
+    logging.disable(logging.NOTSET) # switch on logging
     i = k.get_keyword_by_name('*NODE')
 
     # Create and show dialog window

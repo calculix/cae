@@ -10,9 +10,6 @@ and prints into CAE textEdit.
 The File handler is created any time you open a model.
 Log file has the same name as a model. """
 
-# TODO Logging can't be switched off completely - 
-# - see test() in tree.py for example.
-
 # Standard modules
 import os
 import sys
@@ -141,43 +138,18 @@ class MyFileLoggingHandler(MyLoggingHandler):
             f.write(msg + '\n')
 
 
-# Switch off logging
-def switch_off_logging():
-    hh = logging.getLogger().handlers
-    msg = 'Switching off {} logging handlers'.format(len(hh))
-    logging.debug(msg)
-    stop_logging()
-    return hh
-
-# Switch on logging
-def switch_on_logging(hh):
-    for h in hh:
-        logging.getLogger().addHandler(h)
-    msg = 'Switching on {} logging handlers'.format(len(hh))
-    logging.debug(msg)
-
 # Stop all logging handlers, even default stdout
 def stop_logging():
+    for h in logging.getLogger().handlers:
+        h.close()
     logging.getLogger().handlers = []
-
-"""
-    # Only 2 logging hadlers are allowed
-    allowed_handlers = 2
-
-    # Emit error log if there are too many handlers
-    def check_amount_of_handlers():
-        amount = len(logging.getLogger().handlers)
-        if amount > allowed_handlers:
-            msg = 'Exceeded amount of allowed logging handlers (2).'
-            logging.error(msg)
-            switch_off_logging()
-        return amount
-"""
+    logging.disable() # switch off logging
 
 def remove_handler_by_name(name):
     hh = logging.getLogger().handlers
     for h in hh:
         if h.name == name:
+            h.close()
             hh.remove(h)
 
 # Handler to emit messages via 'print' method

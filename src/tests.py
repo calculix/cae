@@ -62,8 +62,7 @@ def test_wrapper():
             if os.path.isfile(log_file):
                 os.remove(log_file)
 
-            # TODO logging handler not added
-            # fmt = '%(levelname)s: %(message)s'
+            # First time logging configure for tests
             logging.basicConfig(level=logging.NOTSET)
 
             clean.screen()
