@@ -72,14 +72,14 @@ class Path:
 # Test all paths in the class
 @tests.test_wrapper()
 def test():
-    p = Path()
+    global p
     for attr in dir(p):
         a = getattr(p, attr)
         if type(a) is str:
             print('p.{} = {}'.format(attr, a))
 
+p = Path()
+
 # Run test
 if __name__ == '__main__':
     test()
-else:
-    p = Path()

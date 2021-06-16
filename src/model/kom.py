@@ -253,12 +253,12 @@ class Item:
 
     # Get item path bottom-upwards
     def get_path(self):
-        path = []
+        parents = []
         while self.parent is not None: # root has None parent
-            path.insert(0, self)
+            parents.insert(0, self)
             self = self.parent
-        path.insert(0, self) # insert root
-        return [p.name for p in path]
+        parents.insert(0, self) # insert root
+        return [p.name for p in parents]
 
 
 # Group of keywords, like 'Properties', 'Constraints', etc.
