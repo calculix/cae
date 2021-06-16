@@ -36,62 +36,6 @@ import gui.window
 from model.kom import ItemType, KOM
 
 
-# Load HTML help into QWebEngineView
-# TODO Compare with doc.py/save_html()
-def save_html(item):
-    USE_CACHED_HTML = True # if False cached html will NOT be used
-
-    # Get keyword name
-    if item.itype == ItemType.KEYWORD:
-        keyword_name = item.name[1:] # cut star
-    if item.itype == ItemType.IMPLEMENTATION:
-        keyword_name = item.parent.name[1:] # cut star
-
-    # Avoid spaces in html page names
-    html_page_name = keyword_name.replace(' ', '_')
-
-    url = os.path.join(path.p.doc, html_page_name + '.html')
-
-    # Generate html file if it wasn't created previously
-    if not os.path.isfile(url) or not USE_CACHED_HTML:
-
-        # Open 'ccx.html' and find link to keyword's page
-        href = 'ccx.html'
-        with open(os.path.join(path.p.doc, href), 'r') as f:
-            for line in f.readlines():
-                match = re.search('node\d{3}\.html.{3}' + keyword_name, line) # regex to match href
-                if match:
-                    href = match.group(0)[:12]
-                    break
-
-        # Read html of the keyword page
-        html = '<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body>'
-        with open(os.path.join(path.p.doc, href), 'r') as f:
-            append = False
-            cut_breakline = True
-            for line in f.readlines():
-                if '<!--End of Navigation Panel-->' in line:
-                    append = True
-                    continue
-                if '<HR>' in  line:
-                    break
-                if '<PRE>' in line:
-                    cut_breakline = False
-                if '</PRE>' in line:
-                    cut_breakline = True
-                if append:
-                    if cut_breakline:
-                        line = line[:-1] + ' ' # replace '\n' with space
-                    html += line
-        html += '</body></html>'
-        html = re.sub('<A.+?\">', '', html) # '?' makes it not greedy
-        html = html.replace('</A>', '')
-        with open(url, 'w') as f:
-            f.write(html)
-
-    return url
-
-
 class KeywordDialog(QtWidgets.QDialog):
 
     # Load form and show the dialog
@@ -342,7 +286,7 @@ class KeywordDialog(QtWidgets.QDialog):
 
         # To show or not to show
         if settings.s.show_help:
-            url = save_html(self.item)
+            url = self.get_help_url()
             self.doc.load(QtCore.QUrl.fromLocalFile(url)) # load help document
 
             self.setMaximumWidth(w)
