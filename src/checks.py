@@ -85,6 +85,7 @@ class Checks:
             return False
 
     # Check if required package is installed
+    # TODO Uninstall some required package and test the app
     @staticmethod
     def check_required_package(name):
         if Checks.check_package(name):

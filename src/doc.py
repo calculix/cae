@@ -21,6 +21,8 @@ import tests
 # Open 'ccx.html',
 # find link to keyword help page
 # and regenerate its HTML file
+# TODO Use imported Path
+# TODO Compare with dialog.py/save_html()
 def save_html(doc_root, keyword_name, url):
     href = os.path.join(doc_root, 'ccx.html')
     if os.path.isfile(href):
