@@ -25,7 +25,7 @@ import log
 # Session settings object used everywhere in the code
 class Settings:
 
-    # Read settings from file
+    # Read settings from file or apply defaults
     def __init__(self):
 
         # Try to read settings file
@@ -56,6 +56,7 @@ class Settings:
             self.expanded = True
             self.start_cgx_by_default = True
             self.align_windows = True
+            self.show_help = False
 
     # Open dialog window and pass settings
     def open(self):

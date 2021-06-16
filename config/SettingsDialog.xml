@@ -291,6 +291,16 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QCheckBox" name="show_help">
+         <property name="text">
+          <string>Show help by default</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>
