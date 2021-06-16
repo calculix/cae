@@ -110,11 +110,20 @@ class Factory:
         # Actions
         self.mw.buttonBox.accepted.connect(self.mw.ok)
         self.mw.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.mw.reset)
-        self.mw.buttonBox.helpRequested.connect(self.open_web_browser)
+        self.mw.buttonBox.helpRequested.connect(self.open_help)
 
         d = self.mw.exec()
         self.kill_slave()
         return d
+
+    # TODO Read default web browser from settings
+    def open_help(self):
+        web_browser = 'internal'
+        if web_browser == 'internal':
+            self.mw.show_hide_help(True)
+        else:
+            self.open_web_browser()
+
 
     # Open HTML help page in a default web browser
     # TODO Opens Chrome and Firefox - check others

@@ -18,7 +18,7 @@ import math
 import logging
 
 # External modules
-from PyQt5 import QtWidgets, uic, QtCore, QtGui
+from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtWebEngineWidgets
 
 # My modules
 sys_path = os.path.abspath(__file__)
@@ -34,6 +34,62 @@ import settings
 import gui
 import gui.window
 from model.kom import ItemType, KOM
+
+
+# Load HTML help into QWebEngineView
+# TODO Compare with doc.py/save_html()
+def save_html(item):
+    USE_CACHED_HTML = True # if False cached html will NOT be used
+
+    # Get keyword name
+    if item.itype == ItemType.KEYWORD:
+        keyword_name = item.name[1:] # cut star
+    if item.itype == ItemType.IMPLEMENTATION:
+        keyword_name = item.parent.name[1:] # cut star
+
+    # Avoid spaces in html page names
+    html_page_name = keyword_name.replace(' ', '_')
+
+    url = os.path.join(path.p.doc, html_page_name + '.html')
+
+    # Generate html file if it wasn't created previously
+    if not os.path.isfile(url) or not USE_CACHED_HTML:
+
+        # Open 'ccx.html' and find link to keyword's page
+        href = 'ccx.html'
+        with open(os.path.join(path.p.doc, href), 'r') as f:
+            for line in f.readlines():
+                match = re.search('node\d{3}\.html.{3}' + keyword_name, line) # regex to match href
+                if match:
+                    href = match.group(0)[:12]
+                    break
+
+        # Read html of the keyword page
+        html = '<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body>'
+        with open(os.path.join(path.p.doc, href), 'r') as f:
+            append = False
+            cut_breakline = True
+            for line in f.readlines():
+                if '<!--End of Navigation Panel-->' in line:
+                    append = True
+                    continue
+                if '<HR>' in  line:
+                    break
+                if '<PRE>' in line:
+                    cut_breakline = False
+                if '</PRE>' in line:
+                    cut_breakline = True
+                if append:
+                    if cut_breakline:
+                        line = line[:-1] + ' ' # replace '\n' with space
+                    html += line
+        html += '</body></html>'
+        html = re.sub('<A.+?\">', '', html) # '?' makes it not greedy
+        html = html.replace('</A>', '')
+        with open(url, 'w') as f:
+            f.write(html)
+
+    return url
 
 
 class KeywordDialog(QtWidgets.QDialog):
@@ -189,6 +245,14 @@ class KeywordDialog(QtWidgets.QDialog):
             for line in self.item.inp_code:
                 self.textEdit.append(line)
 
+        # Generate html help page from official manual
+        self.doc = QtWebEngineWidgets.QWebEngineView()
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding,
+            QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(2) # expand horizontally
+        self.doc.setSizePolicy(sizePolicy)
+
+        self.show_hide_help(False) 
         self.show()
 
     # Update piece of INP-code in the textEdit widget
@@ -266,6 +330,32 @@ class KeywordDialog(QtWidgets.QDialog):
         html_page_name = re.sub(r'[ -]', '_', keyword_name)
         url = os.path.join(path.p.doc, html_page_name + '.html')
         return url
+
+    # Show / Hide HTML help
+    def show_hide_help(self, button_click):
+        w = QtWidgets.QDesktopWidget().availableGeometry().width()
+
+        # If called from button click
+        if button_click:
+            settings.s.show_help = not settings.s.show_help
+            settings.s.save()
+
+        # To show or not to show
+        if settings.s.show_help:
+            url = save_html(self.item)
+            self.doc.load(QtCore.QUrl.fromLocalFile(url)) # load help document
+
+            self.setMaximumWidth(w)
+            self.setMinimumWidth(w)
+            self.horizontal_layout.addWidget(self.doc)
+            self.buttonBox.button(QtWidgets.QDialogButtonBox.Help)\
+                .setText('Hide help')
+        else:
+            self.doc.setParent(None) # remove widget
+            self.buttonBox.button(QtWidgets.QDialogButtonBox.Help)\
+                .setText('Show help')
+            self.setMaximumWidth(w/3)
+            self.setMinimumWidth(500)
 
 
 # Run dialog as MasterWindow

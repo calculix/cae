@@ -7,6 +7,9 @@ Distributed under GNU General Public License v3.0
 Main module.
 Creates main objects and starts the application.
 
+NOTE QtWebEngineWidgets has to be imported before
+the app start.
+
 How to run:
 Ctrl+F5 from VSCode
 or:
@@ -33,7 +36,7 @@ import time
 import argparse
 
 # External modules
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtWebEngineWidgets
 
 # My modules
 import path

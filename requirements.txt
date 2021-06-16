@@ -1,4 +1,5 @@
 PyQt5
+PyQtWebEngine
 Xlib
 ccx2paraview
 unv2ccx
