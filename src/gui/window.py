@@ -112,32 +112,27 @@ class Factory:
         self.mw.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.mw.reset)
         self.mw.buttonBox.helpRequested.connect(self.open_help)
 
+        if settings.s.show_help:
+            self.open_help(False)
         d = self.mw.exec()
         self.kill_slave()
         return d
 
-    # TODO Read default web browser from settings
-    def open_help(self):
-        web_browser = 'internal'
-        if web_browser == 'internal':
-            self.mw.show_hide_help(True)
-        else:
-            self.open_web_browser()
-
-
     # Open HTML help page in a default web browser
     # TODO Opens Chrome and Firefox - check others
-    def open_web_browser(self):
-        url = self.mw.get_help_url()
-        if not os.path.isfile(url):
-            msg = 'Help page does not exist:\n{}'.format(
-                os.path.relpath(url, start=path.p.app_home_dir))
-            logging.error(msg)
-            return
-        wb = webbrowser.get()
-        cmd = wb.name + ' --new-window ' + url
-        logging.info('Going to\n' + url)
-        self.run_slave(cmd)
+    def open_help(self, click=True):
+        if settings.s.default_web_browser == 'internal':
+            self.mw.show_hide_internal_help(click)
+        else:
+            if not os.path.isfile(self.mw.url):
+                msg = 'Help page does not exist:\n{}'.format(
+                    os.path.relpath(self.mw.url, start=path.p.app_home_dir))
+                logging.error(msg)
+                return
+            wb = webbrowser.get()
+            cmd = wb.name + ' --new-window ' + self.mw.url
+            logging.info('Going to\n' + self.mw.url)
+            self.run_slave(cmd)
 
     # Close opened slave window and open a new one
     def run_slave(self, cmd):

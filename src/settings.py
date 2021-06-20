@@ -12,14 +12,14 @@ User dialog form is config/SettingsDialog.xml - use Qt Designer to edit. """
 import os
 import sys
 import logging
+import webbrowser
 
 # External modules
-from PyQt5 import QtWidgets, uic
+from PyQt5 import QtWidgets, uic, QtCore
 
 # My modules
 import path
 import tests
-import log
 
 
 # Session settings object used everywhere in the code
@@ -51,6 +51,7 @@ class Settings:
                 self.path_editor = '/usr/bin/gedit'
 
             self.start_model = os.path.join(path.p.examples, 'default.inp')
+            self.default_web_browser = 'internal'
             self.logging_level = 'DEBUG'
             self.show_empty_keywords = True
             self.expanded = True
@@ -87,6 +88,8 @@ class SettingsDialog(QtWidgets.QDialog):
         uic.loadUi(path.p.settings_xml, self) # load default settings
         logging.disable(logging.NOTSET) # switch on logging
 
+        self.add_widget_for_default_web_browser()
+
         # Actions
         self.path_paraview_button.clicked.connect(
             lambda: self.select_path(self.path_paraview))
@@ -112,6 +115,14 @@ class SettingsDialog(QtWidgets.QDialog):
                 if widget is not None:
                     widget.setCurrentText(value)
                     continue
+
+    # QComboBox for default web browser to open help
+    def add_widget_for_default_web_browser(self):
+        webbrowser.get() # initialize web browsers
+        exclude = ['xdg-open', 'gvfs-open', 'x-www-browser']
+        wb_list = [x for x in webbrowser._tryorder if x not in exclude]
+        wb_list = sorted(wb_list)
+        self.default_web_browser.addItems(wb_list)
 
     # Save settings updated via or passed to dialog
     def save(self):

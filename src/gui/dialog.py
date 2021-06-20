@@ -6,9 +6,9 @@ Distributed under GNU General Public License v3.0
 
 Dialog window to create/edit keyword implementation.
 Called via double click on keyword in the treeView.
-Here we define a keyword implementation: its name and inp_code.
-It is created via Factory class, run_master_dialog() method.
-So this dialog is a master, help webbrowser is a slave. """
+Keyword implementation is defined by its name and inp_code.
+Dialog is created via Factory class, run_master_dialog() method.
+So this dialog is a master, help webbrowser (if any) is a slave. """
 
 # Standard modules
 import os
@@ -16,6 +16,7 @@ import sys
 import re
 import math
 import logging
+import webbrowser
 
 # External modules
 from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtWebEngineWidgets
@@ -196,7 +197,8 @@ class KeywordDialog(QtWidgets.QDialog):
         sizePolicy.setHorizontalStretch(2) # expand horizontally
         self.doc.setSizePolicy(sizePolicy)
 
-        self.show_hide_help(False) 
+        self.url = self.get_help_url()
+        self.show_help = settings.s.show_help
         self.show()
 
     # Update piece of INP-code in the textEdit widget
@@ -276,19 +278,16 @@ class KeywordDialog(QtWidgets.QDialog):
         return url
 
     # Show / Hide HTML help
-    def show_hide_help(self, button_click):
+    def show_hide_internal_help(self, click):
         w = QtWidgets.QDesktopWidget().availableGeometry().width()
-
-        # If called from button click
-        if button_click:
-            settings.s.show_help = not settings.s.show_help
-            settings.s.save()
+        if click:
+            self.show_help = not self.show_help
+        else:
+            self.show_help = settings.s.show_help
 
         # To show or not to show
-        if settings.s.show_help:
-            url = self.get_help_url()
-            self.doc.load(QtCore.QUrl.fromLocalFile(url)) # load help document
-
+        if self.show_help:
+            self.doc.load(QtCore.QUrl.fromLocalFile(self.url)) # load help document
             self.setMaximumWidth(w)
             self.setMinimumWidth(w)
             self.horizontal_layout.addWidget(self.doc)
@@ -297,7 +296,7 @@ class KeywordDialog(QtWidgets.QDialog):
         else:
             self.doc.setParent(None) # remove widget
             self.buttonBox.button(QtWidgets.QDialogButtonBox.Help)\
-                .setText('Show help')
+                .setText('Help')
             self.setMaximumWidth(w/3)
             self.setMinimumWidth(500)
 
