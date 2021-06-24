@@ -46,6 +46,7 @@ import model
 import tree
 import importer
 import actions
+import log
 
 # # Draw apps architecture
 # from pycallgraph import PyCallGraph
@@ -74,7 +75,9 @@ parser.add_argument('-inp', type=str,
 args = parser.parse_args()
 
 # Configure global logging level
-logging.basicConfig(level=settings.s.logging_level)
+logging.basicConfig(
+    level=settings.s.logging_level,
+    format=log.fmt._fmt)
 
 # Show main window with text logging handler
 f = gui.window.Factory()

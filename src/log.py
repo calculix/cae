@@ -37,6 +37,7 @@ mh = 'MyHandler'
 mtlh = 'MyTextLoggingHandler'
 mflh = 'MyFileLoggingHandler'
 mslh = 'MyStreamLoggingHandler'
+fmt = logging.Formatter('%(levelname)s: %(message)s')
 
 # Redefine print method to write logs to file and stdout
 def print(log_file, *args):
@@ -52,7 +53,7 @@ class myHandler(logging.Handler):
 
     def __init__(self, log_file):
         super().__init__()
-        fmt = logging.Formatter('%(levelname)s: %(message)s')
+        global fmt
         self.setFormatter(fmt)
         self.log_file = log_file
 
@@ -70,7 +71,7 @@ class MyLoggingHandler(logging.Handler):
     def __init__(self, target):
         super().__init__() # create handler
         self.target = target
-        fmt = logging.Formatter('%(levelname)s, %(module)s: %(message)s')
+        global fmt
         self.setFormatter(fmt)
 
 
@@ -199,7 +200,7 @@ def add_file_handler(log_file, level=None):
     log_capture_string = io.StringIO()
     ch = logging.StreamHandler(log_capture_string)
     ch.setLevel(logging.DEBUG)
-    fmt = logging.Formatter('%(levelname)s: %(message)s')
+    global fmt
     ch.setFormatter(fmt)
     logging.getLogger().addHandler(ch)
 
@@ -225,7 +226,7 @@ def add_stream_handler(level=None):
     h = logging.StreamHandler()
     h.set_name(mslh)
     h.setLevel(level)
-    fmt = logging.Formatter('%(levelname)s: %(message)s')
+    global fmt
     h.setFormatter(fmt)
     logging.getLogger().addHandler(h)
 
