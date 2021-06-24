@@ -85,7 +85,6 @@ class Checks:
             return False
 
     # Check if required package is installed
-    # TODO Uninstall some required package and test the app
     @staticmethod
     def check_required_package(name):
         if Checks.check_package(name):
@@ -96,17 +95,22 @@ class Checks:
 
     # Automatically install package
     @staticmethod
-    def install_package(name):
+    def install_package(name, prefix=''):
         try:
-            cmd = [sys.executable, '-m', 'pip', 'install', name]
+            cmd = [sys.executable, '-m', 'pip', prefix + 'install', name]
             subprocess.check_call(cmd)
             return True
         except:
-            msg = 'Can not install required package \'' \
+            msg = 'Can not {}install required package \''.format(prefix) \
                 + name + '\'. ' \
-                + 'Please, install it manually.'
+                + 'Please, {}install it manually.'.format(prefix)
             logging.error(msg)
             return False
+
+    # Automatically uninstall package
+    @classmethod
+    def uninstall_package(cls, name):
+        cls.install_package(name, prefix='un')
 
     # Run all checks
     @staticmethod
@@ -133,7 +137,8 @@ def test():
     log.stop_logging()
     logging.disable(logging.NOTSET) # switch on logging
     log.add_my_handler()
-    Checks.check_all()
+    Checks.uninstall_package('unv2ccx')
+    Checks.check_all() # install back 'unv2ccx'
     Checks.check_package('qwe')
     Checks.check_required_package('rty')
 
