@@ -171,13 +171,15 @@ You may also need libraries:
 
 - CalculiX 2.17.1. Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo.
 - Switch colormaps from menu CGX.
-
 - Significantly improved INP importer algorithm. Now parser supports keyword line continuation. Tested on over 20 000 INP files, including Abaqus models.
-- Add buttons to select paths in Settings dialog
-- Using external python packages ccx2paraview and unv2ccx.
 - Dependencies are automatically installed and tested on startup.
 - Python version and OS name are checked at startup.
-
+- Significantly improved window connectivity (master/slave).
+- Improved robustness - now almost all python modules have a test method.
+- Refactored logging system. Now it is a new dedicated module.
+- Simplified code to omit redundant arguments passing between modules.
+- Using external python packages *ccx2paraview* and *unv2ccx* as required dependacies.
+- Added buttons to select paths in Settings dialog
 
 <br/><br/>
 
@@ -220,7 +222,7 @@ Logging and tests:
 - 'Debug' menu to test each module.
 
 Other:
-- cae.bat and sae.sh - check python version and run source
+- cae.bat and sae.sh - run source code
 - Implement keyword dialog as tab on main window.
 - Take binaries for Windows from https://www.meil.pw.edu.pl/add/ADD/Teaching/Software/Calculix
 - Folder 'tests': move all logs and architecture schemes there.
