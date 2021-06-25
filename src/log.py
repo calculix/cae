@@ -32,12 +32,19 @@ if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import path
 import tests
+import settings
 
 mh = 'MyHandler'
 mtlh = 'MyTextLoggingHandler'
 mflh = 'MyFileLoggingHandler'
 mslh = 'MyStreamLoggingHandler'
 fmt = logging.Formatter('%(levelname)s: %(message)s')
+
+
+# def initialize_logging(level=settings.s.logging_level):
+#     global fmt
+#     logging.basicConfig(level=level, format=fmt._fmt)
+
 
 # Redefine print method to write logs to file and stdout
 def print(log_file, *args):
@@ -95,21 +102,27 @@ class MyTextLoggingHandler(MyLoggingHandler):
         else:
             color = '#2F4F4F' # DARKSLATEGRAY
 
-        # Move newlines before the levelname
         msg = LogRecord.getMessage()
-        while msg.startswith('\n'):
-            self.target.append('<p></p>')
-            msg = msg[1:]
 
-        # Keep all newlines in message
+        # Move leading and trailing newlines outside the message
+        leading_newlines = ''
+        trailing_newlines = ''
+        while msg.startswith('\n'):
+            leading_newlines += '<br/>'
+            msg = msg[1:]
+        while msg.endswith('\n'):
+            trailing_newlines += '<br/>'
+            msg = msg[:-1]
+
+        # Keep all newlines inside the message
         msg = msg.replace('\n', '<br/>')
 
         if LogRecord.levelname == 'Level 25':
-            msg = '<p style=\"margin:0px; color:{};\">{}</p>'\
-                .format(color, msg)
+            msg = '<p style=\"margin:0px; color:{};\">{}{}{}</p>'\
+                .format(color, leading_newlines, msg, trailing_newlines)
         else:
-            msg = '<span style=\"color:{};\">{}</span>: {}'\
-                .format(color, LogRecord.levelname, msg)
+            msg = '{}<span style=\"color:{};\">{}</span>: {}{}'\
+                .format(leading_newlines, color, LogRecord.levelname, msg, trailing_newlines)
             msg = '<p style=\"margin:0px;\">{}</p>'.format(msg)
 
         # Print message and scroll it to the end
@@ -119,12 +132,14 @@ class MyTextLoggingHandler(MyLoggingHandler):
 
 # Called at each file import
 # Handler to write logs into file
+# TODO Message repeats twice
 class MyFileLoggingHandler(MyLoggingHandler):
 
     def emit(self, LogRecord):
 
         # Move newlines before the levelname
         msg = LogRecord.getMessage()
+        # sys.stdout.write(msg + '\n')
         while msg.startswith('\n'):
             with open(self.target, 'a') as f:
                 f.write('\n')
@@ -133,6 +148,7 @@ class MyFileLoggingHandler(MyLoggingHandler):
         msg = '{}: {}'.format(LogRecord.levelname, msg)
         if msg.startswith('Level 25: '):
             msg = msg[10:]
+
 
         # Append message to the log file
         with open(self.target, 'a') as f:
@@ -146,6 +162,7 @@ def stop_logging():
     logging.getLogger().handlers = []
     logging.disable() # switch off logging
 
+
 def remove_handler_by_name(name):
     hh = logging.getLogger().handlers
     for h in hh:
@@ -153,11 +170,11 @@ def remove_handler_by_name(name):
             h.close()
             hh.remove(h)
 
+
 # Handler to emit messages via 'print' method
 # Combination of file and stream handlers
 def add_my_handler(level=None):
     if level is None:
-        import settings
         level = settings.s.logging_level
     caller = os.path.realpath(inspect.stack()[1][1])
     log_file = caller[:-3] + '.log'
@@ -166,28 +183,30 @@ def add_my_handler(level=None):
     h.setLevel(level)
     logging.getLogger().addHandler(h)
 
+
 # Remove all MyHandler handlers
 def remove_my_handler():
     remove_handler_by_name(mh)
 
+
 # Handler to show logs in master window textEdit
 def add_text_handler(textEdit, level=None):
     if level is None:
-        import settings
         level = settings.s.logging_level
     h = MyTextLoggingHandler(textEdit)
     h.set_name(mtlh)
     h.setLevel(level)
     logging.getLogger().addHandler(h)
 
+
 # Remove all textEdit handlers
 def remove_text_handler():
     remove_handler_by_name(mtlh)
 
+
 # Handler to write logs into file
 def add_file_handler(log_file, level=None):
     if level is None:
-        import settings
         level = settings.s.logging_level
     h = MyFileLoggingHandler(log_file)
     h.set_name(mflh)
@@ -196,7 +215,7 @@ def add_file_handler(log_file, level=None):
     """
     TODO Doesn't write to file system messages and uncatched errors
 
-    h = log.myHandler(log_file) # remove old log file
+    h = myHandler(log_file) # remove old log file
     log_capture_string = io.StringIO()
     ch = logging.StreamHandler(log_capture_string)
     ch.setLevel(logging.DEBUG)
@@ -214,14 +233,15 @@ def add_file_handler(log_file, level=None):
     log_capture_string.close()
     """
 
+
 # Remove all file handlers
 def remove_file_handler():
     remove_handler_by_name(mflh)
 
+
 # Handler to write logs into stream
 def add_stream_handler(level=None):
     if level is None:
-        import settings
         level = settings.s.logging_level
     h = logging.StreamHandler()
     h.set_name(mslh)
@@ -229,6 +249,7 @@ def add_stream_handler(level=None):
     global fmt
     h.setFormatter(fmt)
     logging.getLogger().addHandler(h)
+
 
 # Remove all stream handlers
 def remove_stream_handler():
@@ -350,12 +371,17 @@ def test():
     app = QtWidgets.QApplication(sys.argv)
 
     # Show main window
+    stop_logging()
     import gui.window
     f = gui.window.Factory()
-    f.run_master(path.p.main_xml)
+    f.run_master(path.p.main_xml) # has add_text_handler()
+
+    logging.info('\nqwe\n')
+    logging.warning('rty')
 
     # Execute application
     app.exec()
+
 
 # Run test
 if __name__ == '__main__':
