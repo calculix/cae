@@ -5,6 +5,8 @@
 Distributed under GNU General Public License v3.0
 
 Methods for GraphiX window.
+
+NOTE paint_elsets_old() not used.
 """
 
 # Standard modules
@@ -24,9 +26,7 @@ import path
 
 
 def paint_elsets_old(f, elsets):
-    """Paint element sets in default CGX colors.
-    NOTE Not used.
-    """
+    """Paint element sets in default CGX colors."""
     colors = 'rgbymntk'
     i = 0
     for i in range(len(elsets)):

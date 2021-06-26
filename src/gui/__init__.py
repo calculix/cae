@@ -4,8 +4,7 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-NOTE Import sequence is very important.
-Do not change import sequence!
+NOTE Import sequence is very important. Do not change it!
 """
 
 # from . import cgx
