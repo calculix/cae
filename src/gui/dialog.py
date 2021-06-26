@@ -317,6 +317,7 @@ def test():
     d = f.run_master_dialog(k, i) # 0 = cancel, 1 = ok
     print(d)
 
+
 # Run test
 if __name__ == '__main__':
     test()

@@ -22,20 +22,21 @@ if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import path
 
-"""
-    # Paint element sets in default CGX colors
-    def paint_elsets_old(f, elsets):
-        colors = 'rgbymntk'
-        i = 0
-        for i in range(len(elsets)):
-            if elsets[i].upper() == 'ALL':
-                elsets.pop(i)
-                break
-        if len(elsets) > 1:
-            for elset in elsets:
-                f.connection.post('plus e {} {}'.format(elset, colors[i]))
-                i = (i + 1) % len(colors)
-"""
+
+# Paint element sets in default CGX colors
+# NOTE Not used.
+def paint_elsets_old(f, elsets):
+    colors = 'rgbymntk'
+    i = 0
+    for i in range(len(elsets)):
+        if elsets[i].upper() == 'ALL':
+            elsets.pop(i)
+            break
+    if len(elsets) > 1:
+        for elset in elsets:
+            f.connection.post('plus e {} {}'.format(elset, colors[i]))
+            i = (i + 1) % len(colors)
+
 
 # Paint element sets in CGX when INP is opened
 def paint_elsets(f, m):
@@ -54,6 +55,7 @@ def paint_elsets(f, m):
         f.connection.post('plus e {} blue{}'.format(elset, i))
         i = (i + 1) % 5
 
+
 # Paint surfaces in CGX when INP is opened
 def paint_surfaces(f, m):
     if not (path.p.path_cgx + ' -c ') in f.sw.cmd:
@@ -71,6 +73,7 @@ def paint_surfaces(f, m):
         f.connection.post('plus f {} pink{}'.format(surf, i))
         i = (i + 1) % 5
 
+
 # Set custom colormap when FRD is opened
 def cmap(f, colormap):
     if not (path.p.path_cgx + ' -o ') in f.sw.cmd:
@@ -78,6 +81,7 @@ def cmap(f, colormap):
         logging.warning(msg)
         return
     f.connection.post('cmap ' + colormap)
+
 
 # Open INP model in GraphiX
 def open_inp(f, inp_file, has_nodes=0):
@@ -98,6 +102,7 @@ def open_inp(f, inp_file, has_nodes=0):
     else:
         logging.error('File not found:\n' + inp_file)
 
+
 # Open FRD results in GraphiX
 def open_frd(f, frd_file):
     if not os.path.isfile(path.p.path_cgx):
@@ -113,6 +118,7 @@ def open_frd(f, frd_file):
         logging.error('File not found:\n' \
             + frd_file \
             + '\nSubmit analysis first.')
+
 
 def read_fbd_file(f, basename):
     file_name = os.path.join(path.p.config, basename)

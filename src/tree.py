@@ -26,11 +26,11 @@ import tests
 
 
 class Tree:
-
     """
     f - Window Factory
     m - Model
     """
+
     def __init__(self, f, m):
         self.f = f
         self.m = m
@@ -387,6 +387,7 @@ def test():
 
     # Execute application
     app.exec()
+
 
 # Run test
 if __name__ == '__main__':

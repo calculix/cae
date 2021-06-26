@@ -79,7 +79,9 @@ def test():
         if type(a) is str:
             print('p.{} = {}'.format(attr, a))
 
+
 p = Path()
+
 
 # Run test
 if __name__ == '__main__':

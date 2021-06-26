@@ -14,7 +14,6 @@ https://github.com/python-xlib/python-xlib
 https://github.com/asweigart/pyautogui
 """
 
-
 # Standard modules
 import os
 import sys
@@ -45,6 +44,7 @@ import tests
 import gui.cgx
 import gui.connection
 import log
+
 
 # Common wrapper for MasterWindow/SlaveWindow __init__() method
 def init_wrapper():
@@ -287,6 +287,7 @@ def get_opened_windows():
         raise SystemExit
     return wc.get_opened_windows()
 
+
 # Gets two dictionaries with opened windows,
 # compares and returns info for newly opened window.
 # Only one new window is allowed.
@@ -302,6 +303,7 @@ def get_new_windows_infos(opened_windows_before, opened_windows_after):
             logging.debug(wi.to_string())
         raise SystemExit
     return new_windows_infos
+
 
 # Keycodes sending to text editor and CGX
 @tests.test_wrapper()
@@ -344,6 +346,7 @@ def test_sendkeys():
     # Execute application + exit
     a = app.exec()
     f.kill_slave()
+
 
 # Run test
 if __name__ == '__main__':

@@ -22,6 +22,7 @@ import inspect
 # My modules
 import clean
 
+
 # List all .ext-files here and in all subdirectories
 def scan_all_files_in(start_folder, ext, limit=1000000):
     all_files = []
@@ -34,11 +35,13 @@ def scan_all_files_in(start_folder, ext, limit=1000000):
             all_files.append(ff)
     return sorted(all_files)[:limit]
 
+
 # Return spent time delta in format hh:mm:ss.s
 def get_time_delta(start):
     delta = time.perf_counter() - start
     return '{:02d}:{:02d}:{:04.1f}'\
         .format(int(delta/3600), int(delta%3600/60), delta%3600%60)
+
 
 # Log spent time delta in format hh:mm:ss.s
 def log_time_delta(start, log_file=None):
@@ -48,6 +51,7 @@ def log_time_delta(start, log_file=None):
     else:
         import log
         log.print_to_file(log_file, msg)
+
 
 # Common wrapper for test() method in different modules
 def test_wrapper():
@@ -74,10 +78,12 @@ def test_wrapper():
         return fcn
     return wrap
 
+
 # TODO Invent some test
 @test_wrapper()
 def test():
     pass
+
 
 # Run test
 if __name__ == '__main__':

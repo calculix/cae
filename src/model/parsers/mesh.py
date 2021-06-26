@@ -7,6 +7,11 @@ Distributed under GNU General Public License v3.0
 Parses finite element mesh from the CalculiX .inp-file.
 Reads nodes coordinates, elements composition,
 node and element sets and surfaces.
+
+ifile - path to input file
+icode - piece of input code
+blocks - keyword blocks
+old - mesh to be reparsed
 """
 
 # TODO Possible comments and empty lines
@@ -34,12 +39,6 @@ import importer
 import tests
 import log
 
-"""
-ifile - path to input file
-icode - piece of input code
-blocks - keyword blocks
-old - mesh to be reparsed
-"""
 
 class Mesh:
 
@@ -828,6 +827,7 @@ class NODE:
         2: [74.8, -1663.7, 0.0],
         ...
     """
+
     def __init__(self, num, coords):
         self.num = num
         self.name = str(num)
@@ -844,6 +844,7 @@ class NSET:
         'nset2': [5, 6, 7, 8],
         ...
     """
+
     def __init__(self, name, nodes):
         self.name = name
         self.items = nodes
@@ -858,6 +859,7 @@ class ELEMENT:
         12: [24, 25, 26],
         ...
     """
+
     def __init__(self, num, etype, nodes):
         self.num = num
         self.name = str(num)
@@ -877,6 +879,7 @@ class ELSET:
         'elset2': [5, 6, 7, 8],
         ...
     """
+
     def __init__(self, name, elements):
         self.name = name
         self.items = elements
@@ -892,6 +895,7 @@ class SURFACE:
         'surf3: [(1, S1), (2, S1), ...]'
         'surf4: [(elset1, S2), (elset2, S2), ...]'
     """
+
     def __init__(self, name, items, stype=None):
         self.name = name
         self.items = items
@@ -925,6 +929,7 @@ def test():
 
         # Parse mesh
         m = Mesh(ifile=file_name)
+
 
 if __name__ == '__main__':
     test()

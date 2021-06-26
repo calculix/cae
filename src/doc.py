@@ -18,6 +18,7 @@ import path
 import model
 import tests
 
+
 # Open 'ccx.html',
 # find link to keyword help page
 # and regenerate its HTML file
@@ -56,6 +57,7 @@ def save_html(doc_root, keyword_name, url):
         with open(url, 'w') as f:
             f.write(html)
 
+
 # Regenerate all HTML help pages
 # Avoid spaces in html page names
 def regenerate_documentation(KOM):
@@ -66,6 +68,7 @@ def regenerate_documentation(KOM):
         save_html(path.p.doc, keyword_name, url)
         print(keyword_name, url)
 
+
 # Deletes unneeded html files
 def remove_html_trash(KOM):
     rm_list = ('ccx', 'footnode', 'index', 'node')
@@ -75,6 +78,7 @@ def remove_html_trash(KOM):
             file_name = os.path.join(path.p.doc, file_name)
             print(file_name)
             os.remove(file_name)
+
 
 # Deletes unneeded images
 def remove_png_trash():
@@ -107,12 +111,14 @@ def remove_png_trash():
                 # print(file_name)
                 os.remove(file_name)
 
+
 # Regenerate all html files and remove trash
 def prepare_documentation():
     KOM = model.kom.KOM()
     regenerate_documentation(KOM)
     remove_html_trash(KOM)
     remove_png_trash()
+
 
 # Checks if HTML pages are generated for all keywords
 @tests.test_wrapper()
@@ -133,6 +139,7 @@ def test():
                 keywords.remove(page[:-5])
         print('Those keywords have no HTML pages:')
         print(keywords)
+
 
 # Run test
 if __name__ == '__main__':

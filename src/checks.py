@@ -132,6 +132,7 @@ def run_startup_checks():
     Checks.check_all()
     log.remove_my_handler()
 
+
 # Run some checks
 @tests.test_wrapper()
 def test():
@@ -142,6 +143,7 @@ def test():
     Checks.check_all() # install back 'unv2ccx'
     Checks.check_package('qwe')
     Checks.check_required_package('rty')
+
 
 # Run test
 if __name__ == '__main__':

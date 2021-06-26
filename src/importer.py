@@ -236,6 +236,7 @@ def read_lines(INP_file):
 
     return lines
 
+
 # Test importer on all CalculiX examples
 @tests.test_wrapper()
 def test():
@@ -271,6 +272,7 @@ def test():
 
     msg = '\n{} INP files.'
     log.print_to_file(log_file, msg.format(len(examples)))
+
 
 # Run test
 if __name__ == '__main__':

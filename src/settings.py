@@ -170,7 +170,9 @@ def test():
     global s
     s.open()
 
+
 s = Settings()
+
 
 if __name__ == '__main__':
     test() # run test

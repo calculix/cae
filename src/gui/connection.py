@@ -36,11 +36,6 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import tests
-# import path
-# import settings
-# import gui
-# if os.name == 'nt':
-#     from gui.forcefocus import forceFocus
 
 
 class WindowInfo:
@@ -445,6 +440,7 @@ class WindowConnectionWindows(WindowConnection):
 @tests.test_wrapper()
 def test():
     pass
+
 
 # Run test
 if __name__ == '__main__':

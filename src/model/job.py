@@ -12,7 +12,6 @@ Job creation indicates start of the new session.
 Old log file is erased and a new one is created.
 """
 
-
 # Standard modules
 import os
 import sys
@@ -289,10 +288,12 @@ def path2cygwin(path):
             path[0].lower() + \
             path[2:].replace('\\', '/')
 
+
 @tests.test_wrapper()
 def test():
     j = Job(None, None)
     j.view_log()
+
 
 # Run test
 if __name__ == '__main__':
