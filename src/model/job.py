@@ -59,6 +59,7 @@ class Job:
             os.remove(self.log)
 
         # Handler to write the job log file
+        log.remove_file_handler()
         log.add_file_handler(self.log)
 
         if sys.argv[0].endswith('.py'):

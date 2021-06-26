@@ -244,7 +244,7 @@ def test():
     log_file = __file__[:-3] + '.log'
     log.stop_logging()
     log.add_my_handler(logging.WARNING)
-    log.print(log_file, 'IMPORTER (KEYWORDS PARSER) TEST')
+    log.print_to_file(log_file, 'IMPORTER (KEYWORDS PARSER) TEST')
 
     limit = 50000 # how many files to process
     examples_dir = '../../examples'
@@ -257,7 +257,7 @@ def test():
     for file_name in examples:
         counter += 1
         relpath = os.path.relpath(file_name, start=os.getcwd())
-        log.print(log_file, '\n{} {}'.format(counter, relpath))
+        log.print_to_file(log_file, '\n{} {}'.format(counter, relpath))
 
         # Build new clean/empty keyword object model
         m.KOM = model.kom.KOM(kom_xml='../config/kom.xml')
@@ -269,7 +269,7 @@ def test():
         i.import_inp()
 
     msg = '\n{} INP files.'
-    log.print(log_file, msg.format(len(examples)))
+    log.print_to_file(log_file, msg.format(len(examples)))
 
 # Run test
 if __name__ == '__main__':

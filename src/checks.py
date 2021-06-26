@@ -116,7 +116,7 @@ class Checks:
     @staticmethod
     def check_all():
         log_file = __file__[:-3] + '.log'
-        log.print(log_file, 'STARTUP TESTS\n')
+        log.print_to_file(log_file, 'STARTUP TESTS\n')
         Checks.check_os()
         Checks.check_python()
         Checks.check_default_web_browser()

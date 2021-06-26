@@ -46,7 +46,7 @@ def log_time_delta(start, log_file=None):
         print(msg)
     else:
         import log
-        log.print(log_file, msg)
+        log.print_to_file(log_file, msg)
 
 # Common wrapper for test() method in different modules
 def test_wrapper():

@@ -909,7 +909,7 @@ def test():
     log_file = __file__[:-3] + '.log'
     log.stop_logging()
     log.add_my_handler(logging.DEBUG)
-    log.print(log_file, 'MESH PARSER TEST')
+    log.print_to_file(log_file, 'MESH PARSER TEST')
 
     limit = 50000 # how many files to process
     # examples_dir = '../../../../examples/ccx/test'
@@ -920,7 +920,7 @@ def test():
     for file_name in examples:
         counter += 1
         relpath = os.path.relpath(file_name, start=os.getcwd())
-        log.print(log_file, '\n{}\n{}: {}'.format('='*50, counter, relpath))
+        log.print_to_file(log_file, '\n{}\n{}: {}'.format('='*50, counter, relpath))
 
         # Parse mesh
         m = Mesh(ifile=file_name)

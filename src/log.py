@@ -46,13 +46,24 @@ fmt = logging.Formatter('%(levelname)s: %(message)s')
 #     logging.basicConfig(level=level, format=fmt._fmt)
 
 
+def get_logging_info():
+    hh = logging.getLogger().handlers
+    if not len(hh):
+        msg = 'No logging handlers.'
+    else:
+        msg = 'Total {} logging handlers:'.format(len(hh))
+        for h in hh:
+            msg += '\n' + h.get_name()
+    print(msg)
+
+
 # Redefine print method to write logs to file and stdout
-def print(log_file, *args):
-    line = ' '.join([str(arg) for arg in args]) + '\n'
+def print_to_file(log_file, *args):
+    line = ' '.join([str(arg) for arg in args])
     if log_file is not None:
         with open(log_file, 'a') as f:
-            f.write(line)
-    sys.stdout.write(line)
+            f.write(line + '\n')
+    print(line)
 
 
 # Handler to emit messages via 'print' method
@@ -69,7 +80,7 @@ class myHandler(logging.Handler):
             os.remove(log_file)
 
     def emit(self, LogRecord):
-        print(self.log_file, self.format(LogRecord))
+        print_to_file(self.log_file, self.format(LogRecord))
 
 
 class MyLoggingHandler(logging.Handler):
@@ -139,7 +150,7 @@ class MyFileLoggingHandler(MyLoggingHandler):
 
         # Move newlines before the levelname
         msg = LogRecord.getMessage()
-        # sys.stdout.write(msg + '\n')
+        # print(msg + '\n')
         while msg.startswith('\n'):
             with open(self.target, 'a') as f:
                 f.write('\n')
@@ -173,9 +184,7 @@ def remove_handler_by_name(name):
 
 # Handler to emit messages via 'print' method
 # Combination of file and stream handlers
-def add_my_handler(level=None):
-    if level is None:
-        level = settings.s.logging_level
+def add_my_handler(level=settings.s.logging_level):
     caller = os.path.realpath(inspect.stack()[1][1])
     log_file = caller[:-3] + '.log'
     h = myHandler(log_file)
@@ -190,9 +199,7 @@ def remove_my_handler():
 
 
 # Handler to show logs in master window textEdit
-def add_text_handler(textEdit, level=None):
-    if level is None:
-        level = settings.s.logging_level
+def add_text_handler(textEdit, level=settings.s.logging_level):
     h = MyTextLoggingHandler(textEdit)
     h.set_name(mtlh)
     h.setLevel(level)
@@ -205,9 +212,7 @@ def remove_text_handler():
 
 
 # Handler to write logs into file
-def add_file_handler(log_file, level=None):
-    if level is None:
-        level = settings.s.logging_level
+def add_file_handler(log_file, level=settings.s.logging_level):
     h = MyFileLoggingHandler(log_file)
     h.set_name(mflh)
     h.setLevel(level)
@@ -228,8 +233,8 @@ def add_file_handler(log_file, level=None):
         log_contents = log_contents[lines_count:]
         lines_count = log_capture_string.tell()
         relpath = os.path.relpath(file_name, start=os.getcwd())
-        print(log_file, '{} {}'.format(counter, relpath))
-        print(log_file, log_contents)
+        print_to_file(log_file, '{} {}'.format(counter, relpath))
+        print_to_file(log_file, log_contents)
     log_capture_string.close()
     """
 
@@ -240,9 +245,7 @@ def remove_file_handler():
 
 
 # Handler to write logs into stream
-def add_stream_handler(level=None):
-    if level is None:
-        level = settings.s.logging_level
+def add_stream_handler(level=settings.s.logging_level):
     h = logging.StreamHandler()
     h.set_name(mslh)
     h.setLevel(level)
