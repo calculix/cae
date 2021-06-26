@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 File importer:
@@ -16,7 +16,8 @@ or directly after application start.
 w - Window
 m - Model
 t - Tree
-j - Job """
+j - Job
+"""
 
 # Standard modules
 import os

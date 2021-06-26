@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-MasterWindow class. Here also we keep links to another
-app windows like CGX and web browser. Those links (WIDs)
-are needed to align application windows.
+Class to work with master/slave windows. Keyword editor is always
+master, CGX - slave. Keyword dialog is master, web browser - slave.
+Window IDs (WIDs) are needed to align application windows.
 
 For documentation on used functions refer to:
 http://python-xlib.sourceforge.net/doc/html/python-xlib_21.html
 https://github.com/python-xlib/python-xlib
-https://github.com/asweigart/pyautogui """
+https://github.com/asweigart/pyautogui
+"""
 
 
 # Standard modules

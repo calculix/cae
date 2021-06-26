@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Main window actions - all processed signals. """
+Main window actions - all processed signals.
+
+f - Window factory
+w - Master window
+m - Model
+t - Tree
+j - Job
+"""
 
 # Standard modules
 import os
@@ -18,13 +25,7 @@ import path
 import settings
 import gui
 
-"""
-f - Window factory
-w - Master window
-m - Model
-t - Tree
-j - Job
-"""
+
 def actions(f, m, t, j, i):
     w = f.mw
     w.keyPressEvent = t.keyPressEvent

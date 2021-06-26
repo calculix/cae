@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 Job submition and convertion. Run a detached process and
@@ -9,7 +9,8 @@ send messages to queue. This scheme doesn't freeze Window
 while analysis is running or files are converting.
 
 Job creation indicates start of the new session.
-Old log file is erased and a new one is created. """
+Old log file is erased and a new one is created.
+"""
 
 
 # Standard modules

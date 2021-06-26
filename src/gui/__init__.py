@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-NOTE
-Import sequence is very important.
+NOTE Import sequence is very important.
 Do not change import sequence!
 """
 

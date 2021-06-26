@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 Utilities for testing. Almost each module of the
 application has test() method decorated with
 test_wrapper(). The decorator is described here.
 
-Run test: Ctrl+F5 from VSCode """
+Run test: Ctrl+F5 from VSCode.
+"""
 
 # TODO Use unittest in all module tests
 

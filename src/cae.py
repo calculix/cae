@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 Main module.
@@ -14,7 +14,8 @@ How to run:
 Ctrl+F5 from VSCode
 or:
 python3 ./src/cae.py
-python3 ./src/cae.py -inp yourmodel.inp """
+python3 ./src/cae.py -inp yourmodel.inp
+"""
 
 # TODO Test everything on Windows 10
 

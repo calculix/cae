@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 Custon logging handlers for catching CCX and CGX output.
 The Text handler is created once per session
 and prints into CAE textEdit.
 The File handler is created any time you open a model.
-Log file has the same name as a model. """
+Log file has the same name as a model.
+"""
 
 # Standard modules
 import os

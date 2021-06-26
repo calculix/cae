@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Methods to work with main window treeView widget. """
+Methods to work with main window treeView widget.
+"""
 
 # Standard modules
 import re

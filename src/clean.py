@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Methods for cleaning up temporary/unused files/folders etc """
+Methods for cleaning up temporary/unused files/folders etc.
+"""
 
 import os
 import sys

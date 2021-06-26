@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 A tool to prepare new release of CrunchiX HTML help pages.
 Extract official documentation into /doc/ folder, 
-then run prepare_documentation() method. """
+then run prepare_documentation() method.
+"""
 
 # Standard modules
 import os

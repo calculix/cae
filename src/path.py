@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 Absolute paths to the application main folders.
 Static class whos fields shouldn't change on the run.
-It is initialized on the app start - and that's all. """
+It is initialized on the app start - and that's all.
+"""
 
 import os
 import tests

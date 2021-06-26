@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 Model unites KOM object and parsers.
-See scheme on architecture.odp. """
+See scheme on architecture.odp.
+"""
 
 from . import parsers
 from . import job

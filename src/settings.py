@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 Application settings.
 Attributes values are maintained in config/Settings_*.py.
-User dialog form is config/SettingsDialog.xml - use Qt Designer to edit. """
+User dialog form is config/SettingsDialog.xml - use Qt Designer to edit.
+"""
 
 # Standard modules
 import os

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 CalculiX Keyword Object Model (hierarchy).
 Parser supposts mutually exclusive parameters for keywords.
 Keywords with all arguments are parsed from config/kom.xml.
-On INP import KOM is enriched with keyword implementations. """
+On INP import KOM is enriched with keyword implementations.
+"""
 
 # Standard modules
 import re

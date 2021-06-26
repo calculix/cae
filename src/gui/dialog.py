@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" © Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
 Dialog window to create/edit keyword implementation.
 Called via double click on keyword in the treeView.
 Keyword implementation is defined by its name and inp_code.
 Dialog is created via Factory class, run_master_dialog() method.
-So this dialog is a master, help webbrowser (if any) is a slave. """
+So this dialog is a master, help webbrowser (if any) is a slave.
+"""
 
 # Standard modules
 import os
