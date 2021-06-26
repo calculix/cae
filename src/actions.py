@@ -72,8 +72,8 @@ def actions(f, m, t, j, i):
     w.treeView.doubleClicked.connect(t.doubleClicked)
     w.treeView.clicked.connect(t.clicked)
     w.treeView.customContextMenuRequested.connect(t.rightClicked)
-    w.treeView.expanded.connect(t.treeViewExpanded)
-    w.treeView.collapsed.connect(t.treeViewCollapsed)
+    w.treeView.expanded.connect(t.expanded_or_collapsed)
+    w.treeView.collapsed.connect(t.expanded_or_collapsed)
 
     # ToolBar actions
     w.action_view_minus_x.triggered.connect(lambda: f.connection.post('rot -x'))

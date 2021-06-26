@@ -8,10 +8,10 @@ Utilities for testing. Almost each module of the
 application has test() method decorated with
 test_wrapper(). The decorator is described here.
 
+TODO Use unittest in all module tests
+
 Run test: Ctrl+F5 from VSCode.
 """
-
-# TODO Use unittest in all module tests
 
 # Standard modules
 import os
@@ -23,8 +23,8 @@ import inspect
 import clean
 
 
-# List all .ext-files here and in all subdirectories
 def scan_all_files_in(start_folder, ext, limit=1000000):
+    """List all .ext-files here and in all subdirectories."""
     all_files = []
     for f in os.scandir(start_folder):
         if f.is_dir():
@@ -36,15 +36,15 @@ def scan_all_files_in(start_folder, ext, limit=1000000):
     return sorted(all_files)[:limit]
 
 
-# Return spent time delta in format hh:mm:ss.s
 def get_time_delta(start):
+    """Return spent time delta in format hh:mm:ss.s."""
     delta = time.perf_counter() - start
     return '{:02d}:{:02d}:{:04.1f}'\
         .format(int(delta/3600), int(delta%3600/60), delta%3600%60)
 
 
-# Log spent time delta in format hh:mm:ss.s
 def log_time_delta(start, log_file=None):
+    """Log spent time delta in format hh:mm:ss.s"""
     msg = '\nTotal ' + get_time_delta(start)
     if log_file is None:
         print(msg)
@@ -53,8 +53,8 @@ def log_time_delta(start, log_file=None):
         log.print_to_file(log_file, msg)
 
 
-# Common wrapper for test() method in different modules
 def test_wrapper():
+    """Common wrapper for test() method in different modules..."""
     def wrap(method):
         def fcn():
             start = time.perf_counter()
@@ -79,12 +79,11 @@ def test_wrapper():
     return wrap
 
 
-# TODO Invent some test
 @test_wrapper()
 def test():
+    # TODO Invent some test
     pass
 
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test

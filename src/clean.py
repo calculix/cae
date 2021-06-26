@@ -12,13 +12,13 @@ import sys
 import shutil
 
 
-# Clean screen
 def screen():
+    """Clean screen."""
     os.system('cls' if os.name=='nt' else 'clear')
 
 
-# Recursively delete cached files in all subfolders
 def cache(folder=None):
+    """Recursively delete cached files in all subfolders."""
     if not folder:
         folder = os.getcwd()
     pycache = os.path.join(folder, '__pycache__')
@@ -31,13 +31,13 @@ def cache(folder=None):
             cache(f.path)
 
 
-# Cleaup trash files in startFolder and all subfolders
 def files(startFolder=None):
+    """Cleaup trash files in startFolder and all subfolders."""
+    if not startFolder:
+        startFolder = os.getcwd()
     extensions = (  '.12d', '.cvg', '.dat', '.vwf', '.out', '.nam', '.inp1', '.inp2',
                     '.sta', '.equ', '.eig', '.stm', '.mtx', '.net', '.inp0', '.rin',
                     '.fcv', 'dummy' )
-    if not startFolder:
-        startFolder = os.getcwd()
     for f in os.scandir(startFolder):
         if f.is_dir(): # if folder
             files(f.path)
@@ -49,8 +49,8 @@ def files(startFolder=None):
                 sys.__stdout__.write(f.path + ': ' + sys.exc_info()[1][1] + '\n')
 
 
-# Cleaup old result files
 def results():
+    """Cleaup old result files."""
     extensions = ('.frd', '.vtk', '.vtu')
     for f in os.scandir('.'):
         if f.name.endswith(extensions):

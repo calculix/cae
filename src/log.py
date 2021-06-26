@@ -58,8 +58,8 @@ def get_logging_info():
     print(msg)
 
 
-# Redefine print method to write logs to file and stdout
 def print_to_file(log_file, *args):
+    """Redefine print method to write logs to file and stdout."""
     line = ' '.join([str(arg) for arg in args])
     if log_file is not None:
         with open(log_file, 'a') as f:
@@ -67,8 +67,8 @@ def print_to_file(log_file, *args):
     print(line)
 
 
-# Handler to emit messages via 'print' method
 class myHandler(logging.Handler):
+    """Handler to emit messages via print_to_file()."""
 
     def __init__(self, log_file):
         super().__init__()
@@ -85,8 +85,8 @@ class myHandler(logging.Handler):
 
 
 class MyLoggingHandler(logging.Handler):
+    """Target could be textEdit or file."""
 
-    # Target could be textEdit or file
     def __init__(self, target):
         super().__init__() # create handler
         self.target = target
@@ -94,12 +94,13 @@ class MyLoggingHandler(logging.Handler):
         self.setFormatter(fmt)
 
 
-# Called only once on startup
-# Handler to show logs in master window textEdit
 class MyTextLoggingHandler(MyLoggingHandler):
+    """Called only once on startup.
+    Handler to show logs in master window textEdit.
+    """
 
-    # Sends log messages to Window textEdit widget
     def emit(self, LogRecord):
+        """Sends log messages to Window textEdit widget."""
 
         # Message color depending on logging level
         color = {
@@ -142,10 +143,11 @@ class MyTextLoggingHandler(MyLoggingHandler):
         self.target.moveCursor(QtGui.QTextCursor.End)
 
 
-# Called at each file import
-# Handler to write logs into file
-# TODO Message repeats twice
 class MyFileLoggingHandler(MyLoggingHandler):
+    """Called at each file import.
+    Handler to write logs into file.
+    TODO Message repeats twice.
+    """
 
     def emit(self, LogRecord):
 
@@ -167,8 +169,8 @@ class MyFileLoggingHandler(MyLoggingHandler):
             f.write(msg + '\n')
 
 
-# Stop all logging handlers, even default stdout
 def stop_logging():
+    """Stop all logging handlers, even default stdout."""
     for h in logging.getLogger().handlers:
         h.close()
     logging.getLogger().handlers = []
@@ -183,9 +185,10 @@ def remove_handler_by_name(name):
             hh.remove(h)
 
 
-# Handler to emit messages via 'print' method
-# Combination of file and stream handlers
 def add_my_handler(level=settings.s.logging_level):
+    """Handler to emit messages via print_to_file().
+    Combination of file and stream handlers.
+    """
     caller = os.path.realpath(inspect.stack()[1][1])
     log_file = caller[:-3] + '.log'
     h = myHandler(log_file)
@@ -194,26 +197,26 @@ def add_my_handler(level=settings.s.logging_level):
     logging.getLogger().addHandler(h)
 
 
-# Remove all MyHandler handlers
 def remove_my_handler():
+    """Remove all MyHandler handlers."""
     remove_handler_by_name(mh)
 
 
-# Handler to show logs in master window textEdit
 def add_text_handler(textEdit, level=settings.s.logging_level):
+    """Handler to show logs in master window textEdit."""
     h = MyTextLoggingHandler(textEdit)
     h.set_name(mtlh)
     h.setLevel(level)
     logging.getLogger().addHandler(h)
 
 
-# Remove all textEdit handlers
 def remove_text_handler():
+    """Remove all textEdit handlers."""
     remove_handler_by_name(mtlh)
 
 
-# Handler to write logs into file
 def add_file_handler(log_file, level=settings.s.logging_level):
+    """Handler to write logs into file."""
     h = MyFileLoggingHandler(log_file)
     h.set_name(mflh)
     h.setLevel(level)
@@ -240,13 +243,13 @@ def add_file_handler(log_file, level=settings.s.logging_level):
     """
 
 
-# Remove all file handlers
 def remove_file_handler():
+    """Remove all file handlers."""
     remove_handler_by_name(mflh)
 
 
-# Handler to write logs into stream
 def add_stream_handler(level=settings.s.logging_level):
+    """Handler to write logs into stream."""
     h = logging.StreamHandler()
     h.set_name(mslh)
     h.setLevel(level)
@@ -255,13 +258,13 @@ def add_stream_handler(level=settings.s.logging_level):
     logging.getLogger().addHandler(h)
 
 
-# Remove all stream handlers
 def remove_stream_handler():
+    """Remove all stream handlers."""
     remove_handler_by_name(mslh)
 
 
-# Reads CCX and CGX outputs
 class StdoutReader:
+    """Reads CCX and CGX outputs."""
 
     def __init__(self, stdout, prefix, read_output=True, connection=None):
         self.stdout = stdout
@@ -274,8 +277,8 @@ class StdoutReader:
     def stop(self):
         self.active = False
 
-    # Process one non-empty stdout message
     def log_line(self, line):
+        """Process one non-empty stdout message."""
         if self.read_output:
             logging_levels = {
                 'NOTSET': 0,
@@ -296,8 +299,8 @@ class StdoutReader:
     def filter_backspaces(self, line):
         return line
 
-    # Infininte cycle to read process'es stdout
     def read_and_log(self):
+        """Infininte cycle to read process'es stdout."""
 
         # Save from 100% CPU bug
         time.sleep(3)
@@ -328,10 +331,11 @@ class StdoutReader:
         while self.active:
             time.sleep(1)
 
-    # Read and log CGX stdout
-    # Attention: it's infinite stdout reader!
-    # An old reader quits if a new one is started
     def start(self):
+        """Read and log CGX stdout.
+        Attention: it's infinite stdout reader!
+        An old reader quits if a new one is started.
+        """
         self.name = 'thread_{}_{}_{}'\
             .format(threading.active_count(),
                 self.prefix, int(time.time()))
@@ -351,9 +355,10 @@ class CgxStdoutReader(StdoutReader):
     def log_line(self, line):
         logging.log(25, line)
 
-    # Posting to CGX window outputs to std line with backspaces:
-    # pplploplotplot plot eplot e plot e Oplot e OUplot e OUTplot e OUT-plot e OUT-Splot e OUT-S3
     def filter_backspaces(self, line):
+        """Posting to CGX window outputs to std line with backspaces:
+        pplploplotplot plot eplot e plot e Oplot e OUplot e OUTplot e OUT-plot e OUT-Splot e OUT-S3
+        """
         if 8 in line:
             l = bytearray()
             i = 1
@@ -367,9 +372,9 @@ class CgxStdoutReader(StdoutReader):
             return line
 
 
-# Run main window and test loggers
 @tests.test_wrapper()
 def test():
+    """Run main window and test loggers."""
 
     # Create application
     app = QtWidgets.QApplication(sys.argv)
@@ -387,6 +392,5 @@ def test():
     app.exec()
 
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test

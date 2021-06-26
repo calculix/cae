@@ -48,9 +48,10 @@ class Path:
         self.path_ccx = os.path.join(self.bin, 'ccx' + self.extension)
         self.path_cgx = os.path.join(self.bin, 'cgx' + self.extension)
 
-    # Pyinstaller bug in Windows:
-    # append 'app_home_dir' and 'src' directories to PATH
     def append_to_PATH(self, paths):
+        """Pyinstaller bug in Windows:
+        append 'app_home_dir' and 'src' directories to PATH.
+        """
         if not os.environ['PATH'].endswith(os.pathsep):
             os.environ['PATH'] += os.pathsep
         for path in paths:
@@ -58,8 +59,8 @@ class Path:
                 os.environ['PATH'] += path
                 os.environ['PATH'] += os.pathsep
 
-    # Convert relative path to absolute and check
     def abspath(self, rel):
+        """Convert relative path to absolute and check."""
 
         # We do not know if rel is really relative path
         if os.path.isfile(os.path.join(self.app_home_dir, rel)):
@@ -70,9 +71,9 @@ class Path:
             return rel
 
 
-# Test all paths in the class
 @tests.test_wrapper()
 def test():
+    """Test all paths in the class."""
     global p
     for attr in dir(p):
         a = getattr(p, attr)
@@ -83,6 +84,5 @@ def test():
 p = Path()
 
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test

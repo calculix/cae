@@ -23,9 +23,10 @@ if sys_path not in sys.path:
 import path
 
 
-# Paint element sets in default CGX colors
-# NOTE Not used.
 def paint_elsets_old(f, elsets):
+    """Paint element sets in default CGX colors.
+    NOTE Not used.
+    """
     colors = 'rgbymntk'
     i = 0
     for i in range(len(elsets)):
@@ -38,8 +39,8 @@ def paint_elsets_old(f, elsets):
             i = (i + 1) % len(colors)
 
 
-# Paint element sets in CGX when INP is opened
 def paint_elsets(f, m):
+    """Paint element sets in CGX when INP is opened."""
     if not (path.p.path_cgx + ' -c ') in f.sw.cmd:
         msg = 'Please, open INP model to paint elsets.'
         logging.warning(msg)
@@ -56,8 +57,8 @@ def paint_elsets(f, m):
         i = (i + 1) % 5
 
 
-# Paint surfaces in CGX when INP is opened
 def paint_surfaces(f, m):
+    """Paint surfaces in CGX when INP is opened."""
     if not (path.p.path_cgx + ' -c ') in f.sw.cmd:
         msg = 'Please, open INP model to paint surfaces.'
         logging.warning(msg)
@@ -74,8 +75,8 @@ def paint_surfaces(f, m):
         i = (i + 1) % 5
 
 
-# Set custom colormap when FRD is opened
 def cmap(f, colormap):
+    """Set custom colormap when FRD is opened."""
     if not (path.p.path_cgx + ' -o ') in f.sw.cmd:
         msg = 'Please, open FRD model to set colormap.'
         logging.warning(msg)
@@ -83,8 +84,8 @@ def cmap(f, colormap):
     f.connection.post('cmap ' + colormap)
 
 
-# Open INP model in GraphiX
 def open_inp(f, inp_file, has_nodes=0):
+    """Open INP model in GraphiX."""
     if not os.path.isfile(path.p.path_cgx):
         logging.error('CGX not found in ' + path.p.path_cgx)
         raise SystemExit # the best way to exit
@@ -103,8 +104,8 @@ def open_inp(f, inp_file, has_nodes=0):
         logging.error('File not found:\n' + inp_file)
 
 
-# Open FRD results in GraphiX
 def open_frd(f, frd_file):
+    """Open FRD results in GraphiX."""
     if not os.path.isfile(path.p.path_cgx):
         logging.error('CGX not found in ' + path.p.path_cgx)
         raise SystemExit # the best way to exit

@@ -43,8 +43,8 @@ import tests
 
 class Job:
 
-    # Create job object
     def __init__(self, f, m, file_name=settings.s.start_model):
+        """Create job object."""
         self.f = f
         self.m = m
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
@@ -70,19 +70,19 @@ class Job:
             + path.p.app_home_dir)
         logging.info('Work directory is:\n' + self.dir)
 
-    # Convert UNV to INP
     def convert_unv(self):
+        """Convert UNV to INP."""
         # converter_path = os.path.join(path.p.bin, 'unv2ccx' + path.p.extension)
         # cmd = [converter_path, self.path + '.unv']
         # logging.info(' '.join(cmd))
         # self.run(cmd)
         unv2ccx.Converter(self.path + '.unv').run()
 
-    # Write the whole model inp_code
-    # into the output .inp-file.
-    # Is called from menu 'Job -> Write input'
-    # Reinitialize job because of possible file_name change
     def write_input(self, lines):
+        """Write the whole model inp_code into the output .inp-file.
+        Is called from menu 'Job -> Write input'.
+        Reinitialize job because of possible file_name change.
+        """
         file_name = QtWidgets.QFileDialog.getSaveFileName(None, \
             'Write INP file', self.dir, \
             'Input files (*.inp)')[0]
@@ -97,8 +97,8 @@ class Job:
             has_nodes = len(self.m.Mesh.nodes)
             gui.cgx.open_inp(self.f, self.inp, has_nodes)
 
-    # Open INP file in external text editor
     def edit_inp(self):
+        """Open INP file in external text editor."""
         if os.path.isfile(settings.s.path_editor):
             if os.path.isfile(self.inp):
                 command = [settings.s.path_editor, self.inp]
@@ -112,8 +112,8 @@ class Job:
                 + settings.s.path_editor \
                 + '\nConfigure it in File->Settings.')
 
-    # Dialog window to filter fortran subroutines
     def open_subroutine(self):
+        """Dialog window to filter fortran subroutines."""
         if os.path.isfile(settings.s.path_editor):
             file_name = QtWidgets.QFileDialog.getOpenFileName(None,
                 'Open a subroutine', path.p.ccx, 'FORTRAN (*.f)')[0]
@@ -125,8 +125,8 @@ class Job:
                 + settings.s.path_editor \
                 + '\nConfigure it in File->Settings.')
 
-    # Recompile CalculiX sources with updated subroutines
     def rebuild_ccx(self):
+        """Recompile CalculiX sources with updated subroutines."""
 
         # Windows
         if os.name == 'nt':
@@ -172,8 +172,8 @@ class Job:
             args=(cmd2, '', False), name=t_name, daemon=True)
         t.start()
 
-    # Submit INP to CalculiX
     def submit(self):
+        """Submit INP to CalculiX."""
         if not os.path.isfile(path.p.path_ccx):
             logging.error('CCX not found:\n' \
                 + path.p.path_ccx)
@@ -194,8 +194,8 @@ class Job:
                 + self.inp \
                 + '\nWrite input first.')
 
-    # Open log file in external text editor
     def view_log(self):
+        """Open log file in external text editor."""
         if os.path.isfile(settings.s.path_editor):
             if os.path.isfile(self.log):
                 command = [settings.s.path_editor, self.log]
@@ -209,8 +209,8 @@ class Job:
                 + settings.s.path_editor \
                 + '\nConfigure it in File->Settings.')
 
-    # Convert FRD to VTU
     def export_vtu(self):
+        """Convert FRD to VTU."""
         if os.path.isfile(self.frd):
             ccx2paraview.Converter(self.frd, ['vtu']).run()
         else:
@@ -218,8 +218,8 @@ class Job:
                 + self.frd \
                 + '\nSubmit analysis first.')
 
-    # Open VTU in ParaView
     def open_paraview(self):
+        """Open VTU in ParaView."""
         if os.path.isfile(settings.s.path_paraview):
 
             # Count result VTU files
@@ -247,12 +247,12 @@ class Job:
                 + settings.s.path_paraview \
                 + '\nConfigure it in File->Settings.')
 
-    # Run a single command, wait for its completion and log stdout
-    # Doesn't block GUI if called via thread
     def run(self, cmd, send='', read_output=True):
-
-        # Wait for previous thread to finish
+        """Run a single command, wait for its completion and log stdout.
+        Doesn't block GUI if called via thread.
+        """
         while True:
+            # Wait for previous thread to finish
             t_name = threading.current_thread().name
             t_names = sorted([t.name for t in threading.enumerate() \
                 if '_rebuild_ccx' in t.name])
@@ -282,8 +282,8 @@ class Job:
             time.sleep(1)
 
 
-# Converts Windows path to Cygwin path
 def path2cygwin(path):
+    """Converts Windows path to Cygwin path."""
     return '/cygdrive/' + \
             path[0].lower() + \
             path[2:].replace('\\', '/')
@@ -295,6 +295,5 @@ def test():
     j.view_log()
 
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test

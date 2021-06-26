@@ -4,6 +4,10 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
+TODO Possible comments and empty lines
+TODO Parse mesh from INCLUDEs
+TODO Newly created elset is not highlighted
+
 Parses finite element mesh from the CalculiX .inp-file.
 Reads nodes coordinates, elements composition,
 node and element sets and surfaces.
@@ -13,10 +17,6 @@ icode - piece of input code
 blocks - keyword blocks
 old - mesh to be reparsed
 """
-
-# TODO Possible comments and empty lines
-# TODO Parse mesh from INCLUDEs
-# TODO Newly created elset is not highlighted
 
 # Standard modules
 import os
@@ -42,7 +42,6 @@ import log
 
 class Mesh:
 
-    # Initialization
     def __init__(self, ifile=None,
         icode=None, blocks=None, old=None):
 
@@ -91,8 +90,8 @@ class Mesh:
                 logging.error(msg)
         logging.info(msg_text)
 
-    # Log some warning
     def warn(self, msg):
+        """Log some warning."""
         if self.warning_counter < 10:
             logging.warning(msg)
         if self.warning_counter == 10:
@@ -106,8 +105,8 @@ class Mesh:
     #             return sets[s]
     #     logging.error('There is no set {}.'.format(name))
 
-    # Parse nodes with coordinates - *NODE keyword
     def parse_nodes(self, lines):
+        """Parse nodes with coordinates - *NODE keyword."""
         regex1 = r'^\*[\w\s-]+'
         regex2 = r'NSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)'
         for i in range(len(lines)):
@@ -183,8 +182,8 @@ class Mesh:
 
             # do not return to parse few *NODE sections
 
-    # Parse node sets - *NSET keyword
     def parse_nsets(self, lines):
+        """Parse node sets - *NSET keyword."""
         rex = r'(\*NSET)\s*,.*NSET\s*=\s*' \
             + r'([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)'
         for i in range(len(lines)):
@@ -263,8 +262,8 @@ class Mesh:
             self.create_or_extend_set(self.nsets, name, nodes, NSET)
             # do not return to parse few *NSET sections
 
-    # Parse elements composition - *ELEMENT keyword
     def parse_elements(self, lines):
+        """Parse elements composition - *ELEMENT keyword."""
         regex1 = r'^\*[\w\s-]+'
         regex2 = r'TYPE\s*=\s*(\w+)'
         regex3 = r'ELSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)'
@@ -341,8 +340,8 @@ class Mesh:
 
             # do not return to parse few *ELEMENT sections
 
-    # Parse element sets - *ELSET keyword
     def parse_elsets(self, lines):
+        """Parse element sets - *ELSET keyword."""
         regex = r'(\*ELSET)\s*,.*ELSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)'
         for i in range(len(lines)):
             match = re.search(regex, lines[i].upper())
@@ -413,8 +412,8 @@ class Mesh:
             self.create_or_extend_set(self.elsets, name, elements, ELSET)
             # do not return to parse few *ELSET sections
 
-    # Parse surfaces - *SURFACE keyword
     def parse_surfaces(self, lines):
+        """Parse surfaces - *SURFACE keyword."""
         for i in range(len(lines)):
             skip = True
 
@@ -501,8 +500,8 @@ class Mesh:
                 # Create new SURFACE and append to list
                 self.surfaces[name + stype] = SURFACE(name, items, stype)
 
-    # Get amount of nodes by CalculiX element type
     def amount_of_nodes(self, etype):
+        """Get amount of nodes by CalculiX element type."""
         # regex = r'[A-Z]+(\dD)*(\d+)*[AEHIMOPRST]*\d?'
         if etype.startswith('Z'): # substructures
             return 0
@@ -793,11 +792,10 @@ class Mesh:
             logging.error('Unknown element type - {}.'.format(etype))
             return 1 # minimum possible
 
-    # Replace current mesh attributes with reparsed mesh ones
-    """ Delete/add nodes
-    Update NSETs, elements, ELSETs, surfaces
-    Rebuild ugrid """
     def updateWith(self, reparsedMesh):
+        """Replace current mesh attributes with reparsed mesh ones.
+        Delete/add nodes, update NSETs, elements, ELSETs, surfaces.
+        """
         for attrName, attrValue in reparsedMesh.__dict__.items():
             if type(attrValue) == dict and len(attrValue):
                 # print('Another mesh:', attrName, attrValue)
@@ -805,12 +803,12 @@ class Mesh:
                     # print('Nodes:', _setValue.items)
                     getattr(self, attrName)[_setName] = _setValue
 
-    # Parse input code and update current Mesh
     def reparse(self, icode):
+        """Parse input code and update current Mesh."""
         pass
 
-    # Before modification checks if sets have set with the same name
     def create_or_extend_set(self, sets, name, items, klass):
+        """Before modification checks if sets have set with the same name."""
         # logging.debug('Class: ' + klass.__name__)
         if name.upper() in sets: # check duplicates
             sets[name.upper()].items.extend(items) # append to existing set
@@ -905,10 +903,9 @@ class SURFACE:
             self.type = 'ELEMENT'
 
 
-# Run test
-# Test mesh parser on all CalculiX examples
 @tests.test_wrapper()
 def test():
+    """Test mesh parser on all CalculiX examples."""
 
     # Prepare logging
     log_file = __file__[:-3] + '.log'
@@ -932,4 +929,4 @@ def test():
 
 
 if __name__ == '__main__':
-    test()
+    test() # run test

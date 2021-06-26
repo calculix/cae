@@ -19,10 +19,11 @@ import model
 import tests
 
 
-# Open 'ccx.html',
-# find link to keyword help page
-# and regenerate its HTML file
 def save_html(doc_root, keyword_name, url):
+    """Open 'ccx.html',
+    find link to keyword help page
+    and regenerate its HTML file.
+    """
     href = os.path.join(doc_root, 'ccx.html')
     if os.path.isfile(href):
         with open(href, 'r') as f:
@@ -58,9 +59,10 @@ def save_html(doc_root, keyword_name, url):
             f.write(html)
 
 
-# Regenerate all HTML help pages
-# Avoid spaces in html page names
 def regenerate_documentation(KOM):
+    """Regenerate all HTML help pages.
+    Avoid spaces in html page names.
+    """
     for item in KOM.keywords:
         keyword_name = item.name[1:] # cut star
         html_page_name = re.sub(r'[ -]', '_', keyword_name)
@@ -69,8 +71,8 @@ def regenerate_documentation(KOM):
         print(keyword_name, url)
 
 
-# Deletes unneeded html files
 def remove_html_trash(KOM):
+    """Deletes unneeded html files."""
     rm_list = ('ccx', 'footnode', 'index', 'node')
     for file_name in os.listdir(path.p.doc):
         if file_name.startswith(rm_list) \
@@ -80,8 +82,8 @@ def remove_html_trash(KOM):
             os.remove(file_name)
 
 
-# Deletes unneeded images
 def remove_png_trash():
+    """Deletes unneeded images."""
 
     # Read contents of all HTML files in doc directory
     lines = []
@@ -112,17 +114,17 @@ def remove_png_trash():
                 os.remove(file_name)
 
 
-# Regenerate all html files and remove trash
 def prepare_documentation():
+    """Regenerate all html files and remove trash."""
     KOM = model.kom.KOM()
     regenerate_documentation(KOM)
     remove_html_trash(KOM)
     remove_png_trash()
 
 
-# Checks if HTML pages are generated for all keywords
 @tests.test_wrapper()
 def test():
+    """Checks if HTML pages are generated for all keywords."""
     KOM = model.kom.KOM()
 
     keywords = [re.sub(r'[ -]', '_', kw.name[1:]) for kw in KOM.keywords]
@@ -141,7 +143,6 @@ def test():
         print(keywords)
 
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test
     # prepare_documentation()

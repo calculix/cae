@@ -46,8 +46,8 @@ import gui.connection
 import log
 
 
-# Common wrapper for MasterWindow/SlaveWindow __init__() method
 def init_wrapper():
+    """Common wrapper for MasterWindow/SlaveWindow __init__() method."""
     def wrap(method):
         def fcn(self, arg):
             before = get_opened_windows()
@@ -80,10 +80,11 @@ def init_wrapper():
     return wrap
 
 
-""" Window factory class - used to create master and slave windows
-and bind/connect them together. Logging facility as killing methods
-for slave window are also maintained here. """
 class Factory:
+    """Window factory class - used to create master and slave windows
+    and bind/connect them together. Logging facility as killing methods
+    for slave window are also maintained here.
+    """
 
     def __init__(self):
         self.mw = None # master window
@@ -98,12 +99,12 @@ class Factory:
             wc2 = gui.connection.WindowConnectionLinux(*args)
         self.connection = None
 
-    # Draw window form described in xml UI file
     def run_master(self, xml=path.p.main_xml):
+        """Draw window form described in xml UI file."""
         self.mw = MasterWindow(xml)
 
-    # Generate dialog window and show it
     def run_master_dialog(self, k, i):
+        """Generate dialog window and show it."""
         args = [k, i]
         import gui.dialog
         self.mw = gui.dialog.KeywordDialog(args) # one argument for init_wrapper()
@@ -119,9 +120,9 @@ class Factory:
         self.kill_slave()
         return d
 
-    # Open HTML help page in a default web browser
     # TODO Opens Chrome and Firefox - check others
     def open_help(self, click=True):
+        """Open HTML help page in a default web browser."""
         if settings.s.default_web_browser == 'internal':
             self.mw.show_hide_internal_help(click)
         else:
@@ -135,8 +136,8 @@ class Factory:
             logging.info('Going to\n' + self.mw.url)
             self.run_slave(cmd)
 
-    # Close opened slave window and open a new one
     def run_slave(self, cmd):
+        """Close opened slave window and open a new one."""
         self.kill_slave()
         self.sw = SlaveWindow(cmd)
         self.create_connection()
@@ -148,9 +149,9 @@ class Factory:
             self.mw.textEdit.setHtml(html)
             self.start_stdout_reader('read_cgx_stdout')
 
-    # Kill all slave processes
     # TODO Firefox process is being killed correctly, but window remains
     def kill_slave(self):
+        """Kill all slave processes."""
         if self.sw is None:
             return
         if self.sw.process is None:
@@ -190,8 +191,8 @@ class Factory:
             self.sw.process = None
             self.sw.info = None
 
-    # Start stdout reading and logging thread
     def start_stdout_reader(self, aim):
+        """Start stdout reading and logging thread."""
         if self.connection is not None:
             sr = log.CgxStdoutReader(self.sw.process.stdout, aim, True, self.connection)
             self.stdout_readers.append(sr)
@@ -200,8 +201,8 @@ class Factory:
             msg = 'Window connection not established.'
             logging.error(msg)
 
-    # Kill logging threads
     def stop_stdout_readers(self):
+        """Kill logging threads."""
         readers = [sr for sr in self.stdout_readers if sr.active]
         if len(readers):
             msg = 'Stopping threads:\n'
@@ -211,8 +212,8 @@ class Factory:
             logging.debug(msg)
             time.sleep(1)
 
-    # Connect master and slave windows and align them
     def create_connection(self):
+        """Connect master and slave windows and align them."""
         if self.mw is None:
             logging.error('No master window.')
             return
@@ -230,12 +231,12 @@ class Factory:
             self.connection.align_windows()
 
 
-# Left window - main window of the app
 class MasterWindow(QtWidgets.QMainWindow):
+    """Left window - main window of the app."""
 
-    # Load form and show the window
     @init_wrapper()
     def __init__(self, xml=path.p.main_xml):
+        """Load form and show the window."""
         self.info = None # WindowInfo will be set in @init_wrapper
 
         # Load UI form - produces huge amount of redundant debug logs
@@ -245,26 +246,27 @@ class MasterWindow(QtWidgets.QMainWindow):
         logging.disable(logging.NOTSET) # switch on logging
 
         # Handler to show logs in the CAE textEdit
-        if hasattr(self, 'textEdit'): # skip for test_sendkeys
+        if hasattr(self, 'textEdit'): # skip for test()
             log.add_text_handler(self.textEdit)
 
         self.show()
 
-    # Open links from the Help menu
     def help(self, url):
+        """Open links from the Help menu."""
         if webbrowser.open(url, new=2):
             logging.info('Going to\n' + url)
         else:
             logging.warning('Can not open url\n' + url)
 
 
-""" Right application window - CGX, text editor,
-web browser. Starts as a separate process """
 class SlaveWindow:
+    """Right application window - CGX, text editor,
+    web browser. Starts as a separate process.
+    """
 
-    # Run slave process without terminal window, set window info
     @init_wrapper()
     def __init__(self, cmd):
+        """Run slave process without terminal window, set window info."""
         self.info = None # WindowInfo will be set in @init_wrapper
         self.cmd = cmd
         shell = (os.name == 'nt') # True or False
@@ -275,8 +277,8 @@ class SlaveWindow:
             shell=shell)
 
 
-# Snapshot window list
 def get_opened_windows():
+    """Snapshot window list."""
     args = [None, None]
     if os.name == 'posix':
         wc = gui.connection.WindowConnectionLinux(*args)
@@ -288,10 +290,11 @@ def get_opened_windows():
     return wc.get_opened_windows()
 
 
-# Gets two dictionaries with opened windows,
-# compares and returns info for newly opened window.
-# Only one new window is allowed.
 def get_new_windows_infos(opened_windows_before, opened_windows_after):
+    """Gets two dictionaries with opened windows,
+    compares and returns info for newly opened window.
+    Only one new window is allowed.
+    """
     new_windows_infos = []
     for wi in opened_windows_after:
         if wi.wid not in [i.wid for i in opened_windows_before]:
@@ -305,9 +308,11 @@ def get_new_windows_infos(opened_windows_before, opened_windows_after):
     return new_windows_infos
 
 
-# Keycodes sending to text editor and CGX
 @tests.test_wrapper()
-def test_sendkeys():
+def test():
+    """Test sendkeys:
+    keycodes sending to text editor and CGX.
+    """
 
     # Create application
     app = QtWidgets.QApplication([])
@@ -348,6 +353,5 @@ def test_sendkeys():
     f.kill_slave()
 
 
-# Run test
 if __name__ == '__main__':
-    test_sendkeys()
+    test()

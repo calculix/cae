@@ -12,6 +12,7 @@ from . import parsers
 from . import job
 from . import kom
 
+
 class Model:
 
     def __init__(self):

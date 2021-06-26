@@ -37,8 +37,8 @@ import log
 import tests
 
 
-# Keyword block
 class Block:
+    """Keyword block."""
 
     def __init__(self, keyword_name, comments, lead_line, data_lines):
         self.keyword_name = keyword_name # string
@@ -54,7 +54,6 @@ class Block:
         return inp_code
 
     def print_debug_info(self):
-
         sys.stdout.write('\nCOMMENTS:\n')
         for line in self.comments:
             sys.stdout.write(line + '\n')
@@ -80,8 +79,8 @@ class Importer:
         self.j = j # job
         self.keyword_blocks = []
 
-    # Split inp_doc on blocks
     def split_on_blocks(self, inp_doc):
+        """Split inp_doc on blocks."""
         self.keyword_blocks = []
         i = 0
         regex = r'^\*[\w\s-]+'
@@ -125,10 +124,10 @@ class Importer:
 
             i += 1
 
-    # Create keyword implementations
     def import_inp(self):
+        """Create keyword implementations."""
         parent = self.m.KOM.root
-        impl_counter = {}
+        # impl_counter = {} TODO not used
         messages = []
 
         for kwb in self.keyword_blocks:
@@ -149,8 +148,8 @@ class Importer:
                     messages.append(msg)
                     logging.warning(msg)
 
-    # Main method in the class
     def import_file(self, file_name):
+        """Main method in the class"""
         if file_name is None and \
             (self.w is None or self.j is None):
             raise SystemExit
@@ -212,9 +211,10 @@ class Importer:
             gui.cgx.open_inp(self.f, self.j.inp, has_nodes)
 
 
-# Recurcively reads all the file lines and its includes.
-# Does not omit comments and empty lines.
 def read_lines(INP_file):
+    """Recurcively reads all the file lines and its includes.
+    Does not omit comments and empty lines.
+    """
     INP_file = os.path.abspath(INP_file)
     if not os.path.isfile(INP_file):
         msg_text = 'File not found: ' + INP_file
@@ -237,9 +237,9 @@ def read_lines(INP_file):
     return lines
 
 
-# Test importer on all CalculiX examples
 @tests.test_wrapper()
 def test():
+    """Test importer on all CalculiX examples."""
     m = model.Model() # generate FEM model
 
     # Prepare logging
@@ -274,6 +274,5 @@ def test():
     log.print_to_file(log_file, msg.format(len(examples)))
 
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test

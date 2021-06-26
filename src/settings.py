@@ -23,30 +23,27 @@ import path
 import tests
 
 
-# Session settings object used everywhere in the code
 class Settings:
+    """Session settings object is used everywhere in the code."""
 
-    # Read settings from file or apply defaults
     def __init__(self):
-
-        # Try to read settings file
+        """Read settings from file or apply defaults."""
         try:
+            # Try to read settings file
             with open(path.p.settings, 'r') as f:
                 exec(f.read())
             if len(self.__dict__) < 2:
                 raise Exception
 
-        # Apply default values
         except:
-
-            # Windows
+            # Apply default values
             if os.name=='nt':
+                # Windows
                 ext = '.exe'
                 self.path_paraview = 'C:\\Program Files\\ParaView\\bin\\paraview.exe'
                 self.path_editor = 'C:\\Windows\\System32\\notepad.exe'
-
-            # Linux
             else:
+                # Linux
                 ext = ''
                 self.path_paraview = '/usr/bin/paraview'
                 self.path_editor = '/usr/bin/gedit'
@@ -60,8 +57,8 @@ class Settings:
             self.align_windows = True
             self.show_help = False
 
-    # Open dialog window and pass settings
     def open(self):
+        """Open dialog window and pass settings."""
         self.__init__() # re-read settings from file
         sd = SettingsDialog(settings=self)
 
@@ -71,17 +68,19 @@ class Settings:
             self.__init__() # read settings from file
             logging.warning('For some settings to take effect application\'s restart may be needed.')
 
-    # Automatic saving of current settings during the workflow
     def save(self):
+        """Automatic saving of current settings during the workflow."""
         sd = SettingsDialog(settings=self)
         sd.save()
 
 
-# User dialog window with all setting attributes: menu File->Settings
 class SettingsDialog(QtWidgets.QDialog):
+    """User dialog window with all
+    setting attributes: menu File->Settings.
+    """
 
-    # Create dialog window
     def __init__(self, settings=None):
+        """Create dialog window."""
 
         # Load UI form - produces huge amount of redundant debug logs
         logging.disable() # switch off logging
@@ -117,16 +116,16 @@ class SettingsDialog(QtWidgets.QDialog):
                     widget.setCurrentText(value)
                     continue
 
-    # QComboBox for default web browser to open help
     def add_widget_for_default_web_browser(self):
+        """QComboBox for default web browser to open help."""
         webbrowser.get() # initialize web browsers
         exclude = ['xdg-open', 'gvfs-open', 'x-www-browser']
         wb_list = [x for x in webbrowser._tryorder if x not in exclude]
         wb_list = sorted(wb_list)
         self.default_web_browser.addItems(wb_list)
 
-    # Save settings updated via or passed to dialog
     def save(self):
+        """Save settings updated via or passed to dialog."""
         with open(path.p.settings, 'w') as f:
 
             # Iterate over class attributes
@@ -152,8 +151,8 @@ class SettingsDialog(QtWidgets.QDialog):
                     f.write('# ' + comment + '\n')
                     f.write(line + '\n\n')
 
-    # Open file dialog to select path
     def select_path(self, path_edit):
+        """Open file dialog to select path."""
         file_name = QtWidgets.QFileDialog.getOpenFileName(
             self, 'Select path', '', '*')[0]
         if len(file_name):

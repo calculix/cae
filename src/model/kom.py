@@ -33,17 +33,17 @@ import settings
 import tests
 
 
-# Keyword Object Model
 class KOM:
+    """Keyword Object Model."""
 
-    # Read CalculiX keywords hierarchy
     def __init__(self, kom_xml=path.p.kom_xml):
+        """Read CalculiX keywords hierarchy."""
 
         # List of all existing keywords
         self.keywords = []
         self.keyword_names = ()
 
-        # Group 'Model' from kom.xml
+        # 'Model' group from kom.xml
         self.root = Group()
 
         # Parse keywords hierarchy and build KOM
@@ -56,8 +56,8 @@ class KOM:
                 + traceback.format_exc()
             logging.error(msg)
 
-    # Recursively build Keyword Object Model
     def build(self, xml_branch, parent):
+        """Recursively build Keyword Object Model."""
         for xml_child in xml_branch:
             logging.log(5, xml_child.tag + ', ' + str(xml_child.attrib))
             """
@@ -93,15 +93,16 @@ class KOM:
 
             self.build(xml_child, item)
 
-    # Get keyword from self.keywords by its name
     def get_keyword_by_name(self, name, parent=None):
+        """Get keyword from self.keywords by its name."""
         for kw in self.keywords:
             if kw.name == name:
                 return kw
 
-    # Recursively get whole model inp_code as list of strings (lines)
-    # Parent is KOM item, level defines code folding/padding
     def get_inp_code_as_lines(self, parent=None, level=0):
+        """Recursively get whole model inp_code as list of strings (lines).
+        Parent is KOM item, level defines code folding/padding.
+        """
         lines = []
         if not parent:
             parent = self.root
@@ -142,9 +143,10 @@ class KOM:
                 if kw is not None:
                     return kw
 
-    # Test parent-child relations in all tree items
-    # Print item paths top-downwards and bottom-upwards
     def test(self, parent=None, path=None):
+        """Test parent-child relations in all tree items.
+        Print item paths top-downwards and bottom-upwards.
+        """
         if parent is None:
             parent = self.root
             path = self.root.name
@@ -162,16 +164,16 @@ class KOM:
             self.test(item, path_downwards)
 
 
-# Enums for 'itype' variable
 class ItemType(Enum):
+    """Enums for 'itype' variable."""
     GROUP = 0
     KEYWORD = 1
     ARGUMENT = 2
     IMPLEMENTATION = 3
 
 
-# Needed for inheritance by further classes
 class Item:
+    """Needed for inheritance by further classes."""
 
     def __init__(self):
         self.itype = ''      # item type: group/keyword/argument/implementation
@@ -180,8 +182,8 @@ class Item:
         self.parent = None   # item parent item
         self.active = False
 
-    # Define if item is active
     def is_active(self):
+        """Define if item is active."""
 
         # Top groups
         if self.parent and self.parent.name == 'Model':
@@ -203,8 +205,8 @@ class Item:
             self.active = False
             return False
 
-    # Recursively copy tree branch to implementation
     def copy_items_to(self, another_item):
+        """Recursively copy tree branch to implementation."""
         another_item.items = []
         for item in self.items:
             if item.itype in [ItemType.GROUP, ItemType.KEYWORD]:
@@ -217,8 +219,10 @@ class Item:
                 copied_item = copy.copy(item)
                 another_item.items.append(copied_item)
 
-    # Recursive function to count keyword implementations in item descendants
     def count_implementations(self):
+        """Recursive function to count keyword
+        implementations in item descendants.
+        """
         if self.itype == ItemType.ARGUMENT:
             return 0
 
@@ -230,30 +234,30 @@ class Item:
                 counter += i.count_implementations()
         return counter
 
-    # Get list of keywords implementations
     def get_implementations(self):
+        """Get list of keywords implementations."""
         imps = []
         for item in self.items:
             if item.itype == ItemType.IMPLEMENTATION:
                 imps.append(item)
         return imps
 
-    # Search item by name among children
     def get_child_by_name(self, name):
+        """Search item by name among children."""
         for item in self.items:
             if item.name == name:
                 return item
 
-    # Returns first active preceding/parent keyword (not group)
     def get_parent_keyword_name(self):
+        """Returns first active preceding/parent keyword (not group)."""
         if (self.parent.itype == ItemType.KEYWORD or \
             self.parent.name == 'Model') and self.parent.active:
                 return self.parent.name
         else:
             return self.parent.get_parent_keyword_name()
 
-    # Get item path bottom-upwards
     def get_path(self):
+        """Get item path bottom-upwards."""
         parents = []
         while self.parent is not None: # root has None parent
             parents.insert(0, self)
@@ -262,8 +266,8 @@ class Item:
         return [p.name for p in parents]
 
 
-# Group of keywords, like 'Properties', 'Constraints', etc.
 class Group(Item):
+    """Group of keywords, like 'Properties', 'Constraints', etc."""
 
     def __init__(self):
         super().__init__()
@@ -273,8 +277,8 @@ class Group(Item):
         self.expanded = settings.s.expanded
 
 
-# *AMPLITUDE, *BOUNDARY, *STEP etc.
 class Keyword(Item):
+    """*AMPLITUDE, *BOUNDARY, *STEP etc."""
 
     def __init__(self):
         super().__init__()
@@ -285,8 +289,8 @@ class Keyword(Item):
         self.expanded = settings.s.expanded
 
 
-# Keyword argument
 class Argument(Item):
+    """Keyword argument."""
 
     def __init__(self):
         super().__init__()
@@ -297,8 +301,10 @@ class Argument(Item):
         self.required = False
 
 
-# Keyword implementation - a piece of INP-code for CalculiX input file
 class Implementation(Item):
+    """Keyword implementation - 
+    a piece of INP-code for CalculiX input file.
+    """
 
     def __init__(self, keyword, inp_code, name=None):
         super().__init__()
@@ -334,9 +340,9 @@ class Implementation(Item):
             # logging.debug(' > '.join(self.get_path()))
 
 
-# Test all CalculiX keywords 
 @tests.test_wrapper()
 def test():
+    """Test all CalculiX keywords."""
     # from pycallgraph import PyCallGraph
     # from pycallgraph import Config
     # from pycallgraph import GlobbingFilter
@@ -360,6 +366,5 @@ def test():
     # k.test()
 
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test

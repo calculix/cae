@@ -40,9 +40,9 @@ from model.kom import ItemType, KOM
 
 class KeywordDialog(QtWidgets.QDialog):
 
-    # Load form and show the dialog
     @gui.window.init_wrapper()
     def __init__(self, args):
+        """Load form and show the dialog."""
         self.info = None # WindowInfo will be set in @init_wrapper
         KOM = args[0]
         self.item = args[1] # needed to pass to other functions
@@ -202,8 +202,8 @@ class KeywordDialog(QtWidgets.QDialog):
         self.show_help = settings.s.show_help
         self.show()
 
-    # Update piece of INP-code in the textEdit widget
     def change(self, event):
+        """Update piece of INP-code in the textEdit widget."""
         arguments = {} # name:value
         for i, widget in enumerate(self.widgets):
 
@@ -249,8 +249,8 @@ class KeywordDialog(QtWidgets.QDialog):
 
         self.textEdit.setText(string)
 
-    # Reset textEdit widget to initial state
     def reset(self):
+        """Reset textEdit widget to initial state."""
         for i, widget in enumerate(self.widgets):
             if (i % 2) == 1: # iterate over values not labels
                 if widget.__class__.__name__ == 'QLineEdit':
@@ -261,13 +261,13 @@ class KeywordDialog(QtWidgets.QDialog):
                     widget.setChecked(False) # uncheck is default
         self.change(None)
 
-    # Return piece of created code for the .inp-file
     def ok(self):
+        """Return piece of created code for the .inp-file."""
         super().accept()
         return self.textEdit.toPlainText().strip().split('\n')
 
-    # Get URL to the local doc page
     def get_help_url(self):
+        """Get URL to the local doc page."""
         if self.item.itype == ItemType.KEYWORD:
             keyword_name = self.item.name[1:] # cut star
         if self.item.itype == ItemType.IMPLEMENTATION:
@@ -278,8 +278,8 @@ class KeywordDialog(QtWidgets.QDialog):
         url = os.path.join(path.p.doc, html_page_name + '.html')
         return url
 
-    # Show / Hide HTML help
     def show_hide_internal_help(self, click):
+        """Show / Hide HTML help."""
         w = QtWidgets.QDesktopWidget().availableGeometry().width()
         if click:
             self.show_help = not self.show_help
@@ -302,10 +302,9 @@ class KeywordDialog(QtWidgets.QDialog):
             self.setMinimumWidth(500)
 
 
-# Run dialog as MasterWindow
-# Start webbrowser from it
 @tests.test_wrapper()
 def test():
+    """Run dialog as MasterWindow. Start webbrowser from it."""
     app = QtWidgets.QApplication(sys.argv)
     f = gui.window.Factory()
     logging.disable() # switch off logging
@@ -318,6 +317,5 @@ def test():
     print(d)
 
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test

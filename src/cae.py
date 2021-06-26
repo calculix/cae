@@ -10,6 +10,8 @@ Creates main objects and starts the application.
 NOTE QtWebEngineWidgets has to be imported before
 the app start.
 
+TODO Test everything on Windows 10
+
 How to run:
 Ctrl+F5 from VSCode
 or:
@@ -17,7 +19,6 @@ python3 ./src/cae.py
 python3 ./src/cae.py -inp yourmodel.inp
 """
 
-# TODO Test everything on Windows 10
 
 import clean
 clean.screen()

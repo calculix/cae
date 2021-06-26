@@ -4,12 +4,13 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
+TODO Use unittest
+
 The class tests user system configuration.
 Is called on the application startup.
 Run test: Ctrl+F5 from VSCode.
 """
 
-# TODO Use unittest
 
 # Standard modules
 import os
@@ -24,22 +25,23 @@ import tests
 import log
 
 
-# Tests user system configuration etc.
 class Checks:
+    """Tests user system configuration etc."""
 
-    # Exit if OS is not Linux or Windows
     @staticmethod
     def check_os():
+        """Exit if OS is not Linux or Windows."""
         if os.name not in ['nt', 'posix']:
             msg = 'Sorry, {} OS is not supported.'.format(os.name)
             logging.error(msg)
             raise SystemExit # the best way to exit
 
-    # Check python version
     @staticmethod
     def check_python():
-        """ sys.version_info:
-        (3, 5, 2, 'final', 0) """
+        """Check python version.
+        sys.version_info:
+        (3, 5, 2, 'final', 0)
+        """
         v1 = sys.version_info[:3]
         v2 = (3, 4)
         if sys.version_info < v2:
@@ -51,16 +53,16 @@ class Checks:
             msg = 'Python version is {}.'.format(v1)
             logging.info(msg)
 
-    # Get default web browser
     @staticmethod
     def check_default_web_browser():
+        """Get default web browser."""
         wb = webbrowser.get()
         msg = 'Default web browser is {}.'.format(wb.name)
         logging.info(msg)
 
-    # Check each package from requirements.txt
     @staticmethod
     def check_requirements():
+        """Check each package from requirements.txt."""
         path = os.path.normpath(os.path.join(
             os.path.dirname(__file__),
             '..', 'requirements.txt'))
@@ -72,9 +74,9 @@ class Checks:
             if len(name) and not Checks.check_required_package(name):
                 raise SystemExit # the best way to exit
 
-    # Check if package is installed
     @staticmethod
     def check_package(name):
+        """Check if package is installed."""
         try:
             importlib.import_module(name)
             logging.info(name + ' OK')
@@ -85,18 +87,18 @@ class Checks:
             logging.warning(msg)
             return False
 
-    # Check if required package is installed
     @staticmethod
     def check_required_package(name):
+        """Check if required package is installed."""
         if Checks.check_package(name):
             return True
         else:
             logging.warning('Trying to fix...')
             return Checks.install_package(name)
 
-    # Automatically install package
     @staticmethod
     def install_package(name, prefix=''):
+        """Automatically install package."""
         try:
             cmd = [sys.executable, '-m', 'pip', prefix + 'install', name]
             subprocess.check_call(cmd)
@@ -108,14 +110,14 @@ class Checks:
             logging.error(msg)
             return False
 
-    # Automatically uninstall package
     @classmethod
     def uninstall_package(cls, name):
+        """Automatically uninstall package."""
         cls.install_package(name, prefix='un')
 
-    # Run all checks
     @staticmethod
     def check_all():
+        """Run all checks."""
         log_file = __file__[:-3] + '.log'
         log.print_to_file(log_file, 'STARTUP TESTS\n')
         Checks.check_os()
@@ -124,8 +126,8 @@ class Checks:
         Checks.check_requirements() # containts SystemExit
 
 
-# Tests running before the app start
 def run_startup_checks():
+    """Tests running before the app start."""
     log.stop_logging()
     logging.disable(logging.NOTSET) # switch on logging
     log.add_my_handler()
@@ -133,9 +135,9 @@ def run_startup_checks():
     log.remove_my_handler()
 
 
-# Run some checks
 @tests.test_wrapper()
 def test():
+    """Run some checks."""
     log.stop_logging()
     logging.disable(logging.NOTSET) # switch on logging
     log.add_my_handler()
@@ -145,6 +147,5 @@ def test():
     Checks.check_required_package('rty')
 
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test

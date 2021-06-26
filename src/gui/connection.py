@@ -4,6 +4,8 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
+TODO Invent some test
+
 Classes for keycodes sending from master window to slave.
 It is a layer between system libraries Xlib/ctypes and GUI.
 
@@ -51,8 +53,8 @@ class WindowInfo:
             .format(self.hex_wid, self.pid, self.wname)
 
 
-# Common wrapper for WindowConnection.post()
 def post_wrapper(wc):
+    """Common wrapper for WindowConnection.post()."""
     def wrap(method):
         def fcn(wc, cmd):
             if wc.get_slave_process() is not None \
@@ -81,9 +83,10 @@ def post_wrapper(wc):
     return wrap
 
 
-# Pair master and slave windows together
-# to align and enable keycodes sending
 class WindowConnection:
+    """Pair master and slave windows together
+    to align and enable keycodes sending.
+    """
 
     def __init__(self, mw, sw):
         self.opened_windows = [] # list of WindowInfo objects
@@ -201,12 +204,12 @@ class WindowConnectionLinux(WindowConnection):
         for c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
             self.keyboardMapping[c] = (c, 1)
 
-    # Activate window, send message to slave, deactivate
     @post_wrapper(WindowConnection)
     def post(self, cmd):
+        """Activate window, send message to slave, deactivate."""
 
-        # Create X event
         def event(win, e, keycode, case):
+            """Create X event."""
             return e(
                 time=X.CurrentTime,
                 root=self.root,
@@ -216,8 +219,8 @@ class WindowConnectionLinux(WindowConnection):
                 state=case, # 0=lowercase, 1=uppercase
                 detail=keycode)
 
-        # Key press + release
         def sendkey(win, symbol):
+            """Key press + release."""
             if symbol in self.keyboardMapping:
                 c = self.keyboardMapping[symbol][0]
                 keysym = XK.string_to_keysym(c)
@@ -237,8 +240,8 @@ class WindowConnectionLinux(WindowConnection):
             sendkey(win, symbol)
         self.d.sync()
 
-    # Get dictionary with windows id, pid and wname
     def get_opened_windows(self):
+        """Get dictionary with windows id, pid and wname."""
         self.opened_windows.clear()
         ids = self.root.get_full_property(
             self.d.intern_atom('_NET_CLIENT_LIST'),
@@ -257,8 +260,8 @@ class WindowConnectionLinux(WindowConnection):
             self.opened_windows.append(wi)
         return self.opened_windows
 
-    # Key press + release
     def send_hotkey(self, *keys):
+        """Key press + release."""
         for key in keys:
             if key not in self.keyboardMapping:
                 logging.warning('WARNING! Key {} is not supported.'.format(key))
@@ -276,8 +279,8 @@ class WindowConnectionLinux(WindowConnection):
         time.sleep(0.3)
         self.d.sync()
 
-    # Align master and slave windows
     def align_windows(self):
+        """Align master and slave windows."""
 
         # Align master
         self.mw.setGeometry(0, 0, math.floor(self.w/3), self.h)
@@ -353,12 +356,12 @@ class WindowConnectionWindows(WindowConnection):
         for c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
             self.keyboardMapping[c] = (ord(c), 1)
 
-    # Activate window, send message to slave, deactivate
     @post_wrapper(WindowConnection)
     def post(self, cmd):
+        """Activate window, send message to slave, deactivate."""
 
-        # Key press (0) + release (2)
         def sendkey(symbol):
+            """Key press (0) + release (2)."""
             if symbol not in self.keyboardMapping:
                 msg = 'Symbol {} is not supported.'.format(symbol)
                 logging.warning(msg)
@@ -401,9 +404,9 @@ class WindowConnectionWindows(WindowConnection):
         ctypes.windll.user32.EnumWindows(enum_proc, 0)
         return self.opened_windows
 
-    # Key press + release
     # TODO Test Alt+F4 in Windows
     def send_hotkey(self, *keys):
+        """Key press + release."""
         for key in keys:
             if key not in self.keyboardMapping:
                 logging.warning('WARNING! Key {} is not supported.'.format(key))
@@ -416,9 +419,10 @@ class WindowConnectionWindows(WindowConnection):
             ctypes.windll.user32.keybd_event(code, 0, 2, 0) # key release
         time.sleep(0.3)
 
-    # Align master and slave windows
-    # NOTE CGX 'wpos' and 'wsize' works worse than 'ctypes'
     def align_windows(self):
+        """Align master and slave windows.
+        NOTE CGX 'wpos' and 'wsize' works worse than 'ctypes'.
+        """
 
         # Align master
         self.mw.setGeometry(0, 0, math.floor(self.w/3), self.h)
@@ -434,14 +438,10 @@ class WindowConnectionWindows(WindowConnection):
             logging.error('Nothing to align - slave WID is None.')
 
 
-# TODO Invent some test
-# Run dialog as MasterWindow
-# Start webbrowser from it
 @tests.test_wrapper()
 def test():
     pass
 
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test

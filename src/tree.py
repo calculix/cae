@@ -14,7 +14,7 @@ import sys
 import logging
 
 # External modules
-from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5 import QtWidgets, QtCore, QtGui, QtWebEngineWidgets
 
 # My modules
 import gui
@@ -37,19 +37,21 @@ class Tree:
         self.model = QtGui.QStandardItemModel()
         self.f.mw.treeView.setModel(self.model)
 
-    # Delete keyword implementation in the treeView by pressing 'Delete' button
     def keyPressEvent(self, e):
+        """Delete keyword implementation in the
+        treeView by pressing 'Delete' button.
+        """
         if e.key() == QtCore.Qt.Key_Delete:
             self.actionDeleteImplementation()
 
-    # Recursively generate treeView widget items based on KOM
     def generateTreeView(self, m):
+        """Recursively generate treeView widget items based on KOM."""
         self.model.clear() # remove all items and data from tree
         parent_element = self.model.invisibleRootItem() # top element in QTreeView
         self.addToTree(parent_element, self.m.KOM.root.items) # pass top level groups
 
-    # Used with generateTreeView() - implements recursion
     def addToTree(self, parent_element, items):
+        """Used with generateTreeView() - implements recursion."""
         for item in items:
 
             # Add to the tree only needed item_types
@@ -102,8 +104,8 @@ class Tree:
             else:
                 self.addToTree(tree_element, item.items)
 
-    # Double click on treeView item: edit the keyword via dialog
     def doubleClicked(self):
+        """Double click on treeView item: edit the keyword via dialog."""
         index = self.f.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
@@ -139,7 +141,8 @@ class Tree:
                 # Reparse mesh or constraints
                 # self.m.Mesh.reparse(inp_code)
                 reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=self.m.Mesh)
-                self.m.Mesh.updateWith(reparsed)
+                if self.m.Mesh is not None:
+                    self.m.Mesh.updateWith(reparsed)
                 self.clicked() # rehighlight
 
             # Replace implementation object with a new one
@@ -158,14 +161,16 @@ class Tree:
                 self.m.Mesh.updateWith(reparsed)
                 self.clicked() # rehighlight
 
-    # Highlight node sets, element sets or surfaces
     def clicked(self):
+        """Highlight node sets, element sets or surfaces."""
 
         # Debug for Ctrl+Click
         if not len(self.f.mw.treeView.selectedIndexes()):
             return
 
         # Highlight only when INP is opened
+        if self.f.sw is None:
+            return
         if not (path.p.path_cgx + ' -c ') in self.f.sw.cmd:
             return
 
@@ -230,8 +235,8 @@ class Tree:
         # else:
         #     self.f.mw.deselect_cgx_sets()
 
-    # Context menu for right click
     def rightClicked(self):
+        """Context menu for right click."""
         self.myMenu = QtWidgets.QMenu('Menu', self.f.mw.treeView)
 
         try:
@@ -274,34 +279,45 @@ class Tree:
         self.myMenu.addAction(action_show_hide)
         action_show_hide.triggered.connect(self.actionShowHide)
 
-        action_expand_collapse = QtWidgets.QAction('Collapse all', self.f.mw.treeView)
-        self.myMenu.addAction(action_expand_collapse)
-        action_expand_collapse.triggered.connect(self.actionCollapseAll)
-
-        action_expand_collapse = QtWidgets.QAction('Expand all', self.f.mw.treeView)
-        self.myMenu.addAction(action_expand_collapse)
-        action_expand_collapse.triggered.connect(self.actionExpandAll)
+        action_collapse_expand = QtWidgets.QAction('Collapse/expand all', self.f.mw.treeView)
+        self.myMenu.addAction(action_collapse_expand)
+        action_collapse_expand.triggered.connect(self.action_collapse_expand_all)
 
         self.myMenu.exec_(QtGui.QCursor.pos())
 
-    # Show/Hide empty treeView items
     def actionShowHide(self):
+        """Show/Hide empty treeView items."""
         settings.s.show_empty_keywords = not(settings.s.show_empty_keywords)
         settings.s.save() # save 'show_empty_keywords' value in settings
         self.generateTreeView(self.m)
 
-    # Expand or collapse all treeView items
-    def actionCollapseAll(self):
-        self.f.mw.treeView.collapseAll()
-        settings.s.expanded = False
-        settings.s.save()
-    def actionExpandAll(self):
-        self.f.mw.treeView.expandAll()
-        settings.s.expanded = True
+    def action_collapse_expand_all(self):
+        """Expand or collapse all treeView items."""
+        if settings.s.expanded:
+            self.f.mw.treeView.collapseAll()
+        else:
+            self.f.mw.treeView.expandAll()
+        settings.s.expanded = not settings.s.expanded
         settings.s.save()
 
-    # Delete keyword implementation from KOM
     def actionDeleteImplementation(self):
+        """Delete keyword implementation from KOM."""
+
+        def hide_parent(tree_element):
+            # To hide current item/brunch it should be empty 'keyword' or 'group'
+            if not settings.s.show_empty_keywords \
+                and not tree_element.hasChildren() \
+                and tree_element.data().itype != ItemType.IMPLEMENTATION:
+
+                # Hide current item/brunch from tree via calling parent.removeRow
+                parent = tree_element.parent()
+                if not parent:
+                    parent = self.model.invisibleRootItem()
+                parent.removeRow(tree_element.row())
+
+                if parent != self.model.invisibleRootItem():
+                    hide_parent(parent)
+
         index = self.f.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
@@ -326,39 +342,21 @@ class Tree:
                 self.addToTree(parent, keyword.items)
 
                 if not settings.s.show_empty_keywords:
-                    self.hideParent(parent)
-    def hideParent(self, tree_element):
+                    hide_parent(parent)
 
-        # To hide current item/brunch it should be empty 'keyword' or 'group'
-        if not settings.s.show_empty_keywords \
-            and not tree_element.hasChildren() \
-            and tree_element.data().itype != ItemType.IMPLEMENTATION:
-
-            # Hide current item/brunch from tree via calling parent.removeRow
-            parent = tree_element.parent()
-            if not parent:
-                parent = self.model.invisibleRootItem()
-            parent.removeRow(tree_element.row())
-
-            if parent != self.model.invisibleRootItem():
-                self.hideParent(parent)
-
-    # Change KOM item 'expanded' variable when user interacts with treeView
-    def treeViewExpanded(self, index):
+    def expanded_or_collapsed(self, index):
+        """Change KOM item 'expanded' variable when user interacts with treeView."""
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
         if item:
-            item.expanded = True
-    def treeViewCollapsed(self, index):
-        tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
-        item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
-        if item:
-            item.expanded = False
+            item.expanded = not item.expanded
 
 
-# Start keyword editor and generate the tree
 @tests.test_wrapper()
 def test():
+    """Start keyword editor and generate the tree."""
+    import log
+    log.stop_logging()
 
     # Create application
     app = QtWidgets.QApplication(sys.argv)
@@ -377,8 +375,8 @@ def test():
     f.mw.treeView.doubleClicked.connect(t.doubleClicked)
     f.mw.treeView.clicked.connect(t.clicked)
     f.mw.treeView.customContextMenuRequested.connect(t.rightClicked)
-    f.mw.treeView.expanded.connect(t.treeViewExpanded)
-    f.mw.treeView.collapsed.connect(t.treeViewCollapsed)
+    f.mw.treeView.expanded.connect(t.expanded_or_collapsed)
+    f.mw.treeView.collapsed.connect(t.expanded_or_collapsed)
 
     logging.disable() # switch off logging
     m.KOM = model.kom.KOM()
@@ -389,6 +387,5 @@ def test():
     app.exec()
 
 
-# Run test
 if __name__ == '__main__':
-    test()
+    test() # run test
