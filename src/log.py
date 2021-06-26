@@ -146,7 +146,6 @@ class MyTextLoggingHandler(MyLoggingHandler):
 class MyFileLoggingHandler(MyLoggingHandler):
     """Called at each file import.
     Handler to write logs into file.
-    TODO Message repeats twice.
     """
 
     def emit(self, LogRecord):

@@ -127,7 +127,6 @@ class Importer:
     def import_inp(self):
         """Create keyword implementations."""
         parent = self.m.KOM.root
-        # impl_counter = {} TODO not used
         messages = []
 
         for kwb in self.keyword_blocks:

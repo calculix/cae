@@ -4,7 +4,7 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-TODO Invent some test
+TODO Invent some test for the module.
 
 Classes for keycodes sending from master window to slave.
 It is a layer between system libraries Xlib/ctypes and GUI.

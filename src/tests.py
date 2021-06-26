@@ -4,11 +4,12 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
+TODO Use unittest in all module tests.
+TODO Invent some test for the module.
+
 Utilities for testing. Almost each module of the
 application has test() method decorated with
 test_wrapper(). The decorator is described here.
-
-TODO Use unittest in all module tests
 
 Run test: Ctrl+F5 from VSCode.
 """
@@ -81,7 +82,6 @@ def test_wrapper():
 
 @test_wrapper()
 def test():
-    # TODO Invent some test
     pass
 
 
