@@ -114,7 +114,6 @@ class WindowConnection:
 
         self.mw = mw # master window
         self.sw = sw # slave window
-        # TODO Do we need self.wid?
         self.wid1 = self.get_master_wid() # master window id
         self.wid2 = self.get_slave_wid() # slave window id
 
@@ -391,12 +390,10 @@ class WindowConnectionWindows(WindowConnection):
             if case == 1: # release Shift
                 ctypes.windll.user32.keybd_event(0x10, 0, 2, 0)
 
-        # TODO Check if it's needed:
         ctypes.windll.user32.SetForegroundWindow(self.wid2)
         for symbol in cmd:
             time.sleep(0.001) # BUG doesn't work otherwise
             sendkey(symbol)
-        # TODO Check if it's needed:
         ctypes.windll.user32.SetForegroundWindow(self.wid1)
 
     def get_opened_windows(self):

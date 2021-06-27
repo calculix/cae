@@ -4,10 +4,9 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-TODO Use unittest
-
-The class tests user system configuration.
+Utilities to test user's system configuration.
 Is called on the application startup.
+
 Run test: Ctrl+F5 from VSCode.
 """
 
