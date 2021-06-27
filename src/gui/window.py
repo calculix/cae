@@ -114,6 +114,9 @@ class Factory:
         self.mw.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.mw.reset)
         self.mw.buttonBox.helpRequested.connect(self.open_help)
 
+        if settings.s.align_windows:
+            gui.connection.align_master(self.mw)
+
         if settings.s.show_help:
             self.open_help(False)
         d = self.mw.exec()
@@ -300,6 +303,8 @@ def get_new_windows_infos(opened_windows_before, opened_windows_after):
         if wi.wid not in [i.wid for i in opened_windows_before]:
             new_windows_infos.append(wi)
     if len(new_windows_infos) > 1:
+        # TODO Do not quit app. Show message window.
+        # Ask user to run slave manually.
         msg = 'Can\'t define slave WID: there is more than one newly opened window.'
         logging.error(msg)
         for wi in new_windows_infos:
