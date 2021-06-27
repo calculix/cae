@@ -439,7 +439,7 @@ class WindowConnectionWindows(WindowConnection):
         """Align master and slave windows.
         NOTE CGX 'wpos' and 'wsize' works worse than 'ctypes'.
         TODO Split on align_master() and align_slave()
-        TODO Move align_master() to the WindowConnection
+        TODO Move align_master() and align_slave to the Window
         """
         # Align master
         align_master(self.mw)

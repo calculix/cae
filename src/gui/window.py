@@ -123,7 +123,6 @@ class Factory:
         self.kill_slave()
         return d
 
-    # TODO Opens Chrome and Firefox - check others
     def open_help(self, click=True):
         """Open HTML help page in a default web browser."""
         if settings.s.default_web_browser == 'internal':
@@ -134,10 +133,15 @@ class Factory:
                     os.path.relpath(self.mw.url, start=path.p.app_home_dir))
                 logging.error(msg)
                 return
-            wb = webbrowser.get()
-            cmd = wb.name + ' --new-window ' + self.mw.url
             logging.info('Going to\n' + self.mw.url)
-            self.run_slave(cmd)
+            wb = webbrowser.get()
+            if 'nt' in os.name:
+                """NOTE In Windows webbrowser can not
+                return path to the browser executable."""
+                wb.open_new(self.mw.url)
+            else:
+                cmd = wb.name + ' --new-window ' + self.mw.url
+                self.run_slave(cmd)
 
     def run_slave(self, cmd):
         """Close opened slave window and open a new one."""
@@ -303,13 +307,13 @@ def get_new_windows_infos(opened_windows_before, opened_windows_after):
         if wi.wid not in [i.wid for i in opened_windows_before]:
             new_windows_infos.append(wi)
     if len(new_windows_infos) > 1:
-        # TODO Do not quit app. Show message window.
-        # Ask user to run slave manually.
-        msg = 'Can\'t define slave WID: there is more than one newly opened window.'
+        msg = 'Can\'t connect to the slave.' \
+            + '\nThere is more than one newly opened window.' \
+            + '\nPlease, reopen it manually.'
         logging.error(msg)
+        QtWidgets.QMessageBox.critical(None, 'Error', msg)
         for wi in new_windows_infos:
             logging.debug(wi.to_string())
-        raise SystemExit
     return new_windows_infos
 
 

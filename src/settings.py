@@ -117,7 +117,10 @@ class SettingsDialog(QtWidgets.QDialog):
                     continue
 
     def add_widget_for_default_web_browser(self):
-        """QComboBox for default web browser to open help."""
+        """QComboBox for default web browser to open help.
+        NOTE webbrowser does not automatically recognize
+        all installed browsers in Windows.
+        """
         webbrowser.get() # initialize web browsers
         exclude = ['xdg-open', 'gvfs-open', 'x-www-browser']
         wb_list = [x for x in webbrowser._tryorder if x not in exclude]
