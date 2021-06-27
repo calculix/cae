@@ -153,7 +153,6 @@ class Factory:
             self.mw.textEdit.setHtml(html)
             self.start_stdout_reader('read_cgx_stdout')
 
-    # TODO Firefox process is being killed correctly, but window remains
     def kill_slave(self):
         """Kill all slave processes."""
         if self.sw is None:
@@ -167,6 +166,7 @@ class Factory:
 
         # First try to close window
         # TODO Test Alt+F4 in Linux
+        # TODO Firefox process is being killed correctly, but window remains
         # NOTE Dangerous method - closes everything
         if 'nt' in os.name:
             import ctypes

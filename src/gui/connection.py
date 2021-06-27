@@ -417,7 +417,6 @@ class WindowConnectionWindows(WindowConnection):
         ctypes.windll.user32.EnumWindows(enum_proc, 0)
         return self.opened_windows
 
-    # TODO Test Alt+F4 in Windows
     def send_hotkey(self, *keys):
         """Key press + release."""
         for key in keys:
@@ -452,6 +451,9 @@ class WindowConnectionWindows(WindowConnection):
             ctypes.windll.user32.MoveWindow(self.wid2,
                 ag.left() + width + 1, ag.top(),
                 size.width() - width, height, True)
+            # ctypes.windll.user32.SetWindowPos(self.wid2, 0,
+            #     ag.left() + width + 1, ag.top(),
+            #     size.width() - width, height, 0x0040)
         else:
             logging.error('Nothing to align - slave WID is None.')
 
