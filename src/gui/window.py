@@ -23,9 +23,6 @@ import subprocess
 import webbrowser
 import traceback
 from shutil import which
-if os.name == 'nt':
-    import ctypes
-    from ctypes import wintypes
 
 # External modules
 from PyQt5 import QtWidgets, uic
@@ -169,9 +166,18 @@ class Factory:
             self.stop_stdout_readers()
 
         # First try to close window
-        # TODO Test Alt+F4 in Windows
-        # TODO Dangerous method - closes everything
-        # self.connection.send_hotkey('Alt_L', 'F4')
+        # TODO Test Alt+F4 in Linux
+        # NOTE Dangerous method - closes everything
+        if 'nt' in os.name:
+            import ctypes
+            ctypes.windll.user32.SetForegroundWindow(self.sw.info.wid)
+        else:
+            from Xlib import display, X
+            self.d = display.Display()
+            win = self.d.create_resource_object('window', self.sw.info.wid)
+            win.set_input_focus(X.RevertToNone, X.CurrentTime)
+            self.d.sync()
+        self.connection.send_hotkey('Alt_L', 'F4')
 
         # Then kill its process
         count = 0
