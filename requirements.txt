@@ -1,6 +1,8 @@
 PyQt5
 PyQtWebEngine
 Xlib
+python-xlib
+python3-xlib
 ccx2paraview
 unv2ccx
 numpy
