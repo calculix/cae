@@ -34,7 +34,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 # Features
 
-- CAE comes with the latest CGX and CCX compiled for both Linux and Windows.
+- CAE comes with the latest CGX and CCX compiled for both Linux and Windows. Analysis [runs on all cores](https://github.com/calculix/cae/issues/22) automatically.
 
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated with CCX. Robust INP importer algorithm is tested on over 20 000 INP files, including Abaqus models ([see log](src/importer.log)).
 
@@ -167,7 +167,9 @@ You may also need libraries:
 
 
 
-# What's new in future v0.9.0
+# What's new
+
+What's new in future v0.9.0:
 
 - CalculiX 2.17.1. Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo.
 - Switch colormaps from menu CGX.
@@ -179,7 +181,7 @@ You may also need libraries:
 - Refactored logging system. Now it is a new dedicated module.
 - Simplified code to omit redundant arguments passing between modules.
 - Using external python packages *ccx2paraview* and *unv2ccx* as required dependacies.
-- Added buttons to select paths in Settings dialog
+- Added buttons to select paths in Settings dialog.
 
 <br/><br/>
 
