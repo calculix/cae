@@ -19,10 +19,11 @@ import sys
 import time
 import math
 import logging
-try:
+if 'nt' in os.name:
     import ctypes
     from ctypes import wintypes
-except:
+if 'posix' in os.name:
+    import Xlib
     from Xlib import display, protocol, X, XK
     from Xlib.ext.xtest import fake_input
 
@@ -144,7 +145,7 @@ class WindowConnectionLinux(WindowConnection):
     def __init__(self, mw, sw):
         super().__init__(mw, sw)
 
-        self.d = display.Display()
+        self.d = Xlib.display.Display()
         self.screen = self.d.screen()
         self.root = self.screen.root
 
@@ -211,10 +212,10 @@ class WindowConnectionLinux(WindowConnection):
         def event(win, e, keycode, case):
             """Create X event."""
             return e(
-                time=X.CurrentTime,
+                time=Xlib.X.CurrentTime,
                 root=self.root,
                 window=win,
-                same_screen=0, child=X.NONE,
+                same_screen=0, child=Xlib.X.NONE,
                 root_x=0, root_y=0, event_x=0, event_y=0,
                 state=case, # 0=lowercase, 1=uppercase
                 detail=keycode)
@@ -227,9 +228,9 @@ class WindowConnectionLinux(WindowConnection):
                 code = self.d.keysym_to_keycode(keysym)
                 case = self.keyboardMapping[symbol][1]
 
-                e = event(win, protocol.event.KeyPress, code, case)
+                e = event(win, Xlib.protocol.event.KeyPress, code, case)
                 win.send_event(e, propagate=True)
-                e = event(win, protocol.event.KeyRelease, code, case)
+                e = event(win, Xlib.protocol.event.KeyRelease, code, case)
                 win.send_event(e, propagate=True)
             else:
                 msg = 'Symbol {} is not supported.'.format(symbol)
@@ -245,14 +246,14 @@ class WindowConnectionLinux(WindowConnection):
         self.opened_windows.clear()
         ids = self.root.get_full_property(
             self.d.intern_atom('_NET_CLIENT_LIST'),
-            X.AnyPropertyType).value
+            Xlib.X.AnyPropertyType).value
         for _id_ in ids:
             w = self.d.create_resource_object('window', _id_)
             try:
                 pid = w.get_full_property(
-                    self.d.intern_atom('_NET_WM_PID'), X.AnyPropertyType).value[0]
+                    self.d.intern_atom('_NET_WM_PID'), Xlib.X.AnyPropertyType).value[0]
                 wname = w.get_full_property(
-                    self.d.intern_atom('_NET_WM_NAME'), X.AnyPropertyType).value.decode()
+                    self.d.intern_atom('_NET_WM_NAME'), Xlib.X.AnyPropertyType).value.decode()
             except:
                 pid = 0
                 wname = w.get_wm_name()
@@ -270,12 +271,12 @@ class WindowConnectionLinux(WindowConnection):
             c = self.keyboardMapping[key][0]
             keysym = XK.string_to_keysym(c)
             code = self.d.keysym_to_keycode(keysym)
-            fake_input(self.d, X.KeyPress, code)
+            fake_input(self.d, Xlib.X.KeyPress, code)
         for key in reversed(keys):
             c = self.keyboardMapping[key][0]
             keysym = XK.string_to_keysym(c)
             code = self.d.keysym_to_keycode(keysym)
-            fake_input(self.d, X.KeyRelease, code)
+            fake_input(self.d, Xlib.X.KeyRelease, code)
         time.sleep(0.3)
         self.d.sync()
 
@@ -288,7 +289,7 @@ class WindowConnectionLinux(WindowConnection):
         # Align slave
         if self.wid2 is not None:
             win = self.d.create_resource_object('window', self.wid2)
-            win.set_input_focus(X.RevertToNone, X.CurrentTime)
+            win.set_input_focus(Xlib.X.RevertToNone, Xlib.X.CurrentTime)
             self.send_hotkey('Super_L', 'Down') # restore window
             time.sleep(0.3)
             win.configure(x=math.ceil(self.w/3), y=0,
