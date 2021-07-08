@@ -4,8 +4,6 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-TODO Test everything on Windows 10
-
 Main module. Creates main objects and starts the application.
 NOTE QtWebEngineWidgets has to be imported before the app start.
 

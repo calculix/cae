@@ -4,10 +4,9 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-TODO Use unittest
-
-The class tests user system configuration.
+Utilities to test user's system configuration.
 Is called on the application startup.
+
 Run test: Ctrl+F5 from VSCode.
 """
 
@@ -60,7 +59,11 @@ class Checks:
     def check_default_web_browser():
         """Get default web browser."""
         wb = webbrowser.get()
-        msg = 'Default web browser is {}.'.format(wb.name)
+        if 'nt' in os.name:
+            wbname = wb.__class__.__name__
+        else:
+            wbname = wb.name
+        msg = 'Default web browser is {}.'.format(wbname)
         logging.info(msg)
 
     @staticmethod
@@ -153,7 +156,6 @@ def test():
     Checks.check_all() # install back 'unv2ccx'
     Checks.check_package('qwe')
     Checks.check_required_package('rty')
-
 
 if __name__ == '__main__':
     test() # run test

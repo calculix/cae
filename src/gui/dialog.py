@@ -4,6 +4,9 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
+TODO Run internal help in a separated slave window. It will allow to
+align dialog and slave help browser via connection.align_windows().
+
 Dialog window to create/edit keyword implementation.
 Called via double click on keyword in the treeView.
 Keyword implementation is defined by its name and inp_code.
@@ -53,18 +56,6 @@ class KeywordDialog(QtWidgets.QDialog):
         super().__init__() # create dialog window
         uic.loadUi(path.p.dialog_xml, self) # load empty dialog form
         logging.disable(logging.NOTSET) # switch on logging
-
-        # Align dialog
-        if settings.s.align_windows:
-            size = QtWidgets.QDesktopWidget().availableGeometry()
-            # TODO check this bug in Windows 10
-            if os.name == 'nt': # just bug with window border padding
-                width = math.floor(size.width() / 3) - 22
-                height = size.height() - 55
-            else:
-                width = math.floor(size.width() / 3)
-                height = size.height()
-            self.setGeometry(0, 0, width, height)
 
         # Add window icon (different for each keyword)
         icon_name = self.item.name.replace('*', '') + '.png'
@@ -280,7 +271,9 @@ class KeywordDialog(QtWidgets.QDialog):
 
     def show_hide_internal_help(self, click):
         """Show / Hide HTML help."""
-        w = QtWidgets.QDesktopWidget().availableGeometry().width()
+        size = QtWidgets.QApplication.primaryScreen().availableSize()
+        w = math.floor(size.width() / 3)
+        h = self.geometry().height()
         if click:
             self.show_help = not self.show_help
         else:
@@ -289,8 +282,9 @@ class KeywordDialog(QtWidgets.QDialog):
         # To show or not to show
         if self.show_help:
             self.doc.load(QtCore.QUrl.fromLocalFile(self.url)) # load help document
-            self.setMaximumWidth(w)
-            self.setMinimumWidth(w)
+            self.setMaximumWidth(size.width())
+            self.setMinimumWidth(size.width())
+            self.resize(size.width(), h)
             self.horizontal_layout.addWidget(self.doc)
             self.buttonBox.button(QtWidgets.QDialogButtonBox.Help)\
                 .setText('Hide help')
@@ -298,8 +292,9 @@ class KeywordDialog(QtWidgets.QDialog):
             self.doc.setParent(None) # remove widget
             self.buttonBox.button(QtWidgets.QDialogButtonBox.Help)\
                 .setText('Help')
-            self.setMaximumWidth(w/3)
+            self.setMaximumWidth(w)
             self.setMinimumWidth(500)
+            self.resize(w, h)
 
 
 @tests.test_wrapper()

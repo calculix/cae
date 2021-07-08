@@ -220,8 +220,10 @@ def add_file_handler(log_file, level=settings.s.logging_level):
     h.set_name(mflh)
     h.setLevel(level)
     logging.getLogger().addHandler(h)
-    """
-    TODO Doesn't write to file system messages and uncatched errors
+
+
+"""
+    NOTE Doesn't write to file system messages and uncatched errors
 
     h = myHandler(log_file) # remove old log file
     log_capture_string = io.StringIO()
@@ -239,7 +241,7 @@ def add_file_handler(log_file, level=settings.s.logging_level):
         print_to_file(log_file, '{} {}'.format(counter, relpath))
         print_to_file(log_file, log_contents)
     log_capture_string.close()
-    """
+"""
 
 
 def remove_file_handler():

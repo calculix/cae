@@ -23,9 +23,6 @@ import subprocess
 import webbrowser
 import traceback
 from shutil import which
-if os.name == 'nt':
-    import ctypes
-    from ctypes import wintypes
 
 # External modules
 from PyQt5 import QtWidgets, uic
@@ -114,13 +111,15 @@ class Factory:
         self.mw.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.mw.reset)
         self.mw.buttonBox.helpRequested.connect(self.open_help)
 
+        if settings.s.align_windows:
+            gui.connection.align_master(self.mw)
+
         if settings.s.show_help:
             self.open_help(False)
         d = self.mw.exec()
         self.kill_slave()
         return d
 
-    # TODO Opens Chrome and Firefox - check others
     def open_help(self, click=True):
         """Open HTML help page in a default web browser."""
         if settings.s.default_web_browser == 'internal':
@@ -131,10 +130,15 @@ class Factory:
                     os.path.relpath(self.mw.url, start=path.p.app_home_dir))
                 logging.error(msg)
                 return
-            wb = webbrowser.get()
-            cmd = wb.name + ' --new-window ' + self.mw.url
             logging.info('Going to\n' + self.mw.url)
-            self.run_slave(cmd)
+            wb = webbrowser.get()
+            if 'nt' in os.name:
+                """NOTE In Windows webbrowser can not
+                return path to the browser executable."""
+                wb.open_new(self.mw.url)
+            else:
+                cmd = wb.name + ' --new-window ' + self.mw.url
+                self.run_slave(cmd)
 
     def run_slave(self, cmd):
         """Close opened slave window and open a new one."""
@@ -149,7 +153,6 @@ class Factory:
             self.mw.textEdit.setHtml(html)
             self.start_stdout_reader('read_cgx_stdout')
 
-    # TODO Firefox process is being killed correctly, but window remains
     def kill_slave(self):
         """Kill all slave processes."""
         if self.sw is None:
@@ -162,9 +165,19 @@ class Factory:
             self.stop_stdout_readers()
 
         # First try to close window
-        # TODO Test Alt+F4 in Windows
-        # TODO Dangerous method - closes everything
-        # self.connection.send_hotkey('Alt_L', 'F4')
+        # TODO Test Alt+F4 in Linux
+        # TODO Firefox process is being killed correctly, but window remains
+        # NOTE Dangerous method - closes everything
+        if 'nt' in os.name:
+            import ctypes
+            ctypes.windll.user32.SetForegroundWindow(self.sw.info.wid)
+        else:
+            from Xlib import display, X
+            self.d = display.Display()
+            win = self.d.create_resource_object('window', self.sw.info.wid)
+            win.set_input_focus(X.RevertToNone, X.CurrentTime)
+            self.d.sync()
+        self.connection.send_hotkey('Alt_L', 'F4')
 
         # Then kill its process
         count = 0
@@ -300,11 +313,13 @@ def get_new_windows_infos(opened_windows_before, opened_windows_after):
         if wi.wid not in [i.wid for i in opened_windows_before]:
             new_windows_infos.append(wi)
     if len(new_windows_infos) > 1:
-        msg = 'Can\'t define slave WID: there is more than one newly opened window.'
+        msg = 'Can\'t connect to the slave.' \
+            + '\nThere is more than one newly opened window.' \
+            + '\nPlease, reopen it manually.'
         logging.error(msg)
+        QtWidgets.QMessageBox.critical(None, 'Error', msg)
         for wi in new_windows_infos:
             logging.debug(wi.to_string())
-        raise SystemExit
     return new_windows_infos
 
 

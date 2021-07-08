@@ -41,6 +41,21 @@ if sys_path not in sys.path:
 import tests
 
 
+def align_master(w):
+    """Align master window - w could be QMainWindow or QDialog.
+    frameSize() is window size, geometry() is the central widget size,
+    width and height - desirable window size.
+    """
+    ag = QtWidgets.QApplication.primaryScreen().availableGeometry()
+    w.move(ag.left(), ag.top())
+    size = QtWidgets.QApplication.primaryScreen().availableSize()
+    width = math.floor(size.width() / 3)
+    height = size.height()
+    dw = w.frameSize().width() - w.geometry().width() # delta width
+    dh = w.frameSize().height() - w.geometry().height() # delta height
+    w.resize(width-dw, height-dh)
+
+
 class WindowInfo:
 
     def __init__(self, wid, pid, wname):
@@ -91,15 +106,15 @@ class WindowConnection:
 
     def __init__(self, mw, sw):
         self.opened_windows = [] # list of WindowInfo objects
-        self.w = QtWidgets.QDesktopWidget().availableGeometry().width()
-        self.h = QtWidgets.QDesktopWidget().availableGeometry().height()
+        screen = QtWidgets.QApplication.primaryScreen()
+        self.w = screen.availableSize().width()
+        self.h = screen.availableSize().height()
 
         if mw is None or sw is None:
             return
 
         self.mw = mw # master window
         self.sw = sw # slave window
-        # TODO Do we need self.wid?
         self.wid1 = self.get_master_wid() # master window id
         self.wid2 = self.get_slave_wid() # slave window id
 
@@ -376,12 +391,10 @@ class WindowConnectionWindows(WindowConnection):
             if case == 1: # release Shift
                 ctypes.windll.user32.keybd_event(0x10, 0, 2, 0)
 
-        # TODO Check if it's needed:
         ctypes.windll.user32.SetForegroundWindow(self.wid2)
         for symbol in cmd:
             time.sleep(0.001) # BUG doesn't work otherwise
             sendkey(symbol)
-        # TODO Check if it's needed:
         ctypes.windll.user32.SetForegroundWindow(self.wid1)
 
     def get_opened_windows(self):
@@ -405,7 +418,6 @@ class WindowConnectionWindows(WindowConnection):
         ctypes.windll.user32.EnumWindows(enum_proc, 0)
         return self.opened_windows
 
-    # TODO Test Alt+F4 in Windows
     def send_hotkey(self, *keys):
         """Key press + release."""
         for key in keys:
@@ -423,18 +435,26 @@ class WindowConnectionWindows(WindowConnection):
     def align_windows(self):
         """Align master and slave windows.
         NOTE CGX 'wpos' and 'wsize' works worse than 'ctypes'.
+        TODO Split on align_master() and align_slave()
+        TODO Move align_master() and align_slave to the Window
         """
-
         # Align master
-        self.mw.setGeometry(0, 0, math.floor(self.w/3), self.h)
+        align_master(self.mw)
 
         # Align slave
+        ag = QtWidgets.QApplication.primaryScreen().availableGeometry()
+        size = QtWidgets.QApplication.primaryScreen().availableSize()
+        width = math.floor(size.width() / 3)
+        height = size.height()
         if self.wid2 is not None:
             ctypes.windll.user32.ShowWindow(self.wid2, 9) # restore window
             time.sleep(0.3)
             ctypes.windll.user32.MoveWindow(self.wid2,
-                math.ceil(self.w/3), 0,
-                math.floor(self.w*2/3), self.h, True)
+                ag.left() + width + 1, ag.top(),
+                size.width() - width, height, True)
+            # ctypes.windll.user32.SetWindowPos(self.wid2, 0,
+            #     ag.left() + width + 1, ag.top(),
+            #     size.width() - width, height, 0x0040)
         else:
             logging.error('Nothing to align - slave WID is None.')
 
