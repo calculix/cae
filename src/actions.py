@@ -62,7 +62,7 @@ def actions(f, m, t, j, i):
 
     # Help actions
     w.action_help_readme.triggered.connect(
-        lambda: w.help('file://{}/README.pdf'.format(path.p.app_home_dir)))
+        lambda: w.help('https://github.com/calculix/cae'))
     w.action_help_examples.triggered.connect(
         lambda: w.help('https://github.com/calculix/examples'))
     w.action_help_issues.triggered.connect(
