@@ -303,7 +303,7 @@ class Mesh:
                 create_element = True
                 for n in a[1:]: # iterate over element node numbers
                     if int(n) == 0: # it is possible in network element, type=D
-                        n = int(a[2]) # take middle node to display in VTK
+                        n = int(a[2]) # take middle node
                     try:
                         node = self.old.nodes[int(n)]
                         nodes.append(node)
