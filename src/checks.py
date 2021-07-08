@@ -27,6 +27,9 @@ import log
 
 class Checks:
     """Tests user system configuration etc."""
+    cmd = [sys.executable, '-m', 'pip', 'list']
+    modules = subprocess.check_output(cmd)
+    modules = modules.decode().rstrip()
 
     @staticmethod
     def check_os():
@@ -45,12 +48,12 @@ class Checks:
         v1 = sys.version_info[:3]
         v2 = (3, 4)
         if sys.version_info < v2:
-            msg = 'You have Python {}.\n'.format(v1) \
-                + 'Required version is {} or newer.'.format(v2)
+            msg = 'You have Python {}.{}.{}.\n'.format(*v1) \
+                + 'Required version is {}.{} or newer.'.format(*v2)
             logging.error(msg)
             raise SystemExit # the best way to exit
         else:
-            msg = 'Python version is {}.'.format(v1)
+            msg = 'Python version is {}.{}.{}.'.format(*v1)
             logging.info(msg)
 
     @staticmethod
@@ -74,14 +77,16 @@ class Checks:
             if len(name) and not Checks.check_required_package(name):
                 raise SystemExit # the best way to exit
 
-    @staticmethod
-    def check_package(name):
+    @classmethod
+    def check_package(self, name):
         """Check if package is installed."""
-        try:
-            importlib.import_module(name)
+        # try:
+        #     importlib.import_module(name)
+        if name.lower() in self.modules.lower():
             logging.info(name + ' OK')
             return True
-        except ImportError:
+        else:
+        # except ImportError:
             msg = 'Package \'' + name \
                 + '\' is not installed.'
             logging.warning(msg)
@@ -93,15 +98,18 @@ class Checks:
         if Checks.check_package(name):
             return True
         else:
-            logging.warning('Trying to fix...')
             return Checks.install_package(name)
 
     @staticmethod
     def install_package(name, prefix=''):
         """Automatically install package."""
         try:
+            logging.info('Installing ' + name + '...')
             cmd = [sys.executable, '-m', 'pip', prefix + 'install', name]
-            subprocess.check_call(cmd)
+            # subprocess.check_call(cmd)
+            msg = subprocess.check_output(cmd)
+            msg = msg.decode().rstrip()
+            logging.info(msg)
             return True
         except:
             msg = 'Can not {}install required package \''.format(prefix) \
