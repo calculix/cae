@@ -41,10 +41,29 @@ import log
 import tests
 
 
+def copy_checks_log_contents_to(job_logfile):
+    """Copy logs from startup checks into the job logfile.
+    TODO Remove checks.log after.
+    """
+    checks_log = os.path.join(path.p.src, 'checks.log')
+    lines = []
+    with open(checks_log, 'r') as f:
+        lines = f.readlines()
+    with open(job_logfile, 'w') as f:
+        f.writelines(lines)
+        f.write('\nAPPLICATION START\n')
+    # os.remove(checks_log)
+
+
 class Job:
 
     def __init__(self, f, m, file_name=settings.s.start_model):
-        """Create job object."""
+        """Create job object.
+        Is called twice on startup:
+        first call - from cae.py,
+        second - from importer.py.
+        TODO Fix it
+        """
         self.f = f
         self.m = m
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
@@ -60,6 +79,7 @@ class Job:
 
         # Handler to write the job log file
         log.remove_file_handler()
+        copy_checks_log_contents_to(self.log)
         log.add_file_handler(self.log)
 
         if sys.argv[0].endswith('.py'):

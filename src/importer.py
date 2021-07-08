@@ -163,6 +163,7 @@ class Importer:
 
             # Rename job before tree regeneration
             # A new logger handler is created here
+            # TODO Do not call job __init__ twice
             self.j.__init__(self.f,
                 self.m, file_name[:-4] + '.inp')
 
