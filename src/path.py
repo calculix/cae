@@ -37,6 +37,7 @@ class Path:
         self.kom_xml = os.path.join(self.config, 'kom.xml')
         self.settings_xml = os.path.join(self.config, 'SettingsDialog.xml')
         self.dialog_xml = os.path.join(self.config, 'KeywordDialog.xml')
+        self.version_txt = os.path.join(self.config, 'version.txt')
 
         self.bin = os.path.join(self.app_home_dir, 'bin')
         self.ccx = os.path.join(self.app_home_dir, 'ccx_' + self.op_sys, 'src')

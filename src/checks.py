@@ -4,8 +4,9 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Utilities to test user's system configuration.
-Is called on the application startup.
+Utilities to test user's system configuration. Checks are called on the
+application start. OS name, Python version, app. version, default web
+browser are logged. Requirements are installed automatically via pip.
 
 Run test: Ctrl+F5 from VSCode.
 """
@@ -15,12 +16,12 @@ Run test: Ctrl+F5 from VSCode.
 import os
 import sys
 import logging
-import importlib
 import subprocess
 import webbrowser
 
 # My modules
 import tests
+import path
 import log
 
 
@@ -54,6 +55,20 @@ class Checks:
         else:
             msg = 'Python version is {}.{}.{}.'.format(*v1)
             logging.info(msg)
+
+    @staticmethod
+    def check_app_version():
+        lines = []
+        with open(path.p.version_txt, 'r') as f:
+            lines = f.readlines()
+        for l in lines:
+            l = l.strip()
+            if l.startswith('#'):
+                continue
+            if not len(l):
+                continue
+            logging.info('CAE version is ' + l + '.')
+            return
 
     @staticmethod
     def check_default_web_browser():
@@ -107,9 +122,12 @@ class Checks:
     def install_package(name, prefix=''):
         """Automatically install package."""
         try:
-            logging.info('Installing ' + name + '...')
-            cmd = [sys.executable, '-m', 'pip', prefix + 'install', name]
-            # subprocess.check_call(cmd)
+            if 'un' in prefix:
+                logging.info('Removing ' + name + '...')
+                cmd = [sys.executable, '-m', 'pip', prefix + 'install', name, '-y']
+            else:
+                logging.info('Installing ' + name + '...')
+                cmd = [sys.executable, '-m', 'pip', prefix + 'install', name]
             msg = subprocess.check_output(cmd)
             msg = msg.decode().rstrip()
             logging.info(msg)
@@ -133,6 +151,7 @@ class Checks:
         log.print_to_file(log_file, 'STARTUP TESTS\n')
         Checks.check_os()
         Checks.check_python()
+        Checks.check_app_version()
         Checks.check_default_web_browser()
         Checks.check_requirements() # containts SystemExit
 
@@ -156,6 +175,7 @@ def test():
     Checks.check_all() # install back 'unv2ccx'
     Checks.check_package('qwe')
     Checks.check_required_package('rty')
+
 
 if __name__ == '__main__':
     test() # run test

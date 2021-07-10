@@ -51,7 +51,7 @@ def copy_checks_log_contents_to(job_logfile):
         lines = f.readlines()
     with open(job_logfile, 'w') as f:
         f.writelines(lines)
-        f.write('\nAPPLICATION START\n')
+        f.write('\nAPPLICATION START\n\n')
     # os.remove(checks_log)
 
 

@@ -171,11 +171,9 @@ You may also need libraries:
 
 What's new in future v0.9.0:
 
-- CalculiX 2.17.1. Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo.
-- Switch colormaps from menu CGX.
+- CalculiX 2.17.1. Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo. Switch colormaps from menu CGX.
 - Significantly improved INP importer algorithm. Now parser supports keyword line continuation. Tested on over 20 000 INP files, including Abaqus models.
-- Dependencies are automatically installed and tested on startup.
-- Python version and OS name are checked at startup.
+- New checker module. Checks are called on the application start. OS name, Python version, CAE version and default web browser are logged. Requirements are installed automatically via pip.
 - Significantly improved window connectivity (master/slave).
 - Improved robustness - now almost all python modules have a test method.
 - Refactored logging system. Now it is a new dedicated module.
@@ -220,7 +218,6 @@ Importer:
 - Open .fbd/.fbl and forward to CGX. Then import generated model.
 
 Logging and tests:
-- Log app version on startup.
 - 'Debug' menu to test each module.
 
 Other:
