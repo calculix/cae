@@ -86,7 +86,6 @@ class Factory:
     def __init__(self):
         self.mw = None # master window
         self.sw = None # slave window
-        self.stdout_readers = [] # for slave window
         args = [None, None]
         if os.name == 'nt':
             wc1 = gui.connection.WindowConnectionWindows(*args)
@@ -151,7 +150,16 @@ class Factory:
             html = self.mw.textEdit.toHtml()
             self.mw.textEdit.clear()
             self.mw.textEdit.setHtml(html)
-            self.start_stdout_reader('read_cgx_stdout')
+
+            # Start stdout reading and logging thread
+            if self.connection is not None:
+                args = [self.sw.process.stdout,
+                        'read_cgx_stdout',\
+                        True, self.connection]
+                log.start_cgx_stdout_reader(*args)
+            else:
+                msg = 'Window connection not established.'
+                logging.error(msg)
 
     def kill_slave(self):
         """Kill all slave processes."""
@@ -162,7 +170,7 @@ class Factory:
         if self.connection is None:
             return
         if path.p.path_cgx in self.sw.cmd:
-            self.stop_stdout_readers()
+            log.stop_stdout_readers()
 
         # First try to close window
         # TODO Test Alt+F4 in Linux
@@ -204,26 +212,6 @@ class Factory:
             self.sw.process = None
             self.sw.info = None
 
-    def start_stdout_reader(self, aim):
-        """Start stdout reading and logging thread."""
-        if self.connection is not None:
-            sr = log.CgxStdoutReader(self.sw.process.stdout, aim, True, self.connection)
-            self.stdout_readers.append(sr)
-            sr.start()
-        else:
-            msg = 'Window connection not established.'
-            logging.error(msg)
-
-    def stop_stdout_readers(self):
-        """Kill logging threads."""
-        readers = [sr for sr in self.stdout_readers if sr.active]
-        if len(readers):
-            msg = 'Stopping threads:\n'
-            for sr in readers:
-                msg += sr.name + '\n'
-                sr.stop()
-            logging.debug(msg)
-            time.sleep(1)
 
     def create_connection(self):
         """Connect master and slave windows and align them."""

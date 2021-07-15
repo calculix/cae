@@ -4,11 +4,12 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Custon logging handlers for catching CCX and CGX output.
-The Text handler is created once per session
-and prints into CAE textEdit.
+Custom logging handlers.
+The Text handler is created once per session and prints into CAE textEdit.
 The File handler is created any time you open a model.
 Log file has the same name as a model.
+
+Classes for catching CCX and CGX output.
 """
 
 # Standard modules
@@ -222,6 +223,26 @@ def add_file_handler(log_file, level=settings.s.logging_level):
     logging.getLogger().addHandler(h)
 
 
+def remove_file_handler():
+    """Remove all file handlers."""
+    remove_handler_by_name(mflh)
+
+
+def add_stream_handler(level=settings.s.logging_level):
+    """Handler to write logs into stream."""
+    h = logging.StreamHandler()
+    h.set_name(mslh)
+    h.setLevel(level)
+    global fmt
+    h.setFormatter(fmt)
+    logging.getLogger().addHandler(h)
+
+
+def remove_stream_handler():
+    """Remove all stream handlers."""
+    remove_handler_by_name(mslh)
+
+
 """
     NOTE Doesn't write to file system messages and uncatched errors
 
@@ -244,28 +265,20 @@ def add_file_handler(log_file, level=settings.s.logging_level):
 """
 
 
-def remove_file_handler():
-    """Remove all file handlers."""
-    remove_handler_by_name(mflh)
+
+stdout_readers = []
 
 
-def add_stream_handler(level=settings.s.logging_level):
-    """Handler to write logs into stream."""
-    h = logging.StreamHandler()
-    h.set_name(mslh)
-    h.setLevel(level)
-    global fmt
-    h.setFormatter(fmt)
-    logging.getLogger().addHandler(h)
+def list_threads():
+    """List currently running threads."""
+    t_names = sorted([t.name for t in threading.enumerate() \
+        if t.name != threading.main_thread().name])
+    msg = '\nRunning threads:\n' + '\n'.join(t_names) + '\n'
+    logging.debug(msg)
 
 
-def remove_stream_handler():
-    """Remove all stream handlers."""
-    remove_handler_by_name(mslh)
-
-
-class StdoutReader:
-    """Reads CCX and CGX outputs."""
+class StdoutReaderLogger:
+    """Read and log output of a console app."""
 
     def __init__(self, stdout, prefix, read_output=True, connection=None):
         self.stdout = stdout
@@ -274,7 +287,7 @@ class StdoutReader:
         self.connection = connection
         self.active = True
         self.name = None
-    
+
     def stop(self):
         self.active = False
 
@@ -305,7 +318,7 @@ class StdoutReader:
 
         # Save from 100% CPU bug
         time.sleep(3)
-        
+
         # Flush CGX buffer
         if self.connection is not None:
             self.connection.post(' ')
@@ -324,13 +337,18 @@ class StdoutReader:
                 self.log_line(line)
                 time.sleep(0.03) # CAE dies during fast logging
             else:
-                # Here we get if CGX is closed
-                logging.debug('StdoutReader stopped')
-                break
+                """Here we get if job run is finished
+                or if CGX is closed."""
+                msg = '{} STOPPED.'.format(self.name)
+                logging.debug(msg)
+                return
 
         # Exit from function crashes app on textEdit scrolling!
-        while self.active:
-            time.sleep(1)
+        # while self.active:
+        #     time.sleep(1)
+
+        msg = '{} STOPPED.'.format(self.name)
+        logging.debug(msg)
 
     def start(self):
         """Read and log CGX stdout.
@@ -343,15 +361,14 @@ class StdoutReader:
         t = threading.Thread(target=self.read_and_log,
             args=(), name=self.name, daemon=True)
         t.start()
-
-        # List currently running threads
-        t_names = sorted([t.name for t in threading.enumerate() \
-            if t.name != threading.main_thread().name])
-        msg = '\nLogging threads:\n' + '\n'.join(t_names) + '\n'
+        msg = '{} STARTED.'.format(self.name)
         logging.debug(msg)
 
+        list_threads()
 
-class CgxStdoutReader(StdoutReader):
+
+class CgxStdoutReaderLogger(StdoutReaderLogger):
+    """Read and log CGX output."""
 
     def log_line(self, line):
         logging.log(25, line)
@@ -371,6 +388,36 @@ class CgxStdoutReader(StdoutReader):
             return l
         else:
             return line
+
+
+def start_stdout_reader(stdout, prefix, read_output):
+    """Start stdout reading and logging thread."""
+    sr = StdoutReaderLogger(stdout, 'read_stdout', read_output)
+    global stdout_readers
+    stdout_readers.append(sr)
+    sr.start()
+
+
+def start_cgx_stdout_reader(stdout, prefix, read_output, connection):
+    """Start CGX stdout reading and logging thread."""
+    sr = CgxStdoutReaderLogger(stdout, prefix, read_output, connection)
+    global stdout_readers
+    stdout_readers.append(sr)
+    sr.start()
+
+
+def stop_stdout_readers():
+    """Kill logging threads."""
+    global stdout_readers
+    readers = [sr for sr in stdout_readers if sr.active]
+    if len(readers):
+        msg = 'Stopping threads:\n'
+        for sr in readers:
+            msg += sr.name + '\n'
+        logging.debug(msg)
+        for sr in readers:
+            sr.stop()
+        time.sleep(1)
 
 
 @tests.test_wrapper()
