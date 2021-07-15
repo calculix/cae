@@ -180,6 +180,7 @@ What's new in future v0.9.0:
 - Simplified code to omit redundant arguments passing between modules.
 - Using external python packages *ccx2paraview* and *unv2ccx* as required dependacies.
 - Added buttons to select paths in Settings dialog.
+- cae.bat and sae.sh - run source code
 
 <br/><br/>
 
@@ -221,7 +222,6 @@ Logging and tests:
 - 'Debug' menu to test each module.
 
 Other:
-- cae.bat and sae.sh - run source code
 - Implement keyword dialog as tab on main window.
 - Take binaries for Windows from https://www.meil.pw.edu.pl/add/ADD/Teaching/Software/Calculix
 - Folder 'tests': move all logs and architecture schemes there.
