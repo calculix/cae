@@ -1,4 +1,4 @@
-# Read config to register additional colors
+# Registering additional colors
 # Those colors are needed to paint sets and surfaces
 col blue0 0.30 0.60 0.90
 col blue1 0.25 0.50 0.75
