@@ -4,12 +4,12 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Job submition and convertion. Run a detached process and
-send messages to queue. This scheme doesn't freeze Window
-while analysis is running or files are converting.
-
-Job creation indicates start of the new session.
+Class Job represents a container for all jobs from the Job menu.
+Job instance creation indicates start of the new session.
 Old log file is erased and a new one is created.
+
+If needed job method is called via a thread and method 'self.run'.
+Terminal command is passed to the thread with self.run in this case.
 """
 
 # Standard modules
@@ -72,6 +72,7 @@ class Job:
         self.path = self.inp[:-4] # full path to INP without extension
         self.frd = self.path + '.frd' # full path to job results file
         self.log = self.path + '.log' # full path to job log file
+        self.sta = self.path + '.sta' # full path to job status file
 
         # Remove old log_file
         if os.path.exists(self.log):
@@ -106,12 +107,13 @@ class Job:
         file_name = QtWidgets.QFileDialog.getSaveFileName(None, \
             'Write INP file', self.dir, \
             'Input files (*.inp)')[0]
-        if file_name:
+        if len(file_name):
+            if not file_name.endswith('.inp'):
+                file_name += '.inp'
             with open(file_name, 'w') as f:
                 f.writelines(lines)
             logging.info('Input written to\n' + file_name)
-            self.__init__(self.f,\
-                self.m, file_name[:-4] + '.inp')
+            self.__init__(self.f, self.m, file_name)
 
             # Reopen CGX
             has_nodes = len(self.m.Mesh.nodes)
@@ -147,6 +149,7 @@ class Job:
 
     def rebuild_ccx(self):
         """Recompile CalculiX sources with updated subroutines."""
+        # TODO Doesn't work
 
         # Windows
         if os.name == 'nt':
@@ -193,7 +196,9 @@ class Job:
         t.start()
 
     def submit(self):
-        """Submit INP to CalculiX."""
+        """Submit INP to CalculiX. Calculation starts in self.run method,
+        which is called via thread to avoid GUI freeze.
+        """
         if not os.path.isfile(path.p.path_ccx):
             logging.error('CCX not found:\n' \
                 + path.p.path_ccx)
@@ -207,12 +212,28 @@ class Job:
             t_name = 'thread_{}_submit_{}'\
                 .format(threading.active_count(), int(time.time()))
             t = threading.Thread(target=self.run,
-                args=(cmd, '', False), name=t_name, daemon=True)
+                args=(cmd, '', True), name=t_name, daemon=True)
             t.start()
         else:
             logging.error('File not found:\n' \
                 + self.inp \
                 + '\nWrite input first.')
+
+    def monitor_status(self):
+        """Open .sta file in external text editor."""
+        # TODO Run as thread
+        if os.path.isfile(settings.s.path_editor):
+            if os.path.isfile(self.sta):
+                command = [settings.s.path_editor, self.sta]
+                subprocess.Popen(command)
+            else:
+                logging.error('File not found:\n' \
+                    + self.sta \
+                    + '\nSubmit analysis first.')
+        else:
+            logging.error('Wrong path to text editor:\n' \
+                + settings.s.path_editor \
+                + '\nConfigure it in File->Settings.')
 
     def view_log(self):
         """Open log file in external text editor."""
@@ -269,7 +290,7 @@ class Job:
 
     def run(self, cmd, send='', read_output=True):
         """Run a single command, wait for its completion and log stdout.
-        Doesn't block GUI if called via thread.
+        Doesn't block GUI, because is called in a separate thread.
         """
         while True:
             # Wait for previous thread to finish
@@ -292,14 +313,19 @@ class Job:
             process.stdin.close()
         os.chdir(path.p.app_home_dir)
 
+        # Show active threads before process start
+        # log.list_threads()
+
         # Start stdout reading and logging thread
-        sr = log.StdoutReader(process.stdout, 'read_stdout', read_output)
-        self.f.stdout_readers.append(sr)
-        sr.start()
+        args = [process.stdout, 'read_stdout', read_output]
+        log.start_stdout_reader(*args)
 
         # Do not finish thread until the process end up
         while process.poll() is None:
             time.sleep(1)
+
+        # Show active threads after process finish
+        # log.list_threads()
 
 
 def path2cygwin(path):

@@ -310,18 +310,14 @@ class StdoutReaderLogger:
             else:
                 logging.log(25, line)
 
-    def filter_backspaces(self, line):
-        return line
-
     def read_and_log(self):
-        """Infininte cycle to read process'es stdout."""
-
-        # Save from 100% CPU bug
-        time.sleep(3)
-
-        # Flush CGX buffer
-        if self.connection is not None:
-            self.connection.post(' ')
+        """Infininte cycle to read process'es stdout.
+        CAE dies during fast logging.
+        So we collect lines during 1 second - then log.
+        """
+        # time.sleep(3) # Save from 100% CPU bug
+        start_time = time.perf_counter()
+        log_msg = ''
 
         # Read and log output
         while self.active:
@@ -329,26 +325,21 @@ class StdoutReaderLogger:
             line = line.replace(b'\r', b'') # for Windows
             if line == b' \n':
                 continue
-            if b'key: from string' in line:
-                continue
             if line != b'':
-                line = self.filter_backspaces(line)
                 line = line.decode().rstrip()
-                self.log_line(line)
-                time.sleep(0.03) # CAE dies during fast logging
+                log_msg += line + '\n'
+                delta = time.perf_counter() - start_time
+                if delta > 1:
+                    start_time = time.perf_counter()
+                    self.log_line(log_msg)
+                    log_msg = ''
             else:
-                """Here we get if job run is finished
-                or if CGX is closed."""
-                msg = '{} STOPPED.'.format(self.name)
-                logging.debug(msg)
-                return
+                # Here we get if there is no lines left in the stdout
+                break
 
-        # Exit from function crashes app on textEdit scrolling!
-        # while self.active:
-        #     time.sleep(1)
-
-        msg = '{} STOPPED.'.format(self.name)
-        logging.debug(msg)
+        if len(log_msg):
+            self.log_line(log_msg)
+        logging.debug('{} STOPPED.'.format(self.name))
 
     def start(self):
         """Read and log CGX stdout.
@@ -363,8 +354,6 @@ class StdoutReaderLogger:
         t.start()
         msg = '{} STARTED.'.format(self.name)
         logging.debug(msg)
-
-        list_threads()
 
 
 class CgxStdoutReaderLogger(StdoutReaderLogger):
@@ -389,6 +378,36 @@ class CgxStdoutReaderLogger(StdoutReaderLogger):
         else:
             return line
 
+    def read_and_log(self):
+        """Infininte cycle to read CGX stdout.
+        CAE dies during fast logging.
+        So we may use time.sleep() after each log line.
+        """
+        time.sleep(3) # Save from 100% CPU bug
+
+        # Flush CGX buffer
+        if self.connection is not None:
+            self.connection.post(' ')
+
+        # Read and log output
+        while self.active:
+            line = self.stdout.readline()
+            line = line.replace(b'\r', b'') # for Windows
+            if line == b' \n':
+                continue
+            if b'key: from string' in line:
+                continue
+            if line != b'':
+                line = self.filter_backspaces(line)
+                line = line.decode().rstrip()
+                self.log_line(line)
+                time.sleep(0.03)
+            else:
+                # Here we get if there is no lines left in the stdout
+                break
+
+        logging.debug('{} STOPPED.'.format(self.name))
+
 
 def start_stdout_reader(stdout, prefix, read_output):
     """Start stdout reading and logging thread."""
@@ -407,7 +426,7 @@ def start_cgx_stdout_reader(stdout, prefix, read_output, connection):
 
 
 def stop_stdout_readers():
-    """Kill logging threads."""
+    """Quit all active logging threads."""
     global stdout_readers
     readers = [sr for sr in stdout_readers if sr.active]
     if len(readers):
