@@ -1,7 +1,7 @@
 
 DIR=../SPOOLES.2.2
 
-CFLAGS = -Wall -O2 -fopenmp -I $(DIR) -DARCH="Linux" -DSPOOLES -DARPACK -DMATRIXSTORAGE -DUSE_MT=1 
+CFLAGS = -Wall -O2 -fopenmp -I $(DIR) -DARCH="Linux" -DSPOOLES -DARPACK -DMATRIXSTORAGE -DUSE_MT=1
 FFLAGS = -Wall -O2 -fopenmp
 
 CC=cc
@@ -26,9 +26,9 @@ LIBS = \
        ../ARPACK/libarpack_INTEL.a \
        -lpthread -lm
 
-ccx: $(OCCXMAIN) ccx.a  $(LIBS)
+ccx: $(OCCXMAIN) ccx.a $(LIBS)
 	./date.pl; $(CC) $(CFLAGS) -c $(SCCXMAIN); $(FC) -fopenmp -Wall -O2 -o $@ $(OCCXMAIN) ccx.a $(LIBS)
+	mv ccx ../../bin/
 
 ccx.a: $(OCCXF) $(OCCXC)
 	ar vr $@ $?
-                                                                               
