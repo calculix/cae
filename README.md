@@ -219,9 +219,8 @@ Importer:
 - Open .fbd/.fbl and forward to CGX. Then import generated model.
 
 Logging and tests:
-- 'Debug' menu to test each module.
+- Refactor tests system. Use unittest to test all the modules.
+- Folder 'tests': move all logs and architecture schemes there.
 
 Other:
-- Implement keyword dialog as tab on main window.
 - Take binaries for Windows from https://www.meil.pw.edu.pl/add/ADD/Teaching/Software/Calculix
-- Folder 'tests': move all logs and architecture schemes there.

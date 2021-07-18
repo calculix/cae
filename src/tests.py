@@ -4,7 +4,6 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-TODO Use unittest in all module tests.
 TODO Invent some test for the module.
 
 Utilities for testing. Almost each module of the
