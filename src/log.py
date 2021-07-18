@@ -10,6 +10,8 @@ The File handler is created any time you open a model.
 Log file has the same name as a model.
 
 Classes for catching CCX and CGX output.
+Difference between StdoutReaderLogger and CgxStdoutReaderLogger is that
+first one deals with app which runs and quits, while CGX continues to run.
 """
 
 # Standard modules
@@ -278,7 +280,8 @@ def list_threads():
 
 
 class StdoutReaderLogger:
-    """Read and log output of a console app."""
+    """Read and log output of a console app.
+    Used in job.submit() and job.rebuild_ccx()."""
 
     def __init__(self, stdout, prefix, read_output=True, connection=None):
         self.stdout = stdout
@@ -315,13 +318,13 @@ class StdoutReaderLogger:
         CAE dies during fast logging.
         So we collect lines during 1 second - then log.
         """
-        # time.sleep(3) # Save from 100% CPU bug
-        start_time = time.perf_counter()
         log_msg = ''
+        start_time = time.perf_counter()
+        # time.sleep(3) # Save from 100% CPU bug
 
         # Read and log output
         while self.active:
-            line = self.stdout.readline()
+            line = self.stdout.readline() # freezes untile read a line
             line = line.replace(b'\r', b'') # for Windows
             if line == b' \n':
                 continue
@@ -383,15 +386,15 @@ class CgxStdoutReaderLogger(StdoutReaderLogger):
         CAE dies during fast logging.
         So we may use time.sleep() after each log line.
         """
-        time.sleep(3) # Save from 100% CPU bug
 
         # Flush CGX buffer
         if self.connection is not None:
             self.connection.post(' ')
 
         # Read and log output
+        # time.sleep(3) # Save from 100% CPU bug
         while self.active:
-            line = self.stdout.readline()
+            line = self.stdout.readline() # freezes untile read a line
             line = line.replace(b'\r', b'') # for Windows
             if line == b' \n':
                 continue

@@ -189,7 +189,7 @@ class Job:
         t.start()
 
         # Move binary
-        t_name = 'thread_{}_rebuild_ccx'\
+        t_name = 'thread_{}_move_ccx'\
             .format(threading.active_count())
         t = threading.Thread(target=self.run,
             args=(cmd2, '', False), name=t_name, daemon=True)
@@ -209,7 +209,7 @@ class Job:
             cmd = [path.p.path_ccx, '-i', self.path]
             logging.info(' '.join(cmd))
 
-            t_name = 'thread_{}_submit_{}'\
+            t_name = 'thread_{}_submit_ccx_{}'\
                 .format(threading.active_count(), int(time.time()))
             t = threading.Thread(target=self.run,
                 args=(cmd, '', True), name=t_name, daemon=True)
@@ -292,15 +292,18 @@ class Job:
         """Run a single command, wait for its completion and log stdout.
         Doesn't block GUI, because is called in a separate thread.
         """
+        log.list_threads()
         while True:
-            # Wait for previous thread to finish
+            """Wait for previous thread to finish.
+            t_names is a list of currently running threads names."""
             t_name = threading.current_thread().name
             t_names = sorted([t.name for t in threading.enumerate() \
-                if '_rebuild_ccx' in t.name])
-            if not len(t_names) or t_name == t_names[0]:
-                break
-            else:
+                if '_ccx' in t.name])
+            if t_name != t_names[0]:
                 time.sleep(1)
+            else:
+                break
+        log.list_threads()
 
         # Run command
         os.chdir(self.dir)
@@ -313,19 +316,12 @@ class Job:
             process.stdin.close()
         os.chdir(path.p.app_home_dir)
 
-        # Show active threads before process start
-        # log.list_threads()
-
         # Start stdout reading and logging thread
         args = [process.stdout, 'read_stdout', read_output]
         log.start_stdout_reader(*args)
 
-        # Do not finish thread until the process end up
         while process.poll() is None:
             time.sleep(1)
-
-        # Show active threads after process finish
-        # log.list_threads()
 
 
 def path2cygwin(path):
