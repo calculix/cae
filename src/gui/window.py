@@ -179,13 +179,14 @@ class Factory:
         if 'nt' in os.name:
             import ctypes
             ctypes.windll.user32.SetForegroundWindow(self.sw.info.wid)
-        else:
-            from Xlib import display, X
-            self.d = display.Display()
-            win = self.d.create_resource_object('window', self.sw.info.wid)
-            win.set_input_focus(X.RevertToNone, X.CurrentTime)
-            self.d.sync()
-        self.connection.send_hotkey('Alt_L', 'F4')
+            self.connection.send_hotkey('Alt_L', 'F4')
+        # else:
+        #     from Xlib import display, X
+        #     self.d = display.Display()
+        #     win = self.d.create_resource_object('window', self.sw.info.wid)
+        #     win.set_input_focus(X.RevertToNone, X.CurrentTime)
+        #     self.d.sync()
+        #     self.connection.send_hotkey('Alt_L', 'F4')
 
         # Then kill its process
         count = 0
