@@ -5,7 +5,7 @@
 Distributed under GNU General Public License v3.0
 
 Classes for catching CCX and CGX output.
-Difference between StdoutReaderLogger and CgxStdoutReaderLogger is that
+Difference between ReaderLogger and CgxStdoutReaderLogger is that
 first one deals with app which runs and quits, while CGX continues to run.
 """
 
@@ -19,7 +19,7 @@ import threading
 stdout_readers = []
 
 
-class StdoutReaderLogger:
+class ReaderLogger:
     """Read and log output of a console app.
     Used in job.submit() and job.rebuild_ccx()."""
 
@@ -99,7 +99,7 @@ class StdoutReaderLogger:
         logging.debug(msg)
 
 
-class CgxStdoutReaderLogger(StdoutReaderLogger):
+class CgxStdoutReaderLogger(ReaderLogger):
     """Read and log CGX output."""
 
     def log_line(self, line):
@@ -152,15 +152,15 @@ class CgxStdoutReaderLogger(StdoutReaderLogger):
         logging.debug('{} STOPPED.'.format(self.name))
 
 
-def start_stdout_reader(stdout, prefix, read_output):
+def start_reader(stdout, prefix, read_output):
     """Start stdout reading and logging thread."""
-    sr = StdoutReaderLogger(stdout, 'read_stdout', read_output)
+    sr = ReaderLogger(stdout, 'read_stdout', read_output)
     global stdout_readers
     stdout_readers.append(sr)
     sr.start()
 
 
-def start_cgx_stdout_reader(stdout, prefix, read_output, connection):
+def start_cgx_reader(stdout, prefix, read_output, connection):
     """Start CGX stdout reading and logging thread."""
     sr = CgxStdoutReaderLogger(stdout, prefix, read_output, connection)
     global stdout_readers
@@ -168,7 +168,7 @@ def start_cgx_stdout_reader(stdout, prefix, read_output, connection):
     sr.start()
 
 
-def stop_stdout_readers():
+def stop_readers():
     """Quit all active logging threads."""
     global stdout_readers
     readers = [sr for sr in stdout_readers if sr.active]

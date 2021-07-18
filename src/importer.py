@@ -167,7 +167,7 @@ class Importer:
             self.j.__init__(self.f,
                 self.m, file_name[:-4] + '.inp')
 
-            gui.stdout.stop_stdout_readers()
+            gui.stdout.stop_readers()
 
             # Convert UNV to INP
             if file_name.lower().endswith('.unv'):

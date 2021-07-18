@@ -326,7 +326,7 @@ class Job:
 
         # Start stdout reading and logging thread
         args = [process.stdout, 'read_stdout', read_output]
-        gui.stdout.start_stdout_reader(*args)
+        gui.stdout.start_reader(*args)
 
         while process.poll() is None:
             time.sleep(1)

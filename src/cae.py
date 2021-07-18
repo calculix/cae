@@ -37,6 +37,7 @@ from PyQt5 import QtWidgets, QtWebEngineWidgets
 # My modules
 import path
 import settings
+import gui.window
 import gui.job
 import model
 import tree
