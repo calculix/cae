@@ -37,7 +37,7 @@ from PyQt5 import QtWidgets, QtWebEngineWidgets
 # My modules
 import path
 import settings
-import gui
+import gui.job
 import model
 import tree
 import importer
@@ -76,7 +76,7 @@ f.run_master(path.p.main_xml)
 # Main block
 m = model.Model() # generate FEM model
 t = tree.Tree(f, m) # create treeView items based on KOM
-j = model.job.Job(f, m) # create job object with file logging handler
+j = gui.job.Job(f, m) # create job object with file logging handler
 i = importer.Importer(f, m, t, j) # prepare to import model
 actions.actions(f, m, t, j, i) # window actions
 

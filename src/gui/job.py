@@ -5,11 +5,14 @@
 Distributed under GNU General Public License v3.0
 
 Class Job represents a container for all jobs from the Job menu.
+
 Job instance creation indicates start of the new session.
 Old log file is erased and a new one is created.
 
 If needed job method is called via a thread and method 'self.run'.
 Terminal command is passed to the thread with self.run in this case.
+
+# TODO All stuff with threads should be concentrated here.
 """
 
 # Standard modules
@@ -35,10 +38,18 @@ if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import path
 import settings
-import gui
-import gui.window
+import gui.cgx
+import gui.stdout
 import log
 import tests
+
+
+def list_threads():
+    """List currently running threads."""
+    t_names = sorted([t.name for t in threading.enumerate() \
+        if t.name != threading.main_thread().name])
+    msg = '\nRunning threads:\n' + '\n'.join(t_names) + '\n'
+    logging.debug(msg)
 
 
 def copy_checks_log_contents_to(job_logfile):
@@ -53,6 +64,9 @@ def copy_checks_log_contents_to(job_logfile):
         f.writelines(lines)
         f.write('\nAPPLICATION START\n\n')
     # os.remove(checks_log)
+
+
+thread_counter = 0
 
 
 class Job:
@@ -79,6 +93,7 @@ class Job:
             os.remove(self.log)
 
         # Handler to write the job log file
+        # logging.disable() TODO use it instead of log module
         log.remove_file_handler()
         copy_checks_log_contents_to(self.log)
         log.add_file_handler(self.log)
@@ -149,7 +164,7 @@ class Job:
 
     def rebuild_ccx(self):
         """Recompile CalculiX sources with updated subroutines."""
-        # TODO Doesn't work
+        global thread_counter
 
         # Windows
         if os.name == 'nt':
@@ -182,23 +197,18 @@ class Job:
             logging.info(cmd1 + ' ' + send1)
         else:
             logging.info(' '.join(cmd1) + ' ' + send1)
-        t_name = 'thread_{}_rebuild_ccx'\
-            .format(threading.active_count())
+        thread_counter += 1
+        t_name = 'thread_{}_rebuild_ccx'.format(thread_counter)
         t = threading.Thread(target=self.run,
             args=(cmd1, send1), name=t_name, daemon=True)
-        t.start()
-
-        # Move binary
-        t_name = 'thread_{}_move_ccx'\
-            .format(threading.active_count())
-        t = threading.Thread(target=self.run,
-            args=(cmd2, '', False), name=t_name, daemon=True)
         t.start()
 
     def submit(self):
         """Submit INP to CalculiX. Calculation starts in self.run method,
         which is called via thread to avoid GUI freeze.
         """
+        global thread_counter
+
         if not os.path.isfile(path.p.path_ccx):
             logging.error('CCX not found:\n' \
                 + path.p.path_ccx)
@@ -209,8 +219,8 @@ class Job:
             cmd = [path.p.path_ccx, '-i', self.path]
             logging.info(' '.join(cmd))
 
-            t_name = 'thread_{}_submit_ccx_{}'\
-                .format(threading.active_count(), int(time.time()))
+            thread_counter += 1
+            t_name = 'thread_{}_submit_ccx'.format(thread_counter)
             t = threading.Thread(target=self.run,
                 args=(cmd, '', True), name=t_name, daemon=True)
             t.start()
@@ -292,7 +302,6 @@ class Job:
         """Run a single command, wait for its completion and log stdout.
         Doesn't block GUI, because is called in a separate thread.
         """
-        log.list_threads()
         while True:
             """Wait for previous thread to finish.
             t_names is a list of currently running threads names."""
@@ -303,7 +312,6 @@ class Job:
                 time.sleep(1)
             else:
                 break
-        log.list_threads()
 
         # Run command
         os.chdir(self.dir)
@@ -318,7 +326,7 @@ class Job:
 
         # Start stdout reading and logging thread
         args = [process.stdout, 'read_stdout', read_output]
-        log.start_stdout_reader(*args)
+        gui.stdout.start_stdout_reader(*args)
 
         while process.poll() is None:
             time.sleep(1)

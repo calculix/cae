@@ -9,7 +9,6 @@ See scheme on architecture.odp.
 """
 
 from . import parsers
-from . import job
 from . import kom
 
 

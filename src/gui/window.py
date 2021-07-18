@@ -41,6 +41,7 @@ import tests
 import gui.cgx
 import gui.connection
 import log
+import gui.stdout
 
 
 def init_wrapper():
@@ -156,7 +157,7 @@ class Factory:
                 args = [self.sw.process.stdout,
                         'read_cgx_stdout',\
                         True, self.connection]
-                log.start_cgx_stdout_reader(*args)
+                gui.stdout.start_cgx_stdout_reader(*args)
             else:
                 msg = 'Window connection not established.'
                 logging.error(msg)
@@ -170,7 +171,7 @@ class Factory:
         if self.connection is None:
             return
         if path.p.path_cgx in self.sw.cmd:
-            log.stop_stdout_readers()
+            gui.stdout.stop_stdout_readers()
 
         # First try to close window
         # TODO Test Alt+F4 in Linux

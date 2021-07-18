@@ -29,10 +29,10 @@ import logging
 from PyQt5 import QtWidgets
 
 # My modules
-import path
 import settings
 import model
 import gui.cgx
+import gui.stdout
 import log
 import tests
 
@@ -167,7 +167,7 @@ class Importer:
             self.j.__init__(self.f,
                 self.m, file_name[:-4] + '.inp')
 
-            log.stop_stdout_readers()
+            gui.stdout.stop_stdout_readers()
 
             # Convert UNV to INP
             if file_name.lower().endswith('.unv'):
