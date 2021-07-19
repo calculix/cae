@@ -12,6 +12,11 @@ For documentation on used functions refer to:
 http://python-xlib.sourceforge.net/doc/html/python-xlib_21.html
 https://github.com/python-xlib/python-xlib
 https://github.com/asweigart/pyautogui
+
+TODO
+File "/media/ihor/WORK/Calculix/cae/src/gui/cgx.py", line 33, in read_fbd_file
+factory.connection.post('read ' + file_name)
+AttributeError: 'NoneType' object has no attribute 'post'
 """
 
 # Standard modules
@@ -38,7 +43,6 @@ if sys_path not in sys.path:
 import path
 import settings
 import tests
-import gui.cgx
 import gui.connection
 import log
 import gui.stdout
@@ -234,6 +238,9 @@ class Factory:
             self.connection.align_windows()
 
 
+factory = Factory()
+
+
 class MasterWindow(QtWidgets.QMainWindow):
     """Left window - main window of the app."""
 
@@ -318,14 +325,15 @@ def test():
     """Test sendkeys:
     keycodes sending to text editor and CGX.
     """
+    import gui.cgx
 
     # Create application
     app = QtWidgets.QApplication([])
 
     # Create master window
-    f = Factory()
+    global factory
     xml = os.path.join(path.p.config, 'sendkeys.xml')
-    f.run_master(xml)
+    factory.run_master(xml)
 
     # Map methods to GUI buttons
     if os.name == 'nt':
@@ -341,21 +349,21 @@ def test():
                 cmd1 = ''
                 msg = 'Neither gedit nor kate is available!'
                 logging.error(msg)
-                f.mw.b0.setDisabled(True)
-    f.mw.b0.clicked.connect(lambda: f.run_slave(cmd1))
-    f.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(f, settings.s.start_model, 1))
-    f.mw.b2.clicked.connect(lambda: f.connection.post('plot n all'))
-    f.mw.b3.clicked.connect(lambda: f.connection.post('plot e all'))
-    f.mw.b4.clicked.connect(lambda: f.connection.post(f.mw.customEdit.text()))
-    f.mw.b4.clicked.connect(lambda: f.mw.customEdit.clear())
+                factory.mw.b0.setDisabled(True)
+    factory.mw.b0.clicked.connect(lambda: factory.run_slave(cmd1))
+    factory.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(settings.s.start_model, 1))
+    factory.mw.b2.clicked.connect(lambda: factory.connection.post('plot n all'))
+    factory.mw.b3.clicked.connect(lambda: factory.connection.post('plot e all'))
+    factory.mw.b4.clicked.connect(lambda: factory.connection.post(factory.mw.customEdit.text()))
+    factory.mw.b4.clicked.connect(lambda: factory.mw.customEdit.clear())
     all_symbols = '!"#$%&\'()*+,-./1234567890:;<=>?@' \
         + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`' \
         + 'abcdefghijklmnopqrstuvwxyz{|}~'
-    f.mw.b5.clicked.connect(lambda: f.connection.post(all_symbols))
+    factory.mw.b5.clicked.connect(lambda: factory.connection.post(all_symbols))
 
     # Execute application + exit
     a = app.exec()
-    f.kill_slave()
+    factory.kill_slave()
 
 
 if __name__ == '__main__':

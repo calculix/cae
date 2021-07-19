@@ -6,7 +6,6 @@ Distributed under GNU General Public License v3.0
 
 Main window actions - all processed signals.
 
-f - Window factory
 w - Master window
 m - Model
 t - Tree
@@ -24,10 +23,11 @@ from PyQt5 import QtWidgets
 import path
 import settings
 import gui
+from gui.window import factory
 
 
-def actions(f, m, t, j, i):
-    w = f.mw
+def actions(m, t, j, i):
+    w = factory.mw
     w.keyPressEvent = t.keyPressEvent
 
     # File actions
@@ -50,15 +50,15 @@ def actions(f, m, t, j, i):
 
     # CGX actions
     w.action_cgx_paint_elsets.triggered.connect(
-        lambda: gui.cgx.paint_elsets(f, m))
+        lambda: gui.cgx.paint_elsets(m))
     w.action_cgx_paint_surfaces.triggered.connect(
-        lambda: gui.cgx.paint_surfaces(f, m))
-    w.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(f, j.inp, len(m.Mesh.nodes)))
-    w.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(f, j.frd))
-    w.action_cgx_cmap_classic.triggered.connect(lambda: gui.cgx.cmap(f, 'classic'))
-    w.action_cgx_cmap_inferno.triggered.connect(lambda: gui.cgx.cmap(f, 'inferno'))
-    w.action_cgx_cmap_turbo.triggered.connect(lambda: gui.cgx.cmap(f, 'turbo'))
-    w.action_cgx_cmap_viridis.triggered.connect(lambda: gui.cgx.cmap(f, 'viridis'))
+        lambda: gui.cgx.paint_surfaces(m))
+    w.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(j.inp, len(m.Mesh.nodes)))
+    w.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(j.frd))
+    w.action_cgx_cmap_classic.triggered.connect(lambda: gui.cgx.cmap('classic'))
+    w.action_cgx_cmap_inferno.triggered.connect(lambda: gui.cgx.cmap('inferno'))
+    w.action_cgx_cmap_turbo.triggered.connect(lambda: gui.cgx.cmap('turbo'))
+    w.action_cgx_cmap_viridis.triggered.connect(lambda: gui.cgx.cmap('viridis'))
 
     # Help actions
     w.action_help_readme.triggered.connect(
@@ -76,13 +76,13 @@ def actions(f, m, t, j, i):
     w.treeView.collapsed.connect(t.expanded_or_collapsed)
 
     # ToolBar actions
-    w.action_view_minus_x.triggered.connect(lambda: f.connection.post('rot -x'))
-    w.action_view_minus_y.triggered.connect(lambda: f.connection.post('rot -y'))
-    w.action_view_minus_z.triggered.connect(lambda: f.connection.post('rot -z'))
-    w.action_view_plus_x.triggered.connect(lambda: f.connection.post('rot x'))
-    w.action_view_plus_y.triggered.connect(lambda: f.connection.post('rot y'))
-    w.action_view_plus_z.triggered.connect(lambda: f.connection.post('rot z'))
-    w.action_view_frame.triggered.connect(lambda: f.connection.post('frame'))
+    w.action_view_minus_x.triggered.connect(lambda: factory.connection.post('rot -x'))
+    w.action_view_minus_y.triggered.connect(lambda: factory.connection.post('rot -y'))
+    w.action_view_minus_z.triggered.connect(lambda: factory.connection.post('rot -z'))
+    w.action_view_plus_x.triggered.connect(lambda: factory.connection.post('rot x'))
+    w.action_view_plus_y.triggered.connect(lambda: factory.connection.post('rot y'))
+    w.action_view_plus_z.triggered.connect(lambda: factory.connection.post('rot z'))
+    w.action_view_frame.triggered.connect(lambda: factory.connection.post('frame'))
 
     # Workaround for iso view
     # Three rotation posts to CGX window doesn't work in Windows
@@ -92,11 +92,11 @@ def actions(f, m, t, j, i):
         if not os.path.isfile(file_name):
             logging.error('No config file cgx_iso.fbd')
             return
-        f.connection.post('read ' + file_name)
+        factory.connection.post('read ' + file_name)
     w.action_view_iso.triggered.connect(action_view_iso)
-    w.action_view_line.triggered.connect(lambda: f.connection.post('view elem off'))
-    w.action_view_line.triggered.connect(lambda: f.connection.post('view line'))
-    w.action_view_fill.triggered.connect(lambda: f.connection.post('view elem off'))
-    w.action_view_fill.triggered.connect(lambda: f.connection.post('view fill'))
-    w.action_view_elem.triggered.connect(lambda: f.connection.post('view fill'))
-    w.action_view_elem.triggered.connect(lambda: f.connection.post('view elem'))
+    w.action_view_line.triggered.connect(lambda: factory.connection.post('view elem off'))
+    w.action_view_line.triggered.connect(lambda: factory.connection.post('view line'))
+    w.action_view_fill.triggered.connect(lambda: factory.connection.post('view elem off'))
+    w.action_view_fill.triggered.connect(lambda: factory.connection.post('view fill'))
+    w.action_view_elem.triggered.connect(lambda: factory.connection.post('view fill'))
+    w.action_view_elem.triggered.connect(lambda: factory.connection.post('view elem'))

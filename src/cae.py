@@ -37,7 +37,7 @@ from PyQt5 import QtWidgets, QtWebEngineWidgets
 # My modules
 import path
 import settings
-import gui.window
+from gui.window import factory
 import gui.job
 import model
 import tree
@@ -71,16 +71,15 @@ parser.add_argument('-inp', type=str,
 args = parser.parse_args()
 
 # Show main window with text logging handler
-f = gui.window.Factory()
-f.run_master(path.p.main_xml)
+factory.run_master(path.p.main_xml)
 
 # Main block
 # TODO Do not create inctances here - do it in appropriate modules
 m = model.Model() # generate FEM model
-t = tree.Tree(f, m) # create treeView items based on KOM
-j = gui.job.Job(f, m) # create job object with file logging handler
-i = importer.Importer(f, m, t, j) # prepare to import model
-actions.actions(f, m, t, j, i) # window actions
+t = tree.Tree(m) # create treeView items based on KOM
+j = gui.job.Job(m) # create job object with file logging handler
+i = importer.Importer(m, t, j) # prepare to import model
+actions.actions(m, t, j, i) # window actions
 
 # Import default model
 if len(args.inp):
@@ -100,7 +99,7 @@ logging.info('Started in {:.1f} seconds.\n'
 app.exec()
 
 # Kill CGX after CAE exit
-f.kill_slave()
+factory.kill_slave()
 
 # Recursively clean cached files in all subfolders
 clean.cache(path.p.src)

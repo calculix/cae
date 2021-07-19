@@ -71,14 +71,13 @@ thread_counter = 0
 
 class Job:
 
-    def __init__(self, f, m, file_name=settings.s.start_model):
+    def __init__(self, m, file_name=settings.s.start_model):
         """Create job object.
         Is called twice on startup:
         first call - from cae.py,
         second - from importer.py.
         TODO Fix it
         """
-        self.f = f
         self.m = m
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
         self.name = os.path.basename(file_name) # INP file name
@@ -146,11 +145,11 @@ class Job:
             with open(file_name, 'w') as f:
                 f.writelines(lines)
             logging.info('Input written to\n' + file_name)
-            self.__init__(self.f, self.m, file_name)
+            self.__init__(self.m, file_name)
 
             # Reopen CGX
             has_nodes = len(self.m.Mesh.nodes)
-            gui.cgx.open_inp(self.f, self.inp, has_nodes)
+            gui.cgx.open_inp(self.inp, has_nodes)
 
     def open_inp(self):
         """Open INP file in external text editor."""

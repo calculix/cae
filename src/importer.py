@@ -17,6 +17,9 @@ w - Window
 m - Model
 t - Tree
 j - Job
+
+TODO
+Only file list is logged. No importer messages.
 """
 
 # Standard modules
@@ -33,6 +36,7 @@ import settings
 import model
 import gui.cgx
 import gui.stdout
+from gui.window import factory
 import log
 import tests
 
@@ -68,12 +72,8 @@ class Block:
 
 class Importer:
 
-    def __init__(self, f, m, t, j):
-        self.f = f # window factory
-        if f is not None:
-            self.w = f.mw # master window
-        else:
-            self.w = None
+    def __init__(self, m, t, j):
+        self.w = factory.mw # master window
         self.m = m # model
         self.t = t # tree
         self.j = j # job
@@ -164,8 +164,7 @@ class Importer:
             # Rename job before tree regeneration
             # A new logger handler is created here
             # TODO Do not call job __init__ twice
-            self.j.__init__(self.f,
-                self.m, file_name[:-4] + '.inp')
+            self.j.__init__(self.m, file_name[:-4] + '.inp')
 
             gui.stdout.stop_readers()
 
@@ -208,7 +207,7 @@ class Importer:
                 return
 
             has_nodes = len(self.m.Mesh.nodes)
-            gui.cgx.open_inp(self.f, self.j.inp, has_nodes)
+            gui.cgx.open_inp(self.j.inp, has_nodes)
 
 
 def read_lines(INP_file):
@@ -265,7 +264,7 @@ def test():
         m.KOM = model.kom.KOM(kom_xml='../config/kom.xml')
 
         # Parse inp_doc end enrich existing KOM
-        i = Importer(None, None, m, None, None)
+        i = Importer(m, None, None)
         inp_doc = read_lines(file_name)
         i.split_on_blocks(inp_doc) # fill keyword_blocks
         i.import_inp()

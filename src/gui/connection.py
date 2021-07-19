@@ -106,9 +106,12 @@ class WindowConnection:
 
     def __init__(self, mw, sw):
         self.opened_windows = [] # list of WindowInfo objects
+        self.w = 800
+        self.h = 600
         screen = QtWidgets.QApplication.primaryScreen()
-        self.w = screen.availableSize().width()
-        self.h = screen.availableSize().height()
+        if screen is not None:
+            self.w = screen.availableSize().width()
+            self.h = screen.availableSize().height()
 
         if mw is None or sw is None:
             return

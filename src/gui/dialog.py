@@ -37,7 +37,6 @@ import tests
 import path
 import settings
 import gui
-import gui.window
 from model.kom import ItemType, KOM
 
 
@@ -301,14 +300,14 @@ class KeywordDialog(QtWidgets.QDialog):
 def test():
     """Run dialog as MasterWindow. Start webbrowser from it."""
     app = QtWidgets.QApplication(sys.argv)
-    f = gui.window.Factory()
     logging.disable() # switch off logging
     k = KOM()
     logging.disable(logging.NOTSET) # switch on logging
     i = k.get_keyword_by_name('*NODE')
 
     # Create and show dialog window
-    d = f.run_master_dialog(k, i) # 0 = cancel, 1 = ok
+    from gui.window import factory
+    d = factory.run_master_dialog(k, i) # 0 = cancel, 1 = ok
     print(d)
 
 
