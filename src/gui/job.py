@@ -114,6 +114,24 @@ class Job:
         # self.run(cmd)
         unv2ccx.Converter(self.path + '.unv').run()
 
+    def monitor_status(self):
+        """Open .sta file in external text editor."""
+        # TODO Run as thread
+        if os.path.isfile(settings.s.path_editor):
+            if os.path.isfile(self.sta):
+                command = [settings.s.path_editor, self.sta]
+                subprocess.Popen(command)
+            else:
+                logging.error('File not found:\n' \
+                    + self.sta \
+                    + '\nSubmit analysis first.')
+        else:
+            logging.error('Wrong path to text editor:\n' \
+                + settings.s.path_editor \
+                + '\nConfigure it in File->Settings.')
+
+    """Menu Job."""
+
     def write_input(self, lines):
         """Write the whole model inp_code into the output .inp-file.
         Is called from menu 'Job -> Write input'.
@@ -134,7 +152,7 @@ class Job:
             has_nodes = len(self.m.Mesh.nodes)
             gui.cgx.open_inp(self.f, self.inp, has_nodes)
 
-    def edit_inp(self):
+    def open_inp(self):
         """Open INP file in external text editor."""
         if os.path.isfile(settings.s.path_editor):
             if os.path.isfile(self.inp):
@@ -228,22 +246,6 @@ class Job:
             logging.error('File not found:\n' \
                 + self.inp \
                 + '\nWrite input first.')
-
-    def monitor_status(self):
-        """Open .sta file in external text editor."""
-        # TODO Run as thread
-        if os.path.isfile(settings.s.path_editor):
-            if os.path.isfile(self.sta):
-                command = [settings.s.path_editor, self.sta]
-                subprocess.Popen(command)
-            else:
-                logging.error('File not found:\n' \
-                    + self.sta \
-                    + '\nSubmit analysis first.')
-        else:
-            logging.error('Wrong path to text editor:\n' \
-                + settings.s.path_editor \
-                + '\nConfigure it in File->Settings.')
 
     def view_log(self):
         """Open log file in external text editor."""

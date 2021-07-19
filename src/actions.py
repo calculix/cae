@@ -40,7 +40,7 @@ def actions(f, m, t, j, i):
         lambda: j.write_input(m.KOM.get_inp_code_as_lines()))
     w.action_job_write_input.triggered.connect(
         lambda: w.setWindowTitle('CalculiX Advanced Environment - ' + j.name))
-    w.action_job_edit_inp.triggered.connect(lambda: j.edit_inp())
+    w.action_job_edit_inp.triggered.connect(lambda: j.open_inp())
     w.action_job_subroutine.triggered.connect(lambda: j.open_subroutine())
     w.action_job_rebuild_ccx.triggered.connect(lambda: j.rebuild_ccx())
     w.action_job_submit.triggered.connect(lambda: j.submit())

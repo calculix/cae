@@ -4,9 +4,10 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Methods for GraphiX window.
+The module represents CGX menu.
+It contains functions for CalculiX GraphiX window.
 
-NOTE paint_elsets_old() not used.
+NOTE paint_elsets_old() is not used.
 """
 
 # Standard modules
@@ -25,6 +26,14 @@ if sys_path not in sys.path:
 import path
 
 
+def read_fbd_file(f, basename):
+    file_name = os.path.join(path.p.config, basename)
+    if os.path.isfile(file_name):
+        f.connection.post('read ' + file_name)
+    else:
+        logging.error('No config file ' + basename)
+
+
 def paint_elsets_old(f, elsets):
     """Paint element sets in default CGX colors."""
     colors = 'rgbymntk'
@@ -37,6 +46,9 @@ def paint_elsets_old(f, elsets):
         for elset in elsets:
             f.connection.post('plus e {} {}'.format(elset, colors[i]))
             i = (i + 1) % len(colors)
+
+
+"""Menu CGX."""
 
 
 def paint_elsets(f, m):
@@ -73,15 +85,6 @@ def paint_surfaces(f, m):
             continue
         f.connection.post('plus f {} pink{}'.format(surf, i))
         i = (i + 1) % 5
-
-
-def cmap(f, colormap):
-    """Set custom colormap when FRD is opened."""
-    if not (path.p.path_cgx + ' -o ') in f.sw.cmd:
-        msg = 'Please, open FRD model to set colormap.'
-        logging.warning(msg)
-        return
-    f.connection.post('cmap ' + colormap)
 
 
 def open_inp(f, inp_file, has_nodes=0):
@@ -121,9 +124,10 @@ def open_frd(f, frd_file):
             + '\nSubmit analysis first.')
 
 
-def read_fbd_file(f, basename):
-    file_name = os.path.join(path.p.config, basename)
-    if os.path.isfile(file_name):
-        f.connection.post('read ' + file_name)
-    else:
-        logging.error('No config file ' + basename)
+def cmap(f, colormap):
+    """Set custom colormap when FRD is opened."""
+    if not (path.p.path_cgx + ' -o ') in f.sw.cmd:
+        msg = 'Please, open FRD model to set colormap.'
+        logging.warning(msg)
+        return
+    f.connection.post('cmap ' + colormap)

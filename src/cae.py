@@ -75,6 +75,7 @@ f = gui.window.Factory()
 f.run_master(path.p.main_xml)
 
 # Main block
+# TODO Do not create inctances here - do it in appropriate modules
 m = model.Model() # generate FEM model
 t = tree.Tree(f, m) # create treeView items based on KOM
 j = gui.job.Job(f, m) # create job object with file logging handler
