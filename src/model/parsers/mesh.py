@@ -16,13 +16,15 @@ ifile - path to input file
 icode - piece of input code
 blocks - keyword blocks
 old - mesh to be reparsed
+
+TODO
+Only file list is logged. No parser messages.
 """
 
 # Standard modules
 import os
 import re
 import sys
-import time
 import logging
 import textwrap
 import traceback

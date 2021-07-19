@@ -13,8 +13,6 @@ File importer:
 We can get here via menu File -> Import
 or directly after application start.
 
-w - Window
-m - Model
 t - Tree
 j - Job
 
@@ -33,12 +31,13 @@ from PyQt5 import QtWidgets
 
 # My modules
 import settings
-import model
 import gui.cgx
 import gui.stdout
 from gui.window import factory
 import log
 import tests
+from model import m
+import model.kom
 
 
 class Block:
@@ -72,9 +71,8 @@ class Block:
 
 class Importer:
 
-    def __init__(self, m, t, j):
+    def __init__(self, t, j):
         self.w = factory.mw # master window
-        self.m = m # model
         self.t = t # tree
         self.j = j # job
         self.keyword_blocks = []
@@ -126,7 +124,7 @@ class Importer:
 
     def import_inp(self):
         """Create keyword implementations."""
-        parent = self.m.KOM.root
+        parent = m.KOM.root
         messages = []
 
         for kwb in self.keyword_blocks:
@@ -134,13 +132,13 @@ class Importer:
             # Create implementations (for example, MATERIAL-1)
             kw = None
             while kw is None and parent is not None: # root has None parent
-                kw = self.m.KOM.get_top_keyword_by_name(parent, kwb.keyword_name)
+                kw = m.KOM.get_top_keyword_by_name(parent, kwb.keyword_name)
                 if kw is not None:
                     parent = model.kom.Implementation(kw, kwb.get_inp_code())
                 else:
                     parent = parent.parent
             if kw is None:
-                parent = self.m.KOM.root
+                parent = m.KOM.root
                 msg = 'Misplaced or wrong keyword {}.'\
                     .format(kwb.keyword_name)
                 if msg not in messages:
@@ -164,7 +162,7 @@ class Importer:
             # Rename job before tree regeneration
             # A new logger handler is created here
             # TODO Do not call job __init__ twice
-            self.j.__init__(self.m, file_name[:-4] + '.inp')
+            self.j.__init__(file_name[:-4] + '.inp')
 
             gui.stdout.stop_readers()
 
@@ -180,7 +178,7 @@ class Importer:
                 + self.j.name)
 
             # Generate new KOM without implementations
-            self.m.KOM = model.kom.KOM()
+            m.KOM = model.kom.KOM()
 
             # Get INP code and split it on blocks
             logging.info('Loading model\n{}'.format(self.j.inp))
@@ -191,27 +189,28 @@ class Importer:
             self.import_inp()
 
             # Add parsed implementations to the tree
-            self.t.generateTreeView(self.m)
+            self.t.generateTreeView()
 
             # Parse mesh
-            self.m.Mesh = model.parsers.mesh.Mesh(blocks=self.keyword_blocks)
+            from model.parsers import mesh
+            m.Mesh = mesh.Mesh(blocks=self.keyword_blocks)
 
             # Open a new non-empty model in CGX
             if not settings.s.start_cgx_by_default:
                 msg = '"Settings -> Start CGX by default" is unchecked.'
                 logging.warning(msg)
                 return
-            if not len(self.m.Mesh.nodes):
+            if not len(m.Mesh.nodes):
                 msg = 'Empty mesh, CGX will not start!'
                 logging.warning(msg)
                 return
 
-            has_nodes = len(self.m.Mesh.nodes)
+            has_nodes = len(m.Mesh.nodes)
             gui.cgx.open_inp(self.j.inp, has_nodes)
 
 
 def read_lines(INP_file):
-    """Recurcively reads all the file lines and its includes.
+    """Recurcively reads all the INP file lines and its includes.
     Does not omit comments and empty lines.
     """
     INP_file = os.path.abspath(INP_file)
@@ -239,7 +238,6 @@ def read_lines(INP_file):
 @tests.test_wrapper()
 def test():
     """Test importer on all CalculiX examples."""
-    m = model.Model() # generate FEM model
 
     # Prepare logging
     log_file = __file__[:-3] + '.log'
@@ -264,7 +262,7 @@ def test():
         m.KOM = model.kom.KOM(kom_xml='../config/kom.xml')
 
         # Parse inp_doc end enrich existing KOM
-        i = Importer(m, None, None)
+        i = Importer(None, None)
         inp_doc = read_lines(file_name)
         i.split_on_blocks(inp_doc) # fill keyword_blocks
         i.import_inp()

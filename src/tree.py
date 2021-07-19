@@ -17,22 +17,18 @@ import logging
 from PyQt5 import QtWidgets, QtCore, QtGui, QtWebEngineWidgets
 
 # My modules
-import gui
 import path
 import settings
 import model
 from gui.window import factory
 from model.kom import ItemType, Implementation
 import tests
+from model import m
 
 
 class Tree:
-    """
-    m - Model
-    """
 
-    def __init__(self, m):
-        self.m = m
+    def __init__(self):
         self.model = QtGui.QStandardItemModel()
         factory.mw.treeView.setModel(self.model)
 
@@ -43,11 +39,11 @@ class Tree:
         if e.key() == QtCore.Qt.Key_Delete:
             self.actionDeleteImplementation()
 
-    def generateTreeView(self, m):
+    def generateTreeView(self):
         """Recursively generate treeView widget items based on KOM."""
         self.model.clear() # remove all items and data from tree
         parent_element = self.model.invisibleRootItem() # top element in QTreeView
-        self.addToTree(parent_element, self.m.KOM.root.items) # pass top level groups
+        self.addToTree(parent_element, m.KOM.root.items) # pass top level groups
 
     def addToTree(self, parent_element, items):
         """Used with generateTreeView() - implements recursion."""
@@ -122,7 +118,7 @@ class Tree:
 
         # Exec dialog and recieve answer
         # Process response from dialog window if user pressed 'OK'
-        if factory.run_master_dialog(self.m.KOM, item): # 0 = cancel, 1 = ok
+        if factory.run_master_dialog(m.KOM, item): # 0 = cancel, 1 = ok
 
             # The generated piece of .inp code for the CalculiX input file
             inp_code = factory.mw.ok() # list of strings
@@ -136,10 +132,10 @@ class Tree:
                 self.addToTree(tree_element, item.get_implementations()) # add only implementations
 
                 # Reparse mesh or constraints
-                # self.m.Mesh.reparse(inp_code)
-                reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=self.m.Mesh)
-                if self.m.Mesh is not None:
-                    self.m.Mesh.updateWith(reparsed)
+                # m.Mesh.reparse(inp_code)
+                reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=m.Mesh)
+                if m.Mesh is not None:
+                    m.Mesh.updateWith(reparsed)
                 self.clicked() # rehighlight
 
             # Replace implementation object with a new one
@@ -154,8 +150,8 @@ class Tree:
                 tree_element.setData(impl)
 
                 # Reparse mesh or constraints
-                reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=self.m.Mesh)
-                self.m.Mesh.updateWith(reparsed)
+                reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=m.Mesh)
+                m.Mesh.updateWith(reparsed)
                 self.clicked() # rehighlight
 
     def clicked(self):
@@ -190,14 +186,14 @@ class Tree:
                 match = re.search('NSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
                 if match: # if there is NSET attribute
                     name = lead_line[match.start(1):match.end(1)] # node set name
-                    if name in self.m.Mesh.nsets:
+                    if name in m.Mesh.nsets:
                         factory.connection.post('plot n ' + name)
 
             elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
                 match = re.search('ELSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
                 if match: # if there is ELSET attribute
                     name = lead_line[match.start(1):match.end(1)] # element set name
-                    if name in self.m.Mesh.elsets:
+                    if name in m.Mesh.elsets:
                         factory.connection.post('plot e ' + name)
 
             elif ipn_up == '*SURFACE':
@@ -225,7 +221,7 @@ class Tree:
                         _set.append(int(n))
                     except ValueError as err:
                         # Nodes in node set
-                        _set.extend([n.num for n in self.m.Mesh.nsets[n].items])
+                        _set.extend([n.num for n in m.Mesh.nsets[n].items])
                         pass
                 # factory.mw.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
 
@@ -286,7 +282,7 @@ class Tree:
         """Show/Hide empty treeView items."""
         settings.s.show_empty_keywords = not(settings.s.show_empty_keywords)
         settings.s.save() # save 'show_empty_keywords' value in settings
-        self.generateTreeView(self.m)
+        self.generateTreeView()
 
     def action_collapse_expand_all(self):
         """Expand or collapse all treeView items."""
@@ -361,11 +357,8 @@ def test():
     # Show main window
     factory.run_master()
 
-    # Generate FEM model
-    m = model.Model()
-
     # Create treeView items based on KOM
-    t = Tree(m)
+    t = Tree()
 
     # Actions
     factory.mw.treeView.doubleClicked.connect(t.doubleClicked)
@@ -375,9 +368,9 @@ def test():
     factory.mw.treeView.collapsed.connect(t.expanded_or_collapsed)
 
     logging.disable() # switch off logging
-    m.KOM = model.kom.KOM()
+    # m.KOM = model.kom.KOM()
     logging.disable(logging.NOTSET) # switch on logging
-    t.generateTreeView(m)
+    t.generateTreeView()
 
     # Execute application
     app.exec()

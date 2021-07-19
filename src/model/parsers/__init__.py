@@ -7,4 +7,4 @@ Distributed under GNU General Public License v3.0
 INP file parses.
 """
 
-from . import mesh
+# from . import mesh

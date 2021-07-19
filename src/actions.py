@@ -7,7 +7,6 @@ Distributed under GNU General Public License v3.0
 Main window actions - all processed signals.
 
 w - Master window
-m - Model
 t - Tree
 j - Job
 """
@@ -24,9 +23,10 @@ import path
 import settings
 import gui
 from gui.window import factory
+from model import m
 
 
-def actions(m, t, j, i):
+def actions(t, j, i):
     w = factory.mw
     w.keyPressEvent = t.keyPressEvent
 
@@ -50,9 +50,9 @@ def actions(m, t, j, i):
 
     # CGX actions
     w.action_cgx_paint_elsets.triggered.connect(
-        lambda: gui.cgx.paint_elsets(m))
+        lambda: gui.cgx.paint_elsets())
     w.action_cgx_paint_surfaces.triggered.connect(
-        lambda: gui.cgx.paint_surfaces(m))
+        lambda: gui.cgx.paint_surfaces())
     w.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(j.inp, len(m.Mesh.nodes)))
     w.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(j.frd))
     w.action_cgx_cmap_classic.triggered.connect(lambda: gui.cgx.cmap('classic'))

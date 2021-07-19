@@ -25,6 +25,7 @@ if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import path
 from gui.window import factory
+from model import m
 
 
 def read_fbd_file(basename):
@@ -52,7 +53,7 @@ def paint_elsets_old(elsets):
 """Menu CGX."""
 
 
-def paint_elsets(m):
+def paint_elsets():
     """Paint element sets in CGX when INP is opened."""
     if not (path.p.path_cgx + ' -c ') in factory.sw.cmd:
         msg = 'Please, open INP model to paint elsets.'
@@ -70,7 +71,7 @@ def paint_elsets(m):
         i = (i + 1) % 5
 
 
-def paint_surfaces(m):
+def paint_surfaces():
     """Paint surfaces in CGX when INP is opened."""
     if not (path.p.path_cgx + ' -c ') in factory.sw.cmd:
         msg = 'Please, open INP model to paint surfaces.'

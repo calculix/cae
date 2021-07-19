@@ -5,10 +5,11 @@
 Distributed under GNU General Public License v3.0
 
 Model unites KOM object and parsers.
+The FEM model definition will be here.
 See scheme on architecture.odp.
 """
 
-from . import parsers
+# from . import parsers
 from . import kom
 
 
@@ -17,9 +18,11 @@ class Model:
     def __init__(self):
 
         # Empty KOM w/o implementations
-        self.KOM = None
+        self.KOM = kom.KOM()
 
         # Variable names below should exactly represent KOM group names
         self.Mesh = None
         self.Interactions = None
         self.Constraints = None
+
+m = Model()

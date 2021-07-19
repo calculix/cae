@@ -24,12 +24,15 @@ logging.basicConfig(level=logging.NOTSET)
 # Run some important checks before start
 import checks
 checks.run_startup_checks()
+clean.screen()
 
 # Standard modules
 import os
 import sys
 import time
 import argparse
+
+start_time = time.perf_counter()
 
 # External modules
 from PyQt5 import QtWidgets, QtWebEngineWidgets
@@ -39,7 +42,6 @@ import path
 import settings
 from gui.window import factory
 import gui.job
-import model
 import tree
 import importer
 import actions
@@ -56,9 +58,6 @@ import actions
 # graphviz = GraphvizOutput(output_file='architecture.png')
 # with PyCallGraph(output=graphviz, config=config):
 
-clean.screen()
-start_time = time.perf_counter()
-
 # Create application
 app = QtWidgets.QApplication(sys.argv)
 
@@ -71,15 +70,15 @@ parser.add_argument('-inp', type=str,
 args = parser.parse_args()
 
 # Show main window with text logging handler
+# TODO Avoid terminal logs
 factory.run_master(path.p.main_xml)
 
 # Main block
 # TODO Do not create inctances here - do it in appropriate modules
-m = model.Model() # generate FEM model
-t = tree.Tree(m) # create treeView items based on KOM
-j = gui.job.Job(m) # create job object with file logging handler
-i = importer.Importer(m, t, j) # prepare to import model
-actions.actions(m, t, j, i) # window actions
+t = tree.Tree() # create treeView items based on KOM
+j = gui.job.Job() # create job object with file logging handler
+i = importer.Importer(t, j) # prepare to import model
+actions.actions(t, j, i) # window actions
 
 # Import default model
 if len(args.inp):
@@ -89,8 +88,8 @@ if len(args.inp):
 # Or start empty
 else:
     logging.warning('No default start model specified.')
-    m.KOM = model.kom.KOM()
-    t.generateTreeView(m)
+    # m.KOM = model.kom.KOM()
+    t.generateTreeView()
 
 logging.info('Started in {:.1f} seconds.\n'
     .format(time.perf_counter() - start_time))

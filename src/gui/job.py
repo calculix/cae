@@ -42,6 +42,7 @@ import gui.cgx
 import gui.stdout
 import log
 import tests
+from model import m
 
 
 def list_threads():
@@ -71,14 +72,13 @@ thread_counter = 0
 
 class Job:
 
-    def __init__(self, m, file_name=settings.s.start_model):
+    def __init__(self, file_name=settings.s.start_model):
         """Create job object.
         Is called twice on startup:
         first call - from cae.py,
         second - from importer.py.
         TODO Fix it
         """
-        self.m = m
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
         self.name = os.path.basename(file_name) # INP file name
         self.inp = os.path.abspath(file_name) # full path to INP file with extension
@@ -145,10 +145,10 @@ class Job:
             with open(file_name, 'w') as f:
                 f.writelines(lines)
             logging.info('Input written to\n' + file_name)
-            self.__init__(self.m, file_name)
+            self.__init__(file_name)
 
             # Reopen CGX
-            has_nodes = len(self.m.Mesh.nodes)
+            has_nodes = len(m.Mesh.nodes)
             gui.cgx.open_inp(self.inp, has_nodes)
 
     def open_inp(self):
@@ -342,7 +342,7 @@ def path2cygwin(path):
 
 @tests.test_wrapper()
 def test():
-    j = Job(None, None)
+    j = Job()
     j.view_log()
 
 
