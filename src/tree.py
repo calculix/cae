@@ -24,6 +24,7 @@ from gui.window import factory
 from model.kom import ItemType, Implementation
 import tests
 from model import m
+from model.kom import KOM
 
 
 class Tree:
@@ -43,7 +44,7 @@ class Tree:
         """Recursively generate treeView widget items based on KOM."""
         self.model.clear() # remove all items and data from tree
         parent_element = self.model.invisibleRootItem() # top element in QTreeView
-        self.addToTree(parent_element, m.KOM.root.items) # pass top level groups
+        self.addToTree(parent_element, KOM.root.items) # pass top level groups
 
     def addToTree(self, parent_element, items):
         """Used with generateTreeView() - implements recursion."""
@@ -118,7 +119,7 @@ class Tree:
 
         # Exec dialog and recieve answer
         # Process response from dialog window if user pressed 'OK'
-        if factory.run_master_dialog(m.KOM, item): # 0 = cancel, 1 = ok
+        if factory.run_master_dialog(KOM, item): # 0 = cancel, 1 = ok
 
             # The generated piece of .inp code for the CalculiX input file
             inp_code = factory.mw.ok() # list of strings
@@ -367,9 +368,6 @@ def test():
     factory.mw.treeView.expanded.connect(t.expanded_or_collapsed)
     factory.mw.treeView.collapsed.connect(t.expanded_or_collapsed)
 
-    logging.disable() # switch off logging
-    # m.KOM = model.kom.KOM()
-    logging.disable(logging.NOTSET) # switch on logging
     t.generateTreeView()
 
     # Execute application

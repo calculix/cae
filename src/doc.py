@@ -15,8 +15,8 @@ import re
 
 # My modules
 import path
-import model
 import tests
+from model.kom import KOM
 
 
 def save_html(doc_root, keyword_name, url):
@@ -59,7 +59,7 @@ def save_html(doc_root, keyword_name, url):
             f.write(html)
 
 
-def regenerate_documentation(KOM):
+def regenerate_documentation():
     """Regenerate all HTML help pages.
     Avoid spaces in html page names.
     """
@@ -71,7 +71,7 @@ def regenerate_documentation(KOM):
         print(keyword_name, url)
 
 
-def remove_html_trash(KOM):
+def remove_html_trash():
     """Deletes unneeded html files."""
     rm_list = ('ccx', 'footnode', 'index', 'node')
     for file_name in os.listdir(path.p.doc):
@@ -116,17 +116,14 @@ def remove_png_trash():
 
 def prepare_documentation():
     """Regenerate all html files and remove trash."""
-    KOM = model.kom.KOM()
-    regenerate_documentation(KOM)
-    remove_html_trash(KOM)
+    regenerate_documentation()
+    remove_html_trash()
     remove_png_trash()
 
 
 @tests.test_wrapper()
 def test():
     """Checks if HTML pages are generated for all keywords."""
-    KOM = model.kom.KOM()
-
     keywords = [re.sub(r'[ -]', '_', kw.name[1:]) for kw in KOM.keywords]
     keywords = sorted(set(keywords))
     # print(keywords)

@@ -24,6 +24,7 @@ import settings
 import gui
 from gui.window import factory
 from model import m
+from model.kom import KOM
 
 
 def actions(t, j, i):
@@ -37,7 +38,7 @@ def actions(t, j, i):
 
     # Job actions
     w.action_job_write_input.triggered.connect(
-        lambda: j.write_input(m.KOM.get_inp_code_as_lines()))
+        lambda: j.write_input(KOM.get_inp_code_as_lines()))
     w.action_job_write_input.triggered.connect(
         lambda: w.setWindowTitle('CalculiX Advanced Environment - ' + j.name))
     w.action_job_edit_inp.triggered.connect(lambda: j.open_inp())

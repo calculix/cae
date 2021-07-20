@@ -38,6 +38,7 @@ import log
 import tests
 from model import m
 import model.kom
+from model.kom import KOM
 
 
 class Block:
@@ -124,7 +125,7 @@ class Importer:
 
     def import_inp(self):
         """Create keyword implementations."""
-        parent = m.KOM.root
+        parent = KOM.root
         messages = []
 
         for kwb in self.keyword_blocks:
@@ -132,13 +133,13 @@ class Importer:
             # Create implementations (for example, MATERIAL-1)
             kw = None
             while kw is None and parent is not None: # root has None parent
-                kw = m.KOM.get_top_keyword_by_name(parent, kwb.keyword_name)
+                kw = KOM.get_top_keyword_by_name(parent, kwb.keyword_name)
                 if kw is not None:
                     parent = model.kom.Implementation(kw, kwb.get_inp_code())
                 else:
                     parent = parent.parent
             if kw is None:
-                parent = m.KOM.root
+                parent = KOM.root
                 msg = 'Misplaced or wrong keyword {}.'\
                     .format(kwb.keyword_name)
                 if msg not in messages:
@@ -178,7 +179,7 @@ class Importer:
                 + self.j.name)
 
             # Generate new KOM without implementations
-            m.KOM = model.kom.KOM()
+            KOM = model.kom.KeywordObjectModel()
 
             # Get INP code and split it on blocks
             logging.info('Loading model\n{}'.format(self.j.inp))
@@ -259,7 +260,7 @@ def test():
         log.print_to_file(log_file, '\n{} {}'.format(counter, relpath))
 
         # Build new clean/empty keyword object model
-        m.KOM = model.kom.KOM(kom_xml='../config/kom.xml')
+        KOM = model.kom.KeywordObjectModel()
 
         # Parse inp_doc end enrich existing KOM
         i = Importer(None, None)

@@ -36,18 +36,17 @@ if sys_path not in sys.path:
 import tests
 import path
 import settings
-import gui
+import gui.window
 from model.kom import ItemType, KOM
 
 
 class KeywordDialog(QtWidgets.QDialog):
 
     @gui.window.init_wrapper()
-    def __init__(self, args):
+    def __init__(self, item):
         """Load form and show the dialog."""
         self.info = None # WindowInfo will be set in @init_wrapper
-        KOM = args[0]
-        self.item = args[1] # needed to pass to other functions
+        self.item = item # needed to pass to other functions
         self.widgets = [] # list of created widgets
 
         # Load UI form - produces huge amount of redundant debug logs
@@ -300,14 +299,11 @@ class KeywordDialog(QtWidgets.QDialog):
 def test():
     """Run dialog as MasterWindow. Start webbrowser from it."""
     app = QtWidgets.QApplication(sys.argv)
-    logging.disable() # switch off logging
-    k = KOM()
-    logging.disable(logging.NOTSET) # switch on logging
-    i = k.get_keyword_by_name('*NODE')
+    i = KOM.get_keyword_by_name('*NODE')
 
     # Create and show dialog window
     from gui.window import factory
-    d = factory.run_master_dialog(k, i) # 0 = cancel, 1 = ok
+    d = factory.run_master_dialog(i) # 0 = cancel, 1 = ok
     print(d)
 
 

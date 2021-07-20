@@ -33,8 +33,8 @@ import settings
 import tests
 
 
-class KOM:
-    """Keyword Object Model."""
+class KeywordObjectModel:
+    """Implements a chierarchy of all CalculiX keywords."""
 
     def __init__(self, kom_xml=path.p.kom_xml):
         """Read CalculiX keywords hierarchy."""
@@ -46,7 +46,7 @@ class KOM:
         # 'Model' group from kom.xml
         self.root = Group()
 
-        # Parse keywords hierarchy and build KOM
+        # Parse keywords hierarchy and build Keyword Object Model
         try:
             t = ET.parse(kom_xml)
             self.build(t.getroot(), self.root)
@@ -101,7 +101,7 @@ class KOM:
 
     def get_inp_code_as_lines(self, parent=None, level=0):
         """Recursively get whole model inp_code as list of strings (lines).
-        Parent is KOM item, level defines code folding/padding.
+        Parent is item, level defines code folding/padding.
         """
         lines = []
         if not parent:
@@ -156,8 +156,7 @@ class KOM:
             path_downwards = path + ' -> ' + item.name
             path_upwards = ' -> '.join(item.get_path())
             if path_downwards != path_upwards:
-                all_the_same = False
-                msg = 'KOM is built with mistakes!\n{}\n{}'\
+                msg = 'Keyword object model is built with mistakes!\n{}\n{}'\
                     .format(path_downwards, path_upwards)
                 logging.error(msg)
                 return
@@ -340,6 +339,12 @@ class Implementation(Item):
             # logging.debug(' > '.join(self.get_path()))
 
 
+# Empty Keyword Object Model w/o implementations
+logging.disable() # switch off logging
+KOM = KeywordObjectModel()
+logging.disable(logging.NOTSET) # switch on logging
+
+
 @tests.test_wrapper()
 def test():
     """Test all CalculiX keywords."""
@@ -356,14 +361,14 @@ def test():
     # with PyCallGraph(output=graphviz, config=config):
 
     os.chdir(os.path.dirname(__file__))
-    k = KOM()
+    global KOM
 
     # Print all CalculiX keywords
-    for kw in k.keyword_names:
+    for kw in KOM.keyword_names:
         print(kw)
 
     # Test KOM
-    # k.test()
+    # KOM.test()
 
 
 if __name__ == '__main__':

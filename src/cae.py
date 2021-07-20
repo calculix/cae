@@ -88,7 +88,6 @@ if len(args.inp):
 # Or start empty
 else:
     logging.warning('No default start model specified.')
-    # m.KOM = model.kom.KOM()
     t.generateTreeView()
 
 logging.info('Started in {:.1f} seconds.\n'

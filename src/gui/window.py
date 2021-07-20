@@ -104,11 +104,10 @@ class Factory:
         """Draw window form described in xml UI file."""
         self.mw = MasterWindow(xml)
 
-    def run_master_dialog(self, k, i):
+    def run_master_dialog(self, i):
         """Generate dialog window and show it."""
-        args = [k, i]
         import gui.dialog
-        self.mw = gui.dialog.KeywordDialog(args) # one argument for init_wrapper()
+        self.mw = gui.dialog.KeywordDialog(i) # one argument for init_wrapper()
 
         # Actions
         self.mw.buttonBox.accepted.connect(self.mw.ok)
