@@ -40,11 +40,7 @@ from PyQt5 import QtWidgets, QtWebEngineWidgets
 # My modules
 import path
 import settings
-from gui.window import factory
 import gui.job
-import tree
-import importer
-import actions
 
 # # Draw apps architecture
 # from pycallgraph import PyCallGraph
@@ -71,14 +67,16 @@ args = parser.parse_args()
 
 # Show main window with text logging handler
 # TODO Avoid terminal logs
+from gui.window import factory
 factory.run_master(path.p.main_xml)
 
 # Main block
 # TODO Do not create inctances here - do it in appropriate modules
-t = tree.Tree() # create treeView items based on KOM
 j = gui.job.Job() # create job object with file logging handler
-i = importer.Importer(t, j) # prepare to import model
-actions.actions(t, j, i) # window actions
+import importer
+i = importer.Importer(j) # prepare to import model
+import actions
+actions.actions(j, i) # window actions
 
 # Import default model
 if len(args.inp):
@@ -88,6 +86,7 @@ if len(args.inp):
 # Or start empty
 else:
     logging.warning('No default start model specified.')
+    from tree import t
     t.generateTreeView()
 
 logging.info('Started in {:.1f} seconds.\n'

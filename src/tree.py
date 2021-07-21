@@ -346,6 +346,10 @@ class Tree:
             item.expanded = not item.expanded
 
 
+# Create treeView items based on Keyword Object Model
+t = Tree()
+
+
 @tests.test_wrapper()
 def test():
     """Start keyword editor and generate the tree."""

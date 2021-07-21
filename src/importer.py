@@ -13,7 +13,6 @@ File importer:
 We can get here via menu File -> Import
 or directly after application start.
 
-t - Tree
 j - Job
 
 TODO
@@ -39,6 +38,7 @@ import tests
 from model import m
 import model.kom
 from model.kom import KOM
+from tree import t
 
 
 class Block:
@@ -72,9 +72,8 @@ class Block:
 
 class Importer:
 
-    def __init__(self, t, j):
+    def __init__(self, j):
         self.w = factory.mw # master window
-        self.t = t # tree
         self.j = j # job
         self.keyword_blocks = []
 
@@ -190,7 +189,7 @@ class Importer:
             self.import_inp()
 
             # Add parsed implementations to the tree
-            self.t.generateTreeView()
+            t.generateTreeView()
 
             # Parse mesh
             from model.parsers import mesh
