@@ -31,7 +31,8 @@ class Tree:
 
     def __init__(self):
         self.model = QtGui.QStandardItemModel()
-        factory.mw.treeView.setModel(self.model)
+        if hasattr(factory.mw, 'treeView'):
+            factory.mw.treeView.setModel(self.model)
 
     def keyPressEvent(self, e):
         """Delete keyword implementation in the
@@ -119,7 +120,7 @@ class Tree:
 
         # Exec dialog and recieve answer
         # Process response from dialog window if user pressed 'OK'
-        if factory.run_master_dialog(KOM, item): # 0 = cancel, 1 = ok
+        if factory.run_master_dialog(item): # 0 = cancel, 1 = ok
 
             # The generated piece of .inp code for the CalculiX input file
             inp_code = factory.mw.ok() # list of strings
@@ -157,6 +158,9 @@ class Tree:
 
     def clicked(self):
         """Highlight node sets, element sets or surfaces."""
+        
+        if not hasattr(factory.mw, 'treeView'):
+            return
 
         # Debug for Ctrl+Click
         if not len(factory.mw.treeView.selectedIndexes()):
@@ -366,11 +370,12 @@ def test():
     t = Tree()
 
     # Actions
-    factory.mw.treeView.doubleClicked.connect(t.doubleClicked)
-    factory.mw.treeView.clicked.connect(t.clicked)
-    factory.mw.treeView.customContextMenuRequested.connect(t.rightClicked)
-    factory.mw.treeView.expanded.connect(t.expanded_or_collapsed)
-    factory.mw.treeView.collapsed.connect(t.expanded_or_collapsed)
+    if hasattr(factory.mw, 'treeView'):
+        factory.mw.treeView.doubleClicked.connect(t.doubleClicked)
+        factory.mw.treeView.clicked.connect(t.clicked)
+        factory.mw.treeView.customContextMenuRequested.connect(t.rightClicked)
+        factory.mw.treeView.expanded.connect(t.expanded_or_collapsed)
+        factory.mw.treeView.collapsed.connect(t.expanded_or_collapsed)
 
     t.generateTreeView()
 

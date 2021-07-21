@@ -167,6 +167,7 @@ class Factory:
 
     def kill_slave(self):
         """Kill all slave processes."""
+        # TODO Bug: when KeywordDialog is closed, CGX also closes
         if self.sw is None:
             return
         if self.sw.process is None:
@@ -216,7 +217,6 @@ class Factory:
             logging.debug(msg)
             self.sw.process = None
             self.sw.info = None
-
 
     def create_connection(self):
         """Connect master and slave windows and align them."""
