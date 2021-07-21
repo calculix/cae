@@ -13,8 +13,6 @@ File importer:
 We can get here via menu File -> Import
 or directly after application start.
 
-j - Job
-
 TODO
 Only file list is logged. No importer messages.
 """
@@ -38,7 +36,7 @@ import tests
 from model import m
 import model.kom
 from model.kom import KOM
-from tree import t
+from gui.job import j
 
 
 class Block:
@@ -72,9 +70,8 @@ class Block:
 
 class Importer:
 
-    def __init__(self, j):
+    def __init__(self):
         self.w = factory.mw # master window
-        self.j = j # job
         self.keyword_blocks = []
 
     def split_on_blocks(self, inp_doc):
@@ -89,10 +86,10 @@ class Importer:
 
                 # Comments before the block
                 comments = []
-                j = 0 # amount of comment lines
-                while i > j and inp_doc[i-j-1].startswith('**'):
-                    j += 1
-                    comments.insert(0, inp_doc[i-j])
+                counter = 0 # amount of comment lines
+                while i > counter and inp_doc[i-counter-1].startswith('**'):
+                    counter += 1
+                    comments.insert(0, inp_doc[i-counter])
 
                 # Lead line - a line(s) with keyword
                 lead_line = inp_doc[i].rstrip()
@@ -147,13 +144,13 @@ class Importer:
 
     def import_file(self, file_name):
         """Main method in the class"""
-        if file_name is None and \
-            (self.w is None or self.j is None):
-            raise SystemExit
+        if file_name is None and self.w is None:
+            msg = 'file_name and self.w are None.'
+            raise SystemExit(msg)
 
         if file_name is None:
             file_name = QtWidgets.QFileDialog.getOpenFileName(self.w, \
-                'Import INP/UNV file', self.j.dir, \
+                'Import INP/UNV file', j.dir, \
                 'INP (*.inp);;UNV (*.unv)')[0]
 
         if file_name is not None and len(file_name):
@@ -162,33 +159,34 @@ class Importer:
             # Rename job before tree regeneration
             # A new logger handler is created here
             # TODO Do not call job __init__ twice
-            self.j.__init__(file_name[:-4] + '.inp')
+            j.__init__(file_name[:-4] + '.inp')
 
             gui.stdout.stop_readers()
 
             # Convert UNV to INP
             if file_name.lower().endswith('.unv'):
-                self.j.convert_unv()
-                if not os.path.isfile(self.j.inp):
-                    logging.error('Can not convert\n' + self.j.unv)
+                j.convert_unv()
+                if not os.path.isfile(j.inp):
+                    logging.error('Can not convert\n' + j.unv)
                     return
 
             # Show model name in window title
-            self.w.setWindowTitle('CalculiX Advanced Environment - ' \
-                + self.j.name)
+            title = 'CalculiX Advanced Environment - ' + j.name
+            self.w.setWindowTitle(title)
 
             # Generate new KOM without implementations
             KOM = model.kom.KeywordObjectModel()
 
             # Get INP code and split it on blocks
-            logging.info('Loading model\n{}'.format(self.j.inp))
-            inp_doc = read_lines(self.j.inp)
+            logging.info('Loading model\n{}'.format(j.inp))
+            inp_doc = read_lines(j.inp)
             self.split_on_blocks(inp_doc) # fill keyword_blocks
 
             # Parse INP and enrich KOM with parsed objects
             self.import_inp()
 
             # Add parsed implementations to the tree
+            from tree import t
             t.generateTreeView()
 
             # Parse mesh
@@ -206,7 +204,7 @@ class Importer:
                 return
 
             has_nodes = len(m.Mesh.nodes)
-            gui.cgx.open_inp(self.j.inp, has_nodes)
+            gui.cgx.open_inp(j.inp, has_nodes)
 
 
 def read_lines(INP_file):
@@ -262,7 +260,7 @@ def test():
         KOM = model.kom.KeywordObjectModel()
 
         # Parse inp_doc end enrich existing KOM
-        i = Importer(None, None)
+        i = Importer()
         inp_doc = read_lines(file_name)
         i.split_on_blocks(inp_doc) # fill keyword_blocks
         i.import_inp()

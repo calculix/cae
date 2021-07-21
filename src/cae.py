@@ -72,11 +72,10 @@ factory.run_master(path.p.main_xml)
 
 # Main block
 # TODO Do not create inctances here - do it in appropriate modules
-j = gui.job.Job() # create job object with file logging handler
 import importer
-i = importer.Importer(j) # prepare to import model
+i = importer.Importer() # prepare to import model
 import actions
-actions.actions(j, i) # window actions
+actions.actions(i) # window actions
 
 # Import default model
 if len(args.inp):

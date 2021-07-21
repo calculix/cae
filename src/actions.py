@@ -7,7 +7,6 @@ Distributed under GNU General Public License v3.0
 Main window actions - all processed signals.
 
 w - Master window
-j - Job
 """
 
 # Standard modules
@@ -25,9 +24,10 @@ from gui.window import factory
 from model import m
 from model.kom import KOM
 from tree import t
+from gui.job import j
 
 
-def actions(j, i):
+def actions(i):
     w = factory.mw
     w.keyPressEvent = t.keyPressEvent
 

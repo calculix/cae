@@ -58,6 +58,8 @@ def copy_checks_log_contents_to(job_logfile):
     TODO Remove checks.log after.
     """
     checks_log = os.path.join(path.p.src, 'checks.log')
+    if not os.path.isfile(checks_log):
+        return
     lines = []
     with open(checks_log, 'r') as f:
         lines = f.readlines()
@@ -333,6 +335,10 @@ class Job:
             time.sleep(1)
 
 
+# Create job object with file logging handler
+j = Job()
+
+
 def path2cygwin(path):
     """Converts Windows path to Cygwin path."""
     return '/cygdrive/' + \
@@ -342,7 +348,7 @@ def path2cygwin(path):
 
 @tests.test_wrapper()
 def test():
-    j = Job()
+    global j
     j.view_log()
 
 
