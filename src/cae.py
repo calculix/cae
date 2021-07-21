@@ -14,6 +14,9 @@ python3 ./src/cae.py
 python3 ./src/cae.py -inp yourmodel.inp
 """
 
+import time
+start_time = time.perf_counter()
+
 import clean
 clean.screen()
 
@@ -26,21 +29,8 @@ import checks
 checks.run_startup_checks()
 clean.screen()
 
-# Standard modules
 import os
-import sys
-import time
-import argparse
-
-start_time = time.perf_counter()
-
-# External modules
 from PyQt5 import QtWidgets, QtWebEngineWidgets
-
-# My modules
-import path
-import settings
-import gui.job
 
 # # Draw apps architecture
 # from pycallgraph import PyCallGraph
@@ -55,26 +45,34 @@ import gui.job
 # with PyCallGraph(output=graphviz, config=config):
 
 # Create application
+import sys
 app = QtWidgets.QApplication(sys.argv)
 
-# Default start model (INP file)
-# could be chosen with command line parameter
+"""Default start model (INP file).
+Could be chosen with command line parameter.
+"""
+import argparse
+from settings import s
 parser = argparse.ArgumentParser()
 parser.add_argument('-inp', type=str,
     help='your .inp file',
-    default=settings.s.start_model)
+    default=s.start_model)
 args = parser.parse_args()
 
-# Show main window with text logging handler
-# TODO Avoid terminal logs
+"""Show main window.
+Text logging handler is created here.
+TODO Avoid terminal logs.
+"""
 from gui.window import factory
-factory.run_master(path.p.main_xml)
+from path import p
+factory.run_master(p.main_xml)
 
+# Assign main window actions
 import actions
 
 # Import default model
 if len(args.inp):
-    start_model = os.path.join(path.p.app_home_dir, args.inp)
+    start_model = os.path.join(p.app_home_dir, args.inp)
     from importer import i
     i.import_file(start_model)
 
@@ -94,4 +92,4 @@ app.exec()
 factory.kill_slave()
 
 # Recursively clean cached files in all subfolders
-clean.cache(path.p.src)
+clean.cache(p.src)

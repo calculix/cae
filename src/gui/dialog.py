@@ -17,10 +17,7 @@ So this dialog is a master, help webbrowser (if any) is a slave.
 # Standard modules
 import os
 import sys
-import re
-import math
 import logging
-import webbrowser
 
 # External modules
 from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtWebEngineWidgets
@@ -34,10 +31,10 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import tests
-import path
-import settings
-import gui.window
+from path import p
+from settings import s
 from model.kom import ItemType, KOM
+import gui.window
 
 
 class KeywordDialog(QtWidgets.QDialog):
@@ -52,14 +49,14 @@ class KeywordDialog(QtWidgets.QDialog):
         # Load UI form - produces huge amount of redundant debug logs
         logging.disable() # switch off logging
         super().__init__() # create dialog window
-        uic.loadUi(path.p.dialog_xml, self) # load empty dialog form
+        uic.loadUi(p.dialog_xml, self) # load empty dialog form
         logging.disable(logging.NOTSET) # switch on logging
 
         # Add window icon (different for each keyword)
         icon_name = self.item.name.replace('*', '') + '.png'
         icon_name = icon_name.replace(' ', '_')
         icon_name = icon_name.replace('-', '_')
-        icon_path = os.path.join(path.p.img, 'icon_' + icon_name.lower())
+        icon_path = os.path.join(p.img, 'icon_' + icon_name.lower())
         icon = QtGui.QIcon(icon_path)
         self.setWindowIcon(icon)
 
@@ -188,7 +185,7 @@ class KeywordDialog(QtWidgets.QDialog):
         self.doc.setSizePolicy(sizePolicy)
 
         self.url = self.get_help_url()
-        self.show_help = settings.s.show_help
+        self.show_help = s.show_help
         self.show()
 
     def change(self, event):
@@ -263,19 +260,21 @@ class KeywordDialog(QtWidgets.QDialog):
             keyword_name = self.item.parent.name[1:] # cut star
 
         # Avoid spaces and hyphens in html page names
+        import re
         html_page_name = re.sub(r'[ -]', '_', keyword_name)
-        url = os.path.join(path.p.doc, html_page_name + '.html')
+        url = os.path.join(p.doc, html_page_name + '.html')
         return url
 
     def show_hide_internal_help(self, click):
         """Show / Hide HTML help."""
         size = QtWidgets.QApplication.primaryScreen().availableSize()
+        import math
         w = math.floor(size.width() / 3)
         h = self.geometry().height()
         if click:
             self.show_help = not self.show_help
         else:
-            self.show_help = settings.s.show_help
+            self.show_help = s.show_help
 
         # To show or not to show
         if self.show_help:

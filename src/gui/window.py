@@ -26,8 +26,6 @@ import time
 import logging
 import subprocess
 import webbrowser
-import traceback
-from shutil import which
 
 # External modules
 from PyQt5 import QtWidgets, uic
@@ -40,12 +38,11 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-import path
-import settings
+from path import p
+from settings import s
+from gui import connection
+from gui import stdout
 import tests
-import gui.connection
-import log
-import gui.stdout
 
 
 def init_wrapper():
@@ -93,14 +90,14 @@ class Factory:
         self.sw = None # slave window
         args = [None, None]
         if os.name == 'nt':
-            wc1 = gui.connection.WindowConnectionWindows(*args)
-            wc2 = gui.connection.WindowConnectionWindows(*args)
+            wc1 = connection.WindowConnectionWindows(*args)
+            wc2 = connection.WindowConnectionWindows(*args)
         else:
-            wc1 = gui.connection.WindowConnectionLinux(*args)
-            wc2 = gui.connection.WindowConnectionLinux(*args)
+            wc1 = connection.WindowConnectionLinux(*args)
+            wc2 = connection.WindowConnectionLinux(*args)
         self.connection = None
 
-    def run_master(self, xml=path.p.main_xml):
+    def run_master(self, xml=p.main_xml):
         """Draw window form described in xml UI file."""
         self.mw = MasterWindow(xml)
 
@@ -114,10 +111,10 @@ class Factory:
         self.mw.buttonBox.button(QtWidgets.QDialogButtonBox.Reset).clicked.connect(self.mw.reset)
         self.mw.buttonBox.helpRequested.connect(self.open_help)
 
-        if settings.s.align_windows:
-            gui.connection.align_master(self.mw)
+        if s.align_windows:
+            connection.align_master(self.mw)
 
-        if settings.s.show_help:
+        if s.show_help:
             self.open_help(False)
         d = self.mw.exec()
         self.kill_slave()
@@ -125,12 +122,12 @@ class Factory:
 
     def open_help(self, click=True):
         """Open HTML help page in a default web browser."""
-        if settings.s.default_web_browser == 'internal':
+        if s.default_web_browser == 'internal':
             self.mw.show_hide_internal_help(click)
         else:
             if not os.path.isfile(self.mw.url):
                 msg = 'Help page does not exist:\n{}'.format(
-                    os.path.relpath(self.mw.url, start=path.p.app_home_dir))
+                    os.path.relpath(self.mw.url, start=p.app_home_dir))
                 logging.error(msg)
                 return
             logging.info('Going to\n' + self.mw.url)
@@ -150,7 +147,7 @@ class Factory:
         self.create_connection()
 
         # Start stdout reading and logging thread
-        if path.p.path_cgx in cmd and hasattr(self.mw, 'textEdit'):
+        if p.path_cgx in cmd and hasattr(self.mw, 'textEdit'):
             html = self.mw.textEdit.toHtml()
             self.mw.textEdit.clear()
             self.mw.textEdit.setHtml(html)
@@ -160,7 +157,7 @@ class Factory:
                 args = [self.sw.process.stdout,
                         'read_cgx_stdout',\
                         True, self.connection]
-                gui.stdout.start_cgx_reader(*args)
+                stdout.start_cgx_reader(*args)
             else:
                 msg = 'Window connection not established.'
                 logging.error(msg)
@@ -174,8 +171,8 @@ class Factory:
             return
         if self.connection is None:
             return
-        if path.p.path_cgx in self.sw.cmd:
-            gui.stdout.stop_readers()
+        if p.path_cgx in self.sw.cmd:
+            stdout.stop_readers()
 
         # First try to close window
         # TODO Test Alt+F4 in Linux
@@ -202,6 +199,7 @@ class Factory:
                 else:
                     self.sw.process.kill()
             except:
+                import traceback
                 logging.error(traceback.format_exc())
             time.sleep(0.1)
             count += 1
@@ -229,11 +227,11 @@ class Factory:
 
         args = [self.mw, self.sw]
         if os.name == 'nt':
-            self.connection = gui.connection.WindowConnectionWindows(*args)
+            self.connection = connection.WindowConnectionWindows(*args)
         else:
-            self.connection = gui.connection.WindowConnectionLinux(*args)
+            self.connection = connection.WindowConnectionLinux(*args)
 
-        if settings.s.align_windows:
+        if s.align_windows:
             self.connection.align_windows()
 
 
@@ -244,7 +242,7 @@ class MasterWindow(QtWidgets.QMainWindow):
     """Left window - main window of the app."""
 
     @init_wrapper()
-    def __init__(self, xml=path.p.main_xml):
+    def __init__(self, xml=p.main_xml):
         """Load form and show the window."""
         self.info = None # WindowInfo will be set in @init_wrapper
 
@@ -256,6 +254,7 @@ class MasterWindow(QtWidgets.QMainWindow):
 
         # Handler to show logs in the CAE textEdit
         if hasattr(self, 'textEdit'): # skip for test()
+            import log
             log.add_text_handler(self.textEdit)
 
         self.show()
@@ -290,9 +289,9 @@ def get_opened_windows():
     """Snapshot window list."""
     args = [None, None]
     if os.name == 'posix':
-        wc = gui.connection.WindowConnectionLinux(*args)
+        wc = connection.WindowConnectionLinux(*args)
     elif os.name == 'nt':
-        wc = gui.connection.WindowConnectionWindows(*args)
+        wc = connection.WindowConnectionWindows(*args)
     else:
         logging.error('Unsupported OS.')
         raise SystemExit
@@ -331,7 +330,7 @@ def test():
 
     # Create master window
     global factory
-    xml = os.path.join(path.p.config, 'sendkeys.xml')
+    xml = os.path.join(p.config, 'sendkeys.xml')
     factory.run_master(xml)
 
     # Map methods to GUI buttons
@@ -339,6 +338,7 @@ def test():
         cmd1 = 'notepad.exe'
         # title1 = 'Untitled - Notepad'
     else:
+        from shutil import which
         cmd1 = 'gedit'
         # title1 = 'Untitled Document 1 - gedit'
         if which(cmd1) is None:
@@ -350,7 +350,7 @@ def test():
                 logging.error(msg)
                 factory.mw.b0.setDisabled(True)
     factory.mw.b0.clicked.connect(lambda: factory.run_slave(cmd1))
-    factory.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(settings.s.start_model, 1))
+    factory.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(s.start_model, 1))
     factory.mw.b2.clicked.connect(lambda: factory.connection.post('plot n all'))
     factory.mw.b3.clicked.connect(lambda: factory.connection.post('plot e all'))
     factory.mw.b4.clicked.connect(lambda: factory.connection.post(factory.mw.customEdit.text()))

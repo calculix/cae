@@ -23,13 +23,13 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-import path
+from path import p
 from gui.window import factory
 from model import m
 
 
 def read_fbd_file(basename):
-    file_name = os.path.join(path.p.config, basename)
+    file_name = os.path.join(p.config, basename)
     if os.path.isfile(file_name):
         factory.connection.post('read ' + file_name)
     else:
@@ -55,7 +55,7 @@ def paint_elsets_old(elsets):
 
 def paint_elsets():
     """Paint element sets in CGX when INP is opened."""
-    if not (path.p.path_cgx + ' -c ') in factory.sw.cmd:
+    if not (p.path_cgx + ' -c ') in factory.sw.cmd:
         msg = 'Please, open INP model to paint elsets.'
         logging.warning(msg)
         return
@@ -73,7 +73,7 @@ def paint_elsets():
 
 def paint_surfaces():
     """Paint surfaces in CGX when INP is opened."""
-    if not (path.p.path_cgx + ' -c ') in factory.sw.cmd:
+    if not (p.path_cgx + ' -c ') in factory.sw.cmd:
         msg = 'Please, open INP model to paint surfaces.'
         logging.warning(msg)
         return
@@ -91,8 +91,8 @@ def paint_surfaces():
 
 def open_inp(inp_file, has_nodes=0):
     """Open INP model in GraphiX."""
-    if not os.path.isfile(path.p.path_cgx):
-        logging.error('CGX not found in ' + path.p.path_cgx)
+    if not os.path.isfile(p.path_cgx):
+        logging.error('CGX not found in ' + p.path_cgx)
         raise SystemExit # the best way to exit
 
     if os.path.isfile(inp_file):
@@ -100,7 +100,7 @@ def open_inp(inp_file, has_nodes=0):
         if not has_nodes:
             logging.warning('Empty mesh, CGX will not start!')
             return
-        cmd = path.p.path_cgx + ' -c ' + inp_file
+        cmd = p.path_cgx + ' -c ' + inp_file
         factory.run_slave(cmd)
         read_fbd_file('cgx_start.fbd')
         read_fbd_file('cgx_iso.fbd')
@@ -111,12 +111,12 @@ def open_inp(inp_file, has_nodes=0):
 
 def open_frd(frd_file):
     """Open FRD results in GraphiX."""
-    if not os.path.isfile(path.p.path_cgx):
-        logging.error('CGX not found in ' + path.p.path_cgx)
+    if not os.path.isfile(p.path_cgx):
+        logging.error('CGX not found in ' + p.path_cgx)
         raise SystemExit # the best way to exit
 
     if os.path.isfile(frd_file):
-        cmd = path.p.path_cgx + ' -o ' + frd_file
+        cmd = p.path_cgx + ' -o ' + frd_file
         factory.run_slave(cmd)
         read_fbd_file('cgx_start.fbd')
         read_fbd_file('cgx_iso.fbd')
@@ -128,7 +128,7 @@ def open_frd(frd_file):
 
 def cmap(colormap):
     """Set custom colormap when FRD is opened."""
-    if not (path.p.path_cgx + ' -o ') in factory.sw.cmd:
+    if not (p.path_cgx + ' -o ') in factory.sw.cmd:
         msg = 'Please, open FRD model to set colormap.'
         logging.warning(msg)
         return

@@ -14,7 +14,6 @@ Log file has the same name as a model.
 import os
 import sys
 import logging
-import inspect
 
 # External modules
 from PyQt5 import QtGui, QtWidgets
@@ -27,9 +26,8 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-import path
+from settings import s
 import tests
-import settings
 
 mh = 'MyHandler'
 mtlh = 'MyTextLoggingHandler'
@@ -38,7 +36,7 @@ mslh = 'MyStreamLoggingHandler'
 fmt = logging.Formatter('%(levelname)s: %(message)s')
 
 
-# def initialize_logging(level=settings.s.logging_level):
+# def initialize_logging(level=s.logging_level):
 #     global fmt
 #     logging.basicConfig(level=level, format=fmt._fmt)
 
@@ -180,10 +178,11 @@ def remove_handler_by_name(name):
             hh.remove(h)
 
 
-def add_my_handler(level=settings.s.logging_level):
+def add_my_handler(level=s.logging_level):
     """Handler to emit messages via print_to_file().
     Combination of file and stream handlers.
     """
+    import inspect
     caller = os.path.realpath(inspect.stack()[1][1])
     log_file = caller[:-3] + '.log'
     h = myHandler(log_file)
@@ -197,7 +196,7 @@ def remove_my_handler():
     remove_handler_by_name(mh)
 
 
-def add_text_handler(textEdit, level=settings.s.logging_level):
+def add_text_handler(textEdit, level=s.logging_level):
     """Handler to show logs in master window textEdit."""
     h = MyTextLoggingHandler(textEdit)
     h.set_name(mtlh)
@@ -210,7 +209,7 @@ def remove_text_handler():
     remove_handler_by_name(mtlh)
 
 
-def add_file_handler(log_file, level=settings.s.logging_level):
+def add_file_handler(log_file, level=s.logging_level):
     """Handler to write logs into file."""
     h = MyFileLoggingHandler(log_file)
     h.set_name(mflh)
@@ -223,7 +222,7 @@ def remove_file_handler():
     remove_handler_by_name(mflh)
 
 
-def add_stream_handler(level=settings.s.logging_level):
+def add_stream_handler(level=s.logging_level):
     """Handler to write logs into stream."""
     h = logging.StreamHandler()
     h.set_name(mslh)
@@ -270,7 +269,8 @@ def test():
     # Show main window
     stop_logging()
     from gui.window import factory
-    factory.run_master(path.p.main_xml) # has add_text_handler()
+    from path import p
+    factory.run_master(p.main_xml) # has add_text_handler()
 
     logging.info('\nqwe\n')
     logging.warning('rty')

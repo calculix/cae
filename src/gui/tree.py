@@ -14,17 +14,24 @@ import sys
 import logging
 
 # External modules
-from PyQt5 import QtWidgets, QtCore, QtGui, QtWebEngineWidgets
+from PyQt5 import QtWidgets, QtCore, QtGui
 
 # My modules
-import path
-import settings
-import model
-from gui.window import factory
+sys_path = os.path.abspath(__file__)
+sys_path = os.path.dirname(sys_path)
+sys_path = os.path.join(sys_path, '..')
+sys_path = os.path.normpath(sys_path)
+sys_path = os.path.realpath(sys_path)
+if sys_path not in sys.path:
+    sys.path.insert(0, sys_path)
+from path import p
+from settings import s
+from model.parsers.mesh import Mesh
 from model.kom import ItemType, Implementation
-import tests
-from model import m
 from model.kom import KOM
+from model import m
+from gui.window import factory
+import tests
 
 
 class Tree:
@@ -58,7 +65,7 @@ class Tree:
                 continue
 
             # Check if there are keywords with implementations
-            if not settings.s.show_empty_keywords \
+            if not s.show_empty_keywords \
                 and not item.count_implementations() \
                 and item.itype != ItemType.IMPLEMENTATION:
                 continue
@@ -90,7 +97,7 @@ class Tree:
             icon_name = item.name.replace('*', '') + '.png'
             icon_name = icon_name.replace(' ', '_')
             icon_name = icon_name.replace('-', '_')
-            icon_path = os.path.join(path.p.img, 'icon_' + icon_name.lower())
+            icon_path = os.path.join(p.img, 'icon_' + icon_name.lower())
             icon = QtGui.QIcon(icon_path)
             tree_element.setIcon(icon)
 
@@ -134,8 +141,9 @@ class Tree:
                 self.addToTree(tree_element, item.get_implementations()) # add only implementations
 
                 # Reparse mesh or constraints
+                # TODO Use Mesh without m
                 # m.Mesh.reparse(inp_code)
-                reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=m.Mesh)
+                reparsed = Mesh(icode=inp_code, old=m.Mesh)
                 if m.Mesh is not None:
                     m.Mesh.updateWith(reparsed)
                 self.clicked() # rehighlight
@@ -152,7 +160,7 @@ class Tree:
                 tree_element.setData(impl)
 
                 # Reparse mesh or constraints
-                reparsed = model.parsers.mesh.Mesh(icode=inp_code, old=m.Mesh)
+                reparsed = Mesh(icode=inp_code, old=m.Mesh)
                 m.Mesh.updateWith(reparsed)
                 self.clicked() # rehighlight
 
@@ -169,7 +177,7 @@ class Tree:
         # Highlight only when INP is opened
         if factory.sw is None:
             return
-        if not (path.p.path_cgx + ' -c ') in factory.sw.cmd:
+        if not (p.path_cgx + ' -c ') in factory.sw.cmd:
             return
 
         index = factory.mw.treeView.selectedIndexes()[0] # selected item index
@@ -270,7 +278,7 @@ class Tree:
             pass
 
         # Context menu elements which always present
-        if settings.s.show_empty_keywords:
+        if s.show_empty_keywords:
             action_show_hide = QtWidgets.QAction('Hide empty containers', factory.mw.treeView)
         else:
             action_show_hide = QtWidgets.QAction('Show empty containers', factory.mw.treeView)
@@ -285,25 +293,25 @@ class Tree:
 
     def actionShowHide(self):
         """Show/Hide empty treeView items."""
-        settings.s.show_empty_keywords = not(settings.s.show_empty_keywords)
-        settings.s.save() # save 'show_empty_keywords' value in settings
+        s.show_empty_keywords = not(s.show_empty_keywords)
+        s.save() # save 'show_empty_keywords' value in settings
         self.generateTreeView()
 
     def action_collapse_expand_all(self):
         """Expand or collapse all treeView items."""
-        if settings.s.expanded:
+        if s.expanded:
             factory.mw.treeView.collapseAll()
         else:
             factory.mw.treeView.expandAll()
-        settings.s.expanded = not settings.s.expanded
-        settings.s.save()
+        s.expanded = not s.expanded
+        s.save()
 
     def actionDeleteImplementation(self):
         """Delete keyword implementation from KOM."""
 
         def hide_parent(tree_element):
             # To hide current item/brunch it should be empty 'keyword' or 'group'
-            if not settings.s.show_empty_keywords \
+            if not s.show_empty_keywords \
                 and not tree_element.hasChildren() \
                 and tree_element.data().itype != ItemType.IMPLEMENTATION:
 
@@ -339,7 +347,7 @@ class Tree:
                 parent.removeRows(0, parent.rowCount()) # remove all children
                 self.addToTree(parent, keyword.items)
 
-                if not settings.s.show_empty_keywords:
+                if not s.show_empty_keywords:
                     hide_parent(parent)
 
     def expanded_or_collapsed(self, index):

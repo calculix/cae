@@ -15,16 +15,18 @@ import logging
 from PyQt5 import QtWidgets
 
 # My modules
-import path
-import settings
-import gui
+from path import p
+from settings import s
+from gui import cgx
 from gui.window import factory
 
+if factory.mw is None:
+    raise SystemExit
 
 # File actions
 from importer import i
 factory.mw.action_file_import.triggered.connect(lambda: i.import_file(None))
-factory.mw.action_file_settings.triggered.connect(settings.s.open)
+factory.mw.action_file_settings.triggered.connect(s.open)
 factory.mw.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
 # Job actions
@@ -45,15 +47,15 @@ factory.mw.action_job_paraview.triggered.connect(lambda: j.open_paraview())
 # CGX actions
 from model import m
 factory.mw.action_cgx_paint_elsets.triggered.connect(
-    lambda: gui.cgx.paint_elsets())
+    lambda: cgx.paint_elsets())
 factory.mw.action_cgx_paint_surfaces.triggered.connect(
-    lambda: gui.cgx.paint_surfaces())
-factory.mw.action_cgx_inp.triggered.connect(lambda: gui.cgx.open_inp(j.inp, len(m.Mesh.nodes)))
-factory.mw.action_cgx_frd.triggered.connect(lambda: gui.cgx.open_frd(j.frd))
-factory.mw.action_cgx_cmap_classic.triggered.connect(lambda: gui.cgx.cmap('classic'))
-factory.mw.action_cgx_cmap_inferno.triggered.connect(lambda: gui.cgx.cmap('inferno'))
-factory.mw.action_cgx_cmap_turbo.triggered.connect(lambda: gui.cgx.cmap('turbo'))
-factory.mw.action_cgx_cmap_viridis.triggered.connect(lambda: gui.cgx.cmap('viridis'))
+    lambda: cgx.paint_surfaces())
+factory.mw.action_cgx_inp.triggered.connect(lambda: cgx.open_inp(j.inp, len(m.Mesh.nodes)))
+factory.mw.action_cgx_frd.triggered.connect(lambda: cgx.open_frd(j.frd))
+factory.mw.action_cgx_cmap_classic.triggered.connect(lambda: cgx.cmap('classic'))
+factory.mw.action_cgx_cmap_inferno.triggered.connect(lambda: cgx.cmap('inferno'))
+factory.mw.action_cgx_cmap_turbo.triggered.connect(lambda: cgx.cmap('turbo'))
+factory.mw.action_cgx_cmap_viridis.triggered.connect(lambda: cgx.cmap('viridis'))
 
 # Help actions
 factory.mw.action_help_readme.triggered.connect(
@@ -86,7 +88,7 @@ factory.mw.action_view_frame.triggered.connect(lambda: factory.connection.post('
 # Three rotation posts to CGX window doesn't work in Windows
 # So one may use .fbd commands
 def action_view_iso():
-    file_name = os.path.join(path.p.config, 'cgx_iso.fbd')
+    file_name = os.path.join(p.config, 'cgx_iso.fbd')
     if not os.path.isfile(file_name):
         logging.error('No config file cgx_iso.fbd')
         return

@@ -11,14 +11,11 @@ On INP import KOM is enriched with keyword implementations.
 """
 
 # Standard modules
-import re
 import os
 import sys
 import logging
-import copy
 from enum import Enum
 import xml.etree.ElementTree as ET
-import traceback
 
 # My modules
 sys_path = os.path.abspath(__file__)
@@ -28,15 +25,15 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-import path
-import settings
+from path import p
+from settings import s
 import tests
 
 
 class KeywordObjectModel:
     """Implements a chierarchy of all CalculiX keywords."""
 
-    def __init__(self, kom_xml=path.p.kom_xml):
+    def __init__(self, kom_xml=p.kom_xml):
         """Read CalculiX keywords hierarchy."""
 
         # List of all existing keywords
@@ -52,6 +49,7 @@ class KeywordObjectModel:
             self.build(t.getroot(), self.root)
             logging.info('Keywords object model generated.')
         except:
+            import traceback
             msg = 'Can\'t generate keywords object model!\n' \
                 + traceback.format_exc()
             logging.error(msg)
@@ -206,6 +204,7 @@ class Item:
 
     def copy_items_to(self, another_item):
         """Recursively copy tree branch to implementation."""
+        import copy
         another_item.items = []
         for item in self.items:
             if item.itype in [ItemType.GROUP, ItemType.KEYWORD]:
@@ -273,7 +272,7 @@ class Group(Item):
         self.itype = ItemType.GROUP
         self.items = [] # list of groups and keywords
         self.name = 'Model' # default name (root group)
-        self.expanded = settings.s.expanded
+        self.expanded = s.expanded
 
 
 class Keyword(Item):
@@ -285,7 +284,7 @@ class Keyword(Item):
         self.items = [] # list of arguments
         self.name = ''
         self.from_new_line = False # start all arguments from the next line?
-        self.expanded = settings.s.expanded
+        self.expanded = s.expanded
 
 
 class Argument(Item):
@@ -312,7 +311,7 @@ class Implementation(Item):
         keyword.copy_items_to(self)
         self.parent = keyword
         self.active = True
-        self.expanded = settings.s.expanded
+        self.expanded = s.expanded
 
         # Name of current implementation (of *AMPLITUDE, *STEP, *MATERIAL etc.)
         index = len(self.parent.get_implementations())
@@ -324,6 +323,7 @@ class Implementation(Item):
                 i += 1
             lead_line = inp_code[i]
 
+            import re
             match = re.search('(NAME|ELSET|NSET)\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
             if match:
                 self.name = lead_line[match.start(2):match.end(2)]

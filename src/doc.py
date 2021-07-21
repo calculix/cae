@@ -14,9 +14,8 @@ import os
 import re
 
 # My modules
-import path
+from path import p
 import tests
-from model.kom import KOM
 
 
 def save_html(doc_root, keyword_name, url):
@@ -63,21 +62,22 @@ def regenerate_documentation():
     """Regenerate all HTML help pages.
     Avoid spaces in html page names.
     """
+    from model.kom import KOM
     for item in KOM.keywords:
         keyword_name = item.name[1:] # cut star
         html_page_name = re.sub(r'[ -]', '_', keyword_name)
-        url = os.path.join(path.p.doc, html_page_name + '.html')
-        save_html(path.p.doc, keyword_name, url)
+        url = os.path.join(p.doc, html_page_name + '.html')
+        save_html(p.doc, keyword_name, url)
         print(keyword_name, url)
 
 
 def remove_html_trash():
     """Deletes unneeded html files."""
     rm_list = ('ccx', 'footnode', 'index', 'node')
-    for file_name in os.listdir(path.p.doc):
+    for file_name in os.listdir(p.doc):
         if file_name.startswith(rm_list) \
             and file_name.endswith('.html'):
-            file_name = os.path.join(path.p.doc, file_name)
+            file_name = os.path.join(p.doc, file_name)
             print(file_name)
             os.remove(file_name)
 
@@ -87,9 +87,9 @@ def remove_png_trash():
 
     # Read contents of all HTML files in doc directory
     lines = []
-    for file_name in os.listdir(path.p.doc):
+    for file_name in os.listdir(p.doc):
         if file_name.endswith('.html'):
-            file_name = os.path.join(path.p.doc, file_name)
+            file_name = os.path.join(p.doc, file_name)
             with open(file_name, 'r') as f:
                 lines.extend(f.readlines())
     images = []
@@ -106,10 +106,10 @@ def remove_png_trash():
     images = set(images)
     print(len(images), 'images')
 
-    for file_name in os.listdir(path.p.doc):
+    for file_name in os.listdir(p.doc):
         if file_name.endswith('.png'):
             if not file_name in images:
-                file_name = os.path.join(path.p.doc, file_name)
+                file_name = os.path.join(p.doc, file_name)
                 # print(file_name)
                 os.remove(file_name)
 
@@ -124,11 +124,12 @@ def prepare_documentation():
 @tests.test_wrapper()
 def test():
     """Checks if HTML pages are generated for all keywords."""
+    from model.kom import KOM
     keywords = [re.sub(r'[ -]', '_', kw.name[1:]) for kw in KOM.keywords]
     keywords = sorted(set(keywords))
     # print(keywords)
     print('Total {} keywords'.format(len(keywords)))
-    pages = [fn for fn in os.listdir(path.p.doc) if fn.endswith('.html')]
+    pages = [fn for fn in os.listdir(p.doc) if fn.endswith('.html')]
     pages = sorted(pages)
     print('Total {} HTML pages'.format(len(pages)))
     # print(pages)

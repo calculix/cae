@@ -27,16 +27,10 @@ import logging
 from PyQt5 import QtWidgets
 
 # My modules
-import settings
-import gui.cgx
-import gui.stdout
-from gui.window import factory
+from model import m
+from model.kom import KOM, KeywordObjectModel, Implementation
 import log
 import tests
-from model import m
-import model.kom
-from model.kom import KOM
-from gui.job import j
 
 
 class Block:
@@ -71,6 +65,7 @@ class Block:
 class Importer:
 
     def __init__(self):
+        from gui.window import factory
         self.w = factory.mw # master window
         self.keyword_blocks = []
 
@@ -131,7 +126,7 @@ class Importer:
             while kw is None and parent is not None: # root has None parent
                 kw = KOM.get_top_keyword_by_name(parent, kwb.keyword_name)
                 if kw is not None:
-                    parent = model.kom.Implementation(kw, kwb.get_inp_code())
+                    parent = Implementation(kw, kwb.get_inp_code())
                 else:
                     parent = parent.parent
             if kw is None:
@@ -144,6 +139,7 @@ class Importer:
 
     def import_file(self, file_name):
         """Main method in the class"""
+        from gui.job import j
         if file_name is None and self.w is None:
             msg = 'file_name and self.w are None.'
             raise SystemExit(msg)
@@ -161,7 +157,8 @@ class Importer:
             # TODO Do not call job __init__ twice
             j.__init__(file_name[:-4] + '.inp')
 
-            gui.stdout.stop_readers()
+            from gui import stdout
+            stdout.stop_readers()
 
             # Convert UNV to INP
             if file_name.lower().endswith('.unv'):
@@ -175,7 +172,7 @@ class Importer:
             self.w.setWindowTitle(title)
 
             # Generate new KOM without implementations
-            KOM = model.kom.KeywordObjectModel()
+            KOM = KeywordObjectModel()
 
             # Get INP code and split it on blocks
             logging.info('Loading model\n{}'.format(j.inp))
@@ -190,11 +187,13 @@ class Importer:
             t.generateTreeView()
 
             # Parse mesh
+            # TODO Use Mesh instead of m.Mesh
             from model.parsers import mesh
             m.Mesh = mesh.Mesh(blocks=self.keyword_blocks)
 
             # Open a new non-empty model in CGX
-            if not settings.s.start_cgx_by_default:
+            from settings import s
+            if not s.start_cgx_by_default:
                 msg = '"Settings -> Start CGX by default" is unchecked.'
                 logging.warning(msg)
                 return
@@ -204,7 +203,8 @@ class Importer:
                 return
 
             has_nodes = len(m.Mesh.nodes)
-            gui.cgx.open_inp(j.inp, has_nodes)
+            from gui import cgx
+            cgx.open_inp(j.inp, has_nodes)
 
 
 # Prepare to import model
@@ -261,7 +261,7 @@ def test():
         log.print_to_file(log_file, '\n{} {}'.format(counter, relpath))
 
         # Build new clean/empty keyword object model
-        KOM = model.kom.KeywordObjectModel()
+        KOM = KeywordObjectModel()
 
         # Parse inp_doc end enrich existing KOM
         i = Importer()

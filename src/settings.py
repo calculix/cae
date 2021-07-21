@@ -7,19 +7,19 @@ Distributed under GNU General Public License v3.0
 Application settings.
 Attributes values are maintained in config/Settings_*.py.
 User dialog form is config/SettingsDialog.xml - use Qt Designer to edit.
+
+# TODO Checkbox to skip startup tests.
 """
 
 # Standard modules
 import os
-import sys
 import logging
-import webbrowser
 
 # External modules
-from PyQt5 import QtWidgets, uic, QtCore
+from PyQt5 import QtWidgets, uic
 
 # My modules
-import path
+from path import p
 import tests
 
 
@@ -30,7 +30,7 @@ class Settings:
         """Read settings from file or apply defaults."""
         try:
             # Try to read settings file
-            with open(path.p.settings, 'r') as f:
+            with open(p.settings, 'r') as f:
                 exec(f.read())
             if len(self.__dict__) < 2:
                 raise Exception
@@ -48,7 +48,7 @@ class Settings:
                 self.path_paraview = '/usr/bin/paraview'
                 self.path_editor = '/usr/bin/gedit'
 
-            self.start_model = os.path.join(path.p.examples, 'default.inp')
+            self.start_model = os.path.join(p.examples, 'default.inp')
             self.default_web_browser = 'internal'
             self.logging_level = 'DEBUG'
             self.show_empty_keywords = True
@@ -85,7 +85,7 @@ class SettingsDialog(QtWidgets.QDialog):
         # Load UI form - produces huge amount of redundant debug logs
         logging.disable() # switch off logging
         super().__init__() # create dialog window
-        uic.loadUi(path.p.settings_xml, self) # load default settings
+        uic.loadUi(p.settings_xml, self) # load default settings
         logging.disable(logging.NOTSET) # switch on logging
 
         self.add_widget_for_default_web_browser()
@@ -121,6 +121,7 @@ class SettingsDialog(QtWidgets.QDialog):
         NOTE webbrowser does not automatically recognize
         all installed browsers in Windows.
         """
+        import webbrowser
         webbrowser.get() # initialize web browsers
         exclude = ['xdg-open', 'gvfs-open', 'x-www-browser']
         wb_list = [x for x in webbrowser._tryorder if x not in exclude]
@@ -129,7 +130,7 @@ class SettingsDialog(QtWidgets.QDialog):
 
     def save(self):
         """Save settings updated via or passed to dialog."""
-        with open(path.p.settings, 'w') as f:
+        with open(p.settings, 'w') as f:
 
             # Iterate over class attributes
             for attr, value in self.__dict__.items():
@@ -141,7 +142,7 @@ class SettingsDialog(QtWidgets.QDialog):
                         text = str(value.isChecked())
                     elif class_name == 'QLineEdit':
                         text = value.text()
-                        text = '\'' + path.p.abspath(text) + '\'' # covert path to absolute
+                        text = '\'' + p.abspath(text) + '\'' # covert path to absolute
                         if '\\' in text: # reconstruct path for Windows
                             text = '\\\\'.join(text.split('\\'))
                         value = self.__dict__['label_' + attr]
@@ -162,18 +163,19 @@ class SettingsDialog(QtWidgets.QDialog):
             path_edit.setText(file_name)
 
 
+s = Settings()
+
+
 @tests.test_wrapper()
 def test():
 
     # Create application
+    import sys
     app = QtWidgets.QApplication(sys.argv)
 
     # Create and open settings window
     global s
     s.open()
-
-
-s = Settings()
 
 
 if __name__ == '__main__':

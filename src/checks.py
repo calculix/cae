@@ -17,11 +17,9 @@ import os
 import sys
 import logging
 import subprocess
-import webbrowser
 
 # My modules
 import tests
-import path
 import log
 
 
@@ -59,7 +57,8 @@ class Checks:
     @staticmethod
     def check_app_version():
         lines = []
-        with open(path.p.version_txt, 'r') as f:
+        from path import p
+        with open(p.version_txt, 'r') as f:
             lines = f.readlines()
         for l in lines:
             l = l.strip()
@@ -73,6 +72,7 @@ class Checks:
     @staticmethod
     def check_default_web_browser():
         """Get default web browser."""
+        import webbrowser
         wb = webbrowser.get()
         if 'nt' in os.name:
             wbname = wb.__class__.__name__
