@@ -23,7 +23,7 @@ import gui
 from gui.window import factory
 from model import m
 from model.kom import KOM
-from tree import t
+from gui.tree import t
 from gui.job import j
 
 

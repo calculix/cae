@@ -186,7 +186,7 @@ class Importer:
             self.import_inp()
 
             # Add parsed implementations to the tree
-            from tree import t
+            from gui.tree import t
             t.generateTreeView()
 
             # Parse mesh

@@ -85,7 +85,7 @@ if len(args.inp):
 # Or start empty
 else:
     logging.warning('No default start model specified.')
-    from tree import t
+    from gui.tree import t
     t.generateTreeView()
 
 logging.info('Started in {:.1f} seconds.\n'
