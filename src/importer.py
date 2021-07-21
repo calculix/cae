@@ -207,6 +207,10 @@ class Importer:
             gui.cgx.open_inp(j.inp, has_nodes)
 
 
+# Prepare to import model
+i = Importer()
+
+
 def read_lines(INP_file):
     """Recurcively reads all the INP file lines and its includes.
     Does not omit comments and empty lines.

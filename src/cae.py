@@ -70,16 +70,12 @@ args = parser.parse_args()
 from gui.window import factory
 factory.run_master(path.p.main_xml)
 
-# Main block
-# TODO Do not create inctances here - do it in appropriate modules
-import importer
-i = importer.Importer() # prepare to import model
 import actions
-actions.actions(i) # window actions
 
 # Import default model
 if len(args.inp):
     start_model = os.path.join(path.p.app_home_dir, args.inp)
+    from importer import i
     i.import_file(start_model)
 
 # Or start empty
