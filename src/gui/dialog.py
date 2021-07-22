@@ -301,8 +301,8 @@ def test():
     i = KOM.get_keyword_by_name('*NODE')
 
     # Create and show dialog window
-    from gui.window import factory
-    d = factory.run_master_dialog(i) # 0 = cancel, 1 = ok
+    from gui.window import df
+    d = df.run_master_dialog(i) # 0 = cancel, 1 = ok
     print(d)
 
 

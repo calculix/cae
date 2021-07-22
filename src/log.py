@@ -268,9 +268,9 @@ def test():
 
     # Show main window
     stop_logging()
-    from gui.window import factory
+    from gui.window import wf
     from path import p
-    factory.run_master(p.main_xml) # has add_text_handler()
+    wf.run_master(p.main_xml) # has add_text_handler()
 
     logging.info('\nqwe\n')
     logging.warning('rty')

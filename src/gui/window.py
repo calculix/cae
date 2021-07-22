@@ -4,8 +4,11 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-Class to work with master/slave windows. Keyword editor is always
-master, CGX - slave. Keyword dialog is master, web browser - slave.
+Class to work with master/slave windows. For each pair of windows a separate
+factory is used.
+Keyword editor is always master, CGX - slave. This pair is driven by 'wf'.
+Keyword dialog is master, web browser - slave. This pair is driven by 'wd'.
+
 Window IDs (WIDs) are needed to align application windows.
 
 For documentation on used functions refer to:
@@ -235,7 +238,8 @@ class Factory:
             self.connection.align_windows()
 
 
-factory = Factory()
+wf = Factory() # window factory
+df = Factory() # dialog factory
 
 
 class MasterWindow(QtWidgets.QMainWindow):
@@ -329,9 +333,9 @@ def test():
     app = QtWidgets.QApplication([])
 
     # Create master window
-    global factory
+    global wf
     xml = os.path.join(p.config, 'sendkeys.xml')
-    factory.run_master(xml)
+    wf.run_master(xml)
 
     # Map methods to GUI buttons
     if os.name == 'nt':
@@ -348,21 +352,21 @@ def test():
                 cmd1 = ''
                 msg = 'Neither gedit nor kate is available!'
                 logging.error(msg)
-                factory.mw.b0.setDisabled(True)
-    factory.mw.b0.clicked.connect(lambda: factory.run_slave(cmd1))
-    factory.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(s.start_model, 1))
-    factory.mw.b2.clicked.connect(lambda: factory.connection.post('plot n all'))
-    factory.mw.b3.clicked.connect(lambda: factory.connection.post('plot e all'))
-    factory.mw.b4.clicked.connect(lambda: factory.connection.post(factory.mw.customEdit.text()))
-    factory.mw.b4.clicked.connect(lambda: factory.mw.customEdit.clear())
+                wf.mw.b0.setDisabled(True)
+    wf.mw.b0.clicked.connect(lambda: wf.run_slave(cmd1))
+    wf.mw.b1.clicked.connect(lambda: gui.cgx.open_inp(s.start_model, 1))
+    wf.mw.b2.clicked.connect(lambda: wf.connection.post('plot n all'))
+    wf.mw.b3.clicked.connect(lambda: wf.connection.post('plot e all'))
+    wf.mw.b4.clicked.connect(lambda: wf.connection.post(wf.mw.customEdit.text()))
+    wf.mw.b4.clicked.connect(lambda: wf.mw.customEdit.clear())
     all_symbols = '!"#$%&\'()*+,-./1234567890:;<=>?@' \
         + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`' \
         + 'abcdefghijklmnopqrstuvwxyz{|}~'
-    factory.mw.b5.clicked.connect(lambda: factory.connection.post(all_symbols))
+    wf.mw.b5.clicked.connect(lambda: wf.connection.post(all_symbols))
 
     # Execute application + exit
     a = app.exec()
-    factory.kill_slave()
+    wf.kill_slave()
 
 
 if __name__ == '__main__':

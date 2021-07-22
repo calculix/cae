@@ -24,14 +24,14 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 from path import p
-from gui.window import factory
+from gui.window import wf
 from model import m
 
 
 def read_fbd_file(basename):
     file_name = os.path.join(p.config, basename)
     if os.path.isfile(file_name):
-        factory.connection.post('read ' + file_name)
+        wf.connection.post('read ' + file_name)
     else:
         logging.error('No config file ' + basename)
 
@@ -46,7 +46,7 @@ def paint_elsets_old(elsets):
             break
     if len(elsets) > 1:
         for elset in elsets:
-            factory.connection.post('plus e {} {}'.format(elset, colors[i]))
+            wf.connection.post('plus e {} {}'.format(elset, colors[i]))
             i = (i + 1) % len(colors)
 
 
@@ -55,37 +55,37 @@ def paint_elsets_old(elsets):
 
 def paint_elsets():
     """Paint element sets in CGX when INP is opened."""
-    if not (p.path_cgx + ' -c ') in factory.sw.cmd:
+    if not (p.path_cgx + ' -c ') in wf.sw.cmd:
         msg = 'Please, open INP model to paint elsets.'
         logging.warning(msg)
         return
 
-    factory.connection.post('plot e all')
-    factory.connection.post('minus e all')
+    wf.connection.post('plot e all')
+    wf.connection.post('minus e all')
     elsets = [e.name for e in m.Mesh.elsets.values()]
     i = 0
     for elset in elsets:
         if elset.upper() == 'ALL':
             continue
-        factory.connection.post('plus e {} blue{}'.format(elset, i))
+        wf.connection.post('plus e {} blue{}'.format(elset, i))
         i = (i + 1) % 5
 
 
 def paint_surfaces():
     """Paint surfaces in CGX when INP is opened."""
-    if not (p.path_cgx + ' -c ') in factory.sw.cmd:
+    if not (p.path_cgx + ' -c ') in wf.sw.cmd:
         msg = 'Please, open INP model to paint surfaces.'
         logging.warning(msg)
         return
 
-    factory.connection.post('plot e all')
-    factory.connection.post('minus e all')
+    wf.connection.post('plot e all')
+    wf.connection.post('minus e all')
     surfaces = [s.name for s in m.Mesh.surfaces.values()]
     i = 0
     for surf in surfaces:
         if surf.upper() == 'ALL':
             continue
-        factory.connection.post('plus f {} pink{}'.format(surf, i))
+        wf.connection.post('plus f {} pink{}'.format(surf, i))
         i = (i + 1) % 5
 
 
@@ -96,12 +96,12 @@ def open_inp(inp_file, has_nodes=0):
         raise SystemExit # the best way to exit
 
     if os.path.isfile(inp_file):
-        factory.kill_slave() # close old CGX
+        wf.kill_slave() # close old CGX
         if not has_nodes:
             logging.warning('Empty mesh, CGX will not start!')
             return
         cmd = p.path_cgx + ' -c ' + inp_file
-        factory.run_slave(cmd)
+        wf.run_slave(cmd)
         read_fbd_file('cgx_start.fbd')
         read_fbd_file('cgx_iso.fbd')
         read_fbd_file('cgx_colors.fbd')
@@ -117,7 +117,7 @@ def open_frd(frd_file):
 
     if os.path.isfile(frd_file):
         cmd = p.path_cgx + ' -o ' + frd_file
-        factory.run_slave(cmd)
+        wf.run_slave(cmd)
         read_fbd_file('cgx_start.fbd')
         read_fbd_file('cgx_iso.fbd')
     else:
@@ -128,8 +128,8 @@ def open_frd(frd_file):
 
 def cmap(colormap):
     """Set custom colormap when FRD is opened."""
-    if not (p.path_cgx + ' -o ') in factory.sw.cmd:
+    if not (p.path_cgx + ' -o ') in wf.sw.cmd:
         msg = 'Please, open FRD model to set colormap.'
         logging.warning(msg)
         return
-    factory.connection.post('cmap ' + colormap)
+    wf.connection.post('cmap ' + colormap)

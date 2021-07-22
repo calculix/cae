@@ -63,9 +63,9 @@ args = parser.parse_args()
 Text logging handler is created here.
 TODO Avoid terminal logs.
 """
-from gui.window import factory
+from gui.window import wf
 from path import p
-factory.run_master(p.main_xml)
+wf.run_master(p.main_xml)
 
 # Assign main window actions
 import actions
@@ -89,7 +89,7 @@ logging.info('Started in {:.1f} seconds.\n'
 app.exec()
 
 # Kill CGX after CAE exit
-factory.kill_slave()
+wf.kill_slave()
 
 # Recursively clean cached files in all subfolders
 clean.cache(p.src)

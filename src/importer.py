@@ -65,8 +65,8 @@ class Block:
 class Importer:
 
     def __init__(self):
-        from gui.window import factory
-        self.w = factory.mw # master window
+        from gui.window import wf
+        self.w = wf.mw # master window
         self.keyword_blocks = []
 
     def split_on_blocks(self, inp_doc):
