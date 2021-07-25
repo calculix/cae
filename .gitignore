@@ -15,7 +15,7 @@ README.pdf
 *.gnu
 *.out
 *.ps
-jobwatch.py
-forcefocus.py
+*jobwatch.py
+*forcefocus.py
 200016200902_323448.jpg
 200049400302_220132.jpg
