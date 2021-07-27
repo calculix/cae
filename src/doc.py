@@ -15,7 +15,6 @@ import re
 
 # My modules
 from path import p
-import tests
 
 
 def save_html(doc_root, keyword_name, url):
@@ -121,26 +120,5 @@ def prepare_documentation():
     remove_png_trash()
 
 
-@tests.test_wrapper()
-def test():
-    """Checks if HTML pages are generated for all keywords."""
-    from model.kom import KOM
-    keywords = [re.sub(r'[ -]', '_', kw.name[1:]) for kw in KOM.keywords]
-    keywords = sorted(set(keywords))
-    # print(keywords)
-    print('Total {} keywords'.format(len(keywords)))
-    pages = [fn for fn in os.listdir(p.doc) if fn.endswith('.html')]
-    pages = sorted(pages)
-    print('Total {} HTML pages'.format(len(pages)))
-    # print(pages)
-    if len(keywords) > len(pages):
-        for page in pages:
-            if page[:-5] in keywords:
-                keywords.remove(page[:-5])
-        print('Those keywords have no HTML pages:')
-        print(keywords)
-
-
-if __name__ == '__main__':
-    test() # run test
-    # prepare_documentation()
+# if __name__ == '__main__':
+#     prepare_documentation()
