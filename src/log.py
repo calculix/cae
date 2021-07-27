@@ -12,22 +12,17 @@ Log file has the same name as a model.
 
 # Standard modules
 import os
-import sys
+# import sys
 import logging
 
 # External modules
-from PyQt5 import QtGui, QtWidgets
+from PyQt5 import QtGui
+# , QtWidgets
 
 # My modules
-sys_path = os.path.abspath(__file__)
-sys_path = os.path.dirname(sys_path)
-sys_path = os.path.join(sys_path, '..')
-sys_path = os.path.normpath(sys_path)
-sys_path = os.path.realpath(sys_path)
-if sys_path not in sys.path:
-    sys.path.insert(0, sys_path)
 from settings import s
-import tests
+# import tests
+
 
 mh = 'MyHandler'
 mtlh = 'MyTextLoggingHandler'
@@ -259,25 +254,27 @@ def remove_stream_handler():
 """
 
 
-@tests.test_wrapper()
-def test():
-    """Run main window and test loggers."""
+# @tests.test_wrapper()
+# def test():
+#     """Run main window and test loggers."""
 
-    # Create application
-    app = QtWidgets.QApplication(sys.argv)
+#     # Create application
+#     app = QtWidgets.QApplication(sys.argv)
 
-    # Show main window
-    stop_logging()
-    from gui.window import wf
-    from path import p
-    wf.run_master(p.main_xml) # has add_text_handler()
+#     # Show main window
+#     stop_logging()
+#     from gui.window import wf
+#     from path import p
+#     wf.run_master(p.main_xml) # has add_text_handler()
 
-    logging.info('\nqwe\n')
-    logging.warning('rty')
+#     logging.info('\nqwe\n')
+#     logging.warning('rty')
 
-    # Execute application
-    app.exec()
+#     txt = wf.mw.textEdit.toPlainText()
+
+#     # Execute application
+#     app.exec()
 
 
-if __name__ == '__main__':
-    test() # run test
+# if __name__ == '__main__':
+#     test() # run test
