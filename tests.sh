@@ -2,7 +2,7 @@
 clear
 INITIAL_DIR="$(pwd)"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-cd $SCRIPT_DIR/tests
+cd $SCRIPT_DIR/src/test
 for f in $(find . -name \*.py)
 do
     f="${f##*/}"

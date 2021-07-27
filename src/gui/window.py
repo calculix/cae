@@ -264,7 +264,9 @@ class MasterWindow(QtWidgets.QMainWindow):
         self.show()
 
     def help(self, url):
-        """Open links from the Help menu."""
+        """Open links from the Help menu.
+        TODO For DialogWindow it should open doc help.
+        """
         if webbrowser.open(url, new=2):
             logging.info('Going to\n' + url)
         else:
