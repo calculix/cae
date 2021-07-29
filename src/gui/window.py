@@ -51,10 +51,10 @@ import tests
 def init_wrapper():
     """Common wrapper for MasterWindow/SlaveWindow __init__() method."""
     def wrap(method):
-        def fcn(self, arg):
+        def fcn(self, *args):
             before = get_opened_windows()
 
-            method(self, arg)
+            method(self, *args)
 
             # Wait for window to open ang get its info
             new_windows_infos = []
