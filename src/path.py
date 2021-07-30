@@ -10,7 +10,6 @@ It is initialized on the app start - and that's all.
 """
 
 import os
-import tests
 
 
 class Path:
@@ -72,18 +71,4 @@ class Path:
             return rel
 
 
-@tests.test_wrapper()
-def test():
-    """Test all paths in the class."""
-    global p
-    for attr in dir(p):
-        a = getattr(p, attr)
-        if type(a) is str:
-            print('p.{} = {}'.format(attr, a))
-
-
 p = Path()
-
-
-if __name__ == '__main__':
-    test() # run test
