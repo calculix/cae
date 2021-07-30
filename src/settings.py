@@ -20,7 +20,6 @@ from PyQt5 import QtWidgets, uic
 
 # My modules
 from path import p
-import tests
 
 
 class Settings:
@@ -164,19 +163,3 @@ class SettingsDialog(QtWidgets.QDialog):
 
 
 s = Settings()
-
-
-@tests.test_wrapper()
-def test():
-
-    # Create application
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-
-    # Create and open settings window
-    global s
-    s.open()
-
-
-if __name__ == '__main__':
-    test() # run test
