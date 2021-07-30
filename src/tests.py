@@ -4,13 +4,8 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-TODO Invent some test for the module.
-
-Utilities for testing. Almost each module of the
-application has test() method decorated with
-test_wrapper(). The decorator is described here.
-
-Run test: Ctrl+F5 from VSCode.
+Utilities for testing. Some modules has test() method decorated
+with test_wrapper(). The decorator is described here.
 """
 
 # Standard modules
@@ -77,12 +72,3 @@ def test_wrapper():
             log_time_delta(start, log_file)
         return fcn
     return wrap
-
-
-@test_wrapper()
-def test():
-    pass
-
-
-if __name__ == '__main__':
-    test() # run test
