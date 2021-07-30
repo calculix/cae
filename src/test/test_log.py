@@ -83,6 +83,4 @@ class Test(qAppTest):
 
 
 if __name__ == '__main__':
-    import clean
-    clean.screen()
     unittest.main()
