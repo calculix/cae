@@ -5,6 +5,8 @@
 Distributed under GNU General Public License v3.0
 
 Methods to work with main window treeView widget.
+
+TODO Tree not cleaned on INP import.
 """
 
 # Standard modules

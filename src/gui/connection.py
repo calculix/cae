@@ -4,8 +4,6 @@
 """© Ihor Mirzov, 2019-2021
 Distributed under GNU General Public License v3.0
 
-TODO Invent some test for the module.
-
 Classes for keycodes sending from master window to slave.
 It is a layer between system libraries Xlib/ctypes and GUI.
 
@@ -28,17 +26,7 @@ if 'posix' in os.name:
     from Xlib.ext.xtest import fake_input
 
 # External modules
-from PyQt5 import QtWidgets, uic
-
-# My modules
-sys_path = os.path.abspath(__file__)
-sys_path = os.path.dirname(sys_path)
-sys_path = os.path.join(sys_path, '..')
-sys_path = os.path.normpath(sys_path)
-sys_path = os.path.realpath(sys_path)
-if sys_path not in sys.path:
-    sys.path.insert(0, sys_path)
-from utils import tests
+from PyQt5 import QtWidgets
 
 
 def align_master(w):
@@ -460,12 +448,3 @@ class WindowConnectionWindows(WindowConnection):
             #     size.width() - width, height, 0x0040)
         else:
             logging.error('Nothing to align - slave WID is None.')
-
-
-@tests.test_wrapper()
-def test():
-    pass
-
-
-if __name__ == '__main__':
-    test() # run test
