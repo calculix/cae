@@ -30,6 +30,7 @@ class Test(unittest.TestCase):
 
     # Create and open settings window
     def test_settings(self):
+        """Open settings dialog"""
         app = QtWidgets.QApplication(sys.argv)
         s.open()
         self.assertTrue(True)

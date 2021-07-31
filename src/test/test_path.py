@@ -5,7 +5,6 @@
 Distributed under GNU General Public License v3.0
 
 Test for src/path.py
-Ensure that all app's folders and files are present.
 """
 
 # Standard modules

@@ -5,14 +5,12 @@
 Distributed under GNU General Public License v3.0
 
 Test for src/model/kom.py
-Ensure that all app's folders and files are present.
 """
 
 # Standard modules
 import os
 import sys
 import unittest
-import logging
 
 # My modules
 sys_path = os.path.abspath(__file__)
