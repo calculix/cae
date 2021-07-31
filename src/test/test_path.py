@@ -5,12 +5,12 @@
 Distributed under GNU General Public License v3.0
 
 Test for src/path.py
+Ensure that all app's folders and files are present.
 """
 
 # Standard modules
 import os
 import sys
-import re
 import unittest
 
 # My modules
@@ -26,13 +26,24 @@ from path import p
 
 class Test(unittest.TestCase):
 
-    # Test all attributes on the Path class
+    def setUp(self):
+        print()
+
+
+class TestPath(Test):
+
     def test_path(self):
+        """Ensure that all app's folders and files are present"""
+        skip = ('op_sys', 'extension', '__')
         for attr in dir(p):
+            if attr.startswith(skip):
+                continue
             a = getattr(p, attr)
-            if type(a) is str:
-                print('p.{} = {}'.format(attr, a))
-        self.assertTrue(True)
+            if type(a) is not str:
+                continue
+            print('p.{} = {}'.format(attr, a))
+            status = os.path.isfile(a) or os.path.isdir(a)
+            self.assertTrue(status)
 
 
 if __name__ == '__main__':
