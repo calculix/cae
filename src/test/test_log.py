@@ -24,19 +24,13 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-# import log
 from gui.window import MasterWindow
+import log
 
 
-# Show main window
-# log.stop_logging()
 app = QtWidgets.QApplication([])
 mw = MasterWindow()
-
-# # Configure logging level
-# for h in logging.getLogger().handlers:
-#     h.setLevel(logging.NOTSET)
-#     print(h.name, logging.getLevelName(h.level))
+# log.get_logging_info()
 
 logging.debug('debug')
 logging.info('info')
@@ -44,7 +38,6 @@ logging.warning('warning')
 logging.error('error')
 
 txt = mw.textEdit.toPlainText()
-print(txt)
 # app.exec()
 
 
