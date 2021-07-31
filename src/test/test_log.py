@@ -24,61 +24,47 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
+# import log
 from gui.window import MasterWindow
 
 
-app = None
-window = None
+# Show main window
+# log.stop_logging()
+app = QtWidgets.QApplication([])
+mw = MasterWindow()
+
+# # Configure logging level
+# for h in logging.getLogger().handlers:
+#     h.setLevel(logging.NOTSET)
+#     print(h.name, logging.getLevelName(h.level))
+
+logging.debug('debug')
+logging.info('info')
+logging.warning('warning')
+logging.error('error')
+
+txt = mw.textEdit.toPlainText()
+print(txt)
+# app.exec()
 
 
-class qAppTest(unittest.TestCase):
-    """Helper class to provide QApplication instances."""
-
-    def setUp(self):
-        """Creates the QApplication instance."""
-        global app
-        if app is None:
-            app = QtWidgets.QApplication([])
-
-        global window
-        if window is None:
-            window = MasterWindow()
-
-        # # Configure logging level
-        # for h in logging.getLogger().handlers:
-        #     h.setLevel(logging.NOTSET)
-        #     print(h.name, logging.getLevelName(h.level))
-
-
-class Test(qAppTest):
+class Test(unittest.TestCase):
     """Test if logging works."""
 
-    def test0_window(self):
-        global window
-        self.assertTrue(hasattr(window, 'textEdit'))
-
     def test1_debug(self):
-        global window
-        logging.debug('debug')
-        txt = window.textEdit.toPlainText()
+        global txt
         self.assertTrue('debug' in txt)
 
     def test2_info(self):
-        global window
-        logging.info('info')
-        txt = window.textEdit.toPlainText()
+        global txt
         self.assertTrue('info' in txt)
 
     def test3_warning(self):
-        global window
-        logging.warning('warning')
-        txt = window.textEdit.toPlainText()
+        global txt
         self.assertTrue('warning' in txt)
 
     def test4_error(self):
-        global window
-        logging.error('error')
-        txt = window.textEdit.toPlainText()
+        global txt
         self.assertTrue('error' in txt)
 
 

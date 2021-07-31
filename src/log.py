@@ -12,7 +12,6 @@ Log file has the same name as a model.
 
 # Standard modules
 import os
-import sys
 import logging
 
 # External modules
@@ -251,31 +250,3 @@ def remove_stream_handler():
         print_to_file(log_file, log_contents)
     log_capture_string.close()
 """
-
-
-@tests.test_wrapper()
-def test():
-    """Run main window and test loggers."""
-
-    # Create application
-    app = QtWidgets.QApplication(sys.argv)
-
-    # Show main window
-    stop_logging()
-    from gui.window import wf
-    from path import p
-    wf.run_master(p.main_xml) # has add_text_handler()
-
-    logging.debug('debug')
-    logging.info('info')
-    logging.warning('warning')
-    logging.error('error')
-
-    txt = wf.mw.textEdit.toPlainText()
-
-    # Execute application
-    app.exec()
-
-
-if __name__ == '__main__':
-    test() # run test
