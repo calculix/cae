@@ -30,7 +30,6 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-from utils import tests
 from path import p
 from settings import s
 from model.kom import ItemType, KOM
@@ -292,19 +291,3 @@ class KeywordDialog(QtWidgets.QDialog):
             self.setMaximumWidth(w)
             self.setMinimumWidth(500)
             self.resize(w, h)
-
-
-@tests.test_wrapper()
-def test():
-    """Run dialog as MasterWindow. Start webbrowser from it."""
-    app = QtWidgets.QApplication(sys.argv)
-    i = KOM.get_keyword_by_name('*NODE')
-
-    # Create and show dialog window
-    from gui.window import df
-    d = df.run_master_dialog(i) # 0 = cancel, 1 = ok
-    print(d)
-
-
-if __name__ == '__main__':
-    test() # run test
