@@ -44,7 +44,6 @@ class Test(unittest.TestCase):
             print('Those keywords have no HTML pages:')
             print(keywords)
         self.assertTrue(len(keywords) == len(pages))
-        self.assertFalse(len(keywords) != len(pages))
 
 
 if __name__ == '__main__':
