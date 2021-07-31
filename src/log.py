@@ -41,7 +41,7 @@ def get_logging_info():
     else:
         msg = 'Total {} logging handlers:'.format(len(hh))
         for h in hh:
-            msg += '\n' + h.get_name()
+            msg += '\n' + str(h.get_name())
     print(msg)
 
 
@@ -169,6 +169,7 @@ def remove_handler_by_name(name):
         if h.name == name:
             h.close()
             hh.remove(h)
+            break
 
 
 def add_my_handler(level=s.logging_level):
@@ -178,7 +179,9 @@ def add_my_handler(level=s.logging_level):
     import inspect
     caller = os.path.realpath(inspect.stack()[1][1])
     log_file = caller[:-3] + '.log'
+    logging.basicConfig(level=level)
     h = myHandler(log_file)
+    global mh
     h.set_name(mh)
     h.setLevel(level)
     logging.getLogger().addHandler(h)
@@ -186,12 +189,15 @@ def add_my_handler(level=s.logging_level):
 
 def remove_my_handler():
     """Remove all MyHandler handlers."""
+    global mh
     remove_handler_by_name(mh)
 
 
 def add_text_handler(textEdit, level=s.logging_level):
     """Handler to show logs in master window textEdit."""
+    logging.basicConfig(level=level)
     h = MyTextLoggingHandler(textEdit)
+    global mtlh
     h.set_name(mtlh)
     h.setLevel(level)
     logging.getLogger().addHandler(h)
@@ -199,12 +205,15 @@ def add_text_handler(textEdit, level=s.logging_level):
 
 def remove_text_handler():
     """Remove all textEdit handlers."""
+    global mtlh
     remove_handler_by_name(mtlh)
 
 
 def add_file_handler(log_file, level=s.logging_level):
     """Handler to write logs into file."""
+    logging.basicConfig(level=level)
     h = MyFileLoggingHandler(log_file)
+    global mflh
     h.set_name(mflh)
     h.setLevel(level)
     logging.getLogger().addHandler(h)
@@ -212,12 +221,15 @@ def add_file_handler(log_file, level=s.logging_level):
 
 def remove_file_handler():
     """Remove all file handlers."""
+    global mflh
     remove_handler_by_name(mflh)
 
 
 def add_stream_handler(level=s.logging_level):
     """Handler to write logs into stream."""
+    logging.basicConfig(level=level)
     h = logging.StreamHandler()
+    global mslh
     h.set_name(mslh)
     h.setLevel(level)
     global fmt
@@ -227,6 +239,7 @@ def add_stream_handler(level=s.logging_level):
 
 def remove_stream_handler():
     """Remove all stream handlers."""
+    global mslh
     remove_handler_by_name(mslh)
 
 
