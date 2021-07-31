@@ -24,13 +24,7 @@ if sys_path not in sys.path:
 from path import p
 
 
-class Test(unittest.TestCase):
-
-    def setUp(self):
-        print()
-
-
-class TestPath(Test):
+class TestPath(unittest.TestCase):
 
     def test_path(self):
         """Ensure that all app's folders and files are present"""
@@ -41,7 +35,7 @@ class TestPath(Test):
             a = getattr(p, attr)
             if type(a) is not str:
                 continue
-            print('p.{} = {}'.format(attr, a))
+            # print('p.{} = {}'.format(attr, a))
             status = os.path.isfile(a) or os.path.isdir(a)
             self.assertTrue(status)
 

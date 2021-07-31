@@ -32,16 +32,16 @@ class Test(unittest.TestCase):
         keywords = [re.sub(r'[ -]', '_', kw.name[1:]) for kw in KOM.keywords]
         keywords = sorted(set(keywords))
         # print(keywords)
-        print('\nTotal {} keywords'.format(len(keywords)))
+        # print('\nTotal {} keywords'.format(len(keywords)))
         pages = [fn for fn in os.listdir(p.doc) if fn.endswith('.html')]
         pages = sorted(pages)
-        print('Total {} HTML pages'.format(len(pages)))
+        # print('Total {} HTML pages'.format(len(pages)))
         # print(pages)
         if len(keywords) > len(pages):
             for page in pages:
                 if page[:-5] in keywords:
                     keywords.remove(page[:-5])
-            print('Those keywords have no HTML pages:')
+            print('\nThose keywords have no HTML pages:')
             print(keywords)
         self.assertTrue(len(keywords) == len(pages))
 

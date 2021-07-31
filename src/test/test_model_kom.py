@@ -25,41 +25,25 @@ if sys_path not in sys.path:
 from model.kom import KOM, ItemType
 
 
-class Test(unittest.TestCase):
-
-    def setUp(self):
-        print()
-
-
-class TestKOM(Test):
+class TestKOM(unittest.TestCase):
 
     def test_kom1(self):
-        """Print all CalculiX keywords"""
-        for kw in KOM.keyword_names:
-            print(kw)
+        """Test if CalculiX keywords are generated"""
         self.assertTrue(len(KOM.keyword_names))
 
-    def test_kom2(self):
+    def test_kom2(self, parent=None, path=None):
         """Test parent-child relations in all tree items"""
 
-        def test(parent=None, path=None):
-            """Print item paths top-downwards and bottom-upwards"""
-            if parent is None:
-                parent = KOM.root
-                path = KOM.root.name
-            for item in parent.items:
-                if item.itype == ItemType.ARGUMENT:
-                    continue
-                path_downwards = path + ' -> ' + item.name
-                path_upwards = ' -> '.join(item.get_path())
-                self.assertEqual(path_downwards, path_upwards)
-                if path_downwards != path_upwards:
-                    msg = 'Keyword object model is built with mistakes!\n{}\n{}'\
-                        .format(path_downwards, path_upwards)
-                    logging.error(msg)
-                    return
-                test(item, path_downwards)
-        test()
+        if parent is None:
+            parent = KOM.root
+            path = KOM.root.name
+        for item in parent.items:
+            if item.itype == ItemType.ARGUMENT:
+                continue
+            path_downwards = path + ' -> ' + item.name
+            path_upwards = ' -> '.join(item.get_path())
+            self.assertEqual(path_downwards, path_upwards)
+            self.test_kom2(item, path_downwards)
 
 
 if __name__ == '__main__':
