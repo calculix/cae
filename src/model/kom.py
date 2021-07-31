@@ -27,7 +27,6 @@ if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 from path import p
 from settings import s
-from utils import tests
 
 
 class KeywordObjectModel:
@@ -140,25 +139,6 @@ class KeywordObjectModel:
                 kw = self.get_top_keyword_by_name(item, kw_name)
                 if kw is not None:
                     return kw
-
-    def test(self, parent=None, path=None):
-        """Test parent-child relations in all tree items.
-        Print item paths top-downwards and bottom-upwards.
-        """
-        if parent is None:
-            parent = self.root
-            path = self.root.name
-        for item in parent.items:
-            if item.itype == ItemType.ARGUMENT:
-                continue
-            path_downwards = path + ' -> ' + item.name
-            path_upwards = ' -> '.join(item.get_path())
-            if path_downwards != path_upwards:
-                msg = 'Keyword object model is built with mistakes!\n{}\n{}'\
-                    .format(path_downwards, path_upwards)
-                logging.error(msg)
-                return
-            self.test(item, path_downwards)
 
 
 class ItemType(Enum):
@@ -343,33 +323,3 @@ class Implementation(Item):
 logging.disable() # switch off logging
 KOM = KeywordObjectModel()
 logging.disable(logging.NOTSET) # switch on logging
-
-
-@tests.test_wrapper()
-def test():
-    """Test all CalculiX keywords."""
-    # from pycallgraph import PyCallGraph
-    # from pycallgraph import Config
-    # from pycallgraph import GlobbingFilter
-    # from pycallgraph.output import GraphvizOutput
-
-    # modules = [m[:-3]+'*' for m in os.listdir(p.src) if m.endswith('.py')] + ['Window*']
-    # config = Config()
-    # config.trace_filter = GlobbingFilter(
-    #     include=modules, exclude=['logging*', '*FileFinder'])
-    # graphviz = GraphvizOutput(output_file=__file__[:-3]+'.png')
-    # with PyCallGraph(output=graphviz, config=config):
-
-    os.chdir(os.path.dirname(__file__))
-    global KOM
-
-    # Print all CalculiX keywords
-    for kw in KOM.keyword_names:
-        print(kw)
-
-    # Test KOM
-    # KOM.test()
-
-
-if __name__ == '__main__':
-    test() # run test

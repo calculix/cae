@@ -9,6 +9,8 @@ application start. OS name, Python version, app. version, default web
 browser are logged. Requirements are installed automatically via pip.
 
 Run test: Ctrl+F5 from VSCode.
+
+TODO Rewrite as unittests
 """
 
 

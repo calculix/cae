@@ -32,7 +32,7 @@ clean.screen()
 import os
 from PyQt5 import QtWidgets, QtWebEngineWidgets
 
-# # Draw apps architecture
+# # Draw app architecture
 # from pycallgraph import PyCallGraph
 # from pycallgraph import Config
 # from pycallgraph import GlobbingFilter
