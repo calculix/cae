@@ -95,10 +95,6 @@ class Job:
         copy_checks_log_contents_to(self.log)
         log.add_file_handler(self.log)
 
-        if sys.argv[0].endswith('.py'):
-            logging.debug('Running from sources.')
-        else:
-            logging.debug('Running from binaries.')
         logging.info('Application home directory is:\n'\
             + p.app_home_dir)
         logging.info('Work directory is:\n' + self.dir)
@@ -156,15 +152,20 @@ class Job:
         if os.path.isfile(s.path_editor):
             if os.path.isfile(self.inp):
                 command = [s.path_editor, self.inp]
-                subprocess.Popen(command)
+                p = subprocess.Popen(command)
+                return p
             else:
-                logging.error('File not found:\n' \
+                msg = 'File not found:\n' \
                     + self.inp \
-                    + '\nWrite input first.')
+                    + '\nWrite input first.'
+                logging.error(msg)
+                return None
         else:
-            logging.error('Wrong path to text editor:\n' \
+            msg = 'Wrong path to text editor:\n' \
                 + s.path_editor \
-                + '\nConfigure it in File->Settings.')
+                + '\nConfigure it in File->Settings.'
+            logging.error(msg)
+            return None
 
     def open_subroutine(self):
         """Dialog window to filter fortran subroutines."""
@@ -251,15 +252,20 @@ class Job:
         if os.path.isfile(s.path_editor):
             if os.path.isfile(self.log):
                 command = [s.path_editor, self.log]
-                subprocess.Popen(command)
+                p = subprocess.Popen(command)
+                return p
             else:
-                logging.error('File not found:\n' \
+                msg = 'File not found:\n' \
                     + self.log \
-                    + '\nSubmit analysis first.')
+                    + '\nSubmit analysis first.'
+                logging.error(msg)
+                return None
         else:
-            logging.error('Wrong path to text editor:\n' \
+            msg = 'Wrong path to text editor:\n' \
                 + s.path_editor \
-                + '\nConfigure it in File->Settings.')
+                + '\nConfigure it in File->Settings.'
+            logging.error(msg)
+            return None
 
     def export_vtu(self):
         """Convert FRD to VTU."""
@@ -344,13 +350,3 @@ def path2cygwin(path):
     return '/cygdrive/' + \
             path[0].lower() + \
             path[2:].replace('\\', '/')
-
-
-@tests.test_wrapper()
-def test():
-    global j
-    j.view_log()
-
-
-if __name__ == '__main__':
-    test() # run test
