@@ -30,7 +30,7 @@ from PyQt5 import QtWidgets
 from model import m
 from model.kom import KOM, KeywordObjectModel, Implementation
 import log
-import tests
+from utils import tests
 
 
 class Block:

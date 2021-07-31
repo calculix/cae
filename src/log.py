@@ -19,7 +19,7 @@ from PyQt5 import QtGui, QtWidgets
 
 # My modules
 from settings import s
-import tests
+from utils import tests
 
 
 mh = 'MyHandler'

@@ -17,7 +17,7 @@ python3 ./src/cae.py -inp yourmodel.inp
 import time
 start_time = time.perf_counter()
 
-import clean
+from utils import clean
 clean.screen()
 
 # First time logging configure

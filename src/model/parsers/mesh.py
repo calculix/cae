@@ -38,7 +38,7 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 import importer
-import tests
+from utils import tests
 import log
 
 

@@ -45,7 +45,7 @@ from path import p
 from settings import s
 from gui import connection
 from gui import stdout
-import tests
+from utils import tests
 
 
 def init_wrapper():

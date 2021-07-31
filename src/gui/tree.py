@@ -31,7 +31,7 @@ from model.kom import ItemType, Implementation
 from model.kom import KOM
 from model import m
 from gui.window import wf, df
-import tests
+from utils import tests
 
 
 class Tree:

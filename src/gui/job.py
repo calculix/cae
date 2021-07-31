@@ -38,7 +38,7 @@ from path import p
 from settings import s
 from model import m
 import log
-import tests
+from utils import tests
 
 
 def list_threads():

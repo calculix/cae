@@ -38,7 +38,7 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-import tests
+from utils import tests
 
 
 def align_master(w):

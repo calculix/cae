@@ -15,7 +15,7 @@ import logging
 import inspect
 
 # My modules
-import clean
+from utils import clean
 
 
 def scan_all_files_in(start_folder, ext, limit=1000000):

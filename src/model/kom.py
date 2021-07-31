@@ -27,7 +27,7 @@ if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 from path import p
 from settings import s
-import tests
+from utils import tests
 
 
 class KeywordObjectModel:

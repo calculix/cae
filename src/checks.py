@@ -19,7 +19,7 @@ import logging
 import subprocess
 
 # My modules
-import tests
+from utils import tests
 import log
 
 
