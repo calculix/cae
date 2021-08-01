@@ -70,13 +70,16 @@ thread_counter = 0
 
 class Job:
 
-    def __init__(self, file_name=s.start_model):
+    def __init__(self):
+        pass
+
+    def generate(self, file_name=s.start_model):
         """Create job object.
-        Is called twice on startup:
-        first call - from cae.py,
-        second - from importer.py.
-        TODO Fix it
+        Is called from importer.py.
         """
+
+        print('\nCREATING JOB INSTANCE.\n')
+
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
         self.name = os.path.basename(file_name) # INP file name
         self.inp = os.path.abspath(file_name) # full path to INP file with extension
@@ -323,7 +326,6 @@ class Job:
                 break
 
         # Run command
-        # os.chdir(self.dir)
         process = subprocess.Popen(cmd,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
@@ -331,7 +333,6 @@ class Job:
         if len(send):
             process.stdin.write(bytes(send, 'utf8'))
             process.stdin.close()
-        # os.chdir(p.app_home_dir)
 
         # Start stdout reading and logging thread
         args = [process.stdout, 'read_stdout', read_output]

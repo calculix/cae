@@ -13,8 +13,7 @@ File importer:
 We can get here via menu File -> Import
 or directly after application start.
 
-TODO
-Only file list is logged. No importer messages.
+TODO Only file list is logged. No importer messages.
 """
 
 # Standard modules
@@ -152,10 +151,9 @@ class Importer:
         if file_name is not None and len(file_name):
             self.w.textEdit.clear()
 
-            # Rename job before tree regeneration
+            # Update job instance before the tree regeneration
             # A new logger handler is created here
-            # TODO Do not call job __init__ twice
-            j.__init__(file_name[:-4] + '.inp')
+            j.generate(file_name[:-4] + '.inp')
 
             from gui import stdout
             stdout.stop_readers()
