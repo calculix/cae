@@ -172,7 +172,7 @@ class Importer:
             self.w.setWindowTitle(title)
 
             # Generate new KOM without implementations
-            KOM = KeywordObjectModel()
+            KOM.__init__()
 
             # Get INP code and split it on blocks
             logging.info('Loading model\n{}'.format(j.inp))
