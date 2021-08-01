@@ -97,6 +97,7 @@ class Job:
 
         logging.info('Application home directory is:\n'\
             + p.app_home_dir)
+        os.chdir(self.dir)
         logging.info('Work directory is:\n' + self.dir)
 
     def convert_unv(self):
@@ -322,7 +323,7 @@ class Job:
                 break
 
         # Run command
-        os.chdir(self.dir)
+        # os.chdir(self.dir)
         process = subprocess.Popen(cmd,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
@@ -330,7 +331,7 @@ class Job:
         if len(send):
             process.stdin.write(bytes(send, 'utf8'))
             process.stdin.close()
-        os.chdir(p.app_home_dir)
+        # os.chdir(p.app_home_dir)
 
         # Start stdout reading and logging thread
         args = [process.stdout, 'read_stdout', read_output]

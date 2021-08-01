@@ -146,6 +146,7 @@ class Factory:
     def run_slave(self, cmd):
         """Close opened slave window and open a new one."""
         self.kill_slave()
+        logging.info(cmd)
         self.sw = SlaveWindow(cmd)
         self.create_connection()
 
