@@ -8,9 +8,10 @@ Utilities to test user's system configuration. Checks are called on the
 application start. OS name, Python version, app. version, default web
 browser are logged. Requirements are installed automatically via pip.
 
-Run test: Ctrl+F5 from VSCode.
+The difference of checks from unittests in src/test directory is that
+checks are written for user, while tests are pure developer tools.
 
-TODO Rewrite as unittests
+Run test: Ctrl+F5 from VSCode.
 """
 
 
