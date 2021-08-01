@@ -24,10 +24,13 @@ clean.screen()
 import logging
 logging.basicConfig(level=logging.NOTSET)
 
+from settings import s
+
 # Run some important checks before start
-import checks
-checks.run_startup_checks()
-clean.screen()
+if s.perform_startup_checks:
+    import checks
+    checks.run_startup_checks()
+    clean.screen()
 
 import os
 from PyQt5 import QtWidgets, QtWebEngineWidgets
@@ -52,7 +55,6 @@ app = QtWidgets.QApplication(sys.argv)
 Could be chosen with command line parameter.
 """
 import argparse
-from settings import s
 parser = argparse.ArgumentParser()
 parser.add_argument('-inp', type=str,
     help='your .inp file',

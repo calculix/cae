@@ -7,8 +7,6 @@ Distributed under GNU General Public License v3.0
 Application settings.
 Attributes values are maintained in config/Settings_*.py.
 User dialog form is config/SettingsDialog.xml - use Qt Designer to edit.
-
-# TODO Checkbox to skip startup tests.
 """
 
 # Standard modules
@@ -55,6 +53,7 @@ class Settings:
             self.start_cgx_by_default = True
             self.align_windows = True
             self.show_help = False
+            self.perform_startup_checks = True
 
     def open(self):
         """Open dialog window and pass settings."""
