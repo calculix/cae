@@ -13,7 +13,6 @@ sw = slave window
 
 # Standard modules
 import os
-import sys
 import time
 import math
 import logging

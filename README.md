@@ -173,11 +173,11 @@ What's new in future v0.9.0:
 
 - CalculiX 2.17.1. Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap): classic, viridis, inferno and turbo. Switch colormaps from menu CGX.
 - Significantly improved INP importer algorithm. Now parser supports keyword line continuation. Tested on over 20 000 INP files, including Abaqus models.
-- New checker module. Checks are called on the application start. OS name, Python version, CAE version and default web browser are logged. Requirements are installed automatically via pip.
-- Significantly improved window connectivity (master/slave).
-- Improved robustness - now almost all python modules have a test method.
+- New checker module. Checks are called on the application start. OS name, Python version, CAE version and default web browser are logged. Requirements are installed automatically via pip. Statrup checks could be switched off from the settings.
 - Refactored logging system. Now it is a new dedicated module.
-- Simplified code to omit redundant arguments passing between modules.
+- Significantly improved window connectivity (master/slave).
+- Improved robustness - now almost every module has a test. Test system uses 'unittest' standard library.
+- Simplified code to omit redundant arguments passing between objects. Class instances are created directly in modules and imported to any other module.
 - Using external python packages *ccx2paraview* and *unv2ccx* as required dependacies.
 - Added buttons to select paths in Settings dialog.
 - cae.bat and sae.sh - run source code
@@ -207,7 +207,6 @@ CGX:
 - Highlight loads and boundary conditions.
 
 Parsers:
-- Check if includes are opened correctly.
 - Reparse mesh/model after tree.actionDeleteImplementation.
 - Parsers for loads and boundary conditions.
 
@@ -215,12 +214,8 @@ Importer:
 - treeView: import certain keyword with descendants (tree branch) from INP-file.
 - Interface for materials import: right click on *Material -> Import.
 - [Meshio converter](https://github.com/nschloe/meshio).
-- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/), Abaqus INP and ODB.
+- Import mesh from FRD, [VTK](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadLegacyUnstructuredGrid/), [VTU](https://lorensen.github.io/VTKExamples/site/Python/IO/ReadUnstructuredGrid/), [Gmsh](http://gmsh.info/).
 - Open .fbd/.fbl and forward to CGX. Then import generated model.
-
-Logging and tests:
-- Refactor tests system. Use unittest to test all the modules.
-- Folder 'tests': move all logs and architecture schemes there.
 
 Other:
 - Take binaries for Windows from https://www.meil.pw.edu.pl/add/ADD/Teaching/Software/Calculix
