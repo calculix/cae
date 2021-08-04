@@ -21,6 +21,7 @@ import os
 import re
 import sys
 import logging
+import pathlib
 
 # External modules
 from PyQt5 import QtWidgets
@@ -113,7 +114,7 @@ class Importer:
 
             i += 1
 
-    def import_inp(self):
+    def parse_blocks(self):
         """Create keyword implementations."""
         parent = KOM.root
         messages = []
@@ -145,8 +146,8 @@ class Importer:
 
         if file_name is None:
             file_name = QtWidgets.QFileDialog.getOpenFileName(self.w, \
-                'Import INP/UNV file', j.dir, \
-                'INP (*.inp);;UNV (*.unv)')[0]
+                'Import INP/FBD/UNV file', j.dir, \
+                'INP (*.inp);;FBD (*.fbd);;UNV (*.unv)')[0]
 
         if file_name is not None and len(file_name):
             self.w.textEdit.clear()
@@ -155,30 +156,60 @@ class Importer:
             # A new logger handler is created here
             j.generate(file_name[:-4] + '.inp')
 
-            from gui import stdout
-            stdout.stop_readers()
-
-            # Convert UNV to INP
-            if file_name.lower().endswith('.unv'):
-                j.convert_unv()
-                if not os.path.isfile(j.inp):
-                    logging.error('Can not convert\n' + j.unv)
-                    return
-
             # Show model name in window title
             title = 'CalculiX Advanced Environment - ' + j.name
             self.w.setWindowTitle(title)
 
+            from gui import stdout
+            stdout.stop_readers()
+
             # Generate new KOM without implementations
             KOM.__init__()
 
-            # Get INP code and split it on blocks
-            logging.info('Loading model\n{}'.format(j.inp))
-            inp_doc = read_lines(j.inp)
-            self.split_on_blocks(inp_doc) # fill keyword_blocks
+            inp_files = []
+            if file_name.lower().endswith('.inp'):
+                inp_files.append(j.inp)
 
-            # Parse INP and enrich KOM with parsed objects
-            self.import_inp()
+            # Convert UNV to INP
+            if file_name.lower().endswith('.unv'):
+                j.convert_unv()
+                inp_files.append(j.inp)
+                if not os.path.isfile(j.inp):
+                    logging.error('Can not convert\n' + j.unv)
+                    return
+
+            # Pass FBD to CGX
+            from gui import cgx
+            if file_name.lower().endswith('.fbd'):
+                """Get list of newly created or updated files."""
+                flist_before = {}
+                for f in os.listdir(os.path.dirname(file_name)):
+                    fname = pathlib.Path(f)
+                    flist_before[f] = fname.stat().st_ctime
+                cgx.restart_and_read_fbd(file_name)
+                flist_after = os.listdir(os.path.dirname(file_name))
+                for f in flist_after:
+                    if not f in flist_before:
+                        inp_files.append(f)
+                    else:
+                        modified_before = flist_before[f]
+                        fname = pathlib.Path(f)
+                        modified_after = fname.stat().st_ctime
+                        if modified_before != modified_after:
+                            inp_files.append(f)
+
+            # Get INP code from all model files
+            logging.info('Loading model files...')
+            inp_doc = []
+            for f in inp_files:
+                logging.debug(f)
+                inp_doc.extend(read_lines(f))
+
+            # Split INP code on blocks - fill self.keyword_blocks
+            self.split_on_blocks(inp_doc)
+
+            # Parse keyword_blocks and enrich KOM with parsed objects
+            self.parse_blocks()
 
             # Add parsed implementations to the tree
             from gui.tree import t
@@ -201,7 +232,6 @@ class Importer:
                 return
 
             has_nodes = len(m.Mesh.nodes)
-            from gui import cgx
             cgx.open_inp(j.inp, has_nodes)
 
 
@@ -265,7 +295,7 @@ def test():
         i = Importer()
         inp_doc = read_lines(file_name)
         i.split_on_blocks(inp_doc) # fill keyword_blocks
-        i.import_inp()
+        i.parse_blocks()
 
     msg = '\n{} INP files.'
     log.print_to_file(log_file, msg.format(len(examples)))
