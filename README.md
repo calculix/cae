@@ -204,6 +204,7 @@ FreeCAD:
 - Connector for FreeCAD: listen to port and obtain meshed geometry.
 
 CGX:
+- Mater window / toolset with list of CGX commands.
 - Highlight loads and boundary conditions.
 
 Parsers:
