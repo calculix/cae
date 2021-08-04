@@ -28,12 +28,11 @@ from gui.window import wf
 from model import m
 
 
-def read_fbd_file(basename):
-    file_name = os.path.join(p.config, basename)
+def read_fbd_file(file_name):
     if os.path.isfile(file_name):
         wf.connection.post('read ' + file_name)
     else:
-        logging.error('No config file ' + basename)
+        logging.error('No config file ' + file_name)
 
 
 def paint_elsets_old(elsets):
@@ -48,6 +47,13 @@ def paint_elsets_old(elsets):
         for elset in elsets:
             wf.connection.post('plus e {} {}'.format(elset, colors[i]))
             i = (i + 1) % len(colors)
+
+
+def restart_and_read_fbd(file_name):
+    """Open GraphiX and execute FBD."""
+    wf.kill_slave() # close old CGX
+    cmd = p.path_cgx + ' -b ' + file_name
+    wf.run_slave(cmd)
 
 
 """Menu CGX."""
@@ -102,9 +108,9 @@ def open_inp(inp_file, has_nodes=0):
             return
         cmd = p.path_cgx + ' -c ' + inp_file
         wf.run_slave(cmd)
-        read_fbd_file('cgx_start.fbd')
-        read_fbd_file('cgx_iso.fbd')
-        read_fbd_file('cgx_colors.fbd')
+        read_fbd_file(os.path.join(p.config, 'cgx_start.fbd'))
+        read_fbd_file(os.path.join(p.config, 'cgx_iso.fbd'))
+        read_fbd_file(os.path.join(p.config, 'cgx_colors.fbd'))
     else:
         logging.error('File not found:\n' + inp_file)
 
@@ -118,8 +124,8 @@ def open_frd(frd_file):
     if os.path.isfile(frd_file):
         cmd = p.path_cgx + ' -o ' + frd_file
         wf.run_slave(cmd)
-        read_fbd_file('cgx_start.fbd')
-        read_fbd_file('cgx_iso.fbd')
+        read_fbd_file(os.path.join(p.config, 'cgx_start.fbd'))
+        read_fbd_file(os.path.join(p.config, 'cgx_iso.fbd'))
     else:
         logging.error('File not found:\n' \
             + frd_file \
