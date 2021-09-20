@@ -1,0 +1,5 @@
+bin/* linguist-detectable=false
+ccx_linux/* linguist-detectable=false
+ccx_windows/* linguist-detectable=false
+doc/* linguist-detectable=false
+src/* linguist-detectable=true
