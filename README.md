@@ -88,7 +88,7 @@ Calculation result exported to Paraview:
 
 # How to use
 
-Get [Python3](https://www.python.org/downloads/) (>3.6) and install it.
+Get [Python3](https://www.python.org/downloads/) (>3.8) and install it.
 
 [Download latest release](https://github.com/calculix/cae/releases) (source code) and unpack it.
 
@@ -204,7 +204,7 @@ FreeCAD:
 - Connector for FreeCAD: listen to port and obtain meshed geometry.
 
 CGX:
-- Mater window / toolset with list of CGX commands.
+- Master window / toolset with list of CGX commands.
 - Highlight loads and boundary conditions.
 
 Parsers:
