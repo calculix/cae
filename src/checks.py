@@ -47,7 +47,7 @@ class Checks:
         (3, 5, 2, 'final', 0)
         """
         v1 = sys.version_info[:3]
-        v2 = (3, 4)
+        v2 = (3, 8)
         if sys.version_info < v2:
             msg = 'You have Python {}.{}.{}.\n'.format(*v1) \
                 + 'Required version is {}.{} or newer.'.format(*v2)
