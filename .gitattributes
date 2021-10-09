@@ -1,5 +1,4 @@
-bin/* linguist-detectable=false
-ccx_linux/* linguist-detectable=false
-ccx_windows/* linguist-detectable=false
-doc/* linguist-detectable=false
-src/* linguist-detectable=true
+bin/* linguist-vendored
+ccx_linux/* linguist-vendored
+ccx_windows/* linguist-vendored
+doc/* linguist-vendored
