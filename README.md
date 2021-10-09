@@ -147,6 +147,7 @@ In Windows to work with subroutines and to recompile CalculiX sources from CAE y
 
 Please, you may:
 
+- Star this project.
 - Simply use this software and ask questions.
 - Share your models and screenshots.
 - Do something from the [TODO-list](#TODO).
