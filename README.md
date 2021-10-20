@@ -1,15 +1,17 @@
 © Ihor Mirzov, 2019-2021  
 Distributed under GNU General Public License v3.0
 
+[![Github All Releases](https://img.shields.io/github/downloads/calculix/cae/total.svg)](https://github.com/calculix/cae/releases)
+
 <br/><br/>
 
 
 
 ---
 
+[Downloads](https://github.com/calculix/cae/releases) |
 [Features](#features) |
 [Screenshots](#screenshots) |
-[Downloads](https://github.com/calculix/cae/releases) |
 [How to use](#how-to-use) |
 [Your help](#your-help) |
 [For developers](#for-developers) |
