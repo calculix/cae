@@ -23,6 +23,7 @@ import subprocess
 
 # My modules
 from utils import tests
+from path import p
 import log
 
 
@@ -150,22 +151,15 @@ class Checks:
     @staticmethod
     def check_all():
         """Run all checks."""
-        log_file = __file__[:-3] + '.log'
-        log.print_to_file(log_file, 'STARTUP TESTS\n')
+        # log_file = __file__[:-3] + '.log'
+        log.print_to_file(p.log, 'STARTUP TESTS\n')
+        # print('STARTUP TESTS\n')
+        # logging.log(25, 'STARTUP TESTS\n')
         Checks.check_os()
         Checks.check_python()
         Checks.check_app_version()
         Checks.check_default_web_browser()
         Checks.check_requirements() # containts SystemExit
-
-
-def run_startup_checks():
-    """Tests running before the app start."""
-    log.stop_logging()
-    logging.disable(logging.NOTSET) # switch on logging
-    log.add_my_handler()
-    Checks.check_all()
-    log.remove_my_handler()
 
 
 @tests.test_wrapper()

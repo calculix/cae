@@ -38,7 +38,6 @@ from path import p
 from settings import s
 from model import m
 import log
-from utils import tests
 
 
 def list_threads():
@@ -47,22 +46,6 @@ def list_threads():
         if t.name != threading.main_thread().name])
     msg = '\nRunning threads:\n' + '\n'.join(t_names) + '\n'
     logging.debug(msg)
-
-
-def copy_checks_log_contents_to(job_logfile):
-    """Copy logs from startup checks into the job logfile.
-    TODO Remove checks.log after.
-    """
-    checks_log = os.path.join(p.src, 'checks.log')
-    if not os.path.isfile(checks_log):
-        return
-    lines = []
-    with open(checks_log, 'r') as f:
-        lines = f.readlines()
-    with open(job_logfile, 'w') as f:
-        f.writelines(lines)
-        f.write('\nAPPLICATION START\n\n')
-    # os.remove(checks_log)
 
 
 thread_counter = 0
@@ -78,7 +61,7 @@ class Job:
         Is called from importer.py.
         """
 
-        print('\nCREATING JOB INSTANCE.\n')
+        log.print_to_file(p.log, '\nCREATING JOB INSTANCE\n')
 
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory
         self.name = os.path.basename(file_name) # INP file name
@@ -92,24 +75,14 @@ class Job:
         if os.path.exists(self.log):
             os.remove(self.log)
 
-        # Handler to write the job log file
-        # logging.disable() TODO use it instead of log module
-        log.remove_file_handler()
-        copy_checks_log_contents_to(self.log)
-        log.add_file_handler(self.log)
-
-        logging.info('Application home directory is:\n'\
+        logging.info('Application home directory is: '\
             + p.app_home_dir)
         os.chdir(self.dir)
-        logging.info('Work directory is:\n' + self.dir)
+        logging.info('Work directory is: ' + self.dir)
 
     def convert_unv(self):
         """Convert UNV to INP."""
         import unv2ccx
-        # converter_path = os.path.join(p.bin, 'unv2ccx' + p.extension)
-        # cmd = [converter_path, self.path + '.unv']
-        # logging.info(' '.join(cmd))
-        # self.run(cmd)
         unv2ccx.Converter(self.path + '.unv').run()
 
     def monitor_status(self):
@@ -130,21 +103,22 @@ class Job:
 
     """Menu Job."""
 
-    def write_input(self, lines):
+    def write_input(self, lines, file_name=''):
         """Write the whole model inp_code into the output .inp-file.
         Is called from menu 'Job -> Write input'.
         Reinitialize job because of possible file_name change.
         """
-        file_name = QtWidgets.QFileDialog.getSaveFileName(None, \
-            'Write INP file', self.dir, \
-            'Input files (*.inp)')[0]
+        if not len(file_name):
+            file_name = QtWidgets.QFileDialog.getSaveFileName(None, \
+                'Write INP file', self.dir, \
+                'Input files (*.inp)')[0]
         if len(file_name):
             if not file_name.endswith('.inp'):
                 file_name += '.inp'
             with open(file_name, 'w') as f:
                 f.writelines(lines)
             logging.info('Input written to\n' + file_name)
-            self.__init__(file_name)
+            self.generate(file_name)
 
             # Reopen CGX
             has_nodes = len(m.Mesh.nodes)

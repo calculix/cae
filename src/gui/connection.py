@@ -52,8 +52,9 @@ class WindowInfo:
         self.wname = wname # window title
 
     def to_string(self):
-        return '{}  {: 8d}  {}'\
-            .format(self.hex_wid, self.pid, self.wname)
+        # return '{}  {: 8d}  {}'\
+        #     .format(self.hex_wid, self.pid, self.wname)
+        return ', '.join([self.hex_wid, str(self.pid), self.wname])
 
 
 def post_wrapper(wc):

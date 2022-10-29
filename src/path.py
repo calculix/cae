@@ -47,6 +47,7 @@ class Path:
         self.src = os.path.join(self.app_home_dir, 'src')
         self.path_ccx = os.path.join(self.bin, 'ccx' + self.extension)
         self.path_cgx = os.path.join(self.bin, 'cgx' + self.extension)
+        self.log = os.path.join(self.app_home_dir, 'cae.log')
 
     def append_to_PATH(self, paths):
         """Pyinstaller bug in Windows:

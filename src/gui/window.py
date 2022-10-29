@@ -74,7 +74,7 @@ def init_wrapper():
                     wi.pid = self.process.pid
                 except:
                     pass # MasterWindow has no process variable
-                msg = 'Starting new window:\n' + wi.to_string()
+                msg = 'Starting new window: ' + wi.to_string()
                 logging.debug(msg)
                 self.info = wi
 
@@ -151,20 +151,20 @@ class Factory:
         self.create_connection()
 
         # Start stdout reading and logging thread
-        if p.path_cgx in cmd and hasattr(self.mw, 'textEdit'):
-            html = self.mw.textEdit.toHtml()
-            self.mw.textEdit.clear()
-            self.mw.textEdit.setHtml(html)
+        # if p.path_cgx in cmd and hasattr(self.mw, 'textEdit'):
+        #     html = self.mw.textEdit.toHtml()
+        #     self.mw.textEdit.clear()
+        #     self.mw.textEdit.setHtml(html)
 
-            # Start stdout reading and logging thread
-            if self.connection is not None:
-                args = [self.sw.process.stdout,
-                        'read_cgx_stdout',\
-                        True, self.connection]
-                stdout.start_cgx_reader(*args)
-            else:
-                msg = 'Window connection not established.'
-                logging.error(msg)
+        #     # Start stdout reading and logging thread
+        #     if self.connection is not None:
+        #         args = [self.sw.process.stdout,
+        #                 'read_cgx_stdout',\
+        #                 True, self.connection]
+        #         stdout.start_cgx_reader(*args)
+        #     else:
+        #         msg = 'Window connection not established.'
+        #         logging.error(msg)
 
     def kill_slave(self):
         """Kill all slave processes."""
@@ -258,9 +258,9 @@ class MasterWindow(QtWidgets.QMainWindow):
         logging.disable(logging.NOTSET) # switch on logging
 
         # Handler to show logs in the CAE textEdit
-        if hasattr(self, 'textEdit'): # skip for test()
-            import log
-            log.add_text_handler(self.textEdit)
+        # if hasattr(self, 'textEdit'): # skip for test()
+        #     import log
+        #     log.add_text_handler(self.textEdit)
 
         self.show()
 
@@ -281,7 +281,9 @@ class SlaveWindow:
 
     @init_wrapper()
     def __init__(self, cmd):
-        """Run slave process without terminal window, set window info."""
+        """Run slave process without terminal window, set window info.
+        NOTE cmd is splitted, so pathes with spaces are not supported.
+        """
         self.info = None # WindowInfo will be set in @init_wrapper
         self.cmd = cmd
         shell = (os.name == 'nt') # True or False

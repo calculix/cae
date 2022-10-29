@@ -77,19 +77,20 @@ class Mesh:
             return
 
         # Call parse methods for everything
-        msg_text = 'Mesh parser:'
         for mname in ['nodes', 'nsets', 'elements', 'elsets', 'surfaces']:
             method = self.__dict__[mname]
             try:
                 getattr(self, 'parse_' + mname)(lines)
-                msg_text += '\n{} {}'.format(len(method), mname)
-                # msg_text += str([v.name for v in method.values()])
-                # for k,v in method.items():
-                #     msg_text += '<br/>\n{0}: {1}'.format(k, v)
             except:
                 msg = 'Can\'t parse {}\n'.format(mname) \
                     + traceback.format_exc()
                 logging.error(msg)
+
+        msg_text = []
+        for mname in ['nodes', 'nsets', 'elements', 'elsets', 'surfaces']:
+            method = self.__dict__[mname]
+            msg_text.append('{} {}'.format(len(method), mname))
+        msg_text = 'Mesh parser: ' + ', '.join(msg_text)
         logging.info(msg_text)
 
     def warn(self, msg):

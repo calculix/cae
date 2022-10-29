@@ -28,11 +28,26 @@ from gui.window import wf
 from model import m
 
 
+def restart_empty():
+    """Open empty GraphiX window."""
+    wf.kill_slave() # close old CGX
+    cmd = p.path_cgx + ' -b ' + os.path.join(p.config, 'cgx_start.fbd')
+    wf.run_slave(cmd)
+
+
 def read_fbd_file(file_name):
     if os.path.isfile(file_name):
         wf.connection.post('read ' + file_name)
     else:
         logging.error('No config file ' + file_name)
+
+
+def restart_and_read_fbd(file_name):
+    """Open GraphiX and execute FBD.
+    TODO CGX stucks after FBD execution."""
+    wf.kill_slave() # close old CGX
+    cmd = p.path_cgx + ' -b ' + file_name
+    wf.run_slave(cmd)
 
 
 def paint_elsets_old(elsets):
@@ -47,13 +62,6 @@ def paint_elsets_old(elsets):
         for elset in elsets:
             wf.connection.post('plus e {} {}'.format(elset, colors[i]))
             i = (i + 1) % len(colors)
-
-
-def restart_and_read_fbd(file_name):
-    """Open GraphiX and execute FBD."""
-    wf.kill_slave() # close old CGX
-    cmd = p.path_cgx + ' -b ' + file_name
-    wf.run_slave(cmd)
 
 
 """Menu CGX."""
@@ -122,7 +130,7 @@ def open_frd(frd_file):
         raise SystemExit # the best way to exit
 
     if os.path.isfile(frd_file):
-        cmd = p.path_cgx + ' -o ' + frd_file
+        cmd = p.path_cgx + ' -o "' + frd_file + '"'
         wf.run_slave(cmd)
         read_fbd_file(os.path.join(p.config, 'cgx_start.fbd'))
         read_fbd_file(os.path.join(p.config, 'cgx_iso.fbd'))

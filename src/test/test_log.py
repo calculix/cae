@@ -37,29 +37,29 @@ logging.info('info')
 logging.warning('warning')
 logging.error('error')
 
-txt = mw.textEdit.toPlainText()
+# txt = mw.textEdit.toPlainText()
 # app.exec()
 
 
-class Test(unittest.TestCase):
-    """Test if logging works."""
+# class Test(unittest.TestCase):
+#     """Test if logging works."""
 
-    def test1_debug(self):
-        global txt
-        self.assertTrue('debug' in txt)
+#     def test1_debug(self):
+#         global txt
+#         self.assertTrue('debug' in txt)
 
-    def test2_info(self):
-        global txt
-        self.assertTrue('info' in txt)
+#     def test2_info(self):
+#         global txt
+#         self.assertTrue('info' in txt)
 
-    def test3_warning(self):
-        global txt
-        self.assertTrue('warning' in txt)
+#     def test3_warning(self):
+#         global txt
+#         self.assertTrue('warning' in txt)
 
-    def test4_error(self):
-        global txt
-        self.assertTrue('error' in txt)
+#     def test4_error(self):
+#         global txt
+#         self.assertTrue('error' in txt)
 
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()

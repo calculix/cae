@@ -56,7 +56,7 @@ class KeywordObjectModel:
     def build(self, xml_branch, parent):
         """Recursively build Keyword Object Model."""
         for xml_child in xml_branch:
-            logging.log(5, xml_child.tag + ', ' + str(xml_child.attrib))
+            # logging.log(5, xml_child.tag + ', ' + str(xml_child.attrib))
             """
             xml_child.tag, xml_child.attrib:
 

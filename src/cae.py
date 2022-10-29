@@ -22,15 +22,22 @@ clean.screen()
 
 # First time logging configure
 import logging
-logging.basicConfig(level=logging.NOTSET)
+fmt = logging.Formatter('%(levelname)s: %(message)s')
+logging.basicConfig(level=logging.NOTSET, format=fmt._fmt)
+
+import log
+from path import p
+# log.remove_file_handler()
+log.stop_logging()
+log.add_file_handler(p.log)
+log.add_stream_handler()
 
 from settings import s
 
 # Run some important checks before start
 if s.perform_startup_checks:
     import checks
-    checks.run_startup_checks()
-    clean.screen()
+    checks.Checks.check_all()
 
 import os
 from PyQt5 import QtWidgets, QtWebEngineWidgets
@@ -61,12 +68,8 @@ parser.add_argument('-inp', type=str,
     default=s.start_model)
 args = parser.parse_args()
 
-"""Show main window.
-Text logging handler is created here.
-TODO Avoid terminal logs.
-"""
+# Show main window
 from gui.window import wf
-from path import p
 wf.run_master(p.main_xml)
 
 # Assign main window actions

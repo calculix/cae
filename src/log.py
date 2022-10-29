@@ -5,33 +5,24 @@
 Distributed under GNU General Public License v3.0
 
 Custom logging handlers.
-The Text handler is created once per session and prints into CAE textEdit.
 The File handler is created any time you open a model.
 Log file has the same name as a model.
 """
 
 # Standard modules
 import os
+import sys
 import logging
-
-# External modules
-from PyQt5 import QtGui, QtWidgets
 
 # My modules
 from settings import s
-from utils import tests
+from path import p
 
 
 mh = 'MyHandler'
-mtlh = 'MyTextLoggingHandler'
 mflh = 'MyFileLoggingHandler'
 mslh = 'MyStreamLoggingHandler'
 fmt = logging.Formatter('%(levelname)s: %(message)s')
-
-
-# def initialize_logging(level=s.logging_level):
-#     global fmt
-#     logging.basicConfig(level=level, format=fmt._fmt)
 
 
 def get_logging_info():
@@ -81,55 +72,6 @@ class MyLoggingHandler(logging.Handler):
         self.setFormatter(fmt)
 
 
-class MyTextLoggingHandler(MyLoggingHandler):
-    """Called only once on startup.
-    Handler to show logs in master window textEdit.
-    """
-
-    def emit(self, LogRecord):
-        """Sends log messages to Window textEdit widget."""
-
-        # Message color depending on logging level
-        color = {
-            'NOTSET':   'Black',
-            'DEBUG':    'Gray',
-            'INFO':     'Green',
-            'WARNING':  'Blue',
-            'ERROR':    'Red',
-            'CRITICAL': 'Pink', }
-        if LogRecord.levelname in color:
-            color = color[LogRecord.levelname]
-        else:
-            color = '#2F4F4F' # DARKSLATEGRAY
-
-        msg = LogRecord.getMessage()
-
-        # Move leading and trailing newlines outside the message
-        leading_newlines = ''
-        trailing_newlines = ''
-        while msg.startswith('\n'):
-            leading_newlines += '<br/>'
-            msg = msg[1:]
-        while msg.endswith('\n'):
-            trailing_newlines += '<br/>'
-            msg = msg[:-1]
-
-        # Keep all newlines inside the message
-        msg = msg.replace('\n', '<br/>')
-
-        if LogRecord.levelname == 'Level 25':
-            msg = '<p style=\"margin:0px; color:{};\">{}{}{}</p>'\
-                .format(color, leading_newlines, msg, trailing_newlines)
-        else:
-            msg = '{}<span style=\"color:{};\">{}</span>: {}{}'\
-                .format(leading_newlines, color, LogRecord.levelname, msg, trailing_newlines)
-            msg = '<p style=\"margin:0px;\">{}</p>'.format(msg)
-
-        # Print message and scroll it to the end
-        self.target.append(msg)
-        self.target.moveCursor(QtGui.QTextCursor.End)
-
-
 class MyFileLoggingHandler(MyLoggingHandler):
     """Called at each file import.
     Handler to write logs into file.
@@ -139,7 +81,6 @@ class MyFileLoggingHandler(MyLoggingHandler):
 
         # Move newlines before the levelname
         msg = LogRecord.getMessage()
-        # print(msg + '\n')
         while msg.startswith('\n'):
             with open(self.target, 'a') as f:
                 f.write('\n')
@@ -149,18 +90,63 @@ class MyFileLoggingHandler(MyLoggingHandler):
         if msg.startswith('Level 25: '):
             msg = msg[10:]
 
-
         # Append message to the log file
         with open(self.target, 'a') as f:
             f.write(msg + '\n')
 
 
+def colored(r, g, b, text):
+    return "\033[38;2;{};{};{}m{}\033[38;2;255;255;255m".format(r, g, b, text)
+
+
+class MyStreamLoggingHandler(MyLoggingHandler):
+    """Handler to show logs in terminal."""
+
+    def emit(self, LogRecord):
+
+        # Message color depending on logging level
+        color = {
+            'NOTSET':   (255, 255, 255), # White
+            'DEBUG':    (128, 128, 255), # Blue
+            'INFO':     (128, 255, 128), # Green
+            'WARNING':  (255, 255,   0), # Yellow
+            'ERROR':    (255,   0,   0), # Red
+            'CRITICAL': (255, 192, 203), # Pink
+            }
+        if LogRecord.levelname in color:
+            color = color[LogRecord.levelname]
+        else:
+            color = (47, 79, 79) # DARKSLATEGRAY
+
+        msg = LogRecord.getMessage()
+
+        # Move leading and trailing newlines outside the message
+        leading_newlines = ''
+        trailing_newlines = ''
+        while msg.startswith('\n'):
+            leading_newlines += '\n'
+            msg = msg[1:]
+        while msg.endswith('\n'):
+            trailing_newlines += '\n'
+            msg = msg[:-1]
+
+        if LogRecord.levelname == 'Level 25':
+            msg = leading_newlines + msg + trailing_newlines
+        else:
+            msg = leading_newlines + colored(*color, LogRecord.levelname) \
+                + ': ' + msg + trailing_newlines
+
+        print(msg)
+
+
 def stop_logging():
     """Stop all logging handlers, even default stdout."""
-    for h in logging.getLogger().handlers:
+    l = logging.getLogger()
+    for h in l.handlers:
         h.close()
-    logging.getLogger().handlers = []
-    logging.disable() # switch off logging
+    l.handlers = []
+    l.addHandler(logging.NullHandler())
+    l.propagate = False
 
 
 def remove_handler_by_name(name):
@@ -175,11 +161,13 @@ def remove_handler_by_name(name):
 def add_my_handler(level=s.logging_level):
     """Handler to emit messages via print_to_file().
     Combination of file and stream handlers.
+    Is used in test() functions.
     """
     import inspect
     caller = os.path.realpath(inspect.stack()[1][1])
     log_file = caller[:-3] + '.log'
-    logging.basicConfig(level=level)
+    global fmt
+    logging.basicConfig(level=level, format=fmt._fmt)
     h = myHandler(log_file)
     global mh
     h.set_name(mh)
@@ -187,35 +175,13 @@ def add_my_handler(level=s.logging_level):
     logging.getLogger().addHandler(h)
 
 
-def remove_my_handler():
-    """Remove all MyHandler handlers."""
-    global mh
-    remove_handler_by_name(mh)
-
-
-def add_text_handler(textEdit, level=s.logging_level):
-    """Handler to show logs in master window textEdit."""
-    logging.basicConfig(level=level)
-    h = MyTextLoggingHandler(textEdit)
-    global mtlh
-    h.set_name(mtlh)
-    h.setLevel(level)
-    logging.getLogger().addHandler(h)
-
-
-def remove_text_handler():
-    """Remove all textEdit handlers."""
-    global mtlh
-    remove_handler_by_name(mtlh)
-
-
 def add_file_handler(log_file, level=s.logging_level):
     """Handler to write logs into file."""
-    logging.basicConfig(level=level)
     h = MyFileLoggingHandler(log_file)
     global mflh
     h.set_name(mflh)
     h.setLevel(level)
+    h.setFormatter(fmt)
     logging.getLogger().addHandler(h)
 
 
@@ -223,43 +189,16 @@ def remove_file_handler():
     """Remove all file handlers."""
     global mflh
     remove_handler_by_name(mflh)
+    if os.path.exists(p.log):
+        os.remove(p.log)
 
 
 def add_stream_handler(level=s.logging_level):
     """Handler to write logs into stream."""
-    logging.basicConfig(level=level)
-    h = logging.StreamHandler()
+    global fmt
+    h = MyStreamLoggingHandler(sys.stdout)
     global mslh
     h.set_name(mslh)
     h.setLevel(level)
-    global fmt
     h.setFormatter(fmt)
     logging.getLogger().addHandler(h)
-
-
-def remove_stream_handler():
-    """Remove all stream handlers."""
-    global mslh
-    remove_handler_by_name(mslh)
-
-
-"""
-    NOTE Doesn't write to file system messages and uncatched errors
-
-    h = myHandler(log_file) # remove old log file
-    log_capture_string = io.StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.DEBUG)
-    global fmt
-    ch.setFormatter(fmt)
-    logging.getLogger().addHandler(ch)
-
-    log_contents = log_capture_string.getvalue()
-    if len(log_contents) != lines_count:
-        log_contents = log_contents[lines_count:]
-        lines_count = log_capture_string.tell()
-        relpath = os.path.relpath(file_name, start=os.getcwd())
-        print_to_file(log_file, '{} {}'.format(counter, relpath))
-        print_to_file(log_file, log_contents)
-    log_capture_string.close()
-"""

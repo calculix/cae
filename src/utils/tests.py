@@ -46,6 +46,7 @@ def log_time_delta(start, log_file=None):
     else:
         import log
         log.print_to_file(log_file, msg)
+        print(msg)
 
 
 def test_wrapper():
@@ -63,7 +64,8 @@ def test_wrapper():
                 os.remove(log_file)
 
             # First time logging configure for tests
-            logging.basicConfig(level=logging.NOTSET)
+            fmt = logging.Formatter('%(levelname)s: %(message)s')
+            logging.basicConfig(level=logging.NOTSET, format=fmt._fmt)
 
             clean.screen()
             method()

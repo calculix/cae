@@ -20,6 +20,7 @@ TODO Only file list is logged. No importer messages.
 import os
 import re
 import sys
+import time
 import logging
 import pathlib
 
@@ -115,7 +116,7 @@ class Importer:
             i += 1
 
     def parse_blocks(self):
-        """Create keyword implementations."""
+        """Create keyword implementations in self.keyword_blocks."""
         parent = KOM.root
         messages = []
 
@@ -146,11 +147,11 @@ class Importer:
 
         if file_name is None:
             file_name = QtWidgets.QFileDialog.getOpenFileName(self.w, \
-                'Import INP/FBD/UNV file', j.dir, \
-                'INP (*.inp);;FBD (*.fbd);;UNV (*.unv)')[0]
+                'Import INP/FBD/FBL/UNV file', j.dir, \
+                'INP (*.inp);;FBD/FBL (*.fbd *.fbl);;UNV (*.unv)')[0]
 
         if file_name is not None and len(file_name):
-            self.w.textEdit.clear()
+            # self.w.textEdit.clear()
 
             # Update job instance before the tree regeneration
             # A new logger handler is created here
@@ -180,15 +181,22 @@ class Importer:
 
             # Pass FBD to CGX
             from gui import cgx
-            if file_name.lower().endswith('.fbd'):
+            if file_name.lower().endswith(('.fbd', '.fbl')):
                 """Get list of newly created or updated files."""
+                ext = ('.fbd', '.fbl', '.inp', '.nam', '.msh', '.sur', '.con', '.dlo', '.bou')
                 flist_before = {}
                 for f in os.listdir(os.path.dirname(file_name)):
                     fname = pathlib.Path(f)
                     flist_before[f] = fname.stat().st_ctime
                 cgx.restart_and_read_fbd(file_name)
+                # cgx.restart_empty()
+                # time.sleep(1)
+                # cgx.read_fbd_file(file_name)
+                time.sleep(1)
                 flist_after = os.listdir(os.path.dirname(file_name))
                 for f in flist_after:
+                    if not f.endswith(ext):
+                        continue
                     if not f in flist_before:
                         inp_files.append(f)
                     else:
@@ -211,6 +219,10 @@ class Importer:
             # Parse keyword_blocks and enrich KOM with parsed objects
             self.parse_blocks()
 
+            # Write generated INP code as file and reopen it normally
+            if file_name.lower().endswith(('.fbd', '.fbl')):
+                j.write_input(KOM.get_inp_code_as_lines(), file_name=j.inp)
+
             # Add parsed implementations to the tree
             from gui.tree import t
             t.generateTreeView()
@@ -231,8 +243,9 @@ class Importer:
                 logging.warning(msg)
                 return
 
-            has_nodes = len(m.Mesh.nodes)
-            cgx.open_inp(j.inp, has_nodes)
+            if os.path.isfile(j.inp):
+                has_nodes = len(m.Mesh.nodes)
+                cgx.open_inp(j.inp, has_nodes)
 
 
 # Prepare to import model

@@ -102,7 +102,14 @@ Install dependencies with command:
 
     pip3 install -r requirements.txt
 
-It's OK if Xlib installation will fail in Windows.
+It's OK if Xlib installation will fail in Windows. PyQt5 in Ubuntu also could be installed in this way:
+    
+    sudo apt install python3-pyqt5 python3-pyqt5.qtwebengine
+
+Additional fonts for CGX in Ubuntu:
+
+    sudo apt get install fonts-terminus-otb xfonts-terminus xfonts-terminus-oblique
+
 
 That's all, enjoy!
 
@@ -191,6 +198,36 @@ What's new in future v0.9.0:
 
 # TODO
 
+https://www.x.org/releases/X11R7.5/doc/man/man3/XSetFont.3.html
+
+----------------
+
+INFO: /media/ihor/WORK/Programming/Calculix/cae/bin/cgx -o "/media/ihor/WORK/Programming/MIPT/8_term_FEM/model.frd"
+DEBUG: Starting new window: 0x04200001, 50087, CalculiX GraphiX
+X protocol error:
+<class 'Xlib.error.BadWindow'>: code = 3, resource_id = <class 'Xlib.xobject.resource.Resource'>(0x04200001), sequence_number = 9, major_opcode = 42, minor_opcode = 0
+X protocol error:
+<class 'Xlib.error.BadWindow'>: code = 3, resource_id = <class 'Xlib.xobject.resource.Resource'>(0x04200001), sequence_number = 15, major_opcode = 12, minor_opcode = 0
+WARNING: No slave window.
+WARNING: No slave window.
+
+----------------
+
+Traceback (most recent call last):
+  File "/media/ihor/WORK/Programming/Calculix/cae/src/gui/tree.py", line 234, in clicked
+    _set.append(int(n))
+ValueError: invalid literal for int() with base 10: 'Nx0'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/media/ihor/WORK/Programming/Calculix/cae/src/gui/tree.py", line 237, in clicked
+    _set.extend([n.num for n in m.Mesh.nsets[n].items])
+KeyError: 'Nx0'
+
+----------------
+
+
 Examples and training materials:
 - Prool's INP-templates and snippets.
 - Interface for [Martin Kraska examples](https://github.com/mkraska/CalculiX-Examples).
@@ -199,6 +236,7 @@ Examples and training materials:
 Python API:
 - Invent some kind of Python API. Possibly use [pycalculix](https://github.com/spacether/pycalculix), [pyccx](https://github.com/drlukeparry/pyccx) and [pycgx](https://github.com/zagl/pycgx). Here are [pycgx examples](https://github.com/zagl/ccx-user).
 - Pay attention to [pyvista](https://www.pyvista.org/) and [Python tetgen interface](https://tetgen.pyvista.org/).
+- [Meshpresso Mesh Converter](https://cofea.readthedocs.io/en/latest/meshpresso/index.html)
 - Python code (*PYTHON keyword) in the INP_code for step repetition and other kind of model generation.
 - Martin Kraska: support the param.py parametrization mechanism.
 
