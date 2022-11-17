@@ -1,3 +1,4 @@
+.idea
 .vscode
 __pycache__
 /backup
@@ -11,6 +12,7 @@ __pycache__
 /src/architecture.odp
 /src/architecture.png
 /config/*.py
+/cae.log
 README.pdf
 *.gnu
 *.out
