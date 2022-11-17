@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -74,9 +74,16 @@
          if(tieset(1,i)(81:81).ne.kind) cycle
          if(ifaceslave(i).eq.0) cycle
          slavset=tieset(2,i)
-         do j=1,nset
-            if(set(j).eq.slavset) exit
-         enddo
+c         do j=1,nset
+c            if(set(j).eq.slavset) exit
+c         enddo
+         call cident81(set,slavset,nset,id)
+         j=nset+1
+         if(id.gt.0) then
+           if(slavset.eq.set(id)) then
+             j=id
+           endif
+         endif
 !
          istartfield(i)=ifree
          do j=istartset(j),iendset(j)

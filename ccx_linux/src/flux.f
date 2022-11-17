@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -163,13 +163,13 @@
      &           rho,g,co,dvi,numf,vold,mi,ipkon,kon,set,ttime,time,
      &           iaxial,iplausi)
 !
-!     liquid channel (flow with free surface) including all loss elements
+!     liquid pump
 !
-      elseif(lakon(nelem)(2:5).eq.'LICH') then
-!         
-         call liquidchannel(node1,node2,nodem,nelem,lakon,nactdog,
-     &           identity,ielprop,prop,kflag,v,xflow,f,nodef,idirf,df,
-     &           rho,g,co,dvi,numf,mi,ipkon,kon,iplausi)
+      elseif(lakon(nelem)(2:5).eq.'LIPU') then
+!        
+         call liquidpump(node1,node2,nodem,nelem,nactdog,identity,
+     &           ielprop,prop,kflag,v,xflow,f,nodef,idirf,df,
+     &           rho,g,co,numf,mi,ttime,time,iaxial,iplausi)
 !
 !     liquid pipes including loss elements (types derived from their
 !     compressible equivalent)
@@ -180,14 +180,6 @@
      &           ielprop,prop,kflag,v,xflow,f,nodef,idirf,df,
      &           rho,g,co,dvi,numf,vold,mi,ipkon,kon,set,ttime,time,
      &           iaxial,iplausi)
-!
-!     liquid pump
-!
-      elseif(lakon(nelem)(2:5).eq.'LIPU') then
-!        
-         call liquidpump(node1,node2,nodem,nelem,nactdog,identity,
-     &           ielprop,prop,kflag,v,xflow,f,nodef,idirf,df,
-     &           rho,g,co,numf,mi,ttime,time,iaxial,iplausi)
 !
 !     element that fixes the mass flow as a specific percentage of the
 !     sum of the massflow of up to 10 other elements

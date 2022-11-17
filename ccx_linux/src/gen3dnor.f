@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -47,16 +47,16 @@
      &  nmpc,nmpc_,mpcfree,ikmpc(*),ilmpc(*),ikboun(*),ilboun(*),nboun,
      &  nboun_,nodeboun(*),ndirboun(*),iamboun(*),nam,ntrans,inotr(2,*),
      &  isol,istep,idummy,mi(*),icomposite,ielmat(mi(3),*),nkold,
-     &  i,ndepnodes,index,nexp,nnor,nel,ielem,indexe,j,iel(100),idmpc,
-     &  jl(100),ial(100),ifi(100),idepnodes(800),indexx,k,l,ifix,nemin,
+     &  i,ndepnodes,index,nexp,nnor,nel,ielem,indexe,j,iel(999),idmpc,
+     &  jl(999),ial(999),ifi(999),idepnodes(800),indexx,k,l,ifix,nemin,
      &  jact,ixfree,ikfree,node,nelshell,irefnode,idof,id,mpcfreeold,
      &  irotnode,imax,iamplitude,nmethod,ithermal(*),iexpnode,idim,
      &  iflagpl,nodempc(3,*)
 !
       real*8 co(3,*),thicke(mi(3),*),offset(2,*),xnor(*),tinc,tper,tmin,
      &  tmax,ctrl(*),coefmpc(*),xboun(*),trab(7,*),vold(0:mi(2),*),
-     &  xno(3,100),xta(3,100),xn1(3,100),thl1(100),thl2(100),
-     &  off1(100),off2(100),xi,et,coloc6(2,6),coloc8(2,8),xl(3,8),
+     &  xno(3,999),xta(3,999),xn1(3,999),thl1(999),thl2(999),
+     &  off1(999),off2(999),xi,et,coloc6(2,6),coloc8(2,8),xl(3,8),
      &  dd,xnoref(3),dot,coloc3(3),dot1,dot2,dmax,val,coloc2(2),
      &  e1(3),e2(3),t1(3)
 !
@@ -102,8 +102,8 @@
      &            (lakon(ielem)(1:1).eq.'M')) nnor=1
                indexe=ipkon(ielem)
                nel=nel+1
-               if(nel.gt.100) then
-                  write(*,*) '*ERROR in gen3dnor: more than 100'
+               if(nel.gt.999) then
+                  write(*,*) '*ERROR in gen3dnor: more than 999'
                   write(*,*) '       shell elements share the'
                   write(*,*) '       same node'
                   call exit(201)
@@ -465,8 +465,8 @@ c
                endif
                indexe=ipkon(ielem)
                nel=nel+1
-               if(nel.gt.100) then
-                  write(*,*) '*ERROR in gen3dnor: more than 100'
+               if(nel.gt.999) then
+                  write(*,*) '*ERROR in gen3dnor: more than 999'
                   write(*,*) '        beam/shell elements share'
                   write(*,*) '        the same node'
                   call exit(201)

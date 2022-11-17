@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -23,14 +23,25 @@
 !     author: Yannick Muller
 !     
       subroutine friction_coefficient(l,d,ks,reynolds,form_fact,lambda)
-!     
+!
+!     INPUT:      
+!
+!     l           not used in internet-version of CalculiX
+!     d           hydraulic diameter=4*area/(wetted perimeter)
+!     ks          grain size
+!     reynolds    Reynolds number 
+!     form_fact   form factor for non-round sections and laminar flow
+!                 (reference underneath)
+!
+!     INPUT:      
+!
+!     lambda: friction coefficient
+!      
       implicit none
 !     
       real*8 l,d,ks,reynolds,form_fact,lambda,alfa2,
      &     rey_turb_min,rey_lam_max,lzd,dd,ds,friction,dfriction,
      &     lambda_kr,lambda_turb,ksd
-!     
-!
 !
       rey_turb_min=4000
       rey_lam_max=2000
@@ -87,6 +98,7 @@
 !     turbulent
 !     
       else
+!     
 !     Solving the implicit White-Colebrook equation
 !     1/dsqrt(friction)=-2*log10(2.51/(Reynolds*dsqrt(friction)+0.27*Ks))
 !     

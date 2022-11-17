@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -126,9 +126,13 @@
      &  prop(*),shcon(0:3,ntmat_,*),rhcon(0:1,ntmat_,*),
      &  cocon(0:6,ntmat_,*)
 !
-!
-!
-      boun=300.d0/8.d0*(4.d0-coords(2)*coords(2))
+c     boun=300.d0/8.d0*(4.d0-coords(2)*coords(2))
+c      if(node.eq.262) then
+c        boun=125.
+c      else
+c        boun=100.
+c      endif
+c      if((time(1).gt.5.e-9).and.(ipkon(33).gt.0)) ipkon(33)=-2-ipkon(33)
 !
       return
       end

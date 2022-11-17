@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -22,9 +22,9 @@
 #include <pthread.h>
 #include "CalculiX.h"
 
-static char *lakon1,*sideload1,*matname1,*tieset1;
+static char *lakon1,*sideload1,*matname1,*tieset1,*set1;
 
-static ITG *nk1,*kon1,*ipkon1,*ne1,
+static ITG *nk1,*kon1,*ipkon1,*ne1,*nset1,
     *ipompc1,*nodempc1,*nmpc1,*nelemload1,
     *nload1,*ipobody1,*nbody1,*nactdof1,*jq1,*irow1,*neq1,
     *nmethod1=NULL,*ikmpc1,*ilmpc1,*nelcon1,
@@ -69,7 +69,7 @@ void mafilldmssmain(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
 	       ITG *istartset,ITG *iendset,ITG *ialset,ITG *ntie,
 	       ITG *nasym,double *pslavsurf,double *pmastsurf,ITG *mortar,
 	       double *clearini,ITG *ielprop,double *prop,ITG *ne0,
-	       double *freq,ITG *ndamp,double *dacon){
+	       double *freq,ITG *ndamp,double *dacon,char *set,ITG *nset){
 
     ITG i,j,mt=mi[1]+1;
       
@@ -180,7 +180,8 @@ void mafilldmssmain(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
     iendset1=iendset;ialset1=ialset;ntie1=ntie;nasym1=nasym;
     pslavsurf1=pslavsurf;pmastsurf1=pmastsurf;mortar1=mortar;
     clearini1=clearini;ielprop1=ielprop;prop1=prop;ne01=ne0;
-    freq1=freq;ndamp1=ndamp;dacon1=dacon;nzs1=nzs;  
+    freq1=freq;ndamp1=ndamp;dacon1=dacon;nzs1=nzs;set1=set;
+    nset1=nset;
 
     /* calculating the stiffness/mass */
     
@@ -244,7 +245,7 @@ void *mafilldmssmt(ITG *i){
     indexau=0;
 
     indexad=*i*neq1[1];
-    indexau=(long long)*i*nzs1[2];
+    indexau=(long long)*i*nzs1[1];
 
     nea=neapar[*i]+1;
     neb=nebpar[*i]+1;
@@ -267,7 +268,7 @@ void *mafilldmssmt(ITG *i){
             xstateini1,xstate1,thicke1,integerglob1,doubleglob1,
 	    tieset1,istartset1,iendset1,ialset1,ntie1,nasym1,pslavsurf1,
 	    pmastsurf1,mortar1,clearini1,ielprop1,prop1,ne01,
-	    &nea,&neb,freq1,ndamp1,dacon1));
+	    &nea,&neb,freq1,ndamp1,dacon1,set1,nset1));
 
     return NULL;
 }

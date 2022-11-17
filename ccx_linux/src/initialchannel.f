@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,432 +16,404 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-!     calculate the initial conditions for the gas 
-!         - the initial pressure
-!         - identifying the chambers and gas pipe nodes
-!           for gas networks
-!         - the initial flow
-!         - calculating the static temperature for gas networks
+!     Solve the Bresse equation for the turbulent stationary flow
+!     in channels with a non-erosive bottom
 !     
-      subroutine initialchannel(itg,ieg,ntg,ac,bc,lakon,v,
-     &     ipkon,kon,nflow,ikboun,nboun,prop,ielprop,
-     &     nactdog,ndirboun,nodeboun,xbounact,
-     &     ielmat,ntmat_,shcon,nshcon,physcon,ipiv,nteq,
-     &     rhcon,nrhcon,ipobody,ibody,xbodyact,co,nbody,network,
-     &     iin_abs,vold,set,istep,iit,mi,ineighe,ilboun,ttime,
-     &     time,iaxial)
-!     
-      implicit none
-!     
-      logical identity,calcinitialpressure,gravity,gaspipe
+      subroutine initialchannel(itg,ieg,ntg,lakon,v,ipkon,kon,nflow,
+     &     ikboun,nboun,prop,ielprop,ndirboun,nodeboun,xbounact,
+     &     ielmat,ntmat_,shcon,nshcon,physcon,rhcon,nrhcon,ipobody,
+     &     ibody,xbodyact,co,nbody,network,vold,set,istep,iit,mi,
+     &     ineighe,ilboun,ttime,time,itreated,iponoel,inoel,istack,
+     &     sfr,hfr,sba,hba,ndata,jumpup,jumpdo)
 !
+      implicit none
+!
+      character*1 mode
       character*8 lakon(*)
       character*81 set(*)
-!           
-      integer mi(*),ieg(*),nflow,i,j,ntg,ielmat(mi(3),*),ntmat_,id,
-     &     node1,node2,
-     &     nelem,index,nshcon(*),ipkon(*),kon(*),ikboun(*),nboun,idof,
-     &     nodem,idirf(8),nactdog(0:3,*),imat,ielprop(*),id1,id2,
-     &     nodef(8),ndirboun(*),nodeboun(*),itg(*),node,kflag,ipiv(*),
-     &     nrhs,info,idof1,idof2,nteq,nrhcon(*),ipobody(2,*),ibody(3,*),
-     &     nbody,numf,network,iin_abs,icase,index2,index1,nelem1,nelem2,
-     &     node11,node21,node12,node22,istep,iit,ineighe(*),
-     &     ilboun(*),nelemup,k,node2up,ider,iaxial,iplausi
-!     
-      real*8 ac(nteq,nteq), bc(nteq),prop(*),shcon(0:3,ntmat_,*),
-     &     f,df(8),xflow,xbounact(*),v(0:mi(2),*),cp,r,tg1,
-     &     tg2,gastemp,physcon(*),pressmin,dvi,rho,g(3),z1,z2,
-     &     rhcon(0:1,ntmat_,*),co(3,*),xbodyact(7,*),kappa,
-     &     a,Tt,Ts,pressmax,constant,vold(0:mi(2),*),href,
-     &     ttime,time
+!      
+      integer mi(*),itg(*),ieg(*),ntg,nflow,ipkon(*),kon(*),ikboun(*),
+     &     nboun,ielprop(*),ndirboun(*),nodeboun(*),ielmat(mi(3),*),
+     &     ntmat_,nshcon(*),nrhcon(*),ipobody(2,*),ibody(3,*),nbody,
+     &     network,istep,iit,ineighe(*),ilboun(*),i,j,nelem,indexe,
+     &     node1,node2,id,itreated(*),id1,id2,nup,index,iponoel(*),
+     &     inoel(2,*),nmid,ndo,inv,nelemio,nelup,node,imat,neldo,
+     &     istack(2,*),nstack,nel,ndata,jumpup(*),jumpdo(*)
 !
-      kflag=1
+      real*8 v(0:mi(2),*),prop(*),xbounact(*),shcon(0:3,ntmat_,*),
+     &     physcon(*),rhcon(0:1,ntmat_,*),xbodyact(7,*),co(3,*),
+     &     vold(0:mi(2),*),ttime,time,xflow,g(3),dg,temp,cp,dvi,r,
+     &     rho,sfr(*),hfr(*),sba(*),hba(*),epsilon
+!
+      if(network.le.2) then
+        write(*,*) '*ERROR: a network channel canot be used for'
+        write(*,*) '        temperature calculations only'
+        write(*,*)
+        call exit(201)
+      endif
+!
+      epsilon=1.d-5
+!
+!     identify the number of "real" channel neighbors (i.e. without
+!     CHANNEL INOUT elements) per node: stored in field ineighe(*)
+!
+      do i=1,ntg
+        ineighe(i)=0
+      enddo
+!
+      do i=1,nflow
+        nelem=ieg(i)
+        if(lakon(nelem)(2:5).ne.'LICH') cycle
+        if(lakon(nelem)(6:7).eq.'IO') cycle
+        indexe=ipkon(nelem)
+!
+        node1=kon(indexe+1)
+        call nident(itg,node1,ntg,id)
+        ineighe(id)=ineighe(id)+1
+!
+        node2=kon(indexe+3)
+        call nident(itg,node2,ntg,id)
+        ineighe(id)=ineighe(id)+1
+!
+      enddo
+!
+!     setting all values to zero
+!
+      do i=1,ntg
+        node=itg(i)
+        do j=0,mi(2)
+          v(j,i)=0.d0
+        enddo
+      enddo
 !
 !     applying the boundary conditions
 !
       do j=1,nboun
-         v(ndirboun(j),nodeboun(j))=xbounact(j)
+        v(ndirboun(j),nodeboun(j))=xbounact(j)
       enddo
 !     
-!     determining the initial pressure (not for purely thermal networks)
-!     and identifying the chamber and gas pipe nodes (only for gas
-!     networks)
-!
-      if(network.gt.2) then
-!   
-!        determining whether pressure initial conditions 
-!        are provided for all nodes
+!     determine the gravity vector
 !     
-         pressmin=-1.d0
-         pressmax=0.d0
-         constant=1.55d0
-
-         do i=1,ntg
-            node=itg(i)
-            if(v(2,node).lt.1.d-10) then
-               v(2,node)=0.d0
-            else
-               if(pressmin.lt.0.d0) then
-                  pressmin=v(2,node)
-               elseif(v(2,node).lt.pressmin) then
-                  pressmin=v(2,node)
-               endif
+      do j=1,3
+        g(j)=0.d0
+      enddo
+      if(nbody.gt.0) then
+        index=nelem
+        do
+          j=ipobody(1,index)
+          if(j.eq.0) exit
+          if(ibody(1,j).eq.2) then
+            g(1)=g(1)+xbodyact(1,j)*xbodyact(2,j)
+            g(2)=g(2)+xbodyact(1,j)*xbodyact(3,j)
+            g(3)=g(3)+xbodyact(1,j)*xbodyact(4,j)
+          endif
+          index=ipobody(2,index)
+          if(index.eq.0) exit
+        enddo
+      endif
+      dg=dsqrt(g(1)*g(1)+g(2)*g(2)+g(3)*g(3))
 !
-               if(v(2,node).gt.pressmax)then
-                  pressmax=v(2,node)
-               endif
+      nstack=0
 !
-            endif
-         enddo
-!         
-         if(pressmin.lt.0.d0) then
-            write(*,*) 
-     &        '*ERROR in initialchannel: minimum initial pressure'
-            write(*,*) '       is smaller than zero'
+!     major loop: looking for SLUICE GATE elements
+!
+      loop1: do i=1,nflow
+        nelem=ieg(i)
+        if(((lakon(nelem)(6:7).ne.'SG').and.
+     &     (lakon(nelem)(6:7).ne.'WE')).or.
+     &       (itreated(i).eq.1)) cycle
+!
+!       untreated SLUICE GATE element found
+!
+        indexe=ipkon(nelem)
+        node1=kon(indexe+1)
+        call nident(itg,node1,ntg,id1)
+        node2=kon(indexe+3)
+        call nident(itg,node2,ntg,id2)
+!
+!       looking for a SLUICE GATE element connected on one side to
+!       a CHANNEL INOUT element (as only element)
+!
+        if((ineighe(id1).gt.1).and.(ineighe(id2).gt.1)) cycle
+!
+!       new branch found
+!
+!       determine the upstream node nup of the element
+!
+        if(ineighe(id1).eq.1) then
+          nup=node1
+          inv=1
+        else
+          nup=node2
+          inv=-1
+        endif
+!
+!       determine the upstream element nelup
+!
+        index=iponoel(nup)
+        do
+          if(index.eq.0) then
+            write(*,*) '*ERROR: node',nup
+            write(*,*) '        is only connected to one element'
+            write(*,*) '        with number',nelem
+            write(*,*)
             call exit(201)
-         endif
+          endif
+          if(inoel(1,index).ne.nelem) then
+            nelup=inoel(1,index)
+            exit
+          else
+            index=inoel(2,index)
+          endif
+        enddo
 !
-!        in nodes in which no initial pressure is given v(2,*)
-!        is replaced by -n, where n is the number of elements the
-!        node belongs to: allows to find boundary nodes of the 
-!        network
+!       define mode to be "forward"
 !
-         gaspipe=.false.
-         calcinitialpressure=.false.
+        mode='F'
 !
-         do i=1,nflow
-            nelem=ieg(i)
-            index=ipkon(nelem)
-            node1=kon(index+1)
-            node2=kon(index+3)
-            call nident(itg,node1,ntg,id1)
-            call nident(itg,node2,ntg,id2)
-!     
-            if (((lakon(nelem)(1:5).eq.'DGAPF').and.(iin_abs.eq.0))
-     &           .or.((lakon(nelem)(1:3).eq.'DRE')
-     &           .and.(lakon(nelem)(1:7).ne.'DREWAOR')
-     &           .and.(iin_abs.eq.0))) then 
-!     
-!     In the case of a element of type GASPIPE or RESTRICTOR 
-!     (except TYPE= RESTRICTOR WALL ORIFICE)
-!     the number of pipes connected to node 1 and 2
-!     are computed and stored in ineighe(id1)
-!     respectively ineighe(id2)
-!     
-               gaspipe=.true.
-               if(node1.ne.0) then
-                  if (ineighe(id1).ge.0) then
+!       mass flow is taken from the IO element upstream of the sluice gate
 !
-                     if(node2.ne.0)then
-                        ineighe(id1)=ineighe(id1)+1
-                     endif
+        xflow=dabs(v(1,kon(ipkon(nelup)+2)))
+!
+!       loop over all elements in present branch
+!
+        loop2: do
+!
+!         if F (forward): nelup and nup known
+!
+        if(mode.eq.'F') then
+          if(nelem.eq.0) then
+              call nident(itg,nup,ntg,id)
+              if(ineighe(id).eq.1) then
+                write(*,*) '*INFO: branch finished'
+!
+!               IO-element: determine the mass flow
+!
+                index=iponoel(nup)
+                do
+                  if(inoel(1,index).ne.nelup) then
+                    nelem=inoel(1,index)
+                    if(nup.eq.kon(ipkon(nelem)+1)) then
+                      v(1,kon(ipkon(nelem)+2))=xflow
+                    else
+                      v(1,kon(ipkon(nelem)+2))=-xflow
+                    endif
+                    cycle loop1
                   endif
-               endif
-               if(node2.ne.0) then
-                  if (ineighe(id2).ge.0) then
-                     if(node1.ne.0) then
-                        ineighe(id2)=ineighe(id2)+1
-                     endif
+                  index=inoel(2,index)
+                  if(index.eq.0) exit
+                enddo
+!
+              elseif(ineighe(id).gt.2) then
+                write(*,*) '*ERROR in initialchannel: branch split'
+                write(*,*)
+                call exit(201)
+              endif
+!     
+!     one "true" element connected downstream
+!     loop over all elements connected to nup
+!     
+              index=iponoel(nup)
+              do
+                if(inoel(1,index).ne.nelup) then
+                  if(lakon(inoel(1,index))(6:7).ne.'IO') then
+                    nelem=inoel(1,index)
+                  else
+!     
+!     add flow
+!     
+                    nelemio=inoel(1,index)
+                    if((lakon(nelup)(6:7).eq.'SG').or.
+     &                 (lakon(nelup)(6:7).eq.'WE')) then
+                      write(*,*)
+     &                     '*ERROR in initialchannel: no IO element'
+                      write(*,*) '       allowed immediately downstream'
+                      write(*,*) '       of a SLUICE GATE element.'
+                      write(*,*) '       faulty element:',nelemio
+                      write(*,*) 
+                      call exit(201)
+                    endif
+                    if(nup.eq.kon(ipkon(nelemio)+3)) then
+                      xflow=xflow+v(1,kon(ipkon(nelemio)+2))
+                    else
+                      xflow=xflow-v(1,kon(ipkon(nelemio)+2))
+                    endif
                   endif
-               endif
+                endif
+                index=inoel(2,index)
+                if(index.eq.0) exit
+              enddo
+            endif
+!     
+!     actual element = nelem
+!     determining the middle and downstream node nmid and ndo
+!     
+!     if the actual flow is from kon(indexe+1) to kon(indexe+3) then
+!     inv=1
+!     if the actual flow is from kon(indexe+3) to kon(indexe+1) then
+!     inv=-1
+!     
+            indexe=ipkon(nelem)
+            nmid=kon(indexe+2)
+            if(kon(indexe+1).eq.nup) then
+              ndo=kon(indexe+3)
+              inv=1
             else
-               if(iin_abs.eq.0) then
+              ndo=kon(indexe+1)
+              inv=-1
+            endif
+          else
 !     
-!     for all other elements (different from GASPIPE or 
-!     RESTRICTOR), including RESTRICTOR WALL ORIFICE 
-!     ineighe(idi)=-1
-!     which means that they are connected to chambers
-!     i.e. static and total values are equal
+!     B (backward): either nelem and ndo known or
+!                   neldo and ndo known
+!
+            if(nelem.eq.0) then
+              call nident(itg,ndo,ntg,id)
+              if(ineighe(id).eq.1) then
+!
+!              IO-element: determine the mass flow
 !     
-                  if (node1.ne.0) then
-                     ineighe(id1)=-1
+                index=iponoel(ndo)
+                do
+                  if(inoel(1,index).ne.neldo) then
+                    nelem=inoel(1,index)
+                    if(ndo.eq.kon(ipkon(nelem)+3)) then
+                      v(1,kon(ipkon(nelem)+2))=xflow
+                    else
+                      v(1,kon(ipkon(nelem)+2))=-xflow
+                    endif
+                    exit
                   endif
-                  if(node2.ne.0) then
-                     ineighe(id2)=-1
+                  index=inoel(2,index)
+                  if(index.eq.0) exit
+                enddo
+!
+                if(nstack.gt.0) then
+                  mode='F'
+                  nelup=istack(1,nstack)
+                  nup=istack(2,nstack)
+                  nelem=0
+                  xflow=dabs(v(1,kon(ipkon(nelup)+2)))
+                  nstack=nstack-1
+                  cycle loop2
+                else
+                  write(*,*) '*INFO: branch finished'
+                  cycle loop1
+                endif
+              elseif(ineighe(id).gt.2) then
+                write(*,*) '*ERROR in initialchannel: branch split'
+                write(*,*)
+                call exit(201)
+              endif
+!     
+!     if nelem is zero, neldo is known and nelem has to be
+!     determined
+!     
+              index=iponoel(ndo)
+              do
+                if(inoel(1,index).ne.neldo) then
+                  if(lakon(inoel(1,index))(6:7).ne.'IO') then
+                    nelem=inoel(1,index)
+                  else
+!     
+!     add flow
+!     
+                    nelemio=inoel(1,index)
+                    if(lakon(nelup)(6:7).eq.'RE') then
+                      write(*,*)
+     &                     '*ERROR in initialchannel: no IO element'
+                      write(*,*) '       allowed immediately upstream'
+                      write(*,*) '       of a RESERVOIR element.'
+                      write(*,*) '       faulty element:',nelemio
+                      write(*,*) 
+                      call exit(201)
+                    endif
+                    if(kon(ipkon(nelemio)+3).eq.ndo) then
+                      xflow=xflow-v(1,kon(ipkon(nelemio)+2))
+                    else
+                      xflow=xflow+v(1,kon(ipkon(nelemio)+2))
+                    endif
                   endif
-               endif
+                endif
+                index=inoel(2,index)
+                if(index.eq.0) exit
+              enddo
             endif
-!     
-            if((node1.eq.0).or.(node2.eq.0)) cycle
-            if(v(2,node1).lt.1.d-10) then
-               v(2,node1)=v(2,node1)-1.d0
-               calcinitialpressure=.true.
-            endif
-            if(v(2,node2).lt.1.d-10) then
-               v(2,node2)=v(2,node2)-1.d0
-               calcinitialpressure=.true.
-            endif
-         enddo
 !
-!        for each end node i: if ineighe(i)<0: chamber
-!                         else: ineighe(i)=number of pipe connections
+!           determine nmid and nup
 !
-      else
-!
-!       identifying the chamber nodes for purely thermal
-!       gas networks (needed to determine the static
-!       temperature which is used for the material properties)
-!         
-         do i=1,nflow
-            nelem=ieg(i)
-            if((lakon(nelem)(2:3).eq.'LP').or.
-     &         (lakon(nelem)(2:3).eq.'LI')) cycle
-            index=ipkon(nelem)
-            node1=kon(index+1)
-            node2=kon(index+3)
-            if(node1.ne.0) then
-               call nident(itg,node1,ntg,id1)
-               ineighe(id1)=-1
-            endif
-            if(node2.ne.0) then
-               call nident(itg,node2,ntg,id2)
-               ineighe(id2)=-1
-            endif
-         enddo
-      endif
-!
-!     temperature initial conditions
-!
-      do i=1,ntg
-         node=itg(i)
-         if (nactdog(0,node).eq.0) cycle
-         if (v(0,node)-physcon(1).lt.1.d-10) then
-            write(*,*)
-     &           '*WARNING in initialchannel : the initial temperature f
-     &or node',node
-            write(*,*) 
-     &           'is O Kelvin or less; the default is taken (293 K)'
-            write(*,*)
-            v(0,node)=293.d0-physcon(1)
-         endif
-      enddo
-!    
-!     initialisation of bc
-!     
-      do i=1,nteq
-         bc(i)=0.d0
-      enddo
-!  
-!     determining the initial mass flow in those nodes for which no
-!     flux boundary conditions are defined
-!     liquid channels are treated separately
-!   
-      if(network.gt.2) then
-!     
-!     calculate the initial mass flow
-!     
-!     check whether the mass flow is given as a boundary condition
-!     
-         do j=1,nflow
-            nelem=ieg(j)
-            index=ipkon(nelem)
-            nodem=kon(index+2)
-            if(nactdog(1,nodem).eq.0) then
-               idof=8*(nodem-1)+1
-               call nident(ikboun,idof,nboun,id)
-               if(id.gt.0) then
-                  if(ikboun(id).eq.idof) then
-                     xflow=xbounact(ilboun(id))
-                     if(dabs(xflow).gt.1.d-30) exit
-                  endif
-               endif
-            endif
-         enddo
-!     
-         if(dabs(xflow).gt.1.d-30) then
-!     
-!     if nonzero: set all mass flow to this value
-!     
-            do j=1,nflow
-               nelem=ieg(j)
-               index=ipkon(nelem)
-               nodem=kon(index+2)
-               if(nactdog(1,nodem).ne.0) v(1,nodem)=xflow
-            enddo
-         else
-!     
-!     calculate the mass flow: look for a sluice gate or weir        
-!     
-            do j=1,nflow
-               nelem=ieg(j)
-               if((lakon(nelem)(6:7).ne.'SG').and.
-     &              (lakon(nelem)(6:7).ne.'WE')) cycle
-               index=ipkon(nelem)
-               node1=kon(index+1)
-               node2=kon(index+3)
-               if((node1.eq.0).or.(node2.eq.0)) cycle
-               nodem=kon(index+2)
-!     
-!     determine the gravity vector
-!     
-               gravity=.false.
-               do k=1,3
-                  g(k)=0.d0
-               enddo
-               if(nbody.gt.0) then
-                  index=nelem
-                  do
-                     k=ipobody(1,index)
-                     if(k.eq.0) exit
-                     if(ibody(1,k).eq.2) then
-                        g(1)=g(1)+xbodyact(1,k)*xbodyact(2,k)
-                        g(2)=g(2)+xbodyact(1,k)*xbodyact(3,k)
-                        g(3)=g(3)+xbodyact(1,k)*xbodyact(4,k)
-                        gravity=.true.
-                     endif
-                     index=ipobody(2,index)
-                     if(index.eq.0) exit
-                  enddo
-               endif
-               if(.not.gravity) then
-                  write(*,*)
-     &              '*ERROR in initialchannel: no gravity vector'
-                  write(*,*) '       was defined for liquid element',
-     &                 nelem
-                  call exit(201)
-               endif
-!     
-               tg1=v(0,node1)
-               tg2=v(0,node2)
-               gastemp=(tg1+tg2)/2.d0
-               imat=ielmat(1,nelem)
-               call materialdata_tg(imat,ntmat_,gastemp,shcon,nshcon,
-     &              cp,r,dvi,rhcon,nrhcon,rho)
-!     
-               call flux(node1,node2,nodem,nelem,lakon,kon,ipkon,
-     &              nactdog,identity,ielprop,prop,kflag,v,xflow,f,
-     &              nodef,idirf,df,cp,r,rho,physcon,g,co,dvi,numf,
-     &              vold,set,shcon,nshcon,rhcon,nrhcon,ntmat_,mi,ider,
-     &              ttime,time,iaxial,iplausi)
-!     
-               if(dabs(xflow).gt.1.d-30) exit
-            enddo
-!     
-            if(dabs(xflow).gt.1.d-30) then
-!     
-!     if nonzero: set all mass flow to this value
-!     
-               do j=1,nflow
-                  nelem=ieg(j)
-                  index=ipkon(nelem)
-                  nodem=kon(index+2)
-                  if(nactdog(1,nodem).ne.0) v(1,nodem)=xflow
-               enddo
+            indexe=ipkon(nelem)
+            nmid=kon(indexe+2)
+            if(kon(indexe+3).eq.ndo) then
+              nup=kon(indexe+1)
+              inv=1
             else
-               write(*,*) '*ERROR in initialchannel: initial mass flow'
-               write(*,*) '       cannot be determined'
-               call exit(201)
+              nup=kon(indexe+3)
+              inv=-1
             endif
-         endif
 !     
-!     calculate the depth
+!           determining the upstream element (needed in istack
+!           in certain cases
 !     
-         if(calcinitialpressure) then
-!     
-!     determine the streamdown depth for sluice gates,
-!     weirs and discontinuous slopes
-!     
-            do j=1,nflow
-               nelem=ieg(j)
-               if((lakon(nelem)(6:7).ne.'SG').and.
-     &              (lakon(nelem)(6:7).ne.'WE').and.
-     &              (lakon(nelem)(6:7).ne.'DS')) cycle
-               index=ipkon(nelem)
-               node1=kon(index+1)
-               node2=kon(index+3)
-               if((node1.eq.0).or.(node2.eq.0)) cycle
-               nodem=kon(index+2)
-!     
-!     determine the gravity vector
-!     
-               gravity=.false.
-               do k=1,3
-                  g(k)=0.d0
-               enddo
-               if(nbody.gt.0) then
-                  index=nelem
-                  do
-                     k=ipobody(1,index)
-                     if(k.eq.0) exit
-                     if(ibody(1,k).eq.2) then
-                        g(1)=g(1)+xbodyact(1,k)*xbodyact(2,k)
-                        g(2)=g(2)+xbodyact(1,k)*xbodyact(3,k)
-                        g(3)=g(3)+xbodyact(1,k)*xbodyact(4,k)
-                        gravity=.true.
-                     endif
-                     index=ipobody(2,index)
-                     if(index.eq.0) exit
-                  enddo
-               endif
-               if(.not.gravity) then
-                  write(*,*)
-     &              '*ERROR in initialchannel: no gravity vector'
-                  write(*,*) '       was defined for liquid element',
-     &                 nelem
-                  call exit(201)
-               endif
-!     
-               tg1=v(0,node1)
-               tg2=v(0,node2)
-               gastemp=(tg1+tg2)/2.d0
-               imat=ielmat(1,nelem)
-               call materialdata_tg(imat,ntmat_,gastemp,shcon,nshcon,
-     &              cp,r,dvi,rhcon,nrhcon,rho)
-!     
-               call flux(node1,node2,nodem,nelem,lakon,kon,ipkon,
-     &              nactdog,identity,ielprop,prop,kflag,v,xflow,f,
-     &              nodef,idirf,df,cp,r,rho,physcon,g,co,dvi,numf,
-     &              vold,set,shcon,nshcon,rhcon,nrhcon,ntmat_,mi,ider,
-     &              ttime,time,iaxial,iplausi)
-!     
+            nelup=0
+            index=iponoel(nup)
+            do
+              if(index.eq.0) exit
+              if(inoel(1,index).ne.nelem) then
+                if(lakon(inoel(1,index))(6:7).ne.'IO') then
+                  nelup=inoel(1,index)
+                  exit
+                endif
+              endif
+              index=inoel(2,index)
             enddo
+          endif
+!
+!         taking the temperature of the upstream node for the
+!         material properties
+!
+          temp=v(0,nup)
+          imat=ielmat(1,nelem)
 !     
-!     for all other elements the depth is taken to be
-!     0.9 of the depth in the downstream node of the
-!     streamup reference element
+          call materialdata_tg(imat,ntmat_,temp,shcon,nshcon,cp,r,
+     &         dvi,rhcon,nrhcon,rho)
 !     
-            do j=1,nflow
-               nelem=ieg(j)
-               if((lakon(nelem)(6:7).eq.'SG').or.
-     &              (lakon(nelem)(6:7).eq.'WE').or.
-     &              (lakon(nelem)(6:7).eq.'DS')) cycle
+!     treating the specific element type
 !     
-               index=ipkon(nelem)
-               node1=kon(index+1)
-               node2=kon(index+3)
-               if((node1.eq.0).or.(node2.eq.0)) cycle
-!     
-               index=ielprop(nelem)
-               nelemup=nint(prop(index+6))
-               node2up=kon(ipkon(nelemup)+3)
-               href=0.9d0*v(2,node2up)
-               if(nactdog(2,node1).ne.0) 
-     &              v(2,node1)=href
-               if(nactdog(2,node2).ne.0) 
-     &              v(2,node2)=href
-            enddo
-!     
-!     reapplying the boundary conditions (the depth of the
-!     sluice gate may have changed if it exceeded the critical
-!     value
-!     
-            do j=1,nboun
-               v(ndirboun(j),nodeboun(j))=xbounact(j)
-            enddo
-         endif
-!     
-!     calculating the static temperature for nodes belonging to gas pipes
-!     and restrictors (except RESTRICTOR WALL ORIFICE)
-!     
-      endif
-!     
-!     for chambers the static temperature equals the total
-!     temperature
-!     
-      do i=1,ntg
-         if(ineighe(i).eq.-1) v(3,itg(i))=v(0,itg(i))
-      enddo
-!     
+          call nident(ieg,nelem,nflow,nel)
+          if((lakon(nelem)(6:7).eq.'SG').or.
+     &       (lakon(nelem)(6:7).eq.'WE')) then
+            call sluicegate(nelem,ielprop,prop,nup,nmid,ndo,co,g,dg,
+     &           mode,xflow,rho,dvi,nelup,neldo,istack,nstack,ikboun,
+     &           nboun,mi,v,ipkon,kon,inv,epsilon,lakon)
+          elseif(lakon(nelem)(6:7).eq.'  ') then
+            call straightchannel(nelem,ielprop,prop,nup,nmid,ndo,co,g,
+     &           dg,mode,xflow,rho,dvi,nelup,neldo,istack,nstack,ikboun,
+     &           nboun,mi,v,ipkon,kon,ndata,nel,sfr((nel-1)*ndata+1),
+     &           hfr((nel-1)*ndata+1),sba((nel-1)*ndata+1),
+     &           hba((nel-1)*ndata+1),jumpup,jumpdo,inv,epsilon)
+          elseif(lakon(nelem)(6:7).eq.'RE') then
+            call reservoir(nelem,ielprop,prop,nup,nmid,ndo,co,g,
+     &           dg,mode,xflow,rho,dvi,nelup,mi,v,inv,epsilon,istack,
+     &           nstack)
+          elseif((lakon(nelem)(6:7).eq.'CO').or.
+     &           (lakon(nelem)(6:7).eq.'EL').or.
+     &           (lakon(nelem)(6:7).eq.'ST').or.
+     &           (lakon(nelem)(6:7).eq.'DR')) then
+            call contraction(nelem,ielprop,prop,nup,nmid,ndo,dg,
+     &           mode,xflow,rho,nelup,neldo,istack,nstack,
+     &           mi,v,inv,epsilon,co)
+          else
+            write(*,*) '*ERROR in initialchannel:'
+            write(*,*) '       element of type ',lakon(nelem)
+            write(*,*) '       is not known'
+            write(*,*)
+            call exit(201)
+          endif
+          itreated(nel)=1
+        enddo loop2
+      enddo loop1
+!
       return
       end
       

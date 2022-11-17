@@ -76,7 +76,10 @@ C
       INTEGER IDATA(1), IER, MCALLS, NCALLS, NW,jkp,i,j,k,l,maxc,maxk,
      &  mw,nfe
       REAL*8 ALFA, ANS, ANSKP, AREA, EPS, ERR, ERRMAX, H, Q1, Q2, R1,R2,
-     * RDATA(1), D(2,4), S(4), T(2,3), VEC(2,3), W(6,NW), X(2),zero,
+ccc   change on 15.07.2022 from RDATA(1) to RDATA(*) to comply with recent
+ccc   compiler versions
+     *     RDATA(*), D(2,4), S(4), T(2,3), VEC(2,3), W(6,NW), X(2),zero,
+c     * RDATA(1), D(2,4), S(4), T(2,3), VEC(2,3), W(6,NW), X(2),zero,
      & point5,one,rnderr
 C       ACTUAL DIMENSION OF W IS (6,NW/6)
 C

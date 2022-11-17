@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -38,6 +38,14 @@
 !
       if(lakon(i)(2:3).eq.'1 ') then
          call extrapolate_u1(yi,yn,ipkon,inum,kon,lakon,nfield,nk,
+     &        ne,mi,ndim,orab,ielorien,co,iorienloc,cflag,
+     &        vold,force,ielmat,thicke,ielprop,prop,i)
+      elseif(lakon(i)(2:3).eq.'S3') then
+         call extrapolate_us3(yi,yn,ipkon,inum,kon,lakon,nfield,nk,
+     &        ne,mi,ndim,orab,ielorien,co,iorienloc,cflag,
+     &        vold,force,ielmat,thicke,ielprop,prop,i)
+      elseif(lakon(i)(2:4).eq.'S45') then
+         call extrapolate_us45(yi,yn,ipkon,inum,kon,lakon,nfield,nk,
      &        ne,mi,ndim,orab,ielorien,co,iorienloc,cflag,
      &        vold,force,ielmat,thicke,ielprop,prop,i)
       endif

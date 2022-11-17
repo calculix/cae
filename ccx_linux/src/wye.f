@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,7 +16,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine wye(node1,node2,nodem,nelem,lakon,kon,ipkon,
-     &     nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,cp,r,physcon,numf,set,mi,ider,ttime,time,
      &     iaxial,iplausi,dvi)
 !
@@ -34,7 +34,7 @@
       character*8 lakon(*)
 !
       integer nelem,nactdog(0:3,*),node1,node2,nodem,nodem1,numf,kon(*),
-     &ipkon(*),ielprop(*),nodef(*),idirf(*),index,iflag,inv,mi(2),
+     &ipkon(*),ielprop(*),nodef(*),idirf(*),index,kflag,inv,mi(2),
      &nelem1,ichan_num,ider,icase,i,iaxial,iplausi
 !
       real*8 prop(*),v(0:mi(2),*),xflow,f,df(*),kappa,R,Tt1,Tt2,pt1,pt2,
@@ -46,7 +46,7 @@
 !
       index=ielprop(nelem)
 !
-      if (iflag.eq.0.d0) then
+      if (kflag.eq.0.d0) then
          identity=.true.
          if(nactdog(2,node1).ne.0)then
             identity=.false.
@@ -56,7 +56,7 @@
             identity=.false.
          endif
 !
-      elseif (iflag.eq.1)then
+      elseif (kflag.eq.1)then
          if(v(1,nodem).ne.0.d0) then
             xflow=v(1,nodem)
             return
@@ -103,7 +103,7 @@
          endif
          xflow=xflow/50
 !     
-      elseif (iflag.eq.2)then
+      elseif (kflag.eq.2)then
 !     
          numf=6
 !
@@ -185,16 +185,16 @@
          if(ider.eq.0.d0) then
 !           Residual
             f=calc_residual_wye(pt1,Tt1,xflow1,xflow2,pt2,
-     &Tt2,ichan_num,A1,A2,A_s,dh1,dh2,alpha,zeta_fac,kappa,R,ider,iflag
+     &Tt2,ichan_num,A1,A2,A_s,dh1,dh2,alpha,zeta_fac,kappa,R,ider,kflag
      &,zeta)
          else
 !           Derivatives
             call calc_ider_wye(df,pt1,Tt1,xflow1,xflow2,pt2,
-     &Tt2,ichan_num,A1,A2,A_s,dh1,dh2,alpha,zeta_fac,kappa,R,ider,iflag
+     &Tt2,ichan_num,A1,A2,A_s,dh1,dh2,alpha,zeta_fac,kappa,R,ider,kflag
      &,zeta)
          endif
 !
-      elseif(iflag.eq.3) then
+      elseif(kflag.eq.3) then
 !
          kappa=(cp/(cp-R))
 !     setting icase (always adiabatic)
@@ -286,7 +286,7 @@
 !     Calculate the element one last time with enabled output
          f=calc_residual_wye(pt1,Tt1,xflow1,xflow2,pt2,
      &           Tt2,ichan_num,A1,A2,A_s,dh1,dh2,alpha,zeta_fac,
-     &           kappa,R,ider,iflag,zeta)
+     &           kappa,R,ider,kflag,zeta)
 !     
          write(1,56)'      Outlet node ',node2,':   Tt2= ',Tt2,
      &        ' , Ts2= ',Ts2,' , Pt2= ',pt2,

@@ -40,10 +40,11 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
     Datasets *lcase=NULL;
     
     ITG *kontet=NULL,*ifatet=NULL,*inodfa=NULL,*ipofa=NULL,type,n1,n2,n3,n4,
-	*nnx=NULL,*nny=NULL,*nnz=NULL,*kon=NULL,*ipkon=NULL,*kontyp=NULL,
-	*iparent=NULL,ifreefa=1,kflag=2,ne,netet,numnodes,nkon,
-	indexe,istep,loadcase,nfaces,netet_,nktet=0,nfield,j,nodes[4],i,
-	read_mode=0,nodenr,*integerglob=NULL,*ielemnr=NULL,istep_global;
+      *nnx=NULL,*nny=NULL,*nnz=NULL,*kon=NULL,*ipkon=NULL,*kontyp=NULL,
+      *iparent=NULL,ifreefa=1,kflag=2,ne,netet,numnodes,nkon,
+      indexe,istep,loadcase,nfaces,netet_,nktet=0,nfield,j,nodes[4],i,
+      read_mode=0,nodenr,*integerglob=NULL,*ielemnr=NULL,istep_global,
+      iparentel;
     
     ITG i1[24]={3,7,8,6,4,3,8,1,3,8,5,6,3,5,8,1,2,3,5,6,2,5,3,1};
     ITG i2[12]={1,2,3,5,1,5,3,4,4,5,3,6};
@@ -125,11 +126,22 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 	    }
 	}
     }
+    
     if(istep==0){
+
+      /* no global data needed */
+      
 	return;
     }else{
 
-        /* iglob=-1 if global results are from a frequency analysis
+        /* for SUBMODEL calculations the step number just read is
+           positive for global *STATIC calculations (STEP parameter
+           on the *BOUNDARY... card) and negative for global *FREQUENCY
+           calculations (DATA SET parameter on the *BOUNDARY... card).
+           The sign of the step number is now transferred to the
+           iglob parameter, which serves as return (intent out) parameter
+
+           iglob=-1 if global results are from a frequency analysis
            iglob=1  if global results are from a static analysis */
 
 	if(istep<0){
@@ -220,7 +232,7 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 	}else if(kontyp[i]==6){
 	    numnodes=10;
 	}else{
-	    printf("*WARNING in getglobalresults.c: element in global\n");
+	    printf(" *WARNING in getglobalresults.c: element in global\n");
 	    printf("         mesh not recognized; cgx element type=%" ITGFORMAT "\n",kontyp[i]);
 	    continue;
 	}
@@ -259,11 +271,12 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 		nodes[1]=kon[indexe+i1[4*j+1]];
 		nodes[2]=kon[indexe+i1[4*j+2]];
 		nodes[3]=kon[indexe+i1[4*j+3]];
-		iparent[netet]=i+1;
+		iparentel=i+1;
+		iparent[netet]=iparentel;
 		netet++;
 		FORTRAN(createtet,(kontet,ifatet,&netet,inodfa,
 				     &ifreefa,planfa,ipofa,nodes,cotet,
-				     &iparent[netet]));
+				     &iparentel));
 	    }
 	}
 	else if(type==2){
@@ -275,11 +288,12 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 		nodes[1]=kon[indexe+i2[4*j+1]];
 		nodes[2]=kon[indexe+i2[4*j+2]];
 		nodes[3]=kon[indexe+i2[4*j+3]];
-		iparent[netet]=i+1;
+		iparentel=i+1;
+		iparent[netet]=iparentel;
 		netet++;
 		FORTRAN(createtet,(kontet,ifatet,&netet,inodfa,
 				     &ifreefa,planfa,ipofa,nodes,cotet,
-				     &iparent[netet]));
+				     &iparentel));
 	    }
 	}
 	else if(type==3){
@@ -290,11 +304,12 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 	    nodes[1]=kon[indexe+2];
 	    nodes[2]=kon[indexe+3];
 	    nodes[3]=kon[indexe+4];
-	    iparent[netet]=i+1;
+	    iparentel=i+1;
+	    iparent[netet]=iparentel;
 	    netet++;
 	    FORTRAN(createtet,(kontet,ifatet,&netet,inodfa,
 				 &ifreefa,planfa,ipofa,nodes,cotet,
-				 &iparent[netet]));
+				 &iparentel));
 	}
 	else if(type==4){
 	    
@@ -305,11 +320,12 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 		nodes[1]=kon[indexe+i4[4*j+1]];
 		nodes[2]=kon[indexe+i4[4*j+2]];
 		nodes[3]=kon[indexe+i4[4*j+3]];
-		iparent[netet]=i+1;
+		iparentel=i+1;
+		iparent[netet]=iparentel;
 		netet++;
 		FORTRAN(createtet,(kontet,ifatet,&netet,inodfa,
 				     &ifreefa,planfa,ipofa,nodes,cotet,
-				     &iparent[netet]));
+				     &iparentel));
 	    }
 	}
 	else if(type==5){
@@ -321,11 +337,12 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 		nodes[1]=kon[indexe+i5[4*j+1]];
 		nodes[2]=kon[indexe+i5[4*j+2]];
 		nodes[3]=kon[indexe+i5[4*j+3]];
-		iparent[netet]=i+1;
+		iparentel=i+1;
+		iparent[netet]=iparentel;
 		netet++;
 		FORTRAN(createtet,(kontet,ifatet,&netet,inodfa,
 				     &ifreefa,planfa,ipofa,nodes,cotet,
-				     &iparent[netet]));
+				     &iparentel));
 	    }
 	}
 	else if(type==6){
@@ -337,11 +354,12 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 		nodes[1]=kon[indexe+i6[4*j+1]];
 		nodes[2]=kon[indexe+i6[4*j+2]];
 		nodes[3]=kon[indexe+i6[4*j+3]];
-		iparent[netet]=i+1;
+		iparentel=i+1;
+		iparent[netet]=iparentel;
 		netet++;
 		FORTRAN(createtet,(kontet,ifatet,&netet,inodfa,
 				     &ifreefa,planfa,ipofa,nodes,cotet,
-				     &iparent[netet]));
+				     &iparentel));
 	    }
 	}
     }
@@ -433,7 +451,7 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 //	if( readfrdblock(loadcase, anz, node, lcase )==-1) 
 	if(!read_mode && readfrdblock(loadcase, anz, node, lcase )==-1) 
 	{
-	    printf("ERROR in getglobalresults: Could not read data for Dataset:%" ITGFORMAT "\n", i+1); 
+	    printf(" *ERROR in getglobalresults: Could not read data for Dataset:%" ITGFORMAT "\n", i+1); 
 	    FORTRAN(stop,());
 	}
 	
@@ -444,7 +462,7 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 	    field[13*(nodenr-1)]=lcase[loadcase].dat[0][nodenr];
 	}
     }else{
-	printf("INFO in getglobalresults: no temperature data\n was found for step %d in the global model\n\n",istep);
+	printf(" *INFO in getglobalresults: no temperature data\n was found for step %d in the global model\n\n",istep);
     }
     
     /* reading the displacements */
@@ -479,7 +497,7 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 //	if( readfrdblock(loadcase, anz, node, lcase )==-1) 
 	if(!read_mode && readfrdblock(loadcase, anz, node, lcase )==-1) 
 	{
-	    printf("ERROR in getglobalresults: Could not read data for Dataset:%" ITGFORMAT "\n", i+1); 
+	    printf(" *ERROR in getglobalresults: Could not read data for Dataset:%" ITGFORMAT "\n", i+1); 
 	    FORTRAN(stop,());
 	}
 	
@@ -492,7 +510,7 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 	    field[13*(nodenr-1)+3]=lcase[loadcase].dat[2][nodenr];
 	}
     }else{
-	printf("INFO in getglobalresults: no displacement data\n was found for step %d in the global model\n\n",istep);
+	printf(" *INFO in getglobalresults: no displacement data\n was found for step %d in the global model\n\n",istep);
     }
     
     /* reading the stresses */
@@ -526,7 +544,7 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 //	if( readfrdblock(loadcase, anz, node, lcase )==-1) 
 	if(!read_mode && readfrdblock(loadcase, anz, node, lcase )==-1) 
 	{
-	    printf("ERROR in getglobalresults: Could not read data for Dataset:%" ITGFORMAT "\n", i+1); 
+	    printf(" *ERROR in getglobalresults: Could not read data for Dataset:%" ITGFORMAT "\n", i+1); 
 	    FORTRAN(stop,());
 	}
 	
@@ -542,7 +560,7 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 	    field[13*(nodenr-1)+9]=lcase[loadcase].dat[5][nodenr];
 	}
     }else{
-	printf("INFO in getglobalresults: no stress data\n was found for step %d in the global model\n\n",istep);
+	printf(" *INFO in getglobalresults: no stress data\n was found for step %d in the global model\n\n",istep);
     }
     
     /* reading the forces */
@@ -575,7 +593,7 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
     if(loadcase>-1){
 	if(!read_mode && readfrdblock(loadcase, anz, node, lcase )==-1) 
 	{
-	    printf("ERROR in getglobalresults: Could not read data for Dataset:%" ITGFORMAT "\n", i+1); 
+	    printf(" *ERROR in getglobalresults: Could not read data for Dataset:%" ITGFORMAT "\n", i+1); 
 	    FORTRAN(stop,());
 	}
 	
@@ -588,7 +606,7 @@ void getglobalresults (char *masterfile,ITG **integerglobp,double **doubleglobp,
 	    field[13*(nodenr-1)+12]=lcase[loadcase].dat[2][nodenr];
 	}
     }else{
-	printf("INFO in getglobalresults: no force data\n was found for step %d in the global model\n\n",istep);
+	printf(" *INFO in getglobalresults: no force data\n was found for step %d in the global model\n\n",istep);
     }
     
     SFREE(kontet);SFREE(inodfa);

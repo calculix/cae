@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -24,7 +24,8 @@
      &  nodeboun,ndirboun,nodeforc,ndirforc,istep,iinc,
      &  co,vold,itg,ntg,amname,ikboun,ilboun,nelemload,sideload,mi,
      &  ntrans,trab,inotr,veold,integerglob,doubleglob,tieset,istartset,
-     &  iendset,ialset,ntie,nmpc,ipompc,ikmpc,ilmpc,nodempc,coefmpc)
+     &  iendset,ialset,ntie,nmpc,ipompc,ikmpc,ilmpc,nodempc,coefmpc,
+     &  set,nset)
 !
 !     calculates the loading at a given time
 !
@@ -35,11 +36,11 @@
       character*1 entity
       character*20 sideload(*)
       character*80 amname(*)
-      character*81 tieset(3,*)
+      character*81 tieset(3,*),set(*)
 !
       integer iamforc(*),iamload(2,*),iamt1(*),nelemload(2,*),
      &  nam,i,istart,iend,id,nforc,nload,nk,namta(3,*),ithermal(*),
-     &  nmethod,iamt1i,iamboun(*),nboun,iamforci,iambouni,
+     &  nmethod,iamt1i,iamboun(*),nboun,iamforci,iambouni,nset,
      &  iamloadi1,iamloadi2,ibody(3,*),itg(*),ntg,idof,one,
      &  nbody,iambodyi,nodeboun(*),ndirboun(*),nodeforc(2,*),
      &  ndirforc(*),istep,iinc,msecpt,node,j,ikboun(*),ilboun(*),
@@ -172,7 +173,7 @@
             iselect(1)=ndirboun(i)+1
             call interpolsubmodel(integerglob,doubleglob,xbounact(i),
      &           coords,iselect,one,node,tieset,istartset,iendset,
-     &           ialset,ntie,entity)
+     &           ialset,ntie,entity,set,nset)
 c            write(*,*) 'tempload ',node,ndirboun(i),xbounact(i)
             cycle
          endif
@@ -361,7 +362,7 @@ c               xloadact(2,i)=xload(2,i)
                iselect(1)=1
                call interpolsubmodel(integerglob,doubleglob,t1act(i),
      &              coords,iselect,one,i,tieset,istartset,iendset,
-     &              ialset,ntie,entity)
+     &              ialset,ntie,entity,set,nset)
                cycle
             endif
 !

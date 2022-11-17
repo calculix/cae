@@ -1,6 +1,6 @@
 
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -508,7 +508,7 @@ void spooles_factor(double *ad, double *au,  double *adb, double *aub,
 	    /* inputformat:
 	       0: sparse lower triangular matrix in ad (diagonal)
 	          and au (lower triangle)
-	       1: sparse lower + upper triangular matrix in ad (diagonal)
+	       1: sparse full matrix in ad (diagonal)
 	          and au (first lower triangle, then upper triangle; lower
 	          and upper triangle have nonzero's at symmetric positions)
 	       2: full matrix in field ad
@@ -714,7 +714,7 @@ void spooles_factor(double *ad, double *au,  double *adb, double *aub,
 		factor(&pfi, mtxA, size, msgFile,&symmetryflagi4);
 	}
 #else
-	//	printf(" Using 1 cpu for spooles.\n\n");
+	printf(" Using 1 cpu for spooles.\n\n");
 	factor(&pfi, mtxA, size, msgFile,&symmetryflagi4);
 #endif
 }
@@ -753,7 +753,7 @@ void spooles_solve(double *b, ITG *neq)
 	}
 
 #ifdef USE_MT
-//	printf(" Using up to %d cpu(s) for spooles.\n\n", num_cpus);
+	//	printf(" Using up to %d cpu(s) for spooles.\n\n", num_cpus);
 	if (num_cpus > 1) {
 		/* do not use the multithreaded solver unless
 		 * we have multiple threads - avoid the
@@ -764,7 +764,7 @@ void spooles_solve(double *b, ITG *neq)
 		mtxX=fsolve(&pfi, mtxB);
 	}
 #else
-//	printf(" Using 1 cpu for spooles.\n\n");
+	//	printf(" Using 1 cpu for spooles.\n\n");
 	mtxX=fsolve(&pfi, mtxB);
 #endif
 
@@ -802,14 +802,25 @@ FILE *msgFilf;
 struct factorinfo pfj;
 
 void spooles_factor_rad(double *ad, double *au,  double *adb, double *aub, 
-             double *sigma,ITG *icol, ITG *irow,
-	     ITG *neq, ITG *nzs, ITG *symmetryflag, ITG *inputformat)
+			double *sigma,ITG *icol, ITG *irow,
+			ITG *neq, ITG *nzs, ITG *symmetryflag, ITG *inputformat,
+			ITG *iexpl)
 {
         int symmetryflagi4=*symmetryflag;
 	int size = *neq;
 	InpMtx *mtxA;
 
-	printf(" Factoring the system of radiation equations using the unsymmetric spooles solver\n\n");
+	/* messages only for implicit calculations (for explicit calculations
+	   the output should be kept to a minimum because of performance
+	   reasons*/
+	
+	if(*iexpl<=1){
+	  if(symmetryflagi4==0){
+	    printf(" Factoring the system of equations using the symmetric spooles solver\n");
+	  }else if((symmetryflagi4==2)&&(*inputformat!=4)){
+	    printf(" Factoring the system of radiation equations using the unsymmetric spooles solver\n");
+	  }
+	}
 
 /*	if(*neq==0) return;*/
  
@@ -1030,7 +1041,9 @@ void spooles_factor_rad(double *ad, double *au,  double *adb, double *aub,
 	    }
 	    
 	}
-	printf(" Using up to %d cpu(s) for spooles.\n\n", num_cpus);
+	if(*iexpl<=1){
+	  printf(" Using up to %d cpu(s) for spooles.\n\n", num_cpus);
+	}
 	if (num_cpus > 1) {
 		/* do not use the multithreaded solver unless
 		 * we have multiple threads - avoid the
@@ -1041,7 +1054,9 @@ void spooles_factor_rad(double *ad, double *au,  double *adb, double *aub,
 		factor(&pfj, mtxA, size, msgFilf,&symmetryflagi4);
 	}
 #else
-	printf(" Using 1 cpu for spooles.\n\n");
+	if(*iexpl<=1){
+	  printf(" Using 1 cpu for spooles.\n\n");
+	}
 	factor(&pfj, mtxA, size, msgFilf,&symmetryflagi4);
 #endif
 }
@@ -1062,7 +1077,7 @@ void spooles_solve_rad(double *b, ITG *neq)
 	int size = *neq;
 	DenseMtx *mtxB,*mtxX;
 
-	printf(" solving the system of radiation equations using the unsymmetric spooles solver\n");
+	//	printf(" Solving the system of radiation equations using the unsymmetric spooles solver\n");
 
 	{
 		int i;
@@ -1080,7 +1095,7 @@ void spooles_solve_rad(double *b, ITG *neq)
 	}
 
 #ifdef USE_MT
-	printf(" Using up to %d cpu(s) for spooles.\n\n", num_cpus);
+	//	printf(" Using up to %d cpu(s) for spooles.\n\n", num_cpus);
 	if (num_cpus > 1) {
 		/* do not use the multithreaded solver unless
 		 * we have multiple threads - avoid the
@@ -1091,7 +1106,7 @@ void spooles_solve_rad(double *b, ITG *neq)
 		mtxX=fsolve(&pfj, mtxB);
 	}
 #else
-	printf(" Using 1 cpu for spooles.\n\n");
+	//	printf(" Using 1 cpu for spooles.\n\n");
 	mtxX=fsolve(&pfj, mtxB);
 #endif
 

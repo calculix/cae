@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -29,8 +29,6 @@
      &  mi(*)
 !
       real*8 v(0:mi(2),*)
-!
-!
 !
 !     determining all inflowing mass flow in the end nodes and
 !     assigning it to the end nodes 

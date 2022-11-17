@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,68 +16,57 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
-      subroutine mafillv1rhs(co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,
-     &     xboun,nboun,ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,
-     &     xforc,nforc,nelemload,sideload,xload,nload,xbody,ipobody,
-     &     nbody,b,nactdoh,icolv,jqv,irowv,neqv,nzlv,nmethod,ikmpc,
-     &     ilmpc,ikboun,ilboun,rhcon,nrhcon,ielmat,ntmat_,t0,ithermal,
-     &     vold,vcon,dt,matname,mi,ncmat_,physcon,shcon,nshcon,ttime,
-     &     time,istep,iinc,ibody,xloadold,turbulent,vcontu,yy,
+      subroutine mafillv1rhs(co,nk,kon,ipkon,lakon,ne,
+     &     ipompc,nodempc,coefmpc,nmpc,
+     &     nelemload,sideload,xload,nload,xbody,ipobody,
+     &     nbody,b2,nactdoh,nmethod,ikmpc,
+     &     ilmpc,rhcon,nrhcon,ielmat,ntmat_,ithermal,
+     &     vold,vcon,mi,physcon,shcon,nshcon,ttime,
+     &     time,istep,ibody,xloadold,iturbulent,
      &     nelemface,sideface,nface,compressible,nea,neb,dtimef,ipvar,
-     &     var,ipvarf,varf,sti)
+     &     var,ipvarf,varf,ipface,ifreesurface,depth,dgravity,cocon,
+     &     ncocon,iinc,theta1,reltimef,b1)
 !     
-!     filling the rhs b of the velocity equations (step 1)
+!     filling the rhs b1 for equations of steps 1,2,4 and 5
+!     filling the rhs b2 for equations of step 3
+!     corrections to step 2 (all fluids) and 3 (only incompressible
+!     fluids) are done in mafillprhs and mafillv2rhs
 !     
       implicit none
 !     
-      integer turbulent,compressible
+      integer iturbulent,compressible
 !     
       character*1 sideface(*)
       character*8 lakon(*)
       character*20 sideload(*)
-      character*80 matname(*)
 !     
-      integer kon(*),nodeboun(*),ndirboun(*),ipompc(*),nodempc(3,*),
-     &     nodeforc(2,*),ndirforc(*),nelemload(2,*),icolv(*),jqv(*),
-     &     ikmpc(*),ilmpc(*),ikboun(*),ilboun(*),nactdoh(0:4,*),
-     &     irowv(*),nrhcon(*),mi(*),ielmat(mi(3),*),ipkon(*),nshcon(*),
-     &     ipobody(2,*),konl(20),
-     &     nbody,ibody(3,*),nelemface(*),nface,nea,neb
+      integer kon(*),ipompc(*),nodempc(3,*),nelemload(2,*),
+     &     ikmpc(*),ilmpc(*),nactdoh(*),
+     &     nrhcon(*),mi(*),ielmat(mi(3),*),ipkon(*),nshcon(*),
+     &     ipobody(2,*),ipface(*),ifreesurface,ncocon(2,*),
+     &     nbody,ibody(3,*),nelemface(*),nface,nea,neb,kstart,
+     &     nk,ne,nmpc,nload,nmethod,ithermal(*),i,j,k,id,
+     &     ist,index,jdof1,node,ntmat_,indexe,nope,istep,
+     &     ipvar(*),ipvarf(*),iinc
 !     
-      integer nk,ne,nboun,nmpc,nforc,nload,neqv,nzlv,nmethod,
-     &     ithermal(*),i,j,k,idist,jj,id,ist,index,jdof1,
-     &     jdof,node1,kflag,ntmat_,indexe,nope,i0,ncmat_,istep,iinc,
-     &     ipvar(*),ipvarf(*)
-!     
-      real*8 co(3,*),xboun(*),coefmpc(*),xforc(*),xload(2,*),p1(3),
-     &     p2(3),bodyf(3),b(*),xloadold(2,*),vcontu(2,*),yy(*),
-     &     t0(*),vold(0:mi(2),*),vcon(0:4,*),ff(78),rhcon(0:1,ntmat_,*),
+      real*8 co(3,*),coefmpc(*),xload(2,*),p1(3),
+     &     p2(3),bodyf(3),xloadold(2,*),rhcon(0:1,ntmat_,*),
+     &     vold(0:mi(2),*),vcon(nk,0:mi(2)),ff(0:mi(2),8),
      &     physcon(*),shcon(0:3,ntmat_,*),xbody(7,*),var(*),varf(*),
-     &     sti(6,mi(1),*),dt(*)
-!     
-      real*8 om,dtimef,ttime,time
-!     
-      kflag=2
-      i0=0
-!     
-      do i=1,neqv
-        b(i)=0.d0
-      enddo
-!     
-!     distributed forces (body forces or thermal loads or
-!     residual stresses or distributed face loads)
-!     
-      if((nbody.ne.0).or.(ithermal(1).ne.0).or.
-     &     (nload.ne.0)) then
-        idist=1
+     &     om,dtimef,ttime,time,dgravity,b2(nk,3),
+     &     cocon(0:6,ntmat_,*),theta1,bb(3,8),reltimef,b1(nk,0:mi(2)),
+     &     depth(*)
+!
+!     check whether energy equation is needed
+!
+      if(ithermal(1).gt.1) then
+        kstart=0
       else
-        idist=0
+        kstart=1
       endif
 !     
       do i=nea,neb
 !     
-        if(ipkon(i).lt.0) cycle
-        if(lakon(i)(1:1).ne.'F') cycle
         indexe=ipkon(i)
         if(lakon(i)(4:4).eq.'8') then
           nope=8
@@ -126,80 +115,91 @@
 !     
         call e_c3d_v1rhs(co,nk,kon(indexe+1),lakon(i),p1,p2,om,
      &       bodyf,nbody,ff,i,nmethod,rhcon,nrhcon,ielmat,ntmat_,vold,
-     &       vcon,idist,dtimef,matname,mi(1),
-     &       ttime,time,istep,iinc,shcon,nshcon,
-     &       turbulent,vcontu,yy,nelemface,sideface,nface,compressible,
-     &       ipvar,var,ipvarf,varf,sti,ithermal,dt)
-!     
-        do jj=1,3*nope
-!     
-          j=(jj-1)/3+1
-          k=jj-3*(j-1)
-!     
-          node1=kon(indexe+j)
-          jdof1=nactdoh(k,node1)
+     &       vcon,dtimef,mi(1),
+     &       ttime,time,istep,shcon,nshcon,
+     &       iturbulent,nelemface,sideface,nface,compressible,
+     &       ipvar,var,ipvarf,varf,ithermal,ipface,nelemload,
+     &       sideload,xload,nload,ifreesurface,depth,dgravity,cocon,
+     &       ncocon,ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,iinc,
+     &       theta1,bb,physcon,reltimef,xloadold)
 !     
 !     distributed forces
 !     
-          if(jdof1.le.0) then
-            if(nmpc.ne.0) then
-              if(jdof1.ne.2*(jdof1/2)) then
-                id=(-jdof1+1)/2
-                ist=ipompc(id)
-                index=nodempc(3,ist)
-                if(index.eq.0) cycle
-                do
-                  jdof1=nactdoh(nodempc(2,index),
-     &                 nodempc(1,index))
-                  if(jdof1.gt.0) then
-                    b(jdof1)=b(jdof1)
-     &                   -coefmpc(index)*ff(jj)
-     &                   /coefmpc(ist)
-                  endif
-                  index=nodempc(3,index)
-                  if(index.eq.0) exit
-                enddo
-              endif
-            endif
-            cycle
-          endif
-          b(jdof1)=b(jdof1)+ff(jj)
+        if(compressible.eq.1) then
+!
+!         compressible fluid: dof = node number
+!
+          do j=1,nope
+            node=kon(indexe+j)
+            do k=0,mi(2)
+              b1(node,k)=b1(node,k)+ff(k,j)
+            enddo
+            do k=1,3
+              b2(node,k)=b2(node,k)+bb(k,j)
+            enddo
+          enddo
+        else
+!
+!     incompressible fluid: dof = node number except for the
+!     pressure equation, for which the dofs with SPC/MPC are
+!     removed
+!
+          do j=1,nope
+            node=kon(indexe+j)
+            do k=kstart,3
+              b1(node,k)=b1(node,k)+ff(k,j)
+            enddo
+            do k=1,3
+              b2(node,k)=b2(node,k)+bb(k,j)
+            enddo
+          enddo
 !     
-        enddo
-      enddo
+!     pressure equation
 !     
-!     point forces
+          do j=1,nope
 !     
-      if(nea.eq.1) then
-        do i=1,nforc
-          if(ndirforc(i).gt.3) cycle
-          jdof=nactdoh(ndirforc(i),nodeforc(1,i))
-          if(jdof.gt.0) then
-            b(jdof)=b(jdof)+xforc(i)
-          else
-!     
-!     node is a dependent node of a MPC: distribute
-!     the forces among the independent nodes
-!     (proportional to their coefficients)
-!     
-            if(jdof.ne.2*(jdof/2)) then
-              id=(-jdof+1)/2
-              ist=ipompc(id)
-              index=nodempc(3,ist)
-              if(index.eq.0) cycle
-              do
-                jdof=nactdoh(nodempc(2,index),nodempc(1,index))
-                if(jdof.gt.0) then
-                  b(jdof)=b(jdof)-
-     &                 coefmpc(index)*xforc(i)/coefmpc(ist)
+            node=kon(indexe+j)
+            jdof1=nactdoh(node)
+            if(jdof1.le.0) then
+              if(nmpc.ne.0) then
+                if(jdof1.ne.2*(jdof1/2)) then
+                  id=(-jdof1+1)/2
+                  ist=ipompc(id)
+                  index=nodempc(3,ist)
+                  if(index.eq.0) cycle
+                  do
+                    jdof1=nactdoh(nodempc(1,index))
+                    if(jdof1.gt.0) then
+                      b1(jdof1,4)=b1(jdof1,4)
+     &                     -coefmpc(index)*ff(4,j)
+     &                     /coefmpc(ist)
+                    endif
+                    index=nodempc(3,index)
+                    if(index.eq.0) exit
+                  enddo
                 endif
-                index=nodempc(3,index)
-                if(index.eq.0) exit
-              enddo
+              endif
+              cycle
             endif
+            b1(jdof1,4)=b1(jdof1,4)+ff(4,j)
+          enddo
+!
+!         turbulent equations
+!
+          if(iturbulent.gt.0) then
+            do j=1,nope
+              node=kon(indexe+j)
+              do k=5,mi(2)
+                b1(node,k)=b1(node,k)+ff(k,j)
+              enddo
+            enddo
           endif
-        enddo
-      endif
+        endif
+      enddo
+c      write(*,*) 'mafilltrhs '
+c      do i=1,nk
+c        write(*,*) i,b1(i,0)
+c      enddo
 !     
       return
       end

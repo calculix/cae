@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -60,8 +60,9 @@ void inicont(ITG * nk,ITG *ncont, ITG *ntie, char *tieset, ITG *nset, char *set,
   
   /* triangulation of the master side */
   
-  FORTRAN(triangucont,(ncont,ntie,tieset,nset,set,istartset,iendset,
-	  ialset,itietri,lakon,ipkon,kon,koncont,kind1,kind2,co,nk));
+  FORTRAN(triangucont,(ncont,ntie,tieset,nset,set,istartset,iendset,ialset,
+		       itietri,lakon,ipkon,kon,koncont,kind1,kind2,co,nk,
+		       mortar));
 
   NNEW(ipe,ITG,*nk);
   NNEW(ime,ITG,12**ncont);
@@ -72,7 +73,7 @@ void inicont(ITG * nk,ITG *ncont, ITG *ntie, char *tieset, ITG *nset, char *set,
   FORTRAN(trianeighbor,(ipe,ime,imastop,ncont,koncont,
 		        &ifreeme));
 
-  if(*mortar==0){SFREE(ipe);SFREE(ime);}
+  if((*mortar==-1)||(*mortar==0)){SFREE(ipe);SFREE(ime);}
   else{RENEW(ime,ITG,4*ifreeme);}
 
   /* catalogueing the external faces (only for node-to-face

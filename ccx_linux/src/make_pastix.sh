@@ -6,14 +6,14 @@ cd build
 
 
 cmake   \
-        -DBLAS_DIR=~/OpenBLAS_i8 \
-	-DHWLOC_DIR=~/PaStiX/hwloc_i8 \
+        -DBLAS_DIR=/home/guido/OpenBLAS_i8 \
+	-DHWLOC_DIR=/home/guido/PaStiX/hwloc_i8 \
 	-DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-10.2 \
-	-DCMAKE_INSTALL_PREFIX=~/PaStiX/pastix_i8 \
+	-DCMAKE_INSTALL_PREFIX=/home/guido/PaStiX/pastix_i8 \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DPASTIX_WITH_PARSEC=ON \
-	-DPARSEC_DIR=~/PaStiX/parsec_i8 \
-	-DSCOTCH_DIR=~/PaStiX/scotch_i8 \
+	-DPARSEC_DIR=/home/guido/PaStiX/parsec_i8 \
+	-DSCOTCH_DIR=/home/guido/PaStiX/scotch_i8 \
 	-DPASTIX_WITH_CUDA=ON \
 	-DCUDA_DIR=/usr/local/cuda-10.2 \
 	-DPASTIX_ORDERING_SCOTCH=ON \

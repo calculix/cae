@@ -238,7 +238,7 @@ void PCG (double *A, double *x, double *b, ITG neq, ITG len, ITG *ia,
       rrho1 = rrho;
     }
   if(k==*niter){
-    printf("*ERROR in PCG: no convergence;");
+    printf(" *ERROR in PCG: no convergence;");
     FORTRAN(stop,());
   } 
   *eps = rrho;
@@ -563,7 +563,7 @@ void CG (double *A, double *x, double *b, ITG neq, ITG len, ITG *ia, ITG *iz,
 
 	}
 	if(k==*niter){
-	  printf("*ERROR in PCG: no convergence;");
+	  printf(" *ERROR in PCG: no convergence;");
 	  FORTRAN(stop,());
 	} 
 	*eps = rr;						/*..return residual............................	*/

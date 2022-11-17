@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -36,7 +36,7 @@ void sensitivity_out(char *jobnamec,double *dgdxglob,ITG *neq,ITG *nobject,
   strcat(sensitivities,".sen");
   
   if((f1=fopen(sensitivities,"w"))==NULL){
-      printf("*ERROR in sensitivity: cannot open sensitivity vector file for writing...");
+      printf(" *ERROR in sensitivity_out: cannot open sensitivity vector file for writing...");
       
       exit(0);
   }
@@ -63,7 +63,7 @@ void sensitivity_out(char *jobnamec,double *dgdxglob,ITG *neq,ITG *nobject,
   strcat(nominal,".nom");
   
   if((f1=fopen(nominal,"w"))==NULL){
-      printf("*ERROR in sensitivity: cannot open sensitivity vector file for writing...");
+      printf(" *ERROR in sensitivity_out: cannot open sensitivity vector file for writing...");
       
       exit(0);
   }

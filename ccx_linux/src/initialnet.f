@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -48,7 +48,7 @@
      &     nrhs,info,idof1,idof2,nteq,nrhcon(*),ipobody(2,*),ibody(3,*),
      &     nbody,numf,network,iin_abs,icase,index2,index1,nelem1,nelem2,
      &     node11,node21,node12,node22,istep,iit,ineighe(*),iponoel(*),
-     &     ilboun(*),idir,ichannel,inoel(2,*),indexe,iel,iplausi
+     &     ilboun(*),idir,ichannel,inoel(2,*),indexe,iel,iplausi,id
 !     
       real*8 ac(nteq,nteq), bc(nteq),prop(*),shcon(0:3,ntmat_,*),
      &     f,df(8),xflow,xbounact(*),v(0:mi(2),*),cp,r,tg1,
@@ -56,8 +56,6 @@
      &     rhcon(0:1,ntmat_,*),co(3,*),xbodyact(7,*),kappa,
      &     A,Tt,pt,Ts,pressmax,constant,vold(0:mi(2),*),
      &     coefmpc(*),ttime,time,xflow360,A2,d,l,s
-!
-!
 !
       kflag=1
       ider=0
@@ -67,9 +65,28 @@
 !     applying the boundary conditions
 !
       do j=1,nboun
-         v(ndirboun(j),nodeboun(j))=xbounact(j)
-         vold(ndirboun(j),nodeboun(j))=xbounact(j)
+        v(ndirboun(j),nodeboun(j))=xbounact(j)
+        vold(ndirboun(j),nodeboun(j))=xbounact(j)
       enddo
+!     
+!     turning a boundary pressure of 0.d0 into 1.235711d-10
+!     (if the pressure is 0.d0 it is assumed in the present
+!     routine to be unknown and not to be set by a boundary
+!     condition; therefore it is changed here to a very small
+!     value and reset at the end of the routine to zero; this
+!     should only be relevant in liquids, where only pressure
+!     differences matter)
+!     
+       do i=1,ntg
+         node=itg(i)
+         idof=8*(node-1)+2
+         call nident(ikboun,idof,nboun,id)
+         if(id.gt.0) then
+           if(ikboun(id).eq.idof) then
+             if(v(2,node).eq.0.d0) v(2,node)=1.235711d-10
+           endif
+         endif
+       enddo
 !
 !     check for channel elements
 !     
@@ -153,7 +170,7 @@
      &             (lakon(nelem)(2:3).eq.'UP')) then 
 !     
 !     In the case of a element of type GASPIPE or RESTRICTOR 
-!     (except TYPE= RESTRICTOR WALL ORIFICE)
+!     (except TYPE= RESTRICTOR WALL ORIFICE) or USER
 !     the number of pipes connected to node 1 and 2
 !     are computed and stored in ineighe(id1)
 !     respectively ineighe(id2)
@@ -199,9 +216,36 @@
                v(2,node2)=v(2,node2)-1.d0
             endif
          enddo
-!     
-!     for each end node i: if ineighe(i)<0: chamber
-!     else: ineighe(i)=number of pipe connections
+!
+!              Guido 17.06.2022 Option 1  (cf. resultnet.f)
+!
+c!     
+c!     for each end node i: if ineighe(i)<0: chamber
+c!     else: ineighe(i)=number of pipe connections
+c!
+c!     check that isothermal gaspipe elements are not connected
+c!     to chambers
+c!     
+c         do i=1,nflow
+c           nelem=ieg(i)
+c           index=ipkon(nelem)
+c           node1=kon(index+1)
+c           node2=kon(index+3)
+c           call nident(itg,node1,ntg,id1)
+c           call nident(itg,node2,ntg,id2)
+c!     
+c           if(iin_abs.eq.0) then
+c             if (lakon(nelem)(2:6).eq.'GAPFI') then 
+c               if((ineighe(id1).eq.-1).or.(ineighe(id2).eq.-1)) then
+c                 write(*,*) '*ERROR in initialnet: element',nelem
+c                 write(*,*) '       is an isothermal gas pipe'
+c                 write(*,*) '       element but is connected to'
+c                 write(*,*) '       at least one chamber'
+c                 call exit(201)
+c               endif
+c             endif
+c           endif
+c         enddo
 !     
 !     assigning values to the boundary nodes of the network
 !     (i.e. nodes belonging to only one element)
@@ -709,11 +753,6 @@ c                  call exit(201)
 !            calculating flux if the flux is an unknown; any initial
 !            flux defined by the user is checked on plausibility            
 !
-c!     
-c!           calculating flux if the flux is an unknown AND there was
-c!           no initial flux defined by the user
-c!
-c            if((nactdog(1,nodem).ne.0).and.(v(1,nodem).eq.0.d0)) then
             if(nactdog(1,nodem).ne.0) then
                call flux(node1,node2,nodem,nelem,lakon,kon,ipkon,
      &           nactdog,identity,ielprop,prop,kflag,v,xflow,f,
@@ -953,10 +992,12 @@ c            if((nactdog(1,nodem).ne.0).and.(v(1,nodem).eq.0.d0)) then
 !     
       do i=1,ntg
          if(ineighe(i).eq.-1) v(3,itg(i))=v(0,itg(i))
-c         write(*,*) 'initialnet ',i,v(0,itg(i)),
-c     &      v(1,itg(i)),v(2,itg(i)),ineighe(i)
       enddo
 !
+       do i=1,ntg
+         node=itg(i)
+         if(v(2,node).eq.1.235711d-10) v(2,node)=0.d0
+       enddo
 c      write(*,*) 'initialnet '
 c      do i=1,ntg
 c         write(*,'(i10,3(1x,e11.4))') itg(i),(v(j,itg(i)),j=0,2)

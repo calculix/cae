@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -25,20 +25,25 @@
 !
       implicit none
 !
-      character*81 objectset(4,*),set(*)
+      character*81 objectset(5,*),set(*)
 !
       integer i,j,k,nset,istartset(*),iendset(*),ialset(*),ipkon(*),
      &  iobject,ne,index,nelem,iponoel(*),inoel(2,*),neinset(*),
-     &  nepar,nkinsetinv(*),nk
-!
-!
+     &  nepar,nkinsetinv(*),nk,id
 !
 !     determining the nodes set corresponding to the STRESS
 !     objective function
 !
-      do i=1,nset
-         if(objectset(3,iobject).eq.set(i)) exit
-      enddo
+c      do i=1,nset
+c         if(objectset(3,iobject).eq.set(i)) exit
+c      enddo
+      call cident81(set,objectset(3,iobject),nset,id)
+      i=nset+1
+      if(id.gt.0) then
+        if(objectset(3,iobject).eq.set(id)) then
+          i=id
+        endif
+      endif
 !
       nepar=0
 !

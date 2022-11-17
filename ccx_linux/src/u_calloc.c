@@ -1,6 +1,6 @@
 
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -40,7 +40,7 @@ void *u_calloc(size_t num,size_t size,const char *file,const int line, const cha
       
   a=calloc(num,size);
   if(a==NULL){
-    printf("*ERROR in u_calloc: error allocating memory\n");
+    printf(" *ERROR in u_calloc: error allocating memory\n");
     printf("variable=%s, file=%s, line=%d, num=%ld, size=%ld\n",ptr_name,file,line,num,size);
     if(num<0){
 	printf("\n It looks like you may need the i8 (integer*8) version of CalculiX\n");

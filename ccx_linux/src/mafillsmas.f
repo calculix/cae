@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -32,7 +32,8 @@
      &     xstateini,xstate,thicke,
      &     integerglob,doubleglob,tieset,istartset,iendset,ialset,
      &     ntie,nasym,pslavsurf,pmastsurf,mortar,clearini,ielprop,
-     &     prop,ne0,kscale,iponoel,inoel,network,neam,nebm,neat,nebt)
+     &     prop,ne0,kscale,iponoel,inoel,network,neam,nebm,neat,nebt,
+     &     set,nset)
 !     
 !     filling the stiffness matrix in spare matrix format (sm)
 !     asymmetric contributions
@@ -44,7 +45,7 @@
       character*8 lakon(*)
       character*20 sideload(*)
       character*80 matname(*)
-      character*81 tieset(3,*)
+      character*81 tieset(3,*),set(*)
 !     
       integer kon(*),nodeboun(*),ndirboun(*),ipompc(*),nodempc(3,*),
      &     nodeforc(2,*),ndirforc(*),nelemload(2,*),icol(*),jq(*),
@@ -59,12 +60,13 @@
      &     ntmat_,indexe,nope,norien,iexpl,ncmat_,istep,iinc,mpc2,
      &     nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,ist1,ist2,
      &     mortar,ielprop(*),kscale,iponoel(*),inoel(2,*),network,
-     &     neam,nebm,neat,nebt,ikmpc(*)
+     &     neam,nebm,neat,nebt,ikmpc(*),nset,islavelinv(1),irowtloc1(1),
+     &     jqtloc1(1),mortartrafoflag,mscalmethod
 !     
       real*8 co(3,*),xboun(*),coefmpc(*),xforc(*),xload(2,*),p1(3),
      &     p2(3),ad(*),au(*),bodyf(3),bb(*),xloadold(2,*),value,
      &     t0(*),t1(*),prestr(6,mi(1),*),vold(0:mi(2),*),s(60,60),
-     &     ff(60),
+     &     ff(60),smscale(1),
      &     sti(6,mi(1),*),sm(60,60),stx(6,mi(1),*),adb(*),aub(*),
      &     elcon(0:ncmat_,ntmat_,*),rhcon(0:1,ntmat_,*),reltime,
      &     alcon(0:6,ntmat_,*),physcon(*),cocon(0:6,ntmat_,*),
@@ -73,9 +75,11 @@
      &     springarea(2,*),thicke(mi(3),*),clearini(3,9,*),prop(*),
      &     plicon(0:2*npmat_,ntmat_,*),plkcon(0:2*npmat_,ntmat_,*),
      &     xstiff(27,mi(1),*),veold(0:mi(2),*),doubleglob(*),
-     &     om,dtime,ttime,time,pslavsurf(3,*),pmastsurf(6,*)
+     &     om,dtime,ttime,time,pslavsurf(3,*),pmastsurf(6,*),
+     &     autloc1(1)
 !     
       i0=0
+      mortartrafoflag=0
 !     
       if(rhsi.eq.1) then
 !     
@@ -124,7 +128,10 @@
      &         springarea,nstate_,xstateini,xstate,ne0,ipkon,thicke,
      &         integerglob,
      &         doubleglob,tieset,istartset,iendset,ialset,ntie,nasym,
-     &         pslavsurf,pmastsurf,mortar,clearini,ielprop,prop,kscale)
+     &         pslavsurf,pmastsurf,mortar,clearini,ielprop,prop,kscale,
+     &         smscale(1),mscalmethod,
+     &         set,nset,islavelinv,autloc1,irowtloc1,jqtloc1,
+     &         mortartrafoflag)
 !     
           do jj=1,3*nope
 !     

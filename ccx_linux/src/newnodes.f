@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -36,8 +36,6 @@
       real*8 alphasum,h(*),h1,d(*),r(*),scale,hscale,rscale,
      &     conewnodes(3,*),cotet(3,*),dist,
      &     doubleglob(*),coords(3),ratio(20),hnewnodes(*)
-!
-!
 !     
       indexn=0
 !     

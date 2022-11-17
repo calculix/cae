@@ -340,8 +340,8 @@ c     write(*,*) 'cavity add2',ibase,nfcav
      &         (hei(4).lt.height/100.d0)).and.
      &         (iexternfa(iface).gt.0).and.
      &         (ielement.ne.ibase)) then
-            write(*,*) '*INFO in cavityext_refine: element is removed'
-            write(*,*) '      from cavity'
+c            write(*,*) '*INFO in cavityext_refine: element is removed'
+c            write(*,*) '      from cavity'
           else
             cycle
           endif

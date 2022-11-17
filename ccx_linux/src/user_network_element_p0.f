@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine user_network_element_p0(node1,node2,nodem,nelem,lakon,
-     &     kon,ipkon,nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     kon,ipkon,nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,cp,R,physcon,dvi,numf,set,co,vold,mi,ttime,
      &     time,iaxial,iplausi)
 !     
@@ -43,7 +43,7 @@
 !                        properties for element i start at 
 !                        prop(ielprop(i)+1,...)
 !     prop               field of all properties
-!     iflag              indicates what information should be returned
+!     kflag              indicates what information should be returned
 !                        by the routine:
 !                        0: identity
 !                        1: xflow
@@ -121,7 +121,7 @@
       character*81 set(*)
 !     
       integer nelem,nactdog(0:3,*),node1,node2,nodem,numf,
-     &     ielprop(*),nodef(*),idirf(*),iflag,ipkon(*),kon(*),
+     &     ielprop(*),nodef(*),idirf(*),kflag,ipkon(*),kon(*),
      &     iaxial,mi(*),inv,index,icase,iplausi
 !     
       real*8 prop(*),v(0:mi(2),*),xflow,f,df(*),R,cp,physcon(*),dvi,
@@ -130,7 +130,7 @@
 !
 !
 !
-      if(iflag.eq.0) then
+      if(kflag.eq.0) then
 !
 !        called by envtemp.f:
 !
@@ -139,7 +139,7 @@
 !
 !         identity=?
 !     
-      elseif(iflag.eq.1)then
+      elseif(kflag.eq.1)then
          if(v(1,nodem).ne.0.d0) then
             xflow=v(1,nodem)
             return
@@ -151,7 +151,7 @@
 !     
 !         xflow=?
 !     
-      elseif(iflag.eq.2)then
+      elseif(kflag.eq.2)then
 !
 !        called by resultnet.f and mafillnet.f
 !     
@@ -161,7 +161,7 @@
 !         f=?
 !         df(1...numf)=?
 !     
-      elseif(iflag.eq.3) then
+      elseif(kflag.eq.3) then
 !
 !        called by flowoutput.f
 !

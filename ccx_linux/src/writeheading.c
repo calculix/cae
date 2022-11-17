@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-Dimensional finite element program                   */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -36,7 +36,7 @@ void writeheading(char *jobnamec,char *heading,ITG *nheading_){
     strcat(fneig,".frd");
     
     if((f1=fopen(fneig,"ab"))==NULL){
-	printf("*ERROR in frd: cannot open frd file for writing...");
+	printf(" *ERROR in frd: cannot open frd file for writing...");
 	exit(0);
     }
 

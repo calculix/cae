@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -21,7 +21,7 @@
      &     nk_,
      &     mi,istep,istat,n,iline,ipol,inl,ipoinp,inp,lakon,kon,co,ne,
      &     ipkon,vold,ipoinpc,xstate,nstate_,nk,t0g,t1g,iaxial,ielprop,
-     &     prop,ier)
+     &     prop,ier,nuel_)
 !     
 !     reading the input deck: *INITIAL CONDITIONS
 !     
@@ -36,7 +36,7 @@
       character*132 textpart(16)
 !     
       integer istartset(*),iendset(*),ialset(*),nset,iprestr,
-     &     ithermal(*),
+     &     ithermal(*),m,id,nuel_,
      &     istep,istat,n,i,j,k,l,ii,key,idir,ipos,inoelfree,nk_,mi(*),
      &     iline,ipol,inl,ipoinp(2,*),inp(3,*),ij,jj,ntens,ncrds,layer,
      &     kspt,lrebar,iflag,i1,mint3d,nope,kon(*),konl(20),indexe,
@@ -47,7 +47,7 @@
      &     temperature,velocity,tempgrad1,tempgrad2,pgauss(3),
      &     shp(4,20),xsj,xl(3,20),xi,et,ze,weight,co(3,*),pressure,
      &     vold(0:mi(2),*),xstate(nstate_,mi(1),*),dispvelo,totpres,
-     &     xmassflow,t0g(2,*),t1g(2,*),prop(*)
+     &     xmassflow,t0g(2,*),t1g(2,*),prop(*),turbini(0:mi(2))
 !     
       include "gauss.f"
 !     
@@ -78,7 +78,7 @@
             endif
             temperature=1.d-6*int(1.d6*temperature+0.5d0)
 !     
-            if(inoelfree.ne.0) then
+            if((inoelfree.ne.0).or.(nuel_.gt.0)) then
               tempgrad1=0.d0
               tempgrad2=0.d0
               if(n.gt.2) then
@@ -113,7 +113,7 @@
               t0(l)=temperature
               t1(l)=temperature
               vold(0,l)=temperature
-              if(inoelfree.ne.0) then
+              if((inoelfree.ne.0).or.(nuel_.gt.0)) then
                 t0g(1,l)=tempgrad1
                 t0g(2,l)=tempgrad2
                 t1g(1,l)=tempgrad1
@@ -124,9 +124,16 @@
               noset(81:81)=' '
               ipos=index(noset,' ')
               noset(ipos:ipos)='N'
-              do ii=1,nset
-                if(set(ii).eq.noset) exit
-              enddo
+c              do ii=1,nset
+c                if(set(ii).eq.noset) exit
+c              enddo
+              call cident81(set,noset,nset,id)
+              ii=nset+1
+              if(id.gt.0) then
+                if(noset.eq.set(id)) then
+                  ii=id
+                endif
+              endif
               if(ii.gt.nset) then
                 noset(ipos:ipos)=' '
                 write(*,*) 
@@ -142,7 +149,7 @@
                   t0(ialset(j))=temperature
                   t1(ialset(j))=temperature
                   vold(0,ialset(j))=temperature
-                  if(inoelfree.ne.0) then
+                  if((inoelfree.ne.0).or.(nuel_.gt.0)) then
                     t0g(1,ialset(j))=tempgrad1
                     t0g(2,ialset(j))=tempgrad2
                     t1g(1,ialset(j))=tempgrad1
@@ -156,7 +163,7 @@
                     t0(k)=temperature
                     t1(k)=temperature
                     vold(0,k)=temperature
-                    if(inoelfree.ne.0) then
+                    if((inoelfree.ne.0).or.(nuel_.gt.0)) then
                       t0g(1,k)=tempgrad1
                       t0g(2,k)=tempgrad2
                       t1g(1,k)=tempgrad1
@@ -432,9 +439,16 @@
               noset(81:81)=' '
               ipos=index(noset,' ')
               noset(ipos:ipos)='N'
-              do ii=1,nset
-                if(set(ii).eq.noset) exit
-              enddo
+c              do ii=1,nset
+c                if(set(ii).eq.noset) exit
+c              enddo
+              call cident81(set,noset,nset,id)
+              ii=nset+1
+              if(id.gt.0) then
+                if(noset.eq.set(id)) then
+                  ii=id
+                endif
+              endif
               if(ii.gt.nset) then
                 noset(ipos:ipos)=' '
                 write(*,*) 
@@ -493,9 +507,16 @@
               noset(81:81)=' '
               ipos=index(noset,' ')
               noset(ipos:ipos)='N'
-              do ii=1,nset
-                if(set(ii).eq.noset) exit
-              enddo
+c              do ii=1,nset
+c                if(set(ii).eq.noset) exit
+c              enddo
+              call cident81(set,noset,nset,id)
+              ii=nset+1
+              if(id.gt.0) then
+                if(noset.eq.set(id)) then
+                  ii=id
+                endif
+              endif
               if(ii.gt.nset) then
                 noset(ipos:ipos)=' '
                 write(*,*) 
@@ -548,9 +569,16 @@
               noset(81:81)=' '
               ipos=index(noset,' ')
               noset(ipos:ipos)='N'
-              do ii=1,nset
-                if(set(ii).eq.noset) exit
-              enddo
+c              do ii=1,nset
+c                if(set(ii).eq.noset) exit
+c              enddo
+              call cident81(set,noset,nset,id)
+              ii=nset+1
+              if(id.gt.0) then
+                if(noset.eq.set(id)) then
+                  ii=id
+                endif
+              endif
               if(ii.gt.nset) then
                 noset(ipos:ipos)=' '
                 write(*,*) 
@@ -570,6 +598,77 @@
                     k=k-ialset(j)
                     if(k.ge.ialset(j-1)) exit
                     vold(4,k)=pressure
+                  enddo
+                endif
+              enddo
+            endif
+          enddo
+          return
+        elseif(textpart(ij)(1:15).eq.'TYPE=TURBULENCE') then
+!     
+          do
+            call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,
+     &           ipoinp,inp,ipoinpc)
+            if((istat.lt.0).or.(key.eq.1)) return
+            do m=5,mi(2)
+              read(textpart(m-3)(1:20),'(f20.0)',iostat=istat)
+     &             turbini(m)
+            enddo
+            if(istat.gt.0) then
+              call inputerror(inpc,ipoinpc,iline,
+     &             "*INITIAL CONDITIONS%",ier)
+              return
+            endif
+            read(textpart(1)(1:10),'(i10)',iostat=istat) l
+            if(istat.eq.0) then
+              if(l.gt.nk) then
+                write(*,*) 
+     &               '*WARNING reading *INITIAL CONDITIONS: node ',l
+                write(*,*)'          exceeds the largest defined ',
+     &               'node number'
+                cycle
+              endif
+              do m=5,mi(2)
+                vold(m,l)=turbini(m)
+              enddo
+            else
+              read(textpart(1)(1:80),'(a80)',iostat=istat) noset
+              noset(81:81)=' '
+              ipos=index(noset,' ')
+              noset(ipos:ipos)='N'
+c              do ii=1,nset
+c                if(set(ii).eq.noset) exit
+c              enddo
+              call cident81(set,noset,nset,id)
+              ii=nset+1
+              if(id.gt.0) then
+                if(noset.eq.set(id)) then
+                  ii=id
+                endif
+              endif
+              if(ii.gt.nset) then
+                noset(ipos:ipos)=' '
+                write(*,*) 
+     &               '*ERROR reading *INITIAL CONDITIONS: node set '
+     &               ,noset
+                write(*,*)'  has not yet been defined. '
+                call inputerror(inpc,ipoinpc,iline,
+     &               "*INITIAL CONDITIONS%",ier)
+                return
+              endif
+              do j=istartset(ii),iendset(ii)
+                if(ialset(j).gt.0) then
+                  do m=5,mi(2)
+                    vold(m,ialset(j))=turbini(m)
+                  enddo
+                else
+                  k=ialset(j-2)
+                  do
+                    k=k-ialset(j)
+                    if(k.ge.ialset(j-1)) exit
+                    do m=5,mi(2)
+                      vold(m,k)=turbini(m)
+                    enddo
                   enddo
                 endif
               enddo
@@ -603,9 +702,16 @@
               noset(81:81)=' '
               ipos=index(noset,' ')
               noset(ipos:ipos)='N'
-              do ii=1,nset
-                if(set(ii).eq.noset) exit
-              enddo
+c              do ii=1,nset
+c                if(set(ii).eq.noset) exit
+c              enddo
+              call cident81(set,noset,nset,id)
+              ii=nset+1
+              if(id.gt.0) then
+                if(noset.eq.set(id)) then
+                  ii=id
+                endif
+              endif
               if(ii.gt.nset) then
                 noset(ipos:ipos)=' '
                 write(*,*) 
@@ -659,9 +765,16 @@
               noset(81:81)=' '
               ipos=index(noset,' ')
               noset(ipos:ipos)='N'
-              do ii=1,nset
-                if(set(ii).eq.noset) exit
-              enddo
+c              do ii=1,nset
+c                if(set(ii).eq.noset) exit
+c              enddo
+              call cident81(set,noset,nset,id)
+              ii=nset+1
+              if(id.gt.0) then
+                if(noset.eq.set(id)) then
+                  ii=id
+                endif
+              endif
               if(ii.gt.nset) then
                 noset(ipos:ipos)=' '
                 write(*,*) 

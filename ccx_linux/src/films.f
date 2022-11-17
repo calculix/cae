@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -38,7 +38,7 @@
       integer istartset(*),iendset(*),ialset(*),nelemload(2,*),mi(*),
      &     ielmat(mi(3),*),nset,nload,nload_,ntmat_,istep,istat,n,i,
      &     j,l,key,iload,ier,iamload(2,*),nam,iamptemp,ipos,ne,node,
-     &     iampfilm,iline,ipol,inl,
+     &     iampfilm,iline,ipol,inl,id,
      &     ipoinp(2,*),inp(3,*),nam_,namtot,namtot_,namta(3,*),idelay1,
      &     idelay2,ipoinpc(0:*),iamplitudedefault
 !     
@@ -304,18 +304,32 @@ c     call reorderampl(amname,namta,nam)
           elset(81:81)=' '
           ipos=index(elset,' ')
           elset(ipos:ipos)='E'
-          do i=1,nset
-            if(set(i).eq.elset) exit
-          enddo
+c          do i=1,nset
+c            if(set(i).eq.elset) exit
+c          enddo
+          call cident81(set,elset,nset,id)
+          i=nset+1
+          if(id.gt.0) then
+            if(elset.eq.set(id)) then
+              i=id
+            endif
+          endif
           if(i.gt.nset) then
 !     
 !     check for facial surface
 !     
             surface=.true.
             elset(ipos:ipos)='T'
-            do i=1,nset
-              if(set(i).eq.elset) exit
-            enddo
+c            do i=1,nset
+c              if(set(i).eq.elset) exit
+c            enddo
+            call cident81(set,elset,nset,id)
+            i=nset+1
+            if(id.gt.0) then
+              if(elset.eq.set(id)) then
+                i=id
+              endif
+            endif
             if(i.gt.nset) then
               elset(ipos:ipos)=' '
               write(*,*) '*ERROR reading *FILM: element set '

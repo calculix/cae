@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -46,6 +46,10 @@
                ielem=inoel(1,index)
                j=inoel(2,index)
                indexe=ipkon(ielem)
+               if(indexe.lt.0) then
+                 index=inoel(3,index)
+                 cycle
+               endif
                indexk=iponor(2,indexe+j)
                if((lakon(ielem)(7:7).eq.'E').or.
      &              (lakon(ielem)(7:7).eq.'A').or.
@@ -123,6 +127,10 @@
                ielem=inoel(1,index)
                j=inoel(2,index)
                indexe=ipkon(ielem)
+               if(indexe.lt.0) then
+                 index=inoel(3,index)
+                 cycle
+               endif
                indexk=iponor(2,indexe+j)
                if((lakon(ielem)(7:7).eq.'E').or.
      &              (lakon(ielem)(7:7).eq.'A').or.

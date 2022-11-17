@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -24,7 +24,8 @@
 !
 !     nelem is the element number from the input deck
 !     nelel is a local number, created e.g. by renumbering; thus
-!           far only applicable for CFD
+!     far only applicable for FVM-CFD; for all other applications
+!     nelem=nelel
 !
       implicit none
 !
@@ -181,8 +182,9 @@
 !
 !     number of integration points
 !
-      if((lakon(nelel)(4:5).eq.'8R').or.
-     &   (lakon(nelel)(1:1).eq.'F')) then
+c      if((lakon(nelel)(4:5).eq.'8R').or.
+c     &   (lakon(nelel)(1:1).eq.'F')) then
+      if(lakon(nelel)(4:5).eq.'8R') then
          mint3d=1
       elseif(lakon(nelel)(4:7).eq.'20RB') then
          if((lakon(nelel)(8:8).eq.'R').or.

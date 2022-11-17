@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
       subroutine modelchanges(inpc,textpart,tieset,istat,n,iline,
      &           ipol,inl,ipoinp,inp,ntie,ipoinpc,istep,ipkon,nset,
      &           istartset,iendset,set,ialset,ne,mi,ielmat,iprestr,
-     &           iperturb,ier)
+     &           iperturb,ier,tietol)
 !
 !     reading the input deck: *MODEL CHANGE
 !
@@ -34,7 +34,9 @@
       integer istat,n,i,key,ipos,iline,ipol,inl,ipoinp(2,*),ipkon(*),
      &  inp(3,*),ntie,ipoinpc(0:*),iposslave,iposmaster,itie,istep,
      &  j,k,m,nset,ne,istartset(*),iendset(*),ialset(*),nelem,
-     &  mi(*),ielmat(mi(3),*),iprestr,iperturb(*),ier
+     &     mi(*),ielmat(mi(3),*),iprestr,iperturb(*),ier
+!
+      real*8 tietol(4,*)
 !
       if(istep.eq.0) then
          write(*,*) '*ERROR reading *MODEL CHANGE: *MODEL CHANGE'
@@ -154,7 +156,8 @@
          enddo
 !
          if(add) then
-            tieset(1,itie)(81:81)='C'
+           tieset(1,itie)(81:81)='C'
+           tietol(4,itie)=1.d0
          else
             tieset(1,itie)(81:81)='-'
          endif
@@ -180,8 +183,11 @@
                   noelset(81:81)=' '
                   ipos=index(noelset,' ')
                   noelset(ipos:ipos)='E'
-                  do j=1,nset
-                     if(noelset.eq.set(j)) then
+c                  do j=1,nset
+c                     if(noelset.eq.set(j)) then
+                  call cident81(set,noelset,nset,j)
+                  if(j.gt.0) then
+                    if(noelset.eq.set(j)) then
                         m=iendset(j)-istartset(j)+1
                         do k=1,m
                            nelem=ialset(istartset(j)+k-1)
@@ -191,9 +197,11 @@
                            if(strainfree) ielmat(1,nelem)=
      &                                   -ielmat(1,nelem)
                         enddo
-                        exit
-                     endif
-                  enddo
+c                        exit
+                      endif
+                    endif
+c                     endif
+c                  enddo
                   if(noelset.ne.set(j)) then
                      noelset(ipos:ipos)=' '
                      write(*,*) '*ERROR reading *MODEL CHANGE:',

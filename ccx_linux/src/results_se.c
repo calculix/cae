@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -77,7 +77,7 @@ void results_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
        ITG *ialdesi,double *xdesi,ITG *ieigenfrequency,double *fint,
        ITG *ishapeenergy,char *typeboun){
 
-    ITG intpointvarm,calcul_fn,calcul_f,calcul_qa,calcul_cauchy,nener,ikin,
+    ITG intpointvarm,calcul_fn,calcul_f,calcul_qa,calcul_cauchy,nener=0,ikin,
         intpointvart,mt=mi[1]+1,i,j,idesvar,iorien,idir,im,
         nea,neb;
     
@@ -144,11 +144,11 @@ void results_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
        2. determination which derived variables have to be calculated */
 
     resultsini(nk,v,ithermal,filab,iperturb,f,fn,
-       nactdof,iout,qa,vold,b,nodeboun,ndirboun,
-       xboun,nboun,ipompc,nodempc,coefmpc,labmpc,nmpc,nmethod,cam,neq,
-       veold,accold,bet,gam,dtime,mi,vini,nprint,prlab,
-       &intpointvarm,&calcul_fn,&calcul_f,&calcul_qa,&calcul_cauchy,
-       &ikin,&intpointvart,typeboun,&num_cpus);
+	       nactdof,iout,qa,vold,b,nodeboun,ndirboun,
+	       xboun,nboun,ipompc,nodempc,coefmpc,labmpc,nmpc,nmethod,cam,neq,
+	       veold,accold,bet,gam,dtime,mi,vini,nprint,prlab,
+	       &intpointvarm,&calcul_fn,&calcul_f,&calcul_qa,&calcul_cauchy,
+	       &ikin,&intpointvart,typeboun,&num_cpus,mortar,&nener);
 
     NNEW(fn0,double,mt**nkon);
     NNEW(dfn,double,mt**nk);

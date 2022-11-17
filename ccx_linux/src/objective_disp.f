@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -24,7 +24,7 @@
 !
       implicit none
 !
-      character*81 objectset(4,*)
+      character*81 objectset(5,*)
 !
       integer nk,istartset(*),iendset(*),ialset(*),nodeset,idir,
      &  idesvarc,iobject,mi(*),j,k,nobject,idesvar
@@ -40,7 +40,7 @@
 !     check for the existence of a set, else take the complete mesh
 !
       if(nodeset.eq.0) then
-         if(objectset(1,iobject)(1:12).eq.'DISPLACEMENT') then
+         if(objectset(1,iobject)(1:8).eq.'ALL-DISP') then
             do j=1,nk           
                do idir=1,3
                   g0(iobject)=g0(iobject)+vold(idir,j)**2
@@ -62,7 +62,7 @@
       else
          do j=istartset(nodeset),iendset(nodeset)
             if(ialset(j).gt.0) then
-               if(objectset(1,iobject)(1:12).eq.'DISPLACEMENT') then
+               if(objectset(1,iobject)(1:8).eq.'ALL-DISP') then
                   do idir=1,3
                      g0(iobject)=g0(iobject)+vold(idir,ialset(j))**2
                   enddo    
@@ -78,7 +78,7 @@
                do
                   k=k-ialset(j)
                   if(k.ge.ialset(j-1)) exit
-                  if(objectset(1,iobject)(1:12).eq.'DISPLACEMENT') then
+                  if(objectset(1,iobject)(1:8).eq.'ALL-DISP') then
                      do idir=1,3
                        g0(iobject)=g0(iobject)+vold(idir,k)**2
                      enddo     

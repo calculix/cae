@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,19 +18,19 @@
 !
       subroutine transition(dgdxglob,nobject,nk,nodedesi,ndesi,
      &           objectset,xo,yo,zo,x,y,z,nx,ny,nz,co,ifree,
-     &           ndesia,ndesib)                         
+     &           ndesia,ndesib,nobjectstart)                         
 !
 !     scaling of sensitivitites between the designspace
 !     and non-designspace      
 !
       implicit none
 !
-      character*81 objectset(4,*)
+      character*81 objectset(5,*)
 
       integer nobject,nk,nodedesi(*),
      &        ndesi,j,m,neighbor(10),nx(*),ny(*),nz(*),
      &        istat,ndesia,ndesib,ifree,nnodes,irefnode,
-     &        iactnode
+     &        iactnode,nobjectstart
 !
       real*8 dgdxglob(2,nk,nobject),xo(*),yo(*),zo(*),x(*),
      &       y(*),z(*),trans,co(3,*),xdesi,ydesi,zdesi,      
@@ -67,8 +67,8 @@
          scale=actdist/trans
 !        Exponential scaling
 !        scale=1/(1+dexp(-actdist/trans*10+5))
-         do m=1,nobject
-            if(objectset(1,m)(1:9).eq.'THICKNESS') cycle
+         do m=1+nobjectstart,nobject
+            if(objectset(1,m)(4:13).eq.'MEMBERSIZE') cycle
             if(objectset(1,m)(1:9).eq.'FIXGROWTH') cycle
             if(objectset(1,m)(1:12).eq.'FIXSHRINKAGE') cycle
             dgdxglob(2,iactnode,m)=dgdxglob(2,iactnode,m)*scale

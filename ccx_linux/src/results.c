@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include "CalculiX.h"
+#include "mortar.h"
 
 static char *lakon1,*matname1,*sideload1;
 
@@ -31,7 +32,8 @@ static ITG *kon1,*ipkon1,*ne1,*nelcon1,*nrhcon1,*nalcon1,*ielmat1,*ielorien1,
   *nal=NULL,*ipompc1,*nodempc1,*nmpc1,*ncocon1,*ikmpc1,*ilmpc1,
   num_cpus,mt1,*nk1,*ne01,*nshcon1,*nelemload1,*nload1,*mortar1,
   *ielprop1,*kscale1,*iponoel1,*inoel1,*network1,*ipobody1,*ibody1,
-  *neapar=NULL,*nebpar=NULL,*mscalmethod1;
+  *neapar=NULL,*nebpar=NULL,*mscalmethod1,*irowtloc1,*jqtloc1,*islavelinv1,
+  *mortartrafoflag1,*intscheme1;
 
 static double *co1,*v1,*stx1,*elcon1,*rhcon1,*alcon1,*alzero1,*orab1,*t01,*t11,
   *prestr1,*eme1,*fn1=NULL,*qa1=NULL,*vold1,*veold1,*dtime1,*time1,
@@ -39,7 +41,7 @@ static double *co1,*v1,*stx1,*elcon1,*rhcon1,*alcon1,*alzero1,*orab1,*t01,*t11,
   *vini1,*ener1,*eei1,*enerini1,*springarea1,*reltime1,*coefmpc1,
   *cocon1,*qfx1,*thicke1,*emeini1,*shcon1,*xload1,*prop1,
   *xloadold1,*pslavsurf1,*pmastsurf1,*clearini1,*xbody1,*energy1=NULL,
-  *smscale1,*energysms1=NULL;
+  *smscale1,*energysms1=NULL,*t0g1,*t1g1,*autloc1;
 
 void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
 	     double *v,double *stn,ITG *inum,double *stx,double *elcon,
@@ -72,7 +74,12 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
 	     ITG *kscale,ITG *iponoel,ITG *inoel,ITG *nener,char *orname,
 	     ITG *network,ITG *ipobody,double *xbody,ITG *ibody,char *typeboun,
 	     ITG *itiefac,char *tieset,double *smscale,ITG *mscalmethod,
-	     ITG *nbody){
+	     ITG *nbody,double *t0g,double *t1g,ITG *islavelinv,double *autloc,
+	     ITG *irowtloc,ITG *jqtloc,ITG *nboun2,ITG *ndirboun2,
+	     ITG *nodeboun2,double *xboun2,ITG *nmpc2,ITG *ipompc2,
+	     ITG *nodempc2,double *coefmpc2,char *labmpc2,ITG *ikboun2,
+	     ITG *ilboun2,ITG *ikmpc2,ITG *ilmpc2,ITG *mortartrafoflag,
+	     ITG *intscheme){
 
   ITG intpointvarm,calcul_fn,calcul_f,calcul_qa,calcul_cauchy,ikin,
     intpointvart,mt=mi[1]+1,i,j;
@@ -158,17 +165,29 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
   /* 1. nodewise storage of the primary variables
      2. determination which derived variables have to be calculated */
 
-  resultsini(nk,v,ithermal,filab,iperturb,f,fn,
-	     nactdof,iout,qa,vold,b,nodeboun,ndirboun,
-	     xboun,nboun,ipompc,nodempc,coefmpc,labmpc,nmpc,nmethod,cam,neq,
-	     veold,accold,bet,gam,dtime,mi,vini,nprint,prlab,
-	     &intpointvarm,&calcul_fn,&calcul_f,&calcul_qa,&calcul_cauchy,
-	     &ikin,&intpointvart,typeboun,&num_cpus);
+  if((*mortar>1) && (*mortartrafoflag==1)){
+    
+    /* fix for trafo U->Uhat for mortar contact */
+    
+    resultsini(nk,v,ithermal,filab,iperturb,f,fn,nactdof,iout,qa,vold,b,
+	       nodeboun,ndirboun,xboun2,nboun2,ipompc2,nodempc2,coefmpc2,
+	       labmpc2,nmpc2,nmethod,cam,neq,
+	       veold,accold,bet,gam,dtime,mi,vini,nprint,prlab,
+	       &intpointvarm,&calcul_fn,&calcul_f,&calcul_qa,&calcul_cauchy,
+	       &ikin,&intpointvart,typeboun,&num_cpus,mortar,nener);
+  }else{
+    resultsini(nk,v,ithermal,filab,iperturb,f,fn,
+	       nactdof,iout,qa,vold,b,nodeboun,ndirboun,
+	       xboun,nboun,ipompc,nodempc,coefmpc,labmpc,nmpc,nmethod,cam,neq,
+	       veold,accold,bet,gam,dtime,mi,vini,nprint,prlab,
+	       &intpointvarm,&calcul_fn,&calcul_f,&calcul_qa,&calcul_cauchy,
+	       &ikin,&intpointvart,typeboun,&num_cpus,mortar,nener);
+  }
 
   /* next statement allows for storing the displacements in each
      iteration: for debugging purposes */
 
-  if((strcmp1(&filab[3],"I")==0)&&(*iout==0)){
+  if((strcmp1(&filab[3],"I")==0)&&(*iout==0)&&(*mortartrafoflag!=1)){
     FORTRAN(frditeration,(co,nk,kon,ipkon,lakon,ne,v,
 			  ttime,ielmat,matname,mi,istep,iinc,ithermal));
   }
@@ -206,7 +225,9 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
     nener1=nener;ikin1=ikin;mt1=mt;nk1=nk;ne01=ne0;thicke1=thicke;
     emeini1=emeini;pslavsurf1=pslavsurf;clearini1=clearini;
     pmastsurf1=pmastsurf;mortar1=mortar;ielprop1=ielprop;prop1=prop;
-    kscale1=kscale;smscale1=smscale;mscalmethod1=mscalmethod;
+    kscale1=kscale;smscale1=smscale;mscalmethod1=mscalmethod;t0g1=t0g;
+    t1g1=t1g;islavelinv1=islavelinv;autloc1=autloc;jqtloc1=jqtloc;
+    irowtloc1=irowtloc;mortartrafoflag1=mortartrafoflag;intscheme1=intscheme;
 
     /* calculating the stresses */
 	
@@ -285,6 +306,7 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
     SFREE(nal);
 	
     /*add up additional kinetic energy through mass scaling*/
+    
     if((*mscalmethod==1)||(*mscalmethod==3)){
       energy[4]=energysms1[0];
       for(j=1;j<num_cpus;j++){
@@ -297,7 +319,7 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
   /* calculating the thermal flux and material tangent at the 
      integration points; calculating the internal point flux */
 
-  if((ithermal[0]>=2)&&(intpointvart==1)){
+  if((ithermal[0]>=2)&&(intpointvart==1)&&(*mortartrafoflag!=1)){
     
     /* determining the element bounds in each thread */
 
@@ -375,9 +397,18 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
 
   /* calculating the matrix system internal force vector */
 
-  resultsforc(nk,f,fn,nactdof,ipompc,nodempc,
-	      coefmpc,labmpc,nmpc,mi,fmpc,&calcul_fn,&calcul_f,
-	      &num_cpus);
+  if((*mortar>1)&&(*mortartrafoflag==1)){
+    
+    /* fix for trafo U->Uhat for mortar contact */
+    
+    resultsforc(nk,f,fn,nactdof,ipompc2,nodempc2,
+		coefmpc2,labmpc2,nmpc2,mi,fmpc,&calcul_fn,&calcul_f,
+		&num_cpus);
+  }else{
+    resultsforc(nk,f,fn,nactdof,ipompc,nodempc,
+		coefmpc,labmpc,nmpc,mi,fmpc,&calcul_fn,&calcul_f,
+		&num_cpus);
+  }
 
   /* calculating the total energy if
      - iout<=0 (no result output)
@@ -386,7 +417,8 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
      - ithermal[0]<=1 (no thermal or thermomechanical calculation)
      - mi[1]!=5 (no electromagnetic calculation) */
 
-  if((*iout<=0)&&(*nmethod==4)&&(iperturb[0]>1)&&(ithermal[0]<=1)&&(mi[1]!=5)){
+  if((*iout<=0)&&(*nmethod==4)&&(iperturb[0]>1)&&(ithermal[0]<=1)&&
+     (mi[1]!=5)&&(*mortartrafoflag!=1)&&(*nener==1)){
     
     /* determining the element bounds in each thread */
 
@@ -434,18 +466,21 @@ void results(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
      extrapolation of integration point values to the nodes
      interpolation of 3d results for 1d/2d elements */
 
-  FORTRAN(resultsprint,(co,nk,kon,ipkon,lakon,ne,v,stn,inum,
-			stx,ielorien,norien,orab,t1,ithermal,filab,een,iperturb,fn,
-			nactdof,iout,vold,nodeboun,ndirboun,nboun,nmethod,ttime,xstate,
-			epn,mi,
-			nstate_,ener,enern,xstaten,eei,set,nset,istartset,iendset,
-			ialset,nprint,prlab,prset,qfx,qfn,trab,inotr,ntrans,
-			nelemload,nload,&ikin,ielmat,thicke,eme,emn,rhcon,nrhcon,shcon,
-			nshcon,cocon,ncocon,ntmat_,sideload,icfd,inomat,pslavsurf,islavact,
-			cdn,mortar,islavnode,nslavnode,ntie,islavsurf,time,ielprop,prop,
-			veold,ne0,nmpc,ipompc,nodempc,labmpc,energyini,energy,orname,
-			xload,itiefac,pmastsurf,springarea,tieset,ipobody,ibody,xbody,
-			nbody));
+  if(*mortartrafoflag!=1){
+    FORTRAN(resultsprint,(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,ielorien,
+			  norien,orab,t1,ithermal,filab,een,iperturb,fn,nactdof,
+			  iout,vold,nodeboun,ndirboun,nboun,nmethod,ttime,
+			  xstate,
+			  epn,mi,nstate_,ener,enern,xstaten,eei,set,nset,
+			  istartset,iendset,ialset,nprint,prlab,prset,qfx,qfn,
+			  trab,inotr,ntrans,nelemload,nload,&ikin,ielmat,thicke,
+			  eme,emn,rhcon,nrhcon,shcon,nshcon,cocon,ncocon,ntmat_,
+			  sideload,icfd,inomat,pslavsurf,islavact,cdn,mortar,
+			  islavnode,nslavnode,ntie,islavsurf,time,ielprop,prop,
+			  veold,ne0,nmpc,ipompc,nodempc,labmpc,energyini,energy,
+			  orname,xload,itiefac,pmastsurf,springarea,tieset,
+			  ipobody,ibody,xbody,nbody));
+  }
   
   return;
 
@@ -465,23 +500,26 @@ void *resultsmechmt(ITG *i){
   neb=nebpar[*i]+1;
 
   list1=0;
-  FORTRAN(resultsmech,(co1,kon1,ipkon1,lakon1,ne1,v1,
-		       stx1,elcon1,nelcon1,rhcon1,nrhcon1,alcon1,nalcon1,alzero1,
-		       ielmat1,ielorien1,norien1,orab1,ntmat1_,t01,t11,ithermal1,prestr1,
-		       iprestr1,eme1,iperturb1,&fn1[indexfn],iout1,&qa1[indexqa],vold1,
-		       nmethod1,
-		       veold1,dtime1,time1,ttime1,plicon1,nplicon1,plkcon1,nplkcon1,
-		       xstateini1,xstiff1,xstate1,npmat1_,matname1,mi1,ielas1,icmd1,
-		       ncmat1_,nstate1_,stiini1,vini1,ener1,eei1,enerini1,istep1,iinc1,
-		       springarea1,reltime1,&calcul_fn1,&calcul_qa1,&calcul_cauchy1,nener1,
-		       &ikin1,&nal[indexnal],ne01,thicke1,emeini1,
-		       pslavsurf1,pmastsurf1,mortar1,clearini1,&nea,&neb,ielprop1,prop1,
-		       kscale1,&list1,ilist1,smscale1,mscalmethod1,&energysms1[indexnal]));
+  FORTRAN(resultsmech,(co1,kon1,ipkon1,lakon1,ne1,v1,stx1,elcon1,nelcon1,
+		       rhcon1,nrhcon1,alcon1,nalcon1,alzero1,ielmat1,ielorien1,
+		       norien1,orab1,ntmat1_,t01,t11,ithermal1,prestr1,
+		       iprestr1,eme1,iperturb1,&fn1[indexfn],iout1,
+		       &qa1[indexqa],vold1,nmethod1,veold1,dtime1,time1,ttime1,
+		       plicon1,nplicon1,plkcon1,nplkcon1,xstateini1,xstiff1,
+		       xstate1,npmat1_,matname1,mi1,ielas1,icmd1,ncmat1_,
+		       nstate1_,stiini1,vini1,ener1,eei1,enerini1,istep1,iinc1,
+		       springarea1,reltime1,&calcul_fn1,&calcul_qa1,
+		       &calcul_cauchy1,nener1,&ikin1,&nal[indexnal],ne01,
+		       thicke1,emeini1,pslavsurf1,pmastsurf1,mortar1,clearini1,
+		       &nea,&neb,ielprop1,prop1,kscale1,&list1,ilist1,smscale1,
+		       mscalmethod1,&energysms1[indexnal],t0g1,t1g1,
+		       islavelinv1,autloc1,irowtloc1,jqtloc1,mortartrafoflag1,
+		       intscheme1));
 
   return NULL;
 }
 
-/* subroutine for multithreading of resultsmech */
+/* subroutine for multithreading of resultstherm */
 
 void *resultsthermmt(ITG *i){
 

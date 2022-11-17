@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -54,12 +54,12 @@
          return
       endif
 !
-      if(istep.lt.2) then
-         write(*,*) '*ERROR reading *ROBUST DESIGN: *ROBUST DESIGN'
-         write(*,*) '      requires a previous *STATIC step'
-         ier=1
-         return
-      endif
+c      if(istep.lt.2) then
+c         write(*,*) '*ERROR reading *ROBUST DESIGN: *ROBUST DESIGN'
+c         write(*,*) '      requires a previous *STATIC step'
+c         ier=1
+c         return
+c      endif
 !
       tinc=0.d0
       tper=0.d0
@@ -74,16 +74,16 @@
 !
 !     check whether design variables were defined
 !
-      do i=1,ntie
-         if(tieset(1,i)(81:81).eq.'D') exit
-      enddo
-      if(i.gt.ntie) then
-         write(*,*) '*ERROR reading *ROBUST DESIGN'
-         write(*,*) '      no design variables were defined'
-         call inputerror(inpc,ipoinpc,iline,
-     &        "*ROBUST DESIGN%",ier)
-         return
-      endif
+c      do i=1,ntie
+c         if(tieset(1,i)(81:81).eq.'D') exit
+c      enddo
+c      if(i.gt.ntie) then
+c         write(*,*) '*ERROR reading *ROBUST DESIGN'
+c         write(*,*) '      no design variables were defined'
+c         call inputerror(inpc,ipoinpc,iline,
+c     &        "*ROBUST DESIGN%",ier)
+c         return
+c      endif
 !
 !     check what information is requested by the user
 !     irobustdesign(1)=1 --> the full stochastic perturbation method 
@@ -91,15 +91,15 @@
 !     irobustdesign(1)=2 --> only the eigenvectors of the randomfield is
 !                         calculated 
 !
-      if(n.eq.2) then
-         if(textpart(2)(1:15).eq.'RANDOMFIELDONLY') then
+c      if(n.eq.2) then
+c         if(textpart(2)(1:15).eq.'RANDOMFIELDONLY') then
             irobustdesign(1)=2
-         else
-            irobustdesign(1)=1
-            write(*,*) '*WARNING Keyword in *ROBUST DESIGN'
-            write(*,*) '   not known, keyword ignored'
-         endif
-      endif
+c         else
+c            irobustdesign(1)=1
+c            write(*,*) '*WARNING Keyword in *ROBUST DESIGN'
+c            write(*,*) '   not known, keyword ignored'
+c         endif
+c      endif
 !
 !     Read in the reliability of the random field
 !     

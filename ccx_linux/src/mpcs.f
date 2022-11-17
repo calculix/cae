@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -90,41 +90,46 @@
                noset(81:81)=' '
                ipos=index(noset,' ')
                noset(ipos:ipos)='N'
-               do j=1,nset
-                  if(noset.eq.set(j)) then
-                     m=iendset(j)-istartset(j)+1
-                     do k=1,m
-                        node=ialset(istartset(j)+k-1)
-                        inode=inode+1
-                        if(label(1:8).eq.'STRAIGHT') then
-                           call straightmpc(ipompc,nodempc,coefmpc,
-     &                          labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,
-     &                          nk,nk_,nodeboun,ndirboun,ikboun,ilboun,
-     &                          nboun,nboun_,xboun,inode,node,co,
-     &                          typeboun)
-                        elseif(label(1:5).eq.'PLANE') then
-                           call planempc(ipompc,nodempc,coefmpc,
-     &                          labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,
-     &                          nk,nk_,nodeboun,ndirboun,ikboun,ilboun,
-     &                          nboun,nboun_,xboun,inode,node,co,
-     &                          typeboun)
-                        elseif(label(1:4).eq.'BEAM') then
-                           call beammpc(ipompc,nodempc,
-     &                          labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,
-     &                          nk,nk_,nodeboun,ndirboun,ikboun,ilboun,
-     &                          nboun,nboun_,inode,node,co,
-     &                          typeboun)
-                        else
-                           call usermpc(ipompc,nodempc,coefmpc,
-     &                          labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,
-     &                          nk,nk_,nodeboun,ndirboun,ikboun,ilboun,
-     &                          nboun,nboun_,inode,node,co,label,
-     &                          typeboun,iperturb,node,idirref,xboun)
-                        endif
-                     enddo
-                     exit
-                  endif
-               enddo
+c               do j=1,nset
+c                  if(noset.eq.set(j)) then
+               call cident81(set,noset,nset,j)
+               if(j.gt.0) then
+                 if(noset.eq.set(j)) then
+                   m=iendset(j)-istartset(j)+1
+                   do k=1,m
+                     node=ialset(istartset(j)+k-1)
+                     inode=inode+1
+                     if(label(1:8).eq.'STRAIGHT') then
+                       call straightmpc(ipompc,nodempc,coefmpc,
+     &                      labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,
+     &                      nk,nk_,nodeboun,ndirboun,ikboun,ilboun,
+     &                      nboun,nboun_,xboun,inode,node,co,
+     &                      typeboun)
+                     elseif(label(1:5).eq.'PLANE') then
+                       call planempc(ipompc,nodempc,coefmpc,
+     &                      labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,
+     &                      nk,nk_,nodeboun,ndirboun,ikboun,ilboun,
+     &                      nboun,nboun_,xboun,inode,node,co,
+     &                      typeboun)
+                     elseif(label(1:4).eq.'BEAM') then
+                       call beammpc(ipompc,nodempc,
+     &                      labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,
+     &                      nk,nk_,nodeboun,ndirboun,ikboun,ilboun,
+     &                      nboun,nboun_,inode,node,co,
+     &                      typeboun)
+                     else
+                       call usermpc(ipompc,nodempc,coefmpc,
+     &                      labmpc,nmpc,nmpc_,mpcfree,ikmpc,ilmpc,
+     &                      nk,nk_,nodeboun,ndirboun,ikboun,ilboun,
+     &                      nboun,nboun_,inode,node,co,label,
+     &                      typeboun,iperturb,node,idirref,xboun)
+                     endif
+                   enddo
+c     exit
+                 endif
+               endif
+c     endif
+c     enddo
                if(j.gt.nset) then
                   noset(ipos:ipos)=' '
                   write(*,*) '*ERROR in nosets: node set ',

@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -26,7 +26,7 @@
      &     nplicon,plkcon,nplkcon,npmat_,ttime,time,istep,iinc,dtime,
      &     physcon,ibody,xloadold,reltime,veold,matname,mi,ikactmech,
      &     nactmech,ielprop,prop,sti,xstateini,xstate,nstate_,
-     &     ntrans,inotr,trab,nea,neb)
+     &     ntrans,inotr,trab,fnext,nea,neb)
 !     
 !     filling the right hand side load vector b
 !     
@@ -57,24 +57,10 @@
      &     plicon(0:2*npmat_,ntmat_,*),plkcon(0:2*npmat_,ntmat_,*),
      &     om(2),physcon(*),veold(0:mi(2),*),sti(6,mi(1),*),
      &     xstate(nstate_,mi(1),*),xstateini(nstate_,mi(1),*),
-     &     fnext,trab(7,*)
+     &     trab(7,*),fnext(0:mi(2),*)
 !     
       icalccg=0
 !     
-c     if((nmethod.ge.4).and.(iperturb(1).lt.2).and.(nactmech.lt.neq/2))
-c     &       then
-c     !
-c     !        modal dynamics and steady state dynamics: 
-c     !        only nonzeros are reset to zero
-c     !
-c     do i=1,nactmech
-c     fext(ikactmech(i)+1)=0.d0
-c     enddo
-c     else
-c     do i=1,neq
-c     fext(i)=0.d0
-c     enddo
-c     endif
       nactmech=0
 !     
 !     distributed forces (body forces or thermal loads or
@@ -257,6 +243,7 @@ c     endif
 !     distributed forces
 !     
               if(idist.ne.0) then
+                if(nmethod.eq.4) fnext(k,node1)=fnext(k,node1)+ff(jj)
                 if(jdof1.le.0) then
                   if(nmpc.ne.0) then
                     idof1=(node1-1)*8+k

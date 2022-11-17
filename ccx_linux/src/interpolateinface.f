@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -38,7 +38,7 @@
      &     ifaceq(8,6),ip(numpts),ne0,itrinew,ntriangle,
      &     ifacet(6,4),ifacew1(4,5),ifacew2(8,5),n,islavsurf(2,*),
      &     ibin(numpts),ivert1,ntriangle_,nterms,m,islavsurfold(2,*),
-     &     nx(2*numpts+1),ny(2*numpts+1),isol,id,ii,jj
+     &     nx(2*numpts+1),ny(2*numpts+1),isol,id
 !     
       real*8 xstate(nstate_,mi(1),*),p(3),pslavsurfold(3,*),
      &     xstateini(nstate_,mi(1),*),coi(2,numpts+3),pneigh(3,3),
@@ -77,11 +77,6 @@
      &     1,2,5,4,7,14,10,13,
      &     2,3,6,5,8,15,11,14,
      &     3,1,4,6,9,13,12,15/
-!
-      data ii /0/
-      data jj /0/
-!
-      save ii,jj
 !     
       kneigh=1
 !     
@@ -138,7 +133,6 @@
 !     
 !     Loop over the new integration points
 !
-      ii=ii+islavsurf(2,kk+1)-islavsurf(2,kk)
       do igauss=islavsurf(2,kk)+1,islavsurf(2,kk+1)
 !     
 !     coordinates of the new integration point
@@ -204,7 +198,6 @@ c     write(*,*) '**regular solution'
       enddo loop1
 !     
       if(isol.eq.0) then
-        jj=jj+1
 !     
 !     mapping the new integration point onto the nearest 
 !     triangle
@@ -301,8 +294,6 @@ c
       enddo
 !     
       enddo
-!
-c      write(*,*) 'interpolateinface jj,ii ',jj,ii,100.d0*jj/(1.d0*ii)
 !     
       return
       end

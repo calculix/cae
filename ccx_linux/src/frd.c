@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -39,7 +39,7 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 	 double *eenmax,double *fnr,double *fni,double *emn,
 	 double *thicke,char *jobnamec,char *output,double *qfx,
          double *cdn,ITG *mortar,double *cdnr,double *cdni,ITG *nmat,
-         ITG *ielprop,double *prop){
+         ITG *ielprop,double *prop,double *sti){
 
   /* stores the results in frd format
 
@@ -65,8 +65,8 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
   ITG null,one,i,j,k,indexe,nemax,nlayer,noutloc,iset,iselect,ncomp,nope,
     nodes,ifield[7],nfield[2],icomp[7],ifieldstate[*nstate_],two,three,
     icompstate[*nstate_],ip0=0,ip1=1,ip2=2,ip3=3,ip4=4,ip5=5,ip6=6,ip7=7,
-    ip8=8,ip9=9,ip10=10,ip11=11,ip12=12,imat,nelout,ioutall=0,
-    nterms,nout,noutplus,noutmin,mt=mi[1]+1;
+    ip8=8,ip9=9,ip10=10,ip11=11,ip12=12,imat,nelout,ioutall=0,*inumshell=NULL,
+    nterms,nout,noutplus,noutmin,mt=mi[1]+1,iflag,numfield,iorienloc;
 
   ITG ncompscalar=1,ifieldscalar[1]={1},icompscalar[1]={0},
     nfieldscalar[2]={1,0};
@@ -86,13 +86,13 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 
   float fl;
 
-  double pi,oner,*errn=NULL;
+  double pi,oner,*errn=NULL,*ethn=NULL;
 
   strcpy(fneig,jobnamec);
   strcat(fneig,".frd");
 
   if((f1=fopen(fneig,"ab"))==NULL){
-    printf("*EOR in frd: cannot open frd file for writing...");
+    printf(" *ERROR in frd: cannot open frd file for writing...");
     exit(0);
   }
 
@@ -125,8 +125,8 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
     }else{
       for(i=0;i<*nk;i++){
 	nout++;
-	if(inum[i]>0) noutplus++;
-	if(inum[i]<0) noutmin++;
+	if(inum[i]>=0) noutplus++;
+	if(inum[i]<=0) noutmin++;
       }
     }
   }else{
@@ -199,8 +199,8 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
     fprintf(f1,"%5sUTIME              %8s                                        \n",p1,newclock);
     fprintf(f1,"%5sUHOST                                                              \n",p1);
     fprintf(f1,"%5sUPGM               CalculiX                                        \n",p1);
-    fprintf(f1,"%5sUVERSION           Version 2.17                             \n",p1);
-    fprintf(f1,"%5sUCOMPILETIME       Tue  4 Aug 20:21:05 CEST 2020                    \n",p1);
+    fprintf(f1,"%5sUVERSION           Version 2.20                             \n",p1);
+    fprintf(f1,"%5sUCOMPILETIME       Sun Jul 31 18:08:37 CEST 2022                    \n",p1);
     fprintf(f1,"%5sUDIR                                                               \n",p1);
     fprintf(f1,"%5sUDBN                                                               \n",p1);
     
@@ -221,7 +221,7 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 
     if(*nmethod!=0){
       for(i=0;i<*nk;i++){
-	if(inum[i]==0) continue;
+	if((inum[i]==0)&&(ioutall!=1)) continue;
 	if(strcmp1(output,"asc")==0){
 	  fprintf(f1,"%3s%10" ITGFORMAT "%12.5E%12.5E%12.5E\n",m1,i+1,(float)co[3*i],
 		  (float)co[3*i+1],(float)co[3*i+2]);
@@ -254,7 +254,6 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 
     /* determining the number of elements */
 
-    if(*nmethod!=0){
       nelout=0;
       for(i=0;i<*ne0;i++){
 	if(((ipkon[i]<=-1)&&(ioutall==0))||(ipkon[i]==-1)){
@@ -290,14 +289,11 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 
 	  /* user element */
 
-	}else if(strcmp1(&lakon[8*i],"U")==0){
+	}else if(strcmp1(&lakon[8*i],"U1")==0){
 	  continue;
 	}
 	nelout++;
       }
-    }else{
-      nelout=*ne;
-    }
 
     /* storing the topology */
 
@@ -310,14 +306,13 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 
     for(i=0;i<*ne0;i++){
       if(ipkon[i]<=-1){
-	if(ioutall==0){
-	  continue;
-	}else if(ipkon[i]!=-1){
 
-	  /* in case also inactivated elements are to be stored, calculate the
-	     appropriate index */
-      
+	if(ipkon[i]==-1){
+	  continue;
+	}else if(ioutall!=0){
 	  indexe=-2-ipkon[i];
+	}else{
+	  continue;
 	}
 
 	/* next element types are not stored */
@@ -335,7 +330,7 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 	continue;
       }else if(strcmp1(&lakon[8*i],"MASS")==0){
 	continue;
-      }else if(strcmp1(&lakon[8*i],"U")==0){
+      }else if(strcmp1(&lakon[8*i],"U1")==0){
 	continue;
       }else{
 	indexe=ipkon[i];
@@ -769,6 +764,37 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 
 	//  /* MASS: store nothing */
 
+	/* user elements */
+	
+      }else if(strcmp1(&lakon[8*i],"US45")==0){
+	if(strcmp1(output,"asc")==0){
+	  fprintf(f1,"%3s%10" ITGFORMAT "%5s%5s%5" ITGFORMAT "\n%3s",
+		  m1,i+1,p9,p0,imat,m2);
+	  for(j=0;j<4;j++)fprintf(f1,"%10" ITGFORMAT "",kon[indexe+j]);
+	  fprintf(f1,"\n");
+	}else{
+	  iw=(int)(i+1);fwrite(&iw,sizeof(int),1,f1);
+	  iw=(int)ip9;fwrite(&iw,sizeof(int),1,f1);
+	  iw=(int)ip0;fwrite(&iw,sizeof(int),1,f1);
+	  iw=(int)imat;fwrite(&iw,sizeof(int),1,f1);
+	  for(j=0;j<4;j++){iw=(int)kon[indexe+j];
+	    fwrite(&iw,sizeof(int),1,f1);}
+	}
+      
+      }else if(strcmp1(&lakon[8*i],"US3")==0){
+	if(strcmp1(output,"asc")==0){
+	  fprintf(f1,"%3s%10" ITGFORMAT "%5s%5s%5" ITGFORMAT "\n%3s",
+		  m1,i+1,p7,p0,imat,m2);
+	  for(j=0;j<3;j++)fprintf(f1,"%10" ITGFORMAT "",kon[indexe+j]);
+	  fprintf(f1,"\n");
+	}else{
+	  iw=(int)(i+1);fwrite(&iw,sizeof(int),1,f1);
+	  iw=(int)ip7;fwrite(&iw,sizeof(int),1,f1);
+	  iw=(int)ip0;fwrite(&iw,sizeof(int),1,f1);
+	  iw=(int)imat;fwrite(&iw,sizeof(int),1,f1);
+	  for(j=0;j<3;j++){iw=(int)kon[indexe+j];
+	    fwrite(&iw,sizeof(int),1,f1);}
+	}
       }else{
 
 	/* not treated element type: may lead to an inconsistency
@@ -815,20 +841,24 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 
       }else if((mi[1]>3)&&(mi[1]<7)){
 
-	fprintf(f1," -4  DISP        %1" ITGFORMAT "    1\n",mi[1]);
-	for(j=1;j<=mi[1];j++){
+	fprintf(f1," -4  DISP        %1" ITGFORMAT "    1\n",mi[1]+1);
+	fprintf(f1," -5  D1          1    2    1    0\n");
+	fprintf(f1," -5  D2          1    2    2    0\n");
+	fprintf(f1," -5  D3          1    2    3    0\n");
+	for(j=4;j<=mi[1];j++){
 	  fprintf(f1," -5  D%1" ITGFORMAT "          1    1    0    0\n",j);
 	}
+	fprintf(f1," -5  ALL         1    2    0    0    1ALL\n");
 
 	frdgeneralvector(v,&iset,ntrans,filab,&nkcoords,inum,m1,inotr,
 			 trab,co,istartset,iendset,ialset,mi,ngraph,f1,output,m3);
       }else{
-	printf("*WARNING in frd:\n");
-	printf("         for output purposes only 4, 5 or 6\n");
-	printf("         degrees of freedom are allowed\n");
-	printf("         for generalized vectors;\n");
-	printf("         actual degrees of freedom = %" ITGFORMAT "\n",mi[1]);
-	printf("         output request ist not performed;\n");
+	printf(" *WARNING in frd:\n");
+	printf("          for output purposes only 4, 5 or 6\n");
+	printf("          degrees of freedom are allowed\n");
+	printf("          for generalized vectors;\n");
+	printf("          actual degrees of freedom = %" ITGFORMAT "\n",mi[1]);
+	printf("          output request ist not performed;\n");
       }
     }
   }
@@ -973,6 +1003,126 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
   
     }
   }
+  
+  if((*nmethod!=5)||(*mode==-1)){
+    if((strcmp1(&filab[4350],"SNEG")==0)&&(*ithermal!=2)){
+      iselect=1;
+  
+      frdset(&filab[4350],set,&iset,istartset,iendset,ialset,
+	     inum,&noutloc,&nout,nset,&noutmin,&noutplus,&iselect,
+	     ngraph);
+  
+      frdheader(&icounter,&oner,time,&pi,noddiam,cs,&null,mode,
+		&noutloc,description,kode,nmethod,f1,output,istep,iinc);
+  
+      fprintf(f1," -4  STRNEG      6    1\n");
+      fprintf(f1," -5  SXX         1    4    1    1\n");
+      fprintf(f1," -5  SYY         1    4    2    2\n");
+      fprintf(f1," -5  SZZ         1    4    3    3\n");
+      fprintf(f1," -5  SXY         1    4    1    2\n");
+      fprintf(f1," -5  SYZ         1    4    2    3\n");
+      fprintf(f1," -5  SZX         1    4    3    1\n");
+
+      iflag=-1;
+      numfield=6;
+      if((norien>0)&&(strcmp1(&filab[4355],"L")==0)){
+	iorienloc=1;
+      }else{
+	iorienloc=0;
+      }
+      NNEW(inumshell,ITG,*nk);
+      FORTRAN(extrapolateshell,(stx,stn,ipkon,inumshell,kon,lakon,&numfield,
+				nk,ne,mi,&numfield,orab,ielorien,co,
+				&iorienloc,&filab[4354],ielmat,
+				thicke,ielprop,prop,&iflag));
+      SFREE(inumshell);
+      
+      frdselect(stn,stn,&iset,&nkcoords,inum,m1,istartset,iendset,
+		ialset,ngraph,&ncomptensor,ifieldtensor,icomptensor,
+		nfieldtensor,&iselect,m2,f1,output,m3);
+  
+    }
+  }
+  
+  if((*nmethod!=5)||(*mode==-1)){
+    if((strcmp1(&filab[4437],"SMID")==0)&&(*ithermal!=2)){
+      iselect=1;
+  
+      frdset(&filab[4437],set,&iset,istartset,iendset,ialset,
+	     inum,&noutloc,&nout,nset,&noutmin,&noutplus,&iselect,
+	     ngraph);
+  
+      frdheader(&icounter,&oner,time,&pi,noddiam,cs,&null,mode,
+		&noutloc,description,kode,nmethod,f1,output,istep,iinc);
+  
+      fprintf(f1," -4  STRMID      6    1\n");
+      fprintf(f1," -5  SXX         1    4    1    1\n");
+      fprintf(f1," -5  SYY         1    4    2    2\n");
+      fprintf(f1," -5  SZZ         1    4    3    3\n");
+      fprintf(f1," -5  SXY         1    4    1    2\n");
+      fprintf(f1," -5  SYZ         1    4    2    3\n");
+      fprintf(f1," -5  SZX         1    4    3    1\n");
+
+      iflag=0;
+      numfield=6;
+      if((norien>0)&&(strcmp1(&filab[4442],"L")==0)){
+	iorienloc=1;
+      }else{
+	iorienloc=0;
+      }
+      NNEW(inumshell,ITG,*nk);
+      FORTRAN(extrapolateshell,(stx,stn,ipkon,inumshell,kon,lakon,&numfield,
+				nk,ne,mi,&numfield,orab,ielorien,co,
+				&iorienloc,&filab[4441],ielmat,
+				thicke,ielprop,prop,&iflag));
+      SFREE(inumshell);
+      
+      frdselect(stn,stn,&iset,&nkcoords,inum,m1,istartset,iendset,
+		ialset,ngraph,&ncomptensor,ifieldtensor,icomptensor,
+		nfieldtensor,&iselect,m2,f1,output,m3);
+  
+    }
+  }
+  
+  if((*nmethod!=5)||(*mode==-1)){
+    if((strcmp1(&filab[4524],"SPOS")==0)&&(*ithermal!=2)){
+      iselect=1;
+  
+      frdset(&filab[4524],set,&iset,istartset,iendset,ialset,
+	     inum,&noutloc,&nout,nset,&noutmin,&noutplus,&iselect,
+	     ngraph);
+  
+      frdheader(&icounter,&oner,time,&pi,noddiam,cs,&null,mode,
+		&noutloc,description,kode,nmethod,f1,output,istep,iinc);
+  
+      fprintf(f1," -4  STRPOS      6    1\n");
+      fprintf(f1," -5  SXX         1    4    1    1\n");
+      fprintf(f1," -5  SYY         1    4    2    2\n");
+      fprintf(f1," -5  SZZ         1    4    3    3\n");
+      fprintf(f1," -5  SXY         1    4    1    2\n");
+      fprintf(f1," -5  SYZ         1    4    2    3\n");
+      fprintf(f1," -5  SZX         1    4    3    1\n");
+
+      iflag=1;
+      numfield=6;
+      if((norien>0)&&(strcmp1(&filab[4529],"L")==0)){
+	iorienloc=1;
+      }else{
+	iorienloc=0;
+      }
+      NNEW(inumshell,ITG,*nk);
+      FORTRAN(extrapolateshell,(stx,stn,ipkon,inumshell,kon,lakon,&numfield,
+				nk,ne,mi,&numfield,orab,ielorien,co,
+				&iorienloc,&filab[4528],ielmat,
+				thicke,ielprop,prop,&iflag));
+      SFREE(inumshell);
+      
+      frdselect(stn,stn,&iset,&nkcoords,inum,m1,istartset,iendset,
+		ialset,ngraph,&ncomptensor,ifieldtensor,icomptensor,
+		nfieldtensor,&iselect,m2,f1,output,m3);
+  
+    }
+  }
 
   /* storing the imaginary part of the stresses in the nodes
      for the odd modes of cyclic symmetry calculations */
@@ -1049,6 +1199,26 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 	      ialset,ngraph,&ncompvector,ifieldvector,icompvector,
 	      nfieldtensor,&iselect,m2,f1,output,m3);
 
+    if(*nmethod==2){
+      iselect=1;
+    
+      frdset(&filab[3741],set,&iset,istartset,iendset,ialset,
+	     inum,&noutloc,&nout,nset,&noutmin,&noutplus,&iselect,
+	     ngraph);
+    
+      frdheader(&icounter,&oner,time,&pi,noddiam,cs,&null,mode,
+		&noutloc,description,kode,nmethod,f1,output,istep,iinc);
+
+      fprintf(f1," -4  EMFEI       4    1\n");
+      fprintf(f1," -5  E1          1    2    1    0\n");
+      fprintf(f1," -5  E2          1    2    2    0\n");
+      fprintf(f1," -5  E3          1    2    3    0\n");
+      fprintf(f1," -5  ALL         1    2    0    0    1ALL\n");
+
+      frdselect(&stn[6**nk],stn,&iset,&nkcoords,inum,m1,istartset,iendset,
+		ialset,ngraph,&ncompvector,ifieldvector,icompvector,
+		nfieldtensor,&iselect,m2,f1,output,m3);
+    }    
   }
 
   /* storing the electromagnetic field B in the nodes */
@@ -1073,6 +1243,27 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 	      ialset,ngraph,&ncompvector,ifieldvector,icompvectorlast,
 	      nfieldtensor,&iselect,m2,f1,output,m3);
 
+    if(*nmethod==2){
+      iselect=1;
+    
+      frdset(&filab[3828],set,&iset,istartset,iendset,ialset,
+	     inum,&noutloc,&nout,nset,&noutmin,&noutplus,&iselect,
+	     ngraph);
+    
+      frdheader(&icounter,&oner,time,&pi,noddiam,cs,&null,mode,
+		&noutloc,description,kode,nmethod,f1,output,istep,iinc);
+
+      fprintf(f1," -4  EMFBI       4    1\n");
+      fprintf(f1," -5  B1          1    2    1    0\n");
+      fprintf(f1," -5  B2          1    2    2    0\n");
+      fprintf(f1," -5  B3          1    2    3    0\n");
+      fprintf(f1," -5  ALL         1    2    0    0    1ALL\n");
+
+      frdselect(&stn[6**nk],stn,&iset,&nkcoords,inum,m1,istartset,iendset,
+		ialset,ngraph,&ncompvector,ifieldvector,icompvectorlast,
+		nfieldtensor,&iselect,m2,f1,output,m3);
+    }
+    
   }
 
   /* storing the total strains in the nodes */
@@ -1209,6 +1400,41 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
     }
   }
 
+  /* storing the thermal strains in the nodes */
+  
+  if((*nmethod!=5)||(*mode==-1)){
+    if((strcmp1(&filab[4698],"THE ")==0)&&(*ithermal!=2)){
+      iselect=1;
+  
+      frdset(&filab[4698],set,&iset,istartset,iendset,ialset,
+	     inum,&noutloc,&nout,nset,&noutmin,&noutplus,&iselect,
+	     ngraph);
+  
+      frdheader(&icounter,&oner,time,&pi,noddiam,cs,&null,mode,
+		&noutloc,description,kode,nmethod,f1,output,istep,iinc);
+  
+      fprintf(f1," -4  THSTRAIN    6    1\n");
+      fprintf(f1," -5  THXX        1    4    1    1\n");
+      fprintf(f1," -5  THYY        1    4    2    2\n");
+      fprintf(f1," -5  THZZ        1    4    3    3\n");
+      fprintf(f1," -5  THXY        1    4    1    2\n");
+      fprintf(f1," -5  THYZ        1    4    2    3\n");
+      fprintf(f1," -5  THZX        1    4    3    1\n");
+  
+      NNEW(ethn,double,6**nk);
+      for(i=0;i<6**nk;i++){
+	ethn[i]=een[i]-emn[i];
+      }
+      
+      frdselect(ethn,ethn,&iset,&nkcoords,inum,m1,istartset,iendset,
+		ialset,ngraph,&ncomptensor,ifieldtensor,icomptensor,
+		nfieldtensor,&iselect,m2,f1,output,m3);
+
+      SFREE(ethn);
+      
+    }
+  }
+
   /* storing the forces in the nodes */
   
   if((*nmethod!=5)||(*mode==-1)){
@@ -1222,16 +1448,40 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
       frdheader(&icounter,&oner,time,&pi,noddiam,cs,&null,mode,
 		&noutloc,description,kode,nmethod,f1,output,istep,iinc);
   
-      fprintf(f1," -4  FORC        4    1\n");
-      fprintf(f1," -5  F1          1    2    1    0\n");
-      fprintf(f1," -5  F2          1    2    2    0\n");
-      fprintf(f1," -5  F3          1    2    3    0\n");
-      fprintf(f1," -5  ALL         1    2    0    0    1ALL\n");
+      if(mi[1]==3){
   
-      if((iaxial==1)&&(strcmp1(&filab[352],"I")==0)){for(i=0;i<*nk;i++){fn[1+i*mt]*=180.;fn[2+i*mt]*=180.;fn[3+i*mt]*=180.;}}
-      frdvector(fn,&iset,ntrans,&filab[348],&nkcoords,inum,m1,inotr,
-		trab,co,istartset,iendset,ialset,mi,ngraph,f1,output,m3);
-      if((iaxial==1)&&(strcmp1(&filab[352],"I")==0)){for(i=0;i<*nk;i++){fn[1+i*mt]/=180.;fn[2+i*mt]/=180.;fn[3+i*mt]/=180.;}}
+	fprintf(f1," -4  FORC        4    1\n");
+	fprintf(f1," -5  F1          1    2    1    0\n");
+	fprintf(f1," -5  F2          1    2    2    0\n");
+	fprintf(f1," -5  F3          1    2    3    0\n");
+	fprintf(f1," -5  ALL         1    2    0    0    1ALL\n");
+  
+	if((iaxial==1)&&(strcmp1(&filab[352],"I")==0)){for(i=0;i<*nk;i++){fn[1+i*mt]*=180.;fn[2+i*mt]*=180.;fn[3+i*mt]*=180.;}}
+	frdvector(fn,&iset,ntrans,&filab[348],&nkcoords,inum,m1,inotr,
+		  trab,co,istartset,iendset,ialset,mi,ngraph,f1,output,m3);
+	if((iaxial==1)&&(strcmp1(&filab[352],"I")==0)){for(i=0;i<*nk;i++){fn[1+i*mt]/=180.;fn[2+i*mt]/=180.;fn[3+i*mt]/=180.;}}
+
+      }else if((mi[1]>3)&&(mi[1]<7)){
+
+	fprintf(f1," -4  FORC        %1" ITGFORMAT "    1\n",mi[1]+1);
+	fprintf(f1," -5  F1          1    2    1    0\n");
+	fprintf(f1," -5  F2          1    2    2    0\n");
+	fprintf(f1," -5  F3          1    2    3    0\n");
+	for(j=4;j<=mi[1];j++){
+	  fprintf(f1," -5  F%1" ITGFORMAT "          1    1    0    0\n",j);
+	}
+	fprintf(f1," -5  ALL         1    2    0    0    1ALL\n");
+
+	frdgeneralvector(fn,&iset,ntrans,&filab[348],&nkcoords,inum,m1,inotr,
+			 trab,co,istartset,iendset,ialset,mi,ngraph,f1,output,m3);
+      }else{
+	printf(" *WARNING in frd:\n");
+	printf("          for output purposes only 4, 5 or 6\n");
+	printf("          degrees of freedom are allowed\n");
+	printf("          for generalized vectors;\n");
+	printf("          actual degrees of freedom = %" ITGFORMAT "\n",mi[1]);
+	printf("          output request ist not performed;\n");
+      }
     }
   }
 
@@ -1816,7 +2066,7 @@ void frd(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne0,
 
   /* storing the liquid depth in the channel nodes */
   
-  if((strcmp1(&filab[2349],"PS  ")==0)&&(*ithermal>1)){
+  if((strcmp1(&filab[2349],"DEPT")==0)&&(*ithermal>1)){
 
     iselect=-1;
     frdset(&filab[2349],set,&iset,istartset,iendset,ialset,

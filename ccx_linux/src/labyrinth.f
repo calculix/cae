@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,7 +16,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine labyrinth(node1,node2,nodem,nelem,lakon,
-     &     nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,cp,R,physcon,co,dvi,numf,vold,set,
      &     kon,ipkon,mi,ttime,time,iaxial,iplausi)
 !     
@@ -31,7 +31,7 @@
       character*81 set(*)
 !     
       integer nelem,nactdog(0:3,*),node1,node2,nodem,numf,
-     &     ielprop(*),nodef(*),idirf(*),index,iflag,mi(*),
+     &     ielprop(*),nodef(*),idirf(*),index,kflag,mi(*),
      &     inv,kgas,n,iaxial,nodea,nodeb,ipkon(*),kon(*),i,
      &     itype,iplausi
 !
@@ -52,7 +52,7 @@
 !
       index=ielprop(nelem)
 !    
-      if(iflag.eq.0) then
+      if(kflag.eq.0) then
          identity=.true.
 !     
          if(nactdog(2,node1).ne.0)then
@@ -63,7 +63,7 @@
             identity=.false.
          endif
 !     
-      elseif(iflag.eq.1)then
+      elseif(kflag.eq.1)then
          if(v(1,nodem).ne.0.d0) then
             xflow=v(1,nodem)
             return
@@ -174,7 +174,7 @@
             endif
          endif
 !
-      elseif(iflag.eq.2)then
+      elseif(kflag.eq.2)then
          numf=4
          alambda=10000.d0
 !     
@@ -428,9 +428,8 @@ c            iaxial=nint(prop(index+3))
 !
 !     output
 !
-      elseif(iflag.eq.3)then
+      elseif(kflag.eq.3)then
 !
-
          p1=v(2,node1)
          p2=v(2,node2)
          if(p1.ge.p2) then

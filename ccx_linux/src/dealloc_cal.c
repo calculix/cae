@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -62,11 +62,15 @@ void dealloc_cal(ITG *ncs_,ITG **icsp,ITG *mcs,double **csp,
 		 ITG **ne2bounp,ITG **islavsurfp,ITG *mortar,
 		 double **pslavsurfp,double **clearinip,
 		 ITG *nobject_,char **objectsetp,ITG *nmethod,ITG *iperturb,
-		 ITG *irefineloop,ITG **iparentelp){
+		 ITG *irefineloop,ITG **iparentelp,ITG **iprfnp,
+		 ITG **konrfnp,double **ratiorfnp,char **headingp,
+		 ITG **nodedesip,double **dgdxglobp,double **g0p,
+		 ITG *nuel_,double **xdesip,ITG *nfc,double **coeffcp,
+		 ITG **ikdcp,double **edcp){
 
   char *tieset=NULL,*lakon=NULL,*typeboun=NULL,*labmpc=NULL,*sideload=NULL,
     *cbody=NULL,*amname=NULL,*set=NULL,*orname=NULL,*prlab=NULL,*prset=NULL,
-    *filab=NULL,*matname=NULL,*objectset=NULL;
+    *filab=NULL,*matname=NULL,*objectset=NULL,*heading=NULL;
   
   ITG *ics=NULL,*kon=NULL,*ipkon=NULL,*nodeboun=NULL,*ndirboun=NULL,
     *ikboun=NULL,*ilboun=NULL,*nodebounold=NULL,*ndirbounold=NULL,
@@ -77,7 +81,8 @@ void dealloc_cal(ITG *ncs_,ITG **icsp,ITG *mcs,double **csp,
     *nrhcon=NULL,*nshcon=NULL,*ncocon=NULL,*nalcon=NULL,*ielprop=NULL,
     *nplicon=NULL,*nplkcon=NULL,*ielorien=NULL,*inotr=NULL,*iamt1=NULL,
     *irandomtype=NULL,*ielmat=NULL,*iponor=NULL,*knor=NULL,*iponoel=NULL,
-    *inoel=NULL,*ne2boun=NULL,*islavsurf=NULL,*rig=NULL,*iparentel=NULL;
+    *inoel=NULL,*ne2boun=NULL,*islavsurf=NULL,*rig=NULL,*iparentel=NULL,
+    *iprfn=NULL,*konrfn=NULL,*nodedesi=NULL,*ikdc=NULL;
 
   double *cs=NULL,*tietol=NULL,*co=NULL,*xboun=NULL,*xbounold=NULL,
     *fmpc=NULL,*coefmpc=NULL,*coefmpcref=NULL,*xforc=NULL,*xforcold=NULL,
@@ -87,7 +92,8 @@ void dealloc_cal(ITG *ncs_,ITG **icsp,ITG *mcs,double **csp,
     *prestr=NULL,*t0=NULL,*t1=NULL,*t1old=NULL,*t0g=NULL,*t1g=NULL,
     *randomval=NULL,*xmodal=NULL,*sti=NULL,*eme=NULL,*ener=NULL,*xstate=NULL,
     *vold=NULL,*veold=NULL,*vel=NULL,*velo=NULL,*veloo=NULL,*xnor=NULL,
-    *thicke=NULL,*offset=NULL,*pslavsurf=NULL,*clearini=NULL;
+    *thicke=NULL,*offset=NULL,*pslavsurf=NULL,*clearini=NULL,*ratiorfn=NULL,
+    *dgdxglob=NULL,*g0=NULL,*xdesi=NULL,*coeffc=NULL,*edc=NULL;
 
   ics=*icsp;cs=*csp;tieset=*tiesetp;tietol=*tietolp;co=*cop;kon=*konp;
   ipkon=*ipkonp;lakon=*lakonp;nodeboun=*nodebounp;ndirboun=*ndirbounp;
@@ -114,7 +120,9 @@ void dealloc_cal(ITG *ncs_,ITG **icsp,ITG *mcs,double **csp,
   inoel=*inoelp;rig=*rigp;ne2boun=*ne2bounp;islavsurf=*islavsurfp;
   pslavsurf=*pslavsurfp;clearini=*clearinip;objectset=*objectsetp;
   iparentel=*iparentelp;coefmpcref=*coefmpcrefp;nodempcref=*nodempcrefp;
-  ikmpcref=*ikmpcrefp;
+  ikmpcref=*ikmpcrefp;iprfn=*iprfnp;konrfn=*konrfnp;ratiorfn=*ratiorfnp;
+  heading=*headingp;nodedesi=*nodedesip;g0=*g0p;dgdxglob=*dgdxglobp;
+  xdesi=*xdesip;coeffc=*coeffcp;ikdc=*ikdcp;edc=*edcp;
 								 
   /* deallocating all fields except the *inp fields */
 			 
@@ -129,6 +137,10 @@ void dealloc_cal(ITG *ncs_,ITG **icsp,ITG *mcs,double **csp,
 
   SFREE(ipompc);SFREE(labmpc);SFREE(ikmpc);SFREE(ilmpc);SFREE(fmpc);
   SFREE(nodempc);SFREE(coefmpc);
+
+  if(*nfc>0){
+    SFREE(coeffc);SFREE(ikdc);SFREE(edc);
+  }
 
   SFREE(nodempcref);SFREE(coefmpcref);SFREE(ikmpcref);
 
@@ -158,7 +170,7 @@ void dealloc_cal(ITG *ncs_,ITG **icsp,ITG *mcs,double **csp,
   if(ithermal[0]!=0){
     SFREE(t0);SFREE(t1);SFREE(t1old);
     if(*nam>0) SFREE(iamt1);
-    if((*ne1d!=0)||(*ne2d!=0)){SFREE(t0g);SFREE(t1g);}
+    if((*ne1d!=0)||(*ne2d!=0)||(*nuel_!=0)){SFREE(t0g);SFREE(t1g);}
   }
 
   if(irobustdesign[0]>0){SFREE(irandomtype);SFREE(randomval);}
@@ -188,9 +200,13 @@ void dealloc_cal(ITG *ncs_,ITG **icsp,ITG *mcs,double **csp,
   SFREE(islavsurf);
   if(*mortar==1){SFREE(pslavsurf);SFREE(clearini);}
 
-  if(*nobject_>0){SFREE(objectset);}
+  if(*nobject_>0){SFREE(objectset);SFREE(nodedesi);SFREE(dgdxglob);
+    SFREE(g0);SFREE(xdesi);}
 
-  if(*irefineloop>0){SFREE(iparentel);}
+  if(*irefineloop>0){SFREE(iparentel);SFREE(iprfn);SFREE(konrfn);
+    SFREE(ratiorfn);}
+
+  SFREE(heading);
 
   *icsp=ics;*csp=cs;*tiesetp=tieset;*tietolp=tietol;*cop=co;*konp=kon;
   *ipkonp=ipkon;*lakonp=lakon;*nodebounp=nodeboun;*ndirbounp=ndirboun;
@@ -217,7 +233,9 @@ void dealloc_cal(ITG *ncs_,ITG **icsp,ITG *mcs,double **csp,
   *inoelp=inoel;*rigp=rig;*ne2bounp=ne2boun;*islavsurfp=islavsurf;
   *pslavsurfp=pslavsurf;*clearinip=clearini;*objectsetp=objectset;
   *iparentelp=iparentel;*coefmpcrefp=coefmpcref;*nodempcrefp=nodempcref;
-  *ikmpcrefp=ikmpcref;
+  *ikmpcrefp=ikmpcref;*iprfnp=iprfn;*konrfnp=konrfn;*ratiorfnp=ratiorfn;
+  *headingp=heading;*nodedesip=nodedesi;*dgdxglobp=dgdxglob;*g0p=g0;
+  *xdesip=xdesi;*coeffcp=coeffc;*ikdcp=ikdc;*edcp=edc;
   
   return;
 }

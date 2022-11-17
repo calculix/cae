@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -34,7 +34,7 @@
       local='L'
 !
       if(prlab(ii)(1:4).eq.'U   ') then
-         if((ntrans.eq.0).or.(prlab(ii)(6:6).eq.'G')) then
+        if((ntrans.eq.0).or.(prlab(ii)(6:6).eq.'G')) then
             write(5,'(i10,1p,6(1x,e13.6))') node,
      &           (v(j,node),j=1,mi(2))
          elseif(inotr(1,node).eq.0) then

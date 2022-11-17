@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 !
 !
 !     identifies the position id of px in an ordered array
-!     x of integers; 
+!     x of characters*80; 
 !
 !     id is such that x(id).le.px and x(id+1).gt.px
 !

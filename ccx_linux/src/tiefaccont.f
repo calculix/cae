@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -119,9 +119,16 @@
 !     
 !     determining the slave surface 
 !     
-          do j=1,nset
-            if(set(j).eq.slavset) exit
-          enddo
+c          do j=1,nset
+c            if(set(j).eq.slavset) exit
+c          enddo
+          call cident81(set,slavset,nset,id)
+          j=nset+1
+          if(id.gt.0) then
+            if(slavset.eq.set(id)) then
+              j=id
+            endif
+          endif
           if(j.gt.nset) then
             do j=1,nset
               if((set(j)(1:ipos-1).eq.slavset(1:ipos-1)).and.
@@ -134,7 +141,8 @@
 !     
           islav=j
 !     
-          if((mortar.eq.0).and.(nodeslavsurf)) then
+          if((mortar.le.0).and.(nodeslavsurf)) then
+c          if((mortar.eq.0).and.(nodeslavsurf)) then
 !     
 !     nodal slave surface and node-to-surface contact
 !     
@@ -461,10 +469,9 @@
 !     
 !     filling fields iponoels and inoels
 !     
-                  if(mortar.eq.0) then
-c     ifreenoelold=iponoels(node)
+                  if(mortar.le.0) then
+c                  if(mortar.eq.0) then
                     ifreenoels=ifreenoels+1
-c     iponoels(node)=ifreenoels
                     inoels(1,ifreenoels)=ifacecount
                     inoels(2,ifreenoels)=iponoels(node)
                     iponoels(node)=ifreenoels
@@ -503,13 +510,33 @@ c     inoels(2,ifreenoels)=ifreenoelold
             nslavnode(i+1)=nslavs
             itiefac(2,i)=ifacecount
           endif
+!
+!     for massless contact: marking the elements adjacent to
+!     the slave faces with the slave face number
+!
+c   TODO CMT: label SLAVE faces for contact IF mass redistribution
+c          if(mortar.eq.-1) then
+c            do j=itiefac(1,i),itiefac(2,i)
+c              iface=islavsurf(1,j)
+c              nelem=int(iface/10.d0)
+c              jface=iface-10*nelem
+c              write(lakon(nelem)(7:7),'(i1)') jface
+c            enddo
+c          endif
 !     
 !     determining the master surface
 !     
           mastset=tieset(3,i)
-          do j=1,nset
-            if(set(j).eq.mastset) exit
-          enddo
+c          do j=1,nset
+c            if(set(j).eq.mastset) exit
+c          enddo
+          call cident81(set,mastset,nset,id)
+          j=nset+1
+          if(id.gt.0) then
+            if(mastset.eq.set(id)) then
+              j=id
+            endif
+          endif
           if(j.gt.nset) then
             write(*,*) '*ERROR in tiefaccont: master surface'
             write(*,*) '       does not exist'
@@ -588,7 +615,6 @@ c     inoels(2,ifreenoels)=ifreenoelold
 !     no contact tie
 !     
           nslavnode(i+1)=nslavnode(i)
-c     if(mortar.eq.1) nmastnode(i+1)=nmastnode(i)
           nmastnode(i+1)=nmastnode(i)
         endif 
       enddo      

@@ -17,18 +17,16 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine writerefinemesh(kontet,netet_,cotet,nktet,jobnamec,
-     &     ipkon,kon,lakon,iquad,iedtet,iedgmid,ne,
-     &     number,jfix,iparentel,nk)
+     &     iquad,iedtet,iedgmid,number,jfix,iparentel,nk,iwrite)
 !
       implicit none
 !
-      character*8 lakon(*)
       character*10 elestr
-      character*132 fnrfn,jobnamec,el_header
+      character*132 fnrfn,jobnamec(*),el_header
+      character*256 fn
 !
-      integer kontet(4,*),netet_,i,j,k,nktet,ipkon(*),kon(*),node,
-     &     indexe,iquad,iedtet(6,*),iedgmid(*),ne,number(*),nk,
-     &     jfix(*),iparentel(*)
+      integer kontet(4,*),netet_,i,j,k,nktet,node,iquad,iedtet(6,*),
+     &     iedgmid(*),number(*),nk,jfix(*),iparentel(*),iwrite,ilen
 !
       real*8 cotet(3,*)
 !
@@ -59,14 +57,14 @@
 !     stores the refined mesh in input format
 !
       do i=1,132
-         if(ichar(jobnamec(i:i)).eq.0) exit
+         if(ichar(jobnamec(1)(i:i)).eq.0) exit
       enddo
       if(i.gt.125) then
          write(*,*) '*ERROR in writerefinemesh'
          write(*,*) '       jobname has more than 124 characters'
          call exit(201)
       endif
-      fnrfn(1:i+7)=jobnamec(1:i-1)//'.rfn.inp'
+      fnrfn(1:i+7)=jobnamec(1)(1:i-1)//'.rfn.inp'
 !
 !     storing the mesh in input format
 !
@@ -130,52 +128,27 @@
         enddo
       endif
 !     
-!     storing all other elements
-!     
-c     do i=1,ne
-c     if(ipkon(i).lt.0) cycle
-c     if((lakon(i)(1:4).eq.'C3D4').or.
-c     &      (lakon(i)(1:5).eq.'C3D10')) cycle
-c     if(lakon(i)(1:4).eq.'C3D6') then
-c     indexe=ipkon(i)
-c     write(2,105) lakon(i)
-c     105        format('*ELEMENT,TYPE=',a8)
-c     write(2,101) i,(kon(indexe+j),j=1,6)
-c     elseif(lakon(i)(1:4).eq.'C3D8') then
-c     indexe=ipkon(i)
-c     write(2,106) lakon(i)
-c     106        format('*ELEMENT,TYPE=',a8)
-c     write(2,101) i,(kon(indexe+j),j=1,8)
-c     elseif(lakon(i)(1:5).eq.'C3D15') then
-c     indexe=ipkon(i)
-c     write(2,107) lakon(i)
-c     107        format('*ELEMENT,TYPE=',a8)
-c     write(2,101) i,(kon(indexe+j),j=1,15)
-c     elseif(lakon(i)(1:5).eq.'C3D20') then
-c     indexe=ipkon(i)
-c     write(2,108) lakon(i)
-c     108        format('*ELEMENT,TYPE=',a8)
-c     write(2,101) i,(kon(indexe+j),j=1,15)
-c     write(2,101) (kon(indexe+j),j=16,20)
-c     elseif(lakon(i)(1:4).eq.'A3D4') then
-c     indexe=ipkon(i)
-c     write(2,103) 
-c     write(2,101) i,(kon(indexe+j),j=1,4)
-c     lakon(i)(1:1)='C'
-c     elseif(lakon(i)(1:5).eq.'A3D10') then
-c     indexe=ipkon(i)
-c     write(2,104)
-c     write(2,101) i,(kon(indexe+j),j=1,10)
-c     lakon(i)(1:1)='C'
-c     endif
-c     enddo
-!     
       close(2)
 !     
  100  format(i10,',',e20.13,',',e20.13,',',e20.13)
  101  format(11(i10,','))
- 103  format('*ELEMENT,TYPE=C3D4,ELSET=TET')
- 104  format('*ELEMENT,TYPE=C3D10,ELSET=TET')
+!
+      if(iwrite.eq.1) then
+        ilen=index(jobnamec(1),char(0))-1
+        fn=jobnamec(1)(1:ilen)//'_WarnNodeNotProjected.nam'
+        write(*,*) '*INFO in writerefinemesh:'
+        write(*,*) '      not (completely) projected nodes'
+        write(*,*) '      are stored in file'
+        write(*,*) '      ',fn(1:ilen+25)
+        write(*,*) '      This file can be loaded into'
+        write(*,*) '      an active cgx-session by typing'
+        write(*,*) 
+     &       '      read ',fn(1:ilen+25),' inp'
+        write(*,*)
+        close(40)
+      else
+        close(40,status='delete')
+      endif
 !     
       return
       end

@@ -1,6 +1,6 @@
 
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -35,7 +35,7 @@ void *u_realloc(void* ptr,size_t size,const char *file,const int line, const cha
   a=realloc(ptr,size);
 
   if(a==NULL && ptr!=NULL && size!=0){
-    printf("*ERROR in u_realloc: error allocating memory\n");
+    printf(" *ERROR in u_realloc: error allocating memory\n");
     printf("variable=%s, file=%s, line=%d, size(bytes)=%ld, oldaddress=%ld\n",ptr_name,file,line,size,(long int)ptr);
     exit(16);
   }

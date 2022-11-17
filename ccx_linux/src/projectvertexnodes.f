@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,10 +18,14 @@
 !     
       subroutine projectvertexnodes(ipoed,iexternedg,iedgext,cotet,
      &     nktet,iedg,iexternfa,ifacext,itreated,ilist,isharp,ipofa,
-     &     ifac,iedgextfa,ifacexted,co,idimsh)
+     &     ifac,iedgextfa,ifacexted,co,idimsh,ipoeln,ieln,kontet,c1,
+     &     jflag,ibadnodes,nbadnodes,iwrite)
 !     
-!     projects vertex nodes lying on external edges of the unrefined mesh
-!     on those edges
+!     1. projects vertex nodes lying on external edges of the unrefined mesh
+!        on the parent external edges if these are sharp
+!
+!     2. projects all other vertex nodes belonging to external faces
+!        on neighboring external faces of the unrefined mesh      
 !     
       implicit none
 !     
@@ -29,12 +33,13 @@
      &     nterms,node1,node2,iedg(3,*),nktet,imastfa,ifacext(6,*),
      &     iexternfa(*),itreated(*),ii,node,isharp(*),idimsh(*),
      &     ilist(*),nlist,ifac(4,*),iedgextfa(2,*),ifacexted(3,*),
-     &     id,isol,ipofa(*)
+     &     id,isol,ipofa(*),ipoeln(*),ieln(2,*),kontet(4,*),jflag,
+     &     ibadnodes(*),nbadnodes,iwrite
 !     
       real*8 pneigh(3,9),cotet(3,*),pnode(3),ratio(9),dist,xi,et,
-     &     pnodeproj(3),co(3,*)
-!     
-!     
+     &     pnodeproj(3),co(3,*),c1
+!
+      nbadnodes=0
 !
 !     set all nodes on "non-treated"
 !      
@@ -96,9 +101,8 @@
                   pnode(k)=cotet(k,node1)
                 enddo
                 call attach_1d(pneigh,pnode,nterms,ratio,dist,xi)
-                do k=1,3
-                  cotet(k,node1)=pnode(k)
-                enddo
+                call checkvol(cotet,node1,pnode,ipoeln,ieln,kontet,c1,
+     &               jflag,ibadnodes,nbadnodes,iwrite)
                 itreated(node1)=1
               endif
 !     
@@ -109,9 +113,8 @@
                   pnode(k)=cotet(k,node2)
                 enddo
                 call attach_1d(pneigh,pnode,nterms,ratio,dist,xi)
-                do k=1,3
-                  cotet(k,node2)=pnode(k)
-                enddo
+                call checkvol(cotet,node2,pnode,ipoeln,ieln,kontet,c1,
+     &               jflag,ibadnodes,nbadnodes,iwrite)
                 itreated(node2)=1
               endif
             else
@@ -192,7 +195,8 @@
 !     
               isol=1
 !     
-              if(dabs(et).lt.1.d-10) then
+              if((dabs(et).lt.1.d-10).and.
+     &           (dabs(xi).gt.1.d-10)) then
 !     
 !     take neighboring face across edge 1-2 unless sharp
 !     
@@ -205,9 +209,9 @@
                   endif
                   isol=0
                 endif
-              endif
 !     
-              if(dabs(xi+et-1.d0).lt.1.d-10) then
+              elseif((dabs(xi+et-1.d0).lt.1.d-10).and.
+     &               (dabs(et).gt.1.d-10)) then
 !     
 !     take neighboring face across edge 2-3 unless sharp
 !     
@@ -220,9 +224,9 @@
                   endif
                   isol=0
                 endif
-              endif
 !     
-              if(dabs(xi).lt.1.d-10) then
+              elseif((dabs(xi).lt.1.d-10).and.
+     &               (dabs(xi+et-1.d0).gt.1.d-10)) then
 !     
 !     take neighboring face across edge 3-1 unless sharp
 !     
@@ -241,9 +245,8 @@
 !     else continue with a neighbor
 !     
               if(isol.eq.1) then
-                do k=1,3
-                  cotet(k,node)=pnodeproj(k)
-                enddo
+                call checkvol(cotet,node,pnodeproj,ipoeln,ieln,kontet,
+     &               c1,jflag,ibadnodes,nbadnodes,iwrite)
                 itreated(node)=2
                 exit
               else
@@ -254,10 +257,19 @@
                 call nident(ilist,imastfa,nlist,id)
                 if(id.gt.0) then
                   if(ilist(id).eq.imastfa) then
-                    write(*,*) '*WARNING in projectnodes:'
+                    if(nlist.eq.2) then
+                      isol=1
+                      call checkvol(cotet,node,pnodeproj,ipoeln,ieln,
+     &                     kontet,c1,jflag,ibadnodes,nbadnodes,iwrite)
+                      itreated(node)=2
+                      exit
+                    endif
+!                      
+                    write(*,*) '*WARNING in projectvertexnodes:'
                     write(*,*) '         face in list revisited'
                     write(*,*) '         no projection for node',
      &                   node
+                    write(*,*)
                     itreated(node)=2
                     exit
                   endif

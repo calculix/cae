@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -27,7 +27,8 @@
      &     istartset,
      &     iendset,ialset,ntie,nmpc,ipompc,ikmpc,ilmpc,nodempc,coefmpc,
      &     ipobody,iponoel,inoel,ipkon,kon,ielprop,prop,ielmat,
-     &     shcon,nshcon,rhcon,nrhcon,cocon,ncocon,ntmat_,lakon)
+     &     shcon,nshcon,rhcon,nrhcon,cocon,ncocon,ntmat_,lakon,
+     &     set,nset)
 !     
 !     calculates the loading at a given time
 !     
@@ -39,7 +40,7 @@
       character*8 lakon(*)
       character*20 sideload(*)
       character*80 amname(*)
-      character*81 tieset(3,*)
+      character*81 tieset(3,*),set(*)
 !     
       integer iamforc(*),iamload(2,*),iamt1(*),nelemload(2,*),
      &     nam,i,istart,iend,id,nforc,nload,nk,namta(3,*),ithermal(*),
@@ -52,7 +53,7 @@
      &     nmpc,ikmpc(*),ilmpc(*),nodempc(3,*),k,ist,index,ipompc(*),
      &     ipobody(2,*),iponoel(*),inoel(2,*),ipkon(*),kon(*),
      &     ielprop(*),ielmat(mi(3),*),nshcon(*),nrhcon(*),ncocon(2,*),
-     &     ntmat_
+     &     ntmat_,nset
 !     
       real*8 xforc(*),xforcact(*),xload(2,*),xloadact(2,*),
      &     t1(*),t1act(*),amta(2,*),ampli(*),time,fixed_temp,
@@ -189,7 +190,7 @@ c     coords(j)=co(j,node)+vold(j,node)
           iselect(1)=ndirboun(i)+1
           call interpolsubmodel(integerglob,doubleglob,xbounact(i),
      &         coords,iselect,one,node,tieset,istartset,iendset,
-     &         ialset,ntie,entity)
+     &         ialset,ntie,entity,set,nset)
 !     
           if(nmethod.eq.1) then
             xbounact(i)=xbounold(i)+
@@ -301,7 +302,7 @@ c     coords(j)=co(j,node)+vold(j,node)
             iselect(1)=ndirforc(i)+10
             call interpolsubmodel(integerglob,doubleglob,xforcact(i),
      &           coords,iselect,one,node,tieset,istartset,iendset,
-     &           ialset,ntie,entity)
+     &           ialset,ntie,entity,set,nset)
 !     
             if(nmethod.eq.1) then
               xforcact(i)=xforcold(i)+
@@ -442,7 +443,7 @@ c     coords(j)=co(j,i)+vold(j,i)
             iselect(1)=1
             call interpolsubmodel(integerglob,doubleglob,t1act(i),
      &           coords,iselect,one,i,tieset,istartset,iendset,
-     &           ialset,ntie,entity)
+     &           ialset,ntie,entity,set,nset)
 !     
             if(nmethod.eq.1) then
               t1act(i)=t1old(i)+(t1act(i)-t1old(i))*reltime

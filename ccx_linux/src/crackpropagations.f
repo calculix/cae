@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -22,7 +22,7 @@
      &  ithermal,cs,ics,tieset,istartset,
      &  iendset,ialset,ipompc,nodempc,coefmpc,nmpc,nmpc_,ikmpc,
      &  ilmpc,mpcfree,mcs,set,nset,labmpc,ipoinpc,iexpl,nef,ttime,
-     &  iaxial,nelcon,nmat,tincf,ier,jobnamec)
+     &  iaxial,nelcon,nmat,ier,jobnamec,matname)
 !
 !     reading the input deck: *CRACKPROPAGATION
 !
@@ -34,74 +34,71 @@
 !             7: pardiso
 !             8: pastix
 !
-!      iexpl==0:  structure:implicit, fluid:incompressible
-!
       implicit none
 !
-      logical timereset
+      logical timereset,input
 !
       character*1 inpc(*)
       character*20 labmpc(*),solver
+      character*80 material,matname(*)
       character*81 set(*),tieset(3,*)
-      character*132 textpart(16),jobnamec(*)
+      character*132 textpart(16),jobnamec(*),fnfrd
 !
       integer nmethod,iperturb(*),isolver,istep,istat,n,key,i,idrct,
      &  iline,ipol,inl,ipoinp(2,*),inp(3,*),ithermal(*),ics(*),iexpl,
      &  istartset(*),iendset(*),ialset(*),ipompc(*),nodempc(3,*),
      &  nmpc,nmpc_,ikmpc(*),ilmpc(*),mpcfree,nset,mcs,ipoinpc(0:*),
-     &  nef,iaxial,nelcon(2,*),nmat,ier,j,k,l
+     &  nef,iaxial,nelcon(2,*),nmat,ier,j,k,l,ilen
 !
-      real*8 tinc,tper,tmin,tmax,cs(17,*),coefmpc(*),ttime,tincf
+      real*8 tinc,tper,tmin,tmax,cs(17,*),coefmpc(*),ttime
 !
       idrct=0
+      tinc=0.d0
+      tper=0.d0
       tmin=0.d0
-      tmax=0.d0
+      tmax=3.5d0
       timereset=.false.
+      input=.false.
 !
       if(istep.ne.1) then
-         write(*,*) '*ERROR reading *CRACK PROPAGATION:'
-         write(*,*) '       *CRACK PROPAGATION can only be used'
-         write(*,*) '       within the first STEP'
-         ier=1
-         return
-      endif
+        write(*,*) '*WARNING reading *CRACK PROPAGATION:'
+        write(*,*) '         this is step ',istep,'.'
+        write(*,*) '         The frd-file of previous steps'
+        write(*,*) '         will be deleted.'
+!     
+!       delete the .frd file (it is reopened in frd.c)
 !
-!     no heat transfer analysis
-!
-      if(ithermal(1).gt.1) then
-         ithermal(1)=1
-      endif
-!
-!     default solver
-!
-      solver='                    '
-      if(isolver.eq.0) then
-         solver(1:7)='SPOOLES'
-      elseif(isolver.eq.2) then
-         solver(1:16)='ITERATIVESCALING'
-      elseif(isolver.eq.3) then
-         solver(1:17)='ITERATIVECHOLESKY'
-      elseif(isolver.eq.4) then
-         solver(1:3)='SGI'
-      elseif(isolver.eq.5) then
-         solver(1:5)='TAUCS'
-      elseif(isolver.eq.7) then
-         solver(1:7)='PARDISO'
-      elseif(isolver.eq.8) then
-         solver(1:6)='PASTIX'
+        ilen=index(jobnamec(1),char(0))-1
+        fnfrd=jobnamec(1)(1:ilen)//'.frd'
+        ilen=ilen+4
+        open(7,file=fnfrd(1:ilen),status='unknown',err=71)
+        close(7,status='delete',err=72)
+!        
+c         write(*,*) '*ERROR reading *CRACK PROPAGATION:'
+c         write(*,*) '       *CRACK PROPAGATION can only be used'
+c         write(*,*) '       within the first STEP'
+c         ier=1
+c         return
       endif
 !
       do i=2,n
-         if(textpart(i)(1:7).eq.'SOLVER=') then
-            read(textpart(i)(8:27),'(a20)') solver
-         elseif((textpart(i)(1:6).eq.'DIRECT').and.
-     &          (textpart(i)(1:9).ne.'DIRECT=NO')) then
-            idrct=1
-         elseif(textpart(i)(1:9).eq.'TIMERESET') then
-            timereset=.true.
-         elseif(textpart(i)(1:17).eq.'TOTALTIMEATSTART=') then
-            read(textpart(i)(18:37),'(f20.0)',iostat=istat) ttime
-         elseif(textpart(i)(1:6).eq.'INPUT=') then
+         if(textpart(i)(1:9).eq.'MATERIAL=') then
+            material=textpart(i)(10:89)
+          elseif(textpart(i)(1:7).eq.'LENGTH=') then
+            if(textpart(i)(8:17).eq.'CUMULATIVE') then
+              tmax=1.5d0
+            elseif(textpart(i)(8:19).eq.'INTERSECTION') then
+              tmax=2.5d0
+            else
+              write(*,*)
+     &             '*ERROR reading *CRACK PROPAGATION: nonexistent'
+              write(*,*) '       crack length determination method'
+              write(*,*) '  '
+              call inputerror(inpc,ipoinpc,iline,
+     &             "*CRACK PROPAGATION%",ier)
+            endif
+          elseif(textpart(i)(1:6).eq.'INPUT=') then
+            input=.true.
             jobnamec(4)(1:126)=textpart(i)(7:132)
             jobnamec(4)(127:132)='      '
             loop1: do j=1,126
@@ -127,161 +124,92 @@
      &"*CRACKPROPAGATION%")
          endif
       enddo
+!     
+!     check for the INPUT parameter
 !
-      if(solver(1:7).eq.'SPOOLES') then
-         isolver=0
-      elseif(solver(1:16).eq.'ITERATIVESCALING') then
-         isolver=2
-      elseif(solver(1:17).eq.'ITERATIVECHOLESKY') then
-         isolver=3
-      elseif(solver(1:3).eq.'SGI') then
-         isolver=4
-      elseif(solver(1:5).eq.'TAUCS') then
-         isolver=5
-      elseif(solver(1:7).eq.'PARDISO') then
-         isolver=7
-      elseif(solver(1:6).eq.'PASTIX') then
-         isolver=8
-      else
-         write(*,*) 
-     &     '*WARNING reading *CRACK PROPAGATION: unknown solver;'
-         write(*,*) '         the default solver is used'
+      if(.not.input) then
+        write(*,*) 
+     &     '*ERROR reading *CRACK PROPAGATION: no input file specified:'
+        write(*,*) '         ',
+     &       textpart(i)(1:index(textpart(i),' ')-1)
+        call inputerror(inpc,ipoinpc,iline,
+     &       "*CRACK PROPAGATION%",ier)
       endif
+!
+!     check for the existence of the material
+!
+      do i=1,nmat
+         if(matname(i).eq.material) exit
+      enddo
+      if(i.gt.nmat) then
+         write(*,*) 
+     &      '*ERROR reading *CRACK PROPAGATION: nonexistent material'
+         write(*,*) '  '
+         call inputerror(inpc,ipoinpc,iline,
+     &        "*CRACK PROPAGATION%",ier)
+         return
+       endif
+!
+!     material name is stored in tmin
+!
+      tmin=i+0.5d0
 !
       nmethod=15
 !
-!     check for nodes on a cyclic symmetry axis
-!
-      if((mcs.eq.0).or.(iaxial.eq.180)) then
-         call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,
-     &        ipoinp,inp,ipoinpc)
-      else
-         n=3
-         textpart(2)='NMIN=0
-     &
-     &                '
-         textpart(3)='NMAX=0
-     &
-     &                '
-         nmethod=2
-         call selectcyclicsymmetrymodess(inpc,textpart,cs,ics,tieset,
-     &        istartset,
-     &        iendset,ialset,ipompc,nodempc,coefmpc,nmpc,nmpc_,ikmpc,
-     &        ilmpc,mpcfree,mcs,set,nset,labmpc,istep,istat,n,iline,
-     &        ipol,inl,ipoinp,inp,nmethod,key,ipoinpc)
-         nmethod=15
-         do i=1,mcs
-            cs(2,i)=-0.5d0
-            cs(3,i)=-0.5d0
-         enddo
-      endif
-!
+      call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,
+     &     ipoinp,inp,ipoinpc)
       if((istat.lt.0).or.(key.eq.1)) then
-         if((iperturb(1).ge.2).or.(nef.gt.0)) then
-            write(*,*) '*WARNING reading *CRACK PROPAGATION:'
-            write(*,*) '         a nonlinear analysis is requested'
-            write(*,*) '         but no time increment nor step is speci
-     &fied'
-            write(*,*) '         the defaults (1,1) are used'
+            write(*,*) '*ERROR reading *CRACK PROPAGATION:'
             write(*,*)
-            tinc=1.d0
-            tper=1.d0
-            tmin=1.d-5
-            tmax=1.d+30
-            tincf=-1.d0
-         else
-            tper=1.d0
-         endif
-         if(timereset)ttime=ttime-tper
-         return
+     &           '         a crack propagation analysis is requested'
+            write(*,*)
+     &           '         but no maximum crack increment is specified'
+            ier=1
+            return
       endif
 !
-      read(textpart(1)(1:20),'(f20.0)',iostat=istat) tinc
-      if(istat.gt.0) then
-         call inputerror(inpc,ipoinpc,iline,
-     &        "*CRACKPROPAGATION%",ier)
-         return
-      endif
-      read(textpart(2)(1:20),'(f20.0)',iostat=istat) tper
-      if(istat.gt.0) then
-         call inputerror(inpc,ipoinpc,iline,
-     &        "*CRACKPROPAGATION%",ier)
-         return
-      endif
-      read(textpart(3)(1:20),'(f20.0)',iostat=istat) tmin
-      if(istat.gt.0) then
-         call inputerror(inpc,ipoinpc,iline,
-     &        "*CRACKPROPAGATION%",ier)
-         return
-      endif
-      read(textpart(4)(1:20),'(f20.0)',iostat=istat) tmax
-      if(istat.gt.0) then
-         call inputerror(inpc,ipoinpc,iline,
-     &        "*CRACKPROPAGATION%",ier)
-         return
-      endif
-      read(textpart(5)(1:20),'(f20.0)',iostat=istat) tincf
-      if(istat.gt.0) then
-         call inputerror(inpc,ipoinpc,iline,
-     &        "*CRACKPROPAGATION%",ier)
-         return
-      endif
-!
-      if(tper.lt.0.d0) then
-         write(*,*) 
-     &  '*ERROR reading *CRACK PROPAGATION: step size is negative'
-         ier=1
-         return
-      elseif(tper.le.0.d0) then
-         tper=1.d0
-      endif
-      if(tinc.lt.0.d0) then
-         write(*,*) '*ERROR reading *CRACK PROPAGATION:'
-         write(*,*) '       initial increment size is negative'
-         ier=1
-         return
-      elseif(tinc.le.0.d0) then
-         tinc=tper
-      endif
-      if(tinc.gt.tper) then
-         write(*,*) '*ERROR reading *CRACK PROPAGATION:'
-         write(*,*) '       initial increment size exceeds step size'
-         ier=1
-         return
-      endif
+!     tinc: maximum crack increment
 !      
-      if(idrct.ne.1) then
-         if(dabs(tmin).lt.1.d-6*tper) then
-            write(*,*) '*WARNING reading *CRACK PROPAGATION:'
-            write(*,*) '         the minimum increment ',tmin
-            write(*,*) '         is smaller then 1.e-6 times the '
-            write(*,*) '         step time;'
-            write(*,*) '         the minimum increment is changed'
-            write(*,*) '         to ',min(tinc,1.d-6*tper)
-            write(*,*) '         which is the minimum of the initial'
-            write(*,*) 
-     &         '         increment time and 1.e-6 times the step time'
-            tmin=min(tinc,1.d-6*tper)
-         endif
-         if(dabs(tmax).lt.1.d-10) then
-            tmax=1.d+30
-         endif
-         if(tinc.gt.dabs(tmax)) then
-            write(*,*) '*WARNING reading *CRACK PROPAGATION:'
-            write(*,*) '         the initial increment ',tinc
-            write(*,*) '         exceeds the maximum increment ',
-     &          tmax
-            write(*,*) '         the initial increment is reduced'
-            write(*,*) '         to the maximum value'
-            tinc=dabs(tmax)
-         endif
+      if(n.gt.0) then
+        read(textpart(1)(1:20),'(f20.0)',iostat=istat) tinc
+        if(istat.gt.0) then
+          call inputerror(inpc,ipoinpc,iline,
+     &         "*CRACK PROPAGATION%",ier)
+          return
+        endif
       endif
 !
-      if(timereset)ttime=ttime-tper
+!     default: max. increment = min(a/5,rcur/5)
+!
+      if(tinc.le.0.d0) then
+        tinc=1.d30
+      endif
+!
+!     tper: maximum deflection angle (in degrees)
+!      
+      if(n.gt.1) then
+        read(textpart(2)(1:20),'(f20.0)',iostat=istat) tper
+        if(istat.gt.0) then
+          call inputerror(inpc,ipoinpc,iline,
+     &         "*CRACK PROPAGATION%",ier)
+          return
+        endif
+      endif
+!
+!     default: no maximum deflection angle
+!
+      if(tper.le.0.d0) then
+        tper=90.d0
+      endif
 !
       call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,
      &     ipoinp,inp,ipoinpc)
 !
       return
+ 71   write(*,*) '*ERROR in openfile: could not open file ',fnfrd(1:i+4)
+      call exit(201)
+ 72   write(*,*) '*ERROR in openfile: could not delete file ',
+     &  fnfrd(1:i+4)
+      call exit(201)
       end
 

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -36,8 +36,6 @@
      &  ielprop(*)
 !
       real*8 yn,co(3,*),vold(0:mi(2),*),prop(*)
-!
-!
 !
       force=.false.
 !
@@ -93,6 +91,8 @@
             nope=nope+1
             inum(kon(indexe+nope))=-1
             cycle
+          elseif(lakonl(1:1).eq.'U') then
+            nope=ichar(lakonl(8:8))
          else
             cycle
          endif

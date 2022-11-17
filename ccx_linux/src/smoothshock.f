@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,8 +16,8 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-      subroutine smoothshock(adb,aub,adl,addiv,sol,aux,icol,irow,jq,
-     &  neq,nzl,sa)
+      subroutine smoothshock(aub,adl,sol,aux,irow,jq,
+     &  neqa,neqb,sa)
 !
 !     smoothing the finite element solution
 !
@@ -28,18 +28,14 @@
 !
       implicit none
 !
-      integer icol(*),irow(*),jq(*),neq,nzl,i,j,k
+      integer irow(*),jq(*),neqa,neqb,i,j
 !
-      real*8 adb(*),aub(*),adl(*),sol(*),aux(*),p,sa(*),addiv(*)
+      real*8 aub(*),adl(*),sol(*),aux(*),sa(*)
 !
-!     multiplying M-ML with the solution
-!
-c      call op(neq,p,sol,aux,adb,aub,icol,irow,nzl)
-      call op(neq,sol,aux,adb,aub,jq,irow)
-!
-!     smoothing the solution
-!
-      do i=1,neq
+      do i=neqa,neqb
+        do j=jq(i),jq(i+1)-1
+          aux(i)=aux(i)+aub(j)*sol(irow(j))
+        enddo
          sol(i)=sol(i)+sa(i)*aux(i)*adl(i)
       enddo
 !

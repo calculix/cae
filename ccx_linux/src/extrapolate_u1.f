@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -23,15 +23,30 @@
 !     extrapolates field values at the integration points to the 
 !     nodes for user element i of type u1
 !
+!     the present routine is called for each user element of type u1;
+!     the field yn(j,i) contains at entry the sum of all extrapolations
+!     done for component j of the variable to node i (since a node can
+!     belong to n elements (not necessarily all of type user element
+!     u1) at the end n extrapolated values are available
+!     for this node). They are accumulated and at the end divided by n. The
+!     value of n is stored in inum(i): it starts at zero and is incremented
+!     by one for each extrapolation done to node i.
+!       
+!     the present routine cannot be used for network elements, only for
+!     structural elements
 !
 !     INPUT:
 !
 !     yi(ndim,mi(1),*)   value of the variables at the integration
 !                        points
+!     yn(nfield,*)       sum of the extrapolated variables at the nodes
+!                        from all elements treated previously
 !     ipkon(i)           points to the location in field kon preceding
 !                        the topology of element i
 !     inum(i)            < 0: node i is a network node
-!                        > 0: node i is a structural node
+!                        > 0: node i is a structural node; its value is
+!                             number of extrapolations performed to this
+!                             node so far
 !                        =0: node i is not used
 !     kon(*)             contains the topology of all elements. The
 !                        topology of element i starts at kon(ipkon(i)+1)
@@ -76,6 +91,12 @@
 !     OUTPUT:
 !
 !     yn(nfield,*)       value of the variables at the nodes
+!     inum(i)            < 0: node i is a network node
+!                        > 0: node i is a structural node; inum(i)
+!                             should be incremented by 1 if in the
+!                             call of this routine an extrapolated value
+!                             was stored for this node      
+!                        =0: node i is not used
 !
       implicit none
 !
@@ -110,7 +131,8 @@
             node=kon(indexe+j)
             do k=1,nfield
                yn(k,node)=yn(k,node)+yi(k,1,i)
-            enddo
+             enddo
+             inum(node)=inum(node)+1
          enddo
       else
          write(*,*) '*ERROR in extrapolate_u1'

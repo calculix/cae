@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -33,7 +33,7 @@ static ITG *kon1,*ipkon1,*ne1,*nelcon1,*nrhcon1,*nalcon1,*ielmat1,*ielorien1,
     *istartset1,*iendset1,*ialset1,*iactive1,*network1,*ipobody1,*ibody1,
     *neapar=NULL,*nebpar=NULL;
 
-static double *co1,*v1,*elcon1,*rhcon1,*alcon1,*orab1,*t01,
+static double *co1,*v1,*elcon1,*rhcon1,*alcon1,*orab1,*t01,*eei1,
     *fn1=NULL,*qa1=NULL,*vold1,*dtime1,*time1,*prop1,
     *ttime1,*plkcon1,*xstateini1,*xstiff1,*xstate1,*sti1,
     *springarea1,*reltime1,*coefmpc1,*vini1,
@@ -195,7 +195,8 @@ void resultsinduction(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
         nelcon1=nelcon;ielmat1=ielmat;ntmat1_=ntmat_;vini1=vini;dtime1=dtime;
         matname1=matname;mi1=mi;ncmat1_=ncmat_;sti1=sti;alcon1=alcon;
 	nalcon1=nalcon;h01=h0;ne1=ne;istartset1=istartset;iendset1=iendset;
-        ialset1=ialset;iactive1=iactive;fn1=fn;
+        ialset1=ialset;iactive1=iactive;fn1=fn;eei1=eei;iout1=iout;
+	nmethod1=nmethod;
 
 	/* calculating the magnetic field */
 	
@@ -327,17 +328,13 @@ void *resultsemmt(ITG *i){
 
     ITG nea,neb;
 
-/*    nedelta=(ITG)floor(*ne1/(double)num_cpus);
-    nea=*i*nedelta+1;
-    neb=(*i+1)*nedelta;
-    if((*i==num_cpus-1)&&(neb<*ne1)) neb=*ne1;*/
-
     nea=neapar[*i]+1;
     neb=nebpar[*i]+1;
 
     FORTRAN(resultsem,(co1,kon1,ipkon1,lakon1,v1,elcon1,nelcon1,ielmat1,
-       ntmat1_,vini1,dtime1,matname1,mi1,ncmat1_,&nea,&neb,sti1,alcon1,
-       nalcon1,h01,istartset1,iendset1,ialset1,iactive1,fn1));
+		       ntmat1_,vini1,dtime1,matname1,mi1,ncmat1_,&nea,&neb,
+		       sti1,alcon1,nalcon1,h01,istartset1,iendset1,ialset1,
+		       iactive1,fn1,eei1,iout1,nmethod1));
 
     return NULL;
 }

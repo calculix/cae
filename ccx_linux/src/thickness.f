@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,24 +16,23 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
-      subroutine thickness(dgdx,nobject,nodedesiboun,ndesiboun,
+      subroutine thickness(nobject,nodedesiboun,ndesiboun,
      &     objectset,xo,yo,zo,x,y,z,nx,ny,nz,co,ifree,ndesia,
-     &     ndesib,iobject,ndesi,dgdxglob,nk)                       
+     &     ndesib,iobject,ndesi,dgdxglob,nk,normdesi)                       
 !     
 !     calcualtion of the actual wall thickness      
 !     
       implicit none
 !     
-      character*81 objectset(4,*)
+      character*81 objectset(5,*)
 
-      integer nobject,nodedesiboun(*),nnodesinside,i,ndesi,
-     &     ndesiboun,j,k,neighbor(10),nx(*),ny(*),nz(*),
-     &     istat,ndesia,ndesib,ifree,nnodes,irefnode,
-     &     iactnode,iobject,nk
+      integer nobject,nodedesiboun(*),ndesi,iactnode,iobject,
+     &     ndesiboun,j,neighbor(10),nx(*),ny(*),nz(*),nk,
+     &     istat,ndesia,ndesib,ifree,nnodes,irefnode
 !     
-      real*8 dgdx(ndesi,nobject),xo(*),yo(*),zo(*),x(*),
+      real*8 xo(*),yo(*),zo(*),x(*),normdesi(3,*),scalar,
      &     y(*),z(*),refdist,co(3,*),xdesi,ydesi,zdesi,      
-     &     scale,actdist,dd,xrefnode,yrefnode,zrefnode,
+     &     actdist,dd,xrefnode,yrefnode,zrefnode,
      &     numericdist,dgdxglob(2,nk,nobject)
 !     
       read(objectset(1,iobject)(61:80),'(f20.0)',iostat=istat) refdist
@@ -70,16 +69,33 @@
         dd=(xrefnode-xdesi)**2+(yrefnode-ydesi)**2
      &       +(zrefnode-zdesi)**2
         actdist=dsqrt(dd)
-!     
+        scalar=xrefnode*normdesi(1,j)+
+     &         yrefnode*normdesi(2,j)+
+     &         zrefnode*normdesi(3,j)
+!    
+!       distinction whether the check nodeset lies in positive or
+!       negative normal direction.
+!       positive normal direction: dgdxglob(2,node,iobject)=1
+!       negative normal direction: dgdxglob(2,node,iobject)=-1
+!       important to know for the correct sign (constraint active or
+!       nor active) of the lagrange multiplier
+!  
+        dgdxglob(1,iactnode,iobject)=actdist
         if(objectset(1,iobject)(19:20).eq.'LE') then
           if(actdist.gt.refdist) then
-            dgdxglob(1,iactnode,iobject)=1.0d0
-            dgdxglob(2,iactnode,iobject)=1.0d0
+            if(scalar.gt.0.d0) then  
+              dgdxglob(2,iactnode,iobject)=1.0d0
+            else
+              dgdxglob(2,iactnode,iobject)=-1.0d0
+            endif
           endif
         else
           if(actdist.lt.refdist) then
-            dgdxglob(1,iactnode,iobject)=1.0d0
-            dgdxglob(2,iactnode,iobject)=1.0d0
+            if(scalar.gt.0.d0) then  
+              dgdxglob(2,iactnode,iobject)=1.0d0
+            else
+             dgdxglob(2,iactnode,iobject)=-1.0d0
+            endif
           endif
         endif      
       enddo

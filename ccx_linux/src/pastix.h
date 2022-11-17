@@ -19,6 +19,11 @@ void pastix_main(double *ad, double *au, double *adb, double *aub,
 	 ITG *neq, ITG *nzs,ITG *symmetryflag,ITG *inputformat,ITG *jq,
 	 ITG *nzs3,ITG *nrhs);
 
+void pastix_main_as(double *ad, double *au, double *adb, double *aub, 
+     double *sigma,double *b, ITG *icol, ITG *irow, 
+	 ITG *neq, ITG *nzs,ITG *symmetryflag,ITG *inputformat,
+	 ITG *jq, ITG *nzs3,ITG *nrhs);
+	 
 void pastix_init(double *ad, double *au, double *adb, double *aub, 
                 double *sigma,ITG *icol, ITG *irow, 
 		ITG *neq, ITG *nzs,ITG *symmetryflag,ITG *inputformat,
@@ -31,11 +36,34 @@ void pastix_csc_conversion(double *ad, double *au, double *adb, double *aub,
 
 void pastix_analyze();
 
+void pastix_factor_main(double *ad, double *au, double *adb, double *aub, 
+        double *sigma,ITG *icol, ITG *irow, 
+		ITG *neq, ITG *nzs, ITG *symmetryflag, ITG *inputformat,
+		ITG *jq, ITG *nzs3);
+
+void pastix_factor_main_as(double *ad, double *au, double *adb, double *aub, 
+        double *sigma,ITG *icol, ITG *irow, 
+		ITG *neq, ITG *nzs, ITG *symmetryflag, ITG *inputformat,
+		ITG *jq, ITG *nzs3);
+
+void pastix_factor_main_generic(double *ad, double *au, double *adb, double *aub, 
+        double *sigma,ITG *icol, ITG *irow, 
+		ITG *neq, ITG *nzs, ITG *symmetryflag, ITG *inputformat,
+		ITG *jq, ITG *nzs3);
+
 void pastix_factor(double *ad, double *au, double *adb, double *aub, 
                 double *sigma,ITG *icol, ITG *irow, 
 		ITG *neq, ITG *nzs,ITG *symmetryflag,ITG *inputformat,
 		ITG *jq,ITG *nzs3);
 
+
 ITG pastix_solve(double *b,ITG *neq,ITG *symmetryflag,ITG *nrhs);
 
+ITG pastix_solve_as(double *x, ITG *neq,ITG *symmetryflag,ITG *nrhs);
+
+ITG pastix_solve_generic(double *x, ITG *neq,ITG *symmetryflag,ITG *nrhs);
+
 void pastix_cleanup(ITG *neq,ITG *symmetryflag);
+
+void pastix_set_globals(char mode);
+

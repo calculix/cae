@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
       subroutine rhsnodef(co,kon,ne,
      &  ipompc,nodempc,coefmpc,nmpc,nodeforc,ndirforc,xforc,
      &  nforc,fext,nactdof,nmethod,ikmpc,ntmat_,iperturb,
-     &  mi,ikactmech,nactmech,ntrans,inotr,trab)
+     &  mi,ikactmech,nactmech,ntrans,inotr,trab,fnext)
 !
 !     filling the right hand side load vector b
 !
@@ -27,20 +27,16 @@
 !
       implicit none
 !
-      integer kon(*),ipompc(*),nodempc(3,*),
-     &  nodeforc(2,*),ndirforc(*),ikmpc(*),mi(*),
-     &  nactdof(0:mi(2),*),konl(20),
-     &  idummy,rhsi,ntrans,inotr(2,*),
-     &  ne,nmpc,nforc,nmethod,m,idm,idir,itr,
-     &  iperturb(*),i,j,k,idist,jj,node,
-     &  id,ist,index,jdof1,jdof,node1,ntmat_,
-     &  icalccg,ikactmech(*),nactmech
+      integer kon(*),ipompc(*),nodempc(3,*),nodeforc(2,*),ndirforc(*),
+     &     ikmpc(*),mi(*),nactdof(0:mi(2),*),konl(20),rhsi,
+     &     ntrans,inotr(2,*),ne,nmpc,nforc,nmethod,m,idm,idir,itr,
+     &     iperturb(*),i,j,k,idist,jj,node,id,ist,index,jdof1,jdof,
+     &     node1,ntmat_,icalccg,ikactmech(*),nactmech
 !
-      real*8 co(3,*),coefmpc(*),xforc(*),
-     &  fext(*),a(3,3),fnext,trab(7,*)
+      real*8 co(3,*),coefmpc(*),xforc(*),fnext(0:mi(2),*),
+     &  fext(*),a(3,3),trab(7,*)
 !
       icalccg=0
-!
 !
 !     point forces
 !
@@ -195,43 +191,11 @@
 !
 !       other procedures
 !
-         idummy=0
          rhsi=1
          call mafillsmforc(nforc,ndirforc,nodeforc,xforc,nactdof,
-     &        fext,ipompc,nodempc,coefmpc,mi,rhsi,fnext,idummy,
+     &        fext,ipompc,nodempc,coefmpc,mi,rhsi,fnext,nmethod,
      &        ntrans,inotr,trab,co)
 !         
-c       do i=1,nforc
-c         if(ndirforc(i).gt.3) cycle
-c         jdof=nactdof(ndirforc(i),nodeforc(1,i))
-c         if(jdof.gt.0) then
-c            fext(jdof)=fext(jdof)+xforc(i)
-c         else
-c!     
-c!     node is a dependent node of a MPC: distribute
-c!     the forces among the independent nodes
-c!     (proportional to their coefficients)
-c!     
-c            jdof=8*(nodeforc(1,i)-1)+ndirforc(i)
-c            call nident(ikmpc,jdof,nmpc,id)
-c            if(id.gt.0) then
-c               if(ikmpc(id).eq.jdof) then
-c                  ist=ipompc(id)
-c                  index=nodempc(3,ist)
-c                  if(index.eq.0) cycle
-c                  do
-c                     jdof=nactdof(nodempc(2,index),nodempc(1,index))
-c                     if(jdof.gt.0) then
-c                        fext(jdof)=fext(jdof)-
-c     &                       coefmpc(index)*xforc(i)/coefmpc(ist)
-c                     endif
-c                     index=nodempc(3,index)
-c                     if(index.eq.0) exit
-c                  enddo
-c               endif
-c            endif
-c         endif
-c       enddo
       endif
 !
       return
