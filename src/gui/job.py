@@ -170,7 +170,7 @@ class Job:
 
             # Open bash and send command to build CalculiX
             cmd1 = 'C:\\cygwin64\\bin\\bash.exe --login'
-            send1 = '/bin/make -f Makefile_MT -C {}'.format(ccx)
+            send1 = '/bin/make -f ../../config/Makefile_MT -C {}'.format(ccx)
 
             # Move binary
             cmd2 = 'C:\\cygwin64\\bin\\mv.exe -T ' \
@@ -181,7 +181,7 @@ class Job:
         else:
 
             # Build CalculiX
-            cmd1 = ['make', '-f', 'Makefile_MT', '-C', p.ccx]
+            cmd1 = ['make', '-f', '../../config/Makefile_MT', '-C', p.ccx]
             send1 = ''
 
             # Move binary
