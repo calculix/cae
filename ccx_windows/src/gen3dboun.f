@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -74,18 +74,30 @@
 !     global loop over all boundary conditions
 !     
       nbounold=nboun
-      do i=1,nbounold
+      loop: do i=1,nbounold
         node=nodeboun(i)
         if(node.gt.iponoelmax) then
           cycle
         endif
         index=iponoel(node)
-        if(index.eq.0) then
-          cycle
-        endif
-        ielem=inoel(1,index)
+!
+!     next loop is needed, since an element may have
+!     been deactivated
+!
+        do
+          if(index.eq.0) cycle loop
+          ielem=inoel(1,index)
+          indexe=ipkon(ielem)
+          if(indexe.ge.0) exit
+          index=inoel(3,index)
+        enddo
+!          
+c        if(index.eq.0) then
+c          cycle
+c        endif
+c        ielem=inoel(1,index)
         j=inoel(2,index)
-        indexe=ipkon(ielem)
+c        indexe=ipkon(ielem)
         indexk=iponor(2,indexe+j)
         idir=ndirboun(i)
         val=xboun(i)
@@ -269,9 +281,6 @@
 !     determine the displacements of irotnodes
 !     
               do l=1,3
-c     do m=1,3
-c     a(l,m)=0.d0
-c     enddo
                 xn(l)=0.d0
               enddo
 !     
@@ -639,35 +648,11 @@ c     enddo
 !     corresponds to the first unit vector in the
 !     shell plane (corresponds to ispc1)
 !     
-c     idir1=0
-!     
 !     if one rotation is applied in this node, its
 !     values is stored in SPC ispc1
 !     if more than one rotation is applied in this node,
 !     the value of the second rotation (only two are
 !     possible in the shell plane) is stored in SPC ispc2
-!     
-c     ispc1=0
-c     ispc2=0
-c     ispcref=0
-c     do k=1,3
-c     idofr=8*(node-1)+k+3
-c     call nident(ikboun,idofr,nboun,idr(k))
-c     if(idr(k).gt.0) then
-c     if(ikboun(idr(k)).eq.idofr) then
-c     ispc=ilboun(idr(k))
-c     if(ne2boun(1,ispc).ne.0) then
-c     idir1=k
-c     ispcref=ispc
-c     ispc1=ne2boun(1,ispcref)
-c     ispc2=ne2boun(2,ispcref)
-c     endif
-c     cycle
-c     endif
-c     endif
-c     idr(k)=0
-c     enddo
-c     if(ispcref.eq.0) ispcref=i
 !     
               ispc1=ne2boun(1,node)
               ispc2=ne2boun(2,node)
@@ -759,10 +744,8 @@ c     if(ispcref.eq.0) ispcref=i
 !     storing the index of the SPC with the angle
 !     value in ne2boun
 !     
-c     ne2boun(1,ispcref)=nboun
                   ne2boun(1,node)=nboun
                 endif
-c     elseif(idirref.eq.idir1) then
               elseif(a(1,idirref)*co(1,nodeboun(ispc1))+
      &               a(2,idirref)*co(2,nodeboun(ispc1))+
      &               a(3,idirref)*co(3,nodeboun(ispc1)).gt.
@@ -1334,7 +1317,7 @@ c     ne2boun(2,ispcref)=nboun
             endif
           endif
         endif
-      enddo
+      enddo loop
 !     
       return
       end

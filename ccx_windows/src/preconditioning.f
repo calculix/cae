@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -26,20 +26,24 @@
 !
       real*8 ad(*),au(*),b(*),adaux(*),adc
 !
-!
-!
 !     inverse of the square root of the diagonal
 !     the sign takes care that the diagonal term becomes 1 
 !     (and not -1)
 !
 !     taking zero's on the diagonal into account (adaux(i)=1 in such case)
 !
+c      do i=1,neq
+c         if(dabs(ad(i)).lt.1.d-30) then
+c            adaux(i)=dsign(1.d0,ad(i))
+c         else
+c            adaux(i)=dsign(1.d0/dsqrt(dabs(ad(i))),ad(i))
+c         endif
+c      enddo
       do i=1,neq
-c     write(*,*) 'preconditioning ',i,ad(i)
          if(dabs(ad(i)).lt.1.d-30) then
-            adaux(i)=dsign(1.d0,ad(i))
+            adaux(i)=1.d0
          else
-            adaux(i)=dsign(1.d0/dsqrt(dabs(ad(i))),ad(i))
+            adaux(i)=1.d0/dsqrt(dabs(ad(i)))
          endif
       enddo
 c      do i=1,neq

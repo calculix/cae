@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 !     
       subroutine getnodesinitetmesh(ne,lakon,ipkon,kon,istartset,
      &     iendset,ialset,set,nset,filab,inodestet,nnodestet,
-     &     nboun,nodeboun,nforc,nodeforc,impctet)
+     &     nodface,ipoface,nk)
 !     
 !     reading the initial tet mesh which will be refined 
 !     
@@ -29,8 +29,19 @@
       character*87 filab(*)
 !     
       integer ipkon(*),kon(*),istartset(*),iendset(*),ialset(*),
-     &     inodestet(*),nnodestet,i,j,k,m,n,node,ne,nset,indexe,id,
-     &     nboun,nodeboun(*),nforc,nodeforc(2,*),impctet(*)
+     &     inodestet(*),nnodestet,i,j,k,m,node,ne,nset,indexe,id,
+     &     nodface(5,*),ipoface(*),nodes(3),ifree,ithree,kflag,indexold,
+     &     index,ifreenew,iel,iset,j1,nk,iaux,ifacet(6,4)
+!     
+!     nodes belonging to the element faces
+!     
+      data ifacet /1,3,2,7,6,5,
+     &     1,2,4,5,9,8,
+     &     2,3,4,6,10,9,
+     &     1,4,3,8,10,7/
+!     
+      kflag=1
+      ithree=3
 !     
 !     identify the set name/s if they exist
 !     
@@ -40,125 +51,186 @@
         elset(i:i)=' '
       enddo
 !     
-      do i=1,nset
-        if(set(i).eq.elset)exit
-      enddo   
+      call cident81(set,elset,nset,id)
+      iset=nset+1
+      if(id.gt.0) then
+        if(elset.eq.set(id)) then
+          iset=id
+        endif
+      endif
 !     
-      if(i.le.nset) then     
-        do j=istartset(i),iendset(i)
-          if(ialset(j).gt.0) then
-            k=ialset(j)
-!
+!     determining the external element faces of the unrefined mesh 
+!     the faces are catalogued by the three lowes nodes numbers
+!     in ascending order. ipoface(i) points to a face for which
+!     node i is the lowest node and nodface(1,ipoface(i)) and
+!     nodface(2,ipoface(i)) are the next lower ones. 
+!     nodface(3,ipoface(i)) contains the element number,
+!     nodface(4,ipoface(i)) the face number and nodface(5,ipoface(i))
+!     is a pointer to the next surface for which node i is the
+!     lowest node; if there are no more such surfaces the pointer
+!     has the value zero
+!     An external element face is one which belongs to one element
+!     only
+!     
+      ifree=1
+      do i=1,4*ne-1
+        nodface(5,i)=i+1
+      enddo
+!     
+      if(iset.le.nset) then     
+        do j1=istartset(iset),iendset(iset)
+          if(ialset(j1).gt.0) then
+            i=ialset(j1)
+!     
 !     the elements belonging to the unrefined mesh have been deactivated,
 !     i.e. the transformation ipkon(k)=-2-ipkon(k) was performed in
 !     modelchanges.f
-!
-            indexe=-2-ipkon(k)
+!     
+            indexe=-2-ipkon(i)
             if(indexe.lt.0) cycle
-            if(lakon(k)(1:4).eq.'C3D4') then
-              do n=1,4
-                node=kon(indexe+n)
-                call nident(inodestet,node,nnodestet,id)
-                if(id.gt.0) then
-                  if(inodestet(id).eq.node) cycle
-                endif
-                nnodestet=nnodestet+1
-                do m=nnodestet,id+2,-1
-                  inodestet(m)=inodestet(m-1)
+            if((lakon(i)(1:4).eq.'C3D4').or.
+     &           (lakon(i)(1:5).eq.'C3D10')) then
+              do j=1,4
+                do k=1,3
+                  nodes(k)=kon(indexe+ifacet(k,j))
                 enddo
-                inodestet(id+1)=node
-              enddo
-            elseif(lakon(k)(1:5).eq.'C3D10') then
-              do n=1,10
-                node=kon(indexe+n)
-                call nident(inodestet,node,nnodestet,id)
-                if(id.gt.0) then
-                  if(inodestet(id).eq.node) cycle
-                endif
-                nnodestet=nnodestet+1
-                do m=nnodestet,id+2,-1
-                  inodestet(m)=inodestet(m-1)
+                call isortii(nodes,iaux,ithree,kflag)
+                indexold=0
+                index=ipoface(nodes(1))
+                do
+!     
+!     adding a surface which has not been 
+!     catalogued so far
+!     
+                  if(index.eq.0) then
+                    ifreenew=nodface(5,ifree)
+                    nodface(1,ifree)=nodes(2)
+                    nodface(2,ifree)=nodes(3)
+                    nodface(3,ifree)=i
+                    nodface(4,ifree)=j
+                    nodface(5,ifree)=ipoface(nodes(1))
+                    ipoface(nodes(1))=ifree
+                    ifree=ifreenew
+                    exit
+                  endif
+!     
+!     removing a surface which has already
+!     been catalogued
+!     
+                  if((nodface(1,index).eq.nodes(2)).and.
+     &                 (nodface(2,index).eq.nodes(3))) then
+                    if(indexold.eq.0) then
+                      ipoface(nodes(1))=nodface(5,index)
+                    else
+                      nodface(5,indexold)=nodface(5,index)
+                    endif
+                    nodface(5,index)=ifree
+                    ifree=index
+                    exit
+                  endif
+                  indexold=index
+                  index=nodface(5,index)
                 enddo
-                inodestet(id+1)=node
               enddo
             endif
           endif
         enddo
       else
-        do j=1,ne
-          k=j
-!
+        do i=1,ne
+!     
 !     the elements belonging to the unrefined mesh have been deactivated,
 !     i.e. the transformation ipkon(k)=-2-ipkon(k) was performed in
 !     modelchanges.f
-!
-          indexe=-2-ipkon(k)
+!     
+          indexe=-2-ipkon(i)
           if(indexe.lt.0) cycle
-          if(lakon(k)(1:4).eq.'C3D4') then
-            do n=1,4
-              node=kon(indexe+n)
-              call nident(inodestet,node,nnodestet,id)
-c     call nident(nodeboun,node,nboun,idboun)
-              if(id.gt.0) then
-                if(inodestet(id).eq.node) cycle
-              endif
-              nnodestet=nnodestet+1
-              do m=nnodestet,id+2,-1
-                inodestet(m)=inodestet(m-1)
+          if((lakon(i)(1:4).eq.'C3D4').or.
+     &         (lakon(i)(1:5).eq.'C3D10')) then
+            do j=1,4
+              do k=1,3
+                nodes(k)=kon(indexe+ifacet(k,j))
               enddo
-              inodestet(id+1)=node
-            enddo
-          elseif(lakon(k)(1:5).eq.'C3D10') then
-            do n=1,10
-              node=kon(indexe+n)
-              call nident(inodestet,node,nnodestet,id)
-              if(id.gt.0) then
-                if(inodestet(id).eq.node) cycle
-              endif
-              nnodestet=nnodestet+1
-              do m=nnodestet,id+2,-1
-                inodestet(m)=inodestet(m-1)
+              call isortii(nodes,iaux,ithree,kflag)
+              indexold=0
+              index=ipoface(nodes(1))
+              do
+!     
+!     adding a surface which has not been 
+!     catalogued so far
+!     
+                if(index.eq.0) then
+                  ifreenew=nodface(5,ifree)
+                  nodface(1,ifree)=nodes(2)
+                  nodface(2,ifree)=nodes(3)
+                  nodface(3,ifree)=i
+                  nodface(4,ifree)=j
+                  nodface(5,ifree)=ipoface(nodes(1))
+                  ipoface(nodes(1))=ifree
+                  ifree=ifreenew
+                  exit
+                endif
+!     
+!     removing a surface which has already
+!     been catalogued
+!     
+                if((nodface(1,index).eq.nodes(2)).and.
+     &               (nodface(2,index).eq.nodes(3))) then
+                  if(indexold.eq.0) then
+                    ipoface(nodes(1))=nodface(5,index)
+                  else
+                    nodface(5,indexold)=nodface(5,index)
+                  endif
+                  nodface(5,index)=ifree
+                  ifree=index
+                  exit
+                endif
+                indexold=index
+                index=nodface(5,index)
               enddo
-              inodestet(id+1)=node
             enddo
           endif
         enddo      
       endif
 !     
-!     node in the old mesh in which a SPC is defined       
+!     storing the nodes belonging to the external faces in inodestet
 !     
-      do i=1,nboun
-        node=nodeboun(i)
-        call nident(inodestet,node,nnodestet,id)
-        if(id.gt.0) then
-          if(inodestet(id).eq.node) then
-            impctet(id)=1
+      do i=1,nk
+        index=ipoface(i)
+        do
+          if(index.eq.0) exit
+          iel=nodface(3,index)
+          j=nodface(4,index)
+          indexe=-2-ipkon(iel)
+          if(lakon(iel)(4:4).eq.'4') then
+            do k=1,3
+              node=kon(indexe+ifacet(k,j))
+              call nident(inodestet,node,nnodestet,id)
+              if(id.gt.0) then
+                if(inodestet(id).eq.node) cycle
+              endif
+              nnodestet=nnodestet+1
+              do m=nnodestet,id+2,-1
+                inodestet(m)=inodestet(m-1)
+              enddo
+              inodestet(id+1)=node
+            enddo
+          else
+            do k=1,6
+              node=kon(indexe+ifacet(k,j))
+              call nident(inodestet,node,nnodestet,id)
+              if(id.gt.0) then
+                if(inodestet(id).eq.node) cycle
+              endif
+              nnodestet=nnodestet+1
+              do m=nnodestet,id+2,-1
+                inodestet(m)=inodestet(m-1)
+              enddo
+              inodestet(id+1)=node
+            enddo
           endif
-        endif
+          index=nodface(5,index)
+        enddo
       enddo
-!     
-!     node in which a point force is defined
-!     
-      do i=1,nforc
-        node=nodeforc(1,i)
-        call nident(inodestet,node,nnodestet,id)
-        if(id.gt.0) then
-          if(inodestet(id).eq.node) then
-            impctet(id)=1
-          endif
-        endif
-      enddo
-!     
-!     keeping the nodes in which a SPC or point force was defined
-!     
-      j=0
-      do i=1,nnodestet
-        if(impctet(i).eq.1) then
-          j=j+1
-          inodestet(j)=inodestet(i)
-        endif
-      enddo
-      nnodestet=j
 !     
       return
       end

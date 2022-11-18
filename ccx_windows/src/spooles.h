@@ -18,7 +18,7 @@
 #define __CCX_SPOOLES_H
 
 /*
- * seperated from CalculiX.h: otherwise everyone would have to include
+ * separated from CalculiX.h: otherwise everyone would have to include
  * the spooles header files
  */
 
@@ -57,9 +57,9 @@ void spooles_solve(double *b, ITG *neq);
 void spooles_cleanup();
 
 void spooles_factor_rad(double *ad, double *au, double *adb, double *aub, 
-                    double *sigma, ITG *icol, ITG *irow,
-                    ITG *neq, ITG *nzs, ITG *symmetryflag,
-                    ITG *inputformat);
+			double *sigma, ITG *icol, ITG *irow,
+			ITG *neq, ITG *nzs, ITG *symmetryflag,
+			ITG *inputformat,ITG *iexpl);
 
 void spooles_solve_rad(double *b, ITG *neq);
 

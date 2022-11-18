@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,37 +16,35 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-      subroutine printoutface(co,rhcon,nrhcon,ntmat_,vold,shcon,nshcon,
-     &  cocon,ncocon,compressible,istartset,iendset,ipkonf,lakonf,konf,
+      subroutine printoutface(co,ntmat_,v,
+     &  cocon,ncocon,istartset,iendset,ipkon,lakon,kon,
      &  ialset,prset,ttime,nset,set,nprint,prlab,ielmat,mi,
-     &  ithermal,nactdoh,icfd,time,stn)
+     &  time,stn,iperturb)
 !
-!     calculation and printout of the lift and drag forces
+!     calculation and printout of the heat flux, forces and/or
+!     moments on a surface
 !
       implicit none
 !
-      integer compressible
-!
-      character*8 lakonl,lakonf(*)
+      character*8 lakonl,lakon(*)
       character*6 prlab(*)
       character*80 faset
       character*81 set(*),prset(*)
 !
       integer konl(20),ifaceq(8,6),nelem,ii,nprint,i,j,i1,i2,j1,
-     &  ncocon(2,*),k1,jj,ig,nrhcon(*),nshcon(*),ntmat_,nope,nopes,imat,
+     &  ncocon(2,*),k1,jj,ig,ntmat_,nope,nopes,imat,iperturb(*),
      &  mint2d,ifacet(6,4),ifacew(8,5),iflag,indexe,jface,istartset(*),
-     &  iendset(*),ipkonf(*),konf(*),iset,ialset(*),nset,ipos,
-     &  mi(*),ielmat(mi(3),*),nactdoh(*),icfd,nelemcfd,ithermal(*)
+     &  iendset(*),ipkon(*),kon(*),iset,ialset(*),nset,ipos,id,
+     &  mi(*),ielmat(mi(3),*)
 !
-      real*8 co(3,*),xl(3,20),shp(4,20),xs2(3,7),dvi,f(0:3),time,
-     &  vkl(0:3,3),rhcon(0:1,ntmat_,*),t(3,3),div,shcon(0:3,ntmat_,*),
-     &  voldl(0:mi(2),20),cocon(0:6,ntmat_,*),xl2(3,8),xsj2(3),
-     &  shp2(7,8),vold(0:mi(2),*),xi,et,xsj,temp,xi3d,et3d,ze3d,weight,
+      real*8 co(3,*),xl(3,20),shp(4,20),xs2(3,7),f(0:3),time,
+     &  vkl(0:3,3),t(3,3),xtorque,bendmom,xnormforc,shearforc,
+     &  vl(0:mi(2),20),cocon(0:6,ntmat_,*),xl2(3,8),xsj2(3),
+     &  shp2(7,8),v(0:mi(2),*),xi,et,xsj,temp,xi3d,et3d,ze3d,weight,
      &  xlocal20(3,9,6),xlocal4(3,1,4),xlocal10(3,3,4),xlocal6(3,1,5),
-     &  xlocal15(3,4,5),xlocal8(3,4,6),xlocal8r(3,1,6),ttime,pres,
-     &  tf(0:3),tn,tt,dd,coords(3),cond,stn(6,*),xm(3),df(3),cg(3),
-     &  area,xn(3),xnormforc,shearforc
-!
+     &  xlocal15(3,4,5),xlocal8(3,4,6),xlocal8r(3,1,6),ttime,
+     &  tf(0:3),dd,coords(3),cond,stn(6,*),xm(3),df(3),cg(3),
+     &  area,xn(3),xmcg(3)
 !
       include "gauss.f"
       include "xlocal.f"
@@ -75,12 +73,14 @@
 !
 !        check whether there are facial print requests
 !
-!        DRAG: drag forces in cfd-calculations
 !        FLUX: heat flux
 !        SOF: forces and moments  on a section 
 !              (= an internal or external surface)
 !
-         if((prlab(ii)(1:4).eq.'DRAG').or.(prlab(ii)(1:4).eq.'FLUX').or.
+!     DRAG removed on 13 Dec 2020: DRAG only accessible for FEM-CBS
+!     through printoutfacefem.f
+!
+         if((prlab(ii)(1:4).eq.'FLUX').or.
      &      (prlab(ii)(1:3).eq.'SOF'))      
      &      then
 !
@@ -88,30 +88,12 @@
             do i=1,80
                faset(i:i)=' '
             enddo
-c            faset='                    '
             faset(1:ipos-1)=prset(ii)(1:ipos-1)
 !     
 !     printing the header
 !     
             write(5,*)
-            if(prlab(ii)(1:4).eq.'DRAG') then
-!
-!              initialisierung forces
-!     
-               do i=1,3
-                  f(i)=0.d0
-               enddo
-!
-               write(5,120) faset(1:ipos-2),ttime+time
- 120           format(
-     &            ' surface stress at the integration points for set ',
-     &            A,' and time ',e14.7)
-               write(5,*)
-               write(5,124)
- 124           format('        el  fa  int     tx            ty           
-     &   tz      normal stress  shear stress and             coordinates
-     &')
-            elseif(prlab(ii)(1:4).eq.'FLUX') then
+            if(prlab(ii)(1:4).eq.'FLUX') then
 !
 !              initialisierung of the flux
 !     
@@ -139,9 +121,13 @@ c            faset='                    '
 !     
 !           printing the data
 !
-            do iset=1,nset
-               if(set(iset).eq.prset(ii)) exit
-            enddo
+            call cident81(set,prset(ii),nset,id)
+            iset=nset+1
+            if(id.gt.0) then
+              if(prset(ii).eq.set(id)) then
+                iset=id
+              endif
+            endif
 !
             do jj=istartset(iset),iendset(iset)
 !     
@@ -149,20 +135,10 @@ c            faset='                    '
 !     
                nelem=int(jface/10.d0)
                ig=jface-10*nelem
-c               write(*,*) 'printoutface elem ig ',nelem,ig
-!
-!              for CFD calculations the elements were renumbered
-!
-               if(icfd.ne.0) then
-                  nelemcfd=nactdoh(nelem)
-                  indexe=ipkonf(nelemcfd)
-                  lakonl=lakonf(nelemcfd)
-                  imat=ielmat(1,nelemcfd)
-               else
-                  indexe=ipkonf(nelem)
-                  lakonl=lakonf(nelem)
-                  imat=ielmat(1,nelem)
-               endif
+!     
+               indexe=ipkon(nelem)
+               lakonl=lakon(nelem)
+               imat=ielmat(1,nelem)
 !     
                if(lakonl(4:4).eq.'2') then
                   nope=20
@@ -203,7 +179,7 @@ c               write(*,*) 'printoutface elem ig ',nelem,ig
 !     local topology
 !     
                do i=1,nope
-                  konl(i)=konf(indexe+i)
+                  konl(i)=kon(indexe+i)
                enddo
 !     
 !     computation of the coordinates of the local nodes
@@ -215,23 +191,22 @@ c               write(*,*) 'printoutface elem ig ',nelem,ig
                enddo
 !     
 !     temperature, displacement (structures) or
-!     temperature, velocities and pressure (fluids)
 !     
                do i1=1,nope
                   do i2=0,mi(2)
-                     voldl(i2,i1)=vold(i2,konl(i1))
+                     vl(i2,i1)=v(i2,konl(i1))
                   enddo
                enddo
+!     
+!     for structural calculations with NLGEOM: adding the displacements
+!     to the coordinates
 !
-!     for structural calculations: adding the displacements to the
-!     coordinates
-!
-               if(icfd.eq.0) then
-                  do i=1,nope
-                     do j=1,3
-                        xl(j,i)=xl(j,i)+voldl(j,i)
-                     enddo
-                  enddo
+               if(iperturb(2).eq.1) then
+                 do i=1,nope
+                   do j=1,3
+                     xl(j,i)=xl(j,i)+vl(j,i)
+                   enddo
+                 enddo
                endif
 !     
 !     treatment of wedge faces
@@ -254,55 +229,51 @@ c               write(*,*) 'printoutface elem ig ',nelem,ig
                   endif
                endif
 !     
-               if(icfd.ne.0) then
-!
-!                 CFD: undeformed structure
-!
-                  if((nope.eq.20).or.(nope.eq.8)) then
-                     do i=1,nopes
-                        do j=1,3
-                           xl2(j,i)=co(j,konl(ifaceq(i,ig)))
-                        enddo
+!     no CFD: deformed structure
+!     
+               if(iperturb(2).eq.1) then
+                 if((nope.eq.20).or.(nope.eq.8)) then
+                   do i=1,nopes
+                     do j=1,3
+                       xl2(j,i)=co(j,konl(ifaceq(i,ig)))
+     &                      +v(j,konl(ifaceq(i,ig)))
                      enddo
-                  elseif((nope.eq.10).or.(nope.eq.4)) then
-                     do i=1,nopes
-                        do j=1,3
-                           xl2(j,i)=co(j,konl(ifacet(i,ig)))
-                        enddo
+                   enddo
+                 elseif((nope.eq.10).or.(nope.eq.4)) then
+                   do i=1,nopes
+                     do j=1,3
+                       xl2(j,i)=co(j,konl(ifacet(i,ig)))
+     &                      +v(j,konl(ifacet(i,ig)))
                      enddo
-                  else
-                     do i=1,nopes
-                        do j=1,3
-                           xl2(j,i)=co(j,konl(ifacew(i,ig)))
-                        enddo
+                   enddo
+                 else
+                   do i=1,nopes
+                     do j=1,3
+                       xl2(j,i)=co(j,konl(ifacew(i,ig)))+
+     &                      v(j,konl(ifacew(i,ig)))
                      enddo
-                  endif
+                   enddo
+                 endif
                else
-!
-!                 no CFD: deformed structure
-!
-                  if((nope.eq.20).or.(nope.eq.8)) then
-                     do i=1,nopes
-                        do j=1,3
-                           xl2(j,i)=co(j,konl(ifaceq(i,ig)))
-     &                             +vold(j,konl(ifaceq(i,ig)))
-                        enddo
+                 if((nope.eq.20).or.(nope.eq.8)) then
+                   do i=1,nopes
+                     do j=1,3
+                       xl2(j,i)=co(j,konl(ifaceq(i,ig)))
                      enddo
-                  elseif((nope.eq.10).or.(nope.eq.4)) then
-                     do i=1,nopes
-                        do j=1,3
-                           xl2(j,i)=co(j,konl(ifacet(i,ig)))
-     &                             +vold(j,konl(ifacet(i,ig)))
-                        enddo
+                   enddo
+                 elseif((nope.eq.10).or.(nope.eq.4)) then
+                   do i=1,nopes
+                     do j=1,3
+                       xl2(j,i)=co(j,konl(ifacet(i,ig)))
                      enddo
-                  else
-                     do i=1,nopes
-                        do j=1,3
-                           xl2(j,i)=co(j,konl(ifacew(i,ig)))+
-     &                              vold(j,konl(ifacew(i,ig)))
-                        enddo
+                   enddo
+                 else
+                   do i=1,nopes
+                     do j=1,3
+                       xl2(j,i)=co(j,konl(ifacew(i,ig)))
                      enddo
-                  endif
+                   enddo
+                 endif
                endif
 !     
                do i=1,mint2d
@@ -361,11 +332,10 @@ c               write(*,*) 'printoutface elem ig ',nelem,ig
 !     local coordinates of the surface integration
 !     point within the element local coordinate system
 !     
-                  if((prlab(ii)(1:4).eq.'DRAG').or.
-     &               (prlab(ii)(1:4).eq.'FLUX')) then
+                  if(prlab(ii)(1:4).eq.'FLUX') then
 !
 !                    deformation gradient is only needed for
-!                    DRAG and FLUX applications
+!                    FLUX applications
 !
                      if(lakonl(4:5).eq.'8R') then
                         xi3d=xlocal8r(1,i,ig)
@@ -416,67 +386,15 @@ c               write(*,*) 'printoutface elem ig ',nelem,ig
 !     the velocity gradient vkl
 !     in the integration point
 !     
-                  if(prlab(ii)(1:4).eq.'DRAG') then
-                     temp=0.d0
-                     pres=0.d0
-                     do i1=1,3
-                        do j1=1,3
-                           vkl(i1,j1)=0.d0
-                        enddo
-                     enddo
-                     do i1=1,nope
-                        temp=temp+shp(4,i1)*voldl(0,i1)
-                        pres=pres+shp(4,i1)*voldl(4,i1)
-                        do j1=1,3
-                           do k1=1,3
-                              vkl(j1,k1)=vkl(j1,k1)+
-     &                                   shp(k1,i1)*voldl(j1,i1)
-                           enddo
-                        enddo
-                     enddo
-                     if(compressible.eq.1)
-     &                      div=vkl(1,1)+vkl(2,2)+vkl(3,3)
-!     
-!     material data (density, dynamic viscosity, heat capacity and
-!     conductivity)
-!     
-                     call materialdata_dvi(shcon,nshcon,imat,dvi,temp,
-     &                     ntmat_,ithermal)
-!     
-!     determining the stress 
-!     
-                     do i1=1,3
-                        do j1=1,3
-                           t(i1,j1)=vkl(i1,j1)+vkl(j1,i1)
-                        enddo
-                        if(compressible.eq.1) 
-     &                       t(i1,i1)=t(i1,i1)-2.d0*div/3.d0
-                     enddo
-!     
-                     dd=dsqrt(xsj2(1)*xsj2(1)+xsj2(2)*xsj2(2)+
-     &                    xsj2(3)*xsj2(3))
-                     do i1=1,3
-                        tf(i1)=dvi*(t(i1,1)*xsj2(1)+t(i1,2)*xsj2(2)+
-     &                       t(i1,3)*xsj2(3))-pres*xsj2(i1)
-                        f(i1)=f(i1)+tf(i1)*weight
-                        tf(i1)=tf(i1)/dd
-                     enddo
-                     tn=(tf(1)*xsj2(1)+tf(2)*xsj2(2)+tf(3)*xsj2(3))/dd
-                     tt=dsqrt((tf(1)-tn*xsj2(1)/dd)**2+
-     &                    (tf(2)-tn*xsj2(2)/dd)**2+
-     &                    (tf(3)-tn*xsj2(3)/dd)**2)
-                     write(5,'(i10,1x,i3,1x,i3,1p,8(1x,e13.6))')nelem,
-     &                    ig,i,(tf(i1),i1=1,3),tn,tt,(coords(i1),i1=1,3)
-!     
-                  elseif(prlab(ii)(1:4).eq.'FLUX') then
+                  if(prlab(ii)(1:4).eq.'FLUX') then
                      temp=0.d0
                      do j1=1,3
                         vkl(0,j1)=0.d0
                      enddo
                      do i1=1,nope
-                        temp=temp+shp(4,i1)*voldl(0,i1)
+                        temp=temp+shp(4,i1)*vl(0,i1)
                         do k1=1,3
-                           vkl(0,k1)=vkl(0,k1)+shp(k1,i1)*voldl(0,i1)
+                           vkl(0,k1)=vkl(0,k1)+shp(k1,i1)*vl(0,i1)
                         enddo
                      enddo
 !     
@@ -505,10 +423,7 @@ c               write(*,*) 'printoutface elem ig ',nelem,ig
 !                    the stresses at the integration points are interpolated
 !                    from the values at the nodes of the face; these values
 !                    were extrapolated from the integration point values within
-!                    the element. This approach is different from the one 
-!                    under "DRAG" because here the stress-strain relationship
-!                    can be highly nonlinear (plasticity..); this is not the
-!                    case in cfd.
+!                    the element.
 !
 !                    interpolation of the stress tensor at the integration 
 !                    point
@@ -533,7 +448,11 @@ c               write(*,*) 'printoutface elem ig ',nelem,ig
      &                            shp2(4,i1)*stn(5,konl(ifaceq(i1,ig)))
                            t(2,3)=t(2,3)+
      &                            shp2(4,i1)*stn(6,konl(ifaceq(i1,ig)))
-                        enddo
+                         enddo
+c                         write(*,*) 'printoutface'
+c                         write(*,*) jface,i,t(1,1),t(2,2)
+c                         write(*,*) jface,i,t(3,3),t(1,2)
+c                         write(*,*) jface,i,t(1,3),t(2,3)
                      elseif((nope.eq.10).or.(nope.eq.4)) then
                         do i1=1,nopes
                            t(1,1)=t(1,1)+
@@ -595,18 +514,16 @@ c               write(*,*) 'printoutface elem ig ',nelem,ig
                         cg(i1)=cg(i1)+coords(i1)*dd*weight
                         xn(i1)=xn(i1)+xsj2(i1)*weight
                      enddo
-                  endif
-               enddo
-            enddo
+                   endif
+c                   write(*,*) 'printoutface'
+c                   write(*,*) jface,i,(f(i1),i1=1,3)
+c                   write(*,*) jface,i,(xm(i1),i1=1,3)
+c                   write(*,*) jface,i,(cg(i1),i1=1,3)
+c                   write(*,*) jface,i,(xn(i1),i1=1,3)
+               enddo ! integration points in face
+            enddo ! faces in surface
 !
-            if(prlab(ii)(1:4).eq.'DRAG') then
-               write(5,*)
-               write(5,122) faset(1:ipos-2),ttime+time
- 122           format(' total surface force (fx,fy,fz) for set ',A,
-     &              ' and time ',e14.7)
-               write(5,*)
-               write(5,'(1p,3(1x,e13.6))') (f(j),j=1,3)
-            elseif(prlab(ii)(1:4).eq.'FLUX') then
+            if(prlab(ii)(1:4).eq.'FLUX') then
                write(5,*)
                write(5,123) faset(1:ipos-2),ttime+time
  123           format(' total surface flux (q) for set ',A,
@@ -651,23 +568,29 @@ c               write(*,*) 'printoutface elem ig ',nelem,ig
  129           format(
      &        '   moment about the center of gravity(mx,my,mz)')
                write(5,*)
+               xmcg(1)=xm(1)-cg(2)*f(3)+cg(3)*f(2)
+               xmcg(2)=xm(2)-cg(3)*f(1)+cg(1)*f(3)
+               xmcg(3)=xm(3)-cg(1)*f(2)+cg(2)*f(1)
                write(5,'(2x,1p,6(1x,e13.6))') 
-     &               xm(1)-cg(2)*f(3)+cg(3)*f(2),
-     &               xm(2)-cg(3)*f(1)+cg(1)*f(3),
-     &               xm(3)-cg(1)*f(2)+cg(2)*f(1)
+     &               xmcg(1),xmcg(2),xmcg(3)
 !
-!              area, normal and shear force
+!              area, normal, shear force, torque and bending moment
 !
                xnormforc=f(1)*xn(1)+f(2)*xn(2)+f(3)*xn(3)
                shearforc=sqrt((f(1)-xnormforc*xn(1))**2+
      &                        (f(2)-xnormforc*xn(2))**2+
      &                        (f(3)-xnormforc*xn(3))**2)
+               xtorque=xmcg(1)*xn(1)+xmcg(2)*xn(2)+xmcg(3)*xn(3)
+               bendmom=sqrt((xmcg(1)-xtorque*xn(1))**2+
+     &                        (xmcg(2)-xtorque*xn(2))**2+
+     &                        (xmcg(3)-xtorque*xn(3))**2)
                write(5,*)
                write(5,128)
- 128           format('   area, ',
-     &     ' normal force (+ = tension) and shear force (size)')
+ 128           format('   area, normal force (+ = tension), shear force
+     &(size), torque and bending moment (size)')
                write(5,*)
-               write(5,'(2x,1p,3(1x,e13.6))') area,xnormforc,shearforc
+               write(5,'(2x,1p,5(1x,e13.6))') area,xnormforc,shearforc,
+     &              xtorque,bendmom
             endif
 !     
          endif

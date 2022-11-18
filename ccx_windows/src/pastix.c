@@ -1,5 +1,5 @@
 /* CalculiX - A 3-dimensional finite element program */
-/*Copyright (C) 1998-2020 Guido Dhondt*/
+/*Copyright (C) 1998-2022 Guido Dhondt*/
 
 /* This program is free software; you can redistribute it and/or */
 /* modify it under the terms of the GNU General Public License as*/
@@ -17,14 +17,23 @@
 
 #ifdef PASTIX
 
-#include <pastix.h>
 #include <spm.h>
+#include <pastix.h>
+//#include <api.h>
+//#include <nompi.h>
+//#include <datatypes.h>
 #include <sys/time.h>
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include "CalculiX.h"
 #include "pastix.h"
+
+/* next 3 lines are for the simulateous use of PARDISO and PaStiX */
+
+#ifdef PARDISO
+#include <mkl_service.h>
+#endif
 
 // Time structs for benchmarking
 extern struct timespec totalCalculixTimeStart, totalCalculixTimeEnd;
@@ -41,9 +50,10 @@ ITG *icolTotal = NULL, *irowTotal = NULL;
 
 // Matrix data from previous iteration
 ITG neqPrev=0, nzsPrev=0;
-ITG *icolPrev=NULL,*irowPrev=NULL,*jqPrev=NULL;
+ITG *icolPrev=NULL,*irowPrev=NULL,*jqPrev=NULL,*offsetPrev=NULL;
 ITG inputformatPrev=-1;
 ITG basePrev=1;
+char noScale=0;
 
 // Current sparse matrix in CSC
 double *aupastix=NULL;
@@ -55,17 +65,23 @@ char redo = 1;
 // Global variable which data set was previously used (basic/radiation) and now
 #define BASIC 1
 #define AS 2
+#define CP 3
 char modePrev = BASIC;
 char mode = BASIC;
-char needCleanup=0;
+
+#define SINGLE_SOLVE 1;
+#define MULTI_SOLVE 2;
+char usage = SINGLE_SOLVE;
 
 // PaStiX configuration
-spm_int_t iparm_basic[IPARM_SIZE];
-spm_int_t iparm_as[IPARM_SIZE];
-double dparm_basic[DPARM_SIZE];
-double dparm_as[DPARM_SIZE];
-spm_int_t *iparm = iparm_basic;
-double *dparm = dparm_basic;
+spm_int_t piparm_basic[IPARM_SIZE];
+spm_int_t piparm_as[IPARM_SIZE];
+spm_int_t piparm_cp[IPARM_SIZE];
+double pdparm_basic[DPARM_SIZE];
+double pdparm_as[DPARM_SIZE];
+double pdparm_cp[DPARM_SIZE];
+spm_int_t *piparm = piparm_basic;
+double *pdparm = pdparm_basic;
 pastix_data_t* pastix_data = NULL;
 spmatrix_t *spm = NULL;
 
@@ -115,6 +131,7 @@ struct pastix_data_s {
     ITG *jqPrev;
     ITG inputformatPrev;
     ITG basePrev;
+    ITG *offsetPrev;
     double *aupastix;
     ITG *icolpastix;
     ITG *irowpastix;
@@ -128,8 +145,8 @@ struct pastix_data_s {
     char stickToDouble;
     ITG *irowacc;
     ITG *irowPrediction;
-    spm_int_t *iparm;
-    double *dparm;
+    spm_int_t *piparm;
+    double *pdparm;
     char gpu;
     char mixed;
     pastix_data_t* pastix_data;
@@ -139,14 +156,20 @@ struct pastix_data_s {
 typedef struct pastix_data_s pastix_data_object;
 
 pastix_data_object pastix_mode_basic = {
-    0,0,NULL,NULL,0,0,NULL,NULL,NULL,-1,0,
-    NULL,NULL,NULL,1,0,0,0,1,0,0,0,NULL,NULL,iparm_basic,dparm_basic,
+    0,0,NULL,NULL,0,0,NULL,NULL,NULL,-1,0,NULL,
+    NULL,NULL,NULL,1,0,0,0,1,0,0,0,NULL,NULL,piparm_basic,pdparm_basic,
     0,1,NULL,NULL
     };
 
 pastix_data_object pastix_mode_as = {
-    0,0,NULL,NULL,0,0,NULL,NULL,NULL,-1,0,
-    NULL,NULL,NULL,1,0,0,0,1,0,0,0,NULL,NULL,iparm_as,dparm_as,
+    0,0,NULL,NULL,0,0,NULL,NULL,NULL,-1,0,NULL,
+    NULL,NULL,NULL,1,0,0,0,1,0,0,0,NULL,NULL,piparm_as,pdparm_as,
+    0,1,NULL,NULL
+    };
+
+pastix_data_object pastix_mode_cp = {
+    0,0,NULL,NULL,0,0,NULL,NULL,NULL,-1,0,NULL,
+    NULL,NULL,NULL,1,0,0,0,1,0,0,0,NULL,NULL,piparm_cp,pdparm_cp,
     0,1,NULL,NULL
     };
 
@@ -159,6 +182,7 @@ void pastix_init(double *ad, double *au, double *adb, double *aub,
 	// if reusing, only update the value pointer of the sparse matrix
 	if(!redo){
 	    pastixResetSteps(pastix_data);
+        if(spm->values != aupastix && spm->values != NULL ) free(spm->values);
 		spm->values = aupastix;
 
 		printf("\n");
@@ -190,70 +214,82 @@ void pastix_init(double *ad, double *au, double *adb, double *aub,
 	if (nthread < 1) {nthread=1;}
 	nthread_mkl=nthread;
 	}
+
+	/* next 3 lines are for the simulateous use of PARDISO and PaStiX */
+	
+#ifdef PARDISO
+	mkl_domain_set_num_threads(1,MKL_DOMAIN_BLAS);
+#endif
 	
 	// Init integer and double parameters with default values
-	pastixInitParam( iparm, dparm );
+	pastixInitParam( piparm, pdparm );
 	
 	// Set best PaStiX parameters for CalculiX usage
-    iparm[IPARM_ORDERING]  				= PastixOrderScotch;
-    if( mode == AS ){
-	    iparm[IPARM_SCHEDULER] 			= PastixSchedStatic;
+    piparm[IPARM_ORDERING]  				= PastixOrderScotch;
+    if( mode == AS || mode == CP ){
+        piparm[IPARM_SCHEDULER] 			= PastixSchedStatic;
     }
     else{
-	    iparm[IPARM_SCHEDULER] 			= PastixSchedParsec;
+        piparm[IPARM_SCHEDULER] 			= PastixSchedParsec;
     }
-	iparm[IPARM_THREAD_NBR]				= nthread_mkl;
-	iparm[IPARM_GPU_NBR]   				= (int) gpu;
-	iparm[IPARM_FLOAT]			 		= globDoublePrecision ? 3 : 2;
-	iparm[IPARM_MIN_BLOCKSIZE] 			= 1024;
-	iparm[IPARM_MAX_BLOCKSIZE] 			= 2048;
-	iparm[IPARM_FACTORIZATION] 			= PastixFactLU;
-	iparm[IPARM_TASKS2D_WIDTH] 			= globDoublePrecision ? 256 : 128;
+	piparm[IPARM_THREAD_NBR]				= nthread_mkl;
+	piparm[IPARM_GPU_NBR]   				= (int) gpu;
+	piparm[IPARM_FLOAT]			 		= globDoublePrecision ? 3 : 2;
+	piparm[IPARM_MIN_BLOCKSIZE] 			= 1024;
+	piparm[IPARM_MAX_BLOCKSIZE] 			= 2048;
+	piparm[IPARM_FACTORIZATION] 			= PastixFactLU;
+	piparm[IPARM_TASKS2D_WIDTH] 			= globDoublePrecision ? 256 : 128;
+    piparm[IPARM_REFINEMENT]             = PastixRefineGMRES;
 
-	iparm[IPARM_REUSE_LU] 				= firstIter ? 0 : 1;
-	iparm[IPARM_REUSE_LU] 				= forceRedo ? 2 : 1;
+
+	piparm[IPARM_REUSE_LU] 				= firstIter ? 0 : 1;
+	piparm[IPARM_REUSE_LU] 				= forceRedo ? 2 : 1;
 	
-    iparm[IPARM_GPU_MEMORY_PERCENTAGE] 	= 95;
-    iparm[IPARM_GPU_MEMORY_BLOCK_SIZE] 	= 64 * 1024;
+    piparm[IPARM_GPU_MEMORY_PERCENTAGE] 	= 95;
+    piparm[IPARM_GPU_MEMORY_BLOCK_SIZE] 	= 64 * 1024;
 
-    
-    dparm[DPARM_EPSILON_REFINEMENT] 	= 1e-12;
-    iparm[IPARM_ITERMAX]            	= 50;
-    iparm[IPARM_GMRES_IM]            	= 50;
+
+    char usage_call = MULTI_SOLVE
+    if( usage == usage_call ){
+        pdparm[DPARM_EPSILON_REFINEMENT] 	= 1e-12;
+        piparm[IPARM_ITERMAX]            	= 50;
+        piparm[IPARM_GMRES_IM]            	= 50;
+    } else{
+    pdparm[DPARM_EPSILON_REFINEMENT] 	= 1e-12;
+    pdparm[DPARM_EPSILON_MAGN_CTRL]  	= 0.;
+    piparm[IPARM_ITERMAX]            	= 70;
+    piparm[IPARM_GMRES_IM]            	= 70;
+    }
 
 	// Initialize sparse matrix
 	spm = malloc( sizeof( spmatrix_t ) );
 	spmInit(spm);
-	spm->flttype = globDoublePrecision ? SpmDouble : SpmFloat;
+    spm->flttype = globDoublePrecision ? SpmDouble : SpmFloat;
+    if(spm->values != aupastix && spm->values != NULL ) free(spm->values);
 	spm->values = aupastix;
 	spm->fmttype = SpmCSC;
 	spm->nexp = spm->gNexp = spm->gN = spm->n = *neq;
     spm->mtxtype = SpmGeneral;
     if( *inputformat == 3 ){
 	    spm->nnzexp = spm->gnnzexp = spm->gnnz = spm->nnz = nzsTotal + *neq;
-        spm->flttype = SpmDouble;
     } else{
 	    spm->nnzexp = spm->gnnzexp = spm->gnnz = spm->nnz = nzsTotal * 2 + *neq;
     }
 	spm->colptr = (spm_int_t*) icolpastix;
 	spm->rowptr = (spm_int_t*) irowpastix;
 
-    if(*inputformat == 3){
-        spmatrix_t *spm_tmp=NULL;
-        spm_tmp = spmCopy(spm);
-        spmCheckAndCorrect( spm_tmp, spm);
-    	spm->flttype = globDoublePrecision ? SpmDouble : SpmFloat;
-    }
 
 	// initialize pastix
-	pastixInit( &pastix_data, MPI_COMM_WORLD, iparm, dparm );
+	pastixInit( &pastix_data, MPI_COMM_WORLD, piparm, pdparm );
 
 	printf("\n");
 	spmPrintInfo( spm, stdout );
 	printf("\n");
 	
-	// perform reordering, analysis and symbolic factorization
-	pastix_task_analyze( pastix_data, spm );
+	// perform reordering, analysis and symbolic factorization if it's more than 1 equation
+    if(spm->n > 1){
+	    pastix_task_analyze( pastix_data, spm );
+    }
 }
 
 void pastix_csc_conversion(double *ad, double *au, double *adb, double *aub, 
@@ -263,14 +299,14 @@ double *sigma,ITG *icol, ITG *irow,
 	
 	ITG i,j;
     char merged=0;
-	
+
 	// jq for the merged matrix
 	ITG* jqTotal = NULL;
 	
-	redo = forceRedo ? 1 : 0;
-	
 	if(*neq != neqPrev || *inputformat != inputformatPrev)
-		redo = 1;
+		forceRedo = 1;
+	
+	redo = forceRedo ? 1 : 0;
 	
 	if(!redo){
 		nzsTotal = 0;
@@ -306,7 +342,7 @@ double *sigma,ITG *icol, ITG *irow,
 			}
 			icolTotal[i] = curColTotal;
 			nzsTotal += curColTotal;
-		}
+        }
 		
 		
 		// compute jq for the merged matrix
@@ -327,7 +363,7 @@ double *sigma,ITG *icol, ITG *irow,
 		}
 
 		// allocate space for the sparse matrix
-        if(*symmetryflag || *inputformat != 3)
+        if(*symmetryflag && *inputformat != 3)
 			NNEW(auPtr,double,2 * nzsTotal);
 		else
 			NNEW(auPtr,double,nzsTotal);
@@ -335,24 +371,18 @@ double *sigma,ITG *icol, ITG *irow,
 		NNEW(adPtr,double,neqPrev);
 		NNEW(irowTotal, ITG, nzsTotal);
 
-        if(*symmetryflag || *inputformat != 3){
+        if(*symmetryflag && *inputformat != 3){
             j=2*nzsTotal;
         }
         else{
             j=nzsTotal;
         }
-        #pragma omp parallel for
-        for(i=0;i<j;i++){
-            auPtr[i] = 0.0;
-        }
 
-        #pragma omp parallel for
-        for(i=0;i<*neq;i++){
-            adPtr[i] = 0.0;
-        }
+        memset(auPtr, 0, j * sizeof(double));
+        memset(adPtr, 0, *neq * sizeof(double));
 		
 		// merge the old and the new sparsity pattern
-		#pragma omp parallel for
+		#pragma omp parallel for shared(auPtr)
 		for(i=0;i<*neq;i++){
 			ITG kCur = jq[i] - base;
 			ITG kPrev = jqPrev[i] - base;
@@ -418,6 +448,9 @@ double *sigma,ITG *icol, ITG *irow,
 		SFREE(irowPrev);
 		SFREE(icolPrev);
         SFREE(jqPrev);
+		irowPrev = NULL;
+		icolPrev = NULL;
+        jqPrev = NULL;
 		
 		
 		// update pointers to the merged matrix
@@ -438,12 +471,19 @@ double *sigma,ITG *icol, ITG *irow,
 	else
 	{
 		// This is executed in either the first iteration, or when the number of equations changed
-	
+        
 		printf("Not reusing csc.\n");
 		if(icolPrev != NULL){
 			SFREE(icolPrev);
+            icolPrev = NULL;
+        }
+		if(irowPrev != NULL){
 			SFREE(irowPrev);
+            irowPrev = NULL;
+        }
+   		if(jqPrev != NULL){
             SFREE(jqPrev);
+            jqPrev = NULL;
 		}
 
 		NNEW(icolPrev,ITG,*neq);
@@ -474,18 +514,32 @@ double *sigma,ITG *icol, ITG *irow,
 			// We allocate 10% more space for the values than required so that we have to perform the expensive cudaMallocHost only once, even when the size of the matrix increases slightly
 			if((nzsTotal * 2 + *neq) > pastix_nnzBound){
 				// perform the call with PaStiX because pinned memory allocation via CUDA is performed if gpu is activated
+                if( !firstIter && aupastix == spm->values ) spm->values = NULL;
 				pastixAllocMemory((void**)&aupastix, sizeof(double) * 1.1 * (nzsTotal * 2 + *neq), gpu);
 				pastix_nnzBound = 1.1 * (nzsTotal * 2 + *neq);
 			}
-			NNEW(irowpastix,ITG,nzsTotal*2+*neq);
-			NNEW(icolpastix,ITG,*neq+1);
+            if(irowpastix != NULL ){
+                SFREE(irowpastix);
+                if( irowpastix == spm->rowptr ) spm->rowptr = NULL;
+            }
+
+  			NNEW(irowpastix,ITG,nzsTotal*2+*neq);
+
+            if(icolpastix != NULL ){
+                SFREE(icolpastix);
+                if( icolpastix == spm->colptr ) spm->colptr = NULL;
+            }
+
+   			NNEW(icolpastix,ITG,*neq+1);
 			
 			if(irowacc != NULL){
 				SFREE(irowacc);		
+                irowacc = NULL;
 			}
 			NNEW(irowacc,ITG,*neq);		
 			if(irowPrediction != NULL){
 				SFREE(irowPrediction);
+                irowPrediction = NULL;
 			}
 			NNEW(irowPrediction,ITG,nzsTotal);
 		}
@@ -506,11 +560,11 @@ double *sigma,ITG *icol, ITG *irow,
 		}
 		
 		// copy lower triangular values to the right position in the CSC
-		#pragma omp parallel for private(i, j)
+		#pragma omp parallel for private(j) shared(aupastix)
 		for(i=0;i<*neq;i++){
 			ITG k_pastix = icolpastix[i] + irowacc[i];
 			ITG k = jqTotal[i] - 1;
-			aupastix[k_pastix-1] = ad[i] - (merged != 0 ? 0 : (*sigma == 0 ? 0.0 : (*sigma)*adb[i]));
+			aupastix[k_pastix-1] = ad[i] - (merged != 0 ? 0.0 : (*sigma == 0.0 ? 0.0 : (*sigma)*adb[i]));
    			memcpy(aupastix + k_pastix, au + k, sizeof(double) * icol[i]);
             if(*sigma != 0.0 && !merged ){
                 for(j=0;j<icol[i];j++){
@@ -521,11 +575,11 @@ double *sigma,ITG *icol, ITG *irow,
 		}
 		
 		// copy the upper triangular values to the right position in the CSC
-		#pragma omp parallel for private(i, j)
+		#pragma omp parallel for private(j) shared(aupastix)
 		for(i=0;i<*neq;i++){
 			ITG k = jqTotal[i] - 1;
 			for(j=0;j<icol[i];j++){
-    			aupastix[irowPrediction[k] + icolpastix[irow[k]-1] - 1] = au[k+(*symmetryflag == 0 ? 0 : (*nzs == *nzs3 ? nzsTotal : *nzs3))] - (merged != 0 ? 0 : (*sigma == 0 ? 0.0 : (*sigma *aub[k+(*symmetryflag == 0 ? 0 : (*nzs == *nzs3 ? nzsTotal : *nzs3))])));
+    			aupastix[irowPrediction[k] + icolpastix[irow[k]-1] - 1] = au[k+(*symmetryflag == 0 ? 0 : (*nzs == *nzs3 ? nzsTotal : *nzs3))] - (merged != 0 ? 0 : (*sigma == 0.0 ? 0.0 : (*sigma *aub[k+(*symmetryflag == 0 ? 0 : (*nzs == *nzs3 ? nzsTotal : *nzs3))])));
 				k++;
 			}
 		}
@@ -541,50 +595,149 @@ double *sigma,ITG *icol, ITG *irow,
 				memcpy(irowpastix + k_pastix, irow + k, sizeof(ITG) * icol[i]);
 			}
 			
-			#pragma omp parallel for private(i, j)
+			#pragma omp parallel for private(j) shared(irowpastix)
 			for(i=0;i<*neq;i++){
 				ITG k = jqTotal[i] - 1;
 				for(j=0;j<icol[i];j++){
 					irowpastix[irowPrediction[k] + icolpastix[irow[k]-1] - 1] = i+1;
 					k++;
 				}
-			}
+            }
 		}
 	}
 	else if(*inputformat==3){
 
+
+        ITG countnew = 0;
+        ITG *row_newEntries = NULL;
+        ITG *col_newEntries = NULL;
+
+        // search for missing entries for a structural symmetric matrix
         if(redo){
-       		NNEW(irowpastix,ITG,nzsTotal+*neq);
-    		NNEW(icolpastix,ITG,*neq+1);
+            row_newEntries = malloc( sizeof(ITG) * nzsTotal );
+            col_newEntries = malloc( sizeof(ITG) * nzsTotal );
+            memset( row_newEntries, 0, sizeof(ITG) * nzsTotal );
+            memset( col_newEntries, 0, sizeof(ITG) * nzsTotal );
+            char found = 0;
+            ITG z = 0;
+            ITG temp = 0;
+    
+             // loop through the columns
+            #pragma omp parallel for private(j,z) firstprivate(temp,found)
+            for(i=0;i<*neq;i++){
+                // loop through the entries in this column
+                for(j=jqTotal[i]-1;j<jqTotal[i+1]-1;j++){
+                    temp = irow[j];
+                    // loop through the symmetric column counter part to check for symmetry
+                    for(z=jqTotal[temp-1]-1;z<jqTotal[temp]-1;z++){
+                        if( irow[z]-1 == i ){
+                            found=1;
+                            break;
+                        }
+                    }
+                    // if no entry was found add a dummy to the array and increase the counter for missing entries
+                    #pragma omp critical
+                    if( found == 0 ){
+                        row_newEntries[countnew] = i + 1;
+                        col_newEntries[countnew] = temp;
+                        countnew++;
+                    }
+                    found = 0;
+                }
+            }
+
+            printf("added %d entries to the matrix\n",countnew);
+            nzsTotal += countnew;
+
+            // allocate memory for the PaStiX arrays and free the old ones if necessary
        		if((nzsTotal + *neq) > pastix_nnzBound){
+                if( !firstIter && aupastix == spm->values ) spm->values = NULL;
             	pastixAllocMemory((void**)&aupastix, sizeof(double) * 1.1 * (nzsTotal + *neq), gpu);
    				pastix_nnzBound = 1.1 * (nzsTotal + *neq);
             }
+
+            memset( aupastix, 0, sizeof(double) * pastix_nnzBound );
+
+            if(irowpastix != NULL ){
+                SFREE(irowpastix);
+                if(irowpastix == spm->rowptr) spm->rowptr = NULL;
+            }
+
+  			NNEW(irowpastix,ITG,nzsTotal+*neq);
+
+            if(icolpastix != NULL ){
+                SFREE(icolpastix);
+                if(icolpastix == spm->colptr) spm->colptr = NULL;
+            }
+
+   			NNEW(icolpastix,ITG,*neq+1);
             memcpy(icolpastix, jqTotal, sizeof(ITG) * (*neq+1));
+
+            if(offsetPrev != NULL ){
+                SFREE(offsetPrev);
+            }
+            NNEW(offsetPrev,ITG,*neq+1);
+            memset(offsetPrev,0,*neq+1);
+        }
+        else{
+            nzsTotal += offsetPrev[*neq];
+            memset( aupastix, 0, sizeof(double) * pastix_nnzBound );
         }
 
-
-        ITG kflag,ilength;
-        kflag = 2;
-
-        #pragma omp parallel for private(i, j)
+        //#pragma omp parallel for private(j) firstprivate(offsetPrev) 
         for(i=0;i<*neq;i++){
+            ITG entriesPerColumn = jqTotal[i+1] - jqTotal[i];
+            ITG offsetSource = jqTotal[i] - jqTotal[0];
+
             if(redo){
-                memcpy(irowpastix + i + (jqTotal[i] - jqTotal[0]), irow + (jqTotal[i]-jqTotal[0]), sizeof(ITG) * (jqTotal[i+1] - jqTotal[i]));
-                irowpastix[i+jqTotal[i+1]-1] = i+1;
-                icolpastix[i+1] += i+1;
+                // copy irow column per column and add the additional diagonal entry
+                memcpy(irowpastix + i + offsetSource + offsetPrev[i], irow + offsetSource,
+                        sizeof(ITG) * entriesPerColumn);
+                irowpastix[i+jqTotal[i+1]-jqTotal[0]+offsetPrev[i]] = i+1;
             }
-            memcpy(aupastix + i + (jqTotal[i] - jqTotal[0]), au + (jqTotal[i]-jqTotal[0]), sizeof(double) * (jqTotal[i+1] - jqTotal[i]));
+        
+            // copy au column per column
+            memcpy(aupastix + i + offsetSource + offsetPrev[i], au + offsetSource,
+                    sizeof(double) * entriesPerColumn);
+            
+            // subtract the buckling values
             if(*sigma != 0 && merged == 0){
-                for(j=0;j<jqTotal[i+1]-jqTotal[i];j++){
-                    aupastix[i+(jqTotal[i]-jqTotal[0])+j] -= (*sigma)*aub[jqTotal[i]-jqTotal[0]+j];
+                for(j=0;j<entriesPerColumn;j++){
+                    aupastix[i + offsetSource + j + offsetPrev[i]] -= (*sigma)*aub[offsetSource + j];
                 }
             }
-            aupastix[i+jq[i+1]-1] = ad[i] - (merged != 0 ? 0.0 : (*sigma == 0 ? 0.0 : (*sigma)*adb[i]));
 
+            // add the diagonal entries to aupastix
+            aupastix[i + (jqTotal[i+1] - jqTotal[0]) + offsetPrev[i]] = ad[i] - (merged != 0 ? 0.0 : (*sigma == 0 ? 0.0 : (*sigma)*adb[i]));
+
+
+            // add the found entries for making the matrix structural symmetric and increase the resulting offset in arrays
+            if(redo){
+                offsetPrev[i+1] = offsetPrev[i];
+                for( j=0;j<countnew;j++ ){
+                    if( col_newEntries[j]-1 == i ){
+                        irowpastix[i + (jqTotal[i+1] - jqTotal[0]) + 1 + offsetPrev[i+1]] = row_newEntries[j];
+                        offsetPrev[i+1]++;
+                    }
+                }
+                // add the diagonal and additional entries to the column pointer
+                icolpastix[i+1] += i+1+offsetPrev[i+1];
+            }
+                        
         }
 
         if(redo) icolpastix[*neq] = nzsTotal + *neq + 1;
+
+        // free arrays for added symmetrized entries
+        if(row_newEntries){
+            SFREE(row_newEntries);
+            row_newEntries = NULL;
+        }
+        if(col_newEntries){
+            SFREE(col_newEntries);
+            col_newEntries = NULL;
+        }
+
 	} 
 
 
@@ -604,17 +757,15 @@ double *sigma,ITG *icol, ITG *irow,
 
 // PaStiX invocation when the factorization function is called individually
 void pastix_factor_main_generic(double *ad, double *au, double *adb, double *aub, 
-double *sigma,ITG *icol, ITG *irow, 
+        double *sigma,ITG *icol, ITG *irow, 
 		ITG *neq, ITG *nzs, ITG *symmetryflag, ITG *inputformat,
 		ITG *jq, ITG *nzs3){
 			
     pastix_set_globals(mode);	
-    gpu = 0;
 	// Set GPU flag from environment
-//	const char* pastix_gpu = getenv("PASTIX_GPU");
-//	if(pastix_gpu)
-//		//gpu = (*pastix_gpu == '1') ? 1 : 0;
-//		gpu = ( mode == AS ) ? 0 : (*pastix_gpu == '1') ? 1 : 0;
+	const char* pastix_gpu = getenv("PASTIX_GPU");
+	if(pastix_gpu)
+		gpu = ( mode == AS || mode == CP ) ? 0 : (*pastix_gpu == '1') ? 1 : 0;
 	
 	// Perform individual invocations always in double precision. If previous iterations were in single precision, do not reuse.
 	forceRedo=1;
@@ -623,7 +774,10 @@ double *sigma,ITG *icol, ITG *irow,
 	// invoke PaStiX
 	pastix_csc_conversion(ad, au, adb, aub, sigma, icol, irow, neq, nzs, symmetryflag, inputformat, jq, nzs3);
 	pastix_cleanup(neq,symmetryflag);
-	pastix_init(ad, au, adb, aub, sigma, icol, irow, neq, nzs, symmetryflag, inputformat, jq, nzs3);	
+	pastix_init(ad, au, adb, aub, sigma, icol, irow, neq, nzs, symmetryflag, inputformat, jq, nzs3);
+    gpu = 0;
+    piparm[IPARM_GPU_NBR]=0;
+    pastix_data->piparm[IPARM_GPU_NBR]=0;
 	pastix_factor(ad, au, adb, aub, sigma, icol, irow, neq, nzs, symmetryflag, inputformat, jq, nzs3);
 }
 
@@ -645,6 +799,7 @@ ITG pastix_solve_generic(double *x, ITG *neq,ITG *symmetryflag,ITG *nrhs){
 	ITG i;
 	double* b;
 	float* buffer;
+    ITG rc=0;
 	
 	// dont call pastix with only one equation, might lead to segfault
 	if(spm->n == 1)
@@ -678,23 +833,52 @@ ITG pastix_solve_generic(double *x, ITG *neq,ITG *symmetryflag,ITG *nrhs){
 		#pragma omp parallel for
 		for(i = 0; i < (*nrhs) * (*neq); i++){ 
 			buffer[i] = (float) x[i];
-		}
+        }
 		
-		pastix_task_solve( pastix_data, *nrhs, buffer, spm->n );
+		rc = pastix_task_solve( pastix_data, *nrhs, buffer, spm->n );
 
 		#pragma omp parallel for
 		for(i = 0; i < (*nrhs) * (*neq); i++){
 			x[i] = (double) buffer[i];
-		}
+        }
 		SFREE(buffer);
+        buffer = NULL;
 	}
 	else{
-		pastix_task_solve( pastix_data, *nrhs, x, spm->n );
+		rc = pastix_task_solve( pastix_data, *nrhs, x, spm->n );
 	}
+
+    // check for NaN in the solution
+    if( x[0] != x[0] ){
+        printf("\nSolution contains NaN!\n\n");
+        if( noScale ){
+            return -1;
+        }
+        else{
+            return -2;
+        }
+    }
 	
 	// invoke iterative refinement in double precision
-	ITG rc = pastix_task_refine( pastix_data, spm->n, *nrhs, (void*)b, spm->n, (void*)x, spm->n );
+    //pdparm[DPARM_EPSILON_MAGN_CTRL] = 1e-4;
+    //piparm[IPARM_ITERMAX]           = 3;
 
+    char usage_call = SINGLE_SOLVE
+    if( usage == usage_call || rc != 0 ){
+        // invoke iterative refinement in double precision
+        rc = pastix_task_refine( pastix_data, spm->n, *nrhs, (void*)b, spm->n, (void*)x, spm->n );
+
+    	piparm[IPARM_GPU_NBR] 		   = 0;
+        pdparm[DPARM_EPSILON_MAGN_CTRL] = 1e-14;
+        piparm[IPARM_ITERMAX]           = 50;
+  	    rc = pastix_task_refine( pastix_data, spm->n, *nrhs, (void*)b, spm->n, (void*)x, spm->n );
+    	piparm[IPARM_GPU_NBR] 		   = (int) gpu;
+        piparm[IPARM_ITERMAX]           = 70;
+    } else{
+        rc = pastix_task_refine( pastix_data, spm->n, *nrhs, (void*)b, spm->n, (void*)x, spm->n );
+    }
+    //    pdparm[DPARM_EPSILON_MAGN_CTRL] = 1e-14;
+    //    piparm[IPARM_ITERMAX]           = 70;
 //    FILE *f=fopen("spm.out","a");
 //    fprintf(f,"\n\nMatrix\n");
 //    spmConvert(SpmCSR, spm);
@@ -714,14 +898,20 @@ ITG pastix_solve_generic(double *x, ITG *neq,ITG *symmetryflag,ITG *nrhs){
 //    fclose(f);
 
 	SFREE(b);
+    b = NULL;
 
     modePrev = mode;
+    if( !rc ) firstIter = 0;
+    if( rc == -1 && globDoublePrecision && !noScale ){
+        rc = -2;
+    }
 
 	return rc;
 }
 
 ITG pastix_solve(double *x, ITG *neq,ITG *symmetryflag,ITG *nrhs){
     mode = BASIC;
+    usage = MULTI_SOLVE;
     if( modePrev != mode ) pastix_set_globals(mode);	
     ITG rc = pastix_solve_generic(x,neq,symmetryflag,nrhs);
     return rc;
@@ -729,6 +919,15 @@ ITG pastix_solve(double *x, ITG *neq,ITG *symmetryflag,ITG *nrhs){
 
 ITG pastix_solve_as(double *x, ITG *neq,ITG *symmetryflag,ITG *nrhs){
     mode = AS;
+    usage = MULTI_SOLVE;
+    if( modePrev != mode ) pastix_set_globals(mode);	
+    ITG rc = pastix_solve_generic(x,neq,symmetryflag,nrhs);
+    return rc;
+}
+
+ITG pastix_solve_cp(double *x, ITG *neq,ITG *symmetryflag,ITG *nrhs){
+    mode = CP;
+    usage = MULTI_SOLVE;
     if( modePrev != mode ) pastix_set_globals(mode);	
     ITG rc = pastix_solve_generic(x,neq,symmetryflag,nrhs);
     return rc;
@@ -737,17 +936,28 @@ ITG pastix_solve_as(double *x, ITG *neq,ITG *symmetryflag,ITG *nrhs){
 // Invokes pastixFinalize and spmExit which frees everything but the dense LU array and parsec pointer
 void pastix_cleanup(ITG *neq,ITG *symmetryflag){
 	if( redo && !firstIter ){
+        if(spm->values == aupastix) spm->values = NULL;
+        if(spm->values == spm->valuesGPU) spm->valuesGPU = NULL;
+        if(spm->colptr == icolpastix) spm->colptr = NULL;
+        if(spm->rowptr == irowpastix) spm->rowptr = NULL;
 		spmExit( spm );
-		if(spm != NULL) free( spm );
+		if(spm != NULL){
+            free( spm );
+            spm = NULL;
+        }
 			
 		pastixFinalize( &pastix_data );
 	}
 	
-	firstIter = 0;
 	return;
 }
 
 void pastix_cleanup_as(ITG *neq,ITG *symmetryflag){
+    pastix_cleanup(neq,symmetryflag);
+    return;
+}
+
+void pastix_cleanup_cp(ITG *neq,ITG *symmetryflag){
     pastix_cleanup(neq,symmetryflag);
     return;
 }
@@ -759,34 +969,45 @@ void pastix_main_generic(double *ad, double *au, double *adb, double *aub,
 	 ITG *jq, ITG *nzs3,ITG *nrhs){
 		 
 		 
-	if(*neq==0) return;
+	if(*neq==0){
+        return;
+    }
+    else if(*neq==1){
+        noScale=1;
+    }
 
     pastix_set_globals( mode );	
 	
 	const char* pastix_gpu = getenv("PASTIX_GPU");
 	if(pastix_gpu)
 		gpu = (*pastix_gpu == '1') ? 1 : 0;
+
+    usage = SINGLE_SOLVE;
 	
 	// check mixed precision environment variable
     const char* pastix_mixed = getenv("PASTIX_MIXED_PRECISION");	
-    if( pastix_mixed && globDoublePrecision == 0 ){
+    if( pastix_mixed != NULL ){
         mixed = (*pastix_mixed == '1') ? 1 : 0;
-        globDoublePrecision = (mixed == 0) ? 1 : 0;
     }
     else{
         mixed = 1;
     }
 
-	if(!stickToDouble && mixed == '1'){
-		if(globDoublePrecision == 1)
+	if( stickToDouble == 0 && mixed == 1 ){
+		if( globDoublePrecision == 1 ){
 			forceRedo = 1;
-
+        }
 		globDoublePrecision = 0;
 	}
+    else{
+		globDoublePrecision = 1;
+    }
 
-
-    if(*inputformat==3){
-        forceRedo=1;
+    // use double precision for inputformat 3 like mortar (better perfromance and convergence)
+    if( pastix_mixed == NULL && *inputformat == 3 ){
+        globDoublePrecision = 1;
+        forceRedo = 0;
+        stickToDouble = 1;
     }
 
 	// backup b in case mixed precision solve corrupts the original array
@@ -819,6 +1040,44 @@ void pastix_main_generic(double *ad, double *au, double *adb, double *aub,
 	clock_gettime(CLOCK_MONOTONIC, &stepCleanUpEnd); 
 	clock_gettime(CLOCK_MONOTONIC, &stepInitStart); 
 	
+    // scale the matrix with diagonals to 1
+    if( *inputformat !=3 && !noScale ){
+        ITG i=0;
+
+	    #pragma omp parallel for 
+        for(i=0;i<*neq;i++){
+            b[i] /= ad[i];
+        }
+
+        double normb=0;
+        #pragma omp parallel for reduction(+:normb)
+        for(i=0;i<*neq;i++){
+            normb += pow(b[i],2);
+        }
+        normb = sqrt(normb);
+
+        if( normb < 1e-9 ){
+            printf("||b|| getting too small with scaling, boost it statically\n");
+            double scal = 1e-6/normb;
+		    //memcpy(b, b_backup, sizeof(double) * (*nrhs)*(*neq));
+	        #pragma omp parallel for 
+            for(i=0;i<*neq;i++){
+                b[i] *= scal;
+            }
+
+    	    #pragma omp parallel for 
+            for(i=0;i<icolpastix[*neq]-1;i++){
+                aupastix[i] *= scal/ad[irowpastix[i]-1];
+            }
+        }
+        else{
+    	    #pragma omp parallel for 
+            for(i=0;i<icolpastix[*neq]-1;i++){
+                aupastix[i] /= ad[irowpastix[i]-1];
+            }
+        }
+    }
+
 	//invoke init
 	pastix_init(ad,au,adb,aub,sigma,icol,irow, 
 		 neq,nzs,symmetryflag,inputformat,jq,nzs3);
@@ -834,26 +1093,32 @@ void pastix_main_generic(double *ad, double *au, double *adb, double *aub,
 	clock_gettime(CLOCK_MONOTONIC, &stepSolveStart); 
 	
 	// if solve does not converge
-	if(pastix_solve_generic(b,neq,symmetryflag,nrhs) == -1){
+    ITG rc = pastix_solve_generic(b,neq,symmetryflag,nrhs);
+	if( rc == -1){
 		
 		// Give up, if we tried it with double precision, use backup b otherwise
 		if(globDoublePrecision == 1){
             printf("PaStiX could not converge to a valid result\n");
-			exit(1);
-		}
+            exit(5);
+        }
         else{
 		    memcpy(b, b_backup, sizeof(double) * (*nrhs)*(*neq));
+            printf("falling back to double precision\n");
+            globDoublePrecision = 1;
+            forceRedo = 1;
+    	    stickToDouble = 1;
+    	    mixedFailed++;
+        	
+        	// call pastix_main recursively, but now in double precision
+        	pastix_main_generic(ad, au, adb, aub, sigma, b, icol, irow, neq, nzs, symmetryflag, inputformat, jq, nzs3, nrhs);
         }
         
         // make sure that we switch to double and do not reuse in the next iteration
-        globDoublePrecision = 1;
-		forceRedo = 1;
-		stickToDouble = 1;
-		mixedFailed++;
-		
-	 	// call pastix_main recursively, but now in double precision
-		pastix_main_generic(ad, au, adb, aub, sigma, b, icol, irow, neq, nzs, symmetryflag, inputformat, jq, nzs3, nrhs);
-		
+        pdparm[DPARM_EPSILON_REFINEMENT] 	= 1e-12;
+        pdparm[DPARM_EPSILON_MAGN_CTRL]  	= .0;
+        piparm[IPARM_ITERMAX]            	= 70;
+        piparm[IPARM_GMRES_IM]            	= 70;
+
 		// if we do not converge with mixed precision for the third time, permanently switch to double precision
 		if(mixedFailed <= 2){
 			stickToDouble = 0;
@@ -862,6 +1127,15 @@ void pastix_main_generic(double *ad, double *au, double *adb, double *aub,
 			
 		return;
 	}
+    else if( rc == -2){
+	    memcpy(b, b_backup, sizeof(double) * (*nrhs)*(*neq));
+        printf("turning diagonal scaling off\n");
+        forceRedo = 1;
+        noScale = 1;
+    	
+    	// call pastix_main recursively, but now in double precision
+    	pastix_main_generic(ad, au, adb, aub, sigma, b, icol, irow, neq, nzs, symmetryflag, inputformat, jq, nzs3, nrhs);
+    }
 	else{
 		forceRedo = 0;
 	}
@@ -926,8 +1200,9 @@ void pastix_main_generic(double *ad, double *au, double *adb, double *aub,
 	
 	
     SFREE(b_backup);
+    b_backup = NULL;
+
 	return;
-	
 	
 }
 
@@ -938,6 +1213,7 @@ void pastix_factor_main(double *ad, double *au, double *adb, double *aub,
 		ITG *jq, ITG *nzs3){
 
         mode = BASIC;
+        usage = MULTI_SOLVE;
         pastix_factor_main_generic(ad, au, adb, aub, sigma, icol, irow, neq,
                                     nzs, symmetryflag, inputformat, jq, nzs3);
 
@@ -950,6 +1226,20 @@ void pastix_factor_main_as(double *ad, double *au, double *adb, double *aub,
 		ITG *jq, ITG *nzs3){
 
         mode = AS;
+        usage = MULTI_SOLVE;
+        pastix_factor_main_generic(ad, au, adb, aub, sigma, icol, irow, neq,
+                                    nzs, symmetryflag, inputformat, jq, nzs3);
+
+        return;
+}
+
+void pastix_factor_main_cp(double *ad, double *au, double *adb, double *aub, 
+        double *sigma,ITG *icol, ITG *irow, 
+		ITG *neq, ITG *nzs, ITG *symmetryflag, ITG *inputformat,
+		ITG *jq, ITG *nzs3){
+
+        mode = CP;
+        usage = MULTI_SOLVE;
         pastix_factor_main_generic(ad, au, adb, aub, sigma, icol, irow, neq,
                                     nzs, symmetryflag, inputformat, jq, nzs3);
 
@@ -980,19 +1270,47 @@ void pastix_main_as(double *ad, double *au, double *adb, double *aub,
      return;
 }
 
+void pastix_main_cp(double *ad, double *au, double *adb, double *aub, 
+     double *sigma,double *b, ITG *icol, ITG *irow, 
+	 ITG *neq, ITG *nzs,ITG *symmetryflag,ITG *inputformat,
+	 ITG *jq, ITG *nzs3,ITG *nrhs){
+	 
+     mode = CP;
+     pastix_main_generic(ad, au, adb, aub, sigma, b, icol, irow, neq,
+                          nzs, symmetryflag, inputformat, jq, nzs3, nrhs);
+
+     return;
+}
+
 void pastix_set_globals(char mode){
 
     if( modePrev != mode ){
         pastix_data_object *temp,*temp2;
+        switch(modePrev){
+            case BASIC:
+                temp2 = &pastix_mode_basic;
+                break;
+
+            case AS:
+                temp2 = &pastix_mode_as;
+                break;
+
+            case CP:
+                temp2 = &pastix_mode_cp;
+                break;
+        }
+
         switch(mode){
             case BASIC:
                 temp = &pastix_mode_basic;
-                temp2 = &pastix_mode_as;
                 break;
 
             case AS:
                 temp = &pastix_mode_as;
-                temp2 = &pastix_mode_basic;
+                break;
+
+            case CP:
+                temp = &pastix_mode_cp;
                 break;
         }
 
@@ -1012,7 +1330,8 @@ void pastix_set_globals(char mode){
         temp2->jqPrev = jqPrev;
         temp2->inputformatPrev = inputformatPrev;
         temp2->basePrev = basePrev;
-        
+        temp2->offsetPrev = offsetPrev;
+
         // Current sparse matrix in CSC
         temp2->aupastix = aupastix;
         temp2->icolpastix = icolpastix;
@@ -1022,14 +1341,14 @@ void pastix_set_globals(char mode){
         temp2->redo = redo;
         
         // PaStiX configuration
-        temp2->iparm = iparm;
-        temp2->dparm = dparm;
+        temp2->piparm = piparm;
+        temp2->pdparm = pdparm;
         temp2->pastix_data = pastix_data;
         temp2->spm = spm;
         
         // GPU active or not
         temp2->gpu = gpu;
-
+        
         // Store how many nzs the merged Matrix has
         temp2->nzsTotal = nzsTotal;
         
@@ -1076,6 +1395,7 @@ void pastix_set_globals(char mode){
         jqPrev = temp->jqPrev;
         inputformatPrev = temp->inputformatPrev;
         basePrev = temp->basePrev;
+        offsetPrev = temp->offsetPrev;
         
         // Current sparse matrix in CSC
         aupastix = temp->aupastix;
@@ -1086,8 +1406,8 @@ void pastix_set_globals(char mode){
         redo = temp->redo;
         
         // PaStiX configuration
-        iparm = temp->iparm;
-        dparm = temp->dparm;
+        piparm = temp->piparm;
+        pdparm = temp->pdparm;
         pastix_data = temp->pastix_data;
         spm = temp->spm;
         

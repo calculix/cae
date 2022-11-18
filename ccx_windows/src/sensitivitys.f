@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -28,7 +28,7 @@
       logical iread,iwrite
 !
       character*1 inpc(*)
-      character*81 tieset(3,*),objectset(4,*)
+      character*81 tieset(3,*),objectset(5,*)
       character*132 textpart(16)
 !
       integer nmethod,istep,istat,n,key,i,isens,
@@ -36,14 +36,6 @@
      &  ipoinpc(0:*),ntie,ier
 !
       real*8 tinc,tper,tmin,tmax,tincf
-!
-      if(isens.eq.1) then
-         write(*,*) '*ERROR reading *SENSITIVITY:'
-         write(*,*) '       no more than one *SENSITIVITY'
-         write(*,*) '       is allowed per input deck'
-         ier=1
-         return
-      endif
 !
       if(istep.lt.1) then
          write(*,*) '*ERROR reading *SENSITIVITY: *SENSITIVITY can

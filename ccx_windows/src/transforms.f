@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -32,7 +32,7 @@
 !
       integer ntrans,ntrans_,istep,istat,n,key,i,j,k,inotr(2,*),
      &  istartset(*),iendset(*),ialset(*),nset,ipos,iline,ipol,
-     &  inl,ipoinp(2,*),inp(3,*),ipoinpc(0:*),ier
+     &  inl,ipoinp(2,*),inp(3,*),ipoinpc(0:*),ier,id
 !
       if(istep.gt.0) then
          write(*,*) '*ERROR reading *TRANSFORM: *TRANSFORM should be'
@@ -102,9 +102,13 @@
          return
       endif
 !         
-      do i=1,nset
-         if(set(i).eq.noset) exit
-      enddo
+      call cident81(set,noset,nset,id)
+      i=nset+1
+      if(id.gt.0) then
+        if(noset.eq.set(id)) then
+          i=id
+        endif
+      endif
       if(i.gt.nset) then
          noset(ipos:ipos)=' '
          write(*,*) '*ERROR reading *TRANSFORM: node set ',noset

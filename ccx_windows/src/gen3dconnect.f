@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -82,14 +82,22 @@
             cycle
          endif
 !
-         do l=1,nope
+         loop: do l=1,nope
             node=kon(indexes+l)
             if(node.le.iponoelmax) then
                if(rig(node).eq.0) then
-                  index2=iponoel(node)
-                  if(index2.eq.0) cycle
-                  ielem=inoel(1,index2)
-                  indexe=ipkon(ielem)
+                 index2=iponoel(node)
+!
+!     next loop is needed, since an element may have
+!     been deactivated
+!
+                  do
+                    if(index2.eq.0) cycle loop
+                    ielem=inoel(1,index2)
+                    indexe=ipkon(ielem)
+                    if(indexe.ge.0) exit
+                    index2=inoel(3,index2)
+                  enddo
                   j=inoel(2,index2)
                   indexk=iponor(2,indexe+j)
 !
@@ -279,7 +287,7 @@
                   endif
                endif
             endif
-         enddo
+         enddo loop
       enddo
 !
       return

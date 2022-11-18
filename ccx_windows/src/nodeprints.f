@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -33,7 +33,7 @@
       character*81 set(*),prset(*),noset
       character*132 textpart(16)
 !
-      integer istartset(*),iendset(*),ialset(*),ii,i,nam,itpamp,
+      integer istartset(*),iendset(*),ialset(*),ii,i,nam,itpamp,id,
      &  jout(2),joutl,ithermal(*),nset,nset_,nalset,nprint,nprint_,
      &  istat,n,key,ipos,iline,ipol,inl,ipoinp(2,*),inp(3,*),idrct,
      &  ipoinpc(0:*),nef,ier,istep
@@ -66,6 +66,7 @@
      &         (prlab(i)(1:4).eq.'PSF ').or.
      &         (prlab(i)(1:4).eq.'TSF ').or.
      &         (prlab(i)(1:4).eq.'MACH').or.
+     &         (prlab(i)(1:4).eq.'DEPF').or.
      &         (prlab(i)(1:4).eq.'TTF ').or.
      &         (prlab(i)(1:4).eq.'PTF ').or.
      &         (prlab(i)(1:4).eq.'CP  ').or.
@@ -89,9 +90,16 @@ c      jout=max(jout,1)
           noset(1:80)=textpart(ii)(6:85)
           ipos=index(noset,' ')
           noset(ipos:ipos)='N'
-          do i=1,nset
-            if(set(i).eq.noset) exit
-          enddo
+c          do i=1,nset
+c            if(set(i).eq.noset) exit
+c          enddo
+          call cident81(set,noset,nset,id)
+          i=nset+1
+          if(id.gt.0) then
+            if(noset.eq.set(id)) then
+              i=id
+            endif
+          endif
           if(i.gt.nset) then
              write(*,*) '*WARNING reading *NODE PRINT: node set ',
      &            noset(1:ipos-1),' does not exist'
@@ -205,6 +213,7 @@ c      jout=max(jout,1)
      &         (textpart(ii)(1:4).ne.'PSF ').and.
      &         (textpart(ii)(1:4).ne.'TSF ').and.
      &         (textpart(ii)(1:4).ne.'MACH').and.
+     &         (textpart(ii)(1:4).ne.'DEPF').and.
      &         (textpart(ii)(1:4).ne.'TTF ').and.
      &         (textpart(ii)(1:4).ne.'PTF ').and.
      &         (textpart(ii)(1:4).ne.'CP  ').and.
@@ -228,6 +237,7 @@ c      jout=max(jout,1)
      &         (textpart(ii)(1:4).eq.'PSF ').or.
      &         (textpart(ii)(1:4).eq.'TSF ').or.
      &         (textpart(ii)(1:4).eq.'MACH').or.
+     &         (textpart(ii)(1:4).eq.'DEPF').or.
      &         (textpart(ii)(1:4).eq.'TTF ').or.
      &         (textpart(ii)(1:4).eq.'PTF ').or.
      &         (textpart(ii)(1:4).eq.'CP  ').or.
@@ -235,9 +245,9 @@ c      jout=max(jout,1)
                if(nef.eq.0) then
                   write(*,*) 
      &               '*WARNING reading *NODE PRINT: VF, PSF, TSF,'
-                  write(*,*) '         MACH, TTF, PTF, CP or TURB '
-                  write(*,*) '         only make sense for 3D-fluid'
-                  write(*,*) '         calculations'
+                  write(*,*) '         MACH, DEPF, TTF, PTF, CP or '
+                  write(*,*) '         TURB only make sense for '
+                  write(*,*) '         3D-fluid calculations'
                   cycle
                endif
             endif

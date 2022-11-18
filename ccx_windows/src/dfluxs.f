@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -39,7 +39,7 @@
       integer istartset(*),iendset(*),ialset(*),nelemload(2,*),mi(*),
      &     ielmat(mi(3),*),nset,nload,nload_,ntmat_,istep,istat,n,i,j,l,
      &     key,idefload(*),ier,iamload(2,*),nam,iamplitude,ipos,ne,
-     &     iline,ipol,inl,ipoinp(2,*),
+     &     iline,ipol,inl,ipoinp(2,*),id,
      &     inp(3,*),nam_,namtot,namtot_,namta(3,*),idelay,isector,
      &     ipoinpc(0:*),iamplitudedefault
 !     
@@ -148,7 +148,7 @@
         if(label(2:4).eq.'POS') label(2:4)='2  '
 !     
 !     for plane stress elements: 'N' and 'P' are converted
-!     into '5' and '6' and farther down in '1' and '2'
+!     into '5' and '6' and further down in '1' and '2'
 !     
         if(label(2:2).eq.'N') label(2:2)='5'
         if(label(2:2).eq.'P') label(2:2)='6'
@@ -198,10 +198,10 @@
             elseif(label(1:2).eq.'S6') then
               label(1:2)='S2'
             endif
-          elseif((lakon(l)(1:1).eq.'B').or.
-     &           (lakon(l)(7:7).eq.'B')) then
-          elseif((lakon(l)(1:1).eq.'S').or.
-     &           (lakon(l)(7:7).eq.'L')) then
+c          elseif((lakon(l)(1:1).eq.'B').or.
+c     &           (lakon(l)(7:7).eq.'B')) then
+c          elseif((lakon(l)(1:1).eq.'S').or.
+c     &           (lakon(l)(7:7).eq.'L')) then
           endif
           call loadadd(l,label,xmagnitude,nelemload,sideload,
      &         xload,nload,nload_,iamload,iamplitude,
@@ -211,18 +211,32 @@
           elset(81:81)=' '
           ipos=index(elset,' ')
           elset(ipos:ipos)='E'
-          do i=1,nset
-            if(set(i).eq.elset) exit
-          enddo
+c          do i=1,nset
+c            if(set(i).eq.elset) exit
+c          enddo
+          call cident81(set,elset,nset,id)
+          i=nset+1
+          if(id.gt.0) then
+            if(elset.eq.set(id)) then
+              i=id
+            endif
+          endif
           if(i.gt.nset) then
 !     
 !     check for facial surface
 !     
             surface=.true.
             elset(ipos:ipos)='T'
-            do i=1,nset
-              if(set(i).eq.elset) exit
-            enddo
+c            do i=1,nset
+c              if(set(i).eq.elset) exit
+c            enddo
+            call cident81(set,elset,nset,id)
+            i=nset+1
+            if(id.gt.0) then
+              if(elset.eq.set(id)) then
+                i=id
+              endif
+            endif
             if(i.gt.nset) then
               elset(ipos:ipos)=' '
               write(*,*) '*ERROR reading *DFLUX: element set '
@@ -239,6 +253,7 @@
             write(label(2:2),'(i1)') l-10*(l/10)
             l=l/10
           endif
+!     
           if((lakon(l)(1:2).eq.'CP').or.
      &         (lakon(l)(2:2).eq.'A').or.
      &         (lakon(l)(7:7).eq.'E').or.
@@ -252,15 +267,16 @@
               label(1:2)='S5'
             elseif(label(1:2).eq.'S4') then
               label(1:2)='S6'
+            elseif(label(1:2).eq.'S5') then
+              label(1:2)='S1'
+            elseif(label(1:2).eq.'S6') then
+              label(1:2)='S2'
             endif
-          elseif((lakon(l)(1:1).eq.'B').or.
-     &           (lakon(l)(7:7).eq.'B')) then
-            if(label(1:2).eq.'S2') label(1:2)='S5'
-          elseif((lakon(l)(1:1).eq.'S').or.
-     &           (lakon(l)(7:7).eq.'L')) then
-            label(1:2)='S1'
+c          elseif((lakon(l)(1:1).eq.'B').or.
+c     &           (lakon(l)(7:7).eq.'B')) then
+c          elseif((lakon(l)(1:1).eq.'S').or.
+c     &           (lakon(l)(7:7).eq.'L')) then
           endif
-!     
           do j=istartset(i),iendset(i)
             if(ialset(j).gt.0) then
               l=ialset(j)

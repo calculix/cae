@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine gaspipe_rot(node1,node2,nodem,nelem,lakon,kon,
-     &        ipkon,nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &        ipkon,nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &        nodef,idirf,df,cp,r,physcon,dvi,numf,set,
      &        shcon,nshcon,rhcon,nrhcon,ntmat_,co,vold,mi,ttime,time,
      &        iaxial,iplausi)
@@ -31,7 +31,7 @@
       character*81 set(*)
 !     
       integer nelem,nactdog(0:3,*),node1,node2,nodem,numf,ielprop(*),
-     &     idirf(*),index,iflag,nodef(*),inv,ipkon(*),kon(*),icase,ith,
+     &     idirf(*),index,kflag,nodef(*),inv,ipkon(*),kon(*),icase,ith,
      &     nshcon(*),nrhcon(*),ntmat_,mi(*),iaxial,iplausi
 !
       real*8 prop(*),v(0:mi(2),*),xflow,f,df(*),kappa,r,A,d,xl,
@@ -44,7 +44,7 @@
 !
       ith=0
 !
-      if(iflag.eq.0) then
+      if(kflag.eq.0) then
          identity=.true.
 !     
          if(nactdog(2,node1).ne.0)then
@@ -55,7 +55,7 @@
             identity=.false.
          endif
 !     
-      elseif(iflag.eq.1)then
+      elseif(kflag.eq.1)then
          if(v(1,nodem).ne.0.d0) then
             xflow=v(1,nodem)
             return
@@ -212,21 +212,7 @@ c         if(icase.eq.1) then
 !              one of the pressures is adapted (depending on
 !              which variable is unknown)
 !
-c               if(nactdog(1,nodem).ne.0) then
                   xflow=0.5d0*inv*Qred2_crit*pt2*A2/dsqrt(Tt2)
-c               elseif(nactdog(2,node1).ne.0) then
-c                  if(beta.ge.0.d0) then
-c                     v(2,node1)=pt2/pt2zpt1_c*0.99d0
-c                  else
-c                     v(2,node1)=pt2/pt2zpt1_c*1.01d0
-c                  endif
-c               elseif(nactdog(2,node2).ne.0) then
-c                  if(beta.ge.0.d0) then
-c                     v(2,node2)=pt2zpt1_c*pt1*1.01d0
-c                  else
-c                     v(2,node2)=pt2zpt1_c*pt1*0.99d0
-c                  endif
-c               endif
             elseif(Qred.gt.Qred2_crit) then
 !     
 !              the flow is set to half the critical value
@@ -244,21 +230,7 @@ c               endif
 !              one of the pressures is adapted (depending on
 !              which variable is unknown)
 !     
-c               if(nactdog(1,nodem).ne.0) then
                   xflow=0.5d0*inv*Qred1_crit*pt1*A1/dsqrt(Tt1)
-c               elseif(nactdog(2,node1).ne.0) then
-c                  if(beta.ge.0.d0) then
-c                     v(2,node1)=pt2/pt2zpt1_c*0.99d0
-c                  else
-c                     v(2,node1)=pt2/pt2zpt1_c*1.01d0
-c                  endif
-c               elseif(nactdog(2,node2).ne.0) then
-c                  if(beta.ge.0.d0) then
-c                     v(2,node2)=pt2zpt1_c*pt1*1.01d0
-c                  else
-c                     v(2,node2)=pt2zpt1_c*pt1*0.99d0
-c                  endif
-c               endif
              elseif(Qred.gt.Qred1_crit) then
 !     
 !              the flow is set to half the critical value
@@ -267,7 +239,7 @@ c               endif
             endif
          endif
 !
-      elseif(iflag.eq.2)then
+      elseif(kflag.eq.2)then
 !
          numf=5
 !
@@ -301,7 +273,7 @@ c               endif
 !
          xflow=v(1,nodem)*iaxial
 !
-         write(*,*) 'gaspipe_rot: ',pt1,pt2,xflow,Tt1,Tt2
+         write(*,*) 'gaspipe_rot pt..: ',pt1,pt2,xflow,Tt1,Tt2
 !
          idirf(1)=2
          idirf(2)=0
@@ -422,7 +394,7 @@ c               endif
 !
                if(dabs((xflow-iaxial*v(1,nodem))/xflow).gt.1.d-5) then
                   iplausi=0
-                  if(nactdog(1,nodem).ne.0) v(1,nodem)=xflow/iaxial
+c                  if(nactdog(1,nodem).ne.0) v(1,nodem)=xflow/iaxial
                endif
                M2=dsqrt(((Tt2/T2)-1.d0)/km1d2)
                M2=min(M2,0.999d0)
@@ -482,7 +454,7 @@ c               M1=dsqrt(((Tt1/T1)-1.d0)/km1d2)
 !
                if(dabs((xflow-iaxial*v(1,nodem))/xflow).gt.1.d-5) then
                   iplausi=0
-                  if(nactdog(1,nodem).ne.0) v(1,nodem)=xflow/iaxial
+c                  if(nactdog(1,nodem).ne.0) v(1,nodem)=xflow/iaxial
                endif
 !
                M1=dsqrt(((Tt1/T1)-1.d0)/km1d2)
@@ -678,7 +650,7 @@ c         else
 !
 !     output
 !
-      elseif(iflag.eq.3) then
+      elseif(kflag.eq.3) then
 !
          pi=4.d0*datan(1.d0)
 !     

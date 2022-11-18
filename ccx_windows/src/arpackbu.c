@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -67,20 +67,24 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	      ITG *inotr, ITG *ntrans, double *ttime,double *fmpc,
 	      ITG *ipobody, ITG *ibody,double *xbody, ITG *nbody, 
 	      double *thicke,char *jobnamec,ITG *nmat,ITG *ielprop,
-	      double *prop,char *orname,char *typeboun){
+	      double *prop,char *orname,char *typeboun,double *t0g,
+	      double *t1g){
   
   char bmat[2]="G", which[3]="LM", howmny[2]="A",
-    description[13]="            ",*tieset=NULL;
+    description[13]="            ",*tieset=NULL,*labmpc2=NULL;
 
   ITG *inum=NULL,k,ido,dz,iparam[11],ipntr[11],lworkl,im,nasym=0,
-    info,rvec=1,*select=NULL,lfin,j,lint,iout,iconverged=0,ielas,icmd=0,
+    info,rvec=1,*select=NULL,lfin,j,lint,iout,iconverged=0,ielas=1,icmd=0,
     iinc=1,istep=1,*ncocon=NULL,*nshcon=NULL,nev,ncv,mxiter,jrow,
     coriolis=0,ifreebody,symmetryflag=0,
     inputformat=0,ngraph=1,mt=mi[1]+1,mass[2]={0,0}, stiffness=1, buckling=0, 
     rhsi=1, intscheme=0, noddiam=-1,*ipneigh=NULL,*neigh=NULL,ne0,
     *integerglob=NULL,ntie,icfd=0,*inomat=NULL,mortar=0,*islavnode=NULL,
     *islavact=NULL,*nslavnode=NULL,*islavsurf=NULL,kscale=1,
-    *iponoel=NULL,*inoel=NULL,network=0,nrhs=1,*itiefac=NULL,mscalmethod=0;
+    *iponoel=NULL,*inoel=NULL,network=0,nrhs=1,*itiefac=NULL,mscalmethod=0,
+    *islavelinv=NULL,*irowtloc=NULL,*jqtloc=NULL,nboun2,
+    *ndirboun2=NULL,*nodeboun2=NULL,nmpc2,*ipompc2=NULL,*nodempc2=NULL,
+    *ikboun2=NULL,*ilboun2=NULL,*ikmpc2=NULL,*ilmpc2=NULL,mortartrafoflag=0;
 
   double *stn=NULL,*v=NULL,*resid=NULL,*z=NULL,*workd=NULL,
     *workl=NULL,*d=NULL,sigma,*temp_array=NULL,*fnext=NULL,
@@ -93,7 +97,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
     *vmax=NULL,*stnmax=NULL,*cs=NULL,*springarea=NULL,*eenmax=NULL,
     *emeini=NULL,*doubleglob=NULL,*au=NULL,*clearini=NULL,
     *ad=NULL,*b=NULL,*aub=NULL,*adb=NULL,*pslavsurf=NULL,*pmastsurf=NULL,
-    *cdnr=NULL,*cdni=NULL,*energyini=NULL,*energy=NULL,*smscale=NULL;
+    *cdnr=NULL,*cdni=NULL,*energyini=NULL,*energy=NULL,*smscale=NULL,
+    *autloc=NULL,*xboun2=NULL,*coefmpc2=NULL;
 
   /* buckling routine; only for mechanical applications */
 
@@ -118,19 +123,6 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
      order calculation if iperturb != 0 */
 
   *nmethod=1;
-  
-  /* assigning the body forces to the elements */ 
-
-  /*  if(*nbody>0){
-    ifreebody=*ne+1;
-    NNEW(ipobody,ITG,2*ifreebody**nbody);
-    for(k=1;k<=*nbody;k++){
-      FORTRAN(bodyforce,(cbody,ibody,ipobody,nbody,set,istartset,
-			 iendset,ialset,&inewton,nset,&ifreebody,&k));
-      RENEW(ipobody,ITG,2*(*ne+ifreebody));
-    }
-    RENEW(ipobody,ITG,2*(ifreebody-1));
-  }
 
   /* determining the internal forces and the stiffness coefficients */
 
@@ -140,10 +132,17 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 
   NNEW(xstiff,double,(long long)27*mi[0]**ne);
 
-  //  iout=-1;
   NNEW(v,double,mt**nk);
   NNEW(fn,double,mt**nk);
   NNEW(stx,double,6*mi[0]**ne);
+
+  /* following fields are needed if *ener==1 or kode<-100 */
+    
+  NNEW(vini,double,mt**nk);
+  NNEW(eei,double,6*mi[0]**ne);
+  NNEW(stiini,double,6*mi[0]*ne0);
+  NNEW(emeini,double,6*mi[0]*ne0);
+  if(*nener==1) NNEW(enerini,double,mi[0]*ne0);
 
   iout=-1;
   NNEW(inum,ITG,*nk);
@@ -166,7 +165,11 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	    &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	    islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
 	    inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
-	    itiefac,tieset,smscale,&mscalmethod,nbody);
+	    itiefac,tieset,smscale,&mscalmethod,nbody,t0g,t1g,
+	    islavelinv,autloc,irowtloc,jqtloc,&nboun2,
+	    ndirboun2,nodeboun2,xboun2,&nmpc2,ipompc2,nodempc2,coefmpc2,
+	    labmpc2,ikboun2,ilboun2,ikmpc2,ilmpc2,&mortartrafoflag,
+	    &intscheme);
   }else{
     results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
 	    elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
@@ -186,8 +189,15 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	    &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	    islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
 	    inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
-	    itiefac,tieset,smscale,&mscalmethod,nbody);
+	    itiefac,tieset,smscale,&mscalmethod,nbody,t0g,t1g,
+	    islavelinv,autloc,irowtloc,jqtloc,&nboun2,
+	    ndirboun2,nodeboun2,xboun2,&nmpc2,ipompc2,nodempc2,coefmpc2,
+	    labmpc2,ikboun2,ilboun2,ikmpc2,ilmpc2,&mortartrafoflag,
+	    &intscheme);
   }
+  
+  SFREE(eei);SFREE(stiini);SFREE(emeini);SFREE(vini);
+  if(*nener==1) SFREE(enerini);
 
   SFREE(v);SFREE(fn);SFREE(stx);SFREE(inum);
   iout=1;
@@ -215,7 +225,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 		 xstateini,xstate,thicke,integerglob,doubleglob,
 		 tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,pmastsurf,
 		 &mortar,clearini,ielprop,prop,&ne0,fnext,&kscale,iponoel,inoel,
-		 &network,ntrans,inotr,trab,smscale,&mscalmethod);
+		 &network,ntrans,inotr,trab,smscale,&mscalmethod,set,nset,
+		 islavelinv,autloc,irowtloc,jqtloc,&mortartrafoflag);
   }
   else{
     mafillsmmain(co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,xboun,nboun,
@@ -234,7 +245,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 		 xstateini,xstate,thicke,integerglob,doubleglob,
 		 tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,
 		 pmastsurf,&mortar,clearini,ielprop,prop,&ne0,fnext,&kscale,
-		 iponoel,inoel,&network,ntrans,inotr,trab,smscale,&mscalmethod);
+		 iponoel,inoel,&network,ntrans,inotr,trab,smscale,&mscalmethod,
+		 set,nset,islavelinv,autloc,irowtloc,jqtloc,&mortartrafoflag);
   }
 
   /* determining the right hand side */
@@ -263,7 +275,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	mi,sti,vr,vi,stnr,stni,vmax,stnmax,&ngraph,veold,ener,ne,
 	cs,set,nset,istartset,iendset,ialset,eenmax,fnr,fni,emn,
 	thicke,jobnamec,output,qfx,cdn,&mortar,cdnr,cdni,nmat,
-	ielprop,prop);
+	ielprop,prop,sti);
     
     if(strcmp1(&filab[1044],"ZZS")==0){SFREE(ipneigh);SFREE(neigh);}
     SFREE(inum);FORTRAN(stop,());
@@ -279,7 +291,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
     spooles(ad,au,adb,aub,&sigma,b,icol,irow,&neq[0],&nzs[0],&symmetryflag,
             &inputformat,&nzs[2]);
 #else
-    printf("*ERROR in arpackbu: the SPOOLES library is not linked\n\n");
+    printf(" *ERROR in arpackbu: the SPOOLES library is not linked\n\n");
     FORTRAN(stop,());
 #endif
   }
@@ -288,7 +300,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
     token=1;
     sgi_main(ad,au,adb,aub,&sigma,b,icol,irow,&neq[0],&nzs[0],token);
 #else
-    printf("*ERROR in arpackbu: the SGI library is not linked\n\n");
+    printf(" *ERROR in arpackbu: the SGI library is not linked\n\n");
     FORTRAN(stop,());
 #endif
   }
@@ -296,7 +308,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 #ifdef TAUCS
     tau(ad,&au,adb,aub,&sigma,b,icol,&irow,&neq[0],&nzs[0]);
 #else
-    printf("*ERROR in arpackbu: the TAUCS library is not linked\n\n");
+    printf(" *ERROR in arpackbu: the TAUCS library is not linked\n\n");
     FORTRAN(stop,());
 #endif
   }
@@ -305,7 +317,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
     pardiso_main(ad,au,adb,aub,&sigma,b,icol,irow,&neq[0],&nzs[0],
 		 &symmetryflag,&inputformat,jq,&nzs[2],&nrhs);
 #else
-    printf("*ERROR in arpackbu: the PARDISO library is not linked\n\n");
+    printf(" *ERROR in arpackbu: the PARDISO library is not linked\n\n");
     FORTRAN(stop,());
 #endif    
   }
@@ -314,7 +326,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
     pastix_main(ad,au,adb,aub,&sigma,b,icol,irow,&neq[0],&nzs[0],
 		&symmetryflag,&inputformat,jq,&nzs[2],&nrhs);
 #else
-    printf("*ERROR in arpackbu: the PASTIX library is not linked\n\n");
+    printf(" *ERROR in arpackbu: the PASTIX library is not linked\n\n");
     FORTRAN(stop,());
 #endif    
   }
@@ -332,11 +344,11 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
   if(strcmp1(&filab[2697],"ME  ")==0) NNEW(emn,double,6**nk);
   if(strcmp1(&filab[522],"ENER")==0) NNEW(enern,double,*nk);
 
+  NNEW(vini,double,mt**nk);
   NNEW(eei,double,6*mi[0]**ne);
-  if(*nener==1){
-    NNEW(stiini,double,6*mi[0]**ne);
-    NNEW(emeini,double,6*mi[0]**ne);
-    NNEW(enerini,double,mi[0]**ne);}
+  NNEW(stiini,double,6*mi[0]**ne);
+  NNEW(emeini,double,6*mi[0]**ne);
+  if(*nener==1) NNEW(enerini,double,mi[0]**ne);
 
   if(*iperturb==0){
     results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,
@@ -358,7 +370,11 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	    &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	    islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
             inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
-	    itiefac,tieset,smscale,&mscalmethod,nbody);}
+	    itiefac,tieset,smscale,&mscalmethod,nbody,t0g,t1g,
+	    islavelinv,autloc,irowtloc,jqtloc,&nboun2,
+	    ndirboun2,nodeboun2,xboun2,&nmpc2,ipompc2,nodempc2,coefmpc2,
+	    labmpc2,ikboun2,ilboun2,ikmpc2,ilmpc2,&mortartrafoflag,
+	    &intscheme);}
   else{
     results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,
 	    stx,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
@@ -378,7 +394,11 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	    &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	    islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
             inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
-	    itiefac,tieset,smscale,&mscalmethod,nbody);
+	    itiefac,tieset,smscale,&mscalmethod,nbody,t0g,t1g,
+	    islavelinv,autloc,irowtloc,jqtloc,&nboun2,
+	    ndirboun2,nodeboun2,xboun2,&nmpc2,ipompc2,nodempc2,coefmpc2,
+	    labmpc2,ikboun2,ilboun2,ikmpc2,ilmpc2,&mortartrafoflag,
+	    &intscheme);
   }
 
   for(k=0;k<mt**nk;++k){
@@ -398,7 +418,7 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
       mi,stx,vr,vi,stnr,stni,vmax,stnmax,&ngraph,veold,ener,ne,
       cs,set,nset,istartset,iendset,ialset,eenmax,fnr,fni,emn,
       thicke,jobnamec,output,qfx,cdn,&mortar,cdnr,cdni,nmat,
-      ielprop,prop);
+      ielprop,prop,sti);
 
   if(strcmp1(&filab[1044],"ZZS")==0){SFREE(ipneigh);SFREE(neigh);}
   SFREE(v);SFREE(fn);SFREE(stn);SFREE(inum);
@@ -436,7 +456,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 		 xstateini,xstate,thicke,integerglob,doubleglob,
 		 tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,
 		 pmastsurf,&mortar,clearini,ielprop,prop,&ne0,fnext,&kscale,
-		 iponoel,inoel,&network,ntrans,inotr,trab,smscale,&mscalmethod);
+		 iponoel,inoel,&network,ntrans,inotr,trab,smscale,&mscalmethod,
+		 set,nset,islavelinv,autloc,irowtloc,jqtloc,&mortartrafoflag);
   }
   else{
     mafillsmmain(co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,xboun,nboun,
@@ -455,7 +476,8 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 		 xstateini,xstate,thicke,integerglob,doubleglob,
 		 tieset,istartset,iendset,ialset,&ntie,&nasym,pslavsurf,
 		 pmastsurf,&mortar,clearini,ielprop,prop,&ne0,fnext,&kscale,
-		 iponoel,inoel,&network,ntrans,inotr,trab,smscale,&mscalmethod);
+		 iponoel,inoel,&network,ntrans,inotr,trab,smscale,&mscalmethod,
+		 set,nset,islavelinv,autloc,irowtloc,jqtloc,&mortartrafoflag);
   }
 
   SFREE(stx);SFREE(fext);
@@ -499,16 +521,21 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
       pardiso_factor(ad,au,adb,aub,&sigma,icol,irow,&neq[0],&nzs[0],
 		     &symmetryflag,&inputformat,jq,&nzs[2]);
 #else
-      printf("*ERROR in arpack: the PARDISO library is not linked\n\n");
+      printf(" *ERROR in arpack: the PARDISO library is not linked\n\n");
       FORTRAN(stop,());
 #endif
     }
     else if(*isolver==8){
 #ifdef PASTIX
+#ifdef PARDISO
+      pardiso_factor(ad,au,adb,aub,&sigma,icol,irow,&neq[0],&nzs[0],
+		     &symmetryflag,&inputformat,jq,&nzs[2]);
+#else
       pastix_factor_main(ad,au,adb,aub,&sigma,icol,irow,&neq[0],&nzs[0],
 		    &symmetryflag,&inputformat,jq,&nzs[2]);
+#endif
 #else
-      printf("*ERROR in arpack: the PASTIX library is not linked\n\n");
+      printf(" *ERROR in arpack: the PASTIX library is not linked\n\n");
       FORTRAN(stop,());
 #endif
     }
@@ -570,8 +597,12 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	  }
 	  else if(*isolver==8){
 #ifdef PASTIX
+#ifdef PARDISO
+	    pardiso_solve(temp_array,&neq[0],&symmetryflag,&inputformat,&nrhs);
+#else
 	    if( pastix_solve(temp_array,&neq[0],&symmetryflag,&nrhs)==-1 )
-          printf("*WARNING in arpackbu: solving step didn't converge! Continuing anyway\n");
+          printf(" *WARNING in arpackbu: solving step didn't converge! Continuing anyway\n");
+#endif
 #endif
 	  }
 	  for(jrow=0;jrow<neq[0];jrow++){
@@ -603,8 +634,13 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	  }
 	  else if(*isolver==8){
 #ifdef PASTIX
+#ifdef PARDISO
+	    pardiso_solve(&workd[ipntr[2]-1],&neq[0],
+			  &symmetryflag,&inputformat,&nrhs);
+#else
 	    if( pastix_solve(&workd[ipntr[2]-1],&neq[0],&symmetryflag,&nrhs)==-1 )
-           printf("*WARNING in arpackbu: solving step didn't converge! Continuing anyway\n");
+           printf(" *WARNING in arpackbu: solving step didn't converge! Continuing anyway\n");
+#endif
 #endif
 	  }
 	  for(jrow=0;jrow<neq[0];jrow++){
@@ -651,11 +687,14 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
     }
     else if(*isolver==8){
 #ifdef PASTIX
+#ifdef PARDISO
+      pardiso_cleanup(&neq[0],&symmetryflag,&inputformat);
+#endif
 #endif
     }
 
     if(info!=0){
-      printf("*ERROR in arpackbu: info=%" ITGFORMAT "\n",info);
+      printf(" *ERROR in arpackbu: info=%" ITGFORMAT "\n",info);
       printf("       # of converged eigenvalues=%" ITGFORMAT "\n\n",iparam[4]);
     }         
 
@@ -732,7 +771,11 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	      &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	      islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
               inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
-	      itiefac,tieset,smscale,&mscalmethod,nbody);}
+	      itiefac,tieset,smscale,&mscalmethod,nbody,t0g,t1g,
+	      islavelinv,autloc,irowtloc,jqtloc,&nboun2,
+	      ndirboun2,nodeboun2,xboun2,&nmpc2,ipompc2,nodempc2,coefmpc2,
+	      labmpc2,ikboun2,ilboun2,ikmpc2,ilmpc2,&mortartrafoflag,
+	      &intscheme);}
     else{
       results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,
 	      stx,elcon,
@@ -753,7 +796,11 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	      &mortar,islavact,cdn,islavnode,nslavnode,&ntie,clearini,
 	      islavsurf,ielprop,prop,energyini,energy,&kscale,iponoel,
               inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
-	      itiefac,tieset,smscale,&mscalmethod,nbody);
+	      itiefac,tieset,smscale,&mscalmethod,nbody,t0g,t1g,
+	      islavelinv,autloc,irowtloc,jqtloc,&nboun2,
+	      ndirboun2,nodeboun2,xboun2,&nmpc2,ipompc2,nodempc2,coefmpc2,
+	      labmpc2,ikboun2,ilboun2,ikmpc2,ilmpc2,&mortartrafoflag,
+	      &intscheme);
     }
 
     ++*kode;
@@ -769,15 +816,14 @@ void arpackbu(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	mi,stx,vr,vi,stnr,stni,vmax,stnmax,&ngraph,veold,ener,ne,
 	cs,set,nset,istartset,iendset,ialset,eenmax,fnr,fni,emn,
 	thicke,jobnamec,output,qfx,cdn,&mortar,cdnr,cdni,nmat,
-	ielprop,prop);
+	ielprop,prop,sti);
 
     if(strcmp1(&filab[1044],"ZZS")==0){SFREE(ipneigh);SFREE(neigh);}
   }
 
   SFREE(v);SFREE(fn);SFREE(stn);SFREE(inum);SFREE(stx);SFREE(z);SFREE(d);
-  SFREE(eei);SFREE(xstiff);
-  if(*nener==1){
-    SFREE(stiini);SFREE(emeini);SFREE(enerini);}
+  SFREE(eei);SFREE(xstiff);SFREE(stiini);SFREE(emeini);SFREE(vini);
+  if(*nener==1)SFREE(enerini);
 
   if(strcmp1(&filab[261],"E   ")==0) SFREE(een);
   if(strcmp1(&filab[2697],"ME  ")==0) SFREE(emn);

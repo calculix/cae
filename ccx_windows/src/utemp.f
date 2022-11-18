@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -130,14 +130,22 @@
 !       1. delete the next call to utemp_ccxlib
 !       2. write your own code replacing the line "temp(1)=293.d0"
 !
-      call utemp_ccxlib(temp,msecpt,kstep,kinc,time,node,coords,vold,
-     &  mi)
+c      call utemp_ccxlib(temp,msecpt,kstep,kinc,time,node,coords,vold,
+c     &  mi)
 !
 !     Start here your own code. The next line is an example of how your
 !     code could look like.
 !
 c      temp(1)=293.d0
 !
+      if(node.eq.262) then
+        temp(1)=150.
+      else
+        temp(1)=100.
+      endif
+      if((time(1).gt.4.5e-9).and.(ipkon(33).gt.-1))
+     &     ipkon(33)=-2-ipkon(33)
+      write(*,*) 'utemp',time(1),ipkon(33)
       return
       end
 

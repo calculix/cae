@@ -1,6 +1,6 @@
 
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,20 +17,20 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine quadraticsens(ipkon,lakon,kon,nobject,dgdxglob,
-     &   xinterpol,nnodes,ne,nk,nodedesiinv,objectset)
+     &   xinterpol,nnodes,ne,nk,nodedesiinv,objectset,nobjectstart)
 !
 !     interpolation of the sensitivitites of the midnodes to the 
 !     corner nodes - only valid for quadratic elements
 !
       implicit none
 !
-      character*81 objectset(4,*)
+      character*81 objectset(5,*)
       character*8 lakon(*)
 !
       integer i,ii,j,l,ielem,nodecor,nk,ne,
      &   nope,indexe,ipkon(*),konl(26),ifaceq(2,20),
      &   ifacet(2,10),ifacew(2,15),kon(*),nnodes(nk),nobject,
-     &   nodedesiinv(nk),start
+     &   nodedesiinv(nk),start,nobjectstart
 !
       real*8 dgdxglob(2,nk,nobject),xinterpol(nk,nobject)
 !
@@ -147,8 +147,8 @@
 !     
       do i=1,nk
          if(nnodes(i).gt.0) then
-            do j=1,nobject
-               if(objectset(1,j)(1:9).eq.'THICKNESS') cycle
+            do j=1+nobjectstart,nobject
+               if(objectset(1,j)(4:13).eq.'MEMBERSIZE') cycle
                if(objectset(1,j)(1:9).eq.'FIXGROWTH') cycle
                if(objectset(1,j)(1:12).eq.'FIXSHRINKAGE') cycle
                dgdxglob(1,i,j)=xinterpol(i,j)/nnodes(i)

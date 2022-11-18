@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -36,8 +36,6 @@
      &     edgelength(6),hmax,radius
 !
       data ine /1,2,2,3,1,3,1,4,2,4,3,4/
-!
-!
 !
 !     alpha is the proporionality factor
 !            

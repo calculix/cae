@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine user_network_element(node1,node2,nodem,nelem,lakon,kon,
-     &     ipkon,nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     ipkon,nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,cp,R,physcon,dvi,numf,set,co,vold,mi,ttime,
      &     time,iaxial,iplausi)
 !     
@@ -30,13 +30,11 @@
       character*81 set(*)
 !     
       integer nelem,nactdog(0:3,*),node1,node2,nodem,numf,
-     &     ielprop(*),nodef(*),idirf(*),iflag,ipkon(*),kon(*),
+     &     ielprop(*),nodef(*),idirf(*),kflag,ipkon(*),kon(*),
      &     iaxial,mi(*),iplausi
 !     
       real*8 prop(*),v(0:mi(2),*),xflow,f,df(*),R,cp,physcon(*),dvi,
      &     co(3,*),vold(0:mi(2),*),ttime,time
-!
-!
 !
 !     list of different user network elements
 !
@@ -50,7 +48,7 @@
 !        this just contains a skeleton file
 !
          call user_network_element_p0(node1,node2,nodem,nelem,lakon,kon,
-     &     ipkon,nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     ipkon,nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,cp,R,physcon,dvi,numf,set,co,vold,mi,ttime,
      &     time,iaxial,iplausi)
       elseif((lakon(nelem)(3:4).eq.'P1').or.
@@ -59,7 +57,7 @@
 !        this is a working example
 !
          call user_network_element_p1(node1,node2,nodem,nelem,lakon,kon,
-     &     ipkon,nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     ipkon,nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,cp,R,physcon,dvi,numf,set,co,vold,mi,ttime,
      &     time,iaxial,iplausi)
       endif

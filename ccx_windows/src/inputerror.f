@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -39,14 +39,5 @@
 !
       ier=1
 !
-!     look for the next keyword
-!
-c      do
-c         call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,
-c     &        ipoinp,inp,ipoinpc)
-c         if(key.eq.1) exit
-c      enddo
-!
-c      call exit(201)
       return
       end

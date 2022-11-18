@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -29,7 +29,7 @@
       character*132 textpart(16)
 !     
       integer istep,istat,n,key,i,ii,ier,iline,ipol,inl,ipoinp(2,*),
-     &     inp(3,*),ipoinpc(0:*),nset,ipos
+     &     inp(3,*),ipoinpc(0:*),nset,ipos,id
 !     
       if(istep.lt.1) then
         write(*,*) 
@@ -48,8 +48,8 @@
       do ii=2,n
         if(textpart(ii)(1:6).eq.'LIMIT=') then
           filab(48)(7:26)=textpart(ii)(7:26)
-        elseif(textpart(ii)(1:4).eq.'USER') then
-          filab(48)(1:6)='RMUSER'
+c        elseif(textpart(ii)(1:4).eq.'USER') then
+c          filab(48)(1:6)='RMUSER'
         elseif(textpart(ii)(1:6).eq.'ELSET=') THEN
           elset(1:60)=textpart(ii)(7:66)
           if(textpart(ii)(67:67).ne.' ') then
@@ -77,9 +77,16 @@
 !     check whether a set was defined, and if any, whether it exists
 !      
       if(ipos.gt.0) then
-        do i=1,nset
-          if(set(i).eq.elset) exit
-        enddo
+c        do i=1,nset
+c          if(set(i).eq.elset) exit
+c        enddo
+        call cident81(set,elset,nset,id)
+        i=nset+1
+        if(id.gt.0) then
+          if(elset.eq.set(id)) then
+            i=id
+          endif
+        endif
         if(i.gt.nset) then
           elset(ipos:ipos)=' '
           write(*,*) '*ERROR reading *REFINE MESH: element set',elset

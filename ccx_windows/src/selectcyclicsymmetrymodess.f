@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -124,10 +124,17 @@
 !
 !     check whether cyclic symmetry axis is part of the structure
 !
-         do i=1,nset
-            if(set(i).eq.leftset) exit
-         enddo
-         ileft=i
+c         do i=1,nset
+c            if(set(i).eq.leftset) exit
+c         enddo
+c         ileft=i
+         call cident81(set,leftset,nset,id)
+         ileft=nset+1
+         if(id.gt.0) then
+           if(leftset.eq.set(id)) then
+             ileft=id
+           endif
+         endif
 !     
 !     if this step was preceded by a cyclic symmetry step:
 !     check for MPC's for nodes on the cyclic symmetry axis

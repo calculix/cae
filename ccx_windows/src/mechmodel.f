@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -71,7 +71,7 @@
       elseif(kode.eq.-50) then
          mattyp=3
          call defplas(elconloc,elas,emec,ithermal,icmd,beta,stre,
-     &     ckl,vj)
+     &     ckl,vj,xstate,nstate_,iel,iint,mi)
       elseif(kode.gt.-100) then
          mattyp=3
          if(iperturb(2).eq.1) then

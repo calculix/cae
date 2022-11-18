@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -238,8 +238,8 @@ void premortar(ITG *iflagact,ITG *ismallsliding,ITG *nzs,ITG *nzsc2,
 	       double *energyini,
 	       double *energy,ITG *kscale,ITG *iponoel,ITG *inoel,ITG *nener,
 	       char *orname,ITG *network,
-	       char *typeboun,ITG *num_cpus
-	       ){
+	       char *typeboun,ITG *num_cpus,double *t0g,double *t1g,
+	       double *smscale,ITG *mscalmethod,char *jobnamef){
   
   ITG im,i,ii,j,jj,k,l,mt=mi[1]+1,node,jfaces,nelems,ifaces,nope,nopes,idummy,
     *ndirboun2=NULL,*nodeboun2=NULL,*ipompc2=NULL,*nodempc2=NULL,nodes[8],
@@ -256,7 +256,7 @@ void premortar(ITG *iflagact,ITG *ismallsliding,ITG *nzs,ITG *nzsc2,
     *irowddinv=NULL,*jqddinv=NULL,*irowddtil2=NULL,*jqddtil2=NULL,
     *irowtemp=NULL,*icoltemp=NULL,*jqtemp=NULL,*inum=NULL,*icoltil=NULL,
     *irowtil=NULL,*jqtil=NULL,
-    *nodeforc2=NULL,*ndirforc2=NULL;
+    *nodeforc2=NULL,*ndirforc2=NULL,mortartrafoflag=1;
   
   double alpha,*xboun2=NULL,*coefmpc2=NULL,*auc2=NULL,*adc2=NULL,*aubd=NULL,
     *aubdtil=NULL,*aubdtil2=NULL,*ftil=NULL,*fexttil=NULL,
@@ -415,7 +415,7 @@ void premortar(ITG *iflagact,ITG *ismallsliding,ITG *nzs,ITG *nzsc2,
 			 islavspc2,nsspc2,nslavmpc2,islavmpc2,
 			 nsmpc2,nmastspc,imastspc,nmspc,nmastmpc,
 			 imastmpc,nmmpc,nmastmpc2,imastmpc2,
-			 nmmpc2));
+			 nmmpc2,jobnamef));
   
   RENEW(islavspc,ITG,2**nsspc+1);
   RENEW(islavmpc,ITG,2**nsmpc+1);
@@ -527,27 +527,31 @@ void premortar(ITG *iflagact,ITG *ismallsliding,ITG *nzs,ITG *nzsc2,
   /* calculating the internal forces and tangent stiffness using
      modified shape functions for quadratic elements */
   
-  if(debug==1)printf(" precontactmortar: call results_dstil\n");
-  results_dstil(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,elcon,nelcon,
-		rhcon,nrhcon,alcon,nalcon,alzero,ielmat,ielorien,norien,
-		orab,ntmat_,t0,t1act,ithermal,prestr,iprestr,filab,eme,emn,
-		een,iperturb,ftil,fn,nactdof,iout,qa,vold,b,nodeboun,
-		ndirboun,xbounact,nboun,ipompc,nodempc,coefmpc,labmpc,nmpc,
-		nmethod,cam,&neq[1],veold,accold,bet,gam,dtime,time,ttime,
-		plicon,nplicon,plkcon,nplkcon,xstateini,xstiff,xstate,
-		npmat_,epn,matname,mi,ielas,icmd,ncmat_,nstate_,stiini,
-		vini,ikboun,ilboun,ener,enern,emeini,xstaten,eei,enerini,
-		cocon,ncocon,set,nset,istartset,iendset,ialset,nprint,
-		prlab,prset,qfx,qfn,trab,inotr,ntrans,fmpc2,nelemload,
-		nload,ikmpc,ilmpc,istep,iinc,springarea,reltime,ne0,thicke,
-		shcon,nshcon,sideload,xloadact,xloadold,icfd,inomat,
-		pslavsurf,pmastsurf,mortar,islavact,cdn,islavnode,
-		nslavnode,ntie,clearini,ielprop,prop,energyini,energy,
-		kscale,iponoel,inoel,nener,orname,network,ipobody,xbodyact,
-		ibody,typeboun,islavelinv,autloc,irowtloc,jqtloc,nboun2,
-		ndirboun2,nodeboun2,xboun2,nmpc2,ipompc2,nodempc2,coefmpc2,
-		labmpc2,ikboun2,ilboun2,ikmpc2,ilmpc2);
-		
+  if(debug==1)printf(" precontactmortar: call results\n");
+  results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+        elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
+        ielorien,norien,orab,ntmat_,t0,t1act,ithermal,
+        prestr,iprestr,filab,eme,emn,een,iperturb,
+        ftil,fn,nactdof,iout,qa,vold,b,nodeboun,
+        ndirboun,xbounact,nboun,ipompc,
+        nodempc,coefmpc,labmpc,nmpc,nmethod,cam,&neq[1],veold,accold,
+        bet,gam,dtime,time,ttime,plicon,nplicon,plkcon,nplkcon,
+        xstateini,xstiff,xstate,npmat_,epn,matname,mi,ielas,icmd,
+        ncmat_,nstate_,stiini,vini,ikboun,ilboun,ener,enern,emeini,
+        xstaten,eei,enerini,cocon,ncocon,set,nset,istartset,iendset,
+        ialset,nprint,prlab,prset,qfx,qfn,trab,inotr,ntrans,fmpc2,
+        nelemload,nload,ikmpc,ilmpc,istep,iinc,springarea,
+        reltime,ne0,thicke,shcon,nshcon,
+        sideload,xloadact,xloadold,icfd,inomat,pslavsurf,pmastsurf,
+        mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
+        islavsurf,ielprop,prop,energyini,energy,kscale,iponoel,
+        inoel,nener,orname,network,ipobody,xbodyact,ibody,typeboun,
+	itiefac,tieset,smscale,mscalmethod,nbody,t0g,t1g,
+        islavelinv,autloc,irowtloc,jqtloc,nboun2,
+        ndirboun2,nodeboun2,xboun2,nmpc2,ipompc2,nodempc2,coefmpc2,
+        labmpc2,ikboun2,ilboun2,ikmpc2,ilmpc2,&mortartrafoflag,
+	intscheme);
+  
   if(debug==1)printf(" precontactmortar: results_dstil finished\n");
   fflush(stdout);
   
@@ -567,32 +571,32 @@ void premortar(ITG *iflagact,ITG *ismallsliding,ITG *nzs,ITG *nzsc2,
   for(i=0;i<nzs[1];i++){
     irowtil[i]=irow[i];}
   
-  if(debug==1)printf(" precontactmortar: call mafillsmmain_dstil\n");
+  if(debug==1)printf(" precontactmortar: call mafillsmmain\n");
   fflush(stdout);
   
   /* calculating the external forces fext and stiffness matrix au/ad using
      modified shape functions for quadratic elements */
   
-  mafillsmmain_dstil(co,nk,kon,ipkon,lakon,ne,
-		     ipompc2,nodempc2,coefmpc2,nmpc2,nodeforc2,ndirforc2,xforc2,
-		     nforc2,nelemload,sideload,xloadact,nload,xbodyact,ipobody,
-		     nbody,cgr,adtil,autil,fexttil,nactdof,icol,jqtil,irowtil,
-		     neq,nzl,
-		     nmethod,ikmpc2,ilmpc2,
-		     elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,
-		     ielmat,ielorien,norien,orab,ntmat_,
-		     t0,t1act,ithermal,prestr,iprestr,vold,iperturb,sti,
-		     nzs,stx,adbtil,aubtil,iexpl,plicon,nplicon,plkcon,nplkcon,
-		     xstiff,npmat_,dtime,matname,mi,
-		     ncmat_,mass,stiffness,buckling,rhsi,intscheme,
-		     physcon,shcon,nshcon,cocon,ncocon,ttime,time,istep,iinc,
-		     coriolis,ibody,xloadold,reltime,veold,springarea,nstate_,
-		     xstateini,xstate,thicke,integerglob,doubleglob,
-		     tieset,istartset,iendset,ialset,ntie,nasym,pslavsurf,
-		     pmastsurf,mortar,clearini,ielprop,prop,ne0,fnext,kscale,
-		     iponoel,inoel,network,ntrans,inotr,trab,
-		     nslavnode,islavnode,islavsurf,islavelinv,
-		     autloc,irowtloc,jqtloc);
+  mafillsmmain(co,nk,kon,ipkon,lakon,ne,nodeboun2,ndirboun2,xboun2,nboun2,
+	       ipompc2,nodempc2,coefmpc2,nmpc2,nodeforc2,ndirforc2,xforc2,
+	       nforc2,nelemload,sideload,xloadact,nload,xbodyact,ipobody,
+	       nbody,cgr,adtil,autil,fexttil,nactdof,icol,jqtil,irowtil,
+	       neq,nzl,
+	       nmethod,ikmpc2,ilmpc2,ikboun2,ilboun2,
+	       elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,
+	       ielmat,ielorien,norien,orab,ntmat_,
+	       t0,t1act,ithermal,prestr,iprestr,vold,iperturb,sti,
+	       nzs,stx,adb,aub,iexpl,plicon,nplicon,plkcon,nplkcon,
+	       xstiff,npmat_,dtime,matname,mi,
+	       ncmat_,mass,stiffness,buckling,rhsi,intscheme,
+	       physcon,shcon,nshcon,cocon,ncocon,ttime,time,istep,iinc,
+	       coriolis,ibody,xloadold,reltime,veold,springarea,nstate_,
+	       xstateini,xstate,thicke,integerglob,doubleglob,
+	       tieset,istartset,iendset,ialset,ntie,nasym,pslavsurf,
+	       pmastsurf,mortar,clearini,ielprop,prop,ne0,fnext,kscale,
+	       iponoel,inoel,network,ntrans,inotr,trab,smscale,
+	       mscalmethod,set,nset,islavelinv,autloc,irowtloc,jqtloc,
+	       &mortartrafoflag);
   
   if(debug==1)printf(" precontactmortar: mafillsmmain_dstil finished\n");
   fflush(stdout);
@@ -663,6 +667,7 @@ void premortar(ITG *iflagact,ITG *ismallsliding,ITG *nzs,ITG *nzsc2,
   *iout=0;
   iperturb[0]=iperturb_sav[0];
   iperturb[1]=iperturb_sav[1];
+  mortartrafoflag=0;
   
   *ndirboun2p=ndirboun2;*nodeboun2p=nodeboun2;*xboun2p=xboun2;
   *ipompc2p=ipompc2;*nodempc2p=nodempc2;*coefmpc2p=coefmpc2;

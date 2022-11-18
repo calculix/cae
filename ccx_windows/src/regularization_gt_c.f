@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 !
 !
 !     regularization function for tangential contact mortar
-!     (old, only for contactstress2)
+!     (old, only for stressmortar)
 !
 !  [in]	lambdatt	lambdatilde_tau=lambda_tau-bar{lambda}_tau
 !  [in]	divmode 	indicates whether funtion or derivate 

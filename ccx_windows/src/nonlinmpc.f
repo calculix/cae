@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -827,6 +827,7 @@ c     &          (labmpc(ii)(1:7).ne.'CONTACT').and.
      &        (labmpc(ii)(1:7).ne.'NETWORK').and.
      &        (labmpc(ii)(1:5).ne.'FLUID').and.
      &        (labmpc(ii)(1:6).ne.'CYCLIC').and.
+     &        (labmpc(ii)(1:2).ne.'RM').and.
      &        (labmpc(ii)(1:14).ne.'ROTTRACOUPLING').and.
      &        (labmpc(ii)(1:9).ne.'SUBCYCLIC')) then
          index=ipompc(ii)

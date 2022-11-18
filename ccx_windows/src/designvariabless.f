@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,7 +20,7 @@
      &       istat,n,iline,ipol,inl,ipoinp,inp,ntie,ntie_,ipoinpc,
      &       set,nset,ier)
 !
-!     reading the input deck: *DESIGNVARIABLES
+!     reading the input deck: *DESIGN VARIABLES
 !
       implicit none
 !
@@ -29,14 +29,15 @@
       character*132 textpart(16)
 !
       integer istep,istat,n,i,key,ipos,iline,ipol,inl,ipoinp(2,*),
-     &  inp(3,*),ntie,ntie_,ipoinpc(0:*),nset,itype,ier
+     &  inp(3,*),ntie,ntie_,ipoinpc(0:*),nset,itype,ier,id
 !
-      real*8 tietol(3,*)
+      real*8 tietol(4,*)
 !
 !     Check of correct position in Inputdeck
 !
       if(istep.gt.0) then
-         write(*,*) '*ERROR reading *DESIGN VARIABLES: *DESIGNVARIABLES'
+        write(*,*)
+     &       '*ERROR reading *DESIGN VARIABLES: *DESIGN VARIABLES'
          write(*,*) ' should be placed before all step definitions'
          ier=1
          return
@@ -51,7 +52,7 @@
          return
       endif
 !
-!     Read in *DESIGNVARIABLES
+!     Read in *DESIGN VARIABLES
 !
       itype=0
       do i=2,n
@@ -60,10 +61,17 @@
      &           tieset(1,ntie)(1:80)
             if(istat.gt.0) then
                call inputerror(inpc,ipoinpc,iline,
-     &              "*DESIGNVARIABLE%",ier)
+     &              "*DESIGN VARIABLES%",ier)
                return
             endif
             itype=1
+        else
+          write(*,*) 
+     &   '*WARNING reading *DESIGN VARIABLES: parameter not recognized:'
+          write(*,*) '         ',
+     &         textpart(i)(1:index(textpart(i),' ')-1)
+          call inputwarning(inpc,ipoinpc,iline,
+     &         "*DESIGN VARIABLES%")
          endif
        enddo  
 !
@@ -71,7 +79,7 @@
          write(*,*) 
      &'*ERROR reading *DESIGN VARIABLES: type is lacking'
          call inputerror(inpc,ipoinpc,iline,
-     &        "*DESIGNVARIABLE%",ier)
+     &        "*DESIGN VARIABLES%",ier)
          return
       endif
 !
@@ -98,9 +106,13 @@
 !
 !        Check existence of the node set
 !
-         do i=1,nset
-            if(set(i).eq.tieset(2,ntie)) exit
-         enddo
+         call cident81(set,tieset(2,ntie),nset,id)
+         i=nset+1
+         if(id.gt.0) then
+           if(tieset(2,ntie).eq.set(id)) then
+             i=id
+           endif
+         endif
          if(i.gt.nset) then
             write(*,*) '*ERROR reading *DESIGN VARIABLES'
             write(*,*) 'node set ',tieset(2,ntie)(1:ipos-1),

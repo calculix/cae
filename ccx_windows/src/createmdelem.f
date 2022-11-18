@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -74,13 +74,20 @@
      &        (prlab(m)(1:4).eq.'EVOL').or.
      &        (prlab(m)(1:4).eq.'HFL ')) then
             noset=prset(m)
+c            nrset=0
+c            do k=1,nset
+c               if(set(k).eq.noset) then
+c                  nrset=k
+c                  exit
+c               endif
+c            enddo
+            call cident81(set,noset,nset,id)
             nrset=0
-            do k=1,nset
-               if(set(k).eq.noset) then
-                  nrset=k
-                  exit
-               endif
-            enddo
+            if(id.gt.0) then
+              if(noset.eq.set(id)) then
+                nrset=id
+              endif
+            endif
 !
 !           adding the elements belonging to nrset
 !

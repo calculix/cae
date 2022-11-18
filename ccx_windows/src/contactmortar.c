@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                     */
+/*              Copyright (C) 1998-2022 Guido Dhondt                     */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -674,7 +674,7 @@ void contactmortar(ITG *ncont,ITG *ntie,char *tieset,ITG *nset,char *set,
     
     /* Petrov-Galerkin formulation (Sitzmann, Chapter 4.2.) */
     
-    multimortar2(&au,ad,&irow,jq,&nzs2,&auc,adc,&irowc,jqc,nzsc,aubd,irowbd,
+    multimortar(&au,ad,&irow,jq,&nzs2,&auc,adc,&irowc,jqc,nzsc,aubd,irowbd,
 		 jqbd,aubdtil,irowbdtil,jqbdtil,aubdtil2,irowbdtil2,jqbdtil2,
 		 irowdd,jqdd,audd,irowddtil2,jqddtil2,auddtil2,irowddinv,
 		 jqddinv,auddinv,Bpgd,irowbpg,jqbpg,Dpgd,irowdpg,jqdpg,Ddtil,
@@ -693,7 +693,7 @@ void contactmortar(ITG *ncont,ITG *ntie,char *tieset,ITG *nset,char *set,
     
     /* normal formulation (Sitzmann, Chapter 4.1.)*/
     
-    multimortar2(&au,ad,&irow,jq,&nzs2,&auc,adc,&irowc,jqc,nzsc,aubd,irowbd,
+    multimortar(&au,ad,&irow,jq,&nzs2,&auc,adc,&irowc,jqc,nzsc,aubd,irowbd,
 		 jqbd,aubdtil,irowbdtil,jqbdtil,aubdtil2,irowbdtil2,jqbdtil2,
 		 irowdd,jqdd,audd,irowddtil2,jqddtil2,auddtil2,irowddinv,
 		 jqddinv,auddinv,Bd,irowb,jqb,Dd,irowd,jqd,Ddtil,irowdtil,

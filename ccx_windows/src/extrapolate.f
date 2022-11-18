@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -31,6 +31,9 @@
 !     the number of internal state variables is limited to 999
 !     (cfr. array field)
 !
+!     the variable iorienloc indicates whether output is to be
+!     done in the global (0) or local (1) system
+!
       implicit none
 !
       logical force
@@ -52,8 +55,6 @@
      &  dlayer(4),xlayer(mi(3),4),thickness,xs2(3,7),xl2(3,8),
      &  xsj2(3),shp2(7,8),thicke(mi(3),*),coloc(3,8),
      &  xwedge(2,2,9),a14(8,14),a6(6,6)
-!
-!
 !
       include "gauss.f"
 !
@@ -414,7 +415,7 @@
             call extrapolate_u(yi,yn,ipkon,inum,kon,lakon,nfield,nk,
      &           ne,mi,ndim,orab,ielorien,co,iorienloc,cflag,
      &           vold,force,ielmat,thicke,ielprop,prop,i)
-            return
+            cycle
          else
             cycle
          endif
@@ -530,7 +531,9 @@
                   mint3d=9
                endif
             elseif(lakon(i)(4:4).eq.'6') then
-               mint3d=2
+              mint3d=2
+            else
+              cycle
             endif
 !
             do j=1,nope

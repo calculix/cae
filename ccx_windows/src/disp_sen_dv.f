@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -24,7 +24,7 @@
 !
       implicit none
 !
-      character*81 objectset(4,*)
+      character*81 objectset(5,*)
 !
       integer istartset(*),iendset(*),ialset(*),nodeset,idir,
      &  idof,iobject,mi(*),nactdof(0:mi(2),*),j,k,nactdofinv(*),
@@ -43,7 +43,7 @@
             inode=nactdofinv(idof)               
             idir=inode-mt*(inode/mt);
             node=inode/mt+1;
-            if(objectset(1,iobject)(1:12).eq.'DISPLACEMENT') then
+            if(objectset(1,iobject)(1:8).eq.'ALL-DISP') then
                dgdu(idof)=vold(idir,node)/g0(iobject)
             elseif(objectset(1,iobject)(1:6).eq.'X-DISP') then
                if(idir.eq.1) then
@@ -62,7 +62,7 @@
       else
          do j=istartset(nodeset),iendset(nodeset)      
             if(ialset(j).gt.0) then
-               if(objectset(1,iobject)(1:12).eq.'DISPLACEMENT') then
+               if(objectset(1,iobject)(1:8).eq.'ALL-DISP') then
                   do idir=1,3
                      idof=nactdof(idir,ialset(j))
                      if(idof.gt.0) then
@@ -90,7 +90,7 @@
                do
                   k=k-ialset(j)
                   if(k.ge.ialset(j-1)) exit
-                  if(objectset(1,iobject)(1:12).eq.'DISPLACEMENT') then
+                  if(objectset(1,iobject)(1:8).eq.'ALL-DISP') then
                      do idir=1,3
                         idof=nactdof(idir,ialset(j))
                         if(idof.gt.0) then

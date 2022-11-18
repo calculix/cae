@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -24,30 +24,35 @@
 #include "CalculiX.h"
 
 void stress_sen_dv(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
-       double *dstn,double *elcon,ITG *nelcon,
-       double *rhcon,ITG *nrhcon,double *alcon,ITG *nalcon,double *alzero,
-       ITG *ielmat,ITG *ielorien,ITG *norien,double *orab,ITG *ntmat_,
-       double *t0,double *t1,ITG *ithermal,double *prestr,ITG *iprestr,
-       char *filab,ITG *iperturb,double *dv, ITG *nmethod,double *dtime,
-       double *time,double *ttime,double *plicon,ITG *nplicon,double *plkcon,     
-       ITG *nplkcon,double *xstateini,double *xstate,ITG *npmat_,char *matname,
-       ITG *mi,ITG *ielas,ITG *ncmat_,ITG *nstate_,double *stiini,double *vini,      
-       double *emeini,double *enerini,ITG *istep,ITG *iinc,double *springarea,
-       double *reltime, ITG *ne0,double *thicke,double *pslavsurf,
-       double *pmastsurf,ITG *mortar,double *clearini,ITG *ielprop,double *prop,       
-       ITG *kscale,ITG *iobject,double *g0,ITG *nea,ITG *neb,ITG *nasym,     
-       double *distmin,double *dstx,ITG *ialnk,double *dgdu,ITG *ialeneigh,       
-       ITG *neaneigh,ITG *nebneigh,ITG *ialnneigh,ITG *naneigh,ITG *nbneigh,
-       double *stn,double *expks,char *objectset,ITG *idof,ITG *node,
-       ITG *idir,double *vold,double *dispmin){         
+		   double *dstn,double *elcon,ITG *nelcon,double *rhcon,
+		   ITG *nrhcon,double *alcon,ITG *nalcon,double *alzero,
+		   ITG *ielmat,ITG *ielorien,ITG *norien,double *orab,
+		   ITG *ntmat_,double *t0,double *t1,ITG *ithermal,
+		   double *prestr,ITG *iprestr,char *filab,ITG *iperturb,
+		   double *dv, ITG *nmethod,double *dtime,double *time,
+		   double *ttime,double *plicon,ITG *nplicon,double *plkcon,
+		   ITG *nplkcon,double *xstateini,double *xstate,ITG *npmat_,
+		   char *matname,ITG *mi,ITG *ielas,ITG *ncmat_,ITG *nstate_,
+		   double *stiini,double *vini,double *emeini,double *enerini,
+		   ITG *istep,ITG *iinc,double *springarea,double *reltime,
+		   ITG *ne0,double *thicke,double *pslavsurf,double *pmastsurf,
+		   ITG *mortar,double *clearini,ITG *ielprop,double *prop,
+		   ITG *kscale,ITG *iobject,double *g0,ITG *nea,ITG *neb,
+		   ITG *nasym,double *distmin,double *dstx,ITG *ialnk,
+		   double *dgdu,ITG *ialeneigh,ITG *neaneigh,ITG *nebneigh,
+		   ITG *ialnneigh,ITG *naneigh,ITG *nbneigh,double *stn,
+		   double *expks,char *objectset,ITG *idof,ITG *node,ITG *idir,
+		   double *vold,double *dispmin){         
             
   ITG symmetryflag=0,mt=mi[1]+1,i,iactpos,calcul_fn,list,
-      calcul_qa,calcul_cauchy,ikin=0,nal,iout=2,icmd=3,nener=0,
-      *inum=NULL,nprintl=0,unperturbflag,nfield,ndim,iorienglob,
-      force,mscalmethod=0;
+    calcul_qa,calcul_cauchy,ikin=0,nal,iout=2,icmd=3,nener=0,
+    *inum=NULL,nprintl=0,unperturbflag,nfield,ndim,iorienglob,
+    force,mscalmethod=0,*islavelinv=NULL,*irowtloc=NULL,*jqtloc=NULL,
+    mortartrafoflag=0,intscheme=0;
 
   double *fn=NULL,*eei=NULL,qa[4]={0.,0.,-1.,0.},*xstiff=NULL,*ener=NULL,    
-    *eme=NULL,kspart,dksper,*smscale=NULL,enerscal=0.;
+    *eme=NULL,kspart,dksper,*smscale=NULL,enerscal=0.,*t0g=NULL,*t1g=NULL,
+    *autloc=NULL;
   
   char cflag[1];
     
@@ -69,17 +74,19 @@ void stress_sen_dv(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
   
   list=1;
   FORTRAN(resultsmech,(co,kon,ipkon,lakon,ne,dv,
-      dstx,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,
-      ielmat,ielorien,norien,orab,ntmat_,t0,t1,ithermal,prestr,
-      iprestr,eme,iperturb,fn,&iout,qa,dv,
-      nmethod,
-      dv,dtime,time,ttime,plicon,nplicon,plkcon,nplkcon,
-      xstateini,xstiff,xstate,npmat_,matname,mi,ielas,&icmd,
-      ncmat_,nstate_,stiini,vini,ener,eei,enerini,istep,iinc,
-      springarea,reltime,&calcul_fn,&calcul_qa,&calcul_cauchy,&nener,
-      &ikin,&nal,ne0,thicke,emeini,
-      pslavsurf,pmastsurf,mortar,clearini,nea,neb,ielprop,
-      prop,kscale,&list,ialnk,smscale,&mscalmethod,&enerscal));
+		       dstx,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,
+		       ielmat,ielorien,norien,orab,ntmat_,t0,t1,ithermal,prestr,
+		       iprestr,eme,iperturb,fn,&iout,qa,dv,
+		       nmethod,
+		       dv,dtime,time,ttime,plicon,nplicon,plkcon,nplkcon,
+		       xstateini,xstiff,xstate,npmat_,matname,mi,ielas,&icmd,
+		       ncmat_,nstate_,stiini,vini,ener,eei,enerini,istep,iinc,
+		       springarea,reltime,&calcul_fn,&calcul_qa,&calcul_cauchy,
+		       &nener,&ikin,&nal,ne0,thicke,emeini,
+		       pslavsurf,pmastsurf,mortar,clearini,nea,neb,ielprop,
+		       prop,kscale,&list,ialnk,smscale,&mscalmethod,&enerscal,
+		       t0g,t1g,islavelinv,autloc,irowtloc,jqtloc,
+		       &mortartrafoflag,&intscheme));
 
   /* extrapolating the stresses */
 
@@ -87,17 +94,18 @@ void stress_sen_dv(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,ITG *ne,
   ndim=6;
   iorienglob=0;
   force=0;
-  strcpy1(&cflag[0],&filab[2962],1);
+  //  strcpy1(&cflag[0],&filab[2962],1);
+  strcpy1(&cflag[0],&filab[178],1);
   
   FORTRAN(extrapolate_se,(dstx,dstn,ipkon,inum,kon,lakon,
-  	  &nfield,nk,ne,mi,&ndim,orab,ielorien,co,&iorienglob,
-  	  cflag,dv,&force,ielmat,thicke,ielprop,prop,ialeneigh,
-          neaneigh,nebneigh,ialnneigh,naneigh,nbneigh));
+			  &nfield,nk,ne,mi,&ndim,orab,ielorien,co,&iorienglob,
+			  cflag,dv,&force,ielmat,thicke,ielprop,prop,ialeneigh,
+			  neaneigh,nebneigh,ialnneigh,naneigh,nbneigh));
 
   /* Calculate KS-function and sensitivity */
 
   FORTRAN(objective_stress_se,(nk,iobject,mi,dstn,objectset,
-  	  ialnneigh,naneigh,nbneigh,stn,&dksper));
+			       ialnneigh,naneigh,nbneigh,stn,&dksper));
 
   dgdu[*idof]=dksper/(*dispmin**expks);
       

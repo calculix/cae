@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine air_valve(node1,node2,nodem,nelem,lakon,kon,ipkon,
-     &        nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &        nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &        nodef,idirf,df,cp,r,physcon,dvi,numf,set,co,vold,mi,
      &        ttime,time,iaxial,iplausi)
 !
@@ -30,7 +30,7 @@
       character*81 set(*)
 !
       integer node1,node2,nodem,nelem,kon(*),ipkon(*),nactdog(0:3,*),
-     &  ielprop(*),iflag,nodef(5),idirf(5),numf,mi(*),iaxial,
+     &  ielprop(*),kflag,nodef(5),idirf(5),numf,mi(*),iaxial,
      &  iplausi
 !
       real*8 prop(*),v(0:mi(2),*),xflow,f,df(5),cp,r,physcon(*),dvi,

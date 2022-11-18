@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -156,9 +156,10 @@ c     &               1,17,17,5,2,18,18,6,3,19,19,7,4,20,20,8/),(/2,24/))
          endif
       enddo
 !
-c      distmin=dsqrt(distmin)*1.0e-04
+c     distmin=dsqrt(distmin)*1.0e-04
       distmin=dsqrt(distmin)*1.0e-06
-      write(*,*) 'smalldist ',distmin
+      write(*,'(1x,a14,e14.7)') 'Perturbation: ',distmin
+      write(*,*)
 !     
       return
       end

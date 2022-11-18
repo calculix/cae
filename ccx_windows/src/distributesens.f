@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
       subroutine distributesens(istartdesi,ialdesi,ipkon,lakon,
      &   ipoface,ndesi,nodedesi,nodface,kon,co,dgdx,nobject,
      &   weightformgrad,nodedesiinv,iregion,objectset,
-     &   dgdxglob,nk,physcon)
+     &   dgdxglob,nk,physcon,nobjectstart)
 !
 !     calculation of the relationship between facial distributions
 !     and corresponding nodal values
@@ -29,7 +29,7 @@
 !
       implicit none
 !
-      character*81 objectset(4,*)
+      character*81 objectset(5,*)
       character*8 lakon(*)
 !
       integer idesvar,j,k,kk,l,m,m1,n,istartdesi(*),
@@ -39,7 +39,8 @@
      &   ifacet(6,4),ifacew1(4,5),ifacew2(8,5),kon(*),
      &   nodes1(8),ifacel,iobject,nodes2(8),indexs,nk,
      &   ithree,i,node,ifacq(2,3,20),ifact(2,3,10),ifacw(2,3,15),
-     &   nopedesi,nnodes,nodedesiinv(*),nobject,iregion,iactnode
+     &   nopedesi,nnodes,nodedesiinv(*),nobject,iregion,iactnode,
+     &   nobjectstart
 !
       real*8 xi,et,weight,xl(3,9),xs(3,2),xsj(3),shp(7,9),
      &   co(3,*),xsjj,weightformgrad(ndesi),dgdx(ndesi,nobject),
@@ -452,8 +453,8 @@ c                     write(*,*) 'formgradient',nnodes,nopedesi
 !     Scaling of sensitivities
 !     
       do idesvar=1,ndesi
-         do iobject=1,nobject
-            if(objectset(1,iobject)(1:9).eq.'THICKNESS') cycle
+         do iobject=1+nobjectstart,nobject
+            if(objectset(1,iobject)(4:13).eq.'MEMBERSIZE') cycle
             if(objectset(1,iobject)(1:9).eq.'FIXGROWTH') cycle
             if(objectset(1,iobject)(1:12).eq.'FIXSHRINKAGE') cycle
             if(weightformgrad(idesvar).gt.0.d0) then

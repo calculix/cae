@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -38,7 +38,7 @@
       character*132 textpart(16)
 !
       integer istep,istat,n,key,ii,jout(2),joutl,nmethod,nener,
-     &  ithermal(*),ier,
+     &  ithermal(*),ier,id,
      &  iline,ipol,inl,ipoinp(2,*),inp(3,*),j,nlabel,nam,itpamp,i,
      &  idrct,ipoinpc(0:*),nef,ifile_output,ipos,nset
 !
@@ -93,6 +93,10 @@
                filab(j)(1:4)='    '
             enddo
             filab(43)(1:4)='    '
+            filab(47)(1:4)='    '
+            filab(49)(1:4)='    '
+            filab(50)(1:4)='    '
+            filab(54)(1:4)='    '
 !
             filab(1)(6:87)=' '
             filab(2)(6:87)=' '
@@ -114,6 +118,10 @@
                filab(j)(6:87)=' '
             enddo
             filab(43)(6:87)=' '
+            filab(47)(6:87)=' '
+            filab(49)(6:87)=' '
+            filab(50)(6:87)=' '
+            filab(54)(6:87)=' '
          endif
       elseif(ifile_output.eq.2) then
 !
@@ -139,6 +147,12 @@
             do j=39,42
                filab(j)(1:4)='    '
             enddo
+            filab(44)(1:4)='    '
+            filab(45)(1:4)='    '
+            do j=51,53
+               filab(j)(1:4)='    '
+            enddo
+            filab(55)(1:4)='    '
 !
             filab(3)(6:87)=' '
             filab(4)(6:87)=' '
@@ -155,6 +169,10 @@
             enddo
             filab(44)(6:87)=' '
             filab(45)(6:87)=' '
+            do j=51,53
+               filab(j)(6:87)=' '
+            enddo
+            filab(55)(6:87)=' '
 !
             sectionforces=.false.
          endif
@@ -173,6 +191,8 @@
             filab(26)(6:87)='    '
             filab(27)(1:4)='    '
             filab(27)(6:87)='    '
+            filab(46)(1:4)='    '
+            filab(46)(6:87)='    '
          endif
       endif
 !
@@ -311,9 +331,16 @@
 !     check the existence of the node set (if any was specified)
 !
       if(ipos.ne.0) then
-         do i=1,nset
-            if(set(i).eq.noset) exit
-         enddo
+c         do i=1,nset
+c            if(set(i).eq.noset) exit
+c         enddo
+        call cident81(set,noset,nset,id)
+        i=nset+1
+        if(id.gt.0) then
+          if(noset.eq.set(id)) then
+            i=id
+          endif
+        endif
          if(i.gt.nset) then
             noset(ipos:ipos)=' '
             write(*,*) 
@@ -547,7 +574,9 @@
                   write(*,*) 
      &'*WARNING reading *NODE/EL/CONTACT FILE: TURB only makes'
                   write(*,*) '         sense for 3D fluid calculations'
-               elseif(physcon(9).lt.1.d0) then
+                elseif((physcon(9).lt.1.d0).or.
+     &                 ((physcon(9).gt.10.d0).and.(physcon(9).lt.11.d0))
+     &                 )then
                   write(*,*) 
      &'*WARNING reading *NODE/EL/CONTACT FILE: TURB only makes'
                   write(*,*) '         sense for 3D fluid calculations'
@@ -744,18 +773,78 @@
                   filab(46)(6:6)=elemsys
                   filab(46)(7:87)=noset
                endif
-            elseif(textpart(ii)(1:4).eq.'SEN ') then
-               if(nmethod.ne.12) then
+            elseif(textpart(ii)(1:4).eq.'DEPF') then
+               if(nef.eq.0) then
                   write(*,*) 
-     &'*WARNING reading *NODE/EL/CONTACT FILE: SEN only makes'
-                  write(*,*) '         sense for sensitivity'
+     &'*WARNING reading *NODE/EL/CONTACT FILE: DEPF only makes'
+                  write(*,*) '         sense for 3D fluid calculations'
+               else
+                  filab(49)(1:4)='DEPF'
+                  filab(49)(6:6)=elemsys
+                  filab(49)(7:87)=noset
+               endif
+            elseif(textpart(ii)(1:4).eq.'DTF ') then
+               if(nef.eq.0) then
+                  write(*,*) 
+     &'*WARNING reading *NODE/EL/CONTACT FILE: DTF only makes'
+                  write(*,*) '         sense for 3D fluid calculations'
+               else
+                  filab(50)(1:4)='DTF '
+                  filab(50)(6:6)=elemsys
+                  filab(50)(7:87)=noset
+               endif
+            elseif(textpart(ii)(1:4).eq.'SNEG') then
+               filab(51)(1:4)='SNEG'
+               filab(51)(6:6)=elemsys
+               filab(51)(7:87)=noset
+            elseif(textpart(ii)(1:4).eq.'SMID') then
+               filab(52)(1:4)='SMID'
+               filab(52)(6:6)=elemsys
+               filab(52)(7:87)=noset
+            elseif(textpart(ii)(1:4).eq.'SPOS') then
+               filab(53)(1:4)='SPOS'
+               filab(53)(6:6)=elemsys
+               filab(53)(7:87)=noset
+            elseif(textpart(ii)(1:4).eq.'KEQ ') then
+               if(nmethod.ne.15) then
+                  write(*,*) 
+     &'*WARNING reading *NODE/EL/CONTACT FILE: KEQ only makes'
+                  write(*,*) '         sense for crack propagation'
                   write(*,*) '         calculations'
                else
-                  filab(47)(1:4)='SEN '
-                  filab(47)(6:6)=elemsys
-                  filab(47)(7:87)=noset
+                  filab(54)(1:4)='KEQ '
+                  filab(54)(6:6)=elemsys
+                  filab(54)(7:87)=noset
                endif
-            else
+             elseif(textpart(ii)(1:4).eq.'THE ') then
+!
+               write(*,*) '*INFO reading *NODE/EL/CONTACT FILE:'
+               write(*,*)
+     &'      the selection of the thermal strains triggers the'
+               write(*,*)
+     &'      extrapolation to the nodes and storage of the total'
+               write(*,*)
+     &'      and the mechanical strains as well; this is needed,'
+               write(*,*)
+     &'      since the thermal strains at the nodes are computed as'
+               write(*,*)
+     &'      the difference of the extrapolated total strains to the'
+               write(*,*)
+     &'      nodes and the extrapolated mechanical strains to the'
+               write(*,*)
+     &'      nodes'            
+               write(*,*)
+!
+               filab(4)(1:4)='E   '
+               filab(4)(6:6)=elemsys
+               filab(4)(7:87)=noset
+               filab(32)(1:4)='ME  '
+               filab(32)(6:6)=elemsys
+               filab(32)(7:87)=noset
+               filab(55)(1:4)='THE '
+               filab(55)(6:6)=elemsys
+               filab(55)(7:87)=noset
+             else
                write(*,*) 
      &'*WARNING reading *NODE/EL/CONTACT FILE: label not applicable'
                write(*,*) '         or unknown; '

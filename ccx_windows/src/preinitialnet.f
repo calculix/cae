@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,8 +19,6 @@
       subroutine preinitialnet(ieg,lakon,v,ipkon,kon,nflow,prop,ielprop,
      &     ielmat,ntmat_,shcon,nshcon,rhcon,nrhcon,mi,iponoel,inoel,
      &     itg,ntg)
-!
-!     this routine only applies to compressible networks
 !
 !     determination of initial values based on the boundary conditions
 !     and the initial values given by the user by propagating these
@@ -74,18 +72,6 @@
 !        initial pressure assigned
 !
          if(v(2,node).gt.0.d0) cycle
-!
-!        check whether any node in the element has a zero label
-!
-c         if((kon(ipkon(nelem)+1).eq.0).or.
-c     &        (kon(ipkon(nelem)+3).eq.0)) then
-c            write(*,*) '*ERROR in preinitialnet:'
-c            write(*,*) '       node',node,
-c     &         ' is connected to an inlet or outlet, yet'
-c            write(*,*) '       no initial pressure was assigned'
-c            ierror=1
-c            cycle
-c         endif
 !
 !        check whether node belongs to more than 1 element
 !
@@ -314,53 +300,11 @@ c         endif
                      kappa=cp/(cp-r)
 !
                      xl=prop(index+3)
-!                     
-c                     p1zp2=dexp(kappa*om2*(r1+r2)*xl/
-c     &                    ((1.d0-kappa)*cp*Ti*2.d0))
 !
 !                    improved formula
 !
                      p1zp2=(1.d0+om2*(r1+r2)*xl/(cp*v(0,node1)*2.d0))
      &                     **(kappa/(1.d0-kappa))
-!
-c                     if(v(0,node1).gt.0.d0) then
-c                        a1=xl*r1/(r2-r1)
-c                        disc=a1**2-2.d0*xl*cp*v(0,node1)/
-c     &                       (om2*(r2-r1))
-c                        if(disc.lt.0.d0) then
-c                           write(*,*) '*ERROR in preinitialnet:'
-c                           write(*,*) '       negative discriminant'
-c                           stop
-c                        endif
-c                        d1=-a1+dsqrt(disc)
-c                        d2=-a1-dsqrt(disc)
-c                        c1=(d1+a1)/(d1-d2)
-c                        c2=(d2+a1)/(d2-d1)
-c                        p2zp1=((d1-xl)/d1)**(2.d0*kappa*c1/(kappa-1))*
-c     &                       ((d2-xl)/d2)**(2.d0*kappa*c2/(kappa-1))
-cc     p1zp2=1.d0/p2zp1
-c                        write(*,*) 'preinitialnet p1zp2 ',
-c     &                              p1zp2,1.d0/p2zp1
-c                     else
-c                        a1=xl*r2/(r1-r2)
-c                        disc=a1**2-2.d0*xl*cp*v(0,node2)/
-c     &                       (om2*(r2-r1))
-c                        if(disc.lt.0.d0) then
-c                           write(*,*) '*ERROR in preinitialnet:'
-c                           write(*,*) '       negative discriminant'
-c                           stop
-c                        endif
-c                        d1=-a1+dsqrt(disc)
-c                        d2=-a1-dsqrt(disc)
-c                        c1=(d1+a1)/(d1-d2)
-c                        c2=(d2+a1)/(d2-d1)
-c                        p2zp1=1.d0/(
-c     &                       ((d1-xl)/d1)**(2.d0*kappa*c1/(kappa-1))*
-c     &                       ((d2-xl)/d2)**(2.d0*kappa*c2/(kappa-1)))
-cc     p1zp2=1.d0/p2zp1
-c                        write(*,*) 'preinitialnet p1zp2 ',
-c     &                              p1zp2,1.d0/p2zp1
-c                     endif
 !
                      if(v(2,node1).eq.0.d0) then
                         v(2,node1)=v(2,node2)*p1zp2
@@ -373,6 +317,7 @@ c                     endif
 !
 !                 mass flow is given (either size or just the
 !                 direction): small slope
+!                 (for compressible and incompressible networks)
 !
                   ierror=0
                   if(v(1,nodem).gt.0.d0) then
@@ -528,7 +473,8 @@ c                              write(*,*) nodenei,v(2,nodenei)
             endif
          enddo
 !
-!        propagation of the mass flow through the network
+!     propagation of the mass flow through the network
+!     (for compressible and incompressible networks)         
 !
          loop1: do i=1,nflow
             nelem=ieg(i)
@@ -703,7 +649,8 @@ c                              write(*,*) nodenei,v(2,nodenei)
             endif
          enddo loop1
 !
-!        propagation of the temperature
+!     propagation of the temperature
+!     (for compressible and incompressible networks)
 !
          do i=1,nflow
             nelem=ieg(i)
@@ -883,10 +830,10 @@ c         enddo
 c         if(v(2,node).lt.0.d0) v(2,node)=0.d0
          if(v(2,node).lt.0.d0) v(2,node)=-v(2,node)
       enddo
-         write(*,*) 'preinitialnet end '
-         do i=1,ntg
-            write(*,'(i10,3(1x,e11.4))') itg(i),(v(j,itg(i)),j=0,2)
-         enddo
+c         write(*,*) 'preinitialnet end '
+c         do i=1,ntg
+c            write(*,'(i10,3(1x,e11.4))') itg(i),(v(j,itg(i)),j=0,2)
+c         enddo
 !
 !     same for temperatures?
 !     

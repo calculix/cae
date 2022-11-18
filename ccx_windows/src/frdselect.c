@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -82,7 +82,7 @@ void frdselect(double *field1,double *field2,ITG *iset,ITG *nkcoords,ITG *inum,
 	    for(j=0;j<min(6,*ncomp);j++){
 	      if(ifield[j]==1){
 		if(strcmp1(output,"asc")==0){
-		    fprintf(f1,"%12.5E",(float)field1[i*nfield[0]+icomp[j]]);
+		  fprintf(f1,"%12.5E",(float)field1[i*nfield[0]+icomp[j]]);
 		}else if(strcmp1(output,"bin")==0){
 		  fl=(float)field1[i*nfield[0]+icomp[j]];
 		  fwrite(&fl,sizeof(float),1,f1);

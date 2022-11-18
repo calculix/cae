@@ -7,4 +7,4 @@ sed -i '/CFLAGS/ s/$/ -DINTSIZE64/' Makefile.inc
 
 make -j8 scotch
 make -j8 esmumps
-make prefix=~/PaStiX/scotch_i8 install
+make prefix=/home/guido/PaStiX/scotch_i8 install

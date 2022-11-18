@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -15,13 +15,14 @@
 !     You should have received a copy of the GNU General Public License
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-!     
-      subroutine applybounfem(nodeboun,ndirboun,nboun,xbounact,
-     &     ithermal,nk,iponoel,inoel,vold,vcontu,t1act,isolidsurf,
-     &     nsolidsurf,xsolidsurf,nfreestream,ifreestream,iturbulent,
-     &     vcon,shcon,nshcon,rhcon,nrhcon,ielmat,ntmat_,physcon,v,
-     &     compressible,ismooth,nmpc,nodempc,ipompc,coefmpc,inomat,
-     &     mi,ikboun,ilboun,ilmpc,labmpc)
+!                          !     
+      subroutine applybounfem(nodeboun,ndirboun,xbounact,
+     &     nk,vold,isolidsurf,xsolidsurf,ifreestream,iturbulent,
+     &     vcon,shcon,nshcon,ntmat_,physcon,v,
+     &     compressible,nodempc,ipompc,coefmpc,inomat,
+     &     mi,ilboun,ilmpc,labmpc,coefmodmpc,iexplicit,nbouna,
+     &     nbounb,nmpca,nmpcb,nfreestreama,nfreestreamb,
+     &     nsolidsurfa,nsolidsurfb)
 !     
 !     1) applies temperature and velocity SPC's for
 !     incompressible fluids (liquids)
@@ -34,25 +35,27 @@
 !     
       character*20 labmpc(*)
 !     
-      integer iturbulent,compressible,
-     &     nrhcon(*),mi(*),ielmat(mi(3),*),ntmat_,nodeboun(*),
-     &     isolidsurf(*),j,ilboun(*),ilmpc(*),ikboun(*),
-     &     ndirboun(*),nshcon(*),nk,i,nboun,node,imat,ithermal(*),
-     &     iponoel(*),
-     &     inoel(3,*),nsolidsurf,ifreenode,ifreestream(*),nfreestream,k,
-     &     index,ismooth,indexi,nodei,nmpc,nodempc(3,*),ipompc(*),
-     &     ist,ndir,ndiri,inomat(*),nref
+      integer iturbulent,compressible,mi(*),ntmat_,
+     &     nodeboun(*),isolidsurf(*),j,ilboun(*),ilmpc(*),
+     &     ndirboun(*),nshcon(*),nk,i,node,imat,
+     &     iexplicit,ifreestream(*),
+     &     index,nodei,nodempc(3,*),ipompc(*),
+     &     ist,ndir,ndiri,inomat(*),nref,nbouna,nbounb,
+     &     nmpca,nmpcb,nfreestreama,nfreestreamb,nsolidsurfa,
+     &     nsolidsurfb
 !     
-      real*8 rhcon(0:1,ntmat_,*),rho,vold(0:mi(2),*),xbounact(*),
-     &     shcon(0:3,ntmat_,*),
-     &     vcontu(2,*),t1act(*),temp,xsolidsurf(*),reflength,sum,
-     &     refkin,reftuf,refvel,vcon(0:4,*),physcon(*),v(0:mi(2),*),
-     &     rhoi,coefmpc(*),residu,size,correction,cp,xkin,xtu,sumk,sumt,
-     &     dvi,r
+      real*8 rho,vold(0:mi(2),*),xbounact(*),
+     &     shcon(0:3,ntmat_,*),xnorm,coefmodmpc(*),
+     &     temp,xsolidsurf(*),sum,vcon(nk,0:mi(2)),physcon(*),
+     &     coefmpc(*),residu,correction,xkin,xtu,sumk,sumt,
+     &     dvi,v(nk,0:mi(2))
 !     
       nref=0
+!
+!     SPC's: temperature, velocity and pressure (latter only for
+!     compressible fluids)
 !     
-      do j=1,nboun
+      do j=nbouna,nbounb
 !     
 !     monotonically increasing DOF-order
 !     
@@ -62,44 +65,27 @@
 !     have already been treated
 !     
         ndir=ndirboun(i)
-        if((compressible.eq.0).and.(ndir.gt.3)) cycle
+        if((iexplicit.eq.0).and.(ndir.gt.3)) cycle
 !     
 !     check whether fluid node
 !     
         node=nodeboun(i)
-        if(inomat(node).eq.0) cycle
-!     
-!     calculating the conservative variables for the previously
-!     treated node, if any
-!     
-        if(node.ne.nref) then
-          if(nref.ne.0) then
-            call phys2con(inomat,nref,vold,ntmat_,shcon,nshcon,
-     &           physcon,compressible,vcon,rhcon,nrhcon,ithermal,mi)
-          endif
-          nref=node
-        endif
 !     
 !     calculating the physical variables for the node at stake
 !     
         vold(ndir,node)=xbounact(i)
+        if(node.le.nk) v(node,ndir)=0.d0
       enddo
 !     
-!     treating the remaining node
+!     MPC's: temperature, velocity and pressure
 !     
-      if(nref.ne.0) then
-        call phys2con(inomat,nref,vold,ntmat_,shcon,nshcon,
-     &       physcon,compressible,vcon,rhcon,nrhcon,ithermal,mi)
-      endif
-!     
-!     inserting velocity and temperature MPC's: incompressible fluids
-!     
-c      if((compressible.eq.0).or.(compressible.eq.1)) then
       if(compressible.eq.0) then
+!
+!     incompressible fluids
+!
         nref=0
 !     
-        do j=1,nmpc
-c        do j=1,nref
+        do j=nmpca,nmpcb
 !     
 !     monotonically increasing DOF-order
 !     
@@ -110,12 +96,10 @@ c        do j=1,nref
 !     have already been treated
 !     
           ndir=nodempc(2,ist)
-          if((compressible.eq.0).and.(ndir.gt.3)) cycle
 !     
 !     check whether fluid node
 !     
           node=nodempc(1,ist)
-          if(inomat(node).eq.0) cycle
 !     
 !     calculating the value of the dependent DOF of the MPC
 !     
@@ -130,29 +114,14 @@ c        do j=1,nref
             if(index.eq.0) exit
           enddo
 !     
-!     calculating the conservative variables for the previously
-!     treated node, if any
-!     
-          if(node.ne.nref) then
-            if(nref.ne.0) then
-              call phys2con(inomat,nref,vold,ntmat_,shcon,nshcon,
-     &             physcon,compressible,vcon,rhcon,nrhcon,ithermal,mi)
-            endif
-            nref=node
-          endif
-!     
 !     calculating the physical variables for the node at stake
 !     
           vold(ndir,node)=-sum/coefmpc(ist)
+          if(node.le.nk) v(node,ndir)=0.d0
         enddo
-!     
-!     treating the remaining node
-!     
-        if(nref.ne.0) then
-          call phys2con(inomat,nref,vold,ntmat_,shcon,nshcon,
-     &         physcon,compressible,vcon,rhcon,nrhcon,ithermal,mi)
-        endif
       else
+!
+!     compressible fluids
 !     
 !     MPC's are treated by distributing the residual proportional to
 !     the coefficients
@@ -163,8 +132,7 @@ c        do j=1,nref
 !
         nref=0
 !        
-c        do j=1,nref
-        do j=1,nmpc
+        do j=nmpca,nmpcb
           i=ilmpc(j)
           index=ipompc(i)
 !     
@@ -172,29 +140,15 @@ c        do j=1,nref
 !     have already been treated
 !     
           ndir=nodempc(2,index)
-          if((compressible.eq.0).and.(ndir.gt.3)) cycle
 !     
 !     check whether fluid node
 !     
           node=nodempc(1,index)
-          if(inomat(node).eq.0) cycle
-!     
-!     calculating the conservative variables for the previously
-!     treated node, if any
-!     
-          if(node.ne.nref) then
-            if(nref.ne.0) then
-              call phys2con(inomat,nref,vold,ntmat_,shcon,nshcon,
-     &             physcon,compressible,vcon,rhcon,nrhcon,ithermal,mi)
-            endif
-            nref=node
-          endif
 !     
 !     calculating the value of the dependent DOF of the MPC
 !     
           residu=coefmpc(index)*vold(ndir,node)
-c          write(*,*) 'applybounfem ',i,coefmpc(index)
-c          size=coefmpc(index)**2
+          xnorm=1.d0
           if(index.eq.0) cycle
           do
             index=nodempc(3,index)
@@ -202,32 +156,22 @@ c          size=coefmpc(index)**2
             nodei=nodempc(1,index)
             ndiri=nodempc(2,index)
             residu=residu+coefmpc(index)*vold(ndiri,nodei)
-c            size=size+coefmpc(index)**2
           enddo
 !     
 !     correcting all terms of the MPC
 !
-c          write(*,*) 'applybounfem size ',size
-c          residu=residu/size
-!     
           index=ipompc(i)
           do
             nodei=nodempc(1,index)
             ndiri=nodempc(2,index)
 !     
-            correction=-residu*coefmpc(index)
+            correction=-residu*coefmodmpc(index)
             vold(ndiri,nodei)=vold(ndiri,nodei)+correction
+            if(nodei.le.nk) v(nodei,ndiri)=0.d0
             index=nodempc(3,index)
             if(index.eq.0) exit
           enddo
         enddo
-!     
-!     treating the remaining node
-!     
-        if(nref.ne.0) then
-          call phys2con(inomat,nref,vold,ntmat_,shcon,nshcon,
-     &         physcon,compressible,vcon,rhcon,nrhcon,ithermal,mi)
-        endif
 !     
       endif
 !     
@@ -237,7 +181,7 @@ c          residu=residu/size
 !     
         xtu=10.d0*physcon(5)/physcon(8)
         xkin=10.d0**(-3.5d0)*xtu
-        do j=1,nfreestream
+        do j=nfreestreama,nfreestreamb
           node=ifreestream(j)
           imat=inomat(node)
           if(imat.eq.0) cycle
@@ -246,50 +190,46 @@ c          residu=residu/size
 !     
 !     density 
 !     
-          if(compressible.eq.1) then
-c     r=shcon(3,1,imat)
-c     rho=vold(4,node)/
-c     &        (r*(vold(0,node)-physcon(1)))
-          else
-            call materialdata_rho(rhcon,nrhcon,imat,rho,
-     &           temp,ntmat_,ithermal)
-          endif
+          rho=vcon(node,4)
 !     
-          vcontu(1,node)=xkin*dvi
-          vcontu(2,node)=xtu*rho
+          vcon(node,5)=xkin*dvi
+          vcon(node,6)=xtu*rho
+!          
+          vold(5,node)=vcon(node,5)/rho
+          vold(6,node)=xtu
+!
+          v(node,5)=0.d0
+          v(node,6)=0.d0
         enddo
 !     
-!     solid boundary conditions for the iturbulent variables 
+!     solid boundary conditions for the turbulent variables 
 !     
-        do j=1,nsolidsurf
+        do j=nsolidsurfa,nsolidsurfb
+!
+!         turbulent kinetic energy is applied at the wall
+!
           node=isolidsurf(j)
           imat=inomat(node)
           if(imat.eq.0) cycle
           temp=vold(0,node)
           call materialdata_dvifem(imat,ntmat_,temp,shcon,nshcon,dvi)
-!     
-!     density
-!     
-          if(compressible.eq.1) then
-c     r=shcon(3,1,imat)
-c     rho=vold(4,node)/
-c     &        (r*(vold(0,node)-physcon(1)))
-          else
-            call materialdata_rho(rhcon,nrhcon,imat,rho,
-     &           temp,ntmat_,ithermal)
-          endif
-!     
-          vcontu(1,node)=0.d0
-c     vcontu(2,node)=800.d0*dvi/(xsolidsurf(j)**2)
-c     vcontu(2,node)=1.e-10
+          rho=vcon(node,4)
+          vcon(node,5)=0.d0
+          vcon(node,6)=800.d0*dvi/(xsolidsurf(j)**2)
+!
+          vold(5,node)=0.d0
+          vold(6,node)=vcon(node,6)/rho
+!
+          v(node,5)=0.d0
+          v(node,6)=0.d0
         enddo
 !     
 !     taking fluid pressure MPC's into account: it is assumed
 !     that cyclic fluid pressure MPC's also apply to the iturbulent
-!     conservative variables (to be changed later -> physical
-!     variables)
+!     conservative variables
 !     
-        do i=1,nmpc
+        do j=nmpca,nmpcb
+          i=ilmpc(j)
           if(labmpc(i)(1:6).ne.'CYCLIC') cycle
           ist=ipompc(i)
           ndir=nodempc(2,ist)
@@ -302,17 +242,20 @@ c     vcontu(2,node)=1.e-10
           if(imat.eq.0) cycle
 !     
           index=nodempc(3,ist)
+          if(index.eq.0) cycle
+!          
           sumk=0.d0
           sumt=0.d0
 !     
           do
-            if(index.eq.0) exit
-            sumk=sumk+coefmpc(index)*vcontu(1,nodei)
-            sumt=sumt+coefmpc(index)*vcontu(2,nodei)
+            nodei=nodempc(1,index)
+            sumk=sumk+coefmpc(index)*vcon(nodei,5)
+            sumt=sumt+coefmpc(index)*vcon(nodei,6)
             index=nodempc(3,index)
+            if(index.eq.0) exit
           enddo
-          vcontu(1,node)=-sumk/coefmpc(ist)
-          vcontu(2,node)=-sumt/coefmpc(ist)
+          vcon(node,5)=-sumk/coefmpc(ist)
+          vcon(node,6)=-sumt/coefmpc(ist)
         enddo
       endif
 !     

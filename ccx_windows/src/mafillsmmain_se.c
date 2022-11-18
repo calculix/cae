@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -22,21 +22,21 @@
 #include <pthread.h>
 #include "CalculiX.h"
 
-static char *lakon1,*sideload1,*matname1,*tieset1,*labmpc1;
+static char *lakon1,*sideload1,*matname1,*tieset1,*labmpc1,*set1;
 
 static ITG *nk1,*kon1,*ipkon1,*ne1,*nodeboun1,*ndirboun1,*nboun1,
-    *ipompc1,*nodempc1,*nmpc1,*nodeforc1,*ndirforc1,*nforc1,*nelemload1,
-    *nload1,*ipobody1,*nbody1,*nactdof1,*neq1,
-    *nmethod1=NULL,*ikmpc1,*ilmpc1,*ikboun1,*ilboun1,*nelcon1,
-    *nrhcon1,*nalcon1,*ielmat1,*ielorien1,*norien1,*ntmat1_,*ithermal1,
-    *iprestr1,*iperturb1,*iexpl1,*nplicon1,*nplkcon1,*npmat1_,
-    *mi1,*ncmat1_,*mass1,*stiffness1,*buckling1,*rhsi1,*intscheme1,
-    *nshcon1,*ncocon1,*istep1,*iinc1,*coriolis1,*ibody1,*nstate1_,
-    *integerglob1,*istartset1,*iendset1,*ialset1,*ntie1,*nasym1,
-    *mortar1,*ielprop1,*ne01,num_cpus,*ndesi1,*nodedesi1,
-    *nzss1,*jqs1,*irows1,*icoordinate1,*istartelem1,*ialelem1,
-    *cyclicsymmetry1,*ics1,*mcs1,*ieigenfrequency1,*neapar=NULL,
-    *nebpar=NULL;
+  *ipompc1,*nodempc1,*nmpc1,*nodeforc1,*ndirforc1,*nforc1,*nelemload1,
+  *nload1,*ipobody1,*nbody1,*nactdof1,*neq1,
+  *nmethod1=NULL,*ikmpc1,*ilmpc1,*ikboun1,*ilboun1,*nelcon1,
+  *nrhcon1,*nalcon1,*ielmat1,*ielorien1,*norien1,*ntmat1_,*ithermal1,
+  *iprestr1,*iperturb1,*iexpl1,*nplicon1,*nplkcon1,*npmat1_,
+  *mi1,*ncmat1_,*mass1,*stiffness1,*buckling1,*rhsi1,*intscheme1,
+  *nshcon1,*ncocon1,*istep1,*iinc1,*coriolis1,*ibody1,*nstate1_,
+  *integerglob1,*istartset1,*iendset1,*ialset1,*ntie1,*nasym1,
+  *mortar1,*ielprop1,*ne01,num_cpus,*ndesi1,*nodedesi1,
+  *nzss1,*jqs1,*irows1,*icoordinate1,*istartelem1,*ialelem1,
+  *cyclicsymmetry1,*ics1,*mcs1,*ieigenfrequency1,*neapar=NULL,
+  *nebpar=NULL,*nset1;
 
 static double *co1,*xboun1,*coefmpc1,*xforc1,*xload1,*xbody1,*cgr1,
     *elcon1,*rhcon1,*alcon1,*alzero1,*xdesi1,*v1,*sigma1,
@@ -44,7 +44,7 @@ static double *co1,*xboun1,*coefmpc1,*xforc1,*xload1,*xbody1,*cgr1,
     *plicon1,*plkcon1,*xstiff1,*dtime1,*physcon1,*shcon1,*cocon1,
     *ttime1,*time1,*xloadold1,*reltime1,*veold1,*springarea1,
     *xstateini1,*xstate1,*thicke1,*doubleglob1,*pslavsurf1,*pmastsurf1,
-    *clearini1,*prop1,*distmin1,*df1,*dfl1,*dxstiff1;
+  *clearini1,*prop1,*distmin1,*df1,*dfl1,*dxstiff1,*sigmak1;
 
 void mafillsmmain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
 	       ITG *ne,ITG *nodeboun,ITG *ndirboun,double *xboun, 
@@ -81,7 +81,8 @@ void mafillsmmain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
 	       ITG *icoordinate,double *dxstiff,double *xdesi,
 	       ITG *istartelem,ITG *ialelem,double *v,double *sigma,
 	       ITG *cyclicsymmetry,char *labmpc,ITG *ics,double *cs,
-	       ITG *mcs,ITG *ieigenfrequency){
+	       ITG *mcs,ITG *ieigenfrequency,char *set,ITG *nset,
+	       double *sigmak){
 	       
     ITG i,j;
      
@@ -203,6 +204,7 @@ void mafillsmmain_se(double *co,ITG *nk,ITG *kon,ITG *ipkon,char *lakon,
     dxstiff1=dxstiff;xdesi1=xdesi;istartelem1=istartelem;ialelem1=ialelem;
     sigma1=sigma;cyclicsymmetry1=cyclicsymmetry;labmpc1=labmpc;
     ics1=ics;cs1=cs;mcs1=mcs;ieigenfrequency1=ieigenfrequency;
+    set1=set;nset1=nset;sigmak1=sigmak;
 
     /* calculating the stiffness/mass sensitivity */
     
@@ -274,17 +276,10 @@ void *mafillsmsemt(ITG *i){
     if(!*cyclicsymmetry1){
 	indexdf=*i**nzss1;
 	indexdfl=*i*60*20;
-//	indexdfl=*i*60**ndesi1;
     }else{
 	indexdf=*i*2**nzss1;
 	indexdfl=*i*120*20;
-//	indexdfl=*i*120**ndesi1;
     }
-
-/*    nedelta=(ITG)floor(*ne1/(double)num_cpus);
-    nea=*i*nedelta+1;
-    neb=(*i+1)*nedelta;
-    if((*i==num_cpus-1)&&(neb<*ne1)) neb=*ne1;*/
 
     nea=neapar[*i]+1;
     neb=nebpar[*i]+1;
@@ -305,7 +300,7 @@ void *mafillsmsemt(ITG *i){
 	    ielprop1,prop1,ne01,&nea,&neb,distmin1,ndesi1,nodedesi1,
 	    &df1[indexdf],jqs1,irows1,&dfl1[indexdfl],
 	    icoordinate1,dxstiff1,xdesi1,istartelem1,ialelem1,v1,sigma1,
-            ieigenfrequency1));
+	    ieigenfrequency1,set1,nset1,sigmak1));
     }else{
 	FORTRAN(mafillsmcsse,(co1,kon1,ipkon1,lakon1,ne1,ipompc1,nodempc1,
 	    coefmpc1,nmpc1,nelemload1,sideload1,xload1,nload1,xbody1,
@@ -322,7 +317,7 @@ void *mafillsmsemt(ITG *i){
 	    ielprop1,prop1,ne01,&nea,&neb,distmin1,ndesi1,nodedesi1,
 	    &df1[indexdf],jqs1,irows1,&dfl1[indexdfl],
 	    icoordinate1,dxstiff1,xdesi1,istartelem1,ialelem1,v1,sigma1,
-	    labmpc1,ics1,cs1,mcs1,nk1,nzss1));
+	    labmpc1,ics1,cs1,mcs1,nk1,nzss1,set1,nset1));
     }
 	
 	    

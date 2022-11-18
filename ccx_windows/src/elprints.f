@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -33,13 +33,13 @@
       character*81 set(*),elset,prset(*)
       character*132 textpart(16)
 !
-      integer nset,nprint,nprint_,istep,istat,n,i,ii,key,ier,
+      integer nset,nprint,nprint_,istep,istat,n,i,ii,key,ier,id,
      &  jout(2),joutl,ipos,nmethod,nener,ithermal(*),iline,ipol,inl,
      &  ipoinp(2,*),inp(3,*),nam,itpamp,idrct,ipoinpc(0:*),nef
 !
       if(istep.lt.1) then
          write(*,*) '*ERROR reading *EL PRINT: *EL PRINT should only be'
-         write(*,*) '  used within a *STEP definition'
+         write(*,*) '       used within a *STEP definition'
          ier=1
          return
       endif
@@ -84,12 +84,20 @@
           elset(1:80)=textpart(ii)(7:86)
           ipos=index(elset,' ')
           elset(ipos:ipos)='E'
-          do i=1,nset
-            if(set(i).eq.elset) exit
-          enddo
+c          do i=1,nset
+c            if(set(i).eq.elset) exit
+c          enddo
+          call cident81(set,elset,nset,id)
+          i=nset+1
+          if(id.gt.0) then
+            if(elset.eq.set(id)) then
+              i=id
+            endif
+          endif
           if(i.gt.nset) then
              write(*,*) '*WARNING reading *EL PRINT: elementset ',
-     &            elset(1:ipos-1),' does not exist'
+     &           elset(1:ipos-1),' does not exist'
+             write(*,*)
              call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,
      &            ipoinp,inp,ipoinpc)
              return
@@ -176,6 +184,7 @@
 !
       if(elset.eq.'                     ') then
          write(*,*) '*WARNING reading *EL PRINT: no set was defined'
+         write(*,*)
          call getnewline(inpc,textpart,istat,n,key,iline,ipol,inl,
      &        ipoinp,inp,ipoinpc)
          return
@@ -192,6 +201,7 @@
      &               '*WARNING reading *EL PRINT: selection of PEEQ'
                   write(*,*) '         does not make sense for a'
                   write(*,*) '         frequency or bucking calculation'
+                  write(*,*)
                   cycle
                endif
             elseif((textpart(ii)(1:4).eq.'CEEQ').or.
@@ -203,6 +213,7 @@
      &       '*WARNING reading *EL PRINT: selection of CEEQ or CE or PE'
                   write(*,*) '         does not make sense for a'
                   write(*,*) '         frequency or bucking calculation'
+                  write(*,*)
                   cycle
                endif
                textpart(ii)(1:4)='PEEQ'
@@ -212,12 +223,14 @@
      &            '         is converted into PEEQ; no distinction'
                write(*,*) 
      &          '        is made between PEEQ, CEEQ, CE and PE'
+               write(*,*)
             elseif(textpart(ii)(1:3).eq.'SDV') then
                if((nmethod.eq.2).or.(nmethod.eq.3)) then
                   write(*,*) 
      &              '*WARNING reading *EL PRINT: selection of SDV'
                   write(*,*) '         does not make sense for a'
                   write(*,*) '         frequency or bucking calculation'
+                  write(*,*)
                   cycle
                endif
             elseif((textpart(ii)(1:4).eq.'ENER').or.
@@ -230,6 +243,7 @@
      &               '*WARNING reading *EL PRINT: HFL only makes '
                   write(*,*) '         sense for heat transfer '
                   write(*,*) '         calculations'
+                  write(*,*)
                   cycle
                endif
             elseif((textpart(ii)(1:4).eq.'SVF ').or.
@@ -237,9 +251,9 @@
      &             (textpart(ii)(1:4).eq.'HFLF')) then
                if(nef.eq.0) then
                   write(*,*) 
-     &               '*WARNING reading *EL PRINT: SVF or HFLF only'
-                  write(*,*) '         make sense for 3D fluid'
-                  write(*,*) '         calculations; '
+     &               '*ERROR reading *EL PRINT: SVF or HFLF only'
+                  write(*,*) '       make sense for 3D fluid'
+                  write(*,*) '       calculations; '
                   call inputerror(inpc,ipoinpc,iline,
      &                 "*EL PRINT%",ier)
                   return
@@ -253,8 +267,8 @@
      &             (textpart(ii)(1:4).ne.'CENT').and.
      &             (textpart(ii)(1:4).ne.'EBHE')) then
                write(*,*) 
-     &             '*WARNING reading *EL PRINT: label not applicable'
-               write(*,*) '         or unknown; '
+     &             '*ERROR reading *EL PRINT: label not applicable'
+               write(*,*) '       or unknown; '
                call inputerror(inpc,ipoinpc,iline,
      &              "*EL PRINT%",ier)
                return

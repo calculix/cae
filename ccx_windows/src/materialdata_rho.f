@@ -1,5 +1,5 @@
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -22,13 +22,13 @@
 !
 !     determines the density of the material
 !
-      integer nrhcon(*),imat,two,ntmat_,id,ithermal
+      integer nrhcon(*),imat,two,ntmat_,id,ithermal(*)
 !
       real*8 rhcon(0:1,ntmat_,*),rho,t1l
 !
       two=2
 !
-      if(ithermal.eq.0) then
+      if(ithermal(1).eq.0) then
          rho=rhcon(1,1,imat)
       else
          call ident2(rhcon(0,1,imat),t1l,nrhcon(imat),two,id)

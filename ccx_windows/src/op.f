@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -30,22 +30,20 @@
 !
       real*8 y(*),x(*),au(*),ad(*)
 !
-!
-!
 !     diagonal terms
 !
       do i=1,n
-         y(i)=ad(i)*x(i)
+        y(i)=ad(i)*x(i)
       enddo
 !
 !     off-diagonal terms
 !
       do j=1,n
-         do l=jq(j),jq(j+1)-1
-            i=irow(l)
-            y(i)=y(i)+au(l)*x(j)
-            y(j)=y(j)+au(l)*x(i)
-         enddo
+        do l=jq(j),jq(j+1)-1
+          i=irow(l)
+          y(i)=y(i)+au(l)*x(j)
+          y(j)=y(j)+au(l)*x(i)
+        enddo
       enddo
 !
       return

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -29,14 +29,14 @@
      &  pslavsurf,pmastsurf,mortar,clearini,ielprop,prop,ne0,nea,
      &  neb,distmin,ndesi,nodedesi,df,jqs,irows,dfl,
      &  icoordinate,dxstiff,xdesi,istartelem,ialelem,v,sigma,
-     &  ieigenfrequency)
+     &  ieigenfrequency,set,nset,sigmak)
 !
       implicit none
 !
       character*8 lakon(*)
       character*20 sideload(*)
       character*80 matname(*)
-      character*81 tieset(3,*)
+      character*81 tieset(3,*),set(*)
 !
       integer kon(*),ipompc(*),nodempc(3,*),nelemload(2,*),ikmpc(*),
      &  ilmpc(*),mi(*),nstate_,ne0,nasym,nactdof(0:mi(2),*),ialset(*),
@@ -49,14 +49,14 @@
      &  nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,mortar,nea,
      &  neb,ndesi,nodedesi(*),idesvar,istartelem(*),ialelem(*),
      &  icoordinate,ii,ieigenfrequency,mass(2),stiffness,buckling,rhsi,
-     &  stiffonly(2),coriolis,idesloc
+     &  stiffonly(2),coriolis,idesloc,nset
 !
       real*8 co(3,*),coefmpc(*),xload(2,*),p1(3),p2(3),bodyf(3),
      &  xloadold(2,*),reltime,t0(*),t1(*),vold(0:mi(2),*),
      &  s(60,60),ff(60),sti(6,mi(1),*),sm(60,60),xdesi(3,*),
      &  stx(6,mi(1),*),elcon(0:ncmat_,ntmat_,*),val,sigma,
      &  rhcon(0:1,ntmat_,*),springarea(2,*),alcon(0:6,ntmat_,*),
-     &  physcon(*),prop(*),xstate(nstate_,mi(1),*),
+     &  physcon(*),prop(*),xstate(nstate_,mi(1),*),sigmak,
      &  xstateini(nstate_,mi(1),*),alzero(*),orab(7,*),
      &  xbody(7,*),cgr(4,*),plicon(0:2*npmat_,ntmat_,*),
      &  plkcon(0:2*npmat_,ntmat_,*),xstiff(27,mi(1),*),
@@ -64,8 +64,6 @@
      &  doubleglob(*),clearini(3,9,*),pslavsurf(3,*),
      &  pmastsurf(6,*),distmin,dfl(20,60),
      &  df(*),dxstiff(27,mi(1),ne,*),v(0:mi(2),*)
-!
-!
 !
       kflag=2
       i0=0
@@ -196,7 +194,7 @@ c     Bernhardi end
      &           iendset,ialset,ntie,nasym,pslavsurf,pmastsurf,mortar,
      &           clearini,ielprop,prop,distmin,ndesi,nodedesi,
      &           dfl,icoordinate,dxstiff,ne,xdesi,istartelem,
-     &           ialelem,v,sigma,ieigenfrequency)
+     &           ialelem,v,sigma,ieigenfrequency,set,nset,sigmak)
 !     
             do ii=istartelem(i),istartelem(i+1)-1
                idesvar=ialelem(ii)

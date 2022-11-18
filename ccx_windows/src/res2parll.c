@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -15,7 +15,7 @@
 /*     along with this program; if not, write to the Free Software       */
 /*     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.         */
 
-/*     A parallel copy of arrays which depent on active element 	 */
+/*     Parallellization of subroutine of calcresidual.c          	 */
 
 
 #include <unistd.h>
@@ -25,7 +25,7 @@
 #include <pthread.h>
 #include "CalculiX.h"
 
-static ITG *neapar=NULL,*nebpar=NULL;
+static ITG *nqapar=NULL,*nqbpar=NULL;
 
 static double *b1,*scal11,*fext1,*f1,*alpha1,*fextini1,*fini1,
     *adb1,*aux21;
@@ -42,24 +42,24 @@ void res2parll(double *b,double *scal1,double *fext,double *f,
 
     pthread_t tid[*num_cpus];
 
-    /* determining the element bounds in each thread */
+    /* determining the equation bounds in each thread */
 
-    NNEW(neapar,ITG,*num_cpus);
-    NNEW(nebpar,ITG,*num_cpus);
+    NNEW(nqapar,ITG,*num_cpus);
+    NNEW(nqbpar,ITG,*num_cpus);
 
-    /* dividing the element number range into num_cpus equal numbers of 
+    /* dividing the equation number range into num_cpus equal numbers of 
        active entries.  */
 
     idelta=(ITG)floor(*neq0/(double)(*num_cpus));
     isum=0;
     for(i=0;i<*num_cpus;i++){
-	neapar[i]=isum;
+	nqapar[i]=isum;
 	if(i!=*num_cpus-1){
 	    isum+=idelta;
 	}else{
 	    isum=*neq0;
 	}
-	nebpar[i]=isum;
+	nqbpar[i]=isum;
     }
 
     /* create threads and wait */
@@ -75,7 +75,7 @@ void res2parll(double *b,double *scal1,double *fext,double *f,
     }
     for(i=0; i<*num_cpus; i++)  pthread_join(tid[i], NULL);
 
-    SFREE(ithread);SFREE(neapar);SFREE(nebpar);
+    SFREE(ithread);SFREE(nqapar);SFREE(nqbpar);
 
 }
 
@@ -83,12 +83,12 @@ void res2parll(double *b,double *scal1,double *fext,double *f,
 
 void *res2parllmt(ITG *i){
 
-    ITG nea,neb,k;
+    ITG nqa,nqb,k;
 
-    nea=neapar[*i];
-    neb=nebpar[*i];
+    nqa=nqapar[*i];
+    nqb=nqbpar[*i];
     
-    for(k=nea;k<neb;++k){
+    for(k=nqa;k<nqb;++k){
 	b1[k]=*scal11*(fext1[k]-f1[k])-alpha1[0]*(fextini1[k]-fini1[k])
 	    -adb1[k]*aux21[k];
     }

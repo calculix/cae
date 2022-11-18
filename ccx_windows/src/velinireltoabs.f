@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -27,7 +27,7 @@
       character*8 lakon(*)
       character*81 cbody(*),elset,set(*)
 !
-      integer ibody(3,*),i,j,k,l,m,istartset(*),nbody,kon(*),
+      integer ibody(3,*),i,j,k,l,m,istartset(*),nbody,kon(*),id,
      &     iendset(*),ialset(*),nset,istat,indexe,mi(*),ipkon(*),
      &     node,nope,itreated(*)
 !
@@ -113,9 +113,16 @@
 !
 !     set name
 !
-            do i=1,nset
-               if(set(i).eq.elset) exit
-            enddo
+c            do i=1,nset
+c               if(set(i).eq.elset) exit
+c            enddo
+           call cident81(set,elset,nset,id)
+           i=nset+1
+           if(id.gt.0) then
+             if(elset.eq.set(id)) then
+               i=id
+             endif
+           endif
 !     
             do j=istartset(i),iendset(i)
                if(ialset(j).gt.0) then

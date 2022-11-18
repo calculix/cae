@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine restrictor(node1,node2,nodem,nelem,lakon,kon,ipkon,
-     &     nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,cp,r,physcon,dvi,numf,set,
      &     shcon,nshcon,rhcon,nrhcon,ntmat_,mi,ttime,time,
      &     iaxial,co,vold,iplausi)
@@ -33,7 +33,7 @@
       character*81 set(*)
 !     
       integer nelem,nactdog(0:3,*),node1,node2,nodem,numf,
-     &     ielprop(*),nodef(*),idirf(*),index,iflag,iaxial,
+     &     ielprop(*),nodef(*),idirf(*),index,kflag,iaxial,
      &     inv,ipkon(*),kon(*),kgas,icase,k_oil,nshcon(*),
      &     nrhcon(*),ntmat_,mi(*),iplausi
 !     
@@ -51,7 +51,7 @@
       phi=0.d0
       index=ielprop(nelem)
 !
-      if(iflag.eq.0) then
+      if(kflag.eq.0) then
          identity=.true.
 !     
          if(nactdog(2,node1).ne.0)then
@@ -62,7 +62,7 @@
             identity=.false.
          endif
 !     
-      elseif(iflag.eq.1)then
+      elseif(kflag.eq.1)then
          if(v(1,nodem).ne.0.d0) then
             xflow=v(1,nodem)
             return
@@ -224,7 +224,7 @@
             xflow=xflow
          endif
 !     
-      elseif(iflag.eq.2)then
+      elseif(kflag.eq.2)then
 ! 
 !        complementing the properties of restrictor elements
 !
@@ -830,7 +830,7 @@
             endif
          endif
 !     
-      elseif((iflag.eq.3).or.(iflag.eq.4)) then
+      elseif((kflag.eq.3).or.(kflag.eq.4)) then
 !
 !        complementing the properties of restrictor elements
 !
@@ -1079,7 +1079,7 @@
             M2=dsqrt(2d0/km1*(Tt2/T2-1.d0))
          endif
 !     
-         if(iflag.eq.3) then
+         if(kflag.eq.3) then
             write(1,*) ''
             write(1,55) ' from node ',node1,
      &           ' to node ', node2,' :   air massflow rate = '

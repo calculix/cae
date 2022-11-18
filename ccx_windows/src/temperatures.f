@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,7 +20,7 @@
      &  ialset,nset,t0,t1,nk,ithermal,iamt1,amname,nam,inoelfree,nk_,
      &  nmethod,temp_flag,istep,istat,n,iline,ipol,inl,ipoinp,inp,
      &  nam_,namtot_,namta,amta,ipoinpc,t1g,iamplitudedefault,
-     &  namtot,ier,itempuser,jobnamec)
+     &  namtot,ier,itempuser,jobnamec,nuel_)
 !
 !     reading the input deck: *TEMPERATURE
 !
@@ -39,11 +39,11 @@
       character*81 set(*),noset
       character*132 textpart(16),jobnamec(*)
 !
-      integer istartset(*),iendset(*),ialset(*),iamt1(*),nmethod,
+      integer istartset(*),iendset(*),ialset(*),iamt1(*),nmethod,id,
      &  nset,nk,ithermal(*),istep,istat,n,key,i,j,k,l,nam,ipoinpc(0:*),
      &  iamplitude,ipos,inoelfree,nk_,iline,ipol,inl,ipoinp(2,*),
      &  inp(3,*),nam_,namtot,namtot_,namta(3,*),idelay,iglobstep,
-     &  iamplitudedefault,ier,itempuser(*)
+     &  iamplitudedefault,ier,itempuser(*),nuel_
 !
       real*8 t0(*),t1(*),temperature,tempgrad1,tempgrad2,amta(2,*),
      &  t1g(2,*)
@@ -261,7 +261,7 @@
          if(user) temperature=1.2357111317d0
          if(submodel) temperature=1.9232931374d0
 !
-         if(inoelfree.ne.0) then
+         if((inoelfree.ne.0).or.(nuel_.gt.0)) then
             tempgrad1=0.d0
             tempgrad2=0.d0
             if(n.gt.2) then
@@ -292,7 +292,7 @@
             endif
             t1(l)=temperature
             if(nam.gt.0) iamt1(l)=iamplitude
-            if(inoelfree.ne.0) then
+            if((inoelfree.ne.0).or.(nuel_.gt.0)) then
                t1g(1,l)=tempgrad1
                t1g(2,l)=tempgrad2
             endif
@@ -301,9 +301,16 @@
             noset(81:81)=' '
             ipos=index(noset,' ')
             noset(ipos:ipos)='N'
-            do i=1,nset
-               if(set(i).eq.noset) exit
-            enddo
+c            do i=1,nset
+c               if(set(i).eq.noset) exit
+c            enddo
+            call cident81(set,noset,nset,id)
+            i=nset+1
+            if(id.gt.0) then
+              if(noset.eq.set(id)) then
+                i=id
+              endif
+            endif
             if(i.gt.nset) then
                noset(ipos:ipos)=' '
                write(*,*) '*ERROR reading *TEMPERATURE: node set ',noset
@@ -316,7 +323,7 @@
                if(ialset(j).gt.0) then
                   t1(ialset(j))=temperature
                   if(nam.gt.0) iamt1(ialset(j))=iamplitude
-                  if(inoelfree.ne.0) then
+                  if((inoelfree.ne.0).or.(nuel_.gt.0)) then
                      t1g(1,ialset(j))=tempgrad1
                      t1g(2,ialset(j))=tempgrad2
                   endif
@@ -327,7 +334,7 @@
                      if(k.ge.ialset(j-1)) exit
                      t1(k)=temperature
                      if(nam.gt.0) iamt1(k)=iamplitude
-                     if(inoelfree.ne.0) then
+                     if((inoelfree.ne.0).or.(nuel_.gt.0)) then
                         t1g(1,k)=tempgrad1
                         t1g(2,k)=tempgrad2
                      endif

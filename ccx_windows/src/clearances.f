@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -34,7 +34,7 @@
      &  inp(3,*),ntie,ipoinpc(0:*),iposslave,iposmaster,itie,istep,
      &  ier
 !
-      real*8 tietol(3,*),value
+      real*8 tietol(4,*),value
 !
       if((istep.gt.0).and.(irstrt(1).ge.0)) then
          write(*,*) '*ERROR reading *CLEARANCE: *CLEARANCE should be'

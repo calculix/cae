@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -109,7 +109,8 @@
           nnogap=0
 !     
 !     check for nogap or nolm Nodes
-!     here redistribution of LM contribution has to be appied
+!     here redistribution of Lagrange Multiplier contribution
+!     has to be applied
 !     see Phd thesis Sitzmann Chapter 4.3.
 !     
           do m=1,nopes
@@ -121,7 +122,7 @@
               lnode(2,m)=islavact(nslavnode(i)+id)
 !     
 !     for quad-lin mortar method only corner nodes carry
-!     LM contribution
+!     Lagrange Multiplier contribution
 !     
               if((nopes.eq.8).and. 
      &             ((iflagdualquad.eq.1).or.(iflagdualquad.eq.3)))
@@ -281,7 +282,7 @@
             enddo
           endif
 !     
-!     remove LM contribution for nogap and noLM nodes
+!     remove Lagrange Multiplier contribution for nogap and noLM nodes
 !     phd thesis Sitzmann Chapter 4.3.
 !     
           if((nnogap.gt.0).and.(nopes2.eq.4)) then

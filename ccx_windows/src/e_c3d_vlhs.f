@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,8 +16,7 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
-      subroutine e_c3d_vlhs(co,nk,konl,lakonl,sm,nelem,ipvar,var,
-     &     smscalel)
+      subroutine e_c3d_vlhs(lakonl,sm,nelem,ipvar,var)
 !
 !     computation of the velocity element matrix for the element with
 !     the topology in konl
@@ -26,17 +25,9 @@
 !
       character*8 lakonl
 !
-      integer konl(20),nk,nelem,i,j,nmethod,ii,jj,ii1,jj1,kk,
-     &  nope,mint3d,iflag,ipvar(*),index
+      integer nelem,i,j,k,nope,mint3d,ipvar(*),index
 !
-      real*8 co(3,*),xl(3,20),shp(4,20),xi,et,ze,xsj,smscalel,
-     &   sm(78,78),weight,var(*)
-!
-!
-!      
-      include "gauss.f"
-!
-      data iflag /2/
+      real*8 shp(4,20),sm(8,8),weight,var(*)
 !
       if(lakonl(4:4).eq.'8') then
          nope=8
@@ -56,18 +47,10 @@
          mint3d=2
       endif
 !
-!     computation of the coordinates of the local nodes
-!
-      do i=1,nope
-        do j=1,3
-          xl(j,i)=co(j,konl(i))
-        enddo
-      enddo
-!
 !     initialisation of sm
 !
-      do i=1,3*nope
-         do j=1,3*nope
+      do i=1,nope
+         do j=1,nope
             sm(i,j)=0.d0
          enddo
       enddo
@@ -75,50 +58,30 @@
 !     computation of the matrix: loop over the Gauss points
 !
       index=ipvar(nelem)
-      do kk=1,mint3d
-         if(lakonl(4:5).eq.'8R') then
-            weight=weight3d1(kk)
-         elseif(lakonl(4:4).eq.'8') then
-            weight=weight3d2(kk)
-         elseif(lakonl(4:4).eq.'4') then
-            weight=weight3d4(kk)
-         elseif(lakonl(4:5).eq.'6 ') then
-            weight=weight3d7(kk)
-         endif
+      do k=1,mint3d
 !
 !        copying the shape functions, their derivatives and the
 !        Jacobian determinant from field var
 !
-         do jj=1,nope
-            do ii=1,4
+         do j=1,nope
+            do i=1,4
                index=index+1
-               shp(ii,jj)=var(index)
+               shp(i,j)=var(index)
             enddo
          enddo
          index=index+1
-         xsj=var(index)
-         
-         index=index+nope+14
-!
-         weight=weight*xsj
-c         weight=weight*xsj*smscalel
+         weight=var(index)
+!         
+         index=index+1
 !     
-         jj1=1
-         do jj=1,nope
-!     
-            ii1=1
-            do ii=1,jj
+         do j=1,nope
+            do i=1,j
 !     
 !              lhs velocity matrix
 !     
-               sm(ii1,jj1)=sm(ii1,jj1)
-     &              +shp(4,ii)*shp(4,jj)*weight
-               sm(ii1+1,jj1+1)=sm(ii1,jj1)
-               sm(ii1+2,jj1+2)=sm(ii1,jj1)
-!     
-               ii1=ii1+3
+               sm(i,j)=sm(i,j)
+     &              +shp(4,i)*shp(4,j)*weight
             enddo
-            jj1=jj1+3
          enddo
       enddo
 !

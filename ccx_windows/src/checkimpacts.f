@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine checkimpacts(ne,neini,temax,sizemaxinc,
-     & energyref,tmin,tper,idivergence,
+     & energyref,tmin,tmax,tper,idivergence,
      & iforceincsize,istab,dtheta,r_abs,energy,energyini,allwk,
      & allwkini,dampwk,dampwkini,emax,mortar,maxdecay,enetoll)
 !     
@@ -62,12 +62,10 @@
       integer idivergence,
      & iforceincsize,ne,neini,istab,mortar
 !     
-      real*8 temax,energyref,sizemaxinc,tmin,tper,dtheta,
+      real*8 temax,energyref,sizemaxinc,tmin,tmax,tper,dtheta,
      & delta_r_rel,r_rel,delta,allwk,allwkini,energy(4),
      & energyini(4),dampwk,dampwkini,emax,fact,
      & r_rel_bc,maxdecay,r_abs,enetoll,delta_r_abs
-!     
-!     
 !     
 !     Initialization
 !     
@@ -182,7 +180,9 @@
       endif                     !(mortar)
 !     
       if(sizemaxinc.lt.tmin)then
-         sizemaxinc=tmin
+        sizemaxinc=tmin
+      elseif(sizemaxinc.gt.tmax) then
+        sizemaxinc=tmax
       endif
 !
       write(*,*) '*INFO in checkimpacts: due to impact rules the'

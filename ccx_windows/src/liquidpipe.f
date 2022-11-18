@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,17 +17,17 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine liquidpipe(node1,node2,nodem,nelem,lakon,
-     &     nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,rho,g,co,dvi,numf,vold,mi,ipkon,kon,set,
      &     ttime,time,iaxial,iplausi)
 !
 !     pipe element for incompressible media
 !     
-!     iflag=0: check whether element equation is needed
-!     iflag=1: calculate mass flow
-!     iflag=2: calculate residual and derivative w.r.t.independent
+!     kflag=0: check whether element equation is needed
+!     kflag=1: calculate mass flow
+!     kflag=2: calculate residual and derivative w.r.t.independent
 !              variables
-!     iflag=3: output
+!     kflag=3: output
 !
       implicit none
 !     
@@ -36,7 +36,7 @@
       character*81 set(*)
 !      
       integer nelem,nactdog(0:3,*),node1,node2,nodem,iaxial,
-     &     ielprop(*),nodef(*),idirf(*),index,iflag,mi(*),
+     &     ielprop(*),nodef(*),idirf(*),index,kflag,mi(*),
      &     inv,ncoel,ndi,nbe,id,nen,ngv,numf,nodea,nodeb,
      &     ipkon(*),isothermal,kon(*),nelemswirl,iplausi
 !      
@@ -87,7 +87,7 @@
       pi=4.d0*datan(1.d0)
       dkda=0.d0
 !
-      if (iflag.eq.0) then
+      if (kflag.eq.0) then
          identity=.true.
 !     
          if(nactdog(2,node1).ne.0)then
@@ -100,8 +100,8 @@
             identity=.false.
          endif
 !     
-      elseif((iflag.eq.1).or.(iflag.eq.2).or.(iflag.eq.3)) then
-         if(iflag.eq.1) then
+      elseif((kflag.eq.1).or.(kflag.eq.2).or.(kflag.eq.3)) then
+         if(kflag.eq.1) then
             if(v(1,nodem).ne.0.d0) then
                xflow=v(1,nodem)
                return
@@ -118,7 +118,7 @@
 !
          T=v(0,node1)
 !     
-         if(iflag.eq.1) then
+         if(kflag.eq.1) then
             inv=0
             if(nactdog(1,nodem).ne.0) then
                flowunknown=.true.
@@ -164,6 +164,7 @@
                a=prop(index+1)
                rh=prop(index+2)
             endif
+            reynolds=xflow*4.d0*rh/(dvi*a)
             xn=prop(index+3)
             a1=a
             a2=a
@@ -207,7 +208,7 @@
             form_fact=prop(index+5)
             a1=a
             a2=a
-            if(iflag.eq.1) then
+            if(kflag.eq.1) then
 !
 !              assuming large reynolds number
 !
@@ -234,6 +235,12 @@
 !     
             a1=prop(index+1)
             a2=prop(index+2)
+            dh=dsqrt(4*a1/pi)
+            if(inv.eq.0) then
+              reynolds=5000.d0
+            else
+              reynolds=xflow*dh/(dvi*a1)
+            endif
             ratio=a1/a2
             call ident(xcoel,ratio,ncoel,id)
             if(inv.ge.0) then
@@ -315,6 +322,12 @@
 !     
             a1=prop(index+1)
             a2=prop(index+2)
+            dh=dsqrt(4*a2/pi)
+            if(inv.eq.0) then
+              reynolds=5000.d0
+            else
+              reynolds=xflow*dh/(dvi*a2)
+            endif
             ratio=a2/a1
             call ident(xcoel,ratio,ncoel,id)
             if(inv.ge.0) then
@@ -392,6 +405,12 @@
             a0=prop(index+2)
             a1=a
             a2=a
+            dh=dsqrt(4*a1/pi)
+            if(inv.eq.0) then
+              reynolds=5000.d0
+            else
+              reynolds=xflow*dh/(dvi*a1)
+            endif
             ratio=a0/a
             call ident(xdi,ratio,ndi,id)
             if(id.eq.0) then
@@ -416,6 +435,12 @@
             a0=prop(index+2)
             a1=a*1.d10
             a2=a
+            dh=dsqrt(4*a2/pi)
+            if(inv.eq.0) then
+              reynolds=5000.d0
+            else
+              reynolds=dabs(xflow)*dh/(dvi*a2)
+            endif
             ratio=a0/a
             call ident(xen,ratio,nen,id)
             if(id.eq.0) then
@@ -556,6 +581,12 @@
             endif
             a1=a
             a2=a
+            dh=dsqrt(4*a1/pi)
+            if(inv.eq.0) then
+              reynolds=5000.d0
+            else
+              reynolds=xflow*dh/(dvi*a1)
+            endif
             dzetadalpha=0.d0
             call ident(xgv,alpha,ngv,id)
             if(id.eq.0) then
@@ -585,6 +616,12 @@
             coarseness=prop(index+4)
             a1=a
             a2=a
+            dh=dsqrt(4*a1/pi)
+            if(inv.eq.0) then
+              reynolds=5000.d0
+            else
+              reynolds=xflow*dh/(dvi*a1)
+            endif
             call ident(xbe,rd,nbe,id)
             if(id.eq.0) then
                zeta=ybe(1)+(zbe(1)-ybe(1))*coarseness
@@ -755,16 +792,16 @@
 !     pressure correction factor
             eta=prop(index+3) 
 !
-            if(((xflow.gt.0.d0).and.(R2d.gt.R1d))
-     &              .or.((R2.lt.R1).and.(xflow.lt.0d0))) then
+            if(((xflow.gt.0.d0).and.(r2d.gt.r1d))
+     &              .or.((r2d.lt.r1d).and.(xflow.lt.0d0))) then
                inv=1.d0
                p1=v(2,node1)
                p2=v(2,node2)
                R1=r1d
                R2=r2d
 !     
-            elseif(((xflow.gt.0.d0).and.(R2d.lt.R1d))
-     &                 .or.((R2.gt.R1).and.(xflow.lt.0d0))) then
+            elseif(((xflow.gt.0.d0).and.(r2d.lt.r1d))
+     &                 .or.((r2d.gt.r1d).and.(xflow.lt.0d0))) then
                inv=-1.d0
                R1=r2d
                R2=r1d
@@ -854,7 +891,7 @@
                   ciu=c2u
                endif
 !            
-!               if (iflag.eq.1) then
+!               if (kflag.eq.1) then
                   a1=1d-6
                   a2=a1 
                if(inv.ne.0) then                         
@@ -893,7 +930,7 @@
 !     
                a1=1d-6
                a2=a1 
-               if(iflag.eq.1)then
+               if(kflag.eq.1)then
                   xflow=0.5d0
                endif
 !     
@@ -907,7 +944,7 @@
             endif                 
          endif
 !     
-         if(iflag.eq.1) then
+         if(kflag.eq.1) then
             if(flowunknown) then
 !     
                xk1=1.d0/(a1*a1)
@@ -935,7 +972,7 @@
                   prop(index+2)=0.5d0
                endif
             endif
-         elseif(iflag.eq.2) then
+         elseif(kflag.eq.2) then
             xk1=1.d0/(a1*a1)
             xk2=1.d0/(a2*a2)
 !
@@ -986,7 +1023,7 @@
                endif             
             endif
 !     
-         else if (iflag.eq.3) then
+         else if (kflag.eq.3) then
             xflow_vol=xflow/rho            
             un=dvi/rho
             if(inv.eq.1) then
@@ -997,50 +1034,72 @@
 !     
             write(1,*) ''
             write(1,55) ' from node',node1,
-     &           ' to node', node2,':  oil massflow rate = ',xflow,
+     &           ' to node', node2,':  massflow rate = ',xflow,
      &       ' i.e. in volume per time ',xflow_vol
  55         FORMAT(1X,A,I6,A,I6,A,e11.4,A,e11.4,A)
             write(1,57)'                                              
      &Rho=   ',rho,', Nu=   ',un,', dyn.visc.=   ',dvi
-         
+!         
             if(inv.eq.1) then
-               write(1,56)'       Inlet node  ',node1,':   Tt1=',T,
-     &              ', Pt1=',p1
-               if(lakon(nelem)(4:5).eq.'EL'.or.
-     &            lakon(nelem)(4:5).eq.'CO'.or.
-     &            lakon(nelem)(4:5).eq.'EN'.or.
-     &            lakon(nelem)(4:5).eq.'EX'.or.
-     &            lakon(nelem)(4:5).eq.'US'.or.
-     &            lakon(nelem)(4:5).eq.'BE'.or.
-     &            lakon(nelem)(4:5).eq.'LO'.or.
-     &            lakon(nelem)(4:5).eq.'WA'.or.
-     &            lakon(nelem)(4:5).eq.'BR')then
-                  
-                  write(1,*)'             Element ',nelem,lakon(nelem)
-                  write(1,58)'             Re=   ',reynolds,' zeta=   ',
-     &                 zeta
-!
-               elseif((lakon(nelem)(4:5).eq.'C1')) then
-                  write(1,*)'             Element ',nelem,lakon(nelem)
-                  write(1,58)'             Re=   ',reynolds,' cd=   ',
-     &                 zeta
-!
-               else if(lakon(nelem)(4:5).eq.'FR')then                  
-                  write(1,*)'             Element ',nelem,lakon(nelem)
-                  write(1,59)'             Re=   ',reynolds,' lambda=  
-     &',friction,'  lambda*L/D=   ',friction*dl/d
-!
-               else if (lakon(nelem)(4:4).eq.'V')then  
-                  write(1,*)'             Element ',nelem,lakon(nelem)
-                  write(1,*)'             C1u= ',C1u,'m/s ,C2u= '
-     &,C2u,'m/s',' ,DeltaP= ',xkn
-               endif
-!
-               write(1,56)'       Outlet node ',node2,':   Tt2=',T,
-     &              ', Pt2=',p2
+              write(1,56)'       Inlet node  ',node1,':   T=',T,
+     &             ', P=',p1
+            elseif(inv.eq.-1) then
+              write(1,56)'       Inlet node  ',node2,':   T=',T,
+     &             ', P=',p2
+            endif
 !     
-            else if(inv.eq.-1) then
-               
+            if(lakon(nelem)(4:5).eq.'EL'.or.
+     &           lakon(nelem)(4:5).eq.'CO'.or.
+     &           lakon(nelem)(4:5).eq.'EN'.or.
+     &           lakon(nelem)(4:5).eq.'EX'.or.
+     &           lakon(nelem)(4:5).eq.'US'.or.
+     &           lakon(nelem)(4:5).eq.'BE'.or.
+     &           lakon(nelem)(4:5).eq.'LO'.or.
+     &           lakon(nelem)(4:5).eq.'WA'.or.
+     &           lakon(nelem)(4:5).eq.'BR'.or.
+     &           lakon(nelem)(6:7).eq.'EL'.or.
+     &           lakon(nelem)(6:7).eq.'CO'.or.
+     &           lakon(nelem)(6:7).eq.'DI'.or.
+     &           lakon(nelem)(6:7).eq.'EN'.or.
+     &           lakon(nelem)(6:7).eq.'GV'.or.
+     &           lakon(nelem)(6:7).eq.'BE')then
+              
+              write(1,*)'             Element ',nelem,lakon(nelem)
+              write(1,58)'             Re=   ',reynolds,' zeta=   ',
+     &             zeta
+!     
+            elseif((lakon(nelem)(4:5).eq.'C1')) then
+              write(1,*)'             Element ',nelem,lakon(nelem)
+              write(1,58)'             Re=   ',reynolds,' cd=   ',
+     &             zeta
+!     
+            else if(lakon(nelem)(4:5).eq.'FR')then                  
+              write(1,*)'             Element ',nelem,lakon(nelem)
+              write(1,59)'             Re=   ',reynolds,' lambda=  
+     &',friction,'  lambda*L/D=   ',friction*dl/d
+!     
+            else if (lakon(nelem)(4:4).eq.'V')then  
+              write(1,*)'             Element ',nelem,lakon(nelem)
+              write(1,*)'             C1u= ',C1u,'m/s ,C2u= '
+     &             ,C2u,'m/s',' ,DeltaP= ',xkn
+!     
+            elseif((lakon(nelem)(6:7).eq.'MA')) then
+              write(1,*)'             Element ',nelem,lakon(nelem)
+              write(1,58)'             Re=   ',reynolds,' n=   ',
+     &             xn
+!     
+            elseif((lakon(nelem)(4:5).eq.'WC')) then
+              write(1,*)'             Element ',nelem,lakon(nelem)
+              write(1,58)'             Re=   ',reynolds,' f=   ',
+     &             friction
+            endif
+!     
+            if(inv.eq.1) then
+              write(1,56)'       Outlet node ',node2,':   T=',T,
+     &             ', P=',p2
+            elseif(inv.eq.-1) then
+              write(1,56)'       Outlet node ',node1,':   T=',T,
+     &             ', P=',p1
             endif
 !
  56         FORMAT(1X,A,I6,A,e11.4,A,e11.4,A)

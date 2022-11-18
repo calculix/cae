@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -49,15 +49,6 @@ void prediction(double *uam, ITG *nmethod, double *bet, double *gam,
     if(*ithermal<2){
       preparll(&mt,dtime,veold,&scal1,accold,uam,nactdof,v,vold,&scal2,
 	       nk,num_cpus);
-      /*	    for(k=0;k<*nk;++k){
-		    for(j=0;j<mt;j++){
-		    dextrapol=*dtime*veold[mt*k+j]+scal1*accold[mt*k+j];
-		    if((fabs(dextrapol)>uam[0])&&(nactdof[mt*k+j]>0)) {uam[0]=fabs(dextrapol);}
-		    v[mt*k+j]=vold[mt*k+j]+dextrapol;
-		    veold[mt*k+j]=veold[mt*k+j]+scal2*accold[mt*k+j];
-		    accold[mt*k+j]=0.;
-		    }
-		    }*/
     }else if(*ithermal==2){
       for(k=0;k<*nk;++k){
 	for(j=0;j<mt;j++){
@@ -99,7 +90,6 @@ void prediction(double *uam, ITG *nmethod, double *bet, double *gam,
       if(*ithermal<2){
 	for(k=0;k<*nk;++k){
 	  for(j=1;j<mt;++j){
-	    //		    for(j=0;j<mt;++j){
 	    if(*idiscon==0){
 	      dextrapol=*dtime*veold[mt*k+j];
 	      if((fabs(dextrapol)>uam[0])&&(nactdof[mt*k+j]>0)) {

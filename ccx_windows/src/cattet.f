@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -28,15 +28,24 @@
       character*8 lakon(*)
       character*81 set(*),elset
       character*87 filab(*)
-      character*132 fnrfn,jobnamec
+      character*132 fnrfn,jobnamec(*)
+      character*256 fn
 !     
-      integer kontet(4,*),netet_,i,ifac(4,*),ne,ipkon(*),kon(*),index,j,
-     &     nodes(4),ifatet(4,*),ifreetet,itetfa(2,*),ifreefa,ipofa(*),
+      integer kontet(4,*),netet_,i,ifac(4,*),ne,ipkon(*),kon(*),index1,
+     &     j,nodes(4),ifatet(4,*),ifreetet,itetfa(2,*),ifreefa,ipofa(*),
      &     ipoeln(*),ieln(2,*),node,ifreeln,kontetor(6,*),iquad,nset,
      &     istartset(*),iendset(*),ialset(*),indexe,k,nope,jfix(*),
-     &     iparentel(*)
+     &     iparentel(*),id,ilen
 !     
       real*8 bc(4,*),planfa(4,*),cotet(3,*),cg(3,*)
+!
+!     open a file for nodes which are not properly projected on the
+!     free surface      
+!
+      ilen=index(jobnamec(1),char(0))-1
+      fn=jobnamec(1)(1:ilen)//'_WarnNodeNotProjected.nam'
+      open(40,file=fn,status='unknown')
+      write(40,*) '*NSET,NSET=WarnNodeNotProjected'
 !
 !     read the element set name to refine, if any
 !     default: all tetrahedral elements are refined      
@@ -49,9 +58,13 @@
 !
 !     determining the number of the set
 !
-      do i=1,nset
-        if(set(i).eq.elset)exit
-      enddo
+      call cident81(set,elset,nset,id)
+      i=nset+1
+      if(id.gt.0) then
+        if(elset.eq.set(id)) then
+          i=id
+        endif
+      endif
 !
 !     if element set detected:
 !
@@ -122,27 +135,13 @@
           enddo
         enddo
       endif
-!
-!     change on 20200327: original element number should not be
-!     overwritten: needed at reading time for ielmat, ielorien,
-!     ielbody ...
-!
-c!     
-c!     determine the first tetrahedral element or first
-c!     unused element
-c!     
-c      do i=1,ne
-c        if((lakon(i)(1:4).eq.'C3D4').or.
-c     &       (lakon(i)(1:5).eq.'C3D10').or.
-c     &       (lakon(i)(1:1).eq.char(0))) exit
-c      enddo
 !     
 !     determine the first unused element
 !     
       do i=1,ne
         if(lakon(i)(1:1).eq.char(0)) exit
       enddo
-c      
+!      
       ifreetet=i
 !     
       do 
@@ -155,15 +154,6 @@ c
             i=j
             exit
           endif
-c!     
-c!     tetrahedral element
-c!     
-c          if((lakon(j)(1:4).eq.'C3D4').or.
-c     &         (lakon(j)(1:5).eq.'C3D10')) then
-c            kontet(4,i)=j
-c            i=j
-c            exit
-c          endif
 !     
 !     unused element
 !     
@@ -191,21 +181,22 @@ c          endif
       enddo
       ieln(2,4*netet_)=0
 !     
-!     adding the tetrahedral elements one by one
-!     tagging these elements to be removed
-!
+!     adding the tetrahedral elements one by one in kontet
+!     tagging the original elements in kon to be removed
+!     by using a model change in input deck jobname.rfn.inp
+!     
 !     creating the file name
 !
       do i=1,132
-        if(ichar(jobnamec(i:i)).eq.0) exit
+        if(ichar(jobnamec(1)(i:i)).eq.0) exit
       enddo
       if(i.gt.125) then
         write(*,*) '*ERROR in cattet'
         write(*,*) '       jobname has more than 124 characters:'
-        write(*,*) jobnamec(1:132)
+        write(*,*) jobnamec(1)(1:132)
         call exit(201)
       endif
-      fnrfn(1:i+7)=jobnamec(1:i-1)//'.rfn.inp'
+      fnrfn(1:i+7)=jobnamec(1)(1:i-1)//'.rfn.inp'
 !
 !     opening the file
 !
@@ -215,9 +206,9 @@ c          endif
         if(ipkon(i).lt.0) cycle
         if((lakon(i)(1:4).ne.'C3D4').and.
      &       (lakon(i)(1:5).ne.'C3D10')) cycle
-        index=ipkon(i)
+        index1=ipkon(i)
         do j=1,4
-          nodes(j)=kon(index+j)
+          nodes(j)=kon(index1+j)
         enddo
         write(2,101)
         write(2,102) i
@@ -229,7 +220,7 @@ c          endif
         if(lakon(i)(4:4).eq.'1') then
           iquad=1
           do j=1,6
-            kontetor(j,ifreetet)=kon(index+4+j)
+            kontetor(j,ifreetet)=kon(index1+4+j)
           enddo
         endif
 !
@@ -250,16 +241,16 @@ c          endif
         if(kontet(1,j).eq.0) cycle
         do i=1,4
           node=kontet(i,j)
-          index=ifreeln
-          ieln(1,index)=j
-          ifreeln=ieln(2,index)
+          index1=ifreeln
+          ieln(1,index1)=j
+          ifreeln=ieln(2,index1)
           if(ifreeln.eq.0) then
             write(*,*) '*ERROR in cattet: increase the'
             write(*,*) '       dimension of ieln'
             call exit(201)
           endif
-          ieln(2,index)=ipoeln(node)
-          ipoeln(node)=index
+          ieln(2,index1)=ipoeln(node)
+          ipoeln(node)=index1
         enddo
       enddo
 !     

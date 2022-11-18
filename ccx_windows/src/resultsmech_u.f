@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -24,7 +24,7 @@
      &  xstateini,xstiff,xstate,npmat_,matname,mi,ielas,icmd,
      &  ncmat_,nstate_,stiini,vini,ener,eei,enerini,istep,iinc,
      &  reltime,calcul_fn,calcul_qa,calcul_cauchy,nener,
-     &  ikin,nal,ne0,thicke,emeini,nelem,ielprop,prop)
+     &  ikin,nal,ne0,thicke,emeini,nelem,ielprop,prop,t0g,t1g)
 !
 !     calculates nal,qa,fn,xstiff,ener,eme,eei,stx for user elements
 !
@@ -43,7 +43,7 @@
      &  nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,calcul_fn,
      &  calcul_cauchy,calcul_qa,nelem
 !
-      real*8 co(3,*),v(0:mi(2),*),stiini(6,mi(1),*),
+      real*8 co(3,*),v(0:mi(2),*),stiini(6,mi(1),*),t0g(2,*),t1g(2,*),
      &  stx(6,mi(1),*),prop(*),
      &  elcon(0:ncmat_,ntmat_,*),rhcon(0:1,ntmat_,*),
      &  alcon(0:6,ntmat_,*),vini(0:mi(2),*),
@@ -56,9 +56,10 @@
      &  xstateini(nstate_,mi(1),*),reltime,
      &  thicke(mi(3),*),emeini(6,mi(1),*)
 !
-!
-!
       if(lakon(nelem)(2:2).eq.'1') then
+!
+!     user element u1 timoshenko beam
+!
          call resultsmech_u1(co,kon,ipkon,lakon,ne,v,
      &        stx,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,
      &        ielmat,ielorien,norien,orab,ntmat_,t0,t1,ithermal,prestr,
@@ -67,7 +68,34 @@
      &        xstateini,xstiff,xstate,npmat_,matname,mi,ielas,icmd,
      &        ncmat_,nstate_,stiini,vini,ener,eei,enerini,istep,iinc,
      &        reltime,calcul_fn,calcul_qa,calcul_cauchy,nener,
-     &        ikin,nal,ne0,thicke,emeini,nelem,ielprop,prop)
+     &        ikin,nal,ne0,thicke,emeini,nelem,ielprop,prop,t0g,t1g)
+      elseif(lakon(nelem)(2:4).eq.'S45') then
+!
+!     user element us45 flat shell element with 4 nodes (5dof)
+!
+         call resultsmech_us45(co,kon,ipkon,lakon,ne,v,
+     &        stx,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,
+     &        ielmat,ielorien,norien,orab,ntmat_,t0,t1,ithermal,prestr,
+     &        iprestr,eme,iperturb,fn,iout,qa,vold,nmethod,
+     &        veold,dtime,time,ttime,plicon,nplicon,plkcon,nplkcon,
+     &        xstateini,xstiff,xstate,npmat_,matname,mi,ielas,icmd,
+     &        ncmat_,nstate_,stiini,vini,ener,eei,enerini,istep,iinc,
+     &        reltime,calcul_fn,calcul_qa,calcul_cauchy,nener,
+     &        ikin,nal,ne0,thicke,emeini,nelem,ielprop,prop,t0g,t1g)
+!
+       elseif(lakon(nelem)(2:3).eq.'S3') then
+!     
+!     user element us3 flat shell element with 3 nodes (6dof)
+!     
+         call resultsmech_us3(co,kon,ipkon,lakon,ne,v,
+     &        stx,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,
+     &        ielmat,ielorien,norien,orab,ntmat_,t0,t1,ithermal,prestr,
+     &        iprestr,eme,iperturb,fn,iout,qa,vold,nmethod,
+     &        veold,dtime,time,ttime,plicon,nplicon,plkcon,nplkcon,
+     &        xstateini,xstiff,xstate,npmat_,matname,mi,ielas,icmd,
+     &        ncmat_,nstate_,stiini,vini,ener,eei,enerini,istep,iinc,
+     &        reltime,calcul_fn,calcul_qa,calcul_cauchy,nener,
+     &        ikin,nal,ne0,thicke,emeini,nelem,ielprop,prop,t0g,t1g)
       else
          write(*,*) '*ERROR in resultsmech_u.f: user element'
          write(*,*) '       ',lakon(nelem)(1:5),' is not defined'

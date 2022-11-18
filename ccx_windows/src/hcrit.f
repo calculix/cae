@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,31 +18,53 @@
 !     
       subroutine hcrit(xflow,rho,b,theta,dg,sqrts0,hk)
 !
-!     determine the critical depth
+!     determine the critical depth for a trapezoidal channel cross
+!     section:
+!
+!     INPUT:
+!
+!     xflow:     fluid mass flow (may be negative)
+!     rho:       fluid density
+!     b:         width at bottom
+!     theta:     angle describing the width increase with fluid depth
+!     dg:        earth acceleration
+!     sqrts0:    sqrt(1.d0-s0*s0), where s0 is the change of bottom
+!                height with channel length
 !     
+!     OUTPUT:
+!     
+!     hk:        critical depth
+!
       implicit none
 !      
-      real*8 xflow,rho,b,dg,sqrts0,hk,theta,tth,c1,xflow2,
-     &  A,dBBdh,dAdh,BB,dhk
+      real*8 xflow,rho,b,dg,sqrts0,hk,theta,tth,c1,third,hknew
 !
-      hk=((xflow/(rho*b))**2/(dg*sqrts0))**(1.d0/3.d0)
+      if(dabs(xflow).lt.1.d-20) then
+        hk=0.d0
+        return
+      elseif(b.lt.1.d-20) then
+!
+!       triangular cross section
+!
+        hk=(2*xflow*xflow/(dg*sqrts0*tth*tth))**(1.d0/5.d0)
+        return
+      endif
+!
+      third=1.d0/3.d0
+!
+      hk=((xflow/(rho*b))**2/(dg*sqrts0))**third
 !
       if(dabs(theta).lt.1.d-10) return
 !
 !     critical depth for trapezoid, non-rectangular cross section
 !
       tth=dtan(theta)
-      c1=rho*rho*dg*sqrts0
-      xflow2=xflow*xflow
-!
+      c1=((xflow/rho)**2/(dg*sqrts0))**third
+!     
       do
-         A=hk*(b+hk*tth)
-         dBBdh=2.d0*tth
-         dAdh=b+hk*dBBdh
-         BB=dAdh
-         dhk=(xflow2*BB-c1*A**3)/(xflow2*dBBdh-3.d0*c1*A*A*dAdh)
-         if(dabs(dhk)/dhk.lt.1.d-3) exit
-         hk=hk-dhk
+        hknew=c1*(b+2.d0*hk*tth)**third/(b+hk*tth)
+        if(dabs(hknew-hk).lt.1.d-3*hk) exit
+        hk=hknew
       enddo
 !
       return

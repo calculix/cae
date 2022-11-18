@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -26,12 +26,12 @@ void writenewmesh(ITG *nktet,ITG *netet_,double *cotet,ITG *iquad,
 		  char *matname,ITG *ithermal,char *jobnamec,
 		  char *output,ITG *nmat){
 
-  /* writing the new mesh */
+  /* writing the new mesh in a mesh refinement calculation */
 
   FILE *f1;
   
   char *lakonnew=NULL,filabnew[5]="    ",*description=NULL,*set=NULL,
-    fnewmesh[132]="",fneig[132]="";
+    fnewmesh[132]="",fneig[132]="",outputnew[5]="bin ";
 
   ITG nknew,nenew,*ipkonnew=NULL,*konnew=NULL,i,j,netet,*inum=NULL,
     nmethod=0,kode=1,*ielmatnew=NULL,nstate_=0,istep,iinc,mode=-1,
@@ -44,7 +44,7 @@ void writenewmesh(ITG *nktet,ITG *netet_,double *cotet,ITG *iquad,
     *orab=NULL,*stx=NULL,*vr=NULL,*vi=NULL,*stnr=NULL,*stni=NULL,
     *vmax=NULL,*stnmax=NULL,*veold=NULL,*ener=NULL,*cs=NULL,*eenmax=NULL,
     *fnr=NULL,*fni=NULL,*emn=NULL,*thicke=NULL,*qfx=NULL,*cdn=NULL,
-    *cdnr=NULL,*cdni=NULL,*prop=NULL;
+    *cdnr=NULL,*cdni=NULL,*prop=NULL,*sti=NULL;
 
   strcpy(fnewmesh,jobnamec);
   strcat(fnewmesh,".rfn");
@@ -99,7 +99,7 @@ void writenewmesh(ITG *nktet,ITG *netet_,double *cotet,ITG *iquad,
   strcat(fneig,".frd");
 
   if((f1=fopen(fneig,"wb"))==NULL){
-    printf("*EOR in frd: cannot open frd file for writing...");
+    printf(" *ERROR in frd: cannot open frd file for writing...");
     exit(0);
   }
   
@@ -113,11 +113,12 @@ void writenewmesh(ITG *nktet,ITG *netet_,double *cotet,ITG *iquad,
       &ntrans,orab,ielorien,&norien,description,ipneigh,neigh,
       mi,stx,vr,vi,stnr,stni,vmax,stnmax,&ngraph,veold,ener,&nenew,
       cs,set,&nset,istartset,iendset,ialset,eenmax,fnr,fni,emn,
-      thicke,fnewmesh,output,qfx,cdn,&mortar,cdnr,cdni,nmat,ielprop,prop);
+      thicke,fnewmesh,outputnew,qfx,cdn,&mortar,cdnr,cdni,nmat,ielprop,
+      prop,sti);
   
   strcat(fnewmesh,".frd");
   if((f1=fopen(fnewmesh,"ab"))==NULL){
-    printf("*ERROR in frd: cannot open frd file for writing...");
+    printf(" *ERROR in frd: cannot open frd file for writing...");
     exit(0);
   }
   fprintf(f1," 9999\n");

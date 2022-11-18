@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -29,7 +29,7 @@
      &  pslavsurf,pmastsurf,mortar,clearini,ielprop,prop,ne0,nea,
      &  neb,distmin,ndesi,nodedesi,df,jqs,irows,dfl,
      &  icoordinate,dxstiff,xdesi,istartelem,ialelem,v,sigma,
-     &  labmpc,ics,cs,mcs,nk,nzss)
+     &  labmpc,ics,cs,mcs,nk,nzss,set,nset)
 !
       implicit none
 !
@@ -38,7 +38,7 @@
       character*8 lakon(*)
       character*20 sideload(*),labmpc(*)
       character*80 matname(*)
-      character*81 tieset(3,*)
+      character*81 tieset(3,*),set(*)
 !
       integer kon(*),ipompc(*),nodempc(3,*),nelemload(2,*),ikmpc(*),
      &  ilmpc(*),mi(*),nstate_,ne0,nasym,nactdof(0:mi(2),*),ialset(*),
@@ -51,7 +51,7 @@
      &  nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,mortar,nea,
      &  neb,ndesi,nodedesi(*),idesvar,istartelem(*),ialelem(*),
      &  icoordinate,ii,inode,lprev,ij,ilength,idof2,id1,
-     &  icomplex,ics(*),mcs,nzss,idesloc
+     &  icomplex,ics(*),mcs,nzss,idesloc,nset
 !
       real*8 co(3,*),coefmpc(*),xload(2,*),p1(3),p2(3),bodyf(3),
      &  xloadold(2,*),reltime,t0(*),t1(*),vold(0:mi(2),*),
@@ -198,7 +198,7 @@ c     Bernhardi end
      &           iendset,ialset,ntie,nasym,pslavsurf,pmastsurf,mortar,
      &           clearini,ielprop,prop,distmin,ndesi,nodedesi,
      &           dfl,icoordinate,dxstiff,ne,xdesi,istartelem,
-     &           ialelem,v,sigma,nk)
+     &           ialelem,v,sigma,nk,set,nset)
 !     
             do ii=istartelem(i),istartelem(i+1)-1
                idesvar=ialelem(ii)

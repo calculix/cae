@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -101,10 +101,10 @@ void frdgeneralvector(double *v,ITG *iset,ITG *ntrans,char * filabl,
 	    }
 	  }
 	}else{
-	    printf("*WARNING in frdgeneralvector:\n");
-	    printf("         no output in local coordinates allowed\n");
-	    printf("         for generalized vectors\n");
-	    printf("         output request ist not performed;\n");
+	    printf(" *WARNING in frdgeneralvector:\n");
+	    printf("          no output in local coordinates allowed\n");
+	    printf("          for generalized vectors\n");
+	    printf("          output request ist not performed;\n");
 	}
       }
     }
@@ -145,10 +145,10 @@ void frdgeneralvector(double *v,ITG *iset,ITG *ntrans,char * filabl,
 		  }
 	      }
 	  }else{
-	      printf("*WARNING in frdgeneralvector:\n");
-	      printf("         no output in local coordinates allowed\n");
-	      printf("         for generalized vectors\n");
-	      printf("         output request ist not performed;\n");
+	      printf(" *WARNING in frdgeneralvector:\n");
+	      printf("          no output in local coordinates allowed\n");
+	      printf("          for generalized vectors\n");
+	      printf("          output request ist not performed;\n");
 	  }
 	}
       }else{
@@ -189,10 +189,10 @@ void frdgeneralvector(double *v,ITG *iset,ITG *ntrans,char * filabl,
 		    }
 		}
 	    }else{
-	      printf("*WARNING in frdgeneralvector:\n");
-	      printf("         no output in local coordinates allowed\n");
-	      printf("         for generalized vectors\n");
-	      printf("         output request ist not performed;\n");
+	      printf(" *WARNING in frdgeneralvector:\n");
+	      printf("          no output in local coordinates allowed\n");
+	      printf("          for generalized vectors\n");
+	      printf("          output request ist not performed;\n");
 	    }
 	  }
 	}while(1);

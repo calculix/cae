@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -19,10 +19,13 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <pthread.h>
 #include "CalculiX.h"
 
 #define min(a,b) ((a) <= (b) ? (a) : (b))
 #define max(a,b) ((a) >= (b) ? (a) : (b))
+
+static ITG *neq1,*irow1,*mast11,*jq1,kflag1,num_cpus;
 
 void mastruct(ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
 	      ITG *nodeboun, ITG *ndirboun, ITG *nboun, ITG *ipompc,
@@ -43,7 +46,55 @@ void mastruct(ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
     ist1,ist2,node1,node2,isubtract,nmast,ifree,istart,istartold,
     index1,index2,m,node,nzs_,ist,kflag,indexe,nope,isize,*mast1=NULL,
     *irow=NULL,icolumn,nmastboun,mt=mi[1]+1,jmax,*next=NULL,nopeold=0,
-    indexeold,identical,jstart,iatleastonenonzero,idof,ndof;
+    indexeold,identical,jstart,iatleastonenonzero,idof,ndof,*ithread=NULL;
+
+  /* variables for multithreading procedure */
+
+  ITG sys_cpus;
+  char *env,*envloc,*envsys;
+      
+  num_cpus=0;
+  sys_cpus=0;
+  
+  /* explicit user declaration prevails */
+  
+  envsys=getenv("NUMBER_OF_CPUS");
+  if(envsys){
+    sys_cpus=atoi(envsys);
+    if(sys_cpus<0) sys_cpus=0;
+  }
+  
+  /* automatic detection of available number of processors */
+  
+  if(sys_cpus==0){
+    sys_cpus = getSystemCPUs();
+    if(sys_cpus<1) sys_cpus=1;
+  }
+  
+  /* local declaration prevails, if strictly positive */
+  
+  envloc = getenv("CCX_NPROC_CFD");
+  if(envloc){
+    num_cpus=atoi(envloc);
+    if(num_cpus<0){
+      num_cpus=0;
+    }else if(num_cpus>sys_cpus){
+      num_cpus=sys_cpus;
+    }
+  }
+  
+  /* else global declaration, if any, applies */
+  
+  env = getenv("OMP_NUM_THREADS");
+  if(num_cpus==0){
+    if (env)
+      num_cpus = atoi(env);
+    if (num_cpus < 1) {
+      num_cpus=1;
+    }else if(num_cpus>sys_cpus){
+      num_cpus=sys_cpus;
+    }
+  }
 
   /* the indices in the comments follow FORTRAN convention, i.e. the
      fields start with 1 */
@@ -72,8 +123,16 @@ void mastruct(ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
 	if(ipkon[i]<0) continue;
 	if(strcmp1(&lakon[8*i],"F")==0)continue;
 	indexe=ipkon[i];
+	if(strcmp1(&lakon[8*i],"U")==0){
+
+	  /* user element
+	     number of dofs: 7th entry of label
+	     number of nodes: 8th entry of label */
+
+	  ndof=lakon[8*i+6];
+	  nope=lakon[8*i+7];}
 	/* Bernhardi start */
-	if (strcmp1(&lakon[8*i+3],"8I")==0){nope=11;ndof=3;}
+	else if (strcmp1(&lakon[8*i+3],"8I")==0){nope=11;ndof=3;}
 	else if(strcmp1(&lakon[8*i+3],"20")==0){nope=20;ndof=3;}
 	/* Bernhardi end */
 	else if (strcmp1(&lakon[8*i+3],"8")==0){nope=8;ndof=3;}
@@ -102,14 +161,6 @@ void mastruct(ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
 
 	    continue;
 	  }
-	}else if(strcmp1(&lakon[8*i],"U")==0){
-
-	  /* user element
-	     number of dofs: 7th entry of label
-	     number of nodes: 8th entry of label */
-
-	  ndof=lakon[8*i+6];
-	  nope=lakon[8*i+7];
 	}else continue;
 	      
 	/* displacement degrees of freedom */
@@ -210,12 +261,12 @@ void mastruct(ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
       
     for(i=0;i<*nboun;++i){
       if(ndirboun[i]>mi[1]) continue;
-      if (strcmp1(&typeboun[i],"F")==0) continue;
+      if(strcmp1(&typeboun[i],"F")==0) continue;
       nactdof[mt*(nodeboun[i]-1)+ndirboun[i]]=-2*(i+1);
     }
       
     for(i=0;i<*nmpc;++i){
-      if (strcmp1(&labmpc[20*i],"FLUID")==0) continue;
+      if(strcmp1(&labmpc[20*i],"FLUID")==0) continue;
       index=ipompc[i]-1;
       if(nodempc[3*index+1]>mi[1]) continue;
       nactdof[mt*(nodempc[3*index]-1)+nodempc[3*index+1]]=-2*i-1;
@@ -682,13 +733,29 @@ void mastruct(ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
   }
 
   /* sorting the row numbers within each column */
+  
+  if(neq[1]<num_cpus) num_cpus=neq[1];
+  
+  printf(" Using up to %d cpu(s) for setting up the structure of the matrix.\n", num_cpus);
+  
+  pthread_t tid[num_cpus];
 
-  for(i=0;i<neq[1];++i){
+  neq1=neq;irow1=irow;mast11=mast1;jq1=jq;kflag1=kflag;
+	  
+  NNEW(ithread,ITG,num_cpus);
+  for(i=0; i<num_cpus; i++)  {
+    ithread[i]=i;
+    pthread_create(&tid[i], NULL, (void *)sortingmt, (void *)&ithread[i]);
+  }
+  for(i=0; i<num_cpus; i++)  pthread_join(tid[i], NULL);
+  SFREE(ithread);
+
+  /* for(i=0;i<neq[1];++i){
     if(jq[i+1]-jq[i]>0){
       isize=jq[i+1]-jq[i];
       FORTRAN(isortii,(&irow[jq[i]-1],&mast1[jq[i]-1],&isize,&kflag));
     }
-  }
+    }*/
 
   /* removing duplicate entries */
 
@@ -749,13 +816,29 @@ void mastruct(ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
     }
 
     /* sorting the row numbers within each column */
+  
+    if((neq[2]-neq[1])<num_cpus) num_cpus=neq[2]-neq[1];
 
-    for(i=neq[1];i<neq[2];++i){
+    printf(" Using up to %d cpu(s) for setting up the structure of the matrix.\n", num_cpus);
+  
+    pthread_t tid[num_cpus];
+
+    neq1=neq;irow1=irow;mast11=mast1;jq1=jq;kflag1=kflag;
+	  
+    NNEW(ithread,ITG,num_cpus);
+    for(i=0; i<num_cpus; i++)  {
+      ithread[i]=i;
+      pthread_create(&tid[i], NULL, (void *)sortingfreqmt, (void *)&ithread[i]);
+    }
+    for(i=0; i<num_cpus; i++)  pthread_join(tid[i], NULL);
+    SFREE(ithread);
+
+    /*  for(i=neq[1];i<neq[2];++i){
       if(jq[i+1]-jq[i]>0){
 	isize=jq[i+1]-jq[i];
 	FORTRAN(isortii,(&irow[jq[i]-1],&mast1[jq[i]-1],&isize,&kflag));
       }
-    }
+      }*/
 
     /* removing duplicate entries */
 
@@ -790,4 +873,46 @@ void mastruct(ITG *nk, ITG *kon, ITG *ipkon, char *lakon, ITG *ne,
 
   return;
 
+}
+
+/* sorting the row entries in each column */
+
+void *sortingmt(ITG *i){
+
+  ITG neqa,neqb,neqdelta,j,isize;
+    
+  neqdelta=(ITG)ceil(neq1[1]/(double)num_cpus);
+  neqa=*i*neqdelta;
+  neqb=neqa+neqdelta;
+  if(neqb>neq1[1]) neqb=neq1[1];
+
+  for(j=neqa;j<neqb;++j){
+    if(jq1[j+1]-jq1[j]>0){
+      isize=jq1[j+1]-jq1[j];
+      FORTRAN(isortii,(&irow1[jq1[j]-1],&mast11[jq1[j]-1],&isize,&kflag1));
+    }
+  }
+  
+  return NULL;
+}
+
+/* sorting the row entries in each column */
+
+void *sortingfreqmt(ITG *i){
+
+  ITG neqa,neqb,neqdelta,j,isize;
+    
+  neqdelta=(ITG)ceil((neq1[2]-neq1[1])/(double)num_cpus);
+  neqa=*i*neqdelta+neq1[1];
+  neqb=neqa+neqdelta;
+  if(neqb>neq1[2]) neqb=neq1[2];
+
+  for(j=neqa;j<neqb;++j){
+    if(jq1[j+1]-jq1[j]>0){
+      isize=jq1[j+1]-jq1[j];
+      FORTRAN(isortii,(&irow1[jq1[j]-1],&mast11[jq1[j]-1],&isize,&kflag1));
+    }
+  }
+  
+  return NULL;
 }

@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,42 +16,49 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
-      subroutine initialcfdfem(yy,nk,co,ne,ipkon,kon,lakon,x,y,z,xo,yo,
-     &     zo,nx,ny,nz,isolidsurf,neighsolidsurf,xsolidsurf,dh,nshcon,
-     &     shcon,nrhcon,rhcon,vold,vcon,ntmat_,iponoel,inoel,
-     &     iexplicit,ielmat,nsolidsurf,turbulent,physcon,compressible,
-     &     matname,inomat,vcontu,mi,euler,ithermal,dhel)
+      subroutine initialcfdfem(yy,nk,co,ne,ipkon,kon,lakon,x,y,z,xo,
+     &     yo,zo,nx,ny,nz,isolidsurf,neighsolidsurf,xsolidsurf,dh,
+     &     nshcon,shcon,nrhcon,rhcon,vold,vcon,ntmat_,iponoel,inoel,
+     &     nsolidsurf,iturbulent,physcon,compressible,
+     &     matname,inomat,mi,ithermal,dhel,jyy,ifreesurface,
+     &     nbody,ipobody,ibody,xbody,depth,nodfreesurf,dgravity,xg)
 !     
 !     initial calculations for cfd applicatons:
 !     - determine the distance from the nearest solid surface
-!     (stored in yy)
+!     (stored in yy and corresponding wall node in jyy)
 !     - determing the distance from the nearest in-flow node
 !     for solid surface nodes (stored in xsolidsurf)
 !     - determine the adjacent element height for each node 
 !     (stored in field dh)
 !     - calculate the value of the conservative variables (vcon)
+!     - calculate initial values for the turbulence parameters
+!       (if not defined by the user in the input deck with
+!        *INITIAL CONDITIONS,TYPE=TURBULENCE)
 !     
       implicit none
+!
+      logical iniconbyuser
 !     
       character*8 lakon(*)
       character*80 matname(*)
 !     
       integer ne,ipkon(*),kon(*),indexe,ifaceq(8,6),ifacet(7,4),
      &     ifacew(8,5),kflag,isolidsurf(*),nsolidsurf,nope,node1,node2,
-     &     nk,node,i,j,k,iponoel(*),inoel(3,*),nx(*),ny(*),index,nelem,
-     &     nz(*),neighsolidsurf(*),kneigh,nodep(4),iplaneq(3,8),
-     &     iplanew(2,6),nshcon(*),nrhcon(*),ntmat_,neigh,nodel,ifacel,
-     &     mi(*),ielmat(mi(3),*),imat,inomat(*),nonei20(3,12),
-     &     nonei15(3,9),euler,ithermal(*),iexplicit,turbulent,
-     &     iflag,konl(26),nopes,nfaces,ig,iplanet(4),nonei10(3,6),
-     &     compressible
+     &     nk,node,i,j,k,iponoel(*),inoel(2,*),nx(*),ny(*),index,nelem,
+     &     nz(*),neighsolidsurf(*),kneigh,jyy(*),ifreesurface,
+     &     nshcon(*),nrhcon(*),ntmat_,neigh,mi(*),
+     &     imat,inomat(*),ithermal(*),iturbulent,
+     &     iflag,konl(26),nopes,nfaces,ig,compressible,ipobody(2,*),
+     &     nbody,ibody(3,*),m,neinode(3),nodedepth,nodfreesurf(*),
+     &     neigh4(3,4),neigh6(3,6),neigh8(3,8)
 !     
       real*8 x(*),y(*),z(*),xo(*),yo(*),zo(*),xsolidsurf(*),xsj2(3),
-     &     yy(*),co(3,*),dh(*),r,cp,rho,shcon(0:3,ntmat_,*),vcontu(2,*),
-     &     rhcon(0:1,ntmat_,*),vold(0:mi(2),*),vcon(0:4,*),px,py,pz,
-     &     a,b,c,d,temp,vel,dtu,dtnu,physcon(*),xtu,xkin,dvi,dhel(*),
+     &     yy(*),co(3,*),dh(*),r,cp,rho,shcon(0:3,ntmat_,*),
+     &     rhcon(0:1,ntmat_,*),vold(0:mi(2),*),vcon(nk,0:mi(2)),
+     &     temp,physcon(*),xtu,xkin,dvi,dhel(*),px,py,pz,
      &     xl2(3,9),xl(3,26),xs2(3,7),xi,et,ze,xsj,weight,volume,
-     &     shp(4,26),shp2(7,9),factor,area,dhelmax
+     &     shp(4,26),shp2(7,9),factor,area,hmin,dgravity,
+     &     xg(3),xbody(7,*),depth(*),cosangle,cosanglemax,dp(3),dd
 !     
 !     nodes belonging to the element faces
 !     
@@ -70,81 +77,75 @@
      &     1,2,5,4,7,14,10,13,
      &     2,3,6,5,8,15,11,14,
      &     4,6,3,1,12,15,9,13/
-!     
-      data iplaneq /2,4,5,2,5,6,2,3,6,2,3,4,
-     &     1,4,5,1,5,6,1,3,6,1,3,4/
-      data iplanet /3,4,2,1/
-      data iplanew /2,4,2,5,2,3,1,4,1,5,1,3/
-!     
-      data nonei10 /5,1,2,6,2,3,7,3,1,8,1,4,9,2,4,10,3,4/
-!     
-      data nonei15 /7,1,2,8,2,3,9,3,1,10,4,5,11,5,6,12,6,4,
-     &     13,1,4,14,2,5,15,3,6/
-!     
-      data nonei20 /9,1,2,10,2,3,11,3,4,12,4,1,
-     &     13,5,6,14,6,7,15,7,8,16,8,5,
-     &     17,1,5,18,2,6,19,3,7,20,4,8/
+!
+!     neighbors of a given node within the element (local numbers)
+!
+      data neigh4 /2,3,4,1,3,4,1,2,4,1,2,3/
+      data neigh6 /2,3,4,1,3,5,1,2,6,1,5,6,2,4,6,3,4,5/
+      data neigh8 /2,4,5,1,3,6,2,4,7,1,3,8,1,6,8,2,5,7,3,6,8,4,5,7/
 !     
       data iflag /2/
       data kflag /2/
 !     
-      if(turbulent.ne.0) then
+      if(iturbulent.ne.0) then
 !     
 !     determining the nearest solid boundary node
 !     
         kneigh=1
 !     
         do i=1,nk
-          yy(i)=-1.d0
+          yy(i)=1.d30
         enddo
+!
+        if(nsolidsurf.ne.0) then
+          do i=1,nsolidsurf
+            node=isolidsurf(i)
+            x(i)=co(1,node)
+            y(i)=co(2,node)
+            z(i)=co(3,node)
+            xo(i)=x(i)
+            yo(i)=y(i)
+            zo(i)=z(i)
+            nx(i)=i
+            ny(i)=i
+            nz(i)=i
+          enddo
+          call dsort(x,nx,nsolidsurf,kflag)
+          call dsort(y,ny,nsolidsurf,kflag)
+          call dsort(z,nz,nsolidsurf,kflag)
 !     
-        do i=1,nsolidsurf
-          node=isolidsurf(i)
-          x(i)=co(1,node)
-          y(i)=co(2,node)
-          z(i)=co(3,node)
-          xo(i)=x(i)
-          yo(i)=y(i)
-          zo(i)=z(i)
-          nx(i)=i
-          ny(i)=i
-          nz(i)=i
-        enddo
-        call dsort(x,nx,nsolidsurf,kflag)
-        call dsort(y,ny,nsolidsurf,kflag)
-        call dsort(z,nz,nsolidsurf,kflag)
-!     
-        do node=1,nk
-          index=iponoel(node)
-          if(index.le.0) cycle
-          px=co(1,node)
-          py=co(2,node)
-          pz=co(3,node)
+          do node=1,nk
+            index=iponoel(node)
+            if(index.le.0) cycle
+            px=co(1,node)
+            py=co(2,node)
+            pz=co(3,node)
 !     
 !     determining the neighboring solid surface node
 !     
-          call near3d(xo,yo,zo,x,y,z,nx,ny,nz,px,py,pz,
-     &         nsolidsurf,neigh,kneigh)
+            call near3d(xo,yo,zo,x,y,z,nx,ny,nz,px,py,pz,
+     &           nsolidsurf,neigh,kneigh)
 !     
-          neigh=isolidsurf(neigh)
-          yy(node)=dsqrt((co(1,node)-co(1,neigh))**2+
-     &         (co(2,node)-co(2,neigh))**2+
-     &         (co(3,node)-co(3,neigh))**2)
-        enddo
+            neigh=isolidsurf(neigh)
+            jyy(node)=neigh
+            yy(node)=dsqrt((co(1,node)-co(1,neigh))**2+
+     &           (co(2,node)-co(2,neigh))**2+
+     &           (co(3,node)-co(3,neigh))**2)
+          enddo
 !     
 !     determining the distance to the nearest in-flow node for
 !     solid surface nodes (middle nodes do not count as valid
 !     in-flow nodes)
 !     
-        do i=1,nsolidsurf
-          node1=isolidsurf(i)
-          node2=neighsolidsurf(i)
-          xsolidsurf(i)=dsqrt((co(1,node1)-co(1,node2))**2+
-     &         (co(2,node1)-co(2,node2))**2+
-     &         (co(3,node1)-co(3,node2))**2)
-c     write(*,*) 'xsolidsurf ',node1,node2,xsolidsurf(i)
-        enddo
+          do i=1,nsolidsurf
+            node1=isolidsurf(i)
+            node2=neighsolidsurf(i)
+            xsolidsurf(i)=dsqrt((co(1,node1)-co(1,node2))**2+
+     &           (co(2,node1)-co(2,node2))**2+
+     &           (co(3,node1)-co(3,node2))**2)
+          enddo
 !     
+        endif
       endif
 !     
 !     determining the smallest height in each element
@@ -153,7 +154,6 @@ c     write(*,*) 'xsolidsurf ',node1,node2,xsolidsurf(i)
 !     
 c     write(*,*) 'initialcfdfem element height'
 !     
-      dhelmax=0.d0
       do nelem=1,ne
         if((ipkon(nelem).lt.0).or.(lakon(nelem)(1:1).ne.'F')) cycle
         dhel(nelem)=1.d30
@@ -262,134 +262,123 @@ c     write(*,*) 'initialcfdfem element height'
           dhel(nelem)=min(dhel(nelem),(volume/(area*factor)))
 !     
         enddo
-        dhelmax=max(dhelmax,dhel(nelem))
 !     ENDDO over sides
 c     write(*,*) nelem,dhel(nelem)
       enddo
-!     
-!     determining the smallest element height dh for each node. This
-!     is the minimum of the height of all elements to which the
-!     node belongs
-!     
-!     edge nodes (fields iponoel and inoel are determined in precfd.f)
-!     
-c     loop:do i=1,nk
-c     index=iponoel(i)
-c     if(index.le.0) cycle
-c     dh(i)=1.d30
-c     !
-c     !        loop over all elements belonging to the edge node:
-c     !        determining the minimum height
-c     !
-c     do
-c     if(index.le.0) exit
-c     nelem=inoel(1,index)
-c     nodel=inoel(2,index)
-c     indexe=ipkon(nelem)
-c     if((lakon(nelem)(4:4).eq.'2').or.
-c     &         (lakon(nelem)(4:4).eq.'8')) then
-c     do j=1,3
-c     if(nodel.gt.8) cycle loop
-c     ifacel=iplaneq(j,nodel)
-c     do k=1,4
-c     nodep(k)=kon(indexe+ifaceq(k,ifacel))
-c     enddo
-c     call plane4(co,i,nodep,a,b,c,d)
-c     dh(i)=min(dh(i),-a*co(1,i)-b*co(2,i)-c*co(3,i)-d)
-c     enddo
-c     elseif((lakon(nelem)(4:4).eq.'4').or.
-c     &             (lakon(nelem)(4:5).eq.'10')) then
-c     if(nodel.gt.4) cycle loop
-c     ifacel=iplanet(nodel)
-c     do k=1,3
-c     nodep(k)=kon(indexe+ifacet(k,ifacel))
-c     enddo
-c     call plane3(co,nodep,a,b,c,d)
-c     dh(i)=min(dh(i),-a*co(1,i)-b*co(2,i)-c*co(3,i)-d)
-c     else
-c     do j=1,2
-c     if(nodel.gt.6) cycle loop
-c     ifacel=iplanew(j,nodel)
-c     if(ifacel.le.2) then
-c     do k=1,3
-c     nodep(k)=kon(indexe+ifacew(k,ifacel))
-c     enddo
-c     call plane3(co,nodep,a,b,c,d)
-c     else
-c     do k=1,4
-c     nodep(k)=kon(indexe+ifacew(k,ifacel))
-c     enddo
-c     call plane4(co,i,nodep,a,b,c,d)
-c     endif
-c     dh(i)=min(dh(i),-a*co(1,i)-b*co(2,i)-c*co(3,i)-d)
-c     enddo
-c     endif
-c     index=inoel(3,index)
-c     enddo
-c     !
-c     enddo loop
-c     write(*,*) 'initialcfdfem node height'
+!      
+      hmin=1.d30
       loop:do i=1,nk
-      index=iponoel(i)
-      if(index.le.0) cycle
-c     write(*,*) 'old value ',i,dh(i)
-      dh(i)=1.d30
+        index=iponoel(i)
+        if(index.le.0) cycle
+        dh(i)=1.d30
 !     
 !     loop over all elements belonging to the edge node:
 !     determining the minimum height
 !     
-      do
-        if(index.le.0) exit
-        nelem=inoel(1,index)
-        dh(i)=min(dh(i),dhel(nelem))
-        index=inoel(3,index)
-      enddo
-c     write(*,*) 'new value ',i,dh(i)
+        do
+          if(index.le.0) exit
+          nelem=inoel(1,index)
+          dh(i)=min(dh(i),dhel(nelem))
+          index=inoel(2,index)
+        enddo
+        hmin=min(hmin,dh(i))
 !     
       enddo loop
+!
+!     shallow water equations: determine the depth at all fluid nodes
+!     (element length in the direction of the gravity vector)      
+!     and label the nodes which are on the free surface
+!
+      if(ifreesurface.eq.1) then
+        dgravity=-1.d0
+        do nelem=1,ne
+          if((ipkon(nelem).lt.0).or.(lakon(nelem)(1:1).ne.'F')) cycle
+!
+!     determine the gravity vector: is assumed to be constant for
+!     the complete model
+!
+          if(dgravity.lt.0.d0) then
+            if(nbody.le.0) then
+              write(*,*) '*ERROR in initialcfdfem: no gravity vector'
+              write(*,*) '       defined in a shallow water calculation'
+              call exit(201)
+            endif
+            index=nelem
+            do
+              j=ipobody(1,index)
+              if(j.eq.0) exit
+              if(ibody(1,j).eq.2) then
+                dgravity=xbody(1,j)
+                xg(1)=xbody(2,j)
+                xg(2)=xbody(3,j)
+                xg(3)=xbody(4,j)
+              endif
+              index=ipobody(2,index)
+              if(index.eq.0) exit
+            enddo
+            if(dgravity.lt.0.d0) then
+              write(*,*) '*ERROR in initialcfdfem: no gravity vector'
+              write(*,*) '       defined in a shallow water calculation'
+              call exit(201)
+            endif
+          endif
+!
+          nope=ichar(lakon(nelem)(4:4))-48
+          indexe=ipkon(nelem)
+!
+!     loop over all nodes belonging to the element
+!
+          do j=1,nope
+            node=kon(indexe+j)
+            if(depth(node).gt.0.d0) cycle
+!
+!           neighboring nodes of node
+!
+            if(nope.eq.8) then
+              do k=1,3
+                neinode(k)=kon(indexe+neigh8(k,j))
+              enddo
+            elseif(nope.eq.6) then
+              do k=1,3
+                neinode(k)=kon(indexe+neigh6(k,j))
+              enddo
+            else
+              do k=1,3
+                neinode(k)=kon(indexe+neigh4(k,j))
+              enddo
+            endif
+            cosanglemax=0.d0
 !     
-!     calculating the scaling factor beta (cf. explicit structural
-!     dynamics with selective schaling - thesis Catharina Czech) and
-!     storing this factor in field dhel
+!     loop over all neighbors of the node within the element
+!     determine the neighbor most parallel to the direction of the
+!     gravity vector
 !     
-      do nelem=1,ne
-        if((ipkon(nelem).lt.0).or.(lakon(nelem)(1:1).ne.'F')) cycle
-        if(dhel(nelem).lt.dhelmax) then
-          dhel(nelem)=(dhelmax/dhel(nelem))**2
-        else
-          dhel(nelem)=1.d0
-        endif
-c        write(*,*) 'initialcfdfem',nelem,dhel(nelem)
-      enddo
-!     
-!     middle nodes (interpolation between neighboring end nodes)
-!     
-c      do i=1,ne
-c        if(lakon(nelem)(1:1).ne.'F') cycle
-c        indexe=ipkon(nelem)
-c        if(indexe.lt.0) cycle
-c        if(lakon(nelem)(4:5).eq.'20') then
-c          do j=9,20
-c            node=kon(indexe+j)
-c            dh(node)=(dh(kon(indexe+nonei20(2,j-8)))+
-c     &           dh(kon(indexe+nonei20(3,j-8))))/2.d0
-c          enddo
-c        elseif(lakon(nelem)(4:5).eq.'10') then
-c          do j=5,10
-c            node=kon(indexe+j)
-c            dh(node)=(dh(kon(indexe+nonei10(2,j-4)))+
-c     &           dh(kon(indexe+nonei10(3,j-4))))/2.d0
-c          enddo
-c        elseif(lakon(nelem)(4:5).eq.'15') then
-c          do j=7,15
-c            node=kon(indexe+j)
-c            dh(node)=(dh(kon(indexe+nonei15(2,j-6)))+
-c     &           dh(kon(indexe+nonei15(3,j-6))))/2.d0
-c          enddo
-c        endif
-c      enddo
-!     
-!     calculate auxiliary fields
+            do k=1,3
+              do m=1,3
+                dp(m)=co(m,neinode(k))-co(m,node)
+              enddo
+              dd=dsqrt(dp(1)*dp(1)+dp(2)*dp(2)+dp(3)*dp(3))
+              cosangle=(xg(1)*dp(1)+xg(2)*dp(2)+xg(3)*dp(3))/dd
+              if(dabs(cosangle).gt.cosanglemax) then
+                cosanglemax=dabs(cosangle)
+                nodedepth=neinode(k)
+                depth(node)=dd*cosangle/dabs(cosangle)
+              endif
+            enddo
+!
+            if(depth(node).gt.0.d0) then
+              nodfreesurf(node)=1
+              depth(nodedepth)=depth(node)
+            else
+              depth(node)=-depth(node)
+              depth(nodedepth)=depth(node)
+              nodfreesurf(nodedepth)=1
+            endif
+          enddo
+        enddo
+      endif
+!
+!     calculate conservative fields
 !     
       do node=1,nk
         if(inomat(node).eq.0) cycle
@@ -401,92 +390,119 @@ c      enddo
 !     different treatment for gases and liquids
 !     
         if(compressible.eq.1) then
-          r=shcon(3,1,imat)
-          if(r.lt.1.d-10) then
-            write(*,*) '*ERROR in initialcfd: specific gas '
-            write(*,*) 'constant for material ',matname(imat)
-            write(*,*) 'is close to zero; maybe it has'
-            write(*,*) 'not been defined'
-            stop
+          if(ifreesurface.eq.0) then
+            r=shcon(3,1,imat)
+            if(r.lt.1.d-10) then
+              write(*,*) '*ERROR in initialcfd: specific gas '
+              write(*,*) 'constant for material ',matname(imat)
+              write(*,*) 'is close to zero; maybe it has'
+              write(*,*) 'not been defined'
+              stop
+            endif
+            if(vold(0,node)-physcon(1).le.1.d-10) then
+              write(*,*) '*ERROR in initialcfd: absolute temperature '
+              write(*,*) '       is nearly zero; maybe absolute zero '
+              write(*,*) '       was wrongly defined or not defined'
+              write(*,*) '       at all (*PHYSICAL CONSTANTS card)'
+              stop
+            endif
+            if(vold(4,node).le.0.d0) then
+              write(*,*) '*ERROR in inicialcfd: initial pressure'
+              write(*,*) '       must be strictly positive'
+              stop
+            endif
+            rho=vold(4,node)/(r*(vold(0,node)-physcon(1)))
+            vcon(node,0)=rho*(cp*(temp-physcon(1))+
+     &           (vold(1,node)**2+vold(2,node)**2+vold(3,node)**2)
+     &           /2.d0)-vold(4,node)
+          else
+!
+!           shallow water equations: H=0.1 fixed
+!
+            rho=2.d0*vold(4,node)/dgravity+depth(node)**2
+            if(rho.le.0.d0) then
+              write(*,*) '*ERROR in initialcfd: height  '
+              write(*,*) '       is les or equal to zero; initial '
+              write(*,*) '       "pressure" too low'
+              stop
+            endif
+            rho=dsqrt(rho)
+            if(ithermal(1).gt.1) then
+              vcon(node,0)=rho*(cp*(temp-physcon(1))+
+     &             (vold(1,node)**2+vold(2,node)**2+vold(3,node)**2)
+     &             /2.d0)
+            endif
           endif
-          if(vold(0,node)-physcon(1).le.1.d-10) then
-            write(*,*) '*ERROR in initialcfd: absolute temperature '
-            write(*,*) '       is nearly zero; maybe absolute zero '
-            write(*,*) '       was wrongly defined or not defined'
-            write(*,*) '       at all (*PHYSICAL CONSTANTS card)'
-            stop
-          endif
-          if(vold(4,node).le.0.d0) then
-            write(*,*) '*ERROR in inicialcfd: initial pressure'
-            write(*,*) '       must be strictly positive'
-            stop
-          endif
-          rho=vold(4,node)/(r*(vold(0,node)-physcon(1)))
-          vcon(0,node)=rho*(cp*(temp-physcon(1))+
-     &         (vold(1,node)**2+vold(2,node)**2+vold(3,node)**2)
-     &         /2.d0)-vold(4,node)
-!     
-!     check for inviscous (= Euler) calculations
-!     
-c     if(euler.eq.1) then
-c     call materialdata_dvifem(imat,ntmat_,temp,shcon,nshcon,dvi)
-c     c               if(dvi.gt.1.d-20) euler=0
-c     euler=0
-c     endif
-c     start shallow
-c     rho=dsqrt(vold(4,node)/5.d0+(0.005*co(1,node))**2)
-c     vcon(0,node)=rho*(cp*(temp-physcon(1))+
-c     &           (vold(1,node)**2+vold(2,node)**2+vold(3,node)**2)
-c     &           /2.d0)
-c     end shallow
         else
+!
+!         incompressible calculations
+!
           call materialdata_rho(rhcon,nrhcon,imat,rho,
      &         temp,ntmat_,ithermal)
           if(ithermal(1).gt.1) then
-            vcon(0,node)=rho*(cp*(temp-physcon(1))+
+            vcon(node,0)=rho*(cp*(temp-physcon(1))+
      &           (vold(1,node)**2+vold(2,node)**2+vold(3,node)**2)
      &           /2.d0)
           endif
         endif
-        vcon(4,node)=rho
+        vcon(node,4)=rho
         do k=1,3
-          vcon(k,node)=rho*vold(k,node)
+          vcon(node,k)=rho*vold(k,node)
         enddo
       enddo
 !     
 !     initial conditions for turbulence parameters:
 !     freestream conditions
 !     
-      if(turbulent.ne.0) then
-        if(dabs(physcon(8)).lt.1.d-20) then
-          write(*,*) '*ERROR in initialcfd: typical length of the'
-          write(*,*) '       computational domain is too small'
-          write(*,*) '       use *VALUES AT INFINITY to define a'
-          write(*,*) '       finite value'
-          stop
-        endif
-        xtu=10.d0*physcon(5)/physcon(8)
-        xkin=10.d0**(-3.5d0)*xtu
+      if(iturbulent.ne.0) then
+!
+!     check whether initial turbulence conditions were defined
+!     by user
+!
+        iniconbyuser=.false.
         do node=1,nk
           imat=inomat(node)
           if(imat.eq.0) cycle
-          temp=vold(0,node)
-          call materialdata_dvifem(imat,ntmat_,temp,shcon,nshcon,dvi)
-!     
-!     density for gases
-!     
-          if(compressible.eq.1) then
-            r=shcon(3,1,imat)
-            rho=vold(4,node)/
-     &           (r*(vold(0,node)-physcon(1)))
-          else
-            call materialdata_rho(rhcon,nrhcon,imat,rho,
-     &           temp,ntmat_,ithermal)
-          endif
-!     
-          vcontu(1,node)=xkin*dvi
-          vcontu(2,node)=xtu*rho
+          if((vold(5,node).gt.0.d0).or.(vold(6,node).gt.0.d0))
+     &         iniconbyuser=.true.
+          exit
         enddo
+!     
+        if(.not.iniconbyuser) then
+          if(dabs(physcon(8)).lt.1.d-20) then
+            write(*,*) '*ERROR in initialcfd: typical length of the'
+            write(*,*) '       computational domain is too small'
+            write(*,*) '       use *VALUES AT INFINITY to define a'
+            write(*,*) '       finite value'
+            stop
+          endif
+          xtu=10.d0*physcon(5)/physcon(8)
+          xkin=10.d0**(-3.5d0)*xtu
+          do node=1,nk
+            imat=inomat(node)
+            if(imat.eq.0) cycle
+            temp=vold(0,node)
+            call materialdata_dvifem(imat,ntmat_,temp,shcon,nshcon,dvi)
+!     
+            rho=vcon(node,4)
+!     
+            vcon(node,5)=xkin*dvi
+            vcon(node,6)=xtu*rho
+!     
+            vold(5,node)=vcon(node,5)/rho
+            vold(6,node)=xtu
+          enddo
+        else
+          do node=1,nk
+            imat=inomat(node)
+            if(imat.eq.0) cycle
+!     
+            rho=vcon(node,4)
+!     
+            vcon(node,5)=vold(5,node)*rho
+            vcon(node,6)=vold(6,node)*rho
+          enddo
+        endif
       endif
 !     
       return

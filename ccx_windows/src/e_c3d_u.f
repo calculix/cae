@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -32,7 +32,7 @@
 !     computation of the element matrix and rhs for the user element
 !     of type u1
 !     
-!     This is a beam type element. Reference:
+!     U1: This is a beam type element. Reference:
 !     Yunhua Luo, An Efficient 3D Timoshenko Beam Element with
 !     Consistent Shape Functions, Adv. Theor. Appl. Mech., Vol. 1,
 !     2008, no. 3, 95-106
@@ -40,6 +40,8 @@
 !     special case for which the beam axis goes through the
 !     center of gravity of the cross section and the 1-direction
 !     corresponds with a principal axis
+!     
+!     US45: Flat shell 4 nodes 5 dof + (artificial rotz stiff)
 !     
       implicit none
 !     
@@ -72,8 +74,6 @@
      &     xstiff(27,mi(1),*),plconloc(802),dtime,ttime,time,
      &     a,xi11,xi12,xi22,xk,e1(3),offset1,offset2,y1,y2,y3,z1,z2,z3
 !     
-!     
-!     
       if(lakonl(2:2).eq.'1') then
         call e_c3d_u1(co,kon,lakonl,p1,p2,omx,bodyfx,nbody,s,sm,
      &       ff,nelem,nmethod,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,
@@ -86,6 +86,32 @@
      &       ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,veold,
      &       ne0,ipkon,thicke,integerglob,doubleglob,tieset,istartset,
      &       iendset,ialset,ntie,nasym,ielprop,prop)
+!        
+      elseif(lakonl(2:4).eq.'S45') then
+        call e_c3d_us45(co,kon,lakonl,p1,p2,omx,bodyfx,nbody,s,sm,
+     &       ff,nelem,nmethod,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,
+     &       alzero,ielmat,ielorien,norien,orab,ntmat_,
+     &       t0,t1,ithermal,vold,iperturb,nelemload,
+     &       sideload,xload,nload,idist,sti,stx,iexpl,plicon,
+     &       nplicon,plkcon,nplkcon,xstiff,npmat_,dtime,
+     &       matname,mi,ncmat_,mass,stiffness,buckling,rhsi,intscheme,
+     &       ttime,time,istep,iinc,coriolis,xloadold,reltime,
+     &       ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,veold,
+     &       ne0,ipkon,thicke,integerglob,doubleglob,tieset,istartset,
+     &       iendset,ialset,ntie,nasym,ielprop,prop)
+!        
+      elseif(lakonl(2:3).eq.'S3') then
+        call e_c3d_us3(co,kon,lakonl,p1,p2,omx,bodyfx,nbody,s,sm,
+     &       ff,nelem,nmethod,elcon,nelcon,rhcon,nrhcon,alcon,nalcon,
+     &       alzero,ielmat,ielorien,norien,orab,ntmat_,
+     &       t0,t1,ithermal,vold,iperturb,nelemload,
+     &       sideload,xload,nload,idist,sti,stx,iexpl,plicon,
+     &       nplicon,plkcon,nplkcon,xstiff,npmat_,dtime,
+     &       matname,mi,ncmat_,mass,stiffness,buckling,rhsi,intscheme,
+     &       ttime,time,istep,iinc,coriolis,xloadold,reltime,
+     &       ipompc,nodempc,coefmpc,nmpc,ikmpc,ilmpc,veold,
+     &       ne0,ipkon,thicke,integerglob,doubleglob,tieset,istartset,
+     &       iendset,ialset,ntie,nasym,ielprop,prop)     
       else
         write(*,*) '*ERROR in e_c3d_u.f: user element'
         write(*,*) '       ',lakonl(1:5),' is not defined'

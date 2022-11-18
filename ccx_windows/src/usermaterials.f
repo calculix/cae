@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -80,14 +80,6 @@
 !
 !        mechanical user material
 !
-c         if(nconstants.gt.21) then
-c            write(*,*) '*ERROR reading *USER MATERIAL: number of'
-c            write(*,*) '       mechanical constants cannot exceed 21'
-c            write(*,*) '       change the source code or'
-c            write(*,*) '       contact the author'
-c            ier=1
-c            return
-c         endif
          nelcon(1,nmat)=-100-nconstants
 !
          do

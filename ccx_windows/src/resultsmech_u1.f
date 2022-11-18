@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -24,7 +24,7 @@
      &  xstateini,xstiff,xstate,npmat_,matname,mi,ielas,icmd,
      &  ncmat_,nstate_,stiini,vini,ener,eei,enerini,istep,iinc,
      &  reltime,calcul_fn,calcul_qa,calcul_cauchy,nener,
-     &  ikin,nal,ne0,thicke,emeini,i,ielprop,prop)
+     &  ikin,nal,ne0,thicke,emeini,i,ielprop,prop,t0g,t1g)
 !
 !     calculates nal,qa,fn,xstiff,ener,eme,eei,stx for user element 1
 !
@@ -182,6 +182,9 @@
 !                        the properties of element i
 !     prop(*)            contains the properties and some beam 
 !                        elements (cf. User's Manual)
+!     t0g(1..2,i)        temperature gradient in node i at start of calculation
+!     t1g(1..2,i)        temperature gradient in node i at the end of the 
+!                        current increment
 !
 !
 !     OUTPUT:
@@ -202,6 +205,7 @@
 !                        of element k at the end of the present increment
 !     eei(i,j,k)         total strain component i in integration point j
 !                        of element k at the end of the present iteration
+!                        (only for iout>0)
 !     nal                number of nodal force contributions
 !
       implicit none
@@ -209,7 +213,7 @@
       character*8 lakon(*)
       character*80 amat,matname(*)
 !
-      integer kon(*),konl(26),mi(*),
+      integer kon(*),konl(26),mi(*),kal(2,6),j1,j2,j3,j4,
      &  nelcon(2,*),nrhcon(*),nalcon(2,*),ielmat(mi(3),*),
      &  ielorien(mi(3),*),ntmat_,ipkon(*),ne0,
      &  istep,iinc,ne,mattyp,ithermal(*),iprestr,i,j,k,m1,m2,jj,
@@ -219,7 +223,7 @@
      &  nplicon(0:ntmat_,*),nplkcon(0:ntmat_,*),npmat_,calcul_fn,
      &  calcul_cauchy,calcul_qa,index,node
 !
-      real*8 co(3,*),v(0:mi(2),*),stiini(6,mi(1),*),
+      real*8 co(3,*),v(0:mi(2),*),stiini(6,mi(1),*),xa(3,3),
      &  stx(6,mi(1),*),xl(3,26),vl(0:mi(2),26),stre(6),prop(*),
      &  elcon(0:ncmat_,ntmat_,*),rhcon(0:1,ntmat_,*),
      &  alcon(0:6,ntmat_,*),vini(0:mi(2),*),
@@ -232,9 +236,10 @@
      &  xstiff(27,mi(1),*),xstate(nstate_,mi(1),*),plconloc(802),
      &  xstateini(nstate_,mi(1),*),tm(3,3),a,reltime,
      &  thicke(mi(3),*),emeini(6,mi(1),*),aly,alz,bey,bez,xi(2),
-     &  vlp(6,2),xi11,xi12,xi22,xk,offset1,offset2,e1(3),e2(3),e3(3)
+     &  vlp(6,2),xi11,xi12,xi22,xk,offset1,offset2,e1(3),e2(3),e3(3),
+     &  t0g(2,*),t1g(2,*)
 !
-!
+      kal=reshape((/1,1,2,2,3,3,1,2,1,3,2,3/),(/2,6/))
 !
       nope=2
 !
@@ -420,28 +425,39 @@
 !
       do jj=1,nope
 !
-!        calculating the derivative of the local displacement and
-!        rotation values (from Eqn. (19) and (20) in Luo)
+!     calculating the derivative of the local displacement and
+!     rotation values (from Eqn. (19) and (20) in Luo)
 !
-         vlp(1,jj)=(-vl(1,1)+vl(1,2))/dl
-         vlp(2,jj)=
-     &     bey*(6.d0*xi(jj)**2-6.d0*xi(jj)+aly*xi(jj))/dl*vl(2,1)+
+!     Equation (19) does not seem to be correct in Luo:
+!     - in the third equation v_1 shoud be w_1 and the sign in front
+!       of the psi-terms should be negative
+!     - in the last equation the sign before the w-terms should be
+!       negative
+!
+        vlp(1,jj)=(-vl(1,1)+vl(1,2))/dl
+!     
+        vlp(2,jj)=
+     &    bey*(6.d0*xi(jj)**2-6.d0*xi(jj)+aly)/dl*vl(2,1)+
      &    bey*(3.d0*xi(jj)**2+(aly-4.d0)*xi(jj)+(1.d0-aly/2.d0))*vl(6,1)
      &    +bey*(-6.d0*xi(jj)**2+6.d0*xi(jj)-aly)/dl*vl(2,2)
      &    +bey*(3.d0*xi(jj)**2-(2.d0+aly)*xi(jj)+aly/2.d0)*vl(6,2)
-         vlp(3,jj)=bez*(6.d0*xi(jj)*xi(jj)-6.d0*xi(jj)+alz)/dl*vl(3,1)+
+!     
+        vlp(3,jj)=bez*(6.d0*xi(jj)*xi(jj)-6.d0*xi(jj)+alz)/dl*vl(3,1)-
      &    bez*(3.d0*xi(jj)**2+(alz-4.d0)*xi(jj)+(1.d0-alz/2.d0))*vl(5,1)
      &    +bez*(-6.d0*xi(jj)**2+6.d0*xi(jj)-alz)/dl*vl(3,2)
-     &    +bez*(3.d0*xi(jj)**2-(2.d0+alz)*xi(jj)+alz/2.d0)*vl(5,2)
-         vlp(4,jj)=(vl(4,2)-vl(4,1))/dl
-         vlp(5,jj)=6.d0*bez*(2.d0*xi(jj)-1.d0)/(dl*dl)*vl(3,1)
-     &           +bez*(6.d0*xi(jj)+(alz-4.d0))/dl*vl(5,1)
-     &           +6.d0*bez*(-2.d0*xi(jj)+1.d0)/(dl*dl)*vl(3,2)
-     &           +bez*(6.d0*xi(jj)-(alz+2))/dl*vl(5,2)
-         vlp(6,jj)=6.d0*bey*(2.d0*xi(jj)-1.d0)/(dl*dl)*vl(2,1)
-     &           +bey*(6.d0*xi(jj)+(aly-4.d0))/dl*vl(6,1)
-     &           +6.d0*bey*(-2.d0*xi(jj)+1.d0)/(dl*dl)*vl(2,2)
-     &           +bey*(6.d0*xi(jj)-(aly+2.d0))/dl*vl(6,2)
+     &    -bez*(3.d0*xi(jj)**2-(2.d0+alz)*xi(jj)+alz/2.d0)*vl(5,2)
+!     
+        vlp(4,jj)=(vl(4,2)-vl(4,1))/dl
+!     
+        vlp(5,jj)=-6.d0*bez*(2.d0*xi(jj)-1.d0)/(dl*dl)*vl(3,1)
+     &       +bez*(6.d0*xi(jj)+(alz-4.d0))/dl*vl(5,1)
+     &       -6.d0*bez*(-2.d0*xi(jj)+1.d0)/(dl*dl)*vl(3,2)
+     &       +bez*(6.d0*xi(jj)-(alz+2))/dl*vl(5,2)
+!     
+        vlp(6,jj)=6.d0*bey*(2.d0*xi(jj)-1.d0)/(dl*dl)*vl(2,1)
+     &       +bey*(6.d0*xi(jj)+(aly-4.d0))/dl*vl(6,1)
+     &       +6.d0*bey*(-2.d0*xi(jj)+1.d0)/(dl*dl)*vl(2,2)
+     &       +bey*(6.d0*xi(jj)-(aly+2.d0))/dl*vl(6,2)
 !
 !        calculation of the strains (Eqn. (8) in Luo)
 !
@@ -456,7 +472,7 @@
 !
          if(ithermal(1).ne.0) then
             do m1=2,6
-               emec(m1)=eloc(m1)-eth(m1)
+               emec(m1)=eloc(m1)-eth(1)
             enddo
          else
             do m1=1,6
@@ -483,35 +499,60 @@
          stre(4)=xk*um*a*emec(4)
          stre(5)=xk*um*a*emec(5)
          stre(6)=xk*um*(xi11+xi22)*emec(6)
+!
+!        rotating the strain into the global system
+!
+         xa(1,1)=eloc(1)
+         xa(1,2)=eloc(4)
+         xa(1,3)=eloc(5)
+         xa(2,1)=eloc(4)
+         xa(2,2)=eloc(2)
+         xa(2,3)=eloc(6)
+         xa(3,1)=eloc(5)
+         xa(3,2)=eloc(6)
+         xa(3,3)=eloc(3)
+!
+         do m1=1,6
+            eloc(m1)=0.d0
+            j1=kal(1,m1)
+            j2=kal(2,m1)
+            do j3=1,3
+               do j4=1,3
+                  eloc(m1)=eloc(m1)+
+     &                 xa(j3,j4)*tm(j3,j1)*tm(j4,j2)
+               enddo
+            enddo
+         enddo
+!
+!        rotating the stress into the global system
+!
+         xa(1,1)=stre(1)
+         xa(1,2)=stre(4)
+         xa(1,3)=stre(5)
+         xa(2,1)=stre(4)
+         xa(2,2)=stre(2)
+         xa(2,3)=stre(6)
+         xa(3,1)=stre(5)
+         xa(3,2)=stre(6)
+         xa(3,3)=stre(3)
+!
+         do m1=1,6
+            stre(m1)=0.d0
+            j1=kal(1,m1)
+            j2=kal(2,m1)
+            do j3=1,3
+               do j4=1,3
+                  stre(m1)=stre(m1)+
+     &                 xa(j3,j4)*tm(j3,j1)*tm(j4,j2)
+               enddo
+            enddo
+         enddo
 ! 
 !        updating the internal energy and mechanical strain
 !
          if((iout.gt.0).or.(iout.eq.-2).or.(kode.le.-100).or.
      &        ((nmethod.eq.4).and.(iperturb(1).gt.1).and.
      &        (ithermal(1).le.1))) then
-c            if(ithermal(1).eq.0) then
-c               do m1=1,6
-c                  eth(m1)=0.d0
-c               enddo
-c            endif
-c            if(nener.eq.1) then
-c               ener(jj,i)=enerini(jj,i)+
-c     &              ((eloc(1)-eth(1)-emeini(1,jj,i))*
-c     &              (stre(1)+stiini(1,jj,i))+
-c     &              (eloc(2)-eth(2)-emeini(2,jj,i))*
-c     &              (stre(2)+stiini(2,jj,i))+
-c     &              (eloc(3)-eth(3)-emeini(3,jj,i))*
-c     &              (stre(3)+stiini(3,jj,i)))/2.d0+
-c     &         (eloc(4)-eth(4)-emeini(4,jj,i))*(stre(4)+stiini(4,jj,i))+
-c     &         (eloc(5)-eth(5)-emeini(5,jj,i))*(stre(5)+stiini(5,jj,i))+
-c     &         (eloc(6)-eth(6)-emeini(6,jj,i))*(stre(6)+stiini(6,jj,i))
-c            endif
-c            eme(1,jj,i)=eloc(1)-eth(1)
-c            eme(2,jj,i)=eloc(2)-eth(2)
-c            eme(3,jj,i)=eloc(3)-eth(3)
-c            eme(4,jj,i)=eloc(4)-eth(4)
-c            eme(5,jj,i)=eloc(5)-eth(5)
-c            eme(6,jj,i)=eloc(6)-eth(6)
 !               
                if(nener.eq.1) then
                   ener(jj,i)=enerini(jj,i)+
@@ -533,7 +574,7 @@ c            eme(6,jj,i)=eloc(6)-eth(6)
                eme(6,jj,i)=emec(6)
          endif
 !     
-         if((iout.gt.0).or.(iout.eq.-2).or.(kode.le.-100)) then
+         if(iout.gt.0) then
 !     
             eei(1,jj,i)=eloc(1)
             eei(2,jj,i)=eloc(2)

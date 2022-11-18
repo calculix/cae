@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -34,9 +34,9 @@
 !
       integer istep,istat,n,i,key,ipos,iline,ipol,inl,ipoinp(2,*),
      &  inp(3,*),ntie,ntie_,iperturb(*),nmat,ipoinpc(0:*),nset,j,
-     &  mortar,ncmat_,ntmat_,ier
+     &  mortar,ncmat_,ntmat_,ier,id
 !
-      real*8 tietol(3,*),adjust,elcon(0:ncmat_,ntmat_,*)
+      real*8 tietol(4,*),adjust,elcon(0:ncmat_,ntmat_,*)
 !
 !     tietol contains information on:
 !            - small (tietol<0) or large (tietol>0) sliding
@@ -50,7 +50,7 @@
          return
       endif
 !
-      mortar=-1
+      mortar=-2
       linear=.false.
 !
       ntie=ntie+1
@@ -82,9 +82,16 @@
                noset(81:81)=' '
                ipos=index(noset,' ')
                noset(ipos:ipos)='N'
-               do j=1,nset
-                  if(set(j).eq.noset) exit
-               enddo
+c               do j=1,nset
+c                  if(set(j).eq.noset) exit
+c               enddo
+               call cident81(set,noset,nset,id)
+               j=nset+1
+               if(id.gt.0) then
+                 if(noset.eq.set(id)) then
+                   j=id
+                 endif
+               endif
                if(j.gt.nset) then
                   noset(ipos:ipos)=' '
                   write(*,*) 
@@ -104,6 +111,8 @@
             else
                tietol(1,ntie)=dsign(1.d0,tietol(1,ntie))*(2.d0+adjust)
             endif
+         elseif(textpart(i)(1:13).eq.'TYPE=MASSLESS') then
+            mortar=-1
          elseif(textpart(i)(1:18).eq.'TYPE=NODETOSURFACE') then
             mortar=0
          elseif(textpart(i)(1:21).eq.'TYPE=SURFACETOSURFACE') then
@@ -126,7 +135,7 @@
          endif
       enddo
 !
-      if(mortar.lt.0) then
+      if(mortar.eq.-2) then
          write(*,*) '*ERROR reading *CONTACT PAIR'
          write(*,*) '       no TYPE specified'
          call inputerror(inpc,ipoinpc,iline,
@@ -169,7 +178,7 @@
      &   '       has been defined for at least one *SURFACE INTERACTION'
          ier=1
          return
-      elseif(mortar.lt.2) then
+      elseif((mortar.eq.0).or.(mortar.eq.1)) then
          if(ncmat_<3) then
             write(*,*) 
      &           '*ERROR reading *CONTACT PAIR: no PRESSURE-OVERCLOSURE'
