@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -48,14 +48,12 @@
       integer i,j,k,ntie,node,nslavnode(*),
      &     mi(*),nactdof(0:mi(2),*),nmastnode(*),imastnode(*),
      &     islavactdof(*),islavnode(*),ithermal(*)
-!
-!
 !     
 !     close the contact.fbd file
 !     
-      close(20)
-      close(30)
-      close(40)
+c      close(20)
+c      close(30)
+c      close(40)
 !      
 !     do not change the order here: slave nodes have to be treated
 !     last since two contact definitions can share an edge

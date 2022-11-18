@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine filters(inpc,textpart,istep,istat,n,iline,ipol,inl,
-     &        ipoinp,inp,ipoinpc,objectset,ier)        
+     &        ipoinp,inp,ipoinpc,objectset,ier,nobject,nmethod)        
 !
 !     reading the input deck: *FILTER
 !
@@ -30,20 +30,30 @@
 !
       character*1 inpc(*)
       character*132 textpart(16)
-      character*81 objectset(4,*)
+      character*81 objectset(5,*)
 !
-      integer istep,istat,n,key,i,iline,ipol,inl,ipoinp(2,*),
-     &  inp(3,*),ipoinpc(0:*),ipos,boundact,filteract,ier  
+      integer istep,istat,n,key,i,iline,ipol,inl,ipoinp(2,*),nmethod,
+     &  inp(3,*),ipoinpc(0:*),ipos,boundact,filteract,ier,nobject  
 !
       real*8 radius
-!
-      if(istep.lt.1) then
-         write(*,*) '*ERROR reading *FILTER: *FILTER can
+!     
+c      if(istep.lt.1) then
+      if(nmethod.ne.12) then
+        write(*,*) '*ERROR reading *FILTER: *FILTER can
      &only be used within a SENSITIVITY STEP'     
-         ier=1
-         return
+        ier=1
+        return
       endif
-!
+!     
+      if(nobject.eq.0) then
+        write(*,*) '*ERROR reading *FILTER: at least one'
+        write(*,*) '       *DESIGN RESPONSE must have been'
+        write(*,*) '       defined before the definition of'
+        write(*,*) '       a filter'
+        ier=1
+        return
+      endif
+!     
       boundact=0
       filteract=0
 !

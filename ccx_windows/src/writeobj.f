@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -22,77 +22,30 @@
 !
       implicit none
 !
-      character*81 objectset(4,*)
+      character*81 objectset(5,*)
       integer iobject,i
       real*8 g0(*)
 !          
       i=iobject+1
 !
-      if(objectset(1,i)(1:12).eq.'DISPLACEMENT') then
+      if(i.eq.1) then
          write(5,*)
-         write(5,*)'OBJECTIVE: DISPLACEMENT'  
+         write(5,*) '  #######################################
+     &#########################'
+         write(5,*) '  D E S I G N   R E S P O N S E   
+     &I N F O R M A T I O N'
          write(5,*)
-         write(5,'(7x,e14.7)') g0(i)
+         write(5,'(3x,a16,a14,3x,a80)') 'FUNCTION        ',
+     &   'VALUE         ','NAME                                    
+     &                                        '
+         write(5,*) '  #######################################
+     &#########################'
+         write(5,*)
+      endif
 !
-      elseif(objectset(1,i)(1:6).eq.'X-DISP') then
-         write(5,*)
-         write(5,*)'OBJECTIVE: X-DISP'  
-         write(5,*)
-         write(5,'(7x,e14.7)') g0(i)
-!
-      elseif(objectset(1,i)(1:6).eq.'Y-DISP') then
-         write(5,*)
-         write(5,*)'OBJECTIVE: Y-DISP'  
-         write(5,*)
-         write(5,'(7x,e14.7)') g0(i)
-!
-      elseif(objectset(1,i)(1:6).eq.'Z-DISP') then
-         write(5,*)
-         write(5,*)'OBJECTIVE: Z-DISP'  
-         write(5,*)
-         write(5,'(7x,e14.7)') g0(i)
-!
-      elseif(objectset(1,i)(1:14).eq.'EIGENFREQUENCY') then
-         write(5,*)
-         write(5,*)'OBJECTIVE: EIGENFREQUENCY'  
-         write(5,*)
-         write(5,'(7x,e14.7)') g0(i)
-!
-      elseif(objectset(1,i)(1:4).eq.'MASS') then
-         write(5,*)
-         write(5,*)'OBJECTIVE: MASS'  
-         write(5,*)
-         write(5,'(7x,e14.7)') g0(i)
-!
-      elseif(objectset(1,i)(1:12).eq.'STRAINENERGY') then
-         write(5,*)
-         write(5,*)'OBJECTIVE: STRAIN ENERGY' 
-         write(5,*) 
-         write(5,'(7x,e14.7)') g0(i)
-!
-      elseif(objectset(1,i)(1:6).eq.'STRESS') then
-         write(5,*)
-         write(5,*)'OBJECTIVE: STRESS'  
-         write(5,*)
-         write(5,'(7x,e14.7)') g0(i)
-!
-      elseif(objectset(1,i)(1:9).eq.'THICKNESS') then
-         write(5,*)
-         write(5,*)'OBJECTIVE: THICKNESS'  
-         write(5,*)
-         write(5,'(7x,e14.7)') g0(i)
-!
-      elseif(objectset(1,i)(1:9).eq.'FIXGROWTH') then
-         write(5,*)
-         write(5,*)'OBJECTIVE: FIX GROWTH'  
-         write(5,*)
-         write(5,'(7x,e14.7)') g0(i)
-!
-      elseif(objectset(1,i)(1:12).eq.'FIXSHRINKAGE') then
-         write(5,*)
-         write(5,*)'OBJECTIVE: FIX SHRINKAGE'  
-         write(5,*)
-         write(5,'(7x,e14.7)') g0(i)
+      if(objectset(1,i)(1:11).ne.'PROJECTGRAD') then
+         write(5,'(3x,a16,e14.7,3x,a80)') objectset(1,i),
+     &   g0(i),objectset(5,i)
       endif
 !      
       return

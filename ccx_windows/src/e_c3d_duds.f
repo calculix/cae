@@ -1,6 +1,6 @@
    !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -29,7 +29,8 @@
      &  integerglob,doubleglob,tieset,istartset,iendset,ialset,ntie,
      &  nasym,pslavsurf,pmastsurf,mortar,clearini,ielprop,prop,distmin,
      &  ndesi,nodedesi,dfl2,icoordinate,dxstiff,ne,xdesi,
-     &  istartelem,ialelem,v,sigma,ieigenfrequency,nactdof,duds,neq)
+     &  istartelem,ialelem,v,sigma,ieigenfrequency,nactdof,duds,neq,
+     &  set,nset)
 !
 !     computation of the sensitivity of the element matrix multiplied by the
 !     displacements for the element with the topology in konl
@@ -48,7 +49,7 @@
       character*8 lakonl
       character*20 sideload(*)
       character*80 matname(*),amat
-      character*81 tieset(3,*)
+      character*81 tieset(3,*),set(*)
 !
       integer konl(26),ifaceq(8,6),nelemload(2,*),nbody,nelem,
      &  mi(*),jfaces,igauss,mortar,kon(*),ielprop(*),null,
@@ -68,7 +69,7 @@
      &  istartelem(*),ialelem(*),ieigenfrequency,
      &  node1,node2,ifaceqexp(2,20),ifacewexp(2,15),idesvar2,
      &  ij1,ij2,idesloc1,idesloc2,iactive1,iactive2,neq(2),
-     &  nactdof(0:mi(2),*),idof 
+     &  nactdof(0:mi(2),*),idof,nset 
 !
       real*8 co(3,*),xl(3,26),shp(4,26),xs2(3,7),veold(0:mi(2),*),
      &  s(60,60),w(3,3),p1(3),p2(3),bodyf(3),bodyfx(3),sigma,
@@ -305,7 +306,7 @@ c     Bernhardi end
 !
       endif
 !
-      if(intscheme.eq.0) then
+c      if(intscheme.eq.0) then
          if(lakonl(4:5).eq.'8R') then
             mint2d=1
             mint3d=1
@@ -351,35 +352,35 @@ c     Bernhardi end
          else
             mint3d=0
          endif
-      else
-         if((lakonl(4:4).eq.'8').or.(lakonl(4:4).eq.'2')) then
-            mint3d=27
-            if(lakonl(4:4).eq.'8') then
-               if(lakonl(5:5).eq.'R') then
-                  mint2d=1
-               else
-                  mint2d=4
-               endif
-            else
-               if(lakonl(6:6).eq.'R') then
-                  mint2d=4
-               else
-                  mint2d=9
-               endif
-            endif
-         elseif((lakonl(4:5).eq.'10').or.(lakonl(4:4).eq.'4')) then
-            mint3d=15
-            if(lakonl(4:5).eq.'10') then
-               mint2d=3
-            else
-               mint2d=1
-            endif
-         elseif((lakonl(4:5).eq.'15').or.(lakonl(4:4).eq.'6')) then
-            mint3d=9
-         else
-            mint3d=0
-         endif
-      endif
+c      else
+c         if((lakonl(4:4).eq.'8').or.(lakonl(4:4).eq.'2')) then
+c            mint3d=27
+c            if(lakonl(4:4).eq.'8') then
+c               if(lakonl(5:5).eq.'R') then
+c                  mint2d=1
+c               else
+c                  mint2d=4
+c               endif
+c            else
+c               if(lakonl(6:6).eq.'R') then
+c                  mint2d=4
+c               else
+c                  mint2d=9
+c               endif
+c            endif
+c         elseif((lakonl(4:5).eq.'10').or.(lakonl(4:4).eq.'4')) then
+c            mint3d=15
+c            if(lakonl(4:5).eq.'10') then
+c               mint2d=3
+c            else
+c               mint2d=1
+c            endif
+c         elseif((lakonl(4:5).eq.'15').or.(lakonl(4:4).eq.'6')) then
+c            mint3d=9
+c         else
+c            mint3d=0
+c         endif
+c      endif
 !
 !     displacements for 2nd order static and modal theory
 !
@@ -647,7 +648,7 @@ c     Bernhardi end
 !     computation of the matrix: loop over the Gauss points
 !
       do kk=1,mint3d
-         if(intscheme.eq.0) then
+c         if(intscheme.eq.0) then
             if(lakonl(4:5).eq.'8R') then
                xi=gauss3d1(1,kk)
                et=gauss3d1(2,kk)
@@ -777,24 +778,24 @@ c     Bernhardi end
                ze=gauss3d7(3,kk)
                weight=weight3d7(kk)
             endif
-         else
-            if((lakonl(4:4).eq.'8').or.(lakonl(4:4).eq.'2')) then
-               xi=gauss3d3(1,kk)
-               et=gauss3d3(2,kk)
-               ze=gauss3d3(3,kk)
-               weight=weight3d3(kk)
-            elseif((lakonl(4:5).eq.'10').or.(lakonl(4:4).eq.'4')) then
-               xi=gauss3d6(1,kk)
-               et=gauss3d6(2,kk)
-               ze=gauss3d6(3,kk)
-               weight=weight3d6(kk)
-            else
-               xi=gauss3d8(1,kk)
-               et=gauss3d8(2,kk)
-               ze=gauss3d8(3,kk)
-               weight=weight3d8(kk)
-            endif
-         endif
+c         else
+c            if((lakonl(4:4).eq.'8').or.(lakonl(4:4).eq.'2')) then
+c               xi=gauss3d3(1,kk)
+c               et=gauss3d3(2,kk)
+c               ze=gauss3d3(3,kk)
+c               weight=weight3d3(kk)
+c            elseif((lakonl(4:5).eq.'10').or.(lakonl(4:4).eq.'4')) then
+c               xi=gauss3d6(1,kk)
+c               et=gauss3d6(2,kk)
+c               ze=gauss3d6(3,kk)
+c               weight=weight3d6(kk)
+c            else
+c               xi=gauss3d8(1,kk)
+c               et=gauss3d8(2,kk)
+c               ze=gauss3d8(3,kk)
+c               weight=weight3d8(kk)
+c            endif
+c         endif
 !
 !           calculation of the shape functions and their derivatives
 !           in the gauss point
@@ -1646,7 +1647,7 @@ c                   read(sideload(id)(2:2),'(i1)') jltyp
                    iface=10*nelem+jltyp
                    call interpolsubmodel(integerglob,doubleglob,stress,
      &                  coords,iselect,six,iface,tieset,istartset,
-     &                  iendset,ialset,ntie,entity)
+     &                  iendset,ialset,ntie,entity,set,nset)
 c                   write(*,*) 'e_c3d ',(stress(k),k=1,6)
 !
 !                  cave: stress order of cgx: xx,yy,zz,xy,yz,xz
@@ -1741,7 +1742,7 @@ c    Bernhardi end
                    iface=10*nelem+jltyp
                    call interpolsubmodel(integerglob,doubleglob,stress,
      &                  coords,iselect,six,iface,tieset,istartset,
-     &                  iendset,ialset,ntie,entity)
+     &                  iendset,ialset,ntie,entity,set,nset)
 !
                    stre(1,1)=stress(1)
                    stre(1,2)=stress(4)
@@ -1865,7 +1866,7 @@ c     Bernhardi end
 !     for axially symmetric and plane stress/strain elements: 
 !     complete s and sm
 !
-      if(intscheme.eq.0) then
+c      if(intscheme.eq.0) then
          if(((lakonl(4:5).eq.'8 ').or.
      &        ((lakonl(4:6).eq.'20R').and.(lakonl(7:8).ne.'BR'))).and.
      &        ((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'S').or.
@@ -1919,7 +1920,7 @@ c     Bernhardi end
                enddo
             endif
          endif
-      endif
+c      endif
 !     
       if((mass.eq.1).and.(iexpl.gt.1)) then
 !

@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -166,9 +166,16 @@
               noset(81:81)=' '
               ipos=index(noset,' ')
               noset(ipos:ipos)='N'
-              do i=1,nset
-                if(set(i).eq.noset) exit
-              enddo
+c              do i=1,nset
+c                if(set(i).eq.noset) exit
+c              enddo
+              call cident81(set,noset,nset,id)
+              i=nset+1
+              if(id.gt.0) then
+                if(noset.eq.set(id)) then
+                  i=id
+                endif
+              endif
               if(i.gt.nset) then
                 noset(ipos:ipos)=' '
                 write(*,*) '*ERROR reading *BOUNDARY: node set ',
@@ -296,12 +303,6 @@
               return
             endif
             if(ndir.le.6) then
-c     elseif(ndir.eq.4) then
-c     ndir=5
-c     elseif(ndir.eq.5) then
-c     ndir=6
-c     elseif(ndir.eq.6) then
-c     ndir=7
             elseif(ndir.eq.8) then
               ndir=4
             elseif(ndir.eq.11) then

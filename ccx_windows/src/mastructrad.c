@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -67,7 +67,7 @@ void mastructrad(ITG *ntr,ITG *nloadtr,char *sideload,ITG *ipointerrad,
     
   for(i=0;i<*ntr;++i){
       if(ipointerrad[i]==0){
-	  printf("*ERROR in mastructrad: zero column\n");
+	  printf(" *ERROR in mastructrad: zero column\n");
 	  printf("       DOF=%" ITGFORMAT "\n",i);
 	  FORTRAN(stop,());
       }

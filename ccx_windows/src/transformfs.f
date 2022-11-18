@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -32,7 +32,7 @@
       character*81 set(*),surfaceset
       character*132 textpart(16)
 !
-      integer ntrans,ntrans_,istep,istat,n,key,i,j,
+      integer ntrans,ntrans_,istep,istat,n,key,i,j,id,
      &  istartset(*),iendset(*),ialset(*),nset,ipos,iline,ipol,
      &  inl,ipoinp(2,*),inp(3,*),ipoinpc(0:*),nelemload(2,*),ne,
      &  nam,nload,l,iamload(*),iamplitude,idefload(*),
@@ -74,9 +74,16 @@
             surfaceset(81:81)=' '
             ipos=index(surfaceset,' ')
             surfaceset(ipos:ipos)='T'
-            do iset=1,nset
-               if(set(iset).eq.surfaceset) exit
-            enddo
+c            do iset=1,nset
+c               if(set(iset).eq.surfaceset) exit
+c            enddo
+            call cident81(set,surfaceset,nset,id)
+            iset=nset+1
+            if(id.gt.0) then
+              if(surfaceset.eq.set(id)) then
+                iset=id
+              endif
+            endif
             if(iset.gt.nset) then
                write(*,*) 
      &             '*WARNING reading *TRANSFORMF: element surface ',

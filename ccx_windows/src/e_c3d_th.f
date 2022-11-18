@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -141,24 +141,20 @@
       elseif(lakonl(1:2).eq.'ES') then
          if(lakonl(7:7).eq.'C') then
             if(mortar.eq.0) then
-c               read(lakonl(8:8),'(i1)') nope
                nope=ichar(lakonl(8:8))-47
-c               nope=nope+1
                konl(nope+1)=kon(indexe+nope+1)
             elseif(mortar.eq.1) then
                nope=kon(indexe)
             endif
          else
-c            read(lakonl(8:8),'(i1)') nope
             nope=ichar(lakonl(8:8))-47
-c            nope=nope+1
          endif
       elseif((lakonl(1:2).eq.'D ').or.
      &       ((lakonl(1:1).eq.'D').and.(network.eq.1))) then
          nope=3
       endif
 !
-      if(intscheme.eq.0) then
+c      if(intscheme.eq.0) then
 !
 !        # of 2D and 3D integration points
 !
@@ -198,38 +194,38 @@ c            nope=nope+1
          else
             mint3d=0
          endif
-      else
-!
-!        # of 3D integration points
-!
-         if((lakonl(4:4).eq.'8').or.(lakonl(4:4).eq.'2')) then
-            mint3d=27
-         elseif((lakonl(4:5).eq.'10').or.(lakonl(4:4).eq.'4')) then
-            mint3d=15
-         elseif((lakonl(4:5).eq.'15').or.(lakonl(4:4).eq.'6')) then
-            mint3d=9
-         else
-            mint3d=0
-         endif
-!
-!        # of 2D integration points
-!
-         if(lakonl(4:5).eq.'8R') then
-            mint2d=1
-         elseif((lakonl(4:4).eq.'8').or.(lakonl(4:6).eq.'20R')) then
-            if((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'E')) then
-               mint2d=2
-            else
-               mint2d=4
-            endif
-         elseif(lakonl(4:4).eq.'2') then
-            mint2d=9
-         elseif(lakonl(4:5).eq.'10') then
-            mint2d=3
-         elseif(lakonl(4:4).eq.'4') then
-            mint2d=1
-         endif
-      endif
+c      else
+c!
+c!        # of 3D integration points
+c!
+c         if((lakonl(4:4).eq.'8').or.(lakonl(4:4).eq.'2')) then
+c            mint3d=27
+c         elseif((lakonl(4:5).eq.'10').or.(lakonl(4:4).eq.'4')) then
+c            mint3d=15
+c         elseif((lakonl(4:5).eq.'15').or.(lakonl(4:4).eq.'6')) then
+c            mint3d=9
+c         else
+c            mint3d=0
+c         endif
+c!
+c!        # of 2D integration points
+c!
+c         if(lakonl(4:5).eq.'8R') then
+c            mint2d=1
+c         elseif((lakonl(4:4).eq.'8').or.(lakonl(4:6).eq.'20R')) then
+c            if((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'E')) then
+c               mint2d=2
+c            else
+c               mint2d=4
+c            endif
+c         elseif(lakonl(4:4).eq.'2') then
+c            mint2d=9
+c         elseif(lakonl(4:5).eq.'10') then
+c            mint2d=3
+c         elseif(lakonl(4:4).eq.'4') then
+c            mint2d=1
+c         endif
+c      endif
 !
 !     computation of the coordinates of the local nodes
 !
@@ -329,7 +325,7 @@ c            nope=nope+1
 !     computation of the matrix: loop over the Gauss points
 !
       do kk=1,mint3d
-         if(intscheme.eq.0) then
+c         if(intscheme.eq.0) then
             if(lakonl(4:5).eq.'8R') then
                xi=gauss3d1(1,kk)
                et=gauss3d1(2,kk)
@@ -377,24 +373,24 @@ c            nope=nope+1
                ze=gauss3d7(3,kk)
                weight=weight3d7(kk)
             endif
-         else
-            if((lakonl(4:4).eq.'8').or.(lakonl(4:4).eq.'2')) then
-               xi=gauss3d3(1,kk)
-               et=gauss3d3(2,kk)
-               ze=gauss3d3(3,kk)
-               weight=weight3d3(kk)
-            elseif((lakonl(4:5).eq.'10').or.(lakonl(4:4).eq.'4')) then
-               xi=gauss3d6(1,kk)
-               et=gauss3d6(2,kk)
-               ze=gauss3d6(3,kk)
-               weight=weight3d6(kk)
-            else
-               xi=gauss3d8(1,kk)
-               et=gauss3d8(2,kk)
-               ze=gauss3d8(3,kk)
-               weight=weight3d8(kk)
-            endif
-         endif
+c         else
+c            if((lakonl(4:4).eq.'8').or.(lakonl(4:4).eq.'2')) then
+c               xi=gauss3d3(1,kk)
+c               et=gauss3d3(2,kk)
+c               ze=gauss3d3(3,kk)
+c               weight=weight3d3(kk)
+c            elseif((lakonl(4:5).eq.'10').or.(lakonl(4:4).eq.'4')) then
+c               xi=gauss3d6(1,kk)
+c               et=gauss3d6(2,kk)
+c               ze=gauss3d6(3,kk)
+c               weight=weight3d6(kk)
+c            else
+c               xi=gauss3d8(1,kk)
+c               et=gauss3d8(2,kk)
+c               ze=gauss3d8(3,kk)
+c               weight=weight3d8(kk)
+c            endif
+c         endif
 !
 !           calculation of the shape functions and their derivatives
 !           in the gauss point
@@ -839,7 +835,7 @@ c                call shape7tri(xi,et,xl2,xsj2,xs2,shp2,iflag)
 !     for axially symmetric and plane stress/strain elements: 
 !     complete s and sm
 !
-      if(intscheme.eq.0) then
+c      if(intscheme.eq.0) then
          if(((lakonl(4:5).eq.'8 ').or.
      &        ((lakonl(4:6).eq.'20R').and.(lakonl(7:8).ne.'BR'))).and.
      &        ((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'E'))) then
@@ -894,28 +890,28 @@ c                call shape7tri(xi,et,xl2,xsj2,xs2,shp2,iflag)
                enddo
             endif
          endif
-      else
-!
-!        only 2-D scheme is reduced for intscheme=1
-!
-         if(((lakonl(4:5).eq.'8 ').or.
-     &        ((lakonl(4:6).eq.'20R').and.(lakonl(7:8).ne.'BR'))).and.
-     &        ((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'E'))) then
-!     
-!           special treatment of plane stress elements since lateral
-!           heating is allowed (orthogonal to the plane)
-!     
-            if(nload.ne.0) then
-               do i=1,20
-                  k=iperm(i)
-                  ffax(i)=ff(k)
-               enddo
-               do i=1,20
-                  ff(i)=ff(i)+ffax(i)
-               enddo
-            endif
-         endif
-      endif
+c      else
+c!
+c!        only 2-D scheme is reduced for intscheme=1
+c!
+c         if(((lakonl(4:5).eq.'8 ').or.
+c     &        ((lakonl(4:6).eq.'20R').and.(lakonl(7:8).ne.'BR'))).and.
+c     &        ((lakonl(7:7).eq.'A').or.(lakonl(7:7).eq.'E'))) then
+c!     
+c!           special treatment of plane stress elements since lateral
+c!           heating is allowed (orthogonal to the plane)
+c!     
+c            if(nload.ne.0) then
+c               do i=1,20
+c                  k=iperm(i)
+c                  ffax(i)=ff(k)
+c               enddo
+c               do i=1,20
+c                  ff(i)=ff(i)+ffax(i)
+c               enddo
+c            endif
+c         endif
+c      endif
 !
       if((mass.eq.1).and.(iexpl.gt.1)) then
 !

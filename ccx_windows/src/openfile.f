@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -20,7 +20,7 @@
 !
       implicit none
 !
-      character*132 jobname,fndat,fnfrd,fnsta,fncvg,fncel
+      character*132 jobname,fndat,fnfrd,fnsta,fncvg,fncel,fnfcv
       integer i
 !
 !     opening the input and output file
@@ -49,9 +49,9 @@
 !
 !     delete the .fcv file (it is reopened in compfluid.c)
 !
-      fnfrd=jobname(1:i)//'.fcv'
-      open(12,file=fnfrd(1:i+4),status='unknown',err=71)
-      close(12,status='delete',err=73)
+      fnfcv=jobname(1:i)//'.fcv'
+      open(12,file=fnfcv(1:i+4),status='unknown',err=74)
+      close(12,status='delete',err=75)
 !
 !     .sta-file
 !
@@ -101,8 +101,10 @@
  72   write(*,*) '*ERROR in openfile: could not delete file ',
      &  fnfrd(1:i+4)
       call exit(201)
- 73   write(*,*) '*ERROR in openfile: could not delete file ',
-     &  fnfrd(1:i+5)
+ 74   write(*,*) '*ERROR in openfile: could not open file ',fnfcv(1:i+4)
+      call exit(201)
+ 75   write(*,*) '*ERROR in openfile: could not delete file ',
+     &  fnfcv(1:i+5)
       call exit(201)
  81   write(*,*) '*ERROR in openfile: could not open file ',fnsta(1:i+4)
       call exit(201)

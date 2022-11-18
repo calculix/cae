@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
       subroutine linkdissimilar(co,csab,
      &  rcscg,rcs0cg,zcscg,zcs0cg,nrcg,nzcg,straight,
      &  nodef,ratio,nterms,rp,zp,netri,
-     &  nodei,ifacetet,inodface,noded,xn,yn,zn,ier,multistage)
+     &  nodei,ifacetet,inodface,noded,xn,yn,zn,ier,multistage,icount)
 !
 !     links dissimilar meshes for cyclic symmetry
 !
@@ -27,7 +27,7 @@
 !
       logical multistage
 !
-      integer nneigh,j,nodef(8),nodei,nrcg(*),
+      integer nneigh,j,nodef(8),nodei,nrcg(*),icount,
      &  nzcg(*),nterms,ineigh(20),itrimax,i,netri,
      &  itri,ifirst,ilast,ifacetet(*),inodface(*),noded,ier
 !
@@ -177,6 +177,7 @@ c     &    ((xi.le.0.d0).or.(et.le.0.d0).or.(xi+et.ge.1.d0)))) then
             write(*,*) 
             ier=-1
             write(40,*) noded
+            icount=icount+1
          endif
 c      endif
 !     

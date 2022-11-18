@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -36,7 +36,7 @@
       character*132 textpart(16)
 !
       integer istartset(*),iendset(*),ialset(*),mi(*),ielmat(mi(3),*),
-     &  ipoinpc(0:*),numnod,
+     &  ipoinpc(0:*),numnod,id,
      &  ielorien(mi(3),*),ipkon(*),iline,ipol,inl,ipoinp(2,*),
      &  inp(3,*),nset,nmat,norien,istep,istat,n,key,i,j,k,l,imaterial,
      &  iorientation,ipos,m,iponor(2,*),ixfree,
@@ -154,9 +154,16 @@ c         iorientation=0
          iorientation=i
       endif
 !
-      do i=1,nset
-         if(set(i).eq.elset) exit
-      enddo
+c      do i=1,nset
+c         if(set(i).eq.elset) exit
+c      enddo
+      call cident81(set,elset,nset,id)
+      i=nset+1
+      if(id.gt.0) then
+        if(elset.eq.set(id)) then
+          i=id
+        endif
+      endif
       if(i.gt.nset) then
          elset(ipos:ipos)=' '
          write(*,*) '*ERROR reading *BEAM SECTION: element set ',

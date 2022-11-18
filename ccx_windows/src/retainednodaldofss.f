@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -36,7 +36,7 @@
       character*132 textpart(16)
 !
       integer istartset(*),iendset(*),ialset(*),nodeboun(*),
-     &  ndirboun(*),ntransl,istep,ier,
+     &  ndirboun(*),ntransl,istep,ier,id,
      &  nset,nboun,nboun_,istat,n,i,j,k,l,ibounstart,ibounend,
      &  key,nk,iamboun(*),nam,iamplitude,ipompc(*),nodempc(3,*),
      &  nmpc,nmpc_,mpcfree,inotr(2,*),ikboun(*),ilboun(*),ikmpc(*),
@@ -118,9 +118,16 @@
             noset(81:81)=' '
             ipos=index(noset,' ')
             noset(ipos:ipos)='N'
-            do i=1,nset
-               if(set(i).eq.noset) exit
-            enddo
+c            do i=1,nset
+c               if(set(i).eq.noset) exit
+c            enddo
+            call cident81(set,noset,nset,id)
+            i=nset+1
+            if(id.gt.0) then
+              if(noset.eq.set(id)) then
+                i=id
+              endif
+            endif
             if(i.gt.nset) then
                noset(ipos:ipos)=' '
                write(*,*) '*ERROR reading *RETAINED NODAL DOFS:'

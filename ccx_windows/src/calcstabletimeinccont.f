@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -216,6 +216,13 @@
          write(*,*) 'In total ',icount,'elements were scaled of'
          write(*,*) '         ',ne-ne0,' contact elements' 
          write(*,*)
+!     
+         if(dtset/dtcont.gt.1.d10) then
+           write(*,*) '*ERROR in calcstabletimeinccont:'
+           write(*,*) '       time increment is too small;'
+           write(*,*) '       divergence',dtset/dtcont
+           call exit(201)
+         endif
 !         
          dtset=dtset*safefac
 !     

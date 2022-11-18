@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -28,7 +28,7 @@
      &     iendset,ialset,ntie,nmpc,ipompc,ikmpc,ilmpc,nodempc,coefmpc,
      &     h0scale,inomat,ipobody,iponoel,inoel,ipkon,kon,lakon,
      &     ielprop,prop,ielmat,shcon,nshcon,rhcon,nrhcon,ntmat_,cocon,
-     &     ncocon)
+     &     ncocon,set,nset)
 !     
 !     calculates the loading at a given time
 !     
@@ -40,9 +40,9 @@
       character*8 lakon(*)
       character*20 sideload(*)
       character*80 amname(*)
-      character*81 tieset(3,*)
+      character*81 tieset(3,*),set(*)
 !     
-      integer iamforc(*),iamload(2,*),iamt1(*),nelemload(2,*),
+      integer iamforc(*),iamload(2,*),iamt1(*),nelemload(2,*),nset,
      &     nam,i,istart,iend,id,nforc,nload,nk,namta(3,*),ithermal(*),
      &     nmethod,iamt1i,iamboun(*),nboun,iamforci,iambouni,
      &     iamloadi1,iamloadi2,ibody(3,*),itg(*),ntg,idof,one,
@@ -189,7 +189,7 @@
           iselect(1)=ndirboun(i)+1
           call interpolsubmodel(integerglob,doubleglob,xbounact(i),
      &         coords,iselect,one,node,tieset,istartset,iendset,
-     &         ialset,ntie,entity)
+     &         ialset,ntie,entity,set,nset)
 c     write(*,*) 'tempload ',node,ndirboun(i),xbounact(i)
 !     
           if(nmethod.eq.1) then
@@ -301,7 +301,7 @@ c     write(*,*) 'tempload ',node,ndirboun(i),xbounact(i)
             iselect(1)=ndirforc(i)+10
             call interpolsubmodel(integerglob,doubleglob,xforcact(i),
      &           coords,iselect,one,node,tieset,istartset,iendset,
-     &           ialset,ntie,entity)
+     &           ialset,ntie,entity,set,nset)
 !     
             if(nmethod.eq.1) then
               xforcact(i)=xforcold(i)+
@@ -441,7 +441,7 @@ c     xloadact(2,i)=xload(2,i)
             iselect(1)=1
             call interpolsubmodel(integerglob,doubleglob,t1act(i),
      &           coords,iselect,one,i,tieset,istartset,iendset,
-     &           ialset,ntie,entity)
+     &           ialset,ntie,entity,set,nset)
 !     
             if(nmethod.eq.1) then
               t1act(i)=t1old(i)+(t1act(i)-t1old(i))*reltime

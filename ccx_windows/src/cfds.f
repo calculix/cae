@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -31,12 +31,12 @@
 !     7: pardiso
 !     8: pastix
 !     
-!     iexpl==0:  structure:implicit, fluid:incompressible
-!     iexpl==1:  structure:implicit, fluid:compressible
+!     iexpl=0:  structure:implicit, fluid:incompressible
+!     iexpl=1:  structure:implicit, fluid:compressible explicit
 !     
       implicit none
 !     
-      logical timereset,fem
+      logical timereset,fem,shallowwater
 !     
       character*1 inpc(*)
       character*20 solver
@@ -54,7 +54,12 @@
       tincf=-1.d0
       nmethod=4
       timereset=.false.
-      fem=.false.
+!
+!     ONLY CFD-CALCULATIONS WITH THE CBS-METHOD ARE ALLOWED
+!
+c      fem=.false.
+      fem=.true.
+      shallowwater=.false.
 !     
 !     default: no turbulence model
 !     
@@ -105,6 +110,9 @@
           read(textpart(i)(8:27),'(a20)') solver
         elseif(textpart(i)(1:12).eq.'COMPRESSIBLE') then
           iexpl=1
+        elseif(textpart(i)(1:12).eq.'SHALLOWWATER') then
+          shallowwater=.true.
+          iexpl=1
         elseif(textpart(i)(1:11).eq.'STEADYSTATE') then
           nmethod=1
         elseif(textpart(i)(1:9).eq.'TIMERESET') then
@@ -147,7 +155,8 @@
       enddo
       if(nmethod.eq.1) ctrl(27)=1.d30
      
-      if((ithermal(1).eq.0).and.(iexpl.eq.1)) then
+      if((ithermal(1).eq.0).and.(iexpl.eq.1).and.
+     &     (.not.shallowwater)) then
         write(*,*) '*ERROR reading *CFD: please define initial '
         write(*,*) '       conditions for the temperature'
         ier=1
@@ -174,8 +183,16 @@
         write(*,*) '*WARNING reading *CFD: unknown solver;'
         write(*,*) '         the default solver is used'
       endif
-!     
+!
+!     the number of the turbulence model is increased by 20 for
+!     the CBS method for shallow water equations and by 10 for
+!     the CBS method for all other applications
+!
       if(fem) then
+        physcon(9)=physcon(9)+10.d0
+      endif
+!     
+      if(shallowwater) then
         physcon(9)=physcon(9)+10.d0
       endif
 !     
@@ -202,8 +219,8 @@
 !     time are set to large values since only the first
 !     increment is calculated
 !     
-          tinc=1.d+30
-          tper=1.d+30
+          tinc=1.d0
+          tper=1.d0
           tmin=1.d-5
           tmax=1.d+30
           tincf=-1.d0

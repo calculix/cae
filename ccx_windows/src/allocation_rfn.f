@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -112,7 +112,7 @@
             read(textpart(1)(1:10),'(i10)',iostat=istat) i
             if(istat.gt.0) then
               call inputerror(inpc,ipoinpc,iline,
-     &             "*NODE%")
+     &             "*NODE%",ier)
               exit
             endif
             nk_=max(nk_,i)

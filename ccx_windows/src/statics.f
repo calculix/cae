@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -141,6 +141,7 @@ c      enddo
       else
          write(*,*) '*WARNING reading *STATIC: unknown solver;'
          write(*,*) '         the default solver is used'
+         write(*,*)
       endif
 !
       nmethod=1
@@ -256,6 +257,7 @@ c            tincf=1.d-2
             write(*,*) '         which is the minimum of the initial'
             write(*,*) 
      &         '         increment time and 1.e-6 times the step time'
+            write(*,*)
             tmin=min(tinc,1.d-6*tper)
          endif
          if(dabs(tmax).lt.1.d-10) then
@@ -268,6 +270,7 @@ c            tincf=1.d-2
      &          tmax
             write(*,*) '         the initial increment is reduced'
             write(*,*) '         to the maximum value'
+            write(*,*)
             tinc=dabs(tmax)
          endif
       endif

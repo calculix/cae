@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine orifice(node1,node2,nodem,nelem,lakon,kon,ipkon,
-     &     nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,cp,R,physcon,dvi,numf,set,co,vold,mi,ttime,
      &     time,iaxial,iplausi)
 !     
@@ -32,7 +32,7 @@
       character*81 set(*)
 !     
       integer nelem,nactdog(0:3,*),node1,node2,nodem,numf,
-     &     ielprop(*),nodef(*),idirf(*),index,iflag,
+     &     ielprop(*),nodef(*),idirf(*),index,kflag,
      &     inv,ipkon(*),kon(*),number,kgas,nelemswirl,
      &     nodea,nodeb,iaxial,mi(*),i,itype,iplausi
 !     
@@ -47,7 +47,7 @@
 !
 !
       pi=4.d0*datan(1.d0)   
-      if(iflag.eq.0) then
+      if(kflag.eq.0) then
          identity=.true.
 !     
          if(nactdog(2,node1).ne.0)then
@@ -58,7 +58,7 @@
             identity=.false.
          endif
 !     
-      elseif(iflag.eq.1)then
+      elseif(kflag.eq.1)then
          if(v(1,nodem).ne.0.d0) then
             xflow=v(1,nodem)
             return
@@ -110,7 +110,7 @@
      &           dsqrt(T1)
          endif
 !     
-      elseif(iflag.eq.2)then
+      elseif(kflag.eq.2)then
 !     
          numf=4
          alambda=10000.d0
@@ -453,7 +453,7 @@ c            endif
 !     
 !     output
 !     
-      elseif(iflag.eq.3) then
+      elseif(kflag.eq.3) then
 !     
          pi=4.d0*datan(1.d0)
          p1=v(2,node1)
@@ -707,7 +707,7 @@ c            endif
          endif
          xflow_oil=0
 !     
-         if(iflag.eq.3)then
+         if(kflag.eq.3)then
 !     
           xmach=dsqrt(((p1/p2)**((kappa-1.d0)/kappa)-1.d0)*2.d0/
      &          (kappa-1.d0))

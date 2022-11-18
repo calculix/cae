@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,7 +16,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine tee(node1,node2,nodem,nelem,lakon,kon,ipkon,
-     &     nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,cp,r,physcon,numf,set,mi,ider,ttime,time,
      &     iaxial,iplausi)
 !
@@ -58,7 +58,7 @@
 !     The starting index of the given element#s properties in prop
      &index,
 !     Shows where we are in the program
-     &iflag,
+     &kflag,
 !     1 for normal, -1 for inverted flow
      &inv,
 !     Shows how many types of DOF there are
@@ -112,7 +112,7 @@
 !
       index=ielprop(nelem)
 !
-      if(iflag.eq.0) then
+      if(kflag.eq.0) then
 !
 !        Checking for degrees of freedom in the element
 !
@@ -126,7 +126,7 @@
 !
          endif
 !
-      elseif(iflag.eq.1)then
+      elseif(kflag.eq.1)then
          if(v(1,nodem).ne.0.d0) then
             xflow=v(1,nodem)
             return
@@ -181,7 +181,7 @@
      &           dsqrt(Tt1)
          endif
 !     
-      elseif(iflag.eq.2)then
+      elseif(kflag.eq.2)then
 !
 !        Calculation of residual/derivatives
 !
@@ -240,13 +240,13 @@
          if(ider.eq.0) then
 !           Residual
             f=calc_residual_tee(pt1,Tt1,xflow1,xflow2,pt2,
-     &    Tt2,A1,A2,zeta_fac,kappa,R,ider,iflag,zeta)
+     &    Tt2,A1,A2,zeta_fac,kappa,R,ider,kflag,zeta)
          else
 !           Derivatives
             call calc_ider_tee(df,pt1,Tt1,xflow1,xflow2,pt2,
-     &    Tt2,A1,A2,zeta_fac,kappa,R,ider,iflag,zeta)
+     &    Tt2,A1,A2,zeta_fac,kappa,R,ider,kflag,zeta)
          endif
-      elseif(iflag.eq.3) then
+      elseif(kflag.eq.3) then
 !
 !        Element output
 !
@@ -315,7 +315,7 @@
 !     
 !     Calculate the element one last time with enabled output
          f=calc_residual_tee(pt1,Tt1,xflow1,xflow2,pt2,
-     &        Tt2,A1,A2,zeta_fac,kappa,R,ider,iflag,zeta)
+     &        Tt2,A1,A2,zeta_fac,kappa,R,ider,kflag,zeta)
 !     
          write(1,56)'      Outlet node ',node2,':   Tt2= ',Tt2,
      &        ' , Ts2= ',Ts2,' , Pt2= ',pt2,

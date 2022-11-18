@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -24,7 +24,7 @@
 !
       implicit none
 !
-      character*81 objectset(4,*)
+      character*81 objectset(5,*)
 
       integer nobject,nk,nodedesi(*),nnodesinside,i,actdir,
      &        ndesi,j,m,neighbor(ndesi+6),nx(ndesi),
@@ -104,7 +104,7 @@
 !        Calculate filtered sensitivity
 ! 
          do m=1,nobject
-            if(objectset(1,m)(1:9).eq.'THICKNESS') cycle             
+            if(objectset(1,m)(4:13).eq.'MEMBERSIZE') cycle             
             if(objectset(1,m)(1:9).eq.'FIXGROWTH') cycle             
             if(objectset(1,m)(1:12).eq.'FIXSHRINKAGE') cycle
             nominator=0.d0

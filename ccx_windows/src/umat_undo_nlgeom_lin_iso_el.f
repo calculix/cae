@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -275,9 +275,9 @@ c      write(*,*) 'umat_undo..elin',elin(1,1)
       eloc(5)=elin(1,3)
       eloc(6)=elin(2,3)
 !
-      do i=1,6
-         write(*,*) 'umat...lin_el',time,iel,iint,eloc(i),stre(i)
-      enddo
+c      do i=1,6
+c         write(*,*) 'umat...lin_el',time,iel,iint,eloc(i),stre(i)
+c      enddo
 c      write(*,*) 'umat_undo..eloc',eloc(1)
 !
 !     calculating the stresses

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -120,9 +120,16 @@
      &        (tieset(1,i)(81:81).eq.'-')) then
             
             mastset=tieset(3,i)
-            do j=1,nset
-               if(set(j).eq.mastset) exit
-            enddo
+c            do j=1,nset
+c               if(set(j).eq.mastset) exit
+c            enddo
+            call cident81(set,mastset,nset,id)
+            j=nset+1
+            if(id.gt.0) then
+              if(mastset.eq.set(id)) then
+                j=id
+              endif
+            endif
             if(j.gt.nset) then
                write(*,*) '*ERROR in tiefaccont: master surface'
                write(*,*) '       does not exist'
@@ -366,9 +373,16 @@
 !     
 !     determining the master surface
 !     
-            do j=1,nset
-               if(set(j).eq.mastset) exit
-            enddo
+c            do j=1,nset
+c               if(set(j).eq.mastset) exit
+c            enddo
+            call cident81(set,mastset,nset,id)
+            j=nset+1
+            if(id.gt.0) then
+              if(mastset.eq.set(id)) then
+                j=id
+              endif
+            endif
             if(j.gt.nset) then
                ipos=index(mastset,' ')
                write(*,*) '*ERROR in updatecont: master surface',

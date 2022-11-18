@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine moehring (node1,node2,nodem,nelem,lakon,kon,ipkon,
-     &     nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,cp,R,dvi,numf,set,mi,ttime,time,
      &     iaxial,iplausi)
 !     
@@ -41,7 +41,7 @@
       character*81 set(*)
 !     
       integer nelem,nactdog(0:3,*),node1,node2,nodem,numf,
-     &     ielprop(*),nodef(*),idirf(*),index,iflag,iaxial,
+     &     ielprop(*),nodef(*),idirf(*),index,kflag,iaxial,
      &     ipkon(*),kon(*),kgas,key,neval,ier,limit,lenw,last,
      &     iwork2(400),node_up,node_down,mi(*),iplausi
 !     
@@ -60,7 +60,7 @@
 !     
 !      numf=4
 !     
-      if(iflag.eq.0) then
+      if(kflag.eq.0) then
          identity=.true.
 !     
          if(nactdog(2,node1).ne.0)then
@@ -71,7 +71,7 @@
             identity=.false.
          endif
 !     
-      elseif(iflag.eq.1)then
+      elseif(kflag.eq.1)then
          if(v(1,nodem).ne.0.d0) then
             xflow=v(1,nodem)
             return
@@ -103,7 +103,7 @@
             xflow=-1/dsqrt(T1)*P1*qred_crit*0.5d0
          endif
 !     
-      elseif(iflag.eq.2)then
+      elseif(kflag.eq.2)then
 !     
          numf=4
          index=ielprop(nelem) 

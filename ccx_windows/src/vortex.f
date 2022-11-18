@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine vortex(node1,node2,nodem,nelem,lakon,kon,ipkon,
-     &     nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,cp,R,numf,set,mi,ttime,time,iaxial,iplausi)
 !     
 !     vortex element
@@ -31,7 +31,7 @@
       character*81 set(*)
 !     
       integer nelem,nactdog(0:3,*),node1,node2,nodem,numf,
-     &     ielprop(*),nodef(*),idirf(*),index,iflag,iaxial,
+     &     ielprop(*),nodef(*),idirf(*),index,kflag,iaxial,
      &     inv,ipkon(*),kon(*),t_chang,nelemswirl,mi(*),iplausi
 !
       real*8 prop(*),v(0:mi(2),*),xflow,f,df(*),kappa,r,cp,
@@ -41,7 +41,7 @@
 !
 !
 !     
-      if(iflag.eq.0) then
+      if(kflag.eq.0) then
          identity=.true.
 !     
          if(nactdog(2,node1).ne.0)then
@@ -52,7 +52,7 @@
             identity=.false.
          endif
 !     
-      elseif(iflag.eq.1)then
+      elseif(kflag.eq.1)then
          if(v(1,nodem).ne.0.d0) then
             xflow=v(1,nodem)
             return
@@ -60,7 +60,7 @@
 !
          xflow=0.d0
 !        
-      elseif(iflag.eq.2)then
+      elseif(kflag.eq.2)then
 !     
          numf=4
          index=ielprop(nelem) 
@@ -333,7 +333,7 @@
 !
 !     outpout
 !
-         elseif(iflag.eq.3) then
+         elseif(kflag.eq.3) then
 !
          index=ielprop(nelem) 
          kappa=(cp/(cp-R))

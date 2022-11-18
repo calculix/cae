@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -21,15 +21,15 @@
 #include "CalculiX.h"
 
 void tiedcontact(ITG *ntie, char *tieset, ITG *nset, char *set,
-               ITG *istartset, ITG *iendset, ITG *ialset,
-               char *lakon, ITG *ipkon, ITG *kon,
-	       double *tietol,
-               ITG *nmpc, ITG *mpcfree, ITG *memmpc_,
-               ITG **ipompcp, char **labmpcp, ITG **ikmpcp, ITG **ilmpcp,
-               double **fmpcp, ITG **nodempcp, double **coefmpcp,
-	       ITG *ithermal, double *co, double *vold, ITG *nef,
-	       ITG *nmpc_, ITG *mi, ITG *nk,ITG *istep,ITG *ikboun,
-	       ITG *nboun,char *kind1,char *kind2){
+		 ITG *istartset, ITG *iendset, ITG *ialset,
+		 char *lakon, ITG *ipkon, ITG *kon,
+		 double *tietol,
+		 ITG *nmpc, ITG *mpcfree, ITG *memmpc_,
+		 ITG **ipompcp, char **labmpcp, ITG **ikmpcp, ITG **ilmpcp,
+		 double **fmpcp, ITG **nodempcp, double **coefmpcp,
+		 ITG *ithermal, double *co, double *vold, ITG *nef,
+		 ITG *nmpc_, ITG *mi, ITG *nk,ITG *istep,ITG *ikboun,
+		 ITG *nboun,char *kind1,char *kind2,char *jobnamef){
 
   char *labmpc=NULL;
 
@@ -74,8 +74,9 @@ void tiedcontact(ITG *ntie, char *tieset, ITG *nset, char *set,
 
   /* triangulation of the master surface */
 
-  FORTRAN(triangucont,(&ncont,ntie,tieset,nset,set,istartset,iendset,
-	  ialset,itietri,lakon,ipkon,kon,koncont,kind1,kind2,co,nk));
+  FORTRAN(triangucont,(&ncont,ntie,tieset,nset,set,istartset,iendset,ialset,
+		       itietri,lakon,ipkon,kon,koncont,kind1,kind2,co,nk,
+		       &mortar));
   
   /* catalogueing the neighbors of the master triangles */
   
@@ -171,11 +172,12 @@ void tiedcontact(ITG *ntie, char *tieset, ITG *nset, char *set,
   /* generating the tie MPC's */
 
   FORTRAN(gentiedmpc,(tieset,ntie,itietri,ipkon,kon,
-	  lakon,set,istartset,iendset,ialset,cg,straight,
-	  koncont,co,xo,yo,zo,x,y,z,nx,ny,nz,nset,
-	  ifaceslave,istartfield,iendfield,ifield,
-	  ipompc,nodempc,coefmpc,nmpc,&nmpctied,mpcfree,ikmpc,ilmpc,
-	  labmpc,ithermal,tietol,nef,&ncont,imastop,ikboun,nboun,kind1));
+		      lakon,set,istartset,iendset,ialset,cg,straight,
+		      koncont,co,xo,yo,zo,x,y,z,nx,ny,nz,nset,
+		      ifaceslave,istartfield,iendfield,ifield,
+		      ipompc,nodempc,coefmpc,nmpc,&nmpctied,mpcfree,ikmpc,ilmpc,
+		      labmpc,ithermal,tietol,nef,&ncont,imastop,ikboun,nboun,
+		      kind1,jobnamef));
 
   (*nmpc_)+=nmpctied;
   

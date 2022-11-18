@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -62,12 +62,8 @@
         endif
       endif
 !     
-!     change: transformations on rotations are taken into account
-!     by the normal of the mean rotation MPC, not by expanding the
-!     MPC in Carthesian coordinates
-!     
-!     
-!     no transformation applies to the node
+!     a transformation is taken care of at the time of setting up
+!     the matrix system (mafillsmforc.f)
 !     
       idof=8*(node-1)+i
       call nident(ikforc,idof,nforc,id)

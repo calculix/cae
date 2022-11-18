@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -25,7 +25,7 @@
       character*1 kind
       character*81 tieset(3,*),slavset,set(*)
 !
-      integer ifaceslave(*),i,j,nset,ipos,ntie
+      integer ifaceslave(*),i,j,nset,ipos,ntie,id
 !
 !     nodes per face for tet elements
 !
@@ -34,16 +34,30 @@
          slavset=tieset(2,i)
          ipos=index(slavset,' ')
          slavset(ipos:ipos)='T'
-         do j=1,nset
-            if(set(j).eq.slavset) exit
-         enddo
+c         do j=1,nset
+c            if(set(j).eq.slavset) exit
+c         enddo
+         call cident81(set,slavset,nset,id)
+         j=nset+1
+         if(id.gt.0) then
+           if(slavset.eq.set(id)) then
+             j=id
+           endif
+         endif
          if(j.gt.nset) then
             slavset(ipos:ipos)='S'
-            do j=1,nset
-               if(set(j).eq.slavset) then
-                  exit
-               endif
-            enddo
+c            do j=1,nset
+c               if(set(j).eq.slavset) then
+c                  exit
+c               endif
+c           enddo
+            call cident81(set,slavset,nset,id)
+            j=nset+1
+            if(id.gt.0) then
+              if(slavset.eq.set(id)) then
+                j=id
+              endif
+            endif
             if(j.gt.nset) then
                write(*,*) 
      &           '*ERROR in identifytiedface: ',

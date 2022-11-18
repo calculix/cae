@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -55,14 +55,25 @@
 !     only nodal surfaces are involved
 !     
         if(set(i)(ipos-1:ipos-1).ne.'S') cycle
-        do l=istartset(i),iendset(i)
+        loop: do l=istartset(i),iendset(i)
           node=ialset(l)
           if(node.gt.iponoelmax) cycle
           indexx=iponoel(node)
-          if(indexx.eq.0) cycle
-          ielem=inoel(1,indexx)
+!
+!     next loop is needed, since an element may have
+!     been deactivated
+!
+          do
+            if(indexx.eq.0) cycle loop
+            ielem=inoel(1,indexx)
+            indexe=ipkon(ielem)
+            if(indexe.ge.0) exit
+            indexx=inoel(3,indexx)
+          enddo
+c          if(indexx.eq.0) cycle
+c          ielem=inoel(1,indexx)
           j=inoel(2,indexx)
-          indexe=ipkon(ielem)
+c          indexe=ipkon(ielem)
           indexk=iponor(2,indexe+j)
 !     
           if(rig(node).eq.0) then
@@ -257,7 +268,7 @@ c     ialset(l)=knor(indexk+2)
 !     
             endif
           endif
-        enddo
+        enddo loop
       enddo
 !     
       return

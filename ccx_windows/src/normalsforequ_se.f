@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -760,12 +760,12 @@ c                  endif
 ! 
 !     in case of 2D shell models fix all nodes which are no design variable
 !    
-      do i=1,nk
-         if(ipoface(i).eq.0) cycle
-         if(nodedesiinv(i).eq.0) then
-            write(20,'(i10,a1)') i,','
-         endif
-      enddo
+!      do i=1,nk
+!         if(ipoface(i).eq.0) cycle
+!         if(nodedesiinv(i).eq.0) then
+!            write(20,'(i10,a1)') i,','
+!         endif
+!      enddo
 !     
       do i=1,nk
          if(nodedesiinv(i).eq.-1) then

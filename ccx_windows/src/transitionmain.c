@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                     */
+/*              Copyright (C) 1998-2022 Guido Dhondt                     */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -25,7 +25,7 @@
 static char *objectset1;
 
 static ITG *nobject1,*nk1,*nodedesi1,*ndesi1,*nx1,*ny1,*nz1,
-    num_cpus,ifree1;
+    num_cpus,ifree1,*nobjectstart1;
 
 /* y1 had to be replaced by yy1, else the following compiler error
    popped up: 
@@ -37,7 +37,7 @@ static double *dgdxglob1,*xo1,*yo1,*zo1,*x1,*yy1,*z1,*co1;
 void transitionmain(double *co, double *dgdxglob, ITG *nobject, ITG *nk,
                 ITG *nodedesi, ITG *ndesi, char *objectset,ITG *ipkon,
 		ITG *kon,char *lakon,ITG *ipoface,ITG *nodface,
-		ITG *nodedesiinv){
+		ITG *nodedesiinv,ITG *nobjectstart){
 
     /* reduction of the sensitivities in the transition from the design
        space to the non-design space */
@@ -133,7 +133,7 @@ void transitionmain(double *co, double *dgdxglob, ITG *nobject, ITG *nk,
        dgdxglob1=dgdxglob;nobject1=nobject;nk1=nk;nodedesi1=nodedesi;
        ndesi1=ndesi;objectset1=objectset;xo1=xo;yo1=yo;zo1=zo;
        x1=x;yy1=y;z1=z;nx1=nx;ny1=ny;nz1=nz;
-       ifree1=ifree,co1=co;
+       ifree1=ifree,co1=co,nobjectstart1=nobjectstart;
 
        /* transition */
     
@@ -170,7 +170,7 @@ void *transitionmt(ITG *i){
 
     FORTRAN(transition,(dgdxglob1,nobject1,nk1,nodedesi1,ndesi1,objectset1,
                         xo1,yo1,zo1,x1,yy1,z1,nx1,ny1,nz1,co1,&ifree1,
-                        &ndesia,&ndesib));
+                        &ndesia,&ndesib,nobjectstart1));
 
     return NULL;
 }

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -40,7 +40,7 @@
      &  iamforc(*),nam,iamplitude,ntrans,inotr(2,*),ipos,ikforc(*),
      &  ilforc(*),nk,iline,ipol,inl,ipoinp(2,*),inp(3,*),nam_,namtot,
      &  namtot_,namta(3,*),idelay,ndirforc(*),isector,iaxial,
-     &  ipoinpc(0:*),idefforc(*),ipompc(*),
+     &  ipoinpc(0:*),idefforc(*),ipompc(*),id,
      &  nodempc(3,*),nmpc,ikmpc(*),ilmpc(*),iamplitudedefault,ier
 !
       real*8 xforc(*),forcval,co(3,*),trab(7,*),amta(2,*)
@@ -203,9 +203,16 @@ c            call reorderampl(amname,namta,nam)
             noset(81:81)=' '
             ipos=index(noset,' ')
             noset(ipos:ipos)='N'
-            do i=1,nset
-               if(set(i).eq.noset) exit
-            enddo
+c            do i=1,nset
+c               if(set(i).eq.noset) exit
+c            enddo
+            call cident81(set,noset,nset,id)
+            i=nset+1
+            if(id.gt.0) then
+              if(noset.eq.set(id)) then
+                i=id
+              endif
+            endif
             if(i.gt.nset) then
                noset(ipos:ipos)=' '
                write(*,*) '*ERROR reading *CFLUX: node set ',noset

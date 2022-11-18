@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine liquidpump(node1,node2,nodem,nelem,
-     &     nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &     nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &     nodef,idirf,df,rho,g,co,numf,mi,ttime,time,
      &     iaxial,iplausi)
 !
@@ -28,7 +28,7 @@
       logical identity
 !      
       integer nelem,nactdog(0:3,*),node1,node2,nodem,
-     &     ielprop(*),nodef(*),idirf(*),index,iflag,
+     &     ielprop(*),nodef(*),idirf(*),index,kflag,
      &     inv,id,numf,npu,i,mi(*),iaxial,iplausi
 !      
       real*8 prop(*),v(0:mi(2),*),xflow,f,df(*),ttime,time,
@@ -39,7 +39,7 @@
 !
       numf=3
 !
-      if (iflag.eq.0) then
+      if (kflag.eq.0) then
          identity=.true.
 !     
          if(nactdog(2,node1).ne.0)then
@@ -50,8 +50,8 @@
             identity=.false.
          endif
 !     
-      elseif((iflag.eq.1).or.(iflag.eq.2)) then
-         if(iflag.eq.1) then
+      elseif((kflag.eq.1).or.(kflag.eq.2)) then
+         if(kflag.eq.1) then
             if(v(1,nodem).ne.0.d0) then
                xflow=v(1,nodem)
                return
@@ -72,7 +72,7 @@
          z1=-g(1)*co(1,node1)-g(2)*co(2,node1)-g(3)*co(3,node1)
          z2=-g(1)*co(1,node2)-g(2)*co(2,node2)-g(3)*co(3,node2)
 !     
-         if(iflag.eq.2) then
+         if(kflag.eq.2) then
             xflow=v(1,nodem)*iaxial
             if(xflow.ge.0.d0) then
                inv=1
@@ -89,7 +89,7 @@
 !     
          dg=dsqrt(g(1)*g(1)+g(2)*g(2)+g(3)*g(3))
 !     
-         if(iflag.eq.1) then
+         if(kflag.eq.1) then
             dh=(z2-z1+(p2-p1)/rho)/dg
 !
 !           reverting the order in xpu and ypu and storing the

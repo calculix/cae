@@ -82,7 +82,7 @@ C***FIRST EXECUTABLE STATEMENT  DSORT
       nn = n
       if (nn .lt. 1) then
          write(*,*) '*error in dsort: the number of values to be'
-         write(*,*) '       sorted is not positive'
+         write(*,*) '       sorted is not positive: ',nn
          call exit(201)
       endif
 C

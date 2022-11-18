@@ -5,7 +5,7 @@ if ! [[ -d build ]]; then
 fi
 cd build
 
-INSTALLPATH="~/PaStiX/parsec_i8"
+INSTALLPATH="/home/guido/PaStiX/parsec_i8"
 
 umask 022
 
@@ -23,7 +23,7 @@ cmake \
     -DCUDA_USE_STATIC_CUDA_RUNTIME=ON \
     -DCMAKE_CUDA_HOST_COMPILER=gcc \
     -DPARSEC_GPU_WITH_CUDA=ON \
-    -DHWLOC_DIR=~/PaStiX/hwloc_i8 \
+    -DHWLOC_DIR=/home/guido/PaStiX/hwloc_i8 \
     ..
 
 make -j8

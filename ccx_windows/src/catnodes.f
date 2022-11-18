@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -31,8 +31,6 @@
       integer ifreenn,inn(2,*),iponn(*),iedg(3,*),ipoed(*),nktet_,
      &     iexternnode(*),idimsh(*),isharp(*),iexternedg(*),node1,
      &     node2,index,imasted,i
-!
-!
 !
 !     calculating idimsh
 !

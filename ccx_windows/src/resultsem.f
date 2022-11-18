@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 !
       subroutine resultsem(co,kon,ipkon,lakon,v,elcon,nelcon,ielmat,
      &  ntmat_,vini,dtime,matname,mi,ncmat_,nea,neb,sti,alcon,
-     &  nalcon,h0,istartset,iendset,ialset,iactive,fn)
+     &  nalcon,h0,istartset,iendset,ialset,iactive,fn,eei,iout,nmethod)
 !
 !     calculates the heat flux and the material tangent at the integration
 !     points and the internal concentrated flux at the nodes
@@ -33,7 +33,7 @@
      &  nope,imat,mint3d,ncmat_,nea,neb,nalcon(2,*),mm,l,istart,iset,
      &  isurf,ilength,istartset(*),iendset(*),ialset(*),nopes,m,
      &  m2,ig,id,iactive(3),konl2(9),ifaceq(8,6),ifacet(6,4),iel,
-     &  ifacew(8,5),mint2d,nfaces,one
+     &  ifacew(8,5),mint2d,nfaces,one,iout,nmethod
 !
       real*8 co(3,*),v(0:mi(2),*),shp(4,26),xl(3,26),vl(0:mi(2),26),
      &  elcon(0:ncmat_,ntmat_,*),vkl(0:mi(2),3),vini(0:mi(2),*),c1,
@@ -41,7 +41,7 @@
      &  vinikl(0:mi(2),3),alpha(6),vl2(0:mi(2),9),xl2(1:3,9),
      &  h0l(3),al(3),ainil(3),sti(6,mi(1),*),xs2(3,7),phi,
      &  um,alcon(0:6,ntmat_,*),h0(3,*),vinil(0:mi(2),26),
-     &  fn(0:mi(2),*)
+     &  fn(0:mi(2),*),eei(6,mi(1),*)
 !
       include "gauss.f"
 !
@@ -287,10 +287,16 @@
 !              electric field E in A-V domain
 !
                if(int(elconloc(2)).eq.2) then
-                  do k=1,3
+                 if((nmethod.eq.2).and.(iout.eq.1)) then
+                   do k=1,3
+                     sti(k,kk,i)=-al(k)-vkl(4,k)
+                   enddo
+                 else
+                   do k=1,3
                      sti(k,kk,i)=(ainil(k)-al(k)+
-     &                            vinikl(4,k)-vkl(4,k))/dtime
-                  enddo
+     &                    vinikl(4,k)-vkl(4,k))/dtime
+                   enddo
+                 endif
                endif
 !
 !     calculating the electromagnetic force K_AA

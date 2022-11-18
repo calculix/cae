@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -19,12 +19,12 @@
       subroutine getdesiinfo3d_robust(set,istartset,iendset,ialset,
      &  nset,mi,nactdof,ndesi,nodedesi,ntie,tieset,itmp,nmpc,nodempc,
      &  ipompc,nodedesiinv,iponoel,inoel,lakon,ipkon,kon,iregion,
-     &  ipoface,nodface,nk)    
+     &  ipoface,nodface,nk,irandomtype,jobnamef)    
 !
 !     storing the design variables in nodedesi
 !     marking which nodes are design variables in nodedesiinv
 !
-!     a node is a design variable if:
+!     a node is a design variable for the random field if:
 !     1) it belongs to the design variable set AND
 !     2) not all dofs in the node are defined by SPC's AND
 !     3) no MPC is applied to any of its dofs AND
@@ -38,6 +38,8 @@
       character*81 setname
       character*81 set(*)
       character*81 tieset(3,*)
+      character*132 jobnamef
+      character*256 fn
 !
       integer mi(*),istartset(*),iendset(*),ialset(*),ndesi,
      &  node,nodedesi(*),nset,ntie,i,j,k,l,m,nmpc,nodempc(3,*),
@@ -47,7 +49,7 @@
      &  ipoface(*),nodface(5,*),jfacem,nopesurf(9),ifaceq(8,6),
      &  ifacet(6,4),ifacew1(4,5),ifacew2(8,5),nopem,nk,ishift,
      &  indexe,jface,konl2d(26),expandhex(20),expandwed(15),
-     &  idelta,idesi
+     &  idelta,idesi,irandomtype(*),iwrite,ilen
 !
       setname(1:1)=' '
       ndesi=0
@@ -84,63 +86,27 @@
      &             2,3,6,5,8,15,11,14,
      &             3,1,4,6,9,13,12,15/
 !
-!     Search for the set name of the set with the design variables
-!      
-      do i=1,ntie
-         if(tieset(1,i)(81:81).eq.'D') then
-            setname=tieset(2,i)
-         endif
-      enddo 
-!
-!     Check for the existence of the name
-!
-      if(setname(1:1).eq.' ') then
-        write(*,*) '*ERROR in getdesiinfo3d_robust: name of node set '
-        write(*,*) '  has not yet been defined. '
-        call exit(201)
-      endif
-!
 !     opening a file to store the nodes which are rejected as
 !     design variables
 !
-      open(40,file='WarnNodeDesignReject.nam',status='unknown')
+      iwrite=0
+      ilen=index(jobnamef,' ')-1
+      fn=jobnamef(1:ilen)//'_WarnNodeDesignReject.nam'
+      open(40,file=fn,status='unknown')
       write(40,*) '*NSET,NSET=WarnNodeDesignReject'
-      write(*,*) '*INFO in getdesiinfo3d_robust:'
-      write(*,*) '      rejected design nodes (if any) are stored in'
-      write(*,*) '      file WarnNodeDesignReject.nam'
-      write(*,*) '      This file can be loaded into'
-      write(*,*) '      an active cgx-session by typing'
-      write(*,*) 
-     &     '      read WarnNodeDesignReject.nam inp'
-      write(*,*)
 !
 !------------------------------------------------------------------------
-!     Search the name of the node set in "set(i)" and
 !     assign the nodes of the set to the appropriate variables
 !------------------------------------------------------------------------
 !
-      do i=1,nset
-         if(setname.eq.set(i)) then  
-            loop1: do j=istartset(i),iendset(i)
-               if(ialset(j).gt.0) then
-                  node=ialset(j)
-                  ndesi=ndesi+1
-                  nodedesi(ndesi)=node
-                  nodedesiinv(node)=-2
-               else
-                  k=ialset(j-2)
-                  loop2: do
-                     k=k-ialset(j)
-                     if(k.ge.ialset(j-1)) exit
-                     ndesi=ndesi+1
-                     nodedesi(ndesi)=k
-                     nodedesiinv(k)=-2
-                  enddo loop2
-               endif
-            enddo loop1
+      do i=1,nk
+         if(irandomtype(i).gt.0) then
+            ndesi=ndesi+1
+            nodedesi(ndesi)=i
+            nodedesiinv(i)=-2      
          endif
       enddo 
-!
+!     
 !------------------------------------------------------------------------
 !     Remove interior nodes from the set of design variables    
 !------------------------------------------------------------------------
@@ -333,6 +299,7 @@
             write(*,*) '          variables as it is an' 
             write(*,*) '          internal node'
             write(40,*) i
+            iwrite=1
 !
          elseif(nodedesiinv(i).eq.-1) then
 !
@@ -343,6 +310,7 @@
             write(*,*) '          other variables are on the  '
             write(*,*) '          surrounding element faces  '
             write(40,*) i
+            iwrite=1
 !
             nodedesiinv(i)=0
             call nident(nodedesi,i,ndesi,id)
@@ -366,7 +334,19 @@
          write(5,*) nodedesi(i),','
       enddo
 !
-      close(40)
+      if(iwrite.eq.1) then
+        write(*,*) '*INFO in getdesiinfo3d_robust:'
+        write(*,*) '      rejected design nodes are stored in'
+        write(*,*) '      file ',fn(1:ilen+25)
+        write(*,*) '      This file can be loaded into'
+        write(*,*) '      an active cgx-session by typing'
+        write(*,*) 
+     &       '      read ',fn(1:ilen+25),' inp'
+        write(*,*)
+        close(40)
+      else
+        close(40,status='delete')
+      endif
 !
       return
       end

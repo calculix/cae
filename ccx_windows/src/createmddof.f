@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -40,7 +40,7 @@
 !
       integer imddof(*),nmddof,nrset,istartset(*),iendset(*),mi(*),
      &  ialset(*),nactdof(0:mi(2),*),node,ithermal(*),j,k,l,
-     &  ikmpc(*),ilmpc(*),ipompc(*),nodempc(3,*),nmpc,
+     &  ikmpc(*),ilmpc(*),ipompc(*),nodempc(3,*),nmpc,id,
      &  imdnode(*),nmdnode,imdmpc(*),nmdmpc,nprint,ipos,
      &  imdboun(*),nmdboun,ikboun(*),nboun,indexe1,indexe,islav,
      &  jface,nset,ntie,nnodelem,nope,nodef(8),nelem,nface,imast,
@@ -79,7 +79,7 @@
      &             2,3,6,5,8,15,11,14,
      &             3,1,4,6,9,13,12,15/
 !
-      data nlabel /48/
+      data nlabel /55/
 !
 !     if 1d/2d elements are part of the mesh, no node selection
 !     is performed (because of the renumbering due to the
@@ -112,13 +112,20 @@
 !
          if(filab(i)(1:1).ne.' ') then
             read(filab(i)(7:87),'(a81)') noset
+c            nrset=0
+c            do k=1,nset
+c               if(set(k).eq.noset) then
+c                  nrset=k
+c                  exit
+c               endif
+c            enddo
+            call cident81(set,noset,nset,id)
             nrset=0
-            do k=1,nset
-               if(set(k).eq.noset) then
-                  nrset=k
-                  exit
-               endif
-            enddo
+            if(id.gt.0) then
+              if(noset.eq.set(id)) then
+                nrset=id
+              endif
+            endif
 !
 !           if output for all nodes is selected, use
 !           of imdnode is deactivated
@@ -207,13 +214,20 @@
      &        (prlab(i)(1:4).eq.'MF  ').or.
      &        (prlab(i)(1:4).eq.'V   ')) then
             noset=prset(i)
+c            nrset=0
+c            do k=1,nset
+c               if(set(k).eq.noset) then
+c                  nrset=k
+c                  exit
+c               endif
+c            enddo
+            call cident81(set,noset,nset,id)
             nrset=0
-            do k=1,nset
-               if(set(k).eq.noset) then
-                  nrset=k
-                  exit
-               endif
-            enddo
+            if(id.gt.0) then
+              if(noset.eq.set(id)) then
+                nrset=id
+              endif
+            endif
 !
 !           adding the nodes belonging to nrset
 !
@@ -276,9 +290,16 @@
 !     
 !     determining the master surface
 !     
-            do j=1,nset
-               if(set(j).eq.rightset) exit
-            enddo
+c            do j=1,nset
+c               if(set(j).eq.rightset) exit
+c            enddo
+            call cident81(set,rightset,nset,id)
+            j=nset+1
+            if(id.gt.0) then
+              if(rightset.eq.set(id)) then
+                j=id
+              endif
+            endif
             if(j.gt.nset) then
                write(*,*) '*ERROR in createmddof: master surface',
      &              rightset
@@ -387,9 +408,16 @@
 !
 !           determining the slave surface 
 !
-            do j=1,nset
-               if(set(j).eq.slavset) exit
-            enddo
+c            do j=1,nset
+c               if(set(j).eq.slavset) exit
+c            enddo
+            call cident81(set,slavset,nset,id)
+            j=nset+1
+            if(id.gt.0) then
+              if(slavset.eq.set(id)) then
+                j=id
+              endif
+            endif
             if(j.gt.nset) then
                do j=1,nset
                   if((set(j)(1:ipos-1).eq.slavset(1:ipos-1)).and.

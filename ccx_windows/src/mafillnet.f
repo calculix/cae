@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -57,8 +57,6 @@
      &     Qred_crit,reynolds,pt2zpt1_c,Qred1,pt2zpt1,phi,lambda,
      &     M1,M2,bb,cc,km1,kp1,A,kappa,ff1,ff2,Tt1,Tt2,T1,T2,M1_c,
      &     heatnod,heatfac
-!
-!
 !     
       include "gauss.f"
 !     
@@ -101,7 +99,6 @@
 !     
 !     element contribution.
 !              
- 
       do i=1,nflow
          nelem=ieg(i)
          index=ipkon(nelem)
@@ -111,7 +108,7 @@
 !
          xflow=v(1,nodem)
 !
-!        next section is for liquids only (no gas)
+!        total/static temperatures
 !
         if((lakon(nelem)(2:3).ne.'LP').and.
      &     (lakon(nelem)(2:3).ne.'LI')) then
@@ -135,7 +132,7 @@
             gastemp=(ts1+ts2)/2.d0
 !
 !     for liquid pipe element only the upstream temperature is used to 
-!     determine thematerial properties
+!     determine the material properties
 !
          else
             

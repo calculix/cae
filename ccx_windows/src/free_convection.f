@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,7 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
       subroutine free_convection(node1,node2,nodem,nelem,lakon,kon,
-     &        ipkon,nactdog,identity,ielprop,prop,iflag,v,xflow,f,
+     &        ipkon,nactdog,identity,ielprop,prop,kflag,v,xflow,f,
      &        nodef,idirf,df,cp,r,physcon,dvi,numf,set,shcon,
      &        nshcon,rhcon,nrhcon,ntmat_,co,vold,mi,ttime,time,
      &        iaxial,iplausi)
@@ -31,7 +31,7 @@
       character*81 set(*)
 !     
       integer nelem,nactdog(0:3,*),node1,node2,nodem,numf,
-     &     ielprop(*),nodef(*),idirf(*),iflag,iaxial,
+     &     ielprop(*),nodef(*),idirf(*),kflag,iaxial,
      &     ipkon(*),kon(*),mi(*),nrhcon(*),ntmat_,nshcon(*),iplausi
 !     
       real*8 prop(*),v(0:mi(2),*),xflow,f,df(*),cp,r,dvi,
@@ -40,7 +40,7 @@
 !
 !
 !  
-      if (iflag.eq.0) then
+      if (kflag.eq.0) then
          identity=.true.
 !     
          if(nactdog(2,node1).ne.0)then
@@ -51,7 +51,7 @@
             identity=.false.
          endif
 !     
-      elseif ((iflag.eq.1).or.(iflag.eq.2).or.(iflag.eq.3))then
+      elseif ((kflag.eq.1).or.(kflag.eq.2).or.(kflag.eq.3))then
 !
 !    User defined flow element
 !     

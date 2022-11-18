@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -44,16 +44,31 @@ void refinemesh(ITG *nk,ITG *ne,double *co,ITG *ipkon,ITG *kon,
     *ialsete=NULL,nexternel,*iedgextfa=NULL,*ifacexted=NULL,
     *ilist=NULL,*isharp=NULL,*idimsh=NULL,ifreenn=1,*iponn=NULL,
     *inn=NULL,*n1newnodes=NULL,*n2newnodes=NULL,*jfix=NULL,*number=NULL,
-    *iparentel=NULL;
+    *iparentel=NULL,jflag=0,*ibadnodes=NULL,nbadnodes,iwrite;
 
-  //  unsigned ITG unsiint,seed=184389;
   unsigned long unsiint,seed=184389;
 
   double *cotet=NULL,*planfa=NULL,*bc=NULL,*cg=NULL, *h=NULL,dcg,
     *doubleglob=NULL,*r=NULL,*d=NULL,*conewnodes=NULL,dmin,*quality=NULL,
-    randomnumber,*conewnodesorig=NULL,cotetorig[3],height,
-    *hnewnodes=NULL;
+    randomnumber,*conewnodesorig=NULL,cotetorig[3],height,c1,
+    *hnewnodes=NULL,*qualityjac=NULL;
 
+  /* storing the unrefined mesh (needed for interpolation 
+     purposes of the temperature in the refined mesh) */
+
+  if(ithermal[0]>0){
+    writeoldmesh(nk,ne,co,ipkon,kon,lakon,mi,matname,ithermal,jobnamec,
+	       output,nmat);
+  }
+  
+  /* in kon the original elements are kept;
+     the new elements are inserted in kontet either:
+     1. in between if the original numbering had gaps and
+     2. at the end; 
+     Their topology is stored in kontet at locations left free
+     by kon; for element numbers which are occupied in kon the
+     corresponding entries in kontet are left zero */
+  
   nktet=*nk;
   nktet_=*nk+1000;
   netet_=2**ne+1000;
@@ -138,8 +153,8 @@ void refinemesh(ITG *nk,ITG *ne,double *co,ITG *ipkon,ITG *kon,
   NNEW(isharp,ITG,nexternedg);
   FORTRAN(checksharp,(&nexternedg,iedgextfa,cotet,ifacext,isharp));
 
-  //  ij=9;
-  NNEW(quality,double,nktet_);
+  //NNEW(quality,double,nktet_);
+  
   /*  FORTRAN(writemeshinp,(kontet,&netet_,cotet,&nktet,&ij,ipoed,iedg,
       iexternedg,quality));*/
 
@@ -561,16 +576,21 @@ void refinemesh(ITG *nk,ITG *ne,double *co,ITG *ipkon,ITG *kon,
     NNEW(iponn,ITG,nktet_);
     NNEW(inn,ITG,12*netet_);
     NNEW(idimsh,ITG,nktet_);
-    NNEW(quality,double,netet_);
 
     FORTRAN(catnodes,(&ifreenn,inn,iponn,iedg,ipoed,&nktet_,iexternnode,
 		      idimsh,isharp,iexternedg));
 
     RENEW(inn,ITG,2*ifreenn);
 
+    /* determining the quality of the elements */
+
+    ielem=0;
+    NNEW(quality,double,netet_);
+    FORTRAN(meshquality,(&netet_,kontet,cotet,quality,&ielem));
+
     /* smoothing the mesh */
     
-    FORTRAN(smoothing,(inn,iponn,&nktet,iexternnode,&netet_,kontet,
+    FORTRAN(smoothingvertexnodes,(inn,iponn,&nktet,iexternnode,&netet_,kontet,
 		       cotet,ipoeln,ieln,h,quality,jfix));
 
     SFREE(iponn);SFREE(inn);SFREE(quality);SFREE(idimsh);
@@ -582,7 +602,6 @@ void refinemesh(ITG *nk,ITG *ne,double *co,ITG *ipkon,ITG *kon,
      attached edges; determine the neighboring nodes to be 
      used in the smoothing */
 
-  NNEW(quality,double,netet_);
   NNEW(iponn,ITG,nktet_);
   NNEW(inn,ITG,12*netet_);
   NNEW(idimsh,ITG,nktet_);
@@ -596,78 +615,168 @@ void refinemesh(ITG *nk,ITG *ne,double *co,ITG *ipkon,ITG *kon,
   
   NNEW(itreated,ITG,nktet);
   NNEW(ilist,ITG,nexternfa);
+  NNEW(ibadnodes,ITG,nktet);
 
+  c1=0.4;
+  iwrite=0;
   FORTRAN(projectvertexnodes,(ipoed,iexternedg,iedgext,cotet,&nktet,iedg,
 			      iexternfa,ifacext,itreated,ilist,isharp,ipofa,
-			      ifac,iedgextfa,ifacexted,co,idimsh));
-
+			      ifac,iedgextfa,ifacexted,co,idimsh,ipoeln,ieln,
+			      kontet,&c1,&jflag,ibadnodes,&nbadnodes,&iwrite));
+  
+  /* optimizing the position of subsurface neighbors of vertices,
+     which were not fully projected */
+  
+  FORTRAN(smoothbadvertex,(cotet,kontet,ipoeln,ieln,&nbadnodes,ibadnodes,
+			   iponn,inn,iexternnode,ipoeled,ieled,iedgmid,iedtet));
+  
   /* determining the quality of the elements */
 
   ielem=0;
+  NNEW(quality,double,netet_);
   FORTRAN(meshquality,(&netet_,kontet,cotet,quality,&ielem));
 
   /* remove the slivers */
 
-  FORTRAN(removesliver,(&netet_,kontet,iexternnode,iedtet,iexternedg,quality));
+  FORTRAN(removesliver,(&netet_,kontet,iexternnode,iedtet,iexternedg,quality,
+			itetfa,ipofa,ipoeln,ipoeled,ipoed,&ifreetet,&ifreeln,
+			&ifreele,&ifreefa,&ifreeed,ifatet,ifac,iexternfa,ieln,
+			ieled,iedg,isharp));
 
-  /* smoothing the mesh */
+  /* start vertex projection loop */
 
-  FORTRAN(smoothing,(inn,iponn,&nktet,iexternnode,&netet_,kontet,
-		     cotet,ipoeln,ieln,h,quality,jfix));
+  jflag=0;
+  for(ij=0;ij<5;ij++){
+  
+    /* smoothing the mesh */
 
-  SFREE(iponn);SFREE(inn);
+    FORTRAN(smoothingvertexnodes,(inn,iponn,&nktet,iexternnode,&netet_,kontet,
+		       cotet,ipoeln,ieln,h,quality,jfix));
 
-  /* determining the quality of the elements */
+    /* projecting the vertex nodes */
 
+    c1=0.5+0.1*(ij+1);
+    if(ij==4) jflag=1;
+    FORTRAN(projectvertexnodes,(ipoed,iexternedg,iedgext,cotet,&nktet,iedg,
+				iexternfa,ifacext,itreated,ilist,isharp,ipofa,
+				ifac,iedgextfa,ifacexted,co,idimsh,ipoeln,ieln,
+				kontet,&c1,&jflag,ibadnodes,&nbadnodes,
+				&iwrite));
+  
+  /* optimizing the position of subsurface neighbors of vertices,
+     which were not fully projected */
+  
+    FORTRAN(smoothbadvertex,(cotet,kontet,ipoeln,ieln,&nbadnodes,ibadnodes,
+			     iponn,inn,iexternnode,ipoeled,ieled,iedgmid,
+			     iedtet));
 
-  // NEXT LINES ARE NOT NEEDED? QUALITY IS NOT USED?
-  //  ielem=0;
-  //  FORTRAN(meshquality,(&netet_,kontet,cotet,quality,&ielem));
+    /* determining the quality of the elements */
 
-  /* projecting the vertex nodes */
+    ielem=0;
+    FORTRAN(meshquality,(&netet_,kontet,cotet,quality,&ielem));
 
-  FORTRAN(projectvertexnodes,(ipoed,iexternedg,iedgext,cotet,&nktet,iedg,
-			      iexternfa,ifacext,itreated,ilist,isharp,ipofa,
-			      ifac,iedgextfa,ifacexted,co,idimsh));
+    /* remove the slivers */
 
-  /* determining the quality of the elements */
+    FORTRAN(removesliver,(&netet_,kontet,iexternnode,iedtet,iexternedg,quality,
+			  itetfa,ipofa,ipoeln,ipoeled,ipoed,&ifreetet,&ifreeln,
+			  &ifreele,&ifreefa,&ifreeed,ifatet,ifac,iexternfa,ieln,
+			  ieled,iedg,isharp));
 
-  ielem=0;
-  FORTRAN(meshquality,(&netet_,kontet,cotet,quality,&ielem));
+  }   /* end vertex projection loop */
 
-  /* remove the slivers */
-
-  FORTRAN(removesliver,(&netet_,kontet,iexternnode,iedtet,iexternedg,quality));
+  SFREE(quality);SFREE(ibadnodes);
   
   /* generating middle nodes if needed (maximum of (6 * number of
      elements) = (maximum number of edges)) 
      projecting the middle nodes onto the surface */
 
+  /* generate midnodes and project them onto the surface */
+  
   if(iquad==1){
+    
     RENEW(cotet,double,3*nktet_+18*netet_);
     for(i=3*nktet_;i<3*nktet+18*netet_;i++)cotet[i]=0.;
+    RENEW(itreated,ITG,nktet+6*netet_);
+    NNEW(iedgmid,ITG,6*netet_);
+
+    /* generate midnodes */
+    
+    FORTRAN(genmidnodes,(&nktet_,ipoed,iedgmid,iexternedg,iedgext,cotet,&nktet,
+			 iedg,jfix,ipoeled,ieled,kontet,iedtet,&iwrite));
+
+    RENEW(itreated,ITG,nktet);
+    NNEW(ibadnodes,ITG,nktet);
+
+    /* calculated the desired edge length in each midnode */
+    
+    RENEW(h,double,nktet);
+    FORTRAN(calculatehmid,(&nktet_,h,ipoed,iedg,iedgmid));
+
+    /* fields for midnode neighbors */
+    
+    RENEW(iponn,ITG,nktet);
+    for(i=nktet_;i<nktet;i++){iponn[i]=0;}
+    
+    /* each midnode has at most 5 nodal neighbors per element neighbor;
+       the total number of elements neighbors is at most the size of ieled */
+    
+    RENEW(inn,ITG,2*ifreenn+60*netet_);
+
+    /* search midnodes neighbors of all midnodes; a midnode b is a 
+       neighbor of midnode a if it belongs to an element to which midnode
+       a belongs and b does not coincide with a */
+    
+    FORTRAN(searchmidneigh,(inn,iponn,&nktet_,iexternedg,ipoed,iedg,ipoeled,
+			    ieled,&ifreenn,iedgmid,iedtet));
+
+    /* determine the overall quality of the mesh using a quality 
+       measure for quadratic elements */
+
+    NNEW(qualityjac,double,netet_);
+
+  /* start mid projection loop */
+
+    jflag=0;
+    for(ij=0;ij<5;ij++){
+
+      /* projecting the external midnodes on the surface */
+    
+      c1=0.5+0.1*(ij+1);
+      if(ij==4) jflag=1;
+      FORTRAN(projectmidnodes,(&nktet_,ipoed,iedgmid,iexternedg,iedgext,cotet,
+			       &nktet,iedg,iexternfa,ifacext,itreated,ilist,
+			       isharp,ipofa,ifac,iedgextfa,ifacexted,jfix,co,
+			       idimsh,ipoeled,ieled,kontet,&c1,&jflag,iedtet,
+			       ibadnodes,&nbadnodes,&iwrite));
+      
+      FORTRAN(smoothbadmid,(cotet,kontet,ipoeln,ieln,&nbadnodes,
+			    ibadnodes,iexternedg,ipoeled,ieled,iedgmid,
+			    iedtet));
+
+      if(ij<4){
+
+	ielem=0;
+	FORTRAN(quadmeshquality,(&netet_,cotet,kontet,iedtet,
+				 iedgmid,qualityjac,&ielem));
+    
+	FORTRAN(smoothingmidnodes,(cotet,ipoed,kontet,iedtet,iedgmid,ipoeled,
+				   ieled,qualityjac,iponn,inn,h,iexternedg,
+				   &netet_,&nktet_));
+      }
+    }
   }
 
-  NNEW(iedgmid,ITG,6*netet_);
+  SFREE(iponn);SFREE(inn);SFREE(qualityjac);SFREE(ibadnodes);
 
-  /* next line was set to force linear elements
-     should be removed in the final version */
-
-  //   iquad=0;
-  FORTRAN(projectnodes,(&nktet_,ipoed,iedgmid,iexternedg,iedgext,cotet,&nktet,
-			iedg,&iquad,iexternfa,ifacext,itreated,ilist,isharp,
-			ipofa,ifac,iedgextfa,ifacexted,jfix,co,idimsh));
-
-  SFREE(ialsete);SFREE(ilist);SFREE(isharp);SFREE(idimsh);
+  SFREE(ialsete);SFREE(ilist);SFREE(isharp);SFREE(idimsh);SFREE(itreated);
 
   /* store the refined mesh in input format */
   
-  //  nktet=nktet+(*nk);
   NNEW(number,ITG,nktet);
   
   FORTRAN(writerefinemesh,(kontet,&netet_,cotet,&nktet,jobnamec,
-			   ipkon,kon,lakon,&iquad,iedtet,iedgmid,
-			   ne,number,jfix,iparentel,nk));
+			   &iquad,iedtet,iedgmid,
+			   number,jfix,iparentel,nk,&iwrite));
 
   SFREE(number);
 
@@ -676,8 +785,6 @@ void refinemesh(ITG *nk,ITG *ne,double *co,ITG *ipkon,ITG *kon,
   
   writenewmesh(&nktet,&netet_,cotet,&iquad,kontet,iedgmid,iedtet,mi,
 	       matname,ithermal,jobnamec,output,nmat);
-  
-  SFREE(itreated);
    
   SFREE(iedgmid);
 
@@ -690,7 +797,7 @@ void refinemesh(ITG *nk,ITG *ne,double *co,ITG *ipkon,ITG *kon,
 
   SFREE(cotet);SFREE(kontet);SFREE(ifatet);SFREE(ifac);SFREE(itetfa);
   SFREE(planfa);SFREE(ipofa);SFREE(bc);SFREE(cg);SFREE(ipoeln);
-  SFREE(ieln);SFREE(quality);SFREE(jfix);SFREE(h);SFREE(iparentel);
+  SFREE(ieln);SFREE(jfix);SFREE(h);SFREE(iparentel);
 
   return;
   

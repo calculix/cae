@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                     */
+/*              Copyright (C) 1998-2022 Guido Dhondt                     */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -71,7 +71,7 @@ static void report_failure(const char* n,
 		'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0',
 		'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'};
   memcpy(b,n,search_space(n,n+80)-n);
-  printf("*ERROR: invalid material name '%s' (%s)\n",b,e);
+  printf(" *ERROR: invalid material name '%s' (%s)\n",b,e);
   exit(-1);
 }  
 

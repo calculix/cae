@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -46,13 +46,10 @@
      &  xsj2s(3),xs2s(3,7),shp2s(7,9),weight,pslavsurf(3,*),
      &  pmastsurf(6,*),clearini(3,9,*)
 !
-!
-!
       iflag=1
 !     
 !     # of master nodes
 !
-c      read(lakonl(8:8),'(i1)') nopem
       nopem=ichar(lakonl(8:8))-48
 !
 !     # of slave nodes
@@ -80,9 +77,6 @@ c      read(lakonl(8:8),'(i1)') nopem
       enddo
 !
 !     contact springs
-!
-c      read(lakonl(8:8),'(i1)') nopem
-c      nopes = nope - nopem
 !
       xi=pslavsurf(1,igauss)
       et=pslavsurf(2,igauss)
@@ -181,6 +175,8 @@ c      nopes = nope - nopem
 !     
 !        linear overclosure/tied overclosure
 !
+c        write(*,*) 'springstiff_f2f',springarea(1),elcon(2,1,imat),
+c     &       kscale
          elas(2)=-springarea(1)*elcon(2,1,imat)/kscale
          elas(1)=elas(2)*clear
       elseif(int(elcon(3,1,imat)).eq.3) then

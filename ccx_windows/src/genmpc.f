@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,26 +18,26 @@
 !     
       subroutine genmpc(inodestet,nnodestet,co,doubleglob,integerglob,
      &     ipompc,nodempc,coefmpc,nmpc,nmpc_,labmpc,mpcfree,ikmpc,
-     &     ilmpc,ikboun,nboun)
+     &     ilmpc)
 !     
-!     reading the initial tet mesh which will be refined 
+!     generating MPC's connecting the nodes in the old tet mesh in
+!     which SPC's or point forces were defined with the nodes in the
+!     refined tet mesh
 !     
       implicit none
 !     
       character*20 labmpc(*)
 !     
       integer inodestet(*),nnodestet,integerglob(*),nktet,netet,ne,nkon,
-     &     nfaces,nfield,nselect,imastset,iselect(1),nterms,ikboun(*),
-     &     nelem,ialset(1),mpcfreeold,nboun,
+     &     nfaces,nfield,nselect,imastset,iselect(1),nterms,
+     &     nelem,ialset(1),mpcfreeold,
      &     iendset(1),istartset(1),konl(20),loopa,
      &     node,i,j,k,m,ipompc(*),nodempc(3,*),nmpc,nmpc_,mpcfree,
-     &     ikmpc(*),ilmpc(*),idof,isol,idummy,id
+     &     ikmpc(*),ilmpc(*),idof,id
 !     
       real*8 co(3,*),doubleglob(*),coords(3),ratio(20),value,
-     &     coefmpc(*),depcoef,dummy,coef(20),dist
+     &     coefmpc(*),dist
 !     
-!
-!
       nktet=integerglob(1)
       netet=integerglob(2)
       ne=integerglob(3)
@@ -48,9 +48,7 @@
       imastset=0
       loopa=8
 !     
-c     nmpc=0
-!     
-      loop:do i=1,nnodestet
+      loop1:do i=1,nnodestet
         node =inodestet(i)
 !     
         do j=1,3
@@ -78,95 +76,37 @@ c     nmpc=0
 !     
         do j=1,nterms
           if(konl(j).eq.node) then
-            write(*,*) '*INFO in genmpc: no MPC generated for node',node
-            cycle loop
+c            write(*,*) '*INFO in genmpc: no MPC generated for node',node
+            cycle loop1
           endif
-        enddo
-!
-!       coefficients of the equation
-!
-        depcoef=1.d0
-        do j=1,nterms
-          coef(j)=-ratio(j)
         enddo
 !     
+!     check whether SPC was applied in the node; if not, the
+!     old node is used as dependent node
+!     
         do j=1,3
-!
           idof=8*(node-1)+j
-          isol=1
-!
-!         check whether the dof was used by another SPC
-!
-          call nident(ikboun,idof,nboun,id)
-          if(id.gt.0) then
-            if(ikboun(id).eq.idof) then
-              isol=0
-            endif
-          endif
-!
-!         check whether the dof was used by another MPC
-!
           call nident(ikmpc,idof,nmpc,id)
-          if(id.gt.0) then
-            if(ikmpc(id).eq.idof) then
-              isol=0
-            endif
-          endif
-!
-!         changing the order of the nodes
-!          
-          if(isol.eq.0) then
-            do k=1,nterms
-              if(dabs(coef(k)).lt.1.d-2) cycle
-              idof=8*(konl(k)-1)+j
-!
-!             check whether the dof was used by another SPC
-!
-              call nident(ikboun,idof,nboun,id)
-              if(id.gt.0) then
-                if(ikboun(id).eq.idof) then
-                  cycle
-                endif
-              endif
-!
-!             check whether the dof was used by another MPC
-!
-              call nident(ikmpc,idof,nmpc,id)
-              if(id.gt.0) then
-                if(ikmpc(id).eq.idof) then
-                  cycle
-                endif
-              endif
-!              
-              isol=1
-!              
-              idummy=node
-              node=konl(k)
-              konl(k)=idummy
-!
-              dummy=depcoef
-              depcoef=coef(k)
-              coef(k)=dummy
-!
-              exit
-            enddo
-          endif
-!          
-          if(isol.eq.0) then
-            write(*,*) '*WARNING in genmpc: no suitable node found'
-            write(*,*) '         for node ',node,' and dof ',j
-            cycle
-          endif
-!          
+!     
+!     temporarily more than one MPC with the same idof is allowed
+!     
+c          if(id.gt.0) then
+c            if(ikmpc(id).eq.idof) then
+c              write(*,*) '*ERROR in genmpc: a MPC was defined'
+c              write(*,*) '       in the dependent node'
+c              call exit(201)
+c            endif
+c          endif
+!     
           nmpc=nmpc+1
 !     
           if(nmpc.gt.nmpc_) then
             write(*,*) '*ERROR reading *EQUATION: increase nmpc_'
             return
           endif
-!
-!         MPC is characterized by the label RM (refine mesh)
-!
+!     
+!     MPC is characterized by the label RM (refine mesh)
+!     
           labmpc(nmpc)='RM                  '
           ipompc(nmpc)=mpcfree
 !     
@@ -181,26 +121,28 @@ c     nmpc=0
 !     
           nodempc(1,mpcfree)=node
           nodempc(2,mpcfree)=j
-          coefmpc(mpcfree)=depcoef
+          coefmpc(mpcfree)=1.d0
           mpcfree=nodempc(3,mpcfree)           
 !     
           do k=1,nterms
-            nodempc(1,mpcfree)=konl(k)
-            nodempc(2,mpcfree)=j
-            coefmpc(mpcfree)=coef(k)
-            mpcfreeold=mpcfree
-            mpcfree=nodempc(3,mpcfree)
+            if(dabs(ratio(k)).gt.1.d-10) then
+              nodempc(1,mpcfree)=konl(k)
+              nodempc(2,mpcfree)=j
+              coefmpc(mpcfree)=-ratio(k)
+              mpcfreeold=mpcfree
+              mpcfree=nodempc(3,mpcfree)
 !     
-            if(mpcfree.eq.0) then
-              write(*,*) 
-     &             '*ERROR reading *EQUATION: increase memmpc_'
-              return
+              if(mpcfree.eq.0) then
+                write(*,*) 
+     &               '*ERROR reading *EQUATION: increase memmpc_'
+                return
+              endif
             endif
           enddo
           nodempc(3,mpcfreeold)=0
         enddo
-      enddo loop
+        cycle
+      enddo loop1
 !     
       return
       end
-

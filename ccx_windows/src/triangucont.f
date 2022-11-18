@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 !
       subroutine triangucont(ncont,ntie,tieset,nset,set,istartset,
      &     iendset,ialset,itietri,lakon,ipkon,kon,koncont,kind1,kind2,
-     &     co,nk)
+     &     co,nk,mortar)
 !
 !     generate a triangulation of the contact master surfaces
 !
@@ -33,11 +33,11 @@ c      character*5 p0,p1,p2,p3,p7,p9999
 c      character*88 fntria
 !
       integer ncont,ntie,i,j,k,l,nset,istartset(*),iendset(*),ialset(*),
-     &  iright,itietri(2,ntie),nelem,jface,indexe,ipkon(*),nope,
-     &  ifaceq(8,6),ifacet(6,4),ifacew1(4,5),ifacew2(8,5),node,
-     &  ntrifac,itrifac3(3,1),itrifac4(3,2),itrifac6(3,4),itrifac8(3,6),
-     &  itrifac(3,8),nnodelem,nface,nodef(9),kon(*),koncont(4,*),nk,
-     &     ncontini
+     &     iright,itietri(2,ntie),nelem,jface,indexe,ipkon(*),nope,id,
+     &     ifaceq(8,6),ifacet(6,4),ifacew1(4,5),ifacew2(8,5),node,
+     &     ntrifac,itrifac3(3,1),itrifac4(3,2),itrifac6(3,4),
+     &     itrifac8(3,6),itrifac(3,8),nnodelem,nface,nodef(9),kon(*),
+     &     koncont(4,*),nk,ncontini,mortar
 c     integer one,ilen,m
 !
       real*8 co(3,*)
@@ -104,9 +104,16 @@ c     integer one,ilen,m
 !
 !           determining the master surface
 !
-            do j=1,nset
-               if(set(j).eq.mastset) exit
-            enddo
+c            do j=1,nset
+c               if(set(j).eq.mastset) exit
+c            enddo
+            call cident81(set,mastset,nset,id)
+            j=nset+1
+            if(id.gt.0) then
+              if(mastset.eq.set(id)) then
+                j=id
+              endif
+            endif
             if(j.gt.nset) then
                write(*,*) '*ERROR in triangucont: master surface',
      &               mastset
@@ -121,6 +128,11 @@ c     integer one,ilen,m
 !     
                nelem=int(ialset(j)/10.d0)
                jface=ialset(j)-10*nelem
+!
+!     for dynamic massless contact: store contact face number
+!     in element label
+!
+c               if(mortar.eq.-1) write(lakon(nelem)(7:7),'(i1)') jface
 !     
                indexe=ipkon(nelem)
 !     

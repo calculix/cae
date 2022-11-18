@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -33,7 +33,7 @@
       character*81 set(*),prset(*),noset
       character*132 textpart(16),name
 !
-      integer istartset(*),iendset(*),ialset(*),ii,i,nam,itpamp,
+      integer istartset(*),iendset(*),ialset(*),ii,i,nam,itpamp,id,
      &  jout(2),joutl,ithermal(*),nset,nset_,nalset,nprint,nprint_,
      &  istat,n,key,ipos,iline,ipol,inl,ipoinp(2,*),inp(3,*),idrct,
      &  ipoinpc(0:*),nef,ier,istep
@@ -76,9 +76,16 @@
           noset(1:80)=textpart(ii)(9:88)
           ipos=index(noset,' ')
           noset(ipos:ipos)='T'
-          do i=1,nset
-            if(set(i).eq.noset) exit
-          enddo
+c          do i=1,nset
+c            if(set(i).eq.noset) exit
+c          enddo
+          call cident81(set,noset,nset,id)
+          i=nset+1
+          if(id.gt.0) then
+            if(noset.eq.set(id)) then
+              i=id
+            endif
+          endif
           if(i.gt.nset) then
              write(*,*) 
      &           '*WARNING reading *SECTION PRINT: element surface ',

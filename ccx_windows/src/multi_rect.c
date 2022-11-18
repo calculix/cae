@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                     */
+/*              Copyright (C) 1998-2022 Guido Dhondt                     */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -55,7 +55,7 @@ void multi_rect(double *au_1,ITG * irow_1,ITG * jq_1,ITG n_1, ITG m_1,
   /*Perform a_1T*a_2*/
   
   if(n_1!=n_2) {
-    printf("Error in mutli_rec : Matrix sizes are not compatible\n");
+    printf(" *ERROR in mutli_rec : Matrix sizes are not compatible\n");
     return;
   } 
   

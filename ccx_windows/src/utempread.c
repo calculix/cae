@@ -106,7 +106,7 @@ void utempread (double *t1,ITG *istep,char *jobnamec)
     if(loadcase>-1){
 	if(!read_mode && readfrdblock(loadcase, anz, node, lcase )==-1) 
 	{
-	    printf("ERROR in utempread: Could not read data for Dataset:%" ITGFORMAT "\n", i+1); 
+	    printf(" *ERROR in utempread: Could not read data for Dataset:%" ITGFORMAT "\n", i+1); 
 	    FORTRAN(stop,());
 	}
 	

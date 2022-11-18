@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,10 +16,10 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
-      subroutine mafillplhs(co,nk,kon,ipkon,lakon,ne,nodeboun,ndirboun,
-     &     xboun,nboun,ipompc,nodempc,coefmpc,nmpc,nactdoh,icolp,jqp,
-     &     irowp,neqp,nzlp,ikmpc,ilmpc,ikboun,ilboun,nzsp,adbp,aubp,
-     &     nmethod,iexplicit,ipvar,var,dhel)
+      subroutine mafillplhs(kon,ipkon,lakon,ne,
+     &     ipompc,nodempc,coefmpc,nmpc,nactdoh,icolp,jqp,
+     &     irowp,neqp,nzlp,nzsp,adbp,aubp,
+     &     ipvar,var)
 !     
 !     filling the lhs pressure matrix in sparse matrix format
 !     
@@ -31,20 +31,13 @@
 !     
       character*8 lakon(*)
 !     
-      integer kon(*),nodeboun(*),ndirboun(*),ipompc(*),nodempc(3,*),
-     &     icolp(*),jqp(*),ikmpc(*),nzsp,nmethod,iexplicit,
-     &     ilmpc(*),ikboun(*),ilboun(*),nactdoh(0:4,*),konl(20),
-     &     irowp(*),ipkon(*),ipvar(*)
+      integer kon(*),ipompc(*),nodempc(3,*),icolp(*),jqp(*),nzsp,
+     &     nactdoh(*),konl(20),irowp(*),ipkon(*),ipvar(*),ne,nmpc,neqp,
+     &     nzlp,i,j,jj,ll,id,id1,id2,ist,ist1,ist2,index,jdof1,jdof2,
+     &     idof1,idof2,mpc1,mpc2,index1,index2,node1,node2,indexe,nope,
+     &     i0
 !     
-      integer nk,ne,nboun,nmpc,neqp,nzlp,i,j,jj,
-     &     ll,id,id1,id2,ist,ist1,ist2,index,jdof1,jdof2,idof1,idof2,
-     &     mpc1,mpc2,index1,index2,node1,node2,
-     &     indexe,nope,i0
-!     
-      real*8 co(3,*),xboun(*),coefmpc(*),sm(78,78),adbp(*),aubp(*),
-     &     var(*),dhel(*),value
-!     
-!     
+      real*8 coefmpc(*),sm(8,8),adbp(*),aubp(*),var(*),value
 !     
       i0=0
 !     
@@ -84,18 +77,17 @@
           konl(j)=kon(indexe+j) 
         enddo
 !     
-        call e_c3d_plhs(co,nk,konl,lakon(i),sm,i,nmethod,iexplicit,
-     &       ipvar,var,dhel(i))
+        call e_c3d_plhs(lakon(i),sm,i,ipvar,var)
 !     
         do jj=1,nope
 !     
           node1=kon(indexe+jj)
-          jdof1=nactdoh(4,node1)
+          jdof1=nactdoh(node1)
 !     
           do ll=jj,nope
 !     
             node2=kon(indexe+ll)
-            jdof2=nactdoh(4,node2)
+            jdof2=nactdoh(node2)
 !     
 !     check whether one of the DOF belongs to a SPC or MPC
 !     
@@ -124,7 +116,7 @@
                   index=nodempc(3,ist)
                   if(index.eq.0) cycle
                   do
-                    idof2=nactdoh(4,nodempc(1,index))
+                    idof2=nactdoh(nodempc(1,index))
                     if(idof2.gt.0) then
                       value=-coefmpc(index)*sm(jj,ll)/
      &                     coefmpc(ist)
@@ -158,10 +150,10 @@
                   index1=nodempc(3,ist)
                   if(index1.eq.0) cycle
                   do
-                    idof1=nactdoh(4,nodempc(1,index1))
+                    idof1=nactdoh(nodempc(1,index1))
                     index2=index1
                     do
-                      idof2=nactdoh(4,nodempc(1,index2))
+                      idof2=nactdoh(nodempc(1,index2))
                       if((idof1.gt.0).and.(idof2.gt.0)) then
                         value=coefmpc(index1)*coefmpc(index2)*
      &                       sm(jj,ll)/coefmpc(ist)/coefmpc(ist)
@@ -183,7 +175,7 @@
                   index1=nodempc(3,ist1)
                   if(index1.eq.0) cycle
                   do
-                    idof1=nactdoh(4,nodempc(1,index1))
+                    idof1=nactdoh(nodempc(1,index1))
                     ist2=ipompc(id2)
                     index2=nodempc(3,ist2)
                     if(index2.eq.0) then
@@ -195,7 +187,7 @@
                       endif
                     endif
                     do
-                      idof2=nactdoh(4,nodempc(1,index2))
+                      idof2=nactdoh(nodempc(1,index2))
                       if((idof1.gt.0).and.(idof2.gt.0)) then
                         value=coefmpc(index1)*coefmpc(index2)*
      &                       sm(jj,ll)/coefmpc(ist1)/coefmpc(ist2)
@@ -216,6 +208,6 @@
           enddo
         enddo
       enddo
-!     
+!      
       return
       end

@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -52,8 +52,6 @@
       real*8 adb(*),springarea(2,*),pi,te,stx(6,mi(1),ne),
      &     springmm,springms,elcon(0:ncmat_,ntmat_,*),springfac,
      &     xmacont,areaslav,xk,temax
-!     
-      
 !     
 !     Initialization
 !

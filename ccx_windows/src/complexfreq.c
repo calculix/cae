@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
 /*     published by the Free Software Foundation(version 2);    */
@@ -57,10 +57,10 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 		 double *ctrl,ITG *itpamp,double *tietol,ITG *nalset,
 		 ITG *ikforc,ITG *ilforc,double *thicke,
 		 char *jobnamef,ITG *mei,ITG *nmat,ITG *ielprop,double *prop,
-		 char *orname,char *typeboun){
+		 char *orname,char *typeboun,double *t0g,double *t1g){
 
   char fneig[132]="",description[13]="            ",*lakon=NULL,*labmpc=NULL,
-    *lakont=NULL,*turdir=NULL;
+    *lakont=NULL,*turdir=NULL,*labmpc2=NULL;
 
   ITG nev,i,j,k,idof,*inum=NULL,id,
     iinc=0,l,iout=1,ielas,icmd=3,ifreebody,mode,m,nherm,
@@ -77,7 +77,10 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
     ielset,*istartnmd=NULL,*iendnmd=NULL,inmd,neqact,*nshcon=NULL,
     *ipev=NULL,icfd=0,*inomat=NULL,mortar=0,*islavsurf=NULL,
     *iponoel=NULL,*inoel=NULL,iperturbsav,nevcomplex,*itiefac=NULL,
-    mscalmethod=0;
+    mscalmethod=0,*islavelinv=NULL,*irowtloc=NULL,*jqtloc=NULL,nboun2,
+    *ndirboun2=NULL,*nodeboun2=NULL,nmpc2,*ipompc2=NULL,*nodempc2=NULL,
+    *ikboun2=NULL,*ilboun2=NULL,*ikmpc2=NULL,*ilmpc2=NULL,mortartrafoflag=0,
+    intscheme=0;
 
   long long i2;
 
@@ -100,7 +103,8 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
     *eigxr=NULL,*eigxi=NULL,*xmac=NULL,*bett=NULL,*betm=NULL,*xmaccpx=NULL,
     fmin=0.,fmax=1.e30,*xmr=NULL,*xmi=NULL,*zi=NULL,*eigx=NULL,
     *pslavsurf=NULL,*pmastsurf=NULL,*cdnr=NULL,*cdni=NULL,*tinc,*tper,
-    *tmin,*tmax,*energyini=NULL,*energy=NULL,e1[3],e2[3],xn[3],*smscale=NULL;
+    *tmin,*tmax,*energyini=NULL,*energy=NULL,e1[3],e2[3],xn[3],*smscale=NULL,
+    *autloc=NULL,*xboun2=NULL,*coefmpc2=NULL;
 
   FILE *f1;
 
@@ -203,7 +207,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 
   if(iperturb[0]==1){
     if(fread(vold,sizeof(double),mt**nk,f1)!=mt**nk){
-      printf("*ERROR in complexfreq reading the reference displacements in the eigenvalue file...");
+      printf(" *ERROR in complexfreq reading the reference displacements in the eigenvalue file...");
       exit(0);
     }
   }
@@ -216,7 +220,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
     neg=*ne;
 
     if(fread(&nev,sizeof(ITG),1,f1)!=1){
-      printf("*ERROR in complexfreq reading the number of eigenvalues in the eigenvalue file...");
+      printf(" *ERROR in complexfreq reading the number of eigenvalues in the eigenvalue file...");
       exit(0);
     }
       
@@ -224,14 +228,14 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
     if(nherm==1){
       NNEW(d,double,nev);
       if(fread(d,sizeof(double),nev,f1)!=nev){
-	printf("*ERROR in complexfreq reading the eigenvalues in the eigenvalue file...");
+	printf(" *ERROR in complexfreq reading the eigenvalues in the eigenvalue file...");
 	exit(0);
       }
       //	  for(i=0;i<nev;i++){printf("eigenvalue %d %e\n",i,d[i]);}
     }else{
       NNEW(d,double,2*nev);
       if(fread(d,sizeof(double),2*nev,f1)!=2*nev){
-	printf("*ERROR in complexfreq reading the eigenvalues in the eigenvalue file...");
+	printf(" *ERROR in complexfreq reading the eigenvalues in the eigenvalue file...");
 	exit(0);
       }
     }
@@ -244,24 +248,24 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
     /* reading the stiffness matrix */
 
     if(fread(ad,sizeof(double),neq[1],f1)!=neq[1]){
-      printf("*ERROR in complexfreq reading the diagonal of the stiffness matrix in the eigenvalue file...");
+      printf(" *ERROR in complexfreq reading the diagonal of the stiffness matrix in the eigenvalue file...");
       exit(0);
     }
       
     if(fread(au,sizeof(double),nzs[2],f1)!=nzs[2]){
-      printf("*ERROR in complexfreq reading the off-diagonal terms of the stiffness matrix in the eigenvalue file...");
+      printf(" *ERROR in complexfreq reading the off-diagonal terms of the stiffness matrix in the eigenvalue file...");
       exit(0);
     }
       
     /* reading the mass matrix */
 
     if(fread(adb,sizeof(double),neq[1],f1)!=neq[1]){
-      printf("*ERROR in complexfreq reading the diagonal of the mass matrix in eigenvalue file...");
+      printf(" *ERROR in complexfreq reading the diagonal of the mass matrix in eigenvalue file...");
       exit(0);
     }
       
     if(fread(aub,sizeof(double),nzs[1],f1)!=nzs[1]){
-      printf("*ERROR in complexfreq reading the off-diagonals of the mass matrix in the eigenvalue file...");
+      printf(" *ERROR in complexfreq reading the off-diagonals of the mass matrix in the eigenvalue file...");
       exit(0);
     }
       
@@ -270,13 +274,13 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
     if(nherm==1){
       NNEW(z,double,neq[1]*nev);
       if(fread(z,sizeof(double),neq[1]*nev,f1)!=neq[1]*nev){
-	printf("*ERROR in complexfreq reading the eigenvectors in the eigenvalue file...");
+	printf(" *ERROR in complexfreq reading the eigenvectors in the eigenvalue file...");
 	exit(0);
       }
     }else{
       NNEW(z,double,2*neq[1]*nev);
       if(fread(z,sizeof(double),2*neq[1]*nev,f1)!=2*neq[1]*nev){
-	printf("*ERROR in complexfreq reading the eigenvectors in the eigenvalue file...");
+	printf(" *ERROR in complexfreq reading the eigenvectors in the eigenvalue file...");
 	exit(0);
       }
     }
@@ -287,7 +291,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
   else{
 
     if(*nmethod==6){
-      printf("*ERROR in complexfreq: Coriolis forces cannot\n");
+      printf(" *ERROR in complexfreq: Coriolis forces cannot\n");
       printf("       be combined with cyclic symmetry\n\n");
       FORTRAN(stop,());
     }
@@ -298,7 +302,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 	break;
       }
       if(fread(&nevd,sizeof(ITG),1,f1)!=1){
-	printf("*ERROR in complexfreq reading the number of eigenvalues in the eigenvalue file...");
+	printf(" *ERROR in complexfreq reading the number of eigenvalues in the eigenvalue file...");
 	exit(0);
       }
 
@@ -309,7 +313,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 	}else{NNEW(d,double,2*nevd);}
 	NNEW(nm,ITG,nevd);
       }else{
-	printf("*ERROR in complexfreq: flutter forces cannot\n");
+	printf(" *ERROR in complexfreq: flutter forces cannot\n");
 	printf("       be combined with multiple modal diameters\n");
 	printf("       in cyclic symmetry calculations\n\n");
 	FORTRAN(stop,());
@@ -317,12 +321,12 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 	  
       if(nherm==1){
 	if(fread(&d[nev],sizeof(double),nevd,f1)!=nevd){
-	  printf("*ERROR in complexfreq reading the eigenvalues in the eigenvalue file...");
+	  printf(" *ERROR in complexfreq reading the eigenvalues in the eigenvalue file...");
 	  exit(0);
 	}
       }else{
 	if(fread(&d[nev],sizeof(double),2*nevd,f1)!=2*nevd){
-	  printf("*ERROR in complexfreq reading the eigenvalues in the eigenvalue file...");
+	  printf(" *ERROR in complexfreq reading the eigenvalues in the eigenvalue file...");
 	  exit(0);
 	}
       }
@@ -336,12 +340,12 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 	NNEW(au,double,nzs[1]);
 
 	if(fread(ad,sizeof(double),neq[1],f1)!=neq[1]){
-	  printf("*ERROR in complexfreq reading the diagonal of the stiffness matrix in the eigenvalue file...");
+	  printf(" *ERROR in complexfreq reading the diagonal of the stiffness matrix in the eigenvalue file...");
 	  exit(0);
 	}
 	      
 	if(fread(au,sizeof(double),nzs[1],f1)!=nzs[1]){
-	  printf("*ERROR in complexfreq reading the off-diagonals of the stiffness matrix in the eigenvalue file...");
+	  printf(" *ERROR in complexfreq reading the off-diagonals of the stiffness matrix in the eigenvalue file...");
 	  exit(0);
 	}
 
@@ -351,12 +355,12 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 	NNEW(aub,double,nzs[1]);
 
 	if(fread(adb,sizeof(double),neq[1],f1)!=neq[1]){
-	  printf("*ERROR in complexfreq reading the diagonal of the mass matrix in the eigenvalue file...");
+	  printf(" *ERROR in complexfreq reading the diagonal of the mass matrix in the eigenvalue file...");
 	  exit(0);
 	}
 	      
 	if(fread(aub,sizeof(double),nzs[1],f1)!=nzs[1]){
-	  printf("*ERROR in complexfreq reading the off-diagonals of the mass matrix in the eigenvalue file...");
+	  printf(" *ERROR in complexfreq reading the off-diagonals of the mass matrix in the eigenvalue file...");
 	  exit(0);
 	}
       }
@@ -370,7 +374,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
       }
 	  
       if(fread(&z[neq[1]*nev],sizeof(double),neq[1]*nevd,f1)!=neq[1]*nevd){
-	printf("*ERROR in complexfreq reading eigenvectors in the eigenvalue file...");
+	printf(" *ERROR in complexfreq reading eigenvectors in the eigenvalue file...");
 	exit(0);
       }
       nev+=nevd;
@@ -544,7 +548,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
     RENEW(ipobody,ITG,2*(ifreebody-1));*/
       
     if(cyclicsymmetry){
-      printf("*ERROR in complexfreq: Coriolis is not allowed in combination with cyclic symmetry\n");
+      printf(" *ERROR in complexfreq: Coriolis is not allowed in combination with cyclic symmetry\n");
       FORTRAN(stop,());
     }
 
@@ -962,7 +966,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
       
     if(!cyclicsymmetry){
       if((f1=fopen(fneig,"wb"))==NULL){
-	printf("*ERROR in complexfreq: cannot open eigenvalue file for writing...");
+	printf(" *ERROR in complexfreq: cannot open eigenvalue file for writing...");
 	exit(0);
       }
 	  
@@ -970,21 +974,21 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 	 cyclic symmetry calculation */
 	  
       if(fwrite(&cyclicsymmetry,sizeof(ITG),1,f1)!=1){
-	printf("*ERROR in complexfreq saving the cyclic symmetry flag to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the cyclic symmetry flag to the eigenvalue file...");
 	exit(0);
       }
 	  
       /* not Hermitian */
 	  
       if(fwrite(&nherm,sizeof(ITG),1,f1)!=1){
-	printf("*ERROR in complexfreq saving the Hermitian flag to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the Hermitian flag to the eigenvalue file...");
 	exit(0);
       }
 
       /* perturbation parameter iperturb[0] */
 	  
       if(fwrite(&iperturb[0],sizeof(ITG),1,f1)!=1){
-	printf("*ERROR saving the perturbation flag to the eigenvalue file...");
+	printf(" *ERROR saving the perturbation flag to the eigenvalue file...");
 	exit(0);
       }
 	      
@@ -992,7 +996,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 
       if(iperturb[0]==1){
 	if(fwrite(vold,sizeof(double),mt**nk,f1)!=mt**nk){
-	  printf("*ERROR saving the reference displacements to the eigenvalue file...");
+	  printf(" *ERROR saving the reference displacements to the eigenvalue file...");
 	  exit(0);
 	}
       }
@@ -1000,7 +1004,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
       /* storing the number of eigenvalues */
 	  
       if(fwrite(&nevcomplex,sizeof(ITG),1,f1)!=1){
-	printf("*ERROR in complexfreq saving the number of eigenfrequencies to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the number of eigenfrequencies to the eigenvalue file...");
 	exit(0);
       }
 	  
@@ -1014,7 +1018,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
       }
 	  
       if(fwrite(eigx,sizeof(double),2*nevcomplex,f1)!=2*nevcomplex){
-	printf("*ERROR in complexfreq saving the eigenfrequencies to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the eigenfrequencies to the eigenvalue file...");
 	exit(0);
       }
 	  
@@ -1023,22 +1027,22 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
       /* storing the stiffness matrix */
 	  
       if(fwrite(ad,sizeof(double),neq[1],f1)!=neq[1]){
-	printf("*ERROR in complexfreq saving the diagonal of the stiffness matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the diagonal of the stiffness matrix to the eigenvalue file...");
 	exit(0);
       }
       if(fwrite(au,sizeof(double),nzs[2],f1)!=nzs[2]){
-	printf("*ERROR in complexfreq saving the off-diagonal entries of the stiffness matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the off-diagonal entries of the stiffness matrix to the eigenvalue file...");
 	exit(0);
       }
 	  
       /* storing the mass matrix */
 	  
       if(fwrite(adb,sizeof(double),neq[1],f1)!=neq[1]){
-	printf("*ERROR in complexfreq saving the diagonal of the mass matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the diagonal of the mass matrix to the eigenvalue file...");
 	exit(0);
       }
       if(fwrite(aub,sizeof(double),nzs[1],f1)!=nzs[1]){
-	printf("*ERROR in complexfreq saving the off-diagonal entries of the mass matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the off-diagonal entries of the mass matrix to the eigenvalue file...");
 	exit(0);
       }
 	  
@@ -1050,7 +1054,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 	lint=lfin;
 	lfin=lfin+2*neq[1];
 	if(fwrite(&zz[lint],sizeof(double),2*neq[1],f1)!=2*neq[1]){
-	  printf("*ERROR in complexfreq saving the eigenvectors to the eigenvalue file...");
+	  printf(" *ERROR in complexfreq saving the eigenvectors to the eigenvalue file...");
 	  exit(0);
 	}
       }
@@ -1058,12 +1062,12 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
       /* storing the orthogonality matrices */
 	  
       if(fwrite(xmr,sizeof(double),nevcomplex*nevcomplex,f1)!=nevcomplex*nevcomplex){
-	printf("*ERROR in complexfreq saving the real orthogonality matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the real orthogonality matrix to the eigenvalue file...");
 	exit(0);
       }
 	  
       if(fwrite(xmi,sizeof(double),nevcomplex*nevcomplex,f1)!=nevcomplex*nevcomplex){
-	printf("*ERROR in complexfreq saving the imaginary orthogonality matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the imaginary orthogonality matrix to the eigenvalue file...");
 	exit(0);
       }
 	  
@@ -1072,37 +1076,37 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
       /* opening .eig file for writing */
 	  
       if((f1=fopen(fneig,"wb"))==NULL){
-	printf("*ERROR in complexfreq: cannot open eigenvalue file for writing...");
+	printf(" *ERROR in complexfreq: cannot open eigenvalue file for writing...");
 	exit(0);
       }
       /* storing a one as indication that this was a
 	 cyclic symmetry calculation */
 	  
       if(fwrite(&cyclicsymmetry,sizeof(ITG),1,f1)!=1){
-	printf("*ERROR in complexfreq saving the cyclic symmetry flag to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the cyclic symmetry flag to the eigenvalue file...");
 	exit(0);
       }
 	  
       /* not Hermitian */
 	  
       if(fwrite(&nherm,sizeof(ITG),1,f1)!=1){
-	printf("*ERROR in complexfreq saving the Hermitian flag to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the Hermitian flag to the eigenvalue file...");
 	exit(0);
       }
 
       /* perturbation parameter iperturb[0] */
 	  
       if(fwrite(&iperturb[0],sizeof(ITG),1,f1)!=1){
-	printf("*ERROR saving the perturbation flag to the eigenvalue file...");
+	printf(" *ERROR saving the perturbation flag to the eigenvalue file...");
 	exit(0);
       }
 	  
       if(fwrite(&nm[0],sizeof(ITG),1,f1)!=1){
-	printf("*ERROR in complexfreq saving the nodal diameter to the eigqenvalue file...");
+	printf(" *ERROR in complexfreq saving the nodal diameter to the eigqenvalue file...");
 	exit(0);
       }
       if(fwrite(&nev,sizeof(ITG),1,f1)!=1){
-	printf("*ERROR in complexfreq saving the number of eigenvalues to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the number of eigenvalues to the eigenvalue file...");
 	exit(0);
       }
 	  
@@ -1116,7 +1120,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
       }
 	  
       if(fwrite(eigx,sizeof(double),2*nev,f1)!=2*nev){
-	printf("*ERROR in complexfreq saving the eigenfrequencies to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the eigenfrequencies to the eigenvalue file...");
 	exit(0);
       }
 	  
@@ -1125,22 +1129,22 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
       /* storing the stiffness matrix */
 	  
       if(fwrite(ad,sizeof(double),*neq,f1)!=*neq){
-	printf("*ERROR in complexfreq saving the diagonal of the stiffness matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the diagonal of the stiffness matrix to the eigenvalue file...");
 	exit(0);
       }
       if(fwrite(au,sizeof(double),*nzs,f1)!=*nzs){
-	printf("*ERROR in complexfreq saving the off-diagonal terms of the stiffness matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the off-diagonal terms of the stiffness matrix to the eigenvalue file...");
 	exit(0);
       }
 	  
       /* storing the mass matrix */
 	  
       if(fwrite(adb,sizeof(double),*neq,f1)!=*neq){
-	printf("*ERROR in complexfreq saving the diagonal of the mass matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the diagonal of the mass matrix to the eigenvalue file...");
 	exit(0);
       }
       if(fwrite(aub,sizeof(double),*nzs,f1)!=*nzs){
-	printf("*ERROR in complexfreq saving the off-diagonal terms of the mass matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the off-diagonal terms of the mass matrix to the eigenvalue file...");
 	exit(0);
       }
 	  
@@ -1151,7 +1155,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 	lint=lfin;
 	lfin=lfin+neq[1];
 	if(fwrite(&zz[lint],sizeof(double),neq[1],f1)!=neq[1]){
-	  printf("*ERROR in complexfreq saving the eigenvectors to the eigenvalue file...");
+	  printf(" *ERROR in complexfreq saving the eigenvectors to the eigenvalue file...");
 	  exit(0);
 	}
       }
@@ -1159,12 +1163,12 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
       /* storing the orthogonality matrices */
 	  
       if(fwrite(xmr,sizeof(double),nev*nev,f1)!=nev*nev){
-	printf("*ERROR in complexfreq saving the real orthogonality matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the real orthogonality matrix to the eigenvalue file...");
 	exit(0);
       }
 	  
       if(fwrite(xmi,sizeof(double),nev*nev,f1)!=nev*nev){
-	printf("*ERROR in complexfreq saving the imaginary orthogonality matrix to the eigenvalue file...");
+	printf(" *ERROR in complexfreq saving the imaginary orthogonality matrix to the eigenvalue file...");
 	exit(0);
       }
     }
@@ -1293,35 +1297,35 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 
   if(strcmp1(&filab[174],"S   ")==0){
     if((strcmp1(&filab[179],"L")==0)&&(*norien>0)){
-      printf("\n*WARNING in complexfreq: element fields in cyclic symmetry calculations\n cannot be requested in local orientations;\n the global orientation will be used \n\n");
+      printf("\n *WARNING in complexfreq: element fields in cyclic symmetry calculations\n cannot be requested in local orientations;\n the global orientation will be used \n\n");
       strcpy1(&filab[179],"G",1);
     }
   }
 
   if(strcmp1(&filab[261],"E   ")==0){
     if((strcmp1(&filab[266],"L")==0)&&(*norien>0)){
-      printf("\n*WARNING in complexfreq: element fields in cyclic symmetry calculation\n cannot be requested in local orientations;\n the global orientation will be used \n\n");
+      printf("\n *WARNING in complexfreq: element fields in cyclic symmetry calculation\n cannot be requested in local orientations;\n the global orientation will be used \n\n");
       strcpy1(&filab[266],"G",1);
     }
   }
 
   if(strcmp1(&filab[1479],"PHS ")==0){
     if((strcmp1(&filab[1484],"L")==0)&&(*norien>0)){
-      printf("\n*WARNING in complexfreq: element fields in cyclic symmetry calculation\n cannot be requested in local orientations;\n the global orientation will be used \n\n");
+      printf("\n *WARNING in complexfreq: element fields in cyclic symmetry calculation\n cannot be requested in local orientations;\n the global orientation will be used \n\n");
       strcpy1(&filab[1484],"G",1);
     }
   }
 
   if(strcmp1(&filab[1653],"MAXS")==0){
     if((strcmp1(&filab[1658],"L")==0)&&(*norien>0)){
-      printf("\n*WARNING in complexfreq: element fields in cyclic symmetry calculation\n cannot be requested in local orientations;\n the global orientation will be used \n\n");
+      printf("\n *WARNING in complexfreq: element fields in cyclic symmetry calculation\n cannot be requested in local orientations;\n the global orientation will be used \n\n");
       strcpy1(&filab[1658],"G",1);
     }
   }   
 
   if(strcmp1(&filab[2523],"MAXE")==0){
     if((strcmp1(&filab[2528],"L")==0)&&(*norien>0)){
-      printf("\n*WARNING in complexfreq: element fields in cyclic symmetry calculation\n cannot be requested in local orientations;\n the global orientation will be used \n\n");
+      printf("\n *WARNING in complexfreq: element fields in cyclic symmetry calculation\n cannot be requested in local orientations;\n the global orientation will be used \n\n");
       strcpy1(&filab[1658],"G",1);
     }
   }   
@@ -1460,7 +1464,11 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 		&mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
 		islavsurf,ielprop,prop,energyini,energy,&iit,iponoel,
 		inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
-		itiefac,tieset,smscale,&mscalmethod,nbody);}
+		itiefac,tieset,smscale,&mscalmethod,nbody,t0g,t1g,
+		islavelinv,autloc,irowtloc,jqtloc,&nboun2,
+		ndirboun2,nodeboun2,xboun2,&nmpc2,ipompc2,nodempc2,coefmpc2,
+		labmpc2,ikboun2,ilboun2,ikmpc2,ilmpc2,&mortartrafoflag,
+		&intscheme);}
       else{
 	results(co,nk,kon,ipkon,lakon,ne,&v[kkv],&stn[kk6],inum,
 		&stx[kkx],elcon,
@@ -1481,7 +1489,11 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 		&mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
 		islavsurf,ielprop,prop,energyini,energy,&iit,iponoel,
 		inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
-		itiefac,tieset,smscale,&mscalmethod,nbody);
+		itiefac,tieset,smscale,&mscalmethod,nbody,t0g,t1g,
+		islavelinv,autloc,irowtloc,jqtloc,&nboun2,
+		ndirboun2,nodeboun2,xboun2,&nmpc2,ipompc2,nodempc2,coefmpc2,
+		labmpc2,ikboun2,ilboun2,ikmpc2,ilmpc2,&mortartrafoflag,
+		&intscheme);
       }
 
     }
@@ -1848,7 +1860,9 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 	  vreal=vt[l];
 	  vimag=vt[l+mt**nk*ngraph];
 	  vr[l]=sqrt(vreal*vreal+vimag*vimag);
-	  if(fabs(vreal)<1.e-10){
+	  if(vr[l]<1.e-10){
+	    vi[l]=0.;
+	  }else if(fabs(vreal)<1.e-10){
 	    if(vimag>0){vi[l]=90.;}
 	    else{vi[l]=-90.;}
 	  }
@@ -1869,7 +1883,9 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 	  stnreal=stnt[l];
 	  stnimag=stnt[l+6**nk*ngraph];
 	  stnr[l]=sqrt(stnreal*stnreal+stnimag*stnimag);
-	  if(fabs(stnreal)<1.e-10){
+	  if(stnr[l]<1.e-10){
+	    stni[l]=0.;
+	  }else if(fabs(stnreal)<1.e-10){
 	    if(stnimag>0){stni[l]=90.;}
 	    else{stni[l]=-90.;}
 	  }
@@ -1896,7 +1912,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 	ntrans,orab,ielorien,norien,description,ipneigh,neigh,
 	mi,stxt,vr,vi,stnr,stni,vmax,stnmax,&ngraph,veold,ener,&net,
 	cs,set,nset,istartset,iendset,ialset,eenmax,fnr,fni,emnt,
-	thicke,jobnamec,output,qfx,cdn,&mortar,cdnr,cdni,nmat,ielprop,prop);
+	thicke,jobnamec,output,qfx,cdn,&mortar,cdnr,cdni,nmat,ielprop,prop,sti);
     if(strcmp1(&filab[1044],"ZZS")==0){SFREE(ipneigh);SFREE(neigh);}
     
   }   // end loop over the eigenfrequencies
@@ -1913,7 +1929,7 @@ void complexfreq(double **cop,ITG *nk,ITG **konp,ITG **ipkonp,char **lakonp,ITG 
 
   if(*nmethod==6){
   
-    FORTRAN(writeturdir,(xn,turdir,&nev));
+    FORTRAN(writeturdir,(xn,turdir,&nevcomplex));
     SFREE(turdir);
       
     /* reconverting Coriolis force into centrifugal force */

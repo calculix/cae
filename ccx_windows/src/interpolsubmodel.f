@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 !
       subroutine interpolsubmodel(integerglob,doubleglob,value,
      &     coo,iselect,nselect,nodeface,tieset,istartset,iendset,
-     &     ialset,ntie,entity)
+     &     ialset,ntie,entity,set,nset)
 !
 !     interpolates for a node with coordinates in "coo" the
 !     "nselect" values with relative positions in "iselect" within the
@@ -31,8 +31,8 @@
 !     subset. To this end the submodel to which node "node" belongs is
 !     determined. The submodels are stored in tieset(1..3,i), i=1..ntie.
 !     tieset(1,i)(81:81)='S' if the tie is a submodel. In that case the
-!     set number corresponding to the submodel boundary is stored in 
-!     tieset(2,i) and the set number corresponding to the global element
+!     set corresponding to the submodel boundary is stored in 
+!     tieset(2,i) and the set corresponding to the global element
 !     model in tieset(3,i). Notice that the submodel boundary can be
 !     a nodal set or an element face set (the actual node and the actual
 !     element face are stored in nodeface, respecively).
@@ -40,16 +40,14 @@
       implicit none
 !
       character*1 entity
-      character*81 tieset(3,*)
+      character*81 tieset(3,*),globset,submset,set(*)
 !
       integer integerglob(*),nselect,iselect(nselect),nodeface,
      &  istartset(*),iendset(*),ialset(*),ntie,i,islavset,iset,
      &  nlength,id,jfaces,nelems,nktet,netet,ne,nkon,nfaces,nfield,
-     &  imastset,nterms,konl(20),nelem,loopa
+     &  imastset,nterms,konl(20),nelem,loopa,nset,ipos
 !
       real*8 doubleglob(*),value(*),coo(3),ratio(20),dist,coords(3)
-!
-!
 !
 !     if no global file was read, set results to zero
 !
@@ -69,8 +67,10 @@
 !        check whether submodel is of the right kind (nodal or
 !        element face)
 !
-         if(tieset(2,i)(11:11).ne.entity) cycle
-         read(tieset(2,i)(1:10),'(i10)') iset
+         ipos=index(tieset(2,i),' ')-1
+         if(tieset(2,i)(ipos:ipos).ne.entity) cycle
+         read(tieset(2,i),'(a81)') submset
+         call cident81(set,submset,nset,iset)
          nlength=iendset(iset)-istartset(iset)+1
          call nident(ialset(istartset(iset)),nodeface,nlength,id)
          if(id.le.0) cycle
@@ -102,7 +102,12 @@
 !     determining the global element set (if zero: all global elements
 !     are taken)
 !
-      read(tieset(3,i)(1:10),'(i10)') imastset
+      read(tieset(3,i),'(a81)') globset
+      if(globset(1:1).eq.' ') then
+        imastset=0
+      else
+        call cident81(set,globset,nset,imastset)
+      endif
 !
 !     reading the number of nodes, tetrahedral interpolation elements,
 !     global elements, connectivity size and number of faces

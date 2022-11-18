@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                     */
+/*              Copyright (C) 1998-2022 Guido Dhondt                     */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -223,7 +223,7 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
       spooles_factor(add,aud,adbd,aubd,&sigma,icold,irowd,ndesibou,&nzsd,
 		     &symmetryflag,&inputformat,&nzsd);
 #else
-      printf("*ERROR in randomfieldmain: the SPOOLES library is not linked\n\n");
+      printf(" *ERROR in randomfieldmain: the SPOOLES library is not linked\n\n");
       FORTRAN(stop,());
 #endif
     }
@@ -232,7 +232,7 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
       token=1;
       sgi_factor(add,aud,adbd,aubd,&sigma,icold,irowd,ndesibou,&nzsd,token);
 #else
-      printf("*ERROR in randomfieldmain: the SGI library is not linked\n\n");
+      printf(" *ERROR in randomfieldmain: the SGI library is not linked\n\n");
       FORTRAN(stop,());
 #endif
     }
@@ -240,7 +240,7 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
 #ifdef TAUCS
       tau_factor(add,&aud,adbd,aubd,&sigma,icold,&irowd,ndesibou,&nzsd);
 #else
-      printf("*ERROR in randomfieldmain: the TAUCS library is not linked\n\n");
+      printf(" *ERROR in randomfieldmain: the TAUCS library is not linked\n\n");
       FORTRAN(stop,());
 #endif
     }
@@ -249,7 +249,7 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
       pardiso_factor(add,aud,adbd,aubd,&sigma,icold,irowd,ndesibou,&nzsd,
 		     &symmetryflag,&inputformat,jqd,&nzsd);
 #else
-      printf("*ERROR in randomfieldmain: the PARDISO library is not linked\n\n");
+      printf(" *ERROR in randomfieldmain: the PARDISO library is not linked\n\n");
       FORTRAN(stop,());
 #endif
     }
@@ -258,7 +258,7 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
       pastix_factor_main(add,aud,adbd,aubd,&sigma,icold,irowd,ndesibou,&nzsd,
 		     &symmetryflag,&inputformat,jqd,&nzsd);
 #else
-      printf("*ERROR in randomfieldmain: the PASTIX library is not linked\n\n");
+      printf(" *ERROR in randomfieldmain: the PASTIX library is not linked\n\n");
       FORTRAN(stop,());
 #endif
     }
@@ -381,7 +381,7 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
     spooles_factor(ad,au,adb,aub,&trace,icols,irows,ndesi,&nzss,
 		   &symmetryflag,&inputformat,&nzss);
 #else
-    printf("*ERROR in randomfieldmain: the SPOOLES library is not linked\n\n");
+    printf(" *ERROR in randomfieldmain: the SPOOLES library is not linked\n\n");
     FORTRAN(stop,());
 #endif
   }
@@ -390,7 +390,7 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
     token=1;
     sgi_factor(ad,au,adb,aub,&trace,icols,irows,ndesi,&nzss,token);
 #else
-    printf("*ERROR in randomfieldmain: the SGI library is not linked\n\n");
+    printf(" *ERROR in randomfieldmain: the SGI library is not linked\n\n");
     FORTRAN(stop,());
 #endif
   }
@@ -398,35 +398,40 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
 #ifdef TAUCS
     tau_factor(ad,&au,adb,aub,&trace,icols,&irows,ndesi,&nzss);
 #else
-    printf("*ERROR in randomfieldmain: the TAUCS library is not linked\n\n");
+    printf(" *ERROR in randomfieldmain: the TAUCS library is not linked\n\n");
     FORTRAN(stop,());
 #endif
   }
-  else if(*isolver==6){
+  /*  else if(*isolver==6){
 #ifdef MATRIXSTORAGE
     matrixstorage(ad,&au,adb,aub,&trace,icols,&irows,ndesi,&nzss,
 		  ntrans,inotr,trab,co,nk,nactdof,jobnamec,mi,ipkon,
 		  lakon,kon,ne,mei,nboun,nmpc,cs,mcs,&ithermal,nmethod);
 #else
-    printf("*ERROR in randomfieldmain: the MATRIXSTORAGE library is not linked\n\n");
+    printf(" *ERROR in randomfieldmain: the MATRIXSTORAGE library is not linked\n\n");
     FORTRAN(stop,());
 #endif
-  }
+}*/
   else if(*isolver==7){
 #ifdef PARDISO
     pardiso_factor(ad,au,adb,aub,&trace,icols,irows,ndesi,&nzss,
 		   &symmetryflag,&inputformat,jqs,&nzss);
 #else
-    printf("*ERROR in randomfieldmain: the PARDISO library is not linked\n\n");
+    printf(" *ERROR in randomfieldmain: the PARDISO library is not linked\n\n");
     FORTRAN(stop,());
 #endif
   }
   else if(*isolver==8){
 #ifdef PASTIX
+#ifdef PARDISO
+    pardiso_factor(ad,au,adb,aub,&trace,icols,irows,ndesi,&nzss,
+		   &symmetryflag,&inputformat,jqs,&nzss);
+#else
     pastix_factor_main(ad,au,adb,aub,&trace,icols,irows,ndesi,&nzss,
 		  &symmetryflag,&inputformat,jqs,&nzss);
+#endif
 #else
-    printf("*ERROR in randomfieldmain: the PASTIX library is not linked\n\n");
+    printf(" *ERROR in randomfieldmain: the PASTIX library is not linked\n\n");
     FORTRAN(stop,());
 #endif
   }
@@ -452,11 +457,11 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
     niter+=1;
     
     if(nev>=*ndesi){
-      printf("*WARNING in randomfieldmain: number of requested\n");
-      printf("         eigenvectors must be smaller than the \n");
-      printf("         number of design variables; \n");
-      printf("         the number of eigenvectors is set to \n");
-      printf("         the number of design variables minus one. \n");
+      printf(" *WARNING in randomfieldmain: number of requested\n");
+      printf("          eigenvectors must be smaller than the \n");
+      printf("          number of design variables; \n");
+      printf("          the number of eigenvectors is set to \n");
+      printf("          the number of design variables minus one. \n");
       nev=*ndesi-1;
       break;
     }
@@ -510,7 +515,11 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
 	  }
 	  else if(*isolver==8){
 #ifdef PASTIX
+#ifdef PARDISO
+	    pardiso_solve(temp_array,ndesi,&symmetryflag,&inputformat,&nrhs);
+#else
 	    pastix_solve(temp_array,ndesi,&symmetryflag,&nrhs);
+#endif
 #endif
 	  }
 	   
@@ -541,7 +550,11 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
 	  }
 	  else if(*isolver==8){
 #ifdef PASTIX
+#ifdef PARDISO
+	    pardiso_solve(&workd[ipntr[2]-1],ndesi,&symmetryflag,&inputformat,&nrhs);
+#else
 	    pastix_solve(&workd[ipntr[2]-1],ndesi,&symmetryflag,&nrhs);
+#endif
 #endif
 	  }
 	   
@@ -717,12 +730,15 @@ void randomfieldmain(ITG *kon,ITG *ipkon,char *lakon,ITG *ne,ITG *nmpc,
   }
   else if(*isolver==8){
 #ifdef PASTIX
+#ifdef PARDISO
+    pardiso_cleanup(ndesi,&symmetryflag,&inputformat);
+#endif
 #endif
   }
 
   if(info!=0){
-    printf("*ERROR in randomfieldmain: info=%" ITGFORMAT "\n",info);
-    printf("       # of converged eigenvalues=%" ITGFORMAT "\n\n",iparam[4]);
+    printf(" *ERROR in randomfieldmain: info=%" ITGFORMAT "\n",info);
+    printf("        # of converged eigenvalues=%" ITGFORMAT "\n\n",iparam[4]);
   }         
       
   SFREE(select);SFREE(workd);SFREE(workl);SFREE(resid);

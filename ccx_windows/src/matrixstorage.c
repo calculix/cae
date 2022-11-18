@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                   */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -68,7 +68,7 @@ void matrixstorage(double *ad, double **aup, double *adb, double *aub,
   }
 
   if((f2=fopen(fsti,"wb"))==NULL){
-    printf("*ERROR in matrixstorage: cannot open %s for writing...\n",fsti);
+    printf(" *ERROR in matrixstorage: cannot open %s for writing...\n",fsti);
     FORTRAN(stop,());
   }
 
@@ -120,9 +120,9 @@ void matrixstorage(double *ad, double **aup, double *adb, double *aub,
        (needed by turboreduce (not part of CalculiX)) */
 
       if((*nboun!=0)||(*nmpc!=0)){
-	  printf("*ERROR in matrixstorage: matrix storage in local\n");
-	  printf("       coordinates is only possible in the absence\n");
-	  printf("       of SPC's and MPC's\n\n");
+	  printf(" *ERROR in matrixstorage: matrix storage in local\n");
+	  printf("        coordinates is only possible in the absence\n");
+	  printf("        of SPC's and MPC's\n\n");
 	  FORTRAN(stop,());
       }
 
@@ -324,7 +324,7 @@ void matrixstorage(double *ad, double **aup, double *adb, double *aub,
       printf(" Storing the mass matrix in file %s \n\n",fmas);
       
       if((f3=fopen(fmas,"wb"))==NULL){
-	  printf("*ERROR in matrixstorage: cannot open %s for writing...\n",fmas);
+	  printf(" *ERROR in matrixstorage: cannot open %s for writing...\n",fmas);
 	  FORTRAN(stop,());
       }
       
@@ -558,7 +558,7 @@ void matrixstorage(double *ad, double **aup, double *adb, double *aub,
   }
 
   if((f4=fopen(fdof,"wb"))==NULL){
-    printf("*ERROR in matrixstorage: cannot open %s for writing...\n",fdof);
+    printf(" *ERROR in matrixstorage: cannot open %s for writing...\n",fdof);
     FORTRAN(stop,());
   }
 
@@ -588,7 +588,7 @@ void matrixstorage(double *ad, double **aup, double *adb, double *aub,
 
   printf("\n Job finished\n\n");
   
-  FORTRAN(stopwithout201,());
+  //  FORTRAN(stopwithout201,());
 
   return;
 }

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -67,9 +67,16 @@
 !
 !     check whether the element set exists
 !
-      do i=1,nset
-         if(set(i).eq.elset) exit
-      enddo
+c      do i=1,nset
+c         if(set(i).eq.elset) exit
+c      enddo
+      call cident81(set,elset,nset,id)
+      i=nset+1
+      if(id.gt.0) then
+        if(elset.eq.set(id)) then
+          i=id
+        endif
+      endif
       if(i.gt.nset) then
          write(*,*) '*ERROR reading *DISTRIBUTING COUPLING:'
          write(*,*) '       element set ',elset(1:ipos-1),
@@ -191,9 +198,16 @@
             noset(81:81)=' '
             ipos=index(noset,' ')
             noset(ipos:ipos)='N'
-            do i=1,nset
-               if(set(i).eq.noset) exit
-            enddo
+c            do i=1,nset
+c               if(set(i).eq.noset) exit
+c            enddo
+            call cident81(set,noset,nset,id)
+            i=nset+1
+            if(id.gt.0) then
+              if(noset.eq.set(id)) then
+                i=id
+              endif
+            endif
             if(i.gt.nset) then
                noset(ipos:ipos)=' '
                write(*,*) '*ERROR reading *DISTRIBUTING COUPLING:'

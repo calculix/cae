@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2019 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -38,7 +38,7 @@ void checkconvnet(ITG *icutb, ITG *iin,
                   double *vamt, double *vamf, double *vamp, double *vama,
                   double *qa, double *qamt, double *qamf,
                   double *ramt, double *ramf, double *ramp, ITG *iplausi,
-                  ITG *ichannel){
+                  ITG *iaxial){
   
   ITG i0,ir,ip,ic,il,ig,ia,idivergence,iin_dyn,dyna_flag_1,dyna_flag_2;
   
@@ -100,11 +100,11 @@ void checkconvnet(ITG *icutb, ITG *iin,
      - a comparison of the residual in the latest network
        iteration with mean typical values of the equation terms */
 
-  if(*ichannel==1){*ramt=0.;*ramf=0.;*ramp=0.;}
-
-  if((fabs(*camt)<=c2t**vamt)&&(*ramt<c1t**qamt)&&(fabs(*camt)<=a2t)&&(*ramt<a1t)&&
-     (fabs(*camf)<=c2f**vamf)&&(*ramf<c1f**qamf)&&(fabs(*camf)<=a2f)&&(*ramf<a1f)&&
-     (fabs(*camp)<=c2p**vamp)&&(*ramp<c1p*qamp)&&(fabs(*camp)<a2p)&&(*ramp<a1p)&&
+  if((fabs(*camt)<=c2t**vamt)&&(*ramt<c1t**qamt)&&(fabs(*camt)<=a2t)&&
+     (*ramt<a1t/(*iaxial))&&(fabs(*camf)<=c2f**vamf)&&(*ramf<c1f**qamf)&&
+     (fabs(*camf)<=a2f/(*iaxial))&&(*ramf<a1f/(*iaxial))&&
+     (fabs(*camp)<=c2p**vamp)&&(*ramp<c1p*qamp)&&(fabs(*camp)<a2p)&&
+     (*ramp<a1p)&&
      (fabs(*cama)<=c2a**vama)&&(fabs(*cama)<=a2a)&&(*iplausi==1)&&
      (*iin>3)){
       

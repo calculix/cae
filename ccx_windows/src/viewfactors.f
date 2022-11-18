@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -17,7 +17,8 @@
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !
       subroutine viewfactors(textpart,iviewfile,istep,inpc,
-     &  istat,n,key,iline,ipol,inl,ipoinp,inp,jobnamec,ipoinpc,ier)
+     &     istat,n,key,iline,ipol,inl,ipoinp,inp,jobnamec,ipoinpc,ier,
+     &     irestartread)
 !
 !     reading the input deck: *VIEWFACTOR 
 !
@@ -27,7 +28,7 @@
       character*132 textpart(16),jobnamec(*)
 !
       integer i,iviewfile,istep,n,istat,iline,ipol,inl,ipoinp(2,*),
-     &  inp(3,*),key,j,k,l,ipoinpc(0:*),ier
+     &  inp(3,*),key,j,k,l,ipoinpc(0:*),ier,irestartread
 !
       if(istep.lt.1) then
          write(*,*) '*ERROR reading *VIEWFACTOR: *VIEWFACTOR can '
@@ -52,7 +53,13 @@
                write(*,*) '*ERROR reading *VIEWFACTOR: NO CHANGE cannot'
                write(*,*) '       be used in the first step'
                call inputwarning(inpc,ipoinpc,iline,
-     &"*VIEWFACTOR%")
+     &              "*VIEWFACTOR%")
+            elseif(irestartread.eq.1) then
+               write(*,*) '*ERROR reading *VIEWFACTOR: NO CHANGE cannot'
+               write(*,*) '       be used in the first step of a'
+               write(*,*) '       restart calculation'
+               call inputwarning(inpc,ipoinpc,iline,
+     &              "*VIEWFACTOR%")
             elseif(iviewfile.le.0) then
                iviewfile=-2
             elseif(iviewfile.gt.0) then

@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -35,8 +35,6 @@
      &     doubleglob(*),x,y,z,r,ratio(20),p1x,p1y,p1z,p2x,p2y,p2z,p3x,
      &     p3y,p3z,p4x,p4y,p4z,a11,a12,a13,a21,a22,a23,a31,a32,a33,d1,
      &     d2,d3,det,coords(3),dist
-!     
-!
 !     
 !     determine the size of all edges
 !     

@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -36,15 +36,13 @@
 !
       integer mi(*),istartset(*),iendset(*),ialset(*),ielmat(mi(3),*),
      &  ielorien(mi(3),*),kon(*),ipkon(*),indexe,irstrt(*),nset,nmat,
-     &  norien,ielem,node1,node2,m,indexx,ixfree,iponor(2,*),
+     &  norien,ielem,node1,node2,m,indexx,ixfree,iponor(2,*),id,
      &  istep,istat,n,key,i,j,k,l,imaterial,iorientation,ipos,
      &  iline,ipol,inl,ipoinp(2,*),inp(3,*),mcs,iaxial,ipoinpc(0:*),
      &  ier,numnod
 !
       real*8 thicke(mi(3),*),thickness,pi,cs(17,*),xn(3),co(3,*),p(3),
      &     dd,xnor(*),orab(7,*)
-!
-!
 !
       if((istep.gt.0).and.(irstrt(1).ge.0)) then
          write(*,*) '*ERROR reading *SOLID SECTION: *SOLID SECTION'
@@ -137,9 +135,16 @@
      &        "*SOLID SECTION%",ier)
          return
       endif
-      do i=1,nset
-         if(set(i).eq.elset) exit
-      enddo
+c      do i=1,nset
+c         if(set(i).eq.elset) exit
+c      enddo
+      call cident81(set,elset,nset,id)
+      i=nset+1
+      if(id.gt.0) then
+        if(elset.eq.set(id)) then
+          i=id
+        endif
+      endif
       if(i.gt.nset) then
          elset(ipos:ipos)=' '
          write(*,*) '*ERROR reading *SOLID SECTION: element set ',elset

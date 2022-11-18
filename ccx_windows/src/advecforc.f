@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -44,8 +44,6 @@
      &  vold(0:mi(2),*),xloadold(2,*),tnl(9),tnlref,prop(*),
      &  shcon(0:3,ntmat_,*),rhcon(0:1,ntmat_,*),cocon(0:6,ntmat_,*),
      &  xbody(7,*),heatnod,heatfac
-!
-!
 !
       include "gauss.f"
 !
@@ -188,8 +186,6 @@
                   coords(k)=coords(k)+xl2(k,j)*shp2(4,j)
                enddo
             enddo
-c            read(sideload(id)(2:2),'(i1)') jltyp
-c            jltyp=jltyp+10
             jltyp=ichar(sideload(id)(2:2))-38
             node=nelemload(2,id)
             sideloadl=sideload(id)
@@ -200,8 +196,6 @@ c            jltyp=jltyp+10
      &           ipkon,kon,lakon,iponoel,inoel,ielprop,prop,ielmat,
      &           shcon,nshcon,rhcon,nrhcon,ntmat_,cocon,ncocon,
      &           ipobody,xbody,ibody,heatnod,heatfac)
-c            if(nmethod.eq.1) xload(1,id)=xloadold(1,id)+
-c     &           (xload(1,id)-xloadold(1,id))*reltime
          endif
 !
          tnlref=(xload(1,id)*(sinktemp-temp)+heatfac)*areaj

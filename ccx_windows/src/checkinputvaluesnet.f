@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -45,9 +45,10 @@
 !     
 !     modifying the prop array (formerly done in fluidsections.f)
 !     
-        if(lakon(nelem)(2:8).eq.'REBRJI2') then
+        if((lakon(nelem)(2:8).eq.'REBRJI2').or.
+     &       (lakon(nelem)(2:8).eq.'LPBRJI2')) then
           if(1.d0-(prop(index+5)+prop(index+6))/
-     &         prop(index+4).gt.0.01d0)then
+     &         prop(index+4).gt.0.01d0) then
             write(*,*) '*ERROR in checkinputvaluesnet:'
             write(*,*) '       in element type RESTRICTOR
      &BRANCH JOINT IDELCHIK2'
@@ -62,7 +63,7 @@
      &         (lakon(nelem)(2:5).ne.'ORB2').and.
      &         (lakon(nelem)(2:5).ne.'ORBT').and.
      &         (lakon(nelem)(2:5).ne.'ORPN').and.
-     &         (lakon(nelem)(2:5).ne.'ORFL'))then
+     &         (lakon(nelem)(2:5).ne.'ORFL')) then
           if(prop(index+2).lt.0.d0) then
             write(*,*) '*ERROR in checkinputvaluesnet: diameter '
             write(*,*) '       of the orifice is not positive'
@@ -81,7 +82,7 @@
      &         (lakon(nelem)(2:5).ne.'ORRG').and.
      &         (lakon(nelem)(2:5).ne.'ORSG').and.
      &         (lakon(nelem)(2:5).ne.'ORGA').and.
-     &         (lakon(nelem)(2:5).ne.'ORBO'))then
+     &         (lakon(nelem)(2:5).ne.'ORBO')) then
             if((prop(index+4).gt.1.d-20).and.
      &           (prop(index+5).gt.1.d-20)) then
               write(*,*)
@@ -151,7 +152,7 @@
 !     call exit(201)
             endif
           endif
-        elseif((lakon(nelem)(2:5).eq.'ORBT'))then
+        elseif((lakon(nelem)(2:5).eq.'ORBT')) then
           if(prop(index+2).lt.0.d0) then
             write(*,*) '*ERROR in checkinputvaluesnet:'
             write(*,*) '        ps1/pt1 (bleedtapping) ',
@@ -166,7 +167,7 @@
             write(*,*) '       element number: ',nelem
             call exit(201)
           endif
-        elseif((lakon(nelem)(2:5).eq.'ORPN'))then
+        elseif((lakon(nelem)(2:5).eq.'ORPN')) then
           if(prop(index+2).lt.0.d0) then
             write(*,*) '*ERROR in checkinputvaluesnet: '
             write(*,*) '       theta (preswirlnozzle) ',
@@ -195,7 +196,7 @@
             write(*,*) '       element number: ',nelem
             call exit(201)
           endif
-        elseif((lakon(nelem)(2:5).eq.'ORBG'))then
+        elseif((lakon(nelem)(2:5).eq.'ORBG')) then
           if(prop(index+1).lt.0.d0) then
             write(*,*) '*ERROR in checkinputvaluesnet: '
             write(*,*) '       section area is not positive'
@@ -212,9 +213,9 @@
             write(*,*) '       element number: ',nelem
             call exit(201)
           endif
-        elseif(lakon(nelem)(2:5).eq.'ORB1')then
+        elseif(lakon(nelem)(2:5).eq.'ORB1') then
           if(dabs(1.d0-prop(index+4)/50.d0).lt.0.00001d0.and.
-     &         dabs(1.d0-prop(index+5)/0.00015d0).gt.0.00001d0)then    
+     &         dabs(1.d0-prop(index+5)/0.00015d0).gt.0.00001d0) then    
             write(*,*) '*ERROR in checkinputvaluesnet: '                
             write(*,*) '       For a brush seal with a bristle'
             write(*,*) '       density of 50 the bristle diameter'
@@ -223,7 +224,7 @@
             write(*,*) '       the value is:',prop(index+5)
             call exit(201)
           elseif(dabs(1.d0-prop(index+4)/100.d0).lt.0.00001d0.and.
-     &           dabs(1.d0-prop(index+5)/0.00007d0).gt.0.00001d0)then
+     &           dabs(1.d0-prop(index+5)/0.00007d0).gt.0.00001d0) then
             write(*,*) '*ERROR in checkinputvaluesnet: '                
             write(*,*) '       For a brush seal with a bristle'
             write(*,*) '       density of 100 the bristle diameter'
@@ -232,7 +233,7 @@
             write(*,*) '       the value is:',prop(index+5)
             call exit(201)
           elseif(dabs(1.d0-prop(index+4)/140.d0).lt.0.00001d0.and.
-     &           dabs(1.d0-prop(index+5)/0.0001d0).gt.0.00001d0)then
+     &           dabs(1.d0-prop(index+5)/0.0001d0).gt.0.00001d0) then
             write(*,*) '*ERROR in checkinputvaluesnet: '                
             write(*,*) '       For a brush seal with a bristle'
             write(*,*) '       density of 140 the bristle diameter'
@@ -241,7 +242,7 @@
             write(*,*) '       the value is:',prop(index+5)
             call exit(201)
           elseif(dabs(1.d0-prop(index+4)/200.d0).lt.0.00001d0.and.
-     &           dabs(1.d0-prop(index+5)/0.00007d0).gt.0.00001d0)then
+     &           dabs(1.d0-prop(index+5)/0.00007d0).gt.0.00001d0) then
             write(*,*) '*ERROR in checkinputvaluesnet: '                
             write(*,*) '       For a brush seal with a bristle'
             write(*,*) '       density of 200 the bristle diameter'
@@ -253,7 +254,7 @@
           if(dabs(1.d0-prop(index+4)/50.d0).gt.0.00001d0.and.
      &         dabs(1.d0-prop(index+4)/100.d0).gt.0.00001d0.and.
      &         dabs(1.d0-prop(index+4)/140.d0).gt.0.00001d0.and.
-     &         dabs(1.d0-prop(index+4)/200.d0).gt.0.00001d0)then    
+     &         dabs(1.d0-prop(index+4)/200.d0).gt.0.00001d0) then    
             write(*,*) '*ERROR in checkinputvaluesnet: '
             write(*,*) '       Only a brsitle density of'
             write(*,*) '       50, 100, 140 and 200 is supported'
@@ -263,9 +264,9 @@
             call exit(201)
           endif
 !     
-        elseif(lakon(nelem)(2:5).eq.'ORB2')then
+        elseif(lakon(nelem)(2:5).eq.'ORB2') then
           if(dabs(1.d0-prop(index+3)/50.d0).lt.0.00001d0.and.
-     &         dabs(1.d0-prop(index+4)/0.00015d0).gt.0.00001d0)then    
+     &         dabs(1.d0-prop(index+4)/0.00015d0).gt.0.00001d0) then    
             write(*,*) '*ERROR in checkinputvaluesnet: '                
             write(*,*) '       For a brush seal with a bristle'
             write(*,*) '       density of 50 the bristle diameter'
@@ -274,7 +275,7 @@
             write(*,*) '       the value is:',prop(index+5)
             call exit(201)
           elseif(dabs(1.d0-prop(index+3)/100.d0).lt.0.00001d0.and.
-     &           dabs(1.d0-prop(index+4)/0.00007d0).gt.0.00001d0)then
+     &           dabs(1.d0-prop(index+4)/0.00007d0).gt.0.00001d0) then
             write(*,*) '*ERROR in checkinputvaluesnet: '                
             write(*,*) '       For a brush seal with a bristle'
             write(*,*) '       density of 100 the bristle diameter'
@@ -283,7 +284,7 @@
             write(*,*) '       the value is:',prop(index+5)
             call exit(201)
           elseif(dabs(1.d0-prop(index+3)/140.d0).lt.0.00001d0.and.
-     &           dabs(1.d0-prop(index+4)/0.0001d0).gt.0.00001d0)then
+     &           dabs(1.d0-prop(index+4)/0.0001d0).gt.0.00001d0) then
             write(*,*) '*ERROR in checkinputvaluesnet: '                
             write(*,*) '       For a brush seal with a bristle'
             write(*,*) '       density of 140 the bristle diameter'
@@ -292,7 +293,7 @@
             write(*,*) '       the value is:',prop(index+5)
             call exit(201)
           elseif(dabs(1.d0-prop(index+3)/200.d0).lt.0.00001d0.and.
-     &           dabs(1.d0-prop(index+4)/0.00007d0).gt.0.00001d0)then
+     &           dabs(1.d0-prop(index+4)/0.00007d0).gt.0.00001d0) then
             write(*,*) '*ERROR in checkinputvaluesnet: '                
             write(*,*) '       For a brush seal with a bristle'
             write(*,*) '       density of 200 the bristle diameter'
@@ -304,7 +305,7 @@
           if(dabs(1.d0-prop(index+3)/50.d0).gt.0.00001d0.and.
      &         dabs(1.d0-prop(index+3)/100.d0).gt.0.00001d0.and.
      &         dabs(1.d0-prop(index+3)/140.d0).gt.0.00001d0.and.
-     &         dabs(1.d0-prop(index+3)/200.d0).gt.0.00001d0)then    
+     &         dabs(1.d0-prop(index+3)/200.d0).gt.0.00001d0) then    
             write(*,*) '*ERROR in checkinputvaluesnet: '
             write(*,*) '       Only a brsitle density of'
             write(*,*) '       50, 100, 140 and 200 is supported'
@@ -411,7 +412,7 @@
             call exit(201)
           endif
 !     
-        elseif((lakon(nelem)(2:6).eq.'CARBS'))then
+        elseif((lakon(nelem)(2:6).eq.'CARBS')) then
           if(lakon(nelem)(2:8).eq.'CARBSGE') then
             if(prop(index+1).le.0.d0) then
               write(*,*) '*ERROR in checkinputvaluesnet:'
@@ -438,7 +439,7 @@
             endif
           endif
 !     
-        elseif((lakon(nelem)(2:4).eq.'RCVL'))then
+        elseif((lakon(nelem)(2:4).eq.'RCVL')) then
           if(prop(index+2).lt.(prop(index+3))) then
             write(*,*) '*ERROR in checkinputvaluesnet: '
             write(*,*) '       element TYPE=ROTATING CAVITY ',
@@ -450,7 +451,7 @@
             write(*,*) '       element number: ',nelem
             call exit(201)
           endif
-        elseif((lakon(nelem)(2:4).eq.'RCVN'))then
+        elseif((lakon(nelem)(2:4).eq.'RCVN')) then
           if(prop(index+1).lt.(prop(index+2))) then
             write(*,*) '*ERROR in checkinputvaluesnet: '
             write(*,*) '       element TYPE=ROTATING CAVITY ',
@@ -463,20 +464,29 @@
             call exit(201)
           endif
 !     
-        elseif(lakon(nelem)(2:3).eq.'RE') then
+        elseif((lakon(nelem)(2:3).eq.'RE').or.
+     &         ((lakon(nelem)(2:3).eq.'LP').and.
+     &         (lakon(nelem)(4:5).ne.'C1').and.
+     &         (lakon(nelem)(4:5).ne.'VF').and.
+     &         (lakon(nelem)(4:5).ne.'VS'))) then
           if(((prop(index+1).le.0.d0)
      &         .or.(prop(index+2).le.0.d0)
      &         .or.(prop(index+3).le.0.d0))
      &         .and.(lakon(nelem)(2:5).ne.'REBR')
+     &         .and.(lakon(nelem)(2:5).ne.'LPBR')
      &         .and.(lakon(nelem)(2:5).ne.'REEX')
+     &         .and.(lakon(nelem)(2:5).ne.'LPEX')
      &         .and.(lakon(nelem)(2:7).ne.'REWAOR')
-     &         .and.(lakon(nelem)(2:5).ne.'REEN'))then
+     &         .and.(lakon(nelem)(2:7).ne.'LPWAOR')
+     &         .and.(lakon(nelem)(2:5).ne.'REEN')
+     &         .and.(lakon(nelem)(2:5).ne.'LPEN')) then
             write(*,*) '*ERROR in checkinputvaluesnet:'
             write(*,*) '       A1,A2 or Dh less or equal 0'
             write(*,*) '       element number: ',nelem
             call exit(201)
 !     
-          elseif((lakon(nelem)(2:5).eq.'REEL'))then
+          elseif((lakon(nelem)(2:5).eq.'REEL').or.
+     &           (lakon(nelem)(2:5).eq.'LPEL')) then
             if(prop(index+1).ge.(prop(index+2))) then
               write(*,*) '*ERROR in checkinputvaluesnet:'
               write(*,*) 
@@ -485,7 +495,8 @@
               call exit(201)
             endif
 !     
-          elseif((lakon(nelem)(2:5).eq.'RECO'))then
+          elseif((lakon(nelem)(2:5).eq.'RECO').or.
+     &           (lakon(nelem)(2:5).eq.'LPCO')) then
             if(prop(index+1).lt.(prop(index+2))) then
               write(*,*) '*ERROR in checkinputvaluesnet:'
               write(*,*) 
@@ -495,10 +506,11 @@
             endif
           endif
 !     
-          if((lakon(nelem)(2:5).eq.'REBR'))then
+          if((lakon(nelem)(2:5).eq.'REBR').or.
+     &         (lakon(nelem)(2:5).eq.'LPBR')) then
             if((prop(index+1).le.0.d0)
      &           .or.(prop(index+2).le.0.d0)
-     &           .or.(prop(index+3).le.0.d0))then
+     &           .or.(prop(index+3).le.0.d0)) then
               write(*,*) '*ERROR in checkinputvaluesnet:'
               write(*,*) '       trying to define a branch '
               write(*,*) '       all three elements must be ',
@@ -508,7 +520,7 @@
 !     
             elseif((prop(index+4).le.0.d0)
      &             .or.(prop(index+5).le.0.d0)
-     &             .or.(prop(index+6).le.0.d0))then
+     &             .or.(prop(index+6).le.0.d0)) then
               write(*,*) '*ERROR in checkinputvaluesnet:'
               write(*,*) '       trying to define a branch '
               write(*,*) '       all sections must be positive'
@@ -516,7 +528,7 @@
               call exit(201)
 !     
             elseif((prop(index+7).lt.0)
-     &             .or.(prop(index+8).lt.0))then
+     &             .or.(prop(index+8).lt.0)) then
               write(*,*) '*ERROR in checkinputvaluesnet:'
               write(*,*) '       trying to define a branch '
               write(*,*) '       alpha1 & 2 cannot be negative'
@@ -546,8 +558,8 @@
               endif
 !     
             elseif((lakon(nelem)(6:8).eq.'SI1').or.
-     &             (lakon(nelem)(6:8).eq.'JI1'))then
-              if(prop(index+4).ne.(prop(index+5)))then
+     &             (lakon(nelem)(6:8).eq.'JI1')) then
+              if(prop(index+4).ne.(prop(index+5))) then
                 write(*,*) '*ERROR in checkinputvaluesnet:'
                 write(*,*) '       trying to define a branch '
                 write(*,*) '       Type IDELCHIK SPLIT1 or JOINT1 '
@@ -558,7 +570,7 @@
 !     
             elseif(lakon(nelem)(6:8).eq.'JI2') then
               if((prop(index+5)+(prop(index+6)))
-     &             .ne.prop(index+4))then
+     &             .ne.prop(index+4)) then
                 write(*,*) '*ERROR in checkinputvaluesnet:'
                 write(*,*) '       trying to define a branch '
                 write(*,*) '       Type IDELCHIK JOINT2 '
@@ -571,7 +583,9 @@
 !     
 !     General Vortex
 !     
-        elseif((lakon(nelem)(2:3).eq.'VO'))then
+        elseif((lakon(nelem)(2:3).eq.'VO').or.
+     &         (lakon(nelem)(2:5).eq.'LPVF').or.
+     &         (lakon(nelem)(2:5).eq.'LPVS')) then
 !     
 !     inner and outer radius less or equal to 0
 !     
@@ -593,7 +607,8 @@
 !     
 !     FREE VORTEX
 !     
-          if((lakon(nelem)(2:5).eq.'VOFR'))then
+          if((lakon(nelem)(2:5).eq.'VOFR').or.
+     &       (lakon(nelem)(2:5).eq.'LPVF')) then
 !     
 !     the swirl comes from another upstream  element
 !     
@@ -614,7 +629,8 @@
 !     
 !     FORCED VORTEX
 !     
-          elseif((lakon(nelem)(2:5).eq.'VOFO'))then
+          elseif((lakon(nelem)(2:5).eq.'VOFO').or.
+     &           (lakon(nelem)(2:5).eq.'LPVS')) then
 !     
 !     Core swirl ratio must be defined and positive
 !     
@@ -675,7 +691,7 @@
 !     
 !     Air Valve 
 !     
-        elseif(lakon(nelem)(2:5).eq.'AVLV')then
+        elseif(lakon(nelem)(2:5).eq.'AVLV') then
 !     
           if((dabs(prop(index+1)-1.d0).gt.1.d-8).and.
      &         (dabs(prop(index+1)-1.25d0).gt.1.d-8).and.
@@ -687,7 +703,7 @@
      &         (dabs(prop(index+1)-6.d0).gt.1.d-8).and.
      &         (dabs(prop(index+1)-6.5d0).gt.1.d-8).and.
      &         (dabs(prop(index+1)-8.d0).gt.1.d-8).and.
-     &         nint(prop(index+3)).eq.1)then
+     &         nint(prop(index+3)).eq.1) then
 !     
             write(*,*) '*ERROR in air_valve: '
             write(*,*) '  Specified diameter is: ',
@@ -709,17 +725,219 @@
 !     
           endif
 !     
+        elseif(lakon(nelem)(2:5).eq.'GAPF') then
+          if(prop(index+5).eq.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: form factor'
+            write(*,*) '       is equal to zero'
+            write(*,*) '       element number:',nelem
+            call exit(201)
+          endif
+!     
         elseif((lakon(nelem)(2:5).ne.'LIPU').and.
      &         (lakon(nelem).ne.'       ').and.
      &         (lakon(nelem)(2:4).ne.'LAB').and.
      &         (lakon(nelem)(2:5).ne.'CHAR').and.
-     &         (lakon(nelem)(2:6).ne.'CARBS'))then
+     &         (lakon(nelem)(2:6).ne.'CARBS')) then
           if((prop(index+1).lt.0.d0)) then
             write(*,*) '*ERROR in checkinputvaluesnet: section area'
             write(*,*) '       is not positive'
             write(*,*) '       element number: ',nelem
             call exit(201)
-          endif               
+          endif
+!          
+!         Manning pipe        
+!          
+        elseif(lakon(nelem)(2:8).eq.'LIPIMA ') then
+          if(prop(index+1).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: section area'
+            write(*,*) '       is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+2).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: hydraulic'
+            write(*,*) '       radius is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+3).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: Manning'
+            write(*,*) '       coefficient must be nonnegative'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+!          
+!         flexible Manning pipe        
+!          
+        elseif(lakon(nelem)(2:8).eq.'LIPIMAF') then
+          if(prop(index+1).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: node 1'
+            write(*,*) '       is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+2).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: node 2'
+            write(*,*) '       is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+3).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: Manning'
+            write(*,*) '       coefficient must be nonnegative'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+!          
+!         White-Colebrook pipe        
+!          
+        elseif(lakon(nelem)(2:8).eq.'LIPIWC ') then
+          if(prop(index+1).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: section area'
+            write(*,*) '       is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+2).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: hydraulic'
+            write(*,*) '       diameter is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+4).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: grain'
+            write(*,*) '       diameter ks is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+5).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: form'
+            write(*,*) '       factor is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+!          
+!         flexible White-Colebrook pipe        
+!          
+        elseif(lakon(nelem)(2:8).eq.'LIPIWCF') then
+          if(prop(index+1).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: node 1'
+            write(*,*) '       is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+2).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: node 2'
+            write(*,*) '       is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+4).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: grain'
+            write(*,*) '       diameter ks is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+5).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: form'
+            write(*,*) '       factor is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+!          
+!         pipe sudden enlargement       
+!          
+        elseif(lakon(nelem)(2:7).eq.'LIPIEL') then
+          if(prop(index+1).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: section area 1'
+            write(*,*) '       is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+2).lt.prop(index+1)) then
+            write(*,*) '*ERROR in checkinputvaluesnet: section area 2'
+            write(*,*) '       must not be smaller than section area 1'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+!          
+!         pipe sudden contraction      
+!          
+        elseif(lakon(nelem)(2:7).eq.'LIPICO') then
+          if(prop(index+1).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: section area 1'
+            write(*,*) '       is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+2).gt.prop(index+1)) then
+            write(*,*) '*ERROR in checkinputvaluesnet: section area 2'
+            write(*,*) '       must not exceed section area 1'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+!          
+!         pipe entry or diaphragm     
+!          
+        elseif((lakon(nelem)(2:7).eq.'LIPIEN').or.
+     &         (lakon(nelem)(2:7).eq.'LIPIDI')) then
+          if(prop(index+1).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: section area A'
+            write(*,*) '       is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+2).gt.prop(index+1)) then
+            write(*,*) '*ERROR in checkinputvaluesnet: section area A_0'
+            write(*,*) '       must not exceed section area A'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+!          
+!         liquid pipe bend   
+!          
+        elseif(lakon(nelem)(2:7).eq.'LIPIBE') then
+          if(prop(index+1).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: section area A'
+            write(*,*) '       is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+2).lt.1.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: bend radius'
+            write(*,*) '       divided by pipe diameter should not be'
+            write(*,*) '       smaller than 1'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if(prop(index+3).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: bend angle'
+            write(*,*) '       must be strictly positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if((prop(index+4).lt.0.d0).or.(prop(index+4).gt.1.d0)) then
+            write(*,*) '*ERROR in checkinputvaluesnet: pipe roughness'
+            write(*,*) '       must be in the interval [0,1]'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+!          
+!         liquid pipe gate valve  
+!          
+        elseif(lakon(nelem)(2:7).eq.'LIPIGV') then
+          if(prop(index+1).le.0.d0) then
+            write(*,*) '*ERROR in checkinputvaluesnet: section area A'
+            write(*,*) '       is not positive'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
+          if((prop(index+2).lt.0.125d0).or.(prop(index+2).gt.1.d0)) then
+            write(*,*) '*ERROR in checkinputvaluesnet: x/D must'
+            write(*,*) '       belong to the interval [0.125,1]'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          endif
 !     
         endif
 !     

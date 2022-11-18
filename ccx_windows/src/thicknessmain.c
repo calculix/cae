@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                     */
+/*              Copyright (C) 1998-2022 Guido Dhondt                     */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -32,14 +32,14 @@ static ITG *nobject1,*nodedesiboun1,ndesiboun1,*nx1,*ny1,*nz1,
 
    filtermain.c:42: error: ‘y1’ redeclared as different kind of symbol */
 
-static double *dgdx1,*xo1,*yo1,*zo1,*x1,*yy1,*z1,*co1,*dgdxglob1;
+static double *xo1,*yo1,*zo1,*x1,*yy1,*z1,*co1,*dgdxglob1,*xdesi1;
     
 
-void thicknessmain(double *co, double *dgdx, ITG *nobject, ITG *nk,
-                ITG *nodedesi, ITG *ndesi, char *objectset,ITG *ipkon,
+void thicknessmain(double *co,ITG *nobject,ITG *nk,
+                ITG *nodedesi,ITG *ndesi,char *objectset,ITG *ipkon,
 		ITG *kon,char *lakon,char *set,ITG *nset,ITG *istartset,
 		ITG *iendset,ITG *ialset,ITG *iobject,ITG *nodedesiinv,
-		double *dgdxglob){
+		double *dgdxglob,double *xdesi){
 		
     /* calculation of distance between nodes */
 
@@ -123,10 +123,11 @@ void thicknessmain(double *co, double *dgdx, ITG *nobject, ITG *nk,
     
     pthread_t tid[num_cpus];
 
-    dgdx1=dgdx;nobject1=nobject;nodedesiboun1=nodedesiboun;
+    nobject1=nobject;nodedesiboun1=nodedesiboun;
     ndesiboun1=ndesiboun;objectset1=objectset;xo1=xo;yo1=yo;zo1=zo;
     x1=x;yy1=y;z1=z;nx1=nx;ny1=ny;nz1=nz;ifree1=ifree;co1=co;  
     iobject1=iobject;ndesi1=ndesi;dgdxglob1=dgdxglob;nk1=nk;
+    xdesi1=xdesi;
 
     /* assessment of actual wallthickness */
     /* create threads and wait */
@@ -161,9 +162,10 @@ void *thicknessmt(ITG *i){
     
     //printf("indexr=%" ITGFORMAT","ndesia=%" ITGFORMAT",ndesib=%" ITGFORMAT"\n",indexr,ndesia,ndesib);
 
-    FORTRAN(thickness,(dgdx1,nobject1,nodedesiboun1,&ndesiboun1,objectset1,
-                        xo1,yo1,zo1,x1,yy1,z1,nx1,ny1,nz1,co1,&ifree1,
-                        &ndesia,&ndesib,iobject1,ndesi1,dgdxglob1,nk1));
-
+    FORTRAN(thickness,(nobject1,nodedesiboun1,&ndesiboun1,objectset1,
+		       xo1,yo1,zo1,x1,yy1,z1,nx1,ny1,nz1,co1,&ifree1,
+		       &ndesia,&ndesib,iobject1,ndesi1,dgdxglob1,nk1,
+		       xdesi1));
+       
     return NULL;
 }

@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -36,7 +36,7 @@
      &     physcon,ctrl,typeboun,fmpc,tieset,ntie,tietol,nslavs,t0g,t1g,
      &     nprop,ielprop,prop,mortar,nintpoint,ifacecount,islavsurf,
      &     pslavsurf,clearini,irstrt,vel,nef,velo,veloo,ne2boun,
-     &     memmpc_)
+     &     memmpc_,heading,nheading_,network,nfc,ndc,coeffc,ikdc,edc)
 !     
 !     writes all information needed for a restart to file
 !     
@@ -52,6 +52,7 @@
       character*6 prlab(*)
       character*8 lakon(*)
       character*20 labmpc(*),sideload(*)
+      character*66 heading(*)
       character*80 orname(*),amname(*),matname(*),version
       character*81 set(*),prset(*),tieset(*),cbody(*)
       character*87 filab(*)
@@ -69,10 +70,10 @@
      &     inotr(*),nintpoint,ifacecount,islavsurf(*),ielprop(*),
      &     namta(*),iamt1(*),ielmat(*),nodebounold(*),ndirbounold(*),
      &     iponor(*),knor(*),iponoel(*),inoel(*),rig(*),iendset(*),
-     &     nshcon(*),ncocon(*),ics(*),infree(*),i,ipos,
-     &     nener,iprestr,istepnew,maxlenmpc,mcs,ntie,
+     &     nshcon(*),ncocon(*),ics(*),infree(*),i,ipos,nfc,ndc,
+     &     nener,iprestr,istepnew,maxlenmpc,mcs,ntie,ikdc(*),
      &     ibody(*),nbody,mt,nslavs,namtot,nef,ne2boun(*),
-     &     memmpc_
+     &     memmpc_,nheading_,network
 !     
       real*8 co(*),xboun(*),coefmpc(*),xforc(*),xload(*),elcon(*),
      &     rhcon(*),alcon(*),alzero(*),plicon(*),plkcon(*),orab(*),
@@ -80,8 +81,9 @@
      &     vold(*),xbounold(*),xforcold(*),xloadold(*),t1old(*),eme(*),
      &     xnor(*),thicke(*),offset(*),t0g(*),t1g(*),clearini(*),
      &     shcon(*),cocon(*),sti(*),ener(*),xstate(*),pslavsurf(*),
-     &     qaold(2),cs(*),physcon(*),ctrl(*),prop(*),
-     &     ttime,fmpc(*),xbody(*),xbodyold(*),vel(*),velo(*),veloo(*)
+     &     qaold(2),cs(*),physcon(*),ctrl(*),prop(*),coeffc(*),
+     &     ttime,fmpc(*),xbody(*),xbodyold(*),vel(*),velo(*),veloo(*),
+     &     edc(*)
 !     
       mt=mi(2)+1
 !     
@@ -117,11 +119,7 @@
      &        FORM='UNFORMATTED',err=151)
       endif
 !     
-c     do i=1,80
-c     version(i:i)=' '
-c     enddo
-c     version(1:20)='Version 2.17'
-      version='Version 2.17'
+      version='Version 2.20'
       write(15) version
 !     
       write(15)istepnew
@@ -153,6 +151,11 @@ c     version(1:20)='Version 2.17'
       write(15)mpcend
       write(15)maxlenmpc
       write(15)memmpc_
+!     
+!     coupling, distributing
+!     
+      write(15)nfc
+      write(15)ndc
 !     
 !     material size
 !     
@@ -207,9 +210,11 @@ c     version(1:20)='Version 2.17'
       write(15)iprestr
       write(15)mortar
       if(mortar.eq.1) then
-         write(15)ifacecount
-         write(15)nintpoint
+        write(15)ifacecount
+        write(15)nintpoint
       endif
+      write(15)nheading_
+      write(15)network
 !     
 !     sets
 !     
@@ -233,6 +238,10 @@ c     version(1:20)='Version 2.17'
       do i=1,nalset
          write(15) ialset(i)
       enddo
+!     
+!     header lines
+!     
+      write(15)(heading(i),i=1,nheading_)
 !     
 !     mesh
 !     
@@ -263,6 +272,14 @@ c     version(1:20)='Version 2.17'
       write(15)(fmpc(i),i=1,nmpc)
       write(15)(nodempc(i),i=1,3*mpcend)
       write(15)(coefmpc(i),i=1,mpcend)
+!     
+!     force constraints
+!
+      if(nfc.gt.0) then
+        write(15)(coeffc(i),i=1,7*nfc)
+        write(15)(ikdc(i),i=1,ndc)
+        write(15)(edc(i),i=1,12*ndc)
+      endif
 !     
 !     point forces
 !     
@@ -324,7 +341,7 @@ c     version(1:20)='Version 2.17'
 !     
 !     physical constants
 !     
-      write(15)(physcon(i),i=1,10)
+      write(15)(physcon(i),i=1,14)
 !     
 !     plastic data
 !     
@@ -417,7 +434,7 @@ c     version(1:20)='Version 2.17'
 !     
       if(ntie.gt.0) then
          write(15)(tieset(i),i=1,3*ntie)
-         write(15)(tietol(i),i=1,3*ntie)
+         write(15)(tietol(i),i=1,4*ntie)
       endif
 !     
 !     cyclic symmetry

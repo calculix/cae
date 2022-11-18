@@ -1,6 +1,6 @@
 !     
 !     CalculiX - A 3-dimensional finite element program
-!     Copyright (C) 1998-2020 Guido Dhondt
+!     Copyright (C) 1998-2022 Guido Dhondt
 !     
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -16,9 +16,10 @@
 !     along with this program; if not, write to the Free Software
 !     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 !     
-      subroutine printoutfacefem(co,rhcon,nrhcon,ntmat_,vold,shcon,
-     &     nshcon,cocon,ncocon,compressible,istartset,iendset,ipkon,
-     &     lakon,kon,ialset,prset,ttime,nset,set,nprint,prlab,ielmat,mi)
+      subroutine printoutfacefem(co,ntmat_,vold,shcon,
+     &     nshcon,compressible,istartset,iendset,ipkon,
+     &     lakon,kon,ialset,prset,ttime,nset,set,nprint,prlab,ielmat,mi,
+     &     nelnew)
 !     
 !     calculation and printout of the lift and drag forces
 !     
@@ -31,15 +32,15 @@
       character*80 faset
       character*81 set(*),prset(*)
 !     
-      integer konl(8),ifaceq(8,6),nelem,ii,nprint,i,j,i1,i2,j1,
-     &     ncocon(2,*),k1,jj,ig,nrhcon(*),nshcon(*),ntmat_,nope,nopes,
+      integer konl(8),ifaceq(8,6),nelem,ii,nprint,i,j,i1,i2,j1,id,
+     &     k1,jj,ig,nshcon(*),ntmat_,nope,nopes,nelef,nelnew(*),
      &     imat,mint2d,ifacet(6,4),ifacew(8,5),iflag,indexe,jface,
      &     istartset(*),iendset(*),ipkon(*),kon(*),iset,ialset(*),nset,
      &     ipos,mi(*),ielmat(mi(3),*)
 !     
       real*8 co(3,*),xl(3,8),shp(4,8),xs2(3,7),dvi,f(3),
-     &     vkl(3,3),rhcon(0:1,ntmat_,*),t(3,3),div,shcon(0:3,ntmat_,*),
-     &     voldl(0:mi(2),8),cocon(0:6,ntmat_,*),xl2(3,8),xsj2(3),
+     &     vkl(3,3),t(3,3),div,shcon(0:3,ntmat_,*),
+     &     voldl(0:mi(2),8),xl2(3,8),xsj2(3),
      &     shp2(7,8),vold(0:mi(2),*),xi,et,xsj,temp,xi3d,et3d,ze3d,
      &     weight,xlocal20(3,9,6),xlocal4(3,1,4),xlocal10(3,3,4),
      &     xlocal6(3,1,5),xlocal15(3,4,5),xlocal8(3,4,6),
@@ -85,15 +86,22 @@
 !     
           write(5,*)
           write(5,120) faset(1:ipos-2),ttime
- 120      format(' surface stress vector (tx,ty,tz), normal stress, sh
-     &ear stress and coordinates for set ',A,' and time ',e14.7)
+ 120      format(' surface stress vector (tx,ty,tz), normal stress, shea
+     &r stress and coordinates for set ',A,' and time ',e14.7)
           write(5,*)
 !     
 !     printing the data
 !     
-          do iset=1,nset
-            if(set(iset).eq.prset(ii)) exit
-          enddo
+c          do iset=1,nset
+c            if(set(iset).eq.prset(ii)) exit
+c          enddo
+          call cident81(set,prset(ii),nset,id)
+          iset=nset+1
+          if(id.gt.0) then
+            if(prset(ii).eq.set(id)) then
+              iset=id
+            endif
+          endif
 !     
           do jj=istartset(iset),iendset(iset)
 !     
@@ -101,9 +109,12 @@
 !     
             nelem=int(jface/10.d0)
             ig=jface-10*nelem
-            lakonl=lakon(nelem)
-            indexe=ipkon(nelem)
-            imat=ielmat(1,nelem)
+!            
+            nelef=nelnew(nelem)
+!            
+            lakonl=lakon(nelef)
+            indexe=ipkon(nelef)
+            imat=ielmat(1,nelef)
 !     
             if(lakonl(4:4).eq.'8') then
               nope=8
@@ -267,8 +278,6 @@
 !     material data (density, dynamic viscosity, heat capacity and
 !     conductivity)
 !     
-c     call materialdata_fl(imat,ntmat_,temp,shcon,nshcon,cp,
-c     &                 r,dvi,rhcon,nrhcon,rho,cocon,ncocon,cond)
               call materialdata_dvifem(imat,ntmat_,temp,shcon,nshcon,
      &             dvi)
 !     

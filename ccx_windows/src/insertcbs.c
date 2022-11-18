@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-dimensional finite element program                 */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -92,59 +92,3 @@ void insertcbs(ITG *ipointer, ITG **irowp, ITG **nextp, ITG *i1,
   return;
 
 }
-	  
-/*
-
-Here starts the original FORTRAN code, which was transferred to the
-C-code above in order to allow automatic reallocation
-
-      subroutine insert(ipointer,irow,next,i1,i2,ifree,nzs_)
-!
-!     inserts a new nonzero matrix position into the data structure
-!
-      implicit none
-!
-      integer ipointer(*),irow(*),next(*),i1,i2,ifree,nzs_,idof1,
-     &  idof2,istart
-!
-      if(i1.lt.i2) then
-        idof1=i1
-        idof2=i2
-      else
-        idof1=i2
-        idof2=i1
-      endif
-!
-      if(ipointer(idof2).eq.0) then
-        ifree=ifree+1
-        if(ifree.gt.nzs_) then
-           write(*,*) '*ERROR in insert: increase nzs_'
-           stop
-        endif
-        ipointer(idof2)=ifree
-        irow(ifree)=idof1
-        next(ifree)=0
-      else
-        istart=ipointer(idof2)
-        do
-          if(irow(istart).eq.idof1) exit
-          if(next(istart).eq.0) then
-            ifree=ifree+1
-            if(ifree.gt.nzs_) then
-               write(*,*) '*ERROR in insert: increase nzs_'
-               stop
-            endif
-            next(istart)=ifree
-            irow(ifree)=idof1
-            next(ifree)=0
-            exit
-          else
-            istart=next(istart)
-          endif
-        enddo
-      endif
-!
-      return
-      end
-
-      */

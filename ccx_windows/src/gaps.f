@@ -1,6 +1,6 @@
 !
 !     CalculiX - A 3-dimensional finite element program
-!              Copyright (C) 1998-2020 Guido Dhondt
+!              Copyright (C) 1998-2022 Guido Dhondt
 !
 !     This program is free software; you can redistribute it and/or
 !     modify it under the terms of the GNU General Public License as
@@ -32,7 +32,7 @@
       character*132 textpart(16)
 !
       integer mi(*),nelcon(2,*),nmat,ntmat_,ntmat,npmat_,npmat,istep,
-     &  n,key,i,nplicon(0:ntmat_,*),ncmat_,istat,istartset(*),
+     &  n,key,i,nplicon(0:ntmat_,*),ncmat_,istat,istartset(*),id,
      &  iendset(*),irstrt(*),iline,ipol,inl,ipoinp(2,*),inp(3,*),nmat_,
      &  ialset(*),ipos,nset,j,k,ielmat(mi(3),*),ielorien(mi(3),*),
      &  ipoinpc(0:*),ier 
@@ -131,9 +131,16 @@
          ier=1
          return
       endif
-      do i=1,nset
-         if(set(i).eq.elset) exit
-      enddo
+c      do i=1,nset
+c         if(set(i).eq.elset) exit
+c      enddo
+      call cident81(set,elset,nset,id)
+      i=nset+1
+      if(id.gt.0) then
+        if(elset.eq.set(id)) then
+          i=id
+        endif
+      endif
       if(i.gt.nset) then
          elset(ipos:ipos)=' '
          write(*,*) '*ERROR reading *GAP: element set ',elset

@@ -1,5 +1,5 @@
 /*     CalculiX - A 3-Dimensional finite element program                   */
-/*              Copyright (C) 1998-2020 Guido Dhondt                          */
+/*              Copyright (C) 1998-2022 Guido Dhondt                          */
 
 /*     This program is free software; you can redistribute it and/or     */
 /*     modify it under the terms of the GNU General Public License as    */
@@ -63,36 +63,40 @@ void expand(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	     ITG *imdnode,ITG *nmdnode,ITG *imdboun,ITG *nmdboun,
   	     ITG *imdmpc,ITG *nmdmpc, ITG **izdofp, ITG *nzdof,ITG *nherm,
 	     double *xmr,double *xmi,char *typeboun,ITG *ielprop,double *prop,
-	    char *orname,ITG *itiefac){
+	    char *orname,ITG *itiefac,double *t0g,double *t1g){
 
   /* calls the Arnoldi Package (ARPACK) for cyclic symmetry calculations */
   
-    char *filabt,lakonl[2]=" \0";
+    char *filabt,lakonl[2]=" \0",*labmpc2=NULL;
 
     ITG *inum=NULL,k,idir,j,iout=0,index,inode,id,i,idof,im,
-        ielas,icmd,kk,l,nkt,icntrl,imag=1,icomplex,kkv,kk6,iterm,
-        lprev,ilength,ij,i1,i2,iel,ielset,node,indexe,nope,ml1,nelem,
-        *inocs=NULL,*ielcs=NULL,jj,l1,l2,is,nlabel,*nshcon=NULL,
-        nodeleft,*noderight=NULL,numnodes,ileft,kflag=2,itr,locdir,
-        neqh,j1,nodenew,mt=mi[1]+1,istep=1,iinc=1,iit=-1,ne0,
-	network=0,noderight_,*izdof=*izdofp,iload,iforc,*iznode=NULL,
-	nznode,ll,icfd=0,*inomat=NULL,mortar=0,*islavact=NULL,*ipobody=NULL,
-	*islavnode=NULL,*nslavnode=NULL,*islavsurf=NULL,idirnew,
-        *iponoel=NULL,*inoel=NULL,mscalmethod=0;
+      ielas,icmd,kk,l,nkt,icntrl,imag=1,icomplex,kkv,kk6,iterm,
+      lprev,ilength,ij,i1,i2,iel,ielset,node,indexe,nope,ml1,nelem,
+      *inocs=NULL,*ielcs=NULL,jj,l1,l2,is,nlabel,*nshcon=NULL,
+      nodeleft,*noderight=NULL,numnodes,ileft,kflag=2,itr,locdir,
+      neqh,j1,nodenew,mt=mi[1]+1,istep=1,iinc=1,iit=-1,ne0,
+      network=0,noderight_,*izdof=*izdofp,iload,iforc,*iznode=NULL,
+      nznode,ll,icfd=0,*inomat=NULL,mortar=0,*islavact=NULL,*ipobody=NULL,
+      *islavnode=NULL,*nslavnode=NULL,*islavsurf=NULL,idirnew,
+      *iponoel=NULL,*inoel=NULL,mscalmethod=0,intscheme=0,
+      *islavelinv=NULL,*irowtloc=NULL,*jqtloc=NULL,nboun2,
+      *ndirboun2=NULL,*nodeboun2=NULL,nmpc2,*ipompc2=NULL,*nodempc2=NULL,
+      *ikboun2=NULL,*ilboun2=NULL,*ikmpc2=NULL,*ilmpc2=NULL,mortartrafoflag=0;
 
     long long lint;
 
     double *stn=NULL,*v=NULL,*temp_array=NULL,*vini=NULL,*csmass=NULL,
-        *een=NULL,cam[5],*f=NULL,*fn=NULL,qa[4],*epn=NULL,summass,
-        *stiini=NULL,*emn=NULL,*emeini=NULL,*clearini=NULL,
-	*xstateini=NULL,theta,pi,*coefmpcnew=NULL,t[3],ctl,stl,
-	*stx=NULL,*enern=NULL,*xstaten=NULL,*eei=NULL,*enerini=NULL,
-	*qfx=NULL,*qfn=NULL,xreal,ximag,*vt=NULL,sum,*voldt=NULL,
-        *coefright=NULL,coef,a[9],ratio,reltime,
-        *shcon=NULL,*springarea=NULL,*z=*zp, *zdof=NULL, *thicke=NULL,
-        *sumi=NULL,
-        *vti=NULL,*pslavsurf=NULL,*pmastsurf=NULL,*cdn=NULL,
-        *energyini=NULL,*energy=NULL,*smscale=NULL;
+      *een=NULL,cam[5],*f=NULL,*fn=NULL,qa[4],*epn=NULL,summass,
+      *stiini=NULL,*emn=NULL,*emeini=NULL,*clearini=NULL,
+      *xstateini=NULL,theta,pi,*coefmpcnew=NULL,t[3],ctl,stl,
+      *stx=NULL,*enern=NULL,*xstaten=NULL,*eei=NULL,*enerini=NULL,
+      *qfx=NULL,*qfn=NULL,xreal,ximag,*vt=NULL,sum,*voldt=NULL,
+      *coefright=NULL,coef,a[9],ratio,reltime,
+      *shcon=NULL,*springarea=NULL,*z=*zp, *zdof=NULL, *thicke=NULL,
+      *sumi=NULL,
+      *vti=NULL,*pslavsurf=NULL,*pmastsurf=NULL,*cdn=NULL,
+      *energyini=NULL,*energy=NULL,*smscale=NULL,
+      *autloc=NULL,*xboun2=NULL,*coefmpc2=NULL;
     
     /* dummy arguments for the results call */
     
@@ -115,7 +119,7 @@ void expand(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
     NNEW(inum,ITG,*nk);
     NNEW(stx,double,6*mi[0]**ne);
     
-    nlabel=48;
+    nlabel=55;
     NNEW(filabt,char,87*nlabel);
     for(i=1;i<87*nlabel;i++) filabt[i]=' ';
     filabt[0]='U';
@@ -390,7 +394,7 @@ void expand(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	/* generating the cyclic MPC's (needed for nodal diameters
 	   different from 0 */
 	
-	NNEW(eei,double,6*mi[0]**ne);
+	//	NNEW(eei,double,6*mi[0]**ne);
 
 	DMEMSET(v,0,2*mt**nk,0.);
 	
@@ -464,10 +468,14 @@ void expand(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	      &mortar,islavact,cdn,islavnode,nslavnode,ntie,clearini,
 	      islavsurf,ielprop,prop,energyini,energy,&iit,iponoel,
 	      inoel,nener,orname,&network,ipobody,xbody,ibody,typeboun,
-	      itiefac,tieset,smscale,&mscalmethod,nbody);
+	      itiefac,tieset,smscale,&mscalmethod,nbody,t0g,t1g,
+	      islavelinv,autloc,irowtloc,jqtloc,&nboun2,
+	      ndirboun2,nodeboun2,xboun2,&nmpc2,ipompc2,nodempc2,coefmpc2,
+	      labmpc2,ikboun2,ilboun2,ikmpc2,ilmpc2,&mortartrafoflag,
+	      &intscheme);
 	    
 	}
-	SFREE(eei);
+	//	SFREE(eei);
 
 	/* mapping the results to the other sectors */
 
@@ -576,9 +584,9 @@ void expand(double *co, ITG *nk, ITG *kon, ITG *ipkon, char *lakon,
 	if(fabs(summass)>1.e-20){
 	  sum=sqrt(sum/summass);
 	}else{
-	  printf("*ERROR in expand.c: total mass of structure is zero\n");
-	  printf("       maybe no element sets were specified for the\n");
-	  printf("       cyclic symmetry ties\n");
+	  printf(" *ERROR in expand.c: total mass of structure is zero\n");
+	  printf("        maybe no element sets were specified for the\n");
+	  printf("        cyclic symmetry ties\n");
 	  FORTRAN(stop,());
 	}
 
