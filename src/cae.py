@@ -73,7 +73,7 @@ from gui.window import wf
 wf.run_master(p.main_xml)
 
 # Assign main window actions
-import actions
+import actions # TODO use the module
 
 # Import default model
 if len(args.inp):
