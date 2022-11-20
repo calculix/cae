@@ -1,0 +1,6 @@
+<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body> <H2> <BR> *ROBUST DESIGN </H2>  <P> Keyword type: step  <P> This procedure is used to perform a robust design analysis. It is used to create random fields based on correlation and geometric tolerance information provided by the user. The only parameter RANDOM FIELD ONLY is required.  <P> The result of a robust design analysis is a set of eigenvectors (random fields) which represent the possible fluctuation of the geometry of the structure caused by the tolerances and up to a specified accuracy. Other keywords needed in a robust design analysis are *CORRELATION   LENGTH and *GEOMETRIC TOLERANCES.  <P><P> <BR>  <P> First line:  <UL> <LI>*ROBUST DESIGN </LI> <LI>Enter the RANDOM FIELD ONLY parameter. </LI> </UL> Second line:  <UL> <LI>Requested accuracy (real number; <SPAN CLASS="MATH"><B><IMG  WIDTH="33" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"  SRC="img2490.png"  ALT="$ &gt;0.$"></B></SPAN> and <SPAN CLASS="MATH"><B><IMG  WIDTH="33" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"  SRC="img2491.png"  ALT="$ &lt;1.$"></B></SPAN>). </LI> </UL>  <P> <PRE>
+Example:
+
+*ROBUST DESIGN,RANDOM FIELD ONLY
+0.99
+</PRE>  <P> defines a robust design analysis up to an accuracy of 99 %.  <P>  <P><P> <BR> Example files: beamprand.  <P> </body></html>

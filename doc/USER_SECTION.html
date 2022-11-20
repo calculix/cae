@@ -1,0 +1,6 @@
+<html><head><link rel="stylesheet" type="text/css" href="style.css"/></head><body> <H2> <BR> *USER SECTION </H2>  <P> Keyword type: model definition  <P> This option is used to assign material properties to user element sets. The parameters ELSET, MATERIAL and CONSTANTS are required. The parameter ELSET defines the user element set to which the material specified by the parameter MATERIAL applies. Finally, with the parameter CONSTANTS the number of parameters needed to describe the user element (e.g. the thickness for a shell-type user element) is defined.  <P><P> <BR>  <P> First line:  <UL> <LI>*USER SECTION </LI> <LI>Enter any needed parameters. </LI> </UL>  <P> Following line:  <UL> <LI>First constant </LI> <LI>Second constant </LI> <LI>etc (maximum eight constants on this line) </LI> </UL> Repeat this line if more than eight constants are needed to describe the user section.  <P> <PRE>
+Example:
+
+*USER SECTION,MATERIAL=EL,ELSET=Eall,CONSTANTS=1
+0.01
+</PRE>  <P> assigns material EL to all elements in (user element) set Eall. There is one constant with value 0.01.  <P>  <P><P> <BR> Example files: .  <P> </body></html>
