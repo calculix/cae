@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""© Ihor Mirzov, 2019-2021
+"""© Ihor Mirzov, 2019-2023
 Distributed under GNU General Public License v3.0
 
 Class to work with master/slave windows. For each pair of windows a separate
