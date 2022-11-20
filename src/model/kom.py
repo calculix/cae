@@ -39,6 +39,8 @@ class KeywordObjectModel:
         self.keywords = []
         self.keyword_names = ()
 
+        self.groups = []
+
         # 'Model' group from kom.xml
         self.root = Group()
 
@@ -80,6 +82,8 @@ class KeywordObjectModel:
             if xml_child.tag=='Keyword':
                 self.keywords.append(item)
                 self.keyword_names += (item.name, )
+            if xml_child.tag=='Group':
+                self.groups.append(item)
 
             # Argument values for QComboBox
             if xml_child.tag=='Argument' and xml_child.text:

@@ -4,8 +4,7 @@
 """© Ihor Mirzov, 2019-2023
 Distributed under GNU General Public License v3.0
 
-Test if all keywords has HTML file in the documentation
-and if there are no redundant HTML files.
+Test if all keywords have a corresponding icon.
 """
 
 # Standard modules
@@ -27,26 +26,26 @@ from path import p
 from model.kom import KOM
 
 
-class TestDoc(unittest.TestCase):
+class TestIcons(unittest.TestCase):
 
-    def test_doc(self):
-        """Amount of HTML files has to coincide with the amount of keywords."""
-        keywords = set()
-        for item in KOM.keywords:
-            keyword_name = item.name[1:] # cut star
-            html_page_name = re.sub(r'[ -]', '_', keyword_name)
-            keywords.add(html_page_name)
+    def test_icons(self):
+        """Test if all keywords have a corresponding icon."""
+        keywords = set(['icon_logo', 'icon_job'])
+        for item in KOM.keywords + KOM.groups:
+            item_name = re.sub(r'\*', '', item.name) # cut star
+            icon_name = 'icon_' + re.sub(r'[ -]', '_', item_name)
+            keywords.add(icon_name.lower())
 
-        files = glob.glob(p.doc + '/*.html')
-        files = [os.path.basename(f)[:-5] for f in files]
+        files = glob.glob(p.img + '/icon_*.png')
+        files = [os.path.basename(f)[:-4] for f in files]
 
         for k in keywords:
             if not k in files:
-                print('No documentation file for', k)
+                print('No icon for', k)
         for f in files:
             if not f in keywords:
-                print('Redundant doc file', f)
-        
+                print('Redundant', f)
+
         self.assertEqual(len(files), len(keywords))
 
 
