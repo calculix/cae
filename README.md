@@ -181,16 +181,17 @@ You may also need libraries:
 
 What's new in future v0.9.0:
 
-- CalculiX 2.20. Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap). Switch colormaps from menu CGX.
-- Significantly improved INP importer algorithm. Now parser supports keyword line continuation. Tested on over 20 000 INP files, including Abaqus models.
-- New checker module. Checks are called on the application start. OS name, Python version, CAE version and default web browser are logged. Requirements are installed automatically via pip. Statrup checks could be switched off from the settings.
-- Refactored logging system. Now it is a new dedicated module.
-- Significantly improved window connectivity (master/slave).
-- Improved robustness - now almost every module has a test. Test system uses 'unittest' standard library.
-- Simplified code to omit redundant arguments passing between objects. Class instances are created directly in modules and imported to any other module.
-- Using external python packages *ccx2paraview* and *unv2ccx* as required dependacies.
-- Added buttons to select paths in Settings dialog.
-- cae.bat and cae.sh - run source code
++ CalculiX 2.20. Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap). Switch colormaps from menu CGX.
++ Significantly improved INP importer algorithm. Now parser supports keyword line continuation. Tested on over 20 000 INP files, including Abaqus models.
++ New checker module. Checks are called on the application start. OS name, Python version, CAE version and default web browser are logged. Requirements are installed automatically via pip. Statrup checks could be switched off from the settings.
++ Refactored logging system. Now it is a new dedicated module.
++ Significantly improved window connectivity (master/slave).
++ Improved robustness - now almost every module has a test. Test system uses 'unittest' standard library.
++ Simplified code to omit redundant arguments passing between objects. Class instances are created directly in modules and imported to any other module.
++ Using external python packages *ccx2paraview* and *unv2ccx* as required dependacies.
++ Added buttons to select paths in Settings dialog.
++ cae.bat and cae.sh - run source code
++ Unittest: each keyword from kom.xml has corresponding html file in doc.
 
 <br/><br/>
 
@@ -199,7 +200,6 @@ What's new in future v0.9.0:
 # TODO
 
 - Code, docs and KOM for v 2.20.
-- Unittest: each keyword from kom.xml has corresponding html file in doc.
 
 https://www.x.org/releases/X11R7.5/doc/man/man3/XSetFont.3.html
 
