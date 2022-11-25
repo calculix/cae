@@ -188,7 +188,9 @@ class KeywordDialog(QtWidgets.QDialog):
         self.show()
 
     def change(self, event):
-        """Update piece of INP-code in the textEdit widget."""
+        """Update piece of INP-code in the textEdit widget.
+        # TODO QFileDialog in kom.xml
+        """
         arguments = {} # name:value
         for i, widget in enumerate(self.widgets):
 
@@ -225,10 +227,11 @@ class KeywordDialog(QtWidgets.QDialog):
         if self.item.itype == ItemType.KEYWORD:
             string = self.item.name
             for name, value in arguments.items():
-                if self.item.from_new_line:
-                    string += '\n' + name + value # argument goes from new line
-                else:
-                    string += ', ' + name + value # argument goes inline
+                # TODO Argument could need a new line
+                # if self.item.new_line:
+                #     string += '\n' + name + value # argument goes from new line
+                # else:
+                string += ', ' + name + value # argument goes inline
         if self.item.itype == ItemType.IMPLEMENTATION:
             string = self.item.parent.name
 

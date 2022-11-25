@@ -8,6 +8,10 @@ CalculiX Keyword Object Model (hierarchy).
 Parser supposts mutually exclusive parameters for keywords.
 Keywords with all arguments are parsed from config/kom.xml.
 On INP import KOM is enriched with keyword implementations.
+
+TODO
+new_line has to be Argument attribute.
+If name starts from * - it is a link to a Keyword instance.
 """
 
 # Standard modules
@@ -267,7 +271,6 @@ class Keyword(Item):
         self.itype = ItemType.KEYWORD
         self.items = [] # list of arguments
         self.name = ''
-        self.from_new_line = False # start all arguments from the next line?
         self.expanded = s.expanded
 
 
@@ -281,11 +284,14 @@ class Argument(Item):
         self.name = ''
         self.form = '' # QCheckBox, QLineEdit, QComboBox
         self.required = False
+        self.new_line = False # start argument from the new line?
 
 
 class Implementation(Item):
     """Keyword implementation - 
     a piece of INP-code for CalculiX input file.
+
+    TODO Rename to Instance.
     """
 
     def __init__(self, keyword, inp_code, name=None):
