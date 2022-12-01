@@ -24,7 +24,7 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 from path import p
-from model.kom import KOM
+from model.kom import KWL
 
 
 class TestDoc(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestDoc(unittest.TestCase):
     def test_doc(self):
         """Amount of HTML files has to coincide with the amount of keywords."""
         keywords = set()
-        for item in KOM.keywords:
+        for item in KWL.keywords:
             keyword_name = item.name[1:] # cut star
             html_page_name = re.sub(r'[ -]', '_', keyword_name)
             keywords.add(html_page_name)

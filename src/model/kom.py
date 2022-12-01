@@ -4,14 +4,12 @@
 """© Ihor Mirzov, 2019-2023
 Distributed under GNU General Public License v3.0
 
-CalculiX Keyword Object Model (hierarchy).
+CalculiX Keyword Object Model. Hierarchy is described by the
+KeywordTree, attributes - by the KeywordList class.
+Keywords dependancies are parsed from kw_tree.xml.
+All the arguments are parsed from kw_list.xml.
+On INP import KWT is enriched with keyword implementations.
 Parser supposts mutually exclusive parameters for keywords.
-Keywords with all arguments are parsed from config/kom.xml.
-On INP import KOM is enriched with keyword implementations.
-
-TODO
-new_line has to be Argument attribute.
-If name starts from * - it is a link to a Keyword instance.
 """
 
 # Standard modules
@@ -33,26 +31,21 @@ from path import p
 from settings import s
 
 
-class KeywordObjectModel:
-    """Implements a chierarchy of all CalculiX keywords."""
+class KeywordTree:
 
-    def __init__(self, kom_xml=p.kom_xml):
-        """Read CalculiX keywords hierarchy."""
-
-        # List of all existing keywords
-        self.keywords = []
+    def __init__(self):
+        """Read CalculiX keywords tree."""
         self.keyword_names = ()
-
         self.groups = []
 
-        # 'Model' group from kom.xml
+        # 'Model' group from kw_tree.xml
         self.root = Group()
 
         # Parse keywords hierarchy and build Keyword Object Model
         try:
-            t = ET.parse(kom_xml)
+            t = ET.parse(p.kw_tree_xml)
             self.build(t.getroot(), self.root)
-            logging.info('Keywords object model generated.')
+            logging.info('Keywords tree parsed.')
         except:
             import traceback
             msg = 'Can\'t generate keywords object model!\n' \
@@ -82,9 +75,7 @@ class KeywordObjectModel:
             for k,v in xml_child.attrib.items():
                 setattr(item, k, v)
 
-            # Fill self.keywords
             if xml_child.tag=='Keyword':
-                self.keywords.append(item)
                 self.keyword_names += (item.name, )
             if xml_child.tag=='Group':
                 self.groups.append(item)
@@ -98,12 +89,6 @@ class KeywordObjectModel:
 
             self.build(xml_child, item)
 
-    def get_keyword_by_name(self, name, parent=None):
-        """Get keyword from self.keywords by its name."""
-        for kw in self.keywords:
-            if kw.name == name:
-                return kw
-
     def get_inp_code_as_lines(self, parent=None, level=0):
         """Recursively get whole model inp_code as list of strings (lines).
         Parent is item, level defines code folding/padding.
@@ -114,7 +99,7 @@ class KeywordObjectModel:
         if parent.itype == ItemType.IMPLEMENTATION:
             level += 1
 
-        # For each group/keyword from KOM
+        # For each group/keyword from KWT
         for item in parent.items:
             if item.itype == ItemType.ARGUMENT:
                 continue
@@ -147,6 +132,71 @@ class KeywordObjectModel:
                 kw = self.get_top_keyword_by_name(item, kw_name)
                 if kw is not None:
                     return kw
+
+
+class KeywordList:
+
+    def __init__(self):
+        """Parse CalculiX keywords list with arguments."""
+
+        # List of all existing keywords
+        self.keywords = []
+
+        # 'Model' group from kw_tree.xml
+        self.root = Group()
+
+        # Parse keywords list with arguments
+        try:
+            l = ET.parse(p.kw_list_xml)
+            self.build(l.getroot(), self.root)
+            logging.info('Keywords list parsed.')
+        except:
+            import traceback
+            msg = 'Can\'t generate keywords object model!\n' \
+                + traceback.format_exc()
+            logging.error(msg)
+
+    def build(self, xml_branch, parent):
+        """Recursively build Keyword Object Model."""
+        for xml_child in xml_branch:
+            # logging.log(5, xml_child.tag + ', ' + str(xml_child.attrib))
+            """
+            xml_child.tag, xml_child.attrib:
+
+            Keyword, {'name': '*RESTART'}
+            Keyword, {'name': '*TIME POINTS'}
+            Group, {'name': 'Interactions'}
+            Group, {'name': 'Constraints'}
+            """
+
+            # Create item: group, keyword or argument
+            klass = globals()[xml_child.tag]
+            item = klass()
+            parent.items.append(item)
+
+            # Set fields for object
+            setattr(item, 'parent', parent) # set parent
+            for k,v in xml_child.attrib.items():
+                setattr(item, k, v)
+
+            # Fill self.keywords
+            if xml_child.tag=='Keyword':
+                self.keywords.append(item)
+
+            # Argument values for QComboBox
+            if xml_child.tag=='Argument' and xml_child.text:
+                values = xml_child.text.strip()
+                if len(values):
+                    values = values.split('|')
+                    item.items.extend(values)
+
+            self.build(xml_child, item)
+
+    def get_keyword_by_name(self, name, parent=None):
+        """Get keyword from self.keywords by its name."""
+        for kw in self.keywords:
+            if kw.name == name:
+                return kw
 
 
 class ItemType(Enum):
@@ -283,6 +333,7 @@ class Argument(Item):
         self.items = [] # list of strings
         self.name = ''
         self.form = '' # QCheckBox, QLineEdit, QComboBox
+        self.use = ''
         self.required = False
         self.new_line = False # start argument from the new line?
 
@@ -325,11 +376,12 @@ class Implementation(Item):
         if name:
             logging.info('{} \"{}\" updated.'.format(keyword.name, self.name))
         else:
-            logging.info('{} {} created.'.format(keyword.name, self.name))
             # logging.debug(' > '.join(self.get_path()))
+            logging.info('{} {} created.'.format(keyword.name, self.name))
 
 
 # Empty Keyword Object Model w/o implementations
 logging.disable() # switch off logging
-KOM = KeywordObjectModel()
+KWT = KeywordTree()
+KWL = KeywordList()
 logging.disable(logging.NOTSET) # switch on logging

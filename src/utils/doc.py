@@ -69,8 +69,8 @@ def regenerate_documentation():
     """Regenerate all HTML help pages.
     Avoid spaces in html page names.
     """
-    from model.kom import KOM
-    for item in KOM.keywords:
+    from model.kom import KWL
+    for item in KWL.keywords:
         keyword_name = item.name[1:] # cut star
         html_page_name = re.sub(r'[ -]', '_', keyword_name)
         url = os.path.join(p.doc, html_page_name + '.html')

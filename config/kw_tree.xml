@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	© Ihor Mirzov, 2019-2023
+	Distributed under GNU General Public License v3.0
+
+	CalculiX Keywords Tree
+-->
+<tree>
+	<Group name='Attributes'>
+		<Keyword name='*HEADING'/>
+		<Keyword name='*DESIGN VARIABLES'/>
+		<Keyword name='*PHYSICAL CONSTANTS'/>
+		<Keyword name='*VALUES AT INFINITY'/>
+		<Keyword name='*SUBMODEL'>
+			<Keyword name='*DSLOAD'/>
+		</Keyword>
+	</Group>
+	<Group name='Mesh'>
+		<Keyword name='*NODE'/>
+		<Keyword name='*NSET'/>
+		<Keyword name='*ELEMENT'>
+			<Keyword name='*USER ELEMENT'/>
+		</Keyword>
+		<Keyword name='*ELSET'/>
+		<Keyword name='*SURFACE'/>
+		<Keyword name='*GAP'/>
+	</Group>
+	<Group name='Properties'>
+		<Keyword name='*NODAL THICKNESS'/>
+		<Keyword name='*NORMAL'/>
+		<Keyword name='*MASS'/>
+		<Keyword name='*SPRING'/>
+		<Keyword name='*DASHPOT'/>
+		<Keyword name='*MATERIAL'>
+			<Keyword name='*CONDUCTIVITY'/>
+			<Keyword name='*CREEP'/>
+			<Keyword name='*CYCLIC HARDENING'/>
+			<Keyword name='*DAMPING'/>
+			<Keyword name='*DEFORMATION PLASTICITY'/>
+			<Keyword name='*DENSITY'/>
+			<Keyword name='*DEPVAR'/>
+			<Keyword name='*ELASTIC'/>
+			<Keyword name='*ELECTRICAL CONDUCTIVITY'/>
+			<Keyword name='*EXPANSION'/>
+			<Keyword name='*FLUID CONSTANTS'/>				
+			<Keyword name='*HYPERELASTIC'/>
+			<Keyword name='*HYPERFOAM'/>
+			<Keyword name='*MAGNETIC PERMEABILITY'/>
+			<Keyword name='*PLASTIC'/>
+			<Keyword name='*SPECIFIC GAS CONSTANT'/>
+			<Keyword name='*SPECIFIC HEAT'/>
+			<Keyword name='*USER MATERIAL'/>
+		</Keyword>
+		<Group name='Section'>
+			<Keyword name='*BEAM SECTION'/>
+			<Keyword name='*FLUID SECTION'/>
+			<Keyword name='*MEMBRANE SECTION'/>
+			<Keyword name='*SHELL SECTION'/>
+			<Keyword name='*SOLID SECTION'/>
+			<Keyword name='*PRE-TENSION SECTION'/>
+			<Keyword name='*USER SECTION'/>
+		</Group>
+	</Group>
+	<Keyword name='*DISTRIBUTION'/>
+	<Keyword name='*ORIENTATION'/>
+	<Keyword name='*TRANSFORM'/>
+	<Keyword name='*AMPLITUDE'/>
+	<Keyword name='*BOUNDARY'/>
+	<Keyword name='*INCLUDE'/>
+	<Keyword name='*INITIAL CONDITIONS'/>
+	<Keyword name='*RESTART'/>
+	<Keyword name='*TIME POINTS'/>
+	<Group name='Interactions'>
+		<Keyword name='*CONTACT PAIR'/>
+		<Keyword name='*CLEARANCE'/>
+		<Keyword name='*SURFACE INTERACTION'>
+			<Keyword name='*SURFACE BEHAVIOR'>
+				<Keyword name='*FRICTION'/>
+				<Keyword name='*GAP CONDUCTANCE'/>
+				<Keyword name='*CONTACT DAMPING'/>
+				<Keyword name='*GAP HEAT GENERATION'/>
+			</Keyword>
+		</Keyword>
+	</Group>
+	<Group name='Constraints'>
+		<Keyword name='*EQUATION'/>
+		<Keyword name='*MPC'/>
+		<Keyword name='*NETWORK MPC'/>
+		<Keyword name='*RIGID BODY'/>
+		<Keyword name='*COUPLING'/>
+		<Keyword name='*DISTRIBUTING'/>
+		<Keyword name='*DISTRIBUTING COUPLING'/>
+		<Keyword name='*KINEMATIC'/>
+		<Keyword name='*TIE'/>
+		<Keyword name='*CYCLIC SYMMETRY MODEL'/>
+	</Group>
+	<Keyword name='*STEP'>
+		<Group name='Analysis type'>
+			<Keyword name='*NO ANALYSIS'/>
+			<Keyword name='*BUCKLE'/>
+			<Keyword name='*CFD'/>
+			<Keyword name='*COUPLED TEMPERATURE-DISPLACEMENT'/>
+			<Keyword name='*DYNAMIC'/>
+			<Keyword name='*ELECTROMAGNETICS'/>
+			<Keyword name='*FEASIBLE DIRECTION'>
+				<Keyword name='*OBJECTIVE'/>
+				<Keyword name='*GEOMETRIC CONSTRAINT'/>
+			</Keyword>
+			<Keyword name='*FREQUENCY'/>
+			<Keyword name='*COMPLEX FREQUENCY'/>
+			<Keyword name='*CRACK PROPAGATION'/>
+			<Keyword name='*GREEN'/>
+			<Keyword name='*HEAT TRANSFER'>
+				<Keyword name='*VIEWFACTOR'/>
+			</Keyword>
+			<Keyword name='*MODAL DYNAMIC'>
+				<Keyword name='*MODAL DAMPING'/>
+				<Keyword name='*BASE MOTION'/>
+			</Keyword>
+			<Keyword name='*ROBUST DESIGN'>
+				<Keyword name='*GEOMETRIC TOLERANCES'/>
+				<Keyword name='*CORRELATION LENGTH'/>
+			</Keyword>
+			<Keyword name='*SENSITIVITY'>
+				<Keyword name='*DESIGN RESPONSE'/>
+				<Keyword name='*FILTER'/>
+				<Keyword name='*CONSTRAINT'/>
+			</Keyword>
+			<Keyword name='*STATIC'>
+				<Keyword name='*TEMPERATURE'/>
+			</Keyword>
+			<Keyword name='*STEADY STATE DYNAMICS'>
+				<Keyword name='*MODAL DAMPING'/>
+				<Keyword name='*BASE MOTION'/>
+			</Keyword>
+			<Keyword name='*SUBSTRUCTURE GENERATE'>
+				<Keyword name='*SUBSTRUCTURE MATRIX OUTPUT'/>
+				<Keyword name='*RETAINED NODAL DOFS'/>
+			</Keyword>
+			<Keyword name='*UNCOUPLED TEMPERATURE-DISPLACEMENT'/>
+			<Keyword name='*VISCO'/>
+		</Group>
+		<Group name='Field Output'>
+			<Keyword name='*CONTACT FILE'/>
+			<Keyword name='*CONTACT OUTPUT'/>
+			<Keyword name='*CONTACT PRINT'/>
+			<Keyword name='*EL FILE'/>
+			<Keyword name='*ELEMENT OUTPUT'/>
+			<Keyword name='*EL PRINT'/>
+			<Keyword name='*NODE FILE'/>
+			<Keyword name='*NODE OUTPUT'/>
+			<Keyword name='*NODE PRINT'/>
+			<Keyword name='*OUTPUT'/>
+			<Keyword name='*SECTION PRINT'/>
+		</Group>
+		<Group name='Load &amp; BC'>
+			<Keyword name='*BOUNDARY'/>
+			<Keyword name='*MASS FLOW'/>
+			<Keyword name='*CLOAD'/>
+			<Keyword name='*DLOAD'/>
+			<Keyword name='*DSLOAD'/>
+			<Keyword name='*CFLUX'/>
+			<Keyword name='*DFLUX'/>
+			<Keyword name='*RADIATE'/>
+			<Keyword name='*FILM'/>
+		</Group>
+		<Group name='Change'>
+			<Keyword name='*INITIAL STRAIN INCREASE'/>
+			<Keyword name='*CHANGE FRICTION'>
+				<Keyword name='*FRICTION'/>
+			</Keyword>
+			<Keyword name='*CHANGE MATERIAL'/>
+			<Keyword name='*CHANGE PLASTIC'/>
+			<Keyword name='*CHANGE SURFACE BEHAVIOR'>
+				<Keyword name='*SURFACE BEHAVIOR'/>
+			</Keyword>
+			<Keyword name='*CHANGE SOLID SECTION'/>
+			<Keyword name='*MODEL CHANGE'/>
+		</Group>
+		<Keyword name='*CONTROLS'/>
+		<Keyword name='*EQUATION'/>
+		<Keyword name='*HCF'/>
+		<Keyword name='*INCLUDE'/>
+		<Keyword name='*REFINE MESH'/>
+		<Keyword name='*RESTART'/>
+		<Keyword name='*SELECT CYCLIC SYMMETRY MODES'/>
+		<Keyword name='*END STEP'/>
+	</Keyword>
+</tree>

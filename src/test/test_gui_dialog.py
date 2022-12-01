@@ -23,7 +23,7 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-from model.kom import KOM
+from model.kom import KWL
 from gui.dialog import KeywordDialog
 
 
@@ -32,7 +32,7 @@ class TestDialog(unittest.TestCase):
     def test_dialog(self):
         """Create keyword dialog"""
         app = QtWidgets.QApplication(sys.argv)
-        i = KOM.get_keyword_by_name('*NODE')
+        i = KWL.get_keyword_by_name('*NODE')
         try:
             d = KeywordDialog(i)
         except:

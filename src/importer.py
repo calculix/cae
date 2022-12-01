@@ -5,7 +5,7 @@
 Distributed under GNU General Public License v3.0
 
 File importer:
-- Enrich KOM with implementations from parsed file.
+- Enrich KWT with implementations from parsed file.
 - Generate new tree with keyword implementations.
 - Parse mesh.
 - Open model in CGX.
@@ -29,7 +29,7 @@ from PyQt5 import QtWidgets
 
 # My modules
 from model import m
-from model.kom import KOM, KeywordObjectModel, Implementation
+from model.kom import KWT, KeywordTree, Implementation
 import log
 from utils import tests
 
@@ -117,7 +117,7 @@ class Importer:
 
     def parse_blocks(self):
         """Create keyword implementations in self.keyword_blocks."""
-        parent = KOM.root
+        parent = KWT.root
         messages = []
 
         for kwb in self.keyword_blocks:
@@ -125,13 +125,13 @@ class Importer:
             # Create implementations (for example, MATERIAL-1)
             kw = None
             while kw is None and parent is not None: # root has None parent
-                kw = KOM.get_top_keyword_by_name(parent, kwb.keyword_name)
+                kw = KWT.get_top_keyword_by_name(parent, kwb.keyword_name)
                 if kw is not None:
                     parent = Implementation(kw, kwb.get_inp_code())
                 else:
                     parent = parent.parent
             if kw is None:
-                parent = KOM.root
+                parent = KWT.root
                 msg = 'Misplaced or wrong keyword {}.'\
                     .format(kwb.keyword_name)
                 if msg not in messages:
@@ -164,8 +164,8 @@ class Importer:
             from gui import stdout
             stdout.stop_readers()
 
-            # Generate new KOM without implementations
-            KOM.__init__()
+            # Generate new KWT without implementations
+            KWT.__init__()
 
             inp_files = []
             if file_name.lower().endswith('.inp'):
@@ -216,12 +216,12 @@ class Importer:
             # Split INP code on blocks - fill self.keyword_blocks
             self.split_on_blocks(inp_doc)
 
-            # Parse keyword_blocks and enrich KOM with parsed objects
+            # Parse keyword_blocks and enrich KWT with parsed objects
             self.parse_blocks()
 
             # Write generated INP code as file and reopen it normally
             if file_name.lower().endswith(('.fbd', '.fbl')):
-                j.write_input(KOM.get_inp_code_as_lines(), file_name=j.inp)
+                j.write_input(KWT.get_inp_code_as_lines(), file_name=j.inp)
 
             # Add parsed implementations to the tree
             from gui.tree import t
@@ -302,9 +302,9 @@ def test():
         log.print_to_file(log_file, '\n{} {}'.format(counter, relpath))
 
         # Build new clean/empty keyword object model
-        KOM = KeywordObjectModel()
+        KWT = KeywordTree()
 
-        # Parse inp_doc end enrich existing KOM
+        # Parse inp_doc end enrich existing KWT
         i = Importer()
         inp_doc = read_lines(file_name)
         i.split_on_blocks(inp_doc) # fill keyword_blocks

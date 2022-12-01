@@ -28,7 +28,7 @@ from path import p
 from settings import s
 from model.parsers.mesh import Mesh
 from model.kom import ItemType, Implementation
-from model.kom import KOM
+from model.kom import KWT
 from model import m
 from gui.window import wf, df
 from utils import tests
@@ -49,10 +49,10 @@ class Tree:
             self.actionDeleteImplementation()
 
     def generateTreeView(self):
-        """Recursively generate treeView widget items based on KOM."""
+        """Recursively generate treeView widget items based on KWT."""
         self.model.clear() # remove all items and data from tree
         parent_element = self.model.invisibleRootItem() # top element in QTreeView
-        self.addToTree(parent_element, KOM.root.items) # pass top level groups
+        self.addToTree(parent_element, KWT.root.items) # pass top level groups
 
     def addToTree(self, parent_element, items):
         """Used with generateTreeView() - implements recursion."""
@@ -311,7 +311,7 @@ class Tree:
         s.save()
 
     def actionDeleteImplementation(self):
-        """Delete keyword implementation from KOM."""
+        """Delete keyword implementation from KWT."""
 
         def hide_parent(tree_element):
             # To hide current item/brunch it should be empty 'keyword' or 'group'
@@ -355,7 +355,7 @@ class Tree:
                     hide_parent(parent)
 
     def expanded_or_collapsed(self, index):
-        """Change KOM item 'expanded' variable when user interacts with treeView."""
+        """Change KWT item 'expanded' variable when user interacts with treeView."""
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
         item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
         if item:
@@ -378,7 +378,7 @@ def test():
     # Show main window
     wf.run_master()
 
-    # Create treeView items based on KOM
+    # Create treeView items based on KWT
     t = Tree()
 
     # Actions

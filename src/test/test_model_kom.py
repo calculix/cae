@@ -20,21 +20,21 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-from model.kom import KOM, ItemType
+from model.kom import KWL, ItemType
 
 
 class TestKOM(unittest.TestCase):
 
     def test_kom1(self):
         """Test if CalculiX keywords are generated"""
-        self.assertTrue(len(KOM.keyword_names))
+        self.assertTrue(len(KWL.keywords))
 
     def test_kom2(self, parent=None, path=None):
         """Test parent-child relations in all tree items"""
 
         if parent is None:
-            parent = KOM.root
-            path = KOM.root.name
+            parent = KWL.root
+            path = KWL.root.name
         for item in parent.items:
             if item.itype == ItemType.ARGUMENT:
                 continue

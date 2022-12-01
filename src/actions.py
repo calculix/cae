@@ -31,9 +31,9 @@ wf.mw.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
 # Job actions
 from gui.job import j
-from model.kom import KOM
+from model.kom import KWT
 wf.mw.action_job_write_input.triggered.connect(
-    lambda: j.write_input(KOM.get_inp_code_as_lines()))
+    lambda: j.write_input(KWT.get_inp_code_as_lines()))
 wf.mw.action_job_write_input.triggered.connect(
     lambda: wf.mw.setWindowTitle('CalculiX Advanced Environment - ' + j.name))
 wf.mw.action_job_edit_inp.triggered.connect(lambda: j.open_inp())

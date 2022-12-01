@@ -21,7 +21,7 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-from model.kom import KOM
+from model.kom import KWL
 from path import p
 
 
@@ -29,7 +29,7 @@ class Test(unittest.TestCase):
 
     def test_html_pages(self):
         """Check if HTML pages are generated for all keywords"""
-        keywords = [re.sub(r'[ -]', '_', kw.name[1:]) for kw in KOM.keywords]
+        keywords = [re.sub(r'[ -]', '_', kw.name[1:]) for kw in KWL.keywords]
         keywords = sorted(set(keywords))
         # print(keywords)
         # print('\nTotal {} keywords'.format(len(keywords)))

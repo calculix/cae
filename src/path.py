@@ -33,7 +33,8 @@ class Path:
 
         self.config = os.path.join(self.app_home_dir, 'config')
         self.main_xml = os.path.join(self.config, 'Window.xml')
-        self.kom_xml = os.path.join(self.config, 'kom.xml')
+        self.kw_list_xml = os.path.join(self.config, 'kw_list.xml')
+        self.kw_tree_xml = os.path.join(self.config, 'kw_tree.xml')
         self.settings_xml = os.path.join(self.config, 'SettingsDialog.xml')
         self.dialog_xml = os.path.join(self.config, 'KeywordDialog.xml')
         self.version_txt = os.path.join(self.config, 'version.txt')

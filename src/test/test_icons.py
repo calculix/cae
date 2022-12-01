@@ -23,7 +23,7 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 from path import p
-from model.kom import KOM
+from model.kom import KWT, KWL
 
 
 class TestIcons(unittest.TestCase):
@@ -31,7 +31,7 @@ class TestIcons(unittest.TestCase):
     def test_icons(self):
         """Test if all keywords have a corresponding icon."""
         keywords = set(['icon_logo', 'icon_job'])
-        for item in KOM.keywords + KOM.groups:
+        for item in KWL.keywords + KWT.groups:
             item_name = re.sub(r'\*', '', item.name) # cut star
             icon_name = 'icon_' + re.sub(r'[ -]', '_', item_name)
             keywords.add(icon_name.lower())
