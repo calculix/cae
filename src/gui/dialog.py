@@ -53,8 +53,9 @@ class MyWidget(QtWidgets.QWidget):
         self.vertical_layout = QtWidgets.QVBoxLayout()
         self.vertical_layout.setContentsMargins(0, 0, 0, 0)
         if argument.comment:
-            comment = QtWidgets.QLabel(argument.comment)
-            self.vertical_layout.addWidget(comment)
+            comment_label = QtWidgets.QLabel(argument.comment)
+            comment_label.setStyleSheet('color:Gray;')
+            self.vertical_layout.addWidget(comment_label)
 
         self.horizontal_layout = QtWidgets.QHBoxLayout()
         self.horizontal_layout.setContentsMargins(0, 0, 0, 10) # bottom margin
@@ -261,6 +262,7 @@ class KeywordDialog(QtWidgets.QDialog):
         """Check if all required fields are filled."""
         for w in self.widgets:
             if w.required:
+                # name = w.name.replace('=', '') # argument name
                 name = w.name # argument name
                 value = w.text() # argument value
                 if not value:
@@ -318,21 +320,7 @@ class KeywordDialog(QtWidgets.QDialog):
 def test_dialog():
     """Create keyword dialog"""
     app = QtWidgets.QApplication(sys.argv)
-    # item = KWL.get_keyword_by_name('*EL FILE')
-    # item = KWL.get_keyword_by_name('*INCLUDE')
-    # item = KWL.get_keyword_by_name('*AMPLITUDE')
-    item = KWL.get_keyword_by_name('*DESIGN VARIABLES')
-    # item = KWL.get_keyword_by_name('*DESIGN RESPONSE')
-    # item = KWL.get_keyword_by_name('*MPC')
-    # item = KWL.get_keyword_by_name('*GEOMETRIC CONSTRAINT')
-    # item = KWL.get_keyword_by_name('*STEP')
-
-    # from model import kom
-    # item = kom.Implementation(item, 'qwe')
-
-    # d = KeywordDialog(item)
-    # app.exec()
-
+    item = KWL.get_keyword_by_name('*MASS')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
