@@ -43,7 +43,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Official [HTML documentation](doc) is natively integrated into the keyword edit dialogs (Help button).
 
-- Calculix keywords hierarchy with all attributes is maintaned in [editable XML file](config/kom.xml).
+- Calculix keywords with all attributes is maintaned in [editable XML file](config/kw_list.xml).
 
 - [Solid mesh parser](src/model/parsers/mesh.py) supports includes in the input file. Tested on the all official CalculiX examples. See [mesh.log](src/model/parsers/mesh.log).
 
@@ -141,10 +141,11 @@ The intended workflow is:
 - view job result in GraphiX or export it to post-process in Paraview.
 
 In Windows to work with subroutines and to recompile CalculiX sources from CAE you'll need [cygwin](https://www.cygwin.com/). Install it to 'C:\\cygwin64' with:
-- gcc-g++ 7.3.0-3
-- gcc-fortran 7.3.0-3
-- make 4.2.1-2
-- perl 5.26.3-2
+- gcc-g++ 11.3.0-1
+- gcc-fortran 11.3.0-1
+- make 4.3-1
+- perl 5.32.1-2
+- libglut3 3.2.1-1
 
 **Attention!** Do not move CCX or CGX from 'bin' directory!
 
@@ -191,7 +192,10 @@ What's new in future v0.9.0:
 + Using external python packages *ccx2paraview* and *unv2ccx* as required dependacies.
 + Added buttons to select paths in Settings dialog.
 + cae.bat and cae.sh - run source code
-+ Unittest: each keyword from kom.xml has corresponding html file in doc.
++ Unittest: each keyword from kw_list.xml has corresponding html file in doc.
++ Keywords hierarchy and keywords list with arguments now are driven by two separate xml-configs.
++ Added validation to the KeywordDialog widgets.
++ Bugfix: import menu did nothing in empty model.
 
 <br/><br/>
 
@@ -203,8 +207,7 @@ What's new in future v0.9.0:
 
 https://www.x.org/releases/X11R7.5/doc/man/man3/XSetFont.3.html
 
-----------------
-
+<pre>
 INFO: /media/ihor/WORK/Programming/Calculix/cae/bin/cgx -o "/media/ihor/WORK/Programming/MIPT/8_term_FEM/model.frd"
 DEBUG: Starting new window: 0x04200001, 50087, CalculiX GraphiX
 X protocol error:
@@ -213,9 +216,9 @@ X protocol error:
 <class 'Xlib.error.BadWindow'>: code = 3, resource_id = <class 'Xlib.xobject.resource.Resource'>(0x04200001), sequence_number = 15, major_opcode = 12, minor_opcode = 0
 WARNING: No slave window.
 WARNING: No slave window.
+</pre>
 
-----------------
-
+<pre>
 Traceback (most recent call last):
   File "/media/ihor/WORK/Programming/Calculix/cae/src/gui/tree.py", line 234, in clicked
     _set.append(int(n))
@@ -227,8 +230,7 @@ Traceback (most recent call last):
   File "/media/ihor/WORK/Programming/Calculix/cae/src/gui/tree.py", line 237, in clicked
     _set.extend([n.num for n in m.Mesh.nsets[n].items])
 KeyError: 'Nx0'
-
-----------------
+</pre>
 
 
 Examples and training materials:

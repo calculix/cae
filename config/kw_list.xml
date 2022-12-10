@@ -7,616 +7,621 @@
 -->
 <list>
 	<Keyword name='*AMPLITUDE'>
-		<Argument form='QtWidgets.QLineEdit' name='NAME' required='1'/>
-		<Argument form='QtWidgets.QComboBox' name='TIME'> |TOTAL TIME</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='USER'/>
-		<Argument form='QtWidgets.QLineEdit' name='SHIFTX'/>
-		<Argument form='QtWidgets.QLineEdit' name='SHIFTY'/>
+		<Argument form='Line' name='NAME' required='1'/>
+		<Argument form='Combo' name='TIME'>|TOTAL TIME</Argument>
+		<Argument form='Check' name='USER'/>
+		<Argument form='Line' name='SHIFTX'/>
+		<Argument form='Line' name='SHIFTY'/>
 	</Keyword>
 	<Keyword name='*BASE MOTION'>
-		<Argument form='QtWidgets.QLineEdit' name='DOF' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='AMPLITUDE' required='1'/>
-		<Argument form='QtWidgets.QComboBox' name='TYPE'>ACCELERATION|DISPLACEMENT</Argument>
+		<Argument form='Line' name='DOF' required='1'/>
+		<Argument form='Line' name='AMPLITUDE' required='1'/>
+		<Argument form='Combo' name='TYPE'>ACCELERATION|DISPLACEMENT</Argument>
 	</Keyword>
 	<Keyword name='*BEAM SECTION'>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='MATERIAL' required='1'/>
-		<Argument form='QtWidgets.QComboBox' name='SECTION' required='1'>RECT|CIRC|PIPE|BOX</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='ORIENTATION'/>
-		<Argument form='QtWidgets.QCheckBox' name='OFFSET1'/>
-		<Argument form='QtWidgets.QCheckBox' name='OFFSET2'/>
-		<Argument form='QtWidgets.QCheckBox' name='NODAL THICKNESS'/>
+		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument form='Line' name='MATERIAL' required='1'/>
+		<Argument form='Combo' name='SECTION' required='1'>RECT|CIRC|PIPE|BOX</Argument>
+		<Argument form='Line' name='ORIENTATION'/>
+		<Argument form='Check' name='OFFSET1'/>
+		<Argument form='Check' name='OFFSET2'/>
+		<Argument form='Check' name='NODAL THICKNESS'/>
 	</Keyword>
 	<Keyword name='*BOUNDARY'>
-		<Argument form='QtWidgets.QComboBox' name='OP'>NEW|MOD</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='AMPLITUDE'/>
-		<Argument form='QtWidgets.QLineEdit' name='TIME DELAY'/>
-		<Argument form='QtWidgets.QComboBox' name='LOAD CASE'> |1|2</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='USER'/>
-		<Argument form='QtWidgets.QLineEdit' name='MASS FLOW'/>
-		<Argument form='QtWidgets.QCheckBox' name='FIXED'/>
-		<Argument form='QtWidgets.QCheckBox' name='SUBMODEL'/>
-		<Argument form='QtWidgets.QLineEdit' name='STEP'/>
-		<Argument form='QtWidgets.QLineEdit' name='DATA SET'/>
+		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
+		<Argument form='Combo' name='LOAD CASE'> |1|2</Argument>
+		<Argument form='Check' name='USER'/>
+		<Argument form='Line' name='MASS FLOW'/>
+		<Argument form='Check' name='FIXED'/>
+		<Argument form='Check' name='SUBMODEL'/>
+		<Argument form='Line' name='STEP'/>
+		<Argument form='Line' name='DATA SET'/>
 	</Keyword>
 	<Keyword name='*BUCKLE'>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER' required='1'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
+		<Argument form='Combo' name='SOLVER' required='1'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
 	</Keyword>
 	<Keyword name='*CFD'>
-		<Argument form='QtWidgets.QCheckBox' name='STEADY STATE'/>
-		<Argument form='QtWidgets.QCheckBox' name='TIME RESET'/>
-		<Argument form='QtWidgets.QLineEdit' name='TOTAL TIME AT START'/>
-		<Argument form='QtWidgets.QCheckBox' name='COMPRESSIBLE'/>
-		<Argument form='QtWidgets.QComboBox' name='TURBULENCE MODEL'>NONE|K-EPSILON|K-OMEGA|SST</Argument>
-		<Argument form='QtWidgets.QComboBox' name='SCHEME'>UD|MODSMART</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='SIMPLEC'/>
+		<Argument form='Check' name='STEADY STATE'/>
+		<Argument form='Check' name='TIME RESET'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
+		<Argument form='Check' name='COMPRESSIBLE'/>
+		<Argument form='Combo' name='TURBULENCE MODEL'>NONE|K-EPSILON|K-OMEGA|SST</Argument>
+		<Argument form='Combo' name='SCHEME'>UD|MODSMART</Argument>
+		<Argument form='Check' name='SIMPLEC'/>
 	</Keyword>
 	<Keyword name='*CFLUX'>
-		<Argument form='QtWidgets.QComboBox' name='OP'>NEW|MOD</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='AMPLITUDE'/>
-		<Argument form='QtWidgets.QLineEdit' name='TIME DELAY'/>
-		<Argument form='QtWidgets.QCheckBox' name='USER'/>
-		<Argument form='QtWidgets.QCheckBox' name='ADD'/>
+		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
+		<Argument form='Check' name='USER'/>
+		<Argument form='Check' name='ADD'/>
 	</Keyword>
 	<Keyword name='*CHANGE FRICTION'>
-		<Argument form='QtWidgets.QLineEdit' name='INTERACTION' required='1'/>
+		<Argument form='Line' name='INTERACTION' required='1'/>
 	</Keyword>
 	<Keyword name='*CHANGE MATERIAL'>
-		<Argument form='QtWidgets.QLineEdit' name='NAME' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
 	<Keyword name='*CHANGE PLASTIC'>
-		<Argument form='QtWidgets.QComboBox' name='HARDENING'>ISOTROPIC|KINEMATIC</Argument>
+		<Argument form='Combo' name='HARDENING'>ISOTROPIC|KINEMATIC</Argument>
 	</Keyword>
 	<Keyword name='*CHANGE SURFACE BEHAVIOR'>
-		<Argument form='QtWidgets.QLineEdit' name='INTERACTION' required='1'/>
+		<Argument form='Line' name='INTERACTION' required='1'/>
 	</Keyword>
 	<Keyword name='*CHANGE SOLID SECTION'>
-		<Argument use='*ELSET' required='1'/>
-		<Argument use='*MATERIAL' required='1'/>
-		<Argument use='*ORIENTATION'/>
+		<Argument use='*ELSET' name='ELSET' required='1'/>
+		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
+		<Argument use='*ORIENTATION' name='ORIENTATION'/>
 	</Keyword>
 	<Keyword name='*CLEARANCE'>
-		<Argument form='QtWidgets.QLineEdit' name='MASTER' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='SLAVE' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='VALUE' required='1'/>
+		<Argument form='Line' name='MASTER' required='1'/>
+		<Argument form='Line' name='SLAVE' required='1'/>
+		<Argument form='Line' name='VALUE' required='1'/>
 	</Keyword>
 	<Keyword name='*CLOAD'>
-		<Argument form='QtWidgets.QComboBox' name='OP'>NEW|MOD</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='AMPLITUDE'/>
-		<Argument form='QtWidgets.QLineEdit' name='TIME DELAY'/>
-		<Argument form='QtWidgets.QCheckBox' name='USER'/>
-		<Argument form='QtWidgets.QComboBox' name='LOAD CASE'>1|2</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='SECTOR'/>
-		<Argument form='QtWidgets.QCheckBox' name='SUBMODEL'/>
-		<Argument form='QtWidgets.QLineEdit' name='STEP'/>
-		<Argument form='QtWidgets.QLineEdit' name='DATA SET'/>
-		<Argument form='QtWidgets.QLineEdit' name='OMEGA0'/>
+		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
+		<Argument form='Check' name='USER'/>
+		<Argument form='Combo' name='LOAD CASE'>1|2</Argument>
+		<Argument form='Line' name='SECTOR'/>
+		<Argument form='Check' name='SUBMODEL'/>
+		<Argument form='Line' name='STEP'/>
+		<Argument form='Line' name='DATA SET'/>
+		<Argument form='Line' name='OMEGA0'/>
 	</Keyword>
 	<Keyword name='*COMPLEX FREQUENCY'>
-		<Argument form='QtWidgets.QCheckBox' name='CORIOLIS' required='1'/>
+		<Argument form='Check' name='CORIOLIS' required='1'/>
 	</Keyword>
 	<Keyword name='*CONDUCTIVITY'>
-		<Argument form='QtWidgets.QComboBox' name='TYPE'>ISO|ORTHO|ANISO</Argument>
+		<Argument form='Combo' name='TYPE'>ISO|ORTHO|ANISO</Argument>
 	</Keyword>
 	<Keyword name='*CONSTRAINT'>
-		<Argument form='QtWidgets.QCheckBox' name='DISPLACEMENT'/>
-		<Argument form='QtWidgets.QCheckBox' name='EIGENFREQUENCY'/>
-		<Argument form='QtWidgets.QCheckBox' name='MASS'/>
-		<Argument form='QtWidgets.QCheckBox' name='SHAPEENERGY'/>
-		<Argument form='QtWidgets.QCheckBox' name='STRESS'/>
-		<Argument form='QtWidgets.QCheckBox' name='THICKNESS'/>
-		<Argument form='QtWidgets.QCheckBox' name='FIXGROWTH'/>
-		<Argument form='QtWidgets.QCheckBox' name='FIXSHRINKAGE'/>
+		<Argument form='Check' name='DISPLACEMENT'/>
+		<Argument form='Check' name='EIGENFREQUENCY'/>
+		<Argument form='Check' name='MASS'/>
+		<Argument form='Check' name='SHAPEENERGY'/>
+		<Argument form='Check' name='STRESS'/>
+		<Argument form='Check' name='THICKNESS'/>
+		<Argument form='Check' name='FIXGROWTH'/>
+		<Argument form='Check' name='FIXSHRINKAGE'/>
 	</Keyword>
 	<Keyword name='*CONTACT DAMPING'>
-		<Argument form='QtWidgets.QLineEdit' name='TANGENT FRACTION'/>
+		<Argument form='Line' name='TANGENT FRACTION'/>
 	</Keyword>
 	<Keyword name='*CONTACT FILE'>
-		<Argument form='QtWidgets.QLineEdit' name='FREQUENCY|TIME POINTS'/>
-		<Argument form='QtWidgets.QCheckBox' name='LAST ITERATIONS'/>
-		<Argument form='QtWidgets.QCheckBox' name='CONTACT ELEMENTS'/>
+		<Argument form='Line' name='FREQUENCY|TIME POINTS'/>
+		<Argument form='Check' name='LAST ITERATIONS'/>
+		<Argument form='Check' name='CONTACT ELEMENTS'/>
 	</Keyword>
 	<Keyword name='*CONTACT OUTPUT'>
-		<Argument form='QtWidgets.QLineEdit' name='FREQUENCY|TIME POINTS'/>
-		<Argument form='QtWidgets.QCheckBox' name='LAST ITERATIONS'/>
-		<Argument form='QtWidgets.QCheckBox' name='CONTACT ELEMENTS'/>
+		<Argument form='Line' name='FREQUENCY|TIME POINTS'/>
+		<Argument form='Check' name='LAST ITERATIONS'/>
+		<Argument form='Check' name='CONTACT ELEMENTS'/>
 	</Keyword>
 	<Keyword name='*CONTACT PAIR'>
-		<Argument form='QtWidgets.QLineEdit' name='INTERACTION' required='1'/>
-		<Argument form='QtWidgets.QComboBox' name='TYPE' required='1'>NODE TO SURFACE|SURFACE TO SURFACE</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='SMALL SLIDING'/>
-		<Argument form='QtWidgets.QCheckBox' name='ADJUST'/>
+		<Argument form='Line' name='INTERACTION' required='1'/>
+		<Argument form='Combo' name='TYPE' required='1'>NODE TO SURFACE|SURFACE TO SURFACE</Argument>
+		<Argument form='Check' name='SMALL SLIDING'/>
+		<Argument form='Check' name='ADJUST'/>
 	</Keyword>
 	<Keyword name='*CONTACT PRINT'>
-		<Argument form='QtWidgets.QLineEdit' name='FREQUENCY|TIME POINTS'/>
-		<Argument form='QtWidgets.QComboBox' name='TOTALS'>YES|ONLY|NO</Argument>
+		<Argument form='Line' name='FREQUENCY|TIME POINTS'/>
+		<Argument form='Combo' name='TOTALS'>YES|ONLY|NO</Argument>
 	</Keyword>
 	<Keyword name='*CONTROLS'>
-		<Argument form='QtWidgets.QComboBox' name='PARAMETERS'>TIME INCREMENTATION|FIELD|LINE SEARCH|NETWORK|CFD|CONTACT</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='RESET'/>
+		<Argument form='Combo' name='PARAMETERS'>TIME INCREMENTATION|FIELD|LINE SEARCH|NETWORK|CFD|CONTACT</Argument>
+		<Argument form='Check' name='RESET'/>
 	</Keyword>
 	<Keyword name='*CORRELATION LENGTH'>
 		<!-- New line -->
 		<!-- Correlation length value -->
 	</Keyword>
 	<Keyword name='*COUPLED TEMPERATURE-DISPLACEMENT'>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='DIRECT'/>
-		<Argument form='QtWidgets.QLineEdit' name='ALPHA'/>
-		<Argument form='QtWidgets.QCheckBox' name='STEADY STATE'/>
-		<Argument form='QtWidgets.QLineEdit' name='DELTMX'/>
-		<Argument form='QtWidgets.QCheckBox' name='TIME RESET'/>
-		<Argument form='QtWidgets.QLineEdit' name='TOTAL TIME AT START'/>
-		<Argument form='QtWidgets.QCheckBox' name='COMPRESSIBLE'/>
+		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
+		<Argument form='Check' name='DIRECT'/>
+		<Argument form='Line' name='ALPHA'/>
+		<Argument form='Check' name='STEADY STATE'/>
+		<Argument form='Line' name='DELTMX'/>
+		<Argument form='Check' name='TIME RESET'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
+		<Argument form='Check' name='COMPRESSIBLE'/>
 	</Keyword>
 	<Keyword name='*COUPLING'>
-		<Argument form='QtWidgets.QLineEdit' name='REF NODE' required='1'/>
-		<Argument use='*SURFACE' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='CONSTRAINT NAME' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='ORIENTATION'/>
+		<Argument form='Line' name='REF NODE' required='1'/>
+		<Argument use='*SURFACE' name='SURFACE' required='1'/>
+		<Argument form='Line' name='CONSTRAINT NAME' required='1'/>
+		<Argument form='Line' name='ORIENTATION'/>
 	</Keyword>
 	<Keyword name='*CRACK PROPAGATION'>
 		<Argument form='SelectFileWidget' name='INPUT' required='1'/>
-		<Argument use='*MATERIAL' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='LENGTH'>CUMULATIVE|INTERSECTION</Argument>
+		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
+		<Argument form='Line' name='LENGTH'>CUMULATIVE|INTERSECTION</Argument>
 		<!-- New line -->
 		<!-- Maximum crack propagation increment -->
 		<!-- Maximum deflection angle per increment -->
 	</Keyword>
 	<Keyword name='*CREEP'>
-		<Argument form='QtWidgets.QComboBox' name='LAW'>NORTON|USER</Argument>
+		<Argument form='Combo' name='LAW'>NORTON|USER</Argument>
 	</Keyword>
 	<Keyword name='*CYCLIC HARDENING'/>
 	<Keyword name='*CYCLIC SYMMETRY MODEL'>
-		<Argument form='QtWidgets.QLineEdit' name='N' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='NGRAPH'/>
-		<Argument form='QtWidgets.QLineEdit' name='TIE' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET'/>
-		<Argument form='QtWidgets.QComboBox' name='CHECK'>YES|NO</Argument>
+		<Argument form='Line' name='N' required='1'/>
+		<Argument form='Line' name='NGRAPH'/>
+		<Argument form='Line' name='TIE' required='1'/>
+		<Argument form='Line' name='ELSET'/>
+		<Argument form='Combo' name='CHECK'>YES|NO</Argument>
 	</Keyword>
 	<Keyword name='*DAMPING'>
-		<Argument form='QtWidgets.QLineEdit' name='ALPHA'/>
-		<Argument form='QtWidgets.QLineEdit' name='BETA'/>
-		<Argument form='QtWidgets.QLineEdit' name='STRUCTURAL' required='1'/>
+		<Argument form='Line' name='ALPHA'/>
+		<Argument form='Line' name='BETA'/>
+		<Argument form='Line' name='STRUCTURAL' required='1'/>
 	</Keyword>
 	<Keyword name='*DASHPOT'>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET' required='1'/>
+		<Argument form='Line' name='ELSET' required='1'/>
 	</Keyword>
 	<Keyword name='*DEFORMATION PLASTICITY'/>
 	<Keyword name='*DENSITY'/>
 	<Keyword name='*DEPVAR'/>
 	<Keyword name='*DESIGN RESPONSE'>
-		<Argument form='QtWidgets.QLineEdit' name='NAME'/>
-		<Argument form='QtWidgets.QComboBox' name='TYPE'>COORDINATE|ORIENTATION</Argument>
+		<Argument form='Line' name='NAME'/>
+		<Argument form='Combo' name='TYPE'>COORDINATE|ORIENTATION</Argument>
 		<!--TYPE=COORDINATE-->
-		<Argument new_line='1' name='ALL-DISP|X-DISP|Y-DISP|Z-DISP|EIGENFREQUENCY|MASS|STRAIN ENERGY|STRESS'/>
+		<Argument form='Combo' newline='1' name='ALL-DISP|X-DISP|Y-DISP|Z-DISP|EIGENFREQUENCY|MASS|STRAIN ENERGY|STRESS'/>
 		<!--TYPE=ORIENTATION-->
-		<Argument new_line='1' name='ALL-DISP|EIGENFREQUENCY|GREEN|MASS|STRAIN ENERGY|STRESS'/>
+		<Argument form='Combo' newline='1' name='ALL-DISP|EIGENFREQUENCY|GREEN|MASS|STRAIN ENERGY|STRESS'/>
 	</Keyword>
 	<Keyword name='*DESIGN VARIABLES'>
-		<Argument form='QtWidgets.QComboBox' name='TYPE' required='1'>COORDINATE|ORIENTATION</Argument>
-		<Argument use='*NSET' new_line='1'/>
+		<Argument form='Combo' name='TYPE' required='1'>COORDINATE|ORIENTATION</Argument>
+		<Argument use='*NSET' newline='1'/>
 	</Keyword>
 	<Keyword name='*DFLUX'>
-		<Argument form='QtWidgets.QComboBox' name='OP'>NEW|MOD</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='AMPLITUDE'/>
-		<Argument form='QtWidgets.QLineEdit' name='TIME DELAY'/>
+		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
 	</Keyword>
 	<Keyword name='*DISTRIBUTING'/>
 	<Keyword name='*DISTRIBUTING COUPLING'>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET' required='1'/>
+		<Argument form='Line' name='ELSET' required='1'/>
 	</Keyword>
 	<Keyword name='*DISTRIBUTION'>
-		<Argument form='QtWidgets.QLineEdit' name='NAME' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
 	<Keyword name='*DLOAD'>
-		<Argument form='QtWidgets.QComboBox' name='OP'>NEW|MOD</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='AMPLITUDE'/>
-		<Argument form='QtWidgets.QLineEdit' name='TIME DELAY'/>
-		<Argument form='QtWidgets.QComboBox' name='LOAD CASE'>1|2</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='SECTOR'/>
+		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
+		<Argument form='Combo' name='LOAD CASE'>1|2</Argument>
+		<Argument form='Line' name='SECTOR'/>
 	</Keyword>
 	<Keyword name='*DSLOAD'>
-		<Argument form='QtWidgets.QCheckBox' name='SUBMODEL' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='STEP' required='1'/>
+		<Argument form='Check' name='SUBMODEL' required='1'/>
+		<Argument form='Line' name='STEP|DATA SET' required='1'/>
 	</Keyword>
 	<Keyword name='*DYNAMIC'>
-		<Argument form='QtWidgets.QCheckBox' name='DIRECT'/>
-		<Argument form='QtWidgets.QLineEdit' name='ALPHA'/>
-		<Argument form='QtWidgets.QCheckBox' name='EXPLICIT'/>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
+		<Argument form='Check' name='DIRECT'/>
+		<Argument form='Line' name='ALPHA'/>
+		<Argument form='Check' name='EXPLICIT'/>
+		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
 	</Keyword>
 	<Keyword name='*ELASTIC'>
-		<Argument form='QtWidgets.QComboBox' name='TYPE'>ISO|ORTHO|ENGINEERING CONSTANTS|ANISO</Argument>
+		<Argument form='Combo' name='TYPE'>ISO|ORTHO|ENGINEERING CONSTANTS|ANISO</Argument>
 	</Keyword>
 	<Keyword name='*ELECTRICAL CONDUCTIVITY'/>
 	<Keyword name='*ELECTROMAGNETICS'>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='DIRECT'/>
-		<Argument form='QtWidgets.QCheckBox' name='MAGNETOSTATICS'/>
-		<Argument form='QtWidgets.QLineEdit' name='DELTMX'/>
-		<Argument form='QtWidgets.QCheckBox' name='TIME RESET'/>
-		<Argument form='QtWidgets.QLineEdit' name='TOTAL TIME AT START'/>
-		<Argument form='QtWidgets.QCheckBox' name='NO HEAT TRANSFER'/>
+		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
+		<Argument form='Check' name='DIRECT'/>
+		<Argument form='Check' name='MAGNETOSTATICS'/>
+		<Argument form='Line' name='DELTMX'/>
+		<Argument form='Check' name='TIME RESET'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
+		<Argument form='Check' name='NO HEAT TRANSFER'/>
 	</Keyword>
 	<Keyword name='*ELEMENT'>
-		<Argument form='QtWidgets.QComboBox' name='TYPE'>C3D8|F3D8|C3D8R|C3D8I|C3D6|F3D6|C3D4|F3D4|C3D20|C3D20R|C3D15|C3D10|C3D10T|S3|M3D3|CPS3|CPE3|CAX3|S6|M3D6|CPS6|CPE6|CAX6|S4|S4R|M3D4|M3D4R|CPS4|CPS4R|CPE4|CPE4R|CAX4|CAX4R|S8|S8R|M3D8|M3D8R|CPS8|CPS8R|CPE8|CPE8R|CAX8|CAX8R|B21|B31|B31R|T2D2|T3D2|GAPUNI|DASHPOTA|SPRING2|SPRINGA|B32|B32R|T3D3|D|SPRING1|DCOUP3D|MASS</Argument>
+		<Argument form='Combo' name='TYPE'>C3D8|F3D8|C3D8R|C3D8I|C3D6|F3D6|C3D4|F3D4|C3D20|C3D20R|C3D15|C3D10|C3D10T|S3|M3D3|CPS3|CPE3|CAX3|S6|M3D6|CPS6|CPE6|CAX6|S4|S4R|M3D4|M3D4R|CPS4|CPS4R|CPE4|CPE4R|CAX4|CAX4R|S8|S8R|M3D8|M3D8R|CPS8|CPS8R|CPE8|CPE8R|CAX8|CAX8R|B21|B31|B31R|T2D2|T3D2|GAPUNI|DASHPOTA|SPRING2|SPRINGA|B32|B32R|T3D3|D|SPRING1|DCOUP3D|MASS</Argument>
 	</Keyword>
 	<Keyword name='*ELEMENT OUTPUT'/>
 	<Keyword name='*EL FILE'>
-		<Argument form='QtWidgets.QLineEdit' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
-		<Argument form='QtWidgets.QComboBox' name='GLOBAL'>YES|NO</Argument>
-		<Argument form='QtWidgets.QComboBox' name='OUTPUT'>2D|3D</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='SECTION FORCES'/>
-		<Argument form='QtWidgets.QLineEdit' name='NSET'/>
-		<Argument form='QtWidgets.QCheckBox' name='LAST ITERATIONS'/>
-		<Argument form='QtWidgets.QCheckBox' name='CONTACT ELEMENTS'/>
+		<Argument form='Line' name='FREQUENCY|TIME POINTS'/>
+		<Argument form='Line' name='FREQUENCYF'/>
+		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
+		<Argument form='Combo' name='OUTPUT'>2D|3D</Argument>
+		<Argument form='Check' name='OUTPUT ALL'/>
+		<Argument form='Line' name='SECTION FORCES'/>
+		<Argument use='*NSET' name='NSET'/>
+		<Argument form='Check' name='LAST ITERATIONS'/>
+		<Argument form='Check' name='CONTACT ELEMENTS'/>
 	</Keyword>
 	<Keyword name='*EL PRINT'>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
-		<Argument form='QtWidgets.QComboBox' name='TOTALS'>YES|ONLY|NO</Argument>
-		<Argument form='QtWidgets.QComboBox' name='GLOBAL'>YES|NO</Argument>
+		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument form='Line' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
+		<Argument form='Combo' name='TOTALS'>YES|ONLY|NO</Argument>
+		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
 	</Keyword>
 	<Keyword name='*ELSET'>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET' required='1'/>
-		<Argument form='QtWidgets.QCheckBox' name='GENERATE'/>
+		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument form='Check' name='GENERATE'/>
 	</Keyword>
 	<Keyword name='*END STEP'/>
 	<Keyword name='*EQUATION'>
-		<Argument form='QtWidgets.QCheckBox' name='REMOVE|REMOVE ALL'/>
+		<Argument form='Check' name='REMOVE|REMOVE ALL'/>
 	</Keyword>
 	<Keyword name='*EXPANSION'>
-		<Argument form='QtWidgets.QComboBox' name='TYPE'>ISO|ORTHO|ANISO</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='ZERO'/>
+		<Argument form='Combo' name='TYPE'>ISO|ORTHO|ANISO</Argument>
+		<Argument form='Line' name='ZERO'/>
 	</Keyword>
 	<Keyword name='*FEASIBLE DIRECTION'>
 	</Keyword>
 	<Keyword name='*FILM'>
-		<Argument form='QtWidgets.QComboBox' name='OP'>NEW|MOD</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='AMPLITUDE'/>
-		<Argument form='QtWidgets.QLineEdit' name='TIME DELAY'/>
-		<Argument form='QtWidgets.QLineEdit' name='FILM AMPLITUDE'/>
-		<Argument form='QtWidgets.QLineEdit' name='FILM TIME DELAY'/>
+		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
+		<Argument form='Line' name='FILM AMPLITUDE'/>
+		<Argument form='Line' name='FILM TIME DELAY'/>
 	</Keyword>
 	<Keyword name='*FILTER'>
-		<Argument form='QtWidgets.QComboBox' name='TYPE'>LINEAR|QUADRATIC|CUBIC</Argument>
-		<Argument form='QtWidgets.QComboBox' name='BOUNDARY WEIGHTING'>YES|NO</Argument>
-		<Argument form='QtWidgets.QComboBox' name='EDGE PRESERVATION'>YES|NO</Argument>
-		<Argument form='QtWidgets.QComboBox' name='DIRECTION WEIGHTING'>YES|NO</Argument>
+		<Argument form='Combo' name='TYPE'>LINEAR|QUADRATIC|CUBIC</Argument>
+		<Argument form='Combo' name='BOUNDARY WEIGHTING'>YES|NO</Argument>
+		<Argument form='Combo' name='EDGE PRESERVATION'>YES|NO</Argument>
+		<Argument form='Combo' name='DIRECTION WEIGHTING'>YES|NO</Argument>
 	</Keyword>
 	<Keyword name='*FLUID CONSTANTS'/>				
 	<Keyword name='*FLUID SECTION'>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='MATERIAL' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='TYPE'/>
-		<Argument form='QtWidgets.QCheckBox' name='OIL'/>
-		<Argument form='QtWidgets.QLineEdit' name='CONSTANTS'/>
+		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument form='Line' name='MATERIAL' required='1'/>
+		<Argument form='Line' name='TYPE'/>
+		<Argument form='Check' name='OIL'/>
+		<Argument form='Line' name='CONSTANTS'/>
 	</Keyword>
 	<Keyword name='*FREQUENCY'>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='MATRIXSTORAGE'/>
-		<Argument form='QtWidgets.QComboBox' name='STORAGE'>YES|NO</Argument>
-		<Argument form='QtWidgets.QComboBox' name='GLOBAL'>YES|NO</Argument>
-		<Argument form='QtWidgets.QComboBox' name='CYCMPC'>ACTIVE|INACTIVE</Argument>
+		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
+		<Argument form='Check' name='MATRIXSTORAGE'/>
+		<Argument form='Combo' name='STORAGE'>YES|NO</Argument>
+		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
+		<Argument form='Combo' name='CYCMPC'>ACTIVE|INACTIVE</Argument>
 	</Keyword>
 	<Keyword name='*FRICTION'/>
 	<Keyword name='*GAP'>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET' required='1'/>
+		<Argument form='Line' name='ELSET' required='1'/>
 	</Keyword>
 	<Keyword name='*GAP CONDUCTANCE'>
-		<Argument form='QtWidgets.QCheckBox' name='USER'/>
+		<Argument form='Check' name='USER'/>
 	</Keyword>
 	<Keyword name='*GAP HEAT GENERATION'>
-		<Argument form='QtWidgets.QCheckBox' name='USER'/>
+		<Argument form='Check' name='USER'/>
 	</Keyword>
 	<Keyword name='*GEOMETRIC CONSTRAINT'>
-		<Argument form='QtWidgets.QComboBox' name='FIXSHRINKAGE|FIXGROWTH|MAXMEMBERSIZE|MINMEMBERSIZE' new_line='1'/>
+		<Argument form='Combo' newline='1' comment='The type of the geometric constraint'>FIXSHRINKAGE|FIXGROWTH|MAXMEMBERSIZE|MINMEMBERSIZE</Argument>
+		<Argument form='Check' use='*NSET' comment='A node set'/>
+		<Argument form='Check' use='*NSET' comment='An opposite node set'/>
+		<Argument form='Line' comment='An absolute value'/>
 	</Keyword>
 	<Keyword name='*GEOMETRIC TOLERANCES'>
-		<Argument form='QtWidgets.QComboBox' name='TYPE' required='1'>NORMAL</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='CONSTRAINED'/>
+		<Argument form='Combo' name='TYPE' required='1'>NORMAL</Argument>
+		<Argument form='Check' name='CONSTRAINED'/>
 		<!-- New line -->
 		<!-- Node number or node set label -->
 		<!-- Mean value of the tolerance -->
 		<!-- Standard deviation of the tolerance -->
 	</Keyword>
 	<Keyword name='*GREEN'>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>PARDISO|SPOOLES</Argument>
+		<Argument form='Combo' name='SOLVER'>PARDISO|SPOOLES</Argument>
 	</Keyword>
 	<Keyword name='*HCF'>
 		<Argument form='SelectFileWidget' name='INPUT' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='MODE' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='MISSION STEP' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='MAX CYCLE'/>
-		<Argument form='QtWidgets.QLineEdit' name='SCALING'/>
+		<Argument form='Line' name='MODE' required='1'/>
+		<Argument form='Line' name='MISSION STEP' required='1'/>
+		<Argument form='Line' name='MAX CYCLE'/>
+		<Argument form='Line' name='SCALING'/>
 	</Keyword>
 	<Keyword name='*HEADING'>
 		<!-- Description of the problem. -->
-		<Argument form='QtWidgets.QLineEdit' new_line='1'/>
+		<Argument form='Line' newline='1'/>
 	</Keyword>
 	<Keyword name='*HEAT TRANSFER'>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='MATRIXSTORAGE'/>
-		<Argument form='QtWidgets.QCheckBox' name='DIRECT'/>
-		<Argument form='QtWidgets.QCheckBox' name='STEADY STATE'/>
-		<Argument form='QtWidgets.QCheckBox' name='FREQUENCY'/>
-		<Argument form='QtWidgets.QCheckBox' name='MODAL DYNAMIC'/>
-		<Argument form='QtWidgets.QComboBox' name='STORAGE'>YES|NO</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='DELTMX'/>
-		<Argument form='QtWidgets.QCheckBox' name='TIME RESET'/>
-		<Argument form='QtWidgets.QLineEdit' name='TOTAL TIME AT START'/>
+		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
+		<Argument form='Check' name='MATRIXSTORAGE'/>
+		<Argument form='Check' name='DIRECT'/>
+		<Argument form='Check' name='STEADY STATE'/>
+		<Argument form='Check' name='FREQUENCY'/>
+		<Argument form='Check' name='MODAL DYNAMIC'/>
+		<Argument form='Combo' name='STORAGE'>YES|NO</Argument>
+		<Argument form='Line' name='DELTMX'/>
+		<Argument form='Check' name='TIME RESET'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
 	</Keyword>
 	<Keyword name='*HYPERELASTIC'>
-		<Argument form='QtWidgets.QCheckBox' name='POLYNOMIAL|REDUCED POLYNOMIAL|ARRUDA-BOYCE|MOONEY-RIVLIN|NEO HOOKE|OGDEN|VANDERWAALS|YEOH'/>
-		<Argument form='QtWidgets.QComboBox' name='N'>1|2|3</Argument>
+		<Argument form='Check' name='POLYNOMIAL|REDUCED POLYNOMIAL|ARRUDA-BOYCE|MOONEY-RIVLIN|NEO HOOKE|OGDEN|VANDERWAALS|YEOH'/>
+		<Argument form='Combo' name='N'>1|2|3</Argument>
 	</Keyword>
 	<Keyword name='*HYPERFOAM'>
-		<Argument form='QtWidgets.QLineEdit' name='N'/>
+		<Argument form='Line' name='N'/>
 	</Keyword>
 	<Keyword name='*INCLUDE'>
 		<Argument form='SelectFileWidget' name='INPUT' required='1'/>
 	</Keyword>
 	<Keyword name='*INITIAL CONDITIONS'>
-		<Argument form='QtWidgets.QComboBox' name='TYPE' required='1'>DISPLACEMENT|FLUID VELOCITY|MASS FLOW|PLASTIC STRAIN|PRESSURE|SOLUTION|STRESS|TEMPERATURE|TOTAL PRESSURE|VELOCITY</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='USER'/>
+		<Argument form='Combo' name='TYPE' required='1'>DISPLACEMENT|FLUID VELOCITY|MASS FLOW|PLASTIC STRAIN|PRESSURE|SOLUTION|STRESS|TEMPERATURE|TOTAL PRESSURE|VELOCITY</Argument>
+		<Argument form='Check' name='USER'/>
 	</Keyword>
 	<Keyword name='*INITIAL STRAIN INCREASE'/>
 	<Keyword name='*KINEMATIC'/>
 	<Keyword name='*MAGNETIC PERMEABILITY'/>
 	<Keyword name='*MASS'>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET' required='1'/>
+		<Argument form='Line' name='ELSET' required='1'/>
 	</Keyword>
 	<Keyword name='*MASS FLOW'/>
 	<Keyword name='*MATERIAL'>
-		<Argument form='QtWidgets.QLineEdit' name='NAME' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
 	<Keyword name='*MEMBRANE SECTION'/>
 	<Keyword name='*MODAL DAMPING'>
-		<Argument form='QtWidgets.QCheckBox' name='MODAL=DIRECT|RAYLEIGH'/>
+		<Argument form='Check' name='MODAL=DIRECT|RAYLEIGH'/>
 	</Keyword>
 	<Keyword name='*MODAL DYNAMIC'>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
-		<Argument form='QtWidgets.QComboBox' name='DIRECT'>NO|YES</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='DELTMX'/>
-		<Argument form='QtWidgets.QCheckBox' name='STEADY STATE'/>
+		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
+		<Argument form='Combo' name='DIRECT'>NO|YES</Argument>
+		<Argument form='Line' name='DELTMX'/>
+		<Argument form='Check' name='STEADY STATE'/>
 	</Keyword>
 	<Keyword name='*MODEL CHANGE'>
 		<!--TODO MECHSTRAINTORESIDUAL-->
-		<Argument form='QtWidgets.QComboBox' name='TYPE' required='1'>ELEMENT|CONTACT PAIR</Argument>
-		<Argument form='QtWidgets.QComboBox' name='ADD'>STRAIN FREE|WITH STRAIN</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='REMOVE'/>
+		<Argument form='Combo' name='TYPE' required='1'>ELEMENT|CONTACT PAIR</Argument>
+		<Argument form='Combo' name='ADD'>STRAIN FREE|WITH STRAIN</Argument>
+		<Argument form='Check' name='REMOVE'/>
 	</Keyword>
 	<Keyword name='*MPC'>
-		<Argument form='QtWidgets.QCheckBox' name='PLANE|STRAIGHT|BEAM' new_line='1'/>
+		<Argument form='Check' name='PLANE|STRAIGHT|BEAM' newline='1'/>
+		<Argument form='Line'/>
 	</Keyword>
 	<Keyword name='*NETWORK MPC'>
-		<Argument form='QtWidgets.QComboBox' name='TYPE'> |QUADRATIC</Argument>
+		<Argument form='Combo' name='TYPE'> |QUADRATIC</Argument>
 	</Keyword>
 	<Keyword name='*NO ANALYSIS'/>
 	<Keyword name='*NODAL THICKNESS'/>
 	<Keyword name='*NODE'>
-		<Argument form='QtWidgets.QLineEdit' name='NSET'/>
+		<Argument form='Line' name='NSET'/>
 	</Keyword>
 	<Keyword name='*NODE FILE'>
-		<Argument form='QtWidgets.QLineEdit' name='NSET'/>
-		<Argument form='QtWidgets.QLineEdit' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
-		<Argument form='QtWidgets.QComboBox' name='GLOBAL'>YES|NO</Argument>
-		<Argument form='QtWidgets.QComboBox' name='OUTPUT'>2D|3D</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='LAST ITERATIONS'/>
-		<Argument form='QtWidgets.QCheckBox' name='CONTACT ELEMENTS'/>
+		<Argument form='Line' name='NSET'/>
+		<Argument form='Line' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
+		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
+		<Argument form='Combo' name='OUTPUT'>2D|3D</Argument>
+		<Argument form='Check' name='LAST ITERATIONS'/>
+		<Argument form='Check' name='CONTACT ELEMENTS'/>
 	</Keyword>
 	<Keyword name='*NODE OUTPUT'>
 		<!--TODO DOUBLE-->
-		<Argument form='QtWidgets.QLineEdit' name='FREQUENCY|TIME POINTS'/>
+		<Argument form='Line' name='FREQUENCY|TIME POINTS'/>
 	</Keyword>
 	<Keyword name='*NODE PRINT'>
-		<Argument form='QtWidgets.QLineEdit' name='NSET'/>
-		<Argument form='QtWidgets.QLineEdit' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
-		<Argument form='QtWidgets.QComboBox' name='TOTALS'>YES|ONLY|NO</Argument>
-		<Argument form='QtWidgets.QComboBox' name='GLOBAL'>YES|NO</Argument>
+		<Argument form='Line' name='NSET'/>
+		<Argument form='Line' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
+		<Argument form='Combo' name='TOTALS'>YES|ONLY|NO</Argument>
+		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
 	</Keyword>
 	<Keyword name='*NORMAL'/>
 	<Keyword name='*NSET'>
-		<Argument form='QtWidgets.QLineEdit' name='NSET' required='1'/>
-		<Argument form='QtWidgets.QCheckBox' name='GENERATE'/>
+		<Argument form='Line' name='NSET' required='1'/>
+		<Argument form='Check' name='GENERATE'/>
 	</Keyword>
 	<Keyword name='*OBJECTIVE'>
-		<Argument form='QtWidgets.QComboBox' name='TARGET'>MIN</Argument>
-		<Argument use='*DESIGN RESPONSE' new_line='1'/>
+		<Argument form='Combo' name='TARGET'>MIN</Argument>
+		<Argument use='*DESIGN RESPONSE' newline='1' comment='Name of a design response'/>
 	</Keyword>
 	<Keyword name='*ORIENTATION'>
-		<Argument form='QtWidgets.QLineEdit' name='NAME' required='1'/>
-		<Argument form='QtWidgets.QComboBox' name='SYSTEM'>RECTANGULAR|CYLINDRICAL</Argument>
+		<Argument form='Line' name='NAME' required='1'/>
+		<Argument form='Combo' name='SYSTEM'>RECTANGULAR|CYLINDRICAL</Argument>
 	</Keyword>
 	<Keyword name='*OUTPUT'/> <!--TODO-->
 	<Keyword name='*PHYSICAL CONSTANTS'>
-		<Argument form='QtWidgets.QLineEdit' name='ABSOLUTE ZERO'/>
-		<Argument form='QtWidgets.QLineEdit' name='STEFAN BOLTZMANN'/>
-		<Argument form='QtWidgets.QLineEdit' name='NEWTON GRAVITY'/>
+		<Argument form='Line' name='ABSOLUTE ZERO'/>
+		<Argument form='Line' name='STEFAN BOLTZMANN'/>
+		<Argument form='Line' name='NEWTON GRAVITY'/>
 	</Keyword>
 	<Keyword name='*PLASTIC'>
-		<Argument form='QtWidgets.QComboBox' name='HARDENING'>ISOTROPIC|KINEMATIC|COMBINED|USER</Argument>
+		<Argument form='Combo' name='HARDENING'>ISOTROPIC|KINEMATIC|COMBINED|USER</Argument>
 	</Keyword>
 	<Keyword name='*PRE-TENSION SECTION'>
-		<Argument use='*SURFACE' required='1'/>
-		<Argument use='*ELEMENT' required='1'/>
-		<Argument use='*NODE' required='1'/>
+		<Argument use='*SURFACE' name='SURFACE' required='1'/>
+		<Argument use='*ELEMENT' name='ELEMENT' required='1'/>
+		<Argument use='*NODE' name='NODE' required='1'/>
 	</Keyword>
 	<Keyword name='*RADIATE'>
-		<Argument form='QtWidgets.QComboBox' name='OP'>NEW|MOD</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='AMPLITUDE'/>
-		<Argument form='QtWidgets.QLineEdit' name='TIME DELAY'/>
-		<Argument form='QtWidgets.QLineEdit' name='RADIATION AMPLITUDE'/>
-		<Argument form='QtWidgets.QLineEdit' name='RADIATION TIME DELAY'/>
-		<Argument form='QtWidgets.QLineEdit' name='ENVNODE'/>
-		<Argument form='QtWidgets.QLineEdit' name='CAVITY'/>
+		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
+		<Argument form='Line' name='RADIATION AMPLITUDE'/>
+		<Argument form='Line' name='RADIATION TIME DELAY'/>
+		<Argument form='Line' name='ENVNODE'/>
+		<Argument form='Line' name='CAVITY'/>
 	</Keyword>
 	<Keyword name='*REFINE MESH'>
-		<Argument form='QtWidgets.QLineEdit' name='LIMIT'/>
+		<Argument form='Line' name='LIMIT'/>
 	</Keyword>
 	<Keyword name='*RESTART'>
 		<!--TODO-->
-		<Argument form='QtWidgets.QCheckBox' name='WRITE' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='FREQUENCY'/>
-		<Argument form='QtWidgets.QCheckBox' name='OVERLAY'/>
-		<Argument form='QtWidgets.QCheckBox' name='READ' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='STEP'/>
+		<Argument form='Check' name='WRITE' required='1'/>
+		<Argument form='Line' name='FREQUENCY'/>
+		<Argument form='Check' name='OVERLAY'/>
+		<Argument form='Check' name='READ' required='1'/>
+		<Argument form='Line' name='STEP'/>
 	</Keyword>
 	<Keyword name='*RETAINED NODAL DOFS'>
-		<Argument form='QtWidgets.QCheckBox' name='SORTED=NO'/>
+		<Argument form='Check' name='SORTED=NO'/>
 	</Keyword>
 	<Keyword name='*RIGID BODY'>
-		<Argument form='QtWidgets.QLineEdit' name='NSET|ELSET' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='REF NODE'/>
-		<Argument form='QtWidgets.QLineEdit' name='ROT NODE'/>
+		<Argument form='Line' name='NSET|ELSET' required='1'/>
+		<Argument form='Line' name='REF NODE'/>
+		<Argument form='Line' name='ROT NODE'/>
 	</Keyword>
 	<Keyword name='*ROBUST DESIGN'>
-		<Argument form='QtWidgets.QLineEdit' name='RANDOM FIELD ONLY' required='1'/>
+		<Argument form='Line' name='RANDOM FIELD ONLY' required='1'/>
 		<!-- New line -->
 		<!-- Requested accuracy (real number; > 0. and < 1.) -->
 	</Keyword>
 	<Keyword name='*SECTION PRINT'>
-		<Argument use='*SURFACE' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='NAME' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='FREQUENCYF|TIME POINTS'/>
-		<Argument form='QtWidgets.QCheckBox' name='SOF'/>
-		<Argument form='QtWidgets.QCheckBox' name='SOM'/>
-		<Argument form='QtWidgets.QCheckBox' name='SOAREA'/>
+		<Argument use='*SURFACE' name='SURFACE' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
+		<Argument form='Line' name='FREQUENCYF|TIME POINTS'/>
+		<Argument form='Check' name='SOF'/>
+		<Argument form='Check' name='SOM'/>
+		<Argument form='Check' name='SOAREA'/>
 	</Keyword>
 	<Keyword name='*SELECT CYCLIC SYMMETRY MODES'>
-		<Argument form='QtWidgets.QLineEdit' name='NMIN'/>
-		<Argument form='QtWidgets.QLineEdit' name='NMAX'/>
+		<Argument form='Line' name='NMIN'/>
+		<Argument form='Line' name='NMAX'/>
 	</Keyword>
 	<Keyword name='*SENSITIVITY'>
-		<Argument form='QtWidgets.QCheckBox' name='NLGEOM'/>
-		<Argument form='QtWidgets.QCheckBox' name='READ'/>
-		<Argument form='QtWidgets.QCheckBox' name='WRITE'/>
+		<Argument form='Check' name='NLGEOM'/>
+		<Argument form='Check' name='READ'/>
+		<Argument form='Check' name='WRITE'/>
 	</Keyword>
 	<Keyword name='*SHELL SECTION'>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='MATERIAL|COMPOSITE' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='ORIENTATION'/>
-		<Argument form='QtWidgets.QLineEdit' name='NODAL THICKNESS'/>
-		<Argument form='QtWidgets.QLineEdit' name='OFFSET'/>
+		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument form='Line' name='MATERIAL|COMPOSITE' required='1'/>
+		<Argument form='Line' name='ORIENTATION'/>
+		<Argument form='Line' name='NODAL THICKNESS'/>
+		<Argument form='Line' name='OFFSET'/>
 	</Keyword>
 	<Keyword name='*SOLID SECTION'>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='MATERIAL' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='ORIENTATION'/>
+		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument form='Line' name='MATERIAL' required='1'/>
+		<Argument form='Line' name='ORIENTATION'/>
 	</Keyword>
 	<Keyword name='*SPECIFIC GAS CONSTANT'/>
 	<Keyword name='*SPECIFIC HEAT'/>
 	<Keyword name='*SPRING'>
-		<Argument form='QtWidgets.QLineEdit' name='ELSET' required='1'/>
-		<Argument form='QtWidgets.QCheckBox' name='NONLINEAR'/>
-		<Argument form='QtWidgets.QLineEdit' name='ORIENTATION'/>
+		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument form='Check' name='NONLINEAR'/>
+		<Argument form='Line' name='ORIENTATION'/>
 	</Keyword>
 	<Keyword name='*STATIC'>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='DIRECT'/>
-		<Argument form='QtWidgets.QCheckBox' name='EXPLICIT'/>
-		<Argument form='QtWidgets.QCheckBox' name='TIME RESET'/>
-		<Argument form='QtWidgets.QLineEdit' name='TOTAL TIME AT START'/>
+		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
+		<Argument form='Check' name='DIRECT'/>
+		<Argument form='Check' name='EXPLICIT'/>
+		<Argument form='Check' name='TIME RESET'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
 	</Keyword>
 	<Keyword name='*STEADY STATE DYNAMICS'>
-		<Argument form='QtWidgets.QComboBox' name='HARMONIC'>YES|NO</Argument>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
+		<Argument form='Combo' name='HARMONIC'>YES|NO</Argument>
+		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
 	</Keyword>
 	<Keyword name='*STEP'>
-		<Argument form='QtWidgets.QCheckBox' name='PERTURBATION'/>
-		<Argument form='QtWidgets.QCheckBox' name='NLGEOM'/>
-		<Argument form='QtWidgets.QLineEdit' name='INC'/>
-		<Argument form='QtWidgets.QLineEdit' name='INCF'/>
-		<Argument form='QtWidgets.QCheckBox' name='THERMAL NETWORK'/>
-		<Argument form='QtWidgets.QComboBox' name='AMPLITUDE'>RAMP|STEP</Argument>
+		<Argument form='Check' name='PERTURBATION'/>
+		<Argument form='Check' name='NLGEOM'/>
+		<Argument form='Line' name='INC'/>
+		<Argument form='Line' name='INCF'/>
+		<Argument form='Check' name='THERMAL NETWORK'/>
+		<Argument form='Combo' name='AMPLITUDE'>RAMP|STEP</Argument>
 	</Keyword>
 	<Keyword name='*SUBMODEL'>
-		<Argument form='QtWidgets.QComboBox' name='TYPE' required='1'>SURFACE|NODE</Argument>
-		<Argument form='SelectFileWidget' name='INPUT' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='GLOBAL ELSET'/>
+		<Argument form='Combo' name='TYPE' required='1'>SURFACE|NODE</Argument>
+		<Argument form='SelectFileWidget' name='INPUT' required='1' comment='FRD file'/>
+		<Argument form='Line' name='GLOBAL ELSET'/>
 	</Keyword>
 	<Keyword name='*SUBSTRUCTURE GENERATE'>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>SPOOLES|PARDISO</Argument>
+		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO</Argument>
 	</Keyword>
 	<Keyword name='*SUBSTRUCTURE MATRIX OUTPUT'>
-		<Argument form='QtWidgets.QLineEdit' name='FILE NAME' required='1'/>
-		<Argument form='QtWidgets.QCheckBox' name='STIFFNESS=YES'/>
-		<Argument form='QtWidgets.QCheckBox' name='OUTPUT FILE=USER DEFINED'/>
+		<Argument form='Line' name='FILE NAME' required='1'/>
+		<Argument form='Check' name='STIFFNESS=YES'/>
+		<Argument form='Check' name='OUTPUT FILE=USER DEFINED'/>
 	</Keyword>
 	<Keyword name='*SURFACE'>
-		<Argument form='QtWidgets.QLineEdit' name='NAME' required='1'/>
-		<Argument form='QtWidgets.QComboBox' name='TYPE'>ELEMENT|NODE</Argument>
+		<Argument form='Line' name='NAME' required='1'/>
+		<Argument form='Combo' name='TYPE'>ELEMENT|NODE</Argument>
 	</Keyword>
 	<Keyword name='*SURFACE BEHAVIOR'>
-		<Argument form='QtWidgets.QComboBox' name='PRESSURE-OVERCLOSURE' required='1'>EXPONENTIAL|LINEAR|TABULAR|TIED|HARD</Argument>
+		<Argument form='Combo' name='PRESSURE-OVERCLOSURE' required='1'>EXPONENTIAL|LINEAR|TABULAR|TIED|HARD</Argument>
 	</Keyword>
 	<Keyword name='*SURFACE INTERACTION'>
-		<Argument form='QtWidgets.QLineEdit' name='NAME' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
 	<Keyword name='*TEMPERATURE'>
-		<Argument form='QtWidgets.QComboBox' name='OP'>NEW|MOD</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='AMPLITUDE'/>
-		<Argument form='QtWidgets.QLineEdit' name='TIME DELAY'/>
-		<Argument form='QtWidgets.QCheckBox' name='USER'/>
-		<Argument form='QtWidgets.QLineEdit' name='SUBMODEL'/>
-		<Argument form='QtWidgets.QLineEdit' name='STEP'/>
-		<Argument form='QtWidgets.QLineEdit' name='DATA SET'/>
+		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
+		<Argument form='Check' name='USER'/>
+		<Argument form='Line' name='SUBMODEL'/>
+		<Argument form='Line' name='STEP'/>
+		<Argument form='Line' name='DATA SET'/>
 	</Keyword>
 	<Keyword name='*TIE'>
-		<Argument form='QtWidgets.QLineEdit' name='NAME' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='POSITION TOLERANCE'/>
-		<Argument form='QtWidgets.QCheckBox' name='ADJUST'/>
-		<Argument form='QtWidgets.QCheckBox' name='CYCLIC SYMMETRY|MULTISTAGE|FLUID PERIODIC|FLUID CYCLIC'/>
+		<Argument form='Line' name='NAME' required='1'/>
+		<Argument form='Line' name='POSITION TOLERANCE'/>
+		<Argument form='Check' name='ADJUST'/>
+		<Argument form='Check' name='CYCLIC SYMMETRY|MULTISTAGE|FLUID PERIODIC|FLUID CYCLIC'/>
 	</Keyword>
 	<Keyword name='*TIME POINTS'>
-		<Argument form='QtWidgets.QLineEdit' name='NAME' required='1'/>
-		<Argument form='QtWidgets.QComboBox' name='TIME'> |TOTAL TIME</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='GENERATE'/>
+		<Argument form='Line' name='NAME' required='1'/>
+		<Argument form='Combo' name='TIME'> |TOTAL TIME</Argument>
+		<Argument form='Check' name='GENERATE'/>
 	</Keyword>
 	<Keyword name='*TRANSFORM'>
-		<Argument form='QtWidgets.QLineEdit' name='NSET' required='1'/>
-		<Argument form='QtWidgets.QComboBox' name='TYPE'>R|C</Argument>
+		<Argument form='Line' name='NSET' required='1'/>
+		<Argument form='Combo' name='TYPE'>R|C</Argument>
 	</Keyword>
 	<Keyword name='*UNCOUPLED TEMPERATURE-DISPLACEMENT'>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
-		<Argument form='QtWidgets.QLineEdit' name='ALPHA'/>
-		<Argument form='QtWidgets.QCheckBox' name='STEADY STATE'/>
-		<Argument form='QtWidgets.QLineEdit' name='DELTMX'/>
-		<Argument form='QtWidgets.QCheckBox' name='DIRECT'/>
-		<Argument form='QtWidgets.QCheckBox' name='EXPLICIT'/>
-		<Argument form='QtWidgets.QCheckBox' name='TIME RESET'/>
-		<Argument form='QtWidgets.QLineEdit' name='TOTAL TIME AT START'/>
+		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
+		<Argument form='Line' name='ALPHA'/>
+		<Argument form='Check' name='STEADY STATE'/>
+		<Argument form='Line' name='DELTMX'/>
+		<Argument form='Check' name='DIRECT'/>
+		<Argument form='Check' name='EXPLICIT'/>
+		<Argument form='Check' name='TIME RESET'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
 	</Keyword>
 	<Keyword name='*USER ELEMENT'>
-		<Argument form='QtWidgets.QLineEdit' name='TYPE' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='INTEGRATION POINTS' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='MAXDOF' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='NODES' required='1'/>
+		<Argument form='Line' name='TYPE' required='1'/>
+		<Argument form='Line' name='INTEGRATION POINTS' required='1'/>
+		<Argument form='Line' name='MAXDOF' required='1'/>
+		<Argument form='Line' name='NODES' required='1'/>
 	</Keyword>
 	<Keyword name='*USER MATERIAL'>
-		<Argument form='QtWidgets.QLineEdit' name='CONSTANTS' required='1'/>
-		<Argument form='QtWidgets.QComboBox' name='TYPE'>MECHANICAL|THERMAL</Argument>
+		<Argument form='Line' name='CONSTANTS' required='1'/>
+		<Argument form='Combo' name='TYPE'>MECHANICAL|THERMAL</Argument>
 	</Keyword>
 	<Keyword name='*USER SECTION'>
-		<Argument use='*ELSET' required='1'/>
-		<Argument use='*MATERIAL' required='1'/>
-		<Argument form='QtWidgets.QLineEdit' name='CONSTANTS' required='1'/>
+		<Argument use='*ELSET' name='ELSET' required='1'/>
+		<Argument use='*MATERIAL' NAME='MATERIAL' required='1'/>
+		<Argument form='Line' name='CONSTANTS' required='1'/>
 	</Keyword>
 	<Keyword name='*VALUES AT INFINITY'/>
 	<Keyword name='*VIEWFACTOR'>
-		<Argument form='QtWidgets.QCheckBox' name='READ'/>
+		<Argument form='Check' name='READ|NO CHANGE'/>
 		<Argument form='SelectFileWidget' name='INPUT'/>
-		<Argument form='QtWidgets.QCheckBox' name='WRITE|WRITE ONLY'/>
+		<Argument form='Check' name='WRITE|WRITE ONLY'/>
 		<Argument form='SelectFileWidget' name='OUTPUT'/>
-		<Argument form='QtWidgets.QCheckBox' name='NO CHANGE'/>
 	</Keyword>
 	<Keyword name='*VISCO'>
-		<Argument form='QtWidgets.QComboBox' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
-		<Argument form='QtWidgets.QCheckBox' name='DIRECT'/>
-		<Argument form='QtWidgets.QCheckBox' name='EXPLICIT'/>
-		<Argument form='QtWidgets.QCheckBox' name='TIME RESET'/>
-		<Argument form='QtWidgets.QLineEdit' name='TOTAL TIME AT START'/>
-		<Argument form='QtWidgets.QLineEdit' name='CETOL'/>
+		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
+		<Argument form='Check' name='DIRECT'/>
+		<Argument form='Check' name='EXPLICIT'/>
+		<Argument form='Check' name='TIME RESET'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
+		<Argument form='Line' name='CETOL'/>
 	</Keyword>
 </list>

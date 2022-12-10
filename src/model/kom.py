@@ -32,10 +32,12 @@ from settings import s
 
 
 class KeywordTree:
+    """Parses kw_tree.xml"""
 
     def __init__(self):
         """Read CalculiX keywords tree."""
         self.keyword_names = ()
+        self.keyword_dic = {}
         self.groups = []
 
         # 'Model' group from kw_tree.xml
@@ -53,18 +55,14 @@ class KeywordTree:
             logging.error(msg)
 
     def build(self, xml_branch, parent):
-        """Recursively build Keyword Object Model."""
+        """Recursively build keyword tree. Create groups and keywords.
+        xml_child.tag, xml_child.attrib:
+        Keyword, {'name': '*RESTART'}
+        Keyword, {'name': '*TIME POINTS'}
+        Group, {'name': 'Interactions'}
+        Group, {'name': 'Constraints'}
+        """
         for xml_child in xml_branch:
-            # logging.log(5, xml_child.tag + ', ' + str(xml_child.attrib))
-            """
-            xml_child.tag, xml_child.attrib:
-
-            Keyword, {'name': '*RESTART'}
-            Keyword, {'name': '*TIME POINTS'}
-            Group, {'name': 'Interactions'}
-            Group, {'name': 'Constraints'}
-            """
-
             # Create item: group, keyword or argument
             klass = globals()[xml_child.tag]
             item = klass()
@@ -75,17 +73,12 @@ class KeywordTree:
             for k,v in xml_child.attrib.items():
                 setattr(item, k, v)
 
-            if xml_child.tag=='Keyword':
+            if xml_child.tag == Keyword.__name__:
                 self.keyword_names += (item.name, )
-            if xml_child.tag=='Group':
+                tree_path_key = item.get_path2()
+                self.keyword_dic[tree_path_key] = item
+            if xml_child.tag == Group.__name__:
                 self.groups.append(item)
-
-            # Argument values for QComboBox
-            if xml_child.tag=='Argument' and xml_child.text:
-                values = xml_child.text.strip()
-                if len(values):
-                    values = values.split('|')
-                    item.items.extend(values)
 
             self.build(xml_child, item)
 
@@ -135,6 +128,7 @@ class KeywordTree:
 
 
 class KeywordList:
+    """Parses kw_list.xml"""
 
     def __init__(self):
         """Parse CalculiX keywords list with arguments."""
@@ -180,11 +174,11 @@ class KeywordList:
                 setattr(item, k, v)
 
             # Fill self.keywords
-            if xml_child.tag=='Keyword':
+            if xml_child.tag == Keyword.__name__:
                 self.keywords.append(item)
 
             # Argument values for QComboBox
-            if xml_child.tag=='Argument' and xml_child.text:
+            if xml_child.tag == Argument.__name__ and xml_child.text:
                 values = xml_child.text.strip()
                 if len(values):
                     values = values.split('|')
@@ -292,7 +286,7 @@ class Item:
         else:
             return self.parent.get_parent_keyword_name()
 
-    def get_path(self):
+    def get_tree_path(self):
         """Get item path bottom-upwards."""
         parents = []
         while self.parent is not None: # root has None parent
@@ -300,6 +294,15 @@ class Item:
             self = self.parent
         parents.insert(0, self) # insert root
         return [p.name for p in parents]
+
+    def get_path2(self):
+        """Get item path bottom-upwards. KEYWORDs only."""
+        tree_path = []
+        while self.parent is not None: # root has None parent
+            tree_path.insert(0, self)
+            self = self.parent
+        tree_path = [p.name for p in tree_path if p.itype == ItemType.KEYWORD]
+        return ' > '.join(tree_path)
 
 
 class Group(Item):
@@ -334,8 +337,17 @@ class Argument(Item):
         self.name = ''
         self.form = '' # QCheckBox, QLineEdit, QComboBox
         self.use = ''
-        self.required = False
-        self.new_line = False # start argument from the new line?
+        self.comment = ''
+
+        # NOTE On parsing type will be string, not bool
+        self.required = False # on parsing value could be: '0' or '1'
+        self.newline = False # start argument from the new line?
+
+    def get_required(self):
+        return int(self.required)
+    
+    def get_newline(self):
+        return int(self.newline)
 
 
 class Implementation(Item):
@@ -376,7 +388,6 @@ class Implementation(Item):
         if name:
             logging.info('{} \"{}\" updated.'.format(keyword.name, self.name))
         else:
-            # logging.debug(' > '.join(self.get_path()))
             logging.info('{} {} created.'.format(keyword.name, self.name))
 
 

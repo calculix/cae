@@ -11,9 +11,7 @@
 		<Keyword name='*DESIGN VARIABLES'/>
 		<Keyword name='*PHYSICAL CONSTANTS'/>
 		<Keyword name='*VALUES AT INFINITY'/>
-		<Keyword name='*SUBMODEL'>
-			<Keyword name='*DSLOAD'/>
-		</Keyword>
+		<Keyword name='*SUBMODEL'/>
 	</Group>
 	<Group name='Mesh'>
 		<Keyword name='*NODE'/>
