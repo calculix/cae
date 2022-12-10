@@ -28,6 +28,7 @@ import pathlib
 from PyQt5 import QtWidgets
 
 # My modules
+from path import p
 from model import m
 from model.kom import KWT, KeywordTree, Implementation
 import log
@@ -139,15 +140,18 @@ class Importer:
                     logging.warning(msg)
 
     def import_file(self, file_name):
-        """Main method in the class"""
+        """Main method in the class.
+        NOTE file_name could be None
+        """
         from gui.job import j
         if file_name is None and self.w is None:
             msg = 'file_name and self.w are None.'
+            logging.warning(msg)
             raise SystemExit(msg)
 
         if file_name is None:
             file_name = QtWidgets.QFileDialog.getOpenFileName(self.w, \
-                'Import INP/FBD/FBL/UNV file', j.dir, \
+                'Import INP/FBD/FBL/UNV file', p.examples, \
                 'INP (*.inp);;FBD/FBL (*.fbd *.fbl);;UNV (*.unv)')[0]
 
         if file_name is not None and len(file_name):
