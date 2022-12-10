@@ -370,7 +370,8 @@
 	<Keyword name='*KINEMATIC'/>
 	<Keyword name='*MAGNETIC PERMEABILITY'/>
 	<Keyword name='*MASS'>
-		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument use='*ELSET' name='ELSET' required='1' comment='Set with MASS elements'/>
+		<Argument form='Line' required='1' newline='1' comment='Mass'/>
 	</Keyword>
 	<Keyword name='*MASS FLOW'/>
 	<Keyword name='*MATERIAL'>
