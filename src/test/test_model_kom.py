@@ -31,7 +31,6 @@ class TestKOM(unittest.TestCase):
 
     def test_kom2(self, parent=None, path=None):
         """Test parent-child relations in all tree items"""
-
         if parent is None:
             parent = KWL.root
             path = KWL.root.name
@@ -39,7 +38,7 @@ class TestKOM(unittest.TestCase):
             if item.itype == ItemType.ARGUMENT:
                 continue
             path_downwards = path + ' -> ' + item.name
-            path_upwards = ' -> '.join(item.get_path())
+            path_upwards = ' -> '.join(item.get_tree_path())
             self.assertEqual(path_downwards, path_upwards)
             self.test_kom2(item, path_downwards)
 

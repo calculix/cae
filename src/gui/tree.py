@@ -27,8 +27,7 @@ if sys_path not in sys.path:
 from path import p
 from settings import s
 from model.parsers.mesh import Mesh
-from model.kom import ItemType, Implementation
-from model.kom import KWT
+from model.kom import ItemType, Implementation, KWT
 from model import m
 from gui.window import wf, df
 from utils import tests
@@ -59,8 +58,7 @@ class Tree:
         for item in items:
 
             # Add to the tree only needed item_types
-            allowed = [ItemType.GROUP, ItemType.KEYWORD,
-                ItemType.IMPLEMENTATION]
+            allowed = [ItemType.GROUP, ItemType.KEYWORD, ItemType.IMPLEMENTATION]
             if item.itype not in allowed:
                 continue
 
@@ -240,6 +238,7 @@ class Tree:
 
         # else:
         #     wf.mw.deselect_cgx_sets()
+        return
 
     def rightClicked(self):
         """Context menu for right click."""

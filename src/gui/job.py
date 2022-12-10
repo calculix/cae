@@ -57,10 +57,9 @@ class Job:
         pass
 
     def generate(self, file_name=s.start_model):
-        """Create job object.
-        Is called from importer.py.
+        """Create job object. Is called from importer.py.
+        NOTE file_name could be None
         """
-
         log.print_to_file(p.log, '\nCREATING JOB INSTANCE\n')
 
         self.dir = os.path.dirname(os.path.abspath(file_name)) # working directory

@@ -32,9 +32,11 @@ class TestDialog(unittest.TestCase):
     def test_dialog(self):
         """Create keyword dialog"""
         app = QtWidgets.QApplication(sys.argv)
-        i = KWL.get_keyword_by_name('*NODE')
         try:
-            d = KeywordDialog(i)
+            item = KWL.get_keyword_by_name('*AMPLITUDE')
+            d = KeywordDialog(item)
+            # from gui.window import wf, df
+            # df.run_master_dialog(item) # 0 = cancel, 1 = ok
         except:
             d = None
         self.assertTrue(d is not None)
