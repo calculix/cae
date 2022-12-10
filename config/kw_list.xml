@@ -14,10 +14,13 @@
 		<Argument form='Line' name='SHIFTY'/>
 	</Keyword>
 	<Keyword name='*BASE MOTION'>
-		<Argument form='Line' name='DOF' required='1'/>
-		<Argument form='Line' name='AMPLITUDE' required='1'/>
-		<Argument form='Combo' name='TYPE'>ACCELERATION|DISPLACEMENT</Argument>
+		<Argument form='Combo' name='DOF' required='1'>1|2|3</Argument>
+		<Argument use='*AMPLITUDE' name='AMPLITUDE' required='1'/>
+		<Argument form='Combo' name='TYPE'>|DISPLACEMENT</Argument>
 	</Keyword>
+
+
+
 	<Keyword name='*BEAM SECTION'>
 		<Argument form='Line' name='ELSET' required='1'/>
 		<Argument form='Line' name='MATERIAL' required='1'/>
@@ -29,7 +32,7 @@
 	</Keyword>
 	<Keyword name='*BOUNDARY'>
 		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
 		<Argument form='Line' name='TIME DELAY'/>
 		<Argument form='Combo' name='LOAD CASE'> |1|2</Argument>
 		<Argument form='Check' name='USER'/>

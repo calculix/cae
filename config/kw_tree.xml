@@ -112,8 +112,8 @@
 				<Keyword name='*VIEWFACTOR'/>
 			</Keyword>
 			<Keyword name='*MODAL DYNAMIC'>
-				<Keyword name='*MODAL DAMPING'/>
 				<Keyword name='*BASE MOTION'/>
+				<Keyword name='*MODAL DAMPING'/>
 			</Keyword>
 			<Keyword name='*ROBUST DESIGN'>
 				<Keyword name='*GEOMETRIC TOLERANCES'/>
@@ -128,8 +128,8 @@
 				<Keyword name='*TEMPERATURE'/>
 			</Keyword>
 			<Keyword name='*STEADY STATE DYNAMICS'>
-				<Keyword name='*MODAL DAMPING'/>
 				<Keyword name='*BASE MOTION'/>
+				<Keyword name='*MODAL DAMPING'/>
 			</Keyword>
 			<Keyword name='*SUBSTRUCTURE GENERATE'>
 				<Keyword name='*SUBSTRUCTURE MATRIX OUTPUT'/>
