@@ -94,7 +94,7 @@ class Combo(MyWidget):
 
     def __init__(self, argument):
         self.w = QtWidgets.QComboBox()
-        self.w.addItems(argument.items)
+        self.w.addItems(argument.value.split('|'))
 
         # QComboBox doesn't expand by default
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
@@ -114,6 +114,7 @@ class Line(MyWidget):
 
     def __init__(self, argument):
         self.w = QtWidgets.QLineEdit()
+        self.w.setText(argument.value)
         super().__init__(argument, [self.w])
         self.my_signal = self.w.textChanged
         self.text = self.w.text
@@ -218,7 +219,6 @@ class KeywordDialog(QtWidgets.QDialog):
             kwt = KWT.keyword_dic[kwl.get_path2()]
             implementations = [impl.name for impl in kwt.get_implementations()]
             argument_widget = Combo(argument)
-            argument_widget.w.addItem('')
             argument_widget.w.addItems(implementations)
         else:
             argument_widget = eval(argument.form)(argument)
@@ -320,7 +320,7 @@ class KeywordDialog(QtWidgets.QDialog):
 def test_dialog():
     """Create keyword dialog"""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*MASS')
+    item = KWL.get_keyword_by_name('*BEAM SECTION')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

@@ -153,7 +153,6 @@ class KeywordList:
     def build(self, xml_branch, parent):
         """Recursively build Keyword Object Model."""
         for xml_child in xml_branch:
-            # logging.log(5, xml_child.tag + ', ' + str(xml_child.attrib))
             """
             xml_child.tag, xml_child.attrib:
 
@@ -166,6 +165,8 @@ class KeywordList:
             # Create item: group, keyword or argument
             klass = globals()[xml_child.tag]
             item = klass()
+            if xml_child.text:
+                item.value = xml_child.text.strip() # argument values
             parent.items.append(item)
 
             # Set fields for object
@@ -176,13 +177,6 @@ class KeywordList:
             # Fill self.keywords
             if xml_child.tag == Keyword.__name__:
                 self.keywords.append(item)
-
-            # Argument values for QComboBox
-            if xml_child.tag == Argument.__name__ and xml_child.text:
-                values = xml_child.text.strip()
-                if len(values):
-                    values = values.split('|')
-                    item.items.extend(values)
 
             self.build(xml_child, item)
 
@@ -207,6 +201,7 @@ class Item:
     def __init__(self):
         self.itype = ''      # item type: group/keyword/argument/implementation
         self.name = ''       # name of item, string
+        self.value = ''
         self.items = []      # list of children
         self.parent = None   # item parent item
         self.active = False
@@ -353,8 +348,6 @@ class Argument(Item):
 class Implementation(Item):
     """Keyword implementation - 
     a piece of INP-code for CalculiX input file.
-
-    TODO Rename to Instance.
     """
 
     def __init__(self, keyword, inp_code, name=None):
