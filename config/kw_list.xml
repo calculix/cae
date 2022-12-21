@@ -18,30 +18,36 @@
 		<Argument use='*AMPLITUDE' name='AMPLITUDE' required='1'/>
 		<Argument form='Combo' name='TYPE'>|DISPLACEMENT</Argument>
 	</Keyword>
-
-
-
 	<Keyword name='*BEAM SECTION'>
-		<Argument form='Line' name='ELSET' required='1'/>
-		<Argument form='Line' name='MATERIAL' required='1'/>
-		<Argument form='Combo' name='SECTION' required='1'>RECT|CIRC|PIPE|BOX</Argument>
-		<Argument form='Line' name='ORIENTATION'/>
-		<Argument form='Check' name='OFFSET1'/>
-		<Argument form='Check' name='OFFSET2'/>
-		<Argument form='Check' name='NODAL THICKNESS'/>
+		<Argument use='*ELSET' name='ELSET' required='1'/>
+		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
+		<Argument form='Combo' name='SECTION' required='1'>RECT|CIRC|PIPE|BOX|GENERAL</Argument>
+		<Argument form='Line' name='OFFSET1'/>
+		<Argument form='Line' name='OFFSET2'/>
+		<Argument form='Line' comment='Nodal thickness in directions 1, 2:' newline='1'/>
+		<Argument form='Line' comment='Global x, y, z coordinates of a unit vector in 1-direction:' newline='1'>0., 0., -1.</Argument>
 	</Keyword>
 	<Keyword name='*BOUNDARY'>
-		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
+		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
 		<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
 		<Argument form='Line' name='TIME DELAY'/>
-		<Argument form='Combo' name='LOAD CASE'> |1|2</Argument>
+		<Argument form='Combo' name='LOAD CASE'>|1|2</Argument>
 		<Argument form='Check' name='USER'/>
 		<Argument form='Line' name='MASS FLOW'/>
 		<Argument form='Check' name='FIXED'/>
-		<Argument form='Check' name='SUBMODEL'/>
-		<Argument form='Line' name='STEP'/>
-		<Argument form='Line' name='DATA SET'/>
+		<Argument form='Check' name='SUBMODEL'>
+			<Argument form='Line' name='STEP'/>
+			<Argument form='Line' name='DATA SET'/>
+		</Argument>
+		<Argument form='Line' comment='NODE:' newline='1'/>
+		<Argument form='Line' use='*NSET' comment='or NSET:' newline='1'/>
+		<Argument form='Line' comment='First DOF constrained:'/>
+		<Argument form='Line' comment='Last DOF constrained:'/>
+		<Argument form='Line' comment='Value:'/>
 	</Keyword>
+
+
+
 	<Keyword name='*BUCKLE'>
 		<Argument form='Combo' name='SOLVER' required='1'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
 	</Keyword>
@@ -316,10 +322,10 @@
 		<Argument form='Check' name='USER'/>
 	</Keyword>
 	<Keyword name='*GEOMETRIC CONSTRAINT'>
-		<Argument form='Combo' newline='1' comment='The type of the geometric constraint'>FIXSHRINKAGE|FIXGROWTH|MAXMEMBERSIZE|MINMEMBERSIZE</Argument>
-		<Argument form='Check' use='*NSET' comment='A node set'/>
-		<Argument form='Check' use='*NSET' comment='An opposite node set'/>
-		<Argument form='Line' comment='An absolute value'/>
+		<Argument form='Combo' newline='1' comment='The type of the geometric constraint:'>FIXSHRINKAGE|FIXGROWTH|MAXMEMBERSIZE|MINMEMBERSIZE</Argument>
+		<Argument form='Check' use='*NSET' comment='A node set:'/>
+		<Argument form='Check' use='*NSET' comment='An opposite node set:'/>
+		<Argument form='Line' comment='An absolute value:'/>
 	</Keyword>
 	<Keyword name='*GEOMETRIC TOLERANCES'>
 		<Argument form='Combo' name='TYPE' required='1'>NORMAL</Argument>
@@ -373,8 +379,8 @@
 	<Keyword name='*KINEMATIC'/>
 	<Keyword name='*MAGNETIC PERMEABILITY'/>
 	<Keyword name='*MASS'>
-		<Argument use='*ELSET' name='ELSET' required='1' comment='Set with MASS elements'/>
-		<Argument form='Line' required='1' newline='1' comment='Mass'/>
+		<Argument use='*ELSET' name='ELSET' required='1' comment='Set with MASS elements:'/>
+		<Argument form='Line' required='1' newline='1' comment='Mass:'/>
 	</Keyword>
 	<Keyword name='*MASS FLOW'/>
 	<Keyword name='*MATERIAL'>
@@ -401,7 +407,7 @@
 		<Argument form='Line'/>
 	</Keyword>
 	<Keyword name='*NETWORK MPC'>
-		<Argument form='Combo' name='TYPE'> |QUADRATIC</Argument>
+		<Argument form='Combo' name='TYPE'>|QUADRATIC</Argument>
 	</Keyword>
 	<Keyword name='*NO ANALYSIS'/>
 	<Keyword name='*NODAL THICKNESS'/>
@@ -433,7 +439,7 @@
 	</Keyword>
 	<Keyword name='*OBJECTIVE'>
 		<Argument form='Combo' name='TARGET'>MIN</Argument>
-		<Argument use='*DESIGN RESPONSE' newline='1' comment='Name of a design response'/>
+		<Argument use='*DESIGN RESPONSE' newline='1' comment='Name of a design response:'/>
 	</Keyword>
 	<Keyword name='*ORIENTATION'>
 		<Argument form='Line' name='NAME' required='1'/>
@@ -543,7 +549,7 @@
 	</Keyword>
 	<Keyword name='*SUBMODEL'>
 		<Argument form='Combo' name='TYPE' required='1'>SURFACE|NODE</Argument>
-		<Argument form='SelectFileWidget' name='INPUT' required='1' comment='FRD file'/>
+		<Argument form='SelectFileWidget' name='INPUT' required='1' comment='FRD file:'/>
 		<Argument form='Line' name='GLOBAL ELSET'/>
 	</Keyword>
 	<Keyword name='*SUBSTRUCTURE GENERATE'>
@@ -581,7 +587,7 @@
 	</Keyword>
 	<Keyword name='*TIME POINTS'>
 		<Argument form='Line' name='NAME' required='1'/>
-		<Argument form='Combo' name='TIME'> |TOTAL TIME</Argument>
+		<Argument form='Combo' name='TIME'>|TOTAL TIME</Argument>
 		<Argument form='Check' name='GENERATE'/>
 	</Keyword>
 	<Keyword name='*TRANSFORM'>
