@@ -55,7 +55,7 @@ class MyWidget(QtWidgets.QWidget):
         self.vertical_layout.setContentsMargins(pad, 0, 0, 0)
         if argument.comment:
             comment_label = QtWidgets.QLabel(argument.comment)
-            comment_label.setStyleSheet('color:Gray;')
+            comment_label.setStyleSheet('color: Blue;')
             self.vertical_layout.addWidget(comment_label)
 
         self.horizontal_layout = QtWidgets.QHBoxLayout()

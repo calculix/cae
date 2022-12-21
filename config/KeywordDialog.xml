@@ -6,14 +6,6 @@
   <property name="windowModality">
    <enum>Qt::NonModal</enum>
   </property>
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>500</width>
-    <height>640</height>
-   </rect>
-  </property>
   <property name="sizePolicy">
    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>1</horstretch>
@@ -26,9 +18,12 @@
     <height>640</height>
    </size>
   </property>
-  <layout class="QHBoxLayout" name="horizontal_layout" stretch="1,2">
+  <layout class="QHBoxLayout" name="horizontal_layout" stretch="1">
    <property name="spacing">
     <number>6</number>
+   </property>
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinimumSize</enum>
    </property>
    <property name="leftMargin">
     <number>6</number>
@@ -60,6 +55,9 @@
          <width>0</width>
          <height>40</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: Blue;</string>
        </property>
        <property name="text">
         <string>Edit INP-code manually:</string>
