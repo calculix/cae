@@ -281,6 +281,10 @@ class Item:
         else:
             return self.parent.get_parent_keyword_name()
 
+    def get_arguments(self):
+        arguments = [i for i in self.items if i.itype == ItemType.ARGUMENT]
+        return list(arguments)
+
     def get_tree_path(self):
         """Get item path bottom-upwards."""
         parents = []
@@ -333,6 +337,7 @@ class Argument(Item):
         self.form = '' # QCheckBox, QLineEdit, QComboBox
         self.use = ''
         self.comment = ''
+        self.widget = None # representation of the argument in GUI
 
         # NOTE On parsing type will be string, not bool
         self.required = False # on parsing value could be: '0' or '1'

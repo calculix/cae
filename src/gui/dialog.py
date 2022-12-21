@@ -42,16 +42,17 @@ class MyWidget(QtWidgets.QWidget):
     MyWidget is used to visualize Arguments.
     """
 
-    def __init__(self, argument, widgets):
+    def __init__(self, argument, widgets, pad):
         assert type(argument.name) is str, 'Wrong name type: {}'.format(type(argument.name))
         assert type(widgets) is list, 'Wrong widgets type: {}'.format(type(widgets))
         self.name = argument.name
+        self.widgets = widgets
         self.required = argument.get_required()
         self.newline = argument.get_newline()
         super().__init__()
 
         self.vertical_layout = QtWidgets.QVBoxLayout()
-        self.vertical_layout.setContentsMargins(0, 0, 0, 0)
+        self.vertical_layout.setContentsMargins(pad, 0, 0, 0)
         if argument.comment:
             comment_label = QtWidgets.QLabel(argument.comment)
             comment_label.setStyleSheet('color:Gray;')
@@ -83,16 +84,22 @@ class MyWidget(QtWidgets.QWidget):
             required_label.setStyleSheet('color:Red;')
             widgets.insert(0, required_label)
 
+        if pad:
+            self.setEnabled(False)
         for w in widgets:
             self.horizontal_layout.addWidget(w)
         self.vertical_layout.addLayout(self.horizontal_layout)
         self.setLayout(self.vertical_layout)
 
+    def setEnabled(self, status):
+        for w in self.widgets:
+            w.setEnabled(status)
+
 
 class Combo(MyWidget):
     """Combo box with label."""
 
-    def __init__(self, argument):
+    def __init__(self, argument, pad):
         self.w = QtWidgets.QComboBox()
         self.w.addItems(argument.value.split('|'))
 
@@ -101,7 +108,7 @@ class Combo(MyWidget):
         sizePolicy.setHorizontalStretch(1) # expand horizontally
         self.w.setSizePolicy(sizePolicy)
 
-        super().__init__(argument, [self.w])
+        super().__init__(argument, [self.w], pad)
         self.my_signal = self.w.currentIndexChanged
         self.text = self.w.currentText
 
@@ -112,10 +119,10 @@ class Combo(MyWidget):
 class Line(MyWidget):
     """Line edit with label."""
 
-    def __init__(self, argument):
+    def __init__(self, argument, pad):
         self.w = QtWidgets.QLineEdit()
         self.w.setText(argument.value)
-        super().__init__(argument, [self.w])
+        super().__init__(argument, [self.w], pad)
         self.my_signal = self.w.textChanged
         self.text = self.w.text
 
@@ -126,9 +133,9 @@ class Line(MyWidget):
 class Check(MyWidget):
     """Checkbox with label."""
 
-    def __init__(self, argument):
+    def __init__(self, argument, pad):
         self.w = QtWidgets.QCheckBox()
-        super().__init__(argument, [self.w])
+        super().__init__(argument, [self.w], pad)
         self.my_signal = self.w.clicked
 
     def text(self):
@@ -144,12 +151,12 @@ class Check(MyWidget):
 class SelectFileWidget(MyWidget):
     """Custom widget to select files. With label."""
 
-    def __init__(self, argument):
+    def __init__(self, argument, pad):
         self.line_edit = QtWidgets.QLineEdit()
         self.push_button = QtWidgets.QPushButton('...', None)
         self.push_button.clicked.connect(self.get_file)
         self.push_button.setFixedSize(30, 30)
-        super().__init__(argument, [self.line_edit, self.push_button])
+        super().__init__(argument, [self.line_edit, self.push_button], pad)
         self.my_signal = self.line_edit.textChanged
         self.text = self.line_edit.text
 
@@ -167,8 +174,9 @@ class KeywordDialog(QtWidgets.QDialog):
     def __init__(self, item):
         """Load form and show the dialog."""
         self.info = None # WindowInfo will be set in @init_wrapper
-        self.item = item # needed to pass to other functions
-        self.widgets = [] # list of created widgets
+        self.item = item # the one was clicked in the treeView
+        # self.widgets = [] # list of created widgets
+        self.arguments = []
 
         # Load UI form - produces huge amount of redundant debug logs
         logging.disable() # switch off logging
@@ -193,10 +201,8 @@ class KeywordDialog(QtWidgets.QDialog):
                 self.textEdit.append(line)
         elif item.itype == ItemType.KEYWORD:
             # Create widgets for each keyword argument
-            arguments = KWL.get_keyword_by_name(item.name).items
-            for argument in reversed(arguments):
-                if argument.itype == ItemType.ARGUMENT:
-                    self.build_argument_widgets(argument)
+            self.arguments = KWL.get_keyword_by_name(item.name).get_arguments()
+            self.build_argument_widgets(self.arguments)
             self.change(None) # fill textEdit widget with default inp_code
 
         # Generate html help page from official manual
@@ -210,58 +216,79 @@ class KeywordDialog(QtWidgets.QDialog):
 
         self.show()
 
-    def build_argument_widgets(self, argument):
-        assert argument.itype == ItemType.ARGUMENT, 'Wrong item type.'
-        if argument.use:
-            # Try to get existing implementations
-            # NOTE Keywords from the tree/list are different instances
-            kwl = KWL.get_keyword_by_name(argument.use)
-            kwt = KWT.keyword_dic[kwl.get_path2()]
-            implementations = [impl.name for impl in kwt.get_implementations()]
-            argument_widget = Combo(argument)
-            argument_widget.w.addItems(implementations)
-        else:
-            argument_widget = eval(argument.form)(argument)
-        self.vertical_layout.insertWidget(0, argument_widget)
-        self.widgets.insert(0, argument_widget)
+    def build_argument_widgets(self, arguments, pad=0):
+        for argument in reversed(arguments):
+            self.build_argument_widgets(argument.get_arguments(), pad=pad+20)
+            if argument.use:
+                # Try to get existing implementations
+                # NOTE Keywords from the tree/list are different instances
+                kwl = KWL.get_keyword_by_name(argument.use)
+                kwt = KWT.keyword_dic[kwl.get_path2()]
+                implementations = [impl.name for impl in kwt.get_implementations()]
+                argument_widget = Combo(argument, pad)
+                argument_widget.w.addItems(implementations)
+            else:
+                argument_widget = eval(argument.form)(argument, pad)
+            self.vertical_layout.insertWidget(0, argument_widget)
+            # self.widgets.insert(0, argument_widget)
+            argument.widget = argument_widget
 
-        # Connect signals to slots
-        argument_widget.my_signal.connect(self.change)
-        if argument_widget.label:
-            argument_widget.label.my_signal.connect(self.change)
+            # Connect signals to slots
+            argument_widget.my_signal.connect(self.change)
+            if argument_widget.label:
+                argument_widget.label.my_signal.connect(self.change)
 
-    def change(self, data):
+    def change(self, data, arguments=None, append=False):
         """Update piece of INP-code in the textEdit widget."""
-        arguments = {} # name:value
-        string = self.item.name
-        for w in self.widgets:
+        args = {} # name:value
+        if not append:
+            self.textEdit.setText(self.item.name)
+        if arguments is None:
+            arguments = self.arguments
+        for a in arguments:
+            w = a.widget
+
             name = ''
             if w.label:
                 name = w.label.text()
             value = w.text() # argument value
+
             if value:
                 # Checkbox goes without value, only flag name
                 if value == Check.__name__:
                     value = ''
                 elif name:
                     name += '='
-                arguments[name] = value
+                args[name] = value
                 if w.newline:
-                    string += '\n' + name + value # argument goes from new line
+                    txt = '\n' + name + value # argument goes from new line
                 else:
-                    string += ', ' + name + value # argument goes inline
-        self.textEdit.setText(string)
+                    txt = ', ' + name + value # argument goes inline
+                self.textEdit.setText(self.textEdit.toPlainText() + txt)
+
+            # Activate children argument widgets
+            for arg in a.get_arguments():
+                arg.widget.setEnabled(bool(w.text()))
+            self.change(data, a.get_arguments(), append=True)
 
     def reset(self):
         """Reset textEdit widget to initial state."""
-        for w in self.widgets:
+        if arguments is None:
+            arguments = self.arguments
+        for a in arguments:
+            w = a.widget
+        # for w in self.widgets:
             if hasattr(w, 'reset'):
                 w.reset()
 
-    def accept(self):
+    def accept(self, arguments=None):
         """Check if all required fields are filled."""
-        for w in self.widgets:
-            if w.required:
+        if arguments is None:
+            arguments = self.arguments
+        for a in arguments:
+            w = a.widget
+        # for w in self.widgets:
+            if w.isEnabled() and w.required:
                 # name = w.name.replace('=', '') # argument name
                 name = w.name # argument name
                 value = w.text() # argument value
@@ -320,7 +347,7 @@ class KeywordDialog(QtWidgets.QDialog):
 def test_dialog():
     """Create keyword dialog"""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*BEAM SECTION')
+    item = KWL.get_keyword_by_name('*BOUNDARY')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
