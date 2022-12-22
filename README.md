@@ -196,7 +196,7 @@ What's new in future v0.9.0:
 + Keywords hierarchy and keywords list with arguments now are driven by two separate xml-configs.
 + Added validation to the KeywordDialog widgets.
 + Bugfix: import menu did nothing in empty model.
-+ Keyword Dialog: support number input (int/float)
++ Keyword Dialog: support number input (int/float).
 
 <br/><br/>
 

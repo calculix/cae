@@ -58,9 +58,6 @@
 		<Argument form='Int' comment='Lanczos vectors'/>
 		<Argument form='Int' comment='Maximum of iterations'/>
 	</Keyword>
-
-
-
 	<Keyword name='*CFD'>
 		<Argument form='Float' name='TOTAL TIME AT START'/>
 		<Argument form='Combo' name='TURBULENCE MODEL'>|K-EPSILON|K-OMEGA|SST</Argument>
@@ -72,8 +69,11 @@
 			<Argument form='Bool' name='COMPRESSIBLE'/>
 			<Argument form='Bool' name='SHALLOW WATER'/>
 		</Group>
-		<!-- <Argument form='Combo' name='SCHEME'>UD|MODSMART</Argument>
-		<Argument form='Bool' name='SIMPLEC'/> -->
+		<Argument form='Float' comment='Initial time increment' newline='1'/>
+		<Argument form='Float' comment='Total step time'/>
+		<Argument form='Float' comment='Minimum time increment allowed'/>
+		<Argument form='Float' comment='Maximum time increment allowed'/>
+		<Argument form='Float' comment='Safety factor'/>
 	</Keyword>
 
 
