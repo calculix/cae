@@ -160,8 +160,8 @@ Please, you may:
 - Star this project.
 - Simply use this software and ask questions.
 - Share your models and screenshots.
+- Report problems by [posting issues](https://github.com/calculix/cae/issues). Please, attach ./cae.log (or other logs) to the problem report.
 - Do something from the [TODO-list](#TODO).
-- Report problems by [posting issues](https://github.com/calculix/cae/issues). Please, attach ./examples/default.log (or other logs) to the problem report.
 
 <br/><br/>
 
@@ -196,6 +196,7 @@ What's new in future v0.9.0:
 + Keywords hierarchy and keywords list with arguments now are driven by two separate xml-configs.
 + Added validation to the KeywordDialog widgets.
 + Bugfix: import menu did nothing in empty model.
++ Keyword Dialog: support number input (int/float)
 
 <br/><br/>
 
@@ -203,7 +204,6 @@ What's new in future v0.9.0:
 
 # TODO
 
-- Number input: QSpinBox; Text input: QLineEdit
 - Argument with "use": link to create a new IMPLEMENTATION
 - Code, docs and KOM for v 2.20.
 

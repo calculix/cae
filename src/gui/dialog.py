@@ -116,8 +116,8 @@ class Combo(MyWidget):
         self.w.setCurrentIndex(0)
 
 
-class Line(MyWidget):
-    """Line edit with label."""
+class Text(MyWidget):
+    """QLineEdit with label."""
 
     def __init__(self, argument, pad):
         self.w = QtWidgets.QLineEdit()
@@ -128,6 +128,22 @@ class Line(MyWidget):
 
     def reset(self):
         self.w.setText('')
+
+
+class Int(Text):
+    """QLineEdit with label."""
+
+    def __init__(self, argument, pad):
+        super().__init__(argument, pad)
+        self.w.setValidator(QtGui.QIntValidator())
+
+
+class Float(Text):
+    """QLineEdit with label."""
+
+    def __init__(self, argument, pad):
+        super().__init__(argument, pad)
+        self.w.setValidator(QtGui.QDoubleValidator())
 
 
 class Check(MyWidget):
