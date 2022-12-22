@@ -354,7 +354,7 @@ class KeywordDialog(QtWidgets.QDialog):
 def test_dialog():
     """Create keyword dialog"""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*BOUNDARY')
+    item = KWL.get_keyword_by_name('*BUCKLE')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

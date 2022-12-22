@@ -10,8 +10,10 @@
 		<Argument form='Line' name='NAME' required='1'/>
 		<Argument form='Combo' name='TIME'>|TOTAL TIME</Argument>
 		<Argument form='Check' name='USER'/>
-		<Argument form='Line' name='SHIFTX'/>
-		<Argument form='Line' name='SHIFTY'/>
+		<Group>
+			<Argument form='Line' name='SHIFTX'/>
+			<Argument form='Line' name='SHIFTY'/>
+		</Group>
 	</Keyword>
 	<Keyword name='*BASE MOTION'>
 		<Argument form='Combo' name='DOF' required='1'>1|2|3</Argument>
@@ -22,8 +24,10 @@
 		<Argument use='*ELSET' name='ELSET' required='1'/>
 		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
 		<Argument form='Combo' name='SECTION' required='1'>RECT|CIRC|PIPE|BOX|GENERAL</Argument>
-		<Argument form='Line' name='OFFSET1'/>
-		<Argument form='Line' name='OFFSET2'/>
+		<Group>
+			<Argument form='Line' name='OFFSET1'/>
+			<Argument form='Line' name='OFFSET2'/>
+		</Group>
 		<Argument form='Line' comment='Nodal thickness in directions 1, 2:' newline='1'/>
 		<Argument form='Line' comment='Global x, y, z coordinates of a unit vector in 1-direction:' newline='1'>0., 0., -1.</Argument>
 	</Keyword>
@@ -47,12 +51,16 @@
 			<Argument form='Line' comment='Value'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*BUCKLE'>
-		<Argument form='Combo' name='SOLVER' required='1'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
+		<Argument form='Combo' name='SOLVER' required='1'>SPOOLES|PARDISO|SGI|TAUCS|PaStiX</Argument>
+		<Argument form='Line' comment='Number of buckling factors' newline='1' required='1'>1</Argument>
+		<Argument form='Line' comment='Accuracy'>0.01</Argument>
+		<Argument form='Line' comment='Lanczos vectors'/>
+		<Argument form='Line' comment='Maximum of iterations'/>
 	</Keyword>
+
+
+
 	<Keyword name='*CFD'>
 		<Argument form='Check' name='STEADY STATE'/>
 		<Argument form='Check' name='TIME RESET'/>
@@ -298,7 +306,7 @@
 		<Argument form='Combo' name='EDGE PRESERVATION'>YES|NO</Argument>
 		<Argument form='Combo' name='DIRECTION WEIGHTING'>YES|NO</Argument>
 	</Keyword>
-	<Keyword name='*FLUID CONSTANTS'/>				
+	<Keyword name='*FLUID CONSTANTS'/>
 	<Keyword name='*FLUID SECTION'>
 		<Argument form='Line' name='ELSET' required='1'/>
 		<Argument form='Line' name='MATERIAL' required='1'/>
