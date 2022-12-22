@@ -202,7 +202,7 @@ class KeywordDialog(QtWidgets.QDialog):
         elif item.itype == ItemType.KEYWORD:
             # Create widgets for each keyword argument
             self.arguments = KWL.get_keyword_by_name(item.name).get_arguments()
-            self.build_argument_widgets(self.arguments)
+            self.build_argument_widgets(self.arguments, self.vertical_layout)
             self.change(None) # fill textEdit widget with default inp_code
 
         # Generate html help page from official manual
@@ -216,27 +216,31 @@ class KeywordDialog(QtWidgets.QDialog):
 
         self.show()
 
-    def build_argument_widgets(self, arguments, pad=0):
+    def build_argument_widgets(self, arguments, parent_layout, pad=0):
         for argument in reversed(arguments):
-            self.build_argument_widgets(argument.get_arguments(), pad=pad+20)
-            if argument.use:
-                # Try to get existing implementations
-                # NOTE Keywords from the tree/list are different instances
-                kwl = KWL.get_keyword_by_name(argument.use)
-                kwt = KWT.keyword_dic[kwl.get_path2()]
-                implementations = [impl.name for impl in kwt.get_implementations()]
-                argument_widget = Combo(argument, pad)
-                argument_widget.w.addItems(implementations)
-            else:
-                argument_widget = eval(argument.form)(argument, pad)
-            self.vertical_layout.insertWidget(0, argument_widget)
-            # self.widgets.insert(0, argument_widget)
-            argument.widget = argument_widget
+            if argument.itype == ItemType.ARGUMENT:
+                self.build_argument_widgets(argument.get_arguments(), parent_layout, pad=pad+20)
+                if argument.use:
+                    # Try to get existing implementations
+                    # NOTE Keywords from the tree/list are different instances
+                    kwl = KWL.get_keyword_by_name(argument.use)
+                    kwt = KWT.keyword_dic[kwl.get_path2()]
+                    implementations = [impl.name for impl in kwt.get_implementations()]
+                    argument_widget = Combo(argument, pad)
+                    argument_widget.w.addItems(implementations)
+                else:
+                    argument_widget = eval(argument.form)(argument, pad)
+                parent_layout.insertWidget(0, argument_widget)
+                argument.widget = argument_widget
 
-            # Connect signals to slots
-            argument_widget.my_signal.connect(self.change)
-            if argument_widget.label:
-                argument_widget.label.my_signal.connect(self.change)
+                # Connect signals to slots
+                argument_widget.my_signal.connect(self.change)
+                if argument_widget.label:
+                    argument_widget.label.my_signal.connect(self.change)
+            if argument.itype == ItemType.GROUP:
+                hl = QtWidgets.QHBoxLayout()
+                parent_layout.insertLayout(0, hl)
+                self.build_argument_widgets(argument.get_arguments(), hl, pad)
 
     def change(self, data, arguments=None, append=False):
         """Update piece of INP-code in the textEdit widget."""
@@ -246,30 +250,34 @@ class KeywordDialog(QtWidgets.QDialog):
         if arguments is None:
             arguments = self.arguments
         for a in arguments:
-            w = a.widget
+            if a.itype == ItemType.ARGUMENT:
+                w = a.widget
 
-            name = ''
-            if w.label:
-                name = w.label.text()
-            value = w.text() # argument value
+                name = ''
+                if w.label:
+                    name = w.label.text()
+                value = w.text() # argument value
 
-            if value:
-                # Checkbox goes without value, only flag name
-                if value == Check.__name__:
-                    value = ''
-                elif name:
-                    name += '='
-                args[name] = value
-                if w.newline:
-                    txt = '\n' + name + value # argument goes from new line
-                else:
-                    txt = ', ' + name + value # argument goes inline
-                self.textEdit.setText(self.textEdit.toPlainText() + txt)
+                if value:
+                    # Checkbox goes without value, only flag name
+                    if value == Check.__name__:
+                        value = ''
+                    elif name:
+                        name += '='
+                    args[name] = value
+                    if w.newline:
+                        txt = '\n' + name + value # argument goes from new line
+                    else:
+                        txt = ', ' + name + value # argument goes inline
+                    self.textEdit.setText(self.textEdit.toPlainText() + txt)
 
-            # Activate children argument widgets
-            for arg in a.get_arguments():
-                arg.widget.setEnabled(bool(w.text()))
-            self.change(data, a.get_arguments(), append=True)
+                # Activate children argument widgets
+                for arg in a.get_arguments():
+                    if arg.itype == ItemType.ARGUMENT:
+                        arg.widget.setEnabled(bool(w.text()))
+                self.change(data, a.get_arguments(), append=True)
+            if a.itype == ItemType.GROUP:
+                self.change(data, a.get_arguments(), append=True)
 
     def reset(self):
         """Reset textEdit widget to initial state."""
@@ -277,7 +285,6 @@ class KeywordDialog(QtWidgets.QDialog):
             arguments = self.arguments
         for a in arguments:
             w = a.widget
-        # for w in self.widgets:
             if hasattr(w, 'reset'):
                 w.reset()
 
@@ -286,10 +293,10 @@ class KeywordDialog(QtWidgets.QDialog):
         if arguments is None:
             arguments = self.arguments
         for a in arguments:
+            if a.itype != ItemType.ARGUMENT:
+                continue
             w = a.widget
-        # for w in self.widgets:
             if w.isEnabled() and w.required:
-                # name = w.name.replace('=', '') # argument name
                 name = w.name # argument name
                 value = w.text() # argument value
                 if not value:

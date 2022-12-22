@@ -204,7 +204,6 @@ What's new in future v0.9.0:
 # TODO
 
 - Number input: QSpinBox; Text input: QLineEdit
-- Group keyword arguments to show them in a horizontal layout.
 - Code, docs and KOM for v 2.20.
 
 https://www.x.org/releases/X11R7.5/doc/man/man3/XSetFont.3.html

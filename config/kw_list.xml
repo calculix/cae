@@ -29,21 +29,23 @@
 	</Keyword>
 	<Keyword name='*BOUNDARY'>
 		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
+		<Argument form='Combo' name='LOAD CASE'>|1|2</Argument>
 		<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
 		<Argument form='Line' name='TIME DELAY'/>
-		<Argument form='Combo' name='LOAD CASE'>|1|2</Argument>
-		<Argument form='Check' name='USER'/>
 		<Argument form='Line' name='MASS FLOW'/>
 		<Argument form='Check' name='FIXED'/>
+		<Argument form='Check' name='USER'/>
 		<Argument form='Check' name='SUBMODEL'>
 			<Argument form='Line' name='STEP'/>
 			<Argument form='Line' name='DATA SET'/>
 		</Argument>
-		<Argument form='Line' comment='NODE:' newline='1'/>
-		<Argument form='Line' use='*NSET' comment='or NSET:' newline='1'/>
-		<Argument form='Line' comment='First DOF constrained:'/>
-		<Argument form='Line' comment='Last DOF constrained:'/>
-		<Argument form='Line' comment='Value:'/>
+		<Group>
+			<Argument form='Line' comment='NODE or...' newline='1'/>
+			<Argument form='Line' use='*NSET' comment='...NSET' newline='1'/>
+			<Argument form='Line' comment='1st DOF'/>
+			<Argument form='Line' comment='Last DOF'/>
+			<Argument form='Line' comment='Value'/>
+		</Group>
 	</Keyword>
 
 

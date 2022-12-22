@@ -282,7 +282,7 @@ class Item:
             return self.parent.get_parent_keyword_name()
 
     def get_arguments(self):
-        arguments = [i for i in self.items if i.itype == ItemType.ARGUMENT]
+        arguments = [i for i in self.items if i.itype in (ItemType.ARGUMENT, ItemType.GROUP)]
         return list(arguments)
 
     def get_tree_path(self):
