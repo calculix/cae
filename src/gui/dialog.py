@@ -150,7 +150,7 @@ class Float(Text):
         self.w.setValidator(QtGui.QDoubleValidator())
 
 
-class Check(MyWidget):
+class Bool(MyWidget):
     """Checkbox with label."""
 
     def __init__(self, argument, pad):
@@ -280,7 +280,7 @@ class KeywordDialog(QtWidgets.QDialog):
 
                 if value:
                     # Checkbox goes without value, only flag name
-                    if value == Check.__name__:
+                    if value == Bool.__name__:
                         value = ''
                     elif name:
                         name += '='
@@ -374,7 +374,7 @@ class KeywordDialog(QtWidgets.QDialog):
 def test_dialog():
     """Create keyword dialog"""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*BUCKLE')
+    item = KWL.get_keyword_by_name('*CFD')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
