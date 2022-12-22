@@ -42,7 +42,7 @@ class MyWidget(QtWidgets.QWidget):
     MyWidget is used to visualize Arguments.
     """
 
-    def __init__(self, argument, widgets, pad):
+    def __init__(self, argument, widgets, pad, reverse_pos=False):
         assert type(argument.name) is str, 'Wrong name type: {}'.format(type(argument.name))
         assert type(widgets) is list, 'Wrong widgets type: {}'.format(type(widgets))
         self.name = argument.name
@@ -75,7 +75,11 @@ class MyWidget(QtWidgets.QWidget):
             self.label = QtWidgets.QLabel(self.name)
             self.label.my_signal = self.label.linkHovered
         if self.label:
-            widgets.insert(0, self.label)
+            # Label goes after the checkbox
+            pos = 0
+            if reverse_pos:
+                pos = 1
+            widgets.insert(pos, self.label)
 
         # Mark required argument
         if self.required:
@@ -151,7 +155,7 @@ class Check(MyWidget):
 
     def __init__(self, argument, pad):
         self.w = QtWidgets.QCheckBox()
-        super().__init__(argument, [self.w], pad)
+        super().__init__(argument, [self.w], pad, reverse_pos=True)
         self.my_signal = self.w.clicked
 
     def text(self):
