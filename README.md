@@ -182,7 +182,7 @@ You may also need libraries:
 
 What's new in future v0.9.0:
 
-+ CalculiX 2.20. Linux version of CGX has 'cmap' command and [custom colormaps](https://github.com/calculix/cgx/releases/tag/v2.17.cmap). Switch colormaps from menu CGX.
++ CalculiX 2.20.
 + Significantly improved INP importer algorithm. Now parser supports keyword line continuation. Tested on over 20 000 INP files, including Abaqus models.
 + New checker module. Checks are called on the application start. OS name, Python version, CAE version and default web browser are logged. Requirements are installed automatically via pip. Statrup checks could be switched off from the settings.
 + Refactored logging system. Now it is a new dedicated module.
@@ -204,7 +204,10 @@ What's new in future v0.9.0:
 
 # TODO
 
-- Argument with "use": link to create a new IMPLEMENTATION
+- Tag <OR> with required attribute for Arguments.
+- Test for all possible keyword dialogs.
+- KeywordDialog: clickable checkbox labels.
+- Argument with "use": link to create a new IMPLEMENTATION.
 - Code, docs and KOM for v 2.20.
 
 https://www.x.org/releases/X11R7.5/doc/man/man3/XSetFont.3.html

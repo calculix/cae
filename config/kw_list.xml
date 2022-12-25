@@ -4,13 +4,19 @@
 	Distributed under GNU General Public License v3.0
 
 	CalculiX Keywords List
+
+	Argument is a normal Calculix Keyword parameter taken from
+	the official documentation. Group is not an argument. Groups
+	are used to change the way how Arguments are shown in the GUI.
+	Arguments and Groups has attribute 'form'. It is responsible
+	for the exact widget used for their representation in the GUI.
 -->
 <list>
 	<Keyword name='*AMPLITUDE'>
 		<Argument form='Text' name='NAME' required='1'/>
 		<Argument form='Combo' name='TIME'>|TOTAL TIME</Argument>
 		<Argument form='Bool' name='USER'/>
-		<Group>
+		<Group form='Hbox'>
 			<Argument form='Float' name='SHIFTX'/>
 			<Argument form='Float' name='SHIFTY'/>
 		</Group>
@@ -24,7 +30,7 @@
 		<Argument use='*ELSET' name='ELSET' required='1'/>
 		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
 		<Argument form='Combo' name='SECTION' required='1'>RECT|CIRC|PIPE|BOX|GENERAL</Argument>
-		<Group>
+		<Group form='Hbox'>
 			<Argument form='Float' name='OFFSET1'/>
 			<Argument form='Float' name='OFFSET2'/>
 		</Group>
@@ -39,13 +45,15 @@
 		<Argument form='Float' name='MASS FLOW'/>
 		<Argument form='Bool' name='FIXED'/>
 		<Argument form='Bool' name='USER'/>
-		<Argument form='Bool' name='SUBMODEL'>
+		<Argument form='Group' name='SUBMODEL'>
 			<Argument form='Int' name='STEP'/>
 			<Argument form='Int' name='DATA SET'/>
 		</Argument>
-		<Group>
-			<Argument form='Int' comment='NODE or...' newline='1'/>
-			<Argument use='*NSET' comment='...NSET' newline='1'/>
+		<Group form='Hbox' newline='1'>
+			<Group form='Or'>
+				<Argument form='Int' comment='NODE or...'/>
+				<Argument use='*NSET' comment='...NSET'/>
+			</Group>
 			<Argument form='Int' comment='1st DOF'/>
 			<Argument form='Int' comment='Last DOF'/>
 			<Argument form='Float' comment='Value'/>
@@ -61,11 +69,11 @@
 	<Keyword name='*CFD'>
 		<Argument form='Float' name='TOTAL TIME AT START'/>
 		<Argument form='Combo' name='TURBULENCE MODEL'>|K-EPSILON|K-OMEGA|SST</Argument>
-		<Group>
+		<Group form='Hbox'>
 			<Argument form='Bool' name='STEADY STATE'/>
 			<Argument form='Bool' name='TIME RESET'/>
 		</Group>
-		<Group>
+		<Group form='Hbox'>
 			<Argument form='Bool' name='COMPRESSIBLE'/>
 			<Argument form='Bool' name='SHALLOW WATER'/>
 		</Group>
@@ -75,16 +83,26 @@
 		<Argument form='Float' comment='Maximum time increment allowed'/>
 		<Argument form='Float' comment='Safety factor'/>
 	</Keyword>
-
-
-
 	<Keyword name='*CFLUX'>
-		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Text' name='AMPLITUDE'/>
-		<Argument form='Text' name='TIME DELAY'/>
-		<Argument form='Bool' name='USER'/>
-		<Argument form='Bool' name='ADD'/>
+		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
+		<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
+		<Argument form='Float' name='TIME DELAY'/>
+		<Group form='Hbox'>
+			<Argument form='Bool' name='USER'/>
+			<Argument form='Bool' name='ADD'/>
+		</Group>
+		<Group form='Hbox' newline='1'>
+			<Group form='Or'>
+				<Argument form='Int' comment='NODE or...'/>
+				<Argument use='*NSET' comment='...NSET'/>
+			</Group>
+			<Argument form='Int' comment='DOF'>11</Argument>
+			<Argument form='Float' comment='Magnitude of the flux'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*CHANGE FRICTION'>
 		<Argument form='Text' name='INTERACTION' required='1'/>
 	</Keyword>

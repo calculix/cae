@@ -40,6 +40,9 @@
    <item>
     <layout class="QVBoxLayout" name="vertical_layout">
      <item>
+      <layout class="QVBoxLayout" name="widgets_layout"/>
+     </item>
+     <item>
       <widget class="QLabel" name="label">
        <property name="enabled">
         <bool>true</bool>

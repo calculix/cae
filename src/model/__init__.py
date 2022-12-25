@@ -13,7 +13,7 @@ See scheme on architecture.odp.
 class Model:
 
     def __init__(self):
-        # Variable names below should exactly represent KWT group names
+        # Variable names below should exactly represent KWT collection names
         self.Mesh = None
         self.Interactions = None
         self.Constraints = None

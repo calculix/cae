@@ -27,7 +27,7 @@ if sys_path not in sys.path:
 from path import p
 from settings import s
 from model.parsers.mesh import Mesh
-from model.kom import ItemType, Implementation, KWT
+from model.kom import ItemType, Implementation, KWT, KWL
 from model import m
 from gui.window import wf, df
 from utils import tests
@@ -51,14 +51,14 @@ class Tree:
         """Recursively generate treeView widget items based on KWT."""
         self.model.clear() # remove all items and data from tree
         parent_element = self.model.invisibleRootItem() # top element in QTreeView
-        self.addToTree(parent_element, KWT.root.items) # pass top level groups
+        self.addToTree(parent_element, KWT.root.items) # pass top level COLLECTIONs
 
     def addToTree(self, parent_element, items):
         """Used with generateTreeView() - implements recursion."""
         for item in items:
 
             # Add to the tree only needed item_types
-            allowed = [ItemType.GROUP, ItemType.KEYWORD, ItemType.IMPLEMENTATION]
+            allowed = [ItemType.COLLECTION, ItemType.KEYWORD, ItemType.IMPLEMENTATION]
             if item.itype not in allowed:
                 continue
 
@@ -110,9 +110,9 @@ class Tree:
         """Double click on treeView item: edit the keyword via dialog."""
         index = wf.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
-        item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
+        item = tree_element.data() # now it is COLLECTION, KEYWORD or IMPLEMENTATION
 
-        # Double click on GROUP doesn't create dialog
+        # Double click on COLLECTION doesn't create dialog
         allowed_types = [ItemType.KEYWORD, ItemType.IMPLEMENTATION]
         if not item or item.itype not in allowed_types:
             return
@@ -123,9 +123,14 @@ class Tree:
             logging.warning(msg)
             return
 
+        # Convert tree Keyword to List Keyword with Arguments
+        kwl = item
+        if item.itype == ItemType.KEYWORD:
+            kwl = KWL.get_keyword_by_name(item.name)
+
         # Exec dialog and recieve answer
         # Process response from dialog window if user pressed 'OK'
-        if df.run_master_dialog(item): # 0 = cancel, 1 = ok
+        if df.run_master_dialog(kwl): # 0 = cancel, 1 = ok
 
             # The generated piece of .inp code for the CalculiX input file
             inp_code = df.mw.ok() # list of strings
@@ -180,7 +185,7 @@ class Tree:
 
         index = wf.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
-        item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
+        item = tree_element.data() # now it is COLLECTION, KEYWORD or IMPLEMENTATION
 
         # Highlight entities
         if item and item.itype == ItemType.IMPLEMENTATION:
@@ -247,7 +252,7 @@ class Tree:
         try:
             index = wf.mw.treeView.selectedIndexes()[0] # selected item index
             tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
-            item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
+            item = tree_element.data() # now it is COLLECTION, KEYWORD or IMPLEMENTATION
 
             # Context menu for any keyword and implementations
             if item:
@@ -313,7 +318,7 @@ class Tree:
         """Delete keyword implementation from KWT."""
 
         def hide_parent(tree_element):
-            # To hide current item/brunch it should be empty 'keyword' or 'group'
+            # To hide current item/brunch it should be empty 'keyword' or 'collection'
             if not s.show_empty_keywords \
                 and not tree_element.hasChildren() \
                 and tree_element.data().itype != ItemType.IMPLEMENTATION:
@@ -329,7 +334,7 @@ class Tree:
 
         index = wf.mw.treeView.selectedIndexes()[0] # selected item index
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
-        item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
+        item = tree_element.data() # now it is COLLECTION, KEYWORD or IMPLEMENTATION
 
         if item and item.itype == ItemType.IMPLEMENTATION:
 
@@ -356,7 +361,7 @@ class Tree:
     def expanded_or_collapsed(self, index):
         """Change KWT item 'expanded' variable when user interacts with treeView."""
         tree_element = self.model.itemFromIndex(index) # treeView item obtained from 'index'
-        item = tree_element.data() # now it is GROUP, KEYWORD or IMPLEMENTATION
+        item = tree_element.data() # now it is COLLECTION, KEYWORD or IMPLEMENTATION
         if item:
             item.expanded = not item.expanded
 
@@ -367,9 +372,14 @@ t = Tree()
 
 @tests.test_wrapper()
 def test():
+    """Prepare logging."""
+    logging.getLogger().setLevel(logging.NOTSET)
+    fmt = logging.Formatter('%(levelname)s: %(message)s')
+    for h in logging.getLogger().handlers:
+        h.setFormatter(fmt)
+
     """Start keyword editor and generate the tree."""
-    import log
-    log.stop_logging()
+    from PyQt5 import QtWebEngineWidgets
 
     # Create application
     app = QtWidgets.QApplication(sys.argv)
@@ -381,7 +391,6 @@ def test():
     t = Tree()
 
     # Actions
-    # if hasattr(wf.mw, 'treeView'):
     wf.mw.treeView.doubleClicked.connect(t.doubleClicked)
     wf.mw.treeView.clicked.connect(t.clicked)
     wf.mw.treeView.customContextMenuRequested.connect(t.rightClicked)

@@ -38,10 +38,10 @@ class KeywordTree:
         """Read CalculiX keywords tree."""
         self.keyword_names = ()
         self.keyword_dic = {}
-        self.groups = []
+        self.collections = []
 
-        # 'Model' group from kw_tree.xml
-        self.root = Group()
+        # 'Model' collection from kw_tree.xml
+        self.root = Collection()
 
         # Parse keywords hierarchy and build Keyword Object Model
         try:
@@ -55,7 +55,7 @@ class KeywordTree:
             logging.error(msg)
 
     def build(self, xml_branch, parent):
-        """Recursively build keyword tree. Create groups and keywords.
+        """Recursively build keyword tree. Create collections and keywords.
         xml_child.tag, xml_child.attrib:
         Keyword, {'name': '*RESTART'}
         Keyword, {'name': '*TIME POINTS'}
@@ -63,7 +63,7 @@ class KeywordTree:
         Group, {'name': 'Constraints'}
         """
         for xml_child in xml_branch:
-            # Create item: group, keyword or argument
+            # Create item: collection or keyword
             klass = globals()[xml_child.tag]
             item = klass()
             parent.items.append(item)
@@ -78,7 +78,7 @@ class KeywordTree:
                 tree_path_key = item.get_path2()
                 self.keyword_dic[tree_path_key] = item
             if xml_child.tag == Group.__name__:
-                self.groups.append(item)
+                self.collections.append(item)
 
             self.build(xml_child, item)
 
@@ -92,7 +92,7 @@ class KeywordTree:
         if parent.itype == ItemType.IMPLEMENTATION:
             level += 1
 
-        # For each group/keyword from KWT
+        # For each collection/keyword from KWT
         for item in parent.items:
             if item.itype == ItemType.ARGUMENT:
                 continue
@@ -136,8 +136,8 @@ class KeywordList:
         # List of all existing keywords
         self.keywords = []
 
-        # 'Model' group from kw_tree.xml
-        self.root = Group()
+        # 'Model' collection from kw_tree.xml
+        self.root = Collection()
 
         # Parse keywords list with arguments
         try:
@@ -162,7 +162,7 @@ class KeywordList:
             Group, {'name': 'Constraints'}
             """
 
-            # Create item: group, keyword or argument
+            # Create item: Keyword, Argument or Group
             klass = globals()[xml_child.tag]
             item = klass()
             if xml_child.text:
@@ -189,34 +189,41 @@ class KeywordList:
 
 class ItemType(Enum):
     """Enums for 'itype' variable."""
-    GROUP = 0
+    COLLECTION = 0
     KEYWORD = 1
     ARGUMENT = 2
     IMPLEMENTATION = 3
+    GROUP = 4
 
 
 class Item:
     """Needed for inheritance by further classes."""
 
     def __init__(self):
-        self.itype = ''      # item type: group/keyword/argument/implementation
+        self.itype = ''      # item type: collection/group/keyword/argument/implementation
         self.name = ''       # name of item, string
         self.value = ''
         self.items = []      # list of children
         self.parent = None   # item parent item
         self.active = False
 
+        # NOTE On parsing type will be string, not bool
+        self.newline = False # start argument from the new line?
+
+    def get_newline(self):
+        return int(self.newline)
+
     def is_active(self):
         """Define if item is active."""
 
-        # Top groups
+        # Top collections
         if self.parent and self.parent.name == 'Model':
             self.active = True
             return True
 
-        # Children of active groups
+        # Children of active collections
         elif self.parent and self.parent.active and self.parent.itype in \
-            [ItemType.GROUP, ItemType.IMPLEMENTATION]:
+            [ItemType.COLLECTION, ItemType.IMPLEMENTATION]:
             self.active = True
             return True
 
@@ -234,7 +241,7 @@ class Item:
         import copy
         another_item.items = []
         for item in self.items:
-            if item.itype in [ItemType.GROUP, ItemType.KEYWORD]:
+            if item.itype in [ItemType.COLLECTION, ItemType.KEYWORD]:
                 copied_item = copy.copy(item) # newer use deepcopy!
                 copied_item.parent = another_item
                 copied_item.active = True
@@ -274,7 +281,7 @@ class Item:
                 return item
 
     def get_parent_keyword_name(self):
-        """Returns first active preceding/parent keyword (not group)."""
+        """Returns first active preceding/parent keyword (not collection)."""
         if (self.parent.itype == ItemType.KEYWORD or \
             self.parent.name == 'Model') and self.parent.active:
                 return self.parent.name
@@ -304,14 +311,15 @@ class Item:
         return ' > '.join(tree_path)
 
 
-class Group(Item):
-    """Group of keywords, like 'Properties', 'Constraints', etc."""
-
+class Collection(Item):
+    """Collection of keywords, like 'Properties',
+    'Constraints', 'Interactions' etc. in the kw_tree.xml.
+    """
     def __init__(self):
         super().__init__()
-        self.itype = ItemType.GROUP
-        self.items = [] # list of groups and keywords
-        self.name = 'Model' # default name (root group)
+        self.itype = ItemType.COLLECTION
+        self.items = [] # list of collections and keywords
+        self.name = 'Model' # default name (root collection)
         self.expanded = s.expanded
 
 
@@ -341,13 +349,19 @@ class Argument(Item):
 
         # NOTE On parsing type will be string, not bool
         self.required = False # on parsing value could be: '0' or '1'
-        self.newline = False # start argument from the new line?
 
     def get_required(self):
         return int(self.required)
-    
-    def get_newline(self):
-        return int(self.newline)
+
+
+class Group(Item):
+    """Group of keyword Arguments in kw_list.xml"""
+
+    def __init__(self):
+        super().__init__()
+        self.itype = ItemType.GROUP
+        self.items = [] # list of groups and arguments
+        self.name = ''
 
 
 class Implementation(Item):

@@ -6,14 +6,14 @@
 	CalculiX Keywords Tree
 -->
 <tree>
-	<Group name='Attributes'>
+	<Collection name='Attributes'>
 		<Keyword name='*HEADING'/>
 		<Keyword name='*DESIGN VARIABLES'/>
 		<Keyword name='*PHYSICAL CONSTANTS'/>
 		<Keyword name='*VALUES AT INFINITY'/>
 		<Keyword name='*SUBMODEL'/>
-	</Group>
-	<Group name='Mesh'>
+	</Collection>
+	<Collection name='Mesh'>
 		<Keyword name='*NODE'/>
 		<Keyword name='*NSET'/>
 		<Keyword name='*ELEMENT'>
@@ -22,8 +22,8 @@
 		<Keyword name='*ELSET'/>
 		<Keyword name='*SURFACE'/>
 		<Keyword name='*GAP'/>
-	</Group>
-	<Group name='Properties'>
+	</Collection>
+	<Collection name='Properties'>
 		<Keyword name='*NODAL THICKNESS'/>
 		<Keyword name='*NORMAL'/>
 		<Keyword name='*MASS'/>
@@ -49,7 +49,7 @@
 			<Keyword name='*SPECIFIC HEAT'/>
 			<Keyword name='*USER MATERIAL'/>
 		</Keyword>
-		<Group name='Section'>
+		<Collection name='Section'>
 			<Keyword name='*BEAM SECTION'/>
 			<Keyword name='*FLUID SECTION'/>
 			<Keyword name='*MEMBRANE SECTION'/>
@@ -57,8 +57,8 @@
 			<Keyword name='*SOLID SECTION'/>
 			<Keyword name='*PRE-TENSION SECTION'/>
 			<Keyword name='*USER SECTION'/>
-		</Group>
-	</Group>
+		</Collection>
+	</Collection>
 	<Keyword name='*DISTRIBUTION'/>
 	<Keyword name='*ORIENTATION'/>
 	<Keyword name='*TRANSFORM'/>
@@ -68,7 +68,7 @@
 	<Keyword name='*INITIAL CONDITIONS'/>
 	<Keyword name='*RESTART'/>
 	<Keyword name='*TIME POINTS'/>
-	<Group name='Interactions'>
+	<Collection name='Interactions'>
 		<Keyword name='*CONTACT PAIR'/>
 		<Keyword name='*CLEARANCE'/>
 		<Keyword name='*SURFACE INTERACTION'>
@@ -79,8 +79,8 @@
 				<Keyword name='*GAP HEAT GENERATION'/>
 			</Keyword>
 		</Keyword>
-	</Group>
-	<Group name='Constraints'>
+	</Collection>
+	<Collection name='Constraints'>
 		<Keyword name='*EQUATION'/>
 		<Keyword name='*MPC'/>
 		<Keyword name='*NETWORK MPC'/>
@@ -91,9 +91,9 @@
 		<Keyword name='*KINEMATIC'/>
 		<Keyword name='*TIE'/>
 		<Keyword name='*CYCLIC SYMMETRY MODEL'/>
-	</Group>
+	</Collection>
 	<Keyword name='*STEP'>
-		<Group name='Analysis type'>
+		<Collection name='Analysis type'>
 			<Keyword name='*NO ANALYSIS'/>
 			<Keyword name='*BUCKLE'/>
 			<Keyword name='*CFD'/>
@@ -137,8 +137,8 @@
 			</Keyword>
 			<Keyword name='*UNCOUPLED TEMPERATURE-DISPLACEMENT'/>
 			<Keyword name='*VISCO'/>
-		</Group>
-		<Group name='Field Output'>
+		</Collection>
+		<Collection name='Field Output'>
 			<Keyword name='*CONTACT FILE'/>
 			<Keyword name='*CONTACT OUTPUT'/>
 			<Keyword name='*CONTACT PRINT'/>
@@ -150,8 +150,8 @@
 			<Keyword name='*NODE PRINT'/>
 			<Keyword name='*OUTPUT'/>
 			<Keyword name='*SECTION PRINT'/>
-		</Group>
-		<Group name='Load &amp; BC'>
+		</Collection>
+		<Collection name='Load &amp; BC'>
 			<Keyword name='*BOUNDARY'/>
 			<Keyword name='*MASS FLOW'/>
 			<Keyword name='*CLOAD'/>
@@ -161,8 +161,8 @@
 			<Keyword name='*DFLUX'/>
 			<Keyword name='*RADIATE'/>
 			<Keyword name='*FILM'/>
-		</Group>
-		<Group name='Change'>
+		</Collection>
+		<Collection name='Change'>
 			<Keyword name='*INITIAL STRAIN INCREASE'/>
 			<Keyword name='*CHANGE FRICTION'>
 				<Keyword name='*FRICTION'/>
@@ -174,7 +174,7 @@
 			</Keyword>
 			<Keyword name='*CHANGE SOLID SECTION'/>
 			<Keyword name='*MODEL CHANGE'/>
-		</Group>
+		</Collection>
 		<Keyword name='*CONTROLS'/>
 		<Keyword name='*EQUATION'/>
 		<Keyword name='*HCF'/>
