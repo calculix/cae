@@ -156,9 +156,16 @@ class ArgumentWidget(QtWidgets.QWidget):
 class GroupWidget(QtWidgets.QWidget):
     """Custom widget container - Group."""
 
-    def __init__(self, layout):
+    def __init__(self, argument, layout):
         super().__init__()
-        self.setLayout(layout)
+        v_layout = QtWidgets.QVBoxLayout()
+        v_layout.setContentsMargins(0, 0, 0, 0)
+        v_layout.insertLayout(0, layout)
+        if hasattr(argument, 'comment') and argument.comment:
+            comment_label = QtWidgets.QLabel(argument.comment)
+            comment_label.setStyleSheet('color: Blue;')
+            v_layout.insertWidget(0, comment_label)
+        self.setLayout(v_layout)
 
     def text(self, *args):
         return '\n' if self.newline else ''
@@ -174,7 +181,7 @@ class Box(GroupWidget):
         self.newline = argument.get_newline()
         self.arguments = argument.get_arguments()
         layout.setContentsMargins(0, 0, 0, 0)
-        super().__init__(layout)
+        super().__init__(argument, layout)
         build_widgets(self.arguments, layout)
 
 
@@ -209,7 +216,7 @@ class Or(GroupWidget):
             a.widget.setEnabled(not bool(i))
             rb.toggled.connect(a.widget.setEnabled)
             rb.toggled.connect(change)
-        super().__init__(layout)
+        super().__init__(argument, layout)
 
 
 class HOr(Or):
@@ -518,8 +525,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    # item = KWL.get_keyword_by_name('*CONTACT OUTPUT') # TODO
-    item = KWL.get_keyword_by_name('*CONSTRAINT')
+    item = KWL.get_keyword_by_name('*CONTACT FILE')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
