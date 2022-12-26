@@ -212,13 +212,33 @@
 			<Argument use='*SURFACE' comment='Master'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*CONTACT PRINT'>
-		<Argument form='Text' name='FREQUENCY|TIME POINTS'/>
-		<Argument form='Combo' name='TOTALS'>YES|ONLY|NO</Argument>
+		<Group form='VOr'>
+			<Argument form='Int' name='FREQUENCY'/>
+			<Argument use='*TIME POINTS' name='TIME POINTS'/>
+		</Group>
+		<Argument form='Combo' name='TOTALS'>|NO|YES|ONLY</Argument>
+		<Group form='HBox' newline='1'>
+			<Argument use='*SURFACE' comment='Slave'/>
+			<Argument use='*SURFACE' comment='Master'/>
+		</Group>
+		<Group form='HBox' newline='1' comment='Identifying keys'>
+			<Group form='VBox'>
+				<Argument form='Bool' name='CDIS'/>
+				<Argument form='Bool' name='CSTR'/>
+				<Argument form='Bool' name='CELS'/>
+				<Argument form='Bool' name='CNUM'/>
+			</Group>
+			<Group form='VBox'>
+				<Argument form='Bool' name='CF'/>
+				<Argument form='Bool' name='CFN'/>
+				<Argument form='Bool' name='CFS'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*CONTROLS'>
 		<Argument form='Combo' name='PARAMETERS'>TIME INCREMENTATION|FIELD|LINE SEARCH|NETWORK|CFD|CONTACT</Argument>
 		<Argument form='Bool' name='RESET'/>
