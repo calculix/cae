@@ -167,8 +167,9 @@
 			<Keyword name='*CHANGE FRICTION'>
 				<Keyword name='*FRICTION'/>
 			</Keyword>
-			<Keyword name='*CHANGE MATERIAL'/>
-			<Keyword name='*CHANGE PLASTIC'/>
+			<Keyword name='*CHANGE MATERIAL'>
+				<Keyword name='*CHANGE PLASTIC'/>
+			</Keyword>
 			<Keyword name='*CHANGE SURFACE BEHAVIOR'>
 				<Keyword name='*SURFACE BEHAVIOR'/>
 			</Keyword>

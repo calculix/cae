@@ -100,31 +100,36 @@
 			<Argument form='Float' comment='Magnitude of the flux'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*CHANGE FRICTION'>
-		<Argument form='Text' name='INTERACTION' required='1'/>
+		<Argument name='INTERACTION' use='*SURFACE INTERACTION' required='1'/>
 	</Keyword>
 	<Keyword name='*CHANGE MATERIAL'>
-		<Argument form='Text' name='NAME' required='1'/>
+		<Argument name='NAME' use='*MATERIAL' required='1'/>
 	</Keyword>
 	<Keyword name='*CHANGE PLASTIC'>
-		<Argument form='Combo' name='HARDENING'>ISOTROPIC|KINEMATIC</Argument>
+		<Argument form='Combo' name='HARDENING'>|ISOTROPIC|KINEMATIC</Argument>
+		<!-- Set of lines: -->
+		<!-- Von Mises stress, Equivalent plastic strain, Temperature -->
 	</Keyword>
 	<Keyword name='*CHANGE SURFACE BEHAVIOR'>
-		<Argument form='Text' name='INTERACTION' required='1'/>
+		<Argument name='INTERACTION' use='*SURFACE INTERACTION' required='1'/>
 	</Keyword>
 	<Keyword name='*CHANGE SOLID SECTION'>
 		<Argument use='*ELSET' name='ELSET' required='1'/>
 		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
 		<Argument use='*ORIENTATION' name='ORIENTATION'/>
 	</Keyword>
+
+
+
 	<Keyword name='*CLEARANCE'>
-		<Argument form='Text' name='MASTER' required='1'/>
-		<Argument form='Text' name='SLAVE' required='1'/>
-		<Argument form='Text' name='VALUE' required='1'/>
+		<Argument use='*SURFACE' name='MASTER' required='1'/>
+		<Argument use='*SURFACE' name='SLAVE' required='1'/>
+		<Argument form='Float' name='VALUE' required='1'/>
 	</Keyword>
+
+
+
 	<Keyword name='*CLOAD'>
 		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
 		<Argument form='Text' name='AMPLITUDE'/>
