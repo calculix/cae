@@ -166,12 +166,13 @@
 			<Argument form='Float' comment='Absolute value'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*CONTACT DAMPING'>
-		<Argument form='Text' name='TANGENT FRACTION'/>
+		<Argument form='Float' name='TANGENT FRACTION'/>
+		<Argument form='Float' comment='Damping constant' newline='1'/>
 	</Keyword>
+
+
+
 	<Keyword name='*CONTACT FILE'>
 		<Argument form='Text' name='FREQUENCY|TIME POINTS'/>
 		<Argument form='Bool' name='LAST ITERATIONS'/>
