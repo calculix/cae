@@ -132,6 +132,7 @@
 		<Argument form='Combo' name='LOAD CASE'>|1|2</Argument>
 		<Argument form='Float' name='TIME DELAY'/>
 		<Argument form='Int' name='SECTOR'/>
+		<Argument form='Text' name='OMEGA0'/>
 		<Argument form='Bool' name='USER'/>
 		<Group form='VOr'>
 			<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
@@ -140,7 +141,6 @@
 				<Argument form='Int' name='DATA SET'/>
 			</Argument>
 		</Group>
-		<Argument form='Text' name='OMEGA0'/>
 		<Group form='Hbox' newline='1'>
 			<Group form='HOr'>
 				<Argument form='Int' comment='NODE or...'/>
