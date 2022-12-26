@@ -406,10 +406,11 @@ class KeywordDialog(QtWidgets.QDialog):
         reset(self.arguments)
         change(None)
 
-    def accept(self, arguments=[]):
+    def accept(self):
         """Check if all required fields are filled."""
-        for a in arguments:
-            if a.itype != ItemType.ARGUMENT:
+        global ITEM
+        for a in ITEM.get_arguments():
+            if a.itype not in (ItemType.ARGUMENT, ItemType.GROUP):
                 continue
             w = a.widget
             if w.isEnabled() and w.required:
@@ -479,7 +480,7 @@ def test_dialog():
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
     # item = KWL.get_keyword_by_name('*CONTACT OUTPUT') # TODO
-    item = KWL.get_keyword_by_name('*CFLUX')
+    item = KWL.get_keyword_by_name('*CLEARANCE')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
