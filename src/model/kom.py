@@ -77,7 +77,7 @@ class KeywordTree:
                 self.keyword_names += (item.name, )
                 tree_path_key = item.get_path2()
                 self.keyword_dic[tree_path_key] = item
-            if xml_child.tag == Group.__name__:
+            if xml_child.tag == Collection.__name__:
                 self.collections.append(item)
 
             self.build(xml_child, item)
@@ -125,6 +125,19 @@ class KeywordTree:
                 kw = self.get_top_keyword_by_name(item, kw_name)
                 if kw is not None:
                     return kw
+
+    def get_implementations(self, kw_name, parent=None):
+        """Recursively get all implementations of the keyword."""
+        implementations = []
+        if not parent:
+            parent = self.root
+        for item in parent.items:
+            if item.itype == ItemType.ARGUMENT:
+                continue
+            if parent.name == kw_name and item.itype == ItemType.IMPLEMENTATION:
+                implementations.append(item)
+            implementations.extend(self.get_implementations(kw_name, parent=item))
+        return implementations
 
 
 class KeywordList:

@@ -16,7 +16,7 @@
 		<Argument form='Text' name='NAME' required='1'/>
 		<Argument form='Combo' name='TIME'>|TOTAL TIME</Argument>
 		<Argument form='Bool' name='USER'/>
-		<Group form='Hbox'>
+		<Group form='HBox'>
 			<Argument form='Float' name='SHIFTX'/>
 			<Argument form='Float' name='SHIFTY'/>
 		</Group>
@@ -30,7 +30,7 @@
 		<Argument use='*ELSET' name='ELSET' required='1'/>
 		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
 		<Argument form='Combo' name='SECTION' required='1'>RECT|CIRC|PIPE|BOX|GENERAL</Argument>
-		<Group form='Hbox'>
+		<Group form='HBox'>
 			<Argument form='Float' name='OFFSET1'/>
 			<Argument form='Float' name='OFFSET2'/>
 		</Group>
@@ -49,7 +49,7 @@
 			<Argument form='Int' name='STEP'/>
 			<Argument form='Int' name='DATA SET'/>
 		</Argument>
-		<Group form='Hbox' newline='1'>
+		<Group form='HBox' newline='1'>
 			<Group form='HOr'>
 				<Argument form='Int' comment='NODE or...'/>
 				<Argument use='*NSET' comment='...NSET'/>
@@ -69,11 +69,11 @@
 	<Keyword name='*CFD'>
 		<Argument form='Float' name='TOTAL TIME AT START'/>
 		<Argument form='Combo' name='TURBULENCE MODEL'>|K-EPSILON|K-OMEGA|SST</Argument>
-		<Group form='Hbox'>
+		<Group form='HBox'>
 			<Argument form='Bool' name='STEADY STATE'/>
 			<Argument form='Bool' name='TIME RESET'/>
 		</Group>
-		<Group form='Hbox'>
+		<Group form='HBox'>
 			<Argument form='Bool' name='COMPRESSIBLE'/>
 			<Argument form='Bool' name='SHALLOW WATER'/>
 		</Group>
@@ -87,11 +87,11 @@
 		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
 		<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
 		<Argument form='Float' name='TIME DELAY'/>
-		<Group form='Hbox'>
+		<Group form='HBox'>
 			<Argument form='Bool' name='USER'/>
 			<Argument form='Bool' name='ADD'/>
 		</Group>
-		<Group form='Hbox' newline='1'>
+		<Group form='HBox' newline='1'>
 			<Group form='HOr'>
 				<Argument form='Int' comment='NODE or...'/>
 				<Argument use='*NSET' comment='...NSET'/>
@@ -138,7 +138,7 @@
 				<Argument form='Int' name='DATA SET'/>
 			</Argument>
 		</Group>
-		<Group form='Hbox' newline='1'>
+		<Group form='HBox' newline='1'>
 			<Group form='HOr'>
 				<Argument form='Int' comment='NODE or...'/>
 				<Argument use='*NSET' comment='...NSET'/>
@@ -153,24 +153,22 @@
 	</Keyword>
 	<Keyword name='*CONDUCTIVITY'>
 		<Argument form='Combo' name='TYPE'>|ISO|ORTHO|ANISO</Argument>
-		<Group form='Hbox' newline='1'>
+		<Group form='HBox' newline='1'>
 			<Argument form='Float' comment='Conductivity coefficient'/>
 			<Argument form='Float' comment='Temperature'/>
+		</Group>
+	</Keyword>
+	<Keyword name='*CONSTRAINT'>
+		<Group form='VBox' newline='1'>
+			<Argument use='*DESIGN RESPONSE' comment='*DESIGN RESPONSE' required='1'/>
+			<Argument form='Combo' required='1'>|LE|GE</Argument>
+			<Argument form='Float' comment='Relative value'/>
+			<Argument form='Float' comment='Absolute value'/>
 		</Group>
 	</Keyword>
 
 
 
-	<Keyword name='*CONSTRAINT'>
-		<Argument form='Bool' name='DISPLACEMENT'/>
-		<Argument form='Bool' name='EIGENFREQUENCY'/>
-		<Argument form='Bool' name='MASS'/>
-		<Argument form='Bool' name='SHAPEENERGY'/>
-		<Argument form='Bool' name='STRESS'/>
-		<Argument form='Bool' name='THICKNESS'/>
-		<Argument form='Bool' name='FIXGROWTH'/>
-		<Argument form='Bool' name='FIXSHRINKAGE'/>
-	</Keyword>
 	<Keyword name='*CONTACT DAMPING'>
 		<Argument form='Text' name='TANGENT FRACTION'/>
 	</Keyword>

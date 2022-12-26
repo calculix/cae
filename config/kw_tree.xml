@@ -102,6 +102,7 @@
 			<Keyword name='*ELECTROMAGNETICS'/>
 			<Keyword name='*FEASIBLE DIRECTION'>
 				<Keyword name='*OBJECTIVE'/>
+				<Keyword name='*CONSTRAINT'/>
 				<Keyword name='*GEOMETRIC CONSTRAINT'/>
 			</Keyword>
 			<Keyword name='*FREQUENCY'/>
@@ -122,7 +123,6 @@
 			<Keyword name='*SENSITIVITY'>
 				<Keyword name='*DESIGN RESPONSE'/>
 				<Keyword name='*FILTER'/>
-				<Keyword name='*CONSTRAINT'/>
 			</Keyword>
 			<Keyword name='*STATIC'>
 				<Keyword name='*TEMPERATURE'/>

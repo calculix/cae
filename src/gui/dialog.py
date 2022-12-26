@@ -167,16 +167,29 @@ class GroupWidget(QtWidgets.QWidget):
         reset(self.arguments)
 
 
-class Hbox(GroupWidget):
+class Box(GroupWidget):
+    """GroupWidget."""
+
+    def __init__(self, argument, layout):
+        self.newline = argument.get_newline()
+        self.arguments = argument.get_arguments()
+        layout.setContentsMargins(0, 0, 0, 0)
+        super().__init__(layout)
+        build_widgets(self.arguments, layout)
+
+
+class HBox(Box):
     """GroupWidget with horizontal layout."""
 
     def __init__(self, argument):
-        self.newline = argument.get_newline()
-        self.arguments = argument.get_arguments()
-        hbox = QtWidgets.QHBoxLayout()
-        hbox.setContentsMargins(0, 0, 0, 0)
-        super().__init__(hbox)
-        build_widgets(self.arguments, hbox)
+        super().__init__(argument, QtWidgets.QHBoxLayout())
+
+
+class VBox(Box):
+    """GroupWidget with vertical layout."""
+
+    def __init__(self, argument):
+        super().__init__(argument, QtWidgets.QVBoxLayout())
 
 
 class Or(GroupWidget):
@@ -222,14 +235,12 @@ class Combo(ArgumentWidget):
         self.argument = argument
         self.w = QtWidgets.QComboBox()
 
+        # Try to get existing implementations
         if hasattr(argument, 'use') and argument.use:
-            # Try to get existing implementations
-            # NOTE Keywords from the tree/list are different instances
-            kwl = KWL.get_keyword_by_name(argument.use)
-            kwt = KWT.keyword_dic[kwl.get_path2()]
-            implementations = [impl.name for impl in kwt.get_implementations()]
+            implementations = [impl.name for impl in KWT.get_implementations(argument.use)]
             self.w.addItem('')
             self.w.addItems(implementations)
+
         if argument.value:
             self.w.addItems(argument.value.split('|'))
 
@@ -437,7 +448,11 @@ class KeywordDialog(QtWidgets.QDialog):
                 name = w.name # argument name
                 value = w.text() # argument value
                 if not value:
-                    msg = name + ' is required!'
+                    msg = 'Fill all required fields'
+                    if name:
+                        msg += ' ' + name
+                    else:
+                        msg += '!'
                     QMessageBox.warning(self, 'Warning', msg)
                     return False
             ok = ok and self.accept(a.get_arguments(), depth+1)
@@ -504,7 +519,7 @@ def test_dialog():
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
     # item = KWL.get_keyword_by_name('*CONTACT OUTPUT') # TODO
-    item = KWL.get_keyword_by_name('*COMPLEX FREQUENCY')
+    item = KWL.get_keyword_by_name('*CONSTRAINT')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
