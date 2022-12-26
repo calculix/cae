@@ -280,6 +280,8 @@ class Bool(ArgumentWidget):
 
     def __init__(self, argument):
         self.w = QtWidgets.QCheckBox()
+        if argument.required:
+            self.w.setChecked(True)
         self.w.clicked.connect(change)
         super().__init__(argument, [self.w], reverse_pos=True)
 
@@ -502,7 +504,7 @@ def test_dialog():
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
     # item = KWL.get_keyword_by_name('*CONTACT OUTPUT') # TODO
-    item = KWL.get_keyword_by_name('*CLOAD')
+    item = KWL.get_keyword_by_name('*COMPLEX FREQUENCY')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

@@ -124,9 +124,6 @@
 		<Argument use='*SURFACE' name='SLAVE' required='1'/>
 		<Argument form='Float' name='VALUE' required='1'/>
 	</Keyword>
-
-
-
 	<Keyword name='*CLOAD'>
 		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
 		<Argument form='Combo' name='LOAD CASE'>|1|2</Argument>
@@ -150,12 +147,13 @@
 			<Argument form='Float' comment='Magnitude of the load'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*COMPLEX FREQUENCY'>
 		<Argument form='Bool' name='CORIOLIS' required='1'/>
+		<Argument form='Int' comment='Number of eigenfrequencies desired' newline='1'/>
 	</Keyword>
+
+
+
 	<Keyword name='*CONDUCTIVITY'>
 		<Argument form='Combo' name='TYPE'>ISO|ORTHO|ANISO</Argument>
 	</Keyword>
