@@ -144,7 +144,7 @@ class ArgumentWidget(QtWidgets.QWidget):
             ct = self.w.currentText()
         elif hasattr(self.w, 'text'):
             ct = self.w.text()
-        if ct:
+        if ct and not ct.startswith('!!! Create *'):
             if self.name:
                 return newline + self.name + '=' + ct
             else:
@@ -245,8 +245,12 @@ class Combo(ArgumentWidget):
         # Try to get existing implementations
         if hasattr(argument, 'use') and argument.use:
             implementations = [impl.name for impl in KWT.get_implementations(argument.use)]
-            self.w.addItem('')
-            self.w.addItems(implementations)
+            if implementations:
+                self.w.addItem('')
+                self.w.addItems(implementations)
+            else:
+                self.w.setStyleSheet('color: Red;')
+                self.w.addItem('!!! Create ' + argument.use + ' first !!!')
 
         if argument.value:
             self.w.addItems(argument.value.split('|'))
@@ -525,7 +529,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*CONTACT OUTPUT')
+    item = KWL.get_keyword_by_name('*CONTACT PAIR')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
