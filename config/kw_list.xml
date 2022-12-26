@@ -170,14 +170,25 @@
 		<Argument form='Float' name='TANGENT FRACTION'/>
 		<Argument form='Float' comment='Damping constant' newline='1'/>
 	</Keyword>
-
-
-
 	<Keyword name='*CONTACT FILE'>
-		<Argument form='Text' name='FREQUENCY|TIME POINTS'/>
-		<Argument form='Bool' name='LAST ITERATIONS'/>
-		<Argument form='Bool' name='CONTACT ELEMENTS'/>
+		<Group form='VOr'>
+			<Argument form='Int' name='FREQUENCY'/>
+			<Argument use='*TIME POINTS' name='TIME POINTS'/>
+		</Group>
+		<Group form='HBox'>
+			<Argument form='Bool' name='LAST ITERATIONS'/>
+			<Argument form='Bool' name='CONTACT ELEMENTS'/>
+		</Group>
+		<Group form='HBox' newline='1' comment='Identifying keys'>
+			<Argument form='Bool' name='CDIS'/>
+			<Argument form='Bool' name='CSTR'/>
+			<Argument form='Bool' name='CELS'/>
+			<Argument form='Bool' name='PCON'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*CONTACT OUTPUT'>
 		<Argument form='Text' name='FREQUENCY|TIME POINTS'/>
 		<Argument form='Bool' name='LAST ITERATIONS'/>
