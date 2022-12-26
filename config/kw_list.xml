@@ -151,12 +151,16 @@
 		<Argument form='Bool' name='CORIOLIS' required='1'/>
 		<Argument form='Int' comment='Number of eigenfrequencies desired' newline='1'/>
 	</Keyword>
-
-
-
 	<Keyword name='*CONDUCTIVITY'>
-		<Argument form='Combo' name='TYPE'>ISO|ORTHO|ANISO</Argument>
+		<Argument form='Combo' name='TYPE'>|ISO|ORTHO|ANISO</Argument>
+		<Group form='Hbox' newline='1'>
+			<Argument form='Float' comment='Conductivity coefficient'/>
+			<Argument form='Float' comment='Temperature'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*CONSTRAINT'>
 		<Argument form='Bool' name='DISPLACEMENT'/>
 		<Argument form='Bool' name='EIGENFREQUENCY'/>
