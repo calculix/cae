@@ -182,20 +182,37 @@ class Hbox(GroupWidget):
 class Or(GroupWidget):
     """GroupWidget with radiobuttons."""
 
-    def __init__(self, argument):
+    def __init__(self, argument, layout):
         self.newline = argument.get_newline()
         self.arguments = argument.get_arguments()
-        hbox = QtWidgets.QHBoxLayout()
-        hbox.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(0, 0, 0, 0)
         for i, a in enumerate(self.arguments):
+            hl = QtWidgets.QHBoxLayout()
             rb = QtWidgets.QRadioButton()
-            hbox.addWidget(rb)
-            build_widgets([a], hbox) # build a.widget
+            hl.addWidget(rb)
+            build_widgets([a], hl) # build a.widget
+            layout.addLayout(hl)
             rb.setChecked(not bool(i))
             a.widget.setEnabled(not bool(i))
             rb.toggled.connect(a.widget.setEnabled)
             rb.toggled.connect(change)
-        super().__init__(hbox)
+        super().__init__(layout)
+
+
+class HOr(Or):
+    """GroupWidget with radiobuttons. Horizontal layout."""
+
+    def __init__(self, argument):
+        hbox = QtWidgets.QHBoxLayout()
+        super().__init__(argument, hbox)
+
+
+class VOr(Or):
+    """GroupWidget with radiobuttons. Vertical layout."""
+
+    def __init__(self, argument):
+        hbox = QtWidgets.QVBoxLayout()
+        super().__init__(argument, hbox)
 
 
 class Combo(ArgumentWidget):
@@ -406,21 +423,26 @@ class KeywordDialog(QtWidgets.QDialog):
         reset(self.arguments)
         change(None)
 
-    def accept(self):
+    def accept(self, arguments=None, depth=0):
         """Check if all required fields are filled."""
-        global ITEM
-        for a in ITEM.get_arguments():
-            if a.itype not in (ItemType.ARGUMENT, ItemType.GROUP):
-                continue
+        ok = True
+        if arguments is None:
+            global ITEM
+            arguments = ITEM.get_arguments()
+        for a in arguments:
             w = a.widget
-            if w.isEnabled() and w.required:
+            if hasattr(w, 'required') and w.required:
                 name = w.name # argument name
                 value = w.text() # argument value
                 if not value:
                     msg = name + ' is required!'
                     QMessageBox.warning(self, 'Warning', msg)
-                    return
-        super().accept()
+                    return False
+            ok = ok and self.accept(a.get_arguments(), depth+1)
+        if depth:
+            return ok
+        if depth==0 and ok:
+            super().accept()
 
     def ok(self):
         """Return piece of created code for the .inp-file."""
@@ -480,7 +502,7 @@ def test_dialog():
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
     # item = KWL.get_keyword_by_name('*CONTACT OUTPUT') # TODO
-    item = KWL.get_keyword_by_name('*CLEARANCE')
+    item = KWL.get_keyword_by_name('*CLOAD')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

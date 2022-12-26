@@ -50,7 +50,7 @@
 			<Argument form='Int' name='DATA SET'/>
 		</Argument>
 		<Group form='Hbox' newline='1'>
-			<Group form='Or'>
+			<Group form='HOr'>
 				<Argument form='Int' comment='NODE or...'/>
 				<Argument use='*NSET' comment='...NSET'/>
 			</Group>
@@ -92,7 +92,7 @@
 			<Argument form='Bool' name='ADD'/>
 		</Group>
 		<Group form='Hbox' newline='1'>
-			<Group form='Or'>
+			<Group form='HOr'>
 				<Argument form='Int' comment='NODE or...'/>
 				<Argument use='*NSET' comment='...NSET'/>
 			</Group>
@@ -119,9 +119,6 @@
 		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
 		<Argument use='*ORIENTATION' name='ORIENTATION'/>
 	</Keyword>
-
-
-
 	<Keyword name='*CLEARANCE'>
 		<Argument use='*SURFACE' name='MASTER' required='1'/>
 		<Argument use='*SURFACE' name='SLAVE' required='1'/>
@@ -131,17 +128,31 @@
 
 
 	<Keyword name='*CLOAD'>
-		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Text' name='AMPLITUDE'/>
-		<Argument form='Text' name='TIME DELAY'/>
+		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
+		<Argument form='Combo' name='LOAD CASE'>|1|2</Argument>
+		<Argument form='Float' name='TIME DELAY'/>
+		<Argument form='Int' name='SECTOR'/>
 		<Argument form='Bool' name='USER'/>
-		<Argument form='Combo' name='LOAD CASE'>1|2</Argument>
-		<Argument form='Text' name='SECTOR'/>
-		<Argument form='Bool' name='SUBMODEL'/>
-		<Argument form='Text' name='STEP'/>
-		<Argument form='Text' name='DATA SET'/>
+		<Group form='VOr'>
+			<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
+			<Argument form='Group' name='SUBMODEL'>
+				<Argument form='Int' name='STEP'/>
+				<Argument form='Int' name='DATA SET'/>
+			</Argument>
+		</Group>
 		<Argument form='Text' name='OMEGA0'/>
+		<Group form='Hbox' newline='1'>
+			<Group form='HOr'>
+				<Argument form='Int' comment='NODE or...'/>
+				<Argument use='*NSET' comment='...NSET'/>
+			</Group>
+			<Argument form='Int' comment='DOF'/>
+			<Argument form='Float' comment='Magnitude of the load'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*COMPLEX FREQUENCY'>
 		<Argument form='Bool' name='CORIOLIS' required='1'/>
 	</Keyword>
