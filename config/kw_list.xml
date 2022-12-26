@@ -202,15 +202,19 @@
 			<Argument form='Bool' name='PCON'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*CONTACT PAIR'>
-		<Argument form='Text' name='INTERACTION' required='1'/>
-		<Argument form='Combo' name='TYPE' required='1'>NODE TO SURFACE|SURFACE TO SURFACE</Argument>
+		<Argument use='*SURFACE INTERACTION' name='INTERACTION' required='1'/>
+		<Argument form='Combo' name='TYPE' required='1'>NODE TO SURFACE|SURFACE TO SURFACE|MORTAR|LINMORTAR|PGLINMORTAR|MASSLESS</Argument>
 		<Argument form='Bool' name='SMALL SLIDING'/>
-		<Argument form='Bool' name='ADJUST'/>
+		<Argument form='Float' name='ADJUST'/>
+		<Group form='HBox' newline='1'>
+			<Argument use='*SURFACE' comment='Slave'/>
+			<Argument use='*SURFACE' comment='Master'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*CONTACT PRINT'>
 		<Argument form='Text' name='FREQUENCY|TIME POINTS'/>
 		<Argument form='Combo' name='TOTALS'>YES|ONLY|NO</Argument>
