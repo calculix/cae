@@ -204,8 +204,6 @@ What's new in future v0.9.0:
 
 # TODO
 
-- Tag <OR> with required attribute for Arguments.
-- Test for all possible keyword dialogs.
 - KeywordDialog: clickable checkbox labels.
 - Argument with "use": link to create a new IMPLEMENTATION.
 - Code, docs and KOM for v 2.20.

@@ -35,12 +35,25 @@ class TestDialog(unittest.TestCase):
         try:
             item = KWL.get_keyword_by_name('*AMPLITUDE')
             d = KeywordDialog(item)
-            # from gui.window import wf, df
+            # from gui.window import df
             # df.run_master_dialog(item) # 0 = cancel, 1 = ok
         except:
             d = None
         self.assertTrue(d is not None)
 
 
+def cycle_keyword_dialogs():
+    from gui.window import df
+    app = QtWidgets.QApplication(sys.argv)
+
+    from model.kom import KWL
+    for i, k in enumerate(KWL.keywords):
+        print(i, k.name)
+
+        # Create keyword dialog
+        if not df.run_master_dialog(k): # 0 = cancel, 1 = ok
+            break
+
 if __name__ == '__main__':
-    unittest.main()
+    # unittest.main()
+    cycle_keyword_dialogs()
