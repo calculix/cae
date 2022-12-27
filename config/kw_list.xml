@@ -13,7 +13,7 @@
 -->
 <list>
 	<Keyword name='*AMPLITUDE'>
-		<Argument form='Text' name='NAME' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
 		<Argument form='Combo' name='TIME'>|TOTAL TIME</Argument>
 		<Argument form='Bool' name='USER'/>
 		<Group form='HBox'>
@@ -35,7 +35,7 @@
 			<Argument form='Float' name='OFFSET2'/>
 		</Group>
 		<Argument form='Float' comment='Nodal thickness in directions 1, 2:' newline='1'/>
-		<Argument form='Text' comment='Global x, y, z coordinates of a unit vector in 1-direction:' newline='1'>0., 0., -1.</Argument>
+		<Argument form='Line' comment='Global x, y, z coordinates of a unit vector in 1-direction:' newline='1'>0., 0., -1.</Argument>
 	</Keyword>
 	<Keyword name='*BOUNDARY'>
 		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
@@ -129,7 +129,7 @@
 		<Argument form='Combo' name='LOAD CASE'>|1|2</Argument>
 		<Argument form='Float' name='TIME DELAY'/>
 		<Argument form='Int' name='SECTOR'/>
-		<Argument form='Text' name='OMEGA0'/>
+		<Argument form='Line' name='OMEGA0'/>
 		<Argument form='Bool' name='USER'/>
 		<Group form='VOr'>
 			<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
@@ -236,13 +236,20 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*CONTROLS'>
-		<Argument form='Combo' name='PARAMETERS'>TIME INCREMENTATION|FIELD|LINE SEARCH|NETWORK|CFD|CONTACT</Argument>
-		<Argument form='Bool' name='RESET'/>
+		<Group form='VOr'>
+			<Argument form='Line' readonly='1'>RESET</Argument>
+			<Argument form='Text' readonly='1'>PARAMETERS=TIME INCREMENTATION\n9, 16, 10, 4, , 5, , , \n0.25, 0.5, 0.75, 0.85, , , 1.5, </Argument>
+			<Argument form='Text' readonly='1'>PARAMETERS=FIELD\n0.005, 0.01, 0.01, , 0.02, 1e-5, 1e-3, 1e-5</Argument>
+			<Argument form='Text' readonly='1'>PARAMETERS=LINE SEARCH\n , 1.01, 0.25, , </Argument>
+			<Argument form='Text' readonly='1'>PARAMETERS=NETWORK\n5e-7, 5e-7, 5e-7, 5e-7, 5e-7, 5e-7, 5e-7\n1e20, 1e20, 1e20, 1e20, 1e20, 1e20, 1e20</Argument>
+			<Argument form='Text' readonly='1'>PARAMETERS=CFD\n20, 0, 1, 1</Argument>
+			<Argument form='Text' readonly='1'>PARAMETERS=CONTACT\n0.001, 0.1, 100, 60</Argument>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*CORRELATION LENGTH'>
 		<!-- New line -->
 		<!-- Correlation length value -->
@@ -250,23 +257,23 @@
 	<Keyword name='*COUPLED TEMPERATURE-DISPLACEMENT'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
 		<Argument form='Bool' name='DIRECT'/>
-		<Argument form='Text' name='ALPHA'/>
+		<Argument form='Line' name='ALPHA'/>
 		<Argument form='Bool' name='STEADY STATE'/>
-		<Argument form='Text' name='DELTMX'/>
+		<Argument form='Line' name='DELTMX'/>
 		<Argument form='Bool' name='TIME RESET'/>
-		<Argument form='Text' name='TOTAL TIME AT START'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
 		<Argument form='Bool' name='COMPRESSIBLE'/>
 	</Keyword>
 	<Keyword name='*COUPLING'>
-		<Argument form='Text' name='REF NODE' required='1'/>
+		<Argument form='Line' name='REF NODE' required='1'/>
 		<Argument use='*SURFACE' name='SURFACE' required='1'/>
-		<Argument form='Text' name='CONSTRAINT NAME' required='1'/>
-		<Argument form='Text' name='ORIENTATION'/>
+		<Argument form='Line' name='CONSTRAINT NAME' required='1'/>
+		<Argument form='Line' name='ORIENTATION'/>
 	</Keyword>
 	<Keyword name='*CRACK PROPAGATION'>
 		<Argument form='SelectFileWidget' name='INPUT' required='1'/>
 		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
-		<Argument form='Text' name='LENGTH'>CUMULATIVE|INTERSECTION</Argument>
+		<Argument form='Line' name='LENGTH'>CUMULATIVE|INTERSECTION</Argument>
 		<!-- New line -->
 		<!-- Maximum crack propagation increment -->
 		<!-- Maximum deflection angle per increment -->
@@ -276,25 +283,25 @@
 	</Keyword>
 	<Keyword name='*CYCLIC HARDENING'/>
 	<Keyword name='*CYCLIC SYMMETRY MODEL'>
-		<Argument form='Text' name='N' required='1'/>
-		<Argument form='Text' name='NGRAPH'/>
-		<Argument form='Text' name='TIE' required='1'/>
-		<Argument form='Text' name='ELSET'/>
+		<Argument form='Line' name='N' required='1'/>
+		<Argument form='Line' name='NGRAPH'/>
+		<Argument form='Line' name='TIE' required='1'/>
+		<Argument form='Line' name='ELSET'/>
 		<Argument form='Combo' name='CHECK'>YES|NO</Argument>
 	</Keyword>
 	<Keyword name='*DAMPING'>
-		<Argument form='Text' name='ALPHA'/>
-		<Argument form='Text' name='BETA'/>
-		<Argument form='Text' name='STRUCTURAL' required='1'/>
+		<Argument form='Line' name='ALPHA'/>
+		<Argument form='Line' name='BETA'/>
+		<Argument form='Line' name='STRUCTURAL' required='1'/>
 	</Keyword>
 	<Keyword name='*DASHPOT'>
-		<Argument form='Text' name='ELSET' required='1'/>
+		<Argument form='Line' name='ELSET' required='1'/>
 	</Keyword>
 	<Keyword name='*DEFORMATION PLASTICITY'/>
 	<Keyword name='*DENSITY'/>
 	<Keyword name='*DEPVAR'/>
 	<Keyword name='*DESIGN RESPONSE'>
-		<Argument form='Text' name='NAME'/>
+		<Argument form='Line' name='NAME'/>
 		<Argument form='Combo' name='TYPE'>COORDINATE|ORIENTATION</Argument>
 		<!--TYPE=COORDINATE-->
 		<Argument form='Combo' newline='1' name='ALL-DISP|X-DISP|Y-DISP|Z-DISP|EIGENFREQUENCY|MASS|STRAIN ENERGY|STRESS'/>
@@ -307,30 +314,30 @@
 	</Keyword>
 	<Keyword name='*DFLUX'>
 		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Text' name='AMPLITUDE'/>
-		<Argument form='Text' name='TIME DELAY'/>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
 	</Keyword>
 	<Keyword name='*DISTRIBUTING'/>
 	<Keyword name='*DISTRIBUTING COUPLING'>
-		<Argument form='Text' name='ELSET' required='1'/>
+		<Argument form='Line' name='ELSET' required='1'/>
 	</Keyword>
 	<Keyword name='*DISTRIBUTION'>
-		<Argument form='Text' name='NAME' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
 	<Keyword name='*DLOAD'>
 		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Text' name='AMPLITUDE'/>
-		<Argument form='Text' name='TIME DELAY'/>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
 		<Argument form='Combo' name='LOAD CASE'>1|2</Argument>
-		<Argument form='Text' name='SECTOR'/>
+		<Argument form='Line' name='SECTOR'/>
 	</Keyword>
 	<Keyword name='*DSLOAD'>
 		<Argument form='Bool' name='SUBMODEL' required='1'/>
-		<Argument form='Text' name='STEP|DATA SET' required='1'/>
+		<Argument form='Line' name='STEP|DATA SET' required='1'/>
 	</Keyword>
 	<Keyword name='*DYNAMIC'>
 		<Argument form='Bool' name='DIRECT'/>
-		<Argument form='Text' name='ALPHA'/>
+		<Argument form='Line' name='ALPHA'/>
 		<Argument form='Bool' name='EXPLICIT'/>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
 	</Keyword>
@@ -342,9 +349,9 @@
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
 		<Argument form='Bool' name='DIRECT'/>
 		<Argument form='Bool' name='MAGNETOSTATICS'/>
-		<Argument form='Text' name='DELTMX'/>
+		<Argument form='Line' name='DELTMX'/>
 		<Argument form='Bool' name='TIME RESET'/>
-		<Argument form='Text' name='TOTAL TIME AT START'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
 		<Argument form='Bool' name='NO HEAT TRANSFER'/>
 	</Keyword>
 	<Keyword name='*ELEMENT'>
@@ -352,24 +359,24 @@
 	</Keyword>
 	<Keyword name='*ELEMENT OUTPUT'/>
 	<Keyword name='*EL FILE'>
-		<Argument form='Text' name='FREQUENCY|TIME POINTS'/>
-		<Argument form='Text' name='FREQUENCYF'/>
+		<Argument form='Line' name='FREQUENCY|TIME POINTS'/>
+		<Argument form='Line' name='FREQUENCYF'/>
 		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
 		<Argument form='Combo' name='OUTPUT'>2D|3D</Argument>
 		<Argument form='Bool' name='OUTPUT ALL'/>
-		<Argument form='Text' name='SECTION FORCES'/>
+		<Argument form='Line' name='SECTION FORCES'/>
 		<Argument use='*NSET' name='NSET'/>
 		<Argument form='Bool' name='LAST ITERATIONS'/>
 		<Argument form='Bool' name='CONTACT ELEMENTS'/>
 	</Keyword>
 	<Keyword name='*EL PRINT'>
-		<Argument form='Text' name='ELSET' required='1'/>
-		<Argument form='Text' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
+		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument form='Line' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
 		<Argument form='Combo' name='TOTALS'>YES|ONLY|NO</Argument>
 		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
 	</Keyword>
 	<Keyword name='*ELSET'>
-		<Argument form='Text' name='ELSET' required='1'/>
+		<Argument form='Line' name='ELSET' required='1'/>
 		<Argument form='Bool' name='GENERATE'/>
 	</Keyword>
 	<Keyword name='*END STEP'/>
@@ -378,16 +385,16 @@
 	</Keyword>
 	<Keyword name='*EXPANSION'>
 		<Argument form='Combo' name='TYPE'>ISO|ORTHO|ANISO</Argument>
-		<Argument form='Text' name='ZERO'/>
+		<Argument form='Line' name='ZERO'/>
 	</Keyword>
 	<Keyword name='*FEASIBLE DIRECTION'>
 	</Keyword>
 	<Keyword name='*FILM'>
 		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Text' name='AMPLITUDE'/>
-		<Argument form='Text' name='TIME DELAY'/>
-		<Argument form='Text' name='FILM AMPLITUDE'/>
-		<Argument form='Text' name='FILM TIME DELAY'/>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
+		<Argument form='Line' name='FILM AMPLITUDE'/>
+		<Argument form='Line' name='FILM TIME DELAY'/>
 	</Keyword>
 	<Keyword name='*FILTER'>
 		<Argument form='Combo' name='TYPE'>LINEAR|QUADRATIC|CUBIC</Argument>
@@ -397,11 +404,11 @@
 	</Keyword>
 	<Keyword name='*FLUID CONSTANTS'/>
 	<Keyword name='*FLUID SECTION'>
-		<Argument form='Text' name='ELSET' required='1'/>
-		<Argument form='Text' name='MATERIAL' required='1'/>
-		<Argument form='Text' name='TYPE'/>
+		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument form='Line' name='MATERIAL' required='1'/>
+		<Argument form='Line' name='TYPE'/>
 		<Argument form='Bool' name='OIL'/>
-		<Argument form='Text' name='CONSTANTS'/>
+		<Argument form='Line' name='CONSTANTS'/>
 	</Keyword>
 	<Keyword name='*FREQUENCY'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
@@ -412,7 +419,7 @@
 	</Keyword>
 	<Keyword name='*FRICTION'/>
 	<Keyword name='*GAP'>
-		<Argument form='Text' name='ELSET' required='1'/>
+		<Argument form='Line' name='ELSET' required='1'/>
 	</Keyword>
 	<Keyword name='*GAP CONDUCTANCE'>
 		<Argument form='Bool' name='USER'/>
@@ -424,7 +431,7 @@
 		<Argument form='Combo' newline='1' comment='The type of the geometric constraint:'>FIXSHRINKAGE|FIXGROWTH|MAXMEMBERSIZE|MINMEMBERSIZE</Argument>
 		<Argument form='Bool' use='*NSET' comment='A node set:'/>
 		<Argument form='Bool' use='*NSET' comment='An opposite node set:'/>
-		<Argument form='Text' comment='An absolute value:'/>
+		<Argument form='Line' comment='An absolute value:'/>
 	</Keyword>
 	<Keyword name='*GEOMETRIC TOLERANCES'>
 		<Argument form='Combo' name='TYPE' required='1'>NORMAL</Argument>
@@ -439,14 +446,14 @@
 	</Keyword>
 	<Keyword name='*HCF'>
 		<Argument form='SelectFileWidget' name='INPUT' required='1'/>
-		<Argument form='Text' name='MODE' required='1'/>
-		<Argument form='Text' name='MISSION STEP' required='1'/>
-		<Argument form='Text' name='MAX CYCLE'/>
-		<Argument form='Text' name='SCALING'/>
+		<Argument form='Line' name='MODE' required='1'/>
+		<Argument form='Line' name='MISSION STEP' required='1'/>
+		<Argument form='Line' name='MAX CYCLE'/>
+		<Argument form='Line' name='SCALING'/>
 	</Keyword>
 	<Keyword name='*HEADING'>
 		<!-- Description of the problem. -->
-		<Argument form='Text' newline='1'/>
+		<Argument form='Line' newline='1'/>
 	</Keyword>
 	<Keyword name='*HEAT TRANSFER'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
@@ -456,16 +463,16 @@
 		<Argument form='Bool' name='FREQUENCY'/>
 		<Argument form='Bool' name='MODAL DYNAMIC'/>
 		<Argument form='Combo' name='STORAGE'>YES|NO</Argument>
-		<Argument form='Text' name='DELTMX'/>
+		<Argument form='Line' name='DELTMX'/>
 		<Argument form='Bool' name='TIME RESET'/>
-		<Argument form='Text' name='TOTAL TIME AT START'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
 	</Keyword>
 	<Keyword name='*HYPERELASTIC'>
 		<Argument form='Bool' name='POLYNOMIAL|REDUCED POLYNOMIAL|ARRUDA-BOYCE|MOONEY-RIVLIN|NEO HOOKE|OGDEN|VANDERWAALS|YEOH'/>
 		<Argument form='Combo' name='N'>1|2|3</Argument>
 	</Keyword>
 	<Keyword name='*HYPERFOAM'>
-		<Argument form='Text' name='N'/>
+		<Argument form='Line' name='N'/>
 	</Keyword>
 	<Keyword name='*INCLUDE'>
 		<Argument form='SelectFileWidget' name='INPUT' required='1'/>
@@ -479,11 +486,11 @@
 	<Keyword name='*MAGNETIC PERMEABILITY'/>
 	<Keyword name='*MASS'>
 		<Argument use='*ELSET' name='ELSET' required='1' comment='Set with MASS elements:'/>
-		<Argument form='Text' required='1' newline='1' comment='Mass:'/>
+		<Argument form='Line' required='1' newline='1' comment='Mass:'/>
 	</Keyword>
 	<Keyword name='*MASS FLOW'/>
 	<Keyword name='*MATERIAL'>
-		<Argument form='Text' name='NAME' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
 	<Keyword name='*MEMBRANE SECTION'/>
 	<Keyword name='*MODAL DAMPING'>
@@ -492,7 +499,7 @@
 	<Keyword name='*MODAL DYNAMIC'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
 		<Argument form='Combo' name='DIRECT'>NO|YES</Argument>
-		<Argument form='Text' name='DELTMX'/>
+		<Argument form='Line' name='DELTMX'/>
 		<Argument form='Bool' name='STEADY STATE'/>
 	</Keyword>
 	<Keyword name='*MODEL CHANGE'>
@@ -503,7 +510,7 @@
 	</Keyword>
 	<Keyword name='*MPC'>
 		<Argument form='Bool' name='PLANE|STRAIGHT|BEAM' newline='1'/>
-		<Argument form='Text'/>
+		<Argument form='Line'/>
 	</Keyword>
 	<Keyword name='*NETWORK MPC'>
 		<Argument form='Combo' name='TYPE'>|QUADRATIC</Argument>
@@ -511,11 +518,11 @@
 	<Keyword name='*NO ANALYSIS'/>
 	<Keyword name='*NODAL THICKNESS'/>
 	<Keyword name='*NODE'>
-		<Argument form='Text' name='NSET'/>
+		<Argument form='Line' name='NSET'/>
 	</Keyword>
 	<Keyword name='*NODE FILE'>
-		<Argument form='Text' name='NSET'/>
-		<Argument form='Text' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
+		<Argument form='Line' name='NSET'/>
+		<Argument form='Line' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
 		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
 		<Argument form='Combo' name='OUTPUT'>2D|3D</Argument>
 		<Argument form='Bool' name='LAST ITERATIONS'/>
@@ -523,17 +530,17 @@
 	</Keyword>
 	<Keyword name='*NODE OUTPUT'>
 		<!--TODO DOUBLE-->
-		<Argument form='Text' name='FREQUENCY|TIME POINTS'/>
+		<Argument form='Line' name='FREQUENCY|TIME POINTS'/>
 	</Keyword>
 	<Keyword name='*NODE PRINT'>
-		<Argument form='Text' name='NSET'/>
-		<Argument form='Text' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
+		<Argument form='Line' name='NSET'/>
+		<Argument form='Line' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
 		<Argument form='Combo' name='TOTALS'>YES|ONLY|NO</Argument>
 		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
 	</Keyword>
 	<Keyword name='*NORMAL'/>
 	<Keyword name='*NSET'>
-		<Argument form='Text' name='NSET' required='1'/>
+		<Argument form='Line' name='NSET' required='1'/>
 		<Argument form='Bool' name='GENERATE'/>
 	</Keyword>
 	<Keyword name='*OBJECTIVE'>
@@ -541,14 +548,14 @@
 		<Argument use='*DESIGN RESPONSE' newline='1' comment='Name of a design response:'/>
 	</Keyword>
 	<Keyword name='*ORIENTATION'>
-		<Argument form='Text' name='NAME' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
 		<Argument form='Combo' name='SYSTEM'>RECTANGULAR|CYLINDRICAL</Argument>
 	</Keyword>
 	<Keyword name='*OUTPUT'/> <!--TODO-->
 	<Keyword name='*PHYSICAL CONSTANTS'>
-		<Argument form='Text' name='ABSOLUTE ZERO'/>
-		<Argument form='Text' name='STEFAN BOLTZMANN'/>
-		<Argument form='Text' name='NEWTON GRAVITY'/>
+		<Argument form='Line' name='ABSOLUTE ZERO'/>
+		<Argument form='Line' name='STEFAN BOLTZMANN'/>
+		<Argument form='Line' name='NEWTON GRAVITY'/>
 	</Keyword>
 	<Keyword name='*PLASTIC'>
 		<Argument form='Combo' name='HARDENING'>ISOTROPIC|KINEMATIC|COMBINED|USER</Argument>
@@ -560,48 +567,48 @@
 	</Keyword>
 	<Keyword name='*RADIATE'>
 		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Text' name='AMPLITUDE'/>
-		<Argument form='Text' name='TIME DELAY'/>
-		<Argument form='Text' name='RADIATION AMPLITUDE'/>
-		<Argument form='Text' name='RADIATION TIME DELAY'/>
-		<Argument form='Text' name='ENVNODE'/>
-		<Argument form='Text' name='CAVITY'/>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
+		<Argument form='Line' name='RADIATION AMPLITUDE'/>
+		<Argument form='Line' name='RADIATION TIME DELAY'/>
+		<Argument form='Line' name='ENVNODE'/>
+		<Argument form='Line' name='CAVITY'/>
 	</Keyword>
 	<Keyword name='*REFINE MESH'>
-		<Argument form='Text' name='LIMIT'/>
+		<Argument form='Line' name='LIMIT'/>
 	</Keyword>
 	<Keyword name='*RESTART'>
 		<!--TODO-->
 		<Argument form='Bool' name='WRITE' required='1'/>
-		<Argument form='Text' name='FREQUENCY'/>
+		<Argument form='Line' name='FREQUENCY'/>
 		<Argument form='Bool' name='OVERLAY'/>
 		<Argument form='Bool' name='READ' required='1'/>
-		<Argument form='Text' name='STEP'/>
+		<Argument form='Line' name='STEP'/>
 	</Keyword>
 	<Keyword name='*RETAINED NODAL DOFS'>
 		<Argument form='Bool' name='SORTED=NO'/>
 	</Keyword>
 	<Keyword name='*RIGID BODY'>
-		<Argument form='Text' name='NSET|ELSET' required='1'/>
-		<Argument form='Text' name='REF NODE'/>
-		<Argument form='Text' name='ROT NODE'/>
+		<Argument form='Line' name='NSET|ELSET' required='1'/>
+		<Argument form='Line' name='REF NODE'/>
+		<Argument form='Line' name='ROT NODE'/>
 	</Keyword>
 	<Keyword name='*ROBUST DESIGN'>
-		<Argument form='Text' name='RANDOM FIELD ONLY' required='1'/>
+		<Argument form='Line' name='RANDOM FIELD ONLY' required='1'/>
 		<!-- New line -->
 		<!-- Requested accuracy (real number; > 0. and < 1.) -->
 	</Keyword>
 	<Keyword name='*SECTION PRINT'>
 		<Argument use='*SURFACE' name='SURFACE' required='1'/>
-		<Argument form='Text' name='NAME' required='1'/>
-		<Argument form='Text' name='FREQUENCYF|TIME POINTS'/>
+		<Argument form='Line' name='NAME' required='1'/>
+		<Argument form='Line' name='FREQUENCYF|TIME POINTS'/>
 		<Argument form='Bool' name='SOF'/>
 		<Argument form='Bool' name='SOM'/>
 		<Argument form='Bool' name='SOAREA'/>
 	</Keyword>
 	<Keyword name='*SELECT CYCLIC SYMMETRY MODES'>
-		<Argument form='Text' name='NMIN'/>
-		<Argument form='Text' name='NMAX'/>
+		<Argument form='Line' name='NMIN'/>
+		<Argument form='Line' name='NMAX'/>
 	</Keyword>
 	<Keyword name='*SENSITIVITY'>
 		<Argument form='Bool' name='NLGEOM'/>
@@ -609,30 +616,30 @@
 		<Argument form='Bool' name='WRITE'/>
 	</Keyword>
 	<Keyword name='*SHELL SECTION'>
-		<Argument form='Text' name='ELSET' required='1'/>
-		<Argument form='Text' name='MATERIAL|COMPOSITE' required='1'/>
-		<Argument form='Text' name='ORIENTATION'/>
-		<Argument form='Text' name='NODAL THICKNESS'/>
-		<Argument form='Text' name='OFFSET'/>
+		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument form='Line' name='MATERIAL|COMPOSITE' required='1'/>
+		<Argument form='Line' name='ORIENTATION'/>
+		<Argument form='Line' name='NODAL THICKNESS'/>
+		<Argument form='Line' name='OFFSET'/>
 	</Keyword>
 	<Keyword name='*SOLID SECTION'>
-		<Argument form='Text' name='ELSET' required='1'/>
-		<Argument form='Text' name='MATERIAL' required='1'/>
-		<Argument form='Text' name='ORIENTATION'/>
+		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument form='Line' name='MATERIAL' required='1'/>
+		<Argument form='Line' name='ORIENTATION'/>
 	</Keyword>
 	<Keyword name='*SPECIFIC GAS CONSTANT'/>
 	<Keyword name='*SPECIFIC HEAT'/>
 	<Keyword name='*SPRING'>
-		<Argument form='Text' name='ELSET' required='1'/>
+		<Argument form='Line' name='ELSET' required='1'/>
 		<Argument form='Bool' name='NONLINEAR'/>
-		<Argument form='Text' name='ORIENTATION'/>
+		<Argument form='Line' name='ORIENTATION'/>
 	</Keyword>
 	<Keyword name='*STATIC'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
 		<Argument form='Bool' name='DIRECT'/>
 		<Argument form='Bool' name='EXPLICIT'/>
 		<Argument form='Bool' name='TIME RESET'/>
-		<Argument form='Text' name='TOTAL TIME AT START'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
 	</Keyword>
 	<Keyword name='*STEADY STATE DYNAMICS'>
 		<Argument form='Combo' name='HARMONIC'>YES|NO</Argument>
@@ -641,82 +648,82 @@
 	<Keyword name='*STEP'>
 		<Argument form='Bool' name='PERTURBATION'/>
 		<Argument form='Bool' name='NLGEOM'/>
-		<Argument form='Text' name='INC'/>
-		<Argument form='Text' name='INCF'/>
+		<Argument form='Line' name='INC'/>
+		<Argument form='Line' name='INCF'/>
 		<Argument form='Bool' name='THERMAL NETWORK'/>
 		<Argument form='Combo' name='AMPLITUDE'>RAMP|STEP</Argument>
 	</Keyword>
 	<Keyword name='*SUBMODEL'>
 		<Argument form='Combo' name='TYPE' required='1'>SURFACE|NODE</Argument>
 		<Argument form='SelectFileWidget' name='INPUT' required='1' comment='FRD file:'/>
-		<Argument form='Text' name='GLOBAL ELSET'/>
+		<Argument form='Line' name='GLOBAL ELSET'/>
 	</Keyword>
 	<Keyword name='*SUBSTRUCTURE GENERATE'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO</Argument>
 	</Keyword>
 	<Keyword name='*SUBSTRUCTURE MATRIX OUTPUT'>
-		<Argument form='Text' name='FILE NAME' required='1'/>
+		<Argument form='Line' name='FILE NAME' required='1'/>
 		<Argument form='Bool' name='STIFFNESS=YES'/>
 		<Argument form='Bool' name='OUTPUT FILE=USER DEFINED'/>
 	</Keyword>
 	<Keyword name='*SURFACE'>
-		<Argument form='Text' name='NAME' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
 		<Argument form='Combo' name='TYPE'>ELEMENT|NODE</Argument>
 	</Keyword>
 	<Keyword name='*SURFACE BEHAVIOR'>
 		<Argument form='Combo' name='PRESSURE-OVERCLOSURE' required='1'>EXPONENTIAL|LINEAR|TABULAR|TIED|HARD</Argument>
 	</Keyword>
 	<Keyword name='*SURFACE INTERACTION'>
-		<Argument form='Text' name='NAME' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
 	<Keyword name='*TEMPERATURE'>
 		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Text' name='AMPLITUDE'/>
-		<Argument form='Text' name='TIME DELAY'/>
+		<Argument form='Line' name='AMPLITUDE'/>
+		<Argument form='Line' name='TIME DELAY'/>
 		<Argument form='Bool' name='USER'/>
-		<Argument form='Text' name='SUBMODEL'/>
-		<Argument form='Text' name='STEP'/>
-		<Argument form='Text' name='DATA SET'/>
+		<Argument form='Line' name='SUBMODEL'/>
+		<Argument form='Line' name='STEP'/>
+		<Argument form='Line' name='DATA SET'/>
 	</Keyword>
 	<Keyword name='*TIE'>
-		<Argument form='Text' name='NAME' required='1'/>
-		<Argument form='Text' name='POSITION TOLERANCE'/>
+		<Argument form='Line' name='NAME' required='1'/>
+		<Argument form='Line' name='POSITION TOLERANCE'/>
 		<Argument form='Bool' name='ADJUST'/>
 		<Argument form='Bool' name='CYCLIC SYMMETRY|MULTISTAGE|FLUID PERIODIC|FLUID CYCLIC'/>
 	</Keyword>
 	<Keyword name='*TIME POINTS'>
-		<Argument form='Text' name='NAME' required='1'/>
+		<Argument form='Line' name='NAME' required='1'/>
 		<Argument form='Combo' name='TIME'>|TOTAL TIME</Argument>
 		<Argument form='Bool' name='GENERATE'/>
 	</Keyword>
 	<Keyword name='*TRANSFORM'>
-		<Argument form='Text' name='NSET' required='1'/>
+		<Argument form='Line' name='NSET' required='1'/>
 		<Argument form='Combo' name='TYPE'>R|C</Argument>
 	</Keyword>
 	<Keyword name='*UNCOUPLED TEMPERATURE-DISPLACEMENT'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
-		<Argument form='Text' name='ALPHA'/>
+		<Argument form='Line' name='ALPHA'/>
 		<Argument form='Bool' name='STEADY STATE'/>
-		<Argument form='Text' name='DELTMX'/>
+		<Argument form='Line' name='DELTMX'/>
 		<Argument form='Bool' name='DIRECT'/>
 		<Argument form='Bool' name='EXPLICIT'/>
 		<Argument form='Bool' name='TIME RESET'/>
-		<Argument form='Text' name='TOTAL TIME AT START'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
 	</Keyword>
 	<Keyword name='*USER ELEMENT'>
-		<Argument form='Text' name='TYPE' required='1'/>
-		<Argument form='Text' name='INTEGRATION POINTS' required='1'/>
-		<Argument form='Text' name='MAXDOF' required='1'/>
-		<Argument form='Text' name='NODES' required='1'/>
+		<Argument form='Line' name='TYPE' required='1'/>
+		<Argument form='Line' name='INTEGRATION POINTS' required='1'/>
+		<Argument form='Line' name='MAXDOF' required='1'/>
+		<Argument form='Line' name='NODES' required='1'/>
 	</Keyword>
 	<Keyword name='*USER MATERIAL'>
-		<Argument form='Text' name='CONSTANTS' required='1'/>
+		<Argument form='Line' name='CONSTANTS' required='1'/>
 		<Argument form='Combo' name='TYPE'>MECHANICAL|THERMAL</Argument>
 	</Keyword>
 	<Keyword name='*USER SECTION'>
 		<Argument use='*ELSET' name='ELSET' required='1'/>
 		<Argument use='*MATERIAL' NAME='MATERIAL' required='1'/>
-		<Argument form='Text' name='CONSTANTS' required='1'/>
+		<Argument form='Line' name='CONSTANTS' required='1'/>
 	</Keyword>
 	<Keyword name='*VALUES AT INFINITY'/>
 	<Keyword name='*VIEWFACTOR'>
@@ -730,7 +737,7 @@
 		<Argument form='Bool' name='DIRECT'/>
 		<Argument form='Bool' name='EXPLICIT'/>
 		<Argument form='Bool' name='TIME RESET'/>
-		<Argument form='Text' name='TOTAL TIME AT START'/>
-		<Argument form='Text' name='CETOL'/>
+		<Argument form='Line' name='TOTAL TIME AT START'/>
+		<Argument form='Line' name='CETOL'/>
 	</Keyword>
 </list>

@@ -204,6 +204,7 @@ What's new in future v0.9.0:
 
 # TODO
 
+- KeywordDialog: reset to defaults, not erase.
 - KeywordDialog: clickable checkbox labels.
 - Argument with "use": link to create a new IMPLEMENTATION.
 - Code, docs and KOM for v 2.20.

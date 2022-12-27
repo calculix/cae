@@ -63,7 +63,7 @@ class Group(QtWidgets.QWidget):
 
     def text(self):
         txt = ''
-        if self.gbox.isChecked():
+        if self.gbox.isEnabled() and self.gbox.isChecked():
             txt = ', ' + self.argument.name
         return txt
 
@@ -82,6 +82,7 @@ class ArgumentWidget(QtWidgets.QWidget):
         self.widgets = widgets
         self.required = argument.get_required()
         self.newline = argument.get_newline()
+        self.readonly = argument.get_readonly()
         super().__init__()
 
         self.v_layout = QtWidgets.QVBoxLayout()
@@ -122,6 +123,8 @@ class ArgumentWidget(QtWidgets.QWidget):
             widgets.insert(0, required_label)
 
         for w in widgets:
+            if hasattr(w, 'setReadOnly'):
+                w.setReadOnly(self.readonly)
             self.horizontal_layout.addWidget(w)
         self.v_layout.addLayout(self.horizontal_layout)
         self.setLayout(self.v_layout)
@@ -136,12 +139,16 @@ class ArgumentWidget(QtWidgets.QWidget):
     def text(self):
         if not self.w.isEnabled():
             return ''
+        if not self.isEnabled():
+            return ''
         newline = ', '
         if self.newline:
             newline = '\n'
         ct = ''
         if hasattr(self.w, 'currentText'):
             ct = self.w.currentText()
+        if hasattr(self.w, 'toPlainText'):
+            ct = self.w.toPlainText()
         elif hasattr(self.w, 'text'):
             ct = self.w.text()
         if ct and not ct.startswith('!!! Create *'):
@@ -267,7 +274,36 @@ class Combo(ArgumentWidget):
         self.w.setCurrentIndex(0)
 
 
+def qwe(*args):
+    print(args)
+
+
 class Text(ArgumentWidget):
+    """QTextEdit widget with label."""
+
+    def __init__(self, argument):
+        self.argument = argument
+        self.w = QtWidgets.QTextEdit()
+        super().__init__(argument, [self.w])
+        self.set_text(argument.value)
+        self.setEnabled = self.w.setEnabled
+        self.w.textChanged.connect(lambda: change(None))
+
+    def reset(self):
+        self.set_text(self.argument.value)
+
+    def set_text(self, text):
+        self.w.clear()
+        for line in text.split('\\n'):
+            self.w.append(line)
+        font = self.w.document().defaultFont()
+        fontMetrics = QtGui.QFontMetrics(font)
+        textSize = fontMetrics.size(0, self.w.toPlainText())
+        textHeight = textSize.height() + 10 # Need to tweak
+        self.w.setMaximumHeight(textHeight)
+
+
+class Line(ArgumentWidget):
     """QLineEdit widget with label."""
 
     def __init__(self, argument):
@@ -281,7 +317,7 @@ class Text(ArgumentWidget):
         self.w.setText('')
 
 
-class Int(Text):
+class Int(Line):
     """Text widget accepting int number."""
 
     def __init__(self, argument):
@@ -289,7 +325,7 @@ class Int(Text):
         self.w.setValidator(QtGui.QIntValidator())
 
 
-class Float(Text):
+class Float(Line):
     """Text widget accepting float number."""
 
     def __init__(self, argument):
@@ -302,13 +338,13 @@ class Bool(ArgumentWidget):
 
     def __init__(self, argument):
         self.w = QtWidgets.QCheckBox()
-        if argument.required:
+        if argument.get_required():
             self.w.setChecked(True)
         self.w.clicked.connect(change)
         super().__init__(argument, [self.w], reverse_pos=True)
 
     def text(self):
-        if self.w.isChecked():
+        if self.w.isEnabled() and self.w.isChecked():
             return ', ' + self.label.text()
         else:
             return ''
@@ -371,6 +407,8 @@ def change(data, arguments=[], append=False):
         if w is None:
             logging.error(a.name + ' has no widget')
             continue
+        # if hasattr(w, 'isEnabled') and not w.isEnabled():
+        #     continue
         old_value = TEXTEDIT.toPlainText()
         new_value = w.text() if w.isEnabled() else '' # argument value
         if old_value.endswith('\n') and new_value.startswith(', '):
@@ -529,7 +567,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*CONTACT PRINT')
+    item = KWL.get_keyword_by_name('*CONTROLS')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

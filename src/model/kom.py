@@ -220,12 +220,6 @@ class Item:
         self.parent = None   # item parent item
         self.active = False
 
-        # NOTE On parsing type will be string, not bool
-        self.newline = False # start argument from the new line?
-
-    def get_newline(self):
-        return int(self.newline)
-
     def is_active(self):
         """Define if item is active."""
 
@@ -347,36 +341,6 @@ class Keyword(Item):
         self.expanded = s.expanded
 
 
-class Argument(Item):
-    """Keyword argument."""
-
-    def __init__(self):
-        super().__init__()
-        self.itype = ItemType.ARGUMENT
-        self.items = [] # list of strings
-        self.name = ''
-        self.form = '' # QCheckBox, QLineEdit, QComboBox
-        self.use = ''
-        self.comment = ''
-        self.widget = None # representation of the argument in GUI
-
-        # NOTE On parsing type will be string, not bool
-        self.required = False # on parsing value could be: '0' or '1'
-
-    def get_required(self):
-        return int(self.required)
-
-
-class Group(Item):
-    """Group of keyword Arguments in kw_list.xml"""
-
-    def __init__(self):
-        super().__init__()
-        self.itype = ItemType.GROUP
-        self.items = [] # list of groups and arguments
-        self.name = ''
-
-
 class Implementation(Item):
     """Keyword implementation - 
     a piece of INP-code for CalculiX input file.
@@ -414,6 +378,50 @@ class Implementation(Item):
             logging.info('{} \"{}\" updated.'.format(keyword.name, self.name))
         else:
             logging.info('{} {} created.'.format(keyword.name, self.name))
+
+
+class KwListItem(Item):
+    """Keyword group/argument. An item from kw_list.xml"""
+
+    def __init__(self):
+        # NOTE On parsing type will be string, not bool
+        self.required = False # on parsing value could be: '0' or '1'
+        self.newline = False # start argument from the new line?
+        self.readonly = False
+        super().__init__()
+
+    def get_required(self):
+        return bool(int(self.required))
+
+    def get_newline(self):
+        return bool(int(self.newline))
+
+    def get_readonly(self):
+        return bool(int(self.readonly))
+
+
+class Argument(KwListItem):
+    """Keyword argument."""
+
+    def __init__(self):
+        super().__init__()
+        self.itype = ItemType.ARGUMENT
+        self.items = [] # list of strings
+        self.name = ''
+        self.form = '' # QCheckBox, QLineEdit, QComboBox
+        self.use = ''
+        self.comment = ''
+        self.widget = None # representation of the argument in GUI
+
+
+class Group(KwListItem):
+    """Group of keyword Arguments in kw_list.xml"""
+
+    def __init__(self):
+        super().__init__()
+        self.itype = ItemType.GROUP
+        self.items = [] # list of groups and arguments
+        self.name = ''
 
 
 # Empty Keyword Object Model w/o implementations

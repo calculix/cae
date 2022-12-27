@@ -138,6 +138,7 @@
 			<Keyword name='*UNCOUPLED TEMPERATURE-DISPLACEMENT'/>
 			<Keyword name='*VISCO'/>
 		</Collection>
+		<Keyword name='*CONTROLS'/>
 		<Collection name='Field Output'>
 			<Keyword name='*CONTACT FILE'/>
 			<Keyword name='*CONTACT OUTPUT'/>
@@ -176,7 +177,6 @@
 			<Keyword name='*CHANGE SOLID SECTION'/>
 			<Keyword name='*MODEL CHANGE'/>
 		</Collection>
-		<Keyword name='*CONTROLS'/>
 		<Keyword name='*EQUATION'/>
 		<Keyword name='*HCF'/>
 		<Keyword name='*INCLUDE'/>
