@@ -347,7 +347,7 @@ class Bool(ArgumentWidget):
         self.w.setChecked(self.argument.get_required())
 
 
-class SelectFileWidget(ArgumentWidget):
+class SelectFile(ArgumentWidget):
     """A custom widget to select files. With label."""
 
     def __init__(self, argument):
@@ -357,11 +357,10 @@ class SelectFileWidget(ArgumentWidget):
         self.push_button.clicked.connect(self.get_file)
         self.push_button.setFixedSize(30, 30)
         self.w.textChanged.connect(change)
-        self.text = self.w.text
         super().__init__(argument, [self.w, self.push_button])
 
     def get_file(self):
-        fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Single File', '', '*.inp')[0]
+        fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Single File', '', '*.inp;;*.frd')[0]
         self.w.setText(fname)
 
     def reset(self):
@@ -559,7 +558,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*CONSTRAINT')
+    item = KWL.get_keyword_by_name('*CRACK PROPAGATION')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

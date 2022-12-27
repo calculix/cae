@@ -281,17 +281,18 @@
 		<Argument use='*SURFACE' name='SURFACE' required='1'/>
 		<Argument use='*ORIENTATION' name='ORIENTATION'/>
 	</Keyword>
-
-
-
 	<Keyword name='*CRACK PROPAGATION'>
-		<Argument form='SelectFileWidget' name='INPUT' required='1'/>
+		<Argument form='SelectFile' name='INPUT' required='1' comment='FRD-file with the uncracked results'/>
 		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
-		<Argument form='Line' name='LENGTH'>CUMULATIVE|INTERSECTION</Argument>
-		<!-- New line -->
-		<!-- Maximum crack propagation increment -->
-		<!-- Maximum deflection angle per increment -->
+		<Argument form='Combo' name='LENGTH'>|CUMULATIVE|INTERSECTION</Argument>
+		<Group form='VBox' newline='1'>
+			<Argument form='Float' comment='Maximum crack propagation increment'/>
+			<Argument form='Float' comment='Maximum deflection angle per increment'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*CREEP'>
 		<Argument form='Combo' name='LAW'>NORTON|USER</Argument>
 	</Keyword>
@@ -459,7 +460,7 @@
 		<Argument form='Combo' name='SOLVER'>PARDISO|SPOOLES</Argument>
 	</Keyword>
 	<Keyword name='*HCF'>
-		<Argument form='SelectFileWidget' name='INPUT' required='1'/>
+		<Argument form='SelectFile' name='INPUT' required='1'/>
 		<Argument form='Line' name='MODE' required='1'/>
 		<Argument form='Line' name='MISSION STEP' required='1'/>
 		<Argument form='Line' name='MAX CYCLE'/>
@@ -489,7 +490,7 @@
 		<Argument form='Line' name='N'/>
 	</Keyword>
 	<Keyword name='*INCLUDE'>
-		<Argument form='SelectFileWidget' name='INPUT' required='1'/>
+		<Argument form='SelectFile' name='INPUT' required='1'/>
 	</Keyword>
 	<Keyword name='*INITIAL CONDITIONS'>
 		<Argument form='Combo' name='TYPE' required='1'>DISPLACEMENT|FLUID VELOCITY|MASS FLOW|PLASTIC STRAIN|PRESSURE|SOLUTION|STRESS|TEMPERATURE|TOTAL PRESSURE|VELOCITY</Argument>
@@ -669,7 +670,7 @@
 	</Keyword>
 	<Keyword name='*SUBMODEL'>
 		<Argument form='Combo' name='TYPE' required='1'>SURFACE|NODE</Argument>
-		<Argument form='SelectFileWidget' name='INPUT' required='1' comment='FRD file:'/>
+		<Argument form='SelectFile' name='INPUT' required='1' comment='FRD file:'/>
 		<Argument form='Line' name='GLOBAL ELSET'/>
 	</Keyword>
 	<Keyword name='*SUBSTRUCTURE GENERATE'>
@@ -742,9 +743,9 @@
 	<Keyword name='*VALUES AT INFINITY'/>
 	<Keyword name='*VIEWFACTOR'>
 		<Argument form='Bool' name='READ|NO CHANGE'/>
-		<Argument form='SelectFileWidget' name='INPUT'/>
+		<Argument form='SelectFile' name='INPUT'/>
 		<Argument form='Bool' name='WRITE|WRITE ONLY'/>
-		<Argument form='SelectFileWidget' name='OUTPUT'/>
+		<Argument form='SelectFile' name='OUTPUT'/>
 	</Keyword>
 	<Keyword name='*VISCO'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
