@@ -275,15 +275,15 @@
 			<Argument form='Float' comment='Initial time increment for CFD'>1.e-2</Argument>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*COUPLING'>
-		<Argument form='Line' name='REF NODE' required='1'/>
-		<Argument use='*SURFACE' name='SURFACE' required='1'/>
 		<Argument form='Line' name='CONSTRAINT NAME' required='1'/>
-		<Argument form='Line' name='ORIENTATION'/>
+		<Argument form='Int' name='REF NODE' required='1'/>
+		<Argument use='*SURFACE' name='SURFACE' required='1'/>
+		<Argument use='*ORIENTATION' name='ORIENTATION'/>
 	</Keyword>
+
+
+
 	<Keyword name='*CRACK PROPAGATION'>
 		<Argument form='SelectFileWidget' name='INPUT' required='1'/>
 		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
