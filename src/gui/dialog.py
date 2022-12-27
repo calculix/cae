@@ -40,6 +40,41 @@ ITEM = None
 TEXTEDIT = None
 
 
+class Table(QtWidgets.QWidget):
+    """Custom QTableView.
+    TODO Buttons to add/remove rows,
+    TODO paste whole the table with Ctrl+V,
+    TODO etc.
+    """
+
+    def __init__(self, argument):
+        self.arguments = argument.get_arguments()
+        super().__init__()
+        layout = QtWidgets.QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        # Add comment label
+        if hasattr(argument, 'comment') and argument.comment:
+            comment_label = QtWidgets.QLabel(argument.comment)
+            comment_label.setStyleSheet('color: Blue;')
+            layout.insertWidget(0, comment_label)
+
+        w = QtWidgets.QTableWidget()
+        w.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch) 
+        # w.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        # w.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        w.setAlternatingRowColors(True)
+        w.setColumnCount(len(self.arguments))
+        w.setHorizontalHeaderLabels([a.comment for a in self.arguments])
+        w.setRowCount(3)
+        w.verticalHeader().hide()
+        layout.addWidget(w)
+        self.setLayout(layout)
+    
+    def text(self):
+        return ''
+
+
 class Group(QtWidgets.QWidget):
     """GroupBox with Argument widgets."""
 
@@ -158,10 +193,15 @@ class ArgumentWidget(QtWidgets.QWidget):
 
 
 class GroupWidget(QtWidgets.QWidget):
-    """Custom widget container - Group."""
+    """Custom widget container - a Group in kw_list.xml.
+    Unite arguments and apply on them horizontal (HBox)
+    o vertical (VBox) layout.
+    """
 
     def __init__(self, argument, layout):
         super().__init__()
+
+        # Add comment label
         v_layout = QtWidgets.QVBoxLayout()
         v_layout.setContentsMargins(0, 0, 0, 0)
         v_layout.insertLayout(0, layout)
@@ -558,7 +598,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*CRACK PROPAGATION')
+    item = KWL.get_keyword_by_name('*CREEP')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

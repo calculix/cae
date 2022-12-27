@@ -290,12 +290,19 @@
 			<Argument form='Float' comment='Maximum deflection angle per increment'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*CREEP'>
-		<Argument form='Combo' name='LAW'>NORTON|USER</Argument>
+		<Argument form='Combo' name='LAW'>|NORTON|USER</Argument>
+		<!-- TODO QTableView -->
+		<Group form='HBox' newline='1'>
+			<Argument form='Float' comment='A'/>
+			<Argument form='Float' comment='n'/>
+			<Argument form='Float' comment='m'/>
+			<Argument form='Float' comment='T'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*CYCLIC HARDENING'/>
 	<Keyword name='*CYCLIC SYMMETRY MODEL'>
 		<Argument form='Line' name='N' required='1'/>
