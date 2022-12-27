@@ -254,18 +254,30 @@
 	<Keyword name='*CORRELATION LENGTH'>
 		<Argument form='Float' comment='Value' newline='1'/>
 	</Keyword>
-
-
 	<Keyword name='*COUPLED TEMPERATURE-DISPLACEMENT'>
-		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
-		<Argument form='Bool' name='DIRECT'/>
-		<Argument form='Line' name='ALPHA'/>
-		<Argument form='Bool' name='STEADY STATE'/>
-		<Argument form='Line' name='DELTMX'/>
-		<Argument form='Bool' name='TIME RESET'/>
-		<Argument form='Line' name='TOTAL TIME AT START'/>
-		<Argument form='Bool' name='COMPRESSIBLE'/>
+		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX|ITERATIVE SCALING|ITERATIVE CHOLESKY</Argument>
+		<Argument form='Float' name='ALPHA'>-0.05</Argument>
+		<Argument form='Float' name='DELTMX'/>
+		<Argument form='Float' name='TOTAL TIME AT START'/>
+		<Group form='HBox'>
+			<Argument form='Bool' name='DIRECT'/>
+			<Argument form='Bool' name='STEADY STATE'/>
+		</Group>
+		<Group form='HBox'>
+			<Argument form='Bool' name='TIME RESET'/>
+			<Argument form='Bool' name='COMPRESSIBLE'/>
+		</Group>
+		<Group form='VBox' newline='1'>
+			<Argument form='Float' comment='Initial time increment'>1</Argument>
+			<Argument form='Float' comment='Time period of the step'>1</Argument>
+			<Argument form='Float' comment='Minimum time increment'>1.e-5</Argument>
+			<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
+			<Argument form='Float' comment='Initial time increment for CFD'>1.e-2</Argument>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*COUPLING'>
 		<Argument form='Line' name='REF NODE' required='1'/>
 		<Argument use='*SURFACE' name='SURFACE' required='1'/>
