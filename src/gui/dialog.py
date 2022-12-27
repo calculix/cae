@@ -75,7 +75,7 @@ class Group(QtWidgets.QWidget):
 class ArgumentWidget(QtWidgets.QWidget):
     """ArgumentWidget is used to visualize Arguments."""
 
-    def __init__(self, argument, widgets, reverse_pos=False):
+    def __init__(self, argument, widgets, show_label=True):
         assert type(argument.name) is str, 'Wrong name type: {}'.format(type(argument.name))
         assert type(widgets) is list, 'Wrong widgets type: {}'.format(type(widgets))
         self.name = argument.name
@@ -96,24 +96,21 @@ class ArgumentWidget(QtWidgets.QWidget):
         self.horizontal_layout.setContentsMargins(0, 0, 0, 10) # bottom margin
         self.horizontal_layout.setAlignment(QtCore.Qt.AlignLeft)
 
-        self.label = None
-        if '|' in self.name:
-            """Mutually exclusive arguments
-            name='FREQUENCY|TIME POINTS'
-            """
-            self.label = QtWidgets.QComboBox()
-            self.label.addItems(self.name.split('|'))
-            self.label.text = self.label.currentText
-            self.label.currentIndexChanged.connect(change)
-        elif self.name:
-            self.label = QtWidgets.QLabel(self.name)
-            self.label.linkHovered.connect(change)
-        if self.label:
-            # Label goes after the checkbox
-            pos = 0
-            if reverse_pos:
-                pos = 1
-            widgets.insert(pos, self.label)
+        if show_label:
+            label = None
+            if '|' in self.name:
+                """Mutually exclusive arguments
+                name='FREQUENCY|TIME POINTS'
+                """
+                label = QtWidgets.QComboBox()
+                label.addItems(self.name.split('|'))
+                label.text = label.currentText
+                label.currentIndexChanged.connect(change)
+            elif self.name:
+                label = QtWidgets.QLabel(self.name)
+                label.linkHovered.connect(change)
+            if label:
+                widgets.insert(0, label)
 
         # Mark required argument
         if self.required:
@@ -335,15 +332,14 @@ class Bool(ArgumentWidget):
 
     def __init__(self, argument):
         self.argument = argument
-        self.w = QtWidgets.QCheckBox()
+        self.w = QtWidgets.QCheckBox(argument.name)
         self.w.clicked.connect(change)
-        super().__init__(argument, [self.w], reverse_pos=True)
-        if argument.get_required():
-            self.w.setChecked(True)
+        super().__init__(argument, [self.w], show_label=False)
+        self.reset()
 
     def text(self):
         if self.w.isEnabled() and self.w.isChecked():
-            return ', ' + self.label.text()
+            return ', ' + self.argument.name
         else:
             return ''
 
