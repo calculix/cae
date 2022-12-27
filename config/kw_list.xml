@@ -7,7 +7,7 @@
 
 	Argument is a normal Calculix Keyword parameter taken from
 	the official documentation. Group is not an argument. Groups
-	are used to change the way how Arguments are shown in the GUI.
+	are used to change the way how Arguments are grouped in the GUI.
 	Arguments and Groups has attribute 'form'. It is responsible
 	for the exact widget used for their representation in the GUI.
 -->
