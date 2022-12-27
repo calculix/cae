@@ -251,13 +251,11 @@
 			<Argument form='Text' readonly='1'>PARAMETERS=CONTACT\n0.001, 0.1, 100, 60</Argument>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*CORRELATION LENGTH'>
-		<!-- New line -->
-		<!-- Correlation length value -->
+		<Argument form='Float' comment='Value' newline='1'/>
 	</Keyword>
+
+
 	<Keyword name='*COUPLED TEMPERATURE-DISPLACEMENT'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
 		<Argument form='Bool' name='DIRECT'/>
