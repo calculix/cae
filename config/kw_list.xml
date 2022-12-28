@@ -341,14 +341,20 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*DAMPING'>
-		<Argument form='Line' name='ALPHA'/>
-		<Argument form='Line' name='BETA'/>
-		<Argument form='Line' name='STRUCTURAL' required='1'/>
+		<Group form='VOr'>
+			<Group form='HBox' comment='Rayleigh damping'>
+				<Argument form='Float' name='ALPHA' required='1'/>
+				<Argument form='Float' name='BETA' required='1'/>
+			</Group>
+			<Group form='HBox' comment='Structural damping'>
+				<Argument form='Float' name='STRUCTURAL' required='1'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*DASHPOT'>
 		<Argument form='Line' name='ELSET' required='1'/>
 	</Keyword>

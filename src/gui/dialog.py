@@ -572,7 +572,7 @@ class KeywordDialog(QtWidgets.QDialog):
             arguments = ITEM.get_arguments()
         for a in arguments:
             w = a.widget
-            if hasattr(w, 'required') and w.required:
+            if w.isEnabled() and hasattr(w, 'required') and w.required:
                 name = w.name # argument name
                 value = w.text() # argument value
                 if not value:
@@ -646,7 +646,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*CYCLIC SYMMETRY MODEL')
+    item = KWL.get_keyword_by_name('*DAMPING')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
