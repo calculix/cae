@@ -379,17 +379,27 @@
 	<Keyword name='*DEPVAR'>
 		<Argument form='Int' newline='1' comment='Number of internal state variables'/>
 	</Keyword>
-
-
-
 	<Keyword name='*DESIGN RESPONSE'>
-		<Argument form='Line' name='NAME'/>
-		<Argument form='Combo' name='TYPE'>COORDINATE|ORIENTATION</Argument>
-		<!--TYPE=COORDINATE-->
-		<Argument form='Combo' newline='1' name='ALL-DISP|X-DISP|Y-DISP|Z-DISP|EIGENFREQUENCY|MASS|STRAIN ENERGY|STRESS'/>
-		<!--TYPE=ORIENTATION-->
-		<Argument form='Combo' newline='1' name='ALL-DISP|EIGENFREQUENCY|GREEN|MASS|STRAIN ENERGY|STRESS'/>
+		<Group form='VOr'>
+			<Group form='VBox'>
+				<Argument form='Line' name='NAME' required='1'/>
+				<Argument form='Line' readonly='1' name='TYPE'>COORDINATE</Argument>
+				<Argument form='Combo' newline='1'>ALL-DISP|X-DISP|Y-DISP|Z-DISP|EIGENFREQUENCY|MASS|STRAIN ENERGY|STRESS</Argument>
+			</Group>
+			<Group form='VBox'>
+				<Argument form='Line' readonly='1' name='TYPE'>ORIENTATION</Argument>
+				<Argument form='Combo' newline='1'>ALL-DISP|EIGENFREQUENCY|GREEN|MASS|STRAIN ENERGY|STRESS</Argument>
+			</Group>
+		</Group>
+		<Argument form='Use2'>*NSET|*ELSET</Argument>
+		<Group form='HBox'>
+			<Argument form='Float' comment='ro'/>
+			<Argument form='Float' comment='sigma'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*DESIGN VARIABLES'>
 		<Argument form='Combo' name='TYPE' required='1'>COORDINATE|ORIENTATION</Argument>
 		<Argument use='*NSET' newline='1'/>
