@@ -81,17 +81,17 @@
 		</Keyword>
 	</Collection>
 	<Collection name='Constraints'>
-		<Keyword name='*EQUATION'/>
-		<Keyword name='*MPC'/>
-		<Keyword name='*NETWORK MPC'/>
-		<Keyword name='*RIGID BODY'/>
 		<Keyword name='*COUPLING'>
 			<Keyword name='*KINEMATIC'/>
 			<Keyword name='*DISTRIBUTING'/>
 		</Keyword>
-		<Keyword name='*DISTRIBUTING COUPLING'/>
-		<Keyword name='*TIE'/>
 		<Keyword name='*CYCLIC SYMMETRY MODEL'/>
+		<Keyword name='*DISTRIBUTING COUPLING'/>
+		<Keyword name='*EQUATION'/>
+		<Keyword name='*MPC'/>
+		<Keyword name='*NETWORK MPC'/>
+		<Keyword name='*RIGID BODY'/>
+		<Keyword name='*TIE'/>
 	</Collection>
 	<Keyword name='*STEP'>
 		<Collection name='Analysis type'>

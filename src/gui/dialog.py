@@ -161,13 +161,25 @@ class ArgumentWidget(QtWidgets.QWidget):
         self.v_layout = QtWidgets.QVBoxLayout()
         self.v_layout.setContentsMargins(0, 0, 0, 0)
         if argument.comment:
+            comment_layout = QtWidgets.QHBoxLayout()
+            comment_layout.setContentsMargins(0, 0, 0, 0) # bottom margin
+            comment_layout.setAlignment(QtCore.Qt.AlignLeft)
             comment_label = QtWidgets.QLabel(argument.comment)
             comment_label.setStyleSheet('color: Blue;')
-            self.v_layout.addWidget(comment_label)
+
+            if self.required:
+                required_label = QtWidgets.QLabel()
+                required_label.setText('*')
+                required_label.setStyleSheet('color:Red;')
+                comment_layout.addWidget(required_label)
+
+            comment_layout.addWidget(comment_label)
+            self.v_layout.addLayout(comment_layout)
 
         self.horizontal_layout = QtWidgets.QHBoxLayout()
         self.horizontal_layout.setContentsMargins(0, 0, 0, 10) # bottom margin
         self.horizontal_layout.setAlignment(QtCore.Qt.AlignLeft)
+        self.v_layout.addLayout(self.horizontal_layout)
 
         if show_label:
             label = None
@@ -186,7 +198,7 @@ class ArgumentWidget(QtWidgets.QWidget):
                 widgets.insert(0, label)
 
         # Mark required argument
-        if self.required:
+        if self.required and not argument.comment:
             required_label = QtWidgets.QLabel()
             required_label.setText('*')
             required_label.setStyleSheet('color:Red;')
@@ -196,7 +208,6 @@ class ArgumentWidget(QtWidgets.QWidget):
             if hasattr(w, 'setReadOnly'):
                 w.setReadOnly(self.readonly)
             self.horizontal_layout.addWidget(w)
-        self.v_layout.addLayout(self.horizontal_layout)
         self.setLayout(self.v_layout)
 
         # Recursion for nested arguments/groups
@@ -635,7 +646,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*CREEP')
+    item = KWL.get_keyword_by_name('*CYCLIC SYMMETRY MODEL')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

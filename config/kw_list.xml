@@ -309,16 +309,41 @@
 			<Argument form='Float' comment='Temperature'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*CYCLIC SYMMETRY MODEL'>
-		<Argument form='Line' name='N' required='1'/>
-		<Argument form='Line' name='NGRAPH'/>
-		<Argument form='Line' name='TIE' required='1'/>
-		<Argument form='Line' name='ELSET'/>
-		<Argument form='Combo' name='CHECK'>YES|NO</Argument>
+		<Group form='VOr'>
+			<Group form='VBox' comment='Structural calculation'>
+				<Argument form='Int' name='N' required='1'/>
+				<Argument use='*TIE' name='TIE' required='1'/>
+				<Argument form='Int' name='NGRAPH'/>
+				<Argument use='*ELSET' name='ELSET'/>
+				<Argument form='Combo' name='CHECK'>|YES|NO</Argument>
+				<Group form='VBox' newline='1'>
+					<Group form='HBox'>
+						<Argument form='Float' comment='Xa' required='1'/>
+						<Argument form='Float' comment='Ya' required='1'/>
+						<Argument form='Float' comment='Za' required='1'/>
+					</Group>
+					<Group form='HBox'>
+						<Argument form='Float' comment='Xb' required='1'/>
+						<Argument form='Float' comment='Yb' required='1'/>
+						<Argument form='Float' comment='Zb' required='1'/>
+					</Group>
+				</Group>
+			</Group>
+			<Group form='VBox' comment='3D-fluid calculation'>
+				<Argument form='Int' name='N' required='1'/>
+				<Argument use='*TIE' name='TIE' required='1'/>
+				<Group form='HBox' newline='1'>
+					<Argument form='Float' comment='Xa' required='1'/>
+					<Argument form='Float' comment='Ya' required='1'/>
+					<Argument form='Float' comment='Za' required='1'/>
+				</Group>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*DAMPING'>
 		<Argument form='Line' name='ALPHA'/>
 		<Argument form='Line' name='BETA'/>
