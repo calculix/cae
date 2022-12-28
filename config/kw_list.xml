@@ -401,14 +401,19 @@
 		<Argument form='Combo' name='TYPE' required='1'>COORDINATE|ORIENTATION</Argument>
 		<Argument use='*NSET' newline='1' comment='NSET'/>
 	</Keyword>
-
-
-
 	<Keyword name='*DFLUX'>
-		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Line' name='AMPLITUDE'/>
-		<Argument form='Line' name='TIME DELAY'/>
+		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
+		<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
+		<Argument form='Float' name='TIME DELAY'/>
+		<Group form='Table' newline='1'>
+			<Argument form='Int' comment='Element'/>
+			<Argument form='Line' comment='Label'/>
+			<Argument form='Float' comment='Magnitude'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*DISTRIBUTING'/>
 	<Keyword name='*DISTRIBUTING COUPLING'>
 		<Argument form='Line' name='ELSET' required='1'/>
