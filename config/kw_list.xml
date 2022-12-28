@@ -370,10 +370,15 @@
 			<Argument form='Float' comment='Temperature'/>
 		</Group>
 	</Keyword>
+	<Keyword name='*DENSITY'>
+		<Group form='Table' newline='1'>
+			<Argument form='Float' comment='Density'/>
+			<Argument form='Float' comment='Temperature'/>
+		</Group>
+	</Keyword>
 
 
 
-	<Keyword name='*DENSITY'/>
 	<Keyword name='*DEPVAR'/>
 	<Keyword name='*DESIGN RESPONSE'>
 		<Argument form='Line' name='NAME'/>
