@@ -360,10 +360,19 @@
 			<Argument form='Float' comment='Temperature'/>
 		</Group>
 	</Keyword>
+	<Keyword name='*DEFORMATION PLASTICITY'>
+		<Group form='Table' newline='1'>
+			<Argument form='Float' comment='Young'/>
+			<Argument form='Float' comment='Poisson'/>
+			<Argument form='Float' comment='Yield'/>
+			<Argument form='Float' comment='Exponent'/>
+			<Argument form='Float' comment='Offset'/>
+			<Argument form='Float' comment='Temperature'/>
+		</Group>
+	</Keyword>
 
 
 
-	<Keyword name='*DEFORMATION PLASTICITY'/>
 	<Keyword name='*DENSITY'/>
 	<Keyword name='*DEPVAR'/>
 	<Keyword name='*DESIGN RESPONSE'>
