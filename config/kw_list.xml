@@ -411,10 +411,16 @@
 			<Argument form='Float' comment='Magnitude'/>
 		</Group>
 	</Keyword>
+	<Keyword name='*DISTRIBUTING'>
+		<Argument form='Bool' name='CYCLIC SYMMETRY'/>
+		<Group form='HBox' newline='1'>
+			<Argument form='Int' comment='First DOF'/>
+			<Argument form='Int' comment='Last DOF'/>
+		</Group>
+	</Keyword>
 
 
 
-	<Keyword name='*DISTRIBUTING'/>
 	<Keyword name='*DISTRIBUTING COUPLING'>
 		<Argument form='Line' name='ELSET' required='1'/>
 	</Keyword>
