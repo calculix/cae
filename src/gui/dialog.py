@@ -68,7 +68,7 @@ class Table(QtWidgets.QWidget):
         self.row_add()
 
         l = QtWidgets.QHBoxLayout()
-        s = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        s = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         b1 = QtWidgets.QPushButton()
         b1.setText('+')
         b1.setFixedSize(30, 30)
@@ -241,22 +241,64 @@ class ArgumentWidget(QtWidgets.QWidget):
             return ''
 
 
+class Tabs(QtWidgets.QWidget):
+    """A Group drawn with QTabWidget.
+    Should be used for a group containing list of other groups:
+    *CYCLIC SYMMETRY MODEL,
+    *DAMPING
+    """
+
+    def __init__(self, group):
+        super().__init__()
+        self.arguments = group.get_arguments()
+        self.newlines = group.get_newlines()
+        layout = QtWidgets.QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+    
+        self.w = QtWidgets.QTabWidget()
+        for i,gr in enumerate(self.arguments):
+            tab = QtWidgets.QWidget()
+            l = QtWidgets.QVBoxLayout()
+            tab.setLayout(l)
+            self.w.addTab(tab, gr.name)
+            build_widgets([gr], l) # build a.widget
+            gr.widget.setEnabled(i==0)
+            s = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+            l.addSpacerItem(s)
+
+        layout.addWidget(self.w)
+        self.setLayout(layout)
+        self.w.currentChanged.connect(self.tab_activated)
+
+    def tab_activated(self, index):
+        """Needed to deactivate tab widgets not to participate in dialog.accept()"""
+        for i,a in enumerate(self.arguments):
+            a.widget.setEnabled(i == index)
+        change(None)
+
+    def text(self, *args):
+        return self.newlines
+
+    def reset(self):
+        reset(self.arguments)
+
+
 class GroupWidget(QtWidgets.QWidget):
     """Custom widget container - a Group in kw_list.xml.
     Unite arguments and apply on them horizontal (HBox)
     o vertical (VBox) layout.
     """
 
-    def __init__(self, argument, layout):
-        self.newlines = argument.get_newlines()
+    def __init__(self, group, layout):
+        self.newlines = group.get_newlines()
         super().__init__()
 
         # Add comment label
         v_layout = QtWidgets.QVBoxLayout()
         v_layout.setContentsMargins(0, 0, 0, 0)
         v_layout.insertLayout(0, layout)
-        if hasattr(argument, 'comment') and argument.comment:
-            comment_label = QtWidgets.QLabel(argument.comment)
+        if hasattr(group, 'comment') and group.comment:
+            comment_label = QtWidgets.QLabel(group.comment)
             comment_label.setStyleSheet('color: Blue;')
             v_layout.insertWidget(0, comment_label)
         self.setLayout(v_layout)
@@ -271,34 +313,34 @@ class GroupWidget(QtWidgets.QWidget):
 class Box(GroupWidget):
     """GroupWidget."""
 
-    def __init__(self, argument, layout):
-        # self.newlines = argument.get_newlines()
-        self.arguments = argument.get_arguments()
+    def __init__(self, group, layout):
+        # self.newlines = group.get_newlines()
+        self.arguments = group.get_arguments()
         layout.setContentsMargins(0, 0, 0, 0)
-        super().__init__(argument, layout)
+        super().__init__(group, layout)
         build_widgets(self.arguments, layout)
 
 
 class HBox(Box):
     """GroupWidget with horizontal layout."""
 
-    def __init__(self, argument):
-        super().__init__(argument, QtWidgets.QHBoxLayout())
+    def __init__(self, group):
+        super().__init__(group, QtWidgets.QHBoxLayout())
 
 
 class VBox(Box):
     """GroupWidget with vertical layout."""
 
-    def __init__(self, argument):
-        super().__init__(argument, QtWidgets.QVBoxLayout())
+    def __init__(self, group):
+        super().__init__(group, QtWidgets.QVBoxLayout())
 
 
 class Or(GroupWidget):
     """GroupWidget with radiobuttons."""
 
-    def __init__(self, argument, layout):
-        # self.newlines = argument.get_newlines()
-        self.arguments = argument.get_arguments()
+    def __init__(self, group, layout):
+        # self.newlines = group.get_newlines()
+        self.arguments = group.get_arguments()
         layout.setContentsMargins(0, 0, 0, 0)
         for i, a in enumerate(self.arguments):
             hl = QtWidgets.QHBoxLayout()
@@ -310,23 +352,23 @@ class Or(GroupWidget):
             a.widget.setEnabled(not bool(i))
             rb.toggled.connect(a.widget.setEnabled)
             rb.toggled.connect(change)
-        super().__init__(argument, layout)
+        super().__init__(group, layout)
 
 
-class HOr(Or):
+class OrH(Or):
     """GroupWidget with radiobuttons. Horizontal layout."""
 
-    def __init__(self, argument):
+    def __init__(self, group):
         hbox = QtWidgets.QHBoxLayout()
-        super().__init__(argument, hbox)
+        super().__init__(group, hbox)
 
 
-class VOr(Or):
+class OrV(Or):
     """GroupWidget with radiobuttons. Vertical layout."""
 
-    def __init__(self, argument):
+    def __init__(self, group):
         hbox = QtWidgets.QVBoxLayout()
-        super().__init__(argument, hbox)
+        super().__init__(group, hbox)
 
 
 class Combo(ArgumentWidget):

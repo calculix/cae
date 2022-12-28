@@ -50,7 +50,7 @@
 			<Argument form='Int' name='DATA SET'/>
 		</Argument>
 		<Group form='HBox' newline='1'>
-			<Group form='HOr'>
+			<Group form='OrH'>
 				<Argument form='Int' comment='NODE or...'/>
 				<Argument use='*NSET' comment='...NSET'/>
 			</Group>
@@ -96,7 +96,7 @@
 			<Argument form='Bool' name='ADD'/>
 		</Group>
 		<Group form='HBox' newline='1'>
-			<Group form='HOr'>
+			<Group form='OrH'>
 				<Argument form='Int' comment='NODE or...'/>
 				<Argument use='*NSET' comment='...NSET'/>
 			</Group>
@@ -138,7 +138,7 @@
 		<Argument form='Int' name='SECTOR'/>
 		<Argument form='Line' name='OMEGA0'/>
 		<Argument form='Bool' name='USER'/>
-		<Group form='VOr'>
+		<Group form='OrV'>
 			<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
 			<Argument form='Group' name='SUBMODEL'>
 				<Argument form='Int' name='STEP'/>
@@ -146,7 +146,7 @@
 			</Argument>
 		</Group>
 		<Group form='HBox' newline='1'>
-			<Group form='HOr'>
+			<Group form='OrH'>
 				<Argument form='Int' comment='NODE or...'/>
 				<Argument use='*NSET' comment='...NSET'/>
 			</Group>
@@ -178,7 +178,7 @@
 		<Argument form='Float' comment='Damping constant' newline='1'/>
 	</Keyword>
 	<Keyword name='*CONTACT FILE'>
-		<Group form='VOr'>
+		<Group form='OrV'>
 			<Argument form='Int' name='FREQUENCY'/>
 			<Argument use='*TIME POINTS' name='TIME POINTS'/>
 		</Group>
@@ -194,7 +194,7 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*CONTACT OUTPUT'>
-		<Group form='VOr'>
+		<Group form='OrV'>
 			<Argument form='Int' name='FREQUENCY'/>
 			<Argument use='*TIME POINTS' name='TIME POINTS'/>
 		</Group>
@@ -220,7 +220,7 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*CONTACT PRINT'>
-		<Group form='VOr'>
+		<Group form='OrV'>
 			<Argument form='Int' name='FREQUENCY'/>
 			<Argument use='*TIME POINTS' name='TIME POINTS'/>
 		</Group>
@@ -244,7 +244,7 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*CONTROLS'>
-		<Group form='VOr'>
+		<Group form='OrV'>
 			<Argument form='Line' readonly='1'>RESET</Argument>
 			<Argument form='Text' readonly='1'>PARAMETERS=TIME INCREMENTATION\n9, 16, 10, 4, , 5, , , \n0.25, 0.5, 0.75, 0.85, , , 1.5, </Argument>
 			<Argument form='Text' readonly='1'>PARAMETERS=FIELD\n0.005, 0.01, 0.01, , 0.02, 1e-5, 1e-3, 1e-5</Argument>
@@ -310,8 +310,8 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*CYCLIC SYMMETRY MODEL'>
-		<Group form='VOr'>
-			<Group form='VBox' comment='Structural calculation'>
+		<Group form='Tabs'>
+			<Group form='VBox' name='Structural calculation'>
 				<Argument form='Int' name='N' required='1'/>
 				<Argument use='*TIE' name='TIE' required='1'/>
 				<Argument form='Int' name='NGRAPH'/>
@@ -330,7 +330,7 @@
 					</Group>
 				</Group>
 			</Group>
-			<Group form='VBox' comment='3D-fluid calculation'>
+			<Group form='VBox' name='3D-fluid calculation'>
 				<Argument form='Int' name='N' required='1'/>
 				<Argument use='*TIE' name='TIE' required='1'/>
 				<Group form='HBox' newline='1'>
@@ -342,12 +342,12 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*DAMPING'>
-		<Group form='VOr'>
-			<Group form='HBox' comment='Rayleigh damping'>
+		<Group form='Tabs'>
+			<Group form='HBox' name='Rayleigh damping'>
 				<Argument form='Float' name='ALPHA' required='1'/>
 				<Argument form='Float' name='BETA' required='1'/>
 			</Group>
-			<Group form='HBox' comment='Structural damping'>
+			<Group form='HBox' name='Structural damping'>
 				<Argument form='Float' name='STRUCTURAL' required='1'/>
 			</Group>
 		</Group>
@@ -380,13 +380,13 @@
 		<Argument form='Int' newline='1' comment='Number of internal state variables'/>
 	</Keyword>
 	<Keyword name='*DESIGN RESPONSE'>
-		<Group form='VOr'>
-			<Group form='VBox'>
+		<Group form='Tabs'>
+			<Group form='VBox' name='Type=Coordinate'>
 				<Argument form='Line' name='NAME' required='1'/>
-				<Argument form='Line' readonly='1' name='TYPE'>COORDINATE</Argument>
+				<!--Argument form='Line' readonly='1' name='TYPE'>ORIENTATION</Argument-->
 				<Argument form='Combo' newline='1'>ALL-DISP|X-DISP|Y-DISP|Z-DISP|EIGENFREQUENCY|MASS|STRAIN ENERGY|STRESS</Argument>
 			</Group>
-			<Group form='VBox'>
+			<Group form='VBox' name='Type=Orientation'>
 				<Argument form='Line' readonly='1' name='TYPE'>ORIENTATION</Argument>
 				<Argument form='Combo' newline='1'>ALL-DISP|EIGENFREQUENCY|GREEN|MASS|STRAIN ENERGY|STRESS</Argument>
 			</Group>
@@ -397,13 +397,13 @@
 			<Argument form='Float' comment='sigma'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*DESIGN VARIABLES'>
 		<Argument form='Combo' name='TYPE' required='1'>COORDINATE|ORIENTATION</Argument>
-		<Argument use='*NSET' newline='1'/>
+		<Argument use='*NSET' newline='1' comment='NSET'/>
 	</Keyword>
+
+
+
 	<Keyword name='*DFLUX'>
 		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
 		<Argument form='Line' name='AMPLITUDE'/>

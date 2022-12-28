@@ -204,8 +204,9 @@ What's new in future v0.9.0:
 
 # TODO
 
+- Main Window: filter tree items - search item. 
 - Argument with "use": link to create a new IMPLEMENTATION.
-- Argument form='Combo' with subarguments: regenerate GUI on Combo index change. Current form='VOr' is not user friendly.
+- Argument form='Combo' with sub-arguments: regenerate GUI on Combo index change. Current form='VOr' is not user friendly.
 - Code, docs and KOM for v 2.20.
 
 https://www.x.org/releases/X11R7.5/doc/man/man3/XSetFont.3.html
