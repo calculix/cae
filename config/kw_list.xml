@@ -112,8 +112,11 @@
 	</Keyword>
 	<Keyword name='*CHANGE PLASTIC'>
 		<Argument form='Combo' name='HARDENING'>|ISOTROPIC|KINEMATIC</Argument>
-		<!-- TODO QTableWidget: Set of lines: -->
-		<!-- Von Mises stress, Equivalent plastic strain, Temperature -->
+		<Group form='Table'>
+			<Argument form='Float' comment='Mises stress'/>
+			<Argument form='Float' comment='Plastic strain'/>
+			<Argument form='Float' comment='Temperature'/>
+		</Group>
 	</Keyword>
 	<Keyword name='*CHANGE SURFACE BEHAVIOR'>
 		<Argument name='INTERACTION' use='*SURFACE INTERACTION' required='1'/>
@@ -157,8 +160,7 @@
 	</Keyword>
 	<Keyword name='*CONDUCTIVITY'>
 		<Argument form='Combo' name='TYPE'>|ISO|ORTHO|ANISO</Argument>
-		<!-- TODO QTableWidget -->
-		<Group form='HBox' newline='1'>
+		<Group form='Table'>
 			<Argument form='Float' comment='Conductivity coefficient'/>
 			<Argument form='Float' comment='Temperature'/>
 		</Group>
@@ -293,8 +295,7 @@
 	</Keyword>
 	<Keyword name='*CREEP'>
 		<Argument form='Combo' name='LAW'>|NORTON|USER</Argument>
-		<!-- TODO QTableWidget -->
-		<Group form='HBox' newline='1'>
+		<Group form='Table'>
 			<Argument form='Float' comment='A'/>
 			<Argument form='Float' comment='n'/>
 			<Argument form='Float' comment='m'/>
@@ -302,10 +303,9 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*CYCLIC HARDENING'>
-		<!-- TODO QTableWidget -->
-		<Group form='HBox' newline='1'>
-			<Argument form='Float' comment='Von Mises stress'/>
-			<Argument form='Float' comment='Equivalent plastic strain'/>
+		<Group form='Table'>
+			<Argument form='Float' comment='Mises stress'/>
+			<Argument form='Float' comment='Plastic strain'/>
 			<Argument form='Float' comment='Temperature'/>
 		</Group>
 	</Keyword>

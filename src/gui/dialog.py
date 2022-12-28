@@ -41,11 +41,7 @@ TEXTEDIT = None
 
 
 class Table(QtWidgets.QWidget):
-    """Custom QTableView.
-    TODO Buttons to add/remove rows,
-    TODO paste whole the table with Ctrl+V,
-    TODO etc.
-    """
+    """Custom QTableWidget."""
 
     def __init__(self, argument):
         self.arguments = argument.get_arguments()
@@ -59,20 +55,62 @@ class Table(QtWidgets.QWidget):
             comment_label.setStyleSheet('color: Blue;')
             layout.insertWidget(0, comment_label)
 
-        w = QtWidgets.QTableWidget()
-        w.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch) 
-        # w.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        # w.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        w.setAlternatingRowColors(True)
-        w.setColumnCount(len(self.arguments))
-        w.setHorizontalHeaderLabels([a.comment for a in self.arguments])
-        w.setRowCount(3)
-        w.verticalHeader().hide()
-        layout.addWidget(w)
+        self.w = QtWidgets.QTableWidget()
+        self.w.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.w.setAlternatingRowColors(True)
+        self.w.setColumnCount(len(self.arguments))
+        self.w.setHorizontalHeaderLabels([a.comment for a in self.arguments])
+        self.w.setRowCount(0)
+        self.w.verticalHeader().hide()
+        layout.addWidget(self.w)
+
+        self.row_add()
+
+        l = QtWidgets.QHBoxLayout()
+        s = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        b1 = QtWidgets.QPushButton()
+        b1.setText('+')
+        b1.setFixedSize(30, 30)
+        b2 = QtWidgets.QPushButton()
+        b2.setText('-')
+        b2.setFixedSize(30, 30)
+
+        b1.clicked.connect(self.row_add)
+        b2.clicked.connect(self.row_rem)
+        l.addSpacerItem(s)
+        l.addWidget(b1)
+        l.addWidget(b2)
+
+        layout.addLayout(l)
         self.setLayout(layout)
-    
+
+    def row_add(self):
+        i = self.w.rowCount()
+        self.w.insertRow(i)
+        self.w.setRowHeight(i, 20)
+        for j in range(self.w.columnCount()):
+            self.w.itemChanged.connect(change)
+
+    def row_rem(self):
+        i = self.w.rowCount()
+        if i > 1:
+            self.w.removeRow(self.w.rowCount()-1)
+
     def text(self):
-        return ''
+        txt = ''
+        for i in range(self.w.rowCount()):
+            txt += '\n'
+            for j in range(self.w.columnCount()):
+                try:
+                    txt += self.w.item(i, j).text() + ', '
+                except:
+                    pass
+        print(txt[:-2])
+        return txt[:-2]
+
+    def reset(self):
+        self.w.clearContents()
+        self.w.setRowCount(1)
 
 
 class Group(QtWidgets.QWidget):
@@ -439,7 +477,6 @@ def change(data, arguments=[], append=False):
     for a in arguments:
         w = a.widget
         if w is None:
-            logging.error(a.name + ' has no widget')
             continue
         old_value = TEXTEDIT.toPlainText()
         new_value = w.text() if w.isEnabled() else '' # argument value
