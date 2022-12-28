@@ -112,7 +112,7 @@
 	</Keyword>
 	<Keyword name='*CHANGE PLASTIC'>
 		<Argument form='Combo' name='HARDENING'>|ISOTROPIC|KINEMATIC</Argument>
-		<Group form='Table'>
+		<Group form='Table' newline='1'>
 			<Argument form='Float' comment='Mises stress'/>
 			<Argument form='Float' comment='Plastic strain'/>
 			<Argument form='Float' comment='Temperature'/>
@@ -160,7 +160,7 @@
 	</Keyword>
 	<Keyword name='*CONDUCTIVITY'>
 		<Argument form='Combo' name='TYPE'>|ISO|ORTHO|ANISO</Argument>
-		<Group form='Table'>
+		<Group form='Table' newline='1'>
 			<Argument form='Float' comment='Conductivity coefficient'/>
 			<Argument form='Float' comment='Temperature'/>
 		</Group>
@@ -295,7 +295,7 @@
 	</Keyword>
 	<Keyword name='*CREEP'>
 		<Argument form='Combo' name='LAW'>|NORTON|USER</Argument>
-		<Group form='Table'>
+		<Group form='Table' newline='1'>
 			<Argument form='Float' comment='A'/>
 			<Argument form='Float' comment='n'/>
 			<Argument form='Float' comment='m'/>
@@ -303,7 +303,7 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*CYCLIC HARDENING'>
-		<Group form='Table'>
+		<Group form='Table' newline='1'>
 			<Argument form='Float' comment='Mises stress'/>
 			<Argument form='Float' comment='Plastic strain'/>
 			<Argument form='Float' comment='Temperature'/>
@@ -352,12 +352,17 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*DASHPOT'>
-		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument use='*ELSET' name='ELSET' required='1'/>
+		<Group form='Table' newline='2'>
+			<Argument form='Float' comment='Constant'/>
+			<Argument form='Float' comment='Frequency'/>
+			<Argument form='Float' comment='Temperature'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*DEFORMATION PLASTICITY'/>
 	<Keyword name='*DENSITY'/>
 	<Keyword name='*DEPVAR'/>

@@ -393,11 +393,11 @@ class KwListItem(Item):
     def get_required(self):
         return bool(int(self.required))
 
-    def get_newline(self):
-        return bool(int(self.newline))
-
     def get_readonly(self):
         return bool(int(self.readonly))
+
+    def get_newlines(self):
+        return '\n' * int(self.newline)
 
 
 class Argument(KwListItem):

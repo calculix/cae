@@ -45,6 +45,7 @@ class Table(QtWidgets.QWidget):
 
     def __init__(self, argument):
         self.arguments = argument.get_arguments()
+        self.newlines = argument.get_newlines()
         super().__init__()
         layout = QtWidgets.QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -97,16 +98,15 @@ class Table(QtWidgets.QWidget):
             self.w.removeRow(self.w.rowCount()-1)
 
     def text(self):
-        txt = ''
+        txt = self.newlines
         for i in range(self.w.rowCount()):
-            txt += '\n'
             for j in range(self.w.columnCount()):
                 try:
                     txt += self.w.item(i, j).text() + ', '
                 except:
                     pass
-        print(txt[:-2])
-        return txt[:-2]
+            txt += '\n'
+        return txt.rstrip()[:-1]
 
     def reset(self):
         self.w.clearContents()
@@ -154,7 +154,7 @@ class ArgumentWidget(QtWidgets.QWidget):
         self.name = argument.name
         self.widgets = widgets
         self.required = argument.get_required()
-        self.newline = argument.get_newline()
+        self.newlines = argument.get_newlines()
         self.readonly = argument.get_readonly()
         super().__init__()
 
@@ -222,9 +222,9 @@ class ArgumentWidget(QtWidgets.QWidget):
             return ''
         if not self.isEnabled():
             return ''
-        newline = ', '
-        if self.newline:
-            newline = '\n'
+        n = self.newlines
+        if not n:
+            n = ', '
         ct = ''
         if hasattr(self.w, 'currentText'):
             ct = self.w.currentText()
@@ -234,9 +234,9 @@ class ArgumentWidget(QtWidgets.QWidget):
             ct = self.w.text()
         if ct and not ct.startswith('!!! Create *'):
             if self.name:
-                return newline + self.name + '=' + ct
+                return n + self.name + '=' + ct
             else:
-                return newline + ct
+                return n + ct
         else:
             return ''
 
@@ -261,7 +261,7 @@ class GroupWidget(QtWidgets.QWidget):
         self.setLayout(v_layout)
 
     def text(self, *args):
-        return '\n' if self.newline else ''
+        return self.newlines
 
     def reset(self):
         reset(self.arguments)
@@ -271,7 +271,7 @@ class Box(GroupWidget):
     """GroupWidget."""
 
     def __init__(self, argument, layout):
-        self.newline = argument.get_newline()
+        # self.newlines = argument.get_newlines()
         self.arguments = argument.get_arguments()
         layout.setContentsMargins(0, 0, 0, 0)
         super().__init__(argument, layout)
@@ -296,7 +296,7 @@ class Or(GroupWidget):
     """GroupWidget with radiobuttons."""
 
     def __init__(self, argument, layout):
-        self.newline = argument.get_newline()
+        # self.newlines = argument.get_newlines()
         self.arguments = argument.get_arguments()
         layout.setContentsMargins(0, 0, 0, 0)
         for i, a in enumerate(self.arguments):
@@ -572,7 +572,7 @@ class KeywordDialog(QtWidgets.QDialog):
             arguments = ITEM.get_arguments()
         for a in arguments:
             w = a.widget
-            if w.isEnabled() and hasattr(w, 'required') and w.required:
+            if w is not None and w.isEnabled() and hasattr(w, 'required') and w.required:
                 name = w.name # argument name
                 value = w.text() # argument value
                 if not value:
@@ -646,7 +646,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*DAMPING')
+    item = KWL.get_keyword_by_name('*CREEP')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
