@@ -248,6 +248,7 @@ class GroupWidget(QtWidgets.QWidget):
     """
 
     def __init__(self, argument, layout):
+        self.newlines = argument.get_newlines()
         super().__init__()
 
         # Add comment label
@@ -329,7 +330,7 @@ class VOr(Or):
 
 
 class Combo(ArgumentWidget):
-    """QComboBox widget box with label."""
+    """QComboBox widget with label."""
 
     def __init__(self, argument):
         self.argument = argument
@@ -357,6 +358,49 @@ class Combo(ArgumentWidget):
         super().__init__(argument, [self.w])
 
     def reset(self):
+        self.w.setCurrentIndex(0)
+
+
+class Use2(ArgumentWidget):
+    """A widget for multiple argument values, allow to choose Implementation type:
+    <Argument form='Use2'>*NSET|*ELSET</Argument>
+    ... and shows a combo with all implementations of the chosen type.
+
+    Two combo boxes: left one allows to select implementation in the right one.
+    """
+    def __init__(self, argument):
+        self.argument = argument
+        self.use = QtWidgets.QComboBox()
+        self.values = argument.value.split('|')
+        for v in self.values:
+            self.use.addItem(v)
+
+        # Try to get existing implementations
+        self.w = QtWidgets.QComboBox()
+        self.draw_implementations()
+
+        # QComboBox doesn't expand by default
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(1) # expand horizontally
+        self.w.setSizePolicy(sizePolicy)
+
+        self.w.currentIndexChanged.connect(change)
+        self.use.currentIndexChanged.connect(self.draw_implementations)
+        super().__init__(argument, [self.use, self.w])
+
+    def draw_implementations(self, *args):
+        self.w.clear()
+        kw = self.values[self.use.currentIndex()]
+        implementations = [impl.name for impl in KWT.get_implementations(kw)]
+        self.w.addItem('')
+        if implementations:
+            self.w.addItems(implementations)
+        else:
+            self.w.setStyleSheet('color: Red;')
+            self.w.addItem('!!! Create ' + kw + ' first !!!')
+
+    def reset(self):
+        self.use.setCurrentIndex(0)
         self.w.setCurrentIndex(0)
 
 
@@ -646,7 +690,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*DEPVAR')
+    item = KWL.get_keyword_by_name('*DESIGN RESPONSE')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
