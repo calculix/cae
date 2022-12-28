@@ -36,7 +36,6 @@
 			<Keyword name='*DAMPING'/>
 			<Keyword name='*DEFORMATION PLASTICITY'/>
 			<Keyword name='*DENSITY'/>
-			<Keyword name='*DEPVAR'/>
 			<Keyword name='*ELASTIC'/>
 			<Keyword name='*ELECTRICAL CONDUCTIVITY'/>
 			<Keyword name='*EXPANSION'/>
@@ -47,7 +46,9 @@
 			<Keyword name='*PLASTIC'/>
 			<Keyword name='*SPECIFIC GAS CONSTANT'/>
 			<Keyword name='*SPECIFIC HEAT'/>
-			<Keyword name='*USER MATERIAL'/>
+			<Keyword name='*USER MATERIAL'>
+				<Keyword name='*DEPVAR'/>
+			</Keyword>
 		</Keyword>
 		<Collection name='Section'>
 			<Keyword name='*BEAM SECTION'/>

@@ -376,10 +376,12 @@
 			<Argument form='Float' comment='Temperature'/>
 		</Group>
 	</Keyword>
+	<Keyword name='*DEPVAR'>
+		<Argument form='Int' newline='1' comment='Number of internal state variables'/>
+	</Keyword>
 
 
 
-	<Keyword name='*DEPVAR'/>
 	<Keyword name='*DESIGN RESPONSE'>
 		<Argument form='Line' name='NAME'/>
 		<Argument form='Combo' name='TYPE'>COORDINATE|ORIENTATION</Argument>
