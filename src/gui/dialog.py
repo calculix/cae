@@ -489,6 +489,17 @@ class Line(ArgumentWidget):
         self.w.setText(self.argument.value)
 
 
+class Empty(ArgumentWidget):
+    """No widget. Adds space into the INP code."""
+
+    def __init__(self, argument):
+        self.newlines = argument.get_newlines()
+        super().__init__(argument, [])
+    
+    def text(self):
+        return self.newlines + ' '
+
+
 class Int(Line):
     """Text widget accepting int number."""
 
@@ -735,7 +746,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*DISTRIBUTING COUPLING')
+    item = KWL.get_keyword_by_name('*DISTRIBUTION')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
