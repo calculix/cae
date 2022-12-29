@@ -114,7 +114,10 @@ class Table(QtWidgets.QWidget):
 
 
 class Group(QtWidgets.QWidget):
-    """GroupBox with Argument widgets."""
+    """GroupBox with Argument widgets.
+    Used for argument with arguments inside.
+    *CLOAD
+    """
 
     def __init__(self, argument):
         self.argument = argument
@@ -732,7 +735,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*DESIGN RESPONSE')
+    item = KWL.get_keyword_by_name('*DISTRIBUTING COUPLING')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

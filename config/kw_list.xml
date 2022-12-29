@@ -418,12 +418,19 @@
 			<Argument form='Int' comment='Last DOF'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*DISTRIBUTING COUPLING'>
-		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument name='ELSET' use='*ELSET' required='1'/>
+		<Group form='HBox' newline='1'>
+			<Group form='OrH'>
+				<Argument form='Int' comment='NODE or...'/>
+				<Argument use='*NSET' comment='...NSET'/>
+			</Group>
+			<Argument form='Float' comment='Weight'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*DISTRIBUTION'>
 		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>

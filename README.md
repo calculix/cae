@@ -204,7 +204,6 @@ What's new in future v0.9.0:
 
 # TODO
 
-- Main Window: filter tree items - search item. 
 - Argument with "use": link to create a new IMPLEMENTATION.
 - Argument form='Combo' with sub-arguments: regenerate GUI on Combo index change. Current form='VOr' is not user friendly.
 - Code, docs and KOM for v 2.20.
@@ -270,4 +269,4 @@ Importer:
 - Open .fbd/.fbl and forward to CGX. Then import generated model.
 
 Other:
-- Take binaries for Windows from https://www.meil.pw.edu.pl/add/ADD/Teaching/Software/Calculix
+- Main Window: filter tree items - search item. 
