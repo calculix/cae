@@ -428,12 +428,39 @@
 			<Argument form='Float' comment='Weight'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*DISTRIBUTION'>
 		<Argument form='Line' name='NAME' required='1'/>
+		<Argument form='Empty' newline='1'/>
+		<Group form='HBox'>
+			<Argument form='Float' comment='Xa'/>
+			<Argument form='Float' comment='Ya'/>
+			<Argument form='Float' comment='Za'/>
+		</Group>
+		<Group form='HBox'>
+			<Argument form='Float' comment='Xb'/>
+			<Argument form='Float' comment='Yb'/>
+			<Argument form='Float' comment='Zb'/>
+		</Group>
+		<Group form='VBox' newline='1'>
+			<Group form='OrH'>
+				<Argument form='Int' comment='ELEMENT or...'/>
+				<Argument use='*ELSET' comment='...ELSET'/>
+			</Group>
+			<Group form='HBox'>
+				<Argument form='Float' comment='Xa'/>
+				<Argument form='Float' comment='Ya'/>
+				<Argument form='Float' comment='Za'/>
+			</Group>
+			<Group form='HBox'>
+				<Argument form='Float' comment='Xb'/>
+				<Argument form='Float' comment='Yb'/>
+				<Argument form='Float' comment='Zb'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*DLOAD'>
 		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
 		<Argument form='Line' name='AMPLITUDE'/>
