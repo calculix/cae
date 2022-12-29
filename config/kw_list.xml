@@ -586,13 +586,18 @@
 			<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
 		</Group>
 	</Keyword>
-
-
-
-
 	<Keyword name='*ELEMENT'>
-		<Argument form='Combo' name='TYPE'>C3D8|F3D8|C3D8R|C3D8I|C3D6|F3D6|C3D4|F3D4|C3D20|C3D20R|C3D15|C3D10|C3D10T|S3|M3D3|CPS3|CPE3|CAX3|S6|M3D6|CPS6|CPE6|CAX6|S4|S4R|M3D4|M3D4R|CPS4|CPS4R|CPE4|CPE4R|CAX4|CAX4R|S8|S8R|M3D8|M3D8R|CPS8|CPS8R|CPE8|CPE8R|CAX8|CAX8R|B21|B31|B31R|T2D2|T3D2|GAPUNI|DASHPOTA|SPRING2|SPRINGA|B32|B32R|T3D3|D|SPRING1|DCOUP3D|MASS</Argument>
+		<Argument form='Combo' name='TYPE' required='1'>C3D8|F3D8|C3D8R|C3D8I|C3D6|F3D6|C3D4|F3D4|C3D20|C3D20R|C3D15|C3D10|C3D10T|S3|M3D3|CPS3|CPE3|CAX3|S6|M3D6|CPS6|CPE6|CAX6|S4|S4R|M3D4|M3D4R|CPS4|CPS4R|CPE4|CPE4R|CAX4|CAX4R|S8|S8R|M3D8|M3D8R|CPS8|CPS8R|CPE8|CPE8R|CAX8|CAX8R|B21|B31|B31R|T2D2|T3D2|GAPUNI|DASHPOTA|SPRING2|SPRINGA|B32|B32R|T3D3|D|SPRING1|DCOUP3D|MASS</Argument>
+		<Argument form='Line' name='ELSET'/>
+		<Group form='VBox' newline='1'>
+			<Argument form='Int' comment='Element number'/>
+			<Argument form='Text' comment='Node numbers (max. 16 per line)'/>
+		</Group>
 	</Keyword>
+
+
+
+
 	<Keyword name='*ELEMENT OUTPUT'/>
 	<Keyword name='*EL FILE'>
 		<Argument form='Line' name='FREQUENCY|TIME POINTS'/>
