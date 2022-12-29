@@ -519,15 +519,25 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*DYNAMIC'>
-		<Argument form='Bool' name='DIRECT'/>
-		<Argument form='Line' name='ALPHA'/>
-		<Argument form='Bool' name='EXPLICIT'/>
-		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
+		<Group form='HBox'>
+			<Argument form='Bool' name='DIRECT'/>
+			<Argument form='Bool' name='RELATIVE TO ABSOLUTE'/>
+		</Group>
+		<Argument form='Float' name='ALPHA'>-0.05</Argument>
+		<Argument form='Combo' name='EXPLICIT'>|0|1|2|3</Argument>
+		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX|ITERATIVE SCALING|ITERATIVE CHOLESKY</Argument>
+		<Group form='VBox' newline='1'>
+			<Argument form='Float' comment='Initial time increment'>0.1</Argument>
+			<Argument form='Float' comment='Time period of the step'>1</Argument>
+			<Argument form='Float' comment='Minimum time increment'>1.e-5</Argument>
+			<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
+			<Argument form='Float' comment='Initial time increment for CFD'>1.e-2</Argument>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*ELASTIC'>
 		<Argument form='Combo' name='TYPE'>ISO|ORTHO|ENGINEERING CONSTANTS|ANISO</Argument>
 	</Keyword>
