@@ -383,6 +383,33 @@ class OrV(Or):
         super().__init__(group, hbox)
 
 
+class Grid(GroupWidget):
+    """Grid of checkboxes."""
+
+    def __init__(self, argument):
+        self.checkboxes = []
+        l = QtWidgets.QGridLayout()
+        row = 0
+        col = 0
+        for a in argument.value.split(','):
+            cb = QtWidgets.QCheckBox(a.strip())
+            self.checkboxes.append(cb)
+            cb.toggled.connect(change)
+            l.addWidget(cb, row, col)
+            col += 1
+            if col % 4 == 0:
+                col = 0
+                row += 1
+        super().__init__(argument, l)
+
+    def reset(self):
+        for cb in self.checkboxes:
+            cb.setChecked(False)
+    
+    def text(self):
+        return ', '.join([cb.text() for cb in self.checkboxes if cb.isChecked()])
+
+
 class Combo(ArgumentWidget):
     """QComboBox widget with label."""
 
@@ -762,7 +789,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*DSLOAD')
+    item = KWL.get_keyword_by_name('*EL PRINT')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
