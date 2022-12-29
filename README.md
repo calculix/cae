@@ -206,6 +206,7 @@ What's new in future v0.9.0:
 
 - Argument with "use": link to create a new IMPLEMENTATION.
 - Insert Combo widget into Table cell.
+- Draw a separator (black line) in GUI for group with newline=1.
 - Argument form='Combo' with sub-arguments: regenerate GUI on Combo index change. Current form='VOr' is not user friendly.
 - Code, docs and KOM for v 2.20.
 

@@ -600,21 +600,65 @@
 			<Argument form='Bool' name='PEEQ'/>
 		</Group>
 	</Keyword>
-
-
-
-
 	<Keyword name='*EL FILE'>
-		<Argument form='Line' name='FREQUENCY|TIME POINTS'/>
-		<Argument form='Line' name='FREQUENCYF'/>
-		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
-		<Argument form='Combo' name='OUTPUT'>2D|3D</Argument>
-		<Argument form='Bool' name='OUTPUT ALL'/>
-		<Argument form='Line' name='SECTION FORCES'/>
+		<Group form='OrH'>
+			<Argument form='Int' name='FREQUENCY'/>
+			<Argument use='*TIME POINTS'/>
+		</Group>
+		<Argument form='Int' name='FREQUENCYF'/>
+		<Argument form='Combo' name='GLOBAL'>|YES|NO</Argument>
+		<Argument form='Combo' name='OUTPUT'>|2D|3D</Argument>
 		<Argument use='*NSET' name='NSET'/>
-		<Argument form='Bool' name='LAST ITERATIONS'/>
-		<Argument form='Bool' name='CONTACT ELEMENTS'/>
+		<Group form='HBox'>
+			<Argument form='Bool' name='OUTPUT ALL'/>
+			<Argument form='Bool' name='SECTION FORCES'/>
+		</Group>
+		<Group form='HBox'>
+			<Argument form='Bool' name='LAST ITERATIONS'/>
+			<Argument form='Bool' name='CONTACT ELEMENTS'/>
+		</Group>
+		<Group form='VBox' newline='1'>
+			<Group form='HBox'>
+				<Argument form='Bool' name='CEEQ'/>
+				<Argument form='Bool' name='E'/>
+				<Argument form='Bool' name='ECD'/>
+				<Argument form='Bool' name='EMFB'/>
+			</Group>
+			<Group form='HBox'>
+				<Argument form='Bool' name='EMFE'/>
+				<Argument form='Bool' name='ENER'/>
+				<Argument form='Bool' name='ERR'/>
+				<Argument form='Bool' name='HER'/>
+			</Group>
+			<Group form='HBox'>
+				<Argument form='Bool' name='HFL'/>
+				<Argument form='Bool' name='HFLF'/>
+				<Argument form='Bool' name='MAXE'/>
+				<Argument form='Bool' name='MAXS'/>
+			</Group>
+			<Group form='HBox'>
+				<Argument form='Bool' name='ME'/>
+				<Argument form='Bool' name='PEEQ'/>
+				<Argument form='Bool' name='PHS'/>
+				<Argument form='Bool' name='S'/>
+			</Group>
+			<Group form='HBox'>
+				<Argument form='Bool' name='SF'/>
+				<Argument form='Bool' name='SMID'/>
+				<Argument form='Bool' name='SNEG'/>
+				<Argument form='Bool' name='SPOS'/>
+			</Group>
+			<Group form='HBox'>
+				<Argument form='Bool' name='SVF'/>
+				<Argument form='Bool' name='SDV'/>
+				<Argument form='Bool' name='THE'/>
+				<Argument form='Bool' name='ZZS'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*EL PRINT'>
 		<Argument form='Line' name='ELSET' required='1'/>
 		<Argument form='Line' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
