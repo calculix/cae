@@ -342,20 +342,27 @@ class Or(GroupWidget):
     """GroupWidget with radiobuttons."""
 
     def __init__(self, group, layout):
-        # self.newlines = group.get_newlines()
         self.arguments = group.get_arguments()
         layout.setContentsMargins(0, 0, 0, 0)
+        self.aw = {}
+        hl = QtWidgets.QHBoxLayout()
         for i, a in enumerate(self.arguments):
-            hl = QtWidgets.QHBoxLayout()
+            a.required = group.required
             rb = QtWidgets.QRadioButton()
+            rb.setChecked(not bool(i))
             hl.addWidget(rb)
             build_widgets([a], hl) # build a.widget
-            layout.addLayout(hl)
-            rb.setChecked(not bool(i))
-            a.widget.setEnabled(not bool(i))
-            rb.toggled.connect(a.widget.setEnabled)
+            self.aw[i] = (a, rb)
+            rb.toggled.connect(self.toggle)
             rb.toggled.connect(change)
+        layout.addLayout(hl)
         super().__init__(group, layout)
+        self.toggle()
+
+    def toggle(self):
+        for (a, rb) in self.aw.values():
+            if hasattr(a, 'widget'):
+                a.widget.setDisabled(not rb.isChecked())
 
 
 class OrH(Or):
@@ -474,21 +481,6 @@ class Text(ArgumentWidget):
         self.w.setMaximumHeight(textHeight)
 
 
-class Line(ArgumentWidget):
-    """QLineEdit widget with label."""
-
-    def __init__(self, argument):
-        self.argument = argument
-        self.w = QtWidgets.QLineEdit()
-        self.w.setText(argument.value)
-        self.w.textChanged.connect(change)
-        self.setEnabled = self.w.setEnabled
-        super().__init__(argument, [self.w])
-
-    def reset(self):
-        self.w.setText(self.argument.value)
-
-
 class Empty(ArgumentWidget):
     """No widget. Adds space into the INP code."""
 
@@ -498,22 +490,6 @@ class Empty(ArgumentWidget):
     
     def text(self):
         return self.newlines + ' '
-
-
-class Int(Line):
-    """Text widget accepting int number."""
-
-    def __init__(self, argument):
-        super().__init__(argument)
-        self.w.setValidator(QtGui.QIntValidator())
-
-
-class Float(Line):
-    """Text widget accepting float number."""
-
-    def __init__(self, argument):
-        super().__init__(argument)
-        self.w.setValidator(QtGui.QDoubleValidator())
 
 
 class Bool(ArgumentWidget):
@@ -556,6 +532,37 @@ class SelectFile(ArgumentWidget):
         self.w.setText(self.argument.value)
 
 
+class Line(ArgumentWidget):
+    """QLineEdit widget with label."""
+
+    def __init__(self, argument):
+        self.argument = argument
+        self.w = QtWidgets.QLineEdit()
+        self.w.setText(argument.value)
+        self.w.textChanged.connect(change)
+        self.setEnabled = self.w.setEnabled
+        super().__init__(argument, [self.w])
+
+    def reset(self):
+        self.w.setText(self.argument.value)
+
+
+class Int(Line):
+    """Text widget accepting int number."""
+
+    def __init__(self, argument):
+        super().__init__(argument)
+        self.w.setValidator(QtGui.QIntValidator())
+
+
+class Float(Line):
+    """Text widget accepting float number."""
+
+    def __init__(self, argument):
+        super().__init__(argument)
+        self.w.setValidator(QtGui.QDoubleValidator())
+
+
 def build_widgets(arguments, parent_layout):
     """Build widgets for direct children of the Keyword.
     Recursion for nested arguments/groups is implemented
@@ -586,9 +593,9 @@ def change(data, arguments=[], append=False):
     if not arguments and not append:
         arguments = ITEM.get_arguments()
     for a in arguments:
-        w = a.widget
-        if w is None:
+        if not hasattr(a, 'widget') or a.widget is None:
             continue
+        w = a.widget
         old_value = TEXTEDIT.toPlainText()
         new_value = w.text() if w.isEnabled() else '' # argument value
         if old_value.endswith('\n') and new_value.startswith(', '):
@@ -746,7 +753,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*DISTRIBUTION')
+    item = KWL.get_keyword_by_name('*DLOAD')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
