@@ -594,11 +594,16 @@
 			<Argument form='Text' comment='Node numbers (max. 16 per line)'/>
 		</Group>
 	</Keyword>
+	<Keyword name='*ELEMENT OUTPUT'>
+		<Group form='HBox' newline='1'>
+			<Argument form='Bool' name='S'/>
+			<Argument form='Bool' name='PEEQ'/>
+		</Group>
+	</Keyword>
 
 
 
 
-	<Keyword name='*ELEMENT OUTPUT'/>
 	<Keyword name='*EL FILE'>
 		<Argument form='Line' name='FREQUENCY|TIME POINTS'/>
 		<Argument form='Line' name='FREQUENCYF'/>
