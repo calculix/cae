@@ -501,13 +501,27 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*DSLOAD'>
-		<Argument form='Bool' name='SUBMODEL' required='1'/>
-		<Argument form='Line' name='STEP|DATA SET' required='1'/>
+		<Group form='Tabs'>
+			<Group form='Table' name='Pressure' newline='1'>
+				<Argument form='Int' comment='Surface'/>
+				<Argument form='Line' comment='Label'/>
+				<Argument form='Float' comment='Pressure'/>
+			</Group>
+			<Group form='VBox' name='Submodel'>
+				<Argument form='Bool' name='SUBMODEL' required='1'/>
+				<Argument form='Int' name='STEP|DATA SET' required='1'/>
+				<Group form='OrH' newline='1' required='1'>
+					<Argument form='Int' comment='ELEMENT or...'/>
+					<Argument use='*ELSET' comment='...ELSET'/>
+				</Group>
+				<Argument form='Line' comment='Distributed load label'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*DYNAMIC'>
 		<Argument form='Bool' name='DIRECT'/>
 		<Argument form='Line' name='ALPHA'/>

@@ -184,21 +184,21 @@ class ArgumentWidget(QtWidgets.QWidget):
         self.horizontal_layout.setAlignment(QtCore.Qt.AlignLeft)
         self.v_layout.addLayout(self.horizontal_layout)
 
-        if show_label:
-            label = None
-            if '|' in self.name:
-                """Mutually exclusive arguments
-                name='FREQUENCY|TIME POINTS'
-                """
-                label = QtWidgets.QComboBox()
-                label.addItems(self.name.split('|'))
-                label.text = label.currentText
-                label.currentIndexChanged.connect(change)
-            elif self.name:
-                label = QtWidgets.QLabel(self.name)
-                label.linkHovered.connect(change)
-            if label:
-                widgets.insert(0, label)
+        self.label = None
+        if '|' in self.name:
+            """Mutually exclusive arguments
+            name='FREQUENCY|TIME POINTS'
+            """
+            self.label = QtWidgets.QComboBox()
+            self.label.addItems(self.name.split('|'))
+            self.label.text = self.label.currentText
+            self.label.currentIndexChanged.connect(change)
+        elif self.name:
+            self.label = QtWidgets.QLabel(self.name)
+            self.label.linkHovered.connect(change)
+        if show_label and self.label is not None:
+            widgets.insert(0, self.label)
+            # widgets.append(self.label)
 
         # Mark required argument
         if self.required and not argument.comment:
@@ -236,7 +236,9 @@ class ArgumentWidget(QtWidgets.QWidget):
         elif hasattr(self.w, 'text'):
             ct = self.w.text()
         if ct and not ct.startswith('!!! Create *'):
-            if self.name:
+            if self.label is not None and self.label.text():
+                return n + self.label.text() + '=' + ct
+            elif self.name:
                 return n + self.name + '=' + ct
             else:
                 return n + ct
@@ -497,14 +499,21 @@ class Bool(ArgumentWidget):
 
     def __init__(self, argument):
         self.argument = argument
-        self.w = QtWidgets.QCheckBox(argument.name)
+        self.status = '|' in argument.name
+        if self.status:
+            self.w = QtWidgets.QCheckBox()
+        else:
+            self.w = QtWidgets.QCheckBox(argument.name)
         self.w.clicked.connect(change)
-        super().__init__(argument, [self.w], show_label=False)
+        super().__init__(argument, [self.w], show_label=self.status)
         self.reset()
 
     def text(self):
         if self.w.isEnabled() and self.w.isChecked():
-            return ', ' + self.argument.name
+            if self.status:
+                return ', ' + self.label.text()
+            else:
+                return ', ' + self.argument.name
         else:
             return ''
 
@@ -753,7 +762,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*DLOAD')
+    item = KWL.get_keyword_by_name('*DSLOAD')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
