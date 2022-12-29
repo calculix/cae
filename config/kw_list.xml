@@ -563,11 +563,17 @@
 			</Group>
 		</Group>
 	</Keyword>
+	<Keyword name='*ELECTRICAL CONDUCTIVITY'>
+		<Group form='Table' newline='1'>
+			<Argument form='Float' comment='Sigma'/>
+			<Argument form='Float' comment='Temperature'/>
+		</Group>
+	</Keyword>
 
 
 
 
-	<Keyword name='*ELECTRICAL CONDUCTIVITY'/>
+
 	<Keyword name='*ELECTROMAGNETICS'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
 		<Argument form='Bool' name='DIRECT'/>
