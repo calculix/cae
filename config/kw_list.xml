@@ -458,16 +458,52 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*DLOAD'>
-		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Line' name='AMPLITUDE'/>
-		<Argument form='Line' name='TIME DELAY'/>
-		<Argument form='Combo' name='LOAD CASE'>1|2</Argument>
-		<Argument form='Line' name='SECTOR'/>
+		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
+		<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
+		<Argument form='Float' name='TIME DELAY'/>
+		<Argument form='Combo' name='LOAD CASE'>|1|2</Argument>
+		<Argument form='Int' name='SECTOR'/>
+		<Group form='OrH' newline='1' required='1'>
+			<Argument form='Int' comment='ELEMENT or...'/>
+			<Argument use='*ELSET' comment='...ELSET'/>
+		</Group>
+		<Group form='Tabs'>
+			<Group form='VBox' name='Surface loading'>
+				<Argument form='Line' comment='Distributed load type label'/>
+				<Argument form='Float' comment='Actual magnitude of the load'/>
+			</Group>
+			<Group form='VBox' name='CENTRIF'>
+				<Argument form='Line' readonly='1'>CENTRIF</Argument>
+				<Argument form='Float' comment='Rotational speed square'/>
+				<Group form='HBox' comment='Coordinates of a point on the rotation axis'>
+					<Argument form='Float'/>
+					<Argument form='Float'/>
+					<Argument form='Float'/>
+				</Group>
+				<Group form='HBox' comment='Components of the normalized direction'>
+					<Argument form='Float'/>
+					<Argument form='Float'/>
+					<Argument form='Float'/>
+				</Group>
+			</Group>
+			<Group form='VBox' name='GRAV'>
+				<Argument form='Line' readonly='1'>GRAV</Argument>
+				<Argument form='Float' comment='Actual magnitude of the gravity vector'/>
+				<Group form='HBox' comment='Coordinates of the normalized gravity vector'>
+					<Argument form='Float'/>
+					<Argument form='Float'/>
+					<Argument form='Float'/>
+				</Group>
+			</Group>
+			<Group form='VBox' name='NEWTON'>
+				<Argument form='Line' readonly='1'>NEWTON</Argument>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*DSLOAD'>
 		<Argument form='Bool' name='SUBMODEL' required='1'/>
 		<Argument form='Line' name='STEP|DATA SET' required='1'/>
