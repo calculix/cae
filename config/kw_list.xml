@@ -569,20 +569,27 @@
 			<Argument form='Float' comment='Temperature'/>
 		</Group>
 	</Keyword>
-
-
-
-
-
 	<Keyword name='*ELECTROMAGNETICS'>
-		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
+		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX|ITERATIVE SCALING|ITERATIVE CHOLESKY</Argument>
 		<Argument form='Bool' name='DIRECT'/>
 		<Argument form='Bool' name='MAGNETOSTATICS'/>
-		<Argument form='Line' name='DELTMX'/>
+		<Argument form='Float' name='DELTMX'/>
 		<Argument form='Bool' name='TIME RESET'/>
-		<Argument form='Line' name='TOTAL TIME AT START'/>
+		<Argument form='Float' name='TOTAL TIME AT START'/>
 		<Argument form='Bool' name='NO HEAT TRANSFER'/>
+		<Argument form='Bool' name='FREQUENCY'/>
+		<Argument form='Float' name='OMEGA'/>
+		<Group form='VBox' newline='1'>
+			<Argument form='Float' comment='Initial time increment'>1</Argument>
+			<Argument form='Float' comment='Time period of the step'>1</Argument>
+			<Argument form='Float' comment='Minimum time increment'>1.e-5</Argument>
+			<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
+		</Group>
 	</Keyword>
+
+
+
+
 	<Keyword name='*ELEMENT'>
 		<Argument form='Combo' name='TYPE'>C3D8|F3D8|C3D8R|C3D8I|C3D6|F3D6|C3D4|F3D4|C3D20|C3D20R|C3D15|C3D10|C3D10T|S3|M3D3|CPS3|CPE3|CAX3|S6|M3D6|CPS6|CPE6|CAX6|S4|S4R|M3D4|M3D4R|CPS4|CPS4R|CPE4|CPE4R|CAX4|CAX4R|S8|S8R|M3D8|M3D8R|CPS8|CPS8R|CPE8|CPE8R|CAX8|CAX8R|B21|B31|B31R|T2D2|T3D2|GAPUNI|DASHPOTA|SPRING2|SPRINGA|B32|B32R|T3D3|D|SPRING1|DCOUP3D|MASS</Argument>
 	</Keyword>
