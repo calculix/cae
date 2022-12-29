@@ -535,12 +535,38 @@
 			<Argument form='Float' comment='Initial time increment for CFD'>1.e-2</Argument>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*ELASTIC'>
-		<Argument form='Combo' name='TYPE'>ISO|ORTHO|ENGINEERING CONSTANTS|ANISO</Argument>
+		<Group form='Tabs'>
+			<Group form='VBox' name='ISO'>
+				<Argument form='Line' name='TYPE' readonly='1'>ISO</Argument>
+				<Group form='HBox' newline='1'>
+					<Argument form='Float' comment='Young'/>
+					<Argument form='Float' comment='Poisson'/>
+					<Argument form='Float' comment='Temperature'/>
+				</Group>
+			</Group>
+			<Group form='VBox' name='ORTHO'>
+				<Argument form='Line' name='TYPE' readonly='1'>ORTHO</Argument>
+				<Argument form='Line' comment='D1111, D1122, D2222, D1133, D2233, D3333, D1212, D1313' newline='1'/>
+				<Argument form='Line' comment='D2323, Temperature' newline='1'/>
+			</Group>
+			<Group form='VBox' name='ENGINEERING CONSTANTS'>
+				<Argument form='Line' name='TYPE' readonly='1'>ENGINEERING CONSTANTS</Argument>
+				<Argument form='Line' comment='E1, E2, E3, v12, v13, v23, G12, G13' newline='1'/>
+				<Argument form='Line' comment='G23, Temperature' newline='1'/>
+			</Group>
+			<Group form='VBox' name='ANISO'>
+				<Argument form='Line' name='TYPE' readonly='1'>ANISO</Argument>
+				<Argument form='Line' comment='D1111, D1122, D2222, D1133, D2233, D3333, D1112, D2212' newline='1'/>
+				<Argument form='Line' comment='D3312, D1212, D1113, D2213, D3313, D1213, D1313, D1123' newline='1'/>
+				<Argument form='Line' comment='D2223, D3323, D1223, D1323, D2323, Temperature' newline='1'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
+
 	<Keyword name='*ELECTRICAL CONDUCTIVITY'/>
 	<Keyword name='*ELECTROMAGNETICS'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
@@ -649,7 +675,7 @@
 		<Argument form='Line' name='SCALING'/>
 	</Keyword>
 	<Keyword name='*HEADING'>
-		<!-- Description of the problem. -->
+		<!-- Description of the problem -->
 		<Argument form='Line' newline='1'/>
 	</Keyword>
 	<Keyword name='*HEAT TRANSFER'>
@@ -793,7 +819,7 @@
 	<Keyword name='*ROBUST DESIGN'>
 		<Argument form='Line' name='RANDOM FIELD ONLY' required='1'/>
 		<!-- New line -->
-		<!-- Requested accuracy (real number; > 0. and < 1.) -->
+		<!-- Requested accuracy (real number; > 0 and < 1) -->
 	</Keyword>
 	<Keyword name='*SECTION PRINT'>
 		<Argument use='*SURFACE' name='SURFACE' required='1'/>
