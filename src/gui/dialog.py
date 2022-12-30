@@ -144,6 +144,7 @@ class GroupWidget(QtWidgets.QWidget):
     o vertical (VBox) layout.
     """
     def __init__(self, group, layout):
+        self.name = group.name
         self.required = group.get_required()
         self.newlines = group.get_newlines()
         for a in group.get_arguments():
@@ -331,15 +332,17 @@ class Tabs2(Tabs):
 
     def __init__(self, group):
         super().__init__(group)
-        for i,gr in enumerate(group.get_arguments()):
-            gr.widget.setEnabled(i==0)
-            # gr.required = group.get_required()
+        for i,a in enumerate(group.get_arguments()):
+            # a.widget.setEnabled(i==0)
+            # a.required = group.get_required()
+            a.widget.setDisabled(i!=0)
         self.w.currentChanged.connect(self.tab_activated)
 
     def tab_activated(self, index):
         """Needed to deactivate tab widgets not to participate in dialog.accept()"""
         for i,a in enumerate(self.arguments):
-            a.widget.setEnabled(i == index)
+            # a.widget.setEnabled(i==index)
+            a.widget.setDisabled(i!=index)
         change(None)
 
 
@@ -864,7 +867,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*GAP CONDUCTANCE')
+    item = KWL.get_keyword_by_name('*GAP HEAT GENERATION')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

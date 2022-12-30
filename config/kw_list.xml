@@ -818,20 +818,29 @@
 	</Keyword>
 	<Keyword name='*GAP CONDUCTANCE'>
 		<Group form='Tabs2'>
-			<Group form='Table' newline='1' name='Table'>
+			<Group form='Table' newline='1' name='Table' required='1'>
 				<Argument form='Float' comment='Conductance'/>
 				<Argument form='Float' comment='Contact pressure'/>
 				<Argument form='Float' comment='Temperature'/>
 			</Group>
-			<Argument form='Bool' name='USER'/>
+			<Argument form='Bool' name='USER' required='1'/>
+		</Group>
+	</Keyword>
+	<Keyword name='*GAP HEAT GENERATION'>
+		<Group form='Tabs2'>
+			<Group form='VBox' newline='1' name='Table' required='1'>
+				<Argument form='Float' comment='Heat conversion factor'/>
+				<Argument form='Float' comment='Surface weighting factor'/>
+				<Argument form='Float' comment='Differential tangential velocity'/>
+			</Group>
+			<Argument form='Bool' name='USER' required='1'/>
 		</Group>
 	</Keyword>
 
 
 
-	<Keyword name='*GAP HEAT GENERATION'>
-		<Argument form='Bool' name='USER'/>
-	</Keyword>
+
+
 	<Keyword name='*GEOMETRIC CONSTRAINT'>
 		<Argument form='Combo' newline='1' comment='The type of the geometric constraint:'>FIXSHRINKAGE|FIXGROWTH|MAXMEMBERSIZE|MINMEMBERSIZE</Argument>
 		<Argument form='Bool' use='*NSET' comment='A node set:'/>

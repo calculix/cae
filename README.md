@@ -204,6 +204,7 @@ What's new in future v0.9.0:
 
 # TODO
 
+- *GAP CONDUCTANCE - required asterisk for Table widget. 
 - Text widget has to be resizable.
 - Argument with "use": link to create a new IMPLEMENTATION.
 - Insert Combo widget into Table cell.
