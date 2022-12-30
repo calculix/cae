@@ -384,11 +384,15 @@ class KwListItem(Item):
     """Keyword group/argument. An item from kw_list.xml"""
 
     def __init__(self):
+        super().__init__()
+        self.comment = ''
+        self.name = ''
+        self.form = '' # QCheckBox, QLineEdit, QComboBox
+        self.widget = None # representation of the argument in GUI
         # NOTE On parsing type will be string, not bool
         self.required = False # on parsing value could be: '0' or '1'
         self.newline = False # start argument from the new line?
         self.readonly = False
-        super().__init__()
 
     def get_required(self):
         return bool(int(self.required))
@@ -407,11 +411,7 @@ class Argument(KwListItem):
         super().__init__()
         self.itype = ItemType.ARGUMENT
         self.items = [] # list of strings
-        self.name = ''
-        self.form = '' # QCheckBox, QLineEdit, QComboBox
         self.use = ''
-        self.comment = ''
-        self.widget = None # representation of the argument in GUI
 
 
 class Group(KwListItem):
@@ -421,7 +421,6 @@ class Group(KwListItem):
         super().__init__()
         self.itype = ItemType.GROUP
         self.items = [] # list of groups and arguments
-        self.name = ''
 
 
 # Empty Keyword Object Model w/o implementations
