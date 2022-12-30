@@ -816,12 +816,19 @@
 		<Argument form='Float' comment='Spring stiffness'/>
 		<Argument form='Float' comment='Tensile force at -INF'/>
 	</Keyword>
-
-
-
 	<Keyword name='*GAP CONDUCTANCE'>
-		<Argument form='Bool' name='USER'/>
+		<Group form='Tabs2'>
+			<Group form='Table' newline='1' name='Table'>
+				<Argument form='Float' comment='Conductance'/>
+				<Argument form='Float' comment='Contact pressure'/>
+				<Argument form='Float' comment='Temperature'/>
+			</Group>
+			<Argument form='Bool' name='USER'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*GAP HEAT GENERATION'>
 		<Argument form='Bool' name='USER'/>
 	</Keyword>
