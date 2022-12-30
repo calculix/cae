@@ -310,7 +310,7 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*CYCLIC SYMMETRY MODEL'>
-		<Group form='Tabs'>
+		<Group form='Tabs2'>
 			<Group form='VBox' name='Structural calculation'>
 				<Argument form='Int' name='N' required='1'/>
 				<Argument use='*TIE' name='TIE' required='1'/>
@@ -342,7 +342,7 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*DAMPING'>
-		<Group form='Tabs'>
+		<Group form='Tabs2'>
 			<Group form='HBox' name='Rayleigh damping'>
 				<Argument form='Float' name='ALPHA' required='1'/>
 				<Argument form='Float' name='BETA' required='1'/>
@@ -380,7 +380,7 @@
 		<Argument form='Int' newline='1' comment='Number of internal state variables'/>
 	</Keyword>
 	<Keyword name='*DESIGN RESPONSE'>
-		<Group form='Tabs'>
+		<Group form='Tabs2'>
 			<Group form='VBox' name='Type=Coordinate'>
 				<Argument form='Line' name='NAME' required='1'/>
 				<!--Argument form='Line' readonly='1' name='TYPE'>ORIENTATION</Argument-->
@@ -468,7 +468,7 @@
 			<Argument form='Int' comment='ELEMENT or...'/>
 			<Argument use='*ELSET' comment='...ELSET'/>
 		</Group>
-		<Group form='Tabs'>
+		<Group form='Tabs2'>
 			<Group form='VBox' name='Surface loading'>
 				<Argument form='Line' comment='Distributed load type label'/>
 				<Argument form='Float' comment='Actual magnitude of the load'/>
@@ -502,7 +502,7 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*DSLOAD'>
-		<Group form='Tabs'>
+		<Group form='Tabs2'>
 			<Group form='Table' name='Pressure' newline='1'>
 				<Argument form='Int' comment='Surface'/>
 				<Argument form='Line' comment='Label'/>
@@ -536,7 +536,7 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*ELASTIC'>
-		<Group form='Tabs'>
+		<Group form='Tabs2'>
 			<Group form='VBox' name='ISO'>
 				<Argument form='Line' name='TYPE' readonly='1'>ISO</Argument>
 				<Group form='HBox' newline='1'>
@@ -656,15 +656,23 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*EL PRINT'>
-		<Argument form='Line' name='ELSET' required='1'/>
-		<Argument form='Line' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
-		<Argument form='Combo' name='TOTALS'>YES|ONLY|NO</Argument>
-		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
+		<Argument use='*ELSET' name='ELSET' required='1'/>
+		<Group form='OrH'>
+			<Argument form='Int' name='FREQUENCY'/>
+			<Argument use='*TIME POINTS'/>
+		</Group>
+		<Argument form='Int' name='FREQUENCYF'/>
+		<Argument form='Combo' name='TOTALS'>|NO|YES|ONLY</Argument>
+		<Argument form='Combo' name='GLOBAL'>|YES|NO</Argument>
+		<Group form='Tabs' newline='1'>
+			<Argument form='Grid' name='Integration point variables'>S,SVF,E,ME,PEEQ,CEEQ,ENER,SDV,HFL,HFLF,COORD</Argument>
+			<Argument form='Grid' name='Whole element variables'>ELSE,ELKE,EVOL,EMAS,EBHE,CENT</Argument>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*ELSET'>
 		<Argument form='Line' name='ELSET' required='1'/>
 		<Argument form='Bool' name='GENERATE'/>

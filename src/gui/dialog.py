@@ -246,48 +246,6 @@ class ArgumentWidget(QtWidgets.QWidget):
             return ''
 
 
-class Tabs(QtWidgets.QWidget):
-    """A Group drawn with QTabWidget.
-    Should be used for a group containing list of other groups:
-    *CYCLIC SYMMETRY MODEL,
-    *DAMPING
-    """
-
-    def __init__(self, group):
-        super().__init__()
-        self.arguments = group.get_arguments()
-        self.newlines = group.get_newlines()
-        layout = QtWidgets.QVBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
-    
-        self.w = QtWidgets.QTabWidget()
-        for i,gr in enumerate(self.arguments):
-            tab = QtWidgets.QWidget()
-            l = QtWidgets.QVBoxLayout()
-            tab.setLayout(l)
-            self.w.addTab(tab, gr.name)
-            build_widgets([gr], l) # build a.widget
-            gr.widget.setEnabled(i==0)
-            s = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-            l.addSpacerItem(s)
-
-        layout.addWidget(self.w)
-        self.setLayout(layout)
-        self.w.currentChanged.connect(self.tab_activated)
-
-    def tab_activated(self, index):
-        """Needed to deactivate tab widgets not to participate in dialog.accept()"""
-        for i,a in enumerate(self.arguments):
-            a.widget.setEnabled(i == index)
-        change(None)
-
-    def text(self, *args):
-        return self.newlines
-
-    def reset(self):
-        reset(self.arguments)
-
-
 class GroupWidget(QtWidgets.QWidget):
     """Custom widget container - a Group in kw_list.xml.
     Unite arguments and apply on them horizontal (HBox)
@@ -313,6 +271,55 @@ class GroupWidget(QtWidgets.QWidget):
 
     def reset(self):
         reset(self.arguments)
+
+
+class Tabs(GroupWidget):
+    """A Group drawn with QTabWidget.
+    Should be used for a group containing list of other groups.
+    Widgets from all tabs will participate in the final INP code.
+    """
+    def __init__(self, group):
+        # super().__init__()
+        self.arguments = group.get_arguments()
+        # self.newlines = group.get_newlines()
+        layout = QtWidgets.QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        super().__init__(group, layout)
+    
+        self.w = QtWidgets.QTabWidget()
+        for gr in self.arguments:
+            tab = QtWidgets.QWidget()
+            l = QtWidgets.QVBoxLayout()
+            tab.setLayout(l)
+            self.w.addTab(tab, gr.name)
+            build_widgets([gr], l) # build a.widget
+            s = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+            l.addSpacerItem(s)
+
+        layout.addWidget(self.w)
+        # self.setLayout(layout)
+
+    # def text(self, *args):
+    #     return self.newlines
+
+    # def reset(self):
+    #     reset(self.arguments)
+
+
+class Tabs2(Tabs):
+    """Only widgets from active tab will participate in the final INP code."""
+
+    def __init__(self, group):
+        super().__init__(group)
+        for i,gr in enumerate(group.get_arguments()):
+            gr.widget.setEnabled(i==0)
+        self.w.currentChanged.connect(self.tab_activated)
+
+    def tab_activated(self, index):
+        """Needed to deactivate tab widgets not to participate in dialog.accept()"""
+        for i,a in enumerate(self.arguments):
+            a.widget.setEnabled(i == index)
+        change(None)
 
 
 class Box(GroupWidget):
@@ -367,22 +374,6 @@ class Or(GroupWidget):
                 a.widget.setDisabled(not rb.isChecked())
 
 
-class OrH(Or):
-    """GroupWidget with radiobuttons. Horizontal layout."""
-
-    def __init__(self, group):
-        hbox = QtWidgets.QHBoxLayout()
-        super().__init__(group, hbox)
-
-
-class OrV(Or):
-    """GroupWidget with radiobuttons. Vertical layout."""
-
-    def __init__(self, group):
-        hbox = QtWidgets.QVBoxLayout()
-        super().__init__(group, hbox)
-
-
 class Grid(GroupWidget):
     """Grid of checkboxes."""
 
@@ -407,7 +398,27 @@ class Grid(GroupWidget):
             cb.setChecked(False)
     
     def text(self):
-        return ', '.join([cb.text() for cb in self.checkboxes if cb.isChecked()])
+        txt = ''
+        for cb in self.checkboxes:
+            if cb.isChecked():
+                txt += ', ' + cb.text()
+        return txt
+
+
+class OrH(Or):
+    """GroupWidget with radiobuttons. Horizontal layout."""
+
+    def __init__(self, group):
+        hbox = QtWidgets.QHBoxLayout()
+        super().__init__(group, hbox)
+
+
+class OrV(Or):
+    """GroupWidget with radiobuttons. Vertical layout."""
+
+    def __init__(self, group):
+        hbox = QtWidgets.QVBoxLayout()
+        super().__init__(group, hbox)
 
 
 class Combo(ArgumentWidget):
