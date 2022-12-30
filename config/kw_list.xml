@@ -786,15 +786,19 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*FILTER'>
-		<Argument form='Combo' name='TYPE'>LINEAR|QUADRATIC|CUBIC</Argument>
-		<Argument form='Combo' name='BOUNDARY WEIGHTING'>YES|NO</Argument>
-		<Argument form='Combo' name='EDGE PRESERVATION'>YES|NO</Argument>
-		<Argument form='Combo' name='DIRECTION WEIGHTING'>YES|NO</Argument>
+		<Argument form='Combo' name='TYPE'>|LINEAR|QUADRATIC|CUBIC|GAUSS</Argument>
+		<Argument form='Bool' name='BOUNDARY WEIGHTING=YES'/>
+		<Argument form='Bool' name='EDGE PRESERVATION=YES'/>
+		<Argument form='Bool' name='DIRECTION WEIGHTING=YES'/>
+		<Group form='VBox' newline='1'>
+			<Argument form='Float' comment='The filter radius'/>
+			<Argument form='Float' comment='The boundary weighting distance'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*FLUID CONSTANTS'/>
 	<Keyword name='*FLUID SECTION'>
 		<Argument form='Line' name='ELSET' required='1'/>
