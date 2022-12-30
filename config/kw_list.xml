@@ -804,12 +804,21 @@
 		<Argument form='Float' comment='Mu' newline='1'/>
 		<Argument form='Float' comment='Lambda'/>
 	</Keyword>
-
-
-
 	<Keyword name='*GAP'>
-		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument use='*ELSET' name='ELSET' required='1'/>
+		<Argument form='Float' comment='Gap clearance'/>
+		<Group form='HBox' comment='Normalized gap direction'>
+			<Argument form='Float'/>
+			<Argument form='Float'/>
+			<Argument form='Float'/>
+		</Group>
+		<Argument form='Empty'/>
+		<Argument form='Float' comment='Spring stiffness'/>
+		<Argument form='Float' comment='Tensile force at -INF'/>
 	</Keyword>
+
+
+
 	<Keyword name='*GAP CONDUCTANCE'>
 		<Argument form='Bool' name='USER'/>
 	</Keyword>

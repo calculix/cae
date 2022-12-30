@@ -271,7 +271,7 @@ class Group(QtWidgets.QWidget):
         txt = ''
         if self.gbox.isEnabled() and self.gbox.isChecked():
             txt = ', ' + self.argument.name
-        return txt + self.argument.get_newlines()
+        return txt + self.argument.get_newlines() # TODO newlines in the begining?
 
     def reset(self):
         self.gbox.setChecked(False)
@@ -588,7 +588,7 @@ class Empty(ArgumentWidget):
         super().__init__(argument, [])
 
     def text(self):
-        return self.newlines + ' '
+        return self.newlines + ', '
 
 
 class Bool(ArgumentWidget):
@@ -606,6 +606,7 @@ class Bool(ArgumentWidget):
         self.reset()
 
     def text(self):
+        # TODO newlines?
         if self.w.isEnabled() and self.w.isChecked():
             if self.status:
                 return ', ' + self.label.text()
@@ -704,7 +705,11 @@ def change(data, arguments=[], append=False):
         w = a.widget
         old_value = TEXTEDIT.toPlainText()
         new_value = w.text() if w.isEnabled() else '' # argument value
+        # print(w.__class__.__name__, Empty.__name__, new_value)
+        # w.__class__.__name__ != Empty.__name__ and 
         if old_value.endswith('\n') and new_value.startswith(', '):
+            new_value = new_value[2:]
+        if old_value.endswith(', ') and new_value.startswith(', '):
             new_value = new_value[2:]
         TEXTEDIT.setText(old_value + new_value)
 
@@ -859,7 +864,8 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*FRICTION')
+    item = KWL.get_keyword_by_name('*DISTRIBUTION')
+    # item = KWL.get_keyword_by_name('*GAP')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
