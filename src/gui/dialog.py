@@ -438,6 +438,42 @@ class OrV(Or):
         super().__init__(group, hbox)
 
 
+class Repl(ArgumentWidget):
+    """ArgumentWidget with horizontal layout. Accepts string with
+    asterisks as input. Allows user to replace asterisks with numbers.
+    Contains labels and inputs.
+    """
+
+    def __init__(self, argument):
+        self.argument = argument
+        self.widgets = []
+        self.edits = []
+        parts = argument.value.split('*')
+        for i,s in enumerate(parts):
+            l1 = QtWidgets.QLabel(s)
+            self.widgets.append(l1)
+            if i < len(parts) - 1:
+                l2 = QtWidgets.QLineEdit('*')
+                l2.setFixedWidth(110)
+                l2.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+                l2.setValidator(QtGui.QIntValidator())
+                l2.textChanged.connect(change)
+                self.widgets.append(l2)
+                self.edits.append(l2)
+        super().__init__(argument, self.widgets)
+
+    def text(self):
+        txt = self.argument.get_newlines()
+        for w in self.widgets:
+            txt += w.text()
+        return ', ' + txt
+    
+    def reset(self):
+        for w in self.edits:
+            # w.clear()
+            w.setText('*')
+
+
 class Combo(ArgumentWidget):
     """QComboBox widget with label."""
 
@@ -817,7 +853,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*EXPANSION')
+    item = KWL.get_keyword_by_name('*FILM')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
