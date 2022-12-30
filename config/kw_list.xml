@@ -836,17 +836,17 @@
 			<Argument form='Bool' name='USER' required='1'/>
 		</Group>
 	</Keyword>
-
-
-
-
-
 	<Keyword name='*GEOMETRIC CONSTRAINT'>
-		<Argument form='Combo' newline='1' comment='The type of the geometric constraint:'>FIXSHRINKAGE|FIXGROWTH|MAXMEMBERSIZE|MINMEMBERSIZE</Argument>
-		<Argument form='Bool' use='*NSET' comment='A node set:'/>
-		<Argument form='Bool' use='*NSET' comment='An opposite node set:'/>
-		<Argument form='Line' comment='An absolute value:'/>
+		<Argument form='Combo' newline='1' comment='The type of the geometric constraint'>FIXSHRINKAGE|FIXGROWTH|MAXMEMBERSIZE|MINMEMBERSIZE</Argument>
+		<Argument use='*NSET' comment='A node set'/>
+		<Argument use='*NSET' comment='An opposite node set'/>
+		<Argument form='Float' comment='An absolute value'/>
 	</Keyword>
+
+
+
+
+
 	<Keyword name='*GEOMETRIC TOLERANCES'>
 		<Argument form='Combo' name='TYPE' required='1'>NORMAL</Argument>
 		<Argument form='Bool' name='CONSTRAINED'/>
