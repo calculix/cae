@@ -796,10 +796,16 @@
 			<Argument form='Float' comment='The boundary weighting distance'/>
 		</Group>
 	</Keyword>
+	<Keyword name='*FLUID CONSTANTS'>
+		<Group form='Table' newline='1'>
+			<Argument form='Float' comment='Specific heat'/>
+			<Argument form='Float' comment='Dynamic viscosity'/>
+			<Argument form='Float' comment='Temperature'/>
+		</Group>
+	</Keyword>
 
 
 
-	<Keyword name='*FLUID CONSTANTS'/>
 	<Keyword name='*FLUID SECTION'>
 		<Argument form='Line' name='ELSET' required='1'/>
 		<Argument form='Line' name='MATERIAL' required='1'/>
