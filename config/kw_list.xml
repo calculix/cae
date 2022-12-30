@@ -45,7 +45,7 @@
 		<Argument form='Float' name='MASS FLOW'/>
 		<Argument form='Bool' name='FIXED'/>
 		<Argument form='Bool' name='USER'/>
-		<Argument form='Group' name='SUBMODEL'>
+		<Argument form='VGroup' name='SUBMODEL'>
 			<Argument form='Int' name='STEP'/>
 			<Argument form='Int' name='DATA SET'/>
 		</Argument>
@@ -140,7 +140,7 @@
 		<Argument form='Bool' name='USER'/>
 		<Group form='OrV'>
 			<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
-			<Argument form='Group' name='SUBMODEL'>
+			<Argument form='VGroup' name='SUBMODEL'>
 				<Argument form='Int' name='STEP'/>
 				<Argument form='Int' name='DATA SET'/>
 			</Argument>
@@ -670,13 +670,18 @@
 			<Argument form='Grid' name='Whole element variables'>ELSE,ELKE,EVOL,EMAS,EBHE,CENT</Argument>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*ELSET'>
 		<Argument form='Line' name='ELSET' required='1'/>
-		<Argument form='Bool' name='GENERATE'/>
+		<Argument form='HGroup' name='GENERATE' newline='1'>
+			<Argument form='Int' comment='First element'/>
+			<Argument form='Int' comment='Last element'/>
+			<Argument form='Int' comment='Increment'/>
+		</Argument>
+		<Argument form='Text' comment='List of elements' newline='1'/>
 	</Keyword>
+
+
+
 	<Keyword name='*END STEP'/>
 	<Keyword name='*EQUATION'>
 		<Argument form='Bool' name='REMOVE|REMOVE ALL'/>
