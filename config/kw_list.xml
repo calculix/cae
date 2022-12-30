@@ -753,17 +753,42 @@
 		</Group>
 		<Argument form='Float' comment='Temperature'/>
 	</Keyword>
-
-
-	<Keyword name='*FEASIBLE DIRECTION'>
-	</Keyword>
+	<Keyword name='*FEASIBLE DIRECTION'/>
 	<Keyword name='*FILM'>
-		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Line' name='AMPLITUDE'/>
-		<Argument form='Line' name='TIME DELAY'/>
-		<Argument form='Line' name='FILM AMPLITUDE'/>
-		<Argument form='Line' name='FILM TIME DELAY'/>
+		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
+		<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
+		<Argument form='Float' name='TIME DELAY'/>
+		<Argument use='*AMPLITUDE' name='FILM AMPLITUDE'/>
+		<Argument form='Float' name='FILM TIME DELAY'/>
+		<Group form='VBox' newline='1'>
+			<Group form='OrH'>
+				<Argument form='Int' comment='ELEMENT or...'/>
+				<Argument use='*ELSET' comment='...ELSET'/>
+			</Group>
+			<Group form='Tabs2'>
+				<Group form='VBox' name='Explicit, uniform'>
+					<Argument form='Repl' comment='Film flux type label (Fx)'>F*</Argument>
+					<Argument form='Float' comment='Sink temperature'/>
+					<Argument form='Float' comment='Film coefficient'/>
+				</Group>
+				<Group form='VBox' name='Explicit, nonuniform'>
+					<Argument form='Repl' comment='Film flux type label (FxNUy)'>F*NU*</Argument>
+				</Group>
+				<Group form='VBox' name='Forced, uniform'>
+					<Argument form='Repl' comment='Film flux type label (FxFC)'>F*FC</Argument>
+					<Argument form='Int' comment='Fluid node'/>
+					<Argument form='Float' comment='Film coefficient'/>
+				</Group>
+				<Group form='VBox' name='Forced, nonuniform'>
+					<Argument form='Repl' comment='Film flux type label (FxFCNUy)'>F*FCNU*</Argument>
+					<Argument form='Int' comment='Fluid node'/>
+				</Group>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*FILTER'>
 		<Argument form='Combo' name='TYPE'>LINEAR|QUADRATIC|CUBIC</Argument>
 		<Argument form='Combo' name='BOUNDARY WEIGHTING'>YES|NO</Argument>
