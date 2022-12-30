@@ -852,14 +852,13 @@
 		<Argument form='Float' comment='Mean value of the tolerance'/>
 		<Argument form='Float' comment='Standard deviation of the tolerance'/>
 	</Keyword>
-
-
-
-
-
 	<Keyword name='*GREEN'>
-		<Argument form='Combo' name='SOLVER'>PARDISO|SPOOLES</Argument>
+		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX</Argument>
+		<Argument form='Combo' name='STORAGE'>|NO|YES</Argument>
 	</Keyword>
+
+
+
 	<Keyword name='*HCF'>
 		<Argument form='SelectFile' name='INPUT' required='1'/>
 		<Argument form='Line' name='MODE' required='1'/>
