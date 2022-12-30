@@ -61,12 +61,10 @@
 	</Keyword>
 	<Keyword name='*BUCKLE'>
 		<Argument form='Combo' name='SOLVER' required='1'>SPOOLES|PARDISO|SGI|TAUCS|PaStiX</Argument>
-		<Group form='VBox' newline='1'>
-			<Argument form='Int' comment='Number of buckling factors' required='1'>1</Argument>
-			<Argument form='Float' comment='Accuracy'/>
-			<Argument form='Int' comment='Lanczos vectors'/>
-			<Argument form='Int' comment='Maximum of iterations'/>
-		</Group>
+		<Argument form='Int' comment='Number of buckling factors' required='1' newline='1'>1</Argument>
+		<Argument form='Float' comment='Accuracy'/>
+		<Argument form='Int' comment='Lanczos vectors'/>
+		<Argument form='Int' comment='Maximum of iterations'/>
 	</Keyword>
 	<Keyword name='*CFD'>
 		<Argument form='Float' name='TOTAL TIME AT START'/>
@@ -79,13 +77,11 @@
 			<Argument form='Bool' name='COMPRESSIBLE'/>
 			<Argument form='Bool' name='SHALLOW WATER'/>
 		</Group>
-		<Group form='VBox' newline='1'>
-			<Argument form='Float' comment='Initial time increment'/>
-			<Argument form='Float' comment='Total step time'/>
-			<Argument form='Float' comment='Minimum time increment allowed'/>
-			<Argument form='Float' comment='Maximum time increment allowed'/>
-			<Argument form='Float' comment='Safety factor'/>
-		</Group>
+		<Argument form='Float' comment='Initial time increment' newline='1'/>
+		<Argument form='Float' comment='Total step time'/>
+		<Argument form='Float' comment='Minimum time increment allowed'/>
+		<Argument form='Float' comment='Maximum time increment allowed'/>
+		<Argument form='Float' comment='Safety factor'/>
 	</Keyword>
 	<Keyword name='*CFLUX'>
 		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
@@ -95,14 +91,12 @@
 			<Argument form='Bool' name='USER'/>
 			<Argument form='Bool' name='ADD'/>
 		</Group>
-		<Group form='HBox' newline='1'>
-			<Group form='OrH'>
-				<Argument form='Int' comment='NODE or...'/>
-				<Argument use='*NSET' comment='...NSET'/>
-			</Group>
-			<Argument form='Int' comment='DOF'>11</Argument>
-			<Argument form='Float' comment='Magnitude of the flux'/>
+		<Group form='OrH' newline='1'>
+			<Argument form='Int' comment='NODE or...'/>
+			<Argument use='*NSET' comment='...NSET'/>
 		</Group>
+		<Argument form='Int' comment='DOF'>11</Argument>
+		<Argument form='Float' comment='Magnitude of the flux'/>
 	</Keyword>
 	<Keyword name='*CHANGE FRICTION'>
 		<Argument name='INTERACTION' use='*SURFACE INTERACTION' required='1'/>
@@ -145,14 +139,12 @@
 				<Argument form='Int' name='DATA SET'/>
 			</Argument>
 		</Group>
-		<Group form='HBox' newline='1'>
-			<Group form='OrH'>
-				<Argument form='Int' comment='NODE or...'/>
-				<Argument use='*NSET' comment='...NSET'/>
-			</Group>
-			<Argument form='Int' comment='DOF'/>
-			<Argument form='Float' comment='Magnitude of the load'/>
+		<Group form='OrH' newline='1'>
+			<Argument form='Int' comment='NODE or...'/>
+			<Argument use='*NSET' comment='...NSET'/>
 		</Group>
+		<Argument form='Int' comment='DOF'/>
+		<Argument form='Float' comment='Magnitude of the load'/>
 	</Keyword>
 	<Keyword name='*COMPLEX FREQUENCY'>
 		<Argument form='Bool' name='CORIOLIS' required='1'/>
@@ -166,12 +158,10 @@
 		</Group>
 	</Keyword>
 	<Keyword name='*CONSTRAINT'>
-		<Group form='VBox' newline='1'>
-			<Argument use='*DESIGN RESPONSE' comment='*DESIGN RESPONSE' required='1'/>
-			<Argument form='Combo' required='1'>|LE|GE</Argument>
-			<Argument form='Float' comment='Relative value'/>
-			<Argument form='Float' comment='Absolute value'/>
-		</Group>
+		<Argument use='*DESIGN RESPONSE' comment='*DESIGN RESPONSE' required='1' newline='1'/>
+		<Argument form='Combo' required='1'>|LE|GE</Argument>
+		<Argument form='Float' comment='Relative value'/>
+		<Argument form='Float' comment='Absolute value'/>
 	</Keyword>
 	<Keyword name='*CONTACT DAMPING'>
 		<Argument form='Float' name='TANGENT FRACTION'/>
@@ -186,12 +176,7 @@
 			<Argument form='Bool' name='LAST ITERATIONS'/>
 			<Argument form='Bool' name='CONTACT ELEMENTS'/>
 		</Group>
-		<Group form='HBox' newline='1' comment='Identifying keys'>
-			<Argument form='Bool' name='CDIS'/>
-			<Argument form='Bool' name='CSTR'/>
-			<Argument form='Bool' name='CELS'/>
-			<Argument form='Bool' name='PCON'/>
-		</Group>
+		<Argument form='Grid' comment='Identifying keys' newline='1'>CDIS,CSTR,CELS,PCON</Argument>
 	</Keyword>
 	<Keyword name='*CONTACT OUTPUT'>
 		<Group form='OrV'>
@@ -202,12 +187,7 @@
 			<Argument form='Bool' name='LAST ITERATIONS'/>
 			<Argument form='Bool' name='CONTACT ELEMENTS'/>
 		</Group>
-		<Group form='HBox' newline='1' comment='Identifying keys'>
-			<Argument form='Bool' name='CDIS'/>
-			<Argument form='Bool' name='CSTR'/>
-			<Argument form='Bool' name='CELS'/>
-			<Argument form='Bool' name='PCON'/>
-		</Group>
+		<Argument form='Grid' comment='Identifying keys' newline='1'>CDIS,CSTR,CELS,PCON</Argument>
 	</Keyword>
 	<Keyword name='*CONTACT PAIR'>
 		<Argument use='*SURFACE INTERACTION' name='INTERACTION' required='1'/>
@@ -229,19 +209,7 @@
 			<Argument use='*SURFACE' comment='Slave'/>
 			<Argument use='*SURFACE' comment='Master'/>
 		</Group>
-		<Group form='HBox' newline='1' comment='Identifying keys'>
-			<Group form='VBox'>
-				<Argument form='Bool' name='CDIS'/>
-				<Argument form='Bool' name='CSTR'/>
-				<Argument form='Bool' name='CELS'/>
-				<Argument form='Bool' name='CNUM'/>
-			</Group>
-			<Group form='VBox'>
-				<Argument form='Bool' name='CF'/>
-				<Argument form='Bool' name='CFN'/>
-				<Argument form='Bool' name='CFS'/>
-			</Group>
-		</Group>
+		<Argument form='Grid' comment='Identifying keys' newline='1'>CDIS,CSTR,CELS,CNUM,CF,CFN,CFS</Argument>
 	</Keyword>
 	<Keyword name='*CONTROLS'>
 		<Group form='OrV'>
@@ -270,13 +238,11 @@
 			<Argument form='Bool' name='TIME RESET'/>
 			<Argument form='Bool' name='COMPRESSIBLE'/>
 		</Group>
-		<Group form='VBox' newline='1'>
-			<Argument form='Float' comment='Initial time increment'>1</Argument>
-			<Argument form='Float' comment='Time period of the step'>1</Argument>
-			<Argument form='Float' comment='Minimum time increment'>1.e-5</Argument>
-			<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
-			<Argument form='Float' comment='Initial time increment for CFD'>1.e-2</Argument>
-		</Group>
+		<Argument form='Float' comment='Initial time increment' newline='1'>1</Argument>
+		<Argument form='Float' comment='Time period of the step'>1</Argument>
+		<Argument form='Float' comment='Minimum time increment'>1.e-5</Argument>
+		<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
+		<Argument form='Float' comment='Initial time increment for CFD'>1.e-2</Argument>
 	</Keyword>
 	<Keyword name='*COUPLING'>
 		<Argument form='Line' name='CONSTRAINT NAME' required='1'/>
@@ -288,10 +254,8 @@
 		<Argument form='SelectFile' name='INPUT' required='1' comment='FRD-file with the uncracked results'/>
 		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
 		<Argument form='Combo' name='LENGTH'>|CUMULATIVE|INTERSECTION</Argument>
-		<Group form='VBox' newline='1'>
-			<Argument form='Float' comment='Maximum crack propagation increment'/>
-			<Argument form='Float' comment='Maximum deflection angle per increment'/>
-		</Group>
+		<Argument form='Float' comment='Maximum crack propagation increment' newline='1'/>
+		<Argument form='Float' comment='Maximum deflection angle per increment'/>
 	</Keyword>
 	<Keyword name='*CREEP'>
 		<Argument form='Combo' name='LAW'>|NORTON|USER</Argument>
@@ -317,35 +281,33 @@
 				<Argument form='Int' name='NGRAPH'/>
 				<Argument use='*ELSET' name='ELSET'/>
 				<Argument form='Combo' name='CHECK'>|YES|NO</Argument>
-				<Group form='VBox' newline='1'>
-					<Group form='HBox'>
-						<Argument form='Float' comment='Xa' required='1'/>
-						<Argument form='Float' comment='Ya' required='1'/>
-						<Argument form='Float' comment='Za' required='1'/>
-					</Group>
-					<Group form='HBox'>
-						<Argument form='Float' comment='Xb' required='1'/>
-						<Argument form='Float' comment='Yb' required='1'/>
-						<Argument form='Float' comment='Zb' required='1'/>
-					</Group>
+				<Group form='HBox' newline='1' required='1'>
+					<Argument form='Float' comment='Xa'/>
+					<Argument form='Float' comment='Ya'/>
+					<Argument form='Float' comment='Za'/>
+				</Group>
+				<Group form='HBox' required='1'>
+					<Argument form='Float' comment='Xb'/>
+					<Argument form='Float' comment='Yb'/>
+					<Argument form='Float' comment='Zb'/>
 				</Group>
 			</Group>
-			<Group form='VBox' name='3D-fluid calculation'>
-				<Argument form='Int' name='N' required='1'/>
-				<Argument use='*TIE' name='TIE' required='1'/>
+			<Group form='VBox' name='3D-fluid calculation' required='1'>
+				<Argument form='Int' name='N'/>
+				<Argument use='*TIE' name='TIE'/>
 				<Group form='HBox' newline='1'>
-					<Argument form='Float' comment='Xa' required='1'/>
-					<Argument form='Float' comment='Ya' required='1'/>
-					<Argument form='Float' comment='Za' required='1'/>
+					<Argument form='Float' comment='Xa'/>
+					<Argument form='Float' comment='Ya'/>
+					<Argument form='Float' comment='Za'/>
 				</Group>
 			</Group>
 		</Group>
 	</Keyword>
 	<Keyword name='*DAMPING'>
 		<Group form='Tabs2'>
-			<Group form='HBox' name='Rayleigh damping'>
-				<Argument form='Float' name='ALPHA' required='1'/>
-				<Argument form='Float' name='BETA' required='1'/>
+			<Group form='HBox' name='Rayleigh damping' required='1'>
+				<Argument form='Float' name='ALPHA'/>
+				<Argument form='Float' name='BETA'/>
 			</Group>
 			<Group form='HBox' name='Structural damping'>
 				<Argument form='Float' name='STRUCTURAL' required='1'/>
@@ -441,21 +403,19 @@
 			<Argument form='Float' comment='Yb'/>
 			<Argument form='Float' comment='Zb'/>
 		</Group>
-		<Group form='VBox' newline='1'>
-			<Group form='OrH'>
-				<Argument form='Int' comment='ELEMENT or...'/>
-				<Argument use='*ELSET' comment='...ELSET'/>
-			</Group>
-			<Group form='HBox'>
-				<Argument form='Float' comment='Xa'/>
-				<Argument form='Float' comment='Ya'/>
-				<Argument form='Float' comment='Za'/>
-			</Group>
-			<Group form='HBox'>
-				<Argument form='Float' comment='Xb'/>
-				<Argument form='Float' comment='Yb'/>
-				<Argument form='Float' comment='Zb'/>
-			</Group>
+		<Group form='OrH' newline='1'>
+			<Argument form='Int' comment='ELEMENT or...'/>
+			<Argument use='*ELSET' comment='...ELSET'/>
+		</Group>
+		<Group form='HBox'>
+			<Argument form='Float' comment='Xa'/>
+			<Argument form='Float' comment='Ya'/>
+			<Argument form='Float' comment='Za'/>
+		</Group>
+		<Group form='HBox'>
+			<Argument form='Float' comment='Xb'/>
+			<Argument form='Float' comment='Yb'/>
+			<Argument form='Float' comment='Zb'/>
 		</Group>
 	</Keyword>
 	<Keyword name='*DLOAD'>
@@ -527,13 +487,11 @@
 		<Argument form='Float' name='ALPHA'>-0.05</Argument>
 		<Argument form='Combo' name='EXPLICIT'>|0|1|2|3</Argument>
 		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX|ITERATIVE SCALING|ITERATIVE CHOLESKY</Argument>
-		<Group form='VBox' newline='1'>
-			<Argument form='Float' comment='Initial time increment'>0.1</Argument>
-			<Argument form='Float' comment='Time period of the step'>1</Argument>
-			<Argument form='Float' comment='Minimum time increment'>1.e-5</Argument>
-			<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
-			<Argument form='Float' comment='Initial time increment for CFD'>1.e-2</Argument>
-		</Group>
+		<Argument form='Float' comment='Initial time increment' newline='1'>0.1</Argument>
+		<Argument form='Float' comment='Time period of the step'>1</Argument>
+		<Argument form='Float' comment='Minimum time increment'>1.e-5</Argument>
+		<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
+		<Argument form='Float' comment='Initial time increment for CFD'>1.e-2</Argument>
 	</Keyword>
 	<Keyword name='*ELASTIC'>
 		<Group form='Tabs2'>
@@ -579,20 +537,16 @@
 		<Argument form='Bool' name='NO HEAT TRANSFER'/>
 		<Argument form='Bool' name='FREQUENCY'/>
 		<Argument form='Float' name='OMEGA'/>
-		<Group form='VBox' newline='1'>
-			<Argument form='Float' comment='Initial time increment'>1</Argument>
-			<Argument form='Float' comment='Time period of the step'>1</Argument>
-			<Argument form='Float' comment='Minimum time increment'>1.e-5</Argument>
-			<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
-		</Group>
+		<Argument form='Float' comment='Initial time increment' newline='1'>1</Argument>
+		<Argument form='Float' comment='Time period of the step'>1</Argument>
+		<Argument form='Float' comment='Minimum time increment'>1.e-5</Argument>
+		<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
 	</Keyword>
 	<Keyword name='*ELEMENT'>
 		<Argument form='Combo' name='TYPE' required='1'>C3D8|F3D8|C3D8R|C3D8I|C3D6|F3D6|C3D4|F3D4|C3D20|C3D20R|C3D15|C3D10|C3D10T|S3|M3D3|CPS3|CPE3|CAX3|S6|M3D6|CPS6|CPE6|CAX6|S4|S4R|M3D4|M3D4R|CPS4|CPS4R|CPE4|CPE4R|CAX4|CAX4R|S8|S8R|M3D8|M3D8R|CPS8|CPS8R|CPE8|CPE8R|CAX8|CAX8R|B21|B31|B31R|T2D2|T3D2|GAPUNI|DASHPOTA|SPRING2|SPRINGA|B32|B32R|T3D3|D|SPRING1|DCOUP3D|MASS</Argument>
 		<Argument form='Line' name='ELSET'/>
-		<Group form='VBox' newline='1'>
-			<Argument form='Int' comment='Element number'/>
-			<Argument form='Text' comment='Node numbers (max. 16 per line)'/>
-		</Group>
+		<Argument form='Int' comment='Element number' newline='1'/>
+		<Argument form='Text' comment='Node numbers (max. 16 per line)'/>
 	</Keyword>
 	<Keyword name='*ELEMENT OUTPUT'>
 		<Group form='HBox' newline='1'>
@@ -617,44 +571,7 @@
 			<Argument form='Bool' name='LAST ITERATIONS'/>
 			<Argument form='Bool' name='CONTACT ELEMENTS'/>
 		</Group>
-		<Group form='VBox' newline='1'>
-			<Group form='HBox'>
-				<Argument form='Bool' name='CEEQ'/>
-				<Argument form='Bool' name='E'/>
-				<Argument form='Bool' name='ECD'/>
-				<Argument form='Bool' name='EMFB'/>
-			</Group>
-			<Group form='HBox'>
-				<Argument form='Bool' name='EMFE'/>
-				<Argument form='Bool' name='ENER'/>
-				<Argument form='Bool' name='ERR'/>
-				<Argument form='Bool' name='HER'/>
-			</Group>
-			<Group form='HBox'>
-				<Argument form='Bool' name='HFL'/>
-				<Argument form='Bool' name='HFLF'/>
-				<Argument form='Bool' name='MAXE'/>
-				<Argument form='Bool' name='MAXS'/>
-			</Group>
-			<Group form='HBox'>
-				<Argument form='Bool' name='ME'/>
-				<Argument form='Bool' name='PEEQ'/>
-				<Argument form='Bool' name='PHS'/>
-				<Argument form='Bool' name='S'/>
-			</Group>
-			<Group form='HBox'>
-				<Argument form='Bool' name='SF'/>
-				<Argument form='Bool' name='SMID'/>
-				<Argument form='Bool' name='SNEG'/>
-				<Argument form='Bool' name='SPOS'/>
-			</Group>
-			<Group form='HBox'>
-				<Argument form='Bool' name='SVF'/>
-				<Argument form='Bool' name='SDV'/>
-				<Argument form='Bool' name='THE'/>
-				<Argument form='Bool' name='ZZS'/>
-			</Group>
-		</Group>
+		<Argument form='Grid' newline='1' name='Integration point variables'>CEEQ,E,ECD,EMFB,EMFE,ENER,ERR,HER,HFL,HFLF,MAXE,MAXS,ME,PEEQ,PHS,S,SF,SMID,SNEG,SPOS,SVF,SDV,THE,ZZS</Argument>
 	</Keyword>
 	<Keyword name='*EL PRINT'>
 		<Argument use='*ELSET' name='ELSET' required='1'/>
@@ -685,39 +602,35 @@
 		<Group form='Tabs2'>
 			<Group form='VBox' name='ADD' newline='1'>
 				<Argument form='Int' comment='Number of terms in the equation' required='1'/>
-				<Group form='VBox' newline='1'>
-					<Group form='HBox'>
-						<Argument form='Int' comment='Node1'/>
-						<Argument form='Int' comment='DOF at Node1'/>
-						<Argument form='Float' comment='Coefficient1'/>
-					</Group>
-					<Group form='HBox'>
-						<Argument form='Int' comment='Node2'/>
-						<Argument form='Int' comment='DOF at Node2'/>
-						<Argument form='Float' comment='Coefficient2'/>
-					</Group>
-					<Group form='HBox'>
-						<Argument form='Int' comment='Node3'/>
-						<Argument form='Int' comment='DOF at Node3'/>
-						<Argument form='Float' comment='Coefficient3'/>
-					</Group>
-					<Group form='HBox'>
-						<Argument form='Int' comment='Node4'/>
-						<Argument form='Int' comment='DOF at Node4'/>
-						<Argument form='Float' comment='Coefficient4'/>
-					</Group>
+				<Group form='HBox' newline='1'>
+					<Argument form='Int' comment='Node1'/>
+					<Argument form='Int' comment='DOF at Node1'/>
+					<Argument form='Float' comment='Coefficient1'/>
+				</Group>
+				<Group form='HBox'>
+					<Argument form='Int' comment='Node2'/>
+					<Argument form='Int' comment='DOF at Node2'/>
+					<Argument form='Float' comment='Coefficient2'/>
+				</Group>
+				<Group form='HBox'>
+					<Argument form='Int' comment='Node3'/>
+					<Argument form='Int' comment='DOF at Node3'/>
+					<Argument form='Float' comment='Coefficient3'/>
+				</Group>
+				<Group form='HBox'>
+					<Argument form='Int' comment='Node4'/>
+					<Argument form='Int' comment='DOF at Node4'/>
+					<Argument form='Float' comment='Coefficient4'/>
 				</Group>
 			</Group>
 			<Group form='VBox' name='REMOVE'>
 				<Argument form='Bool' name='REMOVE' required='1'/>
-				<Group form='VBox' newline='1'>
-					<Group form='OrH' required='1'>
-						<Argument form='Int' comment='NODE or...'/>
-						<Argument use='*NSET' comment='...NSET'/>
-					</Group>
-					<Argument form='Int' comment='First DOF' required='1'/>
-					<Argument form='Int' comment='Last DOF'/>
+				<Group form='OrH' required='1' newline='1'>
+					<Argument form='Int' comment='NODE or...'/>
+					<Argument use='*NSET' comment='...NSET'/>
 				</Group>
+				<Argument form='Int' comment='First DOF' required='1'/>
+				<Argument form='Int' comment='Last DOF'/>
 			</Group>
 			<Argument form='Bool' name='REMOVE ALL' required='1'/>
 		</Group>
@@ -760,29 +673,27 @@
 		<Argument form='Float' name='TIME DELAY'/>
 		<Argument use='*AMPLITUDE' name='FILM AMPLITUDE'/>
 		<Argument form='Float' name='FILM TIME DELAY'/>
-		<Group form='VBox' newline='1'>
-			<Group form='OrH'>
-				<Argument form='Int' comment='ELEMENT or...'/>
-				<Argument use='*ELSET' comment='...ELSET'/>
+		<Group form='OrH' newline='1'>
+			<Argument form='Int' comment='ELEMENT or...'/>
+			<Argument use='*ELSET' comment='...ELSET'/>
+		</Group>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='Explicit, uniform'>
+				<Argument form='Repl' comment='Film flux type label (Fx)'>F*</Argument>
+				<Argument form='Float' comment='Sink temperature'/>
+				<Argument form='Float' comment='Film coefficient'/>
 			</Group>
-			<Group form='Tabs2'>
-				<Group form='VBox' name='Explicit, uniform'>
-					<Argument form='Repl' comment='Film flux type label (Fx)'>F*</Argument>
-					<Argument form='Float' comment='Sink temperature'/>
-					<Argument form='Float' comment='Film coefficient'/>
-				</Group>
-				<Group form='VBox' name='Explicit, nonuniform'>
-					<Argument form='Repl' comment='Film flux type label (FxNUy)'>F*NU*</Argument>
-				</Group>
-				<Group form='VBox' name='Forced, uniform'>
-					<Argument form='Repl' comment='Film flux type label (FxFC)'>F*FC</Argument>
-					<Argument form='Int' comment='Fluid node'/>
-					<Argument form='Float' comment='Film coefficient'/>
-				</Group>
-				<Group form='VBox' name='Forced, nonuniform'>
-					<Argument form='Repl' comment='Film flux type label (FxFCNUy)'>F*FCNU*</Argument>
-					<Argument form='Int' comment='Fluid node'/>
-				</Group>
+			<Group form='VBox' name='Explicit, nonuniform'>
+				<Argument form='Repl' comment='Film flux type label (FxNUy)'>F*NU*</Argument>
+			</Group>
+			<Group form='VBox' name='Forced, uniform'>
+				<Argument form='Repl' comment='Film flux type label (FxFC)'>F*FC</Argument>
+				<Argument form='Int' comment='Fluid node'/>
+				<Argument form='Float' comment='Film coefficient'/>
+			</Group>
+			<Group form='VBox' name='Forced, nonuniform'>
+				<Argument form='Repl' comment='Film flux type label (FxFCNUy)'>F*FCNU*</Argument>
+				<Argument form='Int' comment='Fluid node'/>
 			</Group>
 		</Group>
 	</Keyword>
@@ -791,10 +702,8 @@
 		<Argument form='Bool' name='BOUNDARY WEIGHTING=YES'/>
 		<Argument form='Bool' name='EDGE PRESERVATION=YES'/>
 		<Argument form='Bool' name='DIRECTION WEIGHTING=YES'/>
-		<Group form='VBox' newline='1'>
-			<Argument form='Float' comment='The filter radius'/>
-			<Argument form='Float' comment='The boundary weighting distance'/>
-		</Group>
+		<Argument form='Float' comment='The filter radius' newline='1'/>
+		<Argument form='Float' comment='The boundary weighting distance'/>
 	</Keyword>
 	<Keyword name='*FLUID CONSTANTS'>
 		<Group form='Table' newline='1'>
@@ -876,9 +785,6 @@
 			<Argument comment='8'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*FREQUENCY'>
 		<Group form='Tabs2'>
 			<Group form='VBox' name='SOLVER'>
@@ -891,15 +797,16 @@
 				<Argument form='Combo' name='CYCMPC'>|ACTIVE|INACTIVE</Argument>
 			</Group>
 		</Group>
-		<Group form='VBox' newline='1'>
-			<Argument form='Int' comment='Number of eigenfrequencies desired'/>
-			<Argument form='Float' comment='Lower value of requested eigenfrequency range'/>
-		</Group>
+		<Argument form='Int' comment='Number of eigenfrequencies desired' newline='1'/>
+		<Argument form='Float' comment='Lower value of requested eigenfrequency range'/>
+	</Keyword>
+	<Keyword name='*FRICTION'>
+		<Argument form='Float' comment='Mu' newline='1'/>
+		<Argument form='Float' comment='Lambda'/>
 	</Keyword>
 
 
 
-	<Keyword name='*FRICTION'/>
 	<Keyword name='*GAP'>
 		<Argument form='Line' name='ELSET' required='1'/>
 	</Keyword>

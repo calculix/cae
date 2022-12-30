@@ -40,129 +40,6 @@ ITEM = None
 TEXTEDIT = None
 
 
-class Table(QtWidgets.QWidget):
-    """Custom QTableWidget."""
-
-    def __init__(self, argument):
-        self.arguments = argument.get_arguments()
-        self.newlines = argument.get_newlines()
-        super().__init__()
-        layout = QtWidgets.QVBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
-
-        # Add comment label
-        if hasattr(argument, 'comment') and argument.comment:
-            comment_label = QtWidgets.QLabel(argument.comment)
-            comment_label.setStyleSheet('color: Blue;')
-            layout.insertWidget(0, comment_label)
-
-        self.w = QtWidgets.QTableWidget()
-        self.w.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-        self.w.setAlternatingRowColors(True)
-        self.w.setColumnCount(len(self.arguments))
-        self.w.setHorizontalHeaderLabels([a.comment for a in self.arguments])
-        self.w.setRowCount(0)
-        self.w.verticalHeader().hide()
-        layout.addWidget(self.w)
-
-        self.row_add()
-
-        l = QtWidgets.QHBoxLayout()
-        s = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        b1 = QtWidgets.QPushButton()
-        b1.setText('+')
-        b1.setFixedSize(30, 30)
-        b2 = QtWidgets.QPushButton()
-        b2.setText('-')
-        b2.setFixedSize(30, 30)
-
-        b1.clicked.connect(self.row_add)
-        b2.clicked.connect(self.row_rem)
-        l.addSpacerItem(s)
-        l.addWidget(b1)
-        l.addWidget(b2)
-
-        layout.addLayout(l)
-        self.setLayout(layout)
-
-    def row_add(self):
-        i = self.w.rowCount()
-        self.w.insertRow(i)
-        self.w.setRowHeight(i, 20)
-        for j in range(self.w.columnCount()):
-            self.w.itemChanged.connect(change)
-
-    def row_rem(self):
-        i = self.w.rowCount()
-        if i > 1:
-            self.w.removeRow(self.w.rowCount()-1)
-
-    def text(self):
-        txt = self.newlines
-        for i in range(self.w.rowCount()):
-            for j in range(self.w.columnCount()):
-                try:
-                    txt += self.w.item(i, j).text() + ', '
-                except:
-                    pass
-            txt += '\n'
-        return txt.rstrip()[:-1]
-
-    def reset(self):
-        self.w.clearContents()
-        self.w.setRowCount(1)
-
-
-class Group(QtWidgets.QWidget):
-    """QGroupBox with Argument widgets.
-    Used for argument with arguments inside.
-    *CLOAD
-    """
-    def __init__(self, argument, box_layout):
-        self.argument = argument
-        self.arguments = argument.get_arguments()
-        super().__init__()
-
-        box_layout.setContentsMargins(20, 10, 8, 0)
-        build_widgets(self.arguments, box_layout)
-
-        self.gbox = QtWidgets.QGroupBox()
-        self.gbox.setCheckable(True)
-        self.gbox.setChecked(False)
-        self.gbox.setTitle(argument.name)
-        self.gbox.clicked.connect(change)
-        self.gbox.setLayout(box_layout)
-
-        v_layout = QtWidgets.QVBoxLayout()
-        v_layout.setContentsMargins(0, 0, 0, 0)
-        v_layout.addWidget(self.gbox)
-        self.setLayout(v_layout)
-
-    def text(self):
-        txt = ''
-        if self.gbox.isEnabled() and self.gbox.isChecked():
-            txt = ', ' + self.argument.name
-        return txt + self.argument.get_newlines()
-
-    def reset(self):
-        self.gbox.setChecked(False)
-        reset(self.arguments)
-
-
-class HGroup(Group):
-    """QGroupBox with horizontal layout."""
-
-    def __init__(self, argument):
-        super().__init__(argument, QtWidgets.QHBoxLayout())
-
-
-class VGroup(Group):
-    """QGroupBox with vertical layout."""
-
-    def __init__(self, argument):
-        super().__init__(argument, QtWidgets.QVBoxLayout())
-
-
 class ArgumentWidget(QtWidgets.QWidget):
     """ArgumentWidget is used to visualize Arguments."""
 
@@ -240,9 +117,9 @@ class ArgumentWidget(QtWidgets.QWidget):
             return ''
         if not self.isEnabled():
             return ''
-        n = self.newlines
-        if not n:
-            n = ', '
+        sep = ''
+        if not self.newlines:
+            sep = ', '
         ct = ''
         if hasattr(self.w, 'currentText'):
             ct = self.w.currentText()
@@ -252,13 +129,13 @@ class ArgumentWidget(QtWidgets.QWidget):
             ct = self.w.text()
         if ct and not ct.startswith('!!! Create *'):
             if self.label is not None and self.label.text():
-                return n + self.label.text() + '=' + ct
+                return self.newlines + sep + self.label.text() + '=' + ct
             elif self.name:
-                return n + self.name + '=' + ct
+                return self.newlines + sep + self.name + '=' + ct
             else:
-                return n + ct
+                return self.newlines + sep + ct
         else:
-            return ''
+            return self.newlines
 
 
 class GroupWidget(QtWidgets.QWidget):
@@ -266,11 +143,11 @@ class GroupWidget(QtWidgets.QWidget):
     Unite arguments and apply on them horizontal (HBox)
     o vertical (VBox) layout.
     """
-
     def __init__(self, group, layout):
+        self.required = group.get_required()
         self.newlines = group.get_newlines()
         for a in group.get_arguments():
-            a.required = group.required
+            a.required = a.required or self.required
         super().__init__()
 
         # Add comment label
@@ -288,6 +165,131 @@ class GroupWidget(QtWidgets.QWidget):
 
     def reset(self):
         reset(self.arguments)
+
+
+# TODO It is widget for argument - should inherit ArgumentWidget
+class Table(QtWidgets.QWidget):
+    """Custom QTableWidget."""
+
+    def __init__(self, argument):
+        self.arguments = argument.get_arguments()
+        self.newlines = argument.get_newlines()
+        super().__init__()
+        layout = QtWidgets.QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        # Add comment label
+        if hasattr(argument, 'comment') and argument.comment:
+            comment_label = QtWidgets.QLabel(argument.comment)
+            comment_label.setStyleSheet('color: Blue;')
+            layout.insertWidget(0, comment_label)
+
+        self.w = QtWidgets.QTableWidget()
+        self.w.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.w.setAlternatingRowColors(True)
+        self.w.setColumnCount(len(self.arguments))
+        self.w.setHorizontalHeaderLabels([a.comment for a in self.arguments])
+        self.w.setRowCount(0)
+        self.w.verticalHeader().hide()
+        layout.addWidget(self.w)
+
+        self.row_add()
+
+        l = QtWidgets.QHBoxLayout()
+        s = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        b1 = QtWidgets.QPushButton()
+        b1.setText('+')
+        b1.setFixedSize(30, 30)
+        b2 = QtWidgets.QPushButton()
+        b2.setText('-')
+        b2.setFixedSize(30, 30)
+
+        b1.clicked.connect(self.row_add)
+        b2.clicked.connect(self.row_rem)
+        l.addSpacerItem(s)
+        l.addWidget(b1)
+        l.addWidget(b2)
+
+        layout.addLayout(l)
+        self.setLayout(layout)
+
+    def row_add(self):
+        i = self.w.rowCount()
+        self.w.insertRow(i)
+        self.w.setRowHeight(i, 20)
+        for j in range(self.w.columnCount()):
+            self.w.itemChanged.connect(change)
+
+    def row_rem(self):
+        i = self.w.rowCount()
+        if i > 1:
+            self.w.removeRow(self.w.rowCount()-1)
+
+    def text(self):
+        txt = self.newlines
+        for i in range(self.w.rowCount()):
+            for j in range(self.w.columnCount()):
+                try:
+                    txt += self.w.item(i, j).text() + ', '
+                except:
+                    pass
+            txt += '\n'
+        return txt.rstrip()[:-1]
+
+    def reset(self):
+        self.w.clearContents()
+        self.w.setRowCount(1)
+
+
+# TODO It is widget for argument - should inherit ArgumentWidget
+class Group(QtWidgets.QWidget):
+    """QGroupBox with Argument widgets.
+    Used for argument with arguments inside.
+    *CLOAD
+    """
+    def __init__(self, argument, box_layout):
+        self.argument = argument
+        self.arguments = argument.get_arguments()
+        super().__init__()
+
+        box_layout.setContentsMargins(20, 10, 8, 0)
+        build_widgets(self.arguments, box_layout)
+
+        self.gbox = QtWidgets.QGroupBox()
+        self.gbox.setCheckable(True)
+        self.gbox.setChecked(False)
+        self.gbox.setTitle(argument.name)
+        self.gbox.clicked.connect(change)
+        self.gbox.setLayout(box_layout)
+
+        v_layout = QtWidgets.QVBoxLayout()
+        v_layout.setContentsMargins(0, 0, 0, 0)
+        v_layout.addWidget(self.gbox)
+        self.setLayout(v_layout)
+
+    def text(self):
+        txt = ''
+        if self.gbox.isEnabled() and self.gbox.isChecked():
+            txt = ', ' + self.argument.name
+        return txt + self.argument.get_newlines()
+
+    def reset(self):
+        self.gbox.setChecked(False)
+        reset(self.arguments)
+
+
+class HGroup(Group):
+    """QGroupBox with horizontal layout."""
+
+    def __init__(self, argument):
+        super().__init__(argument, QtWidgets.QHBoxLayout())
+
+
+class VGroup(Group):
+    """QGroupBox with vertical layout."""
+
+    def __init__(self, argument):
+        super().__init__(argument, QtWidgets.QVBoxLayout())
 
 
 class Tabs(GroupWidget):
@@ -331,6 +333,7 @@ class Tabs2(Tabs):
         super().__init__(group)
         for i,gr in enumerate(group.get_arguments()):
             gr.widget.setEnabled(i==0)
+            # gr.required = group.get_required()
         self.w.currentChanged.connect(self.tab_activated)
 
     def tab_activated(self, index):
@@ -371,9 +374,8 @@ class Or(GroupWidget):
         self.arguments = group.get_arguments()
         layout.setContentsMargins(0, 0, 0, 0)
         self.aw = {}
-        hl = QtWidgets.QHBoxLayout()
         for i, a in enumerate(self.arguments):
-            # a.required = group.required
+            hl = QtWidgets.QHBoxLayout()
             rb = QtWidgets.QRadioButton()
             rb.setChecked(not bool(i))
             hl.addWidget(rb)
@@ -381,7 +383,7 @@ class Or(GroupWidget):
             self.aw[i] = (a, rb)
             rb.toggled.connect(self.toggle)
             rb.toggled.connect(change)
-        layout.addLayout(hl)
+            layout.addLayout(hl)
         super().__init__(group, layout)
         self.toggle()
 
@@ -395,6 +397,7 @@ class Grid(GroupWidget):
     """Grid of checkboxes."""
 
     def __init__(self, argument):
+        self.newlines = argument.get_newlines()
         self.checkboxes = []
         l = QtWidgets.QGridLayout()
         row = 0
@@ -419,23 +422,26 @@ class Grid(GroupWidget):
         for cb in self.checkboxes:
             if cb.isChecked():
                 txt += ', ' + cb.text()
-        return txt
+        if self.newlines:
+            return self.newlines + txt[2:]
+        else:
+            return txt
 
 
 class OrH(Or):
     """GroupWidget with radiobuttons. Horizontal layout."""
 
     def __init__(self, group):
-        hbox = QtWidgets.QHBoxLayout()
-        super().__init__(group, hbox)
+        l = QtWidgets.QHBoxLayout()
+        super().__init__(group, l)
 
 
 class OrV(Or):
     """GroupWidget with radiobuttons. Vertical layout."""
 
     def __init__(self, group):
-        hbox = QtWidgets.QVBoxLayout()
-        super().__init__(group, hbox)
+        l = QtWidgets.QVBoxLayout()
+        super().__init__(group, l)
 
 
 class Repl(ArgumentWidget):
@@ -443,7 +449,6 @@ class Repl(ArgumentWidget):
     asterisks as input. Allows user to replace asterisks with numbers.
     Contains labels and inputs.
     """
-
     def __init__(self, argument):
         self.argument = argument
         self.widgets = []
@@ -854,7 +859,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*FLUID SECTION')
+    item = KWL.get_keyword_by_name('*FRICTION')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
