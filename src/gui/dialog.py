@@ -269,6 +269,8 @@ class GroupWidget(QtWidgets.QWidget):
 
     def __init__(self, group, layout):
         self.newlines = group.get_newlines()
+        for a in group.get_arguments():
+            a.required = group.required
         super().__init__()
 
         # Add comment label
@@ -302,6 +304,7 @@ class Tabs(GroupWidget):
 
         self.w = QtWidgets.QTabWidget()
         for gr in self.arguments:
+            # gr.required = group.required
             tab = QtWidgets.QWidget()
             l = QtWidgets.QVBoxLayout()
             tab.setLayout(l)
@@ -370,7 +373,7 @@ class Or(GroupWidget):
         self.aw = {}
         hl = QtWidgets.QHBoxLayout()
         for i, a in enumerate(self.arguments):
-            a.required = group.required
+            # a.required = group.required
             rb = QtWidgets.QRadioButton()
             rb.setChecked(not bool(i))
             hl.addWidget(rb)
@@ -814,7 +817,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*CLOAD')
+    item = KWL.get_keyword_by_name('*EXPANSION')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

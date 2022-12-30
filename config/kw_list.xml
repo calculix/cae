@@ -54,7 +54,7 @@
 				<Argument form='Int' comment='NODE or...'/>
 				<Argument use='*NSET' comment='...NSET'/>
 			</Group>
-			<Argument form='Int' comment='1st DOF'/>
+			<Argument form='Int' comment='First DOF'/>
 			<Argument form='Int' comment='Last DOF'/>
 			<Argument form='Float' comment='Value'/>
 		</Group>
@@ -679,17 +679,82 @@
 		</Argument>
 		<Argument form='Text' comment='List of elements' newline='1'/>
 	</Keyword>
-
-
-
 	<Keyword name='*END STEP'/>
 	<Keyword name='*EQUATION'>
-		<Argument form='Bool' name='REMOVE|REMOVE ALL'/>
+		<!--TODO Bad solution-->
+		<Group form='Tabs2'>
+			<Group form='VBox' name='ADD' newline='1'>
+				<Argument form='Int' comment='Number of terms in the equation' required='1'/>
+				<Group form='VBox' newline='1'>
+					<Group form='HBox'>
+						<Argument form='Int' comment='Node1'/>
+						<Argument form='Int' comment='DOF at Node1'/>
+						<Argument form='Float' comment='Coefficient1'/>
+					</Group>
+					<Group form='HBox'>
+						<Argument form='Int' comment='Node2'/>
+						<Argument form='Int' comment='DOF at Node2'/>
+						<Argument form='Float' comment='Coefficient2'/>
+					</Group>
+					<Group form='HBox'>
+						<Argument form='Int' comment='Node3'/>
+						<Argument form='Int' comment='DOF at Node3'/>
+						<Argument form='Float' comment='Coefficient3'/>
+					</Group>
+					<Group form='HBox'>
+						<Argument form='Int' comment='Node4'/>
+						<Argument form='Int' comment='DOF at Node4'/>
+						<Argument form='Float' comment='Coefficient4'/>
+					</Group>
+				</Group>
+			</Group>
+			<Group form='VBox' name='REMOVE'>
+				<Argument form='Bool' name='REMOVE' required='1'/>
+				<Group form='VBox' newline='1'>
+					<Group form='OrH' required='1'>
+						<Argument form='Int' comment='NODE or...'/>
+						<Argument use='*NSET' comment='...NSET'/>
+					</Group>
+					<Argument form='Int' comment='First DOF' required='1'/>
+					<Argument form='Int' comment='Last DOF'/>
+				</Group>
+			</Group>
+			<Argument form='Bool' name='REMOVE ALL' required='1'/>
+		</Group>
 	</Keyword>
 	<Keyword name='*EXPANSION'>
-		<Argument form='Combo' name='TYPE'>ISO|ORTHO|ANISO</Argument>
 		<Argument form='Line' name='ZERO'/>
+		<Group form='Tabs2' required='1'>
+			<Group form='VBox' name='ISO'>
+				<Argument form='Line' name='TYPE' readonly='1'>ISO</Argument>
+				<Argument form='Float' comment='Alpha' newline='1'/>
+			</Group>
+			<Group form='VBox' name='ORTHO'>
+				<Argument form='Line' name='TYPE' readonly='1'>ORTHO</Argument>
+				<Group form='HBox' newline='1'>
+					<Argument form='Float' comment='Alpha11'/>
+					<Argument form='Float' comment='Alpha22'/>
+					<Argument form='Float' comment='Alpha33'/>
+				</Group>
+			</Group>
+			<Group form='VBox' name='ANISO'>
+				<Argument form='Line' name='TYPE' readonly='1'>ANISO</Argument>
+				<Group form='HBox' newline='1'>
+					<Argument form='Float' comment='Alpha11'/>
+					<Argument form='Float' comment='Alpha22'/>
+					<Argument form='Float' comment='Alpha33'/>
+				</Group>
+				<Group form='HBox'>
+					<Argument form='Float' comment='Alpha12'/>
+					<Argument form='Float' comment='Alpha13'/>
+					<Argument form='Float' comment='Alpha23'/>
+				</Group>
+			</Group>
+		</Group>
+		<Argument form='Float' comment='Temperature'/>
 	</Keyword>
+
+
 	<Keyword name='*FEASIBLE DIRECTION'>
 	</Keyword>
 	<Keyword name='*FILM'>
