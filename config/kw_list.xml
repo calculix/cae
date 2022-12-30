@@ -803,16 +803,82 @@
 			<Argument form='Float' comment='Temperature'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*FLUID SECTION'>
-		<Argument form='Line' name='ELSET' required='1'/>
-		<Argument form='Line' name='MATERIAL' required='1'/>
-		<Argument form='Line' name='TYPE'/>
-		<Argument form='Bool' name='OIL'/>
-		<Argument form='Line' name='CONSTANTS'/>
+		<Argument use='*ELSET' name='ELSET' required='1'/>
+		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
+		<Argument form='Combo' name='TYPE'>
+			|ABSOLUTE TO RELATIVE
+			|BRANCH JOINT GE
+			|BRANCH JOINT IDELCHIK1
+			|BRANCH JOINT IDELCHIK2
+			|BRANCH SPLIT GE
+			|BRANCH SPLIT IDELCHIK1
+			|BRANCH SPLIT IDELCHIK2
+			|CARBONSEAL
+			|CHANNEL CONTRACTION
+			|CHANNEL ENLARGEMENT
+			|CHANNEL INOUT
+			|CHANNEL RESERVOIR
+			|CHANNEL SLUICE GATE
+			|CHANNEL STEP
+			|CHANNEL STRAIGHT
+			|CHANNEL WEIR
+			|CHARACTERISTIC
+			|GAS PIPE FANNO ADIABATIC
+			|GAS PIPE FANNO ISOTHERMAL
+			|GASPIPE FANNO ADIABATIC
+			|INOUT
+			|LABYRINTHSINGLE
+			|LABYRINTHSTEPPED
+			|LABYRINTHSTRAIGHT
+			|LIQUID PUMP
+			|MASSFLOWPERCENT
+			|MOEHRING CENTRIPETAL
+			|ORIFICE
+			|PIPE BEND
+			|PIPE CONTRACTION
+			|PIPE ENLARGEMENT
+			|PIPE ENTRANCE
+			|PIPE GATE VALVE
+			|PIPE INOUT
+			|PIPE MANNING
+			|PIPE MANNING FLEXIBLE
+			|PIPE WHITE-COLEBROOK
+			|PRESWIRLNOZZLE
+			|RELATIVE TO ABSOLUTE
+			|RESTRICTOR BEND IDEL CIRC
+			|RESTRICTOR BEND IDEL RECT
+			|RESTRICTOR BEND MILLER
+			|RESTRICTOR BEND OWN
+			|RESTRICTOR CONTRACTION
+			|RESTRICTOR ENLARGEMENT
+			|RESTRICTOR LONG ORIFICE IDELCHIK
+			|RESTRICTOR LONG ORIFICE LICHTAROWICZ
+			|RESTRICTOR USER
+			|ROTATING GAS PIPE
+			|U1
+			|UP1
+			|VORTEX FORCED
+			|VORTEX FREE
+		</Argument>
+		<Argument use='*MATERIAL' name='OIL'/>
+		<Argument form='Int' name='CONSTANTS'/>
+		<Argument form='Bool' name='LIQUID'/> 
+		<Argument form='Bool' name='MANNING'/>
+		<Group form='Table' newline='1'>
+			<Argument comment='1'/>
+			<Argument comment='2'/>
+			<Argument comment='3'/>
+			<Argument comment='4'/>
+			<Argument comment='5'/>
+			<Argument comment='6'/>
+			<Argument comment='7'/>
+			<Argument comment='8'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*FREQUENCY'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
 		<Argument form='Bool' name='MATRIXSTORAGE'/>

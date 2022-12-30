@@ -492,7 +492,8 @@ class Combo(ArgumentWidget):
                 self.w.addItem('!!! Create ' + argument.use + ' first !!!')
 
         if argument.value:
-            self.w.addItems(argument.value.split('|'))
+            for v in argument.value.split('|'):
+                self.w.addItem(v.strip())
 
         # QComboBox doesn't expand by default
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
@@ -853,7 +854,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*FILM')
+    item = KWL.get_keyword_by_name('*FLUID SECTION')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
