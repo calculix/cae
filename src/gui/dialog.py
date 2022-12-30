@@ -155,7 +155,7 @@ class GroupWidget(QtWidgets.QWidget):
         v_layout = QtWidgets.QVBoxLayout()
         v_layout.setContentsMargins(0, 0, 0, 0)
         v_layout.insertLayout(0, layout)
-        if hasattr(group, 'comment') and group.comment:
+        if group.comment:
             comment_label = QtWidgets.QLabel(group.comment)
             comment_label.setStyleSheet('color: Blue;')
             v_layout.insertWidget(0, comment_label)
@@ -173,6 +173,7 @@ class Table(QtWidgets.QWidget):
     """Custom QTableWidget."""
 
     def __init__(self, argument):
+        self.required = argument.get_required()
         self.arguments = argument.get_arguments()
         self.newlines = argument.get_newlines()
         super().__init__()
@@ -180,7 +181,7 @@ class Table(QtWidgets.QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
 
         # Add comment label
-        if hasattr(argument, 'comment') and argument.comment:
+        if argument.comment:
             comment_label = QtWidgets.QLabel(argument.comment)
             comment_label.setStyleSheet('color: Blue;')
             layout.insertWidget(0, comment_label)
@@ -189,7 +190,12 @@ class Table(QtWidgets.QWidget):
         self.w.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.w.setAlternatingRowColors(True)
         self.w.setColumnCount(len(self.arguments))
-        self.w.setHorizontalHeaderLabels([a.comment for a in self.arguments])
+        if self.required:
+            headers = ['*' + a.comment for a in self.arguments]
+            self.w.horizontalHeader().setStyleSheet('color:Red;')
+        else:
+            headers = [a.comment for a in self.arguments]
+        self.w.setHorizontalHeaderLabels(headers)
         self.w.setRowCount(0)
         self.w.verticalHeader().hide()
         layout.addWidget(self.w)
@@ -392,8 +398,7 @@ class Or(GroupWidget):
 
     def toggle(self):
         for (a, rb) in self.aw.values():
-            if hasattr(a, 'widget'):
-                a.widget.setDisabled(not rb.isChecked())
+            a.widget.setDisabled(not rb.isChecked())
 
 
 class Grid(GroupWidget):
@@ -703,7 +708,7 @@ def change(data, arguments=[], append=False):
     if not arguments and not append:
         arguments = ITEM.get_arguments()
     for a in arguments:
-        if not hasattr(a, 'widget') or a.widget is None:
+        if a.widget is None:
             continue
         w = a.widget
         old_value = TEXTEDIT.toPlainText()
@@ -793,13 +798,13 @@ class KeywordDialog(QtWidgets.QDialog):
             arguments = ITEM.get_arguments()
         for a in arguments:
             w = a.widget
-            if w is not None and w.isEnabled() and hasattr(w, 'required') and w.required:
-                name = w.name # argument name
+            if w is not None and w.isEnabled() and w.required:
+                name = a.name # argument name
                 value = w.text() # argument value
                 if not value:
                     msg = 'Fill all required fields'
                     if name:
-                        msg += ' ' + name
+                        msg += ': ' + name
                     else:
                         msg += '!'
                     QMessageBox.warning(self, 'Warning', msg)
@@ -867,7 +872,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*GAP HEAT GENERATION')
+    item = KWL.get_keyword_by_name('*GAP CONDUCTANCE')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
