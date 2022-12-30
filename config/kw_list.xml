@@ -842,19 +842,21 @@
 		<Argument use='*NSET' comment='An opposite node set'/>
 		<Argument form='Float' comment='An absolute value'/>
 	</Keyword>
-
-
-
-
-
 	<Keyword name='*GEOMETRIC TOLERANCES'>
-		<Argument form='Combo' name='TYPE' required='1'>NORMAL</Argument>
+		<Argument form='Line' name='TYPE' required='1' readonly='1'>NORMAL</Argument>
 		<Argument form='Bool' name='CONSTRAINED'/>
-		<!-- New line -->
-		<!-- Node number or node set label -->
-		<!-- Mean value of the tolerance -->
-		<!-- Standard deviation of the tolerance -->
+		<Group form='OrH' newline='1'>
+			<Argument form='Int' comment='NODE or...'/>
+			<Argument use='*NSET' comment='...NSET'/>
+		</Group>
+		<Argument form='Float' comment='Mean value of the tolerance'/>
+		<Argument form='Float' comment='Standard deviation of the tolerance'/>
 	</Keyword>
+
+
+
+
+
 	<Keyword name='*GREEN'>
 		<Argument form='Combo' name='SOLVER'>PARDISO|SPOOLES</Argument>
 	</Keyword>
