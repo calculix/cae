@@ -880,12 +880,25 @@
 
 
 	<Keyword name='*FREQUENCY'>
-		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
-		<Argument form='Bool' name='MATRIXSTORAGE'/>
-		<Argument form='Combo' name='STORAGE'>YES|NO</Argument>
-		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
-		<Argument form='Combo' name='CYCMPC'>ACTIVE|INACTIVE</Argument>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='SOLVER'>
+				<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX</Argument>
+				<Argument form='Combo' name='STORAGE'>|NO|YES</Argument>
+			</Group>
+			<Group form='VBox' name='MATRIXSTORAGE'>
+				<Argument form='Line' name='SOLVER' readonly='1'>MATRIXSTORAGE</Argument>
+				<Argument form='Combo' name='GLOBAL'>|YES|NO</Argument>
+				<Argument form='Combo' name='CYCMPC'>|ACTIVE|INACTIVE</Argument>
+			</Group>
+		</Group>
+		<Group form='VBox' newline='1'>
+			<Argument form='Int' comment='Number of eigenfrequencies desired'/>
+			<Argument form='Float' comment='Lower value of requested eigenfrequency range'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*FRICTION'/>
 	<Keyword name='*GAP'>
 		<Argument form='Line' name='ELSET' required='1'/>
