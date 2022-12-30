@@ -114,38 +114,53 @@ class Table(QtWidgets.QWidget):
 
 
 class Group(QtWidgets.QWidget):
-    """GroupBox with Argument widgets.
+    """QGroupBox with Argument widgets.
     Used for argument with arguments inside.
     *CLOAD
     """
-
-    def __init__(self, argument):
+    def __init__(self, argument, box_layout):
         self.argument = argument
+        self.arguments = argument.get_arguments()
         super().__init__()
-        v_layout = QtWidgets.QVBoxLayout()
-        v_layout.setContentsMargins(0, 0, 0, 0)
+
+        box_layout.setContentsMargins(20, 10, 8, 0)
+        build_widgets(self.arguments, box_layout)
+
         self.gbox = QtWidgets.QGroupBox()
         self.gbox.setCheckable(True)
         self.gbox.setChecked(False)
         self.gbox.setTitle(argument.name)
-        box_layout = QtWidgets.QVBoxLayout()
-        box_layout.setContentsMargins(20, 10, 8, 0)
-        self.arguments = argument.get_arguments()
-        build_widgets(self.arguments, box_layout)
+        self.gbox.clicked.connect(change)
         self.gbox.setLayout(box_layout)
+
+        v_layout = QtWidgets.QVBoxLayout()
+        v_layout.setContentsMargins(0, 0, 0, 0)
         v_layout.addWidget(self.gbox)
         self.setLayout(v_layout)
-        self.gbox.clicked.connect(change)
 
     def text(self):
         txt = ''
         if self.gbox.isEnabled() and self.gbox.isChecked():
             txt = ', ' + self.argument.name
-        return txt
+        return txt + self.argument.get_newlines()
 
     def reset(self):
         self.gbox.setChecked(False)
         reset(self.arguments)
+
+
+class HGroup(Group):
+    """QGroupBox with horizontal layout."""
+
+    def __init__(self, argument):
+        super().__init__(argument, QtWidgets.QHBoxLayout())
+
+
+class VGroup(Group):
+    """QGroupBox with vertical layout."""
+
+    def __init__(self, argument):
+        super().__init__(argument, QtWidgets.QVBoxLayout())
 
 
 class ArgumentWidget(QtWidgets.QWidget):
@@ -275,7 +290,6 @@ class GroupWidget(QtWidgets.QWidget):
 
 class Tabs(GroupWidget):
     """A Group drawn with QTabWidget.
-    Should be used for a group containing list of other groups.
     Widgets from all tabs will participate in the final INP code.
     """
     def __init__(self, group):
@@ -285,7 +299,7 @@ class Tabs(GroupWidget):
         layout = QtWidgets.QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         super().__init__(group, layout)
-    
+
         self.w = QtWidgets.QTabWidget()
         for gr in self.arguments:
             tab = QtWidgets.QWidget()
@@ -304,6 +318,7 @@ class Tabs(GroupWidget):
 
     # def reset(self):
     #     reset(self.arguments)
+    pass
 
 
 class Tabs2(Tabs):
@@ -326,7 +341,6 @@ class Box(GroupWidget):
     """GroupWidget."""
 
     def __init__(self, group, layout):
-        # self.newlines = group.get_newlines()
         self.arguments = group.get_arguments()
         layout.setContentsMargins(0, 0, 0, 0)
         super().__init__(group, layout)
@@ -396,7 +410,7 @@ class Grid(GroupWidget):
     def reset(self):
         for cb in self.checkboxes:
             cb.setChecked(False)
-    
+
     def text(self):
         txt = ''
         for cb in self.checkboxes:
@@ -527,7 +541,7 @@ class Empty(ArgumentWidget):
     def __init__(self, argument):
         self.newlines = argument.get_newlines()
         super().__init__(argument, [])
-    
+
     def text(self):
         return self.newlines + ' '
 
@@ -800,7 +814,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*EL PRINT')
+    item = KWL.get_keyword_by_name('*CLOAD')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
