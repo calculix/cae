@@ -863,13 +863,12 @@
 		<Argument form='Int' name='MAX CYCLE'/>
 		<Argument form='Float' name='SCALING'/>
 	</Keyword>
-
-
-
 	<Keyword name='*HEADING'>
-		<!-- Description of the problem -->
-		<Argument form='Line' newline='1'/>
+		<Argument form='Line' newline='1' comment='Description of the problem'/>
 	</Keyword>
+
+
+
 	<Keyword name='*HEAT TRANSFER'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
 		<Argument form='Bool' name='MATRIXSTORAGE'/>
