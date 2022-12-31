@@ -987,12 +987,12 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*INCLUDE'>
 		<Argument form='SelectFile' name='INPUT' required='1'/>
 	</Keyword>
+
+
+
 	<Keyword name='*INITIAL CONDITIONS'>
 		<Argument form='Combo' name='TYPE' required='1'>DISPLACEMENT|FLUID VELOCITY|MASS FLOW|PLASTIC STRAIN|PRESSURE|SOLUTION|STRESS|TEMPERATURE|TOTAL PRESSURE|VELOCITY</Argument>
 		<Argument form='Bool' name='USER'/>
