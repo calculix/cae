@@ -970,12 +970,26 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*HYPERFOAM'>
-		<Argument form='Line' name='N'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='N=1'>
+				<Argument form='Line' readonly='1'>N=1</Argument>
+				<Argument form='Line' comment='μ1, a1, v1, Temperature' newline='1'/>
+			</Group>
+			<Group form='VBox' name='N=2'>
+				<Argument form='Line' readonly='1'>N=2</Argument>
+				<Argument form='Line' comment='μ1, a1, μ2, a2, v1, v2, Temperature' newline='1'/>
+			</Group>
+			<Group form='VBox' name='N=3'>
+				<Argument form='Line' readonly='1'>N=3</Argument>
+				<Argument form='Line' comment='μ1, a1, μ2, a2, μ3, a3, v1, v2,' newline='1'/>
+				<Argument form='Line' comment='v3, Temperature' newline='1'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*INCLUDE'>
 		<Argument form='SelectFile' name='INPUT' required='1'/>
 	</Keyword>
