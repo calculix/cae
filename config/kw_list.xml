@@ -1094,10 +1094,13 @@
 			<Argument form='Float' comment='yz'/>
 		</Group>
 	</Keyword>
+	<Keyword name='*KINEMATIC'>
+		<Argument form='Combo' comment='First DOF' newline='1'>1|2|3</Argument>
+		<Argument form='Combo' comment='Last DOF'>|1|2|3</Argument>
+	</Keyword>
 
 
 
-	<Keyword name='*KINEMATIC'/>
 	<Keyword name='*MAGNETIC PERMEABILITY'/>
 	<Keyword name='*MASS'>
 		<Argument use='*ELSET' name='ELSET' required='1' comment='Set with MASS elements:'/>
