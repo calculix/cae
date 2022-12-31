@@ -866,21 +866,40 @@
 	<Keyword name='*HEADING'>
 		<Argument form='Line' newline='1' comment='Description of the problem'/>
 	</Keyword>
-
-
-
 	<Keyword name='*HEAT TRANSFER'>
-		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
-		<Argument form='Bool' name='MATRIXSTORAGE'/>
-		<Argument form='Bool' name='DIRECT'/>
-		<Argument form='Bool' name='STEADY STATE'/>
-		<Argument form='Bool' name='FREQUENCY'/>
-		<Argument form='Bool' name='MODAL DYNAMIC'/>
-		<Argument form='Combo' name='STORAGE'>YES|NO</Argument>
-		<Argument form='Line' name='DELTMX'/>
-		<Argument form='Bool' name='TIME RESET'/>
-		<Argument form='Line' name='TOTAL TIME AT START'/>
+		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX|ITERATIVE SCALING|ITERATIVE CHOLESKY</Argument>
+		<Argument form='Combo' name='STORAGE'>|NO|YES</Argument>
+		<Group form='HBox'>
+			<Argument form='Bool' name='MATRIXSTORAGE'/>
+			<Argument form='Bool' name='DIRECT'/>
+			<Argument form='Bool' name='STEADY STATE'/>
+			<Argument form='Bool' name='TIME RESET'/>
+		</Group>
+		<Argument form='Float' name='DELTMX'/>
+		<Argument form='Float' name='TOTAL TIME AT START'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='HEAT TRANSFER'>
+				<Argument form='Float' comment='Initial time increment' newline='1'>1</Argument>
+				<Argument form='Float' comment='Time period of the step'>1</Argument>
+				<Argument form='Float' comment='Minimum time increment'>1.e-5</Argument>
+				<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
+			</Group>
+			<Group form='VBox' name='FREQUENCY'>
+				<Argument form='Bool' name='FREQUENCY' required='1'/>
+				<Argument form='Int' comment='Number of eigenfrequencies desired' newline='1'/>
+				<Argument form='Float' comment='Lower value'/>
+				<Argument form='Float' comment='Upper value'/>
+			</Group>
+			<Group form='VBox' name='MODAL DYNAMIC'>
+				<Argument form='Bool' name='MODAL DYNAMIC' required='1'/>
+				<Argument form='Float' comment='Initial time increment' newline='1'>1</Argument>
+				<Argument form='Float' comment='Time period of the step'>1</Argument>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*HYPERELASTIC'>
 		<Argument form='Bool' name='POLYNOMIAL|REDUCED POLYNOMIAL|ARRUDA-BOYCE|MOONEY-RIVLIN|NEO HOOKE|OGDEN|VANDERWAALS|YEOH'/>
 		<Argument form='Combo' name='N'>1|2|3</Argument>
