@@ -990,13 +990,99 @@
 	<Keyword name='*INCLUDE'>
 		<Argument form='SelectFile' name='INPUT' required='1'/>
 	</Keyword>
-
-
-
 	<Keyword name='*INITIAL CONDITIONS'>
-		<Argument form='Combo' name='TYPE' required='1'>DISPLACEMENT|FLUID VELOCITY|MASS FLOW|PLASTIC STRAIN|PRESSURE|SOLUTION|STRESS|TEMPERATURE|TOTAL PRESSURE|VELOCITY</Argument>
-		<Argument form='Bool' name='USER'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='DISPLACEMENT'>
+				<Argument form='Line' name='TYPE' readonly='1'>DISPLACEMENT</Argument>
+				<Group form='OrH' newline='1'>
+					<Argument form='Int' comment='NODE or...'/>
+					<Argument use='*NSET' comment='...NSET'/>
+				</Group>
+				<Argument form='Int' comment='Degree of freedom in the GLOBAL CSYS'/>
+				<Argument form='Float' comment='Magnitude of the displacement'/>
+			</Group>
+			<Group form='VBox' name='PLASTIC STRAIN'>
+				<Argument form='Line' name='TYPE' readonly='1'>PLASTIC STRAIN</Argument>
+				<Argument form='Int' comment='Element number' newline='1'/>
+				<Argument form='Int' comment='Integration point number'/>
+				<Argument form='Line' comment='Plastic strain components in the GLOBAL CSYS (xx, yy, zz, xy, xz, yz)'/>
+			</Group>
+			<Group form='VBox' name='TEMPERATURE'>
+				<Argument form='Line' name='TYPE' readonly='1'>TEMPERATURE</Argument>
+				<Group form='OrH' newline='1'>
+					<Argument form='Int' comment='NODE or...'/>
+					<Argument use='*NSET' comment='...NSET'/>
+				</Group>
+				<Argument form='Float' comment='Initial temperature value at the node'/>
+				<Argument form='Float' comment='Initial temperature gradient in normal direction (shells) or in 2-direction (beams)'/>
+				<Argument form='Float' comment='Initial temperature gradient in 1-direction (beams)'/>
+			</Group>
+			<Group form='VBox' name='TURBULENCE'>
+				<Argument form='Line' name='TYPE' readonly='1'>TURBULENCE</Argument>
+				<Group form='OrH' newline='1'>
+					<Argument form='Int' comment='NODE or...'/>
+					<Argument use='*NSET' comment='...NSET'/>
+				</Group>
+				<Argument form='Line' comment='Comma separated turbulence parameters'/>
+			</Group>
+			<Group form='VBox' name='SOLUTION'>
+				<Argument form='Line' name='TYPE' readonly='1'>SOLUTION</Argument>
+				<Group form='Tabs2'>
+					<Group form='VBox' newline='1' name='SOLUTION' required='1'>
+						<Argument form='Int' comment='Element number'/>
+						<Argument form='Int' comment='Integration point number'/>
+						<Argument form='Line' comment='Comma separated internal variable values'/>
+					</Group>
+					<Argument form='Bool' name='USER' required='1'/>
+				</Group>
+			</Group>
+			<Group form='VBox' name='STRESS'>
+				<Argument form='Line' name='TYPE' readonly='1'>STRESS</Argument>
+				<Group form='Tabs2'>
+					<Group form='VBox' newline='1' name='STRESS' required='1'>
+						<Argument form='Int' comment='Element number'/>
+						<Argument form='Int' comment='Integration point number'/>
+						<Argument form='Float' comment='Stress components in the GLOBAL CSYS (xx, yy, zz, xy, xz, yz)'/>
+					</Group>
+					<Argument form='Bool' name='USER' required='1'/>
+				</Group>
+			</Group>
+			<Group form='VBox' name='MASS FLOW'>
+				<Argument form='Line' name='TYPE' readonly='1'>MASS FLOW</Argument>
+				<Group form='OrH' newline='1'>
+					<Argument form='Int' comment='NODE or...'/>
+					<Argument use='*NSET' comment='...NSET'/>
+				</Group>
+				<Argument form='Float' comment='Mass flow value at the node'/>
+			</Group>
+			<Group form='VBox' name='PRESSURE'>
+				<Group form='OrH'>
+					<Argument form='Line' name='TYPE' readonly='1'>PRESSURE</Argument>
+					<Argument form='Line' name='TYPE' readonly='1'>TOTAL PRESSURE</Argument>
+				</Group>
+				<Group form='OrH' newline='1'>
+					<Argument form='Int' comment='NODE or...'/>
+					<Argument use='*NSET' comment='...NSET'/>
+				</Group>
+				<Argument form='Float' comment='Pressure value at the node'/>
+			</Group>
+			<Group form='VBox' name='VELOCITY'>
+				<Group form='OrH'>
+					<Argument form='Line' name='TYPE' readonly='1'>VELOCITY</Argument>
+					<Argument form='Line' name='TYPE' readonly='1'>FLUID VELOCITY</Argument>
+				</Group>
+				<Group form='OrH' newline='1'>
+					<Argument form='Int' comment='NODE or...'/>
+					<Argument use='*NSET' comment='...NSET'/>
+				</Group>
+				<Argument form='Float' comment='Degree of freedom in the GLOBAL CSYS'/>
+				<Argument form='Float' comment='Magnitude of the velocity'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*INITIAL STRAIN INCREASE'/>
 	<Keyword name='*KINEMATIC'/>
 	<Keyword name='*MAGNETIC PERMEABILITY'/>
