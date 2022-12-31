@@ -109,7 +109,9 @@
 			</Keyword>
 			<Keyword name='*FREQUENCY'/>
 			<Keyword name='*COMPLEX FREQUENCY'/>
-			<Keyword name='*CRACK PROPAGATION'/>
+			<Keyword name='*CRACK PROPAGATION'>
+				<Keyword name='*HCF'/>
+			</Keyword>
 			<Keyword name='*GREEN'/>
 			<Keyword name='*HEAT TRANSFER'>
 				<Keyword name='*VIEWFACTOR'/>
@@ -180,7 +182,6 @@
 			<Keyword name='*MODEL CHANGE'/>
 		</Collection>
 		<Keyword name='*EQUATION'/>
-		<Keyword name='*HCF'/>
 		<Keyword name='*INCLUDE'/>
 		<Keyword name='*REFINE MESH'/>
 		<Keyword name='*RESTART'/>

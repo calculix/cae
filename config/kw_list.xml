@@ -856,16 +856,16 @@
 		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX</Argument>
 		<Argument form='Combo' name='STORAGE'>|NO|YES</Argument>
 	</Keyword>
-
-
-
 	<Keyword name='*HCF'>
 		<Argument form='SelectFile' name='INPUT' required='1'/>
-		<Argument form='Line' name='MODE' required='1'/>
-		<Argument form='Line' name='MISSION STEP' required='1'/>
-		<Argument form='Line' name='MAX CYCLE'/>
-		<Argument form='Line' name='SCALING'/>
+		<Argument form='Int' name='MODE' required='1'/>
+		<Argument form='Int' name='MISSION STEP' required='1'/>
+		<Argument form='Int' name='MAX CYCLE'/>
+		<Argument form='Float' name='SCALING'/>
 	</Keyword>
+
+
+
 	<Keyword name='*HEADING'>
 		<!-- Description of the problem -->
 		<Argument form='Line' newline='1'/>
