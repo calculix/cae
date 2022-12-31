@@ -1080,10 +1080,23 @@
 			</Group>
 		</Group>
 	</Keyword>
+	<Keyword name='*INITIAL STRAIN INCREASE'>
+		<Argument form='Int' comment='Element number' newline='1' required='1'/>
+		<Argument form='Int' comment='Integration point number' required='1'/>
+		<Group form='HBox' comment='Initial strain increase components in the GLOBAL CSYS' required='1'>
+			<Argument form='Float' comment='xx'/>
+			<Argument form='Float' comment='yy'/>
+			<Argument form='Float' comment='zz'/>
+		</Group>
+		<Group form='HBox' required='1'>
+			<Argument form='Float' comment='xy'/>
+			<Argument form='Float' comment='xz'/>
+			<Argument form='Float' comment='yz'/>
+		</Group>
+	</Keyword>
 
 
 
-	<Keyword name='*INITIAL STRAIN INCREASE'/>
 	<Keyword name='*KINEMATIC'/>
 	<Keyword name='*MAGNETIC PERMEABILITY'/>
 	<Keyword name='*MASS'>
