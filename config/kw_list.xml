@@ -1160,15 +1160,32 @@
 		<Argument form='Float' comment='Minimum time increment'/>
 		<Argument form='Float' comment='Maximum time increment'/>
 	</Keyword>
-
-
-
 	<Keyword name='*MODEL CHANGE'>
-		<!--TODO MECHSTRAINTORESIDUAL-->
-		<Argument form='Combo' name='TYPE' required='1'>ELEMENT|CONTACT PAIR</Argument>
-		<Argument form='Combo' name='ADD'>STRAIN FREE|WITH STRAIN</Argument>
-		<Argument form='Bool' name='REMOVE'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='ELEMENT'>
+				<Argument form='Line' name='TYPE' readonly='1'>ELEMENT</Argument>
+				<Group form='Tabs2'>
+					<Group form='VBox' name='ADD'>
+						<Argument form='Combo' name='ADD'>|STRAIN FREE|WITH STRAIN</Argument>
+						<Argument form='Bool' name='MECHSTRAINTORESIDUAL'/>
+					</Group>
+					<Group form='VBox' name='REMOVE'>
+						<Argument form='Bool' name='REMOVE' required='1'/>
+					</Group>
+				</Group>
+				<Argument form='Text' comment='Elements/sets to be (de)activated (max. 16 per line)' newline='1'/>
+			</Group>
+			<Group form='VBox' name='CONTACT PAIR'>
+				<Argument form='Line' name='TYPE' readonly='1'>CONTACT PAIR</Argument>
+				<Argument form='Bool' name='ADD|REMOVE' required='1'/>
+				<Argument use='*SURFACE' required='1' comment='Slave surface (nodal / element face)' newline='1'/>
+				<Argument use='*SURFACE' required='1' comment='Master surface (element face based)'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*MPC'>
 		<Argument form='Bool' name='PLANE|STRAIGHT|BEAM' newline='1'/>
 		<Argument form='Line'/>
