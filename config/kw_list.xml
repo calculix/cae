@@ -1190,12 +1190,14 @@
 		</Group>
 		<Argument form='Text' comment='List of nodes: max. 16 per line.' required='1'/>
 	</Keyword>
-
-
-
 	<Keyword name='*NETWORK MPC'>
 		<Argument form='Combo' name='TYPE'>|QUADRATIC</Argument>
+		<Argument form='Int' comment='Number of terms in the constraint' required='1' newline='1'/>
+		<Argument form='Text' comment='Node1, DOF1, Coef.1, Node2, DOF2, Coef.2, etc.' required='1' newline='1'/>
 	</Keyword>
+
+
+
 	<Keyword name='*NO ANALYSIS'/>
 	<Keyword name='*NODAL THICKNESS'/>
 	<Keyword name='*NODE'>
