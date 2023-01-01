@@ -1098,10 +1098,15 @@
 		<Argument form='Combo' comment='First DOF' newline='1'>1|2|3</Argument>
 		<Argument form='Combo' comment='Last DOF'>|1|2|3</Argument>
 	</Keyword>
+	<Keyword name='*MAGNETIC PERMEABILITY'>
+		<Group form='Table' newline='1'>
+			<Argument form='Float' comment='Mu'/>
+			<Argument form='Float' comment='Domain number'/>
+			<Argument form='Float' comment='Temperature'/>
+		</Group>
+	</Keyword>
 
 
-
-	<Keyword name='*MAGNETIC PERMEABILITY'/>
 	<Keyword name='*MASS'>
 		<Argument use='*ELSET' name='ELSET' required='1' comment='Set with MASS elements:'/>
 		<Argument form='Line' required='1' newline='1' comment='Mass:'/>
