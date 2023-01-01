@@ -1142,15 +1142,27 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*MODAL DYNAMIC'>
-		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
-		<Argument form='Combo' name='DIRECT'>NO|YES</Argument>
-		<Argument form='Line' name='DELTMX'/>
-		<Argument form='Bool' name='STEADY STATE'/>
+		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX|ITERATIVE SCALING|ITERATIVE CHOLESKY</Argument>
+		<Argument form='Combo' name='DIRECT'>|NO|YES</Argument>
+		<Argument form='Float' name='DELTMX'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='TRANSIENT'>
+				<Argument form='Float' comment='Initial time increment' newline='1'/>
+				<Argument form='Float' comment='Time period of the step'/>
+			</Group>
+			<Group form='VBox' name='STEADY STATE'>
+				<Argument form='Bool' name='STEADY STATE' required='1'/>
+				<Argument form='Float' comment='Initial time increment' newline='1'/>
+				<Argument form='Float' comment='Relative error for steady state conditions'/>
+			</Group>
+		</Group>
+		<Argument form='Float' comment='Minimum time increment'/>
+		<Argument form='Float' comment='Maximum time increment'/>
 	</Keyword>
+
+
+
 	<Keyword name='*MODEL CHANGE'>
 		<!--TODO MECHSTRAINTORESIDUAL-->
 		<Argument form='Combo' name='TYPE' required='1'>ELEMENT|CONTACT PAIR</Argument>
