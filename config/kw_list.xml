@@ -1333,14 +1333,21 @@
 			<Argument form='Bool' name='USER' required='1'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*PRE-TENSION SECTION'>
-		<Argument use='*SURFACE' name='SURFACE' required='1'/>
-		<Argument use='*ELEMENT' name='ELEMENT' required='1'/>
-		<Argument use='*NODE' name='NODE' required='1'/>
+		<Group form='OrV' required='1'>
+			<Argument use='*SURFACE' name='SURFACE' comment='Surface or...'/>
+			<Argument form='Int' name='ELEMENT' comment='...element'/>
+		</Group>
+		<Argument form='Int' name='NODE' required='1'/>
+		<Group form='HBox' required='1' newline='1' comment='Components in global coordinates of the normal on the surface'>
+			<Argument form='Float'/>
+			<Argument form='Float'/>
+			<Argument form='Float'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*RADIATE'>
 		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
 		<Argument form='Line' name='AMPLITUDE'/>
