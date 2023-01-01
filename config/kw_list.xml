@@ -1229,19 +1229,34 @@
 		<Argument form='Combo' name='OUTPUT'>|2D|3D</Argument>
 		<Argument form='Grid' newline='1' name='Node variables'>CP,DEPF,DEPT,DTF,HCRI,KEQ,MACH,MAXU,MF,NT,PNT,POT,PRF,PS,PSF,PT,PTF,PU,RF,RFL,SEN,TS,TSF,TT,TTF,TURB,U,V,VF</Argument>
 	</Keyword>
-
-
-
 	<Keyword name='*NODE OUTPUT'>
-		<!--TODO DOUBLE-->
-		<Argument form='Line' name='FREQUENCY|TIME POINTS'/>
+		<Group form='OrH'>
+			<Argument form='Int' name='FREQUENCY' comment='FREQUENCY or...'/>
+			<Argument use='*TIME POINTS' comment='...TIME POINTS'/>
+		</Group>
+		<Argument form='Int' name='FREQUENCYF'/>
+		<Argument form='Combo' name='GLOBAL'>|YES|NO</Argument>
+		<Argument use='*NSET' name='NSET'/>
+		<Group form='HBox'>
+			<Argument form='Bool' name='OUTPUT ALL'/>
+			<Argument form='Bool' name='LAST ITERATIONS'/>
+			<Argument form='Bool' name='CONTACT ELEMENTS'/>
+		</Group>
+		<Argument form='Combo' name='OUTPUT'>|2D|3D</Argument>
+		<Argument form='Grid' newline='1' name='Node variables'>CP,DEPF,DEPT,DTF,HCRI,KEQ,MACH,MAXU,MF,NT,PNT,POT,PRF,PS,PSF,PT,PTF,PU,RF,RFL,SEN,TS,TSF,TT,TTF,TURB,U,V,VF</Argument>
 	</Keyword>
+
+
+
 	<Keyword name='*NODE PRINT'>
 		<Argument form='Line' name='NSET'/>
 		<Argument form='Line' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>
 		<Argument form='Combo' name='TOTALS'>YES|ONLY|NO</Argument>
 		<Argument form='Combo' name='GLOBAL'>YES|NO</Argument>
 	</Keyword>
+
+
+
 	<Keyword name='*NORMAL'/>
 	<Keyword name='*NSET'>
 		<Argument form='Line' name='NSET' required='1'/>
