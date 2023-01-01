@@ -1284,13 +1284,13 @@
 			</Argument>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*OBJECTIVE'>
-		<Argument form='Combo' name='TARGET'>MIN</Argument>
-		<Argument use='*DESIGN RESPONSE' newline='1' comment='Name of a design response:'/>
+		<Argument form='Combo' name='TARGET'>|MIN|MAX</Argument>
+		<Argument use='*DESIGN RESPONSE' newline='1' comment='Name of a design response'/>
 	</Keyword>
+
+
+
 	<Keyword name='*ORIENTATION'>
 		<Argument form='Line' name='NAME' required='1'/>
 		<Argument form='Combo' name='SYSTEM'>RECTANGULAR|CYLINDRICAL</Argument>
