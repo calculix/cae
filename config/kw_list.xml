@@ -1256,10 +1256,20 @@
 		<Argument form='Combo' name='TOTALS'>|NO|YES|ONLY</Argument>
 		<Argument form='Grid' newline='1' name='Node variables'>U,NT,TSF,TTF,PN,PSF,PTF,MACH,CP,VF,DEPF,TURB,MF,RF,RFL</Argument>
 	</Keyword>
+	<Keyword name='*NORMAL'>
+		<Group form='HBox' newline='1'>
+			<Argument form='Int' comment='Element number'/>
+			<Argument form='Int' comment='Node number'/>
+		</Group>
+		<Group form='HBox' comment='Global coordinates of the normal'>
+			<Argument form='Float' comment='X'/>
+			<Argument form='Float' comment='Y'/>
+			<Argument form='Float' comment='Z'/>
+		</Group>
+	</Keyword>
 
 
 
-	<Keyword name='*NORMAL'/>
 	<Keyword name='*NSET'>
 		<Argument form='Line' name='NSET' required='1'/>
 		<Argument form='Bool' name='GENERATE'/>
