@@ -255,8 +255,11 @@ class Group(QtWidgets.QWidget):
     *CLOAD
     """
     def __init__(self, argument, box_layout):
+        self.required = argument.get_required()
         self.argument = argument
         self.arguments = argument.get_arguments()
+        for a in self.arguments:
+            a.required = self.required
         super().__init__()
 
         box_layout.setContentsMargins(20, 10, 8, 0)
@@ -264,10 +267,10 @@ class Group(QtWidgets.QWidget):
 
         self.gbox = QtWidgets.QGroupBox()
         self.gbox.setCheckable(True)
-        self.gbox.setChecked(False)
         self.gbox.setTitle(argument.name)
         self.gbox.clicked.connect(change)
         self.gbox.setLayout(box_layout)
+        self.reset()
 
         v_layout = QtWidgets.QVBoxLayout()
         v_layout.setContentsMargins(0, 0, 0, 0)
@@ -281,7 +284,7 @@ class Group(QtWidgets.QWidget):
         return txt + self.argument.get_newlines() # TODO newlines in the begining?
 
     def reset(self):
-        self.gbox.setChecked(False)
+        self.gbox.setChecked(self.required)
         reset(self.arguments)
 
 
@@ -879,7 +882,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*MODAL DAMPING')
+    item = KWL.get_keyword_by_name('*NSET')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
