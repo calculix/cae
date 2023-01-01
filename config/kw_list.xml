@@ -1267,13 +1267,22 @@
 			<Argument form='Float' comment='Z'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*NSET'>
 		<Argument form='Line' name='NSET' required='1'/>
-		<Argument form='Bool' name='GENERATE'/>
+		<Group form='Tabs2' newline='1'>
+			<Group form='VBox' name='LIST'>
+				<Argument form='Text' comment='List of nodes' required='1'/>
+			</Group>
+			<Argument form='HGroup' name='GENERATE' required='1'>
+				<Argument form='Int' comment='First node'/>
+				<Argument form='Int' comment='Last node'/>
+				<Argument form='Int' comment='Increment'/>
+			</Argument>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*OBJECTIVE'>
 		<Argument form='Combo' name='TARGET'>MIN</Argument>
 		<Argument use='*DESIGN RESPONSE' newline='1' comment='Name of a design response:'/>
