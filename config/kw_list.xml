@@ -1288,13 +1288,32 @@
 		<Argument form='Combo' name='TARGET'>|MIN|MAX</Argument>
 		<Argument use='*DESIGN RESPONSE' newline='1' comment='Name of a design response'/>
 	</Keyword>
-
-
-
 	<Keyword name='*ORIENTATION'>
 		<Argument form='Line' name='NAME' required='1'/>
-		<Argument form='Combo' name='SYSTEM'>RECTANGULAR|CYLINDRICAL</Argument>
+		<Argument form='Combo' name='SYSTEM'>|RECTANGULAR|CYLINDRICAL</Argument>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='A and B' required='1'>
+				<Group form='HBox' newline='1'>
+					<Argument form='Float' comment='Xa'/>
+					<Argument form='Float' comment='Ya'/>
+					<Argument form='Float' comment='Za'/>
+				</Group>
+				<Group form='HBox'>
+					<Argument form='Float' comment='Xb'/>
+					<Argument form='Float' comment='Yb'/>
+					<Argument form='Float' comment='Zb'/>
+				</Group>
+			</Group>
+			<Group form='HBox' name='Distribution'>
+				<Argument use='*DISTRIBUTION' comment='Name of the distribution' required='1'/>
+			</Group>
+		</Group>
+		<Argument form='Combo' comment='Local axis of additional rotation' newline='1'>|1|2|3</Argument>
+		<Argument form='Float' comment='Angle of rotation in degrees'/>
 	</Keyword>
+
+
+
 	<Keyword name='*OUTPUT'/> <!--TODO-->
 	<Keyword name='*PHYSICAL CONSTANTS'>
 		<Argument form='Line' name='ABSOLUTE ZERO'/>
