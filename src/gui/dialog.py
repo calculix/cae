@@ -388,6 +388,7 @@ class Or(GroupWidget):
             rb = QtWidgets.QRadioButton()
             rb.setChecked(not bool(i))
             hl.addWidget(rb)
+            a.required = group.required
             build_widgets([a], hl) # build a.widget
             self.aw[i] = (a, rb)
             rb.toggled.connect(self.toggle)
@@ -466,7 +467,7 @@ class Repl(ArgumentWidget):
             l1 = QtWidgets.QLabel(s)
             self.widgets.append(l1)
             if i < len(parts) - 1:
-                l2 = QtWidgets.QLineEdit('*')
+                l2 = QtWidgets.QLineEdit()
                 l2.setFixedWidth(110)
                 l2.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
                 l2.setValidator(QtGui.QIntValidator())
@@ -476,15 +477,20 @@ class Repl(ArgumentWidget):
         super().__init__(argument, self.widgets)
 
     def text(self):
+        entered_text = ''
+        for w in self.edits:
+            entered_text += w.text()
         txt = self.argument.get_newlines()
         for w in self.widgets:
             txt += w.text()
-        return ', ' + txt
+        if entered_text:
+            return ', ' + txt
+        else:
+            return ''
     
     def reset(self):
         for w in self.edits:
-            # w.clear()
-            w.setText('*')
+            w.clear()
 
 
 class Combo(ArgumentWidget):
@@ -872,7 +878,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*GAP CONDUCTANCE')
+    item = KWL.get_keyword_by_name('*MASS FLOW')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
