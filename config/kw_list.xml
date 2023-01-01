@@ -589,12 +589,16 @@
 	</Keyword>
 	<Keyword name='*ELSET'>
 		<Argument form='Line' name='ELSET' required='1'/>
-		<Argument form='HGroup' name='GENERATE' newline='1'>
-			<Argument form='Int' comment='First element'/>
-			<Argument form='Int' comment='Last element'/>
-			<Argument form='Int' comment='Increment'/>
-		</Argument>
-		<Argument form='Text' comment='List of elements' newline='1'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='LIST'>
+				<Argument form='Text' comment='List of elements' newline='1'/>
+			</Group>
+			<Argument form='HGroup' name='GENERATE' required='1'>
+				<Argument form='Int' comment='First element' newline='1'/>
+				<Argument form='Int' comment='Last element'/>
+				<Argument form='Int' comment='Increment'/>
+			</Argument>
+		</Group>
 	</Keyword>
 	<Keyword name='*END STEP'/>
 	<Keyword name='*EQUATION'>
@@ -1269,12 +1273,12 @@
 	</Keyword>
 	<Keyword name='*NSET'>
 		<Argument form='Line' name='NSET' required='1'/>
-		<Group form='Tabs2' newline='1'>
+		<Group form='Tabs2'>
 			<Group form='VBox' name='LIST'>
-				<Argument form='Text' comment='List of nodes' required='1'/>
+				<Argument form='Text' comment='List of nodes' required='1' newline='1'/>
 			</Group>
 			<Argument form='HGroup' name='GENERATE' required='1'>
-				<Argument form='Int' comment='First node'/>
+				<Argument form='Int' comment='First node' newline='1'/>
 				<Argument form='Int' comment='Last node'/>
 				<Argument form='Int' comment='Increment'/>
 			</Argument>
