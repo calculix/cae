@@ -1183,13 +1183,16 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*MPC'>
-		<Argument form='Bool' name='PLANE|STRAIGHT|BEAM' newline='1'/>
-		<Argument form='Line'/>
+		<Group form='OrH' newline='1' required='1'>
+			<Argument form='Combo' comment='Predefined'>PLANE|STRAIGHT|BEAM</Argument>
+			<Argument form='Line' comment='User'/>
+		</Group>
+		<Argument form='Text' comment='List of nodes: max. 16 per line.' required='1'/>
 	</Keyword>
+
+
+
 	<Keyword name='*NETWORK MPC'>
 		<Argument form='Combo' name='TYPE'>|QUADRATIC</Argument>
 	</Keyword>
