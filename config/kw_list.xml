@@ -1119,9 +1119,14 @@
 	<Keyword name='*MATERIAL'>
 		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
+	<Keyword name='*MEMBRANE SECTION'>
+		<Argument use='*ELSET' name='ELSET' required='1'/>
+		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
+		<Argument form='Float' name='OFFSET'/>
+		<Argument form='Float' comment='Thickness' newline='1' required='1'/>
+	</Keyword>
 
 
-	<Keyword name='*MEMBRANE SECTION'/>
 
 	<Keyword name='*MODAL DAMPING'>
 		<Argument form='Bool' name='MODAL=DIRECT|RAYLEIGH'/>
