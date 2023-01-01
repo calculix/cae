@@ -1315,14 +1315,14 @@
 		<Argument form='Int' name='FREQUENCY'/>
 		<Argument form='Int' name='FREQUENCYF'/>
 	</Keyword>
-
-
-
 	<Keyword name='*PHYSICAL CONSTANTS'>
-		<Argument form='Line' name='ABSOLUTE ZERO'/>
-		<Argument form='Line' name='STEFAN BOLTZMANN'/>
-		<Argument form='Line' name='NEWTON GRAVITY'/>
+		<Argument form='Float' name='ABSOLUTE ZERO'/>
+		<Argument form='Float' name='STEFAN BOLTZMANN'/>
+		<Argument form='Float' name='NEWTON GRAVITY'/>
 	</Keyword>
+
+
+
 	<Keyword name='*PLASTIC'>
 		<Argument form='Combo' name='HARDENING'>ISOTROPIC|KINEMATIC|COMBINED|USER</Argument>
 	</Keyword>

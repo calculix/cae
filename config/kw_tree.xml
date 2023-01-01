@@ -7,11 +7,10 @@
 -->
 <tree>
 	<Collection name='Attributes'>
-		<Keyword name='*HEADING'/>
 		<Keyword name='*DESIGN VARIABLES'/>
-		<Keyword name='*PHYSICAL CONSTANTS'/>
-		<Keyword name='*VALUES AT INFINITY'/>
+		<Keyword name='*HEADING'/>
 		<Keyword name='*SUBMODEL'/>
+		<Keyword name='*VALUES AT INFINITY'/>
 	</Collection>
 	<Collection name='Mesh'>
 		<Keyword name='*NODE'/>
@@ -24,11 +23,10 @@
 		<Keyword name='*GAP'/>
 	</Collection>
 	<Collection name='Properties'>
+		<Keyword name='*DASHPOT'/>
 		<Keyword name='*NODAL THICKNESS'/>
 		<Keyword name='*NORMAL'/>
 		<Keyword name='*MASS'/>
-		<Keyword name='*SPRING'/>
-		<Keyword name='*DASHPOT'/>
 		<Keyword name='*MATERIAL'>
 			<Keyword name='*CONDUCTIVITY'/>
 			<Keyword name='*CREEP'/>
@@ -50,25 +48,27 @@
 				<Keyword name='*DEPVAR'/>
 			</Keyword>
 		</Keyword>
+		<Keyword name='*PHYSICAL CONSTANTS'/>
+		<Keyword name='*SPRING'/>
 		<Collection name='Section'>
 			<Keyword name='*BEAM SECTION'/>
 			<Keyword name='*FLUID SECTION'/>
 			<Keyword name='*MEMBRANE SECTION'/>
+			<Keyword name='*PRE-TENSION SECTION'/>
 			<Keyword name='*SHELL SECTION'/>
 			<Keyword name='*SOLID SECTION'/>
-			<Keyword name='*PRE-TENSION SECTION'/>
 			<Keyword name='*USER SECTION'/>
 		</Collection>
 	</Collection>
-	<Keyword name='*DISTRIBUTION'/>
-	<Keyword name='*ORIENTATION'/>
-	<Keyword name='*TRANSFORM'/>
 	<Keyword name='*AMPLITUDE'/>
 	<Keyword name='*BOUNDARY'/>
+	<Keyword name='*DISTRIBUTION'/>
 	<Keyword name='*INCLUDE'/>
 	<Keyword name='*INITIAL CONDITIONS'/>
+	<Keyword name='*ORIENTATION'/>
 	<Keyword name='*RESTART'/>
 	<Keyword name='*TIME POINTS'/>
+	<Keyword name='*TRANSFORM'/>
 	<Collection name='Interactions'>
 		<Keyword name='*CONTACT PAIR'/>
 		<Keyword name='*CLEARANCE'/>
