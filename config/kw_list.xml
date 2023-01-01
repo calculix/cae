@@ -1311,10 +1311,13 @@
 		<Argument form='Combo' comment='Local axis of additional rotation' newline='1'>|1|2|3</Argument>
 		<Argument form='Float' comment='Angle of rotation in degrees'/>
 	</Keyword>
+	<Keyword name='*OUTPUT'>
+		<Argument form='Int' name='FREQUENCY'/>
+		<Argument form='Int' name='FREQUENCYF'/>
+	</Keyword>
 
 
 
-	<Keyword name='*OUTPUT'/> <!--TODO-->
 	<Keyword name='*PHYSICAL CONSTANTS'>
 		<Argument form='Line' name='ABSOLUTE ZERO'/>
 		<Argument form='Line' name='STEFAN BOLTZMANN'/>
