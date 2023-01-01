@@ -723,8 +723,9 @@ def change(data, arguments=[], append=False):
         # w.__class__.__name__ != Empty.__name__ and 
         if old_value.endswith('\n') and new_value.startswith(', '):
             new_value = new_value[2:]
-        if old_value.endswith(', ') and new_value.startswith(', '):
-            new_value = new_value[2:]
+        if w.__class__.__name__ != Empty.__name__:
+            if old_value.endswith(', ') and new_value.startswith(', '):
+                new_value = new_value[2:]
         TEXTEDIT.setText(old_value + new_value)
 
         # Recursively walk through the whole keyword arguments
@@ -878,7 +879,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*SHELL SECTION')
+    item = KWL.get_keyword_by_name('*MODAL DAMPING')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

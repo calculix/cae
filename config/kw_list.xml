@@ -1125,12 +1125,26 @@
 		<Argument form='Float' name='OFFSET'/>
 		<Argument form='Float' comment='Thickness' newline='1' required='1'/>
 	</Keyword>
-
-
-
 	<Keyword name='*MODAL DAMPING'>
-		<Argument form='Bool' name='MODAL=DIRECT|RAYLEIGH'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='RAYLEIGH'>
+				<Argument form='Bool' name='RAYLEIGH' required='1'/>
+				<Argument form='Empty' newline='1'/>
+				<Argument form='Empty'/>
+				<Argument form='Float' comment='Coefficient of the mass matrix α'/>
+				<Argument form='Float' comment='Coefficient of the stiffness matrix β'/>
+			</Group>
+			<Group form='VBox' name='MODAL=DIRECT'>
+				<Argument form='Line' name='MODAL' readonly='1'>DIRECT</Argument>
+				<Argument form='Float' comment='Lowest mode of the range' newline='1'/>
+				<Argument form='Float' comment='Highest mode of the range'/>
+				<Argument form='Float' comment='Viscous damping factor ζ'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*MODAL DYNAMIC'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
 		<Argument form='Combo' name='DIRECT'>NO|YES</Argument>
