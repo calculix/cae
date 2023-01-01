@@ -1105,12 +1105,13 @@
 			<Argument form='Float' comment='Temperature'/>
 		</Group>
 	</Keyword>
-
-
 	<Keyword name='*MASS'>
-		<Argument use='*ELSET' name='ELSET' required='1' comment='Set with MASS elements:'/>
-		<Argument form='Line' required='1' newline='1' comment='Mass:'/>
+		<Argument use='*ELSET' name='ELSET' required='1' comment='Set with MASS elements'/>
+		<Argument form='Float' required='1' newline='1' comment='Mass'/>
 	</Keyword>
+
+
+
 	<Keyword name='*MASS FLOW'/>
 	<Keyword name='*MATERIAL'>
 		<Argument form='Line' name='NAME' required='1'/>
