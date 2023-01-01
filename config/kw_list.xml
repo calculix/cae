@@ -1195,11 +1195,18 @@
 		<Argument form='Int' comment='Number of terms in the constraint' required='1' newline='1'/>
 		<Argument form='Text' comment='Node1, DOF1, Coef.1, Node2, DOF2, Coef.2, etc.' required='1' newline='1'/>
 	</Keyword>
-
-
-
 	<Keyword name='*NO ANALYSIS'/>
-	<Keyword name='*NODAL THICKNESS'/>
+	<Keyword name='*NODAL THICKNESS'>
+		<Group form='OrH' newline='1' required='1'>
+			<Argument form='Int' comment='NODE or...'/>
+			<Argument use='*NSET' comment='...NSET'/>
+		</Group>
+		<Argument form='Float' comment='Thickness 1' required='1'/>
+		<Argument form='Float' comment='Thickness 2'/>
+	</Keyword>
+
+
+
 	<Keyword name='*NODE'>
 		<Argument form='Line' name='NSET'/>
 	</Keyword>
