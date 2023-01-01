@@ -70,21 +70,21 @@
 	<Keyword name='*TIME POINTS'/>
 	<Keyword name='*TRANSFORM'/>
 	<Collection name='Interactions'>
-		<Keyword name='*CONTACT PAIR'/>
 		<Keyword name='*CLEARANCE'/>
+		<Keyword name='*CONTACT PAIR'/>
 		<Keyword name='*SURFACE INTERACTION'>
 			<Keyword name='*SURFACE BEHAVIOR'>
+				<Keyword name='*CONTACT DAMPING'/>
 				<Keyword name='*FRICTION'/>
 				<Keyword name='*GAP CONDUCTANCE'/>
-				<Keyword name='*CONTACT DAMPING'/>
 				<Keyword name='*GAP HEAT GENERATION'/>
 			</Keyword>
 		</Keyword>
 	</Collection>
 	<Collection name='Constraints'>
 		<Keyword name='*COUPLING'>
-			<Keyword name='*KINEMATIC'/>
 			<Keyword name='*DISTRIBUTING'/>
+			<Keyword name='*KINEMATIC'/>
 		</Keyword>
 		<Keyword name='*CYCLIC SYMMETRY MODEL'/>
 		<Keyword name='*DISTRIBUTING COUPLING'/>
@@ -96,22 +96,21 @@
 	</Collection>
 	<Keyword name='*STEP'>
 		<Collection name='Analysis type'>
-			<Keyword name='*NO ANALYSIS'/>
 			<Keyword name='*BUCKLE'/>
 			<Keyword name='*CFD'/>
-			<Keyword name='*COUPLED TEMPERATURE-DISPLACEMENT'/>
-			<Keyword name='*DYNAMIC'/>
-			<Keyword name='*ELECTROMAGNETICS'/>
-			<Keyword name='*FEASIBLE DIRECTION'>
-				<Keyword name='*OBJECTIVE'/>
-				<Keyword name='*CONSTRAINT'/>
-				<Keyword name='*GEOMETRIC CONSTRAINT'/>
-			</Keyword>
-			<Keyword name='*FREQUENCY'/>
 			<Keyword name='*COMPLEX FREQUENCY'/>
+			<Keyword name='*COUPLED TEMPERATURE-DISPLACEMENT'/>
 			<Keyword name='*CRACK PROPAGATION'>
 				<Keyword name='*HCF'/>
 			</Keyword>
+			<Keyword name='*DYNAMIC'/>
+			<Keyword name='*ELECTROMAGNETICS'/>
+			<Keyword name='*FEASIBLE DIRECTION'>
+				<Keyword name='*CONSTRAINT'/>
+				<Keyword name='*GEOMETRIC CONSTRAINT'/>
+				<Keyword name='*OBJECTIVE'/>
+			</Keyword>
+			<Keyword name='*FREQUENCY'/>
 			<Keyword name='*GREEN'/>
 			<Keyword name='*HEAT TRANSFER'>
 				<Keyword name='*VIEWFACTOR'/>
@@ -120,9 +119,10 @@
 				<Keyword name='*BASE MOTION'/>
 				<Keyword name='*MODAL DAMPING'/>
 			</Keyword>
+			<Keyword name='*NO ANALYSIS'/>
 			<Keyword name='*ROBUST DESIGN'>
-				<Keyword name='*GEOMETRIC TOLERANCES'/>
 				<Keyword name='*CORRELATION LENGTH'/>
+				<Keyword name='*GEOMETRIC TOLERANCES'/>
 			</Keyword>
 			<Keyword name='*SENSITIVITY'>
 				<Keyword name='*DESIGN RESPONSE'/>
@@ -136,8 +136,8 @@
 				<Keyword name='*MODAL DAMPING'/>
 			</Keyword>
 			<Keyword name='*SUBSTRUCTURE GENERATE'>
-				<Keyword name='*SUBSTRUCTURE MATRIX OUTPUT'/>
 				<Keyword name='*RETAINED NODAL DOFS'/>
+				<Keyword name='*SUBSTRUCTURE MATRIX OUTPUT'/>
 			</Keyword>
 			<Keyword name='*UNCOUPLED TEMPERATURE-DISPLACEMENT'/>
 			<Keyword name='*VISCO'/>
@@ -158,17 +158,16 @@
 		</Collection>
 		<Collection name='Load &amp; BC'>
 			<Keyword name='*BOUNDARY'/>
-			<Keyword name='*MASS FLOW'/>
 			<Keyword name='*CLOAD'/>
-			<Keyword name='*DLOAD'/>
-			<Keyword name='*DSLOAD'/>
 			<Keyword name='*CFLUX'/>
+			<Keyword name='*DLOAD'/>
 			<Keyword name='*DFLUX'/>
-			<Keyword name='*RADIATE'/>
+			<Keyword name='*DSLOAD'/>
 			<Keyword name='*FILM'/>
+			<Keyword name='*MASS FLOW'/>
+			<Keyword name='*RADIATE'/>
 		</Collection>
 		<Collection name='Change'>
-			<Keyword name='*INITIAL STRAIN INCREASE'/>
 			<Keyword name='*CHANGE FRICTION'>
 				<Keyword name='*FRICTION'/>
 			</Keyword>
@@ -179,13 +178,14 @@
 				<Keyword name='*SURFACE BEHAVIOR'/>
 			</Keyword>
 			<Keyword name='*CHANGE SOLID SECTION'/>
+			<Keyword name='*INITIAL STRAIN INCREASE'/>
 			<Keyword name='*MODEL CHANGE'/>
 		</Collection>
+		<Keyword name='*END STEP'/>
 		<Keyword name='*EQUATION'/>
 		<Keyword name='*INCLUDE'/>
 		<Keyword name='*REFINE MESH'/>
 		<Keyword name='*RESTART'/>
 		<Keyword name='*SELECT CYCLIC SYMMETRY MODES'/>
-		<Keyword name='*END STEP'/>
 	</Keyword>
 </tree>
