@@ -1109,10 +1109,16 @@
 		<Argument use='*ELSET' name='ELSET' required='1' comment='Set with MASS elements'/>
 		<Argument form='Float' required='1' newline='1' comment='Mass'/>
 	</Keyword>
+	<Keyword name='*MASS FLOW'>
+		<Group form='OrH' newline='1' required='1'>
+			<Argument form='Int' comment='ELEMENT or...'/>
+			<Argument use='*ELSET' comment='...ELSET'/>
+		</Group>
+		<Argument form='Repl' comment='Mass flow type label' required='1'>M*</Argument>
+	</Keyword>
 
 
 
-	<Keyword name='*MASS FLOW'/>
 	<Keyword name='*MATERIAL'>
 		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
