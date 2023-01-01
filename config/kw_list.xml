@@ -1320,12 +1320,22 @@
 		<Argument form='Float' name='STEFAN BOLTZMANN'/>
 		<Argument form='Float' name='NEWTON GRAVITY'/>
 	</Keyword>
-
-
-
 	<Keyword name='*PLASTIC'>
-		<Argument form='Combo' name='HARDENING'>ISOTROPIC|KINEMATIC|COMBINED|USER</Argument>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='Table'>
+				<Argument form='Combo' name='HARDENING'>|ISOTROPIC|KINEMATIC|COMBINED</Argument>
+				<Group form='Table' newline='1' required='1'>
+					<Argument form='Float' comment='Mises stress'/>
+					<Argument form='Float' comment='Plastic strain'/>
+					<Argument form='Float' comment='Temperature'/>
+				</Group>
+			</Group>
+			<Argument form='Bool' name='USER' required='1'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*PRE-TENSION SECTION'>
 		<Argument use='*SURFACE' name='SURFACE' required='1'/>
 		<Argument use='*ELEMENT' name='ELEMENT' required='1'/>
