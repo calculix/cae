@@ -878,7 +878,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*MASS FLOW')
+    item = KWL.get_keyword_by_name('*SHELL SECTION')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

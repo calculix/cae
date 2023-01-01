@@ -1116,13 +1116,13 @@
 		</Group>
 		<Argument form='Repl' comment='Mass flow type label' required='1'>M*</Argument>
 	</Keyword>
-
-
-
 	<Keyword name='*MATERIAL'>
 		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
+
+
 	<Keyword name='*MEMBRANE SECTION'/>
+
 	<Keyword name='*MODAL DAMPING'>
 		<Argument form='Bool' name='MODAL=DIRECT|RAYLEIGH'/>
 	</Keyword>
@@ -1245,13 +1245,31 @@
 		<Argument form='Bool' name='READ'/>
 		<Argument form='Bool' name='WRITE'/>
 	</Keyword>
+
+
+
 	<Keyword name='*SHELL SECTION'>
-		<Argument form='Line' name='ELSET' required='1'/>
-		<Argument form='Line' name='MATERIAL|COMPOSITE' required='1'/>
-		<Argument form='Line' name='ORIENTATION'/>
-		<Argument form='Line' name='NODAL THICKNESS'/>
-		<Argument form='Line' name='OFFSET'/>
+		<Argument use='*ELSET' name='ELSET' required='1'/>
+		<Argument form='Bool' name='ORIENTATION'/>
+		<Argument form='Bool' name='NODAL THICKNESS'/>
+		<Argument form='Float' name='OFFSET'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='MATERIAL'>
+				<Argument use='*MATERIAL' name='MATERIAL'/>
+				<Argument form='Float' comment='Thickness' newline='1'/>
+			</Group>
+			<Group form='VBox' name='COMPOSITE'>
+				<Argument form='Bool' name='COMPOSITE' required='1'/>
+				<Argument form='Float' comment='Thickness' newline='1'/>
+				<Argument form='Empty'/>
+				<Argument use='*MATERIAL' comment='Material for the layer'/>
+				<Argument use='*ORIENTATION' comment='Orientation for the layer'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*SOLID SECTION'>
 		<Argument form='Line' name='ELSET' required='1'/>
 		<Argument form='Line' name='MATERIAL' required='1'/>
