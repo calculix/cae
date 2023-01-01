@@ -1204,12 +1204,18 @@
 		<Argument form='Float' comment='Thickness 1' required='1'/>
 		<Argument form='Float' comment='Thickness 2'/>
 	</Keyword>
-
-
-
 	<Keyword name='*NODE'>
 		<Argument form='Line' name='NSET'/>
+		<Group form='Table' newline='1'>
+			<Argument form='Int' comment='Node number'/>
+			<Argument form='Float' comment='X'/>
+			<Argument form='Float' comment='Y'/>
+			<Argument form='Float' comment='Z'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*NODE FILE'>
 		<Argument form='Line' name='NSET'/>
 		<Argument form='Line' name='FREQUENCY|FREQUENCYF|TIME POINTS'/>

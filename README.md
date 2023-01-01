@@ -204,6 +204,7 @@ What's new in future v0.9.0:
 
 # TODO
 
+- Table widget: redundant comma in the end of line.
 - Text widget has to be resizable.
 - Argument with "use": link to create a new IMPLEMENTATION.
 - Insert Combo widget into Table cell.
