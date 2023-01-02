@@ -1569,13 +1569,35 @@
 		<Argument form='Combo' name='STIFFNESS'>|YES</Argument>
 		<Argument form='Combo' name='OUTPUT FILE'>|USER DEFINED</Argument>
 	</Keyword>
-
-
-
 	<Keyword name='*SURFACE'>
 		<Argument form='Line' name='NAME' required='1'/>
-		<Argument form='Combo' name='TYPE'>ELEMENT|NODE</Argument>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='Element face surface'>
+				<Argument form='Line' name='TYPE' readonly='1'>ELEMENT</Argument>
+				<Group form='Tabs2' newline='1'>
+					<Group form='VBox' name='ELEMENT'>
+						<Argument form='Int' comment='ELEMENT'/>
+						<Argument form='Repl' comment='Facet label'>S*</Argument>
+					</Group>
+					<Group form='VBox' name='ELSET'>
+						<Argument use='*ELSET' comment='ELSET'/>
+						<Argument form='Combo' comment='Surface label'>SPOS|SNEG</Argument>
+					</Group>
+				</Group>
+			</Group>
+			<Group form='VBox' name='Nodal surface'>
+				<Argument form='Line' name='TYPE' readonly='1'>NODE</Argument>
+				<Group form='OrH' newline='1'>
+					<Argument form='Int' comment='NODE or...'/>
+					<Argument use='*NSET' comment='...NSET'/>
+				</Group>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
+
 	<Keyword name='*SURFACE BEHAVIOR'>
 		<Argument form='Combo' name='PRESSURE-OVERCLOSURE' required='1'>EXPONENTIAL|LINEAR|TABULAR|TIED|HARD</Argument>
 	</Keyword>
