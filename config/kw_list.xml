@@ -1377,12 +1377,15 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*REFINE MESH'>
-		<Argument form='Line' name='LIMIT'/>
+		<Argument form='Float' name='LIMIT'/>
+		<Argument use='*ELSET' name='ELSET'/>
+		<Argument form='Bool' name='USER'/>
+		<Argument form='Grid' newline='1' comment='The label of the selected criterion'>U,V,S,E,ME,PEEQ,ENER,HFL,ERR</Argument>
 	</Keyword>
+
+
+
 	<Keyword name='*RESTART'>
 		<!--TODO-->
 		<Argument form='Bool' name='WRITE' required='1'/>
