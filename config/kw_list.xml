@@ -1544,14 +1544,14 @@
 		<Argument form='Combo' name='AMPLITUDE'>|RAMP|STEP</Argument>
 		<Argument form='Float' name='SHOCK SMOOTHING'/>
 	</Keyword>
-
-
-
 	<Keyword name='*SUBMODEL'>
-		<Argument form='Combo' name='TYPE' required='1'>SURFACE|NODE</Argument>
+		<Argument form='Combo' name='TYPE' required='1'>NODE|SURFACE</Argument>
 		<Argument form='SelectFile' name='INPUT' required='1' comment='FRD file:'/>
-		<Argument form='Line' name='GLOBAL ELSET'/>
+		<Argument use='*ELSET' name='GLOBAL ELSET'/>
 	</Keyword>
+
+
+
 	<Keyword name='*SUBSTRUCTURE GENERATE'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO</Argument>
 	</Keyword>
