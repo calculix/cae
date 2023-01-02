@@ -1691,19 +1691,27 @@
 			<Argument form='Float' comment='Zb'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*UNCOUPLED TEMPERATURE-DISPLACEMENT'>
-		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
-		<Argument form='Line' name='ALPHA'/>
-		<Argument form='Bool' name='STEADY STATE'/>
-		<Argument form='Line' name='DELTMX'/>
-		<Argument form='Bool' name='DIRECT'/>
-		<Argument form='Bool' name='EXPLICIT'/>
-		<Argument form='Bool' name='TIME RESET'/>
-		<Argument form='Line' name='TOTAL TIME AT START'/>
+		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX|ITERATIVE SCALING|ITERATIVE CHOLESKY</Argument>
+		<Group form='HBox'>
+			<Argument form='Bool' name='STEADY STATE'/>
+			<Argument form='Bool' name='DIRECT'/>
+		</Group>
+		<Group form='HBox'>
+			<Argument form='Bool' name='EXPLICIT'/>
+			<Argument form='Bool' name='TIME RESET'/>
+		</Group>
+		<Argument form='Float' name='ALPHA'/>
+		<Argument form='Float' name='DELTMX'/>
+		<Argument form='Float' name='TOTAL TIME AT START'/>
+		<Argument form='Float' comment='Initial time increment' newline='1'/>
+		<Argument form='Float' comment='Total step time'/>
+		<Argument form='Float' comment='Minimum time increment allowed'/>
+		<Argument form='Float' comment='Maximum time increment allowed'/>
 	</Keyword>
+
+
+
 	<Keyword name='*USER ELEMENT'>
 		<Argument form='Line' name='TYPE' required='1'/>
 		<Argument form='Line' name='INTEGRATION POINTS' required='1'/>
