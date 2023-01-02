@@ -1469,13 +1469,39 @@
 			<Argument form='Float' comment='Temperature'/>
 		</Group>
 	</Keyword>
-
-
 	<Keyword name='*SPRING'>
-		<Argument form='Line' name='ELSET' required='1'/>
+		<Argument use='*ELSET' name='ELSET' required='1'/>
+		<Argument use='*ORIENTATION' name='ORIENTATION'/>
 		<Argument form='Bool' name='NONLINEAR'/>
-		<Argument form='Line' name='ORIENTATION'/>
+		<Group form='Tabs2' newline='1'>
+			<Group form='VBox' name='SPRINGA'>
+				<Argument form='Empty' comment='No params needed'/>
+			</Group>
+			<Group form='VBox' name='SPRING1/SPRING2'>
+				<Argument form='Int' comment='First DOF'/>
+				<Argument form='Int' comment='Second DOF'/>
+			</Group>
+		</Group>
+		<Group form='Tabs2' newline='1'>
+			<Group form='VBox' name='LINEAR'>
+				<Group form='Table'>
+					<Argument form='Float' comment='Spring constant'/>
+					<Argument form='Empty' comment='Empty'/>
+					<Argument form='Float' comment='Temperature'/>
+				</Group>
+			</Group>
+			<Group form='VBox' name='NONLINEAR'>
+				<Group form='Table'>
+					<Argument form='Float' comment='Spring force'/>
+					<Argument form='Float' comment='Elongation'/>
+					<Argument form='Float' comment='Temperature'/>
+				</Group>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*STATIC'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
 		<Argument form='Bool' name='DIRECT'/>
