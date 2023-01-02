@@ -776,7 +776,7 @@
 		</Argument>
 		<Argument use='*MATERIAL' name='OIL'/>
 		<Argument form='Int' name='CONSTANTS'/>
-		<Argument form='Bool' name='LIQUID'/> 
+		<Argument form='Bool' name='LIQUID'/>
 		<Argument form='Bool' name='MANNING'/>
 		<Group form='Table' newline='1'>
 			<Argument comment='1'/>
@@ -1417,17 +1417,18 @@
 		<Argument form='Bool' name='RANDOM FIELD ONLY' required='1'/>
 		<Argument form='Float' newline='1' comment='Requested accuracy'/>
 	</Keyword>
-
-
-
 	<Keyword name='*SECTION PRINT'>
 		<Argument use='*SURFACE' name='SURFACE' required='1'/>
 		<Argument form='Line' name='NAME' required='1'/>
-		<Argument form='Line' name='FREQUENCYF|TIME POINTS'/>
-		<Argument form='Bool' name='SOF'/>
-		<Argument form='Bool' name='SOM'/>
-		<Argument form='Bool' name='SOAREA'/>
+		<Group form='OrV'>
+			<Argument form='Int' name='FREQUENCY'/>
+			<Argument use='*TIME POINTS' name='TIME POINTS'/>
+		</Group>
+		<Argument form='Grid' newline='1' comment='Identifying keys for the variables to be printed,'>DRAG,FLUX,SOF,SOM,SOAREA</Argument>
 	</Keyword>
+
+
+
 	<Keyword name='*SELECT CYCLIC SYMMETRY MODES'>
 		<Argument form='Line' name='NMIN'/>
 		<Argument form='Line' name='NMAX'/>
