@@ -1383,17 +1383,22 @@
 		<Argument form='Bool' name='USER'/>
 		<Argument form='Grid' newline='1' comment='The label of the selected criterion'>U,V,S,E,ME,PEEQ,ENER,HFL,ERR</Argument>
 	</Keyword>
-
-
-
 	<Keyword name='*RESTART'>
-		<!--TODO-->
-		<Argument form='Bool' name='WRITE' required='1'/>
-		<Argument form='Line' name='FREQUENCY'/>
-		<Argument form='Bool' name='OVERLAY'/>
-		<Argument form='Bool' name='READ' required='1'/>
-		<Argument form='Line' name='STEP'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='WRITE'>
+				<Argument form='Bool' name='WRITE' required='1'/>
+				<Argument form='Float' name='FREQUENCY'/>
+				<Argument form='Bool' name='OVERLAY'/>
+			</Group>
+			<Group form='VBox' name='READ'>
+				<Argument form='Bool' name='READ' required='1'/>
+				<Argument form='Int' name='STEP'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*RETAINED NODAL DOFS'>
 		<Argument form='Bool' name='SORTED=NO'/>
 	</Keyword>
