@@ -1463,10 +1463,14 @@
 	<Keyword name='*SPECIFIC GAS CONSTANT'>
 		<Argument form='Float' comment='Specific gas constant' newline='1' required='1'/>
 	</Keyword>
+	<Keyword name='*SPECIFIC HEAT'>
+		<Group form='Table' newline='1'>
+			<Argument form='Float' comment='Specific heat'/>
+			<Argument form='Float' comment='Temperature'/>
+		</Group>
+	</Keyword>
 
 
-
-	<Keyword name='*SPECIFIC HEAT'/>
 	<Keyword name='*SPRING'>
 		<Argument form='Line' name='ELSET' required='1'/>
 		<Argument form='Bool' name='NONLINEAR'/>
