@@ -1545,9 +1545,21 @@
 		<Argument form='Float' name='SHOCK SMOOTHING'/>
 	</Keyword>
 	<Keyword name='*SUBMODEL'>
-		<Argument form='Combo' name='TYPE' required='1'>NODE|SURFACE</Argument>
 		<Argument form='SelectFile' name='INPUT' required='1' comment='FRD file:'/>
 		<Argument use='*ELSET' name='GLOBAL ELSET'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='TYPE=NODE'>
+				<Argument form='Line' name='TYPE' readonly='1'>NODE</Argument>
+				<Group form='OrH' newline='1'>
+					<Argument form='Int' comment='NODE or...'/>
+					<Argument use='*NSET' comment='...NSET'/>
+				</Group>
+			</Group>
+			<Group form='VBox' name='TYPE=SURFACE'>
+				<Argument form='Line' name='TYPE' readonly='1'>SURFACE</Argument>
+				<Argument form='Line' comment='Element face surface' newline='1'/>
+			</Group>
+		</Group>
 	</Keyword>
 
 
