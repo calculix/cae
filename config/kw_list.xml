@@ -1513,13 +1513,31 @@
 		<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
 		<Argument form='Float' comment='Initial time increment for CFD'>1.e-2</Argument>
 	</Keyword>
-
-
-
 	<Keyword name='*STEADY STATE DYNAMICS'>
-		<Argument form='Combo' name='HARMONIC'>YES|NO</Argument>
-		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>
+		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX</Argument>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='HARMONIC=YES'>
+				<Argument form='Line' name='HARMONIC' readonly='1'>YES</Argument>
+				<Argument form='Float' comment='Lower bound of the frequency range' newline='1'/>
+				<Argument form='Float' comment='Upper bound of the frequency range'/>
+				<Argument form='Int' comment='Number of data points'>20</Argument>
+				<Argument form='Float' comment='Bias'>3.</Argument>
+			</Group>
+			<Group form='VBox' name='HARMONIC=NO'>
+				<Argument form='Line' name='HARMONIC' readonly='1'>NO</Argument>
+				<Argument form='Float' comment='Lower bound of the frequency range' newline='1'/>
+				<Argument form='Float' comment='Upper bound of the frequency range'/>
+				<Argument form='Int' comment='Number of data points'>20</Argument>
+				<Argument form='Float' comment='Bias'>3.</Argument>
+				<Argument form='Int' comment='Number of Fourier terms'>20</Argument>
+				<Argument form='Float' comment='Lower bound of the time range'>0</Argument>
+				<Argument form='Float' comment='Upper bound of the time range'>1</Argument>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*STEP'>
 		<Argument form='Bool' name='PERTURBATION'/>
 		<Argument form='Bool' name='NLGEOM'/>
