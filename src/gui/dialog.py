@@ -467,11 +467,13 @@ class Repl(ArgumentWidget):
     def __init__(self, argument):
         self.argument = argument
         self.widgets = []
+        self.text_widgets = []
         self.edits = []
         parts = argument.value.split('*')
         for i,s in enumerate(parts):
             l1 = QtWidgets.QLabel(s)
             self.widgets.append(l1)
+            self.text_widgets.append(l1)
             if i < len(parts) - 1:
                 l2 = QtWidgets.QLineEdit()
                 l2.setFixedWidth(110)
@@ -479,6 +481,7 @@ class Repl(ArgumentWidget):
                 l2.setValidator(QtGui.QIntValidator())
                 l2.textChanged.connect(change)
                 self.widgets.append(l2)
+                self.text_widgets.append(l2)
                 self.edits.append(l2)
         super().__init__(argument, self.widgets)
 
@@ -487,7 +490,9 @@ class Repl(ArgumentWidget):
         for w in self.edits:
             entered_text += w.text()
         txt = self.argument.get_newlines()
-        for w in self.widgets:
+        if self.argument.name:
+            txt += self.argument.name + '='
+        for w in self.text_widgets:
             txt += w.text()
         if entered_text:
             return ', ' + txt
@@ -652,7 +657,7 @@ class SelectFile(ArgumentWidget):
         super().__init__(argument, [self.w, self.push_button])
 
     def get_file(self):
-        fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Single File', '', '*.inp;;*.frd')[0]
+        fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Single File', '', '*.inp;;*.frd;;*.mtx')[0]
         self.w.setText(fname)
 
     def reset(self):
@@ -885,7 +890,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*STATIC')
+    item = KWL.get_keyword_by_name('*USER ELEMENT')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

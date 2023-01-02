@@ -1709,15 +1709,14 @@
 		<Argument form='Float' comment='Minimum time increment allowed'/>
 		<Argument form='Float' comment='Maximum time increment allowed'/>
 	</Keyword>
-
-
-
 	<Keyword name='*USER ELEMENT'>
-		<Argument form='Line' name='TYPE' required='1'/>
-		<Argument form='Line' name='INTEGRATION POINTS' required='1'/>
-		<Argument form='Line' name='MAXDOF' required='1'/>
-		<Argument form='Line' name='NODES' required='1'/>
+		<Argument form='Repl' name='TYPE' required='1'>U*</Argument>
+		<Argument form='Int' name='INTEGRATION POINTS' required='1'/>
+		<Argument form='Int' name='MAXDOF' required='1'/>
+		<Argument form='Int' name='NODES' required='1'/>
 	</Keyword>
+
+
 	<Keyword name='*USER MATERIAL'>
 		<Argument form='Line' name='CONSTANTS' required='1'/>
 		<Argument form='Combo' name='TYPE'>MECHANICAL|THERMAL</Argument>
