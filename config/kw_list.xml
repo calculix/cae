@@ -1460,10 +1460,12 @@
 		<Argument form='Bool' name='NODAL THICKNESS'/>
 		<Argument form='Float' comment='Thickness' newline='1'/>
 	</Keyword>
+	<Keyword name='*SPECIFIC GAS CONSTANT'>
+		<Argument form='Float' comment='Specific gas constant' newline='1' required='1'/>
+	</Keyword>
 
 
 
-	<Keyword name='*SPECIFIC GAS CONSTANT'/>
 	<Keyword name='*SPECIFIC HEAT'/>
 	<Keyword name='*SPRING'>
 		<Argument form='Line' name='ELSET' required='1'/>
