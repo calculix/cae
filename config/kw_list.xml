@@ -1413,14 +1413,13 @@
 		<Argument form='Int' name='REF NODE'/>
 		<Argument form='Int' name='ROT NODE'/>
 	</Keyword>
-
-
-
 	<Keyword name='*ROBUST DESIGN'>
-		<Argument form='Line' name='RANDOM FIELD ONLY' required='1'/>
-		<!-- New line -->
-		<!-- Requested accuracy (real number; > 0 and < 1) -->
+		<Argument form='Bool' name='RANDOM FIELD ONLY' required='1'/>
+		<Argument form='Float' newline='1' comment='Requested accuracy'/>
 	</Keyword>
+
+
+
 	<Keyword name='*SECTION PRINT'>
 		<Argument use='*SURFACE' name='SURFACE' required='1'/>
 		<Argument form='Line' name='NAME' required='1'/>
