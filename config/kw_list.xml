@@ -1677,13 +1677,23 @@
 			</Argument>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*TRANSFORM'>
 		<Argument form='Line' name='NSET' required='1'/>
 		<Argument form='Combo' name='TYPE'>R|C</Argument>
+		<Group form='HBox' newline='1' required='1'>
+			<Argument form='Float' comment='Xa'/>
+			<Argument form='Float' comment='Ya'/>
+			<Argument form='Float' comment='Za'/>
+		</Group>
+		<Group form='HBox' required='1'>
+			<Argument form='Float' comment='Xb'/>
+			<Argument form='Float' comment='Yb'/>
+			<Argument form='Float' comment='Zb'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*UNCOUPLED TEMPERATURE-DISPLACEMENT'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
 		<Argument form='Line' name='ALPHA'/>
