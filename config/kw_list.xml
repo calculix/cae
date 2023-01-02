@@ -1594,13 +1594,38 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
-
 	<Keyword name='*SURFACE BEHAVIOR'>
-		<Argument form='Combo' name='PRESSURE-OVERCLOSURE' required='1'>EXPONENTIAL|LINEAR|TABULAR|TIED|HARD</Argument>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='EXPONENTIAL'>
+				<Argument form='Line' name='PRESSURE-OVERCLOSURE' readonly='1'>EXPONENTIAL</Argument>
+				<Argument form='Float' comment='c0' newline='1'/>
+				<Argument form='Float' comment='p0'/>
+			</Group>
+			<Group form='VBox' name='LINEAR'>
+				<Argument form='Line' name='PRESSURE-OVERCLOSURE' readonly='1'>LINEAR</Argument>
+				<Argument form='Float' comment='Slope K of the pressure-overclosure curve' newline='1'/>
+				<Argument form='Float' comment='σ∞'/>
+				<Argument form='Float' comment='c0'/>
+			</Group>
+			<Group form='VBox' name='TABULAR'>
+				<Argument form='Line' name='PRESSURE-OVERCLOSURE' readonly='1'>TABULAR</Argument>
+				<Group form='Table' newline='1'>
+					<Argument form='Float' comment='Pressure'/>
+					<Argument form='Float' comment='Overclosure'/>
+				</Group>
+			</Group>
+			<Group form='VBox' name='TIED'>
+				<Argument form='Line' name='PRESSURE-OVERCLOSURE' readonly='1'>TIED</Argument>
+				<Argument form='Float' comment='Slope K of the pressure-overclosure curve' newline='1'/>
+			</Group>
+			<Group form='VBox' name='HARD'>
+				<Argument form='Line' name='PRESSURE-OVERCLOSURE' readonly='1'>HARD</Argument>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*SURFACE INTERACTION'>
 		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
