@@ -55,6 +55,11 @@ class ArgumentWidget(QtWidgets.QWidget):
 
         self.v_layout = QtWidgets.QVBoxLayout()
         self.v_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.required_label = QtWidgets.QLabel()
+        self.required_label.setText('*')
+        self.required_label.setStyleSheet('color:Red;')
+
         if argument.comment:
             comment_layout = QtWidgets.QHBoxLayout()
             comment_layout.setContentsMargins(0, 0, 0, 0) # bottom margin
@@ -63,10 +68,7 @@ class ArgumentWidget(QtWidgets.QWidget):
             comment_label.setStyleSheet('color: Blue;')
 
             if self.required:
-                required_label = QtWidgets.QLabel()
-                required_label.setText('*')
-                required_label.setStyleSheet('color:Red;')
-                comment_layout.addWidget(required_label)
+                comment_layout.addWidget(self.required_label)
 
             comment_layout.addWidget(comment_label)
             self.v_layout.addLayout(comment_layout)
@@ -94,10 +96,7 @@ class ArgumentWidget(QtWidgets.QWidget):
 
         # Mark required argument
         if self.required and not argument.comment:
-            required_label = QtWidgets.QLabel()
-            required_label.setText('*')
-            required_label.setStyleSheet('color:Red;')
-            widgets.insert(0, required_label)
+            widgets.insert(0, self.required_label)
 
         for w in widgets:
             if hasattr(w, 'setReadOnly'):
@@ -111,6 +110,10 @@ class ArgumentWidget(QtWidgets.QWidget):
     def setEnabled(self, status):
         for w in self.widgets:
             w.setEnabled(status)
+        if status:
+            self.required_label.setStyleSheet('color:Red;')
+        else:
+            self.required_label.setStyleSheet('color:Gray;')
 
     def text(self):
         if not self.w.isEnabled():
@@ -402,7 +405,7 @@ class Or(GroupWidget):
 
     def toggle(self):
         for (a, rb) in self.aw.values():
-            a.widget.setDisabled(not rb.isChecked())
+            a.widget.setEnabled(rb.isChecked())
 
 
 class Grid(GroupWidget):
@@ -882,7 +885,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*NSET')
+    item = KWL.get_keyword_by_name('*RIGID BODY')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
