@@ -1727,10 +1727,16 @@
 		<Argument form='Int' name='CONSTANTS' required='1'/>
 		<Argument form='Text' comment='Section parameters (8 values per line)' newline='1'/>
 	</Keyword>
+	<Keyword name='*VALUES AT INFINITY'>
+		<Argument form='Float' comment='Static temperature at infinity' newline='1' required='1'/>
+		<Argument form='Float' comment='Norm of the velocity vector at infinity' required='1'/>
+		<Argument form='Float' comment='Static pressure at infinity' required='1'/>
+		<Argument form='Float' comment='Density at infinity' required='1'/>
+		<Argument form='Float' comment='Length of the computational domain' required='1'/>
+	</Keyword>
 
 
 
-	<Keyword name='*VALUES AT INFINITY'/>
 	<Keyword name='*VIEWFACTOR'>
 		<Argument form='Bool' name='READ|NO CHANGE'/>
 		<Argument form='SelectFile' name='INPUT'/>

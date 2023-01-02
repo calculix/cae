@@ -204,6 +204,7 @@ What's new in future v0.9.0:
 
 # TODO
 
+- required for all arguments - move to the Keyword. Support inheritance. 
 - Table widget: redundant comma in the end of line.
 - Text widget has to be resizable.
 - Argument with "use": link to create a new IMPLEMENTATION.
