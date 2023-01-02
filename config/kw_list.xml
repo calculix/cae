@@ -1396,12 +1396,18 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*RETAINED NODAL DOFS'>
-		<Argument form='Bool' name='SORTED=NO'/>
+		<Argument form='Combo' name='SORTED'>|NO</Argument>
+		<Group form='OrH' required='1' newline='1'>
+			<Argument form='Int' comment='NODE or...'/>
+			<Argument use='*NSET' comment='...NSET'/>
+		</Group>
+		<Argument form='Int' comment='First DOF retained'/>
+		<Argument form='Int' comment='Last DOF retained'/>
 	</Keyword>
+
+
+
 	<Keyword name='*RIGID BODY'>
 		<Argument form='Line' name='NSET|ELSET' required='1'/>
 		<Argument form='Line' name='REF NODE'/>
