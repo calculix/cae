@@ -1453,14 +1453,16 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*SOLID SECTION'>
-		<Argument form='Line' name='ELSET' required='1'/>
-		<Argument form='Line' name='MATERIAL' required='1'/>
-		<Argument form='Line' name='ORIENTATION'/>
+		<Argument use='*ELSET' name='ELSET' required='1'/>
+		<Argument use='*MATERIAL' name='MATERIAL' required='1'/>
+		<Argument use='*ORIENTATION' name='ORIENTATION'/>
+		<Argument form='Bool' name='NODAL THICKNESS'/>
+		<Argument form='Float' comment='Thickness' newline='1'/>
 	</Keyword>
+
+
+
 	<Keyword name='*SPECIFIC GAS CONSTANT'/>
 	<Keyword name='*SPECIFIC HEAT'/>
 	<Keyword name='*SPRING'>
