@@ -1561,12 +1561,12 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*SUBSTRUCTURE GENERATE'>
-		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO</Argument>
+		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO</Argument>
 	</Keyword>
+
+
+
 	<Keyword name='*SUBSTRUCTURE MATRIX OUTPUT'>
 		<Argument form='Line' name='FILE NAME' required='1'/>
 		<Argument form='Bool' name='STIFFNESS=YES'/>
