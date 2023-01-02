@@ -1345,18 +1345,41 @@
 			<Argument form='Float'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*RADIATE'>
-		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Line' name='AMPLITUDE'/>
-		<Argument form='Line' name='TIME DELAY'/>
-		<Argument form='Line' name='RADIATION AMPLITUDE'/>
-		<Argument form='Line' name='RADIATION TIME DELAY'/>
-		<Argument form='Line' name='ENVNODE'/>
-		<Argument form='Line' name='CAVITY'/>
+		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
+		<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
+		<Argument form='Float' name='TIME DELAY'/>
+		<Argument use='*AMPLITUDE' name='RADIATION AMPLITUDE'/>
+		<Argument form='Float' name='RADIATION TIME DELAY'/>
+		<Argument form='Int' name='CAVITY'/>
+		<Argument form='Bool' name='ENVNODE'/>
+		<Group form='OrH' newline='1'>
+			<Argument form='Int' comment='ELEMENT or...'/>
+			<Argument use='*ELSET' comment='...ELSET'/>
+		</Group>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='Uniform explicit'>
+				<Argument form='Repl' comment='Radiation flux type label (Rx)'>R*</Argument>
+				<Argument form='Float' comment='Sink temperature / Sink node'/>
+				<Argument form='Float' comment='Emissivity'/>
+			</Group>
+			<Group form='VBox' name='Nonuniform explicit'>
+				<Argument form='Repl' comment='Radiation flux type label (RxNUy)'>R*NU*</Argument>
+			</Group>
+			<Group form='VBox' name='Uniform emissivity'>
+				<Argument form='Repl' comment='Radiation flux type label (RxCR)'>R*CR</Argument>
+				<Argument form='Float' comment='Sink temperature / Sink node'/>
+				<Argument form='Float' comment='Emissivity'/>
+			</Group>
+			<Group form='VBox' name='Nonuniform emissivity'>
+				<Argument form='Repl' comment='Radiation flux type label (RxCRNUy)'>R*CRNU*</Argument>
+				<Argument form='Float' comment='Sink temperature / Sink node'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*REFINE MESH'>
 		<Argument form='Line' name='LIMIT'/>
 	</Keyword>
