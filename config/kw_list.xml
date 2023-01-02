@@ -1663,14 +1663,23 @@
 			<Argument use='*SURFACE' comment='Master surface'/>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*TIME POINTS'>
 		<Argument form='Line' name='NAME' required='1'/>
 		<Argument form='Combo' name='TIME'>|TOTAL TIME</Argument>
-		<Argument form='Bool' name='GENERATE'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='List of values' newline='1'>
+				<Argument form='Text' comment='Comma separated values, max. 8 per line.'/>
+			</Group>
+			<Argument form='HGroup' name='GENERATE' required='1'>
+				<Argument form='Int' comment='First element' newline='1'/>
+				<Argument form='Int' comment='Last element'/>
+				<Argument form='Int' comment='Increment'/>
+			</Argument>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*TRANSFORM'>
 		<Argument form='Line' name='NSET' required='1'/>
 		<Argument form='Combo' name='TYPE'>R|C</Argument>
