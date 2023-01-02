@@ -1623,21 +1623,39 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*SURFACE INTERACTION'>
 		<Argument form='Line' name='NAME' required='1'/>
 	</Keyword>
 	<Keyword name='*TEMPERATURE'>
-		<Argument form='Combo' name='OP'>NEW|MOD</Argument>
-		<Argument form='Line' name='AMPLITUDE'/>
-		<Argument form='Line' name='TIME DELAY'/>
-		<Argument form='Bool' name='USER'/>
-		<Argument form='Line' name='SUBMODEL'/>
-		<Argument form='Line' name='STEP'/>
-		<Argument form='Line' name='DATA SET'/>
+		<Argument form='Combo' name='OP'>|MOD|NEW</Argument>
+		<Argument use='*AMPLITUDE' name='AMPLITUDE'/>
+		<Argument form='Float' name='TIME DELAY'/>
+		<Argument form='VGroup' name='SUBMODEL'>
+			<Argument form='Int' name='STEP'/>
+			<Argument form='Int' name='DATA SET'/>
+		</Argument>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='Table' newline='1'>
+				<Group form='OrH'>
+					<Argument form='Int' comment='NODE or...'/>
+					<Argument use='*NSET' comment='...NSET'/>
+				</Group>
+				<Argument form='Float' comment='Temperature value at the node'/>
+				<Argument form='Float' comment='Temperature gradient in normal direction (shells) or in 2-direction (beams)'/>
+				<Argument form='Float' comment='Temperature gradient in 1-direction (beams)'/>
+			</Group>
+			<Group form='VBox' name='File'>
+				<Argument form='SelectFile' name='INPUT' required='1' comment='FRD file'/>
+				<Argument form='Int' name='BSTEP'/>
+			</Group>
+			<Group form='VBox' name='User'>
+				<Argument form='Bool' name='USER' required='1'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*TIE'>
 		<Argument form='Line' name='NAME' required='1'/>
 		<Argument form='Line' name='POSITION TOLERANCE'/>
