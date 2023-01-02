@@ -1653,15 +1653,19 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*TIE'>
 		<Argument form='Line' name='NAME' required='1'/>
-		<Argument form='Line' name='POSITION TOLERANCE'/>
-		<Argument form='Bool' name='ADJUST'/>
-		<Argument form='Bool' name='CYCLIC SYMMETRY|MULTISTAGE|FLUID PERIODIC|FLUID CYCLIC'/>
+		<Argument form='Float' name='POSITION TOLERANCE'/>
+		<Argument form='Combo' name='ADJUST'>|YES|NO</Argument>
+		<Argument form='Combo'>|CYCLIC SYMMETRY|MULTISTAGE|FLUID PERIODIC|FLUID CYCLIC</Argument>
+		<Group form='HBox' newline='1'>
+			<Argument use='*SURFACE' comment='Slave surface'/>
+			<Argument use='*SURFACE' comment='Master surface'/>
+		</Group>
 	</Keyword>
+
+
+
 	<Keyword name='*TIME POINTS'>
 		<Argument form='Line' name='NAME' required='1'/>
 		<Argument form='Combo' name='TIME'>|TOTAL TIME</Argument>
