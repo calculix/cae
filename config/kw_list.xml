@@ -1715,12 +1715,15 @@
 		<Argument form='Int' name='MAXDOF' required='1'/>
 		<Argument form='Int' name='NODES' required='1'/>
 	</Keyword>
-
-
 	<Keyword name='*USER MATERIAL'>
-		<Argument form='Line' name='CONSTANTS' required='1'/>
-		<Argument form='Combo' name='TYPE'>MECHANICAL|THERMAL</Argument>
+		<Argument form='Line' name='NAME'/>
+		<Argument form='Int' name='CONSTANTS' required='1'/>
+		<Argument form='Combo' name='TYPE'>|MECHANICAL|THERMAL</Argument>
+		<Argument form='Text' comment='Material parameters (8 values per line)' newline='1'/>
 	</Keyword>
+
+
+
 	<Keyword name='*USER SECTION'>
 		<Argument use='*ELSET' name='ELSET' required='1'/>
 		<Argument use='*MATERIAL' NAME='MATERIAL' required='1'/>
