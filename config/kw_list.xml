@@ -1499,16 +1499,23 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*STATIC'>
-		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
-		<Argument form='Bool' name='DIRECT'/>
-		<Argument form='Bool' name='EXPLICIT'/>
-		<Argument form='Bool' name='TIME RESET'/>
-		<Argument form='Line' name='TOTAL TIME AT START'/>
+		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO|SGI|TAUCS|PaStiX|ITERATIVE SCALING|ITERATIVE CHOLESKY</Argument>
+		<Argument form='Float' name='TOTAL TIME AT START'/>
+		<Group form='HBox'>
+			<Argument form='Bool' name='DIRECT'/>
+			<Argument form='Bool' name='EXPLICIT'/>
+			<Argument form='Bool' name='TIME RESET'/>
+		</Group>
+		<Argument form='Float' comment='Initial time increment' newline='1'>0.1</Argument>
+		<Argument form='Float' comment='Time period of the step'>1</Argument>
+		<Argument form='Float' comment='Minimum time increment'>1.e-5</Argument>
+		<Argument form='Float' comment='Maximum time increment'>1.e+30</Argument>
+		<Argument form='Float' comment='Initial time increment for CFD'>1.e-2</Argument>
 	</Keyword>
+
+
+
 	<Keyword name='*STEADY STATE DYNAMICS'>
 		<Argument form='Combo' name='HARMONIC'>YES|NO</Argument>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS</Argument>

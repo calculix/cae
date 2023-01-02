@@ -130,7 +130,7 @@ class ArgumentWidget(QtWidgets.QWidget):
             ct = self.w.toPlainText()
         elif hasattr(self.w, 'text'):
             ct = self.w.text()
-        if ct and not ct.startswith('!!! Create *'):
+        if ct and not ct.startswith('!!! Create'):
             if self.label is not None and self.label.text():
                 return self.newlines + sep + self.label.text() + '=' + ct
             elif self.name:
@@ -885,7 +885,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*RIGID BODY')
+    item = KWL.get_keyword_by_name('*STATIC')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
