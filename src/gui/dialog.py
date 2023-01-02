@@ -33,17 +33,14 @@ if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 from path import p
 from settings import s
-from model.kom import ItemType, KWL, KWT
+from model.kom import ItemType, KWL, KWT, Implementation
 import gui.window
-
-ITEM = None
-TEXTEDIT = None
 
 
 class ArgumentWidget(QtWidgets.QWidget):
     """ArgumentWidget is used to visualize Arguments."""
 
-    def __init__(self, argument, widgets, show_label=True):
+    def __init__(self, dialog, argument, widgets, show_label=True):
         assert type(argument.name) is str, 'Wrong name type: {}'.format(type(argument.name))
         assert type(widgets) is list, 'Wrong widgets type: {}'.format(type(widgets))
         self.name = argument.name
@@ -86,13 +83,12 @@ class ArgumentWidget(QtWidgets.QWidget):
             self.label = QtWidgets.QComboBox()
             self.label.addItems(self.name.split('|'))
             self.label.text = self.label.currentText
-            self.label.currentIndexChanged.connect(change)
+            self.label.currentIndexChanged.connect(lambda: change(dialog))
         elif self.name:
             self.label = QtWidgets.QLabel(self.name)
-            self.label.linkHovered.connect(change)
+            self.label.linkHovered.connect(lambda: change(dialog))
         if show_label and self.label is not None:
             widgets.insert(0, self.label)
-            # widgets.append(self.label)
 
         # Mark required argument
         if self.required and not argument.comment:
@@ -105,7 +101,7 @@ class ArgumentWidget(QtWidgets.QWidget):
         self.setLayout(self.v_layout)
 
         # Recursion for nested arguments/groups
-        build_widgets(argument.get_arguments(), self.v_layout)
+        build_widgets(dialog, argument.get_arguments(), self.v_layout)
 
     def setEnabled(self, status):
         for w in self.widgets:
@@ -130,7 +126,7 @@ class ArgumentWidget(QtWidgets.QWidget):
             ct = self.w.toPlainText()
         elif hasattr(self.w, 'text'):
             ct = self.w.text()
-        if ct and not ct.startswith('!!! Create'):
+        if ct and not ct.startswith('Create'):
             if self.label is not None and self.label.text():
                 return self.newlines + sep + self.label.text() + '=' + ct
             elif self.name:
@@ -175,7 +171,8 @@ class GroupWidget(QtWidgets.QWidget):
 class Table(QtWidgets.QWidget):
     """Custom QTableWidget."""
 
-    def __init__(self, argument):
+    def __init__(self, dialog, argument):
+        self.dialog = dialog
         self.required = argument.get_required()
         self.arguments = argument.get_arguments()
         self.newlines = argument.get_newlines()
@@ -228,7 +225,7 @@ class Table(QtWidgets.QWidget):
         self.w.insertRow(i)
         self.w.setRowHeight(i, 20)
         for j in range(self.w.columnCount()):
-            self.w.itemChanged.connect(change)
+            self.w.itemChanged.connect(lambda: change(self.dialog))
 
     def row_rem(self):
         i = self.w.rowCount()
@@ -257,7 +254,7 @@ class Group(QtWidgets.QWidget):
     Used for argument with arguments inside.
     *CLOAD
     """
-    def __init__(self, argument, box_layout):
+    def __init__(self, dialog, argument, box_layout):
         self.required = argument.get_required()
         self.argument = argument
         self.arguments = argument.get_arguments()
@@ -266,12 +263,12 @@ class Group(QtWidgets.QWidget):
         super().__init__()
 
         box_layout.setContentsMargins(20, 10, 8, 0)
-        build_widgets(self.arguments, box_layout)
+        build_widgets(dialog, self.arguments, box_layout)
 
         self.gbox = QtWidgets.QGroupBox()
         self.gbox.setCheckable(True)
         self.gbox.setTitle(argument.name)
-        self.gbox.clicked.connect(change)
+        self.gbox.clicked.connect(lambda: change(dialog))
         self.gbox.setLayout(box_layout)
         self.reset()
 
@@ -294,98 +291,85 @@ class Group(QtWidgets.QWidget):
 class HGroup(Group):
     """QGroupBox with horizontal layout."""
 
-    def __init__(self, argument):
-        super().__init__(argument, QtWidgets.QHBoxLayout())
+    def __init__(self, dialog, argument):
+        super().__init__(dialog, argument, QtWidgets.QHBoxLayout())
 
 
 class VGroup(Group):
     """QGroupBox with vertical layout."""
 
-    def __init__(self, argument):
-        super().__init__(argument, QtWidgets.QVBoxLayout())
+    def __init__(self, dialog, argument):
+        super().__init__(dialog, argument, QtWidgets.QVBoxLayout())
 
 
 class Tabs(GroupWidget):
     """A Group drawn with QTabWidget.
     Widgets from all tabs will participate in the final INP code.
     """
-    def __init__(self, group):
-        # super().__init__()
+    def __init__(self, dialog, group):
         self.arguments = group.get_arguments()
-        # self.newlines = group.get_newlines()
         layout = QtWidgets.QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         super().__init__(group, layout)
 
         self.w = QtWidgets.QTabWidget()
         for gr in self.arguments:
-            # gr.required = group.required
             tab = QtWidgets.QWidget()
             l = QtWidgets.QVBoxLayout()
             tab.setLayout(l)
             self.w.addTab(tab, gr.name)
-            build_widgets([gr], l) # build a.widget
+            build_widgets(dialog, [gr], l) # build a.widget
             s = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
             l.addSpacerItem(s)
 
         layout.addWidget(self.w)
-        # self.setLayout(layout)
-
-    # def text(self, *args):
-    #     return self.newlines
-
-    # def reset(self):
-    #     reset(self.arguments)
-    pass
 
 
 class Tabs2(Tabs):
     """Only widgets from active tab will participate in the final INP code."""
 
-    def __init__(self, group):
-        super().__init__(group)
+    def __init__(self, dialog, group):
+        self.dialog = dialog
+        super().__init__(dialog, group)
         for i,a in enumerate(group.get_arguments()):
-            # a.widget.setEnabled(i==0)
-            # a.required = group.get_required()
             a.widget.setDisabled(i!=0)
         self.w.currentChanged.connect(self.tab_activated)
 
     def tab_activated(self, index):
         """Needed to deactivate tab widgets not to participate in dialog.accept()"""
         for i,a in enumerate(self.arguments):
-            # a.widget.setEnabled(i==index)
             a.widget.setDisabled(i!=index)
-        change(None)
+        change(self.dialog)
 
 
 class Box(GroupWidget):
     """GroupWidget."""
 
-    def __init__(self, group, layout):
+    def __init__(self, dialog, group, layout):
         self.arguments = group.get_arguments()
         layout.setContentsMargins(0, 0, 0, 0)
         super().__init__(group, layout)
-        build_widgets(self.arguments, layout)
+        build_widgets(dialog, self.arguments, layout)
 
 
 class HBox(Box):
     """GroupWidget with horizontal layout."""
 
-    def __init__(self, group):
-        super().__init__(group, QtWidgets.QHBoxLayout())
+    def __init__(self, dialog, group):
+        super().__init__(dialog, group, QtWidgets.QHBoxLayout())
 
 
 class VBox(Box):
     """GroupWidget with vertical layout."""
 
-    def __init__(self, group):
-        super().__init__(group, QtWidgets.QVBoxLayout())
+    def __init__(self, dialog, group):
+        super().__init__(dialog, group, QtWidgets.QVBoxLayout())
 
 
 class Or(GroupWidget):
     """GroupWidget with radiobuttons."""
 
-    def __init__(self, group, layout):
+    def __init__(self, dialog, group, layout):
         self.arguments = group.get_arguments()
         layout.setContentsMargins(0, 0, 0, 0)
         self.aw = {}
@@ -395,10 +379,10 @@ class Or(GroupWidget):
             rb.setChecked(not bool(i))
             hl.addWidget(rb)
             a.required = group.required
-            build_widgets([a], hl) # build a.widget
+            build_widgets(dialog, [a], hl) # build a.widget
             self.aw[i] = (a, rb)
             rb.toggled.connect(self.toggle)
-            rb.toggled.connect(change)
+            rb.toggled.connect(lambda: change(dialog))
             layout.addLayout(hl)
         super().__init__(group, layout)
         self.toggle()
@@ -411,7 +395,7 @@ class Or(GroupWidget):
 class Grid(GroupWidget):
     """Grid of checkboxes."""
 
-    def __init__(self, argument):
+    def __init__(self, dialog, argument):
         self.newlines = argument.get_newlines()
         self.checkboxes = []
         l = QtWidgets.QGridLayout()
@@ -420,7 +404,7 @@ class Grid(GroupWidget):
         for a in argument.value.split(','):
             cb = QtWidgets.QCheckBox(a.strip())
             self.checkboxes.append(cb)
-            cb.toggled.connect(change)
+            cb.toggled.connect(lambda: change(dialog))
             l.addWidget(cb, row, col)
             col += 1
             if col % 4 == 0:
@@ -446,17 +430,17 @@ class Grid(GroupWidget):
 class OrH(Or):
     """GroupWidget with radiobuttons. Horizontal layout."""
 
-    def __init__(self, group):
+    def __init__(self, dialog, group):
         l = QtWidgets.QHBoxLayout()
-        super().__init__(group, l)
+        super().__init__(dialog, group, l)
 
 
 class OrV(Or):
     """GroupWidget with radiobuttons. Vertical layout."""
 
-    def __init__(self, group):
+    def __init__(self, dialog, group):
         l = QtWidgets.QVBoxLayout()
-        super().__init__(group, l)
+        super().__init__(dialog, group, l)
 
 
 class Repl(ArgumentWidget):
@@ -464,7 +448,7 @@ class Repl(ArgumentWidget):
     asterisks as input. Allows user to replace asterisks with numbers.
     Contains labels and inputs.
     """
-    def __init__(self, argument):
+    def __init__(self, dialog, argument):
         self.argument = argument
         self.widgets = []
         self.text_widgets = []
@@ -479,11 +463,11 @@ class Repl(ArgumentWidget):
                 l2.setFixedWidth(110)
                 l2.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
                 l2.setValidator(QtGui.QIntValidator())
-                l2.textChanged.connect(change)
+                l2.textChanged.connect(lambda: change(dialog))
                 self.widgets.append(l2)
                 self.text_widgets.append(l2)
                 self.edits.append(l2)
-        super().__init__(argument, self.widgets)
+        super().__init__(dialog, argument, self.widgets)
 
     def text(self):
         entered_text = ''
@@ -498,7 +482,7 @@ class Repl(ArgumentWidget):
             return ', ' + txt
         else:
             return ''
-    
+
     def reset(self):
         for w in self.edits:
             w.clear()
@@ -507,7 +491,8 @@ class Repl(ArgumentWidget):
 class Combo(ArgumentWidget):
     """QComboBox widget with label."""
 
-    def __init__(self, argument):
+    def __init__(self, dialog, argument):
+        self.dialog = dialog
         self.argument = argument
         self.w = QtWidgets.QComboBox()
 
@@ -519,7 +504,7 @@ class Combo(ArgumentWidget):
                 self.w.addItems(implementations)
             else:
                 self.w.setStyleSheet('color: Red;')
-                self.w.addItem('!!! Create ' + argument.use + ' first !!!')
+                self.w.addItem('Create ' + argument.use)
 
         if argument.value:
             for v in argument.value.split('|'):
@@ -530,11 +515,36 @@ class Combo(ArgumentWidget):
         sizePolicy.setHorizontalStretch(1) # expand horizontally
         self.w.setSizePolicy(sizePolicy)
 
-        self.w.currentIndexChanged.connect(change)
-        super().__init__(argument, [self.w])
+        self.w.currentIndexChanged.connect(self.index_changed)
+        super().__init__(dialog, argument, [self.w])
 
     def reset(self):
         self.w.setCurrentIndex(0)
+
+    def index_changed(self, *args):
+        if hasattr(self.argument, 'use') and self.argument.use and self.w.currentText().startswith('Create'):
+            i = args[0]
+            kwt_item = KWT.get_top_keyword_by_name(KWT.root, self.argument.use)
+            kwl_item = KWL.get_keyword_by_name(self.argument.use)
+
+            # Exec dialog and recieve answer
+            # Process response from dialog window if user pressed 'OK'
+            from gui.window import df
+            if df.run_master_dialog(kwl_item): # 0 = cancel, 1 = ok
+
+                # The generated piece of .inp code for the CalculiX input file
+                inp_code = df.mw.ok() # list of strings
+
+                # Create implementation object for keyword
+                impl = Implementation(kwt_item, inp_code) # create keyword implementation
+                # TODO Add impl to the tree
+
+                # Add and item to the drop-down list
+                self.w.removeItem(i)
+                self.w.addItem(impl.name)
+                self.w.setCurrentIndex(i)
+
+        change(self.dialog)
 
 
 class Use2(ArgumentWidget):
@@ -544,7 +554,7 @@ class Use2(ArgumentWidget):
 
     Two combo boxes: left one allows to select implementation in the right one.
     """
-    def __init__(self, argument):
+    def __init__(self, dialog, argument):
         self.argument = argument
         self.use = QtWidgets.QComboBox()
         self.values = argument.value.split('|')
@@ -560,9 +570,9 @@ class Use2(ArgumentWidget):
         sizePolicy.setHorizontalStretch(1) # expand horizontally
         self.w.setSizePolicy(sizePolicy)
 
-        self.w.currentIndexChanged.connect(change)
+        self.w.currentIndexChanged.connect(lambda: change(dialog))
         self.use.currentIndexChanged.connect(self.draw_implementations)
-        super().__init__(argument, [self.use, self.w])
+        super().__init__(dialog, argument, [self.use, self.w])
 
     def draw_implementations(self, *args):
         self.w.clear()
@@ -573,7 +583,7 @@ class Use2(ArgumentWidget):
             self.w.addItems(implementations)
         else:
             self.w.setStyleSheet('color: Red;')
-            self.w.addItem('!!! Create ' + kw + ' first !!!')
+            self.w.addItem('Create ' + kw)
 
     def reset(self):
         self.use.setCurrentIndex(0)
@@ -583,13 +593,13 @@ class Use2(ArgumentWidget):
 class Text(ArgumentWidget):
     """QTextEdit widget with label."""
 
-    def __init__(self, argument):
+    def __init__(self, dialog, argument):
         self.argument = argument
         self.w = QtWidgets.QTextEdit()
-        super().__init__(argument, [self.w])
+        super().__init__(dialog, argument, [self.w])
         self.setText(argument.value)
         self.setEnabled = self.w.setEnabled
-        self.w.textChanged.connect(lambda: change(None))
+        self.w.textChanged.connect(lambda: change(dialog))
 
     def reset(self):
         self.setText(self.argument.value)
@@ -608,9 +618,9 @@ class Text(ArgumentWidget):
 class Empty(ArgumentWidget):
     """No widget. Adds space into the INP code."""
 
-    def __init__(self, argument):
+    def __init__(self, dialog, argument):
         self.newlines = argument.get_newlines()
-        super().__init__(argument, [])
+        super().__init__(dialog, argument, [])
 
     def text(self):
         return self.newlines + ', '
@@ -619,15 +629,15 @@ class Empty(ArgumentWidget):
 class Bool(ArgumentWidget):
     """Checkbox widget with label."""
 
-    def __init__(self, argument):
+    def __init__(self, dialog, argument):
         self.argument = argument
         self.status = '|' in argument.name
         if self.status:
             self.w = QtWidgets.QCheckBox()
         else:
             self.w = QtWidgets.QCheckBox(argument.name)
-        self.w.clicked.connect(change)
-        super().__init__(argument, [self.w], show_label=self.status)
+        self.w.clicked.connect(lambda: change(dialog))
+        super().__init__(dialog, argument, [self.w], show_label=self.status)
         self.reset()
 
     def text(self):
@@ -647,14 +657,14 @@ class Bool(ArgumentWidget):
 class SelectFile(ArgumentWidget):
     """A custom widget to select files. With label."""
 
-    def __init__(self, argument):
+    def __init__(self, dialog, argument):
         self.argument = argument
         self.w = QtWidgets.QLineEdit()
         self.push_button = QtWidgets.QPushButton('...', None)
         self.push_button.clicked.connect(self.get_file)
         self.push_button.setFixedSize(30, 30)
-        self.w.textChanged.connect(change)
-        super().__init__(argument, [self.w, self.push_button])
+        self.w.textChanged.connect(lambda: change(dialog))
+        super().__init__(dialog, argument, [self.w, self.push_button])
 
     def get_file(self):
         fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Single File', '', '*.inp;;*.frd;;*.mtx')[0]
@@ -667,13 +677,13 @@ class SelectFile(ArgumentWidget):
 class Line(ArgumentWidget):
     """QLineEdit widget with label."""
 
-    def __init__(self, argument):
+    def __init__(self, dialog, argument):
         self.argument = argument
         self.w = QtWidgets.QLineEdit()
         self.w.setText(argument.value)
-        self.w.textChanged.connect(change)
+        self.w.textChanged.connect(lambda: change(dialog))
         self.setEnabled = self.w.setEnabled
-        super().__init__(argument, [self.w])
+        super().__init__(dialog, argument, [self.w])
 
     def reset(self):
         self.w.setText(self.argument.value)
@@ -682,20 +692,20 @@ class Line(ArgumentWidget):
 class Int(Line):
     """Text widget accepting int number."""
 
-    def __init__(self, argument):
-        super().__init__(argument)
+    def __init__(self, dialog, argument):
+        super().__init__(dialog, argument)
         self.w.setValidator(QtGui.QIntValidator())
 
 
 class Float(Line):
     """Text widget accepting float number."""
 
-    def __init__(self, argument):
-        super().__init__(argument)
+    def __init__(self, dialog, argument):
+        super().__init__(dialog, argument)
         self.w.setValidator(QtGui.QDoubleValidator())
 
 
-def build_widgets(arguments, parent_layout):
+def build_widgets(dialog, arguments, parent_layout):
     """Build widgets for direct children of the Keyword.
     Recursion for nested arguments/groups is implemented
     inside GroupWidget/ArgumentWidget - not here.
@@ -708,41 +718,38 @@ def build_widgets(arguments, parent_layout):
             form = a.form
         if hasattr(a, 'use') and a.use:
             form = Combo.__name__
-        a.widget = eval(form)(a) # argument's widget
+        a.widget = eval(form)(dialog, a) # argument's widget
         parent_layout.addWidget(a.widget)
 
 
-def change(data, arguments=[], append=False):
+def change(dialog, arguments=[], append=False):
     """Update piece of INP-code in the textEdit when
     a signal is emitted in any of argument's widgets.
     """
-    global ITEM, TEXTEDIT
-    if ITEM.itype == ItemType.IMPLEMENTATION:
-        TEXTEDIT.clear()
+    if dialog.item.itype == ItemType.IMPLEMENTATION:
+        dialog.textEdit.clear()
         return
     if not append:
-        TEXTEDIT.setText(ITEM.name)
+        dialog.textEdit.setText(dialog.item.name)
     if not arguments and not append:
-        arguments = ITEM.get_arguments()
+        arguments = dialog.item.get_arguments()
     for a in arguments:
         if a.widget is None:
             continue
         w = a.widget
-        old_value = TEXTEDIT.toPlainText()
+        old_value = dialog.textEdit.toPlainText()
         new_value = w.text() if w.isEnabled() else '' # argument value
-        # print(w.__class__.__name__, Empty.__name__, new_value)
-        # w.__class__.__name__ != Empty.__name__ and 
         if old_value.endswith('\n') and new_value.startswith(', '):
             new_value = new_value[2:]
         if w.__class__.__name__ != Empty.__name__:
             if old_value.endswith(', ') and new_value.startswith(', '):
                 new_value = new_value[2:]
-        TEXTEDIT.setText(old_value + new_value)
+        dialog.textEdit.setText(old_value + new_value)
 
         # Recursively walk through the whole keyword arguments
         args = a.get_arguments()
         if args:
-            change(data, args, append=True)
+            change(dialog, args, append=True)
 
 
 def reset(arguments):
@@ -757,16 +764,16 @@ class KeywordDialog(QtWidgets.QDialog):
 
     @gui.window.init_wrapper()
     def __init__(self, item):
-        """Load form and show the dialog."""
+        """Load form and show the dialog.
+        'item' is one of: Keyword or Implementation
+        """
         # Load UI form - produces huge amount of redundant debug logs
         logging.disable() # switch off logging
         super().__init__() # create dialog window
         uic.loadUi(p.dialog_xml, self) # load empty dialog form
         logging.disable(logging.NOTSET) # switch on logging
 
-        global ITEM, TEXTEDIT
-        ITEM = item # the one was clicked in the treeView
-        TEXTEDIT = self.textEdit
+        self.item = item # the one was clicked in the treeView
         self.info = None # WindowInfo will be set in @init_wrapper
         self.arguments = []
 
@@ -783,14 +790,14 @@ class KeywordDialog(QtWidgets.QDialog):
         # Fill textEdit with implementation's inp_code
         if item.itype == ItemType.IMPLEMENTATION:
             for line in item.inp_code:
-                TEXTEDIT.append(line)
+                self.textEdit.append(line)
 
         # Create widgets for each keyword argument
         elif item.itype == ItemType.KEYWORD:
             kw = KWL.get_keyword_by_name(item.name)
             self.arguments = kw.get_arguments()
-            build_widgets(kw.get_arguments(), self.widgets_layout)
-            change(None) # fill textEdit widget with default inp_code
+            build_widgets(self, kw.get_arguments(), self.widgets_layout)
+            change(self) # fill textEdit widget with default inp_code
 
         # Generate html help page from official manual
         self.doc = QtWebEngineWidgets.QWebEngineView()
@@ -806,14 +813,13 @@ class KeywordDialog(QtWidgets.QDialog):
     def reset(self):
         """Reset all widgets to initial state."""
         reset(self.arguments)
-        change(None) # update QTextEdit with INP-code
+        change(self) # update QTextEdit with INP-code
 
     def accept(self, arguments=None, depth=0):
         """Check if all required fields are filled."""
         ok = True
         if arguments is None:
-            global ITEM
-            arguments = ITEM.get_arguments()
+            arguments = self.item.get_arguments()
         for a in arguments:
             w = a.widget
             if w is not None and w.isEnabled() and w.required:
@@ -835,16 +841,14 @@ class KeywordDialog(QtWidgets.QDialog):
 
     def ok(self):
         """Return piece of created code for the .inp-file."""
-        global TEXTEDIT
-        return TEXTEDIT.toPlainText().strip().split('\n')
+        return self.textEdit.toPlainText().strip().split('\n')
 
     def get_help_url(self):
         """Get URL to the local doc page."""
-        global ITEM
-        if ITEM.itype == ItemType.KEYWORD:
-            keyword_name = ITEM.name[1:] # cut star
-        if ITEM.itype == ItemType.IMPLEMENTATION:
-            keyword_name = ITEM.parent.name[1:] # cut star
+        if self.item.itype == ItemType.KEYWORD:
+            keyword_name = self.item.name[1:] # cut star
+        if self.item.itype == ItemType.IMPLEMENTATION:
+            keyword_name = self.item.parent.name[1:] # cut star
 
         # Avoid spaces and hyphens in html page names
         import re
@@ -890,7 +894,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*USER ELEMENT')
+    item = KWL.get_keyword_by_name('*BOUNDARY')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
