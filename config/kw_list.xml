@@ -1430,16 +1430,10 @@
 		<Argument form='Int' name='NMIN'/>
 		<Argument form='Int' name='NMAX'/>
 	</Keyword>
-
-
 	<Keyword name='*SENSITIVITY'>
 		<Argument form='Bool' name='NLGEOM'/>
-		<Argument form='Bool' name='READ'/>
-		<Argument form='Bool' name='WRITE'/>
+		<Argument form='Bool' name='READ|WRITE'/>
 	</Keyword>
-
-
-
 	<Keyword name='*SHELL SECTION'>
 		<Argument use='*ELSET' name='ELSET' required='1'/>
 		<Argument form='Bool' name='ORIENTATION'/>
