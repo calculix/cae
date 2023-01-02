@@ -1426,13 +1426,12 @@
 		</Group>
 		<Argument form='Grid' newline='1' comment='Identifying keys for the variables to be printed,'>DRAG,FLUX,SOF,SOM,SOAREA</Argument>
 	</Keyword>
-
-
-
 	<Keyword name='*SELECT CYCLIC SYMMETRY MODES'>
-		<Argument form='Line' name='NMIN'/>
-		<Argument form='Line' name='NMAX'/>
+		<Argument form='Int' name='NMIN'/>
+		<Argument form='Int' name='NMAX'/>
 	</Keyword>
+
+
 	<Keyword name='*SENSITIVITY'>
 		<Argument form='Bool' name='NLGEOM'/>
 		<Argument form='Bool' name='READ'/>

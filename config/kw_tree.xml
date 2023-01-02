@@ -110,8 +110,12 @@
 				<Keyword name='*GEOMETRIC CONSTRAINT'/>
 				<Keyword name='*OBJECTIVE'/>
 			</Keyword>
-			<Keyword name='*FREQUENCY'/>
-			<Keyword name='*GREEN'/>
+			<Keyword name='*FREQUENCY'>
+				<Keyword name='*SELECT CYCLIC SYMMETRY MODES'/>
+			</Keyword>
+			<Keyword name='*GREEN'>
+				<Keyword name='*SELECT CYCLIC SYMMETRY MODES'/>
+			</Keyword>
 			<Keyword name='*HEAT TRANSFER'>
 				<Keyword name='*VIEWFACTOR'/>
 			</Keyword>
@@ -186,6 +190,5 @@
 		<Keyword name='*INCLUDE'/>
 		<Keyword name='*REFINE MESH'/>
 		<Keyword name='*RESTART'/>
-		<Keyword name='*SELECT CYCLIC SYMMETRY MODES'/>
 	</Keyword>
 </tree>
