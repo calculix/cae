@@ -1734,15 +1734,22 @@
 		<Argument form='Float' comment='Density at infinity' required='1'/>
 		<Argument form='Float' comment='Length of the computational domain' required='1'/>
 	</Keyword>
-
-
-
 	<Keyword name='*VIEWFACTOR'>
-		<Argument form='Bool' name='READ|NO CHANGE'/>
-		<Argument form='SelectFile' name='INPUT'/>
-		<Argument form='Bool' name='WRITE|WRITE ONLY'/>
-		<Argument form='SelectFile' name='OUTPUT'/>
+		<Group form='Tabs2'>
+			<Group form='VBox' name='Read'>
+				<Argument form='Combo'>READ|NO CHANGE</Argument>
+				<Argument form='SelectFile' name='INPUT'/>
+			</Group>
+			<Group form='VBox' name='Write'>
+				<Argument form='Combo'>WRITE|WRITE ONLY</Argument>
+				<Argument form='SelectFile' name='OUTPUT'/>
+			</Group>
+		</Group>
 	</Keyword>
+
+
+
+
 	<Keyword name='*VISCO'>
 		<Argument form='Combo' name='SOLVER'>SPOOLES|PARDISO|SGI|TAUCS|ITERATIVE CHOLESKY|ITERATIVE SCALING</Argument>
 		<Argument form='Bool' name='DIRECT'/>
