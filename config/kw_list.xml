@@ -1535,17 +1535,18 @@
 			</Group>
 		</Group>
 	</Keyword>
-
-
-
 	<Keyword name='*STEP'>
 		<Argument form='Bool' name='PERTURBATION'/>
 		<Argument form='Bool' name='NLGEOM'/>
-		<Argument form='Line' name='INC'/>
-		<Argument form='Line' name='INCF'/>
 		<Argument form='Bool' name='THERMAL NETWORK'/>
-		<Argument form='Combo' name='AMPLITUDE'>RAMP|STEP</Argument>
+		<Argument form='Int' name='INC'/>
+		<Argument form='Int' name='INCF'/>
+		<Argument form='Combo' name='AMPLITUDE'>|RAMP|STEP</Argument>
+		<Argument form='Float' name='SHOCK SMOOTHING'/>
 	</Keyword>
+
+
+
 	<Keyword name='*SUBMODEL'>
 		<Argument form='Combo' name='TYPE' required='1'>SURFACE|NODE</Argument>
 		<Argument form='SelectFile' name='INPUT' required='1' comment='FRD file:'/>
