@@ -1405,14 +1405,17 @@
 		<Argument form='Int' comment='First DOF retained'/>
 		<Argument form='Int' comment='Last DOF retained'/>
 	</Keyword>
-
-
-
 	<Keyword name='*RIGID BODY'>
-		<Argument form='Line' name='NSET|ELSET' required='1'/>
-		<Argument form='Line' name='REF NODE'/>
-		<Argument form='Line' name='ROT NODE'/>
+		<Group form='OrV' required='1'>
+			<Argument use='*NSET' name='NSET'/>
+			<Argument use='*ELSET' name='ELSET'/>
+		</Group>
+		<Argument form='Int' name='REF NODE'/>
+		<Argument form='Int' name='ROT NODE'/>
 	</Keyword>
+
+
+
 	<Keyword name='*ROBUST DESIGN'>
 		<Argument form='Line' name='RANDOM FIELD ONLY' required='1'/>
 		<!-- New line -->
