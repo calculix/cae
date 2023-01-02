@@ -1564,14 +1564,14 @@
 	<Keyword name='*SUBSTRUCTURE GENERATE'>
 		<Argument form='Combo' name='SOLVER'>|SPOOLES|PARDISO</Argument>
 	</Keyword>
-
-
-
 	<Keyword name='*SUBSTRUCTURE MATRIX OUTPUT'>
-		<Argument form='Line' name='FILE NAME' required='1'/>
-		<Argument form='Bool' name='STIFFNESS=YES'/>
-		<Argument form='Bool' name='OUTPUT FILE=USER DEFINED'/>
+		<Argument form='SelectFile' name='FILE NAME' required='1' comment='.mtx file'/>
+		<Argument form='Combo' name='STIFFNESS'>|YES</Argument>
+		<Argument form='Combo' name='OUTPUT FILE'>|USER DEFINED</Argument>
 	</Keyword>
+
+
+
 	<Keyword name='*SURFACE'>
 		<Argument form='Line' name='NAME' required='1'/>
 		<Argument form='Combo' name='TYPE'>ELEMENT|NODE</Argument>
