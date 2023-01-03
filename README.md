@@ -1,4 +1,4 @@
-© Ihor Mirzov, 2019-2021  
+© Ihor Mirzov, 2019-2023  
 Distributed under GNU General Public License v3.0
 
 [![Github All Releases](https://img.shields.io/github/downloads/calculix/cae/total.svg)](https://github.com/calculix/cae/releases)
@@ -189,7 +189,7 @@ What's new in future v0.9.0:
 + Significantly improved window connectivity (master/slave).
 + Improved robustness - now almost every module has a test. Test system uses 'unittest' standard library.
 + Simplified code to omit redundant arguments passing between objects. Class instances are created directly in modules and imported to any other module.
-+ Using external python packages *ccx2paraview* and *unv2ccx* as required dependacies.
++ Using external python packages *ccx2paraview* and *unv2ccx* as required dependancies.
 + Added buttons to select paths in Settings dialog.
 + cae.bat and cae.sh - run source code
 + Unittest: each keyword from kw_list.xml has corresponding html file in doc.
