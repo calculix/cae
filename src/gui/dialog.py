@@ -37,6 +37,186 @@ from model.kom import ItemType, KWL, KWT, Implementation
 import gui.window
 
 
+def build_widgets(dialog, arguments, parent_layout):
+    """Build widgets for direct children of the Keyword.
+    Recursion for nested arguments/groups is implemented
+    inside GroupWidget/ArgumentWidget - not here.
+    """
+    for a in arguments:
+        txt = '{} has neither "form" nor "user" attributes'.format(a)
+        assert hasattr(a, 'form') or hasattr(a, 'use'), txt
+
+        if hasattr(a, 'form') and a.form:
+            form = a.form
+        if hasattr(a, 'use') and a.use:
+            form = Combo.__name__
+        a.widget = eval(form)(dialog, a) # argument's widget
+        parent_layout.addWidget(a.widget)
+
+
+def change(dialog, arguments=[], append=False):
+    """Update piece of INP-code in the textEdit when
+    a signal is emitted in any of argument's widgets.
+    """
+    if dialog.item.itype == ItemType.IMPLEMENTATION:
+        dialog.textEdit.clear()
+        return
+    if not append:
+        dialog.textEdit.setText(dialog.item.name)
+    if not arguments and not append:
+        arguments = dialog.item.get_arguments()
+    for a in arguments:
+        if a.widget is None:
+            continue
+        w = a.widget
+        old_value = dialog.textEdit.toPlainText()
+        new_value = w.text() if w.isEnabled() else '' # argument value
+        if old_value.endswith('\n') and new_value.startswith(', '):
+            new_value = new_value[2:]
+        if w.__class__.__name__ != Empty.__name__:
+            if old_value.endswith(', ') and new_value.startswith(', '):
+                new_value = new_value[2:]
+        dialog.textEdit.setText(old_value + new_value)
+
+        # Recursively walk through the whole keyword arguments
+        args = a.get_arguments()
+        if args:
+            change(dialog, args, append=True)
+
+
+def reset(arguments):
+    """Reset argument's widgets to initial state."""
+    for a in arguments:
+        w = a.widget
+        if hasattr(w, 'reset'):
+            w.reset()
+
+
+class KeywordDialog(QtWidgets.QDialog):
+
+    @gui.window.init_wrapper()
+    def __init__(self, item):
+        """Load form and show the dialog.
+        'item' is one of: Keyword or Implementation
+        """
+        # Load UI form - produces huge amount of redundant debug logs
+        logging.disable() # switch off logging
+        super().__init__() # create dialog window
+        uic.loadUi(p.dialog_xml, self) # load empty dialog form
+        logging.disable(logging.NOTSET) # switch on logging
+
+        self.item = item # the one was clicked in the treeView
+        self.info = None # WindowInfo will be set in @init_wrapper
+        self.arguments = []
+
+        # Set window icon (different for each keyword)
+        # TODO Test if it is Windows-specific
+        icon_name = item.name.replace('*', '') + '.png'
+        icon_name = icon_name.replace(' ', '_')
+        icon_name = icon_name.replace('-', '_')
+        icon_path = os.path.join(p.img, 'icon_' + icon_name.lower())
+        icon = QtGui.QIcon(icon_path)
+        self.setWindowIcon(icon)
+        self.setWindowTitle(item.name)
+
+        # Fill textEdit with implementation's inp_code
+        if item.itype == ItemType.IMPLEMENTATION:
+            for line in item.inp_code:
+                self.textEdit.append(line)
+
+        # Create widgets for each keyword argument
+        elif item.itype == ItemType.KEYWORD:
+            kw = KWL.get_keyword_by_name(item.name)
+            self.arguments = kw.get_arguments()
+            build_widgets(self, kw.get_arguments(), self.widgets_layout)
+            change(self) # fill textEdit widget with default inp_code
+
+        # Generate html help page from official manual
+        self.doc = QtWebEngineWidgets.QWebEngineView()
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding,
+            QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(2) # expand horizontally
+        self.doc.setSizePolicy(sizePolicy)
+        self.url = self.get_help_url()
+        self.show_help = s.show_help
+
+        self.show()
+
+    def reset(self):
+        """Reset all widgets to initial state."""
+        reset(self.arguments)
+        change(self) # update QTextEdit with INP-code
+
+    def accept(self, arguments=None, depth=0):
+        """Check if all required fields are filled."""
+        ok = True
+        if arguments is None:
+            arguments = self.item.get_arguments()
+        for a in arguments:
+            w = a.widget
+            if w is not None and w.isEnabled() and w.required:
+                name = a.name # argument name
+                value = w.text() # argument value
+                if not value:
+                    msg = 'Fill all required fields'
+                    if name:
+                        msg += ': ' + name
+                    else:
+                        msg += '!'
+                    QMessageBox.warning(self, 'Warning', msg)
+                    return False
+            ok = ok and self.accept(a.get_arguments(), depth+1)
+        if depth:
+            return ok
+        if depth==0 and ok:
+            super().accept()
+
+    def ok(self):
+        """Return piece of created code for the .inp-file."""
+        return self.textEdit.toPlainText().strip().split('\n')
+
+    def get_help_url(self):
+        """Get URL to the local doc page."""
+        if self.item.itype == ItemType.KEYWORD:
+            keyword_name = self.item.name[1:] # cut star
+        if self.item.itype == ItemType.IMPLEMENTATION:
+            keyword_name = self.item.parent.name[1:] # cut star
+
+        # Avoid spaces and hyphens in html page names
+        import re
+        html_page_name = re.sub(r'[ -]', '_', keyword_name)
+        url = os.path.join(p.doc, html_page_name + '.html')
+        return url
+
+    def show_hide_internal_help(self, click):
+        """Show / Hide HTML help."""
+        size = QtWidgets.QApplication.primaryScreen().availableSize()
+        import math
+        w = math.floor(size.width() / 3)
+        h = self.geometry().height()
+        if click:
+            self.show_help = not self.show_help
+        else:
+            self.show_help = s.show_help
+
+        # To show or not to show
+        if self.show_help:
+            self.doc.load(QtCore.QUrl.fromLocalFile(self.url)) # load help document
+            self.setMaximumWidth(size.width())
+            self.setMinimumWidth(size.width())
+            self.resize(size.width(), h)
+            self.horizontal_layout.addWidget(self.doc)
+            self.buttonBox.button(QtWidgets.QDialogButtonBox.Help)\
+                .setText('Hide help')
+        else:
+            self.doc.setParent(None) # remove widget
+            self.buttonBox.button(QtWidgets.QDialogButtonBox.Help)\
+                .setText('Help')
+            self.setMaximumWidth(w)
+            self.setMinimumWidth(500)
+            self.resize(w, h)
+
+
 class ArgumentWidget(QtWidgets.QWidget):
     """ArgumentWidget is used to visualize Arguments."""
 
@@ -502,9 +682,7 @@ class Combo(ArgumentWidget):
             self.w.addItem('')
             if implementations:
                 self.w.addItems(implementations)
-            else:
-                self.w.setStyleSheet('color: Red;')
-                self.w.addItem('Create ' + argument.use)
+            self.w.addItem('Create ' + argument.use)
 
         if argument.value:
             for v in argument.value.split('|'):
@@ -529,15 +707,17 @@ class Combo(ArgumentWidget):
 
             # Exec dialog and recieve answer
             # Process response from dialog window if user pressed 'OK'
-            from gui.window import df
-            if df.run_master_dialog(kwl_item): # 0 = cancel, 1 = ok
-
+            d = KeywordDialog(kwl_item)
+            if d.exec(): # 0 = cancel, 1 = ok
                 # The generated piece of .inp code for the CalculiX input file
-                inp_code = df.mw.ok() # list of strings
+                inp_code = d.ok() # list of strings
 
                 # Create implementation object for keyword
                 impl = Implementation(kwt_item, inp_code) # create keyword implementation
-                # TODO Add impl to the tree
+
+                # Add impl to the tree
+                from gui.tree import t
+                t.put_implementation(impl)
 
                 # Add and item to the drop-down list
                 self.w.removeItem(i)
@@ -581,9 +761,7 @@ class Use2(ArgumentWidget):
         self.w.addItem('')
         if implementations:
             self.w.addItems(implementations)
-        else:
-            self.w.setStyleSheet('color: Red;')
-            self.w.addItem('Create ' + kw)
+        self.w.addItem('Create ' + kw)
 
     def reset(self):
         self.use.setCurrentIndex(0)
@@ -703,186 +881,6 @@ class Float(Line):
     def __init__(self, dialog, argument):
         super().__init__(dialog, argument)
         self.w.setValidator(QtGui.QDoubleValidator())
-
-
-def build_widgets(dialog, arguments, parent_layout):
-    """Build widgets for direct children of the Keyword.
-    Recursion for nested arguments/groups is implemented
-    inside GroupWidget/ArgumentWidget - not here.
-    """
-    for a in arguments:
-        txt = '{} has neither "form" nor "user" attributes'.format(a)
-        assert hasattr(a, 'form') or hasattr(a, 'use'), txt
-
-        if hasattr(a, 'form') and a.form:
-            form = a.form
-        if hasattr(a, 'use') and a.use:
-            form = Combo.__name__
-        a.widget = eval(form)(dialog, a) # argument's widget
-        parent_layout.addWidget(a.widget)
-
-
-def change(dialog, arguments=[], append=False):
-    """Update piece of INP-code in the textEdit when
-    a signal is emitted in any of argument's widgets.
-    """
-    if dialog.item.itype == ItemType.IMPLEMENTATION:
-        dialog.textEdit.clear()
-        return
-    if not append:
-        dialog.textEdit.setText(dialog.item.name)
-    if not arguments and not append:
-        arguments = dialog.item.get_arguments()
-    for a in arguments:
-        if a.widget is None:
-            continue
-        w = a.widget
-        old_value = dialog.textEdit.toPlainText()
-        new_value = w.text() if w.isEnabled() else '' # argument value
-        if old_value.endswith('\n') and new_value.startswith(', '):
-            new_value = new_value[2:]
-        if w.__class__.__name__ != Empty.__name__:
-            if old_value.endswith(', ') and new_value.startswith(', '):
-                new_value = new_value[2:]
-        dialog.textEdit.setText(old_value + new_value)
-
-        # Recursively walk through the whole keyword arguments
-        args = a.get_arguments()
-        if args:
-            change(dialog, args, append=True)
-
-
-def reset(arguments):
-    """Reset argument's widgets to initial state."""
-    for a in arguments:
-        w = a.widget
-        if hasattr(w, 'reset'):
-            w.reset()
-
-
-class KeywordDialog(QtWidgets.QDialog):
-
-    @gui.window.init_wrapper()
-    def __init__(self, item):
-        """Load form and show the dialog.
-        'item' is one of: Keyword or Implementation
-        """
-        # Load UI form - produces huge amount of redundant debug logs
-        logging.disable() # switch off logging
-        super().__init__() # create dialog window
-        uic.loadUi(p.dialog_xml, self) # load empty dialog form
-        logging.disable(logging.NOTSET) # switch on logging
-
-        self.item = item # the one was clicked in the treeView
-        self.info = None # WindowInfo will be set in @init_wrapper
-        self.arguments = []
-
-        # Set window icon (different for each keyword)
-        # TODO Test if it is Windows-specific
-        icon_name = item.name.replace('*', '') + '.png'
-        icon_name = icon_name.replace(' ', '_')
-        icon_name = icon_name.replace('-', '_')
-        icon_path = os.path.join(p.img, 'icon_' + icon_name.lower())
-        icon = QtGui.QIcon(icon_path)
-        self.setWindowIcon(icon)
-        self.setWindowTitle(item.name)
-
-        # Fill textEdit with implementation's inp_code
-        if item.itype == ItemType.IMPLEMENTATION:
-            for line in item.inp_code:
-                self.textEdit.append(line)
-
-        # Create widgets for each keyword argument
-        elif item.itype == ItemType.KEYWORD:
-            kw = KWL.get_keyword_by_name(item.name)
-            self.arguments = kw.get_arguments()
-            build_widgets(self, kw.get_arguments(), self.widgets_layout)
-            change(self) # fill textEdit widget with default inp_code
-
-        # Generate html help page from official manual
-        self.doc = QtWebEngineWidgets.QWebEngineView()
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding,
-            QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(2) # expand horizontally
-        self.doc.setSizePolicy(sizePolicy)
-        self.url = self.get_help_url()
-        self.show_help = s.show_help
-
-        self.show()
-
-    def reset(self):
-        """Reset all widgets to initial state."""
-        reset(self.arguments)
-        change(self) # update QTextEdit with INP-code
-
-    def accept(self, arguments=None, depth=0):
-        """Check if all required fields are filled."""
-        ok = True
-        if arguments is None:
-            arguments = self.item.get_arguments()
-        for a in arguments:
-            w = a.widget
-            if w is not None and w.isEnabled() and w.required:
-                name = a.name # argument name
-                value = w.text() # argument value
-                if not value:
-                    msg = 'Fill all required fields'
-                    if name:
-                        msg += ': ' + name
-                    else:
-                        msg += '!'
-                    QMessageBox.warning(self, 'Warning', msg)
-                    return False
-            ok = ok and self.accept(a.get_arguments(), depth+1)
-        if depth:
-            return ok
-        if depth==0 and ok:
-            super().accept()
-
-    def ok(self):
-        """Return piece of created code for the .inp-file."""
-        return self.textEdit.toPlainText().strip().split('\n')
-
-    def get_help_url(self):
-        """Get URL to the local doc page."""
-        if self.item.itype == ItemType.KEYWORD:
-            keyword_name = self.item.name[1:] # cut star
-        if self.item.itype == ItemType.IMPLEMENTATION:
-            keyword_name = self.item.parent.name[1:] # cut star
-
-        # Avoid spaces and hyphens in html page names
-        import re
-        html_page_name = re.sub(r'[ -]', '_', keyword_name)
-        url = os.path.join(p.doc, html_page_name + '.html')
-        return url
-
-    def show_hide_internal_help(self, click):
-        """Show / Hide HTML help."""
-        size = QtWidgets.QApplication.primaryScreen().availableSize()
-        import math
-        w = math.floor(size.width() / 3)
-        h = self.geometry().height()
-        if click:
-            self.show_help = not self.show_help
-        else:
-            self.show_help = s.show_help
-
-        # To show or not to show
-        if self.show_help:
-            self.doc.load(QtCore.QUrl.fromLocalFile(self.url)) # load help document
-            self.setMaximumWidth(size.width())
-            self.setMinimumWidth(size.width())
-            self.resize(size.width(), h)
-            self.horizontal_layout.addWidget(self.doc)
-            self.buttonBox.button(QtWidgets.QDialogButtonBox.Help)\
-                .setText('Hide help')
-        else:
-            self.doc.setParent(None) # remove widget
-            self.buttonBox.button(QtWidgets.QDialogButtonBox.Help)\
-                .setText('Help')
-            self.setMaximumWidth(w)
-            self.setMinimumWidth(500)
-            self.resize(w, h)
 
 
 def test_dialog():
