@@ -49,11 +49,11 @@
 			<Argument form='Int' name='STEP'/>
 			<Argument form='Int' name='DATA SET'/>
 		</Argument>
-		<Group form='HBox' newline='1'>
-			<Group form='OrH'>
-				<Argument form='Int' comment='NODE or...'/>
-				<Argument use='*NSET' comment='...NSET'/>
-			</Group>
+		<Group form='OrH' newline='1'>
+			<Argument form='Int' comment='NODE or...'/>
+			<Argument use='*NSET' comment='...NSET'/>
+		</Group>
+		<Group form='HBox'>
 			<Argument form='Int' comment='First DOF'/>
 			<Argument form='Int' comment='Last DOF'/>
 			<Argument form='Float' comment='Value'/>
