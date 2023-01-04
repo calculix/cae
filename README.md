@@ -205,9 +205,7 @@ What's new in future v0.9.0:
 # TODO
 
 - Insert Combo widget into Table cell.
-- required for all arguments - move to the Keyword. Support inheritance. 
 - Table widget: redundant comma in the end of line.
-- Text widget has to be resizable.
 - Draw a separator (black line) in GUI for group with newline=1.
 - Argument form='Combo' with sub-arguments: regenerate GUI on Combo index change. Current form='VOr' is not user friendly.
 - Unittests for KeywordDialog: compare generated INP code with the one which should be.

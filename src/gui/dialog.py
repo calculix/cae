@@ -774,6 +774,7 @@ class Text(ArgumentWidget):
     def __init__(self, dialog, argument):
         self.argument = argument
         self.w = QtWidgets.QTextEdit()
+        self.w.setMinimumSize(200, 52)
         super().__init__(dialog, argument, [self.w])
         self.setText(argument.value)
         self.setEnabled = self.w.setEnabled
@@ -892,7 +893,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*BOUNDARY')
+    item = KWL.get_keyword_by_name('*CONTROLS')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 
