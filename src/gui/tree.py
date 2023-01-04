@@ -106,6 +106,23 @@ class Tree:
             else:
                 self.addToTree(tree_element, item.items)
 
+    def put_implementation(self, impl):
+        """Add Implementation into the correct tree branch.
+        I.e. find correct parent for the Implementation.
+        """
+        tree_items = self.model.findItems(impl.parent.name, QtCore.Qt.MatchRecursive)
+        if not tree_items:
+            logging.error('No tree_items! Find failed for ' + impl.parent.name)
+            self.generateTreeView()
+        for tree_element in tree_items:
+            old_parent = tree_element.data()
+            if old_parent.itype == ItemType.KEYWORD:
+                # Regenerate tree_element children
+                tree_element.removeRows(0, tree_element.rowCount()) # remove all children
+                self.addToTree(tree_element, impl.parent.get_implementations()) # add only implementations
+            else:
+                logging.error(old_parent)
+
     def doubleClicked(self):
         """Double click on treeView item: edit the keyword via dialog."""
         index = wf.mw.treeView.selectedIndexes()[0] # selected item index
@@ -124,24 +141,21 @@ class Tree:
             return
 
         # Convert tree Keyword to List Keyword with Arguments
-        kwl = item
+        lkw = item
         if item.itype == ItemType.KEYWORD:
-            kwl = KWL.get_keyword_by_name(item.name)
+            lkw = KWL.get_keyword_by_name(item.name)
 
         # Exec dialog and recieve answer
         # Process response from dialog window if user pressed 'OK'
-        if df.run_master_dialog(kwl): # 0 = cancel, 1 = ok
+        if df.run_master_dialog(lkw): # 0 = cancel, 1 = ok
 
             # The generated piece of .inp code for the CalculiX input file
             inp_code = df.mw.ok() # list of strings
 
             # Create implementation object for keyword
-            if item.itype == ItemType.KEYWORD:
+            if lkw.itype == ItemType.KEYWORD:
                 impl = Implementation(item, inp_code) # create keyword implementation
-
-                # Regenerate tree_element children
-                tree_element.removeRows(0, tree_element.rowCount()) # remove all children
-                self.addToTree(tree_element, item.get_implementations()) # add only implementations
+                self.put_implementation(impl)
 
                 # Reparse mesh or constraints
                 # TODO Use Mesh without m
