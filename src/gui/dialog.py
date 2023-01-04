@@ -108,6 +108,7 @@ class KeywordDialog(QtWidgets.QDialog):
         self.item = item # the one was clicked in the treeView
         self.info = None # WindowInfo will be set in @init_wrapper
         self.arguments = []
+        self.make_screenshot = False
 
         # Set window icon (different for each keyword)
         # TODO Test if it is Windows-specific
@@ -148,7 +149,17 @@ class KeywordDialog(QtWidgets.QDialog):
         change(self) # update QTextEdit with INP-code
 
     def accept(self, arguments=None, depth=0):
-        """Check if all required fields are filled."""
+        """Check if all required fields are filled.
+        Also save dialog's screenshot if module is ran from tests.
+        """
+        print('ok', self.make_screenshot)
+        if self.make_screenshot:
+            self.screenshot()
+
+        # TODO Temporarily check is disabled. Checks are needed.
+        super().accept()
+        return
+
         ok = True
         if arguments is None:
             arguments = self.item.get_arguments()
@@ -215,6 +226,12 @@ class KeywordDialog(QtWidgets.QDialog):
             self.setMaximumWidth(w)
             self.setMinimumWidth(500)
             self.resize(w, h)
+
+    def screenshot(self):
+        screen = QtWidgets.QApplication.primaryScreen()
+        screenshot = screen.grabWindow(self.winId())
+        fname = os.path.join('config', 'KeywordDialog', self.item.name + '.jpg')
+        screenshot.save(fname, 'jpg')
 
 
 class ArgumentWidget(QtWidgets.QWidget):
@@ -893,7 +910,7 @@ def test_dialog():
 
     """Create keyword dialog."""
     app = QtWidgets.QApplication(sys.argv)
-    item = KWL.get_keyword_by_name('*CONTROLS')
+    item = KWL.get_keyword_by_name('*BOUNDARY')
     from gui.window import df
     df.run_master_dialog(item) # 0 = cancel, 1 = ok
 

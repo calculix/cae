@@ -86,10 +86,11 @@ class Tree:
             tree_element.setForeground(brush)
 
             # Expand / collapse
-            if item.expanded:
-                wf.mw.treeView.expand(tree_element.index())
-            else:
-                wf.mw.treeView.collapse(tree_element.index())
+            if wf.mw:
+                if item.expanded:
+                    wf.mw.treeView.expand(tree_element.index())
+                else:
+                    wf.mw.treeView.collapse(tree_element.index())
 
             # Add icon to each keyword in tree
             icon_name = item.name.replace('*', '') + '.png'
@@ -110,6 +111,8 @@ class Tree:
         """Add Implementation into the correct tree branch.
         I.e. find correct parent for the Implementation.
         """
+        if wf.mw is None: # if there is not main window - return
+            return
         tree_items = self.model.findItems(impl.parent.name, QtCore.Qt.MatchRecursive)
         if not tree_items:
             logging.error('No tree_items! Find failed for ' + impl.parent.name)

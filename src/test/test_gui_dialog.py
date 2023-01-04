@@ -43,16 +43,14 @@ class TestDialog(unittest.TestCase):
 
 
 def cycle_keyword_dialogs():
-    from gui.window import df
     app = QtWidgets.QApplication(sys.argv)
-
-    from model.kom import KWL
     for i, k in enumerate(KWL.keywords):
         print(i, k.name)
-
-        # Create keyword dialog
-        if not df.run_master_dialog(k): # 0 = cancel, 1 = ok
+        d = KeywordDialog(k)
+        d.make_screenshot = True
+        if not d.exec(): # 0 = cancel, 1 = ok
             break
+
 
 if __name__ == '__main__':
     # unittest.main()
