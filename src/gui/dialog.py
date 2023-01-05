@@ -152,10 +152,6 @@ class KeywordDialog(QtWidgets.QDialog):
         """Check if all required fields are filled.
         Also save dialog's screenshot if module is ran from tests.
         """
-        print('ok', self.make_screenshot)
-        if self.make_screenshot:
-            self.screenshot()
-
         # TODO Temporarily check is disabled. Checks are needed.
         super().accept()
         return
@@ -229,9 +225,10 @@ class KeywordDialog(QtWidgets.QDialog):
 
     def screenshot(self):
         screen = QtWidgets.QApplication.primaryScreen()
-        screenshot = screen.grabWindow(self.winId())
-        fname = os.path.join('config', 'KeywordDialog', self.item.name + '.jpg')
-        screenshot.save(fname, 'jpg')
+        screenshot = screen.grabWindow(0, self.pos().x(), self.pos().y(), 
+            self.size().width(), self.size().height())
+        fname = os.path.join('config', 'KeywordDialog', self.item.name + '.png')
+        screenshot.save(fname, 'png')
 
 
 class ArgumentWidget(QtWidgets.QWidget):
