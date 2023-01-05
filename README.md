@@ -43,7 +43,7 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - Official [HTML documentation](doc) is natively integrated into the keyword edit dialogs (Help button).
 
-- Calculix keywords with all attributes is maintaned in [editable XML file](config/kw_list.xml).
+- Calculix keywords with all attributes are maintained in [editable XML file](config/kw_list.xml).
 
 - [Solid mesh parser](src/model/parsers/mesh.py) supports includes in the input file. Tested on the all official CalculiX examples. See [mesh.log](src/model/parsers/mesh.log).
 
