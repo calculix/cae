@@ -224,10 +224,13 @@ class KeywordDialog(QtWidgets.QDialog):
             self.resize(w, h)
 
     def screenshot(self):
+        """Make screenshot of the dialog with all widgets and window title.
+        Keyword name without an asterisk (*) is a PNG file name.
+        """
         screen = QtWidgets.QApplication.primaryScreen()
         screenshot = screen.grabWindow(0, self.pos().x(), self.pos().y(), 
             self.size().width(), self.size().height())
-        fname = os.path.join('config', 'KeywordDialog', self.item.name + '.png')
+        fname = os.path.join('config', 'KeywordDialog', self.item.name[1:] + '.png')
         screenshot.save(fname, 'png')
 
 

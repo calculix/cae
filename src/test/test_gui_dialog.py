@@ -59,8 +59,9 @@ def cycle_keyword_dialogs():
 class DialogPngCreator():
     """Export KeywordDialog renders.
     It allows to check what will look like dialogs for all the keywords.
+    Now all dialogs are opened then one-by-one renders are saved. But
+    is would be better to render and immediately save an image.
     """
-
     def __init__(self):
         app = QtWidgets.QApplication(sys.argv)
         self.counter = 0
@@ -103,5 +104,4 @@ class DialogPngCreator():
 if __name__ == '__main__':
     # unittest.main()
     # cycle_keyword_dialogs()
-    # DialogPngCreator()
-    pass
+    DialogPngCreator()
