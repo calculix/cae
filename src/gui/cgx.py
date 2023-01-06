@@ -36,10 +36,13 @@ def restart_empty():
 
 
 def read_fbd_file(file_name):
+    if wf.connection is None:
+        logging.error('Connection to slave not initialized.')
     if os.path.isfile(file_name):
+        logging.debug('Reading FBD file ' + file_name)
         wf.connection.post('read ' + file_name)
     else:
-        logging.error('No config file ' + file_name)
+        logging.error('No FBD file ' + file_name)
 
 
 def restart_and_read_fbd(file_name):
@@ -109,7 +112,7 @@ def open_inp(inp_file, has_nodes=0):
         logging.error('CGX not found in ' + p.path_cgx)
         raise SystemExit # the best way to exit
 
-    if os.path.isfile(inp_file):
+    if os.path.isfile(inp_file) and ' ' not in inp_file:
         wf.kill_slave() # close old CGX
         if not has_nodes:
             logging.warning('Empty mesh, CGX will not start!')
@@ -129,8 +132,8 @@ def open_frd(frd_file):
         logging.error('CGX not found in ' + p.path_cgx)
         raise SystemExit # the best way to exit
 
-    if os.path.isfile(frd_file):
-        cmd = p.path_cgx + ' -o "' + frd_file + '"'
+    if os.path.isfile(frd_file) and ' ' not in frd_file:
+        cmd = p.path_cgx + ' -o ' + frd_file
         wf.run_slave(cmd)
         read_fbd_file(os.path.join(p.config, 'cgx_start.fbd'))
         read_fbd_file(os.path.join(p.config, 'cgx_iso.fbd'))
