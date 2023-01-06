@@ -88,16 +88,11 @@ class Checks:
     @staticmethod
     def check_requirements():
         """Check each package from requirements.txt."""
-        path = os.path.normpath(os.path.join(
-            os.path.dirname(__file__),
-            '..', 'requirements.txt'))
-        requirements = []
-        with open(path) as f:
-            requirements = f.readlines()
-        for name in requirements:
-            name = name.strip()
-            if len(name) and not Checks.check_required_package(name):
-                raise SystemExit # the best way to exit
+        with open(p.requirements) as f:
+            for name in f.readlines():
+                name = name.strip()
+                if len(name) and not Checks.check_required_package(name):
+                    raise SystemExit # the best way to exit
 
     @classmethod
     def check_package(self, name):

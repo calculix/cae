@@ -39,6 +39,7 @@ class Path:
         self.dialog_xml = os.path.join(self.config, 'KeywordDialog.xml')
         self.version_txt = os.path.join(self.config, 'version.txt')
 
+        self.requirements = os.path.join(self.app_home_dir, 'requirements_' + self.op_sys + '.txt')
         self.bin = os.path.join(self.app_home_dir, 'bin')
         self.ccx = os.path.join(self.app_home_dir, 'ccx_' + self.op_sys, 'src')
         self.settings = os.path.join(self.config, 'Settings_' + self.op_sys + '.py')
