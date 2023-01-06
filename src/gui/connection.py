@@ -246,6 +246,7 @@ class WindowConnectionLinux(WindowConnection):
         for symbol in cmd:
             sendkey(win, symbol)
         self.d.sync()
+        time.sleep(0.1)
 
     def get_opened_windows(self):
         """Get dictionary with windows id, pid and wname."""
@@ -283,8 +284,8 @@ class WindowConnectionLinux(WindowConnection):
             keysym = XK.string_to_keysym(c)
             code = self.d.keysym_to_keycode(keysym)
             fake_input(self.d, Xlib.X.KeyRelease, code)
-        time.sleep(0.3)
         self.d.sync()
+        time.sleep(0.3)
 
     def align_windows(self):
         """Align master and slave windows."""
@@ -387,6 +388,7 @@ class WindowConnectionWindows(WindowConnection):
             time.sleep(0.001) # BUG doesn't work otherwise
             sendkey(symbol)
         ctypes.windll.user32.SetForegroundWindow(self.wid1)
+        time.sleep(0.1)
 
     def get_opened_windows(self):
         self.opened_windows.clear()
