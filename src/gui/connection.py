@@ -16,10 +16,10 @@ import os
 import time
 import math
 import logging
-if 'nt' in os.name:
+if os.name == 'nt':
     import ctypes
     from ctypes import wintypes
-if 'posix' in os.name:
+if os.name == 'posix':
     import Xlib
     from Xlib import display, protocol, X, XK
     from Xlib.ext.xtest import fake_input

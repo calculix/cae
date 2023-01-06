@@ -10,20 +10,20 @@ It is initialized on the app start - and that's all.
 """
 
 import os
+import platform
 
 
 class Path:
 
     def __init__(self):
+        self.op_sys = platform.system().lower() # OS name
 
         # Windows
         if os.name == 'nt':
-            self.op_sys = 'windows' # OS name
             self.extension = '.exe' # file extension in OS
 
         # Linux
         else:
-            self.op_sys = 'linux' # OS name
             self.extension = '' # file extension in OS
 
         # Application home directory - the one with README.md and LICENSE
