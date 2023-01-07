@@ -115,10 +115,7 @@ def open_inp(inp_file, has_nodes=0):
             return
         cmd = p.path_cgx + ' -c ' + inp_file
         wf.run_slave(cmd)
-        # TODO CGX stucks on FBD execution
         read_fbd_file(os.path.join(p.config, 'cgx_start.fbd'))
-        read_fbd_file(os.path.join(p.config, 'cgx_iso.fbd'))
-        read_fbd_file(os.path.join(p.config, 'cgx_colors.fbd'))
     else:
         logging.error('File not found:\n' + inp_file)
 

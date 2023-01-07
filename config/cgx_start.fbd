@@ -5,3 +5,18 @@ steps 7
 view elem
 view sh
 frame
+
+read ../config/cgx_iso.fbd
+
+# Registering additional colors
+# Those colors are needed to paint sets and surfaces
+col blue0 0.30 0.60 0.90
+col blue1 0.25 0.50 0.75
+col blue2 0.20 0.40 0.60
+col blue3 0.15 0.30 0.45
+col blue4 0.10 0.20 0.30
+col pink1 0.20 0.05 0.20
+col pink4 0.35 0.10 0.35
+col pink2 0.50 0.15 0.50
+col pink3 0.65 0.20 0.65
+col pink0 0.80 0.25 0.80
