@@ -9,7 +9,6 @@ Main window actions - all processed signals.
 
 # Standard modules
 import os
-import logging
 
 # External modules
 from PyQt5 import QtWidgets
@@ -85,14 +84,11 @@ wf.mw.action_view_plus_z.triggered.connect(lambda: wf.connection.post('rot z'))
 wf.mw.action_view_frame.triggered.connect(lambda: wf.connection.post('frame'))
 
 # Workaround for iso view
-# Three rotation posts to CGX window doesn't work in Windows
+# NOTE Three rotation posts to CGX window doesn't work in Windows
 # So one may use .fbd commands
 def action_view_iso():
     file_name = os.path.join(p.config, 'cgx_iso.fbd')
-    if not os.path.isfile(file_name):
-        logging.error('No config file cgx_iso.fbd')
-        return
-    wf.connection.post('read ' + file_name)
+    cgx.read_fbd_file(file_name)
 
 wf.mw.action_view_iso.triggered.connect(action_view_iso)
 wf.mw.action_view_line.triggered.connect(lambda: wf.connection.post('view elem off'))
