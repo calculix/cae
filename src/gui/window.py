@@ -156,15 +156,15 @@ class Factory:
         #     self.mw.textEdit.clear()
         #     self.mw.textEdit.setHtml(html)
 
-        #     # Start stdout reading and logging thread
-        #     if self.connection is not None:
-        #         args = [self.sw.process.stdout,
-        #                 'read_cgx_stdout',\
-        #                 True, self.connection]
-        #         stdout.start_cgx_reader(*args)
-        #     else:
-        #         msg = 'Window connection not established.'
-        #         logging.error(msg)
+        # Start stdout reading and logging thread
+        if self.connection is not None:
+            args = [self.sw.process.stdout,
+                    'read_cgx_stdout',\
+                    True, self.connection]
+            stdout.start_cgx_reader(*args)
+        else:
+            msg = 'Window connection not established.'
+            logging.error(msg)
 
     def kill_slave(self):
         """Kill all slave processes."""
