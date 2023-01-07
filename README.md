@@ -181,6 +181,7 @@ As a developer you may also need libraries:
 # TODO
 
 Examples and training materials:
+- Shortcut/symlink to folder in another repo: examples.
 - Prool's INP-templates and snippets.
 - Interface for [Martin Kraska examples](https://github.com/mkraska/CalculiX-Examples).
 - Menu Help: wiki, YouTube videos for beginners. 
@@ -222,5 +223,7 @@ KeywordDialog:
 - Unittests for KeywordDialog: compare generated INP code with the one which should be.
 
 Other:
+- Zip ccx sources. Extract on first start from checks.py module.
 - Main Window: filter tree items - search item. 
 - Main Window: treeView - highlight background of the collections.
+- Open collective / Patreon.
