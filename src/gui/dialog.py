@@ -230,7 +230,7 @@ class KeywordDialog(QtWidgets.QDialog):
         screen = QtWidgets.QApplication.primaryScreen()
         screenshot = screen.grabWindow(0, self.pos().x(), self.pos().y(), 
             self.size().width(), self.size().height())
-        fname = os.path.join('config', 'KeywordDialog', self.item.name[1:] + '.png')
+        fname = os.path.join(p.img, 'KeywordDialog', self.item.name[1:] + '.png')
         screenshot.save(fname, 'png')
 
 
