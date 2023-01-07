@@ -129,9 +129,7 @@ def open_frd(frd_file):
     if os.path.isfile(frd_file) and ' ' not in frd_file:
         cmd = p.path_cgx + ' -o ' + frd_file
         wf.run_slave(cmd)
-        # TODO CGX stucks on FBD execution
         read_fbd_file(os.path.join(p.config, 'cgx_start.fbd'))
-        read_fbd_file(os.path.join(p.config, 'cgx_iso.fbd'))
     else:
         logging.error('File not found:\n' \
             + frd_file \
