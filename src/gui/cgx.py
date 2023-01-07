@@ -30,7 +30,6 @@ from model import m
 
 def restart_empty():
     """Open empty GraphiX window."""
-    wf.kill_slave() # close old CGX
     cmd = p.path_cgx + ' -b ' + os.path.join(p.config, 'cgx_start.fbd')
     wf.run_slave(cmd)
 
@@ -46,9 +45,7 @@ def read_fbd_file(file_name):
 
 
 def restart_and_read_fbd(file_name):
-    """Open GraphiX and execute FBD.
-    TODO CGX stucks after FBD execution."""
-    wf.kill_slave() # close old CGX
+    """Open GraphiX and execute FBD."""
     cmd = p.path_cgx + ' -b ' + file_name
     wf.run_slave(cmd)
 
@@ -113,12 +110,12 @@ def open_inp(inp_file, has_nodes=0):
         raise SystemExit # the best way to exit
 
     if os.path.isfile(inp_file) and ' ' not in inp_file:
-        wf.kill_slave() # close old CGX
         if not has_nodes:
             logging.warning('Empty mesh, CGX will not start!')
             return
         cmd = p.path_cgx + ' -c ' + inp_file
         wf.run_slave(cmd)
+        # TODO CGX stucks on FBD execution
         read_fbd_file(os.path.join(p.config, 'cgx_start.fbd'))
         read_fbd_file(os.path.join(p.config, 'cgx_iso.fbd'))
         read_fbd_file(os.path.join(p.config, 'cgx_colors.fbd'))
@@ -135,6 +132,7 @@ def open_frd(frd_file):
     if os.path.isfile(frd_file) and ' ' not in frd_file:
         cmd = p.path_cgx + ' -o ' + frd_file
         wf.run_slave(cmd)
+        # TODO CGX stucks on FBD execution
         read_fbd_file(os.path.join(p.config, 'cgx_start.fbd'))
         read_fbd_file(os.path.join(p.config, 'cgx_iso.fbd'))
     else:
