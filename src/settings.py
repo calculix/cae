@@ -51,7 +51,7 @@ class Settings:
             self.show_empty_keywords = True
             self.expanded = True
             self.start_cgx_by_default = True
-            self.align_windows = True
+            self.align_windows = False
             self.show_help = False
             self.perform_startup_checks = True
 
