@@ -207,27 +207,24 @@ class Tree:
         # Highlight entities
         if item and item.itype == ItemType.IMPLEMENTATION:
             ipn_up = item.parent.name.upper()
-            _set = []
-
             i = 0
             while item.inp_code[i].startswith('**'):
                 i += 1
             lead_line = item.inp_code[i]
 
             # Highlight mesh entities
+            regex = '\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)'
             if ipn_up == '*NSET' or ipn_up == '*NODE':
-                match = re.search('NSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
+                match = re.search('NSET' + regex, lead_line.upper())
                 if match: # if there is NSET attribute
                     name = lead_line[match.start(1):match.end(1)] # node set name
-                    if name in m.Mesh.nsets:
-                        wf.connection.post('plot n ' + name)
+                    wf.connection.post('plot n ' + name)
 
             elif ipn_up == '*ELSET' or ipn_up == '*ELEMENT':
-                match = re.search('ELSET\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
+                match = re.search('ELSET' + regex, lead_line.upper())
                 if match: # if there is ELSET attribute
                     name = lead_line[match.start(1):match.end(1)] # element set name
-                    if name in m.Mesh.elsets:
-                        wf.connection.post('plot e ' + name)
+                    wf.connection.post('plot e ' + name)
 
             elif ipn_up == '*SURFACE':
 
@@ -237,7 +234,7 @@ class Tree:
                 if match:
                     stype = lead_line[match.start(1):match.end(1)]
 
-                match = re.search('NAME\s*=\s*([\w\!\#\%\$\&\"\'\(\)\*\=\+\-\.\/\:\;\<\>\?\@\[\]\^\_\`\{\\\|\}\~]*)', lead_line.upper())
+                match = re.search('NAME' + regex, lead_line.upper())
                 name = lead_line[match.start(1):match.end(1)] # surface name
                 if stype == 'ELEMENT':
                     wf.connection.post('plot f ' + name)
@@ -245,17 +242,18 @@ class Tree:
                     wf.connection.post('plot f ' + name)
 
             # Highlight Loads & BC
-            elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
-                for line in item.inp_code[1:]:
-                    line = line.strip()
-                    n = line.replace(',', ' ').split()[0]
-                    try:
-                        # Single node number
-                        _set.append(int(n))
-                    except ValueError as err:
-                        # Nodes in node set
-                        _set.extend([n.num for n in m.Mesh.nsets[n].items])
-                        pass
+            # NOTE not used - cgx does not support jet
+            # _set = []
+            # elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
+            #     for line in item.inp_code[1:]:
+            #         line = line.strip()
+            #         n = line.replace(',', ' ').split()[0]
+            #         try:
+            #             # Single node number
+            #             _set.append(int(n))
+            #         except ValueError:
+            #             # Nodes in node set
+            #             _set.extend([n.num for n in m.Mesh.nsets[n].items])
                 # wf.mw.VTK.highlight(set(_set), 1) # 1 = vtk.vtkSelectionNode.POINT
 
         # else:
