@@ -41,6 +41,8 @@ class Path:
 
         self.requirements = os.path.join(self.config, 'requirements_' + self.op_sys + '.txt')
         self.bin = os.path.join(self.app_home_dir, 'bin')
+        self.python = os.path.join(self.bin, 'python', 'bin', 'python3')
+        self.pip = os.path.join(self.bin, 'python', 'bin', 'pip3')
         self.ccx = os.path.join(self.app_home_dir, 'ccx_' + self.op_sys, 'src')
         self.settings = os.path.join(self.config, 'Settings_' + self.op_sys + '.py')
         self.doc = os.path.join(self.app_home_dir, 'doc')

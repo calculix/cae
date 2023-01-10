@@ -2,6 +2,8 @@
 .vscode
 __pycache__
 /backup
+/bin/python
+/bin/cpython*
 /dist
 /releases
 /ccx_linux
