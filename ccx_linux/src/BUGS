@@ -1,6 +1,0 @@
-====
-BUGS Version 2.20
-====
-
-- Ogden material with 2 or 3 equal eigenvalues does not work
-  properly
