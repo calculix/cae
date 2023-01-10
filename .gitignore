@@ -4,6 +4,8 @@ __pycache__
 /backup
 /dist
 /releases
+/ccx_linux
+/ccx_windows
 /img/Thumbs.db*
 /examples/*
 !/examples/README.md
