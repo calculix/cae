@@ -7,6 +7,10 @@ Distributed under GNU General Public License v3.0
 Custom logging handlers.
 The File handler is created any time you open a model.
 Log file has the same name as a model.
+
+NOTE Do not import logging level from settings - in the app this
+module is imported before checks, so PyQt5 may not be installed,
+but settings module uses PyQt5.
 """
 
 # Standard modules
@@ -15,7 +19,6 @@ import sys
 import logging
 
 # My modules
-from settings import s
 from path import p
 
 
@@ -158,7 +161,7 @@ def remove_handler_by_name(name):
             break
 
 
-def add_my_handler(level=s.logging_level):
+def add_my_handler(level):
     """Handler to emit messages via print_to_file().
     Combination of file and stream handlers.
     Is used in test() functions.
@@ -175,7 +178,7 @@ def add_my_handler(level=s.logging_level):
     logging.getLogger().addHandler(h)
 
 
-def add_file_handler(log_file, level=s.logging_level):
+def add_file_handler(log_file, level=logging.DEBUG):
     """Handler to write logs into file."""
     h = MyFileLoggingHandler(log_file)
     global mflh
@@ -193,7 +196,7 @@ def remove_file_handler():
         os.remove(p.log)
 
 
-def add_stream_handler(level=s.logging_level):
+def add_stream_handler(level=logging.DEBUG):
     """Handler to write logs into stream."""
     global fmt
     h = MyStreamLoggingHandler(sys.stdout)
