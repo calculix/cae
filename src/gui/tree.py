@@ -39,6 +39,7 @@ class Tree:
         self.model = QtGui.QStandardItemModel()
         if hasattr(wf.mw, 'treeView'):
             wf.mw.treeView.setModel(self.model)
+            wf.mw.treeView.selectionModel().selectionChanged.connect(self.clicked)
 
     def keyPressEvent(self, e):
         """Delete keyword implementation in the
@@ -243,7 +244,6 @@ class Tree:
 
             # Highlight Loads & BC
             # NOTE not used - cgx does not support jet
-            # _set = []
             # elif ipn_up in ['*BOUNDARY', '*CLOAD', '*CFLUX']:
             #     for line in item.inp_code[1:]:
             #         line = line.strip()
@@ -407,7 +407,7 @@ def test():
 
     # Actions
     wf.mw.treeView.doubleClicked.connect(t.doubleClicked)
-    wf.mw.treeView.clicked.connect(t.clicked)
+    # wf.mw.treeView.clicked.connect(t.clicked)
     wf.mw.treeView.customContextMenuRequested.connect(t.rightClicked)
     wf.mw.treeView.expanded.connect(t.expanded_or_collapsed)
     wf.mw.treeView.collapsed.connect(t.expanded_or_collapsed)

@@ -69,7 +69,7 @@ wf.mw.action_help_issues.triggered.connect(
 from gui.tree import t
 wf.mw.keyPressEvent = t.keyPressEvent
 wf.mw.treeView.doubleClicked.connect(t.doubleClicked)
-wf.mw.treeView.clicked.connect(t.clicked)
+# wf.mw.treeView.clicked.connect(t.clicked)
 wf.mw.treeView.customContextMenuRequested.connect(t.rightClicked)
 wf.mw.treeView.expanded.connect(t.expanded_or_collapsed)
 wf.mw.treeView.collapsed.connect(t.expanded_or_collapsed)
