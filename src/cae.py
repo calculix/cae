@@ -32,12 +32,9 @@ log.stop_logging()
 log.add_file_handler(p.log)
 log.add_stream_handler()
 
-from settings import s
-
 # Run some important checks before start
-if s.perform_startup_checks:
-    import checks
-    checks.Checks.check_all()
+import checks
+checks.Checks.check_all()
 
 import os
 from PyQt5 import QtWidgets, QtWebEngineWidgets
@@ -61,6 +58,7 @@ app = QtWidgets.QApplication(sys.argv)
 """Default start model (INP file).
 Could be chosen with command line parameter.
 """
+from settings import s
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-inp', type=str,
