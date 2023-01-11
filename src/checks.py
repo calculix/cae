@@ -29,7 +29,7 @@ import log
 
 class Checks:
     """Tests user system configuration etc."""
-    cmd = [p.pip, 'list']
+    cmd = [p.python, '-m', 'pip', 'list']
     modules = subprocess.check_output(cmd)
     modules = modules.decode().rstrip()
 
@@ -123,10 +123,10 @@ class Checks:
         try:
             if 'un' in prefix:
                 logging.info('Removing ' + name + '...')
-                cmd = [p.pip, prefix + 'install', name, '-y']
+                cmd = [p.python, '-m', 'pip', prefix + 'install', name, '-y']
             else:
                 logging.info('Installing ' + name + '...')
-                cmd = [p.pip, prefix + 'install', name]
+                cmd = [p.python, '-m', 'pip', prefix + 'install', name]
             msg = subprocess.check_output(cmd)
             msg = msg.decode().rstrip()
             logging.info(msg)

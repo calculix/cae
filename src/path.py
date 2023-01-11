@@ -51,7 +51,6 @@ class Path:
             self.extension = '' # file extension in OS
             self.python = os.path.join(self.bin, 'python', 'bin', 'python3')
 
-        self.pip = self.python + ' -m pip'
         self.path_ccx = os.path.join(self.bin, 'ccx' + self.extension)
         self.path_cgx = os.path.join(self.bin, 'cgx' + self.extension)
 
