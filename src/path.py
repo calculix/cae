@@ -18,14 +18,6 @@ class Path:
     def __init__(self):
         self.op_sys = platform.system().lower() # OS name
 
-        # Windows
-        if os.name == 'nt':
-            self.extension = '.exe' # file extension in OS
-
-        # Linux
-        else:
-            self.extension = '' # file extension in OS
-
         # Application home directory - the one with README.md and LICENSE
         self.app_home_dir = os.path.normpath(
             os.path.join(os.path.dirname(
@@ -41,17 +33,27 @@ class Path:
 
         self.requirements = os.path.join(self.config, 'requirements_' + self.op_sys + '.txt')
         self.bin = os.path.join(self.app_home_dir, 'bin')
-        self.python = os.path.join(self.bin, 'python', 'bin', 'python3')
-        self.pip = os.path.join(self.bin, 'python', 'bin', 'pip3')
         self.ccx = os.path.join(self.app_home_dir, 'ccx_' + self.op_sys, 'src')
         self.settings = os.path.join(self.config, 'Settings_' + self.op_sys + '.py')
         self.doc = os.path.join(self.app_home_dir, 'doc')
         self.examples = os.path.join(self.app_home_dir, 'examples')
         self.img = os.path.join(self.app_home_dir, 'img')
         self.src = os.path.join(self.app_home_dir, 'src')
+        self.log = os.path.join(self.app_home_dir, 'cae.log')
+
+        # Windows
+        if os.name == 'nt':
+            self.extension = '.exe' # file extension in OS
+            self.python = os.path.join(self.bin, 'python', 'python.exe')
+
+        # Linux
+        else:
+            self.extension = '' # file extension in OS
+            self.python = os.path.join(self.bin, 'python', 'bin', 'python3')
+
+        self.pip = self.python + ' -m pip'
         self.path_ccx = os.path.join(self.bin, 'ccx' + self.extension)
         self.path_cgx = os.path.join(self.bin, 'cgx' + self.extension)
-        self.log = os.path.join(self.app_home_dir, 'cae.log')
 
     def append_to_PATH(self, paths):
         """Pyinstaller bug in Windows:
