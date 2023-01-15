@@ -228,3 +228,4 @@ Other:
 - Main Window: filter tree items - search item. 
 - Main Window: treeView - highlight background of the collections.
 - Open collective / Patreon.
+- Video: Download CAE, unpack and run. Capture video with OBS Studio, edit with DaVinci Reslove.
