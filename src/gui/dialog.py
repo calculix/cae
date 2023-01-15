@@ -107,13 +107,15 @@ class SettingsDialog(QtWidgets.QDialog):
                         text = str(setting_value)
                     elif class_name == 'QLineEdit':
                         text = attr_value.text()
-                        text = '\'' + p.abspath(text) + '\'' # covert path to absolute
-                        if '\\' in text: # reconstruct path for Windows
-                            text = '\\\\'.join(text.split('\\'))
+                        text = '"' + p.abspath(text) + '"' # convert path to absolute
+                        text = text.replace('\\', '\\\\')
+                        while '\\\\\\' in text:
+                            # Reconstruct path for Windows
+                            text = text.replace('\\\\\\', '\\\\')
                         setting_value = text[1:-1] # cut quotes
                         attr_value = self.__dict__['label_' + attr_name]
                     elif class_name == 'QComboBox':
-                        text = '\'' + attr_value.currentText() + '\''
+                        text = '"' + attr_value.currentText() + '"'
                         setting_value = text
                         attr_value = self.__dict__['label_' + attr_name]
 
