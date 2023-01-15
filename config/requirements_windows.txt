@@ -3,3 +3,4 @@ PyQtWebEngine
 ccx2paraview
 unv2ccx
 numpy
+vtk

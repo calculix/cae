@@ -246,7 +246,7 @@ class Job:
 
     def export_vtu(self):
         """Convert FRD to VTU."""
-        import ccx2paraview
+        from ccx2paraview import ccx2paraview
         if os.path.isfile(self.frd):
             ccx2paraview.Converter(self.frd, ['vtu']).run()
         else:

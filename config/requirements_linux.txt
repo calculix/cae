@@ -6,3 +6,4 @@ python3-xlib
 ccx2paraview
 unv2ccx
 numpy
+vtk

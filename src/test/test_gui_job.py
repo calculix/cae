@@ -4,16 +4,13 @@
 """© Ihor Mirzov, 2019-2023
 Distributed under GNU General Public License v3.0
 
-Test for src/gui/job.py
+Test for src/gui/job.py - test some Job methods.
 """
 
 # Standard modules
 import os
 import sys
 import unittest
-
-# External modules
-from PyQt5 import QtWidgets
 
 # My modules
 sys_path = os.path.abspath(__file__)
@@ -28,11 +25,19 @@ from gui.job import j
 
 class Test(unittest.TestCase):
 
-    def test_job(self):
-        """Test job method"""
+    def test_open_inp(self):
+        j.generate()
         p = j.open_inp()
         self.assertTrue(p is not None)
         p.kill()
+
+    def test_convert_unv(self):
+        j.generate()
+        j.convert_unv()
+
+    def test_export_vtu(self):
+        j.generate()
+        j.export_vtu()
 
 
 if __name__ == '__main__':
