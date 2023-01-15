@@ -162,7 +162,7 @@ def test():
     """Run some checks."""
     log.stop_logging()
     logging.disable(logging.NOTSET) # switch on logging
-    log.add_my_handler(level=logging.DEBUG)
+    log.add_my_handler()
     Checks.uninstall_package('unv2ccx')
     Checks.check_all() # install back 'unv2ccx'
     Checks.check_package('qwe')

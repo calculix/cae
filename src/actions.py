@@ -15,9 +15,9 @@ from PyQt5 import QtWidgets
 
 # My modules
 from path import p
-from settings import s
 from gui import cgx
 from gui.window import wf
+from gui.dialog import SettingsDialog
 
 if wf.mw is None:
     raise SystemExit
@@ -25,7 +25,7 @@ if wf.mw is None:
 # File actions
 from importer import i
 wf.mw.action_file_import.triggered.connect(lambda: i.import_file(None))
-wf.mw.action_file_settings.triggered.connect(s.open)
+wf.mw.action_file_settings.triggered.connect(lambda: SettingsDialog().open())
 wf.mw.action_file_exit.triggered.connect(QtWidgets.qApp.quit)
 
 # Job actions

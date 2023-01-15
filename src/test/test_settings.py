@@ -23,7 +23,7 @@ sys_path = os.path.normpath(sys_path)
 sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
-from settings import s
+from gui.dialog import SettingsDialog
 
 
 class Test(unittest.TestCase):
@@ -32,7 +32,8 @@ class Test(unittest.TestCase):
     def test_settings(self):
         """Open settings dialog"""
         app = QtWidgets.QApplication(sys.argv)
-        s.open()
+        sd = SettingsDialog()
+        sd.open()
         self.assertTrue(True)
 
 

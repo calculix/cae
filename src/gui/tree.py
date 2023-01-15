@@ -30,6 +30,7 @@ from model.parsers.mesh import Mesh
 from model.kom import ItemType, Implementation, KWT, KWL
 from model import m
 from gui.window import wf, df
+from gui.dialog import SettingsDialog
 from utils import tests
 
 
@@ -311,9 +312,13 @@ class Tree:
         self.myMenu.exec_(QtGui.QCursor.pos())
 
     def actionShowHide(self):
-        """Show/Hide empty treeView items."""
+        """Show/Hide empty treeView items.
+        Save 'show_empty_keywords' value in settings.
+        """
         s.show_empty_keywords = not s.show_empty_keywords
-        s.save() # save 'show_empty_keywords' value in settings
+        sd = SettingsDialog()
+        sd.save()
+
         if s.expanded:
             wf.mw.treeView.collapseAll()
         else:
@@ -321,13 +326,16 @@ class Tree:
         self.generateTreeView()
 
     def action_collapse_expand_all(self):
-        """Expand or collapse all treeView items."""
+        """Expand or collapse all treeView items.
+        Save 'expanded' value in settings.
+        """
         if s.expanded:
             wf.mw.treeView.collapseAll()
         else:
             wf.mw.treeView.expandAll()
         s.expanded = not s.expanded
-        s.save()
+        sd = SettingsDialog()
+        sd.save()
 
     def actionDeleteImplementation(self):
         """Delete keyword implementation from KWT."""
