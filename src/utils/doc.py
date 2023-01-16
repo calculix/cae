@@ -121,12 +121,8 @@ def remove_png_trash():
                 os.remove(file_name)
 
 
-def prepare_documentation():
+if __name__ == '__main__':
     """Regenerate all html files and remove trash."""
     regenerate_documentation()
     remove_html_trash()
     remove_png_trash()
-
-
-# if __name__ == '__main__':
-#     prepare_documentation()
