@@ -11,6 +11,7 @@ Test for src/gui/job.py - test some Job methods.
 import os
 import sys
 import unittest
+import time
 
 # My modules
 sys_path = os.path.abspath(__file__)
@@ -23,13 +24,17 @@ if sys_path not in sys.path:
 from gui.job import j
 
 
-class Test(unittest.TestCase):
+class TestJob(unittest.TestCase):
 
     def test_open_inp(self):
         j.generate()
         p = j.open_inp()
-        self.assertTrue(p is not None)
-        p.kill()
+        status = p is not None
+        while p.poll() is None:
+            # Kill process to avoid ResourceWarning
+            p.kill()
+            time.sleep(0.1)
+        self.assertTrue(status)
 
     def test_convert_unv(self):
         j.generate()
