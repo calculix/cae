@@ -54,6 +54,10 @@ class Tree:
         self.model.clear() # remove all items and data from tree
         parent_element = self.model.invisibleRootItem() # top element in QTreeView
         self.addToTree(parent_element, KWT.root.items) # pass top level COLLECTIONs
+        if s.expanded:
+            wf.mw.treeView.expandAll()
+        else:
+            wf.mw.treeView.collapseAll()
 
     def addToTree(self, parent_element, items):
         """Used with generateTreeView() - implements recursion."""
@@ -305,7 +309,10 @@ class Tree:
         self.myMenu.addAction(action_show_hide)
         action_show_hide.triggered.connect(self.actionShowHide)
 
-        action_collapse_expand = QtWidgets.QAction('Collapse/expand all', wf.mw.treeView)
+        if s.expanded:
+            action_collapse_expand = QtWidgets.QAction('Collapse all', wf.mw.treeView)
+        else:
+            action_collapse_expand = QtWidgets.QAction('Expand all', wf.mw.treeView)
         self.myMenu.addAction(action_collapse_expand)
         action_collapse_expand.triggered.connect(self.action_collapse_expand_all)
 
