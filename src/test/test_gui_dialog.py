@@ -27,9 +27,9 @@ from model.kom import KWL
 from gui.dialog import KeywordDialog
 
 
-class TestDialog(unittest.TestCase):
+class TestGuiDialog(unittest.TestCase):
 
-    def test_dialog(self):
+    def test_gui_dialog(self):
         """Create keyword dialog"""
         app = QtWidgets.QApplication(sys.argv)
         try:

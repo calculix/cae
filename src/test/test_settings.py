@@ -26,7 +26,7 @@ if sys_path not in sys.path:
 from gui.dialog import SettingsDialog
 
 
-class Test(unittest.TestCase):
+class TestSettings(unittest.TestCase):
 
     # Create and open settings window
     def test_settings(self):

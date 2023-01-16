@@ -29,7 +29,7 @@ from model.kom import KWT, KWL
 class TestIcons(unittest.TestCase):
 
     def test_icons(self):
-        """Test if all keywords have a corresponding icon."""
+        """Test if all keywords have a corresponding icon"""
         keywords = set(['icon_logo', 'icon_job'])
         for item in KWL.keywords + KWT.collections:
             item_name = re.sub(r'\*', '', item.name) # cut star

@@ -23,13 +23,13 @@ if sys_path not in sys.path:
 from model.kom import KWL, ItemType
 
 
-class TestKOM(unittest.TestCase):
+class TestModelKOM(unittest.TestCase):
 
-    def test_kom1(self):
+    def test_model_kom1(self):
         """Test if CalculiX keywords are generated"""
         self.assertTrue(len(KWL.keywords))
 
-    def test_kom2(self, parent=None, path=None):
+    def test_model_kom2(self, parent=None, path=None):
         """Test parent-child relations in all tree items"""
         if parent is None:
             parent = KWL.root
@@ -40,7 +40,7 @@ class TestKOM(unittest.TestCase):
             path_downwards = path + ' -> ' + item.name
             path_upwards = ' -> '.join(item.get_tree_path())
             self.assertEqual(path_downwards, path_upwards)
-            self.test_kom2(item, path_downwards)
+            self.test_model_kom2(item, path_downwards)
 
 
 if __name__ == '__main__':

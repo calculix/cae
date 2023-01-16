@@ -24,9 +24,9 @@ from path import p
 from model.parsers.mesh import Mesh
 
 
-class TestKOM(unittest.TestCase):
+class TestModelParsersMesh(unittest.TestCase):
 
-    def test_mesh(self):
+    def test_model_parsers_mesh(self):
         """Test if parsed mesh has nodes and elements"""
         inp = os.path.join(p.examples, 'default.inp')
         m = Mesh(inp)

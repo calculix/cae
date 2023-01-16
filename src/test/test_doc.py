@@ -30,7 +30,7 @@ from model.kom import KWL
 class TestDoc(unittest.TestCase):
 
     def test_doc(self):
-        """Amount of HTML files has to coincide with the amount of keywords."""
+        """Amount of HTML files has to coincide with the amount of keywords"""
         keywords = set()
         for item in KWL.keywords:
             keyword_name = item.name[1:] # cut star

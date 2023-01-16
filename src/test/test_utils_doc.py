@@ -25,9 +25,9 @@ from model.kom import KWL
 from path import p
 
 
-class Test(unittest.TestCase):
+class TestUtilsDoc(unittest.TestCase):
 
-    def test_html_pages(self):
+    def test_utils_doc(self):
         """Check if HTML pages are generated for all keywords"""
         keywords = [re.sub(r'[ -]', '_', kw.name[1:]) for kw in KWL.keywords]
         keywords = sorted(set(keywords))
