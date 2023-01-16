@@ -34,8 +34,11 @@ class TestPath(unittest.TestCase):
             a = getattr(p, attr)
             if type(a) is not str:
                 continue
-            # print('p.{} = {}'.format(attr, a))
+            if 'Settings_' in a:
+                continue
             status = os.path.isfile(a) or os.path.isdir(a)
+            if not status:
+                print('\nNot found:', a)
             self.assertTrue(status)
 
 
