@@ -11,9 +11,10 @@ Test for src/gui/dialog.py
 import os
 import sys
 import unittest
+import warnings
 
 # External modules
-from PyQt5 import QtWidgets, QtWebEngineWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore
 
 # My modules
 sys_path = os.path.abspath(__file__)
@@ -24,22 +25,36 @@ sys_path = os.path.realpath(sys_path)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 from model.kom import KWL
-from gui.dialog import KeywordDialog
+from gui.dialog import SettingsDialog, KeywordDialog
 
 
 class TestGuiDialog(unittest.TestCase):
 
-    def test_gui_dialog(self):
-        """Create keyword dialog"""
+    def test_gui_dialog_settings(self):
+        """Create settings dialog"""
+        warnings.simplefilter('ignore', ResourceWarning)
         app = QtWidgets.QApplication(sys.argv)
-        try:
-            item = KWL.get_keyword_by_name('*AMPLITUDE')
-            d = KeywordDialog(item)
-            # from gui.window import df
-            # df.run_master_dialog(item) # 0 = cancel, 1 = ok
-        except:
-            d = None
-        self.assertTrue(d is not None)
+        sd = SettingsDialog()
+        sd.show()
+        sd.close()
+        app.exit()
+    
+    def test_gui_dialog_keyword1(self):
+        """Create keyword dialog"""
+        warnings.simplefilter('ignore', ResourceWarning)
+        app = QtWidgets.QApplication(sys.argv)
+        item = KWL.get_keyword_by_name('*AMPLITUDE')
+        kd = KeywordDialog(item)
+        kd.show()
+        kd.close()
+        app.exit()
+
+    # def test_gui_dialog_keyword2(self):
+    #     app = QtWidgets.QApplication(sys.argv)
+    #     from gui.window import df
+    #     item = KWL.get_keyword_by_name('*AMPLITUDE')
+    #     df.run_master_dialog(item) # 0 = cancel, 1 = ok
+    #     app.exit()
 
 
 def cycle_keyword_dialogs():
@@ -54,6 +69,7 @@ def cycle_keyword_dialogs():
         d.make_screenshot = True
         if not d.exec(): # 0 = cancel, 1 = ok
             break
+    app.exit()
 
 
 class DialogPngCreator():
@@ -102,6 +118,6 @@ class DialogPngCreator():
 
 
 if __name__ == '__main__':
-    # unittest.main()
     # cycle_keyword_dialogs()
-    DialogPngCreator()
+    # DialogPngCreator()
+    unittest.main()
