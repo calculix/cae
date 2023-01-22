@@ -37,6 +37,8 @@ It is implied that you have already created geometry and generated mesh in some 
 
 - CAE comes with the latest CGX and CCX compiled for both Linux and Windows. Analysis [runs on all cores](https://github.com/calculix/cae/issues/22) automatically.
 
+- CAE is distributed with [standalone Python](https://github.com/indygreg/python-build-standalone). All requirements will be installed automatically on app start. To start using the software you have to simply download it, unpack and run.
+
 - INP format for all needs: program parses .inp-file and generates model on the fly, so separate format for the model is not needed. Final model is saved also with .inp format ready to be calculated with CCX. Robust INP importer algorithm is tested on over 20 000 INP files, including Abaqus models ([see log](src/importer.log)).
 
 - Official [HTML documentation](doc) is natively integrated into the keyword edit dialogs (Help button).
@@ -90,41 +92,18 @@ Calculation result exported to Paraview:
 
 # How to use
 
-Get [Python3](https://www.python.org/downloads/) (>3.8) and install it. On your OS a command 'python' has to be available and it should be Python 3.
-
 [Download latest release](https://github.com/calculix/cae/releases) and unpack it.
 
-Linux only: open terminal in a directory where you've unpacked CAE, allow all files to be executed:
+Linux only: open terminal in unpacked CAE directory, allow all files to be executed:
 
     sudo chmod -R 777 ./*
 
-Ubuntu only: PyQt5 also could be installed in this way:
-    
-    sudo apt install python3-pyqt5 python3-pyqt5.qtwebengine
-
-Ubuntu only: additional fonts for CGX:
-
-    sudo apt get install fonts-terminus-otb xfonts-terminus xfonts-terminus-oblique
-
-Other Python dependencies will be installed automatically on app start.
-
-That's all! Run the software with command (or double click those files):
+Run the software with command (or double click those files):
 
     in Linux:       ./cae.sh
     in Windows:     cae.bat
 
-You can edit default startup model name in File->Settings or leave it empty or even pass it as an argument to open on startup:
-
-    in Linux:       ./cae.sh -inp yourmodel.inp
-                    ./cae.sh -inp yourmodel.unv
-    in Windows:     cae.bat -inp yourmodel.inp
-                    cae.bat -inp yourmodel.unv
-
-Another way to run CAE - is directly from 'src' directory:
-
-    python3 ./src/cae.py
-    python3 ./src/cae.py -inp yourmodel.inp
-    python3 ./src/cae.py -inp yourmodel.unv
+You can edit default startup model name in File->Settings or leave it empty.
 
 The intended workflow is:
 
