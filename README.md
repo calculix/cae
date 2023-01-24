@@ -92,6 +92,8 @@ Calculation result exported to Paraview:
 
 # How to use
 
+[![CalculiX Advanced Environment - Download and run](https://markdown-videos.deta.dev/youtube/bKahgxlYAs8)](https://youtu.be/bKahgxlYAs8 "CalculiX Advanced Environment - Download and run")
+
 [Download latest release](https://github.com/calculix/cae/releases) and unpack it.
 
 Linux only: open terminal in unpacked CAE directory, allow all files to be executed:
@@ -203,8 +205,8 @@ KeywordDialog:
 - Unittests for KeywordDialog: compare generated INP code with the one which should be.
 
 Other:
-- Zip ccx sources. Extract on first start from checks.py module.
 - Main Window: filter tree items - search item. 
 - Main Window: treeView - highlight background of the collections.
 - Open collective / Patreon.
-- Video: Download CAE, unpack and run. Capture video with OBS Studio, edit with DaVinci Reslove.
++ Video: Download CAE, unpack and run. Capture video with OBS Studio, edit with DaVinci Resolve.
+- Test presense of gfortran and gcc compilers for subroutines.
