@@ -249,6 +249,9 @@ class Job:
         from ccx2paraview import ccx2paraview
         if os.path.isfile(self.frd):
             ccx2paraview.Converter(self.frd, ['vtu']).run()
+            os.system('mkdir paraview')
+            os.system('mv *.vtu paraview')
+            os.system('mv *.pvd paraview')
         else:
             logging.error('File not found:\n' \
                 + self.frd \
@@ -260,7 +263,7 @@ class Job:
 
             # Count result VTU files
             file_list = []
-            for f in os.listdir(self.dir):
+            for f in os.listdir(self.dir + '/paraview'):
                 f = os.path.basename(f)
                 if f.lower() == self.name[:-4] + '.vtu':
                     file_list = [f]
@@ -268,7 +271,10 @@ class Job:
                 if f.lower().endswith('.vtu') and f.startswith(self.name[:-4]):
                     file_list.append(f)
             if len(file_list) > 1:
-                vtu_path = self.path + '...vtu'
+                #vtu_path = self.path + '...vtu'
+                f_name, f_extension = os.path.splitext(f)
+                f_name, f_extension = os.path.splitext(f_name)
+                vtu_path = self.dir + '/paraview/' + f_name + '.pvd'
             elif len(file_list) == 1:
                 vtu_path = self.path + '.vtu'
             else:
